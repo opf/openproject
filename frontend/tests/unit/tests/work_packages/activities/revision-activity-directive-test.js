@@ -129,12 +129,5 @@ describe('revisionActivity Directive', function() {
           expect(message).to.eq(scope.activity.props.message.html);
         });
       });
-
-      describe('revision identifier', function() {
-        it('should render the identifier', function() {
-          expect(element.find('span.date > a').attr('title'))
-            .to.equal('11f4b07dff4f4ce9548a52b7d002daca7cd63ec6');
-        });
-      });
     });
 });
