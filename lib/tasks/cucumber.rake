@@ -83,8 +83,7 @@ unless ARGV.any? { |a| a =~ /\Agems/ } # Don't load anything when running the ge
             opts += args[:options].split(/\s+/) if args[:options]
 
             # load feature support files from Rails root
-            support_files = ['-r', Shellwords.escape(File.join(Rails.root, 'features'))]
-            support_files += get_plugin_features(prefix = '-r')
+            support_files = get_plugin_features(prefix = '-r')
 
             t.cucumber_opts = opts + support_files + features
 
