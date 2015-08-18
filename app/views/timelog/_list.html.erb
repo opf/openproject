@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <col highlight-col>
         <col highlight-col>
         <col>
-      </colgroup>  
+      </colgroup>
       <thead>
         <tr>
           <th>
@@ -133,7 +133,7 @@ See doc/COPYRIGHT.rdoc for more details.
           </td>
           <td class="comments">{{timeEntry.comments}}</td>
           <td class="hours">{{timeEntry.hours.toFixed(2)}}</td>
-          <td align="center">
+          <td>
             <span ng-if="timeEntry.isEditable == true">
               <a ng-href="{{PathHelper.timeEntryEditPath(timeEntry.id)}}" class="no-decoration-on-hover">
                 <icon-wrapper icon-name="edit" icon-title="{{I18n.t('js.button_edit')}}"></icon-wrapper>

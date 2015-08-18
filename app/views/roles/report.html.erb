@@ -88,7 +88,7 @@ See doc/COPYRIGHT.rdoc for more details.
                     <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
                   </td>
                   <% @roles.each do |role| %>
-                    <td align="center">
+                    <td>
                       <% if role.setable_permissions.include? permission %>
                         <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name), :id => nil, :class => "role-#{role.id}" %>
                       <% end %>

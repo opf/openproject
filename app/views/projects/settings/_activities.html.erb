@@ -37,7 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% TimeEntryActivity.new.available_custom_fields.each do |value| %>
               <col highlight-col>
           <% end %>
-          </colgroup> 
+          </colgroup>
           <thead>
             <tr>
               <th>
@@ -83,7 +83,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% @project.activities(true).each do |enumeration| %>
            <%= fields_for "enumerations[#{enumeration.id}]", enumeration do |ff| %>
               <tr>
-                <td align="center">
+                <td>
                   <%= label_tag "enumerations_#{enumeration.id}_active", "#{h(enumeration.name)} #{l(:description_active)}", :class => "hidden-for-sighted" %>
                   <%= ff.check_box :active %>
                 </td>
@@ -91,9 +91,9 @@ See doc/COPYRIGHT.rdoc for more details.
                   <%= ff.hidden_field :parent_id, :value => enumeration.id unless enumeration.project %>
                   <%= h(enumeration) %>
                 </td>
-                <td align="center" style="width:15%;"><%= checked_image !enumeration.project %></td>
+                <td><%= checked_image !enumeration.project %></td>
                 <% enumeration.custom_field_values.each do |value| %>
-                  <td align="center">
+                  <td>
                     <%= custom_field_tag "enumerations[#{enumeration.id}]", value %>
                   </td>
                 <% end %>

@@ -104,9 +104,9 @@ See doc/COPYRIGHT.rdoc for more details.
             <td class="firstname"><%= h(user.firstname) %></td>
             <td class="lastname"><%= h(user.lastname) %></td>
             <td class="email"><%= mail_to(h(user.mail)) %></td>
-            <td align="center"><%= checked_image user.admin? %></td>
-            <td class="created_on" align="center"><%= format_time(user.created_on) %></td>
-            <td class="last_login_on" align="center">
+            <td><%= checked_image user.admin? %></td>
+            <td class="created_on"><%= format_time(user.created_on) %></td>
+            <td class="last_login_on">
               <%= format_time(user.last_login_on) unless user.last_login_on.nil? %>
             </td>
             <td class="status"><%= full_user_status(user) %></td>

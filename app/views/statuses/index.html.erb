@@ -114,11 +114,11 @@ See doc/COPYRIGHT.rdoc for more details.
           <tr>
             <td><%= link_to h(status.name), edit_status_path(status) %></td>
             <% if WorkPackage.use_status_for_done_ratio? %>
-              <td align="center"><%= h status.default_done_ratio %></td>
+              <td><%= h status.default_done_ratio %></td>
             <% end %>
-            <td align="center"><%= checked_image status.is_default? %></td>
-            <td align="center"><%= checked_image status.is_closed? %></td>
-            <td align="center">
+            <td><%= checked_image status.is_default? %></td>
+            <td ><%= checked_image status.is_closed? %></td>
+            <td>
               <%= reorder_links('status', {:action => 'update', :id => status}, :method => :put) %>
             </td>
             <td class="buttons"><%= delete_link status_path(status) %></td>

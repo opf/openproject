@@ -82,7 +82,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <%=h old_status.name %>
             </td>
             <% for new_status in @statuses -%>
-              <td align="center">
+              <td>
                 <%= check_box_tag "status[#{ old_status.id }][#{new_status.id}][]", name, workflows.detect {|w| w.old_status_id == old_status.id && w.new_status_id == new_status.id},
                 :class => "old-status-#{old_status.id} new-status-#{new_status.id}" %>
               </td>

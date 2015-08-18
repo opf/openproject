@@ -106,10 +106,10 @@ See doc/COPYRIGHT.rdoc for more details.
           <tr>
             <td><%= link_to h(custom_field.name), edit_custom_field_path(custom_field), lang: custom_field.name_locale %></td>
             <td><%= Redmine::CustomFieldFormat.label_for(custom_field.field_format) %></td>
-            <td align="center"><%= checked_image custom_field.is_required? %></td>
+            <td><%= checked_image custom_field.is_required? %></td>
             <% if tab[:name] == 'WorkPackageCustomField' %>
-              <td align="center"><%= checked_image custom_field.is_for_all? %></td>
-              <td align="center"><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? WorkPackageCustomField and !custom_field.is_for_all? %></td>
+              <td><%= checked_image custom_field.is_for_all? %></td>
+              <td><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? WorkPackageCustomField and !custom_field.is_for_all? %></td>
             <% end %>
             <td><%= reorder_links('custom_field', {:action => 'update', :id => custom_field}, method: :put) %></td>
             <td class="buttons">
