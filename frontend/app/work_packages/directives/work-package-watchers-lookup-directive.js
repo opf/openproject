@@ -31,9 +31,20 @@ module.exports = function(I18n) {
 
   var workPackageWatchersLookupController = function(scope) {
     scope.locked = false;
+    scope.editMode = false;
     scope.I18n = I18n;
+
+    // we need an object for ui.select to work properly
+    scope.selection = {
+      watcher: null
+    };
+
+    scope.changeEditMode = function() {
+      scope.editMode = !scope.editMode;
+    };
+
     scope.addWatcher = function() {
-      if (!scope.selectedWatcher) {
+      if (!scope.selection.watcher) {
         return;
       }
 
@@ -41,19 +52,19 @@ module.exports = function(I18n) {
 
       // we pass up the original up the scope chain,
       // _not_ the wrapper object
-      scope.$emit('watchers.add', scope.selectedWatcher.originalObject);
+      scope.$emit('watchers.add', scope.selection.watcher);
     };
 
     scope.$on('watchers.add.finished', function() {
       scope.locked = !scope.locked;
 
       // to clear the input of the directive
-      scope.$broadcast('angucomplete-alt:clearInput');
+      scope.selection.watcher = null;
 
-      scope.selectedWatcher = null;
-
-      //set the focus back to allow for next watcher
-      angular.element('#watchers-lookup_value').focus();
+      // this will set the editMode back, once no more watchers can be added
+      if (scope.watchers.length ===  0) {
+        scope.editMode = false;
+      }
     });
   };
 

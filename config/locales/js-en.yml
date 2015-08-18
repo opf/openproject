@@ -176,6 +176,9 @@ en:
       label_loading: loading watchers...
       label_error_loading: An error occured while loading the watchers
       label_search_watchers: Search watchers
+      label_add: Add watchers
+      label_discard: Discard selection
+      label_click_to_add: Click to add watchers
 
     filter_labels:
       assigned_to: "Assignee"
