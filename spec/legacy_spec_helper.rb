@@ -27,29 +27,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-ENV['RAILS_ENV'] = 'test'
+ENV['RAILS_ENV'] ||= 'test'
+require 'spec_helper'
+
+require File.expand_path('../../config/environment', __FILE__)
 
 if ENV['COVERAGE']
-  require 'bundler'
-  Bundler.setup(:default, :test)
-
   require 'simplecov'
   SimpleCov.start 'rails'
 end
 
-require File.expand_path('../../config/environment', __FILE__)
+require 'rspec/rails'
+require 'shoulda/matchers'
+require 'rspec/example_disabler'
 
 require 'fileutils'
 require 'rspec/mocks'
 require 'factory_girl_rails'
 
-require_relative 'support/helpers/file_helpers'
-require_relative 'legacy/support/legacy_assertions'
-require_relative 'support/helpers/repository_helpers'
-
-require 'rspec/rails'
-require 'shoulda/matchers'
-require 'rspec/example_disabler'
+require_relative './support/helpers/file_helpers'
+require_relative './support/helpers/repository_helpers'
+require_relative './legacy/support/legacy_assertions'
 
 RSpec.configure do |config|
   config.expect_with :rspec, :minitest
@@ -68,6 +66,7 @@ RSpec.configure do |config|
   config.include RSpec::Rails::RequestExampleGroup, file_path: %r(spec/legacy/integration)
   config.include Shoulda::Matchers::ActionController, file_path: %r(spec/legacy/integration)
   config.extend Shoulda::Matchers::ActionController, file_path: %r(spec/legacy/integration)
+
   config.include(Module.new {
     extend ActiveSupport::Concern
 
