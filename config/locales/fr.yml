@@ -13,7 +13,7 @@ fr:
   error_can_not_activate_export_card_configuration: Cette configuration ne peut pas être activée
   error_can_not_deactivate_export_card_configuration: Cette configuration ne peut pas être désactivée
   validation_error_required_keys_not_present: 'La/Les clé(s) requise(nt) est/sont abente(s) :'
-  validation_error_yaml_is_badly_formed: YAML mal formé.
+  validation_error_yaml_is_badly_formed: has no valid YAML format.
   validation_error_uknown_key: 'Clé inconnue :'
   yaml_error: 'Erreur YAML :'
   help_link_rows_format: Mise en forme des lignes
@@ -21,3 +21,10 @@ fr:
   export_config_page_size: Taille de la page
   export_config_orientation: Orientation
   export_config_rows: Lignes
+  activerecord:
+    attributes:
+      export_card_configuration:
+        rows: Lignes
+        per_page: Par page
+        page_size: Taille de la page
+        orientation: Orientation
