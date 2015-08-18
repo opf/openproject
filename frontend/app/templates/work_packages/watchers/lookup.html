@@ -1,23 +1,21 @@
 <div class="work-package--watchers-lookup">
-  <form data-ng-submit="addWatcher()" class="form">
-    <div class="form--field">
-      <div class="form--field-container">
-        <div class="form--text-field-container">
-          <angucomplete-alt
-            id="watchers-lookup"
-            placeholder="Type to add users"
-            pause="100"
-            selected-object="selectedWatcher"
-            search-fields="name"
-            local-data="watchers"
-            title-field="name"
-            image-field="avatar"
-            minlength="2"
-            input-class="form--text-field"
-            disable-input="locked" />
-        </div>
-      </div>
-    </div>
-  </form>
+  <div class="dropdown-wrapper">
+    <accessible-by-keyboard execute="addWatcher()">
+      <ui-select
+              class="inplace-edit--select"
+              name="value"
+              ng-disabled="locked"
+              ng-model="selectedWatcher"
+              title="{{ I18n.t('js.watchers.label_search_watchers') }}"
+              reset-search-input="true"
+              theme="select2">
+          <ui-select-match>{{ $select.selected.name }}</ui-select-match>
+          <ui-select-choices
+                  repeat="wacther.name as watcher in watchers | filter: $select.search">
+              <div aria-label="{{ watcher.name }}" ng-bind-html="watcher.name | highlight: $select.search"></div>
+          </ui-select-choices>
+      </ui-select>
+    </accessible-by-keyboard>
+  </div>
 </div>
 

@@ -175,7 +175,7 @@ en:
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occured while loading the watchers
-      label_type_to_add: Type to add more watchers
+      label_search_watchers: Search watchers
 
     filter_labels:
       assigned_to: "Assignee"
