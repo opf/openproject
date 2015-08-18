@@ -52,12 +52,12 @@ namespace :spec do
     end
 
     sub_types = begin
-            dirs = Dir['./spec/{api,features}/**/*_spec.rb'].
-              map { |f| f.sub(/^\.\/(spec\/\w+\/\w+)\/.*/, '\\1') }.
-              uniq.
-              select { |f| File.directory?(f) }
-            Hash[dirs.map { |d| ["#{d.split('/').second}:#{d.split('/').last}", d] }]
-          end
+                  dirs = Dir['./spec/{api,features}/**/*_spec.rb'].
+                    map { |f| f.sub(/^\.\/(spec\/\w+\/\w+)\/.*/, '\\1') }.
+                    uniq.
+                    select { |f| File.directory?(f) }
+                  Hash[dirs.map { |d| ["#{d.split('/').second}:#{d.split('/').last}", d] }]
+                end
 
     sub_types.each do |type, dir|
       desc "Run the code examples in #{dir}"
