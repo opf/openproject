@@ -49,6 +49,17 @@ module OpenProject
         # Return all manageable vendors
         def manageable
           enabled.select { |_, vendor| vendor.manageable? }.keys
+
+        ##
+        # Return a hash of all managed paths for SCM vendors
+        # { Vendor: <Path> }
+        def managed_paths
+          paths = {}
+          @scms.each do |vendor, klass|
+            paths[vendor] = klass.managed_root if klass.manageable?
+          end
+
+          paths
         end
 
         # Add a new SCM adapter and repository
