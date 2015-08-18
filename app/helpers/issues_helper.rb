@@ -142,7 +142,7 @@ module IssuesHelper
   end
 
   def last_issue_note(issue)
-    note_journals = issue.journals.select { |journal| journal.notes? }
+    note_journals = issue.journals.select(&:notes?)
     return t(:text_no_notes) if note_journals.empty?
     note_journals.last.notes
   end
