@@ -26,6 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+
 shared_context 'with tmpdir' do
   around do |example|
     Dir.mktmpdir do |dir|
