@@ -5,21 +5,21 @@ de:
         position: Position
         remaining_hours: Verbleibende Stunden
         story_points: Story Punkte
-        backlogs_work_package_type: Backlog Typ
+        backlogs_work_package_type: Backlog type
     errors:
       models:
         work_package:
           attributes:
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: kann nur IDs von Arbeitspaket des aktuellen Sprints enthalten
-              must_block_at_least_one_work_package: muss die ID wenigstens eines Arbeitspakets enthalten
+              can_only_contain_work_packages_of_current_sprint: kann nur die IDs von Arbeitspaketen des aktuellen Sprints enthalten.
+              must_block_at_least_one_work_package: muss die ID von mindestens einem Arbeitspaket enthalten.
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: muss der Version der Story entsprechen
+              task_version_must_be_the_same_as_story_version: muss der Version der Story entsprechen.
             parent_id:
-              parent_child_relationship_across_projects: "ist ungültig da '%{work_package_name}' ein backlogs Task und das gewünschte Eltern-Arbeitspaket '%{parent_name}' ein Backlogs-Element in einem anderen Projekt ist"
-              type_must_be_one_of_the_following: 'muss aus einem der folgenden Typen sein: %{type_names}'
+              parent_child_relationship_across_projects: "ist ungültig da '%{work_package_name}' ein backlog Task ist und daher kein Eltern-Arbeitspaket außerhalb  des jetzigen Projekts haben kann."
+              type_must_be_one_of_the_following: 'muss einer der folgenden Typen sein: %{type_names}.'
         sprint:
-          cannot_end_before_it_starts: Sprint kann nicht enden, bevor er begonnen hat
+          cannot_end_before_it_starts: Sprint kann nicht enden, bevor er begonnen hat.
   backlogs:
     add_new_story: Neue Story
     any: beliebig
@@ -88,7 +88,7 @@ de:
   label_backlog: Backlog
   label_backlogs: Backlogs
   label_backlogs_unconfigured: 'Sie haben noch keine Backlogs konfiguriert. Bitte gehen Sie auf %{administration} > %{plugins}, klicken Sie dann auf den %{configure} Link für dieses Plugin. Kommen Sie hierher zurück, sobald sie die Felder konfiguriert haben.'
-  label_blocks_ids: Blockiert (IDs)
+  label_blocks_ids: IDs der blockierten Arbeitspakete
   label_burndown: Burndown
   label_chart_options: Chart-Optionen
   label_column_in_backlog: Spalte im Backlog

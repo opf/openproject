@@ -33,8 +33,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
-  module Backlogs
-    VERSION = "5.0.0-alpha"
-  end
+if Setting.where(name: 'plugin_openproject_backlogs').any?
+  puts '****** Skipping settings as there are already some configured'
+else
+  story_types = [Type.where(name: I18n.t(:default_type_epic)).pluck(:id).first.to_s,
+                 Type.where(name: I18n.t(:default_type_user_story)).pluck(:id).first.to_s,
+                 Type.where(name: I18n.t(:default_type_feature)).pluck(:id).first.to_s,
+                 Type.where(name: I18n.t(:default_type_bug)).pluck(:id).first.to_s]
+
+  task_type = Type.where(name: I18n.t(:default_type_task)).pluck(:id).first.to_s
+
+  Setting[:plugin_openproject_backlogs] = {
+      points_burn_direction: 'up',
+      wiki_template: '',
+      story_types: story_types,
+      task_type: task_type
+  }.with_indifferent_access
 end

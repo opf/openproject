@@ -48,15 +48,15 @@ en:
         work_package:
           attributes:
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: "can only contain the IDs of current sprint's tickets"
-              must_block_at_least_one_work_package: "must contain the ID of at least one ticket"
+              can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
+              must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the story's version"
+              task_version_must_be_the_same_as_story_version: "must be the same as the story's version."
             parent_id:
-              parent_child_relationship_across_projects: "is invalid because the work_package '%{work_package_name}' is a backlogs task and as such can not have the backlogs story '%{parent_name}' as it's parent as long as the story is in a different project"
-              type_must_be_one_of_the_following: "Type must be one of the following: %{type_names}"
+              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
+              type_must_be_one_of_the_following: "Type must be one of the following: %{type_names}."
         sprint:
-          cannot_end_before_it_starts: "Sprint cannot end before it starts"
+          cannot_end_before_it_starts: "Sprint cannot end before it starts."
 
   backlogs:
     add_new_story: "New Story"
@@ -77,7 +77,7 @@ en:
     label_is_done_status: "Status %{status_name} means done"
     no_burndown_data: "No burndown data available. It is necessary to have the sprint start- and end dates set."
     points: "Points"
-    positions_could_not_be_rebuilt: "Positions could not be rebuild."
+    positions_could_not_be_rebuilt: "Positions could not be rebuilt."
     positions_rebuilt_successfully: "Positions rebuilt successfully."
     properties: "Properties"
     rebuild: "Rebuild"
@@ -131,7 +131,7 @@ en:
   label_backlog: "Backlog"
   label_backlogs: "Backlogs"
   label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool."
-  label_blocks_ids: "Blocks (IDs)"
+  label_blocks_ids: "IDs of blocked work packages"
   label_burndown: "Burndown"
   label_chart_options: "Chart Options"
   label_column_in_backlog: "Column in backlog"

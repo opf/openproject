@@ -33,8 +33,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
-  module Backlogs
-    VERSION = "5.0.0-alpha"
+# loads environment-specific seeds. The assumed directory structure in db/ is like this:
+# |___seeds
+# | |___all.rb
+# | |___development.rb
+# | |___test.rb
+# | |___production.rb
+# |___seeds.rb
+
+['all', Rails.env].each do |seed|
+  seed_file = "#{File.dirname(__FILE__)}/seeds/#{seed}.rb"
+  if File.exists?(seed_file)
+    puts "**** Loading #{seed} seed data"
+    require seed_file
   end
 end

@@ -38,13 +38,16 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe WorkPackage, type: :model do
   describe 'behavior for #3200' do
     let(:empty_work_package) { WorkPackage.new }
+    let(:admin) { FactoryGirl.create(:admin) }
 
-    it do
-      expect(empty_work_package.move_to_project_without_transaction(nil)).to be_falsey
+    def move_to_project_without_transaction(work_package, project)
+      service = MoveWorkPackageService.new(work_package, admin)
+
+      service.call(project, nil, no_transaction: true)
     end
 
     it do
-      expect { empty_work_package.move_to_project_without_transaction(nil) }.not_to raise_error
+      expect(move_to_project_without_transaction(empty_work_package, nil)).to be_falsey
     end
   end
 
