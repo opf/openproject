@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     <%= styled_label_tag :global_role, l(:label_global_role) %>
     <%= styled_check_box_tag("global_role", "1", role.is_a?(GlobalRole))%>
   <% else %>
-    <%= styled_label_tag :unchangeable, "#{l(:label_role_type)} #{l(:label_global_role)}" %>
+    <%= styled_label_tag :unchangeable, "#{l(:label_role_type)} #{l(:label_not_changeable)}" %>
     <%= (role.is_a?(GlobalRole) ? l(:label_global_role) : l(:label_member_role))%>
   <% end %>
 </div>
