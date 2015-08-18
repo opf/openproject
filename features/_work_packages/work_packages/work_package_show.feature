@@ -108,7 +108,7 @@ Feature: Viewing a work package
     When I click on "Add subtask"
     Then I should be on the new work_package page of the project called "omicronpersei8"
 
-  @javascript
+  @javascript @selenium @qt4
   Scenario: Adding a relation will add it to the list of related work packages through AJAX instantly
     When I go to the page of the work package "issue1"
     And I click on "Add related work packages"
@@ -118,7 +118,7 @@ Feature: Viewing a work package
     Then I should be on the page of the work package "issue1"
     And I should see "related to Bug #3: issue3"
 
-  @javascript
+  @javascript @selenium @qt4
   Scenario: Removing an existing relation will remove it from the list of related work packages through AJAX instantly
     Given a relation between "issue1" and "issue3"
     When I go to the page of the work package "issue1"
@@ -141,19 +141,19 @@ Feature: Viewing a work package
     When I click "Unwatch" within "#content > .action_menu_specific"
     Then I should see "Watch" within "#content > .action_menu_specific"
 
-  @javascript
+  @javascript @selenium @qt4
   Scenario: Log time leads to time entry creation page for issues
     When I go to the page of the work package "issue1"
     When I select "Log time" from the action menu
     Then I should see "Spent time"
 
-  @javascript
+  @javascript @selenium @qt4
   Scenario: For an issue copy leads to work package copy page
     When I go to the page of the work package "issue1"
     When I select "Copy" from the action menu
     Then I should see "Copy"
 
-  @javascript
+  @javascript @selenium @qt4
   Scenario: For an issue move leads to work package copy page
     When I go to the page of the work package "issue1"
     When I select "Move" from the action menu
