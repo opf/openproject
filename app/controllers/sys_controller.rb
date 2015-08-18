@@ -39,7 +39,9 @@ class SysController < ActionController::Base
     p = Project.active.has_module(:repository).find(:all, include: :repository, order: 'identifier')
     respond_to do |format|
       format.json { render json: p.to_json(include: :repository) }
-      format.any(:html, :xml) {  render xml: p.to_xml(include: :repository), content_type: Mime::XML }
+      format.any(:html, :xml) {
+        render xml: p.to_xml(include: :repository), content_type: Mime::XML
+      }
     end
   end
 
@@ -84,7 +86,7 @@ class SysController < ActionController::Base
 
   def repo_auth
     project = Project.find_by_identifier(params[:repository])
-    if authorized?(project, @authenticated_user)
+    if project && authorized?(project, @authenticated_user)
       render text: 'Access granted'
     else
       render text: 'Not allowed', status: 403 # default to deny
@@ -95,26 +97,13 @@ class SysController < ActionController::Base
 
   def authorized?(project, user)
     repository = project.repository
-    policy = repository.class.authorization_policy
 
-    if policy
-      policy.new(user, project).authorized?(params)
+    if repository
+      policy = repository.class.authorization_policy
+      policy.new(project, user).authorized?(params)
     else
       false
     end
-  end
-
-
-
-  def authorized_with_git?(project, user, uri, location)
-
-  end
-
-  def authorized_with_subversion?(project, user, method)
-    read_only = %w(GET PROPFIND REPORT OPTIONS).include?(method)
-
-    (read_only && user.allowed_to?(:browse_repository, project)) ||
-      user.allowed_to?(:commit_access, project)
   end
 
   def check_enabled
@@ -124,8 +113,6 @@ class SysController < ActionController::Base
       return false
     end
   end
-
-  private
 
   def update_storage_information(repository, force = false)
     if force

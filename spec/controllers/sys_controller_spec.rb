@@ -43,25 +43,31 @@ describe SysController, type: :controller do
                        password_confirmation: valid_user_password)
   }
 
+  let(:api_key) { '12345678' }
+
+  let(:public) { false }
+  let(:project) { FactoryGirl.create(:project, is_public: public) }
+
   before(:each) do
     FactoryGirl.create(:non_member, permissions: [:browse_repository])
     DeletedUser.first # creating it first in order to avoid problems with should_receive
 
     random_project = FactoryGirl.create(:project, is_public: false)
-    @member = FactoryGirl.create(:member,
-                                 user: valid_user,
-                                 roles: [browse_role],
-                                 project: random_project)
-    allow(Setting).to receive(:sys_api_key).and_return('12345678')
+    FactoryGirl.create(:member,
+                       user: valid_user,
+                       roles: [browse_role],
+                       project: random_project)
+    allow(Setting).to receive(:sys_api_key).and_return(api_key)
     allow(Setting).to receive(:sys_api_enabled?).and_return(true)
     allow(Setting).to receive(:repository_authentication_caching_enabled?).and_return(true)
   end
 
   describe 'svn' do
+    let!(:repository) { FactoryGirl.create(:repository_subversion, project: project) }
+
     describe 'repo_auth' do
       context 'for valid login, but no access to repo_auth' do
         before(:each) do
-          @key = Setting.sys_api_key
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -69,7 +75,7 @@ describe SysController, type: :controller do
             )
 
           post 'repo_auth',
-               key: @key,
+               key: api_key,
                repository: 'without-access',
                method: 'GET'
         end
@@ -82,12 +88,11 @@ describe SysController, type: :controller do
 
       context 'for valid login and user has read permission (role reporter) for project' do
         before(:each) do
-          @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, is_public: false)
-          @member = FactoryGirl.create(:member,
-                                       user: valid_user,
-                                       roles: [browse_role],
-                                       project: @project)
+          FactoryGirl.create(:member,
+                             user: valid_user,
+                             roles: [browse_role],
+                             project: project)
+
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -97,8 +102,8 @@ describe SysController, type: :controller do
 
         it 'should respond 200 okay dokay for GET' do
           post 'repo_auth',
-               key: @key,
-               repository: @project.identifier,
+               key: api_key,
+               repository: project.identifier,
                method: 'GET'
 
           expect(response.code).to eq('200')
@@ -106,8 +111,8 @@ describe SysController, type: :controller do
 
         it 'should respond 403 not allowed for POST' do
           post 'repo_auth',
-               key: @key,
-               repository: @project.identifier,
+               key: api_key,
+               repository: project.identifier,
                method: 'POST'
 
           expect(response.code).to eq('403')
@@ -116,12 +121,10 @@ describe SysController, type: :controller do
 
       context 'for valid login and user has rw permission (role developer) for project' do
         before(:each) do
-          @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, is_public: false)
-          @member = FactoryGirl.create(:member,
-                                       user: valid_user,
-                                       roles: [commit_role],
-                                       project: @project)
+          FactoryGirl.create(:member,
+                             user: valid_user,
+                             roles: [commit_role],
+                             project: project)
           valid_user.save
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -132,8 +135,8 @@ describe SysController, type: :controller do
 
         it 'should respond 200 okay dokay for GET' do
           post 'repo_auth',
-               key: @key,
-               repository: @project.identifier,
+               key: api_key,
+               repository: project.identifier,
                method: 'GET'
 
           expect(response.code).to eq('200')
@@ -141,8 +144,8 @@ describe SysController, type: :controller do
 
         it 'should respond 200 okay dokay for POST' do
           post 'repo_auth',
-               key: @key,
-               repository: @project.identifier,
+               key: api_key,
+               repository: project.identifier,
                method: 'POST'
 
           expect(response.code).to eq('200')
@@ -151,12 +154,10 @@ describe SysController, type: :controller do
 
       context 'for invalid login and user has role manager for project' do
         before(:each) do
-          @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, is_public: false)
-          @member = FactoryGirl.create(:member,
-                                       user: valid_user,
-                                       roles: [commit_role],
-                                       project: @project)
+          FactoryGirl.create(:member,
+                             user: valid_user,
+                             roles: [commit_role],
+                             project: project)
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -164,8 +165,8 @@ describe SysController, type: :controller do
             )
 
           post 'repo_auth',
-               key: @key,
-               repository: @project.identifier,
+               key: api_key,
+               repository: project.identifier,
                method: 'GET'
         end
 
@@ -176,8 +177,6 @@ describe SysController, type: :controller do
 
       context 'for valid login and user is not member for project' do
         before(:each) do
-          @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, is_public: false)
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -185,8 +184,8 @@ describe SysController, type: :controller do
             )
 
           post 'repo_auth',
-               key: @key,
-               repository: @project.identifier,
+               key: api_key,
+               repository: project.identifier,
                method: 'GET'
         end
 
@@ -196,15 +195,14 @@ describe SysController, type: :controller do
       end
 
       context 'for valid login and project is public' do
-        before(:each) do
-          @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, is_public: true)
+        let(:public) { true }
 
+        before(:each) do
           random_project = FactoryGirl.create(:project, is_public: false)
-          @member = FactoryGirl.create(:member,
-                                       user: valid_user,
-                                       roles: [browse_role],
-                                       project: random_project)
+          FactoryGirl.create(:member,
+                             user: valid_user,
+                             roles: [browse_role],
+                             project: random_project)
 
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -213,8 +211,8 @@ describe SysController, type: :controller do
             )
 
           post 'repo_auth',
-               key: @key,
-               repository: @project.identifier,
+               key: api_key,
+               repository: project.identifier,
                method: 'GET'
         end
 
@@ -225,9 +223,8 @@ describe SysController, type: :controller do
 
       context 'for invalid credentials' do
         before(:each) do
-          @key = Setting.sys_api_key
           post 'repo_auth',
-               key: @key,
+               key: api_key,
                repository: 'any-repo',
                method: 'GET'
         end
@@ -239,10 +236,6 @@ describe SysController, type: :controller do
       end
 
       context 'for invalid api key' do
-        before(:each) do
-          @key = 'invalid'
-        end
-
         it 'should respond 403 for valid username/password' do
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -250,7 +243,7 @@ describe SysController, type: :controller do
               valid_user_password
             )
           post 'repo_auth',
-               key: @key,
+               key: 'not_the_api_key',
                repository: 'any-repo',
                method: 'GET'
 
@@ -267,7 +260,7 @@ describe SysController, type: :controller do
             )
 
           post 'repo_auth',
-               key: @key,
+               key: 'not_the_api_key',
                repository: 'any-repo',
                method: 'GET'
 
@@ -280,10 +273,10 @@ describe SysController, type: :controller do
   end
 
   describe 'git' do
+    let!(:repository) { FactoryGirl.create(:repository_git, project: project) }
     describe 'repo_auth' do
       context 'for valid login, but no access to repo_auth' do
         before(:each) do
-          @key = Setting.sys_api_key
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -291,7 +284,7 @@ describe SysController, type: :controller do
             )
 
           post 'repo_auth',
-               key: @key,
+               key: api_key,
                repository: 'without-access',
                method: 'GET',
                git_smart_http: '1',
@@ -307,12 +300,10 @@ describe SysController, type: :controller do
 
       context 'for valid login and user has read permission (role reporter) for project' do
         before(:each) do
-          @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, is_public: false)
-          @member = FactoryGirl.create(:member,
-                                       user: valid_user,
-                                       roles: [browse_role],
-                                       project: @project)
+          FactoryGirl.create(:member,
+                             user: valid_user,
+                             roles: [browse_role],
+                             project: project)
 
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -323,8 +314,8 @@ describe SysController, type: :controller do
 
         it 'should respond 200 okay dokay for read-only access' do
           post 'repo_auth',
-               key: @key,
-               repository: @project.identifier,
+               key: api_key,
+               repository: project.identifier,
                method: 'GET',
                git_smart_http: '1',
                uri: '/git',
@@ -335,11 +326,11 @@ describe SysController, type: :controller do
 
         it 'should respond 403 not allowed for write (push)' do
           post 'repo_auth',
-               key: @key,
-               repository: @project.identifier,
+               key: api_key,
+               repository: project.identifier,
                method: 'POST',
                git_smart_http: '1',
-               uri: "/git/#{@project.identifier}/git-receive-pack",
+               uri: "/git/#{project.identifier}/git-receive-pack",
                location: '/git'
 
           expect(response.code).to eq('403')
@@ -348,13 +339,12 @@ describe SysController, type: :controller do
 
       context 'for valid login and user has rw permission (role developer) for project' do
         before(:each) do
-          @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, is_public: false)
-          @member = FactoryGirl.create(:member,
-                                       user: valid_user,
-                                       roles: [commit_role],
-                                       project: @project)
+          FactoryGirl.create(:member,
+                             user: valid_user,
+                             roles: [commit_role],
+                             project: project)
           valid_user.save
+
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -364,8 +354,8 @@ describe SysController, type: :controller do
 
         it 'should respond 200 okay dokay for GET' do
           post 'repo_auth',
-               key: @key,
-               repository: @project.identifier,
+               key: api_key,
+               repository: project.identifier,
                method: 'GET',
                git_smart_http: '1',
                uri: '/git',
@@ -376,11 +366,11 @@ describe SysController, type: :controller do
 
         it 'should respond 200 okay dokay for POST' do
           post 'repo_auth',
-               key: @key,
-               repository: @project.identifier,
+               key: api_key,
+               repository: project.identifier,
                method: 'POST',
                git_smart_http: '1',
-               uri: "/git/#{@project.identifier}/git-receive-pack",
+               uri: "/git/#{project.identifier}/git-receive-pack",
                location: '/git'
 
           expect(response.code).to eq('200')
@@ -389,12 +379,11 @@ describe SysController, type: :controller do
 
       context 'for invalid login and user has role manager for project' do
         before(:each) do
-          @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, is_public: false)
-          @member = FactoryGirl.create(:member,
-                                       user: valid_user,
-                                       roles: [commit_role],
-                                       project: @project)
+          FactoryGirl.create(:member,
+                             user: valid_user,
+                             roles: [commit_role],
+                             project: project)
+
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -402,8 +391,8 @@ describe SysController, type: :controller do
             )
 
           post 'repo_auth',
-               key: @key,
-               repository: @project.identifier,
+               key: api_key,
+               repository: project.identifier,
                method: 'GET',
                git_smart_http: '1',
                uri: '/git',
@@ -417,8 +406,7 @@ describe SysController, type: :controller do
 
       context 'for valid login and user is not member for project' do
         before(:each) do
-          @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, is_public: false)
+          project = FactoryGirl.create(:project, is_public: false)
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -426,8 +414,8 @@ describe SysController, type: :controller do
             )
 
           post 'repo_auth',
-               key: @key,
-               repository: @project.identifier,
+               key: api_key,
+               repository: project.identifier,
                method: 'GET',
                git_smart_http: '1',
                uri: '/git',
@@ -440,15 +428,13 @@ describe SysController, type: :controller do
       end
 
       context 'for valid login and project is public' do
+        let(:public) { true }
         before(:each) do
-          @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, is_public: true)
-
           random_project = FactoryGirl.create(:project, is_public: false)
-          @member = FactoryGirl.create(:member,
-                                       user: valid_user,
-                                       roles: [browse_role],
-                                       project: random_project)
+          FactoryGirl.create(:member,
+                             user: valid_user,
+                             roles: [browse_role],
+                             project: random_project)
 
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -456,8 +442,8 @@ describe SysController, type: :controller do
               valid_user_password
             )
           post 'repo_auth',
-               key: @key,
-               repository: @project.identifier,
+               key: api_key,
+               repository: project.identifier,
                method: 'GET',
                git_smart_http: '1',
                uri: '/git',
@@ -471,9 +457,8 @@ describe SysController, type: :controller do
 
       context 'for invalid credentials' do
         before(:each) do
-          @key = Setting.sys_api_key
           post 'repo_auth',
-               key: @key,
+               key: api_key,
                repository: 'any-repo',
                method: 'GET',
                git_smart_http: '1',
@@ -488,10 +473,6 @@ describe SysController, type: :controller do
       end
 
       context 'for invalid api key' do
-        before(:each) do
-          @key = 'invalid'
-        end
-
         it 'should respond 403 for valid username/password' do
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -500,7 +481,7 @@ describe SysController, type: :controller do
             )
 
           post 'repo_auth',
-               key: @key,
+               key: 'not_the_api_key',
                repository: 'any-repo',
                method: 'GET',
                git_smart_http: '1',
@@ -520,7 +501,7 @@ describe SysController, type: :controller do
             )
 
           post 'repo_auth',
-               key: @key,
+               key: 'not_the_api_key',
                repository: 'any-repo',
                method: 'GET',
                git_smart_http: '1',
