@@ -11,12 +11,12 @@ it:
         work_package:
           attributes:
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: può contenere solo ID di work package presenti nello sprint corrente.
+              can_only_contain_work_packages_of_current_sprint: può contenere solo ID dei pacchetti di lavoro presenti nello sprint corrente.
               must_block_at_least_one_work_package: "deve contenere l'ID di almeno un ticket."
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: deve essere uguale alla versione della story.
+              task_version_must_be_the_same_as_story_version: deve essere uguale alla versione della storia.
             parent_id:
-              parent_child_relationship_across_projects: "non è valido perché il work package '%{work_package_name}' è un task di backlog e pertanto non può avere una dipendenza esterna al progetto corrente."
+              parent_child_relationship_across_projects: "non è valido perché il pacchetto di lavoro '%{work_package_name}' è un task di backlog e pertanto non può avere una dipendenza esterna al progetto corrente."
               type_must_be_one_of_the_following: 'Il tipo deve essere uno dei seguenti: %{type_names}.'
         sprint:
           cannot_end_before_it_starts: Uno sprint non può terminare prima che venga avviato.
@@ -29,7 +29,7 @@ it:
     chart_options: Serie attive
     close: Chiuso
     column_width: 'Larghezza della colonna:'
-    date: giorno
+    date: Giorno
     definition_of_done: Definizione di fatto
     generating_chart: Grafico in generazione...
     hours: Ore
@@ -37,8 +37,8 @@ it:
     label_versions_default_fold_state: Espandi le versioni
     work_package_is_closed: Il pacchetto di lavoro è fatto, quando
     label_is_done_status: 'Lo stato %{status_name} vuol dire completato'
-    no_burndown_data: Non sono disponibili i dati del burndown. È necessario avere impostato le date di inizio e fine sprint.
-    points: punti
+    no_burndown_data: Non sono disponibili i dati del burndown. È necessario avere impostato le date di inizio e fine dello sprint.
+    points: Punti
     positions_could_not_be_rebuilt: Le posizioni non potrebbero essere ricostruite.
     positions_rebuilt_successfully: Posizioni ricostruite correttamente.
     properties: Proprietà
@@ -49,7 +49,7 @@ it:
     show_burndown_chart: Grafico Burndown
     story: Storia
     story_points: Punti della storia
-    story_points_ideal: Punti della story (ideale)
+    story_points_ideal: Punti della storia (ideale)
     task: Attività
     task_color: Colore attività
     unassigned: Non assegnato
@@ -61,18 +61,18 @@ it:
   backlogs_points_burn_direction: Punteggi per burn positivo/negativo
   backlogs_product_backlog: Backlog prodotto
   backlogs_product_backlog_is_empty: Il backlog prodotto è vuoto
-  backlogs_product_backlog_unsized: In cima al backlog di prodotto vi sono story non quantificate
-  backlogs_sizing_inconsistent: Le dimensioni delle story varia rispetto alle stime
+  backlogs_product_backlog_unsized: In cima al prodotto backlog vi sono storie non quantificate
+  backlogs_sizing_inconsistent: Le dimensioni della storia variano rispetto le loro stime
   backlogs_sprint_notes_missing: Sprint chiusi senza note retrospettive/recensioni
   backlogs_sprint_unestimated: Sprint chiusi o attivi con storie non quantificate
-  backlogs_sprint_unsized: Il progetto ha story su sprint attivi o chiusi di recente che non sono stati quantificati
+  backlogs_sprint_unsized: Il progetto ha storie su sprint attivi o chiusi di recente che non sono stati quantificati
   backlogs_sprints: Sprint
   backlogs_story: Storia
-  backlogs_story_type: Tipi di story
+  backlogs_story_type: Tipi di storia
   backlogs_task: Attività
   backlogs_task_type: Tipo di attività
-  backlogs_velocity_missing: Per questo progetto non può essere calcolata la velocity
-  backlogs_velocity_varies: La velocity del progetto varia in modo significativo tra gli sprint
+  backlogs_velocity_missing: Per questo progetto non può essere calcolata la velocità
+  backlogs_velocity_varies: La velocità del progetto varia in modo significativo tra gli sprint
   backlogs_wiki_template: Modello per pagina wiki dello sprint
   button_edit_wiki: Modifica la pagina wiki
   error_intro_plural: 'Si sono verificati i seguenti errori:'
@@ -88,12 +88,12 @@ it:
   label_backlog: Backlog
   label_backlogs: Backlog
   label_backlogs_unconfigured: 'Non hai ancora configurato i Backlog. Vai su %{administration} > %{plugins}, quindi fai clic sul link %{configure} per il plugin. Dopo aver impostato i campi, torna su questa pagina per iniziare a utilizzare lo strumento.'
-  label_blocks_ids: ID dei work package bloccati
+  label_blocks_ids: ID dei pacchetti di lavoro bloccati
   label_burndown: Burndown
   label_chart_options: Opzioni grafico
   label_column_in_backlog: Colonna nel backlog
   label_hours: ore
-  label_work_package_hierarchy: Gerarchia dei work package
+  label_work_package_hierarchy: Gerarchia dei pacchetto di lavoro
   label_master_backlog: Master Backlog
   label_not_prioritized: priorità non definita
   label_points: punti
@@ -102,12 +102,12 @@ it:
   label_product_backlog: backlog prodotto
   label_select_all: Seleziona tutto
   label_sprint_backlog: backlog di sprint
-  label_sprint_cards: Schede esportate
+  label_sprint_cards: Esporta schede
   label_sprint_impediments: Impedimenti allo sprint
   label_sprint_name: 'Sprint "%{name}"'
   label_sprint_velocity: 'La velocity %{velocity}, basato su %{sprints} Sprint di %{days} giorni in media'
-  label_stories: Story
-  label_stories_tasks: Story/Attività
+  label_stories: Storie
+  label_stories_tasks: Storie/Attività
   label_task_board: Pannello delle attività
   label_version_setting: Versioni
   label_webcal: Webcal Feed
@@ -115,8 +115,8 @@ it:
   permission_view_master_backlog: Visualizza il master backlog
   permission_view_taskboards: Visualizza i pannelli delle attività
   permission_update_sprints: Aggiorna gli sprint
-  permission_create_stories: Crea le story
-  permission_update_stories: Aggiorna le story
+  permission_create_stories: Crea le storie
+  permission_update_stories: Aggiorna le storie
   permission_create_tasks: Crea attività
   permission_update_tasks: Aggiorna attività
   permission_create_impediments: Crea impedimenti
@@ -127,11 +127,11 @@ it:
   points_to_accept: punti non accettati
   points_to_resolve: punti non risolti
   project_module_backlogs: Backlog
-  rb_label_copy_tasks: Copiare i work package
+  rb_label_copy_tasks: Copia i pacchetti di lavoro
   rb_label_copy_tasks_all: Tutti
   rb_label_copy_tasks_none: Nessuno
   rb_label_copy_tasks_open: Aperti
-  rb_label_link_to_original: Include il link alla story originale
+  rb_label_link_to_original: Include il link alla storia originale
   remaining_hours: ore rimanenti
   required_burn_rate_hours: burn rate richiesto (ore)
   required_burn_rate_points: burn rate richiesto (punti)
