@@ -247,22 +247,4 @@ describe TimelogController, type: :controller do
     assert_not_nil assigns(:items)
     assert assigns(:items).first.is_a?(TimeEntry)
   end
-
-  it 'should index all projects csv export' do
-    Setting.date_format = '%m/%d/%Y'
-    get :index, format: 'csv'
-    assert_response :success
-    assert_match(/text\/csv/, response.content_type)
-    assert response.body.include?("Date,User,Activity,Project,Work package,Type,Subject,Hours,Comment\n")
-    assert response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
-  end
-
-  it 'should index csv export' do
-    Setting.date_format = '%m/%d/%Y'
-    get :index, project_id: 1, format: 'csv'
-    assert_response :success
-    assert_match(/text\/csv/, response.content_type)
-    assert response.body.include?("Date,User,Activity,Project,Work package,Type,Subject,Hours,Comment\n")
-    assert response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
-  end
 end
