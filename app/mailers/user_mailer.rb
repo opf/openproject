@@ -31,6 +31,7 @@ class UserMailer < BaseMailer
   helper :application,  # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value
+  helper IssuesHelper
 
   include OpenProject::LocaleHelper
 
@@ -78,8 +79,11 @@ class UserMailer < BaseMailer
     end
   end
 
-  def work_package_watcher_added(work_package, user)
+  def work_package_watcher_added(work_package, user, watcher_setter)
     @issue = work_package
+    @journal = work_package.journals.last
+    @watcher_setter = watcher_setter
+    @watcher = user
 
     set_work_package_headers(work_package)
     message_id work_package, user

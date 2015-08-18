@@ -29,8 +29,8 @@
 
 class WatcherNotificationMailer
   class << self
-    def handle_watcher(watcher_id)
-      job = DeliverWatcherNotificationJob.new(watcher_id)
+    def handle_watcher(watcher_id, watcher_setter_id)
+      job = DeliverWatcherNotificationJob.new(watcher_id, watcher_setter_id)
       Delayed::Job.enqueue job
     end
   end

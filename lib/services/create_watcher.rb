@@ -41,7 +41,9 @@ class Services::CreateWatcher
       if @watcher.valid?
         @work_package.watchers << @watcher
         success.(created: true)
-        OpenProject::Notifications.send('watcher_added', watcher_id: @watcher.id)
+        OpenProject::Notifications.send('watcher_added',
+                                        watcher_id: @watcher.id,
+                                        watcher_setter_id: User.current.id)
       else
         failure.(@watcher)
       end

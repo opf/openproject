@@ -140,4 +140,10 @@ module IssuesHelper
   def attrib_disabled?(issue, attrib)
     value_overridden_by_children?(attrib) && !(issue.new_record? || issue.leaf?)
   end
+
+  def last_issue_note(issue)
+    note_journals = issue.journals.select { |journal| journal.notes? }
+    return t(:text_no_notes) if note_journals.empty?
+    note_journals.last.notes
+  end
 end

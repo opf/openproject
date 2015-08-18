@@ -30,19 +30,21 @@
 class DeliverWatcherNotificationJob
   include OpenProject::BeforeDelayedJob
 
-  def initialize(watcher_id)
+  def initialize(watcher_id, watcher_setter_id)
     @watcher_id = watcher_id
+    @watcher_setter_id = watcher_setter_id
   end
 
   def perform
     return unless @watcher_id
 
     watcher = Watcher.find(@watcher_id)
+    watcher_setter = User.find(@watcher_setter_id)
 
-    return unless watcher
+    return unless watcher && watcher_setter
 
     mail = User.execute_as(watcher.user) {
-      UserMailer.work_package_watcher_added(watcher.watchable, watcher.user)
+      UserMailer.work_package_watcher_added(watcher.watchable, watcher.user, watcher_setter)
     }
 
     mail.deliver
