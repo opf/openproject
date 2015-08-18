@@ -75,10 +75,8 @@ describe EnabledModule, type: :model do
 
   describe '#repository' do
     let(:modules) { %w[repository] }
-    let(:vendor) { nil }
 
     before do
-      allow(Setting).to receive(:repositories_automatic_managed_repos?).and_return(setting)
       allow(Setting).to receive(:repositories_automatic_managed_vendor).and_return(vendor)
     end
 
@@ -103,7 +101,7 @@ describe EnabledModule, type: :model do
     end
 
     context 'with disabled setting' do
-      let(:setting) { false }
+      let(:vendor) { nil }
 
       it 'does not create a repository' do
         expect(project.repository).to be_nil
@@ -113,7 +111,6 @@ describe EnabledModule, type: :model do
     end
 
     context 'with enabled setting' do
-      let(:setting) { true }
       let(:vendor) { 'Git' }
 
       before do
@@ -137,7 +134,6 @@ describe EnabledModule, type: :model do
     end
 
     context 'with invalid setting' do
-      let(:setting) { true }
       let(:vendor) { 'some weird vendor' }
 
       it 'does not create a repository' do

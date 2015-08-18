@@ -45,29 +45,27 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
     <div class="form--field"><%= setting_multiselect(:enabled_scm, OpenProject::Scm::Manager.vendors) %></div>
     <div class="form--field">
+      <%= styled_label_tag :repositories_automatic_managed_vendor, l(:setting_repositories_automatic_managed_vendor) %>
+      <div class="form--field-container">
+        <% manageable_scms = OpenProject::Scm::Manager.manageable %>
+        <%= setting_select :repositories_automatic_managed_vendor,
+                           [[
+                             "--- #{l('repositories.settings.automatic_managed_repos_disabled')} ---",
+                             '',
+                             { selected: true }
+                           ]] + manageable_scms,
+                           disabled: manageable_scms.empty?,
+                           label: false %>
+      </div>
+      <div class="form--field-instructions"><%= l('repositories.settings.automatic_managed_repos_text') %></div>
+    </div>
+    <div class="form--field">
       <%= setting_text_field :repositories_encodings, :size => 60 %>
       <div class="form--field-instructions"><%= l(:text_comma_separated) %></div>
     </div>
     <div class="form--field"><%= setting_text_field :repository_log_display_limit, :size => 6 %></div>
     <div class="form--field"><%= setting_check_box :repository_authentication_caching_enabled %></div>
   </section>
-  <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= l('repositories.settings.automatic_managed_repos') %></legend>
-    <div class="form--field"><%= setting_check_box :repositories_automatic_managed_repos %></div>
-    <div class="form--field">
-      <%= styled_label_tag :repositories_automatic_managed_vendor, l(:setting_repositories_automatic_managed_vendor) %>
-      <div class="form--field-container">
-        <%= setting_select :repositories_automatic_managed_vendor,
-                           [[
-                             "--- #{l(:actionview_instancetag_blank_option)} ---",
-                             '',
-                             { disabled: true, selected: true }
-                           ]] + OpenProject::Scm::Manager.manageable,
-                           disabled: !Setting.repositories_automatic_managed_repos?,
-                           required: true,
-                           label: false %>
-      </div>
-    </div>
-  </fieldset>
   <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= l(:text_work_packages_ref_in_commit_messages) %></legend>
     <div class="form--field">
       <%= setting_text_field :commit_ref_keywords, :size => 30 %>

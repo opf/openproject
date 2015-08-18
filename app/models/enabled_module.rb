@@ -50,7 +50,7 @@ class EnabledModule < ActiveRecord::Base
     when 'repository'
       if project &&
          project.repository.nil? &&
-         Setting.repositories_automatic_managed_repos?
+         Setting.repositories_automatic_managed_vendor.present?
         create_managed_repository
       end
     end

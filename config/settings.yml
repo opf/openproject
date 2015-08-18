@@ -137,9 +137,6 @@ sys_api_key:
   default: ''
 repository_authentication_caching_enabled:
   default: 1
-repositories_automatic_managed_repos:
-  default: 0
-  format: bool
 repositories_automatic_managed_vendor:
   default: ''
 commit_ref_keywords:
