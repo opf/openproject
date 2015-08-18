@@ -1,0 +1,172 @@
+it:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: Pacchetto di lavoro
+        overridden_costs: Costi eccedenti
+        spent: Speso
+        spent_on: Data
+      cost_object:
+        author: Autore
+        available: Disponibile
+        budget: Programmato
+        budget_ratio: Speso (rapporto)
+        created_on: Creato nel
+        description: Descrizione
+        fixed_date: Data fissa
+        spent: Speso
+        status: Stato
+        subject: Soggetto
+        type: Tipo di costo
+        updated_on: Aggiornato nel
+      cost_type:
+        unit: Nome Unità
+        unit_plural: Nome unità pluralizzato
+      work_package:
+        cost_object_subject: Titolo del bilancio
+        labor_costs: Costi della manodopera
+        material_costs: Costi unitari
+        overall_costs: Costi complessivi
+        spent_costs: Costi spesi
+        spent_units: Unita consumate
+      rate:
+        rate: Tasso
+      user:
+        default_rates: Tassi di default
+      variable_cost_object:
+        labor_budget: Costo del lavoro pianificato
+        material_budget: Costi pianificati per unità
+    models:
+      cost_object: Bilancio
+      cost_type:
+        one: Tipo di costo
+        other: Tipi di costo
+      material_budget_item: Unità
+      rate: Tasso
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'Il pacchetto di lavoro #%{id} non è una destinazione valida per riassegnare le entrate del costo.'
+          nullify_is_not_valid_for_cost_entries: Voci di costo non possono essere assegnate a un progetto.
+  attributes:
+    budget: Costi pianificati
+    comment: Commento
+    cost_object: Bilancio
+    cost_type: Tipo di costo
+    costs: Costi
+    current_rate: "L'attuale tasso"
+    hours: Ore
+    units: Unità di misura
+    valid_from: Valido dal
+  button_add_budget_item: Aggiungere costi pianificati
+  button_add_cost_object: Aggiungi bilancio
+  button_add_cost_type: Aggiungi tipo di costo
+  button_add_rate: Aggiungi tasso
+  button_cancel_edit_budget: Annulla modifica budget
+  button_cancel_edit_costs: Annulla modifica ai costi
+  button_log_costs: Log unità di costo
+  button_log_time: Registro temporale
+  caption_booked_on_project: Prenotato su progetto
+  caption_default: Predefinito
+  caption_default_rate_history_for: 'Storia tasso predefinito per %{user}'
+  caption_labor: Lavoro
+  caption_labor_costs: Costo del lavoro effettivo
+  caption_locked_on: Bloccato su
+  caption_material_costs: Costi effettivi di unità
+  caption_materials: Unità di misura
+  caption_rate_history: Storia del tasso
+  caption_rate_history_for: 'Storia del tasso di %{user}'
+  caption_rate_history_for_project: 'Storia del tasso di %{user} nel progetto %{project}'
+  caption_save_rate: Salva tasso
+  caption_set_rate: Impostata tasso corrente
+  caption_show_locked: Mostra tipi bloccati
+  cost_objects_title: Budget
+  label_cost_type_plural: Tipi di costo
+  currency_delimiter: ','
+  currency_separator: '.'
+  description_date_for_new_rate: Data per nuovo tasso
+  events:
+    cost_object: Bilancio modificato
+  group_by_others: non in qualsiasi gruppo
+  help_click_to_edit: Clicca qui per modificare.
+  help_currency_format: "Formato dei valori di valuta visualizzata. %n viene sostituito con il valore della valuta, %u viene sostituito con l'unità di valuta."
+  help_override_rate: Immettere un valore per sovrascrivere il tasso di default.
+  label_between: tra
+  label_cost_filter_add: Aggiungere costo ingresso filtro
+  label_costlog: Costi unitari registrati
+  label_cost_object: Bilancio
+  label_cost_object_id: 'Budget #%{id}'
+  label_cost_object_new: Nuovo budget
+  label_cost_object_plural: Budget
+  label_cost_plural: Costi
+  label_cost_report: Report costo
+  label_cost_type_specific: 'Budget #%{id}: %{name}'
+  label_costs_per_page: Costi per pagina
+  label_currency: Currency
+  label_currency_format: Format of currency
+  label_current_default_rate: Current default rate
+  label_date_on: 'on'
+  label_deleted_cost_types: Deleted cost types
+  label_deliverable: Bilancio
+  label_display_cost_entries: Display unit costs
+  label_display_time_entries: Display reported hours
+  label_display_types: Display types
+  label_edit: Edit
+  label_fixed_cost_object: Fixed budget
+  label_fixed_date: Data fissa
+  label_generic_user: Generic user
+  label_greater_or_equal: '>='
+  label_group_by: Group by
+  label_group_by_add: Add grouping field
+  label_hourly_rate: Hourly rate
+  label_include_deleted: Include deleted
+  label_work_package_filter_add: Add work package filter
+  label_kind: Type
+  label_less_or_equal: '<='
+  label_log_costs: Log unità di costo
+  label_no: 'No'
+  label_option_plural: Options
+  label_overall_costs: Costi complessivi
+  label_rate: Tasso
+  label_rate_plural: Rates
+  label_status_finished: Finished
+  label_units: Cost units
+  label_user: User
+  label_until: until
+  label_valid_from: Valido dal
+  label_variable_cost_object: Variable rate based budget
+  label_view_all_cost_objects: View all budgets
+  label_yes: 'Yes'
+  notice_cost_object_conflict: WorkPackages must be of the same project.
+  notice_no_cost_objects_available: No budgets available.
+  notice_something_wrong: Something went wrong. Please try again.
+  notice_successful_restore: Successful restore.
+  permission_edit_cost_entries: Edit booked unit costs
+  permission_edit_cost_objects: Edit budgets
+  permission_edit_own_cost_entries: Edit own booked unit costs
+  permission_edit_hourly_rates: Edit hourly rates
+  permission_edit_own_hourly_rate: Edit own hourly rates
+  permission_edit_rates: Edit rates
+  permission_log_costs: Book unit costs
+  permission_log_own_costs: Book unit costs for oneself
+  permission_view_cost_entries: View booked costs
+  permission_view_cost_objects: View budgets
+  permission_view_cost_rates: View cost rates
+  permission_view_hourly_rates: View all hourly rates
+  permission_view_own_cost_entries: View own booked costs
+  permission_view_own_hourly_rate: View own hourly rate
+  permission_view_own_time_entries: View own spent time
+  project_module_costs_module: Cost control
+  text_assign_time_and_cost_entries_to_project: Assign reported hours and costs to the project
+  text_cost_object_change_type_confirmation: Sei sicuro? Questa operazione distruggerà informazioni del tipo budget specificato.
+  text_destroy_cost_entries_question: '%{cost_entries} sono stati segnalati sui pacchetti di lavoro che si sta per eliminare. Che cosa vuoi fare?'
+  text_destroy_time_and_cost_entries: Elimina orari e costi riportati
+  text_destroy_time_and_cost_entries_question: '%{hours} ore, %{cost_entries} sono stati segnalati sui pacchetti di lavoro che si sta per eliminare. Che cosa vuoi fare?'
+  text_reassign_time_and_cost_entries: 'Riassegnare ore e costi segnalati di questo work package:'
+  text_warning_hidden_elements: "Alcune voci potrebbero sono stati esclusi dall'aggregazione."
+  week: settimana
+  x_entries:
+    one: 1 voce
+    other: '%{count} voci'
+  js:
+    text_are_you_sure: Sei sicuro?

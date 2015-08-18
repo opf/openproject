@@ -37,13 +37,15 @@ describe WorkPackage, type: :model do
   let!(:cost_entry) { FactoryGirl.create(:cost_entry, work_package: work_package, project: project, units: 3, spent_on: Date.today, user: user, comments: 'test entry') }
   let!(:cost_object) { FactoryGirl.create(:cost_object, project: project) }
 
-  before(:each) do
-    allow(User).to receive(:current).and_return(user)
+  def move_to_project(work_package, project)
+    service = MoveWorkPackageService.new(work_package, user)
+
+    service.call(project)
   end
 
   it 'should update cost entries on move' do
     expect(work_package.project_id).to eql project.id
-    expect(work_package.move_to_project(project2)).not_to be_falsey
+    expect(move_to_project(work_package, project2)).not_to be_falsey
     expect(cost_entry.reload.project_id).to eql project2.id
   end
 

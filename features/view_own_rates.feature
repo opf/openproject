@@ -69,7 +69,7 @@ Feature: Permission View Own hourly and cost rates
    When I am on the work_packages page for the project called "Standard Project"
    # ensure the page is loaded before opening the columns dropdown. Otherwise
    # there will be no columns to choose from.
-    And I should see "status" within ".workpackages-table"
+    And I should see "status" within ".work-package-table--container"
     And I choose "Columns" from the toolbar "settings" dropdown
     And I select to see columns
         | Overall costs |
