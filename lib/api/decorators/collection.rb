@@ -27,22 +27,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
   module Decorators
-    class Collection < Roar::Decorator
-      include Roar::JSON::HAL
-      include Roar::Hypermedia
+    class Collection < ::API::Decorators::Single
       include API::Utilities::UrlHelper
 
       def initialize(models, total, self_link, context: {})
         @total = total
         @self_link = self_link
-        @context = context
 
-        super(models)
+        super(models, context)
       end
 
       class_attribute :element_decorator_class
@@ -55,15 +49,12 @@ module API
         self.class.element_decorator_class
       end
 
-      as_strategy = API::Utilities::CamelCasingStrategy.new
-
       link :self do
         { href: @self_link }
       end
 
-      property :_type, getter: -> (*) { 'Collection' }
       property :total, getter: -> (*) { @total }, exec_context: :decorator
-      property :count, getter: -> (*) { empty? ? 0 : count }
+      property :count, getter: -> (*) { count }
 
       collection :elements,
                  getter: -> (*) {
@@ -76,7 +67,9 @@ module API
 
       private
 
-      attr_reader :context
+      def _type
+        'Collection'
+      end
     end
   end
 end

@@ -96,9 +96,10 @@ module OpenProject
 
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
-    config.active_record.observers = :journal_observer, :message_observer,
-                                     :news_observer, :wiki_content_observer,
-                                     :comment_observer, :work_package_observer
+    config.active_record.observers = :message_observer,
+                                     :news_observer,
+                                     :wiki_content_observer,
+                                     :comment_observer
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.

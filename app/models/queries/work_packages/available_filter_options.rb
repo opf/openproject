@@ -99,7 +99,7 @@ module Queries::WorkPackages::AvailableFilterOptions
     @available_work_package_filters = {
       status_id:       { type: :list_status, order: 1, values: Status.all.map { |s| [s.name, s.id.to_s] } },
       type_id:         { type: :list, order: 2, values: types.map { |s| [s.name, s.id.to_s] } },
-      priority_id:     { type: :list, order: 3, values: IssuePriority.all.map { |s| [s.name, s.id.to_s] } },
+      priority_id:     { type: :list, order: 3, values: IssuePriority.active.map { |s| [s.name, s.id.to_s] } },
       subject:         { type: :text, order: 8 },
       created_at:      { type: :date_past, order: 9 },
       updated_at:      { type: :date_past, order: 10 },

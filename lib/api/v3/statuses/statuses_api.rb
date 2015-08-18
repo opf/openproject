@@ -42,9 +42,7 @@ module API
           end
 
           get do
-            StatusCollectionRepresenter.new(@statuses,
-                                            @statuses.count,
-                                            api_v3_paths.statuses)
+            StatusCollectionRepresenter.new(@statuses, api_v3_paths.statuses)
           end
 
           route_param :id do

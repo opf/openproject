@@ -27,29 +27,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# remove password-reset flag from admin user
-# (the default password is OK in dev mode)
-admin = User.where(login: 'admin').first
-if admin && admin.force_password_change?
-  admin.force_password_change = false
-  admin.save!
-end
+# Disable mail delivery for the duration of this task
+ActionMailer::Base.perform_deliveries = false
 
-# set some sensible defaults:
-include Redmine::I18n
-
-# sensible shortcut: Create the default data in english
-begin
-  set_language_if_valid('en')
-  Redmine::DefaultData::Loader.load(current_language)
-  puts 'Default configuration data loaded.'
-rescue Redmine::DefaultData::DataAlreadyLoaded
-  puts 'Redmine Default-Data already loaded'
-end
+# Avoid asynchronous DeliverWorkPackageCreatedJob
+Delayed::Worker.delay_jobs = false
 
 user_count = ENV.fetch('SEED_USER_COUNT', 3).to_i
 
-# Careful: The seeding recreates the seeded project before it runs, so any changes on the seeded project will be lost.
+# Careful: The seeding recreates the seeded project before it runs, so any changes
+# on the seeded project will be lost.
 puts 'Creating seeded project...'
 if delete_me = Project.find_by(identifier: 'seeded_project')
   delete_me.destroy
@@ -107,29 +94,9 @@ time_entry_activities = []
   time_entry_activities << time_entry_activity
 end
 
-repo_url_setting = OpenProject::Configuration['scm_filesystem_path_whitelist']
-repository = if repo_url_setting.empty?
-               puts <<-MESSAGE
-* = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + =
-
-Filesystem based repositories are not configured. No repository and no changeset will be created.
-
-In case you want those, define whitelisted repositories in your configuration.yml.
-See config/configuration.yml.example for details.
-
-* = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + =
-
-               MESSAGE
-
-               nil
-             else
-               Setting.enabled_scm = (Setting.enabled_scm.dup << 'Filesystem').uniq
-
-               repo_url = Dir.glob(repo_url_setting).first
-
-               Repository::Filesystem.create! project: project,
-                                              url: repo_url
-             end
+repository = Repository::Subversion.create!(project: project,
+                                            url: 'file:///tmp/foo/bar.svn',
+                                            scm_type: 'existing')
 
 print 'Creating objects for...'
 user_count.times do |count|

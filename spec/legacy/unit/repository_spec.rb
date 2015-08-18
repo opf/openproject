@@ -42,7 +42,7 @@ describe Repository, type: :model do
   end
 
   it 'should create' do
-    repository = Repository::Subversion.new(project: Project.find(3))
+    repository = Repository::Subversion.new(project: Project.find(3), scm_type: 'existing')
     assert !repository.save
 
     repository.url = 'svn://localhost'
@@ -68,7 +68,7 @@ describe Repository, type: :model do
 
   it 'should not create with disabled scm' do
     Setting.enabled_scm = ['Git'] # disable Subversion
-    repository = Repository::Subversion.new(project: Project.find(3), url: 'svn://localhost')
+    repository = Repository::Subversion.new(project: Project.find(3), scm_type: 'existing', url: 'svn://localhost')
     assert !repository.save
     assert_includes repository.errors[:type], I18n.translate('activerecord.errors.messages.invalid')
     # re-enable Subversion for following tests
@@ -120,7 +120,11 @@ describe Repository, type: :model do
   end
 
   it 'should for changeset comments strip' do
-    repository = Repository::Subversion.create(project: Project.find(4), url: 'svn://:login:password@host:/path/to/the/repository')
+    repository = Repository::Subversion.create(
+      project: Project.find(4),
+      scm_type: 'existing',
+      url: 'svn://:login:password@host:/path/to/the/repository'
+    )
     comment = 'This is a looooooooooooooong comment' + (' ' * 80 + "\n") * 5
     changeset = Changeset.new(
       comments: comment, commit_date: Time.now, revision: 0, scmid: 'f39b7922fb3c',
@@ -134,6 +138,7 @@ describe Repository, type: :model do
     repository = Repository::Subversion.create(
       project: Project.find(4),
       url: ' svn://:login:password@host:/path/to/the/repository',
+      scm_type: 'existing',
       log_encoding: 'UTF-8')
     repository.root_url = 'foo  ' # can't mass-assign this attr
     assert repository.save

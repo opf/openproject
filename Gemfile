@@ -49,6 +49,7 @@ gem 'warden-basic_auth', '~> 0.2.1'
 gem 'rails_autolink', '~> 1.1.6'
 gem 'will_paginate', '~> 3.0'
 gem 'acts_as_list', '~> 0.3.0'
+gem 'acts_as_countable', git: "https://github.com/finnlabs/acts_as_countable.git", ref: '2471265'
 
 gem 'friendly_id', '~> 5.1.0'
 
@@ -93,7 +94,8 @@ gem 'syck', platforms: [:mri, :mingw, :x64_mingw], require: false
 gem 'gon', '~> 4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
-gem 'airbrake', '~> 4.1.0'
+# don't require by default, instead load on-demand when actually configured
+gem 'airbrake', '~> 4.1.0', require: false
 
 group :production do
   # we use dalli as standard memcache client
@@ -142,11 +144,7 @@ group :test do
   gem 'factory_girl_rails', '~> 4.5'
   gem 'cucumber-rails', '~> 1.4.2', require: false
   gem 'rack_session_access'
-  # restrict because in version 1.3 a lot of tests using acts as journalized
-  # fail stating: "Column 'user_id' cannot be null". I don't understand the
-  # connection with database cleaner here but setting it to 1.2 fixes the
-  # issue.
-  gem 'database_cleaner', '~> 1.2.0'
+  gem 'database_cleaner', '~> 1.4.1'
   gem 'rspec', '~> 3.3.0'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 3.3.0', group: :development

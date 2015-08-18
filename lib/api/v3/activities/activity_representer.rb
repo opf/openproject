@@ -36,6 +36,7 @@ module API
         include API::V3::Utilities
 
         self_link path: :activity,
+                  id_attribute: :notes_id,
                   title_getter: -> (*) { nil }
 
         link :workPackage do
@@ -47,20 +48,20 @@ module API
 
         link :user do
           {
-            href: api_v3_paths.user(represented.user.id),
-            title: "#{represented.user.name} - #{represented.user.login}"
+            href: api_v3_paths.user(represented.user.id)
           }
         end
 
         link :update do
           {
-            href: api_v3_paths.activity(represented.id),
-            method: :patch,
-            title: "#{represented.id}"
+            href: api_v3_paths.activity(represented.notes_id),
+            method: :patch
           } if current_user_allowed_to_edit?
         end
 
-        property :id, render_nil: true
+        property :id,
+                 getter: -> (*) { notes_id },
+                 render_nil: true
         property :comment,
                  exec_context: :decorator,
                  getter: -> (*) {

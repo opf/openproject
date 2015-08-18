@@ -29,9 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: (@query.new_record? ? l(:label_calendar) : h(@query.name)) %>
 <%= form_tag(work_packages_calendar_index_path, :method => :get, :id => 'query_form') do %>
   <%= hidden_field_tag('project_id', @project.to_param) if @project%>
-  <fieldset id="filters" class="form--fieldset -collapsible <%= @query.new_record? ? "" : "collapsed" %>">
+  <fieldset id="filters" class="form--fieldset -collapsible collapsed" >
     <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_filter_plural) %></a></legend>
-    <div class=""<%= " style=\"display: none;\"" if !@query.new_record? %>>
+    <div class="" style="display: none;">
       <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     </div>
   </fieldset>

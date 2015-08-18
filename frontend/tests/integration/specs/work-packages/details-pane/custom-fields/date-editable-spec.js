@@ -40,12 +40,13 @@ describe('details pane', function() {
     describe('date editable', function() {
       beforeEach(function() {
         detailsPaneHelper.loadPane(819, 'overview');
+
         dateInput = element(by.css('.inplace-edit.attribute-customField9'));
       });
 
       context('read value', function() {
-        it('is editable', function() {
-          expect(dateInput.$('.inplace-edit--write').isPresent()).to.eventually.be.true;
+        it('is editable but edit is not shown', function() {
+          expect(dateInput.$('.inplace-edit--write').isDisplayed()).to.eventually.be.false;
         });
 
         it('should be present on page', function() {

@@ -27,6 +27,7 @@
 #++
 
 require 'api/v3/work_packages/work_packages_shared_helpers'
+require 'api/v3/work_packages/create_contract'
 
 module API
   module V3
@@ -36,8 +37,9 @@ module API
           helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           post do
+            create_contract = ::API::V3::WorkPackages::CreateContract
             create_work_package_form(create_service.create,
-                                     contract_class: CreateContract,
+                                     contract_class: create_contract,
                                      form_class: CreateFormRepresenter)
           end
         end

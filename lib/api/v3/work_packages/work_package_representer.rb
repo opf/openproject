@@ -128,6 +128,12 @@ module API
           } if current_user_allowed_to(:add_work_package_watchers, context: represented.project)
         end
 
+        link :revisions do
+          {
+            href: api_v3_paths.work_package_revisions(represented.id)
+          } if current_user_allowed_to(:view_changesets, context: represented.project)
+        end
+
         link :watch do
           {
             href: api_v3_paths.work_package_watchers(represented.id),
@@ -307,7 +313,7 @@ module API
         end
 
         def activities
-          represented.journals.map do |activity|
+          ::Journal::AggregatedJournal.aggregated_journals(journable: represented).map do |activity|
             ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: current_user)
           end
         end
@@ -315,14 +321,12 @@ module API
         def watchers
           # TODO/LEGACY: why do we need to ensure a specific order here?
           watchers = represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
-          total = watchers.count
           self_link = api_v3_paths.work_package_watchers(represented.id)
 
           # FIXME/LEGACY: we pass the WP as context?!? that makes a difference!!!
           # tl;dr: the embedded user representer must not be better than any other user representer
           context = { current_user: current_user, work_package: represented }
           Users::UserCollectionRepresenter.new(watchers,
-                                               total,
                                                self_link,
                                                context: context)
         end
@@ -331,7 +335,6 @@ module API
           self_path = api_v3_paths.attachments_by_work_package(represented.id)
           attachments = represented.attachments
           ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachments,
-                                                                      attachments.count,
                                                                       self_path)
         end
 

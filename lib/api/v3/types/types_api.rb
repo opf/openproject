@@ -41,9 +41,7 @@ module API
 
           get do
             types = Type.all
-            TypeCollectionRepresenter.new(types,
-                                          types.count,
-                                          api_v3_paths.types)
+            TypeCollectionRepresenter.new(types, api_v3_paths.types)
           end
 
           namespace ':id' do

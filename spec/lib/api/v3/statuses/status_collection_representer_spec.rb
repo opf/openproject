@@ -27,14 +27,16 @@
 #++
 
 require 'spec_helper'
-require 'lib/api/v3/statuses/shared/status_collection_representer'
 
 describe ::API::V3::Statuses::StatusCollectionRepresenter do
-  include_context 'status collection representer', '/api/v3/statuses'
+  include API::V3::Utilities::PathHelper
+
+  let(:statuses)  { FactoryGirl.build_list(:status, 3) }
+  let(:representer) { described_class.new(statuses, api_v3_paths.statuses) }
 
   context 'generation' do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'API V3 collection decorated', 42, 3, 'statuses', 'Status'
+    it_behaves_like 'unpaginated APIv3 collection', 3, 'statuses', 'Status'
   end
 end

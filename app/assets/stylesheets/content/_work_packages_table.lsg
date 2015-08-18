@@ -3,59 +3,66 @@
 ## with work packages
 
 ```
-<div class="work-packages-table--container">
-  <div class="work-packages-table--results-container">
-    <table class="workpackages-table">
+<div class="generic-table--container work-package-table--container" interactive-table>
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
       <thead>
         <tr>
           <th>
-            <div class="work-packages-table--header-outer">
+            <div class="generic-table--header-outer">
               <input type="checkbox">
             </div>
           </th>
           <th>
-            <div class="sort-header-outer">
-              <span class="sort-header">
+            <div class="generic-table--sort-header-outer">
+              <span class="generic-table--sort-header">
                 #
                 <span class="icon-context icon-button icon-pulldown-arrow1 dropdown-indicator"></span>
               </span>
             </div>
           </th>
           <th class="active-column">
-            <div class="sort-header-outer">
-              <span class="sort-header">
+            <div class="generic-table--sort-header-outer">
+              <span class="generic-table--sort-header">
                 Subject
                 <span class="icon-context icon-button icon-pulldown-arrow1 dropdown-indicator"></span>
               </span>
             </div>
           </th>
           <th>
-            <div class="sort-header-outer">
-              <span class="sort-header">
+            <div class="generic-table--sort-header-outer">
+              <span class="generic-table--sort-header">
                 Type
                 <span class="icon-context icon-button icon-pulldown-arrow1 dropdown-indicator"></span>
               </span>
             </div>
           </th>
           <th>
-            <div class="sort-header-outer">
-              <span class="sort-header">
+            <div class="generic-table--sort-header-outer">
+              <span class="generic-table--sort-header">
                 Status
                 <span class="icon-context icon-button icon-pulldown-arrow1 dropdown-indicator"></span>
               </span>
             </div>
           </th>
           <th>
-            <div class="sort-header-outer">
-              <span class="sort-header">
+            <div class="generic-table--sort-header-outer">
+              <span class="generic-table--sort-header">
                 Priority
                 <span class="icon-context icon-button icon-pulldown-arrow1 dropdown-indicator"></span>
               </span>
             </div>
           </th>
           <th>
-            <div class="sort-header-outer">
-              <span class="sort-header">
+            <div class="generic-table--sort-header-outer">
+              <span class="generic-table--sort-header">
                 Assignee
                 <span class="icon-context icon-button icon-pulldown-arrow1 dropdown-indicator"></span>
               </span>
@@ -138,7 +145,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="work-packages-table--header-background"></div>
+    <div class="generic-table--header-background"></div>
   </div>
 </div>
 ```
@@ -146,13 +153,13 @@
 ## with no work packages
 
 ```
-<div class="work-packages-table--container" style="height:150px">
-  <div class="work-packages-table--no-results-container">
-    <h2 class="work-packages-table--no-results-title">
+<div class="generic-table--container work-package-table--container" style="height:150px">
+  <div class="generic-table--no-results-container">
+    <h2 class="generic-table--no-results-title">
       <i class="icon-info"></i>
       No work packages to display
     </h2>
-    <div class="work-packages-table--no-results-description">
+    <div class="generic-table--no-results-description">
       <p>Either none have been created or all work packages are filtered out.</p>
     </div>
   </div>

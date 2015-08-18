@@ -34,31 +34,28 @@ describe('OpenProject', function() {
 
   beforeEach(function() {
     page.get();
-    browser.waitForAngular();
   });
 
   it('should show work packages title', function() {
-    page.get();
-
     expect(page.getSelectableTitle().getText()).to.eventually.equal('Work packages');
   });
 
-  it('should show work packages', function() {
-    page.get();
-
-    page.getTableHeaders().map(function(heading) {
-      return heading.getText();
-    }).then(function(headingTexts) {
-      var expected = ['',
-                      'ID',
-                      'TYPE',
-                      'STATUS',
-                      'SUBJECT',
-                      'ASSIGNEE'];
-
-      for (var i = 0; i < expected.length; i++) {
-        expect(headingTexts[i]).to.equal(expected[i]);
-      }
-    });
-  });
+  // disabled because of unreliability.
+  // the getText method seems to ignore the css rules (move out of viewport, all caps)
+  // on some browsers (or some versions)
+//  it('should show the default column headers', function() {
+//    // ignoring the first element as selenium's behaviour seems
+//    // to be inconsistent between various browsers (and their version)
+//    var expected = ['ID',
+//                    'TYPE',
+//                    'STATUS',
+//                    'SUBJECT',
+//                    'ASSIGNEE'];
+//
+//    page.getTableHeaders().then(function(headings) {
+//      for (var i = 1; i < headings.length; i++) {
+//        expect(headings[i].getAttribute('textContent')).to.eventually.equal(expected[i - 1]);
+//      }
+//    });
+//  });
 });

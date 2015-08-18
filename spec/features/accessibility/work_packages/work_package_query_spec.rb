@@ -63,7 +63,7 @@ describe 'Work package index accessibility', type: :feature do
   end
 
   describe 'Select all link' do
-    let(:link_selector) { 'table.workpackages-table th.checkbox a' }
+    let(:link_selector) { '.work-package-table--container th.checkbox a' }
 
     before do visit_index_page end
 
@@ -108,7 +108,7 @@ describe 'Work package index accessibility', type: :feature do
     shared_examples_for 'sort column' do
       it do
         expect(page).to have_selector(column_header_selector)
-        expect(find(column_header_selector + ' span.sort-header')[:title]).to eq(sort_text)
+        expect(find(column_header_selector + ' span.generic-table--sort-header')[:title]).to eq(sort_text)
       end
     end
 
@@ -158,7 +158,7 @@ describe 'Work package index accessibility', type: :feature do
 
     describe 'id column' do
       let(:link_caption) { 'ID' }
-      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(2)' }
+      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(2)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -169,7 +169,7 @@ describe 'Work package index accessibility', type: :feature do
     # testing the same functionality.
     # describe 'type column' do
     #   let(:link_caption) { 'Type' }
-    #   let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(3)' }
+    #   let(:column_header_selector) { '.work-package-table--container th:nth-of-type(3)' }
     #   let(:column_header_link_selector) { column_header_selector + ' a' }
 
     #   it_behaves_like 'sortable column'
@@ -177,7 +177,7 @@ describe 'Work package index accessibility', type: :feature do
 
     describe 'status column' do
       let(:link_caption) { 'Status' }
-      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(4)' }
+      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(4)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -185,7 +185,7 @@ describe 'Work package index accessibility', type: :feature do
 
     describe 'priority column' do
       let(:link_caption) { 'Priority' }
-      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(5)' }
+      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(5)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -193,7 +193,7 @@ describe 'Work package index accessibility', type: :feature do
 
     describe 'subject column' do
       let(:link_caption) { 'Subject' }
-      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(6)' }
+      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(6)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -201,7 +201,7 @@ describe 'Work package index accessibility', type: :feature do
 
     describe 'assigned to column' do
       let(:link_caption) { 'Assignee' }
-      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(7)' }
+      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(7)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -280,14 +280,14 @@ describe 'Work package index accessibility', type: :feature do
     describe 'work package context menu', js: true do
       it_behaves_like 'context menu' do
         let(:target_link) { '#work-package-context-menu li.open a' }
-        let(:source_link) { '.workpackages-table tr.issue td.id a' }
+        let(:source_link) { '.work-package-table--container tr.issue td.id a' }
         let(:keys) { [:shift, :alt, :f10] }
       end
     end
 
     describe 'column header drop down menu', js: true do
       it_behaves_like 'context menu' do
-        let(:source_link) { 'table.workpackages-table th:nth-of-type(2) a' }
+        let(:source_link) { '.work-package-table--container th:nth-of-type(2) a' }
         let(:target_link) { '#column-context-menu .dropdown-menu li:first-of-type a' }
         let(:keys) { :enter }
       end

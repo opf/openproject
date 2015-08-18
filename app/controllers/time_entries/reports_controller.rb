@@ -36,6 +36,8 @@ class TimeEntries::ReportsController < ApplicationController
   include TimelogHelper
   include CustomFieldsHelper
 
+  menu_item :time_entries
+
   def show
     @criterias = params[:criterias] || []
     @criterias = @criterias.select { |criteria| @available_criterias.has_key? criteria }

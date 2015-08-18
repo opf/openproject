@@ -34,6 +34,8 @@ module API
         include API::Utilities::UrlHelper
 
         class ApiV3Path
+          extend API::Utilities::UrlHelper
+
           def self.root
             "#{root_path}api/v3"
           end
@@ -47,7 +49,7 @@ module API
           end
 
           def self.attachment_download(id)
-            Rails.application.routes.url_helpers.attachment_path(id)
+            attachment_path(id)
           end
 
           def self.attachments_by_work_package(id)
@@ -114,6 +116,10 @@ module API
             "#{root}/relations/#{id}"
           end
 
+          def self.revision(id)
+            "#{root}/revisions/#{id}"
+          end
+
           def self.render_markup(format: nil, link: nil)
             format = format || Setting.text_formatting
             format = 'plain' if format == '' # Setting will return '' for plain
@@ -122,6 +128,10 @@ module API
             path += "?context=#{link}" if link
 
             path
+          end
+
+          def self.show_revision(project_id, identifier)
+            show_revision_project_repository_path(project_id, identifier)
           end
 
           def self.statuses
@@ -200,6 +210,10 @@ module API
             "#{work_package_relations(work_package_id)}/#{id}"
           end
 
+          def self.work_package_revisions(id)
+            "#{work_package(id)}/revisions"
+          end
+
           def self.work_package_schema(project_id, type_id)
             "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
           end
@@ -210,12 +224,6 @@ module API
 
           def self.work_packages_by_project(project_id)
             "#{project(project_id)}/work_packages"
-          end
-
-          def self.root_path
-            @@root_path ||= Class.new.tap do |c|
-              c.extend(::API::V3::Utilities::PathHelper)
-            end.root_path
           end
         end
 

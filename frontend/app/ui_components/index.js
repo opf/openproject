@@ -84,6 +84,7 @@ angular.module('openproject.uiComponents')
     down: 40
   })
   .directive('selectableTitle', [require('./selectable-title-directive')])
+  .directive('interactiveTable', ['$timeout', '$window', require('./interactive-table-directive')])
   .constant('DOUBLE_CLICK_DELAY', 300)
   // Thanks to http://stackoverflow.com/a/20445344
   .directive('singleClick', [
@@ -104,5 +105,10 @@ angular.module('openproject.uiComponents')
   .directive('userField', ['PathHelper', require('./user-field-directive')])
   .directive('wikiToolbar', [require('./wiki-toolbar-directive')])
   .directive('zoomSlider', ['I18n', require('./zoom-slider-directive')])
+  .directive('notifications', [require('./notifications-directive')])
+  .directive('notificationBox', ['I18n', require('./notification-box-directive')])
+  .directive('uploadProgress', [require('./upload-progress-directive')])
+  .directive('attachmentIcon', [require('./attachment-icon-directive')])
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))
-  .filter('latestItems', require('./filters/latest-items-filter'));
+  .filter('latestItems', require('./filters/latest-items-filter'))
+  .directive('highlightCol', [require('./highlight-col-directive')]);

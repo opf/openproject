@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title l(:label_administration), l(:label_auth_source_plural) %>
 <%= toolbar title: l(:label_auth_source_plural) do %>
   <li class="toolbar-item">
-    <%= link_to new_auth_source_path, class: 'button -alt-highlight' do %>
+    <%= link_to({ action: 'new' }, class: 'button -alt-highlight') do %>
       <i class="button--icon icon-add"></i>
       <span class="button--text"><%= l(:label_auth_source_new) %></span>
     <% end %>

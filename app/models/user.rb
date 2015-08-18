@@ -710,6 +710,14 @@ class User < Principal
     @current_user ||= User.anonymous
   end
 
+  def self.execute_as(user)
+    previous_user = User.current
+    User.current = user
+    yield
+  ensure
+    User.current = previous_user
+  end
+
   def roles(project)
     User.current.admin? ? Role.all : User.current.roles_for_project(project)
   end

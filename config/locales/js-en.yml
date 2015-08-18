@@ -84,6 +84,7 @@ en:
     label_collapse_all: "Collapse all"
     label_commented_on: "commented on"
     label_contains: "contains"
+    label_created_on: "created on"
     label_equals: "is"
     label_expand: "Expand"
     label_expanded: "expanded"
@@ -152,6 +153,21 @@ en:
     label_custom_queries: "Private queries"
     label_columns: "Columns"
     label_click_to_enter_description: "Click to enter description..."
+    label_attachments: Files
+    label_drop_files: Drop files here
+    label_drop_files_hint: or click to add files
+    label_remove_file: Delete
+    label_remove_all_files: Delete all files
+    label_add_description: "Add a description for %{file}"
+    label_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
+    label_files_to_upload: "These files will be uploaded:"
+    label_rejected_files: "These files cannot be uploaded:"
+    label_rejected_files_reason: "These files cannot be uploaded as their size is greater than %{maximumFilesize}"
+    label_wait: "Please wait for configuration..."
+    label_upload_counter: "%{done} of %{count} files finished"
+    label_successful_update: 'Successful update'
+    label_validation_error: "The work package could not be saved due to the following errors:"
+
 
     text_are_you_sure: "Are you sure?"
 

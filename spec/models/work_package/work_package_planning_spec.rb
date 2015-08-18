@@ -249,7 +249,7 @@ describe WorkPackage, type: :model do
     it "has an initial journal, so that it's creation shows up in activity" do
       expect(pe.journals.size).to eq(1)
 
-      changes = pe.journals.first.changed_data.to_hash
+      changes = pe.journals.first.details.to_hash
 
       expect(changes.size).to eq(11)
 
@@ -271,7 +271,7 @@ describe WorkPackage, type: :model do
       pe.update_attribute(:due_date, Date.new(2012, 2, 1))
 
       expect(pe.journals.size).to eq(2)
-      changes = pe.journals.last.changed_data
+      changes = pe.journals.last.details
 
       expect(changes.size).to eq(1)
 
@@ -311,7 +311,7 @@ describe WorkPackage, type: :model do
         pe.reload
 
         expect(pe.journals.size).to eq(3)
-        changes = pe.journals.last.changed_data
+        changes = pe.journals.last.details
 
         expect(changes.size).to eq(1)
         expect(changes).to include(:start_date)

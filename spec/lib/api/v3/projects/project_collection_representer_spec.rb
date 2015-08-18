@@ -31,11 +31,11 @@ require 'spec_helper'
 describe ::API::V3::Projects::ProjectCollectionRepresenter do
   let(:self_link) { '/api/v3/versions/1/projects' }
   let(:projects) { FactoryGirl.build_list(:project, 3) }
-  let(:representer) { described_class.new(projects, 42, self_link) }
+  let(:representer) { described_class.new(projects, self_link) }
 
   context 'generation' do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'API V3 collection decorated', 42, 3, 'versions/1/projects', 'Project'
+    it_behaves_like 'unpaginated APIv3 collection', 3, 'versions/1/projects', 'Project'
   end
 end

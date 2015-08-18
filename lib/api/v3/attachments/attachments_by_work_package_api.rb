@@ -48,24 +48,12 @@ module API
 
               metadata
             end
-
-            def make_attachment(metadata, file)
-              uploaded_file = OpenProject::Files.build_uploaded_file file[:tempfile],
-                                                                     file[:type],
-                                                                     file_name: metadata.file_name
-              Attachment.new(file: uploaded_file,
-                             container: @work_package,
-                             description: metadata.description,
-                             author: current_user)
-            end
           end
 
           get do
             self_path = api_v3_paths.attachments_by_work_package(@work_package.id)
             attachments = @work_package.attachments
-            AttachmentCollectionRepresenter.new(attachments,
-                                                attachments.count,
-                                                self_path)
+            AttachmentCollectionRepresenter.new(attachments, self_path)
           end
 
           post do
@@ -79,9 +67,16 @@ module API
                 I18n.t('api_v3.errors.multipart_body_error'))
             end
 
-            attachment = make_attachment(metadata, file)
-            unless attachment.save
-              raise ::API::Errors::ErrorBase.create_and_merge_errors(attachment.errors)
+            uploaded_file = OpenProject::Files.build_uploaded_file file[:tempfile],
+                                                                   file[:type],
+                                                                   file_name: metadata.file_name
+
+            begin
+              service = AddAttachmentService.new(@work_package, author: current_user)
+              attachment = service.add_attachment uploaded_file: uploaded_file,
+                                                  description: metadata.description
+            rescue ActiveRecord::RecordInvalid => error
+              raise ::API::Errors::ErrorBase.create_and_merge_errors(error.record.errors)
             end
 
             ::API::V3::Attachments::AttachmentRepresenter.new(attachment)

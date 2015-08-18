@@ -268,7 +268,8 @@ Redmine::AccessControl.map do |map|
 
   map.project_module :repository do |repo|
     repo.permission :manage_repository,
-                    { repositories: [:edit, :committers, :destroy] },
+                    { repositories: [:edit, :create, :update, :committers,
+                                     :destroy_info, :destroy] },
                     require: :member
 
     repo.permission :browse_repository,

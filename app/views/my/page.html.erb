@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </div>
   <div class="grid-block">
-    <div id="list-left" class="grid-content">
+    <div id="list-left" class="grid-content left">
       <% @blocks['left'].each do |b|
          next unless MyController.available_blocks.keys.include? b %>
         <div class="mypage-box">
@@ -55,7 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
       <% end if @blocks['left'] %>
     </div>
-    <div id="list-right" class="grid-content">
+    <div id="list-right" class="grid-content right">
       <% @blocks['right'].each do |b|
          next unless MyController.available_blocks.keys.include? b %>
         <div class="mypage-box">
