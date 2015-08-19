@@ -26,13 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-require('./activities');
-require('./config');
-require('./controllers');
-require('./directives');
-require('./filters');
-require('./helpers');
-require('./models');
-require('./services');
-require('./tabs');
-require('./view_models');
+angular.module('openproject.workPackages.activities')
+  .directive('activityEntry', [
+    require('./activity-entry-directive')
+  ])
+  .directive('userActivity', [
+    '$uiViewScroll',
+    '$timeout',
+    '$location',
+    '$sce',
+    'I18n',
+    'PathHelper',
+    'ActivityService',
+    'UsersHelper',
+    'ConfigurationService',
+    'AutoCompleteHelper',
+    require('./user-activity-directive')
+  ])
+  .directive('revisionActivity', [
+    '$compile',
+    '$sce',
+    'I18n',
+    'PathHelper',
+    'ActivityService',
+    'UsersHelper',
+    require('./revision-activity-directive')
+  ])
+  ;

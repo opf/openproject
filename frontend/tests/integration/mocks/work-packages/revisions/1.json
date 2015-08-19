@@ -1,0 +1,25 @@
+{
+  "_type": "Revision",
+  "_links": {
+    "self": {
+      "href": "/api/v3/revisions/2355"
+    },
+    "project": {
+      "href": "/api/v3/projects/6",
+      "title": "subrepos1"
+    },
+    "showRevision": {
+      "href": "/projects/subrepos1/repository/revision/1cb824244ccb839bfce5a463a58b108cf8fbd4da"
+    }
+  },
+  "id": 2355,
+  "identifier": "1cb824244ccb839bfce5a463a58b108cf8fbd4da",
+  "formattedIdentifier": "1cb82424",
+  "authorName": "Oliver Günther ",
+  "message": {
+    "format": "plain",
+    "raw": "Awesome commit\n\nTotally references #819, really now.",
+    "html": "<p>This does something</p>\n\n<p>Totally references <a href=\"/work_packages/819\" class=\"issue work_package status-1 priority-2 created-by-me\" title=\"asdf (new)\">#819</a>, really now</p>"
+  },
+  "createdAt": "2015-08-13T11:04:24+00:00"
+}
