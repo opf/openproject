@@ -77,7 +77,8 @@ describe 'IssueNestedSet', type: :model do
     assert_equal [1, parent1.id, 5], [parent1.project_id, parent1.root_id, parent1.nested_set_span]
 
     # child can not be moved to Project 2 because its child is on a disabled type
-    assert_equal false, WorkPackage.find(child.id).move_to_project(Project.find(2))
+    service = MoveWorkPackageService.new(child, User.current)
+    assert_equal false, service.call(Project.find(2))
     child.reload
     grandchild.reload
     parent1.reload
@@ -197,20 +198,20 @@ describe 'IssueNestedSet', type: :model do
   end
 
   it 'should parent priority should be the highest child priority' do
-    parent = create_issue!(priority: IssuePriority.find_by_name('Normal'))
+    parent = create_issue!(priority: IssuePriority.find_by(name: 'Normal'))
     # Create children
-    child1 = create_issue!(priority: IssuePriority.find_by_name('High'), parent_id: parent.id)
+    child1 = create_issue!(priority: IssuePriority.find_by(name: 'High'), parent_id: parent.id)
     assert_equal 'High', parent.reload.priority.name
-    child2 = create_issue!(priority: IssuePriority.find_by_name('Immediate'), parent_id: child1.id)
+    child2 = create_issue!(priority: IssuePriority.find_by(name: 'Immediate'), parent_id: child1.id)
     assert_equal 'Immediate', child1.reload.priority.name
     assert_equal 'Immediate', parent.reload.priority.name
-    child3 = create_issue!(priority: IssuePriority.find_by_name('Low'), parent_id: parent.id)
+    child3 = create_issue!(priority: IssuePriority.find_by(name: 'Low'), parent_id: parent.id)
     assert_equal 'Immediate', parent.reload.priority.name
     # Destroy a child
     child1.destroy
     assert_equal 'Low', parent.reload.priority.name
     # Update a child
-    child3.reload.priority = IssuePriority.find_by_name('Normal')
+    child3.reload.priority = IssuePriority.find_by(name: 'Normal')
     child3.save!
     assert_equal 'Normal', parent.reload.priority.name
   end

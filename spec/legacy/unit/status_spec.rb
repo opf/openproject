@@ -47,8 +47,8 @@ describe Status, type: :model do
     assert_difference 'Status.count', -1 do
       assert status.destroy
     end
-    assert_nil Workflow.first(conditions: { old_status_id: status.id })
-    assert_nil Workflow.first(conditions: { new_status_id: status.id })
+    assert_equal 0, Workflow.where(old_status_id: status.id).count
+    assert_equal 0, Workflow.where(new_status_id: status.id).count
   end
 
   it 'should destroy status in use' do
@@ -95,7 +95,7 @@ describe Status, type: :model do
       it 'should change nothing' do
         Status.update_work_package_done_ratios
 
-        assert_equal 0, WorkPackage.count(conditions: { done_ratio: 50 })
+        assert_equal 0, WorkPackage.where(done_ratio: 50).count
       end
     end
 

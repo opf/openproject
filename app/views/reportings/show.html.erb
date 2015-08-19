@@ -32,22 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title l('timelines.reporting_for_project.show',
                 :title => h(@reporting.reporting_to_project.name)) %>
 
-<% content_for :action_menu_specific do %>
-  <%= link_to_if_authorized(l(:button_edit),
-                            {:action => :edit, :project_id => @project, :id => @reporting},
-                            :class => 'icon icon-edit',
-                            accesskey: accesskey(:edit)) %>
-  <%= link_to_if_authorized(l(:button_delete),
-                            {:action => :confirm_destroy, :project_id => @project, :id => @reporting},
-                            :class => 'icon icon-delete') %>
-<% end %>
-
-<h2>
-  <%= l('timelines.reporting_for_project.show',
-        :title => link_to_project(@reporting.reporting_to_project)).html_safe %>
-</h2>
-
-<%= render :partial => 'layouts/action_menu_specific' %>
+<%= render partial: 'toolbar', locals: { show_actions: true } %>
 
 <%= render :partial => 'show' %>
 

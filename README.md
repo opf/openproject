@@ -1,5 +1,5 @@
 # OpenProject
-[<img src="https://travis-ci.org/opf/openproject.svg?branch=dev" alt="Build Status" />](https://travis-ci.org/opf/openproject)
+[<img src="https://travis-ci.org/opf/openproject.svg?branch=feature/rails4" alt="Build Status" />](https://travis-ci.org/opf/openproject)
 [<img src="https://gemnasium.com/opf/openproject.png" alt="Dependency Status" />](https://gemnasium.com/opf/openproject)
 [![Code Climate](https://codeclimate.com/github/opf/openproject/badges/gpa.svg)](https://codeclimate.com/github/opf/openproject)
 [![codecov.io](http://codecov.io/github/opf/openproject/coverage.svg?branch=dev)](http://codecov.io/github/opf/openproject?branch=dev)
@@ -8,24 +8,24 @@
 
 OpenProject is a web-based project management software. Its key features are:
 
-* [Work Package Tracking](https://openproject.org/features/work-packages/)
-* [Project Timelines](https://openproject.org/features/timelines/)
-* [Wikis](https://openproject.org/features/wiki/)
-* [Forums](https://openproject.org/features/more/)
+* [Work Package Tracking](https://www.openproject.org/features/work-packages/)
+* [Project Timelines](https://www.openproject.org/features/timelines/)
+* [Wikis](https://www.openproject.org/features/wiki/)
+* [Forums](https://www.openproject.org/help/user-guides/forum/)
 
 Via plugins, it also supports:
 
-* [Meeting Management](https://openproject.org/features/more/)
-* [Scrum Process Support](https://openproject.org/features/agile-scrum/)
-* [Time and Cost Reporting](https://openproject.org/features/time-and-costs/)
-* and [others](https://openproject.org/download/install-plugins/).
+* [Meeting Management](https://www.openproject.org/help/user-guides/meetings/)
+* [Scrum Process Support](https://www.openproject.org/features/agile-scrum/)
+* [Time and Cost Reporting](https://www.openproject.org/help/user-guides/time-costs/)
+* and [others](https://www.openproject.org/download/install-plugins/).
 
 More information and screenshots can be found on [openproject.org](https://www.openproject.org).
 
 ## Installation
 
 If you want to run an instance of OpenProject in production (or for evaluation), refer to our
-in-depth [installation guides](https://openproject.org/download/).
+in-depth [installation guides](https://www.openproject.org/download/).
 
 If you're a developer wanting to set-up a local environment for contributing to OpenProject or
 developing plugins, you should refer instead to our [Quick Start for Developers](doc/QUICK_START.md).
@@ -45,10 +45,10 @@ The [OpenProject Foundation (OPF)](https://community.openproject.org/projects/op
 
 ## Repository
 
-This repository contains two main branches:
+This repository contains several main branches:
 
 * `dev`: The main development branch. We try to keep it stable in the sense of all tests are passing, but we don't recommend it for production systems.
-* `stable`: Contains the latest stable release that we recommend for production use. Use this if you always want the latest version of OpenProject.
+* `stable/<version>`: Contains the latest stable release for a specific version. We recommend to use this for production use. Example: `stable/4.1`.
 
 ## License
 

@@ -39,7 +39,7 @@ describe ProjectEnumerationsController, type: :controller do
 
   it 'update to override system activities' do
     session[:user_id] = 2 # manager
-    billable_field = TimeEntryActivityCustomField.find_by_name('Billable')
+    billable_field = TimeEntryActivityCustomField.find_by(name: 'Billable')
 
     put :update, project_id: 1, enumerations: {
       '9' => { 'parent_id' => '9', 'custom_field_values' => { '7' => '1' }, 'active' => '0' }, # Design, De-activate
@@ -55,7 +55,7 @@ describe ProjectEnumerationsController, type: :controller do
     project = Project.find('ecookbook')
 
     # ... Design
-    design = project.time_entry_activities.find_by_name('Design')
+    design = project.time_entry_activities.find_by(name: 'Design')
     assert design, 'Project activity not found'
 
     assert_equal 9, design.parent_id # Relate to the system activity
@@ -64,7 +64,7 @@ describe ProjectEnumerationsController, type: :controller do
     assert !design.active?
 
     # ... Development
-    development = project.time_entry_activities.find_by_name('Development')
+    development = project.time_entry_activities.find_by(name: 'Development')
     assert development, 'Project activity not found'
 
     assert_equal 10, development.parent_id # Relate to the system activity
@@ -74,7 +74,7 @@ describe ProjectEnumerationsController, type: :controller do
     assert_equal '0', development.custom_value_for(billable_field).value
 
     # ... Inactive Activity
-    previously_inactive = project.time_entry_activities.find_by_name('Inactive Activity')
+    previously_inactive = project.time_entry_activities.find_by(name: 'Inactive Activity')
     assert previously_inactive, 'Project activity not found'
 
     assert_equal 14, previously_inactive.parent_id # Relate to the system activity
@@ -84,7 +84,7 @@ describe ProjectEnumerationsController, type: :controller do
     assert_equal '1', previously_inactive.custom_value_for(billable_field).value
 
     # ... QA
-    assert_equal nil, project.time_entry_activities.find_by_name('QA'), "Custom QA activity created when it wasn't modified"
+    assert_equal nil, project.time_entry_activities.find_by(name: 'QA'), "Custom QA activity created when it wasn't modified"
   end
 
   it 'update will update project specific activities' do
@@ -92,17 +92,17 @@ describe ProjectEnumerationsController, type: :controller do
 
     project_activity = TimeEntryActivity.new(
       name: 'Project Specific',
-      parent: TimeEntryActivity.find(:first),
+      parent: TimeEntryActivity.first,
       project: Project.find(1),
       active: true
-                                             )
+    )
     assert project_activity.save
     project_activity_two = TimeEntryActivity.new(
       name: 'Project Specific Two',
-      parent: TimeEntryActivity.find(:last),
+      parent: TimeEntryActivity.last,
       project: Project.find(1),
       active: true
-                                                 )
+    )
     assert project_activity_two.save
 
     put :update, project_id: 1, enumerations: {
@@ -117,19 +117,19 @@ describe ProjectEnumerationsController, type: :controller do
     project = Project.find('ecookbook')
     assert_equal 2, project.time_entry_activities.count
 
-    activity_one = project.time_entry_activities.find_by_name(project_activity.name)
+    activity_one = project.time_entry_activities.find_by(name: project_activity.name)
     assert activity_one, 'Project activity not found'
     assert_equal project_activity.id, activity_one.id
     assert !activity_one.active?
 
-    activity_two = project.time_entry_activities.find_by_name(project_activity_two.name)
+    activity_two = project.time_entry_activities.find_by(name: project_activity_two.name)
     assert activity_two, 'Project activity not found'
     assert_equal project_activity_two.id, activity_two.id
     assert !activity_two.active?
   end
 
   it 'update when creating new activities will convert existing data' do
-    assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size
+    assert_equal 3, TimeEntry.where(activity_id: 9, project_id: 1).size
 
     session[:user_id] = 2 # manager
     put :update, project_id: 1, enumerations: {
@@ -138,10 +138,10 @@ describe ProjectEnumerationsController, type: :controller do
     assert_response :redirect
 
     # No more TimeEntries using the system activity
-    assert_equal 0, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size, 'Time Entries still assigned to system activities'
+    assert_equal 0, TimeEntry.where(activity_id: 9, project_id: 1).size, 'Time Entries still assigned to system activities'
     # All TimeEntries using project activity
-    project_specific_activity = TimeEntryActivity.find_by_parent_id_and_project_id(9, 1)
-    assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(project_specific_activity.id, 1).size, 'No Time Entries assigned to the project activity'
+    project_specific_activity = TimeEntryActivity.find_by(parent_id: 9, project_id: 1)
+    assert_equal 3, TimeEntry.where(activity_id: project_specific_activity.id, project_id: 1).size, 'No Time Entries assigned to the project activity'
   end
 
   it 'update when creating new activities will not convert existing data if an exception is raised' do
@@ -160,8 +160,8 @@ describe ProjectEnumerationsController, type: :controller do
                                  activity_id: 10,
                                  spent_on: '2009-01-01')
 
-    assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size
-    assert_equal 1, TimeEntry.find_all_by_activity_id_and_project_id(10, 1).size
+    assert_equal 3, TimeEntry.where(activity_id: 9, project_id: 1).size
+    assert_equal 1, TimeEntry.where(activity_id: 10, project_id: 1).size
 
     session[:user_id] = 2 # manager
 
@@ -172,34 +172,34 @@ describe ProjectEnumerationsController, type: :controller do
     assert_response :redirect
 
     # TimeEntries shouldn't have been reassigned on the failed record
-    assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size, 'Time Entries are not assigned to system activities'
+    assert_equal 3, TimeEntry.where(activity_id: 9, project_id: 1).size, 'Time Entries are not assigned to system activities'
     # TimeEntries shouldn't have been reassigned on the saved record either
-    assert_equal 1, TimeEntry.find_all_by_activity_id_and_project_id(10, 1).size, 'Time Entries are not assigned to system activities'
+    assert_equal 1, TimeEntry.where(activity_id: 10, project_id: 1).size, 'Time Entries are not assigned to system activities'
   end
 
   it 'destroy' do
     session[:user_id] = 2 # manager
     project_activity = TimeEntryActivity.new(
       name: 'Project Specific',
-      parent: TimeEntryActivity.find(:first),
+      parent: TimeEntryActivity.first,
       project: Project.find(1),
       active: true
-                                             )
+    )
     assert project_activity.save
     project_activity_two = TimeEntryActivity.new(
       name: 'Project Specific Two',
-      parent: TimeEntryActivity.find(:last),
+      parent: TimeEntryActivity.last,
       project: Project.find(1),
       active: true
-                                                 )
+    )
     assert project_activity_two.save
 
     delete :destroy, project_id: 1
     assert_response :redirect
     assert_redirected_to '/projects/ecookbook/settings/activities'
 
-    assert_nil TimeEntryActivity.find_by_id(project_activity.id)
-    assert_nil TimeEntryActivity.find_by_id(project_activity_two.id)
+    assert_nil TimeEntryActivity.find_by(id: project_activity.id)
+    assert_nil TimeEntryActivity.find_by(id: project_activity_two.id)
   end
 
   it 'destroy should reassign time entries back to the system activity' do
@@ -209,17 +209,18 @@ describe ProjectEnumerationsController, type: :controller do
       parent: TimeEntryActivity.find(9),
       project: Project.find(1),
       active: true
-                                             )
+    )
     assert project_activity.save
-    assert TimeEntry.update_all("activity_id = '#{project_activity.id}'", ['project_id = ? AND activity_id = ?', 1, 9])
-    assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(project_activity.id, 1).size
+    assert TimeEntry.where(['project_id = ? AND activity_id = ?', 1, 9])
+      .update_all("activity_id = '#{project_activity.id}'")
+    assert_equal 3, TimeEntry.where(activity_id: project_activity.id, project_id: 1).size
 
     delete :destroy, project_id: 1
     assert_response :redirect
     assert_redirected_to '/projects/ecookbook/settings/activities'
 
-    assert_nil TimeEntryActivity.find_by_id(project_activity.id)
-    assert_equal 0, TimeEntry.find_all_by_activity_id_and_project_id(project_activity.id, 1).size, 'TimeEntries still assigned to project specific activity'
-    assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size, 'TimeEntries still assigned to project specific activity'
+    assert_nil TimeEntryActivity.find_by(id: project_activity.id)
+    assert_equal 0, TimeEntry.where(activity_id: project_activity.id, project_id: 1).size, 'TimeEntries still assigned to project specific activity'
+    assert_equal 3, TimeEntry.where(activity_id: 9, project_id: 1).size, 'TimeEntries still assigned to project specific activity'
   end
 end

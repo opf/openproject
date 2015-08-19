@@ -26,7 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<h2><%= l(:label_board_plural) %></h2>
+<% html_title l(:label_board_plural) %>
+<%= toolbar title: l(:label_board_plural) %>
 <table class="list boards">
   <thead>
     <tr>
@@ -46,12 +47,10 @@ See doc/COPYRIGHT.rdoc for more details.
         <td align="center"><%= board.topics_count %></td>
         <td align="center"><%= board.messages_count %></td>
         <td>
-          <small>
-            <% if board.last_message %>
-              <%= authoring board.last_message.created_on, board.last_message.author %><br />
-              <%= link_to_message board.last_message %>
-            <% end %>
-          </small>
+          <% if board.last_message %>
+            <%= authoring board.last_message.created_on, board.last_message.author %><br />
+            <%= link_to_message board.last_message %>
+          <% end %>
         </td>
       </tr>
     <% end %>
@@ -65,4 +64,3 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= auto_discovery_link_tag(:atom, {:controller => '/activities', :action => 'index', :id => @project, :format => 'atom', :show_messages => 1, :key => User.current.rss_key}) %>
 <% end %>
 
-<% html_title l(:label_board_plural) %>

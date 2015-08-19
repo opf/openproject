@@ -45,7 +45,7 @@ describe WelcomeController, type: :controller do
     assert_template 'index'
     assert_not_nil assigns(:news)
     assert_not_nil assigns(:projects)
-    assert !assigns(:projects).include?(Project.find(:first, conditions: { is_public: false }))
+    assert !assigns(:projects).include?(Project.where(is_public: false).first)
   end
 
   it 'should browser language' do
@@ -59,7 +59,7 @@ describe WelcomeController, type: :controller do
     Setting.default_language = 'en'
     request.env['HTTP_ACCEPT_LANGUAGE'] = 'de'
     get :index
-    assert_equal :"de", @controller.current_language
+    assert_equal :de, @controller.current_language
   end
 
   it 'should browser language alternate not valid' do
@@ -83,9 +83,7 @@ describe WelcomeController, type: :controller do
     session[:user_id] = 2
 
     get :index
-    assert_tag 'script',
-               attributes: { type: 'text/javascript' },
-               content: /warnLeavingUnsaved/
+    assert_tag 'script', content: /warnLeavingUnsaved/
   end
 
   it 'should warn on leaving unsaved turn off' do
@@ -95,8 +93,6 @@ describe WelcomeController, type: :controller do
     session[:user_id] = 2
 
     get :index
-    assert_no_tag 'script',
-                  attributes: { type: 'text/javascript' },
-                  content: /warnLeavingUnsaved/
+    assert_no_tag 'script', content: /warnLeavingUnsaved/
   end
 end

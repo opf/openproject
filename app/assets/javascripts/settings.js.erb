@@ -27,8 +27,39 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-jQuery(document).ready(function($) {
-  $('#settings_session_ttl_enabled').on('change', function(){
-    $('#settings_session_ttl_container').toggle($(this).is(':checked'));
-  }).trigger('change');
-});
+(function($) {
+  $(function() {
+
+    $('#settings_session_ttl_enabled').on('change', function(){
+      $('#settings_session_ttl_container').toggle($(this).is(':checked'));
+    }).trigger('change');
+
+
+    /** Sync SCM vendor select when enabled SCMs are changed */
+    $('[name="settings[enabled_scm][]"]').change(function () {
+      var checked = this.checked,
+        value = this.value,
+        select = $('#settings_repositories_automatic_managed_vendor'),
+        option = select.find('option[value="' + value + '"]');
+
+      if (checked && !option.length) {
+        select.append('<option value="' + value +'">' + value + '</option>')
+          .prop('disabled', false);
+      } else {
+
+        // Avoid selecting another vendor
+        if (option.prop('selected')) {
+          select.val('');
+        }
+
+        option.remove();
+
+        // Disable select when no option remains
+        if (select.find('option').length <= 1) {
+          select.prop('disabled', true);
+        }
+      }
+    });
+
+  });
+}(jQuery));

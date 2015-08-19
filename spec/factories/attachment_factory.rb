@@ -26,6 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require Rails.root + 'spec/support/file_helpers'
+
 FactoryGirl.define do
   factory :attachment do
     container factory: :work_package
@@ -37,9 +39,9 @@ FactoryGirl.define do
 
     content_type 'application/binary'
     sequence(:file) do |n|
-      OpenProject::Files.create_uploaded_file name: filename || "file-#{n}.test",
-                                              content_type: content_type,
-                                              binary: true
+      FileHelpers.mock_uploaded_file name: filename || "file-#{n}.test",
+                                     content_type: content_type,
+                                     binary: true
     end
 
     factory :wiki_attachment do

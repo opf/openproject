@@ -32,7 +32,7 @@ class Services::RemoveWatcher
     @user = user
   end
 
-  def run(success = -> {}, failure = -> {})
+  def run(success: -> {}, failure: -> {})
     if @work_package.watcher_users.include?(@user)
       @work_package.watcher_users.delete(@user)
       success.call

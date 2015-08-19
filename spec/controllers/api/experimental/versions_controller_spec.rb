@@ -52,13 +52,13 @@ describe Api::Experimental::VersionsController, type: :controller do
 
         it 'renders the index template' do
           get 'index', format: 'json', project_id: project.id
-          expect(response).to render_template('api/experimental/versions/index', formats: ['api'])
+          expect(response).to render_template('api/experimental/versions/index')
         end
       end
 
       context 'with versions available' do
         before do
-          allow(project).to receive_message_chain(:shared_versions, :all)
+          allow(project).to receive(:shared_versions)
             .and_return(FactoryGirl.build_list(:version, 2))
         end
 
@@ -83,7 +83,6 @@ describe Api::Experimental::VersionsController, type: :controller do
         let(:shared_versions) { FactoryGirl.build_list(:version, 2) }
 
         before do
-          # TODO: rename to receive_message_chain once on rspec 3.0
           allow(Version).to receive_message_chain(:visible, :systemwide)
             .and_return(shared_versions)
 
@@ -97,7 +96,6 @@ describe Api::Experimental::VersionsController, type: :controller do
         it 'responds with 200' do
           expect(response.response_code).to eql(200)
         end
-
       end
 
       context 'when lacking the necessary permissions' do

@@ -41,7 +41,7 @@ describe ::Query::Results, type: :model do
 
   describe '#work_package_count_by_group' do
     context 'when grouping by responsible' do
-      before { query.group_by = 'responsible' }
+      before do query.group_by = 'responsible' end
 
       it 'should produce a valid SQL statement' do
         expect { query_results.work_package_count_by_group }.not_to raise_error
@@ -156,7 +156,6 @@ describe ::Query::Results, type: :model do
                           .work_packages
                           .page(1)
                           .per_page(10)
-                          .all
 
           expect(work_packages).to match_array([wp_p2, wp2_p2])
         end
@@ -174,7 +173,6 @@ describe ::Query::Results, type: :model do
                           .work_packages
                           .page(1)
                           .per_page(10)
-                          .all
 
           expect(work_packages).to match_array([wp_p2, wp2_p2])
         end

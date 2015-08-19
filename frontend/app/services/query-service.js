@@ -376,7 +376,12 @@ module.exports = function(
     },
 
     deleteQuery: function() {
-      var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
+      var url;
+      if(_.isNull(query.project_id)) {
+        url = PathHelper.apiQueryPath(query.id);
+      } else {
+        url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
+      }
       return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response){
         QueryService.fetchAvailableGroupedQueries(query.project_id);
 
@@ -390,21 +395,24 @@ module.exports = function(
 
     getQueryPath: function(query) {
       if (query.project_id) {
-        return PathHelper.projectPath(query.project_id) + PathHelper.workPackagesPath() + '?query_id=' + query.id;
+        return PathHelper.staticProjectWorkPackagesPath(query.project_id) + '?query_id=' + query.id;
       } else {
-        return PathHelper.workPackagesPath() + '?query_id=' + query.id;
+        return PathHelper.staticWorkPackagesPath() + '?query_id=' + query.id;
       }
     },
 
     addOrRemoveMenuItem: function(query) {
       if (!query) return;
-
       if(query.starred) {
-        queryMenuItemFactory.generateMenuItem(query.name, QueryService.getQueryPath(query), query.id);
-        $rootScope.$broadcast('openproject.layout.activateMenuItem', {
-          itemType: QUERY_MENU_ITEM_TYPE,
-          objectId: query.id
-        });
+        queryMenuItemFactory
+          .generateMenuItem(query.name, QueryService.getQueryPath(query), query.id)
+          .then(function() {
+            $rootScope.$broadcast('openproject.layout.activateMenuItem', {
+              itemType: QUERY_MENU_ITEM_TYPE,
+              objectId: query.id
+            });
+          });
+
       } else {
         $rootScope.$broadcast('openproject.layout.removeMenuItem', {
           itemType: QUERY_MENU_ITEM_TYPE,

@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe 'Planning Comparison', type: :model do
-
   let (:project) { FactoryGirl.create(:project) }
   let (:admin)  { FactoryGirl.create(:admin) }
 
@@ -60,7 +59,7 @@ describe 'Planning Comparison', type: :model do
       wp
     end
 
-    before { wp = journalized_work_package }
+    before do wp = journalized_work_package end
 
     it 'should return the changes as a work_package' do
       # beware of these date-conversions: 1.week.ago does not catch the change, as created_at is stored as a timestamp
@@ -83,14 +82,12 @@ describe 'Planning Comparison', type: :model do
         journalized_work_package.reload
         journalized_work_package.due_date = '01/07/2020'
         journalized_work_package.save
-
       end
 
       old_work_packages = PlanningComparisonService.compare(project, 5.days.ago)
       expect(old_work_packages.size).to eql 1
 
       expect(old_work_packages.first.due_date).to eql Date.parse '01/07/2020'
-
     end
   end
 
@@ -142,5 +139,4 @@ describe 'Planning Comparison', type: :model do
       expect(filtered_packages).not_to include filtered_work_package
     end
   end
-
 end

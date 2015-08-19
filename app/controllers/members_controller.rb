@@ -30,7 +30,8 @@
 class MembersController < ApplicationController
   model_object Member
   before_filter :find_model_object_and_project, except: [:autocomplete_for_member, :paginate_users]
-  before_filter :find_project, only: [:autocomplete_for_member, :paginate_users]
+  before_filter :find_project, only: [:paginate_users]
+  before_filter :find_project_by_project_id, only: [:autocomplete_for_member]
   before_filter :authorize
 
   include Pagination::Controller
@@ -53,12 +54,13 @@ class MembersController < ApplicationController
       if members.present? && members.all?(&:valid?)
         flash.now.notice = l(:notice_successful_create)
 
-        format.html { redirect_to settings_project_path(@project, tab: 'members') }
+        format.html do redirect_to settings_project_path(@project, tab: 'members') end
 
         format.js do
           @pagination_url_options = { controller: 'projects', action: 'settings', id: @project }
           render(:update) do |page|
-            page.replace_html 'tab-content-members', partial: 'projects/settings/members'
+            page.replace_html 'tab-content-members', partial: 'projects/settings/members',
+                                                     locals: { members: members }
             page.insert_html :top, 'tab-content-members', render_flash_messages
 
             page << MembersController.tab_scripts
@@ -86,7 +88,7 @@ class MembersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to controller: '/projects', action: 'settings', tab: 'members', id: @project, page: params[:page] }
+      format.html do redirect_to controller: '/projects', action: 'settings', tab: 'members', id: @project, page: params[:page] end
       format.js do
         @pagination_url_options = { controller: 'projects', action: 'settings', id: @project }
 
@@ -99,7 +101,7 @@ class MembersController < ApplicationController
           end
           page.insert_html :top, 'tab-content-members', render_flash_messages
           page << MembersController.tab_scripts
-          page.visual_effect(:highlight, "member-#{@member.id}") unless Member.find_by_id(@member.id).nil?
+          page.visual_effect(:highlight, "member-#{@member.id}") unless Member.find_by(id: @member.id).nil?
         end
       end
     end
@@ -111,7 +113,7 @@ class MembersController < ApplicationController
       flash.now.notice = l(:notice_successful_delete)
     end
     respond_to do |format|
-      format.html { redirect_to controller: '/projects', action: 'settings', tab: 'members', id: @project }
+      format.html do redirect_to controller: '/projects', action: 'settings', tab: 'members', id: @project end
       format.js do
         @pagination_url_options = { controller: 'projects', action: 'settings', id: @project }
         render(:update) do |page|
@@ -140,7 +142,7 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       format.json
-      format.html {
+      format.html do
         if request.xhr?
           partial = 'members/autocomplete_for_member'
         else
@@ -150,7 +152,7 @@ class MembersController < ApplicationController
                locals: { project: @project,
                          principals: @principals,
                          roles: Role.find_all_givable }
-      }
+      end
     end
   end
 
@@ -162,17 +164,17 @@ class MembersController < ApplicationController
 
   def new_members_from_params
     user_ids = possibly_seperated_ids_for_entity(params[:member], :user)
-    roles = Role.find_all_by_id(possibly_seperated_ids_for_entity(params[:member], :role))
+    roles = Role.where(id: possibly_seperated_ids_for_entity(params[:member], :role))
 
-    new_member = lambda do |user_id|
+    new_member = lambda { |user_id|
       Member.new(permitted_params.member).tap do |member|
         member.user_id = user_id if user_id
       end
-    end
+    }
 
-    members = user_ids.map do |user_id|
+    members = user_ids.map { |user_id|
       new_member.call(user_id)
-    end
+    }
     # most likely wrong user input, use a dummy member for error handling
     if !members.present? && roles.present?
       members << new_member.call(nil)
@@ -181,13 +183,13 @@ class MembersController < ApplicationController
   end
 
   def each_comma_seperated(array, &block)
-    array.map do |e|
+    array.map { |e|
       if e.to_s.match /\d(,\d)*/
         block.call(e)
       else
         e
       end
-    end.flatten
+    }.flatten
   end
 
   def transform_array_of_comma_seperated_ids(array)

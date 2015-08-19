@@ -38,7 +38,7 @@ class VersionsController < ApplicationController
   include VersionsHelper
 
   def index
-    @types = @project.types.find(:all, order: 'position')
+    @types = @project.types.order('position')
     retrieve_selected_type_ids(@types, @types.select(&:is_in_roadmap?))
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects].to_i == 1)
     project_ids = @with_subprojects ? @project.self_and_descendants.map(&:id) : [@project.id]
@@ -51,10 +51,9 @@ class VersionsController < ApplicationController
     @issues_by_version = {}
     unless @selected_type_ids.empty?
       @versions.each do |version|
-        issues = version.fixed_issues.visible.find(:all,
-                                                   include: [:project, :status, :type, :priority],
-                                                   conditions: { type_id: @selected_type_ids, project_id: project_ids },
-                                                   order: "#{Project.table_name}.lft, #{Type.table_name}.position, #{WorkPackage.table_name}.id")
+        issues = version.fixed_issues.visible.includes(:project, :status, :type, :priority)
+                 .where(type_id: @selected_type_ids, project_id: project_ids)
+                 .order("#{Project.table_name}.lft, #{::Type.table_name}.position, #{WorkPackage.table_name}.id")
         @issues_by_version[version] = issues
       end
     end
@@ -62,9 +61,8 @@ class VersionsController < ApplicationController
   end
 
   def show
-    @issues = @version.fixed_issues.visible.find(:all,
-                                                 include: [:status, :type, :priority],
-                                                 order: "#{Type.table_name}.position, #{WorkPackage.table_name}.id")
+    @issues = @version.fixed_issues.visible.includes(:status, :type, :priority)
+              .order("#{::Type.table_name}.position, #{WorkPackage.table_name}.id")
   end
 
   def new
@@ -98,7 +96,7 @@ class VersionsController < ApplicationController
         end
       else
         respond_to do |format|
-          format.html { render action: 'new' }
+          format.html do render action: 'new' end
           format.js do
             render(:update) { |page| page.alert(@version.errors.full_messages.join('\n')) }
           end
@@ -111,7 +109,7 @@ class VersionsController < ApplicationController
   end
 
   def update
-    if request.put? && params[:version]
+    if request.patch? && params[:version]
       attributes = params[:version].dup
       attributes.delete('sharing') unless @version.allowed_sharings.include?(attributes['sharing'])
       @version.safe_attributes = attributes
@@ -120,7 +118,9 @@ class VersionsController < ApplicationController
         redirect_back_or_default(settings_project_path(tab: 'versions', id: @project))
       else
         respond_to do |format|
-          format.html { render action: 'edit' }
+          format.html do
+            render action: 'edit'
+          end
         end
       end
     end
@@ -145,8 +145,8 @@ class VersionsController < ApplicationController
 
   def status_by
     respond_to do |format|
-      format.html { render action: 'show' }
-      format.js { render_status_by @version, params[:status_by] }
+      format.html do render action: 'show' end
+      format.js do render_status_by @version, params[:status_by] end
     end
   end
 

@@ -25,6 +25,7 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
+/* globals URI */
 
 module.exports = function($http,
     PathHelper,
@@ -51,7 +52,7 @@ module.exports = function($http,
           if(field === 'date') {
             if(WorkPackageFieldService.isMilestone(workPackage)) {
               data['startDate'] = data['dueDate'] = value ? value : null;
-              return;  
+              return;
             }
             data['startDate'] = value['startDate'];
             data['dueDate'] = value['dueDate'];
@@ -59,7 +60,7 @@ module.exports = function($http,
           }
           if (WorkPackageFieldService.isSavedAsLink(workPackage, field)) {
             data._links = data._links || {};
-            data._links[field] = value ? value.links.self.props : { href: null };
+            data._links[field] = value ? value.props : { href: null };
           } else {
             data[field] = value;
           }
@@ -75,6 +76,40 @@ module.exports = function($http,
   }
 
   var WorkPackageService = {
+    initializeWorkPackage: function(projectIdentifier, initialData) {
+      var changes = _.clone(initialData);
+      var wp = {
+        embedded: {},
+        props: {},
+        links: {
+          update: HALAPIResource
+            .setup(PathHelper
+              .projectWorkPackagesFormPath(projectIdentifier)),
+          updateImmediately: HALAPIResource.setup(
+            PathHelper.projectWorkPackagesPath(projectIdentifier),
+            { method: 'post' }
+          )
+        }
+      };
+      var options = { ajax: {
+          method: 'POST',
+          headers: {
+            Accept: 'application/hal+json'
+          },
+          data: JSON.stringify(changes),
+          contentType: 'application/json; charset=utf-8'
+        }};
+
+      return wp.links.update.fetch(options)
+        .then(function(form) {
+          form.pendingChanges = changes;
+          wp.form = form;
+          EditableFieldsState.workPackage = wp;
+          EditableFieldsState.errors = null;
+          return wp;
+        });
+    },
+
     getWorkPackage: function(id) {
       var resource = HALAPIResource.setup('work_packages/' + id);
       return resource.fetch().then(function (wp) {
@@ -94,9 +129,7 @@ module.exports = function($http,
 
     getWorkPackagesByQueryId: function(projectIdentifier, queryId) {
       var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
-
       var params = queryId ? { query_id: queryId } : DEFAULT_FILTER_PARAMS;
-
       return WorkPackageService.doQuery(url, params);
     },
 
@@ -222,8 +255,9 @@ module.exports = function($http,
 
     updateWorkPackage: function(workPackage, notify) {
       var options = { ajax: {
-        method: 'PATCH',
-        url: URI(workPackage.links.updateImmediately.href).addSearch('notify', notify).toString(),
+        method: workPackage.links.updateImmediately.props.method,
+        url: URI(workPackage.links.updateImmediately.props.href)
+            .addSearch('notify', notify).toString(),
         headers: {
           Accept: 'application/hal+json'
         },
@@ -242,7 +276,7 @@ module.exports = function($http,
         }),
         contentType: 'application/json; charset=utf-8'
       } };
-      return workPackage.links.addRelation.fetch(options).then(function(relation){
+      return workPackage.links.addRelation.fetch(options).then(function(relation) {
         return relation;
       });
     },

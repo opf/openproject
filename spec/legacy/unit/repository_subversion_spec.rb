@@ -36,6 +36,7 @@ describe Repository::Subversion, type: :model do
 
     @project = Project.find(3)
     @repository = Repository::Subversion.create(project: @project,
+                                                scm_type: 'existing',
                                                 url: self.class.subversion_repository_url)
     assert @repository
   end
@@ -44,20 +45,20 @@ describe Repository::Subversion, type: :model do
     @repository.fetch_changesets
     @repository.reload
 
-    assert_equal 11, @repository.changesets.count
-    assert_equal 20, @repository.changes.count
-    assert_equal 'Initial import.', @repository.changesets.find_by_revision('1').comments
+    assert_equal 12, @repository.changesets.count
+    assert_equal 21, @repository.changes.count
+    assert_equal 'Initial import.', @repository.changesets.find_by(revision: '1').comments
   end
 
   it 'should fetch changesets incremental' do
     @repository.fetch_changesets
     # Remove changesets with revision > 5
-    @repository.changesets.find(:all).each { |c| c.destroy if c.revision.to_i > 5 }
+    @repository.changesets.each do |c| c.destroy if c.revision.to_i > 5 end
     @repository.reload
     assert_equal 5, @repository.changesets.count
 
     @repository.fetch_changesets
-    assert_equal 11, @repository.changesets.count
+    assert_equal 12, @repository.changesets.count
   end
 
   it 'should latest changesets' do
@@ -91,6 +92,7 @@ describe Repository::Subversion, type: :model do
     @project = Project.find(3)
     @repository = Repository::Subversion.create(
       project: @project,
+      scm_type: 'local',
       url: "file:///#{self.class.repository_path('subversion')}/subversion_test/[folder_with_brackets]")
 
     @repository.fetch_changesets
@@ -108,7 +110,7 @@ describe Repository::Subversion, type: :model do
   it 'should identifier' do
     @repository.fetch_changesets
     @repository.reload
-    c = @repository.changesets.find_by_revision('1')
+    c = @repository.changesets.find_by(revision: '1')
     assert_equal c.revision, c.identifier
   end
 
@@ -129,7 +131,7 @@ describe Repository::Subversion, type: :model do
   it 'should format identifier' do
     @repository.fetch_changesets
     @repository.reload
-    c = @repository.changesets.find_by_revision('1')
+    c = @repository.changesets.find_by(revision: '1')
     assert_equal c.format_identifier, c.revision
   end
 
@@ -197,7 +199,7 @@ describe Repository::Subversion, type: :model do
   it 'should next nil' do
     @repository.fetch_changesets
     @repository.reload
-    changeset = @repository.find_changeset_by_name('11')
+    changeset = @repository.find_changeset_by_name('12')
     assert_nil changeset.next
   end
 

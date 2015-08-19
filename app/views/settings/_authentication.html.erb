@@ -50,7 +50,11 @@ See doc/COPYRIGHT.rdoc for more details.
                     [l("label_password_rule_#{r}"), r]
                   end %></div>
         <div class="form--field"><%= setting_text_field :password_min_adhered_rules, :size => 6 %></div>
-        <div class="form--field"><%= setting_text_field :password_days_valid, :size => 6 %></div>
+        <div class="form--field"><%= setting_text_field :password_days_valid, :size => 6 %>
+          <span class="form--field-instructions">
+            <%= l(:text_hint_disable_with_0) %>
+          </span>
+        </div>
         <div class="form--field"><%= setting_text_field :password_count_former_banned, :size => 6 %></div>
         <div class="form--field"><%= setting_check_box :lost_password, :label => :label_password_lost %></div>
       <% else %>
@@ -71,8 +75,12 @@ See doc/COPYRIGHT.rdoc for more details.
     <% unless OpenProject::Configuration.disable_password_login? %>
       <fieldset class="form--fieldset">
         <legend class="form--fieldset-legend"><%= I18n.t(:brute_force_prevention, :scope => [:settings]) %></legend>
-        <div class="form--field"><%= setting_text_field :brute_force_block_after_failed_logins %></div>
-        <div class="form--field"><%= setting_text_field :brute_force_block_minutes %></div>
+        <div class="form--field"><%= setting_text_field :brute_force_block_after_failed_logins %>
+          <span class="form--field-instructions">
+            <%= l(:text_hint_disable_with_0) %>
+          </span>
+        </div>
+        <div class="form--field"><%= setting_text_field :brute_force_block_minutes, unit: l(:label_minute_plural) %></div>
       </fieldset>
     <% end %>
 

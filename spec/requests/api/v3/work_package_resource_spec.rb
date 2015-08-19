@@ -44,7 +44,7 @@ describe 'API v3 Work package resource', type: :request do
   let(:work_package) {
     FactoryGirl.create(:work_package, project_id: project.id,
                                       description: description
-  )
+                      )
   }
   let(:description) {
     %{
@@ -300,7 +300,7 @@ h4. things we like
         end
 
         context 'with permission' do
-          before { role.add_permission!(:manage_subtasks) }
+          before do role.add_permission!(:manage_subtasks) end
 
           include_context 'patch request'
 
@@ -422,7 +422,7 @@ h4. things we like
         let(:status_parameter) { { _links: { status: { href: status_link } } } }
         let(:params) { valid_params.merge(status_parameter) }
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before do allow(User).to receive(:current).and_return current_user end
 
         context 'valid status' do
           let!(:workflow) {
@@ -461,7 +461,7 @@ h4. things we like
 
           include_context 'patch request'
 
-          it_behaves_like 'constraint violation' do
+          it_behaves_like 'invalid resource link' do
             let(:message) {
               I18n.t('api_v3.errors.invalid_resource',
                      property: 'status',
@@ -478,7 +478,7 @@ h4. things we like
         let(:type_parameter) { { _links: { type: { href: type_link } } } }
         let(:params) { valid_params.merge(type_parameter) }
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before do allow(User).to receive(:current).and_return current_user end
 
         context 'valid type' do
           before do
@@ -526,7 +526,7 @@ h4. things we like
 
           include_context 'patch request'
 
-          it_behaves_like 'constraint violation' do
+          it_behaves_like 'invalid resource link' do
             let(:message) {
               I18n.t('api_v3.errors.invalid_resource',
                      property: 'type',
@@ -547,7 +547,7 @@ h4. things we like
                              responsible: current_user)
         }
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before do allow(User).to receive(:current).and_return current_user end
 
         shared_context 'setup group membership' do |group_assignment|
           let(:group) { FactoryGirl.create(:group) }
@@ -650,7 +650,7 @@ h4. things we like
 
               include_context 'patch request'
 
-              it_behaves_like 'constraint violation' do
+              it_behaves_like 'invalid resource link' do
                 let(:message) {
                   I18n.t('api_v3.errors.invalid_resource',
                          property: property,
@@ -691,7 +691,7 @@ h4. things we like
         let(:version_parameter) { { _links: { version: { href: version_link } } } }
         let(:params) { valid_params.merge(version_parameter) }
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before do allow(User).to receive(:current).and_return current_user end
 
         context 'valid' do
           include_context 'patch request'
@@ -713,7 +713,7 @@ h4. things we like
         let(:category_parameter) { { _links: { category: { href: category_link } } } }
         let(:params) { valid_params.merge(category_parameter) }
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before do allow(User).to receive(:current).and_return current_user end
 
         context 'valid' do
           include_context 'patch request'
@@ -735,7 +735,7 @@ h4. things we like
         let(:priority_parameter) { { _links: { priority: { href: priority_link } } } }
         let(:params) { valid_params.merge(priority_parameter) }
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before do allow(User).to receive(:current).and_return current_user end
 
         context 'valid' do
           include_context 'patch request'
@@ -803,23 +803,6 @@ h4. things we like
               it_behaves_like 'read-only violation', 'updatedAt'
             end
           end
-
-          context 'project id' do
-            let(:another_project) { FactoryGirl.create(:project) }
-            let!(:another_membership) {
-              FactoryGirl.create(:member,
-                                 user: current_user,
-                                 project: another_project,
-                                 roles: [role])
-            }
-            let(:params) { valid_params.merge(projectId: another_project.id) }
-
-            include_context 'patch request'
-
-            it { expect(response.status).to eq(422) }
-
-            it_behaves_like 'read-only violation', 'projectId'
-          end
         end
 
         context 'multiple read-only attributes' do
@@ -856,7 +839,7 @@ h4. things we like
               .merge(parentId: '-123')
           end
 
-          before { role.add_permission!(:manage_subtasks) }
+          before do role.add_permission!(:manage_subtasks) end
 
           include_context 'patch request'
 
@@ -914,7 +897,9 @@ h4. things we like
 
           it_behaves_like 'multiple errors of the same type with messages' do
             let(:message) {
-              [child_1.id, child_2.id].map { |id| "##{id} cannot be in another project." }
+              [child_1.id, child_2.id].map { |id|
+                "Child element ##{id}: Parent cannot be in another project."
+              }
             }
           end
         end

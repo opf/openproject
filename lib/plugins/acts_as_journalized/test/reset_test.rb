@@ -33,7 +33,8 @@ class ResetTest < Test::Unit::TestCase
   context 'Resetting a model' do
     setup do
       @original_dependent = User.reflect_on_association(:journals).options[:dependent]
-      @user, @journals = User.new, []
+      @user = User.new
+      @journals = []
       @names = ['Steve Richert', 'Stephen Richert', 'Stephen Jobs', 'Steve Jobs']
       @names.each do |name|
         @user.update_attribute(:name, name)
@@ -49,7 +50,7 @@ class ResetTest < Test::Unit::TestCase
     end
 
     should 'dissociate all journals after the target' do
-      @journals.reverse.each do |journal|
+      @journals.reverse_each do |journal|
         @user.reset_to!(journal)
         assert_equal 0, @user.journals(true).after(journal).count
       end
@@ -61,7 +62,7 @@ class ResetTest < Test::Unit::TestCase
       end
 
       should 'delete all journals after the target journal' do
-        @journals.reverse.each do |journal|
+        @journals.reverse_each do |journal|
           later_journals = @user.journals.after(journal)
           @user.reset_to!(journal)
           later_journals.each do |later_journal|
@@ -74,7 +75,7 @@ class ResetTest < Test::Unit::TestCase
 
       should 'not destroy all journals after the target journal' do
         VestalVersions::Version.any_instance.stub(:destroy).and_raise(RuntimeError)
-        @journals.reverse.each do |journal|
+        @journals.reverse_each do |journal|
           assert_nothing_raised do
             @user.reset_to!(journal)
           end
@@ -88,7 +89,7 @@ class ResetTest < Test::Unit::TestCase
       end
 
       should 'delete all journals after the target journal' do
-        @journals.reverse.each do |journal|
+        @journals.reverse_each do |journal|
           later_journals = @user.journals.after(journal)
           @user.reset_to!(journal)
           later_journals.each do |later_journal|
@@ -101,7 +102,7 @@ class ResetTest < Test::Unit::TestCase
 
       should 'destroy all journals after the target journal' do
         VestalVersions::Version.any_instance.stub(:destroy).and_raise(RuntimeError)
-        @journals.reverse.each do |journal|
+        @journals.reverse_each do |journal|
           later_journals = @user.journals.after(journal)
           if later_journals.empty?
             assert_nothing_raised do
@@ -122,7 +123,7 @@ class ResetTest < Test::Unit::TestCase
       end
 
       should 'leave all journals after the target journal' do
-        @journals.reverse.each do |journal|
+        @journals.reverse_each do |journal|
           later_journals = @user.journals.after(journal)
           @user.reset_to!(journal)
           later_journals.each do |later_journal|

@@ -30,7 +30,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <section class="form--section">
     <div class="form--field"><%= setting_check_box :autofetch_changesets %></div>
     <div class="form--field"><%= setting_check_box :sys_api_enabled,
-         :onclick => "if (this.checked) { Form.Element.enable('settings_sys_api_key'); } else { Form.Element.disable('settings_sys_api_key'); }" %></div>
+         :onclick => "if (this.checked) { Form.Element.enable('settings_sys_api_key'); } else { Form.Element.disable('settings_sys_api_key'); }" %>
+      <div class="form--field-instructions">
+        <%= l(:setting_sys_api_description) %>
+      </div>
+    </div>
     <div class="form--field"><%= setting_text_field :sys_api_key, :size => 30,
                                         :id => 'settings_sys_api_key',
                                         :disabled => !Setting.sys_api_enabled?,
@@ -39,7 +43,22 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= link_to_function l(:label_generate_key), "if ($('settings_sys_api_key').disabled == false) { $('settings_sys_api_key').value = randomKey(20) }" %>
       </span>
     </div>
-    <div class="form--field"><%= setting_multiselect(:enabled_scm, Redmine::Scm::Base.configured) %></div>
+    <div class="form--field"><%= setting_multiselect(:enabled_scm, OpenProject::Scm::Manager.vendors) %></div>
+    <div class="form--field">
+      <%= styled_label_tag :repositories_automatic_managed_vendor, l(:setting_repositories_automatic_managed_vendor) %>
+      <div class="form--field-container">
+        <% manageable_scms = OpenProject::Scm::Manager.manageable %>
+        <%= setting_select :repositories_automatic_managed_vendor,
+                           [[
+                             "--- #{l('repositories.settings.automatic_managed_repos_disabled')} ---",
+                             '',
+                             { selected: true }
+                           ]] + manageable_scms,
+                           disabled: manageable_scms.empty?,
+                           label: false %>
+      </div>
+      <div class="form--field-instructions"><%= l('repositories.settings.automatic_managed_repos_text') %></div>
+    </div>
     <div class="form--field">
       <%= setting_text_field :repositories_encodings, :size => 60 %>
       <div class="form--field-instructions"><%= l(:text_comma_separated) %></div>
@@ -81,7 +100,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="form--field"><%= setting_check_box :commit_logtime_enabled,
          :onclick => "if (this.checked) { Form.Element.enable('settings_commit_logtime_activity_id'); } else { Form.Element.disable('settings_commit_logtime_activity_id'); }"%></div>
     <div class="form--field"><%= setting_select :commit_logtime_activity_id,
-         [[l(:label_default), 0]] + TimeEntryActivity.shared.all.collect{|activity| [activity.name, activity.id.to_s]},
+         [[l(:label_default), 0]] + TimeEntryActivity.shared.map {|activity| [activity.name, activity.id.to_s]},
          :disabled => !Setting.commit_logtime_enabled?%></div>
   </fieldset>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>

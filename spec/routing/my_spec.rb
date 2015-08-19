@@ -40,4 +40,20 @@ describe 'my routes', type: :routing do
   it '/my/remove_block POST routes to my#remove_block' do
     expect(post('/my/remove_block')).to route_to('my#remove_block')
   end
+
+  it '/my/account GET routes to my#account' do
+    expect(get('/my/account')).to route_to('my#account')
+  end
+
+  it '/my/account PATCH routes to my#account' do
+    expect(patch('/my/account')).to route_to('my#account')
+  end
+
+  it '/my/reset_rss_key POST routes to my#reset_rss_key' do
+    expect(post('/my/reset_rss_key')).to route_to('my#reset_rss_key')
+  end
+
+  it '/my/reset_api_key POST routes to my#reset_api_key' do
+    expect(post('/my/reset_api_key')).to route_to('my#reset_api_key')
+  end
 end

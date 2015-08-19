@@ -29,13 +29,11 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/planning_element_types/index.api.rabl', type: :view do
-
   before do
     params[:format] = 'json'
   end
 
   describe 'with no planning element types available' do
-
     it 'renders an empty planning_element_types document' do
       assign(:types, [])
       render

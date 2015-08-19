@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l(:label_administration), "#{l(:label_edit)} #{l("timelines.admin_menu.color")} #{@color.name}" %>
+<% html_title l(:label_administration), "#{l(:label_edit)} #{l("timelines.admin_menu.color")} #{h @color.name}" %>
 
 <%= labelled_tabular_form_for @color,
             :url  => color_url(@color),

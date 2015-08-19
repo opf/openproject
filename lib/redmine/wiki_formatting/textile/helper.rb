@@ -38,6 +38,7 @@ module Redmine
                       "height=640, menubar=no, status=no, scrollbars=yes\"); return false;"
           help_button = content_tag :button,
                                     '',
+                                    type: 'button',
                                     class: 'jstb_help icon icon-help',
                                     onclick: open_help,
                                     title: l(:setting_text_formatting) do

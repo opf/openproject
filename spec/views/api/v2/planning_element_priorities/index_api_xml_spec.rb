@@ -29,7 +29,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/planning_element_priorities/index.api.rabl', type: :view do
-
   before { params[:format] = 'xml' }
 
   describe 'with no work package priorities available' do

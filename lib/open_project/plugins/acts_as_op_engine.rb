@@ -169,12 +169,14 @@ module OpenProject::Plugins
         end
       end
 
-      base.send(:define_method, :allow_attribute_update) do |model, attribute, &block|
+      base.send(:define_method, :allow_attribute_update) do |model, actions, attribute, &block|
         config.to_prepare do
           model_name = model.to_s.camelize
           namespace = model_name.pluralize
-          contract_class = "::API::V3::#{namespace}::#{model_name}Contract".constantize
-          contract_class.attribute attribute, &block
+          Array(actions).each do |action|
+            contract_class = "::API::V3::#{namespace}::#{action.to_s.camelize}Contract".constantize
+            contract_class.attribute attribute, &block
+          end
         end
       end
 
@@ -184,7 +186,7 @@ module OpenProject::Plugins
         config.before_configuration do |app|
           # This is required for the routes to be loaded first
           # as the routes should be prepended so they take precedence over the core.
-          app.config.paths['config/routes'].unshift File.join(config.root, 'config', 'routes.rb')
+          app.config.paths['config/routes.rb'].unshift File.join(config.root, 'config', 'routes.rb')
         end
 
         initializer "#{engine_name}.remove_duplicate_routes", after: 'add_routing_paths' do |app|

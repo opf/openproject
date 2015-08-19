@@ -48,13 +48,25 @@ module OpenProject
       File.new file_path
     end
 
+    def build_uploaded_file(tempfile, type, binary: true, file_name: nil)
+      uploaded_file = Rack::Multipart::UploadedFile.new tempfile.path,
+                                                        type,
+                                                        binary
+      if file_name
+        # I wish I could set the file name in a better way *sigh*
+        uploaded_file.instance_variable_set(:@original_filename, file_name)
+      end
+
+      uploaded_file
+    end
+
     def create_uploaded_file(name: 'test.txt',
                              content_type: 'text/plain',
                              content: 'test content',
                              binary: false)
 
       tmp = create_temp_file name: name, content: content, binary: binary
-      Rack::Multipart::UploadedFile.new tmp.path, content_type, binary
+      build_uploaded_file tmp, content_type, binary: binary
     end
   end
 end

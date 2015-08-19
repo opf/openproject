@@ -42,7 +42,7 @@ describe Repository, type: :model do
   end
 
   it 'should create' do
-    repository = Repository::Subversion.new(project: Project.find(3))
+    repository = Repository::Subversion.new(project: Project.find(3), scm_type: 'existing')
     assert !repository.save
 
     repository.url = 'svn://localhost'
@@ -55,7 +55,10 @@ describe Repository, type: :model do
 
   it 'should destroy' do
     changesets = Changeset.where('repository_id = 10').size
-    changes = Change.includes(:changeset).where("#{Changeset.table_name}.repository_id = 10").size
+    changes = Change.includes(:changeset)
+      .where("#{Changeset.table_name}.repository_id = 10")
+      .references(:changesets)
+      .size
     assert_difference 'Changeset.count', -changesets do
       assert_difference 'Change.count', -changes do
         Repository.find(10).destroy
@@ -65,9 +68,9 @@ describe Repository, type: :model do
 
   it 'should not create with disabled scm' do
     Setting.enabled_scm = ['Git'] # disable Subversion
-    repository = Repository::Subversion.new(project: Project.find(3), url: 'svn://localhost')
+    repository = Repository::Subversion.new(project: Project.find(3), scm_type: 'existing', url: 'svn://localhost')
     assert !repository.save
-    assert_include repository.errors[:type], I18n.translate('activerecord.errors.messages.invalid')
+    assert_includes repository.errors[:type], I18n.translate('activerecord.errors.messages.invalid')
     # re-enable Subversion for following tests
     Setting.delete_all
   end
@@ -79,7 +82,7 @@ describe Repository, type: :model do
     Setting.notified_events = ['work_package_added', 'work_package_updated']
 
     # choosing a status to apply to fix issues
-    Setting.commit_fix_status_id = Status.find(:first, conditions: ['is_closed = ?', true]).id
+    Setting.commit_fix_status_id = Status.where(['is_closed = ?', true]).first.id
     Setting.commit_fix_done_ratio = '90'
     Setting.commit_ref_keywords = 'refs , references, IssueID'
     Setting.commit_fix_keywords = 'fixes , closes'
@@ -117,7 +120,11 @@ describe Repository, type: :model do
   end
 
   it 'should for changeset comments strip' do
-    repository = Repository::Subversion.create(project: Project.find(4), url: 'svn://:login:password@host:/path/to/the/repository')
+    repository = Repository::Subversion.create(
+      project: Project.find(4),
+      scm_type: 'existing',
+      url: 'svn://:login:password@host:/path/to/the/repository'
+    )
     comment = 'This is a looooooooooooooong comment' + (' ' * 80 + "\n") * 5
     changeset = Changeset.new(
       comments: comment, commit_date: Time.now, revision: 0, scmid: 'f39b7922fb3c',
@@ -131,6 +138,7 @@ describe Repository, type: :model do
     repository = Repository::Subversion.create(
       project: Project.find(4),
       url: ' svn://:login:password@host:/path/to/the/repository',
+      scm_type: 'existing',
       log_encoding: 'UTF-8')
     repository.root_url = 'foo  ' # can't mass-assign this attr
     assert repository.save
@@ -140,7 +148,7 @@ describe Repository, type: :model do
   end
 
   it 'should manual user mapping' do
-    assert_no_difference "Changeset.count(:conditions => 'user_id <> 2')" do
+    assert_no_difference "Changeset.where('user_id <> 2').count" do
       c = Changeset.create!(repository: @repository, committer: 'foo', committed_on: Time.now, revision: 100, comments: 'Committed by foo.')
       assert_nil c.user
       @repository.committer_ids = { 'foo' => '2' }

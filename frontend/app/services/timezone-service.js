@@ -33,8 +33,8 @@ module.exports = function(ConfigurationService, I18n) {
       moment.locale(I18n.locale);
     },
 
-    parseDate: function(date, format) {
-      var d = moment.utc(date, format);
+    parseDatetime: function(datetime, format) {
+      var d = moment.utc(datetime, format);
 
       if (ConfigurationService.isTimezoneSet()) {
         d.local();
@@ -44,28 +44,49 @@ module.exports = function(ConfigurationService, I18n) {
       return d;
     },
 
+    parseDate: function(date, format) {
+      return moment(date, format);
+    },
+
     parseISODate: function(date) {
       return TimezoneService.parseDate(date, 'YYYY-MM-DD');
     },
 
     formattedDate: function(date) {
-      var format = ConfigurationService.dateFormatPresent() ? ConfigurationService.dateFormat() : 'L';
-      return TimezoneService.parseDate(date).format(format);
+      var d = TimezoneService.parseDate(date);
+      return d.format(TimezoneService.getDateFormat());
     },
 
-    formattedTime: function(date) {
-      var format = ConfigurationService.timeFormatPresent() ? ConfigurationService.timeFormat() : 'LT';
-      return TimezoneService.parseDate(date).format(format);
+    formattedTime: function(datetimeString) {
+      return TimezoneService.parseDatetime(datetimeString).format(TimezoneService.getTimeFormat());
+    },
+
+    formattedDatetime: function(datetimeString) {
+      var d = TimezoneService.parseDatetime(datetimeString);
+      return d.format(TimezoneService.getDateFormat()) + ' ' +
+        d.format(TimezoneService.getTimeFormat());
     },
 
     formattedISODate: function(date) {
       return TimezoneService.parseDate(date).format('YYYY-MM-DD');
     },
 
+    isValidISODate: function(date) {
+      return TimezoneService.isValid(date, 'YYYY-MM-DD');
+    },
+
     isValid: function(date, dateFormat) {
       var format = dateFormat || (ConfigurationService.dateFormatPresent() ?
                    ConfigurationService.dateFormat() : 'L');
       return moment(date, [format]).isValid();
+    },
+
+    getDateFormat: function() {
+      return ConfigurationService.dateFormatPresent() ? ConfigurationService.dateFormat() : 'L';
+    },
+
+    getTimeFormat: function() {
+      return ConfigurationService.timeFormatPresent() ? ConfigurationService.timeFormat() : 'LT';
     }
   };
 

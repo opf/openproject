@@ -33,9 +33,13 @@ var expect = require('../../../spec_helper.js').expect,
     datepicker = detailsPaneHelper.datepicker,
     elements = detailsPaneHelper.elements;
 
-
 describe('details pane', function() {
   var dateRangePicker;
+
+  var normalizeString = function(string) {
+    return string.replace(/\r?\n|\r/g, "").replace(/  /g, " ")
+  };
+
   describe('date range picker', function() {
     beforeEach(function() {
       detailsPaneHelper.loadPane(819, 'overview');
@@ -43,8 +47,8 @@ describe('details pane', function() {
     });
 
     context('read value', function() {
-      it('is editable', function() {
-        expect(dateRangePicker.$('.inplace-edit--write').isPresent()).to.eventually.be.true;
+      iit('is editable', function() {
+        expect(dateRangePicker.$('.inplace-edit--write').isDisplayed()).to.eventually.be.false;
       });
 
       it('should be present on page', function(){
@@ -52,7 +56,10 @@ describe('details pane', function() {
       });
 
       it('shows date range', function() {
-        expect(dateRangePicker.getText()).to.eventually.equal('02/17/2015\n  -  \n04/29/2015');
+        var read_value = dateRangePicker.$('.inplace-edit--read-value');
+        var text = read_value.getText().then(function(value) { return normalizeString(value) } );
+
+        expect(text).to.eventually.equal('02/17/2015 - 04/29/2015');
       });
     });
 
@@ -106,9 +113,9 @@ describe('details pane', function() {
 
         it('changes date to current day', function() {
           var currentDate = new Date(),
-              dateStr = 
-                currentDate.getFullYear() + '-' + 
-                ("0" + (currentDate.getMonth() + 1)).slice(-2) + '-' + 
+              dateStr =
+                currentDate.getFullYear() + '-' +
+                ("0" + (currentDate.getMonth() + 1)).slice(-2) + '-' +
                 ("0" + currentDate.getDate()).slice(-2);
           todayBtn.click();
           datepicker.expectedDate(startDate, dateStr);
@@ -197,7 +204,7 @@ describe('details pane', function() {
 
           it('changes when selected start date is greater', function() {
             datepicker.selectMonth(startDateDatepicker, 5, 2015).then(function() {
-              datepicker.clickDate(startDateDatepicker, startDate, '30').then(function() { 
+              datepicker.clickDate(startDateDatepicker, startDate, '30').then(function() {
                 datepicker.expectedDate(startDate, '2015-05-30');
                 datepicker.expectedDate(endDate, '2015-05-30');
               });
@@ -206,7 +213,7 @@ describe('details pane', function() {
 
           it('does not change when selected start date is lower', function() {
             datepicker.selectMonth(startDateDatepicker, 4).then(function() {
-              datepicker.clickDate(startDateDatepicker, startDate, '28').then(function() { 
+              datepicker.clickDate(startDateDatepicker, startDate, '28').then(function() {
                 datepicker.expectedDate(startDate, '2015-04-28');
                 datepicker.expectedDate(endDate, '2015-04-29');
               });
@@ -215,7 +222,7 @@ describe('details pane', function() {
 
           it('does not change when selected start date is equal', function() {
             datepicker.selectMonth(startDateDatepicker, 5).then(function() {
-              datepicker.clickDate(startDateDatepicker, startDate, '29').then(function() { 
+              datepicker.clickDate(startDateDatepicker, startDate, '29').then(function() {
                 datepicker.expectedDate(startDate, '2015-05-29');
                 datepicker.expectedDate(endDate, '2015-05-29');
               });
@@ -245,7 +252,7 @@ describe('details pane', function() {
 
           it('does not change when selected end date is greater', function() {
             datepicker.selectMonthAndYear(endDateDatepicker, 5, 2015).then(function() {
-              datepicker.clickDate(endDateDatepicker, endDate, '30').then(function() { 
+              datepicker.clickDate(endDateDatepicker, endDate, '30').then(function() {
                 datepicker.expectedDate(startDate, '2015-02-17');
                 datepicker.expectedDate(endDate, '2015-05-30');
               });
@@ -254,7 +261,7 @@ describe('details pane', function() {
 
           it('changes when selected end date is lower', function() {
             datepicker.selectMonth(endDateDatepicker, 2).then(function() {
-              datepicker.clickDate(endDateDatepicker, endDate, '16').then(function() { 
+              datepicker.clickDate(endDateDatepicker, endDate, '16').then(function() {
                 datepicker.expectedDate(startDate, '2015-02-16');
                 datepicker.expectedDate(endDate, '2015-02-16');
               });
@@ -263,7 +270,7 @@ describe('details pane', function() {
 
           it('does not change when selected start date is equal', function() {
             datepicker.selectMonthAndYear(endDateDatepicker, 2, 2015).then(function() {
-              datepicker.clickDate(endDateDatepicker, endDate, '17').then(function() { 
+              datepicker.clickDate(endDateDatepicker, endDate, '17').then(function() {
                 datepicker.expectedDate(startDate, '2015-02-17');
                 datepicker.expectedDate(endDate, '2015-02-17');
               });
@@ -330,7 +337,10 @@ describe('details pane', function() {
       });
 
       it('shows date range', function() {
-        expect(dateRangePicker.getText()).to.eventually.equal('no start date\n  -  \n12/27/2014');
+        var read_value = dateRangePicker.$('.inplace-edit--read-value');
+        var text = read_value.getText().then(function(value) { return normalizeString(value) });
+
+        expect(text).to.eventually.equal('no start date - 12/27/2014');
       });
     });
 
@@ -392,7 +402,10 @@ describe('details pane', function() {
       });
 
       it('shows date range', function() {
-        expect(dateRangePicker.getText()).to.eventually.equal('10/23/2014\n  -  \nno end date');
+        var read_value = dateRangePicker.$('.inplace-edit--read-value');
+        var text = read_value.getText().then(function(value) { return normalizeString(value) });
+
+        expect(text).to.eventually.equal('10/23/2014 - no end date');
       });
     });
 

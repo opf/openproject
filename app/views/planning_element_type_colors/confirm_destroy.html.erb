@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
+<%= toolbar title: h(@color.name) %>
 <%= labelled_tabular_form_for @color,
             :url  => color_url(@color),
             :html => {:method => 'delete'},
@@ -36,10 +36,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= l('timelines.really_delete_color') %>
     <i class="icon-close close-handler"></i>
   </div>
-
-  <h2>
-    <%=h @color.name %>
-  </h2>
 
   <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>

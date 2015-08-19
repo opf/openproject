@@ -31,7 +31,7 @@ module ::Query::Sums
   include ActionView::Helpers::NumberHelper
 
   def all_work_packages
-    @all_work_packages ||= work_packages.all
+    @all_work_packages ||= work_packages
   end
 
   def next_in_same_group?(issue = cached_issue)
@@ -78,18 +78,18 @@ module ::Query::Sums
   def sum_of(column, collection)
     return unless should_be_summed_up?(column)
     # This is a workaround to be able to sum up currency with the redmine_costs plugin
-    values = collection.map do |issue|
+    values = collection.map { |issue|
                column.respond_to?(:real_value) ?
                  column.real_value(issue) :
                  column.value(issue)
-             end.select do |value|
+             }.select { |value|
                begin
                  next if value.respond_to? :today? or value.is_a? String
                  true if Float(value)
-               rescue ArgumentError, TypeError
+               rescue ArgumentError, ::TypeError
                  false
                end
-             end
+             }
 
     crunch(values.reduce :+)
   end

@@ -31,20 +31,23 @@ require 'spec_helper'
 describe WorkPackage, type: :model do
   describe ActionMailer::Base do
     let(:user_1) {
-      FactoryGirl.create(:user,
-                         mail: 'dlopper@somenet.foo')
+      FactoryGirl.build(:user,
+                        mail: 'dlopper@somenet.foo',
+                        member_in_project: project)
     }
     let(:user_2) {
-      FactoryGirl.create(:user,
-                         mail: 'jsmith@somenet.foo')
+      FactoryGirl.build(:user,
+                        mail: 'jsmith@somenet.foo',
+                        member_in_project: project)
     }
-    let(:work_package) { FactoryGirl.build(:work_package) }
+    let(:project) { FactoryGirl.create(:project) }
+    let(:work_package) { FactoryGirl.build(:work_package, project: project) }
 
     before do
       ActionMailer::Base.deliveries.clear
 
-      allow(work_package).to receive(:recipients).and_return([user_1.mail])
-      allow(work_package).to receive(:watcher_recipients).and_return([user_2.mail])
+      allow(work_package).to receive(:recipients).and_return([user_1])
+      allow(work_package).to receive(:watcher_recipients).and_return([user_2])
 
       work_package.save
     end
@@ -73,7 +76,7 @@ describe WorkPackage, type: :model do
       before do
         ActionMailer::Base.deliveries.clear
 
-        WorkPackageObserver.instance.send_notification = false
+        JournalManager.send_notification = false
 
         work_package.save!
       end
@@ -91,7 +94,7 @@ describe WorkPackage, type: :model do
 
       subject { work_package.recipients }
 
-      it { is_expected.to include(user_1.mail) }
+      it { is_expected.to include(user_1) }
     end
   end
 end

@@ -61,19 +61,19 @@ module AvatarHelper
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = {})
-    avatar = with_default_avatar_options(user, options) do |email, opts|
+    avatar = with_default_avatar_options(user, options) { |email, opts|
       tag_options = merge_image_options(user, opts)
 
       gravatar_image_tag(email, tag_options)
-    end
+    }
   ensure # return is actually needed here
     return (avatar || ''.html_safe)
   end
 
   def avatar_url(user, options = {})
-    url = with_default_avatar_options(user, options) do |email, opts|
+    url = with_default_avatar_options(user, options) { |email, opts|
       gravatar_image_url(email, opts)
-    end
+    }
   ensure # return is actually needed here
     return (url || ''.html_safe)
   end
@@ -82,7 +82,7 @@ module AvatarHelper
 
   def merge_image_options(user, options)
     default_options = { class: 'avatar' }
-    default_options[:title] = user.name if user.respond_to?(:name)
+    default_options[:title] = h(user.name) if user.respond_to?(:name)
 
     options.reverse_merge(default_options)
   end

@@ -29,7 +29,7 @@
 module PermissionSpecHelpers
   def spec_permissions(test_denied = true)
     describe 'w/ valid auth' do
-      before { allow(User).to receive(:current).and_return valid_user }
+      before do allow(User).to receive(:current).and_return valid_user end
 
       it 'grants access' do
         fetch
@@ -54,7 +54,7 @@ module PermissionSpecHelpers
     end
 
     describe 'w/o valid auth' do
-      before { allow(User).to receive(:current).and_return invalid_user }
+      before do allow(User).to receive(:current).and_return invalid_user end
 
       it 'denies access' do
         fetch
@@ -90,7 +90,7 @@ shared_examples_for 'a controller action with require_login' do
 end
 
 shared_examples_for 'a controller action with require_admin' do
-  let(:valid_user)   { User.first(conditions: { admin: true }) || FactoryGirl.create(:admin) }
+  let(:valid_user)   { User.where(admin: true).first || FactoryGirl.create(:admin) }
   let(:invalid_user) { FactoryGirl.create(:user) }
 
   extend PermissionSpecHelpers

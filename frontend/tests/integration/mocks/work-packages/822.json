@@ -51,7 +51,7 @@
       "href": "/api/v3/work_packages/822/watchers",
       "title": "Available Watchers"
     },
-    "watchChanges": {
+    "watch": {
       "href": "/api/v3/work_packages/822/watchers",
       "method": "post",
       "data": {
@@ -105,8 +105,8 @@
   "description": "",
   "rawDescription": "",
   "priority": "Normal",
-  "startDate": "2014-10-23T00:00:00+00:00",
-  "dueDate": "2014-12-27T00:00:00+00:00",
+  "startDate": "2014-10-23",
+  "dueDate": "2014-12-27",
   "estimatedTime": "PT0S",
   "spentTime": "PT12H",
   "percentageDone": 0,
@@ -2693,7 +2693,19 @@
       "type": null
     },
     "watchers": [],
-    "attachments": [],
+    "attachments" : {
+      "_links" : {
+        "self" : {
+          "href" : "/api/v3/work_packages/822/attachments"
+        }
+      },
+      "_type" : "Collection",
+      "total" : 0,
+      "count" : 0,
+      "_embedded" : {
+        "elements" : []
+      }
+    },
     "relations": []
   }
 }

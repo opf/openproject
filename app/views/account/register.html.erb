@@ -28,10 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% disable_accessibility_css! %>
-
-<h2>
-  <%= l(:label_register) %>
-</h2>
+<%= toolbar title: l(:label_register) %>
 
 <%= labelled_tabular_form_for(@user, :url => url_for(:action => 'register')) do |f| %>
   <%= back_url_hidden_field_tag %>

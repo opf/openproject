@@ -43,7 +43,7 @@
       "href": "/api/v3/work_packages/825/available_watchers",
       "title": "Available Watchers"
     },
-    "watchChanges": {
+    "watch": {
       "href": "/api/v3/work_packages/825/watchers",
       "method": "post",
       "data": {
@@ -112,7 +112,7 @@
     "raw": "#54"
   },
   "priority": "Normal",
-  "startDate": "2014-10-23T00:00:00+00:00",
+  "startDate": "2014-10-23",
   "dueDate": null,
   "estimatedTime": "PT0S",
   "spentTime": "PT0S",
@@ -2246,7 +2246,19 @@
       "type": null
     },
     "watchers": [],
-    "attachments": [],
+    "attachments" : {
+      "_links" : {
+        "self" : {
+          "href" : "/api/v3/work_packages/825/attachments"
+        }
+      },
+      "_type" : "Collection",
+      "total" : 0,
+      "count" : 0,
+      "_embedded" : {
+        "elements" : []
+      }
+    },
     "relations": []
   }
 }

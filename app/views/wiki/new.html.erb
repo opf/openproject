@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2>
+<h2 class="legacy-heading">
   <% if @page.parent %>
     <% breadcrumb_for_page(@page.parent, l("create_new_page")) %>
     <%= l("create_child_page_for", :title => @page.parent.pretty_title) %>
@@ -49,7 +49,6 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
     <div class="form--field -required -vertical">
       <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
-                      :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
                       :'ng-non-bindable' => '' %>
     </div>
 

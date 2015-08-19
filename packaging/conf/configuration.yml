@@ -36,4 +36,5 @@ default:
   smtp_authentication: <%= ENV.fetch('SMTP_AUTHENTICATION') { :login }.to_sym %>
   smtp_user_name: <%= ENV['SMTP_USERNAME'] %>
   smtp_password: <%= ENV['SMTP_PASSWORD'] %>
+  smtp_enable_starttls_auto: <%= ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO') { "false" } %>
   attachments_storage_path: <%= ENV.fetch('ATTACHMENTS_STORAGE_PATH') { "/var/db/_APP_NAME_/files" } %>

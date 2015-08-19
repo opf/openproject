@@ -38,17 +38,22 @@ describe('OpenProject', function () {
     describe('...', function () {
       beforeEach(function () {
         $('.attributes-group.ng-scope:nth-child(1) .inplace-edit--read-value').click();
+        //element(by.css('.attributes-group.ng-scope:nth-child(1) textarea'));
+
+        // tab through all the elements in the inplace edit control
+        // Save
+        browser.actions().sendKeys(protractor.Key.TAB).perform();
+        // Save and send
+        browser.actions().sendKeys(protractor.Key.TAB).perform();
+        // Cancel
+        browser.actions().sendKeys(protractor.Key.TAB).perform();
       });
+
       it('show all / hide all should be accessible in one tab', function () {
-        var editableTextarea = element(by.css('.attributes-group.ng-scope:nth-child(1) textarea'));
-        var button = element(by.css('.attributes-group.ng-scope:nth-child(2) .button[ng-click="execute()"]'));
-        editableTextarea.sendKeys(protractor.Key.ESCAPE);
         browser.actions().sendKeys(protractor.Key.TAB).perform();
-        browser.actions().sendKeys(protractor.Key.TAB).perform();
-        browser.driver.switchTo().activeElement().getAttribute('class').then(function (elementClassList) {
-          expect(button.getAttribute('class'))
-            .to.eventually.equal(elementClassList);
-        });
+
+        return expect(browser.driver.switchTo().activeElement().getText())
+          .to.eventually.equal('Show all');
       });
     });
   });

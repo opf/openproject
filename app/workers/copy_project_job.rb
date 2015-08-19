@@ -34,17 +34,18 @@ class CopyProjectJob < Struct.new(:user_id,
                                   :associations_to_copy,
                                   :send_mails)
   include OpenProject::LocaleHelper
+  include OpenProject::BeforeDelayedJob
 
   def perform
     User.current = user
 
-    target_project, errors = with_locale_for(user) do
+    target_project, errors = with_locale_for(user) {
       create_project_copy(source_project,
                           target_project_params,
                           enabled_modules,
                           associations_to_copy,
                           send_mails)
-    end
+    }
 
     if target_project
       UserMailer.copy_project_succeeded(user, source_project, target_project, errors)
@@ -111,7 +112,7 @@ class CopyProjectJob < Struct.new(:user_id,
   def validate_parent_id(project, parent_id)
     return true if User.current.admin?
     if parent_id || project.new_record?
-      parent = parent_id.blank? ? nil : Project.find_by_id(parent_id.to_i)
+      parent = parent_id.blank? ? nil : Project.find_by(id: parent_id.to_i)
       unless project.allowed_parents.include?(parent)
         project.errors.add :parent_id, :invalid
         return false

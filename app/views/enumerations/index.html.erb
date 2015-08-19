@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title l(:label_administration), l(:label_enumerations) %>
-<h2><%=l(:label_enumerations)%></h2>
+<%= toolbar title: l(:label_enumerations) %>
 <% Enumeration.descendants.each do |klass| %>
   <h3><%= l(klass::OptionName) %></h3>
   <% enumerations = klass.shared %>
@@ -51,7 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <td class="buttons">
             <%= link_to l(:button_delete), { :action => 'destroy', :id => enumeration },
                 :method => :delete,
-                :confirm => l(:text_are_you_sure),
+                data: { confirm: l(:text_are_you_sure) },
                 :class => 'icon icon-delete' %>
           </td>
         </tr>

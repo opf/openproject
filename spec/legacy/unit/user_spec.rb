@@ -42,7 +42,7 @@ describe User, type: :model do
   specify 'object_daddy creation' do
     User.generate_with_protected!(firstname: 'Testing connection')
     User.generate_with_protected!(firstname: 'Testing connection')
-    assert_equal 2, User.count(:all, conditions: { firstname: 'Testing connection' })
+    assert_equal 2, User.where(firstname: 'Testing connection').count
   end
 
   it 'should truth' do
@@ -59,18 +59,21 @@ describe User, type: :model do
     user = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
 
     user.login = 'jsmith'
-    user.password, user.password_confirmation = 'adminADMIN!', 'adminADMIN!'
+    user.password = 'adminADMIN!'
+    user.password_confirmation = 'adminADMIN!'
     # login uniqueness
     assert !user.save
     assert_equal 1, user.errors.count
 
     user.login = 'newuser'
-    user.password, user.password_confirmation = 'adminADMIN!', 'NOTadminADMIN!'
+    user.password = 'adminADMIN!'
+    user.password_confirmation = 'NOTadminADMIN!'
     # password confirmation
     assert !user.save
     assert_equal 1, user.errors.count
 
-    user.password, user.password_confirmation = 'adminADMIN!', 'adminADMIN!'
+    user.password = 'adminADMIN!'
+    user.password_confirmation = 'adminADMIN!'
     assert user.save
   end
 
@@ -90,28 +93,32 @@ describe User, type: :model do
     it 'should be case-insensitive.' do
       u = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
       u.login = 'newuser'
-      u.password, u.password_confirmation = 'adminADMIN!', 'adminADMIN!'
+      u.password = 'adminADMIN!'
+      u.password_confirmation = 'adminADMIN!'
       assert u.save
 
       u = User.new(firstname: 'Similar', lastname: 'User', mail: 'similaruser@somenet.foo')
       u.login = 'NewUser'
-      u.password, u.password_confirmation = 'adminADMIN!', 'adminADMIN!'
+      u.password = 'adminADMIN!'
+      u.password_confirmation = 'adminADMIN!'
       assert !u.save
-      assert_include u.errors[:login], I18n.translate('activerecord.errors.messages.taken')
+      assert_includes u.errors[:login], I18n.translate('activerecord.errors.messages.taken')
     end
   end
 
   it 'should mail uniqueness should not be case sensitive' do
     u = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
     u.login = 'newuser1'
-    u.password, u.password_confirmation = 'adminADMIN!', 'adminADMIN!'
+    u.password = 'adminADMIN!'
+    u.password_confirmation = 'adminADMIN!'
     assert u.save
 
     u = User.new(firstname: 'new', lastname: 'user', mail: 'newUser@Somenet.foo')
     u.login = 'newuser2'
-    u.password, u.password_confirmation = 'adminADMIN!', 'adminADMIN!'
+    u.password = 'adminADMIN!'
+    u.password_confirmation = 'adminADMIN!'
     assert !u.save
-    assert_include u.errors[:mail], I18n.translate('activerecord.errors.messages.taken')
+    assert_includes u.errors[:mail], I18n.translate('activerecord.errors.messages.taken')
   end
 
   it 'should update' do
@@ -124,8 +131,8 @@ describe User, type: :model do
 
   it 'should destroy' do
     User.find(2).destroy
-    assert_nil User.find_by_id(2)
-    assert Member.find_all_by_user_id(2).empty?
+    assert_nil User.find_by(id: 2)
+    assert Member.where(user_id: 2).empty?
   end
 
   it 'should validate login presence' do
@@ -364,7 +371,7 @@ describe User, type: :model do
     @jsmith.notified_project_ids = []
     @jsmith.save
     @jsmith.reload
-    assert @jsmith.projects.first.recipients.include?(@jsmith.mail)
+    assert @jsmith.projects.first.recipients.include?(@jsmith)
   end
 
   it 'should mail notification selected' do
@@ -372,7 +379,7 @@ describe User, type: :model do
     @jsmith.notified_project_ids = [1]
     @jsmith.save
     @jsmith.reload
-    assert Project.find(1).recipients.include?(@jsmith.mail)
+    assert Project.find(1).recipients.include?(@jsmith)
   end
 
   it 'should mail notification only my events' do
@@ -380,7 +387,7 @@ describe User, type: :model do
     @jsmith.notified_project_ids = []
     @jsmith.save
     @jsmith.reload
-    assert !@jsmith.projects.first.recipients.include?(@jsmith.mail)
+    assert !@jsmith.projects.first.recipients.include?(@jsmith)
   end
 
   it 'should comments sorting preference' do

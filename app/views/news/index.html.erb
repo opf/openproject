@@ -26,7 +26,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<h2><%=l(:label_news_plural)%></h2>
+<% html_title(l(:label_news_plural)) -%>
+<%= toolbar title: l(:label_news_plural) do %>
+  <% if User.current.allowed_to?(:manage_news, @project) %>
+    <li class="toolbar-item">
+      <%= link_to new_project_news_path(@project), title: l(:label_news_new), id: 'new_news_link', class: 'button -alt-highlight' do %>
+        <i class="button--icon icon-add"></i>
+        <span class="button--text"><%= l(:label_news_new) %></span>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
 <% if @newss.empty? %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
@@ -48,5 +58,3 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :page => nil, :key => User.current.rss_key})) %>
 <% end %>
-
-<% html_title(l(:label_news_plural)) -%>

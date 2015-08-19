@@ -35,7 +35,6 @@ describe MyController, type: :controller do
   end
 
   describe 'password change' do
-
     describe '#password' do
       before do
         get :password
@@ -67,8 +66,8 @@ describe MyController, type: :controller do
       it 'should show an error message' do
         assert_response :success
         assert_template 'password'
-        expect(user.errors.keys).to eq([:password])
-        expect(user.errors.values.flatten.join('')).to include('confirmation')
+        expect(user.errors.keys).to eq([:password_confirmation])
+        expect(user.errors.values.flatten.join('')).to include("doesn't match")
       end
     end
 

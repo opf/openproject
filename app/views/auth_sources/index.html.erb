@@ -27,12 +27,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% content_for :action_menu_specific do %>
-  <%= link_to l(:label_auth_source_new), { :action => 'new' }, :class => 'icon icon-add' %>
-<% end %>
 <% html_title l(:label_administration), l(:label_auth_source_plural) %>
-<h2><%=l(:label_auth_source_plural)%></h2>
-<%= render :partial => 'layouts/action_menu_specific' %>
+<%= toolbar title: l(:label_auth_source_plural) do %>
+  <li class="toolbar-item">
+    <%= link_to({ action: 'new' }, class: 'button -alt-highlight') do %>
+      <i class="button--icon icon-add"></i>
+      <span class="button--text"><%= l(:label_auth_source_new) %></span>
+    <% end %>
+  </li>
+<% end %>
 <table class="list">
   <thead>
     <tr>
@@ -54,7 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= link_to l(:button_test), { :action => 'test_connection', :id => source } %>
           <%= link_to l(:button_delete), { :action => 'destroy', :id => source },
                                      :method => :delete,
-                                     :confirm => l(:text_are_you_sure),
+                                     data: { confirm: l(:text_are_you_sure) },
                                      :class => 'icon icon-delete',
                                      :disabled => source.users.any? %>
         </td>

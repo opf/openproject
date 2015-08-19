@@ -27,15 +27,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% breadcrumb_paths(l(:label_my_page)) %>
-<% content_for :toolbar do %>
-  <li class="toolbar-item">
+<%= toolbar title: l(:label_my_page) do %>
+  <li class="toolbar-item" title="<%= l(:label_personalize_page) %>">
     <%= link_to({ action: 'page_layout' }, accesskey: accesskey(:edit), class: 'button') do %>
-      <i class="icon-edit"></i> <%= l(:label_personalize_page) %>
+      <i class="button--icon icon-settings"></i>
+      <span class="hidden-for-sighted"><%= l(:label_personalize_page) %></span>
     <% end %>
   </li>
 <% end %>
-<h2><%=l(:label_my_page)%></h2>
-<%= render :partial => 'layouts/toolbar' %>
 <div id="invisible-grid">
   <div class="grid-block">
     <div id="list-top" class="grid-content">
@@ -48,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </div>
   <div class="grid-block">
-    <div id="list-left" class="grid-content">
+    <div id="list-left" class="grid-content left">
       <% @blocks['left'].each do |b|
          next unless MyController.available_blocks.keys.include? b %>
         <div class="mypage-box">
@@ -56,7 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
       <% end if @blocks['left'] %>
     </div>
-    <div id="list-right" class="grid-content">
+    <div id="list-right" class="grid-content right">
       <% @blocks['right'].each do |b|
          next unless MyController.available_blocks.keys.include? b %>
         <div class="mypage-box">

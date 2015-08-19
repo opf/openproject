@@ -109,10 +109,10 @@ module Api::Experimental::Concerns::ColumnData
 
     existing_cf_ids = existing_custom_field_ids(custom_field_ids)
 
-    valid_cf_column_names = columns.select do |name|
+    valid_cf_column_names = columns.select { |name|
       id = custom_field_id_in(name)
       existing_cf_ids.include?(id)
-    end
+    }
 
     # keep order of provided columns
     columns & (valid_column_names + valid_cf_column_names)
@@ -171,9 +171,9 @@ module Api::Experimental::Concerns::ColumnData
       work_packages.map { |wp| yield wp }
         .uniq
         .inject({}) do |group_sums, current_group|
-          work_packages_in_current_group = work_packages.select do |wp|
+          work_packages_in_current_group = work_packages.select { |wp|
             (yield wp) == current_group
-          end
+          }
 
           group_sums.merge current_group => column_sum(column_name, work_packages_in_current_group)
         end
@@ -194,13 +194,13 @@ module Api::Experimental::Concerns::ColumnData
   def fetch_columns_data(column_names, work_packages)
     column_names, custom_field_column_ids = separate_columns_by_custom_fields(column_names)
 
-    columns = column_names.map do |column_name|
+    columns = column_names.map { |column_name|
       fetch_non_custom_field_column_data(column_name, work_packages)
-    end
+    }
 
-    columns += custom_field_column_ids.map do |cf_id|
+    columns += custom_field_column_ids.map { |cf_id|
       fetch_custom_field_column_data(cf_id, work_packages)
-    end
+    }
 
     columns
   end
@@ -214,9 +214,9 @@ module Api::Experimental::Concerns::ColumnData
   end
 
   def fetch_custom_field_column_data(custom_field_id, work_packages, display = true)
-    custom_field_data = work_packages.map do |wp|
+    custom_field_data = work_packages.map { |wp|
       wp.custom_values_display_data(custom_field_id)
-    end
+    }
 
     if display
       custom_field_data.flatten
@@ -257,8 +257,6 @@ module Api::Experimental::Concerns::ColumnData
 
     if groups
       groups[0]
-    else
-      nil
     end
   end
 

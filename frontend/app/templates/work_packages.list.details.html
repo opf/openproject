@@ -19,10 +19,6 @@
         ui-sref-active="selected">
       <a href="" ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
     </li>
-    <li ui-sref="work-packages.list.details.attachments({})"
-        ui-sref-active="selected">
-      <a href="" ng-bind="I18n.t('js.work_packages.tabs.attachments')"/>
-    </li>
   </ul>
 </div>
 
@@ -33,7 +29,6 @@
   <div class="work-packages--details--title">
     <work-package-field field="'subject'"></work-package-field>
   </div>
-
 
   <span class="subtitle">
     <accessible-by-keyboard ng-if="toggleWatchLink" execute="toggleWatch()"

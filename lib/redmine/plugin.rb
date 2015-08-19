@@ -263,8 +263,19 @@ module Redmine #:nodoc:
 
     # Removes +item+ from the given +menu+.
     def delete_menu_item(menu_name, item)
+      hide_menu_item(menu_name, item)
+    end
+
+    # N.B.: I could not find any usages of :delete_menu_item in my locally available plugins
+    deprecate delete_menu_item: 'Use :hide_menu_item instead'
+
+    # Allows to hide an existing +item+ in a menu.
+    #
+    # +hide_if+ parameter can be a lambda accepting a project, the item will only be hidden if
+    #   the condition evaluates to true.
+    def hide_menu_item(menu_name, item, hide_if: -> (*) { true })
       Redmine::MenuManager.map(menu_name) do |menu|
-        menu.delete(item)
+        menu.add_condition(item, -> (project) { !hide_if.call(project) })
       end
     end
 
@@ -292,7 +303,7 @@ module Redmine #:nodoc:
     #   permission :say_hello, { :example => :say_hello }, :require => :member
     def permission(name, actions, options = {})
       if @project_module
-        Redmine::AccessControl.map { |map| map.project_module(@project_module) { |map|map.permission(name, actions, options) } }
+        Redmine::AccessControl.map { |map| map.project_module(@project_module) { |map| map.permission(name, actions, options) } }
       else
         Redmine::AccessControl.map { |map| map.permission(name, actions, options) }
       end

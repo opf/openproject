@@ -44,7 +44,7 @@ describe AttachmentsController, type: :controller do
                        roles: [role])
   }
 
-  before { allow(User).to receive(:current).and_return user }
+  before do allow(User).to receive(:current).and_return user end
 
   describe '#destroy' do
     let(:attachment) {
@@ -53,7 +53,7 @@ describe AttachmentsController, type: :controller do
     }
 
     shared_examples_for :deleted do
-      subject { Attachment.find_by_id(attachment.id) }
+      subject { Attachment.find_by(id: attachment.id) }
 
       it { is_expected.to be_nil }
     end
@@ -74,7 +74,7 @@ describe AttachmentsController, type: :controller do
       }
       let(:redirect_path) { work_package_path(container) }
 
-      before { delete :destroy, id: attachment.id }
+      before do delete :destroy, id: attachment.id end
 
       it_behaves_like :deleted
 
@@ -101,7 +101,7 @@ describe AttachmentsController, type: :controller do
   end
 
   describe '#show' do
-    let(:file) { OpenProject::Files.create_uploaded_file name: 'foobar.txt' }
+    let(:file) { FileHelpers.mock_uploaded_file name: 'foobar.txt' }
     let(:work_package) { FactoryGirl.create :work_package, project: project }
     let(:uploader) { nil }
 

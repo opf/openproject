@@ -55,6 +55,6 @@ class Project < ActiveRecord::Base
   end
 
   def self.next_type
-    [Type.generate!]
+    [::Type.generate!]
   end
 end

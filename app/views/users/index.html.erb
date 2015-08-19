@@ -27,14 +27,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% content_for :action_menu_specific do %>
+<%= toolbar title: l(:label_user_plural) do %>
   <% unless OpenProject::Configuration.disable_password_login? %>
-    <%= link_to l(:label_user_new), {:action => 'new'}, :class => 'icon icon-add' %>
+    <%= link_to new_user_path, class: 'button -alt-highlight' do %>
+      <i class="button--icon icon-add"></i>
+      <span class="button--text"><%= l(:label_user_new) %></span>
+    <% end %>
   <% end %>
   <%= call_hook(:user_admin_action_menu) %>
 <% end %>
-<h2><%=l(:label_user_plural)%></h2>
-<%= render :partial => 'layouts/action_menu_specific' %>
 <%= form_tag({}, :method => :get) do %>
   <fieldset class="simple-filters--container">
     <legend><%= l(:label_filter_plural) %></legend>
@@ -99,9 +100,7 @@ See doc/COPYRIGHT.rdoc for more details.
           </td>
           <td class="status"><%= full_user_status(user) %></td>
           <td>
-            <small>
-              <%= change_user_status_links(user) unless user.id == current_user.id %>
-            </small>
+            <%= change_user_status_links(user) unless user.id == current_user.id %>
           </td>
         </tr>
       <% end -%>

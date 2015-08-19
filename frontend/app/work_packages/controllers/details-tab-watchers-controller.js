@@ -93,11 +93,17 @@ module.exports = function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_IN
 
   function addWatcher(newValue, oldValue) {
     if (newValue && newValue !== oldValue) {
-      var id = newValue[newValue.length -1].props.id;
+      var user = newValue[newValue.length - 1],
+          href = user ? user.links.self.href : null;
 
-      if (id) {
-        $scope.workPackage.link('addWatcher', {user_id: id})
-          .fetch({ajax: {method: 'POST'}})
+      if (href) {
+        var data = JSON.stringify({ user: { href: href } });
+        $scope.workPackage.link('addWatcher', {})
+          .fetch({ajax: {
+              method: 'POST',
+              contentType: 'application/json; charset=utf-8',
+              data: data
+            }})
           .then(addWatcherSuccess, $scope.outputError);
       }
     }

@@ -97,6 +97,12 @@ class Redmine::MenuManager::Mapper
     end
   end
 
+  def add_condition(name, condition)
+    if found = find(name)
+      found.add_condition(condition)
+    end
+  end
+
   # Checks if a menu item exists
   def exists?(name)
     @menu_items.any? { |node| node.name == name }

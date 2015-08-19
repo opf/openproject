@@ -177,14 +177,14 @@ $toggler-width: 40px
   #toggle-project-menu
     border: $main-menu-item-border-width solid $main-menu-item-border-color
     border-left: none
-    height: $main-menu-item-height - $main-menu-item-border-width
-    width: $main-menu-width - $main-menu-item-border-width
+    height: $main-menu-item-height
+    width: $main-menu-width
     background-color: $main-menu-bg-color
     @include default-transition
     &:hover
       background: $main-menu-bg-hover-selected-background
     &.show
-      width: $main-menu-folded-width - $main-menu-item-border-width
+      width: $main-menu-folded-width
       a.navigation-toggler
         height: 100%
         padding: 0 10px 0 0

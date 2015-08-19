@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<h2><%=h @attachment.filename %></h2>
+<%= toolbar title: h(@attachment.filename) %>
 <div class="attachments">
   <p><%= h("#{@attachment.description} - ") unless @attachment.description.blank? %>
     <span class="author"><%= link_to_user(@attachment.author) %>, <%= format_time(@attachment.created_on) %></span></p>

@@ -28,7 +28,8 @@
 
 /* jshint camelcase: false */
 
-module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
+module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
+
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
       var content;
@@ -141,9 +142,7 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
         case 'datetime':
           var dateTime;
           if (value) {
-            dateTime = TimezoneService.formattedDate(value) +
-                       ' ' +
-                       TimezoneService.formattedTime(value);
+            dateTime = TimezoneService.formattedDatetime(value);
           }
           return dateTime || '';
         case 'date':

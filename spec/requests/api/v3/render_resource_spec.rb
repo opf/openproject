@@ -67,28 +67,39 @@ describe 'API v3 Render resource' do
               'Hello World! This *is* textile with a ' +
                 '"link":http://community.openproject.org and ümläutß.'
             end
-            let(:text) do
-              '<p>Hello World! This <strong>is</strong> textile with a ' +
-                '<a href="http://community.openproject.org" class="external">link</a> ' +
-                'and ümläutß.</p>'
-            end
 
-            it_behaves_like 'valid response'
+            it_behaves_like 'valid response' do
+              let(:text) do
+                '<p>Hello World! This <strong>is</strong> textile with a ' +
+                  '<a href="http://community.openproject.org" class="external">link</a> ' +
+                  'and ümläutß.</p>'
+              end
+            end
           end
 
           context 'with context' do
-            let(:context) { api_v3_paths.work_package work_package.id }
             let(:params) { "Hello World! Have a look at ##{work_package.id}" }
             let(:id) { work_package.id }
             let(:href) { "/work_packages/#{id}" }
             let(:title) { "#{work_package.subject} (#{work_package.status})" }
             let(:text) {
-              "<p>Hello World! Have a look at <a href=\"#{href}\" "\
-              "class=\"issue work_package status-1 priority-1\" "\
-              "title=\"#{title}\">##{id}</a></p>"
+              '<p>Hello World! Have a look at <a '\
+                  "class=\"issue work_package status-1 priority-1\" "\
+                  "href=\"#{href}\" "\
+                  "title=\"#{title}\">##{id}</a></p>"
             }
 
-            it_behaves_like 'valid response'
+            context 'with work package context' do
+              let(:context) { api_v3_paths.work_package work_package.id }
+
+              it_behaves_like 'valid response'
+            end
+
+            context 'with project context' do
+              let(:context) { "/api/v3/projects/#{work_package.project_id}" }
+
+              it_behaves_like 'valid response'
+            end
           end
         end
 
@@ -158,9 +169,10 @@ describe 'API v3 Render resource' do
       describe 'response' do
         describe 'valid' do
           let(:params) { "Hello *World*! Have a look at #1\n\nwith two lines." }
-          let(:text) { "<p>Hello *World*! Have a look at #1</p>\n\n<p>with two lines.</p>" }
 
-          it_behaves_like 'valid response'
+          it_behaves_like 'valid response' do
+            let(:text) { "<p>Hello *World*! Have a look at #1</p>\n\n<p>with two lines.</p>" }
+          end
         end
       end
     end

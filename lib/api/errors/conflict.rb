@@ -30,6 +30,8 @@
 module API
   module Errors
     class Conflict < ErrorBase
+      identifier 'urn:openproject-org:api:v3:errors:UpdateConflict'
+
       def initialize
         super 409, I18n.t('api_v3.errors.code_409')
       end

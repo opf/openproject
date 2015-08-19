@@ -26,12 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*
-  IMPORTANT!
 
-  This is a "junk-drawer" containing CSS rule sets that could not be easily
-  placed elsewhere. Pleade DO NOT add to this file. Instead MOVE, refactor or
-  REMOVE with ruthlessness.
+// IMPORTANT!
+
+// This is a "junk-drawer" containing CSS rule sets that could not be easily
+// placed elsewhere. Pleade DO NOT add to this file. Instead MOVE, refactor or
+// REMOVE with ruthlessness.
 
 #watchers
   ul
@@ -88,10 +88,6 @@ p
   &.breadcrumb
     font-size: 0.9em
     margin: 4px 0 4px 0
-  &.subtitle
-    font-size: 0.9em
-    margin: -6px 0 12px 0
-    font-style: italic
   &.footnote
     font-size: 0.9em
     margin-top: 0
@@ -296,7 +292,7 @@ p.other-formats
 .other-formats span + span:before
   content: "| "
 
-/* Project members tab
+/* Project members tab */
 
 div#tab-content-members
   .user.status_registered, label.status_registered
@@ -408,8 +404,6 @@ li
   ul
     margin: 0
 
-ul.projects .description
-
 .nosidebar ul.projects li
   list-style: none outside none
   background: none
@@ -428,7 +422,7 @@ ul.projects
   top: 7px
   right: 14px
 
-/* file table hovers
+/* file table hovers */
 
 a.has-thumb
   img
@@ -471,7 +465,7 @@ form#issue-list
   max-height: 200px
   overflow: hidden
 
-/* roadmap breathing
+/* roadmap breathing */
 
 #roadmap h3
   margin: 21px 0 12px
@@ -485,7 +479,7 @@ ul.projects div.root a.project
 div.issue div#relations
   margin-top: 25px
 
-/* all kinds of wonderful tweaks
+/* all kinds of wonderful tweaks*/
 
 .question pre
   color: #111
@@ -513,12 +507,7 @@ div.issue hr
 tr.time-entry
   white-space: normal
 
-/* comments
-
-.wiki ol li
-  list-style: decimal inside
-
-/* scm
+/* scm */
 
 #content table .changeset td.id a:hover
   text-decoration: underline
@@ -526,12 +515,12 @@ tr.time-entry
 #content table.files .opt-desc
   width: 45%
 
-/* member settings [pc]
+/* member settings [pc] */
 
 select#member_role_id
   width: 75px
 
-/* fix for thumbnail jankiness
+/* fix for thumbnail jankiness */
 
 a.has-thumb
   &.active
@@ -539,7 +528,7 @@ a.has-thumb
     margin-left: -10px
     margin-right: 0
     *left: -10px
-    /* IE6 & 7 hacks
+    /* IE6 & 7 hacks */
     *margin-left: 0
   img
     z-index: 1001
@@ -554,7 +543,7 @@ a.has-thumb
 
 
 /* Cut of text with '...' - working on all major browsers and IE6+
- * not working for Firefox < 7
+ * not working for Firefox < 7 */
 
 .ellipsis
   white-space: nowrap
@@ -631,7 +620,7 @@ strong.related-issues-heading
 div.indent
   padding-left: 10px
 
-/* Menu item configuration
+/* Menu item configuration */
 
 .menu-item-form
   p
@@ -670,25 +659,7 @@ div.indent
     p, li
       width: 700px
 
-.required
-  color: #008BD0
-
-/*Gannt chart fix IE 6
-
-.task
-  line-height: 1em
-
-/*Cost-Plugin specific styles
-
-.icon-pieces
-  background-image: image-url("webalys/units.png") !important
-
-.icon-pieces-time
-  background-image: image-url("webalys/time.png") !important
-
-body
-  &.theme-Bsp .buttons .apply, &.theme-Dtag .buttons .apply
-    background-color: #24b3e7
+/*Cost-Plugin specific styles */
 
 input::-webkit-input-placeholder, :-moz-placeholder
   color: #000000
@@ -703,21 +674,21 @@ input::-webkit-input-placeholder, :-moz-placeholder
   width: 33px
   z-index: 5000
 
-.ui-datepicker .ui-priority-secondary
-  opacity: 1
-  filter: Alpha(Opacity = 100)
-  font-weight: bold
-
 h4.comment
   margin-bottom: 8px
   margin-top: 18px
   img
     margin-right: 3px
 
-.atwho-view
-  z-index: 25
-  .cur
-    background: #FFFFBB
-    color: #4B4B4B
-    strong
-      color: black
+/*
+ * Legacy headings to create headings which are similiar to the toolbar
+ * but cannot use the toolbar yet (e.g Legacy forms)
+ */
+.legacy-heading
+  // this will harmonize the headings in the old legacy form
+  // to be the same as if using a toolbar component
+  // TODO: once WP full screen create hits, remove this
+  padding-top: 12px
+  border: 0
+  @include breakpoint(medium down)
+    font-size: $h2-font-size

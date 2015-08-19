@@ -39,10 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title l('timelines.reporting_for_project.show',
                 :title => h(@reporting.reporting_to_project.name)) %>
-<h2>
-  <%= l('timelines.reporting_for_project.show',
-        :title => link_to_project(@reporting.reporting_to_project)).html_safe %>
-</h2>
+<%= render partial: 'toolbar', locals: { show_actions: false } %>
 
 <%= labelled_tabular_form_for :reporting,
             :url  => project_reporting_path(@project, @reporting),
@@ -61,7 +58,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <div class="form--field">
       <%= f.text_area(:reported_project_status_comment, :class => 'wiki-edit', :rows => 10,
-                      :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
                       :'ng-non-bindable' => '', label: Reporting.human_attribute_name(:reported_project_status_comment)) %>
     </div>
     <%= wikitoolbar_for 'reporting_reported_project_status_comment' %>

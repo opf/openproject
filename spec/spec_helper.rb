@@ -37,7 +37,7 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'rspec/example_disabler'
 require 'capybara/rails'
-require 'factory_girl_rails'
+require 'capybara-screenshot/rspec'
 
 Capybara.register_driver :selenium do |app|
   require 'selenium/webdriver'
@@ -82,8 +82,10 @@ RSpec.configure do |config|
   config.before(:each) do |example|
     DatabaseCleaner.strategy = if example.metadata[:js]
                                  # JS => doesn't share connections => can't use transactions
-                                 # truncations seem to fail more often + they are slower
-                                 :deletion
+                                 # as of database_cleaner 1.4 'deletion' causes error:
+                                 # 'column "table_rows" does not exist'
+                                 # https://github.com/DatabaseCleaner/database_cleaner/issues/345
+                                 :truncation
                                else
                                  # No JS/Devise => run with Rack::Test => transactions are ok
                                  :transaction
@@ -111,6 +113,10 @@ RSpec.configure do |config|
 
   # add helpers to parse json-responses
   config.include JsonSpec::Helpers
+
+  config.include ::Angular::DSL
+
+  Capybara.default_wait_time = 4
 
   config.after(:each) do
     OpenProject::RspecCleanup.cleanup

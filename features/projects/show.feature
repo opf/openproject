@@ -47,5 +47,5 @@ Feature: Showing Projects
     When I go to the overview page of the project "omicronpersei8"
     Then I should see "Calendar" within "#content .issues.content-box"
     When I click on "Calendar" within "#content .issues.content-box"
-    Then I should see "Calendar" within "#content > h2"
+    Then I should see "Calendar" within ".title-container h2"
     And I should see "Sunday" within "#content > table.cal"

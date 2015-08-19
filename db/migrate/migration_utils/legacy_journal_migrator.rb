@@ -94,7 +94,6 @@ module Migration
       if legacy_table_exists?
 
         table_names.each do |table_name|
-
           db_delete <<-SQL
           DELETE
           FROM #{quoted_table_name(table_name)}
@@ -102,7 +101,6 @@ module Migration
                                FROM #{quoted_legacy_journals_table_name}
                                WHERE type=#{quote_value(type)})
           SQL
-
         end
 
         db_delete <<-SQL
@@ -179,7 +177,8 @@ module Migration
 
     # fetches specific journal row. might be empty.
     def fetch_journal(legacy_journal)
-      id, version = legacy_journal['journaled_id'], legacy_journal['version']
+      id = legacy_journal['journaled_id']
+      version = legacy_journal['version']
 
       db_select_all <<-SQL
         SELECT *
@@ -256,7 +255,7 @@ module Migration
       values = to_insert.values
 
       db_execute <<-SQL
-        INSERT INTO #{journal_table_name} (journal_id#{', ' + keys.join(', ') unless keys.empty? })
+        INSERT INTO #{journal_table_name} (journal_id#{', ' + keys.join(', ') unless keys.empty?})
         VALUES (#{quote_value(journal_id)}#{', ' + values.map { |d| quote_value(d) }.join(', ') unless values.empty?});
       SQL
 
@@ -266,7 +265,7 @@ module Migration
     def update_data_journal(id, to_insert)
       db_execute <<-SQL unless to_insert.empty?
         UPDATE #{journal_table_name}
-           SET #{(to_insert.each.map { |key, value| "#{key} = #{quote_value(value)}" }).join(', ') }
+           SET #{(to_insert.each.map { |key, value| "#{key} = #{quote_value(value)}" }).join(', ')}
          WHERE id = #{id};
       SQL
     end

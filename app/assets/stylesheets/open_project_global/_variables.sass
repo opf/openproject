@@ -42,6 +42,12 @@ $primary-color-dark:      #06799F !default
 $secondary-color:         #bfbfbf !default
 $alternative-color:       #35c53f !default
 
+// these colors should ensure a satisfying contrast for text on the given BG color
+$font-color-on-primary:      white !default
+$font-color-on-primary-dark: white !default
+$font-color-on-secondary:    white !default
+$font-color-on-alternative:  white !default
+
 $h1-font-size:            2rem              !default
 $h1-font-color:           $body-font-color  !default
 $h2-font-size:            1.5rem            !default
@@ -56,8 +62,8 @@ $header-bg-color:                               $primary-color !default
 $header-border-bottom-color:                    $primary-color !default
 $header-border-bottom-width:                    0 !default
 $header-item-font-size:                         14px !default
-$header-item-font-color:                        #FFFFFF !default
-$header-item-font-hover-color:                  #FFFFFF !default
+$header-item-font-color:                        $font-color-on-primary !default
+$header-item-font-hover-color:                  $font-color-on-primary-dark !default
 $header-item-bg-hover-color:                    $primary-color-dark !default
 $header-drop-down-bg-color:                     #FFFFFF !default
 $header-drop-down-border-color:                 #E0E0E0 !default
@@ -76,11 +82,11 @@ $header-search-field-font-color:                #000000 !default
 $header-search-field-border:                    0 !default
 
 $footer-bg-color:                               $primary-color !default
-$footer-font-color:                             #FFFFFF !default
+$footer-font-color:                             $font-color-on-primary !default
 $footer-height:                                 55px !default
 $footer-content-height:                         55px !default
 $footer-content-line-height:                    55px !default
-$footer-content-link-color:                     #FFFFFF !default
+$footer-content-link-color:                     $font-color-on-primary !default
 
 $main-menu-width:                               230px !default
 $main-menu-folded-width:                        50px !default
@@ -94,7 +100,7 @@ $main-menu-enable-toggle-highlighting:          false !default
 $main-menu-bg-color:                            #F8F8F8 !default
 $main-menu-bg-hover-selected-background:        url() no-repeat $primary-color-dark !default
 $main-menu-font-color:                          #333333 !default
-$main-menu-selected-font-color:                 #FFFFFF !default
+$main-menu-selected-font-color:                 $font-color-on-primary !default
 $main-menu-font-size:                           15px !default
 $main-menu-selected-hover-indicator-color:      $primary-color-dark !default
 $main-menu-selected-hover-indicator-width:      4px !default
@@ -164,8 +170,8 @@ $content-box-bg-color:                          #FFFFFF !default
 $my-page-edit-box-border-color:                 $primary-color-dark !default
 
 $drop-down-unselected-font-color:               $main-menu-font-color !default
-$drop-down-selected-font-color:                 $main-menu-font-color !default
-$drop-down-selected-bg-color:                   #24B3E7 !default
+$drop-down-selected-font-color:                 $font-color-on-primary !default
+$drop-down-selected-bg-color:                   $primary-color !default
 
 $action-menu-bg-color:                          #FFFFFF
 

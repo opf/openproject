@@ -67,11 +67,12 @@ class AccountController < ApplicationController
     return redirect_to(home_url) unless allow_lost_password_recovery?
 
     if params[:token]
-      @token = Token.find_by_action_and_value('recovery', params[:token].to_s)
+      @token = Token.find_by(action: 'recovery', value: params[:token].to_s)
       redirect_to(home_url) && return unless @token and !@token.expired?
       @user = @token.user
       if request.post?
-        @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
+        @user.password = params[:new_password]
+        @user.password_confirmation = params[:new_password_confirmation]
         @user.force_password_change = false
         if @user.save
           @token.destroy
@@ -153,7 +154,7 @@ class AccountController < ApplicationController
   # Token based account activation
   def activate
     return redirect_to(home_url) unless Setting.self_registration? && params[:token]
-    token = Token.find_by_action_and_value('register', params[:token].to_s)
+    token = Token.find_by(action: 'register', value: params[:token].to_s)
     redirect_to(home_url) && return unless token and !token.expired?
     user = token.user
     redirect_to(home_url) && return unless user.registered?

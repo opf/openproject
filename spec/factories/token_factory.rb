@@ -26,8 +26,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'securerandom'
+
 FactoryGirl.define do
   factory :token do
-    # doesn't need anything
+    user
+    value do SecureRandom.hex(16) end
+
+    factory :api_key do
+      action 'api'
+    end
+
+    factory :rss_key do
+      action 'rss'
+    end
   end
 end

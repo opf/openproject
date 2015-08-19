@@ -28,13 +28,13 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <% left_attributes, right_attributes = attributes.in_groups(2, false) %>
 
-<div class="grid-block">
-  <div class="form--column">
+<div class="grid-block wrap">
+  <div class="form--column medium-6">
     <% left_attributes.each do |attribute| %>
       <%= attribute.field %>
     <% end %>
   </div>
-  <div class="form--column">
+  <div class="form--column medium-6">
     <% right_attributes.each do |attribute| %>
       <%= attribute.field %>
     <% end %>

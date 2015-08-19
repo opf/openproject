@@ -1,0 +1,235 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+@include keyframes(fade-out)
+  from
+    opacity: 1
+  to
+    opacity: 0
+
+$generic-table--font-size: 0.875rem
+$generic-table--header-font-size: 0.875rem
+
+$generic-table--header-height: 40px
+$generic-table--footer-height: 34px
+
+.generic-table--container
+  position:     relative
+  height:       100%
+  padding-top:    $generic-table--header-height
+  overflow:
+    x: auto
+    y: hidden
+
+  &.-with-footer
+    padding-bottom: $generic-table--footer-height
+
+.generic-table--results-container
+  height:       100%
+  overflow:
+    x: hidden
+    y: auto
+
+#generic-table
+  tr.issue
+    &.ng-enter, &.ng-move
+      @include transition(0.5s linear all)
+      opacity: 0
+    &.ng-enter.ng-enter-active, &.ng-move.ng-move-active
+      opacity: 1
+    &.ng-leave
+      @include animation(0.5s fade-out)
+
+table.generic-table
+  border-collapse: collapse
+  width:  100%
+  margin: 0
+  font-size: $generic-table--font-size
+
+  col
+    &:hover,
+    &.hover
+      background:   #f8f8f8
+
+  thead
+    tr
+      &:hover
+        background: none
+    th
+      font-size: $generic-table--header-font-size
+      text-transform: uppercase
+      text-align: left
+      line-height: 34px
+      padding: 0
+
+      &.icon-table
+        //
+      &.active-column
+        background: #f8f8f8
+      a
+        text-decoration: none
+        color: $body-font-color
+        &:hover, &:active
+          text-decoration: none
+          color: $body-font-color
+
+    .sort
+      &.asc:after
+        @include icon-common
+        content: "\e0dd"
+        margin-left: 5px
+        font-size: 1.2em
+        vertical-align: text-bottom
+
+      &.desc:after
+        @include icon-common
+        content: "\e0de"
+        margin-left: 5px
+        font-size: 1.2em
+        vertical-align: text-bottom
+
+  tfoot
+    tr
+      border:
+        top:    0
+        bottom: 0
+      height:   0
+    td
+      height:   0
+      padding:
+        top:    0
+        bottom: 0
+
+  tbody
+    tr
+      border-bottom: 1px solid #dddddd
+      &:hover
+        background: #e4f7fb
+
+    td
+      min-width: 150px
+      max-width: 300px
+      overflow:  hidden
+      text-overflow: ellipsis
+      text-align: left
+      line-height: 34px
+
+      &.icon-table
+        //
+      &.checkbox
+        min-width: 0
+        width: 20px
+        line-height: 1
+      &.id
+        min-width: 0
+        width: 50px
+      &.info
+        min-width: 0
+        width: 20px
+        a
+          text-decoration: none
+          color: $body-font-color
+
+      &.buttons
+        text-align: right
+
+    p
+      padding: 0 8px
+      margin: 0
+
+  .generic-table--footer-outer
+    position:     absolute
+    bottom:       0
+    line-height:  $generic-table--footer-height
+    z-index:      1
+
+  .generic-table--header-outer,
+  .generic-table--sort-header-outer
+    position:     absolute
+    top:          0
+    padding:      0 6px
+    line-height:  $generic-table--header-height
+    overflow:     hidden
+    z-index:      1
+
+    &:hover,
+    &.hover
+      background:   #f8f8f8
+
+  .generic-table--sort-header
+    white-space: nowrap
+    width:   100%
+    clear:   both
+    display: table
+
+    & > a,
+    & > span
+      display: table-cell
+      font-weight: bold
+
+    & > .dropdown-indicator
+      width: 1em
+      text-align: right
+
+.generic-table--header-background
+  position:     absolute
+  top:          0
+  width:        100%
+  height:       $generic-table--header-height
+  background:   white
+  border-bottom: 1px solid #dddddd
+  box-shadow:   0 5px 15px -5px #dddddd
+  z-index:      0
+
+.generic-table--footer-background
+  position:     absolute
+  bottom:       0
+  width:        100%
+  height:       $generic-table--footer-height
+  background:   #f6f7f8
+  z-index:      0
+
+.generic-table--no-results-container
+  position:     absolute
+  top:          $generic-table--header-height
+  left:         0
+  right:        10px
+  background:   #fff
+  border:       1px solid #ddd
+  border-radius: $global-radius
+  padding:      20px
+
+.generic-table--no-results-title
+  // properties to reset h2
+  border:         0
+  font-weight:    normal
+  text-transform: none
+  color:          black
+
+.generic-table--no-results-description
+  color:          black

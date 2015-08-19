@@ -34,10 +34,10 @@ FactoryGirl.define do
       disable_modules []
     end
 
-    sequence(:name) { |n| "My Project No. #{n}" }
-    sequence(:identifier) { |n| "myproject_no_#{n}" }
-    created_on { Time.now }
-    updated_on { Time.now }
+    sequence(:name) do |n| "My Project No. #{n}" end
+    sequence(:identifier) do |n| "myproject_no_#{n}" end
+    created_on do Time.now end
+    updated_on do Time.now end
     enabled_module_names Redmine::AccessControl.available_project_modules
 
     callback(:after_build) do |project, evaluator|
@@ -47,7 +47,7 @@ FactoryGirl.define do
 
     callback(:before_create) do |project, evaluator|
       unless evaluator.no_types ||
-             Type.where(is_standard: true).count > 0
+             ::Type.where(is_standard: true).count > 0
         project.types << FactoryGirl.build(:type_standard)
       end
     end
@@ -71,137 +71,4 @@ FactoryGirl.define do
       end
     end
   end
-end
-
-FactoryGirl.define do
-  factory(:timelines_project, class: Project) do
-
-    sequence(:name) { |n| "Project #{n}" }
-    sequence(:identifier) { |n| "project#{n}" }
-
-    # activate timeline module
-
-    callback(:after_create) do |project|
-      project.enabled_module_names += ['timelines']
-    end
-
-    # add user to project
-
-    callback(:after_create) do |project|
-
-      role = FactoryGirl.create(:role)
-      member = FactoryGirl.build(:member,
-                                 # we could also just make everybody a member,
-                                 # since for now we can't pass transient
-                                 # attributes into factory_girl
-                                 user: project.responsible,
-                                 project: project)
-      member.roles = [role]
-      member.save!
-    end
-
-    # generate planning elements
-
-    callback(:after_create) do |project|
-
-      start_date = rand(18.months).ago
-      due_date = start_date
-
-      (5 + rand(20)).times do
-
-        due_date = start_date + (rand(30) + 10).days
-        FactoryGirl.create(:planning_element, project: project,
-                                              start_date: start_date,
-                                              due_date: due_date)
-        start_date = due_date
-
-      end
-    end
-
-    # create a timeline in that project
-
-    callback(:after_create) do |project|
-      FactoryGirl.create(:timeline, project: project)
-    end
-
-  end
-end
-
-FactoryGirl.define do
-  factory(:uerm_project, parent: :project) do
-    sequence(:name) { |n| "ÜRM Project #{n}" }
-
-    @project_types = Array.new
-    @planning_element_types = Array.new
-    @colors = PlanningElementTypeColor.colors
-
-    # create some project types
-
-    callback(:after_create) do |_project|
-      if @project_types.empty?
-
-        6.times do
-          @project_types << FactoryGirl.create(:project_type)
-        end
-
-      end
-    end
-
-    # create some planning_element_types
-
-    callback(:after_create) do |_project|
-
-      20.times do
-        planning_element_type = FactoryGirl.create(:planning_element_type)
-        planning_element_type.color = @colors.sample
-        planning_element_type.save
-
-        @planning_element_types << planning_element_type
-      end
-
-    end
-
-    callback(:after_create) do |project|
-
-      projects = Array.new
-
-      # create some projects
-      #
-      50.times do
-        projects << FactoryGirl.create(:project,
-                                       responsible: project.responsible)
-      end
-
-      projects << FactoryGirl.create(:project,
-                                     responsible: project.responsible)
-
-      projects.each do |r|
-
-        # give every project a project type
-
-        r.project_type = @project_types.sample
-        r.save
-
-        # create a reporting to ürm
-
-        FactoryGirl.create(:reporting,
-                           project: r,
-                           reporting_to_project: project)
-
-        # give every planning element a planning element type
-
-        r.planning_elements.each do |pe|
-          pe.planning_element_type = @planning_element_types.sample
-          pe.save!
-        end
-
-        # Add a timeline with history
-
-        FactoryGirl.create(:timeline_with_history, project: r)
-
-      end
-
-    end
-  end
-
 end

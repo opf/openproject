@@ -142,16 +142,16 @@ module Project::Copy
         # Reassign fixed_versions by name, since names are unique per
         # project and the versions for self are not yet saved
         if issue.fixed_version
-          new_version = versions.select { |v| v.name == issue.fixed_version.name }.first
+          new_version = versions.detect { |v| v.name == issue.fixed_version.name }
           if new_version
-            new_issue.instance_variable_set(:@changed_attributes, new_issue.changed_attributes.merge('fixed_version_id' => new_version.id))
+            new_issue.skip_fixed_version_validation = true
             new_issue.fixed_version = new_version
           end
         end
         # Reassign the category by name, since names are unique per
         # project and the categories for self are not yet saved
         if issue.category
-          new_issue.category = categories.select { |c| c.name == issue.category.name }.first
+          new_issue.category = categories.detect { |c| c.name == issue.category.name }
         end
         # Parent issue
         if issue.parent_id
@@ -169,7 +169,7 @@ module Project::Copy
       end
 
       # reload all work_packages in our map, they might be modified by movement in their tree
-      work_packages_map.each { |_, v| v.reload }
+      work_packages_map.each do |_, v| v.reload end
 
       # Relations after in case issues related each other
       project.work_packages.each do |issue|
@@ -224,7 +224,7 @@ module Project::Copy
 
       # Update the omitted attributes for the copied memberships
       memberships.each do |new_member|
-        member = project.memberships.find_by_user_id(new_member.user_id)
+        member = project.memberships.find_by(user_id: new_member.user_id)
         Redmine::Hook.call_hook(:copy_project_add_member, new_member: new_member, member: member)
         new_member.save
       end

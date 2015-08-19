@@ -37,8 +37,14 @@
     text-decoration: none
 
 .toolbar-container
-  height:  $header-height
   padding: 0
+  margin-bottom: 12px
+
+  > .subtitle
+    font-size: rem-calc(14px)
+    font-style: italic
+    margin-top: rem-calc(5px)
+    margin-bottom: 10px
 
 #toolbar
   ul
@@ -48,6 +54,12 @@
 
   li
     list-style-type: none
+
+// automatically clear the toolbar
+#toolbar:after
+  clear: both
+  content: ""
+  display: table
 
 #toolbar-items
   li
@@ -77,6 +89,8 @@
   h2
     border: 0
     padding: 12px 0 0 0
+    @include breakpoint(medium down)
+      font-size: $h2-font-size
 
   span
     color: $content-link-color

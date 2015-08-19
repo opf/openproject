@@ -36,7 +36,7 @@ module Migration
 
     def migrate_yaml(table, column, source_yamler, target_yamler)
       current_yamler = YAML::ENGINE.yamler
-      fetch_data(table, column).each do | data |
+      fetch_data(table, column).each do |data|
         db_execute <<-SQL
           UPDATE #{quoted_table_name(table)}
           SET #{db_column(column)} = #{quote_value(yaml_to_yaml(data[column], source_yamler, target_yamler))}

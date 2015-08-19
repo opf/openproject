@@ -236,6 +236,10 @@ fieldset.form--fieldset
     .form--label + span.form--field-container
       display: block
 
+  &.-break-words > .form--label
+    text-overflow: ellipsis
+    overflow: hidden
+
 .form--label
   @include grid-content(2)
   @include grid-visible-overflow
@@ -254,14 +258,15 @@ fieldset.form--fieldset
     @include grid-size(shrink)
     max-width: none
 
+  &.-required,
   .form--field.-required > &
     &::after
       @include default-transition
       content:  '*'
-      color:    #008BD0
+      color:    $primary-color-dark
       padding:  0 0.325rem
     &:hover::after
-      color:    smartscale(#008BD0, 30%)
+      color:    $primary-color
 
 .form--field-container
   @include grid-content(10)

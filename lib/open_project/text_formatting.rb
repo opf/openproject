@@ -44,7 +44,7 @@ module OpenProject
 
     # Truncates and returns the string as a single line
     def truncate_single_line(string, *args)
-      truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ')
+      truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ').html_safe
     end
 
     # Truncates at line break after 250 characters or options[:length]
@@ -80,7 +80,7 @@ module OpenProject
       # don't return html in edit mode when textile or text formatting is enabled
       return text if edit
       project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
-      only_path = options.delete(:only_path) == false ? false : true
+      only_path = options.delete(:only_path) != false
 
       # offer 'plain' as readable version for 'no formatting' to callers
       options_format = options[:format] == 'plain' ? '' : options[:format]
@@ -88,17 +88,17 @@ module OpenProject
       text = Redmine::WikiFormatting.to_html(format, text,
                                              object: obj,
                                              attribute: attr,
-                                             edit: edit) do |macro, macro_args|
+                                             edit: edit) { |macro, macro_args|
         exec_macro(macro, obj, macro_args, view: self, edit: edit, project: project)
-      end
+      }
 
       # TODO: transform modifications into WikiFormatting Helper, or at least ask the helper if he wants his stuff to be modified
       @parsed_headings = []
-      text = parse_non_pre_blocks(text) do |text|
+      text = parse_non_pre_blocks(text) { |text|
         [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings, :parse_relative_urls].each do |method_name|
           send method_name, text, project, obj, attr, only_path, options
         end
-      end
+      }
 
       if @parsed_headings.any?
         replace_toc(text, @parsed_headings)
@@ -115,7 +115,10 @@ module OpenProject
       parsed = ''
       while !s.eos?
         s.scan(/(.*?)(<(\/)?(pre|code)(.*?)>|\z)/im)
-        text, full_tag, closing, tag = s[1], s[2], s[3], s[4]
+        text = s[1]
+        full_tag = s[2]
+        closing = s[3]
+        tag = s[4]
         if tags.empty?
           yield text
         end
@@ -156,16 +159,19 @@ module OpenProject
     def parse_relative_urls(text, _project, _obj, _attr, only_path, _options)
       return if only_path
       text.gsub!(RELATIVE_LINK_RE) do |m|
-        href, relative_url = $1, $2 || $3
+        href = $1
+        relative_url = $2 || $3
         next m unless href.present?
         if defined?(request) && request.present?
           # we have a request!
-          protocol, host_with_port = request.protocol, request.host_with_port
+          protocol = request.protocol
+          host_with_port = request.host_with_port
         elsif @controller
           # use the same methods as url_for in the Mailer
           url_opts = @controller.class.default_url_options
           next m unless url_opts && url_opts[:protocol] && url_opts[:host]
-          protocol, host_with_port = "#{url_opts[:protocol]}://", url_opts[:host]
+          protocol = "#{url_opts[:protocol]}://"
+          host_with_port = url_opts[:host]
         else
           next m
         end
@@ -178,7 +184,10 @@ module OpenProject
       if options[:attachments] || (obj && obj.respond_to?(:attachments))
         attachments = nil
         text.gsub!(/src="([^\/"]+\.(bmp|gif|jpg|jpeg|png))"(\s+alt="([^"]*)")?/i) do |m|
-          filename, ext, alt, alttext = $1.downcase, $2, $3, $4
+          filename = $1.downcase
+          ext = $2
+          alt = $3
+          alttext = $4
           attachments ||= (options[:attachments] || obj.attachments).sort_by(&:created_on).reverse
           # search for the picture in attachments
           if found = attachments.detect { |att| att.filename.downcase == filename }
@@ -208,10 +217,13 @@ module OpenProject
     def parse_wiki_links(text, project, _obj, _attr, only_path, options)
       text.gsub!(/(!)?(\[\[([^\]\n\|]+)(\|([^\]\n\|]+))?\]\])/) do |_m|
         link_project = project
-        esc, all, page, title = $1, $2, $3, $5
+        esc = $1
+        all = $2
+        page = $3
+        title = $5
         if esc.nil?
           if page =~ /\A([^\:]+)\:(.*)\z/
-            link_project = Project.find_by_identifier($1) || Project.find_by_name($1)
+            link_project = Project.find_by(identifier: $1) || Project.find_by(name: $1)
             page = $2
             title ||= $1 if page.blank?
           end
@@ -220,16 +232,17 @@ module OpenProject
             # extract anchor
             anchor = nil
             if page =~ /\A(.+?)\#(.+)\z/
-              page, anchor = $1, $2
+              page = $1
+              anchor = $2
             end
             # check if page exists
             wiki_page = link_project.wiki.find_page(page)
             url = case options[:wiki_links]
-              when :local; "#{title}.html"
-              when :anchor; "##{title}"   # used for single-file wiki export
-              else
-                wiki_page_id = page.present? ? Wiki.titleize(page) : nil
-                url_for(only_path: only_path, controller: '/wiki', action: 'show', project_id: link_project, id: wiki_page_id, anchor: anchor)
+                  when :local; "#{title}.html"
+                  when :anchor; "##{title}"   # used for single-file wiki export
+                  else
+                    wiki_page_id = page.present? ? Wiki.titleize(page) : nil
+                    url_for(only_path: only_path, controller: '/wiki', action: 'show', project_id: link_project, id: wiki_page_id, anchor: anchor)
               end
             link_to(h(title || page), url, class: ('wiki-page' + (wiki_page ? '' : ' new')))
           else
@@ -276,15 +289,21 @@ module OpenProject
     #     identifier:source:some/file
     def parse_redmine_links(text, project, obj, attr, only_path, options)
       text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|version|commit|source|export|message|project)?((#+|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |_m|
-        leading, esc, project_prefix, project_identifier, prefix, sep, identifier = $1, $2, $3, $4, $5, $7 || $9, $8 || $10
+        leading = $1
+        esc = $2
+        project_prefix = $3
+        project_identifier = $4
+        prefix = $5
+        sep = $7 || $9
+        identifier = $8 || $10
         link = nil
         if project_identifier
-          project = Project.visible.find_by_identifier(project_identifier)
+          project = Project.visible.find_by(identifier: project_identifier)
         end
         if esc.nil?
           if prefix.nil? && sep == 'r'
             # project.changesets.visible raises an SQL error because of a double join on repositories
-            if project && project.repository && (changeset = Changeset.visible.find_by_repository_id_and_revision(project.repository.id, identifier))
+            if project && project.repository && (changeset = Changeset.visible.find_by(repository_id: project.repository.id, revision: identifier))
               link = link_to(h("#{project_prefix}r#{identifier}"), { only_path: only_path, controller: '/repositories', action: 'revision', project_id: project, rev: changeset.revision },
                              class: 'changeset',
                              title: truncate_single_line(changeset.comments, length: 100))
@@ -293,34 +312,43 @@ module OpenProject
             oid = identifier.to_i
             case prefix
             when nil
-              if work_package = WorkPackage.visible.find_by_id(oid, include: :status)
+              if work_package = WorkPackage.visible
+                                .includes(:status)
+                                .references(:statuses)
+                                .find_by(id: oid)
                 link = link_to("##{oid}",
                                work_package_path(id: oid, only_path: only_path),
                                class: work_package_css_classes(work_package),
                                title: "#{truncate(work_package.subject, length: 100)} (#{work_package.status.try(:name)})")
               end
             when 'version'
-              if version = Version.visible.find_by_id(oid)
+              if version = Version.visible.find_by(id: oid)
                 link = link_to h(version.name), { only_path: only_path, controller: '/versions', action: 'show', id: version },
                                class: 'version'
               end
             when 'message'
-              if message = Message.visible.find_by_id(oid, include: :parent)
+              if message = Message.visible.includes(:parent).find_by(id: oid)
                 link = link_to_message(message, { only_path: only_path }, class: 'message')
               end
             when 'project'
-              if p = Project.visible.find_by_id(oid)
+              if p = Project.visible.find_by(id: oid)
                 link = link_to_project(p, { only_path: only_path }, class: 'project')
               end
             end
           elsif sep == '##'
             oid = identifier.to_i
-            if work_package = WorkPackage.visible.find_by_id(oid, include: :status)
+            if work_package = WorkPackage.visible
+                              .includes(:status)
+                              .references(:statuses)
+                              .find_by(id: oid)
               link = work_package_quick_info(work_package)
             end
           elsif sep == '###'
             oid = identifier.to_i
-            work_package = WorkPackage.visible.find_by_id(oid, include: :status)
+            work_package = WorkPackage.visible
+                           .includes(:status)
+                           .references(:statuses)
+                           .find_by(id: oid)
             if work_package && obj && !(attr == :description && obj.id == work_package.id)
               link = work_package_quick_info_with_description(work_package)
             end
@@ -329,20 +357,22 @@ module OpenProject
             name = identifier.gsub(%r{\A"(.*)"\z}, '\\1')
             case prefix
             when 'version'
-              if project && version = project.versions.visible.find_by_name(name)
+              if project && version = project.versions.visible.find_by(name: name)
                 link = link_to h(version.name), { only_path: only_path, controller: '/versions', action: 'show', id: version },
                                class: 'version'
               end
             when 'commit'
-              if project && project.repository && (changeset = Changeset.visible.find(:first, conditions: ['repository_id = ? AND scmid LIKE ?', project.repository.id, "#{name}%"]))
+              if project && project.repository && (changeset = Changeset.visible.where(['repository_id = ? AND scmid LIKE ?', project.repository.id, "#{name}%"]).first)
                 link = link_to h("#{project_prefix}#{name}"), { only_path: only_path, controller: '/repositories', action: 'revision', project_id: project, rev: changeset.identifier },
                                class: 'changeset',
-                               title: truncate_single_line(h(changeset.comments), length: 100)
+                               title: truncate_single_line(changeset.comments, length: 100)
               end
             when 'source', 'export'
               if project && project.repository && User.current.allowed_to?(:browse_repository, project)
                 name =~ %r{\A[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?\z}
-                path, rev, anchor = $1, $3, $5
+                path = $1
+                rev = $3
+                anchor = $5
                 link = link_to h("#{project_prefix}#{prefix}:#{name}"), { controller: '/repositories', action: 'entry', project_id: project,
                                                                           path: path.to_s,
                                                                           rev: rev,
@@ -357,7 +387,7 @@ module OpenProject
                                class: 'attachment'
               end
             when 'project'
-              if p = Project.visible.find(:first, conditions: ['identifier = :s OR LOWER(name) = :s', { s: name.downcase }])
+              if p = Project.visible.where(['identifier = :s OR LOWER(name) = :s', { s: name.downcase }]).first
                 link = link_to_project(p, { only_path: only_path }, class: 'project')
               end
             end
@@ -375,11 +405,14 @@ module OpenProject
       return if options[:headings] == false
 
       text.gsub!(HEADING_RE) do
-        level, attrs, content = $1.to_i, $2, $3
+        level = $1.to_i
+        attrs = $2
+        content = $3
         item = strip_tags(content).strip
         anchor = item.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
         @parsed_headings << [level, anchor, item]
-        "<a name=\"#{anchor}\"></a>\n<h#{level} #{attrs}>#{content}<a href=\"##{anchor}\" class=\"wiki-anchor\">&para;</a></h#{level}>"
+        url = full_url(anchor)
+        "<a name=\"#{anchor}\"></a>\n<h#{level} #{attrs}>#{content}<a href=\"#{url}\" class=\"wiki-anchor\">&para;</a></h#{level}>"
       end
     end
 
@@ -408,7 +441,8 @@ module OpenProject
             elsif started
               out << '</li><li>'
             end
-            out << "<a href=\"##{anchor}\">#{item}</a>"
+            url = full_url anchor
+            out << "<a href=\"#{url}\">#{item}</a>"
             current = level
             started = true
           end
@@ -417,6 +451,20 @@ module OpenProject
           out << '</div></fieldset>'
         end
       end
+    end
+
+    #
+    # displays the current url plus an optional anchor
+    #
+    def full_url(anchor_name = '')
+      return "##{anchor_name}" if current_request.nil?
+      current = request.original_fullpath
+      return current if anchor_name.blank?
+      "#{current}##{anchor_name}"
+    end
+
+    def current_request
+      request rescue nil
     end
   end
 end

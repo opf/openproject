@@ -43,11 +43,11 @@ module OpenProject
         def default_url_options
           options = ActionMailer::Base.default_url_options.clone
 
-          reverse_merge = lambda do |opt, value|
+          reverse_merge = lambda { |opt, value|
             unless options[opt] || value.blank?
               options[opt] = value
             end
-          end
+          }
 
           reverse_merge.call :script_name, OpenProject::Configuration.rails_relative_url_root
           reverse_merge.call :host,        OpenProject::StaticRouting::UrlHelpers.host

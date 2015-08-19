@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($http) {
+module.exports = function($http, PathHelper) {
   var getAtWhoParameters = function(url) {
     return {
       at: '#',
@@ -57,7 +57,7 @@ module.exports = function($http) {
   return {
     enableTextareaAutoCompletion: function(textareas) {
       angular.forEach(textareas, function(textarea) {
-        var url = angular.element(textarea).data('wp_autocomplete_url');
+        var url = PathHelper.workPackageJsonAutoCompletePath();
 
         if (url !== undefined && url.length > 0) {
           angular.element(textarea).atwho(getAtWhoParameters(url));

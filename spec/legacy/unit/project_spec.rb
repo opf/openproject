@@ -96,8 +96,8 @@ describe Project, type: :model do
       assert_equal ['work_package_tracking', 'repository'], Project.new.enabled_module_names
     end
 
-    assert_equal Type.all, Project.new.types
-    assert_equal Type.find(1, 3), Project.new(type_ids: [1, 3]).types
+    assert_equal ::Type.all, Project.new.types
+    assert_equal ::Type.find(1, 3), Project.new(type_ids: [1, 3]).types
   end
 
   it 'should update' do
@@ -153,7 +153,7 @@ describe Project, type: :model do
     # Assign an issue of a project to a version of a child project
     WorkPackage.find(4).update_attribute :fixed_version_id, 4
 
-    assert_no_difference "Project.count(:all, :conditions => 'status = #{Project::STATUS_ARCHIVED}')" do
+    assert_no_difference "Project.where('status = #{Project::STATUS_ARCHIVED}').count" do
       assert_equal false, @ecookbook.archive
     end
     @ecookbook.reload
@@ -183,17 +183,17 @@ describe Project, type: :model do
     # 2 active members
     assert_equal 2, @ecookbook.members.size
     # and 1 is locked
-    assert_equal 3, Member.find(:all, conditions: ['project_id = ?', @ecookbook.id]).size
+    assert_equal 3, Member.where(['project_id = ?', @ecookbook.id]).size
     # some boards
     assert @ecookbook.boards.any?
 
     @ecookbook.destroy
     # make sure that the project non longer exists
-    assert_raise(ActiveRecord::RecordNotFound) { Project.find(@ecookbook.id) }
+    assert_raise(ActiveRecord::RecordNotFound) do Project.find(@ecookbook.id) end
     # make sure related data was removed
-    assert_nil Member.first(conditions: { project_id: @ecookbook.id })
-    assert_nil Board.first(conditions: { project_id: @ecookbook.id })
-    assert_nil WorkPackage.first(conditions: { project_id: @ecookbook.id })
+    assert_equal 0, Member.where(project_id: @ecookbook.id).count
+    assert_equal 0, Board.where(project_id: @ecookbook.id).count
+    assert_equal 0, WorkPackage.where(project_id: @ecookbook.id).count
   end
 
   it 'should destroying root projects should clear data' do
@@ -213,7 +213,7 @@ describe Project, type: :model do
     assert_equal 0, Board.count
     assert_equal 0, Message.count
     assert_equal 0, News.count
-    assert_equal 0, Query.count(conditions: 'project_id IS NOT NULL')
+    assert_equal 0, Query.where('project_id IS NOT NULL').count
     assert_equal 0, Repository.count
     assert_equal 0, Changeset.count
     assert_equal 0, Change.count
@@ -224,9 +224,9 @@ describe Project, type: :model do
     assert_equal 0, Wiki.count
     assert_equal 0, WikiPage.count
     assert_equal 0, WikiContent.count
-    assert_equal 0, Project.connection.select_all('SELECT * FROM projects_types').size
-    assert_equal 0, Project.connection.select_all('SELECT * FROM custom_fields_projects').size
-    assert_equal 0, CustomValue.count(conditions: { customized_type: ['Project', 'Issue', 'TimeEntry', 'Version'] })
+    assert_equal 0, Project.connection.select_all('SELECT * FROM projects_types').to_a.size
+    assert_equal 0, Project.connection.select_all('SELECT * FROM custom_fields_projects').to_a.size
+    assert_equal 0, CustomValue.where(customized_type: ['Project', 'Issue', 'TimeEntry', 'Version']).count
   end
 
   it 'should move an orphan project to a root project' do
@@ -416,13 +416,13 @@ describe Project, type: :model do
 
   it 'should rolled up types' do
     parent = Project.find(1)
-    parent.types = Type.find([1, 2])
+    parent.types = ::Type.find([1, 2])
     child = parent.children.find(3)
 
     assert_equal [1, 2], parent.type_ids
     assert_equal [2, 3], child.types.map(&:id)
 
-    assert_kind_of Type, parent.rolled_up_types.first
+    assert_kind_of ::Type, parent.rolled_up_types.first
 
     assert_equal [999, 1, 2, 3], parent.rolled_up_types.map(&:id)
     assert_equal [2, 3], child.rolled_up_types.map(&:id)
@@ -430,9 +430,9 @@ describe Project, type: :model do
 
   it 'should rolled up types should ignore archived subprojects' do
     parent = Project.find(1)
-    parent.types = Type.find([1, 2])
+    parent.types = ::Type.find([1, 2])
     child = parent.children.find(3)
-    child.types = Type.find([1, 3])
+    child.types = ::Type.find([1, 3])
     parent.children.each(&:archive)
 
     assert_equal [1, 2], parent.rolled_up_types.map(&:id)
@@ -570,7 +570,7 @@ describe Project, type: :model do
     assert_equal [1, 2, 3], parent.version_ids.sort
     assert_equal [4], child.version_ids
     assert_equal [6], private_child.version_ids
-    assert_equal [7], Version.find_all_by_sharing('system').map(&:id)
+    assert_equal [7], Version.where(sharing: 'system').map(&:id)
 
     assert_equal 6, parent.shared_versions.size
     parent.shared_versions.each do |version|
@@ -663,7 +663,7 @@ describe Project, type: :model do
 
   it 'should activities should use the system activities' do
     project = Project.find(1)
-    assert_equal project.activities, TimeEntryActivity.find(:all, conditions: { active: true })
+    assert_equal project.activities, TimeEntryActivity.where(active: true).to_a
   end
 
   it 'should activities should use the project specific activities' do
@@ -676,7 +676,7 @@ describe Project, type: :model do
 
   it 'should activities should not include the inactive project specific activities' do
     project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new(name: 'Project', project: project, parent: TimeEntryActivity.find(:first), active: false)
+    overridden_activity = TimeEntryActivity.new(name: 'Project', project: project, parent: TimeEntryActivity.first, active: false)
     assert overridden_activity.save!
 
     assert !project.activities.include?(overridden_activity), 'Inactive Project specific Activity found'
@@ -691,7 +691,7 @@ describe Project, type: :model do
   end
 
   it 'should activities should handle nils' do
-    overridden_activity = TimeEntryActivity.new(name: 'Project', project: Project.find(1), parent: TimeEntryActivity.find(:first))
+    overridden_activity = TimeEntryActivity.new(name: 'Project', project: Project.find(1), parent: TimeEntryActivity.first)
     TimeEntryActivity.delete_all
 
     # No activities
@@ -706,7 +706,7 @@ describe Project, type: :model do
 
   it 'should activities should override system activities with project activities' do
     project = Project.find(1)
-    parent_activity = TimeEntryActivity.find(:first)
+    parent_activity = TimeEntryActivity.first
     overridden_activity = TimeEntryActivity.new(name: 'Project', project: project, parent: parent_activity)
     assert overridden_activity.save!
 
@@ -716,7 +716,7 @@ describe Project, type: :model do
 
   it 'should activities should include inactive activities if specified' do
     project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new(name: 'Project', project: project, parent: TimeEntryActivity.find(:first), active: false)
+    overridden_activity = TimeEntryActivity.new(name: 'Project', project: project, parent: TimeEntryActivity.first, active: false)
     assert overridden_activity.save!
 
     assert project.activities(true).include?(overridden_activity), 'Inactive Project specific Activity not found'
@@ -724,7 +724,7 @@ describe Project, type: :model do
 
   specify 'activities should not include active System activities if the project has an override that is inactive' do
     project = Project.find(1)
-    system_activity = TimeEntryActivity.find_by_name('Design')
+    system_activity = TimeEntryActivity.find_by(name: 'Design')
     assert system_activity.active?
     overridden_activity = TimeEntryActivity.generate!(project: project, parent: system_activity, active: false)
     assert overridden_activity.save!
@@ -760,7 +760,7 @@ describe Project, type: :model do
     end
 
     it 'should copy work units' do
-      @source_project.work_packages << WorkPackage.generate!(status: Status.find_by_name('Closed'),
+      @source_project.work_packages << WorkPackage.generate!(status: Status.find_by(name: 'Closed'),
                                                              subject: 'copy issue status',
                                                              type_id: 1,
                                                              assigned_to_id: 2,
@@ -776,7 +776,7 @@ describe Project, type: :model do
         assert_equal @project, issue.project
       end
 
-      copied_issue = @project.work_packages.first(conditions: { subject: 'copy issue status' })
+      copied_issue = @project.work_packages.find_by(subject: 'copy issue status')
       assert copied_issue
       assert copied_issue.status
       assert_equal 'Closed', copied_issue.status.name
@@ -795,7 +795,29 @@ describe Project, type: :model do
 
       assert @project.copy(@source_project)
       @project.reload
-      copied_issue = @project.work_packages.first(conditions: { subject: 'change the new issues to use the copied version' })
+      copied_issue = @project.work_packages.find_by(subject: 'change the new issues to use the copied version')
+
+      assert copied_issue
+      assert copied_issue.fixed_version
+      assert_equal 'Assigned Issues', copied_issue.fixed_version.name # Same name
+      assert_not_equal assigned_version.id, copied_issue.fixed_version.id # Different record
+    end
+
+    it 'should change the new issues to use the copied closed version' do
+      User.current = User.find(1)
+      assigned_version = Version.generate!(name: 'Assigned Issues', status: 'open')
+      @source_project.versions << assigned_version
+      assert_equal 3, @source_project.versions.size
+      FactoryGirl.create(:work_package, project: @source_project,
+                                        fixed_version_id: assigned_version.id,
+                                        subject: 'change the new issues to use the copied version',
+                                        type_id: 1,
+                                        project_id: @source_project.id)
+      assigned_version.update_attribute(:status, 'closed')
+
+      assert @project.copy(@source_project)
+      @project.reload
+      copied_issue = @project.work_packages.find_by(subject: 'change the new issues to use the copied version')
 
       assert copied_issue
       assert copied_issue.fixed_version
@@ -820,8 +842,8 @@ describe Project, type: :model do
 
       assert @project.copy(@source_project)
       assert_equal @source_project.work_packages.count, @project.work_packages.count
-      copied_issue = @project.work_packages.find_by_subject('Issue on project 2') # Was #4
-      copied_second_issue = @project.work_packages.find_by_subject('copy issue relation')
+      copied_issue = @project.work_packages.find_by(subject: 'Issue on project 2') # Was #4
+      copied_second_issue = @project.work_packages.find_by(subject: 'copy issue relation')
 
       # First issue with a relation on project
       assert_equal 1, copied_issue.relations.size, 'Relation not copied'
@@ -832,7 +854,7 @@ describe Project, type: :model do
 
       # Second issue with a cross project relation
       assert_equal 2, copied_second_issue.relations.size, 'Relation not copied'
-      copied_relation = copied_second_issue.relations.select { |r| r.relation_type == 'duplicates' }.first
+      copied_relation = copied_second_issue.relations.find { |r| r.relation_type == 'duplicates' }
       assert_equal 'duplicates', copied_relation.relation_type
       assert_equal 1, copied_relation.from_id, 'Cross project relation not kept'
       assert_not_equal source_relation_cross_project.id, copied_relation.id
@@ -863,12 +885,12 @@ describe Project, type: :model do
                                role_ids: [2] }
       end).save!
 
-      member = Member.find_by_user_id_and_project_id(user.id, @source_project.id)
+      member = Member.find_by(user_id: user.id, project_id: @source_project.id)
       # additional role
       member.role_ids = [1]
 
       assert @project.copy(@source_project)
-      member = Member.find_by_user_id_and_project_id(user.id, @project.id)
+      member = Member.find_by(user_id: user.id, project_id: @project.id)
       assert_not_nil member
       assert_equal [1, 2], member.role_ids.sort
     end
@@ -977,7 +999,7 @@ describe Project, type: :model do
     before do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
       @project = Project.generate!(identifier: 'test0')
-      @project.types << Type.generate!
+      @project.types << ::Type.generate!
     end
 
     it 'should be nil if there are no issues on the project' do
@@ -999,7 +1021,7 @@ describe Project, type: :model do
     before do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
       @project = Project.generate!(identifier: 'test0')
-      @project.types << Type.generate!
+      @project.types << ::Type.generate!
     end
 
     it 'should be nil if there are no issues on the project' do
@@ -1038,7 +1060,7 @@ describe Project, type: :model do
     before do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
       @project = Project.generate!(identifier: 'test0')
-      @project.types << Type.generate!
+      @project.types << ::Type.generate!
     end
 
     context 'no versions' do
@@ -1057,18 +1079,18 @@ describe Project, type: :model do
 
       it 'should return 100 if the version has only closed issues' do
         v1 = Version.generate!(project: @project)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('Closed'), fixed_version: v1)
+        FactoryGirl.create(:work_package, project: @project, status: Status.find_by(name: 'Closed'), fixed_version: v1)
         v2 = Version.generate!(project: @project)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('Closed'), fixed_version: v2)
+        FactoryGirl.create(:work_package, project: @project, status: Status.find_by(name: 'Closed'), fixed_version: v2)
 
         assert_equal 100, @project.completed_percent
       end
 
       it 'should return the averaged completed percent of the versions (not weighted)' do
         v1 = Version.generate!(project: @project)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('New'), estimated_hours: 10, done_ratio: 50, fixed_version: v1)
+        FactoryGirl.create(:work_package, project: @project, status: Status.find_by(name: 'New'), estimated_hours: 10, done_ratio: 50, fixed_version: v1)
         v2 = Version.generate!(project: @project)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('New'), estimated_hours: 10, done_ratio: 50, fixed_version: v2)
+        FactoryGirl.create(:work_package, project: @project, status: Status.find_by(name: 'New'), estimated_hours: 10, done_ratio: 50, fixed_version: v2)
 
         assert_equal 50, @project.completed_percent
       end

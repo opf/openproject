@@ -41,10 +41,10 @@ module ProjectsHelper
             { name: 'members', action: :manage_members, partial: 'projects/settings/members', label: :label_member_plural },
             { name: 'versions', action: :manage_versions, partial: 'projects/settings/versions', label: :label_version_plural },
             { name: 'categories', action: :manage_categories, partial: 'projects/settings/categories', label: :label_work_package_category_plural },
-            { name: 'repository', action: :manage_repository, partial: 'projects/settings/repository', label: :label_repository },
+            { name: 'repository', action: :manage_repository, partial: 'repositories/settings', label: :label_repository },
             { name: 'boards', action: :manage_boards, partial: 'projects/settings/boards', label: :label_board_plural },
             { name: 'activities', action: :manage_project_activities, partial: 'projects/settings/activities', label: :enumeration_activities },
-            { name: 'types', action: :manage_types, partial: 'projects/settings/types', label: :'label_type_plural' }
+            { name: 'types', action: :manage_types, partial: 'projects/settings/types', label: :label_type_plural }
            ]
     tabs.select { |tab| User.current.allowed_to?(tab[:action], @project) }
   end
@@ -61,7 +61,7 @@ module ProjectsHelper
         # set the project environment to please macros.
         @project = project
         if ancestors.empty? || project.is_descendant_of?(ancestors.last)
-          s << "<ul class='projects #{ ancestors.empty? ? 'root' : nil}'>\n"
+          s << "<ul class='projects #{ancestors.empty? ? 'root' : nil}'>\n"
         else
           ancestors.pop
           s << '</li>'

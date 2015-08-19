@@ -56,11 +56,10 @@ class TimeEntry < ActiveRecord::Base
   validate :validate_project_is_set
   validate :validate_consistency_of_work_package_id
 
-  scope :visible, lambda {|*args|
-                    {
-                      include: :project,
-                      conditions: Project.allowed_to_condition(args.first || User.current, :view_time_entries)
-                    }}
+  scope :visible, -> (*args) {
+    includes(:project)
+      .merge(Project.allowed_to(args.first || User.current, :view_time_entries))
+  }
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 
@@ -106,13 +105,13 @@ class TimeEntry < ActiveRecord::Base
   def self.earliest_date_for_project(project = nil)
     scope = TimeEntry.visible(User.current)
     scope = scope.where(project_id: project.hierarchy.map(&:id)) if project
-    scope.minimum(:spent_on, include: :project)
+    scope.includes(:project).minimum(:spent_on)
   end
 
   def self.latest_date_for_project(project = nil)
     scope = TimeEntry.visible(User.current)
     scope = scope.where(project_id: project.hierarchy.map(&:id)) if project
-    scope.maximum(:spent_on, include: :project)
+    scope.includes(:project).maximum(:spent_on)
   end
 
   private

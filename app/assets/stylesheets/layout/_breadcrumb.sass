@@ -36,7 +36,7 @@
   background: none repeat scroll 0 0 $breadcrumb-bg-color
   border: none
   border-bottom: 1px solid $breadcrumb-border-color
-  margin: 0 0 0 $main-menu-width
+  margin: 0 0 0 ($main-menu-width - $main-menu-item-border-width)
   width: auto
   overflow: hidden
   position: relative
@@ -46,10 +46,6 @@
       margin: 0
   &.hidden-navigation
     margin-left: $main-menu-folded-width
-
-  h1
-    margin-bottom: 0
-    margin-left: 13px
 
   a
     @extend %breadcrumb--default-font
@@ -63,7 +59,7 @@
       max-width: $breadcrumb-height
 
 ul.breadcrumb
-  margin: 0
+  margin: 0 0 0 13px
   padding: 0
   list-style: none
   list-style-position: outside
@@ -86,4 +82,3 @@ ul.breadcrumb
   margin: 0 0 0 10px
   padding: 0 25px 0 0
   background: image-url('breadcrumb-list.png') no-repeat right center
-

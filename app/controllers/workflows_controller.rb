@@ -39,18 +39,18 @@ class WorkflowsController < ApplicationController
   end
 
   def edit
-    @role = Role.find_by_id(params[:role_id])
-    @type = Type.find_by_id(params[:type_id])
+    @role = Role.find_by(id: params[:role_id])
+    @type = ::Type.find_by(id: params[:type_id])
 
     if request.post?
       Workflow.destroy_all(['role_id=? and type_id=?', @role.id, @type.id])
-      (params[:status] || []).each { |status_id, transitions|
+      (params[:status] || []).each do |status_id, transitions|
         transitions.each { |new_status_id, options|
           author = options.is_a?(Array) && options.include?('author') && !options.include?('always')
           assignee = options.is_a?(Array) && options.include?('assignee') && !options.include?('always')
           @role.workflows.build(type_id: @type.id, old_status_id: status_id, new_status_id: new_status_id, author: author, assignee: assignee)
         }
-      }
+      end
       if @role.save
         flash[:notice] = l(:notice_successful_update)
         redirect_to action: 'edit', role_id: @role, type_id: @type
@@ -58,14 +58,14 @@ class WorkflowsController < ApplicationController
       end
     end
 
-    @used_statuses_only = (params[:used_statuses_only] == '0' ? false : true)
+    @used_statuses_only = params[:used_statuses_only] != '0'
     if @type && @used_statuses_only && @type.statuses.any?
       @statuses = @type.statuses
     end
     @statuses ||= Status.all
 
     if @type && @role && @statuses.any?
-      workflows = Workflow.all(conditions: { role_id: @role.id, type_id: @type.id })
+      workflows = Workflow.where(role_id: @role.id, type_id: @type.id)
       @workflows = {}
       @workflows['always'] = workflows.select { |w| !w.author && !w.assignee }
       @workflows['author'] = workflows.select(&:author)
@@ -77,16 +77,16 @@ class WorkflowsController < ApplicationController
     if params[:source_type_id].blank? || params[:source_type_id] == 'any'
       @source_type = nil
     else
-      @source_type = Type.find_by_id(params[:source_type_id].to_i)
+      @source_type = ::Type.find_by(id: params[:source_type_id].to_i)
     end
     if params[:source_role_id].blank? || params[:source_role_id] == 'any'
       @source_role = nil
     else
-      @source_role = Role.find_by_id(params[:source_role_id].to_i)
+      @source_role = Role.find_by(id: params[:source_role_id].to_i)
     end
 
-    @target_types = params[:target_type_ids].blank? ? nil : Type.find_all_by_id(params[:target_type_ids])
-    @target_roles = params[:target_role_ids].blank? ? nil : Role.find_all_by_id(params[:target_role_ids])
+    @target_types = params[:target_type_ids].blank? ? nil : ::Type.where(id: params[:target_type_ids])
+    @target_roles = params[:target_role_ids].blank? ? nil : Role.where(id: params[:target_role_ids])
 
     if request.post?
       if params[:source_type_id].blank? || params[:source_role_id].blank? || (@source_type.nil? && @source_role.nil?)
@@ -104,10 +104,10 @@ class WorkflowsController < ApplicationController
   private
 
   def find_roles
-    @roles = Role.find(:all, order: 'builtin, position')
+    @roles = Role.order('builtin, position')
   end
 
   def find_types
-    @types = Type.find(:all, order: 'position')
+    @types = ::Type.order('position')
   end
 end

@@ -31,18 +31,18 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= call_hook :users_show_head %>
 <% end %>
 
-<% content_for :action_menu_specific do %>
-  <%= link_to(l(:button_edit),
-              edit_user_path(@user),
-              :class => 'icon icon-edit',
-              accesskey: accesskey(:edit)) if User.current.admin? %>
+<%= toolbar title: "#{avatar @user} #{h(@user.name)}" do %>
+  <% if User.current.admin? %>
+    <li class="toolbar-item">
+      <%= link_to edit_user_path(@user), class: 'button', accesskey: accesskey(:edit) do %>
+        <i class="button--icon icon-edit"></i>
+        <span class="button--text"><%= l(:button_edit) %></span>
+      <% end %>
+    </li>
+  <% end %>
 <% end %>
 
-<h2><%= avatar @user %> <%=h @user.name %></h2>
-
-<%= render :partial => 'layouts/action_menu_specific' %>
-
-<div class="grid-block">
+<div class="grid-block medium-up-2">
   <div class="grid-content">
     <%= call_hook :view_account_left_top, :user => @user %>
     <ul>
@@ -53,9 +53,6 @@ See doc/COPYRIGHT.rdoc for more details.
         <% if !custom_value.value.blank? %>
           <li><%=h custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
         <% end %>
-      <% end %>
-      <% unless @user.last_login_on.nil? %>
-        <li><%= User.human_attribute_name(:last_login_on) %>: <%= format_date(@user.last_login_on) %></li>
       <% end %>
     </ul>
 

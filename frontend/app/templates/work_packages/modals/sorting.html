@@ -11,7 +11,7 @@
             <div class="form--field-container">
               <ui-select ng-model="element[0]" theme="select2" focus="!$index" aria-labelledby="sorting_select_description">
                 <ui-select-match>{{$select.selected.label}}</ui-select-match>
-                <ui-select-choices repeat="column as column in getRemainingAvailableColumnsData() | filter: { label: $select.search }">
+                <ui-select-choices repeat="column as column in getRemainingAvailableColumnsData() | filter: { label: $select.search } | orderBy:'label'">
                   <div ng-bind-html="column.label | highlight: $select.search"></div>
                 </ui-select-choices>
               </ui-select>

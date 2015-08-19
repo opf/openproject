@@ -28,8 +28,6 @@
 #++
 
 class WorkPackagesController < ApplicationController
-  unloadable
-
   DEFAULT_SORT_ORDER = ['parent', 'desc']
   EXPORT_FORMATS = %w[atom rss xls csv pdf]
 
@@ -107,12 +105,12 @@ class WorkPackagesController < ApplicationController
 
   def new
     respond_to do |format|
-      format.html {
+      format.html do
         render locals: { work_package: work_package,
                          project: project,
                          priorities: priorities,
                          user: current_user }
-      }
+      end
     end
   end
 
@@ -121,19 +119,19 @@ class WorkPackagesController < ApplicationController
     work_package.update_by(current_user, safe_params)
 
     respond_to do |format|
-      format.js {
+      format.js do
         render locals: { work_package: work_package,
                          project: project,
                          priorities: priorities,
                          user: current_user }
-      }
+      end
     end
   end
 
   def create
     call_hook(:controller_work_package_new_before_save,  params: params, work_package: work_package)
 
-    WorkPackageObserver.instance.send_notification = send_notifications?
+    JournalManager.send_notification = send_notifications?
 
     work_package.attach_files(params[:attachments])
 
@@ -145,12 +143,12 @@ class WorkPackagesController < ApplicationController
       redirect_to(work_package_path(work_package))
     else
       respond_to do |format|
-        format.html {
+        format.html do
           render action: 'new', locals: { work_package: work_package,
                                           project: project,
                                           priorities: priorities,
                                           user: current_user }
-        }
+        end
       end
     end
   end
@@ -177,7 +175,11 @@ class WorkPackagesController < ApplicationController
   def update
     safe_params = permitted_params.update_work_package(project: project)
 
-    update_service = UpdateWorkPackageService.new(current_user, work_package, safe_params, send_notifications?)
+    update_service = UpdateWorkPackageService.new(
+      user: current_user,
+      work_package: work_package,
+      permitted_params: safe_params,
+      send_notifications: send_notifications?)
 
     updated = update_service.update
 
@@ -271,8 +273,8 @@ class WorkPackagesController < ApplicationController
                user: current_user }
 
     respond_to do |format|
-      format.js { render partial: 'edit', locals: locals }
-      format.html { render action: 'edit', locals: locals }
+      format.js   do render partial: 'edit', locals: locals end
+      format.html do render action: 'edit', locals: locals end
     end
   end
 
@@ -288,7 +290,7 @@ class WorkPackagesController < ApplicationController
     @existing_work_package ||= begin
 
       wp = WorkPackage.includes(:project)
-           .find_by_id(params[:id])
+           .find_by(id: params[:id])
 
       wp && wp.visible?(current_user) ?
         wp :
@@ -351,7 +353,6 @@ class WorkPackagesController < ApplicationController
     @changesets ||= begin
       changes = work_package.changesets.visible
                 .includes({ repository: { project: :enabled_modules } }, :user)
-                .all
 
       changes.reverse! if current_user.wants_comments_in_reverse_order?
 
@@ -425,7 +426,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def send_notifications?
-    params[:send_notification] == '0' ? false : true
+    params[:send_notification] != '0'
   end
 
   def per_page_param
@@ -450,7 +451,6 @@ class WorkPackagesController < ApplicationController
     @work_packages = if @query.valid?
                        @results.work_packages.page(page_param)
                        .per_page(per_page_param)
-                       .all
                      else
                        []
                     end

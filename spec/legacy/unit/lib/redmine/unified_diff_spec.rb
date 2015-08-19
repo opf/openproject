@@ -120,7 +120,7 @@ describe Redmine::UnifiedDiff do
 +Another chunk of changes
 
 DIFF
-    )
+                                   )
     assert_equal 1, diff.size
   end
 
@@ -151,7 +151,7 @@ diff -r 000000000000 -r ea98b14f75f0 README4
 +test5
 +test6
 DIFF
-    )
+                                   )
     assert_equal 4, diff.size
   end
 

@@ -53,7 +53,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       let(:embedded) { true }
 
       context 'when no values are allowed' do
-        before { allow(schema).to receive(allowed_values_method).and_return([]) }
+        before do allow(schema).to receive(allowed_values_method).and_return([]) end
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { json_path }
@@ -64,7 +64,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'when values are allowed' do
         let(:values) { FactoryGirl.build_stubbed_list(factory, 3) }
 
-        before { allow(schema).to receive(allowed_values_method).and_return(values) }
+        before do allow(schema).to receive(allowed_values_method).and_return(values) end
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { json_path }
@@ -77,6 +77,26 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         it_behaves_like 'does not link to allowed values' do
           let(:path) { json_path }
+        end
+      end
+    end
+
+    describe 'self link' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'self' }
+        let(:href) {
+          api_v3_paths.work_package_schema(work_package.project.id, work_package.type.id)
+        }
+      end
+
+      context 'embedded in a form' do
+        let(:embedded) { true }
+
+        # In a form there is no guarantee that the current state contains a valid WP
+        let(:work_package) { FactoryGirl.build(:work_package, type: nil) }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'self' }
         end
       end
     end

@@ -113,7 +113,7 @@ describe CopyProjectsController, type: :controller do
     it { expect(Project.count).to eq(2) }
 
     it 'copied project should have enabled modules specified in params' do
-      expect(Project.all.last.enabled_modules.map(&:name)).to match_array(['work_package_tracking', 'boards'])
+      expect(Project.order(:id).last.enabled_modules.map(&:name)).to match_array(['work_package_tracking', 'boards'])
     end
 
     it_behaves_like 'successful copy' do

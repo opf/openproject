@@ -29,11 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= call_hook(:view_repositories_show_contextual, { :repository => @repository, :project => @project }) %>
 
-<%= render :partial => 'navigation' %>
 
-<h2><%= render :partial => 'breadcrumbs', :locals => { :path => @path, :kind => 'dir', :revision => @rev } %></h2>
-
-<%= render :partial => 'layouts/toolbar' %>
+<%= render :partial => 'navigation', locals: { merge: { kind: 'dir' } } %>
 
 <% if !@entries.nil? && authorize_for('repositories', 'browse') %>
 <%= render :partial => 'dir_list' %>
@@ -41,9 +38,63 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= render_properties(@properties) %>
 
+<%# rev => nil prevents overwriting the rev parameter queried for in the form with the parameter from the request %>
+<%= form_tag({ action: controller.action_name,
+               project_id: @project,
+               path: to_path_param(@path),
+               rev: nil
+             },
+             method: :get,
+             id: 'revision_selector',
+             class: 'form -vertical'
+            ) do %>
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= l(:label_revision_plural) %></legend>
+  <div class="grid-block wrap">
+    <div class="form--column medium-3">
+      <div class="form--field -wide-label -break-words ">
+        <label class="form--label"><%= l('repositories.go_to_revision') %></label>
+        <div class="form--field-container">
+          <div class="form--text-field-container">
+            <%= text_field_tag :rev, @rev, id: 'revision-identifier-input', placeholder: l(:label_revision) %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% if !@repository.branches.nil? && @repository.branches.length > 0 %>
+    <div class="form--column medium-3">
+      <div class="form--field -wide-label -break-words ">
+        <label class="form--label"><%= l(:label_branch) %></label>
+        <div class="form--field-container">
+          <div class="form--select-container">
+            <%= select_tag :branch, options_for_select([''] + @repository.branches, @rev), id: 'revision-branch-select' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+    <% if !@repository.tags.nil? && @repository.tags.length > 0 %>
+    <div class="form--column medium-3">
+      <div class="form--field -wide-label -break-words ">
+        <label class="form--label"><%= l(:label_tag) %></label>
+        <div class="form--field-container">
+          <div class="form--select-container">
+            <%= select_tag :tag, options_for_select([''] + @repository.tags, @rev), id: 'revision-tag-select' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <% if User.current.impaired? %>
+    <div>
+      <%= button_tag 'OK', type: :submit, class: 'button -highlight' %>
+    </div>
+  <% end %>
+</fieldset>
+<% end %>
 <% if authorize_for('repositories', 'revisions') %>
 <%   if @changesets && !@changesets.empty? %>
-<h3><%= l(:label_latest_revision_plural) %></h3>
 <%=    render :partial => 'revisions',
               :locals => {:project => @project, :path => @path,
                           :revisions => @changesets, :entry => nil }%>

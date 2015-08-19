@@ -40,7 +40,7 @@ module Redmine
 -text text
 +text modified
       DIFF
-      )
+                                      )
     end
 
     it 'should have 1 modified file' do

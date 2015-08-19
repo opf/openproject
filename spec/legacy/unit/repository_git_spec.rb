@@ -53,6 +53,7 @@ describe Repository::Git, type: :model do
     @project = Project.find(3)
     @repository = Repository::Git.create(
       project:       @project,
+      scm_type:      'local',
       url:           git_repository_path,
       path_encoding: 'ISO-8859-1'
     )
@@ -67,8 +68,8 @@ describe Repository::Git, type: :model do
     @repository.fetch_changesets
     @repository.reload
 
-    assert_equal 21, @repository.changesets.count
-    assert_equal 33, @repository.changes.count
+    assert_equal 22, @repository.changesets.count
+    assert_equal 34, @repository.changes.count
 
     commit = @repository.changesets.reorder('committed_on ASC').first
     assert_equal "Initial import.\nThe repository contains 3 files.", commit.comments
@@ -88,22 +89,22 @@ describe Repository::Git, type: :model do
   it 'should fetch changesets incremental' do
     @repository.fetch_changesets
     # Remove the 3 latest changesets
-    @repository.changesets.find(:all, order: 'committed_on DESC', limit: 8).each(&:destroy)
+    @repository.changesets.order('committed_on DESC').limit(8).each(&:destroy)
     @repository.reload
     cs1 = @repository.changesets
-    assert_equal 13, cs1.count
+    assert_equal 14, cs1.count
 
-    rev_a_commit = @repository.changesets.find(:first, order: 'committed_on DESC')
-    assert_equal '4f26664364207fa8b1af9f8722647ab2d4ac5d43', rev_a_commit.revision
+    rev_a_commit = @repository.changesets.order('committed_on DESC').first
+    assert_equal 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b', rev_a_commit.revision
     # Mon Jul 5 22:34:26 2010 +0200
-    rev_a_committed_on = Time.gm(2010, 7, 5, 20, 34, 26)
-    assert_equal '4f26664364207fa8b1af9f8722647ab2d4ac5d43', rev_a_commit.scmid
+    rev_a_committed_on = Time.gm(2010, 9, 18, 19, 59, 46)
+    assert_equal 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b', rev_a_commit.scmid
     assert_equal rev_a_committed_on, rev_a_commit.committed_on
     latest_rev = @repository.latest_changeset
     assert_equal rev_a_committed_on, latest_rev.committed_on
 
     @repository.fetch_changesets
-    assert_equal 21, @repository.changesets.count
+    assert_equal 22, @repository.changesets.count
   end
 
   it 'should latest changesets' do
@@ -252,14 +253,14 @@ describe Repository::Git, type: :model do
   it 'should identifier' do
     @repository.fetch_changesets
     @repository.reload
-    c = @repository.changesets.find_by_revision('7234cb2750b63f47bff735edc50a1c0a433c2518')
+    c = @repository.changesets.find_by(revision: '7234cb2750b63f47bff735edc50a1c0a433c2518')
     assert_equal c.scmid, c.identifier
   end
 
   it 'should format identifier' do
     @repository.fetch_changesets
     @repository.reload
-    c = @repository.changesets.find_by_revision('7234cb2750b63f47bff735edc50a1c0a433c2518')
+    c = @repository.changesets.find_by(revision: '7234cb2750b63f47bff735edc50a1c0a433c2518')
     assert_equal '7234cb27', c.format_identifier
   end
 
@@ -282,7 +283,7 @@ describe Repository::Git, type: :model do
     if str_felix_hex.respond_to?(:force_encoding)
       str_felix_hex.force_encoding('UTF-8')
     end
-    c = @repository.changesets.find_by_revision('ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
+    c = @repository.changesets.find_by(revision: 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
     assert_equal "#{str_felix_hex} <felix@fachschaften.org>", c.committer
   end
 
@@ -320,7 +321,7 @@ describe Repository::Git, type: :model do
   it 'should next nil' do
     @repository.fetch_changesets
     @repository.reload
-    %w|1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127 1ca7f5ed|.each do |r1|
+    %w|71e5c1d3dca6304805b143b9d0e6695fb3895ea4 71e5c1d3|.each do |r1|
       changeset = @repository.find_changeset_by_name(r1)
       assert_nil changeset.next
     end

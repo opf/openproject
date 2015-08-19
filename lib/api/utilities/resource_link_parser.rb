@@ -44,10 +44,10 @@ module API
         end
 
         def parse_id(resource_link,
-                     property: nil,
+                     property:,
                      expected_version: nil,
                      expected_namespace: nil)
-          raise ArgumentError unless resource_link && property
+          raise ArgumentError unless resource_link
 
           resource = parse(resource_link)
 
@@ -57,11 +57,8 @@ module API
           end
 
           unless resource && version_valid && namespace_valid
-            fail ::API::Errors::Form::InvalidResourceLink.new(property,
-                                                              make_expected_link(
-                                                                expected_version,
-                                                                expected_namespace),
-                                                              resource_link)
+            expected_link = make_expected_link(expected_version, expected_namespace)
+            fail ::API::Errors::InvalidResourceLink.new(property, expected_link, resource_link)
           end
 
           resource[:id]

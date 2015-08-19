@@ -29,7 +29,11 @@
 module.exports = function(
            $scope,
            WorkPackagesOverviewService,
-           WorkPackageFieldService
+           WorkPackageFieldService,
+           EditableFieldsState,
+           WorkPackageDisplayHelper,
+           NotificationsService,
+           I18n
            ) {
 
   var vm = this;
@@ -38,19 +42,20 @@ module.exports = function(
   vm.hideEmptyFields = true;
   vm.workPackage = $scope.workPackage;
 
-  vm.isGroupHideable = isGroupHideable;
-  vm.isFieldHideable = isFieldHideable;
-  vm.getLabel = getLabel;
-  vm.isSpecified = isSpecified;
-  vm.hasNiceStar = hasNiceStar;
-  vm.showToggleButton = showToggleButton;
+  vm.isGroupHideable = WorkPackageDisplayHelper.isGroupHideable;
+  vm.isFieldHideable = WorkPackageDisplayHelper.isFieldHideable;
+  vm.getLabel = WorkPackageDisplayHelper.getLabel;
+  vm.isSpecified = WorkPackageDisplayHelper.isSpecified;
+  vm.hasNiceStar = WorkPackageDisplayHelper.hasNiceStar;
+  vm.showToggleButton = WorkPackageDisplayHelper.showToggleButton;
 
   activate();
 
   function activate() {
-
+    EditableFieldsState.forcedEditState = false;
     $scope.$watch('workPackage.schema', function(schema) {
       if (schema) {
+        WorkPackageDisplayHelper.setFocus();
         vm.workPackage = $scope.workPackage;
       }
     });
@@ -66,36 +71,16 @@ module.exports = function(
         }
       });
       otherGroup.attributes.sort(function(a, b) {
-        return getLabel(a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
+        var getLabel = function(field) {
+          return vm.getLabel(vm.workPackage, field);
+        };
+        var left = getLabel(a).toLowerCase(),
+            right = getLabel(b).toLowerCase();
+        return left.localeCompare(right);
       });
-
     });
-
-  }
-
-  function isGroupHideable(groupName) {
-    var group = _.find(vm.groupedFields, {groupName: groupName});
-    return _.every(group.attributes, isFieldHideable);
-  }
-
-  function isFieldHideable(field) {
-    return WorkPackageFieldService.isHideable(vm.workPackage, field);
-  }
-
-  function isSpecified(field) {
-    return WorkPackageFieldService.isSpecified(vm.workPackage, field);
-  }
-
-  function hasNiceStar(field) {
-    return WorkPackageFieldService.isRequired(vm.workPackage, field) &&
-      WorkPackageFieldService.isEditable(vm.workPackage, field);
-  }
-
-  function getLabel(field) {
-    return WorkPackageFieldService.getLabel(vm.workPackage, field);
-  }
-
-  function showToggleButton() {
-    return true;
+    $scope.$on('workPackageUpdatedInEditor', function() {
+      NotificationsService.addSuccess(I18n.t('js.label_successful_update'));
+    });
   }
 };

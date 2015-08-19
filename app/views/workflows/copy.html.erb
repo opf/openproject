@@ -27,9 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= render :partial => 'action_menu' %>
-
-<h2><%= Workflow.model_name.human %></h2>
+<%= render :partial => 'action_menu', locals: { title: Workflow.model_name.human } %>
 
 <%= styled_form_tag({}, :id => 'workflow_copy_form') do %>
   <section class="form--section">

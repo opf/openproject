@@ -29,13 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= call_hook(:view_repositories_show_contextual, { :repository => @repository, :project => @project }) %>
 
-<%= render :partial => 'navigation' %>
-
-<h2>
-  <%= render :partial => 'breadcrumbs', :locals => { :path => @path, :kind => (@entry ? @entry.kind : nil), :revision => @rev } %>
-</h2>
-
-<%= render :partial => 'layouts/action_menu_specific' %>
+<%= render :partial => 'navigation', locals: { merge: { kind: (@entry ? @entry.kind : nil) } } %>
 
 <p><%= render :partial => 'link_to_functions' %></p>
 

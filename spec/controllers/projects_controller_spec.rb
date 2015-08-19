@@ -166,13 +166,11 @@ describe ProjectsController, type: :controller do
   end
 
   describe 'new' do
-
     it "renders 'new'" do
       get 'new', @params
       expect(response).to be_success
       expect(response).to render_template 'new'
     end
-
   end
 
   describe 'settings' do
@@ -210,7 +208,7 @@ describe ProjectsController, type: :controller do
         it { is_expected.to be_redirect }
       end
 
-      before { allow(User).to receive(:current).and_return user }
+      before do allow(User).to receive(:current).and_return user end
 
       shared_context 'work_packages' do
         before do
@@ -233,11 +231,11 @@ describe ProjectsController, type: :controller do
 
         let(:type_ids) { types.map(&:id) }
 
-        before {
-          put :types,
-              id: project.id,
-              project: { 'type_ids' => type_ids }
-        }
+        before do
+          patch :types,
+                id: project.id,
+                project: { 'type_ids' => type_ids }
+        end
 
         it_behaves_like :redirect
 
@@ -249,11 +247,11 @@ describe ProjectsController, type: :controller do
 
         let(:missing_types) { types }
 
-        before {
-          put :types,
-              id: project.id,
-              project: { 'type_ids' => [] }
-        }
+        before do
+          patch :types,
+                id: project.id,
+                project: { 'type_ids' => [] }
+        end
 
         it_behaves_like :redirect
 
@@ -273,7 +271,7 @@ describe ProjectsController, type: :controller do
       end
 
       context 'no type selected' do
-        before { put :types, id: project.id }
+        before do patch :types, id: project.id end
 
         it_behaves_like :success
 

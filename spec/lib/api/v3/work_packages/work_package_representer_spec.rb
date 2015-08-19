@@ -87,7 +87,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'no start date' do
-          let(:work_package) { FactoryGirl.build(:work_package, start_date: nil) }
+          let(:work_package) { FactoryGirl.build(:work_package, id: 42, start_date: nil) }
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('startDate')
@@ -102,7 +102,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'no due date' do
-          let(:work_package) { FactoryGirl.build(:work_package, due_date: nil) }
+          let(:work_package) { FactoryGirl.build(:work_package, id: 42, due_date: nil) }
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('dueDate')
@@ -148,7 +148,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'spentTime' do
-      before { permissions << :view_time_entries }
+      before do permissions << :view_time_entries end
 
       describe '#content' do
         let(:wp) { FactoryGirl.create(:work_package) }
@@ -189,7 +189,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                                hours: 1.0)
           }
 
-          before { time_entry }
+          before do time_entry end
 
           it { is_expected.to be_json_eql('PT1H'.to_json).at_path('spentTime') }
         end
@@ -202,7 +202,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                                hours: 42.5)
           }
 
-          before { time_entry }
+          before do time_entry end
 
           it { is_expected.to be_json_eql('P1DT18H30M'.to_json).at_path('spentTime') }
         end
@@ -216,7 +216,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'setting disabled' do
-          before { allow(Setting).to receive(:work_package_done_ratio).and_return('disabled') }
+          before do allow(Setting).to receive(:work_package_done_ratio).and_return('disabled') end
 
           it { is_expected.to_not have_json_path('percentageDone') }
         end
@@ -232,8 +232,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe '_links' do
-      it { is_expected.to have_json_type(Object).at_path('_links') }
-
       it_behaves_like 'has a titled link' do
         let(:link) { 'self' }
         let(:href) { "/api/v3/work_packages/#{work_package.id}" }
@@ -290,7 +288,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'assignee' do
         context 'assignee is set' do
           let(:work_package) {
-            FactoryGirl.build(:work_package, assigned_to: FactoryGirl.build(:user))
+            FactoryGirl.build(:work_package, id: 42, assigned_to: FactoryGirl.build(:user))
           }
 
           it_behaves_like 'has a titled link' do
@@ -310,7 +308,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'responsible' do
         context 'responsible is set' do
           let(:work_package) {
-            FactoryGirl.build(:work_package, responsible: FactoryGirl.build(:user))
+            FactoryGirl.build(:work_package, id: 42, responsible: FactoryGirl.build(:user))
           }
 
           it_behaves_like 'has a titled link' do
@@ -323,6 +321,26 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'responsible is not set' do
           it_behaves_like 'has an empty link' do
             let(:link) { 'responsible' }
+          end
+        end
+      end
+
+      describe 'revisions' do
+        context 'when the user lacks the view_changesets permission' do
+          it_behaves_like 'has no link' do
+            let(:link) { 'revisions' }
+          end
+        end
+
+        context 'when the user has the required permission' do
+          let(:revision_permissions) { [:view_changesets] }
+          let(:role) { FactoryGirl.create :role, permissions: permissions + revision_permissions }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'revisions' }
+            let(:href) {
+              api_v3_paths.work_package_revisions(work_package.id)
+            }
           end
         end
       end
@@ -406,17 +424,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'priority' do
         let(:priority) { work_package.priority }
-        let(:link) { "/api/v3/priorities/#{priority.id}".to_json }
-        let(:title) { "#{priority.name}".to_json }
-        let(:href_path) { '_links/priority/href' }
-        let(:title_path) { '_links/priority/title' }
 
-        it 'has a link' do
-          is_expected.to be_json_eql(link).at_path(href_path)
-        end
-
-        it 'has a title' do
-          is_expected.to be_json_eql(title).at_path(title_path)
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'priority' }
+          let(:href) { api_v3_paths.priority(priority.id) }
+          let(:title) { priority.name }
         end
 
         it 'has the priority embedded' do
@@ -426,50 +438,59 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'schema' do
-        let(:schema_id) { "#{work_package.project.id}-#{work_package.type.id}" }
-        let(:link) { "/api/v3/work_packages/schemas/#{schema_id}".to_json }
-        let(:href_path) { '_links/schema/href' }
-
-        it 'has a link' do
-          is_expected.to be_json_eql(link).at_path(href_path)
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'schema' }
+          let(:href) {
+            api_v3_paths.work_package_schema(work_package.project.id, work_package.type.id)
+          }
         end
       end
 
-      context 'when the user has the permission to view work packages' do
-        context 'and the user is not watching the work package' do
-          it 'should have a link to watch' do
-            expect(subject).to have_json_path('_links/watchChanges/href')
-          end
-
-          it 'should not have a link to unwatch' do
-            expect(subject).not_to have_json_path('_links/unwatchChanges/href')
-          end
+      describe 'attachments' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'attachments' }
+          let(:href) { api_v3_paths.attachments_by_work_package(work_package.id) }
         end
 
-        context 'and the user is watching the work package' do
-          before do
-            work_package.watcher_users << current_user
-          end
+        it 'embeds the attachments as collection' do
+          is_expected.to be_json_eql('Collection'.to_json).at_path('_embedded/attachments/_type')
+        end
 
-          it 'should have a link to watch' do
-            expect(subject).to have_json_path('_links/unwatchChanges/href')
-          end
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'addAttachment' }
+          let(:href) { api_v3_paths.attachments_by_work_package(work_package.id) }
+        end
 
-          it 'should not have a link to watch' do
-            expect(subject).not_to have_json_path('_links/watchChanges/href')
-          end
+        it 'addAttachments is a post link' do
+          is_expected.to be_json_eql('post'.to_json).at_path('_links/addAttachment/method')
         end
       end
 
-      context 'and the user does not have the permission to view work packages' do
-        let(:current_user) { FactoryGirl.create :user }
+      context 'when the user is not watching the work package' do
+        it 'should have a link to watch' do
+          expect(subject).to be_json_eql(
+                               api_v3_paths.work_package_watchers(work_package.id).to_json)
+            .at_path('_links/watch/href')
+        end
 
         it 'should not have a link to unwatch' do
-          expect(subject).not_to have_json_path('_links/unwatchChanges/href')
+          expect(subject).not_to have_json_path('_links/unwatch/href')
+        end
+      end
+
+      context 'when the user is watching the work package' do
+        before do
+          work_package.watcher_users << current_user
+        end
+
+        it 'should have a link to unwatch' do
+          expect(subject).to be_json_eql(
+                               api_v3_paths.watcher(current_user.id, work_package.id).to_json)
+            .at_path('_links/unwatch/href')
         end
 
         it 'should not have a link to watch' do
-          expect(subject).not_to have_json_path('_links/watchChanges/href')
+          expect(subject).not_to have_json_path('_links/watch/href')
         end
       end
 
@@ -491,7 +512,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       context 'when the user has the permission to add and remove watchers' do
         it 'should have a link to add watcher' do
-          expect(subject).to have_json_path('_links/addWatcher/href')
+          expect(subject).to be_json_eql(
+                               api_v3_paths.work_package_watchers(work_package.id).to_json)
+            .at_path('_links/addWatcher/href')
+        end
+
+        it 'should have a link to remove watcher' do
+          expect(subject).to be_json_eql(
+                               api_v3_paths.watcher('{user_id}', work_package.id).to_json)
+            .at_path('_links/removeWatcher/href')
         end
       end
 
@@ -502,6 +531,39 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         it 'should not have a link to add watcher' do
           expect(subject).not_to have_json_path('_links/addWatcher/href')
+        end
+      end
+
+      context 'when the user does not have the permission to remove watchers' do
+        before do
+          role.permissions.delete(:delete_work_package_watchers) and role.save
+        end
+
+        it 'should not have a link to remove watcher' do
+          expect(subject).not_to have_json_path('_links/removeWatcher/href')
+        end
+      end
+
+      describe 'watchers link' do
+        context 'when the user is allowed to see watchers' do
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'watchers' }
+            let(:href) { api_v3_paths.work_package_watchers work_package.id }
+          end
+
+          it 'embeds the watchers as collection' do
+            is_expected.to be_json_eql('Collection'.to_json).at_path('_embedded/watchers/_type')
+          end
+        end
+
+        context 'when the user is not allowed to see watchers' do
+          before do
+            role.permissions.delete(:view_work_package_watchers) and role.save
+          end
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'watchers' }
+          end
         end
       end
 
@@ -694,25 +756,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'activities' do
         it { is_expected.to have_json_type(Array).at_path('_embedded/activities') }
         it { is_expected.to have_json_size(0).at_path('_embedded/activities') }
-      end
-
-      describe 'attachments' do
-        it { is_expected.to have_json_type(Array).at_path('_embedded/attachments') }
-        it { is_expected.to have_json_size(0).at_path('_embedded/attachments') }
-      end
-
-      describe 'watchers' do
-        context 'when the current user has the permission to view work packages' do
-          it { is_expected.to have_json_path('_embedded/watchers') }
-        end
-
-        context 'when the current user does not have the permission to view work packages' do
-          before do
-            role.permissions.delete(:view_work_package_watchers) and role.save
-          end
-
-          it { is_expected.not_to have_json_path('_embedded/watchers') }
-        end
       end
     end
   end

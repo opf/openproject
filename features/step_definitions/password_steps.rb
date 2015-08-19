@@ -137,13 +137,13 @@ When /^I activate the ([a-z, ]+) password rules$/ do |rules|
 end
 
 def set_user_attribute(login, attribute, value)
-  user = User.find_by_login login
+  user = User.find_by login: login
   user.send((attribute.to_s + '=').to_sym, value)
   user.save
 end
 
 Given /^the user "(.+)" is(not |) forced to change his password$/ do |login, disable|
-  set_user_attribute(login, :force_password_change, (disable == 'not ') ? false : true)
+  set_user_attribute(login, :force_password_change, disable != 'not ')
 end
 
 Given /^I use the first existing token to request a password reset$/ do

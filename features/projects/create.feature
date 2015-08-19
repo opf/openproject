@@ -29,20 +29,20 @@
 Feature: Creating Projects
   Background:
     Given there is 1 project with the following:
-      | name        | Parent      |
+      | name        | parent      |
       | identifier  | parent      |
     And I am already admin
 
   @javascript
   Scenario: Creating a Subproject
-    When I go to the overview page of the project "Parent"
+    When I go to the settings page of the project "parent"
      And I follow "New subproject"
      And I fill in "project_name" with "child"
      And I press "Save"
     Then I should be on the settings page of the project called "child"
 
   Scenario: Creating a Subproject
-    When I go to the overview page of the project "Parent"
+    When I go to the settings page of the project "parent"
      And I follow "New subproject"
     Then I should not see "Responsible"
 

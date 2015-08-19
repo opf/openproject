@@ -27,9 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l(:label_administration), "#{l(:label_edit)} #{Status.model_name.human} #{@status.name}" %>
-
-<h2><%= link_to l(:label_work_package_status_plural), :controller => '/statuses', :action => 'index' %> &#187; <%=h @status %></h2>
+<% html_title l(:label_administration), "#{l(:label_edit)} #{Status.model_name.human} #{h @status.name}" %>
+<%= toolbar title: "#{link_to l(:label_work_package_status_plural), new_status_path} &raquo; #{h @status.name}"%>
 
 <%= labelled_tabular_form_for(@status) do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>

@@ -32,6 +32,7 @@ module.exports = function() {
                           'menubar=no, status=no, scrollbars=yes&quot;); return false;',
       HELP_LINK_HTML = jQuery('<button title="' + I18n.t('js.inplace.link_formatting_help') + '"' +
                               ' class="jstb_help icon icon-help" ' +
+                              ' type="button" ' +
                               'onclick="' + HELP_LINK_ONCLICK + '">' +
                               '<span class="hidden-for-sighted">' +
                               I18n.t('js.inplace.link_formatting_help') +

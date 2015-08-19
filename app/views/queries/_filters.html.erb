@@ -33,6 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
       select = $('add_filter_select');
       field = select.value
       Element.show('tr_' +  field);
+      Element.show('filter_spacer');
       check_box = $('cb_' + field);
       check_box.checked = true;
       toggle_filter(field);
@@ -160,7 +161,7 @@ when  :list, :list_optional, :list_status, :list_subprojects %>
      </li>
   <% end %>
 
-  <li class="advanced-filters--spacer"></li>
+  <li style="display:none" id="filter_spacer" class="advanced-filters--spacer"></li>
 
   <li class="advanced-filters--add-filter">
     <label for="add_filter_select" class="advanced-filters--add-filter-label">

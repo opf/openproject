@@ -36,10 +36,7 @@ module WorkPackage::PdfExporter
 
   # Returns a PDF string of a list of work_packages
   def pdf(work_packages, project, query, results, options = {})
-    if  current_language.to_s.downcase == 'ko'    ||
-        current_language.to_s.downcase == 'ja'    ||
-        current_language.to_s.downcase == 'zh'    ||
-        current_language.to_s.downcase == 'zh-tw' ||
+    if  current_language.to_s.downcase == 'ko' || current_language.to_s.downcase == 'ja' || current_language.to_s.downcase == 'zh' || current_language.to_s.downcase == 'zh-tw' ||
         current_language.to_s.downcase == 'th'
       pdf = IFPDF.new(current_language)
     else
@@ -64,9 +61,9 @@ module WorkPackage::PdfExporter
     table_width = page_width - right_margin - 10  # fixed left margin
     col_width = []
     unless query.columns.empty?
-      col_width = query.columns.map do |c|
+      col_width = query.columns.map { |c|
         (c.name == :subject || (c.is_a?(QueryCustomFieldColumn) && ['string', 'text'].include?(c.custom_field.field_format))) ? 4.0 : 1.0
-      end
+      }
       ratio = table_width / col_width.reduce(:+)
       col_width = col_width.map { |w| w * ratio }
     end
@@ -99,7 +96,7 @@ module WorkPackage::PdfExporter
       end
 
       # fetch all the row values
-      col_values = query.columns.map do |column|
+      col_values = query.columns.map { |column|
         s = if column.is_a?(QueryCustomFieldColumn)
               cv = work_package.custom_values.detect { |v| v.custom_field_id == column.custom_field.id }
               show_value(cv)
@@ -114,7 +111,7 @@ module WorkPackage::PdfExporter
               end
             end
         s.to_s
-      end
+      }
 
       # render it off-page to find the max height used
       base_x = pdf.GetX
@@ -169,10 +166,7 @@ module WorkPackage::PdfExporter
 
   # Returns a PDF string of a single work_package
   def work_package_to_pdf(work_package)
-    if  current_language.to_s.downcase == 'ko'    ||
-        current_language.to_s.downcase == 'ja'    ||
-        current_language.to_s.downcase == 'zh'    ||
-        current_language.to_s.downcase == 'zh-tw' ||
+    if  current_language.to_s.downcase == 'ko' || current_language.to_s.downcase == 'ja' || current_language.to_s.downcase == 'zh' || current_language.to_s.downcase == 'zh-tw' ||
         current_language.to_s.downcase == 'th'
       pdf = IFPDF.new(current_language)
     else
@@ -264,7 +258,7 @@ module WorkPackage::PdfExporter
     pdf.SetFontStyle('B', 9)
     pdf.RDMCell(190, 5, l(:label_history), 'B')
     pdf.Ln
-    for journal in work_package.journals.find(:all, include: [:user], order: "#{Journal.table_name}.created_at ASC")
+    for journal in work_package.journals.includes(:user).order("#{Journal.table_name}.created_at ASC")
       next if journal.initial?
       pdf.SetFontStyle('B', 8)
       pdf.RDMCell(190, 5, format_time(journal.created_at) + ' - ' + journal.user.name)

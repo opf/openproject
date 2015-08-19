@@ -37,9 +37,13 @@ require 'fileutils'
 require 'rspec/mocks'
 require 'factory_girl_rails'
 
+require_relative './support/file_helpers'
+require_relative './support/shared/with_mock_request'
 require_relative './legacy/support/legacy_assertions'
+require_relative './support/repository_helpers'
 
 require_relative './legacy/support/object_daddy_helpers'
+
 include ObjectDaddyHelpers
 
 require 'rspec/rails'
@@ -72,7 +76,7 @@ RSpec.configure do |config|
     end
   }, file_path: %r(spec/legacy/integration))
 
-  config.before(:suite) do |example|
+  config.before(:suite) do |_example|
     Delayed::Worker.delay_jobs = false
 
     OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'

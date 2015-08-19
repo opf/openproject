@@ -31,10 +31,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title l('timelines.reporting_for_project.show',
                 :title => h(@reporting.reporting_to_project.name)) %>
-<h2>
-  <%= l('timelines.reporting_for_project.show',
-        :title => link_to_project(@reporting.reporting_to_project)).html_safe %>
-</h2>
+
+<%= render partial: 'toolbar', locals: { show_actions: false } %>
 
 <%= form_for :reporting,
             :url  => project_reporting_path(@project, @reporting),

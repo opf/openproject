@@ -56,7 +56,7 @@ Feature: User deletion
       | login     | bob |
     And I am already admin
     When I go to the edit page of the user "bob"
-    And I select "Delete" from the action menu
+    And I click "Delete"
     And I press "Delete"
     And I accept the alert dialog
     Then I should see "Account successfully deleted"
@@ -68,7 +68,7 @@ Feature: User deletion
       | login     | bob |
     And I am already admin
     And I go to the edit page of the user "bob"
-    Then there should not be a "Delete" entry in the action menu
+    Then I should not see "Delete" within "#toolbar"
 
   Scenario: Deletablilty settings can be set in the users tab of the settings
     Given I am already admin

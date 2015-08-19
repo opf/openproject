@@ -51,10 +51,29 @@ describe WikiController, type: :routing do
 
     it do
       expect(get('/projects/abc/wiki/abc_wiki?version=3')).to route_to(
-                 controller: 'wiki',
-                 action: 'show',
-                 project_id: 'abc',
-                 id: 'abc_wiki')
+        controller: 'wiki',
+        action: 'show',
+        project_id: 'abc',
+        id: 'abc_wiki',
+        version: '3')
+    end
+
+    it 'should connect GET /projects/:project_id/wiki/:id/parent_page to wiki/edit_parent_page' do
+      expect(get('/projects/abc/wiki/abc_wiki/parent_page'))
+        .to route_to(
+          controller: 'wiki',
+          action: 'edit_parent_page',
+          project_id: 'abc',
+          id: 'abc_wiki')
+    end
+
+    it 'should connect PATCH /projects/:project_id/wiki/:id/parent_page to wiki/update_parent_page' do
+      expect(patch('/projects/abc/wiki/abc_wiki/parent_page'))
+        .to route_to(
+          controller: 'wiki',
+          action: 'update_parent_page',
+          project_id: 'abc',
+          id: 'abc_wiki')
     end
   end
 end

@@ -27,7 +27,8 @@
     "foundation-apps": "1.1.0",
     "bourbon": "~4.2.1",
     "ui-select": "0xf013/ui-select#c7bef79e24cbeab977635c7a94d8f9504d4ee2e2",
-    "mousetrap": "~1.4.6"
+    "mousetrap": "~1.4.6",
+    "ng-file-upload": "~5.0.9"
   },
   "devDependencies": {
     "mocha": "~1.14.0",
@@ -39,6 +40,7 @@
     "jquery": "1.11.0",
     "angular": "1.3.14",
     "angular-animate": "1.3.14",
-    "moment": "9bc879e7b146c484b499b3135b8d84e8425f8ec4"
+    "moment": "9bc879e7b146c484b499b3135b8d84e8425f8ec4",
+    "select2": "3.5.2"
   }
 }

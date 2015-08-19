@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% content_for :toolbar do %>
+<%= toolbar title: "#{l(:label_revision)} #{format_revision(@changeset)}" do %>
   <li class="toolbar-item">
     <% if @changeset.previous.nil? %>
       <button class="button" disabled="disabled"><%= l(:label_previous) %></button>
@@ -48,8 +48,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </li>
 <% end %>
-<h2><%= l(:label_revision) %> <%= format_revision(@changeset) %></h2>
-<%= render :partial => 'layouts/toolbar' %>
 <p><% if @changeset.scmid %>ID: <%= h(@changeset.scmid) %><br />
   <% end %>
   <span class="author"><%= authoring(@changeset.committed_on, @changeset.author) %></span></p>

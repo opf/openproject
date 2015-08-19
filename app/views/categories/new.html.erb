@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<h2><%=l(:label_work_package_category_new)%></h2>
+<%= toolbar title: l(:label_work_package_category_new) %>
 <%= labelled_tabular_form_for [@project, @category], :as => :category  do |f| %>
   <%= render :partial => 'categories/form', :locals => { :f => f } %>
   <%= f.button l(:button_create), class: 'button -highlight -with-icon icon-yes' %>

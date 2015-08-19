@@ -29,7 +29,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/statuses/index.api.rabl', type: :view do
-
   before do
     params[:format] = 'json'
   end
@@ -60,7 +59,5 @@ describe 'api/v2/statuses/index.api.rabl', type: :view do
 
       expect(response).to have_json_size(3).at_path('statuses')
     end
-
   end
-
 end

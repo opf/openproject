@@ -59,11 +59,6 @@ module Redmine
       end
 
       module ClassMethods
-        attr_writer :journal_class_name
-        def journal_class_name
-          defined?(@journal_class_name) ? @journal_class_name : superclass.journal_class_name
-        end
-
         def plural_name
           name.underscore.pluralize
         end
@@ -74,8 +69,6 @@ module Redmine
         # To apply more than on activity, use acts_as_activity
         def acts_as_journalized(options = {}, &block)
           activity_hash, event_hash, journal_hash = split_option_hashes(options)
-
-          self.journal_class_name = journal_hash.delete(:class_name) || "#{name.gsub('::', '_')}Journal"
 
           return if journaled?
 
@@ -96,42 +89,13 @@ module Redmine
           (journal_hash[:except] ||= []) << primary_key << inheritance_column <<
             :updated_on << :updated_at << :lock_version << :lft << :rgt
 
-          prepare_journaled_options(journal_hash)
+          journal_hash = prepare_journaled_options(journal_hash)
 
-          has_many :journals, journal_hash, &block
-        end
-
-        def journal_class
-          if Object.const_defined?(journal_class_name)
-            jclass = Object.const_get(journal_class_name)
-            if jclass.superclass == Journal
-              jclass
-            else
-              # We are running into some nasty reloaded things in here. Journal
-              # is a reloaded version, jclass.superclass is an older version
-              # from a previous request.
-              #
-              # So we are just removing the const and triggering ourselves
-              # recursively to create a new up-to-date version of the
-              # journal_class with working superclass pointers.
-              Object.send :remove_const, journal_class_name
-              journal_class
-            end
-          else
-            Object.const_set(journal_class_name, Class.new(Journal)).tap do |c|
-              # Run after the inherited hook to associate with the parent record.
-              # This eager loads the associated project (for permissions) if possible
-              if project_assoc = reflect_on_association(:project).try(:name)
-                include_option = ", :include => :#{project_assoc}"
-              end
-              c.class_eval("belongs_to :journaled, :class_name => '#{name}' #{include_option}")
-              c.class_eval("belongs_to :#{name.gsub('::', '_').underscore},
-                  :foreign_key => 'journaled_id' #{include_option}")
-              c.class_eval("def self.journaled_class
-                              #{self}
-                            end")
-            end
-          end
+          journable_type = to_s
+          has_many :journals, -> {
+            where(journable_type: journable_type)
+              .order("#{Journal.table_name}.version ASC")
+          }, journal_hash, &block
         end
 
         private

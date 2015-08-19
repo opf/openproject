@@ -65,7 +65,7 @@ See doc/COPYRIGHT.rdoc for more details.
   //]]>
 </script>
 
-<% content_for :toolbar do %>
+<%= toolbar title: l(:label_my_page) do %>
     <li class="toolbar-item">
       <%= styled_form_tag({:action => "add_block"}, :id => "block-form") do %>
         <%= styled_select_tag 'block', "<option>--#{t(:button_add)}--</option>".html_safe + options_for_select(@block_options),
@@ -85,14 +85,12 @@ See doc/COPYRIGHT.rdoc for more details.
     </li>
   <li class="toolbar-item">
     <%= link_to({action: 'page'}, class: 'button') do %>
-      <i class="icon-cancel"></i> <%= l(:button_back) %>
+      <i class="button--icon icon-cancel"></i>
+      <span class="button--text"><%= l(:button_back) %></span>
     <% end %>
   </li>
 <% end %>
 
-<h2><%=l(:label_my_page)%></h2>
-
-<%= render :partial => 'layouts/toolbar' %>
 <h4><%=l(:label_visible_elements) %></h4>
 <div id="visible-grid">
   <div class="grid-block">
@@ -104,13 +102,13 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </div>
   <div class="grid-block">
-    <div id="list-left" class="grid-content block-receiver">
+    <div id="list-left" class="grid-content block-receiver left">
       <% @blocks['left'].each do |b|
          next unless MyController.available_blocks.keys.include? b %>
         <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
       <% end if @blocks['left'] %>
     </div>
-    <div id="list-right" class="grid-content block-receiver">
+    <div id="list-right" class="grid-content block-receiver right">
       <% @blocks['right'].each do |b|
          next unless MyController.available_blocks.keys.include? b %>
         <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>

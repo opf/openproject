@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe 'WorkPackage-Visibility', type: :model do
-
   let(:admin)    { FactoryGirl.create(:admin) }
   let(:anonymous) { FactoryGirl.create(:anonymous) }
   let(:user)    { FactoryGirl.create(:user) }
@@ -48,7 +47,6 @@ describe 'WorkPackage-Visibility', type: :model do
       Role.anonymous.add_permission! :view_work_packages
       expect(WorkPackage.visible(anonymous)).to include subject
     end
-
   end
 
   describe 'of private projects' do
@@ -78,5 +76,4 @@ describe 'WorkPackage-Visibility', type: :model do
       expect(WorkPackage.visible(user)).not_to include subject
     end
   end
-
 end

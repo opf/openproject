@@ -30,6 +30,12 @@ Attr:
 BlockNesting:
   Enabled: false
 
+BlockDelimiters:
+  Enabled: true
+  EnforcedStyle: semantic
+  IgnoredMethods:
+    - default_scope
+
 Blocks:
   Enabled: false
 
@@ -125,7 +131,7 @@ LineEndConcatenation:
   Enabled: false
 
 LineLength:
-  Max: 99
+  Max: 100
 
 MethodLength:
   Enabled: false

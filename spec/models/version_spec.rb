@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe Version, type: :model do
-
   subject(:version) { FactoryGirl.build(:version, name: 'Test Version') }
 
   it { is_expected.to be_valid }
@@ -64,21 +63,69 @@ describe Version, type: :model do
       version.sharing = 'system'
       version.save!
 
-      expect(Version.systemwide.all).to match_array [version]
+      expect(Version.systemwide).to match_array [version]
     end
 
     it 'is empty if the version is not shared' do
       version.sharing = 'none'
       version.save!
 
-      expect(Version.systemwide.all).to be_empty
+      expect(Version.systemwide).to be_empty
     end
 
     it 'is empty if the version is shared with the project hierarchy' do
       version.sharing = 'hierarchy'
       version.save!
 
-      expect(Version.systemwide.all).to be_empty
+      expect(Version.systemwide).to be_empty
+    end
+  end
+
+  context '#<=>' do
+    let(:version1) { FactoryGirl.build_stubbed(:version) }
+    let(:version2) { FactoryGirl.build_stubbed(:version) }
+
+    it 'is 0 if name and project are equal' do
+      version1.project = version2.project
+      version1.name = version2.name
+
+      expect(version1 <=> version2).to be 0
+    end
+
+    it "is -1 if the project name is alphabetically before the other's project name" do
+      version1.name = 'BBBB'
+      version1.project.name = 'AAAA'
+      version2.name = 'AAAA'
+      version2.project.name = 'BBBB'
+
+      expect(version1 <=> version2).to eql -1
+    end
+
+    it "is 1 if the project name is alphabetically after the other's project name" do
+      version1.name = 'AAAA'
+      version1.project.name = 'BBBB'
+      version2.name = 'BBBB'
+      version2.project.name = 'AAAA'
+
+      expect(version1 <=> version2).to eql 1
+    end
+
+    it "is -1 if the project name is equal
+        and the version's name is alphabetically before the other's name" do
+      version1.project.name = version2.project.name
+      version1.name = 'AAAA'
+      version2.name = 'BBBB'
+
+      expect(version1 <=> version2).to eql -1
+    end
+
+    it "is 1 if the project name is equal
+        and the version's name is alphabetically after the other's name" do
+      version1.project.name = version2.project.name
+      version1.name = 'BBBB'
+      version2.name = 'AAAA'
+
+      expect(version1 <=> version2).to eql 1
     end
   end
 

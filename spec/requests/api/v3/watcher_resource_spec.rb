@@ -34,76 +34,125 @@ describe 'API v3 Watcher resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
-  let(:add_watchers_role) do
-    FactoryGirl.create(:role, permissions: [:add_work_package_watchers, :view_work_packages])
-  end
-  let(:delete_watchers_role) do
-    FactoryGirl.create(:role, permissions: [:delete_work_package_watchers, :view_work_packages])
-  end
+  let(:current_user) {
+    FactoryGirl.create :user, member_in_project: project, member_through_role: role
+  }
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:permissions) { [] }
   let(:view_work_packages_role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:work_package) { FactoryGirl.create(:work_package, project_id: project.id) }
-  let(:available_watcher) { FactoryGirl.create(:user, member_in_project: project, member_through_role: view_work_packages_role) }
-  let(:watcher) { FactoryGirl.create :user,  member_in_project: project, member_through_role: view_work_packages_role }
-  let(:existing_watcher) { FactoryGirl.create(:watcher, watchable: work_package, user: watcher) }
+  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:available_watcher) {
+    FactoryGirl.create :user,
+                       member_in_project: project,
+                       member_through_role: view_work_packages_role
+  }
+
+  let(:watching_user) {
+    FactoryGirl.create :user,
+                       member_in_project: project,
+                       member_through_role: view_work_packages_role
+  }
+  let(:existing_watcher) {
+    FactoryGirl.create(:watcher, watchable: work_package, user: watching_user)
+  }
+
+  subject(:response) { last_response }
 
   before do
     allow(User).to receive(:current).and_return current_user
+    existing_watcher
+  end
+
+  describe '#get' do
+    let(:get_path) { api_v3_paths.work_package_watchers work_package.id }
+    let(:permissions) { [:view_work_packages, :view_work_package_watchers] }
+
+    before do
+      get get_path
+    end
+
+    it_behaves_like 'API V3 collection response', 1, 1, 'User'
+
+    context 'user not allowed to see watchers' do
+      let(:permissions) { [:view_work_packages] }
+
+      it_behaves_like 'unauthorized access'
+    end
+
+    context 'user not allowed to see work package' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'not found'
+    end
   end
 
   describe '#post' do
-    subject(:response) { last_response }
-
     let(:post_path) { api_v3_paths.work_package_watchers work_package.id }
+    let(:post_body) {
+      {
+        user: { href: api_v3_paths.user(new_watcher.id) }
+      }.to_json
+    }
     let(:new_watcher) { available_watcher }
 
-    before do
-      existing_watcher
+    let(:permissions) { [:add_work_package_watchers, :view_work_packages] }
 
-      post post_path, %{{"user_id": #{new_watcher.id}}},   'CONTENT_TYPE' => 'application/json'
+    before do
+      post post_path, post_body, 'CONTENT_TYPE' => 'application/json'
     end
 
-    context 'authorized user' do
-      let(:current_user) { FactoryGirl.create :user,  member_in_project: project, member_through_role: add_watchers_role }
+    it 'should respond with 201' do
+      expect(subject.status).to eq(201)
+    end
 
-      it 'should respond with 201' do
-        expect(subject.status).to eq(201)
+    it 'should respond with newly added watcher' do
+      expect(subject.body).to be_json_eql('User'.to_json).at_path('_type')
+      expect(subject.body).to be_json_eql(available_watcher.login.to_json).at_path('login')
+    end
+
+    context 'when user is already watcher' do
+      let(:new_watcher) { watching_user }
+
+      it 'should respond with 200' do
+        expect(subject.status).to eq(200)
       end
 
-      it 'should respond with newly added watcher' do
+      it 'should respond with correct watcher' do
         expect(subject.body).to be_json_eql('User'.to_json).at_path('_type')
-        expect(subject.body).to be_json_eql(available_watcher.login.to_json).at_path('login')
+        expect(subject.body).to be_json_eql(watching_user.login.to_json).at_path('login')
       end
+    end
 
-      context 'when user is already watcher' do
-        let(:new_watcher) { watcher }
+    context 'when the work package does not exist' do
+      let(:post_path) { api_v3_paths.work_package_watchers 9999 }
 
-        it 'should respond with 200' do
-          expect(subject.status).to eq(200)
-        end
-
-        it 'should respond with correct watcher' do
-          expect(subject.body).to be_json_eql('User'.to_json).at_path('_type')
-          expect(subject.body).to be_json_eql(watcher.login.to_json).at_path('login')
-        end
+      it_behaves_like 'not found' do
+        let(:id) { 9999 }
+        let(:type) { 'WorkPackage' }
       end
+    end
 
-      context 'when work package doesn\'t exist' do
-        let(:post_path) { api_v3_paths.work_package_watchers 9999 }
+    context 'when the user does not exist' do
+      let(:post_body) {
+        {
+          user: { href: api_v3_paths.user(99999) }
+        }.to_json
+      }
 
-        it_behaves_like 'not found' do
-          let(:id) { 9999 }
-          let(:type) { 'WorkPackage' }
-        end
+      it_behaves_like 'not found'
+    end
+
+    context 'when the target user is not allowed to watch the work package' do
+      let(:new_watcher) { FactoryGirl.create(:user) }
+
+      it_behaves_like 'constraint violation' do
+        let(:message) { 'User is invalid' }
       end
     end
 
     context 'unauthorized user' do
       context 'when the current user is trying to assign another user as watcher' do
-        let(:current_user) do
-          FactoryGirl.create(:user,
-                             member_in_project: project,
-                             member_through_role: view_work_packages_role)
-        end
+        let(:permissions) { [:view_work_packages] }
 
         it_behaves_like 'unauthorized access'
       end
@@ -120,26 +169,28 @@ describe 'API v3 Watcher resource', type: :request do
   end
 
   describe '#delete' do
-    subject(:response) { last_response }
-
-    let(:existing_watcher) { watcher }
-    let(:delete_path) { api_v3_paths.watcher existing_watcher.id, work_package.id }
+    let(:deleted_watcher) { watching_user }
+    let(:delete_path) { api_v3_paths.watcher deleted_watcher.id, work_package.id }
 
     before do
-      existing_watcher
-
       delete delete_path
     end
 
     context 'authorized user' do
-      let(:current_user) { FactoryGirl.create :user,  member_in_project: project, member_through_role: delete_watchers_role }
+      let(:permissions) { [:delete_work_package_watchers, :view_work_packages] }
 
       it 'should respond with 204' do
         expect(subject.status).to eq(204)
       end
 
-      context 'when removing nonexistent watcher' do
+      context 'when removing nonexistent user' do
         let(:delete_path) { api_v3_paths.watcher 9999, work_package.id }
+
+        it_behaves_like 'not found'
+      end
+
+      context 'when removing user that is not watching' do
+        let(:deleted_watcher) { available_watcher }
 
         it 'should respond with 204' do
           expect(subject.status).to eq(204)
@@ -147,7 +198,7 @@ describe 'API v3 Watcher resource', type: :request do
       end
 
       context 'when work package doesn\'t exist' do
-        let(:delete_path) { api_v3_paths.watcher watcher.id, 9999 }
+        let(:delete_path) { api_v3_paths.watcher watching_user.id, 9999 }
 
         it_behaves_like 'not found' do
           let(:id) { 9999 }
@@ -157,22 +208,15 @@ describe 'API v3 Watcher resource', type: :request do
     end
 
     context 'unauthorized user' do
-      context 'when the current user tries to deassign another user from the work package watchers' do
-        let(:view_watchers_role) do
-          FactoryGirl.create(:role, permissions: [:view_work_package_watchers])
-        end
-        let(:current_user) do
-          FactoryGirl.create :user,
-                             member_in_project: project,
-                             member_through_role: view_work_packages_role
-        end
+      context 'when the current user tries to deassign another user from the watchers' do
+        let(:permissions) { [:view_work_packages] }
 
         it_behaves_like 'unauthorized access'
       end
 
-      context 'when the current user tries to watch the work package her- or himself' do
-        let(:current_user) { watcher }
-        let(:new_watcher) { watcher }
+      context 'when the current user tries to unwatch the work package her- or himself' do
+        let(:current_user) { watching_user }
+        let(:deleted_watcher) { watching_user }
 
         it 'should respond with 204' do
           expect(subject.status).to eq(204)
@@ -182,43 +226,21 @@ describe 'API v3 Watcher resource', type: :request do
   end
 
   describe '#available_watchers' do
-    subject(:response) { last_response }
-    let(:authorized_user) do
-      FactoryGirl.create :user, member_in_project: project,
-                                member_through_role: add_watchers_role
-    end
-    let(:current_user) { authorized_user }
+    let(:permissions) { [:add_work_package_watchers, :view_work_packages] }
     let(:available_watchers_path) { api_v3_paths.available_watchers work_package.id }
 
     before do
-      available_watcher
-
       get available_watchers_path
     end
 
-    it 'responds with 200' do
-      expect(subject.status).to eql(200)
-    end
+    it_behaves_like 'API V3 collection response', 2, 2, 'User'
 
-    it 'has a total of 1' do
-      expect(subject.body).to be_json_eql(2).at_path('total')
-    end
-
-    it 'has a count of 1' do
-      expect(subject.body).to be_json_eql(2).at_path('count')
-    end
-
-    it 'has a user fit for watching embedded' do
-      expect(subject.body).to have_json_size(2).at_path('_embedded/elements')
-      expect(subject.body).to be_json_eql(available_watcher.id).at_path('_embedded/elements/1/id')
+    it 'includes a user eligible for watching' do
+      expect(subject.body).to be_json_eql(watching_user.id).at_path('_embedded/elements/1/id')
     end
 
     context 'when the user does not have the necessary permissions' do
-      let(:current_user) do
-        FactoryGirl.create(:user,
-                           member_in_project: project,
-                           member_through_role: view_work_packages_role)
-      end
+      let(:permissions) { [:view_work_packages] }
 
       it 'responds with 403' do
         expect(subject.status).to eql(403)

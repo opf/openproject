@@ -34,6 +34,8 @@ module API
         include API::Utilities::UrlHelper
 
         class ApiV3Path
+          extend API::Utilities::UrlHelper
+
           def self.root
             "#{root_path}api/v3"
           end
@@ -44,6 +46,14 @@ module API
 
           def self.attachment(id)
             "#{root}/attachments/#{id}"
+          end
+
+          def self.attachment_download(id)
+            attachment_path(id)
+          end
+
+          def self.attachments_by_work_package(id)
+            "#{work_package(id)}/attachments"
           end
 
           def self.available_assignees(project_id)
@@ -64,6 +74,14 @@ module API
 
           def self.category(id)
             "#{root}/categories/#{id}"
+          end
+
+          def self.configuration
+            "#{root}/configuration"
+          end
+
+          def self.create_work_package_form(project_id)
+            "#{work_packages_by_project(project_id)}/form"
           end
 
           def self.priorities
@@ -98,6 +116,10 @@ module API
             "#{root}/relations/#{id}"
           end
 
+          def self.revision(id)
+            "#{root}/revisions/#{id}"
+          end
+
           def self.render_markup(format: nil, link: nil)
             format = format || Setting.text_formatting
             format = 'plain' if format == '' # Setting will return '' for plain
@@ -106,6 +128,10 @@ module API
             path += "?context=#{link}" if link
 
             path
+          end
+
+          def self.show_revision(project_id, identifier)
+            show_revision_project_repository_path(project_id, identifier)
           end
 
           def self.statuses
@@ -157,7 +183,7 @@ module API
           end
 
           def self.watcher(id, work_package_id)
-            "#{work_package(work_package_id)}/watchers/#{id}"
+            "#{work_package_watchers(work_package_id)}/#{id}"
           end
 
           def self.work_packages
@@ -184,6 +210,10 @@ module API
             "#{work_package_relations(work_package_id)}/#{id}"
           end
 
+          def self.work_package_revisions(id)
+            "#{work_package(id)}/revisions"
+          end
+
           def self.work_package_schema(project_id, type_id)
             "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
           end
@@ -192,10 +222,8 @@ module API
             "#{work_package(id)}/watchers"
           end
 
-          def self.root_path
-            @@root_path ||= Class.new.tap do |c|
-              c.extend(::API::V3::Utilities::PathHelper)
-            end.root_path
+          def self.work_packages_by_project(project_id)
+            "#{project(project_id)}/work_packages"
           end
         end
 

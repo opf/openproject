@@ -55,6 +55,7 @@ angular.module('openproject.uiComponents')
     'ConfigurationService',
     require('./flash-message-directive')
   ])
+  .directive('expandableSearch', ['ENTER_KEY', require('./expandable-search')])
   .directive('focus', ['FocusHelper', require('./focus-directive')])
   .constant('FOCUSABLE_SELECTOR', 'a, button, :input, [tabindex], select')
   .service('FocusHelper', ['$timeout', 'FOCUSABLE_SELECTOR', require(
@@ -83,6 +84,7 @@ angular.module('openproject.uiComponents')
     down: 40
   })
   .directive('selectableTitle', [require('./selectable-title-directive')])
+  .directive('interactiveTable', ['$timeout', '$window', require('./interactive-table-directive')])
   .constant('DOUBLE_CLICK_DELAY', 300)
   // Thanks to http://stackoverflow.com/a/20445344
   .directive('singleClick', [
@@ -100,8 +102,13 @@ angular.module('openproject.uiComponents')
     './toggled-multiselect-directive')])
   .directive('toolbar', require('./toolbar-directive'))
   .constant('ESC_KEY', 27)
-  .directive('userField', [require('./user-field-directive')])
+  .directive('userField', ['PathHelper', require('./user-field-directive')])
   .directive('wikiToolbar', [require('./wiki-toolbar-directive')])
   .directive('zoomSlider', ['I18n', require('./zoom-slider-directive')])
+  .directive('notifications', [require('./notifications-directive')])
+  .directive('notificationBox', ['I18n', require('./notification-box-directive')])
+  .directive('uploadProgress', [require('./upload-progress-directive')])
+  .directive('attachmentIcon', [require('./attachment-icon-directive')])
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))
-  .filter('latestItems', require('./filters/latest-items-filter'));
+  .filter('latestItems', require('./filters/latest-items-filter'))
+  .directive('highlightCol', [require('./highlight-col-directive')]);

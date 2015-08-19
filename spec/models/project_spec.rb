@@ -248,4 +248,59 @@ describe Project, type: :model do
       it_behaves_like 'respecting group assignment settings'
     end
   end
+
+  describe 'countable required_project_storage' do
+    describe '#required_storage' do
+      it 'counts collections' do
+        expect(project).to receive(:count_for).with(:required_project_storage).and_call_original
+        storage_hash = project.required_storage
+        expect(storage_hash).to eq('attributes.attachments' => 0, total: 0)
+      end
+
+      it 'counts only once before caching' do
+        expect(project)
+          .to receive(:count_for).with(:required_project_storage)
+          .once
+          .and_return([{ 'whatever' => 123, total: 1234 }, 'my label'])
+
+        project.required_storage
+        project.required_storage
+      end
+    end
+
+    describe '#total_projects_size' do
+      let(:projects) { FactoryGirl.build_list(:project, 3) }
+      before do
+        project.save
+        projects.each(&:save!)
+        allow(Project).to receive(:all).and_return(projects)
+
+        allow(projects[0]).to receive(:count_for).and_return(
+          [{ 'attributes.attachments' => 23543, total: 23543 },
+           'unused project label']
+        )
+        allow(projects[1]).to receive(:count_for).and_return(
+          [{ 'attributes.attachments' => 2, label_repository: 2412345, total: 2412347 },
+           'unused project label']
+        )
+        Rails.cache.clear('projects/total_projects_size')
+      end
+
+      it 'counts required_storage on all projects' do
+        expect(Project.total_projects_size).to eq(2435890)
+      end
+
+      it 'counts required_storage only once' do
+        expect(project).not_to receive(:count_for).with(:required_project_storage)
+        projects.each do |p|
+          expect(p).not_to receive(:count_for)
+            .with(:required_project_storage)
+            .once
+            .and_call_original
+        end
+        Project.total_projects_size
+        Project.total_projects_size
+      end
+    end
+  end
 end

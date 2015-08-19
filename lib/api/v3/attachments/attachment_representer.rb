@@ -33,52 +33,43 @@ require 'roar/json/hal'
 module API
   module V3
     module Attachments
-      class AttachmentRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include API::V3::Utilities::PathHelper
-        include API::V3::Utilities
+      class AttachmentRepresenter < ::API::Decorators::Single
+        self_link title_getter: -> (*) { represented.filename }
 
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
+        linked_property :author,
+                        path: :user
 
-        property :_type, exec_context: :decorator
+        # implementation is currently work_package specific
+        linked_property :container,
+                        path: :work_package,
+                        title_getter: -> (*) { represented.container.subject }
 
-        link :self do
+        link :downloadLocation do
           {
-            href: api_v3_paths.attachment(represented.id),
-            title: "#{represented.filename}"
+            href: api_v3_paths.attachment_download(represented.id)
           }
         end
 
-        link :work_package do
-          work_package = represented.container
-          {
-            href: api_v3_paths.work_package(work_package.id),
-            title: "#{work_package.subject}"
-          } unless work_package.nil?
-        end
-
-        link :author do
-          author = represented.author
-          {
-            href: api_v3_paths.user(author.id),
-            title: "#{author.name} - #{author.login}"
-          } unless author.nil?
-        end
-
-        property :id, render_nil: true
-        property :filename, as: :fileName, render_nil: true
-        property :disk_filename, as: :diskFileName, render_nil: true
-        property :description, render_nil: true
-        property :file_size, getter: -> (*) { filesize }, render_nil: true
-        property :content_type, render_nil: true
-        property :digest, render_nil: true
-        property :downloads, render_nil: true
+        property :id
+        property :file_name,
+                 getter: -> (*) { filename }
+        property :file_size,
+                 getter: -> (*) { filesize }
+        property :description,
+                 getter: -> (*) {
+                   ::API::Decorators::Formattable.new(description, format: 'plain')
+                 },
+                 render_nil: true
+        property :content_type
+        property :digest,
+                 getter: -> (*) {
+                   ::API::Decorators::Digest.new(digest, algorithm: 'md5')
+                 },
+                 render_nil: true
         property :created_on,
                  as: 'createdAt',
-                 getter: -> (*) {
-                   ::API::V3::Utilities::DateTimeFormatter::format_datetime(created_on)
-                 }
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) }
 
         def _type
           'Attachment'

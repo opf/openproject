@@ -28,7 +28,6 @@
 
 FactoryGirl.define do
   factory(:timeline, class: Timeline) do
-
     options(
       'exist'                     => '',
       'timeframe_start'           => '',
@@ -39,23 +38,19 @@ FactoryGirl.define do
 
     association :project
     sequence(:name) { |n| "Timeline No. #{n}" }
-
   end
 end
 
 FactoryGirl.define do
   factory(:timeline_with_history, parent: :timeline) do
-
-    sequence(:name) { |n| "Timeline No. #{n} with History" }
+    sequence(:name) do |n| "Timeline No. #{n} with History" end
 
     callback(:after_create) do |timeline|
-
       # remove rails' automagic:
 
       # get all planning elements in this project
 
       timeline.project.planning_elements.each do |pe|
-
         10.times do
           print '.'; $stdout.flush
 
@@ -94,7 +89,6 @@ FactoryGirl.define do
           PlanningElement.record_timestamps = true
         end
       end
-
     end
   end
 end

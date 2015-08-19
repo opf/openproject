@@ -27,15 +27,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% responsible = WorkPackage.visible.open.find(:all,
-                      :conditions => {:responsible_id => User.current.id},
-                      :limit => 10,
-                      :include => [ :status, :project, :type, :priority ],
-                      :order => "#{IssuePriority.table_name}.position DESC, #{WorkPackage.table_name}.updated_at DESC") %>
+<% responsible = WorkPackage.visible.open
+                   .where(responsible_id: User.current.id)
+                   .limit(10)
+                   .includes(:status, :project, :type, :priority)
+                   .order("#{IssuePriority.table_name}.position DESC, #{WorkPackage.table_name}.updated_at DESC")
+%>
 
-<% responsible_count = WorkPackage.visible.open.count(:conditions => {
-                      :responsible_id => User.current.id
-                    }) %>
+<% responsible_count = WorkPackage.visible.open.where(responsible_id: User.current.id).count %>
 
 <h3><%=l(:label_responsible_for_work_packages)%> (<%= responsible_count %>)</h3>
 

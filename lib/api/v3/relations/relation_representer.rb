@@ -51,7 +51,8 @@ module API
             href: api_v3_paths.work_package_relation(represented.id, represented.from.id),
             method: :delete,
             title: 'Remove relation'
-          } if current_user_allowed_to(:manage_work_package_relations)
+          } if current_user_allowed_to(:manage_work_package_relations,
+                                       context: represented.from.project)
         end
 
         property :delay, render_nil: true, if: -> (*) { relation_type == 'precedes' }
@@ -61,10 +62,6 @@ module API
         end
 
         private
-
-        def current_user_allowed_to(permission)
-          current_user && current_user.allowed_to?(permission, represented.from.project)
-        end
 
         def relation_type
           represented.relation_type_for(work_package).camelize

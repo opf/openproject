@@ -29,8 +29,8 @@
 module Api::V2::Concerns::MultipleProjects
   def load_multiple_projects(ids, identifiers)
     @projects = []
-    @projects |= Project.all(conditions: { id: ids }) unless ids.empty?
-    @projects |= Project.all(conditions: { identifier: identifiers }) unless identifiers.empty?
+    @projects |= Project.where(id: ids) unless ids.empty?
+    @projects |= Project.where(identifier: identifiers) unless identifiers.empty?
   end
 
   def projects_contain_certain_ids_and_identifiers(ids, identifiers)
@@ -42,10 +42,10 @@ module Api::V2::Concerns::MultipleProjects
     # authorize
     # Ignoring projects, where user has no view_work_packages permission.
     permission = params[:controller].sub api_version, ''
-    @projects = @projects.select do |project|
+    @projects = @projects.select { |project|
       User.current.allowed_to?({ controller: permission,
                                  action:     params[:action] },
                                project)
-    end
+    }
   end
 end

@@ -27,10 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-InstanceFinder.register(Category, Proc.new { |name| Category.find_by_name(name) })
+InstanceFinder.register(Category, Proc.new { |name| Category.find_by(name: name) })
 
 Given /^the [Pp]roject "([^\"]*)" has (\d+) [cC]ategor(?:ies|y)? with(?: the following)?:$/ do |project, count, table|
-  p = Project.find_by_name(project) || Project.find_by_identifier(project)
+  p = Project.find_by(name: project) || Project.find_by(identifier: project)
   table.rows_hash['assigned_to'] = Principal.like(table.rows_hash['assigned_to']).first if table.rows_hash['assigned_to']
   as_admin count do
     ic = FactoryGirl.build(:category, project: p)
@@ -40,7 +40,7 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [cC]ategor(?:ies|y)? with(?: the fol
 end
 
 Given /^the [Pp]roject "([^\"]*)" has (\d+) [cC]ategor(?:ies|y)?$/ do |project, count|
-  p = Project.find_by_name(project) || Project.find_by_identifier(project)
+  p = Project.find_by(name: project) || Project.find_by(identifier: project)
   as_admin count do
     ic = FactoryGirl.build(:category, project: p)
     ic.save

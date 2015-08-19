@@ -72,7 +72,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="form--field-container">
               <%= styled_select_tag('priority_id',
                      content_tag('option', l(:label_no_change_option), :value => '') +
-                     options_from_collection_for_select(IssuePriority.all, :id, :name)) %>
+                     options_from_collection_for_select(IssuePriority.active, :id, :name)) %>
             </div>
           </div>
           <div class="form--field">
@@ -113,8 +113,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= Journal.human_attribute_name(:notes) %></legend>
       <%= label_tag 'notes', Journal.human_attribute_name(:notes), :class => 'hidden-for-sighted' %>
-      <%= styled_text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
-                  :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @target_project, :format => :json) %>
+      <%= styled_text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
       <%= wikitoolbar_for 'notes' %>
     </fieldset>
     <%= call_hook(:view_work_packages_move_bottom, :work_packages => @work_packages, :target_project => @target_project, :copy => !!@copy) %>

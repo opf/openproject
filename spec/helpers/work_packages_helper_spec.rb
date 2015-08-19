@@ -75,7 +75,6 @@ describe WorkPackagesHelper, type: :helper do
 
       ancestors.each_with_index do |ancestor, index|
         expect(helper.ancestors_links[index]).to have_selector("a[href='#{work_package_path(ancestor.id)}']", text: "##{ancestor.id}")
-
       end
     end
   end
@@ -284,7 +283,7 @@ describe WorkPackagesHelper, type: :helper do
       expect(helper.work_package_form_category_attribute(form,
                                                          stub_work_package,
                                                          project: stub_project).field)
-        .to be_html_eql("<div class=\"form--field \">#{label_placeholder}
+        .to be_html_eql("<div class=\"form--field -wide-label -break-words \">#{label_placeholder}
                          <span class=\"form--field-container\">category html</span>
                          </div>")
     end
@@ -427,9 +426,9 @@ describe WorkPackagesHelper, type: :helper do
     it 'should output the estimated hours value with a precision of 2' do
       stub_work_package.estimated_hours = 3
 
-      attribute = inside_form do |f|
+      attribute = inside_form { |f|
         helper.work_package_form_estimated_hours_attribute(f, stub_work_package, {})
-      end
+      }
 
       expect(attribute.field).to have_selector('input#work_package_estimated_hours[@value="3.00"]')
     end
@@ -438,7 +437,7 @@ describe WorkPackagesHelper, type: :helper do
   describe '#work_package_form_custom_values_attribute' do
     let(:stub_custom_value) { FactoryGirl.build_stubbed(:work_package_custom_value) }
     let(:field_content) { 'field contents' }
-    let(:expected) { "<div class=\"form--field \">#{field_content}</div>" }
+    let(:expected) { "<div class=\"form--field -wide-label -break-words \">#{field_content}</div>" }
 
     before do
       allow(stub_work_package).to receive(:custom_field_values).and_return([stub_custom_value])
@@ -468,9 +467,9 @@ describe WorkPackagesHelper, type: :helper do
 
       stub_work_package.status = status1
 
-      attribute = inside_form do |f|
+      attribute = inside_form { |f|
         helper.work_package_form_status_attribute(f, stub_work_package, user: stub_user)
-      end
+      }
 
       status1_selector = "select#work_package_status_id option[@value='#{status1.id}'][@selected='selected']"
       status2_selector = "select#work_package_status_id option[@value='#{status1.id}']"
@@ -486,9 +485,9 @@ describe WorkPackagesHelper, type: :helper do
 
       stub_work_package.status = status1
 
-      attribute = inside_form do |f|
+      attribute = inside_form { |f|
         helper.work_package_form_status_attribute(f, stub_work_package, user: stub_user)
-      end
+      }
 
       expect(attribute.field).to have_text(WorkPackage.human_attribute_name(:status))
       expect(attribute.field).to have_text(status1.name)

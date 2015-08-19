@@ -31,7 +31,6 @@ require 'spec_helper'
 require 'support/shared/previews'
 
 describe WorkPackagesController, type: :controller do
-
   before do
     allow(User).to receive(:current).and_return current_user
     # disables sending mails
@@ -63,7 +62,6 @@ describe WorkPackagesController, type: :controller do
 
     describe 'w/ the permission to see the project
               w/ having the necessary permissions' do
-
       before do
         allow(controller).to receive(:work_package).and_return(stub_work_package)
         expect(controller).to receive(:authorize).and_return(true)
@@ -143,7 +141,7 @@ describe WorkPackagesController, type: :controller do
 
         # Note: Stubs for methods used to build up the json query results.
         # TODO RS:  Clearly this isn't testing anything, but it all needs to be moved to an API controller anyway.
-        allow(query).to receive_message_chain(:results, :work_packages, :page, :per_page, :all).and_return(work_packages)
+        allow(query).to receive_message_chain(:results, :work_packages, :page, :per_page).and_return(work_packages)
         allow(query).to receive_message_chain(:results, :work_package_count_by_group).and_return([])
         allow(query).to receive_message_chain(:results, :column_total_sums).and_return([])
         allow(query).to receive_message_chain(:results, :column_group_sums).and_return([])
@@ -152,22 +150,20 @@ describe WorkPackagesController, type: :controller do
 
       describe 'html' do
         let(:call_action) { get('index', project_id: project.id) }
-        before { call_action }
+        before do call_action end
 
         describe 'w/o a project' do
           let(:project) { nil }
           let(:call_action) { get('index') }
 
           it 'should render the index template' do
-            expect(response).to render_template('work_packages/index', formats: ['html'],
-                                                                       layout: :base)
+            expect(response).to render_template('work_packages/index')
           end
         end
 
         context 'w/ a project' do
           it 'should render the index template' do
-            expect(response).to render_template('work_packages/index', formats: ['html'],
-                                                                       layout: :base)
+            expect(response).to render_template('work_packages/index')
           end
         end
 
@@ -176,7 +172,7 @@ describe WorkPackagesController, type: :controller do
             FactoryGirl.build_stubbed(:query).tap { |q| q.filters = [Queries::WorkPackages::Filter.new('done_ratio', operator: '>=', values: [10])] }
           end
 
-          before { allow(session).to receive(:query).and_return query }
+          before do allow(session).to receive(:query).and_return query end
 
           it 'preserves the query' do
             expect(assigns['query'].filters).to eq(query.filters)
@@ -189,17 +185,15 @@ describe WorkPackagesController, type: :controller do
         let(:call_action) { get('index', params.merge(format: 'csv')) }
 
         requires_export_permission do
-
           before do
             mock_csv = double('csv export')
 
             expect(WorkPackage::Exporter).to receive(:csv).with(work_packages, query)
-                                                          .and_return(mock_csv)
+              .and_return(mock_csv)
 
             expect(controller).to receive(:send_data).with(mock_csv,
                                                            type: 'text/csv; charset=utf-8; header=present',
                                                            filename: "#{query.name}.csv") do |_|
-
               # We need to render something because otherwise
               # the controller will and he will not find a suitable template
               controller.render text: 'success'
@@ -260,7 +254,7 @@ describe WorkPackagesController, type: :controller do
     describe 'with invalid query' do
       context 'when a non-existant query has been previously selected' do
         let(:call_action) { get('index', project_id: project.id, query_id: 'hokusbogus') }
-        before { call_action }
+        before do call_action end
 
         it 'renders a 404' do
           expect(response.response_code).to be === 404
@@ -307,7 +301,7 @@ describe WorkPackagesController, type: :controller do
   end
 
   describe 'index with a broken project reference' do
-    before { get('index', project_id: 'project_that_doesnt_exist') }
+    before do get('index', project_id: 'project_that_doesnt_exist') end
 
     it { is_expected.to respond_with :not_found }
   end
@@ -319,8 +313,7 @@ describe WorkPackagesController, type: :controller do
       it 'renders the show builder template' do
         call_action
 
-        expect(response).to render_template('work_packages/show', formats: ['html'],
-                                                                  layout: :base)
+        expect(response).to render_template('work_packages/show')
       end
     end
   end
@@ -353,9 +346,7 @@ describe WorkPackagesController, type: :controller do
       it 'render the journal/index template' do
         call_action
 
-        expect(response).to render_template('journals/index', formats: ['atom'],
-                                                              layout: false,
-                                                              content_type: 'application/atom+xml')
+        expect(response).to render_template('journals/index')
       end
     end
   end
@@ -369,8 +360,7 @@ describe WorkPackagesController, type: :controller do
       end
 
       it 'renders the new builder template' do
-
-        expect(response).to render_template('work_packages/new', formats: ['html'])
+        expect(response).to render_template('work_packages/new')
       end
 
       it 'should respond with 200 OK' do
@@ -394,7 +384,7 @@ describe WorkPackagesController, type: :controller do
       end
 
       it 'renders the new builder template' do
-        expect(response).to render_template('work_packages/new_type', formats: ['html'])
+        expect(response).to render_template('work_packages/new_type')
       end
 
       it 'should respond with 200 OK' do
@@ -412,7 +402,6 @@ describe WorkPackagesController, type: :controller do
     let(:call_action) { post 'create', params }
 
     requires_permission_in_project do
-
       describe 'w/ having a successful save' do
         before do
           expect(stub_work_package).to receive(:save).and_return(true)
@@ -443,7 +432,6 @@ describe WorkPackagesController, type: :controller do
       end
 
       describe 'w/ having an unsuccessful save' do
-
         before do
           expect(stub_work_package).to receive(:save).and_return(false)
 
@@ -451,7 +439,7 @@ describe WorkPackagesController, type: :controller do
         end
 
         it 'renders the new template' do
-          expect(response).to render_template('work_packages/new', formats: ['html'])
+          expect(response).to render_template('work_packages/new')
         end
       end
     end
@@ -464,7 +452,7 @@ describe WorkPackagesController, type: :controller do
       it 'renders the show builder template' do
         call_action
 
-        expect(response).to render_template('work_packages/edit', formats: ['html'], layout: :base)
+        expect(response).to render_template('work_packages/edit')
       end
     end
   end
@@ -560,13 +548,12 @@ describe WorkPackagesController, type: :controller do
         it 'render the edit action' do
           call_action
 
-          expect(response).to render_template('work_packages/edit', formats: ['html'], layout: :base)
+          expect(response).to render_template('work_packages/edit')
         end
       end
 
       describe 'w/ having a successful save
                 w/ having a faulty attachment' do
-
         before do
           expect(stub_work_package).to receive(:update_by!)
             .with(current_user, wp_params)
@@ -637,9 +624,7 @@ describe WorkPackagesController, type: :controller do
             .and_return(wp_params)
 
           expect(stub_project).to receive(:add_work_package) { |args|
-
             expect(args[:author]).to eql stub_user
-
           }.and_return(stub_issue)
         end
 
@@ -659,12 +644,11 @@ describe WorkPackagesController, type: :controller do
         before do
           projects = [stub_project]
           allow(Project).to receive(:visible).and_return projects
-          allow(projects).to receive(:find_by_id).and_return(stub_project)
+          allow(projects).to receive(:find_by).and_return(stub_project)
         end
 
         it 'should return nil' do
           expect(controller.work_package).to be_nil
-
         end
       end
     end
@@ -915,7 +899,7 @@ describe WorkPackagesController, type: :controller do
          'updated_at']
       }
 
-      before { post 'create', params }
+      before do post 'create', params end
 
       subject { response }
 
@@ -949,12 +933,12 @@ describe WorkPackagesController, type: :controller do
 
       # see ticket #2009 on OpenProject.org
       context 'new attachment on new work package' do
-        before { post 'create', params }
+        before do post 'create', params end
 
         describe '#journal' do
           let(:attachment_id) { "attachments_#{new_work_package.attachments.first.id}" }
 
-          subject { new_work_package.journals.last.changed_data }
+          subject { new_work_package.journals.last.details }
 
           it { is_expected.to have_key attachment_id }
 
@@ -974,7 +958,7 @@ describe WorkPackagesController, type: :controller do
         describe '#view' do
           subject { response }
 
-          it { is_expected.to render_template('work_packages/new', formats: ['html']) }
+          it { is_expected.to render_template('work_packages/new') }
         end
 
         describe '#error' do
@@ -1033,7 +1017,7 @@ describe WorkPackagesController, type: :controller do
         describe '#view' do
           subject { response }
 
-          it { is_expected.to render_template('work_packages/edit', formats: ['html']) }
+          it { is_expected.to render_template('work_packages/edit') }
         end
 
         describe '#error' do
@@ -1065,7 +1049,7 @@ describe WorkPackagesController, type: :controller do
                         journal_notes: notes } }
     }
 
-    before { allow(User).to receive(:current).and_return(user) }
+    before do allow(User).to receive(:current).and_return(user) end
 
     it_behaves_like 'valid preview' do
       let(:preview_texts) { [description, notes] }
@@ -1080,12 +1064,10 @@ describe WorkPackagesController, type: :controller do
     end
 
     describe 'preview.js' do
-      before { xhr :put, :preview, preview_params }
+      before do xhr :put, :preview, preview_params end
 
       it {
-        expect(response).to render_template('common/preview',
-                                            format: ['html'],
-                                            layout: false)
+        expect(response).to render_template('common/preview')
       }
     end
   end

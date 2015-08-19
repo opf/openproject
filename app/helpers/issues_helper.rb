@@ -97,39 +97,18 @@ module IssuesHelper
     n = 0
     ordered_values.compact.each do |value|
       s << "</tr>\n<tr>\n" if n > 0 && (n % 2) == 0
-      s << "\t<th>#{ h(value.custom_field.name) }:</th><td>#{ simple_format_without_paragraph(h(show_value(value))) }</td>\n"
+      s << "\t<th>#{h(value.custom_field.name)}:</th><td>#{simple_format_without_paragraph(h(show_value(value)))}</td>\n"
       n += 1
     end
     s << "</tr>\n"
     s.html_safe
   end
 
-  def visible_queries
-    unless @visible_queries
-      # User can see public queries and his own queries
-      visible = ARCondition.new(['is_public = ? OR user_id = ?', true, (User.current.logged? ? User.current.id : 0)])
-      # Project specific queries and global queries
-      visible << (@project.nil? ? ['project_id IS NULL'] : ['project_id IS NULL OR project_id = ?', @project.id])
-      @visible_queries = Query.find(:all,
-                                    select: 'id, name, is_public',
-                                    order: 'name ASC',
-                                    conditions: visible.conditions)
-    end
-    @visible_queries
-  end
-
-  def grouped_query_options
-    {
-      l(:label_my_queries)   => visible_queries.select { |query| !query.is_public? }.map { |query| [query.name, query.id] },
-      l(:label_query_plural) => visible_queries.select(&:is_public?).map { |query| [query.name, query.id] }
-    }
-  end
-
   # Find the name of an associated record stored in the field attribute
   def find_name_by_reflection(field, id)
     association = WorkPackage.reflect_on_association(field.to_sym)
     if association
-      record = association.class_name.constantize.find_by_id(id)
+      record = association.class_name.constantize.find_by(id: id)
       return record.name if record
     end
   end
@@ -149,9 +128,9 @@ module IssuesHelper
   end
 
   def entries_for_filter_select_sorted(query)
-    [['', '']] + query.available_work_package_filters.map { |field| [field[1][:name] || WorkPackage.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0]) }.compact.sort_by do |el|
+    [['', '']] + query.available_work_package_filters.map { |field| [field[1][:name] || WorkPackage.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0]) }.compact.sort_by { |el|
       ActiveSupport::Inflector.transliterate(el[0]).downcase
-    end
+    }
   end
 
   def value_overridden_by_children?(attrib)

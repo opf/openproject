@@ -114,6 +114,6 @@ describe AttachmentsController, type: :controller do
   it 'should destroy without permission' do
     delete :destroy, id: 3
     assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2F3'
-    assert Attachment.find_by_id(3)
+    assert Attachment.find_by(id: 3)
   end
 end

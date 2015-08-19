@@ -89,15 +89,13 @@ module.exports = function($scope,
 
   function setWorkPackageScopeProperties(workPackage){
     $scope.workPackage = workPackage;
-    $scope.isWatched = !!workPackage.links.unwatchChanges;
+    $scope.isWatched = !!workPackage.links.unwatch;
 
-    if (workPackage.links.watchChanges === undefined) {
-      $scope.toggleWatchLink = workPackage.links.unwatchChanges;
+    if (workPackage.links.watch === undefined) {
+      $scope.toggleWatchLink = workPackage.links.unwatch;
     } else {
-      $scope.toggleWatchLink = workPackage.links.watchChanges;
+      $scope.toggleWatchLink = workPackage.links.watch;
     }
-
-    $scope.watchers = workPackage.embedded.watchers;
 
     // autocomplete path
     var projectId = workPackage.embedded.project.props.id;
@@ -108,7 +106,9 @@ module.exports = function($scope,
     $scope.activities = displayedActivities($scope.workPackage);
 
     // watchers
-    $scope.watchers = workPackage.embedded.watchers;
+    if(workPackage.links.watchers) {
+      $scope.watchers = workPackage.embedded.watchers.embedded.elements;
+    }
 
     $scope.showStaticPagePath = PathHelper.staticWorkPackagePath($scope.workPackage.props.id);
 
@@ -121,7 +121,7 @@ module.exports = function($scope,
     $scope.authorActive = UsersHelper.isActive($scope.author);
 
     // Attachments
-    $scope.attachments = workPackage.embedded.attachments;
+    $scope.attachments = workPackage.embedded.attachments.embedded.elements;
 
     // relations
     $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parents) {
@@ -154,8 +154,17 @@ module.exports = function($scope,
   }
 
   $scope.toggleWatch = function() {
+    var fetchOptions = {
+      method: $scope.toggleWatchLink.props.method
+    };
+
+    if($scope.toggleWatchLink.props.payload !== undefined) {
+      fetchOptions.contentType = 'application/json; charset=utf-8';
+      fetchOptions.data = JSON.stringify($scope.toggleWatchLink.props.payload);
+    }
+
     $scope.toggleWatchLink
-      .fetch({ ajax: $scope.toggleWatchLink.props })
+      .fetch({ajax: fetchOptions})
       .then(refreshWorkPackage, outputError);
   };
 
@@ -165,8 +174,7 @@ module.exports = function($scope,
 
   function displayedActivities(workPackage) {
     var activities = workPackage.embedded.activities;
-    // remove first activity (assumes activities are sorted chronologically)
-    activities.splice(0, 1);
+
     if ($scope.activitiesSortedInDescendingOrder) {
       activities.reverse();
     }

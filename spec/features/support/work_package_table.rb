@@ -73,16 +73,6 @@ shared_context 'work package table helpers' do
   end
 
   def within_wp_table(&block)
-    within('.work-packages-table--results-container', &block)
-  end
-
-  def ensure_wp_page_is_loaded
-    # This is here to ensure the page is loaded completely before the next spec
-    # is run. As the filters are loaded late in the page, all Ajax requests
-    # have been answered by then.  Without this, requests still running from
-    # the last spec, might expect data that has already been removed as
-    # preparation for the current spec.
-    find('#work-packages-filter-toggle-button').click
-    expect(page).to have_selector('.advanced-filters--filter label', text: 'Status')
+    within('.work-package-table--container', &block)
   end
 end

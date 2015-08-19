@@ -27,8 +27,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l(:label_administration), "#{l(:label_edit)} #{Group.model_name.human} #{@group.name}" %>
-
-<h2><%= link_to l(:label_group_plural), groups_path %> &#187; <%= h(@group) %></h2>
-
+<% html_title l(:label_administration), "#{l(:label_edit)} #{Group.model_name.human} #{h @group.name}" %>
+<%= toolbar title: "#{link_to l(:label_group_plural), groups_path} &raquo; #{@group.name}" %>
 <%= render_tabs group_settings_tabs %>

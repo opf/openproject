@@ -103,7 +103,7 @@ describe WorkPackage, type: :model do
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:subject]).to be_present
-        expect(planning_element.errors[:subject]).to eq(["can't be blank"])
+        expect(planning_element.errors[:subject]).to eq(["can't be blank."])
       end
 
       it 'is invalid w/ a subject longer than 255 characters' do
@@ -113,7 +113,7 @@ describe WorkPackage, type: :model do
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:subject]).to be_present
-        expect(planning_element.errors[:subject]).to eq(['is too long (maximum is 255 characters)'])
+        expect(planning_element.errors[:subject]).to eq(['is too long (maximum is 255 characters).'])
       end
     end
 
@@ -146,7 +146,7 @@ describe WorkPackage, type: :model do
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:due_date]).to be_present
-        expect(planning_element.errors[:due_date]).to eq(['must be greater than start date'])
+        expect(planning_element.errors[:due_date]).to eq(['must be greater than start date.'])
       end
 
       it 'is invalid if planning_element is milestone and due_date is not on start_date' do
@@ -158,7 +158,7 @@ describe WorkPackage, type: :model do
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:due_date]).to be_present
-        expect(planning_element.errors[:due_date]).to eq(['is not on start date, although this is required for milestones'])
+        expect(planning_element.errors[:due_date]).to eq(['is not on start date, although this is required for milestones.'])
       end
     end
 
@@ -170,36 +170,25 @@ describe WorkPackage, type: :model do
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:project]).to be_present
-        expect(planning_element.errors[:project]).to eq(["can't be blank"])
+        expect(planning_element.errors[:project]).to eq(["can't be blank."])
       end
     end
 
     describe 'parent' do
-      let (:de_message) { 'darf kein Meilenstein sein' }
-      let (:en_message) { 'cannot be a milestone' }
-      after(:each) do
-        # proper reset of the locale after the test
-        I18n.locale = 'en'
-      end
+      let (:message) { 'cannot be a milestone.' }
 
       it 'is invalid if parent is_milestone' do
-        ['en', 'de'].each do |locale|
-          I18n.with_locale(locale) do
-            parent = WorkPackage.new.tap do |pe|
-              pe.send(:assign_attributes, attributes.merge(type: FactoryGirl.build(:type, is_milestone: true)), without_protection: true)
-            end
-
-            attributes[:parent] = parent
-            planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
-
-            expect(planning_element).not_to be_valid
-
-            expect(planning_element.errors[:parent_id]).to be_present
-            expect(planning_element.errors[:parent_id]).to eq([send("#{I18n.locale}_message")])
-          end
-
+        parent = WorkPackage.new.tap do |pe|
+          pe.send(:assign_attributes, attributes.merge(type: FactoryGirl.build(:type, is_milestone: true)), without_protection: true)
         end
 
+        attributes[:parent] = parent
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
+
+        expect(planning_element).not_to be_valid
+
+        expect(planning_element.errors[:parent_id]).to be_present
+        expect(planning_element.errors[:parent_id]).to eq([message])
       end
     end
   end
@@ -254,13 +243,13 @@ describe WorkPackage, type: :model do
                          responsible_id:                  responsible.id,
                          type_id:                         type.id,
                          status_id:                       pe_status.id
-                                  )
+                        )
     }
 
     it "has an initial journal, so that it's creation shows up in activity" do
       expect(pe.journals.size).to eq(1)
 
-      changes = pe.journals.first.changed_data.to_hash
+      changes = pe.journals.first.details.to_hash
 
       expect(changes.size).to eq(11)
 
@@ -282,7 +271,7 @@ describe WorkPackage, type: :model do
       pe.update_attribute(:due_date, Date.new(2012, 2, 1))
 
       expect(pe.journals.size).to eq(2)
-      changes = pe.journals.last.changed_data
+      changes = pe.journals.last.details
 
       expect(changes.size).to eq(1)
 
@@ -304,7 +293,7 @@ describe WorkPackage, type: :model do
                            due_date:          Date.new(2012, 1, 31),
                            project_id:        project.id,
                            responsible_id:    responsible.id
-                                         )
+                          )
       }
 
       it 'creates a journal in the parent when end date is changed indirectly' do
@@ -322,12 +311,11 @@ describe WorkPackage, type: :model do
         pe.reload
 
         expect(pe.journals.size).to eq(3)
-        changes = pe.journals.last.changed_data
+        changes = pe.journals.last.details
 
         expect(changes.size).to eq(1)
         expect(changes).to include(:start_date)
       end
-
     end
   end
 
@@ -343,7 +331,7 @@ describe WorkPackage, type: :model do
     it 'should delete the object permanently when using destroy' do
       @pe1.destroy
 
-      expect(WorkPackage.find_by_id(@pe1.id)).to be_nil
+      expect(WorkPackage.find_by(id: @pe1.id)).to be_nil
     end
 
     it 'destroys all child elements' do
@@ -356,7 +344,7 @@ describe WorkPackage, type: :model do
       pe1.destroy
 
       [pe1, pe11, pe12, pe121].each do |pe|
-        expect(WorkPackage.find_by_id(pe.id)).to be_nil
+        expect(WorkPackage.find_by(id: pe.id)).to be_nil
       end
     end
   end

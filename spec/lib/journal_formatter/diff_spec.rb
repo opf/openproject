@@ -29,7 +29,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 
 describe OpenProject::JournalFormatter::Diff do
-
   include ActionView::Helpers::TagHelper
   # WARNING: the order of the modules is important to ensure that url_for of
   # ActionController::UrlWriter is called and not the one of ActionView::Helpers::UrlHelper
@@ -85,7 +84,6 @@ describe OpenProject::JournalFormatter::Diff do
 
     describe "WITH the first value beeing a string, and the second a string
               WITH de as locale" do
-
       let(:expected) {
         I18n.t(:text_journal_changed_with_diff,
                label: '<strong>Beschreibung</strong>',

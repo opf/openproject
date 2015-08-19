@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class UserMailer < ActionMailer::Base
+class UserMailer < BaseMailer
   helper :application,  # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value
@@ -47,44 +47,34 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def work_package_added(user, issue, author)
-    @issue = issue
+  def work_package_added(user, journal, author)
+    work_package = journal.journable.reload
+    @issue = work_package # instance variable is used in the view
+    @journal = journal
 
-    open_project_headers 'Project'        => @issue.project.identifier,
-                         'Issue-Id'       => @issue.id,
-                         'Issue-Author'   => @issue.author.login,
-                         'Type'           => 'WorkPackage'
-    open_project_headers 'Issue-Assignee' => @issue.assigned_to.login if @issue.assigned_to
+    set_work_package_headers(work_package)
 
-    message_id @issue, user
+    message_id work_package, user
 
     with_locale_for(user) do
-      subject = "[#{@issue.project.name} - #{ @issue }]"
-      subject << " (#{@issue.status.name})" if @issue.status
-      subject << " #{@issue.subject}"
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
     end
   end
 
   def work_package_updated(user, journal, author = User.current)
+    work_package = journal.journable.reload
+
+    # instance variables are used in the view
+    @issue = work_package
     @journal = journal
-    @issue   = journal.journable.reload
 
-    open_project_headers 'Project'        => @issue.project.identifier,
-                         'Issue-Id'       => @issue.id,
-                         'Issue-Author'   => @issue.author.login,
-                         'Type'           => 'WorkPackage'
-    open_project_headers 'Issue-Assignee' => @issue.assigned_to.login if @issue.assigned_to
+    set_work_package_headers(work_package)
 
-    message_id @journal, user
-    references @issue, user
+    message_id journal, user
+    references work_package, user
 
     with_locale_for(user) do
-      subject =  "[#{@issue.project.name} - #{@issue.type.name} ##{@issue.id}] "
-      subject << "(#{@issue.status.name}) " if @journal.details[:status_id]
-      subject << @issue.subject
-
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
     end
   end
 
@@ -325,29 +315,12 @@ class UserMailer < ActionMailer::Base
     "#{hash}@#{host}"
   end
 
-  protected
-
-  # Option 1 to take out an html part: Leave the part out
-  # while creating the mail. Since rails internally uses three
-  # different ways to create a mail (passing a block, giving parameters
-  # with optional template, or passing the body directly), we would have
-  # to replicate a lot of rails code to modify all three ways.
-  # Therefore, we use option 2: modifying the set of parts rails
-  # created internally as a result of the above ways, as this is
-  # much shorter.
-  # On the downside, this might break if ActionMailer changes the signature
-  # or semantics of the following function. However, we should at least
-  # notice this as there are tests for checking the no-html setting.
-  def collect_responses_and_parts_order(headers)
-    responses, parts_order = super(headers)
-    if Setting.plain_text_mail?
-      responses.delete_if { |response| response[:content_type] == 'text/html' }
-      parts_order.delete_if { |part| part == 'text/html' } unless parts_order.nil?
-    end
-    [responses, parts_order]
-  end
-
   private
+
+  def subject_for_work_package(work_package)
+    subject =  "[#{work_package.project.name} - #{work_package.type.name} ##{work_package.id}] "
+    subject << "(#{work_package.status.name}) " << work_package.subject
+  end
 
   # like #mail, but contains special author based filters
   # currently only:
@@ -404,6 +377,17 @@ class UserMailer < ActionMailer::Base
     headers['References'] = "<#{self.class.generate_message_id(object, user)}>"
   end
 
+  def set_work_package_headers(work_package)
+    open_project_headers 'Project'        => work_package.project.identifier,
+                         'Issue-Id'       => work_package.id,
+                         'Issue-Author'   => work_package.author.login,
+                         'Type'           => 'WorkPackage'
+
+    if work_package.assigned_to
+      open_project_headers 'Issue-Assignee' => work_package.assigned_to.login
+    end
+  end
+
   # Prepends given fields with 'X-OpenProject-' to save some duplication
   def open_project_headers(hash)
     hash.each { |key, value| headers["X-OpenProject-#{key}"] = value.to_s }
@@ -448,8 +432,8 @@ end
 class DueIssuesReminder
   def initialize(days = nil, project_id = nil, type_id = nil, user_ids = [])
     @days     = days ? days.to_i : 7
-    @project  = Project.find_by_id(project_id)
-    @type  = Type.find_by_id(type_id)
+    @project  = Project.find_by(id: project_id)
+    @type  = ::Type.find_by(id: type_id)
     @user_ids = user_ids
   end
 
@@ -461,9 +445,10 @@ class DueIssuesReminder
     s << "#{WorkPackage.table_name}.project_id = #{@project.id}" if @project
     s << "#{WorkPackage.table_name}.type_id = #{@type.id}" if @type
 
-    issues_by_assignee = WorkPackage.find(:all, include: [:status, :assigned_to, :project, :type],
-                                                conditions: s.conditions
-                                   ).group_by(&:assigned_to)
+    issues_by_assignee = WorkPackage.includes(:status, :assigned_to, :project, :type)
+                         .where(s.conditions)
+                         .references(:projects)
+                         .group_by(&:assigned_to)
     issues_by_assignee.each do |assignee, issues|
       UserMailer.reminder_mail(assignee, issues, @days).deliver if assignee && assignee.active?
     end

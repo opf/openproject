@@ -54,7 +54,7 @@ When (/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*
   steps %{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
-  planning_element = PlanningElement.find_by_subject(planning_element_subject)
+  planning_element = PlanningElement.find_by(subject: planning_element_subject)
 
   page.should have_selector('#timeline_options_vertical_planning_elements', visible: false)
 
@@ -96,7 +96,7 @@ When (/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*
   steps %{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
-  grouping_project = Project.find_by_name(grouping_project_name)
+  grouping_project = Project.find_by(name: grouping_project_name)
 
   page.should have_selector('#timeline_options_grouping_one_enabled', visible: false)
 
@@ -143,7 +143,7 @@ When (/^I show only work packages which have the type "(.*?)"$/) do |type|
     When I edit the settings of the current timeline
   }
 
-  type = Type.find_by_name(type)
+  type = ::Type.find_by(name: type)
   page.execute_script(<<-JavaScript)
     jQuery('#timeline_options_planning_element_types').val('#{type.id}')
     jQuery('#content form').submit()
@@ -169,7 +169,7 @@ When (/^I show only projects which have a planning element which lies between "(
 
   page.should have_selector('#timeline_options_planning_element_time_types', visible: false)
 
-  type = Type.find_by_name(type)
+  type = ::Type.find_by(name: type)
   page.execute_script("jQuery('#timeline_options_planning_element_time_types').val('#{type.id}')")
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_one').val('#{start_date}')")
@@ -181,13 +181,13 @@ When (/^I set the second level grouping criteria to "(.*?)" for the timeline "(.
   steps %{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
-  project_type = ProjectType.find_by_name(project_type_name)
+  project_type = ProjectType.find_by(name: project_type_name)
 
-  page.should have_selector('#timeline_options_grouping_two_enabled', visible: false)
+  check(I18n.t('timelines.filter.grouping_two'))
+  fill_in(I18n.t('timelines.filter.grouping_two_phrase'), with: project_type.name)
+  find('.select2-result-label', text: project_type.name).click
 
-  page.execute_script("jQuery('#timeline_options_grouping_two_enabled').prop('checked', true)")
-  page.execute_script("jQuery('#timeline_options_grouping_two_selection').val('#{project_type.id}')")
-  page.execute_script("jQuery('#content form').submit()")
+  click_button(I18n.t(:button_save))
 end
 When (/^I set the columns shown in the timeline to:$/) do |table|
   steps %{
@@ -218,7 +218,7 @@ When (/^I set the first level grouping criteria to:$/) do |table|
   table.raw.each do |_perm|
     perm = _perm.first
     unless perm.blank?
-      result.push(Project.find_by_name(perm).id)
+      result.push(Project.find_by(name: perm).id)
     end
   end
   results = result.join(',')
@@ -256,6 +256,9 @@ When (/^I set duedate to "([^"]*)"$/) do |value|
 end
 
 When (/^I wait for timeline to load table$/) do
+  extend ::Angular::DSL unless singleton_class.included_modules.include?(::Angular::DSL)
+  ng_wait
+
   page.should have_selector('.tl-left-main')
 end
 
@@ -288,14 +291,14 @@ When (/^I move "([^"]*)" down by one$/) do |name|
 end
 
 When (/^I fill in a wiki macro for timeline "([^"]*)" for "([^"]*)"$/) do |timeline_name, container|
-  timeline = Timeline.find_by_name(timeline_name)
+  timeline = Timeline.find_by(name: timeline_name)
 
   text = "{{timeline(#{timeline.id})}}"
   step %{I fill in "#{text}" for "#{container}"}
 end
 
 When (/^(.*) for the color "([^"]*)"$/) do |step_name, color_name|
-  color = PlanningElementTypeColor.find_by_name(color_name)
+  color = PlanningElementTypeColor.find_by(name: color_name)
 
   step %{#{step_name} within "#color-#{color.id} td:first-child"}
 end

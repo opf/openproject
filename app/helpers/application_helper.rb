@@ -70,8 +70,8 @@ module ApplicationHelper
     safe_join [name, ' ', content_tag('span', '*', class: 'required')]
   end
 
-  def li_unless_nil(link)
-    content_tag(:li, link) if link
+  def li_unless_nil(link, options = {})
+    content_tag(:li, link, options) if link
   end
 
   # Show a sorted linkified (if active) comma-joined list of users
@@ -108,9 +108,9 @@ module ApplicationHelper
   def image_to_function(name, function, html_options = {})
     html_options.symbolize_keys!
     tag(:input, html_options.merge(
-        type: 'image', src: image_path(name),
-        onclick: (html_options[:onclick] ? "#{html_options[:onclick]}; " : '') + "#{function};"
-        ))
+                  type: 'image', src: image_path(name),
+                  onclick: (html_options[:onclick] ? "#{html_options[:onclick]}; " : '') + "#{function};"
+    ))
   end
 
   def prompt_to_remote(name, text, param, url, html_options = {})
@@ -127,7 +127,7 @@ module ApplicationHelper
   end
 
   def format_activity_description(text)
-    h(truncate(text.to_s, length: 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, '<br />').html_safe
+    html_escape_once(truncate(text.to_s, length: 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, '<br />').html_safe
   end
 
   def format_version_name(version)
@@ -144,13 +144,13 @@ module ApplicationHelper
     return '' unless pages[node]
 
     content_tag :ul, class: 'pages-hierarchy' do
-      pages[node].map do |page|
+      pages[node].map { |page|
         content_tag :li do
           concat link_to(page.pretty_title, project_wiki_path(page.project, page),
                          title: (options[:timestamp] && page.updated_on ? l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)) : nil))
           concat render_page_hierarchy(pages, page.id, options) if pages[page.id]
         end
-      end.join.html_safe
+      }.join.html_safe
     end
   end
 
@@ -171,7 +171,7 @@ module ApplicationHelper
   def extract_objects_from_params(params)
     options = params.extract_options!.symbolize_keys
 
-    objects = Array.wrap(options.delete(:object) || params).map do |object|
+    objects = Array.wrap(options.delete(:object) || params).map { |object|
       object = instance_variable_get("@#{object}") unless object.respond_to?(:to_model)
       object = convert_to_model(object)
 
@@ -180,7 +180,7 @@ module ApplicationHelper
       end
 
       object
-    end
+    }
 
     [objects.compact, options]
   end
@@ -218,8 +218,7 @@ module ApplicationHelper
   end
 
   def project_tree_options_for_select(projects, options = {}, &_block)
-    Project.project_level_list(projects).map do |element|
-
+    Project.project_level_list(projects).map { |element|
       tag_options = {
         value: h(element[:project].id),
         title: h(element[:project].name),
@@ -238,7 +237,7 @@ module ApplicationHelper
       tag_options.merge!(yield(element[:project])) if block_given?
 
       content_tag('option', level_prefix + h(element[:project].name), tag_options)
-    end.join('').html_safe
+    }.join('').html_safe
   end
 
   # Yields the given block for each project with its level in the tree
@@ -279,16 +278,16 @@ module ApplicationHelper
   end
 
   def labeled_check_box_tags(name, collection, options = {})
-    collection.sort.map do |object|
+    collection.sort.map { |object|
       id = name.gsub(/[\[\]]+/, '_') + object.id.to_s
 
-      object_options = options.inject({}) do |h, (k, v)|
+      object_options = options.inject({}) { |h, (k, v)|
         h[k] = v.is_a?(Symbol) ?
                  send(v, object) :
                  v
 
         h
-      end
+      }
 
       object_options[:class] = Array(object_options[:class]) + %w(form--label-with-check-box)
 
@@ -297,7 +296,7 @@ module ApplicationHelper
           styled_check_box_tag(name, object.id, false, id: id) + object
         end
       end
-    end.join.html_safe
+    }.join.html_safe
   end
 
   def html_hours(text)
@@ -320,7 +319,10 @@ module ApplicationHelper
   end
 
   def syntax_highlight(name, content)
-    Redmine::SyntaxHighlighting.highlight_by_filename(content, name)
+    highlighted = Redmine::SyntaxHighlighting.highlight_by_filename(content, name)
+    highlighted.each_line do |line|
+      yield highlighted.html_safe? ? line.html_safe : line
+    end
   end
 
   def to_path_param(path)
@@ -336,7 +338,7 @@ module ApplicationHelper
                 link_to(image_tag('1downarrow.png', alt: l(:label_sort_lower)),   url.merge("#{name}[move_to]" => 'lower'),   method: method, title: l(:label_sort_lower)) +
                 link_to(image_tag('2downarrow.png', alt: l(:label_sort_lowest)),  url.merge("#{name}[move_to]" => 'lowest'),  method: method, title: l(:label_sort_lowest)),
                 class: 'reorder-icons'
-    )
+               )
   end
 
   def other_formats_links(&block)
@@ -495,14 +497,17 @@ module ApplicationHelper
       @calendar_headers_tags_included = true
       content_for :header_tags do
         start_of_week = case Setting.start_of_week.to_i
-        when 1
-          '1' # Monday
-        when 7
-          '0' # Sunday
-        when 6
-          '6' # Saturday
-        else
-          '' # use language
+                        when 1
+                          '1' # Monday
+                        when 7
+                          '0' # Sunday
+                        when 6
+                          '6' # Saturday
+                        else
+                          # use language (pass a blank string into the JSON object,
+                          # as the datepicker implementation checks for numbers in
+                          # /frontend/app/misc/datepicker-defaults.js:34)
+                          '""'
         end
         # FIXME: Get rid of this abomination
         js = "var CS = { lang: '#{current_language.to_s.downcase}', firstDay: #{start_of_week} };"

@@ -52,9 +52,8 @@ module API
           end
 
           link :self do
-            path = api_v3_paths.work_package_schema(represented.project.id, represented.type.id)
-
             unless form_embedded
+              path = api_v3_paths.work_package_schema(represented.project.id, represented.type.id)
               { href: path }
             end
           end
@@ -94,7 +93,9 @@ module API
           schema :spent_time,
                  type: 'Duration',
                  writable: false,
-                 show_if: -> (_) { current_user_allowed_to(:view_time_entries) }
+                 show_if: -> (_) do
+                   current_user_allowed_to(:view_time_entries, context: represented.project)
+                 end
 
           schema :percentage_done,
                  type: 'Integer',
@@ -193,10 +194,6 @@ module API
                                              title: priority.name
                                            }
                                          }
-
-          def current_user_allowed_to(permission)
-            current_user && current_user.allowed_to?(permission, represented.project)
-          end
         end
       end
     end

@@ -37,26 +37,24 @@ describe Journal, type: :model do
     end
   end
 
-  it 'should create should send email notification' do
-    ActionMailer::Base.deliveries.clear
+  it 'create should send email notification' do
     issue = WorkPackage.find(:first)
     if issue.journals.empty?
       issue.add_journal(User.current, 'This journal represents the creationa of journal version 1')
       issue.save
     end
-    user = User.find(:first)
-    assert_equal 0, ActionMailer::Base.deliveries.size
+    ActionMailer::Base.deliveries.clear
     issue.reload
     issue.update_attribute(:subject, 'New subject to trigger automatic journal entry')
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
-  it 'should create should not send email notification if told not to' do
+  it 'create should not send email notification if told not to' do
     ActionMailer::Base.deliveries.clear
-    issue = WorkPackage.find(:first)
-    user = User.find(:first)
+    issue = WorkPackage.first
+    user = User.first
     journal = issue.add_journal(user, 'A note')
-    JournalObserver.instance.send_notification = false
+    JournalManager.send_notification = false
 
     assert_difference('Journal.count') do
       assert issue.save
@@ -80,9 +78,9 @@ describe Journal, type: :model do
     end
 
     journal = issue.reload.journals.first
-    assert_equal [nil, 'Test initial journal'], journal.changed_data[:subject]
-    assert_equal [nil, @project.id], journal.changed_data[:project_id]
-    assert_equal [nil, 'Some content'], journal.changed_data[:description]
+    assert_equal [nil, 'Test initial journal'], journal.details[:subject]
+    assert_equal [nil, @project.id], journal.details[:project_id]
+    assert_equal [nil, 'Some content'], journal.details[:description]
   end
 
   specify 'creating a journal should update the updated_on value of the parent record (touch)' do

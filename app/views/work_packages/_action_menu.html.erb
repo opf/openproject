@@ -49,7 +49,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                           { :controller => '/work_packages/bulk',
                                             :action => 'destroy',
                                             :ids => [work_package.id] },
-                                          :confirm => (controller.work_package.leaf? ? l(:text_are_you_sure) : l(:text_are_you_sure_with_children)),
+                                          data: { confirm: (controller.work_package.leaf? ? l(:text_are_you_sure) : l(:text_are_you_sure_with_children)) },
                                           :method => :delete ,
                                           :class => 'icon-context icon-delete' ) %>
 

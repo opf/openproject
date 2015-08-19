@@ -30,14 +30,14 @@
 namespace :test do
   desc 'Run unit and functional scm tests'
   task :scm do
-    errors = %w(test:scm:units test:scm:functionals).collect do |task|
+    errors = %w(test:scm:units test:scm:functionals).collect { |task|
       begin
         Rake::Task[task].invoke
         nil
       rescue => e
         task
       end
-    end.compact
+    }.compact
     abort "Errors running #{errors.to_sentence(locale: :en)}!" if errors.any?
   end
 
@@ -48,20 +48,16 @@ namespace :test do
         FileUtils.mkdir_p Rails.root + '/tmp/test'
       end
 
-      supported_scms = [:subversion, :git, :filesystem]
+      supported_scms = [:subversion, :git]
 
       desc 'Creates a test subversion repository'
-      task subversion: :create_dir do
-        repo_path = 'tmp/test/subversion_repository'
-        system "svnadmin create #{repo_path}"
-        system "gunzip < spec/fixtures/repositories/subversion_repository.dump.gz | svnadmin load #{repo_path}"
-      end
-
-      (supported_scms - [:subversion]).each do |scm|
+      supported_scms.each do |scm|
         desc "Creates a test #{scm} repository"
         task scm => :create_dir do
+          repo_path = File.join(Rails.root, "tmp/test/#{scm}_repository")
+          FileUtils.mkdir_p repo_path
           # system "gunzip < spec/fixtures/repositories/#{scm}_repository.tar.gz | tar -xv -C tmp/test"
-          system "tar -xvz -C tmp/test -f spec/fixtures/repositories/#{scm}_repository.tar.gz"
+          system "tar -xvz -C #{repo_path} -f spec/fixtures/repositories/#{scm}_repository.tar.gz"
         end
       end
 
@@ -125,6 +121,7 @@ namespace :spec do
         desc "Run the code examples in spec/legacy/#{type}"
         RSpec::Core::RakeTask.new(type => 'spec:prepare') do |t|
           t.pattern = "spec/legacy/#{type}/**/*_spec.rb"
+          t.exclude_pattern = ''
         end
       end
     end

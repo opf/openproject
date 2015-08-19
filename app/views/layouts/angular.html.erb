@@ -66,6 +66,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </h2>
       </div>
     </noscript>
+    <notifications></notifications>
     <% main_menu = render_main_menu(@project) %>
     <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
     <div id="wrapper" class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>"
@@ -113,10 +114,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <% if show_decoration %>
           <div id="breadcrumb" class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>"
         ng-class="{ 'hidden-navigation': !showNavigation }">
-            <h1>
-              <%= you_are_here_info %>
-              <%= full_breadcrumb %>
-            </h1>
+            <%= you_are_here_info %>
+            <%= full_breadcrumb %>
           </div>
         <% end %>
         <div class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>" id="content"

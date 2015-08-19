@@ -43,7 +43,7 @@ describe CustomValue::VersionStrategy do
     let(:version) { FactoryGirl.build(:version) }
 
     before do
-      allow(Version).to receive(:find_by_id).with(value).and_return(version)
+      allow(Version).to receive(:find_by).with(id: value).and_return(version)
     end
 
     context 'value is some id string' do

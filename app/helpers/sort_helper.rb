@@ -107,16 +107,16 @@ module SortHelper
     end
 
     def to_sql
-      sql = @criteria.map do |k, o|
+      sql = @criteria.map { |k, o|
         if s = @available_criteria[k]
           (o ? Array(s) : Array(s).map { |c| append_desc(c) }).join(', ')
         end
-      end.compact.join(', ')
+      }.compact.join(', ')
       sql.blank? ? nil : sql
     end
 
     def add!(key, asc)
-      @criteria.delete_if { |k, _o| k == key }
+      @criteria.delete_if do |k, _o| k == key end
       @criteria = [[key, asc]] + @criteria
       normalize!
     end
@@ -143,8 +143,15 @@ module SortHelper
 
     def normalize!
       @criteria ||= []
-      @criteria = @criteria.map { |s| s = s.to_a; [s.first, (s.last == false || s.last == 'desc') ? false : true] }
-      @criteria = @criteria.select { |k, _o| @available_criteria.has_key?(k) } if @available_criteria
+      @criteria = @criteria.map { |s|
+        s = s.to_a
+        [s.first, !(s.last == false || s.last == 'desc')]
+      }
+
+      if @available_criteria
+        @criteria = @criteria.select { |k, _o| @available_criteria.has_key?(k) }
+      end
+
       @criteria.slice!(3)
       self
     end
@@ -214,7 +221,8 @@ module SortHelper
   # - 2 CSS classes reflect the state of the link: sort and asc or desc
   #
   def sort_link(column, caption, default_order, html_options = {})
-    css, order = nil, default_order
+    css = nil
+    order = default_order
 
     if column.to_s == @sort_criteria.first_key
       if @sort_criteria.first_asc?

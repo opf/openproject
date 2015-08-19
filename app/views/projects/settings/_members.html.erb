@@ -37,13 +37,14 @@ See doc/COPYRIGHT.rdoc for more details.
    @members = @project.member_principals.includes(:roles, :principal, :member_roles)
                                         .order(User::USER_FORMATS_STRUCTURE[Setting.user_format].map{|attr| attr.to_s}.join(", "))
                                         .page(params[:page])
+                                        .references(:users)
                                         .per_page(per_page_param)
 %>
 <div>
   <% if roles.any? && principals_available.any? %>
     <%= render :partial => "members/member_form",
               :locals => { :project => @project,
-                           :members => members,
+                           :members => @members,
                            :roles => roles } %>
 
   <% end %>
@@ -92,7 +93,7 @@ See doc/COPYRIGHT.rdoc for more details.
                     <%= link_to(l(:button_delete), {:controller => '/members', :action => 'destroy', :id => member, :page => params[:page]},
                       :method => :delete,
                       :remote => true,
-                      :confirm => ((!User.current.admin? && member.include?(User.current)) ? l(:text_own_membership_delete_confirmation) : nil),
+                      data: { confirm: ((!User.current.admin? && member.include?(User.current)) ? l(:text_own_membership_delete_confirmation) : nil) },
                       :title => l(:button_delete), :class => 'icon icon-delete') if member.deletable? %>
                   </td>
                 <% end %>

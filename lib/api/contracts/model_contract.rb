@@ -42,25 +42,74 @@ module API
       end
 
       def self.attribute(*attributes, &block)
+        attributes.each do |attribute|
+          property attribute
+        end
+
         writable_attributes.concat attributes.map(&:to_s)
         if block
           attribute_validations << block
         end
       end
 
+      # we want to add a validation error whenever someone sets a property that we don't know.
+      # However AR will cleverly try to resolve the value for errorneous properties. Thus we need
+      # to hook into this method and return nil for unknown properties to avoid NoMethod errors...
+      def read_attribute_for_validation(attribute)
+        if respond_to? attribute
+          send attribute
+        end
+      end
+
+      def writable_attributes
+        collect_ancestor_attributes(:writable_attributes)
+      end
+
       validate :readonly_attributes_unchanged
       validate :run_attribute_validations
+
+      def validate
+        super
+        model.valid?
+
+        # We need to merge the contract errors with the model errors in
+        # order to have them available at one place.
+        # This is something we need as long as we have validations split
+        # among the model and its contract.
+        errors.merge!(model.errors, [])
+
+        errors.empty?
+      end
 
       private
 
       def readonly_attributes_unchanged
-        changed_attributes = model.changed - self.class.writable_attributes
+        invalid_changes = model.changed - writable_attributes
 
-        errors.add :error_readonly, changed_attributes unless changed_attributes.empty?
+        invalid_changes.each do |attribute|
+          errors.add attribute, :error_readonly
+        end
       end
 
       def run_attribute_validations
-        self.class.attribute_validations.each { |validation| instance_exec(&validation) }
+        attribute_validations.each { |validation| instance_exec(&validation) }
+      end
+
+      def attribute_validations
+        collect_ancestor_attributes(:attribute_validations)
+      end
+
+      # Traverse ancestor hierarchy to collect contract information.
+      # This allows to define attributes on a common base class of two or more contracts.
+      def collect_ancestor_attributes(attribute_to_collect)
+        attributes = []
+        klass = self.class
+        while klass != ModelContract
+          # Collect all the attribute_to_collect from ancestors
+          attributes += klass.send(attribute_to_collect)
+          klass = klass.superclass
+        end
+        attributes.uniq
       end
     end
   end

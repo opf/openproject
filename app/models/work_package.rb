@@ -61,57 +61,64 @@ class WorkPackage < ActiveRecord::Base
   has_many :time_entries, dependent: :delete_all
   has_many :relations_from, class_name: 'Relation', foreign_key: 'from_id', dependent: :delete_all
   has_many :relations_to, class_name: 'Relation', foreign_key: 'to_id', dependent: :delete_all
-  has_and_belongs_to_many :changesets,
-                          order: "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
+  has_and_belongs_to_many :changesets, -> {
+    order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
+  }
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   attr_protected :project_id, :author_id, :lft, :rgt
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-  scope :recently_updated, order: "#{WorkPackage.table_name}.updated_at DESC"
-  scope :visible, lambda {|*args|
-    { include: :project,
-      conditions: WorkPackage.visible_condition(args.first ||
-                                                                 User.current) }
+  scope :recently_updated, ->() {
+    # Specified as a String due to https://github.com/rails/rails/issues/15405
+    # TODO: change to Hash on upgrade to Rails 4.1.
+    order("#{WorkPackage.table_name}.updated_at DESC")
+  }
+
+  scope :visible, ->(*args) {
+    includes(:project)
+      .merge(Project.allowed_to(args.first || User.current, :view_work_packages))
   }
 
   scope :in_status, -> (*args) do
                       where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first))
                     end
 
-  scope :for_projects, lambda { |projects|
-    { conditions: { project_id: projects } }
+  scope :for_projects, ->(projects) {
+    where(project_id: projects)
   }
 
-  scope :changed_since, lambda { |changed_since|
-    changed_since ? where(["#{WorkPackage.table_name}.updated_at >= ?", changed_since]) : nil
+  scope :changed_since, ->(changed_since) {
+    if changed_since
+      where(["#{WorkPackage.table_name}.updated_at >= ?", changed_since])
+    end
   }
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  scope :open, conditions: ["#{Status.table_name}.is_closed = ?", false], include: :status
-
-  scope :with_limit, lambda { |limit| { limit: limit } }
-
-  scope :on_active_project, lambda {
-    {
-      include: [:status, :project, :type],
-      conditions: "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}" }
+  scope :open, ->() {
+    includes(:status)
+      .where(statuses: { is_closed: false  })
   }
 
-  scope :without_version, lambda {
-    {
-      conditions: { fixed_version_id: nil }
-    }
+  scope :with_limit, ->(limit) {
+    limit(limit)
   }
 
-  scope :with_query, lambda {|query|
-    {
-      conditions: ::Query.merge_conditions(query.statement)
-    }
+  scope :on_active_project, -> {
+    includes(:status, :project, :type)
+      .where(projects: { status: Project::STATUS_ACTIVE })
   }
 
-  scope :with_author, lambda { |author|
-    { conditions: { author_id: author.id } }
+  scope :without_version, -> {
+    where(fixed_version_id: nil)
+  }
+
+  scope :with_query, ->(query) {
+    where(::Query.merge_conditions(query.statement))
+  }
+
+  scope :with_author, ->(author) {
+    where(author_id: author.id)
   }
 
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -144,6 +151,7 @@ class WorkPackage < ActiveRecord::Base
                                "#{table_name}.description",
                                "#{Journal.table_name}.notes"],
                      include: [:project, :journals],
+                     references: [:projects, :journals],
                      date_column: "#{quoted_table_name}.created_at",
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
@@ -165,22 +173,17 @@ class WorkPackage < ActiveRecord::Base
                    if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
 
   associated_to_ask_before_destruction TimeEntry,
-                                       ->(work_packages) do
+                                       ->(work_packages) {
                                          TimeEntry.on_work_packages(work_packages).count > 0
-                                       end,
+                                       },
                                        method(:cleanup_time_entries_before_destruction_of)
 
-  # Mapping attributes, that are passed in as id's onto their respective associations
-  # (eg. type=4711 onto type=Type.find(4711))
-  include AssociationsMapper
-  # recovered this from planning-element: is it still needed?!
-  map_associations_for :parent,
-                       :status,
-                       :type,
-                       :project,
-                       :priority
-
   acts_as_journalized except: ['root_id']
+
+  acts_as_countable :required_project_storage,
+                    label: 'attributes.attachments',
+                    collection: true,
+                    countable: Proc.new { joins(:attachments).sum(:filesize).to_i }
 
   # This one is here only to ease reading
   module JournalizedProcs
@@ -204,10 +207,10 @@ class WorkPackage < ActiveRecord::Base
         journal = o.last_journal
         t = 'work_package'
 
-        t << if journal && journal.changed_data.empty? && !journal.initial?
+        t << if journal && journal.details.empty? && !journal.initial?
                '-note'
              else
-               status = Status.find_by_id(o.status_id)
+               status = Status.find_by(id: o.status_id)
 
                status.try(:is_closed?) ? '-closed' : '-edit'
              end
@@ -356,9 +359,9 @@ class WorkPackage < ActiveRecord::Base
 
   def add_time_entry(attributes = {})
     attributes.reverse_merge!(
-        project: project,
-        work_package: self
-      )
+      project: project,
+      work_package: self
+    )
     time_entries.build(attributes)
   end
 
@@ -410,7 +413,7 @@ class WorkPackage < ActiveRecord::Base
   #   * the version it was already assigned to
   #     (to make sure, that you can still update closed tickets)
   def assignable_versions
-    @assignable_versions ||= (project.shared_versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
+    @assignable_versions ||= (project.shared_versions.open + [Version.find_by(id: fixed_version_id_was)]).compact.uniq.sort
   end
 
   def kind
@@ -434,6 +437,7 @@ class WorkPackage < ActiveRecord::Base
   # TODO: move into Business Object and rename to update
   # update for now is a private method defined by AR
   def update_by!(user, attributes)
+    attributes = attributes.dup
     raw_attachments = attributes.delete(:attachments)
 
     update_by(user, attributes)
@@ -444,7 +448,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def update_by(user, attributes)
-    add_journal(user, attributes.delete(:notes)) if attributes[:notes]
+    add_journal(user, attributes.delete(:notes) || '')
 
     add_time_entry_for(user, attributes.delete(:time_entry))
     attributes.delete(:attachments)
@@ -465,7 +469,7 @@ class WorkPackage < ActiveRecord::Base
       type,
       author == user,
       assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
-      )
+    )
     statuses << status unless statuses.empty?
     statuses << Status.default if include_default
     statuses = statuses.uniq.sort
@@ -481,16 +485,8 @@ class WorkPackage < ActiveRecord::Base
     @spent_hours ||= compute_spent_hours(usr)
   end
 
-  # Moves/copies an work_package to a new project and type
-  # Returns the moved/copied work_package on success, false on failure
-  def move_to_project(*args)
-    WorkPackage.transaction do
-      move_to_project_without_transaction(*args) || raise(ActiveRecord::Rollback)
-    end || false
-  end
-
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  # Returns the mail addresses of users that should be notified
+  # Returns users that should be notified
   def recipients
     notified = project.notified_users
     # Author and assignee are always notified unless they have been
@@ -505,8 +501,7 @@ class WorkPackage < ActiveRecord::Base
     end
     notified.uniq!
     # Remove users that can not view the issue
-    notified.reject! { |user| !visible?(user) }
-    notified.map(&:mail)
+    notified.select { |user| visible?(user) }
   end
 
   def done_ratio
@@ -536,7 +531,7 @@ class WorkPackage < ActiveRecord::Base
     attrs = delete_unsafe_attributes(attrs, user)
     return if attrs.empty?
 
-    # Type must be set before since new_statuses_allowed_to depends on it.
+    # ::Type must be set before since new_statuses_allowed_to depends on it.
     if t = attrs.delete('type_id')
       self.type_id = t
     end
@@ -624,7 +619,7 @@ class WorkPackage < ActiveRecord::Base
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
-    (project && type) ? (project.all_work_package_custom_fields & type.custom_fields.all) : []
+    (project && type) ? (project.all_work_package_custom_fields & type.custom_fields) : []
   end
 
   def status_id=(sid)
@@ -669,77 +664,6 @@ class WorkPackage < ActiveRecord::Base
     done_date <= Date.today
   end
 
-  def move_to_project_without_transaction(new_project, new_type = nil, options = {})
-    options ||= {}
-    work_package = options[:copy] ? self.class.new.copy_from(self) : self
-
-    if new_project && work_package.project_id != new_project.id
-      delete_relations(work_package)
-      # work_package is moved to another project
-      # reassign to the category with same name if any
-      new_category = if work_package.category.nil?
-                       nil
-                     else
-                       new_project.categories.find_by_name(work_package.category.name)
-                     end
-      work_package.category = new_category
-      # Keep the fixed_version if it's still valid in the new_project
-      unless new_project.shared_versions.include?(work_package.fixed_version)
-        work_package.fixed_version = nil
-      end
-
-      work_package.project = new_project
-
-      enforce_cross_project_settings(work_package)
-    end
-    if new_type
-      work_package.type = new_type
-      work_package.reset_custom_values!
-    end
-    # Allow bulk setting of attributes on the work_package
-    if options[:attributes]
-      # before setting the attributes, we need to remove the move-related fields
-      work_package.attributes =
-        options[:attributes].except(:copy, :new_project_id, :new_type_id, :follow, :ids)
-          .reject { |_key, value| value.blank? }
-    end # FIXME this eliminates the case, where values shall be bulk-assigned to null,
-    # but this needs to work together with the permit
-    if options[:copy]
-      work_package.author = User.current
-      work_package.custom_field_values =
-        custom_field_values.inject({}) do |h, v|
-          h[v.custom_field_id] = v.value
-          h
-        end
-      work_package.status = if options[:attributes] && options[:attributes][:status_id]
-                              Status.find_by_id(options[:attributes][:status_id])
-                            else
-                              status
-                            end
-    else
-      work_package.add_journal User.current, options[:journal_note] if options[:journal_note]
-    end
-
-    if work_package.save
-      if options[:copy]
-        create_and_save_journal_note work_package, options[:journal_note]
-      else
-        # Manually update project_id on related time entries
-        TimeEntry.update_all("project_id = #{new_project.id}", work_package_id: id)
-
-        work_package.children.each do |child|
-          unless child.move_to_project_without_transaction(new_project)
-            # Move failed and transaction was rollback'd
-            return false
-          end
-        end
-      end
-    else
-      return false
-    end
-    work_package
-  end
-
   # check if user is allowed to edit WorkPackage Journals.
   # see Redmine::Acts::Journalized::Permissions#journal_editable_by
   def editable_by?(user)
@@ -755,7 +679,7 @@ class WorkPackage < ActiveRecord::Base
     p = if work_package_id.is_a? WorkPackage
           work_package_id
         else
-          WorkPackage.find_by_id(work_package_id)
+          WorkPackage.find_by(id: work_package_id)
         end
 
     return unless p
@@ -786,7 +710,7 @@ class WorkPackage < ActiveRecord::Base
     # priority = highest priority of children
     if priority_position =
         children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
-      self.priority = IssuePriority.find_by_position(priority_position)
+      self.priority = IssuePriority.find_by(position: priority_position)
     end
   end
 
@@ -808,7 +732,7 @@ class WorkPackage < ActiveRecord::Base
         if average == 0
           average = 1
         end
-        done = leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
+        done = leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{self.class.connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
         progress = done / (average * leaves_count)
 
         self.done_ratio = progress.round
@@ -844,22 +768,10 @@ class WorkPackage < ActiveRecord::Base
     reload(select: [:lock_version, :created_at, :updated_at])
   end
 
-  # Returns an array of projects that current user can move issues to
-  def self.allowed_target_projects_on_move
-    projects = []
-    if User.current.admin?
-      # admin is allowed to move issues to any active (visible) project
-      projects = Project.visible.all
-    elsif User.current.logged?
-      if Role.non_member.allowed_to?(:move_work_packages)
-        projects = Project.visible.all
-      else
-        User.current.memberships.each do |m|
-          projects << m.project if m.roles.detect { |r| r.allowed_to?(:move_work_packages) }
-        end
-      end
-    end
-    projects
+  # Returns a scope for the projects
+  # the user is allowed to move a work package to
+  def self.allowed_target_projects_on_move(user)
+    Project.where(Project.allowed_to_condition(user, :move_work_packages))
   end
 
   # Do not redefine alias chain on reload (see #4838)
@@ -923,7 +835,7 @@ class WorkPackage < ActiveRecord::Base
   def self.by_type(project)
     count_and_group_by project: project,
                        field: 'type_id',
-                       joins: Type.table_name
+                       joins: ::Type.table_name
   end
 
   def self.by_version(project)
@@ -973,7 +885,7 @@ class WorkPackage < ActiveRecord::Base
       where
         i.status_id=s.id
         and i.project_id IN (#{project.descendants.active.map(&:id).join(',')})
-      group by s.id, s.is_closed, i.project_id") if project.descendants.active.any?
+      group by s.id, s.is_closed, i.project_id").to_a if project.descendants.active.any?
   end
   # End ReportsController extraction
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -982,7 +894,7 @@ class WorkPackage < ActiveRecord::Base
 
   def set_default_values
     if new_record? # set default values for new records only
-      self.status   ||= Status.default
+      self.status ||= Status.default
       self.priority ||= IssuePriority.active.default
     end
   end
@@ -1027,14 +939,14 @@ class WorkPackage < ActiveRecord::Base
   def self.update_versions(conditions = nil)
     # Only need to update issues with a fixed_version from
     # a different project and that is not systemwide shared
-    WorkPackage.all(
-      conditions: merge_conditions(
+    WorkPackage.where(
+      merge_conditions(
         "#{WorkPackage.table_name}.fixed_version_id IS NOT NULL" +
         " AND #{WorkPackage.table_name}.project_id <> #{Version.table_name}.project_id" +
         " AND #{Version.table_name}.sharing <> 'system'",
-        conditions),
-      include: [:project, :fixed_version]
-              ).each do |issue|
+        conditions))
+      .includes(:project, :fixed_version)
+      .references(:versions).each do |issue|
       next if issue.project.nil? || issue.fixed_version.nil?
       unless issue.project.shared_versions.include?(issue.fixed_version)
         issue.fixed_version = nil
@@ -1095,7 +1007,7 @@ class WorkPackage < ActiveRecord::Base
         i.status_id=s.id
         and #{where}
         and i.project_id=#{project.id}
-      group by s.id, s.is_closed, j.id")
+      group by s.id, s.is_closed, j.id").to_a
   end
   private_class_method :count_and_group_by
 
@@ -1105,21 +1017,6 @@ class WorkPackage < ActiveRecord::Base
     if invalid_attachment = attachments.detect { |a| !a.valid? }
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
-  end
-
-  def create_and_save_journal_note(work_package, journal_note)
-    if work_package && journal_note
-      work_package.add_journal User.current, journal_note
-      work_package.save!
-    end
-  end
-
-  def enforce_cross_project_settings(work_package)
-    parent_in_project =
-      work_package.parent.nil? || work_package.parent.project == work_package.project
-
-    work_package.parent_id =
-      nil unless Setting.cross_project_work_package_relations? || parent_in_project
   end
 
   def compute_spent_hours(usr = User.current)

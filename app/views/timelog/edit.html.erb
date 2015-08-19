@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%= l(:label_spent_time) %></h2>
+<%= toolbar title: l(:label_spent_time) %>
 <%= labelled_tabular_form_for [@time_entry.project, @time_entry], as: :time_entry do |f| %>
   <%= error_messages_for 'time_entry' %>
   <%= back_url_hidden_field_tag %>

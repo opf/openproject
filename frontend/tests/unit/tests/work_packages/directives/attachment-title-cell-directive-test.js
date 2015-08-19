@@ -55,6 +55,9 @@ describe('attachmentTitleCell Directive', function() {
             id: 1,
             fileName: 'hearmi.now',
             fileSize: '12340'
+          },
+          links: {
+            downloadLocation: { href: "ze link to da file" }
           }
         };
 
@@ -68,7 +71,7 @@ describe('attachmentTitleCell Directive', function() {
       it('should render link to attachment', function() {
         var link = element.find('a');
         expect(link.text()).to.equal('hearmi.now');
-        expect(link.attr('href')).to.equal('/attachments/1/hearmi.now');
+        expect(link.attr('href')).to.equal('ze link to da file');
       });
     });
 });

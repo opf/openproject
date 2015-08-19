@@ -252,12 +252,12 @@ Then /^the "([^"]*)" field should have no error$/ do |field|
   classes.should_not include('error')
 end
 
-Then /^the (hidden )?"([^"]*)" checkbox should be checked$/ do |hidden, label |
+Then /^the (hidden )?"([^"]*)" checkbox should be checked$/ do |hidden, label|
   field_checked = find_field(label, visible: hidden.nil?)['checked']
   field_checked.should be_truthy
 end
 
-Then /^the (hidden )?"([^"]*)" checkbox should not be checked$/ do |hidden, label |
+Then /^the (hidden )?"([^"]*)" checkbox should not be checked$/ do |hidden, label|
   field_checked = find_field(label, visible: hidden.nil?)['checked']
   field_checked.should be_falsey
 end
@@ -319,7 +319,7 @@ end
 Then /^there should be a( disabled)? "(.+)" field( visible| invisible)?$/ do |disabled, fieldname, visible|
   # Checking for a disabled field will only work for field with labels where the label
   # has a correctly filled "for" attribute
-  visibility = visible && visible.include?('invisible') ? false : true
+  visibility = visible && !visible.include?('invisible')
 
   if disabled
     # disabled fields can not be found via find_field
@@ -342,7 +342,6 @@ Then /^the "([^\"]*)" select(?: within "([^\"]*)")? should have the following op
   options_expected = option_table.raw.flatten
 
   with_scope(selector) do
-
     field = find_field(field)
     options_actual = field.all('option').map(&:text)
     options_actual.should =~ options_expected

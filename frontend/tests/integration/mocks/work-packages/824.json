@@ -2,36 +2,36 @@
   "_type": "WorkPackage",
   "_links": {
     "self": {
-      "href": "/api/v3/work_packages/819",
+      "href": "/api/v3/work_packages/824",
       "title": "66666"
     },
     "update": {
-      "href": "/api/v3/work_packages/819/form",
+      "href": "/api/v3/work_packages/824/form",
       "method": "post",
       "title": "Update 66666"
     },
     "updateImmediately": {
-      "href": "/api/v3/work_packages/819",
+      "href": "/api/v3/work_packages/824",
       "method": "patch",
       "title": "Update 66666"
     },
     "delete": {
-      "href": "/work_packages/bulk?ids=819",
+      "href": "/work_packages/bulk?ids=824",
       "method": "delete",
       "title": "Delete 66666"
     },
     "log_time": {
-      "href": "/work_packages/819/time_entries/new",
+      "href": "/work_packages/824/time_entries/new",
       "type": "text/html",
       "title": "Log time on 66666"
     },
     "duplicate": {
-      "href": "/projects/seeded_project/work_packages/new?copy_from=819",
+      "href": "/projects/seeded_project/work_packages/new?copy_from=824",
       "type": "text/html",
       "title": "Duplicate 66666"
     },
     "move": {
-      "href": "/work_packages/819/move/new",
+      "href": "/work_packages/824/move/new",
       "type": "text/html",
       "title": "Move 66666"
     },
@@ -40,11 +40,11 @@
       "title": "Freida Fay - Christine6938"
     },
     "availableWatchers": {
-      "href": "/api/v3/work_packages/819/available_watchers",
+      "href": "/api/v3/work_packages/824/available_watchers",
       "title": "Available Watchers"
     },
-    "watchChanges": {
-      "href": "/api/v3/work_packages/819/watchers",
+    "watch": {
+      "href": "/api/v3/work_packages/824/watchers",
       "method": "post",
       "data": {
         "user_id": 1
@@ -52,28 +52,28 @@
       "title": "Watch work package"
     },
     "addWatcher": {
-      "href": "/api/v3/work_packages/819/watchers{?user_id}",
+      "href": "/api/v3/work_packages/824/watchers{?user_id}",
       "method": "post",
       "title": "Add watcher",
       "templated": true
     },
     "addRelation": {
-      "href": "/api/v3/work_packages/819/relations",
+      "href": "/api/v3/work_packages/824/relations",
       "method": "post",
       "title": "Add relation"
     },
     "addChild": {
-      "href": "/projects/seeded_project/work_packages/new?work_package%5Bparent_id%5D=819",
+      "href": "/projects/seeded_project/work_packages/new?work_package%5Bparent_id%5D=824",
       "type": "text/html",
       "title": "Add child of 66666"
     },
     "changeParent": {
-      "href": "/api/v3/work_packages/819",
+      "href": "/api/v3/work_packages/824",
       "method": "patch",
       "title": "Change parent of 66666"
     },
     "addComment": {
-      "href": "/api/v3/work_packages/819/activities",
+      "href": "/api/v3/work_packages/824/activities",
       "method": "post",
       "title": "Add comment"
     },
@@ -82,7 +82,7 @@
       "title": "asd"
     },
     "timeEntries": {
-      "href": "/work_packages/819/time_entries",
+      "href": "/work_packages/824/time_entries",
       "type": "text/html",
       "title": "Time entries"
     },
@@ -98,7 +98,7 @@
       "href": "/api/v3/work_packages/schemas/1-7"
     }
   },
-  "id": 819,
+  "id": 824,
   "lockVersion": 119,
   "subject": "66666",
   "type": "Feature",
@@ -108,7 +108,7 @@
     "raw": "#54"
   },
   "priority": "Normal",
-  "startDate": "2014-10-23T00:00:00+00:00",
+  "startDate": "2014-10-23",
   "dueDate": null,
   "estimatedTime": "PT0S",
   "spentTime": "PT0S",
@@ -184,8 +184,8 @@
       "name": "Freida Fay",
       "mail": "elwyn_dickens@gulgowskicasper.biz",
       "avatar": "",
-      "createdAt": "2014-11-05T15:56:819Z",
-      "updatedAt": "2014-11-05T15:56:819Z",
+      "createdAt": "2014-11-05T15:56:824Z",
+      "updatedAt": "2014-11-05T15:56:824Z",
       "status": 1
     },
     "activities": [
@@ -197,7 +197,7 @@
             "title": "315"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -248,7 +248,7 @@
             "title": "500"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -281,7 +281,7 @@
             "title": "501"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -314,7 +314,7 @@
             "title": "502"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -347,7 +347,7 @@
             "title": "503"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -380,7 +380,7 @@
             "title": "504"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -413,7 +413,7 @@
             "title": "505"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -446,7 +446,7 @@
             "title": "506"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -479,7 +479,7 @@
             "title": "507"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -512,7 +512,7 @@
             "title": "511"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -545,7 +545,7 @@
             "title": "512"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -578,7 +578,7 @@
             "title": "513"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -611,7 +611,7 @@
             "title": "514"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -644,7 +644,7 @@
             "title": "515"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -677,7 +677,7 @@
             "title": "516"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -700,7 +700,7 @@
           "<strong>Description</strong> set (<a href=\"/journals/516/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 15,
-        "createdAt": "2014-11-10T14:819:47Z"
+        "createdAt": "2014-11-10T14:824:47Z"
       },
       {
         "_type": "Activity",
@@ -710,7 +710,7 @@
             "title": "517"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -743,7 +743,7 @@
             "title": "518"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -772,11 +772,11 @@
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/8193",
-            "title": "8193"
+            "href": "/api/v3/activities/8243",
+            "title": "8243"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -784,12 +784,12 @@
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/8193",
+            "href": "/api/v3/activities/8243",
             "method": "patch",
-            "title": "8193"
+            "title": "8243"
           }
         },
-        "id": 8193,
+        "id": 8243,
         "comment": "",
         "rawComment": "",
         "details": [
@@ -809,7 +809,7 @@
             "title": "531"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -842,7 +842,7 @@
             "title": "533"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -875,7 +875,7 @@
             "title": "535"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -908,7 +908,7 @@
             "title": "536"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -941,7 +941,7 @@
             "title": "537"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -974,7 +974,7 @@
             "title": "539"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1007,7 +1007,7 @@
             "title": "540"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1040,7 +1040,7 @@
             "title": "541"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1073,7 +1073,7 @@
             "title": "542"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1106,7 +1106,7 @@
             "title": "543"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1139,7 +1139,7 @@
             "title": "544"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1172,7 +1172,7 @@
             "title": "546"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1205,7 +1205,7 @@
             "title": "548"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1238,7 +1238,7 @@
             "title": "549"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1271,7 +1271,7 @@
             "title": "550"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1304,7 +1304,7 @@
             "title": "551"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1333,11 +1333,11 @@
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/5819",
-            "title": "5819"
+            "href": "/api/v3/activities/5824",
+            "title": "5824"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1345,12 +1345,12 @@
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/5819",
+            "href": "/api/v3/activities/5824",
             "method": "patch",
-            "title": "5819"
+            "title": "5824"
           }
         },
-        "id": 5819,
+        "id": 5824,
         "comment": "",
         "rawComment": "",
         "details": [
@@ -1370,7 +1370,7 @@
             "title": "553"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1403,7 +1403,7 @@
             "title": "554"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1436,7 +1436,7 @@
             "title": "555"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1469,7 +1469,7 @@
             "title": "556"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1502,7 +1502,7 @@
             "title": "557"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1535,7 +1535,7 @@
             "title": "559"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1568,7 +1568,7 @@
             "title": "560"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1601,7 +1601,7 @@
             "title": "562"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1634,7 +1634,7 @@
             "title": "563"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1667,7 +1667,7 @@
             "title": "564"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1700,7 +1700,7 @@
             "title": "565"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1733,7 +1733,7 @@
             "title": "566"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1756,7 +1756,7 @@
           "<strong>Description</strong> changed (<a href=\"/journals/566/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 47,
-        "createdAt": "2014-11-18T12:48:819Z"
+        "createdAt": "2014-11-18T12:48:824Z"
       },
       {
         "_type": "Activity",
@@ -1766,7 +1766,7 @@
             "title": "567"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1789,7 +1789,7 @@
           "<strong>Description</strong> changed (<a href=\"/journals/567/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 48,
-        "createdAt": "2014-11-18T12:819:34Z"
+        "createdAt": "2014-11-18T12:824:34Z"
       },
       {
         "_type": "Activity",
@@ -1799,7 +1799,7 @@
             "title": "568"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1832,7 +1832,7 @@
             "title": "569"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1865,7 +1865,7 @@
             "title": "570"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1898,7 +1898,7 @@
             "title": "571"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1920,7 +1920,7 @@
         "htmlDetails": [
           "<strong>Description</strong> changed (<a href=\"/journals/571/diff/description\" class=\"description-details\">Details</a>)"
         ],
-        "version": 819,
+        "version": 824,
         "createdAt": "2014-11-18T14:11:22Z"
       },
       {
@@ -1931,7 +1931,7 @@
             "title": "572"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1964,7 +1964,7 @@
             "title": "573"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -1997,7 +1997,7 @@
             "title": "574"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -2030,7 +2030,7 @@
             "title": "575"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -2063,7 +2063,7 @@
             "title": "576"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -2096,7 +2096,7 @@
             "title": "577"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -2130,7 +2130,7 @@
             "title": "578"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -2164,7 +2164,7 @@
             "title": "580"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/819",
+            "href": "/api/v3/work_packages/824",
             "title": "66666"
           },
           "user": {
@@ -2242,7 +2242,19 @@
       "type": null
     },
     "watchers": [],
-    "attachments": [],
+    "attachments" : {
+      "_links" : {
+        "self" : {
+          "href" : "/api/v3/work_packages/824/attachments"
+        }
+      },
+      "_type" : "Collection",
+      "total" : 0,
+      "count" : 0,
+      "_embedded" : {
+        "elements" : []
+      }
+    },
     "relations": []
   }
 }

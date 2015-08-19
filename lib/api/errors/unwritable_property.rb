@@ -30,38 +30,13 @@
 module API
   module Errors
     class UnwritableProperty < ErrorBase
-      def initialize(invalid_attributes)
-        attributes = Array(invalid_attributes)
+      identifier 'urn:openproject-org:api:v3:errors:PropertyIsReadOnly'
 
-        fail ArgumentError, 'UnwritableProperty error must contain at least one invalid attribute!' if attributes.empty?
+      def initialize(property)
+        super 422, I18n.t('api_v3.errors.writing_read_only_attributes')
 
-        if attributes.length == 1
-          message = if attributes.length == 1
-                      begin
-                        I18n.t("api_v3.errors.validation.#{attributes.first}", raise: true)
-                      rescue I18n::MissingTranslationData
-                        I18n.t('api_v3.errors.writing_read_only_attributes')
-                      end
-                    else
-                      I18n.t('api_v3.errors.multiple_errors')
-                    end
-        else
-          message = I18n.t('api_v3.errors.multiple_errors')
-        end
-
-        super 422, message
-
-        evaluate_attributes(attributes, invalid_attributes)
-      end
-
-      def evaluate_attributes(attributes, invalid_attributes)
-        if attributes.length > 1
-          invalid_attributes.each do |attribute|
-            @errors << UnwritableProperty.new(attribute)
-          end
-        else
-          @details = { attribute: attributes[0].to_s.camelize(:lower) }
-        end
+        @property = property
+        @details = { attribute: property }
       end
     end
   end

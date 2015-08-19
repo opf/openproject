@@ -27,7 +27,6 @@
 #++
 
 namespace :sample_data do
-
   desc 'Create the given number of fake projects'
   task :projects, [:nr_of_projects] => :environment do |_task, args|
     puts "Creating #{args[:nr_of_projects]} fake projects"
@@ -38,13 +37,11 @@ namespace :sample_data do
                                description: Faker::Lorem.paragraph(5),
                                types: Type.all,
                                is_public: true
-      )
+                              )
 
       puts "created: #{project.name}"
     end
 
     puts "#{args[:nr_of_projects]} fake projects created"
-
   end
-
 end

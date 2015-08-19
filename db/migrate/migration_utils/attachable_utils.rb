@@ -46,7 +46,7 @@ module Migration::Utils
     def repair_attachable_journal_entries(journal_type, legacy_journal_type)
       result = invalid_attachments(legacy_journal_type)
 
-      result.map { |m| m.journaled_type = journal_type }
+      result.map do |m| m.journaled_type = journal_type end
 
       repair_journals(result)
     end
@@ -54,7 +54,7 @@ module Migration::Utils
     def remove_initial_journal_entries(journal_type, legacy_journal_type)
       result = invalid_attachments(legacy_journal_type)
 
-      result.map { |m| m.journaled_type = journal_type }
+      result.map do |m| m.journaled_type = journal_type end
 
       remove_initial_journals(result)
     end

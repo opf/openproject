@@ -1,0 +1,25 @@
+<div class="work-packages--attachments">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">
+        {{ ::I18n.t('js.label_attachments') }}
+      </h3>
+    </div>
+  </div>
+  <div data-ngf-drop data-ng-model="files" data-ng-model-rejected="rejectedFiles" data-ngf-select class="work-package--attachments--drop-box"
+       data-ngf-multiple="true" data-ngf-allow-dir="true" data-ngf-keep-distinct data-ngf-max-size="{{::maximumFileSize}}"
+       data-ng-disabled="fetchingConfiguration" data-ngf-keep="true">
+    <p data-ng-hide="fetchingConfiguration" class="work-package--attachments--label">{{ ::I18n.t('js.label_drop_files') }}</p>
+    <p data-ng-hide="fetchingConfiguration" class="work-package--attachments--hint">{{ ::I18n.t('js.label_drop_files_hint') }}</p>
+    <p data-ng-show="fetchingConfiguration" class="work-package--attachments--label">{{ ::I18n.t('js.label_wait') }}</p>
+  </div>
+  <div class="work-package--attachments--files" data-ng-show="files.length > 0">
+    <h4>{{::I18n.t('js.label_files_to_upload')}}</h4>
+    <ul>
+      <li data-ng-repeat="file in files">
+        <attachment-icon type="file.type"></attachment-icon> <span class="filename">{{::file.name}}</span> <span class="filesize">({{::size(file.size)}})</span>
+        <a data-ng-click="remove(file)" class="button -with-icon icon-delete -tiny" title="{{::I18n.t('js.label_remove_file')}}">{{::I18n.t('js.label_remove_file')}}</a>
+      </li>
+    </ul>
+  </div>
+</div>

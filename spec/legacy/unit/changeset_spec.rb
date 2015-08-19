@@ -36,7 +36,7 @@ describe Changeset, type: :model do
       WorkPackage.all.each(&:recreate_initial_journal!)
 
       ActionMailer::Base.deliveries.clear
-      Setting.commit_fix_status_id = Status.find(:first, conditions: ['is_closed = ?', true]).id
+      Setting.commit_fix_status_id = Status.where(['is_closed = ?', true]).first.id
       Setting.commit_fix_done_ratio = '90'
       Setting.commit_ref_keywords = '*'
       Setting.commit_fix_keywords = 'fixes , closes'
@@ -107,7 +107,7 @@ describe Changeset, type: :model do
       end
       assert_equal [1], c.work_package_ids.sort
 
-      time = TimeEntry.first(order: 'id desc')
+      time = TimeEntry.order('id DESC').first
       assert_equal 1, time.work_package_id
       assert_equal 1, time.project_id
       assert_equal 2, time.user_id
@@ -119,7 +119,7 @@ describe Changeset, type: :model do
   end
 
   it 'should ref keywords closing with timelog' do
-    Setting.commit_fix_status_id = Status.find(:first, conditions: ['is_closed = ?', true]).id
+    Setting.commit_fix_status_id = Status.where(['is_closed = ?', true]).first.id
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
     Setting.commit_logtime_enabled = '1'
@@ -136,7 +136,7 @@ describe Changeset, type: :model do
     assert WorkPackage.find(1).closed?
     assert WorkPackage.find(2).closed?
 
-    times = TimeEntry.all(order: 'id desc', limit: 2)
+    times = TimeEntry.order('id desc').limit(2)
     assert_equal [1, 2], times.map(&:work_package_id).sort
   end
 
@@ -187,7 +187,8 @@ describe Changeset, type: :model do
     # repository of child project
     r = Repository::Subversion.create!(
       project: Project.find(3),
-      url:     'svn://localhost/test')
+      scm_type: 'existing',
+      url:      'svn://localhost/test')
 
     c = Changeset.new(repository: r,
                       committed_on: Time.now,
@@ -216,147 +217,50 @@ describe Changeset, type: :model do
   end
 
   it 'should previous' do
-    changeset = Changeset.find_by_revision('3')
-    assert_equal Changeset.find_by_revision('2'), changeset.previous
+    changeset = Changeset.find_by(revision: '3')
+    assert_equal Changeset.find_by(revision: '2'), changeset.previous
   end
 
   it 'should previous nil' do
-    changeset = Changeset.find_by_revision('1')
+    changeset = Changeset.find_by(revision: '1')
     assert_nil changeset.previous
   end
 
   it 'should next' do
-    changeset = Changeset.find_by_revision('2')
-    assert_equal Changeset.find_by_revision('3'), changeset.next
+    changeset = Changeset.find_by(revision: '2')
+    assert_equal Changeset.find_by(revision: '3'), changeset.next
   end
 
   it 'should next nil' do
-    changeset = Changeset.find_by_revision('10')
+    changeset = Changeset.find_by(revision: '10')
     assert_nil changeset.next
   end
 
-  it 'should comments should be converted to utf8' do
-    with_settings enabled_scm: ['Filesystem'] do
-      with_existing_filesystem_scm do |repo_url|
-        proj = Project.find(3)
-        str = File.read(Rails.root.join('spec/fixtures/encoding/iso-8859-1.txt'))
-        r = Repository::Filesystem.create!(project: proj,
-                                           url: repo_url,
-                                           log_encoding: 'ISO-8859-1')
-        assert r
-        c = Changeset.new(repository: r,
-                          committed_on: Time.now,
-                          revision: '123',
-                          scmid: '12345',
-                          comments: str)
-        assert(c.save)
-        assert_equal 'Texte encodé en ISO-8859-1.', c.comments
-      end
-    end
-  end
-
-  it 'should invalid utf8 sequences in comments should be replaced latin1' do
-    with_settings enabled_scm: ['Filesystem'] do
-      with_existing_filesystem_scm do |repo_url|
-        proj = Project.find(3)
-        str = File.read(Rails.root.join('spec/fixtures/encoding/iso-8859-1.txt'))
-        r = Repository::Filesystem.create!(project: proj,
-                                           url: repo_url,
-                                           log_encoding: 'UTF-8')
-        assert r
-        c = Changeset.new(repository:   r,
-                          committed_on: Time.now,
-                          revision:     '123',
-                          scmid:        '12345',
-                          comments:     str)
-        assert(c.save)
-        assert_equal 'Texte encod? en ISO-8859-1.', c.comments
-      end
-    end
-  end
-
-  it 'should invalid utf8 sequences in comments should be replaced ja jis' do
-    with_settings enabled_scm: ['Filesystem'] do
-      with_existing_filesystem_scm do |repo_url|
-        proj = Project.find(3)
-        str = "test\xb5\xfetest\xb5\xfe"
-        if str.respond_to?(:force_encoding)
-          str.force_encoding('ASCII-8BIT')
-        end
-        r = Repository::Filesystem.create!(project: proj,
-                                           url: repo_url,
-                                           log_encoding: 'ISO-2022-JP')
-        assert r
-        c = Changeset.new(repository:   r,
-                          committed_on: Time.now,
-                          revision:     '123',
-                          scmid:        '12345',
-                          comments:     str)
-        assert(c.save)
-        assert_equal 'test??test??', c.comments
-      end
-    end
-  end
-
-  it 'should comments should be converted all latin1 to utf8' do
-    with_settings enabled_scm: ['Filesystem'] do
-      with_existing_filesystem_scm do |repo_url|
-        s1 = "\xC2\x80"
-        s2 = "\xc3\x82\xc2\x80"
-        s4 = s2.dup
-        if s1.respond_to?(:force_encoding)
-          s3 = s1.dup
-          s1.force_encoding('ASCII-8BIT')
-          s2.force_encoding('ASCII-8BIT')
-          s3.force_encoding('ISO-8859-1')
-          s4.force_encoding('UTF-8')
-          assert_equal s3.encode('UTF-8'), s4
-        end
-        proj = Project.find(3)
-        r = Repository::Filesystem.create!(project: proj,
-                                           url: repo_url,
-                                           log_encoding: 'ISO-8859-1')
-        assert r
-        c = Changeset.new(repository: r,
-                          committed_on: Time.now,
-                          revision: '123',
-                          scmid: '12345',
-                          comments: s1)
-        assert(c.save)
-        assert_equal s4, c.comments
-      end
-    end
-  end
-
   it 'should comments nil' do
-    with_settings enabled_scm: ['Filesystem'] do
-      with_existing_filesystem_scm do |repo_url|
-        proj = Project.find(3)
-        r = Repository::Filesystem.create!(project: proj,
-                                           url: repo_url,
-                                           log_encoding: 'ISO-8859-1')
-        assert r
-        c = Changeset.new(repository: r,
-                          committed_on: Time.now,
-                          revision: '123',
-                          scmid: '12345',
-                          comments: nil)
-        assert(c.save)
-        assert_equal '', c.comments
-        if c.comments.respond_to?(:force_encoding)
-          assert_equal 'UTF-8', c.comments.encoding.to_s
-        end
+    with_settings enabled_scm: ['Subversion'] do
+      proj = Project.find(3)
+      r = FactoryGirl.create(:repository_subversion,
+                             project: proj)
+      assert r
+
+      c = Changeset.new(repository: r,
+                        committed_on: Time.now,
+                        revision: '123',
+                        scmid: '12345',
+                        comments: nil)
+      assert(c.save)
+      assert_equal '', c.comments
+      if c.comments.respond_to?(:force_encoding)
+        assert_equal 'UTF-8', c.comments.encoding.to_s
       end
     end
   end
 
   it 'should comments empty' do
-    with_settings enabled_scm: ['Filesystem'] do
-      with_existing_filesystem_scm do |repo_url|
+    with_settings enabled_scm: ['Subversion'] do
         proj = Project.find(3)
-        r = Repository::Filesystem.create!(project: proj,
-                                           url: repo_url,
-                                           log_encoding: 'ISO-8859-1')
+        r = FactoryGirl.create(:repository_subversion)
+
         assert r
         c = Changeset.new(repository: r,
                           committed_on: Time.now,
@@ -370,10 +274,9 @@ describe Changeset, type: :model do
         end
       end
     end
-  end
 
   it 'should identifier' do
-    c = Changeset.find_by_revision('1')
+    c = Changeset.find_by(revision: '1')
     assert_equal c.revision, c.identifier
   end
 end

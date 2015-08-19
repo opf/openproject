@@ -118,6 +118,50 @@ describe User, type: :model do
     end
   end
 
+  describe 'login symbols' do
+    before do
+      user.login = login
+    end
+
+    %w[+ _ . - @].each do |symbol|
+      context symbol do
+        let(:login) { "foo#{symbol}bar" }
+
+        it 'is valid' do
+          expect(user).to be_valid
+        end
+
+        it 'may be stored in the database' do
+          expect(user.save).to be_truthy
+        end
+      end
+    end
+
+    context 'combination thereof' do
+      let(:login) { 'the+boss-is@the_house.' }
+
+      it 'is valid' do
+        expect(user).to be_valid
+      end
+
+      it 'may be stored in the database' do
+        expect(user.save).to be_truthy
+      end
+    end
+
+    context 'with invalid symbol' do
+      let(:login) { 'invalid!name' }
+
+      it 'is invalid' do
+        expect(user).not_to be_valid
+      end
+
+      it 'may not be stored in the database' do
+        expect(user.save).to be_falsey
+      end
+    end
+  end
+
   describe '#assigned_issues' do
     before do
       user.save!
@@ -280,7 +324,8 @@ describe User, type: :model do
     before do
       @u = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
       @u.login = 'new_user'
-      @u.password, @u.password_confirmation = '', ''
+      @u.password = ''
+      @u.password_confirmation = ''
       @u.save
     end
 

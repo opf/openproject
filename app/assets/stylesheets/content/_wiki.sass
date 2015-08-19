@@ -28,9 +28,24 @@
 
 div.wiki
   font-size: $wiki-default-font-size
+  $wiki-max-heading-font-size: 24px
   line-height: 1.6em
 
-  h1, h2, h3
+  // this should be the same as a normal heading (see toolbar)
+  h1
+    padding: 12px 0 0 0
+    border: 0
+    font-size: $wiki-max-heading-font-size
+    line-height: 1.4
+    height: 45px
+  h2
+    font-size: $wiki-max-heading-font-size * 0.8
+  h3
+    font-size: $wiki-max-heading-font-size * 0.6
+  h4
+    font-size: $wiki-max-heading-font-size * 0.5
+
+  h2, h3
     margin: 1em 0 1em 0
     font-weight: bold
     color: #555555
@@ -103,9 +118,11 @@ div.wiki
 
   ol li
     list-style-type: decimal
+    list-style-position: inherit
 
   ul li
     list-style-type: disc
+    list-style-position: inherit
 
   li li
     margin-left: 1.5em

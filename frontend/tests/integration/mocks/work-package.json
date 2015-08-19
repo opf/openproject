@@ -38,7 +38,7 @@
       "href": "/api/v3/work_packages/819/available_watchers",
       "title": "Available Watchers"
     },
-    "watchChanges": {
+    "watch": {
       "href": "/api/v3/work_packages/819/watchers",
       "method": "post",
       "data": {
@@ -86,8 +86,8 @@
     "raw": "Sapiente terra dolores tempore debitis stultus. Adeo aduro repellendus. Vereor vulgivagus maxime ulciscor barba deleniti cognomen ustulo. Hic tubineus sumptus argumentum animi arcesso. Voluntarius dolore et. Apostolus vobis ultra delego acervus averto vitae."
   },
   "priority": "Normal",
-  "startDate": "2014-02-28T00:00:00+00:00",
-  "dueDate": "2014-04-28T00:00:00+00:00",
+  "startDate": "2014-02-28",
+  "dueDate": "2014-04-28",
   "estimatedTime": {
     "units": "hours",
     "value": null
@@ -295,7 +295,19 @@
         "status": 1
       }
     ],
-    "attachments": [],
+    "attachments" : {
+      "_links" : {
+        "self" : {
+          "href" : "/api/v3/work_packages/819/attachments"
+        }
+      },
+      "_type" : "Collection",
+      "total" : 0,
+      "count" : 0,
+      "_embedded" : {
+        "elements" : []
+      }
+    },
     "relations": []
   }
 }

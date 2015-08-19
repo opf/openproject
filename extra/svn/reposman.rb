@@ -36,7 +36,7 @@ require 'net/http'
 require 'uri'
 
 Version = "1.4"
-SUPPORTED_SCM = %w( Subversion Git Filesystem )
+SUPPORTED_SCM = %w( Subversion Git )
 
 $verbose      = 0
 $quiet        = false
@@ -205,7 +205,7 @@ def set_owner_and_rights(project, repos_path, &block)
 end
 
 def other_read_right?(file)
-  (File.stat(file).mode & 0007).zero? ? false : true
+  !(File.stat(file).mode & 0007).zero?
 end
 
 def owner_name(file)

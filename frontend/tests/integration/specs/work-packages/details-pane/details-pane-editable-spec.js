@@ -33,45 +33,44 @@ var expect = require('../../../spec_helper.js').expect,
 describe('OpenProject', function(){
   describe('editable', function() {
     describe('subject', function() {
-      var subjectEditor;
 
-      beforeEach(function() {
-        subjectEditor = element(by.css('.inplace-edit.attribute-subject'));
-      });
+      var subjectEditor = function(paneNumber) {
+        return detailsPaneHelper.loadPane(paneNumber, 'overview').then(function() {
+          return element(by.css('.inplace-edit.attribute-subject'));
+        });
+      };
 
       context('work package with update link', function() {
-        beforeEach(function() {
-          detailsPaneHelper.loadPane(819, 'overview');
-        });
-
         it('should render an editable subject', function() {
-          expect(subjectEditor.$('.inplace-editing--trigger-link').isPresent()).to.eventually.be.true;
+          subjectEditor(819).then(function(editor) {
+            expect(editor.$('.inplace-editing--trigger-link').isPresent())
+              .to.eventually.be.true;
+          });
         });
       });
 
       context('work package without update link', function() {
-        beforeEach(function() {
-          detailsPaneHelper.loadPane(820, 'overview');
-        });
-
         it('should not render an editable subject', function() {
-          expect(subjectEditor.$('.inplace-editing--trigger-link').isPresent()).to.eventually.be.false;
+          subjectEditor(820).then(function(editor) {
+            expect(editor.$('.inplace-editing--trigger-link').isPresent())
+              .to.eventually.be.false;
+          });
         });
       });
 
       context('work package with a wrong version', function() {
-        beforeEach(function() {
-          detailsPaneHelper.loadPane(821, 'overview');
-          subjectEditor.$('.inplace-editing--trigger-link').click();
-          subjectEditor.$('.inplace-edit--control--save a').click();
-        });
-
         it('should render an error', function() {
-          expect(
-            subjectEditor
-              .$('.inplace-edit--errors')
-              .isDisplayed()
-          ).to.eventually.be.true;
+          subjectEditor(821).then(function(editor) {
+            editor.$('.inplace-editing--trigger-link').click();
+            editor.$('.inplace-edit--control--save a').click();
+            return editor;
+          }).then(function() {
+            // damn those dirty ap.. i mean animations.
+            setTimeout(function() {
+              expect($('.notification-box.-error').isDisplayed())
+                .to.be.true;
+            }, 1000);
+          });
         });
       });
     });
@@ -84,7 +83,7 @@ describe('OpenProject', function(){
       });
 
       describe('read state', function() {
-        it('should render the link to another work package', function() {
+        it('should render the link to another work package in the text', function() {
           expect(
             descriptionEditor
               .$('.inplace-edit--read a.work_package')
@@ -92,14 +91,19 @@ describe('OpenProject', function(){
           ).to.eventually.be.true;
         });
 
-        it('should render the textarea', function() {
+        it('should render the textarea after clicking on the trigger link', function() {
           descriptionEditor.$('.inplace-editing--trigger-link').click();
           expect(descriptionEditor.$('textarea').isDisplayed()).to.eventually.be.true;
         });
 
-        it('should not render the textarea if click is on the link', function() {
+        xit('should not render the textarea if click is on the link', function() {
+          // This needs to be disabled as clicking on the link would currently load
+          // a new page that is not part of what we control with our mocks.
+          //
+          // It can be reenabled once clicking on the link would actually show the
+          // clicked on work package in the already open details pane or something
+          // similar.
           descriptionEditor.$('.inplace-edit--read a.work_package').click();
-          // browser.waitForAngular();
           expect(descriptionEditor.$('textarea').isPresent()).to.eventually.be.false;
         });
       });

@@ -48,7 +48,7 @@ module Migration::Utils
     def repair_customizable_journal_entries(journal_type, legacy_journal_type)
       result = invalid_custom_values(legacy_journal_type)
 
-      result.map { |m| m.journaled_type = journal_type }
+      result.map do |m| m.journaled_type = journal_type end
 
       repair_journals(result)
     end
@@ -56,7 +56,7 @@ module Migration::Utils
     def remove_customizable_journal_entries(journal_type, legacy_journal_type)
       result = invalid_custom_values(legacy_journal_type)
 
-      result.map { |m| m.journaled_type = journal_type }
+      result.map do |m| m.journaled_type = journal_type end
 
       remove_initial_journals(result)
     end

@@ -147,7 +147,7 @@ describe WorkPackage, type: :model do
         end
 
         context 'errors' do
-          before { work_package.save }
+          before do work_package.save end
 
           subject { work_package.errors[:type_id] }
 
@@ -242,13 +242,13 @@ describe WorkPackage, type: :model do
     subject { work_package.assignable_responsibles }
 
     context 'with assignable groups' do
-      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(true) }
+      before do allow(Setting).to receive(:work_package_group_assignment?).and_return(true) end
 
       it { is_expected.to match_array([user, group]) }
     end
 
     context 'w/o assignable groups' do
-      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(false) }
+      before do allow(Setting).to receive(:work_package_group_assignment?).and_return(false) end
 
       it { is_expected.to match_array([user]) }
     end
@@ -257,7 +257,7 @@ describe WorkPackage, type: :model do
   describe 'responsible' do
     let(:group) { FactoryGirl.create(:group) }
 
-    before { work_package.project.add_member! group, FactoryGirl.create(:role) }
+    before do work_package.project.add_member! group, FactoryGirl.create(:role) end
 
     shared_context 'assign group as responsible' do
       before { work_package.responsible = group }
@@ -266,7 +266,7 @@ describe WorkPackage, type: :model do
     subject { work_package.valid? }
 
     context 'with assignable groups' do
-      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(true) }
+      before do allow(Setting).to receive(:work_package_group_assignment?).and_return(true) end
 
       include_context 'assign group as responsible'
 
@@ -274,7 +274,7 @@ describe WorkPackage, type: :model do
     end
 
     context 'w/o assignable groups' do
-      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(false) }
+      before do allow(Setting).to receive(:work_package_group_assignment?).and_return(false) end
 
       include_context 'assign group as responsible'
 
@@ -310,7 +310,7 @@ describe WorkPackage, type: :model do
       stub_shared_versions
 
       allow(stub_work_package).to receive(:fixed_version_id_was).and_return(5)
-      allow(Version).to receive(:find_by_id).with(5).and_return(stub_version)
+      allow(Version).to receive(:find_by).with(id: 5).and_return(stub_version)
 
       expect(stub_work_package.assignable_versions).to eq([stub_version])
     end
@@ -348,7 +348,7 @@ describe WorkPackage, type: :model do
       end
 
       shared_examples_for 'invalid version' do
-        before { work_package.save }
+        before do work_package.save end
 
         subject { work_package.errors[:fixed_version_id] }
 
@@ -370,7 +370,7 @@ describe WorkPackage, type: :model do
       context 'open version' do
         let(:version) { version_open }
 
-        before { work_package.save }
+        before do work_package.save end
 
         it { is_expected.to be_truthy }
       end
@@ -410,7 +410,7 @@ describe WorkPackage, type: :model do
         context 'attribute update' do
           include_context 'in closed version'
 
-          before { work_package.subject = 'Subject changed' }
+          before do work_package.subject = 'Subject changed' end
 
           subject { work_package.save }
 
@@ -432,7 +432,7 @@ describe WorkPackage, type: :model do
                                roles: [workflow.role])
           }
 
-          before { allow(User).to receive(:current).and_return(user) }
+          before do allow(User).to receive(:current).and_return(user) end
 
           shared_context 'in locked version' do
             before do
@@ -481,170 +481,114 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe '#move' do
-    let(:work_package) {
-      FactoryGirl.create(:work_package,
-                         project: project,
-                         type: type)
+  describe '#copy_from' do
+    let(:type) { FactoryGirl.create(:type_standard) }
+    let(:project) { FactoryGirl.create(:project, types: [type]) }
+    let(:custom_field) {
+      FactoryGirl.create(:work_package_custom_field,
+                         name: 'Database',
+                         field_format: 'list',
+                         possible_values: ['MySQL', 'PostgreSQL', 'Oracle'],
+                         is_required: true)
     }
-    let(:target_project) { FactoryGirl.create(:project) }
 
-    shared_examples_for 'moved work package' do
-      subject { work_package.project }
+    let(:source) { FactoryGirl.build(:work_package) }
+    let(:sink) { FactoryGirl.build(:work_package) }
 
-      it { is_expected.to eq(target_project) }
+    before do
+      def self.change_custom_field_value(work_package, value)
+        work_package.custom_field_values = { custom_field.id => value } unless value.nil?
+        work_package.save
+      end
     end
 
-    describe '#time_entries' do
-      let(:time_entry_1) {
-        FactoryGirl.create(:time_entry,
-                           project: project,
-                           work_package: work_package)
-      }
-      let(:time_entry_2) {
-        FactoryGirl.create(:time_entry,
-                           project: project,
-                           work_package: work_package)
-      }
+    before do
+      project.work_package_custom_fields << custom_field
+      type.custom_fields << custom_field
 
-      before do
-        time_entry_1
-        time_entry_2
-
-        work_package.reload
-        work_package.move_to_project(target_project)
-
-        time_entry_1.reload
-        time_entry_2.reload
-      end
-
-      context 'time entry 1' do
-        subject { work_package.time_entries }
-
-        it { is_expected.to include(time_entry_1) }
-      end
-
-      context 'time entry 2' do
-        subject { work_package.time_entries }
-
-        it { is_expected.to include(time_entry_2) }
-      end
-
-      it_behaves_like 'moved work package'
+      source.save
     end
 
-    describe '#category' do
-      let(:category) {
-        FactoryGirl.create(:category,
-                           project: project)
-      }
+    before do
+      source.project_id = project.id
+      change_custom_field_value(source, 'MySQL')
+    end
 
-      before do
-        work_package.category = category
-        work_package.save!
+    shared_examples_for 'work package copy' do
+      context 'subject' do
+        subject { sink.subject }
 
-        work_package.reload
+        it { is_expected.to eq(source.subject) }
       end
 
-      context 'with same category' do
-        let(:target_category) {
-          FactoryGirl.create(:category,
-                             name: category.name,
-                             project: target_project)
-        }
+      context 'type' do
+        subject { sink.type }
+
+        it { is_expected.to eq(source.type) }
+      end
+
+      context 'status' do
+        subject { sink.status }
+
+        it { is_expected.to eq(source.status) }
+      end
+
+      context 'project' do
+        subject { sink.project_id }
+
+        it { is_expected.to eq(project_id) }
+      end
+
+      context 'watchers' do
+        subject { sink.watchers.map(&:user_id) }
+
+        it do
+          is_expected.to match_array(source.watchers.map(&:user_id))
+          sink.watchers.each { |w| expect(w).to be_valid }
+        end
+      end
+    end
+
+    shared_examples_for 'work package copy with custom field' do
+      it_behaves_like 'work package copy'
+
+      context 'custom_field' do
+        subject { sink.custom_value_for(custom_field.id).value }
+
+        it { is_expected.to eq('MySQL') }
+      end
+    end
+
+    context 'with project' do
+      let(:project_id) { source.project_id }
+
+      describe 'should copy project' do
+
+        before { sink.copy_from(source) }
+
+        it_behaves_like 'work package copy with custom field'
+      end
+
+      describe 'should not copy excluded project' do
+        let(:project_id) { sink.project_id }
+
+        before { sink.copy_from(source, exclude: [:project_id]) }
+
+        it_behaves_like 'work package copy'
+      end
+
+      describe 'should copy over watchers' do
+        let(:project_id) { sink.project_id }
+        let(:stub_user) { FactoryGirl.create(:user, member_in_project: project) }
 
         before do
-          target_category
+          source.watchers.build(user: stub_user, watchable: source)
 
-          work_package.move_to_project(target_project)
+          sink.copy_from(source)
         end
 
-        describe 'category moved' do
-          subject { work_package.category_id }
-
-          it { is_expected.to eq(target_category.id) }
-        end
-
-        it_behaves_like 'moved work package'
+        it_behaves_like 'work package copy'
       end
-
-      context 'w/o target category' do
-        before { work_package.move_to_project(target_project) }
-
-        describe 'category discarded' do
-          subject { work_package.category_id }
-
-          it { is_expected.to be_nil }
-        end
-
-        it_behaves_like 'moved work package'
-      end
-    end
-
-    describe '#version' do
-      let(:sharing) { 'none' }
-      let(:version) {
-        FactoryGirl.create(:version,
-                           status: 'open',
-                           project: project,
-                           sharing: sharing)
-      }
-      let(:work_package) {
-        FactoryGirl.create(:work_package,
-                           fixed_version: version,
-                           project: project)
-      }
-
-      before { work_package.move_to_project(target_project) }
-
-      it_behaves_like 'moved work package'
-
-      context 'unshared version' do
-        subject { work_package.fixed_version }
-
-        it { is_expected.to be_nil }
-      end
-
-      context 'system wide shared version' do
-        let(:sharing) { 'system' }
-
-        subject { work_package.fixed_version }
-
-        it { is_expected.to eq(version) }
-      end
-
-      context 'move work package in project hierarchy' do
-        let(:target_project) {
-          FactoryGirl.create(:project,
-                             parent: project)
-        }
-
-        context 'unshared version' do
-          subject { work_package.fixed_version }
-
-          it { is_expected.to be_nil }
-        end
-
-        context 'shared version' do
-          let(:sharing) { 'tree' }
-
-          subject { work_package.fixed_version }
-
-          it { is_expected.to eq(version) }
-        end
-      end
-    end
-
-    describe '#type' do
-      let(:target_type) { FactoryGirl.create(:type) }
-      let(:target_project) {
-        FactoryGirl.create(:project,
-                           types: [target_type])
-      }
-
-      subject { work_package.move_to_project(target_project) }
-
-      it { is_expected.to be_falsey }
     end
   end
 
@@ -668,13 +612,13 @@ describe WorkPackage, type: :model do
     end
 
     context 'work package' do
-      subject { WorkPackage.find_by_id(work_package.id) }
+      subject { WorkPackage.find_by(id: work_package.id) }
 
       it { is_expected.to be_nil }
     end
 
     context 'time entries' do
-      subject { TimeEntry.find_by_work_package_id(work_package.id) }
+      subject { TimeEntry.find_by(work_package_id: work_package.id) }
 
       it { is_expected.to be_nil }
     end
@@ -706,11 +650,11 @@ describe WorkPackage, type: :model do
                          done_ratio: 30)
     }
 
-    before { work_package_2 }
+    before do work_package_2 end
 
     describe '#value' do
       context 'work package field' do
-        before { allow(Setting).to receive(:work_package_done_ratio).and_return 'field' }
+        before do allow(Setting).to receive(:work_package_done_ratio).and_return 'field' end
 
         context 'work package 1' do
           subject { work_package_1.done_ratio }
@@ -726,7 +670,7 @@ describe WorkPackage, type: :model do
       end
 
       context 'work package status' do
-        before { allow(Setting).to receive(:work_package_done_ratio).and_return 'status' }
+        before do allow(Setting).to receive(:work_package_done_ratio).and_return 'status' end
 
         context 'work package 1' do
           subject { work_package_1.done_ratio }
@@ -889,7 +833,7 @@ describe WorkPackage, type: :model do
                            project: project_2)
       }
 
-      before { work_package_3 }
+      before do work_package_3 end
 
       let(:groups) { WorkPackage.by_author(project) }
 
@@ -935,7 +879,7 @@ describe WorkPackage, type: :model do
       it { is_expected.to eq(1) }
 
       context 'and one work package in archived projects' do
-        before { work_package_in_archived_project }
+        before do work_package_in_archived_project end
 
         it { is_expected.to eq(1) }
       end
@@ -961,7 +905,7 @@ describe WorkPackage, type: :model do
       it { is_expected.to eq(1) }
 
       context 'and one work package in archived projects' do
-        before { work_package_in_archived_project }
+        before do work_package_in_archived_project end
 
         it { is_expected.to eq(2) }
       end
@@ -1015,7 +959,7 @@ describe WorkPackage, type: :model do
     end
 
     describe 'includes project recipients' do
-      before { project_member }
+      before do project_member end
 
       context 'pre-condition' do
         subject { project.recipients }
@@ -1029,7 +973,7 @@ describe WorkPackage, type: :model do
     end
 
     describe 'includes work package author' do
-      before { project_author }
+      before do project_author end
 
       context 'pre-condition' do
         subject { work_package.author }
@@ -1037,13 +981,13 @@ describe WorkPackage, type: :model do
         it { is_expected.not_to be_nil }
       end
 
-      let(:expected_users) { work_package.author.mail }
+      let(:expected_users) { work_package.author }
 
       it_behaves_like 'includes expected users'
     end
 
     describe 'includes work package assignee' do
-      before { project_assignee }
+      before do project_assignee end
 
       context 'pre-condition' do
         subject { work_package.assigned_to }
@@ -1051,7 +995,7 @@ describe WorkPackage, type: :model do
         it { is_expected.not_to be_nil }
       end
 
-      let(:expected_users) { work_package.assigned_to.mail }
+      let(:expected_users) { work_package.assigned_to }
 
       it_behaves_like 'includes expected users'
     end
@@ -1063,7 +1007,7 @@ describe WorkPackage, type: :model do
       end
 
       describe '#none' do
-        before { author.update_attribute(:mail_notification, :none) }
+        before do author.update_attribute(:mail_notification, :none) end
 
         let(:expected_users) { work_package.author.mail }
 
@@ -1071,7 +1015,7 @@ describe WorkPackage, type: :model do
       end
 
       describe '#only_assigned' do
-        before { author.update_attribute(:mail_notification, :only_assigned) }
+        before do author.update_attribute(:mail_notification, :only_assigned) end
 
         let(:expected_users) { work_package.author.mail }
 
@@ -1079,7 +1023,7 @@ describe WorkPackage, type: :model do
       end
 
       describe '#only_assigned' do
-        before { assignee.update_attribute(:mail_notification, :only_owner) }
+        before do assignee.update_attribute(:mail_notification, :only_owner) end
 
         let(:expected_users) { work_package.assigned_to.mail }
 
@@ -1245,10 +1189,28 @@ describe WorkPackage, type: :model do
       expect(instance.subject).to eq('New subject')
     end
 
-    it "should create a journal with the journal's 'notes' attribute set to the supplied" do
-      instance.update_by!(user,  notes: 'blubs')
+    describe 'creates a journal entry' do
+      it 'with the supplied notes' do
+        instance.update_by!(user, notes: 'blubs')
+        expect(instance.journals.last.notes).to eq('blubs')
+      end
 
-      expect(instance.journals.last.notes).to eq('blubs')
+      it 'by the given user' do
+        instance.update_by!(user, notes: 'blubs')
+        expect(instance.journals.last.user).to eq(user)
+      end
+
+      context 'without supplying journal notes' do
+        it 'creates an entry by the given user' do
+          instance.update_by!(user, subject: 'blubs')
+          expect(instance.journals.last.user).to eq(user)
+        end
+
+        it 'has empty journal notes' do
+          instance.update_by!(user, subject: 'blubs')
+          expect(instance.journals.last.notes).to eq('')
+        end
+      end
     end
 
     it 'should attach an attachment' do
@@ -1315,36 +1277,104 @@ describe WorkPackage, type: :model do
   end
 
   describe '#allowed_target_projects_on_move' do
-    let(:admin_user) { FactoryGirl.create :admin }
-    let(:valid_user) { FactoryGirl.create :user }
     let(:project) { FactoryGirl.create :project }
 
-    context 'admin user' do
-      before do
-        allow(User).to receive(:current).and_return admin_user
-        project
+    subject { WorkPackage.allowed_target_projects_on_move(user) }
+
+    before do
+      allow(User).to receive(:current).and_return user
+      project
+    end
+
+    shared_examples_for 'has the permission to see projects' do
+      it 'sees the project' do
+        is_expected.to match_array [project]
       end
 
-      subject { WorkPackage.allowed_target_projects_on_move.count }
+      it 'does not see the archived project' do
+        project.update_attribute(:status, Project::STATUS_ARCHIVED)
 
-      it 'sees all active projects' do
-        is_expected.to eq Project.active.count
+        is_expected.to match_array []
+      end
+
+      it 'does not see the project having the work package module disabled' do
+        enabled_modules = project.enabled_module_names.delete(:work_package_tracking)
+        project.enabled_module_names = enabled_modules
+        project.save!
+
+        is_expected.to match_array []
+      end
+    end
+
+    shared_examples_for 'lacks the permission to see projects' do
+      it 'does not see the project' do
+        is_expected.to match_array []
+      end
+    end
+
+    context 'admin user' do
+      let(:admin_user) { FactoryGirl.create :admin }
+
+      it_behaves_like 'has the permission to see projects' do
+        let(:user) { admin_user }
       end
     end
 
     context 'non admin user' do
-      before do
-        allow(User).to receive(:current).and_return valid_user
+      let(:role) { FactoryGirl.build(:role, permissions: user_in_project_permissions) }
+      let(:user_in_project_permissions) { [:move_work_packages] }
+      let(:user_in_project) {
+        FactoryGirl.build :user,
+                          member_in_project: project,
+                          member_through_role: role
+      }
 
-        role = FactoryGirl.create :role, permissions: [:move_work_packages]
+      it_behaves_like 'has the permission to see projects' do
+        before do
+          user_in_project.save!
+        end
 
-        FactoryGirl.create(:member, user: valid_user, project: project, roles: [role])
+        let(:user) { user_in_project }
       end
 
-      subject { WorkPackage.allowed_target_projects_on_move.count }
+      it_behaves_like 'lacks the permission to see projects' do
+        let(:user_in_project_permissions) { [] }
 
-      it 'sees all active projects' do
-        is_expected.to eq Project.active.count
+        before do
+          user_in_project.save!
+        end
+
+        let(:user) { user_in_project }
+      end
+    end
+
+    context 'non member user' do
+      it_behaves_like 'lacks the permission to see projects' do
+        before do
+          project.update_attribute(:is_public, true)
+          FactoryGirl.create(:non_member, permissions: [])
+        end
+
+        let(:user) { FactoryGirl.create(:user) }
+      end
+
+      it_behaves_like 'has the permission to see projects' do
+        before do
+          project.update_attribute(:is_public, true)
+          FactoryGirl.create(:non_member, permissions: [:move_work_packages])
+        end
+
+        let(:user) { FactoryGirl.create(:user) }
+      end
+    end
+
+    context 'anonymous user' do
+      it_behaves_like 'lacks the permission to see projects' do
+        before do
+          project.update_attribute(:is_public, true)
+        end
+
+        let(:user) { FactoryGirl.create(:anonymous) }
       end
     end
   end
@@ -1473,20 +1503,20 @@ describe WorkPackage, type: :model do
       it 'should not include certain attributes' do
         recreated_journal = @issue.recreate_initial_journal!
 
-        expect(recreated_journal.changed_data.include?('rgt')).to eq(false)
-        expect(recreated_journal.changed_data.include?('lft')).to eq(false)
-        expect(recreated_journal.changed_data.include?('lock_version')).to eq(false)
-        expect(recreated_journal.changed_data.include?('updated_at')).to eq(false)
-        expect(recreated_journal.changed_data.include?('updated_on')).to eq(false)
-        expect(recreated_journal.changed_data.include?('id')).to eq(false)
-        expect(recreated_journal.changed_data.include?('type')).to eq(false)
-        expect(recreated_journal.changed_data.include?('root_id')).to eq(false)
+        expect(recreated_journal.details.include?('rgt')).to eq(false)
+        expect(recreated_journal.details.include?('lft')).to eq(false)
+        expect(recreated_journal.details.include?('lock_version')).to eq(false)
+        expect(recreated_journal.details.include?('updated_at')).to eq(false)
+        expect(recreated_journal.details.include?('updated_on')).to eq(false)
+        expect(recreated_journal.details.include?('id')).to eq(false)
+        expect(recreated_journal.details.include?('type')).to eq(false)
+        expect(recreated_journal.details.include?('root_id')).to eq(false)
       end
 
       it 'should not include useless transitions' do
         recreated_journal = @issue.recreate_initial_journal!
 
-        recreated_journal.changed_data.values.each do |change|
+        recreated_journal.details.values.each do |change|
           expect(change.first).not_to eq(change.last)
         end
       end
@@ -1635,11 +1665,11 @@ describe WorkPackage, type: :model do
 
   describe 'changed_since' do
     let!(:work_package) do
-      work_package = Timecop.travel(5.hours.ago) do
+      work_package = Timecop.travel(5.hours.ago) {
         wp = FactoryGirl.create(:work_package)
         wp.save!
         wp
-      end
+      }
     end
 
     describe 'null' do

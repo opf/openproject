@@ -1,0 +1,72 @@
+<div cg-busy="vm.loaderPromise" class="work-packages--details-content -create-mode">
+  <div ng-if="vm.workPackage">
+    <h2>{{ ::I18n.t('js.work_packages.create.header') }}</h2>
+
+    <div class="work-packages--create--title">
+      <work-package-field field="'subject'"></work-package-field>
+    </div>
+
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text">
+          {{ ::I18n.t('js.label_description') }}
+        </h3>
+      </div>
+    </div>
+
+    <div class="single-attribute wiki">
+      <work-package-field field="'description'"></work-package-field>
+    </div>
+
+    <div ng-repeat="group in vm.groupedFields" ng-hide="vm.hideEmptyFields && vm.isGroupHideable(vm.groupedFields, group.groupName, vm.workPackage)" class="attributes-group">
+
+      <div class="attributes-group--header">
+        <div class="attributes-group--header-container">
+          <h3 class="attributes-group--header-text"
+            ng-bind="::I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
+        </div>
+        <div class="attributes-group--header-toggle">
+          <panel-expander tabindex="-1" ng-if="vm.showToggleButton() && $first"
+            collapsed="vm.hideEmptyFields"
+            expand-text="{{ ::I18n.t('js.label_show_attributes') }}"
+            collapse-text="{{ ::I18n.t('js.label_hide_attributes') }}">
+          </panel-expander>
+        </div>
+      </div>
+
+      <dl class="attributes-key-value">
+        <dt
+          ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+          ng-if="vm.isSpecified(vm.workPackage, field) && vm.isEditable(vm.workPackage, field)"
+          ng-repeat-start="field in group.attributes" class="attributes-key-value--key">
+          {{vm.getLabel(vm.workPackage, field)}}
+          <span class="required" ng-if="vm.hasNiceStar(vm.workPackage, field)"> *</span>
+        </dt>
+        <dd
+          ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+          ng-if="vm.isSpecified(vm.workPackage, field) && vm.isEditable(vm.workPackage, field)"
+          ng-repeat-end
+          class="attributes-key-value--value-container">
+          <work-package-field field="field"></work-package-field>
+        </dd>
+      </dl>
+    </div>
+    <work-package-attachments work-package="vm.workPackage"></work-package-attachments>
+  </div>
+</div>
+
+<div class="work-packages--details-toolbar">
+  <button class="button" ng-click="vm.submit()">
+    <i class="icon-yes"></i>
+    <span class="button--text" ng-bind="::I18n.t('js.inplace.button_save_all')"></span>
+  </button>
+  <button class="button" ng-click="vm.submit(true)">
+    <i class="icon-yes"></i>
+    <i class="icon-mail"></i>
+    <span class="button--text" ng-bind="::I18n.t('js.inplace.button_save_and_send_all')"></span>
+  </button>
+  <button class="button" ng-click="vm.cancel()">
+    <i class="icon-close"></i>
+    <span class="button--text" ng-bind="::I18n.t('js.inplace.button_cancel_all')"></span>
+  </button>
+</div>

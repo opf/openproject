@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'copy_project' %>
 
-<h2><%=l(:label_project_new)%></h2>
+<%= toolbar title: l(:label_project_new) %>
 
 <%= labelled_tabular_form_for @copy_project, :url => { :action => "copy" } do |f| %>
   <%= hidden_field_tag :coming_from, 'admin' %>

@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe MessagesController, type: :controller do
-
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role) }
@@ -48,7 +47,7 @@ describe MessagesController, type: :controller do
   let(:file) { File.open(Rails.root.join('spec/fixtures/files', filename)) }
   let(:uploaded_file) { ActionDispatch::Http::UploadedFile.new(tempfile: file, type: 'text/plain', filename: filename) }
 
-  before { allow(User).to receive(:current).and_return user }
+  before do allow(User).to receive(:current).and_return user end
 
   describe '#create' do
     context 'attachments' do
@@ -70,7 +69,7 @@ describe MessagesController, type: :controller do
         describe '#journal' do
           let(:attachment_id) { "attachments_#{Message.last.attachments.first.id}" }
 
-          subject { Message.last.journals.last.changed_data }
+          subject { Message.last.journals.last.details }
 
           it { is_expected.to have_key attachment_id }
 
@@ -123,7 +122,7 @@ describe MessagesController, type: :controller do
         describe '#view' do
           subject { response }
 
-          it { is_expected.to render_template('messages/edit', formats: ['html']) }
+          it { is_expected.to render_template('messages/edit') }
         end
 
         describe '#error' do
@@ -143,13 +142,13 @@ describe MessagesController, type: :controller do
         end
 
         describe '#key' do
-          subject { message.journals.last.changed_data }
+          subject { message.journals.last.details }
 
           it { is_expected.to have_key attachment_id }
         end
 
         describe '#value' do
-          subject { message.journals.last.changed_data[attachment_id].last }
+          subject { message.journals.last.details[attachment_id].last }
 
           it { is_expected.to eq(filename) }
         end
@@ -180,13 +179,13 @@ describe MessagesController, type: :controller do
         let(:attachment_id) { "attachments_#{attachment.id}" }
 
         describe '#key' do
-          subject { message.journals.last.changed_data }
+          subject { message.journals.last.details }
 
           it { is_expected.to have_key attachment_id }
         end
 
         describe '#value' do
-          subject { message.journals.last.changed_data[attachment_id].first }
+          subject { message.journals.last.details[attachment_id].first }
 
           it { is_expected.to eq(filename) }
         end

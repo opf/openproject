@@ -54,10 +54,10 @@ module API
                exec_context: :decorator,
                render_nil: false
 
-      def self.self_link(path: nil, title_getter: -> (*) { represented.name })
+      def self.self_link(path: nil, id_attribute: :id, title_getter: -> (*) { represented.name })
         link :self do
           path = _type.underscore unless path
-          link_object = { href: api_v3_paths.send(path, represented.id) }
+          link_object = { href: api_v3_paths.send(path, represented.send(id_attribute)) }
           title = instance_eval(&title_getter)
           link_object[:title] = title if title
 
@@ -71,7 +71,7 @@ module API
                                title_getter: -> (*) { call_or_send_to_represented(getter).name },
                                show_if: -> (*) { true },
                                embed_as: nil)
-        link property.to_s.camelize(:lower) do
+        link ::API::Utilities::PropertyNameConverter.from_ar_name(property) do
           next unless instance_eval(&show_if)
 
           value = call_or_send_to_represented(getter)
@@ -92,12 +92,17 @@ module API
       end
 
       def self.embed_property(property, getter: property, decorator:, show_if: true)
-        property property,
+        property_name = ::API::Utilities::PropertyNameConverter.from_ar_name(property)
+        property property_name,
                  exec_context: :decorator,
                  getter: -> (*) { call_or_send_to_represented(getter) },
                  embedded: true,
                  decorator: decorator,
                  if: show_if
+      end
+
+      def current_user_allowed_to(permission, context:)
+        current_user && current_user.allowed_to?(permission, context)
       end
 
       protected

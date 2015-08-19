@@ -46,7 +46,7 @@ module QueriesHelper
     if !params[:query_id].blank?
       cond = 'project_id IS NULL'
       cond << " OR project_id = #{@project.id}" if @project
-      @query = Query.find(params[:query_id], conditions: cond)
+      @query = Query.where(cond).find(params[:query_id])
       @query.project = @project
       add_filter_from_params if params[:accept_empty_query_fields]
       session[:query] = { id: @query.id, project_id: @query.project_id }
@@ -68,12 +68,25 @@ module QueriesHelper
         @query.column_names = params[:c] || (params[:query] && params[:query][:column_names])
         session[:query] = { project_id: @query.project_id, filters: @query.filters, group_by: @query.group_by, display_sums: @query.display_sums, column_names: @query.column_names }
       else
-        @query = Query.find_by_id(session[:query][:id]) if session[:query][:id]
+        @query = Query.find_by(id: session[:query][:id]) if session[:query][:id]
         @query ||= Query.new(name: '_', project: @project, filters: session[:query][:filters], group_by: session[:query][:group_by], display_sums: session[:query][:display_sums], column_names: session[:query][:column_names])
         @query.project = @project
       end
     end
 
     @query
+  end
+
+  def visible_queries
+    unless @visible_queries
+      # User can see public queries and his own queries
+      visible = ARCondition.new(['is_public = ? OR user_id = ?', true, (User.current.logged? ? User.current.id : 0)])
+      # Project specific queries and global queries
+      visible << (@project.nil? ? ['project_id IS NULL'] : ['project_id = ?', @project.id])
+      @visible_queries = Query.where(visible.conditions)
+                         .order('name ASC')
+                         .select(:id, :name, :is_public, :project_id)
+    end
+    @visible_queries
   end
 end
