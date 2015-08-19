@@ -30,8 +30,19 @@
 class WatcherNotificationMailer
   class << self
     def handle_watcher(watcher_id, watcher_setter_id)
-      job = DeliverWatcherNotificationJob.new(watcher_id, watcher_setter_id)
-      Delayed::Job.enqueue job
+      unless other_jobs_queued?(Watcher.find(watcher_id).watchable)
+        job = DeliverWatcherNotificationJob.new(watcher_id, watcher_setter_id)
+        Delayed::Job.enqueue job
+      end
+    end
+
+    private
+
+    # HACK: TODO this needs generalization as well as performance improvements
+    # We need to make sure no work package created or updated job is queued to avoid sending two mails
+    # in short succession.
+    def other_jobs_queued?(work_package)
+      Delayed::Job.where('handler LIKE ?', "%journal_id: #{work_package.journals.last.id}%").exists?
     end
   end
 end
