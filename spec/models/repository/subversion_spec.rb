@@ -34,7 +34,7 @@ describe Repository::Subversion, type: :model do
   let(:config)   { {} }
 
   before do
-    allow(Setting).to receive(:enabled_scm).and_return(['Subversion'])
+    allow(Setting).to receive(:enabled_scm).and_return(['subversion'])
     allow(instance).to receive(:scm).and_return(adapter)
     allow(instance.class).to receive(:scm_config).and_return(config)
   end

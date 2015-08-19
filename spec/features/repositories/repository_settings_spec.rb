@@ -36,7 +36,7 @@ describe 'Repository Settings', type: :feature, js: true do
 
   # Allow to override configuration values to determine
   # whether to activate managed repositories
-  let(:enabled_scms) { %w[Subversion Git] }
+  let(:enabled_scms) { %w[subversion git] }
   let(:config) { nil }
 
   before do
@@ -82,22 +82,22 @@ describe 'Repository Settings', type: :feature, js: true do
 
   shared_examples 'manages the repository with' do |name, type|
     let(:repository) {
-      FactoryGirl.create("repository_#{name.downcase}".to_sym,
+      FactoryGirl.create("repository_#{name}".to_sym,
                          scm_type: type,
                          project: project)
     }
     it_behaves_like 'manages the repository', type
   end
 
-  it_behaves_like 'manages the repository with', 'Subversion', 'existing'
-  it_behaves_like 'manages the repository with', 'Git', 'local'
+  it_behaves_like 'manages the repository with', 'subversion', 'existing'
+  it_behaves_like 'manages the repository with', 'git', 'local'
 
   context 'managed repositories' do
     include_context 'with tmpdir'
     let(:config) {
       {
-        Subversion: { manages: File.join(tmpdir, 'svn') },
-        Git:        { manages: File.join(tmpdir, 'git') }
+        subversion: { manages: File.join(tmpdir, 'svn') },
+        git:        { manages: File.join(tmpdir, 'git') }
       }
     }
 
@@ -115,12 +115,12 @@ describe 'Repository Settings', type: :feature, js: true do
     }
 
     context 'Subversion' do
-      let(:managed_vendor) { 'Subversion' }
+      let(:managed_vendor) { :subversion }
       it_behaves_like 'manages the repository', 'managed'
     end
 
     context 'Git' do
-      let(:managed_vendor) { 'Git' }
+      let(:managed_vendor) { :git }
       it_behaves_like 'manages the repository', 'managed'
     end
   end

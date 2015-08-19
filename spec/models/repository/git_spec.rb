@@ -35,7 +35,7 @@ describe Repository::Git, type: :model do
   let(:config)   { {} }
 
   before do
-    allow(Setting).to receive(:enabled_scm).and_return(['Git'])
+    allow(Setting).to receive(:enabled_scm).and_return(['git'])
     allow(instance).to receive(:scm).and_return(adapter)
     allow(adapter.class).to receive(:config).and_return(config)
   end

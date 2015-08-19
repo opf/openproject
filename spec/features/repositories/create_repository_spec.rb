@@ -36,7 +36,7 @@ describe 'Create repository', type: :feature, js: true do
 
   # Allow to override configuration values to determine
   # whether to activate managed repositories
-  let(:enabled_scms) { %w[Subversion Git] }
+  let(:enabled_scms) { %w[subversion git] }
   let(:config) { nil }
 
   let(:scm_vendor_input_css) { 'select[name="scm_vendor"]' }
@@ -58,7 +58,7 @@ describe 'Create repository', type: :feature, js: true do
       it 'displays the vendor selection' do
         expect(scm_vendor_input).not_to be_nil
         enabled_scms.each do |scm|
-          expect(scm_vendor_input).to have_selector('option', text: scm)
+          expect(scm_vendor_input).to have_selector('option', text: scm.camelize)
         end
       end
     end
@@ -68,7 +68,7 @@ describe 'Create repository', type: :feature, js: true do
     end
 
     context 'with only one enabled scm' do
-      let(:enabled_scms) { %w[Subversion] }
+      let(:enabled_scms) { %w[subversion] }
       it_behaves_like 'shows enabled scms'
       it 'does not show git' do
         expect(scm_vendor_input).not_to have_selector('option', text: 'Git')
@@ -163,14 +163,14 @@ describe 'Create repository', type: :feature, js: true do
     end
 
     context 'with Subversion selected' do
-      let(:vendor) { 'Subversion' }
+      let(:vendor) { 'subversion' }
 
       it_behaves_like 'displays only the type', 'existing'
 
       context 'and managed repositories' do
         include_context 'with tmpdir'
         let(:config) {
-          { Subversion: { manages: tmpdir } }
+          { subversion: { manages: tmpdir } }
         }
         it_behaves_like 'has managed and other type', 'existing'
         it_behaves_like 'it can create the managed repository'
@@ -181,12 +181,12 @@ describe 'Create repository', type: :feature, js: true do
     end
 
     context 'with Git selected' do
-      let(:vendor) { 'Git' }
+      let(:vendor) { 'git' }
 
       it_behaves_like 'displays only the type', 'local'
       context 'and managed repositories, but not ours' do
         let(:config) {
-          { Subversion: { manages: '/tmp/whatever' } }
+          { subversion: { manages: '/tmp/whatever' } }
         }
         it_behaves_like 'displays only the type', 'local'
       end
@@ -194,7 +194,7 @@ describe 'Create repository', type: :feature, js: true do
       context 'and managed repositories' do
         include_context 'with tmpdir'
         let(:config) {
-          { Git: { manages: tmpdir } }
+          { git: { manages: tmpdir } }
         }
 
         it_behaves_like 'has managed and other type', 'local'

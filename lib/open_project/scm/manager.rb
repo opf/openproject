@@ -35,6 +35,9 @@ module OpenProject
           @scms ||= {}
         end
 
+        ##
+        # Returns a list of registered SCM vendor symbols
+        # (e.g., :git, :subversion)
         def vendors
           @scms.keys
         end
@@ -43,12 +46,19 @@ module OpenProject
         # Returns all enabled repositories as a Hash
         # { vendor_name: repository class constant }
         def enabled
-          registered.select { |scm| Setting.enabled_scm.include?(scm) }
+          registered.select { |sym, _| Setting.enabled_scm.include?(sym.to_s) }
+        end
+
+        ##
+        # Returns whether the particular vendor symbol
+        # is available AND enabled through settings.
+        def enabled?(vendor)
+          enabled.include?(vendor)
         end
 
         # Return all manageable vendors
         def manageable
-          enabled.select { |_, vendor| vendor.manageable? }.keys
+          registered.select { |_, vendor| vendor.manageable? }
         end
 
         ##
@@ -67,7 +77,7 @@ module OpenProject
         def add(scm_name)
           # Force model lookup to avoid
           # const errors later on.
-          klass = Repository.const_get(scm_name)
+          klass = Repository.const_get(scm_name.to_s.camelize)
           registered[scm_name] = klass
         end
 
