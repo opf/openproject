@@ -1480,7 +1480,6 @@ en:
   text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_setter}."
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
-  text_unwatch_work_package: "Unwatch work package"
   text_journal_added: "%{label} %{value} added"
   text_journal_aggregation_time_explanation: "Combine journals for display if their age difference is less than the specified timespan. This will also delay mail notifications by the same amount of time."
   text_journal_changed: "%{label} changed from %{old} to %{new}"

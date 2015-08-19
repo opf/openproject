@@ -81,9 +81,7 @@ class UserMailer < BaseMailer
 
   def work_package_watcher_added(work_package, user, watcher_setter)
     @issue = work_package
-    @journal = work_package.journals.last
     @watcher_setter = watcher_setter
-    @watcher = user
 
     set_work_package_headers(work_package)
     message_id work_package, user
