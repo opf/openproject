@@ -84,7 +84,8 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
          #{this}.version = other.version")
       .where("#{this}.id < other.id")
       .select("#{this}.id id, other.id duplicate_id")
-      .uniq_by(&:id)
+      .to_a
+      .uniq(&:id)
       .map { |pair| [pair.id, pair.duplicate_id] }
   end
 
