@@ -4,7 +4,7 @@ module OpenProject
       include LobbyBoy::SessionHelper
 
       def session_expired?
-        super || id_token_expired?
+        super || (current_user.logged? && id_token_expired?)
       end
 
       ##
