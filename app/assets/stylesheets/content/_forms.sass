@@ -58,6 +58,9 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
     background-color: $content-form-bg-color
     border: $content-form-border
 
+    &.-compressed
+      padding: 10px 20px 0 20px
+
 .form--separator
   border: 0
   border-bottom: 1px solid $content-form-separator-color
@@ -327,6 +330,9 @@ fieldset.form--fieldset
 .form--field-instructions
   @extend %form--field-after-container
   font-style: italic
+
+  &.-no-italic
+    font-style: normal
 
 .form--field-extra-actions
   @extend %form--field-after-container

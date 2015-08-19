@@ -1286,7 +1286,18 @@ en:
 
   repositories:
     autofetch_information: "Check this if you want repositories to be updated automatically when accessing the repository module page.\nThis encompasses the retrieval of commits from the repository and refreshing the required disk storage."
-    checkout_instructions: "Checkout instructions"
+    checkout:
+      access:
+        readwrite: 'Read + Write'
+        read: 'Read-only'
+        none: 'No checkout access, you may only view the repository through this application.'
+      access_permission: 'Your permissions on this repository:'
+      url: "Checkout URL"
+      base_url_text: "The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).\nNote: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered"
+      enable_instructions_text: "Displays checkout instructions defined below on all repository-related pages."
+      instructions: "Checkout instructions"
+      text_instructions: "This text is displayed alongside the checkout URL for guidance on how to check out the repository."
+      not_available: "Checkout instructions are not available for this repository"
     create_managed_delay: "Please note: The repository is managed, it is created asynchronously on the disk and will be available shortly."
     create_successful: "The repository has been registered."
     delete_sucessful: "The repository has been deleted."
@@ -1413,6 +1424,9 @@ en:
   setting_repositories_encodings: "Repositories encodings"
   setting_repository_authentication_caching_enabled: "Enable caching for authentication request of version control software"
   setting_repository_storage_cache_minutes: "Repository disk size cache"
+  setting_repository_checkout_display: "Show checkout instructions"
+  setting_repository_checkout_base_url: "Checkout base URL"
+  setting_repository_checkout_text: "Checkout instruction text"
   setting_repository_log_display_limit: "Maximum number of revisions displayed on file log"
   setting_rest_api_enabled: "Enable REST web service"
   setting_self_registration: "Self-registration"

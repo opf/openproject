@@ -129,6 +129,10 @@ class Repository < ActiveRecord::Base
     false
   end
 
+  def supports_checkout_info?
+    true
+  end
+
   def entry(path = nil, identifier = nil)
     scm.entry(path, identifier)
   end

@@ -1,0 +1,142 @@
+#-- encoding: UTF-8
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+##
+# Implements a repository service for building checkout instructions if supported
+class Scm::CheckoutInstructionsService
+  attr_reader :repository, :user
+
+  def initialize(repository, user = User.current)
+    @repository = repository
+    @user = user
+  end
+
+  ##
+  # Retrieve the checkout URL using the repository vendor information
+  # It may additionally set a path parameter, if the repository supports subtree checkout
+  def checkout_url(path = nil)
+    repository.scm.checkout_url(repository, checkout_base_url, path)
+  end
+
+  ##
+  # Returns the checkout command from SCM adapter
+  # (e.g., `git clone`)
+  def checkout_command
+    repository.scm.checkout_command
+  end
+
+  ##
+  # Returns the checkout base URL as defined in settings.
+  def checkout_base_url
+    checkout_settings['base_url']
+  end
+
+  ##
+  # Returns the instructions defined in the settings.
+  def instructions
+    checkout_settings['text']
+  end
+
+  ##
+  # Returns true when the checkout URL may target a subtree of the repository.
+  def subtree_checkout?
+    repository.scm.subtree_checkout?
+  end
+
+  ##
+  # Returns whether the repository supports showing checkout information
+  # and has been configured for it.
+  def available?
+    checkout_enabled? &&
+      repository.supports_checkout_info? &&
+      checkout_base_url.present?
+  end
+
+  def checkout_enabled?
+    checkout_settings['enabled'].to_i > 0
+  end  
+
+  ##
+  # Determines whether permissions for the given repository
+  # are available.
+  def permission?
+    repository.managed?
+  end
+
+  ##
+  # Returns one of the following permission symbols for the given user
+  #
+  # - :readwrite: When user is allowed to read and commit (:commit_access)
+  # - :read: When user is allowed to checkout the repository, but not commit (:browse_repository)
+  # - :none: Otherwise
+  #
+  # Note that this information is only applicable when the repository is managed,
+  # because otherwise OpenProject does not control the repository permissions.
+  # Use +permission?+ to check whether this is the case.
+  #
+  def permission
+    project = repository.project
+    if user.allowed_to?(:commit_access, project)
+      :readwrite
+    elsif user.allowed_to?(:browse_repository, project)
+      :read
+    else
+      :none
+    end
+  end
+
+  ##
+  # Returns whether the given user may checkout the repository
+  #
+  # Note that this information is only applicable when the repository is managed,
+  # because otherwise OpenProject does not control the repository permissions.
+  # Use +permission?+ to check whether this is the case.
+  def may_checkout?
+    [:readwrite, :read].include?(permission)
+  end
+
+  ##
+  # Returns whether the given user may commit to the repository
+  #
+  # Note that this information is only applicable when the repository is managed,
+  # because otherwise OpenProject does not control the repository permissions.
+  # Use +permission?+ to check whether this is the case.
+  def may_commit?
+    permission == :readwrite
+  end
+
+  private
+
+  def checkout_settings
+    @settings ||= begin
+      hash = Setting.repository_checkout_data[repository.vendor.to_s]
+      hash.presence || {}
+    end
+  end
+end

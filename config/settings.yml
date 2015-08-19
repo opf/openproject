@@ -280,6 +280,19 @@ journal_aggregation_time_minutes:
 repository_storage_cache_minutes:
   default: 720
   format: int
+repository_checkout_data:
+  serialized: true
+  default:
+    git:
+      enabled: 0
+      text: |-
+        The data contained in this repository can be downloaded to your computer with Git using the checkout information below.
+        Please consult the documentation of Git if you need more information on the checkout procedure and available clients.
+    subversion:
+      enabled: 0
+      text: |-
+        The data contained in this repository can be downloaded to your computer with Subversion using the checkout information below.
+        Please consult the documentation of Subversion if you need more information on the checkout procedure and available clients.
 api_max_page_size:
   format: int
   default: 500
