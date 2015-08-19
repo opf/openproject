@@ -40,13 +40,10 @@ See doc/COPYRIGHT.rdoc for more details.
       var checked = this.checked,
         value = this.value,
         select = $('#settings_repositories_automatic_managed_vendor'),
-        option = select.find('option[value="' + value + '"]'),
-        makeOption = function() {
-          return ['<option value="', value, '">', value, '</option>'].join('');
-        };
+        option = select.find('option[value="' + value + '"]');
 
       if (checked && !option.length) {
-        select.append(makeOption())
+        select.append('<option value="' + value +'">' + value + '</option>')
           .prop('disabled', false);
       } else {
 
