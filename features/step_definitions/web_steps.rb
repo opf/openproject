@@ -360,7 +360,7 @@ Given /^I (accept|dismiss) the alert dialog$/ do |method|
 end
 
 Then(/^(.*) in the new window$/) do |step|
-  new_window = page.driver.browser.window_handles.last
+  new_window = windows.last
   page.within_window new_window do
     step(step)
   end
