@@ -114,14 +114,14 @@ Feature: The work_package hierarchy defines the allowed versions for each work_p
     Given I am on the taskboard for "Sprint 001"
      When I click to add a new task for story "Story A"
       And I fill in "Task1" for "subject"
-      And I fill in "3" for "remaining_hours"
+      And I fill in "3" for "remaining hours"
       And I press "OK"
       And I click to add a new task for story "Story A"
       And I fill in "Task2" for "subject"
       And I press "OK"
       And I click to add a new task for story "Story A"
       And I fill in "Task3" for "subject"
-      And I fill in "3" for "remaining_hours"
+      And I fill in "7" for "remaining hours"
       And I press "OK"
       And the request on task "Task1" is finished
       And the request on task "Task2" is finished
@@ -131,7 +131,7 @@ Feature: The work_package hierarchy defines the allowed versions for each work_p
       And the task "Task2" should have "Sprint 001" as its target version
       And the task "Task3" should have "Sprint 001" as its target version
       And task Task1 should have remaining_hours set to 3
-      And task Task3 should have remaining_hours set to 3
+      And task Task3 should have remaining_hours set to 7
 
   #Scenario: Moving a task between stories on the taskboard
   # not testable for now
