@@ -35,3 +35,5 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 <%= call_hook(:view_repositories_show_contextual,
     { repository: @repository, project: @project }) %>
+<%= call_hook(:repositories_below_empty_warning,
+    { repository: @repository, project: @project }) %>
