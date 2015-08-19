@@ -42,7 +42,7 @@ describe WikisController, type: :controller do
     post :edit, id: 3, wiki: { start_page: 'Start page' }
     assert_response :success
     wiki = Project.find(3).wiki
-    assert_not_nil wiki
+    refute_nil wiki
     assert_equal 'Start page', wiki.start_page
   end
 

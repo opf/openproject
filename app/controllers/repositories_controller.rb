@@ -45,8 +45,8 @@ class RepositoriesController < ApplicationController
   default_search_scope :changesets
 
   before_filter :find_project_by_project_id
-  before_filter :find_repository, except: [:edit, :update, :create, :destroy, :destroy_info]
   before_filter :authorize
+  before_filter :find_repository, except: [:edit, :update, :create, :destroy, :destroy_info]
   accept_key_auth :revisions
 
   rescue_from OpenProject::Scm::Exceptions::ScmError, with: :show_error_command_failed
@@ -115,7 +115,10 @@ class RepositoriesController < ApplicationController
   end
 
   def show
-    @repository.fetch_changesets if Setting.autofetch_changesets? && @path.blank?
+    if Setting.autofetch_changesets? && @path.blank?
+      @repository.fetch_changesets
+      @repository.update_required_storage
+    end
 
     @entries = @repository.entries(@path, @rev)
     @changeset = @repository.find_changeset_by_name(@rev)

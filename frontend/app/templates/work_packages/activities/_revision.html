@@ -1,0 +1,18 @@
+<div class="work-package-details-activities-activity-contents">
+  <div class="comments-number">
+    <span ui-sref="work-packages.list.details.activity.details({ activity_no: activityNo })">
+      <a name="{{ activityNo }}"
+         ng-bind="'#' + activityNo"
+         ng-href="#{{ activityNo }}"></a>
+    </span>
+  </div>
+  <div ng-if="userAvatar">
+    <img class="avatar" ng-src="{{ userAvatar }}" alt="Avatar" title="{{userName}}" />
+  </div>
+  <span class="user" ng-if="userActive"><a ng-href="{{ userPath(userId) }}" name="{{ currentAnchor }}" ng-bind="userName"></a></span>
+  <span class="user" ng-if="!userActive">{{ userName }}</span>
+  <span class="revision-activity--revision-link date"></span>
+  <span class="user-comment wiki">
+    <span class="message" ng-bind-html="message"/>
+  </span>
+</div>

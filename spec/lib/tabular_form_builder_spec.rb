@@ -43,7 +43,7 @@ describe TabularFormBuilder do
                       mail:       'jj@lost-mail.com',
                       failed_login_count: 45)
   }
-  let(:builder)  { TabularFormBuilder.new(:user, resource, helper, {}, nil) }
+  let(:builder)  { TabularFormBuilder.new(:user, resource, helper, {}) }
 
   describe '#text_field' do
     let(:options) { { title: 'Name', class: 'custom-class' } }

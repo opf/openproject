@@ -30,7 +30,7 @@
 class Changeset < ActiveRecord::Base
   belongs_to :repository
   belongs_to :user
-  has_many :changes, dependent: :delete_all
+  has_many :file_changes, class_name: 'Change', dependent: :delete_all
   has_and_belongs_to_many :work_packages
 
   acts_as_journalized

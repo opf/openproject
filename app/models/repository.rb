@@ -51,11 +51,7 @@ class Repository < ActiveRecord::Base
   validates_length_of :password, maximum: 255, allow_nil: true
   validate :validate_enabled_scm, on: :create
 
-  acts_as_countable :required_project_storage,
-                    label: 'label_repository',
-                    countable: :required_disk_storage
-
-  def changes
+  def file_changes
     Change.where(changeset_id: changesets).joins(:changeset)
   end
 
@@ -177,17 +173,21 @@ class Repository < ActiveRecord::Base
     path
   end
 
-  def required_disk_storage
+  ##
+  # Update the required storage information, when necessary.
+  # Returns whether an asynchronous count refresh has been requested.
+  def update_required_storage
     if scm.storage_available?
       oldest_cachable_time = Setting.repository_storage_cache_minutes.to_i.minutes.ago
       if storage_updated_at.nil? ||
          storage_updated_at < oldest_cachable_time
 
         Delayed::Job.enqueue ::Scm::StorageUpdaterJob.new(self)
+        return true
       end
-
-      required_storage_bytes
     end
+
+    false
   end
 
   # Finds and returns a revision with a number or the beginning of a hash

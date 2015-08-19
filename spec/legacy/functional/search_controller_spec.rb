@@ -67,7 +67,7 @@ describe SearchController, type: :controller do
     get :index, project_id: 1
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:project)
+    refute_nil assigns(:project)
 
     get :index, project_id: 1, q: 'can'
     assert_response :success
@@ -78,7 +78,7 @@ describe SearchController, type: :controller do
     get :index, project_id: 1, q: 'stringforcustomfield'
     assert_response :success
     results = assigns(:results)
-    assert_not_nil results
+    refute_nil results
     assert_equal 1, results.size
     assert results.include?(WorkPackage.find(7))
   end
@@ -87,7 +87,7 @@ describe SearchController, type: :controller do
     # 'all words' is on by default
     get :index, project_id: 1, q: 'recipe updating saving'
     results = assigns(:results)
-    assert_not_nil results
+    refute_nil results
     assert_equal 1, results.size
     assert results.include?(WorkPackage.find(3))
   end
@@ -95,7 +95,7 @@ describe SearchController, type: :controller do
   it 'should search one of the words' do
     get :index, project_id: 1, q: 'recipe updating saving', submit: 'Search'
     results = assigns(:results)
-    assert_not_nil results
+    refute_nil results
     assert_equal 3, results.size
     assert results.include?(WorkPackage.find(3))
   end
@@ -103,14 +103,14 @@ describe SearchController, type: :controller do
   it 'should search titles only without result' do
     get :index, project_id: 1, q: 'recipe updating saving', all_words: '1', titles_only: '1', submit: 'Search'
     results = assigns(:results)
-    assert_not_nil results
+    refute_nil results
     assert_equal 0, results.size
   end
 
   it 'should search titles only' do
     get :index, project_id: 1, q: 'recipe', titles_only: '1', submit: 'Search'
     results = assigns(:results)
-    assert_not_nil results
+    refute_nil results
     assert_equal 2, results.size
   end
 

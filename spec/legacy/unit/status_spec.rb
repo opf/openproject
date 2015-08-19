@@ -54,7 +54,7 @@ describe Status, type: :model do
   it 'should destroy status in use' do
     # Status assigned to an Issue
     status = WorkPackage.find(1).status
-    assert_raise(RuntimeError, "Can't delete status") { status.destroy }
+    assert_raises(RuntimeError, "Can't delete status") { status.destroy }
   end
 
   it 'should default' do

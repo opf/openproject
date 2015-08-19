@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.13'
+gem 'rails', '4.1.11'
 gem 'protected_attributes'
 gem 'actionpack-action_caching'
 gem 'activerecord-session_store'
@@ -49,7 +49,6 @@ gem 'warden-basic_auth', '~> 0.2.1'
 gem 'rails_autolink', '~> 1.1.6'
 gem 'will_paginate', '~> 3.0'
 gem 'acts_as_list', '~> 0.3.0'
-gem 'acts_as_countable', git: "https://github.com/finnlabs/acts_as_countable.git", ref: '2471265'
 
 gem 'friendly_id', '~> 5.1.0'
 
@@ -223,7 +222,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'feature/rails4'
+  gem 'openproject-translations', git:'https://github.com/myabc/openproject-translations.git', branch: 'feature/rails4.1'
 end
 
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles

@@ -90,7 +90,7 @@ describe TimelogController, type: :controller do
 
     i = WorkPackage.find(1)
     t = TimeEntry.find_by(comments: 'Some work on TimelogControllerTest')
-    assert_not_nil t
+    refute_nil t
     assert_equal 11, t.activity_id
     assert_equal 7.3, t.hours
     assert_equal 3, t.user_id
@@ -112,7 +112,7 @@ describe TimelogController, type: :controller do
     assert_redirected_to action: 'index', project_id: 'ecookbook'
 
     t = TimeEntry.find_by(comments: 'Some work on TimelogControllerTest')
-    assert_not_nil t
+    refute_nil t
     assert_equal 11, t.activity_id
     assert_equal 7.3, t.hours
     assert_equal 3, t.user_id
@@ -154,17 +154,17 @@ describe TimelogController, type: :controller do
     delete :destroy, id: 1
     assert_redirected_to action: 'index', project_id: 'ecookbook'
     assert_equal I18n.t(:notice_unable_delete_time_entry), flash[:error]
-    assert_not_nil TimeEntry.find_by(id: 1)
+    refute_nil TimeEntry.find_by(id: 1)
 
     # remove the simulation
-    TimeEntry._destroy_callbacks.reject! { |callback| callback.filter == :stop_callback_chain }
+    TimeEntry._destroy_callbacks.reject { |callback| callback.filter == :stop_callback_chain }
   end
 
   it 'should index all projects' do
     get :index
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:total_hours)
+    refute_nil assigns(:total_hours)
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
     assert_tag :form,
                attributes: { action: '/time_entries', id: 'query_form' }
@@ -174,11 +174,11 @@ describe TimelogController, type: :controller do
     get :index, project_id: 'ecookbook'
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:entries)
+    refute_nil assigns(:entries)
     assert_equal 4, assigns(:entries).size
     # project and subproject
     assert_equal [1, 3], assigns(:entries).map(&:project_id).uniq.sort
-    assert_not_nil assigns(:total_hours)
+    refute_nil assigns(:total_hours)
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
     # display all time by default
     assert_equal '2007-03-12'.to_date, assigns(:from)
@@ -191,9 +191,9 @@ describe TimelogController, type: :controller do
     get :index, project_id: 'ecookbook', from: '2007-03-20', to: '2007-04-30'
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:entries)
+    refute_nil assigns(:entries)
     assert_equal 3, assigns(:entries).size
-    assert_not_nil assigns(:total_hours)
+    refute_nil assigns(:total_hours)
     assert_equal '12.90', '%.2f' % assigns(:total_hours)
     assert_equal '2007-03-20'.to_date, assigns(:from)
     assert_equal '2007-04-30'.to_date, assigns(:to)
@@ -205,8 +205,8 @@ describe TimelogController, type: :controller do
     get :index, project_id: 'ecookbook', period: '7_days'
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:entries)
-    assert_not_nil assigns(:total_hours)
+    refute_nil assigns(:entries)
+    refute_nil assigns(:total_hours)
     assert_equal Date.today - 7, assigns(:from)
     assert_equal Date.today, assigns(:to)
     assert_tag :form,
@@ -217,7 +217,7 @@ describe TimelogController, type: :controller do
     get :index, project_id: 'ecookbook', from: '2007-03-23', to: '2007-03-23'
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:total_hours)
+    refute_nil assigns(:total_hours)
     assert_equal '4.25', '%.2f' % assigns(:total_hours)
     assert_tag :form,
                attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
@@ -227,9 +227,9 @@ describe TimelogController, type: :controller do
     get :index, work_package_id: 1
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:entries)
+    refute_nil assigns(:entries)
     assert_equal 2, assigns(:entries).size
-    assert_not_nil assigns(:total_hours)
+    refute_nil assigns(:total_hours)
     assert_equal 154.25, assigns(:total_hours)
     # display all time based on what's been logged
     assert_equal '2007-03-12'.to_date, assigns(:from)
@@ -244,7 +244,7 @@ describe TimelogController, type: :controller do
     get :index, project_id: 1, format: 'atom'
     assert_response :success
     assert_equal 'application/atom+xml', response.content_type
-    assert_not_nil assigns(:items)
+    refute_nil assigns(:items)
     assert assigns(:items).first.is_a?(TimeEntry)
   end
 end

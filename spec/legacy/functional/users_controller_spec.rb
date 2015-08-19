@@ -50,7 +50,7 @@ describe UsersController, type: :controller do
     get :index
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:users)
+    refute_nil assigns(:users)
     # active users only
     assert_nil assigns(:users).detect { |u| !u.active? }
   end
@@ -60,7 +60,7 @@ describe UsersController, type: :controller do
     assert_response :success
     assert_template 'index'
     users = assigns(:users)
-    assert_not_nil users
+    refute_nil users
     assert_equal 1, users.size
     assert_equal 'John', users.first.firstname
   end
@@ -80,7 +80,7 @@ describe UsersController, type: :controller do
     get :show, id: 2
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:user)
+    refute_nil assigns(:user)
 
     assert_no_tag 'li', content: /Phone number/
   end
@@ -112,7 +112,7 @@ describe UsersController, type: :controller do
     session[:user_id] = 1
     get :show, id: 5
     assert_response 200
-    assert_not_nil assigns(:user)
+    refute_nil assigns(:user)
   end
 
   it 'should show displays memberships based on project visibility' do
@@ -120,7 +120,7 @@ describe UsersController, type: :controller do
     get :show, id: 2
     assert_response :success
     memberships = assigns(:memberships)
-    assert_not_nil memberships
+    refute_nil memberships
     project_ids = memberships.map(&:project_id)
     assert project_ids.include?(2) # private project admin can see
   end
@@ -162,6 +162,7 @@ describe UsersController, type: :controller do
                mail: 'jdoe@gmail.com',
                mail_notification: 'none'
              },
+             pref: { },
              send_information: '1'
       end
     end
@@ -177,7 +178,7 @@ describe UsersController, type: :controller do
     assert user.check_password?('adminADMIN!')
 
     mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
+    refute_nil mail
     assert_equal [user.mail], mail.to
     assert mail.body.encoded.include?('adminADMIN!')
   end
@@ -227,7 +228,7 @@ describe UsersController, type: :controller do
     assert u.check_password?('newpassPASS!')
 
     mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
+    refute_nil mail
     assert_equal [u.mail], mail.to
     assert mail.body.encoded.include?('newpassPASS!')
   end

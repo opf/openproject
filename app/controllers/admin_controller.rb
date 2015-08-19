@@ -51,7 +51,9 @@ class AdminController < ApplicationController
       c << ['LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?', name, name]
     end
 
-    @projects = Project.order('lft').where(c.conditions)
+    @projects = Project.with_required_storage
+                .order('lft')
+                .where(c.conditions)
 
     render action: 'projects', layout: false if request.xhr?
   end

@@ -266,6 +266,8 @@ class Journal::AggregatedJournal
            :attachable_journals,
            :customizable_journals,
            :editable_by?,
+           :notes_id,
+           :notes_version,
            to: :journal
 
   def initialize(journal)
@@ -315,17 +317,6 @@ class Journal::AggregatedJournal
 
   def data
     @data ||= "Journal::#{journable_type}Journal".constantize.find_by_journal_id(id)
-  end
-
-  # ARs automagic addition of dynamic columns (those not present in the physical table) seems
-  # not to work with PostgreSQL and simply return a string for unknown columns.
-  # Thus we need to ensure manually that this column is correctly casted.
-  def notes_id
-    ActiveRecord::ConnectionAdapters::Column.value_to_integer(journal.notes_id)
-  end
-
-  def notes_version
-    ActiveRecord::ConnectionAdapters::Column.value_to_integer(journal.notes_version)
   end
 
   private

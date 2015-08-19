@@ -107,11 +107,11 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
     end
 
     it 'contains a created_at element containing the planning element created_at in UTC in ISO 8601' do
-      is_expected.to be_json_eql('2011-01-06T11:35:00Z'.to_json).at_path('planning_element/created_at')
+      is_expected.to be_json_eql('2011-01-06T11:35:00.000Z'.to_json).at_path('planning_element/created_at')
     end
 
     it 'contains an updated_at element containing the planning element updated_at in UTC in ISO 8601' do
-      is_expected.to be_json_eql('2011-01-07T11:35:00Z'.to_json).at_path('planning_element/updated_at')
+      is_expected.to be_json_eql('2011-01-07T11:35:00.000Z'.to_json).at_path('planning_element/updated_at')
     end
 
     it 'renders the custom field values' do

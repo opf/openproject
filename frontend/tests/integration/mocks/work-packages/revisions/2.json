@@ -1,0 +1,25 @@
+{
+  "_type": "Revision",
+  "_links": {
+    "self": {
+      "href": "/api/v3/revisions/2"
+    },
+    "project": {
+      "href": "/api/v3/projects/1",
+          "title": "Seeded Project"
+    },
+    "showRevision": {
+      "href": "/projects/subrepos1/repository/revision/1ea7d580"
+    }
+  },
+  "id": 2,
+  "identifier": "1ea7d580a323f6267752347ef4b23c120445196e",
+  "formattedIdentifier": "1ea7d580",
+  "authorName": "Oliver G\u00fcnther ",
+  "message": {
+    "format": "plain",
+    "raw": "Totally references #81",
+    "html": "<p>Totally references <a href=\"/work_packages/819\" class=\"issue work_package status-1 priority-5 parent created-by-me\" title=\"veritatis voluptas hic qui praesentium tempora illum omnis (new)\">#81</a></p>"
+  },
+  "createdAt": "2015-08-07T06:22:49+00:00"
+}

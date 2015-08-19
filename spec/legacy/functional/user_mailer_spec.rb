@@ -203,7 +203,7 @@ describe UserMailer, type: :mailer do
     issue = FactoryGirl.create(:work_package)
     mail = UserMailer.work_package_added(user, issue.journals.first, user)
     assert mail.deliver
-    assert_not_nil mail
+    refute_nil mail
     assert_equal 'bulk', mail.header['Precedence'].to_s
     assert_equal 'auto-generated', mail.header['Auto-Submitted'].to_s
   end
@@ -236,7 +236,7 @@ describe UserMailer, type: :mailer do
       UserMailer.test_mail(user).deliver
     end
     mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
+    refute_nil mail
     assert_equal 'Redmine app <redmine@example.net>', mail.header['From'].to_s
   end
 
@@ -266,7 +266,7 @@ describe UserMailer, type: :mailer do
     issue = FactoryGirl.create(:work_package)
     mail = UserMailer.work_package_added(user, issue.journals.first, user)
     mail.deliver
-    assert_not_nil mail
+    refute_nil mail
     assert_equal UserMailer.generate_message_id(issue, user), mail.message_id
     assert_nil mail.references
   end
@@ -277,7 +277,7 @@ describe UserMailer, type: :mailer do
     journal = issue.journals.first
     UserMailer.work_package_updated(user, journal).deliver
     mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
+    refute_nil mail
     assert_equal UserMailer.generate_message_id(journal, user), mail.message_id
     assert_match mail.references, UserMailer.generate_message_id(journal.journable, user)
   end
@@ -287,7 +287,7 @@ describe UserMailer, type: :mailer do
     message = FactoryGirl.create(:message)
     UserMailer.message_posted(user, message, user).deliver
     mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
+    refute_nil mail
     assert_equal UserMailer.generate_message_id(message, user), mail.message_id
     assert_nil mail.references
     assert_select_email do
@@ -302,7 +302,7 @@ describe UserMailer, type: :mailer do
     message = FactoryGirl.create(:message, parent: parent)
     UserMailer.message_posted(user, message, user).deliver
     mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
+    refute_nil mail
     assert_equal UserMailer.generate_message_id(message, user), mail.message_id
     assert_match mail.references, UserMailer.generate_message_id(parent, user)
     assert_select_email do
@@ -465,7 +465,7 @@ describe UserMailer, type: :mailer do
 
   def last_email
     mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
+    refute_nil mail
     mail
   end
 

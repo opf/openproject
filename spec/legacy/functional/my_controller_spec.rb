@@ -112,7 +112,7 @@ describe MyController, type: :controller do
       end
 
       it 'should destroy the existing token' do
-        assert_not_equal @previous_token_value, User.find(2).rss_key
+        refute_equal @previous_token_value, User.find(2).rss_key
       end
 
       it 'should create a new token' do
@@ -146,7 +146,7 @@ describe MyController, type: :controller do
       end
 
       it 'should destroy the existing token' do
-        assert_not_equal @previous_token_value, User.find(2).api_key
+        refute_equal @previous_token_value, User.find(2).api_key
       end
 
       it 'should create a new token' do

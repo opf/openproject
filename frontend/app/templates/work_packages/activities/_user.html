@@ -19,7 +19,9 @@
       </accessible-by-keyboard>
     </div>
   </div>
-  <img class="avatar" ng-src="{{ userAvatar }}" alt="Avatar" title="{{userName}}" ng-if="userAvatar" />
+  <div ng-if="userAvatar">
+    <img class="avatar" ng-src="{{ userAvatar }}" alt="Avatar" title="{{userName}}" />
+  </div>
   <span class="user" ng-if="userActive"><a ng-href="{{ userPath(userId) }}" name="{{ currentAnchor }}" ng-bind="userName"></a></span>
   <span class="user" ng-if="!userActive">{{ userName }}</span>
   <span class="date">{{ isInitial ? I18n.t('js.label_created_on') : I18n.t('js.label_commented_on') }} <op-date-time date-time-value="activity.props.createdAt" /></span>

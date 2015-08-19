@@ -64,8 +64,8 @@ describe RepositoriesController, 'Subversion', type: :controller do
     get :show, project_id: PRJ_ID
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:entries)
-    assert_not_nil assigns(:changesets)
+    refute_nil assigns(:entries)
+    refute_nil assigns(:changesets)
   end
 
   it 'should browse root' do
@@ -74,7 +74,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     get :show, project_id: PRJ_ID
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:entries)
+    refute_nil assigns(:entries)
     entry = assigns(:entries).detect { |e| e.name == 'subversion_test' }
     assert_equal 'dir', entry.kind
   end
@@ -85,7 +85,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     get :show, project_id: PRJ_ID, path: 'subversion_test'
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:entries)
+    refute_nil assigns(:entries)
     assert_equal ['[folder_with_brackets]', 'folder', '.project', 'helloworld.c', 'textfile.txt'], assigns(:entries).map(&:name)
     entry = assigns(:entries).detect { |e| e.name == 'helloworld.c' }
     assert_equal 'file', entry.kind
@@ -99,7 +99,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     get :show, project_id: PRJ_ID, path: 'subversion_test', rev: 4
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:entries)
+    refute_nil assigns(:entries)
     assert_equal ['folder', '.project', 'helloworld.c', 'helloworld.rb', 'textfile.txt'], assigns(:entries).map(&:name)
   end
 
@@ -111,12 +111,12 @@ describe RepositoriesController, 'Subversion', type: :controller do
     assert_template 'changes'
 
     changesets = assigns(:changesets)
-    assert_not_nil changesets
+    refute_nil changesets
     assert_equal %w(6 3 2), changesets.map(&:revision)
 
     # svn properties displayed with svn >= 1.5 only
     if @repository.scm.client_version_above?([1, 5, 0])
-      assert_not_nil assigns(:properties)
+      refute_nil assigns(:properties)
       assert_equal 'native', assigns(:properties)['svn:eol-style']
       assert_tag :ul,
                  child: { tag: 'li',
@@ -133,7 +133,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     assert_template 'changes'
 
     changesets = assigns(:changesets)
-    assert_not_nil changesets
+    refute_nil changesets
     assert_equal %w(10 9 7 6 5 2), changesets.map(&:revision)
   end
 
@@ -191,7 +191,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     get :entry, project_id: PRJ_ID, path: 'subversion_test/folder'
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:entry)
+    refute_nil assigns(:entry)
     assert_equal 'folder', assigns(:entry).name
   end
 
@@ -281,7 +281,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     assert_template 'diff'
 
     diff = assigns(:diff)
-    assert_not_nil diff
+    refute_nil diff
     # 2 files modified
     assert_equal 2, Redmine::UnifiedDiff.new(diff).size
 

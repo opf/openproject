@@ -69,7 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <li class="change change-R"><%= l(:label_renamed) %></li>
     <li class="change change-D"><%= l(:label_deleted) %></li>
   </ul>
-  <p><%= link_to(l(:label_view_diff), :action => 'diff', :project_id => @project, :path => nil, :rev => @changeset.identifier) if @changeset.changes.any? %></p>
+  <p><%= link_to(l(:label_view_diff), :action => 'diff', :project_id => @project, :path => nil, :rev => @changeset.identifier) if @changeset.file_changes.any? %></p>
   <div class="changeset-changes">
     <%= render_changeset_changes %>
   </div>

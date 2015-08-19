@@ -362,6 +362,9 @@ module OpenProjectRepositoryAuthenticationSpecs
               expect(repository.required_storage_bytes).to be == 0
               request_storage
 
+              expect(response.code).to eq('200')
+              expect(response.body).to include('Updated: true')
+
               repository.reload
               expect(repository.required_storage_bytes).to be > 0
             end

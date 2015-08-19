@@ -34,6 +34,7 @@ module.exports = function($scope,
     RELATION_TYPES,
     RELATION_IDENTIFIERS,
     $q,
+    $filter,
     WorkPackagesHelper,
     PathHelper,
     UsersHelper,
@@ -103,7 +104,8 @@ module.exports = function($scope,
 
     // activities and latest activities
     $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
-    $scope.activities = displayedActivities($scope.workPackage);
+    $scope.activities = [];
+    aggregateActivities($scope.workPackage);
 
     // watchers
     if(workPackage.links.watchers) {
@@ -172,13 +174,78 @@ module.exports = function($scope,
     return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
   };
 
-  function displayedActivities(workPackage) {
-    var activities = workPackage.embedded.activities;
+  $scope.isInitialActivity = function(activity, activityNo) {
+    var type = activity.props._type,
+      activities = $scope.activities;
 
-    if ($scope.activitiesSortedInDescendingOrder) {
-      activities.reverse();
+
+    // Type must be Activity
+    if (type.indexOf('Activity') !== 0) {
+      return false;
     }
-    return activities;
+
+    // Shortcut, activityNo is 1 and its an Activity
+    if (activityNo === 1) {
+      return true;
+    }
+
+    // Otherwise, the current acitity may be initial if ALL other preceding activites are
+    // other types.
+    while (--activityNo > 0) {
+      var index = ($scope.activitiesSortedInDescendingOrder ?
+                    activities.length - activityNo : activityNo - 1);
+
+      if (activities[index].props._type.indexOf('Activity') === 0) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  function aggregateActivities(workPackage) {
+    // Do not yet add any intermittent result to the scope,
+    // as we will get an inconsistent activity view
+    // As we may not what activities will be added at a given time,
+    // let them be aggregated asynchronously.
+    var aggregated = [],
+      totalActivities = 0;
+
+    var aggregate = function(success, activity) {
+
+      if (success === true) {
+        aggregated = aggregated.concat(activity);
+      }
+
+      if (++totalActivities === 2) {
+        $scope.activities = $filter('orderBy')(aggregated,
+          'props.createdAt',
+          $scope.activitiesSortedInDescendingOrder
+        );
+      }
+    };
+
+    addDisplayedActivities(workPackage, aggregate);
+    addDisplayedRevisions(workPackage, aggregate);
+  }
+
+  function addDisplayedActivities(workPackage, aggregate) {
+    var activities = workPackage.embedded.activities;
+    aggregate(true, activities);
+  }
+
+  function addDisplayedRevisions(workPackage, aggregate) {
+    var linkedRevisions = workPackage.links.revisions;
+
+    if (linkedRevisions === undefined) {
+      return aggregate();
+    }
+
+    linkedRevisions
+      .fetch()
+      .then(function(data) {
+        aggregate(true, data.embedded.elements);
+      }, aggregate);
   }
 
   // toggles

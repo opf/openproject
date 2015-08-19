@@ -59,7 +59,7 @@ describe ProjectEnumerationsController, type: :controller do
     assert design, 'Project activity not found'
 
     assert_equal 9, design.parent_id # Relate to the system activity
-    assert_not_equal design.parent.id, design.id # Different records
+    refute_equal design.parent.id, design.id # Different records
     assert_equal design.parent.name, design.name # Same name
     assert !design.active?
 
@@ -68,7 +68,7 @@ describe ProjectEnumerationsController, type: :controller do
     assert development, 'Project activity not found'
 
     assert_equal 10, development.parent_id # Relate to the system activity
-    assert_not_equal development.parent.id, development.id # Different records
+    refute_equal development.parent.id, development.id # Different records
     assert_equal development.parent.name, development.name # Same name
     assert development.active?
     assert_equal '0', development.custom_value_for(billable_field).value
@@ -78,7 +78,7 @@ describe ProjectEnumerationsController, type: :controller do
     assert previously_inactive, 'Project activity not found'
 
     assert_equal 14, previously_inactive.parent_id # Relate to the system activity
-    assert_not_equal previously_inactive.parent.id, previously_inactive.id # Different records
+    refute_equal previously_inactive.parent.id, previously_inactive.id # Different records
     assert_equal previously_inactive.parent.name, previously_inactive.name # Same name
     assert previously_inactive.active?
     assert_equal '1', previously_inactive.custom_value_for(billable_field).value

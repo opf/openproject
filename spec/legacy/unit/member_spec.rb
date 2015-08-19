@@ -99,7 +99,7 @@ describe Member, type: :model do
       end
     end
 
-    assert_raise(ActiveRecord::RecordNotFound) { Member.find(@member.id) }
+    assert_raises(ActiveRecord::RecordNotFound) { Member.find(@member.id) }
   end
 
   context 'removing permissions' do

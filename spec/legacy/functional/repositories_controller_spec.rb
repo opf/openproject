@@ -60,13 +60,13 @@ describe RepositoriesController, type: :controller do
     get :revisions, project_id: 1
     assert_response :success
     assert_template 'revisions'
-    assert_not_nil assigns(:changesets)
+    refute_nil assigns(:changesets)
   end
 
   it 'should revision' do
     get :revision, project_id: 1, rev: 1
     assert_response :success
-    assert_not_nil assigns(:changeset)
+    refute_nil assigns(:changeset)
     assert_equal '1', assigns(:changeset).revision
   end
 

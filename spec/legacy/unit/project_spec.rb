@@ -189,7 +189,7 @@ describe Project, type: :model do
 
     @ecookbook.destroy
     # make sure that the project non longer exists
-    assert_raise(ActiveRecord::RecordNotFound) do Project.find(@ecookbook.id) end
+    assert_raises(ActiveRecord::RecordNotFound) do Project.find(@ecookbook.id) end
     # make sure related data was removed
     assert_equal 0, Member.where(project_id: @ecookbook.id).count
     assert_equal 0, Board.where(project_id: @ecookbook.id).count
@@ -736,12 +736,12 @@ describe Project, type: :model do
   it 'should close completed versions' do
     Version.update_all("status = 'open'")
     project = Project.find(1)
-    assert_not_nil project.versions.detect { |v| v.completed? && v.status == 'open' }
-    assert_not_nil project.versions.detect { |v| !v.completed? && v.status == 'open' }
+    refute_nil project.versions.detect { |v| v.completed? && v.status == 'open' }
+    refute_nil project.versions.detect { |v| !v.completed? && v.status == 'open' }
     project.close_completed_versions
     project.reload
     assert_nil project.versions.detect { |v| v.completed? && v.status != 'closed' }
-    assert_not_nil project.versions.detect { |v| !v.completed? && v.status == 'open' }
+    refute_nil project.versions.detect { |v| !v.completed? && v.status == 'open' }
   end
 
   it 'should export work packages is allowed' do
@@ -800,7 +800,7 @@ describe Project, type: :model do
       assert copied_issue
       assert copied_issue.fixed_version
       assert_equal 'Assigned Issues', copied_issue.fixed_version.name # Same name
-      assert_not_equal assigned_version.id, copied_issue.fixed_version.id # Different record
+      refute_equal assigned_version.id, copied_issue.fixed_version.id # Different record
     end
 
     it 'should change the new issues to use the copied closed version' do
@@ -822,7 +822,7 @@ describe Project, type: :model do
       assert copied_issue
       assert copied_issue.fixed_version
       assert_equal 'Assigned Issues', copied_issue.fixed_version.name # Same name
-      assert_not_equal assigned_version.id, copied_issue.fixed_version.id # Different record
+      refute_equal assigned_version.id, copied_issue.fixed_version.id # Different record
     end
 
     it 'should copy issue relations' do
@@ -850,14 +850,14 @@ describe Project, type: :model do
       copied_relation = copied_issue.relations.first
       assert_equal 'relates', copied_relation.relation_type
       assert_equal copied_second_issue.id, copied_relation.to_id
-      assert_not_equal source_relation.id, copied_relation.id
+      refute_equal source_relation.id, copied_relation.id
 
       # Second issue with a cross project relation
       assert_equal 2, copied_second_issue.relations.size, 'Relation not copied'
       copied_relation = copied_second_issue.relations.find { |r| r.relation_type == 'duplicates' }
       assert_equal 'duplicates', copied_relation.relation_type
       assert_equal 1, copied_relation.from_id, 'Cross project relation not kept'
-      assert_not_equal source_relation_cross_project.id, copied_relation.id
+      refute_equal source_relation_cross_project.id, copied_relation.id
     end
 
     it 'should copy memberships' do
@@ -891,7 +891,7 @@ describe Project, type: :model do
 
       assert @project.copy(@source_project)
       member = Member.find_by(user_id: user.id, project_id: @project.id)
-      assert_not_nil member
+      refute_nil member
       assert_equal [1, 2], member.role_ids.sort
     end
 
@@ -927,7 +927,7 @@ describe Project, type: :model do
       end
 
       assert @project.wiki
-      assert_not_equal @source_project.wiki, @project.wiki
+      refute_equal @source_project.wiki, @project.wiki
       assert_equal 'Start page', @project.wiki.start_page
     end
 
@@ -978,7 +978,7 @@ describe Project, type: :model do
       @project.work_packages.each do |issue|
         assert issue.category
         assert_equal 'Stock management', issue.category.name # Same name
-        assert_not_equal Category.find(3), issue.category # Different record
+        refute_equal Category.find(3), issue.category # Different record
       end
     end
 

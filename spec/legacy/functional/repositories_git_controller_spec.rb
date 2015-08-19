@@ -67,7 +67,7 @@ describe RepositoriesController, 'Git', type: :controller do
     get :show, project_id: 3
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:entries)
+    refute_nil assigns(:entries)
     assert_equal 10, assigns(:entries).size
     assert assigns(:entries).detect { |e| e.name == 'images' && e.kind == 'dir' }
     assert assigns(:entries).detect { |e| e.name == 'this_is_a_really_long_and_verbose_directory_name' && e.kind == 'dir' }
@@ -78,7 +78,7 @@ describe RepositoriesController, 'Git', type: :controller do
     assert assigns(:entries).detect { |e| e.name == 'renamed_test.txt' && e.kind == 'file' }
     assert assigns(:entries).detect { |e| e.name == 'filemane with spaces.txt' && e.kind == 'file' }
     assert assigns(:entries).detect { |e| e.name == ' filename with a leading space.txt ' && e.kind == 'file' }
-    assert_not_nil assigns(:changesets)
+    refute_nil assigns(:changesets)
     assigns(:changesets).size > 0
   end
 
@@ -88,13 +88,13 @@ describe RepositoriesController, 'Git', type: :controller do
     get :show, project_id: 3, rev: 'test_branch'
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:entries)
+    refute_nil assigns(:entries)
     assert_equal 4, assigns(:entries).size
     assert assigns(:entries).detect { |e| e.name == 'images' && e.kind == 'dir' }
     assert assigns(:entries).detect { |e| e.name == 'sources' && e.kind == 'dir' }
     assert assigns(:entries).detect { |e| e.name == 'README' && e.kind == 'file' }
     assert assigns(:entries).detect { |e| e.name == 'test.txt' && e.kind == 'file' }
-    assert_not_nil assigns(:changesets)
+    refute_nil assigns(:changesets)
     assigns(:changesets).size > 0
   end
 
@@ -108,9 +108,9 @@ describe RepositoriesController, 'Git', type: :controller do
       get :show, project_id: 3, rev: t1
       assert_response :success
       assert_template 'show'
-      assert_not_nil assigns(:entries)
+      refute_nil assigns(:entries)
       assigns(:entries).size > 0
-      assert_not_nil assigns(:changesets)
+      refute_nil assigns(:changesets)
       assigns(:changesets).size > 0
     end
   end
@@ -121,13 +121,13 @@ describe RepositoriesController, 'Git', type: :controller do
     get :show, project_id: 3, path: 'images'
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:entries)
+    refute_nil assigns(:entries)
     assert_equal ['edit.png'], assigns(:entries).map(&:name)
     entry = assigns(:entries).detect { |e| e.name == 'edit.png' }
-    assert_not_nil entry
+    refute_nil entry
     assert_equal 'file', entry.kind
     assert_equal 'images/edit.png', entry.path
-    assert_not_nil assigns(:changesets)
+    refute_nil assigns(:changesets)
     assigns(:changesets).size > 0
   end
 
@@ -137,9 +137,9 @@ describe RepositoriesController, 'Git', type: :controller do
     get :show, project_id: 3, path: 'images', rev: '7234cb2750b63f47bff735edc50a1c0a433c2518'
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:entries)
+    refute_nil assigns(:entries)
     assert_equal ['delete.png'], assigns(:entries).map(&:name)
-    assert_not_nil assigns(:changesets)
+    refute_nil assigns(:changesets)
     assigns(:changesets).size > 0
   end
 
@@ -172,7 +172,7 @@ describe RepositoriesController, 'Git', type: :controller do
     get :entry, project_id: 3, path: 'sources'
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:entry)
+    refute_nil assigns(:entry)
     assert_equal 'sources', assigns(:entry).name
   end
 
@@ -203,7 +203,7 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_template 'diff'
 
     diff = assigns(:diff)
-    assert_not_nil diff
+    refute_nil diff
     assert_tag tag: 'h2', content: /2f9c0091:61b685fb/
   end
 

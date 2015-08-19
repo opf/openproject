@@ -43,7 +43,7 @@ describe CustomFieldFormBuilder do
                       mail:       'jj@lost-mail.com',
                       failed_login_count: 45)
   }
-  let(:builder)  { described_class.new(:user, resource, helper, {}, nil) }
+  let(:builder)  { described_class.new(:user, resource, helper, {}) }
 
   describe '#custom_field' do
     let(:options) { { class: 'custom-class' } }

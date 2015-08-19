@@ -130,7 +130,7 @@ describe Repository, type: :model do
       comments: comment, commit_date: Time.now, revision: 0, scmid: 'f39b7922fb3c',
       committer: 'foo <foo@example.com>', committed_on: Time.now, repository: repository)
     assert(changeset.save)
-    assert_not_equal(comment, changeset.comments)
+    refute_equal(comment, changeset.comments)
     assert_equal('This is a looooooooooooooong comment', changeset.comments)
   end
 

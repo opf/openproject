@@ -102,7 +102,7 @@ describe WikiController, type: :controller do
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'New_page'
     page = wiki.find_page('New page')
     assert !page.new_record?
-    assert_not_nil page.content
+    refute_nil page.content
     assert_equal 'Created the page', page.content.last_journal.notes
   end
 
@@ -233,7 +233,7 @@ describe WikiController, type: :controller do
     get :history, project_id: 1, id: 'CookBook_documentation'
     assert_response :success
     assert_template 'history'
-    assert_not_nil assigns(:versions)
+    refute_nil assigns(:versions)
     assert_equal 3, assigns(:versions).size
     assert_select 'input[type=submit][name=commit]'
   end
@@ -246,7 +246,7 @@ describe WikiController, type: :controller do
     get :history, project_id: 1, id: 'Another_page'
     assert_response :success
     assert_template 'history'
-    assert_not_nil assigns(:versions)
+    refute_nil assigns(:versions)
     assert_equal 1, assigns(:versions).size
     assert_select 'input[type=submit][name=commit]', false
   end
@@ -312,7 +312,7 @@ describe WikiController, type: :controller do
                            redirect_existing_links: 1 }
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another_renamed_page'
     # Check redirects
-    assert_not_nil wiki.find_page('Another page')
+    refute_nil wiki.find_page('Another page')
     assert_nil wiki.find_page('Another page', with_redirect: false)
   end
 
@@ -375,7 +375,7 @@ describe WikiController, type: :controller do
     assert_response :success
     assert_template 'index'
     pages = assigns(:pages)
-    assert_not_nil pages
+    refute_nil pages
     assert_equal wiki.pages.size, pages.size
     assert_equal pages.first.content.updated_on, pages.first.updated_on
 

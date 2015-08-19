@@ -53,17 +53,17 @@ module RepositoriesHelper
   end
 
   def render_changeset_changes
-    changes = @changeset.changes.limit(1000).order('path').map { |change|
+    changes = @changeset.file_changes.limit(1000).order('path').map { |change|
       case change.action
       when 'A'
         # Detects moved/copied files
         if !change.from_path.blank?
-          action = @changeset.changes.detect { |c| c.action == 'D' && c.path == change.from_path }
+          action = @changeset.file_changes.detect { |c| c.action == 'D' && c.path == change.from_path }
           change.action = action ? 'R' : 'C'
         end
         change
       when 'D'
-        @changeset.changes.detect { |c| c.from_path == change.path } ? nil : change
+        @changeset.file_changes.detect { |c| c.from_path == change.path } ? nil : change
       else
         change
       end

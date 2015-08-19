@@ -42,7 +42,7 @@ describe Token do
     user = User.find(1)
     t1 = Token.create(user: user, action: 'autologin')
     t2 = Token.create(user: user, action: 'autologin')
-    assert_not_equal t1.value, t2.value
+    refute_equal t1.value, t2.value
     assert !Token.exists?(t1.id)
     assert Token.exists?(t2.id)
   end

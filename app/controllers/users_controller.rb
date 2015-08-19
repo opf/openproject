@@ -132,7 +132,7 @@ class UsersController < ApplicationController
 
     if @user.save
       # TODO: Similar to My#account
-      @user.pref.attributes = params[:pref]
+      @user.pref.attributes = params[:pref] || {}
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       @user.pref.save
 
@@ -181,7 +181,7 @@ class UsersController < ApplicationController
 
     if @user.save
       # TODO: Similar to My#account
-      @user.pref.attributes = params[:pref]
+      @user.pref.attributes = params[:pref] || {}
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       @user.pref.save
 

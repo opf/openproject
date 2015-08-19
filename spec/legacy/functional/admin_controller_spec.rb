@@ -49,7 +49,7 @@ describe AdminController, type: :controller do
     get :projects
     assert_response :success
     assert_template 'projects'
-    assert_not_nil assigns(:projects)
+    refute_nil assigns(:projects)
     # active projects only
     assert_nil assigns(:projects).detect { |u| !u.active? }
   end
@@ -59,7 +59,7 @@ describe AdminController, type: :controller do
     assert_response :success
     assert_template 'projects'
     projects = assigns(:projects)
-    assert_not_nil projects
+    refute_nil projects
     assert_equal 1, projects.size
     assert_equal 'OnlineStore', projects.first.name
   end

@@ -87,7 +87,7 @@ describe JournalsController, type: :controller do
   it 'should index' do
     get :index, project_id: 1, format: :atom
     assert_response :success
-    assert_not_nil assigns(:journals)
+    refute_nil assigns(:journals)
     assert_equal 'application/atom+xml', response.content_type
   end
 end

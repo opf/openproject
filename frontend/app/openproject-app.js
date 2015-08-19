@@ -108,6 +108,7 @@ angular.module('openproject.timelines.directives', [
 
 // work packages
 angular.module('openproject.workPackages', [
+  'openproject.workPackages.activities',
   'openproject.workPackages.controllers',
   'openproject.workPackages.filters',
   'openproject.workPackages.directives',
@@ -145,6 +146,7 @@ angular.module(
     'openproject.workPackages.models'
   ]);
 angular.module('openproject.workPackages.tabs', []);
+angular.module('openproject.workPackages.activities', []);
 
 // messages
 angular.module('openproject.messages', [

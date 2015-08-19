@@ -49,7 +49,7 @@ describe Activity, type: :model do
 
   it 'should activity without subprojects' do
     events = find_events(User.anonymous, project: @project)
-    assert_not_nil events
+    refute_nil events
 
     assert events.include?(WorkPackage.find(1))
     assert !events.include?(WorkPackage.find(4))
@@ -59,7 +59,7 @@ describe Activity, type: :model do
 
   it 'should activity with subprojects' do
     events = find_events(User.anonymous, project: @project, with_subprojects: 1)
-    assert_not_nil events
+    refute_nil events
 
     assert events.include?(WorkPackage.find(1))
     # subproject issue
@@ -68,7 +68,7 @@ describe Activity, type: :model do
 
   it 'should global activity anonymous' do
     events = find_events(User.anonymous)
-    assert_not_nil events
+    refute_nil events
 
     assert events.include?(WorkPackage.find(1))
     assert events.include?(Message.find(5))
@@ -78,7 +78,7 @@ describe Activity, type: :model do
 
   it 'should global activity logged user' do
     events = find_events(User.find(2)) # manager
-    assert_not_nil events
+    refute_nil events
 
     assert events.include?(WorkPackage.find(1))
     # Issue of a private project the user belongs to

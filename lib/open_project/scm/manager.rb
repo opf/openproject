@@ -46,6 +46,11 @@ module OpenProject
           registered.select { |scm| Setting.enabled_scm.include?(scm) }
         end
 
+        # Return all manageable vendors
+        def manageable
+          enabled.select { |_, vendor| vendor.manageable? }.keys
+        end
+
         # Add a new SCM adapter and repository
         def add(scm_name)
           # Force model lookup to avoid

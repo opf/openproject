@@ -26,16 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% if storage.key?(:total) && storage[:total] > 0 %>
-<span class="tooltip--right"
-  data-tooltip="
-  <% (storage.keys - [:total]).each do |type| %>
-    <% if storage[type] > 0 %>
-    <%= l(type) %>: <%= number_to_human_size(storage[type], precision: 2) %>
-    &nbsp;
-    <% end %>
-  <% end %>
-  ">
-  <%= number_to_human_size(storage[:total], precision: 2) %>
-</span>
-<% end %>
+<div class="form--field">
+  <label class="form--label" title="<%= label %>"><%= label %></label>
+  <span class="form--field-container">
+    <td align="center">
+    <%= number_to_human_size(value, precision: 2) %></td>
+  </span>
+</div>

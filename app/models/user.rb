@@ -779,7 +779,7 @@ class User < Principal
 
   private
 
-  def initialize_allowance_evaluators
+  def allowance_evaluators
     @registered_allowance_evaluators ||= self.class.registered_allowance_evaluators.map { |evaluator|
       evaluator.new(self)
     }
