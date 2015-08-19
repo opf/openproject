@@ -44,7 +44,7 @@ describe Version, type: :model do
       v.force_attributes = { project: Project.find(1), name: '1.1', effective_date: '99999-01-01' }
     end)
     assert !v.save
-    assert_include v.errors[:effective_date], I18n.translate('activerecord.errors.messages.not_a_date')
+    assert_includes v.errors[:effective_date], I18n.translate('activerecord.errors.messages.not_a_date')
   end
 
   context '#start_date' do
@@ -97,7 +97,7 @@ describe Version, type: :model do
 
   it 'should progress should be 100 with closed assigned issues' do
     project = Project.find(1)
-    status = Status.find(:first, conditions: { is_closed: true })
+    status = Status.where(is_closed: true).first
     (v = Version.new.tap do |v|
       v.force_attributes = { project: project, name: 'Progress' }
     end).save!
@@ -128,7 +128,7 @@ describe Version, type: :model do
     end).save!
     add_work_package(v)
     add_work_package(v, done_ratio: 20)
-    add_work_package(v, status: Status.find(:first, conditions: { is_closed: true }))
+    add_work_package(v, status: Status.where(is_closed: true).first)
     assert_progress_equal (0.0 + 20.0 + 100.0) / 3, v.completed_percent
     assert_progress_equal (100.0) / 3, v.closed_percent
   end
@@ -141,7 +141,7 @@ describe Version, type: :model do
     add_work_package(v, estimated_hours: 10)
     add_work_package(v, estimated_hours: 20, done_ratio: 30)
     add_work_package(v, estimated_hours: 40, done_ratio: 10)
-    add_work_package(v, estimated_hours: 25, status: Status.find(:first, conditions: { is_closed: true }))
+    add_work_package(v, estimated_hours: 25, status: Status.where(is_closed: true).first)
     assert_progress_equal (10.0 * 0 + 20.0 * 0.3 + 40 * 0.1 + 25.0 * 1) / 95.0 * 100, v.completed_percent
     assert_progress_equal 25.0 / 95.0 * 100, v.closed_percent
   end
@@ -152,7 +152,7 @@ describe Version, type: :model do
       v.force_attributes = { project: project, name: 'Progress' }
     end).save!
     add_work_package(v, done_ratio: 20)
-    add_work_package(v, status: Status.find(:first, conditions: { is_closed: true }))
+    add_work_package(v, status: Status.where(is_closed: true).first)
     add_work_package(v, estimated_hours: 10, done_ratio: 30)
     add_work_package(v, estimated_hours: 40, done_ratio: 10)
     assert_progress_equal (25.0 * 0.2 + 25.0 * 1 + 10.0 * 0.3 + 40.0 * 0.1) / 100.0 * 100, v.completed_percent

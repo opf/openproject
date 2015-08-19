@@ -37,7 +37,6 @@ describe WorkPackage, type: :model do
   let(:work_package3) { FactoryGirl.build(:work_package, project: project) }
 
   [:work_package].each do |subclass|
-
     describe "(#{subclass})" do
       let(:instance) { send(subclass) }
       let(:parent) { send(:"#{subclass}2") }
@@ -72,7 +71,6 @@ describe WorkPackage, type: :model do
       end
 
       describe 'creating a new instance without a parent' do
-
         before do
           instance.save!
         end
@@ -81,7 +79,6 @@ describe WorkPackage, type: :model do
       end
 
       describe 'creating a new instance with a parent' do
-
         before do
           parent.save!
           instance.parent = parent
@@ -93,7 +90,6 @@ describe WorkPackage, type: :model do
       end
 
       describe 'an existant instance receives a parent' do
-
         before do
           parent.save!
           instance.save!
@@ -105,7 +101,6 @@ describe WorkPackage, type: :model do
       end
 
       describe 'an existant instance becomes a root' do
-
         before do
           parent.save!
           instance.parent = parent
@@ -122,7 +117,6 @@ describe WorkPackage, type: :model do
       end
 
       describe 'an existant instance receives a new parent (new tree)' do
-
         before do
           parent.save!
           parent2.save!
@@ -142,7 +136,6 @@ describe WorkPackage, type: :model do
 
       describe "an existant instance
                 with a right sibling receives a new parent" do
-
         let(:other_child) { send(:"#{subclass}3") }
 
         before do
@@ -188,7 +181,6 @@ describe WorkPackage, type: :model do
       end
 
       describe 'an existant instance receives a new parent (same tree)' do
-
         before do
           parent.save!
           parent2.save!

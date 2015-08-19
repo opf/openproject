@@ -37,7 +37,7 @@ describe API::V3::Projects::ProjectsAPI, type: :request do
   describe 'available assignees' do
     let(:project) { FactoryGirl.build_stubbed(:project) }
 
-    before { allow(Project).to receive(:find).and_return(project) }
+    before do allow(Project).to receive(:find).and_return(project) end
 
     shared_context 'request available assignees' do
       before { get api_v3_paths.available_assignees project.id }
@@ -48,7 +48,7 @@ describe API::V3::Projects::ProjectsAPI, type: :request do
     end
 
     describe 'response' do
-      before { allow(User).to receive(:current).and_return(admin) }
+      before do allow(User).to receive(:current).and_return(admin) end
 
       shared_examples_for 'returns available assignees' do |total, count|
         include_context 'request available assignees'
@@ -90,7 +90,7 @@ describe API::V3::Projects::ProjectsAPI, type: :request do
         let(:group) { FactoryGirl.create(:group) }
         let(:project) { FactoryGirl.create(:project) }
 
-        before { allow(Project).to receive(:find).and_return(project) }
+        before do allow(Project).to receive(:find).and_return(project) end
 
         context 'with work_package_group_assignment' do
           before do

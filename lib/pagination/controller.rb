@@ -195,9 +195,9 @@ module Pagination::Controller
 
           search_call = (options.presence ? methods[:search].call(params[:q], options) : methods[:search].call(params[:q]))
           @paginated_items = methods[:pagination].call(
-                                                       search_call,
-                                                       page: page, page_limit: size
-                                                      )
+            search_call,
+            page: page, page_limit: size
+          )
 
           @more = @paginated_items.total_pages > page
           @total = @paginated_items.total_entries
@@ -210,12 +210,13 @@ module Pagination::Controller
     def default_response_block
       Proc.new {
         respond_to do |format|
-          format.json {
+          format.json do
             render json: { results:
             { items: @paginated_items.map { |item| { id: item.id, name: item.name } },
               total: @total ? @total : @paginated_items.size,
               more:  @more ? @more : 0 }
-          } }
+          }
+          end
         end
       }
     end
@@ -227,8 +228,6 @@ module Pagination::Controller
 
   def self.extended(base)
     base.instance_eval do
-      unloadable
-
       def paginate_models(*args)
         args.each do |arg|
           paginate_model(arg)

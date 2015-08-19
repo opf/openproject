@@ -107,7 +107,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="contextual">
     <%= link_to(l(:button_reset), project_enumerations_path(@project),
             :method => :delete,
-            :confirm => l(:text_are_you_sure),
+            data: { confirm: l(:text_are_you_sure) },
             :class => 'icon icon-delete') %>
   </div>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>

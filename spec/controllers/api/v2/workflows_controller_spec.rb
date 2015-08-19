@@ -33,7 +33,7 @@ describe Api::V2::WorkflowsController, type: :controller do
     describe 'unauthorized access' do
       let(:project) { FactoryGirl.create(:project) }
 
-      before { get :index, project_id: project.id, format: :xml }
+      before do get :index, project_id: project.id, format: :xml end
 
       it { expect(response.status).to eq(401) }
     end
@@ -41,16 +41,16 @@ describe Api::V2::WorkflowsController, type: :controller do
     describe 'authorized access' do
       let(:current_user) { FactoryGirl.create(:user) }
 
-      before { allow(User).to receive(:current).and_return current_user }
+      before do allow(User).to receive(:current).and_return current_user end
 
       shared_examples_for 'valid workflow index request' do
         it { expect(assigns(:project)).to eq(project) }
 
-        it { expect(response).to render_template('api/v2/workflows/index', formats: ['api']) }
+        it { expect(response).to render_template('api/v2/workflows/index') }
       end
 
       describe 'w/o project' do
-        before { get :index, format: :xml }
+        before do get :index, format: :xml end
 
         it { expect(response.status).to eq(404) }
       end
@@ -71,7 +71,7 @@ describe Api::V2::WorkflowsController, type: :controller do
                              roles: [role_0, role_1])
         }
 
-        before { get :index, project_id: project.id, format: :xml }
+        before do get :index, project_id: project.id, format: :xml end
 
         it { expect(assigns(:workflows)).to be_empty }
 
@@ -144,7 +144,7 @@ describe Api::V2::WorkflowsController, type: :controller do
                                assignee: false)
           }
 
-          before { get :index, project_id: project.id, format: :xml }
+          before do get :index, project_id: project.id, format: :xml end
 
           it_behaves_like 'valid workflow index request'
 

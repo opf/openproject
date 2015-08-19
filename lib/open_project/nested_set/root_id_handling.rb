@@ -169,10 +169,10 @@ module OpenProject::NestedSet
       end
 
       def persist_nested_set_attributes
-        self.class.update_all("root_id = #{root_id}, " +
+        self.class.where(['id = ?', id])
+          .update_all("root_id = #{root_id}, " +
                               "#{quoted_left_column_name} = #{lft}, " +
-                              "#{quoted_right_column_name} = #{rgt}",
-                              ['id = ?', id])
+                              "#{quoted_right_column_name} = #{rgt}")
       end
 
       # Moves the node and all it's descendants to the set with the provided
@@ -193,12 +193,12 @@ module OpenProject::NestedSet
 
         # update all the sutree's nodes. The lft and right values are incremented
         # by the maximum of the set's right value.
-        self.class.update_all("root_id = #{root_id}, " +
+        self.class.where(['root_id = ? AND ' +
+         "#{quoted_left_column_name} >= ? AND " +
+         "#{quoted_right_column_name} <= ? ", old_root_id, lft, rgt])
+          .update_all("root_id = #{root_id}, " +
                               "#{quoted_left_column_name} = lft + #{offset}, " +
-                              "#{quoted_right_column_name} = rgt + #{offset}",
-                              ['root_id = ? AND ' +
-                               "#{quoted_left_column_name} >= ? AND " +
-                               "#{quoted_right_column_name} <= ? ", old_root_id, lft, rgt])
+                              "#{quoted_right_column_name} = rgt + #{offset}")
 
         self[left_column_name] = lft + offset
         self[right_column_name] = rgt + offset
@@ -229,12 +229,12 @@ module OpenProject::NestedSet
         # will have to be reduced.
         # removed_span = removed_nodes * 2
 
-        self.class.update_all("#{quoted_right_column_name} = #{quoted_right_column_name} - #{removed_span}, " +
+        self.class.where(["root_id = ? AND #{quoted_right_column_name} > ?", old_root_id, rgt_offset])
+          .update_all("#{quoted_right_column_name} = #{quoted_right_column_name} - #{removed_span}, " +
                               "#{quoted_left_column_name} = CASE " +
                                 "WHEN #{quoted_left_column_name} > #{rgt_offset} " +
                                   "THEN #{quoted_left_column_name} - #{removed_span} " +
-                                "ELSE #{quoted_left_column_name} END",
-                              ["root_id = ? AND #{quoted_right_column_name} > ?", old_root_id, rgt_offset])
+                                "ELSE #{quoted_left_column_name} END")
       end
     end
   end

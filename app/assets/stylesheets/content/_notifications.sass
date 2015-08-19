@@ -97,6 +97,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 .notification-box
   @extend %notification
+  z-index: 21
   +notification-layout($x: left, $y: top, $size: auto, $offset: rem-calc(0))
   +notification-style($background: $nm-color-background, $color: $nm-font-color, $padding: $nm-padding-box, $radius: $nm-border-radius)
   .notification-icon

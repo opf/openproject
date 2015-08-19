@@ -142,9 +142,9 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_main_top_menu_nodes(items = main_top_menu_items)
-    items.map do |item|
+    items.map { |item|
       render_menu_node(item)
-    end.join(' ')
+    }.join(' ')
   end
 
   # Menu items for the main top menu

@@ -51,8 +51,8 @@ describe Journal, type: :model do
 
   it 'create should not send email notification if told not to' do
     ActionMailer::Base.deliveries.clear
-    issue = WorkPackage.find(:first)
-    user = User.find(:first)
+    issue = WorkPackage.first
+    user = User.first
     journal = issue.add_journal(user, 'A note')
     JournalManager.send_notification = false
 

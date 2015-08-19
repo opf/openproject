@@ -136,7 +136,7 @@ class MoveWorkPackageService
 
   def move_time_entries(work_package, new_project)
     # Manually update project_id on related time entries
-    TimeEntry.update_all("project_id = #{new_project.id}", work_package_id: work_package.id)
+    TimeEntry.where(work_package_id: work_package.id).update_all("project_id = #{new_project.id}")
   end
 
   def enforce_cross_project_settings(work_package)

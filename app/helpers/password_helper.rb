@@ -27,9 +27,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class GroupUser < ActiveRecord::Base
-  belongs_to :group
-  belongs_to :user
+module PasswordHelper
+  def render_password_complexity_tooltip
+    rules = password_rules_description
 
-  validates_presence_of :group, :user
+    s = OpenProject::Passwords::Evaluator.min_length_description
+    s += "<br> #{rules}" if rules.present?
+
+    s.html_safe
+  end
+
+  private
+
+  # Return a HTML list with active password complexity rules
+  def password_active_rules
+    rules = OpenProject::Passwords::Evaluator.active_rules_list
+    content_tag :ul do
+      rules.map { |item| concat(content_tag(:li, item)) }
+    end
+  end
+
+  # Returns a text describing the active password complexity rules,
+  # the minimum number of rules to adhere to and the total number of rules.
+  def password_rules_description
+    return '' if OpenProject::Passwords::Evaluator.min_adhered_rules == 0
+    OpenProject::Passwords::Evaluator.rules_description_locale(password_active_rules)
+  end
 end

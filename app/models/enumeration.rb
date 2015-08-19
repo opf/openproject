@@ -30,7 +30,7 @@
 class Enumeration < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
-  default_scope order: "#{Enumeration.table_name}.position ASC"
+  default_scope { order("#{Enumeration.table_name}.position ASC") }
 
   belongs_to :project
 
@@ -44,8 +44,8 @@ class Enumeration < ActiveRecord::Base
   validates_uniqueness_of :name, scope: [:type, :project_id]
   validates_length_of :name, maximum: 30
 
-  scope :shared, conditions: { project_id: nil }
-  scope :active, conditions: { active: true }
+  scope :shared, -> { where(project_id: nil) }
+  scope :active, -> { where(active: true) }
 
   before_save :unmark_old_default_value, if: :became_default_value?
 
@@ -65,10 +65,10 @@ class Enumeration < ActiveRecord::Base
     # it's type.  STI subclasses will automatically add their own
     # types to the finder.
     if self.descends_from_active_record?
-      find(:first, conditions: { is_default: true, type: 'Enumeration' })
+      where(is_default: true, type: 'Enumeration').first
     else
       # STI classes are
-      find(:first, conditions: { is_default: true })
+      where(is_default: true).first
     end
   end
 
@@ -159,7 +159,7 @@ class Enumeration < ActiveRecord::Base
   def self.sort_by_ancestor_last(entries)
     ancestor_relationships = entries.map { |entry| [entry, entry.ancestors] }
 
-    ancestor_relationships.sort do |one, two|
+    ancestor_relationships.sort { |one, two|
       if one.last.include?(two.first)
         -1
       elsif two.last.include?(one.first)
@@ -167,7 +167,7 @@ class Enumeration < ActiveRecord::Base
       else
         0
       end
-    end.map(&:first)
+    }.map(&:first)
   end
 
   def check_integrity
@@ -178,6 +178,5 @@ end
 # Force load the subclasses in development mode
 ['time_entry_activity', 'issue_priority',
  'reported_project_status'].each do |enum_subclass|
-
   require_dependency enum_subclass
 end

@@ -43,7 +43,7 @@ module API
             declared_params = declared(params).reject { |key, value| key.to_sym == :id || value.nil? }
 
             relation = @work_package.new_relation.tap do |r|
-              r.to = WorkPackage.visible.find_by_id(declared_params[:to_id].match(/\d+/).to_s)
+              r.to = WorkPackage.visible.find_by(id: declared_params[:to_id].match(/\d+/).to_s)
               r.relation_type = declared_params[:relation_type]
               r.delay = declared_params[:delay_id]
             end

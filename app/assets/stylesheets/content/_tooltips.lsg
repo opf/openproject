@@ -107,6 +107,18 @@ These can contain simple texts but are not suitable for HTML within the Tooltip.
 
 Note that the tabindex has to be set manually on the `<span>` and not the containing element. `tabindex="0"` makes the item tabbable at all.
 
+### HTML tooltips
+
+```
+<span class="advanced-tooltip-trigger" aria-describedby="advanced-tooltip-sample">
+  <i class="icon icon-help1"></i>
+</span>
+<div class="advanced-tooltip-content" id="advanced-tooltip-sample">
+  <p>The content of an HTML tooltip.</p>
+  <img src="http://openproject.sourceforge.net/images/openproject-logo.png" alt="OpenProject">
+</div>
+```
+
 ### Inline text
 
 ```

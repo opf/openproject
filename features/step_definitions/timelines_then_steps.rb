@@ -223,7 +223,7 @@ Then(/^I should not be able to add new project associations$/) do
 end
 
 Then(/^I should (not )?see a planning element link for "([^"]*)"$/) do |negate, planning_element_subject|
-  planning_element = PlanningElement.find_by_subject(planning_element_subject)
+  planning_element = PlanningElement.find_by(subject: planning_element_subject)
   text = "*#{planning_element.id}"
 
   step %{I should #{negate}see "#{text}"}
@@ -231,7 +231,7 @@ end
 
 Then(/^I should (not )?see the timeline "([^"]*)"$/) do |negate, timeline_name|
   selector = 'div.timeline div.tl-left-main'
-  timeline = Timeline.find_by_name(timeline_name)
+  timeline = Timeline.find_by(name: timeline_name)
 
   if (negate && page.has_css?(selector)) || !negate
     timeline.project.work_packages.each do |work_package|

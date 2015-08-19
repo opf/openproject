@@ -37,7 +37,7 @@ describe TimeEntries::ReportsController, type: :controller do
   it 'should report at project level' do
     get :show, project_id: 'ecookbook'
     assert_response :success
-    assert_template 'report'
+    assert_template 'time_entries/reports/show'
     assert_tag :form,
                attributes: { action: '/projects/ecookbook/time_entries/report', id: 'query_form' }
   end
@@ -45,7 +45,7 @@ describe TimeEntries::ReportsController, type: :controller do
   it 'should report all projects' do
     get :show
     assert_response :success
-    assert_template 'report'
+    assert_template 'time_entries/reports/show'
     assert_tag :form,
                attributes: { action: '/time_entries/report', id: 'query_form' }
   end
@@ -62,7 +62,7 @@ describe TimeEntries::ReportsController, type: :controller do
   it 'should report all projects one criteria' do
     get :show, columns: 'week', from: '2007-04-01', to: '2007-04-30', criterias: ['project']
     assert_response :success
-    assert_template 'report'
+    assert_template 'time_entries/reports/show'
     assert_not_nil assigns(:total_hours)
     assert_equal '8.65', '%.2f' % assigns(:total_hours)
   end
@@ -70,7 +70,7 @@ describe TimeEntries::ReportsController, type: :controller do
   it 'should report all time' do
     get :show, project_id: 1, criterias: ['project', 'issue']
     assert_response :success
-    assert_template 'report'
+    assert_template 'time_entries/reports/show'
     assert_not_nil assigns(:total_hours)
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
   end
@@ -78,7 +78,7 @@ describe TimeEntries::ReportsController, type: :controller do
   it 'should report all time by day' do
     get :show, project_id: 1, criterias: ['project', 'issue'], columns: 'day'
     assert_response :success
-    assert_template 'report'
+    assert_template 'time_entries/reports/show'
     assert_not_nil assigns(:total_hours)
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
     assert_tag tag: 'th', descendant: { content: /\s*2007-03-12\s*/ }
@@ -87,7 +87,7 @@ describe TimeEntries::ReportsController, type: :controller do
   it 'should report one criteria' do
     get :show, project_id: 1, columns: 'week', from: '2007-04-01', to: '2007-04-30', criterias: ['project']
     assert_response :success
-    assert_template 'report'
+    assert_template 'time_entries/reports/show'
     assert_not_nil assigns(:total_hours)
     assert_equal '8.65', '%.2f' % assigns(:total_hours)
   end
@@ -95,7 +95,7 @@ describe TimeEntries::ReportsController, type: :controller do
   it 'should report two criterias' do
     get :show, project_id: 1, columns: 'month', from: '2007-01-01', to: '2007-12-31', criterias: ['member', 'activity']
     assert_response :success
-    assert_template 'report'
+    assert_template 'time_entries/reports/show'
     assert_not_nil assigns(:total_hours)
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
   end
@@ -103,7 +103,7 @@ describe TimeEntries::ReportsController, type: :controller do
   it 'should report one day' do
     get :show, project_id: 1, columns: 'day', from: '2007-03-23', to: '2007-03-23', criterias: ['member', 'activity']
     assert_response :success
-    assert_template 'report'
+    assert_template 'time_entries/reports/show'
     assert_not_nil assigns(:total_hours)
     assert_equal '4.25', '%.2f' % assigns(:total_hours)
   end
@@ -111,7 +111,7 @@ describe TimeEntries::ReportsController, type: :controller do
   it 'should report at issue level' do
     get :show, project_id: 1, work_package_id: 1, columns: 'month', from: '2007-01-01', to: '2007-12-31', criterias: ['member', 'activity']
     assert_response :success
-    assert_template 'report'
+    assert_template 'time_entries/reports/show'
     assert_not_nil assigns(:total_hours)
     assert_equal '154.25', '%.2f' % assigns(:total_hours)
     assert_tag :form,
@@ -121,7 +121,7 @@ describe TimeEntries::ReportsController, type: :controller do
   it 'should report custom field criteria' do
     get :show, project_id: 1, criterias: ['project', 'cf_1', 'cf_7']
     assert_response :success
-    assert_template 'report'
+    assert_template 'time_entries/reports/show'
     assert_not_nil assigns(:total_hours)
     assert_not_nil assigns(:criterias)
     assert_equal 3, assigns(:criterias).size
@@ -140,7 +140,7 @@ describe TimeEntries::ReportsController, type: :controller do
   it 'should report one criteria no result' do
     get :show, project_id: 1, columns: 'week', from: '1998-04-01', to: '1998-04-30', criterias: ['project']
     assert_response :success
-    assert_template 'report'
+    assert_template 'time_entries/reports/show'
     assert_not_nil assigns(:total_hours)
     assert_equal '0.00', '%.2f' % assigns(:total_hours)
   end

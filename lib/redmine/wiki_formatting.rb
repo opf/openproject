@@ -97,7 +97,9 @@ module Redmine
       # Macros substitution
       def execute_macros(text, macros_runner)
         text.gsub!(MACROS_RE) do
-          esc, all, macro = $1, $2, $3.downcase
+          esc = $1
+          all = $2
+          macro = $3.downcase
           args = ($5 || '').split(',').each(&:strip!)
           if esc.nil?
             begin

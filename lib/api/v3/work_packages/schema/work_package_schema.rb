@@ -55,7 +55,7 @@ module API
             # other changes to it (e.g. type, assignee, etc.)
             if @work_package.persisted? && @work_package.status_id_changed?
               status_origin = @work_package.clone
-              status_origin.status = Status.find_by_id(@work_package.status_id_was)
+              status_origin.status = Status.find_by(id: @work_package.status_id_was)
             end
 
             status_origin.new_statuses_allowed_to(user)
@@ -81,7 +81,7 @@ module API
             # we might have received a (currently) invalid work package
             return [] if @project.nil? || @type.nil?
 
-            project.all_work_package_custom_fields & type.custom_fields.all
+            project.all_work_package_custom_fields.to_a & type.custom_fields.to_a
           end
 
           def percentage_done_writable?

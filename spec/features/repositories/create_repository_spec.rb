@@ -138,9 +138,11 @@ describe 'Create repository', type: :feature, js: true do
     shared_examples 'it can create the managed repository' do
       it 'can complete the form without any parameters' do
         find('input[type="radio"][value="managed"]').set(true)
-        find('button[type="submit"]', text: I18n.t(:button_create)).click
 
-        expect(find('div.flash.notice')).not_to be_nil
+        click_button(I18n.t(:button_create))
+
+        expect(page).to have_selector('div.flash.notice',
+                                      text: I18n.t('repositories.create_successful'))
         expect(page).to have_selector('input[name="scm_type"][value="managed"]:checked')
         expect(page).to have_selector('a.icon-delete', text: I18n.t(:button_delete))
       end
@@ -151,9 +153,10 @@ describe 'Create repository', type: :feature, js: true do
         find("input[type='radio'][value='#{type}']").set(true)
         find('input[name="repository[url]"]').set(url)
 
-        find('button[type="submit"]', text: I18n.t(:button_create)).click
+        click_button(I18n.t(:button_create))
 
-        expect(page).to have_selector('div.flash.notice')
+        expect(page).to have_selector('div.flash.notice',
+                                      text: I18n.t('repositories.create_successful'))
         expect(page).to have_selector('button[type="submit"]', text: I18n.t(:button_save))
         expect(page).to have_selector('a.icon-delete', text: I18n.t(:button_delete))
       end

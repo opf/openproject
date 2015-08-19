@@ -66,10 +66,10 @@ class JournalsController < ApplicationController
   def edit
     (render_403; return false) unless @journal.editable_by?(User.current)
     respond_to do |format|
-      format.html {
+      format.html do
         # TODO: implement non-JS journal update
         render nothing: true
-      }
+      end
       format.js
     end
   end
@@ -79,11 +79,13 @@ class JournalsController < ApplicationController
     @journal.destroy if @journal.details.empty? && @journal.notes.blank?
     call_hook(:controller_journals_edit_post,  journal: @journal, params: params)
     respond_to do |format|
-      format.html {
+      format.html do
         redirect_to controller: "/#{@journal.journable.class.name.pluralize.downcase}",
                     action: 'show', id: @journal.journable_id
-      }
-      format.js { render action: 'update' }
+      end
+      format.js do
+        render action: 'update'
+      end
     end
   end
 
@@ -98,8 +100,10 @@ class JournalsController < ApplicationController
       @diff = Redmine::Helpers::Diff.new(to, from)
       @journable = journal.journable
       respond_to do |format|
-        format.html {}
-        format.js { render partial: 'diff', locals: { diff: @diff } }
+        format.html
+        format.js do
+          render partial: 'diff', locals: { diff: @diff }
+        end
       end
     else
       render_404
@@ -110,10 +114,10 @@ class JournalsController < ApplicationController
     @journal.notes = params[:notes]
 
     respond_to do |format|
-      format.any(:html, :js) {
+      format.any(:html, :js) do
         render locals: { journal: @journal },
                layout: false
-      }
+      end
     end
   end
 

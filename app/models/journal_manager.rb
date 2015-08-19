@@ -164,7 +164,7 @@ class JournalManager
 
   def self.create_journal(journable, journal_attributes, user = User.current,  notes = '')
     type = base_class(journable.class)
-    extended_journal_attributes = journal_attributes.merge(journable_type: journal_class_name(type))
+    extended_journal_attributes = journal_attributes.merge(journable_type: type.to_s)
                                   .merge(notes: notes)
                                   .except(:details)
                                   .except(:id)
@@ -235,8 +235,7 @@ class JournalManager
 
   def self.normalize_newlines(data)
     data.each_with_object({}) { |e, h|
-      h[e[0]] = (e[1].is_a?(String) ? e[1].gsub(/\r\n/, "\n")
-                                                                        : e[1])
+      h[e[0]] = (e[1].is_a?(String) ? e[1].gsub(/\r\n/, "\n") : e[1])
     }
   end
 

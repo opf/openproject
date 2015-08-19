@@ -46,7 +46,6 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
   end
 
   describe 'with project scope' do
-
     describe 'index.xml' do
       let(:current_user) { non_admin_user }
       let(:permission) { :view_work_packages }
@@ -72,7 +71,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
         it 'renders the index builder template' do
           get 'index', project_id: project.identifier, format: 'xml'
-          expect(response).to render_template('planning_element_types/index', formats: ['api'])
+          expect(response).to render_template('planning_element_types/index')
         end
       end
 
@@ -90,7 +89,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
           @all_types = Array.new
           @all_types.concat @created_planning_element_types
-          @all_types.concat Type.where(is_standard: true)
+          @all_types.concat ::Type.where(is_standard: true)
 
           # Creating one PlanningElemenType which is not assigned to any
           # Project and should therefore not show up in projects with a project
@@ -105,7 +104,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
         it 'renders the index template' do
           get 'index', project_id: project.identifier, format: 'xml'
-          expect(response).to render_template('planning_element_types/index', formats: ['api'])
+          expect(response).to render_template('planning_element_types/index')
         end
       end
     end
@@ -165,7 +164,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
         it 'renders the show template' do
           get 'show', project_id: project.identifier, id: '1337', format: 'xml'
-          expect(response).to render_template('planning_element_types/show', formats: ['api'])
+          expect(response).to render_template('planning_element_types/show')
         end
       end
     end
@@ -189,7 +188,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
         it 'renders the index builder template' do
           get 'index', format: 'xml'
-          expect(response).to render_template('planning_element_types/index', formats: ['api'])
+          expect(response).to render_template('planning_element_types/index')
         end
       end
 
@@ -209,7 +208,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
         it 'renders the index template' do
           get 'index', format: 'xml'
-          expect(response).to render_template('planning_element_types/index', formats: ['api'])
+          expect(response).to render_template('planning_element_types/index')
         end
       end
     end
@@ -243,7 +242,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
         it 'renders the show template' do
           get 'show', id: '1337', format: 'xml'
-          expect(response).to render_template('planning_element_types/show', formats: ['api'])
+          expect(response).to render_template('planning_element_types/show')
         end
       end
     end

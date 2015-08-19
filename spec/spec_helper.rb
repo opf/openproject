@@ -82,8 +82,10 @@ RSpec.configure do |config|
   config.before(:each) do |example|
     DatabaseCleaner.strategy = if example.metadata[:js]
                                  # JS => doesn't share connections => can't use transactions
-                                 # truncations seem to fail more often + they are slower
-                                 :deletion
+                                 # as of database_cleaner 1.4 'deletion' causes error:
+                                 # 'column "table_rows" does not exist'
+                                 # https://github.com/DatabaseCleaner/database_cleaner/issues/345
+                                 :truncation
                                else
                                  # No JS/Devise => run with Rack::Test => transactions are ok
                                  :transaction

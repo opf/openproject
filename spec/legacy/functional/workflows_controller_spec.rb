@@ -44,7 +44,7 @@ describe WorkflowsController, type: :controller do
     assert_response :success
     assert_template 'index'
 
-    count = Workflow.count(:all, conditions: 'role_id = 1 AND type_id = 2')
+    count = Workflow.where('role_id = 1 AND type_id = 2').count
     assert_tag tag: 'a', content: count.to_s,
                attributes: { href: '/workflows/edit?role_id=1&amp;type_id=2' }
   end
@@ -109,9 +109,9 @@ describe WorkflowsController, type: :controller do
                 }
     assert_redirected_to '/workflows/edit?role_id=2&type_id=1'
 
-    assert_equal 3, Workflow.count(conditions: { type_id: 1, role_id: 2 })
-    assert_not_nil Workflow.find(:first, conditions: { role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 2 })
-    assert_nil Workflow.find(:first, conditions: { role_id: 2, type_id: 1, old_status_id: 5, new_status_id: 4 })
+    assert_equal 3, Workflow.where(type_id: 1, role_id: 2).count
+    assert_not_nil Workflow.where(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 2).first
+    assert_nil Workflow.where(role_id: 2, type_id: 1, old_status_id: 5, new_status_id: 4).first
   end
 
   it 'should post edit with additional transitions' do
@@ -122,27 +122,27 @@ describe WorkflowsController, type: :controller do
                 }
     assert_redirected_to '/workflows/edit?role_id=2&type_id=1'
 
-    assert_equal 4, Workflow.count(conditions: { type_id: 1, role_id: 2 })
+    assert_equal 4, Workflow.where(type_id: 1, role_id: 2).count
 
-    w = Workflow.find(:first, conditions: { role_id: 2, type_id: 1, old_status_id: 4, new_status_id: 5 })
+    w = Workflow.where(role_id: 2, type_id: 1, old_status_id: 4, new_status_id: 5).first
     assert !w.author
     assert !w.assignee
-    w = Workflow.find(:first, conditions: { role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 1 })
+    w = Workflow.where(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 1).first
     assert w.author
     assert !w.assignee
-    w = Workflow.find(:first, conditions: { role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 2 })
+    w = Workflow.where(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 2).first
     assert !w.author
     assert w.assignee
-    w = Workflow.find(:first, conditions: { role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 4 })
+    w = Workflow.where(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 4).first
     assert w.author
     assert w.assignee
   end
 
   it 'should clear workflow' do
-    assert Workflow.count(conditions: { type_id: 1, role_id: 2 }) > 0
+    assert Workflow.where(type_id: 1, role_id: 2).count > 0
 
     post :edit, role_id: 2, type_id: 1
-    assert_equal 0, Workflow.count(conditions: { type_id: 1, role_id: 2 })
+    assert_equal 0, Workflow.where(type_id: 1, role_id: 2).count
   end
 
   it 'should get copy' do
@@ -187,7 +187,8 @@ describe WorkflowsController, type: :controller do
 
   # Returns an array of status transitions that can be compared
   def status_transitions(conditions)
-    Workflow.find(:all, conditions: conditions,
-                        order: 'type_id, role_id, old_status_id, new_status_id').map { |w| [w.old_status, w.new_status_id] }
+    Workflow.where(conditions)
+      .order('type_id, role_id, old_status_id, new_status_id')
+      .map { |w| [w.old_status, w.new_status_id] }
   end
 end

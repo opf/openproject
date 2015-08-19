@@ -70,7 +70,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </thead>
         <tbody>
           <% @project.boards.each do |board|
-      next if board.new_record? %>
+            next if board.new_record? %>
             <tr>
               <td><%=h board.name %></td>
               <td><%=h board.description %></td>
@@ -81,7 +81,7 @@ See doc/COPYRIGHT.rdoc for more details.
               </td>
               <td class="buttons">
                 <%= link_to_if_authorized l(:button_edit), {:controller => '/boards', :action => 'edit', :project_id => @project, :id => board}, :class => 'icon icon-edit' %>
-                <%= link_to_if_authorized l(:button_delete), {:controller => '/boards', :action => 'destroy', :project_id => @project, :id => board}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-delete' %>
+                <%= link_to_if_authorized l(:button_delete), {:controller => '/boards', :action => 'destroy', :project_id => @project, :id => board}, data: { confirm: l(:text_are_you_sure) }, :method => :delete, :class => 'icon icon-delete' %>
               </td>
             </tr>
           <% end %>

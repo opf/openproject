@@ -28,6 +28,6 @@
 #++
 
 Given /^the wiki menu item of the wiki page "(.*?)" of project "(.*?)" has been deleted$/ do |item_name, project_name|
-  project = Project.find_by_name project_name
+  project = Project.find_by name: project_name
   WikiPage.where(title: item_name, wiki_id: project.wiki.id).first.delete_wiki_menu_item
 end

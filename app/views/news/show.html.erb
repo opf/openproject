@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </li>
   <% if User.current.allowed_to?(:manage_news, @project) %>
     <%= link_to(news_path(@news),
-          :confirm => l(:text_are_you_sure),
+          data: { confirm: l(:text_are_you_sure) },
           :method => :delete,
           :class => 'button') do %>
       <i class="button--icon icon-delete"></i>
@@ -80,7 +80,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="contextual">
         <%= link_to_if_authorized icon_wrapper('icon-context icon-delete', l(:button_delete)),
                               {:controller => '/news/comments', :action => 'destroy', :id => comment},
-                              :confirm => l(:text_are_you_sure),
+                              data: { confirm: l(:text_are_you_sure) },
                               :method  => :delete,
                               :class => 'no-decoration-on-hover',
                               :title   => l(:button_delete),

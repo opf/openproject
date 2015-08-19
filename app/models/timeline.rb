@@ -40,13 +40,11 @@ class Timeline < ActiveRecord::Base
     end
   end
 
-  unloadable
-
   serialize :options
 
   self.table_name = 'timelines'
 
-  default_scope order: 'name ASC'
+  default_scope { order('name ASC') }
 
   belongs_to :project, class_name: 'Project'
 
@@ -219,7 +217,7 @@ class Timeline < ActiveRecord::Base
     # that are reporting into the project that this timeline is
     # referencing.
 
-    Type.find(:all, order: :name)
+    ::Type.order(:name)
   end
 
   def available_planning_element_status
@@ -229,19 +227,19 @@ class Timeline < ActiveRecord::Base
 
   def selected_planning_element_status
     resolve_with_none_element(:planning_element_status) do |ary|
-      Status.find_all_by_id(ary)
+      Status.where(id: ary)
     end
   end
 
   def selected_planning_element_types
     resolve_with_none_element(:planning_element_types) do |ary|
-      Type.find_all_by_id(ary)
+      ::Type.where(id: ary)
     end
   end
 
   def selected_planning_element_time_types
     resolve_with_none_element(:planning_element_time_types) do |ary|
-      Type.find_all_by_id(ary)
+      ::Type.where(id: ary)
     end
   end
 
@@ -251,33 +249,33 @@ class Timeline < ActiveRecord::Base
 
   def selected_project_types
     resolve_with_none_element(:project_types) do |ary|
-      ProjectType.find_all_by_id(ary)
+      ProjectType.where(id: ary)
     end
   end
 
   def available_project_status
-    ReportedProjectStatus.find(:all, order: :name)
+    ReportedProjectStatus.order(:name)
   end
 
   def selected_project_status
     resolve_with_none_element(:project_status) do |ary|
-      ReportedProjectStatus.find_all_by_id(ary)
+      ReportedProjectStatus.where(id: ary)
     end
   end
 
   def available_responsibles
-    User.find(:all).sort_by(&:name)
+    User.all.sort_by(&:name)
   end
 
   def selected_project_responsibles
     resolve_with_none_element(:project_responsibles) do |ary|
-      User.find_all_by_id(ary)
+      User.where(id: ary)
     end
   end
 
   def selected_planning_element_responsibles
     resolve_with_none_element(:planning_element_responsibles) do |ary|
-      User.find_all_by_id(ary)
+      User.where(id: ary)
     end
   end
 
@@ -310,7 +308,7 @@ class Timeline < ActiveRecord::Base
 
   def selected_parents
     resolve_with_none_element(:parents) do |ary|
-      Project.find_all_by_id(ary)
+      Project.where(id: ary)
     end
   end
 
@@ -340,7 +338,7 @@ class Timeline < ActiveRecord::Base
 
   def selected_grouping_projects
     resolve_with_none_element(:grouping_one_selection) do |ary|
-      projects = Project.find_all_by_id(ary)
+      projects = Project.where(id: ary)
       projectsHashMap = Hash[projects.map { |v| [v.id, v] }]
 
       ary.map { |a| projectsHashMap[a] }
@@ -357,7 +355,7 @@ class Timeline < ActiveRecord::Base
 
   def selected_grouping_project_types
     resolve_with_none_element(:grouping_two_selection) do |ary|
-      ProjectType.find_all_by_id(ary)
+      ProjectType.where(id: ary)
     end
   end
 

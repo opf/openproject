@@ -82,11 +82,11 @@ describe WorkPackages::AutoCompletesController, type: :controller do
     describe 'search is case insensitive' do
       let(:expected_values) { [work_package_1, work_package_2] }
 
-      before {
+      before do
         get :index,
             project_id: project.id,
             q: 'ReCiPe'
-      }
+      end
 
       it_behaves_like 'successful response'
 
@@ -96,11 +96,11 @@ describe WorkPackages::AutoCompletesController, type: :controller do
     describe 'returns work package for given id' do
       let(:expected_values) { work_package_1 }
 
-      before {
+      before do
         get :index,
             project_id: project.id,
             q: work_package_1.id
-      }
+      end
 
       it_behaves_like 'successful response'
 
@@ -131,7 +131,7 @@ describe WorkPackages::AutoCompletesController, type: :controller do
         expected_return = []
         expected.each do |wp|
           new_id = wp.id.to_s + ids
-          WorkPackage.update_all({ id: new_id }, { id: wp.id })
+          WorkPackage.where(id: wp.id).update_all(id: new_id)
           expected_return << WorkPackage.find(new_id)
         end
 
@@ -166,12 +166,12 @@ describe WorkPackages::AutoCompletesController, type: :controller do
       }
       let(:expected_values) { work_package_4 }
 
-      before {
+      before do
         get :index,
             project_id: project.id,
             q: work_package_4.id,
             format: :json
-      }
+      end
 
       it_behaves_like 'successful response'
       it_behaves_like 'contains expected values'

@@ -70,7 +70,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                     { :controller => '/categories',
                                       :action => 'destroy',
                                       :id => category },
-                                    :method => :delete,
+                                    data: { confirm: l(:text_are_you_sure) },
                                     :confirm => l(:text_are_you_sure),
                                     :class => 'icon icon-delete' %>
                 </td>

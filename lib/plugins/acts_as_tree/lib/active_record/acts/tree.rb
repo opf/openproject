@@ -45,17 +45,19 @@ module ActiveRecord
           configuration.update(options) if options.is_a?(Hash)
 
           belongs_to :parent, class_name: name, foreign_key: configuration[:foreign_key], counter_cache: configuration[:counter_cache]
-          has_many :children, class_name: name, foreign_key: configuration[:foreign_key], order: configuration[:order], dependent: configuration[:dependent]
+          has_many :children, -> {
+            order(configuration[:order])
+          }, class_name: name, foreign_key: configuration[:foreign_key], dependent: configuration[:dependent]
 
           class_eval <<-EOV
             include ActiveRecord::Acts::Tree::InstanceMethods
 
             def self.roots
-              find(:all, :conditions => "#{configuration[:foreign_key]} IS NULL", :order => #{configuration[:order].nil? ? 'nil' : %{"#{configuration[:order]}"}})
+              where("#{configuration[:foreign_key]} IS NULL").order(#{configuration[:order].nil? ? 'nil' : %{"#{configuration[:order]}"}})
             end
 
             def self.root
-              find(:first, :conditions => "#{configuration[:foreign_key]} IS NULL", :order => #{configuration[:order].nil? ? 'nil' : %{"#{configuration[:order]}"}})
+              where("#{configuration[:foreign_key]} IS NULL").order(#{configuration[:order].nil? ? 'nil' : %{"#{configuration[:order]}"}}).first
             end
           EOV
         end
@@ -66,7 +68,8 @@ module ActiveRecord
         #
         #   subchild1.ancestors # => [child1, root]
         def ancestors
-          node, nodes = self, []
+          node = self
+          nodes = []
           nodes << node = node.parent while node.parent
           nodes
         end

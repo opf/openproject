@@ -34,7 +34,6 @@ module API
   module V3
     module Attachments
       class AttachmentRepresenter < ::API::Decorators::Single
-
         self_link title_getter: -> (*) { represented.filename }
 
         linked_property :author,

@@ -27,27 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'sprockets/rails'
-
-module Sprockets
-  module Rails
-    # Workaround to ensure some asset helpers (like #image_path) use the
-    # correct asset prefix.
-    # Helps OpenProject::Themes::ViewHelpers# find theme assets.
-    # NOTE: repercussions of this hack are unknown.
-    module LegacyAssetUrlHelper
-      ASSET_PUBLIC_DIRECTORIES.replace(
-        audio:      '/assets',
-        font:       '/assets',
-        image:      '/assets',
-        javascript: '/assets',
-        stylesheet: '/assets',
-        video:      '/assets'
-      )
-    end
-  end
-end
-
 require 'active_record'
 
 module ActiveRecord
@@ -114,16 +93,14 @@ module ActiveModel
       attr_name_override = nil
       match = /\Acustom_field_(?<id>\d+)\z/.match(attribute)
       if match
-        attr_name_override = CustomField.find_by_id(match[:id]).name
+        attr_name_override = CustomField.find_by(id: match[:id]).name
       end
 
       attr_name = attribute.to_s.gsub('.', '_').humanize
-      attr_name = @base.class.human_attribute_name(attribute, :default => attr_name)
-      I18n.t(:"errors.format", {
-                               :default   => "%{attribute} %{message}",
-                               :attribute => attr_name_override || attr_name,
-                               :message   => message
-                             })
+      attr_name = @base.class.human_attribute_name(attribute, default: attr_name)
+      I18n.t(:"errors.format",                                default: '%{attribute} %{message}',
+                                                              attribute: attr_name_override || attr_name,
+                                                              message: message)
     end
 
     private
@@ -166,6 +143,12 @@ end
 
 module ActionView
   module Helpers
+    module Tags
+      Base.class_eval do
+        attr_reader :method_name
+      end
+    end
+
     module AccessibleErrors
       def self.included(base)
         base.send(:include, InstanceMethods)
@@ -245,9 +228,9 @@ module ActionView
 
         I18n.with_options locale: options[:locale], scope: :'datetime.distance_in_words' do |locale|
           case distance_in_days
-            when 0..60     then locale.t :x_days,             count: distance_in_days.round
-            when 61..720   then locale.t :about_x_months,     count: (distance_in_days / 30).round
-            else                locale.t :over_x_years,       count: (distance_in_days / 365).floor
+          when 0..60     then locale.t :x_days,             count: distance_in_days.round
+          when 61..720   then locale.t :about_x_months,     count: (distance_in_days / 30).round
+          else                locale.t :over_x_years,       count: (distance_in_days / 365).floor
           end
         end
       end
@@ -301,56 +284,6 @@ module ActiveRecord
     #  end
 
     #  alias_method_chain :on, :id_handling
-  end
-end
-
-# Patches to fix Hash subclasses not preserving the class on reject and select
-# on Ruby 2.1.1. Apparently this will be standard behavior in Ruby 2.2, so
-# check please verify things work as expected before removing this.
-#
-# Rails 3.2 won't receive a fix for this, but Rails 4.x has this fixed.
-# Once we're using Rails 4, we can probably remove this.
-#
-# See
-# * https://www.ruby-lang.org/en/news/2014/03/10/regression-of-hash-reject-in-ruby-2-1-1/
-# * https://github.com/rails/rails/issues/14188
-# * https://github.com/rails/rails/pull/14198/files
-module ActiveSupport
-  class HashWithIndifferentAccess
-    def select(*args, &block)
-      dup.tap { |hash| hash.select!(*args, &block) }
-    end
-
-    def reject(*args, &block)
-      dup.tap { |hash| hash.reject!(*args, &block) }
-    end
-  end
-
-  class OrderedHash
-    def select(*args, &block)
-      dup.tap { |hash| hash.select!(*args, &block) }
-    end
-
-    def reject(*args, &block)
-      dup.tap { |hash| hash.reject!(*args, &block) }
-    end
-  end
-end
-
-module CollectiveIdea
-  module Acts
-    module NestedSet
-      module Model
-        # fixes IssueNestedSetTest#test_destroy_parent_work_package_updated_during_children_destroy
-        def destroy_descendants_with_reload
-          destroy_descendants_without_reload
-          # Reload is needed because children may have updated their parent (self) during deletion.
-          # fixes stale object error in issue_nested_set_test
-          reload
-        end
-        alias_method_chain :destroy_descendants, :reload
-      end
-    end
   end
 end
 

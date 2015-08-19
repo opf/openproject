@@ -28,7 +28,6 @@
 #++
 
 class PlanningElementJournalsController < ApplicationController
-  unloadable
   helper :timelines
 
   include ExtendedHTTP
@@ -43,7 +42,9 @@ class PlanningElementJournalsController < ApplicationController
   def index
     @journals = @planning_element.journals
     respond_to do |format|
-      format.html { render_404 }
+      format.html do
+        render_404
+      end
     end
   end
 

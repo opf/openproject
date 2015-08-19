@@ -34,10 +34,10 @@ FactoryGirl.define do
       disable_modules []
     end
 
-    sequence(:name) { |n| "My Project No. #{n}" }
-    sequence(:identifier) { |n| "myproject_no_#{n}" }
-    created_on { Time.now }
-    updated_on { Time.now }
+    sequence(:name) do |n| "My Project No. #{n}" end
+    sequence(:identifier) do |n| "myproject_no_#{n}" end
+    created_on do Time.now end
+    updated_on do Time.now end
     enabled_module_names Redmine::AccessControl.available_project_modules
 
     callback(:after_build) do |project, evaluator|
@@ -47,7 +47,7 @@ FactoryGirl.define do
 
     callback(:before_create) do |project, evaluator|
       unless evaluator.no_types ||
-             Type.where(is_standard: true).count > 0
+             ::Type.where(is_standard: true).count > 0
         project.types << FactoryGirl.build(:type_standard)
       end
     end

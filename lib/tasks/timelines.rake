@@ -114,11 +114,11 @@ namespace :timelines do
         'Umgebung' => [
         ]
       }.each do |project_type_name, planning_element_types|
-        project_type = ProjectType.find_by_name(project_type_name)
+        project_type = ProjectType.find_by(name: project_type_name)
         raise "Could not find ProjectType named #{project_type_name}" if project_type.blank?
 
         planning_element_types.each do |planning_element_type|
-          planning_element_type[:color] = Color.find_by_name(planning_element_type[:color])
+          planning_element_type[:color] = Color.find_by(name: planning_element_type[:color])
           PlanningElementType.create!(planning_element_type.merge(project_type_id: project_type.id))
         end
       end
@@ -127,7 +127,7 @@ namespace :timelines do
         { name: 'Phase', color: 'pjGray' },
         { name: 'Milestone', color: 'pjGray', is_milestone: true }
       ].each do |planning_element_type|
-        planning_element_type[:color] = Color.find_by_name(planning_element_type[:color])
+        planning_element_type[:color] = Color.find_by(name: planning_element_type[:color])
         PlanningElementType.create!(planning_element_type)
       end
     end

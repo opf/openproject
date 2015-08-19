@@ -195,7 +195,7 @@ class Setting < ActiveRecord::Base
   def self.find_or_default(name)
     name = name.to_s
     raise "There's no setting named #{name}" unless exists? name
-    find_by_name(name) or new do |s|
+    find_by(name: name) or new do |s|
       s.name  = name
       s.value = @@available_settings[name]['default']
     end

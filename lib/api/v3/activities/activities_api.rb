@@ -33,12 +33,10 @@ module API
     module Activities
       class ActivitiesAPI < ::API::OpenProjectAPI
         resources :activities do
-
           params do
             requires :id, desc: 'Activity id'
           end
           route_param :id do
-
             before do
               @activity = Journal::AggregatedJournal.with_notes_id(params[:id])
               raise API::Errors::NotFound unless @activity
@@ -75,9 +73,7 @@ module API
 
               ActivityRepresenter.new(@activity.reloaded, current_user: current_user)
             end
-
           end
-
         end
       end
     end

@@ -525,7 +525,6 @@ describe PermittedParams, type: :model do
 
     [:user_update_as_admin, :user_create_as_admin].each do |method|
       describe method do
-
         it 'should permit nothing for a non-admin user' do
           # Hash with {'key' => 'key'} for all admin_permissions
           field_sample = { user: Hash[admin_permissions.zip(admin_permissions)] }
@@ -581,7 +580,6 @@ describe PermittedParams, type: :model do
 
           expect(result).to eq({})
         end
-
       end
     end
 
@@ -619,7 +617,7 @@ describe PermittedParams, type: :model do
           params = ActionController::Parameters.new(user: hash)
 
           expect(PermittedParams.new(params, admin).user).to eq(
-             field => 'test'
+            field => 'test'
           )
         end
       end
@@ -696,7 +694,7 @@ describe PermittedParams, type: :model do
 
   shared_examples_for 'allows nested params' do
     let(:params_key) { (defined? hash_key) ? hash_key : attribute }
-    let(:params) { ActionController::Parameters.new( params_key => { nested_key => hash }) }
+    let(:params) { ActionController::Parameters.new(params_key => { nested_key => hash }) }
 
     subject { PermittedParams.new(params, user).send attribute }
 
@@ -942,6 +940,5 @@ describe PermittedParams, type: :model do
         expect(PermittedParams.permitted_attributes.keys).not_to include(:unknown_key)
       end
     end
-
   end
 end

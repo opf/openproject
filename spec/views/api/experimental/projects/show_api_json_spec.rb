@@ -38,7 +38,7 @@ describe 'api/experimental/projects/show.api.rabl', type: :view do
                       possible_responsible_members: members,
                       possible_assignee_members:    members,
                       types:                        types
-  )
+                     )
   }
 
   before do

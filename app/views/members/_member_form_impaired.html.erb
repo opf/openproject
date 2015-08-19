@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= observe_field(:principal_search,
                        :frequency => 0.5,
                        :update => :principal_results,
-                       :url => { :controller => '/members', :action => 'autocomplete_for_member', :id => project },
+                       :url => { :controller => '/members', :action => 'autocomplete_for_member', :project_id => project },
                        :with => 'q')
                         %>
         </div>

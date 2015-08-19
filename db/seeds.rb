@@ -33,8 +33,8 @@
 #
 # Examples:
 #
-#   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
-#   Mayor.create(:name => 'Emanuel', :city => cities.first)
+#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
+#   Mayor.create(name: 'Emanuel', city: cities.first)
 #
 # loads environment-specific seeds. The assumed directory structure in db/ is like this:
 # |___seeds

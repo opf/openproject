@@ -29,14 +29,12 @@
 require 'spec_helper'
 
 describe StatusesController, type: :routing do
-
   describe 'index' do
     it { expect(get('/statuses')).to route_to(controller: 'statuses', action: 'index') }
   end
 
   describe 'new' do
     it { expect(get('/statuses/new')).to route_to(controller: 'statuses', action: 'new') }
-
   end
 
   describe 'create' do

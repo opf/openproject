@@ -31,7 +31,9 @@ class MenuItem < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
   belongs_to :parent, class_name: 'MenuItem'
-  has_many :children, class_name: 'MenuItem', dependent: :destroy, foreign_key: :parent_id, order: 'id ASC'
+  has_many :children, -> {
+    order('id ASC')
+  }, class_name: 'MenuItem', dependent: :destroy, foreign_key: :parent_id
 
   serialize :options, Hash
 

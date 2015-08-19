@@ -84,35 +84,35 @@ class UsersController < ApplicationController
              .per_page(per_page_param)
 
     respond_to do |format|
-      format.html {
+      format.html do
         @groups = Group.all.sort
         render layout: !request.xhr?
-      }
+      end
     end
   end
 
   def show
     # show projects based on current user visibility
-    @memberships = @user.memberships.all(conditions: Project.visible_by(User.current))
+    @memberships = @user.memberships.where(Project.visible_by(User.current))
 
     events = Redmine::Activity::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
 
     unless User.current.admin?
-      if !(@user.active? || @user.registered?) || (@user != User.current  && @memberships.empty? && events.empty?)
+      if !(@user.active? || @user.registered?) || (@user != User.current && @memberships.empty? && events.empty?)
         render_404
         return
       end
     end
 
     respond_to do |format|
-      format.html { render layout: 'base' }
+      format.html do render layout: 'base' end
     end
   end
 
   def new
     @user = User.new(language: Setting.default_language, mail_notification: Setting.default_notification_option)
-    @auth_sources = AuthSource.find(:all)
+    @auth_sources = AuthSource.all
   end
 
   verify method: :post, only: :create, render: { nothing: true, status: :method_not_allowed }
@@ -141,27 +141,27 @@ class UsersController < ApplicationController
       UserMailer.account_information(@user, @user.password).deliver if params[:send_information]
 
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_create)
           redirect_to(params[:continue] ?
             new_user_path :
             edit_user_path(@user)
-          )
-        }
+                     )
+        end
       end
     else
-      @auth_sources = AuthSource.find(:all)
+      @auth_sources = AuthSource.all
       # Clear password input
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
-        format.html { render action: 'new' }
+        format.html do render action: 'new' end
       end
     end
   end
 
   def edit
-    @auth_sources = AuthSource.find(:all)
+    @auth_sources = AuthSource.all
     @membership ||= Member.new
   end
 
@@ -192,19 +192,19 @@ class UsersController < ApplicationController
       end
 
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_to :back
-        }
+        end
       end
     else
-      @auth_sources = AuthSource.find(:all)
+      @auth_sources = AuthSource.all
       @membership ||= Member.new
       # Clear password input
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
-        format.html { render action: :edit }
+        format.html do render action: :edit end
       end
     end
   rescue ::ActionController::RedirectBackError
@@ -246,21 +246,21 @@ class UsersController < ApplicationController
     @membership.save if request.post?
     respond_to do |format|
       if @membership.valid?
-        format.html { redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' }
-        format.js {
+        format.html do redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' end
+        format.js do
           render(:update) {|page|
             page.replace_html 'tab-content-memberships', partial: 'users/memberships'
             page.insert_html :top, 'tab-content-memberships', partial: 'members/common_notice', locals: { message: l(:notice_successful_update) }
             page.visual_effect(:highlight, "member-#{@membership.id}")
           }
-        }
+        end
       else
-        format.js {
+        format.js do
           render(:update) {|page|
             page.replace_html 'tab-content-memberships', partial: 'users/memberships'
             page.insert_html :top, 'tab-content-memberships', partial: 'members/member_errors', locals: { member: @membership }
           }
-        }
+        end
       end
     end
   end
@@ -286,13 +286,13 @@ class UsersController < ApplicationController
       @membership.destroy && @membership = nil
     end
     respond_to do |format|
-      format.html { redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' }
-      format.js {
+      format.html do redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' end
+      format.js do
         render(:update) { |page|
           page.replace_html 'tab-content-memberships', partial: 'users/memberships'
           page.insert_html :top, 'tab-content-memberships', partial: 'members/common_notice', locals: { message: l(:notice_successful_delete) }
         }
-      }
+      end
     end
   end
 
@@ -319,10 +319,10 @@ class UsersController < ApplicationController
        !User.current.admin?
 
       respond_to do |format|
-        format.html { render_403 }
-        format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
-        format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
-        format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.html do render_403 end
+        format.xml  do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
+        format.js   do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
+        format.json do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
       end
 
       false

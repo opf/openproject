@@ -31,7 +31,7 @@ module UsersHelper
   include OpenProject::FormTagHelper
 
   def users_status_options_for_select(selected)
-    user_count_by_status = User.count(group: 'status').to_hash
+    user_count_by_status = User.group(:status).count.to_hash
     user_count_by_status.merge! blocked: User.blocked.count,
                                 all: User.not_builtin.count,
                                 User::STATUSES[:active] =>
@@ -42,10 +42,10 @@ module UsersHelper
     status_symbols.merge!(User::STATUSES.reject { |n, _i| n == :builtin })
     status_symbols[:blocked] = :blocked
 
-    statuses = status_symbols.map do |name, index|
+    statuses = status_symbols.map { |name, index|
       ["#{translate_user_status(name.to_s)} (#{user_count_by_status[index].to_i})",
        index]
-    end
+    }
     options_for_select(statuses, selected)
   end
 
@@ -128,9 +128,9 @@ module UsersHelper
   # Options for the new membership projects combo-box
   def options_for_membership_project_select(user, projects)
     options = content_tag('option', "--- #{l(:actionview_instancetag_blank_option)} ---")
-    options << project_tree_options_for_select(projects) do |p|
+    options << project_tree_options_for_select(projects) { |p|
       { disabled: (user.projects.include?(p)) }
-    end
+    }
     options
   end
 

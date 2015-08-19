@@ -29,7 +29,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/workflows/index.api.rabl', type: :view do
-
   before do
     params[:format] = 'xml'
   end

@@ -27,8 +27,6 @@
 #++
 
 class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
-  # unloadable
-
   include ApplicationHelper
   include OpenProject::StaticRouting::UrlHelpers
 
@@ -61,7 +59,7 @@ class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
   end
 
   def format_html_attachment_detail(key, value)
-    if !value.blank? && a = Attachment.find_by_id(key.to_i)
+    if !value.blank? && a = Attachment.find_by(id: key.to_i)
       link_to_attachment(a, only_path: false)
     else
       value if value.present?

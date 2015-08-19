@@ -271,6 +271,7 @@ describe Project, type: :model do
     describe '#total_projects_size' do
       let(:projects) { FactoryGirl.build_list(:project, 3) }
       before do
+        project.save
         projects.each(&:save!)
         allow(Project).to receive(:all).and_return(projects)
 
@@ -286,7 +287,6 @@ describe Project, type: :model do
       end
 
       it 'counts required_storage on all projects' do
-        expect(Project.all.length).to eq(3)
         expect(Project.total_projects_size).to eq(2435890)
       end
 

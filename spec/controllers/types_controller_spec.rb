@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe TypesController, type: :controller do
-
   let(:project) {
     FactoryGirl.create(:project,
                        work_package_custom_fields: [custom_field_2])
@@ -52,7 +51,7 @@ describe TypesController, type: :controller do
 
     describe 'GET index' do
       describe 'the access should be restricted' do
-        before { get 'index' }
+        before do get 'index' end
 
         it { expect(response.status).to eq(403) }
       end
@@ -60,7 +59,7 @@ describe TypesController, type: :controller do
 
     describe 'GET new' do
       describe 'the access should be restricted' do
-        before { get 'new' }
+        before do get 'new' end
 
         it { expect(response.status).to eq(403) }
       end
@@ -68,7 +67,7 @@ describe TypesController, type: :controller do
 
     describe 'GET edit' do
       describe 'the access should be restricted' do
-        before { get 'edit' }
+        before do get 'edit' end
 
         it { expect(response.status).to eq(403) }
       end
@@ -76,7 +75,7 @@ describe TypesController, type: :controller do
 
     describe 'POST create' do
       describe 'the access should be restricted' do
-        before { post 'create' }
+        before do post 'create' end
 
         it { expect(response.status).to eq(403) }
       end
@@ -84,7 +83,7 @@ describe TypesController, type: :controller do
 
     describe 'DELETE destroy' do
       describe 'the access should be restricted' do
-        before { delete 'destroy' }
+        before do delete 'destroy' end
 
         it { expect(response.status).to eq(403) }
       end
@@ -92,7 +91,7 @@ describe TypesController, type: :controller do
 
     describe 'POST update' do
       describe 'the access should be restricted' do
-        before { post 'update' }
+        before do post 'update' end
 
         it { expect(response.status).to eq(403) }
       end
@@ -100,7 +99,7 @@ describe TypesController, type: :controller do
 
     describe 'POST move' do
       describe 'the access should be restricted' do
-        before { post 'move' }
+        before do post 'move' end
 
         it { expect(response.status).to eq(403) }
       end
@@ -115,13 +114,13 @@ describe TypesController, type: :controller do
     end
 
     describe 'GET index' do
-      before { get 'index' }
+      before do get 'index' end
       it { expect(response).to be_success }
       it { expect(response).to render_template 'index' }
     end
 
     describe 'GET new' do
-      before { get 'new' }
+      before do get 'new' end
       it { expect(response).to be_success }
       it { expect(response).to render_template 'new' }
     end
@@ -182,7 +181,7 @@ describe TypesController, type: :controller do
         it { expect(response).to be_redirect }
         it { expect(response).to redirect_to(types_path) }
         it 'should have the copied workflows' do
-          expect(Type.find_by_name('New type').workflows.count).to eq(existing_type.workflows.count)
+          expect(::Type.find_by(name: 'New type').workflows.count).to eq(existing_type.workflows.count)
         end
       end
     end
@@ -216,7 +215,7 @@ describe TypesController, type: :controller do
         it { expect(response).to be_redirect }
         it { expect(response).to redirect_to(types_path) }
         it 'should be renamed' do
-          expect(Type.find_by_name('My type renamed').id).to eq(type.id)
+          expect(::Type.find_by(name: 'My type renamed').id).to eq(type.id)
         end
       end
 
@@ -230,7 +229,7 @@ describe TypesController, type: :controller do
         it { expect(response).to be_redirect }
         it { expect(response).to redirect_to(types_path) }
         it 'should have no projects assigned' do
-          expect(Type.find_by_name('My type').projects.count).to eq(0)
+          expect(::Type.find_by(name: 'My type').projects.count).to eq(0)
         end
       end
     end
@@ -247,7 +246,7 @@ describe TypesController, type: :controller do
       it { expect(response).to be_redirect }
       it { expect(response).to redirect_to(types_path) }
       it 'should have the position updated' do
-        expect(Type.find_by_name('My type').position).to eq(2)
+        expect(::Type.find_by(name: 'My type').position).to eq(2)
       end
     end
 
@@ -269,7 +268,7 @@ describe TypesController, type: :controller do
           expect(flash[:notice]).to eq(I18n.t(:notice_successful_delete))
         end
         it 'should not be present in the database' do
-          expect(Type.find_by_name('My type')).to eq(nil)
+          expect(::Type.find_by(name: 'My type')).to eq(nil)
         end
       end
 
@@ -297,7 +296,7 @@ describe TypesController, type: :controller do
           expect(flash[:error]).to eq(I18n.t(:error_can_not_delete_type))
         end
         it 'should be present in the database' do
-          expect(Type.find_by_name('My type 2').id).to eq(type2.id)
+          expect(::Type.find_by(name: 'My type 2').id).to eq(type2.id)
         end
       end
 

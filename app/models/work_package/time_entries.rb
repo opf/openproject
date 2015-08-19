@@ -45,14 +45,16 @@ module WorkPackage::TimeEntries
         true
         # nothing to do
       when 'nullify'
+        work_packages = Array(work_packages)
         WorkPackage.update_time_entries(work_packages, 'work_package_id = NULL')
       when 'reassign'
+        work_packages = Array(work_packages)
         reassign_to = WorkPackage.includes(:project)
-                      .where(Project.allowed_to_condition(user, :edit_time_entries))
-                      .find_by_id(to_do[:reassign_to_id])
+                      .merge(Project.allowed_to(user, :edit_time_entries))
+                      .find_by(id: to_do[:reassign_to_id])
 
         if reassign_to.nil?
-          Array(work_packages).each do |wp|
+          work_packages.each do |wp|
             wp.errors.add(:base, :is_not_a_valid_target_for_time_entries, id: to_do[:reassign_to_id])
           end
 
@@ -66,7 +68,7 @@ module WorkPackage::TimeEntries
     end
 
     def update_time_entries(work_packages, action)
-      TimeEntry.update_all(action, ['work_package_id IN (?)', work_packages])
+      TimeEntry.where(['work_package_id IN (?)', work_packages.map(&:id)]).update_all(action)
     end
   end
 end

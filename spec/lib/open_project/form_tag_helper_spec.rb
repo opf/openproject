@@ -129,9 +129,9 @@ describe OpenProject::FormTagHelper, type: :helper do
       end
 
       it 'should strip any given inline HTML from the title tag (with block)' do
-        label = helper.styled_label_tag('field') do
+        label = helper.styled_label_tag('field') {
           helper.content_tag :span, 'Sif'
-        end
+        }
         expect(label).to be_html_eql(%{
           <label for="field" class="form--label" title="Sif"><span>Sif</span></label>
         })

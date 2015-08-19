@@ -31,9 +31,9 @@ require 'spec_helper'
 module OpenProject
   module Themes
     describe ThemeFinder do
-      before { ThemeFinder.clear_themes }
+      before do ThemeFinder.clear_themes end
       # clear theme state after we are finished so that we do not disturb following tests
-      after(:all) { ThemeFinder.clear_themes }
+      after(:all) do ThemeFinder.clear_themes end
 
       describe '.themes' do
         it 'returns all instances of descendants of themes' do
@@ -66,9 +66,9 @@ module OpenProject
 
       describe '.registered_themes' do
         it 'returns a hash of themes with their identifiers as keys' do
-          theme = Theme.new_theme do |theme|
+          theme = Theme.new_theme { |theme|
             theme.identifier = :new_theme
-          end
+          }
           expect(ThemeFinder.registered_themes).to include new_theme: theme
         end
       end
@@ -82,9 +82,9 @@ module OpenProject
 
         it 'clears the cache successfully' do
           ThemeFinder.registered_themes # fill the cache
-          theme = Theme.new_theme do |theme|
+          theme = Theme.new_theme { |theme|
             theme.identifier = :new_theme
-          end
+          }
           expect(ThemeFinder.registered_themes).to include new_theme: theme
         end
 
@@ -155,9 +155,9 @@ module OpenProject
 
       describe '.clear_cache' do
         it 'removes the theme from the registered themes list and clears the cache' do
-          theme = Theme.new_theme do |theme|
+          theme = Theme.new_theme { |theme|
             theme.identifier = :new_theme
-          end
+          }
           ThemeFinder.registered_themes # fill the cache
           ThemeFinder.forget_theme(theme)
           expect(ThemeFinder.registered_themes).not_to include new_theme: theme
@@ -185,9 +185,9 @@ module OpenProject
         end
 
         it 'clears the registered themes cache' do
-          theme = Theme.new_theme do |theme|
+          theme = Theme.new_theme { |theme|
             theme.identifier = :new_theme
-          end
+          }
           ThemeFinder.registered_themes # fill the cache
           ThemeFinder.clear_themes
           expect(ThemeFinder.registered_themes).not_to include new_theme: theme
@@ -200,7 +200,7 @@ module OpenProject
             theme.identifier = :new_theme
           end
           themes = []
-          ThemeFinder.each { |theme| themes << theme.identifier }
+          ThemeFinder.each do |theme| themes << theme.identifier end
           expect(themes).to eq [:new_theme]
         end
       end

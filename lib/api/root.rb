@@ -89,6 +89,10 @@ module API
         end
       end
 
+      def set_localization
+        SetLocalizationService.new(User.current, env['HTTP_ACCEPT_LANGUAGE']).call
+      end
+
       def logged_in?
         # An admin SystemUser is anonymous but still a valid user to be logged in.
         current_user && (current_user.admin? || !current_user.anonymous?)
@@ -130,16 +134,15 @@ module API
         raise ArgumentError if projects.nil? && !global
         projects = Array(projects)
 
-        authorized = permissions.any? do |permission|
-          allowed_condition = Project.allowed_to_condition(user, permission)
-          allowed_projects = Project.where(allowed_condition)
+        authorized = permissions.any? { |permission|
+          allowed_projects = Project.allowed_to(user, permission)
 
           if global
             allowed_projects.any?
           else
             !(allowed_projects & projects).empty?
           end
-        end
+        }
 
         raise API::Errors::Unauthorized unless authorized
         authorized
@@ -178,6 +181,7 @@ module API
     # run authentication before each request
     before do
       authenticate
+      set_localization
     end
 
     version 'v3', using: :path do

@@ -33,7 +33,7 @@ describe 'CustomFieldFormat' do # TODO: what is this?
     @project = FactoryGirl.create :valid_project
     role   = FactoryGirl.create :role, permissions: [:view_work_packages, :edit_work_packages]
     @users = FactoryGirl.create_list(:user, 5)
-    @users.each { |user| @project.add_member!(user, role) }
+    @users.each do |user| @project.add_member!(user, role) end
     @issue = FactoryGirl.create :work_package,
                                 project: @project,
                                 author: @users.first,

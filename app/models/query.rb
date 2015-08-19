@@ -37,7 +37,9 @@ class Query < ActiveRecord::Base
 
   belongs_to :project
   belongs_to :user
-  has_one :query_menu_item, class_name: 'MenuItems::QueryMenuItem', dependent: :delete, order: 'name', foreign_key: 'navigatable_id'
+  has_one :query_menu_item, -> { order('name') },
+          class_name: 'MenuItems::QueryMenuItem',
+          dependent: :delete, foreign_key: 'navigatable_id'
   serialize :filters, Queries::WorkPackages::FilterSerializer
   serialize :column_names
   serialize :sort_criteria, Array
@@ -61,7 +63,7 @@ class Query < ActiveRecord::Base
   @@available_columns = [
     QueryColumn.new(:id, sortable: "#{WorkPackage.table_name}.id", groupable: false),
     QueryColumn.new(:project, sortable: "#{Project.table_name}.name", groupable: true),
-    QueryColumn.new(:type, sortable: "#{Type.table_name}.position", groupable: true),
+    QueryColumn.new(:type, sortable: "#{::Type.table_name}.position", groupable: true),
     QueryColumn.new(:parent, sortable: ["#{WorkPackage.table_name}.root_id", "#{WorkPackage.table_name}.lft ASC"], default_order: 'desc'),
     QueryColumn.new(:status, sortable: "#{Status.table_name}.position", groupable: true),
     QueryColumn.new(:priority, sortable: "#{IssuePriority.table_name}.position", default_order: 'desc', groupable: true),
@@ -190,8 +192,8 @@ class Query < ActiveRecord::Base
     @available_columns = ::Query.available_columns
     @available_columns += (project ?
                             project.all_work_package_custom_fields :
-                            WorkPackageCustomField.find(:all)
-                           ).map { |cf| ::QueryCustomFieldColumn.new(cf) }
+                            WorkPackageCustomField.all
+                          ).map { |cf| ::QueryCustomFieldColumn.new(cf) }
     if WorkPackage.done_ratio_disabled?
       @available_columns.select! { |column| column.name != :done_ratio }.length
     end
@@ -326,7 +328,7 @@ class Query < ActiveRecord::Base
     elsif project
       project_clauses << "#{Project.table_name}.id = %d" % project.id
     end
-    project_clauses <<  WorkPackage.visible_condition(User.current)
+    project_clauses << WorkPackage.visible_condition(User.current)
     project_clauses.join(' AND ')
   end
 
@@ -386,7 +388,7 @@ class Query < ActiveRecord::Base
           groups = Group.all
           operator = '!' # Override the operator since we want to find by assigned_to
         else
-          groups = Group.find_all_by_id(values)
+          groups = Group.where(id: values)
         end
         groups ||= []
         members_of_groups = groups.inject([]) {|user_ids, group|
@@ -405,7 +407,7 @@ class Query < ActiveRecord::Base
         elsif operator == '!*' # No role
           operator = '!' # Override the operator since we want to find by assigned_to
         else
-          roles = roles.find_all_by_id(values)
+          roles = roles.where(id: values)
         end
         roles ||= []
 
@@ -428,7 +430,6 @@ class Query < ActiveRecord::Base
         sql << '(' + sql_for_field(field, operator, values, db_table, db_field) + ')'
       end
       filters_clauses << sql
-
     end if filters.present? and valid?
 
     (filters_clauses << project_statement).join(' AND ')
@@ -454,8 +455,9 @@ class Query < ActiveRecord::Base
             .order(options[:order])
             .limit(options[:limit])
             .offset(options[:offset])
+            .references(:users)
 
-    query.find :all
+    query
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end
@@ -557,5 +559,9 @@ class Query < ActiveRecord::Base
       s << ("#{table}.#{field} <= '%s'" % [connection.quoted_date((Date.today + to).to_time.end_of_day)])
     end
     s.join(' AND ')
+  end
+
+  def connection
+    self.class.connection
   end
 end

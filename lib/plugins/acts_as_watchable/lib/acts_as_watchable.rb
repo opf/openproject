@@ -54,12 +54,12 @@ module Redmine
         def acts_as_watchable(_options = {})
           return if included_modules.include?(Redmine::Acts::Watchable::InstanceMethods)
           class_eval do
-            has_many :watchers, as: :watchable, dependent: :delete_all
+            has_many :watchers, as: :watchable, dependent: :delete_all, validate: false
             has_many :watcher_users, through: :watchers, source: :user, validate: false
 
-            scope :watched_by, lambda { |user_id|
-              { include: :watchers,
-                conditions: ["#{Watcher.table_name}.user_id = ?", user_id] }
+            scope :watched_by, ->(user_id) {
+              includes(:watchers)
+                .where(watchers: { user_id: user_id })
             }
             attr_protected :watcher_ids, :watcher_user_ids if accessible_attributes.nil?
           end
@@ -99,9 +99,9 @@ module Redmine
                        possible_watcher_ids = watchers.pluck(:id)
 
                        User.where(id: possible_watcher_ids)
-                           .authorize_within(project) do |scope|
-                             scope.select { |user| visible?(user) }
-                           end
+                       .authorize_within(project) do |scope|
+                         scope.select { |user| visible?(user) }
+                       end
                      end
 
           watchers

@@ -96,7 +96,8 @@ describe Message, type: :model do
   it 'should destroy topic' do
     message = Message.find(1)
     board = message.board
-    topics_count, messages_count = board.topics_count, board.messages_count
+    topics_count = board.topics_count
+    messages_count = board.messages_count
 
     assert_difference('Watcher.count', -1) do
       assert message.destroy
@@ -104,7 +105,7 @@ describe Message, type: :model do
     board.reload
 
     # Replies deleted
-    assert Message.find_all_by_parent_id(1).empty?
+    assert Message.where(parent_id: 1).empty?
     # Checks counters
     assert_equal topics_count - 1, board.topics_count
     assert_equal messages_count - 3, board.messages_count
@@ -114,7 +115,8 @@ describe Message, type: :model do
   it 'should destroy reply' do
     message = Message.find(5)
     board = message.board
-    topics_count, messages_count = board.topics_count, board.messages_count
+    topics_count = board.topics_count
+    messages_count = board.messages_count
     assert message.destroy
     board.reload
 

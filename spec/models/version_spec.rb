@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe Version, type: :model do
-
   subject(:version) { FactoryGirl.build(:version, name: 'Test Version') }
 
   it { is_expected.to be_valid }
@@ -64,21 +63,21 @@ describe Version, type: :model do
       version.sharing = 'system'
       version.save!
 
-      expect(Version.systemwide.all).to match_array [version]
+      expect(Version.systemwide).to match_array [version]
     end
 
     it 'is empty if the version is not shared' do
       version.sharing = 'none'
       version.save!
 
-      expect(Version.systemwide.all).to be_empty
+      expect(Version.systemwide).to be_empty
     end
 
     it 'is empty if the version is shared with the project hierarchy' do
       version.sharing = 'hierarchy'
       version.save!
 
-      expect(Version.systemwide.all).to be_empty
+      expect(Version.systemwide).to be_empty
     end
   end
 

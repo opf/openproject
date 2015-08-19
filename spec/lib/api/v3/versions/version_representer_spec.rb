@@ -42,7 +42,6 @@ describe ::API::V3::Versions::VersionRepresenter do
     it { is_expected.to include_json('Version'.to_json).at_path('_type') }
 
     describe 'links' do
-
       it { is_expected.to have_json_type(Object).at_path('_links') }
 
       describe 'to self' do

@@ -92,7 +92,7 @@ describe Group, type: :model do
 
   it 'should roles removed when removing user from group' do
     assert @user.member_of?(@project)
-    @user.groups.clear
+    @user.groups.destroy_all
     @user.reload
     @project.reload
     assert !@user.member_of?(@project)

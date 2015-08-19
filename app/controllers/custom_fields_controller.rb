@@ -36,7 +36,7 @@ class CustomFieldsController < ApplicationController
   before_filter :blank_translation_attributes_as_nil, only: [:create, :update]
 
   def index
-    @custom_fields_by_type = CustomField.find(:all).group_by { |f| f.class.name }
+    @custom_fields_by_type = CustomField.all.group_by { |f| f.class.name }
     @tab = params[:tab] || 'WorkPackageCustomField'
   end
 
@@ -109,6 +109,6 @@ class CustomFieldsController < ApplicationController
   end
 
   def find_types
-    @types = Type.find(:all, order: 'position')
+    @types = ::Type.order('position')
   end
 end
