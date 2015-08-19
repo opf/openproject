@@ -44,4 +44,45 @@ See doc/COPYRIGHT.rdoc for more details.
     </tr>
   <% end %>
 </table>
+
+<%= content_tag :h3, I18n.t('label_system_storage') %>
+
+<% @storage_information.each_with_index do  |(_,entries), i| %>
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"><%= l(:label_storage_group, identifier: i + 1) %></h3>
+    </div>
+  </div>
+  <dl class="attributes-key-value">
+    <dt class="attributes-key-value--key"><%= l(:label_storage_for) %></dt>
+    <dd class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <p>
+          <% entries[:labels].each do |l| %>
+            <%= l %>
+            <br/>
+          <% end %>
+        </p>
+      </div>
+    </dd>
+    <dt class="attributes-key-value--key"><%= l(:label_storage_free_space) %></dt>
+    <dd class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span><%= number_to_human_size(entries[:data][:free], precision: 2) %></span>
+      </div>
+    </dd>
+    <dt class="attributes-key-value--key"><%= l(:label_storage_used_space) %></dt>
+    <dd class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span>
+          <%= number_to_human_size(entries[:data][:used], precision: 2) %>
+          (<%= entries[:data][:percent_used].round(2) %> %)
+        </span>
+      </div>
+    </dd>
+  </dl>
+</div>
+<% end %>
+
 <%= call_hook(:view_admin_info_bottom) %>

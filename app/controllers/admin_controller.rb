@@ -93,6 +93,8 @@ class AdminController < ApplicationController
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_file_repository_writable, repository_writable]
     ]
+
+    @storage_information = OpenProject::Storage.mount_information
   end
 
   def default_breadcrumb
