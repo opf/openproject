@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Group, type: :model do
+RSpec.describe Group, type: :model do
   before do
     @group = FactoryGirl.create :group
     @member = FactoryGirl.build :member

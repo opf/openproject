@@ -29,7 +29,7 @@
 
 require 'legacy_spec_helper'
 
-describe Redmine::WikiFormatting::Textile::Formatter do
+RSpec.describe Redmine::WikiFormatting::Textile::Formatter do
   before do
     @formatter = Redmine::WikiFormatting::Textile::Formatter
   end

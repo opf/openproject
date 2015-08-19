@@ -144,9 +144,8 @@ group :test do
   gem 'rack-test', '~> 0.6.2'
   gem 'shoulda-context', '~> 1.2'
 
-  gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"
-  gem "factory_girl_rails", "~> 4.5"
+  gem "factory_girl_rails", "~> 4.5", :require => false
   gem 'cucumber-rails', "~> 1.4.2", :require => false
   gem 'rack_session_access'
   # restrict because in version 1.3 a lot of tests using acts as journalized
@@ -159,18 +158,20 @@ group :test do
   gem 'rspec-rails', '~> 3.3.0', group: :development
   gem 'rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
+  # We need the legacy formatters for internal CI scripts
   gem 'rspec-legacy_formatters'
   gem 'capybara', '~> 2.4.4'
   gem 'capybara-screenshot', '~> 1.0.4'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
   gem 'capybara-ng', '~> 0.2.1'
   gem 'selenium-webdriver', '~> 2.46.2'
+  gem 'capybara-webkit'
   gem 'timecop', '~> 0.7.1'
 
   gem 'rb-readline', "~> 0.5.1" # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
-  gem 'simplecov', '0.8.0.pre'
+  gem 'simplecov', '0.8.0.pre', require: false
   gem "shoulda-matchers", '~> 2.8', require: nil
   gem "json_spec"
   gem "activerecord-tableless", "~> 1.0"
@@ -189,6 +190,7 @@ group :development do
   gem 'faker'
   gem 'quiet_assets'
   gem 'rubocop', '~> 0.32'
+  gem 'parallel_tests'
 end
 
 group :development, :test do

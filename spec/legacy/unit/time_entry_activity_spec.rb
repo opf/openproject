@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe TimeEntryActivity, type: :model do
+RSpec.describe TimeEntryActivity, type: :model do
   include MiniTest::Assertions # refute
 
   fixtures :all

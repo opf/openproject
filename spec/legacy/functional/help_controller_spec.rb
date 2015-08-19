@@ -29,7 +29,7 @@
 
 require 'legacy_spec_helper'
 
-describe HelpController, type: :controller do
+RSpec.describe HelpController, type: :controller do
   render_views
 
   specify 'renders wiki_syntax properly' do

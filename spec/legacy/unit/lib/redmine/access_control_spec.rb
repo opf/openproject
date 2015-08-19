@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Redmine::AccessControl do
+RSpec.describe Redmine::AccessControl do
   before do
     @access_module = Redmine::AccessControl
   end

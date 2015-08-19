@@ -83,8 +83,7 @@ unless ARGV.any? { |a| a =~ /\Agems/ } # Don't load anything when running the ge
             opts += args[:options].split(/\s+/) if args[:options]
 
             # load feature support files from Rails root
-            support_files = ['-r', Shellwords.escape(File.join(Rails.root, 'features'))]
-            support_files += get_plugin_features(prefix = '-r')
+            support_files = get_plugin_features(prefix = '-r')
 
             t.cucumber_opts = opts + support_files + features
 
@@ -99,6 +98,17 @@ unless ARGV.any? { |a| a =~ /\Agems/ } # Don't load anything when running the ge
       define_cucumber_task(:plugins, 'Run plugin features', [:options])
       define_cucumber_task(:all, 'Run core and plugin features', [:options])
       define_cucumber_task(:custom, 'Run features selected via features argument', [:features])
+
+
+      # Define custom tasks to be used for travis build matrix to run the matrix task use
+      #    rake cucumber:matrix\['_base'\]
+      task :matrix, :modules do |t, args|
+        Cucumber::Rake::Task.new(run: ['db:test:prepare', 'assets:webpack']) do |t|
+          t.cucumber_opts = "features/_#{args[:modules]} --format progress --tags ~@wip"
+        end
+        Rake::Task[:run].invoke
+      end
+
     end
 
     desc 'Alias for cucumber:ok'

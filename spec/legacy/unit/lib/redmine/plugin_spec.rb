@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Redmine::Plugin do
+RSpec.describe Redmine::Plugin do
   before do
     @klass = Redmine::Plugin
     # In case some real plugins are installed

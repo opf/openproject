@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe EnumerationsController, type: :controller do
   before { allow(controller).to receive(:require_admin).and_return(true) }

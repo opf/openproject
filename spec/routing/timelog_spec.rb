@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe TimelogController, type: :routing do
   it 'should connect GET /work_packages/:work_package_id/time_entries/new to timelog#new' do

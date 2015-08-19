@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe WorkPackagesHelper, type: :helper do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }

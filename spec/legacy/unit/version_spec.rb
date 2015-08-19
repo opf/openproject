@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Version, type: :model do
+RSpec.describe Version, type: :model do
   fixtures :all
 
   it 'should create' do
@@ -162,8 +162,8 @@ describe Version, type: :model do
   context '#behind_schedule?' do
     before do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = Project.generate!(identifier: 'test0')
-      @project.types << Type.generate!
+      @project = FactoryGirl.create(:project, identifier: 'test0')
+      @project.types << FactoryGirl.create(:type)
 
       (@version = Version.new.tap do |v|
         v.force_attributes = { project: @project, effective_date: nil, name: 'test' }

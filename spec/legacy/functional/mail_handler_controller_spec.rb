@@ -26,10 +26,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
-require 'mail_handler_controller'
 
-describe MailHandlerController, type: :controller do
+require 'legacy_spec_helper'
+
+RSpec.describe MailHandlerController, type: :controller do
   fixtures :all
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures/mail_handler'

@@ -37,6 +37,16 @@ module LoginSteps
       click_button translate('t:button_login')
     end
   end
+
+  def login_with_autologin(login, password)
+    visit '/login'
+    within('#login-form') do
+      fill_in User.human_attribute_name(:login), with: login
+      fill_in User.human_attribute_name(:password), with: password
+      check 'autologin'
+      click_button translate('t:button_login')
+    end
+  end
 end
 
 World(LoginSteps)

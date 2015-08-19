@@ -26,10 +26,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
-require 'application_controller'
 
-describe ApplicationController, type: :controller do
+require 'legacy_spec_helper'
+
+RSpec.describe ApplicationController, type: :controller do
   include Redmine::I18n
 
   it 'should call hook mixed in' do

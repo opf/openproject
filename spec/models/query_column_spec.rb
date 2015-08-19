@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe ::QueryColumn, type: :model do
   let(:instance) { QueryColumn.new(:query_column) }

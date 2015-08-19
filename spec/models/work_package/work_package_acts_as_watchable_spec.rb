@@ -26,9 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-require 'support/shared/acts_as_watchable'
+require 'rails_helper'
 
 describe WorkPackage, type: :model do
   let(:project) { FactoryGirl.create(:project) }

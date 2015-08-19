@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
+require 'rails_helper'
 
 describe Timeline, type: :model do
   describe 'helper methods for creation' do

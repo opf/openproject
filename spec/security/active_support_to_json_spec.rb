@@ -35,7 +35,7 @@
 #
 # It should be safe to remove this when OP is on rails >= 4.1
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe ActiveSupport do
   active_support_default = ActiveSupport.escape_html_entities_in_json

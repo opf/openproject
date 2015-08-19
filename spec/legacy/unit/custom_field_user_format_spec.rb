@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe 'CustomFieldFormat' do # TODO: what is this?
+RSpec.describe 'CustomFieldFormat' do # TODO: what is this?
   before do
     @project = FactoryGirl.create :valid_project
     role   = FactoryGirl.create :role, permissions: [:view_work_packages, :edit_work_packages]

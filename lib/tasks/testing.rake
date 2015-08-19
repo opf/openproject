@@ -78,61 +78,10 @@ namespace :test do
         Rake::Task["test:scm:setup:#{scm}"].execute
       end
     end
-
-    Rake::TestTask.new(units: 'db:test:prepare') do |t|
-      t.libs << 'test'
-      t.verbose = true
-      t.test_files = FileList['test/unit/repository*_test.rb'] + FileList['test/unit/lib/redmine/scm/**/*_test.rb']
-    end
-    Rake::Task['test:scm:units'].comment = 'Run the scm unit tests'
-
-    Rake::TestTask.new(functionals: 'db:test:prepare') do |t|
-      t.libs << 'test'
-      t.verbose = true
-      t.test_files = FileList['test/functional/repositories*_test.rb']
-    end
-    Rake::Task['test:scm:functionals'].comment = 'Run the scm functional tests'
   end
 
   desc 'runs all tests'
   namespace :suite do
-    task run: [:cucumber, :spec, :test]
-  end
-end
-
-task('spec').clear
-task('spec:legacy').clear
-
-desc 'Run all specs in spec directory (excluding plugin specs)'
-task spec: %w(spec:core spec:legacy)
-
-namespace :spec do
-  desc 'Run the code examples in spec, excluding legacy'
-  begin
-    require 'rspec/core/rake_task'
-    RSpec::Core::RakeTask.new(core: 'spec:prepare') do |t|
-      t.exclude_pattern = 'spec/legacy/**/*_spec.rb'
-    end
-
-    desc 'Run the code examples in spec/legacy'
-    task legacy: %w(legacy:unit legacy:functional legacy:integration)
-    namespace :legacy do
-      %w(unit functional integration).each do |type|
-        desc "Run the code examples in spec/legacy/#{type}"
-        RSpec::Core::RakeTask.new(type => 'spec:prepare') do |t|
-          t.pattern = "spec/legacy/#{type}/**/*_spec.rb"
-          t.exclude_pattern = ''
-        end
-      end
-    end
-  rescue LoadError
-    # when you bundle without development and test (e.g. to create a deployment
-    # artefact) still all tasks get loaded. To avoid an error we rescue here.
-  end
-end
-
-%w(test spec).each do |type|
-  if Rake::Task.task_defined?("#{type}:prepare")
-    Rake::Task["#{type}:prepare"].enhance(['assets:webpack'])
+    task run: [:cucumber, :spec]
   end
 end

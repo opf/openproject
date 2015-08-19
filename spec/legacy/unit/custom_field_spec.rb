@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe CustomField, type: :model do
+RSpec.describe CustomField, type: :model do
   it 'should create' do
     field = UserCustomField.new(name: 'Money money money', field_format: 'float')
     assert field.save

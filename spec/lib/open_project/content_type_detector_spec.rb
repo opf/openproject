@@ -55,7 +55,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe OpenProject::ContentTypeDetector do
   it 'gives a sensible default when the name is empty' do

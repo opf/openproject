@@ -55,7 +55,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe OpenProject::Files do
   describe 'build_uploaded_file' do

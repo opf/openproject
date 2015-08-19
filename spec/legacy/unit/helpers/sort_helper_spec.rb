@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe SortHelper, type: :helper do
+RSpec.describe SortHelper, type: :helper do
   include SortHelper
 
   before do

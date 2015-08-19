@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Redmine::MenuManager::MenuHelper, type: :helper do
+RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
   include Redmine::MenuManager::MenuHelper
   include ActionDispatch::Assertions::SelectorAssertions
   fixtures :all

@@ -26,8 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/shared/become_member'
+require 'rails_helper'
 
 describe Group, type: :model do
   include BecomeMember

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 require 'open_project/configuration/helpers'
 
 describe OpenProject::Configuration::Helpers do

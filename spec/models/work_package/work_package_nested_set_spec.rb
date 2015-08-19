@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 # TODO: this spec is for now targeting each WorkPackage subclass
 # independently. Once only WorkPackage exist, this can safely be consolidated.

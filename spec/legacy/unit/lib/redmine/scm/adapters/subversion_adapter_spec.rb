@@ -29,7 +29,7 @@
 
 require 'legacy_spec_helper'
 
-describe OpenProject::Scm::Adapters::Subversion, type: :model do
+RSpec.describe OpenProject::Scm::Adapters::Subversion, type: :model do
   if repository_configured?('subversion')
     before do
       @adapter = OpenProject::Scm::Adapters::Subversion.new(self.class.subversion_repository_url)

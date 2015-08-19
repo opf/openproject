@@ -28,9 +28,8 @@
 #++
 
 require 'legacy_spec_helper'
-require 'sys_controller'
 
-describe SysController, type: :controller do
+RSpec.describe SysController, type: :controller do
   fixtures :all
 
   before do

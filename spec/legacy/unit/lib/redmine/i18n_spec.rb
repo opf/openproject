@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Redmine::I18n do
+RSpec.describe Redmine::I18n do
   include Redmine::I18n
   include ActionView::Helpers::NumberHelper
 

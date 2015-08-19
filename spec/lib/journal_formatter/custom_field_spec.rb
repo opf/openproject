@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
+require 'rails_helper'
 
 describe OpenProject::JournalFormatter::CustomField do
 

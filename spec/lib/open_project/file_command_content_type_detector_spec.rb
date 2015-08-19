@@ -55,7 +55,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe OpenProject::FileCommandContentTypeDetector do
   it 'returns a content type based on the content of the file' do

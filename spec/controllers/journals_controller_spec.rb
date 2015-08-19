@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe JournalsController, type: :controller do
   let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }

@@ -26,24 +26,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require 'rails_helper'
+require_relative 'page_objects/work_packages_page'
 
-describe 'Select work package row', type: :feature do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:work_package_1) {
-    FactoryGirl.create(:work_package,
-                       project: project)
-  }
-  let(:work_package_2) {
-    FactoryGirl.create(:work_package,
-                       project: project)
-  }
-  let(:work_package_3) {
-    FactoryGirl.create(:work_package,
-                       project: project)
-  }
+describe 'Select work package row', type: :feature, js: true, selenium: true do
+  let(:user)               { FactoryGirl.create(:admin) }
+  let(:project)            { FactoryGirl.create(:project) }
+  let(:work_package_1)     { FactoryGirl.create(:work_package, project: project) }
+  let(:work_package_2)     { FactoryGirl.create(:work_package, project: project) }
+  let(:work_package_3)     { FactoryGirl.create(:work_package, project: project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 
   include_context 'work package table helpers'
@@ -58,7 +49,7 @@ describe 'Select work package row', type: :feature do
     work_packages_page.visit_index
   end
 
-  describe 'Work package row selection', js: true do
+  describe 'Work package row selection' do
     def select_work_package_row(number, mouse_button_behavior = :left)
       element = find(".work-package-table--container tr:nth-of-type(#{number}).issue td.id")
       case mouse_button_behavior

@@ -26,10 +26,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
-require 'enumerations_controller'
 
-describe EnumerationsController, type: :controller do
+require 'legacy_spec_helper'
+
+RSpec.describe EnumerationsController, type: :controller do
   fixtures :all
 
   before do

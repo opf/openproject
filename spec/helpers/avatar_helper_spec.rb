@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe AvatarHelper, type: :helper do
   let(:user) { FactoryGirl.build_stubbed(:user) }

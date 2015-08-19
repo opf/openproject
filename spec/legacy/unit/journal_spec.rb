@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Journal, type: :model do
+RSpec.describe Journal, type: :model do
   fixtures :all
 
   around do |example|
@@ -64,12 +64,12 @@ describe Journal, type: :model do
 
   specify 'creating the initial journal should track the changes from creation' do
     Journal.delete_all
-    @project = Project.generate!
+    @project = FactoryGirl.create(:project)
     issue = WorkPackage.new do |i|
       i.project = @project
       i.subject = 'Test initial journal'
       i.type = @project.types.first
-      i.author = User.generate!
+      i.author = FactoryGirl.create(:user)
       i.description = 'Some content'
     end
 

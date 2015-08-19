@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe 'routing', type: :routing do
+RSpec.describe 'routing', type: :routing do
   context 'activities' do
     it {
       is_expected.to route(:get, '/activity').to(controller: 'activities',

@@ -26,8 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
-require File.expand_path('../../support/permission_specs', __FILE__)
+require 'rails_helper'
 
 describe WorkPackagesController, 'export_work_packages permission', type: :controller do
   include PermissionSpecs

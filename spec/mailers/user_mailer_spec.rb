@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe UserMailer, type: :mailer do
   let(:type_standard) { FactoryGirl.build_stubbed(:type_standard) }

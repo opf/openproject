@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'account routes', type: :routing do
   it '/account/lost_password GET routes to account#lost_password' do

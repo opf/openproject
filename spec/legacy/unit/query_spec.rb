@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Query, type: :model do
+RSpec.describe Query, type: :model do
   fixtures :all
 
   it 'should custom fields for all projects should be available in global queries' do
@@ -448,8 +448,8 @@ describe Query, type: :model do
 
       it 'should have a list of the groups as values' do
         Group.destroy_all # No fixtures
-        group1 = Group.generate!.reload
-        group2 = Group.generate!.reload
+        group1 = FactoryGirl.create(:group).reload
+        group2 = FactoryGirl.create(:group).reload
 
         expected_group_list = [
           [group1.name, group1.id.to_s],
@@ -581,19 +581,19 @@ describe Query, type: :model do
     context "with 'member_of_group' filter" do
       before do
         Group.destroy_all # No fixtures
-        @user_in_group = User.generate!
-        @second_user_in_group = User.generate!
-        @user_in_group2 = User.generate!
-        @user_not_in_group = User.generate!
+        @user_in_group = FactoryGirl.create(:user)
+        @second_user_in_group = FactoryGirl.create(:user)
+        @user_in_group2 = FactoryGirl.create(:user)
+        @user_not_in_group = FactoryGirl.create(:user)
 
-        @group = Group.generate!.reload
+        @group = FactoryGirl.create(:group).reload
         @group.users << @user_in_group
         @group.users << @second_user_in_group
 
-        @group2 = Group.generate!.reload
+        @group2 = FactoryGirl.create(:group).reload
         @group2.users << @user_in_group2
 
-        @empty_group = Group.generate!.reload
+        @empty_group = FactoryGirl.create(:group).reload
       end
 
       it 'should search assigned to for users in the group' do
@@ -646,17 +646,17 @@ describe Query, type: :model do
         Member.delete_all
         Role.delete_all
 
-        @manager_role = Role.generate!(name: 'Manager')
-        @developer_role = Role.generate!(name: 'Developer')
-        @empty_role = Role.generate!(name: 'Empty')
+        @manager_role = FactoryGirl.create(:role, name: 'Manager')
+        @developer_role = FactoryGirl.create(:role, name: 'Developer')
+        @empty_role = FactoryGirl.create(:role, name: 'Empty')
 
-        @project = Project.generate!
-        @manager = User.generate!
-        @developer = User.generate!
-        @boss = User.generate!
-        User.add_to_project(@manager, @project, @manager_role)
-        User.add_to_project(@developer, @project, @developer_role)
-        User.add_to_project(@boss, @project, [@manager_role, @developer_role])
+        @project = FactoryGirl.create(:project)
+        @manager = FactoryGirl.create(:user)
+        @developer = FactoryGirl.create(:user)
+        @boss = FactoryGirl.create(:user)
+        FactoryGirl.create(:member, user: @manager, project: @project, role_ids: [@manager_role.id])
+        FactoryGirl.create(:member, user: @developer, project: @project, role_ids: [@developer_role.id])
+        FactoryGirl.create(:member, user: @boss, project: @project, role_ids: [@manager_role, @developer_role].map(&:id))
       end
 
       it 'should search assigned to for users with the Role' do

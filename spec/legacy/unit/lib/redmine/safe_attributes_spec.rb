@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Redmine::SafeAttributes do
+RSpec.describe Redmine::SafeAttributes do
   class Base
     def attributes=(attrs)
       attrs.each do |key, value|

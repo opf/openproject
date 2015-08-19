@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe WorkPackage, 'rebuilding nested set', type: :model do
   let(:project) { FactoryGirl.create(:valid_project) }

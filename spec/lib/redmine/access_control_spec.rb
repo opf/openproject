@@ -26,7 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
+
 describe Redmine::AccessControl do
   describe '.remove_modules_permissions' do
     let!(:all_former_permissions) { Redmine::AccessControl.permissions }

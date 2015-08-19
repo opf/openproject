@@ -28,9 +28,8 @@
 #++
 
 require 'legacy_spec_helper'
-require 'custom_fields_controller'
 
-describe CustomFieldsController, type: :controller do
+RSpec.describe CustomFieldsController, type: :controller do
   render_views
 
   fixtures :all

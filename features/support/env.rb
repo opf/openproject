@@ -33,10 +33,20 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
-require 'simplecov'
+if ENV['COVERAGE']
+  require 'simplecov'
+  SimpleCov.start 'rails'
+end
+
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
+
 require 'capybara-screenshot/cucumber'
+# Do not create screenshot on ci servers like jenkins, travis, codeship
+if ENV['CI']
+  Capybara::Screenshot.autosave_on_failure = false
+end
+
 require 'capybara-select2'
 require 'factory_girl_rails'
 
@@ -56,19 +66,14 @@ require_relative 'paths.rb'
 # steps to use the XPath syntax.
 Capybara.configure do |config|
   config.default_selector = :css
-  config.default_wait_time = 10
+  config.default_wait_time = 5
   config.exact_options = true
   config.ignore_hidden_elements = true
   config.match = :one
   config.visible_text_only = true
 end
 
-Capybara.register_driver :selenium do |app|
-  require 'selenium/webdriver'
-  Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
-    Selenium::WebDriver::Firefox::Binary.path
-  Capybara::Selenium::Driver.new(app, browser: :firefox)
-end
+Capybara.javascript_driver = :webkit
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how

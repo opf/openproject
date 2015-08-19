@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe 'Application' do
+RSpec.describe 'Application' do
   include Redmine::I18n
 
   fixtures :all

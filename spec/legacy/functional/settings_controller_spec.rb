@@ -28,9 +28,8 @@
 #++
 
 require 'legacy_spec_helper'
-require 'settings_controller'
 
-describe SettingsController, type: :controller do
+RSpec.describe SettingsController, type: :controller do
   fixtures :all
 
   before do

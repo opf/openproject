@@ -26,8 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require 'rails_helper'
+require_relative 'page_objects/work_packages_page'
 
 describe 'Query Saving', type: :feature, js: true do
   let(:project) { FactoryGirl.create :project, identifier: 'test_project', is_public: false }

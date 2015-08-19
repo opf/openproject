@@ -26,10 +26,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
-require 'boards_controller'
 
-describe BoardsController, type: :controller do
+require 'legacy_spec_helper'
+
+RSpec.describe BoardsController, type: :controller do
   fixtures :all
 
   before do

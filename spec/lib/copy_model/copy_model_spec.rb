@@ -26,8 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'tableless_spec_helper'
+require 'rails_helper'
 
 class CopyDummy < Tableless
   include CopyModel

@@ -26,10 +26,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
-require 'wikis_controller'
 
-describe WikisController, type: :controller do
+require 'legacy_spec_helper'
+
+RSpec.describe WikisController, type: :controller do
   fixtures :all
 
   before do

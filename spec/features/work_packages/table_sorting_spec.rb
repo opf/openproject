@@ -26,10 +26,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require 'rails_helper'
+require_relative 'page_objects/work_packages_page'
 
-describe 'Select work package row', type: :feature do
+describe 'Select work package row', type: :feature, js: true, selenium: true do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:work_package_1) do
@@ -61,7 +61,7 @@ describe 'Select work package row', type: :feature do
   include_context 'ui-select helpers'
   include_context 'work package table helpers'
 
-  context 'sorting by version', js: true do
+  context 'sorting by version' do
     before do
       work_package_1.update_attribute(:fixed_version_id, version_2.id)
       work_package_2.update_attribute(:fixed_version_id, version_1.id)

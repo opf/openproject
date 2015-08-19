@@ -9,7 +9,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe RedCloth3 do
   describe '#to_html', 'with one full heading tree starting at h1' do

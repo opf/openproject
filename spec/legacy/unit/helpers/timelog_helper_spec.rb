@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe TimelogHelper, type: :helper do
+RSpec.describe TimelogHelper, type: :helper do
   include TimelogHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::DateHelper

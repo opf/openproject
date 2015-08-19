@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Enumeration, type: :model do
+RSpec.describe Enumeration, type: :model do
   before do
     WorkPackage.delete_all
     @low_priority = FactoryGirl.create :priority_low

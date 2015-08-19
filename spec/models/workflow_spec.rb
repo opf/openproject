@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Workflow, type: :model do
   let(:status_0) { FactoryGirl.create(:status) }

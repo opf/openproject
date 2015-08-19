@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'common/_validation_error', type: :view do
   let(:error_message) { ['Something went completely wrong!'] }

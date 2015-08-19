@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
+require 'rails_helper'
 
 describe PlanningElementTypeColorsController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }

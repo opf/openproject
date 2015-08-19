@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe WikiContent, type: :model do
+RSpec.describe WikiContent, type: :model do
   fixtures :all
 
   before do

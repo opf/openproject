@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe WorkPackage, 'acts_as_searchable', type: :model do
   include BecomeMember

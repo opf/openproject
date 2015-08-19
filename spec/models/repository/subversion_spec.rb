@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Repository::Subversion, type: :model do
   let(:instance) { FactoryGirl.build(:repository_subversion) }

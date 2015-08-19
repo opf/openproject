@@ -27,8 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'support/shared/previews'
+require 'rails_helper'
 
 describe WorkPackagesController, type: :controller do
 

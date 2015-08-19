@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'spec_helper'
+require 'rails_helper'
 
 describe JournalNotificationMailer do
   let(:project) { FactoryGirl.create(:project_with_types) }
@@ -165,7 +165,7 @@ describe JournalNotificationMailer do
     context 'work_package_priority_updated' do
       before do
         work_package.add_journal(user)
-        work_package.priority = IssuePriority.generate!
+        work_package.priority = FactoryGirl.create(:issue_priority)
         work_package.save!(validate: false)
       end
 

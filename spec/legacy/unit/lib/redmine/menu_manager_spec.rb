@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Redmine::MenuManager do
+RSpec.describe Redmine::MenuManager do
   context 'MenuManager#map' do
     it 'should be tested'
   end

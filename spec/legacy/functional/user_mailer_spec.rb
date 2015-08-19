@@ -28,7 +28,7 @@
 
 require 'legacy_spec_helper'
 
-describe UserMailer, type: :mailer do
+RSpec.describe UserMailer, type: :mailer do
   include ActionDispatch::Assertions::SelectorAssertions
 
   before do

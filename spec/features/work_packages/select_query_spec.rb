@@ -26,10 +26,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require 'rails_helper'
+require_relative 'page_objects/work_packages_page'
 
-describe 'Query selection', type: :feature do
+describe 'Query selection', type: :feature, js: true, selenium: true do
   let(:project) { FactoryGirl.create :project, identifier: 'test_project', is_public: false }
   let(:role) { FactoryGirl.create :role, permissions: [:view_work_packages] }
   let(:current_user) {
@@ -66,14 +66,14 @@ describe 'Query selection', type: :feature do
                                                        visible: false)
     end
 
-    it 'shows the default (status) filter', js: true do
+    it 'shows the default (status) filter' do
       work_packages_page.click_toolbar_button 'Activate Filter'
       expect(work_packages_page.find_filter('status_id')).to have_content('Status')
       expect(work_packages_page.find_filter('status_id'))
         .to have_select('operators-status_id', selected: 'open')
     end
 
-    it 'shows filter count within toggle button', js: true do
+    it 'shows filter count within toggle button' do
       expect(find_button('Activate Filter')).to have_text /1$/
     end
   end
@@ -86,13 +86,13 @@ describe 'Query selection', type: :feature do
                                                        visible: false)
     end
 
-    it 'shows the saved filters', js: true do
+    it 'shows the saved filters' do
       work_packages_page.click_toolbar_button 'Activate Filter'
       expect(work_packages_page.find_filter(filter_1_name)).to have_content(i18n_filter_1_name)
       expect(work_packages_page.find_filter(filter_2_name)).to have_content(i18n_filter_2_name)
     end
 
-    it 'shows filter count within toggle button', js: true do
+    it 'shows filter count within toggle button' do
       expect(find_button('Activate Filter')).to have_text /2$/
     end
   end

@@ -26,10 +26,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
-require 'groups_controller'
 
-describe GroupsController, type: :controller do
+require 'legacy_spec_helper'
+
+RSpec.describe GroupsController, type: :controller do
   fixtures :all
 
   before do

@@ -29,7 +29,7 @@
 
 require 'legacy_spec_helper'
 
-describe 'ApiTest: TokenAuthentication', type: :request do
+RSpec.describe 'ApiTest: TokenAuthentication', type: :request do
   fixtures :all
 
   before do

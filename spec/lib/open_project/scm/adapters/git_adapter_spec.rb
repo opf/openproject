@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe OpenProject::Scm::Adapters::Git do
   let(:url) { Rails.root.join('/tmp/does/not/exist.git').to_s }

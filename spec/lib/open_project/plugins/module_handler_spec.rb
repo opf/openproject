@@ -26,7 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
+
 describe OpenProject::Plugins::ModuleHandler do
   let!(:all_former_permissions) { Redmine::AccessControl.permissions }
 

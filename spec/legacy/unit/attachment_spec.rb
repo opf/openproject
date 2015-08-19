@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Attachment, type: :model do
+RSpec.describe Attachment, type: :model do
   fixtures :all
 
   it 'should create' do

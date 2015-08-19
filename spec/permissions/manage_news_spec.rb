@@ -26,8 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'support/permission_specs'
+require 'rails_helper'
 
 describe NewsController, 'manage_news permission', type: :controller do
   include PermissionSpecs

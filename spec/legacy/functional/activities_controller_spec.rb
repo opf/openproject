@@ -29,7 +29,7 @@
 
 require 'legacy_spec_helper'
 
-describe ActivitiesController, type: :controller do
+RSpec.describe ActivitiesController, type: :controller do
   fixtures :all
 
   render_views

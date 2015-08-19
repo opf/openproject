@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe CustomFieldsHelper, type: :helper do
+RSpec.describe CustomFieldsHelper, type: :helper do
   include OpenProject::FormTagHelper
   include CustomFieldsHelper
   include Redmine::I18n

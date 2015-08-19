@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe ApplicationHelper, type: :helper do
+RSpec.describe ApplicationHelper, type: :helper do
   include WorkPackagesHelper
 
   before do

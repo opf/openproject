@@ -29,7 +29,7 @@
 
 require 'legacy_spec_helper'
 
-describe TimeEntries::ReportsController, type: :controller do
+RSpec.describe TimeEntries::ReportsController, type: :controller do
   render_views
 
   fixtures :all

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe BoardsController, type: :routing do
   it 'should connect GET /projects/:project/boards/:board/move to boards#move' do

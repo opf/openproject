@@ -28,9 +28,8 @@
 #++
 
 require 'legacy_spec_helper'
-require 'search_controller'
 
-describe SearchController, type: :controller do
+RSpec.describe SearchController, type: :controller do
   render_views
 
   fixtures :all

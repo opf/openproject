@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe 'MenuManager' do
+RSpec.describe 'MenuManager' do
   include Redmine::I18n
 
   fixtures :all

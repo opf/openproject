@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Comment, type: :model do
+RSpec.describe Comment, type: :model do
   include MiniTest::Assertions # refute
 
   it 'should validations' do

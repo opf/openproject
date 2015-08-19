@@ -28,9 +28,8 @@
 #++
 
 require 'legacy_spec_helper'
-require 'users_controller'
 
-describe UsersController, type: :controller do
+RSpec.describe UsersController, type: :controller do
   include Redmine::I18n
 
   fixtures :all

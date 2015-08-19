@@ -29,7 +29,7 @@
 
 require 'legacy_spec_helper'
 
-describe 'Layout' do
+RSpec.describe 'Layout' do
   fixtures :all
 
   specify 'browsing to a missing page should render the base layout' do
@@ -56,7 +56,7 @@ describe 'Layout' do
   end
 
   specify 'page titles should be properly escaped' do
-    project = Project.generate(name: 'C&A', is_public: true)
+    project = FactoryGirl.create(:project, name: 'C&A', is_public: true)
 
     with_settings app_title: '<3' do
       get "/projects/#{project.to_param}"

@@ -29,7 +29,7 @@
 
 require 'legacy_spec_helper'
 
-describe Board, type: :model do
+RSpec.describe Board, type: :model do
   fixtures :all
 
   before do

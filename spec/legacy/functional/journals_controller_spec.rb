@@ -26,10 +26,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
-require 'journals_controller'
 
-describe JournalsController, type: :controller do
+require 'legacy_spec_helper'
+
+RSpec.describe JournalsController, type: :controller do
   render_views
 
   fixtures :all

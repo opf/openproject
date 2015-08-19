@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe TimelinesHelper, type: :helper do
   describe '#push_visible_timelines' do

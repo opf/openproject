@@ -28,20 +28,20 @@
 #++
 require 'legacy_spec_helper'
 
-describe Principal, type: :model do
+RSpec.describe Principal, type: :model do
   context '#like' do
     before do
-      Principal.generate!(login: 'login')
-      Principal.generate!(login: 'login2')
+      FactoryGirl.create(:principal, login: 'login')
+      FactoryGirl.create(:principal, login: 'login2')
 
-      Principal.generate!(firstname: 'firstname')
-      Principal.generate!(firstname: 'firstname2')
+      FactoryGirl.create(:principal, firstname: 'firstname')
+      FactoryGirl.create(:principal, firstname: 'firstname2')
 
-      Principal.generate!(lastname: 'lastname')
-      Principal.generate!(lastname: 'lastname2')
+      FactoryGirl.create(:principal, lastname: 'lastname')
+      FactoryGirl.create(:principal, lastname: 'lastname2')
 
-      Principal.generate!(mail: 'mail@example.com')
-      Principal.generate!(mail: 'mail2@example.com')
+      FactoryGirl.create(:principal, mail: 'mail@example.com')
+      FactoryGirl.create(:principal, mail: 'mail2@example.com')
     end
 
     it 'should search login' do
