@@ -161,7 +161,7 @@ class Report::SqlStatement
     join_syntax = 'LEFT OUTER JOIN %1$s ON %1$s.id = %2$s_id'
     list.each do |e|
       case e
-      when Class          then joins << (join_syntax % [table_name_for(e), e.lookup_ancestors.last.model_name.underscore])
+      when Class          then joins << (join_syntax % [table_name_for(e), e.lookup_ancestors.last.model_name.to_s.underscore])
       when / /            then joins << e
       when Symbol, String then joins << (join_syntax % [table_name_for(e), e])
       when Hash           then e.each { |k, v| joins << (join_syntax % [table_name_for(k), field_name_for(v)]) }
