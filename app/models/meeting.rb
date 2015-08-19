@@ -25,13 +25,17 @@ class Meeting < ActiveRecord::Base
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   has_one :agenda, dependent: :destroy, class_name: 'MeetingAgenda'
   has_one :minutes, dependent: :destroy, class_name: 'MeetingMinutes'
-  has_many :contents, class_name: 'MeetingContent', readonly: true
+  has_many :contents, -> { readonly }, class_name: 'MeetingContent'
   has_many :participants, dependent: :destroy, class_name: 'MeetingParticipant'
 
-  default_scope order("#{Meeting.table_name}.start_time DESC")
-  scope :from_tomorrow, conditions: ['start_time >= ?', Date.tomorrow.beginning_of_day]
-  scope :with_users_by_date, order("#{Meeting.table_name}.title ASC")
-    .includes({ participants: :user }, :author)
+  default_scope {
+    order("#{Meeting.table_name}.start_time DESC")
+  }
+  scope :from_tomorrow, -> { where(['start_time >= ?', Date.tomorrow.beginning_of_day]) }
+  scope :with_users_by_date, -> {
+    order("#{Meeting.table_name}.title ASC")
+      .includes({ participants: :user }, :author)
+  }
 
   attr_accessible :title, :location, :start_time, :duration
 
@@ -65,7 +69,7 @@ class Meeting < ActiveRecord::Base
   after_initialize :set_initial_values
 
   User.before_destroy do |user|
-    Meeting.update_all ['author_id = ?', DeletedUser.first.id], ['author_id = ?', user.id]
+    Meeting.where(['author_id = ?', user.id]).update_all ['author_id = ?', DeletedUser.first.id]
   end
 
   def start_date
@@ -112,7 +116,7 @@ class Meeting < ActiveRecord::Base
     changeable_participants = participants.select(&:invited).collect(&:user)
     changeable_participants = changeable_participants + participants.select(&:attended).collect(&:user)
     changeable_participants = changeable_participants + \
-                              project.users.all(include: { memberships: [:roles, :project] }).select { |u| self.visible?(u) }
+                              project.users.includes(memberships: [:roles, :project]).select { |u| self.visible?(u) }
 
     changeable_participants.uniq(&:id)
   end

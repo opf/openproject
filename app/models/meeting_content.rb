@@ -36,7 +36,7 @@ class MeetingContent < ActiveRecord::Base
                 url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o.meeting } }
 
   User.before_destroy do |user|
-    MeetingContent.update_all ['author_id = ?', DeletedUser.first], ['author_id = ?', user.id]
+    MeetingContent.where(['author_id = ?', user.id]).update_all ['author_id = ?', DeletedUser.first]
   end
 
   def editable?
