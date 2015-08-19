@@ -40,7 +40,7 @@ it:
       cost_object: Bilancio
       cost_type:
         one: Tipo di costo
-        other: Cost types
+        other: Tipi di costo
       material_budget_item: Unità
       rate: Tasso
     errors:
@@ -99,44 +99,44 @@ it:
   label_cost_object_new: Nuovo budget
   label_cost_object_plural: Budget
   label_cost_plural: Costi
-  label_cost_report: Report costo
+  label_cost_report: Rapporto costo
   label_cost_type_specific: 'Budget #%{id}: %{name}'
   label_costs_per_page: Costi per pagina
-  label_currency: Currency
-  label_currency_format: Format of currency
-  label_current_default_rate: Current default rate
+  label_currency: Valuta
+  label_currency_format: Formato della valuta
+  label_current_default_rate: Tasso della valuta predefinita
   label_date_on: 'on'
-  label_deleted_cost_types: Deleted cost types
+  label_deleted_cost_types: Tipi di costo eliminati
   label_deliverable: Bilancio
   label_display_cost_entries: Display unit costs
   label_display_time_entries: Display reported hours
-  label_display_types: Display types
-  label_edit: Edit
-  label_fixed_cost_object: Fixed budget
+  label_display_types: Mostra tipi
+  label_edit: Modifica
+  label_fixed_cost_object: Budget fisso
   label_fixed_date: Data fissa
-  label_generic_user: Generic user
+  label_generic_user: Utente generico
   label_greater_or_equal: '>='
-  label_group_by: Group by
-  label_group_by_add: Add grouping field
-  label_hourly_rate: Hourly rate
-  label_include_deleted: Include deleted
-  label_work_package_filter_add: Add work package filter
-  label_kind: Type
+  label_group_by: Raggruppa per
+  label_group_by_add: Aggiungere il campo di raggruppamento
+  label_hourly_rate: Tariffa oraria
+  label_include_deleted: Includi eliminati
+  label_work_package_filter_add: Aggiungi filtro per pacchetto di lavoro
+  label_kind: Tipo
   label_less_or_equal: '<='
   label_log_costs: Log unità di costo
   label_no: 'No'
-  label_option_plural: Options
+  label_option_plural: Opzioni
   label_overall_costs: Costi complessivi
   label_rate: Tasso
   label_rate_plural: Rates
-  label_status_finished: Finished
+  label_status_finished: Terminato
   label_units: Cost units
-  label_user: User
-  label_until: until
+  label_user: Utente
+  label_until: finché
   label_valid_from: Valido dal
   label_variable_cost_object: Variable rate based budget
-  label_view_all_cost_objects: View all budgets
-  label_yes: 'Yes'
+  label_view_all_cost_objects: Mostra tutti i budget
+  label_yes: Si
   notice_cost_object_conflict: WorkPackages must be of the same project.
   notice_no_cost_objects_available: No budgets available.
   notice_something_wrong: Something went wrong. Please try again.
@@ -166,7 +166,7 @@ it:
   text_warning_hidden_elements: "Alcune voci potrebbero sono stati esclusi dall'aggregazione."
   week: settimana
   x_entries:
-    one: 1 entry
+    one: 1 voce
     other: '%{count} voci'
   js:
     text_are_you_sure: Sei sicuro?
