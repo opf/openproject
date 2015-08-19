@@ -2,8 +2,7 @@
 	<accessible-by-keyboard
 	    class="inplace-editing--trigger-container"
 	    span-class="inplace-editing--container"
-	    link-class="inplace-editing--trigger-link"
-	    execute="remove()">
+	    link-class="inplace-editing--trigger-link">
 	    <span class="inplace-edit--read-value" >
 	      <span data-ng-class="{'loading':watcher.loading,'deleting':deleting}">
 					<a ng-href="/users/{{watcher.id}}" title="{{watcher.name}}">
@@ -12,7 +11,7 @@
 					</a>
 				</span>
 	    </span>
-	    <span class="inplace-edit--icon-wrapper">
+	    <span class="inplace-edit--icon-wrapper" data-ng-click="remove()">
 	        <icon-wrapper icon-name="delete">
 	        </icon-wrapper>
 	    </span>
