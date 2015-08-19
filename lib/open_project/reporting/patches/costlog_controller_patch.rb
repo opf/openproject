@@ -25,7 +25,6 @@ module OpenProject::Reporting::Patches
       base.send(:include, InstanceMethods)
 
       base.class_eval do
-        unloadable
 
         alias_method_chain :index, :reports_view
         alias_method_chain :find_optional_project, :own

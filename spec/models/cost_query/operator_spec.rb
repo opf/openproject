@@ -30,13 +30,13 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       sql = CostQuery::SqlStatement.new table
       yield sql if block_given?
       operator.to_operator.modify sql, field, *values
-      ActiveRecord::Base.connection.select_all sql.to_s
+      ActiveRecord::Base.connection.select_all(sql.to_s).to_a
     end
 
     def query_on_entries(field, operator, *values)
       sql = CostQuery::SqlStatement.for_entries
       operator.to_operator.modify sql, field, *values
-      ActiveRecord::Base.connection.select_all sql.to_s
+      ActiveRecord::Base.connection.select_all(sql.to_s).to_a
     end
 
     def create_project(options = {})
@@ -58,7 +58,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       sql = CostQuery::SqlStatement.new 'projects'
       "=".to_operator.modify sql, 'id'
       result = (ActiveRecord::Base.connection.select_all sql.to_s)
-      expect(result.count).to eq(0)
+      expect(result).to be_empty
     end
 
     it "does = for nil" do

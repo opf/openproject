@@ -18,6 +18,25 @@
 #++
 
 OpenProject::Application.routes.draw do
-  match 'projects/:project_id/cost_reports', :controller => 'cost_reports', :project_id => /.+/, :action => 'index'
-  match 'projects/:project_id/cost_reports/:action/:id', :controller => 'cost_reports', :project_id => /.+/
+  scope 'projects/:project_id' do
+    resources :cost_reports, except: :create do
+      collection do
+        match :index, via: [:get, :post]
+      end
+    end
+  end
+
+  resources :cost_reports, except: :create do
+    collection do
+      match :index, via: [:get, :post]
+      post :save_as, action: :create
+      get :drill_down
+      match :available_values, via: [:get, :post]
+      get :display_report_list
+    end
+
+    member do
+      post :rename
+    end
+  end
 end
