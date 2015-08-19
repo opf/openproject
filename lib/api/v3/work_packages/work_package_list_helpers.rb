@@ -116,7 +116,13 @@ module API
               count: count
             }
 
-            # TODO: insert valueLink
+            link = ::API::V3::Utilities::ResourceLinkGenerator.make_link(group)
+            if link
+              group_element[:_links] = {
+                _links: { href: link }
+              }
+            end
+
             if params[:showSums] == 'true'
               group_element[:sums] = format_query_sums results.all_sums_for_group(group)
             end
