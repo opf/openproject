@@ -20,29 +20,26 @@
 # A CostObject is an item that is created as part of the project.  These items
 # contain a collection of work packages.
 class CostObject < ActiveRecord::Base
-  unloadable
-
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
+  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   belongs_to :project
-  has_many :work_packages, :dependent => :nullify
+  has_many :work_packages, dependent: :nullify
 
-  has_many :cost_entries, :through => :work_packages
-  has_many :time_entries, :through => :work_packages
+  has_many :cost_entries, through: :work_packages
+  has_many :time_entries, through: :work_packages
 
   include ActiveModel::ForbiddenAttributesProtection
 
-  acts_as_attachable :after_remove => :attachment_removed
+  acts_as_attachable after_remove: :attachment_removed
 
   acts_as_journalized
 
   acts_as_event type: 'cost-objects',
-                title: Proc.new {|o| "#{l(:label_cost_object)} ##{o.id}: #{o.subject}"},
-                url: Proc.new {|o| {:controller => 'cost_objects', :action => 'show', :id => o.id}}
-
+                title: Proc.new { |o| "#{l(:label_cost_object)} ##{o.id}: #{o.subject}" },
+                url: Proc.new { |o| { controller: 'cost_objects', action: 'show', id: o.id } }
 
   validates_presence_of :subject, :project, :author, :kind, :fixed_date
-  validates_length_of :subject, :maximum => 255
-  validates_length_of :subject, :minimum => 1
+  validates_length_of :subject, maximum: 255
+  validates_length_of :subject, minimum: 1
 
   User.before_destroy do |user|
     CostObject.replace_author_with_deleted_user user
@@ -55,11 +52,11 @@ class CostObject < ActiveRecord::Base
 
   def copy_from(arg)
     if !arg.is_a?(Hash)
-      #turn args into an attributes hash if it is not already (which is the case when called from VariableCostObject)
+      # turn args into an attributes hash if it is not already (which is the case when called from VariableCostObject)
       arg = (arg.is_a?(CostObject) ? arg : self.class.find(arg)).attributes.dup
     end
-    arg.delete("id")
-    self.type = arg.delete("type")
+    arg.delete('id')
+    self.type = arg.delete('type')
     self.attributes = arg
   end
 
@@ -78,10 +75,10 @@ class CostObject < ActiveRecord::Base
     return 0 if version.nil? || version.fixed_work_packages.blank?
 
     version.fixed_work_packages.each do |work_package|
-      work_package.update_attribute(:cost_object_id, self.id)
+      work_package.update_attribute(:cost_object_id, id)
     end
 
-    return version.fixed_work_packages.size
+    version.fixed_work_packages.size
   end
 
   # Change the Cost Object type to another type. Valid types are
@@ -92,7 +89,7 @@ class CostObject < ActiveRecord::Base
     if [FixedCostObject.name, VariableCostObject.name].include?(to)
       self.type = to
       self.save!
-      return CostObject.find(self.id)
+      return CostObject.find(id)
     else
       return self
     end
@@ -119,23 +116,23 @@ class CostObject < ActiveRecord::Base
 
   # Label of the current type for display in GUI.  Virtual accessor that is overriden by subclasses.
   def type_label
-    return l(:label_cost_object)
+    l(:label_cost_object)
   end
 
   # Amount of the budget spent.  Expressed as as a percentage whole number
   def budget_ratio
-    return 0.0 if self.budget.nil? || self.budget == 0.0
-    return ((self.spent / self.budget) * 100).round
+    return 0.0 if budget.nil? || budget == 0.0
+    ((spent / budget) * 100).round
   end
 
   def css_classes
-    return "cost_object"
+    'cost_object'
   end
 
   def self.replace_author_with_deleted_user(user)
     substitute = DeletedUser.first
 
-    self.update_all ['author_id = ?', substitute.id], ['author_id = ?', user.id]
+    update_all ['author_id = ?', substitute.id], ['author_id = ?', user.id]
   end
 
   def to_s

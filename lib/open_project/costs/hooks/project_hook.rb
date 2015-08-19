@@ -18,16 +18,15 @@
 #++
 
 class OpenProject::Costs::Hooks::ProjectHook < Redmine::Hook::ViewListener
-
   # Renders up to two additional table headers to the membership setting
   #
   # Context:
   # * :project => Current project
   #
-  def view_projects_settings_members_table_header(context={})
+  def view_projects_settings_members_table_header(context = {})
     return unless context[:project] && context[:project].module_enabled?(:costs_module)
 
-    result = ""
+    result = ''
     user = User.current
     project = context[:project]
 
@@ -41,12 +40,12 @@ class OpenProject::Costs::Hooks::ProjectHook < Redmine::Hook::ViewListener
   # Context:
   # * :project => Current project
   # * :member => Current Member record
-  render_on :view_projects_settings_members_table_row, :partial => 'hooks/costs/view_projects_settings_members_table_row'
+  render_on :view_projects_settings_members_table_row, partial: 'hooks/costs/view_projects_settings_members_table_row'
 
   # Renders table headers to update the member's billing rate
   # Context:
   # * :project => Current project
-  render_on :view_projects_settings_members_table_header, :partial => 'hooks/costs/view_projects_settings_members_table_header'
+  render_on :view_projects_settings_members_table_header, partial: 'hooks/costs/view_projects_settings_members_table_header'
 
   # TODO: implement  model_project_copy_before_save
 end

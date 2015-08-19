@@ -18,5 +18,5 @@
 #++
 
 class Journal::CostObjectJournal < Journal::BaseJournal
-  self.table_name = "cost_object_journals"
+  self.table_name = 'cost_object_journals'
 end

@@ -42,8 +42,8 @@ describe 'API v3 Work package form resource', type: :request do
     let(:post_path) { api_v3_paths.work_package_form work_package.id }
     let(:valid_params) do
       {
-          _type: 'WorkPackage',
-          lockVersion: work_package.lock_version
+        _type: 'WorkPackage',
+        lockVersion: work_package.lock_version
       }
     end
 
@@ -64,7 +64,7 @@ describe 'API v3 Work package form resource', type: :request do
         shared_examples_for 'having no errors' do
           it {
             expect(subject.body).to be_json_eql({}.to_json)
-                                        .at_path('_embedded/validationErrors')
+              .at_path('_embedded/validationErrors')
           }
         end
 
@@ -86,8 +86,8 @@ describe 'API v3 Work package form resource', type: :request do
           context 'filled' do
             let(:valid_params) do
               {
-                  _type: 'WorkPackage',
-                  lockVersion: work_package.lock_version
+                _type: 'WorkPackage',
+                lockVersion: work_package.lock_version
               }
             end
 
@@ -110,9 +110,9 @@ describe 'API v3 Work package form resource', type: :request do
 
                 it 'should list the budgets' do
                   expect(subject.body).to be_json_eql(budget_link.to_json)
-                                              .at_path("#{links_path}/allowedValues/1/href")
+                    .at_path("#{links_path}/allowedValues/1/href")
                   expect(subject.body).to be_json_eql(other_budget_link.to_json)
-                                              .at_path("#{links_path}/allowedValues/0/href")
+                    .at_path("#{links_path}/allowedValues/0/href")
                 end
               end
 
