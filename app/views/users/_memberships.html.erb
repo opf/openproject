@@ -103,7 +103,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   </td>
                   <%= call_hook(:view_users_memberships_table_row, :user => @user, :membership => membership, :roles => roles, :projects => projects )%>
                 </tr>
-              <% end; reset_cycle %>
+              <% end %>
             </tbody>
           </table>
           <div class="generic-table--header-background"></div>
@@ -114,7 +114,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <div class="generic-table--no-results-container">
           <h2 class="generic-table--no-results-title">
             <i class="icon-info"></i>
-            Nothing to display
+            <%= l(:label_nothing_display) %>
           </h2>
           <div class="generic-table--no-results-description">
             <p class="nodata"><%= l(:label_no_data) %></p>

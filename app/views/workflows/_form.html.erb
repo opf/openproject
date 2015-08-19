@@ -59,15 +59,15 @@ See doc/COPYRIGHT.rdoc for more details.
           </th>
         </tr>
         <tr>
-          <td></td>
+          <th></th>
           <% for new_status in @statuses %>
-            <td >
+            <th>
               <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
                                :class => 'no-decoration-on-hover',
                                :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
                                :alt => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
               <%=h new_status.name %>
-            </td>
+            </th>
           <% end %>
         </tr>
       </thead>
