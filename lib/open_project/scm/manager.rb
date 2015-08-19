@@ -49,6 +49,7 @@ module OpenProject
         # Return all manageable vendors
         def manageable
           enabled.select { |_, vendor| vendor.manageable? }.keys
+        end
 
         ##
         # Return a hash of all managed paths for SCM vendors

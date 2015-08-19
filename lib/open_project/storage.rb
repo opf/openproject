@@ -94,8 +94,7 @@ module OpenProject
           percent_used: stat.percent_used,
           total: stat.bytes_total,
           id: stat.filesystem_id
-        } unless stat.nil?
-
+        }
       rescue Sys::Filesystem::Error => e
         Rails.logger.warn("Can't read storage information on #{dir}: #{e.message}")
       end
