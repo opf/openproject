@@ -88,7 +88,7 @@ class UserMailer < BaseMailer
     references work_package, user
 
     with_locale_for(user) do
-      mail_for_author user, to: user.mail, subject: subject_for_work_package(work_package)
+      mail to: user.mail, subject: subject_for_work_package(work_package)
     end
   end
 
