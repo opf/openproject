@@ -213,21 +213,11 @@ class User < Principal
   end
 
   def self.register_allowance_evaluator(filter)
-    self.registered_allowance_evaluators ||= []
-
     registered_allowance_evaluators << filter
   end
 
-  # replace by class_attribute when on rails 3.x
-  class_eval do
-    def self.registered_allowance_evaluators() nil end
-    def self.registered_allowance_evaluators=(val)
-      singleton_class.class_eval do
-        define_method(:registered_allowance_evaluators) do
-          val
-        end
-      end
-    end
+  def self.registered_allowance_evaluators
+    @@registered_allowance_evaluators ||= []
   end
 
   register_allowance_evaluator OpenProject::PrincipalAllowanceEvaluator::Default
@@ -627,8 +617,6 @@ class User < Principal
   end
 
   def allowed_to_in_project?(action, project, options = {})
-    initialize_allowance_evaluators
-
     # No action allowed on archived projects
     return false unless project.active?
     # No action allowed on disabled modules
@@ -637,11 +625,11 @@ class User < Principal
     return true if admin?
 
     candidates_for_project_allowance(project).any? do |candidate|
-      denied = @registered_allowance_evaluators.any? do |filter|
+      denied = allowance_evaluators.any? do |filter|
         filter.denied_for_project? candidate, action, project, options
       end
 
-      !denied && @registered_allowance_evaluators.any? do |filter|
+      !denied && allowance_evaluators.any? do |filter|
         filter.granted_for_project? candidate, action, project, options
       end
     end
@@ -653,14 +641,13 @@ class User < Principal
     # Admin users are always authorized
     return true if admin?
 
-    initialize_allowance_evaluators
     # authorize if user has at least one membership granting this permission
     candidates_for_global_allowance.any? do |candidate|
-      denied = @registered_allowance_evaluators.any? do |evaluator|
+      denied = allowance_evaluators.any? do |evaluator|
         evaluator.denied_for_global? candidate, action, options
       end
 
-      !denied && @registered_allowance_evaluators.any? do |evaluator|
+      !denied && allowance_evaluators.any? do |evaluator|
         evaluator.granted_for_global? candidate, action, options
       end
     end
@@ -798,18 +785,18 @@ class User < Principal
 
   private
 
-  def initialize_allowance_evaluators
-    @registered_allowance_evaluators ||= self.class.registered_allowance_evaluators.map do |evaluator|
+  def allowance_evaluators
+    @allowance_evaluators ||= self.class.registered_allowance_evaluators.map do |evaluator|
       evaluator.new(self)
     end
   end
 
   def candidates_for_global_allowance
-    @registered_allowance_evaluators.map(&:global_granting_candidates).flatten.uniq
+    allowance_evaluators.map(&:global_granting_candidates).flatten.uniq
   end
 
   def candidates_for_project_allowance(project)
-    @registered_allowance_evaluators.map { |f| f.project_granting_candidates(project) }.flatten.uniq
+    allowance_evaluators.map { |f| f.project_granting_candidates(project) }.flatten.uniq
   end
 
   def former_passwords_include?(password)

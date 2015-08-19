@@ -55,14 +55,14 @@ class WorkPackages::AutoCompletesController < ApplicationController
 
     respond_to do |format|
       format.html do render layout: false end
-      format.any(:xml, :json) { render request.format.to_sym => wp_hashes_with_string }
+      format.any(:xml, :json) { render request.format.to_sym => wp_hashes_with_string(@work_packages) }
     end
   end
 
   private
 
-  def wp_hashes_with_string
-    @work_packages.map do |work_package|
+  def wp_hashes_with_string(work_packages)
+    work_packages.map do |work_package|
       wp_hash = Hash.new
       work_package.attributes.each do |key, value| wp_hash[key] = Rack::Utils.escape_html(value) end
       wp_hash['to_s'] = Rack::Utils.escape_html(work_package.to_s)
@@ -73,9 +73,7 @@ class WorkPackages::AutoCompletesController < ApplicationController
   def find_project
     project_id = (params[:work_package] && params[:work_package][:project_id]) || params[:project_id]
     return nil unless project_id
-    Project.find(project_id)
-  rescue ActiveRecord::RecordNotFound
-    nil
+    Project.find_by_id(project_id)
   end
 
   def determine_scope
