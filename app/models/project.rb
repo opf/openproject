@@ -33,6 +33,7 @@ class Project < ActiveRecord::Base
   extend FriendlyId
 
   include Project::Copy
+  include Project::Storage
 
   # Project statuses
   STATUS_ACTIVE     = 1
@@ -107,9 +108,6 @@ class Project < ActiveRecord::Base
                 url: Proc.new { |o| { controller: '/projects', action: 'show', id: o } },
                 author: nil,
                 datetime: :created_on
-
-  acts_as_countable :required_project_storage,
-                    countable: [:work_packages, :repository]
 
   attr_protected :status
 
@@ -944,24 +942,6 @@ class Project < ActiveRecord::Base
       subproject.send :archive!
     end
     update_attribute :status, STATUS_ARCHIVED
-  end
-
-  def required_storage
-    Rails.cache.fetch("project##{id}/project_storage",
-                      expires_in: self.class.project_storage_expires_in) do
-      count_for(:required_project_storage).first
-    end
-  end
-
-  def self.total_projects_size
-    Rails.cache.fetch('projects/total_projects_size',
-                      expires_in: project_storage_expires_in) do
-      Project.all.map { |p| p.required_storage[:total] }.sum
-    end
-  end
-
-  def self.project_storage_expires_in
-    Setting.project_storage_cache_minutes.to_i.minutes
   end
 
   protected

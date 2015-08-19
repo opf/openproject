@@ -26,17 +26,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%
-  project = form.object
-  storage = project.required_storage
-%>
 
-<% if storage.key?(:total) && storage[:total] > 0 %>
-<div class="form--field">
-  <label class="form--label" for="project_project_type_id" title="<%= l(:label_required_disk_storage) %>"><%= l(:label_required_disk_storage) %></label>
-  <span class="form--field-container">
-    <td align="center"><%= render partial: '/storage/required_storage',
-                                  locals: { storage: storage } %></td>
-  </span>
-</div>
+<% if storage['total'] > 0 %>
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%=l(:label_required_disk_storage)%></legend>
+
+  <% storage['modules'].each do |label, value| %>
+    <%= render partial: 'projects/form/attributes/storage_field',
+               locals: { label: l(label), value: value } %>
+  <% end %>
+  <%# Hide total when there's only one module %>
+  <% if storage['modules'].length > 1 %>
+    <%= render partial: 'projects/form/attributes/storage_field',
+               locals: { label: l(:label_total), value: storage['total'] } %>
+  <% end %>
+</fieldset>
 <% end %>

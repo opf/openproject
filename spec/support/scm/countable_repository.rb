@@ -22,7 +22,9 @@ shared_examples_for 'is a countable repository' do
 
     it 'counts the repository storage automatically' do
       expect(repository.required_storage_bytes).to be == 0
-      expect(repository.required_disk_storage).to be == count
+      expect(repository.update_required_storage).to be true
+      expect(repository.required_storage_bytes).to be == count
+      expect(repository.update_required_storage).to be false
       expect(repository.storage_updated_at).to be >= 1.minute.ago
     end
 
@@ -33,7 +35,8 @@ shared_examples_for 'is a countable repository' do
 
       it 'sucessfuly updates the count to what the adapter returns' do
         expect(repository.required_storage_bytes).to be == 0
-        expect(repository.required_disk_storage).to be == count
+        expect(repository.update_required_storage).to be true
+        expect(repository.required_storage_bytes).to be == count
       end
     end
   end
@@ -41,8 +44,9 @@ shared_examples_for 'is a countable repository' do
   context 'with real counter' do
     it 'counts the repository storage automatically' do
       expect(repository.required_storage_bytes).to be == 0
-      expect(repository.required_disk_storage).to be > 1.kilobyte
+      expect(repository.update_required_storage).to be true
       expect(repository.storage_updated_at).to be >= 1.minute.ago
+      expect(repository.update_required_storage).to be false
     end
   end
 end
@@ -54,6 +58,6 @@ shared_examples_for 'is not a countable repository' do
 
   it 'does not return or update the count' do
     expect(::Scm::StorageUpdaterJob).not_to receive(:new)
-    expect(repository.required_disk_storage).to be_nil
+    expect(repository.update_required_storage).to be false
   end
 end

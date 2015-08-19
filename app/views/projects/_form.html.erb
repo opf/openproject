@@ -48,6 +48,11 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 
   <%= javascript_tag 'observeProjectModules();' %>
+<% else %>
+
+  <%= render partial: "projects/form/required_storage",
+             locals: { project: project, storage: project.count_required_storage } %>
+
 <% end %>
 
 <% if (project.new_record? || project.module_enabled?('work_package_tracking')) && renderTypes %>
