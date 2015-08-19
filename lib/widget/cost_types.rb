@@ -31,11 +31,11 @@ class Widget::CostTypes < Widget::Base
 
   def contents
     content_tag :div do
-      available_cost_type_tabs(@subject).map do |id, label|
-        type_selection = radio_button_tag("unit", id, id == @selected_type_id)
+      available_cost_type_tabs(@subject).sort_by { |id, _| id }.map do |id, label|
+        type_selection = radio_button_tag('unit', id, id == @selected_type_id)
         type_selection += label_tag "unit_#{id}", h(label)
         type_selection
-      end.join("<br />").html_safe
+      end.join('<br />').html_safe
     end
   end
 end

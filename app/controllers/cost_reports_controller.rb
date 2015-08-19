@@ -145,7 +145,7 @@ class CostReportsController < ApplicationController
                  cost_type_filter.values.first.to_i if cost_type_filter
     end
 
-    @unit_id = 0 unless @cost_types.include? @unit_id
+    @unit_id = -1 unless @cost_types.include? @unit_id
   end
 
   # Determine the active cost type, if it is not labor or money, and add a hidden filter to the query
