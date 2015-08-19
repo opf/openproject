@@ -24,12 +24,14 @@ See doc/COPYRIGHT.md for more details.
   <% block_name_id = "my_page_#{block_name}_box_actions" %>
   <% content_for block_name_id do %>
     <div class="box-actions">
+      <% if User.current.allowed_to?(:remove_block, nil, global: true) %>
       <%= link_to_remote l(:button_delete), {
             :confirm => l(:label_confirm_delete),
             :url => { :action => "remove_block", :block => block_name },
             :class => "icon icon-delete"
           }
           %>
+      <% end %>
     </div>
   <% end %>
 
