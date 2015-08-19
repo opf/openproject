@@ -91,7 +91,6 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $t
   hasAttachments = function(workPackage) {
     var existance = $q.defer();
     load(workPackage).then(function(attachments) {
-      console.log(attachments.length);
       existance.resolve(attachments.length > 0);
     });
     return existance.promise;

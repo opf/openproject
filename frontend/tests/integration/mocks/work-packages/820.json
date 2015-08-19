@@ -85,6 +85,9 @@
     },
     "revisions": {
       "href": "/api/v3/work_packages/820/revisions"
+    },
+    "attachments": {
+      "href": "/api/v3/work_packages/820/attachments"
     }
   },
   "id": 820,

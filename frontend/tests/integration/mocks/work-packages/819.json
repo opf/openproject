@@ -137,6 +137,9 @@
     },
     "customField12": {
       "href": null
+    },
+    "attachments": {
+      "href": "/api/v3/work_packages/819/attachments"
     }
   },
   "_embedded": {
