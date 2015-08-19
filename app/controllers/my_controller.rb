@@ -69,7 +69,7 @@ class MyController < ApplicationController
     @pref = @user.pref
     if request.patch?
       @user.attributes = permitted_params.user
-      @user.pref.attributes = params[:pref]
+      @user.pref.attributes = params[:pref] || {}
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       if @user.save
         @user.pref.save
@@ -116,7 +116,7 @@ class MyController < ApplicationController
       @back_url = url_for(params[:back_url])
 
     elsif request.post? || request.put?
-      User.current.pref.attributes = params[:pref]
+      User.current.pref.attributes = params[:pref] || {}
       User.current.pref.save
 
       flash[:notice] = l(:notice_account_updated)
