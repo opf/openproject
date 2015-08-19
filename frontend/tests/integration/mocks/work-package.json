@@ -75,6 +75,9 @@
     "project": {
       "href": "/api/v3/projects/2",
       "title": "Seeded Project"
+    },
+    "revisions": {
+      "href": "/api/v3/work_packages/819/revisions",
     }
   },
   "id": 819,

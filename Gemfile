@@ -49,7 +49,6 @@ gem 'warden-basic_auth', '~> 0.2.1'
 gem 'rails_autolink', '~> 1.1.6'
 gem 'will_paginate', '~> 3.0'
 gem 'acts_as_list', '~> 0.3.0'
-gem 'acts_as_countable', git: "https://github.com/finnlabs/acts_as_countable.git", ref: '2471265'
 
 gem 'friendly_id', '~> 5.1.0'
 

@@ -40,6 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </li>
   <% end %>
+  <%= call_hook(:repositories_navigation_toolbar, { repository: @repository, project: @project }) %>
   <% if User.current.allowed_to?(:manage_repository, @project) %>
     <li class="toolbar-item">
       <%= link_to settings_project_path(@project, tab: 'repository') , class: 'button' do %>

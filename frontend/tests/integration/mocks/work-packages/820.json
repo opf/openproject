@@ -82,6 +82,9 @@
     },
     "schema": {
       "href": "/api/v3/work_packages/schemas/1-7"
+    },
+    "revisions": {
+      "href": "/api/v3/work_packages/820/revisions"
     }
   },
   "id": 820,

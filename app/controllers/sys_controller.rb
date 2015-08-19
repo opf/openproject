@@ -68,8 +68,8 @@ class SysController < ActionController::Base
   end
 
   def update_required_storage
-    update_storage_information(@repository, params[:force] == '1')
-    render nothing: true, status: 200
+    result = update_storage_information(@repository, params[:force] == '1')
+    render text: "Updated: #{result}", status: 200
   end
 
   def fetch_changesets
@@ -118,8 +118,9 @@ class SysController < ActionController::Base
   def update_storage_information(repository, force = false)
     if force
       Delayed::Job.enqueue ::Scm::StorageUpdaterJob.new(repository)
+      true
     else
-      repository.required_disk_storage
+      repository.update_required_storage
     end
   end
 
