@@ -32,6 +32,7 @@
 # This is no conern but it was placed here so that it will be removed together
 # with the rest of the experimental API.
 
+require 'scm/authorization_policy'
 class Scm::SubversionAuthorizationPolicy < Scm::AuthoriziationPolicy
   private
 
