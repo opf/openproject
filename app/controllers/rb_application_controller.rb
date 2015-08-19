@@ -35,8 +35,6 @@
 
 # Base class of all controllers in Backlogs
 class RbApplicationController < ApplicationController
-  unloadable
-
   helper :rb_common
 
   before_filter :load_sprint_and_project, :check_if_plugin_is_configured, :authorize
@@ -56,9 +54,9 @@ class RbApplicationController < ApplicationController
 
   def check_if_plugin_is_configured
     settings = Setting.plugin_openproject_backlogs
-    if settings["story_types"].blank? || settings["task_type"].blank?
+    if settings['story_types'].blank? || settings['task_type'].blank?
       respond_to do |format|
-        format.html { render :file => "shared/not_configured" }
+        format.html { render file: 'shared/not_configured' }
       end
     end
   end

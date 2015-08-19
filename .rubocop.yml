@@ -1,7 +1,6 @@
 AllCops:
   Exclude:
-    - db/schema.rb
-    - lib/plugins/rfpdf/**/*
+    "*.gemspec"
 
 AccessorMethodName:
   Enabled: false
@@ -29,6 +28,15 @@ Attr:
 
 BlockNesting:
   Enabled: false
+
+BlockDelimiters:
+  Enabled: true
+  EnforcedStyle: semantic
+  IgnoredMethods:
+    - default_scope
+    - lambda
+    - proc
+    - it
 
 Blocks:
   Enabled: false

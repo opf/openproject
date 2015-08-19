@@ -34,40 +34,35 @@
 #++
 
 OpenProject::Application.routes.draw do
+  scope '', as: 'backlogs' do
+    scope 'projects/:project_id', as: 'project' do
+      resources :backlogs,         controller: :rb_master_backlogs,  only: :index
 
-  scope "", as: "backlogs" do
+      resource :server_variables, controller: :rb_server_variables, only: :show, format: :js
 
-    scope "projects/:project_id", as: 'project' do
+      resources :sprints,          controller: :rb_sprints,          only: :update do
+        resource :query,            controller: :rb_queries,          only: :show
 
-      resources   :backlogs,         :controller => :rb_master_backlogs,  :only => :index
+        resource :taskboard,        controller: :rb_taskboards,       only: :show
 
-      resource    :server_variables, :controller => :rb_server_variables, :only => :show, :format => :js
+        resource :wiki,             controller: :rb_wikis,            only: [:show, :edit]
 
-      resources   :sprints,          :controller => :rb_sprints,          :only => :update do
+        resource :burndown_chart,   controller: :rb_burndown_charts,  only: :show
 
-        resource  :query,            :controller => :rb_queries,          :only => :show
+        resources :impediments,      controller: :rb_impediments,      only: [:create, :update]
 
-        resource  :taskboard,        :controller => :rb_taskboards,       :only => :show
+        resources :tasks,            controller: :rb_tasks,            only: [:create, :update]
 
-        resource  :wiki,             :controller => :rb_wikis,            :only => [:show, :edit]
-
-        resource  :burndown_chart,   :controller => :rb_burndown_charts,  :only => :show
-
-        resources :impediments,      :controller => :rb_impediments,      :only => [:create, :update]
-
-        resources :tasks,            :controller => :rb_tasks,            :only => [:create, :update]
-
-        resources :export_card_configurations, :controller => :rb_export_card_configurations, :only => [:index, :show] do
-
-          resources :stories,          :controller => :rb_stories,          :only => [:index]
+        resources :export_card_configurations, controller: :rb_export_card_configurations, only: [:index, :show] do
+          resources :stories,          controller: :rb_stories,          only: [:index]
         end
 
-        resources :stories,          :controller => :rb_stories,          :only => [:create, :update]
+        resources :stories,          controller: :rb_stories,          only: [:create, :update]
       end
     end
   end
 
-  get  'projects/:project_id/versions/:id/edit' => 'version_settings#edit'
-  post  'projects/:id/project_done_statuses' => 'projects#project_done_statuses'
+  get 'projects/:project_id/versions/:id/edit' => 'version_settings#edit'
+  post 'projects/:id/project_done_statuses' => 'projects#project_done_statuses'
   post 'projects/:id/rebuild_positions' => 'projects#rebuild_positions'
 end

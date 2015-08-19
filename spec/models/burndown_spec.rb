@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Burndown, :type => :model do
+describe Burndown, type: :model do
   def set_attribute_journalized(story, attribute, value, day)
     story.reload
     story.send(attribute, value)
@@ -47,36 +47,35 @@ describe Burndown, :type => :model do
   let(:role) { @role ||= FactoryGirl.create(:role) }
   let(:type_feature) { @type_feature ||= FactoryGirl.create(:type_feature) }
   let(:type_task) { @type_task ||= FactoryGirl.create(:type_task) }
-  let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority, :is_default => true) }
-  let(:version) { @version ||= FactoryGirl.create(:version, :project => project) }
+  let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority, is_default: true) }
+  let(:version) { @version ||= FactoryGirl.create(:version, project: project) }
   let(:sprint) { @sprint ||= Sprint.find(version.id) }
 
   let(:project) do
     unless @project
       @project = FactoryGirl.build(:project)
-      @project.members = [FactoryGirl.build(:member, :principal => user,
-                                                     :project => @project,
-                                                     :roles => [role])]
+      @project.members = [FactoryGirl.build(:member, principal: user,
+                                                     project: @project,
+                                                     roles: [role])]
       @project.versions << version
     end
     @project
   end
 
-  let(:issue_open) { @status1 ||= FactoryGirl.create(:status, :name => "status 1", :is_default => true) }
-  let(:issue_closed) { @status2 ||= FactoryGirl.create(:status, :name => "status 2", :is_closed => true) }
-  let(:issue_resolved) { @status3 ||= FactoryGirl.create(:status, :name => "status 3", :is_closed => false) }
+  let(:issue_open) { @status1 ||= FactoryGirl.create(:status, name: 'status 1', is_default: true) }
+  let(:issue_closed) { @status2 ||= FactoryGirl.create(:status, name: 'status 2', is_closed: true) }
+  let(:issue_resolved) { @status3 ||= FactoryGirl.create(:status, name: 'status 3', is_closed: false) }
 
   before(:each) do
     Rails.cache.clear
 
     allow(User).to receive(:current).and_return(user)
 
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"points_burn_direction" => "down",
-                                                                        "wiki_template"         => "",
-                                                                        "card_spec"             => "Sattleford VM-5040",
-                                                                        "story_types"           => [type_feature.id.to_s],
-                                                                        "task_type"             => type_task.id.to_s })
-
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
+                                                                         'wiki_template'         => '',
+                                                                         'card_spec'             => 'Sattleford VM-5040',
+                                                                         'story_types'           => [type_feature.id.to_s],
+                                                                         'task_type'             => type_task.id.to_s })
 
     project.save!
 
@@ -89,52 +88,52 @@ describe Burndown, :type => :model do
     end
   end
 
-  describe "Sprint Burndown" do
-    describe "WITH the today date fixed to April 4th, 2011 and having a 10 (working days) sprint" do
+  describe 'Sprint Burndown' do
+    describe 'WITH the today date fixed to April 4th, 2011 and having a 10 (working days) sprint' do
       before(:each) do
-        allow(Time).to receive(:now).and_return(Time.utc(2011,"apr",4,20,15,1))
-        allow(Date).to receive(:today).and_return(Date.civil(2011,04,04))
+        allow(Time).to receive(:now).and_return(Time.utc(2011, 'apr', 4, 20, 15, 1))
+        allow(Date).to receive(:today).and_return(Date.civil(2011, 04, 04))
       end
 
-      describe "WITH having a version in the future" do
+      describe 'WITH having a version in the future' do
         before(:each) do
           version.start_date = Date.today + 1.days
           version.effective_date = Date.today + 6.days
           version.save!
         end
 
-        it "should generate a burndown" do
+        it 'should generate a burndown' do
           expect(sprint.burndown(project).series[:story_points]).to be_empty
         end
       end
 
-      describe "WITH having a 10 (working days) sprint and being 5 (working) days into it" do
+      describe 'WITH having a 10 (working days) sprint and being 5 (working) days into it' do
         before(:each) do
           version.start_date = Date.today - 7.days
           version.effective_date = Date.today + 6.days
           version.save!
         end
 
-        describe "WITH 1 story assigned to the sprint" do
+        describe 'WITH 1 story assigned to the sprint' do
           before(:each) do
-            @story = FactoryGirl.build(:story, :subject => "Story 1",
-                                               :project => project,
-                                               :fixed_version => version,
-                                               :type => type_feature,
-                                               :status => issue_open,
-                                               :priority => issue_priority,
-                                               :created_at => Date.today - 20.days,
-                                               :updated_at => Date.today - 20.days)
+            @story = FactoryGirl.build(:story, subject: 'Story 1',
+                                               project: project,
+                                               fixed_version: version,
+                                               type: type_feature,
+                                               status: issue_open,
+                                               priority: issue_priority,
+                                               created_at: Date.today - 20.days,
+                                               updated_at: Date.today - 20.days)
           end
 
-          describe "WITH the story having story_point defined on creation" do
+          describe 'WITH the story having story_point defined on creation' do
             before(:each) do
               @story.story_points = 9
               @story.save!
               @story.current_journal.update_attribute(:created_at, @story.created_at)
             end
 
-            describe "WITH the story being closed and opened again within the sprint duration" do
+            describe 'WITH the story being closed and opened again within the sprint duration' do
               before(:each) do
                 set_attribute_journalized @story, :status_id=, issue_closed.id, Time.now - 6.days
                 set_attribute_journalized @story, :status_id=, issue_open.id, Time.now - 3.days
@@ -144,7 +143,7 @@ describe Burndown, :type => :model do
 
               it { expect(@burndown.story_points).to eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
               it { expect(@burndown.story_points.unit).to eql :points }
-              it { expect(@burndown.days).to eql(sprint.days()) }
+              it { expect(@burndown.days).to eql(sprint.days) }
               it { expect(@burndown.max[:hours]).to eql 0.0 }
               it { expect(@burndown.max[:points]).to eql 9.0 }
               it { expect(@burndown.story_points_ideal).to eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
@@ -164,31 +163,31 @@ describe Burndown, :type => :model do
           end
         end
 
-        describe "WITH 10 stories assigned to the sprint" do
+        describe 'WITH 10 stories assigned to the sprint' do
           before(:each) do
             @stories = []
 
             (0..9).each do |i|
-              @stories[i] = FactoryGirl.create(:story, :subject => "Story #{i}",
-                                               :project => project,
-                                               :fixed_version => version,
-                                               :type => type_feature,
-                                               :status => issue_open,
-                                               :priority => issue_priority,
-                                               :created_at => Date.today - (20 - i).days,
-                                               :updated_at => Date.today - (20 - i).days)
+              @stories[i] = FactoryGirl.create(:story, subject: "Story #{i}",
+                                                       project: project,
+                                                       fixed_version: version,
+                                                       type: type_feature,
+                                                       status: issue_open,
+                                                       priority: issue_priority,
+                                                       created_at: Date.today - (20 - i).days,
+                                                       updated_at: Date.today - (20 - i).days)
               @stories[i].current_journal.update_attribute(:created_at, @stories[i].created_at)
             end
           end
 
-          describe "WITH each story having story points defined at start" do
+          describe 'WITH each story having story points defined at start' do
             before(:each) do
-              @stories.each_with_index do |s, i|
+              @stories.each_with_index do |s, _i|
                 set_attribute_journalized s, :story_points=, 10, version.start_date - 3.days
               end
             end
 
-            describe "WITH 5 stories having been reduced to 0 story points, one story per day" do
+            describe 'WITH 5 stories having been reduced to 0 story points, one story per day' do
               before(:each) do
                 @finished_hours
                 (0..4).each do |i|
@@ -196,21 +195,20 @@ describe Burndown, :type => :model do
                 end
               end
 
-              describe "THEN" do
+              describe 'THEN' do
                 before(:each) do
                   @burndown = Burndown.new(sprint, project)
                 end
 
                 it { expect(@burndown.story_points).to eql [90.0, 80.0, 70.0, 60.0, 50.0, 50.0] }
                 it { expect(@burndown.story_points.unit).to eql :points }
-                it { expect(@burndown.days).to eql(sprint.days()) }
+                it { expect(@burndown.days).to eql(sprint.days) }
                 it { expect(@burndown.max[:hours]).to eql 0.0 }
                 it { expect(@burndown.max[:points]).to eql 90.0 }
                 it { expect(@burndown.story_points_ideal).to eql [90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0, 0.0] }
               end
             end
           end
-
         end
       end
     end

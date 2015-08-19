@@ -34,8 +34,6 @@
 #++
 
 class RbTasksController < RbApplicationController
-  unloadable
-
   def create
     @task = Task.create_with_relationships(params, @project.id)
 
@@ -43,7 +41,7 @@ class RbTasksController < RbApplicationController
     @include_meta = true
 
     respond_to do |format|
-      format.html { render :partial => "task", :object => @task, :status => status }
+      format.html { render partial: 'task', object: @task, status: status }
     end
   end
 
@@ -54,8 +52,7 @@ class RbTasksController < RbApplicationController
     @include_meta = true
 
     respond_to do |format|
-      format.html { render :partial => "task", :object => @task, :status => status }
+      format.html { render partial: 'task', object: @task, status: status }
     end
   end
-
 end

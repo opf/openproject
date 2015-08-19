@@ -46,7 +46,7 @@ class VersionSetting < ActiveRecord::Base
   DISPLAY_RIGHT = 3
 
   def display_right?
-    self.display == DISPLAY_RIGHT
+    display == DISPLAY_RIGHT
   end
 
   def display_right!
@@ -54,7 +54,7 @@ class VersionSetting < ActiveRecord::Base
   end
 
   def display_left?
-    self.display == DISPLAY_LEFT
+    display == DISPLAY_LEFT
   end
 
   def display_left!
@@ -62,7 +62,7 @@ class VersionSetting < ActiveRecord::Base
   end
 
   def display_none?
-    self.display == DISPLAY_NONE
+    display == DISPLAY_NONE
   end
 
   def display_none!

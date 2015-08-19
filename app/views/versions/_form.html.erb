@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= f.text_field :description %>
   </div>
   <div class="form--field">
-    <%= f.select :status, Version::VERSION_STATUSES.collect {|s| [l("version_status_#{s}"), s]} %>
+    <%= f.select :status, Version::VERSION_STATUSES.map {|s| [l("version_status_#{s}"), s]} %>
   </div>
   <div class="form--field">
     <%= f.text_field :wiki_page_title, label: :label_wiki_page, disabled: @project.wiki.nil? %>
@@ -57,11 +57,11 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= f.text_field :effective_date %><%= calendar_for('version_effective_date') %>
   </div>
   <div class="form--field">
-    <%= f.select :sharing, @version.allowed_sharings.collect {|v| [format_version_sharing(v), v]} %>
+    <%= f.select :sharing, @version.allowed_sharings.map {|v| [format_version_sharing(v), v]} %>
   </div>
 <% end %>
 
-<% if @project.enabled_modules.collect(&:name).include?("backlogs") %>
+<% if @project.enabled_modules.map(&:name).include?("backlogs") %>
 
   <%= version_settings_fields(@version, @project).html_safe %>
 
