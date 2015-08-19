@@ -111,23 +111,12 @@ module API
 
         def generate_groups(results)
           results.work_package_count_by_group.map { |group, count|
-            group_element = {
-              value: group.to_s,
-              count: count
-            }
-
-            link = ::API::V3::Utilities::ResourceLinkGenerator.make_link(group)
-            if link
-              group_element[:_links] = {
-                _links: { href: link }
-              }
-            end
-
+            sums = nil
             if params[:showSums] == 'true'
-              group_element[:sums] = format_query_sums results.all_sums_for_group(group)
+              sums = format_query_sums results.all_sums_for_group(group)
             end
 
-            group_element
+            ::API::Decorators::AggregationGroup.new(group, count, sums: sums)
           }
         end
 
