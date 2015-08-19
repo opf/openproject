@@ -37,7 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
     /** Sync SCM vendor select when enabled SCMs are changed */
     $('[name="settings[enabled_scm][]"]').change(function () {
-      var disabled = !this.checked,
+      var wasDisabled = !this.checked,
         vendor = this.value,
         select = $('#settings_repositories_automatic_managed_vendor'),
         option = select.find('option[value="' + vendor + '"]');
@@ -47,8 +47,8 @@ See doc/COPYRIGHT.rdoc for more details.
         return;
       }
 
-      option.prop('disabled', disabled);
-      if (disabled && option.prop('selected')) {
+      option.prop('disabled', wasDisabled);
+      if (wasDisabled && option.prop('selected')) {
         select.val('');
       }
 
