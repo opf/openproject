@@ -58,10 +58,10 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
     <%
     available_scms = OpenProject::Scm::Manager.registered
-      .map {|vendor, klass| [klass.vendor_name, vendor] }
+      .map {|vendor, klass| [klass.vendor_name, vendor.to_s] }
 
     manageable_scms = OpenProject::Scm::Manager.manageable
-      .map {|vendor, klass| [klass.vendor_name, vendor, { disabled: !klass.enabled? }]}
+      .map {|vendor, klass| [klass.vendor_name, vendor.to_s, { disabled: !klass.enabled? }]}
     %>
     <div class="form--field">
 
