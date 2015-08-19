@@ -79,6 +79,11 @@ namespace :spec do
       t.pattern = 'spec/features/work_packages/inplace_editor/**/*_spec.rb'
     end
 
+    desc 'Run the code examples in spec/legacy'
+    RSpec::Core::RakeTask.new('legacy') do |t|
+      t.pattern = 'spec/legacy/**/*_spec.rb'
+    end
+
   rescue LoadError
     # when you bundle without development and test (e.g. to create a deployment
     # artefact) still all tasks get loaded. To avoid an error we rescue here.
