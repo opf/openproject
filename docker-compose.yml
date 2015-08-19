@@ -29,7 +29,7 @@ app:
     RAILS_ENV: production
     DATABASE_URL: postgres://openproject:openproject@db:5432/openproject?encoding=unicode&pool=5
     HEROKU: true
-    SECRET_TOKEN: foobar
+    SECRET_TOKEN: 6bcbf13ead9da7f1a5038785f4836e20
     SESSION_STORE: active_record_store
     OPENPROJECT_ATTACHMENTS__STORAGE__PATH: /var/lib/openproject/attachments
     OPENPROJECT_EMAIL__DELIVERY__METHOD: smtp
@@ -52,7 +52,7 @@ worker:
     RAILS_ENV: production
     DATABASE_URL: postgres://openproject:openproject@db:5432/openproject?encoding=unicode&pool=5
     HEROKU: true
-    SECRET_TOKEN: foobar
+    SECRET_TOKEN: 6bcbf13ead9da7f1a5038785f4836e20
     OPENPROJECT_ATTACHMENTS__STORAGE__PATH: /var/lib/openproject/attachments
     OPENPROJECT_EMAIL__DELIVERY__METHOD: smtp
     OPENPROJECT_SMTP__ADDRESS: mailcatcher
