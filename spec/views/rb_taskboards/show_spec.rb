@@ -35,60 +35,69 @@
 
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe 'rb_taskboards/show', :type => :view do
+describe 'rb_taskboards/show', type: :view do
   let(:user1) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
-  let(:role_allowed) { FactoryGirl.create(:role,
-    :permissions => [:create_impediments, :create_tasks, :update_impediments, :update_tasks])
+  let(:role_allowed) {
+    FactoryGirl.create(:role,
+                       permissions: [:create_impediments, :create_tasks, :update_impediments, :update_tasks])
   }
   let(:role_forbidden) { FactoryGirl.create(:role) }
   # We need to create these as some view helpers access the database
-  let(:statuses) { [FactoryGirl.create(:status),
-                    FactoryGirl.create(:status),
-                    FactoryGirl.create(:status)] }
+  let(:statuses) {
+    [FactoryGirl.create(:status),
+     FactoryGirl.create(:status),
+     FactoryGirl.create(:status)]
+  }
 
   let(:type_task) { FactoryGirl.create(:type_task) }
   let(:type_feature) { FactoryGirl.create(:type_feature) }
   let(:issue_priority) { FactoryGirl.create(:priority) }
   let(:project) do
-    project = FactoryGirl.create(:project, :types => [type_feature, type_task])
-    project.members = [FactoryGirl.create(:member, :principal => user1,:project => project,:roles => [role_allowed]),
-                       FactoryGirl.create(:member, :principal => user2,:project => project,:roles => [role_forbidden])]
+    project = FactoryGirl.create(:project, types: [type_feature, type_task])
+    project.members = [FactoryGirl.create(:member, principal: user1, project: project, roles: [role_allowed]),
+                       FactoryGirl.create(:member, principal: user2, project: project, roles: [role_forbidden])]
     project
   end
 
-  let(:story_a) { FactoryGirl.create(:story, :status => statuses[0],
-                                             :project => project,
-                                             :type => type_feature,
-                                             :fixed_version => sprint,
-                                             :priority => issue_priority
-                                             )}
-  let(:story_b) { FactoryGirl.create(:story, :status => statuses[1],
-                                             :project => project,
-                                             :type => type_feature,
-                                             :fixed_version => sprint,
-                                             :priority => issue_priority
-                                             )}
-  let(:story_c) { FactoryGirl.create(:story, :status => statuses[2],
-                                             :project => project,
-                                             :type => type_feature,
-                                             :fixed_version => sprint,
-                                             :priority => issue_priority
-                                             )}
+  let(:story_a) {
+    FactoryGirl.create(:story, status: statuses[0],
+                               project: project,
+                               type: type_feature,
+                               fixed_version: sprint,
+                               priority: issue_priority
+                      )
+  }
+  let(:story_b) {
+    FactoryGirl.create(:story, status: statuses[1],
+                               project: project,
+                               type: type_feature,
+                               fixed_version: sprint,
+                               priority: issue_priority
+                      )
+  }
+  let(:story_c) {
+    FactoryGirl.create(:story, status: statuses[2],
+                               project: project,
+                               type: type_feature,
+                               fixed_version: sprint,
+                               priority: issue_priority
+                      )
+  }
   let(:stories) { [story_a, story_b, story_c] }
-  let(:sprint)   { FactoryGirl.create(:sprint, :project => project) }
+  let(:sprint)   { FactoryGirl.create(:sprint, project: project) }
   let(:task) do
-    task = FactoryGirl.create(:task, :project => project, :status => statuses[0], :fixed_version => sprint, :type => type_task)
+    task = FactoryGirl.create(:task, project: project, status: statuses[0], fixed_version: sprint, type: type_task)
     # This is necessary as for some unknown reason passing the parent directly
     # leads to the task searching for the parent with 'root_id' is NULL, which
     # is not the case as the story has its own id as root_id
     task.parent_id = story_a.id
     task
   end
-  let(:impediment) { FactoryGirl.create(:impediment, :project => project, :status => statuses[0], :fixed_version => sprint, :blocks_ids => task.id.to_s, :type => type_task) }
+  let(:impediment) { FactoryGirl.create(:impediment, project: project, status: statuses[0], fixed_version: sprint, blocks_ids: task.id.to_s, type: type_task) }
 
   before :each do
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"story_types" => [type_feature.id], "task_type" => type_task.id})
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [type_feature.id], 'task_type' => type_task.id })
     view.extend RbCommonHelper
     view.extend TaskboardsHelper
 
@@ -101,13 +110,12 @@ describe 'rb_taskboards/show', :type => :view do
   end
 
   describe 'story blocks' do
-
     it 'contains the story id' do
       render
 
       stories.each do |story|
         expect(rendered).to have_selector "#story_#{story.id}" do
-          with_selector ".id", Regexp.new(story.id.to_s)
+          with_selector '.id', Regexp.new(story.id.to_s)
         end
       end
     end
@@ -117,7 +125,7 @@ describe 'rb_taskboards/show', :type => :view do
 
       stories.each do |story|
         expect(rendered).to have_selector "#story_#{story.id}" do
-          with_selector ".subject", story.subject
+          with_selector '.subject', story.subject
         end
       end
     end
@@ -127,7 +135,7 @@ describe 'rb_taskboards/show', :type => :view do
 
       stories.each do |story|
         expect(rendered).to have_selector "#story_#{story.id}" do
-          with_selector ".status", story.status.name
+          with_selector '.status', story.status.name
         end
       end
     end
@@ -137,14 +145,13 @@ describe 'rb_taskboards/show', :type => :view do
 
       stories.each do |story|
         expect(rendered).to have_selector "#story_#{story.id}" do
-          with_selector ".assigned_to_id", assignee.name
+          with_selector '.assigned_to_id', assignee.name
         end
       end
     end
   end
 
   describe 'create buttons' do
-
     it 'renders clickable + buttons for all stories with the right permissions' do
       allow(User).to receive(:current).and_return(user1)
 
@@ -178,7 +185,7 @@ describe 'rb_taskboards/show', :type => :view do
 
       render
 
-      stories.each do |story|
+      stories.each do |_story|
         assert_select '#impediments td.add_new' do |td|
           expect(td.count).to eq 1
           expect(td.first).to have_content '+'
@@ -192,7 +199,7 @@ describe 'rb_taskboards/show', :type => :view do
 
       render
 
-      stories.each do |story|
+      stories.each do |_story|
         assert_select '#impediments td.add_new' do |td|
           expect(td.count).to eq 1
           expect(td.first).not_to have_content '+'
@@ -200,18 +207,16 @@ describe 'rb_taskboards/show', :type => :view do
         end
       end
     end
-
   end
 
   describe 'update tasks or impediments' do
-
     it 'allows edit and drag for all tasks with the right permissions' do
       allow(User).to receive(:current).and_return(user1)
       task
       impediment
       render
 
-      assert_select ".model.work_package.task" do |task|
+      assert_select '.model.work_package.task' do |task|
         expect(task.count).to eq 1
         expect(task.first).not_to have_css '.task.prevent_edit'
       end
@@ -224,7 +229,7 @@ describe 'rb_taskboards/show', :type => :view do
 
       render
 
-      assert_select ".model.work_package.task" do |task|
+      assert_select '.model.work_package.task' do |task|
         expect(task.count).to eq 1
         expect(task.first).to have_css '.task.prevent_edit'
       end
@@ -237,7 +242,7 @@ describe 'rb_taskboards/show', :type => :view do
 
       render
 
-      assert_select ".model.work_package.impediment" do |impediment|
+      assert_select '.model.work_package.impediment' do |impediment|
         expect(impediment.count).to eq 3 # 2 additional for the task and the invisible form
         expect(impediment.first).not_to have_css '.impediment.prevent_edit'
       end
@@ -250,7 +255,7 @@ describe 'rb_taskboards/show', :type => :view do
 
       render
 
-      assert_select ".model.work_package.impediment" do |impediment|
+      assert_select '.model.work_package.impediment' do |impediment|
         expect(impediment.count).to eq 3 # 2 additional for the task and the invisible form
         expect(impediment.first).to have_css '.impediment.prevent_edit'
       end

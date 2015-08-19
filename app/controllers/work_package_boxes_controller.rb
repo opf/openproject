@@ -34,8 +34,6 @@
 #++
 
 class WorkPackageBoxesController < WorkPackagesController
-  unloadable
-
   helper :rb_common
 
   def show
@@ -44,14 +42,14 @@ class WorkPackageBoxesController < WorkPackagesController
     load_journals
     @changesets = @work_package.changesets.visible.all
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
-    @relations = @work_package.relations.select {|r| r.other_work_package(@work_package) && r.other_work_package(@work_package).visible? }
+    @relations = @work_package.relations.select { |r| r.other_work_package(@work_package) && r.other_work_package(@work_package).visible? }
     @allowed_statuses = @work_package.new_statuses_allowed_to(User.current)
     @edit_allowed = User.current.allowed_to?(:edit_work_packages, @project)
     @priorities = IssuePriority.all
     @time_entry = TimeEntry.new
 
     respond_to do |format|
-      format.js   { render :partial => 'show' }
+      format.js   { render partial: 'show' }
     end
   end
 
@@ -63,7 +61,7 @@ class WorkPackageBoxesController < WorkPackagesController
     @journal = @work_package.current_journal
 
     respond_to do |format|
-      format.js   { render :partial => 'edit' }
+      format.js   { render partial: 'edit' }
     end
   end
 
@@ -74,12 +72,12 @@ class WorkPackageBoxesController < WorkPackagesController
       @work_package.reload
       load_journals
       respond_to do |format|
-        format.js   { render :partial => 'show' }
+        format.js   { render partial: 'show' }
       end
     else
       @journal = @work_package.current_journal
       respond_to do |format|
-        format.js { render :partial => 'edit' }
+        format.js { render partial: 'edit' }
       end
     end
   end
@@ -87,7 +85,7 @@ class WorkPackageBoxesController < WorkPackagesController
   private
 
   def load_journals
-    @journals = @work_package.journals.find(:all, :include => [:user], :order => "#{Journal.table_name}.created_at ASC")
+    @journals = @work_package.journals.find(:all, include: [:user], order: "#{Journal.table_name}.created_at ASC")
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
   end
 end

@@ -36,8 +36,6 @@
 module OpenProject::Backlogs::Patches::WorkPackagesHelperPatch
   def self.included(base)
     base.class_eval do
-      unloadable
-
       def work_package_form_all_middle_attributes_with_backlogs(form, work_package, locals = {})
         attributes = work_package_form_all_middle_attributes_without_backlogs(form, work_package, locals)
 
@@ -50,12 +48,12 @@ module OpenProject::Backlogs::Patches::WorkPackagesHelperPatch
       end
 
       def work_package_form_remaining_hours_attribute(form, work_package, _)
-        field = work_package_form_field do
+        field = work_package_form_field {
           options = { placeholder: l(:label_hours) }
           options[:disabled] = 'disabled' unless work_package.leaf?
 
           form.text_field(:remaining_hours, options)
-        end
+        }
 
         WorkPackagesHelper::WorkPackageAttribute.new(:remaining_hours, field)
       end
@@ -63,9 +61,9 @@ module OpenProject::Backlogs::Patches::WorkPackagesHelperPatch
       def work_package_form_story_points_attribute(form, work_package, _)
         return unless work_package.is_story?
 
-        field = work_package_form_field do
+        field = work_package_form_field {
           form.text_field(:story_points)
-        end
+        }
 
         WorkPackagesHelper::WorkPackageAttribute.new(:story_points, field)
       end
@@ -73,7 +71,6 @@ module OpenProject::Backlogs::Patches::WorkPackagesHelperPatch
       alias_method_chain :work_package_form_all_middle_attributes, :backlogs
     end
   end
-
 end
 
 WorkPackagesHelper.send(:include, OpenProject::Backlogs::Patches::WorkPackagesHelperPatch)

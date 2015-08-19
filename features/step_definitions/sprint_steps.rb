@@ -33,15 +33,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 Then /^the sprint "(.+?)" should be displayed to the (right|left)$/ do |sprint_name, orientation|
-
   selector = case orientation
-             when "right"
-               "#owner_backlogs_container"
-             when "left"
-               "#sprint_backlogs_container"
+             when 'right'
+               '#owner_backlogs_container'
+             when 'left'
+               '#sprint_backlogs_container'
              else
-               raise "Only right and left are supported"
+               raise 'Only right and left are supported'
              end
 
-    step %{I should see "#{sprint_name}" within "#{selector} .name"}
+  step %{I should see "#{sprint_name}" within "#{selector} .name"}
 end

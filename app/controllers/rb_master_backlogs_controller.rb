@@ -34,8 +34,6 @@
 #++
 
 class RbMasterBacklogsController < RbApplicationController
-  unloadable
-
   menu_item :backlogs
 
   before_filter :set_export_card_config_meta

@@ -33,10 +33,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require Rails.root.join("db","migrate","migration_utils","utils").to_s
+require Rails.root.join('db', 'migrate', 'migration_utils', 'utils').to_s
 
 class LegacyIssuesBacklogsDataToWorkPackages < ActiveRecord::Migration
-
   def up
     if legacy_backlog_data_exists?
       execute <<-SQL

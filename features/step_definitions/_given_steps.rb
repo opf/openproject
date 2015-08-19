@@ -38,12 +38,12 @@ Given /^I am logged out$/ do
 end
 
 Given /^I set the (.+) of the story to (.+)$/ do |attribute, value|
-  if attribute == "type"
-    attribute = "type_id"
-    value = Type.find(:first, :conditions => ["name=?", value]).id
-  elsif attribute == "status"
-    attribute = "status_id"
-    value = Status.find(:first, :conditions => ["name=?", value]).id
+  if attribute == 'type'
+    attribute = 'type_id'
+    value = Type.find(:first, conditions: ['name=?', value]).id
+  elsif attribute == 'status'
+    attribute = 'status_id'
+    value = Status.find(:first, conditions: ['name=?', value]).id
   elsif %w[backlog sprint].include? attribute
     attribute = 'fixed_version_id'
     value = Version.find_by_name(value).id
@@ -64,51 +64,51 @@ end
 Given /^I want to create a task for (.+)(?: in [pP]roject "(.+?)")?$/ do |story_subject, project_name|
   project = get_project(project_name)
 
-  story = Story.find(:first, :conditions => ["subject=?", story_subject])
+  story = Story.find(:first, conditions: ['subject=?', story_subject])
   @task_params = initialize_task_params(project, story)
 end
 
 Given /^I want to create an impediment for (.+?)(?: in [pP]roject "(.+?)")?$/ do |sprint_subject, project_name|
   project = get_project(project_name)
-  sprint = Sprint.find(:first, :conditions => { :name => sprint_subject })
+  sprint = Sprint.find(:first, conditions: { name: sprint_subject })
   @impediment_params = initialize_impediment_params(project, sprint.id)
 end
 
 Given /^I want to edit the task named (.+)$/ do |task_subject|
-  task = Task.find(:first, :conditions => { :subject => task_subject })
+  task = Task.find(:first, conditions: { subject: task_subject })
   task.should_not be_nil
   @task_params = HashWithIndifferentAccess.new(task.attributes)
 end
 
 Given /^I want to edit the impediment named (.+)$/ do |impediment_subject|
-  impediment = Task.find(:first, :conditions => { :subject => impediment_subject })
+  impediment = Task.find(:first, conditions: { subject: impediment_subject })
   impediment.should_not be_nil
   @impediment_params = HashWithIndifferentAccess.new(impediment.attributes)
 end
 
 Given /^I want to edit the sprint named (.+)$/ do |name|
-  sprint = Sprint.find(:first, :conditions => ["name=?", name])
+  sprint = Sprint.find(:first, conditions: ['name=?', name])
   sprint.should_not be_nil
   @sprint_params = HashWithIndifferentAccess.new(sprint.attributes)
 end
 
 Given /^I want to indicate that the impediment blocks (.+)$/ do |blocks_csv|
-  blocks_csv = Story.find(:all, :conditions => { :subject => blocks_csv.split(', ') }).map{ |s| s.id }.join(',')
+  blocks_csv = Story.find(:all, conditions: { subject: blocks_csv.split(', ') }).map(&:id).join(',')
   @impediment_params[:blocks] = blocks_csv
 end
 
 Given /^I want to set the (.+) of the sprint to (.+)$/ do |attribute, value|
-  value = '' if value == "an empty string"
+  value = '' if value == 'an empty string'
   @sprint_params[attribute] = value
 end
 
 Given /^I want to set the (.+) of the impediment to (.+)$/ do |attribute, value|
-  value = '' if value == "an empty string"
+  value = '' if value == 'an empty string'
   @impediment_params[attribute] = value
 end
 
 Given /^I want to edit the story with subject (.+)$/ do |subject|
-  @story = Story.find(:first, :conditions => ["subject=?", subject])
+  @story = Story.find(:first, conditions: ['subject=?', subject])
   @story.should_not be_nil
   @story_params = HashWithIndifferentAccess.new(@story.attributes)
 end
@@ -126,7 +126,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following sprints:$/ do |project_
 
   table.hashes.each do |version|
     ['effective_date', 'start_date'].each do |date_attr|
-      version[date_attr] = eval(version[date_attr]).strftime("%Y-%m-%d") if version[date_attr].match(/^(\d+)\.(year|month|week|day|hour|minute|second)(s?)\.(ago|from_now)$/)
+      version[date_attr] = eval(version[date_attr]).strftime('%Y-%m-%d') if version[date_attr].match(/^(\d+)\.(year|month|week|day|hour|minute|second)(s?)\.(ago|from_now)$/)
     end
     sprint = Sprint.new version
     sprint.project = project
@@ -143,7 +143,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following (?:product )?(?:owner )
   project = get_project(project_name)
 
   table.raw.each do |row|
-    version = Version.create!(:project => project, :name => row.first)
+    version = Version.create!(project: project, name: row.first)
 
     vs = version.version_settings.build
     vs.project = project
@@ -154,9 +154,9 @@ end
 
 Given /^the [pP]roject(?: "(.+?)")? has the following stories in the following (?:product )?(?:owner )?backlogs:$/ do |project_name, table|
   if project_name
-    step %Q{the project "#{project_name}" has the following stories in the following sprints:}, table
+    step %{the project "#{project_name}" has the following stories in the following sprints:}, table
   else
-    step "the project has the following stories in the following sprints:", table
+    step 'the project has the following stories in the following sprints:', table
   end
 end
 
@@ -176,11 +176,11 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     params['status_id'] = Status.find_by_name(story['status']).id if story['status']
     params['type_id'] = Type.find_by_name(story['type']).id if story['type']
 
-    params.delete "position"
+    params.delete 'position'
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    s = Story.create_and_position(params, :project => params[:project], :author => params['author'])
+    s = Story.create_and_position(params, project: params[:project], author: params['author'])
     prev_id = s.id
   end
 end
@@ -192,7 +192,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following tasks:$/ do |project_na
 
   as_admin do
     table.hashes.each do |task|
-      story = Story.find(:first, :conditions => { :subject => task['parent'] })
+      story = Story.find(:first, conditions: { subject: task['parent'] })
       params = initialize_task_params(project, story)
       params['subject'] = task['subject']
 
@@ -213,7 +213,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following work_packages:$/ do |pr
 
   as_admin do
     table.hashes.each do |task|
-      parent = WorkPackage.find(:first, :conditions => { :subject => task['parent'] })
+      parent = WorkPackage.find(:first, conditions: { subject: task['parent'] })
       type = Type.find_by_name(task['type'])
       params = initialize_work_package_params(project, type, parent)
       params['subject'] = task['subject']
@@ -237,8 +237,8 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following impediments:$/ do |proj
 
   as_admin do
     table.hashes.each do |impediment|
-      sprint = Sprint.find(:first, :conditions => { :name => impediment['sprint'] })
-      blocks = Story.find(:all, :conditions => { :subject => impediment['blocks'].split(', ')  }).map{ |s| s.id }
+      sprint = Sprint.find(:first, conditions: { name: impediment['sprint'] })
+      blocks = Story.find(:all, conditions: { subject: impediment['blocks'].split(', ')  }).map(&:id)
       params = initialize_impediment_params(project, sprint)
       params['subject'] = impediment['subject']
       params['blocks_ids']  = blocks.join(',')
@@ -256,7 +256,7 @@ end
 
 Given /^I have selected card label stock (.+)$/ do |stock|
   settings = Setting.plugin_openproject_backlogs
-  settings["card_spec"] = stock
+  settings['card_spec'] = stock
   Setting.plugin_openproject_backlogs = settings
 
   # If this goes wrong, you are probably missing
@@ -283,8 +283,8 @@ end
 Given /^I have set the content for wiki page (.+) to (.+)$/ do |title, content|
   title = Wiki.titleize(title)
   page = @project.wiki.find_page(title)
-  if ! page
-    page = WikiPage.new(:wiki => @project.wiki, :title => title)
+  if !page
+    page = WikiPage.new(wiki: @project.wiki, title: title)
     page.content = WikiContent.new
     page.save
   end
@@ -294,7 +294,7 @@ Given /^I have set the content for wiki page (.+) to (.+)$/ do |title, content|
 end
 
 Given /^I have made (.+) the template page for sprint notes/ do |title|
-  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("wiki_template" => Wiki.titleize(title))
+  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge('wiki_template' => Wiki.titleize(title))
 end
 
 Given /^there are no stories in the [pP]roject$/ do
@@ -303,9 +303,9 @@ end
 
 Given /^the type "(.+?)" is configured to track tasks$/ do |type_name|
   type = Type.find_by_name(type_name)
-  type = FactoryGirl.create(:type, :name => type_name) if type.blank?
+  type = FactoryGirl.create(:type, name: type_name) if type.blank?
 
-  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("task_type" => type.id)
+  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge('task_type' => type.id)
 end
 
 Given /^the following types are configured to track stories:$/ do |table|
@@ -314,14 +314,14 @@ Given /^the following types are configured to track stories:$/ do |table|
     name = line.first
     type = Type.find_by_name(name)
 
-    type = FactoryGirl.create(:type, :name => name) if type.blank?
+    type = FactoryGirl.create(:type, name: name) if type.blank?
     story_types << type
   end
 
   # otherwise the type id's from the previous test are still active
   WorkPackage.instance_variable_set(:@backlogs_types, nil)
 
-  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("story_types" => story_types.map(&:id))
+  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge('story_types' => story_types.map(&:id))
 end
 
 Given /^the [tT]ype(?: "([^\"]*)")? has for the Role "(.+?)" the following workflows:$/ do |type_name, role_name, table|
@@ -332,7 +332,7 @@ Given /^the [tT]ype(?: "([^\"]*)")? has for the Role "(.+?)" the following workf
   table.hashes.each do |workflow|
     old_status = Status.find_by_name(workflow['old_status']).id
     new_status = Status.find_by_name(workflow['new_status']).id
-    type.workflows.build(:old_status_id => old_status , :new_status_id => new_status , :role => role)
+    type.workflows.build(old_status_id: old_status, new_status_id: new_status, role: role)
   end
   type.save!
 end
@@ -344,11 +344,9 @@ Given /^the status of "([^"]*)" is "([^"]*)"$/ do |work_package_subject, status_
 end
 
 Given /^there is the single default export card configuration$/ do
-  config = ExportCardConfiguration.create!({
-    name: "Default",
-    per_page: 1,
-    page_size: "A4",
-    orientation: "landscape",
-    rows: "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false"
-  })
+  config = ExportCardConfiguration.create!(name: 'Default',
+                                           per_page: 1,
+                                           page_size: 'A4',
+                                           orientation: 'landscape',
+                                           rows: "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false")
 end

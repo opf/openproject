@@ -36,19 +36,17 @@
 require 'date'
 
 class Task < WorkPackage
-  unloadable
-
   extend OpenProject::Backlogs::Mixins::PreventIssueSti
 
   def self.type
-    task_type = Setting.plugin_openproject_backlogs["task_type"]
+    task_type = Setting.plugin_openproject_backlogs['task_type']
     task_type.blank? ? nil : task_type.to_i
   end
 
   # This method is used by Backlogs::List. It ensures, that tasks and stories
   # follow a similar interface
   def self.types
-    [self.type]
+    [type]
   end
 
   def self.create_with_relationships(params, project_id)
@@ -64,11 +62,11 @@ class Task < WorkPackage
       task.move_after params[:prev]
     end
 
-    return task
+    task
   end
 
   def self.tasks_for(story_id)
-    Task.find_all_by_parent_id(story_id, :order => :lft).each_with_index do |task, i|
+    Task.find_all_by_parent_id(story_id, order: :lft).each_with_index do |task, i|
       task.rank = i + 1
     end
   end
@@ -78,7 +76,7 @@ class Task < WorkPackage
     self.remaining_hours = 0 if Status.find(id).is_closed?
   end
 
-  def update_with_relationships(params, is_impediment = false)
+  def update_with_relationships(params, _is_impediment = false)
     self.safe_attributes = params
 
     save.tap do |result|
@@ -89,7 +87,7 @@ class Task < WorkPackage
   # Assumes the task is already under the same story as 'prev_id'
   def move_after(prev_id)
     if prev_id.blank?
-      sib = self.siblings
+      sib = siblings
       move_to_left_of(sib[0].id) if sib.any?
     else
       move_to_right_of(prev_id)
@@ -101,7 +99,7 @@ class Task < WorkPackage
   end
 
   def rank
-    @rank ||= WorkPackage.count(:conditions => ['type_id = ? and not parent_id is NULL and root_id = ? and lft <= ?', Task.type, story_id, self.lft])
-    return @rank
+    @rank ||= WorkPackage.count(conditions: ['type_id = ? and not parent_id is NULL and root_id = ? and lft <= ?', Task.type, story_id, lft])
+    @rank
   end
 end

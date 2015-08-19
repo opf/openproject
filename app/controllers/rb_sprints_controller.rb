@@ -38,8 +38,6 @@
 # objects within a sprint. For info about the taskboard, see
 # RbTaskboardsController
 class RbSprintsController < RbApplicationController
-  unloadable
-
   def update
     result  = @sprint.update_attributes(params.slice(:name,
                                                      :start_date,
@@ -47,7 +45,7 @@ class RbSprintsController < RbApplicationController
     status  = (result ? 200 : 400)
 
     respond_to do |format|
-      format.html { render :partial => "sprint", :status => status, :object => @sprint }
+      format.html { render partial: 'sprint', status: status, object: @sprint }
     end
   end
 

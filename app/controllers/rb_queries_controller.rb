@@ -34,19 +34,18 @@
 #++
 
 class RbQueriesController < RbApplicationController
-  unloadable
   include WorkPackagesFilterHelper
 
   def show
     filters = []
     if params[:sprint_id]
-        filters.push(filter_object("status_id", "*"))
-        filters.push(filter_object("fixed_version_id", "=", [params[:sprint_id]]))
-        # Note: We need a filter for backlogs_work_package_type but currently it's not possible for plugins to introduce new filter types
+      filters.push(filter_object('status_id', '*'))
+      filters.push(filter_object('fixed_version_id', '=', [params[:sprint_id]]))
+    # Note: We need a filter for backlogs_work_package_type but currently it's not possible for plugins to introduce new filter types
     else
-        filters.push(filter_object("status_id", "o"))
-        filters.push(filter_object("fixed_version_id", "!*", [params[:sprint_id]]))
-        # Same as above
+      filters.push(filter_object('status_id', 'o'))
+      filters.push(filter_object('fixed_version_id', '!*', [params[:sprint_id]]))
+      # Same as above
     end
 
     query = {
