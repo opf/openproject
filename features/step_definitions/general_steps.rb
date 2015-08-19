@@ -90,11 +90,7 @@ Given /^(?:|I )am (not )?impaired$/ do |bool|
 end
 
 Given /^there is 1 [pP]roject with(?: the following)?:$/ do |table|
-  standard_type = FactoryGirl.build(:type_standard)
   p = FactoryGirl.build(:project)
-
-  p.types << standard_type
-
   send_table_to_object(p, table)
 end
 

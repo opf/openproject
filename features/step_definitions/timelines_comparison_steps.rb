@@ -64,7 +64,7 @@ Given(/^there are the following work packages were added "(.*?)"(?: in project "
   else
     target_time = Time.now
   end
-  Timecop.freeze(target_time) do
+  ::Timecop.freeze(target_time) do
     create_work_packages_from_table table, project
   end
 end
@@ -84,7 +84,7 @@ Given(/^the work package "(.*?)" was changed "(.*?)" to:$/) do |name, time, tabl
     target_time = Time.now
   end
 
-  Timecop.freeze(target_time) do
+  ::Timecop.freeze(target_time) do
     timeline = WorkPackage.find_by(subject: name)
     table.hashes.first.each do |key, value|
       timeline[key] = value
