@@ -49,14 +49,17 @@ See doc/COPYRIGHT.md for more details.
       </div>
       <div id="<%= block_name %>-preview-div" class="wiki">
         <div class="box-actions">
-          <a href="#" class="icon icon-edit edit-textilizable" data-block-name="<%= block_name %>"><%= l(:button_edit) %></a>
-
-          <%= link_to_remote l(:button_delete), {
-                :confirm => l(:label_confirm_delete),
+          <% unless User.current.anonymous? %>
+            <a href="#" class="icon icon-edit edit-textilizable" data-block-name="<%= block_name %>"><%= l(:button_edit) %></a>
+          <% end %>
+          <% if User.current.allowed_to?(:remove_block, nil, global: true) %>
+            <%= link_to_remote l(:button_delete), {
+                  :confirm => l(:label_confirm_delete),
                 :url => { :action => "remove_block", :block => block_name },
                 :class => "icon icon-delete"
               }
-              %>
+            %>
+          <% end %>
         </div>
       </div>
     <% end %>
