@@ -46,7 +46,7 @@ module OpenProject
         # Returns all enabled repositories as a Hash
         # { vendor_name: repository class constant }
         def enabled
-          registered.select { |sym, _| Setting.enabled_scm.include?(sym.to_s) }
+          registered.select { |vendor, _| Setting.enabled_scm.include?(vendor.to_s) }
         end
 
         ##
@@ -58,7 +58,7 @@ module OpenProject
 
         # Return all manageable vendors
         def manageable
-          registered.select { |_, vendor| vendor.manageable? }
+          registered.select { |_, klass| klass.manageable? }
         end
 
         ##
@@ -74,16 +74,16 @@ module OpenProject
         end
 
         # Add a new SCM adapter and repository
-        def add(scm_name)
+        def add(vendor)
           # Force model lookup to avoid
           # const errors later on.
-          klass = Repository.const_get(scm_name.to_s.camelize)
-          registered[scm_name] = klass
+          klass = Repository.const_get(vendor.to_s.camelize)
+          registered[vendor] = klass
         end
 
         # Remove a SCM adapter from Redmine's list of supported scms
-        def delete(scm_name)
-          registered.delete(scm_name)
+        def delete(vendor)
+          registered.delete(vendor)
         end
       end
     end
