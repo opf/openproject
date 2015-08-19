@@ -135,7 +135,7 @@ describe Repository::Subversion, type: :model do
         instance.reload
 
         expect(instance.changesets.count).to eq(12)
-        expect(instance.changes.count).to eq(21)
+        expect(instance.file_changes.count).to eq(21)
         expect(instance.changesets.find_by_revision('1').comments).to eq('Initial import.')
       end
 
@@ -186,7 +186,7 @@ describe Repository::Subversion, type: :model do
           instance.reload
 
           expect(instance.changesets.count).to eq(1)
-          expect(instance.changes.count).to eq(2)
+          expect(instance.file_changes.count).to eq(2)
 
           entries = instance.entries('')
           expect(entries).to_not be_nil

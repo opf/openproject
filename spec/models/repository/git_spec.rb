@@ -129,7 +129,7 @@ describe Repository::Git, type: :model do
 
       it 'should fetch changesets from scratch' do
         expect(instance.changesets.count).to eq(22)
-        expect(instance.changes.count).to eq(34)
+        expect(instance.file_changes.count).to eq(34)
 
         commit = instance.changesets.reorder('committed_on ASC').first
         expect(commit.comments).to eq("Initial import.\nThe repository contains 3 files.")
@@ -140,9 +140,9 @@ describe Repository::Git, type: :model do
         expect(commit.commit_date).to eq('2007-12-14'.to_date)
         expect(commit.revision).to eq('7234cb2750b63f47bff735edc50a1c0a433c2518')
         expect(commit.scmid).to eq('7234cb2750b63f47bff735edc50a1c0a433c2518')
-        expect(commit.changes.count).to eq(3)
+        expect(commit.file_changes.count).to eq(3)
 
-        change = commit.changes.sort_by(&:path).first
+        change = commit.file_changes.sort_by(&:path).first
         expect(change.path).to eq('README')
         expect(change.action).to eq('A')
       end
