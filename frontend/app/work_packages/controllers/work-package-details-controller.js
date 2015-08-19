@@ -180,7 +180,7 @@ module.exports = function($scope,
 
 
     // Type must be Activity
-    if (type !== 'Activity') {
+    if (type.indexOf('Activity') !== 0) {
       return false;
     }
 
@@ -195,7 +195,7 @@ module.exports = function($scope,
       var index = ($scope.activitiesSortedInDescendingOrder ?
                     activities.length - activityNo : activityNo - 1);
 
-      if (activities[index].props._type === 'Activity') {
+      if (activities[index].props._type.indexOf('Activity') === 0) {
         return false;
       }
     }
