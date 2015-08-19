@@ -1309,6 +1309,10 @@ en:
       path: "Path to Git repository"
       path_encoding: "Path encoding"
     go_to_revision: "Go to revision"
+    settings:
+      automatic_managed_repos_disabled: "Disable automatic creation"
+      automatic_managed_repos: "Automatic creation of managed repositories"
+      automatic_managed_repos_text: "By setting a vendor here, newly created projects will automatically receive a managed repository of this vendor."
     scm_vendor: "Source control management system"
     scm_type: "Repository type"
     scm_types:
@@ -1393,6 +1397,7 @@ en:
   setting_per_page_options: "Objects per page options"
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"
+  setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"
   setting_repositories_encodings: "Repositories encodings"
   setting_repository_authentication_caching_enabled: "Enable caching for authentication request of version control software"
   setting_repository_log_display_limit: "Maximum number of revisions displayed on file log"

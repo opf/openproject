@@ -45,6 +45,21 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
     <div class="form--field"><%= setting_multiselect(:enabled_scm, OpenProject::Scm::Manager.vendors) %></div>
     <div class="form--field">
+      <%= styled_label_tag :repositories_automatic_managed_vendor, l(:setting_repositories_automatic_managed_vendor) %>
+      <div class="form--field-container">
+        <% manageable_scms = OpenProject::Scm::Manager.manageable %>
+        <%= setting_select :repositories_automatic_managed_vendor,
+                           [[
+                             "--- #{l('repositories.settings.automatic_managed_repos_disabled')} ---",
+                             '',
+                             { selected: true }
+                           ]] + manageable_scms,
+                           disabled: manageable_scms.empty?,
+                           label: false %>
+      </div>
+      <div class="form--field-instructions"><%= l('repositories.settings.automatic_managed_repos_text') %></div>
+    </div>
+    <div class="form--field">
       <%= setting_text_field :repositories_encodings, :size => 60 %>
       <div class="form--field-instructions"><%= l(:text_comma_separated) %></div>
     </div>
