@@ -48,7 +48,7 @@ module Project::Storage
           'label_work_package_plural' => storage.work_package_required_space,
           'project_module_wiki' => storage.wiki_required_space,
           'label_repository' => storage.repositories_required_space
-        }.select { |_, v| v.presence && v > 0 }
+        }.select { |_, v| v.present? && v > 0 }
       }
     end
 
