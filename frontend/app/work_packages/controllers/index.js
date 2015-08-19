@@ -43,6 +43,7 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackagesDisplayHelper',
     'NotificationsService',
     'I18n',
+    'WorkPackageAttachmentsService',
     require('./details-tab-overview-controller')
   ])
   .constant('ADD_WATCHER_SELECT_INDEX', -1)
