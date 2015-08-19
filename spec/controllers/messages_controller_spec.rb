@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe MessagesController, type: :controller do
-
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role) }
@@ -48,7 +47,7 @@ describe MessagesController, type: :controller do
   let(:file) { File.open(Rails.root.join('spec/fixtures/files', filename)) }
   let(:uploaded_file) { ActionDispatch::Http::UploadedFile.new(tempfile: file, type: 'text/plain', filename: filename) }
 
-  before { allow(User).to receive(:current).and_return user }
+  before do allow(User).to receive(:current).and_return user end
 
   describe '#create' do
     context 'attachments' do
@@ -123,7 +122,7 @@ describe MessagesController, type: :controller do
         describe '#view' do
           subject { response }
 
-          it { is_expected.to render_template('messages/edit', formats: ['html']) }
+          it { is_expected.to render_template('messages/edit') }
         end
 
         describe '#error' do

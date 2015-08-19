@@ -33,5 +33,4 @@ describe SearchController, type: :routing do
     expect(get('/search')).to route_to(controller: 'search',
                                        action: 'index')
   end
-
 end

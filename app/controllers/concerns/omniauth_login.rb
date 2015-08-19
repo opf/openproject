@@ -43,7 +43,7 @@ module Concerns::OmniauthLogin
 
     # Set back url to page the omniauth login link was clicked on
     params[:back_url] = request.env['omniauth.origin']
-    user = User.find_or_initialize_by_identity_url identity_url_from_omniauth(auth_hash)
+    user = User.find_or_initialize_by identity_url: identity_url_from_omniauth(auth_hash)
 
     decision = OpenProject::OmniAuth::Authorization.authorized? auth_hash
     if decision.approve?

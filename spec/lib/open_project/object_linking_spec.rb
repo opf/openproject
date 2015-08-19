@@ -30,5 +30,4 @@
 require 'spec_helper'
 
 describe OpenProject::ObjectLinking do
-
 end

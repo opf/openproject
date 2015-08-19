@@ -28,12 +28,10 @@
 #++
 
 class PlanningElementTypeColor < ActiveRecord::Base
-  unloadable
-
   self.table_name = 'planning_element_type_colors'
 
   acts_as_list
-  default_scope order: 'position ASC'
+  default_scope { order('position ASC') }
 
   has_many :planning_element_types, class_name:  'Type',
                                     foreign_key: 'color_id',

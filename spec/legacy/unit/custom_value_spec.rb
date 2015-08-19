@@ -107,7 +107,7 @@ describe CustomValue, type: :model do
     # therefore making double sure, that we have a clean slate before we start
     CustomField.destroy_all
     FactoryGirl.create :float_user_custom_field, name: 'Money'
-    v = CustomValue.new(customized: user, custom_field: UserCustomField.find_by_name('Money'))
+    v = CustomValue.new(customized: user, custom_field: UserCustomField.find_by(name: 'Money'))
     v.value = '11.2'
     assert v.save
     v.value = ''
@@ -123,7 +123,7 @@ describe CustomValue, type: :model do
                                       field_format: 'string',
                                       default_value: 'Some Default String'
 
-    field = CustomField.find_by_default_value('Some Default String')
+    field = CustomField.find_by(default_value: 'Some Default String')
     assert_equal field, custom_field
 
     v = CustomValue.new(custom_field: field)

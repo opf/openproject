@@ -28,8 +28,6 @@
 #++
 
 class AvailableProjectStatus < ActiveRecord::Base
-  unloadable
-
   self.table_name = 'available_project_statuses'
 
   belongs_to :project_type,            class_name:  'ProjectType',

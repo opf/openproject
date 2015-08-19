@@ -41,11 +41,12 @@ module Redmine
 
           # we are validating custom_values manually in :validate_custom_values
           # N.B. the default for validate should be false, however specs seem to think differently
-          has_many :custom_values, as: :customized,
-                                   include: :custom_field,
-                                   order: "#{CustomField.table_name}.position",
-                                   dependent: :delete_all,
-                                   validate: false
+          has_many :custom_values, -> {
+            includes(:custom_field)
+              .order("#{CustomField.table_name}.position")
+          }, as: :customized,
+             dependent: :delete_all,
+             validate: false
           validate :validate_custom_values
           send :include, Redmine::Acts::Customizable::InstanceMethods
           # Save custom values when saving the customized object
@@ -59,20 +60,19 @@ module Redmine
         end
 
         def available_custom_fields
-          CustomField.find(:all, conditions: "type = '#{self.class.name}CustomField'",
-                                 order: 'position')
+          CustomField.where("type = '#{self.class.name}CustomField'").order(:position)
         end
 
         # Sets the values of the object's custom fields
         # values is an array like [{'id' => 1, 'value' => 'foo'}, {'id' => 2, 'value' => 'bar'}]
         def custom_fields=(values)
-          values_to_hash = values.inject({}) do |hash, v|
+          values_to_hash = values.inject({}) { |hash, v|
             v = v.stringify_keys
             if v['id'] && v.has_key?('value')
               hash[v['id']] = v['value']
             end
             hash
-          end
+          }
           self.custom_field_values = values_to_hash
         end
 
@@ -89,12 +89,12 @@ module Redmine
         end
 
         def custom_field_values
-          @custom_field_values ||= available_custom_fields.map do |custom_field|
+          @custom_field_values ||= available_custom_fields.map { |custom_field|
             existing_cv = custom_values.detect { |v| v.custom_field == custom_field }
             existing_cv || custom_values.build(customized: self,
                                                custom_field: custom_field,
                                                value: nil)
-          end
+          }
         end
 
         def visible_custom_field_values

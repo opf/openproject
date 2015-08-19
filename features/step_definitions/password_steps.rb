@@ -137,7 +137,7 @@ When /^I activate the ([a-z, ]+) password rules$/ do |rules|
 end
 
 def set_user_attribute(login, attribute, value)
-  user = User.find_by_login login
+  user = User.find_by login: login
   user.send((attribute.to_s + '=').to_sym, value)
   user.save
 end

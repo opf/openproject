@@ -34,7 +34,7 @@ module WorkPackage::CsvExporter
   include ActionView::Helpers::NumberHelper
 
   def csv(work_packages, query)
-    export = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
+    export = CSV.generate(col_sep: l(:general_csv_separator)) { |csv|
       headers = csv_headers(query)
       csv << encode_csv_columns(headers)
 
@@ -42,7 +42,7 @@ module WorkPackage::CsvExporter
         row = csv_row(work_package, query)
         csv << encode_csv_columns(row)
       end
-    end
+    }
 
     export
   end
@@ -70,9 +70,9 @@ module WorkPackage::CsvExporter
 
   # fetch all row values
   def csv_row(work_package, query)
-    row = query.columns.collect do |column|
+    row = query.columns.collect { |column|
       csv_format_value(work_package, column)
-    end
+    }
 
     if row.size > 0
 

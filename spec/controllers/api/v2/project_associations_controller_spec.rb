@@ -71,7 +71,7 @@ describe Api::V2::ProjectAssociationsController, type: :controller do
 
           it 'renders the index builder template' do
             get 'index', project_id: project.id, format: 'xml'
-            expect(response).to render_template('project_associations/index', formats: ['api'])
+            expect(response).to render_template('project_associations/index')
           end
         end
 
@@ -94,7 +94,7 @@ describe Api::V2::ProjectAssociationsController, type: :controller do
 
           it 'renders the index builder template' do
             get 'index', project_id: project.id, format: 'xml'
-            expect(response).to render_template('project_associations/index', formats: ['api'])
+            expect(response).to render_template('project_associations/index')
           end
         end
       end
@@ -160,7 +160,7 @@ describe Api::V2::ProjectAssociationsController, type: :controller do
 
           it 'renders the index builder template' do
             get 'index', project_id: project.id, id: project_association.id, format: 'xml'
-            expect(response).to render_template('project_associations/index', formats: ['api'])
+            expect(response).to render_template('project_associations/index')
           end
         end
       end

@@ -76,7 +76,7 @@ describe UsersController, type: :controller do
 
   it 'should show should not display hidden custom fields' do
     session[:user_id] = nil
-    UserCustomField.find_by_name('Phone number').update_attribute :visible, false
+    UserCustomField.find_by(name: 'Phone number').update_attribute :visible, false
     get :show, id: 2
     assert_response :success
     assert_template 'show'
@@ -166,7 +166,7 @@ describe UsersController, type: :controller do
       end
     end
 
-    user = User.first(order: 'id DESC')
+    user = User.order('id DESC').first
     assert_redirected_to edit_user_path(user)
 
     assert_equal 'John', user.firstname
@@ -242,6 +242,6 @@ describe UsersController, type: :controller do
   it 'should destroy membership' do
     post :destroy_membership, id: 2, membership_id: 1
     assert_redirected_to action: 'edit', id: '2', tab: 'memberships'
-    assert_nil Member.find_by_id(1)
+    assert_nil Member.find_by(id: 1)
   end
 end

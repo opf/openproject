@@ -99,7 +99,7 @@ describe BoardsController, type: :controller do
       post :destroy, project_id: 1, id: 2
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
-    assert_nil Board.find_by_id(2)
+    assert_nil Board.find_by(id: 2)
   end
 
   it 'should index should 404 with no board' do

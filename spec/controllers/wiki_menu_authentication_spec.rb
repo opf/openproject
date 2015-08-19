@@ -57,7 +57,6 @@ describe WikiMenuItemsController, type: :controller do
   end
 
   describe 'w/o valid auth' do
-
     it 'be forbidden' do
       allow(User).to receive(:current).and_return FactoryGirl.create(:user)
 

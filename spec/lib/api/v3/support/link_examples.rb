@@ -35,7 +35,7 @@ shared_examples_for 'action link' do
                               member_through_role: role)
   }
 
-  before { allow(User).to receive(:current).and_return(user) }
+  before do allow(User).to receive(:current).and_return(user) end
 
   it { expect(subject).not_to have_json_path("_links/#{action}/href") }
 

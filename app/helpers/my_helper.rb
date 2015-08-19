@@ -35,7 +35,6 @@ module MyHelper
       .where(project_id: User.current.projects.map(&:id))
       .where('(start_date>=? and start_date<=?) or (due_date>=? and due_date<=?)', startdt, enddt, startdt, enddt)
       .includes(:project, :type, :priority, :assigned_to)
-      .all
   end
 
   def wps_assigned_to_me
@@ -43,7 +42,6 @@ module MyHelper
       .limit(10)
       .order("#{IssuePriority.table_name}.position DESC, " \
                                    "#{WorkPackage.table_name}.updated_at DESC")
-      .all
   end
 
   def wps_assigned_to_me_count

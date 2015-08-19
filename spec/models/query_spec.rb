@@ -47,7 +47,6 @@ describe Query, type: :model do
         expect(query.available_columns.find { |column| column.name == :done_ratio }).to be_nil
       end
     end
-
   end
 
   describe '#valid?' do
@@ -91,5 +90,4 @@ describe Query, type: :model do
       end
     end
   end
-
 end

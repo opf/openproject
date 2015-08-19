@@ -34,7 +34,6 @@ module API
   module V3
     module Versions
       class VersionRepresenter < ::API::Decorators::Single
-
         self_link
 
         linked_property :definingProject,
@@ -55,8 +54,8 @@ module API
                  exec_context: :decorator,
                  getter: -> (*) {
                    ::API::Decorators::Formattable.new(represented.description,
-                                                     object: represented,
-                                                     format: 'plain')
+                                                      object: represented,
+                                                      format: 'plain')
                  },
                  render_nil: true
 

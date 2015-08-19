@@ -118,7 +118,7 @@ describe 'Select work package row', type: :feature do
     end
 
     shared_examples_for 'right click preserves selection' do
-      before { select_work_package_row(selected_rows.first, :right) }
+      before do select_work_package_row(selected_rows.first, :right) end
 
       it_behaves_like 'work package row selected' do
         let(:index) { selected_rows }
@@ -131,7 +131,7 @@ describe 'Select work package row', type: :feature do
 
     describe 'single selection' do
       shared_examples_for 'single select' do
-        before { select_work_package_row(1, mouse_button) }
+        before do select_work_package_row(1, mouse_button) end
 
         it_behaves_like 'work package row selected' do
           let(:index) { 1 }
@@ -182,7 +182,7 @@ describe 'Select work package row', type: :feature do
 
     describe 'range selection' do
       context 'first row selected' do
-        before { select_work_package_row_with_shift(1) }
+        before do select_work_package_row_with_shift(1) end
 
         it_behaves_like 'work package row selected' do
           let(:index) { 1 }
@@ -199,7 +199,7 @@ describe 'Select work package row', type: :feature do
           end
 
           context 'uninvolved row' do
-            before { check_row_selection_state(2) }
+            before do check_row_selection_state(2) end
 
             it_behaves_like 'work package row not selected' do
               let(:index) { 3 }
@@ -244,7 +244,7 @@ describe 'Select work package row', type: :feature do
       end
 
       context 'swapping' do
-        before { select_work_package_row(2) }
+        before do select_work_package_row(2) end
 
         it_behaves_like 'work package row selected' do
           let(:index) { 2 }
@@ -279,7 +279,7 @@ describe 'Select work package row', type: :feature do
     end
 
     describe 'specific selection' do
-      before { select_work_package_row_with_ctrl(1) }
+      before do select_work_package_row_with_ctrl(1) end
 
       it_behaves_like 'work package row selected' do
         # apparently it should be selected if there one row only
@@ -297,7 +297,7 @@ describe 'Select work package row', type: :feature do
         end
 
         context 'uninvolved row' do
-          before { check_row_selection_state(3) }
+          before do check_row_selection_state(3) end
 
           it_behaves_like 'work package row not selected' do
             let(:index) { 2 }

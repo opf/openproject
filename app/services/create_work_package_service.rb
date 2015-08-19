@@ -28,11 +28,11 @@
 #++
 
 class CreateWorkPackageService
-  attr_accessor :user, :project, :work_package
+  attr_reader :user, :project
 
   def initialize(user:, project:, send_notifications: true)
-    self.user = user
-    self.project = project
+    @user = user
+    @project = project
 
     JournalManager.send_notification = send_notifications
   end
@@ -43,7 +43,7 @@ class CreateWorkPackageService
       author: user,
       type: project.types.where(is_default: true).first || project.types.first
     }
-    self.work_package = project.add_work_package(hash)
+    project.add_work_package(hash)
   end
 
   def save(work_package)

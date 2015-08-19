@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe Api::V2::UsersController, type: :controller do
-
   shared_context 'As an admin' do
     let(:current_user) { FactoryGirl.create(:admin) }
 
@@ -45,7 +44,7 @@ describe Api::V2::UsersController, type: :controller do
   shared_examples_for 'valid user API call' do
     it { expect(assigns(:users).size).to eq(user_count) }
 
-    it { expect(response).to render_template('api/v2/users/index', formats: ['api']) }
+    it { expect(response).to render_template('api/v2/users/index') }
   end
 
   describe 'index.json' do
@@ -55,19 +54,19 @@ describe Api::V2::UsersController, type: :controller do
       end
 
       context 'no scope' do
-        before { get 'index', format: :json }
+        before do get 'index', format: :json end
 
         it_behaves_like 'no scope provided'
       end
 
       context 'empty scope' do
-        before { get 'index', ids: '', format: :json }
+        before do get 'index', ids: '', format: :json end
 
         it_behaves_like 'no scope provided'
       end
 
       context 'filled scope' do
-        before { get 'index', ids: '1', format: :json }
+        before do get 'index', ids: '1', format: :json end
 
         it_behaves_like 'valid user API call' do
           let(:user_count) { 0 }
@@ -78,12 +77,12 @@ describe Api::V2::UsersController, type: :controller do
     describe 'with 3 users' do
       let(:ids) { User.all.map(&:id).join(',') }
 
-      before { 3.times { FactoryGirl.create(:user) } }
+      before do 3.times { FactoryGirl.create(:user) } end
 
       context 'as an admin' do
         include_context 'As an admin'
 
-        before { get 'index', ids: ids, format: :json }
+        before do get 'index', ids: ids, format: :json end
 
         it_behaves_like 'valid user API call' do
           let(:user_count) { 4 }
@@ -93,7 +92,7 @@ describe Api::V2::UsersController, type: :controller do
       context 'as a normal user' do
         include_context 'As a normal user'
 
-        before { get 'index', ids: ids, format: 'json' }
+        before do get 'index', ids: ids, format: 'json' end
 
         it_behaves_like 'valid user API call' do
           let(:user_count) { 4 }
@@ -109,7 +108,7 @@ describe Api::V2::UsersController, type: :controller do
 
       let!(:non_member) { FactoryGirl.create :user }
 
-      before { get 'index', project_id: project.to_param, format: :json }
+      before do get 'index', project_id: project.to_param, format: :json end
 
       it_behaves_like 'valid user API call' do
         let(:user_count) { 1 }
@@ -122,7 +121,7 @@ describe Api::V2::UsersController, type: :controller do
       let (:user_1) { FactoryGirl.create(:user) }
       let (:user_2) { FactoryGirl.create(:user) }
 
-      before { get 'index', ids: "#{user_1.id},#{user_2.id}", format: 'json' }
+      before do get 'index', ids: "#{user_1.id},#{user_2.id}", format: 'json' end
 
       subject { assigns(:users) }
 

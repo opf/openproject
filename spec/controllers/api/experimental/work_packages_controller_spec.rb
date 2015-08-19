@@ -97,7 +97,7 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
 
       it 'renders the index template' do
         get 'index', format: 'json'
-        expect(response).to render_template('api/experimental/work_packages/index', formats: %w(api))
+        expect(response).to render_template('api/experimental/work_packages/index')
       end
 
       it 'assigns a query which has the default filter arguments set' do
@@ -131,7 +131,7 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
       before do
         # FIXME: find a better solution does not involve reaching into the internals
         allow(controller).to receive(:retrieve_query).and_return(query)
-        allow(query).to receive_message_chain(:results, :work_packages, :page, :per_page, :changed_since, :all).and_return(work_packages)
+        allow(query).to receive_message_chain(:results, :work_packages, :page, :per_page, :changed_since).and_return(work_packages)
         allow(query).to receive_message_chain(:results, :work_package_count_by_group).and_return([])
         allow(query).to receive_message_chain(:results, :column_total_sums).and_return([])
         allow(query).to receive_message_chain(:results, :column_group_sums).and_return([])
@@ -259,17 +259,17 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
         get :column_data, format: 'json', ids: [1, 2],
                           column_names: %w(subject status estimated_hours done_ratio)
 
-        expect(assigns(:columns_meta)).to have_key('group_sums')
-        expect(assigns(:columns_meta)).to have_key('total_sums')
+        expect(assigns(:columns_meta)).to have_key(:group_sums)
+        expect(assigns(:columns_meta)).to have_key(:total_sums)
 
-        expect(assigns(:columns_meta)['total_sums'].size).to eq(4)
-        expect(assigns(:columns_meta)['total_sums'][2]).to eq(10.0)
-        expect(assigns(:columns_meta)['total_sums'][3]).to eq(66)
+        expect(assigns(:columns_meta)[:total_sums].size).to eq(4)
+        expect(assigns(:columns_meta)[:total_sums][2]).to eq(10.0)
+        expect(assigns(:columns_meta)[:total_sums][3]).to eq(66)
       end
 
       it 'renders the column_data template' do
         get :column_data, format: 'json', ids: [1, 2], column_names: %w(subject status estimated_hours)
-        expect(response).to render_template('api/experimental/work_packages/column_data', formats: %w(api))
+        expect(response).to render_template('api/experimental/work_packages/column_data')
       end
     end
 
@@ -300,7 +300,7 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
     it 'renders template' do
       get 'column_sums', column_names: ['id'], format: 'json'
 
-      expect(response).to render_template('api/experimental/work_packages/column_sums', formats: %w(api))
+      expect(response).to render_template('api/experimental/work_packages/column_sums')
     end
 
     context 'without the necessary permissions' do

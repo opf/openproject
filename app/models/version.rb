@@ -52,10 +52,10 @@ class Version < ActiveRecord::Base
   validates_inclusion_of :sharing, in: VERSION_SHARINGS
   validate :validate_start_date_before_effective_date
 
-  scope :open, conditions: { status: 'open' }
-  scope :visible, lambda {|*args|
-    { include: :project,
-      conditions: Project.allowed_to_condition(args.first || User.current, :view_work_packages) }
+  scope :open, -> { where(status: 'open') }
+  scope :visible, ->(*args) {
+    includes(:project)
+      .merge(Project.allowed_to(args.first || User.current, :view_work_packages))
   }
 
   scope :systemwide, -> { where(sharing: 'system') }
@@ -98,7 +98,10 @@ class Version < ActiveRecord::Base
 
   # Returns the total reported time for this version
   def spent_hours
-    @spent_hours ||= TimeEntry.sum(:hours, include: :work_package, conditions: ["#{WorkPackage.table_name}.fixed_version_id = ?", id]).to_f
+    @spent_hours ||= TimeEntry.includes(:work_package)
+                     .where(["#{WorkPackage.table_name}.fixed_version_id = ?", id])
+                     .references(:work_packages)
+                     .sum(:hours).to_f
   end
 
   def closed?
@@ -160,12 +163,18 @@ class Version < ActiveRecord::Base
 
   # Returns the total amount of open issues for this version.
   def open_issues_count
-    @open_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", id, false]).includes(:status).size
+    @open_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", id, false])
+                           .includes(:status)
+                           .references(:statuses)
+                           .size
   end
 
   # Returns the total amount of closed issues for this version.
   def closed_issues_count
-    @closed_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", id, true]).includes(:status).size
+    @closed_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", id, true])
+                             .includes(:status)
+                             .references(:statuses)
+                             .size
   end
 
   def wiki_page
@@ -268,6 +277,7 @@ class Version < ActiveRecord::Base
 
         done = fixed_issues.where(["#{Status.table_name}.is_closed = ?", !open])
                .includes(:status)
+               .references(:statuses)
                .sum("COALESCE(#{WorkPackage.table_name}.estimated_hours, #{estimated_average}) * #{ratio}")
         progress = done.to_f / (estimated_average * issues_count)
       end

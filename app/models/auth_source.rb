@@ -68,7 +68,7 @@ class AuthSource < ActiveRecord::Base
 
   # Try to authenticate a user not yet registered against available sources
   def self.authenticate(login, password)
-    AuthSource.find(:all, conditions: ['onthefly_register=?', true]).each do |source|
+    AuthSource.where(['onthefly_register=?', true]).each do |source|
       begin
         logger.debug "Authenticating '#{login}' against '#{source.name}'" if logger && logger.debug?
         attrs = source.authenticate(login, password)

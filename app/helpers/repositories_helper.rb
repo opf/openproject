@@ -53,7 +53,7 @@ module RepositoriesHelper
   end
 
   def render_changeset_changes
-    changes = @changeset.changes.find(:all, limit: 1000, order: 'path').map do |change|
+    changes = @changeset.changes.limit(1000).order('path').map { |change|
       case change.action
       when 'A'
         # Detects moved/copied files
@@ -67,7 +67,7 @@ module RepositoriesHelper
       else
         change
       end
-    end.compact
+    }.compact
 
     tree = {}
     changes.each do |change|
@@ -173,7 +173,7 @@ module RepositoriesHelper
     else
       # removes invalid UTF8 sequences
       begin
-        (str + '  ').encode("UTF-8", invalid: :replace, undef: :replace, replace: "?")[0..-3]
+        (str + '  ').encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')[0..-3]
       rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
       end
     end

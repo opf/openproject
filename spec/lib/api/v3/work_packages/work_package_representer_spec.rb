@@ -148,7 +148,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'spentTime' do
-      before { permissions << :view_time_entries }
+      before do permissions << :view_time_entries end
 
       describe '#content' do
         let(:wp) { FactoryGirl.create(:work_package) }
@@ -189,7 +189,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                                hours: 1.0)
           }
 
-          before { time_entry }
+          before do time_entry end
 
           it { is_expected.to be_json_eql('PT1H'.to_json).at_path('spentTime') }
         end
@@ -202,7 +202,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                                hours: 42.5)
           }
 
-          before { time_entry }
+          before do time_entry end
 
           it { is_expected.to be_json_eql('P1DT18H30M'.to_json).at_path('spentTime') }
         end
@@ -216,7 +216,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'setting disabled' do
-          before { allow(Setting).to receive(:work_package_done_ratio).and_return('disabled') }
+          before do allow(Setting).to receive(:work_package_done_ratio).and_return('disabled') end
 
           it { is_expected.to_not have_json_path('percentageDone') }
         end

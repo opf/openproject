@@ -35,7 +35,6 @@ describe CopyProjectJob, type: :model do
   let(:params) { { name: 'Copy', identifier: 'copy' } }
 
   describe 'copy localizes error message' do
-
     let(:user_de) { FactoryGirl.create(:admin, language: :de) }
     let(:source_project) { FactoryGirl.create(:project) }
     let(:target_project) { FactoryGirl.create(:project) }
@@ -111,7 +110,7 @@ describe CopyProjectJob, type: :model do
     end
 
     it 'copies the project' do
-      expect(Project.find_by_identifier(params[:identifier])).to eq(@copied_project)
+      expect(Project.find_by(identifier: params[:identifier])).to eq(@copied_project)
     end
 
     it 'sets descriptive validation errors' do
@@ -143,7 +142,7 @@ describe CopyProjectJob, type: :model do
       let(:subproject) { FactoryGirl.create(:project, parent: project) }
 
       describe 'invalid parent' do
-        before { expect(UserMailer).to receive(:copy_project_failed).and_return(double('mailer', deliver: true)) }
+        before do expect(UserMailer).to receive(:copy_project_failed).and_return(double('mailer', deliver: true)) end
 
         include_context 'copy project' do
           let(:project_to_copy) { subproject }
@@ -171,7 +170,7 @@ describe CopyProjectJob, type: :model do
           let(:project_to_copy) { subproject }
         end
 
-        subject { Project.find_by_identifier('copy') }
+        subject { Project.find_by(identifier: 'copy') }
 
         it { expect(subject).not_to be_nil }
 

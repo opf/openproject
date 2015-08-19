@@ -34,7 +34,7 @@ describe 'New work package', type: :feature do
   let(:project) { FactoryGirl.create(:project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 
-  before { allow(User).to receive(:current).and_return(user) }
+  before do allow(User).to receive(:current).and_return(user) end
 
   describe 'Datepicker', js: true do
     shared_examples_for 'first week day set' do |locale: :de|

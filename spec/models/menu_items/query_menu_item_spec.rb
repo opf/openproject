@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe MenuItems::QueryMenuItem, type: :model do
-
   let(:project) { FactoryGirl.create :project, enabled_module_names: %w[activity] }
   let(:query) { FactoryGirl.create :query, project: project }
   let(:another_query) { FactoryGirl.create :query, project: project }

@@ -71,7 +71,7 @@ class UserPassword < ActiveRecord::Base
     l = a.unpack "C#{a.bytesize}"
 
     res = 0
-    b.each_byte { |byte| res |= byte ^ l.shift }
+    b.each_byte do |byte| res |= byte ^ l.shift end
     res == 0
   end
 

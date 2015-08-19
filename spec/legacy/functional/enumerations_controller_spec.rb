@@ -45,21 +45,21 @@ describe EnumerationsController, type: :controller do
   it 'should destroy enumeration not in use' do
     post :destroy, id: 7
     assert_redirected_to enumerations_path
-    assert_nil Enumeration.find_by_id(7)
+    assert_nil Enumeration.find_by(id: 7)
   end
 
   it 'should destroy enumeration in use' do
     post :destroy, id: 4
     assert_response :success
     assert_template 'destroy'
-    assert_not_nil Enumeration.find_by_id(4)
+    assert_not_nil Enumeration.find_by(id: 4)
   end
 
   it 'should destroy enumeration in use with reassignment' do
-    issue = WorkPackage.find(:first, conditions: { priority_id: 4 })
+    issue = WorkPackage.find_by(priority_id: 4)
     post :destroy, id: 4, reassign_to_id: 6
     assert_redirected_to enumerations_path
-    assert_nil Enumeration.find_by_id(4)
+    assert_nil Enumeration.find_by(id: 4)
     # check that the issue was reassign
     assert_equal 6, issue.reload.priority_id
   end

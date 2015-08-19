@@ -55,7 +55,7 @@ describe WorkPackagesController, type: :controller do
   end
 
   describe 'create' do
-    let(:work_package) { WorkPackage.find_by_subject 'genesis' }
+    let(:work_package) { WorkPackage.find_by subject: 'genesis' }
     let(:priority)     { FactoryGirl.create :priority }
     let(:response)     { post 'create', params }
     let(:status)       { FactoryGirl.create :status }

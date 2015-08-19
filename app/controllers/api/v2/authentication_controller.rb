@@ -29,10 +29,8 @@
 
 module Api
   module V2
-    class AuthenticationController < AuthenticationController
+    class AuthenticationController < ::AuthenticationController
       include ::Api::V2::ApiController
-
-      unloadable
 
       AuthorizationData = Struct.new(:authorized, :authenticated_user_id)
       skip_before_filter :require_login, :check_if_login_required

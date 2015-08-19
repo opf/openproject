@@ -29,8 +29,6 @@
 require_dependency 'journal_formatter/base'
 
 class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
-  # unloadable
-
   def render(key, values, options = {})
     merge_options = { only_path: true,
                       no_html: false }.merge(options)

@@ -38,13 +38,13 @@ Given /^the group "(.+)" is a "(.+)" in the project "(.+)"$/ do |group_name, rol
 end
 
 Given /^the group "(.+?)" has the following members:$/ do |name, table|
-  group = Group.find_by_lastname(name)
+  group = Group.find_by(lastname: name)
 
   raise "No group with name #{name} found" unless group.present?
 
   user_names = table.raw.flatten
 
-  users = User.find_all_by_login(user_names)
+  users = User.where(login: user_names)
 
   not_found = user_names - users.map(&:login)
 
@@ -54,7 +54,7 @@ Given /^the group "(.+?)" has the following members:$/ do |name, table|
 end
 
 When /^I add the user "(.+)" to the group$/ do |user_login|
-  user = User.find_by_login!(user_login)
+  user = User.find_by!(login: user_login)
 
   steps %{
     When I check "#{user.name}" within "#tab-content-users #users"
@@ -70,13 +70,13 @@ Given /^there is a group named "(.*?)" with the following members:$/ do |name, t
   group = FactoryGirl.create(:group, lastname: name)
 
   table.raw.flatten.each do |login|
-    group.users << User.find_by_login!(login)
+    group.users << User.find_by!(login: login)
   end
 end
 
 When /^I delete "([^"]*)" from the group$/ do |login|
-  user = User.find_by_login!(login)
+  user = User.find_by!(login: login)
   step %(I follow "Delete" within "#user-#{user.id}")
 end
 
-InstanceFinder.register(Group, Proc.new { |name| Group.find_by_lastname(name) })
+InstanceFinder.register(Group, Proc.new { |name| Group.find_by(lastname: name) })

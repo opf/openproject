@@ -41,7 +41,7 @@ class WorkPackages::AutoCompletesController < ApplicationController
     @work_packages = []
     # query for exact ID matches first, to make an exact match the first result of autocompletion
     if query_term =~ /\A\d+\z/
-      @work_packages |= scope.visible.find_all_by_id(query_term.to_i)
+      @work_packages |= scope.visible.where(id: query_term.to_i)
     end
 
     sql_query = ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR
@@ -55,14 +55,14 @@ class WorkPackages::AutoCompletesController < ApplicationController
 
     respond_to do |format|
       format.html do render layout: false end
-      format.any(:xml, :json) { render request.format.to_sym => wp_hashes_with_string }
+      format.any(:xml, :json) { render request.format.to_sym => wp_hashes_with_string(@work_packages) }
     end
   end
 
   private
 
-  def wp_hashes_with_string
-    @work_packages.map do |work_package|
+  def wp_hashes_with_string(work_packages)
+    work_packages.map do |work_package|
       wp_hash = Hash.new
       work_package.attributes.each do |key, value| wp_hash[key] = Rack::Utils.escape_html(value) end
       wp_hash['to_s'] = Rack::Utils.escape_html(work_package.to_s)
@@ -73,9 +73,7 @@ class WorkPackages::AutoCompletesController < ApplicationController
   def find_project
     project_id = (params[:work_package] && params[:work_package][:project_id]) || params[:project_id]
     return nil unless project_id
-    Project.find(project_id)
-  rescue ActiveRecord::RecordNotFound
-    nil
+    Project.find_by_id(project_id)
   end
 
   def determine_scope
@@ -84,9 +82,9 @@ class WorkPackages::AutoCompletesController < ApplicationController
     if params[:scope] == 'relatable'
       return nil unless project
 
-      Setting.cross_project_work_package_relations? ? WorkPackage.scoped : project.work_packages
+      Setting.cross_project_work_package_relations? ? WorkPackage.all : project.work_packages
     elsif params[:scope] == 'all' || project.nil?
-      WorkPackage.scoped
+      WorkPackage.all
     else
       project.work_packages
     end

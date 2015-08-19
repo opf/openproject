@@ -81,7 +81,7 @@ describe JournalsController, type: :controller do
     xhr :post, :update, id: journal.id, notes: ''
     assert_response :success
     assert_select_rjs :remove, identifier
-    assert_nil Journal.find_by_id(journal.id)
+    assert_nil Journal.find_by(id: journal.id)
   end
 
   it 'should index' do

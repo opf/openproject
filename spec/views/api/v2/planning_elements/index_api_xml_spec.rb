@@ -72,6 +72,5 @@ describe 'api/v2/planning_elements/index.api.rabl', type: :view do
       first_planning_element = subject.xpath('//planning_elements/planning_element')[0]
       expect(first_planning_element).to have_selector('subject', text: 'Subject #1')
     end
-
   end
 end

@@ -125,7 +125,7 @@ describe WikiController, type: :controller do
                project_id: @project,
                content: { text: 'h1. abc', page: { title: 'abc' } }
 
-          page = @project.wiki.pages.find_by_title 'Abc'
+          page = @project.wiki.pages.find_by title: 'Abc'
           expect(page).not_to be_nil
           expect(page.title).to eq('Abc')
           expect(page.content.text).to eq('h1. abc')
@@ -271,7 +271,6 @@ describe WikiController, type: :controller do
         @other_menu_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
                                                                name:    'Item for other page',
                                                                title:   @unrelated_page.title)
-
       end
 
       shared_examples_for 'all wiki menu items' do

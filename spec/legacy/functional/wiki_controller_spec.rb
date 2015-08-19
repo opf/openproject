@@ -124,7 +124,7 @@ describe WikiController, type: :controller do
   end
 
   it 'should update page' do
-    page = Wiki.find(1).pages.find_by_title('Another_page')
+    page = Wiki.find(1).pages.find_by(title: 'Another_page')
     page.content.recreate_initial_journal!
 
     session[:user_id] = 2
@@ -307,9 +307,9 @@ describe WikiController, type: :controller do
 
   it 'should rename with redirect' do
     session[:user_id] = 2
-    put :rename, project_id: 1, id: 'Another_page',
-                 page: { title: 'Another renamed page',
-                         redirect_existing_links: 1 }
+    patch :rename, project_id: 1, id: 'Another_page',
+                   page: { title: 'Another renamed page',
+                           redirect_existing_links: 1 }
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another_renamed_page'
     # Check redirects
     assert_not_nil wiki.find_page('Another page')
@@ -318,9 +318,9 @@ describe WikiController, type: :controller do
 
   it 'should rename without redirect' do
     session[:user_id] = 2
-    put :rename, project_id: 1, id: 'Another_page',
-                 page: { title: 'Another renamed page',
-                         redirect_existing_links: '0' }
+    patch :rename, project_id: 1, id: 'Another_page',
+                   page: { title: 'Another renamed page',
+                           redirect_existing_links: '0' }
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another_renamed_page'
     # Check that there's no redirects
     assert_nil wiki.find_page('Another page')
@@ -347,7 +347,7 @@ describe WikiController, type: :controller do
       delete :destroy, project_id: 1, id: 'Another_page', todo: 'nullify'
     end
     assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
-    assert_nil WikiPage.find_by_id(2)
+    assert_nil WikiPage.find_by(id: 2)
   end
 
   it 'should destroy parent with cascade' do
@@ -356,8 +356,8 @@ describe WikiController, type: :controller do
       delete :destroy, project_id: 1, id: 'Another_page', todo: 'destroy'
     end
     assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
-    assert_nil WikiPage.find_by_id(2)
-    assert_nil WikiPage.find_by_id(5)
+    assert_nil WikiPage.find_by(id: 2)
+    assert_nil WikiPage.find_by(id: 5)
   end
 
   it 'should destroy parent with reassign' do
@@ -366,8 +366,8 @@ describe WikiController, type: :controller do
       delete :destroy, project_id: 1, id: 'Another_page', todo: 'reassign', reassign_to_id: 1
     end
     assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
-    assert_nil WikiPage.find_by_id(2)
-    assert_equal WikiPage.find(1), WikiPage.find_by_id(5).parent
+    assert_nil WikiPage.find_by(id: 2)
+    assert_equal WikiPage.find(1), WikiPage.find_by(id: 5).parent
   end
 
   it 'should index' do
@@ -443,7 +443,7 @@ describe WikiController, type: :controller do
   end
 
   it 'should protect page' do
-    page = WikiPage.find_by_wiki_id_and_title(1, 'Another_page')
+    page = WikiPage.find_by(wiki_id: 1, title: 'Another_page')
     assert !page.protected?
     session[:user_id] = 2
     post :protect, project_id: 1, id: page.title, protected: '1'
@@ -452,7 +452,7 @@ describe WikiController, type: :controller do
   end
 
   it 'should unprotect page' do
-    page = WikiPage.find_by_wiki_id_and_title(1, 'CookBook_documentation')
+    page = WikiPage.find_by(wiki_id: 1, title: 'CookBook_documentation')
     assert page.protected?
     session[:user_id] = 2
     post :protect, project_id: 1, id: page.title, protected: '0'

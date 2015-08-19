@@ -30,8 +30,12 @@
 class Wiki < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
-  has_many :pages, class_name: 'WikiPage', dependent: :destroy, order: 'title'
-  has_many :wiki_menu_items, class_name: 'MenuItems::WikiMenuItem', dependent: :delete_all, order: 'name', foreign_key: 'navigatable_id'
+  has_many :pages, -> {
+    order('title')
+  }, class_name: 'WikiPage', dependent: :destroy
+  has_many :wiki_menu_items, -> {
+    order('name')
+  }, class_name: 'MenuItems::WikiMenuItem', dependent: :delete_all, foreign_key: 'navigatable_id'
   has_many :redirects, class_name: 'WikiRedirect', dependent: :delete_all
 
   acts_as_watchable
@@ -72,10 +76,10 @@ class Wiki < ActiveRecord::Base
   def find_page(title, options = {})
     title = start_page if title.blank?
     title = Wiki.titleize(title)
-    page = pages.first(conditions: ['LOWER(title) = LOWER(?)', title])
+    page = pages.where(['LOWER(title) = LOWER(?)', title]).first
     if !page && !(options[:with_redirect] == false)
       # search for a redirect
-      redirect = redirects.first(conditions: ['LOWER(title) = LOWER(?)', title])
+      redirect = redirects.where(['LOWER(title) = LOWER(?)', title]).first
       page = find_page(redirect.redirects_to, with_redirect: false) if redirect
     end
     page
@@ -89,8 +93,9 @@ class Wiki < ActiveRecord::Base
   def self.find_page(title, options = {})
     project = options[:project]
     if title.to_s =~ %r{\A([^\:]+)\:(.*)\z}
-      project_identifier, title = $1, $2
-      project = Project.find_by_identifier(project_identifier) || Project.find_by_name(project_identifier)
+      project_identifier = $1
+      title = $2
+      project = Project.find_by(identifier: project_identifier) || Project.find_by(name: project_identifier)
     end
     if project && project.wiki
       page = project.wiki.find_page(title)
@@ -110,7 +115,9 @@ class Wiki < ActiveRecord::Base
   end
 
   def create_menu_item_for_start_page
-    wiki_menu_item = wiki_menu_items.find_or_initialize_by_title start_page, name: 'Wiki'
+    wiki_menu_item = wiki_menu_items.find_or_initialize_by(title: start_page) { |item|
+      item.name = 'Wiki'
+    }
     wiki_menu_item.new_wiki_page = true
     wiki_menu_item.index_page = true
 

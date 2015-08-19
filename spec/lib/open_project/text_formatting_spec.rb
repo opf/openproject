@@ -63,7 +63,7 @@ describe OpenProject::TextFormatting do
       allow(Setting).to receive(:text_formatting).and_return('textile')
     end
 
-    context "Changeset links" do
+    context 'Changeset links' do
       let(:repository) do
         FactoryGirl.build_stubbed :repository_subversion,
                                   project: project
@@ -98,8 +98,8 @@ describe OpenProject::TextFormatting do
 
         changesets.each do |changeset|
           allow(changesets)
-            .to receive(:find_by_repository_id_and_revision)
-            .with(project.repository.id, changeset.revision)
+            .to receive(:find_by)
+            .with(repository_id: project.repository.id, revision: changeset.revision)
             .and_return(changeset)
         end
       end
@@ -335,79 +335,79 @@ describe OpenProject::TextFormatting do
       context 'Plain wiki link' do
         subject { format_text('[[CookBook documentation]]') }
 
-        it { is_expected.to eq("<p><a href=\"/projects/#{project.identifier}/wiki/CookBook_documentation\" class=\"wiki-page\">CookBook documentation</a></p>") }
+        it { is_expected.to eq("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/CookBook_documentation\">CookBook documentation</a></p>") }
       end
 
       context 'Plain wiki page link' do
         subject { format_text('[[Another page|Page]]') }
 
-        it { is_expected.to eq("<p><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a></p>") }
+        it { is_expected.to eq("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/Another_page\">Page</a></p>") }
       end
 
       context 'Wiki link with anchor' do
         subject { format_text('[[CookBook documentation#One-section]]') }
 
-        it { is_expected.to eq("<p><a href=\"/projects/#{project.identifier}/wiki/CookBook_documentation#One-section\" class=\"wiki-page\">CookBook documentation</a></p>") }
+        it { is_expected.to eq("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/CookBook_documentation#One-section\">CookBook documentation</a></p>") }
       end
 
       context 'Wiki page link with anchor' do
         subject { format_text('[[Another page#anchor|Page]]') }
 
-        it { is_expected.to eq("<p><a href=\"/projects/#{project.identifier}/wiki/Another_page#anchor\" class=\"wiki-page\">Page</a></p>") }
+        it { is_expected.to eq("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/Another_page#anchor\">Page</a></p>") }
       end
 
       context 'Wiki link to an unknown page' do
         subject { format_text('[[Unknown page]]') }
 
-        it { is_expected.to eq("<p><a href=\"/projects/#{project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a></p>") }
+        it { is_expected.to eq("<p><a class=\"wiki-page new\" href=\"/projects/#{project.identifier}/wiki/Unknown_page\">Unknown page</a></p>") }
       end
 
       context 'Wiki page link to an unknown page' do
         subject { format_text('[[Unknown page|404]]') }
 
-        it { is_expected.to eq("<p><a href=\"/projects/#{project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">404</a></p>") }
+        it { is_expected.to eq("<p><a class=\"wiki-page new\" href=\"/projects/#{project.identifier}/wiki/Unknown_page\">404</a></p>") }
       end
 
       context "Link to another project's wiki" do
         subject { format_text('[[onlinestore:]]') }
 
-        it { is_expected.to eq("<p><a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">onlinestore</a></p>") }
+        it { is_expected.to eq("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki\">onlinestore</a></p>") }
       end
 
       context "Link to another project's wiki with label" do
         subject { format_text('[[onlinestore:|Wiki]]') }
 
-        it { is_expected.to eq("<p><a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">Wiki</a></p>") }
+        it { is_expected.to eq("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki\">Wiki</a></p>") }
       end
 
       context "Link to another project's wiki page" do
         subject { format_text('[[onlinestore:Start page]]') }
 
-        it { is_expected.to eq("<p><a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Start page</a></p>") }
+        it { is_expected.to eq("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/Start_page\">Start page</a></p>") }
       end
 
       context "Link to another project's wiki page with label" do
         subject { format_text('[[onlinestore:Start page|Text]]') }
 
-        it { is_expected.to eq("<p><a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Text</a></p>") }
+        it { is_expected.to eq("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/Start_page\">Text</a></p>") }
       end
 
       context 'Link to an unknown wiki page in another project' do
         subject { format_text('[[onlinestore:Unknown page]]') }
 
-        it { is_expected.to eq("<p><a href=\"/projects/onlinestore/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a></p>") }
+        it { is_expected.to eq("<p><a class=\"wiki-page new\" href=\"/projects/onlinestore/wiki/Unknown_page\">Unknown page</a></p>") }
       end
 
       context 'Struck through link to wiki page' do
         subject { format_text('-[[Another page|Page]]-') }
 
-        it { is_expected.to eql("<p><del><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a></del></p>") }
+        it { is_expected.to eql("<p><del><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/Another_page\">Page</a></del></p>") }
       end
 
       context 'Named struck through link to wiki page' do
         subject { format_text('-[[Another page|Page]] link-') }
 
-        it { is_expected.to eql("<p><del><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a> link</del></p>") }
+        it { is_expected.to eql("<p><del><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/Another_page\">Page</a> link</del></p>") }
       end
 
       context 'Escaped link to wiki page' do
@@ -509,8 +509,8 @@ RAW
 
       let(:expected) {
         <<-EXPECTED
-<p><a href="/projects/#{project.identifier}/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a></p>
-<p><a href="/work_packages/#{issue.id}" class="issue work_package status-3 priority-1 created-by-me" title="#{issue.subject} (#{issue.status})">##{issue.id}</a></p>
+<p><a class="wiki-page" href="/projects/#{project.identifier}/wiki/CookBook_documentation">CookBook documentation</a></p>
+<p><a class="issue work_package status-3 priority-1 created-by-me" href="/work_packages/#{issue.id}" title="#{issue.subject} (#{issue.status})">##{issue.id}</a></p>
 <pre>
 [[CookBook documentation]]
 
@@ -574,8 +574,14 @@ WIKI_TEXT
     subject(:html) { format_text(wiki_text) }
 
     context 'w/ request present' do
-      let(:request) { ActionController::TestRequest.new }
-      let(:url_for) { '/test' }
+      let(:request) {
+        ActionController::TestRequest.new(
+          Rack::MockRequest.env_for('/test',
+            'HTTP_HOST'       => 'test.host',
+            'REMOTE_ADDR'     => '0.0.0.0',
+            'HTTP_USER_AGENT' => 'Rails Testing')
+        )
+      }
 
       it 'emits a table of contents for headings h1-h4 with links present' do
         expect(html).to be_html_eql(%{

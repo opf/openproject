@@ -44,7 +44,7 @@ describe 'Delete project', type: :feature do
   it { expect(find('input#confirm')).not_to be_nil }
 
   describe 'click delete w/o confirm' do
-    before { delete_button.click }
+    before do delete_button.click end
 
     it { expect(find('.error', text: I18n.t(:notice_project_not_deleted))).not_to be_nil }
   end

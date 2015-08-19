@@ -34,7 +34,6 @@ module API
   module V3
     module Projects
       class ProjectRepresenter < ::API::Decorators::Single
-
         self_link
 
         link :createWorkPackage do
