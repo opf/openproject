@@ -17,19 +17,19 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe HourlyRatesController do
   let(:user) { FactoryGirl.create(:user) }
   let(:admin) { FactoryGirl.create(:admin) }
-  let(:default_rate) { FactoryGirl.create(:default_hourly_rate, :user => user) }
+  let(:default_rate) { FactoryGirl.create(:default_hourly_rate, user: user) }
 
-  describe "PUT update" do
-    describe "WHEN trying to update with an invalid rate value" do
+  describe 'PUT update' do
+    describe 'WHEN trying to update with an invalid rate value' do
       let(:params) {
         {
-          :id => user.id,
-          :user => {"existing_rate_attributes" => {"#{default_rate.id}" => {"valid_from" => "#{default_rate.valid_from}", "rate" => "2d5" }}}
+          id: user.id,
+          user: { 'existing_rate_attributes' => { "#{default_rate.id}" => { 'valid_from' => "#{default_rate.valid_from}", 'rate' => '2d5' } } }
         }
       }
       before do
@@ -38,11 +38,11 @@ describe HourlyRatesController do
         end
       end
 
-      it "should render the edit template" do
-        expect(response).to render_template("edit")
+      it 'should render the edit template' do
+        expect(response).to render_template('edit')
       end
 
-      it "should display an error message" do
+      it 'should display an error message' do
         actual_message = assigns(:user).default_rates.first.errors.messages[:rate].first
         expect(actual_message).to eq(I18n.t('activerecord.errors.messages.not_a_number'))
       end

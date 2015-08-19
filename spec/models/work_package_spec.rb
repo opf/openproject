@@ -19,20 +19,22 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   let(:user) { FactoryGirl.create(:admin) }
   let(:role) { FactoryGirl.create(:role) }
   let(:project) do
-      project = FactoryGirl.create(:project_with_types)
-      project.add_member!(user, role)
-      project
+    project = FactoryGirl.create(:project_with_types)
+    project.add_member!(user, role)
+    project
   end
 
   let(:project2) { FactoryGirl.create(:project_with_types, types: project.types) }
-  let(:work_package) { FactoryGirl.create(:work_package, :project => project,
-                                          :type => project.types.first,
-                                          :author => user) }
-  let!(:cost_entry) { FactoryGirl.create(:cost_entry, work_package: work_package, project: project, units: 3, spent_on: Date.today, user: user, comments: "test entry") }
+  let(:work_package) {
+    FactoryGirl.create(:work_package, project: project,
+                                      type: project.types.first,
+                                      author: user)
+  }
+  let!(:cost_entry) { FactoryGirl.create(:cost_entry, work_package: work_package, project: project, units: 3, spent_on: Date.today, user: user, comments: 'test entry') }
   let!(:cost_object) { FactoryGirl.create(:cost_object, project: project) }
 
   def move_to_project(work_package, project)
@@ -41,13 +43,13 @@ describe WorkPackage, :type => :model do
     service.call(project)
   end
 
-  it "should update cost entries on move" do
+  it 'should update cost entries on move' do
     expect(work_package.project_id).to eql project.id
     expect(move_to_project(work_package, project2)).not_to be_falsey
     expect(cost_entry.reload.project_id).to eql project2.id
   end
 
-  it "should allow to set cost_object to nil" do
+  it 'should allow to set cost_object to nil' do
     work_package.cost_object = cost_object
     work_package.save!
     expect(work_package.cost_object).to eql cost_object

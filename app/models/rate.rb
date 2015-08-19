@@ -18,7 +18,7 @@
 #++
 
 class Rate < ActiveRecord::Base
-  validates_numericality_of :rate, :allow_nil => false
+  validates_numericality_of :rate, allow_nil: false
   validate :validate_date_is_a_date
 
   before_save :convert_valid_from_to_date
@@ -38,7 +38,6 @@ class Rate < ActiveRecord::Base
       value
     end
   end
-
 
   private
 

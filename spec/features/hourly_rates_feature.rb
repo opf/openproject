@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe 'hourly rates', type: :feature, js: true do
   let(:user) { FactoryGirl.create :admin }

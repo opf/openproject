@@ -19,39 +19,43 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe CostEntry, :type => :model do
+describe CostEntry, type: :model do
   include Cost::PluginSpecHelper
 
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:project2) { FactoryGirl.create(:project_with_types) }
-  let(:work_package) { FactoryGirl.create(:work_package, :project => project,
-                                       :type => project.types.first,
-                                       :author => user) }
-  let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
-                                        :type => project2.types.first,
-                                        :author => user) }
+  let(:work_package) {
+    FactoryGirl.create(:work_package, project: project,
+                                      type: project.types.first,
+                                      author: user)
+  }
+  let(:work_package2) {
+    FactoryGirl.create(:work_package, project: project2,
+                                      type: project2.types.first,
+                                      author: user)
+  }
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:klass) { CostEntry }
   let(:cost_entry) do
     member
-    FactoryGirl.build(:cost_entry, :cost_type => cost_type,
-                               :project => project,
-                               :work_package => work_package,
-                               :spent_on => date,
-                               :units => units,
-                               :user => user,
-                               :comments => "lorem")
+    FactoryGirl.build(:cost_entry, cost_type: cost_type,
+                                   project: project,
+                                   work_package: work_package,
+                                   spent_on: date,
+                                   units: units,
+                                   user: user,
+                                   comments: 'lorem')
   end
 
   let(:cost_entry2) do
-    FactoryGirl.build(:cost_entry, :cost_type => cost_type,
-                               :project => project,
-                               :work_package => work_package,
-                               :spent_on => date,
-                               :units => units,
-                               :user => user,
-                               :comments => "lorem")
+    FactoryGirl.build(:cost_entry, cost_type: cost_type,
+                                   project: project,
+                                   work_package: work_package,
+                                   spent_on: date,
+                                   units: units,
+                                   user: user,
+                                   comments: 'lorem')
   end
 
   let(:cost_type) do
@@ -63,20 +67,28 @@ describe CostEntry, :type => :model do
     cost_type.reload
     cost_type
   end
-  let(:first_rate) { FactoryGirl.build(:cost_rate, :valid_from => 6.days.ago,
-                                               :rate => 10.0) }
-  let(:second_rate) { FactoryGirl.build(:cost_rate, :valid_from => 4.days.ago,
-                                                :rate => 100.0) }
-  let(:third_rate) { FactoryGirl.build(:cost_rate, :valid_from => 2.days.ago,
-                                               :rate => 1000.0) }
-  let(:member) { FactoryGirl.create(:member, :project => project,
-                                         :roles => [role],
-                                         :principal => user) }
-  let(:role) { FactoryGirl.create(:role, :permissions => []) }
+  let(:first_rate) {
+    FactoryGirl.build(:cost_rate, valid_from: 6.days.ago,
+                                  rate: 10.0)
+  }
+  let(:second_rate) {
+    FactoryGirl.build(:cost_rate, valid_from: 4.days.ago,
+                                  rate: 100.0)
+  }
+  let(:third_rate) {
+    FactoryGirl.build(:cost_rate, valid_from: 2.days.ago,
+                                  rate: 1000.0)
+  }
+  let(:member) {
+    FactoryGirl.create(:member, project: project,
+                                roles: [role],
+                                principal: user)
+  }
+  let(:role) { FactoryGirl.create(:role, permissions: []) }
   let(:units) { 5.0 }
   let(:date) { Date.today }
 
-  describe "class" do
+  describe 'class' do
     describe '#visible' do
       describe "WHEN having the view_cost_entries permission
                 WHEN querying for a project
@@ -128,18 +140,20 @@ describe CostEntry, :type => :model do
     end
   end
 
-  describe "instance" do
+  describe 'instance' do
     describe '#costs' do
-      let(:fourth_rate) { FactoryGirl.build(:cost_rate, :valid_from => 1.days.ago,
-                                                    :rate => 10000.0,
-                                                    :cost_type => cost_type) }
+      let(:fourth_rate) {
+        FactoryGirl.build(:cost_rate, valid_from: 1.days.ago,
+                                      rate: 10000.0,
+                                      cost_type: cost_type)
+      }
 
-      describe "WHEN updating the number of units" do
+      describe 'WHEN updating the number of units' do
         before do
           cost_entry.spent_on = first_rate.valid_from + 1.day
         end
 
-        it "should update costs" do
+        it 'should update costs' do
           (0..5).each do |units|
             cost_entry.units = units
             cost_entry.save!
@@ -148,7 +162,7 @@ describe CostEntry, :type => :model do
         end
       end
 
-      describe "WHEN a new rate is added at the end" do
+      describe 'WHEN a new rate is added at the end' do
         before do
           cost_entry.save!
           fourth_rate.save!
@@ -158,7 +172,7 @@ describe CostEntry, :type => :model do
         it { expect(cost_entry.costs).to eq(fourth_rate.rate * cost_entry.units) }
       end
 
-      describe "WHEN a new rate is added for the future" do
+      describe 'WHEN a new rate is added for the future' do
         before do
           cost_entry.save!
           fourth_rate.valid_from = 1.day.from_now
@@ -169,7 +183,7 @@ describe CostEntry, :type => :model do
         it { expect(cost_entry.costs).to eq(third_rate.rate * cost_entry.units) }
       end
 
-      describe "WHEN a new rate is added in between" do
+      describe 'WHEN a new rate is added in between' do
         before do
           cost_entry.save!
           fourth_rate.valid_from = 3.days.ago
@@ -180,7 +194,7 @@ describe CostEntry, :type => :model do
         it { expect(cost_entry.costs).to eq(third_rate.rate * cost_entry.units) }
       end
 
-      describe "WHEN a rate is destroyed" do
+      describe 'WHEN a rate is destroyed' do
         before do
           cost_entry.save!
           third_rate.destroy
@@ -200,24 +214,24 @@ describe CostEntry, :type => :model do
         it { expect(cost_entry.costs).to eq(cost_entry.units * first_rate.rate) }
       end
 
-      describe "WHEN spent on is changed" do
+      describe 'WHEN spent on is changed' do
         before do
           cost_type.save!
           cost_entry.save!
         end
 
-        it "should take the then active rate to calculate" do
+        it 'should take the then active rate to calculate' do
           (5.days.ago.to_date..Date.today).each do |time|
             cost_entry.spent_on = time
             cost_entry.save!
-            expect(cost_entry.costs).to eq(cost_entry.units * CostRate.first(:conditions => ["cost_type_id = ? AND valid_from <= ?", cost_entry.cost_type.id, cost_entry.spent_on], :order => "valid_from DESC").rate)
+            expect(cost_entry.costs).to eq(cost_entry.units * CostRate.first(conditions: ['cost_type_id = ? AND valid_from <= ?', cost_entry.cost_type.id, cost_entry.spent_on], order: 'valid_from DESC').rate)
           end
         end
       end
     end
 
     describe '#overridden_costs' do
-      describe "WHEN overridden costs are seet" do
+      describe 'WHEN overridden costs are seet' do
         let(:value) { rand(500) }
 
         before do
@@ -229,7 +243,7 @@ describe CostEntry, :type => :model do
     end
 
     describe '#real_costs' do
-      describe "WHEN overrridden cost are set" do
+      describe 'WHEN overrridden cost are set' do
         let(:value) { rand(500) }
 
         before do
@@ -245,15 +259,15 @@ describe CostEntry, :type => :model do
         cost_entry.save!
       end
 
-      it{ expect(cost_entry).to be_valid }
+      it { expect(cost_entry).to be_valid }
 
-      describe "WHEN no cost_type is provided" do
+      describe 'WHEN no cost_type is provided' do
         before { cost_entry.cost_type = nil }
 
         it { expect(cost_entry).not_to be_valid }
       end
 
-      describe "WHEN no project is provided" do
+      describe 'WHEN no project is provided' do
         before do
           cost_entry.project = nil
           # unfortunately the project get's set to the work_package's project if no project is provided
@@ -264,31 +278,31 @@ describe CostEntry, :type => :model do
         it { expect(cost_entry).not_to be_valid }
       end
 
-      describe "WHEN no work_package is provided" do
+      describe 'WHEN no work_package is provided' do
         before { cost_entry.work_package = nil }
 
         it { expect(cost_entry).not_to be_valid }
       end
 
-      describe "WHEN the work_package is not in the project" do
+      describe 'WHEN the work_package is not in the project' do
         before { cost_entry.work_package = work_package2 }
 
         it { expect(cost_entry).not_to be_valid }
       end
 
-      describe "WHEN no units are provided" do
+      describe 'WHEN no units are provided' do
         before { cost_entry.units = nil }
 
         it { expect(cost_entry).not_to be_valid }
       end
 
-      describe "WHEN no spent_on is provided" do
+      describe 'WHEN no spent_on is provided' do
         before { cost_entry.spent_on = nil }
 
         it { expect(cost_entry).not_to be_valid }
       end
 
-      describe "WHEN no user is provided" do
+      describe 'WHEN no user is provided' do
         before { cost_entry.user = nil }
 
         it { expect(cost_entry).not_to be_valid }
@@ -311,7 +325,7 @@ describe CostEntry, :type => :model do
         it { expect(cost_entry).not_to be_valid }
       end
 
-      describe "WHEN the cost_type is deleted" do
+      describe 'WHEN the cost_type is deleted' do
         before { cost_type.deleted_at = Date.new }
 
         it { expect(cost_entry).not_to be_valid }
@@ -319,7 +333,7 @@ describe CostEntry, :type => :model do
     end
 
     describe '#user' do
-      describe "WHEN a non existing user is provided (i.e. the user has been deleted)" do
+      describe 'WHEN a non existing user is provided (i.e. the user has been deleted)' do
         before do
           cost_entry.save!
           user.destroy
@@ -328,7 +342,7 @@ describe CostEntry, :type => :model do
         it { expect(cost_entry.reload.user).to eq(DeletedUser.first) }
       end
 
-      describe "WHEN an existing user is provided" do
+      describe 'WHEN an existing user is provided' do
         it { expect(cost_entry.user).to eq(user) }
       end
     end

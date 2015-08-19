@@ -38,10 +38,9 @@
 #++
 #
 
-require Rails.root.join("db","migrate","migration_utils","legacy_journal_migrator").to_s
+require Rails.root.join('db', 'migrate', 'migration_utils', 'legacy_journal_migrator').to_s
 
 class LegacyVariableCostObjectJournalData < ActiveRecord::Migration
-
   def up
     migrator.run
   end
@@ -51,10 +50,8 @@ class LegacyVariableCostObjectJournalData < ActiveRecord::Migration
   end
 
   def migrator
-    @migrator ||= Migration::LegacyJournalMigrator.new "VariableCostObjectJournal", "cost_object_journals" do
-
-      self.journable_class = "CostObject"
-
+    @migrator ||= Migration::LegacyJournalMigrator.new 'VariableCostObjectJournal', 'cost_object_journals' do
+      self.journable_class = 'CostObject'
     end
   end
 end

@@ -74,10 +74,10 @@ describe ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter do
 
   it 'aggregates the units' do
     elements = JSON.parse(subject)['_embedded']['elements']
-    units_by_type = elements.inject({}) do |hash, entry|
+    units_by_type = elements.inject({}) { |hash, entry|
       hash[entry['_links']['costType']['href']] = entry['spentUnits']
       hash
-    end
+    }
 
     expect(units_by_type[api_v3_paths.cost_type cost_type_A.id]).to eql 2.0
     expect(units_by_type[api_v3_paths.cost_type cost_type_B.id]).to eql 6.0

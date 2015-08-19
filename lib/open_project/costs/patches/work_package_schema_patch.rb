@@ -38,8 +38,6 @@ require_dependency 'api/v3/work_packages/schema/work_package_schema'
 module OpenProject::Costs::Patches::WorkPackageSchemaPatch
   def self.included(base)
     base.class_eval do
-      unloadable
-
       include InstanceMethods
       extend ClassMethods
     end

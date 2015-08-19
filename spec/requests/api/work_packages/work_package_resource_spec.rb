@@ -52,8 +52,8 @@ describe 'API v3 Work package resource', type: :request do
     let(:patch_path) { api_v3_paths.work_package work_package.id }
     let(:valid_params) do
       {
-          _type: 'WorkPackage',
-          lockVersion: work_package.lock_version
+        _type: 'WorkPackage',
+        lockVersion: work_package.lock_version
       }
     end
 
@@ -73,7 +73,7 @@ describe 'API v3 Work package resource', type: :request do
         let(:budget_parameter) { { _links: { costObject: { href: budget_link } } } }
         let(:params) { valid_params.merge(budget_parameter) }
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before do allow(User).to receive(:current).and_return current_user end
 
         context 'valid' do
           include_context 'patch request'
@@ -82,7 +82,7 @@ describe 'API v3 Work package resource', type: :request do
 
           it 'should respond with the work package and its new budget' do
             expect(subject.body).to be_json_eql(target_budget.subject.to_json)
-                                        .at_path('_embedded/costObject/subject')
+              .at_path('_embedded/costObject/subject')
           end
         end
 
