@@ -39,8 +39,8 @@ class WatcherNotificationMailer
     private
 
     # HACK: TODO this needs generalization as well as performance improvements
-    # We need to make sure no work package created or updated job is queued to avoid sending two mails
-    # in short succession.
+    # We need to make sure no work package created or updated job is queued to avoid sending two
+    # mails in short succession.
     def other_jobs_queued?(work_package)
       Delayed::Job.where('handler LIKE ?', "%journal_id: #{work_package.journals.last.id}%").exists?
     end
