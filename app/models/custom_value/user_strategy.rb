@@ -30,7 +30,7 @@
 class CustomValue::UserStrategy < CustomValue::FormatStrategy
   def typed_value
     unless value.blank?
-      User.find_by_id(value)
+      User.find_by(id: value)
     end
   end
 

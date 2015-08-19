@@ -55,6 +55,7 @@ class Message < ActiveRecord::Base
 
   acts_as_searchable columns: ['subject', 'content'],
                      include: { board: :project },
+                     references: [:boards],
                      project_key: 'project_id',
                      date_column: "#{table_name}.created_on"
 
@@ -70,9 +71,9 @@ class Message < ActiveRecord::Base
   after_update :update_ancestors
   after_destroy :reset_counters
 
-  scope :visible, lambda {|*args|
-    { include: { board: :project },
-      conditions: Project.allowed_to_condition(args.first || User.current, :view_messages) }
+  scope :visible, -> (*args) {
+    includes(board: :project)
+      .merge(Project.allowed_to(args.first || User.current, :view_messages))
   }
 
   safe_attributes 'subject', 'content', 'board_id'
@@ -111,7 +112,8 @@ class Message < ActiveRecord::Base
 
   def update_ancestors
     if board_id_changed?
-      Message.update_all("board_id = #{board_id}", ['id = ? OR parent_id = ?', root.id, root.id])
+      Message.where(['id = ? OR parent_id = ?', root.id, root.id])
+        .update_all("board_id = #{board_id}")
       Board.reset_counters!(board_id_was)
       Board.reset_counters!(board_id)
     end

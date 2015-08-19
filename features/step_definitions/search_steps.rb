@@ -52,9 +52,9 @@ Then(/^I can see the (\d+(?:st|nd|rd|th)) through (\d+(?:st|nd|rd|th)) of those 
 
   expected_wps.each do |wp|
     path = Rails.application.routes.url_helpers.work_package_path(wp)
-    linked = found_wps.any? do |e|
+    linked = found_wps.any? { |e|
       e.find('a')['href'].include? path
-    end
+    }
     expect(linked).to be(true)
   end
 end

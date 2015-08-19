@@ -40,7 +40,6 @@ describe AccountController, type: :controller do
     let(:admin) { FactoryGirl.create(:admin) }
 
     describe 'User logging in with back_url' do
-
       it 'should redirect to a relative path' do
         post :login, username: admin.login, password: 'adminADMIN!', back_url: '/'
         expect(response).to redirect_to root_path
@@ -69,7 +68,7 @@ describe AccountController, type: :controller do
       end
 
       it 'should not redirect to logout' do
-        post :login , :username => admin.login, :password => 'adminADMIN!', :back_url => '/logout'
+        post :login, username: admin.login, password: 'adminADMIN!', back_url: '/logout'
         expect(response).to redirect_to my_page_path
       end
 
@@ -141,7 +140,6 @@ describe AccountController, type: :controller do
           expect(response).to redirect_to my_page_path
         end
       end
-
     end
 
     describe 'for a user trying to log in via an API request' do
@@ -312,11 +310,11 @@ describe AccountController, type: :controller do
           is_expected.to respond_with :redirect
           expect(assigns[:user]).not_to be_nil
           is_expected.to redirect_to(my_first_login_path)
-          expect(User.last(conditions: { login: 'register' })).not_to be_nil
+          expect(User.where(login: 'register').last).not_to be_nil
         end
 
         it 'set the user status to active' do
-          user = User.last(conditions: { login: 'register' })
+          user = User.where(login: 'register').last
           expect(user).not_to be_nil
           expect(user.status).to eq(User::STATUSES[:active])
         end
@@ -357,7 +355,7 @@ describe AccountController, type: :controller do
 
         it "doesn't activate the user but sends out a token instead" do
           expect(User.find_by_login('register')).not_to be_active
-          token = Token.find(:first)
+          token = Token.first
           expect(token.action).to eq('register')
           expect(token.user.mail).to eq('register@example.com')
           expect(token).not_to be_expired
@@ -443,7 +441,6 @@ describe AccountController, type: :controller do
     end
 
     context 'with on-the-fly registration' do
-
       before do
         allow(Setting).to receive(:self_registration).and_return('0')
         allow(Setting).to receive(:self_registration?).and_return(false)
@@ -502,5 +499,4 @@ describe AccountController, type: :controller do
       end
     end
   end
-
 end

@@ -28,7 +28,6 @@
 #++
 
 module JournalsHelper
-  # unloadable
   include ApplicationHelper
   include ERB::Util
   include ActionView::Helpers::TagHelper
@@ -62,11 +61,11 @@ module JournalsHelper
 
     if journal.details.any?
       details = content_tag 'ul', class: 'details journal-attributes' do
-        journal.details.map do |detail|
+        journal.details.map { |detail|
           if d = journal.render_detail(detail, cache: options[:cache])
             content_tag('li', d.html_safe)
           end
-        end.compact.join(' ').html_safe
+        }.compact.join(' ').html_safe
       end
     end
 
@@ -128,7 +127,7 @@ module JournalsHelper
 
   # This may conveniently be used by controllers to find journals referred to in the current request
   def find_optional_journal
-    @journal = Journal.find_by_id(params[:journal_id])
+    @journal = Journal.find_by(id: params[:journal_id])
   end
 
   def render_reply(journal)

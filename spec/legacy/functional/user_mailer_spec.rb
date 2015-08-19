@@ -41,7 +41,7 @@ describe UserMailer, type: :mailer do
     User.delete_all
     WorkPackage.delete_all
     Project.delete_all
-    Type.delete_all
+    ::Type.delete_all
     ActionMailer::Base.deliveries.clear
 
     User.current = User.anonymous
@@ -208,7 +208,7 @@ describe UserMailer, type: :mailer do
     assert_equal 'auto-generated', mail.header['Auto-Submitted'].to_s
   end
 
-  it 'should plain text mail' do
+  it 'sends plain text mail' do
     Setting.plain_text_mail = 1
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
@@ -219,7 +219,7 @@ describe UserMailer, type: :mailer do
     assert !mail.encoded.include?('href')
   end
 
-  it 'should html mail' do
+  it 'sends html mail' do
     Setting.plain_text_mail = 0
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)

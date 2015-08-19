@@ -37,7 +37,7 @@ describe Api::V2::PlanningElementPrioritiesController, type: :controller do
     shared_examples_for 'valid work package priority index request' do
       it { expect(response).to be_success }
 
-      it { expect(response).to render_template('api/v2/planning_element_priorities/index', format: ['api']) }
+      it { expect(response).to render_template('api/v2/planning_element_priorities/index') }
     end
 
     describe 'w/o priorities' do

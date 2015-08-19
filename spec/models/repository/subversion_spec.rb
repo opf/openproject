@@ -143,7 +143,7 @@ describe Repository::Subversion, type: :model do
         instance.fetch_changesets
 
         # Remove changesets with revision > 5
-        instance.changesets.find(:all).each do |c| c.destroy if c.revision.to_i > 5 end
+        instance.changesets.each do |c| c.destroy if c.revision.to_i > 5 end
         instance.reload
         expect(instance.changesets.count).to eq(5)
 

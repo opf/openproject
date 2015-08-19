@@ -51,8 +51,7 @@ class AdminController < ApplicationController
       c << ['LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?', name, name]
     end
 
-    @projects = Project.find :all, order: 'lft',
-                                   conditions: c.conditions
+    @projects = Project.order('lft').where(c.conditions)
 
     render action: 'projects', layout: false if request.xhr?
   end
@@ -76,8 +75,8 @@ class AdminController < ApplicationController
   end
 
   def force_user_language
-    available_languages = Setting.find_by_name('available_languages').value
-    User.find(:all, conditions: ['language not in (?)', available_languages]).each do |u|
+    available_languages = Setting.find_by(name: 'available_languages').value
+    User.where(['language not in (?)', available_languages]).each do |u|
       u.language = Setting.default_language
       u.save
     end

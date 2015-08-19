@@ -109,7 +109,7 @@ class TimeEntries::ReportsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render layout: !request.xhr? }
+      format.html do render layout: !request.xhr? end
       format.csv  { send_data(report_to_csv(@criterias, @periods, @hours), type: 'text/csv; header=present', filename: 'timelog.csv') }
     end
   end
@@ -130,8 +130,8 @@ class TimeEntries::ReportsController < ApplicationController
                                            klass: User,
                                            label: Member.model_name.human },
                              'type' => { sql: "#{WorkPackage.table_name}.type_id",
-                                         klass: Type,
-                                         label: Type.model_name.human },
+                                         klass: ::Type,
+                                         label: ::Type.model_name.human },
                              'activity' => { sql: "#{TimeEntry.table_name}.activity_id",
                                              klass: TimeEntryActivity,
                                              label: :label_activity },
@@ -149,14 +149,14 @@ class TimeEntries::ReportsController < ApplicationController
     end if @project
 
     # Add list and boolean time entry custom fields
-    TimeEntryCustomField.find(:all).select { |cf| %w(list bool).include? cf.field_format }.each do |cf|
+    TimeEntryCustomField.all.select { |cf| %w(list bool).include? cf.field_format }.each do |cf|
       @available_criterias["cf_#{cf.id}"] = { sql: "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id)",
                                               format: cf.field_format,
                                               label: cf.name }
     end
 
     # Add list and boolean time entry activity custom fields
-    TimeEntryActivityCustomField.find(:all).select { |cf| %w(list bool).include? cf.field_format }.each do |cf|
+    TimeEntryActivityCustomField.all.select { |cf| %w(list bool).include? cf.field_format }.each do |cf|
       @available_criterias["cf_#{cf.id}"] = { sql: "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Enumeration' AND c.customized_id = #{TimeEntry.table_name}.activity_id)",
                                               format: cf.field_format,
                                               label: cf.name }

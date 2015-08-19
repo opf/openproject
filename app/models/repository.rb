@@ -32,7 +32,9 @@ class Repository < ActiveRecord::Base
   include OpenProject::Scm::ManageableRepository
 
   belongs_to :project
-  has_many :changesets, order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
+  has_many :changesets, -> {
+    order("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC")
+  }
 
   before_save :sanitize_urls
 
@@ -192,25 +194,26 @@ class Repository < ActiveRecord::Base
   def find_changeset_by_name(name)
     name = name.to_s
     return nil if name.blank?
-    changesets.find(:first, conditions: (name.match(/\A\d*\z/) ? ['revision = ?', name] : ['revision LIKE ?', name + '%']))
+    changesets.where((name.match(/\A\d*\z/) ? ['revision = ?', name] : ['revision LIKE ?', name + '%'])).first
   end
 
   def latest_changeset
-    @latest_changeset ||= changesets.find(:first)
+    @latest_changeset ||= changesets.first
   end
 
   # Returns the latest changesets for +path+
   # Default behaviour is to search in cached changesets
   def latest_changesets(path, _rev, limit = 10)
     if path.blank?
-      changesets.find(:all, include: :user,
-                            order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
-                            limit: limit)
+      changesets.includes(:user)
+        .order("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC")
+        .limit(limit)
     else
-      changes.find(:all, include: { changeset: :user },
-                         conditions: ['path = ?', path.with_leading_slash],
-                         order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
-                         limit: limit).map(&:changeset)
+      changesets.includes(changeset: :user)
+        .where(['path = ?', path.with_leading_slash])
+        .order("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC")
+        .limit(limit)
+        .map(&:changeset)
     end
   end
 
@@ -230,7 +233,8 @@ class Repository < ActiveRecord::Base
         new_user_id = h[committer]
         if new_user_id && (new_user_id.to_i != user_id.to_i)
           new_user_id = (new_user_id.to_i > 0 ? new_user_id.to_i : nil)
-          Changeset.update_all("user_id = #{ new_user_id.nil? ? 'NULL' : new_user_id }", ['repository_id = ? AND committer = ?', id, committer])
+          Changeset.where(['repository_id = ? AND committer = ?', id, committer])
+            .update_all("user_id = #{new_user_id.nil? ? 'NULL' : new_user_id}")
         end
       end
       @committers = nil
@@ -250,11 +254,12 @@ class Repository < ActiveRecord::Base
       return @found_committer_users[committer] if @found_committer_users.has_key?(committer)
 
       user = nil
-      c = changesets.find(:first, conditions: { committer: committer }, include: :user)
+      c = changesets.includes(:user).references(:users).find_by(committer: committer)
       if c && c.user
         user = c.user
       elsif committer.strip =~ /\A([^<]+)(<(.*)>)?\z/
-        username, email = $1.strip, $3
+        username = $1.strip
+        email = $3
         u = User.find_by_login(username)
         u ||= User.find_by_mail(email) unless email.blank?
         user = u
@@ -273,7 +278,7 @@ class Repository < ActiveRecord::Base
   # Can be called periodically by an external script
   # eg. ruby script/runner "Repository.fetch_changesets"
   def self.fetch_changesets
-    Project.active.has_module(:repository).find(:all, include: :repository).each do |project|
+    Project.active.has_module(:repository).includes(:repository).each do |project|
       if project.repository
         begin
           project.repository.fetch_changesets
@@ -374,10 +379,12 @@ class Repository < ActiveRecord::Base
   end
 
   def clear_changesets
-    cs, ch, ci = Changeset.table_name, Change.table_name, "#{table_name_prefix}changesets_work_packages#{table_name_suffix}"
-    connection.delete("DELETE FROM #{ch} WHERE #{ch}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
-    connection.delete("DELETE FROM #{ci} WHERE #{ci}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
-    connection.delete("DELETE FROM #{cs} WHERE #{cs}.repository_id = #{id}")
+    cs = Changeset.table_name
+    ch = Change.table_name
+    ci = "#{table_name_prefix}changesets_work_packages#{table_name_suffix}"
+    self.class.connection.delete("DELETE FROM #{ch} WHERE #{ch}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
+    self.class.connection.delete("DELETE FROM #{ci} WHERE #{ci}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
+    self.class.connection.delete("DELETE FROM #{cs} WHERE #{cs}.repository_id = #{id}")
   end
 
   private

@@ -75,7 +75,6 @@ describe WorkPackagesHelper, type: :helper do
 
       ancestors.each_with_index do |ancestor, index|
         expect(helper.ancestors_links[index]).to have_selector("a[href='#{work_package_path(ancestor.id)}']", text: "##{ancestor.id}")
-
       end
     end
   end
@@ -427,9 +426,9 @@ describe WorkPackagesHelper, type: :helper do
     it 'should output the estimated hours value with a precision of 2' do
       stub_work_package.estimated_hours = 3
 
-      attribute = inside_form do |f|
+      attribute = inside_form { |f|
         helper.work_package_form_estimated_hours_attribute(f, stub_work_package, {})
-      end
+      }
 
       expect(attribute.field).to have_selector('input#work_package_estimated_hours[@value="3.00"]')
     end
@@ -468,9 +467,9 @@ describe WorkPackagesHelper, type: :helper do
 
       stub_work_package.status = status1
 
-      attribute = inside_form do |f|
+      attribute = inside_form { |f|
         helper.work_package_form_status_attribute(f, stub_work_package, user: stub_user)
-      end
+      }
 
       status1_selector = "select#work_package_status_id option[@value='#{status1.id}'][@selected='selected']"
       status2_selector = "select#work_package_status_id option[@value='#{status1.id}']"
@@ -486,9 +485,9 @@ describe WorkPackagesHelper, type: :helper do
 
       stub_work_package.status = status1
 
-      attribute = inside_form do |f|
+      attribute = inside_form { |f|
         helper.work_package_form_status_attribute(f, stub_work_package, user: stub_user)
-      end
+      }
 
       expect(attribute.field).to have_text(WorkPackage.human_attribute_name(:status))
       expect(attribute.field).to have_text(status1.name)

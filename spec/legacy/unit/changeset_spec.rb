@@ -36,7 +36,7 @@ describe Changeset, type: :model do
       WorkPackage.all.each(&:recreate_initial_journal!)
 
       ActionMailer::Base.deliveries.clear
-      Setting.commit_fix_status_id = Status.find(:first, conditions: ['is_closed = ?', true]).id
+      Setting.commit_fix_status_id = Status.where(['is_closed = ?', true]).first.id
       Setting.commit_fix_done_ratio = '90'
       Setting.commit_ref_keywords = '*'
       Setting.commit_fix_keywords = 'fixes , closes'
@@ -107,7 +107,7 @@ describe Changeset, type: :model do
       end
       assert_equal [1], c.work_package_ids.sort
 
-      time = TimeEntry.first(order: 'id desc')
+      time = TimeEntry.order('id DESC').first
       assert_equal 1, time.work_package_id
       assert_equal 1, time.project_id
       assert_equal 2, time.user_id
@@ -119,7 +119,7 @@ describe Changeset, type: :model do
   end
 
   it 'should ref keywords closing with timelog' do
-    Setting.commit_fix_status_id = Status.find(:first, conditions: ['is_closed = ?', true]).id
+    Setting.commit_fix_status_id = Status.where(['is_closed = ?', true]).first.id
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
     Setting.commit_logtime_enabled = '1'
@@ -136,7 +136,7 @@ describe Changeset, type: :model do
     assert WorkPackage.find(1).closed?
     assert WorkPackage.find(2).closed?
 
-    times = TimeEntry.all(order: 'id desc', limit: 2)
+    times = TimeEntry.order('id desc').limit(2)
     assert_equal [1, 2], times.map(&:work_package_id).sort
   end
 
@@ -217,22 +217,22 @@ describe Changeset, type: :model do
   end
 
   it 'should previous' do
-    changeset = Changeset.find_by_revision('3')
-    assert_equal Changeset.find_by_revision('2'), changeset.previous
+    changeset = Changeset.find_by(revision: '3')
+    assert_equal Changeset.find_by(revision: '2'), changeset.previous
   end
 
   it 'should previous nil' do
-    changeset = Changeset.find_by_revision('1')
+    changeset = Changeset.find_by(revision: '1')
     assert_nil changeset.previous
   end
 
   it 'should next' do
-    changeset = Changeset.find_by_revision('2')
-    assert_equal Changeset.find_by_revision('3'), changeset.next
+    changeset = Changeset.find_by(revision: '2')
+    assert_equal Changeset.find_by(revision: '3'), changeset.next
   end
 
   it 'should next nil' do
-    changeset = Changeset.find_by_revision('10')
+    changeset = Changeset.find_by(revision: '10')
     assert_nil changeset.next
   end
 
@@ -276,7 +276,7 @@ describe Changeset, type: :model do
     end
 
   it 'should identifier' do
-    c = Changeset.find_by_revision('1')
+    c = Changeset.find_by(revision: '1')
     assert_equal c.revision, c.identifier
   end
 end

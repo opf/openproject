@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <% if options[:deletable] %>
               <%= link_to icon_wrapper('icon-context icon-delete', l(:button_delete)),
                           attachment,
-                          { confirm: l(:text_are_you_sure),
+                          { data: { confirm: l(:text_are_you_sure) },
                             method: :delete,
                             class: 'delete',
                             title: l(:button_delete),

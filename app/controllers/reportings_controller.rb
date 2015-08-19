@@ -28,7 +28,6 @@
 #++
 
 class ReportingsController < ApplicationController
-  unloadable
   helper :timelines
 
   before_filter :disable_api
@@ -47,7 +46,7 @@ class ReportingsController < ApplicationController
   def available_projects
     available_projects = @project.reporting_to_project_candidates
     respond_to do |format|
-      format.html { render_404 }
+      format.html do render_404 end
     end
   end
 
@@ -103,7 +102,7 @@ class ReportingsController < ApplicationController
       condition += ' AND ' unless condition.empty?
 
       project_parents = params[:project_parents].split(/,/).map(&:to_i)
-      nested_set_selection = Project.find(project_parents).map { |p| p.lft..p.rgt }.inject([]) { |r, e| e.each { |i| r << i }; r }
+      nested_set_selection = Project.find(project_parents).map { |p| p.lft..p.rgt }.inject([]) { |r, e| e.each do |i| r << i end; r }
 
       temp_condition += "#{Project.quoted_table_name}.lft IN (?)"
       condition_params << nested_set_selection
@@ -125,15 +124,9 @@ class ReportingsController < ApplicationController
 
     case params[:only]
     when 'via_source'
-      @reportings = @project.reportings_via_source.find(:all,
-                                                        include: :project,
-                                                        conditions: conditions
-        )
+      @reportings = @project.reportings_via_source.includes(:project).where(conditions)
     when 'via_target'
-      @reportings = @project.reportings_via_target.find(:all,
-                                                        include: :project,
-                                                        conditions: conditions
-        )
+      @reportings = @project.reportings_via_target.includes(:project).where(conditions)
     else
       @reportings = @project.reportings.all
     end
@@ -156,24 +149,18 @@ class ReportingsController < ApplicationController
 
     case params[:only]
     when 'via_source'
-      @ancestor_reportings = @project.reportings_via_source.find(:all,
-                                                                 include: :project,
-                                                                 conditions: conditions
-        )
+      @ancestor_reportings = @project.reportings_via_source.includes(:project).where(conditions)
     when 'via_target'
-      @ancestor_reportings = @project.reportings_via_target.find(:all,
-                                                                 include: :project,
-                                                                 conditions: conditions
-        )
+      @ancestor_reportings = @project.reportings_via_target.includes(:project).where(conditions)
     else
-      @ancestor_reportings = @project.reportings.all
+      @ancestor_reportings = @project.reportings
     end
 
     @reportings = (@reportings + @ancestor_reportings).uniq
 
     respond_to do |format|
       format.html do
-        @reportings = @project.reportings_via_source.all.select(&:visible?)
+        @reportings = @project.reportings_via_source.select(&:visible?)
       end
     end
   end

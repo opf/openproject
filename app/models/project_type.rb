@@ -28,21 +28,20 @@
 #++
 
 class ProjectType < ActiveRecord::Base
-  unloadable
-
   extend Pagination::Model
 
   self.table_name = 'project_types'
 
   acts_as_list
-  default_scope order: 'position ASC'
+  default_scope { order('position ASC') }
 
   has_many :projects, class_name:  'Project',
                       foreign_key: 'project_type_id'
 
   has_many :available_project_statuses, class_name:  'AvailableProjectStatus',
                                         foreign_key: 'project_type_id',
-                                        dependent: :destroy
+                                        dependent: :destroy,
+                                        validate: false
   has_many :reported_project_statuses, through: :available_project_statuses
 
   include ActiveModel::ForbiddenAttributesProtection
@@ -55,6 +54,6 @@ class ProjectType < ActiveRecord::Base
   def self.available_grouping_project_types
     # this should be all project types to which there are projects to
     # which there are dependencies from projects that the user can see
-    find(:all, order: :name)
+    order(:name)
   end
 end

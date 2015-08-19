@@ -267,9 +267,10 @@ describe 'routing', type: :routing do
       }
 
       it {
-        is_expected.to route(:get, '/projects/5234/members/autocomplete').to(controller: 'members',
-                                                                             action: 'autocomplete',
-                                                                             project_id: '5234')
+        is_expected.to route(:get, '/projects/5234/members/autocomplete_for_member')
+          .to(controller: 'members',
+              action: 'autocomplete_for_member',
+              project_id: '5234')
       }
     end
 
@@ -676,9 +677,9 @@ describe 'routing', type: :routing do
     }
 
     it {
-      is_expected.to route(:put, '/versions/1').to(controller: 'versions',
-                                                   action: 'update',
-                                                   id: '1')
+      is_expected.to route(:patch, '/versions/1').to(controller: 'versions',
+                                                     action: 'update',
+                                                     id: '1')
     }
 
     it {
@@ -806,10 +807,10 @@ describe 'routing', type: :routing do
       }
 
       it {
-        is_expected.to route(:put, '/projects/22/wiki/ladida/rename').to(controller: 'wiki',
-                                                                         action: 'rename',
-                                                                         project_id: '22',
-                                                                         id: 'ladida')
+        is_expected.to route(:patch, '/projects/22/wiki/ladida/rename').to(controller: 'wiki',
+                                                                           action: 'rename',
+                                                                           project_id: '22',
+                                                                           id: 'ladida')
       }
 
       it {
@@ -844,20 +845,9 @@ describe 'routing', type: :routing do
 
   context 'wikis (plural, admin setup)' do
     it {
-      is_expected.to route(:get, '/projects/ladida/wiki/destroy').to(controller: 'wikis',
-                                                                     action: 'destroy',
-                                                                     id: 'ladida')
-    }
-
-    it {
       is_expected.to route(:post, '/projects/ladida/wiki').to(controller: 'wikis',
                                                               action: 'edit',
                                                               id: 'ladida')
-    }
-    it {
-      is_expected.to route(:post, '/projects/ladida/wiki/destroy').to(controller: 'wikis',
-                                                                      action: 'destroy',
-                                                                      id: 'ladida')
     }
   end
 

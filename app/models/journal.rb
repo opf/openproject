@@ -54,7 +54,7 @@ class Journal < ActiveRecord::Base
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
-  scope 'changing', conditions: ['version > 1']
+  scope :changing, -> { where(['version > 1']) }
 
   def changed_data=(changed_attributes)
     attributes = changed_attributes
@@ -89,8 +89,6 @@ class Journal < ActiveRecord::Base
       journable.project
     elsif journable.is_a? Project
       journable
-    else
-      nil
     end
   end
 
@@ -114,7 +112,7 @@ class Journal < ActiveRecord::Base
   end
 
   def data
-    @data ||= "Journal::#{journable_type}Journal".constantize.find_by_journal_id(id)
+    @data ||= "Journal::#{journable_type}Journal".constantize.find_by(journal_id: id)
   end
 
   def data=(data)

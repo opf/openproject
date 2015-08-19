@@ -108,7 +108,7 @@ describe NewsController, type: :controller do
                                                       summary: '' }
         expect(response).to redirect_to project_news_index_path(project)
 
-        news = News.find_by_title!('NewsControllerTest')
+        news = News.find_by!(title: 'NewsControllerTest')
         expect(news).not_to be_nil
         expect(news.description).to eq 'This is the description'
         expect(news.author).to eq user

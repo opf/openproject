@@ -77,7 +77,7 @@ describe Group, type: :model do
       it { expect(group.valid?).to be_falsey }
 
       describe 'error message' do
-        before { group.valid? }
+        before do group.valid? end
 
         it { expect(group.errors.full_messages[0]).to include I18n.t('attributes.groupname') }
       end

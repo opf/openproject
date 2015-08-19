@@ -29,8 +29,6 @@
 module Api
   module Experimental
     class WorkPackagesController < ApplicationController
-      unloadable
-
       DEFAULT_SORT_ORDER = ['parent', 'desc']
 
       include ApiController
@@ -106,7 +104,6 @@ module Api
                         .page(page_param)
                         .per_page(per_page_param)
                         .changed_since(@since)
-                        .all
         set_work_packages_meta_data(@query, results, work_packages)
 
         work_packages
@@ -140,7 +137,7 @@ module Api
         # Note: Do not apply pagination. Used to obtain total query meta data.
         results = query.results include: includes_for_columns(column_names)
 
-        results.work_packages.all
+        results.work_packages
       end
 
       def set_work_packages_meta_data(query, results, work_packages)

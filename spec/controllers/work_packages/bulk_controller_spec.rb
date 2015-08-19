@@ -125,7 +125,7 @@ describe WorkPackages::BulkController, type: :controller do
     end
 
     context 'same project' do
-      before { get :edit, ids: [work_package_1.id, work_package_2.id] }
+      before do get :edit, ids: [work_package_1.id, work_package_2.id] end
 
       it_behaves_like :response
 
@@ -183,7 +183,7 @@ describe WorkPackages::BulkController, type: :controller do
 
   describe '#update' do
     let(:work_package_ids) { [work_package_1.id, work_package_2.id] }
-    let(:work_packages) { WorkPackage.find_all_by_id(work_package_ids) }
+    let(:work_packages) { WorkPackage.where(id: work_package_ids) }
     let(:priority) { FactoryGirl.create(:priority_immediate) }
     let(:group_id) { '' }
     let(:responsible_id) { '' }
@@ -192,7 +192,7 @@ describe WorkPackages::BulkController, type: :controller do
       context 'in host' do
         let(:url) { '/work_packages' }
 
-        before { put :update, ids: work_package_ids, back_url: url }
+        before do put :update, ids: work_package_ids, back_url: url end
 
         subject { response }
 
@@ -204,7 +204,7 @@ describe WorkPackages::BulkController, type: :controller do
       context 'of host' do
         let(:url) { 'http://google.com' }
 
-        before { put :update, ids: work_package_ids, back_url: url }
+        before do put :update, ids: work_package_ids, back_url: url end
 
         subject { response }
 
@@ -285,7 +285,7 @@ describe WorkPackages::BulkController, type: :controller do
 
       shared_examples_for 'updated work package' do
         describe '#priority' do
-          subject { WorkPackage.find_all_by_priority_id(priority.id).map(&:id) }
+          subject { WorkPackage.where(priority_id: priority.id).map(&:id) }
 
           it { is_expected.to match_array(work_package_ids) }
         end
@@ -294,7 +294,7 @@ describe WorkPackages::BulkController, type: :controller do
           let(:result) { [custom_field_value] }
 
           subject {
-            WorkPackage.find_all_by_id(work_package_ids)
+            WorkPackage.where(id: work_package_ids)
               .map { |w| w.custom_value_for(custom_field_1.id).value }
               .uniq
           }
@@ -307,7 +307,7 @@ describe WorkPackages::BulkController, type: :controller do
             let(:result) { ['Bulk editing'] }
 
             subject {
-              WorkPackage.find_all_by_id(work_package_ids)
+              WorkPackage.where(id: work_package_ids)
                 .map { |w| w.last_journal.notes }
                 .uniq
             }
@@ -319,7 +319,7 @@ describe WorkPackages::BulkController, type: :controller do
             let(:result) { [1] }
 
             subject {
-              WorkPackage.find_all_by_id(work_package_ids)
+              WorkPackage.where(id: work_package_ids)
                 .map { |w| w.last_journal.details.size }
                 .uniq
             }
@@ -343,7 +343,7 @@ describe WorkPackages::BulkController, type: :controller do
         let(:work_package_ids) { [work_package_1.id, work_package_2.id, work_package_3.id] }
 
         context 'with permission' do
-          before { member1_p2 }
+          before do member1_p2 end
 
           include_context 'update_request'
 

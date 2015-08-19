@@ -34,7 +34,7 @@ class WelcomeController < ApplicationController
   end
 
   def robots
-    @projects = Project.active.public
+    @projects = Project.active.public_projects
   end
   caches_action :robots
 end

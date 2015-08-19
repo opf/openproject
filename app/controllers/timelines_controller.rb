@@ -28,7 +28,6 @@
 #++
 
 class TimelinesController < ApplicationController
-  unloadable
   helper :timelines
 
   before_filter :disable_api
@@ -45,7 +44,7 @@ class TimelinesController < ApplicationController
   end
 
   def show
-    @visible_timelines = @project.timelines.all
+    @visible_timelines = @project.timelines
 
     @timeline = @project.timelines.find(params[:id])
   end

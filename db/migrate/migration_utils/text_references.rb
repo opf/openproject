@@ -119,7 +119,7 @@ module Migration
 
     def update_work_package_macros(text, id_map, regex, macro_regex, new_macro)
       unless text.nil?
-        text = parse_non_pre_blocks(text) do |block|
+        text = parse_non_pre_blocks(text) { |block|
           block.gsub!(regex) do |match|
             if id_map.has_key? $~[:id].to_s
               prefix = $~.names.include?('prefix') ? $~[:prefix] : ' '
@@ -132,7 +132,7 @@ module Migration
               match
             end
           end
-        end
+        }
       end
 
       text
@@ -140,10 +140,10 @@ module Migration
 
     def update_issue_planning_element_links(text, id_map)
       unless text.nil?
-        text = parse_non_pre_blocks(text) do |block|
-          block.gsub!(work_package_link_regex) { |_| update_issue_planning_element_link_match $~, id_map }
+        text = parse_non_pre_blocks(text) { |block|
+          block.gsub!(work_package_link_regex) do |_| update_issue_planning_element_link_match $~, id_map end
           block.gsub!(rel_work_package_link_regex) { |_| update_issue_planning_element_link_match $~, id_map }
-        end
+        }
       end
 
       text
@@ -159,10 +159,10 @@ module Migration
 
     def restore_issue_planning_element_links(text, id_map)
       unless text.nil?
-        text = parse_non_pre_blocks(text) do |_block|
-          text.gsub!(restore_work_package_link_regex) { |_| restore_issue_planning_element_link_match $~, id_map }
+        text = parse_non_pre_blocks(text) { |_block|
+          text.gsub!(restore_work_package_link_regex) do |_| restore_issue_planning_element_link_match $~, id_map end
           text.gsub!(restore_rel_work_package_link_regex) { |_| restore_issue_planning_element_link_match $~, id_map }
-        end
+        }
       end
 
       text
@@ -206,7 +206,10 @@ module Migration
       parsed = ''
       while !s.eos?
         s.scan(/(.*?)(<(\/)?(pre|code)(.*?)>|\z)/im)
-        text, full_tag, closing, tag = s[1], s[2], s[3], s[4]
+        text = s[1]
+        full_tag = s[2]
+        closing = s[3]
+        tag = s[4]
         if tags.empty?
           yield text
         end

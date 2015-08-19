@@ -51,7 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <td class="buttons">
             <%= link_to l(:button_delete), { :action => 'destroy', :id => enumeration },
                 :method => :delete,
-                :confirm => l(:text_are_you_sure),
+                data: { confirm: l(:text_are_you_sure) },
                 :class => 'icon icon-delete' %>
           </td>
         </tr>

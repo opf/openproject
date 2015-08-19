@@ -94,11 +94,7 @@ module Redmine::Acts::Journalized
           class_name: Journal.name,
           dependent: :delete_all,
           foreign_key: :journable_id,
-          conditions: { journable_type: to_s },
           as: :journable
-        )
-        result_options.reverse_merge!(
-          order: "#{Journal.table_name}.version ASC"
         )
 
         class_attribute :vestal_journals_options

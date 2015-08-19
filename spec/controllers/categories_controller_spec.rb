@@ -57,7 +57,7 @@ describe CategoriesController, type: :controller do
   end
 
   describe '#new' do
-    before { get :new, project_id: project.id }
+    before do get :new, project_id: project.id end
 
     subject { response }
 
@@ -69,15 +69,15 @@ describe CategoriesController, type: :controller do
   describe '#create' do
     let(:category_name) { 'New category' }
 
-    before {
+    before do
       post :create,
            project_id: project.id,
            category: { name: category_name,
                        assigned_to_id: user.id }
-    }
+    end
 
     describe '#categories' do
-      subject { Category.find_by_name(category_name) }
+      subject { Category.find_by(name: category_name) }
 
       it { expect(subject.project_id).to eq(project.id) }
 
@@ -96,11 +96,11 @@ describe CategoriesController, type: :controller do
                            project: project)
       }
 
-      before {
+      before do
         post :update,
              id: category.id,
              category: { name: name }
-      }
+      end
 
       subject { Category.find(category.id).name }
 
@@ -116,11 +116,11 @@ describe CategoriesController, type: :controller do
     end
 
     context 'invalid category' do
-      before {
+      before do
         post :update,
              id: 404,
              category: { name: name }
-      }
+      end
 
       subject { response.response_code }
 
@@ -139,16 +139,16 @@ describe CategoriesController, type: :controller do
                          category: category)
     }
 
-    before { category }
+    before do category end
 
     shared_examples_for :delete do
-      subject { Category.find_by_id(category.id) }
+      subject { Category.find_by(id: category.id) }
 
       it { is_expected.to be_nil }
     end
 
     context 'unused' do
-      before { delete :destroy, id: category.id }
+      before do delete :destroy, id: category.id end
 
       it_behaves_like :redirect
 
@@ -162,7 +162,7 @@ describe CategoriesController, type: :controller do
         delete :destroy, id: category.id
       end
 
-      subject { Category.find_by_id(category.id) }
+      subject { Category.find_by(id: category.id) }
 
       it { is_expected.not_to be_nil }
 

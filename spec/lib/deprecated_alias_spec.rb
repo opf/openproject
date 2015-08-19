@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe DeprecatedAlias do
-
   let(:clazz) {
     Class.new do
       extend DeprecatedAlias
@@ -56,5 +55,4 @@ describe DeprecatedAlias do
   it 'should alias the method' do
     expect(object.special_key).to eq('happiness')
   end
-
 end

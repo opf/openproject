@@ -34,8 +34,6 @@ module RedCloth3Patch
     base.send(:include, InstanceMethods)
 
     base.class_eval do
-      unloadable
-
       alias_method_chain :block_textile_prefix, :numbering
     end
   end

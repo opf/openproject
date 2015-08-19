@@ -40,7 +40,7 @@ class WorkPackages::MovesController < ApplicationController
   def create
     prepare_for_work_package_move
 
-    new_type = params[:new_type_id].blank? ? nil : @target_project.types.find_by_id(params[:new_type_id])
+    new_type = params[:new_type_id].blank? ? nil : @target_project.types.find_by(id: params[:new_type_id])
     unsaved_work_package_ids = []
     moved_work_packages = []
     @work_packages.each do |work_package|

@@ -192,7 +192,7 @@ en:
         blank: "can't be blank."
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
-        confirmation: "doesn't match confirmation."
+        confirmation: "doesn't match %{attribute}."
         empty: "can't be empty."
         equal_to: "must be equal to %{count}."
         even: "must be even."

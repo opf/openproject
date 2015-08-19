@@ -29,7 +29,6 @@
 require File.expand_path('../../../../spec_helper', __FILE__)
 
 describe Api::V2::ReportedProjectStatusesController, type: :controller do
-
   let(:valid_user) { FactoryGirl.create(:user) }
   let(:available_reported_project_status) do
     FactoryGirl.create(:reported_project_status,
@@ -61,7 +60,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
           it 'renders the index builder template' do
             get 'index', project_type_id: project_type.id, format: 'xml'
-            expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ['api'])
+            expect(response).to render_template('api/v2/reported_project_statuses/index')
           end
         end
 
@@ -96,7 +95,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
           it 'renders the index template' do
             get 'index', project_type_id: project_type.id, format: 'xml'
-            expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ['api'])
+            expect(response).to render_template('api/v2/reported_project_statuses/index')
           end
         end
       end
@@ -104,7 +103,6 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
     describe 'show.xml' do
       describe 'with unknown project_type' do
-
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
             get 'show', project_type_id: '0', id: '1337', format: 'xml'
@@ -162,7 +160,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
         it 'renders the show template' do
           get 'show', project_type_id: project_type.id, id: '1337', format: 'xml'
-          expect(response).to render_template('api/v2/reported_project_statuses/show', formats: ['api'])
+          expect(response).to render_template('api/v2/reported_project_statuses/show')
         end
       end
     end
@@ -178,7 +176,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
         it 'renders the index builder template' do
           get 'index', format: 'xml'
-          expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ['api'])
+          expect(response).to render_template('api/v2/reported_project_statuses/index')
         end
       end
 
@@ -199,7 +197,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
         it 'renders the index template' do
           get 'index', format: 'xml'
-          expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ['api'])
+          expect(response).to render_template('api/v2/reported_project_statuses/index')
         end
       end
     end
@@ -240,7 +238,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
         it 'renders the show template' do
           get 'show', id: '1337', format: 'xml'
-          expect(response).to render_template('api/v2/reported_project_statuses/show', formats: ['api'])
+          expect(response).to render_template('api/v2/reported_project_statuses/show')
         end
       end
     end

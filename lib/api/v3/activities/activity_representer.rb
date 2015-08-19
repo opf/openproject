@@ -66,7 +66,7 @@ module API
                  exec_context: :decorator,
                  getter: -> (*) {
                    ::API::Decorators::Formattable.new(represented.notes,
-                                                     object: represented.journable)
+                                                      object: represented.journable)
                  },
                  setter: -> (value, *) { represented.notes = value['raw'] },
                  render_nil: true

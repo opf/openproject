@@ -97,7 +97,7 @@ module Redmine
             end
 
             result.flatten!
-            result.each { |e| e.event_type = event_type.dup.singularize unless e.event_type }
+            result.each do |e| e.event_type = event_type.dup.singularize unless e.event_type end
             result
           end
 
@@ -210,8 +210,7 @@ module Redmine
 
           def fill_events(provider, activity, events)
             events.each_with_object([]) do |e, result|
-              datetime = e['event_datetime'].is_a?(String) ? DateTime.parse(e['event_datetime'])
-                                                           : e['event_datetime']
+              datetime = e['event_datetime'].is_a?(String) ? DateTime.parse(e['event_datetime']) : e['event_datetime']
               event = Redmine::Acts::ActivityProvider::Event.new(self,
                                                                  nil,
                                                                  nil,

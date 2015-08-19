@@ -36,7 +36,6 @@ describe 'routes for old issue uris', type: :request do
   # moving them to spec/routing.
   describe 'for index action' do
     before do
-
       get('/wp')
     end
 

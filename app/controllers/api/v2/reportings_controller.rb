@@ -29,7 +29,7 @@
 
 module Api
   module V2
-    class ReportingsController < ReportingsController
+    class ReportingsController < ::ReportingsController
       include ::Api::V2::ApiController
 
       def self.accept_key_auth_actions
@@ -39,10 +39,10 @@ module Api
       def available_projects
         available_projects = @project.reporting_to_project_candidates
         respond_to do |format|
-          format.api {
+          format.api do
             @elements = Project.project_level_list(Project.visible)
             @disabled = Project.visible - available_projects
-          }
+          end
         end
       end
 
@@ -98,7 +98,7 @@ module Api
           condition += ' AND ' unless condition.empty?
 
           project_parents = params[:project_parents].split(/,/).map(&:to_i)
-          nested_set_selection = Project.find(project_parents).map { |p| p.lft..p.rgt }.inject([]) { |r, e| e.each { |i| r << i }; r }
+          nested_set_selection = Project.find(project_parents).map { |p| p.lft..p.rgt }.inject([]) { |r, e| e.each do |i| r << i end; r }
 
           temp_condition += "#{Project.quoted_table_name}.lft IN (?)"
           condition_params << nested_set_selection
@@ -120,17 +120,13 @@ module Api
 
         case params[:only]
         when 'via_source'
-          @reportings = @project.reportings_via_source.find(:all,
-                                                            include: :project,
-                                                            conditions: conditions
-            )
+          @reportings = @project.reportings_via_source.includes(:project)
+                        .where(conditions).references(:projects)
         when 'via_target'
-          @reportings = @project.reportings_via_target.find(:all,
-                                                            include: :project,
-                                                            conditions: conditions
-            )
+          @reportings = @project.reportings_via_target.includes(:project)
+                        .where(conditions).references(:projects)
         else
-          @reportings = @project.reportings.all
+          @reportings = @project.reportings
         end
 
         # get all reportings for which projects have ancestors.
@@ -151,20 +147,16 @@ module Api
 
         case params[:only]
         when 'via_source'
-          @ancestor_reportings = @project.reportings_via_source.find(:all,
-                                                                     include: :project,
-                                                                     conditions: conditions
-            )
+          @ancestor_reportings = @project.reportings_via_source
+                                 .includes(:project).where(conditions).references(:projects)
         when 'via_target'
-          @ancestor_reportings = @project.reportings_via_target.find(:all,
-                                                                     include: :project,
-                                                                     conditions: conditions
-            )
+          @ancestor_reportings = @project.reportings_via_target
+                                 .includes(:project).where(conditions).references(:projects)
         else
-          @ancestor_reportings = @project.reportings.all
+          @ancestor_reportings = @project.reportings
         end
 
-        @reportings = (@reportings + @ancestor_reportings).uniq
+        @reportings = (@reportings.to_a + @ancestor_reportings.to_a).uniq
 
         respond_to do |format|
           format.api do

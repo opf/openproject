@@ -47,13 +47,13 @@ describe Repository::Subversion, type: :model do
 
     assert_equal 12, @repository.changesets.count
     assert_equal 21, @repository.changes.count
-    assert_equal 'Initial import.', @repository.changesets.find_by_revision('1').comments
+    assert_equal 'Initial import.', @repository.changesets.find_by(revision: '1').comments
   end
 
   it 'should fetch changesets incremental' do
     @repository.fetch_changesets
     # Remove changesets with revision > 5
-    @repository.changesets.find(:all).each { |c| c.destroy if c.revision.to_i > 5 }
+    @repository.changesets.each do |c| c.destroy if c.revision.to_i > 5 end
     @repository.reload
     assert_equal 5, @repository.changesets.count
 
@@ -110,7 +110,7 @@ describe Repository::Subversion, type: :model do
   it 'should identifier' do
     @repository.fetch_changesets
     @repository.reload
-    c = @repository.changesets.find_by_revision('1')
+    c = @repository.changesets.find_by(revision: '1')
     assert_equal c.revision, c.identifier
   end
 
@@ -131,7 +131,7 @@ describe Repository::Subversion, type: :model do
   it 'should format identifier' do
     @repository.fetch_changesets
     @repository.reload
-    c = @repository.changesets.find_by_revision('1')
+    c = @repository.changesets.find_by(revision: '1')
     assert_equal c.format_identifier, c.revision
   end
 

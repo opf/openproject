@@ -82,13 +82,13 @@ class EnumerationsController < ApplicationController
       redirect_to action: 'index'
       return
     elsif params[:reassign_to_id]
-      if reassign_to = @enumeration.class.find_by_id(params[:reassign_to_id])
+      if reassign_to = @enumeration.class.find_by(id: params[:reassign_to_id])
         @enumeration.destroy(reassign_to)
         redirect_to action: 'index'
         return
       end
     end
-    @enumerations = @enumeration.class.find(:all) - [@enumeration]
+    @enumerations = @enumeration.class.all - [@enumeration]
   end
 
   protected

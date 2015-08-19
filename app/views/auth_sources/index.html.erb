@@ -57,7 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= link_to l(:button_test), { :action => 'test_connection', :id => source } %>
           <%= link_to l(:button_delete), { :action => 'destroy', :id => source },
                                      :method => :delete,
-                                     :confirm => l(:text_are_you_sure),
+                                     data: { confirm: l(:text_are_you_sure) },
                                      :class => 'icon icon-delete',
                                      :disabled => source.users.any? %>
         </td>

@@ -54,7 +54,7 @@ describe OpenProject::Scm::Adapters::Git, type: :model do
       nil,
       nil,
       'ISO-8859-1'
-                  )
+    )
     assert @adapter
     @char_1        = CHAR_1_HEX.dup
     if @char_1.respond_to?(:force_encoding)

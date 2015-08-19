@@ -28,7 +28,7 @@
 
 FactoryGirl.define do
   factory :changeset do
-    sequence(:revision) { |n| "#{n}" }
+    sequence(:revision) do |n| "#{n}" end
     committed_on Time.now
     commit_date Date.today
   end

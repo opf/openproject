@@ -147,7 +147,7 @@ describe WorkPackage, type: :model do
         end
 
         context 'errors' do
-          before { work_package.save }
+          before do work_package.save end
 
           subject { work_package.errors[:type_id] }
 
@@ -242,13 +242,13 @@ describe WorkPackage, type: :model do
     subject { work_package.assignable_responsibles }
 
     context 'with assignable groups' do
-      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(true) }
+      before do allow(Setting).to receive(:work_package_group_assignment?).and_return(true) end
 
       it { is_expected.to match_array([user, group]) }
     end
 
     context 'w/o assignable groups' do
-      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(false) }
+      before do allow(Setting).to receive(:work_package_group_assignment?).and_return(false) end
 
       it { is_expected.to match_array([user]) }
     end
@@ -257,7 +257,7 @@ describe WorkPackage, type: :model do
   describe 'responsible' do
     let(:group) { FactoryGirl.create(:group) }
 
-    before { work_package.project.add_member! group, FactoryGirl.create(:role) }
+    before do work_package.project.add_member! group, FactoryGirl.create(:role) end
 
     shared_context 'assign group as responsible' do
       before { work_package.responsible = group }
@@ -266,7 +266,7 @@ describe WorkPackage, type: :model do
     subject { work_package.valid? }
 
     context 'with assignable groups' do
-      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(true) }
+      before do allow(Setting).to receive(:work_package_group_assignment?).and_return(true) end
 
       include_context 'assign group as responsible'
 
@@ -274,7 +274,7 @@ describe WorkPackage, type: :model do
     end
 
     context 'w/o assignable groups' do
-      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(false) }
+      before do allow(Setting).to receive(:work_package_group_assignment?).and_return(false) end
 
       include_context 'assign group as responsible'
 
@@ -310,7 +310,7 @@ describe WorkPackage, type: :model do
       stub_shared_versions
 
       allow(stub_work_package).to receive(:fixed_version_id_was).and_return(5)
-      allow(Version).to receive(:find_by_id).with(5).and_return(stub_version)
+      allow(Version).to receive(:find_by).with(id: 5).and_return(stub_version)
 
       expect(stub_work_package.assignable_versions).to eq([stub_version])
     end
@@ -348,7 +348,7 @@ describe WorkPackage, type: :model do
       end
 
       shared_examples_for 'invalid version' do
-        before { work_package.save }
+        before do work_package.save end
 
         subject { work_package.errors[:fixed_version_id] }
 
@@ -370,7 +370,7 @@ describe WorkPackage, type: :model do
       context 'open version' do
         let(:version) { version_open }
 
-        before { work_package.save }
+        before do work_package.save end
 
         it { is_expected.to be_truthy }
       end
@@ -410,7 +410,7 @@ describe WorkPackage, type: :model do
         context 'attribute update' do
           include_context 'in closed version'
 
-          before { work_package.subject = 'Subject changed' }
+          before do work_package.subject = 'Subject changed' end
 
           subject { work_package.save }
 
@@ -432,7 +432,7 @@ describe WorkPackage, type: :model do
                                roles: [workflow.role])
           }
 
-          before { allow(User).to receive(:current).and_return(user) }
+          before do allow(User).to receive(:current).and_return(user) end
 
           shared_context 'in locked version' do
             before do
@@ -612,13 +612,13 @@ describe WorkPackage, type: :model do
     end
 
     context 'work package' do
-      subject { WorkPackage.find_by_id(work_package.id) }
+      subject { WorkPackage.find_by(id: work_package.id) }
 
       it { is_expected.to be_nil }
     end
 
     context 'time entries' do
-      subject { TimeEntry.find_by_work_package_id(work_package.id) }
+      subject { TimeEntry.find_by(work_package_id: work_package.id) }
 
       it { is_expected.to be_nil }
     end
@@ -650,11 +650,11 @@ describe WorkPackage, type: :model do
                          done_ratio: 30)
     }
 
-    before { work_package_2 }
+    before do work_package_2 end
 
     describe '#value' do
       context 'work package field' do
-        before { allow(Setting).to receive(:work_package_done_ratio).and_return 'field' }
+        before do allow(Setting).to receive(:work_package_done_ratio).and_return 'field' end
 
         context 'work package 1' do
           subject { work_package_1.done_ratio }
@@ -670,7 +670,7 @@ describe WorkPackage, type: :model do
       end
 
       context 'work package status' do
-        before { allow(Setting).to receive(:work_package_done_ratio).and_return 'status' }
+        before do allow(Setting).to receive(:work_package_done_ratio).and_return 'status' end
 
         context 'work package 1' do
           subject { work_package_1.done_ratio }
@@ -833,7 +833,7 @@ describe WorkPackage, type: :model do
                            project: project_2)
       }
 
-      before { work_package_3 }
+      before do work_package_3 end
 
       let(:groups) { WorkPackage.by_author(project) }
 
@@ -879,7 +879,7 @@ describe WorkPackage, type: :model do
       it { is_expected.to eq(1) }
 
       context 'and one work package in archived projects' do
-        before { work_package_in_archived_project }
+        before do work_package_in_archived_project end
 
         it { is_expected.to eq(1) }
       end
@@ -905,7 +905,7 @@ describe WorkPackage, type: :model do
       it { is_expected.to eq(1) }
 
       context 'and one work package in archived projects' do
-        before { work_package_in_archived_project }
+        before do work_package_in_archived_project end
 
         it { is_expected.to eq(2) }
       end
@@ -959,7 +959,7 @@ describe WorkPackage, type: :model do
     end
 
     describe 'includes project recipients' do
-      before { project_member }
+      before do project_member end
 
       context 'pre-condition' do
         subject { project.recipients }
@@ -973,7 +973,7 @@ describe WorkPackage, type: :model do
     end
 
     describe 'includes work package author' do
-      before { project_author }
+      before do project_author end
 
       context 'pre-condition' do
         subject { work_package.author }
@@ -987,7 +987,7 @@ describe WorkPackage, type: :model do
     end
 
     describe 'includes work package assignee' do
-      before { project_assignee }
+      before do project_assignee end
 
       context 'pre-condition' do
         subject { work_package.assigned_to }
@@ -1007,7 +1007,7 @@ describe WorkPackage, type: :model do
       end
 
       describe '#none' do
-        before { author.update_attribute(:mail_notification, :none) }
+        before do author.update_attribute(:mail_notification, :none) end
 
         let(:expected_users) { work_package.author.mail }
 
@@ -1015,7 +1015,7 @@ describe WorkPackage, type: :model do
       end
 
       describe '#only_assigned' do
-        before { author.update_attribute(:mail_notification, :only_assigned) }
+        before do author.update_attribute(:mail_notification, :only_assigned) end
 
         let(:expected_users) { work_package.author.mail }
 
@@ -1023,7 +1023,7 @@ describe WorkPackage, type: :model do
       end
 
       describe '#only_assigned' do
-        before { assignee.update_attribute(:mail_notification, :only_owner) }
+        before do assignee.update_attribute(:mail_notification, :only_owner) end
 
         let(:expected_users) { work_package.assigned_to.mail }
 
@@ -1665,11 +1665,11 @@ describe WorkPackage, type: :model do
 
   describe 'changed_since' do
     let!(:work_package) do
-      work_package = Timecop.travel(5.hours.ago) do
+      work_package = Timecop.travel(5.hours.ago) {
         wp = FactoryGirl.create(:work_package)
         wp.save!
         wp
-      end
+      }
     end
 
     describe 'null' do

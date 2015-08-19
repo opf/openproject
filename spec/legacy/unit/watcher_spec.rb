@@ -52,11 +52,9 @@ describe Watcher do
     assert_contains WorkPackage.watched_by(@user), @issue
   end
 
-  it 'should watcher_users_contains_correct_classes' do
+  it 'watcher_users contains correct_classes' do
     @issue.add_watcher(@user)
-    watcher_users = @issue.watcher_users
-    assert_kind_of Array, watcher_users
-    assert_kind_of User, watcher_users.first
+    expect(@issue.watcher_users).to all be_kind_of(User)
   end
 
   it 'should watcher_users_should_not_validate_user' do

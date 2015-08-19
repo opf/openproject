@@ -40,7 +40,7 @@ module.exports = function() {
           type: 'POST',
           data: angular.element('#' + id.replace(/(-preview)/g, '')).serialize()
             .replace(
-              '_method=put&', ''),
+              '_method=patch&', ''),
           success: function(data) {
             angular.element(target).html(data);
             angular.element('html, body').animate({

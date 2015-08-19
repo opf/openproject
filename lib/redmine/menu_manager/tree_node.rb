@@ -65,7 +65,7 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
     raise 'Child already added' if @children_hash.has_key?(child.name)
 
     @children_hash[child.name]  = child
-    @children <<  child
+    @children << child
     @last_items_count += 1
     child.parent = self
     child

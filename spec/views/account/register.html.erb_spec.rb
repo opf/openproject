@@ -50,5 +50,4 @@ describe 'account/register', type: :view do
       expect(response.body).to include('user[login]')
     end
   end
-
 end

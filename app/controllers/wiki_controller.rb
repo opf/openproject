@@ -83,7 +83,7 @@ class WikiController < ApplicationController
 
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
-    @related_page = WikiPage.find_by_wiki_id_and_title(@wiki.id, params[:id])
+    @related_page = WikiPage.find_by(wiki_id: @wiki.id, title: params[:id])
 
     load_pages_for_index
     @pages_by_parent_id = @pages.group_by(&:parent_id)
@@ -223,7 +223,7 @@ class WikiController < ApplicationController
     @page.redirect_existing_links = true
     # used to display the *original* title if some AR validation errors occur
     @original_title = @page.pretty_title
-    if request.put? && @page.update_attributes(permitted_params.wiki_page_rename)
+    if request.patch? && @page.update_attributes(permitted_params.wiki_page_rename)
       flash[:notice] = l(:notice_successful_update)
       redirect_to_show
     end
@@ -231,7 +231,7 @@ class WikiController < ApplicationController
 
   def edit_parent_page
     return render_403 unless editable?
-    @parent_pages = @wiki.pages.all(include: :parent) - @page.self_and_descendants
+    @parent_pages = @wiki.pages.includes(:parent) - @page.self_and_descendants
   end
 
   def update_parent_page
@@ -241,7 +241,7 @@ class WikiController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to_show
     else
-      @parent_pages = @wiki.pages.all(include: :parent) - @page.self_and_descendants
+      @parent_pages = @wiki.pages.includes(:parent) - @page.self_and_descendants
       render 'edit_parent_page'
     end
   end
@@ -291,7 +291,7 @@ class WikiController < ApplicationController
         @page.descendants.each(&:destroy)
       when 'reassign'
         # Reassign children to another parent page
-        reassign_to = @wiki.pages.find_by_id(params[:reassign_to_id].to_i)
+        reassign_to = @wiki.pages.find_by(id: params[:reassign_to_id].to_i)
         return unless reassign_to
         @page.children.each do |child|
           child.update_attribute(:parent, reassign_to)
@@ -313,7 +313,7 @@ class WikiController < ApplicationController
   # Export wiki to a single html file
   def export
     if User.current.allowed_to?(:export_wiki_pages, @project)
-      @pages = @wiki.pages.find :all, order: 'title'
+      @pages = @wiki.pages.order('title')
       export = render_to_string action: 'export_multiple', layout: false
       send_data(export, type: 'text/html', filename: 'wiki.html')
     else
@@ -330,8 +330,8 @@ class WikiController < ApplicationController
 
   def list_attachments
     respond_to do |format|
-      format.json { render 'common/list_attachments', locals: { attachments: @page.attachments } }
-      format.html {}
+      format.json do render 'common/list_attachments', locals: { attachments: @page.attachments } end
+      format.html
     end
   end
 
@@ -395,7 +395,7 @@ class WikiController < ApplicationController
   end
 
   def load_pages_for_index
-    @pages = @wiki.pages.with_updated_on.all(order: 'title', include: { wiki: :project })
+    @pages = @wiki.pages.with_updated_on.order('title').includes(wiki: :project)
   end
 
   def default_breadcrumb

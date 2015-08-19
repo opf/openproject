@@ -30,14 +30,14 @@
 namespace :test do
   desc 'Run unit and functional scm tests'
   task :scm do
-    errors = %w(test:scm:units test:scm:functionals).collect do |task|
+    errors = %w(test:scm:units test:scm:functionals).collect { |task|
       begin
         Rake::Task[task].invoke
         nil
       rescue => e
         task
       end
-    end.compact
+    }.compact
     abort "Errors running #{errors.to_sentence(locale: :en)}!" if errors.any?
   end
 

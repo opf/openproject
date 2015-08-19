@@ -81,10 +81,10 @@ module Redmine
       'video/x-msvideo' => 'avi',
     }.freeze
 
-    EXTENSIONS = MIME_TYPES.inject({}) do |map, (type, exts)|
-      exts.split(',').each { |ext| map[ext.strip] = type }
+    EXTENSIONS = MIME_TYPES.inject({}) { |map, (type, exts)|
+      exts.split(',').each do |ext| map[ext.strip] = type end
       map
-    end
+    }
 
     # returns mime type for name or nil if unknown
     def self.of(name)

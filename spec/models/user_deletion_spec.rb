@@ -64,7 +64,7 @@ describe User, 'deletion', type: :model do
       user.destroy
     end
 
-    it { expect(User.find_by_id(user.id)).to be_nil }
+    it { expect(User.find_by(id: user.id)).to be_nil }
   end
 
   shared_examples_for 'updated journalized associated object' do
@@ -86,7 +86,7 @@ describe User, 'deletion', type: :model do
       associated_instance.reload
     end
 
-    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
+    it { expect(associated_class.find_by(id: associated_instance.id)).to eq(associated_instance) }
     it 'should replace the user on all associations' do
       associations.each do |association|
         expect(associated_instance.send(association)).to eq(substitute_user)
@@ -121,7 +121,7 @@ describe User, 'deletion', type: :model do
       associated_instance.reload
     end
 
-    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
+    it { expect(associated_class.find_by(id: associated_instance.id)).to eq(associated_instance) }
     it 'should replace the user on all associations' do
       associations.each do |association|
         expect(associated_instance.send(association)).to eq(substitute_user)
@@ -148,7 +148,7 @@ describe User, 'deletion', type: :model do
       associated_instance.reload
     end
 
-    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
+    it { expect(associated_class.find_by(id: associated_instance.id)).to eq(associated_instance) }
     it 'should keep the current user on all associations' do
       associations.each do |association|
         expect(associated_instance.send(association)).to eq(user2)
@@ -224,7 +224,7 @@ describe User, 'deletion', type: :model do
       associated_instance.reload
     end
 
-    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
+    it { expect(associated_class.find_by(id: associated_instance.id)).to eq(associated_instance) }
     it 'should replace the user on all associations' do
       expect(associated_instance.author).to eq(substitute_user)
       expect(associated_instance.assigned_to).to be_nil
@@ -338,9 +338,9 @@ describe User, 'deletion', type: :model do
       user.destroy
     end
 
-    it { expect(Member.find_by_id(member.id)).to be_nil }
-    it { expect(Role.find_by_id(role.id)).to eq(role) }
-    it { expect(Project.find_by_id(project.id)).to eq(project) }
+    it { expect(Member.find_by(id: member.id)).to be_nil }
+    it { expect(Role.find_by(id: role.id)).to eq(role) }
+    it { expect(Project.find_by(id: project.id)).to eq(project) }
   end
 
   describe 'WHEN the user is watching something' do
@@ -356,7 +356,7 @@ describe User, 'deletion', type: :model do
       user.destroy
     end
 
-    it { expect(Watcher.find_by_id(watch.id)).to be_nil }
+    it { expect(Watcher.find_by(id: watch.id)).to be_nil }
   end
 
   describe 'WHEN the user has a token created' do
@@ -372,7 +372,7 @@ describe User, 'deletion', type: :model do
       user.destroy
     end
 
-    it { expect(Token.find_by_id(token.id)).to be_nil }
+    it { expect(Token.find_by(id: token.id)).to be_nil }
   end
 
   describe 'WHEN the user has created a private query' do
@@ -384,7 +384,7 @@ describe User, 'deletion', type: :model do
       user.destroy
     end
 
-    it { expect(Query.find_by_id(query.id)).to be_nil }
+    it { expect(Query.find_by(id: query.id)).to be_nil }
   end
 
   describe 'WHEN the user has created a public query' do
@@ -437,7 +437,7 @@ describe User, 'deletion', type: :model do
       associated_instance.reload
     end
 
-    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
+    it { expect(associated_class.find_by(id: associated_instance.id)).to eq(associated_instance) }
     it 'should replace the user on all associations' do
       expect(associated_instance.user).to be_nil
     end
@@ -459,7 +459,7 @@ describe User, 'deletion', type: :model do
       project.reload
     end
 
-    it { expect(Project.find_by_id(project.id)).to eq(project) }
+    it { expect(Project.find_by(id: project.id)).to eq(project) }
     it { expect(project.responsible).to be_nil }
   end
 
@@ -475,7 +475,7 @@ describe User, 'deletion', type: :model do
       category.reload
     end
 
-    it { expect(Category.find_by_id(category.id)).to eq(category) }
+    it { expect(Category.find_by(id: category.id)).to eq(category) }
     it { expect(category.assigned_to).to be_nil }
   end
 
@@ -496,5 +496,4 @@ describe User, 'deletion', type: :model do
     it { expect(timeline.options['planning_element_assignee'].index(user.id.to_s)).to be_nil }
     it { expect(timeline.options['project_responsibles'].index(user.id.to_s)).to be_nil }
   end
-
 end

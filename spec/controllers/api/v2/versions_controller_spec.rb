@@ -34,7 +34,7 @@ describe Api::V2::VersionsController, type: :controller do
   let(:admin_user) { FactoryGirl.create(:admin) }
 
   shared_examples_for 'unauthorized access' do
-    before { get action, request_params }
+    before do get action, request_params end
 
     it { expect(response.status).to eq(401) }
   end
@@ -48,10 +48,10 @@ describe Api::V2::VersionsController, type: :controller do
     context 'with access' do
       let!(:version) { FactoryGirl.create(:version, project: project) }
 
-      before { allow(User).to receive(:current).and_return admin_user }
+      before do allow(User).to receive(:current).and_return admin_user end
 
       describe 'single project' do
-        before { get :index, project_id: project.id, format: :xml }
+        before do get :index, project_id: project.id, format: :xml end
 
         it { expect(assigns(:project)).to eq(project) }
 
@@ -97,7 +97,7 @@ describe Api::V2::VersionsController, type: :controller do
           context 'user has access only to one project' do
             let(:user) { FactoryGirl.create(:user, member_in_project: project) }
 
-            before { allow(User).to receive(:current).and_return user }
+            before do allow(User).to receive(:current).and_return user end
 
             it_behaves_like 'request with multiple projects' do
               let(:projects) { [project, project_2] }
@@ -153,7 +153,7 @@ describe Api::V2::VersionsController, type: :controller do
           let(:child_project) { FactoryGirl.create(:project, parent: project) }
           let(:shared_version) { FactoryGirl.create(:version, project: project, sharing: 'descendants') }
 
-          before { get :index, ids: shared_version.id.to_s, project_id: child_project.id, format: :json }
+          before do get :index, ids: shared_version.id.to_s, project_id: child_project.id, format: :json end
 
           it { expect(assigns(:versions).map(&:id)).to match_array([shared_version.id]) }
 

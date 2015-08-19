@@ -30,15 +30,15 @@
 module Version::ProjectSharing
   # Returns all projects the version is available in
   def projects
-    Project.scoped.joins(project_sharing_join)
+    Project.joins(project_sharing_join)
   end
 
   private
 
   def project_sharing_join
-    projects = Project.scoped
+    projects = Project.all
     projects_table = projects.arel_table
-    versions_table = Version.scoped.arel_table
+    versions_table = Version.arel_table
 
     sharing_inner_select = project_sharing_select(versions_table)
 
@@ -63,7 +63,7 @@ module Version::ProjectSharing
   end
 
   def project_sharing_tree_select(versions_table)
-    hierarchy_table = Project.scoped.arel_table
+    hierarchy_table = Project.arel_table
 
     roots_table = Project.arel_table.alias('roots')
     roots_join_condition = project_sharing_tree_root_join_condition(roots_table, hierarchy_table)
@@ -79,7 +79,7 @@ module Version::ProjectSharing
   end
 
   def project_sharing_default_select(versions_table)
-    hierarchy_table = Project.scoped.arel_table
+    hierarchy_table = Project.arel_table
 
     sharing_select = join_project_and_version(hierarchy_table, versions_table)
 

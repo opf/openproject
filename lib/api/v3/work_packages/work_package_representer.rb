@@ -340,9 +340,9 @@ module API
 
         def relations
           relations = represented.relations
-          visible_relations = relations.select do |relation|
+          visible_relations = relations.select { |relation|
             relation.other_work_package(represented).visible?
-          end
+          }
 
           visible_relations.map do |relation|
             Relations::RelationRepresenter.new(relation,

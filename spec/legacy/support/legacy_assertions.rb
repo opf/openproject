@@ -88,7 +88,7 @@ module LegacyAssertionsAndHelpers
     FileUtils.mkdir_p(Rails.root.join('tmp/pages'))
 
     page_path = Rails.root.join("tmp/pages/#{SecureRandom.hex(16)}.html").to_s
-    File.open(page_path, 'w') { |f| f.write(body) }
+    File.open(page_path, 'w') do |f| f.write(body) end
 
     Launchy.open(page_path)
 
@@ -110,15 +110,16 @@ module LegacyAssertionsAndHelpers
 
   def with_settings(options, &_block)
     saved_settings = options.keys.inject({}) { |h, k| h[k] = Setting[k].dup; h }
-    options.each { |k, v| Setting[k] = v }
+    options.each do |k, v| Setting[k] = v end
     yield
   ensure
     saved_settings.each { |k, v| Setting[k] = v }
   end
 
   def change_user_password(login, new_password)
-    user = User.first(conditions: { login: login })
-    user.password, user.password_confirmation = new_password, new_password
+    user = User.find_by_login(login)
+    user.password = new_password
+    user.password_confirmation = new_password
     user.save!
   end
 
@@ -153,10 +154,10 @@ module LegacyAssertionsAndHelpers
     should description do
       klass = "action_controller/filters/#{filter_type}_filter".classify.constantize
       expected = klass.new(:filter, expected_method.to_sym, options)
-      assert_equal 1, @controller.class.filter_chain.select { |filter|
+      assert_equal 1, @controller.class.filter_chain.count { |filter|
         filter.method == expected.method && filter.kind == expected.kind &&
           filter.options == expected.options && filter.class == expected.class
-      }.size
+      }
     end
   end
 
@@ -462,7 +463,7 @@ module LegacyAssertionsAndHelpers
         before do
           @user = User.generate_with_protected!(admin: true)
           @token = Token.generate!(user: @user, action: 'api')
-          send(http_method, url, {}, {'X-OpenProject-API-Key' => @token.value.to_s})
+          send(http_method, url, {}, 'X-OpenProject-API-Key' => @token.value.to_s)
         end
         it { should respond_with success_code }
         it { should_respond_with_content_type_based_on_url(url) }

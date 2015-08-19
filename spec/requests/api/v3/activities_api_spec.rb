@@ -41,7 +41,7 @@ describe API::V3::Activities::ActivitiesAPI, type: :request do
   end
 
   shared_examples_for 'valid activity request' do
-    before { allow(User).to receive(:current).and_return(admin) }
+    before do allow(User).to receive(:current).and_return(admin) end
 
     subject { last_response.body }
 
@@ -51,7 +51,7 @@ describe API::V3::Activities::ActivitiesAPI, type: :request do
   end
 
   shared_examples_for 'invalid activity request' do |message|
-    before { allow(User).to receive(:current).and_return(admin) }
+    before do allow(User).to receive(:current).and_return(admin) end
 
     it_behaves_like 'constraint violation' do
       let(:message) { message }

@@ -67,23 +67,23 @@ describe WikiPage, type: :model do
   end
 
   it 'should parent title' do
-    page = WikiPage.find_by_title('Another_page')
+    page = WikiPage.find_by(title: 'Another_page')
     assert_nil page.parent_title
 
-    page = WikiPage.find_by_title('Page_with_an_inline_image')
+    page = WikiPage.find_by(title: 'Page_with_an_inline_image')
     assert_equal 'CookBook documentation', page.parent_title
   end
 
   it 'should assign parent' do
-    page = WikiPage.find_by_title('Another_page')
+    page = WikiPage.find_by(title: 'Another_page')
     page.parent_title = 'CookBook documentation'
     assert page.save
     page.reload
-    assert_equal WikiPage.find_by_title('CookBook_documentation'), page.parent
+    assert_equal WikiPage.find_by(title: 'CookBook_documentation'), page.parent
   end
 
   it 'should unassign parent' do
-    page = WikiPage.find_by_title('Page_with_an_inline_image')
+    page = WikiPage.find_by(title: 'Page_with_an_inline_image')
     page.parent_title = ''
     assert page.save
     page.reload
@@ -91,20 +91,20 @@ describe WikiPage, type: :model do
   end
 
   it 'should parent validation' do
-    page = WikiPage.find_by_title('CookBook_documentation')
+    page = WikiPage.find_by(title: 'CookBook_documentation')
 
     # A page that doesn't exist
     page.parent_title = 'Unknown title'
     assert !page.save
-    assert_include page.errors[:parent_title], I18n.translate('activerecord.errors.messages.invalid')
+    assert_includes page.errors[:parent_title], I18n.translate('activerecord.errors.messages.invalid')
     # A child page
     page.parent_title = 'Page_with_an_inline_image'
     assert !page.save
-    assert_include page.errors[:parent_title], I18n.translate('activerecord.errors.messages.circular_dependency')
+    assert_includes page.errors[:parent_title], I18n.translate('activerecord.errors.messages.circular_dependency')
     # The page itself
     page.parent_title = 'CookBook_documentation'
     assert !page.save
-    assert_include page.errors[:parent_title], I18n.translate('activerecord.errors.messages.circular_dependency')
+    assert_includes page.errors[:parent_title], I18n.translate('activerecord.errors.messages.circular_dependency')
 
     page.parent_title = 'Another_page'
     assert page.save
@@ -112,14 +112,14 @@ describe WikiPage, type: :model do
 
   it 'should destroy' do
     page = WikiPage.find(1)
-    content_ids = WikiContent.find_all_by_page_id(1).map(&:id)
+    content_ids = WikiContent.where(page_id: 1).map(&:id)
     page.destroy
-    assert_nil WikiPage.find_by_id(1)
+    assert_nil WikiPage.find_by(id: 1)
     # make sure that page content and its history are deleted
-    assert WikiContent.find_all_by_page_id(1).empty?
+    assert WikiContent.where(page_id: 1).empty?
     content_ids.each do |wiki_content_id|
-      assert Journal.find :all, conditions: { journable_type: WikiContent,
-                                              journable_id: wiki_content_id }
+      assert Journal.where(journable_type: WikiContent,
+                           journable_id: wiki_content_id)
     end
   end
 
@@ -128,9 +128,9 @@ describe WikiPage, type: :model do
     child_ids = page.child_ids
     assert child_ids.any?
     page.destroy
-    assert_nil WikiPage.find_by_id(2)
+    assert_nil WikiPage.find_by(id: 2)
 
-    children = WikiPage.find_all_by_id(child_ids)
+    children = WikiPage.where(id: child_ids)
     assert_equal child_ids.size, children.size
     children.each do |child|
       assert_nil child.parent_id

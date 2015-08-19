@@ -61,7 +61,7 @@ describe WorkPackage, type: :model do
     end
 
     context 'nothing is changed' do
-      before { work_package.save! }
+      before do work_package.save! end
 
       it { expect(Journal.all.count).to eq(1) }
     end
@@ -88,10 +88,9 @@ describe WorkPackage, type: :model do
                            priority: priority)
       }
 
-      before { work_package_1.description = changed_description }
+      before do work_package_1.description = changed_description end
 
       context 'when a new journal is created tracking a simultaneously applied change' do
-
         before do
           work_package_1.subject += 'changed'
           work_package_1.save!
@@ -210,7 +209,7 @@ describe WorkPackage, type: :model do
           work_package.reload
           work_package.update_by!(current_user, description: 'description v2')
           work_package.reload
-          work_package.journals.find_by_notes('note to be deleted').delete
+          work_package.journals.find_by(notes: 'note to be deleted').delete
 
           work_package.update_by!(current_user, description: 'description v4')
         end
@@ -253,7 +252,7 @@ describe WorkPackage, type: :model do
       end
 
       context 'attachment removed' do
-        before { work_package.attachments.delete(attachment) }
+        before do work_package.attachments.delete(attachment) end
 
         subject { work_package.journals.last.details }
 

@@ -28,7 +28,6 @@
 #++
 
 class ProjectTypesController < ApplicationController
-  unloadable
   helper :timelines
 
   before_filter :disable_api

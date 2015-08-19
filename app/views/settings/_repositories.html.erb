@@ -85,7 +85,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="form--field"><%= setting_check_box :commit_logtime_enabled,
          :onclick => "if (this.checked) { Form.Element.enable('settings_commit_logtime_activity_id'); } else { Form.Element.disable('settings_commit_logtime_activity_id'); }"%></div>
     <div class="form--field"><%= setting_select :commit_logtime_activity_id,
-         [[l(:label_default), 0]] + TimeEntryActivity.shared.all.collect{|activity| [activity.name, activity.id.to_s]},
+         [[l(:label_default), 0]] + TimeEntryActivity.shared.map {|activity| [activity.name, activity.id.to_s]},
          :disabled => !Setting.commit_logtime_enabled?%></div>
   </fieldset>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>

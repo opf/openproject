@@ -156,7 +156,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ['api'])
+              expect(response).to render_template('planning_elements/index')
             end
           end
 
@@ -175,7 +175,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ['api'])
+              expect(response).to render_template('planning_elements/index')
             end
           end
 
@@ -217,7 +217,6 @@ describe Api::V2::PlanningElementsController, type: :controller do
               end
             end
           end
-
         end
       end
 
@@ -463,7 +462,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ['api'])
+              expect(response).to render_template('planning_elements/index')
             end
           end
 
@@ -484,7 +483,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ['api'])
+              expect(response).to render_template('planning_elements/index')
             end
           end
         end
@@ -517,7 +516,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           end
 
           it 'renders the index builder template' do
-            expect(response).to render_template('planning_elements/index', formats: ['api'])
+            expect(response).to render_template('planning_elements/index')
           end
         end
 
@@ -534,7 +533,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ['api'])
+              expect(response).to render_template('planning_elements/index')
             end
           end
 
@@ -559,7 +558,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ['api'])
+              expect(response).to render_template('planning_elements/index')
             end
           end
         end
@@ -593,7 +592,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
     end
 
     describe 'with custom fields' do
-      let(:type) { Type.find_by_name('None') || FactoryGirl.create(:type_standard) }
+      let(:type) { ::Type.find_by(name: 'None') || FactoryGirl.create(:type_standard) }
 
       let(:custom_field) do
         FactoryGirl.create :issue_custom_field,
@@ -621,7 +620,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
         id = response.headers['Location'].scan(/\d+/).last.to_i
 
-        wp = WorkPackage.find_by_id id
+        wp = WorkPackage.find_by id: id
         expect(wp).not_to be_nil
 
         custom_value = wp.custom_values.find do |value|
@@ -714,7 +713,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
           it 'renders the show builder template' do
             get 'show', project_id: project.id, id: planning_element.id, format: 'xml'
-            expect(response).to render_template('planning_elements/show', formats: ['api'])
+            expect(response).to render_template('planning_elements/show')
           end
         end
       end
@@ -724,7 +723,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
       render_views
 
       let(:project) { FactoryGirl.create(:project) }
-      let(:type) { Type.find_by_name('None') || FactoryGirl.create(:type_standard) }
+      let(:type) { ::Type.find_by(name: 'None') || FactoryGirl.create(:type_standard) }
 
       let(:custom_field) do
         FactoryGirl.create :text_issue_custom_field,
@@ -812,7 +811,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
     end
 
     describe 'with custom fields' do
-      let(:type) { Type.find_by_name('None') || FactoryGirl.create(:type_standard) }
+      let(:type) { ::Type.find_by(name: 'None') || FactoryGirl.create(:type_standard) }
 
       let(:custom_field) do
         FactoryGirl.create :text_issue_custom_field,
@@ -979,7 +978,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           it 'renders the destroy builder template' do
             get 'destroy', project_id: project.id, id: planning_element.id, format: 'xml'
 
-            expect(response).to render_template('planning_elements/destroy', formats: ['api'])
+            expect(response).to render_template('planning_elements/destroy')
           end
 
           it 'deletes the record' do

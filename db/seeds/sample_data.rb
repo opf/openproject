@@ -32,7 +32,7 @@ user_count = ENV.fetch('SEED_USER_COUNT', 3).to_i
 # Careful: The seeding recreates the seeded project before it runs, so any changes
 # on the seeded project will be lost.
 puts 'Creating seeded project...'
-if delete_me = Project.find_by_identifier('seeded_project')
+if delete_me = Project.find_by(identifier: 'seeded_project')
   delete_me.destroy
 end
 
@@ -126,7 +126,7 @@ user_count.times do |count|
                                    description: Faker::Lorem.paragraph(5, true, 3),
                                    start_date: s = Date.today - (25 - rand(50)).days,
                                    due_date: s + (1 + rand(120)).days
-    )
+                                  )
     work_package.type     = types.sample
     work_package.status   = Status.all.sample
     work_package.priority = IssuePriority.all.sample
@@ -134,7 +134,7 @@ user_count.times do |count|
   end
 
   ## extend user's last issue
-  created_issues = WorkPackage.find :all, conditions: { author_id: user.id }
+  created_issues = WorkPackage.where(author_id: user.id)
 
   if !created_issues.empty?
     issue = created_issues.last
@@ -206,7 +206,8 @@ user_count.times do |count|
 
     project.work_package_custom_fields.each do |custom_field|
       issue.type.custom_fields << custom_field if !issue.type.custom_fields.include?(custom_field)
-      issue.custom_values << CustomValue.new(custom_field: custom_field, value: Faker::Lorem.words(8).join(' '))
+      issue.custom_values << CustomValue.new(custom_field: custom_field,
+                                             value: Faker::Lorem.words(8).join(' '))
     end
 
     issue.type.save!

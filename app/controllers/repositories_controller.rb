@@ -92,7 +92,7 @@ class RepositoriesController < ApplicationController
     @committers = @repository.committers
     @users = @project.users
     additional_user_ids = @committers.map(&:last).map(&:to_i) - @users.map(&:id)
-    @users += User.find_all_by_id(additional_user_ids) unless additional_user_ids.empty?
+    @users += User.where(id: additional_user_ids) unless additional_user_ids.empty?
     @users.compact!
     @users.sort!
     if request.post? && params[:committers].is_a?(Hash)
@@ -151,8 +151,8 @@ class RepositoriesController < ApplicationController
                   .per_page(per_page_param)
 
     respond_to do |format|
-      format.html { render layout: false if request.xhr? }
-      format.atom { render_feed(@changesets, title: "#{@project.name}: #{l(:label_revision_plural)}") }
+      format.html do render layout: false if request.xhr? end
+      format.atom do render_feed(@changesets, title: "#{@project.name}: #{l(:label_revision_plural)}") end
     end
   end
 
@@ -220,7 +220,7 @@ class RepositoriesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.js { render layout: false }
+      format.js do render layout: false end
     end
   rescue ChangesetNotFound
     show_error_not_found
@@ -338,14 +338,18 @@ class RepositoriesController < ApplicationController
     @date_from = Date.civil(@date_from.year, @date_from.month, 1)
     commits_by_day = Changeset.where(['repository_id = ? AND commit_date BETWEEN ? AND ?', repository.id, @date_from, @date_to]).group(:commit_date).size
     commits_by_month = [0] * 12
-    commits_by_day.each { |c| commits_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
+    commits_by_day.each do |c| commits_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last end
 
-    changes_by_day = Change.includes(:changeset).where(["#{Changeset.table_name}.repository_id = ? AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to]).group(:commit_date).size
+    changes_by_day = Change.includes(:changeset)
+                     .where(["#{Changeset.table_name}.repository_id = ? AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to])
+                     .references(:changesets)
+                     .group(:commit_date)
+                     .size
     changes_by_month = [0] * 12
-    changes_by_day.each { |c| changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
+    changes_by_day.each do |c| changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last end
 
     fields = []
-    12.times { |m| fields << month_name(((Date.today.month - 1 - m) % 12) + 1) }
+    12.times do |m| fields << month_name(((Date.today.month - 1 - m) % 12) + 1) end
 
     graph = SVG::Graph::Bar.new(
       height: 300,
@@ -374,9 +378,13 @@ class RepositoriesController < ApplicationController
 
   def graph_commits_per_author(repository)
     commits_by_author = Changeset.where(['repository_id = ?', repository.id]).group(:committer).size
-    commits_by_author.to_a.sort! { |x, y| x.last <=> y.last }
+    commits_by_author.to_a.sort! do |x, y| x.last <=> y.last end
 
-    changes_by_author = Change.includes(:changeset).where(["#{Changeset.table_name}.repository_id = ?", repository.id]).group(:committer).size
+    changes_by_author = Change.includes(:changeset)
+                        .where(["#{Changeset.table_name}.repository_id = ?", repository.id])
+                        .references(:changesets)
+                        .group(:committer)
+                        .size
     h = changes_by_author.inject({}) { |o, i| o[i.first] = i.last; o }
 
     fields = commits_by_author.map(&:first)

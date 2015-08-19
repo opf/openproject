@@ -212,5 +212,4 @@ describe OpenProject::Configuration do
       OpenProject::Configuration.send(:configure_action_mailer, config)
     end
   end
-
 end

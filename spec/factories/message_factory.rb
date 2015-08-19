@@ -29,7 +29,7 @@
 FactoryGirl.define do
   factory :message do
     board
-    sequence(:content) { |n| "Message content #{n}" }
+    sequence(:content) do |n| "Message content #{n}" end
     sequence(:subject) { |n| "Message subject #{n}" }
   end
 end

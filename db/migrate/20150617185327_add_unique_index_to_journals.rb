@@ -27,9 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class GroupUser < ActiveRecord::Base
-  belongs_to :group
-  belongs_to :user
-
-  validates_presence_of :group, :user
+class AddUniqueIndexToJournals < ActiveRecord::Migration
+  def change
+    add_index :journals, [:journable_id, :journable_type, :version], unique: true
+  end
 end

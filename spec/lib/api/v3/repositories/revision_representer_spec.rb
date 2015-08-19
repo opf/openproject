@@ -94,14 +94,18 @@ describe ::API::V3::Repositories::RevisionRepresenter do
       let(:html_reference) {
         id = work_package.id
 
-        str = "Totally references <a href=\"/work_packages/#{id}\""
+        str = 'Totally references <a'
         str << " class=\"issue work_package status-1 priority-1 parent\""
+        str << " href=\"/work_packages/#{id}\""
         str << " title=\"#{work_package.subject} (#{work_package.status})\">"
         str << "##{id}</a>"
       }
 
       before do
-        allow(WorkPackage).to receive(:find_by_id).and_return(work_package)
+        allow(User).to receive(:current).and_return(FactoryGirl.build_stubbed(:admin))
+        allow(WorkPackage)
+          .to receive_message_chain('visible.includes.references.find_by')
+          .and_return(work_package)
       end
 
       it_behaves_like 'API V3 formattable', 'message' do

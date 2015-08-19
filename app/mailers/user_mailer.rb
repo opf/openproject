@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class UserMailer < ActionMailer::Base
+class UserMailer < BaseMailer
   helper :application,  # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value
@@ -315,28 +315,6 @@ class UserMailer < ActionMailer::Base
     "#{hash}@#{host}"
   end
 
-  protected
-
-  # Option 1 to take out an html part: Leave the part out
-  # while creating the mail. Since rails internally uses three
-  # different ways to create a mail (passing a block, giving parameters
-  # with optional template, or passing the body directly), we would have
-  # to replicate a lot of rails code to modify all three ways.
-  # Therefore, we use option 2: modifying the set of parts rails
-  # created internally as a result of the above ways, as this is
-  # much shorter.
-  # On the downside, this might break if ActionMailer changes the signature
-  # or semantics of the following function. However, we should at least
-  # notice this as there are tests for checking the no-html setting.
-  def collect_responses_and_parts_order(headers)
-    responses, parts_order = super(headers)
-    if Setting.plain_text_mail?
-      responses.delete_if { |response| response[:content_type] == 'text/html' }
-      parts_order.delete_if { |part| part == 'text/html' } unless parts_order.nil?
-    end
-    [responses, parts_order]
-  end
-
   private
 
   def subject_for_work_package(work_package)
@@ -454,8 +432,8 @@ end
 class DueIssuesReminder
   def initialize(days = nil, project_id = nil, type_id = nil, user_ids = [])
     @days     = days ? days.to_i : 7
-    @project  = Project.find_by_id(project_id)
-    @type  = Type.find_by_id(type_id)
+    @project  = Project.find_by(id: project_id)
+    @type  = ::Type.find_by(id: type_id)
     @user_ids = user_ids
   end
 
@@ -467,9 +445,10 @@ class DueIssuesReminder
     s << "#{WorkPackage.table_name}.project_id = #{@project.id}" if @project
     s << "#{WorkPackage.table_name}.type_id = #{@type.id}" if @type
 
-    issues_by_assignee = WorkPackage.find(:all, include: [:status, :assigned_to, :project, :type],
-                                                conditions: s.conditions
-                                   ).group_by(&:assigned_to)
+    issues_by_assignee = WorkPackage.includes(:status, :assigned_to, :project, :type)
+                         .where(s.conditions)
+                         .references(:projects)
+                         .group_by(&:assigned_to)
     issues_by_assignee.each do |assignee, issues|
       UserMailer.reminder_mail(assignee, issues, @days).deliver if assignee && assignee.active?
     end

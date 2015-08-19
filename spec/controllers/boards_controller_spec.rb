@@ -55,7 +55,6 @@ describe BoardsController, type: :controller do
     end
 
     describe 'w/ the params beeing valid' do
-
       before do
         expect(board).to receive(:save).and_return(true)
 
@@ -74,7 +73,6 @@ describe BoardsController, type: :controller do
     end
 
     describe 'w/ the params beeing invalid' do
-
       before do
         expect(board).to receive(:save).and_return(false)
 
@@ -102,7 +100,7 @@ describe BoardsController, type: :controller do
                          position: 2)
     }
 
-    before { allow(@controller).to receive(:authorize).and_return(true) }
+    before do allow(@controller).to receive(:authorize).and_return(true) end
 
     describe '#higher' do
       let(:move_to) { 'higher' }
@@ -120,7 +118,6 @@ describe BoardsController, type: :controller do
 
       it { expect(response).to redirect_to(redirect_url) }
     end
-
   end
 
   describe '#update' do
@@ -134,7 +131,6 @@ describe BoardsController, type: :controller do
     end
 
     describe 'w/ the params beeing valid' do
-
       before do
         as_logged_in_user user do
           put :update, id: board.id,
@@ -162,7 +158,6 @@ describe BoardsController, type: :controller do
     end
 
     describe 'w/ the params beeing invalid' do
-
       before do
         as_logged_in_user user do
           post :update, id: board.id,
@@ -181,11 +176,9 @@ describe BoardsController, type: :controller do
         expect(board.description).to eq('Board description')
       end
     end
-
   end
 
   describe '#sticky' do
-
     let!(:message1) { FactoryGirl.create(:message, board: board) }
     let!(:message2) { FactoryGirl.create(:message, board: board) }
     let!(:sticked_message1) {
@@ -223,7 +216,6 @@ describe BoardsController, type: :controller do
         end
 
         it 'it should not be displayed as sticky message' do
-
           expect(sticked_message1.sticked_on).to be_nil
           expect(assigns[:topics][0].id).not_to eq(sticked_message1.id)
         end
@@ -242,8 +234,6 @@ describe BoardsController, type: :controller do
           expect(assigns[:topics][0].id).to eq(sticked_message2.id)
         end
       end
-
     end
-
   end
 end

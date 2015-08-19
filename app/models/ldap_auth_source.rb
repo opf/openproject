@@ -118,7 +118,6 @@ class LdapAuthSource < AuthSource
     ldap_con.search(base: base_dn,
                     filter: object_filter & login_filter,
                     attributes: search_attributes) do |entry|
-
       if onthefly_register?
         attrs = get_user_attributes_from_ldap_entry(entry)
       else

@@ -42,7 +42,7 @@ describe WikiRedirect, type: :model do
     @original.reload
 
     assert_equal 'New_title', @original.title
-    assert @wiki.redirects.find_by_title('Original_title')
+    assert @wiki.redirects.find_by(title: 'Original_title')
     assert @wiki.find_page('Original title')
     assert @wiki.find_page('ORIGINAL title')
   end
@@ -63,8 +63,8 @@ describe WikiRedirect, type: :model do
 
     @original.title = 'An old page'
     @original.save
-    assert !@wiki.redirects.find_by_title_and_redirects_to('An_old_page', 'An_old_page')
-    assert @wiki.redirects.find_by_title_and_redirects_to('Original_title', 'An_old_page')
+    assert !@wiki.redirects.find_by(title: 'An_old_page', redirects_to: 'An_old_page')
+    assert @wiki.redirects.find_by(title: 'Original_title', redirects_to: 'An_old_page')
   end
 
   it 'should rename to already redirected' do
@@ -73,13 +73,13 @@ describe WikiRedirect, type: :model do
     @original.title = 'An old page'
     @original.save
     # this redirect have to be removed since 'An old page' page now exists
-    assert !@wiki.redirects.find_by_title_and_redirects_to('An_old_page', 'Other_page')
+    assert !@wiki.redirects.find_by(title: 'An_old_page', redirects_to: 'Other_page')
   end
 
   it 'should redirects removed when deleting page' do
     assert WikiRedirect.create(wiki: @wiki, title: 'An_old_page', redirects_to: 'Original_title')
 
     @original.destroy
-    assert !@wiki.redirects.find(:first)
+    assert !@wiki.redirects.first
   end
 end

@@ -27,23 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# clear the doc:app task et al
-Rake::Task['doc:app'].clear
-Rake::Task['doc/app'].clear
-Rake::Task['doc/app/index.html'].clear
+# Be sure to restart your server when you modify this file.
 
-namespace :doc do
-  desc "Generate documentation for the application. Set custom template with TEMPLATE=/path/to/rdoc/template.rb or title with TITLE=\"Custom Title\""
-  RDoc::Task.new('app') { |rdoc|
-    rdoc.rdoc_dir = 'doc/app'
-    rdoc.template = ENV['template'] if ENV['template']
-    rdoc.title    = ENV['title'] || 'OpenProject'
-    rdoc.options << '--line-numbers' << '--inline-source'
-    rdoc.options << '--charset' << 'utf-8'
-    rdoc.rdoc_files.include('app/**/*.rb')
-    rdoc.rdoc_files.include('lib/**/*.rb')
-    rdoc.rdoc_files.include('README.rdoc')
-    rdoc.rdoc_files.include('doc/*.rdoc')
-    rdoc.main = 'README.rdoc'
-  }
-end
+# Configure sensitive parameters which will be filtered from the log file.
+Rails.application.config.filter_parameters += [:password]

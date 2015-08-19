@@ -324,7 +324,8 @@ describe User, type: :model do
     before do
       @u = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
       @u.login = 'new_user'
-      @u.password, @u.password_confirmation = '', ''
+      @u.password = ''
+      @u.password_confirmation = ''
       @u.save
     end
 
