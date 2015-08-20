@@ -286,7 +286,7 @@ module.exports = function() {
       return PathHelper.staticProjectPath(projectId) + '/wiki';
     },
     staticProjectCalendarPath: function(projectId) {
-      return PathHelper.staticProjectPath(projectId) + '/calendar';
+      return PathHelper.staticProjectPath(projectId) + '/work_packages/calendar';
     },
     staticProjectNewsPath: function(projectId) {
       return PathHelper.staticProjectPath(projectId) + '/news';

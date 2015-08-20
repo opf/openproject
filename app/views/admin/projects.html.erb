@@ -137,8 +137,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <tr class="<%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
             <td class="name"><span><%= link_to project, settings_project_path(project), :title => project.short_description %></span></td>
             <td><%= checked_image project.is_public? %></td>
-            <td><%= render partial: '/storage/required_storage',
-                                          locals: { storage: project.required_storage} %></td>
+            <td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td>
             <td><%= format_date(project.created_on) %></td>
             <td class="buttons">
               <%= link_to(l(:button_archive),

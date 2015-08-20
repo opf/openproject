@@ -38,6 +38,13 @@ module.exports = function(app) {
       res.send(text);
     });
   });
+  workPackagesRouter.get('/:id/revisions', function(req, res) {
+    fs.readFile(
+      __dirname + '/work-packages/' + req.params.id + '_revisions.json',
+      'utf8', function(err, text) {
+      res.send(text);
+    });
+  });
   workPackagesRouter.post('/:id/form', function(req, res) {
     fs.readFile(
       __dirname + '/work-packages/' + req.params.id + '_form.json',

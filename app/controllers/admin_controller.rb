@@ -51,7 +51,9 @@ class AdminController < ApplicationController
       c << ['LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?', name, name]
     end
 
-    @projects = Project.order('lft').where(c.conditions)
+    @projects = Project.with_required_storage
+                .order('lft')
+                .where(c.conditions)
 
     render action: 'projects', layout: false if request.xhr?
   end
@@ -91,6 +93,8 @@ class AdminController < ApplicationController
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_file_repository_writable, repository_writable]
     ]
+
+    @storage_information = OpenProject::Storage.mount_information
   end
 
   def default_breadcrumb

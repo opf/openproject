@@ -35,7 +35,7 @@ exports.config = {
     'browserName': 'firefox'
   },
 
-  directConnect: true,
+  directConnect: false,
 
   specs: [
     'specs/*spec.js',
