@@ -69,10 +69,10 @@ describe OpenProject::Storage do
 
     let(:config) {
       {
-        Git: { manages: File.join(tmpdir, 'git') }
+        git: { manages: File.join(tmpdir, 'git') }
       }
     }
-    let(:enabled_scms) { %w[Git] }
+    let(:enabled_scms) { %w[git] }
     let(:returned_fs_info) { [{ id: 1, free: 1234 }] }
 
     before do

@@ -46,7 +46,7 @@ module OpenProject
         OpenProject::Scm::Manager.managed_paths.each do |vendor, path|
           paths[vendor] = {
             path: path,
-            label: I18n.t(:label_managed_repositories_vendor, vendor: vendor)
+            label: I18n.t(:label_managed_repositories_vendor, vendor: vendor.to_s.camelize)
           }
         end
 
