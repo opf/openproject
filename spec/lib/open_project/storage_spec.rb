@@ -29,8 +29,6 @@
 require 'spec_helper'
 
 describe OpenProject::Storage do
-  let(:subject) {}
-
   before do
     allow(Setting).to receive(:enabled_scm).and_return(enabled_scms)
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
