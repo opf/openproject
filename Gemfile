@@ -69,7 +69,7 @@ gem 'date_validator', '~> 0.7.1'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
-gem 'sys-filesystem', '~> 1.1.4', require: false
+gem 'sys-filesystem', '~> 1.1.4'
 
 # We rely on this specific version, which is the latest as of now (end of 2013),
 # because we have to apply to it a bugfix which could break things in other versions.
