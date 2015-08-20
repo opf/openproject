@@ -30,9 +30,9 @@
 class QueryCustomFieldColumn < QueryColumn
   def initialize(custom_field)
     self.name = "cf_#{custom_field.id}".to_sym
-    self.sortable = custom_field.order_statement || false
-    if %w(list date bool int).include?(custom_field.field_format)
-      self.groupable = custom_field.order_statement
+    self.sortable = custom_field.order_statements || false
+    if %w(list date bool int user).include?(custom_field.field_format)
+      self.groupable = custom_field.order_statements
     end
     self.groupable ||= false
     @cf = custom_field
