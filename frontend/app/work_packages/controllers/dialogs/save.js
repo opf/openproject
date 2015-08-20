@@ -26,7 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, saveModal, QueryService, AuthorisationService, $state) {
+module.exports = function(
+    $scope,
+    saveModal,
+    QueryService,
+    AuthorisationService,
+    $state,
+    NotificationsService
+  ) {
 
   this.name    = 'Save';
   this.closeMe = saveModal.deactivate;
@@ -34,14 +41,21 @@ module.exports = function($scope, saveModal, QueryService, AuthorisationService,
   $scope.saveQueryAs = function(name) {
     QueryService.saveQueryAs(name)
       .then(function(data){
-        // push query id to URL without reinitializing work-packages-list-controller
-        if (data.query) {
-          $state.go('work-packages.list', { query_id: data.query.id, query: null }, { notify: false });
-          AuthorisationService.initModelAuth("query", data.query._links);
-        }
 
-        saveModal.deactivate();
-        $scope.$emit('flashMessage', data.status);
+        if (data.status.isError){
+          NotificationsService.addError(data.status.text, []);
+        }
+        else {
+          // push query id to URL without reinitializing work-packages-list-controller
+          if (data.query) {
+            $state.go('work-packages.list', { query_id: data.query.id, query: null }, { notify: false });
+            AuthorisationService.initModelAuth("query", data.query._links);
+          }
+
+          saveModal.deactivate();
+
+          NotificationsService.addSuccess(data.status.text);
+        }
       });
   };
 };

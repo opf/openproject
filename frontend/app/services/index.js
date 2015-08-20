@@ -103,11 +103,16 @@ angular.module('openproject.services')
     'AuthorisationService',
     'EditableFieldsState',
     'WorkPackageFieldService',
+    'NotificationsService',
     require('./work-package-service')
   ])
   .service('NotificationsService', [
     'I18n',
     '$rootScope',
     require('./notifications-service.js')
+  ])
+  .service('ApiNotificationsService', [
+    'NotificationsService',
+    require('./api-notifications-service.js')
   ])
   .service('ConversionService', require('./conversion-service.js'));

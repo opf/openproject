@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper) {
+module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper, ApiNotificationsService) {
   function ParentRelationsHandler(workPackage, parents, relationsId) {
       var relations = parents.filter(function(parent) {
             return parent.props.id !== workPackage.props.id;
@@ -52,7 +52,7 @@ module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper)
             scope.updateFocus(-1);
             scope.$emit('workPackageRefreshRequired');
         }, function(error) {
-            ApiHelper.handleError(scope, error);
+            ApiNotificationsService.addError(error);
         });
       };
       handler.removeRelation = function(scope) {
@@ -69,7 +69,7 @@ module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper)
               scope.updateFocus(index);
               scope.$emit('workPackageRefreshRequired');
           }, function(error) {
-              ApiHelper.handleError(scope, error);
+              ApiNotificationsService.addError(error);
           });
       };
 

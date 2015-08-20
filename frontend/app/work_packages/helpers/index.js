@@ -27,7 +27,7 @@
 //++
 
 angular.module('openproject.workPackages.helpers')
-  .factory('ApiHelper', require('./api-helper'))
+  .factory('ApiHelper', ['NotificationsService', require('./api-helper')])
   .factory('FiltersHelper', ['I18n', require('./filters-helper')])
   .constant('ACTIVE_USER_STATUSES', ['active', 'registered'])
   .factory('UsersHelper', ['ACTIVE_USER_STATUSES', require('./users-helper')])

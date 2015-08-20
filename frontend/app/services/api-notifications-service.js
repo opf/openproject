@@ -26,33 +26,49 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-module.exports = function($rootScope, $timeout, ConfigurationService, NotificationsService) {
+module.exports = function(NotificationsService) {
+  'use strict';
+
+  var getErrorMessage = function(error) {
+    if(error.status === 500) {
+      return error.statusText;
+    } else {
+      var response = JSON.parse(error.responseText);
+      var messages = [];
+
+      if (isMultiErrorMessage(response)) {
+        angular.forEach(response._embedded.errors, function(error) {
+          this.push(error.message);
+        }, messages);
+      } else {
+        messages.push(response.message);
+      }
+
+      return messages;
+    }
+  };
+
+  var isMultiErrorMessage = function(error) {
+    return error.errorIdentifier === 'urn:openproject-org:api:v3:errors:MultipleErrors';
+  };
+
+  var addError = function(error) {
+    var message = getErrorMessage(error);
+
+    if (message.length > 1) {
+      NotificationsService.addError(message, []);
+    }
+    else {
+      NotificationsService.addError('', [message]);
+    }
+  };
+
+  var addSuccess = function(text) {
+    NotificationsService.addSuccess(text);
+  };
 
   return {
-    restrict: 'E',
-    replace: true,
-    scope: {},
-    templateUrl: '/templates/components/flash_message.html',
-    link: function() {
-      $rootScope.$on('flashMessage', function(event, message) {
-        if (message.isError) {
-          if (message.text.length > 1) {
-            NotificationsService.addError(message.text, []);
-          }
-          else {
-            NotificationsService.addError('', message.text);
-          }
-        }
-        else {
-          if (message.text.length > 1) {
-            NotificationsService.addSuccess(message.text, []);
-          }
-          else {
-            NotificationsService.addSuccess('', message.text);
-          }
-        }
-      });
-    }
+    addError: addError,
+    addSuccess: addSuccess
   };
 };
