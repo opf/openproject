@@ -102,7 +102,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
           {
             filters: [
               {
-                priority_id: {
+                priority: {
                   operator: '=',
                   values: [priority1.id.to_s]
                 }

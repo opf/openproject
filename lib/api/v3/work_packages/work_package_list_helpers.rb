@@ -76,12 +76,13 @@ module API
           values = {}
           filters.each do |filter|
             attribute = filter.keys.first # there should only be one attribute per filter
-            operators[attribute] = filter[attribute]['operator']
-            values[attribute] = filter[attribute]['values']
+            ar_attribute = convert_attribute attribute, append_id: true
+            operators[ar_attribute] = filter[attribute]['operator']
+            values[ar_attribute] = filter[attribute]['values']
           end
 
           query.filters = []
-          query.add_filters(filters.map(&:keys).flatten, operators, values)
+          query.add_filters(values.keys, operators, values)
 
           bad_filter = query.filters.detect(&:invalid?)
           if bad_filter
@@ -97,12 +98,14 @@ module API
         end
 
         def set_sorting_from_json(query, json)
-          query.sort_criteria = JSON.parse(json)
+          query.sort_criteria = JSON.parse(json).map { |(attribute, order)|
+            [convert_attribute(attribute), order]
+          }
         end
 
         def apply_and_generate_groups(query, query_params)
           if params[:groupBy]
-            query.group_by = params[:groupBy]
+            query.group_by = convert_attribute params[:groupBy]
             query_params[:groupBy] = params[:groupBy]
 
             generate_groups query.results
@@ -174,6 +177,13 @@ module API
               current_user: current_user
             }
           )
+        end
+
+        def convert_attribute(attribute, append_id: false)
+          @conversion_wp ||= WorkPackage.new
+          ::API::Utilities::PropertyNameConverter.to_ar_name(attribute,
+                                                             context: @conversion_wp,
+                                                             refer_to_ids: append_id)
         end
 
         def raise_invalid_query(errors)

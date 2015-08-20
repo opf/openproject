@@ -42,13 +42,45 @@ module API
 
         property :id
         property :name
-        property :filters, render_nil: true
+        property :filters,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   represented.filters.map { |filter|
+                     attribute = convert_attribute filter.field
+                     {
+                       attribute => { operator: filter.operator, values: filter.values }
+                     }
+                   }
+                 }
         property :is_public, getter: -> (*) { is_public }
-        property :column_names, render_nil: true
-        property :sort_criteria, render_nil: true
-        property :group_by, render_nil: true
+        property :column_names,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   return nil unless represented.column_names
+                   represented.column_names.map { |name|  convert_attribute name }
+                 }
+        property :sort_criteria,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   return nil unless represented.sort_criteria
+                   represented.sort_criteria.map { |attribute, order|
+                     [convert_attribute(attribute), order]
+                   }
+                 }
+        property :group_by,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   represented.grouped? ? convert_attribute(represented.group_by) : nil
+                 },
+                 render_nil: true
         property :display_sums, getter: -> (*) { display_sums }
         property :is_starred, getter: -> (*) { starred }
+
+        private
+
+        def convert_attribute(attribute)
+          ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
+        end
 
         def _type
           'Query'

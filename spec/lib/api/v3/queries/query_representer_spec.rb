@@ -75,10 +75,6 @@ describe ::API::V3::Queries::QueryRepresenter do
       is_expected.to be_json_eql(query.name.to_json).at_path('name')
     end
 
-    it 'should show the grouping column' do
-      is_expected.to be_json_eql(query.group_by.to_json).at_path('groupBy')
-    end
-
     it 'should indicate whether sums are shown' do
       is_expected.to be_json_eql(query.display_sums.to_json).at_path('displaySums')
     end
@@ -87,22 +83,38 @@ describe ::API::V3::Queries::QueryRepresenter do
       is_expected.to be_json_eql(query.is_public.to_json).at_path('isPublic')
     end
 
+    describe 'grouping' do
+      let(:query) { FactoryGirl.build_stubbed(:query, group_by: 'assigned_to') }
+
+      it 'should show the grouping column' do
+        is_expected.to be_json_eql('assignee'.to_json).at_path('groupBy')
+      end
+
+      context 'without grouping' do
+        let(:query) { FactoryGirl.build_stubbed(:query, group_by: nil) }
+
+        it 'should show no grouping column' do
+          is_expected.to be_json_eql(nil.to_json).at_path('groupBy')
+        end
+      end
+    end
+
     describe 'with filters' do
       let(:query) {
         FactoryGirl.build_stubbed(:query,
                                   filters: [
-                                    Queries::WorkPackages::Filter.new('subject',
+                                    Queries::WorkPackages::Filter.new('status_id',
                                                                       operator: '=',
-                                                                      values: ['foo'])
+                                                                      values: ['1'])
                                   ])
       }
 
       it 'should render the filters' do
         expected = [
           {
-            subject: {
+            status: {
               operator: '=',
-              values: ['foo']
+              values: ['1']
             }
           }
         ]
@@ -111,20 +123,24 @@ describe ::API::V3::Queries::QueryRepresenter do
     end
 
     describe 'with sort criteria' do
-      let(:sorting) { [['subject', 'asc'], ['type', 'desc']] }
-      let(:query) { FactoryGirl.build_stubbed(:query, sort_criteria: sorting) }
+      let(:query) {
+        FactoryGirl.build_stubbed(:query,
+                                  sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
+      }
 
       it 'should render the filters' do
-        is_expected.to be_json_eql(sorting.to_json).at_path('sortCriteria')
+        is_expected.to be_json_eql([
+                                     ['subject', 'asc'],
+                                     ['assignee', 'desc']
+                                   ].to_json).at_path('sortCriteria')
       end
     end
 
     describe 'with columns' do
-      let(:columns) { ['subject', 'type'] }
-      let(:query) { FactoryGirl.build_stubbed(:query, column_names: columns) }
+      let(:query) { FactoryGirl.build_stubbed(:query, column_names: ['subject', 'assigned_to']) }
 
       it 'should render the filters' do
-        is_expected.to be_json_eql(columns.to_json).at_path('columnNames')
+        is_expected.to be_json_eql(['subject', 'assignee'].to_json).at_path('columnNames')
       end
     end
   end

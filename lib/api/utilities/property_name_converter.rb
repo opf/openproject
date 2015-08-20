@@ -29,9 +29,24 @@
 
 module API
   module Utilities
+    # Since APIv3 uses different names for some properties, there is sometimes the need to convert
+    # names between the "old" Rails/ActiveRecord world of names and the "new" APIv3 world of names.
+    # This class provides methods to cope with the neccessary name conversions
+    # There are multiple reasons for naming differences:
+    #  - APIv3 is using camelCase as opposed to snake_case
+    #  - APIv3 defines some properties as a different type, which requires a name change
+    #     e.g. estimatedTime vs estimated_hours (AR: hours; API: generic duration)
+    #  - some names used in AR are even there kind of deprecated
+    #     e.g. fixed_version, which everyone refers to as version
+    #  - some names in AR are plainly inconsistent, whereas the API tries to be as consistent as
+    #    possible, e.g. updated_at vs updated_on
+    #
+    # Callers note: While this class is envisioned to be generally usable, it is currently solely
+    # used for purposes around work packages. Further work might be required for conversions to make
+    # sense in different contexts.
     class PropertyNameConverter
       class << self
-        WELL_KNOWN_ATTRIBUTE_CONVERSIONS = {
+        WELL_KNOWN_AR_TO_API_CONVERSIONS = {
           assigned_to: 'assignee',
           fixed_version: 'version',
           done_ratio: 'percentageDone',
@@ -48,27 +63,64 @@ module API
         #  * unifying :status and :status_id to 'status' (and other foo_id fields)
         #  * converting totally different attribute names (e.g. createdAt vs createdOn)
         def from_ar_name(attribute)
-          attribute = normalize_attribute_name attribute
-          attribute = normalize_custom_field_name attribute
+          attribute = normalize_foreign_key_name attribute
+          attribute = expand_custom_field_name attribute
 
-          special_conversion = WELL_KNOWN_ATTRIBUTE_CONVERSIONS[attribute.to_sym]
+          special_conversion = WELL_KNOWN_AR_TO_API_CONVERSIONS[attribute.to_sym]
           return special_conversion if special_conversion
 
           # use the generic conversion rules if there is no special conversion
           attribute.camelize(:lower)
         end
 
+        # Converts the attribute name as refered to by the APIv3 to the source name of the attribute
+        # in ActiveRecord. For that to work properly, an instance of the correct AR-class needs
+        # to be passed as context.
+        def to_ar_name(attribute, context:, refer_to_ids: false)
+          attribute = underscore_attribute attribute.to_s.underscore
+          attribute = collapse_custom_field_name(attribute)
+
+          special_conversion = special_api_to_ar_conversions[attribute]
+          if special_conversion && context.respond_to?(special_conversion)
+            attribute = special_conversion
+          end
+
+          attribute = denormalize_foreign_key_name(attribute, context) if refer_to_ids
+          attribute
+        end
+
         private
 
-        # Unifies different attributes refering to the same thing, especially foreign keys
+        def special_api_to_ar_conversions
+          @api_to_ar_conversions ||= WELL_KNOWN_AR_TO_API_CONVERSIONS.inject({}) { |result, (k, v)|
+            result[v.underscore] = k.to_s
+            result
+          }
+        end
+
+        # Unifies different attributes refering to the same thing via a foreign key
         # e.g. status_id -> status
-        def normalize_attribute_name(attribute)
+        def normalize_foreign_key_name(attribute)
           attribute.to_s.sub(/(.+)_id\z/, '\1')
         end
 
-        # expands short custom field column names to be represented in the long form for
-        # custom field columns (e.g. cf_1 -> custom_field_1)
-        def normalize_custom_field_name(attribute)
+        # Adds _id suffix to field names that refer to foreign key relations,
+        # leaves other names untouched.
+        # e.g. status_id -> status
+        def denormalize_foreign_key_name(attribute, context)
+          id_name = "#{attribute}_id"
+
+          # when appending an ID is valid, the context object will understand that message
+          if context.respond_to? id_name
+            id_name
+          else
+            attribute
+          end
+        end
+
+        # expands short custom field column names to be represented in their long form
+        # (e.g. cf_1 -> custom_field_1)
+        def expand_custom_field_name(attribute)
           match = attribute.match /\Acf_(?<id>\d+)\z/
 
           if match
@@ -76,6 +128,24 @@ module API
           else
             attribute
           end
+        end
+
+        # collapses long custom field column names to be represented in their short form
+        # (e.g. custom_field_1 -> cf_1)
+        def collapse_custom_field_name(attribute)
+          match = attribute.match /\Acustom_field_(?<id>\d+)\z/
+
+          if match
+            "cf_#{match[:id]}"
+          else
+            attribute
+          end
+        end
+
+        def underscore_attribute(attribute)
+          # vanilla underscore will not puts underscores between letters and digits
+          # we add them with the power of regex (esp. used for custom fields)
+          attribute.underscore.gsub(/([a-z])(\d)/, '\1_\2')
         end
       end
     end
