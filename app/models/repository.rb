@@ -57,7 +57,7 @@ class Repository < ActiveRecord::Base
 
   # Checks if the SCM is enabled when creating a repository
   def validate_enabled_scm
-    errors.add(:type, :invalid) unless OpenProject::Scm::Manager.enabled?(vendor)
+    errors.add(:type, :not_available) unless OpenProject::Scm::Manager.enabled?(vendor)
   end
 
   # Removes leading and trailing whitespace

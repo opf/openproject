@@ -36,7 +36,7 @@ describe Repository, type: :model do
   end
 
   around do |example|
-    with_settings enabled_scm: %w(Subversion) do
+    with_settings enabled_scm: %w(subversion) do
       example.run
     end
   end
@@ -70,7 +70,7 @@ describe Repository, type: :model do
     Setting.enabled_scm = ['Git'] # disable Subversion
     repository = Repository::Subversion.new(project: Project.find(3), scm_type: 'existing', url: 'svn://localhost')
     assert !repository.save
-    assert_includes repository.errors[:type], I18n.translate('activerecord.errors.messages.invalid')
+    assert_includes repository.errors[:type], I18n.translate('activerecord.errors.models.repository.not_available')
     # re-enable Subversion for following tests
     Setting.delete_all
   end

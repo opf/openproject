@@ -78,7 +78,9 @@ describe RepositoriesController, type: :controller do
 
     context 'with #edit' do
       before do
-        xhr :get, :edit
+        xhr :get,
+            :edit,
+            scm_vendor: 'subversion'
       end
 
       it_behaves_like 'successful settings response'

@@ -130,7 +130,7 @@ describe EnabledModule, type: :model do
         project.reload
 
         expect(project.repository).not_to be_nil
-        expect(project.repository.vendor).to eq('git')
+        expect(project.repository.vendor).to eq(:git)
         expect(project.repository.managed?).to be true
       end
 
