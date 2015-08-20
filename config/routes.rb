@@ -306,7 +306,7 @@ OpenProject::Application.routes.draw do
       end
 
       # states managed by client-side routing on work_package#index
-      get '/*state' => 'work_packages#index', on: :member, id: /\d+/
+      get '/*state' => 'work_packages#index', on: :collection
 
       # explicitly define index for preserving the order in which
       # the path helpers are created - this otherwise leads to
