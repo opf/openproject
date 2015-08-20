@@ -191,13 +191,13 @@ module Redmine
               allowed_projects = []
 
               user.projects_by_role.each do |role, projects|
-                allowed_projects << projects.map(&:id) if role.allowed_to?(perm.name)
+                allowed_projects << projects.map(&:id) if perm && role.allowed_to?(perm.name)
               end
 
               stmt = projects_table[:id].in(allowed_projects.uniq)
             end
 
-            if (Role.anonymous.allowed_to?(perm.name) || Role.non_member.allowed_to?(perm.name)) && !is_member
+            if perm && (Role.anonymous.allowed_to?(perm.name) || Role.non_member.allowed_to?(perm.name)) && !is_member
               public_project = projects_table[:is_public].eq(true)
 
               stmt = stmt ? stmt.or(public_project) : public_project
