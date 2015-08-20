@@ -113,6 +113,7 @@ angular.module('openproject.services')
   ])
   .service('ApiNotificationsService', [
     'NotificationsService',
+    'ApiHelper',
     require('./api-notifications-service.js')
   ])
   .service('ConversionService', require('./conversion-service.js'));

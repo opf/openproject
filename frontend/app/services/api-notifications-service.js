@@ -26,40 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(NotificationsService) {
+module.exports = function(NotificationsService, ApiHelper) {
   'use strict';
 
-  var getErrorMessage = function(error) {
-    if(error.status === 500) {
-      return error.statusText;
-    } else {
-      var response = JSON.parse(error.responseText);
-      var messages = [];
-
-      if (isMultiErrorMessage(response)) {
-        angular.forEach(response._embedded.errors, function(error) {
-          this.push(error.message);
-        }, messages);
-      } else {
-        messages.push(response.message);
-      }
-
-      return messages;
-    }
-  };
-
-  var isMultiErrorMessage = function(error) {
-    return error.errorIdentifier === 'urn:openproject-org:api:v3:errors:MultipleErrors';
-  };
-
   var addError = function(error) {
-    var message = getErrorMessage(error);
+    var messages = ApiHelper.getErrorMessages(error);
 
-    if (message.length > 1) {
-      NotificationsService.addError(message, []);
+    if (messages.length > 1) {
+      NotificationsService.addError(messages, []);
     }
     else {
-      NotificationsService.addError('', [message]);
+      NotificationsService.addError('', messages);
     }
   };
 
