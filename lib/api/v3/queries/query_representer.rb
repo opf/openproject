@@ -34,28 +34,21 @@ module API
   module V3
     module Queries
       class QueryRepresenter < ::API::Decorators::Single
-        link :self do
-          {
-            href: api_v3_paths.query(represented.id),
-            title: "#{represented.name}"
-          }
-        end
 
-        property :id, render_nil: true
-        property :name, render_nil: true
-        property :project_id, getter: -> (*) { project.id }
-        property :project_name, getter: -> (*) { project.try(:name) }
-        property :user_id, getter: -> (*) { user.try(:id) }, render_nil: true
-        property :user_name, getter: -> (*) { user.try(:name) }, render_nil: true
-        property :user_login, getter: -> (*) { user.try(:login) }, render_nil: true
-        property :user_mail, getter: -> (*) { user.try(:mail) }, render_nil: true
+        self_link
+
+        linked_property :user
+        linked_property :project
+
+        property :id
+        property :name
         property :filters, render_nil: true
-        property :is_public, getter: -> (*) { is_public.to_s }, render_nil: true
+        property :is_public, getter: -> (*) { is_public }
         property :column_names, render_nil: true
         property :sort_criteria, render_nil: true
         property :group_by, render_nil: true
-        property :display_sums, getter: -> (*) { display_sums.to_s }, render_nil: true
-        property :is_starred, getter: -> (*) { (!query_menu_item.nil?).to_s }
+        property :display_sums, getter: -> (*) { display_sums }
+        property :is_starred, getter: -> (*) { starred }
 
         def _type
           'Query'

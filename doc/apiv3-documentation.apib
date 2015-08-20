@@ -1880,18 +1880,25 @@ but are also limited to the projects that the current user is allowed to see.
 
 # Group Queries
 
+| Link               | Description                                                              | Type         | Constraints  | Supported operations  | Condition                                 |
+| :----------------: | ------------------------------------------------------------------------ | ------------ | ------------ | --------------------- | ----------------------------------------- |
+| self               | This query                                                               | Query        | not null     | READ                  |                                           |
+| user               | The user that owns this query                                            | User         | not null     | READ                  |                                           |
+| project            | The project on which this query operates                                 | Project      |              | READ                  |                                           |
+
 ## Local Properties
-| Property     | Description   | Type    | Constraints | Supported operations |
-| :---------:  | ------------- | ----    | ----------- | -------------------- |
-| id           | Query id      | Integer | x > 0       | READ                 |
-| name         | Query name    | String  |             | READ                 |
-| filters      |               | String  |             | READ                 |
-| isPublic     |               | Boolean |             | READ                 |
-| columnNames  |               | String  |             | READ                 |
-| sortCriteria |               | String  |             | READ                 |
-| groupBy      |               | String  |             | READ                 |
-| displaySums  |               | Boolean |             | READ                 |
-| isStarred    |               | Boolean |             | READ                 |
+
+| Property         | Description                                            | Type        | Constraints                      | Supported operations |
+| :--------------: | ------------------------------------------------------ | ----------- | -------------------------------- | -------------------- |
+| id               | Query id                                               | Integer     | x > 0                            | READ                 |
+| name             | Query name                                             | String      |                                  | READ                 |
+| filters          | An object describing the queries filter conditions     | Object      |                                  | READ                 |
+| columnNames      | Ordered list of properties to be shown in this query   | String[]    |                                  | READ                 |
+| sortCriteria     | An object describing the sorting rules of this query   | Object      |                                  | READ                 |
+| groupBy          | The property to group results of this query by         | String      |                                  | READ                 |
+| displaySums      | Should sums (of supported properties) be shown?        | Boolean     |                                  | READ                 |
+| isPublic         | Can users besides the owner see the query?             | Boolean     |                                  | READ                 |
+| isStarred        | Should the query be highlighted to the user?           | Boolean     |                                  | READ                 |
 
 ## Query [/api/v3/queries/{id}]
 
@@ -1907,11 +1914,11 @@ but are also limited to the projects that the current user is allowed to see.
                     },
                     "project": {
                         "href": "/api/v3/projects/1",
-                        "title": "Lorem ipsum"
+                        "title": "A project"
                     },
                     "user": {
                         "href": "/api/v3/users/1",
-                        "title": "John Sheppard - admin"
+                        "title": "John Sheppard"
                     }
                 },
                 "id": 2,
@@ -1932,7 +1939,7 @@ but are also limited to the projects that the current user is allowed to see.
                         }
                     }
                 ],
-                "isPublic": "false",
+                "isPublic": false,
                 "columnNames": [
                     "type",
                     "status",
@@ -1947,7 +1954,7 @@ but are also limited to the projects that the current user is allowed to see.
                     ]
                 ],
                 "groupBy": null,
-                "displaySums": "false",
+                "displaySums": false,
                 "isStarred": true
             }
 
