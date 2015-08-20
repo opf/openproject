@@ -41,7 +41,7 @@ module.exports = function() {
       } else {
         var response = JSON.parse(error.responseText);
         var messages = [];
-        var message;
+//        var message;
 
         if (ApiHelper.isMultiErrorMessage(response)) {
           angular.forEach(response._embedded.errors, function(error) {
@@ -51,9 +51,9 @@ module.exports = function() {
           messages.push(response.message);
         }
 
-        message = messages.join(' ');
+       // message = messages.join(' ');
 
-        return message;
+        return messages;
       }
     },
 

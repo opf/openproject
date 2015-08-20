@@ -27,34 +27,30 @@
 //++
 
 // TODO move to UI components
-module.exports = function($rootScope, $timeout, ConfigurationService) {
+module.exports = function($rootScope, $timeout, ConfigurationService, NotificationsService) {
 
   return {
     restrict: 'E',
     replace: true,
     scope: {},
     templateUrl: '/templates/components/flash_message.html',
-    link: function(scope, element, attrs) {
+    link: function() {
       $rootScope.$on('flashMessage', function(event, message) {
-        scope.message = message;
-        scope.flashType = 'notice';
-        scope.flashId = 'flash-notice';
-
-        var fadeOutTime = attrs.fadeOutTime || 3000;
-
         if (message.isError) {
-          scope.flashType = "errorExplanation";
-          scope.flashId = "errorExplanation";
+          if (message.text.length > 1) {
+            NotificationsService.addError(message.text, []);
+          }
+          else {
+            NotificationsService.addError('', message.text);
+          }
         }
-
-        // not using $timeout to allow capybara to not wait until timeout is done with
-        // scope apply
-        if (!ConfigurationService.accessibilityModeEnabled() && !message.isPermanent) {
-          setTimeout(function() {
-            scope.$apply(function() {
-              scope.message = undefined;
-            });
-          }, fadeOutTime);
+        else {
+          if (message.text.length > 1) {
+            NotificationsService.addSuccess(message.text, []);
+          }
+          else {
+            NotificationsService.addSuccess('', message.text);
+          }
         }
       });
     }

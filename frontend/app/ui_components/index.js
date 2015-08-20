@@ -53,6 +53,7 @@ angular.module('openproject.uiComponents')
     '$rootScope',
     '$timeout',
     'ConfigurationService',
+    'NotificationsService',
     require('./flash-message-directive')
   ])
   .directive('expandableSearch', ['ENTER_KEY', require('./expandable-search')])
