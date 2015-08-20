@@ -40,10 +40,12 @@ describe SortHelper, type: :helper do
                               first_asc?: sort_asc,
                               to_param: 'sort_criteria_params').as_null_object
     }
+    let(:params) { { controller: 'work_packages', action: 'index' } }
 
     before do
       # helper relies on this instance var
       @sort_criteria = sort_criteria
+      allow(helper).to receive(:params).and_return(params)
     end
 
     it 'renders a th with a sort link' do
@@ -52,7 +54,7 @@ describe SortHelper, type: :helper do
           <div class="generic-table--sort-header-outer">
             <div class="generic-table--sort-header">
               <span>
-                <a href="/issues?sort=sort_criteria_params">Id</a>
+                <a href="/work_packages?sort=sort_criteria_params">Id</a>
               </span>
             </div>
           </div>
@@ -69,7 +71,7 @@ describe SortHelper, type: :helper do
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span class="sort asc">
-                  <a href="/issues?sort=sort_criteria_params">Id</a>
+                  <a href="/work_packages?sort=sort_criteria_params">Id</a>
                 </span>
               </div>
             </div>
@@ -88,7 +90,7 @@ describe SortHelper, type: :helper do
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span class="sort desc">
-                  <a href="/issues?sort=sort_criteria_params">Id</a>
+                  <a href="/work_packages?sort=sort_criteria_params">Id</a>
                 </span>
               </div>
             </div>
