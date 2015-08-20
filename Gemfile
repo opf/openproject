@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.13'
+gem 'rails', '4.2.4'
 gem 'protected_attributes'
 gem 'actionpack-action_caching'
 gem 'activerecord-session_store'
@@ -125,12 +125,6 @@ gem 'cocaine'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-# Security fixes
-# Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
-# version. Please add a link to a security advisory when adding a Gem here.
-
-gem 'rack', '~> 1.5.4' # CVE-2015-3225
-
 gem 'nokogiri', '~> 1.6.6'
 
 gem 'carrierwave', '~> 0.10.0'
@@ -224,7 +218,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'dev'
+  gem 'openproject-translations', git:'https://github.com/myabc/openproject-translations.git', branch: 'feature/rails4.2'
 end
 
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
