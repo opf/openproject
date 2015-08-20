@@ -69,7 +69,7 @@ module OpenProject
         ##
         # Create a bare repository for the current path
         def initialize_bare_git
-          capture_git(%w[init --bare])
+          capture_git(%w[init --bare --shared])
         end
 
         ##
