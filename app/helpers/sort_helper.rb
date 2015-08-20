@@ -81,6 +81,8 @@
 
 module SortHelper
   class SortCriteria
+    attr_reader :criteria
+
     def initialize
       @criteria = []
     end
@@ -179,14 +181,16 @@ module SortHelper
   #   sort_init [['name', 'desc'], ['id', 'desc']]
   #
   def sort_init(*args)
-    case args.size
-    when 1
-      @sort_default = args.first.is_a?(Array) ? args.first : [[args.first]]
-    when 2
-      @sort_default = [[args.first, args.last]]
-    else
-      raise ArgumentError
-    end
+    criteria = case args.size
+               when 1
+                 args.first.is_a?(Array) ? args.first : [[args.first]]
+               when 2
+                 [[args.first, args.last]]
+               else
+                 raise ArgumentError
+               end
+    @sort_default = SortCriteria.new
+    @sort_default.criteria = criteria
   end
 
   # Updates the sort state. Call this in the controller prior to calling
@@ -197,7 +201,7 @@ module SortHelper
     @sort_criteria = SortCriteria.new
     @sort_criteria.available_criteria = criteria
     @sort_criteria.from_param(params[:sort] || session[sort_name])
-    @sort_criteria.criteria = @sort_default if @sort_criteria.empty?
+    @sort_criteria.criteria = @sort_default.criteria if @sort_criteria.empty?
     session[sort_name] = @sort_criteria.to_param
   end
 
@@ -212,6 +216,12 @@ module SortHelper
   #
   def sort_clause
     @sort_criteria.to_sql
+  end
+
+  # Determines whether the current selected sort criteria
+  # is identical to the default
+  def default_sort_order?
+    @sort_default.criteria == @sort_criteria.criteria
   end
 
   # Returns a link which sorts by the named column.
@@ -306,5 +316,15 @@ module SortHelper
     else
       l(:label_sort_by, "\"#{caption}\"") unless options[:title]
     end
+  end
+
+  # Returns a table header tag similar to +sort_header_tag+, but
+  # according to the LSG table component.
+  def sort_header_tag_with_lsg(column, options = {})
+    caption = options.delete(:caption) || column.to_s.humanize
+    default_order = options.delete(:default_order) || 'asc'
+    lang = options.delete(:lang) || nil
+
+    sort_link(column, caption, default_order, lang: lang)
   end
 end

@@ -15,13 +15,6 @@ GIT
       rspec
 
 GIT
-  remote: https://github.com/finnlabs/acts_as_countable.git
-  revision: 2471265a14b011d566d3865c1c52516f970c02e1
-  ref: 2471265
-  specs:
-    acts_as_countable (0.1.0)
-
-GIT
   remote: https://github.com/finnlabs/rack-protection.git
   revision: 5a7d1bd2f05ca75faf7909c8cc978732a0080898
   ref: 5a7d1bd
@@ -434,6 +427,8 @@ GEM
     structured_warnings (0.2.0)
     svg-graph (1.0.5)
     syck (1.0.5)
+    sys-filesystem (1.1.4)
+      ffi
     thin (1.6.3)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0)
@@ -473,7 +468,6 @@ DEPENDENCIES
   activerecord-jdbcpostgresql-adapter
   activerecord-session_store
   activerecord-tableless (~> 1.0)
-  acts_as_countable!
   acts_as_list (~> 0.3.0)
   airbrake (~> 4.1.0)
   autoprefixer-rails
@@ -561,6 +555,7 @@ DEPENDENCIES
   sprockets (~> 2.12.3)
   svg-graph
   syck
+  sys-filesystem (~> 1.1.4)
   thin
   timecop (~> 0.7.1)
   unicorn
