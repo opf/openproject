@@ -28,8 +28,12 @@ module OpenProject::Costs
     register 'openproject-costs',
              author_url: 'http://finn.de',
              requires_openproject: '>= 4.0.0',
-             settings:  { default: { 'costs_currency' => 'EUR', 'costs_currency_format' => '%n %u' },
-                          partial: 'settings/openproject_costs' } do
+             settings: {
+               default: { 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' },
+               partial: 'settings/openproject_costs'
+             },
+             name: 'OpenProject Costs' do
+
       project_module :costs_module do
         permission :view_own_hourly_rate, {}
         permission :view_hourly_rates, {}
