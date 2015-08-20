@@ -84,23 +84,39 @@ module API
             project.all_work_package_custom_fields.to_a & type.custom_fields.to_a
           end
 
+          def writable?(property)
+            case property
+            when :percentage_done
+              percentage_done_writable?
+            when :estimated_time, :start_date, :due_date
+              nil_or_leaf?(@work_package)
+            else
+              writable_properties.include? property
+            end
+          end
+
+          private
+
+          def writable_properties
+            [
+              :subject,
+              :description,
+              :estimated_time,
+              :assignee,
+              :responsible,
+              :type,
+              :status,
+              :category,
+              :version,
+              :priority
+            ]
+          end
+
           def percentage_done_writable?
             if Setting.work_package_done_ratio == 'status' ||
                Setting.work_package_done_ratio == 'disabled'
               return false
             end
-            nil_or_leaf?(@work_package)
-          end
-
-          def estimated_time_writable?
-            nil_or_leaf?(@work_package)
-          end
-
-          def start_date_writable?
-            nil_or_leaf?(@work_package)
-          end
-
-          def due_date_writable?
             nil_or_leaf?(@work_package)
           end
 

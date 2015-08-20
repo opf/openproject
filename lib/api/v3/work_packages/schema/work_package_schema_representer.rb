@@ -60,12 +60,10 @@ module API
 
           schema :lock_version,
                  type: 'Integer',
-                 name_source: -> (*) { I18n.t('api_v3.attributes.lock_version') },
-                 writable: false
+                 name_source: -> (*) { I18n.t('api_v3.attributes.lock_version') }
 
           schema :id,
-                 type: 'Integer',
-                 writable: false
+                 type: 'Integer'
 
           schema :subject,
                  type: 'String',
@@ -77,22 +75,18 @@ module API
 
           schema :start_date,
                  type: 'Date',
-                 required: false,
-                 writable: -> { represented.start_date_writable? }
+                 required: false
 
           schema :due_date,
                  type: 'Date',
-                 required: false,
-                 writable: -> { represented.due_date_writable? }
+                 required: false
 
           schema :estimated_time,
                  type: 'Duration',
-                 required: false,
-                 writable: -> { represented.estimated_time_writable? }
+                 required: false
 
           schema :spent_time,
                  type: 'Duration',
-                 writable: false,
                  show_if: -> (_) do
                    current_user_allowed_to(:view_time_entries, context: represented.project)
                  end
@@ -100,24 +94,19 @@ module API
           schema :percentage_done,
                  type: 'Integer',
                  name_source: :done_ratio,
-                 writable: -> { represented.percentage_done_writable? },
                  show_if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
 
           schema :created_at,
-                 type: 'DateTime',
-                 writable: false
+                 type: 'DateTime'
 
           schema :updated_at,
-                 type: 'DateTime',
-                 writable: false
+                 type: 'DateTime'
 
           schema :author,
-                 type: 'User',
-                 writable: false
+                 type: 'User'
 
           schema :project,
-                 type: 'Project',
-                 writable: false
+                 type: 'Project'
 
           schema_with_allowed_link :assignee,
                                    type: 'User',

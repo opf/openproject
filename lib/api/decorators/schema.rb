@@ -35,7 +35,7 @@ module API
                    type:,
                    name_source: property,
                    required: true,
-                   writable: true,
+                   writable: -> { represented.writable?(property) },
                    min_length: nil,
                    max_length: nil,
                    regular_expression: nil,
