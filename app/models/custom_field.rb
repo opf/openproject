@@ -194,18 +194,25 @@ class CustomField < ActiveRecord::Base
     case field_format
     when 'string', 'text', 'list', 'date', 'bool'
       # COALESCE is here to make sure that blank and NULL values are sorted equally
-      "COALESCE((SELECT cv_sort.value FROM #{CustomValue.table_name} cv_sort" +
-        " WHERE cv_sort.customized_type='#{klass.name}'" +
-        " AND cv_sort.customized_id=#{klass.table_name}.id" +
-        " AND cv_sort.custom_field_id=#{id} LIMIT 1), '')"
+      <<-SQL
+      COALESCE((SELECT cv_sort.value FROM #{CustomValue.table_name} cv_sort
+        WHERE cv_sort.customized_type='#{klass.name}'
+        AND cv_sort.customized_id=#{klass.table_name}.id
+        AND cv_sort.custom_field_id=#{id} LIMIT 1), '')
+      SQL
     when 'int', 'float'
       # Make the database cast values into numeric
       # Postgresql will raise an error if a value can not be casted!
       # CustomValue validations should ensure that it doesn't occur
-      "(SELECT CAST(cv_sort.value AS decimal(60,3)) FROM #{CustomValue.table_name} cv_sort" +
-        " WHERE cv_sort.customized_type='#{klass.name}'" +
-        " AND cv_sort.customized_id=#{klass.table_name}.id" +
-        " AND cv_sort.custom_field_id=#{id} AND cv_sort.value <> '' AND cv_sort.value IS NOT NULL LIMIT 1)"
+      <<-SQL
+      (SELECT CAST(cv_sort.value AS decimal(60,3)) FROM #{CustomValue.table_name} cv_sort
+        WHERE cv_sort.customized_type='#{klass.name}'
+        AND cv_sort.customized_id=#{klass.table_name}.id
+        AND cv_sort.custom_field_id=#{id}
+        AND cv_sort.value <> ''
+        AND cv_sort.value IS NOT NULL
+      LIMIT 1)
+      SQL
     end
   end
 
