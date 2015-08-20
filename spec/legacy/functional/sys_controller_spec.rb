@@ -35,7 +35,7 @@ describe SysController, type: :controller do
 
   before do
     Setting.sys_api_enabled = '1'
-    Setting.enabled_scm = %w(Subversion Git)
+    Setting.enabled_scm = %w(subversion git)
   end
 
   it 'should projects with repository enabled' do
@@ -51,7 +51,7 @@ describe SysController, type: :controller do
     assert_nil Project.find(4).repository
 
     post :create_project_repository, id: 4,
-                                     scm_vendor: 'Subversion',
+                                     scm_vendor: 'subversion',
                                      scm_type: 'existing',
                                      repository: { url: 'file:///create/project/repository/subproject2' }
     assert_response :created

@@ -227,6 +227,7 @@ en:
           identical_projects: "Dependency cannot be created between one project and itself."
           project_association_not_allowed: "does not allow associations."
         repository:
+          not_available: "SCM vendor is not available"
           not_whitelisted: "is not allowed by the configuration."
           no_directory: "is not a directory."
         work_package:

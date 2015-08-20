@@ -29,8 +29,6 @@
 require 'spec_helper'
 
 describe OpenProject::Storage do
-  let(:subject) {}
-
   before do
     allow(Setting).to receive(:enabled_scm).and_return(enabled_scms)
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
@@ -69,10 +67,10 @@ describe OpenProject::Storage do
 
     let(:config) {
       {
-        Git: { manages: File.join(tmpdir, 'git') }
+        git: { manages: File.join(tmpdir, 'git') }
       }
     }
-    let(:enabled_scms) { %w[Git] }
+    let(:enabled_scms) { %w[git] }
     let(:returned_fs_info) { [{ id: 1, free: 1234 }] }
 
     before do

@@ -127,8 +127,8 @@ diff_max_lines_displayed:
 enabled_scm:
   serialized: true
   default:
-  - Subversion
-  - Git
+  - subversion
+  - git
 autofetch_changesets:
   default: 1
 sys_api_enabled:

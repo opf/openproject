@@ -53,7 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%# Show (selected) type options %>
   <% unless @repository.nil? %>
       <%= render partial: "/repositories/settings/vendor_form",
-                 locals: { form: f, repository: @repository, vendor: vendor_name(@repository) } %>
+                 locals: { form: f, repository: @repository } %>
   <% end %>
   
   <%# Allow plugins to add additional information %>

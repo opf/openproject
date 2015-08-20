@@ -46,7 +46,7 @@ module OpenProject
         OpenProject::Scm::Manager.managed_paths.each do |vendor, path|
           paths[vendor] = {
             path: path,
-            label: I18n.t(:label_managed_repositories_vendor, vendor: vendor)
+            label: I18n.t(:label_managed_repositories_vendor, vendor: vendor.to_s.camelize)
           }
         end
 
@@ -95,7 +95,7 @@ module OpenProject
           total: stat.bytes_total,
           id: stat.filesystem_id
         }
-      rescue Sys::Filesystem::Error => e
+      rescue SystemCallError, Sys::Filesystem::Error => e
         Rails.logger.warn("Can't read storage information on #{dir}: #{e.message}")
       end
     end

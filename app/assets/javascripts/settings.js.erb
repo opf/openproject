@@ -37,29 +37,21 @@ See doc/COPYRIGHT.rdoc for more details.
 
     /** Sync SCM vendor select when enabled SCMs are changed */
     $('[name="settings[enabled_scm][]"]').change(function () {
-      var checked = this.checked,
-        value = this.value,
+      var wasDisabled = !this.checked,
+        vendor = this.value,
         select = $('#settings_repositories_automatic_managed_vendor'),
-        option = select.find('option[value="' + value + '"]');
+        option = select.find('option[value="' + vendor + '"]');
 
-      if (checked && !option.length) {
-        select.append('<option value="' + value +'">' + value + '</option>')
-          .prop('disabled', false);
-      } else {
-
-        // Avoid selecting another vendor
-        if (option.prop('selected')) {
-          select.val('');
-        }
-
-        option.remove();
-
-        // Disable select when no option remains
-        if (select.find('option').length <= 1) {
-          select.prop('disabled', true);
-        }
+      // Skip non-manageable SCMs
+      if (option.length === 0) {
+        return;
       }
-    });
 
+      option.prop('disabled', wasDisabled);
+      if (wasDisabled && option.prop('selected')) {
+        select.val('');
+      }
+
+    });
   });
 }(jQuery));
