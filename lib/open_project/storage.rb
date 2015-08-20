@@ -95,7 +95,7 @@ module OpenProject
           total: stat.bytes_total,
           id: stat.filesystem_id
         }
-      rescue Sys::Filesystem::Error => e
+      rescue SystemCallError, Sys::Filesystem::Error => e
         Rails.logger.warn("Can't read storage information on #{dir}: #{e.message}")
       end
     end
