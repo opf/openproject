@@ -39,7 +39,7 @@ module API
         super(group_key)
       end
 
-      link :value_link do
+      link :valueLink do
         {
           href: @link
         } if @link

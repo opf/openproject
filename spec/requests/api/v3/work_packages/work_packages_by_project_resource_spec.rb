@@ -170,10 +170,12 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
 
         it 'contains group elements' do
           expected_group1 = {
+            _links: { valueLink: { href: api_v3_paths.priority(priority1.id) } },
             value: priority1.name,
             count: 2
           }
           expected_group2 = {
+            _links: { valueLink: { href: api_v3_paths.priority(priority2.id) } },
             value: priority2.name,
             count: 1
           }
@@ -187,6 +189,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
 
           it 'contains extended group elements' do
             expected_group1 = {
+              _links: { valueLink: { href: api_v3_paths.priority(priority1.id) } },
               value: priority1.name,
               count: 2,
               sums: {
@@ -194,6 +197,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
               }
             }
             expected_group2 = {
+              _links: { valueLink: { href: api_v3_paths.priority(priority2.id) } },
               value: priority2.name,
               count: 1,
               sums: {
