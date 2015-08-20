@@ -155,11 +155,12 @@ describe RepositoriesController, type: :controller do
         allow(Setting).to receive(:repository_checkout_data).and_return(checkout_hash)
         get :show, project_id: project.identifier
       end
-        it 'renders an empty warning view' do
-          expect(response).to render_template 'repositories/empty'
-          expect(response).to render_template partial: 'repositories/_checkout_instructions'
-          expect(response.code).to eq('200')
-        end
+
+      it 'renders an empty warning view' do
+        expect(response).to render_template 'repositories/empty'
+        expect(response).to render_template partial: 'repositories/_checkout_instructions'
+        expect(response.code).to eq('200')
+      end
     end
   end
 

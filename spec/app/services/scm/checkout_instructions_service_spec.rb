@@ -156,10 +156,10 @@ describe Scm::CheckoutInstructionsService do
       it 'returns the correct permissions for read access' do
         allow(user)
           .to receive(:allowed_to?).with(:commit_access, any_args)
-                .and_return(false)
+          .and_return(false)
         allow(user)
           .to receive(:allowed_to?).with(:browse_repository, any_args)
-                .and_return(true)
+          .and_return(true)
 
         expect(service.may_commit?).to be false
         expect(service.may_checkout?).to be true

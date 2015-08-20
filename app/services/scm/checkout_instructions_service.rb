@@ -80,7 +80,7 @@ class Scm::CheckoutInstructionsService
 
   def checkout_enabled?
     checkout_settings['enabled'].to_i > 0
-  end  
+  end
 
   ##
   # Determines whether permissions for the given repository
