@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 describe('SettingsModalController', function() {
-  var scope, $q, defer, settingsModal, QueryService;
+  var scope, $q, defer, settingsModal, QueryService, NotificationsService;
   var ctrl, buildController;
 
   beforeEach(module('openproject.workPackages.controllers'));
@@ -51,12 +51,16 @@ describe('SettingsModalController', function() {
     };
 
     settingsModal = { deactivate: angular.noop };
+    NotificationsService = {
+      addSuccess: function() {}
+    };
 
     buildController = function() {
       ctrl = $controller("SettingsModalController", {
         $scope:         scope,
         settingsModal:  settingsModal,
-        QueryService:   QueryService
+        QueryService:   QueryService,
+        NotificationsService: NotificationsService
       });
     };
   }));
@@ -68,9 +72,14 @@ describe('SettingsModalController', function() {
       sinon.spy(scope, "$emit");
       sinon.spy(settingsModal, "deactivate");
       sinon.spy(QueryService, "updateHighlightName");
+      sinon.spy(NotificationsService, 'addSuccess');
 
       scope.updateQuery();
-      defer.resolve({status: "Query updated!"});
+      defer.resolve({
+        status: {
+          text: 'Query updated!'
+        }
+      });
 
       scope.$digest();
     });
@@ -79,9 +88,8 @@ describe('SettingsModalController', function() {
       expect(settingsModal.deactivate).to.have.been.called;
     });
 
-    it('should update the flash message', function() {
-      expect(scope.$emit).to.have.been.calledWith("flashMessage",
-        "Query updated!");
+    it('should notfify success', function() {
+      expect(NotificationsService.addSuccess).to.have.been.calledWith('Query updated!');
     });
 
     it ('should update the query menu name', function() {
