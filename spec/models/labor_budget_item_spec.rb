@@ -19,23 +19,25 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe LaborBudgetItem, :type => :model do
+describe LaborBudgetItem, type: :model do
   include Cost::PluginSpecHelper
-  let(:item) { FactoryGirl.build(:labor_budget_item, :cost_object => cost_object) }
-  let(:cost_object) { FactoryGirl.build(:variable_cost_object, :project => project) }
+  let(:item) { FactoryGirl.build(:labor_budget_item, cost_object: cost_object) }
+  let(:cost_object) { FactoryGirl.build(:variable_cost_object, project: project) }
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
-  let(:rate) { FactoryGirl.create(:hourly_rate, :user => user,
-                                            :valid_from => Date.today - 4.days,
-                                            :rate => 400.0,
-                                            :project => project) }
+  let(:rate) {
+    FactoryGirl.create(:hourly_rate, user: user,
+                                     valid_from: Date.today - 4.days,
+                                     rate: 400.0,
+                                     project: project)
+  }
   let(:project) { FactoryGirl.create(:valid_project) }
   let(:project2) { FactoryGirl.create(:valid_project) }
 
   describe '#calculated_costs' do
-    let(:default_costs) { "0.0".to_f }
+    let(:default_costs) { '0.0'.to_f }
 
-    describe "WHEN no user is associated" do
+    describe 'WHEN no user is associated' do
       before do
         item.user = nil
       end
@@ -43,7 +45,7 @@ describe LaborBudgetItem, :type => :model do
       it { expect(item.calculated_costs).to eq(default_costs) }
     end
 
-    describe "WHEN no hours are defined" do
+    describe 'WHEN no hours are defined' do
       before do
         item.hours = nil
       end
@@ -51,7 +53,7 @@ describe LaborBudgetItem, :type => :model do
       it { expect(item.calculated_costs).to eq(default_costs) }
     end
 
-    describe "WHEN user, hours and rate are defined" do
+    describe 'WHEN user, hours and rate are defined' do
       before do
         project.save!
         item.hours = 5.0
@@ -80,7 +82,7 @@ describe LaborBudgetItem, :type => :model do
   end
 
   describe '#user' do
-    describe "WHEN an existing user is provided" do
+    describe 'WHEN an existing user is provided' do
       before do
         item.save!
         item.reload
@@ -91,7 +93,7 @@ describe LaborBudgetItem, :type => :model do
       it { expect(item.user).to eq(user) }
     end
 
-    describe "WHEN a non existing user is provided (i.e. the user has been deleted)" do
+    describe 'WHEN a non existing user is provided (i.e. the user has been deleted)' do
       before do
         item.save!
         item.reload
@@ -106,51 +108,51 @@ describe LaborBudgetItem, :type => :model do
   end
 
   describe '#valid?' do
-    describe "WHEN hours, cost_object and user are provided" do
-      it "should be valid" do
+    describe 'WHEN hours, cost_object and user are provided' do
+      it 'should be valid' do
         expect(item).to be_valid
       end
     end
 
-    describe "WHEN no hours are provided" do
+    describe 'WHEN no hours are provided' do
       before do
         item.hours = nil
       end
 
-      it "should not be valid" do
+      it 'should not be valid' do
         expect(item).not_to be_valid
         expect(item.errors[:hours]).to eq([I18n.t('activerecord.errors.messages.not_a_number')])
       end
     end
 
-    describe "WHEN hours are provided as nontransformable string" do
+    describe 'WHEN hours are provided as nontransformable string' do
       before do
-        item.hours = "test"
+        item.hours = 'test'
       end
 
-      it "should not be valid" do
+      it 'should not be valid' do
         expect(item).not_to be_valid
         expect(item.errors[:hours]).to eq([I18n.t('activerecord.errors.messages.not_a_number')])
       end
     end
 
-    describe "WHEN no cost_object is provided" do
+    describe 'WHEN no cost_object is provided' do
       before do
         item.cost_object = nil
       end
 
-      it "should not be valid" do
+      it 'should not be valid' do
         expect(item).not_to be_valid
         expect(item.errors[:cost_object]).to eq([I18n.t('activerecord.errors.messages.blank')])
       end
     end
 
-    describe "WHEN no user is provided" do
+    describe 'WHEN no user is provided' do
       before do
         item.user = nil
       end
 
-      it "should not be valid" do
+      it 'should not be valid' do
         expect(item).not_to be_valid
         expect(item.errors[:user]).to eq([I18n.t('activerecord.errors.messages.blank')])
       end
@@ -159,12 +161,11 @@ describe LaborBudgetItem, :type => :model do
 
   describe '#costs_visible_by?' do
     before do
-      project.enabled_module_names = project.enabled_module_names << "costs_module"
+      project.enabled_module_names = project.enabled_module_names << 'costs_module'
     end
 
     describe "WHEN the item is assigned to the user
               WHEN the user has the view_own_hourly_rate permission" do
-
       before do
         is_member(project, user, [:view_own_hourly_rate])
 
@@ -176,7 +177,6 @@ describe LaborBudgetItem, :type => :model do
 
     describe "WHEN the item is assigned to the user
               WHEN the user lacks permissions" do
-
       before do
         is_member(project, user, [])
 
@@ -188,7 +188,6 @@ describe LaborBudgetItem, :type => :model do
 
     describe "WHEN the item is assigned to another user
               WHEN the user has the view_hourly_rates permission" do
-
       before do
         is_member(project, user2, [:view_hourly_rates])
 
@@ -200,7 +199,6 @@ describe LaborBudgetItem, :type => :model do
 
     describe "WHEN the item is assigned to another user
               WHEN the user has the view_hourly_rates permission in another project" do
-
       before do
         is_member(project2, user2, [:view_hourly_rates])
 

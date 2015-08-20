@@ -40,7 +40,7 @@ fr:
       cost_object: Budget
       cost_type:
         one: Type de coût
-        other: Types de coûts
+        other: Types de coût
       material_budget_item: Unité
       rate: Tarif
     errors:

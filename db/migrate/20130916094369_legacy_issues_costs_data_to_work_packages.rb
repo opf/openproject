@@ -17,10 +17,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-require Rails.root.join("db","migrate","migration_utils","utils").to_s
+require Rails.root.join('db', 'migrate', 'migration_utils', 'utils').to_s
 
 class LegacyIssuesCostsDataToWorkPackages < ActiveRecord::Migration
-
   def up
     return unless migration_applicable?
 
@@ -49,6 +48,6 @@ class LegacyIssuesCostsDataToWorkPackages < ActiveRecord::Migration
 
   def migration_applicable?
     ActiveRecord::Base.connection.table_exists?('legacy_issues') &&
-    ActiveRecord::Base.connection.columns('legacy_issues').map(&:name).include?('cost_object_id')
+      ActiveRecord::Base.connection.columns('legacy_issues').map(&:name).include?('cost_object_id')
   end
 end

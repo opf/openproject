@@ -17,13 +17,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe CostType, :type => :model do
+describe CostType, type: :model do
   let(:klass) { CostType }
-  let(:cost_type) { klass.new :name => "ct1",
-                              :unit => "singular",
-                              :unit_plural => "plural" }
+  let(:cost_type) {
+    klass.new name: 'ct1',
+              unit: 'singular',
+              unit_plural: 'plural'
+  }
   before do
     # as the spec_helper loads fixtures and they are probably needed by other tests
     # we delete them here so they do not interfere.
@@ -32,9 +34,9 @@ describe CostType, :type => :model do
     CostType.destroy_all
   end
 
-  describe "class" do
-    describe "active" do
-      describe "WHEN a CostType instance is deleted" do
+  describe 'class' do
+    describe 'active' do
+      describe 'WHEN a CostType instance is deleted' do
         before do
           cost_type.deleted_at = Time.now
           cost_type.save!
@@ -43,7 +45,7 @@ describe CostType, :type => :model do
         it { expect(klass.active.size).to eq(0) }
       end
 
-      describe "WHEN a CostType instance is not deleted" do
+      describe 'WHEN a CostType instance is not deleted' do
         before do
           cost_type.save!
         end
