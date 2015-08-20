@@ -42,7 +42,7 @@ angular.module('openproject')
         encode: valToString,
         decode: valFromString,
         is: regexpMatches,
-        pattern: /\/projects\/.*/
+        pattern: /.*/
       });
   })();
 
@@ -111,7 +111,7 @@ angular.module('openproject')
     })
 
     .state('work-packages.list', {
-      url: '/projects/:projectIdentifier/work_packages?query_id',
+      url: '{projectPath:projectPathType}/work_packages?query_id',
       controller: 'WorkPackagesListController',
       templateUrl: '/templates/work_packages.list.html'
     })

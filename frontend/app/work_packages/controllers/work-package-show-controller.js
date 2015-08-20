@@ -195,11 +195,11 @@ module.exports = function($scope,
   };
 
   $scope.showWorkPackageDetails = function() {
-    $state.go('work-packages.list.details.overview', {workPackageId: $scope.workPackage.props.id, projectIdentifier: $scope.projectIdentifier});
+    $state.go('work-packages.list.details.overview', {workPackageId: $scope.workPackage.props.id, projectPath: PathHelper.staticBase + '/projects/' + $scope.projectIdentifier});
   };
 
   $scope.closeDetailsView = function() {
-    $state.go('work-packages.list', {projectIdentifier: $scope.projectIdentifier});
+    $state.go('work-packages.list', {projectPath: PathHelper.staticBase + '/projects/' + $scope.projectIdentifier});
   };
 
   function getFocusAnchorLabel(tab, workPackage) {
