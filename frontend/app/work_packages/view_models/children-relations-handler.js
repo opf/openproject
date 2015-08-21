@@ -26,7 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(PathHelper, CommonRelationsHandler, WorkPackageService, ApiNotificationsService) {
+module.exports = function(
+    PathHelper,
+    CommonRelationsHandler,
+    WorkPackageService,
+    ApiNotificationsService
+  ) {
   function ChildrenRelationsHandler(workPackage, children) {
       var handler = new CommonRelationsHandler(workPackage, children, undefined);
 
