@@ -23,6 +23,6 @@ class CostQuery::Filter::ActivityId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    TimeEntryActivity.find(:all, order: 'name').map { |a| [a.name, a.id] }
+    TimeEntryActivity.order('name').pluck(:name, :id)
   end
 end
