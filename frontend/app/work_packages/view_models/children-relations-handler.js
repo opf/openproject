@@ -27,7 +27,6 @@
 //++
 
 module.exports = function(
-    PathHelper,
     CommonRelationsHandler,
     WorkPackageService,
     ApiNotificationsService

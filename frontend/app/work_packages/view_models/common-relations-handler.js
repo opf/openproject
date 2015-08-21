@@ -29,9 +29,7 @@
 module.exports = function(
     $timeout,
     WorkPackageService,
-    ApiNotificationsService,
-    PathHelper,
-    MAX_AUTOCOMPLETER_ADDITION_ITERATIONS
+    ApiNotificationsService
   ) {
   function CommonRelationsHandler(workPackage,
                                   relations,
