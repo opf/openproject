@@ -34,8 +34,6 @@ class CostType < ActiveRecord::Base
   # finds the default CostType
   def self.default
     CostType.find_by(default: true) || CostType.first
-  rescue ActiveRecord::RecordNotFound
-    nil
   end
 
   def is_default?
