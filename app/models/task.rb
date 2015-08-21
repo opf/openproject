@@ -66,7 +66,7 @@ class Task < WorkPackage
   end
 
   def self.tasks_for(story_id)
-    Task.find_all_by(parent_id: story_id, order: :lft).each_with_index do |task, i|
+    Task.where(parent_id: story_id).order(:lft).each_with_index do |task, i|
       task.rank = i + 1
     end
   end
