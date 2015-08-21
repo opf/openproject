@@ -69,6 +69,7 @@ class HourlyRate < Rate
                       date])
                .includes(:project)
                .order('projects.lft DESC, valid_from DESC')
+               .first
       end
     end
     rate ||= DefaultHourlyRate.at_for_user(date, user_id) if include_default
