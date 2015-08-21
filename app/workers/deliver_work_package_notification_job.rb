@@ -69,7 +69,7 @@ class DeliverWorkPackageNotificationJob
   end
 
   def raw_journal
-    @raw_journal ||= Journal.find_by_id(@journal_id)
+    @raw_journal ||= Journal.find_by(id: @journal_id)
   end
 
   def work_package
@@ -77,6 +77,6 @@ class DeliverWorkPackageNotificationJob
   end
 
   def author
-    @author ||= User.find_by_id(@author_id) || DeletedUser.first
+    @author ||= User.find_by(id: @author_id) || DeletedUser.first
   end
 end
