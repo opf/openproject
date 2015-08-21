@@ -27,19 +27,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%
-  project = form.object
-%>
+<% project = form.object %>
 
 <fieldset class="form--fieldset -with-control">
-  <legend class="form--fieldset-legend"><%= l(:text_select_project_modules) %></legend>
-
-  <div class="form--fieldset-control">
-    <span class="form--fieldset-control-container">
-      (<%= check_all_links 'modules-form' %>)
-    </span>
-  </div>
-
   <% Redmine::AccessControl.available_project_modules.each do |name| %>
     <div class="form--field">
       <%= form.collection_check_box :enabled_module_names,
@@ -49,5 +39,4 @@ See doc/COPYRIGHT.rdoc for more details.
 
     </div>
   <% end %>
-
 </fieldset>

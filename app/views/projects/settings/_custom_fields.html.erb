@@ -27,19 +27,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<fieldset class="form--fieldset -with-control" id="project_issue_custom_fields">
-    <% work_package_custom_fields.each do |custom_field| %>
-      <div class="form--field">
-        <%
-          css_classes = custom_field.is_for_all? ? { disabled:  "disabled" } : {}
-          css_classes[:lang] = custom_field.name_locale
-        %>
+<%= labelled_tabular_form_for @project, :method => :put,
+                              :url => { :action => 'custom_fields', :id => @project },
+                              :html => { :id => 'modules-form' } do |form| %>
 
-        <%= form.collection_check_box :work_package_custom_field_ids,
-                                      custom_field.id,
-                                      @project.all_work_package_custom_fields.include?(custom_field),
-                                      custom_field.name,
-                                      css_classes %>
-      </div>
-    <% end %>
-</fieldset>
+  <%= render  partial: "projects/form/custom_fields",
+              locals: { project: @project, form: form, work_package_custom_fields: @issue_custom_fields } %>
+
+  <p><%= form.button l(:button_save), class: 'button -highlight -with-icon icon-yes' %></p>
+<% end %>

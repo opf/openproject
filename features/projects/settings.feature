@@ -86,7 +86,7 @@ Feature: Project Settings
     When the following issue custom fields are defined:
       | name             | type      | is_for_all |
       | My Custom Field  | text      | false      |
-    And I go to the settings page of the project "project1"
-    And I check "My Custom Field" within "#tab-content-info"
-    And I press "Save" within "#tab-content-info"
+    And I go to the custom_fields tab of the settings page of the project "project1"
+    And I check "My Custom Field" within "#tab-content-custom_fields"
+    And I press "Save" within "#tab-content-custom_fields"
     Then the "My Custom Field" checkbox should be checked
