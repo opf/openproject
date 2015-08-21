@@ -67,9 +67,9 @@ class RateObserver < ActiveRecord::Observer
 
     def find_entries(date1, date2 = nil)
       if @rate.is_a?(HourlyRate)
-        TimeEntry.find(:all, conditions: conditions_between(date1, date2), include: :rate)
+        TimeEntry.includes(:rate).where(conditions_between(date1, date2))
       else
-        CostEntry.find(:all, conditions: conditions_between(date1, date2), include: :rate)
+        CostEntry.includes(:rate).where(conditions_between(date1, date2))
       end
     end
 
@@ -96,7 +96,7 @@ class RateObserver < ActiveRecord::Observer
       (date1, date2) = order_dates(date1, date2)
 
       # This gets an array of all the ids of the DefaultHourlyRates
-      default_rates = DefaultHourlyRate.find(:all, select: :id).inject([]) { |r, d| r << d.id }
+      default_rates = DefaultHourlyRate.pluck(:id)
 
       if date1.nil? || date2.nil?
         # we have only one date, query >=
@@ -112,7 +112,7 @@ class RateObserver < ActiveRecord::Observer
         ]
       end
 
-      TimeEntry.find(:all, conditions: conditions, include: :rate)
+      TimeEntry.includes(:rate).where(conditions)
     end
 
     def child_entries(date1, date2 = nil)
@@ -137,7 +137,7 @@ class RateObserver < ActiveRecord::Observer
         ]
       end
 
-      TimeEntry.find(:all, conditions: conditions, include: :rate)
+      TimeEntry.includes(:rate).where(conditions)
     end
   end
 
@@ -191,6 +191,6 @@ class RateObserver < ActiveRecord::Observer
 
   def after_destroy(rate)
     entry_class = rate.is_a?(HourlyRate) ? TimeEntry : CostEntry
-    entry_class.find(:all, conditions: { rate_id: rate.id }).each(&:update_costs!)
+    entry_class.where(rate_id: rate.id).each(&:update_costs!)
   end
 end

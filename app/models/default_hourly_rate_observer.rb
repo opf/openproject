@@ -43,7 +43,7 @@ class DefaultHourlyRateObserver < ActiveRecord::Observer
       (date1, date2) = order_dates(date1, date2)
 
       # This gets an array of all the ids of the DefaultHourlyRates
-      default_rates = DefaultHourlyRate.find(:all, select: :id).inject([]) { |r, d| r << d.id }
+      default_rates = DefaultHourlyRate.pluck(:id)
 
       if date1.nil? || date2.nil?
         # we have only one date, query >=
@@ -59,7 +59,7 @@ class DefaultHourlyRateObserver < ActiveRecord::Observer
         ]
       end
 
-      TimeEntry.find(:all, conditions: conditions, include: :rate)
+      TimeEntry.includes(:rate).where(conditions)
     end
 
     def update_entries(entries, rate = @rate)
@@ -100,6 +100,6 @@ class DefaultHourlyRateObserver < ActiveRecord::Observer
   def after_destroy(rate)
     o = Methods.new(rate)
 
-    o.update_entries(TimeEntry.find(:all, conditions: { rate_id: rate.id }))
+    o.update_entries(TimeEntry.where(rate_id: rate.id))
   end
 end

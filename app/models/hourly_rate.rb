@@ -41,15 +41,15 @@ class HourlyRate < Rate
     Project.has_module(:costs_module).active.visible.each do |project|
       next if check_permissions && !User.current.allowed_to?(:view_hourly_rates, project, for_user: usr)
 
-      rates[project] = HourlyRate.find(:all,
-                                       conditions: { user_id: usr, project_id: project },
-                                       order: "#{HourlyRate.table_name}.valid_from desc")
+      rates[project] = HourlyRate
+                       .where(user_id: usr, project_id: project)
+                       .order("#{HourlyRate.table_name}.valid_from desc")
     end
 
     # FIXME: What permissions to apply here?
-    rates[nil] = DefaultHourlyRate.find(:all,
-                                        conditions: { user_id: usr },
-                                        order: "#{DefaultHourlyRate.table_name}.valid_from desc")
+    rates[nil] = DefaultHourlyRate
+                 .where(user_id: usr)
+                 .order("#{DefaultHourlyRate.table_name}.valid_from desc")
 
     rates
   end
