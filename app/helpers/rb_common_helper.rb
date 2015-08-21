@@ -225,9 +225,7 @@ module RbCommonHelper
       backlogs_ids = Setting.plugin_openproject_backlogs['story_types']
       backlogs_ids << Setting.plugin_openproject_backlogs['task_type']
 
-      Type.find(:all,
-                conditions: { id: backlogs_ids },
-                order: 'position ASC')
+      Type.where(id: backlogs_ids).order('position ASC')
     end
   end
 

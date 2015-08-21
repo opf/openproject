@@ -78,7 +78,7 @@ Then /^the velocity of "(.+?)" should be "(.+?)"$/ do |backlog_name, velocity|
 end
 
 Then /^show me the list of sprints$/ do
-  sprints = Sprint.find(:all, conditions: ['project_id=?', @project.id])
+  sprints = Sprint.where(project_id: @project.id)
 
   puts "\n"
   puts "\t| #{'id'.ljust(3)} | #{'name'.ljust(18)} | #{'start_date'.ljust(18)} | #{'effective_date'.ljust(18)} | #{'updated_on'.ljust(20)}"
@@ -89,9 +89,9 @@ Then /^show me the list of sprints$/ do
 end
 
 Then /^show me the list of stories$/ do
-  stories = Story.find(:all, conditions: "project_id=#{@project.id}", order: 'position ASC')
+  stories = Story.where(project_id: @project.id).order('position ASC')
   subject_max = (stories.map(&:subject) << 'subject').sort { |a, b| a.length <=> b.length }.last.length
-  sprints = @project.versions.find(:all)
+  sprints = @project.versions
   sprint_max = (sprints.map(&:name) << 'sprint').sort { |a, b| a.length <=> b.length }.last.length
 
   puts "\n"
@@ -105,10 +105,10 @@ end
 Then /^(.+) should be the higher (story|item|task) of (.+)$/ do |higher_subject, type, lower_subject|
   work_package_class = (type == 'task') ? Task : Story
 
-  higher = work_package_class.find(:all, conditions: { subject: higher_subject })
+  higher = work_package_class.where(subject: higher_subject)
   higher.length.should == 1
 
-  lower = work_package_class.find(:all, conditions: { subject: lower_subject })
+  lower = work_package_class.where(subject: lower_subject)
   lower.length.should == 1
 
   if type == 'task'
@@ -165,7 +165,7 @@ Then /^the server should return (\d+) updated (.+)$/ do |count, object_type|
 end
 
 Then /^the sprint named (.+) should have (\d+) impediments? named (.+)$/ do |sprint_name, count, impediment_subject|
-  sprints = Sprint.find(:all, conditions: { name: sprint_name })
+  sprints = Sprint.where(name: sprint_name)
   sprints.length.should == 1
 
   sprints.first.impediments.map { |i| i.subject == impediment_subject }.length.should == count.to_i
@@ -193,10 +193,10 @@ Then /^the status of the story should be set as (.+)$/ do |status|
 end
 
 Then /^the story named (.+) should have 1 task named (.+)$/ do |story_subject, task_subject|
-  stories = Story.find(:all, conditions: { subject: story_subject })
+  stories = Story.where(subject: story_subject)
   stories.length.should == 1
 
-  tasks = Task.find(:all, conditions: { parent_id: stories.first.id, subject: task_subject })
+  tasks = Task.where(parent_id: stories.first.id, subject: task_subject)
   tasks.length.should == 1
 end
 

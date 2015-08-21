@@ -85,7 +85,7 @@ class WorkPackageBoxesController < WorkPackagesController
   private
 
   def load_journals
-    @journals = @work_package.journals.find(:all, include: [:user], order: "#{Journal.table_name}.created_at ASC")
+    @journals = @work_package.journals.includes(:user).order("#{Journal.table_name}.created_at ASC")
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
   end
 end

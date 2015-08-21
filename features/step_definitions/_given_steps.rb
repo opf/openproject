@@ -93,7 +93,7 @@ Given /^I want to edit the sprint named (.+)$/ do |name|
 end
 
 Given /^I want to indicate that the impediment blocks (.+)$/ do |blocks_csv|
-  blocks_csv = Story.find(:all, conditions: { subject: blocks_csv.split(', ') }).map(&:id).join(',')
+  blocks_csv = Story.where(subject: blocks_csv.split(', ')).pluck(:id).join(',')
   @impediment_params[:blocks] = blocks_csv
 end
 
@@ -238,7 +238,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following impediments:$/ do |proj
   as_admin do
     table.hashes.each do |impediment|
       sprint = Sprint.find(:first, conditions: { name: impediment['sprint'] })
-      blocks = Story.find(:all, conditions: { subject: impediment['blocks'].split(', ')  }).map(&:id)
+      blocks = Story.where(subject: impediment['blocks'].split(', ')).pluck(:id)
       params = initialize_impediment_params(project, sprint)
       params['subject'] = impediment['subject']
       params['blocks_ids']  = blocks.join(',')
