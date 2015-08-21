@@ -422,7 +422,7 @@ OpenProject::Application.routes.draw do
     resource :bulk, controller: 'bulk', only: [:edit, :update, :destroy]
   end
 
-  resources :work_packages, only: [:show, :edit, :update, :index] do
+  resources :work_packages, only: [:edit, :update, :index] do
     get :new_type, on: :member
 
     get :column_data, on: :collection # TODO move to API
@@ -448,7 +448,7 @@ OpenProject::Application.routes.draw do
 
     get '/edit' => 'work_packages#edit', on: :member # made explicit to avoid conflict with catch-all route
     # states managed by client-side routing on work_package#index
-    get '/*state' => 'work_packages#index', on: :member, id: /\d+/
+    get '/*state' => 'work_packages#index', on: :collection
   end
 
   resources :versions, only: [:show, :edit, :update, :destroy] do
