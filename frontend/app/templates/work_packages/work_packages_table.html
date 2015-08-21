@@ -1,8 +1,7 @@
 <div class="generic-table--container work-package-table--container"
-  ng-class="{ '-with-footer': displaySums }"
-  interactive-table>
+  ng-class="{ '-with-footer': displaySums }">
   <div class="generic-table--results-container" ng-if="rows.length">
-    <table class="keyboard-accessible-list generic-table">
+    <table interactive-table class="keyboard-accessible-list generic-table">
       <colgroup>
         <col highlight-col />
         <col highlight-col ng-repeat="column in columns" />

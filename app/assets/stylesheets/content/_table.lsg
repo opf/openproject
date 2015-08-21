@@ -4,9 +4,9 @@
 [WP tables](http://localhost:8080/assets/css/styleguide.html#with-work-packages)
 
 ```
-<div class="generic-table--container" interactive-table>
+<div class="generic-table--container">
   <div class="generic-table--results-container" style="max-height: 340px;">
-    <table role="grid" class="generic-table">
+    <table role="grid" class="generic-table" interactive-table>
       <colgroup>
         <col highlight-col>
         <col highlight-col>
