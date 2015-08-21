@@ -42,7 +42,8 @@ class WatcherNotificationMailer
     # We need to make sure no work package created or updated job is queued to avoid sending two
     # mails in short succession.
     def other_jobs_queued?(work_package)
-      Delayed::Job.where('handler LIKE ?', "%journal_id: #{work_package.journals.last.id}%").exists?
+      Delayed::Job.where('handler LIKE ?',
+                         "%NotificationJob%journal_id: #{work_package.journals.last.id}%").exists?
     end
   end
 end
