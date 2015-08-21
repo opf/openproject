@@ -13,7 +13,7 @@ it:
   error_can_not_activate_export_card_configuration: La configurazione non può essere attivata
   error_can_not_deactivate_export_card_configuration: La configurazione non può essere disattivata
   validation_error_required_keys_not_present: 'Chiave(i) richiesta non presente:'
-  validation_error_yaml_is_badly_formed: has no valid YAML format.
+  validation_error_yaml_is_badly_formed: non ha alcun valido formato YAML.
   validation_error_uknown_key: 'Chiave sconosciuta:'
   yaml_error: 'Errore YAML:'
   help_link_rows_format: Formattazione di righe
