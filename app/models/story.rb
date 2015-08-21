@@ -96,12 +96,12 @@ class Story < WorkPackage
 
   def tasks_and_subtasks
     return [] unless Task.type
-    descendants.find_all_by_type_id(Task.type)
+    descendants.find_all_by(type_id: Task.type)
   end
 
   def direct_tasks_and_subtasks
     return [] unless Task.type
-    children.find_all_by_type_id(Task.type).map { |t| [t] + t.descendants }.flatten
+    children.find_all_by(type_id: Task.type).map { |t| [t] + t.descendants }.flatten
   end
 
   def set_points(p)

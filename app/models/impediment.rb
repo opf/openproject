@@ -97,7 +97,7 @@ class Impediment < Task
     if blocks_ids.size == 0
       errors.add :blocks_ids, :must_block_at_least_one_work_package
     else
-      work_packages = WorkPackage.find_all_by_id(blocks_ids)
+      work_packages = WorkPackage.find_all_by(id: blocks_ids)
       errors.add :blocks_ids, :can_only_contain_work_packages_of_current_sprint if work_packages.size == 0 || work_packages.any? { |i| i.fixed_version != fixed_version }
     end
   end
