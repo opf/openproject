@@ -80,6 +80,7 @@ $toggler-width: 40px
         border-bottom: $main-menu-item-border-width solid $main-menu-item-border-color
 
         .main-item-wrapper
+          display: flex
           +toggle-menu-item-background
 
           // left item border hover / selected effect
@@ -89,6 +90,7 @@ $toggler-width: 40px
           // placeholder for highlighted left-item-border
           a:not(.toggler)
             border-left: $main-menu-selected-hover-indicator-width solid $main-menu-bg-color
+            flex-basis: 100%
 
             &.selected
               +highlight-left-item-border
@@ -165,9 +167,6 @@ $toggler-width: 40px
     font-style: normal
 
   .toggler
-    position: absolute
-    right: 0
-    top: 0
     width: $toggler-width
     height: $main-menu-item-height
     text-align: center
