@@ -59,9 +59,9 @@ it:
   backlogs_card_specification: Tipi di etichette per la stampa delle schede
   backlogs_inactive: Progetto non mostra alcuna attività
   backlogs_points_burn_direction: Punteggi per burn positivo/negativo
-  backlogs_product_backlog: Backlog prodotto
+  backlogs_product_backlog: Backlog del prodotto
   backlogs_product_backlog_is_empty: Il backlog prodotto è vuoto
-  backlogs_product_backlog_unsized: In cima al prodotto backlog vi sono storie non quantificate
+  backlogs_product_backlog_unsized: In cima al backlog di prodotto vi sono story non quantificate
   backlogs_sizing_inconsistent: Le dimensioni della storia variano rispetto le loro stime
   backlogs_sprint_notes_missing: Sprint chiusi senza note retrospettive/recensioni
   backlogs_sprint_unestimated: Sprint chiusi o attivi con storie non quantificate
@@ -99,7 +99,7 @@ it:
   label_points: punti
   label_points_burn_down: Verso il basso
   label_points_burn_up: "Verso l'alto"
-  label_product_backlog: backlog prodotto
+  label_product_backlog: backlog del prodotto
   label_select_all: Seleziona tutto
   label_sprint_backlog: backlog di sprint
   label_sprint_cards: Esporta schede
@@ -122,7 +122,7 @@ it:
   permission_create_impediments: Crea impedimenti
   permission_update_impediments: Aggiorna impedimenti
   points_accepted: punti accettati
-  points_committed: punti prenotati
+  points_committed: punti acquisiti
   points_resolved: punti risolti
   points_to_accept: punti non accettati
   points_to_resolve: punti non risolti
