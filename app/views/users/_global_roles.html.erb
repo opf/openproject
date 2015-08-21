@@ -22,21 +22,48 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <div class="grid-block">
   <div id="assigned_principal_roles" class="grid-content">
-  <table id="table_principal_roles" class="list principal_roles">
-    <thead>
-      <tr>
-          <th><%= Role.model_name.human %></th>
-          <%= call_hook(:view_users_global_roles_table_header, :user => @user )%>
-          <th style="width:15%"></th>
-          </tr>
-    </thead>
-    <tbody id="table_principal_roles_body">
-    <% @user.principal_roles.each do |principal_role| %>
-      <%= render :partial => 'principal_roles/show_table_row', :locals => {:principal_role => principal_role} %>
-    <%end%>
-    </tbody>
-  </table>
-  <p id="no_data" class="nodata"><%= l(:label_no_data) %></p>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table interactive-table role="grid" class="generic-table principal_roles" id="table_principal_roles">
+          <colgroup>
+            <col highlight-col>
+            <col>
+          </colgroup>
+          <thead>
+            <tr>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= Role.model_name.human %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+                <%= call_hook(:view_users_global_roles_table_header, :user => @user )%>
+                <th></th>
+                </tr>
+          </thead>
+          <tbody id="table_principal_roles_body">
+          <% @user.principal_roles.each do |principal_role| %>
+            <%= render :partial => 'principal_roles/show_table_row', :locals => {:principal_role => principal_role} %>
+          <%end%>
+          </tbody>
+        </table>
+        <div class="generic-table--header-background"></div>
+      </div>
+    </div>
+    <div class="generic-table--container">
+      <div class="generic-table--no-results-container">
+        <h2 class="generic-table--no-results-title">
+          <i class="icon-info"></i>
+          <%= l(:label_nothing_display) %>
+        </h2>
+        <div class="generic-table--no-results-description">
+          <p>Either nothing have been created or everything is filtered out.</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <%= render :partial => 'users/available_global_roles', :locals => {:user => @user, :global_roles => @global_roles}%>
