@@ -32,11 +32,20 @@ describe Repository::Subversion, type: :model do
   let(:instance) { FactoryGirl.build(:repository_subversion) }
   let(:adapter)  { instance.scm }
   let(:config)   { {} }
+  let(:enabled_scm) { %w[subversion] }
 
   before do
-    allow(Setting).to receive(:enabled_scm).and_return(['Subversion'])
+    allow(Setting).to receive(:enabled_scm).and_return(enabled_scm)
     allow(instance).to receive(:scm).and_return(adapter)
     allow(instance.class).to receive(:scm_config).and_return(config)
+  end
+
+  describe 'when disabled' do
+    let(:enabled_scm) { [] }
+
+    it 'does not allow creating a repository' do
+      expect { instance.save! }.to raise_error ActiveRecord::RecordInvalid
+    end
   end
 
   describe 'default Subversion' do

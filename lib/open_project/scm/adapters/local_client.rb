@@ -82,13 +82,8 @@ module OpenProject
           root_url
         end
 
-        ##
-        # Reads the configuration for this strategy from OpenProject's `configuration.yml`.
         def config
-          scm_config = OpenProject::Configuration
-          ['scm', vendor].inject(scm_config) do |acc, key|
-            HashWithIndifferentAccess.new acc[key]
-          end
+          self.class.config
         end
 
         ##

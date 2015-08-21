@@ -41,7 +41,7 @@ describe RepositoriesController, type: :controller do
   let (:url) { 'file:///tmp/something/does/not/exist.svn' }
 
   let(:repository) do
-    allow(Setting).to receive(:enabled_scm).and_return(['Subversion'])
+    allow(Setting).to receive(:enabled_scm).and_return(['subversion'])
     repo = FactoryGirl.build_stubbed(:repository_subversion,
                                      scm_type: 'local',
                                      url: url,
@@ -78,7 +78,9 @@ describe RepositoriesController, type: :controller do
 
     context 'with #edit' do
       before do
-        xhr :get, :edit
+        xhr :get,
+            :edit,
+            scm_vendor: 'subversion'
       end
 
       it_behaves_like 'successful settings response'
@@ -107,7 +109,7 @@ describe RepositoriesController, type: :controller do
       before do
         xhr :post,
             :create,
-            scm_vendor: 'Subversion',
+            scm_vendor: 'subversion',
             scm_type: 'local',
             url: 'file:///tmp/repo.svn/'
       end

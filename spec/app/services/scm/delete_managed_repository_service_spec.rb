@@ -40,6 +40,7 @@ describe Scm::DeleteManagedRepositoryService do
   before do
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
     allow(OpenProject::Configuration).to receive(:[]).with('scm').and_return(config)
+    allow(Setting).to receive(:enabled_scm).and_return(['subversion', 'git'])
   end
 
   shared_examples 'does not delete the repository' do
@@ -66,8 +67,8 @@ describe Scm::DeleteManagedRepositoryService do
     include_context 'with tmpdir'
     let(:config) {
       {
-        Subversion: { manages: File.join(tmpdir, 'svn') },
-        Git:        { manages: File.join(tmpdir, 'git') }
+        subversion: { manages: File.join(tmpdir, 'svn') },
+        git:        { manages: File.join(tmpdir, 'git') }
       }
     }
 

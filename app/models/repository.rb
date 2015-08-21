@@ -57,7 +57,7 @@ class Repository < ActiveRecord::Base
 
   # Checks if the SCM is enabled when creating a repository
   def validate_enabled_scm
-    errors.add(:type, :invalid) unless Setting.enabled_scm.include?(self.class.name.demodulize)
+    errors.add(:type, :not_available) unless OpenProject::Scm::Manager.enabled?(vendor)
   end
 
   # Removes leading and trailing whitespace
@@ -299,7 +299,7 @@ class Repository < ActiveRecord::Base
   # Builds a model instance of type +Repository::#{vendor}+ with the given parameters.
   #
   # @param [Project] project The project this repository belongs to.
-  # @param [String] vendor   The SCM vendor name (e.g., Git, Subversion)
+  # @param [Symbol] vendor   The SCM vendor symbol (e.g., :git, :subversion)
   # @param [Hash] params     Custom parameters for this SCM as delivered from the repository
   #                          field.
   #
@@ -367,7 +367,21 @@ class Repository < ActiveRecord::Base
     nil
   end
 
+  def self.enabled?
+    OpenProject::Scm::Manager.enabled?(vendor)
+  end
+
+  ##
+  # Returns the SCM vendor symbol for this repository
+  # e.g., Repository::Git => :git
   def self.vendor
+    vendor_name.underscore.to_sym
+  end
+
+  ##
+  # Returns the SCM vendor name for this repository
+  # e.g., Repository::Git => Git
+  def self.vendor_name
     name.demodulize
   end
 

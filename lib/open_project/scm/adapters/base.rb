@@ -36,7 +36,7 @@ module OpenProject
         attr_accessor :url, :root_url
 
         def self.vendor
-          name.demodulize
+          name.demodulize.underscore
         end
 
         def initialize(url, root_url = nil)
