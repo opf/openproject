@@ -26,6 +26,6 @@ class CostQuery::Filter::TypeId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    Type.find(:all, order: 'name').map { |i| [i.name, i.id] }
+    Type.order('name').pluck(:name, :id)
   end
 end

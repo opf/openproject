@@ -26,6 +26,6 @@ class CostQuery::Filter::PriorityId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    IssuePriority.find(:all, order: 'position DESC').map { |i| [i.name, i.id] }
+    IssuePriority.order('position DESC').pluck(:name, :id)
   end
 end
