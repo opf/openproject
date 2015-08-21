@@ -33,10 +33,10 @@ module.exports = function(NotificationsService, ApiHelper) {
     var messages = ApiHelper.getErrorMessages(error);
 
     if (messages.length > 1) {
-      NotificationsService.addError(messages, []);
+      NotificationsService.addError('', messages);
     }
     else {
-      NotificationsService.addError('', messages);
+      NotificationsService.addError(messages[0], []);
     }
   };
 
