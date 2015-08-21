@@ -30,6 +30,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<p><%= link_to(@document.title, project_document_url(@document)) %> (<%= @document.category.name %>)</p>
+<p><%= link_to(@document.title, project_documents_url(@document)) %> (<%= @document.category.name %>)</p>
 
-<%= textilizable @document.description %>
+<%= format_text @document.description %>

@@ -101,13 +101,13 @@ describe ApplicationHelper do
       context "By id and given project" do
         subject { format_text("#{identifier}:document##{document.id}", :project => the_other_project) }
 
-        it { is_expected.to eq("<p><a href=\"/documents/#{document.id}\" class=\"document\">Test document</a></p>") }
+        it { is_expected.to eq("<p><a class=\"document\" href=\"/documents/#{document.id}\">Test document</a></p>") }
       end
 
       context "By name and given project" do
         subject { format_text("#{identifier}:document:\"#{document.title}\"", :project => the_other_project) }
 
-        it { is_expected.to eq("<p><a href=\"/documents/#{document.id}\" class=\"document\">Test document</a></p>") }
+        it { is_expected.to eq("<p><a class=\"document\" href=\"/documents/#{document.id}\">Test document</a></p>") }
       end
 
       context "Invalid link" do

@@ -53,10 +53,9 @@ describe DocumentObserver do
   it "calls the DocumentsMailer, when a new document has been added" do
     document = FactoryGirl.build(:document)
     # make sure, that we have actually someone to notify
-    allow(document).to receive(:recipients).and_return(user.mail)
+    allow(document).to receive(:recipients).and_return([user])
     # ... and notifies are actually sent out
-    allow(Notifier).to receive(:notify?).and_return(true)
-
+    Setting.notified_events = Setting.notified_events << 'document_added'
     expect(DocumentsMailer).to receive(:document_added).and_return(mail)
 
     document.save
