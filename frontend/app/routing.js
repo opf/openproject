@@ -37,7 +37,13 @@ angular.module('openproject')
   (function() {
     function valToString(val) { return val !== null ? val.toString() : val; }
     function valFromString(val) { return val !== null ? val.toString() : val; }
-    function regexpMatches(val) { /*jshint validthis:true */ return this.pattern.test(val); }
+    function regexpMatches(val) {
+      /*jshint validthis:true */
+      // I'm not really sure why `val` can be undefined here, but undefined errors
+      // kept appearing after moving the routes around.
+      // This "fixes" it. Sorry.
+      return angular.isUndefined(val) ? false : this.pattern.test(val);
+    }
     $urlMatcherFactoryProvider.type('projectPathType', {
         encode: valToString,
         decode: valFromString,
