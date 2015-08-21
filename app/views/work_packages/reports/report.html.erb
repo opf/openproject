@@ -28,7 +28,9 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <% html_title l(:label_summary) %>
 <%= toolbar title: l(:label_summary) %>
-<% [@author_report, @type_report, @priority_report, @version_report, @category_report, @assignee_report, @responsible_report, (@subproject_report if @project.children.any?)].each do |report| %>
+<%  reports = [@author_report, @type_report, @priority_report, @version_report, @category_report, @assignee_report, @responsible_report]
+    reports <<  @subproject_report if @project.children.any? %>
+<% reports.each do |report| %>
   <%= render :partial => 'report_category', :locals => { report: report} %>
 <% end %>
 <%= call_hook(:view_reports_issue_report, :project => @project) %>
