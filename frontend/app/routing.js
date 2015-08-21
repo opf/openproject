@@ -52,6 +52,10 @@ angular.module('openproject')
       });
   })();
 
+  // redirect to default activity tab when user lands at /work_packages/:id
+  // TODO: Preserve #note-4 part of the URL.
+  $urlRouterProvider.when('/work_packages/{id}', '/work_packages/{id}/activity');
+
   $stateProvider
     .state('work-packages', {
       url: '',
@@ -79,6 +83,7 @@ angular.module('openproject')
       templateUrl: '/templates/work_packages.show.html',
       controller: 'WorkPackageShowController',
       controllerAs: 'vm',
+      abstract: true,
       resolve: {
         workPackage: function(WorkPackageService, $stateParams) {
           return WorkPackageService.getWorkPackage($stateParams.workPackageId);
