@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: Document.model_name.human %>
 
-<%= labelled_tabular_form_for @document, url: project_document_path(@document) do |f| -%>
+<%= labelled_tabular_form_for @document, url: document_path(@document), method: 'PATCH' do |f| -%>
   <%= render partial: "documents/form", locals: { f: f } %>
   <%= styled_button_tag l(:button_save), class: "-highlight -with-icon icon-yes" %>
 <% end %>

@@ -165,7 +165,7 @@ LOREM
       }.to change{Document.count}.by -1
 
       expect(response).to redirect_to "/projects/#{project.identifier}/documents"
-      expect{Document.find(document.id)}.to raise_error
+      expect{Document.find(document.id)}.to raise_error ActiveRecord::RecordNotFound
     end
   end
 

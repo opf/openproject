@@ -31,8 +31,8 @@
 
 OpenProject::Application.routes.draw do
 
-  scope 'projects/:project_id' do
-    resources :documents, :shallow => true, :as => :project_documents
+  resources :projects do
+    resources :documents, shallow: true
   end
 end
 

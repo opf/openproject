@@ -34,5 +34,5 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><em><%= format_time(document.updated_on) %></em></p>
 
 <div class="wiki">
-	<%= textilizable(truncate_lines(document.description)) %>
+	<%= format_text(truncate_lines(document.description)) %>
 </div>

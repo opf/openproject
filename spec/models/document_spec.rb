@@ -57,8 +57,8 @@ describe Document do
     end
 
     it "should send out email-notifications" do
-      allow(valid_document).to receive(:recipients).and_return([user.mail])
-      allow(Notifier).to receive(:notify?).with(:document_added).and_return(true)
+      allow(valid_document).to receive(:recipients).and_return([user])
+      Setting.notified_events = Setting.notified_events << 'document_added'
 
       expect{
         valid_document.save
@@ -72,7 +72,7 @@ describe Document do
 
       expect(document.recipients).not_to be_empty
       expect(document.recipients.count).to eql 1
-      expect(document.recipients).to include admin.mail
+      expect(document.recipients.map(&:mail)).to include admin.mail
     end
 
     it "should set a default-category, if none is given" do

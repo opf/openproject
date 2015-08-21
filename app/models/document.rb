@@ -50,9 +50,17 @@ class Document < ActiveRecord::Base
   validates_presence_of :project, :title, :category
   validates_length_of :title, :maximum => 60
 
-  scope :visible, lambda {|*args| { :include => :project,
-                                    :conditions => Project.allowed_to_condition(args.first || User.current, :view_documents) } }
-  scope :with_attachments, includes(:attachments).where("attachments.container_id is not NULL" )
+  scope :visible, lambda {
+    includes(:project)
+      .where(Project.allowed_to_condition(User.current, :view_documents))
+      .references(:projects)
+  }
+
+  scope :with_attachments, lambda {
+    includes(:attachments)
+      .where('attachments.container_id is not NULL')
+      .references(:attachments)
+  }
 
   after_initialize :set_default_category
 
