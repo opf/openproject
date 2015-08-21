@@ -75,7 +75,7 @@ Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the 
 end
 
 Given /^the work package "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |work_package, count, table|
-  i = WorkPackage.find(:last, conditions: ["subject = '#{work_package}'"])
+  i = WorkPackage.where(subject: work_package.subject).last
   as_admin count do
     ce = FactoryGirl.build(:cost_entry, spent_on: (table.rows_hash['date'] ? table.rows_hash['date'].to_date : Date.today),
                                         units: table.rows_hash['units'],
@@ -138,7 +138,7 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
 end
 
 Given /^users have times and the cost type "([^\"]*)" logged on the work package "([^\"]*)" with:$/ do |cost_type, work_package, table|
-  i = WorkPackage.find(:last, conditions: ["subject = '#{work_package}'"])
+  i = WorkPackage.where(subject: work_package.subject).last
   raise "No such work_package: #{work_package}" unless i
 
   table.rows_hash.map do |k, v|

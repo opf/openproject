@@ -58,15 +58,17 @@ class HourlyRate < Rate
     user_id = user_id.id if user_id.is_a?(User)
 
     unless project.nil?
-      rate = find(:first,
-                  conditions: ['user_id = ? and project_id = ? and valid_from <= ?', user_id, project, date],
-                  order: 'valid_from DESC')
+      rate = where(['user_id = ? and project_id = ? and valid_from <= ?', user_id, project, date])
+             .order('valid_from DESC')
+             .first
       if rate.nil?
         project = Project.find(project) unless project.is_a?(Project)
-        rate = find(:first,
-                    conditions: ['user_id = ? and project_id in (?) and valid_from <= ?', user_id, project.ancestors.to_a, date],
-                    include: :project,
-                    order: 'projects.lft DESC, valid_from DESC')
+        rate = where(['user_id = ? and project_id in (?) and valid_from <= ?',
+                      user_id,
+                      project.ancestors.to_a,
+                      date])
+               .includes(:project)
+               .order('projects.lft DESC, valid_from DESC')
       end
     end
     rate ||= DefaultHourlyRate.at_for_user(date, user_id) if include_default
