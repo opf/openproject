@@ -174,37 +174,62 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
       end
     end
 
-    describe 'utility methods' do
-      context 'leaf' do
-        let(:work_package) { FactoryGirl.create(:work_package) }
-
-        it 'detects leaf' do
-          expect(subject.nil_or_leaf? work_package).to be true
-        end
-      end
-
-      context 'parent' do
-        let(:child) { FactoryGirl.build(:work_package, project: project, type: type) }
-        let(:parent) do
-          FactoryGirl.build(:work_package, project: project, type: type, children: [child])
-        end
-
-        it 'detects parent' do
-          expect(subject.nil_or_leaf? parent).to be false
-        end
-      end
-
+    describe '#writable?' do
       context 'percentage done' do
         it 'is not writable when inferred by status' do
           allow(Setting).to receive(:work_package_done_ratio).and_return('status')
-
-          expect(subject.percentage_done_writable?).to be false
+          expect(subject.writable?(:percentage_done)).to be false
         end
 
         it 'is not writable when disabled' do
           allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
+          expect(subject.writable?(:percentage_done)).to be false
+        end
 
-          expect(subject.percentage_done_writable?).to be false
+        it 'is not writable when the work package is a parent' do
+          allow(work_package).to receive(:leaf?).and_return(false)
+          expect(subject.writable?(:percentage_done)).to be false
+        end
+
+        it 'is writable when the work package is a leaf' do
+          allow(work_package).to receive(:leaf?).and_return(true)
+          expect(subject.writable?(:percentage_done)).to be true
+        end
+      end
+
+      context 'estimated time' do
+        it 'is not writable when the work package is a parent' do
+          allow(work_package).to receive(:leaf?).and_return(false)
+          expect(subject.writable?(:estimated_time)).to be false
+        end
+
+        it 'is writable when the work package is a leaf' do
+          allow(work_package).to receive(:leaf?).and_return(true)
+          expect(subject.writable?(:estimated_time)).to be true
+        end
+      end
+
+      context 'start date' do
+        it 'is not writable when the work package is a parent' do
+          allow(work_package).to receive(:leaf?).and_return(false)
+          expect(subject.writable?(:start_date)).to be false
+        end
+
+        it 'is writable when the work package is a leaf' do
+          allow(work_package).to receive(:leaf?).and_return(true)
+          expect(subject.writable?(:start_date)).to be true
+        end
+      end
+
+      context 'due date' do
+        it 'is not writable when the work package is a parent' do
+          allow(work_package).to receive(:leaf?).and_return(false)
+          expect(subject.writable?(:due_date)).to be false
+        end
+
+        it 'is writable when the work package is a leaf' do
+          allow(work_package).to receive(:leaf?).and_return(true)
+          expect(subject.writable?(:due_date)).to be true
         end
       end
     end
@@ -230,9 +255,21 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
       expect(subject.assignable_versions).to eql(nil)
     end
 
-    describe 'leaf or nil' do
-      it 'evaluates nil work package as nil' do
-        expect(subject.nil_or_leaf? nil).to be true
+    describe '#writable?' do
+      it 'percentage done is writable' do
+        expect(subject.writable?(:percentage_done)).to be true
+      end
+
+      it 'estimated time is writable' do
+        expect(subject.writable?(:estimated_time)).to be true
+      end
+
+      it 'start date is writable' do
+        expect(subject.writable?(:start_date)).to be true
+      end
+
+      it 'due date is writable' do
+        expect(subject.writable?(:due_date)).to be true
       end
     end
   end

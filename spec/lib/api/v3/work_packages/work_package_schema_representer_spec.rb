@@ -46,6 +46,10 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
                            current_user: current_user)
   }
 
+  before do
+    allow(schema).to receive(:writable?).and_call_original
+  end
+
   context 'generation' do
     subject(:generated) { representer.to_json }
 
@@ -157,7 +161,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     describe 'startDate' do
       before do
-        allow(schema).to receive(:start_date_writable?).and_return true
+        allow(schema).to receive(:writable?).with(:start_date).and_return true
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -170,7 +174,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'not writable' do
         before do
-          allow(schema).to receive(:start_date_writable?).and_return false
+          allow(schema).to receive(:writable?).with(:start_date).and_return false
         end
 
         it_behaves_like 'has basic schema properties' do
@@ -185,7 +189,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     describe 'dueDate' do
       before do
-        allow(schema).to receive(:due_date_writable?).and_return true
+        allow(schema).to receive(:writable?).with(:due_date).and_return true
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -198,7 +202,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'not writable' do
         before do
-          allow(schema).to receive(:due_date_writable?).and_return false
+          allow(schema).to receive(:writable?).with(:due_date).and_return false
         end
 
         it_behaves_like 'has basic schema properties' do
@@ -213,7 +217,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     describe 'estimatedTime' do
       before do
-        allow(schema).to receive(:estimated_time_writable?).and_return true
+        allow(schema).to receive(:writable?).with(:estimated_time).and_return true
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -226,7 +230,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'not writable' do
         before do
-          allow(schema).to receive(:estimated_time_writable?).and_return false
+          allow(schema).to receive(:writable?).with(:estimated_time).and_return false
         end
 
         it_behaves_like 'has basic schema properties' do
@@ -271,7 +275,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     describe 'percentageDone' do
       before do
-        allow(schema).to receive(:percentage_done_writable?).and_return true
+        allow(schema).to receive(:writable?).with(:percentage_done).and_return true
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -284,7 +288,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'not writable' do
         before do
-          allow(schema).to receive(:percentage_done_writable?).and_return false
+          allow(schema).to receive(:writable?).with(:percentage_done).and_return false
         end
 
         it_behaves_like 'has basic schema properties' do
