@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper, ApiNotificationsService) {
+module.exports = function(CommonRelationsHandler, WorkPackageService, ApiNotificationsService) {
   function ParentRelationsHandler(workPackage, parents, relationsId) {
       var relations = parents.filter(function(parent) {
             return parent.props.id !== workPackage.props.id;

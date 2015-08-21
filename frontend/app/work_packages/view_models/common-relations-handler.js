@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($timeout, WorkPackageService, ApiHelper, PathHelper, MAX_AUTOCOMPLETER_ADDITION_ITERATIONS) {
+module.exports = function($timeout, WorkPackageService, ApiNotificationsService, PathHelper, MAX_AUTOCOMPLETER_ADDITION_ITERATIONS) {
   function CommonRelationsHandler(workPackage,
                                   relations,
                                   relationsId) {
@@ -61,7 +61,7 @@ module.exports = function($timeout, WorkPackageService, ApiHelper, PathHelper, M
         scope.updateFocus(-1);
         scope.$emit('workPackageRefreshRequired');
       }, function(error) {
-        ApiHelper.handleError(scope, error);
+        ApiNotificationsService.addError(error);
       });
     },
 
@@ -74,7 +74,7 @@ module.exports = function($timeout, WorkPackageService, ApiHelper, PathHelper, M
           scope.updateFocus(index);
           scope.$emit('workPackageRefreshRequired');
         }, function(error) {
-          ApiHelper.handleError(scope, error);
+          ApiNotificationsService.addError(scope, error);
         });
     },
 

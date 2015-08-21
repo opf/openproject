@@ -28,13 +28,6 @@
 
 module.exports = function() {
   var ApiHelper = {
-    handleError: function(scope, error) {
-      scope.$emit('flashMessage', {
-        isError: true,
-        text: ApiHelper.getErrorMessage(error)
-      });
-    },
-
     getErrorMessages: function(error) {
       if(error.status === 500) {
         return [error.statusText];

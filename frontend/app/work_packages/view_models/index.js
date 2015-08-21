@@ -31,10 +31,9 @@ angular.module('openproject.viewModels')
   .factory('CommonRelationsHandler', [
     '$timeout',
     'WorkPackageService',
-    'ApiHelper',
+    'ApiNotificationsService',
     'PathHelper',
     'MAX_AUTOCOMPLETER_ADDITION_ITERATIONS',
-    'ApiNotificationsService',
     require('./common-relations-handler')
   ])
   .factory('ChildrenRelationsHandler', ['PathHelper', 'CommonRelationsHandler',
@@ -42,8 +41,9 @@ angular.module('openproject.viewModels')
     'ApiNotificationsService',
     require('./children-relations-handler')
   ])
-  .factory('ParentRelationsHandler', ['CommonRelationsHandler',
-    'WorkPackageService', 'ApiHelper',
+  .factory('ParentRelationsHandler', [
+    'CommonRelationsHandler',
+    'WorkPackageService',
     'ApiNotificationsService',
     require('./parent-relations-handler')
   ]);
