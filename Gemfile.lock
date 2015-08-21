@@ -42,10 +42,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: a9a5a4b2090d182a183586bf97b18e9ef5d2b043
+  revision: b18a2db77c885391f332c7c4166800903536c9e1
   branch: release/4.2
   specs:
-    openproject-translations (4.2.6)
+    openproject-translations (4.2.7)
       crowdin-api (~> 0.2.4)
       mixlib-shellout (~> 2.1.0)
       rails (~> 3.2.14)
@@ -551,8 +551,8 @@ DEPENDENCIES
   pry-stack_explorer
   quiet_assets
   rabl (= 0.9.3)
-  rack-attack
   rack (~> 1.4.7)
+  rack-attack
   rack-protection!
   rack-test (~> 0.6.2)
   rack_session_access
@@ -594,4 +594,4 @@ DEPENDENCIES
   will_paginate (~> 3.0)
 
 BUNDLED WITH
-   1.10.5
+   1.10.6
