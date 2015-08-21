@@ -57,11 +57,11 @@ module.exports = function($scope, $http, PathHelper, SortService, PaginationServ
   $scope.deleteTimeEntry = function(id) {
     if (window.confirm(I18n.t('js.text_are_you_sure'))) {
       $http['delete'](PathHelper.timeEntryPath(id))
-           .success(function(data, status, headers, config) {
+           .success(function(data) {
              var index = 0;
 
              for (var i = 0; i < $scope.timeEntries.length; i++) {
-               if ($scope.timeEntries[i].id == id) {
+               if ($scope.timeEntries[i].id === id) {
                  index = i;
                  break;
                }
