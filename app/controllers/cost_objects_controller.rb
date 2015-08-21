@@ -242,7 +242,7 @@ class CostObjectsController < ApplicationController
   def find_cost_objects
     # This function comes directly from issues_controller.rb (Redmine 0.8.4)
 
-    @cost_objects = CostObject.find_all_by_id(params[:id] || params[:ids])
+    @cost_objects = CostObject.where(id: params[:id] || params[:ids])
     raise ActiveRecord::RecordNotFound if @cost_objects.empty?
     projects = @cost_objects.map(&:project).compact.uniq
     if projects.size == 1

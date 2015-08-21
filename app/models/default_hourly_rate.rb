@@ -39,9 +39,7 @@ class DefaultHourlyRate < Rate
   def self.at_for_user(date, user_id)
     user_id = user_id.id if user_id.is_a?(User)
 
-    find(:first,
-         conditions: ['user_id = ? and valid_from <= ?', user_id, date],
-         order: 'valid_from DESC')
+    where(['user_id = ? and valid_from <= ?', user_id, date]).order('valid_from DESC').first
   end
 
   private

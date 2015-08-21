@@ -33,11 +33,7 @@ class CostType < ActiveRecord::Base
 
   # finds the default CostType
   def self.default
-    result = CostType.find(:first, conditions: { default: true })
-    result ||= CostType.find(:first)
-    result
-  rescue ActiveRecord::RecordNotFound
-    nil
+    CostType.find_by(default: true) || CostType.first
   end
 
   def is_default?
@@ -53,7 +49,9 @@ class CostType < ActiveRecord::Base
   end
 
   def rate_at(date)
-    CostRate.find(:first, conditions: ['cost_type_id = ? and valid_from <= ?', id, date], order: 'valid_from DESC')
+    CostRate.where(['cost_type_id = ? and valid_from <= ?', id, date])
+            .order('valid_from DESC')
+            .first
   rescue ActiveRecord::RecordNotFound
     return nil
   end
