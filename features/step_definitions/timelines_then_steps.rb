@@ -165,7 +165,10 @@ end
 Then(/^the "([^"]*)" row should (not )?be marked as allowing associations$/) do |title, negation|
   should_be_visible = !negation
 
-  table_row = page.all(:css, 'table.list tbody tr td', text: title).first.find(:xpath, './ancestor::tr')
+  table_row = page
+              .all(:css, 'table.generic-table tbody tr td', text: title)
+              .first
+              .find(:xpath, './ancestor::tr')
   nodes = table_row.all(:css, '.timelines-pt-allows_association span.icon-yes')
   if should_be_visible
     nodes.should_not be_empty
@@ -185,11 +188,11 @@ Then(/^I should not see the "([^"]*)" color$/) do |name|
 end
 
 Then(/^"([^"]*)" should be the first element in the list$/) do |name|
-  should have_selector('table.list tbody tr td', text: Regexp.new("^#{name}$"))
+  should have_selector('table.generic-table tbody tr td', text: Regexp.new("^#{name}$"))
 end
 
 Then(/^"([^"]*)" should be the last element in the list$/) do |name|
-  has_css?('table.list tbody tr td', text: Regexp.new("^#{name}$"))
+  has_css?('table.generic-table tbody tr td', text: Regexp.new("^#{name}$"))
 end
 
 Then(/^I should see an? (notice|warning|error) flash stating "([^"]*)"$/) do |class_name, message|

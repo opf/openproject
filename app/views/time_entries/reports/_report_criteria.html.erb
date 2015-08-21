@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% @hours.collect {|h| h[criterias[level]].to_s}.uniq.each do |value| %>
   <% hours_for_value = select_hours(hours, criterias[level], value) -%>
   <% next if hours_for_value.empty? -%>
-    <tr class="<%= cycle('odd', 'even') %> <%= 'last-level' unless criterias.length > level+1 %>">
+    <tr class="<%= 'last-level' unless criterias.length > level+1 %>">
       <%= ('<td></td>' * level).html_safe %>
       <td><%= h(format_criteria_value(criterias[level], value)) %></td>
       <%= ('<td></td>' * (criterias.length - level - 1)).html_safe -%>

@@ -27,36 +27,73 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% if @project.categories.any? %>
-  <table class="list">
-    <thead>
-      <tr>
-        <th><%= Category.model_name.human %></th>
-        <th><%= Category.human_attribute_name(:assigned_to) %></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% for category in @project.categories %>
-        <% unless category.new_record? %>
-          <tr class="<%= cycle 'odd', 'even' %>">
-            <td><%=h(category.name) %></td>
-            <td><%=h(category.assigned_to.name) if category.assigned_to %></td>
-            <td class="buttons">
-              <%= link_to_if_authorized l(:button_edit), { :controller => '/categories', :action => 'edit', :id => category }, :class => 'icon icon-edit' %>
-              <%= link_to_if_authorized l(:button_delete),
-                                { :controller => '/categories',
-                                  :action => 'destroy',
-                                  :id => category },
-                                :method => :delete,
-                                data: { confirm: l(:text_are_you_sure) },
-                                :class => 'icon icon-delete' %>
-            </td>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table interactive-table role="grid" class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Category.model_name.human %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Category.human_attribute_name(:assigned_to) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th></th>
           </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
+        </thead>
+        <tbody>
+          <% for category in @project.categories %>
+            <% unless category.new_record? %>
+              <tr>
+                <td><%=h(category.name) %></td>
+                <td><%=h(category.assigned_to.name) if category.assigned_to %></td>
+                <td class="buttons">
+                  <%= link_to_if_authorized l(:button_edit), { :controller => '/categories', :action => 'edit', :id => category }, :class => 'icon icon-edit' %>
+                  <%= link_to_if_authorized l(:button_delete),
+                                    { :controller => '/categories',
+                                      :action => 'destroy',
+                                      :id => category },
+                                    data: { confirm: l(:text_are_you_sure) },
+                                    :confirm => l(:text_are_you_sure),
+                                    method: :delete,
+                                    :class => 'icon icon-delete' %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="generic-table--header-background"></div>
+    </div>
+  </div>
 <% else %>
-  <p class="nodata"><%= l(:label_no_data) %></p>
+  <div class="generic-table--container">
+    <div class="generic-table--no-results-container">
+      <h2 class="generic-table--no-results-title">
+        <i class="icon-info"></i>
+        <%= l(:label_nothing_display) %>
+      </h2>
+      <div class="generic-table--no-results-description">
+        <p class="nodata"><%= l(:label_no_data) %></p>
+      </div>
+    </div>
+  </div>
 <% end %>
 <p><%= link_to_if_authorized l(:label_work_package_category_new), :controller => '/categories', :action => 'new', :project_id => @project %></p>

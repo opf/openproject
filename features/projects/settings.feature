@@ -71,8 +71,8 @@ Feature: Project Settings
     And I uncheck "alpha" within "#member-1-roles-form"
     And I click "Change" within "#member-1-roles-form"
     Then there should be an error message
-    And I should see "Bob Bobbit" within ".list.members"
-    And I should see "alpha" within ".list.members"
+    And I should see "Bob Bobbit" within ".generic-table"
+    And I should see "alpha" within ".generic-table"
 
   @javascript
   Scenario: Changing members per page keeps us on the members tab

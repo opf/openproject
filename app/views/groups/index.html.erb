@@ -37,23 +37,60 @@ See doc/COPYRIGHT.rdoc for more details.
   </li>
 <% end %>
 <% if @groups.any? %>
-  <table class="list groups">
-    <thead>
-      <tr>
-        <th><%= Group.model_name.human %></th>
-        <th><%=l(:label_user_plural)%></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @groups.each do |group| %>
-        <tr class="<%= cycle 'odd', 'even' %>">
-          <td><%= link_to h(group), :action => 'edit', :id => group %></td>
-          <td align="center"><%= group.users.size %></td>
-          <td class="buttons"><%= link_to l(:button_delete), group, data: { confirm: l(:text_are_you_sure) }, :method => :delete, :class => 'icon icon-delete' %></td>
-        </tr>
-      <% end %>
-    </table>
-  <% else %>
-    <p class="nodata"><%= l(:label_no_data) %></p>
-  <% end %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table interactive-table role="grid" class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Group.model_name.human %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%=l(:label_user_plural)%>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @groups.each do |group| %>
+            <tr>
+              <td><%= link_to h(group), :action => 'edit', :id => group %></td>
+              <td><%= group.users.size %></td>
+              <td class="buttons"><%= link_to l(:button_delete), group, data: { confirm: l(:text_are_you_sure) }, :method => :delete, :class => 'icon icon-delete' %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="generic-table--header-background"></div>
+    </div>
+  </div>
+<% else %>
+  <div class="generic-table--container">
+    <div class="generic-table--no-results-container">
+      <h2 class="generic-table--no-results-title">
+        <i class="icon-info"></i>
+          <%= l(:label_nothing_display) %>
+      </h2>
+      <div class="generic-table--no-results-description">
+        <p class="nodata"><%= l(:label_no_data) %></p>
+      </div>
+    </div>
+  </div>
+<% end %>

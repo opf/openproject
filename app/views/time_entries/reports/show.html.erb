@@ -78,33 +78,70 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 
   <% unless @hours.empty? %>
-    <table class="list" id="time-report">
-      <thead>
-        <tr>
-          <% @criterias.each do |criteria| %>
-            <th><%= l_or_humanize(@available_criterias[criteria][:label]) %></th>
-          <% end %>
-          <% columns_width = (40 / (@periods.length+1)).to_i %>
-          <% @periods.each do |period| %>
-            <th class="period" width="<%= columns_width %>%"><%= period %></th>
-          <% end %>
-          <th class="total" width="<%= columns_width %>%"><%= l(:label_total) %></th>
-        </tr>
-      </thead>
-      <tbody>
-        <%= render :partial => 'report_criteria', :locals => {:criterias => @criterias, :hours => @hours, :level => 0} %>
-        <tr class="total">
-          <td><%= l(:label_total) %></td>
-          <%= ('<td></td>' * (@criterias.size - 1)).html_safe %>
-          <% total = 0 -%>
-          <% @periods.each do |period| -%>
-            <% sum = sum_hours(select_hours(@hours, @columns, period.to_s)); total += sum -%>
-            <td class="hours"><%= html_hours("%.2f" % sum) if sum > 0 %></td>
-          <% end -%>
-          <td class="hours"><%= html_hours("%.2f" % total) if total > 0 %></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table interactive-table role="grid" class="generic-table" id="time-report">
+          <colgroup>
+            <% @criterias.each do |criteria| %>
+              <col highlight-col>
+            <% end %>
+            <% @periods.each do |period| %>
+              <col highlight-col>
+            <% end %>
+            <col highlight-col>
+          </colgroup>
+          <thead>
+            <tr>
+              <% @criterias.each do |criteria| %>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= l_or_humanize(@available_criterias[criteria][:label]) %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+              <% end %>
+              <% @periods.each do |period| %>
+                <th class="period">
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= period %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+              <% end %>
+              <th class="total">
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= l(:label_total) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render :partial => 'report_criteria', :locals => {:criterias => @criterias, :hours => @hours, :level => 0} %>
+            <tr class="total">
+              <td><%= l(:label_total) %></td>
+              <%= ('<td></td>' * (@criterias.size - 1)).html_safe %>
+              <% total = 0 -%>
+              <% @periods.each do |period| -%>
+                <% sum = sum_hours(select_hours(@hours, @columns, period.to_s)); total += sum -%>
+                <td class="hours"><%= html_hours("%.2f" % sum) if sum > 0 %></td>
+              <% end -%>
+              <td class="hours"><%= html_hours("%.2f" % total) if total > 0 %></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="generic-table--header-background"></div>
+      </div>
+    </div>
 
     <%= other_formats_links do |f| %>
       <%= f.link_to 'CSV', :url => params %>
