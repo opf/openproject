@@ -18,32 +18,72 @@
 #++
 
 class Widget::Table::EntryTable < Widget::Table
-  Fields = [:spent_on, :user_id, :activity_id, :work_package_id, :comments, :project_id]
+  FIELDS = [:spent_on, :user_id, :activity_id, :work_package_id, :comments, :project_id]
 
   detailed_table self
 
   def render
-    content = content_tag :table, { class: "report detail-report", id: "sortable-table" } do
-      concat head
-      concat foot
-      concat body
+    content = content_tag :div, class: 'generic-table--container' do
+      content_tag :div, class: 'generic-table--results-container' do
+        table = content_tag :table, 'interactive-table' => true,
+                                    role: 'grid',
+                                    class: 'generic-table',
+                                    id: 'sortable-table' do
+          concat colgroup
+          concat head
+          concat foot
+          concat body
+        end
+        table + content_tag(:div, class: 'generic-table--header-background') {}
+      end
     end
     # FIXME do that js-only, like a man's man
     render_widget Widget::Table::SortableInit, @subject, to: content, sort_first_row: true
     write content
   end
 
+  def colgroup
+    content_tag :colgroup do
+      FIELDS.each do
+        concat content_tag(:col, 'highlight-col' => true) {}
+      end
+      concat content_tag(:col, 'highlight-col' => true) {}
+      concat content_tag(:col, 'highlight-col' => true) {}
+      concat content_tag(:col) {}
+    end
+  end
+
   def head
     content_tag :thead do
       content_tag :tr do
-        Fields.map { |field| concat content_tag(:th) { label_for(field) } }
-        concat content_tag(:th, class: 'right') { cost_type.try(:unit_plural) || l(:units) }
-        concat content_tag(:th, class: 'right') { CostEntry.human_attribute_name(:costs) }
+        FIELDS.map do |field|
+          concat content_tag(:th) {
+            content_tag(:div, class: 'generic-table--sort-header-outer') do
+              content_tag(:div, class: 'generic-table--sort-header') do
+                content_tag(:span, label_for(field))
+              end
+            end
+          }
+        end
+        concat content_tag(:th) {
+          content_tag(:div, class: 'generic-table--sort-header-outer') do
+            content_tag(:div, class: 'generic-table--sort-header') do
+              content_tag(:span, cost_type.try(:unit_plural) || l(:units))
+            end
+          end
+        }
+        concat content_tag(:th) {
+          content_tag(:div, class: 'generic-table--sort-header-outer') do
+            content_tag(:div, class: 'generic-table--sort-header') do
+              content_tag(:span, CostEntry.human_attribute_name(:costs))
+            end
+          end
+        }
         hit = false
         @subject.each_direct_result do |result|
           next if hit
           if entry_for(result).editable_by? User.current
-            concat content_tag(:th, class: "unsortable") { "&nbsp;".html_safe }
+            concat content_tag(:th, class: 'unsortable') {}
             hit = true
           end
         end
@@ -55,33 +95,38 @@ class Widget::Table::EntryTable < Widget::Table
     content_tag :tfoot do
       content_tag :tr do
         if show_result(@subject, 0) != show_result(@subject)
-          concat content_tag(:th, show_result(@subject), class: "inner right", colspan: Fields.size + 1)
-          concat content_tag(:th, show_result(@subject, 0), class: "result right")
+          concat content_tag(:th,
+                             show_result(@subject), class: 'inner right', colspan: FIELDS.size + 1)
+          concat content_tag(:th,
+                             show_result(@subject, 0), class: 'result right')
         else
-          concat content_tag(:th, show_result(@subject), class: "result right", colspan: Fields.size + 2)
+          concat content_tag(:th,
+                             show_result(@subject), class: 'result right', colspan: FIELDS.size + 2)
         end
-        concat content_tag(:th, "", class: "unsortable")
+        concat content_tag(:th, '', class: 'unsortable')
       end
     end
   end
 
   def body
     content_tag :tbody do
-      rows = "".html_safe
+      rows = ''.html_safe
       @subject.each_direct_result do |result|
-        odd = !odd
-        rows << (content_tag(:tr, class: (odd ? "odd" : "even")) do
-          "".html_safe
-          Fields.each do |field|
+        rows << (content_tag(:tr) do
+          ''.html_safe
+          FIELDS.each do |field|
             concat content_tag(:td, show_field(field, result.fields[field.to_s]).html_safe,
-                               :"raw-data" => raw_field(field, result.fields[field.to_s]),
-                               class: "left")
+                               :'raw-data' => raw_field(field, result.fields[field.to_s]),
+                               class: 'left')
           end
           concat content_tag :td, show_result(result, result.fields['cost_type_id'].to_i).html_safe,
-            class: "units right", :"raw-data" => result.units
-          concat content_tag :td, (show_result(result, 0)).html_safe,
-            class: "currency right", :"raw-data" => result.real_costs
-          concat content_tag :td, icons(result), style: "width: 40px"
+                             class: 'units right',
+                             :'raw-data' => result.units
+          concat content_tag :td,
+                             (show_result(result, 0)).html_safe,
+                             class: 'currency right',
+                             :'raw-data' => result.real_costs
+          concat content_tag :td, icons(result)
         end)
       end
       rows
@@ -89,7 +134,7 @@ class Widget::Table::EntryTable < Widget::Table
   end
 
   def icons(result)
-    icons = ""
+    icons = ''
     with_project(result.fields['project_id']) do
       if entry_for(result).editable_by? User.current
         icons = link_to(icon_wrapper('icon-context icon-edit', l(:button_edit)),
@@ -97,12 +142,13 @@ class Widget::Table::EntryTable < Widget::Table
                         class: 'no-decoration-on-hover',
                         title: l(:button_edit))
         icons << link_to(icon_wrapper('icon-context icon-delete', l(:button_delete)),
-                        (action_for(result, action: 'destroy').reverse_merge(authenticity_token: form_authenticity_token)),
-                        title:  l(:button_edit),
-                        confirm:  l(:text_are_you_sure),
-                        method: :delete,
-                        class: 'no-decoration-on-hover',
-                        title:    l(:button_delete))
+                         (action_for(result, action: 'destroy')
+                          .reverse_merge(authenticity_token: form_authenticity_token)),
+                         title: l(:button_edit),
+                         confirm: l(:text_are_you_sure),
+                         method: :delete,
+                         class: 'no-decoration-on-hover',
+                         title: l(:button_delete))
       end
     end
     icons
