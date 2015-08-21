@@ -40,13 +40,13 @@ end
 Given /^I set the (.+) of the story to (.+)$/ do |attribute, value|
   if attribute == 'type'
     attribute = 'type_id'
-    value = Type.find(:first, conditions: ['name=?', value]).id
+    value = Type.find_by(name: value).id
   elsif attribute == 'status'
     attribute = 'status_id'
-    value = Status.find(:first, conditions: ['name=?', value]).id
+    value = Status.find_by(name: value).id
   elsif %w[backlog sprint].include? attribute
     attribute = 'fixed_version_id'
-    value = Version.find_by_name(value).id
+    value = Version.find_by(name: value).id
   end
   @story_params[attribute] = value
 end
@@ -64,30 +64,30 @@ end
 Given /^I want to create a task for (.+)(?: in [pP]roject "(.+?)")?$/ do |story_subject, project_name|
   project = get_project(project_name)
 
-  story = Story.find(:first, conditions: ['subject=?', story_subject])
+  story = Story.find_by(subject: story_subject)
   @task_params = initialize_task_params(project, story)
 end
 
 Given /^I want to create an impediment for (.+?)(?: in [pP]roject "(.+?)")?$/ do |sprint_subject, project_name|
   project = get_project(project_name)
-  sprint = Sprint.find(:first, conditions: { name: sprint_subject })
+  sprint = Sprint.find_by(name: sprint_subject)
   @impediment_params = initialize_impediment_params(project, sprint.id)
 end
 
 Given /^I want to edit the task named (.+)$/ do |task_subject|
-  task = Task.find(:first, conditions: { subject: task_subject })
+  task = Task.find_by(subject: task_subject)
   task.should_not be_nil
   @task_params = HashWithIndifferentAccess.new(task.attributes)
 end
 
 Given /^I want to edit the impediment named (.+)$/ do |impediment_subject|
-  impediment = Task.find(:first, conditions: { subject: impediment_subject })
+  impediment = Task.find_by(subject: impediment_subject)
   impediment.should_not be_nil
   @impediment_params = HashWithIndifferentAccess.new(impediment.attributes)
 end
 
 Given /^I want to edit the sprint named (.+)$/ do |name|
-  sprint = Sprint.find(:first, conditions: ['name=?', name])
+  sprint = Sprint.find_by(name: name)
   sprint.should_not be_nil
   @sprint_params = HashWithIndifferentAccess.new(sprint.attributes)
 end
@@ -108,7 +108,7 @@ Given /^I want to set the (.+) of the impediment to (.+)$/ do |attribute, value|
 end
 
 Given /^I want to edit the story with subject (.+)$/ do |subject|
-  @story = Story.find(:first, conditions: ['subject=?', subject])
+  @story = Story.find_by(subject: subject)
   @story.should_not be_nil
   @story_params = HashWithIndifferentAccess.new(@story.attributes)
 end
@@ -188,11 +188,11 @@ end
 Given /^the [pP]roject(?: "([^\"]*)")? has the following tasks:$/ do |project_name, table|
   project = get_project(project_name)
 
-  User.current = User.find(:first)
+  User.current = User.first
 
   as_admin do
     table.hashes.each do |task|
-      story = Story.find(:first, conditions: { subject: task['parent'] })
+      story = Story.find_by(subject: task['parent'])
       params = initialize_task_params(project, story)
       params['subject'] = task['subject']
 
@@ -209,15 +209,15 @@ end
 Given /^the [pP]roject(?: "([^\"]*)")? has the following work_packages:$/ do |project_name, table|
   project = get_project(project_name)
 
-  User.current = User.find(:first)
+  User.current = User.first
 
   as_admin do
     table.hashes.each do |task|
-      parent = WorkPackage.find(:first, conditions: { subject: task['parent'] })
-      type = Type.find_by_name(task['type'])
+      parent = WorkPackage.find_by(subject: task['parent'])
+      type = Type.find_by(name: task['type'])
       params = initialize_work_package_params(project, type, parent)
       params['subject'] = task['subject']
-      version = Version.find_by_name(task['sprint'] || task['backlog'])
+      version = Version.find_by(name: task['sprint'] || task['backlog'])
       params['fixed_version_id'] = version.id if version
 
       # NOTE: We're bypassing the controller here because we're just
@@ -233,11 +233,11 @@ end
 Given /^the [pP]roject(?: "([^\"]*)")? has the following impediments:$/ do |project_name, table|
   project = get_project(project_name)
 
-  User.current = User.find(:first)
+  User.current = User.first
 
   as_admin do
     table.hashes.each do |impediment|
-      sprint = Sprint.find(:first, conditions: { name: impediment['sprint'] })
+      sprint = Sprint.find_by(name: impediment['sprint'])
       blocks = Story.where(subject: impediment['blocks'].split(', ')).pluck(:id)
       params = initialize_impediment_params(project, sprint)
       params['subject'] = impediment['subject']

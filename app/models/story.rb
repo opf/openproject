@@ -75,12 +75,11 @@ class Story < WorkPackage
   end
 
   def self.at_rank(project_id, sprint_id, rank)
-    Story.find(:first,
-               order: Story::ORDER,
-               conditions: Story.condition(project_id, sprint_id),
-               joins: :status,
-               limit: 1,
-               offset: rank - 1)
+    Story.where(Story.condition(project_id, sprint_id))
+         .joins(:status)
+         .order(Story::ORDER)
+         .limit(1)
+         .offset(rank -1)
   end
 
   def self.types

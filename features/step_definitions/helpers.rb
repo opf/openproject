@@ -64,7 +64,7 @@ def initialize_task_params(project, story, user = User.first)
   params
 end
 
-def initialize_work_package_params(project, type = Type.first, parent = nil, user = User.find(:first))
+def initialize_work_package_params(project, type = Type.first, parent = nil, user = User.first)
   params = HashWithIndifferentAccess.new
   params['type_id'] = type.id
   params['parent_id']  = parent.id if parent

@@ -41,9 +41,9 @@ class RbTaskboardsController < RbApplicationController
   def show
     @statuses     = Type.find_by_id(Task.type).statuses
     @story_ids    = @sprint.stories(@project).map(&:id)
-    @last_updated = Task.find(:first,
-                              conditions: ['parent_id in (?)', @story_ids],
-                              order:      'updated_at DESC')
+    @last_updated = Task.where(['parent_id in (?)', @story_ids])
+                        .order('updated_at DESC')
+                        .first
   end
 
   def default_breadcrumb

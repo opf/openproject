@@ -35,7 +35,7 @@
 
 Then /^(.+) should be in the (\d+)(?:st|nd|rd|th) position of the sprint named (.+)$/ do |story_subject, position, sprint_name|
   position = position.to_i
-  story = Story.find(:first, conditions: ['subject=? and name=?', story_subject, sprint_name], joins: :fixed_version)
+  story = Story.where(subject: story_subject, name: sprint_name).joins(:fixed_version).first
   story_position(story).should == position.to_i
 end
 
@@ -152,7 +152,7 @@ Then /^all positions should be unique for each version$/ do
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) task for (.+) should be (.+)$/ do |position, story_subject, task_subject|
-  story = Story.find(:first, conditions: ['subject=?', story_subject])
+  story = Story.find_by(subject: story_subject)
   story.children[position.to_i - 1].subject.should == task_subject
 end
 
@@ -216,7 +216,7 @@ Then /^the story should have a (.+) of (.+)$/ do |attribute, value|
   @story.reload
   if attribute == 'type'
     attribute = 'type_id'
-    value = Type.find(:first, conditions: ['name=?', value]).id
+    value = Type.find_by(name: value).id
   end
   @story[attribute].should == value
 end
