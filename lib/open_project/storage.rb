@@ -97,6 +97,8 @@ module OpenProject
         }
       rescue SystemCallError, Sys::Filesystem::Error => e
         Rails.logger.warn("Can't read storage information on #{dir}: #{e.message}")
+
+        nil
       end
     end
   end
