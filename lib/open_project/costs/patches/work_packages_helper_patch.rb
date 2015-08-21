@@ -32,7 +32,7 @@ module OpenProject::Costs::Patches::WorkPackagesHelperPatch
 
       def work_package_form_budget_attribute(form, _work_package, _locals)
         field = work_package_form_field {
-          options = CostObject.find_all_by(project_id: @project, order: 'subject ASC').map { |d| [d.subject, d.id] }
+          options = CostObject.where(project_id: @project).order('subject ASC').pluck(:subject, :id)
           form.select(:cost_object_id, options, include_blank: true)
         }
 
