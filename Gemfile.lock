@@ -22,13 +22,24 @@ GIT
 
 GIT
   remote: https://github.com/finnlabs/sprockets-rails.git
-  revision: e069c097056e28e3cd4adc4ee8bb2a895c71bfc1
-  branch: backport
+  revision: 7599ca4e7c5ff3cad552591e0e990570d34863d7
+  branch: backport_w_2_2_3_sprockets
   specs:
     sprockets-rails (2.0.1)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
-      sprockets (= 2.2.2.backport2)
+      sprockets (= 2.2.3.backport2)
+
+GIT
+  remote: https://github.com/finnlabs/sprockets.git
+  revision: be18cf9420ea5606b0824dae1bc6965505f7c82b
+  branch: 2_2_3_backport2
+  specs:
+    sprockets (2.2.3.backport2)
+      hike (~> 1.2)
+      multi_json (~> 1.0)
+      rack (~> 1.0)
+      tilt (~> 1.1, != 1.3.0)
 
 GIT
   remote: https://github.com/guilleiguaran/sass-rails.git
@@ -56,17 +67,6 @@ GIT
   revision: a2cd95c3e3c1a4f7a9566efdab5ce59c886cb05f
   specs:
     prototype_legacy_helper (0.0.0)
-
-GIT
-  remote: https://github.com/tessi/sprockets.git
-  revision: 1e56fd0a92a9fda93dab4550ab3cf82138d097ac
-  branch: 2_2_2_backport2
-  specs:
-    sprockets (2.2.2.backport2)
-      hike (~> 1.2)
-      multi_json (~> 1.0)
-      rack (~> 1.0)
-      tilt (~> 1.1, != 1.3.0)
 
 GEM
   remote: https://rubygems.org/

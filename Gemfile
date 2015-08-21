@@ -102,8 +102,10 @@ group :production do
   gem 'dalli', '~> 2.7.2'
 end
 
-gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', branch: '2_2_2_backport2'
-gem 'sprockets-rails',  git: 'https://github.com/finnlabs/sprockets-rails.git', branch: 'backport'
+gem 'sprockets',       git: 'https://github.com/finnlabs/sprockets.git',
+                       branch: '2_2_3_backport2'
+gem 'sprockets-rails', git: 'https://github.com/finnlabs/sprockets-rails.git',
+                       branch: 'backport_w_2_2_3_sprockets'
 gem 'non-stupid-digest-assets'
 gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
 gem 'sass',             '~> 3.4.12'
