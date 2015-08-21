@@ -301,9 +301,7 @@ class Query < ActiveRecord::Base
   # Returns the SQL sort order that should be prepended for grouping
   def group_by_sort_order
     if grouped? && (column = group_by_column)
-      column.sortable.is_a?(Array) ?
-        column.sortable.map { |s| "#{s} #{column.default_order}" }.join(',') :
-        "#{column.sortable} #{column.default_order}"
+      Array(column.sortable).map { |s| "#{s} #{column.default_order}" }.join(',')
     end
   end
 
