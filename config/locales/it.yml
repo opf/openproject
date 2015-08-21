@@ -105,11 +105,11 @@ it:
   label_currency: Valuta
   label_currency_format: Formato della valuta
   label_current_default_rate: Tasso della valuta predefinita
-  label_date_on: 'on'
+  label_date_on: acceso
   label_deleted_cost_types: Tipi di costo eliminati
   label_deliverable: Bilancio
-  label_display_cost_entries: Display unit costs
-  label_display_time_entries: Display reported hours
+  label_display_cost_entries: Visualizzare i costi unitari
+  label_display_time_entries: Visualizzazione ore segnalate
   label_display_types: Mostra tipi
   label_edit: Modifica
   label_fixed_cost_object: Budget fisso
@@ -128,36 +128,36 @@ it:
   label_option_plural: Opzioni
   label_overall_costs: Costi complessivi
   label_rate: Tasso
-  label_rate_plural: Rates
+  label_rate_plural: Tariffe
   label_status_finished: Terminato
-  label_units: Cost units
+  label_units: Unità di costo
   label_user: Utente
   label_until: finché
   label_valid_from: Valido dal
-  label_variable_cost_object: Variable rate based budget
+  label_variable_cost_object: Burget a tasso variabile
   label_view_all_cost_objects: Mostra tutti i budget
   label_yes: Si
-  notice_cost_object_conflict: WorkPackages must be of the same project.
-  notice_no_cost_objects_available: No budgets available.
-  notice_something_wrong: Something went wrong. Please try again.
-  notice_successful_restore: Successful restore.
-  permission_edit_cost_entries: Edit booked unit costs
-  permission_edit_cost_objects: Edit budgets
-  permission_edit_own_cost_entries: Edit own booked unit costs
-  permission_edit_hourly_rates: Edit hourly rates
-  permission_edit_own_hourly_rate: Edit own hourly rates
-  permission_edit_rates: Edit rates
-  permission_log_costs: Book unit costs
-  permission_log_own_costs: Book unit costs for oneself
-  permission_view_cost_entries: View booked costs
-  permission_view_cost_objects: View budgets
-  permission_view_cost_rates: View cost rates
-  permission_view_hourly_rates: View all hourly rates
-  permission_view_own_cost_entries: View own booked costs
-  permission_view_own_hourly_rate: View own hourly rate
-  permission_view_own_time_entries: View own spent time
-  project_module_costs_module: Cost control
-  text_assign_time_and_cost_entries_to_project: Assign reported hours and costs to the project
+  notice_cost_object_conflict: WorkPackages deve essere dello stesso progetto.
+  notice_no_cost_objects_available: Nessun budget disponibile.
+  notice_something_wrong: Qualcosa è andato storto. Si prega di riprovare.
+  notice_successful_restore: Ripristino eseguito con successo.
+  permission_edit_cost_entries: Modifica prenotata per unità di costo
+  permission_edit_cost_objects: Modifica budget
+  permission_edit_own_cost_entries: Modifica le proprie unità di costo
+  permission_edit_hourly_rates: Modificare tariffe orarie
+  permission_edit_own_hourly_rate: Modificare le proprie tariffe orarie
+  permission_edit_rates: Modificare le tariffe
+  permission_log_costs: Prenota costi unitari
+  permission_log_own_costs: Prenota costi unitari per se stessi
+  permission_view_cost_entries: Visualizza costi prenotati
+  permission_view_cost_objects: Visualizza budget
+  permission_view_cost_rates: Visualizza tariffe di costo
+  permission_view_hourly_rates: Mostra tutte le tariffe orarie
+  permission_view_own_cost_entries: Visualizza propri costi prenotati
+  permission_view_own_hourly_rate: Visualizza propria tariffa oraria
+  permission_view_own_time_entries: Visualizzare proprio tempo trascorso
+  project_module_costs_module: Controllo dei costi
+  text_assign_time_and_cost_entries_to_project: Assegnare costi ed ore segnalati al progetto
   text_cost_object_change_type_confirmation: Sei sicuro? Questa operazione distruggerà informazioni del tipo budget specificato.
   text_destroy_cost_entries_question: '%{cost_entries} sono stati segnalati sui pacchetti di lavoro che si sta per eliminare. Che cosa vuoi fare?'
   text_destroy_time_and_cost_entries: Elimina orari e costi riportati
