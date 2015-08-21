@@ -43,7 +43,8 @@ class Scm::CreateRepositoryJob
 
   def perform
     # Create the repository locally.
-    mode = config[:mode] || default_mode
+    # chmod requires integer value
+    mode = (config[:mode] || default_mode).to_i
     create(mode)
 
     # Allow adapter to act upon the created repository
