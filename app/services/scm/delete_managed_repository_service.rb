@@ -36,25 +36,32 @@ Scm::DeleteManagedRepositoryService = Struct.new :repository do
   #
   def call
     if repository.managed?
-
-      # Create necessary changes to repository to mark
-      # it as managed by OP, but delete asynchronously.
-      managed_path = repository.root_url
-
-      if File.directory?(managed_path)
-        ##
-        # We want to move this functionality in a Delayed Job,
-        # but this heavily interferes with the error handling of the whole
-        # repository management process.
-        # Instead, this will be refactored into a single service wrapper for
-        # creating and deleting repositories, which provides transactional DB access
-        # as well as filesystem access.
-        Scm::DeleteRepositoryJob.new(managed_path).perform
-      end
-
-      true
+      delete_repository
     else
       false
     end
+  end
+
+  def delete_repository
+    # Create necessary changes to repository to mark
+    # it as managed by OP, but delete asynchronously.
+    managed_path = repository.root_url
+
+    if File.directory?(managed_path)
+      ##
+      # We want to move this functionality in a Delayed Job,
+      # but this heavily interferes with the error handling of the whole
+      # repository management process.
+      # Instead, this will be refactored into a single service wrapper for
+      # creating and deleting repositories, which provides transactional DB access
+      # as well as filesystem access.
+      Scm::DeleteRepositoryJob.new(managed_path).perform
+    end
+
+    true
+  rescue SystemCallError => e
+    Rails.logger.error("An error occurred while accessing the repository '#{repository.root_url}' \
+                        on filesystem: #{e.message}")
+    false
   end
 end

@@ -130,7 +130,7 @@ describe Scm::CreateManagedRepositoryService do
       it 'returns the correct error' do
         expect(service.call).to be false
         expect(service.localized_rejected_reason)
-          .to include('An error occurred while creating the repository on filesystem')
+          .to include('An error occurred while accessing the repository on filesystem')
       end
     end
   end
