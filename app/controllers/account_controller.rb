@@ -115,11 +115,25 @@ class AccountController < ApplicationController
 
     if request.get?
       session[:auth_source_registration] = nil
-      @user = User.new(language: Setting.default_language)
+
+      if session.include? :invitation_token
+        token = Token.find_by(value: session[:invitation_token])
+
+        @user = token.user
+      else
+        @user = User.new(language: Setting.default_language)
+      end
     else
-      @user = User.new
-      @user.admin = false
-      @user.register
+      if session.include? :invitation_token
+        token = Token.find_by(value: session[:invitation_token])
+
+        @user = token.user
+      else
+        @user = User.new
+        @user.admin = false
+        @user.register
+      end
+
       if session[:auth_source_registration]
         # on-the-fly registration via omniauth or via auth source
         if pending_omniauth_registration?
@@ -142,7 +156,7 @@ class AccountController < ApplicationController
     allow = Setting.self_registration? && !OpenProject::Configuration.disable_password_login?
 
     get = request.get? && allow
-    post = request.post? && (session[:auth_source_registration] || allow)
+    post = (request.post? || request.patch?) && (session[:auth_source_registration] || allow)
 
     get || post
   end

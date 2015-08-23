@@ -36,7 +36,8 @@ class Principal < ActiveRecord::Base
     builtin: 0,
     active: 1,
     registered: 2,
-    locked: 3
+    locked: 3,
+    invited: 4
   }
 
   self.table_name = "#{table_name_prefix}users#{table_name_suffix}"

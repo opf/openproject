@@ -45,7 +45,7 @@ OpenProject::Application.routes.draw do
     get '/account/force_password_change', action: 'force_password_change'
     post '/account/change_password', action: 'change_password'
     match '/account/lost_password', action: 'lost_password', via: [:get, :post]
-    match '/account/register', action: 'register', via: [:get, :post]
+    match '/account/register', action: 'register', via: [:get, :post, :patch]
 
     # omniauth routes
     match '/auth/:provider/callback', action: 'omniauth_login',
@@ -577,6 +577,11 @@ OpenProject::Application.routes.draw do
   end
 
   resources :reported_project_statuses, controller: 'reported_project_statuses'
+
+  resources :invitations, controller: 'invitations', only: [:index, :show, :create]
+  scope controller: 'invitations' do
+    get 'claim/:id', action: 'claim'
+  end
 
   # This route should probably be removed, but it's used at least by one cuke and we don't
   # want to break it.
