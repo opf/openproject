@@ -39,7 +39,8 @@ class User < Principal
     builtin: 0,
     active: 1,
     registered: 2,
-    locked: 3
+    locked: 3,
+    invited: 4
   }
 
   USER_FORMATS_STRUCTURE = {
@@ -346,6 +347,10 @@ class User < Principal
     self.status = STATUSES[:registered]
   end
 
+  def invite
+    self.status = STATUSES[:invited]
+  end
+
   def lock
     self.status = STATUSES[:locked]
   end
@@ -356,6 +361,22 @@ class User < Principal
 
   def register!
     update_attribute(:status, STATUSES[:registered])
+  end
+
+  def invite!
+    update_attribute(:status, STATUSES[:invited])
+  end
+
+  def registered?
+    status == STATUSES[:registered]
+  end
+
+  def invited?
+    status == STATUSES[:invited]
+  end
+
+  def active?
+    status == STATUSES[:active]
   end
 
   def lock!
