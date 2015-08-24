@@ -56,7 +56,7 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders a project document' do
       is_expected.to have_json_path('project')
@@ -91,12 +91,12 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     describe 'project node' do
       it 'contains a parent element with name and id attributes' do
         expected_json = { id: parent_project.id, name: 'Parent', identifier: 'parent' }.to_json
-        expect(response).to be_json_eql(expected_json).at_path('project/parent')
+        expect(rendered).to be_json_eql(expected_json).at_path('project/parent')
       end
     end
   end
@@ -112,10 +112,10 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'does not contain a parent element' do
-      expect(response).not_to have_json_path('project/parent')
+      expect(rendered).not_to have_json_path('project/parent')
     end
   end
 
@@ -140,11 +140,11 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'contains a parent element with name and id attributes of the grand parent' do
       expected_json = { id: parent_project.id, name: 'Grand-Parent', identifier: 'granny' }.to_json
-      expect(response).to be_json_eql(expected_json).at_path('project/parent')
+      expect(rendered).to be_json_eql(expected_json).at_path('project/parent')
     end
   end
 
@@ -165,7 +165,7 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'contains a responsible node containing the responsible\'s id and name' do
       expected_json = { id: responsible.id, name: 'Project Manager' }.to_json
@@ -183,7 +183,7 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'contains a project_type element with name and id attributes' do
       expected_json = { id: 100, name: 'Sample ProjectType' }.to_json
@@ -208,7 +208,7 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'contains 3 planning_element_types' do
       is_expected.to have_json_size(3).at_path('project/types')
@@ -243,7 +243,7 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'render 2 project_associations' do
       is_expected.to have_json_size(2).at_path('project/project_associations')
@@ -276,7 +276,7 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders custom field values' do
       is_expected.to have_json_path('project/custom_fields')

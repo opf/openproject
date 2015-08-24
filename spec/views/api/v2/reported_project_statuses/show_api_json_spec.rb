@@ -47,7 +47,7 @@ describe 'api/v2/reported_project_statuses/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders a reported_project_status document' do
       is_expected.to have_json_path('reported_project_status')

@@ -59,7 +59,7 @@ describe 'api/v2/project_associations/available_projects.api.rabl', type: :view 
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders a list of projects available for association' do
       expected_json = { name: 'Test Project A',

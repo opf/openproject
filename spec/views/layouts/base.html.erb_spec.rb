@@ -49,7 +49,7 @@ describe 'layouts/base', type: :view do
       end
 
       it 'the projects menu should not be displayed' do
-        expect(response).not_to have_text('Projects')
+        expect(rendered).not_to have_text('Projects')
       end
     end
 
@@ -61,7 +61,7 @@ describe 'layouts/base', type: :view do
       end
 
       it 'the projects menu should be displayed' do
-        expect(response).to have_text('Projects')
+        expect(rendered).to have_text('Projects')
       end
     end
   end
@@ -78,7 +78,7 @@ describe 'layouts/base', type: :view do
       end
 
       it 'shows the login drop down menu' do
-        expect(response).to have_selector "div[id='nav-login-content']"
+        expect(rendered).to have_selector "div[id='nav-login-content']"
       end
     end
 
@@ -89,8 +89,8 @@ describe 'layouts/base', type: :view do
       end
 
       it 'shows just a sign-in link, no menu' do
-        expect(response).to have_selector "a[href='/login']"
-        expect(response).not_to have_selector "div[id='nav-login-content']"
+        expect(rendered).to have_selector "a[href='/login']"
+        expect(rendered).not_to have_selector "div[id='nav-login-content']"
       end
     end
   end
@@ -107,8 +107,8 @@ describe 'layouts/base', type: :view do
       end
 
       it 'shows a login form' do
-        expect(response).to include 'Login'
-        expect(response).to include 'Password'
+        expect(rendered).to include 'Login'
+        expect(rendered).to include 'Password'
       end
     end
 
@@ -119,8 +119,8 @@ describe 'layouts/base', type: :view do
       end
 
       it 'shows no password login form' do
-        expect(response).not_to include 'Login'
-        expect(response).not_to include 'Password'
+        expect(rendered).not_to include 'Login'
+        expect(rendered).not_to include 'Password'
       end
     end
   end

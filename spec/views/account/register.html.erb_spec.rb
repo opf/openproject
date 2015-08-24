@@ -39,7 +39,7 @@ describe 'account/register', type: :view do
     let(:user)        { FactoryGirl.build :user, auth_source: auth_source }
 
     it 'should not show a login field' do
-      expect(response.body).not_to include('user[login]')
+      expect(rendered).not_to include('user[login]')
     end
   end
 
@@ -47,7 +47,7 @@ describe 'account/register', type: :view do
     let(:user) { FactoryGirl.build :user, auth_source: nil }
 
     it 'should show a login field' do
-      expect(response.body).to include('user[login]')
+      expect(rendered).to include('user[login]')
     end
   end
 end

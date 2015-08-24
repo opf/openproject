@@ -54,7 +54,7 @@ describe 'api/v2/planning_element_types/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders a planning_element_type document' do
       is_expected.to have_json_path('planning_element_type')

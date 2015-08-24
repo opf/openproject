@@ -36,7 +36,7 @@ describe 'api/experimental/queries/available_columns.api.rabl', type: :view do
     render
   end
 
-  subject { response.body }
+  subject { rendered }
 
   describe 'with no available columns' do
     let(:available_columns) { [] }

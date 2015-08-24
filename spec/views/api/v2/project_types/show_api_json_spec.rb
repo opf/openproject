@@ -48,10 +48,10 @@ describe 'api/v2/project_types/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders a project_type document' do
-      expect(response).to have_json_path('project_type')
+      expect(rendered).to have_json_path('project_type')
     end
 
     it 'should render the project-type-details' do
@@ -59,7 +59,7 @@ describe 'api/v2/project_types/show.api.rabl', type: :view do
                         allows_association: false,
                         position: 100 }.to_json
 
-      expect(response).to be_json_eql(expected_json).at_path('project_type')
+      expect(rendered).to be_json_eql(expected_json).at_path('project_type')
     end
   end
 end
