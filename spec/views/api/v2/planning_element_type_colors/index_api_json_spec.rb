@@ -38,7 +38,7 @@ describe 'api/v2/planning_element_type_colors/index.api.rabl', type: :view do
       assign(:colors, [])
       render
 
-      expect(response).to have_json_size(0).at_path('colors')
+      expect(rendered).to have_json_size(0).at_path('colors')
     end
   end
 
@@ -57,7 +57,7 @@ describe 'api/v2/planning_element_type_colors/index.api.rabl', type: :view do
     end
 
     it 'renders a colors document with the size 3 of array' do
-      expect(response).to have_json_size(3).at_path('colors')
+      expect(rendered).to have_json_size(3).at_path('colors')
     end
   end
 end

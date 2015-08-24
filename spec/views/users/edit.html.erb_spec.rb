@@ -47,14 +47,14 @@ describe 'users/edit', type: :view do
     it 'shows the authentication provider' do
       render
 
-      expect(response.body).to include('Test Provider')
+      expect(rendered).to include('Test Provider')
     end
 
     it 'does not show a no-login warning when password login is disabled' do
       allow(OpenProject::Configuration).to receive(:disable_password_login).and_return(true)
       render
 
-      expect(response.body).not_to include I18n.t('user.no_login')
+      expect(rendered).not_to include I18n.t('user.no_login')
     end
   end
 
@@ -76,7 +76,7 @@ describe 'users/edit', type: :view do
       it 'warns that the user cannot login' do
         render
 
-        expect(response.body).to include I18n.t('user.no_login')
+        expect(rendered).to include I18n.t('user.no_login')
       end
 
       context 'with auth sources' do

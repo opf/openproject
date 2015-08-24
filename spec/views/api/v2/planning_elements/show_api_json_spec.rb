@@ -35,7 +35,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
     params[:format] = 'json'
   end
 
-  subject { response.body }
+  subject { rendered }
 
   let(:project) {
     FactoryGirl.create(:project, id: 4711,
@@ -75,7 +75,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders a planning_element document' do
       is_expected.to have_json_path('planning_element')
@@ -144,7 +144,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
 
     it 'renders a parent node containing the parent\'s id and subject' do
       expected_json = { id: 1337, subject: 'Parent Element' }.to_json
-      expect(response).to be_json_eql(expected_json).at_path('planning_element/parent')
+      expect(rendered).to be_json_eql(expected_json).at_path('planning_element/parent')
     end
   end
 
@@ -203,7 +203,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
     end
 
     it 'renders a responsible node containing the responsible\'s id and name' do
-      expect(response).to be_json_eql({ name: 'Paul McCartney' }.to_json).at_path('planning_element/responsible')
+      expect(rendered).to be_json_eql({ name: 'Paul McCartney' }.to_json).at_path('planning_element/responsible')
     end
   end
 
@@ -218,7 +218,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
 
     it 'renders an author node containing the author\'s id and name' do
       author_json = { id: author.id, name: author.name }.to_json
-      expect(response).to be_json_eql(author_json).at_path('planning_element/author')
+      expect(rendered).to be_json_eql(author_json).at_path('planning_element/author')
     end
   end
 
@@ -233,7 +233,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
     end
 
     it 'renders a planning_element node having destroyed=true' do
-      expect(response).to be_json_eql(true.to_json).at_path('planning_element/destroyed')
+      expect(rendered).to be_json_eql(true.to_json).at_path('planning_element/destroyed')
     end
   end
 
@@ -272,7 +272,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'contains an array of journals' do
       is_expected.to have_json_size(2).at_path('planning_element/journals')

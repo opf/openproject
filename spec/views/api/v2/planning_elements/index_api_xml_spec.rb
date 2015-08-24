@@ -38,7 +38,7 @@ describe 'api/v2/planning_elements/index.api.rabl', type: :view do
       assign(:planning_elements, [])
       render
     end
-    subject { response.body }
+    subject { rendered }
 
     it 'renders an empty planning_elements document' do
       is_expected.to have_selector('planning_elements', count: 1)
@@ -61,7 +61,7 @@ describe 'api/v2/planning_elements/index.api.rabl', type: :view do
       render
     end
 
-    subject { Nokogiri.XML(response.body) }
+    subject { Nokogiri.XML(rendered) }
 
     it 'renders a planning_elements document with the size 3 of array' do
       is_expected.to have_selector('planning_elements', count: 1)

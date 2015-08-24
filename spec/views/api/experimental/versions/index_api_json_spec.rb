@@ -40,7 +40,7 @@ describe 'api/experimental/versions/index.api.rabl', type: :view do
     assign(:versions, versions)
   end
 
-  subject { response.body }
+  subject { rendered }
 
   describe 'with no versions available' do
     let(:versions) { [] }

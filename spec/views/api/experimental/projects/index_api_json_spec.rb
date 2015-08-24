@@ -36,7 +36,7 @@ describe 'api/experimental/projects/index.api.rabl', type: :view do
     render
   end
 
-  subject { response.body }
+  subject { rendered }
 
   describe 'with no projects available' do
     let(:projects) { [] }

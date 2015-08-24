@@ -36,7 +36,7 @@ describe 'api/experimental/groups/index.api.rabl', type: :view do
     render
   end
 
-  subject { response.body }
+  subject { rendered }
 
   describe 'with no groups available' do
     let(:groups) { [] }

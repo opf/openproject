@@ -36,7 +36,7 @@ describe 'api/experimental/roles/index.api.rabl', type: :view do
     render
   end
 
-  subject { response.body }
+  subject { rendered }
 
   describe 'with no roles available' do
     let(:roles) { [] }
