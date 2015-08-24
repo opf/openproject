@@ -29,12 +29,10 @@ class CostRate < Rate
   end
 
   def next(reference_date = valid_from)
-    CostRate.find(
-      :first,
-      conditions: ['cost_type_id = ? and valid_from > ?',
-                   cost_type_id, reference_date],
-      order: 'valid_from ASC'
-    )
+    CostRate
+      .where(['cost_type_id = ? and valid_from > ?', cost_type_id, reference_date])
+      .order('valid_from ASC')
+      .first
   end
 
   private

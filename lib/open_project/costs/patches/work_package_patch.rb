@@ -85,7 +85,7 @@ module OpenProject::Costs::Patches::WorkPackagePatch
     protected
 
     def update_cost_entries(work_packages, action)
-      CostEntry.update_all(action, ['work_package_id IN (?)', work_packages])
+      CostEntry.where(work_package_id: work_packages).update_all(action)
     end
   end
 

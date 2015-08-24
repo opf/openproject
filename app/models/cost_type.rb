@@ -29,7 +29,7 @@ class CostType < ActiveRecord::Base
 
   include ActiveModel::ForbiddenAttributesProtection
 
-  scope :active, conditions: { deleted_at: nil }
+  scope :active, -> { where(deleted_at: nil) }
 
   # finds the default CostType
   def self.default
