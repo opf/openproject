@@ -58,7 +58,7 @@ module.exports = function(
             return;
           }
           scope.loading = true;
-          workPackageAttachmentsService.load(workPackage).then(function(attachments) {
+          workPackageAttachmentsService.load(workPackage, true).then(function(attachments) {
             scope.attachments = attachments;
           }).finally(function() {
             scope.loading = false;

@@ -27,7 +27,7 @@
 //++
 
 module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $timeout, $http) {
-
+  'use strict';
   var upload = function(workPackage, files) {
     var uploadPath = workPackage.links.addAttachment.url();
     // for file in files build some promises, create a notification per WP,
@@ -64,10 +64,10 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $t
     });
     return allUploadsDone.promise;
   },
-  load = function(workPackage) {
+  load = function(workPackage, reload) {
     var path = workPackage.links.attachments.url(),
         attachments = $q.defer();
-    $http.get(path).success(function(response) {
+    $http.get(path, { cache: !reload }).success(function(response) {
       attachments.resolve(response._embedded.elements);
     }).error(function(err) {
       attachments.reject(err);
@@ -87,11 +87,19 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $t
       removal.resolve(fileOrAttachment);
     }
     return removal.promise;
+  },
+  hasAttachments = function(workPackage) {
+    var existance = $q.defer();
+    load(workPackage).then(function(attachments) {
+      existance.resolve(attachments.length > 0);
+    });
+    return existance.promise;
   };
 
   return {
     upload: upload,
     remove: remove,
-    load: load
+    load: load,
+    hasAttachments: hasAttachments
   };
 };

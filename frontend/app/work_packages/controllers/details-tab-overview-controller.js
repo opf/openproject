@@ -33,9 +33,10 @@ module.exports = function(
            EditableFieldsState,
            WorkPackageDisplayHelper,
            NotificationsService,
-           I18n
+           I18n,
+           WorkPackageAttachmentsService
            ) {
-
+  'use strict';
   var vm = this;
 
   vm.groupedFields = [];
@@ -48,8 +49,12 @@ module.exports = function(
   vm.isSpecified = WorkPackageDisplayHelper.isSpecified;
   vm.hasNiceStar = WorkPackageDisplayHelper.hasNiceStar;
   vm.showToggleButton = WorkPackageDisplayHelper.showToggleButton;
-
+  vm.filesExist = false;
   activate();
+
+  WorkPackageAttachmentsService.hasAttachments(vm.workPackage).then(function(bool) {
+    vm.filesExist = bool;
+  });
 
   function activate() {
     EditableFieldsState.forcedEditState = false;
@@ -61,7 +66,7 @@ module.exports = function(
     });
     vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
 
-    $scope.$watchCollection('vm.workPackage.form', function(form) {
+    $scope.$watchCollection('vm.workPackage.form', function() {
       var schema = WorkPackageFieldService.getSchema(vm.workPackage);
       var otherGroup = _.find(vm.groupedFields, {groupName: 'other'});
       otherGroup.attributes = [];
