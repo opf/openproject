@@ -875,6 +875,7 @@ en:
   label_next_week: "Next week"
   label_no_change_option: "(No change)"
   label_no_data: "No data to display"
+  label_nothing_display: "Nothing to display"
   label_nobody: "nobody"
   label_none: "none"
   label_not_contains: "doesn't contain"

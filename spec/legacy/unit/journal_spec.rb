@@ -38,7 +38,7 @@ describe Journal, type: :model do
   end
 
   it 'create should send email notification' do
-    issue = WorkPackage.find(:first)
+    issue = WorkPackage.first
     if issue.journals.empty?
       issue.add_journal(User.current, 'This journal represents the creationa of journal version 1')
       issue.save

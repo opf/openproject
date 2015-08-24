@@ -29,30 +29,65 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l(:label_repository) %>
 <%= simple_format(l(:text_repository_usernames_mapping)) %>
 <% if @committers.empty? %>
-  <p class="nodata"><%= l(:label_no_data) %></p>
+  <div class="generic-table--container">
+  <div class="generic-table--no-results-container">
+    <h2 class="generic-table--no-results-title">
+      <i class="icon-info"></i>
+      <%= l(:label_nothing_display) %>
+    </h2>
+    <div class="generic-table--no-results-description">
+      <p>Either nothing have been created or everything is filtered out.</p>
+    </div>
+  </div>
+</div>
 <% else %>
   <%= form_tag({}) do %>
-    <table class="list">
-      <thead>
-        <tr>
-          <th><%= User.human_attribute_name(:login) %></th>
-          <th><%= User.model_name.human %></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% i = 0 -%>
-        <% @committers.each do |committer, user_id| -%>
-          <tr class="<%= cycle 'odd', 'even' %>">
-            <td><%=h committer %></td>
-            <td>
-              <%= hidden_field_tag "committers[#{i}][]", committer %>
-              <%= select_tag "committers[#{i}][]", content_tag('option', "-- #{l :actionview_instancetag_blank_option} --", :value => '') + options_from_collection_for_select(@users, 'id', 'name', user_id.to_i) %>
-            </td>
-          </tr>
-          <% i += 1 -%>
-        <% end -%>
-      </tbody>
-    </table>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table interactive-table role="grid" class="generic-table">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= User.human_attribute_name(:login) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= User.model_name.human %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% i = 0 -%>
+            <% @committers.each do |committer, user_id| -%>
+              <tr>
+                <td><%=h committer %></td>
+                <td>
+                  <%= hidden_field_tag "committers[#{i}][]", committer %>
+                  <%= select_tag "committers[#{i}][]", content_tag('option', "-- #{l :actionview_instancetag_blank_option} --", :value => '') + options_from_collection_for_select(@users, 'id', 'name', user_id.to_i) %>
+                </td>
+              </tr>
+              <% i += 1 -%>
+            <% end -%>
+          </tbody>
+        </table>
+        <div class="generic-table--header-background"></div>
+      </div>
+    </div>
     <hr class="form--separator">
     <p>
       <%= submit_tag l(:button_update), class: 'button -highlight' %>

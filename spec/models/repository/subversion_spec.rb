@@ -145,7 +145,7 @@ describe Repository::Subversion, type: :model do
 
         expect(instance.changesets.count).to eq(12)
         expect(instance.changes.count).to eq(21)
-        expect(instance.changesets.find_by_revision('1').comments).to eq('Initial import.')
+        expect(instance.changesets.find_by(revision: '1').comments).to eq('Initial import.')
       end
 
       it 'should fetch changesets incremental' do
@@ -207,7 +207,7 @@ describe Repository::Subversion, type: :model do
       it 'should show the identifier' do
         instance.fetch_changesets
         instance.reload
-        c = instance.changesets.find_by_revision('1')
+        c = instance.changesets.find_by(revision: '1')
         expect(c.revision).to eq(c.identifier)
       end
 
@@ -228,7 +228,7 @@ describe Repository::Subversion, type: :model do
       it 'should format identifier' do
         instance.fetch_changesets
         instance.reload
-        c = instance.changesets.find_by_revision('1')
+        c = instance.changesets.find_by(revision: '1')
         expect(c.format_identifier).to eq(c.revision)
       end
 

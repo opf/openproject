@@ -263,28 +263,28 @@ When (/^I wait for timeline to load table$/) do
 end
 
 When (/^I move "([^"]*)" to the top$/) do |name|
-  cell = find(:css, 'table.list td', text: Regexp.new("^#{name}$"))
+  cell = find(:css, 'table.generic-table td', text: Regexp.new("^#{name}$"))
   row = cell.find(:xpath, './ancestor::tr')
   link = row.find_link('Move to top')
   link.click
 end
 
 When (/^I move "([^"]*)" to the bottom$/) do |name|
-  cell = find(:css, 'table.list td', text: Regexp.new("^#{name}$"))
+  cell = find(:css, 'table.generic-table td', text: Regexp.new("^#{name}$"))
   row = cell.find(:xpath, './ancestor::tr')
   link = row.find_link('Move to bottom')
   link.click
 end
 
 When (/^I move "([^"]*)" up by one$/) do |name|
-  cell = find(:css, 'table.list td', text: Regexp.new("^#{name}$"))
+  cell = find(:css, 'table.generic-table td', text: Regexp.new("^#{name}$"))
   row = cell.find(:xpath, './ancestor::tr')
   link = row.find_link('Move up')
   link.click
 end
 
 When (/^I move "([^"]*)" down by one$/) do |name|
-  cell = find(:css, 'table.list td', text: Regexp.new("^#{name}$"))
+  cell = find(:css, 'table.generic-table td', text: Regexp.new("^#{name}$"))
   row = cell.find(:xpath, './ancestor::tr')
   link = row.find_link('Move down')
   link.click

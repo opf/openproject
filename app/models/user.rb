@@ -491,10 +491,6 @@ class User < Principal
     where(['LOWER(mail) = ?', mail.to_s.downcase]).first
   end
 
-  def self.find_all_by_mails(mails)
-    where(['LOWER(mail) IN (?)', mails])
-  end
-
   def to_s
     name
   end

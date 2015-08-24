@@ -36,14 +36,26 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><strong><%= OpenProject::Info.versioned_name %></strong> (<%= @db_adapter_name %>)</p>
 
 <%= content_tag :h3, I18n.t('label_system') %>
-<table class="list">
-  <% @checklist.each do |label, result| %>
-    <tr class="<%= cycle 'odd', 'even' %>">
-      <td><%= l(label) %></td>
-      <td width="30px"><%= icon_wrapper((result ? 'icon-context icon-yes' : 'icon-context icon-error'), (result ? l(:general_text_Yes) : l(:general_text_No))) %></td>
-    </tr>
-  <% end %>
-</table>
+
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table interactive-table role="grid" class="generic-table">
+      <colgroup>
+        <col>
+        <col>
+      </colgroup>
+      <tbody>
+        <% @checklist.each do |label, result| %>
+          <tr>
+            <td><%= l(label) %></td>
+            <td><%= icon_wrapper((result ? 'icon-context icon-yes' : 'icon-context icon-error'), (result ? l(:general_text_Yes) : l(:general_text_No))) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="generic-table--header-background"></div>
+  </div>
+ </div>
 
 <%= content_tag :h3, I18n.t('label_system_storage') %>
 

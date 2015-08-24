@@ -28,44 +28,89 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= form_tag({:controller => '/repositories', :action => 'diff', :project_id => @project, :path => to_path_param(path)}, :method => :get) do %>
-  <table class="list changesets">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th></th>
-        <th></th>
-        <th><%= l(:label_date) %></th>
-        <th><%= Changeset.human_attribute_name(:author) %></th>
-        <th><%= Changeset.human_attribute_name(:comments) %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% show_diff = revisions.size > 1 %>
-      <% line_num = 1 %>
-      <% revisions.each do |changeset| %>
-        <tr class="changeset <%= cycle 'odd', 'even' %>">
-          <td class="id">
-            <%= link_to_revision(changeset, project) %>
-          </td>
-          <td class="checkbox">
-            <%= radio_button_tag('rev', changeset.identifier, (line_num==1), :id => "cb-#{line_num}", :onclick => "$('cbto-#{line_num+1}').checked=true;") if show_diff && (line_num < revisions.size) %>
-          </td>
-          <td class="checkbox">
-            <%= radio_button_tag('rev_to', changeset.identifier, (line_num==2), :id => "cbto-#{line_num}", :onclick => "if ($('cb-#{line_num}').checked==true) {$('cb-#{line_num-1}').checked=true;}") if show_diff && (line_num > 1) %>
-          </td>
-          <td class="committed_on">
-            <%= format_time(changeset.committed_on) %>
-          </td>
-          <td class="author">
-            <%=h changeset.author %>
-          </td>
-          <td class="comments">
-            <%= format_text(truncate_at_line_break(Changeset.to_utf8(changeset.comments, changeset.repository.repo_log_encoding))) %>
-          </td>
-        </tr>
-        <% line_num += 1 %>
-      <% end %>
-    </tbody>
-  </table>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table interactive-table role="grid" class="generic-table changesets">
+        <colgroup>
+          <col highlight-col>
+          <col>
+          <col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    #
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th></th>
+            <th></th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= l(:label_date) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Changeset.human_attribute_name(:author) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Changeset.human_attribute_name(:comments) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% show_diff = revisions.size > 1 %>
+          <% line_num = 1 %>
+          <% revisions.each do |changeset| %>
+            <tr class="changeset">
+              <td class="id">
+                <%= link_to_revision(changeset, project) %>
+              </td>
+              <td class="checkbox">
+                <%= radio_button_tag('rev', changeset.identifier, (line_num==1), :id => "cb-#{line_num}", :onclick => "$('cbto-#{line_num+1}').checked=true;") if show_diff && (line_num < revisions.size) %>
+              </td>
+              <td class="checkbox">
+                <%= radio_button_tag('rev_to', changeset.identifier, (line_num==2), :id => "cbto-#{line_num}", :onclick => "if ($('cb-#{line_num}').checked==true) {$('cb-#{line_num-1}').checked=true;}") if show_diff && (line_num > 1) %>
+              </td>
+              <td class="committed_on">
+                <%= format_time(changeset.committed_on) %>
+              </td>
+              <td class="author">
+                <%=h changeset.author %>
+              </td>
+              <td class="comments">
+                <%= format_text(truncate_at_line_break(Changeset.to_utf8(changeset.comments, changeset.repository.repo_log_encoding))) %>
+              </td>
+            </tr>
+            <% line_num += 1 %>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="generic-table--header-background"></div>
+    </div>
+  </div>
   <%= submit_tag(l(:label_view_diff), :name => nil, class: 'button -highlight') if show_diff %>
 <% end %>

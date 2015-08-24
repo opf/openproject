@@ -62,22 +62,22 @@ Feature: Membership
       And I add the principal "A-Team" as "Manager"
      Then I should be on the members tab of the settings page of the project "project1"
       And I should see "Successful creation." within ".flash.notice"
-      And I should see "A-Team" within ".members"
+      And I should see "A-Team" within ".generic-table"
 
      When I delete the "A-Team" membership
       And I wait for the AJAX requests to finish
-     Then I should see "No data to display"
+     Then I should see "Nothing to display"
 
   @javascript
   Scenario: Adding and removing a User as Member, non impaired
      When I go to the members tab of the settings page of the project "project1"
       And I add the principal "Hannibal Smith" as "Manager"
      Then I should see "Successful creation." within ".flash.notice"
-      And I should see "Hannibal Smith" within ".members"
+      And I should see "Hannibal Smith" within ".generic-table"
 
      When I delete the "Hannibal Smith" membership
       And I wait for the AJAX requests to finish
-     Then I should see "No data to display"
+     Then I should see "Nothing to display"
 
   @javascript
   Scenario: Entering a Username as Member in firstname, lastname order, non impaired
@@ -112,7 +112,7 @@ Feature: Membership
       And I add the principal "A-Team" as "Manager"
       And I go to the members tab of the settings page of the project "project1"
       Then I should not see "A-Team" within "#principal_results"
-      And I should see "A-Team" within ".members"
+      And I should see "A-Team" within ".generic-table"
 
   @javascript
   Scenario: User should not appear in members form if he/she is already a member of the project, impaired
@@ -121,11 +121,11 @@ Feature: Membership
       And I add the principal "A-Team" as "Manager"
      Then I should be on the members tab of the settings page of the project "project1"
       And I should see "Successful creation." within ".flash.notice"
-      And I should see "A-Team" within ".members"
+      And I should see "A-Team" within ".generic-table"
 
      When I delete the "A-Team" membership
       And I wait for the AJAX requests to finish
-     Then I should see "No data to display"
+     Then I should see "Nothing to display"
 
   @javascript
   Scenario: Entering a Username as Member in firstname, lastname order, impaired
@@ -147,8 +147,8 @@ Feature: Membership
       And I go to the members tab of the settings page of the project "project1"
       And I add the principal "Hannibal Smith" as "Manager"
      Then I should see "Successful creation." within ".flash.notice"
-      And I should see "Hannibal Smith" within ".members"
+      And I should see "Hannibal Smith" within ".generic-table"
 
      When I delete the "Hannibal Smith" membership
       And I wait for the AJAX requests to finish
-     Then I should see "No data to display"
+     Then I should see "Nothing to display"

@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%  ent_path = replace_invalid_utf8(entry.path)   %>
   <%  ent_name = replace_invalid_utf8(entry.name)   %>
   <tr id="<%= tr_id %>" class="<%= h params[:parent_id] %> entry <%= h(entry.kind) %>">
-    <td style="padding-left: <%=18 * depth%>px;" class="filename">
+    <td class="filename">
       <% if entry.dir? %>
         <span class="icon-context dir-expander" onclick="<%=  remote_function :url => {:action => 'show', :project_id => @project, :path => to_path_param(ent_path), :rev => @rev, :depth => (depth + 1), :parent_id => tr_id},
                   :method => :get,

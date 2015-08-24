@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,20 +26,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-if Role.find_by(builtin: Role::BUILTIN_NON_MEMBER).nil?
-  role = Role.new
+# This capsulates permissions a user has for a work package.  It caches based
+# on the work package's project and is thus optimized for the context menu.
+#
+# This is no conern but it was placed here so that it will be removed together
+# with the rest of the experimental API.
 
-  role.name = 'Non member'
-  role.position = 0
-  role.builtin = Role::BUILTIN_NON_MEMBER
-  role.save!
-end
+require 'scm/authorization_policy'
+class Scm::SubversionAuthorizationPolicy < Scm::AuthoriziationPolicy
+  private
 
-if Role.find_by(builtin: Role::BUILTIN_ANONYMOUS).nil?
-  role = Role.new
-
-  role.name = 'Anonymous'
-  role.position = 1
-  role.builtin = Role::BUILTIN_ANONYMOUS
-  role.save!
+  def readonly_request?(params)
+    method = params[:method]
+    %w(GET PROPFIND REPORT OPTIONS).include?(method)
+  end
 end

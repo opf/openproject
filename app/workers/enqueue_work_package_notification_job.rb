@@ -68,7 +68,7 @@ class EnqueueWorkPackageNotificationJob
   end
 
   def raw_journal
-    @raw_journal ||= Journal.find_by_id(@journal_id)
+    @raw_journal ||= Journal.find_by(id: @journal_id)
   end
 
   def work_package

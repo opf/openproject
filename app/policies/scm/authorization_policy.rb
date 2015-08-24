@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,43 +26,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-When(/^I create a new enumeration with the following:$/) do |table|
-  attributes = table.rows_hash
+# This capsulates permissions a user has for a work package.  It caches based
+# on the work package's project and is thus optimized for the context menu.
+#
+# This is no conern but it was placed here so that it will be removed together
+# with the rest of the experimental API.
 
-  type = activity_type_from_string(attributes['type'])
+class Scm::AuthoriziationPolicy
+  attr_reader :project, :user
 
-  visit new_enumeration_path(type: type)
-
-  fill_in 'enumeration_name', with: attributes['name']
-
-  click_button(I18n.t(:button_create))
-end
-
-Then(/^I should see the enumeration:$/) do |table|
-  attributes = table.rows_hash
-
-  type = activity_type_from_string(attributes['type'])
-
-  # as the html is not structured in any way we have to look for the first
-  # h3 that contains the heading for the activity we are interested in
-  # and then the td within the directly following table
-  selector = "h3:contains('#{i18n_for_activity_type(type)}') + .generic-table--container table td"
-  should have_selector(selector, text: attributes['name'])
-end
-
-def activity_type_from_string(string)
-  case string.gsub(/\s/, '_').camelcase
-  when 'Activity', 'TimeEntryActivity'
-    TimeEntryActivity
-  else
-    raise "Don't know this enumeration yet"
+  def initialize(project, user)
+    @user = user
+    @project = project
   end
-end
 
-def i18n_for_activity_type(type)
-  if type == TimeEntryActivity
-    I18n.t(:enumeration_activities)
-  else
-    raise "Don't know this enumeration yet"
+  ##
+  # Determines the authorization status for the user of this project
+  # for a given repository request.
+  # May be overridden by descendents when more than the read/write distinction
+  # is necessary.
+  def authorized?(params)
+    (readonly_request?(params) && read_access?) || write_access?
+  end
+
+  protected
+
+  ##
+  # Determines whether the given request is a read access
+  # Must be implemented by descendents of this policy.
+  def readonly_request?(_params)
+    raise NotImplementedError
+  end
+
+  ##
+  # Returns whether the user has read access permission to the repository
+  def read_access?
+    user.allowed_to?(:browse_repository, project)
+  end
+
+  ##
+  # Returns whether the user has read/write access permission to the repository
+  def write_access?
+    user.allowed_to?(:commit_access, project)
   end
 end

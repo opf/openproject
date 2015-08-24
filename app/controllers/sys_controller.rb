@@ -91,19 +91,26 @@ class SysController < ActionController::Base
   end
 
   def repo_auth
-    @project = Project.find_by(identifier: params[:repository])
-
-    if (%w(GET PROPFIND REPORT OPTIONS).include?(params[:method]) &&
-        @authenticated_user.allowed_to?(:browse_repository, @project)) ||
-       @authenticated_user.allowed_to?(:commit_access, @project)
+    project = Project.find_by(identifier: params[:repository])
+    if project && authorized?(project, @authenticated_user)
       render text: 'Access granted'
-      return
+    else
+      render text: 'Not allowed', status: 403 # default to deny
     end
-
-    render text: 'Not allowed', status: 403 # default to deny
   end
 
-  protected
+  private
+
+  def authorized?(project, user)
+    repository = project.repository
+
+    if repository
+      policy = repository.class.authorization_policy
+      policy.new(project, user).authorized?(params)
+    else
+      false
+    end
+  end
 
   def check_enabled
     User.current = nil
@@ -112,8 +119,6 @@ class SysController < ActionController::Base
       return false
     end
   end
-
-  private
 
   def update_storage_information(repository, force = false)
     if force

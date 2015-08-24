@@ -34,8 +34,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= render :partial => 'report_category', :locals => { report: report} %>
     <% end %>
     <%= call_hook(:view_reports_issue_report_split_content_left, :project => @project) %>
-  </div>
-  <div class="grid-content">
     <%
     additional_reports = [@version_report]
     additional_reports << @subproject_report if @project.children.any?

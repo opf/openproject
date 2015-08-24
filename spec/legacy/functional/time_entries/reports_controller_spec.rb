@@ -81,7 +81,7 @@ describe TimeEntries::ReportsController, type: :controller do
     assert_template 'time_entries/reports/show'
     assert_not_nil assigns(:total_hours)
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
-    assert_tag tag: 'th', content: '2007-03-12'
+    assert_tag tag: 'th', descendant: { content: /\s*2007-03-12\s*/ }
   end
 
   it 'should report one criteria' do
@@ -127,14 +127,14 @@ describe TimeEntries::ReportsController, type: :controller do
     assert_equal 3, assigns(:criterias).size
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
     # Custom field column
-    assert_tag tag: 'th', content: 'Database'
+    assert_tag tag: 'th', descendant: { content: /\s*Database\s*/ }
     # Custom field row
     assert_tag tag: 'td', content: 'MySQL',
                sibling: { tag: 'td', attributes: { class: 'hours' },
                           child: { tag: 'span', attributes: { class: 'hours hours-int' },
                                    content: '1' } }
     # Second custom field column
-    assert_tag tag: 'th', content: 'Billable'
+    assert_tag tag: 'th', descendant: { content: /\s*Billable\s*/ }
   end
 
   it 'should report one criteria no result' do

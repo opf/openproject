@@ -28,6 +28,7 @@
 #++
 
 require 'open3'
+require 'find'
 module OpenProject
   module Scm
     module Adapters
@@ -222,7 +223,7 @@ module OpenProject
         # be run asynchronously.
         def count_required_storage
           bytes = 0
-          Find.find(local_repository_path) do |f|
+          ::Find.find(local_repository_path) do |f|
             bytes += File.size(f) if File.file?(f)
           end
 
