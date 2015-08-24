@@ -167,14 +167,14 @@ class MoveWorkPackageService
     new_category = if work_package.category.nil?
                      nil
                    else
-                     new_project.categories.find_by_name(work_package.category.name)
+                     new_project.categories.find_by(name: work_package.category.name)
                    end
     work_package.category = new_category
   end
 
   def assign_status_or_default(work_package, status_id)
     status = if status_id.present?
-               Status.find_by_id(status_id)
+               Status.find_by(id: status_id)
              else
                self.work_package.status
              end
