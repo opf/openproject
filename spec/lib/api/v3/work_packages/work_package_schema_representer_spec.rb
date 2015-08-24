@@ -37,7 +37,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     FactoryGirl.build(:user, member_in_project: work_package.project)
   }
   let(:schema) {
-    ::API::V3::WorkPackages::Schema::WorkPackageSchema.new(work_package: work_package)
+    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
   }
   let(:embedded) { false }
   let(:representer) {

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/schema/work_package_schema'
+require 'api/v3/work_packages/schema/typed_work_package_schema'
 require 'api/v3/work_packages/schema/work_package_schema_representer'
 
 module API
@@ -64,7 +64,7 @@ module API
                   raise404
                 end
 
-                schema = WorkPackageSchema.new(project: project, type: type)
+                schema = TypedWorkPackageSchema.new(project: project, type: type)
                 @representer = WorkPackageSchemaRepresenter.create(schema,
                                                                    current_user: current_user)
               end

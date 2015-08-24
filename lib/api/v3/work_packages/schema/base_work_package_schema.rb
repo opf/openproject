@@ -27,69 +27,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
   module V3
     module WorkPackages
       module Schema
-        class WorkPackageSchema
-          attr_reader :project, :type
+        class BaseWorkPackageSchema
+          def project
+            nil
+          end
 
-          def initialize(work_package: nil, project: nil, type: nil)
-            raise ArgumentError unless work_package || (project && type)
-
-            @project = project || work_package.project
-            @type = type || work_package.type
-            @work_package = work_package
+          def type
+            nil
           end
 
           def assignable_statuses_for(user)
-            return nil if @work_package.nil?
-
-            status_origin = @work_package
-
-            # do not allow to skip statuses without intermediately saving the work package
-            # we therefore take the original status of the work_package, while preserving all
-            # other changes to it (e.g. type, assignee, etc.)
-            if @work_package.persisted? && @work_package.status_id_changed?
-              status_origin = @work_package.clone
-              status_origin.status = Status.find_by(id: @work_package.status_id_was)
-            end
-
-            status_origin.new_statuses_allowed_to(user)
+            nil
           end
 
           def assignable_types
-            project.try(:types)
+            nil
           end
 
           def assignable_versions
-            @work_package.try(:assignable_versions)
+            nil
           end
 
           def assignable_priorities
-            IssuePriority.active
+            nil
           end
 
           def assignable_categories
-            project.categories
+            nil
           end
 
           def available_custom_fields
-            # we might have received a (currently) invalid work package
-            return [] if @project.nil? || @type.nil?
-
-            project.all_work_package_custom_fields.to_a & type.custom_fields.to_a
+            []
           end
 
           def writable?(property)
             case property
             when :percentage_done
               percentage_done_writable?
-            when :estimated_time, :start_date, :due_date
-              nil_or_leaf?(@work_package)
             else
               writable_properties.include? property
             end
@@ -108,20 +86,16 @@ module API
               :status,
               :category,
               :version,
-              :priority
+              :priority,
+              :percentage_done,
+              :estimated_time,
+              :start_date,
+              :due_date
             ]
           end
 
           def percentage_done_writable?
-            if Setting.work_package_done_ratio == 'status' ||
-               Setting.work_package_done_ratio == 'disabled'
-              return false
-            end
-            nil_or_leaf?(@work_package)
-          end
-
-          def nil_or_leaf?(work_package)
-            work_package.nil? || work_package.leaf?
+            Setting.work_package_done_ratio == 'field'
           end
         end
       end
