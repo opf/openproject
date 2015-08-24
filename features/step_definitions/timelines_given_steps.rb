@@ -137,10 +137,16 @@ def create_work_packages_from_table(table, project)
       end
     end
 
+    # Force project to have a type the WP can use
+    if project.types.empty?
+      project.types << FactoryGirl.create(:type_standard)
+      project.save!
+    end
+
     # lookup the type by its name and replace it with the type
     # if the cast is ommitted, the contents of type_attributes is interpreted as an int
-    unless type_attributes.has_key? :type
-      type_attributes[:type] = ::Type.where(name: type_attributes[:type].to_s).first
+    if type_attributes.has_key? :type
+      ::Type.find_by(name: type_attributes[:type])
     end
 
     if type_attributes.has_key? 'author'
