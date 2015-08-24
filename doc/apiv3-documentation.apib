@@ -1878,6 +1878,51 @@ but are also limited to the projects that the current user is allowed to see.
                 "message": "The specified version does not exist."
             }
 
+## Work Package Columns [/api/v3/projects/{id}/work_packages/columns]
+
+## View Work Package columns [GET]
+
+Lists the columns available for work packages of this project in the form of field schemas.
+
++ Parameters
+    + id (required, integer, `1`) ... Project id
+
++ Response 200 (application/hal+json)
+
+    [Example Schema][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client is not allowed to see the available columns of work packages on this
+    project.
+
+    **Required permission:** view work packages
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see work packages of this project."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
+
 # Group Queries
 
 | Link               | Description                                                              | Type         | Constraints  | Supported operations  | Condition                                 |
@@ -2327,6 +2372,7 @@ resource lists (requiring one or more separate requests).
 | regularExpression | The value of the property must match the given regular expression (if not null)    | String   | null    |
 | required          | If true this property is not nullable                                              | Boolean  | true    |
 | writable          | If false it is not allowed to **change** the properties value                      | Boolean  | true    |
+| groupable         | If true, this property can be used as `groupBy` property in collections            | Boolean  | false   |
 
 All of the above properties that do not have a default value *must* be present in the schema.
 For properties that have a default value, the client can assume the default value, if the property is missing.
@@ -2365,6 +2411,7 @@ Note that regular expressions used in the API follow the rules of [Ruby Regular 
 
                     "name": "Status",
                     "type": "Status",
+                    "groupable": true,
 
                     "_embedded": {
                         "allowedValues": [

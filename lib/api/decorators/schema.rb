@@ -79,9 +79,7 @@ module API
                        required: call_or_use(required),
                        writable: call_or_use(writable))
 
-                     if form_embedded
-                       representer.allowed_values_href = instance_eval(&href_callback)
-                     end
+                     representer.allowed_values_href = instance_eval(&href_callback)
 
                      representer
                    },
@@ -111,9 +109,7 @@ module API
                        required: call_or_use(required),
                        writable: call_or_use(writable))
 
-                     if form_embedded
-                       representer.allowed_values = instance_exec(&values_callback)
-                     end
+                     representer.allowed_values = instance_exec(&values_callback)
 
                      representer
                    },
@@ -128,14 +124,6 @@ module API
         def make_type(property_name)
           property_name.to_s.camelize
         end
-      end
-
-      attr_reader :form_embedded
-
-      def initialize(represented, context = {})
-        @form_embedded = context[:form_embedded]
-
-        super
       end
 
       private

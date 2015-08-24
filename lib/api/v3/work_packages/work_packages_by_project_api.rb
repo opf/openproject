@@ -48,8 +48,11 @@ module API
             end
           end
 
-          get do
+          before do
             authorize(:view_work_packages, context: @project)
+          end
+
+          get do
             work_packages_by_params(project: @project)
           end
 
@@ -67,6 +70,7 @@ module API
             end
           end
 
+          mount ::API::V3::Projects::WorkPackageColumnsAPI
           mount ::API::V3::WorkPackages::CreateFormAPI
         end
       end

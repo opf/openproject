@@ -51,11 +51,13 @@ module API
             end
           end
 
+          def initialize(schema, context)
+            @self_link = context.delete(:self_link) || nil
+            super(schema, context)
+          end
+
           link :self do
-            unless form_embedded
-              path = api_v3_paths.work_package_schema(represented.project.id, represented.type.id)
-              { href: path }
-            end
+              { href: @self_link } if @self_link
           end
 
           schema :lock_version,

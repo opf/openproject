@@ -30,38 +30,16 @@
 module API
   module V3
     module WorkPackages
-      class FormRepresenter < ::API::Decorators::Single
-        def initialize(model, current_user: nil, errors: [])
-          @errors = errors
+      module Schema
+        class UntypedWorkPackageSchema < BaseWorkPackageSchema
+          attr_reader :project, :type
 
-          super(model, current_user: current_user)
-        end
+          def initialize(project:)
+            @project = project
+          end
 
-        property :payload,
-                 embedded: true,
-                 decorator: -> (represented, *) {
-                   WorkPackagePayloadRepresenter.create_class(represented)
-                 },
-                 getter: -> (*) { self }
-        property :schema,
-                 embedded: true,
-                 exec_context: :decorator,
-                 getter: -> (*) {
-                   schema = Schema::SpecificWorkPackageSchema.new(work_package: represented)
-                   Schema::WorkPackageSchemaRepresenter.create(schema,
-                                                               current_user: current_user)
-                 }
-        property :validation_errors, embedded: true, exec_context: :decorator
-
-        def _type
-          'Form'
-        end
-
-        def validation_errors
-          @errors.group_by(&:property).inject({}) do |hash, (property, errors)|
-            error = ::API::Errors::MultipleErrors.create_if_many(errors)
-            hash[property] = ::API::V3::Errors::ErrorRepresenter.new(error)
-            hash
+          def available_custom_fields
+            project.all_work_package_custom_fields
           end
         end
       end
