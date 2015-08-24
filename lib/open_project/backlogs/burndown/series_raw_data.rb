@@ -54,7 +54,7 @@ module OpenProject::Backlogs::Burndown
       return :points if @collect[:points].include? name
     end
 
-    def collect
+    def collect_data
       initialize_self_for_collection
 
       data_for_dates(collected_days).each do |day_data|

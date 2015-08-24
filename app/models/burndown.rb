@@ -45,7 +45,7 @@ class Burndown
                                                                      sprint,
                                                                      points: ['story_points'])
 
-    series_data.map
+    series_data.collect_data
 
     calculate_series series_data
 
