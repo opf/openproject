@@ -2060,7 +2060,7 @@ Revisions are sets of updates to files in the context of repositories linked in 
 ## Local Properties
 | Property                | Description                                                                                                                                                 | Type        | Constraints | Supported operations |
 |:-----------------------:| ------------------------------------------------------------------------------------------------------------------------------------------------------------| ----------- | ----------- | -------------------- |
-| id                      | Revisions's id, assigned by OpenProject                                                                                                                     | Integer     | x > 0       | READ                 |
+| id                      | Revision's id, assigned by OpenProject                                                                                                                      | Integer     | x > 0       | READ                 |
 | identifier              | The raw SCM identifier of the revision (e.g. full SHA hash)                                                                                                 | String      | not null    | READ                 |
 | formattedIdentifier     | The SCM identifier of the revision, formatted (e.g. shortened unambiguous SHA hash). May be identical to identifier in many cases                           | String      | not null    | READ                 |
 | authorName              | The name of the author that committed this revision. Note that this name is retrieved from the repository and does not identify a user in OpenProject.      | String      | not null    | READ                 |
@@ -3499,13 +3499,8 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 
             {
                 "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-                "message": "The subject might not be blank.",
-                "_embedded": {
-                    "details": {
-                        "attribute": "Subject"
-                    }
-                }
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified schema does not exist."
             }
 
 ## Work Package Edit Form [/api/v3/work_packages/{id}/form]
