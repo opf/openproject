@@ -60,7 +60,8 @@ class Scm::CheckoutInstructionsService
   ##
   # Returns the instructions defined in the settings.
   def instructions
-    checkout_settings['text']
+    checkout_settings['text'].presence ||
+      I18n.t("repositories.checkout.default_instructions.#{repository.vendor}")
   end
 
   ##
@@ -85,7 +86,7 @@ class Scm::CheckoutInstructionsService
   ##
   # Determines whether permissions for the given repository
   # are available.
-  def permission?
+  def manages_permissions?
     repository.managed?
   end
 
@@ -98,7 +99,7 @@ class Scm::CheckoutInstructionsService
   #
   # Note that this information is only applicable when the repository is managed,
   # because otherwise OpenProject does not control the repository permissions.
-  # Use +permission?+ to check whether this is the case.
+  # Use +manages_permissions?+ to check whether this is the case.
   #
   def permission
     project = repository.project
@@ -116,7 +117,7 @@ class Scm::CheckoutInstructionsService
   #
   # Note that this information is only applicable when the repository is managed,
   # because otherwise OpenProject does not control the repository permissions.
-  # Use +permission?+ to check whether this is the case.
+  # Use +manages_permissions?+ to check whether this is the case.
   def may_checkout?
     [:readwrite, :read].include?(permission)
   end
@@ -126,7 +127,7 @@ class Scm::CheckoutInstructionsService
   #
   # Note that this information is only applicable when the repository is managed,
   # because otherwise OpenProject does not control the repository permissions.
-  # Use +permission?+ to check whether this is the case.
+  # Use +manages_permissions?+ to check whether this is the case.
   def may_commit?
     permission == :readwrite
   end

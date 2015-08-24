@@ -285,14 +285,8 @@ repository_checkout_data:
   default:
     git:
       enabled: 0
-      text: |-
-        The data contained in this repository can be downloaded to your computer with Git using the checkout information below.
-        Please consult the documentation of Git if you need more information on the checkout procedure and available clients.
     subversion:
       enabled: 0
-      text: |-
-        The data contained in this repository can be downloaded to your computer with Subversion using the checkout information below.
-        Please consult the documentation of Subversion if you need more information on the checkout procedure and available clients.
 api_max_page_size:
   format: int
   default: 500

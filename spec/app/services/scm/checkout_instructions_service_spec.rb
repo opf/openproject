@@ -40,11 +40,12 @@ describe Scm::CheckoutInstructionsService do
   }
 
   let(:base_url) { 'http://example.org/svn/' }
+  let(:text) { 'foo' }
   let(:checkout_hash) {
     {
       'git' => { 'enabled' => '0' },
       'subversion' => { 'enabled' => '1',
-                        'text' => 'foo',
+                        'text' => text,
                         'base_url' => base_url
                       }
     }
@@ -79,6 +80,21 @@ describe Scm::CheckoutInstructionsService do
   describe '#checkout_command' do
     it 'returns the SCM vendor command' do
       expect(service.checkout_command).to eq('svn checkout')
+    end
+  end
+
+  describe '#instructions' do
+    it 'returns the setting when defined' do
+      expect(service.instructions).to eq('foo')
+    end
+
+    context 'no setting defined' do
+      let(:text) { nil }
+
+      it 'returns the default translated instructions' do
+        expect(service.instructions)
+          .to eq(I18n.t("repositories.checkout.default_instructions.subversion"))
+      end
     end
   end
 
@@ -117,7 +133,7 @@ describe Scm::CheckoutInstructionsService do
   describe '#permission' do
     context 'with no managed repository' do
       it 'is not applicable' do
-        expect(service.permission?).to be false
+        expect(service.manages_permissions?).to be false
       end
     end
 
@@ -127,7 +143,7 @@ describe Scm::CheckoutInstructionsService do
       end
 
       it 'is applicable' do
-        expect(service.permission?).to be true
+        expect(service.manages_permissions?).to be true
       end
 
       it 'returns the correct permissions' do

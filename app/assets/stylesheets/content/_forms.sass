@@ -386,6 +386,10 @@ fieldset.form--fieldset
 .form--text-field
   @extend %input-style
 
+  &[readonly].-clickable
+    cursor: pointer
+    background: white
+
 .form--text-field,
 #{$text-input-selectors}
   line-height: 1.5

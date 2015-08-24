@@ -59,7 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
         fieldset = $(this).closest('fieldset');
 
         fieldset
-          .find('input,select,textarea')
+          .find('input,select')
           .filter(':not([type=checkbox])')
           .filter(':not([type=hidden])')
           .removeAttr('required') // Rails 4.0 still seems to use attribute
