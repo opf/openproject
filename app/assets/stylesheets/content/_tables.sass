@@ -32,8 +32,9 @@ tr
     td.name a
       white-space: nowrap
     &.idnt td.project--hierarchy span
-      background: image-url("bullet_arrow_right.png") no-repeat 0 50%
       padding-left: 16px
+      &.icon:before
+        padding: 9px 5px 0 10px
     &.idnt-1 td.project--hierarchy
       padding-left: 0.5em
     &.idnt-2 td.project--hierarchy
@@ -65,9 +66,9 @@ tr.issue
   td
     &.subject
       text-align: left
-  &.idnt td.subject a
-    background: image-url("bullet_arrow_right.png") no-repeat 0 50%
-    padding-left: 16px
+  &.idnt td.subject .icon-context:before
+    padding: 9px 0 0 10px
+
 
 #content tr.issue
   &.idnt-1 td.subject
@@ -98,9 +99,16 @@ tr
       font-weight: bold
     td.subject
       white-space: normal
-    &.idnt td.subject a
-    background: image-url("bullet_arrow_right.png") no-repeat 0 50%
-    padding-left: 16px
+
+tr.work-package
+  td
+    &.subject
+      text-align: left
+    &.done_ratio table.progress
+      margin-left: auto
+      margin-right: auto
+  &.idnt td.subject.icon-context
+    display: inherit
 
   &.issue td.category
     white-space: normal
@@ -124,6 +132,111 @@ tr
     padding-left: 11em
   &.idnt-9 td.subject
     padding-left: 12.5em
+
+tr
+  &.entry
+    border: 1px solid #f8f8f8
+    td
+      white-space: nowrap
+      &.filename
+        width: 30%
+      &.size
+        text-align: right
+        font-size: 90%
+      &.revision, &.author
+        text-align: center
+      &.age
+        text-align: right
+  div.expander
+    cursor: pointer
+    float: left
+  &.open span .expand, &.closed span .collapse
+    display: none
+  &.changeset td
+    &.author, &.committed_on
+      text-align: center
+      width: 15%
+
+table
+  &.files tr.file td
+    text-align: center
+    &.filename
+      text-align: left
+      padding-left: 24px
+    &.digest
+      font-size: 80%
+  &.members td.roles, &.memberships td.roles
+    width: 45%
+
+tr
+  &.message
+    height: 2.6em
+    td
+      &.created_on, &.last_message
+        white-space: nowrap
+  &.version
+    td
+      &.closed
+        text-decoration: line-through
+        a
+          text-decoration: line-through
+      &.name
+        padding-left: 20px
+        &.icon-link:before
+          padding: 10px 10px 0 0
+    td
+      &.date, &.status, &.sharing
+        text-align: left
+        white-space: nowrap
+  &.user
+    td
+      width: 13%
+      &.email
+        width: 18%
+      white-space: nowrap
+    &.locked, &.registered, &.locked a, &.registered a
+      color: #aaa
+  &.wiki-page-version td
+    &.updated_on, &.author
+      text-align: center
+  &.time-entry
+    text-align: center
+    white-space: nowrap
+    td
+      &.subject, &.comments
+        text-align: left
+        white-space: normal
+
+td.hours
+  text-align: right
+  font-weight: bold
+  padding-right: 0.5em
+  .hours-dec
+    font-size: 0.9em
+
+table
+  &.plugins
+    td
+      vertical-align: middle
+      &.configure
+        text-align: right
+        padding-right: 1em
+    span
+      &.name
+        font-weight: bold
+        display: block
+        margin-bottom: 6px
+      &.description, &.url
+        display: block
+        font-size: 0.9em
+  &.list tbody tr.group
+    td
+      padding: 0.8em 0 0.5em 0.3em
+      font-weight: bold
+      border-bottom: 1px solid #ccc
+    span.count
+      color: #aaa
+      font-size: 80%
 
 tr.group
   a.toggle-all
@@ -172,14 +285,6 @@ table#time-report
   &.issues td
     border: 0 none
     vertical-align: top
-  th
-    a:hover
-    &.current-sort
-      background: white image-url("gradient-up.png") repeat-x
-      a
-        background: image-url("sort_desc.png") no-repeat right center
-        padding-right: 16px
-        display: block
   tr
     &.context-menu-selection
       background-color: #FFFFB2
@@ -187,8 +292,4 @@ table#time-report
         background-color: #FFFFB2
   td
     &.issue
-      background: image-url("arrow-bottom-right.png") no-repeat right bottom
-      width: 42px
       cursor: context-menu
-    &.updated
-      width: 80px

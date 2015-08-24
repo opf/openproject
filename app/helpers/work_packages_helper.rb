@@ -251,7 +251,7 @@ module WorkPackagesHelper
 
     content_tag :tr, class: css_classes.join(' ') do
       concat content_tag :td, check_box_tag('ids[]', work_package.id, false, id: nil), class: 'checkbox'
-      concat content_tag :td, issue_text, class: 'subject'
+      concat content_tag :td, issue_text, class: 'subject ' << 'icon-context icon-pulldown-arrow4' if level > 0
       concat content_tag :td, h(work_package.status)
       concat content_tag :td, link_to_user(work_package.assigned_to)
       concat content_tag :td, link_to_version(work_package.fixed_version)

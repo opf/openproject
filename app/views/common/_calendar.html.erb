@@ -47,16 +47,14 @@ while day <= calendar.enddt %>
                 <%= h("#{i.project} -") unless @project && @project == i.project %>
                 <%# date_img = '' %>
                 <% if day == i.start_date and day == i.due_date %>
-                  <% date_img = image_tag("bullet_diamond.png", :title => l(:text_tip_work_package_begin_end_day), :alt => l(:text_tip_work_package_begin_end_day),
-                                        :class => "imgtag-icon") %>
+                  <% date_img = content_tag(:span, '', class: "icon icon-arrow-right7 diamond") %>
                 <% elsif day == i.start_date %>
-                  <% date_img = image_tag("bullet_go.png", :title => l(:text_tip_work_package_begin_day), :alt => l(:text_tip_work_package_begin_day),
-                                        :class => "imgtag-icon") %>
+                  <% date_img = content_tag(:span, '', class: "icon icon-arrow-right7 starting") %>
                 <% elsif day == i.due_date %>
-                  <% date_img = image_tag("bullet_end.png", :title => l(:text_tip_work_package_end_day), :alt => l(:text_tip_work_package_end_day),
-                                        :class => "imgtag-icon") %>
+                  <% date_img = content_tag(:span, '', class: "icon icon-arrow-right7 ending") %>
                 <% end %>
-                <%= link_to_work_package i, :truncate => 30, :before_text => date_img %>
+                <%= date_img %>
+                <%= link_to_work_package i, :truncate => 30%>
                 <span class="tip"><%= render_issue_tooltip i %></span>
               </div>
             <% else %>
