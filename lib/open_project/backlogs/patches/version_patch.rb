@@ -60,7 +60,9 @@ module OpenProject::Backlogs::Patches::VersionPatch
         # work_packages, that have a position, at the end
         stories_wo_position = fixed_issues.where(project_id: project, type_id: Story.types, position: nil).order('id')
 
-        stories_w_position = fixed_issues.where(['project_id = ? AND type_id IN (?) AND position IS NOT NULL', project, Story.types]).order('COALESCE(position, 0), id')
+        stories_w_position = fixed_issues.where(project_id: project, type_id: Story.types)
+                                         .where('position IS NOT NULL')
+                                         .order('COALESCE(position, 0), id')
 
         (stories_w_position + stories_wo_position).each_with_index do |story, index|
           story.send(:update_attribute_silently, 'position', index + 1)
