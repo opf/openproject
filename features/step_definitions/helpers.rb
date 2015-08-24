@@ -33,7 +33,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-def initialize_story_params(project, user = User.find(:first))
+def initialize_story_params(project, user = User.first)
   story = HashWithIndifferentAccess.new(Story.new.attributes)
   story['type_id'] = Story.types.first
 
@@ -46,14 +46,14 @@ def initialize_story_params(project, user = User.find(:first))
   story
 end
 
-def initialize_task_params(project, story, user = User.find(:first))
+def initialize_task_params(project, story, user = User.first)
   params = HashWithIndifferentAccess.new
   params['type_id'] = Task.type
   if story
     params['fixed_version_id'] = story.fixed_version_id
     params['parent_id']        = story.id
   end
-  params['status_id'] = Status.find(:first).id
+  params['status_id'] = Status.first.pluck(:id)
 
   # unsafe attributes that will not be used directly but added for your
   # convenience
@@ -64,11 +64,11 @@ def initialize_task_params(project, story, user = User.find(:first))
   params
 end
 
-def initialize_work_package_params(project, type = Type.find(:first), parent = nil, user = User.find(:first))
+def initialize_work_package_params(project, type = Type.first, parent = nil, user = User.find(:first))
   params = HashWithIndifferentAccess.new
   params['type_id'] = type.id
   params['parent_id']  = parent.id if parent
-  params['status_id'] = Status.find(:first).id
+  params['status_id'] = Status.first.pluck(:id)
 
   # unsafe attributes that will not be used directly but added for your
   # convenience
@@ -79,11 +79,11 @@ def initialize_work_package_params(project, type = Type.find(:first), parent = n
   params
 end
 
-def initialize_impediment_params(project, sprint, user = User.find(:first))
+def initialize_impediment_params(project, sprint, user = User.first)
   params = HashWithIndifferentAccess.new(Task.new.attributes)
   params['type_id'] = Task.type
   params['fixed_version_id'] = sprint.id
-  params['status_id'] = Status.find(:first).id
+  params['status_id'] = Status.first.pluck(:id)
 
   # unsafe attributes that will not be used directly but added for your
   # convenience

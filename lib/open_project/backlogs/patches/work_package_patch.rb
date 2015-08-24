@@ -251,7 +251,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
         begin
           WorkPackage.take_child_update_semaphore
 
-          descendant_tasks, stop_descendants = descendants.all(include: { project: :enabled_modules }).partition(&:is_task?)
+          descendant_tasks, stop_descendants = descendants.includes(project: :enabled_modules).partition(&:is_task?)
           descendant_tasks.reject! do |t| stop_descendants.any? { |s| s.left < t.left && s.right > t.right } end
 
           descendant_tasks.each do |task|
