@@ -28,12 +28,11 @@ class HourlyRate < Rate
   end
 
   def next(reference_date = valid_from)
-    HourlyRate.find(
-      :first,
-      conditions: ['user_id = ? and project_id = ? and valid_from > ?',
-                   user_id, project_id, reference_date],
-      order: 'valid_from ASC'
-    )
+    HourlyRate
+      .where(['user_id = ? and project_id = ? and valid_from > ?',
+              user_id, project_id, reference_date])
+      .order('valid_from ASC')
+      .first
   end
 
   def self.history_for_user(usr, check_permissions = true)

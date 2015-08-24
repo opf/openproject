@@ -141,7 +141,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
           </tr>
           </thead>
           <tbody>
-            <% @cost_object.cost_entries.visible(User.current, @project).all(:include => [:cost_type]).group_by(&:work_package).each do |work_package, cost_entries|
+            <% @cost_object.cost_entries.visible(User.current, @project).includes(:cost_type).group_by(&:work_package).each do |work_package, cost_entries|
             entries = cost_entries.inject(Hash.new)  do |results, entry|
               result = results[entry.cost_type.id.to_s]
               unless result
@@ -306,7 +306,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
             </tr>
           </thead>
           <tbody>
-          <% @cost_object.time_entries.visible(User.current, @project).all.group_by(&:work_package).each do |work_package, time_entries|
+          <% @cost_object.time_entries.visible(User.current, @project).group_by(&:work_package).each do |work_package, time_entries|
             entries = time_entries.inject(Hash.new)  do |results, entry|
               result = results[entry.user.id.to_s]
               unless result

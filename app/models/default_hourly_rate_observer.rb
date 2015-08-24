@@ -64,7 +64,7 @@ class DefaultHourlyRateObserver < ActiveRecord::Observer
 
     def update_entries(entries, rate = @rate)
       # This methods updates the given array of time or cost entries with the given rate
-      entries = [entries] unless entries.is_a?(Array)
+      entries = [entries] unless entries.respond_to?(:each)
       ActiveRecord::Base.cache do
         entries.each do |entry|
           entry.update_costs!(rate)

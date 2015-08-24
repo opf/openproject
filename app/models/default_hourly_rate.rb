@@ -24,12 +24,10 @@ class DefaultHourlyRate < Rate
   before_save :convert_valid_from_to_date
 
   def next(reference_date = valid_from)
-    DefaultHourlyRate.find(
-      :first,
-      conditions: ['user_id = ? and valid_from > ?',
-                   user_id, reference_date],
-      order: 'valid_from ASC'
-    )
+    DefaultHourlyRate
+      .where(['user_id = ? and valid_from > ?', user_id, reference_date])
+      .order('valid_from ASC')
+      .first
   end
 
   def previous(reference_date = valid_from)

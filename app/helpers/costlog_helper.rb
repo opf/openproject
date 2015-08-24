@@ -29,7 +29,7 @@ module CostlogHelper
   end
 
   def cost_types_collection_for_select_options(selected_type = nil)
-    cost_types = CostType.active.all.sort
+    cost_types = CostType.active.sort
 
     if selected_type && !cost_types.include?(selected_type)
       cost_types << selected_type

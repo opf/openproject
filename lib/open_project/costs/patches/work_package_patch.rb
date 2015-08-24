@@ -51,6 +51,8 @@ module OpenProject::Costs::Patches::WorkPackagePatch
     protected
 
     def cleanup_cost_entries_before_destruction_of(work_packages, user, to_do = { action: 'destroy' })
+      work_packages = Array(work_packages)
+
       return false unless to_do.present?
 
       case to_do[:action]
@@ -58,7 +60,7 @@ module OpenProject::Costs::Patches::WorkPackagePatch
         true
         # nothing to do
       when 'nullify'
-        Array(work_packages).each do |wp|
+        work_packages.each do |wp|
           wp.errors.add(:base, :nullify_is_not_valid_for_cost_entries)
         end
 
@@ -69,13 +71,13 @@ module OpenProject::Costs::Patches::WorkPackagePatch
                       .find_by_id(to_do[:reassign_to_id])
 
         if reassign_to.nil?
-          Array(work_packages).each do |wp|
+          work_packages.each do |wp|
             wp.errors.add(:base, :is_not_a_valid_target_for_cost_entries, id: to_do[:reassign_to_id])
           end
 
           false
         else
-          WorkPackage.update_cost_entries(work_packages, "work_package_id = #{reassign_to.id}, project_id = #{reassign_to.project_id}")
+          WorkPackage.update_cost_entries(work_packages.map(&:id), "work_package_id = #{reassign_to.id}, project_id = #{reassign_to.project_id}")
         end
       else
         false
@@ -85,7 +87,7 @@ module OpenProject::Costs::Patches::WorkPackagePatch
     protected
 
     def update_cost_entries(work_packages, action)
-      CostEntry.update_all(action, ['work_package_id IN (?)', work_packages])
+      CostEntry.where(work_package_id: work_packages).update_all(action)
     end
   end
 

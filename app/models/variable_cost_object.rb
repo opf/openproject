@@ -18,14 +18,14 @@
 #++
 
 class VariableCostObject < CostObject
-  has_many :material_budget_items, include: :cost_type,
-                                   foreign_key: 'cost_object_id',
-                                   dependent: :destroy,
-                                   order: 'material_budget_items.id ASC'
-  has_many :labor_budget_items, include: :user,
-                                foreign_key: 'cost_object_id',
-                                dependent: :destroy,
-                                order: 'labor_budget_items.id ASC'
+  has_many :material_budget_items, -> {
+    includes(:cost_type).order('material_budget_items.id ASC')
+  }, foreign_key: 'cost_object_id',
+     dependent: :destroy
+  has_many :labor_budget_items, -> {
+    includes(:user).order('labor_budget_items.id ASC')
+  }, foreign_key: 'cost_object_id',
+     dependent: :destroy
 
   validates_associated :material_budget_items
   validates_associated :labor_budget_items

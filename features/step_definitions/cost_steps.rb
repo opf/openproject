@@ -74,8 +74,8 @@ Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the 
   end
 end
 
-Given /^the work package "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |work_package, count, table|
-  i = WorkPackage.where(subject: work_package.subject).last
+Given /^the work package "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |work_package_subject, count, table|
+  i = WorkPackage.where(subject: work_package_subject).last
   as_admin count do
     ce = FactoryGirl.build(:cost_entry, spent_on: (table.rows_hash['date'] ? table.rows_hash['date'].to_date : Date.today),
                                         units: table.rows_hash['units'],

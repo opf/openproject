@@ -132,7 +132,7 @@ class CostObject < ActiveRecord::Base
   def self.replace_author_with_deleted_user(user)
     substitute = DeletedUser.first
 
-    update_all ['author_id = ?', substitute.id], ['author_id = ?', user.id]
+    where(author_id: user.id).update_all(author_id: substitute.id)
   end
 
   def to_s

@@ -224,7 +224,12 @@ describe CostEntry, type: :model do
           (5.days.ago.to_date..Date.today).each do |time|
             cost_entry.spent_on = time
             cost_entry.save!
-            expect(cost_entry.costs).to eq(cost_entry.units * CostRate.first(conditions: ['cost_type_id = ? AND valid_from <= ?', cost_entry.cost_type.id, cost_entry.spent_on], order: 'valid_from DESC').rate)
+
+            rate = CostRate
+                   .where(['cost_type_id = ? AND valid_from <= ?',
+                           cost_entry.cost_type.id, cost_entry.spent_on])
+                   .order('valid_from DESC').first.rate
+            expect(cost_entry.costs).to eq(cost_entry.units * rate)
           end
         end
       end
