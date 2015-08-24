@@ -111,17 +111,17 @@ describe EnabledModule, type: :model do
     end
 
     context 'with enabled setting' do
-      let(:vendor) { 'Git' }
+      let(:vendor) { 'git' }
 
       include_context 'with tmpdir'
       let(:config) {
         {
-          Git: { manages: File.join(tmpdir, 'git') }
+          git: { manages: File.join(tmpdir, 'git') }
         }
       }
 
       before do
-        allow(Setting).to receive(:enabled_scm).and_return(['Git'])
+        allow(Setting).to receive(:enabled_scm).and_return(['git'])
         allow(OpenProject::Configuration).to receive(:[]).and_call_original
         allow(OpenProject::Configuration).to receive(:[]).with('scm').and_return(config)
       end
@@ -130,7 +130,7 @@ describe EnabledModule, type: :model do
         project.reload
 
         expect(project.repository).not_to be_nil
-        expect(project.repository.vendor).to eq('Git')
+        expect(project.repository.vendor).to eq(:git)
         expect(project.repository.managed?).to be true
       end
 

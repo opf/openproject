@@ -28,6 +28,7 @@
 #++
 
 require 'open3'
+require 'find'
 module OpenProject
   module Scm
     module Adapters
@@ -82,13 +83,8 @@ module OpenProject
           root_url
         end
 
-        ##
-        # Reads the configuration for this strategy from OpenProject's `configuration.yml`.
         def config
-          scm_config = OpenProject::Configuration
-          ['scm', vendor].inject(scm_config) do |acc, key|
-            HashWithIndifferentAccess.new acc[key]
-          end
+          self.class.config
         end
 
         ##
@@ -227,7 +223,7 @@ module OpenProject
         # be run asynchronously.
         def count_required_storage
           bytes = 0
-          Find.find(local_repository_path) do |f|
+          ::Find.find(local_repository_path) do |f|
             bytes += File.size(f) if File.file?(f)
           end
 

@@ -36,7 +36,7 @@ describe 'api/experimental/work_packages/column_data.api.rabl', type: :view do
     render
   end
 
-  subject { response.body }
+  subject { rendered }
 
   describe 'with no column data' do
     let(:columns_data) { [] }

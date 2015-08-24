@@ -53,7 +53,7 @@ describe 'api/v2/custom_fields/index.api.rabl', type: :view do
       render
     end
 
-    subject { Nokogiri.XML(response.body) }
+    subject { Nokogiri.XML(rendered) }
 
     it 'renders those custom fields\' attributes' do
       names = subject.xpath('//custom_fields/custom_field/name/text()')

@@ -36,7 +36,7 @@ describe 'api/experimental/work_packages/column_sums.api.rabl', type: :view do
     render
   end
 
-  subject { response.body }
+  subject { rendered }
 
   describe 'with no summed columns' do
     let(:column_sums) { [] }

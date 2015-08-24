@@ -185,20 +185,17 @@ module RepositoriesHelper
   # and injects an already persisted repository for correctly
   # displaying an existing repository.
   def scm_options(repository = nil)
-    scms = OpenProject::Scm::Manager.enabled
-    vendor = repository.nil? ? nil : repository.vendor
+    options = []
+    OpenProject::Scm::Manager.enabled.each do |vendor, klass|
+      # Skip repositories that were configured to have no
+      # available types left.
+      next if klass.available_types.empty?
 
-    ## Set selected vendor
-    if vendor && !repository.new_record?
-      scms[vendor] = vendor
+      options << [klass.vendor_name, vendor]
     end
 
-    # Remove repositories that were configured to have no
-    # available types left.
-    scms.reject! { |_, klass| klass.available_types.empty? }
-
-    scms = [default_selected_option] + scms.keys
-    options_for_select(scms, vendor)
+    existing_vendor = repository.nil? ? nil : repository.vendor
+    options_for_select([default_selected_option] + options, existing_vendor)
   end
 
   def default_selected_option
@@ -207,10 +204,6 @@ module RepositoriesHelper
       '',
       { disabled: true, selected: true }
     ]
-  end
-
-  def vendor_name(repository)
-    repository.vendor.underscore
   end
 
   def scm_vendor_tag(repository)

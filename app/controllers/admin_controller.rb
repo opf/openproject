@@ -33,6 +33,7 @@ class AdminController < ApplicationController
   before_filter :require_admin
 
   include SortHelper
+  include PaginationHelper
 
   menu_item :projects, only: [:projects]
   menu_item :plugins, only: [:plugins]
@@ -43,6 +44,12 @@ class AdminController < ApplicationController
   end
 
   def projects
+    # We need to either clear the session sort
+    # or users can't access the default lft order with subprojects
+    # after once sorting the list
+    sort_clear
+    sort_init 'lft'
+    sort_update %w(lft name is_public created_on updated_on required_disk_space)
     @status = params[:status] ? params[:status].to_i : 1
     c = ARCondition.new(@status == 0 ? 'status <> 0' : ['status = ?', @status])
 
@@ -52,8 +59,10 @@ class AdminController < ApplicationController
     end
 
     @projects = Project.with_required_storage
-                .order('lft')
+                .order(sort_clause)
                 .where(c.conditions)
+                .page(page_param)
+                .per_page(per_page_param)
 
     render action: 'projects', layout: false if request.xhr?
   end
@@ -93,6 +102,8 @@ class AdminController < ApplicationController
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_file_repository_writable, repository_writable]
     ]
+
+    @storage_information = OpenProject::Storage.mount_information
   end
 
   def default_breadcrumb

@@ -29,31 +29,35 @@
 require 'spec_helper'
 
 describe Project::Storage, type: :model do
-  let(:project1) { FactoryGirl.create(:project).reload }
 
-  let(:project2) { FactoryGirl.create(:project) }
-  let(:repository2) { FactoryGirl.create(:repository_git, project: project2) }
-
-  let(:wp) { FactoryGirl.create(:work_package, project: project1) }
-  let(:wikipage) {
-    FactoryGirl.create(:wiki_page,
-                       wiki: project1.wiki)
+  let(:project1) {
+    FactoryGirl.create(:project)
+      .reload # Reload required for wiki association to be available
   }
+  let(:project2) { FactoryGirl.create(:project) }
 
   before do
+    wp = FactoryGirl.create(:work_package, project: project1)
+    FactoryGirl.create(:work_package, project: project1)
     FactoryGirl.create_list(:attachment, 10, filesize: 250, container: wp)
+
+    wikipage = FactoryGirl.create(:wiki_page, wiki: project1.wiki)
     FactoryGirl.create(:attachment, filesize: 10000, container: wikipage)
 
-    repository2.update_attributes(required_storage_bytes: 1234)
+    repo = FactoryGirl.create(:repository_git, project: project2)
+    repo.update_attributes(required_storage_bytes: 1234)
   end
 
   describe '#with_required_storage' do
     it 'counts projects correctly' do
-      p1, p2 = Project.with_required_storage.find(project1.id, project2.id)
 
-      # The automatically created wiki for a project does not seem to
-      # be properly reloaded here in all cases.
-      project1.wiki.reload
+      # TODO Using storage.find(project1.id) here causes work_package_required_space
+      # to be nil or "2500" (Postgres only) occasionally with no definitive solution found.
+      # The returned "2500" were pre-Rails4 behavior, thus this might be a Rails bug.
+      # Please test with 4.1/4.2
+      storage = Project.with_required_storage
+      p1 = storage.where(id: project1.id).first
+      p2 = storage.where(id: project2.id).first
 
       expect(p1.work_package_required_space).to eq(2500)
       expect(p1.repositories_required_space).to be_nil

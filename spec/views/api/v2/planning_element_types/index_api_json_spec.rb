@@ -38,7 +38,7 @@ describe 'api/v2/planning_element_types/index.api.rabl', type: :view do
       assign(:types, [])
       render
 
-      expect(response).to have_json_size(0).at_path('planning_element_types')
+      expect(rendered).to have_json_size(0).at_path('planning_element_types')
     end
   end
 
@@ -56,7 +56,7 @@ describe 'api/v2/planning_element_types/index.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders 3 planning_element_types' do
       is_expected.to have_json_size(3).at_path('planning_element_types')

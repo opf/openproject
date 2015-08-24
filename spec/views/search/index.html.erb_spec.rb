@@ -47,9 +47,9 @@ describe 'search/index', type: :view do
     render
 
     # the current project should be selected as the scope
-    expect(response).to have_selector('option[selected]', text: project.name)
+    expect(rendered).to have_selector('option[selected]', text: project.name)
 
     # The grouped result link should retain the scope
-    expect(response).to have_xpath("//a[contains(@href,'current_project')]", text: /work packages.*/i)
+    expect(rendered).to have_xpath("//a[contains(@href,'current_project')]", text: /work packages.*/i)
   end
 end

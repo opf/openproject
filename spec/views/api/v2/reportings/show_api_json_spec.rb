@@ -61,10 +61,10 @@ describe 'api/v2/reportings/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders a reporting document' do
-      expect(response).to have_json_path('reporting')
+      expect(rendered).to have_json_path('reporting')
     end
 
     it 'renders the details of a reporting' do
@@ -95,7 +95,7 @@ describe 'api/v2/reportings/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders the reported project-status' do
       expected_json = { name: 'beste' }.to_json

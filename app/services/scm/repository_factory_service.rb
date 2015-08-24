@@ -76,7 +76,7 @@ Scm::RepositoryFactoryService = Struct.new :project, :params do
   def build_with_type(scm_type)
     Repository.build(
       project,
-      params[:scm_vendor],
+      params.fetch(:scm_vendor).to_sym,
       params.fetch(:repository, {}),
       scm_type
     )

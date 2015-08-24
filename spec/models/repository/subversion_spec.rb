@@ -32,11 +32,20 @@ describe Repository::Subversion, type: :model do
   let(:instance) { FactoryGirl.build(:repository_subversion) }
   let(:adapter)  { instance.scm }
   let(:config)   { {} }
+  let(:enabled_scm) { %w[subversion] }
 
   before do
-    allow(Setting).to receive(:enabled_scm).and_return(['Subversion'])
+    allow(Setting).to receive(:enabled_scm).and_return(enabled_scm)
     allow(instance).to receive(:scm).and_return(adapter)
     allow(instance.class).to receive(:scm_config).and_return(config)
+  end
+
+  describe 'when disabled' do
+    let(:enabled_scm) { [] }
+
+    it 'does not allow creating a repository' do
+      expect { instance.save! }.to raise_error ActiveRecord::RecordInvalid
+    end
   end
 
   describe 'default Subversion' do
@@ -136,7 +145,7 @@ describe Repository::Subversion, type: :model do
 
         expect(instance.changesets.count).to eq(12)
         expect(instance.file_changes.count).to eq(21)
-        expect(instance.changesets.find_by_revision('1').comments).to eq('Initial import.')
+        expect(instance.changesets.find_by(revision: '1').comments).to eq('Initial import.')
       end
 
       it 'should fetch changesets incremental' do
@@ -198,7 +207,7 @@ describe Repository::Subversion, type: :model do
       it 'should show the identifier' do
         instance.fetch_changesets
         instance.reload
-        c = instance.changesets.find_by_revision('1')
+        c = instance.changesets.find_by(revision: '1')
         expect(c.revision).to eq(c.identifier)
       end
 
@@ -219,7 +228,7 @@ describe Repository::Subversion, type: :model do
       it 'should format identifier' do
         instance.fetch_changesets
         instance.reload
-        c = instance.changesets.find_by_revision('1')
+        c = instance.changesets.find_by(revision: '1')
         expect(c.format_identifier).to eq(c.revision)
       end
 

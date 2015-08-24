@@ -43,13 +43,14 @@ if WorkPackage.where(type_id: nil).any? || Journal::WorkPackageJournal.where(typ
 
   WorkPackage.transaction do
     green_color = colors[I18n.t(:default_color_green_light)]
-    standard_type = Type.find_or_create_by_is_standard(true, name: 'none',
-                                                             position: 0,
-                                                             color_id: green_color,
-                                                             is_default: true,
-                                                             is_in_roadmap: true,
-                                                             in_aggregation: true,
-                                                             is_milestone: false)
+    standard_type = Type.find_or_create_by(is_standard: true,
+                                           name: 'none',
+                                           position: 0,
+                                           color_id: green_color,
+                                           is_default: true,
+                                           is_in_roadmap: true,
+                                           in_aggregation: true,
+                                           is_milestone: false)
 
     # Adds the standard type to all existing projects
     #

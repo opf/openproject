@@ -132,7 +132,6 @@ table.generic-table
         background: #e4f7fb
 
     td
-      min-width: 150px
       max-width: 300px
       overflow:  hidden
       text-overflow: ellipsis
@@ -174,12 +173,16 @@ table.generic-table
     top:          0
     padding:      0 6px
     line-height:  $generic-table--header-height
-    overflow:     hidden
     z-index:      1
 
     &:hover,
     &.hover
       background:   #f8f8f8
+
+  .generic-table--header-spacer
+    padding:      0 6px
+    visibility:   hidden
+    height:       0px
 
   .generic-table--sort-header
     white-space: nowrap
@@ -215,10 +218,6 @@ table.generic-table
   z-index:      0
 
 .generic-table--no-results-container
-  position:     absolute
-  top:          $generic-table--header-height
-  left:         0
-  right:        10px
   background:   #fff
   border:       1px solid #ddd
   border-radius: $global-radius

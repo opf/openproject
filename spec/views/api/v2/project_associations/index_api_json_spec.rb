@@ -38,7 +38,7 @@ describe 'api/v2/project_associations/index.api.rabl', type: :view do
       assign(:project_associations, [])
       render
 
-      expect(response).to have_json_size(0).at_path('project_associations')
+      expect(rendered).to have_json_size(0).at_path('project_associations')
     end
   end
 
@@ -57,7 +57,7 @@ describe 'api/v2/project_associations/index.api.rabl', type: :view do
     end
 
     it 'renders a project_associations document with the size 3 of array' do
-      expect(response).to have_json_size(3).at_path('project_associations')
+      expect(rendered).to have_json_size(3).at_path('project_associations')
     end
   end
 end

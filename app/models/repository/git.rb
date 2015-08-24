@@ -84,6 +84,10 @@ class Repository::Git < Repository
     'UTF-8'
   end
 
+  def self.authorization_policy
+    ::Scm::GitAuthorizationPolicy
+  end
+
   # Returns the identifier for the given git changeset
   def self.changeset_identifier(changeset)
     changeset.scmid

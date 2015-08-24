@@ -61,7 +61,7 @@ describe 'api/v2/project_associations/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders a project_association document' do
       is_expected.to have_json_path('project_association')

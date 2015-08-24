@@ -76,7 +76,7 @@ describe Repository::Git, type: :model do
     assert_equal 'jsmith <jsmith@foo.bar>', commit.committer
     assert_equal User.find_by_login('jsmith'), commit.user
     # TODO: add a commit with commit time <> author time to the test repository
-    assert_equal '2007-12-14 09:22:52 +0000'.to_time, commit.committed_on.to_time
+    assert_equal '2007-12-14 09:22:52 +0000'.to_time, commit.committed_on
     assert_equal '2007-12-14'.to_date, commit.commit_date
     assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', commit.revision
     assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', commit.scmid

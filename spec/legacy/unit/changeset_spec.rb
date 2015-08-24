@@ -237,7 +237,7 @@ describe Changeset, type: :model do
   end
 
   it 'should comments nil' do
-    with_settings enabled_scm: ['Subversion'] do
+    with_settings enabled_scm: ['subversion'] do
       proj = Project.find(3)
       r = FactoryGirl.create(:repository_subversion,
                              project: proj)
@@ -257,7 +257,7 @@ describe Changeset, type: :model do
   end
 
   it 'should comments empty' do
-    with_settings enabled_scm: ['Subversion'] do
+    with_settings enabled_scm: ['subversion'] do
         proj = Project.find(3)
         r = FactoryGirl.create(:repository_subversion)
 

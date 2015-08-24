@@ -73,8 +73,8 @@ describe Scm::CreateManagedRepositoryService do
     include_context 'with tmpdir'
     let(:config) {
       {
-        Subversion: { manages: File.join(tmpdir, 'svn') },
-        Git:        { manages: File.join(tmpdir, 'git') }
+        subversion: { manages: File.join(tmpdir, 'svn') },
+        git:        { manages: File.join(tmpdir, 'git') }
       }
     }
 

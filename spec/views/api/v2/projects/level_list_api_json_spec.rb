@@ -33,7 +33,7 @@ describe '/api/v2/projects/level_list.api.rabl', type: :view do
     params[:format] = 'json'
   end
 
-  subject { response.body }
+  subject { rendered }
   describe 'with no project available' do
     it 'renders an empty projects document' do
       assign(:projects, [])
@@ -62,7 +62,7 @@ describe '/api/v2/projects/level_list.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders a projects document with the size of 3 of type array' do
       is_expected.to have_json_size(3).at_path('projects')

@@ -81,6 +81,8 @@
 
 module SortHelper
   class SortCriteria
+    attr_reader :criteria
+
     def initialize
       @criteria = []
     end
@@ -179,14 +181,16 @@ module SortHelper
   #   sort_init [['name', 'desc'], ['id', 'desc']]
   #
   def sort_init(*args)
-    case args.size
-    when 1
-      @sort_default = args.first.is_a?(Array) ? args.first : [[args.first]]
-    when 2
-      @sort_default = [[args.first, args.last]]
-    else
-      raise ArgumentError
-    end
+    criteria = case args.size
+               when 1
+                 args.first.is_a?(Array) ? args.first : [[args.first]]
+               when 2
+                 [[args.first, args.last]]
+               else
+                 raise ArgumentError
+               end
+    @sort_default = SortCriteria.new
+    @sort_default.criteria = criteria
   end
 
   # Updates the sort state. Call this in the controller prior to calling
@@ -197,7 +201,7 @@ module SortHelper
     @sort_criteria = SortCriteria.new
     @sort_criteria.available_criteria = criteria
     @sort_criteria.from_param(params[:sort] || session[sort_name])
-    @sort_criteria.criteria = @sort_default if @sort_criteria.empty?
+    @sort_criteria.criteria = @sort_default.criteria if @sort_criteria.empty?
     session[sort_name] = @sort_criteria.to_param
   end
 
@@ -214,6 +218,12 @@ module SortHelper
     @sort_criteria.to_sql
   end
 
+  # Determines whether the current selected sort criteria
+  # is identical to the default
+  def default_sort_order?
+    @sort_default.criteria == @sort_criteria.criteria
+  end
+
   # Returns a link which sorts by the named column.
   #
   # - column is the name of an attribute in the sorted record collection.
@@ -221,19 +231,8 @@ module SortHelper
   # - 2 CSS classes reflect the state of the link: sort and asc or desc
   #
   def sort_link(column, caption, default_order, html_options = {})
-    css = nil
-    order = default_order
-
-    if column.to_s == @sort_criteria.first_key
-      if @sort_criteria.first_asc?
-        css = 'sort asc'
-        order = 'desc'
-      else
-        css = 'sort desc'
-        order = 'asc'
-      end
-    end
-    caption = column.to_s.humanize unless caption
+    order = order_string(column, inverted: true) || default_order
+    caption ||= column.to_s.humanize
 
     sort_options = { sort: @sort_criteria.add(column.to_s, order).to_param }
     url_options = params.merge(sort_options)
@@ -241,7 +240,7 @@ module SortHelper
     # Add project_id to url_options
     url_options = url_options.merge(project_id: params[:project_id]) if params.has_key?(:project_id)
 
-    link_to_content_update(h(caption), url_options, html_options.merge(class: css))
+    link_to_content_update(h(caption), url_options, html_options)
   end
 
   # Returns a table header <th> tag with a sort link for the named column
@@ -255,20 +254,77 @@ module SortHelper
   #
   # Example:
   #
-  #   <%= sort_header_tag('id', :title => 'Sort by contact ID', :width => 40) %>
+  #   <%= sort_header_tag('id', :title => 'Sort by contact ID') %>
+  #
+  #   Generates (for the users controller and if the table is sorted by the column)
+  #     <th>
+  #       <div class="generic-table--sort-header-outer'>
+  #         <div class="generic-table--sort-header'>
+  #           <span class="sort asc">
+  #             <a href="/users?sort=id:desc%3Adesc">Id</a>
+  #           </span>
+  #         </div>
+  #       </div>
+  #     </th>
   #
   def sort_header_tag(column, options = {})
     caption = options.delete(:caption) || column.to_s.humanize
     default_order = options.delete(:default_order) || 'asc'
     lang = options.delete(:lang) || nil
 
-    if column.to_s == @sort_criteria.first_key
-      options[:title] = @sort_criteria.first_asc? ? l(:label_ascending) : l(:label_descending)
-      options[:title] += " #{l(:label_sorted_by, "\"#{caption}\"")}"
-    else
-      options[:title] = l(:label_sort_by, "\"#{caption}\"") unless options[:title]
-    end
+    options[:title] = sort_header_title(column, options)
 
-    content_tag('th', sort_link(column, caption, default_order, lang: lang), options)
+    within_sort_header_tag_hierarchy(options, sort_class(column)) do
+      sort_link(column, caption, default_order, lang: lang)
+    end
+  end
+
+  def sort_class(column)
+    order = order_string(column)
+
+    order.nil? ? nil : "sort #{order}"
+  end
+
+  def order_string(column, inverted: false)
+    if column.to_s == @sort_criteria.first_key
+      if @sort_criteria.first_asc?
+        inverted ? 'desc' : 'asc'
+      else
+        inverted ? 'asc' : 'desc'
+      end
+    end
+  end
+
+  def within_sort_header_tag_hierarchy(options, classes)
+    content_tag 'th', options do
+      content_tag 'div', class: 'generic-table--sort-header-outer' do
+        content_tag 'div', class: 'generic-table--sort-header' do
+          content_tag 'span', class: classes do
+            yield
+          end
+        end
+      end
+    end
+  end
+
+  def sort_header_title(column, options)
+    caption = options.delete(:caption) || column.to_s.humanize
+
+    if column.to_s == @sort_criteria.first_key
+      order = @sort_criteria.first_asc? ? l(:label_ascending) : l(:label_descending)
+      order + " #{l(:label_sorted_by, "\"#{caption}\"")}"
+    else
+      l(:label_sort_by, "\"#{caption}\"") unless options[:title]
+    end
+  end
+
+  # Returns a table header tag similar to +sort_header_tag+, but
+  # according to the LSG table component.
+  def sort_header_tag_with_lsg(column, options = {})
+    caption = options.delete(:caption) || column.to_s.humanize
+    default_order = options.delete(:default_order) || 'asc'
+    lang = options.delete(:lang) || nil
+
+    sort_link(column, caption, default_order, lang: lang)
   end
 end

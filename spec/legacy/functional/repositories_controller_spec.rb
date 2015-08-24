@@ -44,16 +44,9 @@ describe RepositoriesController, type: :controller do
   end
 
   let(:project) { Project.find(1) }
-  let(:repository) {
-    FactoryGirl.create(:repository_subversion,
-                       url: self.class.subversion_repository_url,
-                       project: project
-    )
-  }
 
   before do
     User.current = nil
-    allow(project).to receive(:repository).and_return repository
   end
 
   it 'should revisions' do

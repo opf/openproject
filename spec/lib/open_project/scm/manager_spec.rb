@@ -35,21 +35,21 @@ describe OpenProject::Scm::Manager do
 
   before do
     Repository.const_set(vendor, scm_class)
-    OpenProject::Scm::Manager.add vendor
+    OpenProject::Scm::Manager.add :test_scm
   end
 
   after do
     Repository.send(:remove_const, vendor)
-    OpenProject::Scm::Manager.delete vendor
+    OpenProject::Scm::Manager.delete :test_scm
   end
 
   it 'is a valid const' do
-    expect(OpenProject::Scm::Manager.registered[vendor]).to eq(Repository::TestScm)
+    expect(OpenProject::Scm::Manager.registered[:test_scm]).to eq(Repository::TestScm)
   end
 
   context 'scm is not known' do
     it 'is not included' do
-      expect(OpenProject::Scm::Manager.registered).to_not have_key('SomeOtherScm')
+      expect(OpenProject::Scm::Manager.registered).to_not have_key(:some_scm)
     end
   end
 end

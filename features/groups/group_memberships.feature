@@ -60,9 +60,9 @@ Feature: Group Memberships
       And I add the principal "A-Team" as a member with the roles:
         | Manager |
      Then I should be on the "members" tab of the settings page of the project called "Project1"
-      And I should see "A-Team" within ".members"
-      And I should see "Hannibal Smith" within ".members"
-      And I should see "Peter Pan" within ".members"
+      And I should see "A-Team" within ".generic-table"
+      And I should see "Hannibal Smith" within ".generic-table"
+      And I should see "Peter Pan" within ".generic-table"
 
   @javascript
   Scenario: Group-based memberships and individual memberships are handled separately
@@ -81,9 +81,9 @@ Feature: Group Memberships
      When I delete the "A-Team" membership
       And I wait for the AJAX requests to finish
 
-     Then I should see "Hannibal Smith" within ".members"
-      And I should not see "A-Team" within ".members"
-      And I should not see "Peter Pan" within ".members"
+     Then I should see "Hannibal Smith" within ".generic-table"
+      And I should not see "A-Team" within ".generic-table"
+      And I should not see "Peter Pan" within ".generic-table"
 
 
   @javascript
@@ -99,10 +99,10 @@ Feature: Group Memberships
      When I delete the "A-Team" membership
       And I wait for the AJAX requests to finish
 
-     Then I should see "No data to display"
-      And I should not see "A-Team" within ".members"
-      And I should not see "Hannibal Smith" within ".members"
-      And I should not see "Peter Pan" within ".members"
+     Then I should see "Nothing to display"
+      And I should not see "A-Team" within ".generic-table--container"
+      And I should not see "Hannibal Smith" within ".generic-table--container"
+      And I should not see "Peter Pan" within ".generic-table--container"
 
   @javascript
   Scenario: Adding a user to a group adds the user to projects as well
@@ -125,9 +125,9 @@ Feature: Group Memberships
      When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
 
-     Then I should see "A-Team" within ".members"
-      And I should see "Peter Pan" within ".members"
-      And I should see "Hannibal Smith" within ".members"
+     Then I should see "A-Team" within ".generic-table"
+      And I should see "Peter Pan" within ".generic-table"
+      And I should see "Hannibal Smith" within ".generic-table"
 
 
   @javascript
@@ -146,9 +146,9 @@ Feature: Group Memberships
      When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
 
-     Then I should see "A-Team" within ".members"
-      And I should not see "Hannibal Smith" within ".members"
-      And I should see "Peter Pan" within ".members"
+     Then I should see "A-Team" within ".generic-table"
+      And I should not see "Hannibal Smith" within ".generic-table"
+      And I should see "Peter Pan" within ".generic-table"
 
   @javascript
   Scenario: Adding a group to project on the group's page adds the group members as well
@@ -164,9 +164,9 @@ Feature: Group Memberships
      When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
 
-     Then I should see "A-Team" within ".members"
-      And I should see "Hannibal Smith" within ".members"
-      And I should see "Peter Pan" within ".members"
+     Then I should see "A-Team" within ".generic-table"
+      And I should see "Hannibal Smith" within ".generic-table"
+      And I should see "Peter Pan" within ".generic-table"
 
   @javascript
   Scenario: Adding/Removing a group to/from a project displays success message
@@ -180,7 +180,7 @@ Feature: Group Memberships
      Then I should see "Successful update." within ".notice"
       And I should see "Project1"
 
-     When I follow "Delete" within "table.list.memberships"
+     When I follow "Delete" within "table.generic-table.memberships"
 
      Then I should see "Successful deletion." within ".notice"
       And I should see "No data to display"

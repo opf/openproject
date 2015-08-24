@@ -50,7 +50,7 @@ describe 'api/v2/planning_element_type_colors/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders a color document' do
       is_expected.to have_json_path('color')

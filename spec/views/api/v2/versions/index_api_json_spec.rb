@@ -56,7 +56,7 @@ describe 'api/v2/versions/index.api.rabl', type: :view do
       let(:versions) { [] }
     end
 
-    it { expect(response).to have_json_size(0).at_path('versions') }
+    it { expect(rendered).to have_json_size(0).at_path('versions') }
   end
 
   describe 'with versions' do
@@ -64,28 +64,28 @@ describe 'api/v2/versions/index.api.rabl', type: :view do
 
     include_context 'assign versions and render'
 
-    it { expect(response).to have_json_size(1).at_path('versions') }
+    it { expect(rendered).to have_json_size(1).at_path('versions') }
 
     describe 'paths' do
-      it { expect(response).to have_json_path('versions/0/id') }
+      it { expect(rendered).to have_json_path('versions/0/id') }
 
-      it { expect(response).to have_json_path('versions/0/name') }
+      it { expect(rendered).to have_json_path('versions/0/name') }
 
-      it { expect(response).to have_json_path('versions/0/description') }
+      it { expect(rendered).to have_json_path('versions/0/description') }
 
-      it { expect(response).to have_json_path('versions/0/status') }
+      it { expect(rendered).to have_json_path('versions/0/status') }
 
-      it { expect(response).to have_json_path('versions/0/start_date') }
+      it { expect(rendered).to have_json_path('versions/0/start_date') }
 
-      it { expect(response).to have_json_path('versions/0/effective_date') }
+      it { expect(rendered).to have_json_path('versions/0/effective_date') }
 
-      it { expect(response).to have_json_path('versions/0/defining_project_id') }
+      it { expect(rendered).to have_json_path('versions/0/defining_project_id') }
 
-      it { expect(response).to have_json_path('versions/0/applies_to_project_ids') }
+      it { expect(rendered).to have_json_path('versions/0/applies_to_project_ids') }
     end
 
     describe 'content' do
-      subject { parse_json(response)['versions'][0] }
+      subject { parse_json(rendered)['versions'][0] }
 
       it { expect(subject['id']).to eql(version.id) }
 
@@ -108,6 +108,6 @@ describe 'api/v2/versions/index.api.rabl', type: :view do
 
     include_context 'assign versions and render'
 
-    it { expect(response).to have_json_size(3).at_path('versions') }
+    it { expect(rendered).to have_json_size(3).at_path('versions') }
   end
 end

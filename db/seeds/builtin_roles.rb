@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-if Role.find_by_builtin(Role::BUILTIN_NON_MEMBER).nil?
+if Role.find_by(builtin: Role::BUILTIN_NON_MEMBER).nil?
   role = Role.new
 
   role.name = 'Non member'
@@ -36,7 +36,7 @@ if Role.find_by_builtin(Role::BUILTIN_NON_MEMBER).nil?
   role.save!
 end
 
-if Role.find_by_builtin(Role::BUILTIN_ANONYMOUS).nil?
+if Role.find_by(builtin: Role::BUILTIN_ANONYMOUS).nil?
   role = Role.new
 
   role.name = 'Anonymous'

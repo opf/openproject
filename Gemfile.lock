@@ -431,6 +431,8 @@ GEM
     structured_warnings (0.2.0)
     svg-graph (1.0.5)
     syck (1.0.5)
+    sys-filesystem (1.1.4)
+      ffi
     thin (1.6.3)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0)
@@ -558,6 +560,7 @@ DEPENDENCIES
   sprockets (~> 2.12.3)
   svg-graph
   syck
+  sys-filesystem (~> 1.1.4)
   thin
   timecop (~> 0.7.1)
   unicorn

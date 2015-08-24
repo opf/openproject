@@ -50,6 +50,6 @@ describe 'users/show', type: :view do
   it 'renders the visible custom values' do
     render
 
-    expect(response).to have_selector('li', text: 'TextUserCustomField')
+    expect(rendered).to have_selector('li', text: 'TextUserCustomField')
   end
 end
