@@ -145,7 +145,7 @@ class Widget::Table::EntryTable < Widget::Table
                          (action_for(result, action: 'destroy')
                           .reverse_merge(authenticity_token: form_authenticity_token)),
                          title: l(:button_edit),
-                         confirm: l(:text_are_you_sure),
+                         data: { confirm: l(:text_are_you_sure) },
                          method: :delete,
                          class: 'no-decoration-on-hover',
                          title: l(:button_delete))
