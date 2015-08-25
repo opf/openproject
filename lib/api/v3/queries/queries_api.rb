@@ -41,18 +41,14 @@ module API
             before do
               @query = Query.find(params[:id])
               @representer = QueryRepresenter.new(@query)
-              authorize_as_not_found(:show)
+              authorize_by_policy(:show) do
+                raise API::Errors::NotFound
+              end
             end
 
             helpers do
-              def authorize_as_not_found(action)
-                authorize_by_with_raise(-> () { allowed_to?(action) }) do
-                  raise API::Errors::NotFound
-                end
-              end
-
-              def authorize_by_policy(action)
-                authorize_by_with_raise(-> () { allowed_to?(action) })
+              def authorize_by_policy(action, &block)
+                authorize_by_with_raise(-> () { allowed_to?(action) }, &block)
               end
 
               def allowed_to?(action)
