@@ -188,6 +188,17 @@ class ProjectsController < ApplicationController
     redirect_to action: 'settings', id: @project, tab: 'modules'
   end
 
+  def custom_fields
+    @project.work_package_custom_field_ids = params[:project][:work_package_custom_field_ids]
+    if @project.save
+      flash[:notice] = l(:notice_successful_update)
+    else
+      flash[:error] = l(:notice_project_cannot_update_custom_fields)
+    end
+
+    redirect_to action: 'settings', id: @project, tab: 'custom_fields'
+  end
+
   def archive
     flash[:error] = l(:error_can_not_archive_project) unless @project.archive
     redirect_to(url_for(controller: '/admin', action: 'projects', status: params[:status]))

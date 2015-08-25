@@ -1179,6 +1179,7 @@ en:
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "You have been logged out."
   error_types_in_use_by_work_packages: "The following types are still referenced by work packages: %{types}"
+  notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields."
 
   # Default format for numbers
   number:

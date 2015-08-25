@@ -125,15 +125,15 @@ Feature: Project Settings
       | name  | type | editable | is_for_all |
       | cfBug | int  | true     | false      |
     And  I am already admin
-    And  I go to the settings page of the project "project1"
-    And  I check "cfBug" within "#content"
-    And  I press "Save" within "#content"
-    And  I follow "Copy" within "#content"
+    And  I go to the custom_fields tab of the settings page of the project "project1"
+    And  I check "cfBug"
+    And  I press "Save"
+    And  I follow "Copy"
     And  I fill in "Name" with "Copied Project"
     And  I fill in "Identifier" with "cp"
     And  I click on "Copy"
     Then I should see "Started to copy project"
-    And  I go to the settings page of the project "cp"
+    And  I go to the custom_fields tab of the settings page of the project "cp"
     Then the "cfBug" checkbox should be checked
 
   @javascript

@@ -27,40 +27,17 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= error_messages_for project %>
+<%= labelled_tabular_form_for @project,
+                              url: { action: 'custom_fields', id: @project },
+                              method: :put,
+                              html: { id: 'modules-form' } do |form| %>
 
-<!--[form:project]-->
+  <%= render  partial: "projects/form/custom_fields",
+              locals: {
+                project: @project,
+                form: form,
+                work_package_custom_fields: @issue_custom_fields
+              } %>
 
-<section class="form--section">
-  <%= render partial: "projects/form/project_attributes",
-             locals: { project: project,
-                       form: f } %>
-
-  <%= call_hook(:view_projects_form,
-                project: project,
-                form: f) %>
-</section>
-
-<% if project.new_record? %>
-  <div>
-    <%= render partial: "projects/form/modules",
-               locals: { form: f } %>
-  </div>
-
-  <%= javascript_tag 'observeProjectModules();' %>
-<% else %>
-
-  <%= render partial: "projects/form/required_storage",
-             locals: { project: project, storage: project.count_required_storage } %>
-
+  <p><%= form.button l(:button_save), class: 'button -highlight -with-icon icon-yes' %></p>
 <% end %>
-
-<% if (project.new_record? || project.module_enabled?('work_package_tracking')) && renderTypes %>
-  <div>
-    <%= render partial: 'projects/form/types',
-               locals: { f: f,
-                         project: project } %>
-  </div>
-<% end %>
-
-<!--[eoform:project]-->

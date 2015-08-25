@@ -35,16 +35,10 @@ class ProjectSettingsPage
   end
 
   def visit_settings
-    visit settings_path
+    visit settings_project_path(@project, tab: 'custom_fields')
   end
 
   def fieldset_label
     find 'fieldset#project_issue_custom_fields label'
-  end
-
-  private
-
-  def settings_path
-    settings_project_path(@project)
   end
 end
