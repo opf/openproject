@@ -39,10 +39,12 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:schema) {
     ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
   }
-  let(:embedded) { false }
+  let(:self_link) { '/a/self/link' }
+  let(:embedded) { true }
   let(:representer) {
     described_class.create(schema,
                            form_embedded: embedded,
+                           self_link: self_link,
                            current_user: current_user)
   }
 
@@ -77,7 +79,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'when not embedded' do
-        let(:embedded) { false }
+        before do allow(schema).to receive(allowed_values_method).and_return(nil) end
 
         it_behaves_like 'does not link to allowed values' do
           let(:path) { json_path }
@@ -88,16 +90,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     describe 'self link' do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'self' }
-        let(:href) {
-          api_v3_paths.work_package_schema(work_package.project.id, work_package.type.id)
-        }
+        let(:href) { self_link }
       end
 
       context 'embedded in a form' do
-        let(:embedded) { true }
-
-        # In a form there is no guarantee that the current state contains a valid WP
-        let(:work_package) { FactoryGirl.build(:work_package, type: nil) }
+        let(:self_link) { nil }
 
         it_behaves_like 'has no link' do
           let(:link) { 'self' }
@@ -123,7 +120,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'lockVersion disabled' do
         let(:representer) {
           described_class.create(schema,
-                                 form_embedded: embedded,
                                  current_user: current_user,
                                  hide_lock_version: true)
         }
@@ -450,8 +446,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'responsible and assignee' do
-      let(:embedded) { true }
-
       let(:base_href) { "/api/v3/projects/#{work_package.project.id}" }
 
       describe 'assignee' do
