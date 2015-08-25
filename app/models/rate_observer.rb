@@ -84,7 +84,7 @@ class RateObserver < ActiveRecord::Observer
     end
 
     def count_rates(date1, date2 = nil)
-      (@rate.class).count(conditions: conditions_between(date1, date2, :valid_from))
+      (@rate.class).where(conditions_between(date1, date2, :valid_from)).count
     end
 
     def orphaned_child_entries(date1, date2 = nil)

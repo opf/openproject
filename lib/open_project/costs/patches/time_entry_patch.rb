@@ -62,7 +62,7 @@ module OpenProject::Costs::Patches::TimeEntryPatch
       # to trigger the update of the costs based on new rates
       if conditions.respond_to?(:keys) && conditions.keys == [:work_package_id] && updates =~ /^project_id = ([\d]+)$/
         project_id = $1
-        time_entries = TimeEntry.all(conditions: conditions)
+        time_entries = TimeEntry.where(conditions)
         time_entries.each do |entry|
           entry.project_id = project_id
           entry.save!
