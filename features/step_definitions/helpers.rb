@@ -53,7 +53,7 @@ def initialize_task_params(project, story, user = User.first)
     params['fixed_version_id'] = story.fixed_version_id
     params['parent_id']        = story.id
   end
-  params['status_id'] = Status.first.pluck(:id)
+  params['status_id'] = Status.first.id
 
   # unsafe attributes that will not be used directly but added for your
   # convenience
@@ -68,7 +68,7 @@ def initialize_work_package_params(project, type = Type.first, parent = nil, use
   params = HashWithIndifferentAccess.new
   params['type_id'] = type.id
   params['parent_id']  = parent.id if parent
-  params['status_id'] = Status.first.pluck(:id)
+  params['status_id'] = Status.first.id
 
   # unsafe attributes that will not be used directly but added for your
   # convenience
@@ -83,7 +83,7 @@ def initialize_impediment_params(project, sprint, user = User.first)
   params = HashWithIndifferentAccess.new(Task.new.attributes)
   params['type_id'] = Task.type
   params['fixed_version_id'] = sprint.id
-  params['status_id'] = Status.first.pluck(:id)
+  params['status_id'] = Status.first.id
 
   # unsafe attributes that will not be used directly but added for your
   # convenience
