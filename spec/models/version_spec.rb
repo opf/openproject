@@ -151,7 +151,10 @@ describe Version, type: :model do
 
       version.rebuild_positions(project)
 
-      work_packages = version.fixed_issues.find(:all, conditions: { project_id: project }, order: 'COALESCE(position, 0) ASC, id ASC')
+      work_packages = version
+                      .fixed_issues
+                      .where(project_id: project)
+                      .order('COALESCE(position, 0) ASC, id ASC')
 
       expect(work_packages.map(&:position)).to eq([nil, nil, 1, 2, 3, 4, 5])
       expect(work_packages.map(&:subject)).to eq([t3, o9, e1, s2, s5, s3, s4].map(&:subject))

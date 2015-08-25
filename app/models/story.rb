@@ -75,12 +75,11 @@ class Story < WorkPackage
   end
 
   def self.at_rank(project_id, sprint_id, rank)
-    Story.find(:first,
-               order: Story::ORDER,
-               conditions: Story.condition(project_id, sprint_id),
-               joins: :status,
-               limit: 1,
-               offset: rank - 1)
+    Story.where(Story.condition(project_id, sprint_id))
+         .joins(:status)
+         .order(Story::ORDER)
+         .limit(1)
+         .offset(rank -1)
   end
 
   def self.types
@@ -96,12 +95,12 @@ class Story < WorkPackage
 
   def tasks_and_subtasks
     return [] unless Task.type
-    descendants.find_all_by_type_id(Task.type)
+    descendants.where(type_id: Task.type)
   end
 
   def direct_tasks_and_subtasks
     return [] unless Task.type
-    children.find_all_by_type_id(Task.type).map { |t| [t] + t.descendants }.flatten
+    children.where(type_id: Task.type).map { |t| [t] + t.descendants }.flatten
   end
 
   def set_points(p)

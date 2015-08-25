@@ -149,10 +149,10 @@ class Sprint < Version
       conditions = '1 = 1'
     end
 
-    Version.find(:all, conditions: conditions).each(&:burndown)
+    Version.where(conditions).each(&:burndown)
   end
 
   def impediments(project)
-    Impediment.find(:all, conditions: { fixed_version_id: self, project_id: project })
+    Impediment.where(fixed_version_id: self, project_id: project)
   end
 end

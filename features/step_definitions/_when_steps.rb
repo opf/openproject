@@ -53,8 +53,8 @@ end
 
 When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subject, prev_subject|
   work_package_class = if type.strip == 'task' then Task else Story end
-  story = work_package_class.find(:first, conditions: ['subject=?', story_subject.strip])
-  prev  = work_package_class.find(:first, conditions: ['subject=?', prev_subject.strip])
+  story = work_package_class.find_by(subject: story_subject.strip)
+  prev  = work_package_class.find_by(subject: prev_subject.strip)
 
   attributes = story.attributes
   attributes[:prev]             = prev.id
@@ -70,15 +70,15 @@ end
 
 When /^I move the story named (.+) (up|down) to the (\d+)(?:st|nd|rd|th) position of the sprint named (.+)$/ do |story_subject, direction, position, sprint_name|
   position = position.to_i
-  story = Story.find(:first, conditions: ['subject=?', story_subject])
-  sprint = Sprint.find(:first, conditions: ['name=?', sprint_name])
+  story = Story.find_by(subject: story_subject)
+  sprint = Sprint.find_by(name: sprint_name)
   story.fixed_version = sprint
 
   attributes = story.attributes
   attributes[:prev] = if position == 1
                         ''
                       else
-                        stories = Story.find(:all, conditions: ['fixed_version_id=? AND type_id IN (?)', sprint.id, Story.types], order: 'position ASC')
+                        stories = Story.where(fixed_version_id: sprint.id, type_id: Story.types).order('position ASC')
                         raise "You indicated an invalid position (#{position}) in a sprint with #{stories.length} stories" if 0 > position or position > stories.length
                         stories[position - (direction == 'up' ? 2 : 1)].id
                       end
@@ -147,7 +147,7 @@ When /^I view the master backlog$/ do
 end
 
 When /^I view the stories of (.+) in the work_packages tab/ do |sprint_name|
-  sprint = Sprint.find(:first, conditions: ['name=?', sprint_name])
+  sprint = Sprint.find_by(name: sprint_name)
   visit url_for(controller: '/rb_queries', action: :show, project_id: sprint.project, sprint_id: sprint, only_path: true)
 end
 
