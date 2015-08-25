@@ -222,12 +222,48 @@ module OpenProject
         # This is compatible, but quite inefficient, so should
         # be run asynchronously.
         def count_required_storage
-          bytes = 0
-          ::Find.find(local_repository_path) do |f|
-            bytes += File.size(f) if File.file?(f)
-          end
+          count_storage_du || count_storage_fallback
+        end
 
-          bytes
+        ##
+        # Tries to count the required storage with du,
+        # as that causes the smallest amount of overhead
+        #
+        # Compatible only with GNU du due to `-b` (contains `--apparent-size`)
+        # being unavailable on, e.g., Mac OS X.
+        # On incompatible systems, will fall back to in-ruby counting
+        def count_storage_du
+          output, err, code = Open3.capture3('du', '-bs', local_repository_path)
+
+          if code == 0 && output =~ /^(\d+)/
+            Regexp.last_match(1).to_i
+          else
+            raise SystemCallError.new "'du' exited with non-zero status #{code}: Output was #{err}"
+          end
+        rescue SystemCallError => e
+          # May be raised when the command is not found.
+          # Nothing we can do here.
+          Rails.logger.error("Counting with 'du' failed with: '#{e.message}'." +
+                             'Falling back to in-ruby counting.')
+          nil
+        end
+
+        ##
+        # Count required storage in pure ruby.
+        # Called when `du` didn't seem to be available
+        #
+        # This is compatible, but quite inefficient
+        # being ~25% slower than shelling out to du
+        def count_storage_fallback
+          ::Find.find(local_repository_path).inject(0) do |sum, f|
+            begin
+              sum + File.stat(f).size
+            rescue SystemCallError
+              # File.stat raises for permission and access errors,
+              # we won't be able to get this file's size.
+              sum
+            end
+          end
         end
       end
     end
