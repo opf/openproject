@@ -43,7 +43,7 @@ describe OpenProject::Storage do
       subject { OpenProject::Storage.known_storage_paths }
       it 'should contain attachments path' do
         expect(subject.length).to be == 1
-        expect(subject['attachments'])
+        expect(subject[:attachments])
           .to eq(label: I18n.t('attributes.attachments'),
                  path: OpenProject::Configuration.attachments_storage_path.to_s)
       end
@@ -51,11 +51,19 @@ describe OpenProject::Storage do
 
     describe '#mount_information' do
       subject { OpenProject::Storage.mount_information }
+      include_context 'with tmpdir'
+
+      before do
+        allow(OpenProject::Storage).to receive(:known_storage_paths)
+          .and_return(foobar: { path: tmpdir, label: 'this is foobar' })
+      end
+
       it 'should contain one fs entry' do
+        expect(File.exists?(tmpdir)).to be true
         expect(subject.length).to be == 1
 
         entry = subject.values.first
-        expect(entry[:labels]).to eq([I18n.t('attributes.attachments')])
+        expect(entry[:labels]).to eq(['this is foobar'])
         expect(entry[:data]).not_to be_nil
         expect(entry[:data][:free]).to be_kind_of(Integer)
       end

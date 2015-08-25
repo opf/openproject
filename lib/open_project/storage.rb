@@ -51,7 +51,7 @@ module OpenProject
         end
 
         # Attachments
-        paths['attachments'] = {
+        paths[:attachments] = {
           path: OpenProject::Configuration.attachments_storage_path.to_s,
           label: I18n.t('attributes.attachments')
         }
