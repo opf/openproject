@@ -47,5 +47,6 @@ class OpenProject::Costs::Hooks::ProjectHook < Redmine::Hook::ViewListener
   # * :project => Current project
   render_on :view_projects_settings_members_table_header, partial: 'hooks/costs/view_projects_settings_members_table_header'
 
+  render_on :view_projects_settings_members_table_colgroup, partial: 'hooks/costs/view_projects_settings_members_table_colgroup'
   # TODO: implement  model_project_copy_before_save
 end
