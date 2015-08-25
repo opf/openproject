@@ -26,89 +26,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= form_tag(project_enumerations_path(@project), :method => :put, :class => "tabular") do %>
-   <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table interactive-table role="grid" class="generic-table">
-        <colgroup>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <% TimeEntryActivity.new.available_custom_fields.each do |value| %>
-              <col highlight-col>
-          <% end %>
-          </colgroup>
-          <thead>
-            <tr>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <%= Enumeration.human_attribute_name(:active) %>
-                    </span>
-                  </div>
-                </div>
-              </th>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <%= Enumeration.human_attribute_name(:name) %>
-                    </span>
-                  </div>
-                </div>
-              </th>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <%= l(:enumeration_system_activity) %>
-                    </span>
-                  </div>
-                </div>
-              </th>
-              <% TimeEntryActivity.new.available_custom_fields.each do |value| %>
-                <th>
-                  <div class="generic-table--sort-header-outer">
-                    <div class="generic-table--sort-header">
-                      <span>
-                        <%= h value.name %>
-                      </span>
-                    </div>
-                  </div>
-                </th>
-              <% end %>
-            </tr>
-          </thead>
-          <% @project.activities(true).each do |enumeration| %>
-           <%= fields_for "enumerations[#{enumeration.id}]", enumeration do |ff| %>
-              <tr>
-                <td>
-                  <%= label_tag "enumerations_#{enumeration.id}_active", "#{h(enumeration.name)} #{l(:description_active)}", :class => "hidden-for-sighted" %>
-                  <%= ff.check_box :active %>
-                </td>
-                <td>
-                  <%= ff.hidden_field :parent_id, :value => enumeration.id unless enumeration.project %>
-                  <%= h(enumeration) %>
-                </td>
-                <td><%= checked_image !enumeration.project %></td>
-                <% enumeration.custom_field_values.each do |value| %>
-                  <td>
-                    <%= custom_field_tag "enumerations[#{enumeration.id}]", value %>
-                  </td>
-                <% end %>
-              </tr>
-            <% end %>
-          <% end %>
-        </table>
-        <div class="generic-table--header-background"></div>
-    </div>
-  </div>
-  <div class="contextual">
-    <%= link_to(l(:button_reset), project_enumerations_path(@project),
-            :method => :delete,
-            data: { confirm: l(:text_are_you_sure) },
-            :class => 'icon icon-delete') %>
-  </div>
-  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
+
+<%= form_tag  project_enumerations_path(@project),
+              method: :put,
+              class: "tabular" do %>
+
+  <%= render partial: 'projects/form/activities', locals: { project: @project } %>
+
+  <p><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %></p>
 <% end %>
+
+<br/>

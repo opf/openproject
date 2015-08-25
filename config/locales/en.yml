@@ -754,6 +754,7 @@ en:
   label_enabled_project_custom_fields: 'Enabled custom fields'
   label_enabled_project_types: 'Enabled types'
   label_enabled_project_modules: 'Enabled modules'
+  label_enabled_project_activities: 'Enabled time tracking activities'
   label_end_to_end: "end to end"
   label_end_to_start: "end to start"
   label_enumeration_new: "New enumeration value"
