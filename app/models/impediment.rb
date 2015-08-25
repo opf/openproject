@@ -46,19 +46,8 @@ class Impediment < Task
                       user.allowed_to?(:update_impediments, impediment.project)
                   }
 
-  def self.find(*args)
-    if args[1] && args[1][:conditions]
-      if args[1][:conditions].is_a?(Hash)
-        args[1][:conditions][:parent_id] = nil
-        args[1][:conditions][:type_id] = type
-      elsif args[1][:conditions].is_a?(Array)
-        args[1][:conditions][0] += " AND parent_id is NULL AND type_id = #{type}"
-      end
-    else
-      args << { conditions: { parent_id: nil, type_id: type } }
-    end
-
-    super
+  def self.default_scope
+    where(parent_id: nil, type_id: type)
   end
 
   def blocks_ids=(ids)
