@@ -55,7 +55,8 @@ module API
 
         def apply_filters(query, query_params)
           if params[:filters]
-            set_filters_from_json(query, params[:filters])
+            filters = parse_filters_from_json(params[:filters])
+            set_filters(query, filters)
             query_params[:filters] = params[:filters]
           end
         end
@@ -70,7 +71,7 @@ module API
         #   },
         #   { /* more filters if needed */}
         # ]
-        def set_filters_from_json(query, json)
+        def parse_filters_from_json(json)
           filters = JSON.parse(json)
           operators = {}
           values = {}
@@ -81,8 +82,16 @@ module API
             values[ar_attribute] = filter[attribute]['values']
           end
 
+          {
+            attributes: values.keys,
+            operators: operators,
+            values: values
+          }
+        end
+
+        def set_filters(query, filters)
           query.filters = []
-          query.add_filters(values.keys, operators, values)
+          query.add_filters(filters[:attributes], filters[:operators], filters[:values])
 
           bad_filter = query.filters.detect(&:invalid?)
           if bad_filter
@@ -92,13 +101,13 @@ module API
 
         def apply_sorting(query, query_params)
           if params[:sortBy]
-            set_sorting_from_json(query, params[:sortBy])
+            query.sort_criteria = parse_sorting_from_json(params[:sortBy])
             query_params[:sortBy] = params[:sortBy]
           end
         end
 
-        def set_sorting_from_json(query, json)
-          query.sort_criteria = JSON.parse(json).map { |(attribute, order)|
+        def parse_sorting_from_json(json)
+          JSON.parse(json).map { |(attribute, order)|
             [convert_attribute(attribute), order]
           }
         end
