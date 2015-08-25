@@ -48,11 +48,8 @@ module API
             end
           end
 
-          before do
-            authorize(:view_work_packages, context: @project)
-          end
-
           get do
+            authorize(:view_work_packages, context: @project)
             work_packages_by_params(project: @project)
           end
 

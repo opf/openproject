@@ -32,6 +32,7 @@ module API
       class WorkPackageColumnsAPI < ::API::OpenProjectAPI
         resources :columns do
           get do
+            authorize(:view_work_packages, context: @project)
             schema = WorkPackages::Schema::UntypedWorkPackageSchema.new(project: @project)
             self_link = api_v3_paths.work_package_columns(@project.id)
             WorkPackages::Schema::WorkPackageSchemaRepresenter.create(schema,
