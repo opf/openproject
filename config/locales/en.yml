@@ -753,6 +753,7 @@ en:
   label_enable_multi_select: "Toggle multiselect"
   label_enabled_project_custom_fields: 'Enabled custom fields'
   label_enabled_project_types: 'Enabled types'
+  label_enabled_project_modules: 'Enabled modules'
   label_end_to_end: "end to end"
   label_end_to_start: "end to start"
   label_enumeration_new: "New enumeration value"
@@ -1533,7 +1534,6 @@ en:
   text_regexp_info: "eg. ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
   text_select_mail_notifications: "Select actions for which email notifications should be sent."
-  text_select_project_modules: "Select modules to enable for this project:"
   text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_subprojects_destroy_warning: "Its subproject(s): %{value} will be also deleted."
   text_time_logged_by_changeset: "Applied in changeset %{value}."
