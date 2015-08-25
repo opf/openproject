@@ -65,7 +65,7 @@ module API
                 end
 
                 schema = TypedWorkPackageSchema.new(project: project, type: type)
-                self_link = api_v3_paths.work_package_schema(represented.project.id, represented.type.id)
+                self_link = api_v3_paths.work_package_schema(project.id, type.id)
                 @representer = WorkPackageSchemaRepresenter.create(schema,
                                                                    self_link: self_link,
                                                                    current_user: current_user)
