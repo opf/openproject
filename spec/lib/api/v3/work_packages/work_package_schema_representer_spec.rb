@@ -119,6 +119,19 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:required) { true }
         let(:writable) { false }
       end
+
+      context 'lockVersion disabled' do
+        let(:representer) {
+          described_class.create(schema,
+                                 form_embedded: embedded,
+                                 current_user: current_user,
+                                 hide_lock_version: true)
+        }
+
+        it 'is hidden' do
+          is_expected.to_not have_json_path('lockVersion')
+        end
+      end
     end
 
     describe 'id' do

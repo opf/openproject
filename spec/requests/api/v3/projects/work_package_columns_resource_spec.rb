@@ -51,6 +51,10 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
       expect(last_response.status).to eql(200)
     end
 
+    it 'should not contain the lockVersion' do
+      expect(last_response.body).not_to have_json_path('lockVersion')
+    end
+
     context 'not allowed to see the project' do
       let(:current_user) { FactoryGirl.create(:user) }
 

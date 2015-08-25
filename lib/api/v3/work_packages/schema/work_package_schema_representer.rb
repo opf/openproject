@@ -53,6 +53,7 @@ module API
 
           def initialize(schema, context)
             @self_link = context.delete(:self_link) || nil
+            @show_lock_version = !context.delete(:hide_lock_version)
             super(schema, context)
           end
 
@@ -62,7 +63,8 @@ module API
 
           schema :lock_version,
                  type: 'Integer',
-                 name_source: -> (*) { I18n.t('api_v3.attributes.lock_version') }
+                 name_source: -> (*) { I18n.t('api_v3.attributes.lock_version') },
+                 show_if: -> (*) { @show_lock_version }
 
           schema :id,
                  type: 'Integer'
