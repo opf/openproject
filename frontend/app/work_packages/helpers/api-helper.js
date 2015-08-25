@@ -47,10 +47,6 @@ module.exports = function() {
       }
     },
 
-    getErrorMessage: function(error) {
-      return ApiHelper.getErrorMessages(error).join(' ');
-    },
-
     isMultiErrorMessage: function(error) {
       return error.errorIdentifier === 'urn:openproject-org:api:v3:errors:MultipleErrors';
     }
