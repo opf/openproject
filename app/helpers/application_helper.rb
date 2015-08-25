@@ -345,10 +345,10 @@ module ApplicationHelper
     method = options[:method] || :post
 
     content_tag(:span,
-                link_to(image_tag('2uparrow.png',   alt: l(:label_sort_highest)), url.merge("#{name}[move_to]" => 'highest'), method: method, title: l(:label_sort_highest)) +
-                link_to(image_tag('1uparrow.png',   alt: l(:label_sort_higher)),  url.merge("#{name}[move_to]" => 'higher'),  method: method, title: l(:label_sort_higher)) +
-                link_to(image_tag('1downarrow.png', alt: l(:label_sort_lower)),   url.merge("#{name}[move_to]" => 'lower'),   method: method, title: l(:label_sort_lower)) +
-                link_to(image_tag('2downarrow.png', alt: l(:label_sort_lowest)),  url.merge("#{name}[move_to]" => 'lowest'),  method: method, title: l(:label_sort_lowest)),
+                link_to(content_tag(:span, '', class: 'up icon-context icon-arrow-right7', title: l(:label_sort_highest)), url.merge("#{name}[move_to]" => 'highest'), method: method, title: l(:label_sort_highest)) +
+                link_to(content_tag(:span, '', class: 'icon-context icon-pulldown-arrow1', title: l(:label_sort_higher)),  url.merge("#{name}[move_to]" => 'higher'),  method: method, title: l(:label_sort_higher)) +
+                link_to(content_tag(:span, '', class: 'icon-context icon-pulldown-arrow3', title: l(:label_sort_lower)),   url.merge("#{name}[move_to]" => 'lower'),   method: method, title: l(:label_sort_lower)) +
+                link_to(content_tag(:span, '', class: 'down icon-context icon-arrow-right7', title: l(:label_sort_lowest)),  url.merge("#{name}[move_to]" => 'lowest'),  method: method, title: l(:label_sort_lowest)),
                 class: 'reorder-icons'
                )
   end

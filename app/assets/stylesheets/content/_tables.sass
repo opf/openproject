@@ -26,6 +26,50 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+table
+  td
+    padding: 3px 6px
+  p
+    margin: 0
+
+  &.files tr.file td
+    text-align: center
+    &.filename
+      text-align: left
+      padding-left: 24px
+    &.digest
+      font-size: 80%
+
+  &.members td.roles, &.memberships td.roles
+    width: 45%
+
+  &.plugins
+    td
+      vertical-align: middle
+      &.configure
+        text-align: right
+        padding-right: 1em
+    span
+      &.name
+        font-weight: bold
+      &.description, &.url
+        display: block
+        font-size: 0.9em
+
+  &#time-report
+    tbody tr
+      font-style: italic
+      color: #333
+      &.last-level
+        font-style: normal
+        color: #555
+      &.total
+        font-style: normal
+        font-weight: bold
+        color: #555
+        background-color: #EEEEEE
+    .hours-dec
+      font-size: 0.9em
 
 tr
   &.project
@@ -53,6 +97,7 @@ tr
       padding-left: 11em
     &.idnt-9 td.project--hierarchy
       padding-left: 12.5em
+
   &.issue
     white-space: nowrap
     &.sum
@@ -61,14 +106,96 @@ tr
     td
       &.category
         white-space: normal
+      &.subject
+        text-align: left
+    &.idnt td.subject .icon-context:before
+      padding: 9px 0 0 10px
 
-tr.issue
-  td
-    &.subject
+  &.work-package
+    white-space: nowrap
+    &.sum
+      font-weight: bold
+    td.subject
+      white-space: normal
       text-align: left
-  &.idnt td.subject .icon-context:before
-    padding: 9px 0 0 10px
+    td.done_ratio table.progress
+      margin-left: auto
+      margin-right: auto
+    &.idnt td.subject.icon-context
+      display: inherit
+    &.issue td.category
+      white-space: normal
 
+  &.entry
+    border: 1px solid #f8f8f8
+    td
+      white-space: nowrap
+      &.filename
+        width: 30%
+      &.size
+        text-align: right
+        font-size: 90%
+      &.revision, &.author
+        text-align: center
+      &.age
+        text-align: right
+
+  div.expander
+    cursor: pointer
+    float: left
+
+  &.open span .expand, &.closed span .collapse
+    display: none
+
+  &.changeset td
+    &.author, &.committed_on
+      text-align: center
+      width: 15%
+
+  td[class*=reorder]
+    .icon-context:before
+      padding: 0 0 0 0
+    .up
+      transform: rotate(90deg)
+    .down
+      transform: rotate(270deg)
+
+  &.message
+    height: 2.6em
+    td
+      &.created_on, &.last_message
+        white-space: nowrap
+
+  &.version
+    td
+      &.closed
+        text-decoration: line-through
+        a
+          text-decoration: line-through
+      &.name
+        padding-left: 20px
+        &.icon-link:before
+          padding: 10px 10px 0 0
+    td
+      &.date, &.status, &.sharing
+        white-space: nowrap
+
+  &.user
+    td
+      white-space: nowrap
+    &.locked, &.registered, &.locked a, &.registered a
+      color: #aaa
+
+td.hours
+  font-weight: bold
+  .hours-dec
+    font-size: 0.9em
+
+th.hidden
+  display: none
+
+a.toggle-all:hover
+  text-decoration: none
 
 #content tr.issue
   &.idnt-1 td.subject
@@ -90,29 +217,6 @@ tr.issue
   &.idnt-9 td.subject
     padding-left: 12.5em
 
-/* Work Package hierarchy layout */
-
-tr
-  &.work-package
-    white-space: nowrap
-    &.sum
-      font-weight: bold
-    td.subject
-      white-space: normal
-
-tr.work-package
-  td
-    &.subject
-      text-align: left
-    &.done_ratio table.progress
-      margin-left: auto
-      margin-right: auto
-  &.idnt td.subject.icon-context
-    display: inherit
-
-  &.issue td.category
-    white-space: normal
-
 #content tr.work-package
   &.idnt-1 td.subject
     padding-left: 0.5em
@@ -133,121 +237,15 @@ tr.work-package
   &.idnt-9 td.subject
     padding-left: 12.5em
 
-tr
-  &.entry
-    border: 1px solid #f8f8f8
-    td
-      white-space: nowrap
-      &.filename
-        width: 30%
-      &.size
-        text-align: right
-        font-size: 90%
-      &.revision, &.author
-        text-align: center
-      &.age
-        text-align: right
-  div.expander
-    cursor: pointer
-    float: left
-  &.open span .expand, &.closed span .collapse
-    display: none
-  &.changeset td
-    &.author, &.committed_on
-      text-align: center
-      width: 15%
-
-table
-  &.files tr.file td
-    text-align: center
-    &.filename
-      text-align: left
-      padding-left: 24px
-    &.digest
-      font-size: 80%
-  &.members td.roles, &.memberships td.roles
-    width: 45%
-
-tr
-  &.message
-    height: 2.6em
-    td
-      &.created_on, &.last_message
-        white-space: nowrap
-  &.version
-    td
-      &.closed
-        text-decoration: line-through
-        a
-          text-decoration: line-through
-      &.name
-        padding-left: 20px
-        &.icon-link:before
-          padding: 10px 10px 0 0
-    td
-      &.date, &.status, &.sharing
-        white-space: nowrap
-  &.user
-    td
-      white-space: nowrap
-    &.locked, &.registered, &.locked a, &.registered a
-      color: #aaa
-
-td.hours
-  font-weight: bold
-  .hours-dec
-    font-size: 0.9em
-
-table
-  &.plugins
-    td
-      vertical-align: middle
-      &.configure
-        text-align: right
-        padding-right: 1em
-    span
-      &.name
-        font-weight: bold
-      &.description, &.url
-        display: block
-        font-size: 0.9em
-
-a.toggle-all:hover
-  text-decoration: none
-
-table
-  td
-    padding: 3px 6px
-  p
-    margin: 0
-
-#issue_tree
-  table.issues
-    border: 0
-  td.checkbox
-    display: none
-
-th.hidden
-  display: none
-
-table#time-report
-  tbody tr
-    font-style: italic
-    color: #333
-    &.last-level
-      font-style: normal
-      color: #555
-    &.total
-      font-style: normal
-      font-weight: bold
-      color: #555
-      background-color: #EEEEEE
-  .hours-dec
-    font-size: 0.9em
-
 #content table
   tr
     &.context-menu-selection
       background-color: #FFFFB2
       &:hover
         background-color: #FFFFB2
+
+#issue_tree
+  table.issues
+    border: 0
+  td.checkbox
+    display: none

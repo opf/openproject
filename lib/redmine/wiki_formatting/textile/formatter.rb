@@ -113,7 +113,7 @@ module Redmine
                 url = url[0..-2] # discard closing parenth from url
                 post = ')' + post # add closing parenth to post
               end
-              tag = content_tag('a', proto + url, href: "#{proto == 'www.' ? 'http://www.' : proto}#{url}", class: 'external')
+              tag = content_tag('a', proto + url, href: "#{proto == 'www.' ? 'http://www.' : proto}#{url}", class: 'external icon-context icon-copy2')
               %(#{leading}#{tag}#{post})
             end
           end
