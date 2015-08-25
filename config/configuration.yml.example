@@ -223,7 +223,7 @@ default:
   #   when created in the frontend.
   #   NOTE: Disabling :managed repositories using disabled_types takes precedence over this setting.
   # mode:
-  #   The file mode to set the repository folder to (defaults to 0700).
+  #   The octal file mode to set the repository folder to (defaults to 0700).
   #
   # group:
   #   The group that should own the repository folder.

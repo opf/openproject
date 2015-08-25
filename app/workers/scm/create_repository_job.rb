@@ -38,13 +38,21 @@ class Scm::CreateRepositoryJob
   include OpenProject::BeforeDelayedJob
 
   def initialize(repository)
+    # TODO currently uses the full repository object,
+    # as the Job is performed synchronously.
+    # Change this to serialize the ID once its turned to process asynchronously.
     @repository = repository
   end
 
   def perform
     # Create the repository locally.
-    # chmod requires integer value
-    mode = (config[:mode] || default_mode).to_i
+    mode = (config[:mode] || default_mode)
+
+    # Ensure that chmod receives an octal number
+    unless mode.is_a? Integer
+      mode = mode.to_i(8)
+    end
+
     create(mode)
 
     # Allow adapter to act upon the created repository
