@@ -78,8 +78,8 @@ class Story < WorkPackage
     Story.where(Story.condition(project_id, sprint_id))
          .joins(:status)
          .order(Story::ORDER)
-         .limit(1)
          .offset(rank -1)
+         .first
   end
 
   def self.types
