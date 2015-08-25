@@ -40,7 +40,7 @@ module API
             nil
           end
 
-          def assignable_statuses_for(user)
+          def assignable_statuses_for(_user)
             nil
           end
 

@@ -57,7 +57,7 @@ module API
           end
 
           link :self do
-              { href: @self_link } if @self_link
+            { href: @self_link } if @self_link
           end
 
           schema :lock_version,

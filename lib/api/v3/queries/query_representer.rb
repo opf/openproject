@@ -57,7 +57,7 @@ module API
                  exec_context: :decorator,
                  getter: -> (*) {
                    return nil unless represented.column_names
-                   represented.column_names.map { |name|  convert_attribute name }
+                   represented.column_names.map { |name| convert_attribute name }
                  }
         property :sort_criteria,
                  exec_context: :decorator,
