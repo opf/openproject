@@ -35,7 +35,7 @@
 
 Then /^(.+) should be in the (\d+)(?:st|nd|rd|th) position of the sprint named (.+)$/ do |story_subject, position, sprint_name|
   position = position.to_i
-  story = Story.where(subject: story_subject, name: sprint_name).joins(:fixed_version).first
+  story = Story.where(subject: story_subject, versions: { name: sprint_name }).joins(:fixed_version).first
   story_position(story).should == position.to_i
 end
 
