@@ -31,6 +31,7 @@ class UserMailer < BaseMailer
   helper :application,  # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value
+  helper IssuesHelper
 
   include OpenProject::LocaleHelper
 
@@ -75,6 +76,19 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
+    end
+  end
+
+  def work_package_watcher_added(work_package, user, watcher_setter)
+    @issue = work_package
+    @watcher_setter = watcher_setter
+
+    set_work_package_headers(work_package)
+    message_id work_package, user
+    references work_package, user
+
+    with_locale_for(user) do
+      mail to: user.mail, subject: subject_for_work_package(work_package)
     end
   end
 
