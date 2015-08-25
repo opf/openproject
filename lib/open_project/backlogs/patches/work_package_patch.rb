@@ -212,7 +212,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
         real_parent = WorkPackage.find_by_id(parent_id)
 
         # Sort immediate ancestors first
-        ancestors = ([real_parent] + real_parent.ancestors.all(include: { project: :enabled_modules })).sort_by(&:right)
+        ancestors = [real_parent] + real_parent.ancestors.includes(project: :enabled_modules).order(:rgt)
       end
       ancestors
     end

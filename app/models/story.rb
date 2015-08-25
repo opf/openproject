@@ -40,7 +40,7 @@ class Story < WorkPackage
     options.reverse_merge!(order: Story::ORDER,
                            conditions: Story.condition(project_id, sprint_ids))
 
-    candidates = Story.all(options)
+    candidates = Story.where(options[:conditions]).order(options[:order])
 
     stories_by_version = Hash.new do |hash, sprint_id|
       hash[sprint_id] = []

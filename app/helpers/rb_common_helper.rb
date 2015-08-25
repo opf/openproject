@@ -217,7 +217,7 @@ module RbCommonHelper
   end
 
   def all_work_package_status
-    @all_work_package_status ||= Status.all(order: 'position ASC')
+    @all_work_package_status ||= Status.order('position ASC')
   end
 
   def backlogs_types

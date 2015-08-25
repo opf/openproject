@@ -99,7 +99,7 @@ class Task < WorkPackage
   end
 
   def rank
-    @rank ||= WorkPackage.count(conditions: ['type_id = ? and not parent_id is NULL and root_id = ? and lft <= ?', Task.type, story_id, lft])
+    @rank ||= WorkPackage.where(['type_id = ? and not parent_id is NULL and root_id = ? and lft <= ?', Task.type, story_id, lft]).count
     @rank
   end
 end
