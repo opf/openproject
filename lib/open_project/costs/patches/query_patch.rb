@@ -81,7 +81,7 @@ module OpenProject::Costs::Patches::QueryPatch
             order: 14,
             values: CostObject.where(project_id: project)
                     .order('subject ASC')
-                    .map { |d| [d.subject, d.id.to_s] }
+                    .pluck(:subject, :id)
           },
         }
       else
