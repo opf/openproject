@@ -2372,7 +2372,6 @@ resource lists (requiring one or more separate requests).
 | regularExpression | The value of the property must match the given regular expression (if not null)    | String   | null    |
 | required          | If true this property is not nullable                                              | Boolean  | true    |
 | writable          | If false it is not allowed to **change** the properties value                      | Boolean  | true    |
-| groupable         | If true, this property can be used as `groupBy` property in collections            | Boolean  | false   |
 
 All of the above properties that do not have a default value *must* be present in the schema.
 For properties that have a default value, the client can assume the default value, if the property is missing.
@@ -2411,7 +2410,6 @@ Note that regular expressions used in the API follow the rules of [Ruby Regular 
 
                     "name": "Status",
                     "type": "Status",
-                    "groupable": true,
 
                     "_embedded": {
                         "allowedValues": [
