@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   let(:self_base_link) { '/api/v3/example' }
-  let(:work_packages) { WorkPackage.scoped } # we need an AR relation
+  let(:work_packages) { WorkPackage.all } # we need an AR relation
   let(:user) { FactoryGirl.build_stubbed(:user) }
   let(:context) { { current_user: user } }
 
