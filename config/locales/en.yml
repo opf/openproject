@@ -1318,7 +1318,7 @@ en:
       build_failed: "Unable to create the repository with the selected configuration. %{reason}"
       empty_repository: "The repository exists, but is empty. It does not contain any revisions yet."
       exists_on_filesystem: "The repository directory exists already on filesystem."
-      filesystem_access_failed: "An error occurred while creating the repository on filesystem: %{message}."
+      filesystem_access_failed: "An error occurred while accessing the repository on filesystem: %{message}."
       not_manageable: "This repository vendor cannot be managed by OpenProject."
       path_permission_failed: "An error occurred trying to create the following path: %{path}. Please ensure that OpenProject may write to that folder."
       unauthorized: "You're not authorized to access the repository or the credentials are invalid."

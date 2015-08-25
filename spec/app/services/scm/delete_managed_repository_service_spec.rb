@@ -92,6 +92,14 @@ describe Scm::DeleteManagedRepositoryService do
       expect(File.directory?(repository.root_url)).to be false
     end
 
+    it 'does not raise an exception upon permission errors' do
+      expect(File.directory?(repository.root_url)).to be true
+      expect(Scm::DeleteRepositoryJob)
+        .to receive(:new).and_raise(Errno::EACCES)
+
+      expect(service.call).to be false
+    end
+
     context 'and parent project' do
       let(:parent) { FactoryGirl.create(:project) }
       let(:project) { FactoryGirl.create(:project, parent: parent) }
