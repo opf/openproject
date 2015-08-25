@@ -33,7 +33,7 @@ tr
       white-space: nowrap
     &.idnt td.project--hierarchy span
       padding-left: 16px
-      &.icon:before
+      &.icon-context:before
         padding: 9px 5px 0 10px
     &.idnt-1 td.project--hierarchy
       padding-left: 0.5em
@@ -186,31 +186,15 @@ tr
           padding: 10px 10px 0 0
     td
       &.date, &.status, &.sharing
-        text-align: left
         white-space: nowrap
   &.user
     td
-      width: 13%
-      &.email
-        width: 18%
       white-space: nowrap
     &.locked, &.registered, &.locked a, &.registered a
       color: #aaa
-  &.wiki-page-version td
-    &.updated_on, &.author
-      text-align: center
-  &.time-entry
-    text-align: center
-    white-space: nowrap
-    td
-      &.subject, &.comments
-        text-align: left
-        white-space: normal
 
 td.hours
-  text-align: right
   font-weight: bold
-  padding-right: 0.5em
   .hours-dec
     font-size: 0.9em
 
@@ -224,29 +208,9 @@ table
     span
       &.name
         font-weight: bold
-        display: block
-        margin-bottom: 6px
       &.description, &.url
         display: block
         font-size: 0.9em
-  &.list tbody tr.group
-    td
-      padding: 0.8em 0 0.5em 0.3em
-      font-weight: bold
-      border-bottom: 1px solid #ccc
-    span.count
-      color: #aaa
-      font-size: 80%
-
-tr.group
-  a.toggle-all
-    color: #aaa
-    font-size: 80%
-    font-weight: normal
-    display: inline
-    visibility: hidden
-  &:hover a.toggle-all
-    visibility: visible
 
 a.toggle-all:hover
   text-decoration: none
@@ -282,14 +246,8 @@ table#time-report
     font-size: 0.9em
 
 #content table
-  &.issues td
-    border: 0 none
-    vertical-align: top
   tr
     &.context-menu-selection
       background-color: #FFFFB2
       &:hover
         background-color: #FFFFB2
-  td
-    &.issue
-      cursor: context-menu
