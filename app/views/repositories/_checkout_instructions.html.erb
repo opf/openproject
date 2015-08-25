@@ -1,0 +1,30 @@
+<% if instructions.present? && instructions.available? %>
+<form class="form -bordered -compressed">
+  <fieldset class="form--fieldset -collapsible">
+    <legend class="form--fieldset-legend" title="<%= l('repositories.checkout.instructions') %>"
+            onclick="toggleFieldset(this);"><%= l('repositories.checkout.instructions') %></legend>
+    <div class="form--field">
+        <label class="form--label"><%= l('repositories.checkout.url') %></label>
+        <div class="form--field-container">
+            <div class="form--field-affix">
+              <%= instructions.checkout_command %>
+            </div>
+            <div class="form--text-field-container -xwide">
+                <input type="text" class="form--text-field -clickable"
+                onclick="this.focus(); this.select()"
+                readonly="readonly" value="<%= instructions.checkout_url %>">
+            </div>
+        </div>
+        <div class="form--field-instructions -no-italic">
+          <%= simple_format instructions.instructions %>
+          <% if instructions.manages_permissions? %>
+            <p>
+              <span><%= l('repositories.checkout.access_permission') %></span>
+              <strong><%= l("repositories.checkout.access.#{instructions.permission}") %></strong>
+            </p>
+          <% end %>
+        </div>
+    </div>
+  </fieldset>
+</form>
+<% end %>

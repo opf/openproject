@@ -100,8 +100,6 @@ module OpenProject
         "file://#{managed_repository_path}"
       end
 
-      protected
-
       ##
       # Repository relative path from scm managed root.
       # Will be overridden by including models to, e.g.,

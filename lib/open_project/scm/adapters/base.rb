@@ -33,6 +33,8 @@ module OpenProject
   module Scm
     module Adapters
       class Base
+        include CheckoutInstructions
+
         attr_accessor :url, :root_url
 
         def self.vendor

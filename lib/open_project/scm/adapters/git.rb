@@ -43,6 +43,10 @@ module OpenProject
           @path_encoding = path_encoding.presence || 'UTF-8'
         end
 
+        def checkout_command
+          'git clone'
+        end
+
         def client_command
           @client_command ||= self.class.config[:client_command] || 'git'
         end

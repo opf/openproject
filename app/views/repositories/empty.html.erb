@@ -33,6 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
              message: l('repositories.errors.empty_repository')) %></p>
   </div>
 </div>
+<%= render partial: 'checkout_instructions', locals: { repository: @repository, instructions: @instructions } %>
 <%= call_hook(:view_repositories_show_contextual,
     { repository: @repository, project: @project }) %>
 <%= call_hook(:repositories_below_empty_warning,

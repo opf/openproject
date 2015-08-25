@@ -138,6 +138,30 @@ describe RepositoriesController, type: :controller do
         expect(response.code).to eq('200')
       end
     end
+
+    context 'with #show and checkout' do
+      render_views
+
+      let(:checkout_hash) {
+        {
+          'subversion' => { 'enabled' => '1',
+                            'text' => 'foo',
+                            'base_url' => 'http://localhost'
+          }
+        }
+      }
+
+      before do
+        allow(Setting).to receive(:repository_checkout_data).and_return(checkout_hash)
+        get :show, project_id: project.identifier
+      end
+
+      it 'renders an empty warning view' do
+        expect(response).to render_template 'repositories/empty'
+        expect(response).to render_template partial: 'repositories/_checkout_instructions'
+        expect(response.code).to eq('200')
+      end
+    end
   end
 
   describe 'with filesystem repository' do
