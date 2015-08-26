@@ -26,81 +26,101 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% if @project.boards.any? %>
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table interactive-table role="grid" class="generic-table">
-        <colgroup>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <col>
-          </colgroup>
-        <thead>
-          <tr>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%= Board.model_name.human %>
-                  </span>
-                </div>
-              </div>
-            </th>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%= Board.human_attribute_name(:description) %>
-                  </span>
-                </div>
-              </div>
-            </th>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%=l(:button_sort)%>
-                  </span>
-                </div>
-              </div>
-            </th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @project.boards.each do |board|
-            next if board.new_record? %>
-            <tr>
-              <td><%=h board.name %></td>
-              <td><%=h board.description %></td>
-              <td class="small-icons">
-                <% if authorize_for("boards", "edit") %>
-                  <%= reorder_links('board', {:controller => '/boards', :action => 'move', :project_id => @project, :id => board}) %>
-                <% end %>
-              </td>
-              <td class="buttons">
-                <%= link_to_if_authorized l(:button_edit), {:controller => '/boards', :action => 'edit', :project_id => @project, :id => board}, :class => 'icon icon-edit' %>
-                <%= link_to_if_authorized l(:button_delete), {:controller => '/boards', :action => 'destroy', :project_id => @project, :id => board}, data: { confirm: l(:text_are_you_sure) }, :method => :delete, :class => 'icon icon-delete' %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-      <div class="generic-table--header-background"></div>
-    </div>
-  </div>
-<% else %>
+
+<fieldset class="form--fieldset -with-control">
+  <legend class="form--fieldset-legend">
+    <%= l(:label_available_project_boards) %>
+  </legend>
+
+  <% if @project.boards.any? %>
     <div class="generic-table--container">
-    <div class="generic-table--no-results-container">
-      <h2 class="generic-table--no-results-title">
-        <i class="icon-info"></i>
-        <%= l(:label_nothing_display) %>
-      </h2>
-      <div class="generic-table--no-results-description">
-        <p class="nodata"><%= l(:label_no_data) %></p>
+      <div class="generic-table--results-container">
+        <table interactive-table role="grid" class="generic-table">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col>
+            </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Board.model_name.human %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Board.human_attribute_name(:description) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%=l(:button_sort)%>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @project.boards.each do |board|
+              next if board.new_record? %>
+              <tr>
+                <td><%=h board.name %></td>
+                <td><%=h board.description %></td>
+                <td class="small-icons">
+                  <% if authorize_for 'boards', 'edit' %>
+                    <%= reorder_links 'board', controller: '/boards',
+                                               action: 'move',
+                                               project_id: @project,
+                                               id: board %>
+                  <% end %>
+                </td>
+                <td class="buttons">
+                  <%= link_to_if_authorized l(:button_edit),
+                                            { controller: '/boards', action: 'edit', project_id: @project, id: board },
+                                            class: 'icon icon-edit' %>
+                  <%= link_to_if_authorized l(:button_delete),
+                                            { controller: '/boards', action: 'destroy', project_id: @project, id: board },
+                                            data: { confirm: l(:text_are_you_sure) },
+                                            method: :delete,
+                                            class: 'icon icon-delete' %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="generic-table--header-background"></div>
       </div>
     </div>
-  </div>
-<% end %>
-<p><%= link_to_if_authorized l(:label_board_new), {:controller => '/boards', :action => 'new', :project_id => @project} %></p>
+  <% else %>
+      <div class="generic-table--container">
+      <div class="generic-table--no-results-container">
+        <h2 class="generic-table--no-results-title">
+          <i class="icon-info"></i>
+          <%= l(:label_nothing_display) %>
+        </h2>
+        <div class="generic-table--no-results-description">
+          <p class="nodata"><%= l(:label_no_data) %></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</fieldset>
+<p>
+  <%= link_to_if_authorized l(:label_board_new), controller: '/boards',
+                                                 action: 'new',
+                                                 project_id: @project %>
+</p>
