@@ -40,6 +40,7 @@ module.exports = function($scope,
     UsersHelper,
     ConfigurationService,
     WorkPackageService,
+    ProjectService,
     CommonRelationsHandler,
     ChildrenRelationsHandler,
     ParentRelationsHandler,
@@ -65,10 +66,20 @@ module.exports = function($scope,
   $scope.maxDescriptionLength = 800;
   $scope.projectIdentifier = $scope.workPackage.embedded.project.props.identifier;
 
+  function fetchProjectTypes() {
+    ProjectService.getProject($scope.projectIdentifier)
+      .then(function(project) {
+        $scope.availableTypes = project.embedded.types;
+      });
+  }
+
+  fetchProjectTypes();
+
   function refreshWorkPackage(callback) {
     WorkPackageService.getWorkPackage($scope.workPackage.props.id)
       .then(function(workPackage) {
         setWorkPackageScopeProperties(workPackage);
+        fetchProjectTypes();
         $scope.$broadcast('workPackageRefreshed');
         if (callback) {
           callback(workPackage);

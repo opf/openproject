@@ -123,6 +123,7 @@ angular.module('openproject.workPackages.controllers')
     'UsersHelper',
     'ConfigurationService',
     'WorkPackageService',
+    'ProjectService',
     'CommonRelationsHandler',
     'ChildrenRelationsHandler',
     'ParentRelationsHandler',
