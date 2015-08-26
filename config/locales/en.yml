@@ -679,6 +679,7 @@ en:
   label_available_project_work_package_categories: 'Available work package categories'
   label_available_project_boards: 'Available boards'
   label_available_project_versions: 'Available versions'
+  label_available_project_repositories: 'Available repositories'
   label_blocked_by: "blocked by"
   label_blocks: "blocks"
   label_board_locked: "Locked"
