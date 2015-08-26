@@ -1,7 +1,7 @@
 <div class="dropdown action-menu dropdown-relative dropdown-anchor-right" id="tasksDropdown" role="menu">
   <ul class="dropdown-menu">
     <li ng-repeat="type in availableTypes">
-      <a role="menuitem" focus="{{ !$index }}" ui-sref="work-packages.list.new({type: type.id})">
+      <a role="menuitem" focus="{{ !$index }}" ui-sref="work-packages.list.new({projectPath: PathHelper.staticBase + '/projects/' + projectIdentifier, type: type.id})">
         {{type.name}}
       </a>
     </li>
