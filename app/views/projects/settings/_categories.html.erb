@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
+
 <fieldset class="form--fieldset -with-control">
   <legend class="form--fieldset-legend">
     <%= l(:label_available_project_work_package_categories) %>
@@ -104,6 +105,6 @@ See doc/COPYRIGHT.rdoc for more details.
 </fieldset
 <p>
   <%= link_to_if_authorized l(:label_work_package_category_new),
-                            controller: '/categories', action: 'new',
-                            project_id: @project %>
+                            { controller: '/categories', action: 'new', project_id: @project },
+                            class: 'button -alt-highlight' %>
 </p>

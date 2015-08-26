@@ -120,7 +120,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 </fieldset>
 <p>
-  <%= link_to_if_authorized l(:label_board_new), controller: '/boards',
-                                                 action: 'new',
-                                                 project_id: @project %>
+  <%= link_to_if_authorized l(:label_board_new),
+                            { controller: '/boards', action: 'new', project_id: @project },
+                            class: 'button -alt-highlight' %>
 </p>
