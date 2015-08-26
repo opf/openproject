@@ -138,7 +138,7 @@ class UsersController < ApplicationController
 
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
-      UserMailer.account_information(@user, @user.password).deliver if params[:send_information]
+      UserMailer.account_information(@user, @user.password).deliver_now if params[:send_information]
 
       respond_to do |format|
         format.html do
@@ -188,7 +188,7 @@ class UsersController < ApplicationController
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
       if @user.active? && params[:send_information] && !@user.password.blank? && @user.change_password_allowed?
-        UserMailer.account_information(@user, @user.password).deliver
+        UserMailer.account_information(@user, @user.password).deliver_now
       end
 
       respond_to do |format|
@@ -231,7 +231,7 @@ class UsersController < ApplicationController
     if @user.save
       flash[:notice] = I18n.t(:notice_successful_update)
       if was_activated
-        UserMailer.account_activated(@user).deliver
+        UserMailer.account_activated(@user).deliver_now
       end
     else
       flash[:error] = I18n.t(:error_status_change_failed,

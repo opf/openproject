@@ -35,7 +35,7 @@ class CommentObserver < ActiveRecord::Observer
       news = comment.commented
       recipients = news.recipients + news.watcher_recipients
       recipients.uniq.each do |user|
-        UserMailer.news_comment_added(user, comment, User.current).deliver
+        UserMailer.news_comment_added(user, comment, User.current).deliver_now
       end
     end
   end

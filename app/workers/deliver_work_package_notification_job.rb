@@ -53,7 +53,7 @@ class DeliverWorkPackageNotificationJob
         end
       }
 
-      mail.deliver
+      mail.deliver_now
     end
   end
 

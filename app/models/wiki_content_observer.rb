@@ -32,7 +32,7 @@ class WikiContentObserver < ActiveRecord::Observer
     if Setting.notified_events.include?('wiki_content_added')
       recipients = wiki_content.recipients + wiki_content.page.wiki.watcher_recipients
       recipients.uniq.each do |user|
-        UserMailer.wiki_content_added(user, wiki_content, User.current).deliver
+        UserMailer.wiki_content_added(user, wiki_content, User.current).deliver_now
       end
     end
   end
@@ -43,7 +43,7 @@ class WikiContentObserver < ActiveRecord::Observer
       recipients += wiki_content.page.wiki.watcher_recipients
       recipients += wiki_content.page.watcher_recipients
       recipients.uniq.each do |user|
-        UserMailer.wiki_content_updated(user, wiki_content, User.current).deliver
+        UserMailer.wiki_content_updated(user, wiki_content, User.current).deliver_now
       end
     end
   end

@@ -108,7 +108,7 @@ describe UserMailer, type: :mailer do
 
   describe '#work_package_added' do
     before do
-      UserMailer.work_package_added(recipient, journal, user).deliver
+      UserMailer.work_package_added(recipient, journal, user).deliver_now
     end
 
     it_behaves_like 'mail is sent'
@@ -122,7 +122,7 @@ describe UserMailer, type: :mailer do
 
   describe '#work_package_updated' do
     before do
-      UserMailer.work_package_updated(recipient, journal, user).deliver
+      UserMailer.work_package_updated(recipient, journal, user).deliver_now
     end
 
     it_behaves_like 'mail is sent'
@@ -147,7 +147,7 @@ describe UserMailer, type: :mailer do
     let(:wiki_content) { FactoryGirl.create(:wiki_content) }
 
     before do
-      UserMailer.wiki_content_added(recipient, wiki_content, user).deliver
+      UserMailer.wiki_content_added(recipient, wiki_content, user).deliver_now
     end
 
     it_behaves_like 'mail is sent'
@@ -159,7 +159,7 @@ describe UserMailer, type: :mailer do
     let(:wiki_content) { FactoryGirl.create(:wiki_content) }
 
     before do
-      UserMailer.wiki_content_updated(recipient, wiki_content, user).deliver
+      UserMailer.wiki_content_updated(recipient, wiki_content, user).deliver_now
     end
 
     it_behaves_like 'mail is sent'

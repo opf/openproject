@@ -53,7 +53,7 @@ describe UserMailer, type: :mailer do
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
 
     mail = UserMailer.test_mail(user)
-    assert mail.deliver
+    assert mail.deliver_now
 
     assert_equal 1, ActionMailer::Base.deliveries.size
 
@@ -71,7 +71,7 @@ describe UserMailer, type: :mailer do
 
     project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
-    assert UserMailer.work_package_updated(user, journal).deliver
+    assert UserMailer.work_package_updated(user, journal).deliver_now
     assert last_email
 
     assert_select_email do
@@ -114,7 +114,7 @@ describe UserMailer, type: :mailer do
 
     project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
-    assert UserMailer.work_package_updated(user, journal).deliver
+    assert UserMailer.work_package_updated(user, journal).deliver_now
     assert last_email
 
     assert_select_email do
@@ -161,7 +161,7 @@ describe UserMailer, type: :mailer do
 
       project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
-      assert UserMailer.work_package_updated(user, journal).deliver
+      assert UserMailer.work_package_updated(user, journal).deliver_now
       assert last_email
 
       assert_select_email do
@@ -204,7 +204,7 @@ describe UserMailer, type: :mailer do
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
     mail = UserMailer.work_package_added(user, issue.journals.first, user)
-    assert mail.deliver
+    assert mail.deliver_now
     refute_nil mail
     assert_equal 'bulk', mail.header['Precedence'].to_s
     assert_equal 'auto-generated', mail.header['Auto-Submitted'].to_s
@@ -215,7 +215,7 @@ describe UserMailer, type: :mailer do
     user  = FactoryGirl.create(:user)
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     issue = FactoryGirl.create(:work_package)
-    UserMailer.work_package_added(user, issue.journals.first, user).deliver
+    UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
     mail = ActionMailer::Base.deliveries.last
     assert_match /text\/plain/, mail.content_type
     assert_equal 0, mail.parts.size
@@ -227,7 +227,7 @@ describe UserMailer, type: :mailer do
     user  = FactoryGirl.create(:user)
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     issue = FactoryGirl.create(:work_package)
-    UserMailer.work_package_added(user, issue.journals.first, user).deliver
+    UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
     mail = ActionMailer::Base.deliveries.last
     assert_match /multipart\/alternative/, mail.content_type
     assert_equal 2, mail.parts.size
@@ -238,7 +238,7 @@ describe UserMailer, type: :mailer do
     user  = FactoryGirl.create(:user)
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     with_settings mail_from: 'Redmine app <redmine@example.net>' do
-      UserMailer.test_mail(user).deliver
+      UserMailer.test_mail(user).deliver_now
     end
     mail = ActionMailer::Base.deliveries.last
     refute_nil mail
@@ -254,7 +254,7 @@ describe UserMailer, type: :mailer do
     user.pref.save
     User.current = user
     ActionMailer::Base.deliveries.clear
-    UserMailer.news_added(user, news, user).deliver
+    UserMailer.news_added(user, news, user).deliver_now
     assert_equal 1, last_email.to.size
 
     # nobody to notify
@@ -262,7 +262,7 @@ describe UserMailer, type: :mailer do
     user.pref.save
     User.current = user
     ActionMailer::Base.deliveries.clear
-    UserMailer.news_added(user, news, user).deliver
+    UserMailer.news_added(user, news, user).deliver_now
     assert ActionMailer::Base.deliveries.empty?
   end
 
@@ -270,7 +270,7 @@ describe UserMailer, type: :mailer do
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
     mail = UserMailer.work_package_added(user, issue.journals.first, user)
-    mail.deliver
+    mail.deliver_now
     refute_nil mail
     assert_equal UserMailer.generate_message_id(issue, user), mail.message_id
     assert_nil mail.references
@@ -280,7 +280,7 @@ describe UserMailer, type: :mailer do
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
     journal = issue.journals.first
-    UserMailer.work_package_updated(user, journal).deliver
+    UserMailer.work_package_updated(user, journal).deliver_now
     mail = ActionMailer::Base.deliveries.last
     refute_nil mail
     assert_equal UserMailer.generate_message_id(journal, user), mail.message_id
@@ -291,7 +291,7 @@ describe UserMailer, type: :mailer do
     user    = FactoryGirl.create(:user)
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     message = FactoryGirl.create(:message)
-    UserMailer.message_posted(user, message, user).deliver
+    UserMailer.message_posted(user, message, user).deliver_now
     mail = ActionMailer::Base.deliveries.last
     refute_nil mail
     assert_equal UserMailer.generate_message_id(message, user), mail.message_id
@@ -307,7 +307,7 @@ describe UserMailer, type: :mailer do
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     parent  = FactoryGirl.create(:message)
     message = FactoryGirl.create(:message, parent: parent)
-    UserMailer.message_posted(user, message, user).deliver
+    UserMailer.message_posted(user, message, user).deliver_now
     mail = ActionMailer::Base.deliveries.last
     refute_nil mail
     assert_equal UserMailer.generate_message_id(message, user), mail.message_id
@@ -326,7 +326,7 @@ describe UserMailer, type: :mailer do
       ActionMailer::Base.deliveries.clear
       with_settings available_languages: ['en', 'de'] do
         I18n.locale = 'en'
-        assert UserMailer.work_package_added(user, issue.journals.first, user).deliver
+        assert UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
         assert_equal 1, ActionMailer::Base.deliveries.size
         mail = last_email
         assert_equal ['foo@bar.de'], mail.to
@@ -347,7 +347,7 @@ describe UserMailer, type: :mailer do
       with_settings available_languages: ['en', 'de'],
                     default_language: 'de' do
         I18n.locale = 'de'
-        assert UserMailer.work_package_added(user, issue.journals.first, user).deliver
+        assert UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
         assert_equal 1, ActionMailer::Base.deliveries.size
         mail = last_email
         assert_equal ['foo@bar.de'], mail.to
@@ -361,31 +361,31 @@ describe UserMailer, type: :mailer do
   it 'should news added' do
     user = FactoryGirl.create(:user)
     news = FactoryGirl.create(:news)
-    assert UserMailer.news_added(user, news, user).deliver
+    assert UserMailer.news_added(user, news, user).deliver_now
   end
 
   it 'should news comment added' do
     user    = FactoryGirl.create(:user)
     news    = FactoryGirl.create(:news)
     comment = FactoryGirl.create(:comment, commented: news)
-    assert UserMailer.news_comment_added(user, comment, user).deliver
+    assert UserMailer.news_comment_added(user, comment, user).deliver_now
   end
 
   it 'should message posted' do
     user    = FactoryGirl.create(:user)
     message = FactoryGirl.create(:message)
-    assert UserMailer.message_posted(user, message, user).deliver
+    assert UserMailer.message_posted(user, message, user).deliver_now
   end
 
   it 'should account information' do
     user = FactoryGirl.create(:user)
-    assert UserMailer.account_information(user, 'pAsswORd').deliver
+    assert UserMailer.account_information(user, 'pAsswORd').deliver_now
   end
 
   it 'should lost password' do
     user  = FactoryGirl.create(:user)
     token = FactoryGirl.create(:token, user: user)
-    assert UserMailer.password_lost(token).deliver
+    assert UserMailer.password_lost(token).deliver_now
   end
 
   it 'should register' do
@@ -395,7 +395,7 @@ describe UserMailer, type: :mailer do
     Setting.protocol = 'https'
 
     mail = UserMailer.user_signed_up(token)
-    assert mail.deliver
+    assert mail.deliver_now
     assert mail.body.encoded.include?("https://redmine.foo/account/activate?token=#{token.value}")
   end
 
@@ -436,7 +436,7 @@ describe UserMailer, type: :mailer do
       I18n.locale = :en
       # Send an email to a german user
       user = FactoryGirl.create(:user, language: 'de')
-      UserMailer.account_activated(user).deliver
+      UserMailer.account_activated(user).deliver_now
       mail = ActionMailer::Base.deliveries.last
       assert mail.body.encoded.include?('aktiviert')
       assert_equal :en, I18n.locale
@@ -446,7 +446,7 @@ describe UserMailer, type: :mailer do
   it 'should with deliveries off' do
     user = FactoryGirl.create(:user)
     UserMailer.with_deliveries(false) do
-      UserMailer.test_mail(user).deliver
+      UserMailer.test_mail(user).deliver_now
     end
     assert ActionMailer::Base.deliveries.empty?
     # should restore perform_deliveries
@@ -459,11 +459,11 @@ describe UserMailer, type: :mailer do
                     emails_header: { 'de' => 'deutscher header',
                                      'en' => 'english header' } do
         user = FactoryGirl.create(:user, language: :en)
-        assert UserMailer.test_mail(user).deliver
+        assert UserMailer.test_mail(user).deliver_now
         mail = ActionMailer::Base.deliveries.last
         assert mail.body.encoded.include?('english header')
         user.language = :de
-        assert UserMailer.test_mail(user).deliver
+        assert UserMailer.test_mail(user).deliver_now
         mail = ActionMailer::Base.deliveries.last
         assert mail.body.encoded.include?('deutscher header')
       end
