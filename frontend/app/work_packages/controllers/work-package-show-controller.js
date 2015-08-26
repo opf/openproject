@@ -28,6 +28,7 @@
 
 module.exports = function($scope,
     $state,
+    $location,
     latestTab,
     workPackage,
     I18n,
@@ -194,12 +195,26 @@ module.exports = function($scope,
     hideAllAttributes: true
   };
 
+  function projectPathForWorkPackage() {
+    return PathHelper.staticBase + '/projects/' + $scope.projectIdentifier;
+  }
+
   $scope.showWorkPackageDetails = function() {
-    $state.go('work-packages.list.details.overview', {workPackageId: $scope.workPackage.props.id, projectPath: PathHelper.staticBase + '/projects/' + $scope.projectIdentifier});
+    var queryProps = $location.search()['query_props'],
+        path = $state.href('work-packages.list.details.overview', {projectPath: projectPathForWorkPackage(),
+                 workPackageId: $scope.workPackage.props.id
+               });
+    // Using $location.url instead of $state.go because query_props is not defined
+    // in the router. See work-packages-list-controller.js for more explanation.
+    $location.url(path).search('query_props', queryProps);
   };
 
-  $scope.closeDetailsView = function() {
-    $state.go('work-packages.list', {projectPath: PathHelper.staticBase + '/projects/' + $scope.projectIdentifier});
+  $scope.closeShowView = function() {
+    var queryProps = $location.search()['query_props'],
+        path = $state.href('work-packages.list', {projectPath: projectPathForWorkPackage()});
+    // Using $location.url instead of $state.go because query_props is not defined
+    // in the router. See work-packages-list-controller.js for more explanation.
+    $location.url(path).search('query_props', queryProps);
   };
 
   function getFocusAnchorLabel(tab, workPackage) {
