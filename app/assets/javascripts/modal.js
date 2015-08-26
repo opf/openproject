@@ -242,7 +242,8 @@ var ModalHelper = (function() {
 
     if (this._firstLoad) {
       //add closer
-      modalDiv.parent().prepend('<div id="ui-dialog-closer" class="icon icon-delete2" />').click(jQuery.proxy(this.close, this));
+      modalDiv.parent().prepend('<div id="ui-dialog-closer" class="icon icon-delete2" />')
+        .click(jQuery.proxy(this.close, this));
       jQuery('.ui-dialog-titlebar').hide();
       jQuery('.ui-dialog-buttonpane').hide();
 

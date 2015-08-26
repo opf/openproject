@@ -124,12 +124,12 @@ module RepositoriesHelper
                                    rev: @changeset.identifier) + ') ') if c.action == 'M'
         text << raw(' ' + content_tag('span', h(c.from_path), class: 'copied-from')) unless c.from_path.blank?
         case c.action
-          when 'A'
-            output << "<li class='#{style} icon icon-added'>#{text}</li>"
-          when 'D'
-            output << "<li class='#{style} icon icon-delete2'>#{text}</li>"
-          else
-            output << "<li class='#{style} icon icon-pulldown-arrow4'>#{text}</li>"
+        when 'A'
+          output << "<li class='#{style} icon icon-added'>#{text}</li>"
+        when 'D'
+          output << "<li class='#{style} icon icon-delete2'>#{text}</li>"
+        else
+          output << "<li class='#{style} icon icon-pulldown-arrow4'>#{text}</li>"
         end
       end
     end

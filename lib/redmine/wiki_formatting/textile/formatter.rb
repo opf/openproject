@@ -109,11 +109,14 @@ module Redmine
             else
               # Idea below : an URL with unbalanced parethesis and
               # ending by ')' is put into external parenthesis
-              if  url[-1] == ?) and ((url.count('(') - url.count(')')) < 0)
+              if url[-1] == ?) and ((url.count('(') - url.count(')')) < 0)
                 url = url[0..-2] # discard closing parenth from url
                 post = ')' + post # add closing parenth to post
               end
-              tag = content_tag('a', proto + url, href: "#{proto == 'www.' ? 'http://www.' : proto}#{url}", class: 'external icon-context icon-copy2')
+              tag = content_tag('a',
+                                proto + url,
+                                href: "#{proto == 'www.' ? 'http://www.' : proto}#{url}",
+                                class: 'external icon-context icon-copy2')
               %(#{leading}#{tag}#{post})
             end
           end

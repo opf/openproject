@@ -549,7 +549,7 @@ class RedCloth3 < String
                         if depth.last.length > tl.length
                             (depth.length - 1).downto(0) do |i|
                                 break if depth[i].length == tl.length
-                                lines[line_id - 1] << "</li>\n\t</#{ lT( depth[i] ) }l>\n\t"
+                                lines[line_id - 1] << "</li>\n\t</#{LT(depth[i])}l>\n\t"
                                 depth.pop
                             end
                         end
@@ -561,7 +561,7 @@ class RedCloth3 < String
                         depth << tl
                         atts = pba( atts )
                         atts = shelve( atts ) if atts
-                        lines[line_id] = "\t<#{ lT(tl) }l#{ atts }>\n\t<li>#{ content }"
+                        lines[line_id] = "\t<#{LT(tl)}l#{ atts }>\n\t<li>#{content}"
                     else
                         lines[line_id] = "\t\t<li>#{ content }"
                     end
@@ -572,20 +572,20 @@ class RedCloth3 < String
                 end
                 if line_id - last_line > 1 or line_id == lines.length - 1
                     depth.delete_if do |v|
-                        lines[last_line] << "</li>\n\t</#{ lT( v ) }l>"
+                        lines[last_line] << "</li>\n\t</#{LT(v)}l>"
                     end
                 end
             end
-            lines.join( "\n" )
+            lines.join("\n")
         end
     end
 
     QUOTES_RE = /(^>+([^\n]*?)(\n|$))+/m
     QUOTES_CONTENT_RE = /^([> ]+)(.*)$/m
 
-    def block_textile_quotes( text )
+    def block_textile_quotes(text)
       text.gsub!( QUOTES_RE ) do |match|
-        lines = match.split( /\n/ )
+        lines = match.split(/\n/)
         quotes = ''
         indent = 0
         lines.each do |line|
@@ -593,7 +593,13 @@ class RedCloth3 < String
           bq,content = $1, $2
           l = bq.count('>')
           if l != indent
-            quotes << ("\n\n" + (l>indent ? '<blockquote class="icon icon-quote2">' * (l-indent) : '</blockquote>' * (indent-l)) + "\n\n")
+            quotes << ("\n\n" +
+              (if l > indent
+                 '<blockquote class="icon icon-quote2">' * (l - indent)
+               else
+                 '</blockquote>' * (indent - l)
+               end) +
+              "\n\n")
             indent = l
           end
           quotes << (content + "\n")
@@ -610,25 +616,25 @@ class RedCloth3 < String
         @
         (?=\W)/x
 
-    def inline_textile_code( text )
-        text.gsub!( CODE_RE ) do |_m|
-            before,lang,code,after = $~[1..4]
-            lang = " lang=\"#{ lang }\"" if lang
-            rip_offtags( "#{ before }<code#{ lang }>#{ code }</code>#{ after }", false )
-        end
+    def inline_textile_code(text)
+      text.gsub!(CODE_RE) do |_m|
+        before, lang,code, after = $~[1..4]
+        lang = " lang=\"#{ lang }\"" if lang
+        rip_offtags("#{before}<code#{lang}>#{code}</code>#{after}", false)
+      end
     end
 
-    def lT( text )
+    def LT(text)
         text =~ /\#$/ ? 'o' : 'u'
     end
 
-    def hard_break( text )
+    def hard_break(text)
         text.gsub!( /(.)\n(?!\Z| *([#*=]+(\s|$)|[{|]))/, "\\1<br />" ) if hard_breaks
     end
 
     BLOCKS_GROUP_RE = /\n{2,}(?! )/m
 
-    def blocks( text, deep_code = false )
+    def blocks(text, deep_code = false)
         text.replace( text.split( BLOCKS_GROUP_RE ).map do |blk|
             plain = blk !~ /\A[#*> ]/
 
