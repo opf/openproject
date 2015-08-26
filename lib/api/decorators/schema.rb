@@ -91,7 +91,9 @@ module API
         def schema_with_allowed_collection(property,
                                            type: make_type(property),
                                            name_source: property,
-                                           values_callback:,
+                                           values_callback: -> {
+                                             represented.assignable_values(property, context)
+                                           },
                                            value_representer:,
                                            link_factory:,
                                            required: true,

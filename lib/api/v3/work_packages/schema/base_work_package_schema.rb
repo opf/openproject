@@ -67,23 +67,7 @@ module API
             nil
           end
 
-          def assignable_statuses_for(_user)
-            nil
-          end
-
-          def assignable_types
-            nil
-          end
-
-          def assignable_versions
-            nil
-          end
-
-          def assignable_priorities
-            nil
-          end
-
-          def assignable_categories
+          def assignable_values(_property, _context)
             nil
           end
 

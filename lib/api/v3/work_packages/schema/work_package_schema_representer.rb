@@ -127,9 +127,6 @@ module API
                                    }
 
           schema_with_allowed_collection :type,
-                                         values_callback: -> (*) {
-                                           represented.assignable_types
-                                         },
                                          value_representer: Types::TypeRepresenter,
                                          link_factory: -> (type) {
                                            {
@@ -139,9 +136,6 @@ module API
                                          }
 
           schema_with_allowed_collection :status,
-                                         values_callback: -> (*) {
-                                           represented.assignable_statuses_for(current_user)
-                                         },
                                          value_representer: Statuses::StatusRepresenter,
                                          link_factory: -> (status) {
                                            {
@@ -151,9 +145,6 @@ module API
                                          }
 
           schema_with_allowed_collection :category,
-                                         values_callback: -> (*) {
-                                           represented.assignable_categories
-                                         },
                                          value_representer: Categories::CategoryRepresenter,
                                          link_factory: -> (category) {
                                            {
@@ -164,9 +155,6 @@ module API
                                          required: false
 
           schema_with_allowed_collection :version,
-                                         values_callback: -> (*) {
-                                           represented.assignable_versions
-                                         },
                                          value_representer: Versions::VersionRepresenter,
                                          link_factory: -> (version) {
                                            {
@@ -177,9 +165,6 @@ module API
                                          required: false
 
           schema_with_allowed_collection :priority,
-                                         values_callback: -> (*) {
-                                           represented.assignable_priorities
-                                         },
                                          value_representer: Priorities::PriorityRepresenter,
                                          link_factory: -> (priority) {
                                            {

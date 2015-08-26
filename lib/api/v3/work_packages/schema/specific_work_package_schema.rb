@@ -44,34 +44,19 @@ module API
             @work_package.type
           end
 
-          def assignable_statuses_for(user)
-            status_origin = @work_package
-
-            # do not allow to skip statuses without intermediately saving the work package
-            # we therefore take the original status of the work_package, while preserving all
-            # other changes to it (e.g. type, assignee, etc.)
-            if @work_package.persisted? && @work_package.status_id_changed?
-              status_origin = @work_package.clone
-              status_origin.status = Status.find_by(id: @work_package.status_id_was)
+          def assignable_values(property, context)
+            case property
+            when :status
+              assignable_statuses_for(context[:current_user])
+            when :type
+              project.try(:types)
+            when :version
+              @work_package.try(:assignable_versions)
+            when :priority
+              IssuePriority.active
+            when :category
+              project.categories
             end
-
-            status_origin.new_statuses_allowed_to(user)
-          end
-
-          def assignable_types
-            project.try(:types)
-          end
-
-          def assignable_versions
-            @work_package.try(:assignable_versions)
-          end
-
-          def assignable_priorities
-            IssuePriority.active
-          end
-
-          def assignable_categories
-            project.categories
           end
 
           def available_custom_fields
@@ -87,6 +72,22 @@ module API
             end
 
             super
+          end
+
+          private
+
+          def assignable_statuses_for(user)
+            status_origin = @work_package
+
+            # do not allow to skip statuses without intermediately saving the work package
+            # we therefore take the original status of the work_package, while preserving all
+            # other changes to it (e.g. type, assignee, etc.)
+            if @work_package.persisted? && @work_package.status_id_changed?
+              status_origin = @work_package.clone
+              status_origin.status = Status.find_by(id: @work_package.status_id_was)
+            end
+
+            status_origin.new_statuses_allowed_to(user)
           end
         end
       end

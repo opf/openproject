@@ -58,8 +58,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     shared_examples_for 'has a collection of allowed values' do
       let(:embedded) { true }
 
+      before do
+        allow(schema).to receive(:assignable_values).and_return(nil)
+      end
+
       context 'when no values are allowed' do
-        before do allow(schema).to receive(allowed_values_method).and_return([]) end
+        before do
+          allow(schema).to receive(:assignable_values).with(factory, anything).and_return([])
+        end
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { json_path }
@@ -70,7 +76,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'when values are allowed' do
         let(:values) { FactoryGirl.build_stubbed_list(factory, 3) }
 
-        before do allow(schema).to receive(allowed_values_method).and_return(values) end
+        before do
+          allow(schema).to receive(:assignable_values).with(factory, anything).and_return(values)
+        end
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { json_path }
@@ -79,7 +87,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'when not embedded' do
-        before do allow(schema).to receive(allowed_values_method).and_return(nil) end
+        before do
+          allow(schema).to receive(:assignable_values).with(factory, anything).and_return(nil)
+        end
 
         it_behaves_like 'does not link to allowed values' do
           let(:path) { json_path }
@@ -373,7 +383,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:json_path) { 'type' }
         let(:href_path) { 'types' }
         let(:factory) { :type }
-        let(:allowed_values_method) { :assignable_types }
       end
     end
 
@@ -390,7 +399,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:json_path) { 'status' }
         let(:href_path) { 'statuses' }
         let(:factory) { :status }
-        let(:allowed_values_method) { :assignable_statuses_for }
       end
     end
 
@@ -407,7 +415,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:json_path) { 'category' }
         let(:href_path) { 'categories' }
         let(:factory) { :category }
-        let(:allowed_values_method) { :assignable_categories }
       end
     end
 
@@ -424,7 +431,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:json_path) { 'version' }
         let(:href_path) { 'versions' }
         let(:factory) { :version }
-        let(:allowed_values_method) { :assignable_versions }
       end
     end
 
@@ -441,7 +447,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:json_path) { 'priority' }
         let(:href_path) { 'priorities' }
         let(:factory) { :priority }
-        let(:allowed_values_method) { :assignable_priorities }
       end
     end
 

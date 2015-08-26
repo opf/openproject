@@ -32,6 +32,7 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
   let(:project) { FactoryGirl.build(:project) }
   let(:type) { FactoryGirl.build(:type) }
 
+  let(:context) { { current_user: user } }
   let(:user) { double }
   subject { described_class.new(project: project, type: type) }
 
@@ -44,11 +45,11 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
   end
 
   it 'does not know assignable statuses' do
-    expect(subject.assignable_statuses_for(user)).to eql(nil)
+    expect(subject.assignable_values(:status, context)).to eql(nil)
   end
 
   it 'does not know assignable versions' do
-    expect(subject.assignable_versions).to eql(nil)
+    expect(subject.assignable_values(:version, context)).to eql(nil)
   end
 
   describe '#writable?' do
