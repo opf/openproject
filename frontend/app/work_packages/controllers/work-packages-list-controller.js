@@ -306,11 +306,12 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
   };
 
   $scope.showWorkPackageShowView = function() {
-    var id = $state.params.workPackageId;
+    var id = $state.params.workPackageId,
+        queryProps = $location.search()['query_props'];
     if (id) {
-      $state.go('work-packages.show.activity', {workPackageId: id});
+      $state.go('work-packages.show.activity', {workPackageId: id, 'query_props': queryProps});
     } else {
-      $state.go('work-packages.show.activity', {workPackageId: $scope.preselectedWorkPackageId});
+      $state.go('work-packages.show.activity', {workPackageId: $scope.preselectedWorkPackageId, 'query_props': queryProps});
     }
   };
 
