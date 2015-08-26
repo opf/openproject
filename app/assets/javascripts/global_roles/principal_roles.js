@@ -26,12 +26,12 @@
     set_table_visibility: function(){
       if ($('#table_principal_roles_body tr').length > 0){
         $('#table_principal_roles').show();
-        $('#no_data').hide();
+        $('.generic-table--no-results-container').hide();
       }
       else
       {
         $('#table_principal_roles').hide();
-        $('#no_data').show();
+        $('.generic-table--no-results-container').show();
       }
     },
 
