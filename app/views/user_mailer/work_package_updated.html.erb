@@ -32,6 +32,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <li><%= @journal.render_detail(detail, :only_path => false) %></li>
   <% end %>
 </ul>
-<%= format_text(@journal.notes, :only_path => false) %>
+<%= format_text(@journal.notes, only_path: false, object: @issue, project: @issue.project) %>
 <hr />
 <%= render :partial => 'issue_details', :locals => { :issue => @issue } %>
