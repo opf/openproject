@@ -27,6 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= render partial: 'checkout_instructions', locals: { repository: @repository, instructions: @instructions } %>
 <%= call_hook(:view_repositories_show_contextual, { :repository => @repository, :project => @project }) %>
 
 

@@ -1287,7 +1287,25 @@ en:
 
   repositories:
     autofetch_information: "Check this if you want repositories to be updated automatically when accessing the repository module page.\nThis encompasses the retrieval of commits from the repository and refreshing the required disk storage."
-    checkout_instructions: "Checkout instructions"
+    checkout:
+      access:
+        readwrite: 'Read + Write'
+        read: 'Read-only'
+        none: 'No checkout access, you may only view the repository through this application.'
+      access_permission: 'Your permissions on this repository:'
+      url: "Checkout URL"
+      base_url_text: "The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).\nNote: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered."
+      default_instructions:
+        git: |-
+          The data contained in this repository can be downloaded to your computer with Git using the checkout information below.
+          Please consult the documentation of Git if you need more information on the checkout procedure and available clients.
+        subversion: |-
+          The data contained in this repository can be downloaded to your computer with Subversion using the checkout information below.
+          Please consult the documentation of Subversion if you need more information on the checkout procedure and available clients.
+      enable_instructions_text: "Displays checkout instructions defined below on all repository-related pages."
+      instructions: "Checkout instructions"
+      text_instructions: "This text is displayed alongside the checkout URL for guidance on how to check out the repository."
+      not_available: "Checkout instructions are not available for this repository"
     create_managed_delay: "Please note: The repository is managed, it is created asynchronously on the disk and will be available shortly."
     create_successful: "The repository has been registered."
     delete_sucessful: "The repository has been deleted."
@@ -1300,7 +1318,7 @@ en:
       build_failed: "Unable to create the repository with the selected configuration. %{reason}"
       empty_repository: "The repository exists, but is empty. It does not contain any revisions yet."
       exists_on_filesystem: "The repository directory exists already on filesystem."
-      filesystem_access_failed: "An error occurred while creating the repository on filesystem: %{message}."
+      filesystem_access_failed: "An error occurred while accessing the repository on filesystem: %{message}."
       not_manageable: "This repository vendor cannot be managed by OpenProject."
       path_permission_failed: "An error occurred trying to create the following path: %{path}. Please ensure that OpenProject may write to that folder."
       unauthorized: "You're not authorized to access the repository or the credentials are invalid."
@@ -1414,6 +1432,9 @@ en:
   setting_repositories_encodings: "Repositories encodings"
   setting_repository_authentication_caching_enabled: "Enable caching for authentication request of version control software"
   setting_repository_storage_cache_minutes: "Repository disk size cache"
+  setting_repository_checkout_display: "Show checkout instructions"
+  setting_repository_checkout_base_url: "Checkout base URL"
+  setting_repository_checkout_text: "Checkout instruction text"
   setting_repository_log_display_limit: "Maximum number of revisions displayed on file log"
   setting_rest_api_enabled: "Enable REST web service"
   setting_self_registration: "Self-registration"
@@ -1478,6 +1499,7 @@ en:
   text_work_package_category_destroy_question: "Some work packages (%{count}) are assigned to this category. What do you want to do?"
   text_work_package_category_reassign_to: "Reassign work packages to this category"
   text_work_package_updated: "Work package %{id} has been updated by %{author}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_setter}."
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label} %{value} added"
@@ -1489,11 +1511,13 @@ en:
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
+  text_latest_note: "The latest comment is: %{note}"
   text_length_between: "Length between %{min} and %{max} characters."
   text_line_separated: "Multiple values allowed (one line for each value)."
   text_load_default_configuration: "Load the default configuration"
   text_min_max_length_info: "0 means no restriction"
   text_no_configuration_data: "Roles, types, work package statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_no_notes: "There are no comments available for this work package."
   text_notice_too_many_values_are_inperformant: "Note: Displaying more than 100 items per page can increase the page load time."
   text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
   text_plugin_assets_writable: "Plugin assets directory writable"

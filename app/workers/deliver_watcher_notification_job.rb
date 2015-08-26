@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,27 +27,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Services::CreateWatcher
-  def initialize(work_package, user)
-    @work_package = work_package
-    @user = user
+class DeliverWatcherNotificationJob
+  include OpenProject::BeforeDelayedJob
 
-    @watcher = Watcher.new(user: user, watchable: work_package)
+  def initialize(watcher_id, watcher_setter_id)
+    @watcher_id = watcher_id
+    @watcher_setter_id = watcher_setter_id
   end
 
-  def run(success: -> {}, failure: -> {})
-    if @work_package.watcher_users.include?(@user)
-      success.(created: false)
-    else
-      if @watcher.valid?
-        @work_package.watchers << @watcher
-        success.(created: true)
-        OpenProject::Notifications.send('watcher_added',
-                                        watcher_id: @watcher.id,
-                                        watcher_setter_id: User.current.id)
-      else
-        failure.(@watcher)
-      end
-    end
+  def perform
+    return unless @watcher_id
+
+    watcher = Watcher.find(@watcher_id)
+    watcher_setter = User.find(@watcher_setter_id)
+
+    return unless watcher && watcher_setter
+
+    mail = User.execute_as(watcher.user) {
+      UserMailer.work_package_watcher_added(watcher.watchable, watcher.user, watcher_setter)
+    }
+
+    mail.deliver
   end
 end

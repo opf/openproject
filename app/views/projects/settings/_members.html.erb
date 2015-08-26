@@ -58,9 +58,8 @@ See doc/COPYRIGHT.rdoc for more details.
             <colgroup>
               <col highlight-col>
               <col highlight-col>
+              <%= call_hook(:view_projects_settings_members_table_colgroup, :project => @project) %>
               <col>
-              <col highlight-col>
-              <col highlight-col>
             </colgroup>
             <thead>
               <tr>
@@ -82,15 +81,15 @@ See doc/COPYRIGHT.rdoc for more details.
                     </div>
                   </div>
                 </th>
-                <th></th>
                 <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               <% @members.each do |member| %>
                 <% next if member.new_record? %>
                   <tr id="member-<%= member.id %>" class=" member">
-                    <td class="<%= member.principal.class.name.downcase %> <%= 'icon-context icon-group' if member.principal.class.name.downcase == 'group' %> <%= user_status_class member.principal%>" title="<%= user_status_i18n member.principal%>"><%= link_to_user member.principal %></td>
+                    <td class="<%= member.principal.class.name.downcase %> <%= 'icon icon-group' if member.principal.class.name.downcase == 'group' %> <%= user_status_class member.principal%>" title="<%= user_status_i18n member.principal%>"><%= link_to_user member.principal %></td>
                     <td class="roles">
                       <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
                       <% if authorized %>
@@ -113,6 +112,7 @@ See doc/COPYRIGHT.rdoc for more details.
                           "$('member-#{member.id}-roles').show(); $('member-#{member.id}-roles-form').hide(); return false;",
                           class: 'button -small' %></p>
                         <% end %>
+                        <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
                         <td class="buttons">
                           <%= link_to_function l(:button_edit), "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
                           <%= link_to(l(:button_delete), {:controller => '/members', :action => 'destroy', :id => member, :page => params[:page]},
@@ -123,7 +123,6 @@ See doc/COPYRIGHT.rdoc for more details.
                         </td>
                       <% end %>
                     </td>
-                    <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
                   </tr>
               <% end %>
             </tbody>

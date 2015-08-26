@@ -308,6 +308,11 @@ class RepositoriesController < ApplicationController
     @repository = @project.repository
     (render_404; return false) unless @repository
 
+    # Prepare checkout instructions
+    # available on all pages (even empty!)
+    @instructions = ::Scm::CheckoutInstructionsService.new(@repository)
+
+    # Asserts repository availability, or renders an appropriate error
     @repository.scm.check_availability!
 
     @path = params[:path] || ''

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,27 +27,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Services::CreateWatcher
-  def initialize(work_package, user)
-    @work_package = work_package
-    @user = user
-
-    @watcher = Watcher.new(user: user, watchable: work_package)
-  end
-
-  def run(success: -> {}, failure: -> {})
-    if @work_package.watcher_users.include?(@user)
-      success.(created: false)
-    else
-      if @watcher.valid?
-        @work_package.watchers << @watcher
-        success.(created: true)
-        OpenProject::Notifications.send('watcher_added',
-                                        watcher_id: @watcher.id,
-                                        watcher_setter_id: User.current.id)
-      else
-        failure.(@watcher)
+class WatcherNotificationMailer
+  class << self
+    def handle_watcher(watcher_id, watcher_setter_id)
+      unless other_jobs_queued?(Watcher.find(watcher_id).watchable)
+        job = DeliverWatcherNotificationJob.new(watcher_id, watcher_setter_id)
+        Delayed::Job.enqueue job
       end
+    end
+
+    private
+
+    # HACK: TODO this needs generalization as well as performance improvements
+    # We need to make sure no work package created or updated job is queued to avoid sending two
+    # mails in short succession.
+    def other_jobs_queued?(work_package)
+      Delayed::Job.where('handler LIKE ?',
+                         "%NotificationJob%journal_id: #{work_package.journals.last.id}%").exists?
     end
   end
 end

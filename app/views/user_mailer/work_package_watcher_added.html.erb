@@ -26,15 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
-<div class="notification-box -warning">
-  <div class="notification-box--content">
-    <p><%= l('repositories.errors.exception_title',
-             message: l('repositories.errors.empty_repository')) %></p>
-  </div>
-</div>
-<%= render partial: 'checkout_instructions', locals: { repository: @repository, instructions: @instructions } %>
-<%= call_hook(:view_repositories_show_contextual,
-    { repository: @repository, project: @project }) %>
-<%= call_hook(:repositories_below_empty_warning,
-    { repository: @repository, project: @project }) %>
+<%= t(:text_work_package_watcher_added, id: "##{@issue.id}", watcher_setter: @watcher_setter) %>
+<hr />
+<%= render partial: 'issue_details', locals: { issue: @issue } %>
+<p>
+  <%= t(:text_latest_note, note: last_issue_note(@issue)) %>
+</p>

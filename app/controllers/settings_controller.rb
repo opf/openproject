@@ -48,6 +48,8 @@ class SettingsController < ApplicationController
         if value.is_a?(Array)
           # remove blank values in array settings
           value.delete_if(&:blank?)
+        elsif value.is_a?(Hash)
+          value.delete_if { |_, v| v.blank? }
         else
           value = value.strip
         end

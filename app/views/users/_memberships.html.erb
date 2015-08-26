@@ -38,6 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <colgroup>
             <col highlight-col>
             <col highlight-col>
+            <%= call_hook(:view_users_memberships_table_colgroup, :user => @user )%>
             <col>
           </colgroup>
           <thead>
@@ -60,8 +61,8 @@ See doc/COPYRIGHT.rdoc for more details.
                   </div>
                 </div>
               </th>
-              <th></th>
               <%= call_hook(:view_users_memberships_table_header, :user => @user )%>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -91,6 +92,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   class: 'button -small' %></p>
                     <% end %>
                   </td>
+                  <%= call_hook(:view_users_memberships_table_row, :user => @user, :membership => membership, :roles => roles, :projects => projects )%>
                   <td class="buttons">
                     <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
                     <%= link_to(l(:button_delete), { :controller => 'users',
@@ -101,7 +103,6 @@ See doc/COPYRIGHT.rdoc for more details.
                                           :method => :post,
                                           :class => 'icon icon-delete') if membership.deletable? %>
                   </td>
-                  <%= call_hook(:view_users_memberships_table_row, :user => @user, :membership => membership, :roles => roles, :projects => projects )%>
                 </tr>
               <% end %>
             </tbody>

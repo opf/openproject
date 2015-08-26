@@ -80,6 +80,14 @@ module OpenProject
           @password = password
         end
 
+        def checkout_command
+          'svn checkout'
+        end
+
+        def subtree_checkout?
+          true
+        end
+
         ##
         # Checks the status of this repository and throws unless it can be accessed
         # correctly by the adapter.
