@@ -75,5 +75,5 @@ Feature: Global Role Assignment
     When I go to the edit page of the user called "bob"
     And I click on "tab-global_roles"
     And I delete the assigned role "global_role"
-    Then I should see "No data to display" within "#assigned_principal_roles"
+    Then I should see "Nothing to display" within "#assigned_principal_roles"
     And I should see "global_role" within "#available_principal_roles"
