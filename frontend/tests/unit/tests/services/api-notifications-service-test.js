@@ -57,7 +57,7 @@ describe('NotificationsService', function() {
       it('adds the error to the notification service', function() {
         ApiNotificationsService.addError(error);
 
-        expect(NotificationsService.addError).to.have.been.calledWith('Oh my - Error', []);
+        expect(NotificationsService.addError).to.have.been.calledWith('Oh my - Error');
       });
     });
 

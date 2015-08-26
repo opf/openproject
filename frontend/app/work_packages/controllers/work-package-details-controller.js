@@ -77,7 +77,7 @@ module.exports = function($scope,
 
   function outputMessage(message, isError) {
     if (!!isError) {
-      NotificationsService.addError(message, []);
+      NotificationsService.addError(message);
     }
     else {
       NotificationsService.addSuccess(message);
@@ -85,7 +85,7 @@ module.exports = function($scope,
   }
 
   function outputError(error) {
-    NotificationsService.addError(error.message, []);
+    NotificationsService.addError(error.message);
   }
 
   $scope.outputMessage = outputMessage; // expose to child controllers

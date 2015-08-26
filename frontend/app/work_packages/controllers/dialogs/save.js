@@ -43,7 +43,7 @@ module.exports = function(
       .then(function(data){
 
         if (data.status.isError){
-          NotificationsService.addError(data.status.text, []);
+          NotificationsService.addError(data.status.text);
         }
         else {
           // push query id to URL without reinitializing work-packages-list-controller

@@ -72,7 +72,7 @@ module.exports = function($scope, $http, PathHelper, SortService, PaginationServ
              NotificationsService.addSuccess(data.text);
            })
            .error(function(data) {
-             NotificationsService.addError(data.text, []);
+             NotificationsService.addError(data.text);
            });
     }
   };

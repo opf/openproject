@@ -85,8 +85,7 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
       return WorkPackageService.getWorkPackages($scope.projectIdentifier, queryFromParams, PaginationService.getPaginationOptions());
     } catch(e) {
       NotificationsService.addError(
-          I18n.t('js.work_packages.query.errors.unretrievable_query'),
-          []
+          I18n.t('js.work_packages.query.errors.unretrievable_query')
       );
       clearUrlQueryParams();
 

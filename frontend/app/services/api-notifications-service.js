@@ -36,7 +36,7 @@ module.exports = function(NotificationsService, ApiHelper) {
       NotificationsService.addError('', messages);
     }
     else {
-      NotificationsService.addError(messages[0], []);
+      NotificationsService.addError(messages[0]);
     }
   };
 

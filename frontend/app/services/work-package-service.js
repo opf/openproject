@@ -300,8 +300,7 @@ module.exports = function($http,
               },
               function(failedResponse) {
                 NotificationsService.addError(
-                  I18n.t('js.work_packages.query.errors.unretrievable_query'),
-                  []
+                  I18n.t('js.work_packages.query.errors.unretrievable_query')
                 );
               }
       );
@@ -328,8 +327,7 @@ module.exports = function($http,
               .error(function(data, status) {
                 // TODO wire up to API and processs API response
                 NotificationsService.addError(
-                  I18n.t('js.work_packages.message_error_during_bulk_delete'),
-                  []
+                  I18n.t('js.work_packages.message_error_during_bulk_delete')
                 );
               });
       }

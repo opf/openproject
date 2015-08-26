@@ -55,7 +55,7 @@ module.exports = function(
         QueryService.saveQuery()
           .then(function(data){
             if (data.status.isError) {
-              NotificationsService.addError(data.status.text, []);
+              NotificationsService.addError(data.status.text);
             }
             else {
               NotificationsService.addSuccess(data.status.text);
@@ -74,7 +74,7 @@ module.exports = function(
       QueryService.deleteQuery()
         .then(function(data){
           if (data.status.isError) {
-              NotificationsService.addError(data.status.text, []);
+              NotificationsService.addError(data.status.text);
           }
           else {
             NotificationsService.addSuccess(data.status.text);
