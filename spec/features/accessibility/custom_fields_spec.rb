@@ -161,7 +161,7 @@ describe 'Custom field accessibility', type: :feature do
         before do
           allow(I18n).to receive(:locale).and_return locale
 
-          project_settings_page.visit_settings
+          project_settings_page.visit_settings_tab('custom_fields')
         end
       end
 
