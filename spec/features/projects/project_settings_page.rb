@@ -38,7 +38,7 @@ class ProjectSettingsPage
     visit settings_path
   end
 
-  def visit_settings_tab tab
+  def visit_settings_tab(tab)
     visit settings_path(tab: tab)
   end
 
@@ -48,7 +48,7 @@ class ProjectSettingsPage
 
   private
 
-  def settings_path options = {}
+  def settings_path(options = {})
     settings_project_path(@project, options)
   end
 end
