@@ -195,13 +195,24 @@ module OpenProject::Plugins
         end
       end
 
-      def allow_attribute_update(model, actions, attribute, &block)
+      def add_api_attribute(on:,
+                            writable_for: [:create, :update],
+                            ar_name:,
+                            api_name: ar_name,
+                            &block)
         config.to_prepare do
-          model_name = model.to_s.camelize
+          model_name = on.to_s.camelize
           namespace = model_name.pluralize
-          Array(actions).each do |action|
+          Array(writable_for).each do |action|
             contract_class = "::API::V3::#{namespace}::#{action.to_s.camelize}Contract".constantize
-            contract_class.attribute attribute, &block
+            contract_class.attribute ar_name, &block
+          end
+
+          if writable_for.any?
+            # attribute is generally writable
+            # overrides might be defined in the more specific schema implementations
+            schema_class = "::API::V3::#{namespace}::Schema::Base#{model_name}Schema".constantize
+            schema_class.register_writable_property(api_name)
           end
         end
       end

@@ -32,6 +32,33 @@ module API
     module WorkPackages
       module Schema
         class BaseWorkPackageSchema
+          class << self
+            @@writable_properties = [
+              :subject,
+              :description,
+              :estimated_time,
+              :assignee,
+              :responsible,
+              :type,
+              :status,
+              :category,
+              :version,
+              :priority,
+              :percentage_done,
+              :estimated_time,
+              :start_date,
+              :due_date
+            ]
+
+            def writable_properties
+              @@writable_properties.dup.freeze
+            end
+
+            def register_writable_property(property)
+              @@writable_properties << property.to_sym
+            end
+          end
+
           def project
             nil
           end
@@ -69,30 +96,11 @@ module API
             when :percentage_done
               percentage_done_writable?
             else
-              writable_properties.include? property
+              self.class.writable_properties.include? property
             end
           end
 
           private
-
-          def writable_properties
-            [
-              :subject,
-              :description,
-              :estimated_time,
-              :assignee,
-              :responsible,
-              :type,
-              :status,
-              :category,
-              :version,
-              :priority,
-              :percentage_done,
-              :estimated_time,
-              :start_date,
-              :due_date
-            ]
-          end
 
           def percentage_done_writable?
             Setting.work_package_done_ratio == 'field'
