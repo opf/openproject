@@ -305,6 +305,11 @@ OpenProject::Application.routes.draw do
         match '/report' => 'work_packages/reports#report', via: :get
       end
 
+      # Prevent the /*state route from overriding Rails' new and create
+      # view which is being used for e.g. duplicating work packages.
+      get '/new' => 'work_packages#new', on: :collection
+      post '/' => 'work_packages#create', on: :collection
+
       # states managed by client-side routing on work_package#index
       get '/*state' => 'work_packages#index', on: :collection
 
