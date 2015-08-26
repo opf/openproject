@@ -41,30 +41,22 @@ div.changeset-changes ul
 
 li.change
   list-style-type: none
-  background-image: image-url('bullet_black.png')
-  background-position: left center
-  background-repeat: no-repeat
-  padding-top: 1px
-  padding-bottom: 1px
-  padding-left: 20px
+  padding: 1px 0 1px 20px
   margin: 0
 
-  &.folder
-    background-image: image-url('folder_open.png')
-    &.change-A
-      background-image: image-url('folder_open_add.png')
-    &.change-M
-      background-image: image-url('folder_open_orange.png')
-  &.change-A
-    background-image: image-url('bullet_add.png')
-  &.change-M
-    background-image: image-url('bullet_orange.png')
-  &.change-C
-    background-image: image-url('bullet_blue.png')
-  &.change-R
-    background-image: image-url('bullet_purple.png')
-  &.change-D
-    background-image: image-url('bullet_delete.png')
+  &.icon:before
+    position: relative
+    top: 2px
+  &.change-A.icon:before
+    color: green
+  &.change-M.icon:before
+    color: #FAC100
+  &.change-C.icon:before
+    color: #65B2F8
+  &.change-R.icon:before
+    color: #A54EFD
+  &.change-D.icon:before
+    color: red
 
   .copied-from
     font-style: italic

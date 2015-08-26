@@ -593,7 +593,7 @@ class RedCloth3 < String
           bq,content = $1, $2
           l = bq.count('>')
           if l != indent
-            quotes << ("\n\n" + (l>indent ? '<blockquote>' * (l-indent) : '</blockquote>' * (indent-l)) + "\n\n")
+            quotes << ("\n\n" + (l>indent ? '<blockquote class="icon icon-quote2">' * (l-indent) : '</blockquote>' * (indent-l)) + "\n\n")
             indent = l
           end
           quotes << (content + "\n")

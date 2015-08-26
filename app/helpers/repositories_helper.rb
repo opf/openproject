@@ -104,7 +104,7 @@ module RepositoriesHelper
                        project_id: @project,
                        path: path_param,
                        rev: @changeset.identifier)
-        output << "<li class='#{style}'>#{text}</li>"
+        output << "<li class='#{style} icon icon-open-folder'>#{text}</li>"
         output << render_changes_tree(s)
       elsif c = tree[file][:c]
         style << " change-#{c.action}"
@@ -123,7 +123,14 @@ module RepositoriesHelper
                                    path: path_param,
                                    rev: @changeset.identifier) + ') ') if c.action == 'M'
         text << raw(' ' + content_tag('span', h(c.from_path), class: 'copied-from')) unless c.from_path.blank?
-        output << "<li class='#{style}'>#{text}</li>"
+        case c.action
+          when 'A'
+            output << "<li class='#{style} icon icon-added'>#{text}</li>"
+          when 'D'
+            output << "<li class='#{style} icon icon-delete2'>#{text}</li>"
+          else
+            output << "<li class='#{style} icon icon-pulldown-arrow4'>#{text}</li>"
+        end
       end
     end
     output << '</ul>'
