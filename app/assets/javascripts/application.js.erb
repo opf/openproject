@@ -96,7 +96,7 @@ jQuery(document).ready(function ($) {
 });
 
 function checkAll(selector, checked) {
-  jQuery('#' + selector + ' input:checkbox').each(function() {
+  jQuery('#' + selector + ' input:checkbox').not(':disabled').each(function() {
     this.checked = checked;
   });
 }
