@@ -35,7 +35,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     FactoryGirl.build(:user, member_in_project: work_package.project)
   }
   let(:schema) {
-    ::API::V3::WorkPackages::Schema::WorkPackageSchema.new(work_package: work_package)
+    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
   }
   let(:embedded) { false }
   let(:representer) {
@@ -48,8 +48,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   shared_examples_for 'has a collection of allowed values' do
     let(:embedded) { true }
 
+    before do
+      allow(schema).to receive(:assignable_values).and_return(nil)
+    end
+
     context 'when no values are allowed' do
-      before do allow(schema).to receive(allowed_values_method).and_return([]) end
+      before do
+        allow(schema).to receive(:assignable_values).with(factory, anything).and_return([])
+      end
 
       it_behaves_like 'links to and embeds allowed values directly' do
         let(:path) { json_path }
@@ -60,7 +66,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     context 'when values are allowed' do
       let(:values) { FactoryGirl.build_stubbed_list(factory, 3) }
 
-      before do allow(schema).to receive(allowed_values_method).and_return(values) end
+      before do
+        allow(schema).to receive(:assignable_values).with(factory, anything).and_return(values)
+      end
 
       it_behaves_like 'links to and embeds allowed values directly' do
         let(:path) { json_path }
@@ -69,7 +77,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     context 'when not embedded' do
-      let(:embedded) { false }
+      before do
+        allow(schema).to receive(:assignable_values).with(factory, anything).and_return(nil)
+      end
 
       it_behaves_like 'does not link to allowed values' do
         let(:path) { json_path }
@@ -231,7 +241,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       let(:json_path) { 'costObject' }
       let(:href_path) { 'budgets' }
       let(:factory) { :cost_object }
-      let(:allowed_values_method) { :assignable_cost_objects }
     end
 
     context 'costs disabled' do

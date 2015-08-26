@@ -105,9 +105,9 @@ module OpenProject::Costs
 
     patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :PermittedParams,
              :ProjectsController, :ApplicationHelper, :UsersHelper, :WorkPackagesHelper]
-    patch_with_namespace :API, :V3, :WorkPackages, :Schema, :WorkPackageSchema
+    patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
 
-    allow_attribute_update :work_package, [:create, :update], :cost_object_id
+    add_api_attribute on: :work_package, ar_name: :cost_object_id, api_name: :cost_object
 
     add_api_path :cost_entry do |id|
       "#{root}/cost_entries/#{id}"
@@ -254,9 +254,6 @@ module OpenProject::Costs
       schema_with_allowed_collection :cost_object,
                                      type: 'Budget',
                                      required: false,
-                                     values_callback: -> (*) {
-                                       represented.assignable_cost_objects
-                                     },
                                      value_representer: ::API::V3::Budgets::BudgetRepresenter,
                                      link_factory: -> (budget) {
                                        {
