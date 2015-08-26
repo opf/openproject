@@ -47,6 +47,16 @@
   .flash ~ div[ui-view]
     height: calc(100% - #{($content-flash-height + $flash-margins-padding)})
 
+  // If there are two flash messages shown:
+  // Subtract the height of the two flash messages
+  .flash:not(.ng-hide) ~ .flash:not(.ng-hide) ~ div[ui-view]
+    height: calc(100% - #{2 * ($content-flash-height + $flash-margins-padding)})
+
+  #history
+    border-bottom-color: rgb(221, 221, 221)
+    border-bottom-style: solid
+    border-bottom-width: 1px
+
 // HACK: workaround to ensure correct height applied to child elements
 #work-packages-index
   height: 100%
