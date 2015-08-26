@@ -35,13 +35,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     FactoryGirl.build(:user, member_in_project: work_package.project)
   }
   let(:schema) {
-    ::API::V3::WorkPackages::Schema::WorkPackageSchema.new(work_package: work_package)
+    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
   }
   let(:representer) { described_class.create(schema, current_user: current_user) }
 
   before do
     allow(schema.project).to receive(:backlogs_enabled?).and_return(true)
     allow(work_package.type).to receive(:story?).and_return(true)
+    allow(work_package).to receive(:leaf?).and_return(true)
   end
 
   describe 'storyPoints' do
@@ -115,7 +116,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     context 'remainingTime not writable' do
       before do
-        allow(schema).to receive(:remaining_time_writable?).and_return(false)
+        allow(schema).to receive(:writable?).and_call_original
+        allow(schema).to receive(:writable?).with(:remaining_time).and_return(false)
       end
 
       it_behaves_like 'has basic schema properties' do
