@@ -25,7 +25,7 @@
                       accesskey="{{ isListViewActive() ? '' : '8' }}"
                       class="button"
                       title="{{ getActivationActionLabel(!isListViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
-                      ng-click="closeDetailsView()"
+                      ng-click="closeShowView()"
                       ng-class="{ '-active': isListViewActive() }">
                 <i class="icon-table-view button--icon"></i>
               </button>
