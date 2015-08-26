@@ -92,7 +92,7 @@ Feature: Project Settings
     When I am already admin
     And  I go to the settings page of the project "project1"
     And  I select "project2" from "Subproject of"
-    And  I click on "Save" within "#content"
+    And  I click on "Update" within "#content"
     And  I follow "Copy" within "#content"
     And  I fill in "Name" with "Copied Project"
     And  I fill in "Identifier" with "cp"

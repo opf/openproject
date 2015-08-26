@@ -58,7 +58,7 @@ Feature: Project Default Settings
     And I fill in "project_name" with "A New Hope"
     And I fill in "project_identifier" with "a-new-hope"
     And I uncheck "Wiki"
-    And I press "Save"
+    And I press "Create"
     And I go to the settings page of the project called "A New Hope"
     And I click on "tab-modules"
     Then the "Wiki" checkbox should not be checked
