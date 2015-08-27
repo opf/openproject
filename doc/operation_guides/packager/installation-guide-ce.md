@@ -4,7 +4,7 @@ strongly recommend to install OpenProject CE on a clean install.*
 
 # OpenProject Community Edition (CE) installation via package manager
 
-The installation of the OpenProject software can be done manually or via official software-packages build by the packager.io service. Using these software packages is highly recommended to reduce the pain of installation and configuration errors. Besides the installation via package manager is done via configuration wizard which is very helpful to get everything up and running right from the beginning.
+The installation of the OpenProject software can be done manually or via official software-packages build by the packager.io service. Using these software packages is highly recommended to reduce the pain of installation and configuration errors. Additionally, the installation via package manager is done via configuration wizard which is very helpful to get everything up and running right from the beginning.
 
 ## Stack used by packager.io packages
 
@@ -100,13 +100,15 @@ The following steps have to be performed to initiate the actual installation of 
 
 # Post-Install Configuration
 
-After the installation of the OpenProject package the system has to be configured to use this package and operate the OpenProject application. Therefore the package includes aconfiguration wizard which can be started using the following command.
+After the installation of the OpenProject package the system has to be configured to use this package and operate the OpenProject application. Therefore the package includes a configuration wizard which can be started using the following command.
 
     openproject-ce configure
 
 Side note: The installer supports the configuration of necessary SSL connections too. If required the corresponding SSL certificates (incl. keys) have to be placed on the machine.
-OpenProject command line tool
-The openproject package comes with a command line tool to help manage important configuration settings. To see all possible command options of this tool type sudo openproject.
+
+# OpenProject command line tool
+
+The openproject package comes with a command line tool to help manage important configuration settings. To see all possible command options of this tool type `sudo openproject-ce`.
 
     admin@openproject-demo:~# sudo openproject-ce
     Usage:
@@ -119,18 +121,20 @@ The openproject package comes with a command line tool to help manage important 
 
 ## Set configuration options
 
-During the installation process a lot of settings were set to get the application runnings. But if you need to set some advanced options or you want to change some settings which were set during the installation via the installation wizard you can use config:set option. Please be aware that you have to stop and restart the application server so that the new configuration is loaded. This can be done using the service openproject [start|stop] command. See which settings can be set and an example for setting the session store below.
+During the installation process a lot of settings were set to get the application running. But if you need to set some advanced options or you want to change some settings which were set during the installation via the installation wizard you can use `config:set <option>`. Please be aware that you have to stop and restart the application server so that the new configuration is loaded. This can be done using the `service openproject [start|stop]` command (this is the command for Ubuntu, the command for your distrobution may vary). See which settings can be set and an example for setting the session store below.
 
     DATABASE_URL=mysql2://openproject:9ScapYA1MN7JQrPR7Wkmp7y99K6mRHGU@127.0.0.1:3306/openproject
     SECRET_TOKEN=c5aa99a90f9650404a885cf5ec7c28f7fe1379550bb811cb0b39058f9407eaa216b9b2b22d27f58fb15ac21adb3bd16494ebe89e39ec225ef4627db048a12530
 
-    ADMIN_EMAIL=<a class="email" href="mailto:mail@example.com">mail@example.com</a>
+    ADMIN_EMAIL=mail@example.com
     EMAIL_DELIVERY_METHOD=smtp
     SMTP_DOMAIN=10.10.3.6
     SMTP_HOST=127.0.0.1
     SMTP_PASSWORD=mail
     SMTP_PORT=25
-    SMTP_URL=smtp://mail:<a class="email" href="mailto:mail@127.0.0.1">mail@127.0.0.1</a>:25/10.10.3.6
+    SMTP_URL=smtp://mail:9a4itlkja49@10.10.3.6:25
+    SMTP_ENABLE_STARTTLS_AUTO=true
+    SMTP_AUTHENTICATION=plain
     SMTP_USERNAME=mail
 
     WEB_CONCURRENCY=2
@@ -186,6 +190,6 @@ Upgrading the OpenProject CE is as easy as installing a newer OpenProject CE pac
 
 ## SuSE Enterprise Server 12
 
-  sudo zypper update openproject-ce
-  sudo openproject-ce configure
+    sudo zypper update openproject-ce
+    sudo openproject-ce configure
 

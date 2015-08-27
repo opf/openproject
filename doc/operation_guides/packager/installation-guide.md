@@ -130,8 +130,10 @@ During the installation process a lot of settings were set to get the applicatio
     SMTP_HOST=127.0.0.1
     SMTP_PASSWORD=mail
     SMTP_PORT=25
-    SMTP_URL=smtp://mail:<a class="email" href="mailto:mail@127.0.0.1">mail@127.0.0.1</a>:25/10.10.3.6
+    SMTP_URL=smtp://mail:9sfiaef3fsf@10.10.3.6:25
     SMTP_USERNAME=mail
+    SMTP_ENABLE_STARTTLS_AUTO=true
+    SMTP_AUTHENTICATION=plain
 
     WEB_CONCURRENCY=2
     WEB_TIMEOUT=15
