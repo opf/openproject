@@ -498,6 +498,9 @@ class Query < ActiveRecord::Base
 
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +values+ array
   def sql_for_field(field, operator, values, db_table, db_field, is_custom_filter = false)
+    # code expects strings (e.g. for quoting), but ints would work as well: unify them here
+    values = values.map(&:to_s)
+
     sql = ''
     case operator
     when '='
