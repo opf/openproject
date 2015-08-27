@@ -66,6 +66,38 @@ module.exports = function($scope,
   $scope.maxDescriptionLength = 800;
   $scope.projectIdentifier = $scope.workPackage.embedded.project.props.identifier;
 
+
+  $scope.watch = function() {
+    if ($scope.isWatched) {
+      return;
+    }
+
+    $scope.toggleWatchLink
+      .fetch({ ajax: {
+        method: $scope.toggleWatchLink.props.method,
+        href: $scope.toggleWatchLink.props.href,
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify($scope.toggleWatchLink.props.payload)
+      }})
+      .then(refreshWorkPackage, $scope.outputError);
+  }
+
+  $scope.unwatch = function() {
+    if (!$scope.isWatched) {
+      return;
+    }
+
+    $scope.toggleWatchLink
+      .fetch({ ajax: {
+        method: $scope.toggleWatchLink.props.method,
+        href: $scope.toggleWatchLink.props.href,
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify($scope.toggleWatchLink.props.payload)
+      }})
+      .then(refreshWorkPackage, $scope.outputError);
+  }
+
+
   function fetchProjectTypes() {
     ProjectService.getProject($scope.projectIdentifier)
       .then(function(project) {
@@ -81,7 +113,7 @@ module.exports = function($scope,
         setWorkPackageScopeProperties(workPackage);
         fetchProjectTypes();
         $scope.$broadcast('workPackageRefreshed');
-        if (callback) {
+        if (angular.isFunction(callback)) {
           callback(workPackage);
         }
       });

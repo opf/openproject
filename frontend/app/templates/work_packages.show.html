@@ -74,6 +74,20 @@
             <i class="button--dropdown-indicator"></i>
           </button>
         </li>
+        <li class="toolbar-item" ng-if="isWatched">
+          <button class="button"
+                  ng-click="unwatch()"
+                  title="{{I18n.t('js.label_unwatch_work_package')}}">
+            <i class="button--icon icon-watch-1"></i>
+          </button>
+        </li>
+        <li class="toolbar-item" ng-if="!isWatched">
+          <button class="button"
+                  ng-click="watch()"
+                  title="{{I18n.t('js.label_watch_work_package')}}">
+            <i class="button--icon icon-not-watch"></i>
+          </button>
+        </li>
         <li class="toolbar-item">
           <button class="button" ng-click="editWorkPackage()">
             <i class="button--icon icon-edit"></i>
