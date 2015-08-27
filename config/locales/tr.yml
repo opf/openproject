@@ -3,7 +3,6 @@ tr:
   label_visible_elements: Görünür öğeler
   label_project_description: Proje tanımı
   label_project_details: Proje detayları
-  label_project_homepage: Anasayfa
   label_custom_element: Tanıtım ekle ...
   info_custom_text: Özel metin
   label_confirm_delete: Bu öğeyi gerçekten silmek istiyor musunuz?

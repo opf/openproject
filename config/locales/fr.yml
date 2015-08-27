@@ -3,7 +3,6 @@ fr:
   label_visible_elements: Éléments visibles
   label_project_description: Description du projet
   label_project_details: Détails du projet
-  label_project_homepage: "Page d'accueil"
   label_custom_element: Ajouter une accroche…
   info_custom_text: Texte personnalisé
   label_confirm_delete: Êtes-vous sûr de vouloir supprimer cet élément ?

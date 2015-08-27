@@ -27,7 +27,6 @@ See doc/COPYRIGHT.md for more details.
 
 <div class="overview project_details">
   <ul>
-  <% unless project.homepage.blank? %><li><%=l(:label_project_homepage)%>: <%= auto_link(h(project.homepage)) %></li><% end %>
   <% if childprojects.any? %>
     <li><%=l(:label_subproject_plural)%>:
       <%= childprojects.collect{|p| link_to(h(p), project_url(p))}.join(", ").html_safe %></li>
