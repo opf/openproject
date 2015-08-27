@@ -4,7 +4,7 @@
      ng-class="[
        'icon',
        'tl-icon-' + (isDateColumn && historicalDateKind || 'changed'),
-       'icon-time'
+       'icon-' + (isDateColumn && 'time' || 'arrow-left-right')
      ]"></a>
   <br/>
 </span>

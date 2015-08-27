@@ -32,17 +32,6 @@ table
   p
     margin: 0
 
-  &.files tr.file td
-    text-align: center
-    &.filename
-      text-align: left
-      padding-left: 24px
-    &.digest
-      font-size: 80%
-
-  &.members td.roles, &.memberships td.roles
-    width: 45%
-
   &.plugins
     td
       vertical-align: middle
@@ -59,14 +48,12 @@ table
   &#time-report
     tbody tr
       font-style: italic
-      color: #333
+      color: $body-font-color
       &.last-level
         font-style: normal
-        color: #555
       &.total
         font-style: normal
         font-weight: bold
-        color: #555
         background-color: #EEEEEE
     .hours-dec
       font-size: 0.9em
@@ -111,21 +98,6 @@ tr
     &.idnt td.subject .icon-context:before
       padding: 9px 0 0 10px
 
-  &.work-package
-    white-space: nowrap
-    &.sum
-      font-weight: bold
-    td.subject
-      white-space: normal
-      text-align: left
-    td.done_ratio table.progress
-      margin-left: auto
-      margin-right: auto
-    &.idnt td.subject.icon-context
-      display: inherit
-    &.issue td.category
-      white-space: normal
-
   &.entry
     border: 1px solid #f8f8f8
     td
@@ -155,10 +127,6 @@ tr
   [class*=reorder]
     .icon-context:before
       padding: 0 0 0 0
-    .up
-      transform: rotate(90deg)
-    .down
-      transform: rotate(270deg)
 
   &.message
     height: 2.6em
@@ -194,30 +162,7 @@ td.hours
 th.hidden
   display: none
 
-a.toggle-all:hover
-  text-decoration: none
-
 #content tr.issue
-  &.idnt-1 td.subject
-    padding-left: 0.5em
-  &.idnt-2 td.subject
-    padding-left: 2em
-  &.idnt-3 td.subject
-    padding-left: 3.5em
-  &.idnt-4 td.subject
-    padding-left: 5em
-  &.idnt-5 td.subject
-    padding-left: 6.5em
-  &.idnt-6 td.subject
-    padding-left: 8em
-  &.idnt-7 td.subject
-    padding-left: 9.5em
-  &.idnt-8 td.subject
-    padding-left: 11em
-  &.idnt-9 td.subject
-    padding-left: 12.5em
-
-#content tr.work-package
   &.idnt-1 td.subject
     padding-left: 0.5em
   &.idnt-2 td.subject

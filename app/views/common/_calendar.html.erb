@@ -47,7 +47,7 @@ while day <= calendar.enddt %>
                 <%= h("#{i.project} -") unless @project && @project == i.project %>
                 <%# date_img = '' %>
                 <% if day == i.start_date and day == i.due_date %>
-                  <% date_img = content_tag(:span, '', class: "icon icon-arrow-right7 diamond") %>
+                  <% date_img = content_tag(:span, '', class: "icon icon-milestone diamond") %>
                 <% elsif day == i.start_date %>
                   <% date_img = content_tag(:span, '', class: "icon icon-arrow-right7 starting") %>
                 <% elsif day == i.due_date %>

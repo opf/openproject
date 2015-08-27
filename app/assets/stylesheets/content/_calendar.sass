@@ -26,6 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+@mixin setCalendarIconValues()
+  display: inline-flex
+  &:before
+    padding: 0 10px 0 10px
+  &.ending:before
+    transform: rotate(180deg)
+    color: #F5827E
+  &.diamond:before
+    color: #F5827E
+  &.starting:before
+    color: #A2C57A
+
+
 table.cal
   border-collapse: collapse
   width: 100%
@@ -65,20 +78,11 @@ table.cal
 
   .icon,
   .icon-context
-    display: inline-flex
-    &:before
-      padding: 0 10px 0 10px
-    &.ending:before
-      transform: rotate(180deg)
-      color: #F5827E
-    &.diamond:before
-      transform: rotate(90deg)
-      color: #F5827E
-    &.starting:before
-      color: #A2C57A
+    @include setCalendarIconValues()
 
 p.legend.cal
   margin-bottom: 0
   .icon
+    @include setCalendarIconValues()
     vertical-align: middle
 

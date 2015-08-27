@@ -105,7 +105,7 @@ describe Redmine::WikiFormatting::Textile::Formatter do
 
   it 'should inline auto link' do
     assert_html_output(
-      'Autolink to http://www.google.com' =>         'Autolink to <a class="external" href="http://www.google.com">http://www.google.com</a>'
+      'Autolink to http://www.google.com' =>         'Autolink to <a class="external icon-context icon-copy2" href="http://www.google.com">http://www.google.com</a>'
     )
   end
 
@@ -135,7 +135,7 @@ RAW
     # expected html
     expected = <<-EXPECTED
 <p>John said:</p>
-<blockquote>
+<blockquote class="icon icon-quote2">
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.<br />
 Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
 <ul>
@@ -144,7 +144,7 @@ Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
   <li>malesuada in,</li>
   <li>adipiscing eu, dolor.</li>
 </ul>
-<blockquote>
+<blockquote class="icon icon-quote2">
 <p>Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.</p>
 </blockquote>
 <p>Proin a tellus. Nam vel neque.</p>

@@ -137,7 +137,7 @@ describe('timelineColumnData Directive', function() {
         });
 
         it('should contain a link with a css class indicating the change', function() {
-          expect(historicalContainerElement.find('a').hasClass('icon-arrow-left-right')).to.be.true;
+          expect(historicalContainerElement.find('a').hasClass('tl-icon-changed')).to.be.true;
         });
       });
 
