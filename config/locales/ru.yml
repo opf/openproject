@@ -1,0 +1,31 @@
+ru:
+  description_drill_down: Показать в деталях
+  label_click_to_edit: Щелкнуть для изменения.
+  label_columns: Столбцы
+  label_count: Количество
+  label_filter: Фильтр
+  label_filter_add: Добавить фильтр
+  label_filter_plural: Фильтры
+  label_greater: '>'
+  label_group_by: Группировать по
+  label_group_by_add: Добавьте атрибут Группировать по
+  label_help: Справка
+  label_inactive: «неактивен»
+  label_less: '<'
+  label_no: Нет
+  label_none: (нет данных)
+  label_progress_bar_explanation: Создание отчета...
+  label_really_delete_question: Вы действительно хотите удалить этот отчет?
+  label_report: Отчет
+  label_rows: Строки
+  label_saving: Сохранение ...
+  label_sum: Сумма
+  label_yes: Да
+  load_query_question: 'Отчет будет иметь ячейки таблицы %{size} и может занять некоторое время для визуализации. Вы все еще хотите попробовать его?'
+  units: Модули
+  validation_failure_date: не является допустимой датой
+  validation_failure_integer: не является допустимым целым числом
+  js:
+    reporting_engine:
+      label_remove: Удалить
+      label_response_error: Произошла ошибка при обработке запроса.
