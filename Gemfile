@@ -33,6 +33,7 @@ gem 'protected_attributes'
 gem 'actionpack-action_caching'
 gem 'activerecord-session_store'
 gem 'rails-observers'
+gem 'responders', '~> 2.0'
 
 gem 'coderay', '~> 1.1.0'
 gem 'rubytree', '~> 0.8.3'

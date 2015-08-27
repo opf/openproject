@@ -378,6 +378,8 @@ GEM
       nokogiri
       uber (~> 0.0.7)
     request_store (1.1.0)
+    responders (2.1.0)
+      railties (>= 4.2.0, < 5)
     rest-client (1.6.9)
       mime-types (~> 1.16)
     roar (1.0.1)
@@ -565,6 +567,7 @@ DEPENDENCIES
   rdoc (>= 2.4.2)
   reform (~> 1.2.6)
   request_store (~> 1.1.0)
+  responders (~> 2.0)
   roar (~> 1.0.0)
   rspec (~> 3.3.0)
   rspec-activemodel-mocks
