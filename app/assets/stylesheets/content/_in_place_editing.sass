@@ -192,7 +192,8 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
   visibility: hidden
   font-size: rem-calc(14px)
 
-  .icon-edit::before
+  .icon-edit::before,
+  .icon-delete::before
     // HACK: overriding default padding here
     padding-right: 0
 
@@ -293,8 +294,3 @@ a.inplace-editing--trigger-link,
 
       i
         vertical-align: text-top
-
-  .inplace-edit--icon-wrapper
-    .icon-button
-      margin-left: auto
-
