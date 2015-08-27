@@ -119,7 +119,6 @@ class Project < ActiveRecord::Base
   validates_uniqueness_of :identifier
   validates_associated :repository, :wiki
   validates_length_of :name, maximum: 255
-  validates_length_of :homepage, maximum: 255
   validates_length_of :identifier, in: 1..IDENTIFIER_MAX_LENGTH
   # starts with lower-case letter, a-z, 0-9, dashes and underscores afterwards
   validates :identifier,
@@ -768,7 +767,6 @@ class Project < ActiveRecord::Base
   safe_attributes 'name',
                   'description',
                   'summary',
-                  'homepage',
                   'is_public',
                   'identifier',
                   'custom_field_values',
