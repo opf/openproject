@@ -37,7 +37,7 @@ class CustomValue::BoolStrategy < CustomValue::FormatStrategy
   def typed_value
     return nil unless value_present?
 
-    ActiveRecord::ConnectionAdapters::Column.value_to_boolean(value)
+    ActiveRecord::Type::Boolean.new.type_cast_from_database(value)
   end
 
   def validate_type_of_value
