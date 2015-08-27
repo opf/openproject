@@ -456,6 +456,7 @@ Cursor based pagination is therefore less suited for use cases where you want to
 Collections may support different kinds of aggregations.
 Some properties can be summed up. If requested the collection will include the `totalSums` property,
 which is a dictionary, where the keys represent the names of the summed properties and the values represent their sums.
+Note that you have to mark a column as summable in the instance settings, to be able to retrieve its sums.
 
 It is also possible to group the contents of a collection. In this case:
 
