@@ -90,7 +90,7 @@ angular.module('openproject.workPackages.controllers')
     'CommonRelationsHandler',
     'ChildrenRelationsHandler',
     'ParentRelationsHandler',
-    'EditableFieldsState',
+    'NotificationsService',
     require('./work-package-details-controller')
   ])
   .controller('WorkPackageNewController', [
@@ -134,6 +134,7 @@ angular.module('openproject.workPackages.controllers')
     'PathHelper',
     'Query',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
+    'NotificationsService',
     require('./work-packages-list-controller')
   ])
   .factory('columnsModal', ['btfModal', function(btfModal) {
@@ -197,6 +198,7 @@ angular.module('openproject.workPackages.controllers')
     'QueryService',
     'AuthorisationService',
     '$state',
+    'NotificationsService',
     require('./dialogs/save')
   ])
   .factory('settingsModal', ['btfModal', function(btfModal) {
@@ -214,6 +216,7 @@ angular.module('openproject.workPackages.controllers')
     'AuthorisationService',
     '$rootScope',
     'QUERY_MENU_ITEM_TYPE',
+    'NotificationsService',
     require('./dialogs/settings')
   ])
   .factory('shareModal', ['btfModal', function(btfModal) {
@@ -231,6 +234,7 @@ angular.module('openproject.workPackages.controllers')
     'AuthorisationService',
     'queryMenuItemFactory',
     'PathHelper',
+    'NotificationsService',
     require('./dialogs/share')
   ])
   .factory('sortingModal', ['btfModal', function(btfModal) {

@@ -30,7 +30,7 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
       I18n, WorkPackagesTableService,
       WorkPackageService, ProjectService, QueryService, PaginationService,
       AuthorisationService, UrlParamsHelper, PathHelper, Query,
-      OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
+      OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService) {
 
   // Setup
   function initialSetup() {
@@ -84,10 +84,9 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
 
       return WorkPackageService.getWorkPackages($scope.projectIdentifier, queryFromParams, PaginationService.getPaginationOptions());
     } catch(e) {
-      $scope.$emit('flashMessage', {
-        isError: true,
-        text: I18n.t('js.work_packages.query.errors.unretrievable_query')
-      });
+      NotificationsService.addError(
+          I18n.t('js.work_packages.query.errors.unretrievable_query')
+      );
       clearUrlQueryParams();
 
       return WorkPackageService.getWorkPackages($scope.projectIdentifier);

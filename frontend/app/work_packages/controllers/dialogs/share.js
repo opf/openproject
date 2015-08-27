@@ -26,7 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, shareModal, QueryService, AuthorisationService, queryMenuItemFactory, PathHelper) {
+module.exports = function(
+    $scope,
+    shareModal,
+    QueryService,
+    AuthorisationService,
+    queryMenuItemFactory,
+    PathHelper,
+    NotificationsService
+  ) {
 
   this.name    = 'Share';
   this.closeMe = shareModal.deactivate;
@@ -38,7 +46,7 @@ module.exports = function($scope, shareModal, QueryService, AuthorisationService
 
   function closeAndReport(message) {
     shareModal.deactivate();
-    $scope.$emit('flashMessage', message);
+    NotificationsService.addSuccess(message.text);
   }
 
   $scope.cannot = AuthorisationService.cannot;
@@ -49,11 +57,11 @@ module.exports = function($scope, shareModal, QueryService, AuthorisationService
       .then(function(data){
         messageObject = data.status;
         if(data.query) {
-          AuthorisationService.initModelAuth("query", data.query._links);
+          AuthorisationService.initModelAuth('query', data.query._links);
         }
       })
       .then(function(data){
-        if($scope.query.starred != $scope.shareSettings.starred){
+        if($scope.query.starred !== $scope.shareSettings.starred){
           QueryService.toggleQueryStarred($scope.query)
             .then(function(data){
               closeAndReport(data.status || messageObject);

@@ -27,6 +27,7 @@
 #++
 
 require 'spec_helper'
+require 'features/page_objects/notification'
 require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
@@ -34,6 +35,7 @@ feature 'Query menu items' do
   let(:user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create :project }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
+  let(:notification) { PageObjects::Notifications.new(page) }
 
   def visit_index_page(query)
     work_packages_page.select_query(query)
@@ -72,7 +74,7 @@ feature 'Query menu items' do
       check 'show_in_menu'
       click_on 'Save'
 
-      expect(page).to have_selector('.flash', text: 'Successful update')
+      notification.expect_success('Successful update')
       expect(page).to have_selector('a', text: query.name)
     end
 
@@ -103,7 +105,7 @@ feature 'Query menu items' do
     end
 
     it 'displaying a success message', js: true do
-      expect(page).to have_selector('.flash', text: 'Successful update')
+      notification.expect_success('Successful update')
     end
 
     it 'is renaming and reordering the list', js: true do

@@ -38,7 +38,8 @@ module.exports = function($http,
     $q,
     AuthorisationService,
     EditableFieldsState,
-    WorkPackageFieldService
+    WorkPackageFieldService,
+    NotificationsService
   ) {
   var workPackage;
 
@@ -298,11 +299,9 @@ module.exports = function($http,
                 return response.data;
               },
               function(failedResponse) {
-                $rootScope.$emit('flashMessage', {
-                  isError: true,
-                  isPermanent: true,
-                  text: I18n.t('js.work_packages.query.errors.unretrievable_query')
-                });
+                NotificationsService.addError(
+                  I18n.t('js.work_packages.query.errors.unretrievable_query')
+                );
               }
       );
     },
@@ -320,18 +319,16 @@ module.exports = function($http,
       if (defaultHandling) {
         promise.success(function(data, status) {
                 // TODO wire up to API and process API response
-                $rootScope.$emit('flashMessage', {
-                  isError: false,
-                  text: I18n.t('js.work_packages.message_successful_bulk_delete')
-                });
+                NotificationsService.addSuccess(
+                  I18n.t('js.work_packages.message_successful_bulk_delete')
+                );
                 $rootScope.$emit('workPackagesRefreshRequired');
               })
               .error(function(data, status) {
                 // TODO wire up to API and processs API response
-                $rootScope.$emit('flashMessage', {
-                  isError: true,
-                  text: I18n.t('js.work_packages.message_error_during_bulk_delete')
-                });
+                NotificationsService.addError(
+                  I18n.t('js.work_packages.message_error_during_bulk_delete')
+                );
               });
       }
 

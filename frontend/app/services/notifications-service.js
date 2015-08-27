@@ -42,12 +42,9 @@ module.exports = function(I18n, $rootScope) {
     return _.extend(createNotification(message), { type: 'warning' });
   },
   createErrorNotification = function(message, errors) {
-    if(!errors) {
-      throw new Error('Cannot create an error notification without errors!');
-    }
     return _.extend(createNotification(message), {
       type: 'error',
-      errors: errors
+      errors: errors || []
     });
   },
   createWorkPackageUploadNotification = function(message, uploads) {

@@ -73,7 +73,9 @@ angular.module('openproject.workPackages')
     'AuthorisationService',
     '$window',
     '$state',
-    '$timeout', require('./settings-dropdown-menu-controller')
+    '$timeout',
+    'NotificationsService',
+    require('./settings-dropdown-menu-controller')
   ])
   .factory('TasksDropdownMenu', [
     'ngContextMenu',
