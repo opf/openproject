@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= t(:text_work_package_added, :id => "##{@issue.id}", :author => @issue.author) %>
-<%= format_text(@journal.notes, :only_path => false) %>
+<%= t(:text_work_package_added, id: "##{@issue.id}", author: @issue.author) %>
+<%= format_text(@journal.notes, only_path: false, object: @issue, project: @issue.project) %>
 <hr />
-<%= render :partial => 'issue_details', :locals => { :issue => @issue } %>
+<%= render partial: 'issue_details', locals: { issue: @issue } %>
