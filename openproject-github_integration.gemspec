@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,doc,lib}/**/*"] + %w(README.md)
 
-  s.add_dependency 'rails', '~> 4.1.11'
+  s.add_dependency 'rails', '~> 4.2.4'
 
   s.add_dependency "openproject-webhooks", "~> 5.0.0-alpha"
 end
