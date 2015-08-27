@@ -37,9 +37,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= format_text @project.description %>
     </div>
     <ul>
-      <% if @project.homepage.present? %>
-        <li><%= Project.human_attribute_name(:homepage) %>: <%=raw auto_link(@project.homepage) %></li>
-      <% end %>
       <% if @subprojects.any? %>
         <li>
           <%= l(:label_subproject_plural) %>:

@@ -44,8 +44,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= render :partial => "projects/form/attributes/hidden_field",
                :locals => { :form => f, :name => :parent_id, :value => @project.parent_id } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
-               :locals => { :form => f, :name => :homepage, :value => @project.homepage } %>
-    <%= render :partial => "projects/form/attributes/hidden_field",
                :locals => { :form => f, :name => :is_public, :value => @project.is_public } %>
     <%= render :partial => "copy_projects/copy_settings/hidden_types",
                :locals => { :form => f, :types => @types, :project => @project } %>

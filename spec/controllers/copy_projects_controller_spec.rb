@@ -38,7 +38,6 @@ describe CopyProjectsController, type: :controller do
       'description' => 'Some pretty description',
       'responsible_id' => current_user.id,
       'project_type_id' => '',
-      'homepage' => '',
       'enabled_module_names' => ['work_package_tracking', 'boards', ''],
       'is_public' => project.is_public,
       'type_ids' => project.types.map(&:id)
