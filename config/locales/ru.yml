@@ -155,20 +155,20 @@ ru:
   permission_view_cost_rates: Просмотр тарифов по стоимости
   permission_view_hourly_rates: Просмотр всех почасовых тарифов
   permission_view_own_cost_entries: View own booked costs
-  permission_view_own_hourly_rate: View own hourly rate
-  permission_view_own_time_entries: View own spent time
-  project_module_costs_module: Cost control
-  text_assign_time_and_cost_entries_to_project: Assign reported hours and costs to the project
-  text_cost_object_change_type_confirmation: Are you sure? This operation will destroy information of the specific budget type.
-  text_destroy_cost_entries_question: '%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?'
-  text_destroy_time_and_cost_entries: Delete reported hours and costs
-  text_destroy_time_and_cost_entries_question: '%{hours} hours, %{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?'
-  text_reassign_time_and_cost_entries: 'Reassign reported hours and costs to this work package:'
-  text_warning_hidden_elements: Some entries may have been excluded from the aggregation.
-  week: week
+  permission_view_own_hourly_rate: Просмотр своей почасовой ставки
+  permission_view_own_time_entries: Просмотр своего отработанного времени
+  project_module_costs_module: Контроль стоимости
+  text_assign_time_and_cost_entries_to_project: Связать сообщенные часы и расходы с проектом
+  text_cost_object_change_type_confirmation: Уверены? Эта операция уничтожит информацию о типе бюджета.
+  text_destroy_cost_entries_question: '%{cost_entries} сообщили о рабочих пакетах, которые вы собираетесь удалить. Что вы собираетесь сделать?'
+  text_destroy_time_and_cost_entries: Удалить отчеты о часах и расходах
+  text_destroy_time_and_cost_entries_question: '%{hours} часов, %{cost_entries} сообщили о рабочих пакетах, котрый вы собираетесь удалить. Что вы хотите сделать?'
+  text_reassign_time_and_cost_entries: 'Переназначьте сообщенные часы и расходы на этот пакет работ:'
+  text_warning_hidden_elements: Некоторые записи были исключены из агрегирования.
+  week: неделя
   x_entries:
-    one: 1 entry
-    few: '%{count} entries'
-    other: '%{count} entries'
+    one: 1 запись
+    few: '%{count} записи'
+    other: '%{count} записей'
   js:
-    text_are_you_sure: Are you sure?
+    text_are_you_sure: Уверены?
