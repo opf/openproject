@@ -30,7 +30,7 @@ require 'legacy_spec_helper'
 
 describe Redmine::MenuManager::MenuHelper, type: :helper do
   include Redmine::MenuManager::MenuHelper
-  include ActionDispatch::Assertions::SelectorAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions
   fixtures :all
 
   # Used by assert_select

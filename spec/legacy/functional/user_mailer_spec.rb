@@ -29,7 +29,7 @@
 require 'legacy_spec_helper'
 
 describe UserMailer, type: :mailer do
-  include ActionDispatch::Assertions::SelectorAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions
 
   before do
     Setting.mail_from = 'john@doe.com'
