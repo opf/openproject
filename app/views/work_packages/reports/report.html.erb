@@ -28,21 +28,8 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <% html_title l(:label_summary) %>
 <%= toolbar title: l(:label_summary) %>
-<div class="grid-block">
-  <div class="grid-content">
-    <% [@type_report, @priority_report, @assignee_report, @responsible_report, @author_report].each do |report| %>
-      <%= render :partial => 'report_category', :locals => { report: report} %>
-    <% end %>
-    <%= call_hook(:view_reports_issue_report_split_content_left, :project => @project) %>
-    <%
-    additional_reports = [@version_report]
-    additional_reports << @subproject_report if @project.children.any?
-    additional_reports << @category_report
-    %>
-    <% additional_reports.each do |report| %>
-      <%= render :partial => 'report_category', :locals => { report: report } %>
-      <br />
-    <% end %>
-    <%= call_hook(:view_reports_issue_report_split_content_right, :project => @project) %>
-  </div>
-</div>
+<% @reports.each do |report| %>
+  <%= render :partial => 'report_category', :locals => { report: report} %>
+<% end %>
+<%= call_hook(:view_reports_issue_report, :project => @project) %>
+

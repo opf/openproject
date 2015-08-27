@@ -31,17 +31,25 @@ module.exports = function($timeout, $window){
     restrict: 'A',
 
     link: function(scope, element) {
+      if (getTable().filter('table').length === 0) {
+        throw 'interactive-table needs to be defined on a \'table\' tag';
+      }
+
       function getTable() {
-        return element.find('table');
+        return element;
       }
 
       function getInnerContainer() {
-        return element.find('.generic-table--results-container');
+        return element.parent('.generic-table--results-container');
+      }
+
+      function getOuterContainer() {
+        return element.parent('.generic-table--container');
       }
 
       function getBackgrounds() {
-        return element.find('.generic-table--header-background,' +
-                            '.generic-table--footer-background');
+        return getInnerContainer().find('.generic-table--header-background,' +
+                                        '.generic-table--footer-background');
       }
 
       function getHeadersFooters() {
@@ -61,7 +69,7 @@ module.exports = function($timeout, $window){
         if (tableWidth > document.documentElement.clientWidth - scrollBarWidth) {
           tableWidth += scrollBarWidth;
         }
-        if (tableWidth > element.width()) {
+        if (tableWidth > getOuterContainer().width()) {
           // force containers to the width of the table
           getInnerContainer().width(tableWidth);
           getBackgrounds().width(tableWidth);
