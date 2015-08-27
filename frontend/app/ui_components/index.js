@@ -105,4 +105,5 @@ angular.module('openproject.uiComponents')
   .directive('attachmentIcon', [require('./attachment-icon-directive')])
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))
   .filter('latestItems', require('./filters/latest-items-filter'))
-  .directive('highlightCol', [require('./highlight-col-directive')]);
+  .directive('highlightCol', [require('./highlight-col-directive')])
+  .directive('confirmPopup', ['$window', require('./confirm-popup-directive')]);

@@ -22,7 +22,7 @@
                 <a class="filename" data-ng-href="{{attachment._links.downloadLocation.href}}" download>{{::attachment.fileName}}</a>
                 <span class="filesize">({{::size(attachment.fileSize)}})</span>
               </span>
-              <span class="inplace-edit--icon-wrapper" data-ng-click="remove(attachment)">
+              <span class="inplace-edit--icon-wrapper" data-ng-click="remove(attachment)" data-confirm-popup="{{I18n.t('js.text_attachment_destroy_confirmation')}}">
                 <icon-wrapper icon-name="delete" title="{{::I18n.t('js.label_remove_file')}}">{{::I18n.t('js.label_remove_file')}}>
                 </icon-wrapper>
               </span>
