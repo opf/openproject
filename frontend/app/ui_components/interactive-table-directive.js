@@ -101,6 +101,9 @@ module.exports = function($timeout, $window){
       }
 
       var setTableWidths = function() {
+        if(!getTable().is(':visible')) {
+          return;
+        }
         $timeout(function() {
           invalidateWidths();
           setTableContainerWidths();
