@@ -3,7 +3,6 @@ es:
   label_visible_elements: Elementos visibles
   label_project_description: Descripción del proyecto
   label_project_details: Detalles del proyecto
-  label_project_homepage: Página de inicio
   label_custom_element: Añadir sumario ...
   info_custom_text: Texto personalizado
   label_confirm_delete: ¿Realmente desea eliminar este elemento?

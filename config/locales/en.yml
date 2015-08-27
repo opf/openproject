@@ -23,7 +23,6 @@ en:
   label_visible_elements: Visible elements
   label_project_description: Project description
   label_project_details: Project details
-  label_project_homepage: Homepage
   label_custom_element: Add teaser ...
   info_custom_text: Custom text
   label_confirm_delete: Really delete this element?
