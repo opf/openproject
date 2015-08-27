@@ -63,7 +63,6 @@ module API
 
         property :name,         render_nil: true
         property :description,  render_nil: true
-        property :homepage
 
         property :created_on,
                  as: 'createdAt',
