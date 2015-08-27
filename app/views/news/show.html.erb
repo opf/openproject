@@ -29,13 +29,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: "#{avatar(@news.author)}  #{h @news.title}" do %>
   <% if User.current.allowed_to?(:manage_news, @project) %>
-    <%= link_to(edit_news_path(@news),
-      :accesskey => accesskey(:edit),
-      class: 'button',
-      :onclick => 'Element.show("edit-news"); return false;') do %>
-      <i class="button--icon icon-edit"></i>
-      <span class="button--text"><%= l(:button_edit) %></span>
-    <% end %>
+    <li class="toolbar-item">
+      <%= link_to(edit_news_path(@news),
+        :accesskey => accesskey(:edit),
+        class: 'button',
+        :onclick => 'Element.show("edit-news"); return false;') do %>
+        <i class="button--icon icon-edit"></i>
+        <span class="button--text"><%= l(:button_edit) %></span>
+      <% end %>
+    </li>
   <% end %>
   <li class="toolbar-item">
     <%# hack around the old watchers_link implementation %>
@@ -44,13 +46,15 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </li>
   <% if User.current.allowed_to?(:manage_news, @project) %>
-    <%= link_to(news_path(@news),
-          data: { confirm: l(:text_are_you_sure) },
-          :method => :delete,
-          :class => 'button') do %>
-      <i class="button--icon icon-delete"></i>
-      <span class="button--text"><%= l(:button_delete) %></span>
-    <% end %>
+    <li class="toolbar-item">
+      <%= link_to(news_path(@news),
+        data: { confirm: l(:text_are_you_sure) },
+        :method => :delete,
+        :class => 'button') do %>
+        <i class="button--icon icon-delete"></i>
+        <span class="button--text"><%= l(:button_delete) %></span>
+      <% end %>
+    </li>
   <% end %>
 <% end %>
 
