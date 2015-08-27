@@ -80,7 +80,7 @@ module.exports = function($scope,
         data: JSON.stringify($scope.toggleWatchLink.props.payload)
       }})
       .then(refreshWorkPackage, $scope.outputError);
-  }
+  };
 
   $scope.unwatch = function() {
     if (!$scope.isWatched) {
@@ -95,7 +95,7 @@ module.exports = function($scope,
         data: JSON.stringify($scope.toggleWatchLink.props.payload)
       }})
       .then(refreshWorkPackage, $scope.outputError);
-  }
+  };
 
 
   function fetchProjectTypes() {
@@ -285,7 +285,7 @@ module.exports = function($scope,
 
     // TODO: Temporarily going to the old edit dialog until we get in-place editing done
     window.location = editWorkPackagePath + backUrl;
-  }
+  };
 
   // Stuff copied from DetailsTabOverviewController
   var vm = this;
