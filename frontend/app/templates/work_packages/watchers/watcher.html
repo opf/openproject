@@ -1,21 +1,22 @@
 <span class="inplace-edit--read">
-	<accessible-by-keyboard
-	    class="inplace-editing--trigger-container"
-	    span-class="inplace-editing--container"
-	    link-class="inplace-editing--trigger-link">
-	    <span class="inplace-edit--read-value" >
-	      <span data-ng-class="{'loading':watcher.loading,'deleting':deleting}">
-					<a ng-href="/users/{{watcher.id}}" title="{{watcher.name}}">
-					  <img data-ng-src="{{watcher.avatar}}" alt="{{watcher.name}}" data-ng-show="watcher.avatar" class="avatar-mini">
-					  <span class="work-package--watcher-name">{{watcher.name}}</span>
-					</a>
-				</span>
-	    </span>
-	    <span class="inplace-edit--icon-wrapper" data-ng-click="remove()">
-	        <icon-wrapper icon-name="delete">
-	        </icon-wrapper>
-	    </span>
-	</accessible-by-keyboard>
+  <span class="inplace-editing--trigger-container">
+    <span class="inplace-editing--trigger-link">
+      <span class="inplace-editing--container">
+        <span class="inplace-edit--read-value" >
+          <span data-ng-class="{'loading':watcher.loading,'deleting':deleting}">
+            <a ng-href="/users/{{watcher.id}}" title="{{watcher.name}}">
+              <img data-ng-src="{{watcher.avatar}}" alt="{{watcher.name}}" data-ng-show="watcher.avatar" class="avatar-mini">
+              <span class="work-package--watcher-name">{{watcher.name}}</span>
+            </a>
+          </span>
+        </span>
+        <span class="inplace-edit--icon-wrapper" data-ng-click="remove()">
+          <icon-wrapper icon-name="delete">
+          </icon-wrapper>
+        </span>
+      </span>
+    </span>
+  </span>
 </span>
 
 
