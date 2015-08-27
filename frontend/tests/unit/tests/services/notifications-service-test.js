@@ -48,18 +48,6 @@ describe('NotificationsService', function() {
     expect(notification).to.eql({ message: 'warning!', type: 'warning' });
   });
 
-  it('should throw an Error if trying to create an error without errors', function() {
-    expect(function() {
-      NotificationsService.addError('error!');
-    }).to.throw(Error);
-  });
-
-  it('should throw an Error if trying to create an upload without uploads', function() {
-    expect(function() {
-      NotificationsService.addWorkPackageUpload('themUploads');
-    }).to.throw(Error);
-  });
-
   it('should be able to create error messages with errors', function() {
     var notification = NotificationsService.addError('a super cereal error', ['fooo', 'baarr']);
     expect(notification).to.eql({
@@ -69,12 +57,27 @@ describe('NotificationsService', function() {
     });
   });
 
-  it('should be able to create error messages with errors', function() {
+  it('should be able to create error messages with only a message', function() {
+    var notification = NotificationsService.addError('a super cereal error');
+    expect(notification).to.eql({
+      message: 'a super cereal error',
+      errors: [],
+      type: 'error'
+    });
+  });
+
+  it('should be able to create upload messages with uploads', function() {
     var notification = NotificationsService.addWorkPackageUpload('uploading...', [0, 1, 2]);
     expect(notification).to.eql({
       message: 'uploading...',
       type: 'upload',
       uploads: [0, 1, 2]
     });
+  });
+
+  it('should throw an Error if trying to create an upload without uploads', function() {
+    expect(function() {
+      NotificationsService.addWorkPackageUpload('themUploads');
+    }).to.throw(Error);
   });
 });

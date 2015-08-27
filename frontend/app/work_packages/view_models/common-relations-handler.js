@@ -26,7 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($timeout, WorkPackageService, ApiHelper, PathHelper, MAX_AUTOCOMPLETER_ADDITION_ITERATIONS) {
+module.exports = function(
+    $timeout,
+    WorkPackageService,
+    ApiNotificationsService
+  ) {
   function CommonRelationsHandler(workPackage,
                                   relations,
                                   relationsId) {
@@ -34,7 +38,7 @@ module.exports = function($timeout, WorkPackageService, ApiHelper, PathHelper, M
     this.relations = relations;
     this.relationsId = relationsId;
 
-    this.type = "relation";
+    this.type = 'relation';
     this.isSingletonRelation = false;
   }
 
@@ -56,12 +60,15 @@ module.exports = function($timeout, WorkPackageService, ApiHelper, PathHelper, M
     },
 
     addRelation: function(scope) {
-      WorkPackageService.addWorkPackageRelation(this.workPackage, scope.relationToAddId, this.relationsId).then(function(relation) {
+      WorkPackageService.addWorkPackageRelation(this.workPackage,
+                                                scope.relationToAddId,
+                                                this.relationsId)
+                        .then(function() {
         scope.relationToAddId = '';
         scope.updateFocus(-1);
         scope.$emit('workPackageRefreshRequired');
       }, function(error) {
-        ApiHelper.handleError(scope, error);
+        ApiNotificationsService.addError(error);
       });
     },
 
@@ -74,7 +81,7 @@ module.exports = function($timeout, WorkPackageService, ApiHelper, PathHelper, M
           scope.updateFocus(index);
           scope.$emit('workPackageRefreshRequired');
         }, function(error) {
-          ApiHelper.handleError(scope, error);
+          ApiNotificationsService.addError(scope, error);
         });
     },
 
@@ -89,7 +96,7 @@ module.exports = function($timeout, WorkPackageService, ApiHelper, PathHelper, M
     getRelatedWorkPackage: function(workPackage, relation) {
       var self = workPackage.links.self.href;
 
-      if (relation.links.relatedTo.href == self) {
+      if (relation.links.relatedTo.href === self) {
         return relation.links.relatedFrom.fetch();
       } else {
         return relation.links.relatedTo.fetch();

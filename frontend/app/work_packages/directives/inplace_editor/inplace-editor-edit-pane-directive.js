@@ -42,7 +42,7 @@ module.exports = function(
     if (_.isEmpty(_.keys(errors))) {
       return;
     }
-    var errorMessages = _.map(errors);
+    var errorMessages = _.flatten(_.map(errors), true);
     NotificationsService.addError(I18n.t('js.label_validation_error'), errorMessages);
   };
 
@@ -157,7 +157,7 @@ module.exports = function(
       function setFailure(e) {
         afterError();
         EditableFieldsState.errors = {
-          '_common': ApiHelper.getErrorMessage(e)
+          '_common': ApiHelper.getErrorMessages(e)
         };
         showErrors();
       }

@@ -26,37 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-module.exports = function($rootScope, $timeout, ConfigurationService) {
+module.exports = function(NotificationsService, ApiHelper) {
+  'use strict';
+
+  var addError = function(error) {
+    var messages = ApiHelper.getErrorMessages(error);
+
+    if (messages.length > 1) {
+      NotificationsService.addError('', messages);
+    }
+    else {
+      NotificationsService.addError(messages[0]);
+    }
+  };
+
+  var addSuccess = function(text) {
+    NotificationsService.addSuccess(text);
+  };
 
   return {
-    restrict: 'E',
-    replace: true,
-    scope: {},
-    templateUrl: '/templates/components/flash_message.html',
-    link: function(scope, element, attrs) {
-      $rootScope.$on('flashMessage', function(event, message) {
-        scope.message = message;
-        scope.flashType = 'notice';
-        scope.flashId = 'flash-notice';
-
-        var fadeOutTime = attrs.fadeOutTime || 3000;
-
-        if (message.isError) {
-          scope.flashType = "errorExplanation";
-          scope.flashId = "errorExplanation";
-        }
-
-        // not using $timeout to allow capybara to not wait until timeout is done with
-        // scope apply
-        if (!ConfigurationService.accessibilityModeEnabled() && !message.isPermanent) {
-          setTimeout(function() {
-            scope.$apply(function() {
-              scope.message = undefined;
-            });
-          }, fadeOutTime);
-        }
-      });
-    }
+    addError: addError,
+    addSuccess: addSuccess
   };
 };

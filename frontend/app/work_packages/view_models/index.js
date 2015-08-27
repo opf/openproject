@@ -27,20 +27,21 @@
 //++
 
 angular.module('openproject.viewModels')
-  .constant('MAX_AUTOCOMPLETER_ADDITION_ITERATIONS', 3)
   .factory('CommonRelationsHandler', [
     '$timeout',
     'WorkPackageService',
-    'ApiHelper',
-    'PathHelper',
-    'MAX_AUTOCOMPLETER_ADDITION_ITERATIONS', require(
-      './common-relations-handler')
+    'ApiNotificationsService',
+    require('./common-relations-handler')
   ])
-  .factory('ChildrenRelationsHandler', ['PathHelper', 'CommonRelationsHandler',
+  .factory('ChildrenRelationsHandler', [
+    'CommonRelationsHandler',
     'WorkPackageService',
+    'ApiNotificationsService',
     require('./children-relations-handler')
   ])
-  .factory('ParentRelationsHandler', ['CommonRelationsHandler',
-    'WorkPackageService', 'ApiHelper',
+  .factory('ParentRelationsHandler', [
+    'CommonRelationsHandler',
+    'WorkPackageService',
+    'ApiNotificationsService',
     require('./parent-relations-handler')
   ]);

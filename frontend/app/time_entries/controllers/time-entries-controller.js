@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, $http, PathHelper, SortService, PaginationService) {
+module.exports = function($scope, $http, PathHelper, SortService, PaginationService, NotificationsService) {
   $scope.PathHelper = PathHelper;
   $scope.timeEntries = gon.timeEntries;
   $scope.totalEntryCount = gon.total_count;
@@ -57,11 +57,11 @@ module.exports = function($scope, $http, PathHelper, SortService, PaginationServ
   $scope.deleteTimeEntry = function(id) {
     if (window.confirm(I18n.t('js.text_are_you_sure'))) {
       $http['delete'](PathHelper.timeEntryPath(id))
-           .success(function(data, status, headers, config) {
+           .success(function(data) {
              var index = 0;
 
              for (var i = 0; i < $scope.timeEntries.length; i++) {
-               if ($scope.timeEntries[i].id == id) {
+               if ($scope.timeEntries[i].id === id) {
                  index = i;
                  break;
                }
@@ -69,10 +69,10 @@ module.exports = function($scope, $http, PathHelper, SortService, PaginationServ
 
              $scope.timeEntries.splice(index, 1);
 
-             $scope.$emit('flashMessage', data);
+             NotificationsService.addSuccess(data.text);
            })
-           .error(function(data, status, headers, config) {
-             $scope.$emit('flashMessage', data);
+           .error(function(data) {
+             NotificationsService.addError(data.text);
            });
     }
   };

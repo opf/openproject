@@ -42,7 +42,8 @@ module.exports = function($scope,
     WorkPackageService,
     CommonRelationsHandler,
     ChildrenRelationsHandler,
-    ParentRelationsHandler
+    ParentRelationsHandler,
+    NotificationsService
   ) {
   $scope.$on('$stateChangeSuccess', function(event, toState){
     latestTab.registerState(toState.name);
@@ -75,14 +76,16 @@ module.exports = function($scope,
   $scope.$emit('workPackgeLoaded');
 
   function outputMessage(message, isError) {
-    $scope.$emit('flashMessage', {
-      isError: !!isError,
-      text: message
-    });
+    if (!!isError) {
+      NotificationsService.addError(message);
+    }
+    else {
+      NotificationsService.addSuccess(message);
+    }
   }
 
   function outputError(error) {
-    outputMessage(error.message, true);
+    NotificationsService.addError(error.message);
   }
 
   $scope.outputMessage = outputMessage; // expose to child controllers

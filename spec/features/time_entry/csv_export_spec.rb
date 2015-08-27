@@ -29,7 +29,9 @@
 require 'spec_helper'
 
 describe 'time entry csv export', type: :feature do
-  let(:project) { FactoryGirl.create(:project) }
+  # Force project to have only the required module activated
+  # This may otherwise break for non-core configurations
+  let(:project) { FactoryGirl.create(:project, enabled_module_names: %w(time_tracking)) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_time_entries]) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
   let(:project_time_entry) {
@@ -84,7 +86,7 @@ describe 'time entry csv export', type: :feature do
 
   context 'for a single project' do
     before do
-      visit project_time_entries_path(project.id)
+      visit project_time_entries_path(project.identifier)
       click_link('CSV')
     end
 
