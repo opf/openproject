@@ -82,16 +82,12 @@
           </ul>
         </li>
         <li class="toolbar-item">
-          <label for="work-packages-settings-button" class="hidden-for-sighted">
-            {{ I18n.t('js.button_settings') }}
-          </label>
-          <button id="work-packages-settings-button"
-                  title="{{ I18n.t('js.button_settings') }}"
-                  class="button last work-packages-settings-button"
+          <button class="button dropdown-relative"
+                  ng-disabled="!(actionsAvailable || pluginActionsAvailable)"
                   has-dropdown-menu
-                  target="SettingsDropdownMenu"
-                  locals="query">
-            <i class="button--icon icon-settings"></i>
+                  target="ShowMoreDropdownMenu"
+                  locals="permittedActions,actionsAvailable,triggerMoreMenuAction">
+            <span class="button--text" ng-bind="::I18n.t('js.button_more')"></span>
             <i class="button--dropdown-indicator"></i>
           </button>
         </li>
