@@ -88,8 +88,10 @@
       padding-bottom: 0
       line-height: 30px
       &:first-child
-        min-width: 241px
-        width: 241px
+        /* Hack: The pixel values were rounded and the lines are not in every zoom correctly aligned. */
+        /* This values are getting at the moment the best result possible. */
+        min-width: 15.04rem
+        width: 15.07rem
       &:last-child
         border-right: none
   .board
