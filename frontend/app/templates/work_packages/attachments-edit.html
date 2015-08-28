@@ -12,11 +12,26 @@
     <p class="work-package--attachments--hint">{{ ::I18n.t('js.label_drop_files_hint') }}</p>
   </div>
   <div class="work-package--attachments--files" data-ng-show="attachments.length > 0">
-    <ul>
-      <li data-ng-repeat="attachment in attachments">
-        <attachment-icon type="attachment.contentType"></attachment-icon> <a class="filename" data-ng-href="{{attachment._links.downloadLocation.href}}" download>{{attachment.fileName}}</a><span class="filesize">({{::size(attachment.fileSize)}})</span>
-        <button data-ng-click="remove(attachment)" data-ng-disabled="deleting(attachment)" class="button -with-icon icon-delete -tiny" title="{{::I18n.t('js.label_remove_file')}}">{{::I18n.t('js.label_remove_file')}}</button>
-      </li>
-    </ul>
+    <div class="work-package--details--long-field">
+      <span class="inplace-edit--read" data-ng-repeat="attachment in attachments">
+        <accessible-by-keyboard
+            class="inplace-editing--trigger-container"
+            span-class="inplace-editing--container"
+            link-class="inplace-editing--trigger-link">
+            <span class="inplace-edit--read-value" >
+              <span >
+                <attachment-icon type="attachment.contentType"></attachment-icon>
+                <a class="filename" data-ng-href="{{attachment._links.downloadLocation.href}}" download>{{::attachment.fileName}}</a>
+                <span class="filesize">({{::size(attachment.fileSize)}})</span>
+              </span>
+            </span>
+            <span class="inplace-edit--icon-wrapper" data-ng-click="remove(attachment)">
+                <icon-wrapper icon-name="delete" title="{{::I18n.t('js.label_remove_file')}}">{{::I18n.t('js.label_remove_file')}}>
+                </icon-wrapper>
+            </span>
+        </accessible-by-keyboard>
+      </span>
+    </div>
   </div>
 </div>
+

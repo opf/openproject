@@ -106,6 +106,8 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
 .inplace-edit--select
   .select2-display-none
     display: none
+  &.-full-width
+    max-width: 100%
 
 .inplace-edit--textarea
   min-height: 200px
@@ -270,3 +272,29 @@ a.inplace-editing--trigger-link,
 
 .inplace-edit--highlight
   border-color: $inplace-edit--color-highlight !important
+
+.work-package--details--long-field
+  margin-top: 10px
+
+  .inplace-editing--trigger-container
+    line-height: 1.6
+
+  .inplace-edit--read
+    margin-left: 0px
+    max-width: 100%
+    padding-bottom: 5px
+
+    .inplace-edit--read-value
+      span.deleting
+        opacity: 0.5
+
+      img.avatar-mini
+        float: inherit
+
+      i
+        vertical-align: text-top
+
+  .inplace-edit--icon-wrapper
+    .icon-button
+      margin-left: auto
+

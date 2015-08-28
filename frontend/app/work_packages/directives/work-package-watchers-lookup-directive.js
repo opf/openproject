@@ -26,52 +26,55 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
-
-describe('DetailsTabWatchersController', function() {
+module.exports = function(I18n) {
   'use strict';
 
-  beforeEach(module('openproject'));
+  var workPackageWatchersLookupController = function(scope) {
+    scope.locked = false;
+    scope.editMode = false;
+    scope.I18n = I18n;
 
-  var $controller, $rootScope;
-  beforeEach(inject(['$controller', '$rootScope', function(ctrl, root) {
-    $controller = ctrl;
-    $rootScope = root;
-  }]));
-
-  var workPackage = {
-    links: {
-      watchers: {
-        url: function() {
-          return '/work_packages/123/watchers';
-        }
-      },
-      availableWatchers: {
-        url: function() {
-          return '/work_packages/123/available_watchers';
-        }
-      }
-    }
-  };
-
-
-  it('should exist', function() {
-    var locals = {
-          $scope: $rootScope.$new()
-        };
-
-    locals.$scope.workPackage = workPackage;
-    expect($controller('DetailsTabWatchersController', locals)).to.exist;
-  });
-
-  it('should not work without a work workPackage', function() {
-    var locals = {
-      $scope: $rootScope.$new()
+    // we need an object for ui.select to work properly
+    scope.selection = {
+      watcher: null
     };
 
-    expect(function() {
-      $controller('DetailsTabWatchersController', locals);
-    }).to.throw;
-  });
-});
+    scope.changeEditMode = function() {
+      scope.editMode = !scope.editMode;
+    };
 
+    scope.addWatcher = function() {
+      if (!scope.selection.watcher) {
+        return;
+      }
+
+      scope.locked = !scope.locked;
+
+      // we pass up the original up the scope chain,
+      // _not_ the wrapper object
+      scope.$emit('watchers.add', scope.selection.watcher);
+    };
+
+    scope.$on('watchers.add.finished', function() {
+      scope.locked = !scope.locked;
+
+      // to clear the input of the directive
+      scope.selection.watcher = null;
+
+      // this will set the editMode back, once no more watchers can be added
+      if (scope.watchers.length ===  0) {
+        scope.editMode = false;
+      }
+    });
+  };
+
+  return {
+    replace: true,
+    restrict: 'E',
+    templateUrl: '/templates/work_packages/watchers/lookup.html',
+    link: workPackageWatchersLookupController,
+    scope: {
+      watchers: '='
+    }
+  };
+};

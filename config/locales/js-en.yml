@@ -170,8 +170,15 @@ en:
     label_successful_update: 'Successful update'
     label_validation_error: "The work package could not be saved due to the following errors:"
 
-
     text_are_you_sure: "Are you sure?"
+
+    watchers:
+      label_loading: loading watchers...
+      label_error_loading: An error occured while loading the watchers
+      label_search_watchers: Search watchers
+      label_add: Add watchers
+      label_discard: Discard selection
+      label_click_to_add: Click to add watchers
 
     filter_labels:
       assigned_to: "Assignee"
