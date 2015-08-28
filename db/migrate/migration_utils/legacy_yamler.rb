@@ -28,40 +28,37 @@
 #++
 
 require_relative 'db_worker'
-require 'syck'
 
 module Migration
-  module YamlMigrator
-    include DbWorker
-
-    def migrate_yaml(table, column, source_yamler, target_yamler)
-      current_yamler = YAML::ENGINE.yamler
-      fetch_data(table, column).each do | data |
-        db_execute <<-SQL
-          UPDATE #{quoted_table_name(table)}
-          SET #{db_column(column)} = #{quote_value(yaml_to_yaml(data[column], source_yamler, target_yamler))}
-          WHERE id = #{data['id']};
-        SQL
-      end
-    ensure
-      # psych is the default starting at ruby 1.9.3, so we explicitely set it here
-      # in case no yamler was set to return to a sensible default
-      YAML::ENGINE.yamler = current_yamler.present? ? current_yamler : 'psych'
+  module LegacyYamler
+    ##
+    # Tries to load syck and fails with an error
+    # if it was not installed.
+    # To continue with the affected migrations, install syck with `bundle install --with syck`
+    def load_with_syck(yaml)
+      @@syck ||= load_syck
+      @@syck.load(yaml)
     end
 
-    def fetch_data(table, column)
-      ActiveRecord::Base.connection.select_all <<-SQL
-        SELECT #{db_column('id')}, #{db_column(column)}
-        FROM #{quoted_table_name(table)}
-        WHERE #{db_column(column)} LIKE #{quote_value('---%')}
-      SQL
-    end
+    private
 
-    def yaml_to_yaml(data, source_yamler, target_yamler)
-      YAML::ENGINE.yamler = source_yamler
-      original = YAML.load(data)
-      YAML::ENGINE.yamler = target_yamler
-      YAML.dump original
+    def load_syck
+      require 'syck'
+      ::Syck
+    rescue LoadError => e
+      abort = -> (str) { abort("\e[31m#{str}\e[0m") }
+      abort.call <<-WARN
+      It appears you have existing serialized YAML in your database.
+
+      This YAML may have been serialized with Syck, which allowed to parse YAML
+      that is now considered invalid given the default Ruby YAML parser (Psych),
+      we need to convert that YAML to be Psych-compatible.
+
+      Use `bundle install --with syck` to install the syck YAML parser
+      and re-run the migrations.
+      WARN
+
+      raise e
     end
   end
 end
