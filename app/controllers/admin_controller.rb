@@ -49,7 +49,7 @@ class AdminController < ApplicationController
     # after once sorting the list
     sort_clear
     sort_init 'lft'
-    sort_update %w(lft name is_public created_on updated_on required_disk_space)
+    sort_update %w(lft name is_public created_on required_disk_space)
     @status = params[:status] ? params[:status].to_i : 1
     c = ARCondition.new(@status == 0 ? 'status <> 0' : ['status = ?', @status])
 
