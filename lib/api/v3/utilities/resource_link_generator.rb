@@ -27,27 +27,41 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class QueryCustomFieldColumn < QueryColumn
-  def initialize(custom_field)
-    self.name = "cf_#{custom_field.id}".to_sym
-    self.sortable = custom_field.order_statements || false
-    if %w(list date bool int).include?(custom_field.field_format)
-      self.groupable = custom_field.order_statements
+module API
+  module V3
+    module Utilities
+      module ResourceLinkGenerator
+        class << self
+          include ::API::V3::Utilities::PathHelper
+
+          def make_link(record)
+            path_method = determine_path_method(record)
+            record_identifier = record.id
+            api_v3_paths.send(path_method, record_identifier)
+          rescue NoMethodError
+            nil
+          end
+
+          private
+
+          def determine_path_method(record)
+            # since not all things are equally named between APIv3 and the rails code,
+            # we need to convert some names manually
+            case record
+            when IssuePriority
+              :priority
+            when AnonymousUser, DeletedUser, SystemUser
+              :user
+            when Journal, Journal::AggregatedJournal
+              :activity
+            when Changeset
+              :revision
+            else
+              record.class.model_name.singular
+            end
+          end
+        end
+      end
     end
-    self.groupable ||= false
-    @cf = custom_field
-  end
-
-  def caption
-    @cf.name
-  end
-
-  def custom_field
-    @cf
-  end
-
-  def value(issue)
-    cv = issue.custom_values.detect { |v| v.custom_field_id == @cf.id }
-    cv && cv.typed_value
   end
 end

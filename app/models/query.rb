@@ -68,7 +68,11 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:status, sortable: "#{Status.table_name}.position", groupable: true),
     QueryColumn.new(:priority, sortable: "#{IssuePriority.table_name}.position", default_order: 'desc', groupable: true),
     QueryColumn.new(:subject, sortable: "#{WorkPackage.table_name}.subject"),
-    QueryColumn.new(:author),
+    QueryColumn.new(:author,
+                    sortable: ["#{User.table_name}.lastname",
+                               "#{User.table_name}.firstname",
+                               "#{WorkPackage.table_name}.author_id"],
+                    groupable: true),
     QueryColumn.new(:assigned_to, sortable: ["#{User.table_name}.lastname",
                                              "#{User.table_name}.firstname",
                                              "#{WorkPackage.table_name}.assigned_to_id"],
@@ -195,7 +199,7 @@ class Query < ActiveRecord::Base
                             WorkPackageCustomField.all
                           ).map { |cf| ::QueryCustomFieldColumn.new(cf) }
     if WorkPackage.done_ratio_disabled?
-      @available_columns.select! { |column| column.name != :done_ratio }.length
+      @available_columns.select! { |column| column.name != :done_ratio }
     end
     @available_columns
   end
@@ -254,6 +258,18 @@ class Query < ActiveRecord::Base
     column_names.nil? || column_names.empty?
   end
 
+  ##
+  # Returns the columns involved in this query, including those only needed for sorting or grouping
+  # puposes, not only the ones displayed (see :columns).
+  def involved_columns
+    columns = self.columns.map(&:name)
+
+    columns << group_by.to_sym if group_by
+    columns += sort_criteria.map { |x| x.first.to_sym }
+
+    columns.uniq
+  end
+
   def sort_criteria=(arg)
     c = []
     if arg.is_a?(Hash)
@@ -267,6 +283,13 @@ class Query < ActiveRecord::Base
     read_attribute(:sort_criteria) || []
   end
 
+  def sort_criteria_sql
+    criteria = SortHelper::SortCriteria.new
+    criteria.available_criteria = sortable_columns
+    criteria.criteria = sort_criteria
+    criteria.to_sql
+  end
+
   def sort_criteria_key(arg)
     sort_criteria && sort_criteria[arg] && sort_criteria[arg].first
   end
@@ -278,9 +301,7 @@ class Query < ActiveRecord::Base
   # Returns the SQL sort order that should be prepended for grouping
   def group_by_sort_order
     if grouped? && (column = group_by_column)
-      column.sortable.is_a?(Array) ?
-        column.sortable.map { |s| "#{s} #{column.default_order}" }.join(',') :
-        "#{column.sortable} #{column.default_order}"
+      Array(column.sortable).map { |s| "#{s} #{column.default_order}" }.join(',')
     end
   end
 
@@ -475,24 +496,27 @@ class Query < ActiveRecord::Base
     matchdata.nil? ? nil : matchdata[:id]
   end
 
-  # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
-  def sql_for_field(field, operator, value, db_table, db_field, is_custom_filter = false)
+  # Helper method to generate the WHERE sql for a +field+, +operator+ and a +values+ array
+  def sql_for_field(field, operator, values, db_table, db_field, is_custom_filter = false)
+    # code expects strings (e.g. for quoting), but ints would work as well: unify them here
+    values = values.map(&:to_s)
+
     sql = ''
     case operator
     when '='
-      if value.present?
-        if value.include?('-1')
+      if values.present?
+        if values.include?('-1')
           sql = "#{db_table}.#{db_field} IS NULL OR "
         end
 
-        sql += "#{db_table}.#{db_field} IN (" + value.map { |val| "'#{connection.quote_string(val)}'" }.join(',') + ')'
+        sql += "#{db_table}.#{db_field} IN (" + values.map { |val| "'#{connection.quote_string(val)}'" }.join(',') + ')'
       else
         # empty set of allowed values produces no result
         sql = '0=1'
       end
     when '!'
-      if value.present?
-        sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + value.map { |val| "'#{connection.quote_string(val)}'" }.join(',') + '))'
+      if values.present?
+        sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + values.map { |val| "'#{connection.quote_string(val)}'" }.join(',') + '))'
       else
         # empty set of forbidden values allows all results
         sql = '1=1'
@@ -505,32 +529,32 @@ class Query < ActiveRecord::Base
       sql << " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
     when '>='
       if is_custom_filter
-        sql = "#{db_table}.#{db_field} != '' AND CAST(#{db_table}.#{db_field} AS decimal(60,4)) >= #{value.first.to_f}"
+        sql = "#{db_table}.#{db_field} != '' AND CAST(#{db_table}.#{db_field} AS decimal(60,4)) >= #{values.first.to_f}"
       else
-        sql = "#{db_table}.#{db_field} >= #{value.first.to_f}"
+        sql = "#{db_table}.#{db_field} >= #{values.first.to_f}"
       end
     when '<='
       if is_custom_filter
-        sql = "#{db_table}.#{db_field} != '' AND CAST(#{db_table}.#{db_field} AS decimal(60,4)) <= #{value.first.to_f}"
+        sql = "#{db_table}.#{db_field} != '' AND CAST(#{db_table}.#{db_field} AS decimal(60,4)) <= #{values.first.to_f}"
       else
-        sql = "#{db_table}.#{db_field} <= #{value.first.to_f}"
+        sql = "#{db_table}.#{db_field} <= #{values.first.to_f}"
       end
     when 'o'
       sql = "#{Status.table_name}.is_closed=#{connection.quoted_false}" if field == 'status_id'
     when 'c'
       sql = "#{Status.table_name}.is_closed=#{connection.quoted_true}" if field == 'status_id'
     when '>t-'
-      sql = date_range_clause(db_table, db_field, - value.first.to_i, 0)
+      sql = date_range_clause(db_table, db_field, - values.first.to_i, 0)
     when '<t-'
-      sql = date_range_clause(db_table, db_field, nil, - value.first.to_i)
+      sql = date_range_clause(db_table, db_field, nil, - values.first.to_i)
     when 't-'
-      sql = date_range_clause(db_table, db_field, - value.first.to_i, - value.first.to_i)
+      sql = date_range_clause(db_table, db_field, - values.first.to_i, - values.first.to_i)
     when '>t+'
-      sql = date_range_clause(db_table, db_field, value.first.to_i, nil)
+      sql = date_range_clause(db_table, db_field, values.first.to_i, nil)
     when '<t+'
-      sql = date_range_clause(db_table, db_field, 0, value.first.to_i)
+      sql = date_range_clause(db_table, db_field, 0, values.first.to_i)
     when 't+'
-      sql = date_range_clause(db_table, db_field, value.first.to_i, value.first.to_i)
+      sql = date_range_clause(db_table, db_field, values.first.to_i, values.first.to_i)
     when 't'
       sql = date_range_clause(db_table, db_field, 0, 0)
     when 'w'
@@ -541,9 +565,9 @@ class Query < ActiveRecord::Base
         Time.now.at_beginning_of_week
       sql = "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(from), connection.quoted_date(from + 7.days)]
     when '~'
-      sql = "LOWER(#{db_table}.#{db_field}) LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%'"
+      sql = "LOWER(#{db_table}.#{db_field}) LIKE '%#{connection.quote_string(values.first.to_s.downcase)}%'"
     when '!~'
-      sql = "LOWER(#{db_table}.#{db_field}) NOT LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%'"
+      sql = "LOWER(#{db_table}.#{db_field}) NOT LIKE '%#{connection.quote_string(values.first.to_s.downcase)}%'"
     end
 
     sql

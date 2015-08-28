@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,27 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class QueryCustomFieldColumn < QueryColumn
-  def initialize(custom_field)
-    self.name = "cf_#{custom_field.id}".to_sym
-    self.sortable = custom_field.order_statements || false
-    if %w(list date bool int).include?(custom_field.field_format)
-      self.groupable = custom_field.order_statements
+module API
+  module V3
+    module Projects
+      class WorkPackageColumnsAPI < ::API::OpenProjectAPI
+        resources :columns do
+          get do
+            authorize(:view_work_packages, context: @project)
+            schema = WorkPackages::Schema::UntypedWorkPackageSchema.new(project: @project)
+            self_link = api_v3_paths.work_package_columns(@project.id)
+            WorkPackages::Schema::WorkPackageSchemaRepresenter.create(schema,
+                                                                      self_link: self_link,
+                                                                      current_user: current_user,
+                                                                      hide_lock_version: true)
+          end
+        end
+      end
     end
-    self.groupable ||= false
-    @cf = custom_field
-  end
-
-  def caption
-    @cf.name
-  end
-
-  def custom_field
-    @cf
-  end
-
-  def value(issue)
-    cv = issue.custom_values.detect { |v| v.custom_field_id == @cf.id }
-    cv && cv.typed_value
   end
 end

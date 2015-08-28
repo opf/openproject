@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,27 +26,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class QueryCustomFieldColumn < QueryColumn
-  def initialize(custom_field)
-    self.name = "cf_#{custom_field.id}".to_sym
-    self.sortable = custom_field.order_statements || false
-    if %w(list date bool int).include?(custom_field.field_format)
-      self.groupable = custom_field.order_statements
+require 'spec_helper'
+
+describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
+  let(:project) { FactoryGirl.build(:project) }
+  let(:type) { FactoryGirl.build(:type) }
+
+  let(:context) { { current_user: user } }
+  let(:user) { double }
+  subject { described_class.new(project: project, type: type) }
+
+  it 'has the project set' do
+    expect(subject.project).to eql(project)
+  end
+
+  it 'has the type set' do
+    expect(subject.type).to eql(type)
+  end
+
+  it 'does not know assignable statuses' do
+    expect(subject.assignable_values(:status, context)).to eql(nil)
+  end
+
+  it 'does not know assignable versions' do
+    expect(subject.assignable_values(:version, context)).to eql(nil)
+  end
+
+  describe '#writable?' do
+    it 'percentage done is writable' do
+      expect(subject.writable?(:percentage_done)).to be true
     end
-    self.groupable ||= false
-    @cf = custom_field
-  end
 
-  def caption
-    @cf.name
-  end
+    it 'estimated time is writable' do
+      expect(subject.writable?(:estimated_time)).to be true
+    end
 
-  def custom_field
-    @cf
-  end
+    it 'start date is writable' do
+      expect(subject.writable?(:start_date)).to be true
+    end
 
-  def value(issue)
-    cv = issue.custom_values.detect { |v| v.custom_field_id == @cf.id }
-    cv && cv.typed_value
+    it 'due date is writable' do
+      expect(subject.writable?(:due_date)).to be true
+    end
   end
 end

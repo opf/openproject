@@ -27,27 +27,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class QueryCustomFieldColumn < QueryColumn
-  def initialize(custom_field)
-    self.name = "cf_#{custom_field.id}".to_sym
-    self.sortable = custom_field.order_statements || false
-    if %w(list date bool int).include?(custom_field.field_format)
-      self.groupable = custom_field.order_statements
+module API
+  module V3
+    module WorkPackages
+      module Schema
+        class TypedWorkPackageSchema < BaseWorkPackageSchema
+          attr_reader :project, :type
+
+          def initialize(project:, type:)
+            @project = project
+            @type = type
+          end
+
+          def available_custom_fields
+            project.all_work_package_custom_fields.to_a & type.custom_fields.to_a
+          end
+        end
+      end
     end
-    self.groupable ||= false
-    @cf = custom_field
-  end
-
-  def caption
-    @cf.name
-  end
-
-  def custom_field
-    @cf
-  end
-
-  def value(issue)
-    cv = issue.custom_values.detect { |v| v.custom_field_id == @cf.id }
-    cv && cv.typed_value
   end
 end

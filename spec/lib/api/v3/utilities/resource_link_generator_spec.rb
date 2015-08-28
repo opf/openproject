@@ -27,27 +27,41 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class QueryCustomFieldColumn < QueryColumn
-  def initialize(custom_field)
-    self.name = "cf_#{custom_field.id}".to_sym
-    self.sortable = custom_field.order_statements || false
-    if %w(list date bool int).include?(custom_field.field_format)
-      self.groupable = custom_field.order_statements
+require 'spec_helper'
+
+describe API::V3::Utilities::ResourceLinkGenerator do
+  include ::API::V3::Utilities::PathHelper
+
+  subject { described_class }
+  describe ':make_link' do
+    it 'supports work packages' do
+      wp = FactoryGirl.build_stubbed(:work_package)
+      expect(subject.make_link wp).to eql api_v3_paths.work_package(wp.id)
     end
-    self.groupable ||= false
-    @cf = custom_field
-  end
 
-  def caption
-    @cf.name
-  end
+    it 'supports priorities' do
+      prio = FactoryGirl.build_stubbed(:priority)
+      expect(subject.make_link prio).to eql api_v3_paths.priority(prio.id)
+    end
 
-  def custom_field
-    @cf
-  end
+    it 'supports statuses' do
+      status = FactoryGirl.build_stubbed(:status)
+      expect(subject.make_link status).to eql api_v3_paths.status(status.id)
+    end
 
-  def value(issue)
-    cv = issue.custom_values.detect { |v| v.custom_field_id == @cf.id }
-    cv && cv.typed_value
+    it 'supports the anonymous user' do
+      user = FactoryGirl.build_stubbed(:anonymous)
+      expect(subject.make_link user).to eql api_v3_paths.user(user.id)
+    end
+
+    it 'returns nil for unsupported records' do
+      record = FactoryGirl.create(:custom_field)
+      expect(subject.make_link record).to be_nil
+    end
+
+    it 'returns nil for non-AR types' do
+      record = 'a string'
+      expect(subject.make_link record).to be_nil
+    end
   end
 end

@@ -56,6 +56,12 @@ module API
         }
       end
 
+      link :workPackages do
+        {
+          href: api_v3_paths.work_packages
+        }
+      end
+
       property :instance_name,
                getter: ->(*) { Setting.app_title }
 

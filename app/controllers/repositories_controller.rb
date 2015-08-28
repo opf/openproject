@@ -32,9 +32,9 @@ require 'SVG/Graph/BarHorizontal'
 require 'digest/sha1'
 require_dependency 'open_project/scm/adapters'
 
-class ChangesetNotFound < Exception
+class ChangesetNotFound < StandardError
 end
-class InvalidRevisionParam < Exception
+class InvalidRevisionParam < StandardError
 end
 
 class RepositoriesController < ApplicationController

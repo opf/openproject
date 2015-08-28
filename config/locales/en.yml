@@ -1819,6 +1819,7 @@ en:
       code_403: "You are not authorized to access this resource."
       code_404: "The requested resource could not be found."
       code_409: "Couldn\'t update the resource because of conflicting modifications."
+      code_500: "An internal error has occured."
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
       invalid_json: "The request could not be parsed as JSON."

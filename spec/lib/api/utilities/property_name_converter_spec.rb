@@ -50,6 +50,14 @@ describe ::API::Utilities::PropertyNameConverter do
       end
     end
 
+    context 'custom fields' do
+      let(:attribute_name) { :cf_1337 }
+
+      it 'converts short custom fields to their long form' do
+        is_expected.to eql('customField1337')
+      end
+    end
+
     # N.B. not re-iterating all existing known replacements here. Just using a single example
     # to verify that it is done at all
     context 'special replacements' do
@@ -64,6 +72,83 @@ describe ::API::Utilities::PropertyNameConverter do
 
         it 'sanitizes id-suffix before replacement lookup' do
           is_expected.to eql('assignee')
+        end
+      end
+    end
+  end
+
+  describe '#to_ar_name' do
+    let(:attribute_name) { 'anAttribute' }
+    let(:context) { FactoryGirl.build(:work_package) }
+
+    subject { described_class.to_ar_name(attribute_name, context: context) }
+
+    it 'snake_cases attribute names' do
+      is_expected.to eql('an_attribute')
+    end
+
+    context 'foreign keys' do
+      let(:attribute_name) { 'status' }
+
+      it 'does not add an id suffix by default' do
+        is_expected.to eql('status')
+      end
+
+      context 'requesting ids via refer_to_ids' do
+        subject { described_class.to_ar_name(attribute_name, context: context, refer_to_ids: true) }
+
+        it 'adds an id suffix' do
+          is_expected.to eql('status_id')
+        end
+
+        context 'for non-foreign keys' do
+          let(:attribute_name) { 'subject' }
+
+          it 'does not add an id suffix' do
+            is_expected.to eql('subject')
+          end
+        end
+      end
+    end
+
+    context 'custom fields' do
+      let(:attribute_name) { 'customField1337' }
+
+      it 'converts long custom fields to their short form' do
+        is_expected.to eql('cf_1337')
+      end
+    end
+
+    context 'special replacements' do
+      let(:attribute_name) { 'assignee' }
+
+      it 'performs special replacements' do
+        is_expected.to eql('assigned_to')
+      end
+
+      context 'foreign keys' do
+        let(:attribute_name) { 'assignee' }
+        subject { described_class.to_ar_name(attribute_name, context: context, refer_to_ids: true) }
+
+        it 'correctly appends the id suffix' do
+          is_expected.to eql('assigned_to_id')
+        end
+      end
+
+      context 'inapropriate back-replacement' do
+        # should not be translated back to updated_on, which is transformed for ar->api
+        let(:attribute_name) { 'updatedAt' }
+
+        it 'should not be performed' do
+          is_expected.to eql('updated_at')
+        end
+
+        context 'in an apropriate context' do
+          let(:context) { FactoryGirl.build(:version) }
+
+          it 'should be performed' do
+            is_expected.to eql('updated_on')
+          end
         end
       end
     end

@@ -27,27 +27,38 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class QueryCustomFieldColumn < QueryColumn
-  def initialize(custom_field)
-    self.name = "cf_#{custom_field.id}".to_sym
-    self.sortable = custom_field.order_statements || false
-    if %w(list date bool int).include?(custom_field.field_format)
-      self.groupable = custom_field.order_statements
+module API
+  module Decorators
+    class AggregationGroup < Single
+      def initialize(group_key, count, sums: nil)
+        @count = count
+        @sums = sums
+
+        @link = ::API::V3::Utilities::ResourceLinkGenerator.make_link(group_key)
+
+        super(group_key)
+      end
+
+      link :valueLink do
+        {
+          href: @link
+        } if @link
+      end
+
+      property :value,
+               exec_context: :decorator,
+               getter: -> (*) { represented ? represented.to_s : nil },
+               render_nil: true
+
+      property :count,
+               exec_context: :decorator,
+               getter: -> (*) { @count },
+               render_nil: true
+
+      property :sums,
+               exec_context: :decorator,
+               getter: -> (*) { @sums },
+               render_nil: false
     end
-    self.groupable ||= false
-    @cf = custom_field
-  end
-
-  def caption
-    @cf.name
-  end
-
-  def custom_field
-    @cf
-  end
-
-  def value(issue)
-    cv = issue.custom_values.detect { |v| v.custom_field_id == @cf.id }
-    cv && cv.typed_value
   end
 end

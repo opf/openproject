@@ -215,6 +215,7 @@ embedded errors or simply state that multiple errors occured.
 
 ## List of Error Identifiers
 
+* `urn:openproject-org:api:v3:errors:InvalidQuery` (**HTTP 400**) - The query contained a value that did not match the servers expectation
 * `urn:openproject-org:api:v3:errors:InvalidRequestBody` (**HTTP 400**) - The format of the request body did not match the servers expectation
 * `urn:openproject-org:api:v3:errors:InvalidRenderContext` (**HTTP 400**) - The client specified a rendering context that does not exist
 * `urn:openproject-org:api:v3:errors:InvalidUserStatusTransition` (**HTTP 400**) - The client used an invalid transition in the attempt to change the status of a user account.
@@ -335,6 +336,8 @@ the amount of elements returned in this response and action links to retrieve th
 | pageSize | Amount of elements that a response will hold                    | Integer | when paginated              |
 | count    | Actual amount of elements in this response                      | Integer | always                      |
 | offset   | The page number that is requested from paginated collection     | Integer | when offset based available |
+| groups   | Summarized information about aggregation groups                 | Object  | when grouping               |
+| totalSums| Aggregations of supported values for elements of the collection | Object  | when showing sums           |
 
 ## Links
 
@@ -342,28 +345,11 @@ the amount of elements returned in this response and action links to retrieve th
 |:----------------:| ------------------------------------------------------------------------ | --------------------------- |
 | self             | Link to the current page in the collection                               | always                      |
 | changeSize       | Templated link to change the page size, might change relative position   | when paginated              |
-| filter           | Templated link to receive only elements matching the provided OQL query  | when filtering available    |
 | jumpTo           | Templated link to jump to a specified offset                             | when offset based available |
 | nextByOffset     | Link to retrieve the following page of elements (offset based)           | when offset based available |
 | previousByOffset | Link to retrieve the preceding page of elements (offset based)           | when offset based available |
 | nextByCursor     | Link to retrieve the elements following the current page (cursor based)  | when cursor based available |
 | previousByCursor | Link to retrieve the elements preceding the current page (cursor based)  | when cursor based available |
-
-### Filters
-
-Filters are specified using the [OpenProject Query Language (OQL)](https://github.com/opf/oql).
-
-The syntax of OQL queries is explained in the [OQL Documentation](http://www.rubydoc.info/github/opf/oql/dev). All properties of the underlying resource can be used
-in the query, e.g. when filtering over a collection of work packages, it is possible to compare the `subject` with any value.
-
-Note that for linked resources you can either compare against the **ID** of the linked resource or against its **link URL**:
-
-    # valid
-    status == "1"
-    status == "/api/v3/statuses/1"
-
-    # NOT valid
-    status == "New"
 
 ## Offset based pagination [/api/v3/examples{?offset,pageSize}]
 
@@ -465,6 +451,92 @@ Cursor based pagination is therefore less suited for use cases where you want to
                 }
             }
 
+## Aggregations [/api/v3/examples{?groupBy,showSums}]
+
+Collections may support different kinds of aggregations.
+Some properties can be summed up. If requested the collection will include the `totalSums` property,
+which is a dictionary, where the keys represent the names of the summed properties and the values represent their sums.
+Note that you have to mark a column as summable in the instance settings, to be able to retrieve its sums.
+
+It is also possible to group the contents of a collection. In this case:
+
+* the `elements` will be ordered by the specified group key (so that the client receives one group after another)
+* The `groups` property will contain a collection of group objects
+
+A group object contains aggregation data for the elements of a group:
+
+### Local Properties
+
+| Property | Description                                                         | Type       | Availability                |
+|:--------:| ------------------------------------------------------------------- | ---------- | --------------------------- |
+| value    | The value to which the group belongs (e.g. the Status' name)        | String     | always                      |
+| count    | Actual amount of elements in this response                          | Integer    | always                      |
+| sums     | A dictionary with property sums inside this group (see `totalSums`) | Dictionary | when sums requested         |
+
+## Links
+
+| Link             | Description                                                 | Availability                          |
+|:----------------:| ------------------------------------------------------------| ------------------------------------- |
+| valueLink        | Link to the corresponding grouping object (e.g. the Status) | only if grouping by a linkable object |
+
+Note that you will always receive a `value`, but only receive a `valueLink` if the grouping was performed
+on a linkable property.
+
+## view aggregated result [GET]
+
++ Parameters
+    + groupBy (optional, string, `status`) ... The column to group by.
+    Note: Aggregation is as of now only supported by the work package collection.
+    You can pass any column name as returned by the [queries](#queries) endpoint.
+
+    + showSums = `false` (optional), boolean, `true` ... Indicates whether properties should be summed up if they support it.
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/examples?groupBy=foo&showSums=true" },
+                    "changeSize": {
+                        "href": "/api/v3/examples?after=buz&pageSize={size}",
+                        "templated": true
+                    }
+                },
+                "_type": "Collection",
+                "total": 5,
+                "pageSize": 25,
+                "count": 5,
+                "_embedded": {
+                    "elements": [
+                        { "foo": "bar", "i": 1 },
+                        { "foo": "bar", "i": 2 },
+                        { "foo": "bar", "i": 3 },
+                        { "foo": "baz", "i": 4 },
+                        { "foo": "baz", "i": 5 }
+                    ],
+                    "groups": [
+                        {
+                            "value : "bar",
+                            "count": 3,
+                            "sums": {
+                                "i": 6
+                            }
+                        },
+                        {
+                            "value : "baz",
+                            "count": 2,
+                            "sums": {
+                                "i": 9
+                            }
+                        }
+                    ],
+                    "totalSums": {
+                        "i": 15
+                    }
+                }
+            }
+
 # Group Root
 
 The root resource contains links to available resources in the API. By following these links
@@ -479,6 +551,7 @@ a client should be able to discover further resources in the API.
 | priorities          | List of available priorities                     | Collection    |          | READ                 |
 | statuses            | List of available work package statuses          | Collection    |          | READ                 |
 | types               | List of available work package types             | Collection    |          | READ                 |
+| workPackages        | List of all work packages                        | Collection    |          | READ                 |
 
 ## Local Properties
 
@@ -505,6 +578,9 @@ a client should be able to discover further resources in the API.
                     },
                     "types" : {
                         "href" : "/api/v3/types"
+                    },
+                    "workPackages" : {
+                        "href" : "/api/v3/work_packages"
                     }
                 },
                 "instanceName" : "My own OpenProject",
@@ -1140,6 +1216,7 @@ For now this endpoint will only allow access to settings deemed useful for a cli
 | Property                  | Description                                        | Type       | Condition                         | Supported operations |
 | :-----------------------: | -------------------------------------------------- | ---------- | --------------------------------- | -------------------- |
 | maximumAttachmentFileSize | The maximum allowed size of an attachment in Bytes | Integer    |                                   | READ                 |
+| perPageOptions            | Page size steps to be offered in paginated list UI | Integer[]  |                                   | READ                 |
 
 ## Configuration [/api/v3/configuration]
 
@@ -1151,7 +1228,8 @@ For now this endpoint will only allow access to settings deemed useful for a cli
                 "_links": {
                     "href": "/api/v3/configuration"
                 },
-                "maximumAttachmentFileSize": 5242880
+                "maximumAttachmentFileSize": 5242880,
+                "perPageOptions": [1, 10, 100]
             }
 
 ## View configuration [GET]
@@ -1798,20 +1876,72 @@ but are also limited to the projects that the current user is allowed to see.
                 "message": "The specified version does not exist."
             }
 
+## Work Package Columns [/api/v3/projects/{id}/work_packages/columns]
+
+## View Work Package columns [GET]
+
+Lists the columns available for work packages of this project in the form of field schemas.
+
++ Parameters
+    + id (required, integer, `1`) ... Project id
+
++ Response 200 (application/hal+json)
+
+    [Example Schema][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client is not allowed to see the available columns of work packages on this
+    project.
+
+    **Required permission:** view work packages
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see work packages of this project."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
+
 # Group Queries
 
+| Link               | Description                                                              | Type         | Constraints  | Supported operations  | Condition                                 |
+| :----------------: | ------------------------------------------------------------------------ | ------------ | ------------ | --------------------- | ----------------------------------------- |
+| self               | This query                                                               | Query        | not null     | READ                  |                                           |
+| user               | The user that owns this query                                            | User         | not null     | READ                  |                                           |
+| project            | The project on which this query operates                                 | Project      |              | READ                  |                                           |
+
 ## Local Properties
-| Property     | Description   | Type    | Constraints | Supported operations |
-| :---------:  | ------------- | ----    | ----------- | -------------------- |
-| id           | Query id      | Integer | x > 0       | READ                 |
-| name         | Query name    | String  |             | READ                 |
-| filters      |               | String  |             | READ                 |
-| isPublic     |               | Boolean |             | READ                 |
-| columnNames  |               | String  |             | READ                 |
-| sortCriteria |               | String  |             | READ                 |
-| groupBy      |               | String  |             | READ                 |
-| displaySums  |               | Boolean |             | READ                 |
-| isStarred    |               | Boolean |             | READ                 |
+
+| Property         | Description                                            | Type        | Constraints                      | Supported operations |
+| :--------------: | ------------------------------------------------------ | ----------- | -------------------------------- | -------------------- |
+| id               | Query id                                               | Integer     | x > 0                            | READ                 |
+| name             | Query name                                             | String      |                                  | READ                 |
+| filters          | An object describing the queries filter conditions     | Object      |                                  | READ                 |
+| columnNames      | Ordered list of properties to be shown in this query   | String[]    |                                  | READ                 |
+| sortCriteria     | An object describing the sorting rules of this query   | Object      |                                  | READ                 |
+| groupBy          | The property to group results of this query by         | String      |                                  | READ                 |
+| displaySums      | Should sums (of supported properties) be shown?        | Boolean     |                                  | READ                 |
+| isPublic         | Can users besides the owner see the query?             | Boolean     |                                  | READ                 |
+| isStarred        | Should the query be highlighted to the user?           | Boolean     |                                  | READ                 |
 
 ## Query [/api/v3/queries/{id}]
 
@@ -1827,24 +1957,24 @@ but are also limited to the projects that the current user is allowed to see.
                     },
                     "project": {
                         "href": "/api/v3/projects/1",
-                        "title": "Lorem ipsum"
+                        "title": "A project"
                     },
                     "user": {
                         "href": "/api/v3/users/1",
-                        "title": "John Sheppard - admin"
+                        "title": "John Sheppard"
                     }
                 },
                 "id": 2,
                 "name": "My work packages",
                 "filters": [
                     {
-                        "status_id": {
+                        "status": {
                             "operator": "o",
                             "values": null
                         }
                     },
                     {
-                        "assigned_to_id": {
+                        "assignee": {
                             "operator": "=",
                             "values": [
                                 "me"
@@ -1852,13 +1982,13 @@ but are also limited to the projects that the current user is allowed to see.
                         }
                     }
                 ],
-                "isPublic": "false",
+                "isPublic": false,
                 "columnNames": [
                     "type",
                     "status",
                     "priority",
                     "subject",
-                    "assigned_to"
+                    "assignee"
                 ],
                 "sortCriteria": [
                     [
@@ -1867,13 +1997,13 @@ but are also limited to the projects that the current user is allowed to see.
                     ]
                 ],
                 "groupBy": null,
-                "displaySums": "false",
+                "displaySums": false,
                 "isStarred": true
             }
 
 ## View query [GET]
 
-**NOT IMPLEMENTED**
+*might be subject to change in the future*
 
 + Parameters
     + id (required, integer, `1`) ... Query id
@@ -1881,6 +2011,22 @@ but are also limited to the projects that the current user is allowed to see.
 + Response 200 (application/hal+json)
 
     [Query][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the query does not exist or the client does not have sufficient permissions to see it.
+
+    **Required condition:** query belongs to user or query is public
+
+    **Required permission:** view work package in queries project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified query does not exist."
+            }
 
 ## Star Query [/api/v3/queries/{id}/star]
 
@@ -1907,13 +2053,13 @@ but are also limited to the projects that the current user is allowed to see.
                 "name": "My work packages",
                 "filters": [
                     {
-                        "status_id": {
+                        "status": {
                             "operator": "o",
                             "values": null
                         }
                     },
                     {
-                        "assigned_to_id": {
+                        "assignee": {
                             "operator": "=",
                             "values": [
                                 "me"
@@ -1927,7 +2073,7 @@ but are also limited to the projects that the current user is allowed to see.
                     "status",
                     "priority",
                     "subject",
-                    "assigned_to"
+                    "assignee"
                 ],
                 "sortCriteria": [
                     [
@@ -1961,6 +2107,38 @@ but are also limited to the projects that the current user is allowed to see.
                 "message": "The request body was not empty."
             }
 
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** for own queries none; for public queries: manage public queries
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding query.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to star this query."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the query does not exist or the client does not have sufficient permissions to see it.
+
+    **Required condition:** query belongs to user or query is public
+
+    **Required permission:** view work package in queries project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified query does not exist."
+            }
+
 ## Unstar Query [/api/v3/queries/{id}/unstar]
 
 + Model
@@ -1986,13 +2164,13 @@ but are also limited to the projects that the current user is allowed to see.
                 "name": "My work packages",
                 "filters": [
                     {
-                        "status_id": {
+                        "status": {
                             "operator": "o",
                             "values": null
                         }
                     },
                     {
-                        "assigned_to_id": {
+                        "assignee": {
                             "operator": "=",
                             "values": [
                                 "me"
@@ -2006,7 +2184,7 @@ but are also limited to the projects that the current user is allowed to see.
                     "status",
                     "priority",
                     "subject",
-                    "assigned_to"
+                    "assignee"
                 ],
                 "sortCriteria": [
                     [
@@ -2040,6 +2218,37 @@ but are also limited to the projects that the current user is allowed to see.
                 "message": "The request body was not empty."
             }
 
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** for own queries none; for public queries: manage public queries
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding query.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to unstar this query."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the query does not exist or the client does not have sufficient permissions to see it.
+
+    **Required condition:** query belongs to user or query is public
+
+    **Required permission:** view work package in queries project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified query does not exist."
+            }
 
 # Group Revisions
 
@@ -3545,7 +3754,93 @@ For more details and all possible responses see the general specification of [Fo
                 "message": "The specified work package does not exist."
             }
 
-## Work Packages by Project [/api/v3/projects/{id}/work_packages{?notify}]
+## Work Packages [/api/v3/work_packages{?offset,pageSize,filters,sortBy,groupBy,showSums}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/work_packages" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded": {
+                    "elements": [
+                    {
+                        "_type": "WorkPackage",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/work_packages/1"
+                            }
+                        },
+                        "id": 1,
+                        "subject": "Skipped other properties for brevity"
+                    },
+                    {
+                        "_type": "WorkPackage",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/work_packages/2"
+                            }
+                        },
+                        "id": 2,
+                        "subject": "Skipped other properties for brevity"
+                    }]
+                }
+            }
+
+## List Work Packages [GET]
+
++ Parameters
+    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
+    + filters (optional, string, `[{ "status_id": { "operator": "o", "values": null }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+
+    + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+
+    + groupBy (optional, string, `status`) ... The column to group by.
+
+    + showSums = `false` (optional), boolean, `true` ... Indicates whether properties should be summed up if they support it.
+
++ Response 200 (application/hal+json)
+
+    [Work Packages][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client sends a query parameter, that the server knows, but does not understand.
+    E.g. by providing a syntactically incorrect `filters` parameter.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidQuery",
+                "message": "Operator can't be blank."
+            }
+
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work packages (globally or in any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see work packages."
+            }
+
+## Work Packages by Project [/api/v3/projects/{id}/work_packages{?offset,pageSize,filters,sortBy,groupBy,showSums,notify}]
 
 + Model
     + Body
@@ -3587,9 +3882,36 @@ For more details and all possible responses see the general specification of [Fo
 + Parameters
     + id (required, integer, `1`) ... Project id
 
+    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
+    + filters (optional, string, `[{ "status_id": { "operator": "o", "values": null }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+
+    + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+
+    + groupBy (optional, string, `status`) ... The column to group by.
+
+    + showSums = `false` (optional), boolean, `true` ... Indicates whether properties should be summed up if they support it.
+
 + Response 200 (application/hal+json)
 
     [Work Packages by Project][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client sends a query parameter, that the server knows, but does not understand.
+    E.g. by providing a syntactically incorrect `filters` parameter.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidQuery",
+                "message": "Operator can't be blank."
+            }
 
 + Response 403 (application/hal+json)
 
@@ -3604,7 +3926,7 @@ For more details and all possible responses see the general specification of [Fo
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not allowed to see the work package of this project."
+                "message": "You are not allowed to see the work packages of this project."
             }
 
 + Response 404 (application/hal+json)
@@ -4103,11 +4425,7 @@ Gets a list of users that are able to be watchers of the specified work package.
 
             {
                 "_links": {
-                    "self": { "href": "/api/v3/work_packages/42/revisions" },
-                    "filter": {
-                        "href": "/api/v3/work_packages/42/revisions",
-                        "templated": true
-                    }
+                    "self": { "href": "/api/v3/work_packages/42/revisions" }
                 },
                 "total": 2,
                 "count": 2,
@@ -4280,18 +4598,14 @@ updated activity.
                 "message": "The specified work package does not exist."
             }
 
-## Available Assignees [/api/v3/projects/{project_id}/work_packages/available_assignees{?offset,pageSize,filter}]
+## Available Assignees [/api/v3/projects/{project_id}/work_packages/available_assignees]
 
 + Model
     + Body
 
             {
                 "_links": {
-                    "self": { "href": "/api/v3/projects/42/work_packages/available_assignees" },
-                    "filter": {
-                        "href": "/api/v3/projects/42/work_packages/available_assignees?filter={oql}",
-                        "templated": true
-                    }
+                    "self": { "href": "/api/v3/projects/42/work_packages/available_assignees" }
                 },
                 "total": 2,
                 "count": 2,
@@ -4364,12 +4678,6 @@ Gets a list of users that can be assigned to work packages in the given project.
 + Parameters
     + project_id (required, integer, `1`) ... Project id
 
-    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
-
-    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
-
-    + filter (optional, string, `name == "Karl"`) ... An OQL query to specify which subset of users shall be returned
-
 + Response 200 (application/hal+json)
 
     [Available Assignees][]
@@ -4404,18 +4712,14 @@ Gets a list of users that can be assigned to work packages in the given project.
                 "message": "The specified project does not exist."
             }
 
-## Available Responsibles [/api/v3/projects/{project_id}/work_packages/available_responsibles{?offset,pageSize,filter}]
+## Available Responsibles [/api/v3/projects/{project_id}/work_packages/available_responsibles]
 
 + Model
     + Body
 
             {
                 "_links": {
-                    "self": { "href": "/api/v3/projects/42/work_packages/available_responsibles" },
-                    "filter": {
-                        "href": "/api/v3/projects/42/work_packages/available_responsibles?filter={oql}",
-                        "templated": true
-                    }
+                    "self": { "href": "/api/v3/projects/42/work_packages/available_responsibles" }
                 },
                 "total": 2,
                 "count": 2,
@@ -4487,12 +4791,6 @@ Gets a list of users that can be assigned as the responsible of a work package i
 
 + Parameters
     + project_id (required, integer, `1`) ... Project id
-
-    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
-
-    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
-
-    + filter (optional, string, `name == "Karl"`) ... An OQL query to specify which subset of users shall be returned
 
 + Response 200 (application/hal+json)
 

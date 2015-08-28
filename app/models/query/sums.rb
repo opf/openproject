@@ -76,7 +76,7 @@ module ::Query::Sums
   end
 
   def sum_of(column, collection)
-    return unless should_be_summed_up?(column)
+    return nil unless should_be_summed_up?(column)
     # This is a workaround to be able to sum up currency with the redmine_costs plugin
     values = collection.map { |issue|
                column.respond_to?(:real_value) ?

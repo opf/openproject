@@ -89,47 +89,55 @@ h4. things we like
   let(:unauthorize_user) { FactoryGirl.create(:user) }
   let(:type) { FactoryGirl.create(:type) }
 
+  describe '#get list' do
+    subject { last_response }
+
+    before(:each) do
+      allow(User).to receive(:current).and_return current_user
+      get api_v3_paths.work_packages
+    end
+
+    it 'succeeds' do
+      expect(subject.status).to eql 200
+    end
+
+    it 'returns visible work packages' do
+      FactoryGirl.create(:work_package, project: project)
+      expect(subject.body).to be_json_eql(1.to_json).at_path('total')
+    end
+
+    context 'user not seeing any work packages' do
+      let(:current_user) { FactoryGirl.create(:user) }
+      let(:non_member_permissions) { [:view_work_packages] }
+
+      around do |example|
+        non_member = Role.non_member
+        previous_permissions = non_member.permissions
+
+        non_member.update_attribute(:permissions, non_member_permissions)
+        example.run
+        non_member.update_attribute(:permissions, previous_permissions)
+      end
+
+      it 'succeeds' do
+        expect(subject.status).to eql 200
+      end
+
+      it 'returns no work packages' do
+        FactoryGirl.create(:work_package, project: project)
+        expect(subject.body).to be_json_eql(0.to_json).at_path('total')
+      end
+
+      context 'because he is not allowed to see work packages in general' do
+        let(:non_member_permissions) { [] }
+
+        it_behaves_like 'unauthorized access'
+      end
+    end
+  end
+
   describe '#get' do
     let(:get_path) { api_v3_paths.work_package work_package.id }
-    let(:expected_response) do
-      {
-        '_type' => 'WorkPackage',
-        '_links' => {
-          'self' => {
-            'href' => "http://localhost:3000/api/v3/work_packages/#{work_package.id}",
-            'title' => work_package.subject
-          }
-        },
-        'id' => work_package.id,
-        'subject' => work_package.subject,
-        'type' => work_package.type.name,
-        'description' => work_package.description,
-        'status' => work_package.status.name,
-        'priority' => work_package.priority.name,
-        'startDate' => work_package.start_date,
-        'dueDate' => work_package.due_date,
-        'estimatedTime' =>
-          JSON.parse({ units: 'hours', value: work_package.estimated_hours }.to_json),
-        'percentageDone' => work_package.done_ratio,
-        'versionId' => work_package.fixed_version_id,
-        'versionName' => work_package.fixed_version.try(:name),
-        'projectId' => work_package.project_id,
-        'projectName' => work_package.project.name,
-        'responsibleId' => work_package.responsible_id,
-        'responsibleName' => work_package.responsible.try(:name),
-        'responsibleLogin' => work_package.responsible.try(:login),
-        'responsibleMail' => work_package.responsible.try(:mail),
-        'assigneeId' => work_package.assigned_to_id,
-        'assigneeName' => work_package.assigned_to.try(:name),
-        'assigneeLogin' => work_package.assigned_to.try(:login),
-        'assigneeMail' => work_package.assigned_to.try(:mail),
-        'authorName' => work_package.author.name,
-        'authorLogin' => work_package.author.login,
-        'authorMail' => work_package.author.mail,
-        'createdAt' => work_package.created_at.utc.iso8601,
-        'updatedAt' => work_package.updated_at.utc.iso8601
-      }
-    end
 
     context 'when acting as a user with permission to view work package' do
       before(:each) do

@@ -31,10 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Configuration::ConfigurationRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:represented) {
-    double('Settings',
-           attachment_max_size: '1024')
-  }
+  let(:represented) { Setting }
   let(:current_user) { FactoryGirl.build_stubbed(:user) }
   let(:representer) { described_class.new(represented, current_user: current_user) }
 
@@ -53,7 +50,13 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
     end
 
     it 'indicates maximumAttachmentFileSize in Bytes' do
+      allow(Setting).to receive(:attachment_max_size).and_return('1024')
       is_expected.to be_json_eql((1024 * 1024).to_json).at_path('maximumAttachmentFileSize')
+    end
+
+    it 'indicates perPageOptions as array of integers' do
+      allow(Setting).to receive(:per_page_options).and_return('1, 50 ,   100  ')
+      is_expected.to be_json_eql([1, 50, 100].to_json).at_path('perPageOptions')
     end
   end
 end
