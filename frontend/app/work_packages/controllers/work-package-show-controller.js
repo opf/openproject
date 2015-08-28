@@ -48,7 +48,11 @@ module.exports = function($scope,
     WorkPackageFieldService,
     EditableFieldsState,
     WorkPackagesDisplayHelper,
-    NotificationsService
+    NotificationsService,
+    WorkPackageAuthorization,
+    PERMITTED_MORE_MENU_ACTIONS,
+    HookService,
+    $window
   ) {
   $scope.$on('$stateChangeSuccess', function(event, toState){
     latestTab.registerState(toState.name);
@@ -60,6 +64,63 @@ module.exports = function($scope,
 
   // initialization
   setWorkPackageScopeProperties(workPackage);
+
+  // stuff copied from details toolbar directive...
+  function getPermittedActions(authorization, permittedMoreMenuActions) {
+    var permittedActions = authorization.permittedActions(permittedMoreMenuActions);
+    var augmentedActions = { };
+
+    angular.forEach(permittedActions, function(value, key) {
+      var css = ["icon-" + key];
+
+      this[key] = { link: value, css: css };
+    }, augmentedActions);
+
+    return augmentedActions;
+  }
+  function getPermittedPluginActions(authorization) {
+    var pluginActions = HookService.call('workPackageDetailsMoreMenu').reduce(function(previousValue, currentValue) {
+                          return angular.extend(previousValue, currentValue);
+                        }, { });
+
+    var permittedPluginActions = authorization.permittedActions(Object.keys(pluginActions));
+    var augmentedPluginActions = { };
+
+    angular.forEach(permittedPluginActions, function(value, key) {
+      var css = [].concat(pluginActions[key]);
+
+      if (css.length == 0) {
+        css = ["icon-" + key];
+      }
+
+      this[key] = { link: value, css: css };
+    }, augmentedPluginActions);
+
+    return augmentedPluginActions;
+  }
+  function deleteSelectedWorkPackage() {
+    var promise = WorkPackageService.performBulkDelete([$scope.workPackage.props.id], true);
+
+    promise.success(function(data, status) {
+      $state.go('work-packages.list', {projectPath: projectPathForWorkPackage()});
+    });
+  }
+  $scope.triggerMoreMenuAction = function(action, link) {
+    switch (action) {
+      case 'delete':
+        deleteSelectedWorkPackage();
+        break;
+      default:
+        $window.location.href = link;
+        break;
+    }
+  };
+  var authorization = new WorkPackageAuthorization($scope.workPackage);
+  $scope.actionsAvailable = true;
+  $scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
+                                           getPermittedPluginActions(authorization));
+
+  // END stuff copied from details toolbar directive...
 
   $scope.I18n = I18n;
   $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;

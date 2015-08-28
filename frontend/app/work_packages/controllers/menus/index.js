@@ -49,6 +49,15 @@ angular.module('openproject.workPackages')
     'columnsModal',
     require('./column-context-menu-controller')
   ])
+  .factory('ShowMoreDropdownMenu', [
+    'ngContextMenu',
+    function(ngContextMenu) {
+      return ngContextMenu({
+        templateUrl: '/templates/work_packages/menus/show_more_dropdown_menu.html',
+        container: '#toolbar'
+      });
+    }
+  ])
   .factory('SettingsDropdownMenu', [
     'ngContextMenu',
     function(ngContextMenu) {
