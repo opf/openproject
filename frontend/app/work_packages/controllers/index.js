@@ -132,6 +132,10 @@ angular.module('openproject.workPackages.controllers')
     'EditableFieldsState',
     'WorkPackagesDisplayHelper',
     'NotificationsService',
+    'WorkPackageAuthorization',
+    'PERMITTED_MORE_MENU_ACTIONS',
+    'HookService',
+    '$window',
     require('./work-package-show-controller')
   ])
   .controller('WorkPackagesController', [
