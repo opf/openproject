@@ -137,6 +137,9 @@
   > h4
     margin-top: 5px
 
+.work-package--attachments--filename
+  padding: 0 0.5rem
+
 .work-package--attachments--drop-box
   border: 2px dashed $light-gray
   background-color: lighten($gray, 5)
@@ -191,6 +194,6 @@
 //an workaround for ie10
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
   //IE10+ specific styles go here
-  .work-package--attachments--files ul li .filename
+  .work-package--attachments--filename
     width: rem-calc(354)
     display: block

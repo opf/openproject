@@ -158,7 +158,7 @@ en:
     label_attachments: Files
     label_drop_files: Drop files here
     label_drop_files_hint: or click to add files
-    label_remove_file: Delete
+    label_remove_file: "Delete %{fileName}"
     label_remove_all_files: Delete all files
     label_add_description: "Add a description for %{file}"
     label_upload_notification: "Uploading files for Work package #%{id}: %{subject}"

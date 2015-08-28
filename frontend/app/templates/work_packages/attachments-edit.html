@@ -19,11 +19,11 @@
             <span class="inplace-editing--container">
               <span class="inplace-edit--read-value" >
                 <attachment-icon type="attachment.contentType"></attachment-icon>
-                <a class="filename" data-ng-href="{{attachment._links.downloadLocation.href}}" download data-ng-focus="focus(attachment)" data-ng-blur="focus(null)">{{::attachment.fileName}}</a>
-                <span class="filesize">({{::size(attachment.fileSize)}})</span>
+                <a class="work-package--attachments--filename" data-ng-href="{{attachment._links.downloadLocation.href}}" download data-ng-focus="focus(attachment)" data-ng-blur="focus(null)">{{::attachment.fileName}}</a>
+                <span class="work-package--attachments--filesize">({{::size(attachment.fileSize)}})</span>
               </span>
               <a href='' class="inplace-edit--icon-wrapper" data-ng-focus="focus(attachment)" data-ng-blur="focus(null)" data-ng-click="remove(attachment)" data-confirm-popup="{{I18n.t('js.text_attachment_destroy_confirmation')}}">
-                <icon-wrapper icon-name="delete" title="{{::I18n.t('js.label_remove_file')}}">{{::I18n.t('js.label_remove_file')}}>
+                <icon-wrapper icon-name="delete" data-icon-title="{{::I18n.t('js.label_remove_file', { fileName: attachment.fileName })}}">
                 </icon-wrapper>
               </a>
             </span>
