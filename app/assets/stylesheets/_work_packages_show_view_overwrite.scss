@@ -53,12 +53,12 @@
 
   .work-packages--left-panel {
     border-right: 1px solid #ccc;
-    overflow-y: scroll;
+    overflow-y: auto;
     width: 60%;
   }
 
   .work-packages--right-panel {
-    overflow-y: scroll;
+    overflow-y: auto;
     width: 40%;
   }
 }
