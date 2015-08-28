@@ -33,12 +33,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'api/v3/work_packages/schema/work_package_schema'
+require_dependency 'api/v3/work_packages/schema/specific_work_package_schema'
 
-module OpenProject::Backlogs::Patches::WorkPackageSchemaPatch
+module OpenProject::Backlogs::Patches::SpecificWorkPackageSchemaPatch
   def self.included(base)
     base.class_eval do
-      include InstanceMethods
+      prepend InstanceMethods
       extend ClassMethods
     end
   end
@@ -47,8 +47,12 @@ module OpenProject::Backlogs::Patches::WorkPackageSchemaPatch
   end
 
   module InstanceMethods
-    def remaining_time_writable?
-      @work_package.nil? ? true : @work_package.leaf?
+    def writable?(property)
+      if property == :remaining_time
+        return @work_package.leaf?
+      end
+
+      super
     end
   end
 end

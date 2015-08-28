@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
+describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   let(:project) { FactoryGirl.build(:project) }
   let(:type) { FactoryGirl.build(:type) }
   let(:work_package) {
@@ -46,7 +46,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
       end
 
       it 'is writable' do
-        expect(subject.remaining_time_writable?).to eql(true)
+        expect(subject.writable?(:remaining_time)).to eql(true)
       end
     end
 
@@ -56,15 +56,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
       end
 
       it 'is not writable' do
-        expect(subject.remaining_time_writable?).to eql(false)
-      end
-    end
-
-    context 'created from type and project' do
-      subject { described_class.new(project: project, type: type) }
-
-      it 'is always writable' do
-        expect(subject.remaining_time_writable?).to eql(true)
+        expect(subject.writable?(:remaining_time)).to eql(false)
       end
     end
   end

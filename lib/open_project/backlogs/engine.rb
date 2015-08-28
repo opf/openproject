@@ -135,7 +135,7 @@ module OpenProject::Backlogs
              :Version,
              :WorkPackagesHelper]
 
-    patch_with_namespace :API, :V3, :WorkPackages, :Schema, :WorkPackageSchema
+    patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
 
     extend_api_response(:v3, :work_packages, :work_package) do
       property :story_points,
@@ -185,12 +185,11 @@ module OpenProject::Backlogs
              type: 'Duration',
              name_source: :remaining_hours,
              required: false,
-             writable: -> (*) { represented.remaining_time_writable? },
              show_if: -> (*) { represented.project.backlogs_enabled? }
     end
 
-    allow_attribute_update :work_package, [:create, :update], :story_points
-    allow_attribute_update :work_package, [:create, :update], :remaining_hours do
+    add_api_attribute on: :work_package, ar_name: :story_points
+    add_api_attribute on: :work_package, ar_name: :remaining_hours, api_name: :remaining_time do
       if !model.new_record? &&
          !model.leaf? &&
          model.changed.include?('remaining_hours')
