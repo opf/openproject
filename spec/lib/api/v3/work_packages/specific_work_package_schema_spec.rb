@@ -28,27 +28,22 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
+describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   let(:project) {
-    double('Project', cost_objects: double('CostObjects'))
+    FactoryGirl.build(:project)
   }
   let(:type) { FactoryGirl.build(:type) }
   let(:work_package) { FactoryGirl.build(:work_package, project: project, type: type) }
 
   describe '#assignable_cost_objects' do
-    subject { described_class.new(project: project, type: type) }
+    subject { described_class.new(work_package: work_package) }
 
-    it 'returns project.cost_objects' do
-      expect(subject.assignable_cost_objects).to eql(project.cost_objects)
+    before do
+      allow(project).to receive(:cost_objects).and_return(double('CostObjects'))
     end
 
-    context 'project is nil' do
-      let(:project) { nil }
-      subject { described_class.new(work_package: work_package) }
-
-      it 'returns nil' do
-        expect(subject.assignable_cost_objects).to eql(nil)
-      end
+    it 'returns project.cost_objects' do
+      expect(subject.assignable_values(:cost_object, nil)).to eql(project.cost_objects)
     end
   end
 end

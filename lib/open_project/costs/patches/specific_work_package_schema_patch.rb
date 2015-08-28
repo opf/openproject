@@ -33,12 +33,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'api/v3/work_packages/schema/work_package_schema'
+require_dependency 'api/v3/work_packages/schema/specific_work_package_schema'
 
-module OpenProject::Costs::Patches::WorkPackageSchemaPatch
+module OpenProject::Costs::Patches::SpecificWorkPackageSchemaPatch
   def self.included(base)
     base.class_eval do
-      include InstanceMethods
+      prepend InstanceMethods
       extend ClassMethods
     end
   end
@@ -47,8 +47,12 @@ module OpenProject::Costs::Patches::WorkPackageSchemaPatch
   end
 
   module InstanceMethods
-    def assignable_cost_objects
-      project.try(:cost_objects)
+    def assignable_values(property, _context)
+      if property == :cost_object
+        return project.try(:cost_objects)
+      end
+
+      super
     end
   end
 end
