@@ -159,16 +159,26 @@ describe ProjectsController, type: :routing do
     end
 
     it do
-      expect(post('projects/123/copy')).to route_to(
-        controller: 'copy_projects', action: 'copy', id: '123'
-      )
-    end
-
-    it do
       expect(get('projects/123/copy_project_from_settings')).to route_to(
         controller: 'copy_projects', action: 'copy_project', id: '123',
         coming_from: 'settings'
       )
+    end
+
+    it do
+      expect(post('projects/123/copy_from_settings')).to route_to(
+        controller: 'copy_projects',
+        action: 'copy',
+        id: '123',
+        coming_from: 'settings')
+    end
+
+    it do
+      expect(post('projects/123/copy_from_admin')).to route_to(
+        controller: 'copy_projects',
+        action: 'copy',
+        id: '123',
+        coming_from: 'admin')
     end
   end
 
