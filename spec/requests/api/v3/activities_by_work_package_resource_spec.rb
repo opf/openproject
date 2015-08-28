@@ -32,13 +32,39 @@ require 'rack/test'
 describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
   include API::V3::Utilities::PathHelper
 
-  let(:admin) { FactoryGirl.create(:admin) }
-
   describe 'activities' do
-    let(:work_package) { FactoryGirl.create(:work_package) }
+    let(:project) { FactoryGirl.build(:project) }
+    let(:work_package) { FactoryGirl.create(:work_package, project: project) }
     let(:comment) { 'This is a test comment!' }
 
+    describe 'GET /api/v3/work_packages/:id/activities' do
+      let(:project) { FactoryGirl.create(:project, is_public: false) }
+      let(:current_user) {
+        FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+      }
+      let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+
+      before do
+        allow(User).to receive(:current).and_return(current_user)
+        get api_v3_paths.work_package_activities work_package.id
+      end
+
+      it 'succeeds' do
+        expect(response.status).to eql 200
+      end
+
+      context 'not allowed to see work package' do
+        let(:current_user) { FactoryGirl.create(:user) }
+
+        it 'fails with HTTP Not Found' do
+          expect(response.status).to eql 404
+        end
+      end
+    end
+
     describe 'POST /api/v3/work_packages/:id/activities' do
+      let(:work_package) { FactoryGirl.create(:work_package) }
+
       shared_context 'create activity' do
         before {
           post (api_v3_paths.work_package_activities work_package.id),

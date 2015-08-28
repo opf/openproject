@@ -756,8 +756,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'activities' do
-        it { is_expected.to have_json_type(Array).at_path('_embedded/activities') }
-        it { is_expected.to have_json_size(0).at_path('_embedded/activities') }
+        it 'is returned as Collection resource' do
+          is_expected.to be_json_eql('Collection'.to_json).at_path('_embedded/activities/_type')
+        end
+
+        it 'is empty' do
+          is_expected.to be_json_eql(0).at_path('_embedded/activities/total')
+        end
       end
 
       context 'not embedding links' do
