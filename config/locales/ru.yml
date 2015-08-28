@@ -154,7 +154,7 @@ ru:
   permission_view_cost_objects: Просмотр бюджетов
   permission_view_cost_rates: Просмотр тарифов по стоимости
   permission_view_hourly_rates: Просмотр всех почасовых тарифов
-  permission_view_own_cost_entries: View own booked costs
+  permission_view_own_cost_entries: Просмотр своих зарегистрированных расходов
   permission_view_own_hourly_rate: Просмотр своей почасовой ставки
   permission_view_own_time_entries: Просмотр своего отработанного времени
   project_module_costs_module: Контроль стоимости
