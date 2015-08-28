@@ -34,6 +34,10 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   let(:user) { FactoryGirl.build_stubbed(:user) }
   let(:context) { { current_user: user } }
 
+  let(:query) { {} }
+  let(:groups) { nil }
+  let(:total_sums) { nil }
+
   let(:page_parameter) { nil }
   let(:page_size_parameter) { nil }
   let(:default_page_size) { 30 }
@@ -43,6 +47,9 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     described_class.new(
       work_packages,
       self_base_link,
+      query: query,
+      groups: groups,
+      total_sums: total_sums,
       page: page_parameter,
       per_page: page_size_parameter,
       context: context)
@@ -55,6 +62,14 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   context 'generation' do
     subject(:collection) { representer.to_json }
     let(:collection_inner_type) { 'WorkPackage' }
+
+    it 'does not render groups' do
+      is_expected.not_to have_json_path('groups')
+    end
+
+    it 'does not render sums' do
+      is_expected.not_to have_json_path('totalSums')
+    end
 
     context 'limited page size' do
       let(:page_size_parameter) { 2 }
@@ -87,6 +102,31 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
         it_behaves_like 'has no link' do
           let(:link) { 'nextByOffset' }
         end
+      end
+    end
+
+    context 'passing a query hash' do
+      let(:query) { { a: 'b', b: 'c' } }
+
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'self' }
+        let(:href) { '/api/v3/example?a=b&b=c&offset=1&pageSize=30' }
+      end
+    end
+
+    context 'passing groups' do
+      let(:groups) { { custom: 'object' } }
+
+      it 'renders the groups object as json' do
+        is_expected.to be_json_eql(groups.to_json).at_path('groups')
+      end
+    end
+
+    context 'passing sums' do
+      let(:total_sums) { { custom: 'object' } }
+
+      it 'renders the groups object as json' do
+        is_expected.to be_json_eql(total_sums.to_json).at_path('totalSums')
       end
     end
   end

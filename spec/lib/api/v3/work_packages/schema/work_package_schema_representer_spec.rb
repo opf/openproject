@@ -37,14 +37,20 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     FactoryGirl.build(:user, member_in_project: work_package.project)
   }
   let(:schema) {
-    ::API::V3::WorkPackages::Schema::WorkPackageSchema.new(work_package: work_package)
+    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
   }
-  let(:embedded) { false }
+  let(:self_link) { '/a/self/link' }
+  let(:embedded) { true }
   let(:representer) {
     described_class.create(schema,
                            form_embedded: embedded,
+                           self_link: self_link,
                            current_user: current_user)
   }
+
+  before do
+    allow(schema).to receive(:writable?).and_call_original
+  end
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -52,8 +58,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     shared_examples_for 'has a collection of allowed values' do
       let(:embedded) { true }
 
+      before do
+        allow(schema).to receive(:assignable_values).and_return(nil)
+      end
+
       context 'when no values are allowed' do
-        before do allow(schema).to receive(allowed_values_method).and_return([]) end
+        before do
+          allow(schema).to receive(:assignable_values).with(factory, anything).and_return([])
+        end
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { json_path }
@@ -64,7 +76,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'when values are allowed' do
         let(:values) { FactoryGirl.build_stubbed_list(factory, 3) }
 
-        before do allow(schema).to receive(allowed_values_method).and_return(values) end
+        before do
+          allow(schema).to receive(:assignable_values).with(factory, anything).and_return(values)
+        end
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { json_path }
@@ -73,7 +87,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'when not embedded' do
-        let(:embedded) { false }
+        before do
+          allow(schema).to receive(:assignable_values).with(factory, anything).and_return(nil)
+        end
 
         it_behaves_like 'does not link to allowed values' do
           let(:path) { json_path }
@@ -84,16 +100,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     describe 'self link' do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'self' }
-        let(:href) {
-          api_v3_paths.work_package_schema(work_package.project.id, work_package.type.id)
-        }
+        let(:href) { self_link }
       end
 
       context 'embedded in a form' do
-        let(:embedded) { true }
-
-        # In a form there is no guarantee that the current state contains a valid WP
-        let(:work_package) { FactoryGirl.build(:work_package, type: nil) }
+        let(:self_link) { nil }
 
         it_behaves_like 'has no link' do
           let(:link) { 'self' }
@@ -114,6 +125,18 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:name) { I18n.t('api_v3.attributes.lock_version') }
         let(:required) { true }
         let(:writable) { false }
+      end
+
+      context 'lockVersion disabled' do
+        let(:representer) {
+          described_class.create(schema,
+                                 current_user: current_user,
+                                 hide_lock_version: true)
+        }
+
+        it 'is hidden' do
+          is_expected.to_not have_json_path('lockVersion')
+        end
       end
     end
 
@@ -157,7 +180,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     describe 'startDate' do
       before do
-        allow(schema).to receive(:start_date_writable?).and_return true
+        allow(schema).to receive(:writable?).with(:start_date).and_return true
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -170,7 +193,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'not writable' do
         before do
-          allow(schema).to receive(:start_date_writable?).and_return false
+          allow(schema).to receive(:writable?).with(:start_date).and_return false
         end
 
         it_behaves_like 'has basic schema properties' do
@@ -185,7 +208,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     describe 'dueDate' do
       before do
-        allow(schema).to receive(:due_date_writable?).and_return true
+        allow(schema).to receive(:writable?).with(:due_date).and_return true
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -198,7 +221,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'not writable' do
         before do
-          allow(schema).to receive(:due_date_writable?).and_return false
+          allow(schema).to receive(:writable?).with(:due_date).and_return false
         end
 
         it_behaves_like 'has basic schema properties' do
@@ -213,7 +236,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     describe 'estimatedTime' do
       before do
-        allow(schema).to receive(:estimated_time_writable?).and_return true
+        allow(schema).to receive(:writable?).with(:estimated_time).and_return true
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -226,7 +249,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'not writable' do
         before do
-          allow(schema).to receive(:estimated_time_writable?).and_return false
+          allow(schema).to receive(:writable?).with(:estimated_time).and_return false
         end
 
         it_behaves_like 'has basic schema properties' do
@@ -271,7 +294,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     describe 'percentageDone' do
       before do
-        allow(schema).to receive(:percentage_done_writable?).and_return true
+        allow(schema).to receive(:writable?).with(:percentage_done).and_return true
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -284,7 +307,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'not writable' do
         before do
-          allow(schema).to receive(:percentage_done_writable?).and_return false
+          allow(schema).to receive(:writable?).with(:percentage_done).and_return false
         end
 
         it_behaves_like 'has basic schema properties' do
@@ -360,7 +383,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:json_path) { 'type' }
         let(:href_path) { 'types' }
         let(:factory) { :type }
-        let(:allowed_values_method) { :assignable_types }
       end
     end
 
@@ -377,7 +399,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:json_path) { 'status' }
         let(:href_path) { 'statuses' }
         let(:factory) { :status }
-        let(:allowed_values_method) { :assignable_statuses_for }
       end
     end
 
@@ -394,7 +415,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:json_path) { 'category' }
         let(:href_path) { 'categories' }
         let(:factory) { :category }
-        let(:allowed_values_method) { :assignable_categories }
       end
     end
 
@@ -411,7 +431,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:json_path) { 'version' }
         let(:href_path) { 'versions' }
         let(:factory) { :version }
-        let(:allowed_values_method) { :assignable_versions }
       end
     end
 
@@ -428,13 +447,10 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:json_path) { 'priority' }
         let(:href_path) { 'priorities' }
         let(:factory) { :priority }
-        let(:allowed_values_method) { :assignable_priorities }
       end
     end
 
     describe 'responsible and assignee' do
-      let(:embedded) { true }
-
       let(:base_href) { "/api/v3/projects/#{work_package.project.id}" }
 
       describe 'assignee' do

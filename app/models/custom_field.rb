@@ -29,6 +29,7 @@
 
 class CustomField < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
+  include CustomField::OrderStatements
 
   has_many :custom_values, dependent: :delete_all
   acts_as_list scope: 'type = \'#{self.class}\''
@@ -182,31 +183,6 @@ class CustomField < ActiveRecord::Base
       end
     end
     casted
-  end
-
-  # Returns a ORDER BY clause that can used to sort customized
-  # objects by their value of the custom field.
-  # Returns false, if the custom field can not be used for sorting.
-  def order_statement
-    customized_class = self.class.customized_class
-    klass = (customized_class.superclass && !(customized_class.superclass == ActiveRecord::Base)) ? customized_class.superclass : customized_class
-
-    case field_format
-    when 'string', 'text', 'list', 'date', 'bool'
-      # COALESCE is here to make sure that blank and NULL values are sorted equally
-      "COALESCE((SELECT cv_sort.value FROM #{CustomValue.table_name} cv_sort" +
-        " WHERE cv_sort.customized_type='#{klass.name}'" +
-        " AND cv_sort.customized_id=#{klass.table_name}.id" +
-        " AND cv_sort.custom_field_id=#{id} LIMIT 1), '')"
-    when 'int', 'float'
-      # Make the database cast values into numeric
-      # Postgresql will raise an error if a value can not be casted!
-      # CustomValue validations should ensure that it doesn't occur
-      "(SELECT CAST(cv_sort.value AS decimal(60,3)) FROM #{CustomValue.table_name} cv_sort" +
-        " WHERE cv_sort.customized_type='#{klass.name}'" +
-        " AND cv_sort.customized_id=#{klass.table_name}.id" +
-        " AND cv_sort.custom_field_id=#{id} AND cv_sort.value <> '' AND cv_sort.value IS NOT NULL LIMIT 1)"
-    end
   end
 
   def <=>(field)

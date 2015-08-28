@@ -33,6 +33,13 @@ module API
     module WorkPackages
       class WorkPackagesAPI < ::API::OpenProjectAPI
         resources :work_packages do
+          helpers ::API::V3::WorkPackages::WorkPackageListHelpers
+
+          get do
+            authorize(:view_work_packages, global: true)
+            work_packages_by_params
+          end
+
           params do
             requires :id, desc: 'Work package id'
           end

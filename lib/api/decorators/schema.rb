@@ -35,7 +35,7 @@ module API
                    type:,
                    name_source: property,
                    required: true,
-                   writable: true,
+                   writable: -> { represented.writable?(property) },
                    min_length: nil,
                    max_length: nil,
                    regular_expression: nil,
@@ -91,7 +91,9 @@ module API
         def schema_with_allowed_collection(property,
                                            type: make_type(property),
                                            name_source: property,
-                                           values_callback:,
+                                           values_callback: -> {
+                                             represented.assignable_values(property, context)
+                                           },
                                            value_representer:,
                                            link_factory:,
                                            required: true,
@@ -111,9 +113,7 @@ module API
                        required: call_or_use(required),
                        writable: call_or_use(writable))
 
-                     if form_embedded
-                       representer.allowed_values = instance_exec(&values_callback)
-                     end
+                     representer.allowed_values = instance_exec(&values_callback)
 
                      representer
                    },
@@ -131,10 +131,8 @@ module API
       end
 
       attr_reader :form_embedded
-
       def initialize(represented, context = {})
-        @form_embedded = context[:form_embedded]
-
+        @form_embedded = context.delete(:form_embedded)
         super
       end
 

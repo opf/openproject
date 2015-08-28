@@ -47,7 +47,7 @@ module API
                  embedded: true,
                  exec_context: :decorator,
                  getter: -> (*) {
-                   schema = Schema::WorkPackageSchema.new(work_package: represented)
+                   schema = Schema::SpecificWorkPackageSchema.new(work_package: represented)
                    Schema::WorkPackageSchemaRepresenter.create(schema,
                                                                form_embedded: true,
                                                                current_user: current_user)

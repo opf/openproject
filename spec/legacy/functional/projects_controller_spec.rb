@@ -142,7 +142,6 @@ describe ProjectsController, type: :controller do
              project: {
                name: 'blog',
                description: 'weblog',
-               homepage: 'http://weblog',
                identifier: 'blog',
                is_public: 1,
                custom_field_values: { '3' => 'Beta' },
@@ -157,7 +156,6 @@ describe ProjectsController, type: :controller do
         assert_kind_of Project, project
         assert project.active?
         assert_equal 'weblog', project.description
-        assert_equal 'http://weblog', project.homepage
         assert_equal true, project.is_public?
         assert_nil project.parent
         assert_equal 'Beta', project.custom_value_for(3).value

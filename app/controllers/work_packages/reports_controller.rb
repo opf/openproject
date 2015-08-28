@@ -34,14 +34,17 @@ class WorkPackages::ReportsController < ApplicationController
   def report
     reports_service = Reports::ReportsService.new(@project)
 
-    @type_report      = reports_service.report_for('type')
-    @priority_report  = reports_service.report_for('priority')
-    @assignee_report  = reports_service.report_for('assigned_to')
-    @responsible_report = reports_service.report_for('responsible')
-    @author_report    = reports_service.report_for('author')
-    @version_report   = reports_service.report_for('version')
-    @subproject_report = reports_service.report_for('subproject')
-    @category_report  = reports_service.report_for('category')
+    @reports = [
+      reports_service.report_for('type'),
+      reports_service.report_for('priority'),
+      reports_service.report_for('assigned_to'),
+      reports_service.report_for('responsible'),
+      reports_service.report_for('author'),
+      reports_service.report_for('version'),
+      reports_service.report_for('category')
+    ]
+
+    @reports << reports_service.report_for('subproject') if @project.children.any?
   end
 
   def report_details

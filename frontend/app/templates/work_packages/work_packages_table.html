@@ -1,15 +1,14 @@
 <div class="generic-table--container work-package-table--container"
-  ng-class="{ '-with-footer': displaySums }"
-  interactive-table>
+  ng-class="{ '-with-footer': displaySums }">
   <div class="generic-table--results-container" ng-if="rows.length">
-    <table class="keyboard-accessible-list generic-table">
+    <table interactive-table class="keyboard-accessible-list generic-table">
       <colgroup>
         <col highlight-col />
         <col highlight-col ng-repeat="column in columns" />
       </colgroup>
       <thead>
         <tr>
-          <th class="checkbox hide-when-print">
+          <th class="checkbox -short hide-when-print">
             <div class="generic-table--header-outer">
               <a href
                  alt="{{toggleRowsLabel}}"
@@ -31,7 +30,8 @@
                           header-name="column.name"
                           header-title="column.title"
                           sortable="column.sortable"
-                          query="query">
+                          query="query"
+                          ng-class="column.name == 'id' && '-short' ">
           </th>
         </tr>
       </thead>

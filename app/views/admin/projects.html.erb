@@ -69,7 +69,6 @@ See doc/COPYRIGHT.rdoc for more details.
         <col highlight-col>
         <col highlight-col>
         <col highlight-col>
-        <col highlight-col>
         <col>
       </colgroup>
       <thead>
@@ -103,14 +102,6 @@ See doc/COPYRIGHT.rdoc for more details.
               <div class="generic-table--sort-header">
                 <%= sort_header_tag_with_lsg('created_on',
                                              caption: Project.human_attribute_name(:created_on)) %>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <%= sort_header_tag_with_lsg('updated_on',
-                                             caption: I18n.t(:label_last_activity)) %>
               </div>
             </div>
           </th>

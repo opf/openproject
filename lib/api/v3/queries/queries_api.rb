@@ -41,14 +41,23 @@ module API
             before do
               @query = Query.find(params[:id])
               @representer = QueryRepresenter.new(@query)
+              authorize_by_policy(:show) do
+                raise API::Errors::NotFound
+              end
             end
 
             helpers do
-              def authorize_by_policy(action)
-                authorize_by_with_raise do
-                  QueryPolicy.new(current_user).allowed?(@query, action)
-                end
+              def authorize_by_policy(action, &block)
+                authorize_by_with_raise(-> () { allowed_to?(action) }, &block)
               end
+
+              def allowed_to?(action)
+                QueryPolicy.new(current_user).allowed?(@query, action)
+              end
+            end
+
+            get do
+              @representer
             end
 
             patch :star do
