@@ -33,8 +33,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   let(:member) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:current_user) { member }
-
-  let(:representer) { described_class.create(work_package, current_user: current_user) }
+  let(:embed_links) { true }
+  let(:representer) {
+    described_class.create(work_package, current_user: current_user, embed_links: embed_links)
+  }
 
   let(:work_package) {
     FactoryGirl.build(:work_package,
@@ -756,6 +758,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'activities' do
         it { is_expected.to have_json_type(Array).at_path('_embedded/activities') }
         it { is_expected.to have_json_size(0).at_path('_embedded/activities') }
+      end
+
+      context 'not embedding links' do
+        let(:embed_links) { false }
+
+        it 'does not embed anything' do
+          is_expected.not_to have_json_path('_embedded')
+        end
       end
     end
   end

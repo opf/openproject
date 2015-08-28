@@ -98,7 +98,7 @@ module API
                  getter: -> (*) { call_or_send_to_represented(getter) },
                  embedded: true,
                  decorator: decorator,
-                 if: show_if
+                 if: -> (*) { embed_links && call_or_use(show_if) }
       end
 
       def current_user_allowed_to(permission, context:)
@@ -111,6 +111,10 @@ module API
         context[:current_user]
       end
 
+      def embed_links
+        context[:embed_links]
+      end
+
       private
 
       def call_or_send_to_represented(callable_or_name)
@@ -118,6 +122,14 @@ module API
           instance_exec(&callable_or_name)
         else
           represented.send(callable_or_name)
+        end
+      end
+
+      def call_or_use(callable_or_value)
+        if callable_or_value.respond_to? :call
+          instance_exec(&callable_or_value)
+        else
+          callable_or_value
         end
       end
 

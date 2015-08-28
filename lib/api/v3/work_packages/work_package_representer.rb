@@ -288,25 +288,33 @@ module API
                  exec_context: :decorator,
                  getter: -> (*) { datetime_formatter.format_datetime(represented.updated_at) }
 
-        property :activities, embedded: true, exec_context: :decorator
+        property :activities,
+                 embedded: true,
+                 exec_context: :decorator,
+                 if: -> (*) { embed_links }
 
         property :version,
                  embedded: true,
                  exec_context: :decorator,
-                 if: ->(*) { represented.fixed_version.present? }
+                 if: ->(*) { represented.fixed_version.present? && embed_links }
         property :watchers,
                  embedded: true,
                  exec_context: :decorator,
                  if: -> (*) {
                    current_user_allowed_to(:view_work_package_watchers,
-                                           context: represented.project)
+                                           context: represented.project) &&
+                     embed_links
                  }
 
         property :attachments,
                  embedded: true,
-                 exec_context: :decorator
+                 exec_context: :decorator,
+                 if: -> (*) { embed_links }
 
-        property :relations, embedded: true, exec_context: :decorator
+        property :relations,
+                 embedded: true,
+                 exec_context: :decorator,
+                 if: -> (*) { embed_links }
 
         def _type
           'WorkPackage'
