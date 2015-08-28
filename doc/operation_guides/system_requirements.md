@@ -8,8 +8,8 @@ provide any officially support for them.
 
 ### Hardware
 
-* *Memory:* 512 MB (1024 recommended)
-* *Free disc space*: 300 MB (4096 recommended)
+* __Memory:__ 512 MB (1024 recommended)
+* __Free disc space:__ 300 MB (4096 recommended)
 
 ### Operating System
 
@@ -25,16 +25,16 @@ provide any officially support for them.
 
 ### Dependencies
 
-* Runtime: [Ruby](https://www.ruby-lang.org/en/) Version 2.1.6
-* Webserver: [Apache](http://httpd.apache.org/)
+* __Runtime:__ [Ruby](https://www.ruby-lang.org/en/) Version 2.1.6
+* __Webserver:__ [Apache](http://httpd.apache.org/)
   or [nginx](http://nginx.org/en/docs/)
-* Application server: [Phusion Passenger](https://www.phusionpassenger.com/)
+* __Application server:__ [Phusion Passenger](https://www.phusionpassenger.com/)
   or [Unicorn](http://unicorn.bogomips.org/)
-* Database: [MySQL](https://www.mysql.com/) Version >= 5.6
+* __Database:__ [MySQL](https://www.mysql.com/) Version >= 5.6
   or [PostgreSQL](http://www.postgresql.org/) Version >= 9.1
 
 Please be aware that the dependencies listed above also have a lot of
-of dependencies themselfes.
+dependencies themselves.
 
 ## Client
 
