@@ -98,6 +98,11 @@ table.generic-table
           text-decoration: none
           color: $body-font-color
 
+      &.-short
+        .generic-table--header-outer,
+        .generic-table--sort-header-outer
+          min-width: 0
+
     .sort
       &.asc:after
         @include icon-common

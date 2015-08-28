@@ -8,7 +8,7 @@
       </colgroup>
       <thead>
         <tr>
-          <th class="checkbox hide-when-print">
+          <th class="checkbox -short hide-when-print">
             <div class="generic-table--header-outer">
               <a href
                  alt="{{toggleRowsLabel}}"
@@ -30,7 +30,8 @@
                           header-name="column.name"
                           header-title="column.title"
                           sortable="column.sortable"
-                          query="query">
+                          query="query"
+                          ng-class="column.name == 'id' && '-short' ">
           </th>
         </tr>
       </thead>
