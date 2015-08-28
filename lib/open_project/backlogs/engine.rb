@@ -178,7 +178,8 @@ module OpenProject::Backlogs
              type: 'Integer',
              required: false,
              show_if: -> (*) {
-               represented.project.backlogs_enabled? && represented.type.story?
+               represented.project.backlogs_enabled? &&
+                 (!represented.type || represented.type.story?)
              }
 
       schema :remaining_time,
