@@ -88,6 +88,16 @@ module.exports = function(
       return _.findIndex(currentlyRemoving, attachment) > -1;
     };
 
+    var currentlyFocusing = null;
+
+    scope.focus = function(attachment) {
+      currentlyFocusing = attachment;
+    };
+
+    scope.focussing = function(attachment) {
+      return currentlyFocusing === attachment;
+    };
+
     scope.$on('uploadPendingAttachments', upload);
     scope.$watch('rejectedFiles', function(rejectedFiles) {
       if (rejectedFiles.length === 0) {
