@@ -230,7 +230,8 @@ OpenProject::Application.routes.draw do
 
       match 'copy_project_from_(:coming_from)' => 'copy_projects#copy_project', via: :get, as: :copy_from,
             constraints: { coming_from: /(admin|settings)/ }
-      match 'copy' => 'copy_projects#copy', via: :post
+      match 'copy_from_(:coming_from)' => 'copy_projects#copy', via: :post, as: :copy,
+            constraints: { coming_from: /(admin|settings)/ }
       put :modules
       put :custom_fields
       put :archive
@@ -370,7 +371,7 @@ OpenProject::Application.routes.draw do
 
   # TODO: evaluate whether this can be turned into a namespace
   scope 'admin' do
-    match '/projects' => 'admin#projects', via: :get
+    match '/projects' => 'admin#projects', via: :get, as: :admin_projects
 
     resources :enumerations
 

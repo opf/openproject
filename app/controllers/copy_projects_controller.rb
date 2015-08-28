@@ -52,7 +52,7 @@ class CopyProjectsController < ApplicationController
       flash[:notice] = I18n.t('copy_project.started',
                               source_project_name: @project.name,
                               target_project_name: target_project_name)
-      redirect_to :back
+      redirect_to origin
     else
       from = (['admin', 'settings'].include?(params[:coming_from]) ? params[:coming_from] : 'settings')
       render action: "copy_from_#{from}"
@@ -73,6 +73,10 @@ class CopyProjectsController < ApplicationController
   end
 
   private
+
+  def origin
+    params[:coming_from] == 'admin' ? admin_projects_path : settings_project_path(@project.id)
+  end
 
   def prepare_for_copy_project
     @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")

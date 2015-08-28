@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'copy_project' %>
 <%= toolbar title: l(:label_project_new) %>
 
-<%= labelled_tabular_form_for @copy_project, :url => { :action => "copy" } do |f| %>
+<%= labelled_tabular_form_for @copy_project, url: { action: 'copy', coming_from: 'settings' } do |f| %>
   <section class="form--section">
     <%= render :partial => "projects/form/attributes/name", :locals => { :form => f } %>
     <%= render :partial => "projects/form/attributes/identifier", :locals => { :form => f,
