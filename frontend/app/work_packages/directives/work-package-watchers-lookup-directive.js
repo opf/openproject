@@ -26,7 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n) {
+module.exports = function(
+    I18n,
+    FocusHelper
+  ) {
   'use strict';
 
   var workPackageWatchersLookupController = function(scope) {
@@ -41,6 +44,11 @@ module.exports = function(I18n) {
 
     scope.changeEditMode = function() {
       scope.editMode = !scope.editMode;
+    };
+
+    scope.intoEditMode = function() {
+      scope.changeEditMode();
+      FocusHelper.focusUiSelect(angular.element('.work-package--watchers-lookup'));
     };
 
     scope.addWatcher = function() {
@@ -61,9 +69,12 @@ module.exports = function(I18n) {
       // to clear the input of the directive
       scope.selection.watcher = null;
 
-      // this will set the editMode back, once no more watchers can be added
       if (scope.watchers.length ===  0) {
+        // this will set the editMode back, once no more watchers can be added
         scope.editMode = false;
+      }
+      else {
+        FocusHelper.focusUiSelect(angular.element('.work-package--watchers-lookup'));
       }
     });
   };

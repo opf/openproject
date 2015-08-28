@@ -101,6 +101,7 @@ angular.module('openproject.workPackages.directives')
     'I18n',
     'ConfigurationService',
     'ConversionService',
+    'FocusHelper',
     require('./work-package-attachments-directive')
   ])
   .directive('workPackageWatcher', [
@@ -109,6 +110,7 @@ angular.module('openproject.workPackages.directives')
   ])
   .directive('workPackageWatchersLookup', [
     'I18n',
+    'FocusHelper',
     require('./work-package-watchers-lookup-directive.js')
   ]);
 
