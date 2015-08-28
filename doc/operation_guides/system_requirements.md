@@ -2,7 +2,7 @@
 
 __Note__: The configurations described below are what we use and test against.
 This means that other configurations might also work but we do not
-provide any officially support for them.
+provide any official support for them.
 
 ## Server
 
