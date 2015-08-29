@@ -32,6 +32,7 @@ module OpenProject::Costs::Patches::TimeEntryPatch
       scope :visible, lambda { |*args|
         where(TimeEntry.visible_condition(args[0] || User.current, args[1]))
           .includes(:project, :user)
+          .references(:project)
       }
 
       before_save :update_costs
