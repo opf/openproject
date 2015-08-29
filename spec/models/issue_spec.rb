@@ -140,6 +140,7 @@ describe WorkPackage, type: :model do
       @status_open = FactoryGirl.build(:status, name: 'Open', is_default: true)
       @project = FactoryGirl.build(:project)
       @project.done_statuses = [@status_resolved]
+      @project.types = [FactoryGirl.build(:type_feature)]
 
       @work_package = FactoryGirl.build(:work_package, project: @project,
                                                        status:  @status_open,
