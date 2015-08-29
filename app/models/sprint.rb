@@ -58,6 +58,7 @@ class Sprint < Version
         " OR (#{Project.table_name}.lft > #{project.lft} AND #{Project.table_name}.rgt < #{project.rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
         '))')
       .includes(:project)
+      .references(:projects)
   }
 
   scope :displayed_left, lambda { |project|
@@ -74,6 +75,7 @@ class Sprint < Version
     where(['version_settings.project_id = ? AND version_settings.display = ?',
            project.id, VersionSetting::DISPLAY_RIGHT])
       .includes(:version_settings)
+      .references(:version_settings)
   }
 
   def stories(project, options = {})
