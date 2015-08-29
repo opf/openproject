@@ -133,7 +133,9 @@ class MeetingsController < ApplicationController
   end
 
   def find_meeting
-    @meeting = Meeting.find(params[:id], include: [:project, :author, { participants: :user }, :agenda, :minutes])
+    @meeting = Meeting
+               .includes([:project, :author, { participants: :user }, :agenda, :minutes])
+               .find(params[:id])
     @project = @meeting.project
   rescue ActiveRecord::RecordNotFound
     render_404
