@@ -306,7 +306,7 @@ describe TimeEntry, type: :model do
           time_entry.save!
         end
 
-        it { expect(TimeEntry.visible(user2, project).all).to match_array([time_entry]) }
+        it { expect(TimeEntry.visible(user2, project)).to match_array([time_entry]) }
       end
 
       describe "WHEN not having the view_time_entries permission
@@ -318,7 +318,7 @@ describe TimeEntry, type: :model do
           time_entry.save!
         end
 
-        it { expect(TimeEntry.visible(user2, project).all).to match_array([]) }
+        it { expect(TimeEntry.visible(user2, project)).to match_array([]) }
       end
 
       describe "WHEN having the view_own_time_entries permission
@@ -332,7 +332,7 @@ describe TimeEntry, type: :model do
           time_entry.save!
         end
 
-        it { expect(TimeEntry.visible(user2, project).all).to match_array([]) }
+        it { expect(TimeEntry.visible(user2, project)).to match_array([]) }
       end
 
       describe "WHEN having the view_own_time_entries permission
@@ -346,7 +346,7 @@ describe TimeEntry, type: :model do
           time_entry2.save!
         end
 
-        it { expect(TimeEntry.visible(time_entry2.user, project).all).to match_array([time_entry2]) }
+        it { expect(TimeEntry.visible(time_entry2.user, project)).to match_array([time_entry2]) }
       end
     end
 
