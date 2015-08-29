@@ -20,7 +20,7 @@
 
 Given /^the following widgets are selected for the overview page of the "(.+)" project:$/ do |project_name, table|
   project = Project.find_by_name(project_name)
-  page = MyProjectsOverview.find_or_create_by_project_id(project.id)
+  page = MyProjectsOverview.find_or_create_by(project_id: project.id)
 
   blocks = ({ "top" => "", "left" => "", "right" => "", "hidden" => "" }).merge(table.rows_hash)
 
