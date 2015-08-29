@@ -29,7 +29,7 @@ module OpenProject::Costs
     end
 
     def summarized_cost_entries
-      @summarized_cost_entries ||= cost_entries.calculate(:sum, :units, group: :cost_type)
+      @summarized_cost_entries ||= cost_entries.group(:cost_type).calculate(:sum, :units)
     end
 
     def time_entries
