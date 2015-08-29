@@ -166,8 +166,9 @@ class Story < WorkPackage
       extras = ["and not #{WorkPackage.table_name}.position is NULL and #{WorkPackage.table_name}.position <= ?", position]
     end
 
-    @rank ||= WorkPackage.count(conditions: Story.condition(project.id, fixed_version_id, extras), joins: :status)
-
+    @rank ||= WorkPackage.where(Story.condition(project.id, fixed_version_id, extras))
+              .joins(:status)
+              .count
     @rank
   end
 
