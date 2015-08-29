@@ -71,7 +71,7 @@ module.exports = function($scope,
     var augmentedActions = { };
 
     angular.forEach(permittedActions, function(value, key) {
-      var css = ["icon-" + key];
+      var css = ['icon-' + key];
 
       this[key] = { link: value, css: css };
     }, augmentedActions);
@@ -79,7 +79,9 @@ module.exports = function($scope,
     return augmentedActions;
   }
   function getPermittedPluginActions(authorization) {
-    var pluginActions = HookService.call('workPackageDetailsMoreMenu').reduce(function(previousValue, currentValue) {
+    var pluginActions = HookService
+                        .call('workPackageDetailsMoreMenu')
+                        .reduce(function(previousValue, currentValue) {
                           return angular.extend(previousValue, currentValue);
                         }, { });
 
@@ -89,8 +91,8 @@ module.exports = function($scope,
     angular.forEach(permittedPluginActions, function(value, key) {
       var css = [].concat(pluginActions[key]);
 
-      if (css.length == 0) {
-        css = ["icon-" + key];
+      if (css.length === 0) {
+        css = ['icon-' + key];
       }
 
       this[key] = { link: value, css: css };
@@ -101,7 +103,7 @@ module.exports = function($scope,
   function deleteSelectedWorkPackage() {
     var promise = WorkPackageService.performBulkDelete([$scope.workPackage.props.id], true);
 
-    promise.success(function(data, status) {
+    promise.success(function() {
       $state.go('work-packages.list', {projectPath: projectPathForWorkPackage()});
     });
   }
