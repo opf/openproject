@@ -53,11 +53,13 @@ module Entry
 
       private
       def all(*args)
-        find_many :find, :all, *args
+        ActiveSupport::Deprecation.warn('Passing arguments is deprecated') if args.any?
+        find_many :all # *args
       end
 
       def count(*args)
-        find_many :count, :all, *args
+        ActiveSupport::Deprecation.warn('Passing arguments is deprecated') if args.any?
+        find_many :count # *args
       end
 
       def find_initial(options)         find_one  :find_initial,  options end
