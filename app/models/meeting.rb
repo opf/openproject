@@ -43,6 +43,7 @@ class Meeting < ActiveRecord::Base
 
   acts_as_searchable columns: ["#{table_name}.title", "#{MeetingContent.table_name}.text"],
                      include: [:contents, :project],
+                     references: :meeting_contents,
                      date_column: "#{table_name}.created_at"
 
   acts_as_journalized
