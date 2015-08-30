@@ -45,7 +45,9 @@ class Document < ActiveRecord::Base
                           end)
 
 
-  acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
+  acts_as_searchable :columns => ['title', "#{table_name}.description"],
+                    :include => :project,
+                    references: :projects
 
   validates_presence_of :project, :title, :category
   validates_length_of :title, :maximum => 60
