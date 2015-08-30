@@ -79,7 +79,7 @@ angular.module('openproject')
     })
 
     .state('work-packages.show', {
-      url: '/work_packages/{workPackageId:[0-9]+}?query_props',
+      url: '{projectPath:projectPathType}/work_packages/{workPackageId:[0-9]+}?query_props',
       templateUrl: '/templates/work_packages.show.html',
       controller: 'WorkPackageShowController',
       controllerAs: 'vm',
