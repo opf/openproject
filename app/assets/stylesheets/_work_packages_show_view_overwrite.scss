@@ -63,5 +63,52 @@
     overflow-y: auto;
     width: 40%;
   }
+
+  ul.subject-header {
+    float: left !important;
+    padding-top: 10px !important;
+    // with sidebar
+    width: 58%;
+
+    li {
+      display: inline;
+      float: left;
+
+      &.type {
+        margin-right: 5px;
+      }
+
+      &.inline-edit {
+        // with sidebar
+        width: 65%;
+      }
+    }
+
+    .work-package-field.work-packages--details--subject {
+      margin-top: -1px;
+
+      .inplace-edit {
+        .inplace-edit--read {
+          white-space: nowrap;
+        }
+
+        .inplace-edit--read-value {
+          margin: 0;
+          padding: 0;
+        }
+      }
+    }
+  }
 }
 
+.nosidebar {
+  ul.subject-header {
+    width: 67%;
+
+    li {
+      &.inline-edit {
+        width: 75%;
+      }
+    }
+  }
+}

@@ -1,10 +1,12 @@
 <div class="work-packages--show-view">
   <div class="toolbar-container">
     <div toolbar id="toolbar">
-      <div class="subject-header">
-        <div class="type">{{type.props.name}} #{{workPackage.props.id}}:</div>
-        <work-package-field field="'subject'"></work-package-field>
-      </div>
+      <ul class="subject-header">
+        <li class="type">{{type.props.name}} #{{workPackage.props.id}}:</li>
+        <li class="inline-edit">
+          <work-package-field field="'subject'"></work-package-field>
+        </li>
+      </ul>
 
       <ul id="toolbar-items">
         <li class="toolbar-item">
@@ -95,6 +97,7 @@
           </button>
         </li>
       </ul>
+
     </div>
   </div>
 
