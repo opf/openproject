@@ -75,6 +75,9 @@ module.exports = function(
 
     var currentlyRemoving = [];
     scope.remove = function(file) {
+      if (!confirm(I18n.t('js.text_attachment_destroy_confirmation'))) {
+        return;
+      }
       currentlyRemoving.push(file);
       workPackageAttachmentsService.remove(file).then(function(file) {
         _.remove(scope.attachments, file);
