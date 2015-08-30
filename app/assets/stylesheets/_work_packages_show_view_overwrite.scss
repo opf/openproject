@@ -30,10 +30,12 @@
 
   height: 100%;
 
-  h2 {
+  h2, .subject-header {
     float: left;
     line-height: 40px;
     padding: 10px 0 0 0;
+    font-weight: bold;
+    font-size: 1.5rem;
   }
 
   .work-packages--split-view {
