@@ -1,7 +1,10 @@
 <div class="work-packages--show-view">
   <div class="toolbar-container">
     <div toolbar id="toolbar">
-      <h2>{{type.props.name}} #{{workPackage.props.id}}: {{workPackage.props.subject}}</h2>
+      <div class="subject-header">
+        <div class="type">{{type.props.name}} #{{workPackage.props.id}}:</div>
+        <work-package-field field="'subject'"></work-package-field>
+      </div>
 
       <ul id="toolbar-items">
         <li class="toolbar-item">
