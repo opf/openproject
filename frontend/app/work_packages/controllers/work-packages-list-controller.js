@@ -308,10 +308,14 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
   $scope.showWorkPackageShowView = function() {
     var id = $state.params.workPackageId,
         queryProps = $location.search()['query_props'];
+    var projectPath = '';
+    if ($scope.projectIdentifier) {
+      projectPath = 'projects/' + $scope.projectIdentifier;
+    }
     if (id) {
-      $state.go('work-packages.show.activity', {workPackageId: id, 'query_props': queryProps});
+      $state.go('work-packages.show.activity', {projectPath: projectPath, workPackageId: id, 'query_props': queryProps});
     } else {
-      $state.go('work-packages.show.activity', {workPackageId: $scope.preselectedWorkPackageId, 'query_props': queryProps});
+      $state.go('work-packages.show.activity', {projectPath: projectPath, workPackageId: $scope.preselectedWorkPackageId, 'query_props': queryProps});
     }
   };
 
