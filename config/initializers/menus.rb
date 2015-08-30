@@ -201,14 +201,6 @@ Redmine::MenuManager.map :project_menu do |menu|
               query_menu_item: 'query_menu_item'
             }
 
-  menu.push :new_work_package,
-            { controller: '/work_packages', action: 'new' },
-            param: :project_id,
-            caption: :label_work_package_new,
-            parent: :work_packages,
-            html: { accesskey: OpenProject::AccessKeys.key_for(:new_work_package),
-                    class: 'icon2 icon-add' }
-
   menu.push :summary_field,
             { controller: '/work_packages/reports', action: 'report' },
             param: :project_id,
