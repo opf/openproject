@@ -42,6 +42,7 @@ class LaborBudgetItem < ActiveRecord::Base
   scope :visible_costs, lambda{|*args|
     includes([{ cost_object: :project }, :user])
       .where(LaborBudgetItem.visible_condition((args.first || User.current), args[1]))
+      .references(:projects)
   }
 
   def costs
