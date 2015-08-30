@@ -28,6 +28,7 @@
 
 module.exports = function($scope,
     $state,
+    $stateParams,
     $location,
     latestTab,
     workPackage,
@@ -54,6 +55,8 @@ module.exports = function($scope,
     HookService,
     $window
   ) {
+
+
   $scope.$on('$stateChangeSuccess', function(event, toState){
     latestTab.registerState(toState.name);
   });
@@ -104,7 +107,7 @@ module.exports = function($scope,
     var promise = WorkPackageService.performBulkDelete([$scope.workPackage.props.id], true);
 
     promise.success(function() {
-      $state.go('work-packages.list', {projectPath: projectPathForWorkPackage()});
+      $state.go('work-packages.list', {projectPath: getProjectPath()});
     });
   }
   $scope.triggerMoreMenuAction = function(action, link) {
@@ -301,13 +304,21 @@ module.exports = function($scope,
     hideAllAttributes: true
   };
 
-  function projectPathForWorkPackage() {
-    return PathHelper.staticBase + '/projects/' + $scope.projectIdentifier;
+  function isNestedWithinProject() {
+    return $stateParams.projectPath.indexOf('projects/') === 0;
+  };
+
+  function getProjectPath() {
+    if (isNestedWithinProject()) {
+      return PathHelper.staticBase + '/projects/' + $scope.projectIdentifier;
+    } else {
+      return PathHelper.staticBase;
+    }
   }
 
   $scope.showWorkPackageDetails = function() {
     var queryProps = $location.search()['query_props'],
-        path = $state.href('work-packages.list.details.overview', {projectPath: projectPathForWorkPackage(),
+        path = $state.href('work-packages.list.details.overview', {projectPath: getProjectPath(),
                  workPackageId: $scope.workPackage.props.id
                });
     // Using $location.url instead of $state.go because query_props is not defined
@@ -317,7 +328,7 @@ module.exports = function($scope,
 
   $scope.closeShowView = function() {
     var queryProps = $location.search()['query_props'],
-        path = $state.href('work-packages.list', {projectPath: projectPathForWorkPackage()});
+        path = $state.href('work-packages.list', {projectPath: getProjectPath()});
     // Using $location.url instead of $state.go because query_props is not defined
     // in the router. See work-packages-list-controller.js for more explanation.
     $location.url(path).search('query_props', queryProps);
