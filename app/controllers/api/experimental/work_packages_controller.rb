@@ -48,7 +48,7 @@ module Api
       def index
         @work_packages = current_work_packages
 
-        columns = @query.involved_columns
+        columns = @query.involved_columns + [:id]
 
         @column_names, @custom_field_column_ids = separate_columns_by_custom_fields(columns)
 
