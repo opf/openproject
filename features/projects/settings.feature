@@ -74,19 +74,19 @@ Feature: Project Settings
     And I should see "Bob Bobbit" within ".generic-table"
     And I should see "alpha" within ".generic-table"
 
-  @javascript
+
   Scenario: Changing members per page keeps us on the members tab
     When I go to the settings page of the project "project1"
     And I follow "Members" within ".tabs"
     And I follow "20" within ".pagination--options" within "#tab-content-members"
     Then I should be on the members tab of the settings page of the project "project1"
 
-  @javascript
+
   Scenario: Adding a Work Package custom field to the project
     When the following issue custom fields are defined:
       | name             | type      | is_for_all |
       | My Custom Field  | text      | false      |
-    And I go to the settings page of the project "project1"
-    And I check "My Custom Field" within "#tab-content-info"
-    And I press "Save" within "#tab-content-info"
+    And I go to the custom_fields tab of the settings page of the project "project1"
+    And I check "My Custom Field"
+    And I press "Save"
     Then the "My Custom Field" checkbox should be checked

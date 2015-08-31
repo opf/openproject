@@ -675,6 +675,10 @@ en:
   label_auth_source_new: "New authentication mode"
   label_auth_source_plural: "Authentication modes"
   label_authentication: "Authentication"
+  label_available_project_work_package_categories: 'Available work package categories'
+  label_available_project_boards: 'Available boards'
+  label_available_project_versions: 'Available versions'
+  label_available_project_repositories: 'Available repositories'
   label_blocked_by: "blocked by"
   label_blocks: "blocks"
   label_board_locked: "Locked"
@@ -750,6 +754,10 @@ en:
   label_duplicates: "duplicates"
   label_edit: "Edit"
   label_enable_multi_select: "Toggle multiselect"
+  label_enabled_project_custom_fields: 'Enabled custom fields'
+  label_enabled_project_types: 'Enabled types'
+  label_enabled_project_modules: 'Enabled modules'
+  label_enabled_project_activities: 'Enabled time tracking activities'
   label_end_to_end: "end to end"
   label_end_to_start: "end to start"
   label_enumeration_new: "New enumeration value"
@@ -1178,6 +1186,7 @@ en:
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "You have been logged out."
   error_types_in_use_by_work_packages: "The following types are still referenced by work packages: %{types}"
+  notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields."
 
   # Default format for numbers
   number:
@@ -1529,7 +1538,6 @@ en:
   text_regexp_info: "eg. ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
   text_select_mail_notifications: "Select actions for which email notifications should be sent."
-  text_select_project_modules: "Select modules to enable for this project:"
   text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_subprojects_destroy_warning: "Its subproject(s): %{value} will be also deleted."
   text_time_logged_by_changeset: "Applied in changeset %{value}."

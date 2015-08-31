@@ -36,7 +36,9 @@ class ProjectsController < ApplicationController
 
   before_filter :disable_api
   before_filter :find_project, except: [:index, :level_list, :new, :create]
-  before_filter :authorize, only: [:show, :settings, :edit, :update, :modules, :types]
+  before_filter :authorize, only: [
+    :show, :settings, :edit, :update, :modules, :types, :custom_fields
+  ]
   before_filter :authorize_global, only: [:new, :create]
   before_filter :require_admin, only: [:archive, :unarchive, :destroy, :destroy_info]
   before_filter :jump_to_project_menu_item, only: :show
@@ -186,6 +188,17 @@ class ProjectsController < ApplicationController
     @project.enabled_module_names = params[:project][:enabled_module_names]
     flash[:notice] = l(:notice_successful_update)
     redirect_to action: 'settings', id: @project, tab: 'modules'
+  end
+
+  def custom_fields
+    @project.work_package_custom_field_ids = params[:project][:work_package_custom_field_ids]
+    if @project.save
+      flash[:notice] = l(:notice_successful_update)
+    else
+      flash[:error] = l(:notice_project_cannot_update_custom_fields)
+    end
+
+    redirect_to action: 'settings', id: @project, tab: 'custom_fields'
   end
 
   def archive

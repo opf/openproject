@@ -27,13 +27,17 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= form_tag  project_enumerations_path(@project),
-              method: :put,
-              class: "tabular" do %>
+<%= labelled_tabular_form_for @project,
+                              url: { action: 'custom_fields', id: @project },
+                              method: :put,
+                              html: { id: 'modules-form' } do |form| %>
 
-  <%= render partial: 'projects/form/activities', locals: { project: @project } %>
+  <%= render  partial: "projects/form/custom_fields",
+              locals: {
+                project: @project,
+                form: form,
+                work_package_custom_fields: @issue_custom_fields
+              } %>
 
-  <p><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %></p>
+  <p><%= form.button l(:button_save), class: 'button -highlight -with-icon icon-yes' %></p>
 <% end %>
-
-<br/>

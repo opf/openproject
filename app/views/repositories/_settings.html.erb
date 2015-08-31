@@ -27,7 +27,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-
 <% is_creation_form = @repository.nil? || @repository.new_record? %>
 <%= form_for :repository,
              remote: true,
@@ -37,6 +36,12 @@ See doc/COPYRIGHT.rdoc for more details.
              method: is_creation_form ? 'POST' : 'PUT',
              builder: TabularFormBuilder,
              html: { class: 'form' } do |f| %>
+
+<fieldset class="form--fieldset -with-control">
+  <legend class="form--fieldset-legend">
+    <%= l(:label_available_project_repositories) %>
+  </legend>
+
   <%= error_messages_for 'repository' %>
   <%# Hide the select for existing repositories %>
   <% if is_creation_form %>
@@ -55,7 +60,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= render partial: "/repositories/settings/vendor_form",
                  locals: { form: f, repository: @repository } %>
   <% end %>
-  
+
   <%# Allow plugins to add additional information %>
   <%= call_hook :repository_settings_fields, repository: @repository, form: f %>
 
@@ -64,4 +69,5 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= render partial: "/repositories/settings/submit",
                locals: { form: f, is_creation_form: is_creation_form, project: @project } %>
   <% end %>
+</fieldset>
 <% end %>
