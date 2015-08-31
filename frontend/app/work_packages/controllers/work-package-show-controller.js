@@ -122,9 +122,9 @@ module.exports = function($scope,
     }
   };
   var authorization = new WorkPackageAuthorization($scope.workPackage);
-  $scope.actionsAvailable = true;
   $scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
                                            getPermittedPluginActions(authorization));
+  $scope.actionsAvailable = Object.keys($scope.permittedActions).length > 0;
 
   // END stuff copied from details toolbar directive...
 
