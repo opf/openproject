@@ -27,12 +27,26 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= fields_for :pref, @user.pref, :builder => TabularFormBuilder, :lang => current_language do |pref_fields| %>
-  <div class="form--field"><%= pref_fields.select :time_zone, ActiveSupport::TimeZone.all.collect {|z| [ z.to_s, z.name ]}, :include_blank => true %></div>
-  <div class="form--field"><%= pref_fields.select :comments_sorting, [[l(:label_chronological_order), 'asc'], [l(:label_reverse_chronological_order), 'desc']] %></div>
-    <% if Setting.user_may_override_theme? %>
-        <div class="form--field"><%= pref_fields.select :theme, OpenProject::Themes.all.map {|t| [t.name, t.identifier]}, :label => :label_theme %></div>
-    <% end %>
-  <div class="form--field"><%= pref_fields.check_box :warn_on_leaving_unsaved %></div>
-  <div class="form--field"><%= pref_fields.check_box :impaired %></div>
+<% html_title(l(:label_my_account), l(:label_settings)) %>
+
+<% breadcrumb_paths(l(:label_my_account), l(:label_settings)) %>
+<%= toolbar title: l(:label_settings) %>
+
+<%= error_messages_for 'user' %>
+<%= labelled_tabular_form_for @user, :as => :user, :url => { :action => 'settings' },
+                              :lang => current_language,
+                              :html => { :id => 'my_account_form', class: 'form -wide-labels' } do |f| %>
+  <section class="form--section">
+    <div class="form--field"><%= f.select :language, lang_options_for_select %></div>
+    <section class="form--section">
+      <%= render :partial => 'users/preferences' %>
+    </section>
+
+    <%= render partial:     'customizable/field',
+               collection:  @user.custom_field_values.select(&:editable?),
+               as:          :value,
+               locals:      { form: f } %>
+
+    <%= call_hook(:view_my_account, :user => @user, :form => f) %>
+  </section>
 <% end %>

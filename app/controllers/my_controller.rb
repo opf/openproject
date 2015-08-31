@@ -33,6 +33,7 @@ class MyController < ApplicationController
   before_filter :require_login
 
   menu_item :account, only: [:account]
+  menu_item :settings, only: [:settings]
   menu_item :password, only: [:password]
 
   DEFAULT_BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_work_packages,
@@ -79,6 +80,11 @@ class MyController < ApplicationController
         redirect_to action: 'account'
       end
     end
+  end
+
+  #Edit user's settings
+  def settings
+    @user = User.current
   end
 
   # Manage user's password
