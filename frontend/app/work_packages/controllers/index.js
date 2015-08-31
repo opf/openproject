@@ -138,6 +138,7 @@ angular.module('openproject.workPackages.controllers')
     'PERMITTED_MORE_MENU_ACTIONS',
     'HookService',
     '$window',
+    'WorkPackageAttachmentsService',
     require('./work-package-show-controller')
   ])
   .controller('WorkPackagesController', [
