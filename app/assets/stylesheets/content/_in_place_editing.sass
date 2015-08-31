@@ -159,7 +159,8 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
   right: 0
 
 .inplace-edit--read
-  @extend .form--field-container
+  @include grid-block
+  overflow: visible
 
 .inplace-edit--read-value
   @include grid-block
@@ -203,6 +204,7 @@ a.inplace-edit--icon-wrapper
 
 .inplace-editing--trigger-container
   @include grid-block
+  overflow: visible
 
 // need to specify the a explicitly as otherwise
 // the default class will win
@@ -211,6 +213,7 @@ a.inplace-editing--trigger-link,
   @include grid-block
   color: $body-font-color
   font-weight: inherit
+  overflow: visible
 
   &:hover,
   &:focus,
@@ -230,9 +233,7 @@ a.inplace-editing--trigger-link,
   border-style: solid
   border-radius: 2px
   border-width: 1px
-
-.inplace-edit--read
-  @include grid-block
+  overflow: visible
 
 .inplace-edit--control
   background: $inplace-edit--color--very-dark
