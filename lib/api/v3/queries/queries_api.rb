@@ -34,6 +34,16 @@ module API
     module Queries
       class QueriesAPI < ::API::OpenProjectAPI
         resources :queries do
+          get do
+            authorize(:view_work_packages, global: true)
+
+            queries = Query.visible(to: current_user).global
+            self_link = api_v3_paths.queries
+            ::API::V3::Queries::QueryCollectionRepresenter.new(queries,
+                                                               self_link,
+                                                               current_user: current_user)
+          end
+
           params do
             requires :id, desc: 'Query id'
           end

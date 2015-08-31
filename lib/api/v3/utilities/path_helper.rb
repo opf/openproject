@@ -100,8 +100,16 @@ module API
             "#{projects}/#{id}"
           end
 
+          def self.project_queries(id)
+            "#{project(id)}/queries"
+          end
+
+          def self.queries
+            "#{root}/queries"
+          end
+
           def self.query(id)
-            "#{root}/queries/#{id}"
+            "#{queries}/#{id}"
           end
 
           def self.query_star(id)

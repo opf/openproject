@@ -26,40 +26,43 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/projects/project_representer'
+require 'spec_helper'
+require 'rack/test'
 
-module API
-  module V3
-    module Projects
-      class ProjectsAPI < ::API::OpenProjectAPI
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
+describe 'API v3 Queries by project resource', type: :request do
+  include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
-          route_param :id do
-            before do
-              @project = Project.find(params[:id])
+  let(:project) { FactoryGirl.create(:project, is_public: false) }
+  let(:current_user) {
+    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+  }
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:permissions) { [:view_work_packages] }
 
-              authorize(:view_project, context: @project) do
-                raise API::Errors::NotFound.new
-              end
-            end
+  before do
+    allow(User).to receive(:current).and_return(current_user)
+  end
 
-            get do
-              ProjectRepresenter.new(@project, current_user: current_user)
-            end
+  describe '#get' do
+    before do
+      get api_v3_paths.project_queries(project.id)
+    end
 
-            mount API::V3::Projects::AvailableAssigneesAPI
-            mount API::V3::Projects::AvailableResponsiblesAPI
-            mount API::V3::WorkPackages::WorkPackagesByProjectAPI
-            mount API::V3::Categories::CategoriesByProjectAPI
-            mount API::V3::Versions::VersionsByProjectAPI
-            mount API::V3::Types::TypesByProjectAPI
-            mount API::V3::Queries::QueriesByProjectAPI
-          end
-        end
-      end
+    it 'succeeds' do
+      expect(last_response.status).to eql 200
+    end
+
+    context 'user not allowed to see work packages' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'unauthorized access'
+    end
+
+    context 'user not allowed to see project' do
+      let(:current_user) { FactoryGirl.create(:user) }
+
+      it_behaves_like 'not found'
     end
   end
 end

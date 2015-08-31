@@ -46,9 +46,9 @@ describe 'API v3 Query resource', type: :request do
     allow(User).to receive(:current).and_return current_user
   end
 
-  describe '#get' do
+  describe '#get queries/' do
     before do
-      get api_v3_paths.query(query.id)
+      get api_v3_paths.queries
     end
 
     it 'should succeed' do
@@ -56,13 +56,33 @@ describe 'API v3 Query resource', type: :request do
     end
 
     context 'user not allowed to see queries' do
-      let(:permissions) { [] }
+      include_context 'with non-member permissions from non_member_permissions'
+      let(:current_user) { FactoryGirl.create(:user) }
+      let(:non_member_permissions) { [:view_work_packages] }
 
-      it_behaves_like 'not found'
+      it 'should succeed' do
+        expect(last_response.status).to eq(200)
+      end
+
+      context 'that is not allowed to see queries anywhere' do
+        let(:non_member_permissions) { [] }
+
+        it_behaves_like 'unauthorized access'
+      end
     end
   end
 
-  describe '#delete' do
+  describe '#get queries/:id' do
+    before do
+      get api_v3_paths.query(query.id)
+    end
+
+    it 'should succeed' do
+      expect(last_response.status).to eq(200)
+    end
+  end
+
+  describe '#delete queries/:id' do
     let(:path) { api_v3_paths.query query.id }
     let(:permissions) { [:view_work_packages, :manage_public_queries] }
 

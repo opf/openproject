@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,39 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/projects/project_representer'
-
 module API
   module V3
-    module Projects
-      class ProjectsAPI < ::API::OpenProjectAPI
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
-
-          route_param :id do
-            before do
-              @project = Project.find(params[:id])
-
-              authorize(:view_project, context: @project) do
-                raise API::Errors::NotFound.new
-              end
-            end
-
-            get do
-              ProjectRepresenter.new(@project, current_user: current_user)
-            end
-
-            mount API::V3::Projects::AvailableAssigneesAPI
-            mount API::V3::Projects::AvailableResponsiblesAPI
-            mount API::V3::WorkPackages::WorkPackagesByProjectAPI
-            mount API::V3::Categories::CategoriesByProjectAPI
-            mount API::V3::Versions::VersionsByProjectAPI
-            mount API::V3::Types::TypesByProjectAPI
-            mount API::V3::Queries::QueriesByProjectAPI
-          end
-        end
+    module Queries
+      class QueryCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+        element_decorator ::API::V3::Queries::QueryRepresenter
       end
     end
   end
