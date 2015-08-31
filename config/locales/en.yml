@@ -1295,6 +1295,7 @@ en:
 
   repositories:
     autofetch_information: "Check this if you want repositories to be updated automatically when accessing the repository module page.\nThis encompasses the retrieval of commits from the repository and refreshing the required disk storage."
+    atom_revision_feed: 'Atom revision feed'
     checkout:
       access:
         readwrite: 'Read + Write'
@@ -1373,6 +1374,7 @@ en:
       managed_url: "Managed URL"
       password: "Repository Password"
       username: "Repository username"
+    named_repository: "%{vendor_name} repository"
     update_settings_successful: "The settings have been sucessfully saved."
     url: "URL to repository"
 

@@ -232,6 +232,10 @@ en:
       add_precedes: "Add precedes"
       add_follows: "Add follows"
 
+    repositories:
+      select_tag: 'Select tag'
+      select_branch: 'Select branch'
+
     field_value_enter_prompt: "Enter a value for '%{field}'"
 
     select2:

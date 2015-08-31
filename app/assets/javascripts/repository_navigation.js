@@ -45,8 +45,13 @@
     /*
     Enable select2
     */
-    branch.select2();
-    tag.select2();
+    branch.select2({
+      placeholder: I18n.t('js.repositories.select_branch')
+    }
+    );
+    tag.select2({
+      placeholder: I18n.t('js.repositories.select_tag'),
+    });
 
     /*
     If we're viewing a tag or branch, don't display it in the
