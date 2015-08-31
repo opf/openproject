@@ -101,7 +101,7 @@ class DocumentsController < ApplicationController
     render_attachment_warning_if_needed(@document)
 
     if attachments.present? && attachments[:files].present? && Setting.notified_events.include?('document_added')
-      users = User.find_all_by_mails(attachments[:files].first.container.recipients)
+      users = attachments[:files].first.container.recipients
       users.each do |user|
         UserMailer.attachments_added(user, attachments[:files]).deliver
       end
