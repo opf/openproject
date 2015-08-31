@@ -56,7 +56,7 @@ describe 'attachments', type: :feature do
       expect(page).to have_text('Successful creation.')
       expect(page).to have_text(file_name)
 
-      click_link file_name
+      find('.work-package--attachments--files', text: file_name).click
 
       expect(page).to have_text('some silly content')
     end
