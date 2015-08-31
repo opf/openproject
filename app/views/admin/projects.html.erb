@@ -41,18 +41,19 @@ See doc/COPYRIGHT.rdoc for more details.
     <legend><%= l(:label_filter_plural) %></legend>
     <ul class="simple-filters--filters">
       <li class="simple-filters--filter">
-          <label for='status'><%= Project.human_attribute_name(:status) %>:</label>
-          <%= select_tag 'status', project_status_options_for_select(@status), :onchange => "this.form.submit(); return false;"  %>
+          <label class='simple-filters--filter-name' for='status'><%= Project.human_attribute_name(:status) %>:</label>
+          <%= select_tag 'status', project_status_options_for_select(@status), :onchange => "this.form.submit(); return false;", :class => 'simple-filters--filter-value'  %>
       </li>
       <li class="simple-filters--filter">
-          <label for='name'><%= Project.model_name.human %>:</label>
-          <%= text_field_tag 'name', params[:name] %>
+          <label class='simple-filters--filter-name' for='name'><%= Project.model_name.human %>:</label>
+          <%= text_field_tag 'name', params[:name], :class => 'simple-filters--filter-value' %>
+      </li>
+      <li class="simple-filters--controls">
+        <%= submit_tag l(:button_apply), :class => 'button -highlight -small', :name => nil %>
+        <%= link_to l(:button_clear), {:controller => '/admin', :action => 'projects'}, :class => 'button -small -with-icon icon-undo' %>
       </li>
     </ul>
-    <div class="simple-filters--controls">
-      <%= submit_tag l(:button_apply), :class => 'button -highlight -small', :name => nil %>
-      <%= link_to l(:button_clear), {:controller => '/admin', :action => 'projects'}, :class => 'button -small -with-icon icon-undo' %>
-    </div>
+
   </fieldset>
 <% end %>
 <p class="information-section">

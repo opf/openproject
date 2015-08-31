@@ -26,11 +26,11 @@ By default, simple filters have a two columned layout.
         </select>
       </div>
     </li>
+    <li class="simple-filters--controls">
+      <a class="button -highlight -small" href="#">Apply</a>
+      <a class="button -small -with-icon icon-undo" href="#">Clear</a>
+    </li>
   </ul>
-  <div class="simple-filters--controls">
-    <a class="button -highlight -small" href="#">Apply</a>
-    <a class="button -small -with-icon icon-undo" href="#">Clear</a>
-  </div>
 </fieldset>
 ```
 
@@ -68,10 +68,10 @@ If desired, the simple filter can have three columns.
         </select>
       </div>
     </li>
+    <li class="simple-filters--controls">
+      <a class="button -highlight -small" href="#">Apply</a>
+      <a class="button -small -with-icon icon-undo" href="#">Clear</a>
+    </li>
   </ul>
-  <div class="simple-filters--controls">
-    <a class="button -highlight -small" href="#">Apply</a>
-    <a class="button -small -with-icon icon-undo" href="#">Clear</a>
-  </div>
 </fieldset>
 ```
