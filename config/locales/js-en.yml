@@ -240,6 +240,7 @@ en:
         zero: "You cannot select any items"
     text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected query?"
+    text_attachment_destroy_confirmation: "Are you sure you want to delete this attachment?"
     timelines:
       cancel: Cancel
       change: "Change in planning"
