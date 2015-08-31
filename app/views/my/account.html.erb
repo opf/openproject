@@ -29,12 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title(l(:label_my_account)) -%>
 
-<% breadcrumb_paths(l(:label_my_account)) %>
-<% content_for :action_menu_specific do %>
-  <%= call_hook(:view_my_account_contextual, :user => @user)%>
-<% end %>
-<h2><%=l(:label_my_account)%></h2>
-<%= render :partial => 'layouts/action_menu_specific' %>
+<% breadcrumb_paths(l(:label_my_account), l(:label_profile)) %>
+<%= toolbar title: l(:label_profile) %>
 <%= error_messages_for 'user' %>
 
 <%= labelled_tabular_form_for @user, :as => :user, :url => { :action => "account" },

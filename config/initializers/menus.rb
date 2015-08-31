@@ -83,7 +83,7 @@ end
 Redmine::MenuManager.map :my_menu do |menu|
   menu.push :account,
             { controller: '/my', action: 'account' },
-            caption: :label_my_account,
+            caption: :label_profile,
             html: { class: 'icon2 icon-user1' }
   menu.push :password,
             { controller: '/my', action: 'password' },
