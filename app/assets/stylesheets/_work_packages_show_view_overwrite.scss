@@ -52,6 +52,7 @@
   .work-packages--left-panel {
     border-right: 1px solid #ccc;
     overflow-y: auto;
+    overflow-x: auto;
     width: 60%;
 
     .work-packages--panel-inner {
@@ -67,6 +68,7 @@
 
   .work-packages--right-panel {
     overflow-y: auto;
+    overflow-x: auto;
     width: 40%;
   }
 
