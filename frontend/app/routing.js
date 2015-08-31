@@ -55,6 +55,7 @@ angular.module('openproject')
   // redirect to default activity tab when user lands at /work_packages/:id
   // TODO: Preserve #note-4 part of the URL.
   $urlRouterProvider.when('/work_packages/{id}', '/work_packages/{id}/activity');
+  $urlRouterProvider.when('/projects/{projectId}/work_packages/{id}', '/projects/{projectId}/work_packages/{id}/activity');
 
   $stateProvider
     .state('work-packages', {
