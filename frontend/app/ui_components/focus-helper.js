@@ -67,6 +67,12 @@ module.exports = function($timeout, FOCUSABLE_SELECTOR) {
       });
     },
 
+    focusUiSelect: function(element) {
+      $timeout(function() {
+        element.find('.ui-select-match').trigger('click');
+      });
+    },
+
     // TODO: remove when select2 is not used
     focusSelect2Element: function(element) {
       var focusSelect2ElementRecursiv = function(retries) {

@@ -26,40 +26,37 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-#detail-panel-watchers
-  width: 100%
-  padding-top: 30px
-  .select2
-    width: 400px
-  .select2-with-searchbox
-    position: relative
-  .ui-select-choices
-    max-height: 350px
-  input[type='text']
-    width: 100%
+module.exports = function(I18n) {
+  'use strict';
 
-  ul.watchers-list
-    margin: 15px 0
-    padding: 0 0 15px 0
-    list-style-type: none
+  var workPackageWatcherController = function(scope) {
+    scope.remove = function() {
+      scope.deleting = true;
+      scope.$emit('watchers.remove', scope.watcher);
+    };
 
-    li
-      clear: both
-      height: 24px
+    scope.I18n = I18n;
 
-      > .user-avatar--container
-        width: 40%
-        float: left
+    var focused = false;
+    scope.focus = function() {
+      focused = true;
+    };
 
-  .detail-panel-watchers-delete-watcher-link:hover,
-  .detail-panel-watchers-delete-watcher-link:active
-    text-decoration: none
+    scope.blur = function() {
+      focused = false;
+    };
 
-  .detail-panel-watchers-delete-watcher-icon
-    padding: 0 8px
+    scope.focussing = function() {
+      return focused;
+    };
+  };
 
-  fieldset
-    border: 0
-
-  #detail-panel-watchers-add-watcher
-    clear: left
+  return {
+    replace: true,
+    templateUrl: '/templates/work_packages/watchers/watcher.html',
+    link: workPackageWatcherController,
+    scope: {
+      watcher: '='
+    }
+  };
+};

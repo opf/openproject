@@ -109,7 +109,8 @@ angular.module('openproject')
     .state('work-packages.list.details.watchers', {
       url: '/watchers',
       controller: 'DetailsTabWatchersController',
-      templateUrl: '/templates/work_packages/tabs/watchers.html'
+      templateUrl: '/templates/work_packages/tabs/watchers.html',
+      controllerAs: 'watchers'
     })
 }])
 

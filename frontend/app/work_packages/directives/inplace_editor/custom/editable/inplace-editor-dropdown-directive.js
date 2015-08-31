@@ -32,7 +32,8 @@ module.exports = function(
     EditableFieldsState,
     I18n,
     $timeout,
-    $q) {
+    $q,
+    FocusHelper) {
   return {
     restrict: 'E',
     transclude: true,
@@ -85,9 +86,7 @@ module.exports = function(
         fieldController.state.isBusy = false;
 
         if (!EditableFieldsState.forcedEditState) {
-          $timeout(function() {
-            element.find('.ui-select-match').trigger('click');
-          });
+          FocusHelper.focusUiSelect(element);
         }
       });
     }

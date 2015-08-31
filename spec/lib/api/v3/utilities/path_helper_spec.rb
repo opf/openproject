@@ -69,7 +69,7 @@ describe ::API::V3::Utilities::PathHelper do
   describe '#attachment_download' do
     subject { helper.attachment_download 1 }
 
-    it_behaves_like 'path', '/attachments/1'
+    it_behaves_like 'path', '/attachments/1/download'
   end
 
   describe '#attachments_by_work_package' do

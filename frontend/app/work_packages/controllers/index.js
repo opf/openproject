@@ -47,30 +47,30 @@ angular.module('openproject.workPackages.controllers')
     require('./details-tab-overview-controller')
   ])
   .constant('ADD_WATCHER_SELECT_INDEX', -1)
-  .controller('DetailsTabWatchersController', ['$scope',
-    '$filter',
-    '$timeout',
+  .controller('DetailsTabWatchersController', [
+    '$scope',
     'I18n',
+    'WatchersService',
     'ADD_WATCHER_SELECT_INDEX', require('./details-tab-watchers-controller')
   ])
   .constant('RELATION_TYPES', {
-    relatedTo: "Relation::Relates",
-    duplicates: "Relation::Duplicates",
-    duplicated: "Relation::Duplicated",
-    blocks: "Relation::Blocks",
-    blocked: "Relation::Blocked",
-    precedes: "Relation::Precedes",
-    follows: "Relation::Follows"
+    relatedTo: 'Relation::Relates',
+    duplicates: 'Relation::Duplicates',
+    duplicated: 'Relation::Duplicated',
+    blocks: 'Relation::Blocks',
+    blocked: 'Relation::Blocked',
+    precedes: 'Relation::Precedes',
+    follows: 'Relation::Follows'
   })
   .constant('RELATION_IDENTIFIERS', {
-    parent: "parent",
-    relatedTo: "relates",
-    duplicates: "duplicates",
-    duplicated: "duplicated",
-    blocks: "blocks",
-    blocked: "blocked",
-    precedes: "precedes",
-    follows: "follows"
+    parent: 'parent',
+    relatedTo: 'relates',
+    duplicates: 'duplicates',
+    duplicated: 'duplicated',
+    blocks: 'blocks',
+    blocked: 'blocked',
+    precedes: 'precedes',
+    follows: 'follows'
   })
   .controller('WorkPackageDetailsController', [
     '$scope',
