@@ -117,20 +117,24 @@ See doc/COPYRIGHT.rdoc for more details.
             <td><%= format_date(project.created_on) %></td>
             <td><%= format_date(project.updated_on) %></td>
             <td class="buttons">
-              <%= link_to(l(:button_archive),
+              <%= link_to('',
                   archive_project_path(project, :status => params[:status]),
                   data: { confirm: l(:text_are_you_sure) },
                   :method => :put,
+                  :title => l(:button_archive),
                   :class => 'icon icon-locked') if project.active? %>
-              <%= link_to(l(:button_unarchive),
+              <%= link_to('',
                   unarchive_project_path(project, :status => params[:status]),
                   :method => :put,
+                  :title => l(:button_unarchive),
                   :class => 'icon icon-unlocked') if !project.active? && (project.parent.nil? || project.parent.active?) %>
-              <%= link_to(l(:button_copy),
+              <%= link_to('',
                   copy_from_project_path(project, :admin),
+                  :title => l(:button_copy),
                   :class => 'icon icon-copy') %>
-              <%= link_to(l(:button_delete),
+              <%= link_to('',
                   confirm_destroy_project_path(project),
+                  :title => l(:button_delete),
                   :class => 'icon icon-delete') %>
             </td>
           </tr>
