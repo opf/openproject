@@ -157,12 +157,8 @@
 default:
   # Outgoing emails configuration (see examples above)
   email_delivery_method: :smtp
-  smtp_address: smtp.example.net
+  smtp_address: localhost
   smtp_port: 25
-  smtp_domain: example.net
-  smtp_authentication: :login
-  smtp_user_name: "openproject@example.net"
-  smtp_password: "my_openproject_password"
 
   # Prefix to the url-path. This path is then prepended to all
   # the routes and is used to correclty identify the path to the assets.

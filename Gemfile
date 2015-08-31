@@ -104,6 +104,9 @@ group :production do
   # requires memcached 1.4+
   # see https://github.com/mperham/dalli
   gem 'dalli', '~> 2.7.2'
+
+  # serve static files and log to stdout
+  gem 'rails_12factor', '~> 0.0.3', require: !!ENV['HEROKU']
 end
 
 gem 'sprockets',        '~> 2.12.3'

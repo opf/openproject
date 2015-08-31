@@ -1,0 +1,88 @@
+## Basic docker-compose.yml
+#
+# build the openproject image
+# $ docker-compose build
+#
+# migrate the database
+# $ docker-compose run app bundle exec rake db:migrate
+#
+# seed the database
+# $ docker-compose run app bundle exec rake db:seed
+#
+# run database, openproject, and worker process
+# $ docker-compose up -d
+
+web:
+  image: nginx:1.7
+  ports:
+    - "80:80"
+  links:
+    - app
+  volumes:
+    - ./config/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  volumes_from:
+    - app
+
+app:
+  build: .
+  environment:
+    RAILS_ENV: production
+    DATABASE_URL: postgres://openproject:openproject@db:5432/openproject?encoding=unicode&pool=5
+    HEROKU: true
+    SECRET_TOKEN: 6bcbf13ead9da7f1a5038785f4836e20
+    SESSION_STORE: active_record_store
+    OPENPROJECT_ATTACHMENTS__STORAGE__PATH: /var/lib/openproject/attachments
+    OPENPROJECT_EMAIL__DELIVERY__METHOD: smtp
+    OPENPROJECT_SMTP__ADDRESS: mailcatcher
+    OPENPROJECT_SMTP__PORT: 1025
+  ports:
+    - "3000:3000"
+  links:
+    - db
+    - mailcatcher
+  volumes:
+    - /app/public
+  volumes_from:
+    - attachments
+
+worker:
+  build: .
+  command: foreman start worker
+  environment:
+    RAILS_ENV: production
+    DATABASE_URL: postgres://openproject:openproject@db:5432/openproject?encoding=unicode&pool=5
+    HEROKU: true
+    SECRET_TOKEN: 6bcbf13ead9da7f1a5038785f4836e20
+    OPENPROJECT_ATTACHMENTS__STORAGE__PATH: /var/lib/openproject/attachments
+    OPENPROJECT_EMAIL__DELIVERY__METHOD: smtp
+    OPENPROJECT_SMTP__ADDRESS: mailcatcher
+    OPENPROJECT_SMTP__PORT: 1025
+  links:
+    - db
+    - mailcatcher
+  volumes_from:
+    - attachments
+
+attachments:
+  image: busybox:latest
+  command: chown -R 1000:1000 /var/lib/openproject/attachments
+  volumes:
+    - /var/lib/openproject/attachments
+
+db:
+  image: postgres:9.4
+  environment:
+    POSTGRES_USER: openproject
+    POSTGRES_PASSWORD: openproject
+  volumes_from:
+    - data
+
+data:
+  image: busybox:latest
+  volumes:
+    - /var/lib/postgresql/data
+
+mailcatcher:
+  image: schickling/mailcatcher:latest
+  ports:
+    - "1080:1080"
