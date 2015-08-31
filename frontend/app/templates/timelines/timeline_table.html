@@ -37,15 +37,15 @@
             'tl-indent-' + indent,
             row.childNodes.length > 0 && (row.isExpanded() && 'tl-expanded' || 'tl-collapsed')
           ]">
-        <a ng-click="toggleRowExpansion(row)" ng-if="row.childNodes.length > 0">{{row.expanded && '-' || '+'}}</a>
+        <a ng-class="['icon-context', (row.isExpanded() && 'icon-pulldown-arrow1' || 'icon-pulldown-arrow4')]" ng-click="toggleRowExpansion(row)" ng-if="row.childNodes.length > 0"></a>
 
         <span class="tl-word-ellipsis">
           <span ng-if="changeDetected">
             <a title="{{I18n.t('js.timelines.change')}}"
                ng-class="{
-                 'icon tl-icon-added': rowObject.isNewlyAdded(),
-                 'icon tl-icon-deleted': rowObject.isDeleted(),
-                 'icon tl-icon-changed': !rowObject.isDeleted() && !rowObject.isNewlyAdded()
+                 'icon icon-added': rowObject.isNewlyAdded(),
+                 'icon icon-delete2': rowObject.isDeleted(),
+                 'icon icon-arrow-left-right': !rowObject.isDeleted() && !rowObject.isNewlyAdded()
                }" />
           </span>
 

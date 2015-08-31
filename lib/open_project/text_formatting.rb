@@ -428,7 +428,13 @@ module OpenProject
           div_class << ' right' if $1 == '>'
           div_class << ' left' if $1 == '<'
           out = "<fieldset class='form--fieldset -collapsible'>"
-          out << "<legend class='form--fieldset-legend' title='" + l(:description_toc_toggle) + "' onclick='toggleFieldset(this);'><a href='javascript:'>#{l(:label_table_of_contents)}</a></legend><div>"
+          out << "<legend class='form--fieldset-legend' title='" +
+            l(:description_toc_toggle) +
+            "' onclick='toggleFieldset(this);'>
+            <a class='icon-context icon-pulldown-arrow1' href='javascript:'>
+              #{l(:label_table_of_contents)}
+            </a>
+            </legend><div>"
           out << "<ul class=\"#{div_class}\"><li>"
           root = headings.map(&:first).min
           current = root

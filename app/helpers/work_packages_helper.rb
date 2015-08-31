@@ -229,10 +229,6 @@ module WorkPackagesHelper
   end
 
   def render_work_package_tree_row(work_package, level, relation)
-    css_classes = ['work-package']
-    css_classes << "work-package-#{work_package.id}"
-    css_classes << 'idnt' << "idnt-#{level}" if level > 0
-
     if relation == 'root'
       issue_text = link_to("#{work_package}",
                            'javascript:void(0)',
@@ -249,9 +245,19 @@ module WorkPackagesHelper
       issue_text = link_to(work_package.to_s, work_package_path(work_package))
     end
 
-    content_tag :tr, class: css_classes.join(' ') do
+    tr_css_classes = ['work-package', "work-package-#{work_package.id}"]
+    subject_css_classes = ['subject']
+
+    if level > 0
+      tr_css_classes << 'idnt' << "idnt-#{level}"
+      subject_css_classes += ['icon-context', 'icon-pulldown-arrow4']
+    end
+
+    content_tag :tr, class: tr_css_classes.join(' ') do
       concat content_tag :td, check_box_tag('ids[]', work_package.id, false, id: nil), class: 'checkbox'
-      concat content_tag :td, issue_text, class: 'subject'
+      concat content_tag :td,
+                         issue_text,
+                         class: subject_css_classes.join(' ')
       concat content_tag :td, h(work_package.status)
       concat content_tag :td, link_to_user(work_package.assigned_to)
       concat content_tag :td, link_to_version(work_package.fixed_version)

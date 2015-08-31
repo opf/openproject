@@ -26,6 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+@mixin setCalendarIconValues()
+  display: inline-flex
+  &:before
+    padding: 0 10px 0 10px
+  &.ending:before
+    transform: rotate(180deg)
+    color: #F5827E
+  &.diamond:before
+    color: #F5827E
+  &.starting:before
+    color: #A2C57A
+
+
 table.cal
   border-collapse: collapse
   width: 100%
@@ -45,6 +58,7 @@ table.cal
     border: $content-calendar-cell-border-width solid $content-calendar-cell-border-color
     vertical-align: top
     font-size: 0.9em
+
     &.week-number
       background-color: $content-calendar-head-cell-bg-color
       padding: 4px
@@ -61,15 +75,14 @@ table.cal
       background-color: $content-calendar-inactive-day-bg-color
     &.today
       background: $content-calendar-cell-today-bg-color
-.starting a, p.cal.legend .starting
-  background: image-url('bullet_go.png') no-repeat -1px -2px
-  padding-left: 16px
-.ending a, p.cal.legend .ending
-  background: image-url('bullet_end.png') no-repeat -1px -2px
-  padding-left: 16px
-.starting.ending a, p.cal.legend .starting.ending
-  background: image-url('bullet_diamond.png') no-repeat -1px -2px
-  padding-left: 16px
 
-p.cal.legend span
-  display: block
+  .icon,
+  .icon-context
+    @include setCalendarIconValues()
+
+p.legend.cal
+  margin-bottom: 0
+  .icon
+    @include setCalendarIconValues()
+    vertical-align: middle
+

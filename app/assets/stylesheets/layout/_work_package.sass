@@ -47,6 +47,37 @@
   .flash ~ div[ui-view]
     height: calc(100% - #{($content-flash-height + $flash-margins-padding)})
 
+  // If there are two flash messages shown:
+  // Subtract the height of the two flash messages
+  .flash:not(.ng-hide) ~ .flash:not(.ng-hide) ~ div[ui-view]
+    height: calc(100% - #{2 * ($content-flash-height + $flash-margins-padding)})
+
+  //This can be deleted once the legcy WP view is gone
+  #history
+    border-bottom-color: rgb(221, 221, 221)
+    border-bottom-style: solid
+    border-bottom-width: 1px
+
+  tr.work-package
+    &.idnt-1 td.subject
+      padding-left: 0.5em
+    &.idnt-2 td.subject
+      padding-left: 2em
+    &.idnt-3 td.subject
+      padding-left: 3.5em
+    &.idnt-4 td.subject
+      padding-left: 5em
+    &.idnt-5 td.subject
+      padding-left: 6.5em
+    &.idnt-6 td.subject
+      padding-left: 8em
+    &.idnt-7 td.subject
+      padding-left: 9.5em
+    &.idnt-8 td.subject
+      padding-left: 11em
+    &.idnt-9 td.subject
+      padding-left: 12.5em
+
 // HACK: workaround to ensure correct height applied to child elements
 #work-packages-index
   height: 100%
@@ -81,6 +112,23 @@
   bottom:   55px
   width:    100%
   overflow: hidden
+
+  table
+    tr
+      &.work-package
+        white-space: nowrap
+        &.sum
+          font-weight: bold
+        td.subject
+          white-space: normal
+          text-align: left
+        td.done_ratio table.progress
+          margin-left: auto
+          margin-right: auto
+        &.idnt td.subject.icon-context
+          display: inherit
+        &.issue td.category
+          white-space: normal
 
 .work-packages--list-pagination-area
   position: absolute

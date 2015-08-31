@@ -119,37 +119,11 @@ select
 .tl-toolbar-container *
   vertical-align: bottom
 
-.tl-icon-postponed,
-.tl-icon-preponed,
-.tl-icon-added,
-.tl-icon-deleted,
-.tl-icon-changed,
-.tl-icon-calendar,
-.tl-icon-zoomin,
-.tl-icon-zoomout,
-.tl-icon-outline
-  cursor: default
-  background-position: left center
-  background-repeat: no-repeat
-  padding-left: 19px
+.tl-icon-postponed.icon-time:before
+  color:  red
 
-.tl-icon-postponed
-  background-image: image-url("bullet_red.png")
-
-.tl-icon-preponed
-  background-image: image-url("bullet_green.png")
-
-.tl-icon-added
-  background-image: image-url("added.png")
-
-.tl-icon-deleted
-  background-image: image-url("webalys/deleted.png")
-
-.tl-icon-changed
-  background-image: image-url("webalys/arrow_left_right.png")
-
-.tl-icon-calendar
-  background-image: image-url("webalys/calendar.png")
+.tl-icon-preponed.icon-time:before
+  color: green
 
 /* ╭───────────────────────────────────────────────────────────────────╮ *
  * │ Timeline tree                                                     │ *
@@ -212,8 +186,10 @@ a.tl-discreet-link:hover, input.icon:hover
 
 .tl-historical
   line-height: 8px
-  text-decoration: line-through
   white-space: nowrap
+
+  .historical-data
+    text-decoration: line-through
 
 .tl-current
   line-height: 18px
@@ -225,14 +201,9 @@ a.tl-discreet-link:hover, input.icon:hover
 .tl-preponed
   color: green
 
-.tl-expanded > a
-  background: image-url("arrow_expanded.png") no-repeat center
 
-.tl-collapsed > a
-  background: image-url("arrow_collapsed.png") no-repeat center
 
 .tl-expanded > a, .tl-collapsed > a
-  text-indent: -999em
   display: block
   height: 16px
   width: 16px
@@ -241,7 +212,6 @@ a.tl-discreet-link:hover, input.icon:hover
   float: left
 
 .tl-expanded > span, .tl-collapsed > span
-  padding-right: 0
   position: relative
   left: -16px
 
@@ -434,8 +404,3 @@ a
   #content
     .timeline, .tl-left-main
       border: 0
-
-/* Icons for activity view
-
-dt.timelines\2F planning-element
-  background-image: image-url("webalys/new_planning_element.png")
