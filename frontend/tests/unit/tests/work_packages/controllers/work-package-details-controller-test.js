@@ -57,7 +57,17 @@ describe('WorkPackageDetailsController', function() {
               id: 1
             }
           },
-          activities: [],
+          activities: {
+            links: {
+              self: { href: "/api/v3/work_packages/820/activities" }
+            },
+            _type: "Collection",
+            total: 0,
+            count: 0,
+            embedded: {
+              elements: []
+            }
+          },
           watchers: [],
           attachments: {
             links: {
@@ -125,7 +135,7 @@ describe('WorkPackageDetailsController', function() {
 
     buildController = function() {
       var testState = {
-        current: { url: '/overview', },
+        current: { url: '/overview' }
       };
       scope = $rootScope.$new();
 
