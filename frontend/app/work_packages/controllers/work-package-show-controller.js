@@ -207,6 +207,7 @@ module.exports = function($scope,
   function setWorkPackageScopeProperties(workPackage){
     $scope.workPackage = workPackage;
     $scope.isWatched = !!workPackage.links.unwatch;
+    $scope.displayWatchButton = !!workPackage.links.unwatch || !!workPackage.links.watch;
 
     if (workPackage.links.watch === undefined) {
       $scope.toggleWatchLink = workPackage.links.unwatch;
