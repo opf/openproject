@@ -53,7 +53,8 @@ module.exports = function($scope,
     WorkPackageAuthorization,
     PERMITTED_MORE_MENU_ACTIONS,
     HookService,
-    $window
+    $window,
+    WorkPackageAttachmentsService
   ) {
 
 
@@ -374,8 +375,13 @@ module.exports = function($scope,
   vm.isSpecified = WorkPackagesDisplayHelper.isSpecified;
   vm.hasNiceStar = WorkPackagesDisplayHelper.hasNiceStar;
   vm.showToggleButton = WorkPackagesDisplayHelper.showToggleButton;
+  vm.filesExist = false;
 
   activate();
+
+  WorkPackageAttachmentsService.hasAttachments(vm.workPackage).then(function(bool) {
+    vm.filesExist = bool;
+  });
 
   function activate() {
     EditableFieldsState.forcedEditState = false;
