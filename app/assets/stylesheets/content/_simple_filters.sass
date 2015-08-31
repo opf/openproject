@@ -32,14 +32,13 @@ $filters--border-color: $gray !default
 %filters--container
   background-color: $filters--background-color
   border: 1px solid $filters--border-color
-  border-top-width: 3px
 
   legend
     @extend .hidden-for-sighted
 
 .simple-filters--container
   @extend %filters--container
-  padding: 1rem
+  padding: 1rem 1rem 0
   margin: 0.6em 0
 
   .simple-filter--trailing-labels
@@ -74,7 +73,7 @@ $filters--border-color: $gray !default
     @include breakpoint(large)
 
     .simple-filters--filter-name
-      flex-basis: 25%
+      flex-basis: 15%
       margin-top: 5px
     .simple-filters--filter-value
       flex-basis: 70%
@@ -83,9 +82,10 @@ $filters--border-color: $gray !default
       margin-right: 20px
 
   .simple-filters--controls
-    flex-basis: 20%
+    padding: 0
     align-self: flex-start
-    margin-top:  2px
+    @include breakpoint(large)
+      flex: 1
 
 .simple-filters--filters.-columns-3
   justify-content: space-between
