@@ -62,6 +62,39 @@ describe 'API v3 Query resource', type: :request do
     end
   end
 
+  describe '#delete' do
+    let(:path) { api_v3_paths.query query.id }
+    let(:permissions) { [:view_work_packages, :manage_public_queries] }
+
+    before do
+      delete path
+    end
+
+    it 'responds with HTTP No Content' do
+      expect(last_response.status).to eq 204
+    end
+
+    it 'deletes the Query' do
+      expect(Query.exists?(query.id)).to be_falsey
+    end
+
+    context 'user not allowed' do
+      let(:permissions) { [:view_work_packages] }
+
+      it_behaves_like 'unauthorized access'
+    end
+
+    context 'for a non-existent query' do
+      let(:query_id) { 1337 } # could be anything as long as we do not create an actual query
+      let(:path) { api_v3_paths.query query_id }
+
+      it_behaves_like 'not found' do
+        let(:id) { query_id }
+        let(:type) { 'Query' }
+      end
+    end
+  end
+
   describe '#star' do
     let(:star_path) { api_v3_paths.query_star query.id }
     let(:filters) do
