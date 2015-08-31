@@ -111,17 +111,9 @@ h4. things we like
     end
 
     context 'user not seeing any work packages' do
+      include_context 'with non-member permissions from non_member_permissions'
       let(:current_user) { FactoryGirl.create(:user) }
       let(:non_member_permissions) { [:view_work_packages] }
-
-      around do |example|
-        non_member = Role.non_member
-        previous_permissions = non_member.permissions
-
-        non_member.update_attribute(:permissions, non_member_permissions)
-        example.run
-        non_member.update_attribute(:permissions, previous_permissions)
-      end
 
       it 'succeeds' do
         expect(subject.status).to eql 200
