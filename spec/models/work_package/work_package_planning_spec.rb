@@ -175,31 +175,20 @@ describe WorkPackage, type: :model do
     end
 
     describe 'parent' do
-      let (:de_message) { 'darf kein Meilenstein sein' }
-      let (:en_message) { 'cannot be a milestone' }
-      after(:each) do
-        # proper reset of the locale after the test
-        I18n.locale = 'en'
-      end
+      let (:message) { 'cannot be a milestone' }
 
       it 'is invalid if parent is_milestone' do
-        ['en', 'de'].each do |locale|
-          I18n.with_locale(locale) do
-            parent = WorkPackage.new.tap do |pe|
-              pe.send(:assign_attributes, attributes.merge(type: FactoryGirl.build(:type, is_milestone: true)), without_protection: true)
-            end
-
-            attributes[:parent] = parent
-            planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
-
-            expect(planning_element).not_to be_valid
-
-            expect(planning_element.errors[:parent_id]).to be_present
-            expect(planning_element.errors[:parent_id]).to eq([send("#{I18n.locale}_message")])
-          end
-
+        parent = WorkPackage.new.tap do |pe|
+          pe.send(:assign_attributes, attributes.merge(type: FactoryGirl.build(:type, is_milestone: true)), without_protection: true)
         end
 
+        attributes[:parent] = parent
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
+
+        expect(planning_element).not_to be_valid
+
+        expect(planning_element.errors[:parent_id]).to be_present
+        expect(planning_element.errors[:parent_id]).to eq([message])
       end
     end
   end
