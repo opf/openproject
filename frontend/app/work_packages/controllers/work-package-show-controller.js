@@ -307,7 +307,7 @@ module.exports = function($scope,
   };
 
   function isNestedWithinProject() {
-    return $stateParams.projectPath.indexOf('projects/') === 0;
+    return $stateParams.projectPath.indexOf('/projects/') === 0 || $stateParams.projectPath.indexOf('projects/') === 0;
   };
 
   function getProjectPath() {
