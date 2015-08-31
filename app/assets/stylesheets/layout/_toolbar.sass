@@ -67,10 +67,19 @@
     &.toolbar-item
       margin: 0 5px //$drop-nav-spacing // spacing between nav items
 
-  button, .button, input[type=text], input[type=number], select
+  button, .button, input[type=text], input[type=number], select,
+  .toolbar-input--affix, .select2-choice
     margin: 0.625rem 0 0
     height: 40px
     line-height: 22px
+    border: 1px solid $toolbar-item--border-color
+  button, .button, .toolbar-input--affix
+    background: $toolbar-item--bg-color
+
+    &.-pressed, &:active
+      background: $toolbar-item--bg-color-pressed
+      box-shadow: inset 0 2px 3px rgba(0,0,0,.125)
+
   select
     //extend forms select
     @extend .form--select
@@ -116,6 +125,26 @@
   .dropdown-scrollable
     overflow-y: auto
     max-height: 500px
+
+.toolbar-input--group
+  display: flex
+
+  input
+    flex: 1
+
+  .toolbar-input--affix
+    color: $inlinelabel-color
+    border-radius: 2px
+    padding: 0 5px
+    display: flex
+    align-items: center
+
+    &.-prepend
+      border-right: none !important
+
+    &.-append
+      border-left: none !important
+
 
 #querySelectDropdown
   min-width: 250px

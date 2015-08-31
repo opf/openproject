@@ -49,6 +49,8 @@ $nm-color-warning-border: #b5b078
 $nm-color-warning-icon: #000
 $nm-color-warning-background: #f4f4aa
 
+$nm-color-info-icon: #000
+
 $nm-color-border: #8fc0db
 $nm-color-background: #e3f5ff
 $nm-padding-box: rem-calc(10px)
@@ -75,6 +77,10 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 %nm-icon-warning
   @extend .icon-attention1:before
   color: $nm-color-warning-icon
+
+%nm-icon-info
+  @extend .icon-info:before
+  color: $nm-color-info-icon
 
 %error-placeholder
   background-color: $nm-color-error-background
@@ -125,7 +131,10 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     &:hover
       text-decoration: none
 
-  &.-error, &.-success, &.-warning
+  &.-error,
+  &.-success,
+  &.-warning,
+  &.-info,
     padding: $nm-box-padding
 
   &.-error
@@ -149,6 +158,10 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
       background-color: $nm-color-error-background
       border-color: $nm-color-error-border
 
+  &.-info::before
+    @include messages-icon
+    @extend %nm-icon-info
+
   &.-upload
     padding: $nm-upload-box-padding
 
@@ -167,6 +180,8 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     color: $nm-color-success-icon
   &.-warning
     color: $nm-color-warning-icon
+  &.-info
+    color: $nm-color-info-icon
 
 .notification-box--wrapper
   position: absolute

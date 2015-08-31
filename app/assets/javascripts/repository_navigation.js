@@ -43,6 +43,12 @@
     }
 
     /*
+    Enable select2
+    */
+    branch.select2();
+    tag.select2();
+
+    /*
     If we're viewing a tag or branch, don't display it in the
     revision box
     */
@@ -68,6 +74,33 @@
         sendForm();
       }
     });
+
+
+    /*
+    Close checkout instructions
+    */
+    var checkout = $('#repository--checkout-instructions'),
+      toggle = $('#repository--checkout-instructions-toggle');
+
+    if (checkout.length > 0) {
+      checkout.find('.notification-box--close').click(function(e){
+        e.preventDefault();
+        checkout.hide().prop('hidden', true);
+        toggle.removeClass('-pressed');
+      });
+
+      toggle.click(function(e) {
+        e.preventDefault();
+        if (checkout.prop('hidden')) {
+          checkout.prop('hidden', false);
+          checkout.slideDown();
+        } else {
+          checkout.slideUp(function() { checkout.prop('hidden', true); });
+        }
+
+        toggle.toggleClass('-pressed');
+      });
+    }
   });
 }(jQuery));
 

@@ -30,28 +30,44 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :header_tags do %>
   <%= javascript_include_tag 'repository_navigation' %>
 <% end %>
-<% merge ||= {} %>
 <%= toolbar title: l(:label_repository) do %>
+  <% if @instructions && @instructions.available? %>
+  <li class="toolbar-item">
+    <div class="toolbar-input--group">
+      <div class="toolbar-input--affix -prepend">
+        <span><%= @instructions.checkout_command %></span>
+      </div>
+      <input type="text" class="-clickable" size="40"
+             onclick="this.focus(); this.select()"
+             readonly="readonly" value="<%= @instructions.checkout_url %>">
+    </div>
+  </li>
+  <li class="toolbar-item">
+    <a id="repository--checkout-instructions-toggle" class="button -pressed" href="javascript:"
+       title="<%= l('repositories.checkout.show_instructions') %>">
+      <i class="button--icon icon-info"></i>
+      <span class="button--text"></span>
+    </a>
+  </li>
+  <% end %>
   <% if User.current.allowed_to?(:browse_repository, @project) %>
   <li class="toolbar-item">
-    <%= link_to stats_project_repository_path(@project), class: 'button' do %>
+    <%= link_to stats_project_repository_path(@project),
+        class: 'button', title: l(:label_statistics) do %>
       <i class="button--icon icon-stats1"></i>
-      <span class="button--text"><%= l(:label_statistics) %></span>
+      <span class="button--text"></span>
     <% end %>
   </li>
   <% end %>
   <%= call_hook(:repositories_navigation_toolbar, { repository: @repository, project: @project }) %>
   <% if User.current.allowed_to?(:manage_repository, @project) %>
     <li class="toolbar-item">
-      <%= link_to settings_project_path(@project, tab: 'repository') , class: 'button' do %>
+      <%= link_to settings_project_path(@project, tab: 'repository'),
+          class: 'button', title: l(:label_settings) do %>
         <i class="button--icon icon-settings"></i>
-        <span class="button--text"><%= l(:label_settings) %></span>
+        <span class="button--text"></span>
       <% end %>
     </li>
   <% end %>
 <% end %>
-<div>
-  <h3>
-    <%= render :partial => 'breadcrumbs', :locals => { :path => @path, :revision => @rev }.merge(merge) %>
-  </h3>
-</div>
+

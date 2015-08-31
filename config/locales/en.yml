@@ -1300,7 +1300,7 @@ en:
         readwrite: 'Read + Write'
         read: 'Read-only'
         none: 'No checkout access, you may only view the repository through this application.'
-      access_permission: 'Your permissions on this repository:'
+      access_permission: 'Your permissions on this repository'
       url: "Checkout URL"
       base_url_text: "The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).\nNote: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered."
       default_instructions:
@@ -1312,6 +1312,7 @@ en:
           Please consult the documentation of Subversion if you need more information on the checkout procedure and available clients.
       enable_instructions_text: "Displays checkout instructions defined below on all repository-related pages."
       instructions: "Checkout instructions"
+      show_instructions: "Display checkout instructions"
       text_instructions: "This text is displayed alongside the checkout URL for guidance on how to check out the repository."
       not_available: "Checkout instructions are not available for this repository"
     create_managed_delay: "Please note: The repository is managed, it is created asynchronously on the disk and will be available shortly."
