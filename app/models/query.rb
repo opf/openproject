@@ -54,6 +54,17 @@ class Query < ActiveRecord::Base
 
   after_initialize :remember_project_scope
 
+  scope :visible, -> (to:) {
+    # User can see public queries and his own queries
+    where('is_public = ? OR user_id = ?',
+          true,
+          (to.logged? ? to.id : 0))
+  }
+
+  scope :global, -> {
+    where('project_id IS NULL')
+  }
+
   # WARNING: sortable should not contain a column called id (except for the
   # work_packages.id column). Otherwise naming collisions can happen when AR
   # optimizes a query into two separate DB queries (e.g. when joining tables).
