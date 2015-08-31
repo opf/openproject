@@ -1294,8 +1294,9 @@ en:
     subproject_id: "Subproject"
 
   repositories:
-    autofetch_information: "Check this if you want repositories to be updated automatically when accessing the repository module page.\nThis encompasses the retrieval of commits from the repository and refreshing the required disk storage."
+    at_identifier: 'at %{identifier}'
     atom_revision_feed: 'Atom revision feed'
+    autofetch_information: "Check this if you want repositories to be updated automatically when accessing the repository module page.\nThis encompasses the retrieval of commits from the repository and refreshing the required disk storage."
     checkout:
       access:
         readwrite: 'Read + Write'

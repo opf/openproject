@@ -26,9 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= call_hook(:view_repositories_show_contextual, { :repository => @repository, :project => @project }) %>
-<%= render :partial => 'navigation', locals: { merge: { kind: 'file' } } %>
-<p><%= render :partial => 'link_to_functions' %></p>
+<%= call_hook(:view_repositories_show_contextual, { repository: @repository, project: @project }) %>
+<%= render partial: 'repository_header', locals: { empty: false } %>
+
+<%# Breadcrumbs %>
+<div class="repository-breadcrumbs">
+  <%= render partial: 'breadcrumbs',
+             locals: { path: @path, revision: @rev }.merge(kind: 'file') %>
+</div>
+<p><%= render partial: 'link_to_functions' %></p>
 <% colors = Hash.new {|k,v| k[v] = (k.size % 12) } %>
 <div class="autoscroll">
   <table class="filecontent annotate CodeRay">

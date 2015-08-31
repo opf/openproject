@@ -27,21 +27,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= call_hook(:view_repositories_show_contextual, { repository: @repository, project: @project }) %>
-<%= render partial: 'navigation' %>
+<%= render partial: 'repo_header', locals: { empty: false } %>
 
-<%# Checkout %>
-<% if @instructions && @instructions.available? %>
-  <%= render partial: 'checkout_instructions',
-             locals: { repository: @repository, instructions: @instructions, show_url: false } %>
-<% end %>
-
-<%# Breadcrumbs %>
-<div>
-  <h3>
-    <%= render partial: 'breadcrumbs',
-               locals: { path: @path, revision: @rev }.merge(kind: 'dir') %>
-  </h3>
+<div class="repository-breadcrumbs">
+  <%= render partial: 'breadcrumbs',
+             locals: { path: @path, revision: @rev }.merge(kind: 'dir') %>
 </div>
 
 <% if !@entries.nil? && authorize_for('repositories', 'browse') %>
@@ -91,9 +81,9 @@ See doc/COPYRIGHT.rdoc for more details.
     </li>
     <% end %>
     <li class="toolbar-item -icon-only">
-      <%= link_to 'Atom',
-                     url: { action: 'revisions', project_id: @project, key: User.current.rss_key },
-                     class: 'button', title: l('repositories.atom_revision_feed') do %>
+      <%= link_to({ url: { action: 'revisions', project_id: @project,
+                           key: User.current.rss_key } },
+                  { class: 'button', title: l('repositories.atom_revision_feed') }) do %>
         <i class="button--icon icon-page-atom"></i>
         <span class="button--text"></span>
       <% end %>

@@ -1,5 +1,7 @@
 <div id="repository--checkout-instructions" class="notification-box -info">
-  <a href="#" class="notification-box--close">&times;</a>
+  <% unless embedded %>
+    <a href="javscript:" class="notification-box--close">&times;</a>
+  <% end %>
   <div class="notification-box--content">
     <p>
     <%= simple_format instructions.instructions %>
@@ -9,7 +11,7 @@
       <strong><%= l("repositories.checkout.access.#{instructions.permission}") %></strong>
     <% end %>
     </p>
-  <% if show_url %>
+  <% if embedded %>
     <div class="repository--checkout-instructions--url">
       <form class="form">
         <div class="form--field">

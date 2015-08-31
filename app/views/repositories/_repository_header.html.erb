@@ -40,6 +40,9 @@ See doc/COPYRIGHT.rdoc for more details.
     <input type="text" class="-clickable" size="40"
            onclick="this.focus(); this.select()"
            readonly="readonly" value="<%= @instructions.checkout_url %>">
+    <div class="toolbar-input-group--affix -append">
+      <span class="icon-copy3"></span>
+    </div>
   </li>
   <li class="toolbar-item -icon-only">
     <a id="repository--checkout-instructions-toggle" class="button -pressed" href="javascript:"
@@ -49,7 +52,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </a>
   </li>
   <% end %>
-  <% if User.current.allowed_to?(:browse_repository, @project) %>
+  <% if !empty && User.current.allowed_to?(:browse_repository, @project) %>
   <li class="toolbar-item -icon-only">
     <%= link_to stats_project_repository_path(@project),
         class: 'button', title: l(:label_statistics) do %>
@@ -58,7 +61,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </li>
   <% end %>
-  <%= call_hook(:repositories_navigation_toolbar, { repository: @repository, project: @project }) %>
+  <%= call_hook(:repositories_navigation_toolbar,
+                { repository: @repository, project: @project, repository_empty: empty }) %>
   <% if User.current.allowed_to?(:manage_repository, @project) %>
     <li class="toolbar-item -icon-only">
       <%= link_to settings_project_path(@project, tab: 'repository'),
@@ -69,4 +73,11 @@ See doc/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
 <% end %>
+
+
+<% if @instructions && @instructions.available? %>
+  <%= render partial: 'checkout_instructions',
+             locals: { repository: @repository, instructions: @instructions, embedded: false } %>
+<% end %>
+
 

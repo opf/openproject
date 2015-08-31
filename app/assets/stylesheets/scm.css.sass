@@ -80,6 +80,26 @@ li.change
 .repository--checkout-instructions--url
   margin-top: 1rem
 
+.repository-breadcrumbs
+  font-size: 0.9rem
+  margin: 15px 0
+
+.repository-breadcrumbs--home
+  color: $repository-breadcrumbs--color
+  font-size: 0.75rem
+
+.repository-bradcrumbs--identifier
+  display: inline-block
+  margin-left: 10px
+
+.repository-breadcrumbs--sep
+  display: inline-block
+  margin: 0 2px
+
+  &::before
+    content: '▸'
+    color: $repository-breadcrumbs--color
+
 table.filecontent
   border: 1px solid #ccc
   border-collapse: collapse
