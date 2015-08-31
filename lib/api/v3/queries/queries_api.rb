@@ -60,6 +60,14 @@ module API
               @representer
             end
 
+            delete do
+              authorize_by_policy(:destroy)
+
+              @query.destroy
+
+              status 204
+            end
+
             patch :star do
               authorize_by_policy(:star)
 

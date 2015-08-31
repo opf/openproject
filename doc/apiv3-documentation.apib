@@ -2043,6 +2043,45 @@ Lists the columns available for work packages of this project in the form of fie
                 "message": "The specified query does not exist."
             }
 
+## Delete query [DELETE]
+
++ Parameters
+    + id (required, integer, `1`) ... Query id
+
++ Response 204
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** for own queries none; for public queries: manage public queries
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding query.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to star this query."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the query does not exist or the client does not have sufficient permissions to see it.
+
+    **Required condition:** query belongs to user or query is public
+
+    **Required permission:** view work package in queries project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified query does not exist."
+            }
+
 ## Star Query [/api/v3/queries/{id}/star]
 
 + Model
