@@ -49,14 +49,20 @@
     }
   }
 
-  .work-packages--panel-inner {
-    padding: 20px 20px 20px 20px;
-  }
-
   .work-packages--left-panel {
     border-right: 1px solid #ccc;
     overflow-y: auto;
     width: 60%;
+
+    .work-packages--panel-inner {
+      padding: 0px 20px 20px 0px;
+    }
+  }
+
+  .work-packages--right-panel {
+    .work-packages--panel-inner {
+      padding: 20px 20px 20px 20px;
+    }
   }
 
   .work-packages--right-panel {
