@@ -33,6 +33,7 @@ module.exports = function(PathHelper, WorkPackagesHelper, UserService){
     replace: true,
     scope: {
       workPackage: '=',
+      projectIdentifier: '=',
       column: '=',
       displayType: '@',
       displayEmpty: '@'
@@ -117,7 +118,12 @@ module.exports = function(PathHelper, WorkPackagesHelper, UserService){
         var linkMeta = scope.column.meta_data.link;
         if (linkMeta.model_type === 'work_package') {
           scope.displayType = 'ref';
-          scope.stateRef = 'work-packages.show.activity({workPackageId: ' + id + '})';
+          if (scope.projectIdentifier) {
+            var projectPath = PathHelper.staticBase + '/projects/' + scope.projectIdentifier;
+            scope.stateRef = "work-packages.show.activity({projectPath: '" + projectPath + "', workPackageId: " + id + "})";
+          } else {
+            scope.stateRef = "work-packages.show.activity({projectPath: '" + PathHelper.staticBase + "', workPackageId: " + id + "})";
+          }
         } else {
           scope.displayType = 'link';
           scope.url = getLinkFor(id, linkMeta);
