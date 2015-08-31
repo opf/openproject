@@ -92,8 +92,8 @@ describe 'API v3 Attachment resource', type: :request do
     context 'with required permissions' do
       let(:permissions) { [:view_work_packages, :edit_work_packages] }
 
-      it 'responds with 202' do
-        expect(subject.status).to eq 202
+      it 'responds with HTTP No Content' do
+        expect(subject.status).to eq 204
       end
 
       it 'deletes the attachment' do
