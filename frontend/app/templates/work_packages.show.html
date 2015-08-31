@@ -162,7 +162,7 @@
           </dl>
         </div>
 
-        <work-package-attachments edit work-package="vm.workPackage"></work-package-attachments>
+        <work-package-attachments edit data-ng-show="!vm.hideEmptyFields || vm.filesExist" work-package="vm.workPackage"></work-package-attachments>
       </div>
     </div>
     <div class="work-packages--right-panel">
