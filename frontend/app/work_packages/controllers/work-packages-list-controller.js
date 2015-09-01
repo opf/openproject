@@ -288,12 +288,9 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
   };
 
   $scope.closeDetailsView = function() {
-    // can't use query_props in $state.go since it's not specified
-    // in the config. if I put it into config, a reload will be triggered
-    // on each filter change
-    var path = $state.href("work-packages.list"),
-        query_props = $location.search().query_props;
-    $location.url(path).search('query_props', query_props);
+    var queryProps = $state.params['query_props'];
+
+    $state.go('work-packages.list', { 'query_props': queryProps});
   };
 
   $scope.showWorkPackageDetails = function(id, force) {
@@ -307,7 +304,7 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
 
   $scope.showWorkPackageShowView = function() {
     var id = $state.params.workPackageId,
-        queryProps = $location.search()['query_props'];
+        queryProps = $state.params['query_props'];
     var projectPath = '';
     if ($scope.projectIdentifier) {
       projectPath = 'projects/' + $scope.projectIdentifier;

@@ -123,20 +123,23 @@ angular.module('openproject')
     })
 
     .state('work-packages.list', {
-      url: '{projectPath:projectPathType}/work_packages?query_id',
+      url: '{projectPath:projectPathType}/work_packages?query_id&query_props',
       controller: 'WorkPackagesListController',
-      templateUrl: '/templates/work_packages.list.html'
+      templateUrl: '/templates/work_packages.list.html',
+      reloadOnSearch: false
     })
     .state('work-packages.list.new', {
-      url: '/create_new?query_props&type',
+      url: '/create_new?type',
       controller: 'WorkPackageNewController',
       controllerAs: 'vm',
-      templateUrl: '/templates/work_packages.list.new.html'
+      templateUrl: '/templates/work_packages.list.new.html',
+      reloadOnSearch: false
     })
     .state('work-packages.list.details', {
-      url: '/details/{workPackageId:[0-9]+}?query_props',
+      url: '/details/{workPackageId:[0-9]+}',
       templateUrl: '/templates/work_packages.list.details.html',
       controller: 'WorkPackageDetailsController',
+      reloadOnSearch: false,
       resolve: {
         workPackage: function(WorkPackageService, $stateParams) {
           return WorkPackageService.getWorkPackage($stateParams.workPackageId);
@@ -147,11 +150,13 @@ angular.module('openproject')
       url: '/overview',
       controller: 'DetailsTabOverviewController',
       templateUrl: '/templates/work_packages/tabs/overview.html',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      reloadOnSearch: false
     })
     .state('work-packages.list.details.activity', {
       url: '/activity',
-      templateUrl: '/templates/work_packages/tabs/activity.html'
+      templateUrl: '/templates/work_packages/tabs/activity.html',
+      reloadOnSearch: false
     })
     .state('work-packages.list.details.activity.details', {
       url: '#{activity_no:[0-9]+}',
@@ -159,14 +164,16 @@ angular.module('openproject')
     })
     .state('work-packages.list.details.relations', {
       url: '/relations',
-      templateUrl: '/templates/work_packages/tabs/relations.html'
+      templateUrl: '/templates/work_packages/tabs/relations.html',
+      reloadOnSearch: false
     })
     .state('work-packages.list.details.watchers', {
       url: '/watchers',
       controller: 'DetailsTabWatchersController',
       templateUrl: '/templates/work_packages/tabs/watchers.html',
-      controllerAs: 'watchers'
-    })
+      controllerAs: 'watchers',
+      reloadOnSearch: false
+    });
 }])
 
 .run([
