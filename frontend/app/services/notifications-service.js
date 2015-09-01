@@ -47,6 +47,9 @@ module.exports = function(I18n, $rootScope) {
       errors: errors || []
     });
   },
+  createNoticeNotification = function(message) {
+    return _.extend(createNotification(message), { type: '' });
+  },
   createWorkPackageUploadNotification = function(message, uploads) {
     if(!uploads) {
       throw new Error('Cannot create an upload notification without uploads!');
@@ -75,6 +78,9 @@ module.exports = function(I18n, $rootScope) {
   addSuccess = function(message) {
     return add(createSuccessNotification(message));
   },
+  addNotice = function(message) {
+    return add(createNoticeNotification(message))
+  },
   addWorkPackageUpload = function(message, uploads) {
     return add(createWorkPackageUploadNotification(message, uploads));
   },
@@ -88,6 +94,7 @@ module.exports = function(I18n, $rootScope) {
     addError: addError,
     addWarning: addWarning,
     addSuccess: addSuccess,
+    addNotice: addNotice,
     addWorkPackageUpload: addWorkPackageUpload
   };
 };
