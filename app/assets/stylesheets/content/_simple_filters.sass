@@ -47,9 +47,9 @@ $filters--border-color: $gray !default
     margin-left: 0
 
     .simple-filters--filter
-      flex-basis: 40%
+      flex-basis: 33.33%
 
-    &.-label-cloumns-3
+    &.-label-columns-3
       .simple-filters--filter
         flex-basis: 25%
 
@@ -57,7 +57,7 @@ $filters--border-color: $gray !default
   @extend .advanced-filters--filters
   @include grid-block
   @include grid-layout(1)
-  justify-content: space-between
+  justify-content: flex-start
 
   @include breakpoint(large)
     @include grid-layout(3)
@@ -76,7 +76,7 @@ $filters--border-color: $gray !default
       flex-basis: 15%
       margin-top: 5px
     .simple-filters--filter-value
-      flex-basis: 70%
+      flex-basis: 75%
 
     .form--radio-button-container
       margin-right: 20px
@@ -88,7 +88,7 @@ $filters--border-color: $gray !default
       flex: 1
 
 .simple-filters--filters.-columns-3
-  justify-content: space-between
+  justify-content: flex-start
   @include breakpoint(large)
     @include grid-layout(4)
 

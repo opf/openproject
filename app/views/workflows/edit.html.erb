@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </li>
       <li class="simple-filters--filter">
         <%= styled_label_tag :type_id, Type.model_name.human, class: 'simple-filters--filter-name' %>
-        <div class="simple-filter--filter-value">
+        <div class="simple-filters--filter-value">
           <%= styled_select_tag 'type_id', options_from_collection_for_select(@types, "id", "name", @type && @type.id) %>
         </div>
       </li>
