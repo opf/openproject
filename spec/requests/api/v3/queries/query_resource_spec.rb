@@ -102,6 +102,10 @@ describe 'API v3 Query resource', type: :request do
       let(:permissions) { [:view_work_packages] }
 
       it_behaves_like 'unauthorized access'
+
+      it 'does not delete the Query' do
+        expect(Query.exists?(query.id)).to be_truthy
+      end
     end
 
     context 'for a non-existent query' do
