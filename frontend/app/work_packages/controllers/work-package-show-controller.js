@@ -310,30 +310,39 @@ module.exports = function($scope,
     return $stateParams.projectPath.indexOf('/projects/') === 0 || $stateParams.projectPath.indexOf('projects/') === 0;
   };
 
-  function getProjectPath() {
+  function getProjectPath(staticBase) {
+    var base = PathHelper.staticBase;
+
+    if (staticBase === false) {
+      base = '';
+    }
     if (isNestedWithinProject()) {
-      return PathHelper.staticBase + '/projects/' + $scope.projectIdentifier;
+      return base + '/projects/' + $scope.projectIdentifier;
     } else {
-      return PathHelper.staticBase;
+      return base;
     }
   }
 
   $scope.showWorkPackageDetails = function() {
-    var queryProps = $location.search()['query_props'],
-        path = $state.href('work-packages.list.details.overview', {projectPath: getProjectPath(),
-                 workPackageId: $scope.workPackage.props.id
-               });
-    // Using $location.url instead of $state.go because query_props is not defined
-    // in the router. See work-packages-list-controller.js for more explanation.
-    $location.url(path).search('query_props', queryProps);
+    var queryProps = $state.params['query_props'];
+
+    $state.go('work-packages.list.details.overview',
+              {
+                projectPath: getProjectPath(false),
+                workPackageId: $scope.workPackage.props.id,
+                'query_props': queryProps
+              });
   };
 
   $scope.closeShowView = function() {
-    var queryProps = $location.search()['query_props'],
-        path = $state.href('work-packages.list', {projectPath: getProjectPath()});
-    // Using $location.url instead of $state.go because query_props is not defined
-    // in the router. See work-packages-list-controller.js for more explanation.
-    $location.url(path).search('query_props', queryProps);
+    var queryProps = $state.params['query_props'];
+
+    $state.go('work-packages.list',
+              {
+                projectPath: getProjectPath(false),
+                workPackageId: $scope.workPackage.props.id,
+                'query_props': queryProps
+              });
   };
 
   function getFocusAnchorLabel(tab, workPackage) {
