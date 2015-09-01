@@ -164,7 +164,7 @@ class Query < ActiveRecord::Base
 
   def validate_work_package_filters
     filters.each do |filter|
-      unless filter.valid?
+      if filter.invalid?
         messages = filter.errors.messages.values.flatten.join(" #{I18n.t('support.array.sentence_connector')} ")
         cf_id = custom_field_id filter
 

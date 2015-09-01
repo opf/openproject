@@ -1949,12 +1949,12 @@ Lists the columns available for work packages of this project in the form of fie
 | Property         | Description                                            | Type        | Constraints                      | Supported operations |
 | :--------------: | ------------------------------------------------------ | ----------- | -------------------------------- | -------------------- |
 | id               | Query id                                               | Integer     | x > 0                            | READ                 |
-| name             | Query name                                             | String      |                                  | READ                 |
-| filters          | An object describing the queries filter conditions     | Object      |                                  | READ                 |
-| columnNames      | Ordered list of properties to be shown in this query   | String[]    |                                  | READ                 |
-| sortCriteria     | An object describing the sorting rules of this query   | Object      |                                  | READ                 |
-| groupBy          | The property to group results of this query by         | String      |                                  | READ                 |
-| displaySums      | Should sums (of supported properties) be shown?        | Boolean     |                                  | READ                 |
+| name             | Query name                                             | String      |                                  | READ / WRITE         |
+| filters          | An object describing the queries filter conditions     | Object      |                                  | READ / WRITE         |
+| columnNames      | Ordered list of properties to be shown in this query   | String[]    |                                  | READ / WRITE         |
+| sortCriteria     | An object describing the sorting rules of this query   | Object      |                                  | READ / WRITE         |
+| groupBy          | The property to group results of this query by         | String      |                                  | READ / WRITE         |
+| displaySums      | Should sums (of supported properties) be shown?        | Boolean     |                                  | READ / WRITE         |
 | isPublic         | Can users besides the owner see the query?             | Boolean     |                                  | READ                 |
 | isStarred        | Should the query be highlighted to the user?           | Boolean     |                                  | READ                 |
 
@@ -2041,6 +2041,87 @@ Lists the columns available for work packages of this project in the form of fie
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified query does not exist."
+            }
+
+## Edit Query [PATCH]
+
+When calling this endpoint the client provides a single object, containing the properties that it wants to change, in the body.
+Note that it is only allowed to provide properties or links supporting the **write** operation.
+
++ Parameters
+    + id (required, integer, `1`) ... Query id
+
++ Request (application/json)
+
+        {
+            "name": "My work packages"
+        }
+
++ Response 200 (application/hal+json)
+
+    [Query][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** for own queries none; for public queries: manage public queries
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to edit this query."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the query does not exist or the client does not have sufficient permissions to see it.
+
+    **Required condition:** query belongs to user or query is public
+
+    **Required permission:** view work package in queries project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified query does not exist."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * the client tries to modify a read-only property (`PropertyIsReadOnly`)
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+    * the client provides a link to an invalid resource (`ResourceTypeMismatch`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Name can't be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "name"
+                    }
+                }
             }
 
 ## Delete query [DELETE]
@@ -3948,7 +4029,7 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 
         {
             "lockVersion": 13,
-            "subject": "Lorem"
+            "subject": "Lorem",
             "parentId": "42"
         }
 

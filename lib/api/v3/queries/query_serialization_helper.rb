@@ -37,6 +37,10 @@ module API
           @query = query
         end
 
+        def parse_columns(columns)
+          @query.column_names = columns.map { |name| api_to_ar_name name }
+        end
+
         def format_columns
           return nil unless @query.column_names
           @query.column_names.map { |name| ar_to_api_name name }

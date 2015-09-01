@@ -39,7 +39,6 @@ describe 'API v3 Query resource', type: :request do
   }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
-  let(:manage_public_queries_role) { FactoryGirl.create(:role, permissions: [:manage_public_queries]) }
   let(:query) { FactoryGirl.create(:public_query, project: project) }
 
   before do
@@ -79,6 +78,37 @@ describe 'API v3 Query resource', type: :request do
 
     it 'should succeed' do
       expect(last_response.status).to eq(200)
+    end
+  end
+
+  describe '#patch queries/:id' do
+    let(:permissions) { [:view_work_packages, :manage_public_queries] }
+    let(:params) {
+      {
+        name: 'patched name'
+      }
+    }
+
+    before do
+      patch api_v3_paths.query(query.id), params.to_json, 'CONTENT_TYPE' => 'application/json'
+    end
+
+    it 'should succeed' do
+      expect(last_response.status).to eq(200)
+    end
+
+    it 'should respond with updated properties' do
+      expect(last_response.body).to be_json_eql('patched name'.to_json).at_path('name')
+    end
+
+    it 'should update the query properties' do
+      expect(query.reload.name).to eql 'patched name'
+    end
+
+    context 'no permission to edit the query' do
+      let(:permissions) { [:view_work_packages] }
+
+      it_behaves_like 'unauthorized access'
     end
   end
 
