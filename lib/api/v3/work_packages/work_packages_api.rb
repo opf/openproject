@@ -86,6 +86,13 @@ module API
               end
             end
 
+            delete do
+              authorize(:delete_work_packages, context: @work_package.project)
+
+              @work_package.destroy
+              status 204
+            end
+
             mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::Relations::RelationsAPI
             mount ::API::V3::Activities::ActivitiesByWorkPackageAPI

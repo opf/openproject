@@ -60,7 +60,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       :add_work_package_notes,
       :add_work_packages,
       :view_time_entries,
-      :view_changesets
+      :view_changesets,
+      :delete_work_packages
     ]
   }
   let(:permissions) { all_permissions }
@@ -672,11 +673,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
-      describe 'delete' do
-        it_behaves_like 'action link' do
-          let(:action) { 'delete' }
-          let(:permission) { :delete_work_packages }
-        end
+      it_behaves_like 'has an untitled action link' do
+        let(:link) { 'delete' }
+        let(:href) { api_v3_paths.work_package(work_package.id) }
+        let(:method) { :delete }
+        let(:permission) { :delete_work_packages }
       end
 
       describe 'log_time' do

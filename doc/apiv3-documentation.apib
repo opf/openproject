@@ -3686,6 +3686,48 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
                 }
             }
 
+## Delete Work Package [DELETE]
+
++ Parameters
+    + id (required, integer, `1`) ... Work package id
+
++ Response 204 (application/hal+json)
+
+    Returned if the work package was deleted successfully.
+
+    Note that the response body is empty as of now. In future versions of the API a body
+    *might* be returned along with an appropriate HTTP status.
+
+    + Body
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** delete work package
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to delete this work package."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
+
 ## Work Package Schema [/api/v3/work_packages/schemas/{identifier}]
 
 ## View Work Package Schema [GET]
