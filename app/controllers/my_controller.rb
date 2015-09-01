@@ -35,6 +35,7 @@ class MyController < ApplicationController
   menu_item :account, only: [:account]
   menu_item :settings, only: [:settings]
   menu_item :password, only: [:password]
+  menu_item :access_token, only: [:access_token]
 
   DEFAULT_BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_work_packages,
                      'workpackagesresponsiblefor' => :label_responsible_for_work_packages,
@@ -116,6 +117,11 @@ class MyController < ApplicationController
     render 'my/password'
   end
 
+  # Administer access tokens
+  def access_token
+    @user = User.current
+  end
+
   def first_login
     if request.get?
       @user = User.current
@@ -140,7 +146,7 @@ class MyController < ApplicationController
       User.current.rss_key
       flash[:notice] = l(:notice_feeds_access_key_reseted)
     end
-    redirect_to action: 'account'
+    redirect_to action: 'access_token'
   end
 
   # Create a new API key
@@ -153,7 +159,7 @@ class MyController < ApplicationController
       User.current.api_key
       flash[:notice] = l(:notice_api_access_key_reseted)
     end
-    redirect_to action: 'account'
+    redirect_to action: 'access_token'
   end
 
   # User's page layout configuration

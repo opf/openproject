@@ -1,0 +1,124 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title(l(:label_my_account), l(:label_access_token)) -%>
+
+<% breadcrumb_paths(l(:label_my_account), l(:label_access_token)) %>
+<%= toolbar title: l(:label_access_token) %>
+
+<% if Setting.feeds_enabled != '0' || Setting.rest_api_enabled != '0' %>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container" style="max-height: 340px;">
+        <table role="grid" class="generic-table" interactive-table>
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+          </colgroup>
+          <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                    <span class="sort asc">
+                      <%= l('attributes.name') %>
+                    </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                    <span class="sort asc">
+                      <%= User.human_attribute_name(:created_on) %>
+                    </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                    <span class="sort desc">
+                      <%= l(:label_access_token_action_header) %>
+                    </span>
+                </div>
+              </div>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <% if Setting.feeds_enabled != '0' %>
+              <tr>
+                <td><%= l(:label_feeds_access_key) %></td>
+                <td>
+                  <% if @user.rss_token %>
+                      <span title="<%= @user.rss_token.created_on %>">
+                        <%= l(:label_feeds_access_key_created_on, distance_of_time_in_words(Time.now, @user.rss_token.created_on)) %>
+                      </span>
+                  <% else %>
+                      <%= l(:label_missing_feeds_access_key) %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to l(:button_reset), {:action => 'reset_rss_key'}, :method => :post %>
+                  <a href="" click-notification="<%= l(:notice_value_information, key_name: l(:label_feeds_access_key), value: @user.api_key) %>" click-notification-type="notice">
+                    <%= l(:button_show) %>
+                  </a>
+                </td>
+              </tr>
+          <% end %>
+          <% if Setting.rest_api_enabled != '0' %>
+              <tr>
+                <td><%= l(:label_api_access_key) %></td>
+                <td>
+                  <% if @user.api_token %>
+                      <span title="<%= @user.api_token.created_on %>">
+                        <%= l(:label_api_access_key_created_on, distance_of_time_in_words(Time.now, @user.api_token.created_on)) %>
+                      </span>
+                  <% else %>
+                      <%= l(:label_missing_api_access_key) %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to l(:button_reset), {:action => 'reset_api_key'}, :method => :post %>
+                  <a href="" click-notification="<%= l(:notice_value_information, key_name: l(:label_api_access_key), value: @user.api_key) %>" click-notification-type="notice">
+                    <%= l(:button_show) %>
+                  </a>
+                </td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <div class="generic-table--header-background"></div>
+      </div>
+    </div>
+<% else %>
+  <%= l(:text_no_access_tokens_configurable) %>
+<% end %>
+

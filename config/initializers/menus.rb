@@ -94,6 +94,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             caption: :button_change_password,
             if: Proc.new { User.current.change_password_allowed? },
             html: { class: 'icon2 icon-locked' }
+  menu.push :access_token,
+            { controller: '/my', action: 'access_token' },
+            caption: :label_access_token,
+            html: { class: 'icon2 icon-settings' }
 
   menu.push :delete_account, :deletion_info_path,
             caption: I18n.t('account.delete'),

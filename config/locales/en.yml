@@ -658,6 +658,8 @@ en:
   instructions_after_logout: "You can sign in again by clicking %{signin}."
   instructions_after_error: "You can try to sign in again by clicking %{signin}. If the error persists, ask your admin for help."
 
+  label_access_token: "Access token"
+  label_access_token_action_header: "Action"
   label_account: "Account"
   label_activity: "Activity"
   label_add_edit_translations: "Add and edit translations"
@@ -1224,6 +1226,7 @@ en:
   notice_unable_delete_time_entry: "Unable to delete time log entry."
   notice_unable_delete_version: "Unable to delete version."
   notice_user_missing_authentication_method: User has yet to chose a password or another way the sign in.
+  notice_value_information: "Your %{key_name} is: %{value}"
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "You have been logged out."
   notice_wont_delete_auth_source: The authentication mode cannot be deleted as long as there are still users using it.
@@ -1588,6 +1591,7 @@ en:
   text_load_default_configuration: "Load the default configuration"
   text_min_max_length_info: "0 means no restriction"
   text_no_roles_defined: There are no roles defined.
+  text_no_access_tokens_configurable: "There are no access tokens which can be configured"
   text_no_configuration_data: "Roles, types, work package statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_no_notes: "There are no comments available for this work package."
   text_notice_too_many_values_are_inperformant: "Note: Displaying more than 100 items per page can increase the page load time."
