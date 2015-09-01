@@ -797,6 +797,7 @@ en:
   label_file_added: "File added"
   label_file_plural: "Files"
   label_filter_add: "Add filter"
+  label_filter_for: "“%{column}” filter"
   label_filter_plural: "Filters"
   label_float: "Float"
   label_follows: "follows"

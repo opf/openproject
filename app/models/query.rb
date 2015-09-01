@@ -163,18 +163,13 @@ class Query < ActiveRecord::Base
   end
 
   def validate_work_package_filters
-    filters.each do |filter|
-      if filter.invalid?
-        messages = filter.errors.messages.values.flatten.join(" #{I18n.t('support.array.sentence_connector')} ")
-        cf_id = custom_field_id filter
-
-        if cf_id && CustomField.find(cf_id)
-          attribute_name = CustomField.find(cf_id).name
-          errors.add :base, attribute_name + I18n.t(default: ' %{message}', message:   messages)
-        else
-          attribute_name = WorkPackage.human_attribute_name(filter.field)
-          errors.add :base, errors.full_message(attribute_name, messages)
-        end
+    filters.select(&:invalid?).each do |filter|
+      filter.errors.each do |attribute, message|
+        filter_column = human_readable_attribute_name filter.field
+        affected_filter = I18n.t('label_filter_for', column: filter_column)
+        filter_error = filter.errors.full_message(attribute, message)
+        full_message = "#{affected_filter}: #{filter_error}"
+        errors.add(:base, full_message)
       end
     end
   end
@@ -543,10 +538,15 @@ class Query < ActiveRecord::Base
 
   private
 
-  def custom_field_id(filter)
-    matchdata = /cf\_(?<id>\d+)/.match(filter.field.to_s)
-
-    matchdata.nil? ? nil : matchdata[:id]
+  def human_readable_attribute_name(field)
+    field = field.to_s
+    cf_match = /cf\_(?<id>\d+)/.match(field)
+    custom_field = cf_match ? CustomField.find_by(id: cf_match[:id]) : nil
+    if custom_field
+      custom_field.name
+    else
+      WorkPackage.human_attribute_name(field)
+    end
   end
 
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +values+ array
