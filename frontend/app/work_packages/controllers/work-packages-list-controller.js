@@ -304,7 +304,11 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
 
   $scope.showWorkPackageShowView = function() {
     var id = $state.params.workPackageId || $scope.preselectedWorkPackageId,
-        queryProps = $state.params['query_props'];
+        // Have to use $location.search() here as $state.params
+        // isn't filled unless the url is queried for by the
+        // browser. This seems to be caused by #maintainUrlQueryState
+        // where we set the search via $location.search.
+        queryProps = $location.search()['query_props'];
     var projectPath = '';
     if ($scope.projectIdentifier) {
       projectPath = PathHelper.projectPath($scope.projectIdentifier);
