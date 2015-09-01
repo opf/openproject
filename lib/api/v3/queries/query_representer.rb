@@ -44,42 +44,25 @@ module API
         property :name
         property :filters,
                  exec_context: :decorator,
-                 getter: -> (*) {
-                   represented.filters.map { |filter|
-                     attribute = convert_attribute filter.field
-                     {
-                       attribute => { operator: filter.operator, values: filter.values }
-                     }
-                   }
-                 }
+                 getter: -> (*) { serializer.format_filters }
         property :is_public, getter: -> (*) { is_public }
         property :column_names,
                  exec_context: :decorator,
-                 getter: -> (*) {
-                   return nil unless represented.column_names
-                   represented.column_names.map { |name| convert_attribute name }
-                 }
+                 getter: -> (*) { serializer.format_columns }
         property :sort_criteria,
                  exec_context: :decorator,
-                 getter: -> (*) {
-                   return nil unless represented.sort_criteria
-                   represented.sort_criteria.map { |attribute, order|
-                     [convert_attribute(attribute), order]
-                   }
-                 }
+                 getter: -> (*) { serializer.format_sorting }
         property :group_by,
                  exec_context: :decorator,
-                 getter: -> (*) {
-                   represented.grouped? ? convert_attribute(represented.group_by) : nil
-                 },
+                 getter: -> (*) { serializer.format_group_by },
                  render_nil: true
         property :display_sums, getter: -> (*) { display_sums }
         property :is_starred, getter: -> (*) { starred }
 
         private
 
-        def convert_attribute(attribute)
-          ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
+        def serializer
+          @serializer ||= ::API::V3::Queries::QuerySerializationHelper.new(represented)
         end
 
         def _type
