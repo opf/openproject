@@ -146,7 +146,7 @@ def create_work_packages_from_table(table, project)
     # lookup the type by its name and replace it with the type
     # if the cast is ommitted, the contents of type_attributes is interpreted as an int
     if type_attributes.has_key? :type
-      ::Type.find_by(name: type_attributes[:type])
+      type_attributes[:type] = ::Type.find_by(name: type_attributes[:type])
     end
 
     if type_attributes.has_key? 'author'
