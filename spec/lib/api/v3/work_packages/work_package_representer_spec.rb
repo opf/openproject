@@ -220,24 +220,37 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'update links' do
         describe 'update by form' do
-          it { expect(subject).to have_json_path('_links/update/href') }
-          it {
-            expect(subject).to be_json_eql("/api/v3/work_packages/#{work_package.id}/form".to_json)
-              .at_path('_links/update/href')
-          }
-          it { expect(subject).to be_json_eql('post'.to_json).at_path('_links/update/method') }
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'update' }
+            let(:href) { api_v3_paths.work_package_form(work_package.id) }
+          end
+
+          it 'is a post link' do
+            is_expected.to be_json_eql('post'.to_json).at_path('_links/update/method')
+          end
         end
 
         describe 'immediate update' do
-          it { expect(subject).to have_json_path('_links/updateImmediately/href') }
-          it {
-            expect(subject).to be_json_eql("/api/v3/work_packages/#{work_package.id}".to_json)
-              .at_path('_links/updateImmediately/href')
-          }
-          it {
-            expect(subject).to be_json_eql('patch'.to_json)
-              .at_path('_links/updateImmediately/method')
-          }
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'updateImmediately' }
+            let(:href) { api_v3_paths.work_package(work_package.id) }
+          end
+
+          it 'is a patch link' do
+            is_expected.to be_json_eql('patch'.to_json).at_path('_links/updateImmediately/method')
+          end
+        end
+
+        context 'user is not allowed to edit work packages' do
+          let(:permissions) { all_permissions - [:edit_work_packages] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'update' }
+          end
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'updateImmediately' }
+          end
         end
       end
 
