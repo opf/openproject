@@ -45,6 +45,12 @@ module API
             end
           end
 
+          get do
+            @activities = ::Journal::AggregatedJournal.aggregated_journals(journable: @work_package)
+            self_link = api_v3_paths.work_package_activities @work_package.id
+            Activities::ActivityCollectionRepresenter.new(@activities, self_link)
+          end
+
           params do
             requires :comment, type: String
           end

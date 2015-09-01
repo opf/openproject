@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,34 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-shared_examples_for 'safeguarded API' do
-  it { expect(response.response_code).to eq(404) }
-end
-
-shared_examples_for 'valid activity request' do
-  let(:status_code) { 200 }
-  let(:admin) { FactoryGirl.create(:admin) }
-
-  before do
-    allow(User).to receive(:current).and_return(admin)
+module API
+  module V3
+    module Activities
+      class ActivityCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+        element_decorator ::API::V3::Activities::ActivityRepresenter
+      end
+    end
   end
-
-  it { expect(response.response_code).to eq(status_code) }
-
-  describe 'response body' do
-    subject { response.body }
-
-    it { is_expected.to be_json_eql('Activity::Comment'.to_json).at_path('_type') }
-
-    it { is_expected.to be_json_eql(comment.to_json).at_path('comment/raw') }
-  end
-end
-
-shared_examples_for 'invalid activity request' do
-  let(:admin) { FactoryGirl.create(:admin) }
-  before do
-    allow(User).to receive(:current).and_return(admin)
-  end
-
-  it { expect(response.response_code).to eq(422) }
 end

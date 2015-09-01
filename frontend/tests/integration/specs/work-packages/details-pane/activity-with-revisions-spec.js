@@ -27,8 +27,8 @@
 //++
 
 var expect = require('../../../spec_helper.js').expect,
-    detailsPaneHelper = require('./details-pane-helper.js'),
-    elements = detailsPaneHelper.elements;
+  detailsPaneHelper = require('./details-pane-helper.js'),
+  elements = detailsPaneHelper.elements;
 
 /*jshint expr: true*/
 
@@ -37,15 +37,14 @@ describe('OpenProject', function() {
     beforeEach(function() {
       detailsPaneHelper.loadPane(820, 'activity');
     });
-
     it('should render all activities and one revision', function() {
       var locator = by.css('.work-package-details-activities-activity');
-      elements.count(locator, 61);
+      elements.count(locator, 5);
     });
 
     it('should render one revision at the correct position', function() {
       expect(
-        $('.work-package-details-activities-activity:nth-of-type(61) .date').getText()
+        $('.work-package-details-activities-activity:nth-of-type(5) .date').getText()
       ).to.eventually.contain('committed revision 1cb82424');
     });
   });

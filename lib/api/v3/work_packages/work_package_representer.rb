@@ -109,6 +109,12 @@ module API
         linked_property :responsible, path: :user, embed_as: ::API::V3::Users::UserRepresenter
         linked_property :assigned_to, path: :user, embed_as: ::API::V3::Users::UserRepresenter
 
+        link :activities do
+          {
+            href: api_v3_paths.work_package_activities(represented.id)
+          }
+        end
+
         link :attachments do
           {
             href: api_v3_paths.attachments_by_work_package(represented.id)
@@ -288,34 +294,43 @@ module API
                  exec_context: :decorator,
                  getter: -> (*) { datetime_formatter.format_datetime(represented.updated_at) }
 
-        property :activities, embedded: true, exec_context: :decorator
+        property :activities,
+                 embedded: true,
+                 exec_context: :decorator,
+                 if: -> (*) { embed_links }
 
         property :version,
                  embedded: true,
                  exec_context: :decorator,
-                 if: ->(*) { represented.fixed_version.present? }
+                 if: ->(*) { represented.fixed_version.present? && embed_links }
         property :watchers,
                  embedded: true,
                  exec_context: :decorator,
                  if: -> (*) {
                    current_user_allowed_to(:view_work_package_watchers,
-                                           context: represented.project)
+                                           context: represented.project) &&
+                     embed_links
                  }
 
         property :attachments,
                  embedded: true,
-                 exec_context: :decorator
+                 exec_context: :decorator,
+                 if: -> (*) { embed_links }
 
-        property :relations, embedded: true, exec_context: :decorator
+        property :relations,
+                 embedded: true,
+                 exec_context: :decorator,
+                 if: -> (*) { embed_links }
 
         def _type
           'WorkPackage'
         end
 
         def activities
-          ::Journal::AggregatedJournal.aggregated_journals(journable: represented).map do |activity|
-            ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: current_user)
-          end
+          activities = ::Journal::AggregatedJournal.aggregated_journals(journable: represented)
+          self_link = api_v3_paths.work_package_activities represented.id
+          Activities::ActivityCollectionRepresenter.new(activities,
+                                                        self_link)
         end
 
         def watchers
