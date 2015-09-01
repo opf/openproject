@@ -49,7 +49,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                       estimated_hours: 6.0)
   }
   let(:project) { work_package.project }
-  let(:permissions) {
+  let(:all_permissions) {
     [
       :view_work_packages,
       :view_work_package_watchers,
@@ -60,6 +60,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       :add_work_package_notes
     ]
   }
+  let(:permissions) { all_permissions }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
 
   before(:each) do
@@ -465,6 +466,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         it 'addAttachments is a post link' do
           is_expected.to be_json_eql('post'.to_json).at_path('_links/addAttachment/method')
+        end
+
+        context 'user is not allowed to edit work packages' do
+          let(:permissions) { all_permissions - [:edit_work_packages] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'addAttachment' }
+          end
         end
       end
 
