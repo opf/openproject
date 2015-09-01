@@ -57,7 +57,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       :add_work_package_watchers,
       :delete_work_package_watchers,
       :manage_work_package_relations,
-      :add_work_package_notes
+      :add_work_package_notes,
+      :add_work_packages,
+      :view_time_entries,
+      :view_changesets
     ]
   }
   let(:permissions) { all_permissions }
@@ -151,31 +154,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'spentTime' do
-      before do permissions << :view_time_entries end
-
       describe '#content' do
-        let(:wp) { FactoryGirl.create(:work_package) }
-        let(:permissions) { [:view_work_packages, :view_time_entries] }
-        let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-        let(:user) {
-          FactoryGirl.create(:user,
-                             member_in_project: wp.project,
-                             member_through_role: role)
-        }
-        let(:representer)  { described_class.new(wp, current_user: user) }
-
-        before do
-          allow(User).to receive(:current).and_return(user)
-
-          allow(user).to receive(:allowed_to?).and_return(false)
-          allow(user).to receive(:allowed_to?).with(:view_time_entries, anything).and_return(true)
-        end
-
         context 'no view_time_entries permission' do
-          before do
-            allow(user).to receive(:allowed_to?).with(:view_time_entries, anything)
-              .and_return(false)
-          end
+          let(:permissions) { all_permissions - [:view_time_entries] }
 
           it { is_expected.not_to have_json_path('spentTime') }
         end
@@ -185,27 +166,23 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'time entry with single hour' do
-          let(:time_entry) {
+          before do
             FactoryGirl.create(:time_entry,
-                               project: wp.project,
-                               work_package: wp,
+                               project: work_package.project,
+                               work_package: work_package,
                                hours: 1.0)
-          }
-
-          before do time_entry end
+          end
 
           it { is_expected.to be_json_eql('PT1H'.to_json).at_path('spentTime') }
         end
 
         context 'time entry with multiple hours' do
-          let(:time_entry) {
+          before do
             FactoryGirl.create(:time_entry,
-                               project: wp.project,
-                               work_package: wp,
+                               project: work_package.project,
+                               work_package: work_package,
                                hours: 42.5)
-          }
-
-          before do time_entry end
+          end
 
           it { is_expected.to be_json_eql('P1DT18H30M'.to_json).at_path('spentTime') }
         end
@@ -329,21 +306,17 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'revisions' do
-        context 'when the user lacks the view_changesets permission' do
-          it_behaves_like 'has no link' do
-            let(:link) { 'revisions' }
-          end
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'revisions' }
+          let(:href) {
+            api_v3_paths.work_package_revisions(work_package.id)
+          }
         end
 
-        context 'when the user has the required permission' do
-          let(:revision_permissions) { [:view_changesets] }
-          let(:role) { FactoryGirl.create :role, permissions: permissions + revision_permissions }
-
-          it_behaves_like 'has an untitled link' do
+        context 'when the user lacks the view_changesets permission' do
+          let(:permissions) { all_permissions - [:view_changesets] }
+          it_behaves_like 'has no link' do
             let(:link) { 'revisions' }
-            let(:href) {
-              api_v3_paths.work_package_revisions(work_package.id)
-            }
           end
         end
       end
@@ -512,9 +485,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       context 'when the user does not have the permission to add comments' do
-        before do
-          role.permissions.delete(:add_work_package_notes) and role.save
-        end
+        let(:permissions) { all_permissions - [:add_work_package_notes] }
 
         it 'should not have a link to add comment' do
           expect(subject).not_to have_json_path('_links/addComment/href')
@@ -536,9 +507,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       context 'when the user does not have the permission to add watchers' do
-        before do
-          role.permissions.delete(:add_work_package_watchers) and role.save
-        end
+        let(:permissions) { all_permissions - [:add_work_package_watchers] }
 
         it 'should not have a link to add watcher' do
           expect(subject).not_to have_json_path('_links/addWatcher/href')
@@ -546,9 +515,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       context 'when the user does not have the permission to remove watchers' do
-        before do
-          role.permissions.delete(:delete_work_package_watchers) and role.save
-        end
+        let(:permissions) { all_permissions - [:delete_work_package_watchers] }
 
         it 'should not have a link to remove watcher' do
           expect(subject).not_to have_json_path('_links/removeWatcher/href')
@@ -568,9 +535,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when the user is not allowed to see watchers' do
-          before do
-            role.permissions.delete(:view_work_package_watchers) and role.save
-          end
+          let(:permissions) { all_permissions - [:view_work_package_watchers] }
 
           it_behaves_like 'has no link' do
             let(:link) { 'watchers' }
@@ -585,9 +550,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       context 'when the user does not have the permission to manage relations' do
-        before do
-          role.permissions.delete(:manage_work_package_relations) and role.save
-        end
+        let(:permissions) { all_permissions - [:manage_work_package_relations] }
 
         it 'should not have a link to add relation' do
           expect(subject).not_to have_json_path('_links/addRelation/href')
@@ -595,36 +558,28 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       context 'when the user has the permission to add work packages' do
-        before do
-          role.permissions.push(:add_work_packages) and role.save
-        end
         it 'should have a link to add child' do
           expect(subject).to have_json_path('_links/addChild/href')
         end
       end
 
       context 'when the user does not have the permission to add work packages' do
-        before do
-          role.permissions.delete(:add_work_packages) and role.save
-        end
+        let(:permissions) { all_permissions - [:add_work_packages] }
+
         it 'should not have a link to add child' do
           expect(subject).not_to have_json_path('_links/addChild/href')
         end
       end
 
       context 'when the user has the permission to view time entries' do
-        before do
-          role.permissions.push(:view_time_entries) and role.save
-        end
         it 'should have a link to add child' do
           expect(subject).to have_json_path('_links/timeEntries/href')
         end
       end
 
       context 'when the user does not have the permission to view time entries' do
-        before do
-          role.permissions.delete(:view_time_entries) and role.save
-        end
+        let(:permissions) { all_permissions - [:view_time_entries] }
+
         it 'should not have a link to timeEntries' do
           expect(subject).not_to have_json_path('_links/timeEntries/href')
         end
