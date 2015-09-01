@@ -31,8 +31,20 @@ require 'spec_helper'
 describe ::API::V3::Attachments::AttachmentRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:attachment) { FactoryGirl.create(:attachment) }
-  let(:representer) { ::API::V3::Attachments::AttachmentRepresenter.new(attachment) }
+  let(:current_user) {
+    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+  }
+  let(:project) { FactoryGirl.create(:project) }
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:all_permissions) { [:view_work_packages, :edit_work_packages] }
+  let(:permissions) { all_permissions }
+
+  let(:container) { FactoryGirl.create(:work_package, project: project) }
+
+  let(:attachment) { FactoryGirl.create(:attachment, container: container) }
+  let(:representer) {
+    ::API::V3::Attachments::AttachmentRepresenter.new(attachment, current_user: current_user)
+  }
 
   subject { representer.to_json }
 
@@ -75,6 +87,25 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
       let(:link) { 'author' }
       let(:href) { api_v3_paths.user(attachment.author.id) }
       let(:title) { attachment.author.name }
+    end
+
+    describe 'delete link' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'delete' }
+        let(:href) { api_v3_paths.attachment(attachment.id) }
+      end
+
+      it 'has the DELETE method' do
+        is_expected.to be_json_eql('delete'.to_json).at_path('_links/delete/method')
+      end
+
+      context 'user is not allowed to edit the container' do
+        let(:permissions) { all_permissions - [:edit_work_packages] }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'delete' }
+        end
+      end
     end
   end
 end

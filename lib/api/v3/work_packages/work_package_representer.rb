@@ -51,8 +51,7 @@ module API
         link :update do
           {
             href: api_v3_paths.work_package_form(represented.id),
-            method: :post,
-            title: "Update #{represented.subject}"
+            method: :post
           } if current_user_allowed_to(:edit_work_packages, context: represented.project)
         end
 
@@ -65,8 +64,7 @@ module API
         link :updateImmediately do
           {
             href: api_v3_paths.work_package(represented.id),
-            method: :patch,
-            title: "Update #{represented.subject}"
+            method: :patch
           } if current_user_allowed_to(:edit_work_packages, context: represented.project)
         end
 
@@ -125,7 +123,7 @@ module API
           {
             href: api_v3_paths.attachments_by_work_package(represented.id),
             method: :post
-          }
+          } if current_user_allowed_to(:edit_work_packages, context: represented.project)
         end
 
         link :availableWatchers do
