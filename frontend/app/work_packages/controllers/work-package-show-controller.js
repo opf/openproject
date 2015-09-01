@@ -317,7 +317,7 @@ module.exports = function($scope,
       base = '';
     }
     if (isNestedWithinProject()) {
-      return base + '/projects/' + $scope.projectIdentifier;
+      return base + PathHelper.projectPath($scope.projectIdentifier);
     } else {
       return base;
     }
