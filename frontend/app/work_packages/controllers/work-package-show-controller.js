@@ -310,16 +310,11 @@ module.exports = function($scope,
     return $stateParams.projectPath.indexOf('/projects/') === 0 || $stateParams.projectPath.indexOf('projects/') === 0;
   };
 
-  function getProjectPath(staticBase) {
-    var base = PathHelper.staticBase;
-
-    if (staticBase === false) {
-      base = '';
-    }
+  function getProjectPath() {
     if (isNestedWithinProject()) {
-      return base + PathHelper.projectPath($scope.projectIdentifier);
+      return PathHelper.projectPath($scope.projectIdentifier);
     } else {
-      return base;
+      return '';
     }
   }
 
@@ -328,7 +323,7 @@ module.exports = function($scope,
 
     $state.go('work-packages.list.details.overview',
               {
-                projectPath: getProjectPath(false),
+                projectPath: getProjectPath(),
                 workPackageId: $scope.workPackage.props.id,
                 'query_props': queryProps
               });
@@ -339,7 +334,7 @@ module.exports = function($scope,
 
     $state.go('work-packages.list',
               {
-                projectPath: getProjectPath(false),
+                projectPath: getProjectPath(),
                 workPackageId: $scope.workPackage.props.id,
                 'query_props': queryProps
               });
