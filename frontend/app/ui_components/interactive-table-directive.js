@@ -44,7 +44,11 @@ module.exports = function($timeout, $window){
       }
 
       function getOuterContainer() {
-        return element.parent('.generic-table--container');
+        return element.closest('.generic-table--container');
+      }
+
+      function isWorkPackagesTable () {
+        return element.closest('.work-package-table--container').length !== 0;
       }
 
       function getBackgrounds() {
@@ -76,7 +80,12 @@ module.exports = function($timeout, $window){
         } else {
           // ensure table stretches to container sizes
           getInnerContainer().css('width', '100%');
-          getBackgrounds().css('width', '100%');
+          if(isWorkPackagesTable()) {
+            getBackgrounds().css('width', 'calc(100% - 10px)');
+          }
+          else {
+            getBackgrounds().css('width', '100%');
+          }
         }
       }
 
