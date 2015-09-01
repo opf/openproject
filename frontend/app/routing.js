@@ -187,8 +187,8 @@ angular.module('openproject')
     // Angular's HTML5-mode turns on.
     $rootElement.off('click');
     $rootElement.on('click', 'a[data-ui-route]', function(event) {
-      if (!jQuery('body').has('div[ui-view]').length) return;
-      if (event.ctrlKey || event.metaKey || event.which == 2) return;
+      if (!jQuery('body').has('div[ui-view]').length) { return; }
+      if (event.ctrlKey || event.metaKey || event.which === 2) { return; }
 
       // NOTE: making use of event delegation, thus jQuery-only.
       var elm          = jQuery(event.target);
@@ -200,7 +200,7 @@ angular.module('openproject')
         !event.isDefaultPrevented()) {
 
         event.preventDefault();
-        if (rewrittenUrl != $browser.url()) {
+        if (rewrittenUrl !== $browser.url()) {
           // update location manually
           $location.$$parse(rewrittenUrl);
           $rootScope.$apply();
