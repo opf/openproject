@@ -98,6 +98,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: '/my', action: 'access_token' },
             caption: :label_access_token,
             html: { class: 'icon2 icon-settings' }
+  menu.push :mail_notifications,
+            { controller: '/my', action: 'mail_notifications' },
+            caption: I18n.t('activerecord.attributes.user.mail_notification'),
+            html: { class: 'icon2 icon-news' }
 
   menu.push :delete_account, :deletion_info_path,
             caption: I18n.t('account.delete'),

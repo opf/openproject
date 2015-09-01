@@ -36,6 +36,7 @@ class MyController < ApplicationController
   menu_item :settings, only: [:settings]
   menu_item :password, only: [:password]
   menu_item :access_token, only: [:access_token]
+  menu_item :mail_notifications, only: [:mail_notifications]
 
   DEFAULT_BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_work_packages,
                      'workpackagesresponsiblefor' => :label_responsible_for_work_packages,
@@ -119,6 +120,11 @@ class MyController < ApplicationController
 
   # Administer access tokens
   def access_token
+    @user = User.current
+  end
+
+  # Configure user's mail notifications
+  def mail_notifications
     @user = User.current
   end
 
