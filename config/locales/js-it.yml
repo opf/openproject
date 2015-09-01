@@ -7,6 +7,6 @@ it:
         costObject: Bilancio
         overallCosts: Costi complessivi
         spentUnits: Unita consumate
-    button_log_costs: Log unità di costo
+    button_log_costs: Registra unità di costo
     label_hour: ora
     label_hours: ore
