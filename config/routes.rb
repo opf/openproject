@@ -232,6 +232,7 @@ OpenProject::Application.routes.draw do
             constraints: { coming_from: /(admin|settings)/ }
       match 'copy' => 'copy_projects#copy', via: :post
       put :modules
+      put :custom_fields
       put :archive
       put :unarchive
       patch :types

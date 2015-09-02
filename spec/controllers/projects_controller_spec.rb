@@ -183,23 +183,16 @@ describe ProjectsController, type: :controller do
       let(:type_feature) { FactoryGirl.create(:type_feature) }
       let(:types) { [type_standard, type_bug, type_feature] }
       let(:project) {
-        FactoryGirl.create(:project,
-                           types: types)
+        FactoryGirl.create(:project, types: types)
       }
       let(:work_package_standard) {
-        FactoryGirl.create(:work_package,
-                           project: project,
-                           type: type_standard)
+        FactoryGirl.create(:work_package, project: project, type: type_standard)
       }
       let(:work_package_bug) {
-        FactoryGirl.create(:work_package,
-                           project: project,
-                           type: type_bug)
+        FactoryGirl.create(:work_package, project: project, type: type_bug)
       }
       let(:work_package_feature) {
-        FactoryGirl.create(:work_package,
-                           project: project,
-                           type: type_feature)
+        FactoryGirl.create(:work_package, project: project, type: type_feature)
       }
 
       shared_examples_for :redirect do
@@ -208,7 +201,9 @@ describe ProjectsController, type: :controller do
         it { is_expected.to be_redirect }
       end
 
-      before do allow(User).to receive(:current).and_return user end
+      before do
+        allow(User).to receive(:current).and_return user
+      end
 
       shared_context 'work_packages' do
         before do
@@ -232,9 +227,7 @@ describe ProjectsController, type: :controller do
         let(:type_ids) { types.map(&:id) }
 
         before do
-          patch :types,
-                id: project.id,
-                project: { 'type_ids' => type_ids }
+          patch :types, id: project.id, project: { 'type_ids' => type_ids }
         end
 
         it_behaves_like :redirect
@@ -248,9 +241,7 @@ describe ProjectsController, type: :controller do
         let(:missing_types) { types }
 
         before do
-          patch :types,
-                id: project.id,
-                project: { 'type_ids' => [] }
+          patch :types, id: project.id, project: { 'type_ids' => [] }
         end
 
         it_behaves_like :redirect
@@ -281,6 +272,44 @@ describe ProjectsController, type: :controller do
           subject { flash[:notice].all? { |n| regex.match(n).nil? } }
 
           it { is_expected.to be_falsey }
+        end
+      end
+    end
+
+    describe '#custom_fields' do
+      let(:project) { FactoryGirl.create(:project) }
+      let(:custom_field_1) { FactoryGirl.create(:work_package_custom_field) }
+      let(:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
+      let(:request) do
+        put :custom_fields,
+            id: project.id,
+            project: {
+              work_package_custom_field_ids: [custom_field_1.id, custom_field_2.id]
+            }
+      end
+
+      context 'with valid project' do
+        before do
+          request
+        end
+
+        it { expect(response).to redirect_to(settings_project_path(project, 'custom_fields')) }
+
+        it 'sets flash[:notice]' do
+          expect(flash[:notice]).to eql(I18n.t(:notice_successful_update))
+        end
+      end
+
+      context 'with invalid project' do
+        before do
+          allow_any_instance_of(Project).to receive(:save).and_return(false)
+          request
+        end
+
+        it { expect(response).to redirect_to(settings_project_path(project, 'custom_fields')) }
+
+        it 'sets flash[:error]' do
+          expect(flash[:error]).to eql(I18n.t(:notice_project_cannot_update_custom_fields))
         end
       end
     end

@@ -32,8 +32,11 @@ end
 
 shared_examples_for 'valid activity request' do
   let(:status_code) { 200 }
+  let(:admin) { FactoryGirl.create(:admin) }
 
-  before do allow(User).to receive(:current).and_return(admin) end
+  before do
+    allow(User).to receive(:current).and_return(admin)
+  end
 
   it { expect(response.response_code).to eq(status_code) }
 
@@ -47,7 +50,10 @@ shared_examples_for 'valid activity request' do
 end
 
 shared_examples_for 'invalid activity request' do
-  before do allow(User).to receive(:current).and_return(admin) end
+  let(:admin) { FactoryGirl.create(:admin) }
+  before do
+    allow(User).to receive(:current).and_return(admin)
+  end
 
   it { expect(response.response_code).to eq(422) }
 end

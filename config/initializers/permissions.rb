@@ -45,7 +45,7 @@ Redmine::AccessControl.map do |map|
                  require: :loggedin
 
   map.permission :edit_project,
-                 { projects: [:settings, :edit, :update],
+                 { projects: [:settings, :edit, :update, :custom_fields],
                    members: [:paginate_users] },
                  require: :member
 

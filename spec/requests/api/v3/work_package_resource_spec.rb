@@ -77,7 +77,11 @@ h4. things we like
                        permissions: [:view_work_packages, :view_timelines, :edit_work_packages])
   end
   let(:current_user) do
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    user = FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+
+    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+
+    user
   end
   let(:watcher) do
     FactoryGirl

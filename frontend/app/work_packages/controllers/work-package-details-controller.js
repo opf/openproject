@@ -233,7 +233,7 @@ module.exports = function($scope,
   }
 
   function addDisplayedActivities(workPackage, aggregate) {
-    var activities = workPackage.embedded.activities;
+    var activities = workPackage.embedded.activities.embedded.elements;
     aggregate(true, activities);
   }
 

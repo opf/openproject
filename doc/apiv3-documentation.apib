@@ -714,6 +714,12 @@ Updates an activity's comment and, on success, returns the updated activity.
 Attachments are files that were uploaded to OpenProject. Each attachment belongs to a single
 container (e.g. a work package or a board message).
 
+## Actions
+
+| Link                | Description                                                          | Condition                                    |
+|:-------------------:|----------------------------------------------------------------------| -------------------------------------------- |
+| delete              | Deletes this attachment                                              | **Permission**: edit on attachment container |
+
 ## Linked Properties
 |  Link            | Description                                         | Type          | Constraints | Supported operations |
 |:----------------:| --------------------------------------------------- | ------------- | ----------- | -------------------- |
@@ -751,7 +757,7 @@ container (e.g. a work package or a board message).
                         "href": "/api/v3/users/1"
                     },
                     "downloadLocation": {
-                        "href": "/attachments/1"
+                        "href": "/attachments/1/download"
                     }
                 },
                 "id": 1,
@@ -804,12 +810,12 @@ Permanently deletes the specified attachment.
 + Parameters
     + id (required, integer, `1`) ... Attachment id
 
-+ Response 202
++ Response 204
 
     Returned if the attachment was deleted successfully.
 
     Note that the response body is empty as of now. In future versions of the API a body
-    *might* be returned.
+    *might* be returned along with an appropriate HTTP status.
 
     + Body
 
@@ -875,7 +881,7 @@ Permanently deletes the specified attachment.
                                     "href": "/api/v3/users/1"
                                 },
                                 "downloadLocation": {
-                                    "href": "/attachments/1"
+                                    "href": "/attachments/1/download"
                                 }
                             },
                             "id": 1,
@@ -906,7 +912,7 @@ Permanently deletes the specified attachment.
                                     "href": "/api/v3/users/1"
                                 },
                                 "downloadLocation": {
-                                    "href": "/attachments/2"
+                                    "href": "/attachments/2/download"
                                 }
                             },
                             "id": 2,
@@ -4536,7 +4542,91 @@ Gets a list of revisions that are linked to this work package, e.g., because it 
             }
 
 
-## Comment Work Package [/api/v3/work_packages/{id}/activities]
+## Work Package activities [/api/v3/work_packages/{id}/activities]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/work_packages/1/revisions" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded": {
+                  "elements": [
+                    {
+                        "_type": "Activity",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/activity/1"
+                            },
+                            "workPackage": {
+                                "href": "/api/v3/work_packages/1"
+                            },
+                            "user": {
+                                "href": "/api/v3/users/1"
+                            }
+                        },
+                        "id": 1,
+                        "details": [ ],
+                        "comment": {
+                            "format": "textile",
+                            "raw": "Lorem ipsum dolor sit amet.",
+                            "html": "<p>Lorem ipsum dolor sit amet.</p>"
+                        },
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "version": 1
+                    },
+                    {
+                        "_type": "Activity",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/activity/2"
+                            },
+                            "workPackage": {
+                                "href": "/api/v3/work_packages/1"
+                            },
+                            "user": {
+                                "href": "/api/v3/users/1"
+                            }
+                        },
+                        "id": 2,
+                        "details": [ ],
+                        "comment": {
+                            "format": "textile",
+                            "raw": "Lorem ipsum dolor sit amet.",
+                            "html": "<p>Lorem ipsum dolor sit amet.</p>"
+                        },
+                        "createdAt": "2014-05-21T08:51:22Z",
+                        "version": 2
+                    }]
+                }
+            }
+
+## List work package activities [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Work package id
+
++ Response 200 (application/hal+json)
+
+    [Activity][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
 
 ## Comment work package [POST]
 

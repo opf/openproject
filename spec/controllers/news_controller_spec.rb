@@ -33,7 +33,13 @@ describe NewsController, type: :controller do
 
   include BecomeMember
 
-  let(:user)    { FactoryGirl.create(:admin)   }
+  let(:user)    {
+    user = FactoryGirl.create(:admin)
+
+    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+
+    user
+  }
   let(:project) { FactoryGirl.create(:project) }
   let(:news)    { FactoryGirl.create(:news)    }
 

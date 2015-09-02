@@ -116,7 +116,7 @@ end
 Then /^the work package "(.+?)" should be shown as the parent$/ do |wp_name|
   work_package = InstanceFinder.find(WorkPackage, wp_name)
 
-  should have_css('tr.work-package', text: work_package.to_s)
+  should have_css('tr.work-package', text: Regexp.new(".*#{work_package.to_s}.*"))
 end
 
 Then /^the work package should be shown with the following values:$/ do |table|

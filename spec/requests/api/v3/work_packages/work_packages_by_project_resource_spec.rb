@@ -246,6 +246,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
       status.save!
       priority.save!
 
+      FactoryGirl.create(:user_preference, user: current_user, others: { no_self_notified: false })
       ActionMailer::Base.deliveries.clear
       post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
     end
@@ -287,7 +288,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     end
 
     context 'no permissions' do
-      let(:current_user) { FactoryGirl.build(:user) }
+      let(:current_user) { FactoryGirl.create(:user) }
 
       it 'should hide the endpoint' do
         expect(last_response.status).to eq(404)

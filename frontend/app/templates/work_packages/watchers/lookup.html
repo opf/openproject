@@ -1,0 +1,51 @@
+<div class="work-package--watchers-lookup work-package--details--long-field">
+  <!-- taken from ./frontend/app/templates/work_packages/inplace_editor/display_pane.html -->
+  <div class="inplace-edit--read" ng-hide="editMode">
+    <accessible-by-keyboard
+        class="inplace-editing--trigger-container"
+        span-class="inplace-editing--container"
+        link-class="inplace-editing--trigger-link"
+        execute="intoEditMode()">
+        <span class="inplace-edit--read-value">{{ ::I18n.t('js.watchers.label_click_to_add') }}</span>
+        <span class="inplace-edit--icon-wrapper">
+            <icon-wrapper icon-name="edit" icon-title="{{ fieldController.editTitle }}">
+            </icon-wrapper>
+        </span>
+    </accessible-by-keyboard>
+  </div>
+  <!-- taken from ./frontend/app/templates/work_packages/inplace_editor/edit_pane.html -->
+  <form class="inplace-edit--form" ng-if="editMode" name="watcherForm" ng-submit="addWatcher()" novalidate>
+    <div class="inplace-edit--write-value" tabindex="-1">
+      <div class="dropdown-wrapper">
+          <ui-select
+                  class="inplace-edit--select -full-width"
+                  name="value"
+                  ng-disabled="locked"
+                  ng-model="selection.watcher"
+                  title="{{ ::I18n.t('js.watchers.label_search_watchers') }}"
+                  reset-search-input="true"
+                  theme="select2">
+              <ui-select-match>{{ $select.selected.name }}</ui-select-match>
+              <ui-select-choices
+                      repeat="watcher as watcher in watchers | filter: $select.search">
+                  <div aria-label="{{ watcher.name }}" ng-bind-html="watcher.name | highlight: $select.search"></div>
+              </ui-select-choices>
+          </ui-select>
+      </div>
+    </div>
+    <div class="inplace-edit--dashboard">
+      <div class="inplace-edit--controls" ng-hide="locked">
+        <accessible-by-keyboard execute="addWatcher()" class="inplace-edit--control inplace-edit--control--save">
+          <icon-wrapper icon-name="yes" icon-title="{{ ::I18n.t('js.watchers.label_add') }}">
+          </icon-wrapper>
+        </accessible-by-keyboard>
+        <accessible-by-keyboard execute="changeEditMode()" class="inplace-edit--control inplace-edit--control--cancel">
+          <icon-wrapper icon-name="close" icon-title="{{ ::I18n.t('js.watchers.label_discard') }}">
+          </icon-wrapper>
+        </accessible-by-keyboard>
+      </div>
+    </div>
+  </form>
+
+</div>
+

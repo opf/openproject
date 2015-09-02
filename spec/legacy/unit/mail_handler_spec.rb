@@ -35,7 +35,7 @@ describe MailHandler, type: :model do
 
   before do
     ActionMailer::Base.deliveries.clear
-    Setting.notified_events = Redmine::Notifiable.all.map(&:name)
+    allow(Setting).to receive(:notified_events).and_return(Redmine::Notifiable.all.map(&:name))
   end
 
   it 'should add work package' do

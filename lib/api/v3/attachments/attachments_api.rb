@@ -53,7 +53,7 @@ module API
               authorize(:edit_work_packages, context: @attachment.container.project)
 
               @attachment.container.attachments.delete(@attachment)
-              status 202
+              status 204
             end
           end
         end

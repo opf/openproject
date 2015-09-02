@@ -45,21 +45,18 @@ Feature: Project creation with support for project type
 
   Scenario: The admin may create a project with a project type
     Given I am already admin
-     When I go to the admin page
-      And I follow the first link matching "Projects"
-      And I follow "New project"
-     Then I fill in "Fancy Pants" for "Name"
-      And I fill in "fancy-pants" for "Identifier"
-      And I check "Timelines"
-      And I select "Standard Project" from "Project type"
-      And I press "Save"
-
-     Then I should see a notice flash stating "Successful creation."
-
-     When the following types are enabled for projects of type "Standard Project"
-          | Phase     |
-          | Milestone |
-      And I go to the "types" tab of the settings page of the project called "Fancy Pants"
-
-     Then the "Phase" checkbox should be checked
-      And the "Milestone" checkbox should be checked
+    When I go to the admin page
+    And I follow the first link matching "Projects"
+    And I follow "New project"
+    Then I fill in "Fancy Pants" for "Name"
+    And I fill in "fancy-pants" for "Identifier"
+    And I check "Timelines"
+    And I select "Standard Project" from "Project type"
+    And I press "Create"
+    Then I should see a notice flash stating "Successful creation."
+    When the following types are enabled for projects of type "Standard Project"
+      | Phase     |
+      | Milestone |
+    And I go to the "types" tab of the settings page of the project called "Fancy Pants"
+    Then the "Phase" checkbox should be checked
+    And the "Milestone" checkbox should be checked

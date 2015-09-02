@@ -26,18 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-#content table {
-  &.issues td.center, th.center {
-    text-align: center;
-  }
-}
-
-.contextual .new-element {
-  background: url("../images/add.png") no-repeat scroll 6px center transparent;
-  padding-left: 16px;
-  font-size: 11px;
-}
-
 .timelines-contextual-fieldset {
   float: right;
   white-space: nowrap;
@@ -50,7 +38,6 @@
   display: inline-block;
   height: 12px;
   width: 12px;
-  margin-bottom: -3px;
   margin-right: 5px;
 }
 
@@ -62,84 +49,17 @@
   border-radius: 4px;
 }
 
-.timelines-attributes {
-  th {
-    width: 17%;
-  }
-  td {
-    width: 33%;
-  }
-}
-
 //HACK: Use a min-height to ensure that the timeline_select select2 is not cropped at the bottom
 .controller-timelines #content {
   min-height: 700px;
 }
 
-#content {
-  .meta table.timelines-attributes {
-    th, td {
-      padding-top: 0.5em;
-      padding-bottom: 0.5em;
-    }
-  }
-  table.timelines-rep {
-    width: 100%;
-  }
-}
-
 table.timelines-dates {
-  width: 100%;
-}
-
-#content table.timelines-dates th {
-  text-align: left;
-  padding-left: 1em;
-  padding-right: 1em;
-}
-
-table.timelines-dates {
-  td {
-    padding: 1em;
-  }
   tbody.timelines-current-dates td {
     font-weight: bold;
     height: 3em;
     vertical-align: middle;
     padding: 0 1em;
-  }
-}
-
-#content table {
-  &.timelines-pt {
-    td, th {
-      border: 1px solid #E6E6E6;
-      padding: 6px;
-      position: relative;
-      text-align: left;
-      vertical-align: top;
-    }
-  }
-  &.timelines-pet {
-    td, th {
-      border: 1px solid #E6E6E6;
-      padding: 6px;
-      position: relative;
-      text-align: left;
-      vertical-align: top;
-    }
-  }
-  &.timelines-pt td {
-    &.timelines-pt-reorder, &.timelines-pt-allows_association, &.timelines-pt-actions {
-      width: 12%;
-      text-align: center;
-    }
-  }
-  &.timelines-pet td {
-    &.timelines-pet-color, &.timelines-pet-reorder, &.timelines-pet-is_default, &.timelines-pet-in_aggregation, &.timelines-pet-is_milestone, &.timelines-pet-actions {
-      width: 12%;
-      text-align: center;
-    }
   }
 }
 

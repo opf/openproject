@@ -50,7 +50,8 @@ module API
 
               def work_package_representer
                 WorkPackageRepresenter.create(@work_package,
-                                              current_user: current_user)
+                                              current_user: current_user,
+                                              embed_links: true)
               end
             end
 

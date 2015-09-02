@@ -123,7 +123,8 @@
             <span work-package-column
                   work-package="row.object"
                   column="column"
-                  display-type="{{column.meta_data.data_type}}"/>
+                  display-type="{{column.meta_data.data_type}}"
+                  ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-pulldown-arrow4']"/>
           </td>
         </tr>
 

@@ -91,8 +91,6 @@ gem 'rack-protection', git: 'https://github.com/finnlabs/rack-protection.git', r
 # https://github.com/kickstarter/rack-attack
 gem 'rack-attack'
 
-gem 'syck', platforms: [:mri, :mingw, :x64_mingw], require: false
-
 gem 'gon', '~> 4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
@@ -157,7 +155,7 @@ group :test do
   gem 'capybara-screenshot', '~> 1.0.4'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
   gem 'capybara-ng', '~> 0.2.1'
-  gem 'selenium-webdriver', '~> 2.46.2'
+  gem 'selenium-webdriver', '~> 2.47.1'
   gem 'timecop', '~> 0.7.1'
 
   gem 'rb-readline', '~> 0.5.1' # ruby on CI needs this
@@ -173,6 +171,20 @@ end
 
 group :ldap do
   gem 'net-ldap', '~> 0.8.0'
+end
+
+
+
+# Optional groups are only available with Bundler 1.10+
+# We still want older bundlers to parse this gemfile correctly,
+# thus this rather ugly workaround is needed for now.
+# TODO: Remove this when 1.10+ is widespread.
+if Gem::Version.new(Bundler::VERSION) >= Gem::Version.new('1.10.0')
+  group :syck, optional: true do
+    gem "syck", require: false
+  end
+else
+  gem "syck", require: false
 end
 
 group :development do
@@ -225,7 +237,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git:'https://github.com/myabc/openproject-translations.git', branch: 'feature/rails4.1'
+  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'dev'
 end
 
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles

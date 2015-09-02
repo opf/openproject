@@ -50,6 +50,14 @@ module API
           }
         end
 
+        # visibility of this link is also work_package specific!
+        link :delete do
+          {
+            href: api_v3_paths.attachment(represented.id),
+            method: :delete
+          } if current_user_allowed_to(:edit_work_packages, context: represented.container.project)
+        end
+
         property :id
         property :file_name,
                  getter: -> (*) { filename }

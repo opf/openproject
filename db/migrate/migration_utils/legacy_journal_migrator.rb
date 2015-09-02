@@ -29,7 +29,7 @@
 
 require_relative 'db_worker'
 require_relative 'legacy_table_checker'
-require 'syck'
+require_relative 'legacy_yamler'
 
 module Migration
   class IncompleteJournalsError < ::StandardError
@@ -41,6 +41,7 @@ module Migration
   class LegacyJournalMigrator
     include DbWorker
     include LegacyTableChecker
+    include LegacyYamler
 
     attr_accessor :table_name,
                   :type,
@@ -273,17 +274,7 @@ module Migration
     def deserialize_changed_data(journal)
       changed_data = journal['changed_data']
       return Hash.new if changed_data.nil?
-
-      current_yamler = YAML::ENGINE.yamler || 'psych'
-      begin
-        # The change to 'syck' ensures that legacy data is correctly read from
-        # the 'legacy_journals' table. Otherwise, we would end up with false
-        # encoded data in the new journal.
-        YAML::ENGINE.yamler = 'syck'
-        YAML.load(changed_data)
-      ensure
-        YAML::ENGINE.yamler = current_yamler
-      end
+      load_with_sych(changed_data)
     end
 
     def deserialize_journal(journal)

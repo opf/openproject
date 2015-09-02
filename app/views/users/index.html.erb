@@ -41,12 +41,12 @@ See doc/COPYRIGHT.rdoc for more details.
     <legend><%= l(:label_filter_plural) %></legend>
     <ul class="simple-filters--filters <%= @groups.present? ? "-columns-3" : '' %>">
       <li class="simple-filters--filter">
-          <label for='status'><%= User.human_attribute_name(:status) %>:</label>
-          <%= select_tag 'status', users_status_options_for_select(@status), :onchange => "this.form.submit(); return false;"  %>
+          <label class='simple-filters--filter-name' for='status'><%= User.human_attribute_name(:status) %>:</label>
+          <%= select_tag 'status', users_status_options_for_select(@status), :onchange => "this.form.submit(); return false;", :class => 'simple-filters--filter-value' %>
       </li>
       <% if @groups.present? %>
       <li class="simple-filters--filter">
-          <label for='group_id'><%= Group.model_name.human %>:</label>
+          <label class='simple-filters--filter-name' for='group_id'><%= Group.model_name.human %>:</label>
           <%= collection_select :group,
                               :id,
                               @groups,
@@ -55,18 +55,19 @@ See doc/COPYRIGHT.rdoc for more details.
                               { :include_blank => true,
                                 :selected => params[:group_id].to_i },
                               { :name => "group_id",
-                                :onchange => "this.form.submit(); return false;" } %>
+                                :onchange => "this.form.submit(); return false;",
+                                :class => 'simple-filters--filter-value' } %>
       </li>
       <% end %>
       <li class="simple-filters--filter">
-        <label for='name'><%= User.human_attribute_name :name %>:</label>
-        <%= text_field_tag 'name', params[:name] %>
+        <label class='simple-filters--filter-name' for='name'><%= User.human_attribute_name :name %>:</label>
+        <%= text_field_tag 'name', params[:name], :class => 'simple-filters--filter-value' %>
+      </li>
+      <li class="simple-filters--controls">
+        <%= submit_tag l(:button_apply), :class => 'button -highlight -small', :name => nil %>
+        <%= link_to l(:button_clear), users_path, :class => 'button -small -with-icon icon-undo' %>
       </li>
     </ul>
-    <div class="simple-filters--controls">
-      <%= submit_tag l(:button_apply), :class => 'button -highlight -small', :name => nil %>
-      <%= link_to l(:button_clear), users_path, :class => 'button -small -with-icon icon-undo' %>
-    </div>
   </fieldset>
 <% end %>
 &nbsp;
