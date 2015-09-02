@@ -36,6 +36,10 @@ module API
       class UserRepresenter < ::API::Decorators::Single
         include AvatarHelper
 
+        def self.create(user, current_user:, work_package: nil)
+          new(user, current_user: current_user, work_package: work_package)
+        end
+
         def initialize(user, current_user:, work_package: nil)
           # FIXME: we should not change our representation depending on an embedding work package
           @work_package = work_package

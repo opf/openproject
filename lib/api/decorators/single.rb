@@ -44,6 +44,12 @@ module API
       class_attribute :as_strategy
       self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
+      # Use this to create our own representers, giving them a chance to override the instantiation
+      # if desired.
+      def self.create(model, current_user:, embed_links: false)
+        new(model, current_user: current_user, embed_links: embed_links)
+      end
+
       def initialize(model, current_user:, embed_links: false)
         @current_user = current_user
         @embed_links = embed_links

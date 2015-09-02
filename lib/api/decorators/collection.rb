@@ -59,7 +59,7 @@ module API
       collection :elements,
                  getter: -> (*) {
                    represented.map { |model|
-                     element_decorator.new(model, current_user: current_user)
+                     element_decorator.create(model, current_user: current_user)
                    }
                  },
                  exec_context: :decorator,

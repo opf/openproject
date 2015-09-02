@@ -40,7 +40,7 @@ module API
       end
 
       def new(represented)
-        @decorator.new(represented, current_user: @current_user)
+        @decorator.create(represented, current_user: @current_user)
       end
 
       # Roar will actually call the prepare method, which delegates to new.

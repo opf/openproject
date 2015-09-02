@@ -43,9 +43,9 @@ module API
         collection :elements,
                    getter: -> (*) {
                      represented.map { |model|
-                       element_decorator.new(model,
-                                             current_user: current_user,
-                                             work_package: @work_package)
+                       element_decorator.create(model,
+                                                current_user: current_user,
+                                                work_package: @work_package)
                      }
                    },
                    exec_context: :decorator,
