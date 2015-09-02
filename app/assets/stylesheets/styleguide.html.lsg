@@ -40,6 +40,25 @@
   .livingstyleguide--example
     overflow: visible
 
+  .icon-list
+    display: flex
+    flex-flow: row wrap
+    width: 640px
+    margin: 0 auto
+
+    li
+      flex: 1
+      flex-basis: 15%
+      display: block
+      text-align: center
+      margin: 10px
+      font-size: 12px
+
+    span
+      display: block
+      font-size: 30px
+
+
 @header
   <header class="livingstyleguide--header">
     <div class="styleguide-banner">
