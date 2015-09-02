@@ -113,7 +113,7 @@ class RepositoriesController < ApplicationController
     if repository.destroy
       flash[:notice] = I18n.t('repositories.delete_sucessful')
     else
-      flash[:error] = repository.errors.full_messages.join("\n")
+      flash[:error] = repository.errors.full_messages
     end
     redirect_to settings_repository_tab_path
   end

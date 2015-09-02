@@ -61,7 +61,7 @@ Scm::DeleteManagedRepositoryService = Struct.new :repository do
     true
   rescue SystemCallError => e
     Rails.logger.error("An error occurred while accessing the repository '#{repository.root_url}'" +
-                       "on filesystem: #{e.message}")
+                       " on filesystem: #{e.message}")
     false
   end
 end
