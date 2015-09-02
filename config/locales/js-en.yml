@@ -28,6 +28,10 @@
 
 en:
   js:
+    access_tokens:
+      no_results:
+        title: "No access tokens to display"
+        description: "All of them have been disabled. They can be re-enabled in the administration menu."
     ajax:
       hide: "Hide"
       loading: "Loading ..."

@@ -113,6 +113,13 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
 <% else %>
-  <%= l(:text_no_access_tokens_configurable) %>
+  <div class="generic-table--no-results-container" ng-if="!rows.length">
+    <h2 class="generic-table--no-results-title">
+      <i class="icon-info"></i>
+      {{ I18n.t('js.access_tokens.no_results.title') }}
+    </h2>
+    <div class="generic-table--no-results-description"
+         ng-bind-html="I18n.t('js.access_tokens.no_results.description')"></div>
+  </div>
 <% end %>
 
