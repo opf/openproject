@@ -243,7 +243,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
     it "does =d" do
       #assuming that there aren't more than one project created at the same time
-      expect(query('projects', 'created_on', '=d', Project.first(order: "id ASC").created_on).size).to eq(1)
+      expect(query('projects', 'created_on', '=d', Project.order('id ASC').first.created_on).size).to eq(1)
     end
 
     it "does <d" do
