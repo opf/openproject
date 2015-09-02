@@ -53,9 +53,7 @@ module OpenProject::Reporting::Patches
 
         if @work_package
           if @work_package.respond_to?("lft")
-            work_package_ids = WorkPackage
-                               .where(['root_id = ? AND lft >= ? AND rgt <= ?', @work_package.root_id, @work_package.lft, @work_package.rgt])
-                               .pluck(:id)
+            work_package_ids = @work_package.self_and_descendants.pluck(:id)
           else
             work_package_ids = [@work_package.id]
           end
