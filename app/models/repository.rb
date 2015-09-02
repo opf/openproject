@@ -432,8 +432,12 @@ class Repository < ActiveRecord::Base
     service = Scm::DeleteManagedRepositoryService.new(self)
     # Even if the service can't remove the physical repository,
     # we should continue removing the associated instance.
-    service.call
-
-    true
+    if service.call
+      true
+    else
+      errors.add(:base, I18n.t('repositories.errors.filesystem_access_failed',
+                               message: I18n.t('repositories.errors.deletion_failed')))
+      raise ActiveRecord::Rollback
+    end
   end
 end

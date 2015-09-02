@@ -109,8 +109,12 @@ class RepositoriesController < ApplicationController
   end
 
   def destroy
-    @project.repository.destroy
-    flash[:notice] = I18n.t('repositories.delete_sucessful')
+    repository = @project.repository
+    if repository.destroy
+      flash[:notice] = I18n.t('repositories.delete_sucessful')
+    else
+      flash[:error] = repository.errors.full_messages
+    end
     redirect_to settings_repository_tab_path
   end
 
