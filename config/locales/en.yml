@@ -904,7 +904,7 @@ en:
   label_preview: "Preview"
   label_previous: "Previous"
   label_previous_week: "Previous week"
-  label_principal_search: "Search for users or groups"
+  label_principal_search: "Search for users or groups, or invite users via email"
   label_profile: "Profile"
   label_project_all: "All Projects"
   label_project_copy_notifications: "Send email notifications during the project copy"

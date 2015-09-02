@@ -103,10 +103,5 @@ jQuery(document).ready(function($) {
     });
   };
 
-  memberstab = $('#tab-members').first();
-  if ((memberstab !== null) && (memberstab.hasClass("selected"))) {
-    init_members_cb();
-  } else {
-    memberstab.click(init_members_cb);
-  }
+  init_members_cb();
 });

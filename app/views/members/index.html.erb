@@ -26,28 +26,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= javascript_include_tag "members_form.js" %>
 
-<%= error_messages_for 'member' %>
-<% roles = Role.find_all_givable
-   # Check if there is at least one principal that can be added to the project
-   principals_available = @project.possible_members("", 1)
-   member_per_page = 20
+<%= javascript_include_tag "members_view.js" %>
 
-   @members = @project.member_principals.includes(:roles, :principal, :member_roles)
-                                        .order(User::USER_FORMATS_STRUCTURE[Setting.user_format].map{|attr| attr.to_s}.join(", "))
-                                        .page(params[:page])
-                                        .per_page(per_page_param)
-%>
-<div>
-  <% if roles.any? && principals_available.any? %>
-    <%= render :partial => "members/member_form",
-              :locals => { :project => @project,
-                           :members => members,
-                           :roles => roles } %>
+<% html_title 'Members' %>
+<%= toolbar title: 'Members' do %>
+    <% if authorize_for(:members, :new) %>
+        <a href="<%= new_project_member_path %>" id="add-member-button" title="Add Member" class="button -alt-highlight">
+          <i class="button--icon icon-add"></i>
+          <span class="button--text">Add Member</span>
+        </a>
+    <% end %>
+<% end %>
 
-  <% end %>
-</div>
 <div>
   <% if @members.any? %>
     <% authorized = authorize_for('members', 'update') %>
@@ -68,16 +59,21 @@ See doc/COPYRIGHT.rdoc for more details.
               <td class="roles">
                 <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
                 <% if authorized %>
-                  <%= form_for(member, :url => {:controller => '/members',
-                                          :action => 'update',
-                                          :id => member,
-                                          :page => params[:page]},
-                                 :method => :put,
-                                 :remote => true,
-                                 :html => { :id => "member-#{member.id}-roles-form",
-                                            :class => 'hol',
-                                            :style => 'display:none' }) do |f| %>
-                    <p><% roles.each do |role| %>
+                  <%= form_for member,
+                               :url => {
+                                 :controller => '/members',
+                                 :action => 'update',
+                                 :id => member,
+                                 :page => params[:page],
+                                 :per_page => params[:per_page]
+                               },
+                               :method => :put,
+                               :html => {
+                                 :id => "member-#{member.id}-roles-form",
+                                 :class => 'hol',
+                                 :style => 'display:none'
+                               } do |f| %>
+                    <p><% @roles.each do |role| %>
                         <label><%= check_box_tag 'member[role_ids][]', role.id, member.roles.include?(role),
                                                              :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label>
                       <% end %></p>
@@ -91,7 +87,6 @@ See doc/COPYRIGHT.rdoc for more details.
                     <%= link_to_function l(:button_edit), "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
                     <%= link_to(l(:button_delete), {:controller => '/members', :action => 'destroy', :id => member, :page => params[:page]},
                       :method => :delete,
-                      :remote => true,
                       :confirm => ((!User.current.admin? && member.include?(User.current)) ? l(:text_own_membership_delete_confirmation) : nil),
                       :title => l(:button_delete), :class => 'icon icon-delete') if member.deletable? %>
                   </td>
@@ -102,7 +97,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% end; reset_cycle %>
         </tbody>
       </table>
-      <%= pagination_links_full @members, params: { tab: 'members' }.merge(@pagination_url_options || {}) %>
+      <%= pagination_links_full @members, params: @pagination_url_options || {} %>
     <% else %>
       <p class="nodata members"><%= l(:label_no_data) %></p>
     <% end %>
