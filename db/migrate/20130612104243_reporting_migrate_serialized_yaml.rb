@@ -17,16 +17,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-require Rails.root.join("db","migrate","migration_utils","yaml_migrator").to_s
+require Rails.root.join("db","migrate","migration_utils","legacy_yamler").to_s
 
 class ReportingMigrateSerializedYaml < ActiveRecord::Migration
-  include Migration::YamlMigrator
+  include Migration::LegacyYamler
 
   def up
-    migrate_yaml('cost_queries', 'serialized', 'syck', 'psych')
+     migrate_to_psych('cost_queries', 'serialized')
   end
 
   def down
-    migrate_yaml('cost_queries', 'serialized', 'psych', 'syck')
+     migrate_to_psych('cost_queries', 'serialized')
   end
 end
