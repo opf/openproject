@@ -53,6 +53,9 @@ en:
       User registration is disabled on this system. Please ask an administrator to create an
       account for you.
     login_with_auth_provider: "or sign in with your existing account"
+    signup_with_auth_provider: "or sign up using"
+    signup_with_password: "using user name and password."
+    auth_source_login: Please login as <em>%{login}</em> to activate your account.
 
   actionview_instancetag_blank_option: "Please select"
 

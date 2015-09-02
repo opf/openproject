@@ -155,7 +155,7 @@ module Concerns::OmniauthLogin
 
   def fill_user_fields_from_omniauth(user, auth)
     user.update_attributes omniauth_hash_to_user_attributes(auth)
-    user.register
+    user.register unless user.invited?
     user
   end
 

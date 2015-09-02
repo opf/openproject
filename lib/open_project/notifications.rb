@@ -31,13 +31,23 @@ module OpenProject
     # Subscribe to a specific event with name
     # Contrary to ActiveSupport::Notifications, we don't support regexps here, but only
     # single events specified as string.
-    def self.subscribe(name, &block)
+    #
+    # @param name [String] The name of the event to subscribe to.
+    # @param clear_subscriptions [Boolean] Clears all previous subscriptions to this
+    #                                      event if true. Use with care!
+    # @return nil
+    # @raises ArgumentError if no block is given.
+    def self.subscribe(name, clear_subscriptions: false, &block)
       # if no block is given, raise an error
       raise ArgumentError, 'please provide a block as a callback' unless block_given?
 
-      ActiveSupport::Notifications.subscribe(name.to_s) do |_name, _start, _finish, _id, payload|
+      sub = ActiveSupport::Notifications.subscribe(name.to_s) do |_name, _start, _finish, _id, payload|
         block.call(payload)
       end
+
+      subs = clear_subscriptions ? [] : Array(subscriptions[name])
+      subscriptions[name] = subs + [sub]
+
       # Don't return a subscription object as it's an implementation detail.
       nil
     end
@@ -49,5 +59,11 @@ module OpenProject
     def self.send(name, payload)
       ActiveSupport::Notifications.instrument(name, payload)
     end
+
+    def self.subscriptions
+      @subscriptions ||= {}
+    end
+
+    private_class_method :subscriptions
   end
 end

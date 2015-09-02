@@ -120,26 +120,9 @@ class UsersController < ApplicationController
     @user = User.new(language: Setting.default_language, mail_notification: Setting.default_notification_option)
     @user.attributes = permitted_params.user_create_as_admin(false, @user.change_password_allowed?)
     @user.admin = params[:user][:admin] || false
+    @user.login = params[:user][:login] || @user.mail
 
-    if @user.change_password_allowed?
-      if params[:user][:assign_random_password]
-        @user.random_password!
-      else
-        @user.password = params[:user][:password]
-        @user.password_confirmation = params[:user][:password_confirmation]
-      end
-    end
-
-    if @user.save
-      # TODO: Similar to My#account
-      @user.pref.attributes = params[:pref]
-      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
-      @user.pref.save
-
-      @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
-
-      UserMailer.account_information(@user, @user.password).deliver if params[:send_information]
-
+    if UserInvitation.invite_user! @user
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_create)
@@ -150,9 +133,7 @@ class UsersController < ApplicationController
         }
       end
     else
-      @auth_sources = AuthSource.find(:all)
-      # Clear password input
-      @user.password = @user.password_confirmation = nil
+      @auth_sources = AuthSource.all
 
       respond_to do |format|
         format.html { render action: 'new' }
@@ -228,7 +209,12 @@ class UsersController < ApplicationController
     # Was the account activated? (do it before User#save clears the change)
     was_activated = (@user.status_change == [User::STATUSES[:registered],
                                              User::STATUSES[:active]])
-    if @user.save
+
+    if params[:activate] && @user.identity_url.nil? && @user.passwords.empty? && @user.auth_source.nil?
+      flash[:error] = I18n.t(:error_status_change_failed,
+                             errors: "User has yet to chose a password or sign up using OpenID Connect.",
+                             scope: :user)
+    elsif @user.save
       flash[:notice] = I18n.t(:notice_successful_update)
       if was_activated
         UserMailer.account_activated(@user).deliver
