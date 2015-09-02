@@ -165,9 +165,11 @@ class MyProjectsOverviewsController < ApplicationController
   end
 
   def recent_news
-    @news ||= project.news.limit(5)
+    @news ||= project
+              .news
               .includes([:author, :project])
               .order("#{News.table_name}.created_on DESC")
+              .limit(5)
   end
 
   def types
@@ -193,11 +195,14 @@ class MyProjectsOverviewsController < ApplicationController
   end
 
   def assigned_work_packages
-    @assigned_issues ||= WorkPackage.visible.open
+    @assigned_issues ||= WorkPackage
+                         .visible
+                         .open
                          .where(assigned_to: User.current.id)
                          .limit(10)
                          .includes([:status, :project, :type, :priority])
-                         .order("#{IssuePriority.table_name}.position DESC, #{WorkPackage.table_name}.updated_on DESC")
+                         .order("#{IssuePriority.table_name}.position DESC,
+                                 #{WorkPackage.table_name}.updated_on DESC")
   end
 
   def users_by_role(limit = 100)
