@@ -54,7 +54,8 @@ module OpenProject::Backlogs::Patches::VersionPatch
 
       WorkPackage.transaction do
         # Remove position from all non-stories
-        WorkPackage.update_all({ position: nil }, ['project_id = ? AND type_id NOT IN (?) AND position IS NOT NULL', project, Story.types])
+        WorkPackage.where(['project_id = ? AND type_id NOT IN (?) AND position IS NOT NULL', project, Story.types])
+          .update_all(position: nil)
 
         # Add work_packages w/o position to the top of the list and add
         # work_packages, that have a position, at the end

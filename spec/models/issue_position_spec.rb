@@ -136,8 +136,8 @@ describe WorkPackage, type: :model do
         work_package_2.fixed_version = sprint_2
         work_package_2.save!
 
-        expect(sprint_1.fixed_issues.all(order: 'id')).to eq([work_package_1, work_package_3, work_package_4, work_package_5])
-        expect(sprint_1.fixed_issues.all(order: 'id').each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
+        expect(sprint_1.fixed_issues.order('id')).to eq([work_package_1, work_package_3, work_package_4, work_package_5])
+        expect(sprint_1.fixed_issues.order('id').each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
       end
     end
 

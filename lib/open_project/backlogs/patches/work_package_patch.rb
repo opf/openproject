@@ -111,7 +111,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
   module InstanceMethods
     def done?
-      project.done_statuses.include?(status)
+      project.done_statuses.to_a.include?(status)
     end
 
     def to_story
