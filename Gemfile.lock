@@ -584,7 +584,7 @@ DEPENDENCIES
   sprockets-rails!
   strong_parameters
   svg-graph
-  syck
+  syck (~> 1.0.5)
   thin
   timecop (~> 0.7.1)
   uglifier (>= 1.0.3)
