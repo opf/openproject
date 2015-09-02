@@ -175,19 +175,21 @@ class MyProjectsOverviewsController < ApplicationController
   end
 
   def open_work_packages_by_type
-    @open_work_packages_by_tracker ||= WorkPackage.visible
-                                       .group(:type)
-                                       .includes([:project, :status, :type])
-                                       .where(["(#{subproject_condition}) AND #{Status.table_name}.is_closed=?", false])
+    @open_work_packages_by_tracker ||= work_packages_by_type
+                                       .where(statuses: { is_closed: false })
                                        .count
   end
 
   def total_work_packages_by_type
-    @total_work_packages_by_tracker ||= WorkPackage.visible
-                                        .group(:type)
-                                        .includes([:project, :status, :type])
-                                        .where(subproject_condition)
-                                        .count
+    @total_work_packages_by_tracker ||= work_packages_by_type.count
+  end
+
+  def work_packages_by_type
+    WorkPackage
+      .visible
+      .group(:type)
+      .includes([:project, :status, :type])
+      .where(subproject_condition)
   end
 
   def assigned_work_packages
