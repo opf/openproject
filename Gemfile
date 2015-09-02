@@ -173,7 +173,16 @@ group :ldap do
   gem 'net-ldap', '~> 0.8.0'
 end
 
-group :syck, optional: true do
+
+
+# Optional groups are only available with Bundler 1.10+
+# We still want older bundlers to parse this gemfile correctly,
+# thus this rather ugly workaround is needed.
+if Gem::Version.new(Bundler::VERSION) >= Gem::Version.new('1.10.0')
+  group :syck, optional: true do
+    gem "syck", require: false
+  end
+else
   gem "syck", require: false
 end
 
