@@ -567,11 +567,6 @@ OpenProject::Application.routes.draw do
 
   resources :reported_project_statuses, controller: 'reported_project_statuses'
 
-  resources :invitations, controller: 'invitations', only: [:index, :show, :create]
-  scope controller: 'invitations' do
-    get 'claim/:id', action: 'claim'
-  end
-
   # This route should probably be removed, but it's used at least by one cuke and we don't
   # want to break it.
   # This route intentionally occurs after the admin/roles/new route, so that one takes
