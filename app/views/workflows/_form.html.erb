@@ -30,35 +30,32 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="generic-table--results-container">
     <table interactive-table role="grid" class="generic-table transitions-<%= name %>">
       <colgroup>
-        <col highlight-col>
+        <col>
+        <col>
         <col span="<%= @statuses.length %>" highlight-col>
       </colgroup>
       <thead>
         <tr>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input')",
-                                     :class => 'no-decoration-on-hover',
-                                     :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
-                                     :alt => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
-                  <%=l(:label_current_status)%>
-                </span>
-              </div>
-            </div>
-          </th>
+          <th></th>
+          <th></th>
           <th colspan="<%= @statuses.length %>">
             <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header" style="text-align: center;">
+              <div class="generic-table--sort-header workflow-table--header">
                 <span>
                   <%=l(:label_new_statuses_allowed)%>
+                </span>
+                <span>
+                  <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input')",
+                                                    :class => 'no-decoration-on-hover',
+                                                    :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
+                                                    :alt => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
                 </span>
               </div>
             </div>
           </th>
         </tr>
         <tr>
+          <th></th>
           <th></th>
           <% for new_status in @statuses %>
             <th>
@@ -72,9 +69,16 @@ See doc/COPYRIGHT.rdoc for more details.
         </tr>
       </thead>
       <tbody>
+        <tr class='workflow-table--turned-header'>
+          <th rowspan="<%= @statuses.length + 1 %>">
+            <span>
+              <%=l(:label_current_status)%>
+            </span>
+          </th>
+        </tr>
         <% for old_status in @statuses %>
           <tr>
-            <td>
+            <td class="workflow-table--current-status">
               <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.id}')",
                                          :class => 'no-decoration-on-hover',
                                          :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
