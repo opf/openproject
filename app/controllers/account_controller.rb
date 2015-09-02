@@ -122,7 +122,7 @@ class AccountController < ApplicationController
       session[:auth_source_registration] = nil
 
       if session.include? :invitation_token
-        token = Token.find_by(value: session[:invitation_token])
+        token = Token.find_by_value session[:invitation_token]
 
         @user = token.user
       else
@@ -130,7 +130,7 @@ class AccountController < ApplicationController
       end
     else
       if session.include? :invitation_token
-        token = Token.find_by(value: session[:invitation_token])
+        token = Token.find_by_value session[:invitation_token]
 
         @user = token.user
       else
@@ -175,7 +175,7 @@ class AccountController < ApplicationController
     if not Setting.self_registration? || params[:token].nil?
       redirect_to home_url
     else
-      token = Token.find_by action: UserInvitation.token_action, value: params[:token].to_s
+      token = Token.find_by_action_and_value ::UserInvitation.token_action, params[:token].to_s
 
       if token.nil? || token.expired? || !token.user.invited?
         redirect_to home_url

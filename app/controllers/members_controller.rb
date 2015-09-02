@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'concerns/user_invitation'
+
 class MembersController < ApplicationController
   model_object Member
   before_filter :find_model_object_and_project, except: [:autocomplete_for_member, :paginate_users]
@@ -54,7 +56,6 @@ class MembersController < ApplicationController
     @members = @project.member_principals.includes(:roles, :principal, :member_roles)
                  .order(User::USER_FORMATS_STRUCTURE[Setting.user_format].map{|attr| attr.to_s}.join(", "))
                  .page(params[:page])
-                 .references(:users)
                  .per_page(per_page_param)
   end
 
@@ -195,7 +196,7 @@ class MembersController < ApplicationController
       if id.to_i == 0 # we've got an email - invite that user
         # The invitation can pretty much only fail due to the user already
         # having been invited. So look them up if it does.
-        user = UserInvitation.invite_new_user(email: id) ||
+        user = ::UserInvitation.invite_new_user(email: id) ||
           User.find_by_mail(id)
 
         user.id if user

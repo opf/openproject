@@ -90,7 +90,7 @@ module UserInvitation
   # @return Returns the user and the invitation token required to register.
   def user_invitation(user)
     User.transaction do
-      if user.valid?
+      if user.save
         token = invitation_token user
         token.save!
 
@@ -109,6 +109,6 @@ module UserInvitation
   end
 
   def invitation_token(user)
-    Token.find_or_initialize_by user: user, action: token_action
+    Token.where(user_id: user.id, action: token_action).first_or_initialize
   end
 end

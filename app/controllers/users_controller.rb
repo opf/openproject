@@ -122,7 +122,7 @@ class UsersController < ApplicationController
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login] || @user.mail
 
-    if UserInvitation.invite_user! @user
+    if ::UserInvitation.invite_user! @user
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_create)
