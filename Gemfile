@@ -88,6 +88,7 @@ gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git"
 # https://github.com/kickstarter/rack-attack
 gem 'rack-attack'
 
+gem "syck", '~> 1.0.5', require: false
 gem 'gon', '~> 4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
@@ -179,20 +180,6 @@ end
 
 group :ldap do
   gem "net-ldap", '~> 0.8.0'
-end
-
-
-
-# Optional groups are only available with Bundler 1.10+
-# We still want older bundlers to parse this gemfile correctly,
-# thus this rather ugly workaround is needed for now.
-# TODO: Remove this when 1.10+ is widespread.
-if Gem::Version.new(Bundler::VERSION) >= Gem::Version.new('1.10.0')
-  group :syck, optional: true do
-    gem "syck", require: false
-  end
-else
-  gem "syck", require: false
 end
 
 group :development do
