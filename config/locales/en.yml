@@ -1519,6 +1519,7 @@ en:
 
   status_active: "active"
   status_invited: invited
+  status_registered: registered
 
   # Used in array.to_sentence.
   support:
