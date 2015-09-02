@@ -87,13 +87,13 @@ See doc/COPYRIGHT.rdoc for more details.
                       <%= form_for(member, :url => {:controller => '/members',
                                               :action => 'update',
                                               :id => member,
-                                              :page => params[:page]},
+                                              :page => params[:page],
+                                              :per_page => params[:per_page] },
                                      :method => :put,
-                                     :remote => true,
                                      :html => { :id => "member-#{member.id}-roles-form",
                                                 :class => 'hol',
                                                 :style => 'display:none' }) do |f| %>
-                        <p><% roles.each do |role| %>
+                        <p><% @roles.each do |role| %>
                             <label><%= check_box_tag 'member[role_ids][]', role.id, member.roles.include?(role),
                                                                  :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label>
                           <% end %></p>
@@ -108,7 +108,6 @@ See doc/COPYRIGHT.rdoc for more details.
                         <%= link_to_function l(:button_edit), "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
                         <%= link_to(l(:button_delete), {:controller => '/members', :action => 'destroy', :id => member, :page => params[:page]},
                           :method => :delete,
-                          :remote => true,
                           data: { confirm: ((!User.current.admin? && member.include?(User.current)) ? l(:text_own_membership_delete_confirmation) : nil) },
                           :title => l(:button_delete), :class => 'icon icon-delete') if member.deletable? %>
                       </td>
