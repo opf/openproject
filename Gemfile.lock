@@ -559,8 +559,8 @@ DEPENDENCIES
   simplecov (= 0.8.0.pre)
   sprockets (~> 2.12.3)
   svg-graph
-  syck
   sys-filesystem (~> 1.1.4)
+  syck (~> 1.0.5)
   thin
   timecop (~> 0.7.1)
   unicorn
