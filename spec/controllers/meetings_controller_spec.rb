@@ -52,7 +52,7 @@ describe MeetingsController, type: :controller do
     describe 'show' do
       before(:each) do
         @m = mock_model(Meeting)
-        allow(Meeting).to receive(:find).and_return(@m)
+        allow(Meeting).to receive_message_chain(:includes, :find).and_return(@m)
         allow(@m).to receive(:project).and_return(@p)
         allow(allow(@m).to receive(:agenda)).to receive(:present?).and_return(false)
       end
@@ -84,7 +84,7 @@ describe MeetingsController, type: :controller do
     describe 'edit' do
       before(:each) do
         @m = mock_model(Meeting)
-        allow(Meeting).to receive(:find).and_return(@m)
+        allow(Meeting).to receive_message_chain(:includes, :find).and_return(@m)
         allow(@m).to receive(:project).and_return(@p)
       end
       describe 'html' do
