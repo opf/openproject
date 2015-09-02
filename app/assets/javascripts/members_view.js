@@ -31,7 +31,7 @@ jQuery(document).ready(function($) {
         var url = $(this).attr("href");
         var helper = new ModalHelper();
 
-        helper.createModal({ url: url });
+        helper.createModal(url);
 
         return false;
     });
