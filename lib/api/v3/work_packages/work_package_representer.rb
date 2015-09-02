@@ -348,7 +348,10 @@ module API
           self_path = api_v3_paths.attachments_by_work_package(represented.id)
           attachments = represented.attachments
           ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachments,
-                                                                      self_path)
+                                                                      self_path,
+                                                                      context: {
+                                                                        current_user: current_user
+                                                                      })
         end
 
         def relations
