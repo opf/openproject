@@ -52,12 +52,7 @@ module ProjectsHelper
         name: 'modules',
         action: :select_project_modules,
         partial: 'projects/settings/modules',
-        label: :label_module_plural },
-      {
-        name: 'members',
-        action: :manage_members,
-        partial: 'projects/settings/members',
-        label: :label_member_plural
+        label: :label_module_plural
       },
       {
         name: 'custom_fields',

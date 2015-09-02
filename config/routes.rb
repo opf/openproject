@@ -329,7 +329,7 @@ OpenProject::Application.routes.draw do
 
     resources :categories, except: [:index, :show], shallow: true
 
-    resources :members, only: [:create, :update, :destroy], shallow: true do
+    resources :members, only: [:index, :new, :create, :update, :destroy], shallow: true do
       match :autocomplete_for_member, on: :collection, via: [:get, :post]
     end
 
