@@ -32,6 +32,24 @@ require_relative 'db_worker'
 module Migration
   module LegacyYamler
     ##
+    # Migrate the given serialized YAML column from Syck to Psych
+    # (if any).
+    def migrate_to_psych(table, column)
+      table_name = ActiveRecord::Base.connection.quote_table_name(table)
+      column_name = ActiveRecord::Base.connection.quote_column_name(column)
+
+      fetch_data(table_name, column_name).each do |row|
+        transformed = ::Psych.dump(load_with_sych(row[column]))
+
+        ActiveRecord::Base.connection.execute <<-SQL
+          UPDATE #{table_name}
+          SET #{column_name} = #{ActiveRecord::Base.connection.quote(transformed)}
+          WHERE id = #{row['id']};
+        SQL
+      end
+    end
+
+    ##
     # Tries to load syck and fails with an error
     # if it was not installed.
     # To continue with the affected migrations, install syck with `bundle install --with syck`
@@ -41,6 +59,14 @@ module Migration
     end
 
     private
+
+    def fetch_data(table_name, column_name)
+      ActiveRecord::Base.connection.select_all <<-SQL
+        SELECT id, #{column_name}
+        FROM #{table_name}
+        WHERE #{column_name} LIKE '---%'
+      SQL
+    end
 
     def load_syck
       require 'syck'
