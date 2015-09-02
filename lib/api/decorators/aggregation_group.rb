@@ -36,7 +36,7 @@ module API
 
         @link = ::API::V3::Utilities::ResourceLinkGenerator.make_link(group_key)
 
-        super(group_key)
+        super(group_key, current_user: nil)
       end
 
       link :valueLink do

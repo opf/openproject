@@ -35,27 +35,17 @@ describe ::API::Decorators::Single do
   let(:permissions) { [:view_work_packages] }
   let(:model) { Object.new }
 
-  context 'no user given' do
-    let(:single) { ::API::Decorators::Single.new(model, context: nil) }
+  let(:single) { ::API::Decorators::Single.new(model, current_user: user) }
 
-    it 'should not authorize an empty user' do
-      expect(single.current_user_allowed_to(:view_work_packages, context: project)).to be_falsey
-    end
+  it 'should authorize for a given permission' do
+    expect(single.current_user_allowed_to(:view_work_packages, context: project)).to be_truthy
   end
 
-  context 'user given' do
-    let(:single) { ::API::Decorators::Single.new(model, current_user: user) }
+  context 'unauthorized user' do
+    let(:permissions) { [] }
 
-    it 'should authorize for a given permission' do
-      expect(single.current_user_allowed_to(:view_work_packages, context: project)).to be_truthy
-    end
-
-    context 'unauthorized user' do
-      let(:permissions) { [] }
-
-      it 'should not authorize unauthorized user' do
-        expect(single.current_user_allowed_to(:view_work_packages, context: project)).to be_falsey
-      end
+    it 'should not authorize unauthorized user' do
+      expect(single.current_user_allowed_to(:view_work_packages, context: project)).to be_falsey
     end
   end
 end

@@ -35,7 +35,11 @@ describe ::API::V3::Users::UserCollectionRepresenter do
                            created_on: Time.now,
                            updated_on: Time.now)
   }
-  let(:representer) { described_class.new(users, '/api/v3/work_package/1/watchers') }
+  let(:representer) {
+    described_class.new(users,
+                        '/api/v3/work_package/1/watchers',
+                        current_user: users.first)
+  }
 
   context 'generation' do
     subject(:collection) { representer.to_json }

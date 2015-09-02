@@ -44,10 +44,10 @@ module API
             @work_package.type
           end
 
-          def assignable_values(property, context)
+          def assignable_values(property, current_user)
             case property
             when :status
-              assignable_statuses_for(context[:current_user])
+              assignable_statuses_for(current_user)
             when :type
               project.try(:types)
             when :version

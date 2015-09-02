@@ -67,7 +67,7 @@ module API
             nil
           end
 
-          def assignable_values(_property, _context)
+          def assignable_values(_property, _current_user)
             nil
           end
 

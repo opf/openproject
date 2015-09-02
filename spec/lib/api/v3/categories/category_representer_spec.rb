@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Categories::CategoryRepresenter do
   let(:category) { FactoryGirl.build(:category) }
   let(:user) { FactoryGirl.build(:user) }
-  let(:representer) { described_class.new(category) }
+  let(:representer) { described_class.new(category, current_user: double('current_user')) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }

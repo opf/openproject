@@ -36,7 +36,9 @@ module API
           get do
             available_responsibles = @project.possible_responsibles
             self_link = api_v3_paths.available_responsibles(@project.id)
-            Users::UserCollectionRepresenter.new(available_responsibles, self_link)
+            Users::UserCollectionRepresenter.new(available_responsibles,
+                                                 self_link,
+                                                 current_user: current_user)
           end
         end
       end

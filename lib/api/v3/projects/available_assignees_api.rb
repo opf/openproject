@@ -36,7 +36,9 @@ module API
           get do
             available_assignees = @project.possible_assignees
             self_link = api_v3_paths.available_assignees(@project.id)
-            Users::UserCollectionRepresenter.new(available_assignees, self_link)
+            Users::UserCollectionRepresenter.new(available_assignees,
+                                                 self_link,
+                                                 current_user: current_user)
           end
         end
       end

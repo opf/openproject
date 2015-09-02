@@ -30,8 +30,8 @@
 module API
   module Decorators
     class UnpaginatedCollection < ::API::Decorators::Collection
-      def initialize(models, self_link, context: {})
-        super(models, models.count, self_link, context: context)
+      def initialize(models, self_link, current_user:)
+        super(models, models.count, self_link, current_user: current_user)
       end
     end
   end

@@ -182,10 +182,7 @@ module API
             per_page: params[:pageSize] ? params[:pageSize].to_i : nil,
             groups: groups,
             total_sums: sums,
-            context: {
-              current_user: current_user
-            }
-          )
+            current_user: current_user)
         end
 
         def convert_attribute(attribute, append_id: false)

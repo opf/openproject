@@ -45,11 +45,16 @@ module API
                        total_sums:,
                        page: nil,
                        per_page: nil,
-                       context: {})
+                       current_user:)
           @groups = groups
           @total_sums = total_sums
 
-          super(models, self_link, query: query, page: page, per_page: per_page, context: context)
+          super(models,
+                self_link,
+                query: query,
+                page: page,
+                per_page: per_page,
+                current_user: current_user)
         end
 
         property :groups,

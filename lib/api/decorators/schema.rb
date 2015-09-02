@@ -92,7 +92,7 @@ module API
                                            type: make_type(property),
                                            name_source: property,
                                            values_callback: -> {
-                                             represented.assignable_values(property, context)
+                                             represented.assignable_values(property, current_user)
                                            },
                                            value_representer:,
                                            link_factory:,
@@ -131,9 +131,9 @@ module API
       end
 
       attr_reader :form_embedded
-      def initialize(represented, context = {})
-        @form_embedded = context.delete(:form_embedded)
-        super
+      def initialize(represented, current_user:, form_embedded: false)
+        @form_embedded = form_embedded
+        super(represented, current_user: current_user)
       end
 
       private

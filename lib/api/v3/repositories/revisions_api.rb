@@ -38,7 +38,7 @@ module API
               attr_reader :revision
 
               def revision_representer
-                RevisionRepresenter.new(revision)
+                RevisionRepresenter.new(revision, current_user: current_user)
               end
             end
 

@@ -55,9 +55,7 @@ module API
             attachments = @work_package.attachments
             AttachmentCollectionRepresenter.new(attachments,
                                                 self_path,
-                                                context: {
-                                                  current_user: current_user
-                                                })
+                                                current_user: current_user)
           end
 
           post do

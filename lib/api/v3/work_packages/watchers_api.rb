@@ -37,7 +37,8 @@ module API
           self_link = api_v3_paths.available_watchers(@work_package.id)
 
           ::API::V3::Users::UserCollectionRepresenter.new(available_watchers,
-                                                          self_link)
+                                                          self_link,
+                                                          current_user: current_user)
         end
 
         resources :watchers do
@@ -47,7 +48,7 @@ module API
               self_link = api_v3_paths.work_package_watchers(@work_package.id)
               Users::UserCollectionRepresenter.new(watchers,
                                                    self_link,
-                                                   context: { current_user: current_user })
+                                                   current_user: current_user)
             end
           end
 
@@ -81,7 +82,7 @@ module API
               }
             )
 
-            ::API::V3::Users::UserRepresenter.new(user)
+            ::API::V3::Users::UserRepresenter.new(user, current_user: current_user)
           end
 
           namespace ':user_id' do

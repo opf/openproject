@@ -42,13 +42,15 @@ module API
           end
 
           get do
-            StatusCollectionRepresenter.new(@statuses, api_v3_paths.statuses)
+            StatusCollectionRepresenter.new(@statuses,
+                                            api_v3_paths.statuses,
+                                            current_user: current_user)
           end
 
           route_param :id do
             before do
               status = Status.find(params[:id])
-              @representer = StatusRepresenter.new(status)
+              @representer = StatusRepresenter.new(status, current_user: current_user)
             end
 
             get do

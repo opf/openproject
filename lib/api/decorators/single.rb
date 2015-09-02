@@ -40,12 +40,13 @@ module API
       include ::Roar::Hypermedia
       include ::API::V3::Utilities::PathHelper
 
-      attr_reader :context
+      attr_reader :current_user, :embed_links
       class_attribute :as_strategy
       self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
-      def initialize(model, context = {})
-        @context = context
+      def initialize(model, current_user:, embed_links: false)
+        @current_user = current_user
+        @embed_links = embed_links
 
         super(model)
       end
@@ -97,22 +98,15 @@ module API
                  exec_context: :decorator,
                  getter: -> (*) { call_or_send_to_represented(getter) },
                  embedded: true,
-                 decorator: decorator,
+                 decorator: -> (*) {
+                   ::API::Utilities::DecoratorFactory.new(decorator: decorator,
+                                                          current_user: current_user)
+                 },
                  if: -> (*) { embed_links && call_or_use(show_if) }
       end
 
       def current_user_allowed_to(permission, context:)
-        current_user && current_user.allowed_to?(permission, context)
-      end
-
-      protected
-
-      def current_user
-        context[:current_user]
-      end
-
-      def embed_links
-        context[:embed_links]
+        current_user.allowed_to?(permission, context)
       end
 
       private

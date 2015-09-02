@@ -27,46 +27,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
-  module Decorators
-    class AllowedValuesByCollectionRepresenter < PropertySchemaRepresenter
-      attr_accessor :allowed_values
-      attr_reader :value_representer, :link_factory
-
-      def initialize(type:,
-                     name:,
-                     value_representer:,
-                     link_factory:,
-                     required: true,
-                     writable: true,
-                     current_user: nil)
-        @value_representer = value_representer
-        @link_factory = link_factory
-
-        super(type: type,
-              name: name,
-              required: required,
-              writable: writable,
-              current_user: current_user)
+  module Utilities
+    # When ROAR is tasked with creating embedded representers, it accepts a Decorator class
+    # that it will try to instantiate itself. However, we need to transfer contextual information
+    # like the current_user into our representers. We will therefore not pass the actual decorator
+    # class, but a factory that behaves like one, except for passing hidden information.
+    class DecoratorFactory
+      def initialize(decorator:, current_user:)
+        @decorator = decorator
+        @current_user = current_user
       end
 
-      links :allowedValues do
-        allowed_values.map do |value|
-          link_factory.call(value)
-        end if allowed_values
+      def new(represented)
+        @decorator.new(represented, current_user: @current_user)
       end
 
-      collection :allowed_values,
-                 exec_context: :decorator,
-                 embedded: true,
-                 getter: -> (*) {
-                   allowed_values.map do |value|
-                     value_representer.new(value, current_user: current_user)
-                   end if allowed_values
-                 }
+      # Roar will actually call the prepare method, which delegates to new.
+      # N.B. This carries the assumption that the prepare method will never do more than delegate.
+      alias_method :prepare, :new
     end
   end
 end

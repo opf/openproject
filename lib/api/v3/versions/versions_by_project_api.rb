@@ -43,7 +43,7 @@ module API
           get do
             VersionCollectionRepresenter.new(@versions,
                                              api_v3_paths.versions_by_project(@project.id),
-                                             context: { current_user: current_user })
+                                             current_user: current_user)
           end
         end
       end

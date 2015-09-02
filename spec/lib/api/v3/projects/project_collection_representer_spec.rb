@@ -31,7 +31,10 @@ require 'spec_helper'
 describe ::API::V3::Projects::ProjectCollectionRepresenter do
   let(:self_link) { '/api/v3/versions/1/projects' }
   let(:projects) { FactoryGirl.build_list(:project, 3) }
-  let(:representer) { described_class.new(projects, self_link) }
+  let(:current_user) { FactoryGirl.build(:user) }
+  let(:representer) {
+    described_class.new(projects, self_link, current_user: current_user)
+  }
 
   context 'generation' do
     subject(:collection) { representer.to_json }
