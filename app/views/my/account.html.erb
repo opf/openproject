@@ -33,40 +33,30 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l(:label_profile) %>
 <%= error_messages_for 'user' %>
 
-<%= labelled_tabular_form_for @user, :as => :user, :url => { :action => "account" },
-                          :lang => current_language,
-                          :html => { :id => 'my_account_form', class: 'form -wide-labels' } do |f| %>
+<%= labelled_tabular_form_for @user, as: :user, url: { action: 'account' },
+                          lang: current_language,
+                          html: { id: 'my_account_form', class: 'form -wide-labels' } do |f| %>
   <%# @see https://github.com/zurb/foundation-apps/issues/575 -%>
   <div class="grid-block medium-up-2">
     <div class="grid-content">
-      <h3 class="form--section-title"><%=l(:label_information_plural)%></h3>
       <section class="form--section">
-        <div class="form--field"><%= f.text_field :firstname, :required => true %></div>
-        <div class="form--field"><%= f.text_field :lastname, :required => true %></div>
-        <div class="form--field"><%= f.text_field :mail, :required => true %></div>
-        <div class="form--field"><%= f.select :language, lang_options_for_select %></div>
+        <div class="form--field">
+          <label class="form--label" for="username">
+            <%= User.human_attribute_name(:login) %>
+          </label>
+          <div class="form--field-container">
+            <%= @user.login %>
+          </div>
+        </div>
+        <div class="form--field"><%= f.text_field :firstname, required: true %></div>
+        <div class="form--field"><%= f.text_field :lastname, required: true %></div>
+        <div class="form--field"><%= f.text_field :mail, required: true %></div>
 
-        <%= render partial:     'customizable/field',
-                   collection:  @user.custom_field_values.select(&:editable?),
-                   as:          :value,
-                   locals:      { form: f } %>
+        <%= fields_for :pref, @user.pref, builder: TabularFormBuilder, lang: current_language do |pref_fields| %>
+          <div class="form--field"><%= pref_fields.check_box :hide_mail %></div>
+        <% end %>
 
-        <%= call_hook(:view_my_account, :user => @user, :form => f) %>
-      </section>
-    </div>
-
-    <div class="grid-content">
-      <h3 class="form--section-title"><%= User.human_attribute_name(:mail_notification) %></h3>
-      <section class="form--section">
-        <%= render :partial => 'users/mail_notifications' %>
-      </section>
-      <h3 class="form--section-title"><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
-      <section class="form--section">
-        <%= render :partial => 'users/impaired_settings' %>
-      </section>
-      <h3 class="form--section-title"><%=l(:label_preferences)%></h3>
-      <section class="form--section">
-        <%= render :partial => 'users/preferences' %>
+        <%= call_hook(:view_my_account, user: @user, form: f) %>
       </section>
     </div>
   </div>
