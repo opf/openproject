@@ -18,20 +18,18 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
-require Rails.root.join("db","migrate","migration_utils","yaml_migrator").to_s
+require Rails.root.join("db","migrate","migration_utils","legacy_yamler").to_s
 
 class MyProjectPageMigrateSerializedYaml < ActiveRecord::Migration
-  include Migration::YamlMigrator
+  include Migration::LegacyYamler
 
   def up
     ['top', 'left', 'right', 'hidden'].each do |column|
-      migrate_yaml('my_projects_overviews', column, 'syck', 'psych')
+       migrate_to_psych('my_projects_overviews', column)
     end
   end
 
   def down
-    ['top', 'left', 'right', 'hidden'].each do |column|
-      migrate_yaml('my_projects_overviews', column, 'psych', 'syck')
-    end
+    puts 'YAML data serialized with Psych is still compatible with Syck. Skipping migration.'
   end
 end
