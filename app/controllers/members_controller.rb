@@ -198,7 +198,6 @@ class MembersController < ApplicationController
         user = UserInvitation.invite_new_user(email: id) ||
           User.find_by_mail(id)
 
-
         user.id if user
       else
         id
@@ -219,7 +218,7 @@ class MembersController < ApplicationController
   def transform_array_of_comma_seperated_ids(array)
     return array unless array.present?
     each_comma_seperated(array) do |elem|
-      elem.to_s.split(',').map(&:to_i)
+      elem.to_s.split(',')
     end
   end
 
