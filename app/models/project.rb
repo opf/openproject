@@ -60,7 +60,7 @@ class Project < ActiveRecord::Base
                                conditions: "#{Principal.table_name}.type='Group' OR " +
                                  "(#{Principal.table_name}.type='User' AND " +
                                  "(#{Principal.table_name}.status=#{User::STATUSES[:active]} OR " +
-                                 "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]} OR " + 
+                                 "#{Principal.table_name}.status=#{User::STATUSES[:registered]} OR " + 
                                  "#{Principal.table_name}.status=#{User::STATUSES[:invited]}))"
 
   has_many :users, through: :members
