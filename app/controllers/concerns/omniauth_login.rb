@@ -44,7 +44,6 @@ module Concerns::OmniauthLogin
     # Set back url to page the omniauth login link was clicked on
     params[:back_url] = request.env['omniauth.origin']
 
-
     user =
       if session.include? :invitation_token
         tok = Token.find_by value: session[:invitation_token]
@@ -156,7 +155,7 @@ module Concerns::OmniauthLogin
 
   def fill_user_fields_from_omniauth(user, auth)
     user.update_attributes omniauth_hash_to_user_attributes(auth)
-    user.register
+    user.register unless user.invited?
     user
   end
 

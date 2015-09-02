@@ -62,6 +62,12 @@ class AccountController < ApplicationController
     end
   end
 
+  def signup
+    if User.current.logged?
+      redirect_to my_page_path
+    end
+  end
+
   # Enable user to choose a new password
   def lost_password
     return redirect_to(home_url) unless allow_lost_password_recovery?
@@ -167,17 +173,35 @@ class AccountController < ApplicationController
 
   # Token based account activation
   def activate
-    return redirect_to(home_url) unless Setting.self_registration? && params[:token]
-    token = Token.find_by(action: 'register', value: params[:token].to_s)
-    redirect_to(home_url) && return unless token and !token.expired?
-    user = token.user
-    redirect_to(home_url) && return unless user.registered?
-    user.activate
-    if user.save
-      token.destroy
-      flash[:notice] = l(:notice_account_activated)
+    if not Setting.self_registration? || params[:token].nil?
+      redirect_to home_url
+    else
+      token = Token.find_by action: UserInvitation.token_action, value: params[:token].to_s
+
+      if token.nil? || token.expired? || !token.user.invited?
+        redirect_to home_url
+      else
+        session[:invitation_token] = token.value
+        user = token.user
+
+        if user.auth_source
+          session[:auth_source_registration] = {
+            login: user.login,
+            auth_source_id: user.auth_source_id
+          }
+
+          flash[:notice] = I18n.t('account.auth_source_login', login: user.login).html_safe
+
+          redirect_to signin_path(login: user.login)
+        else
+          if Concerns::OmniauthLogin.direct_login?
+            direct_login user
+          else
+            redirect_to signup_path
+          end
+        end
+      end
     end
-    redirect_to action: 'login'
   end
 
   # Process a password change form, used when the user is forced
@@ -247,7 +271,7 @@ class AccountController < ApplicationController
   end
 
   def password_authentication(username, password)
-    user = User.try_to_login(username, password)
+    user = User.try_to_login(username, password, session)
     if user.nil?
       # login failed, now try to find out why and do the appropriate thing
       user = User.find_by_login(username)
@@ -360,6 +384,8 @@ class AccountController < ApplicationController
 
   # Register a user depending on Setting.self_registration
   def register_user_according_to_setting(user, opts = {}, &block)
+    return register_automatically(user, opts, &block) if user.invited?
+
     case Setting.self_registration
     when '1'
       register_by_email_activation(user, opts, &block)

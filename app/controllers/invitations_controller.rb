@@ -76,6 +76,11 @@ class InvitationsController < ApplicationController
       flash[:warning] = 'You are already registered, mate.'
 
       redirect_to invitation_path id: token.user_id
+    elsif token.expired?
+      flash[:error] = 'The invitation has expired.'
+      token.destroy
+
+      redirect_to signin_path
     else
       session[:invitation_token] = token.value
       flash[:info] = 'Create a new account or register now, pl0x!'
