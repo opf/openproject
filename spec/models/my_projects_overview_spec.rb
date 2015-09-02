@@ -24,7 +24,7 @@ describe MyProjectsOverview, :type => :model do
   before do
     @enabled_module_names = %w[activity work_package_tracking news wiki]
     FactoryGirl.create(:project, :enabled_module_names => @enabled_module_names)
-    @project = Project.find(:first)
+    @project = Project.first
     @overview = MyProjectsOverview.create(:project_id => @project.id)
   end
 

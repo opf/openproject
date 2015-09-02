@@ -161,14 +161,15 @@ class MyProjectsOverviewsController < ApplicationController
                 :object_callback
 
   def childprojects
-    @childprojects ||= project.children.visible.all
+    @childprojects ||= project.children.visible
   end
 
   def recent_news
-    @news ||= project.news.all :limit => 5,
-                               :include => [ :author, :project ],
-                               :order => "#{News.table_name}.created_on DESC"
-
+    @news ||= project
+              .news
+              .includes([:author, :project])
+              .order("#{News.table_name}.created_on DESC")
+              .limit(5)
   end
 
   def types
@@ -176,24 +177,32 @@ class MyProjectsOverviewsController < ApplicationController
   end
 
   def open_work_packages_by_type
-    @open_work_packages_by_tracker ||= WorkPackage.visible.count(:group => :type,
-                                                          :include => [:project, :status, :type],
-                                                          :conditions => ["(#{subproject_condition}) AND #{Status.table_name}.is_closed=?", false])
+    @open_work_packages_by_tracker ||= work_packages_by_type
+                                       .where(statuses: { is_closed: false })
+                                       .count
   end
 
   def total_work_packages_by_type
-    @total_work_packages_by_tracker ||= WorkPackage.visible.count(:group => :type,
-                                                           :include => [:project, :status, :type],
-                                                           :conditions => subproject_condition)
+    @total_work_packages_by_tracker ||= work_packages_by_type.count
+  end
 
+  def work_packages_by_type
+    WorkPackage
+      .visible
+      .group(:type)
+      .includes([:project, :status, :type])
+      .where(subproject_condition)
   end
 
   def assigned_work_packages
-    @assigned_issues ||= WorkPackage.visible.open.find(:all,
-                                                       :conditions => { :assigned_to_id => User.current.id },
-                                                       :limit => 10,
-                                                       :include => [ :status, :project, :type, :priority ],
-                                                       :order => "#{IssuePriority.table_name}.position DESC, #{WorkPackage.table_name}.updated_on DESC")
+    @assigned_issues ||= WorkPackage
+                         .visible
+                         .open
+                         .where(assigned_to: User.current.id)
+                         .limit(10)
+                         .includes([:status, :project, :type, :priority])
+                         .order("#{IssuePriority.table_name}.position DESC,
+                                 #{WorkPackage.table_name}.updated_on DESC")
   end
 
   def users_by_role(limit = 100)
@@ -278,7 +287,7 @@ class MyProjectsOverviewsController < ApplicationController
   end
 
   def overview
-    @overview ||= MyProjectsOverview.find_or_create_by_project_id(project.id)
+    @overview ||= MyProjectsOverview.find_or_create_by(project_id: project.id)
   end
 
   def attachments

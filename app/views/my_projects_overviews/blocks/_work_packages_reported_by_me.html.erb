@@ -19,17 +19,17 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<h3><%=l(:label_work_package_view_all_reported_by_me)%> (<%= WorkPackage.visible.count(:conditions => { :author_id => User.current.id, :project_id => @project.id }) %>)</h3>
+<h3><%=l(:label_work_package_view_all_reported_by_me)%> (<%= WorkPackage.visible.where(author_id: User.current.id, project_id: @project.id).count %>)</h3>
 
 <% if defined? block_name_id %>
   <%= content_for block_name_id %>
 <% end %>
 
-<% reported_work_packages = WorkPackage.visible.find(:all,
-                                              :conditions => { :author_id => User.current.id, :project_id => @project.id },
-                                              :limit => 10,
-                                              :include => [ :status, :project, :type ],
-                                              :order => "#{WorkPackage.table_name}.updated_at DESC") %>
+<% reported_work_packages = WorkPackage.visible
+                            .where(author_id: User.current.id, project_id: @project.id)
+                            .limit(10)
+                            .includes([:status, :project, :type])
+                            .order("#{WorkPackage.table_name}.updated_at DESC") %>
 <%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => reported_work_packages } %>
 <% if reported_work_packages.length > 0 %>
   <p class="small">
