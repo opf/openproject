@@ -1,0 +1,47 @@
+<h3 class="homescreen-blocks--item-header">
+  <span class="icon-context icon-settings"></span>
+  <%= l(:label_administration) %>
+</h3>
+
+<ul class="homescreen--arrow-links">
+  <li>
+    <%= link_to l(:label_project_plural), settings_path(tab: :projects),
+               title: l(:label_project_plural) %>
+  </li>
+  <li>
+    <%= link_to l(:label_user_plural), users_path,
+               title: l(:label_user_plural) %>
+  </li>
+  <li>
+    <%= link_to l(:label_manage_groups), groups_path,
+                title: l(:label_manage_groups) %>
+  </li>
+  <li>
+    <%= link_to l(:label_role_and_permissions), roles_path,
+               title: l(:label_role_and_permissions) %>
+
+  </li>
+	<li>
+    <%= link_to l(:label_work_package_types), types_path,
+               title: l(:label_work_package_types) %>
+  </li>
+	<li>
+    <%= link_to l(:label_work_package_status), statuses_path,
+               title: l(:label_work_package_status) %>
+  </li>
+	<li>
+    <%= link_to l(:label_workflow_plural), workflows_path,
+               title: l(:label_workflow_plural) %>
+
+  </li>
+	<li>
+    <%= link_to l('attributes.custom_values'), custom_fields_path,
+               title: l('attributes.custom_values') %>
+
+  </li>
+	<li>
+    <%= link_to l(:label_advanced_settings), settings_path,
+               title: l(:label_advanced_settings) %>
+  </li>
+  <%= call_hook(:homescreen_administration_links) %>
+</ul>

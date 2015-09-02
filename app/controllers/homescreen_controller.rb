@@ -27,10 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WelcomeController < ApplicationController
+class HomescreenController < ApplicationController
   def index
-    @news     = current_user.latest_news
-    @projects = current_user.latest_projects
+    @newest_projects = Project.visible.newest.take(3)
+    @newest_users = User.newest.take(3)
+    @news = News.latest(count: 3)
   end
 
   def robots

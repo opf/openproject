@@ -1,0 +1,133 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+@mixin homescreen-block-style
+  background: $homescreen-block-bg-color
+  border: 1px solid $homescreen-block-border-color
+  margin: 10px
+
+.controller-homescreen,
+.controller-homescreen #content
+  background: $homescreen-content-bg-color
+
+.controller-homescreen #breadcrumb
+  display: none
+
+.homescreen-header
+  margin-left: 10px
+
+.homescreen-blocks
+  display: flex
+  flex-flow: row wrap
+
+  .icon-context:before
+    padding-right: 5px
+
+  .homescreen-blocks--item
+    @include homescreen-block-style
+    padding: 10px 10px 10px 20px
+    flex: 1
+    flex-basis: 32%
+    display: flex
+    flex-direction: column
+    min-height: 250px
+    word-wrap: break-words
+    overflow: hidden
+
+    .homescreen-blocks--item-header
+      font-weight: bold
+      font-size: 1rem
+      text-transform: uppercase
+      border-color: $homescreen-block-border-color
+
+
+    .homescreen--additional-info
+      margin: 0
+      font-size: 0.9rem
+      font-style: italic
+
+    .homescreen--enumeration
+      margin-left: 1.5rem
+      margin-top: 0.5rem
+      flex-grow: 2
+
+    .homescreen--arrow-links
+      list-style: none
+      margin: 0.5rem 0 1rem 0
+      flex-grow: 2
+
+      li:before
+        @include icon-common
+        @extend .icon-context
+        content: "\e03f"
+        display: inline-block
+        font-size: 0.6rem
+        margin-right: 10px
+        color: $content-icon-link-color
+
+      .-homescreen--arrow-multiline
+        &:before
+          float: left
+
+        &:after
+          clear: both
+          content: ""
+          display: table
+
+        > div
+          float: left
+          margin-bottom: 10px
+
+
+.homescreen-links
+  @include homescreen-block-style
+  display: flex
+  padding: 20px 20%
+  align-items: center
+  justify-content: center
+  background: $homescreen-footer-bg-color
+
+  .icon-context:before
+    padding-right: 0
+
+  .homescreen-link--item
+    flex: 1
+    display: block
+    text-align: center
+    color: $content-icon-link-color
+
+    &:hover,
+    &:hover span
+      text-decoration: none
+      color: $content-icon-link-hover-color
+
+    span
+      display: block
+      margin-bottom: 10px
+      font-size: 3rem
+      color: $homescreen-icon-color
