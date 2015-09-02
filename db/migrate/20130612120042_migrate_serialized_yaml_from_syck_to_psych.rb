@@ -48,29 +48,4 @@ class MigrateSerializedYamlFromSyckToPsych < ActiveRecord::Migration
   def down
     puts 'YAML data serialized with Psych is still compatible with Syck. Skipping migration.'
   end
-
-  private
-
-  def migrate_to_psych(table, column)
-    table_name = ActiveRecord::Base.connection.quote_table_name(table)
-    column_name = ActiveRecord::Base.connection.quote_column_name(column)
-
-    fetch_data(table_name, column_name).each do |row|
-      transformed = ::Psych.dump(load_with_sych(row[column]))
-
-      ActiveRecord::Base.connection.execute <<-SQL
-        UPDATE #{table_name}
-        SET #{column_name} = #{ActiveRecord::Base.connection.quote(transformed)}
-        WHERE id = #{row['id']};
-      SQL
-    end
-  end
-
-  def fetch_data(table_name, column_name)
-    ActiveRecord::Base.connection.select_all <<-SQL
-      SELECT id, #{column_name}
-      FROM #{table_name}
-      WHERE #{column_name} LIKE '---%'
-    SQL
-  end
 end
