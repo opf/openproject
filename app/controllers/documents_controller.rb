@@ -56,7 +56,7 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    @attachments = @document.attachments.find(:all, :order => "created_on DESC")
+    @attachments = @document.attachments.order('created_on DESC')
   end
 
   def new

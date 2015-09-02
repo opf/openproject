@@ -37,9 +37,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% project_ids = @user.projects.select {|p| @user.allowed_to?(:view_documents, p)}.collect(&:id) %>
-<%= render(:partial => 'documents/document',
-           :collection => Document.find(:all,
-                         :limit => 10,
-                         :order => "#{Document.table_name}.created_on DESC",
-                         :conditions => "#{Document.table_name}.project_id in (#{project_ids.join(',')})",
-                         :include => [:project])) unless project_ids.empty? %>
+<%= render(partial: 'documents/document',
+           collection:  Document
+                        .limit(10)
+                        .order("#{Document.table_name}.created_on DESC")
+                        .where("#{Document.table_name}.project_id in (#{project_ids.join(',')})")
+                        .includes(:project)) unless project_ids.empty? %>
