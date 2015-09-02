@@ -35,11 +35,9 @@ Given /^there (?:is|are) (\d+) (default )?hourly rate[s]? with the following:$/ 
   end
   send_table_to_object(hr, table,     user: Proc.new do |rate, value|
     unless rate.project.nil? || User.find_by_login(value).projects.include?(rate.project)
-      Rate.update_all({ project_id:  User.find_by_login(value).projects(order: 'id ASC').last.id },
-                      id: rate.id)
+      Rate.where(id: rate.id).update_all(project_id:  User.find_by_login(value).projects(order: 'id ASC').last.id)
     end
-    Rate.update_all({ user_id: User.find_by_login(value).id },
-                    id: rate.id)
+    Rate.where(id: rate.id).update_all(user_id: User.find_by_login(value).id)
   end,
                                       valid_from: Proc.new do |rate, value|
                                         # This works for definitions like "2 years ago"

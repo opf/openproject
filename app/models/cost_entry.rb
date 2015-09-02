@@ -40,6 +40,7 @@ class CostEntry < ActiveRecord::Base
   scope :visible, lambda { |*args|
     where(CostEntry.visible_condition(args[0] || User.current, args[1]))
       .includes([:project, :user])
+      .references(:project)
   }
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }

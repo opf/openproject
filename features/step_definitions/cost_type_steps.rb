@@ -64,9 +64,7 @@ When /^I expect to click "([^"]*)" on a confirmation box saying "([^"]*)"$/ do |
 end
 
 When /^the confirmation box should have been displayed$/ do
-  assert page.evaluate_script('document.cookie').include?(@expected_message),
-         "Expected confirm box with message: '#{@expected_message}'" +
-           " got: '#{page.evaluate_script('document.cookie')}'"
+  expect(page.evaluate_script('document.cookie')).to include(@expected_message)
 end
 
 Then(/^the cost type "(.*?)" should not be listed on the index page$/) do |name|

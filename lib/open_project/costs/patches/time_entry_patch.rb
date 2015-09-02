@@ -32,6 +32,7 @@ module OpenProject::Costs::Patches::TimeEntryPatch
       scope :visible, lambda { |*args|
         where(TimeEntry.visible_condition(args[0] || User.current, args[1]))
           .includes(:project, :user)
+          .references(:project)
       }
 
       before_save :update_costs
@@ -49,9 +50,8 @@ module OpenProject::Costs::Patches::TimeEntryPatch
                                 (#{Project.allowed_to_condition(user, :view_own_hourly_rate, project: project)} AND #{TimeEntry.table_name}.user_id = #{user.id})) }
         view_time_entries = TimeEntry.visible_condition(user, project)
 
-        { include: [:project, :user],
-          conditions: [view_time_entries, view_hourly_rates].join(' AND ')
-        }
+        includes(:project, :user)
+          .where([view_time_entries, view_hourly_rates].join(' AND '))
       }
     end
   end

@@ -66,8 +66,10 @@ module OpenProject::Costs::Patches::WorkPackagePatch
 
         false
       when 'reassign'
-        reassign_to = WorkPackage.includes(:project)
+        reassign_to = WorkPackage
                       .where(Project.allowed_to_condition(user, :edit_cost_entries))
+                      .includes(:project)
+                      .references(:projects)
                       .find_by_id(to_do[:reassign_to_id])
 
         if reassign_to.nil?
