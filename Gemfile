@@ -88,8 +88,6 @@ gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git"
 # https://github.com/kickstarter/rack-attack
 gem 'rack-attack'
 
-gem 'syck', :platforms => [:mri, :mingw, :x64_mingw], :require => false
-
 gem 'gon', '~> 4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
@@ -181,6 +179,10 @@ end
 
 group :ldap do
   gem "net-ldap", '~> 0.8.0'
+end
+
+group :syck, optional: true do
+  gem "syck", require: false
 end
 
 group :development do
