@@ -30,8 +30,8 @@
 class DeleteUserJob
   include OpenProject::BeforeDelayedJob
 
-  def initialize(user)
-    @user_id = user.id
+  def initialize(user_id)
+    @user_id = user_id
   end
 
   def perform
