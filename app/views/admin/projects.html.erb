@@ -115,7 +115,6 @@ See doc/COPYRIGHT.rdoc for more details.
             <td><%= checked_image project.is_public? %></td>
             <td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td>
             <td><%= format_date(project.created_on) %></td>
-            <td><%= format_date(project.updated_on) %></td>
             <td class="buttons">
               <%= link_to('',
                   archive_project_path(project, :status => params[:status]),
