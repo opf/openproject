@@ -27,7 +27,7 @@
 //++
 
 // TODO move to UI components
-module.exports = function(I18n, $timeout, NotificationsService) {
+module.exports = function(I18n, $timeout, NotificationsService, ConfigurationService) {
   return {
     restrict: 'A',
     replace: false,
@@ -38,7 +38,7 @@ module.exports = function(I18n, $timeout, NotificationsService) {
 
       elem.click(function(evt) {
         var supported = (document.queryCommandSupported && document.queryCommandSupported('copy')),
-          addNotification = function(type, message, removeAfter) {
+          addNotification = function(type, message) {
             var notification;
 
           $timeout(function() {
@@ -46,9 +46,12 @@ module.exports = function(I18n, $timeout, NotificationsService) {
           }, 0);
 
           // Remove the notification some time later
-          $timeout(function() {
-            NotificationsService.remove(notification);
-          }, removeAfter);
+          // but only when we're not in accessible mode
+          if (!ConfigurationService.accessibilityModeEnabled()) {
+            $timeout(function() {
+              NotificationsService.remove(notification);
+            }, 5000);
+          }
         };
 
         evt.preventDefault();
@@ -62,7 +65,7 @@ module.exports = function(I18n, $timeout, NotificationsService) {
           try {
             // Copy it to the clipboard
             if (document.execCommand('copy')) {
-              addNotification('addSuccess', I18n.t('js.clipboard.copied_successful'), 1000);
+              addNotification('addSuccess', I18n.t('js.clipboard.copied_successful'));
               return;
             }
           } catch (e) {
@@ -72,7 +75,7 @@ module.exports = function(I18n, $timeout, NotificationsService) {
           }
         }
 
-        addNotification('addError', I18n.t('js.clipboard.browser_error'), 3000);
+        addNotification('addError', I18n.t('js.clipboard.browser_error'));
       });
     }
   };

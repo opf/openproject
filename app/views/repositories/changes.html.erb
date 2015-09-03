@@ -30,7 +30,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= call_hook(:view_repositories_show_contextual, { :repository => @repository, :project => @project }) %>
 <%= render partial: 'repository_header', locals: { empty: false } %>
 
-<%# Breadcrumbs %>
 <div class="repository-breadcrumbs">
   <%= render partial: 'breadcrumbs',
              locals: { path: @path, revision: @rev }.merge(kind: (@entry ? @entry.kind : nil)) %>

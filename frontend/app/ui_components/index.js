@@ -46,6 +46,7 @@ angular.module('openproject.uiComponents')
     'I18n',
     '$timeout',
     'NotificationsService',
+    'ConfigurationService',
     require('./copy-to-clipboard-directive')
   ])
   .directive('opDate', ['TimezoneService', require('./date/date-directive')])

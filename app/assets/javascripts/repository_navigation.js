@@ -29,12 +29,12 @@
 (function($) {
   $(function() {
     var revision = $('#revision-identifier-input'),
-      form = revision.closest('form'),
-      tag = $('#revision-tag-select'),
-      branch = $('#revision-branch-select'),
-      selects = tag.add(branch),
-      branch_selected = branch.length > 0 && revision.val() == branch.val(),
-      tag_selected = tag.length > 0 && revision.val() == tag.val();
+        form = revision.closest('form'),
+        tag = $('#revision-tag-select'),
+        branch = $('#revision-branch-select'),
+        selects = tag.add(branch),
+        branch_selected = branch.length > 0 && revision.val() == branch.val(),
+        tag_selected = tag.length > 0 && revision.val() == tag.val();
 
     var sendForm = function() {
       selects.prop('disable', true);
@@ -85,7 +85,7 @@
     Close checkout instructions
     */
     var checkout = $('#repository--checkout-instructions'),
-      toggle = $('#repository--checkout-instructions-toggle');
+        toggle = $('#repository--checkout-instructions-toggle');
 
     if (checkout.length > 0) {
       checkout.find('.notification-box--close').click(function(e){
