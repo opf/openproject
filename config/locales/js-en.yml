@@ -32,6 +32,11 @@ en:
       hide: "Hide"
       loading: "Loading ..."
     close_popup_title: "Close popup"
+
+    clipboard:
+      browser_error: "Your browser doesn't seem to support copying to clipboard. Please copy the selected text manually."
+      copied_successful: "Sucessfully copied to clipboard!"
+
     button_add_watcher: "Add watcher"
     button_cancel: "Cancel"
     button_check_all: "Check all"
