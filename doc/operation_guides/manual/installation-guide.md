@@ -248,10 +248,13 @@ Then, we prepare apache and passenger:
 
 Now, the Passenger gem is installed and integrated into apache.
 
+```bash
 [root@ubuntu] su openproject --login
 [openproject@ubuntu] cd ~/openproject
 [openproject@ubuntu] gem install passenger
 [openproject@ubuntu] passenger-install-apache2-module
+```
+
 Follow the instructions passenger provides.
 The passenger installer will ask you the question in "Which languages are you
 interested in?". We are interested only in ruby.
