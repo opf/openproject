@@ -29,7 +29,7 @@
 
 module API
   module Decorators
-    class Schema < Single
+    class SchemaRepresenter < Single
       class << self
         def schema(property,
                    type:,
