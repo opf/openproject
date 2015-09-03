@@ -39,7 +39,7 @@ module Migration
       column_name = ActiveRecord::Base.connection.quote_column_name(column)
 
       fetch_data(table_name, column_name).each do |row|
-        transformed = ::Psych.dump(load_with_sych(row[column]))
+        transformed = ::Psych.dump(load_with_syck(row[column]))
 
         ActiveRecord::Base.connection.execute <<-SQL
           UPDATE #{table_name}
