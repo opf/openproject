@@ -28,7 +28,8 @@
     "bourbon": "~4.2.1",
     "ui-select": "0xf013/ui-select#c7bef79e24cbeab977635c7a94d8f9504d4ee2e2",
     "mousetrap": "~1.4.6",
-    "ng-file-upload": "~5.0.9"
+    "ng-file-upload": "~5.0.9",
+    "autogrow": "ultimatedelman/autogrow#master#a243e1a5cde9bffad11c978153c1b21a6bdc580a"
   },
   "devDependencies": {
     "mocha": "~1.14.0",

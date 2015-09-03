@@ -31,7 +31,6 @@ module.exports = function() {
     transclude: true,
     replace: true,
     scope: {},
-    require: '^workPackageField',
     templateUrl: '/templates/work_packages/inplace_editor/main_pane.html',
     controller: function($scope, $timeout) {
       // controller is invoked before linker

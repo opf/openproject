@@ -28,6 +28,9 @@
 
 .work-packages--details-content
   font-size:  0.875rem
+  .inplace-edit--write-value
+    textarea
+      overflow: hidden
 
 @mixin details-pane--form-field
   @include grid-visible-overflow
@@ -47,7 +50,7 @@ div[class*='work-packages--details--']
     .dynamic-attribute
       width: 100%
 
-    span          
+    span
       overflow: hidden
       text-overflow: ellipsis
       display: block

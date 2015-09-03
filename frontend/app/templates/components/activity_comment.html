@@ -4,7 +4,7 @@
       {{ $parent.title }}
     </label>
     <textarea id="add-comment-text"
-              class="add-comment-text"
+              class="add-comment-text -autogrow"
               name="add_comment_text"
               ng-model="$parent.activity.comment"
               required
@@ -13,7 +13,8 @@
     </textarea>
     <button class="button"
             ng-click="$parent.createComment()"
-            ng-disabled="commentForm.$invalid || $parent.processingComment">
+            ng-disabled="commentForm.$invalid || $parent.processingComment"
+            ng-hide="commentForm.$invalid || $parent.processingComment">
       <i class="icon-yes icon-left"></i>{{ $parent.buttonTitle }}
     </button>
   </form>

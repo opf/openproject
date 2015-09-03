@@ -6,8 +6,8 @@
             preview-toggle="customEditorController.togglePreview()"
             name="value"
             ng-disabled="fieldController.state.isBusy"
-            ng-required="editPaneController.isRequired"
-            ng-model="fieldController.writeValue.raw"
+            ng-required="fieldController.isRequired"
+            ng-model="$parent.fieldController.writeValue.raw"
             title="{{ fieldController.editTitle }}">
     </textarea>
     <div class="inplace-edit--preview" ng-if="customEditorController.isPreview && !fieldController.state.isBusy">

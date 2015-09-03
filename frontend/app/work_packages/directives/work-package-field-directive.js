@@ -35,6 +35,13 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState) {
       return WorkPackageFieldService.isEditable(EditableFieldsState.workPackage, this.field);
     };
 
+    this.isRequired = function() {
+      return WorkPackageFieldService.isRequired(
+        EditableFieldsState.workPackage,
+        this.field
+      );
+    };
+
     this.isEmpty = function() {
       return WorkPackageFieldService.isEmpty(EditableFieldsState.workPackage, this.field);
     };

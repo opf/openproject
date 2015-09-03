@@ -26,34 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
-  return {
-    restrict: 'EA',
-    replace: true,
-    transclude: true,
-    template: '<div class="exclusive-edit" ng-transclude></div>',
-    controller: function() {
-      var editors = [];
-      var creator;
-
-      this.gotEditable = function(selectedEditor) {
-        angular.forEach(editors, function(editor) {
-          editor.inEdit = selectedEditor == editor;
-        });
-      };
-
-      this.addEditable = function(editor) {
-        editors.push(editor);
-      };
-
-      this.setCreator = function(newCreator) {
-        creator = newCreator;
-      };
-
-      this.quoteComment = function(text) {
-        creator.fieldController.writeValue = { raw: text };
-        creator.fieldController.startEditing();
-      };
-    }
-  };
-};
+(function($) {
+  $(function() {
+    $('.-autogrow').autogrow();
+  });
+}(jQuery));

@@ -109,7 +109,7 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
     max-width: 100%
 
 .inplace-edit--textarea
-  min-height: 200px
+  min-height: 20px
   width: 100%
   margin-bottom: -1px
 
@@ -256,7 +256,6 @@ a.inplace-editing--trigger-link,
       padding: 0
 
 // custom hack to have the jsToolbar in the same line as the "Description" title
-
 .inplace-edit.attribute-description
   .inplace-edit--write
     margin-top: -48px
@@ -264,6 +263,20 @@ a.inplace-editing--trigger-link,
     // which in textile is shown due to edit buttons on the right side
     &.edit-strategy-textarea
       margin-top: auto
+
+// Explicit styles for comment / input-esque trigger appearance
+.work-packages--activity--add-comment
+  margin: 20px 0
+
+  .inplace-editing--container
+    border: 1px solid #eee
+
+  .inplace-edit--read-value
+    padding: 10px 5px
+
+  .inplace-editing--trigger-link
+    color: #888
+    font-size: 1rem
 
 // this aligns the title for the WP
 .work-packages--details--title

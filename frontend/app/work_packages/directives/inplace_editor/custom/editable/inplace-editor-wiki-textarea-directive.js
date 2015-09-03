@@ -32,7 +32,6 @@ module.exports = function(TextileService, EditableFieldsState, $sce, AutoComplet
     transclude: true,
     replace: true,
     scope: {},
-    require: '^workPackageField',
     templateUrl: '/templates/work_packages/inplace_editor/custom/editable/wiki_textarea.html',
     controller: function($scope) {
       this.isPreview = false;
@@ -61,8 +60,8 @@ module.exports = function(TextileService, EditableFieldsState, $sce, AutoComplet
       };
     },
     controllerAs: 'customEditorController',
-    link: function(scope, element, attrs, fieldController) {
-      scope.fieldController = fieldController;
+    link: function(scope, element) {
+      scope.fieldController = scope.$parent.fieldController;
       $timeout(function() {
         AutoCompleteHelper.enableTextareaAutoCompletion(element.find('textarea'));
         // set as dirty for the script to show a confirm on leaving the page
