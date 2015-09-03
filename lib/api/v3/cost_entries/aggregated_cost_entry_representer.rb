@@ -27,7 +27,7 @@ module API
           @cost_type = cost_type
           @spent_units = units
 
-          super(nil)
+          super(nil, current_user: nil)
         end
 
         linked_property :cost_type,

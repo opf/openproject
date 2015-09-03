@@ -35,7 +35,7 @@ describe ::API::V3::Budgets::BudgetRepresenter do
                       updated_on: Date.today)
   }
 
-  let(:representer)  { described_class.new(budget) }
+  let(:representer)  { described_class.new(budget, current_user: user) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
