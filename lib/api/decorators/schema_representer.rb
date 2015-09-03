@@ -29,7 +29,7 @@
 
 module API
   module Decorators
-    class Schema < Single
+    class SchemaRepresenter < Single
       module InstanceMethods
         module_function
 
