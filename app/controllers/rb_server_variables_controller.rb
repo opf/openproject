@@ -34,6 +34,7 @@
 #++
 
 class RbServerVariablesController < RbApplicationController
+  protect_from_forgery except: :show
   def show
     respond_to do |format|
       format.js { render layout: false }
