@@ -27,8 +27,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= javascript_include_tag "members_view.js" %>
-
 <% html_title 'Members' %>
 <%= toolbar title: 'Members' do %>
     <% if authorize_for(:members, :new) %>
