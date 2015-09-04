@@ -1205,6 +1205,9 @@ en:
   notice_locking_conflict: "Information has been updated by at least one other user in the meantime."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
+  notice_member_added: Added %{name} to the project.
+  notice_members_added: Added %{number} users to the the project.
+  notice_member_removed: Removed user from project.
   notice_no_principals_found: "No results found."
   notice_bad_request: "Bad Request."
   notice_not_authorized: "You are not authorized to access this page."

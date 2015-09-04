@@ -70,7 +70,7 @@ class MembersController < ApplicationController
     end
     respond_to do |format|
       if members.present? && members.all?(&:valid?)
-        flash.notice = l(:notice_successful_create)
+        flash.notice = members_added_notice members
 
         format.html do
           redirect_to project_members_path
@@ -122,7 +122,7 @@ class MembersController < ApplicationController
   def destroy
     if @member.deletable?
       @member.destroy
-      flash.notice = l(:notice_successful_delete)
+      flash.notice = l(:notice_member_removed)
     end
 
     redirect_to project_members_path(project_id: @project.id)
@@ -244,5 +244,13 @@ class MembersController < ApplicationController
     end
     @member.assign_attributes(attrs)
     @member
+  end
+
+  def members_added_notice(members)
+    if members.size == 1
+      l(:notice_member_added, name: members.first.name)
+    else
+      l(:notice_members_added, number: members.size)
+    end
   end
 end
