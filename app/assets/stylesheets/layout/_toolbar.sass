@@ -96,13 +96,19 @@
   a.last, .last
     margin-right: 0
 
-.toolbar-item
+  #repository-checkout-url
+    min-width: 350px
 
-  &.-icon-only .button--icon
-    font-size: 1.1rem
-    position: relative
-    left: 1px
-
+  .toolbar-item
+    &.-icon-only
+      .button
+        text-align: center
+      .button--icon
+        font-size: 1.1rem
+        position: relative
+        left: 0
+        right: 1px
+        vertical-align: text-top
 
 .title-container
   h2

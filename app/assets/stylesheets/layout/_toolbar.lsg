@@ -61,7 +61,7 @@ A toolbar that can and should be used for actions on the current view. Initially
           <option value="oob">Boo</option>
         </select>
       </li>
-      <li class="toolbar-item">
+      <li class="toolbar-item -icon-only">
         <a href="#" class="button -highlight">
           <i class="button--icon icon-add"></i>
         </a>
