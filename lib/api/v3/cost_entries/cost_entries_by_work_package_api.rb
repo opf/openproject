@@ -45,7 +45,8 @@ module API
             cost_entries = @cost_helper.cost_entries
             CostEntryCollectionRepresenter.new(cost_entries,
                                                cost_entries.count,
-                                               path)
+                                               path,
+                                               current_user: current_user)
           end
         end
 
