@@ -354,9 +354,11 @@ class WorkPackagesController < ApplicationController
       changes = work_package.changesets.visible
                 .includes({ repository: { project: :enabled_modules } }, :user)
 
-      changes.reverse! if current_user.wants_comments_in_reverse_order?
-
-      changes
+      if current_user.wants_comments_in_reverse_order?
+        changes.reverse
+      else
+        changes.to_a
+      end
     end
   end
 
