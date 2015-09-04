@@ -37,6 +37,9 @@ See doc/COPYRIGHT.rdoc for more details.
                               :roles => @roles } %>
 
   <% else %>
-    No roles defined.
+      <p>
+          <%= @roles.any? ? I18n.t('text_no_more_users_to_add') : I18n.t('text_no_roles_defined') %>
+      </p>
+      <%= link_to I18n.t('button_back'), :back, class: 'button' %>
   <% end %>
 </div>

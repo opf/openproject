@@ -36,7 +36,8 @@ See doc/COPYRIGHT.rdoc for more details.
 {
   "results":
   {
-    <% email = params[:q] =~ /.+@.+/ %>
+    <%# Offer to invite via email unless it's one of the found user's addresses already. #%>
+    <% email = params[:q] =~ /.+@.+/ && @principals.none? { |p| p.mail == params[:q] } %>
     "items":[
       <% @principals.each_with_index do |principal, ix| %>
         {
