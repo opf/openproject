@@ -55,8 +55,6 @@ class CostlogController < ApplicationController
       cond << "#{root_cond} AND #{WorkPackage.table_name}.lft >= #{@work_package.lft} AND #{WorkPackage.table_name}.rgt <= #{@work_package.rgt}"
     end
 
-    cond << Project.allowed_to_condition(User.current, :view_cost_entries, project: @project)
-
     if @cost_type
       cond << ["#{CostEntry.table_name}.cost_type_id = ?", @cost_type.id]
     end
@@ -67,6 +65,7 @@ class CostlogController < ApplicationController
     respond_to do |format|
       format.html {
         @entries = CostEntry.includes(:project, :cost_type, :user, work_package: :type)
+                   .merge(Project.allowed_to(User.current, :view_cost_entries, project: @project))
                    .where(cond.conditions)
                    .order(sort_clause)
                    .page(page_param)
