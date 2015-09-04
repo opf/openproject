@@ -30,7 +30,7 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 describe CopyProjectsController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
-  let(:redirect_path) { 'source_project_settings' }
+  let(:redirect_path) { "/projects/#{project.id}/settings" }
   let(:permission) { :copy_projects }
   let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
   let(:copy_project_params) {
