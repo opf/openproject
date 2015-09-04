@@ -172,10 +172,8 @@ module API
                                                 type: 'Version',
                                                 name_source: -> (*) { custom_field.name },
                                                 values_callback: -> (*) {
-                                                  # for now we ASSUME that every customized will
-                                                  # understand define that method if it has
-                                                  # version custom fields
-                                                  customized.assignable_versions
+                                                  customized.assignable_values(:version,
+                                                                               current_user)
                                                 },
                                                 value_representer: Versions::VersionRepresenter,
                                                 link_factory: -> (version) {
