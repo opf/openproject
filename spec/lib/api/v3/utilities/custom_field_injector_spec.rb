@@ -55,12 +55,15 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       double('WorkPackageSchema',
              project: double(id: 42),
              defines_assignable_values?: true,
-             available_custom_fields: [custom_field],
-             assignable_versions: versions)
+             available_custom_fields: [custom_field])
     }
     let(:versions) { [] }
 
     subject { modified_class.new(schema, form_embedded: true).to_json }
+
+    before do
+      allow(schema).to receive(:assignable_values).with(:version, anything).and_return(versions)
+    end
 
     describe 'basic custom field' do
       it_behaves_like 'has basic schema properties' do
