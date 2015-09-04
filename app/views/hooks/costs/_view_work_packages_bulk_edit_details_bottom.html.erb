@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <% myselect = select_tag('cost_object_id',
         content_tag('option', l(:label_no_change_option), :value => '') +
         content_tag('option', l(:label_none), :value => 'none') +
-        options_from_collection_for_select(CostObject.find_all_by_project_id(@project.id, :order => 'subject ASC'), :id, :subject))
+        options_from_collection_for_select(CostObject.where(project_id: @project.id).order('subject ASC'), :id, :subject))
   %>
   <%= content_tag :p, (content_tag "label", CostObject.model_name.human, :for => 'cost_object_id') + myselect %>
 <% end %>

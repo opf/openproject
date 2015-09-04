@@ -46,42 +46,139 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <fieldset id="material_budget_items_fieldset" class="budget_fieldset">
   <legend><%= VariableCostObject.human_attribute_name(:material_budget) %></legend>
-  <table class="list material_budget_items" id="material_budget_items">
-    <thead><tr>
-      <th class="cost_units">Amount</th>
-      <th>Unit</th>
-      <th><%= MaterialBudgetItem.human_attribute_name(:cost_type) %></th>
-      <th><%= MaterialBudgetItem.human_attribute_name(:comment) %></th>
-      <% if User.current.allowed_to?(:view_cost_rates, @project)%><th class="currency" id="material_budget_items_price"><%= MaterialBudgetItem.human_attribute_name(:budget) %></th><%end%>
-      <th></th>
-    </tr></thead>
-    <tbody id="material_budget_items_body">
-      <%- @cost_object.material_budget_items.each_with_index do |material_budget_item, index| -%>
-        <%= render :partial => 'material_budget_item', :object => material_budget_item, :locals => {:index => index, :classes => cycle('odd', 'even')} %>
-      <%- end -%>
-    </tbody>
-  </table>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table interactive-table role="grid" class="generic-table material_budget_items" id="material_budget_items">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <% if User.current.allowed_to?(:view_cost_rates, @project)%>
+              <col highlight-col>
+            <%end%>
+            <col>
+          </colgroup>
+        <thead>
+          <tr>
+            <th class="cost_units">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= MaterialBudgetItem.human_attribute_name(:units) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= MaterialBudgetItem.human_attribute_name(:cost_type) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= MaterialBudgetItem.human_attribute_name(:comment) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <% if User.current.allowed_to?(:view_cost_rates, @project)%>
+              <th class="currency" id="material_budget_items_price">
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= MaterialBudgetItem.human_attribute_name(:budget) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            <%end%>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="material_budget_items_body">
+          <%- @cost_object.material_budget_items.each_with_index do |material_budget_item, index| -%>
+            <%= render :partial => 'material_budget_item', :object => material_budget_item, :locals => {:index => index} %>
+          <%- end -%>
+        </tbody>
+      </table>
+      <div class="generic-table--header-background"></div>
+    </div>
+  </div>
   <div style="text-align: right"><%= link_to_function l(:button_add_budget_item), "materialBudgetItemsForm.add()", {:class => "icon-context icon-add"} %></div>
 </fieldset>
 
 <fieldset id="labor_budget_items_fieldset" class="budget_fieldset">
   <legend><%= VariableCostObject.human_attribute_name(:labor_budget) %></legend>
-  <table class="list labor_budget_items" id="labor_budget_items">
-    <thead><tr>
-      <th class="cost_units"><%= LaborBudgetItem.human_attribute_name(:hours) %></th>
-      <th><%= LaborBudgetItem.human_attribute_name(:user) %></th>
-      <th><%= LaborBudgetItem.human_attribute_name(:comment) %></th>
-      <% if User.current.allowed_to?(:view_hourly_rates, @project) %>
-        <th class="currency" id="labor_budget_items_price"><%= LaborBudgetItem.human_attribute_name(:budget) %></th>
-      <% end %>
-      <th></th>
-    </tr></thead>
-    <tbody id="labor_budget_items_body">
-      <%- @cost_object.labor_budget_items.each_with_index do |labor_budget_item, index| -%>
-        <%= render :partial => 'labor_budget_item', :object => labor_budget_item, :locals => {:index => index, :classes => cycle('odd', 'even')} %>
-      <%- end -%>
-    </tbody>
-  </table>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table interactive-table role="grid" class="generic-table" id="labor_budget_items">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <% if User.current.allowed_to?(:view_cost_rates, @project)%>
+            <col highlight-col>
+          <%end%>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="cost_units">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= LaborBudgetItem.human_attribute_name(:hours) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= LaborBudgetItem.human_attribute_name(:user) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= LaborBudgetItem.human_attribute_name(:comment) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <% if User.current.allowed_to?(:view_cost_rates, @project)%>
+              <th class="currency" id="labor_budget_items_price">
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= LaborBudgetItem.human_attribute_name(:budget) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            <%end%>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="labor_budget_items_body">
+        <%- @cost_object.labor_budget_items.each_with_index do |labor_budget_item, index| -%>
+          <%= render :partial => 'labor_budget_item', :object => labor_budget_item, :locals => {:index => index} %>
+        <%- end -%>
+        </tbody>
+      </table>
+      <div class="generic-table--header-background"></div>
+    </div>
+  </div>
   <div style="text-align: right"><%= link_to_function l(:button_add_budget_item), "laborBudgetItemsForm.add()", {:class => "icon-context icon-add"} %></div>
 </fieldset>
 

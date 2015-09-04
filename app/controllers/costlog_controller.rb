@@ -244,8 +244,12 @@ class CostlogController < ApplicationController
     end
 
     @from, @to = @to, @from if @from && @to && @from > @to
-    @from ||= (CostEntry.minimum(:spent_on, include: [:project, :user], conditions: Project.allowed_to_condition(User.current, :view_cost_entries)) || Date.today) - 1
-    @to ||= (CostEntry.maximum(:spent_on, include: [:project, :user], conditions: Project.allowed_to_condition(User.current, :view_cost_entries)) || Date.today)
+    @from ||= (CostEntry.includes([:project, :user])
+              .where(Project.allowed_to_condition(User.current, :view_cost_entries))
+              .minimum(:spent_on) || Date.today) - 1
+    @to ||= (CostEntry.includes([:project, :user])
+            .where(Project.allowed_to_condition(User.current, :view_cost_entries))
+            .maximum(:spent_on) || Date.today)
   end
 
   def new_default_cost_entry

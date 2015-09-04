@@ -35,11 +35,9 @@ Given /^there (?:is|are) (\d+) (default )?hourly rate[s]? with the following:$/ 
   end
   send_table_to_object(hr, table,     user: Proc.new do |rate, value|
     unless rate.project.nil? || User.find_by_login(value).projects.include?(rate.project)
-      Rate.update_all({ project_id:  User.find_by_login(value).projects(order: 'id ASC').last.id },
-                      id: rate.id)
+      Rate.where(id: rate.id).update_all(project_id:  User.find_by_login(value).projects(order: 'id ASC').last.id)
     end
-    Rate.update_all({ user_id: User.find_by_login(value).id },
-                    id: rate.id)
+    Rate.where(id: rate.id).update_all(user_id: User.find_by_login(value).id)
   end,
                                       valid_from: Proc.new do |rate, value|
                                         # This works for definitions like "2 years ago"
@@ -74,8 +72,8 @@ Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the 
   end
 end
 
-Given /^the work package "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |work_package, count, table|
-  i = WorkPackage.find(:last, conditions: ["subject = '#{work_package}'"])
+Given /^the work package "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |work_package_subject, count, table|
+  i = WorkPackage.where(subject: work_package_subject).last
   as_admin count do
     ce = FactoryGirl.build(:cost_entry, spent_on: (table.rows_hash['date'] ? table.rows_hash['date'].to_date : Date.today),
                                         units: table.rows_hash['units'],
@@ -138,7 +136,7 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
 end
 
 Given /^users have times and the cost type "([^\"]*)" logged on the work package "([^\"]*)" with:$/ do |cost_type, work_package, table|
-  i = WorkPackage.find(:last, conditions: ["subject = '#{work_package}'"])
+  i = WorkPackage.where(subject: work_package.subject).last
   raise "No such work_package: #{work_package}" unless i
 
   table.rows_hash.map do |k, v|

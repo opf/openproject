@@ -37,10 +37,10 @@ class CostEntry < ActiveRecord::Base
   after_initialize :after_initialize
   validate :validate
 
-  scope :visible, lambda{|*args|
-    { include: [:project, :user],
-      conditions: CostEntry.visible_condition(args[0] || User.current, args[1])
-    }
+  scope :visible, lambda { |*args|
+    where(CostEntry.visible_condition(args[0] || User.current, args[1]))
+      .includes([:project, :user])
+      .references(:project)
   }
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
@@ -54,9 +54,8 @@ class CostEntry < ActiveRecord::Base
     view_cost_rates = Project.allowed_to_condition((args.first || User.current), :view_cost_rates, project: args[1])
     view_cost_entries = CostEntry.visible_condition((args.first || User.current), args[1])
 
-    { include: [:project, :user],
-      conditions: [view_cost_entries, view_cost_rates].join(' AND ')
-    }
+    where([view_cost_entries, view_cost_rates].join(' AND '))
+      .includes([:project, :user])
   }
 
   def after_initialize

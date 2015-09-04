@@ -40,9 +40,9 @@ class LaborBudgetItem < ActiveRecord::Base
   end
 
   scope :visible_costs, lambda{|*args|
-    { include: [{ cost_object: :project }, :user],
-      conditions: LaborBudgetItem.visible_condition((args.first || User.current), args[1])
-    }
+    includes([{ cost_object: :project }, :user])
+      .where(LaborBudgetItem.visible_condition((args.first || User.current), args[1]))
+      .references(:projects)
   }
 
   def costs

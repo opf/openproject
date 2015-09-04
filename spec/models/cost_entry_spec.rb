@@ -99,7 +99,7 @@ describe CostEntry, type: :model do
           cost_entry.save!
         end
 
-        it { expect(CostEntry.visible(user2, project).all).to match_array([cost_entry]) }
+        it { expect(CostEntry.visible(user2, project)).to match_array([cost_entry]) }
       end
 
       describe "WHEN not having the view_cost_entries permission
@@ -111,7 +111,7 @@ describe CostEntry, type: :model do
           cost_entry.save!
         end
 
-        it { expect(CostEntry.visible(user2, project).all).to match_array([]) }
+        it { expect(CostEntry.visible(user2, project)).to match_array([]) }
       end
 
       describe "WHEN having the view_own_cost_entries permission
@@ -123,7 +123,7 @@ describe CostEntry, type: :model do
           cost_entry.save!
         end
 
-        it { expect(CostEntry.visible(user2, project).all).to match_array([]) }
+        it { expect(CostEntry.visible(user2, project)).to match_array([]) }
       end
 
       describe "WHEN having the view_own_cost_entries permission
@@ -135,7 +135,7 @@ describe CostEntry, type: :model do
           cost_entry2.save!
         end
 
-        it { expect(CostEntry.visible(cost_entry2.user, project).all).to match_array([cost_entry2]) }
+        it { expect(CostEntry.visible(cost_entry2.user, project)).to match_array([cost_entry2]) }
       end
     end
   end
@@ -224,7 +224,12 @@ describe CostEntry, type: :model do
           (5.days.ago.to_date..Date.today).each do |time|
             cost_entry.spent_on = time
             cost_entry.save!
-            expect(cost_entry.costs).to eq(cost_entry.units * CostRate.first(conditions: ['cost_type_id = ? AND valid_from <= ?', cost_entry.cost_type.id, cost_entry.spent_on], order: 'valid_from DESC').rate)
+
+            rate = CostRate
+                   .where(['cost_type_id = ? AND valid_from <= ?',
+                           cost_entry.cost_type.id, cost_entry.spent_on])
+                   .order('valid_from DESC').first.rate
+            expect(cost_entry.costs).to eq(cost_entry.units * rate)
           end
         end
       end

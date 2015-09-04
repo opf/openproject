@@ -66,7 +66,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                        project_id: project.id,
                        cost_object: cost_object)
   }
-  let(:representer) { described_class.new(work_package, current_user: user) }
+  let(:representer) {
+    described_class.new(work_package,
+                        current_user: user,
+                        embed_links: true)
+  }
 
   before(:each) do
     allow(User).to receive(:current).and_return user
