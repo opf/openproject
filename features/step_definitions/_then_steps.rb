@@ -50,7 +50,7 @@ Then /^I should see (\d+) sprint backlogs$/ do |count|
 end
 
 Then /^I should see the burndown chart for sprint "(.+?)"$/ do |sprint|
-  sprint = Sprint.find_by_name(sprint)
+  sprint = Sprint.find_by(name: sprint)
 
   page.should have_css("#burndown_#{sprint.id}")
 end
@@ -68,12 +68,12 @@ Then /^I should see the product backlog$/ do
 end
 
 Then /^I should see (\d+) stories in (?:the )?"(.+?)"$/ do |count, backlog_name|
-  sprint = Sprint.find_by_name(backlog_name)
+  sprint = Sprint.find_by(name: backlog_name)
   page.all(:css, "#backlog_#{sprint.id} .story").size.should == count.to_i
 end
 
 Then /^the velocity of "(.+?)" should be "(.+?)"$/ do |backlog_name, velocity|
-  sprint = Sprint.find_by_name(backlog_name)
+  sprint = Sprint.find_by(name: backlog_name)
   page.find(:css, "#backlog_#{sprint.id} .velocity").text.should == velocity
 end
 
@@ -127,22 +127,22 @@ Then /^the request should fail$/ do
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should be "(.+)"$/ do |position, version_name, subject|
-  version = Version.find_by_name(version_name)
+  version = Version.find_by(name: version_name)
   story = Story.at_rank(@project.id, version.id, position.to_i)
   story.should_not be_nil
   story.subject.should == subject
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should be in the "(.+?)" type$/ do |position, version_name, type_name|
-  version = Version.find_by_name(version_name)
-  type = Type.find_by_name(type_name)
+  version = Version.find_by(name: version_name)
+  type = Type.find_by(name: type_name)
   story = Story.at_rank(@project.id, version.id, position.to_i)
   story.should_not be_nil
   story.type.should == type
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should have the ID of "(.+?)"$/ do |position, version_name, subject|
-  version = Version.find_by_name(version_name)
+  version = Version.find_by(name: version_name)
   actual_story = WorkPackage.find_by_subject_and_fixed_version_id(subject, version)
   step %%I should see "#{actual_story.id}" within "#backlog_#{version.id} .story:nth-child(#{position}) .id div.t"%
 end
@@ -239,7 +239,7 @@ Then /^the error alert should show "(.+?)"$/ do |msg|
 end
 
 Then /^the start date of "(.+?)" should be "(.+?)"$/ do |sprint_name, date|
-  version = Version.find_by_name(sprint_name)
+  version = Version.find_by(name: sprint_name)
 
   step %{I should see "#{date}" within "div#sprint_#{version.id} div.start_date"}
 end
@@ -252,7 +252,7 @@ end
 
 Then /^the (?:work_package|task|story) "(.+?)" should have "(.+?)" as its target version$/ do |task_name, version_name|
   work_package = WorkPackage.find_by_subject(task_name)
-  version = Version.find_by_name(version_name)
+  version = Version.find_by(name: version_name)
 
   work_package.fixed_version.should eql version
 end

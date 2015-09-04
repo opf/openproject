@@ -45,7 +45,7 @@ class RbImpedimentsController < RbApplicationController
   end
 
   def update
-    @impediment = Impediment.find_by_id(params[:id])
+    @impediment = Impediment.find(params[:id])
     result = @impediment.update_with_relationships(params)
     status = (result ? 200 : 400)
     @include_meta = true

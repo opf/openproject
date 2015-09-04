@@ -168,13 +168,13 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
 
   table.hashes.each do |story|
     params = initialize_story_params(project)
-    params['parent'] = WorkPackage.find_by_subject(story['parent'])
+    params['parent'] = WorkPackage.find_by(subject: story['parent'])
     params['subject'] = story['subject']
     params['prev_id'] = prev_id
-    params['fixed_version_id'] = Version.find_by_name(story['sprint'] || story['backlog']).id
+    params['fixed_version_id'] = Version.find_by(name: story['sprint'] || story['backlog']).id
     params['story_points'] = story['story_points']
-    params['status_id'] = Status.find_by_name(story['status']).id if story['status']
-    params['type_id'] = Type.find_by_name(story['type']).id if story['type']
+    params['status_id'] = Status.find_by(name: story['status']).id if story['status']
+    params['type_id'] = Type.find_by(name: story['type']).id if story['type']
 
     params.delete 'position'
     # NOTE: We're bypassing the controller here because we're just
@@ -302,7 +302,7 @@ Given /^there are no stories in the [pP]roject$/ do
 end
 
 Given /^the type "(.+?)" is configured to track tasks$/ do |type_name|
-  type = Type.find_by_name(type_name)
+  type = Type.find_by(name: type_name)
   type = FactoryGirl.create(:type, name: type_name) if type.blank?
 
   Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge('task_type' => type.id)
@@ -312,7 +312,7 @@ Given /^the following types are configured to track stories:$/ do |table|
   story_types = []
   table.raw.each do |line|
     name = line.first
-    type = Type.find_by_name(name)
+    type = Type.find_by(name: name)
 
     type = FactoryGirl.create(:type, name: name) if type.blank?
     story_types << type
@@ -325,13 +325,13 @@ Given /^the following types are configured to track stories:$/ do |table|
 end
 
 Given /^the [tT]ype(?: "([^\"]*)")? has for the Role "(.+?)" the following workflows:$/ do |type_name, role_name, table|
-  role = Role.find_by_name(role_name)
-  type = Type.find_by_name(type_name)
+  role = Role.find_by(name: role_name)
+  type = Type.find_by(name: type_name)
 
   type.workflows = []
   table.hashes.each do |workflow|
-    old_status = Status.find_by_name(workflow['old_status']).id
-    new_status = Status.find_by_name(workflow['new_status']).id
+    old_status = Status.find_by(name: workflow['old_status']).id
+    new_status = Status.find_by(name: workflow['new_status']).id
     type.workflows.build(old_status_id: old_status, new_status_id: new_status, role: role)
   end
   type.save!
@@ -339,7 +339,7 @@ end
 
 Given /^the status of "([^"]*)" is "([^"]*)"$/ do |work_package_subject, status_name|
   s = WorkPackage.find_by_subject(work_package_subject)
-  s.status = Status.find_by_name(status_name)
+  s.status = Status.find_by(name: status_name)
   s.save!
 end
 

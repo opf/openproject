@@ -95,7 +95,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     private
 
     def validate_parent_work_package_relation(work_package, parent_attr, value)
-      parent = WorkPackage.find_by_id(value)
+      parent = WorkPackage.find_by(id: value)
       if parent && parent_work_package_relationship_spanning_projects?(parent, work_package)
         work_package.errors.add(parent_attr,
                                 :parent_child_relationship_across_projects,
@@ -173,7 +173,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
       if work_package_id.is_a? WorkPackage
         p = work_package_id
       else
-        p = WorkPackage.find_by_id(work_package_id)
+        p = WorkPackage.find_by(id: work_package_id)
       end
 
       if p.present?
@@ -209,7 +209,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
         # Unfortunately the nested set is only build on save hence, the #parent
         # method is not always correct. Therefore we go to the parent the hard
         # way and use nested set from there
-        real_parent = WorkPackage.find_by_id(parent_id)
+        real_parent = WorkPackage.find_by(id: parent_id)
 
         # Sort immediate ancestors first
         ancestors = [real_parent] + real_parent.ancestors.includes(project: :enabled_modules).order(:rgt)
