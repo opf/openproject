@@ -27,78 +27,75 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= render partial: 'checkout_instructions', locals: { repository: @repository, instructions: @instructions } %>
-<%= call_hook(:view_repositories_show_contextual, { :repository => @repository, :project => @project }) %>
+<%= render partial: 'repository_header', locals: { empty: false } %>
 
-
-<%= render :partial => 'navigation', locals: { merge: { kind: 'dir' } } %>
+<div class="repository-breadcrumbs">
+  <%= render partial: 'breadcrumbs',
+             locals: { path: @path, revision: @rev }.merge(kind: 'dir') %>
+</div>
 
 <% if !@entries.nil? && authorize_for('repositories', 'browse') %>
-<%= render :partial => 'dir_list' %>
+<%= render partial: 'dir_list' %>
 <% end %>
 
 <%= render_properties(@properties) %>
 
-<%# rev => nil prevents overwriting the rev parameter queried for in the form with the parameter from the request %>
-<%= form_tag({ action: controller.action_name,
-               project_id: @project,
-               path: to_path_param(@path),
-               rev: nil
-             },
-             method: :get,
-             id: 'revision_selector',
-             class: 'form -vertical'
-            ) do %>
-<fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%= l(:label_revision_plural) %></legend>
-  <div class="grid-block wrap">
-    <div class="form--column medium-3">
-      <div class="form--field -wide-label -break-words ">
-        <label class="form--label"><%= l('repositories.go_to_revision') %></label>
-        <div class="form--field-container">
-          <div class="form--text-field-container">
-            <%= text_field_tag :rev, @rev, id: 'revision-identifier-input', placeholder: l(:label_revision) %>
-          </div>
-        </div>
+<%= toolbar title: l(:label_revision_plural), html: { class: 'repository--revision-toolbar' } do %>
+  <%# rev => nil prevents overwriting the rev parameter queried for in the form with the parameter from the request %>
+  <%= form_tag({ action: controller.action_name,
+                 project_id: @project,
+                 path: to_path_param(@path),
+                 rev: nil
+               },
+               method: :get,
+               id: 'revision_selector',
+               class: 'form -vertical'
+              ) do %>
+    <li class="toolbar-item toolbar-input-group">
+      <div>
+        <%= label_tag 'rev', I18n.t('repositories.go_to_revision') %>
       </div>
-    </div>
+      <%= text_field_tag :rev, @rev, id: 'revision-identifier-input', placeholder: l(:label_revision) %>
+    </li>
     <% if !@repository.branches.nil? && @repository.branches.length > 0 %>
-    <div class="form--column medium-3">
-      <div class="form--field -wide-label -break-words ">
-        <label class="form--label"><%= l(:label_branch) %></label>
-        <div class="form--field-container">
-          <div class="form--select-container">
-            <%= select_tag :branch, options_for_select([''] + @repository.branches, @rev), id: 'revision-branch-select' %>
-          </div>
-        </div>
+    <li class="toolbar-item toolbar-input-group">
+      <div>
+        <%= label_tag 'branch', I18n.t(:label_branch) %>
       </div>
-    </div>
+      <%= select_tag :branch, options_for_select([''] + @repository.branches, @rev), id: 'revision-branch-select' %>
+    </li>
     <% end %>
     <% if !@repository.tags.nil? && @repository.tags.length > 0 %>
-    <div class="form--column medium-3">
-      <div class="form--field -wide-label -break-words ">
-        <label class="form--label"><%= l(:label_tag) %></label>
-        <div class="form--field-container">
-          <div class="form--select-container">
-            <%= select_tag :tag, options_for_select([''] + @repository.tags, @rev), id: 'revision-tag-select' %>
-          </div>
-        </div>
+    <li class="toolbar-item toolbar-input-group">
+      <div>
+        <%= label_tag 'tag', I18n.t(:label_tag) %>
       </div>
-    </div>
+      <%= select_tag :tag, options_for_select([''] + @repository.tags, @rev), id: 'revision-tag-select' %>
+    </li>
     <% end %>
-  </div>
-  <% if User.current.impaired? %>
-    <div>
-      <%= button_tag 'OK', type: :submit, class: 'button -highlight' %>
-    </div>
+    <% if User.current.impaired? %>
+    <li class="toolbar-item">
+      <div>
+        <%= button_tag l(:label_submit), type: :submit, class: 'button -highlight' %>
+      </div>
+    </li>
+    <% end %>
+    <li class="toolbar-item -icon-only">
+      <%= link_to({ url: { action: 'revisions', project_id: @project,
+                           key: User.current.rss_key } },
+                  { class: 'button', title: l('repositories.atom_revision_feed') }) do %>
+        <i class="button--icon icon-page-atom"></i>
+        <span class="button--text"></span>
+      <% end %>
+    </li>
   <% end %>
-</fieldset>
 <% end %>
+
 <% if authorize_for('repositories', 'revisions') %>
 <%   if @changesets && !@changesets.empty? %>
-<%=    render :partial => 'revisions',
-              :locals => {:project => @project, :path => @path,
-                          :revisions => @changesets, :entry => nil }%>
+<%=    render partial: 'revisions',
+              locals: {project: @project, path: @path,
+                          revisions: @changesets, entry: nil }%>
 <%   end %>
 <p>
 <%
@@ -110,35 +107,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= link_to l(:label_view_all_revisions), revisions_project_repository_path(@project) %>
 <%   sep = '|' %>
 <%   end %>
-<%
-     if @repository.supports_directory_revisions? &&
-         ( has_branches || !@path.blank? || !@rev.blank? )
- %>
-<%= sep %>
-<%=
-    link_to l(:label_view_revisions),
-            :action => 'changes',
-            :project_id => @project,
-            :path   => to_path_param(@path),
-            :rev    => @rev
-            %>
-<%   end %>
 </p>
-
-<%   if true # @path.blank? %>
-<%     content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom,
-                              params.merge( { :format => 'atom',
-                                              :action => 'revisions',
-                                              :project_id => @project,
-                                              :page => nil,
-                                              :key => User.current.rss_key })) %>
-<%     end %>
-
-<%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:action => 'revisions', :project_id => @project, :key => User.current.rss_key} %>
-<%     end %>
-<%   end %>
 <% end %>
 
 <% html_title(l(:label_repository)) -%>

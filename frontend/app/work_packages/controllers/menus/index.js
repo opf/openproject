@@ -55,7 +55,7 @@ angular.module('openproject.workPackages')
       return ngContextMenu({
         controller: 'SettingsDropdownMenuController',
         templateUrl: '/templates/work_packages/menus/settings_dropdown_menu.html',
-        container: '#toolbar'
+        container: '.toolbar'
       });
     }
   ])
@@ -82,7 +82,7 @@ angular.module('openproject.workPackages')
     function(ngContextMenu) {
       return ngContextMenu({
         templateUrl: '/templates/work_packages/menus/tasks_dropdown_menu.html',
-        container: '#toolbar'
+        container: '.toolbar'
       });
     }
   ])

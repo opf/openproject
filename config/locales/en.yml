@@ -718,6 +718,7 @@ en:
   label_contains: "contains"
   label_content: "Content"
   label_copied: "copied"
+  label_copy_to_clipboard: "Copy to clipboard"
   label_copy_same_as_target: "Same as target"
   label_copy_source: "Source"
   label_copy_target: "Target"
@@ -952,6 +953,7 @@ en:
   label_reporting: "Reporting"
   label_reporting_plural: "Reportings"
   label_repository: "Repository"
+  label_repository_root: "Repository root"
   label_repository_plural: "Repositories"
   label_responsible_for_work_packages: "Work packages I am responsible for"
   label_result_plural: "Results"
@@ -1294,24 +1296,27 @@ en:
     subproject_id: "Subproject"
 
   repositories:
+    at_identifier: 'at %{identifier}'
+    atom_revision_feed: 'Atom revision feed'
     autofetch_information: "Check this if you want repositories to be updated automatically when accessing the repository module page.\nThis encompasses the retrieval of commits from the repository and refreshing the required disk storage."
     checkout:
       access:
         readwrite: 'Read + Write'
         read: 'Read-only'
         none: 'No checkout access, you may only view the repository through this application.'
-      access_permission: 'Your permissions on this repository:'
+      access_permission: 'Your permissions on this repository'
       url: "Checkout URL"
       base_url_text: "The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).\nNote: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered."
       default_instructions:
         git: |-
-          The data contained in this repository can be downloaded to your computer with Git using the checkout information below.
+          The data contained in this repository can be downloaded to your computer with Git.
           Please consult the documentation of Git if you need more information on the checkout procedure and available clients.
         subversion: |-
-          The data contained in this repository can be downloaded to your computer with Subversion using the checkout information below.
+          The data contained in this repository can be downloaded to your computer with Subversion.
           Please consult the documentation of Subversion if you need more information on the checkout procedure and available clients.
       enable_instructions_text: "Displays checkout instructions defined below on all repository-related pages."
       instructions: "Checkout instructions"
+      show_instructions: "Display checkout instructions"
       text_instructions: "This text is displayed alongside the checkout URL for guidance on how to check out the repository."
       not_available: "Checkout instructions are not available for this repository"
     create_managed_delay: "Please note: The repository is managed, it is created asynchronously on the disk and will be available shortly."
@@ -1372,6 +1377,7 @@ en:
       managed_url: "Managed URL"
       password: "Repository Password"
       username: "Repository username"
+    named_repository: "%{vendor_name} repository"
     update_settings_successful: "The settings have been sucessfully saved."
     url: "URL to repository"
 

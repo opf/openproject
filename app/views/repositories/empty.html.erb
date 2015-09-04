@@ -27,14 +27,20 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="notification-box -warning">
-  <div class="notification-box--content">
-    <p><%= l('repositories.errors.exception_title',
-             message: l('repositories.errors.empty_repository')) %></p>
+<%= render partial: 'repository_header',
+           locals: { empty: true } %>
+
+<div class="generic-table--container">
+  <div class="generic-table--no-results-container">
+    <h2 class="generic-table--no-results-title">
+      <i class="icon-info"></i>
+      <%= l(:label_nothing_display) %>
+    </h2>
+    <div class="generic-table--no-results-description">
+      <p class="nodata"><%= l('repositories.errors.empty_repository') %></p>
+    </div>
   </div>
 </div>
-<%= render partial: 'checkout_instructions', locals: { repository: @repository, instructions: @instructions } %>
-<%= call_hook(:view_repositories_show_contextual,
-    { repository: @repository, project: @project }) %>
+
 <%= call_hook(:repositories_below_empty_warning,
     { repository: @repository, project: @project }) %>

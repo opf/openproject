@@ -29,18 +29,29 @@
 (function($) {
   $(function() {
     var revision = $('#revision-identifier-input'),
-      form = revision.closest('form'),
-      tag = $('#revision-tag-select'),
-      branch = $('#revision-branch-select'),
-      selects = tag.add(branch),
-      branch_selected = branch.length > 0 && revision.val() == branch.val(),
-      tag_selected = tag.length > 0 && revision.val() == tag.val();
+        form = revision.closest('form'),
+        tag = $('#revision-tag-select'),
+        branch = $('#revision-branch-select'),
+        selects = tag.add(branch),
+        branch_selected = branch.length > 0 && revision.val() == branch.val(),
+        tag_selected = tag.length > 0 && revision.val() == tag.val();
 
     var sendForm = function() {
       selects.prop('disable', true);
       form.submit();
       selects.prop('disable', false);
     }
+
+    /*
+    Enable select2
+    */
+    branch.select2({
+      placeholder: I18n.t('js.repositories.select_branch')
+    }
+    );
+    tag.select2({
+      placeholder: I18n.t('js.repositories.select_tag'),
+    });
 
     /*
     If we're viewing a tag or branch, don't display it in the
@@ -68,6 +79,33 @@
         sendForm();
       }
     });
+
+
+    /*
+    Close checkout instructions
+    */
+    var checkout = $('#repository--checkout-instructions'),
+        toggle = $('#repository--checkout-instructions-toggle');
+
+    if (checkout.length > 0) {
+      checkout.find('.notification-box--close').click(function(e){
+        e.preventDefault();
+        checkout.hide().prop('hidden', true);
+        toggle.removeClass('-pressed');
+      });
+
+      toggle.click(function(e) {
+        e.preventDefault();
+        if (checkout.prop('hidden')) {
+          checkout.prop('hidden', false);
+          checkout.slideDown();
+        } else {
+          checkout.slideUp(function() { checkout.prop('hidden', true); });
+        }
+
+        toggle.toggleClass('-pressed');
+      });
+    }
   });
 }(jQuery));
 

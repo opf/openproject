@@ -112,5 +112,10 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="generic-table--header-background"></div>
     </div>
   </div>
-  <%= submit_tag(l(:label_view_diff), :name => nil, class: 'button -highlight') if show_diff %>
+  <% if show_diff %>
+    <button type="submit" class="button repository--compare-button">
+      <i class="button--icon icon-compare"></i>
+      <span class="button--text"><%= l(:label_view_diff) %></span>
+    </button>
+  <% end %>
 <% end %>

@@ -1,7 +1,8 @@
 module ToolbarHelper
-  def toolbar(title:, subtitle: '')
-    content_tag :div, class: 'toolbar-container' do
-      toolbar = content_tag :div, id: 'toolbar' do
+  def toolbar(title:, subtitle: '', html: {})
+    classes = ['toolbar-container', html[:class]].compact.join(' ')
+    content_tag :div, class: classes do
+      toolbar = content_tag :div, class: 'toolbar' do
         dom_title(title) + dom_toolbar {
           yield if block_given?
         }
@@ -22,7 +23,7 @@ module ToolbarHelper
 
   def dom_toolbar
     return '' unless block_given?
-    content_tag :ul, id: 'toolbar-items' do
+    content_tag :ul, class: 'toolbar-items' do
       yield
     end
   end

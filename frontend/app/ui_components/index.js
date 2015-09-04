@@ -42,6 +42,13 @@ angular.module('openproject.uiComponents')
   .directive('authoring', ['I18n', 'PathHelper', 'TimezoneService', require(
     './authoring-directive')])
   .directive('backUrl', [require('./back-url-directive')])
+  .directive('copyToClipboard', [
+    'I18n',
+    '$timeout',
+    'NotificationsService',
+    'ConfigurationService',
+    require('./copy-to-clipboard-directive')
+  ])
   .directive('opDate', ['TimezoneService', require('./date/date-directive')])
   .directive('opTime', ['TimezoneService', require('./date/time-directive')])
   .directive('opDateTime', ['$compile', 'TimezoneService', require('./date/date-time-directive')])
