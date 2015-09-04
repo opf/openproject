@@ -1,5 +1,4 @@
 <div class="notification-box{{' -' + content.type}}">
-  <a data-ng-click="remove()" data-ng-if="removable()" class="notification-box--close">&times;</a>
   <div class="notification-box--content">
     <p>{{content.message}}</p>
     <div data-ng-switch="content.type" data-ng-if="typeable()">
@@ -32,4 +31,5 @@
       </div>
     </div>
   </div>
+  <a data-ng-click="remove()" title="{{ ::I18n.t('js.close_popup_title') }}" class="notification-box--close icon-context icon-close2"></a>
 </div>
