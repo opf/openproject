@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::Types::TypeRepresenter do
   let(:type) { FactoryGirl.build_stubbed(:type, color: FactoryGirl.build(:color)) }
-  let(:representer) { described_class.new(type) }
+  let(:representer) { described_class.new(type, current_user: double('current_user')) }
 
   include API::V3::Utilities::PathHelper
 

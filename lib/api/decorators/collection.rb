@@ -32,11 +32,11 @@ module API
     class Collection < ::API::Decorators::Single
       include API::Utilities::UrlHelper
 
-      def initialize(models, total, self_link, context: {})
+      def initialize(models, total, self_link, current_user:)
         @total = total
         @self_link = self_link
 
-        super(models, context)
+        super(models, current_user: current_user)
       end
 
       class_attribute :element_decorator_class
@@ -59,7 +59,7 @@ module API
       collection :elements,
                  getter: -> (*) {
                    represented.map { |model|
-                     element_decorator.new(model, context)
+                     element_decorator.create(model, current_user: current_user)
                    }
                  },
                  exec_context: :decorator,

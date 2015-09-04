@@ -33,7 +33,7 @@ module API
       def initialize(model, algorithm:)
         @algorithm = algorithm
 
-        super(model)
+        super(model, current_user: nil)
       end
 
       property :algorithm,

@@ -38,7 +38,7 @@ module API
         Setting.api_max_page_size.to_i
       end
 
-      def initialize(models, self_link, query: {}, page: nil, per_page: nil, context: {})
+      def initialize(models, self_link, query: {}, page: nil, per_page: nil, current_user:)
         @self_link_base = self_link
         @query = query
         @page = page || 1
@@ -49,7 +49,7 @@ module API
         # see https://github.com/mislav/will_paginate/issues/449
         page_models = models.page(@page).per_page(@per_page).to_a
         full_self_link = make_page_link(page: @page, page_size: @per_page)
-        super(page_models, models.count, full_self_link, context: context)
+        super(page_models, models.count, full_self_link, current_user: current_user)
       end
 
       link :jumpTo do

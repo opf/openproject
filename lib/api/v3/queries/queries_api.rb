@@ -40,7 +40,7 @@ module API
           route_param :id do
             before do
               @query = Query.find(params[:id])
-              @representer = QueryRepresenter.new(@query)
+              @representer = QueryRepresenter.new(@query, current_user: current_user)
               authorize_by_policy(:show) do
                 raise API::Errors::NotFound
               end

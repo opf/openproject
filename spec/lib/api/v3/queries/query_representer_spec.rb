@@ -34,7 +34,7 @@ describe ::API::V3::Queries::QueryRepresenter do
   let(:query) {
     FactoryGirl.build_stubbed(:query)
   }
-  let(:representer) { described_class.new(query) }
+  let(:representer) { described_class.new(query, current_user: double('current_user')) }
 
   subject { representer.to_json }
 

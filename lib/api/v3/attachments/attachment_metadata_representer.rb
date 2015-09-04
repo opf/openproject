@@ -34,6 +34,10 @@ module API
   module V3
     module Attachments
       class AttachmentMetadataRepresenter < ::API::Decorators::Single
+        def initialize(attachment)
+          super(attachment, current_user: nil)
+        end
+
         property :file_name
         property :description,
                  getter: -> (*) {

@@ -46,7 +46,7 @@ module API
             end
 
             get do
-              AttachmentRepresenter.new(@attachment)
+              AttachmentRepresenter.new(@attachment, current_user: current_user)
             end
 
             delete do

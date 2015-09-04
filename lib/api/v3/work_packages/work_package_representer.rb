@@ -41,8 +41,10 @@ module API
                                                     WorkPackageRepresenter)
           end
 
-          def create(work_package, context = {})
-            create_class(work_package).new(work_package, context)
+          def create(work_package, current_user:, embed_links: false)
+            create_class(work_package).new(work_package,
+                                           current_user: current_user,
+                                           embed_links: embed_links)
           end
         end
 
@@ -231,7 +233,8 @@ module API
                         getter: :fixed_version,
                         title_getter: -> (*) {
                           represented.fixed_version.to_s_for_project(represented.project)
-                        }
+                        },
+                        embed_as: ::API::V3::Versions::VersionRepresenter
 
         links :children do
           visible_children.map do |child|
@@ -297,10 +300,6 @@ module API
                  exec_context: :decorator,
                  if: -> (*) { embed_links }
 
-        property :version,
-                 embedded: true,
-                 exec_context: :decorator,
-                 if: ->(*) { represented.fixed_version.present? && embed_links }
         property :watchers,
                  embedded: true,
                  exec_context: :decorator,
@@ -328,7 +327,8 @@ module API
           activities = ::Journal::AggregatedJournal.aggregated_journals(journable: represented)
           self_link = api_v3_paths.work_package_activities represented.id
           Activities::ActivityCollectionRepresenter.new(activities,
-                                                        self_link)
+                                                        self_link,
+                                                        current_user: current_user)
         end
 
         def watchers
@@ -338,17 +338,18 @@ module API
 
           # FIXME/LEGACY: we pass the WP as context?!? that makes a difference!!!
           # tl;dr: the embedded user representer must not be better than any other user representer
-          context = { current_user: current_user, work_package: represented }
           Users::UserCollectionRepresenter.new(watchers,
                                                self_link,
-                                               context: context)
+                                               current_user: current_user,
+                                               work_package: represented)
         end
 
         def attachments
           self_path = api_v3_paths.attachments_by_work_package(represented.id)
           attachments = represented.attachments
           ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachments,
-                                                                      self_path)
+                                                                      self_path,
+                                                                      current_user: current_user)
         end
 
         def relations
@@ -364,20 +365,8 @@ module API
           end
         end
 
-        def version
-          if represented.fixed_version.present?
-            Versions::VersionRepresenter.new(represented.fixed_version, current_user: current_user)
-          end
-        end
-
         def visible_children
           @visible_children ||= represented.children.select(&:visible?)
-        end
-
-        private
-
-        def version_policy
-          @version_policy ||= ::VersionPolicy.new(current_user)
         end
       end
     end

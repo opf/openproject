@@ -32,7 +32,6 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   let(:self_base_link) { '/api/v3/example' }
   let(:work_packages) { WorkPackage.all }
   let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:context) { { current_user: user } }
 
   let(:query) { {} }
   let(:groups) { nil }
@@ -52,7 +51,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       total_sums: total_sums,
       page: page_parameter,
       per_page: page_size_parameter,
-      context: context)
+      current_user: user)
   }
 
   before do

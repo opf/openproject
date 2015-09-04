@@ -34,6 +34,10 @@ module API
   module V3
     module Watchers
       class WatcherRepresenter < ::API::Decorators::Single
+        def initialize(user)
+          super(user, current_user: nil)
+        end
+
         property :user,
                  exec_context: :decorator,
                  getter: -> (*) {

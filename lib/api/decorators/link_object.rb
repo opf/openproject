@@ -42,7 +42,7 @@ module API
         @getter = getter
         @setter = setter
 
-        super(model)
+        super(model, current_user: nil)
       end
 
       property :href,

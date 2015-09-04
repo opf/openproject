@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Repositories::RevisionRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:representer) { described_class.new(revision) }
+  let(:representer) { described_class.new(revision, current_user: double('current_user')) }
 
   let(:project) { FactoryGirl.build :project }
   let(:repository) { FactoryGirl.build :repository_subversion, project: project }
