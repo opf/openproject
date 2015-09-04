@@ -56,7 +56,9 @@ class Principal < ActiveRecord::Base
 
   scope :active, -> { where(status: STATUSES[:active]) }
 
-  scope :active_or_registered, -> { where(status: [STATUSES[:active], STATUSES[:registered]]) }
+  scope :active_or_registered, -> {
+    where(status: [STATUSES[:active], STATUSES[:registered], STATUSES[:invited]])
+  }
 
   scope :active_or_registered_like, ->(query) { active_or_registered.like(query) }
 
