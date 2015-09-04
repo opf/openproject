@@ -102,23 +102,25 @@ td.comment input {
   cursor: pointer;
 }
 
-.budget_fieldset{
+.budget-table--fieldset{
   margin: 8px 2px;
 }
 
-.budget_table_inputFields{
+.cost_entry td{
   vertical-align: top;
   padding: 6px 6px;
 }
 
-.budget_table_fields{
-  vertical-align: top;
-  padding: 6px 6px;
+.budget-table--fields{
   text-align: left;
 }
 
-#submit_button{
+#budget-table--submit-button{
   margin: 1rem 1rem 1rem 0.1rem;
+}
+
+.budget-table--add-button{
+  margin-top: 5px;
 }
 
 table.progress td.exceeded { background: #E1B9B9 none repeat scroll 0%; }

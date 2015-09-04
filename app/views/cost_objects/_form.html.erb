@@ -44,7 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   //]]>
 </script>
 
-<fieldset id="material_budget_items_fieldset" class="budget_fieldset">
+<fieldset id="material_budget_items_fieldset" class="budget-table--fieldset">
   <legend><%= VariableCostObject.human_attribute_name(:material_budget) %></legend>
     <div class="generic-table--container">
       <div class="generic-table--results-container">
@@ -110,10 +110,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       <div class="generic-table--header-background"></div>
     </div>
   </div>
-  <div style="text-align: right"><%= link_to_function l(:button_add_budget_item), "materialBudgetItemsForm.add()", {:class => "icon-context icon-add"} %></div>
+  <div style="text-align: right" class="budget-table--add-button"><%= link_to_function l(:button_add_budget_item), "materialBudgetItemsForm.add()", {:class => "icon-context icon-add"} %></div>
 </fieldset>
 
-<fieldset id="labor_budget_items_fieldset" class="budget_fieldset">
+<fieldset id="labor_budget_items_fieldset" class="budget-table--fieldset">
   <legend><%= VariableCostObject.human_attribute_name(:labor_budget) %></legend>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
@@ -179,7 +179,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       <div class="generic-table--header-background"></div>
     </div>
   </div>
-  <div style="text-align: right"><%= link_to_function l(:button_add_budget_item), "laborBudgetItemsForm.add()", {:class => "icon-context icon-add"} %></div>
+  <div style="text-align: right" class="budget-table--add-button"><%= link_to_function l(:button_add_budget_item), "laborBudgetItemsForm.add()", {:class => "icon-context icon-add"} %></div>
 </fieldset>
 
 <%- end %>
