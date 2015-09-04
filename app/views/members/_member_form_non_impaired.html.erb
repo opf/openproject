@@ -44,6 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select_tag "member[user_ids]", options_for_select([]),
                            :title => l(:label_principal_search),
                            :multiple => true,
+                           :autofocus => true,
                            :'data-ajaxURL' => url_for(:controller => "/members", :action => "autocomplete_for_member"),
                            :'data-projectId' => project.id,
                            no_label: true,
