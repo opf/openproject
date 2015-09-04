@@ -40,7 +40,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   </td>
   <td class="user budget_table_inputFields">
     <label class="hidden-for-sighted" for="<%= id_prefix %>_user_id"><%= l(:label_user) %></label>
-    <%= cost_form.select :user_id, @project.possible_assignees.sort.map{|u| [u.name, u.id]}, {:prompt => true}, {:index => id_or_index} %>
+    <%= cost_form.select :user_id, @project.possible_assignees.sort.map{|u| [u.name, u.id]}, {:prompt => true}, {:index => id_or_index, :class => 'form--select'}%>
   </td>
   <td class="comment budget_table_inputFields">
     <label class="hidden-for-sighted" for="<%= id_prefix %>_comments"><%= LaborBudgetItem.human_attribute_name(:comments) %></label>

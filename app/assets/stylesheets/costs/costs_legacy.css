@@ -107,13 +107,13 @@ td.comment input {
 }
 
 .budget_table_inputFields{
-  vertical-align: top !important;
+  vertical-align: top;
   padding: 6px 6px;
 }
 
 .budget_table_fields{
-  vertical-align: top !important;
-  padding: 15px 6px;
+  vertical-align: top;
+  padding: 6px 6px;
   text-align: left;
 }
 
