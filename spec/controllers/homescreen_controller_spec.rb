@@ -34,12 +34,15 @@ describe HomescreenController, type: :controller do
 
     # assume anonymous may access the page
     allow(Setting).to receive(:login_required?).and_return(false)
+    allow(Setting).to receive(:welcome_on_homescreen?).and_return(show_welcome)
     get :index
   end
 
   let(:all_blocks) {
     %w(administration community my_account projects users)
   }
+
+  let(:show_welcome) { false }
 
   shared_examples 'renders blocks' do
     it 'renders a response' do
@@ -58,6 +61,37 @@ describe HomescreenController, type: :controller do
       it 'does not render the other blocks' do
         (all_blocks - shown).each do |block|
           expect(response).not_to render_template(partial: "homescreen/blocks/_#{block}")
+        end
+      end
+
+      it 'does not render news when empty' do
+        expect(response).not_to render_template(partial: 'homescreen/blocks/_news')
+      end
+
+      it 'shows the news when available' do
+        expect(News).to receive(:latest).with(any_args)
+          .and_return(FactoryGirl.build_stubbed_list(:news, 5, created_on: Time.now))
+
+        get :index
+        expect(response).to render_template(partial: 'homescreen/blocks/_news')
+      end
+
+      context 'with enabled welcome block' do
+        before do
+          allow(Setting).to receive(:welcome_text).and_return('h1. foobar')
+          allow(Setting).to receive(:welcome_title).and_return('Woohoo!')
+          get :index
+        end
+
+        let(:show_welcome) { true }
+
+        it 'renders the block' do
+          expect(response).to render_template(partial: 'homescreen/blocks/_welcome')
+        end
+
+        it 'renders the text' do
+          expect(response.body).to have_selector('.homescreen-blocks--item-header', text: 'Woohoo!')
+          expect(response.body).to have_selector('.wiki > h1')
         end
       end
     end

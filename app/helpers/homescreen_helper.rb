@@ -31,7 +31,7 @@ module HomescreenHelper
   ##
   # Homescreen name
   def organization_name
-    Setting.software_name
+    Setting.app_title || Setting.software_name
   end
 
   ##
