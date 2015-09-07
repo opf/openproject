@@ -104,9 +104,12 @@ module.exports = function(PERMITTED_MORE_MENU_ACTIONS,
       };
 
       function deleteSelectedWorkPackage() {
-        var promise = WorkPackageService.performBulkDelete([scope.workPackage.props.id], true);
+        var workPackageDeletionId = scope.workPackage.props.id;
+        var promise = WorkPackageService.performBulkDelete([workPackageDeletionId], true);
 
         promise.success(function(data, status) {
+          // TODO: Find a better way to access stuff from scope.$parent.$parent
+          scope.$parent.$parent.preselectedWorkPackageId = scope.$parent.$parent.rows[1].object.id;
           $state.go('work-packages.list');
         });
       }
