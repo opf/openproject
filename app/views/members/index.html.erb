@@ -78,7 +78,20 @@ See doc/COPYRIGHT.rdoc for more details.
             <% @members.each do |member| %>
               <% next if member.new_record? %>
                 <tr id="member-<%= member.id %>" class=" member">
-                  <td class="<%= member.principal.class.name.downcase %> <%= 'icon icon-group' if member.principal.class.name.downcase == 'group' %> <%= user_status_class member.principal%>" title="<%= user_status_i18n member.principal%>"><%= link_to_user member.principal %></td>
+                  <%
+                    member_type = member.principal.class.name.downcase
+                    classes = [
+                      member_type,
+                      ('icon icon-group' if member_type == 'group'),
+                      user_status_class(member.principal)
+                    ].compact.join(' ')
+                  %>
+                  <td class="<%= classes %>" title="<%= user_status_i18n member.principal %>">
+                    <%= link_to_user member.principal %>
+                    <% if member.user && member.user.invited? %>
+                        <i title="<%= t('text_user_invited') %>" class="icon icon-mail"></i>
+                    <% end %>
+                  </td>
                   <td class="roles">
                     <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
                     <% if authorized %>

@@ -1596,6 +1596,7 @@ en:
   text_tip_work_package_end_day: "work package ending this day"
   text_type_no_workflow: "No workflow defined for this type"
   text_unallowed_characters: "Unallowed characters"
+  text_user_invited: The user has been invited and is pending registration.
   text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. work packages you're the author or assignee)."
   text_user_wrote: "%{value} wrote:"
   text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
