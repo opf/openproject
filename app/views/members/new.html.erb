@@ -31,15 +31,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'member' %>
 
 <div>
-  <% if @roles.any? && @principals_available.any? %>
-      <%= render :partial => "members/member_form",
-                 :locals => { :project => @project,
-                              :roles => @roles } %>
-
+  <% if @principals_available.any? %>
+    <%= render :partial => "members/member_form",
+               :locals => { :project => @project, :roles => @roles } %>
   <% else %>
-      <p>
-          <%= @roles.any? ? I18n.t('text_no_more_users_to_add') : I18n.t('text_no_roles_defined') %>
-      </p>
-      <%= link_to I18n.t('button_back'), :back, class: 'button' %>
+    <p>
+      <%= I18n.t('text_no_roles_defined') %>
+    </p>
+    <%= link_to I18n.t('button_back'), :back, class: 'button' %>
   <% end %>
 </div>

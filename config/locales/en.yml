@@ -1573,7 +1573,6 @@ en:
   text_line_separated: "Multiple values allowed (one line for each value)."
   text_load_default_configuration: "Load the default configuration"
   text_min_max_length_info: "0 means no restriction"
-  text_no_more_users_to_add: There are no more users to be added.
   text_no_roles_defined: There are no roles defined.
   text_no_configuration_data: "Roles, types, work package statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_no_notes: "There are no comments available for this work package."
