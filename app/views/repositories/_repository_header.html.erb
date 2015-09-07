@@ -54,7 +54,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <a id="repository--checkout-instructions-toggle" class="button -pressed" href="javascript:"
        title="<%= l('repositories.checkout.show_instructions') %>">
       <i class="button--icon icon-info"></i>
-      <span class="button--text"></span>
     </a>
   </li>
   <% end %>
@@ -63,7 +62,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= link_to stats_project_repository_path(@project),
         class: 'button', title: l(:label_statistics) do %>
       <i class="button--icon icon-stats1"></i>
-      <span class="button--text"></span>
     <% end %>
   </li>
   <% end %>
@@ -74,7 +72,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= link_to settings_project_path(@project, tab: 'repository'),
           class: 'button', title: l(:label_settings) do %>
         <i class="button--icon icon-settings"></i>
-        <span class="button--text"></span>
       <% end %>
     </li>
   <% end %>
