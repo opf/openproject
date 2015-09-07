@@ -83,7 +83,7 @@ module.exports = function($timeout, $window){
           if(isWorkPackagesTable()) {
             // HACK: This prevents a horizontal scroll bar in
             //       the work package table when there is nothing to scroll
-            getBackgrounds().css('width', 'calc(100% - 10px)');
+            getBackgrounds().css('width', 'calc(100% - 20px)');
           }
           else {
             getBackgrounds().css('width', '100%');
