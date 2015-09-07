@@ -56,6 +56,7 @@ en:
     signup_with_auth_provider: "or sign up using"
     signup_with_password: "using user name and password."
     auth_source_login: Please login as <em>%{login}</em> to activate your account.
+    omniauth_login: Please login to activate your account.
 
   actionview_instancetag_blank_option: "Please select"
 
@@ -1222,6 +1223,7 @@ en:
   notice_unable_delete_version: "Unable to delete version."
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "You have been logged out."
+  notice_wont_delete_auth_source: The Authentication Mode cannot be deleted as long as there are still users using it.
   error_types_in_use_by_work_packages: "The following types are still referenced by work packages: %{types}"
   notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields."
 

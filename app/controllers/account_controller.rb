@@ -62,12 +62,6 @@ class AccountController < ApplicationController
     end
   end
 
-  def signup
-    if User.current.logged?
-      redirect_to my_page_path
-    end
-  end
-
   # Enable user to choose a new password
   def lost_password
     return redirect_to(home_url) unless allow_lost_password_recovery?
@@ -190,14 +184,18 @@ class AccountController < ApplicationController
             auth_source_id: user.auth_source_id
           }
 
-          flash[:notice] = I18n.t('account.auth_source_login', login: user.login).html_safe
+          flash[:notice] = I18n.t('account.auth_source_login', username: user.login).html_safe
 
           redirect_to signin_path(login: user.login)
         else
           if Concerns::OmniauthLogin.direct_login?
             direct_login user
+          elsif OpenProject::Configuration.disable_password_login?
+            flash[:notice] = I18n.t('account.omniauth_login')
+
+            redirect_to signin_path
           else
-            redirect_to signup_path
+            redirect_to account_register_path
           end
         end
       end
