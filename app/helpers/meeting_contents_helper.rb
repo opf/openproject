@@ -49,29 +49,71 @@ module MeetingContentsHelper
   def close_meeting_agenda_link(content_type, meeting)
     case content_type
     when 'meeting_agenda'
-      link_to_if_authorized l(:label_meeting_close), { controller: '/meeting_agendas', action: 'close', meeting_id: meeting }, method: :put, class: 'icon icon-locked show-meeting_agenda'
+      content_tag :div, '', class: 'button' do
+        link_to_if_authorized l(:label_meeting_close),
+                              { controller: '/meeting_agendas',
+                                action: 'close',
+                                meeting_id: meeting },
+                              method: :put,
+                              class: 'icon-context icon-locked'
+      end
     when 'meeting_minutes'
-      link_to_if_authorized l(:label_meeting_agenda_close), { controller: '/meeting_agendas', action: 'close', meeting_id: meeting }, method: :put, class: 'icon icon-locked show-meeting_minutes'
+      content_tag :div, '', class: 'button' do
+        link_to_if_authorized l(:label_meeting_agenda_close),
+                              { controller: '/meeting_agendas',
+                                action: 'close',
+                                meeting_id: meeting },
+                              method: :put,
+                              class: 'icon-context icon-locked'
+      end
     end
   end
 
   def open_meeting_agenda_link(content_type, meeting)
     case content_type
     when 'meeting_agenda'
-      link_to_if_authorized l(:label_meeting_open), { controller: '/meeting_agendas', action: 'open', meeting_id: meeting }, method: :put, class: 'icon icon-unlocked show-meeting_agenda', confirm: l(:text_meeting_agenda_open_are_you_sure)
+      content_tag :div, '', class: 'button' do
+        link_to_if_authorized l(:label_meeting_open),
+                              { controller: '/meeting_agendas',
+                                action: 'open',
+                                meeting_id: meeting },
+                              method: :put,
+                              class: 'icon-context icon-unlocked',
+                              confirm: l(:text_meeting_agenda_open_are_you_sure)
+      end
     when 'meeting_minutes'
     end
   end
 
   def meeting_content_edit_link(content_type)
-    link_to l(:button_edit), '#', class: "icon icon-edit show-#{content_type}", accesskey: accesskey(:edit), onclick: "$$('.edit-#{content_type}').invoke('show'); $$('.show-#{content_type}').invoke('hide'); return false;"
+    content_tag :div, '', class: 'button' do
+      link_to l(:button_edit),
+              '#',
+              class: 'icon-context icon-edit',
+              accesskey: accesskey(:edit),
+              onclick: "$$('.edit-#{content_type}').invoke('show');
+                        $$('.show-#{content_type}').invoke('hide');
+                        return false;"
+    end
   end
 
   def meeting_content_history_link(content_type, meeting)
-    link_to_if_authorized l(:label_history), { controller: '/' + content_type.pluralize, action: 'history', meeting_id: meeting }, class: "icon icon-wiki show-#{content_type}"
+    content_tag :div, '', class: 'button' do
+      link_to_if_authorized l(:label_history),
+                            { controller: '/' + content_type.pluralize,
+                              action: 'history',
+                              meeting_id: meeting },
+                            class: 'icon-context icon-wiki'
+    end
   end
 
   def meeting_content_notify_link(content_type, meeting)
-    link_to_if_authorized l(:label_notify), { controller: '/' + content_type.pluralize, action: 'notify', meeting_id: meeting }, method: :put, class: "icon icon-mail show-#{content_type}"
+    content_tag :div, '', class: 'button' do
+      link_to_if_authorized l(:label_notify),
+                            { controller: '/' + content_type.pluralize,
+                              action: 'notify', meeting_id: meeting },
+                            method: :put,
+                            class: 'icon-context icon-mail'
+    end
   end
 end
