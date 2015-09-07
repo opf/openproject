@@ -53,25 +53,27 @@ Feature: Issue edit
       |  description  | Aioli Sali Grande  |
     And I am already logged in as "bob"
 
+  @javascript
   Scenario: User updates an issue successfully
     When I go to the page of the issue "issue1"
-    And I select "Update" from the action menu
+    And I click on the edit button
     Then I fill in "Notes" with "human Horn"
     And I submit the form by the "Submit" button
     And I should see "Successful update." within ".notice"
-    And I should see "human Horn" within "#history"
+    And I should see "human Horn" within ".work-package-details-activities-list"
 
   @javascript
   Scenario: User updates an issue with previewing the stuff before
     When I go to the page of the issue "issue1"
-    And I select "Update" from the action menu
+    And I click on the edit button
     Then I fill in "Notes" with "human Horn"
     When I follow "Preview"
     Then I should see "human Horn" within "#preview"
     And I submit the form by the "Submit" button
     And I should see "Successful update." within ".notice"
-    And I should see "human Horn" within "#history"
+    And I should see "human Horn" within ".work-package-details-activities-list"
 
+  @javascript
   Scenario: On an issue with children a user should not be able to change attributes which are overridden by children
     Given the user "bob" has 1 issue with the following:
       | subject | child1      |
