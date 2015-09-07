@@ -184,9 +184,9 @@ class AccountController < ApplicationController
             auth_source_id: user.auth_source_id
           }
 
-          flash[:notice] = I18n.t('account.auth_source_login', username: user.login).html_safe
+          flash[:notice] = I18n.t('account.auth_source_login', login: user.login).html_safe
 
-          redirect_to signin_path(login: user.login)
+          redirect_to signin_path(username: user.login)
         else
           if Concerns::OmniauthLogin.direct_login?
             direct_login user
