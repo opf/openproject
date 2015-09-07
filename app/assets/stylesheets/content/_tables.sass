@@ -59,6 +59,7 @@ table
       font-size: 0.9em
 
   &.workflow-table
+    margin-bottom: 16px
     tbody
       tr:nth-of-type(2)
         border-top: 1px solid #ddd
@@ -88,7 +89,14 @@ table
       .workflow-table--header
         text-align: right
       .workflow-table--check-all
-        font-size: 11px
+        font-size: 12px
+        font-style: italic
+        text-transform: none
+        a
+          color: $content-link-color
+          &:hover
+            color: $content-link-color
+            text-decoration: underline
 
       tr
         th:nth-of-type(1)
