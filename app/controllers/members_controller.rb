@@ -73,7 +73,7 @@ class MembersController < ApplicationController
         flash.notice = members_added_notice members
 
         format.html do
-          redirect_to project_members_path
+          redirect_to project_members_path(project_id: @project)
         end
 
         format.js
@@ -114,7 +114,7 @@ class MembersController < ApplicationController
       flash.notice = l(:notice_successful_update)
     end
 
-    redirect_to project_members_path(project_id: @project.id,
+    redirect_to project_members_path(project_id: @project,
                                      page: params[:page],
                                      per_page: params[:per_page])
   end
@@ -125,7 +125,7 @@ class MembersController < ApplicationController
       flash.notice = l(:notice_member_removed)
     end
 
-    redirect_to project_members_path(project_id: @project.id)
+    redirect_to project_members_path(project_id: @project)
   end
 
   def autocomplete_for_member
