@@ -46,7 +46,7 @@ class Member < ActiveRecord::Base
   after_destroy :unwatch_from_permission_change
 
   def name
-    user.name
+    principal.name
   end
 
   def to_s
