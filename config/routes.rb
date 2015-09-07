@@ -38,8 +38,6 @@ OpenProject::Application.routes.draw do
     scope 'projects/:project_id', as: 'project' do
       resources :backlogs,         controller: :rb_master_backlogs,  only: :index
 
-      resource :server_variables, controller: :rb_server_variables, only: :show, format: :js
-
       resources :sprints,          controller: :rb_sprints,          only: :update do
         resource :query,            controller: :rb_queries,          only: :show
 

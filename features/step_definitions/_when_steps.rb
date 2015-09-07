@@ -113,10 +113,6 @@ When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? p
   ), prev: (prev.nil? ? '' : prev.text), '_method' => 'put'
 end
 
-When /^I request the server_variables resource$/ do
-  visit backlogs_project_server_variables_url(@project.id, format: 'js')
-end
-
 When /^I update the impediment$/ do
   page.driver.post backlogs_project_sprint_impediment_url(
     *@impediment_params.values_at('project_id', 'fixed_version_id', 'id')
