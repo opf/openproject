@@ -164,17 +164,17 @@ When /^I edit the sprint notes$/ do
 end
 
 When /^I follow "(.+?)" of the "(.+?)" (?:backlogs )?menu$/ do |link, backlog_name|
-  sprint = Sprint.find_by_name(backlog_name)
+  sprint = Sprint.find_by(name: backlog_name)
   step %{I follow "#{link}" within "#backlog_#{sprint.id} .menu"}
 end
 
 When /^I open the "(.+?)" backlogs(?: )?menu/ do |backlog_name|
-  sprint = Sprint.find_by_name(backlog_name)
+  sprint = Sprint.find_by(name: backlog_name)
   step %{I hover over "#backlog_#{sprint.id} .menu"}
 end
 
 When /^I close the "(.+?)" backlogs(?: )?menu/ do |backlog_name|
-  sprint = Sprint.find_by_name(backlog_name)
+  sprint = Sprint.find_by(name: backlog_name)
   step %{I stop hovering over "#backlog_#{sprint.id} .menu"}
 end
 

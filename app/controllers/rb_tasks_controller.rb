@@ -46,7 +46,7 @@ class RbTasksController < RbApplicationController
   end
 
   def update
-    @task = Task.find_by_id(params[:id])
+    @task = Task.find(params[:id])
     result = @task.update_with_relationships(params)
     status = (result ? 200 : 400)
     @include_meta = true
