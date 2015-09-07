@@ -41,21 +41,14 @@ class Scm::StorageUpdaterJob
   end
 
   def perform
+    repository = Repository.find @id
     bytes = repository.scm.count_repository!
 
     repository.update_attributes!(
       required_storage_bytes: bytes,
       storage_updated_at: Time.now,
     )
-  end
-
-  def destroy_failed_jobs?
-    true
-  end
-
-  private
-
-  def repository
-    @repository ||= Repository.find @id
+  rescue ActiveRecord::RecordNotFound
+    Rails.logger.warn("StorageUpdater requested for Repository ##{@id}, which could not be found.")
   end
 end
