@@ -58,7 +58,7 @@ table
     .hours-dec
       font-size: 0.9em
 
-  &[class*=transitions]
+  &.workflow-table
     tbody
       tr:nth-of-type(2)
         border-top: 1px solid #ddd
@@ -86,7 +86,9 @@ table
 
     thead
       .workflow-table--header
-        text-align: end
+        text-align: right
+      .workflow-table--check-all
+        font-size: 11px
 
       tr
         th:nth-of-type(1)

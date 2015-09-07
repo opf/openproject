@@ -37,27 +37,23 @@ See doc/COPYRIGHT.rdoc for more details.
         <div class="simple-filters--filter-value">
           <%= styled_select_tag 'role_id', options_from_collection_for_select(@roles, "id", "name", @role && @role.id) %>
         </div>
+        <div class="form--field -trailing-label">
+          <%= hidden_field_tag 'used_statuses_only', '0', id: 'used_statuses_only_hidden' %>
+
+          <%= styled_label_tag :used_statuses_only, l(:label_display_used_statuses_only) %>
+          <div class="form--field-container">
+            <%= styled_check_box_tag :used_statuses_only, '1', @used_statuses_only %>
+          </div>
+        </div>
       </li>
       <li class="simple-filters--filter">
         <%= styled_label_tag :type_id, Type.model_name.human, class: 'simple-filters--filter-name' %>
-        <div class="simple-filters--filter-value">
+        <div class="simple-filter--filter-value">
           <%= styled_select_tag 'type_id', options_from_collection_for_select(@types, "id", "name", @type && @type.id) %>
         </div>
       </li>
-      <li class="simple-filters--controls">
-       <%= submit_tag l(:button_edit), :name => nil, :accesskey => accesskey(:edit), class: 'button -highlight' %>
-      </li>
     </ul>
-    <ul class="simple-filter--trailing-labels">
-      <div class="form--field -trailing-label">
-        <%= hidden_field_tag 'used_statuses_only', '0', id: 'used_statuses_only_hidden' %>
-
-        <%= styled_label_tag :used_statuses_only, l(:label_display_used_statuses_only) %>
-        <div class="form--field-container">
-          <%= styled_check_box_tag :used_statuses_only, '1', @used_statuses_only %>
-        </div>
-      </div>
-    </ul>
+    <%= submit_tag l(:button_edit), :name => nil, :accesskey => accesskey(:edit), class: 'button -highlight' %>
   </fieldset>
 <% end %>
 <%# TODO: remove the prototype stuff from the DOM -%>
