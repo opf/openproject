@@ -63,15 +63,5 @@ describe('WorkPackagesController', function() {
     };
   }));
 
-  describe('setting projectIdentifier', function() {
-    beforeEach(function() {
-      testParams = { projectPath: '/projects/my-project' };
-    });
-
-    it('should set the projectIdentifier', function() {
-      buildController();
-      expect(scope.projectIdentifier).to.eq('my-project');
-    });
-  });
 
 });
