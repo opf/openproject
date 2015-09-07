@@ -1,7 +1,7 @@
 <div class="textarea-wrapper" ng-class="{'-preview': customEditorController.isPreview}">
     <textarea
             wiki-toolbar
-            class="focus-input inplace-edit--textarea"
+            class="focus-input inplace-edit--textarea -autogrow"
             ng-hide="customEditorController.isPreview && !fieldController.state.isBusy"
             preview-toggle="customEditorController.togglePreview()"
             name="value"

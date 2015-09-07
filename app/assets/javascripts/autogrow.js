@@ -28,6 +28,14 @@
 
 (function($) {
   $(function() {
-    $('.-autogrow').autogrow();
+    $('.-autogrow').autogrow({
+      onInitialize: true
+    });
+
+    // Resizing is not always correct on focus
+    // e.g., on WP description
+    document.on('focusin', '.-autogrow', function(evt) {
+      $(evt.target).innerHeight(evt.target.scrollHeight);
+    });
   });
 }(jQuery));
