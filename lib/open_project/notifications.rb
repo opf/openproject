@@ -41,6 +41,12 @@ module OpenProject
       # if no block is given, raise an error
       raise ArgumentError, 'please provide a block as a callback' unless block_given?
 
+      if clear_subscriptions
+        subscriptions[name].each do |sub|
+          ActiveSupport::Notifications.unsubscribe sub
+        end
+      end
+
       sub = ActiveSupport::Notifications.subscribe(name.to_s) do |_name, _start, _finish, _id, payload|
         block.call(payload)
       end
