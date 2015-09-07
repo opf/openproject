@@ -62,6 +62,12 @@ When /^I select "(.+?)" from the action menu$/ do |entry_name|
   end
 end
 
+When /^I click on the edit button$/ do
+  within('#toolbar-items') do
+    click_button(I18n.t('js.button_edit'))
+  end
+end
+
 Then /^there should not be a "(.+?)" entry in the action menu$/ do |entry_name|
   within(action_menu_selector) do
     should_not have_link(entry_name)
