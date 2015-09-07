@@ -29,6 +29,8 @@
 $inplace-edit--border-color: #ddd
 $inplace-edit--dark-background: #f8f8f8
 $inplace-edit--color--very-dark: #cacaca
+$inplace-edit--color--disabled: #999
+$inplace-edit--bg-color--disabled: #eee
 $inplace-edit--color-highlight: $primary-color
 $inplace-edit--selected-date-border-color: $primary-color-dark
 
@@ -277,6 +279,15 @@ a.inplace-editing--trigger-link,
   .inplace-editing--trigger-link
     color: #888
     font-size: 1rem
+
+  // Disabled comment submit styles when empty
+  .inplace-edit--control--save[disabled],
+  .inplace-edit--control--send[disabled]
+    background-color: $inplace-edit--bg-color--disabled
+
+    span
+      color: $inplace-edit--color--disabled
+      cursor: not-allowed
 
 // this aligns the title for the WP
 .work-packages--details--title

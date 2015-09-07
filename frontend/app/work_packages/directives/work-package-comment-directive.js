@@ -34,19 +34,24 @@ module.exports = function(
   I18n,
   ActivityService,
   ConfigurationService,
-  AutoCompleteHelper) {
+  AutoCompleteHelper,
+  NotificationsService) {
 
   function commentFieldDirectiveController($scope, $element) {
     var ctrl = this;
     ctrl.state = EditableFieldsState;
     ctrl.field = 'activity-comment';
-    ctrl.state.isBusy = false;
-    ctrl.isEditing = ctrl.state.forcedEditState;
+
     ctrl.editTitle = I18n.t('js.inplace.button_edit', { attribute: I18n.t('js.label_comment') });
     ctrl.placeholder = I18n.t('js.label_add_comment_title');
+    ctrl.title = I18n.t('js.label_add_comment_title');
+
+    ctrl.state.isBusy = false;
+    ctrl.isEditing = ctrl.state.forcedEditState;
+    ctrl.canAddComment = !!ctrl.workPackage.links.addComment;
 
     ctrl.isEmpty = function() {
-      return WorkPackageFieldService.isEmpty(EditableFieldsState.workPackage, ctrl.field);
+      return ctrl.writeValue === undefined || !ctrl.writeValue.raw;
     };
 
     ctrl.isEditable = function() {
@@ -54,27 +59,30 @@ module.exports = function(
     };
 
     ctrl.submit = function(notify) {
-      if (ctrl.writeValue === undefined) {
-        /** Error handling */
+      if (ctrl.isEmpty()) {
         return;
       }
 
+      ctrl.state.isBusy = true;
       ActivityService.createComment(
-        $scope.workPackage,
-        $scope.activities,
-        ConfigurationService.commentsSortedInDescendingOrder(),
-        ctrl.writeValue.raw
+        ctrl.workPackage,
+        ctrl.writeValue,
+        notify
       ).then(function(response) {
         $scope.$emit('workPackageRefreshRequired', '');
         ctrl.discardEditing();
         return response;
       }, function(error) {
-        console.log(error);
+        NotificationsService.addError(I18n.t('js.comment_send_failed'))
+        ctrl.state.isBusy = false;
       });
-    }
+    };
 
-    ctrl.startEditing = function() {
+    ctrl.startEditing = function(writeValue) {
       ctrl.isEditing = true;
+      ctrl.writeValue = writeValue || { raw: '' };
+      ctrl.markActive();
+
       $timeout(function() {
         var inputElement = $element.find('.focus-input');
         FocusHelper.focus(inputElement);
@@ -89,8 +97,9 @@ module.exports = function(
     };
 
     ctrl.discardEditing = function() {
-      ctrl.isEditing = false;
       delete ctrl.writeValue;
+      ctrl.isEditing = false;
+      ctrl.state.isBusy = false;
     };
 
     ctrl.isActive = function() {
@@ -123,20 +132,11 @@ module.exports = function(
     bindToController: true,
     templateUrl: '/templates/work_packages/comment_field.html',
     scope: {
-      workPackage: '=',
-      activities: '='
+      workPackage: '='
     },
     controller: commentFieldDirectiveController,
     link: function(scope, element, attrs, exclusiveEditController) {
-      exclusiveEditController.setCreator(scope);
-
-      // TODO: WorkPackage is not applied from attribute scope?
-      scope.workPackage = scope.$parent.workPackage;
-      scope.title = I18n.t('js.label_add_comment_title');
-      scope.buttonTitle = I18n.t('js.label_add_comment');
-      scope.buttonCancel = I18n.t('js.button_cancel');
-      scope.canAddComment = !!scope.workPackage.links.addComment;
-      scope.activity = { comment: '' };
+      exclusiveEditController.setCreator(scope.fieldController);
 
       $timeout(function() {
         AutoCompleteHelper.enableTextareaAutoCompletion(

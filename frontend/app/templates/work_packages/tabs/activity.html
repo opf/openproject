@@ -1,7 +1,6 @@
 <exclusive-edit>
-  <div ng-if="activitiesSortedInDescendingOrder === true">
+  <div ng-show="activitiesSortedInDescendingOrder === true">
     <work-package-comment work-package="workPackage"
-                          activities="activities"
                           autocomplete-path="{{ autocompletePath }}">
     </work-package-comment>
   </div>
@@ -28,9 +27,8 @@
       </li>
     </ul>
   </div>
-  <div ng-if="activitiesSortedInDescendingOrder === false">
+  <div ng-show="activitiesSortedInDescendingOrder === false">
     <work-package-comment work-package="workPackage"
-                          activities="activities"
                           autocomplete-path="{{ autocompletePath }}">
     </work-package-comment>
   </div>

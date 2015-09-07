@@ -67,6 +67,7 @@ angular.module('openproject.workPackages.directives')
     'ActivityService',
     'ConfigurationService',
     'AutoCompleteHelper',
+    'NotificationsService',
     require('./work-package-comment-directive')
   ])
   .directive('workPackageField', require('./work-package-field-directive'))

@@ -51,8 +51,7 @@ module.exports = function() {
       };
 
       this.quoteComment = function(text) {
-        creator.fieldController.writeValue = { raw: text };
-        creator.fieldController.startEditing();
+        creator.startEditing({ raw: text });
       };
     }
   };

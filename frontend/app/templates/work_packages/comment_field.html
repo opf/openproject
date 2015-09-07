@@ -1,4 +1,4 @@
-<div class="work-package-field work-packages--activity--add-comment">
+<div class="work-package-field work-packages--activity--add-comment" ng-show="fieldController.canAddComment">
   <inplace-editor-main-pane>
     <div class="inplace-edit--read" ng-if="!fieldController.isEditing">
       <accessible-by-keyboard
@@ -8,7 +8,7 @@
         execute="fieldController.startEditing()">
         <span class="inplace-edit--read-value"
               ng-class="{'-default': fieldController.isEmpty()}">
-          <span ng-bind-html="fieldController.placeholder"></span>
+          <span ng-bind="fieldController.placeholder"></span>
         </span>
         <span class="inplace-edit--icon-wrapper">
             <icon-wrapper icon-name="edit" icon-title="{{ fieldController.editTitle }}">
@@ -22,11 +22,15 @@
         </div>
         <div class="inplace-edit--dashboard">
           <div class="inplace-edit--controls" ng-hide="fieldController.state.isBusy || !fieldController.isActive()">
-            <accessible-by-keyboard execute="fieldController.submit(false)" class="inplace-edit--control inplace-edit--control--save">
+            <accessible-by-keyboard execute="fieldController.submit(false)"
+                                    ng-disabled="fieldController.isEmpty()"
+                                    class="inplace-edit--control inplace-edit--control--save">
               <icon-wrapper icon-name="yes" icon-title="{{ fieldController.saveTitle }}">
               </icon-wrapper>
             </accessible-by-keyboard>
-            <accessible-by-keyboard execute="fieldController.submit(true)" class="inplace-edit--control -icons-2 inplace-edit--control--send">
+            <accessible-by-keyboard execute="fieldController.submit(true)"
+                                    ng-disabled="fieldController.isEmpty()"
+                                    class="inplace-edit--control -icons-2 inplace-edit--control--send">
               <span title="{{ fieldController.saveAndSendTitle }}">
                 <i class="icon-yes"></i>
                 <i class="icon-mail"></i>

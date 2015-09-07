@@ -57,6 +57,11 @@
   </div>
 
   <exclusive-edit>
+    <div ng-show="activitiesSortedInDescendingOrder === true">
+      <work-package-comment work-package="workPackage"
+                            autocomplete-path="{{ autocompletePath }}">
+      </work-package-comment>
+    </div>
     <ul class='work-package-details-activities-list'>
       <li ng-repeat="activity in activities | latestItems:activitiesSortedInDescendingOrder:3"
           class="work-package-details-activities-activity"
@@ -72,9 +77,10 @@
         </activity-entry>
       </li>
     </ul>
-    <work-package-comment work-package="workPackage"
-                          activities="activities"
-                          autocomplete-path="{{ autocompletePath }}">
-    </work-package-comment>
+    <div ng-show="activitiesSortedInDescendingOrder === false">
+      <work-package-comment work-package="workPackage"
+                            autocomplete-path="{{ autocompletePath }}">
+      </work-package-comment>
+    </div>
   </exclusive-edit>
 </div>
