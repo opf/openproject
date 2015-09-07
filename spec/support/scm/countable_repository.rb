@@ -5,11 +5,22 @@ shared_examples_for 'is a countable repository' do
 
   before do
     allow(::Scm::StorageUpdaterJob).to receive(:new).and_return(job)
-    allow(job).to receive(:repository).and_return(repository)
+    allow(Repository).to receive(:find).and_return(repository)
     allow(Setting).to receive(:repository_storage_cache_minutes).and_return(cache_time)
   end
   it 'is countable' do
     expect(repository.scm).to be_storage_available
+  end
+
+  context 'with vanished repository' do
+    before do
+      allow(Repository).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+    end
+
+    it 'does not raise' do
+      expect(Rails.logger).to receive(:warn).with(/StorageUpdater requested for Repository/)
+      expect { job.perform }.not_to raise_error(ActiveRecord::RecordNotFound)
+    end
   end
 
   context 'with patched counter' do
