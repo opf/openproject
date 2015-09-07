@@ -115,7 +115,7 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
     setupWorkPackagesTable(json);
 
     if (json.work_packages.length) {
-      $scope.preselectedWorkPackageId = json.work_packages[0].id;
+      WorkPackageService.cache().put('preselectedWorkPackageId', $scope.preselectedWorkPackageId);
     }
   }
 
@@ -260,11 +260,16 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
     $scope.maintainBackUrl();
   });
 
+  function nextAvailableWorkPackage() {
+    var selected = WorkPackageService.cache().get('preselectedWorkPackageId')
+    return selected || $scope.rows.first().object.id;
+  }
+
   $scope.openLatestTab = function() {
     $scope.settingUpPage = $state.go(
       latestTab.getStateName(),
       {
-        workPackageId: $scope.preselectedWorkPackageId,
+        workPackageId: nextAvailableWorkPackage(),
         'query_props': $location.search()['query_props']
       });
   };
@@ -273,7 +278,7 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
     $scope.settingUpPage = $state.go(
       'work-packages.list.details.overview',
       {
-        workPackageId: $scope.preselectedWorkPackageId,
+        workPackageId: nextAvailableWorkPackage(),
         'query_props': $location.search()['query_props']
       });
   };
