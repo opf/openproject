@@ -37,9 +37,6 @@ See doc/COPYRIGHT.rdoc for more details.
 RB.constants = {
   project_id: <%= @project.id %>,
   sprint_id: <%= @sprint ? @sprint.id : "null" %>,
-  protect_against_forgery: <%= protect_against_forgery? ? "true" : "false" %>,
-  request_forgery_protection_token: '<%= request_forgery_protection_token %>',
-  form_authenticity_token: '<%= form_authenticity_token %>'
 };
 
 RB.i18n = {

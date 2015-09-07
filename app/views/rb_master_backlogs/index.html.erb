@@ -35,12 +35,8 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% content_for :header_tags do %>
-<%= render :partial => 'shared/backlogs_header' %>
+  <%= render :partial => 'shared/backlogs_header' %>
   <%= stylesheet_link_tag 'backlogs/master_backlog.css' %>
-  <%= javascript_include_tag url_for(:controller => '/rb_server_variables',
-                                     :action => 'show',
-                                     :project_id => @project,
-                                     authenticity_token: form_authenticity_token) %>
 <% end %>
 
 <div class='contextual'></div>

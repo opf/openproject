@@ -73,7 +73,6 @@ Feature: Common
 
   Scenario: View the product backlog
      When I go to the master backlog
-      And I request the server_variables resource
      Then the request should complete successfully
 
   Scenario: View the product backlog without any stories
