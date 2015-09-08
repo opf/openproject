@@ -78,16 +78,10 @@ describe Redmine do
     assert_menu_contains_item_named :project_menu, :activity
     assert_menu_contains_item_named :project_menu, :roadmap
     assert_menu_contains_item_named :project_menu, :work_packages
-    assert_menu_contains_item_named :project_menu, :new_work_package
     assert_menu_contains_item_named :project_menu, :calendar
     assert_menu_contains_item_named :project_menu, :news
     assert_menu_contains_item_named :project_menu, :boards
     assert_menu_contains_item_named :project_menu, :repository
     assert_menu_contains_item_named :project_menu, :settings
-  end
-
-  it 'should new_issue_should_have_issues_as_a_parent' do
-    new_work_package = get_menu_item(:project_menu, :new_work_package)
-    assert_equal :work_packages, new_work_package.parent.name
   end
 end
