@@ -261,7 +261,7 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
   });
 
   function nextAvailableWorkPackage() {
-    var selected = WorkPackageService.cache().get('preselectedWorkPackageId')
+    var selected = WorkPackageService.cache().get('preselectedWorkPackageId');
     return selected || $scope.rows.first().object.id;
   }
 
