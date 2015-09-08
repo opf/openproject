@@ -88,12 +88,9 @@
       padding-bottom: 0
       line-height: 30px
       &:first-child
-        /* Hack: The pixel values were rounded and the lines are not in every zoom correctly aligned. */
-        /* This values are getting at the moment the best result possible. */
-        min-width: 15.04rem
-        width: 15.07rem
-      &:last-child
-        border-right: none
+        min-width: 241px
+        width: 241px
+
   .board
     background-color: #FCFCFC
     border: 1px solid #CCCCCC
@@ -113,8 +110,6 @@
         min-width: 210px
         padding: 5px
         width: 210px
-      &:last-child
-        border-right: none
     tr:last-child td
       border-bottom: none
     .add_new
