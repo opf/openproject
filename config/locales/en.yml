@@ -599,7 +599,6 @@ en:
   error_no_default_work_package_status: "No default work package status is defined. Please check your configuration (Go to \"Administration -> Work package statuses\")."
   error_no_type_in_project: "No type is associated to this project. Please check the Project settings."
   error_omniauth_registration_timed_out: "The registration via an external authentication provider timed out. Please try again."
-  error_scm_annotate: "The entry does not exist or cannot be annotated."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_unable_delete_status: "The work package status cannot be deleted since it is used by at least one work package."
@@ -1380,6 +1379,8 @@ en:
     named_repository: "%{vendor_name} repository"
     update_settings_successful: "The settings have been sucessfully saved."
     url: "URL to repository"
+    warnings:
+      cannot_annotate: "This file cannot be annotated."
 
   search_input_placeholder: "search ..."
 

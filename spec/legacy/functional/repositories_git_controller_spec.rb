@@ -233,9 +233,10 @@ describe RepositoriesController, 'Git', type: :controller do
 
   it 'should annotate binary file' do
     get :annotate, project_id: 3, path: 'images/edit.png'
-    assert_response 500
-    assert_tag tag: 'div', attributes: { id: /errorExplanation/ },
-               content: /cannot be annotated/
+    assert_response 200
+
+    assert_tag tag: 'p', attributes: { class: /nodata/ },
+               content: I18n.t('repositories.warnings.cannot_annotate')
   end
 
   it 'should revision' do

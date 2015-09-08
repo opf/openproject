@@ -52,7 +52,7 @@ dirs.each_with_index do |dir, index|
   rev_text = @changeset.nil? ? @rev : format_revision(@changeset)
 %>
 <span class="repository-bradcrumbs--identifier">
-  (<%= l('repositories.at_identifier', identifier: rev_text) unless rev_text.blank? %>)
+  <%= "(#{l('repositories.at_identifier', identifier: rev_text)})" if rev_text.present? %>
 </span>
 
 <% html_title(h(with_leading_slash(path))) -%>
