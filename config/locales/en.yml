@@ -660,6 +660,8 @@ en:
 
   label_access_token: "Access token"
   label_access_token_action_header: "Action"
+  label_access_token_expiration_header: "Expires"
+  label_access_token_expiration_indefinite: "Never"
   label_account: "Account"
   label_activity: "Activity"
   label_add_edit_translations: "Add and edit translations"

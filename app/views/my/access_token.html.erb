@@ -32,11 +32,14 @@ See doc/COPYRIGHT.rdoc for more details.
 <% breadcrumb_paths(l(:label_my_account), l(:label_access_token)) %>
 <%= toolbar title: l(:label_access_token) %>
 
-<% if Setting.feeds_enabled != '0' || Setting.rest_api_enabled != '0' %>
+<% if Setting.feeds_enabled != '0' ||
+      Setting.rest_api_enabled != '0' ||
+      ExtendedToken.exists?(type: 'SVNToken') %>
     <div class="generic-table--container">
       <div class="generic-table--results-container" style="max-height: 340px;">
         <table role="grid" class="generic-table" interactive-table>
           <colgroup>
+            <col highlight-col>
             <col highlight-col>
             <col highlight-col>
             <col highlight-col>
@@ -60,6 +63,13 @@ See doc/COPYRIGHT.rdoc for more details.
             <th>
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
+                  <%= l(:label_access_token_expiration_header) %>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
                   <%= l(:label_access_token_action_header) %>
                 </div>
               </div>
@@ -72,13 +82,14 @@ See doc/COPYRIGHT.rdoc for more details.
                 <td><%= l(:label_feeds_access_key) %></td>
                 <td>
                   <% if @user.rss_token %>
-                      <span title="<%= @user.rss_token.created_on %>">
-                        <%= @user.rss_token.created_on.to_s %>
-                      </span>
+                    <span title="<%= @user.rss_token.created_on %>">
+                      <%= @user.rss_token.created_on.to_s %>
+                    </span>
                   <% else %>
                       <%= l(:label_missing_feeds_access_key) %>
                   <% end %>
                 </td>
+                <td><%= l(:label_access_token_expiration_indefinite) %></td>
                 <td>
                   <%= link_to l(:button_reset), {:action => 'reset_rss_key'}, :method => :post %>
                   <a href="" click-notification="<%= l(:notice_value_information, key_name: l(:label_feeds_access_key), value: @user.api_key) %>" click-notification-type="notice">
@@ -92,13 +103,14 @@ See doc/COPYRIGHT.rdoc for more details.
                 <td><%= l(:label_api_access_key) %></td>
                 <td>
                   <% if @user.api_token %>
-                      <span title="<%= @user.api_token.created_on %>">
-                        <%= @user.api_token.created_on.to_s %>
-                      </span>
+                    <span title="<%= @user.api_token.created_on %>">
+                      <%= @user.api_token.created_on.to_s %>
+                    </span>
                   <% else %>
                       <%= l(:label_missing_api_access_key) %>
                   <% end %>
                 </td>
+                <td><%= l(:label_access_token_expiration_indefinite) %></td>
                 <td>
                   <%= link_to l(:button_reset), {:action => 'reset_api_key'}, :method => :post %>
                   <a href="" click-notification="<%= l(:notice_value_information, key_name: l(:label_api_access_key), value: @user.api_key) %>" click-notification-type="notice">
@@ -107,6 +119,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 </td>
               </tr>
           <% end %>
+          <%= call_hook(:view_access_tokens_table, user: @user) %>
           </tbody>
         </table>
         <div class="generic-table--header-background"></div>
