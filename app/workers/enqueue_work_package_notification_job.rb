@@ -78,6 +78,6 @@ class EnqueueWorkPackageNotificationJob
   end
 
   def notification_receivers(work_package)
-    work_package.recipients + work_package.watcher_recipients
+    (work_package.recipients + work_package.watcher_recipients).uniq
   end
 end
