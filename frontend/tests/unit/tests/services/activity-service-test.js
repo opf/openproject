@@ -40,40 +40,37 @@ describe('ActivityService', function() {
 
   describe('createComment', function() {
     var setupFunction;
+    var activityId = 10;
+    var comment = 'Jack Bauer 24 hour power shower';
+    var activityUrl = '/api/v3/work_packages/10/activities';
     var workPackage = {
       id: 5,
       links: {
-        addComment: { fetch: angular.noop }
+        addComment: { url: function() { return activityUrl; } }
       }
     };
-    var actvityId = 10;
-    var activities = [];
-    var descending = false;
-    var comment = "Jack Bauer 24 hour power shower";
-    var apiResource;
-    var apiFetchResource;
 
     beforeEach(inject(function($q) {
-      sinon.stub(workPackage.links.addComment, 'fetch')
-           .returns({
-              then: function() {
-                return $q.when({ id: actvityId, comment: comment });
-              }
-            });
-      apiFetchResource = ActivityService.createComment(workPackage, activities, descending, comment);
-    }));
+      $httpBackend.when('POST', activityUrl)
+        .respond({
+          'project': {
+            'id': activityId,
+            'comment': comment,
+          }
+        });
 
-    afterEach(function() {
-      workPackage.links.addComment.fetch.restore();
-    });
+      apiFetchResource = ActivityService.createComment(
+        workPackage,
+        comment,
+        false
+      );
+    }));
 
     it('returns an activity', function() {
       apiFetchResource.then(function(activity){
         expect(activity.id).to.equal(activityId);
         expect(activity.comment).to.equal(comment);
-        expect(activities.length).to.equal(1);
       });
     });
-
   });
 });

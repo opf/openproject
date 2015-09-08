@@ -29,7 +29,7 @@
 module.exports = function(HALAPIResource, $http, PathHelper){
 
   var ActivityService = {
-    createComment: function(workPackage, activities, comment, notify) {
+    createComment: function(workPackage, comment, notify) {
 
       return $http({
         url: URI(workPackage.links.addComment.url()).addSearch('notify', notify).toString(),

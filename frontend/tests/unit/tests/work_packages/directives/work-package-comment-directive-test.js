@@ -28,9 +28,10 @@
 
 /*jshint expr: true*/
 
-describe('activityCommentDirective', function() {
+describe('workPackageCommentDirectiveTest', function() {
   var I18n, ActivityService, compile, scope, element, stateParams, q, commentCreation;
-  var html = "<exclusive-edit><activity-comment work-package='workPackage' activities='activities'></activity-comment></exclusive-edit>";
+  var workPackageFieldService = {};
+  var html = "<exclusive-edit><work-package-comment work-package='workPackage' activities='activities'></work-package-comment></exclusive-edit>";
   stateParams = {};
 
   beforeEach(module('ui.router',
@@ -41,8 +42,7 @@ describe('activityCommentDirective', function() {
                     'openproject.uiComponents',
                     'openproject.workPackages.tabs',
                     'openproject.workPackages.directives',
-                    'openproject.workPackages.models',
-                    'openproject.workPackages.services'));
+                    'openproject.workPackages.models'));
 
   beforeEach(module('openproject.templates', function($provide) {
     var configurationService = {
@@ -53,12 +53,18 @@ describe('activityCommentDirective', function() {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
+  beforeEach(module('openproject.services', function($provide) {
+    $provide.constant('WorkPackageFieldService', workPackageFieldService);
+    $provide.constant('WorkPackageService', {});
+  }));
+
   beforeEach(inject(function($rootScope, $compile, $q, _I18n_, _ActivityService_) {
     I18n = _I18n_;
     q = $q;
     scope = $rootScope.$new();
 
     compile = function() {
+      workPackageFieldService.isEmpty = sinon.stub().returns(true);
       element = $compile(html)(scope);
       scope.$digest();
     };
@@ -100,7 +106,8 @@ describe('activityCommentDirective', function() {
       });
 
       it('should not display the comments form', function() {
-        expect(element.find('.work-packages--activity--add-comment').hasClass('ng-hide')).to.equal(true);
+        expect(element.find('.work-packages--activity--add-comment').hasClass('ng-hide'))
+          .to.equal(true);
       });
     });
 
@@ -110,39 +117,35 @@ describe('activityCommentDirective', function() {
       beforeEach(function() {
         compile();
 
-        commentSection  = element.find('.activity-comment');
-        commentField    = commentSection.find('textarea');
+        commentSection  = element.find('.work-packages--activity--add-comment');
       });
 
       it('should display the comments form', function() {
         expect(commentSection.length).to.equal(1);
       });
 
-      describe('when clicking the inplace edit' function() {
+      it('should display a placeholder in the comments field', function() {
+        var readvalue = commentSection.find('.inplace-edit--read-value');
+        expect(readvalue.text().trim()).to.equal('trans_title');
+      });
+
+      describe('when clicking the inplace edit', function() {
         beforeEach(function() {
-          element.find('.work-packages--activity--add-comment .inplace-edit--write-value').click();
-        });
-
-        it('should provide a label next to the comments field', function() {
-          var label = commentSection.find('label[for=' + commentField.attr('id') + ']');
-
-          expect(label.text().trim()).to.equal('trans_title');
-        });
-
-        it('should display a placeholder in the comments field', function() {
-          expect(commentField.attr('placeholder')).to.equal('trans_title');
+          commentSection.find('.inplace-editing--trigger-link').click();
         });
 
         it('does not allow sending comment with an empty message', function() {
-          var saveButton = commentSection.find('button');
+          var saveButton = commentSection.find('.inplace-edit--control--save');
+          var sendButton = commentSection.find('.inplace-edit--control--send');
+          var commentField = commentSection.find('textarea').click();
 
-          commentField.val('');
-          commentField.change();
-          expect(saveButton.prop('disabled')).to.be.true;
+          expect(saveButton.attr('disabled')).to.eq('disabled');
+          expect(sendButton.attr('disabled')).to.eq('disabled');
 
           commentField.val('a useful comment');
-          commentField.change();
-          expect(saveButton.prop('disabled')).to.be.false;
+          commentField.trigger('change');
+          expect(saveButton.attr('disabled')).to.be.undefined;
+          expect(sendButton.attr('disabled')).to.be.undefined;
         });
       });
     });

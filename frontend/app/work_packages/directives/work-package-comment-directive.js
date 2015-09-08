@@ -72,8 +72,8 @@ module.exports = function(
         $scope.$emit('workPackageRefreshRequired', '');
         ctrl.discardEditing();
         return response;
-      }, function(error) {
-        NotificationsService.addError(I18n.t('js.comment_send_failed'))
+      }, function() {
+        NotificationsService.addError(I18n.t('js.comment_send_failed'));
         ctrl.state.isBusy = false;
       });
     };

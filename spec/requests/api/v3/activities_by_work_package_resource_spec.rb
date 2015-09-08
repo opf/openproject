@@ -68,7 +68,7 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
       shared_context 'create activity' do
         before {
           post (api_v3_paths.work_package_activities work_package.id),
-               { comment: comment }.to_json,  'CONTENT_TYPE' => 'application/json'
+               { comment: { raw: comment } }.to_json, 'CONTENT_TYPE' => 'application/json'
         }
       end
 
