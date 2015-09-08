@@ -161,6 +161,10 @@ class JournalManager
                                details: journable.attributes.symbolize_keys }
 
         journal = create_journal journable, journal_attributes, user, notes
+
+        # FIXME: this is required for the association to be correctly saved...
+        journable.journals.select(&:new_record?)
+
         journal.save!
         journal
       end
