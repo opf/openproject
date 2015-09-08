@@ -215,7 +215,7 @@ class User < Principal
   register_allowance_evaluator OpenProject::PrincipalAllowanceEvaluator::Default
 
   # Returns the user that matches provided login and password, or nil
-  def self.try_to_login(login, password, session)
+  def self.try_to_login(login, password, session = nil)
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
     user = find_by_login(login)
