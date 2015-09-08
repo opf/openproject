@@ -97,7 +97,7 @@ Redmine::MenuManager.map :my_menu do |menu|
   menu.push :access_token,
             { controller: '/my', action: 'access_token' },
             caption: :label_access_token,
-            html: { class: 'icon2 icon-settings' }
+            html: { class: 'icon2 icon-key' }
   menu.push :mail_notifications,
             { controller: '/my', action: 'mail_notifications' },
             caption: I18n.t('activerecord.attributes.user.mail_notification'),
