@@ -147,18 +147,23 @@ class JournalManager
     journal.reload
   end
 
-  def self.add_journal(journable, user = User.current, notes = '')
+  def self.add_journal!(journable, user = User.current, notes = '')
     if is_journalized? journable
-      # Maximum version might be nil, so use to_i here.
-      version = journable.journals.maximum(:version).to_i + 1
+      # Obtain a table lock to ensure consistent version numbers
+      Journal.with_write_lock do
+        # Maximum version might be nil, so use to_i here.
+        version = journable.journals.maximum(:version).to_i + 1
 
-      journal_attributes = { journable_id: journable.id,
-                             journable_type: journal_class_name(journable.class),
-                             version: version,
-                             activity_type: journable.send(:activity_type),
-                             details: journable.attributes.symbolize_keys }
+        journal_attributes = { journable_id: journable.id,
+                               journable_type: journal_class_name(journable.class),
+                               version: version,
+                               activity_type: journable.send(:activity_type),
+                               details: journable.attributes.symbolize_keys }
 
-      create_journal journable, journal_attributes, user, notes
+        journal = create_journal journable, journal_attributes, user, notes
+        journal.save!
+        journal
+      end
     end
   end
 

@@ -56,6 +56,26 @@ class Journal < ActiveRecord::Base
   # logs like the history on issue#show
   scope :changing, -> { where(['version > 1']) }
 
+  # Ensure that no INSERT/UPDATE/DELETE statements as well as other code inside :with_write_lock
+  # is run concurrently to the code inside this block, by using database locking.
+  # Note for PostgreSQL: If this is called from inside a transaction, the lock will last until the
+  #   end of that transaction.
+  # Note for MySQL: THis method does not currently change anything (no locking at all)
+  def self.with_write_lock
+    if OpenProject::Database.mysql?
+      # N.B. there seems to be no acceptable locking available for MySQL:
+      # - table locks will break (i.e. COMMIT) an already running transaction.
+      # - advisory locks will do their job, except that when they end inside a transaction,
+      #   nobody will see the changes from inside the lock until the transaction finished.
+      yield
+    else
+      Journal.transaction do
+        ActiveRecord::Base.connection.execute("LOCK TABLE #{table_name} IN SHARE ROW EXCLUSIVE MODE")
+        yield
+      end
+    end
+  end
+
   def changed_data=(changed_attributes)
     attributes = changed_attributes
 
