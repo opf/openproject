@@ -32,6 +32,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <% breadcrumb_paths(l(:label_my_account), l(:label_access_token)) %>
 <%= toolbar title: l(:label_access_token) %>
 
+<p><%= l(:text_access_token_hint) %></p>
+
 <% if Setting.feeds_enabled != '0' ||
       Setting.rest_api_enabled != '0' ||
       ExtendedToken.exists?(type: 'SVNToken') %>

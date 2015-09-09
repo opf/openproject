@@ -383,6 +383,7 @@ en:
   button_edit: "Edit"
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   button_expand_all: "Expand all"
+  button_generate: "Generate"
   button_list: "List"
   button_lock: "Lock"
   button_log_time: "Log time"
@@ -1550,6 +1551,7 @@ en:
       sentence_connector: "and"
       skip_last_comma: "false"
 
+  text_access_token_hint: "You can create new access tokens by using the Reset and Generate buttons below. This will invalidate your current tokens."
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Are you sure?"
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
