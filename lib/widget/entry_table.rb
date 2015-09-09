@@ -95,13 +95,15 @@ class Widget::Table::EntryTable < Widget::Table
     content_tag :tfoot do
       content_tag :tr do
         if show_result(@subject, 0) != show_result(@subject)
+          concat content_tag(:th, '', colspan: FIELDS.size)
           concat content_tag(:th,
-                             show_result(@subject), class: 'inner right', colspan: FIELDS.size + 1)
+                             show_result(@subject), class: 'inner')
           concat content_tag(:th,
-                             show_result(@subject, 0), class: 'result right')
+                             show_result(@subject, 0), class: 'result')
         else
+          concat content_tag(:th, '', colspan: FIELDS.size + 1)
           concat content_tag(:th,
-                             show_result(@subject), class: 'result right', colspan: FIELDS.size + 2)
+                             show_result(@subject), class: 'result')
         end
         concat content_tag(:th, '', class: 'unsortable')
       end
