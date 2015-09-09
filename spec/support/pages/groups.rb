@@ -43,6 +43,19 @@ module Pages
       group(group_name).add_user! user_name
     end
 
+    def delete_group!(name)
+      find_group(name).find('a[data-method=delete]').click
+      accept_alert_dialog!
+    end
+
+    def find_group(name)
+      find('tr', text: name)
+    end
+
+    def has_group?(name)
+      has_selector? 'tr', text: name
+    end
+
     def group(group_name)
       Group.new group_name
     end

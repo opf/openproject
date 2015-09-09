@@ -43,6 +43,22 @@ module Pages
       self
     end
 
+    def accept_alert_dialog!
+      alert_dialog.accept if selenium_driver?
+    end
+
+    def dismiss_alert_dialog!
+      alert_dialog.dismiss if selenium_driver?
+    end
+
+    def alert_dialog
+      page.driver.browser.switch_to.alert
+    end
+
+    def selenium_driver?
+      Capybara.current_driver.to_s.include?('selenium')
+    end
+
     def path
       nil
     end

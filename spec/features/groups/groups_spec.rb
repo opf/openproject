@@ -26,15 +26,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Simple deletion of a group
+require 'spec_helper'
 
-Background:
-Given We have the group "Bob's Team"
+feature 'group memberships through groups page', type: :feature, js: true do
+  let(:admin)  { FactoryGirl.create :admin }
+  let!(:group) { FactoryGirl.create :group, lastname: "Bob's Team" }
 
-@javascript
-Scenario: An admin can delete an existing group
-Given I am admin
-Given I am on the groups administration page
-And I click on "Delete"
-And I accept the alert dialog
-Then I should not see "Bob's Team" within "#content"
+  let(:groups_page) { Pages::Groups.new }
+
+  context 'as an admin' do
+    before do
+      allow(User).to receive(:current).and_return admin
+    end
+
+    scenario 'I can delete a group' do
+      groups_page.visit!
+      expect(groups_page).to have_group "Bob's Team"
+
+      groups_page.delete_group! "Bob's Team"
+      expect(groups_page).not_to have_group "Bob's Team"
+    end
+  end
+end
