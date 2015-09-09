@@ -84,8 +84,8 @@ See doc/COPYRIGHT.rdoc for more details.
                 <td><%= l(:label_feeds_access_key) %></td>
                 <td>
                   <% if @user.rss_token %>
-                    <span title="<%= @user.rss_token.created_on %>">
-                      <%= @user.rss_token.created_on.to_s %>
+                    <span title="<%= format_time(@user.rss_token.created_on) %>">
+                      <%= format_time(@user.rss_token.created_on.to_s) %>
                     </span>
                   <% else %>
                       <%= l(:label_missing_feeds_access_key) %>
@@ -105,8 +105,8 @@ See doc/COPYRIGHT.rdoc for more details.
                 <td><%= l(:label_api_access_key) %></td>
                 <td>
                   <% if @user.api_token %>
-                    <span title="<%= @user.api_token.created_on %>">
-                      <%= @user.api_token.created_on.to_s %>
+                    <span title="<%= format_time(@user.api_token.created_on) %>">
+                      <%= format_time(@user.api_token.created_on.to_s) %>
                     </span>
                   <% else %>
                       <%= l(:label_missing_api_access_key) %>
