@@ -49,8 +49,8 @@ module Pages
       def add_user!(user_name, as:)
         click_on 'Add Member'
 
-        select2(user_name, css: '#s2id_member_user_ids')
-        select2(as, css: '#s2id_member_role_ids')
+        select_principal! user_name
+        select_role! as
 
         click_on 'Add'
       end
@@ -93,6 +93,23 @@ module Pages
         user = find_user(user_name)
 
         roles.all? { |role| user.has_text? role }
+      end
+
+      def select_principal!(principal_name)
+        if !User.current.impaired?
+          select2(principal_name, css: '#s2id_member_user_ids')
+        else
+          find('form .principals').check principal_name
+          select_without_select2(principal.name, 'form .principals')
+        end
+      end
+
+      def select_role!(role_name)
+        if !User.current.impaired?
+          select2(role_name, css: '#s2id_member_role_ids')
+        else
+          find('form .roles').check role_name
+        end
       end
     end
   end
