@@ -340,15 +340,6 @@ module.exports = function($scope,
 
   $scope.isInitialActivity = ActivityService.isInitialActivity;
 
-  function displayedActivities(workPackage) {
-    var activities = workPackage.embedded.activities;
-
-    if ($scope.activitiesSortedInDescendingOrder) {
-      activities.reverse();
-    }
-    return activities;
-  }
-
   // toggles
 
   $scope.toggleStates = {
