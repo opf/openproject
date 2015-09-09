@@ -67,6 +67,6 @@ Feature: Global Create Project
     And I go to the new page of "Project"
     And I fill in "project_name" with "ProjectName"
     And I fill in "project_identifier" with "projectid"
-    And I press "Save"
+    And I press "Create"
     Then I should see "Successful creation."
     And I should be on the settings page of the project called "ProjectName"
