@@ -31,10 +31,10 @@ require 'spec_helper'
 feature 'group memberships through groups page', type: :feature, js: true do
   let!(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
 
-  let(:admin)    { FactoryGirl.create :admin }
+  let(:admin)     { FactoryGirl.create :admin }
   let!(:peter)    { FactoryGirl.create :user, firstname: 'Peter', lastname: 'Pan' }
   let!(:hannibal) { FactoryGirl.create :user, firstname: 'Hannibal', lastname: 'Smith' }
-  let(:group)    { FactoryGirl.create :group, lastname: 'A-Team' }
+  let(:group)     { FactoryGirl.create :group, lastname: 'A-Team' }
 
   let!(:manager)   { FactoryGirl.create :role, name: 'Manager' }
   let!(:developer) { FactoryGirl.create :role, name: 'Developer' }
