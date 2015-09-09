@@ -104,19 +104,30 @@ RB.Model = (function ($) {
 
     displayEditor: function (editor) {
       var pos = this.$.offset(),
-          self = this;
+          self = this,
+          baseClasses;
+
+      baseClasses = 'ui-button ui-widget ui-state-default ui-corner-all';
 
       editor.dialog({
-        buttons: {
-          OK : function () {
+        buttons: [
+        {
+          text: 'OK',
+          class: 'button -highlight',
+          click: function () {
             self.copyFromDialog();
-            $(this).dialog("close");
-          },
-          Cancel : function () {
-            self.cancelEdit();
             $(this).dialog("close");
           }
         },
+        {
+          text: 'Cancel',
+          class: 'button',
+          click: function () {
+            self.cancelEdit();
+            $(this).dialog("close");
+          }
+        }
+        ],
         close: function (e, ui) {
           if (e.which === 27) {
             self.cancelEdit();
@@ -129,6 +140,7 @@ RB.Model = (function ($) {
         title:       (this.isNew() ? this.newDialogTitle() : this.editDialogTitle())
       });
       editor.find(".editor").first().focus();
+      $('button').removeClass(baseClasses);
     },
 
     edit: function () {
