@@ -91,7 +91,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <% if e.project != @project %>
           <span class="project"><%= e.project %></span>
         <% end %>
-        <%= link_to highlight_tokens(truncate(e.event_title, :length => 255), @tokens), with_notes_anchor(e, @tokens) %>
+        <%= link_to highlight_tokens(truncate(e.event_title, escape: false, length: 255), @tokens), with_notes_anchor(e, @tokens) %>
       </dt>
       <dd><span class="description"><%= highlight_first([last_journal(e).try(:notes), e.event_description], @tokens) %></span>
         <span class="author"><%= format_time(e.event_datetime) %></span></dd>
