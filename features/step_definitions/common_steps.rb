@@ -78,3 +78,7 @@ end
 Then(/^"([^"]*)" should be the first row in table$/) do |name|
   should have_selector('table.generic-table tbody tr td', text: Regexp.new("#{name}"))
 end
+
+When(/^I click link "(.*?)"$/) do |selector|
+  page.find(:css, selector).click
+end
