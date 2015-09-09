@@ -23,7 +23,7 @@ class Widget::Table::EntryTable < Widget::Table
   detailed_table self
 
   def render
-    content = content_tag :div, class: 'generic-table--container' do
+    content = content_tag :div, class: 'generic-table--container -with-footer' do
       content_tag :div, class: 'generic-table--results-container' do
         table = content_tag :table, 'interactive-table' => true,
                                     role: 'grid',
@@ -34,7 +34,9 @@ class Widget::Table::EntryTable < Widget::Table
           concat foot
           concat body
         end
-        table + content_tag(:div, class: 'generic-table--header-background') {}
+        table +
+        content_tag(:div, class: 'generic-table--header-background') {} +
+        content_tag(:div, class: 'generic-table--footer-background') {}
       end
     end
     # FIXME do that js-only, like a man's man
@@ -95,13 +97,24 @@ class Widget::Table::EntryTable < Widget::Table
     content_tag :tfoot do
       content_tag :tr do
         if show_result(@subject, 0) != show_result(@subject)
-          concat content_tag(:th,
-                             show_result(@subject), class: 'inner right', colspan: FIELDS.size + 1)
-          concat content_tag(:th,
-                             show_result(@subject, 0), class: 'result right')
+          concat content_tag(:th, '', colspan: FIELDS.size)
+          concat content_tag(:th) {
+            concat content_tag(:div,
+                               show_result(@subject),
+                               class: 'inner generic-table--footer-outer')
+          }
+          concat content_tag(:th) {
+            concat content_tag(:div,
+                               show_result(@subject, 0),
+                               class: 'result generic-table--footer-outer')
+          }
         else
-          concat content_tag(:th,
-                             show_result(@subject), class: 'result right', colspan: FIELDS.size + 2)
+          concat content_tag(:th, '', colspan: FIELDS.size + 1)
+          concat content_tag(:th) {
+            concat content_tag(:div,
+                               show_result(@subject),
+                               class: 'result generic-table--footer-outer')
+          }
         end
         concat content_tag(:th, '', class: 'unsortable')
       end
