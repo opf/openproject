@@ -41,6 +41,10 @@ module Pages
         "/projects/#{project_identifier}/members"
       end
 
+      def open_new_member!
+        click_on 'Add Member'
+      end
+
       ##
       # Adds the given user to this project.
       #
@@ -108,6 +112,16 @@ module Pages
           select2(role_name, css: '#s2id_member_role_ids')
         else
           find('form .roles').check role_name
+        end
+      end
+
+      def enter_principal_search!(principal_name)
+        if !User.current.impaired?
+          find('#s2id_member_user_ids')
+            .find('.select2-choices .select2-input')
+            .set(principal_name)
+        else
+          fill_in 'principal_search', with: principal_name
         end
       end
     end

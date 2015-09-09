@@ -55,6 +55,16 @@ module Pages
       page.driver.browser.switch_to.alert
     end
 
+    def has_alert_dialog?
+      if selenium_driver?
+        begin
+          page.driver.browser.switch_to.alert
+        rescue Selenium::WebDriver::Error::NoAlertPresentError
+          false
+        end
+      end
+    end
+
     def selenium_driver?
       Capybara.current_driver.to_s.include?('selenium')
     end
