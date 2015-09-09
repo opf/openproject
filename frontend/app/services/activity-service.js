@@ -53,6 +53,34 @@ module.exports = function(HALAPIResource, $http, PathHelper){
       return activity.links.update.fetch(options).then(function(activity){
         return activity;
       });
+    },
+
+    isInitialActivity: function(activities, activity, activityNo, activitiesSortedInDescendingOrder) {
+      var type = activity.props._type;
+
+
+      // Type must be Activity
+      if (type.indexOf('Activity') !== 0) {
+        return false;
+      }
+
+      // Shortcut, activityNo is 1 and its an Activity
+      if (activityNo === 1) {
+        return true;
+      }
+
+      // Otherwise, the current acitity may be initial if ALL other preceding activites are
+      // other types.
+      while (--activityNo > 0) {
+        var index = (activitiesSortedInDescendingOrder ?
+                      activities.length - activityNo : activityNo - 1);
+
+        if (activities[index].props._type.indexOf('Activity') === 0) {
+          return false;
+        }
+      }
+
+      return true;
     }
   };
 
