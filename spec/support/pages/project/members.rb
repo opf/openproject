@@ -49,8 +49,8 @@ module Pages
       def add_user!(user_name, as:)
         click_on 'Add Member'
 
-        select_principal! user_name
-        select_role! as
+        select_principal! user_name if user_name
+        select_role! as if as
 
         click_on 'Add'
       end
@@ -100,7 +100,6 @@ module Pages
           select2(principal_name, css: '#s2id_member_user_ids')
         else
           find('form .principals').check principal_name
-          select_without_select2(principal.name, 'form .principals')
         end
       end
 
