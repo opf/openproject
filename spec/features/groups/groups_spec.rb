@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'group memberships through groups page', type: :feature, js: true do
+feature 'group memberships through groups page', type: :feature do
   let(:admin)  { FactoryGirl.create :admin }
   let!(:group) { FactoryGirl.create :group, lastname: "Bob's Team" }
 

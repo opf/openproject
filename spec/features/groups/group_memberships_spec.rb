@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'group memberships through groups page', type: :feature, js: true do
+feature 'group memberships through groups page', type: :feature do
   let!(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
 
   let(:admin)     { FactoryGirl.create :admin }
@@ -48,7 +48,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
     group.add_member! peter
   end
 
-  scenario 'adding a user to a group adds the user to the project as well' do
+  scenario 'adding a user to a group adds the user to the project as well', js: true do
     members_page.visit!
     expect(members_page).not_to have_user 'Hannibal Smith'
 
@@ -83,7 +83,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
       expect(members_page).not_to have_user 'Hannibal Smith'
     end
 
-    scenario 'removing the group from a project' do
+    scenario 'removing the group from a project', js: true do
       group_page.visit!
       group_page.open_projects_tab!
       expect(group_page).to have_project 'Project 1'

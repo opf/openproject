@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'group memberships through project members page', type: :feature, js: true do
+feature 'group memberships through project members page', type: :feature do
   let(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
 
   let(:admin) { FactoryGirl.create :admin }
@@ -53,7 +53,7 @@ feature 'group memberships through project members page', type: :feature, js: tr
       group.add_member! alice
     end
 
-    scenario 'adding group1 as a member with the beta role' do
+    scenario 'adding group1 as a member with the beta role', js: true do
       members_page.visit!
       members_page.add_user! 'group1', as: 'beta'
 
@@ -110,7 +110,7 @@ feature 'group memberships through project members page', type: :feature, js: tr
       allow(User).to receive(:current).and_return admin
     end
 
-    scenario 'adding members to that group adds them to the project too', js: false do
+    scenario 'adding members to that group adds them to the project too' do
       members_page.visit!
 
       expect(members_page).not_to have_user('Alice Wonderland') # Alice not in the project yet
