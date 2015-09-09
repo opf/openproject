@@ -37,7 +37,7 @@ module OpenProject::GithubIntegration
     def self.pull_request(payload)
       # Don't add comments on new pushes to the pull request => ignore synchronize.
       # Don't add comments about assignments and labels either.
-      ignored_actions = %w['synchronize' 'assigned' 'unassigned' 'labeled' 'unlabeled']
+      ignored_actions = %w[synchronize assigned unassigned labeled unlabeled]
       return if ignored_actions.include? payload['action']
       comment_on_referenced_work_packages payload['pull_request']['body'], payload
     end
