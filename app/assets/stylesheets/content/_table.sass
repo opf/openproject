@@ -87,8 +87,6 @@ table.generic-table
       line-height: 34px
       padding: 0
 
-      &.icon-table
-        //
       &.active-column
         background: #f8f8f8
       a
@@ -139,23 +137,16 @@ table.generic-table
     td
       max-width: 300px
       min-width: 150px
-      overflow:  hidden
+      overflow:  hidden !important
       text-overflow: ellipsis
       text-align: left
       line-height: 34px
 
-      &.icon-table
-        //
-      &.checkbox
-        min-width: 0
-        width: 20px
-        line-height: 1
-      &.id
-        min-width: 0
+      &.-short
+        min-width: 50px
         width: 50px
+
       &.info
-        min-width: 0
-        width: 20px
         a
           text-decoration: none
           color: $body-font-color

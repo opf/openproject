@@ -111,7 +111,7 @@
             ]"
             ng-show="!groupByColumn || groupExpanded[row.groupName]">
 
-          <td class="checkbox hide-when-print">
+          <td class="checkbox -short hide-when-print">
             <accessible-checkbox name="ids[]"
                                  checkbox-id="work_package{{row.object.id}}"
                                  checkbox-value="row.object.id"
@@ -119,7 +119,7 @@
                                  model="row.checked"/>
           </td>
 
-          <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || I18n.locale}}">
+          <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || I18n.locale}}" ng-class="column.name == 'id' && '-short'">
             <span work-package-column
                   work-package="row.object"
                   column="column"
