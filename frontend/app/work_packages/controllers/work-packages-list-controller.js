@@ -115,7 +115,7 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
     setupWorkPackagesTable(json);
 
     if (json.work_packages.length) {
-      WorkPackageService.cache().put('preselectedWorkPackageId', $scope.preselectedWorkPackageId);
+      WorkPackageService.cache().put('preselectedWorkPackageId', json.work_packages[0].id);
     }
   }
 
