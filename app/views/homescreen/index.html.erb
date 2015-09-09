@@ -33,6 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= organization_name %>
   </h2>
 </div>
+
 <section class="homescreen-blocks">
 <% homescreen_blocks.each do |block| %>
   <% if block[:if].nil? || block[:if].call %>

@@ -42,8 +42,16 @@ brute_force_block_minutes:
 brute_force_block_after_failed_logins:
   default: 20
   format: int
+welcome_title:
+  default:
 welcome_text:
   default:
+welcome_on_homescreen:
+  default: 0
+  format: boolean
+welcome_on_projects_page:
+  default: 0
+  format: boolean
 log_requesting_user:
   default: 0
   format: int

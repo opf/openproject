@@ -1502,7 +1502,10 @@ en:
   setting_user_format: "Users display format"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
-  setting_welcome_text: "Welcome text"
+  setting_welcome_text: "Welcome block text"
+  setting_welcome_title: "Welcome block title"
+  setting_welcome_on_homescreen: "Display welcome block on homescreen"
+  setting_welcome_on_projects_page: "Display welcome block on project overview"
   setting_wiki_compression: "Wiki history compression"
   setting_work_package_group_assignment: "Allow assignment to groups"
 

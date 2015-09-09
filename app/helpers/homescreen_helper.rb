@@ -52,6 +52,10 @@ module HomescreenHelper
   # Helper to list all showing blocks.
   def homescreen_blocks
     [
+      {
+        partial: 'welcome',
+        if: -> { Setting.welcome_on_homescreen? && !Setting.welcome_text.empty? }
+      },
       { partial: 'projects' },
       { partial: 'users', if: -> { User.current.admin? } },
       { partial: 'my_account', if: -> { User.current.logged? } },
