@@ -42,6 +42,7 @@ module.exports = function($scope,
     UsersHelper,
     ConfigurationService,
     WorkPackageService,
+    ActivityService,
     ProjectService,
     CommonRelationsHandler,
     ChildrenRelationsHandler,
@@ -337,34 +338,7 @@ module.exports = function($scope,
     return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
   };
 
-  $scope.isInitialActivity = function(activity, activityNo) {
-    var type = activity.props._type,
-      activities = $scope.activities;
-
-
-    // Type must be Activity
-    if (type.indexOf('Activity') !== 0) {
-      return false;
-    }
-
-    // Shortcut, activityNo is 1 and its an Activity
-    if (activityNo === 1) {
-      return true;
-    }
-
-    // Otherwise, the current acitity may be initial if ALL other preceding activites are
-    // other types.
-    while (--activityNo > 0) {
-      var index = ($scope.activitiesSortedInDescendingOrder ?
-                    activities.length - activityNo : activityNo - 1);
-
-      if (activities[index].props._type.indexOf('Activity') === 0) {
-        return false;
-      }
-    }
-
-    return true;
-  };
+  $scope.isInitialActivity = ActivityService.isInitialActivity;
 
   function displayedActivities(workPackage) {
     var activities = workPackage.embedded.activities;
