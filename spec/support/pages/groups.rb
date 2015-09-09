@@ -32,13 +32,82 @@ module Pages
       '/admin/groups'
     end
 
+    def edit_group!(group_name)
+      click_on group_name
+    end
+
     def add_user_to_group!(user_name, group_name)
       visit_page unless current_page?
 
-      click_on group_name
+      edit_group! group_name
+      group(group_name).add_user! user_name
+    end
+
+    def group(group_name)
+      Group.new group_name
+    end
+  end
+
+  class Group < Pages::Page
+    attr_reader :id
+
+    def initialize(id)
+      @id = id
+    end
+
+    def path
+      "/admin/groups/#{id}/edit"
+    end
+
+    def open_users_tab!
       click_on 'tab-users'
+    end
+
+    def open_projects_tab!
+      click_on 'tab-memberships'
+    end
+
+    def add_to_project!(project_name, as:)
+      open_projects_tab!
+      select_project! project_name
+      Array(as).each { |role| check role }
+      click_on 'Add'
+    end
+
+    def remove_from_project!(name)
+      open_projects_tab!
+      find_project(name).find('a[data-method=delete]').click
+    end
+
+    def find_project(name)
+      find('tr', text: name)
+    end
+
+    def has_project?(name)
+      has_selector? 'tr', text: name
+    end
+
+    def select_project!(project_name)
+      select(project_name, from: 'membership_project_id')
+    end
+
+    def add_user!(user_name)
+      open_users_tab!
       check user_name
       click_on 'Add'
+    end
+
+    def remove_user!(user_name)
+      open_users_tab!
+      find_user(user_name).find('a[data-method=delete]').click
+    end
+
+    def find_user(user_name)
+      find('tr', text: user_name)
+    end
+
+    def has_user?(user_name)
+      has_selector? 'tr', text: user_name
     end
   end
 end
