@@ -1,4 +1,4 @@
-<h3 class="homescreen-blocks--item-header">
+<h3 class="homescreen--blocks--item-header">
   <%= homescreen_user_avatar %>
   <%= l(:label_my_account) %>
 </h3>
@@ -14,9 +14,4 @@
   <li>
     <%= link_to l(:button_change_password), my_password_path, title: l(:button_change_password) %>
   </li>
-  <% if Setting.users_deletable_by_self? %>
-  <li>
-    <%= link_to l('account.delete'), delete_my_account_info_path, title: l('account.delete') %>
-  </li>
-  <% end %>
 </ul>

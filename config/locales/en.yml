@@ -649,13 +649,11 @@ en:
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       forums: "Forums"
-      onscreen_tips: "On screen tips"
 
   instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
   instructions_after_logout: "You can sign in again by clicking %{signin}."
   instructions_after_error: "You can try to sign in again by clicking %{signin}. If the error persists, ask your admin for help."
 
-  label_access_token: "Access token"
   label_account: "Account"
   label_activity: "Activity"
   label_add_edit_translations: "Add and edit translations"
@@ -775,7 +773,6 @@ en:
   label_duplicated_by: "duplicated by"
   label_duplicates: "duplicates"
   label_edit: "Edit"
-  label_email_notification: "Email notification"
   label_enable_multi_select: "Toggle multiselect"
   label_enabled_project_custom_fields: 'Enabled custom fields'
   label_enabled_project_types: 'Enabled types'
@@ -944,7 +941,6 @@ en:
   label_principal_search: "Search for users or groups"
   label_professional_support: "Professional support"
   label_profile: "Profile"
-  label_project_administration: "Project Administration"
   label_project_all: "All Projects"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Send email notifications during the project copy"

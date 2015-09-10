@@ -1,4 +1,4 @@
-<h3 class="homescreen-blocks--item-header">
+<h3 class="homescreen--blocks--item-header">
   <span class="icon-context icon-group"></span>
   <%= l(:label_user_plural) %>
 </h3>
@@ -16,7 +16,7 @@
 </ul>
 <% end %>
 
-<div class="homescreen-blocks--buttons">
+<div class="homescreen--blocks--buttons">
   <% if User.current.admin? %>
     <%= link_to new_user_path, class: 'button -alt-highlight' do %>
       <i class="button--icon icon-add"></i>

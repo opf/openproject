@@ -27,17 +27,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class HomescreenController < ApplicationController
-  def index
-    @newest_projects = Project.visible.newest.take(3)
-    @newest_users = User.newest.take(3)
-    @news = News.latest(count: 3)
+module OpenProject
+  module Homescreen
+    class << self
+      ##
+      # Access a defined item on the homescreen
+      # By default, this will likely be :blocks and :links,
+      # however plugins may define their own blocks and
+      # render them in the call_hook.
+      def [](item)
+        homescreen[item]
+      end
 
-    @homescreen = OpenProject::Homescreen
-  end
+      ##
+      # Manage the given content for this item,
+      # yielding it.
+      def manage(item, default = [])
+        homescreen[item] ||= default
+        yield homescreen[item]
+      end
 
-  def robots
-    @projects = Project.active.public_projects
+      private
+
+      def homescreen
+        @content ||= {}
+      end
+    end
   end
-  caches_action :robots
 end

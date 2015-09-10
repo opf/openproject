@@ -27,36 +27,35 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% breadcrumb_paths(nil) %>
-<div class="homescreen-header">
+<div class="homescreen--header">
   <h2>
-    <span class="homescreen-header--icon"><%= organization_icon %></span>
+    <span class="homescreen--header--icon"><%= organization_icon %></span>
     <%= organization_name %>
   </h2>
 </div>
 
-<section class="homescreen-blocks">
-<% homescreen_blocks.each do |block| %>
-  <% if block[:if].nil? || block[:if].call %>
-    <div class="homescreen-blocks--item">
-    <%= render partial: "homescreen/blocks/#{block[:partial]}", locals: (block[:locals] || {}) %>
-    </div>
-  <% end %>
-<% end %>
-</section>
-
-<section class="homescreen-links">
-<% homescreen_links.each do |link| %>
-  <% title = I18n.t(link[:label], scope: 'homescreen.links') %>
-  <a class="homescreen-link--item" href="<%= link[:url] %>" title="<%= title %>">
-    <span class="<%= link[:icon] %>"></span>
-    <%= title %>
-  </a>
-<% end %>
-</section>
-<% unless homescreen_socialmedia.empty? %>
-  <section class="homescreen-social-links">
-  <% homescreen_socialmedia.each do |link| %>
-    <a href="<%= link[:url] %>" title="<%= link[:name] %>" class="<%= link[:link_class] %>"></a>
+<% if @homescreen[:blocks].any? %>
+  <section class="homescreen--blocks">
+  <% @homescreen[:blocks].each do |block| %>
+    <% if block[:if].nil? || instance_eval(&block[:if]) %>
+      <div class="homescreen--blocks--item">
+      <%= render partial: "homescreen/blocks/#{block[:partial]}", locals: (block[:locals] || {}) %>
+      </div>
+    <% end %>
   <% end %>
   </section>
 <% end %>
+
+<% if @homescreen[:links].any? %>
+  <section class="homescreen--links">
+  <% @homescreen[:links].each do |link| %>
+    <% title = I18n.t(link[:label], scope: 'homescreen.links') %>
+    <a class="homescreen--links--item" href="<%= link[:url] %>" title="<%= title %>">
+      <span class="<%= link[:icon] %>"></span>
+      <%= title %>
+    </a>
+  <% end %>
+  </section>
+<% end %>
+
+<%= call_hook :homescreen_after_links %>

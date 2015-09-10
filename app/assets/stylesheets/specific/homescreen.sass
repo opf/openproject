@@ -31,6 +31,8 @@
   border: 1px solid $homescreen-block-border-color
   margin: 10px
 
+$homescreen--enumeration-width: 20px
+
 .controller-homescreen,
 .controller-homescreen #content
   background: $homescreen-content-bg-color
@@ -38,28 +40,17 @@
 .controller-homescreen #breadcrumb
   display: none
 
-.homescreen-header
+.homescreen--header
   margin-left: 10px
 
-.homescreen-welcome
-  @include homescreen-block-style
-  padding: 10px 10px 10px 20px
-  display: flex
-  align-items: center
-  justify-content: center
-
-  .wiki
-    max-width: 75%
-
-
-.homescreen-blocks
+.homescreen--blocks
   display: flex
   flex-flow: row wrap
 
   .icon-context:before
     padding-right: 5px
 
-  .homescreen-blocks--item
+  .homescreen--blocks--item
     @include homescreen-block-style
     padding: 10px 10px 10px 20px
     flex: 1
@@ -70,7 +61,7 @@
     word-wrap: break-words
     overflow: hidden
 
-    .homescreen-blocks--item-header
+    .homescreen--blocks--item-header
       font-weight: bold
       font-size: 1rem
       text-transform: uppercase
@@ -98,8 +89,8 @@
         content: "\e03f"
         display: inline-block
         font-size: 0.6rem
-        margin-right: 10px
         color: $content-icon-link-color
+        width: $homescreen--enumeration-width
 
       .-homescreen--arrow-multiline
         &:before
@@ -113,9 +104,11 @@
         > div
           float: left
           margin-bottom: 10px
+          //necessary for correct alignment even with long texts
+          width: calc(100% - #{$homescreen--enumeration-width})
 
 
-.homescreen-links
+.homescreen--links
   @include homescreen-block-style
   display: flex
   padding: 20px 20%
@@ -126,7 +119,7 @@
   .icon-context:before
     padding-right: 0
 
-  .homescreen-link--item
+  .homescreen--links--item
     flex: 1
     display: block
     text-align: center
@@ -141,4 +134,4 @@
       display: block
       margin-bottom: 10px
       font-size: 3rem
-      color: $homescreen-icon-color
+      color: $homescreen-footer-icon-color

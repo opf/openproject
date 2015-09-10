@@ -76,6 +76,10 @@ describe HomescreenController, type: :controller do
         expect(response).to render_template(partial: 'homescreen/blocks/_news')
       end
 
+      it 'does not render the welcome block' do
+        expect(response).not_to render_template(partial: 'homescreen/blocks/_welcome')
+      end
+
       context 'with enabled welcome block' do
         before do
           allow(Setting).to receive(:welcome_text).and_return('h1. foobar')
@@ -90,8 +94,8 @@ describe HomescreenController, type: :controller do
         end
 
         it 'renders the text' do
-          expect(response.body).to have_selector('.homescreen-blocks--item-header', text: 'Woohoo!')
-          expect(response.body).to have_selector('.wiki > h1')
+          expect(response.body).to have_selector('.homescreen--blocks--item-header',
+                                                 text: 'Woohoo!')
         end
       end
     end
