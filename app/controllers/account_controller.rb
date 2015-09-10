@@ -167,36 +167,67 @@ class AccountController < ApplicationController
 
   # Token based account activation
   def activate
-    if not Setting.self_registration? || params[:token].nil?
+    token = Token.find_by value: params[:token].to_s
+
+    if token && token.action == 'register' && Setting.self_registration?
+      activate_self_registered token
+    else
+      activate_invited token
+    end
+  end
+
+  def activate_self_registered(token)
+    user = token.user
+
+    if not user.registered?
+      if user.active?
+        flash[:notice] = I18n.t(:notice_account_already_activated)
+      else
+        flash[:error] = I18n.t(:notice_activation_failed)
+      end
+
       redirect_to home_url
     else
-      token = Token.find_by action: UserInvitation.token_action, value: params[:token].to_s
+      user.activate
 
-      if token.nil? || token.expired? || !token.user.invited?
-        redirect_to home_url
+      if user.save
+        token.destroy
+        flash[:notice] = I18n.t(:notice_account_activated)
       else
-        session[:invitation_token] = token.value
-        user = token.user
+        flash[:error] = I18n.t(:notice_activation_failed)
+      end
 
-        if user.auth_source
-          session[:auth_source_registration] = {
-            login: user.login,
-            auth_source_id: user.auth_source_id
-          }
+      redirect_to signin_path
+    end
+  end
 
-          flash[:notice] = I18n.t('account.auth_source_login', login: user.login).html_safe
+  def activate_invited(token)
+    if token.nil? || token.expired? || !token.user.invited?
+      flash[:error] = I18n.t(:notice_account_invalid_token)
 
-          redirect_to signin_path(username: user.login)
+      redirect_to home_url
+    else
+      session[:invitation_token] = token.value
+      user = token.user
+
+      if user.auth_source
+        session[:auth_source_registration] = {
+          login: user.login,
+          auth_source_id: user.auth_source_id
+        }
+
+        flash[:notice] = I18n.t('account.auth_source_login', login: user.login).html_safe
+
+        redirect_to signin_path(username: user.login)
+      else
+        if Concerns::OmniauthLogin.direct_login?
+          direct_login user
+        elsif OpenProject::Configuration.disable_password_login?
+          flash[:notice] = I18n.t('account.omniauth_login')
+
+          redirect_to signin_path
         else
-          if Concerns::OmniauthLogin.direct_login?
-            direct_login user
-          elsif OpenProject::Configuration.disable_password_login?
-            flash[:notice] = I18n.t('account.omniauth_login')
-
-            redirect_to signin_path
-          else
-            redirect_to account_register_path
-          end
+          redirect_to account_register_path
         end
       end
     end
@@ -287,6 +318,8 @@ class AccountController < ApplicationController
         else
           invalid_credentials
         end
+      elsif user and user.invited?
+        invited_account_not_activated(user)
       else
         # incorrect password
         invalid_credentials
@@ -469,6 +502,13 @@ class AccountController < ApplicationController
     else
       flash_hash[:error] = I18n.t('account.error_inactive_manual_activation')
     end
+  end
+
+  def invited_account_not_activated(user)
+    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
+                " at #{Time.now.utc} (invited, NOT ACTIVATED)"
+
+    flash[:error] = I18n.t('account.error_inactive_activation_by_mail')
   end
 
   # Log an attempt to log in to a locked account or with invalid credentials

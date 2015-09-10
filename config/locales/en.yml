@@ -1179,6 +1179,8 @@ en:
   noscript_learn_more: "Learn more"
 
   notice_account_activated: "Your account has been activated. You can now log in."
+  notice_account_already_activated: The account has already been activated.
+  notice_account_invalid_token: Invalid activation token
   notice_account_invalid_credentials: "Invalid user or password"
   notice_account_invalid_credentials_or_blocked: "Invalid user or password or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time."
   notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
@@ -1192,6 +1194,7 @@ en:
   notice_account_updated: "Account was successfully updated."
   notice_account_wrong_password: "Wrong password"
   notice_account_registered_and_logged_in: "Welcome, your account has been activated. You are logged in now."
+  notice_activation_failed: The account could not be activated.
   notice_api_access_key_reseted: "Your API access key was reset."
   notice_can_t_change_password: "This account uses an external authentication source. Impossible to change the password."
   notice_email_error: "An error occurred while sending mail (%{value})"

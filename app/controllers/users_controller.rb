@@ -168,8 +168,18 @@ class UsersController < ApplicationController
 
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
-      if @user.active? && params[:send_information] && !@user.password.blank? && @user.change_password_allowed?
-        UserMailer.account_information(@user, @user.password).deliver
+      if !@user.password.blank? && @user.change_password_allowed?
+        send_information = params[:send_information]
+
+        if @user.invited?
+          # setting a password for an invited user activates them implicitly
+          @user.activate!
+          send_information = true
+        end
+
+        if @user.active? && send_information
+          UserMailer.account_information(@user, @user.password).deliver
+        end
       end
 
       respond_to do |format|

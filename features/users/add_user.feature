@@ -31,15 +31,12 @@ Feature: Adding a user
   Scenario: as an admin a user can be created
     Given I am already admin
     When I go to the new user page
-    And I fill in "psmith" for "user_login"
     And I fill in "Paul" for "user_firstname"
     And I fill in "Smith" for "user_lastname"
     And I fill in "psmith@somenet.foo" for "user_mail"
-    And I fill in "psmithPSMITH09" for "user_password"
-    And I fill in "psmithPSMITH09" for "user_password_confirmation"
     And I submit the form by the "Create" button
     Then I should see "Successful creation"
-    And I should be on the edit page of the user "psmith"
+    And I should be on the edit page of the user "psmith@somenet.foo"
     When I logout
-    And I login as "psmith" with password "psmithPSMITH09"
-    Then I should be logged in as "psmith"
+    And I login as "psmith@somenet.foo" with password "psmithPSMITH09"
+    Then I should see "Your account has not yet been activated."
