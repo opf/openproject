@@ -38,7 +38,7 @@ feature 'members pagination', type: :feature, js: true do
   let!(:alpha) { FactoryGirl.create :role, name: 'alpha' }
   let!(:beta)  { FactoryGirl.create :role, name: 'beta' }
 
-  let(:members_page) { Pages::Project::Members.new project.identifier }
+  let(:members_page) { Pages::Members.new project.identifier }
 
   before do
     allow(User).to receive(:current).and_return admin

@@ -39,7 +39,7 @@ feature 'group memberships through project members page', type: :feature do
   let!(:alpha) { FactoryGirl.create :role, name: 'alpha', permissions: [:manage_members] }
   let!(:beta)  { FactoryGirl.create :role, name: 'beta' }
 
-  let(:members_page) { Pages::Project::Members.new project.identifier }
+  let(:members_page) { Pages::Members.new project.identifier }
   let(:groups_page)  { Pages::Groups.new }
 
   before do
