@@ -39,7 +39,9 @@ var ModalHelper = (function() {
       // prototype, so that all ModalHelper instances can share them.
       if (ModalHelper._done !== true) {
         // one time initialization
-        modalDiv = jQuery('<div/>').css('hidden', true).attr('id', 'modalDiv');
+        modalDiv = jQuery('<div/>').css('hidden', true)
+                                   .attr('id', 'modalDiv')
+                                   .css('display', 'none');
         body.append(modalDiv);
 
         // close when body is clicked
