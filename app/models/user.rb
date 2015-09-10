@@ -364,16 +364,8 @@ class User < Principal
     update_attribute(:status, STATUSES[:invited])
   end
 
-  def registered?
-    status == STATUSES[:registered]
-  end
-
   def invited?
     status == STATUSES[:invited]
-  end
-
-  def active?
-    status == STATUSES[:active]
   end
 
   def lock!
@@ -741,6 +733,17 @@ class User < Principal
 
   def roles(project)
     User.current.admin? ? Role.all : User.current.roles_for_project(project)
+  end
+
+  ##
+  # Returns true if no authentication method has been chosen for this user yet.
+  # There are three possible methods currently:
+  #
+  #   - username & password
+  #   - OmniAuth
+  #   - LDAP
+  def missing_authentication_method?
+    identity_url.nil? && passwords.empty? && auth_source.nil?
   end
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only

@@ -220,9 +220,9 @@ class UsersController < ApplicationController
     was_activated = (@user.status_change == [User::STATUSES[:registered],
                                              User::STATUSES[:active]])
 
-    if params[:activate] && @user.identity_url.nil? && @user.passwords.empty? && @user.auth_source.nil?
+    if params[:activate] && @user.missing_authentication_method?
       flash[:error] = I18n.t(:error_status_change_failed,
-                             errors: "User has yet to chose a password or sign up using OpenID Connect.",
+                             errors: I18n.t(:notice_user_missing_authentication_method),
                              scope: :user)
     elsif @user.save
       flash[:notice] = I18n.t(:notice_successful_update)

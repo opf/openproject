@@ -49,16 +49,16 @@
 
     if (this.value === '') {
       passwordFields.show();
-      passwordInputs.removeAttr('disabled');
+      passwordInputs.removeProp('disabled');
 
       newUserLogin.hide();
-      newUserLogin.find('input').prop('disabled', 'disabled');
+      newUserLogin.find('input').prop('disabled', true);
     } else {
       passwordFields.hide();
       passwordInputs.prop('disabled', 'disabled');
 
       newUserLogin.show();
-      newUserLogin.find('input').removeAttr('disabled');
+      newUserLogin.find('input').prop('disabled', false);
     }
   }
 

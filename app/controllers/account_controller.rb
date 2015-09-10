@@ -113,22 +113,16 @@ class AccountController < ApplicationController
   def register
     return self_registration_disabled unless allow_registration?
 
+    @user = invited_user
+
     if request.get?
       session[:auth_source_registration] = nil
 
-      if session.include? :invitation_token
-        token = Token.find_by(value: session[:invitation_token])
-
-        @user = token.user
-      else
+      if @user.nil?
         @user = User.new(language: Setting.default_language)
       end
     else
-      if session.include? :invitation_token
-        token = Token.find_by(value: session[:invitation_token])
-
-        @user = token.user
-      else
+      if @user.nil?
         @user = User.new
         @user.admin = false
         @user.register
@@ -540,6 +534,14 @@ class AccountController < ApplicationController
       redirect_to controller: '/my', action: 'first_login', back_url: params[:back_url]
     else
       redirect_back_or_default controller: '/my', action: 'page'
+    end
+  end
+
+  def invited_user
+    if session.include? :invitation_token
+      token = Token.find_by(value: session[:invitation_token])
+
+      token.user
     end
   end
 end

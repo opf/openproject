@@ -47,7 +47,7 @@ module OpenProject
         end
       end
 
-      sub = ActiveSupport::Notifications.subscribe(name.to_s) do |_name, _start, _finish, _id, payload|
+      sub = ActiveSupport::Notifications.subscribe(name.to_s) do |_, _, _, _, payload|
         block.call(payload)
       end
 

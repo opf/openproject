@@ -24,7 +24,7 @@ class DummyAuthSource < AuthSource
       firstname: login.capitalize,
       lastname: 'Dummy',
       mail: 'login@DerpLAP.net',
-      auth_source_id: self.id
+      auth_source_id: id
     }
   end
 

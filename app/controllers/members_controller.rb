@@ -50,13 +50,8 @@ class MembersController < ApplicationController
   def index
     @roles = Role.find_all_givable
     # Check if there is at least one principal that can be added to the project
-    @principals_available = @project.possible_members("", 1)
-
-    @members = @project.member_principals.includes(:roles, :principal, :member_roles)
-                 .order(User::USER_FORMATS_STRUCTURE[Setting.user_format].map{|attr| attr.to_s}.join(", "))
-                 .page(params[:page])
-                 .references(:users)
-                 .per_page(per_page_param)
+    @principals_available = @project.possible_members('', 1)
+    @members = index_members @project
   end
 
   def new
@@ -95,12 +90,12 @@ class MembersController < ApplicationController
           render(:update) do |page|
             if params[:member]
               page.replace_html 'new-member-message',
-                               partial: 'members/member_errors',
-                               locals: { member: members.first }
+                                partial: 'members/member_errors',
+                                locals: { member: members.first }
             else
               page.replace_html 'new-member-message',
-                               partial: 'members/common_error',
-                               locals: { message: l(:error_check_user_and_role) }
+                                partial: 'members/common_error',
+                                locals: { message: l(:error_check_user_and_role) }
             end
           end
         end
@@ -164,6 +159,18 @@ class MembersController < ApplicationController
 
   private
 
+  def index_members(project)
+    order = User::USER_FORMATS_STRUCTURE[Setting.user_format].map(&:to_s).join(', ')
+
+    project
+      .member_principals
+      .includes(:roles, :principal, :member_roles)
+      .order(order)
+      .page(params[:page])
+      .references(:users)
+      .per_page(per_page_param)
+  end
+
   def self.tab_scripts
     @@scripts.join('(); ') + '();'
   end
@@ -171,7 +178,7 @@ class MembersController < ApplicationController
   def set_roles_and_principles!
     @roles = Role.find_all_givable
     # Check if there is at least one principal that can be added to the project
-    @principals_available = @project.possible_members("", 1)
+    @principals_available = @project.possible_members('', 1)
   end
 
   def new_members_from_params
