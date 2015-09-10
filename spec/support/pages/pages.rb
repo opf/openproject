@@ -69,6 +69,10 @@ module Pages
       Capybara.current_driver.to_s.include?('selenium')
     end
 
+    def set_items_per_page!(n)
+      Setting.per_page_options = "#{n}, 50, 100"
+    end
+
     def path
       nil
     end

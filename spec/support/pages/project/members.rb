@@ -86,6 +86,16 @@ module Pages
         find('tr', text: name)
       end
 
+      def edit_user!(name, add_roles: [], remove_roles: [])
+        user = find_user(name)
+        user.find('a[title=Edit]').click
+
+        add_roles.each { |role| check role }
+        remove_roles.each { |role| uncheck role }
+
+        click_on 'Change'
+      end
+
       def has_group_membership?(user_name)
         user = find_user(user_name)
 
@@ -123,6 +133,10 @@ module Pages
         else
           fill_in 'principal_search', with: principal_name
         end
+      end
+
+      def go_to_page!(number)
+        find('.pagination a', text: number.to_s).click
       end
     end
   end
