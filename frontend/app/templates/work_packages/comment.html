@@ -1,0 +1,7 @@
+<div id="work-package-activites-container">
+  <div ng-include="'/templates/work_packages/comment_field.html'"
+       ng-if="fieldController.showAbove"></div>
+  <ng-transclude></ng-transclude>
+  <div ng-include="'/templates/work_packages/comment_field.html'"
+       ng-if="!fieldController.showAbove"></div>
+</div>

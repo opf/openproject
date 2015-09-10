@@ -29,9 +29,7 @@
     <div ng-if="inEdit">
       <form name="editCommentForm">
         <div>
-          <textarea id="edit-comment-text"
-                    name="edit_comment_text"
-                    class="add-comment-text"
+          <textarea class="edit-comment-text"
                     ng-model="activity.props.comment.raw"
                     ng-bind-html="activity.props.comment.html"
                     rows="4"

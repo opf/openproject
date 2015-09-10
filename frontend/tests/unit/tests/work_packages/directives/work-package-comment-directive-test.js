@@ -31,7 +31,7 @@
 describe('workPackageCommentDirectiveTest', function() {
   var I18n, ActivityService, compile, scope, element, stateParams, q, commentCreation;
   var workPackageFieldService = {};
-  var html = "<exclusive-edit><work-package-comment work-package='workPackage' activities='activities'></work-package-comment></exclusive-edit>";
+  var html = "<work-package-comment work-package='workPackage' activities='activities'></work-package-comment>";
   stateParams = {};
 
   beforeEach(module('ui.router',

@@ -39,21 +39,18 @@ module.exports = function($uiViewScroll,
   return {
     restrict: 'E',
     replace: true,
-    require: '^?exclusiveEdit',
     templateUrl: '/templates/work_packages/activities/_user.html',
     scope: {
       workPackage: '=',
       activity: '=',
       activityNo: '=',
-      isInitial: '=',
-      inputElementId: '='
+      isInitial: '='
     },
-    link: function(scope, element, attrs, exclusiveEditController) {
-      exclusiveEditController.addEditable(scope);
+    link: function(scope, element) {
       scope.$watch('inEdit', function(newVal, oldVal) {
         if(newVal) {
           $timeout(function() {
-            var textarea = angular.element('#edit-comment-text');
+            var textarea = element.find('.edit-comment-text');
 
             AutoCompleteHelper.enableTextareaAutoCompletion(textarea);
 
@@ -91,7 +88,7 @@ module.exports = function($uiViewScroll,
       });
 
       scope.editComment = function() {
-        exclusiveEditController.gotEditable(scope);
+        scope.inEdit = true;
       };
 
       scope.cancelEdit = function() {
@@ -99,11 +96,14 @@ module.exports = function($uiViewScroll,
       };
 
       scope.quoteComment = function() {
-        exclusiveEditController.quoteComment(quotedText(scope.activity.props.comment.raw));
+        scope.$emit(
+          'workPackage.comment.quoteThis',
+          quotedText(scope.activity.props.comment.raw)
+        );
       };
 
-      scope.updateComment = function(comment) {
-        var comment = angular.element('#edit-comment-text').val();
+      scope.updateComment = function() {
+        var comment = element.find('.edit-comment-text').val();
         ActivityService.updateComment(scope.activity, comment).then(function(activity){
           scope.$emit('workPackageRefreshRequired', '');
           scope.inEdit = false;

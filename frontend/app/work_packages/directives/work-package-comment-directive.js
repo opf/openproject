@@ -50,6 +50,8 @@ module.exports = function(
     ctrl.isEditing = ctrl.state.forcedEditState;
     ctrl.canAddComment = !!ctrl.workPackage.links.addComment;
 
+    ctrl.showAbove = ConfigurationService.commentsSortedInDescendingOrder(); 
+
     ctrl.isEmpty = function() {
       return ctrl.writeValue === undefined || !ctrl.writeValue.raw;
     };
@@ -122,25 +124,28 @@ module.exports = function(
         }
       });
     }
+
+    $scope.$on('workPackage.comment.quoteThis', function(evt, quote) {
+      ctrl.startEditing({ raw: quote });
+    });
   }
 
   return {
     restrict: 'E',
     replace: true,
-    require: '^?exclusiveEdit',
+    transclude: true,
     controllerAs: 'fieldController',
     bindToController: true,
-    templateUrl: '/templates/work_packages/comment_field.html',
+    templateUrl: '/templates/work_packages/comment.html',
     scope: {
       workPackage: '='
     },
     controller: commentFieldDirectiveController,
-    link: function(scope, element, attrs, exclusiveEditController) {
-      exclusiveEditController.setCreator(scope.fieldController);
+    link: function(scope, element) {
 
       $timeout(function() {
         AutoCompleteHelper.enableTextareaAutoCompletion(
-          angular.element.find('textarea.add-comment-text')
+          element.find('textarea')
         );
       });
     }
