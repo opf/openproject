@@ -26,8 +26,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'support/pages/page'
+
 module Pages
-  class Groups < Pages::Page
+  class Groups < Page
     def path
       '/admin/groups'
     end
