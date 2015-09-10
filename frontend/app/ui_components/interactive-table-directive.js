@@ -129,7 +129,7 @@ module.exports = function($timeout, $window){
 
           html = html.replace(hiddenForSighted, '');
 
-          var spacerHtml = '<div class="generic-table--header-spacer">' + html + '</div>';
+          var spacerHtml = '<div class="generic-table--column-spacer">' + html + '</div>';
 
           var newElement = angular.element(spacerHtml);
 
