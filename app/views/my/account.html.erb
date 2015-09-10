@@ -57,6 +57,11 @@ See doc/COPYRIGHT.rdoc for more details.
         <% end %>
 
         <%= call_hook(:view_my_account, user: @user, form: f) %>
+
+        <%= render partial:     'customizable/field',
+                   collection:  @user.custom_field_values.select(&:editable?),
+                   as:          :value,
+                   locals:      { form: f } %>
       </section>
     </div>
   </div>

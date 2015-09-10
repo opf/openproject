@@ -42,11 +42,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= render :partial => 'users/preferences' %>
     </section>
 
-    <%= render partial:     'customizable/field',
-               collection:  @user.custom_field_values.select(&:editable?),
-               as:          :value,
-               locals:      { form: f } %>
-
     <%= call_hook(:view_my_settings, :user => @user, :form => f) %>
   </section>
 <% end %>
