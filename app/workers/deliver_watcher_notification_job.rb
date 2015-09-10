@@ -47,6 +47,6 @@ class DeliverWatcherNotificationJob
       UserMailer.work_package_watcher_added(watcher.watchable, watcher.user, watcher_setter)
     }
 
-    mail.deliver
+    mail.deliver_now
   end
 end
