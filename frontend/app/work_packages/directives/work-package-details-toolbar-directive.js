@@ -104,9 +104,11 @@ module.exports = function(PERMITTED_MORE_MENU_ACTIONS,
       };
 
       function deleteSelectedWorkPackage() {
-        var promise = WorkPackageService.performBulkDelete([scope.workPackage.props.id], true);
+        var workPackageDeletionId = scope.workPackage.props.id;
+        var promise = WorkPackageService.performBulkDelete([workPackageDeletionId], true);
 
         promise.success(function(data, status) {
+          WorkPackageService.cache().remove('preselectedWorkPackageId');
           $state.go('work-packages.list');
         });
       }

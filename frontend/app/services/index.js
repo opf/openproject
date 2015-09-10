@@ -100,6 +100,7 @@ angular.module('openproject.services')
     '$rootScope',
     '$window',
     '$q',
+    '$cacheFactory',
     'AuthorisationService',
     'EditableFieldsState',
     'WorkPackageFieldService',
