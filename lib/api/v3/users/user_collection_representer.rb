@@ -32,6 +32,24 @@ module API
     module Users
       class UserCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
         element_decorator ::API::V3::Users::UserRepresenter
+
+        def initialize(models, self_link, current_user:, work_package: nil)
+          @work_package = work_package
+          super(models, self_link, current_user: current_user)
+        end
+
+        # FIXME: this is part of the problem that UserRepresenter accepts a work package
+        # to render differently. Remove all of this special business once that is undone...
+        collection :elements,
+                   getter: -> (*) {
+                     represented.map { |model|
+                       element_decorator.create(model,
+                                                current_user: current_user,
+                                                work_package: @work_package)
+                     }
+                   },
+                   exec_context: :decorator,
+                   embedded: true
       end
     end
   end

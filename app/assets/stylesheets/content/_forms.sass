@@ -244,6 +244,11 @@ fieldset.form--fieldset
     text-overflow: ellipsis
     overflow: hidden
 
+  &.-required
+    input.form--text-field:invalid
+      // avoids the box-shadow from Firefox at required input fields
+      box-shadow: none
+
 .form--label
   @include grid-content(2)
   @include grid-visible-overflow
@@ -387,13 +392,13 @@ fieldset.form--fieldset
 .form--text-field
   @extend %input-style
 
-  &[readonly].-clickable
-    cursor: pointer
-    background: white
-
 .form--text-field,
 #{$text-input-selectors}
   line-height: 1.5
+
+input[readonly].-clickable
+  cursor: pointer
+  background: white
 
 .form--select
   @extend %input-style

@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::RootRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:representer)  { described_class.new({}) }
+  let(:representer) { described_class.new({}, current_user: double('current_user')) }
   let(:app_title) { 'Foo Project' }
   let(:version) { 'The version is over 9000!' }
 

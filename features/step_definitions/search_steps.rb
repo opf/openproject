@@ -61,7 +61,7 @@ end
 
 When(/^I search globally for "([^"]*)"$/) do |query|
   steps %{
-    And I click link "top-menu-search-button"
+    And I click link "#top-menu-search-button"
     And I fill in "#{query}" for "q"
     And I press the "return" key on element "#q"
     And I wait for the AJAX requests to finish
@@ -70,7 +70,7 @@ end
 
 When(/^I search for "([^"]*)" after having searched$/) do |query|
   steps %{
-    And I click link "top-menu-search-button"
+    And I click link "#top-menu-search-button"
     And I fill in "#{query}" for "q" within "#content"
     And I press "Submit" within "#content"
     And I wait for the AJAX requests to finish

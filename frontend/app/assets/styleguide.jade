@@ -20,6 +20,12 @@ html(id="STYLEGUIDE_HTML_ID")
         .service('ActivityService', function() {} )
         .service('ConfigurationService', function() {} )
         .service('AutoCompleteHelper', function() {} )
+        .service('NotificationsService', function() {
+          return {
+            addError: function() {},
+            addSuccess: function() {}
+          };
+        })
         .requires.push('openproject.uiComponents');
 
     // get all of angular to be known

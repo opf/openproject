@@ -599,7 +599,6 @@ en:
   error_no_default_work_package_status: "No default work package status is defined. Please check your configuration (Go to \"Administration -> Work package statuses\")."
   error_no_type_in_project: "No type is associated to this project. Please check the Project settings."
   error_omniauth_registration_timed_out: "The registration via an external authentication provider timed out. Please try again."
-  error_scm_annotate: "The entry does not exist or cannot be annotated."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_unable_delete_status: "The work package status cannot be deleted since it is used by at least one work package."
@@ -702,6 +701,8 @@ en:
   label_changes_details: "Details of all changes"
   label_changeset_plural: "Changesets"
   label_checked: "checked"
+  label_check_uncheck_all_in_column: "Check/Uncheck all in column"
+  label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Child element"
   label_chronological_order: "In chronological order"
   label_close_versions: "Close completed versions"
@@ -718,6 +719,7 @@ en:
   label_contains: "contains"
   label_content: "Content"
   label_copied: "copied"
+  label_copy_to_clipboard: "Copy to clipboard"
   label_copy_same_as_target: "Same as target"
   label_copy_source: "Source"
   label_copy_target: "Target"
@@ -952,6 +954,7 @@ en:
   label_reporting: "Reporting"
   label_reporting_plural: "Reportings"
   label_repository: "Repository"
+  label_repository_root: "Repository root"
   label_repository_plural: "Repositories"
   label_responsible_for_work_packages: "Work packages I am responsible for"
   label_result_plural: "Results"
@@ -1294,24 +1297,27 @@ en:
     subproject_id: "Subproject"
 
   repositories:
+    at_identifier: 'at %{identifier}'
+    atom_revision_feed: 'Atom revision feed'
     autofetch_information: "Check this if you want repositories to be updated automatically when accessing the repository module page.\nThis encompasses the retrieval of commits from the repository and refreshing the required disk storage."
     checkout:
       access:
         readwrite: 'Read + Write'
         read: 'Read-only'
         none: 'No checkout access, you may only view the repository through this application.'
-      access_permission: 'Your permissions on this repository:'
+      access_permission: 'Your permissions on this repository'
       url: "Checkout URL"
       base_url_text: "The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).\nNote: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered."
       default_instructions:
         git: |-
-          The data contained in this repository can be downloaded to your computer with Git using the checkout information below.
+          The data contained in this repository can be downloaded to your computer with Git.
           Please consult the documentation of Git if you need more information on the checkout procedure and available clients.
         subversion: |-
-          The data contained in this repository can be downloaded to your computer with Subversion using the checkout information below.
+          The data contained in this repository can be downloaded to your computer with Subversion.
           Please consult the documentation of Subversion if you need more information on the checkout procedure and available clients.
       enable_instructions_text: "Displays checkout instructions defined below on all repository-related pages."
       instructions: "Checkout instructions"
+      show_instructions: "Display checkout instructions"
       text_instructions: "This text is displayed alongside the checkout URL for guidance on how to check out the repository."
       not_available: "Checkout instructions are not available for this repository"
     create_managed_delay: "Please note: The repository is managed, it is created asynchronously on the disk and will be available shortly."
@@ -1372,8 +1378,11 @@ en:
       managed_url: "Managed URL"
       password: "Repository Password"
       username: "Repository username"
+    named_repository: "%{vendor_name} repository"
     update_settings_successful: "The settings have been sucessfully saved."
     url: "URL to repository"
+    warnings:
+      cannot_annotate: "This file cannot be annotated."
 
   search_input_placeholder: "search ..."
 

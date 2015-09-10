@@ -147,7 +147,9 @@ describe RepositoriesController, 'Git', type: :controller do
     get :changes, project_id: 3, path: 'images/edit.png'
     assert_response :success
     assert_template 'changes'
-    assert_tag tag: 'h3', content: 'edit.png'
+    assert_tag tag: 'div',
+               attributes: { class: 'repository-breadcrumbs' },
+               content: 'edit.png'
   end
 
   it 'should entry show' do
@@ -224,14 +226,17 @@ describe RepositoriesController, 'Git', type: :controller do
     get :annotate, project_id: 3, rev: 'deff7', path: 'sources/watchers_controller.rb'
     assert_response :success
     assert_template 'annotate'
-    assert_tag tag: 'h3', content: /@ deff712f/
+    assert_tag tag: 'div',
+               attributes: { class: 'repository-breadcrumbs' },
+               content: /at deff712f/
   end
 
   it 'should annotate binary file' do
     get :annotate, project_id: 3, path: 'images/edit.png'
-    assert_response 500
-    assert_tag tag: 'div', attributes: { id: /errorExplanation/ },
-               content: /cannot be annotated/
+    assert_response 200
+
+    assert_tag tag: 'p', attributes: { class: /nodata/ },
+               content: I18n.t('repositories.warnings.cannot_annotate')
   end
 
   it 'should revision' do

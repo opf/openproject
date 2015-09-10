@@ -36,8 +36,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
                       project: project,
                       type: type)
   }
-  let(:context) { { current_user: user } }
-  let(:user) { double('current user') }
+  let(:current_user) { double('current user') }
 
   subject { described_class.new(work_package: work_package) }
 
@@ -58,9 +57,9 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
 
     it 'calls through to the work package' do
-      expect(work_package).to receive(:new_statuses_allowed_to).with(user)
+      expect(work_package).to receive(:new_statuses_allowed_to).with(current_user)
         .and_return(status_result)
-      expect(subject.assignable_values(:status, context)).to eql(status_result)
+      expect(subject.assignable_values(:status, current_user)).to eql(status_result)
     end
 
     context 'changed work package' do
@@ -88,8 +87,8 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
 
       it 'calls through to the cloned work package' do
         expect(cloned_wp).to receive(:status=).with(stored_status)
-        expect(cloned_wp).to receive(:new_statuses_allowed_to).with(user)
-        expect(subject.assignable_values(:status, context)).to eql(status_result)
+        expect(cloned_wp).to receive(:new_statuses_allowed_to).with(current_user)
+        expect(subject.assignable_values(:status, current_user)).to eql(status_result)
       end
     end
   end
@@ -132,7 +131,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
 
     it 'calls through to the project' do
       expect(project).to receive(:types).and_return(result)
-      expect(subject.assignable_values(:type, context)).to eql(result)
+      expect(subject.assignable_values(:type, current_user)).to eql(result)
     end
   end
 
@@ -141,7 +140,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
 
     it 'calls through to the work package' do
       expect(work_package).to receive(:assignable_versions).and_return(result)
-      expect(subject.assignable_values(:version, context)).to eql(result)
+      expect(subject.assignable_values(:version, current_user)).to eql(result)
     end
   end
 
@@ -155,8 +154,8 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
 
     it 'returns only active priorities' do
-      expect(subject.assignable_values(:priority, context).size).to be >= 1
-      subject.assignable_values(:priority, context).each do |priority|
+      expect(subject.assignable_values(:priority, current_user).size).to be >= 1
+      subject.assignable_values(:priority, current_user).each do |priority|
         expect(priority.active).to be_truthy
       end
     end
@@ -170,7 +169,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
 
     it 'returns all categories of the project' do
-      expect(subject.assignable_values(:category, context)).to match_array([category])
+      expect(subject.assignable_values(:category, current_user)).to match_array([category])
     end
   end
 

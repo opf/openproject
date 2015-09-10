@@ -8,11 +8,21 @@
 </div>
 ```
 
+## Info
+
+```
+<div class="notification-box -info">
+  <div class="notification-box--content">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia laudantium ea delectus incidunt accusantium repudiandae deserunt excepturi non esse vero distinctio et reprehenderit, cupiditate quidem consectetur rerum iste magnam voluptatibus.</p>
+  </div>
+</div>
+```
+
 ## Error
 
 ```
 <div class="notification-box -error">
-  <a href="#" class="notification-box--close">&times;</a>
+  <a href="#" title="close" class="notification-box--close icon-context icon-close2"></a>
   <div class="notification-box--content">
     <p>An error occured, here are the facts:</p>
     <ul>
@@ -29,7 +39,7 @@
 
 ```
 <div class="notification-box -warning">
-  <a href="#" class="notification-box--close">&times;</a>
+  <a href="#" title="close" class="notification-box--close icon-context icon-close2"></a>
   <div class="notification-box--content">
     <p>This is a warning. You may ignore it, but bad things might happen.</p>
   </div>
@@ -40,7 +50,7 @@
 
 ```
 <div class="notification-box -warning -severe">
-  <a href="#" class="notification-box--close">&times;</a>
+  <a href="#" title="close" class="notification-box--close icon-context icon-close2"></a>
   <div class="notification-box--content">
     <p>This is a warning with severe consequences. You should not ignore it.</p>
   </div>
@@ -51,7 +61,7 @@
 
 ```
 <div class="notification-box -success">
-  <a href="#" class="notification-box--close">&times;</a>
+  <a href="#" title="close" class="notification-box--close icon-context icon-close2"></a>
   <div class="notification-box--content">
     <p>Successful update. <a href="#">A link to the past</a></p>
   </div>

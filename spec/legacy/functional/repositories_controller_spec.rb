@@ -68,7 +68,7 @@ describe RepositoriesController, type: :controller do
     assert_response :success
     assert_template 'revision'
     assert_no_tag tag: 'ul',
-                  attributes: { id: 'toolbar-items' },
+                  attributes: { class: 'toolbar-items' },
                   descendant: { tag: 'a',
                                 attributes: {
                                   href: @controller.url_for(
@@ -81,7 +81,7 @@ describe RepositoriesController, type: :controller do
                                 }
                   }
     assert_tag tag: 'ul',
-               attributes: { id: 'toolbar-items' },
+               attributes: { class: 'toolbar-items' },
                descendant: { tag: 'a',
                              attributes: {
                                href: @controller.url_for(

@@ -41,21 +41,23 @@ class Scm::StorageUpdaterJob
   end
 
   def perform
+    repository = Repository.find @id
     bytes = repository.scm.count_repository!
 
     repository.update_attributes!(
       required_storage_bytes: bytes,
       storage_updated_at: Time.now,
     )
+  rescue ActiveRecord::RecordNotFound
+    Rails.logger.warn("StorageUpdater requested for Repository ##{@id}, which could not be found.")
   end
 
-  def destroy_failed_jobs?
-    true
-  end
-
-  private
-
-  def repository
-    @repository ||= Repository.find @id
+  ##
+  # We don't want to repeat failing jobs here,
+  # as they might have failed due to I/O problems and thus,
+  # we rather keep the old outdated value until an event
+  # triggers the update again.
+  def max_attempts
+    1
   end
 end

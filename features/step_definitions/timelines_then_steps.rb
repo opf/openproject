@@ -70,11 +70,11 @@ Then(/^I should see the column "(.*?)" immediately before the column "(.*?)" in 
 end
 
 Then(/^I should see a modal window$/) do
-  steps 'Then I should see a modal window with selector "#modalDiv"'
+  steps 'Then I should see a modal window with selector "#modalDiv.ui-dialog-content"'
 end
 
 Then(/^I should not see a modal window$/) do
-  page.should_not have_selector('#modalDiv')
+  page.should_not have_selector('#modalDiv.ui-dialog-content')
 end
 
 Then(/^(.*) in the modal$/) do |step|

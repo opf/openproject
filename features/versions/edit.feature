@@ -36,5 +36,5 @@ Feature: Editing a version
       | name       | Milestone |
     And I am already admin
     And I am on the show page for version 'Milestone'
-    And I click on "Edit" within "#toolbar"
+    And I click on "Edit" within ".toolbar"
     Then I should be on the edit page of version 'Milestone'

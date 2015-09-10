@@ -38,7 +38,9 @@ module API
 
         @format = 'plain' if @format.blank?
 
-        super(model)
+        # Note: TextFormatting actually makes use of User.current, if it was possible to pass a
+        # current_user explicitly, it would make sense to pass one here too.
+        super(model, current_user: nil)
       end
 
       property :format,

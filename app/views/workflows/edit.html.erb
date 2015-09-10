@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
       </li>
       <li class="simple-filters--controls">
-       <%= submit_tag l(:button_edit), :name => nil, :accesskey => accesskey(:edit), class: 'button -highlight' %>
+        <%= submit_tag l(:button_edit), :name => nil, :accesskey => accesskey(:edit), class: 'button -highlight' %>
       </li>
     </ul>
     <ul class="simple-filter--trailing-labels">
@@ -62,28 +62,32 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 <%# TODO: remove the prototype stuff from the DOM -%>
 <% if @type && @role && @statuses.any? %>
-  <%= form_tag({}, :id => 'workflow_form' ) do %>
-    <%= hidden_field_tag 'type_id', @type.id %>
-    <%= hidden_field_tag 'role_id', @role.id %>
-    <%= render :partial => 'form', :locals => {:name => 'always', :workflows => @workflows['always']} %>
+    <%= form_tag({}, :id => 'workflow_form_always' ) do %>
+      <%= render :partial => 'form', :locals => {:name => 'always', :workflows => @workflows['always']} %>
+    <% end %>
 
-    <fieldset class="form--fieldset -collapsible" style="margin-top: 0.5em;">
-      <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_additional_workflow_transitions_for_author) %></a></legend>
-      <div id="author_workflows" style="margin: 0.5em 0 0.5em 0;">
-        <%= render :partial => 'form', :locals => {:name => 'author', :workflows => @workflows['author']} %>
-      </div>
-    </fieldset>
+    <%= form_tag({}, :id => 'workflow_form_author' ) do %>
+      <fieldset class="form--fieldset -collapsible" style="margin-top: 0.5em;">
+        <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_additional_workflow_transitions_for_author) %></a></legend>
+        <div id="author_workflows" style="margin: 0.5em 0 0.5em 0;">
+          <%= render :partial => 'form', :locals => {:name => 'author', :workflows => @workflows['author']} %>
+        </div>
+      </fieldset>
+    <% end %>
     <%= javascript_tag "hideFieldset($('author_workflows'))" unless @workflows['author'].present? %>
 
-    <fieldset class="form--fieldset -collapsible">
-      <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_additional_workflow_transitions_for_assignee) %></a></legend>
-      <div id="assignee_workflows" style="margin: 0.5em 0 0.5em 0;">
-        <%= render :partial => 'form', :locals => {:name => 'assignee', :workflows => @workflows['assignee']} %>
-      </div>
-    </fieldset>
+
+    <%= form_tag({}, :id => 'workflow_form_assignee' ) do %>
+      <fieldset class="form--fieldset -collapsible">
+        <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_additional_workflow_transitions_for_assignee) %></a></legend>
+        <div id="assignee_workflows" style="margin: 0.5em 0 0.5em 0;">
+          <%= render :partial => 'form', :locals => {:name => 'assignee', :workflows => @workflows['assignee']} %>
+        </div>
+      </fieldset>
+    <% end %>
     <%= javascript_tag "hideFieldset($('assignee_workflows'))" unless @workflows['assignee'].present? %>
+
     <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
-  <% end %>
 <% end %>
 
 <% html_title(Workflow.model_name.human) -%>

@@ -36,6 +36,11 @@
     font-weight: normal
     text-decoration: none
 
+@mixin toolbar-element-sizing
+  margin: 0.625rem 0 0
+  height: 40px
+  line-height: 22px
+
 .toolbar-container
   padding: 0
   margin-bottom: 12px
@@ -46,7 +51,7 @@
     margin-top: rem-calc(5px)
     margin-bottom: 10px
 
-#toolbar
+.toolbar
   ul
     margin:  0
     padding: 0
@@ -56,21 +61,27 @@
     list-style-type: none
 
 // automatically clear the toolbar
-#toolbar:after
+.toolbar:after
   clear: both
   content: ""
   display: table
 
-#toolbar-items
+.toolbar-items
   li
     float: left
     &.toolbar-item
       margin: 0 5px //$drop-nav-spacing // spacing between nav items
 
   button, .button, input[type=text], input[type=number], select
-    margin: 0.625rem 0 0
-    height: 40px
-    line-height: 22px
+    @include toolbar-element-sizing
+    border: 1px solid $toolbar-item--border-color
+  button, .button, .toolbar-input--affix
+    background: $toolbar-item--bg-color
+
+    &.-pressed, &:active
+      background: $toolbar-item--bg-color-pressed
+      box-shadow: inset 0 2px 3px rgba(0,0,0,.125)
+
   select
     //extend forms select
     @extend .form--select
@@ -85,10 +96,25 @@
   a.last, .last
     margin-right: 0
 
+  #repository-checkout-url
+    min-width: 350px
+
+  .toolbar-item
+    &.-icon-only
+      .button
+        text-align: center
+      .button--icon
+        font-size: 1.1rem
+        position: relative
+        left: 0
+        right: 1px
+        vertical-align: text-top
+
 .title-container
   h2
     border: 0
     padding: 12px 0 0 0
+    color: $toolbar-title-color
     @include breakpoint(medium down)
       font-size: $h2-font-size
 
@@ -116,6 +142,54 @@
   .dropdown-scrollable
     overflow-y: auto
     max-height: 500px
+
+/** Allow select2 to display correctly in the toolbar */
+.toolbar .select2-container
+  padding: 0
+
+  .select2-choice
+    height: 40px
+    min-width: 150px
+
+    .select2-chosen
+      line-height: 40px
+
+  .select2-arrow
+    border-color: $toolbar-item--border-color
+
+  .select2-chosen
+    line-height: 40px
+
+.toolbar-input-group
+  display: flex
+
+  input, .select2-container
+    flex: 1
+    flex-basis: 150px
+
+  > div
+    @include toolbar-element-sizing
+    display: flex
+    align-items: center
+    padding: 0 5px
+
+  label
+    margin: 0
+    font-size: 1.05rem
+    flex-grow: 1
+
+  .toolbar-input-group--affix
+    background: $toolbar-item--bg-color
+    border: 1px solid $toolbar-item--border-color
+    color: $inlinelabel-color
+    border-radius: 2px
+
+    &.-prepend
+      border-right: none !important
+
+    &.-append
+      border-left: none !important
+
 
 #querySelectDropdown
   min-width: 250px

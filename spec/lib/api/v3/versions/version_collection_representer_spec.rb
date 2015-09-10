@@ -32,8 +32,7 @@ describe ::API::V3::Versions::VersionCollectionRepresenter do
   let(:self_link) { '/api/v3/projects/1/versions' }
   let(:versions) { FactoryGirl.build_list(:version, 3) }
   let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:context) { { current_user: user } }
-  let(:representer) { described_class.new(versions, self_link, context: context) }
+  let(:representer) { described_class.new(versions, self_link, current_user: user) }
 
   context 'generation' do
     subject(:collection) { representer.to_json }

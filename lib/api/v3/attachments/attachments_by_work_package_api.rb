@@ -53,7 +53,9 @@ module API
           get do
             self_path = api_v3_paths.attachments_by_work_package(@work_package.id)
             attachments = @work_package.attachments
-            AttachmentCollectionRepresenter.new(attachments, self_path)
+            AttachmentCollectionRepresenter.new(attachments,
+                                                self_path,
+                                                current_user: current_user)
           end
 
           post do
@@ -79,7 +81,8 @@ module API
               raise ::API::Errors::ErrorBase.create_and_merge_errors(error.record.errors)
             end
 
-            ::API::V3::Attachments::AttachmentRepresenter.new(attachment)
+            ::API::V3::Attachments::AttachmentRepresenter.new(attachment,
+                                                              current_user: current_user)
           end
         end
       end
