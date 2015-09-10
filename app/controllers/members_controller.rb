@@ -111,7 +111,10 @@ class MembersController < ApplicationController
   def update
     member = update_member_from_params
     if member.save
-      flash.notice = l(:notice_successful_update)
+      flash[:notice] = l(:notice_successful_update)
+    else
+      # only possible message is about choosing at least one role
+      flash[:error] = member.errors.full_messages.first
     end
 
     redirect_to project_members_path(project_id: @project,

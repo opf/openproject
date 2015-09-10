@@ -90,8 +90,8 @@ module Pages
         user = find_user(name)
         user.find('a[title=Edit]').click
 
-        add_roles.each { |role| check role }
-        remove_roles.each { |role| uncheck role }
+        Array(add_roles).each { |role| check role }
+        Array(remove_roles).each { |role| uncheck role }
 
         click_on 'Change'
       end
@@ -106,7 +106,7 @@ module Pages
       def has_roles?(user_name, roles)
         user = find_user(user_name)
 
-        roles.all? { |role| user.has_text? role }
+        Array(roles).all? { |role| user.has_text? role }
       end
 
       def select_principal!(principal_name)
