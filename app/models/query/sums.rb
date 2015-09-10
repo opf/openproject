@@ -30,26 +30,22 @@
 module ::Query::Sums
   include ActionView::Helpers::NumberHelper
 
-  def all_work_packages
-    @all_work_packages ||= work_packages
-  end
-
   def next_in_same_group?(issue = cached_issue)
     caching_issue issue do |issue|
       !last_issue? &&
-        query.group_by_column.value(issue) == query.group_by_column.value(all_work_packages[issue_index + 1])
+        query.group_by_column.value(issue) == query.group_by_column.value(work_packages[issue_index + 1])
     end
   end
 
   def last_issue?(issue = cached_issue)
     caching_issue issue do |_issue|
-      issue_index == all_work_packages.size - 1
+      issue_index == work_packages.size - 1
     end
   end
 
   def issue_index(issue = cached_issue)
     caching_issue issue do |issue|
-      all_work_packages.find_index(issue)
+      work_packages.find_index(issue)
     end
   end
 
@@ -62,17 +58,17 @@ module ::Query::Sums
   end
 
   def grouped_sums(column)
-    all_work_packages
+    work_packages
       .map { |wp| query.group_by_column.value(wp) }
       .uniq
       .inject({}) do |group_sums, current_group|
-        work_packages_in_current_group = all_work_packages.select { |wp| query.group_by_column.value(wp) == current_group }
+        work_packages_in_current_group = work_packages.select { |wp| query.group_by_column.value(wp) == current_group }
         group_sums.merge current_group => sum_of(column, work_packages_in_current_group)
       end
   end
 
   def total_sum_of(column)
-    sum_of(column, all_work_packages)
+    sum_of(column, work_packages)
   end
 
   def sum_of(column, collection)
@@ -119,7 +115,7 @@ module ::Query::Sums
 
   def group_for_issue(issue = @current_issue)
     caching_issue issue do |issue|
-      all_work_packages.select do |is|
+      work_packages.select do |is|
         query.group_by_column.value(issue) == query.group_by_column.value(is)
       end
     end
