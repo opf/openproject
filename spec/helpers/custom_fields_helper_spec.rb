@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require 'spec_helper'
 
 describe CustomFieldsHelper, type: :helper do
   include OpenProject::FormTagHelper
@@ -35,35 +35,36 @@ describe CustomFieldsHelper, type: :helper do
 
   it 'should format boolean value' do
     I18n.locale = 'en'
-    assert_equal 'Yes', format_value('1', 'bool')
-    assert_equal 'No', format_value('0', 'bool')
+    expect(format_value('1', 'bool')).to eq 'Yes'
+    expect(format_value('0', 'bool')).to eq 'No'
   end
 
-  it 'should unknown field format should be edited as string' do
+  it 'unknown field format should be edited as string' do
     field = CustomField.new(field_format: 'foo')
     value = CustomValue.new(value: 'bar', custom_field: field)
     field.id = 52
 
-    assert_equal %{<span lang="en">
-                      <span class="form--text-field-container">
-                        <input class="form--text-field"
-                               id="object_custom_field_values_52"
-                               name="object[custom_field_values][52]"
-                               type="text"
-                               value="bar" />
-                      </span>
-                    </span>
-                 }.gsub(/>\s+</, '><').squish,
-                 custom_field_tag('object', value)
+    expect(custom_field_tag('object', value)).to be_html_eql(%{
+      <span lang="en">
+        <span class="form--text-field-container">
+          <input class="form--text-field"
+                 id="object_custom_field_values_52"
+                 name="object[custom_field_values][52]"
+                 type="text"
+                 value="bar" />
+        </span>
+      </span>
+    })
   end
 
-  it 'should unknow field format should be bulk edited as string' do
+  it 'unknown field format should be bulk edited as string' do
     field = CustomField.new(field_format: 'foo')
     field.id = 52
 
-    assert_equal '<span class="form--text-field-container"><input class="form--text-field"
-                  id="object_custom_field_values_52" name="object[custom_field_values][52]"
-                  type="text" value="" /></span>'.squish,
-                 custom_field_tag_for_bulk_edit('object', field)
+    expect(custom_field_tag_for_bulk_edit('object', field)).to be_html_eql(%{
+      <span class="form--text-field-container"><input class="form--text-field"
+            id="object_custom_field_values_52" name="object[custom_field_values][52]"
+            type="text" value="" /></span>
+    })
   end
 end
