@@ -41,6 +41,8 @@ angular.module('openproject.workPackages.activities')
     'UsersHelper',
     'ConfigurationService',
     'AutoCompleteHelper',
+    'EditableFieldsState',
+    'TextileService',
     require('./user-activity-directive')
   ])
   .directive('revisionActivity', [

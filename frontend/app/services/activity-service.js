@@ -26,11 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(HALAPIResource, $http, PathHelper){
+module.exports = function(
+  HALAPIResource,
+  $http,
+  I18n,
+  NotificationsService,
+  ConfigurationService,
+  $timeout,
+  PathHelper){
 
   var ActivityService = {
     createComment: function(workPackage, comment, notify) {
-
       return $http({
         url: URI(workPackage.links.addComment.url()).addSearch('notify', notify).toString(),
         method: 'POST',
@@ -49,6 +55,16 @@ module.exports = function(HALAPIResource, $http, PathHelper){
       };
 
       return activity.links.update.fetch(options).then(function(activity){
+        notification = NotificationsService.addSuccess(
+          I18n.t('js.work_packages.comment_updated')
+        );
+        // Remove the notification some time later
+        // but only when we're not in accessible mode
+        if (!ConfigurationService.accessibilityModeEnabled()) {
+          $timeout(function() {
+            NotificationsService.remove(notification);
+          }, 5000);
+        }
         return activity;
       });
     }

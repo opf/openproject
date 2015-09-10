@@ -27,21 +27,34 @@
   <span class="date">{{ isInitial ? I18n.t('js.label_created_on') : I18n.t('js.label_updated_on') }} <op-date-time date-time-value="activity.props.createdAt" /></span>
   <span class="user-comment wiki">
     <div ng-if="inEdit">
-      <form name="editCommentForm">
-        <div>
-          <textarea class="edit-comment-text"
-                    ng-model="activity.props.comment.raw"
-                    ng-bind-html="activity.props.comment.html"
-                    rows="4"
-                    required>
-          </textarea>
+      <form class="user-comment--form inplace-edit--write-value">
+        <div class="textarea-wrapper" ng-class="{'-preview': inPreview}">
+            <textarea wiki-toolbar
+                      class="edit-comment-text focus-input inplace-edit--textarea -autogrow"
+                      ng-hide="inPreview"
+                      preview-toggle="toggleCommentPreview()"
+                      ng-model="activity.props.comment.raw"
+                      ng-bind-html="activity.props.comment.html"
+                      required>
+            </textarea>
+            <div class="inplace-edit--preview" ng-if="inPreview">
+              <span ng-bind-html="previewHtml"></span>
+            </div>
         </div>
-        <div>
-          <button class="button"
-                  ng-click="updateComment()"
-                  ng-disabled="editCommentForm.$invalid"><i class="icon-yes icon-left"></i>{{ I18n.t('js.button_save') }}
-          </button>
-          <button class="button" ng-disabled="commentForm.$invalid" ng-click="cancelEdit()"><i class="icon-close icon-left"></i>{{ I18n.t('js.button_cancel') }}</button>
+        <div class="inplace-edit--dashboard">
+          <div class="inplace-edit--controls">
+            <accessible-by-keyboard execute="updateComment()"
+                                    ng-disabled="editCommentForm.$invalid"
+                                    class="inplace-edit--control inplace-edit--control--save">
+              <icon-wrapper icon-name="yes" icon-title="{{ I18n.t('js.button_save') }}">
+              </icon-wrapper>
+            </accessible-by-keyboard>
+            <accessible-by-keyboard execute="cancelEdit()"
+                                    class="inplace-edit--control inplace-edit--control--cancel">
+              <icon-wrapper icon-name="close" icon-title="{{ I18n.t('js.button_cancel') }}">
+              </icon-wrapper>
+            </accessible-by-keyboard>
+          </div>
         </div>
       </form>
     </div>

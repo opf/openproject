@@ -35,7 +35,9 @@ module.exports = function($uiViewScroll,
     ActivityService,
     UsersHelper,
     ConfigurationService,
-    AutoCompleteHelper) {
+    AutoCompleteHelper,
+    EditableFieldsState,
+    TextileService) {
   return {
     restrict: 'E',
     replace: true,
@@ -48,14 +50,19 @@ module.exports = function($uiViewScroll,
     },
     link: function(scope, element) {
       scope.$watch('inEdit', function(newVal, oldVal) {
+        var textarea = element.find('.edit-comment-text');
         if(newVal) {
           $timeout(function() {
-            var textarea = element.find('.edit-comment-text');
-
             AutoCompleteHelper.enableTextareaAutoCompletion(textarea);
-
             textarea.focus();
+            textarea.on('keydown keypress', function(e) {
+              if (e.keyCode === 27) {
+                scope.inEdit = false;
+              }
+            });
           });
+        } else {
+          textarea.off('keydown keypress');
         }
       });
 
@@ -63,6 +70,7 @@ module.exports = function($uiViewScroll,
       scope.userPath = PathHelper.staticUserPath;
       scope.inEdit = false;
       scope.inFocus = false;
+      scope.inPreview = false;
       scope.userCanEdit = !!scope.activity.links.update;
       scope.userCanQuote = !!scope.workPackage.links.addComment;
       scope.accessibilityModeEnabled = ConfigurationService.accessibilityModeEnabled();
@@ -108,6 +116,23 @@ module.exports = function($uiViewScroll,
           scope.$emit('workPackageRefreshRequired', '');
           scope.inEdit = false;
         });
+      };
+
+      scope.toggleCommentPreview = function() {
+        scope.inPreview = !scope.inPreview;
+        scope.previewHtml = '';
+        if (scope.inPreview) {
+          TextileService.renderWithWorkPackageContext(
+            EditableFieldsState.workPackage.form,
+            scope.activity.props.comment.raw
+          ).then(function(r) {
+            scope.previewHtml = $sce.trustAsHtml(r.data);
+
+
+          }), function() {
+            this.inPreview = false;
+          };
+        }
       };
 
       scope.showActions = function() {

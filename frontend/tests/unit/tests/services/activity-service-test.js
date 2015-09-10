@@ -30,12 +30,20 @@
 
 describe('ActivityService', function() {
 
-  var $httpBackend, ActivityService;
-  beforeEach(module('openproject.api', 'openproject.services', 'openproject.models'));
+  var $httpBackend,
+      ActivityService,
+      ConfigurationService,
+      accessibilityModeEnabled;
 
-  beforeEach(inject(function(_$httpBackend_, _ActivityService_) {
+  beforeEach(module('openproject.api', 'openproject.services', 'openproject.config',
+    'openproject.models'));
+
+  beforeEach(inject(function(_$httpBackend_, _ActivityService_,  _ConfigurationService_) {
     $httpBackend   = _$httpBackend_;
     ActivityService = _ActivityService_;
+    ConfigurationService = _ConfigurationService_;
+
+    accessibilityModeEnabled = sinon.stub(ConfigurationService, 'accessibilityModeEnabled');
   }));
 
   describe('createComment', function() {
@@ -51,6 +59,7 @@ describe('ActivityService', function() {
     };
 
     beforeEach(inject(function($q) {
+      accessibilityModeEnabled.returns(false);
       $httpBackend.when('POST', activityUrl)
         .respond({
           'project': {

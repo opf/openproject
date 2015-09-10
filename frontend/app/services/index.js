@@ -29,6 +29,10 @@
 angular.module('openproject.services')
   .service('ActivityService', ['HALAPIResource',
     '$http',
+    'I18n',
+    'NotificationsService',
+    'ConfigurationService',
+    '$timeout',
     'PathHelper', require('./activity-service')
   ])
   .service('AuthorisationService', require('./authorisation-service'))
