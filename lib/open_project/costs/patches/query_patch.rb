@@ -58,15 +58,6 @@ module OpenProject::Costs::Patches::QueryPatch
   end
 
   module ClassMethods
-    # Setter for +available_columns+ that isn't provided by the core.
-    def available_columns=(v)
-      self.available_columns = (v)
-    end
-
-    # Method to add a column to the +available_columns+ that isn't provided by the core.
-    def add_available_column(column)
-      available_columns << (column)
-    end
   end
 
   module InstanceMethods
