@@ -163,10 +163,12 @@
           background-image: image-url("loading.gif")
           background-repeat: no-repeat
           background-position: center
-        &.error
-          background-image: image-url("webalys/warning.png")
-          background-repeat: no-repeat
-          background-position: center
+        &.error.icon-error
+          background: none
+          text-align: center
+          &:before
+            position: absolute
+            color: red
         .id, .status
           display: none
 
@@ -209,10 +211,12 @@
         background-image: image-url("loading.gif")
         background-repeat: no-repeat
         background-position: center
-      &.error
-        background-image: image-url("webalys/warning.png")
-        background-repeat: no-repeat
-        background-position: center
+      &.error.icon-error
+        background: none
+        text-align: center
+        &:before
+          position: absolute
+          color: red
       &.hover, &:hover
         background-color: rgb(254, 248, 168)
       .id
