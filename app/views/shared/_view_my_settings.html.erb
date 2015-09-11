@@ -37,7 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <h3 class="form--section-title"><%=l(:label_backlogs)%></h3>
 <div class="form--field">
   <%= styled_label_tag :backlogs_task_color, l(:'backlogs.task_color') %>
-  <%= styled_text_field_tag :'backlogs[task_color]', color %>
+  <%= styled_text_field_tag :'backlogs[task_color]', color, container_class: '-middle' %>
 </div>
 <div class="form--field">
   <%= styled_label_tag :backlogs_versions_default_fold_state, I18n.t('backlogs.label_versions_default_fold_state') %>
