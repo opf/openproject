@@ -33,9 +33,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <!--[form:user]-->
 <section class="form--section">
-  <div class="form--field"><%= f.text_field :mail, :required => true %></div>
-  <div class="form--field"><%= f.text_field :firstname, :required => true %></div>
-  <div class="form--field"><%= f.text_field :lastname, :required => true %></div>
+  <div class="form--field"><%= f.text_field :mail, required: true, autofocus: true %></div>
+  <div class="form--field"><%= f.text_field :firstname, required: true %></div>
+  <div class="form--field"><%= f.text_field :lastname, required: true %></div>
 
   <%= render partial:     'customizable/field',
              collection:  @user.custom_field_values,
