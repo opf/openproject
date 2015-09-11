@@ -13,8 +13,8 @@
                title: l(:label_user_plural) %>
   </li>
   <li>
-    <%= link_to l(:label_manage_groups), groups_path,
-                title: l(:label_manage_groups) %>
+    <%= link_to l(:label_group_plural), groups_path,
+                title: l(:label_group_plural) %>
   </li>
   <li>
     <%= link_to l(:label_role_and_permissions), roles_path,
@@ -40,8 +40,8 @@
 
   </li>
 	<li>
-    <%= link_to l(:label_advanced_settings), settings_path,
-               title: l(:label_advanced_settings) %>
+    <%= link_to l(:label_settings), settings_path,
+               title: l(:label_settings) %>
   </li>
   <%= call_hook(:homescreen_administration_links) %>
 </ul>

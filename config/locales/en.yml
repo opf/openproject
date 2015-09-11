@@ -667,7 +667,6 @@ en:
   label_additional_workflow_transitions_for_assignee: "Additional transitions allowed when the user is the assignee"
   label_additional_workflow_transitions_for_author: "Additional transitions allowed when the user is the author"
   label_administration: "Administration"
-  label_advanced_settings: "Advanced settings"
   label_age: "Age"
   label_ago: "days ago"
   label_all: "all"
