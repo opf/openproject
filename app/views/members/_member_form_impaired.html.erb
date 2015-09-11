@@ -41,7 +41,14 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="grid-block medium-up-2">
       <div class="form--column">
         <div class="form--field">
-          <%= styled_label_tag :principal_search, l(:label_principal_search) %>
+          <%
+             user_id_title = I18n.t(:label_principal_search)
+
+             if current_user.admin?
+               user_id_title += I18n.t(:label_principal_invite_via_email)
+             end
+          %>
+          <%= styled_label_tag :principal_search, user_id_title %>
           <%= styled_text_field_tag :principal_search, nil %>
           <%= observe_field(:principal_search,
                        :frequency => 0.5,

@@ -943,6 +943,7 @@ en:
   label_preview: "Preview"
   label_previous: "Previous"
   label_previous_week: "Previous week"
+  label_principal_invite_via_email: ", or invite via email"
   label_principal_search: "Search for users or groups"
   label_professional_support: "Professional support"
   label_profile: "Profile"

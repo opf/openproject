@@ -210,12 +210,15 @@ class MembersController < ApplicationController
   def invite_new_users(user_ids)
     user_ids.map do |id|
       if id.to_i == 0 && id.present? # we've got an email - invite that user
-        # The invitation can pretty much only fail due to the user already
-        # having been invited. So look them up if it does.
-        user = UserInvitation.invite_new_user(email: id) ||
-          User.find_by_mail(id)
+        # only admins can invite new users
+        if current_user.admin?
+          # The invitation can pretty much only fail due to the user already
+          # having been invited. So look them up if it does.
+          user = UserInvitation.invite_new_user(email: id) ||
+            User.find_by_mail(id)
 
-        user.id if user
+          user.id if user
+        end
       else
         id
       end

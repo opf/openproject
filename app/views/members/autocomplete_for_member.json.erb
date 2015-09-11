@@ -38,7 +38,9 @@ See doc/COPYRIGHT.rdoc for more details.
   {
     <%# Offer to invite via email unless it's one of the found user's addresses already. #%>
     <% mail_regex = /\A\S+@\S+\.\S+\z/ %>
-    <% email = params[:q] =~ mail_regex && @principals.none? { |p| p.mail == params[:q] } %>
+    <% email = current_user.admin? && # only admins may add new users via email
+                 params[:q] =~ mail_regex &&
+                 @principals.none? { |p| p.mail == params[:q] } %>
     "items":[
       <% @principals.each_with_index do |principal, ix| %>
         {

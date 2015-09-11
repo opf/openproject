@@ -40,9 +40,16 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="grid-block medium-up-2">
       <div class="form--column">
         <div class="form--field -vertical">
-          <%= styled_label_tag :member_user_ids, l(:label_principal_search) %>
+          <%
+             user_id_title = I18n.t(:label_principal_search)
+
+             if current_user.admin?
+               user_id_title += I18n.t(:label_principal_invite_via_email)
+             end
+          %>
+          <%= styled_label_tag :member_user_ids, user_id_title %>
           <%= select_tag "member[user_ids]", options_for_select([]),
-                           :title => l(:label_principal_search),
+                           :title => user_id_title,
                            :multiple => true,
                            :autofocus => true,
                            :'data-ajaxURL' => url_for(:controller => "/members", :action => "autocomplete_for_member"),
