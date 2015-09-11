@@ -161,6 +161,8 @@ class User < Principal
   }
   scope :admin, -> { where(admin: true) }
 
+  scope :newest, -> { order(created_on: :desc) }
+
   def sanitize_mail_notification_setting
     self.mail_notification = Setting.default_notification_option if mail_notification.blank?
     true
@@ -738,14 +740,6 @@ class User < Principal
       raise 'Unable to create the automatic migration user.' if system_user.new_record?
     end
     system_user
-  end
-
-  def latest_news(options = {})
-    News.latest_for self, options
-  end
-
-  def latest_projects(options = {})
-    Project.latest_for self, options
   end
 
   protected

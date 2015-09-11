@@ -66,7 +66,7 @@ class News < ActiveRecord::Base
   end
 
   # returns latest news for projects visible by user
-  def self.latest(user = User.current, count = 5)
+  def self.latest(user: User.current, count: 5)
     latest_for(user, count: count)
   end
 

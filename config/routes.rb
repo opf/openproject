@@ -28,7 +28,7 @@
 #++
 
 OpenProject::Application.routes.draw do
-  root to: 'welcome#index', as: 'home'
+  root to: 'homescreen#index', as: 'home'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
   # Redirect deprecated issue links to new work packages uris
