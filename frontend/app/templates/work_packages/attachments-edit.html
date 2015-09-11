@@ -12,7 +12,7 @@
        data-ngf-select
        class="work-package--attachments--drop-box"
        data-ngf-multiple="true"
-       data-ngf-change="instantUpload()"
+       data-ngf-change="filesChanged($files, $file, $event, true)"
        data-ngf-max-size="{{::maximumFileSize}}">
     <p class="work-package--attachments--label">{{ ::I18n.t('js.label_drop_files') }}</p>
     <p class="work-package--attachments--hint">{{ ::I18n.t('js.label_drop_files_hint') }}</p>
