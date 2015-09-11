@@ -49,8 +49,6 @@ class MembersController < ApplicationController
 
   def index
     @roles = Role.find_all_givable
-    # Check if there is at least one principal that can be added to the project
-    @principals_available = @project.possible_members('', 1)
     @members = index_members @project
   end
 
@@ -74,7 +72,7 @@ class MembersController < ApplicationController
         format.js
       else
         format.html do
-          if params[:member]
+          if members.present? && params[:member]
             @member = members.first
           else
             flash.error = l(:error_check_user_and_role)
@@ -182,23 +180,31 @@ class MembersController < ApplicationController
   end
 
   def new_members_from_params
-    user_ids = invite_new_users possibly_seperated_ids_for_entity(params[:member], :user)
     roles = Role.where(id: possibly_seperated_ids_for_entity(params[:member], :role))
 
-    new_member = lambda { |user_id|
-      Member.new(permitted_params.member).tap do |member|
-        member.user_id = user_id if user_id
-      end
-    }
+    if roles.present?
+      user_ids = invite_new_users possibly_seperated_ids_for_entity(params[:member], :user)
+      members = user_ids.map { |user_id| new_member user_id }
 
-    members = user_ids.map { |user_id|
-      new_member.call(user_id)
-    }
-    # most likely wrong user input, use a dummy member for error handling
-    if !members.present? && roles.present?
-      members << new_member.call(nil)
+      # most likely wrong user input, use a dummy member for error handling
+      if !members.present? && roles.present?
+        members << new_member(nil)
+      end
+
+      members
+    else
+      # Pick a user that exists but can't be chosen.
+      # We only want the missing role error message.
+      dummy = new_member User.anonymous.id
+
+      [dummy]
     end
-    members
+  end
+
+  def new_member(user_id)
+    Member.new(permitted_params.member).tap do |member|
+      member.user_id = user_id if user_id
+    end
   end
 
   def invite_new_users(user_ids)
