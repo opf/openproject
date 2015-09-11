@@ -61,7 +61,13 @@ module.exports = function(
         $rootScope.$broadcast('uploadPendingAttachments', wp);
       };
 
+      // Propagate submission to all active fields
+      // not contained in the workPackage.form (e.g., comment)
       this.submit = function(notify) {
+        WorkPackageFieldService.submitWorkPackageChanges(EditableFieldsState.activeFields, notify);
+      }
+
+      this.submitField = function(notify) {
         var fieldController = $scope.fieldController;
         var pendingFormChanges = getPendingFormChanges();
         var detectedViolations = [];
@@ -121,6 +127,7 @@ module.exports = function(
 
       this.discardEditing = function() {
         $scope.fieldController.isEditing = false;
+        delete EditableFieldsState.activeFields[$scope.fieldController.field];
         delete getPendingFormChanges()[$scope.fieldController.field];
         $scope.fieldController.updateWriteValue();
         if (
@@ -135,11 +142,12 @@ module.exports = function(
         if (EditableFieldsState.forcedEditState) {
           return false;
         }
-        return $scope.fieldController.field === EditableFieldsState.activeField;
+        return EditableFieldsState.currentField === $scope.fieldController.field;
       };
 
       this.markActive = function() {
-        EditableFieldsState.activeField = $scope.fieldController.field;
+        EditableFieldsState.activeFields[$scope.fieldController.field] = this.submitField;
+        EditableFieldsState.currentField = $scope.fieldController.field;
       };
 
       this.getPendingFormChanges = getPendingFormChanges;

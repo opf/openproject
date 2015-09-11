@@ -393,6 +393,23 @@ module.exports = function(
     return WorkPackagesHelper.formatValue(value, mappings[field]);
   }
 
+  function submitWorkPackageChanges(fields, notify) {
+    var wp,
+        comment = fields['activity-comment'];
+
+    // Submit comment, if any
+    if (typeof(comment) === 'function') {
+      comment.call(notify);
+      delete fields['activity-comment'];
+    }
+
+    // Submit first work package field
+    wp = fields[Object.keys(fields)[0]];
+    if (typeof(wp) === 'function') {
+      wp.call(notify);
+    }
+  }
+
   var WorkPackageFieldService = {
     getSchema: getSchema,
     isEditable: isEditable,
@@ -409,7 +426,8 @@ module.exports = function(
     format: format,
     getInplaceEditStrategy: getInplaceEditStrategy,
     getInplaceDisplayStrategy: getInplaceDisplayStrategy,
-    defaultPlaceholder: '-'
+    defaultPlaceholder: '-',
+    submitWorkPackageChanges: submitWorkPackageChanges
   };
 
   return WorkPackageFieldService;

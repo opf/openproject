@@ -50,7 +50,7 @@ module.exports = function(
     ctrl.isEditing = ctrl.state.forcedEditState;
     ctrl.canAddComment = !!ctrl.workPackage.links.addComment;
 
-    ctrl.showAbove = ConfigurationService.commentsSortedInDescendingOrder(); 
+    ctrl.showAbove = ConfigurationService.commentsSortedInDescendingOrder();
 
     ctrl.isEmpty = function() {
       return ctrl.writeValue === undefined || !ctrl.writeValue.raw;
@@ -60,7 +60,13 @@ module.exports = function(
       return true;
     };
 
+    // Propagate submission to all active fields
     ctrl.submit = function(notify) {
+      WorkPackageFieldService.submitWorkPackageChanges(EditableFieldsState.activeFields, notify);
+    }
+
+    // Submits this very comment field
+    ctrl.submitField = function(notify) {
       if (ctrl.isEmpty()) {
         return;
       }
@@ -100,6 +106,7 @@ module.exports = function(
 
     ctrl.discardEditing = function() {
       delete ctrl.writeValue;
+      delete EditableFieldsState.activeFields[ctrl.field];
       ctrl.isEditing = false;
       ctrl.state.isBusy = false;
     };
@@ -108,11 +115,12 @@ module.exports = function(
       if (EditableFieldsState.forcedEditState) {
         return false;
       }
-      return ctrl.field === EditableFieldsState.activeField;
+      return ctrl.field === EditableFieldsState.currentField;
     };
 
     ctrl.markActive = function() {
-      EditableFieldsState.activeField = ctrl.field;
+      EditableFieldsState.activeFields[ctrl.field] = ctrl.submitField;
+      EditableFieldsState.currentField = ctrl.field;
     };
 
     if (!EditableFieldsState.forcedEditState) {

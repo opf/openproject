@@ -31,7 +31,8 @@ module.exports = function() {
     workPackage: null,
     errors: null,
     isBusy: false,
-    activeField: null,
+    activeFields: {},
+    currentField: null,
     forcedEditState: false
   };
 };
