@@ -76,6 +76,7 @@ class MyController < ApplicationController
   #Edit user's settings
   def settings
     @user = User.current
+    write_settings(redirect_to: :settings)
   end
 
   # Manage user's password
