@@ -195,36 +195,48 @@ class AccountController < ApplicationController
     end
   end
 
-  def activate_invited(token)
+  def activate_by_token(token)
     if token.nil? || token.expired? || !token.user.invited?
       flash[:error] = I18n.t(:notice_account_invalid_token)
 
       redirect_to home_url
     else
-      session[:invitation_token] = token.value
-      user = token.user
-
-      if user.auth_source
-        session[:auth_source_registration] = {
-          login: user.login,
-          auth_source_id: user.auth_source_id
-        }
-
-        flash[:notice] = I18n.t('account.auth_source_login', login: user.login).html_safe
-
-        redirect_to signin_path(username: user.login)
-      else
-        if Concerns::OmniauthLogin.direct_login?
-          direct_login user
-        elsif OpenProject::Configuration.disable_password_login?
-          flash[:notice] = I18n.t('account.omniauth_login')
-
-          redirect_to signin_path
-        else
-          redirect_to account_register_path
-        end
-      end
+      activate_invited token
     end
+  end
+
+  def activate_invited(token)
+    session[:invitation_token] = token.value
+    user = token.user
+
+    if user.auth_source
+      activate_through_auth_source user
+    else
+      activate_user user
+    end
+  end
+
+  def activate_user(user)
+    if Concerns::OmniauthLogin.direct_login?
+      direct_login user
+    elsif OpenProject::Configuration.disable_password_login?
+      flash[:notice] = I18n.t('account.omniauth_login')
+
+      redirect_to signin_path
+    else
+      redirect_to account_register_path
+    end
+  end
+
+  def activate_through_auth_source(user)
+    session[:auth_source_registration] = {
+      login: user.login,
+      auth_source_id: user.auth_source_id
+    }
+
+    flash[:notice] = I18n.t('account.auth_source_login', login: user.login).html_safe
+
+    redirect_to signin_path(username: user.login)
   end
 
   # Process a password change form, used when the user is forced
