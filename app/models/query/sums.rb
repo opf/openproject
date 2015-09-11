@@ -73,21 +73,10 @@ module ::Query::Sums
 
   def sum_of(column, collection)
     return nil unless should_be_summed_up?(column)
-    # This is a workaround to be able to sum up currency with the redmine_costs plugin
-    values = collection.map { |issue|
-               column.respond_to?(:real_value) ?
-                 column.real_value(issue) :
-                 column.value(issue)
-             }.select { |value|
-               begin
-                 next if value.respond_to? :today? or value.is_a? String
-                 true if Float(value)
-               rescue ArgumentError, ::TypeError
-                 false
-               end
-             }
 
-    crunch(values.reduce :+)
+    sum = column.sum_of(collection)
+
+    crunch(sum)
   end
 
   def caching_issue(issue)
@@ -122,6 +111,6 @@ module ::Query::Sums
   end
 
   def should_be_summed_up?(column)
-    Setting.work_package_list_summable_columns.include?(column.name.to_s)
+    column.summable? && Setting.work_package_list_summable_columns.include?(column.name.to_s)
   end
 end

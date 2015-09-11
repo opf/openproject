@@ -89,7 +89,7 @@ class Query < ActiveRecord::Base
     # Put empty start_dates and due_dates in the far future rather than in the far past
     QueryColumn.new(:start_date, sortable: ["CASE WHEN #{WorkPackage.table_name}.start_date IS NULL THEN 1 ELSE 0 END", "#{WorkPackage.table_name}.start_date"]),
     QueryColumn.new(:due_date, sortable: ["CASE WHEN #{WorkPackage.table_name}.due_date IS NULL THEN 1 ELSE 0 END", "#{WorkPackage.table_name}.due_date"]),
-    QueryColumn.new(:estimated_hours, sortable: "#{WorkPackage.table_name}.estimated_hours"),
+    QueryColumn.new(:estimated_hours, sortable: "#{WorkPackage.table_name}.estimated_hours", summable: true),
     QueryColumn.new(:done_ratio, sortable: "#{WorkPackage.table_name}.done_ratio", groupable: true),
     QueryColumn.new(:created_at, sortable: "#{WorkPackage.table_name}.created_at", default_order: 'desc'),
   ]

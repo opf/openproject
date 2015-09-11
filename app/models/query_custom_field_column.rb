@@ -35,6 +35,8 @@ class QueryCustomFieldColumn < QueryColumn
       self.groupable = custom_field.order_statements
     end
     self.groupable ||= false
+    self.summable = %w(float int).include?(custom_field.field_format)
+
     @cf = custom_field
   end
 
@@ -46,8 +48,20 @@ class QueryCustomFieldColumn < QueryColumn
     @cf
   end
 
-  def value(issue)
-    cv = issue.custom_values.detect { |v| v.custom_field_id == @cf.id }
+  def value(work_package)
+    cv = work_package.custom_values.detect { |value| value.custom_field_id == @cf.id }
     cv && cv.typed_value
+  end
+
+  def sum_of(work_packages)
+    cv_alias = "joined_#{name}"
+    work_packages = work_packages
+                    .joins("LEFT OUTER JOIN #{CustomValue.table_name} #{cv_alias} ON
+                            #{cv_alias}.customized_type='WorkPackage' AND
+                            #{cv_alias}.customized_id=#{WorkPackage.table_name}.id AND
+                            #{cv_alias}.custom_field_id=#{@cf.id}")
+                    .where("#{cv_alias}.value IS NOT NULL AND #{cv_alias}.value != ''")
+
+    work_packages.map { |wp| value(wp) }.reduce(:+)
   end
 end

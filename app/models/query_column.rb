@@ -28,13 +28,15 @@
 #++
 
 class QueryColumn
-  attr_accessor :name, :sortable, :groupable, :join, :default_order
+  attr_accessor :name, :sortable, :groupable, :summable, :join, :default_order
+  alias_method :summable?, :summable
   include Redmine::I18n
 
   def initialize(name, options = {})
     self.name = name
     self.sortable = options[:sortable]
     self.groupable = options[:groupable]
+    self.summable = options[:summable]
 
     self.join = options.delete(:join)
 
@@ -66,6 +68,10 @@ class QueryColumn
 
   def value(issue)
     issue.send name
+  end
+
+  def sum_of(work_packages)
+    work_packages.sum(name)
   end
 
   protected
