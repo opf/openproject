@@ -37,7 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
                               :lang => current_language,
                               :html => { :id => 'my_account_form', class: 'form -wide-labels' } do |f| %>
   <section class="form--section">
-    <div class="form--field"><%= f.select :language, lang_options_for_select %></div>
+    <div class="form--field"><%= f.select :language, lang_options_for_select,  container_class: '-middle' %></div>
     <section class="form--section">
       <%= render :partial => 'users/preferences' %>
     </section>

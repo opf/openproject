@@ -35,7 +35,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= styled_select_tag 'user[mail_notification]',
           options_for_select(user_mail_notification_options(@user),
           @user.mail_notification),
-          :onchange => 'if (this.value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}' %>
+          :onchange => 'if (this.value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}',
+          container_class: '-middle' %>
   </div>
 </div>
 

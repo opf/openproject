@@ -28,10 +28,10 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= fields_for :pref, @user.pref, :builder => TabularFormBuilder, :lang => current_language do |pref_fields| %>
-  <div class="form--field"><%= pref_fields.select :time_zone, ActiveSupport::TimeZone.all.collect {|z| [ z.to_s, z.name ]}, :include_blank => true %></div>
-  <div class="form--field"><%= pref_fields.select :comments_sorting, [[l(:label_chronological_order), 'asc'], [l(:label_reverse_chronological_order), 'desc']] %></div>
+  <div class="form--field"><%= pref_fields.select :time_zone, ActiveSupport::TimeZone.all.collect {|z| [ z.to_s, z.name ]}, :include_blank => true, container_class: '-middle' %></div>
+  <div class="form--field"><%= pref_fields.select :comments_sorting, [[l(:label_chronological_order), 'asc'], [l(:label_reverse_chronological_order), 'desc']],  container_class: '-middle' %></div>
     <% if Setting.user_may_override_theme? %>
-        <div class="form--field"><%= pref_fields.select :theme, OpenProject::Themes.all.map {|t| [t.name, t.identifier]}, :label => :label_theme %></div>
+        <div class="form--field"><%= pref_fields.select :theme, OpenProject::Themes.all.map {|t| [t.name, t.identifier]}, :label => :label_theme,  container_class: '-middle' %></div>
     <% end %>
   <div class="form--field"><%= pref_fields.check_box :warn_on_leaving_unsaved %></div>
   <div class="form--field"><%= pref_fields.check_box :impaired %></div>
