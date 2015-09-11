@@ -116,33 +116,9 @@ class AccountController < ApplicationController
     @user = invited_user
 
     if request.get?
-      session[:auth_source_registration] = nil
-
-      if @user.nil?
-        @user = User.new(language: Setting.default_language)
-      end
+      registration_through_invitation!
     else
-      if @user.nil?
-        @user = User.new
-        @user.admin = false
-        @user.register
-      end
-
-      if session[:auth_source_registration]
-        # on-the-fly registration via omniauth or via auth source
-        if pending_omniauth_registration?
-          register_via_omniauth(@user, session, permitted_params)
-        else
-          register_and_login_via_authsource(@user, session, permitted_params)
-        end
-      else
-        @user.attributes = permitted_params.user
-        @user.login = params[:user][:login]
-        @user.password = params[:user][:password]
-        @user.password_confirmation = params[:user][:password_confirmation]
-
-        register_user_according_to_setting @user
-      end
+      self_registration!
     end
   end
 
@@ -271,6 +247,46 @@ class AccountController < ApplicationController
   end
 
   private
+
+  def registration_through_invitation!
+    session[:auth_source_registration] = nil
+
+    if @user.nil?
+      @user = User.new(language: Setting.default_language)
+    elsif user_with_placeholder_name?(@user)
+      # force user to give their name
+      @user.firstname = nil
+      @user.lastname = nil
+    end
+  end
+
+  def self_registration!
+    if @user.nil?
+      @user = User.new
+      @user.admin = false
+      @user.register
+    end
+
+    if session[:auth_source_registration]
+      # on-the-fly registration via omniauth or via auth source
+      if pending_omniauth_registration?
+        register_via_omniauth(@user, session, permitted_params)
+      else
+        register_and_login_via_authsource(@user, session, permitted_params)
+      end
+    else
+      @user.attributes = permitted_params.user
+      @user.login = params[:user][:login]
+      @user.password = params[:user][:password]
+      @user.password_confirmation = params[:user][:password_confirmation]
+
+      register_user_according_to_setting @user
+    end
+  end
+
+  def user_with_placeholder_name?(user)
+    user.firstname == user.login and user.login == user.mail
+  end
 
   def direct_login(user)
     if flash.empty?
