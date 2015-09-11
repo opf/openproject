@@ -34,8 +34,8 @@ en:
     deleted: "Account successfully deleted"
     deletion_info:
       data_consequences:
-        other: "Of the data the user created (e.g. e-mail, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
-        self: "Of the data you created (e.g. e-mail, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account."
+        other: "Of the data the user created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
+        self: "Of the data you created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account."
       heading: "Delete account %{name}"
       info:
         other: "Deleting the user account is an irreversible action."
@@ -1830,7 +1830,7 @@ en:
     authentication_settings_disabled_due_to_external_authentication: >
       This user authenticates via an external authentication provider, so there is no password
       in OpenProject to be changed.
-    assign_random_password: "Assign random password (sent to user via e-mail)"
+    assign_random_password: "Assign random password (sent to user via email)"
     blocked: "locked temporarily"
     blocked_num_failed_logins:
       one: "locked temporarily (one failed login attempt)"
@@ -1848,7 +1848,7 @@ en:
     no_login: "This user authenticates through login by password. Since it is disabled, they cannot log in."
     password_change_unsupported: Change of password is not supported.
     authorization_rejected: "You are not allowed to sign in."
-    invite: Invite user via e-mail
+    invite: Invite user via email
 
   version_status_closed: "closed"
   version_status_locked: "locked"
