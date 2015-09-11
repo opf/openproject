@@ -366,7 +366,7 @@ RB.Model = (function ($) {
     },
 
     markError: function () {
-      this.$.addClass('error');
+      this.$.addClass('error icon icon-error');
     },
 
     markIfClosed: function () {
@@ -474,7 +474,7 @@ RB.Model = (function ($) {
     },
 
     unmarkError: function () {
-      this.$.removeClass('error');
+      this.$.removeClass('error icon icon-error');
     },
 
     unmarkSaving: function () {

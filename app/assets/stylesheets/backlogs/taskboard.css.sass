@@ -180,25 +180,33 @@
     .blocks, .remaining_hours.editable.empty
       display: none
     .indicator
+      display: none
+
+    &.saving .indicator
       background-color: #FFFFFF
       background-position: center
       background-repeat: no-repeat
       border: 2px solid #000000
-      display: none
       height: 16px
-      left: 36px
       padding: 2px
       position: absolute
+      left: 36px
       top: 38px
       width: 16px
-    &.saving .indicator
       background-image: image-url("loading.gif")
       display: block
+
     &.error .indicator
-      background-image: image-url("webalys/warning.png")
-      background-position: 2px 0
-      border-color: #CC0000
-      display: block
+      background: none
+      border: none
+
+    &.error.icon-error:before
+      position: absolute
+      top: 30px
+      left: 28px
+      color: red
+
+
     .editors
       display: none
 
@@ -289,13 +297,6 @@
       width: 19px
   #impediment_template, #task_template
     display: none
-  #preloader
-    left: -500px
-    position: absolute
-  #spinner
-    background-image: image-url("loading.gif")
-  #warning
-    background-image: image-url("webalys/warning.png")
 
 /* others */
 
