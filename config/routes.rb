@@ -543,6 +543,7 @@ OpenProject::Application.routes.draw do
     get '/my/page', action: 'page'
     match '/my/account', action: 'account', via: [:get, :patch]
     match '/my/settings', action: 'settings', via: [:get, :patch]
+    match '/my/mail_notifications', action: 'mail_notifications', via: [:get, :patch]
     post '/my/reset_rss_key', action: 'reset_rss_key'
     post '/my/reset_api_key', action: 'reset_api_key'
   end

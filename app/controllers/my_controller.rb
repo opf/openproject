@@ -116,6 +116,7 @@ class MyController < ApplicationController
   # Configure user's mail notifications
   def mail_notifications
     @user = User.current
+    write_settings(redirect_to: :mail_notifications)
   end
 
   def first_login
