@@ -31,7 +31,8 @@ class Query < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   include Queries::WorkPackages::AvailableFilterOptions
 
-  alias_method :available_filters, :available_work_package_filters # referenced in plugin patches - currently there are only work package queries and filters
+  # referenced in plugin patches - currently there are only work package queries and filters
+  alias_method :available_filters, :available_work_package_filters
 
   @@user_filters = %w{assigned_to_id author_id watcher_id responsible_id}.freeze
 
@@ -61,37 +62,78 @@ class Query < ActiveRecord::Base
   # query.  If such a statement selects from two coluns named <table name>.id
   # the second one is taken to get the ids of the work packages.
   @@available_columns = [
-    QueryColumn.new(:id, sortable: "#{WorkPackage.table_name}.id", groupable: false),
-    QueryColumn.new(:project, sortable: "#{Project.table_name}.name", groupable: true),
-    QueryColumn.new(:type, sortable: "#{::Type.table_name}.position", groupable: true),
-    QueryColumn.new(:parent, sortable: ["#{WorkPackage.table_name}.root_id", "#{WorkPackage.table_name}.lft ASC"], default_order: 'desc'),
-    QueryColumn.new(:status, sortable: "#{Status.table_name}.position", groupable: true),
-    QueryColumn.new(:priority, sortable: "#{IssuePriority.table_name}.position", default_order: 'desc', groupable: true),
-    QueryColumn.new(:subject, sortable: "#{WorkPackage.table_name}.subject"),
+    QueryColumn.new(:id,
+                    sortable: "#{WorkPackage.table_name}.id",
+                    groupable: false),
+    QueryColumn.new(:project,
+                    sortable: "#{Project.table_name}.name",
+                    groupable: true),
+    QueryColumn.new(:type,
+                    sortable: "#{::Type.table_name}.position",
+                    groupable: true),
+    QueryColumn.new(:parent,
+                    sortable: ["#{WorkPackage.table_name}.root_id",
+                               "#{WorkPackage.table_name}.lft ASC"],
+                    default_order: 'desc'),
+    QueryColumn.new(:status,
+                    sortable: "#{Status.table_name}.position",
+                    groupable: true),
+    QueryColumn.new(:priority,
+                    sortable: "#{IssuePriority.table_name}.position",
+                    default_order: 'desc',
+                    groupable: true),
+    QueryColumn.new(:subject,
+                    sortable: "#{WorkPackage.table_name}.subject"),
     QueryColumn.new(:author,
                     sortable: ["#{User.table_name}.lastname",
                                "#{User.table_name}.firstname",
                                "#{WorkPackage.table_name}.author_id"],
                     groupable: true),
-    QueryColumn.new(:assigned_to, sortable: ["#{User.table_name}.lastname",
-                                             "#{User.table_name}.firstname",
-                                             "#{WorkPackage.table_name}.assigned_to_id"],
-                                  groupable: true),
-    QueryColumn.new(:responsible, sortable: ["#{User.table_name}.lastname",
-                                             "#{User.table_name}.firstname",
-                                             "#{WorkPackage.table_name}.responsible_id"],
-                                  groupable: "#{WorkPackage.table_name}.responsible_id",
-                                  join: 'LEFT OUTER JOIN users as responsible ON ' +
-                                        "(#{WorkPackage.table_name}.responsible_id = responsible.id)"),
-    QueryColumn.new(:updated_at, sortable: "#{WorkPackage.table_name}.updated_at", default_order: 'desc'),
-    QueryColumn.new(:category, sortable: "#{Category.table_name}.name", groupable: true),
-    QueryColumn.new(:fixed_version, sortable: ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], default_order: 'desc', groupable: true),
-    # Put empty start_dates and due_dates in the far future rather than in the far past
-    QueryColumn.new(:start_date, sortable: ["CASE WHEN #{WorkPackage.table_name}.start_date IS NULL THEN 1 ELSE 0 END", "#{WorkPackage.table_name}.start_date"]),
-    QueryColumn.new(:due_date, sortable: ["CASE WHEN #{WorkPackage.table_name}.due_date IS NULL THEN 1 ELSE 0 END", "#{WorkPackage.table_name}.due_date"]),
-    QueryColumn.new(:estimated_hours, sortable: "#{WorkPackage.table_name}.estimated_hours", summable: true),
-    QueryColumn.new(:done_ratio, sortable: "#{WorkPackage.table_name}.done_ratio", groupable: true),
-    QueryColumn.new(:created_at, sortable: "#{WorkPackage.table_name}.created_at", default_order: 'desc'),
+    QueryColumn.new(:assigned_to,
+                    sortable: ["#{User.table_name}.lastname",
+                               "#{User.table_name}.firstname",
+                               "#{WorkPackage.table_name}.assigned_to_id"],
+                    groupable: true),
+    QueryColumn.new(:responsible,
+                    sortable: ["#{User.table_name}.lastname",
+                               "#{User.table_name}.firstname",
+                               "#{WorkPackage.table_name}.responsible_id"],
+                    groupable: "#{WorkPackage.table_name}.responsible_id",
+                    join: 'LEFT OUTER JOIN users as responsible ON ' +
+                          "(#{WorkPackage.table_name}.responsible_id = responsible.id)"),
+    QueryColumn.new(:updated_at,
+                    sortable: "#{WorkPackage.table_name}.updated_at",
+                    default_order: 'desc'),
+    QueryColumn.new(:category,
+                    sortable: "#{Category.table_name}.name",
+                    groupable: true),
+    QueryColumn.new(:fixed_version,
+                    sortable: ["#{Version.table_name}.effective_date",
+                               "#{Version.table_name}.name"],
+                    default_order: 'desc',
+                    groupable: true),
+    # Put empty start_dates in the far future rather than in the far past
+    QueryColumn.new(:start_date,
+                    # Put empty start_dates in the far future rather than in the far past
+                    sortable: ["CASE WHEN #{WorkPackage.table_name}.start_date IS NULL
+                                THEN 1
+                                ELSE 0 END",
+                               "#{WorkPackage.table_name}.start_date"]),
+    QueryColumn.new(:due_date,
+                    # Put empty due_dates in the far future rather than in the far past
+                    sortable: ["CASE WHEN #{WorkPackage.table_name}.due_date IS NULL
+                                THEN 1
+                                ELSE 0 END",
+                               "#{WorkPackage.table_name}.due_date"]),
+    QueryColumn.new(:estimated_hours,
+                    sortable: "#{WorkPackage.table_name}.estimated_hours",
+                    summable: true),
+    QueryColumn.new(:done_ratio,
+                    sortable: "#{WorkPackage.table_name}.done_ratio",
+                    groupable: true),
+    QueryColumn.new(:created_at,
+                    sortable: "#{WorkPackage.table_name}.created_at",
+                    default_order: 'desc'),
   ]
   cattr_reader :available_columns
 
