@@ -37,6 +37,10 @@ module OpenProject::Costs::Patches::QueryPatch
     def xls_value(work_package)
       super_value work_package
     end
+
+    def sum_of(work_packages)
+      work_packages.map { |wp| real_value(wp) }.compact.reduce(:+)
+    end
   end
 
   def self.included(base) # :nodoc:
@@ -47,9 +51,9 @@ module OpenProject::Costs::Patches::QueryPatch
     # Same as typing in the class
     base.class_eval do
       add_available_column(QueryColumn.new(:cost_object_subject))
-      add_available_column(CurrencyQueryColumn.new(:material_costs))
-      add_available_column(CurrencyQueryColumn.new(:labor_costs))
-      add_available_column(CurrencyQueryColumn.new(:overall_costs))
+      add_available_column(CurrencyQueryColumn.new(:material_costs, summable: true))
+      add_available_column(CurrencyQueryColumn.new(:labor_costs, summable: true))
+      add_available_column(CurrencyQueryColumn.new(:overall_costs, summable: true))
 
       Queries::WorkPackages::Filter.add_filter_type_by_field('cost_object_id', 'list_optional')
 
