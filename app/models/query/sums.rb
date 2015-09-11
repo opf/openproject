@@ -63,6 +63,7 @@ module ::Query::Sums
       .uniq
       .inject({}) do |group_sums, current_group|
         work_packages_in_current_group = work_packages.select { |wp| query.group_by_column.value(wp) == current_group }
+        # TODO: sum_of only works fast when passing an AR::Relation
         group_sums.merge current_group => sum_of(column, work_packages_in_current_group)
       end
   end

@@ -54,14 +54,18 @@ class QueryCustomFieldColumn < QueryColumn
   end
 
   def sum_of(work_packages)
-    cv_alias = "joined_#{name}"
-    work_packages = work_packages
-                    .joins("LEFT OUTER JOIN #{CustomValue.table_name} #{cv_alias} ON
-                            #{cv_alias}.customized_type='WorkPackage' AND
-                            #{cv_alias}.customized_id=#{WorkPackage.table_name}.id AND
-                            #{cv_alias}.custom_field_id=#{@cf.id}")
-                    .where("#{cv_alias}.value IS NOT NULL AND #{cv_alias}.value != ''")
+    if work_packages.respond_to?(:joins)
+      # we can't perform the aggregation on the SQL side. Try to filter useless rows to reduce work.
+      cv_alias = "joined_#{name}"
+      work_packages = work_packages
+                      .joins("LEFT OUTER JOIN #{CustomValue.table_name} #{cv_alias} ON
+                              #{cv_alias}.customized_type='WorkPackage' AND
+                              #{cv_alias}.customized_id=#{WorkPackage.table_name}.id AND
+                              #{cv_alias}.custom_field_id=#{@cf.id}")
+                      .where("#{cv_alias}.value IS NOT NULL AND #{cv_alias}.value != ''")
+    end
 
-    work_packages.map { |wp| value(wp) }.reduce(:+)
+    # TODO: eliminate calls of this method with an Array and drop the :compact call below
+    work_packages.map { |wp| value(wp) }.compact.reduce(:+)
   end
 end
