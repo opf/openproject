@@ -73,7 +73,7 @@ class MyController < ApplicationController
     write_settings(redirect_to: :account)
   end
 
-  #Edit user's settings
+  # Edit user's settings
   def settings
     @user = User.current
     write_settings(redirect_to: :settings)
@@ -241,7 +241,8 @@ class MyController < ApplicationController
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       if @user.save
         @user.pref.save
-        @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
+        @user.notified_project_ids =
+          (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
         set_language_if_valid @user.language
         flash[:notice] = l(:notice_account_updated)
         redirect_to(action: "#{redirect_to}")
