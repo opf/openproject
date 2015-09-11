@@ -99,7 +99,7 @@ class MyController < ApplicationController
       @user.force_password_change = false
       if @user.save
         flash[:notice] = l(:notice_account_password_updated)
-        redirect_to action: 'account'
+        redirect_to action: 'password'
         return
       end
     else
