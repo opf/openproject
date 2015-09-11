@@ -107,19 +107,11 @@ module OpenProject::Costs::Patches::WorkPackagePatch
     end
 
     def material_costs
-      @material_costs ||= cost_entries.visible_costs(User.current, project).sum("CASE
-        WHEN #{CostEntry.table_name}.overridden_costs IS NULL THEN
-          #{CostEntry.table_name}.costs
-        ELSE
-          #{CostEntry.table_name}.overridden_costs END").to_f
+      CostEntry.costs_of(work_packages: self)
     end
 
     def labor_costs
-      @labor_costs ||= time_entries.visible_costs(User.current, project).sum("CASE
-        WHEN #{TimeEntry.table_name}.overridden_costs IS NULL THEN
-          #{TimeEntry.table_name}.costs
-        ELSE
-          #{TimeEntry.table_name}.overridden_costs END").to_f
+      TimeEntry.costs_of(work_packages: self)
     end
 
     def overall_costs
