@@ -130,6 +130,13 @@ class Member < ActiveRecord::Base
     @membership
   end
 
+  ##
+  # Returns true if this user can be deleted as they have no other memberships
+  # and haven't been activated yet.
+  def disposable?
+    user.invited? && user.memberships.none? { |m| m.project_id != project_id }
+  end
+
   protected
 
   def destroy_if_no_roles_left!

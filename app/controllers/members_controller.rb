@@ -117,8 +117,13 @@ class MembersController < ApplicationController
 
   def destroy
     if @member.deletable?
-      @member.destroy
-      flash.notice = l(:notice_member_removed)
+      if @member.disposable?
+        @member.user.destroy
+        flash.notice = I18n.t(:notice_member_removed)
+      else
+        @member.destroy
+        flash.notice = I18n.t(:notice_member_removed)
+      end
     end
 
     redirect_to project_members_path(project_id: @project)
