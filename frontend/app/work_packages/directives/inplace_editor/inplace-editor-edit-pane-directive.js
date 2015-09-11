@@ -65,9 +65,9 @@ module.exports = function(
       // not contained in the workPackage.form (e.g., comment)
       this.submit = function(notify) {
         WorkPackageFieldService.submitWorkPackageChanges(EditableFieldsState.activeFields, notify);
-      }
+      };
 
-      this.submitField = function(notify) {
+      this.submitField = function(notify, success) {
         var fieldController = $scope.fieldController;
         var pendingFormChanges = getPendingFormChanges();
         var detectedViolations = [];
@@ -97,6 +97,7 @@ module.exports = function(
                   notify
                 );
                 result.then(angular.bind(this, function(updatedWorkPackage) {
+                  success();
                   $scope.$emit('workPackageUpdatedInEditor', updatedWorkPackage);
                   $scope.$emit(
                     'workPackageRefreshRequired',

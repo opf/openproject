@@ -63,7 +63,7 @@ module.exports = function(
     // Propagate submission to all active fields
     ctrl.submit = function(notify) {
       WorkPackageFieldService.submitWorkPackageChanges(EditableFieldsState.activeFields, notify);
-    }
+    };
 
     // Submits this very comment field
     ctrl.submitField = function(notify) {
@@ -81,7 +81,7 @@ module.exports = function(
         ctrl.discardEditing();
         return response;
       }, function() {
-        NotificationsService.addError(I18n.t('js.comment_send_failed'));
+        NotificationsService.addError(I18n.t('js.work_packages.comment_send_failed'));
         ctrl.state.isBusy = false;
       });
     };

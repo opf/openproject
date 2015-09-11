@@ -34,19 +34,16 @@ module API
       class ActivitiesByWorkPackageAPI < ::API::OpenProjectAPI
         resource :activities do
           helpers do
-            def save_work_package(work_package, send_notifications)
+            def comment_on_work_package(work_package, notify:, comment:)
               update_service = UpdateWorkPackageService.new(
                 user: current_user,
                 work_package: work_package,
-                send_notifications: send_notifications
+                send_notifications: notify,
               )
 
-              if update_service.save
-                journals = ::Journal::AggregatedJournal.aggregated_journals(journable: work_package)
-                Activities::ActivityRepresenter.new(journals.last, current_user: current_user)
-              else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(work_package.errors)
-              end
+              update_service.add_journal(comment)
+              journals = ::Journal::AggregatedJournal.aggregated_journals(journable: work_package)
+              Activities::ActivityRepresenter.new(journals.last, current_user: current_user)
             end
           end
 
@@ -66,10 +63,11 @@ module API
               raise ::API::Errors::NotFound.new
             end
 
-            @work_package.journal_notes = params[:comment][:raw]
-
-            send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
-            save_work_package(@work_package, send_notifications)
+            comment_on_work_package(
+              @work_package,
+              notify: !(params.has_key?(:notify) && params[:notify] == 'false'),
+              comment: params[:comment][:raw]
+            )
           end
         end
       end

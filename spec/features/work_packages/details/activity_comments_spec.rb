@@ -20,6 +20,7 @@ describe 'activity comments', js: true do
 
   before do
     allow(User).to receive(:current).and_return(user)
+    allow(user.pref).to receive(:warn_on_leaving_unsaved).and_return('0')
   end
 
   context 'with permission' do
@@ -31,6 +32,31 @@ describe 'activity comments', js: true do
     end
 
     it_behaves_like 'an auth aware field'
+
+    describe 'submitting with other fields' do
+      let(:description) { WorkPackageField.new page, 'description' }
+      before do
+        field.activate_edition
+        field.input_element.set 'comment with description'
+        description.activate_edition
+        description.input_element.set 'description goes here'
+      end
+
+      it 'saves both fields from description submit' do
+        expect(UpdateWorkPackageService).to receive(:new).twice.and_call_original
+        description.submit_by_click
+        expect(page).to have_selector('.user-comment .message', text: 'comment with description')
+        expect(description.read_state_text).to eq('description goes here')
+      end
+
+      it 'saves both fields from comment submit' do
+        expect(UpdateWorkPackageService).to receive(:new).twice.and_call_original
+        field.input_element.click
+        field.submit_by_click
+        expect(page).to have_selector('.user-comment .message', text: 'comment with description')
+        expect(description.read_state_text).to eq('description goes here')
+      end
+    end
 
     context 'in edit state' do
       before do

@@ -42,8 +42,19 @@ class UpdateWorkPackageService
     work_package.update_by!(user, effective_params)
   end
 
+  ##
+  # Save changes to the work package itself.
+  # Calls save_journals implicitly as a save hook
   def save
     work_package.save
+  end
+
+  ##
+  # Create journal for the given user and note.
+  # Does not change the work package itself.
+  def add_journal(notes = '')
+    work_package.add_journal(user, notes)
+    work_package.save_journals
   end
 
   private

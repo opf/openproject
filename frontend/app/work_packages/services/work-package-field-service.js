@@ -394,20 +394,18 @@ module.exports = function(
   }
 
   function submitWorkPackageChanges(fields, notify) {
-    var wp,
-        comment = fields['activity-comment'];
+    var comment = fields['activity-comment'];
+    delete fields['activity-comment'];
 
-    // Submit comment, if any
-    if (typeof(comment) === 'function') {
-      comment.call(notify);
-      delete fields['activity-comment'];
-    }
-
-    // Submit first work package field
-    wp = fields[Object.keys(fields)[0]];
-    if (typeof(wp) === 'function') {
-      wp.call(notify);
-    }
+    var wpField = fields[Object.keys(fields)[0]];
+    // Access work package first, if any field was edited
+    var initial = wpField || comment;
+    initial.call(this, notify, function() {
+      // Call potentially edited comment submit
+      if (typeof(comment) === 'function' && initial !== comment) {
+        comment.call(notify);
+      }
+    });
   }
 
   var WorkPackageFieldService = {
