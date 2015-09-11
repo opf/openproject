@@ -259,6 +259,15 @@ tooltip of "WHO"
       <p>Include a wiki page. Example:</p>
       <pre><code>{{include(Foo)}}</code></pre>
     </dd>
+    <dt><code>child_pages</code></dt>
+    <dd>
+      <p>Displays a list of child pages. With no argument, it displays the child pages of the current wiki page. Examples:</p>
+      <pre><code>
+        {{child_pages}} -- can be used from a wiki page only
+        {{child_pages(Foo)}} -- lists all children of page Foo
+        {{child_pages(Foo, parent=1)}} -- same as above with a link to page Foo
+      </code></pre>
+    </dd>
     <dt><code>macro_list</code></dt>
     <dd>
       <p>Displays a list of all available macros, including description if available.</p>
