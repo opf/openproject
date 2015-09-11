@@ -42,6 +42,19 @@
   color: #777777
   font-style: italic
 
+  li
+    span
+      overflow: hidden
+      display: inline-block
+      text-overflow: ellipsis
+      max-width: 100%
+      vertical-align: top
+      //necessary for IE
+      white-space: nowrap
+  p
+    overflow: hidden
+    text-overflow: ellipsis
+
 .comments-number
   padding: 0
   float: right
