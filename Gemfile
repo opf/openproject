@@ -142,7 +142,7 @@ group :test do
   gem 'rspec', '~> 3.3.0'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 3.3.0', group: :development
-  gem 'rspec-activemodel-mocks'
+  gem 'rspec-activemodel-mocks', '~> 1.0.2', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters'
   gem 'capybara', '~> 2.4.4'

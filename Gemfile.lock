@@ -53,6 +53,15 @@ GIT
   specs:
     prototype_legacy_helper (0.0.0)
 
+GIT
+  remote: https://github.com/rspec/rspec-activemodel-mocks
+  revision: 947a171de990f3056c2ad8b58922298339bc123e
+  specs:
+    rspec-activemodel-mocks (1.0.2)
+      activemodel (>= 3.0)
+      activesupport (>= 3.0)
+      rspec-mocks (>= 2.99, < 4.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -388,10 +397,6 @@ GEM
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
       rspec-mocks (~> 3.3.0)
-    rspec-activemodel-mocks (1.0.1)
-      activemodel (>= 3.0)
-      activesupport (>= 3.0)
-      rspec-mocks (>= 2.99, < 4.0)
     rspec-core (3.3.0)
       rspec-support (~> 3.3.0)
     rspec-expectations (3.3.0)
@@ -400,7 +405,7 @@ GEM
     rspec-legacy_formatters (1.0.0)
       rspec-core (>= 3.0.0.beta2)
       rspec-support (>= 3.0.0.beta2)
-    rspec-mocks (3.3.0)
+    rspec-mocks (3.3.2)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
     rspec-rails (3.3.1)
@@ -570,7 +575,7 @@ DEPENDENCIES
   responders (~> 2.0)
   roar (~> 1.0.0)
   rspec (~> 3.3.0)
-  rspec-activemodel-mocks
+  rspec-activemodel-mocks (~> 1.0.2)!
   rspec-example_disabler!
   rspec-legacy_formatters
   rspec-rails (~> 3.3.0)
