@@ -860,13 +860,18 @@ class Project < ActiveRecord::Base
     WorkPackage.new do |i|
       i.project = self
 
-      type_attribute = attributes.delete(:type) || attributes.delete(:type_id)
+      type    = attributes.delete(:type)
+      type_id = if type && type.respond_to?(:id)
+                  type.id
+                else
+                  attributes.delete(:type_id)
+                end
 
-      i.type = if type_attribute
-                 project.types.find(type_attribute)
+      i.type = if type_id
+                 project.types.find(type_id)
                else
                  project.types.first
-                  end
+               end
 
       i.attributes = attributes
     end
