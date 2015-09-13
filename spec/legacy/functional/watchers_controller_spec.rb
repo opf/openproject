@@ -30,6 +30,8 @@ require 'legacy_spec_helper'
 require 'watchers_controller'
 
 describe WatchersController, type: :controller do
+  include PrototypeRails::SelectorAssertions
+
   fixtures :all
 
   render_views

@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe MembersController, type: :controller do
+  include PrototypeRails::SelectorAssertions
+
   let(:admin) { FactoryGirl.create(:admin) }
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
@@ -200,8 +202,10 @@ describe MembersController, type: :controller do
       it 'should show an error message' do
         post :create, invalid_params
 
-        assert_select_rjs :insert_html, :top do
-          assert_select '#errorExplanation'
+        assert_select_rjs :insert_html, :top do |matches|
+          # workaround for assert_select_rjs incompatibility with Rails DOM Testing.
+          rjs_content = Nokogiri::HTML(matches.map(&:to_s).join)
+          refute_empty css_select(rjs_content, '#errorExplanation')
         end
       end
     end

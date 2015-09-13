@@ -30,6 +30,8 @@ require 'legacy_spec_helper'
 require 'journals_controller'
 
 describe JournalsController, type: :controller do
+  include PrototypeRails::SelectorAssertions
+
   render_views
 
   fixtures :all
@@ -47,9 +49,11 @@ describe JournalsController, type: :controller do
     session[:user_id] = 1
     xhr :get, :edit, id: journal.id
     assert_response :success
-    assert_select_rjs :insert, :after, "#{identifier}-notes" do
-      assert_select "form[id=#{identifier}-form]"
-      assert_select 'textarea'
+    assert_select_rjs :insert, :after, "#{identifier}-notes" do |matches|
+      # workaround for assert_select_rjs incompatibility with Rails DOM Testing.
+      rjs_content = Nokogiri::HTML(matches.map(&:to_s).join)
+      refute_empty css_select(rjs_content, "form[id=#{identifier}-form]")
+      refute_empty css_select(rjs_content, 'textarea')
     end
   end
 
