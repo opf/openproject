@@ -140,7 +140,7 @@ class ::Query::Results
 
   def includes_for_columns(column_names)
     column_names = Array(column_names)
-    includes = (WorkPackage.reflections.keys & column_names.map(&:to_sym))
+    includes = (WorkPackage.reflections.keys.map(&:to_sym) & column_names.map(&:to_sym))
 
     if column_names.any? { |column| custom_field_column?(column) }
       includes << { custom_values: :custom_field }
