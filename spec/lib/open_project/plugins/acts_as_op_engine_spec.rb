@@ -30,11 +30,11 @@ require 'spec_helper'
 require 'roar/decorator'
 
 describe OpenProject::Plugins::ActsAsOpEngine do
-  subject(:engine) do
-    Class.new(Rails::Engine) do
-      include OpenProject::Plugins::ActsAsOpEngine
-    end
+  class ActsAsOpEngineTestEngine < Rails::Engine
+    include OpenProject::Plugins::ActsAsOpEngine
   end
+
+  subject(:engine) { ActsAsOpEngineTestEngine }
 
   it { is_expected.to respond_to(:name) }
   it { is_expected.to respond_to(:patches) }
@@ -43,13 +43,9 @@ describe OpenProject::Plugins::ActsAsOpEngine do
   it { is_expected.to respond_to(:register) }
 
   describe '#name' do
-    before do
-      Object.const_set('SuperCaliFragilisticExpialidocious', engine)
-    end
-
     describe '#name' do
-      subject { super().name }
-      it { is_expected.to eq 'SuperCaliFragilisticExpialidocious' }
+      subject { engine.name }
+      it { is_expected.to eq 'ActsAsOpEngineTestEngine' }
     end
   end
 
