@@ -28,4 +28,11 @@
 
 class Tableless < ActiveRecord::Base
   has_no_table database: :pretend_success
+
+  # NOTE: Override for Rails 4.2 support.
+  # See: https://github.com/softace/activerecord-tableless/issues/22
+  def self.column(name, sql_type = nil, default = nil, null = true)
+    type = "ActiveRecord::Type::#{sql_type.to_s.camelize}".constantize.new
+    columns << ActiveRecord::ConnectionAdapters::Column.new(name.to_s, default, type, null)
+  end
 end
