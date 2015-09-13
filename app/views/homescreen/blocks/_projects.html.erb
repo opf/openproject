@@ -1,0 +1,28 @@
+<h3 class="homescreen--blocks--item-header">
+  <span class="icon-context icon-unit"></span>
+  <%= l(:label_project_plural) %>
+</h3>
+
+<% unless @newest_projects.empty? %>
+  <p class="homescreen--additional-info"><%= l('homescreen.additional.projects') %></p>
+  <ul class="homescreen--arrow-links">
+    <% @newest_projects.each do |project| %>
+    <li>
+      <%= link_to project, project_path(project), :title => project.short_description %>
+      <small>(<%= format_date(project.created_on) %>)</small>
+    </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<div class="homescreen--blocks--buttons">
+  <% if User.current.allowed_to?(:add_project, nil, global: true) %>
+    <%= link_to new_project_path, class: 'button -alt-highlight' do %>
+      <i class="button--icon icon-add"></i>
+      <span class="button--text"><%= l(:label_project_new) %></span>
+    <% end %>
+  <% end %>
+  <%= link_to l(:label_project_view_all), projects_path,
+              class: 'button -highlight',
+              title: l(:label_project_view_all) %>
+</div>

@@ -57,7 +57,7 @@ module.exports = function($scope,
   setWorkPackageScopeProperties(workPackage);
 
   $scope.I18n = I18n;
-  $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
+  WorkPackageService.cache().put('preselectedWorkPackageId', $scope.workPackage.props.id);
   $scope.maxDescriptionLength = 800;
 
   function refreshWorkPackage(callback) {

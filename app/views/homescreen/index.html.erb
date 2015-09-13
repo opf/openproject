@@ -26,41 +26,36 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, {:action => 'index', :format => 'atom', :key => User.current.rss_key}) %>
-<% end %>
-
-<% html_title(l(:label_project_plural)) -%>
-
-<%= toolbar title: l(:label_project_plural) do %>
-  <% if User.current.allowed_to?(:add_project, nil, global: true) %>
-    <li class="toolbar-item">
-      <%= link_to new_project_path, class: 'button -alt-highlight' do %>
-        <i class="button--icon icon-add"></i>
-        <span class="button--text"><%= l(:label_project_new) %></span>
-      <% end %>
-    </li>
-  <% end %>
-  <li class="toolbar-item">
-    <%= link_to l(:label_overall_activity), activities_path, class: 'button' %>
-  </li>
-<% end %>
-
-<% if Setting.welcome_on_projects_page? %>
-<div class="wiki">
-  <h1><%= Setting.welcome_title %></h1>
-  <%= format_text(Setting.welcome_text, headings: false) %>
+<% breadcrumb_paths(nil) %>
+<div class="homescreen--header">
+  <h2>
+    <span class="homescreen--header--icon"><%= organization_icon %></span>
+    <%= organization_name %>
+  </h2>
 </div>
+
+<% if @homescreen[:blocks].any? %>
+  <section class="homescreen--blocks">
+  <% @homescreen[:blocks].each do |block| %>
+    <% if block[:if].nil? || instance_eval(&block[:if]) %>
+      <div class="homescreen--blocks--item">
+      <%= render partial: "homescreen/blocks/#{block[:partial]}", locals: (block[:locals] || {}) %>
+      </div>
+    <% end %>
+  <% end %>
+  </section>
 <% end %>
 
-<% if User.current.logged? %>
-  <p style="float:right;">
-    <span class="icon icon-star2"><%= l(:label_my_projects) %></span>
-  </p>
+<% if @homescreen[:links].any? %>
+  <section class="homescreen--links">
+  <% @homescreen[:links].each do |link| %>
+    <% title = I18n.t(link[:label], scope: 'homescreen.links') %>
+    <a class="homescreen--links--item" href="<%= link[:url] %>" title="<%= title %>">
+      <span class="<%= link[:icon] %>"></span>
+      <%= title %>
+    </a>
+  <% end %>
+  </section>
 <% end %>
 
-<%= render_project_hierarchy(@projects)%>
-
-<%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
-<% end %>
+<%= call_hook :homescreen_after_links %>
