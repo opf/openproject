@@ -59,7 +59,7 @@ describe 'Custom field filter and group by caching', type: :request do
   end
 
   def visit_cost_reports_index
-    get "projects/#{project.id}/cost_reports"
+    get "/projects/#{project.id}/cost_reports"
   end
 
   it 'removes the filter/group_by if the custom field is removed' do
