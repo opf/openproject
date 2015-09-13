@@ -41,7 +41,7 @@ describe 'MenuManager' do
 
   it 'project menu with specific locale' do
     Setting.available_languages = [:de, :en]
-    get 'projects/ecookbook', {}, 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
+    get '/projects/ecookbook', {}, 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
 
     assert_tag :div, attributes: { id: 'main-menu' },
                      descendant: { tag: 'li', child: { tag: 'a', content: ll('de', :label_activity),
@@ -62,7 +62,7 @@ describe 'MenuManager' do
         menu.push :hello, { controller: 'projects', action: 'show' }, caption: Proc.new { |p| p.name.upcase }, after: :bar
       end
 
-      get 'projects/ecookbook'
+      get '/projects/ecookbook'
       assert_tag :div, attributes: { id: 'main-menu' },
                        descendant: { tag: 'li', child: { tag: 'a', content: 'Foo',
                                                          attributes: { class: 'foo-menu-item ellipsis' } } }
