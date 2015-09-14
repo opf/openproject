@@ -275,7 +275,7 @@ describe('WorkPackagesListController', function() {
         url: angular.identity
       };
 
-      buildController({}, testState, testLocation);
+      buildController({projectPath: ''}, testState, testLocation);
     });
 
     it('returns 0 with no filters', function() {
