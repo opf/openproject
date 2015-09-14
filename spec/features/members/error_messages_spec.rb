@@ -28,41 +28,46 @@
 
 require 'spec_helper'
 
-feature 'Admin menu items' do
-  let(:user) { FactoryGirl.create :admin }
+feature 'group memberships through groups page', type: :feature do
+  let!(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
+
+  let(:admin)  { FactoryGirl.create :admin }
+  let!(:peter) { FactoryGirl.create :user, firstname: 'Peter', lastname: 'Pan' }
+
+  let!(:manager) { FactoryGirl.create :role, name: 'Manager' }
+
+  let(:members_page) { Pages::Members.new project.identifier }
 
   before do
-    allow(User).to receive(:current).and_return user
+    allow(User).to receive(:current).and_return admin
   end
 
-  after do
-    OpenProject::Configuration['hidden_menu_items'] = []
-  end
+  shared_examples 'errors when adding members' do
+    scenario 'adding a principal without a role, non impaired', js: true do
+      members_page.visit!
+      members_page.add_user! 'Peter Pan', as: nil
 
-  describe 'displaying all the menu items' do
-    it 'hides the specified admin menu items' do
-      visit admin_path
+      expect(page).to have_text 'choose at least one role'
+    end
 
-      expect(page).to have_selector('a', text: I18n.t('label_user_plural'))
-      expect(page).to have_selector('a', text: I18n.t('label_project_plural'))
-      expect(page).to have_selector('a', text: I18n.t('label_role_plural'))
-      expect(page).to have_selector('a', text: I18n.t('label_work_package_types'))
+    scenario 'adding a role without a principal, non impaired', js: true do
+      members_page.visit!
+      members_page.add_user! nil, as: 'Manager'
+
+      expect(page).to have_text 'choose at least one user or group'
     end
   end
 
-  describe 'hiding menu items' do
+  context 'with an impaired user' do
     before do
-      OpenProject::Configuration['hidden_menu_items'] = { 'admin_menu' => ['roles', 'types'] }
+      admin.impaired = true
+      admin.save!
     end
 
-    it 'hides the specified admin menu items' do
-      visit admin_path
+    it_behaves_like 'errors when adding members'
+  end
 
-      expect(page).to have_selector('a', text: I18n.t('label_user_plural'))
-      expect(page).to have_selector('a', text: I18n.t('label_project_plural'))
-
-      expect(page).not_to have_selector('a', text: I18n.t('label_role_plural'))
-      expect(page).not_to have_selector('a', text: I18n.t('label_work_package_types'))
-    end
+  context 'with an un-impaired user' do
+    it_behaves_like 'errors when adding members'
   end
 end

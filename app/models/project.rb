@@ -68,7 +68,8 @@ class Project < ActiveRecord::Base
       .where("#{Principal.table_name}.type='Group' OR " +
       "(#{Principal.table_name}.type='User' AND " +
       "(#{Principal.table_name}.status=#{Principal::STATUSES[:active]} OR " +
-      "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]}))")
+      "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]} OR " +
+      "#{Principal.table_name}.status=#{Principal::STATUSES[:invited]}))")
   }, class_name: 'Member'
   has_many :users, through: :members
   has_many :principals, through: :member_principals, source: :principal

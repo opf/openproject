@@ -83,4 +83,6 @@ See doc/COPYRIGHT.rdoc for more details.
   </section>
 
   <%= styled_button_tag l(:button_submit), class: '-highlight -with-icon icon-yes' %>
+
+  <%= render partial: 'auth_providers', locals: { omniauth_title: I18n.t('account.signup_with_auth_provider'), wide: true } %>
 <% end %>

@@ -27,19 +27,28 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% html_title t(:label_member_new) %>
+<%= toolbar title: t(:label_member_new) %>
+
 <%= labelled_tabular_form_for(:member,
              :url => {:controller => '/members', :action => 'create', :project_id => project},
              :method => :post,
-             :remote => true,
              :loading => '$(\'member-add-submit\').disable();',
              :complete => 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable(); activateFlashError();',
              :html => {:id => "members_add_form"}) do |f| %>
   <div class="form--section">
-    <h3 class="form--section-title"><%= l(:label_member_new) %></h3>
+    <div id="new-member-message"></div>
     <div class="grid-block medium-up-2">
       <div class="form--column">
         <div class="form--field">
-          <%= styled_label_tag :principal_search, l(:label_principal_search) %>
+          <%
+             user_id_title = I18n.t(:label_principal_search)
+
+             if current_user.admin?
+               user_id_title += I18n.t(:label_principal_invite_via_email)
+             end
+          %>
+          <%= styled_label_tag :principal_search, user_id_title %>
           <%= styled_text_field_tag :principal_search, nil %>
           <%= observe_field(:principal_search,
                        :frequency => 0.5,
@@ -63,6 +72,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= f.button l(:button_add), :id => 'member-add-submit',
             class: 'button -highlight -with-icon icon-yes' %>
     <% end %>
+    <%= link_to I18n.t('button_cancel'), :back, class: 'button' %>
   </div>
 
 <% end %>

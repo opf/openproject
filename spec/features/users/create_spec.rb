@@ -31,13 +31,17 @@ require 'spec_helper'
 describe 'create users', type: :feature do
   let(:current_user) { FactoryGirl.create :admin }
 
-  let(:auth_source) { FactoryGirl.build :auth_source }
+  let(:auth_source) { FactoryGirl.build :dummy_auth_source }
 
   before do
     allow(User).to receive(:current).and_return current_user
   end
 
   shared_examples_for 'successful user creation' do
+    let(:mail) { ActionMailer::Base.deliveries.last }
+    let(:mail_body) { mail.body.parts.first.to_s }
+    let(:token) { mail_body.scan(/token=(.*)$/).first.first }
+
     it 'creates the user' do
       expect(page).to have_selector('.flash', 'Successfully created.')
 
@@ -45,23 +49,48 @@ describe 'create users', type: :feature do
 
       expect(current_path).to eql(edit_user_path(new_user.id))
     end
+
+    it 'sends out an activation email' do
+      expect(mail_body).to include 'activate your account'
+      expect(token).not_to be_nil
+    end
   end
 
   context 'with internal authentication' do
     before do
       visit new_user_path
 
-      fill_in 'Login', with: 'bob'
       fill_in 'First name', with: 'bobfirst'
       fill_in 'Last name', with: 'boblast'
       fill_in 'Email', with: 'bob@mail.com'
-      fill_in 'Password', with: 'BobBobBob123'
-      fill_in 'Confirmation', with: 'BobBobBob123'
 
       click_button 'Create'
     end
 
-    it_behaves_like 'successful user creation'
+    it_behaves_like 'successful user creation' do
+      describe 'activation' do
+        before do
+          allow(User).to receive(:current).and_call_original
+
+          visit "/account/activate?token=#{token}"
+        end
+
+        it 'shows the registration form' do
+          expect(page).to have_text 'Create a new account'
+        end
+
+        it 'registers the user upon submission' do
+          fill_in 'user_password', with: 'foobarbaz1'
+          fill_in 'user_password_confirmation', with: 'foobarbaz1'
+
+          click_button 'Submit'
+
+          # landed on the 'my page'
+          expect(page).to have_text 'your account has been activated'
+          expect(page).to have_text 'Login: bob@mail.com'
+        end
+      end
+    end
   end
 
   context 'with external authentication', js: true do
@@ -70,15 +99,39 @@ describe 'create users', type: :feature do
 
       visit new_user_path
 
-      fill_in 'Login', with: 'bob'
       fill_in 'First name', with: 'bobfirst'
       fill_in 'Last name', with: 'boblast'
       fill_in 'Email', with: 'bob@mail.com'
+
       select auth_source.name, from: 'Authentication mode'
+      fill_in 'Login', with: 'bob'
 
       click_button 'Create'
     end
 
-    it_behaves_like 'successful user creation'
+    it_behaves_like 'successful user creation' do
+      describe 'activation' do
+        before do
+          allow(User).to receive(:current).and_call_original
+
+          visit "/account/activate?token=#{token}"
+        end
+
+        it 'shows the login form prompting the user to login' do
+          expect(page).to have_text 'Please login as bob to activate your account.'
+        end
+
+        it 'registers the user upon submission' do
+          # login is already filled with 'bob'
+          fill_in 'password', with: 'dummy' # accepted by DummyAuthSource
+
+          click_button 'Sign in'
+
+          # landed on the 'my page'
+          expect(page).to have_text 'My account'
+          expect(page).to have_text 'Login: bob'
+        end
+      end
+    end
   end
 end

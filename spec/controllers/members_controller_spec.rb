@@ -33,7 +33,7 @@ describe MembersController, type: :controller do
 
   let(:admin) { FactoryGirl.create(:admin) }
   let(:user) { FactoryGirl.create(:user) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryGirl.create(:project, identifier: 'pet_project') }
   let(:role) { FactoryGirl.create(:role) }
   let(:member) {
     FactoryGirl.create(:member, project: project,
@@ -138,75 +138,54 @@ describe MembersController, type: :controller do
     let(:user2) { FactoryGirl.create(:user) }
     let(:user3) { FactoryGirl.create(:user) }
     let(:user4) { FactoryGirl.create(:user) }
-    let(:valid_params) {
-      { format: 'js',
-        project_id: project.id,
-        member: { role_ids: [role.id],
-                  user_ids: [user2.id, user3.id, user4.id] } }
-    }
-    let(:invalid_params) {
-      { format: 'js',
-        project_id: project.id,
-        member: { role_ids: [],
-                  user_ids: [user2.id, user3.id, user4.id] } }
-    }
 
     context 'post :create' do
       context 'single member' do
-        let(:action) { post :create, project_id: project.id, member: { role_ids: [role.id], user_id: user2.id } }
+        let(:action) do
+          post :create, project_id: project.id, member: { role_ids: [role.id], user_id: user2.id }
+        end
 
         it 'should add a member' do
           expect { action }.to change { Member.count }.by(1)
-          expect(response).to redirect_to(settings_project_path(project) + '/members')
+          expect(response).to redirect_to '/projects/pet_project/members'
           expect(user2).to be_member_of(project)
         end
       end
 
       context 'multiple members' do
-        let(:action) { post :create, project_id: project.id, member: { role_ids: [role.id], user_ids: [user2.id, user3.id, user4.id] } }
+        let(:action) do
+          post :create,
+               project_id: project.id,
+               member: { role_ids: [role.id], user_ids: [user2.id, user3.id, user4.id] }
+        end
 
         it 'should add all members' do
           expect { action }.to change { Member.count }.by(3)
-          expect(response).to redirect_to(settings_project_path(project) + '/members')
+          expect(response).to redirect_to '/projects/pet_project/members'
           expect(user2).to be_member_of(project)
           expect(user3).to be_member_of(project)
           expect(user4).to be_member_of(project)
-        end
-      end
-    end
-
-    context 'post :create in JS format' do
-      context 'with successful saves' do
-        before do
-          post :create, valid_params
-        end
-
-        it 'should add members' do
-          expect(user2).to be_member_of(project)
-          expect(user3).to be_member_of(project)
-          expect(user4).to be_member_of(project)
-        end
-
-        it 'should replace the tab with RJS' do
-          assert_select_rjs :replace_html, 'tab-content-members'
         end
       end
     end
 
     context 'with a failed save' do
-      it 'should not replace the tab with RJS' do
+      let(:invalid_params) {
+        { project_id: project.id,
+          member: { role_ids: [],
+                    user_ids: [user2.id, user3.id, user4.id] } }
+      }
+
+      before do
         post :create, invalid_params
-        assert_select '#tab-content-members', 0
+      end
+
+      it 'should not redirect to the members index' do
+        expect(response).not_to redirect_to '/projects/pet_project/members'
       end
 
       it 'should show an error message' do
-        post :create, invalid_params
-
-        assert_select_rjs :insert_html, :top do |matches|
-          # workaround for assert_select_rjs incompatibility with Rails DOM Testing.
-          rjs_content = Nokogiri::HTML(matches.map(&:to_s).join)
-          refute_empty css_select(rjs_content, '#errorExplanation')
-        end
+        expect(response.body).to include 'choose at least one role'
       end
     end
   end
@@ -219,7 +198,7 @@ describe MembersController, type: :controller do
 
     it 'should destroy a member' do
       expect { action }.to change { Member.count }.by(-1)
-      expect(response).to redirect_to(settings_project_path(project) + '/members')
+      expect(response).to redirect_to '/projects/pet_project/members'
       expect(user).not_to be_member_of(project)
     end
   end
@@ -234,7 +213,7 @@ describe MembersController, type: :controller do
 
     it 'should update the member' do
       expect { action }.not_to change { Member.count }
-      expect(response).to redirect_to(settings_project_path(project) + '/members')
+      expect(response).to redirect_to '/projects/pet_project/members'
     end
   end
 end

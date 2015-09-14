@@ -46,7 +46,7 @@ class Member < ActiveRecord::Base
   after_destroy :unwatch_from_permission_change
 
   def name
-    user.name
+    principal.name
   end
 
   def to_s
@@ -128,6 +128,14 @@ class Member < ActiveRecord::Base
     # not critical atm because only admins can invoke it (see users and groups controllers)
     @membership.force_attributes = new_attributes
     @membership
+  end
+
+  ##
+  # Returns true if this user can be deleted as they have no other memberships
+  # and haven't been activated yet. Only applies if the member is actually a user
+  # as opposed to a group.
+  def disposable?
+    user && user.invited? && user.memberships.none? { |m| m.project_id != project_id }
   end
 
   protected

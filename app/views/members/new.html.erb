@@ -26,17 +26,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<%= javascript_include_tag "members_form.js" %>
 
-<% html_title l(:label_administration), l("label_user_new") %>
-<%= render partial: 'toolbar', locals: { new_user: true } %>
-<%= labelled_tabular_form_for @user,
-                              :url => { :action => "create" },
-                              :html => { :class => nil, :autocomplete => 'off' },
-                              :as => :user do |f| %>
-  <%= render :partial => 'simple_form', :locals => { f: f, auth_sources: @auth_sources, user: @user } %>
+<%= error_messages_for 'member' %>
 
-  <p>
-    <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-yes' %>
-    <%= styled_button_tag l(:button_create_and_continue), :name => 'continue', class: '-highlight -with-icon icon-yes' %>
-  </p>
-<% end %>
+<div>
+  <% if @principals_available.any? %>
+    <%= render :partial => "members/member_form",
+               :locals => { :project => @project, :roles => @roles } %>
+  <% else %>
+    <p>
+      <%= I18n.t('text_no_roles_defined') %>
+    </p>
+    <%= link_to I18n.t('button_back'), :back, class: 'button' %>
+  <% end %>
+</div>
