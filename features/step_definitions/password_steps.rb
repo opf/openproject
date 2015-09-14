@@ -51,7 +51,7 @@ def fill_change_password(old_password, new_password, confirmation = new_password
 
   fill_in('new_password', with: new_password)
   fill_in('new_password_confirmation', with: confirmation)
-  click_link_or_button 'Apply'
+  click_link_or_button 'Save'
   @new_password = new_password
 end
 
