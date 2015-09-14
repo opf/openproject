@@ -1816,6 +1816,8 @@ en:
       quarters: "Quarters"
       years: "Years"
 
+  title_remove_and_delete_user: Remove the invited user from the project and delete them.
+
   queries:
     apply_filter: Apply preconfigured filter
 

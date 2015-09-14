@@ -119,7 +119,7 @@ class MembersController < ApplicationController
     if @member.deletable?
       if @member.disposable?
         @member.user.destroy
-        flash.notice = I18n.t(:notice_member_removed)
+        flash.notice = I18n.t(:notice_member_deleted)
       else
         @member.destroy
         flash.notice = I18n.t(:notice_member_removed)

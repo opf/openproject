@@ -116,11 +116,18 @@ See doc/COPYRIGHT.rdoc for more details.
                       <% end %>
                       <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
                       <td class="buttons">
+                        <%
+                           delete_class, delete_title = if member.disposable?
+                             ['icon icon-close -error', I18n.t(:title_remove_and_delete_user)]
+                           else
+                             ['icon icon-delete', I18n.t(:button_remove)]
+                           end
+                        %>
                         <%= link_to_function '', "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit', :title => l(:button_edit) %>
                         <%= link_to('', {:controller => '/members', :action => 'destroy', :id => member, :page => params[:page]},
                           :method => :delete,
                           data: { confirm: ((!User.current.admin? && member.include?(User.current)) ? l(:text_own_membership_delete_confirmation) : nil) },
-                          :title => l(:button_delete), :class => 'icon icon-delete') if member.deletable? %>
+                          :title => delete_title, :class => delete_class) if member.deletable? %>
                       </td>
                     <% end %>
                   </td>
