@@ -27,23 +27,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WatcherNotificationMailer
-  class << self
-    def handle_watcher(watcher, watcher_setter)
-      unless other_jobs_queued?(watcher.watchable)
-        job = DeliverWatcherNotificationJob.new(watcher.id, watcher.user.id, watcher_setter.id)
-        Delayed::Job.enqueue job
-      end
-    end
+class DeliverNotificationJob
+  include OpenProject::BeforeDelayedJob
 
-    private
+  def initialize(recipient_id, sender_id)
+    @recipient_id = recipient_id
+    @sender_id = sender_id
+  end
 
-    # HACK: TODO this needs generalization as well as performance improvements
-    # We need to make sure no work package created or updated job is queued to avoid sending two
-    # mails in short succession.
-    def other_jobs_queued?(work_package)
-      Delayed::Job.where('handler LIKE ?',
-                         "%NotificationJob%journal_id: #{work_package.journals.last.id}%").exists?
+  def perform
+    # nothing to do if recipient was deleted in the meantime
+    return unless recipient
+
+    mail = User.execute_as(recipient) { build_mail }
+    if mail
+      mail.deliver
     end
+  end
+
+  private
+
+  # To be implemented by subclasses.
+  # Actual recipient and sender User objects are passed (always non-nil).
+  # Returns a Mail::Message, or nil if no message should be sent.
+  def render_mail(recipient:, sender:)
+    raise 'SubclassResponsibility'
+  end
+
+  def build_mail
+    render_mail(recipient: recipient, sender: sender)
+  rescue StandardError => e
+    Rails.logger.error "#{self.class.name}: Unexpected error rendering a mail: #{e}"
+    # not raising, to avoid re-schedule of DelayedJob; don't expect render errors to fix themselves
+    # by retrying
+    nil
+  end
+
+  def recipient
+    @recipient ||= User.find_by(id: @recipient_id)
+  end
+
+  def sender
+    @sender ||= User.find_by(id: @sender_id) || DeletedUser.first
   end
 end
