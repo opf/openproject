@@ -82,7 +82,6 @@ describe Activity, type: :model do
 
     assert events.include?(WorkPackage.find(1))
     # Issue of a private project the user belongs to
-    pending 'check permissions'
     assert events.include?(WorkPackage.find(6))
   end
 

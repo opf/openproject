@@ -194,7 +194,7 @@ module Redmine
                 allowed_projects << projects.map(&:id) if perm && role.allowed_to?(perm.name)
               end
 
-              stmt = projects_table[:id].in(allowed_projects.uniq)
+              stmt = projects_table[:id].in(allowed_projects.flatten.uniq)
             end
 
             if perm && (Role.anonymous.allowed_to?(perm.name) || Role.non_member.allowed_to?(perm.name)) && !is_member
