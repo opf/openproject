@@ -202,6 +202,14 @@ Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
   should have_content(regexp)
 end
 
+Then(/^(?:|I )should not see "([^"]*)" in the same table row as "([^"]*)"$/) do |text1, text2|
+  within('table.generic-table tbody') do
+    page.all(:xpath, "//tr/td[contains(.,'#{text2}')]/following-sibling::td").each do |td|
+      expect(td).to have_no_content(text1)
+    end
+  end
+end
+
 Then /^(?:|I )should not see "([^"]*)"$/ do |text|
   regexp = Regexp.new(Regexp.escape(text), Regexp::IGNORECASE)
   page.should have_no_content(regexp)
