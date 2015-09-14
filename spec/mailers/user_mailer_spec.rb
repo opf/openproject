@@ -133,7 +133,7 @@ describe UserMailer, type: :mailer do
   describe '#work_package_watcher_added' do
     let(:watcher_setter) { user }
     before do
-      UserMailer.work_package_watcher_added(work_package, recipient, watcher_setter).deliver
+      UserMailer.work_package_watcher_added(work_package, recipient, watcher_setter).deliver_now
     end
 
     it_behaves_like 'mail is sent'
