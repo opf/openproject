@@ -983,15 +983,12 @@ module.exports = function($timeout) {
 
       e.unhover();
       e.click(function(e) {
-        if (Timeline.USE_MODALS) {
-          var payload = node.getData();
-          if (e.which == 1 && !e.ctrlKey && !e.metaKey) {
-            timeline.modalHelper.createModal(payload.getUrl());
-            e.stopPropagation();
-          } else {
-            window.open(payload.getUrl(), '_blank');
-          }
-        }
+        var payload = node.getData();
+        var url = payload.getUrl();
+
+        window.open(url, '_blank');
+
+        e.stopPropagation();
       });
       e.attr({'cursor': 'pointer'});
       e.hover(

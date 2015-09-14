@@ -315,6 +315,8 @@ OpenProject::Application.routes.draw do
       get '/create_new' => 'work_packages#index', on: :collection
     end
 
+    get '/work_packages/:id(/:tab)' => 'work_packages#index', as: 'work_package'
+
     resources :activity, :activities, only: :index, controller: 'activities'
 
     resources :boards do
