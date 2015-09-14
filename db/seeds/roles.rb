@@ -84,7 +84,8 @@ else
                           :browse_repository,
                           :view_changesets,
                           :commit_access,
-                          :view_commit_author_statistics]
+                          :view_commit_author_statistics,
+                          :view_members]
     end.save!
 
     Role.new.tap do |reader|

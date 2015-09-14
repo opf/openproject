@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,15 +27,34 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Simple deletion of a group
+desc 'Creates a dummy LDAP auth source for logging in any user using the password "dummy".'
+namespace :ldap do
+  task create_dummy: :environment do
+    source_name = 'DerpLAP'
+    otf_reg = ARGV.include?('onthefly_register')
 
-Background:
-Given We have the group "Bob's Team"
+    source = DummyAuthSource.create name: source_name, onthefly_register: otf_reg
 
-@javascript
-Scenario: An admin can delete an existing group
-Given I am admin
-Given I am on the groups administration page
-And I click on "Delete"
-And I accept the alert dialog
-Then I should not see "Bob's Team" within "#content"
+    puts
+    if source.valid?
+      puts "Created dummy auth source called \"#{source_name}\""
+      puts 'On-the-fly registration support: ' + otf_reg.to_s
+      unless otf_reg
+        puts "use `rake ldap:create_dummy[onthefly_register]` to enable on-the-fly registration"
+      end
+    else
+      puts "Dummy auth source already exists. It's called \"#{source_name}\"."
+    end
+
+    puts
+    puts 'Note: Dummy auth sources cannot be edited, so clicking on them'
+    puts "      in the 'LDAP Authentication' view will result in an error. Bummer!"
+  end
+
+  task delete_dummies: :environment do
+    DummyAuthSource.destroy_all
+
+    puts
+    puts 'Deleted all dummy auth sources. Users who used it are out of luck! :o'
+  end
+end

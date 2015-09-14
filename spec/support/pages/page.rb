@@ -26,28 +26,55 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: User Status
-  Background:
-    Given I am already admin
-    Given there is a user named "bobby"
+module Pages
+  class Page
+    include Capybara::DSL
+    include RSpec::Matchers
 
-  Scenario: Existing user can be assigned a random password
-    When I assign the user "bobby" a random password
-    Then an e-mail should be sent containing "Password"
-    When I try to log in with user "bobby"
-    Then I should not see "Bob Bobbit"
-    When I try to log in with user "bobby" and the password sent via email
-    Then there should be a flash error message
-    And there should be a "New password" field
+    def current_page?
+      URI.parse(current_url).path == path
+    end
 
-  @javascript
-  Scenario: Password fields are disabled and cleared when random password assignment is activated
-    When I edit the user "bobby"
-    And I check the assign random password to user field
-    Then the password and confirmation fields should be empty
-    And the password and confirmation fields should be disabled
-    And the force password change field should be checked
-    And the force password change field should be disabled
-    When I click "Save"
-    When I try to log in with user "bobby"
-    Then I should not see "Bob Bobbit"
+    def visit!
+      raise 'No path defined' unless path
+
+      visit path
+
+      self
+    end
+
+    def accept_alert_dialog!
+      alert_dialog.accept if selenium_driver?
+    end
+
+    def dismiss_alert_dialog!
+      alert_dialog.dismiss if selenium_driver?
+    end
+
+    def alert_dialog
+      page.driver.browser.switch_to.alert
+    end
+
+    def has_alert_dialog?
+      if selenium_driver?
+        begin
+          page.driver.browser.switch_to.alert
+        rescue Selenium::WebDriver::Error::NoAlertPresentError
+          false
+        end
+      end
+    end
+
+    def selenium_driver?
+      Capybara.current_driver.to_s.include?('selenium')
+    end
+
+    def set_items_per_page!(n)
+      Setting.per_page_options = "#{n}, 50, 100"
+    end
+
+    def path
+      nil
+    end
+  end
+end

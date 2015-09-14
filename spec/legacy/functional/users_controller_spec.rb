@@ -162,8 +162,7 @@ describe UsersController, type: :controller do
                mail: 'jdoe@gmail.com',
                mail_notification: 'none'
              },
-             pref: { },
-             send_information: '1'
+             pref: { }
       end
     end
 
@@ -175,12 +174,17 @@ describe UsersController, type: :controller do
     assert_equal 'jdoe', user.login
     assert_equal 'jdoe@gmail.com', user.mail
     assert_equal 'none', user.mail_notification
-    assert user.check_password?('adminADMIN!')
+    assert user.passwords.empty? # no password is assigned during creation
 
     mail = ActionMailer::Base.deliveries.last
     refute_nil mail
     assert_equal [user.mail], mail.to
-    assert mail.body.encoded.include?('adminADMIN!')
+
+    activation_link = Regexp.new(
+      "http://#{Setting.host_name}/account/activate\\?token=[a-f0-9]+",
+      Regexp::MULTILINE)
+
+    assert(mail.body.encoded =~ activation_link)
   end
 
   it 'should create with failure' do
