@@ -61,7 +61,7 @@ module Pages
     end
 
     def remove_user!(user_name)
-      find_user(user_name).find('a[title=Delete]').click
+      find_user(user_name).find('a[data-method=delete]').click
     end
 
     def has_added_user?(name)
