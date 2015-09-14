@@ -146,6 +146,10 @@ class MembersController < ApplicationController
       @principals = Principal.possible_members(params[:q], 100) - @project.principals
     end
 
+    @email = suggest_invite_via_email? current_user,
+                                       params[:q],
+                                       (@principals | @project.principals)
+
     respond_to do |format|
       format.json
       format.html do
@@ -163,6 +167,17 @@ class MembersController < ApplicationController
   end
 
   private
+
+  def suggest_invite_via_email?(user, query, principals)
+    user.admin? && # only admins may add new users via email
+      query =~ mail_regex &&
+      principals.none? { |p| p.mail == query } &&
+      query # finally return email
+  end
+
+  def mail_regex
+    /\A\S+@\S+\.\S+\z/
+  end
 
   def index_members(project)
     order = User::USER_FORMATS_STRUCTURE[Setting.user_format].map(&:to_s).join(', ')

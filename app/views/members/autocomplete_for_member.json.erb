@@ -36,22 +36,17 @@ See doc/COPYRIGHT.rdoc for more details.
 {
   "results":
   {
-    <%# Offer to invite via email unless it's one of the found user's addresses already. #%>
-    <% mail_regex = /\A\S+@\S+\.\S+\z/ %>
-    <% email = current_user.admin? && # only admins may add new users via email
-                 params[:q] =~ mail_regex &&
-                 @principals.none? { |p| p.mail == params[:q] } %>
     "items":[
       <% @principals.each_with_index do |principal, ix| %>
         {
           "id":   <%= principal.id.to_json.html_safe %>,
           "name": <%= principal.name.to_json.html_safe %>
-        } <%= "," unless !email && ix == @principals.length - 1 %>
+        } <%= "," unless !@email && ix == @principals.length - 1 %>
       <% end %>
-      <% if email %>
+      <% if @email %>
         {
-          "id": "<%= params[:q] %>",
-          "name": "Invite <%= params[:q] %>"
+          "id": "<%= @email %>",
+          "name": "Invite <%= @email %>"
         }
       <% end %>
     ],
