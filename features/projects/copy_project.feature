@@ -154,7 +154,7 @@ Feature: Project Settings
     Then  I should see "issue1" within "#content"
     And   I should see "issue2" within "#content"
 
-
+  @javascript
   Scenario: Copying a project with some planning elements
     Given there are the following work packages in project "project1":
       | subject | start_date | due_date   |
