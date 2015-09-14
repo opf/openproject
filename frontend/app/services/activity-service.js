@@ -27,14 +27,12 @@
 //++
 
 module.exports = function(
+  URI,
   HALAPIResource,
   $http,
   I18n,
-  NotificationsService,
-  ConfigurationService,
-  $timeout,
-  PathHelper){
-
+  NotificationsService
+  ) {
   var ActivityService = {
     createComment: function(workPackage, comment, notify) {
       return $http({
@@ -55,16 +53,9 @@ module.exports = function(
       };
 
       return activity.links.update.fetch(options).then(function(activity){
-        notification = NotificationsService.addSuccess(
+        NotificationsService.addSuccess(
           I18n.t('js.work_packages.comment_updated')
         );
-        // Remove the notification some time later
-        // but only when we're not in accessible mode
-        if (!ConfigurationService.accessibilityModeEnabled()) {
-          $timeout(function() {
-            NotificationsService.remove(notification);
-          }, 5000);
-        }
         return activity;
       });
     }

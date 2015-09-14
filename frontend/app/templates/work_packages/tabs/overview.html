@@ -57,6 +57,7 @@
   </div>
 
   <work-package-comment work-package="workPackage"
+                        activities="activities"
                         autocomplete-path="{{ autocompletePath }}">
     <ul class='work-package-details-activities-list'>
       <li ng-repeat="activity in activities | latestItems:activitiesSortedInDescendingOrder:3"

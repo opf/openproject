@@ -27,14 +27,13 @@
   <span class="date">{{ isInitial ? I18n.t('js.label_created_on') : I18n.t('js.label_updated_on') }} <op-date-time date-time-value="activity.props.createdAt" /></span>
   <span class="user-comment wiki">
     <div ng-if="inEdit">
-      <form class="user-comment--form inplace-edit--write-value">
+      <div class="user-comment--form inplace-edit--write-value">
         <div class="textarea-wrapper" ng-class="{'-preview': inPreview}">
             <textarea wiki-toolbar
                       class="edit-comment-text focus-input inplace-edit--textarea -autogrow"
                       ng-hide="inPreview"
+                      ng-model="writeValue"
                       preview-toggle="toggleCommentPreview()"
-                      ng-model="activity.props.comment.raw"
-                      ng-bind-html="activity.props.comment.html"
                       required>
             </textarea>
             <div class="inplace-edit--preview" ng-if="inPreview">
@@ -56,12 +55,12 @@
             </accessible-by-keyboard>
           </div>
         </div>
-      </form>
+      </div>
     </div>
     <span ng-if="!inEdit"
           class="message"
           ng-show="activity.props._type == 'Activity::Comment'"
-          ng-bind-html="comment"/>
+          ng-bind-html="postedComment"/>
     <ul class="work-package-details-activities-messages" ng-if="!isInitial">
       <li ng-repeat="detail in details track by $index">
         <span class="message" ng-bind-html="detail"/>

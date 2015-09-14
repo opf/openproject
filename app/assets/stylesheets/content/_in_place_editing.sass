@@ -161,6 +161,15 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
   position: absolute
   right: 0
 
+// Disabled submit styles when not applicable
+.inplace-edit--control--save[disabled],
+.inplace-edit--control--send[disabled]
+  background-color: $inplace-edit--bg-color--disabled
+
+  span
+    color: $inplace-edit--color--disabled
+    cursor: not-allowed
+
 .inplace-edit--read
   @include grid-block
   overflow: visible
@@ -269,26 +278,13 @@ a.inplace-editing--trigger-link,
 
 // Explicit styles for comment / input-esque trigger appearance
 .work-packages--activity--add-comment
-  margin: 20px 0
-
-  .inplace-editing--container
-    border: 1px solid #eee
+  margin: 20px
 
   .inplace-edit--read-value
     padding: 10px 5px
 
   .inplace-editing--trigger-link
-    color: #888
     font-size: 1rem
-
-  // Disabled comment submit styles when empty
-  .inplace-edit--control--save[disabled],
-  .inplace-edit--control--send[disabled]
-    background-color: $inplace-edit--bg-color--disabled
-
-    span
-      color: $inplace-edit--color--disabled
-      cursor: not-allowed
 
 // this aligns the title for the WP
 .work-packages--details--title

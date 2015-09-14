@@ -1,4 +1,5 @@
 <work-package-comment work-package="workPackage"
+                      activities="activities"
                       autocomplete-path="{{ autocompletePath }}">
   <div class="detail-activity">
     <ul class="work-package-details-activities-list">
@@ -12,10 +13,10 @@
             ng-if="currentDate !== (activities[$index-1].props.createdAt | date:'longDate')"
             ng-bind="currentDate"/>
           <activity-entry work-package="workPackage"
-                         activity="activity"
-                         activity-no="activityNo"
-                         is-initial="isInitial"
-                         autocomplete-path="autocompletePath">
+                          activity="activity"
+                          activity-no="activityNo"
+                          is-initial="isInitial"
+                          autocomplete-path="autocompletePath">
           </activity-entry>
         </div>
       </li>

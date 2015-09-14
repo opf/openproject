@@ -195,6 +195,7 @@ window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') ||
   '';
 
 openprojectApp
+  .constant('URI', URI)
   .config([
     '$locationProvider',
     '$httpProvider',

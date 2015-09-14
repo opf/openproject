@@ -27,13 +27,13 @@
 //++
 
 angular.module('openproject.services')
-  .service('ActivityService', ['HALAPIResource',
+  .service('ActivityService', [
+    'URI',
+    'HALAPIResource',
     '$http',
     'I18n',
     'NotificationsService',
-    'ConfigurationService',
-    '$timeout',
-    'PathHelper', require('./activity-service')
+    require('./activity-service')
   ])
   .service('AuthorisationService', require('./authorisation-service'))
   .service('GroupService', ['$http', 'PathHelper', require('./group-service')])

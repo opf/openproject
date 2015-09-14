@@ -333,6 +333,7 @@ en:
       image: "Image"
     work_packages:
       button_clear: "Clear"
+      comment_added: "The comment was successfully added."
       comment_send_failed: "An error has occured. Could not submit the comment."
       comment_updated: "The comment was successfully updated."
       description_filter: "Filter"

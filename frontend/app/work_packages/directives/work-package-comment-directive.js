@@ -77,8 +77,9 @@ module.exports = function(
         ctrl.writeValue,
         notify
       ).then(function(response) {
-        $scope.$emit('workPackageRefreshRequired', '');
         ctrl.discardEditing();
+        NotificationsService.addSuccess(I18n.t('js.work_packages.comment_added'));
+        scope.$emit('workPackageRefreshRequired', '');
         return response;
       }, function() {
         NotificationsService.addError(I18n.t('js.work_packages.comment_send_failed'));
@@ -86,10 +87,13 @@ module.exports = function(
       });
     };
 
-    ctrl.startEditing = function(writeValue) {
+    ctrl.startEditing = function(withText) {
       ctrl.isEditing = true;
-      ctrl.writeValue = writeValue || { raw: '' };
       ctrl.markActive();
+
+      if (withText) {
+        ctrl.writeValue.raw += '\n' + withText;
+      }
 
       $timeout(function() {
         var inputElement = $element.find('.focus-input');
@@ -105,8 +109,8 @@ module.exports = function(
     };
 
     ctrl.discardEditing = function() {
-      delete ctrl.writeValue;
       delete EditableFieldsState.activeFields[ctrl.field];
+      ctrl.writeValue = { raw: '' };
       ctrl.isEditing = false;
       ctrl.state.isBusy = false;
     };
@@ -134,7 +138,7 @@ module.exports = function(
     }
 
     $scope.$on('workPackage.comment.quoteThis', function(evt, quote) {
-      ctrl.startEditing({ raw: quote });
+      ctrl.startEditing(quote);
     });
   }
 
@@ -146,7 +150,8 @@ module.exports = function(
     bindToController: true,
     templateUrl: '/templates/work_packages/comment.html',
     scope: {
-      workPackage: '='
+      workPackage: '=',
+      activities: '=',
     },
     controller: commentFieldDirectiveController,
     link: function(scope, element) {

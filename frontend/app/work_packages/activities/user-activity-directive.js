@@ -82,7 +82,7 @@ module.exports = function($uiViewScroll,
         scope.userActive = UsersHelper.isActive(user);
       });
 
-      scope.comment = $sce.trustAsHtml(scope.activity.props.comment.html);
+      scope.postedComment = $sce.trustAsHtml(scope.activity.props.comment.html);
       scope.details = [];
 
       angular.forEach(scope.activity.props.details, function(detail) {
@@ -96,6 +96,7 @@ module.exports = function($uiViewScroll,
       });
 
       scope.editComment = function() {
+        scope.writeValue = scope.activity.props.comment.raw;
         scope.inEdit = true;
       };
 
@@ -111,8 +112,7 @@ module.exports = function($uiViewScroll,
       };
 
       scope.updateComment = function() {
-        var comment = element.find('.edit-comment-text').val();
-        ActivityService.updateComment(scope.activity, comment).then(function(activity){
+        ActivityService.updateComment(scope.activity, scope.writeValue).then(function(){
           scope.$emit('workPackageRefreshRequired', '');
           scope.inEdit = false;
         });
