@@ -96,17 +96,19 @@ module.exports = function(
 
     scope.$on('uploadPendingAttachments', upload);
 
-    scope.filesChanged = function(files, _file, _event, instantUpload) {
+    scope.filterFiles = function(files) {
       // Directories cannot be uploaded and as such, should not become files in
       // the sense of this directive.  The files within the direcotories will
       // be taken though.
       _.remove(files, function(file) {
         return file.type === 'directory';
       });
+    };
 
-      if(instantUpload) {
-        scope.$emit('uploadPendingAttachments', workPackage);
-      }
+    scope.uploadFilteredFiles = function(files) {
+      scope.filterFiles(files);
+
+      scope.$emit('uploadPendingAttachments', workPackage);
     };
 
     scope.$watch('rejectedFiles', function(rejectedFiles) {

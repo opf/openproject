@@ -27,7 +27,7 @@
 //++
 
 describe('WorkPackageAttachmentsDirective', function() {
-  var compile, element, rootScope, scope;
+  var compile, element, rootScope, scope, isolatedScope, workPackage = {};
 
   beforeEach(angular.mock.module('openproject.workPackages.directives'));
   beforeEach(module('openproject.templates'));
@@ -62,11 +62,14 @@ describe('WorkPackageAttachmentsDirective', function() {
       return resolve([]);
     });
 
-    var html = '<work-package-attachments edit></work-package-attachments>';
+    var html = '<work-package-attachments edit work-package="workPackage">' +
+               '</work-package-attachments>';
 
     element = angular.element(html);
     rootScope = $rootScope;
     scope = $rootScope.$new();
+
+    scope.workPackage = workPackage;
 
     compile = function() {
       $compile(element)(scope);
@@ -74,9 +77,24 @@ describe('WorkPackageAttachmentsDirective', function() {
     };
   }));
 
-  describe('filesChanged', function() {
-    var isolatedScope,
-        files = [{type: 'directory'}, {type: 'file'}],
+  describe('filterFiles', function() {
+    beforeEach(function() {
+      compile();
+      isolatedScope = element.isolateScope();
+    });
+
+    it('filters out attachments of type directory', function() {
+      var files = [{type: 'directory'}, {type: 'file'}];
+
+      isolatedScope.filterFiles(files, {}, {}, false);
+
+      expect(files).to.eql([{type: 'file'}]);
+    });
+  });
+
+
+  describe('uploadFilteredFiles', function() {
+    var files = [{type: 'directory'}, {type: 'file'}],
         dumbPromise = {
           then: function(call) { return call(); }
         };
@@ -86,21 +104,15 @@ describe('WorkPackageAttachmentsDirective', function() {
       isolatedScope = element.isolateScope();
     });
 
-    it('filters out attachments of type directory', function() {
-      isolatedScope.filesChanged(files, {}, {}, false);
-
-      expect(files).to.eql([{type: 'file'}]);
-    });
-
-    it('triggers uploading if specified', function() {
+    it('triggers uploading of non directory files', function() {
       //need to have files to be able to trigger uploads
-      isolatedScope.files = [{type: 'file'}];
+      isolatedScope.files = files;
 
       var uploadStub = workPackageAttachmentsService.upload = sinon.stub().returns(dumbPromise);
 
-      isolatedScope.filesChanged(files, {}, {}, true);
+      isolatedScope.uploadFilteredFiles(files, {}, {}, true);
 
-      expect(uploadStub.called).to.be.true;
+      expect(uploadStub.calledWith(workPackage, [{type: 'file'}])).to.be.true;
     });
   });
 });
