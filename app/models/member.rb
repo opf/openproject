@@ -132,9 +132,10 @@ class Member < ActiveRecord::Base
 
   ##
   # Returns true if this user can be deleted as they have no other memberships
-  # and haven't been activated yet.
+  # and haven't been activated yet. Only applies if the member is actually a user
+  # as opposed to a group.
   def disposable?
-    user.invited? && user.memberships.none? { |m| m.project_id != project_id }
+    user && user.invited? && user.memberships.none? { |m| m.project_id != project_id }
   end
 
   protected
