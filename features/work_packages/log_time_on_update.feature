@@ -52,13 +52,13 @@ Feature: Logging time on work package update
     And there is an activity "design"
     And I am already logged in as "manager"
 
+  @javascript
   Scenario: Logging time
     When I go to the edit page of the work package called "pe1"
-     And I fill in the following:
+    And I fill in the following:
        | Spent time | 5         |
        | Activity   | design    |
        | Comment    | Needed it |
-     And I submit the form by the "Submit" button
-
+    And I submit the form by the "Submit" button
     Then the work package should be shown with the following values:
        | Spent time | 5.00      |

@@ -54,11 +54,10 @@ end
 
 When /^I select "(.+?)" from the action menu$/ do |entry_name|
   within(action_menu_selector) do
-    if !find_link(entry_name, visible: false).visible?
-      click_link(I18n.t(:more_actions))
-    end
-
-    click_link(entry_name, visible: false)
+    find('button').click
+  end
+  within('.dropdown-menu') do
+    click_link(entry_name)
   end
 end
 

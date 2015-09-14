@@ -100,3 +100,9 @@ When(/^I turn over to the next results page$/) do
   expect(@search_next_url).not_to be(nil)
   visit @search_next_url
 end
+
+When /^I click on a search result pagination link$/ do
+  within all('.search-pagination').first do
+    click_link 'Next'
+  end
+end

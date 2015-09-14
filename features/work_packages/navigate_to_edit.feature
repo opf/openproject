@@ -27,35 +27,31 @@
 #++
 
 Feature: Navigating to the work package edit page
-
   Background:
     Given there is 1 user with:
         | login | manager |
-
     And there is a role "manager"
     And the role "manager" may have the following rights:
       | edit_work_packages |
       | view_work_packages |
-
     And there is 1 project with the following:
       | identifier | ecookbook |
       | name       | ecookbook |
     And I am working in project "ecookbook"
-
     And the user "manager" is a "manager"
-
     And there are the following work packages in project "ecookbook":
       | subject |
       | pe1     |
-
     And I am already logged in as "manager"
-
 
   Scenario: Directly opening the page
     When I go to the edit page of the work package called "pe1"
     Then I should be on the edit page of the work package called "pe1"
 
+  @javascript
   Scenario: From the show page of a work package
     When I go to the page of the work package called "pe1"
-    And I select "Update" from the action menu
+    # need to click on edit icon
+    And I click the edit work package button
+    # And I select "Update" from the action menu
     Then I should be on the edit page of the work package called "pe1"
