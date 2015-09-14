@@ -140,7 +140,7 @@ RB.Model = (function ($) {
         title:       (this.isNew() ? this.newDialogTitle() : this.editDialogTitle())
       });
       editor.find(".editor").first().focus();
-      $('button').removeClass(baseClasses);
+      $('.button').removeClass(baseClasses);
     },
 
     edit: function () {
