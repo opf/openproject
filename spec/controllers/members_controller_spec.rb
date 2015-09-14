@@ -29,8 +29,6 @@
 require 'spec_helper'
 
 describe MembersController, type: :controller do
-  include PrototypeRails::SelectorAssertions
-
   let(:admin) { FactoryGirl.create(:admin) }
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project, identifier: 'pet_project') }
