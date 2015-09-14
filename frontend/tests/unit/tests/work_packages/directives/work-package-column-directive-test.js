@@ -294,9 +294,9 @@ describe('workPackageColumn Directive', function() {
           compile();
         });
 
-        it('should have correct href', function() {
+        it('should have correct ui-sref', function() {
           var content = element.find('a').last();
-          expect(content.attr('href')).to.equal('/work_packages/1');
+          expect(content.attr('ui-sref')).to.equal("work-packages.show.activity({projectPath: '', workPackageId: 1})");
         });
         it('should have the title equal to content', function() {
           var tag = element.find('a').last();
