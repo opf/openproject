@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <section class="form--section">
     <div class="form--field"><%= f.select :language, lang_options_for_select,  container_class: '-middle' %></div>
     <section class="form--section">
-      <%= render :partial => 'users/preferences' %>
+      <%= render partial: 'users/preferences', locals: { input_size: :middle } %>
     </section>
 
     <%= call_hook(:view_my_settings, :user => @user, :form => f) %>

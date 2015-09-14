@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
           options_for_select(user_mail_notification_options(@user),
           @user.mail_notification),
           :onchange => 'if (this.value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}',
-          container_class: '-middle' %>
+          container_class: (!!(defined? input_size)) ? "-#{input_size}" : '' %>
   </div>
 </div>
 

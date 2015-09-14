@@ -61,7 +61,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= render partial:     'customizable/field',
                    collection:  @user.custom_field_values.select(&:editable?),
                    as:          :value,
-                   locals:      { form: f } %>
+                   locals:      { form: f, input_size: :middle } %>
       </section>
     </div>
   </div>
