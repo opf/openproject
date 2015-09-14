@@ -28,12 +28,6 @@
 
 module UserInvitation
   EVENT_NAME = 'user_invited'
-  ##
-  # The default behaviour is to send the user an sign-up mail
-  # when they were invited.
-  DEFAULT_SUBSCRIBER = OpenProject::Notifications.subscribe EVENT_NAME do |token|
-    UserMailer.user_signed_up(token).deliver
-  end
 
   module_function
 
