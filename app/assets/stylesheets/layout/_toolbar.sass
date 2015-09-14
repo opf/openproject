@@ -67,6 +67,8 @@
   display: table
 
 .toolbar-items
+  display: flex
+  align-items: center
   li
     float: left
     &.toolbar-item
@@ -81,6 +83,9 @@
     &.-pressed, &:active
       background: $toolbar-item--bg-color-pressed
       box-shadow: inset 0 2px 3px rgba(0,0,0,.125)
+
+  label
+    margin: 0.5rem 0 0 0
 
   select
     //extend forms select
