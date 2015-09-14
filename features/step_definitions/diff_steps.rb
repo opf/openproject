@@ -27,28 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Please note that this is zero based
-When(/^I follow the link to see the diff in the (.+?) journal$/) do |nth|
-  within all('.journal .details')[nth.to_i] do
-    click_link I18n.t(:label_details)
-  end
-end
-
-When(/^I should see the following inline diff(?: on (.+?)):$/) do |page, table|
-  if page
-    step %{I should be on #{page}}
-  end
-
-  table.rows_hash.each do |key, value|
-    case key
-    when 'new'
-      find 'ins.diffmod', text: value
-    when 'old'
-      find 'del.diffmod', text: value
-    when 'unchanged'
-      find '.text-diff', text: value
-    else
-      raise ArgumentError, "#{key} is not supported. 'new', 'old', 'unchanged' is."
-    end
+When(/^I follow the link to see the diff in the last journal$/) do
+  within('.work-packages--right-panel') do
+    # I assume activity sorting oldest to newest; In that case the last journal is
+    # the one where we need to click on the "Details" link
+    all('.work-package-details-activities-activity-contents .description-details').last.click
   end
 end
