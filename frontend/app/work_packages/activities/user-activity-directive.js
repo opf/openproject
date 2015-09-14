@@ -95,6 +95,14 @@ module.exports = function($uiViewScroll,
         }
       });
 
+      scope.focus = function() {
+        scope.inFocus = true;
+      };
+
+      scope.blur = function() {
+        scope.inFocus = false;
+      };
+
       scope.editComment = function() {
         scope.writeValue = scope.activity.props.comment.raw;
         scope.inEdit = true;

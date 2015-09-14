@@ -44,7 +44,3 @@ angular.module('openproject.workPackages.tabs')
     '$timeout',
     require('./work-package-relations-directive')
   ]);
-
-// FIXME: move modules or files to the right place
-angular.module('openproject.workPackages.directives')
-  .directive('editableComment', require('./editable-comment-directive'));

@@ -30,7 +30,8 @@
       <div class="user-comment--form inplace-edit--write-value">
         <div class="textarea-wrapper" ng-class="{'-preview': inPreview}">
             <textarea wiki-toolbar
-                      class="edit-comment-text focus-input inplace-edit--textarea -autogrow"
+                      msd-elastic="\n"
+                      class="edit-comment-text focus-input inplace-edit--textarea"
                       ng-hide="inPreview"
                       ng-model="writeValue"
                       preview-toggle="toggleCommentPreview()"

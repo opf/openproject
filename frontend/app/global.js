@@ -67,5 +67,3 @@ require('angular-sanitize');
 
 require('ui-select/dist/select');
 require('ui-select/dist/select.css');
-
-require('autogrow');
