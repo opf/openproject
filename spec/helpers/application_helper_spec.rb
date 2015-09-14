@@ -41,7 +41,7 @@ describe ApplicationHelper, type: :helper do
     it 'replaces escaped line breaks with html line breaks and should be html_safe' do
       text = "Lorem ipsum dolor sit \namet, consetetur sadipscing elitr, sed diam nonumy eirmod\r tempor invidunt"
       text_html = 'Lorem ipsum dolor sit <br />amet, consetetur sadipscing elitr, sed diam nonumy eirmod<br /> tempor invidunt'
-      expect(format_activity_description(text)).to eq(text_html)
+      expect(format_activity_description(text)).to be_html_eql(text_html)
       expect(format_activity_description(text).html_safe?).to be_truthy
     end
 
@@ -157,7 +157,7 @@ describe ApplicationHelper, type: :helper do
       before do
         @links = other_formats_links { |f| f.link_to 'Atom', url: { controller: :projects, action: :index } }
       end
-      it { expect(@links).to eq("<p class=\"other-formats\">Also available in:<span><a class=\"icon icon-atom\" href=\"/projects.atom\" rel=\"nofollow\">Atom</a></span></p>") }
+      it { expect(@links).to be_html_eql("<p class=\"other-formats\">Also available in:<span><a class=\"icon icon-atom\" href=\"/projects.atom\" rel=\"nofollow\">Atom</a></span></p>") }
     end
 
     context 'link given but disabled' do
