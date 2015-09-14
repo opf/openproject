@@ -59,7 +59,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
       expect(members_page).to have_added_user 'A-Team'
 
       members_page.remove_user! 'A-Team'
-      expect(page).to have_text 'Removed user from project'
+      expect(page).to have_text 'Removed A-Team from project'
       expect(page).to have_text 'Nothing to display'
     end
 
@@ -70,7 +70,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
       expect(members_page).to have_added_user 'Hannibal Smith'
 
       members_page.remove_user! 'Hannibal Smith'
-      expect(page).to have_text 'Removed user from project'
+      expect(page).to have_text 'Removed Hannibal Smith from project'
       expect(page).to have_text 'Nothing to display'
     end
 
