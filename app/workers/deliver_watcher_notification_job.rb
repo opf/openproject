@@ -27,26 +27,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverWatcherNotificationJob
-  include OpenProject::BeforeDelayedJob
+class DeliverWatcherNotificationJob < DeliverNotificationJob
 
-  def initialize(watcher_id, watcher_setter_id)
+  def initialize(watcher_id, recipient_id, watcher_setter_id)
     @watcher_id = watcher_id
-    @watcher_setter_id = watcher_setter_id
+
+    super(recipient_id, watcher_setter_id)
   end
 
-  def perform
-    return unless @watcher_id
+  def render_mail(recipient:, sender:)
+    return nil unless watcher
 
-    watcher = Watcher.find(@watcher_id)
-    watcher_setter = User.find(@watcher_setter_id)
+    UserMailer.work_package_watcher_added(watcher.watchable, recipient, sender)
+  end
 
-    return unless watcher && watcher_setter
+  private
 
-    mail = User.execute_as(watcher.user) {
-      UserMailer.work_package_watcher_added(watcher.watchable, watcher.user, watcher_setter)
-    }
-
-    mail.deliver_now
+  def watcher
+    @watcher ||= Watcher.find_by(id: @watcher_id)
   end
 end
