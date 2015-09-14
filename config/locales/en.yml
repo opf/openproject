@@ -361,6 +361,7 @@ en:
     work_package: "Work package"
 
   button_add: "Add"
+  button_add_member: Add member
   button_add_watcher: "Add watcher"
   button_annotate: "Annotate"
   button_apply: "Apply"
@@ -943,8 +944,8 @@ en:
   label_preview: "Preview"
   label_previous: "Previous"
   label_previous_week: "Previous week"
-  label_principal_invite_via_email: ", or invite via email"
-  label_principal_search: "Search for users or groups"
+  label_principal_invite_via_email: " or invite new users via email"
+  label_principal_search: "Add existing users or groups"
   label_professional_support: "Professional support"
   label_profile: "Profile"
   label_project_all: "All Projects"
@@ -1000,7 +1001,7 @@ en:
   label_role_and_permissions: "Roles and permissions"
   label_role_new: "New role"
   label_role_plural: "Roles"
-  label_role_search: "Search for roles"
+  label_role_search: "Assign roles to new members"
   label_scm: "SCM"
   label_search: "Search"
   label_search_titles_only: "Search titles only"

@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% if authorize_for(:members, :new) %>
         <a href="<%= new_project_member_path %>" id="add-member-button" title="Add Member" class="button -alt-highlight">
           <i class="button--icon icon-add"></i>
-          <span class="button--text">Add Member</span>
+          <span class="button--text"><%= I18n.t(:button_add_member) %></span>
         </a>
     <% end %>
 <% end %>
