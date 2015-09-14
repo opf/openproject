@@ -120,7 +120,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :types,
             { controller: '/types' },
-            caption: :label_type_plural,
+            caption: :label_work_package_types,
             html: { class: 'icon2 icon-tracker' }
 
   menu.push :statuses,
