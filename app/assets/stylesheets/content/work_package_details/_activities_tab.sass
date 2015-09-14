@@ -44,13 +44,11 @@
 
   li
     span
-      overflow: hidden
+      word-wrap: break-word
+      // important for IE
       display: inline-block
-      text-overflow: ellipsis
       max-width: 100%
       vertical-align: top
-      //necessary for IE
-      white-space: nowrap
   p
     overflow: hidden
     text-overflow: ellipsis
