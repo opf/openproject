@@ -246,3 +246,11 @@ end
 When /^I click on the Export link$/ do
   click_link('Export')
 end
+
+When(/^I click on the link for the story "(.*?)"$/) do |subject|
+  story = Story.find_by(subject: subject)
+
+  within("#story_#{story.id}") do
+    click_link(story.id)
+  end
+end

@@ -84,11 +84,4 @@ Feature: Show story
   Scenario: Show work_package in modal box via click
     When I go to the master backlog
     And I click on the link for the story "Story A"
-    Then I should see a modal window
-
-  @javascript
-  Scenario: Show work_package in a new tab via ctrl+click
-    When I go to the master backlog
-    And I ctrl-click on the link for the story "Story A"
-    And I wait 5 seconds
-    Then I should not see a modal window
+    Then I should see "Story A" within "#content"
