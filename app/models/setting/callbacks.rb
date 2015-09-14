@@ -46,7 +46,7 @@ class Setting
 
     # encapsulates the event name broadcast to all subscribers
     def notification_event_for(name)
-      :"setting.#{name}.changed"
+      "setting.#{name}.changed"
     end
 
     # encapsulates the payload expected by the notifier
