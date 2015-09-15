@@ -63,11 +63,14 @@ class Journal < ActiveRecord::Base
   # Note for MySQL: THis method does not currently change anything (no locking at all)
   def self.with_write_lock
     if OpenProject::Database.mysql?
-      # N.B. there seems to be no acceptable locking available for MySQL:
-      # - table locks will break (i.e. COMMIT) an already running transaction.
-      # - advisory locks will do their job, except that when they end inside a transaction,
-      #   nobody will see the changes from inside the lock until the transaction finished.
-      yield
+      Journal.transaction do
+        # MySQL is very weak when combining transactions and locks. Using an emulation layer to
+        # automatically release an advisory lock at the end of the transaction
+        # FIXME: still creates duplicates... because MySQL defaults to READ REPEATABLE isolation
+        # we need READ COMMITED, which is also the default for PostgreSQL
+        TransactionalLock::AdvisoryLock.new('journals.write_lock').acquire
+        yield
+      end
     else
       Journal.transaction do
         ActiveRecord::Base.connection.execute("LOCK TABLE #{table_name} IN SHARE ROW EXCLUSIVE MODE")

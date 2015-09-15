@@ -29,6 +29,13 @@ GIT
     rspec-example_disabler (0.0.1)
 
 GIT
+  remote: https://github.com/finnlabs/transactional_lock.git
+  revision: fe82192efa0346e49d19bbe82865280fdae79487
+  branch: master
+  specs:
+    transactional_lock (0.1.0)
+
+GIT
   remote: https://github.com/opf/openproject-translations.git
   revision: a2a7d246c6212c0867970ee44c505f97e5c96ee3
   branch: dev
@@ -596,6 +603,7 @@ DEPENDENCIES
   sys-filesystem (~> 1.1.4)
   thin
   timecop (~> 0.7.1)
+  transactional_lock!
   unicorn
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)

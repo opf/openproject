@@ -99,6 +99,8 @@ gem 'gon', '~> 4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 4.1.0', require: false
 
+gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.git', branch: 'master'
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
