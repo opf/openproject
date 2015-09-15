@@ -27,27 +27,28 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= toolbar title: "#{l('account.deletion_info.heading', :name => h(@user.name))}" %>
-<%= labelled_tabular_form_for :user, :url => user_path(@user), :html => { :method => :delete, :class => 'confirm_required' } do |form| %>
+<%= labelled_tabular_form_for :user, :url => user_path(@user), :html => { :method => :delete, :class => 'confirm_required form -bordered -danger-zone' } do |form| %>
 
   <div class='wiki'>
-    <p>
-      <%= l("account.deletion_info.login_consequences.#{User.current == @user ? 'self' : 'other'}") %>
-    </p>
+    <section class="form--section">
+      <h3 class="form--section-title">
+        <%= l("account.deletion_info.info.#{User.current == @user ? 'self' : 'other'}") %>
+      </h3>
 
-    <p>
-      <%= l("account.deletion_info.data_consequences.#{User.current == @user ? 'self' : 'other'}") %>
-    </p>
+      <p>
+        <%= l("account.deletion_info.login_consequences.#{User.current == @user ? 'self' : 'other'}") %>
+      </p>
 
-    <p>
-      <%= l("account.deletion_info.info.#{User.current == @user ? 'self' : 'other'}") %>
-    </p>
+      <p>
+        <%= l("account.deletion_info.data_consequences.#{User.current == @user ? 'self' : 'other'}") %>
+      </p>
+      <div>
+        <%= form.submit l(:button_delete), class: 'button -highlight' %>
+        <%= link_to l(:button_cancel), { :controller => '/my', :action => 'account' },
+              class: 'button' %>
+      </div>
+    </section>
   </div>
-
-  <p>
-    <%= form.submit l(:button_delete), class: 'button -highlight' %>
-    <%= link_to l(:button_cancel), { :controller => '/my', :action => 'account' },
-          class: 'button' %>
-  </p>
 <% end %>
 
 <%= javascript_tag do -%>
