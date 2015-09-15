@@ -327,10 +327,14 @@ module.exports = function($http,
                 $rootScope.$emit('workPackagesRefreshRequired');
               })
               .error(function(data, status) {
+                // FIXME catch this kind of failover in angular instead of redirecting
+                // to a rails-based legacy view
+                window.location = PathHelper.workPackageDeletePath(ids);
+
                 // TODO wire up to API and processs API response
-                NotificationsService.addError(
-                  I18n.t('js.work_packages.message_error_during_bulk_delete')
-                );
+                // NotificationsService.addError(
+                //   I18n.t('js.work_packages.message_error_during_bulk_delete')
+                // );
               });
       }
 
