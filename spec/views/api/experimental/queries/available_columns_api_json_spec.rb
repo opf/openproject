@@ -36,7 +36,7 @@ describe 'api/experimental/queries/available_columns.api.rabl', type: :view do
     render
   end
 
-  subject { response.body }
+  subject { rendered }
 
   describe 'with no available columns' do
     let(:available_columns) { [] }
@@ -85,5 +85,4 @@ describe 'api/experimental/queries/available_columns.api.rabl', type: :view do
     it { is_expected.to have_json_type(Object).at_path('available_columns/1/meta_data') }
     it { is_expected.to have_json_type(String).at_path('available_columns/1/meta_data/link/model_type') }
   end
-
 end

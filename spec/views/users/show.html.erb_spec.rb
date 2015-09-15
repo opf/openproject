@@ -43,13 +43,13 @@ describe 'users/show', type: :view do
     visibility_custom_value
     user.reload
     assign(:user, user)
-    assign(:memberships, user.memberships.all)
+    assign(:memberships, user.memberships)
     assign(:events_by_day, [])
   end
 
   it 'renders the visible custom values' do
     render
 
-    expect(response).to have_selector('li', text: 'TextUserCustomField')
+    expect(rendered).to have_selector('li', text: 'TextUserCustomField')
   end
 end

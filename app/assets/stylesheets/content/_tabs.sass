@@ -35,13 +35,11 @@
   z-index: 1
   overflow: hidden
   ul
-    position: absolute
-    left: 0
-    right: 60px
-    margin: 0
+    position: relative
+    margin-top: 0.75rem
+    margin-left: 0
     bottom: 0
     padding-left: 1em
-    width: 2000px
     border-bottom: 1px solid #bbbbbb
     overflow: hidden
     li
@@ -75,11 +73,7 @@
 div.tabs-buttons
   position: absolute
   right: 0
-  width: 48px
-  height: 24px
-  background: white
-  bottom: 0
-  border-bottom: 1px solid #bbbbbb
+  bottom: 4px
 
 button
   &.tab-left, &.tab-right
@@ -94,7 +88,5 @@ button
     bottom: -1px
   &.tab-left
     right: 20px
-    background: #eeeeee image-url("bullet_arrow_left.png") no-repeat 50% 50%
   &.tab-right
     right: 0
-    background: #eeeeee image-url("bullet_arrow_right.png") no-repeat 50% 50%

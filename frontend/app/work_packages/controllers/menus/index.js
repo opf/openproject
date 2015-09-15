@@ -55,7 +55,7 @@ angular.module('openproject.workPackages')
       return ngContextMenu({
         controller: 'SettingsDropdownMenuController',
         templateUrl: '/templates/work_packages/menus/settings_dropdown_menu.html',
-        container: '#toolbar'
+        container: '.toolbar'
       });
     }
   ])
@@ -73,21 +73,18 @@ angular.module('openproject.workPackages')
     'AuthorisationService',
     '$window',
     '$state',
-    '$timeout', require('./settings-dropdown-menu-controller')
+    '$timeout',
+    'NotificationsService',
+    require('./settings-dropdown-menu-controller')
   ])
   .factory('TasksDropdownMenu', [
     'ngContextMenu',
     function(ngContextMenu) {
       return ngContextMenu({
-        controller: 'TasksDropdownMenuController',
         templateUrl: '/templates/work_packages/menus/tasks_dropdown_menu.html',
-        container: '#toolbar'
+        container: '.toolbar'
       });
     }
-  ])
-  .controller('TasksDropdownMenuController', [
-    '$scope',
-    'PathHelper', require('./tasks-dropdown-menu-controller')
   ])
   .constant('PERMITTED_CONTEXT_MENU_ACTIONS', [
     'edit', 'watch', 'log_time',

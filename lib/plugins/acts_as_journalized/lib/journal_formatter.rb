@@ -51,7 +51,6 @@
 # of a specific journal.
 
 module JournalFormatter
-  # unloadable
   mattr_accessor :formatters, :registered_fields
 
   def self.register(hash)

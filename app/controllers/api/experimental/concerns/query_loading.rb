@@ -33,7 +33,7 @@ module Api::Experimental::Concerns::QueryLoading
   private
 
   def init_query
-    if !params[:query_id].blank?
+    if params[:query_id].present?
       @query = Query.find(params[:query_id])
       @query.project = @project if @query.project.nil?
       unless QueryPolicy.new(User.current).allowed?(@query, :show)

@@ -42,6 +42,13 @@ angular.module('openproject.uiComponents')
   .directive('authoring', ['I18n', 'PathHelper', 'TimezoneService', require(
     './authoring-directive')])
   .directive('backUrl', [require('./back-url-directive')])
+  .directive('copyToClipboard', [
+    'I18n',
+    '$timeout',
+    'NotificationsService',
+    'ConfigurationService',
+    require('./copy-to-clipboard-directive')
+  ])
   .directive('opDate', ['TimezoneService', require('./date/date-directive')])
   .directive('opTime', ['TimezoneService', require('./date/time-directive')])
   .directive('opDateTime', ['$compile', 'TimezoneService', require('./date/date-time-directive')])
@@ -49,12 +56,7 @@ angular.module('openproject.uiComponents')
   .constant('ENTER_KEY', 13)
   .directive('executeOnEnter', ['ENTER_KEY', require(
     './execute-on-enter-directive')])
-  .directive('flashMessage', [
-    '$rootScope',
-    '$timeout',
-    'ConfigurationService',
-    require('./flash-message-directive')
-  ])
+  .directive('expandableSearch', ['ENTER_KEY', require('./expandable-search')])
   .directive('focus', ['FocusHelper', require('./focus-directive')])
   .constant('FOCUSABLE_SELECTOR', 'a, button, :input, [tabindex], select')
   .service('FocusHelper', ['$timeout', 'FOCUSABLE_SELECTOR', require(
@@ -83,6 +85,7 @@ angular.module('openproject.uiComponents')
     down: 40
   })
   .directive('selectableTitle', [require('./selectable-title-directive')])
+  .directive('interactiveTable', ['$timeout', '$window', require('./interactive-table-directive')])
   .constant('DOUBLE_CLICK_DELAY', 300)
   // Thanks to http://stackoverflow.com/a/20445344
   .directive('singleClick', [
@@ -103,5 +106,11 @@ angular.module('openproject.uiComponents')
   .directive('userField', ['PathHelper', require('./user-field-directive')])
   .directive('wikiToolbar', [require('./wiki-toolbar-directive')])
   .directive('zoomSlider', ['I18n', require('./zoom-slider-directive')])
+  .directive('notifications', [require('./notifications-directive')])
+  .directive('notificationBox', ['I18n', require('./notification-box-directive')])
+  .directive('uploadProgress', [require('./upload-progress-directive')])
+  .directive('attachmentIcon', [require('./attachment-icon-directive')])
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))
-  .filter('latestItems', require('./filters/latest-items-filter'));
+  .filter('latestItems', require('./filters/latest-items-filter'))
+  .directive('highlightCol', [require('./highlight-col-directive')])
+  .directive('confirmPopup', ['$window', require('./confirm-popup-directive')]);

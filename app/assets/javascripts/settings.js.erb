@@ -27,8 +27,43 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-jQuery(document).ready(function($) {
-  $('#settings_session_ttl_enabled').on('change', function(){
-    $('#settings_session_ttl_container').toggle($(this).is(':checked'));
-  }).trigger('change');
-});
+(function($) {
+  $(function() {
+
+    $('#settings_session_ttl_enabled').on('change', function(){
+      $('#settings_session_ttl_container').toggle($(this).is(':checked'));
+    }).trigger('change');
+
+
+    /** Sync SCM vendor select when enabled SCMs are changed */
+    $('[name="settings[enabled_scm][]"]').change(function() {
+      var wasDisabled = !this.checked,
+        vendor = this.value,
+        select = $('#settings_repositories_automatic_managed_vendor'),
+        option = select.find('option[value="' + vendor + '"]');
+
+      // Skip non-manageable SCMs
+      if (option.length === 0) {
+        return;
+      }
+
+      option.prop('disabled', wasDisabled);
+      if (wasDisabled && option.prop('selected')) {
+        select.val('');
+      }
+    });
+
+    /** Toggle repository checkout fieldsets required when option is disabled */
+    $('.settings-repositories--checkout-toggle').change(function() {
+      var wasChecked = this.checked,
+        fieldset = $(this).closest('fieldset');
+
+        fieldset
+          .find('input,select')
+          .filter(':not([type=checkbox])')
+          .filter(':not([type=hidden])')
+          .removeAttr('required') // Rails 4.0 still seems to use attribute
+          .prop('required', wasChecked);
+    })
+  });
+}(jQuery));

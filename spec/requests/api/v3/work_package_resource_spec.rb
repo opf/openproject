@@ -44,7 +44,7 @@ describe 'API v3 Work package resource', type: :request do
   let(:work_package) {
     FactoryGirl.create(:work_package, project_id: project.id,
                                       description: description
-  )
+                      )
   }
   let(:description) {
     %{
@@ -77,7 +77,11 @@ h4. things we like
                        permissions: [:view_work_packages, :view_timelines, :edit_work_packages])
   end
   let(:current_user) do
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    user = FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+
+    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+
+    user
   end
   let(:watcher) do
     FactoryGirl
@@ -89,47 +93,55 @@ h4. things we like
   let(:unauthorize_user) { FactoryGirl.create(:user) }
   let(:type) { FactoryGirl.create(:type) }
 
+  describe '#get list' do
+    subject { last_response }
+
+    before(:each) do
+      allow(User).to receive(:current).and_return current_user
+      get api_v3_paths.work_packages
+    end
+
+    it 'succeeds' do
+      expect(subject.status).to eql 200
+    end
+
+    it 'returns visible work packages' do
+      FactoryGirl.create(:work_package, project: project)
+      expect(subject.body).to be_json_eql(1.to_json).at_path('total')
+    end
+
+    context 'user not seeing any work packages' do
+      let(:current_user) { FactoryGirl.create(:user) }
+      let(:non_member_permissions) { [:view_work_packages] }
+
+      around do |example|
+        non_member = Role.non_member
+        previous_permissions = non_member.permissions
+
+        non_member.update_attribute(:permissions, non_member_permissions)
+        example.run
+        non_member.update_attribute(:permissions, previous_permissions)
+      end
+
+      it 'succeeds' do
+        expect(subject.status).to eql 200
+      end
+
+      it 'returns no work packages' do
+        FactoryGirl.create(:work_package, project: project)
+        expect(subject.body).to be_json_eql(0.to_json).at_path('total')
+      end
+
+      context 'because he is not allowed to see work packages in general' do
+        let(:non_member_permissions) { [] }
+
+        it_behaves_like 'unauthorized access'
+      end
+    end
+  end
+
   describe '#get' do
     let(:get_path) { api_v3_paths.work_package work_package.id }
-    let(:expected_response) do
-      {
-        '_type' => 'WorkPackage',
-        '_links' => {
-          'self' => {
-            'href' => "http://localhost:3000/api/v3/work_packages/#{work_package.id}",
-            'title' => work_package.subject
-          }
-        },
-        'id' => work_package.id,
-        'subject' => work_package.subject,
-        'type' => work_package.type.name,
-        'description' => work_package.description,
-        'status' => work_package.status.name,
-        'priority' => work_package.priority.name,
-        'startDate' => work_package.start_date,
-        'dueDate' => work_package.due_date,
-        'estimatedTime' =>
-          JSON.parse({ units: 'hours', value: work_package.estimated_hours }.to_json),
-        'percentageDone' => work_package.done_ratio,
-        'versionId' => work_package.fixed_version_id,
-        'versionName' => work_package.fixed_version.try(:name),
-        'projectId' => work_package.project_id,
-        'projectName' => work_package.project.name,
-        'responsibleId' => work_package.responsible_id,
-        'responsibleName' => work_package.responsible.try(:name),
-        'responsibleLogin' => work_package.responsible.try(:login),
-        'responsibleMail' => work_package.responsible.try(:mail),
-        'assigneeId' => work_package.assigned_to_id,
-        'assigneeName' => work_package.assigned_to.try(:name),
-        'assigneeLogin' => work_package.assigned_to.try(:login),
-        'assigneeMail' => work_package.assigned_to.try(:mail),
-        'authorName' => work_package.author.name,
-        'authorLogin' => work_package.author.login,
-        'authorMail' => work_package.author.mail,
-        'createdAt' => work_package.created_at.utc.iso8601,
-        'updatedAt' => work_package.updated_at.utc.iso8601
-      }
-    end
 
     context 'when acting as a user with permission to view work package' do
       before(:each) do
@@ -300,7 +312,7 @@ h4. things we like
         end
 
         context 'with permission' do
-          before { role.add_permission!(:manage_subtasks) }
+          before do role.add_permission!(:manage_subtasks) end
 
           include_context 'patch request'
 
@@ -422,7 +434,7 @@ h4. things we like
         let(:status_parameter) { { _links: { status: { href: status_link } } } }
         let(:params) { valid_params.merge(status_parameter) }
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before do allow(User).to receive(:current).and_return current_user end
 
         context 'valid status' do
           let!(:workflow) {
@@ -461,7 +473,7 @@ h4. things we like
 
           include_context 'patch request'
 
-          it_behaves_like 'constraint violation' do
+          it_behaves_like 'invalid resource link' do
             let(:message) {
               I18n.t('api_v3.errors.invalid_resource',
                      property: 'status',
@@ -478,7 +490,7 @@ h4. things we like
         let(:type_parameter) { { _links: { type: { href: type_link } } } }
         let(:params) { valid_params.merge(type_parameter) }
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before do allow(User).to receive(:current).and_return current_user end
 
         context 'valid type' do
           before do
@@ -526,7 +538,7 @@ h4. things we like
 
           include_context 'patch request'
 
-          it_behaves_like 'constraint violation' do
+          it_behaves_like 'invalid resource link' do
             let(:message) {
               I18n.t('api_v3.errors.invalid_resource',
                      property: 'type',
@@ -547,7 +559,7 @@ h4. things we like
                              responsible: current_user)
         }
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before do allow(User).to receive(:current).and_return current_user end
 
         shared_context 'setup group membership' do |group_assignment|
           let(:group) { FactoryGirl.create(:group) }
@@ -650,7 +662,7 @@ h4. things we like
 
               include_context 'patch request'
 
-              it_behaves_like 'constraint violation' do
+              it_behaves_like 'invalid resource link' do
                 let(:message) {
                   I18n.t('api_v3.errors.invalid_resource',
                          property: property,
@@ -691,7 +703,7 @@ h4. things we like
         let(:version_parameter) { { _links: { version: { href: version_link } } } }
         let(:params) { valid_params.merge(version_parameter) }
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before do allow(User).to receive(:current).and_return current_user end
 
         context 'valid' do
           include_context 'patch request'
@@ -713,7 +725,7 @@ h4. things we like
         let(:category_parameter) { { _links: { category: { href: category_link } } } }
         let(:params) { valid_params.merge(category_parameter) }
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before do allow(User).to receive(:current).and_return current_user end
 
         context 'valid' do
           include_context 'patch request'
@@ -735,7 +747,7 @@ h4. things we like
         let(:priority_parameter) { { _links: { priority: { href: priority_link } } } }
         let(:params) { valid_params.merge(priority_parameter) }
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before do allow(User).to receive(:current).and_return current_user end
 
         context 'valid' do
           include_context 'patch request'
@@ -803,23 +815,6 @@ h4. things we like
               it_behaves_like 'read-only violation', 'updatedAt'
             end
           end
-
-          context 'project id' do
-            let(:another_project) { FactoryGirl.create(:project) }
-            let!(:another_membership) {
-              FactoryGirl.create(:member,
-                                 user: current_user,
-                                 project: another_project,
-                                 roles: [role])
-            }
-            let(:params) { valid_params.merge(projectId: another_project.id) }
-
-            include_context 'patch request'
-
-            it { expect(response.status).to eq(422) }
-
-            it_behaves_like 'read-only violation', 'projectId'
-          end
         end
 
         context 'multiple read-only attributes' do
@@ -856,7 +851,7 @@ h4. things we like
               .merge(parentId: '-123')
           end
 
-          before { role.add_permission!(:manage_subtasks) }
+          before do role.add_permission!(:manage_subtasks) end
 
           include_context 'patch request'
 
@@ -914,7 +909,9 @@ h4. things we like
 
           it_behaves_like 'multiple errors of the same type with messages' do
             let(:message) {
-              [child_1.id, child_2.id].map { |id| "##{id} cannot be in another project." }
+              [child_1.id, child_2.id].map { |id|
+                "Child element ##{id}: Parent cannot be in another project."
+              }
             }
           end
         end

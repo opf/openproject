@@ -27,36 +27,46 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require 'api/decorators/single'
 
 module API
   module V3
-    class RootRepresenter < Roar::Decorator
-      include Roar::JSON::HAL
-      include Roar::Hypermedia
-      include API::V3::Utilities::PathHelper
+    class RootRepresenter < ::API::Decorators::Single
+      link :configuration do
+        {
+          href: api_v3_paths.configuration
+        }
+      end
 
-      self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
-
-      link 'priorities' do
+      link :priorities do
         {
           href: api_v3_paths.priorities
         }
       end
 
-      link 'project' do
-        {
-          href: api_v3_paths.project('{project_id}'),
-          templated: true
-        }
-      end
-
-      link 'statuses' do
+      link :statuses do
         {
           href: api_v3_paths.statuses
         }
       end
+
+      link :types do
+        {
+          href: api_v3_paths.types
+        }
+      end
+
+      link :workPackages do
+        {
+          href: api_v3_paths.work_packages
+        }
+      end
+
+      property :instance_name,
+               getter: ->(*) { Setting.app_title }
+
+      property :core_version,
+               getter: ->(*) { OpenProject::VERSION.to_semver }
     end
   end
 end

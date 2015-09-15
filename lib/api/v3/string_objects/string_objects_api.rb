@@ -34,7 +34,6 @@ module API
     module StringObjects
       class StringObjectsAPI < ::API::OpenProjectAPI
         resources :string_objects do
-
           params do
             requires :value, type: String
           end

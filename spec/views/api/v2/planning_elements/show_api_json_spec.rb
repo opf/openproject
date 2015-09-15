@@ -29,15 +29,13 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/planning_elements/show.api.rabl', type: :view do
-
   before do
     allow(view).to receive(:include_journals?).and_return(false)
 
     params[:format] = 'json'
-
   end
 
-  subject { response.body }
+  subject { rendered }
 
   let(:project) {
     FactoryGirl.create(:project, id: 4711,
@@ -59,13 +57,12 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
   }
 
   describe 'with an assigned planning element' do
-
     let(:custom_field) do
       FactoryGirl.create :issue_custom_field,
                          name: 'Belag',
                          field_format: 'text',
                          projects: [planning_element.project],
-                         types: [(Type.find_by_name('None') || FactoryGirl.create(:type_standard))]
+                         types: [(::Type.find_by(name: 'None') || FactoryGirl.create(:type_standard))]
     end
 
     before do
@@ -78,7 +75,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders a planning_element document' do
       is_expected.to have_json_path('planning_element')
@@ -110,11 +107,11 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
     end
 
     it 'contains a created_at element containing the planning element created_at in UTC in ISO 8601' do
-      is_expected.to be_json_eql('2011-01-06T11:35:00Z'.to_json).at_path('planning_element/created_at')
+      is_expected.to be_json_eql('2011-01-06T11:35:00.000Z'.to_json).at_path('planning_element/created_at')
     end
 
     it 'contains an updated_at element containing the planning element updated_at in UTC in ISO 8601' do
-      is_expected.to be_json_eql('2011-01-07T11:35:00Z'.to_json).at_path('planning_element/updated_at')
+      is_expected.to be_json_eql('2011-01-07T11:35:00.000Z'.to_json).at_path('planning_element/updated_at')
     end
 
     it 'renders the custom field values' do
@@ -147,7 +144,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
 
     it 'renders a parent node containing the parent\'s id and subject' do
       expected_json = { id: 1337, subject: 'Parent Element' }.to_json
-      expect(response).to be_json_eql(expected_json).at_path('planning_element/parent')
+      expect(rendered).to be_json_eql(expected_json).at_path('planning_element/parent')
     end
   end
 
@@ -206,8 +203,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
     end
 
     it 'renders a responsible node containing the responsible\'s id and name' do
-
-      expect(response).to be_json_eql({ name: 'Paul McCartney' }.to_json).at_path('planning_element/responsible')
+      expect(rendered).to be_json_eql({ name: 'Paul McCartney' }.to_json).at_path('planning_element/responsible')
     end
   end
 
@@ -222,7 +218,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
 
     it 'renders an author node containing the author\'s id and name' do
       author_json = { id: author.id, name: author.name }.to_json
-      expect(response).to be_json_eql(author_json).at_path('planning_element/author')
+      expect(rendered).to be_json_eql(author_json).at_path('planning_element/author')
     end
   end
 
@@ -237,7 +233,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
     end
 
     it 'renders a planning_element node having destroyed=true' do
-      expect(response).to be_json_eql(true.to_json).at_path('planning_element/destroyed')
+      expect(rendered).to be_json_eql(true.to_json).at_path('planning_element/destroyed')
     end
   end
 
@@ -276,7 +272,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'contains an array of journals' do
       is_expected.to have_json_size(2).at_path('planning_element/journals')
@@ -288,7 +284,6 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
 
       expected_json = { name: 'project_id', old: 1, new: 2 }.to_json
       is_expected.to be_json_eql(expected_json).at_path('planning_element/journals/1/changes/0/technical')
-
     end
   end
 end

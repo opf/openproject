@@ -1,3 +1,7 @@
+# OpenProject 4.1 to OpenProject 4.2 Debian/Ubuntu Upgrade Guide
+
+Please look at the steps in the section about the upgrade to OpenProject 4.1. Just exchange `v4.1.0` to `v4.2.0` when checking out the git repository.
+
 # OpenProject 4.0 to OpenProject 4.1 Debian/Ubuntu Upgrade Guide
 
 This guide describes the upgrade process from OpenProject 4.0 to 4.1 on Debian 7.7 and Ubuntu 14.04 LTS step by step.
@@ -7,8 +11,8 @@ Note: We strongly recommend to update your OpenProject installation to the lates
 
 ## Preparation
 
-* Backup your current Openproject installation. Typically you should backup the attachment 
-  folder of your installation, the subversion repositories (if applicable) and your database. 
+* Backup your current Openproject installation. Typically you should backup the attachment
+  folder of your installation, the subversion repositories (if applicable) and your database.
   For more information please have a look at our [backup guide](backup-guide.md)
 
 * Before Upgrading, check that all the installed OpenProject plugins support the new
@@ -123,6 +127,8 @@ Now that the sources and dependencies are in place, you can migrate the Database
 ```
 
 *Side note:* If you are using `RAILS_ENV="development"` the task `bundle exec rake assets:webpack` needs to be run. This step is not necessary for `production` because it is part of the `asset:precompile` tasks.
+
+**NOTE** `db:seed` can also be invoked with a 'LOCALE' environment variable defined, specifying the language in which to seed. Note however, that specifying different locales for calls to `db:seed` might lead to a mixture of languages in your data. It is therefore advisable to use the same language for all calls to `db:seed`.
 
 ## The Aftermath
 * Re-enable the `delayed_job` cron job that was disabled in the first step.

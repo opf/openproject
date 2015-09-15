@@ -29,17 +29,6 @@
 module.exports = function(TimezoneService, ConfigurationService,
                           I18n, $timeout, WorkPackageFieldService,
                           EditableFieldsState, Datepicker) {
-  var parseISODate = TimezoneService.parseISODate,
-      customDateFormat = 'YYYY-MM-DD',
-      customFormattedDate = function(date) {
-        return parseISODate(date).format(customDateFormat);
-      },
-      getLabel = WorkPackageFieldService.getLabel.bind(null, EditableFieldsState.workPackage),
-      getTitle = function(labelName) {
-        return I18n.t('js.inplace.button_edit', {
-          attribute: getLabel(labelName)
-        });
-      };
   return {
     restrict: 'E',
     transclude: true,
@@ -51,6 +40,19 @@ module.exports = function(TimezoneService, ConfigurationService,
     },
     controllerAs: 'customEditorController',
     link: function(scope, element, attrs, fieldController) {
+
+      var customDateFormat = 'YYYY-MM-DD';
+
+
+      function getTitle(labelName) {
+        return I18n.t('js.inplace.button_edit', {
+          attribute: WorkPackageFieldService.getLabel(
+            EditableFieldsState.workPackage,
+            labelName
+          )
+        });
+      }
+
       scope.startDate = fieldController.writeValue.startDate;
       scope.endDate = fieldController.writeValue.dueDate;
       var form = element.parents('.inplace-edit--form'),
@@ -63,10 +65,10 @@ module.exports = function(TimezoneService, ConfigurationService,
       scope.startDateIsChanged = scope.endDateIsChanged = false;
 
       if (scope.endDate) {
-        scope.endDate = customFormattedDate(scope.endDate);
+        scope.endDate = TimezoneService.formattedISODate(scope.endDate);
       }
       if (scope.startDate) {
-        scope.startDate = customFormattedDate(scope.startDate);
+        scope.startDate = TimezoneService.formattedISODate(scope.startDate);
       }
 
       scope.execute = function() {

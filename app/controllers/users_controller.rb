@@ -84,35 +84,35 @@ class UsersController < ApplicationController
              .per_page(per_page_param)
 
     respond_to do |format|
-      format.html {
+      format.html do
         @groups = Group.all.sort
         render layout: !request.xhr?
-      }
+      end
     end
   end
 
   def show
     # show projects based on current user visibility
-    @memberships = @user.memberships.all(conditions: Project.visible_by(User.current))
+    @memberships = @user.memberships.where(Project.visible_by(User.current))
 
     events = Redmine::Activity::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
 
     unless User.current.admin?
-      if !(@user.active? || @user.registered?) || (@user != User.current  && @memberships.empty? && events.empty?)
+      if !(@user.active? || @user.registered?) || (@user != User.current && @memberships.empty? && events.empty?)
         render_404
         return
       end
     end
 
     respond_to do |format|
-      format.html { render layout: 'base' }
+      format.html do render layout: 'base' end
     end
   end
 
   def new
     @user = User.new(language: Setting.default_language, mail_notification: Setting.default_notification_option)
-    @auth_sources = AuthSource.find(:all)
+    @auth_sources = AuthSource.all
   end
 
   verify method: :post, only: :create, render: { nothing: true, status: :method_not_allowed }
@@ -120,48 +120,29 @@ class UsersController < ApplicationController
     @user = User.new(language: Setting.default_language, mail_notification: Setting.default_notification_option)
     @user.attributes = permitted_params.user_create_as_admin(false, @user.change_password_allowed?)
     @user.admin = params[:user][:admin] || false
+    @user.login = params[:user][:login] || @user.mail
 
-    if @user.change_password_allowed?
-      if params[:user][:assign_random_password]
-        @user.random_password!
-      else
-        @user.password = params[:user][:password]
-        @user.password_confirmation = params[:user][:password_confirmation]
-      end
-    end
-
-    if @user.save
-      # TODO: Similar to My#account
-      @user.pref.attributes = params[:pref]
-      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
-      @user.pref.save
-
-      @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
-
-      UserMailer.account_information(@user, @user.password).deliver if params[:send_information]
-
+    if UserInvitation.invite_user! @user
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_create)
           redirect_to(params[:continue] ?
             new_user_path :
             edit_user_path(@user)
-          )
-        }
+                     )
+        end
       end
     else
-      @auth_sources = AuthSource.find(:all)
-      # Clear password input
-      @user.password = @user.password_confirmation = nil
+      @auth_sources = AuthSource.all
 
       respond_to do |format|
-        format.html { render action: 'new' }
+        format.html do render action: 'new' end
       end
     end
   end
 
   def edit
-    @auth_sources = AuthSource.find(:all)
+    @auth_sources = AuthSource.all
     @membership ||= Member.new
   end
 
@@ -181,30 +162,40 @@ class UsersController < ApplicationController
 
     if @user.save
       # TODO: Similar to My#account
-      @user.pref.attributes = params[:pref]
+      @user.pref.attributes = params[:pref] || {}
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       @user.pref.save
 
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
-      if @user.active? && params[:send_information] && !@user.password.blank? && @user.change_password_allowed?
-        UserMailer.account_information(@user, @user.password).deliver
+      if !@user.password.blank? && @user.change_password_allowed?
+        send_information = params[:send_information]
+
+        if @user.invited?
+          # setting a password for an invited user activates them implicitly
+          @user.activate!
+          send_information = true
+        end
+
+        if @user.active? && send_information
+          UserMailer.account_information(@user, @user.password).deliver
+        end
       end
 
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_to :back
-        }
+        end
       end
     else
-      @auth_sources = AuthSource.find(:all)
+      @auth_sources = AuthSource.all
       @membership ||= Member.new
       # Clear password input
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
-        format.html { render action: :edit }
+        format.html do render action: :edit end
       end
     end
   rescue ::ActionController::RedirectBackError
@@ -228,7 +219,12 @@ class UsersController < ApplicationController
     # Was the account activated? (do it before User#save clears the change)
     was_activated = (@user.status_change == [User::STATUSES[:registered],
                                              User::STATUSES[:active]])
-    if @user.save
+
+    if params[:activate] && @user.missing_authentication_method?
+      flash[:error] = I18n.t(:error_status_change_failed,
+                             errors: I18n.t(:notice_user_missing_authentication_method),
+                             scope: :user)
+    elsif @user.save
       flash[:notice] = I18n.t(:notice_successful_update)
       if was_activated
         UserMailer.account_activated(@user).deliver
@@ -246,21 +242,21 @@ class UsersController < ApplicationController
     @membership.save if request.post?
     respond_to do |format|
       if @membership.valid?
-        format.html { redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' }
-        format.js {
+        format.html do redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' end
+        format.js do
           render(:update) {|page|
             page.replace_html 'tab-content-memberships', partial: 'users/memberships'
             page.insert_html :top, 'tab-content-memberships', partial: 'members/common_notice', locals: { message: l(:notice_successful_update) }
             page.visual_effect(:highlight, "member-#{@membership.id}")
           }
-        }
+        end
       else
-        format.js {
+        format.js do
           render(:update) {|page|
             page.replace_html 'tab-content-memberships', partial: 'users/memberships'
             page.insert_html :top, 'tab-content-memberships', partial: 'members/member_errors', locals: { member: @membership }
           }
-        }
+        end
       end
     end
   end
@@ -286,13 +282,13 @@ class UsersController < ApplicationController
       @membership.destroy && @membership = nil
     end
     respond_to do |format|
-      format.html { redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' }
-      format.js {
+      format.html do redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' end
+      format.js do
         render(:update) { |page|
           page.replace_html 'tab-content-memberships', partial: 'users/memberships'
           page.insert_html :top, 'tab-content-memberships', partial: 'members/common_notice', locals: { message: l(:notice_successful_delete) }
         }
-      }
+      end
     end
   end
 
@@ -319,10 +315,10 @@ class UsersController < ApplicationController
        !User.current.admin?
 
       respond_to do |format|
-        format.html { render_403 }
-        format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
-        format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
-        format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.html do render_403 end
+        format.xml  do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
+        format.js   do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
+        format.json do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
       end
 
       false

@@ -30,7 +30,7 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 describe CopyProjectsController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
-  let(:redirect_path) { 'source_project_settings' }
+  let(:redirect_path) { "/projects/#{project.id}/settings" }
   let(:permission) { :copy_projects }
   let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
   let(:copy_project_params) {
@@ -38,7 +38,6 @@ describe CopyProjectsController, type: :controller do
       'description' => 'Some pretty description',
       'responsible_id' => current_user.id,
       'project_type_id' => '',
-      'homepage' => '',
       'enabled_module_names' => ['work_package_tracking', 'boards', ''],
       'is_public' => project.is_public,
       'type_ids' => project.types.map(&:id)
@@ -113,7 +112,7 @@ describe CopyProjectsController, type: :controller do
     it { expect(Project.count).to eq(2) }
 
     it 'copied project should have enabled modules specified in params' do
-      expect(Project.all.last.enabled_modules.map(&:name)).to match_array(['work_package_tracking', 'boards'])
+      expect(Project.order(:id).last.enabled_modules.map(&:name)).to match_array(['work_package_tracking', 'boards'])
     end
 
     it_behaves_like 'successful copy' do

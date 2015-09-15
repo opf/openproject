@@ -51,22 +51,23 @@ module API
             end
           end
 
-          link :self do
-            path = api_v3_paths.work_package_schema(represented.project.id, represented.type.id)
+          def initialize(schema, context)
+            @self_link = context.delete(:self_link) || nil
+            @show_lock_version = !context.delete(:hide_lock_version)
+            super(schema, context)
+          end
 
-            unless form_embedded
-              { href: path }
-            end
+          link :self do
+            { href: @self_link } if @self_link
           end
 
           schema :lock_version,
                  type: 'Integer',
                  name_source: -> (*) { I18n.t('api_v3.attributes.lock_version') },
-                 writable: false
+                 show_if: -> (*) { @show_lock_version }
 
           schema :id,
-                 type: 'Integer',
-                 writable: false
+                 type: 'Integer'
 
           schema :subject,
                  type: 'String',
@@ -78,45 +79,38 @@ module API
 
           schema :start_date,
                  type: 'Date',
-                 required: false,
-                 writable: -> { represented.start_date_writable? }
+                 required: false
 
           schema :due_date,
                  type: 'Date',
-                 required: false,
-                 writable: -> { represented.due_date_writable? }
+                 required: false
 
           schema :estimated_time,
                  type: 'Duration',
-                 required: false,
-                 writable: -> { represented.estimated_time_writable? }
+                 required: false
 
           schema :spent_time,
                  type: 'Duration',
-                 writable: false,
-                 show_if: -> (_) { current_user_allowed_to(:view_time_entries) }
+                 show_if: -> (_) do
+                   current_user_allowed_to(:view_time_entries, context: represented.project)
+                 end
 
           schema :percentage_done,
                  type: 'Integer',
                  name_source: :done_ratio,
-                 writable: -> { represented.percentage_done_writable? },
                  show_if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
 
           schema :created_at,
-                 type: 'DateTime',
-                 writable: false
+                 type: 'DateTime'
 
           schema :updated_at,
-                 type: 'DateTime',
-                 writable: false
+                 type: 'DateTime'
 
           schema :author,
-                 type: 'User',
-                 writable: false
+                 type: 'User'
 
           schema :project,
-                 type: 'Project',
-                 writable: false
+                 type: 'Project'
 
           schema_with_allowed_link :assignee,
                                    type: 'User',
@@ -133,9 +127,6 @@ module API
                                    }
 
           schema_with_allowed_collection :type,
-                                         values_callback: -> (*) {
-                                           represented.assignable_types
-                                         },
                                          value_representer: Types::TypeRepresenter,
                                          link_factory: -> (type) {
                                            {
@@ -145,9 +136,6 @@ module API
                                          }
 
           schema_with_allowed_collection :status,
-                                         values_callback: -> (*) {
-                                           represented.assignable_statuses_for(current_user)
-                                         },
                                          value_representer: Statuses::StatusRepresenter,
                                          link_factory: -> (status) {
                                            {
@@ -157,9 +145,6 @@ module API
                                          }
 
           schema_with_allowed_collection :category,
-                                         values_callback: -> (*) {
-                                           represented.assignable_categories
-                                         },
                                          value_representer: Categories::CategoryRepresenter,
                                          link_factory: -> (category) {
                                            {
@@ -170,9 +155,6 @@ module API
                                          required: false
 
           schema_with_allowed_collection :version,
-                                         values_callback: -> (*) {
-                                           represented.assignable_versions
-                                         },
                                          value_representer: Versions::VersionRepresenter,
                                          link_factory: -> (version) {
                                            {
@@ -183,9 +165,6 @@ module API
                                          required: false
 
           schema_with_allowed_collection :priority,
-                                         values_callback: -> (*) {
-                                           represented.assignable_priorities
-                                         },
                                          value_representer: Priorities::PriorityRepresenter,
                                          link_factory: -> (priority) {
                                            {
@@ -193,10 +172,6 @@ module API
                                              title: priority.name
                                            }
                                          }
-
-          def current_user_allowed_to(permission)
-            current_user && current_user.allowed_to?(permission, represented.project)
-          end
         end
       end
     end

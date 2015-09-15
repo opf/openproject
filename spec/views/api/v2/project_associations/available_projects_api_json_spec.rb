@@ -29,7 +29,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/project_associations/available_projects.api.rabl', type: :view do
-
   before do
     params[:format] = 'json'
   end
@@ -60,7 +59,7 @@ describe 'api/v2/project_associations/available_projects.api.rabl', type: :view 
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders a list of projects available for association' do
       expected_json = { name: 'Test Project A',
@@ -76,6 +75,5 @@ describe 'api/v2/project_associations/available_projects.api.rabl', type: :view 
     it ' should check for disabled projects' do
       skip
     end
-
   end
 end

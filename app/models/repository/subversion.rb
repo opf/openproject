@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/scm/adapters/subversion_adapter'
+require 'open_project/scm/adapters/subversion'
 
 class Repository::Subversion < Repository
   attr_protected :root_url
@@ -35,11 +35,39 @@ class Repository::Subversion < Repository
   validates_format_of :url, with: /\A(http|https|svn(\+[^\s:\/\\]+)?|file):\/\/.+\z/i
 
   def self.scm_adapter_class
-    Redmine::Scm::Adapters::SubversionAdapter
+    OpenProject::Scm::Adapters::Subversion
   end
 
-  def self.scm_name
-    'Subversion'
+  def configure(scm_type, _args)
+    if scm_type == self.class.managed_type
+      unless manageable?
+        raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
+          I18n.t('repositories.managed.error_not_manageable')
+        )
+      end
+
+      self.root_url = managed_repository_path
+      self.url = managed_repository_url
+    end
+  end
+
+  def self.authorization_policy
+    ::Scm::SubversionAuthorizationPolicy
+  end
+
+  def self.permitted_params(params)
+    super(params).merge(params.permit(:login, :password))
+  end
+
+  def self.supported_types
+    types = [:existing]
+    types << managed_type if manageable?
+
+    types
+  end
+
+  def managed_repo_created
+    scm.create_empty_svn
   end
 
   def supports_directory_revisions?
@@ -52,7 +80,7 @@ class Repository::Subversion < Repository
 
   def latest_changesets(path, rev, limit = 10)
     revisions = scm.revisions(path, rev, nil, limit: limit)
-    revisions ? changesets.find_all_by_revision(revisions.map(&:identifier), order: 'committed_on DESC', include: :user) : []
+    revisions ? changesets.where(revision: revisions.map(&:identifier)).order('committed_on DESC').includes(:user) : []
   end
 
   # Returns a path relative to the url of the repository

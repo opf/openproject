@@ -29,7 +29,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/planning_elements/destroy.api.rabl', type: :view do
-
   before do
     allow(view).to receive(:include_journals?).and_return(false)
 
@@ -44,8 +43,7 @@ describe 'api/v2/planning_elements/destroy.api.rabl', type: :view do
 
       render
 
-      expect(response.body).to have_json_path('planning_element')
+      expect(rendered).to have_json_path('planning_element')
     end
-
   end
 end

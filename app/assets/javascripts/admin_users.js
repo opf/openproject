@@ -43,10 +43,22 @@
 
   // Hide password fields when non-internal authentication source is selected
   function on_auth_source_change() {
+    var passwordFields = jQuery('#password_fields'),
+        passwordInputs = passwordFields.find('#user_password, #user_password_confirmation'),
+        newUserLogin   = jQuery('#new_user_login');
+
     if (this.value === '') {
-      jQuery('#password_fields').show();
+      passwordFields.show();
+      passwordInputs.removeProp('disabled');
+
+      newUserLogin.hide();
+      newUserLogin.find('input').prop('disabled', true);
     } else {
-      jQuery('#password_fields').hide();
+      passwordFields.hide();
+      passwordInputs.prop('disabled', 'disabled');
+
+      newUserLogin.show();
+      newUserLogin.find('input').prop('disabled', false);
     }
   }
 

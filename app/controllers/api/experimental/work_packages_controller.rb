@@ -29,8 +29,6 @@
 module Api
   module Experimental
     class WorkPackagesController < ApplicationController
-      unloadable
-
       DEFAULT_SORT_ORDER = ['parent', 'desc']
 
       include ApiController
@@ -50,7 +48,7 @@ module Api
       def index
         @work_packages = current_work_packages
 
-        columns = all_query_columns(@query)
+        columns = @query.involved_columns + [:id]
 
         @column_names, @custom_field_column_ids = separate_columns_by_custom_fields(columns)
 
@@ -99,14 +97,12 @@ module Api
       def current_work_packages
         initialize_sort
 
-        results = @query.results include: includes_for_columns(all_query_columns(@query)),
-                                 order: sort_clause
+        results = @query.results order: sort_clause
 
         work_packages = results.work_packages
                         .page(page_param)
                         .per_page(per_page_param)
                         .changed_since(@since)
-                        .all
         set_work_packages_meta_data(@query, results, work_packages)
 
         work_packages
@@ -121,15 +117,6 @@ module Api
         sort_update(@query.sortable_columns)
       end
 
-      def all_query_columns(query)
-        columns = query.columns.map(&:name) + [:id]
-
-        columns << query.group_by.to_sym if query.group_by
-        columns += query.sort_criteria.map { |x| x.first.to_sym }
-
-        columns
-      end
-
       def work_packages_of_ids(ids, column_names)
         scope = WorkPackage.visible.includes(includes_for_columns(column_names))
 
@@ -140,7 +127,7 @@ module Api
         # Note: Do not apply pagination. Used to obtain total query meta data.
         results = query.results include: includes_for_columns(column_names)
 
-        results.work_packages.all
+        results.work_packages
       end
 
       def set_work_packages_meta_data(query, results, work_packages)

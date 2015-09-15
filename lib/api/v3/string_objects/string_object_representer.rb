@@ -34,6 +34,11 @@ module API
   module V3
     module StringObjects
       class StringObjectRepresenter < ::API::Decorators::Single
+        # accepting current_user as argument to match common interface, we do not need it though
+        def initialize(string, current_user: nil)
+          super(string, current_user: nil)
+        end
+
         link :self do
           {
             href: api_v3_paths.string_object(represented)

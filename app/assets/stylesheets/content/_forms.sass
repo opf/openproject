@@ -58,6 +58,9 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
     background-color: $content-form-bg-color
     border: $content-form-border
 
+    &.-compressed
+      padding: 10px 20px 0 20px
+
 .form--separator
   border: 0
   border-bottom: 1px solid $content-form-separator-color
@@ -226,6 +229,7 @@ fieldset.form--fieldset
       // override max-width set by including grid-content
       max-width: 100%
       padding-left: 0.5rem
+      margin-bottom: 0
 
     .form--field-container
       @include grid-order(1)
@@ -239,6 +243,11 @@ fieldset.form--fieldset
   &.-break-words > .form--label
     text-overflow: ellipsis
     overflow: hidden
+
+  &.-required
+    input.form--text-field:invalid
+      // avoids the box-shadow from Firefox at required input fields
+      box-shadow: none
 
 .form--label
   @include grid-content(2)
@@ -328,6 +337,9 @@ fieldset.form--fieldset
   @extend %form--field-after-container
   font-style: italic
 
+  &.-no-italic
+    font-style: normal
+
 .form--field-extra-actions
   @extend %form--field-after-container
   @include grid-visible-overflow
@@ -383,6 +395,10 @@ fieldset.form--fieldset
 .form--text-field,
 #{$text-input-selectors}
   line-height: 1.5
+
+input[readonly].-clickable
+  cursor: pointer
+  background: white
 
 .form--select
   @extend %input-style

@@ -32,7 +32,8 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 class VersionsTest < Test::Unit::TestCase
   context 'A collection of associated journals' do
     setup do
-      @user, @times = User.new, {}
+      @user = User.new
+      @times = {}
       names = ['Steve Richert', 'Stephen Richert', 'Stephen Jobs', 'Steve Jobs']
       time = names.size.hours.ago
       names.each do |name|

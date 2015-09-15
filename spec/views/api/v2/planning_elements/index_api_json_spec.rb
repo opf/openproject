@@ -40,13 +40,12 @@ describe 'api/v2/planning_elements/index.api.rabl', type: :view do
     end
 
     it 'renders an empty planning_elements document' do
-      expect(response.body).to have_json_path('planning_elements')
-      expect(response.body).to have_json_size(0).at_path('planning_elements')
+      expect(rendered).to have_json_path('planning_elements')
+      expect(rendered).to have_json_size(0).at_path('planning_elements')
     end
   end
 
   describe 'with 3 planning elements available' do
-
     let(:project) { FactoryGirl.build(:project_with_types, name: 'Sample Project', identifier: 'sample_project') }
     let(:wp1) { FactoryGirl.build(:work_package, subject: 'Subject #1', project: project) }
     let(:wp2) { FactoryGirl.build(:work_package, subject: 'Subject #2', project: project) }
@@ -60,7 +59,7 @@ describe 'api/v2/planning_elements/index.api.rabl', type: :view do
     end
 
     subject do
-      response.body
+      rendered
     end
 
     it 'should render 3 planning-elements' do
@@ -68,7 +67,7 @@ describe 'api/v2/planning_elements/index.api.rabl', type: :view do
     end
 
     it 'should render the subject' do
-      expect(response.body).to be_json_eql('Subject #1'.to_json).at_path('planning_elements/0/subject')
+      expect(rendered).to be_json_eql('Subject #1'.to_json).at_path('planning_elements/0/subject')
     end
 
     it 'should render a the type_id' do
@@ -76,17 +75,15 @@ describe 'api/v2/planning_elements/index.api.rabl', type: :view do
       expected_json = { name: type.name }.to_json
 
       is_expected.to be_json_eql(type.id.to_json).at_path('planning_elements/0/type_id')
-
     end
 
     it 'should render a status-id' do
-      expect(response.body).to be_json_eql(wp1.status.id.to_json).at_path('planning_elements/0/status_id')
+      expect(rendered).to be_json_eql(wp1.status.id.to_json).at_path('planning_elements/0/status_id')
     end
 
     it 'should render a project-id' do
       is_expected.to be_json_eql(project.id.to_json).at_path(('planning_elements/0/project_id'))
     end
-
   end
 
   describe 'with 1 custom field planning element' do
@@ -117,13 +114,13 @@ describe 'api/v2/planning_elements/index.api.rabl', type: :view do
     end
 
     subject do
-      response.body
+      rendered
     end
 
     it 'should render custom field values' do
-      expect(response.body).to be_json_eql('MySQL'.to_json).at_path("planning_elements/0/cf_#{custom_field.id}")
-      expect(response.body).to have_json_path('planning_elements/1')
-      expect(response.body).not_to have_json_path("planning_elements/1/cf_#{custom_field.id}")
+      expect(rendered).to be_json_eql('MySQL'.to_json).at_path("planning_elements/0/cf_#{custom_field.id}")
+      expect(rendered).to have_json_path('planning_elements/1')
+      expect(rendered).not_to have_json_path("planning_elements/1/cf_#{custom_field.id}")
     end
   end
 end

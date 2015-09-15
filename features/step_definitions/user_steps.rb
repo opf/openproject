@@ -133,10 +133,20 @@ Then /^there should be a user with the following:$/ do |table|
   end
 end
 
+Given 'journals are not being aggregated' do
+  Setting.journal_aggregation_time_minutes = 0
+end
+
 ##
 # admin users list
 #
 When /^I filter the users list by status "([^\"]+)"$/ do |status|
   visit('/users')
   select(status, from: 'Status:')
+end
+
+Given(/^I click the (\w+) access key reset link$/) do |access_key_type|
+  within '#sidebar' do
+    find('p', text: "#{access_key_type} access key created").click_link('Reset')
+  end
 end

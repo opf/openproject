@@ -44,34 +44,89 @@ See doc/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
 <% end %>
-<table class="list">
-  <thead>
-    <tr>
-      <th><%= Status.model_name.human %></th>
-      <% if WorkPackage.use_status_for_done_ratio? %>
-        <th><%= WorkPackage.human_attribute_name(:done_ratio) %></th>
-      <% end %>
-      <th><%= Status.human_attribute_name(:is_default) %></th>
-      <th><%= Status.human_attribute_name(:is_closed) %></th>
-      <th><%=l(:button_sort)%></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% for status in @statuses %>
-      <tr class="<%= cycle("odd", "even") %>">
-        <td><%= link_to h(status.name), edit_status_path(status) %></td>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table interactive-table role="grid" class="generic-table">
+      <colgroup>
+        <col highlight-col>
         <% if WorkPackage.use_status_for_done_ratio? %>
-          <td align="center"><%= h status.default_done_ratio %></td>
+           <col highlight-col>
         <% end %>
-        <td align="center"><%= checked_image status.is_default? %></td>
-        <td align="center"><%= checked_image status.is_closed? %></td>
-        <td align="center" style="width:15%;">
-          <%= reorder_links('status', {:action => 'update', :id => status}, :method => :put) %>
-        </td>
-        <td class="buttons"><%= delete_link status_path(status) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Status.model_name.human %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <% if WorkPackage.use_status_for_done_ratio? %>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= WorkPackage.human_attribute_name(:done_ratio) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+          <% end %>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Status.human_attribute_name(:is_default) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Status.human_attribute_name(:is_closed) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%=l(:button_sort)%>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for status in @statuses %>
+          <tr>
+            <td><%= link_to h(status.name), edit_status_path(status) %></td>
+            <% if WorkPackage.use_status_for_done_ratio? %>
+              <td><%= h status.default_done_ratio %></td>
+            <% end %>
+            <td><%= checked_image status.is_default? %></td>
+            <td ><%= checked_image status.is_closed? %></td>
+            <td>
+              <%= reorder_links('status', {:action => 'update', :id => status}, :method => :put) %>
+            </td>
+            <td class="buttons"><%= delete_link status_path(status) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="generic-table--header-background"></div>
+  </div>
+</div>
 <%= pagination_links_full @statuses %>

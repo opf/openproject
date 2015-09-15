@@ -59,7 +59,7 @@ describe WikiMenuItemsController, type: :controller do
 
     context 'when no parent wiki menu item has been configured yet' do
       context 'and it is a child page' do
-        before { get :edit, project_id: project.id, id: child_page.title }
+        before do get :edit, project_id: project.id, id: child_page.title end
         subject { response }
 
         it 'preselects the wiki menu item of the parent page as parent wiki menu item option' do
@@ -84,7 +84,7 @@ describe WikiMenuItemsController, type: :controller do
     end
 
     context 'when a parent wiki menu item has already been configured' do
-      before { get :edit, project_id: project.id, id: another_child_page.title }
+      before do get :edit, project_id: project.id, id: another_child_page.title end
       subject { response }
 
       it 'preselects the parent wiki menu item that is already assigned' do
@@ -103,7 +103,7 @@ describe WikiMenuItemsController, type: :controller do
   describe '#select_main_menu_item' do
     include_context 'when there is one more wiki page with a child page'
 
-    before { get :select_main_menu_item, project_id: project, id: wiki_page.id }
+    before do get :select_main_menu_item, project_id: project, id: wiki_page.id end
     subject { assigns['possible_wiki_pages'] }
 
     context 'when selecting a new wiki page to replace the current main menu item' do

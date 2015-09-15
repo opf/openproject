@@ -72,6 +72,12 @@ angular.module('openproject')
       controller: 'WorkPackagesListController',
       templateUrl: '/templates/work_packages.list.html'
     })
+    .state('work-packages.list.new', {
+      url: '/create_new?query_props&type',
+      controller: 'WorkPackageNewController',
+      controllerAs: 'vm',
+      templateUrl: '/templates/work_packages.list.new.html'
+    })
     .state('work-packages.list.details', {
       url: '/{workPackageId:[0-9]+}?query_props',
       templateUrl: '/templates/work_packages.list.details.html',
@@ -103,12 +109,9 @@ angular.module('openproject')
     .state('work-packages.list.details.watchers', {
       url: '/watchers',
       controller: 'DetailsTabWatchersController',
-      templateUrl: '/templates/work_packages/tabs/watchers.html'
+      templateUrl: '/templates/work_packages/tabs/watchers.html',
+      controllerAs: 'watchers'
     })
-    .state('work-packages.list.details.attachments', {
-      url: '/attachments',
-      templateUrl: '/templates/work_packages/tabs/attachments.html'
-    });
 }])
 
 .run([

@@ -29,20 +29,20 @@
 require 'spec_helper'
 
 describe EnumerationsController, type: :controller do
-  before { allow(controller).to receive(:require_admin).and_return(true) }
+  before do allow(controller).to receive(:require_admin).and_return(true) end
 
   describe '#destroy' do
     describe '#priority' do
       let(:enum_to_delete) { FactoryGirl.create(:priority_normal) }
 
       shared_examples_for 'successful delete' do
-        it { expect(Enumeration.find_by_id(enum_to_delete.id)).to be_nil }
+        it { expect(Enumeration.find_by(id: enum_to_delete.id)).to be_nil }
 
         it { expect(response).to redirect_to(enumerations_path) }
       end
 
       describe 'not in use' do
-        before { post :destroy, id: enum_to_delete.id }
+        before do post :destroy, id: enum_to_delete.id end
 
         it_behaves_like 'successful delete'
       end
@@ -55,11 +55,11 @@ describe EnumerationsController, type: :controller do
         }
 
         describe 'no reassign' do
-          before { post :destroy, id: enum_to_delete.id }
+          before do post :destroy, id: enum_to_delete.id end
 
           it { expect(assigns(:enumerations)).to include(enum_to_reassign) }
 
-          it { expect(Enumeration.find_by_id(enum_to_delete.id)).not_to be_nil }
+          it { expect(Enumeration.find_by(id: enum_to_delete.id)).not_to be_nil }
 
           it { expect(response).to render_template('enumerations/destroy') }
         end

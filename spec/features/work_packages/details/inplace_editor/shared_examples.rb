@@ -60,11 +60,6 @@ shared_examples 'having a single validation point' do
     field.cancel_by_click
     other_field.cancel_by_click
   end
-
-  it 'displays validation for all inputs' do
-    expect(other_field.errors_element).to be_visible
-    expect(other_field.errors_text).to eq "#{property_title} cannot be empty"
-  end
 end
 
 shared_examples 'a required field' do
@@ -76,11 +71,6 @@ shared_examples 'a required field' do
 
   after do
     field.cancel_by_click
-  end
-
-  it 'displays a required validation' do
-    expect(field.errors_element).to be_visible
-    expect(field.errors_text).to eq "#{property_title} cannot be empty"
   end
 end
 

@@ -28,9 +28,26 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= styled_form_tag({:action => 'edit', :tab => 'repositories'}) do %>
   <section class="form--section">
-    <div class="form--field"><%= setting_check_box :autofetch_changesets %></div>
+    <div class="form--field">
+      <%= setting_check_box :autofetch_changesets %>
+      <div class="form--field-instructions">
+        <%=  simple_format l('repositories.autofetch_information') %>
+      </div>
+    </div>
+    <div class="form--field">
+      <%= setting_text_field :repository_storage_cache_minutes,
+                             unit: I18n.t(:label_minute_plural),
+                             type: 'number' %>
+      <div class="form--field-instructions">
+        <%= simple_format l('repositories.storage.update_timeout') %>
+      </div>
+    </div>
     <div class="form--field"><%= setting_check_box :sys_api_enabled,
-         :onclick => "if (this.checked) { Form.Element.enable('settings_sys_api_key'); } else { Form.Element.disable('settings_sys_api_key'); }" %></div>
+         :onclick => "if (this.checked) { Form.Element.enable('settings_sys_api_key'); } else { Form.Element.disable('settings_sys_api_key'); }" %>
+      <div class="form--field-instructions">
+        <%= l(:setting_sys_api_description) %>
+      </div>
+    </div>
     <div class="form--field"><%= setting_text_field :sys_api_key, :size => 30,
                                         :id => 'settings_sys_api_key',
                                         :disabled => !Setting.sys_api_enabled?,
@@ -39,7 +56,30 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= link_to_function l(:label_generate_key), "if ($('settings_sys_api_key').disabled == false) { $('settings_sys_api_key').value = randomKey(20) }" %>
       </span>
     </div>
-    <div class="form--field"><%= setting_multiselect(:enabled_scm, Redmine::Scm::Base.configured) %></div>
+    <%
+    available_scms = OpenProject::Scm::Manager.registered
+      .map {|vendor, klass| [klass.vendor_name, vendor.to_s] }
+
+    manageable_scms = OpenProject::Scm::Manager.manageable
+      .map {|vendor, klass| [klass.vendor_name, vendor.to_s, { disabled: !klass.enabled? }]}
+    %>
+    <div class="form--field">
+
+      <%= setting_multiselect(:enabled_scm, available_scms) %>
+    </div>
+    <div class="form--field">
+      <%= styled_label_tag :repositories_automatic_managed_vendor, l(:setting_repositories_automatic_managed_vendor) %>
+      <div class="form--field-container">
+        <%= setting_select :repositories_automatic_managed_vendor,
+                           [[
+                             "--- #{l('repositories.settings.automatic_managed_repos_disabled')} ---",
+                             '',
+                             { selected: true }
+                           ]] + manageable_scms,
+                           label: false %>
+      </div>
+      <div class="form--field-instructions"><%= l('repositories.settings.automatic_managed_repos_text') %></div>
+    </div>
     <div class="form--field">
       <%= setting_text_field :repositories_encodings, :size => 60 %>
       <div class="form--field-instructions"><%= l(:text_comma_separated) %></div>
@@ -47,7 +87,9 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="form--field"><%= setting_text_field :repository_log_display_limit, :size => 6 %></div>
     <div class="form--field"><%= setting_check_box :repository_authentication_caching_enabled %></div>
   </section>
-  <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= l(:text_work_packages_ref_in_commit_messages) %></legend>
+  <%= render partial: 'repositories_checkout' %>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= l(:text_work_packages_ref_in_commit_messages) %></legend>
     <div class="form--field">
       <%= setting_text_field :commit_ref_keywords, :size => 30 %>
       <div class="form--field-instructions"><%= l(:text_comma_separated) %></div>
@@ -81,7 +123,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="form--field"><%= setting_check_box :commit_logtime_enabled,
          :onclick => "if (this.checked) { Form.Element.enable('settings_commit_logtime_activity_id'); } else { Form.Element.disable('settings_commit_logtime_activity_id'); }"%></div>
     <div class="form--field"><%= setting_select :commit_logtime_activity_id,
-         [[l(:label_default), 0]] + TimeEntryActivity.shared.all.collect{|activity| [activity.name, activity.id.to_s]},
+         [[l(:label_default), 0]] + TimeEntryActivity.shared.map {|activity| [activity.name, activity.id.to_s]},
          :disabled => !Setting.commit_logtime_enabled?%></div>
   </fieldset>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>

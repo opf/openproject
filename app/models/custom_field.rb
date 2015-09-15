@@ -29,12 +29,11 @@
 
 class CustomField < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
+  include CustomField::OrderStatements
 
   has_many :custom_values, dependent: :delete_all
   acts_as_list scope: 'type = \'#{self.class}\''
-  translates :name,
-             :default_value,
-             :possible_values
+  translates :name, :default_value, :possible_values
 
   accepts_nested_attributes_for :translations,
                                 allow_destroy: true,
@@ -57,6 +56,8 @@ class CustomField < ActiveRecord::Base
 
   validates_presence_of :field_format
 
+  validates :name, presence: true, length: { maximum: 30 }
+
   validate :uniqueness_of_name_with_scope
 
   def uniqueness_of_name_with_scope
@@ -72,8 +73,6 @@ class CustomField < ActiveRecord::Base
   validate :validate_presence_of_possible_values
 
   validate :validate_default_value_in_translations
-
-  validate :validate_name
 
   validates :min_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :max_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
@@ -115,26 +114,6 @@ class CustomField < ActiveRecord::Base
       end
     end
     self.is_required = required_field
-  end
-
-  # check presence of name and check the length of name value
-  def validate_name
-    if translations.empty?
-      errors.add(:name, :blank) if name.nil?
-    else
-      fallback_name = translations.find { |el| !el.name.nil? }
-      translations.each do | translation |
-        if translation.name.nil? && fallback_name.nil?
-          errors.add(:name, :blank)
-        else
-          if (translation.name.nil? && fallback_name.name.length > 30) || (!translation.name.nil? && translation.name.length > 30)
-            errors.add(:name, I18n.t('activerecord.errors.messages.wrong_length', count: 30))
-          end
-
-          translation.name = fallback_name.name if translation.name.nil?
-        end
-      end
-    end
   end
 
   def possible_values_options(obj = nil)
@@ -200,37 +179,10 @@ class CustomField < ActiveRecord::Base
       when 'float'
         casted = value.to_f
       when 'user', 'version'
-        casted = (value.blank? ? nil : field_format.classify.constantize.find_by_id(value.to_i))
+        casted = (value.blank? ? nil : field_format.classify.constantize.find_by(id: value.to_i))
       end
     end
     casted
-  end
-
-  # Returns a ORDER BY clause that can used to sort customized
-  # objects by their value of the custom field.
-  # Returns false, if the custom field can not be used for sorting.
-  def order_statement
-    customized_class = self.class.customized_class
-    klass = (customized_class.superclass && !(customized_class.superclass == ActiveRecord::Base)) ? customized_class.superclass : customized_class
-
-    case field_format
-      when 'string', 'text', 'list', 'date', 'bool'
-        # COALESCE is here to make sure that blank and NULL values are sorted equally
-        "COALESCE((SELECT cv_sort.value FROM #{CustomValue.table_name} cv_sort" +
-          " WHERE cv_sort.customized_type='#{klass.name}'" +
-          " AND cv_sort.customized_id=#{klass.table_name}.id" +
-          " AND cv_sort.custom_field_id=#{id} LIMIT 1), '')"
-      when 'int', 'float'
-        # Make the database cast values into numeric
-        # Postgresql will raise an error if a value can not be casted!
-        # CustomValue validations should ensure that it doesn't occur
-        "(SELECT CAST(cv_sort.value AS decimal(60,3)) FROM #{CustomValue.table_name} cv_sort" +
-          " WHERE cv_sort.customized_type='#{klass.name}'" +
-          " AND cv_sort.customized_id=#{klass.table_name}.id" +
-          " AND cv_sort.custom_field_id=#{id} AND cv_sort.value <> '' AND cv_sort.value IS NOT NULL LIMIT 1)"
-      else
-        nil
-    end
   end
 
   def <=>(field)
@@ -244,8 +196,9 @@ class CustomField < ActiveRecord::Base
 
   # to move in project_custom_field
   def self.for_all(options = {})
-    options.merge!(conditions: ['is_for_all=?', true], order: 'position')
-    find :all, options
+    where(['is_for_all=?', true])
+      .includes(options[:include])
+      .order('position')
   end
 
   def accessor_name

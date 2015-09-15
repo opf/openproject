@@ -64,7 +64,7 @@ describe News, type: :model do
       private_project = FactoryGirl.create(:project, is_public: false)
       private_news    = FactoryGirl.create(:news, project: private_project)
 
-      latest_news = News.latest(User.anonymous)
+      latest_news = News.latest(user: User.anonymous)
       expect(latest_news).to include news
       expect(latest_news).not_to include private_news
     end
@@ -74,9 +74,9 @@ describe News, type: :model do
 
       10.times { FactoryGirl.create(:news, project: project) }
 
-      expect(News.latest(User.current,  2).size).to eq(2)
-      expect(News.latest(User.current,  6).size).to eq(6)
-      expect(News.latest(User.current, 15).size).to eq(10)
+      expect(News.latest(user: User.current, count:  2).size).to eq(2)
+      expect(News.latest(user: User.current, count:  6).size).to eq(6)
+      expect(News.latest(user: User.current, count: 15).size).to eq(10)
     end
 
     it 'returns five news elements by default' do
@@ -99,6 +99,8 @@ describe News, type: :model do
 
       user = FactoryGirl.create(:user)
       become_member_with_permissions(project, user)
+      # reload
+      project.members(true)
 
       with_settings notified_events: ['news_added'] do
         FactoryGirl.create(:news, project: project)

@@ -66,6 +66,7 @@ Feature: Editing text custom fields
       | locale | name            | default_value |
       | en     | My Custom Field | default       |
 
+  @wip
   @javascript
   Scenario: Changing a localization of one attribute to a non existent localization creates the localization
     When the Custom Field called "My Custom Field" has the following localizations:
@@ -73,12 +74,10 @@ Feature: Editing text custom fields
       | en            | My Custom Field | default         |
     And I go to the custom fields page
     And I follow "My Custom Field"
-    And I select "Deutsch" from "custom_field_translations_attributes_0_locale"
+    And I select "Deutsch (community translated)" from "custom_field_translations_attributes_0_locale"
     And I press "Save"
     And I follow "My Custom Field"
     Then there should be the following localizations:
       | locale  | name            | default_value  |
       | en      | My Custom Field | default        |
       | de      | My Custom Field | nil            |
-
-

@@ -36,6 +36,16 @@ module API
       class UserRepresenter < ::API::Decorators::Single
         include AvatarHelper
 
+        def self.create(user, current_user:, work_package: nil)
+          new(user, current_user: current_user, work_package: work_package)
+        end
+
+        def initialize(user, current_user:, work_package: nil)
+          # FIXME: we should not change our representation depending on an embedding work package
+          @work_package = work_package
+          super(user, current_user: current_user)
+        end
+
         self_link
 
         link :lock do
@@ -67,7 +77,8 @@ module API
             href: api_v3_paths.watcher(represented.id, work_package.id),
             method: :delete,
             title: 'Remove watcher'
-          } if work_package && current_user_allowed_to(:delete_work_package_watchers, work_package)
+          } if work_package && current_user_allowed_to(:delete_work_package_watchers,
+                                                       context: work_package.project)
         end
 
         property :id,
@@ -111,17 +122,13 @@ module API
         end
 
         def current_user_is_admin
-          current_user && current_user.admin?
-        end
-
-        def current_user_allowed_to(permission, work_package)
-          current_user && current_user.allowed_to?(permission, work_package.project)
+          current_user.admin?
         end
 
         private
 
         def work_package
-          context[:work_package]
+          @work_package
         end
 
         def current_user_can_delete_represented?

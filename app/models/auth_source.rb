@@ -40,7 +40,9 @@ class AuthSource < ActiveRecord::Base
   def authenticate(_login, _password)
   end
 
+  # implemented by a subclass, should raise when no connection is possible and not raise on success
   def test_connection
+    raise I18n.t('auth_source.using_abstract_auth_source')
   end
 
   def auth_method_name
@@ -66,7 +68,7 @@ class AuthSource < ActiveRecord::Base
 
   # Try to authenticate a user not yet registered against available sources
   def self.authenticate(login, password)
-    AuthSource.find(:all, conditions: ['onthefly_register=?', true]).each do |source|
+    AuthSource.where(['onthefly_register=?', true]).each do |source|
       begin
         logger.debug "Authenticating '#{login}' against '#{source.name}'" if logger && logger.debug?
         attrs = source.authenticate(login, password)

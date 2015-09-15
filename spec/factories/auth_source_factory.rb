@@ -36,4 +36,8 @@ FactoryGirl.define do
     port 225  # a reserved port, should not be in use
     attr_login 'uid'
   end
+
+  factory :dummy_auth_source, class: DummyAuthSource do
+    name 'DerpLAP'
+  end
 end

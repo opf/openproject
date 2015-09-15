@@ -34,6 +34,7 @@ module.exports = function($scope,
     RELATION_TYPES,
     RELATION_IDENTIFIERS,
     $q,
+    $filter,
     WorkPackagesHelper,
     PathHelper,
     UsersHelper,
@@ -41,7 +42,8 @@ module.exports = function($scope,
     WorkPackageService,
     CommonRelationsHandler,
     ChildrenRelationsHandler,
-    ParentRelationsHandler
+    ParentRelationsHandler,
+    NotificationsService
   ) {
   $scope.$on('$stateChangeSuccess', function(event, toState){
     latestTab.registerState(toState.name);
@@ -55,7 +57,7 @@ module.exports = function($scope,
   setWorkPackageScopeProperties(workPackage);
 
   $scope.I18n = I18n;
-  $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
+  WorkPackageService.cache().put('preselectedWorkPackageId', $scope.workPackage.props.id);
   $scope.maxDescriptionLength = 800;
 
   function refreshWorkPackage(callback) {
@@ -74,14 +76,16 @@ module.exports = function($scope,
   $scope.$emit('workPackgeLoaded');
 
   function outputMessage(message, isError) {
-    $scope.$emit('flashMessage', {
-      isError: !!isError,
-      text: message
-    });
+    if (!!isError) {
+      NotificationsService.addError(message);
+    }
+    else {
+      NotificationsService.addSuccess(message);
+    }
   }
 
   function outputError(error) {
-    outputMessage(error.message, true);
+    NotificationsService.addError(error.message);
   }
 
   $scope.outputMessage = outputMessage; // expose to child controllers
@@ -89,15 +93,13 @@ module.exports = function($scope,
 
   function setWorkPackageScopeProperties(workPackage){
     $scope.workPackage = workPackage;
-    $scope.isWatched = !!workPackage.links.unwatchChanges;
+    $scope.isWatched = !!workPackage.links.unwatch;
 
-    if (workPackage.links.watchChanges === undefined) {
-      $scope.toggleWatchLink = workPackage.links.unwatchChanges;
+    if (workPackage.links.watch === undefined) {
+      $scope.toggleWatchLink = workPackage.links.unwatch;
     } else {
-      $scope.toggleWatchLink = workPackage.links.watchChanges;
+      $scope.toggleWatchLink = workPackage.links.watch;
     }
-
-    $scope.watchers = workPackage.embedded.watchers;
 
     // autocomplete path
     var projectId = workPackage.embedded.project.props.id;
@@ -105,10 +107,13 @@ module.exports = function($scope,
 
     // activities and latest activities
     $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
-    $scope.activities = displayedActivities($scope.workPackage);
+    $scope.activities = [];
+    aggregateActivities($scope.workPackage);
 
     // watchers
-    $scope.watchers = workPackage.embedded.watchers;
+    if(workPackage.links.watchers) {
+      $scope.watchers = workPackage.embedded.watchers.embedded.elements;
+    }
 
     $scope.showStaticPagePath = PathHelper.staticWorkPackagePath($scope.workPackage.props.id);
 
@@ -121,7 +126,7 @@ module.exports = function($scope,
     $scope.authorActive = UsersHelper.isActive($scope.author);
 
     // Attachments
-    $scope.attachments = workPackage.embedded.attachments;
+    $scope.attachments = workPackage.embedded.attachments.embedded.elements;
 
     // relations
     $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parents) {
@@ -154,8 +159,17 @@ module.exports = function($scope,
   }
 
   $scope.toggleWatch = function() {
+    var fetchOptions = {
+      method: $scope.toggleWatchLink.props.method
+    };
+
+    if($scope.toggleWatchLink.props.payload !== undefined) {
+      fetchOptions.contentType = 'application/json; charset=utf-8';
+      fetchOptions.data = JSON.stringify($scope.toggleWatchLink.props.payload);
+    }
+
     $scope.toggleWatchLink
-      .fetch({ ajax: $scope.toggleWatchLink.props })
+      .fetch({ajax: fetchOptions})
       .then(refreshWorkPackage, outputError);
   };
 
@@ -163,14 +177,78 @@ module.exports = function($scope,
     return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
   };
 
-  function displayedActivities(workPackage) {
-    var activities = workPackage.embedded.activities;
-    // remove first activity (assumes activities are sorted chronologically)
-    activities.splice(0, 1);
-    if ($scope.activitiesSortedInDescendingOrder) {
-      activities.reverse();
+  $scope.isInitialActivity = function(activity, activityNo) {
+    var type = activity.props._type,
+      activities = $scope.activities;
+
+
+    // Type must be Activity
+    if (type.indexOf('Activity') !== 0) {
+      return false;
     }
-    return activities;
+
+    // Shortcut, activityNo is 1 and its an Activity
+    if (activityNo === 1) {
+      return true;
+    }
+
+    // Otherwise, the current acitity may be initial if ALL other preceding activites are
+    // other types.
+    while (--activityNo > 0) {
+      var index = ($scope.activitiesSortedInDescendingOrder ?
+                    activities.length - activityNo : activityNo - 1);
+
+      if (activities[index].props._type.indexOf('Activity') === 0) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  function aggregateActivities(workPackage) {
+    // Do not yet add any intermittent result to the scope,
+    // as we will get an inconsistent activity view
+    // As we may not what activities will be added at a given time,
+    // let them be aggregated asynchronously.
+    var aggregated = [],
+      totalActivities = 0;
+
+    var aggregate = function(success, activity) {
+
+      if (success === true) {
+        aggregated = aggregated.concat(activity);
+      }
+
+      if (++totalActivities === 2) {
+        $scope.activities = $filter('orderBy')(aggregated,
+          'props.createdAt',
+          $scope.activitiesSortedInDescendingOrder
+        );
+      }
+    };
+
+    addDisplayedActivities(workPackage, aggregate);
+    addDisplayedRevisions(workPackage, aggregate);
+  }
+
+  function addDisplayedActivities(workPackage, aggregate) {
+    var activities = workPackage.embedded.activities.embedded.elements;
+    aggregate(true, activities);
+  }
+
+  function addDisplayedRevisions(workPackage, aggregate) {
+    var linkedRevisions = workPackage.links.revisions;
+
+    if (linkedRevisions === undefined) {
+      return aggregate();
+    }
+
+    linkedRevisions
+      .fetch()
+      .then(function(data) {
+        aggregate(true, data.embedded.elements);
+      }, aggregate);
   }
 
   // toggles

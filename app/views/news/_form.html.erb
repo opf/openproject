@@ -35,7 +35,6 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 <div class="form--field">
   <%= f.text_area :description, :required => true, :cols => 60, :rows => 15, :class => 'wiki-edit',
-                :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
                 :'ng-non-bindable' => '' %>
 </div>
 <%= wikitoolbar_for 'news_description' %>

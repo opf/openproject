@@ -47,7 +47,7 @@ describe ApplicationHelper, type: :helper do
 
     it 'escapes potentially harmful code' do
       text = "Lorem ipsum dolor <script>alert('pwnd');</script> tempor invidunt"
-      expect(format_activity_description(text).include?('lt;script&gt;alert(&#x27;pwnd&#x27;);&lt;/script&gt;')).to be_truthy
+      expect(format_activity_description(text).include?('&lt;script&gt;alert(&#39;pwnd&#39;);&lt;/script&gt;')).to be_truthy
     end
   end
 
@@ -157,7 +157,7 @@ describe ApplicationHelper, type: :helper do
       before do
         @links = other_formats_links { |f| f.link_to 'Atom', url: { controller: :projects, action: :index } }
       end
-      it { expect(@links).to eq("<p class=\"other-formats\">Also available in:<span><a href=\"/projects.atom\" class=\"icon icon-atom\" rel=\"nofollow\">Atom</a></span></p>") }
+      it { expect(@links).to eq("<p class=\"other-formats\">Also available in:<span><a class=\"icon icon-atom\" href=\"/projects.atom\" rel=\"nofollow\">Atom</a></span></p>") }
     end
 
     context 'link given but disabled' do
@@ -167,7 +167,6 @@ describe ApplicationHelper, type: :helper do
       end
       it { expect(@links).to be_nil }
     end
-
   end
 
   describe 'time_tag' do

@@ -29,12 +29,11 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe '/api/v2/projects/index.api.rabl', type: :view do
-
   before do
     params[:format] = 'json'
   end
 
-  subject { response.body }
+  subject { rendered }
   describe 'with no project available' do
     it 'renders an empty projects document' do
       assign(:projects, [])
@@ -61,19 +60,16 @@ describe '/api/v2/projects/index.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders a projects document with the size of 3 of type array' do
       is_expected.to have_json_size(3).at_path('projects')
     end
 
     it 'renders all three projects' do
-
       is_expected.to be_json_eql('P1'.to_json).at_path('projects/0/name')
       is_expected.to be_json_eql('P2'.to_json).at_path('projects/1/name')
       is_expected.to be_json_eql('P3'.to_json).at_path('projects/2/name')
-
     end
-
   end
 end

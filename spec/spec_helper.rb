@@ -34,15 +34,20 @@ ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
-
+require 'shoulda/matchers'
 require 'rspec/example_disabler'
 require 'capybara/rails'
+require 'capybara-screenshot/rspec'
 
 Capybara.register_driver :selenium do |app|
   require 'selenium/webdriver'
   Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
     Selenium::WebDriver::Firefox::Binary.path
-  Capybara::Selenium::Driver.new(app, browser: :firefox)
+
+  profile = Selenium::WebDriver::Firefox::Profile.new
+  profile['intl.accept_languages'] = 'en'
+
+  Capybara::Selenium::Driver.new(app, browser: :firefox, profile: profile)
 end
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -81,8 +86,10 @@ RSpec.configure do |config|
   config.before(:each) do |example|
     DatabaseCleaner.strategy = if example.metadata[:js]
                                  # JS => doesn't share connections => can't use transactions
-                                 # truncations seem to fail more often + they are slower
-                                 :deletion
+                                 # as of database_cleaner 1.4 'deletion' causes error:
+                                 # 'column "table_rows" does not exist'
+                                 # https://github.com/DatabaseCleaner/database_cleaner/issues/345
+                                 :truncation
                                else
                                  # No JS/Devise => run with Rack::Test => transactions are ok
                                  :transaction

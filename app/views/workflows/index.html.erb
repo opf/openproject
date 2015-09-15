@@ -29,32 +29,58 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= render partial: 'action_menu', locals: { title: l(:label_workflow_plural) } %>
 <% html_title l(:label_administration), l(:label_workflow_plural) -%>
 <% if @workflow_counts.empty? %>
-  <p class="nodata"><%= l(:label_no_data) %></p>
+  <div class="generic-table--no-results-container">
+    <h2 class="generic-table--no-results-title">
+      <i class="icon-info"></i>
+      <%= l(:label_nothing_display) %>
+    </h2>
+    <div class="generic-table--no-results-description">
+      <p class="nodata"><%= l(:label_no_data) %></p>
+    </div>
+  </div>
 <% else %>
   <div class="autoscroll">
-    <table class="list">
-      <thead>
-        <tr>
-          <th></th>
-          <% @workflow_counts.first.last.each do |role, count| %>
-            <th>
-              <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
-            </th>
-          <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <% @workflow_counts.each do |type, roles| -%>
-          <tr class="<%= cycle('odd', 'even') %>">
-            <td><%= h type %></td>
-            <% roles.each do |role, count| -%>
-              <td align="center">
-                <%= link_to((count > 0 ? count : image_tag('webalys/red_x.png')), {:action => 'edit', :role_id => role, :type_id => type}, :title => l(:button_edit)) %>
-              </td>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table interactive-table role="grid" class="generic-table">
+          <colgroup>
+            <col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th></th>
+              <% @workflow_counts.first.last.each do |role, count| %>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                        <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
+                    </div>
+                  </div>
+                </th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @workflow_counts.each do |type, roles| -%>
+              <tr>
+                <td><%= h type %></td>
+                <% roles.each do |role, count| -%>
+                  <td>
+                    <%= link_to((count > 0 ? count : content_tag(:span, '', class: "icon-close icon-context icon-button")), {:action => 'edit', :role_id => role, :type_id => type}, :title => l(:button_edit)) %>
+                  </td>
+                <% end -%>
+              </tr>
             <% end -%>
-          </tr>
-        <% end -%>
-      </tbody>
-    </table>
+          </tbody>
+        </table>
+        <div class="generic-table--header-background"></div>
+      </div>
+    </div>
   </div>
 <% end %>

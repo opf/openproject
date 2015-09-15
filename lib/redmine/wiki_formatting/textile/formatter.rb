@@ -97,7 +97,11 @@ module Redmine
         # Turns all urls into clickable links (code from Rails).
         def inline_auto_link(text)
           text.gsub!(AUTO_LINK_RE) do
-            all, leading, proto, url, post = $&, $1, $2, $3, $6
+            all = $&
+            leading = $1
+            proto = $2
+            url = $3
+            post = $6
             if leading =~ /<a\s/i || leading =~ /![<>=]?/ || leading =~ /\{\{\w+\(/
               # don't replace URLs that are already linked
               # and URLs prefixed with ! !> !< != (textile images)
@@ -105,11 +109,14 @@ module Redmine
             else
               # Idea below : an URL with unbalanced parethesis and
               # ending by ')' is put into external parenthesis
-              if  url[-1] == ?) and ((url.count('(') - url.count(')')) < 0)
+              if url[-1] == ?) and ((url.count('(') - url.count(')')) < 0)
                 url = url[0..-2] # discard closing parenth from url
                 post = ')' + post # add closing parenth to post
               end
-              tag = content_tag('a', proto + url, href: "#{proto == 'www.' ? 'http://www.' : proto}#{url}", class: 'external')
+              tag = content_tag('a',
+                                proto + url,
+                                href: "#{proto == 'www.' ? 'http://www.' : proto}#{url}",
+                                class: 'external icon-context icon-copy2')
               %(#{leading}#{tag}#{post})
             end
           end

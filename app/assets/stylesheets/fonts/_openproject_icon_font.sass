@@ -43,7 +43,7 @@ $icon-font-file-formats: eot woff ttf
   -moz-osx-font-smoothing: grayscale
 
 @mixin icon-rules
-  padding: 0 5px 0 10px
+  padding: 10px 5px 0 10px
   color: $content-icon-color
 
 @mixin icon2-rules
@@ -92,7 +92,7 @@ $icon-font-file-formats: eot woff ttf
   font-size: 50px
 
 @mixin icon-context-padding
-  padding: 0 10px 0 0
+  padding: 10px 10px 0 0
 
 [data-icon]:before
   @include icon-common
@@ -185,17 +185,14 @@ $icon-font-file-formats: eot woff ttf
   @include icon-rules
   float: left
 
+.icon,
+.icon-context
+  overflow: visible !important
+
 // used for icons in the content area, which appear in context (menus)
 .action-menu .icon:before,
 .icon-context:before
-  padding: 0 10px 0 0
-
-.legacy-pagination .previous_page:before,
-.legacy-pagination .next_page:after
-  @include icon-common
-  @include icon-context-rules
-.legacy-pagination .next_page:after
-  padding: 0 0 0 4px
+  padding: 10px 10px 0 0
 
 .icon-add:before
   content: "\e000"
@@ -228,13 +225,8 @@ dt > .icon-changeset:before,
 .icon-copy:before
   content: "\e008"
 
-.legacy-pagination .previous_page:before,
 .icon-double-arrow-left:before
   content: "\e009"
-
-.legacy-pagination .next_page:after,
-.icon-double-arrow-right:before
-  content: "\e00a"
 
 .icon-duplicate:before
   content: "\e00b"
@@ -952,6 +944,42 @@ dt > .icon-wiki-page:before,
 .icon-status-reporting:before
   content: "\e0f3"
 
+.icon-op-icon:before
+  content: "\e0f4"
+
+.icon-glossar:before
+  content: "\e0f5"
+
+.icon-close2:before
+  content: "\e0f6"
+
+.icon-hosting:before
+  content: "\e0f7"
+
+.icon-enterprise:before
+  content: "\e0f8"
+
+.icon-send-mail:before
+  content: "\e0f9"
+
+.icon-send-mail2:before
+  content: "\e0fa"
+
+.icon-key-1:before
+  content: "\e0fb"
+
+.icon-fullscreen-view:before
+  content: "\e0fc"
+
+.icon-split-view:before
+  content: "\e0fd"
+
+.icon-list-view:before
+  content: "\e0fe"
+
+.icon-payment-history:before
+  content: "\e0ff"
+
 .icon-custom-fields:before
   content: "\e102"
 
@@ -963,6 +991,21 @@ dt > .icon-wiki-page:before,
 
 .icon-payment-history2:before
   content: "\e103"
+
+.icon-google-plus:before
+  content: "\e104"
+
+.icon-sort-down:before
+  content: "\e105"
+
+.icon-sort-up:before
+  content: "\e106"
+
+.icon-milestone:before
+  content: "\e107"
+
+.icon-compare:before
+  content: "\e108"
 
 /* remove once all menu items have an icon */
 .no-icon

@@ -54,7 +54,6 @@ class OpenProject::PrincipalAllowanceEvaluator::Default < OpenProject::Principal
 
   def self.eager_load_for_project_authorization(project)
     User
-      .scoped
       .eager_load(members: [:project, :roles])
       .where(members: { project_id: project.id })
   end

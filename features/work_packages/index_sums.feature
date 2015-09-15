@@ -70,7 +70,7 @@ Feature: Calculated sums on the work package index
     # Adding this "should see" to prevent the columns menu from being opened
     # before the information on available columns is returned from the server.
     # If it is opened before the modal is empty.
-    And I should see "subject" within ".workpackages-table"
+    And I should see "subject" within ".work-package-table--container table"
     And I choose "Columns" from the toolbar "settings" dropdown
     And I select to see column "Estimated time"
     And I click "Apply"

@@ -55,12 +55,15 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       double('WorkPackageSchema',
              project: double(id: 42),
              defines_assignable_values?: true,
-             available_custom_fields: [custom_field],
-             assignable_versions: versions)
+             available_custom_fields: [custom_field])
     }
     let(:versions) { [] }
 
-    subject { modified_class.new(schema, form_embedded: true).to_json }
+    subject { modified_class.new(schema, current_user: nil, form_embedded: true).to_json }
+
+    before do
+      allow(schema).to receive(:assignable_values).with(:version, anything).and_return(versions)
+    end
 
     describe 'basic custom field' do
       it_behaves_like 'has basic schema properties' do
@@ -202,7 +205,9 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       it 'on writing it sets on the represented' do
         expected = { custom_field.id => expected_setter }
         expect(represented).to receive(:custom_field_values=).with(expected)
-        modified_class.new(represented).from_json({ cf_path => json_value }.to_json)
+        modified_class
+          .new(represented, current_user: nil)
+          .from_json({ cf_path => json_value }.to_json)
       end
     end
 
@@ -370,7 +375,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     }
     let(:custom_value) { double('CustomValue', value: value) }
     let(:value) { '' }
-    subject { "{ \"_links\": #{modified_class.new(represented).to_json} }" }
+    subject { "{ \"_links\": #{modified_class.new(represented, current_user: nil).to_json} }" }
 
     before do
       allow(represented).to receive(:custom_value_for).with(custom_field).and_return(custom_value)
@@ -403,7 +408,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         expected = { custom_field.id => '2' }
 
         expect(represented).to receive(:custom_field_values=).with(expected)
-        modified_class.new(represented).from_json(json)
+        modified_class.new(represented, current_user: nil).from_json(json)
       end
 
       it 'accepts an empty link' do
@@ -411,7 +416,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         expected = { custom_field.id => nil }
 
         expect(represented).to receive(:custom_field_values=).with(expected)
-        modified_class.new(represented).from_json(json)
+        modified_class.new(represented, current_user: nil).from_json(json)
       end
     end
   end

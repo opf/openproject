@@ -36,7 +36,7 @@ module API
 
         resources :render do
           helpers do
-            SUPPORTED_CONTEXT_NAMESPACES = ['work_packages'].freeze
+            SUPPORTED_CONTEXT_NAMESPACES = %w(work_packages projects).freeze
             SUPPORTED_MEDIA_TYPE = 'text/plain'
 
             def check_content_type

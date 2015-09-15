@@ -44,7 +44,7 @@ describe OpenProject::FormTagHelper, type: :helper do
     it 'should output element' do
       expect(output).to be_html_eql(%{
         <form accept-charset="UTF-8" action="/feedback" class="form"
-          method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8"
+          method="post"><div style="display:none"><input name="utf8"
           type="hidden" value="&#x2713;" /></div><p>Form content</p></form>
       })
     end
@@ -129,9 +129,9 @@ describe OpenProject::FormTagHelper, type: :helper do
       end
 
       it 'should strip any given inline HTML from the title tag (with block)' do
-        label = helper.styled_label_tag('field') do
+        label = helper.styled_label_tag('field') {
           helper.content_tag :span, 'Sif'
-        end
+        }
         expect(label).to be_html_eql(%{
           <label for="field" class="form--label" title="Sif"><span>Sif</span></label>
         })
@@ -248,7 +248,7 @@ Words are important</textarea>
 
     it 'should output element' do
       expect(output).to be_html_eql %{
-        <button class="button">Don&#x27;t save!</button>
+        <button class="button" name="button" type="submit">Don&#x27;t save!</button>
       }
     end
   end

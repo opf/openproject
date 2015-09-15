@@ -41,15 +41,13 @@ module API
 
           get do
             types = Type.all
-            TypeCollectionRepresenter.new(types,
-                                          types.count,
-                                          api_v3_paths.types)
+            TypeCollectionRepresenter.new(types, api_v3_paths.types, current_user: current_user)
           end
 
           namespace ':id' do
             before do
               type = Type.find(params[:id])
-              @representer = TypeRepresenter.new(type)
+              @representer = TypeRepresenter.new(type, current_user: current_user)
             end
 
             get do

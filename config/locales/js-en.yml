@@ -32,6 +32,11 @@ en:
       hide: "Hide"
       loading: "Loading ..."
     close_popup_title: "Close popup"
+
+    clipboard:
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
+      copied_successful: "Sucessfully copied to clipboard!"
+
     button_add_watcher: "Add watcher"
     button_cancel: "Cancel"
     button_check_all: "Check all"
@@ -82,8 +87,10 @@ en:
     label_collapse: "Collapse"
     label_collapsed: "collapsed"
     label_collapse_all: "Collapse all"
-    label_commented_on: "commented on"
+    label_committed_at: "%{committed_revision_link} at %{date}"
+    label_committed_link: "committed revision %{revision_identifier}"
     label_contains: "contains"
+    label_created_on: "created on"
     label_equals: "is"
     label_expand: "Expand"
     label_expanded: "expanded"
@@ -136,10 +143,12 @@ en:
     label_sort_lower: "Move down"
     label_sorting: "Sorting"
     label_sum_for: "Sum for"
+    label_subject: "Subject"
     label_this_week: "this week"
     label_today: "today"
     label_total_progress: "%{percent}% Total progress"
     label_visible_for_others: "Page visible for others"
+    label_updated_on: "updated on"
     label_work_package: "Work package"
     label_watch_work_package: "Watch work package"
     label_watcher_added_successfully: "Watcher successfully added!"
@@ -151,8 +160,31 @@ en:
     label_custom_queries: "Private queries"
     label_columns: "Columns"
     label_click_to_enter_description: "Click to enter description..."
+    label_attachments: Files
+    label_drop_files: Drop files here
+    label_drop_files_hint: or click to add files
+    label_remove_file: "Delete %{fileName}"
+    label_remove_watcher: "Delete watcher %{name}"
+    label_remove_all_files: Delete all files
+    label_add_description: "Add a description for %{file}"
+    label_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
+    label_files_to_upload: "These files will be uploaded:"
+    label_rejected_files: "These files cannot be uploaded:"
+    label_rejected_files_reason: "These files cannot be uploaded as their size is greater than %{maximumFilesize}"
+    label_wait: "Please wait for configuration..."
+    label_upload_counter: "%{done} of %{count} files finished"
+    label_successful_update: 'Successful update'
+    label_validation_error: "The work package could not be saved due to the following errors:"
 
     text_are_you_sure: "Are you sure?"
+
+    watchers:
+      label_loading: loading watchers...
+      label_error_loading: An error occured while loading the watchers
+      label_search_watchers: Search watchers
+      label_add: Add watchers
+      label_discard: Discard selection
+      label_click_to_add: Click to add watchers
 
     filter_labels:
       assigned_to: "Assignee"
@@ -205,6 +237,10 @@ en:
       add_precedes: "Add precedes"
       add_follows: "Add follows"
 
+    repositories:
+      select_tag: 'Select tag'
+      select_branch: 'Select branch'
+
     field_value_enter_prompt: "Enter a value for '%{field}'"
 
     select2:
@@ -221,6 +257,7 @@ en:
         zero: "You cannot select any items"
     text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected query?"
+    text_attachment_destroy_confirmation: "Are you sure you want to delete the attachment?"
     timelines:
       cancel: Cancel
       change: "Change in planning"
@@ -308,6 +345,8 @@ en:
       label_column_select: "Status - Combined dropdown field: Selection with auto-completion."
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
+      create:
+        header: 'New Work Package'
       no_results:
         title: No work packages to display
         description_html: |
@@ -398,10 +437,14 @@ en:
       button_save: "%{attribute}: Save"
       button_save_and_send: "%{attribute}: Save and send email"
       button_cancel: "%{attribute}: Cancel"
+      button_save_all: "Save"
+      button_save_and_send_all: "Save and send email"
+      button_cancel_all: "Cancel"
       link_formatting_help: "Text formatting"
       btn_preview_enable: "Preview"
       btn_preview_disable: "Disable preview"
       null_value_label: "No value"
+      clear_value_label: "-"
       errors:
         required: '%{field} cannot be empty'
         number: '%{field} is not a valid number'

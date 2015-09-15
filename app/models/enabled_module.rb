@@ -47,6 +47,23 @@ class EnabledModule < ActiveRecord::Base
       if project && project.wiki.nil?
         Wiki.create(project: project, start_page: 'Wiki')
       end
+    when 'repository'
+      if project &&
+         project.repository.nil? &&
+         Setting.repositories_automatic_managed_vendor.present?
+        create_managed_repository
+      end
     end
+  end
+
+  def create_managed_repository
+    params = {
+      scm_vendor: Setting.repositories_automatic_managed_vendor,
+      scm_type: Repository.managed_type
+    }
+
+    service = Scm::RepositoryFactoryService.new(project,
+                                                ActionController::Parameters.new(params))
+    service.build_and_save
   end
 end

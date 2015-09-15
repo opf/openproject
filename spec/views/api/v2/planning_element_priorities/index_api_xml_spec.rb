@@ -29,7 +29,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/planning_element_priorities/index.api.rabl', type: :view do
-
   before { params[:format] = 'xml' }
 
   describe 'with no work package priorities available' do
@@ -38,7 +37,7 @@ describe 'api/v2/planning_element_priorities/index.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders an empty planning_element_priorities document' do
       expect(subject).to have_selector('planning_element_priorities', count: 1)
@@ -65,7 +64,7 @@ describe 'api/v2/planning_element_priorities/index.api.rabl', type: :view do
       render
     end
 
-    subject { Nokogiri.XML(response.body) }
+    subject { Nokogiri.XML(rendered) }
 
     it { expect(subject).to have_selector('planning_element_priorities planning_element_priority', count: 3) }
 

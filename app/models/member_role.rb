@@ -54,9 +54,9 @@ class MemberRole < ActiveRecord::Base
   # and prevents or at least discourages working on persistence objects from controllers
   # or unrelated business logic.
   def destroy(*args)
-    unless caller.first =~ /has_many_association\.rb:[0-9]+:in `[^`]+delete_records'/
+    unless caller[2] =~ /has_many_association\.rb:[0-9]+:in `delete_records'/
       raise 'MemberRole.destroy called from method other than HasManyAssociation.delete_records' +
-        "\n  on #{inspect}\n from #{caller.first} / #{caller[3]}"
+        "\n  on #{inspect}\n from #{caller.first} / #{caller[6]}"
     else
       super
     end
@@ -71,7 +71,7 @@ class MemberRole < ActiveRecord::Base
   def add_role_to_group_users
     if member && member.principal.is_a?(Group)
       member.principal.users.each do |user|
-        user_member = Member.find_by_project_id_and_user_id(member.project_id, user.id)
+        user_member = Member.find_by(project_id: member.project_id, user_id: user.id)
 
         if user_member.nil?
           user_member = Member.new.tap do |m|
@@ -89,8 +89,8 @@ class MemberRole < ActiveRecord::Base
   end
 
   def remove_role_from_group_users
-    MemberRole.all(conditions: { inherited_from: id }).group_by(&:member).each do |member, member_roles|
-      member_roles.each { |mr| member.remove_member_role_and_destroy_member_if_last(mr) }
+    MemberRole.where(inherited_from: id).group_by(&:member).each do |member, member_roles|
+      member_roles.each do |mr| member.remove_member_role_and_destroy_member_if_last(mr) end
       if member && member.user
         Watcher.prune(user: member.user, project: member.project)
       end

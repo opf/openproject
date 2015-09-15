@@ -3,7 +3,8 @@
   <a href="javascript://" title="{{labelTimelineChanged}}"
      ng-class="[
        'icon',
-       'tl-icon-' + (isDateColumn && historicalDateKind || 'changed')
+       'tl-icon-' + (isDateColumn && historicalDateKind || 'changed'),
+       'icon-' + (isDateColumn && 'time' || 'arrow-left-right')
      ]"></a>
   <br/>
 </span>

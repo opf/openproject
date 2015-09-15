@@ -38,8 +38,8 @@ describe WorkPackage, type: :model do
       it { is_expected.to validate_presence_of field }
     end
 
-    it { is_expected.to ensure_length_of(:subject).is_at_most 255 }
-    it { is_expected.to ensure_inclusion_of(:done_ratio).in_range 0..100 }
+    it { is_expected.to validate_length_of(:subject).is_at_most 255 }
+    it { is_expected.to validate_inclusion_of(:done_ratio).in_range 0..100 }
     it { is_expected.to validate_numericality_of :estimated_hours }
 
     it 'validates, that start-date is before end-date' do
@@ -85,9 +85,9 @@ describe WorkPackage, type: :model do
         expect(child_1).to be_valid # yes, child-start-date can moved before parent-start-date...
         child_1.save
 
-        expect do
+        expect {
           parent.reload
-        end.to change { parent.start_date }
+        }.to change { parent.start_date }
           .from(late_date)
           .to(early_date) # ... but this changes the parent's start_date to the child's start_date
       end
@@ -126,7 +126,8 @@ describe WorkPackage, type: :model do
       wp.fixed_version = assignable_version
       expect(wp).to be_valid
     end
-    it 'validate, that the fixed_version belongs to the project ticket lives in' do
+
+    it 'validate, that the fixed_version belongs to the project the ticket lives in' do
       other_project = FactoryGirl.create(:project)
       non_assignable_version = FactoryGirl.create(:version, project: other_project)
 
@@ -145,6 +146,18 @@ describe WorkPackage, type: :model do
         wp.fixed_version = non_assignable_version
         expect(wp).not_to be_valid
         expect(wp.errors[:fixed_version_id].size).to eq(1)
+      end
+    end
+
+    it 'does not validate closed and locked versions if validation is skipped' do
+      non_assignable_version = FactoryGirl.create(:version, project: wp.project)
+
+      %w{locked closed}.each do |status|
+        non_assignable_version.update_attribute(:status, status)
+
+        wp.skip_fixed_version_validation = true
+        wp.fixed_version = non_assignable_version
+        expect(wp).to be_valid
       end
     end
 

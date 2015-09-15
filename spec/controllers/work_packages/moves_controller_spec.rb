@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe WorkPackages::MovesController, type: :controller do
-
   let(:user) { FactoryGirl.create(:user) }
   let(:role) {
     FactoryGirl.create :role,
@@ -64,7 +63,6 @@ describe WorkPackages::MovesController, type: :controller do
     become_admin
 
     describe 'w/o a valid planning element id' do
-
       describe 'w/o being a member or administrator' do
         become_non_member
 
@@ -107,7 +105,7 @@ describe WorkPackages::MovesController, type: :controller do
         end
 
         it 'renders the new builder template' do
-          expect(response).to render_template('work_packages/moves/new', formats: ['html'], layout: :base)
+          expect(response).to render_template('work_packages/moves/new')
         end
       end
     end
@@ -259,7 +257,6 @@ describe WorkPackages::MovesController, type: :controller do
             let(:moved_work_package) { work_package.reload }
           end
         end
-
       end
 
       describe '&copy' do
@@ -274,7 +271,7 @@ describe WorkPackages::MovesController, type: :controller do
           end
 
           it 'redirects to the work package copy' do
-            copy = WorkPackage.first(order: 'id desc')
+            copy = WorkPackage.order('id desc').first
             is_expected.to redirect_to(work_package_path(copy))
           end
         end
@@ -287,7 +284,7 @@ describe WorkPackages::MovesController, type: :controller do
                  new_project_id: target_project.id
           end
 
-          subject { WorkPackage.first(order: 'id desc', conditions: { project_id: project.id }) }
+          subject { WorkPackage.order('id desc').where(project_id: project.id).first }
 
           it 'did not change the type' do
             expect(subject.type_id).to eq(work_package.type_id)
@@ -319,12 +316,12 @@ describe WorkPackages::MovesController, type: :controller do
                  new_type_id: target_project.types.first.id, # FIXME see #1868
                  assigned_to_id: target_user.id,
                  responsible_id: target_user.id,
-                 status_id: [target_status],
+                 status_id: target_status,
                  start_date: start_date,
                  due_date: due_date
           end
 
-          subject { WorkPackage.all(limit: 2, order: 'id desc', conditions: { project_id: target_project.id }) }
+          subject { WorkPackage.limit(2).order('id desc').where(project_id: target_project.id) }
 
           it 'copied two work packages' do
             expect(subject.count).to eq(2)
@@ -377,7 +374,7 @@ describe WorkPackages::MovesController, type: :controller do
                  notes: note
           end
 
-          subject { WorkPackage.all(limit: 1, order: 'id desc').last.journals }
+          subject { WorkPackage.limit(1).order('id desc').last.journals }
 
           it { expect(subject.count).to eq(2) }
 

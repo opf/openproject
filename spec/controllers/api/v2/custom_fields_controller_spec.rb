@@ -53,11 +53,11 @@ describe Api::V2::CustomFieldsController, type: :controller do
     }
 
     shared_examples_for 'valid workflow index request' do
-      it { expect(response).to render_template('api/v2/custom_fields/index', formats: ['api']) }
+      it { expect(response).to render_template('api/v2/custom_fields/index') }
     end
 
     shared_examples_for 'a user w/o a project' do
-      before { get :index, format: :xml }
+      before do get :index, format: :xml end
 
       it_behaves_like 'valid workflow index request'
 
@@ -73,7 +73,7 @@ describe Api::V2::CustomFieldsController, type: :controller do
     end
 
     describe 'unauthorized access' do
-      before { get :index, project_id: project.id, format: :xml }
+      before do allow(Setting).to receive(:login_required).and_return false end
 
       it_behaves_like 'a user w/o a project'
     end
@@ -82,7 +82,7 @@ describe Api::V2::CustomFieldsController, type: :controller do
       context 'w/o project' do
         let(:current_user) { FactoryGirl.create(:user) }
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before do allow(User).to receive(:current).and_return current_user end
 
         it_behaves_like 'a user w/o a project'
       end

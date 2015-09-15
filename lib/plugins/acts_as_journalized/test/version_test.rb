@@ -35,7 +35,8 @@ class VersionTest < Test::Unit::TestCase
       @user = User.create(name: 'Stephen Richert')
       @user.update_attribute(:name, 'Steve Jobs')
       @user.update_attribute(:last_name, 'Richert')
-      @first_journal, @last_journal = @user.journals.first, @user.journals.last
+      @first_journal = @user.journals.first
+      @last_journal = @user.journals.last
     end
 
     should 'be comparable to another journal based on journal number' do
@@ -53,7 +54,8 @@ class VersionTest < Test::Unit::TestCase
       user = User.create(name: 'Stephen Richert')
       user.update_attribute(:name, 'Steve Jobs')
       user.update_attribute(:last_name, 'Richert')
-      first_journal, last_journal = user.journals.first, user.journals.last
+      first_journal = user.journals.first
+      last_journal = user.journals.last
       assert_not_equal @first_journal, first_journal
       assert_not_equal @last_journal, last_journal
     end

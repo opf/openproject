@@ -30,13 +30,13 @@
           "href": null
         },
         "responsible": {
-          "href": null
+          "href": "/api/v3/users/1"
         },
         "category": {
           "href": null
         },
         "version": {
-          "href": null
+          "href": "/api/v3/versions/1"
         },
         "priority": {
           "href": "/api/v3/priorities/2"
@@ -86,7 +86,7 @@
       "customField5": null,
       "customField6": null,
       "customField7": null,
-      "customField9": null,
+      "customField9": "2015-04-12",
       "customField10": null
     },
     "schema": {

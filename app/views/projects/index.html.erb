@@ -41,29 +41,17 @@ See doc/COPYRIGHT.rdoc for more details.
       <% end %>
     </li>
   <% end %>
-  <% if User.current.allowed_to?(:view_work_packages, nil, :global => true) %>
-    <li class="toolbar-item">
-      <%= link_to l(:label_work_package_view_all),work_packages_path, class: 'button' %>
-    </li>
-  <% end %>
-  <% if User.current.allowed_to?(:view_time_entries, nil, :global => true) %>
-    <li class="toolbar-item">
-      <%= link_to l(:label_overall_spent_time), time_entries_path, class: 'button' %>
-    </li>
-  <% end %>
-  <% if User.current.allowed_to?(:view_news, nil, :global => true) %>
-    <li class="toolbar-item">
-      <%= link_to l(:label_news_view_all), news_index_path, class: 'button' %>
-    </li>
-  <% end %>
   <li class="toolbar-item">
     <%= link_to l(:label_overall_activity), activities_path, class: 'button' %>
   </li>
 <% end %>
 
+<% if Setting.welcome_on_projects_page? %>
 <div class="wiki">
-  <%= format_text Setting.welcome_text %>
+  <h1><%= Setting.welcome_title %></h1>
+  <%= format_text(Setting.welcome_text, headings: false) %>
 </div>
+<% end %>
 
 <% if User.current.logged? %>
   <p style="float:right;">

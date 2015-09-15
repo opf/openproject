@@ -80,7 +80,7 @@ describe WorkPackage, type: :model do
             end
 
             describe 'error message' do
-              before { work_package.save }
+              before do work_package.save end
 
               subject { work_package.errors["custom_field_#{custom_field.id}"] }
 
@@ -122,7 +122,7 @@ describe WorkPackage, type: :model do
         end
 
         context 'full error message' do
-          before { change_custom_field_value(work_package, 'SQLServer') }
+          before do change_custom_field_value(work_package, 'SQLServer') end
 
           subject { work_package.errors.full_messages.first }
 
@@ -131,7 +131,7 @@ describe WorkPackage, type: :model do
       end
 
       describe 'valid value given' do
-        before { change_custom_field_value(work_package, 'PostgreSQL') }
+        before do change_custom_field_value(work_package, 'PostgreSQL') end
 
         context 'errors' do
           subject { work_package.errors[:custom_values] }
@@ -213,7 +213,7 @@ describe WorkPackage, type: :model do
         end
 
         context 'with assigning type' do
-          before { work_package_without_type.type = type_feature }
+          before do work_package_without_type.type = type_feature end
 
           subject { work_package_without_type.custom_field_values }
 
@@ -257,7 +257,7 @@ describe WorkPackage, type: :model do
 
       describe 'value' do
         let(:relevant_journal) {
-          work_package.journals.select { |j| j.customizable_journals.size > 0 }.first
+          work_package.journals.find { |j| j.customizable_journals.size > 0 }
         }
         subject { relevant_journal.customizable_journals.first.value }
 

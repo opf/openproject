@@ -44,17 +44,12 @@ describe('WorkPackageDetailsController', function() {
       },
       workPackage = {
         props: {
-          status: 'open',
-          versionName: null,
-          customProperties: [
-            { format: 'text', name: 'color', value: 'red' },
-          ]
         },
         embedded: {
           author: {
             props: {
               id: 1,
-              status: 1
+              status: 'active'
             }
           },
           project: {
@@ -62,9 +57,29 @@ describe('WorkPackageDetailsController', function() {
               id: 1
             }
           },
-          activities: [],
+          activities: {
+            links: {
+              self: { href: "/api/v3/work_packages/820/activities" }
+            },
+            _type: "Collection",
+            total: 0,
+            count: 0,
+            embedded: {
+              elements: []
+            }
+          },
           watchers: [],
-          attachments: [],
+          attachments: {
+            links: {
+              self: { href: "/api/v3/work_packages/820/attachments" }
+            },
+            _type: "Collection",
+            total: 0,
+            count: 0,
+            embedded: {
+              elements: []
+            }
+          },
           relations: [
             {
               props: {
@@ -82,7 +97,7 @@ describe('WorkPackageDetailsController', function() {
           ]
         },
         links: {
-          self: "it's a me, it's... you know...",
+          self: { href: "it's a me, it's... you know..." },
           availableWatchers: {
             fetch: function() { return {then: angular.noop}; }
           }
@@ -120,7 +135,7 @@ describe('WorkPackageDetailsController', function() {
 
     buildController = function() {
       var testState = {
-        current: { url: '/overview', },
+        current: { url: '/overview' }
       };
       scope = $rootScope.$new();
 

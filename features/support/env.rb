@@ -67,7 +67,13 @@ Capybara.register_driver :selenium do |app|
   require 'selenium/webdriver'
   Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
     Selenium::WebDriver::Firefox::Binary.path
-  Capybara::Selenium::Driver.new(app, browser: :firefox)
+
+  profile = Selenium::WebDriver::Firefox::Profile.new
+  profile['intl.accept_languages'] = 'en,en-us'
+
+  Capybara::Selenium::Driver.new(app,
+                               browser: :firefox,
+                               profile: profile)
 end
 
 # By default, any exception happening in your Rails application will bubble up

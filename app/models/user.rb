@@ -33,15 +33,6 @@ class User < Principal
   include ActiveModel::ForbiddenAttributesProtection
   include User::Authorization
 
-  # Account statuses
-  # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
-  STATUSES = {
-    builtin: 0,
-    active: 1,
-    registered: 2,
-    locked: 3
-  }
-
   USER_FORMATS_STRUCTURE = {
     firstname_lastname: [:firstname, :lastname],
     firstname: [:firstname],
@@ -78,10 +69,11 @@ class User < Principal
     USER_MAIL_OPTION_NON
   ]
 
-  has_many :group_users
-  has_many :groups, through: :group_users,
-                    after_add: Proc.new { |user, group| group.user_added(user) },
-                    after_remove: Proc.new { |user, group| group.user_removed(user) }
+  has_and_belongs_to_many :groups,
+                          join_table:   "#{table_name_prefix}group_users#{table_name_suffix}",
+                          after_add:    ->(user, group) { group.user_added(user) },
+                          after_remove: ->(user, group) { group.user_removed(user) }
+
   has_many :categories, foreign_key: 'assigned_to_id',
                         dependent: :nullify
   has_many :assigned_issues, foreign_key: 'assigned_to_id',
@@ -96,31 +88,29 @@ class User < Principal
   has_many :watches, class_name: 'Watcher',
                      dependent: :delete_all
   has_many :changesets, dependent: :nullify
-  has_many :passwords, class_name: 'UserPassword',
-                       order: 'id DESC',
-                       readonly: true,
-                       dependent: :destroy,
-                       inverse_of: :user
+  has_many :passwords, -> {
+    order('id DESC')
+  }, class_name: 'UserPassword',
+     dependent: :destroy,
+     inverse_of: :user
   has_one :preference, dependent: :destroy, class_name: 'UserPreference'
-  has_one :rss_token, dependent: :destroy, class_name: 'Token', conditions: "action='feeds'"
-  has_one :api_token, dependent: :destroy, class_name: 'Token', conditions: "action='api'"
+  has_one :rss_token, -> {
+    where("action='feeds'")
+  }, dependent: :destroy, class_name: 'Token'
+  has_one :api_token, -> {
+    where("action='api'")
+  }, dependent: :destroy, class_name: 'Token'
   belongs_to :auth_source
 
-  # TODO: this is from Principal. the inheritance doesn't work correctly
-  # note: it doesn't fail in development mode
-  # see: https://github.com/rails/rails/issues/3847
-  has_many :members, foreign_key: 'user_id', dependent: :destroy
-  has_many :memberships, class_name: 'Member', foreign_key: 'user_id', include: [:project, :roles], conditions: "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", order: "#{Project.table_name}.name"
-  has_many :projects, through: :memberships
-
   # Active non-anonymous users scope
-  scope :not_builtin,
-        conditions: "#{User.table_name}.status <> #{STATUSES[:builtin]}"
+  scope :not_builtin, -> {
+    where("#{User.table_name}.status <> #{STATUSES[:builtin]}")
+  }
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
-  scope :blocked, lambda { create_blocked_scope(true) }
-  scope :not_blocked, lambda { create_blocked_scope(false) }
+  scope :blocked, -> { create_blocked_scope(true) }
+  scope :not_blocked, -> { create_blocked_scope(false) }
 
   def self.create_blocked_scope(blocked)
     block_duration = Setting.brute_force_block_minutes.to_i.minutes
@@ -161,15 +151,17 @@ class User < Principal
   before_destroy :reassign_associated
   before_destroy :remove_from_filter
 
-  scope :in_group, lambda {|group|
+  scope :in_group, -> (group) {
     group_id = group.is_a?(Group) ? group.id : group.to_i
-    { conditions: ["#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
+    where(["#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id])
   }
-  scope :not_in_group, lambda {|group|
+  scope :not_in_group, -> (group) {
     group_id = group.is_a?(Group) ? group.id : group.to_i
-    { conditions: ["#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
+    where(["#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id])
   }
-  scope :admin, conditions: { admin: true }
+  scope :admin, -> { where(admin: true) }
+
+  scope :newest, -> { order(created_on: :desc) }
 
   def sanitize_mail_notification_setting
     self.mail_notification = Setting.default_notification_option if mail_notification.blank?
@@ -213,32 +205,22 @@ class User < Principal
   end
 
   def self.register_allowance_evaluator(filter)
-    self.registered_allowance_evaluators ||= []
-
     registered_allowance_evaluators << filter
   end
 
-  # replace by class_attribute when on rails 3.x
-  class_eval do
-    def self.registered_allowance_evaluators() nil end
-    def self.registered_allowance_evaluators=(val)
-      singleton_class.class_eval do
-        define_method(:registered_allowance_evaluators) do
-          val
-        end
-      end
-    end
+  def self.registered_allowance_evaluators
+    @@registered_allowance_evaluators ||= []
   end
 
   register_allowance_evaluator OpenProject::PrincipalAllowanceEvaluator::Default
 
   # Returns the user that matches provided login and password, or nil
-  def self.try_to_login(login, password)
+  def self.try_to_login(login, password, session = nil)
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
     user = find_by_login(login)
     user = if user
-             try_authentication_for_existing_user(user, password)
+             try_authentication_for_existing_user(user, password, session)
            else
              try_authentication_and_create_user(login, password)
     end
@@ -251,8 +233,11 @@ class User < Principal
 
   # Tries to authenticate a user in the database via external auth source
   # or password stored in the database
-  def self.try_authentication_for_existing_user(user, password)
+  def self.try_authentication_for_existing_user(user, password, session = nil)
+    activate_user! user, session if session
+
     return nil if !user.active? || OpenProject::Configuration.disable_password_login?
+
     if user.auth_source
       # user has an external authentication method
       return nil unless user.auth_source.authenticate(user.login, password)
@@ -263,6 +248,19 @@ class User < Principal
       return nil if user.password_expired?
     end
     user
+  end
+
+  def self.activate_user!(user, session)
+    if session[:invitation_token]
+      token = Token.find_by_value session[:invitation_token]
+      invited_id = token && token.user.id
+
+      if user.id == invited_id
+        user.activate!
+        token.destroy!
+        session.delete :invitation_token
+      end
+    end
   end
 
   # Tries to authenticate with available sources and creates user on success
@@ -287,7 +285,7 @@ class User < Principal
 
   # Returns the user who matches the given autologin +key+ or nil
   def self.try_to_autologin(key)
-    tokens = Token.find_all_by_action_and_value('autologin', key)
+    tokens = Token.where(action: 'autologin', value: key)
     # Make sure there's only 1 token that matches the key
     if tokens.size == 1
       token = tokens.first
@@ -346,6 +344,10 @@ class User < Principal
     self.status = STATUSES[:registered]
   end
 
+  def invite
+    self.status = STATUSES[:invited]
+  end
+
   def lock
     self.status = STATUSES[:locked]
   end
@@ -356,6 +358,14 @@ class User < Principal
 
   def register!
     update_attribute(:status, STATUSES[:registered])
+  end
+
+  def invite!
+    update_attribute(:status, STATUSES[:invited])
+  end
+
+  def invited?
+    status == STATUSES[:invited]
   end
 
   def lock!
@@ -462,8 +472,10 @@ class User < Principal
   end
 
   def notified_project_ids=(ids)
-    Member.update_all("mail_notification = #{connection.quoted_false}", ['user_id = ?', id])
-    Member.update_all("mail_notification = #{connection.quoted_true}", ['user_id = ? AND project_id IN (?)', id, ids]) if ids && !ids.empty?
+    Member.where(['user_id = ?', id])
+      .update_all("mail_notification = #{self.class.connection.quoted_false}")
+    Member.where(['user_id = ? AND project_id IN (?)', id, ids])
+      .update_all("mail_notification = #{self.class.connection.quoted_true}") if ids && !ids.empty?
     @notified_projects_ids = nil
     notified_projects_ids
   end
@@ -489,28 +501,24 @@ class User < Principal
     # force string comparison to be case sensitive on MySQL
     type_cast = (OpenProject::Database.mysql?) ? 'BINARY' : ''
     # First look for an exact match
-    user = first(conditions: ["#{type_cast} login = ?", login])
+    user = where(["#{type_cast} login = ?", login]).first
     # Fail over to case-insensitive if none was found
-    user ||= first(conditions: ["#{type_cast} LOWER(login) = ?", login.to_s.downcase])
+    user ||= where(["#{type_cast} LOWER(login) = ?", login.to_s.downcase]).first
   end
 
   def self.find_by_rss_key(key)
-    token = Token.find_by_value(key)
+    token = Token.find_by(value: key)
     token && token.user.active? && Setting.feeds_enabled? ? token.user : nil
   end
 
   def self.find_by_api_key(key)
-    token = Token.find_by_action_and_value('api', key)
+    token = Token.find_by(action: 'api', value: key)
     token && token.user.active? ? token.user : nil
   end
 
   # Makes find_by_mail case-insensitive
   def self.find_by_mail(mail)
-    find(:first, conditions: ['LOWER(mail) = ?', mail.to_s.downcase])
-  end
-
-  def self.find_all_by_mails(mails)
-    find(:all, conditions: ['LOWER(mail) IN (?)', mails])
+    where(['LOWER(mail) = ?', mail.to_s.downcase]).first
   end
 
   def to_s
@@ -560,7 +568,7 @@ class User < Principal
     if admin?
       Project.count
     else
-      Project.public.count + memberships.size
+      Project.public_projects.count + memberships.size
     end
   end
 
@@ -612,7 +620,9 @@ class User < Principal
       action[:controller] = action[:controller][1..-1]
     end
 
-    if context.is_a?(Project)
+    if context.is_a?(ActiveRecord::Relation)
+      allowed_to?(action, context.to_a, options)
+    elsif context.is_a?(Project)
       allowed_to_in_project?(action, context, options)
     elsif context.is_a?(Array)
       # Authorize if user is authorized on every element of the array
@@ -627,8 +637,6 @@ class User < Principal
   end
 
   def allowed_to_in_project?(action, project, options = {})
-    initialize_allowance_evaluators
-
     # No action allowed on archived projects
     return false unless project.active?
     # No action allowed on disabled modules
@@ -637,11 +645,11 @@ class User < Principal
     return true if admin?
 
     candidates_for_project_allowance(project).any? do |candidate|
-      denied = @registered_allowance_evaluators.any? do |filter|
+      denied = allowance_evaluators.any? do |filter|
         filter.denied_for_project? candidate, action, project, options
       end
 
-      !denied && @registered_allowance_evaluators.any? do |filter|
+      !denied && allowance_evaluators.any? do |filter|
         filter.granted_for_project? candidate, action, project, options
       end
     end
@@ -653,14 +661,13 @@ class User < Principal
     # Admin users are always authorized
     return true if admin?
 
-    initialize_allowance_evaluators
     # authorize if user has at least one membership granting this permission
     candidates_for_global_allowance.any? do |candidate|
-      denied = @registered_allowance_evaluators.any? do |evaluator|
+      denied = allowance_evaluators.any? do |evaluator|
         evaluator.denied_for_global? candidate, action, options
       end
 
-      !denied && @registered_allowance_evaluators.any? do |evaluator|
+      !denied && allowance_evaluators.any? do |evaluator|
         evaluator.granted_for_global? candidate, action, options
       end
     end
@@ -716,14 +723,33 @@ class User < Principal
     @current_user ||= User.anonymous
   end
 
+  def self.execute_as(user)
+    previous_user = User.current
+    User.current = user
+    yield
+  ensure
+    User.current = previous_user
+  end
+
   def roles(project)
     User.current.admin? ? Role.all : User.current.roles_for_project(project)
+  end
+
+  ##
+  # Returns true if no authentication method has been chosen for this user yet.
+  # There are three possible methods currently:
+  #
+  #   - username & password
+  #   - OmniAuth
+  #   - LDAP
+  def missing_authentication_method?
+    identity_url.nil? && passwords.empty? && auth_source.nil?
   end
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
   # one anonymous user per database.
   def self.anonymous
-    anonymous_user = AnonymousUser.find(:first)
+    anonymous_user = AnonymousUser.first
     if anonymous_user.nil?
       (anonymous_user = AnonymousUser.new.tap do |u|
         u.lastname = 'Anonymous'
@@ -738,7 +764,7 @@ class User < Principal
   end
 
   def self.system
-    system_user = SystemUser.find(:first)
+    system_user = SystemUser.first
     if system_user.nil?
       (system_user = SystemUser.new.tap do |u|
         u.lastname = 'System'
@@ -755,14 +781,6 @@ class User < Principal
     system_user
   end
 
-  def latest_news(options = {})
-    News.latest_for self, options
-  end
-
-  def latest_projects(options = {})
-    Project.latest_for self, options
-  end
-
   protected
 
   # Password requirement validation based on settings
@@ -772,7 +790,7 @@ class User < Principal
     # save. Otherwise, password is nil.
     unless password.nil? or anonymous?
       password_errors = OpenProject::Passwords::Evaluator.errors_for_password(password)
-      password_errors.each { |error| errors.add(:password, error) }
+      password_errors.each do |error| errors.add(:password, error) end
 
       if former_passwords_include?(password)
         errors.add(:password,
@@ -790,18 +808,18 @@ class User < Principal
 
   private
 
-  def initialize_allowance_evaluators
-    @registered_allowance_evaluators ||= self.class.registered_allowance_evaluators.map do |evaluator|
+  def allowance_evaluators
+    @registered_allowance_evaluators ||= self.class.registered_allowance_evaluators.map { |evaluator|
       evaluator.new(self)
-    end
+    }
   end
 
   def candidates_for_global_allowance
-    @registered_allowance_evaluators.map(&:global_granting_candidates).flatten.uniq
+    allowance_evaluators.map(&:global_granting_candidates).flatten.uniq
   end
 
   def candidates_for_project_allowance(project)
-    @registered_allowance_evaluators.map { |f| f.project_granting_candidates(project) }.flatten.uniq
+    allowance_evaluators.map { |f| f.project_granting_candidates(project) }.flatten.uniq
   end
 
   def former_passwords_include?(password)
@@ -822,7 +840,7 @@ class User < Principal
     timelines_filter = ['planning_element_responsibles', 'planning_element_assignee', 'project_responsibles']
     substitute = DeletedUser.first
 
-    timelines = Timeline.all(conditions: ['options LIKE ?', "%#{id}%"])
+    timelines = Timeline.where(['options LIKE ?', "%#{id}%"])
 
     timelines.each do |timeline|
       timelines_filter.each do |field|
@@ -841,11 +859,11 @@ class User < Principal
     substitute = DeletedUser.first
 
     [WorkPackage, Attachment, WikiContent, News, Comment, Message].each do |klass|
-      klass.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+      klass.where(['author_id = ?', id]).update_all ['author_id = ?', substitute.id]
     end
 
     [TimeEntry, Journal, ::Query].each do |klass|
-      klass.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
+      klass.where(['user_id = ?', id]).update_all ['user_id = ?', substitute.id]
     end
 
     JournalManager.update_user_references id, substitute.id
@@ -917,7 +935,7 @@ class AnonymousUser < User
 
   # There should be only one AnonymousUser in the database
   def validate_unique_anonymous_user
-    errors.add :base, 'An anonymous user already exists.' if AnonymousUser.find(:first)
+    errors.add :base, 'An anonymous user already exists.' if AnonymousUser.any?
   end
 
   def available_custom_fields
@@ -943,13 +961,15 @@ end
 class DeletedUser < User
   validate :validate_unique_deleted_user, on: :create
 
+  default_scope { where(status: STATUSES[:builtin]) }
+
   # There should be only one DeletedUser in the database
   def validate_unique_deleted_user
-    errors.add :base, 'A DeletedUser already exists.' if DeletedUser.find(:first)
+    errors.add :base, 'A DeletedUser already exists.' if DeletedUser.any?
   end
 
   def self.first
-    find_or_create_by_type_and_status(to_s, STATUSES[:builtin])
+    super || create(type: to_s, status: STATUSES[:builtin])
   end
 
   # Overrides a few properties

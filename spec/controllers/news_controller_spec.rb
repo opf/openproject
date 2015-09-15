@@ -33,7 +33,13 @@ describe NewsController, type: :controller do
 
   include BecomeMember
 
-  let(:user)    { FactoryGirl.create(:admin)   }
+  let(:user)    {
+    user = FactoryGirl.create(:admin)
+
+    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+
+    user
+  }
   let(:project) { FactoryGirl.create(:project) }
   let(:news)    { FactoryGirl.create(:news)    }
 
@@ -108,7 +114,7 @@ describe NewsController, type: :controller do
                                                       summary: '' }
         expect(response).to redirect_to project_news_index_path(project)
 
-        news = News.find_by_title!('NewsControllerTest')
+        news = News.find_by!(title: 'NewsControllerTest')
         expect(news).not_to be_nil
         expect(news.description).to eq 'This is the description'
         expect(news.author).to eq user

@@ -46,7 +46,7 @@ describe TimelogController, type: :controller do
   let(:project_id) { project.id }
   let(:work_package_id) { '' }
 
-  before { allow(User).to receive(:current).and_return(user) }
+  before do allow(User).to receive(:current).and_return(user) end
 
   describe '#create' do
     shared_examples_for 'successful timelog creation' do
@@ -57,7 +57,7 @@ describe TimelogController, type: :controller do
 
     context 'project' do
       describe '#valid' do
-        before { post :create, params }
+        before do post :create, params end
 
         it_behaves_like 'successful timelog creation'
       end
@@ -65,7 +65,7 @@ describe TimelogController, type: :controller do
       describe '#invalid' do
         let(:project_id) { -1 }
 
-        before { post :create, params }
+        before do post :create, params end
 
         it { expect(response.status).to eq(404) }
       end
@@ -79,7 +79,7 @@ describe TimelogController, type: :controller do
         }
         let(:work_package_id) { work_package.id }
 
-        before { post :create, params }
+        before do post :create, params end
 
         it_behaves_like 'successful timelog creation'
       end
@@ -87,7 +87,7 @@ describe TimelogController, type: :controller do
       describe '#invalid' do
         let(:work_package_id) { 'blub' }
 
-        before { post :create, params }
+        before do post :create, params end
 
         it { expect(response).to render_template(:edit) }
 

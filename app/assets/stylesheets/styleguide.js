@@ -27,3 +27,4 @@
 //++
 
 //= require ../javascripts/bundles/openproject-global
+//= require ../javascripts/tooltips

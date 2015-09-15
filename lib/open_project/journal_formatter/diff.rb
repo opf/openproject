@@ -29,8 +29,6 @@
 require_dependency 'journal_formatter/base'
 
 class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
-  # unloadable
-
   def render(key, values, options = {})
     merge_options = { only_path: true,
                       no_html: false }.merge(options)
@@ -71,6 +69,7 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   end
 
   def link(key, options)
+
     url_attr = default_attributes(options).merge(controller: '/journals',
                                                  action: 'diff',
                                                  id: @journal.id,

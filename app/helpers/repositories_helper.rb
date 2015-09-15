@@ -53,25 +53,26 @@ module RepositoriesHelper
   end
 
   def render_changeset_changes
-    changes = @changeset.changes.find(:all, limit: 1000, order: 'path').map do |change|
+    changes = @changeset.file_changes.limit(1000).order('path').map { |change|
       case change.action
       when 'A'
         # Detects moved/copied files
         if !change.from_path.blank?
-          change.action = @changeset.changes.detect {|c| c.action == 'D' && c.path == change.from_path} ? 'R' : 'C'
+          action = @changeset.file_changes.detect { |c| c.action == 'D' && c.path == change.from_path }
+          change.action = action ? 'R' : 'C'
         end
         change
       when 'D'
-        @changeset.changes.detect {|c| c.from_path == change.path} ? nil : change
+        @changeset.file_changes.detect { |c| c.from_path == change.path } ? nil : change
       else
         change
       end
-              end.compact
+    }.compact
 
-    tree = { }
+    tree = {}
     changes.each do |change|
       p = tree
-      dirs = change.path.to_s.split('/').select {|d| !d.blank?}
+      dirs = change.path.to_s.split('/').select { |d| !d.blank? }
       path = ''
       dirs.each do |dir|
         path += with_leading_slash(dir)
@@ -97,29 +98,39 @@ module RepositoriesHelper
       if s = tree[file][:s]
         style << ' folder'
         path_param = without_leading_slash(to_path_param(@repository.relative_path(file)))
-        text = link_to(h(text), controller: '/repositories',
-                             action: 'show',
-                             project_id: @project,
-                             path: path_param,
-                             rev: @changeset.identifier)
-        output << "<li class='#{style}'>#{text}</li>"
+        text = link_to(h(text),
+                       controller: '/repositories',
+                       action: 'show',
+                       project_id: @project,
+                       path: path_param,
+                       rev: @changeset.identifier)
+        output << "<li class='#{style} icon icon-open-folder'>#{text}</li>"
         output << render_changes_tree(s)
       elsif c = tree[file][:c]
         style << " change-#{c.action}"
         path_param = without_leading_slash(to_path_param(@repository.relative_path(c.path)))
-        text = link_to(h(text), controller: '/repositories',
-                             action: 'entry',
-                             project_id: @project,
-                             path: path_param,
-                             rev: @changeset.identifier) unless c.action == 'D'
+        text = link_to(h(text),
+                       controller: '/repositories',
+                       action: 'entry',
+                       project_id: @project,
+                       path: path_param,
+                       rev: @changeset.identifier) unless c.action == 'D'
         text << raw(" - #{h(c.revision)}") unless c.revision.blank?
-        text << raw(' (' + link_to(l(:label_diff), controller: '/repositories',
-                                       action: 'diff',
-                                       project_id: @project,
-                                       path: path_param,
-                                       rev: @changeset.identifier) + ') ') if c.action == 'M'
+        text << raw(' (' + link_to(l(:label_diff),
+                                   controller: '/repositories',
+                                   action: 'diff',
+                                   project_id: @project,
+                                   path: path_param,
+                                   rev: @changeset.identifier) + ') ') if c.action == 'M'
         text << raw(' ' + content_tag('span', h(c.from_path), class: 'copied-from')) unless c.from_path.blank?
-        output << "<li class='#{style}'>#{text}</li>"
+        case c.action
+        when 'A'
+          output << "<li class='#{style} icon icon-added'>#{text}</li>"
+        when 'D'
+          output << "<li class='#{style} icon icon-delete2'>#{text}</li>"
+        else
+          output << "<li class='#{style} icon icon-pulldown-arrow4'>#{text}</li>"
+        end
       end
     end
     output << '</ul>'
@@ -155,54 +166,78 @@ module RepositoriesHelper
     end
     str = replace_invalid_utf8(str)
   end
+
   private :to_utf8_internal
 
   def replace_invalid_utf8(str)
     return str if str.nil?
     if str.respond_to?(:force_encoding)
       str.force_encoding('UTF-8')
-      if ! str.valid_encoding?
+      if !str.valid_encoding?
         str = str.encode("US-ASCII", invalid: :replace,
-              undef: :replace, replace: '?').encode("UTF-8")
+                         undef: :replace, replace: '?').encode("UTF-8")
       end
     else
       # removes invalid UTF8 sequences
       begin
-        (str + '  ').encode("UTF-8", invalid: :replace, undef: :replace, replace: "?")[0..-3]
+        (str + '  ').encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')[0..-3]
       rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
       end
     end
     str
   end
 
-  def repository_field_tags(form, repository)
-    method = repository.class.name.demodulize.underscore + "_field_tags"
-    if repository.is_a?(Repository) &&
-        respond_to?(method) && method != 'repository_field_tags'
-      send(method, form, repository)
+  ##
+  # Retrieves all valid SCM vendors from the Manager
+  # and injects an already persisted repository for correctly
+  # displaying an existing repository.
+  def scm_options(repository = nil)
+    options = []
+    OpenProject::Scm::Manager.enabled.each do |vendor, klass|
+      # Skip repositories that were configured to have no
+      # available types left.
+      next if klass.available_types.empty?
+
+      options << [klass.vendor_name, vendor]
     end
+
+    existing_vendor = repository.nil? ? nil : repository.vendor
+    options_for_select([default_selected_option] + options, existing_vendor)
   end
 
-  def scm_select_tag(repository)
-    scm_options = [["--- #{l(:actionview_instancetag_blank_option)} ---", '']]
-    Redmine::Scm::Base.configured.each do |scm|
-    if Setting.enabled_scm.include?(scm) ||
-          (repository && repository.class.name.demodulize == scm)
-        scm_options << ["Repository::#{scm}".constantize.scm_name, scm]
-      end
-    end
-    select_tag('repository_scm',
-               options_for_select(scm_options, repository.class.name.demodulize),
-               disabled: (repository && !repository.new_record?),
-               onchange: remote_function(
-                  url: {
-                      controller: '/repositories',
-                      action: 'edit',
-                      id: @project
-                        },
-               method: :get,
-               with: "Form.serialize(this.form)")
-               )
+  def default_selected_option
+    [
+      "--- #{l(:actionview_instancetag_blank_option)} ---",
+      '',
+      { disabled: true, selected: true }
+    ]
+  end
+
+  def scm_vendor_tag(repository)
+    select_tag('scm_vendor',
+               scm_options(repository),
+               class: 'form--select repositories--remote-select',
+               data: {
+                 remote: true,
+                 url: url_for(controller: '/repositories',
+                              action: 'edit', project_id: @project.id),
+               },
+               disabled: (repository && !repository.new_record?)
+              )
+  end
+
+  def git_path_encoding_options(repository)
+    default = repository.new_record? ? 'UTF-8' : repository.path_encoding
+    options_for_select(Setting::ENCODINGS, default)
+  end
+
+  ##
+  # Determines whether the repository settings save button should be shown.
+  # By default, it is not shown when repository exists and is managed.
+  def show_settings_save_button?(repository)
+    @repository.nil? ||
+      @repository.new_record? ||
+      !@repository.managed?
   end
 
   def with_leading_slash(path)
@@ -211,75 +246,5 @@ module RepositoriesHelper
 
   def without_leading_slash(path)
     path.gsub(%r{\A/+}, '')
-  end
-
-  def subversion_field_tags(form, repository)
-    url = content_tag('div', class: 'form--field') do
-      form.text_field(:url,
-                      size: 60,
-                      required: true,
-                      disabled: (repository && !repository.root_url.blank?)) +
-      content_tag('div',
-                  'file:///, http://, https://, svn://, svn+[tunnelscheme]://',
-                  class: 'form--field-instructions')
-    end
-
-    login = content_tag('div', class: 'form--field') do
-      form.text_field(:login, size: 30)
-    end
-
-    pwd = content_tag('div', class: 'form--field') do
-      form.password_field(:password,
-                          size: 30,
-                          name: 'ignore',
-                          value: ((repository.new_record? || repository.password.blank?) ? '' : ('x' * 15)),
-                          onfocus: "this.value=''; this.name='repository[password]';",
-                          onchange: "this.name='repository[password]';")
-    end
-
-    url + login + pwd
-  end
-
-  def git_field_tags(form, repository)
-    url = content_tag('div', class: 'form--field -required') do
-      form.text_field(:url,
-                      label: :label_git_path,
-                      size: 60,
-                      disabled: (repository && !repository.root_url.blank?)) +
-      content_tag('div',
-                  l(:text_git_repo_example),
-                  class: 'form--field-instructions')
-    end
-
-    encoding = content_tag('div', class: 'form--field') do
-      form.select(:path_encoding,
-                  [nil] + Setting::ENCODINGS,
-                  label: l(:label_path_encoding)) +
-      content_tag('div',
-                  l(:text_default_encoding),
-                  class: 'form--field-instructions')
-    end
-
-    url + encoding
-  end
-
-  def filesystem_field_tags(form, repository)
-    url = content_tag('div', class: 'form--field -required') do
-      form.text_field(:url,
-                      label: :label_filesystem_path,
-                      size: 60,
-                      disabled: (repository && !repository.root_url.blank?))
-    end
-
-    encoding = content_tag('div', class: 'form--field') do
-      form.select(:path_encoding,
-                  [nil] + Setting::ENCODINGS,
-                  label: l(:label_path_encoding)) +
-      content_tag('div',
-                  l(:text_default_encoding),
-                  class: 'form--field-instructions')
-    end
-
-    url + encoding
   end
 end

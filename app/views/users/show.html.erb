@@ -54,9 +54,6 @@ See doc/COPYRIGHT.rdoc for more details.
           <li><%=h custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
         <% end %>
       <% end %>
-      <% unless @user.last_login_on.nil? %>
-        <li><%= User.human_attribute_name(:last_login_on) %>: <%= format_date(@user.last_login_on) %></li>
-      <% end %>
     </ul>
 
     <%= call_hook :view_account_left_middle, :user => @user %>

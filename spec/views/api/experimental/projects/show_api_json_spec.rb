@@ -38,7 +38,7 @@ describe 'api/experimental/projects/show.api.rabl', type: :view do
                       possible_responsible_members: members,
                       possible_assignee_members:    members,
                       types:                        types
-  )
+                     )
   }
 
   before do
@@ -48,7 +48,7 @@ describe 'api/experimental/projects/show.api.rabl', type: :view do
     render
   end
 
-  subject { response.body }
+  subject { rendered }
 
   it { is_expected.to have_json_path('project') }
   it { is_expected.to have_json_path('project/name') }

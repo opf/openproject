@@ -84,9 +84,12 @@ class AuthSourcesController < ApplicationController
 
   def destroy
     @auth_source = AuthSource.find(params[:id])
-    unless @auth_source.users.find(:first)
+    if @auth_source.users.empty?
       @auth_source.destroy
-      flash[:notice] = l(:notice_successful_delete)
+
+      flash[:notice] = t(:notice_successful_delete)
+    else
+      flash[:warning] = t(:notice_wont_delete_auth_source)
     end
     redirect_to action: 'index'
   end

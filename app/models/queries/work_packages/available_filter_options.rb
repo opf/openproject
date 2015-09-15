@@ -77,7 +77,7 @@ module Queries::WorkPackages::AvailableFilterOptions
   private
 
   def visible_projects
-    @visible_projects ||= Project.visible.all
+    @visible_projects ||= Project.visible
   end
 
   def get_principals
@@ -94,12 +94,12 @@ module Queries::WorkPackages::AvailableFilterOptions
   # options for available filters
 
   def setup_available_work_package_filters
-    types = project.nil? ? Type.find(:all, order: 'position') : project.rolled_up_types
+    types = project.nil? ? ::Type.order('position') : project.rolled_up_types
 
     @available_work_package_filters = {
       status_id:       { type: :list_status, order: 1, values: Status.all.map { |s| [s.name, s.id.to_s] } },
       type_id:         { type: :list, order: 2, values: types.map { |s| [s.name, s.id.to_s] } },
-      priority_id:     { type: :list, order: 3, values: IssuePriority.all.map { |s| [s.name, s.id.to_s] } },
+      priority_id:     { type: :list, order: 3, values: IssuePriority.active.map { |s| [s.name, s.id.to_s] } },
       subject:         { type: :text, order: 8 },
       created_at:      { type: :date_past, order: 9 },
       updated_at:      { type: :date_past, order: 10 },
@@ -132,16 +132,16 @@ module Queries::WorkPackages::AvailableFilterOptions
 
   def add_project_options
     # project specific filters
-    categories = project.categories.all
+    categories = project.categories
     unless categories.empty?
       @available_work_package_filters['category_id'] = { type: :list_optional, order: 6, values: categories.map { |s| [s.name, s.id.to_s] } }
     end
-    versions = project.shared_versions.all
+    versions = project.shared_versions
     unless versions.empty?
       @available_work_package_filters['fixed_version_id'] = { type: :list_optional, order: 7, values: versions.sort.map { |s| ["#{s.project.name} - #{s.name}", s.id.to_s] }, name: WorkPackage.human_attribute_name('fixed_version_id') }
     end
     unless project.leaf?
-      subprojects = project.descendants.visible.all
+      subprojects = project.descendants.visible
       unless subprojects.empty?
         @available_work_package_filters['subproject_id'] = { type: :list_subprojects, order: 13, values: subprojects.map { |s| [s.name, s.id.to_s] }, name: I18n.t('query_fields.subproject_id') }
       end
@@ -191,11 +191,11 @@ module Queries::WorkPackages::AvailableFilterOptions
 
   def add_global_options
     # global filters for cross project issue list
-    system_shared_versions = Version.visible.find_all_by_sharing('system')
+    system_shared_versions = Version.visible.where(sharing: 'system')
     unless system_shared_versions.empty?
       @available_work_package_filters['fixed_version_id'] = { type: :list_optional, order: 7, values: system_shared_versions.sort.map { |s| ["#{s.project.name} - #{s.name}", s.id.to_s] }, name: WorkPackage.human_attribute_name('fixed_version_id') }
     end
-    add_custom_fields_options(WorkPackageCustomField.find(:all, conditions: { is_filter: true, is_for_all: true }))
+    add_custom_fields_options(WorkPackageCustomField.where(is_filter: true, is_for_all: true))
   end
 
   def add_custom_fields_options(custom_fields)

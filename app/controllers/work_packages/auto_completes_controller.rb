@@ -30,43 +30,63 @@
 require 'rack/utils'
 
 class WorkPackages::AutoCompletesController < ApplicationController
-  before_filter :find_project
-
   def index
-    @work_packages = []
-    q = params[:q].to_s
-
-    if q.present?
-      query = (params[:scope] == 'all' && Setting.cross_project_work_package_relations?) ? WorkPackage : @project.work_packages
-
-      @work_packages |= query.visible.find_all_by_id(q.to_i) if q =~ /\A\d+\z/
-
-      @work_packages |= query.visible.find(:all,
-                                           limit: 10,
-                                           order: "#{WorkPackage.table_name}.id ASC",
-                                           conditions: ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q", { q: "%#{q.downcase}%" }])
+    scope = determine_scope
+    if scope.nil?
+      render_404
+      return
     end
 
+    query_term = params[:q].to_s
+    @work_packages = []
+    # query for exact ID matches first, to make an exact match the first result of autocompletion
+    if query_term =~ /\A\d+\z/
+      @work_packages |= scope.visible.where(id: query_term.to_i)
+    end
+
+    sql_query = ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR
+                  CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q",
+                 { q: "%#{query_term.downcase}%" }]
+
+    @work_packages |= scope.visible
+                      .where(sql_query)
+                      .order("#{WorkPackage.table_name}.id ASC") # :id does not work because...
+                      .limit(10)
+
     respond_to do |format|
-      format.html { render layout: false }
-      format.any(:xml, :json) { render request.format.to_sym => wp_hash_with_string }
+      format.html do render layout: false end
+      format.any(:xml, :json) { render request.format.to_sym => wp_hashes_with_string(@work_packages) }
     end
   end
 
   private
 
-  def wp_hash_with_string
-    @work_packages.map do |wp|
-      Hash[wp.attributes.map do |key, value|
-        [key, Rack::Utils.escape_html(value)]
-      end << ['to_s', Rack::Utils.escape_html(wp.to_s)]]
+  def wp_hashes_with_string(work_packages)
+    work_packages.map do |work_package|
+      wp_hash = Hash.new
+      work_package.attributes.each do |key, value| wp_hash[key] = Rack::Utils.escape_html(value) end
+      wp_hash['to_s'] = Rack::Utils.escape_html(work_package.to_s)
+      wp_hash
     end
   end
 
   def find_project
     project_id = (params[:work_package] && params[:work_package][:project_id]) || params[:project_id]
-    @project = Project.find(project_id)
-  rescue ActiveRecord::RecordNotFound
-    render_404
+    return nil unless project_id
+    Project.find_by(id: project_id)
+  end
+
+  def determine_scope
+    project = find_project
+
+    if params[:scope] == 'relatable'
+      return nil unless project
+
+      Setting.cross_project_work_package_relations? ? WorkPackage.all : project.work_packages
+    elsif params[:scope] == 'all' || project.nil?
+      WorkPackage.all
+    else
+      project.work_packages
+    end
   end
 end

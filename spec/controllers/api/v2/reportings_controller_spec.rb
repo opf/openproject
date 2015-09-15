@@ -69,7 +69,7 @@ describe Api::V2::ReportingsController, type: :controller do
 
         it 'renders the index builder template' do
           get 'index', project_id: project.identifier, format: 'xml'
-          expect(response).to render_template('api/v2/reportings/index', formats: ['api'])
+          expect(response).to render_template('api/v2/reportings/index')
         end
       end
 
@@ -89,7 +89,7 @@ describe Api::V2::ReportingsController, type: :controller do
 
         it 'renders the index builder template' do
           get 'index', project_id: project.identifier, format: 'xml'
-          expect(response).to render_template('api/v2/reportings/index', formats: ['api'])
+          expect(response).to render_template('api/v2/reportings/index')
         end
 
         describe 'w/ ?only=via_source' do
@@ -164,7 +164,7 @@ describe Api::V2::ReportingsController, type: :controller do
 
         it 'renders the index builder template' do
           get 'index', project_id: project.id, id: reporting.id, format: 'xml'
-          expect(response).to render_template('api/v2/reportings/index', formats: ['api'])
+          expect(response).to render_template('api/v2/reportings/index')
         end
       end
     end

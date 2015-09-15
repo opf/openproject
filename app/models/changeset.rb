@@ -30,7 +30,7 @@
 class Changeset < ActiveRecord::Base
   belongs_to :repository
   belongs_to :user
-  has_many :changes, dependent: :delete_all
+  has_many :file_changes, class_name: 'Change', dependent: :delete_all
   has_and_belongs_to_many :work_packages
 
   acts_as_journalized
@@ -43,6 +43,7 @@ class Changeset < ActiveRecord::Base
 
   acts_as_searchable columns: 'comments',
                      include: { repository: :project },
+                     references: [:repositories],
                      project_key: "#{Repository.table_name}.project_id",
                      date_column: 'committed_on'
 
@@ -52,9 +53,9 @@ class Changeset < ActiveRecord::Base
   validates_uniqueness_of :revision, scope: :repository_id
   validates_uniqueness_of :scmid, scope: :repository_id, allow_nil: true
 
-  scope :visible, lambda {|*args|
-    { include: { repository: :project },
-      conditions: Project.allowed_to_condition(args.first || User.current, :view_changesets) }
+  scope :visible, -> (*args) {
+    includes(repository: :project)
+      .merge(Project.allowed_to(args.first || User.current, :view_changesets))
   }
 
   def revision=(r)
@@ -96,8 +97,6 @@ class Changeset < ActiveRecord::Base
   def repository_encoding
     if repository.present?
       repository.repo_log_encoding
-    else
-      nil
     end
   end
 
@@ -138,11 +137,13 @@ class Changeset < ActiveRecord::Base
     referenced_work_packages = []
 
     comments.scan(/([\s\(\[,-]|^)((#{kw_regexp})[\s:]+)?(#\d+(\s+@#{TIMELOG_RE})?([\s,;&]+#\d+(\s+@#{TIMELOG_RE})?)*)(?=[[:punct:]]|\s|<|$)/i) do |match|
-      action, refs = match[2], match[3]
+      action = match[2]
+      refs = match[3]
       next unless action.present? || ref_keywords_any
 
       refs.scan(/#(\d+)(\s+@#{TIMELOG_RE})?/).each do |m|
-        work_package, hours = find_referenced_work_package_by_id(m[0].to_i), m[2]
+        work_package = find_referenced_work_package_by_id(m[0].to_i)
+        hours = m[2]
         if work_package
           referenced_work_packages << work_package
           fix_work_package(work_package) if fix_keywords.include?(action.to_s.downcase)
@@ -173,12 +174,12 @@ class Changeset < ActiveRecord::Base
 
   # Returns the previous changeset
   def previous
-    @previous ||= Changeset.find(:first, conditions: ['id < ? AND repository_id = ?', id, repository_id], order: 'id DESC')
+    @previous ||= Changeset.where(['id < ? AND repository_id = ?', id, repository_id]).order('id DESC').first
   end
 
   # Returns the next changeset
   def next
-    @next ||= Changeset.find(:first, conditions: ['id > ? AND repository_id = ?', id, repository_id], order: 'id ASC')
+    @next ||= Changeset.where(['id > ? AND repository_id = ?', id, repository_id]).order('id ASC').first
   end
 
   # Creates a new Change from it's common parameters
@@ -196,7 +197,7 @@ class Changeset < ActiveRecord::Base
   # i.e. a work_package that belong to the repository project, a subproject or a parent project
   def find_referenced_work_package_by_id(id)
     return nil if id.blank?
-    work_package = WorkPackage.find_by_id(id.to_i, include: :project)
+    work_package = WorkPackage.includes(:project).find_by(id: id.to_i)
     if work_package
       unless work_package.project && (project == work_package.project || project.is_ancestor_of?(work_package.project) || project.is_descendant_of?(work_package.project))
         work_package = nil
@@ -206,7 +207,7 @@ class Changeset < ActiveRecord::Base
   end
 
   def fix_work_package(work_package)
-    status = Status.find_by_id(Setting.commit_fix_status_id.to_i)
+    status = Status.find_by(id: Setting.commit_fix_status_id.to_i)
     if status.nil?
       logger.warn("No status matches commit_fix_status_id setting (#{Setting.commit_fix_status_id})") if logger
       return work_package
@@ -237,7 +238,7 @@ class Changeset < ActiveRecord::Base
       work_package: work_package,
       spent_on: commit_date,
       comments: l(:text_time_logged_by_changeset, value: text_tag, locale: Setting.default_language)
-      )
+    )
     time_entry.activity = log_time_activity unless log_time_activity.nil?
 
     unless time_entry.save
@@ -248,7 +249,7 @@ class Changeset < ActiveRecord::Base
 
   def log_time_activity
     if Setting.commit_logtime_activity_id.to_i > 0
-      TimeEntryActivity.find_by_id(Setting.commit_logtime_activity_id.to_i)
+      TimeEntryActivity.find_by(id: Setting.commit_logtime_activity_id.to_i)
     end
   end
 

@@ -28,7 +28,6 @@
 #++
 
 class PlanningElementTypeColorsController < ApplicationController
-  unloadable
   helper :timelines
 
   before_filter :disable_api
@@ -38,6 +37,8 @@ class PlanningElementTypeColorsController < ApplicationController
 
   helper :timelines
   layout 'admin'
+
+  menu_item :colors
 
   def index
     @colors = PlanningElementTypeColor.all

@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe PaginationHelper, type: :helper do
-
   let(:paginator) do
     # creating a mock pagination object
     # this one is then identical (from the interface) to a active record
@@ -56,27 +55,24 @@ describe PaginationHelper, type: :helper do
     let(:current_page) { 1 }
     let(:pagination) { helper.pagination_links_full(paginator) }
 
-    it "should be inside a 'pagination' p" do
-      expect(pagination).to have_selector('p.legacy-pagination')
-    end
-
-    it "should not be inside a 'pagination' p if not desired" do
-      expect(helper.pagination_links_full(paginator, container: false)).not_to have_selector('p.legacy-pagination')
+    it "should be inside a 'pagination' div" do
+      expect(pagination).to have_selector('div.pagination')
     end
 
     it 'should have a next_page reference' do
-      expect(pagination).to have_selector('.next_page')
+      expect(pagination).to have_selector('.pagination--item.-next')
     end
 
-    it 'should have a previous_page reference' do
-      expect(pagination).to have_selector('.previous_page')
+    it 'should not have a previous_page reference' do
+      expect(pagination).not_to have_selector('.pagination--item.-prev')
     end
 
     it 'should have links to every page except the current one' do
       (1..(total_entries / per_page)).each do |i|
         next if i == current_page
 
-        expect(pagination).to have_selector("a[href='#{work_packages_path(page: i)}']", text: Regexp.new("^#{i}$"))
+        expect(pagination).to have_selector("a[href='#{work_packages_path(page: i)}']",
+                                            text: Regexp.new("^#{i}$"))
       end
     end
 
@@ -85,12 +81,14 @@ describe PaginationHelper, type: :helper do
     end
 
     it 'should have an element for the curren page' do
-      expect(pagination).to have_selector('em.current', text: Regexp.new("^#{current_page}$"))
+      expect(pagination).to have_selector('.pagination--item.-current',
+                                          text: Regexp.new("^#{current_page}$"))
     end
 
     it 'should show the range of the entries displayed' do
-      expect(pagination).to have_selector('span.range',
-                                          text: "(#{(current_page * per_page) - per_page + 1} - #{current_page * per_page}/#{total_entries})")
+      range = "(#{(current_page * per_page) - per_page + 1} - " +
+              "#{current_page * per_page}/#{total_entries})"
+      expect(pagination).to have_selector('.pagination--range', text: range)
     end
 
     it 'should have different urls if the params are specified as options' do
@@ -110,10 +108,12 @@ describe PaginationHelper, type: :helper do
 
       Setting.per_page_options = "#{per_page},#{per_page * 10}"
 
-      expect(pagination).to have_selector('span.per_page_options')
+      expect(pagination).to have_selector('.pagination--options')
 
-      expect(pagination).to have_selector('.per_page_options span.current', text: per_page)
-      expect(pagination).to have_selector(".per_page_options a[href='#{work_packages_path(page: current_page, per_page: Setting.per_page_options_array.last)}']")
+      expect(pagination).to have_selector('.pagination--options .-current', text: per_page)
+
+      path = work_packages_path(page: current_page, per_page: Setting.per_page_options_array.last)
+      expect(pagination).to have_selector(".pagination--options a[href='#{path}']")
 
       Setting.per_page_options = ar
     end
@@ -122,11 +122,12 @@ describe PaginationHelper, type: :helper do
       let(:current_page) { 1 }
 
       it 'should deactivate the previous page link' do
-        expect(pagination).to have_selector('.previous_page.disabled')
+        expect(pagination).not_to have_selector('.pagination--item.-prev')
       end
 
       it 'should have a link to the next page' do
-        expect(pagination).to have_selector("a.next_page[href='#{work_packages_path(page: current_page + 1)}']")
+        path = work_packages_path(page: current_page + 1)
+        expect(pagination).to have_selector(".pagination--item.-next a[href='#{path}']")
       end
     end
 
@@ -134,19 +135,24 @@ describe PaginationHelper, type: :helper do
       let(:current_page) { total_entries / per_page + 1 }
 
       it 'should deactivate the next page link' do
-        expect(pagination).to have_selector('.next_page.disabled')
+        expect(pagination).not_to have_selector('.pagination--item.-next')
       end
 
       it 'should have a link to the previous page' do
-        expect(pagination).to have_selector("a.previous_page[href='#{work_packages_path(page: current_page - 1)}']")
+        path = work_packages_path(page: current_page - 1)
+        expect(pagination).to have_selector(".pagination--item.-prev a[href='#{path}']")
       end
     end
 
     describe 'WHEN the paginated object is empty' do
       let(:total_entries) { 0 }
 
-      it 'should be empty' do
-        expect(pagination).to have_selector('.legacy-pagination', text: /\A\z/)
+      it 'should show no pages' do
+        expect(pagination).not_to have_selector('.pagination--items .pagination--item')
+      end
+
+      it 'should show no pagination' do
+        expect(pagination).not_to have_selector('.pagination')
       end
     end
   end

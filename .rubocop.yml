@@ -30,6 +30,12 @@ Attr:
 BlockNesting:
   Enabled: false
 
+BlockDelimiters:
+  Enabled: true
+  EnforcedStyle: semantic
+  IgnoredMethods:
+    - default_scope
+
 Blocks:
   Enabled: false
 

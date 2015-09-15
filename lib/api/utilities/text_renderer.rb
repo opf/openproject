@@ -39,7 +39,11 @@ module API
         @text = text
         @format = format
         @object = object
-        @project = object.project if object.respond_to?(:project)
+        if object.respond_to?(:project)
+          @project = object.project
+        elsif @object.is_a?(Project)
+          @project = object
+        end
       end
 
       def to_html

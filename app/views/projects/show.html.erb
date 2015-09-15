@@ -27,16 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: l(:label_overview) do %>
-  <% if User.current.allowed_to?(:add_subprojects, @project) %>
-    <li class="toolbar-item">
-      <%= link_to({:controller => '/projects', :action => 'new', :parent_id => @project}, :class => 'button -alt-highlight') do %>
-        <i class="button--icon icon-add"></i>
-        <span class="button--text"><%= l(:label_subproject_new) %></span>
-      <% end %>
-    </li>
-  <% end %>
-<% end %>
+<%= toolbar title: l(:label_overview) %>
+
 <% breadcrumb_paths(l(:label_overview)) %>
 
 <div class="grid-block medium-up-2">
@@ -45,9 +37,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= format_text @project.description %>
     </div>
     <ul>
-      <% if @project.homepage.present? %>
-        <li><%= Project.human_attribute_name(:homepage) %>: <%=raw auto_link(@project.homepage) %></li>
-      <% end %>
       <% if @subprojects.any? %>
         <li>
           <%= l(:label_subproject_plural) %>:
@@ -97,20 +86,6 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 </div>
 
-<% content_for :sidebar do %>
-  <% if @total_hours.present? %>
-    <h3><%= l(:label_spent_time) %></h3>
-    <p><span class="icon5 icon-time"><%= l_hours(@total_hours) %></span></p>
-    <p>
-      <%= link_to(l(:label_details), {:controller => '/timelog', :action => 'index', :project_id => @project}) %> |
-      <%= link_to(l(:label_report), project_time_entries_report_path(@project)) %>
-      <% if authorize_for('timelog', 'new') %>
-        | <%= link_to l(:button_log_time), {:controller => '/timelog', :action => 'new', :project_id => @project} %>
-      <% end %>
-    </p>
-  <% end %>
-  <%= call_hook(:view_projects_show_sidebar_bottom, :project => @project) %>
-<% end %>
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, {:controller => '/activities', :action => 'index', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
 <% end %>

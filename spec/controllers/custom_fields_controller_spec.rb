@@ -77,7 +77,6 @@ describe CustomFieldsController, type: :controller do
       it { expect(custom_field.name(:de)).to eq(en_name) }
       it { expect(custom_field.name(:en)).to eq(en_name) }
     end
-
   end
 
   describe 'POST new' do
@@ -99,8 +98,8 @@ describe CustomFieldsController, type: :controller do
       end
 
       it { expect(response).to render_template 'new' }
-      it { expect(assigns(:custom_field).errors.messages[:name].first).to eq "can't be blank" }
-      it { expect(assigns(:custom_field).translations).to be_empty }
+      it { expect(assigns(:custom_field).errors.messages[:name].first).to eq "can't be blank." }
+      it { expect(assigns(:custom_field).translations(true)).to be_empty }
     end
 
     describe 'WITH all ok params' do
@@ -156,11 +155,28 @@ describe CustomFieldsController, type: :controller do
         post :create, params
       end
 
+      around do |example|
+        old_fallbacks = Globalize.fallbacks
+        Globalize.fallbacks = { de: [:de, :en], en: [] }
+        example.run
+        Globalize.fallbacks = old_fallbacks
+      end
+
       it { expect(response.status).to eql(302) }
-      it { expect(assigns(:custom_field).translations.find { |elem| elem.locale == :de }[:name]).to eq(en_name) }
-      it { expect(assigns(:custom_field).translations.find { |elem| elem.locale == :en }[:name]).to eq(en_name) }
-      it { expect(assigns(:custom_field).translations.find { |elem| elem.locale == :en }[:default_value]).to be_nil }
-      it { expect(assigns(:custom_field).translations.find { |elem| elem.locale == :de }[:default_value]).to eq(de_default) }
+
+      it 'sets correct values for EN' do
+        I18n.with_locale(:en) do
+          expect(assigns(:custom_field).name).to eq(en_name)
+          expect(assigns(:custom_field).default_value).to be_nil
+        end
+      end
+
+      it 'sets correct values for DE' do
+        I18n.with_locale(:de) do
+          expect(assigns(:custom_field).name).to eq(en_name)
+          expect(assigns(:custom_field).default_value).to eq 'DE Default Value'
+        end
+      end
     end
   end
 end

@@ -40,15 +40,24 @@ module API
           route_param :id do
             before do
               @query = Query.find(params[:id])
-              @representer = QueryRepresenter.new(@query)
+              @representer = QueryRepresenter.new(@query, current_user: current_user)
+              authorize_by_policy(:show) do
+                raise API::Errors::NotFound
+              end
             end
 
             helpers do
-              def authorize_by_policy(action)
-                authorize_by_with_raise do
-                  QueryPolicy.new(current_user).allowed?(@query, action)
-                end
+              def authorize_by_policy(action, &block)
+                authorize_by_with_raise(-> () { allowed_to?(action) }, &block)
               end
+
+              def allowed_to?(action)
+                QueryPolicy.new(current_user).allowed?(@query, action)
+              end
+            end
+
+            get do
+              @representer
             end
 
             patch :star do
@@ -57,9 +66,11 @@ module API
               # Query name is not user-visible, but apparently used as CSS class. WTF.
               # Normalizing the query name can result in conflicts and empty names in case all
               # characters are filtered out. A random name doesn't have these problems.
-              query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by_navigatable_id(
-                @query.id, name: SecureRandom.uuid, title: @query.name
-              )
+              query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by(
+                navigatable_id: @query.id) { |item|
+                  item.name  = SecureRandom.uuid
+                  item.title = @query.name
+                }
               query_menu_item.save!
               @representer
             end

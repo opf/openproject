@@ -28,13 +28,13 @@
 #++
 
 Given(/^the work package "(.*?)" has the following changesets:$/) do |subject, table|
-  wp = WorkPackage.find_by_subject!(subject)
+  wp = WorkPackage.find_by!(subject: subject)
 
   repo = wp.project.repository
 
-  wp_changesets = table.hashes.map do |row|
+  wp_changesets = table.hashes.map { |row|
     FactoryGirl.build(:changeset, row.merge(repository: repo))
-  end
+  }
 
   wp.changesets = wp_changesets
 end
@@ -47,7 +47,7 @@ Then(/^I should see the following changesets:$/) do |table|
   end
 
   table.hashes.each do |row|
-    displayed_changesets.any? do |displayed_changeset|
+    displayed_changesets.any? { |displayed_changeset|
       (!row[:revision] ||
        (row[:revision] &&
         displayed_changeset.has_selector?('a', text: I18n.t(:label_revision_id,
@@ -55,7 +55,7 @@ Then(/^I should see the following changesets:$/) do |table|
         (row[:comments] ||
          (row[:comments] &&
           displayed_changeset.has_selector?('', text: row[:comments])))
-    end.should be_truthy
+    }.should be_truthy
   end
 end
 

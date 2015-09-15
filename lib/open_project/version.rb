@@ -31,9 +31,9 @@ require 'rexml/document'
 
 module OpenProject
   module VERSION #:nodoc:
-    MAJOR = 4
-    MINOR = 1
-    PATCH = 4
+    MAJOR = 5
+    MINOR = 0
+    PATCH = 0
     TINY  = PATCH # Redmine compat
 
     # Used by semver to define the special version (if any).
@@ -48,15 +48,13 @@ module OpenProject
     #
     #   2.0.0debian-2
     def self.special
-      ''
+      '-alpha'
     end
 
     def self.revision
       revision = `git rev-parse HEAD`
       if revision.present?
         revision.strip[0..8]
-      else
-        nil
       end
     end
 

@@ -37,8 +37,7 @@ module.exports = function(TextileService, EditableFieldsState, $sce, AutoComplet
     controller: function($scope) {
       this.isPreview = false;
       this.previewHtml = '';
-      this.autocompletePath = '/work_packages/auto_complete.json?project_id=' +
-        EditableFieldsState.workPackage.embedded.project.props.id;
+      this.autocompletePath = '/work_packages/auto_complete.json';
 
       this.togglePreview = function() {
         this.isPreview = !this.isPreview;

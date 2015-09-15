@@ -54,7 +54,7 @@ class MigratePlanningElementTypeToProjectAssociation < ActiveRecord::Migration
       DefaultPlanningElementType.create!(project_type_id:          project_type.id,
                                          planning_element_type_id: planning_element_type.id)
 
-      Project.find(:all, conditions: { timelines_project_type_id: project_type.id }).each do |project|
+      Project.where(timelines_project_type_id: project_type.id).each do |project|
         EnabledPlanningElementType.create!(project_id:               project.id,
                                            planning_element_type_id: planning_element_type.id)
       end

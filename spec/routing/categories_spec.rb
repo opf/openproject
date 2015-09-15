@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe CategoriesController, type: :routing do
-
   it 'should connect GET /projects/test/categories/new to categories#new' do
     expect(get('/projects/test/categories/new')).to route_to(controller: 'categories',
                                                              action: 'new',

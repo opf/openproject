@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'copy_project' %>
 <%= toolbar title: l(:label_project_new) %>
 
-<%= labelled_tabular_form_for @copy_project, :url => { :action => "copy" } do |f| %>
+<%= labelled_tabular_form_for @copy_project, url: { action: 'copy', coming_from: 'settings' } do |f| %>
   <section class="form--section">
     <%= render :partial => "projects/form/attributes/name", :locals => { :form => f } %>
     <%= render :partial => "projects/form/attributes/identifier", :locals => { :form => f,
@@ -43,8 +43,6 @@ See doc/COPYRIGHT.rdoc for more details.
                :locals => { :form => f, :name => :project_type_id, :value => @project.project_type_id } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
                :locals => { :form => f, :name => :parent_id, :value => @project.parent_id } %>
-    <%= render :partial => "projects/form/attributes/hidden_field",
-               :locals => { :form => f, :name => :homepage, :value => @project.homepage } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
                :locals => { :form => f, :name => :is_public, :value => @project.is_public } %>
     <%= render :partial => "copy_projects/copy_settings/hidden_types",

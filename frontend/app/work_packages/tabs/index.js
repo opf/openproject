@@ -39,19 +39,6 @@ angular.module('openproject.workPackages.tabs')
     'WorkPackagesHelper', require(
       './related-work-package-table-row-directive')
   ])
-  .directive('userActivity', [
-    '$uiViewScroll',
-    '$timeout',
-    '$location',
-    '$sce',
-    'I18n',
-    'PathHelper',
-    'ActivityService',
-    'UsersHelper',
-    'ConfigurationService',
-    'AutoCompleteHelper',
-    require('./user-activity-directive')
-  ])
   .directive('workPackageRelations', [
     'I18n',
     'WorkPackagesHelper',
@@ -61,12 +48,4 @@ angular.module('openproject.workPackages.tabs')
 
 // FIXME: move modules or files to the right place
 angular.module('openproject.workPackages.directives')
-  .directive('attachmentFileSize', require('./attachment-file-size-directive'))
-  .directive('attachmentTitleCell', ['PathHelper', require(
-    './attachment-title-cell-directive')])
-  .directive('attachmentUserCell', ['PathHelper', require(
-    './attachment-user-cell-directive')])
-  .directive('attachmentsTable', ['I18n', require(
-    './attachments-table-directive')])
-  .directive('attachmentsTitle', require('./attachments-title-directive'))
   .directive('editableComment', require('./editable-comment-directive'));

@@ -138,7 +138,7 @@ describe VersionsController, type: :controller do
 
       it { expect(response).to redirect_to(settings_project_path(project, tab: 'versions')) }
       it 'generates the new version' do
-        version = Version.find_by_name('test_add_version')
+        version = Version.find_by(name: 'test_add_version')
         expect(version).not_to be_nil
         expect(version.project).to eq(project)
       end
@@ -153,16 +153,16 @@ describe VersionsController, type: :controller do
       end
 
       it 'generates the new version' do
-        version = Version.find_by_name('test_add_version_from_issue_form')
+        version = Version.find_by(name: 'test_add_version_from_issue_form')
         expect(version).not_to be_nil
         expect(version.project).to eq(project)
       end
 
       it 'returns updated select box with new version' do
-        version = Version.find_by_name('test_add_version_from_issue_form')
+        version = Version.find_by(name: 'test_add_version_from_issue_form')
 
         expect(response.body).to include(
-          "option value=\\\"#{version.id}\\\" selected=\\\"selected\\\""
+          "option selected=\\\"selected\\\" value=\\\"#{version.id}\\\""
         )
       end
 
@@ -200,20 +200,20 @@ describe VersionsController, type: :controller do
     end
 
     it { expect(response).to redirect_to(settings_project_path(project, tab: 'versions')) }
-    it { expect(Version.find_by_status('closed')).to eq(version3) }
+    it { expect(Version.find_by(status: 'closed')).to eq(version3) }
   end
 
   describe '#update' do
     context 'with valid params' do
       before do
         allow(User).to receive(:current).and_return(user)
-        put :update, id: version1.id,
-                     version: { name: 'New version name',
-                                effective_date: Date.today.strftime('%Y-%m-%d') }
+        patch :update, id: version1.id,
+                       version: { name: 'New version name',
+                                  effective_date: Date.today.strftime('%Y-%m-%d') }
       end
 
       it { expect(response).to redirect_to(settings_project_path(project, tab: 'versions')) }
-      it { expect(Version.find_by_name('New version name')).to eq(version1) }
+      it { expect(Version.find_by(name: 'New version name')).to eq(version1) }
       it { expect(version1.reload.effective_date).to eq(Date.today) }
     end
 
@@ -221,10 +221,10 @@ describe VersionsController, type: :controller do
              with a redirect url" do
       before do
         allow(User).to receive(:current).and_return(user)
-        put :update, id: version1.id,
-                     version: { name: 'New version name',
-                                effective_date: Date.today.strftime('%Y-%m-%d') },
-                     back_url: home_path
+        patch :update, id: version1.id,
+                       version: { name: 'New version name',
+                                  effective_date: Date.today.strftime('%Y-%m-%d') },
+                       back_url: home_path
       end
 
       it { expect(response).to redirect_to(home_path) }
@@ -233,9 +233,9 @@ describe VersionsController, type: :controller do
     context 'with invalid params' do
       before do
         allow(User).to receive(:current).and_return(user)
-        put :update, id: version1.id,
-                     version: { name: '',
-                                effective_date: Date.today.strftime('%Y-%m-%d') }
+        patch :update, id: version1.id,
+                       version: { name: '',
+                                  effective_date: Date.today.strftime('%Y-%m-%d') }
       end
 
       it { expect(response).to be_success }
@@ -254,7 +254,6 @@ describe VersionsController, type: :controller do
       expect(response).to redirect_to(settings_project_path(project, tab: 'versions'))
       expect { Version.find(@deleted) }.to raise_error ActiveRecord::RecordNotFound
     end
-
   end
 
   describe '#status_by' do
@@ -264,20 +263,20 @@ describe VersionsController, type: :controller do
 
     context 'status by version' do
       before do
-        get :status_by, id: version2.id, format: :js
+        xhr :get, :status_by, id: version2.id, format: :js
       end
 
       it { expect(response).to be_success }
-      it { expect(response).to render_template('work_package_counts') }
+      it { expect(response).to render_template('versions/_work_package_counts') }
     end
 
     context 'status by version with status_by' do
       before do
-        get :status_by, id: version2.id, format: :js, status_by: 'status'
+        xhr :get, :status_by, id: version2.id, format: :js, status_by: 'status'
       end
 
       it { expect(response).to be_success }
-      it { expect(response).to render_template('work_package_counts') }
+      it { expect(response).to render_template('versions/_work_package_counts') }
     end
   end
 end

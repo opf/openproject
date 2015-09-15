@@ -26,38 +26,86 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-Event.observe(window,'load',function() {
-  /*
-  If we're viewing a tag or branch, don't display it in the
-  revision box
-  */
-  var branch_selected = $('branch') && $('rev').getValue() == $('branch').getValue();
-  var tag_selected = $('tag') && $('rev').getValue() == $('tag').getValue();
-  if (branch_selected || tag_selected) {
-    $('rev').setValue('');
-  }
+(function($) {
+  $(function() {
+    var revision = $('#revision-identifier-input'),
+        form = revision.closest('form'),
+        tag = $('#revision-tag-select'),
+        branch = $('#revision-branch-select'),
+        selects = tag.add(branch),
+        branch_selected = branch.length > 0 && revision.val() == branch.val(),
+        tag_selected = tag.length > 0 && revision.val() == tag.val();
 
-  /*
-  Copy the branch/tag value into the revision box, then disable
-  the dropdowns before submitting the form
-  */
-  $$('#branch,#tag').each(function(e) {
-    e.observe('change',function(e) {
-      $('rev').setValue(e.element().getValue());
-      $$('#branch,#tag').invoke('disable');
-      e.element().parentNode.submit();
-      $$('#branch,#tag').invoke('enable');
+    var sendForm = function() {
+      selects.prop('disable', true);
+      form.submit();
+      selects.prop('disable', false);
+    }
+
+    /*
+    Enable select2
+    */
+    branch.select2({
+      placeholder: I18n.t('js.repositories.select_branch')
+    }
+    );
+    tag.select2({
+      placeholder: I18n.t('js.repositories.select_tag'),
     });
-  });
 
-  /*
-  Disable the branch/tag dropdowns before submitting the revision form
-  */
-  $('rev').observe('keydown', function(e) {
-    if (e.keyCode == 13) {
-      $$('#branch,#tag').invoke('disable');
-      e.element().parentNode.submit();
-      $$('#branch,#tag').invoke('enable');
+    /*
+    If we're viewing a tag or branch, don't display it in the
+    revision box
+    */
+    if (branch_selected || tag_selected) {
+      revision.val('');
+    }
+
+    /*
+    Copy the branch/tag value into the revision box, then disable
+    the dropdowns before submitting the form
+    */
+    selects.on('change', function() {
+      var select = $(this);
+      revision.val(select.val());
+      sendForm();
+    });
+
+    /*
+    Disable the branch/tag dropdowns before submitting the revision form
+    */
+    revision.on('keydown', function(e) {
+      if (e.keyCode == 13) {
+        sendForm();
+      }
+    });
+
+
+    /*
+    Close checkout instructions
+    */
+    var checkout = $('#repository--checkout-instructions'),
+        toggle = $('#repository--checkout-instructions-toggle');
+
+    if (checkout.length > 0) {
+      checkout.find('.notification-box--close').click(function(e){
+        e.preventDefault();
+        checkout.hide().prop('hidden', true);
+        toggle.removeClass('-pressed');
+      });
+
+      toggle.click(function(e) {
+        e.preventDefault();
+        if (checkout.prop('hidden')) {
+          checkout.prop('hidden', false);
+          checkout.slideDown();
+        } else {
+          checkout.slideUp(function() { checkout.prop('hidden', true); });
+        }
+
+        toggle.toggleClass('-pressed');
+      });
     }
   });
-});
+}(jQuery));
+

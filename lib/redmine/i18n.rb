@@ -109,8 +109,10 @@ module Redmine
       end
     end
 
+    ##
+    # Returns the given language if it is valid or nil otherwise.
     def find_language(lang)
-      valid_languages.detect { |l| l =~ /#{lang}/i }
+      valid_languages.detect { |l| l =~ /#{lang}/i } if lang.present?
     end
 
     def set_language_if_valid(lang)
@@ -128,9 +130,9 @@ module Redmine
       @cached_attribute_translations ||= {}
       @cached_attribute_translations[locale] ||= (
         general_attributes = ::I18n.t('attributes', locale: locale)
-        ::I18n.t('activerecord.attributes', locale: locale).inject(general_attributes) do |attr_t, model_t|
+        ::I18n.t('activerecord.attributes', locale: locale).inject(general_attributes) { |attr_t, model_t|
           attr_t.merge(model_t.last || {})
-        end)
+        })
       @cached_attribute_translations[locale]
     end
   end

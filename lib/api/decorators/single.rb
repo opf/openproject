@@ -40,12 +40,19 @@ module API
       include ::Roar::Hypermedia
       include ::API::V3::Utilities::PathHelper
 
-      attr_reader :context
+      attr_reader :current_user, :embed_links
       class_attribute :as_strategy
       self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
-      def initialize(model, context = {})
-        @context = context
+      # Use this to create our own representers, giving them a chance to override the instantiation
+      # if desired.
+      def self.create(model, current_user:, embed_links: false)
+        new(model, current_user: current_user, embed_links: embed_links)
+      end
+
+      def initialize(model, current_user:, embed_links: false)
+        @current_user = current_user
+        @embed_links = embed_links
 
         super(model)
       end
@@ -54,10 +61,10 @@ module API
                exec_context: :decorator,
                render_nil: false
 
-      def self.self_link(path: nil, title_getter: -> (*) { represented.name })
+      def self.self_link(path: nil, id_attribute: :id, title_getter: -> (*) { represented.name })
         link :self do
           path = _type.underscore unless path
-          link_object = { href: api_v3_paths.send(path, represented.id) }
+          link_object = { href: api_v3_paths.send(path, represented.send(id_attribute)) }
           title = instance_eval(&title_getter)
           link_object[:title] = title if title
 
@@ -71,7 +78,7 @@ module API
                                title_getter: -> (*) { call_or_send_to_represented(getter).name },
                                show_if: -> (*) { true },
                                embed_as: nil)
-        link property.to_s.camelize(:lower) do
+        link ::API::Utilities::PropertyNameConverter.from_ar_name(property) do
           next unless instance_eval(&show_if)
 
           value = call_or_send_to_represented(getter)
@@ -92,18 +99,20 @@ module API
       end
 
       def self.embed_property(property, getter: property, decorator:, show_if: true)
-        property property,
+        property_name = ::API::Utilities::PropertyNameConverter.from_ar_name(property)
+        property property_name,
                  exec_context: :decorator,
                  getter: -> (*) { call_or_send_to_represented(getter) },
                  embedded: true,
-                 decorator: decorator,
-                 if: show_if
+                 decorator: -> (*) {
+                   ::API::Utilities::DecoratorFactory.new(decorator: decorator,
+                                                          current_user: current_user)
+                 },
+                 if: -> (*) { embed_links && call_or_use(show_if) }
       end
 
-      protected
-
-      def current_user
-        context[:current_user]
+      def current_user_allowed_to(permission, context:)
+        current_user.allowed_to?(permission, context)
       end
 
       private
@@ -113,6 +122,14 @@ module API
           instance_exec(&callable_or_name)
         else
           represented.send(callable_or_name)
+        end
+      end
+
+      def call_or_use(callable_or_value)
+        if callable_or_value.respond_to? :call
+          instance_exec(&callable_or_value)
+        else
+          callable_or_value
         end
       end
 

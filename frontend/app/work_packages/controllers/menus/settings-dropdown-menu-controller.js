@@ -31,7 +31,8 @@ module.exports = function(
   exportModal, saveModal, settingsModal,
   shareModal, sortingModal, groupingModal,
   QueryService, AuthorisationService,
-  $window, $state, $timeout) {
+  $window, $state, $timeout,
+  NotificationsService) {
   $scope.$watch('query.displaySums', function(newValue) {
     $timeout(function() {
       $scope.displaySumsLabel = (newValue) ? I18n.t('js.toolbar.settings.hide_sums')
@@ -53,10 +54,15 @@ module.exports = function(
       if( allowQueryAction(event, 'update') ) {
         QueryService.saveQuery()
           .then(function(data){
-            $scope.$emit('flashMessage', data.status);
-            $state.go('work-packages.list',
-                      { 'query_id': $scope.query.id, 'query_props': null },
-                      { notify: false });
+            if (data.status.isError) {
+              NotificationsService.addError(data.status.text);
+            }
+            else {
+              NotificationsService.addSuccess(data.status.text);
+              $state.go('work-packages.list',
+                        { 'query_id': $scope.query.id, 'query_props': null },
+                        { notify: false });
+            }
           });
       }
     }
@@ -67,11 +73,15 @@ module.exports = function(
     if( allowQueryAction(event, 'delete') && preventNewQueryAction(event) && deleteConfirmed() ){
       QueryService.deleteQuery()
         .then(function(data){
-          settingsModal.deactivate();
-          $scope.$emit('flashMessage', data.status);
-          $state.go('work-packages.list',
-                    { 'query_id': null, 'query_props': null },
-                    { reload: true });
+          if (data.status.isError) {
+              NotificationsService.addError(data.status.text);
+          }
+          else {
+            NotificationsService.addSuccess(data.status.text);
+            $state.go('work-packages.list',
+                      { 'query_id': null, 'query_props': null },
+                      { reload: true });
+          }
         });
     }
   };

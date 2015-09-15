@@ -100,8 +100,27 @@ angular.module('openproject.services')
     '$rootScope',
     '$window',
     '$q',
+    '$cacheFactory',
     'AuthorisationService',
     'EditableFieldsState',
     'WorkPackageFieldService',
+    'NotificationsService',
     require('./work-package-service')
-  ]);
+  ])
+  .service('NotificationsService', [
+    'I18n',
+    '$rootScope',
+    require('./notifications-service.js')
+  ])
+  .service('ApiNotificationsService', [
+    'NotificationsService',
+    'ApiHelper',
+    require('./api-notifications-service.js')
+  ])
+  .service('WatchersService', require('./watchers-service.js'))
+  .service('WatchersService', [
+    '$http',
+    '$q',
+    require('./watchers-service.js')
+  ])
+  .service('ConversionService', require('./conversion-service.js'));

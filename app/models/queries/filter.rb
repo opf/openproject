@@ -79,7 +79,7 @@ class Queries::Filter
 
   attr_accessor :field, *@@filter_params
 
-  validates_presence_of :field
+  validates_presence_of :field, :operator
   validate :validate_presence_of_values, unless: Proc.new { |filter| @@operators_not_requiring_values.include?(filter.operator) }
   validate :validate_filter_values
 

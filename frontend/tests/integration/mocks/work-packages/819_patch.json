@@ -47,7 +47,7 @@
       "href": "/api/v3/work_packages/819/available_watchers",
       "title": "Available Watchers"
     },
-    "watchChanges": {
+    "watch": {
       "href": "/api/v3/work_packages/819/watchers",
       "method": "post",
       "data": {
@@ -93,6 +93,9 @@
     "project": {
       "href": "/api/v3/projects/1",
       "title": "Seeded Project"
+    },
+    "attachments": {
+      "href": "/api/v3/work_packages/819/attachments"
     }
   },
   "id": 819,
@@ -2171,13 +2174,24 @@
       "identifier": "seeded-project",
       "name": "Seeded Project",
       "description": "",
-      "homepage": "",
       "createdAt": "2014-04-30T13:28:51+00:00",
       "updatedAt": "2014-04-30T13:28:51+00:00",
       "type": null
     },
     "watchers": [],
-    "attachments": [],
+    "attachments" : {
+      "_links" : {
+        "self" : {
+          "href" : "/api/v3/work_packages/819/attachments"
+        }
+      },
+      "_type" : "Collection",
+      "total" : 0,
+      "count" : 0,
+      "_embedded" : {
+        "elements" : []
+      }
+    },
     "relations": []
   }
 }

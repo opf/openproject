@@ -67,11 +67,12 @@ class AccountController < ApplicationController
     return redirect_to(home_url) unless allow_lost_password_recovery?
 
     if params[:token]
-      @token = Token.find_by_action_and_value('recovery', params[:token].to_s)
+      @token = Token.find_by(action: 'recovery', value: params[:token].to_s)
       redirect_to(home_url) && return unless @token and !@token.expired?
       @user = @token.user
       if request.post?
-        @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
+        @user.password = params[:new_password]
+        @user.password_confirmation = params[:new_password_confirmation]
         @user.force_password_change = false
         if @user.save
           @token.destroy
@@ -112,28 +113,12 @@ class AccountController < ApplicationController
   def register
     return self_registration_disabled unless allow_registration?
 
-    if request.get?
-      session[:auth_source_registration] = nil
-      @user = User.new(language: Setting.default_language)
-    else
-      @user = User.new
-      @user.admin = false
-      @user.register
-      if session[:auth_source_registration]
-        # on-the-fly registration via omniauth or via auth source
-        if pending_omniauth_registration?
-          register_via_omniauth(@user, session, permitted_params)
-        else
-          register_and_login_via_authsource(@user, session, permitted_params)
-        end
-      else
-        @user.attributes = permitted_params.user
-        @user.login = params[:user][:login]
-        @user.password = params[:user][:password]
-        @user.password_confirmation = params[:user][:password_confirmation]
+    @user = invited_user
 
-        register_user_according_to_setting @user
-      end
+    if request.get?
+      registration_through_invitation!
+    else
+      self_registration!
     end
   end
 
@@ -141,7 +126,7 @@ class AccountController < ApplicationController
     allow = Setting.self_registration? && !OpenProject::Configuration.disable_password_login?
 
     get = request.get? && allow
-    post = request.post? && (session[:auth_source_registration] || allow)
+    post = (request.post? || request.patch?) && (session[:auth_source_registration] || allow)
 
     get || post
   end
@@ -152,17 +137,82 @@ class AccountController < ApplicationController
 
   # Token based account activation
   def activate
-    return redirect_to(home_url) unless Setting.self_registration? && params[:token]
-    token = Token.find_by_action_and_value('register', params[:token].to_s)
-    redirect_to(home_url) && return unless token and !token.expired?
-    user = token.user
-    redirect_to(home_url) && return unless user.registered?
-    user.activate
-    if user.save
-      token.destroy
-      flash[:notice] = l(:notice_account_activated)
+    token = Token.find_by value: params[:token].to_s
+
+    if token && token.action == 'register' && Setting.self_registration?
+      activate_self_registered token
+    else
+      activate_invited token
     end
-    redirect_to action: 'login'
+  end
+
+  def activate_self_registered(token)
+    user = token.user
+
+    if not user.registered?
+      if user.active?
+        flash[:notice] = I18n.t(:notice_account_already_activated)
+      else
+        flash[:error] = I18n.t(:notice_activation_failed)
+      end
+
+      redirect_to home_url
+    else
+      user.activate
+
+      if user.save
+        token.destroy
+        flash[:notice] = I18n.t(:notice_account_activated)
+      else
+        flash[:error] = I18n.t(:notice_activation_failed)
+      end
+
+      redirect_to signin_path
+    end
+  end
+
+  def activate_by_token(token)
+    if token.nil? || token.expired? || !token.user.invited?
+      flash[:error] = I18n.t(:notice_account_invalid_token)
+
+      redirect_to home_url
+    else
+      activate_invited token
+    end
+  end
+
+  def activate_invited(token)
+    session[:invitation_token] = token.value
+    user = token.user
+
+    if user.auth_source
+      activate_through_auth_source user
+    else
+      activate_user user
+    end
+  end
+
+  def activate_user(user)
+    if Concerns::OmniauthLogin.direct_login?
+      direct_login user
+    elsif OpenProject::Configuration.disable_password_login?
+      flash[:notice] = I18n.t('account.omniauth_login')
+
+      redirect_to signin_path
+    else
+      redirect_to account_register_path
+    end
+  end
+
+  def activate_through_auth_source(user)
+    session[:auth_source_registration] = {
+      login: user.login,
+      auth_source_id: user.auth_source_id
+    }
+
+    flash[:notice] = I18n.t('account.auth_source_login', login: user.login).html_safe
+
+    redirect_to signin_path(username: user.login)
   end
 
   # Process a password change form, used when the user is forced
@@ -198,6 +248,46 @@ class AccountController < ApplicationController
 
   private
 
+  def registration_through_invitation!
+    session[:auth_source_registration] = nil
+
+    if @user.nil?
+      @user = User.new(language: Setting.default_language)
+    elsif user_with_placeholder_name?(@user)
+      # force user to give their name
+      @user.firstname = nil
+      @user.lastname = nil
+    end
+  end
+
+  def self_registration!
+    if @user.nil?
+      @user = User.new
+      @user.admin = false
+      @user.register
+    end
+
+    if session[:auth_source_registration]
+      # on-the-fly registration via omniauth or via auth source
+      if pending_omniauth_registration?
+        register_via_omniauth(@user, session, permitted_params)
+      else
+        register_and_login_via_authsource(@user, session, permitted_params)
+      end
+    else
+      @user.attributes = permitted_params.user
+      @user.login = params[:user][:login]
+      @user.password = params[:user][:password]
+      @user.password_confirmation = params[:user][:password_confirmation]
+
+      register_user_according_to_setting @user
+    end
+  end
+
+  def user_with_placeholder_name?(user)
+    user.firstname == user.login and user.login == user.mail
+  end
+
   def direct_login(user)
     if flash.empty?
       ps = {}.tap do |p|
@@ -232,7 +322,7 @@ class AccountController < ApplicationController
   end
 
   def password_authentication(username, password)
-    user = User.try_to_login(username, password)
+    user = User.try_to_login(username, password, session)
     if user.nil?
       # login failed, now try to find out why and do the appropriate thing
       user = User.find_by_login(username)
@@ -250,6 +340,8 @@ class AccountController < ApplicationController
         else
           invalid_credentials
         end
+      elsif user and user.invited?
+        invited_account_not_activated(user)
       else
         # incorrect password
         invalid_credentials
@@ -345,6 +437,8 @@ class AccountController < ApplicationController
 
   # Register a user depending on Setting.self_registration
   def register_user_according_to_setting(user, opts = {}, &block)
+    return register_automatically(user, opts, &block) if user.invited?
+
     case Setting.self_registration
     when '1'
       register_by_email_activation(user, opts, &block)
@@ -432,6 +526,13 @@ class AccountController < ApplicationController
     end
   end
 
+  def invited_account_not_activated(user)
+    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
+                " at #{Time.now.utc} (invited, NOT ACTIVATED)"
+
+    flash[:error] = I18n.t('account.error_inactive_activation_by_mail')
+  end
+
   # Log an attempt to log in to a locked account or with invalid credentials
   # and show a flash message.
   def invalid_credentials(flash_now: true)
@@ -461,6 +562,14 @@ class AccountController < ApplicationController
       redirect_to controller: '/my', action: 'first_login', back_url: params[:back_url]
     else
       redirect_back_or_default controller: '/my', action: 'page'
+    end
+  end
+
+  def invited_user
+    if session.include? :invitation_token
+      token = Token.find_by(value: session[:invitation_token])
+
+      token.user
     end
   end
 end

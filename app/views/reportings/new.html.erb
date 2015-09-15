@@ -55,7 +55,9 @@ See doc/COPYRIGHT.rdoc for more details.
       </label>
 
       <% if User.current.impaired? %>
-        <%= f.select(:reporting_to_project_id, @reporting_to_project_candidates.collect { |p| [p.name, p.id] }) %>
+        <%= f.select(:reporting_to_project_id,
+                     @reporting_to_project_candidates.collect { |p| [p.name, p.id] },
+                     no_label: true) %>
       <% else %>
         <%= select("reporting", :reporting_to_project_id,
                  options_for_select([]),

@@ -37,7 +37,7 @@ describe 'api/experimental/queries/grouped.api.rabl', type: :view do
     render
   end
 
-  subject { response.body }
+  subject { rendered }
 
   describe 'with no available queries' do
     let(:user_queries) {
@@ -80,5 +80,4 @@ describe 'api/experimental/queries/grouped.api.rabl', type: :view do
     it { is_expected.to have_json_type(Array).at_path('queries') }
     it { is_expected.to have_json_size(2).at_path('queries') }
   end
-
 end

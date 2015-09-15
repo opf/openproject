@@ -28,10 +28,10 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <% breadcrumb_paths(l(:label_my_page)) %>
 <%= toolbar title: l(:label_my_page) do %>
-  <li class="toolbar-item">
+  <li class="toolbar-item" title="<%= l(:label_personalize_page) %>">
     <%= link_to({ action: 'page_layout' }, accesskey: accesskey(:edit), class: 'button') do %>
-      <i class="button--icon icon-edit"></i>
-      <span class="button--text"><%= l(:label_personalize_page) %></span>
+      <i class="button--icon icon-settings"></i>
+      <span class="hidden-for-sighted"><%= l(:label_personalize_page) %></span>
     <% end %>
   </li>
 <% end %>
@@ -40,25 +40,25 @@ See doc/COPYRIGHT.rdoc for more details.
     <div id="list-top" class="grid-content">
       <% @blocks['top'].each do |b|
          next unless MyController.available_blocks.keys.include? b  %>
-        <div class="mypage-box">
+        <div>
           <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
         </div>
       <% end if @blocks['top'] %>
     </div>
   </div>
   <div class="grid-block">
-    <div id="list-left" class="grid-content">
+    <div id="list-left" class="grid-content left">
       <% @blocks['left'].each do |b|
          next unless MyController.available_blocks.keys.include? b %>
-        <div class="mypage-box">
+        <div>
           <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
         </div>
       <% end if @blocks['left'] %>
     </div>
-    <div id="list-right" class="grid-content">
+    <div id="list-right" class="grid-content right">
       <% @blocks['right'].each do |b|
          next unless MyController.available_blocks.keys.include? b %>
-        <div class="mypage-box">
+        <div>
           <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
         </div>
       <% end if @blocks['right'] %>

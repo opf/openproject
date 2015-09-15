@@ -33,11 +33,8 @@ See doc/COPYRIGHT.rdoc for more details.
                               :url => { :action => "create" },
                               :html => { :class => nil, :autocomplete => 'off' },
                               :as => :user do |f| %>
-  <%= render :partial => 'form', :locals => { :f => f } %>
-  <div class="form--field">
-    <label><%= styled_check_box_tag 'send_information', 1, true %>
-      <%= l(:label_send_information) %></label>
-  </div>
+  <%= render :partial => 'simple_form', :locals => { f: f, auth_sources: @auth_sources, user: @user } %>
+
   <p>
     <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-yes' %>
     <%= styled_button_tag l(:button_create_and_continue), :name => 'continue', class: '-highlight -with-icon icon-yes' %>

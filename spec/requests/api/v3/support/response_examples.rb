@@ -72,6 +72,13 @@ shared_examples_for 'invalid request body' do |message|
                   message
 end
 
+shared_examples_for 'invalid resource link' do |message|
+  it_behaves_like 'error response',
+                  422,
+                  'ResourceTypeMismatch',
+                  message
+end
+
 shared_examples_for 'unsupported content type' do |message|
   it_behaves_like 'error response',
                   415,
@@ -79,20 +86,22 @@ shared_examples_for 'unsupported content type' do |message|
                   message
 end
 
-shared_examples_for 'parse error' do |message|
+shared_examples_for 'parse error' do |details|
   it_behaves_like 'invalid request body',
-                  I18n.t('api_v3.errors.parse_error')
+                  I18n.t('api_v3.errors.invalid_json')
 
-  it {
-    expect(last_response.body).to be_json_eql(message.to_json)
-      .at_path('_embedded/details/parseError')
-  }
+  it 'shows the given details' do
+    if details
+      expect(last_response.body).to be_json_eql(details.to_json)
+        .at_path('_embedded/details/parseError')
+    end
+  end
 end
 
 shared_examples_for 'unauthenticated access' do
   it_behaves_like 'error response',
                   401,
-                  'MissingPermission',
+                  'Unauthenticated',
                   I18n.t('api_v3.errors.code_401')
 end
 

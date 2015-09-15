@@ -26,48 +26,73 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<table class="list transitions-<%= name %>">
-  <thead>
-    <tr>
-      <th align="left">
-        <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input')",
-                           :class => 'no-decoration-on-hover',
-                           :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
-                           :alt => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
-        <%=l(:label_current_status)%>
-      </th>
-      <th align="center" colspan="<%= @statuses.length %>"><%=l(:label_new_statuses_allowed)%></th>
-    </tr>
-    <tr>
-      <td></td>
-      <% for new_status in @statuses %>
-        <td width="<%= 75 / @statuses.size %>%" align="center">
-          <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
-                           :class => 'no-decoration-on-hover',
-                           :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
-                           :alt => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
-          <%=h new_status.name %>
-        </td>
-      <% end %>
-    </tr>
-  </thead>
-  <tbody>
-    <% for old_status in @statuses %>
-      <tr class="<%= cycle("odd", "even") %>">
-        <td>
-          <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.id}')",
-                                     :class => 'no-decoration-on-hover',
-                                     :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
-                                     :alt => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
-          <%=h old_status.name %>
-        </td>
-        <% for new_status in @statuses -%>
-          <td align="center">
-            <%= check_box_tag "status[#{ old_status.id }][#{new_status.id}][]", name, workflows.detect {|w| w.old_status_id == old_status.id && w.new_status_id == new_status.id},
-            :class => "old-status-#{old_status.id} new-status-#{new_status.id}" %>
-          </td>
-        <% end -%>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table interactive-table role="grid" class="generic-table workflow-table transitions-<%= name %>">
+      <colgroup>
+        <col>
+        <col>
+        <col span="<%= @statuses.length %>" highlight-col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th colspan="<%= @statuses.length %>">
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header workflow-table--header">
+                <span>
+                  <%=l(:label_new_statuses_allowed)%>
+                </span>
+                <span class="workflow-table--check-all">
+                  (<%= check_all_links 'workflow_form_' + name %>)
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+        <tr>
+          <th></th>
+          <th></th>
+          <% for new_status in @statuses %>
+            <th>
+              <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:label_check_uncheck_all_in_column)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
+                               :class => 'no-decoration-on-hover',
+                               :title => "#{l(:label_check_uncheck_all_in_column)}",
+                               :alt => "#{l(:label_check_uncheck_all_in_column)}") %>
+              <%=h new_status.name %>
+            </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class='workflow-table--turned-header'>
+          <th rowspan="<%= @statuses.length + 1 %>">
+            <span>
+              <%=l(:label_current_status)%>
+            </span>
+          </th>
+        </tr>
+        <% for old_status in @statuses %>
+          <tr>
+            <td class="workflow-table--current-status">
+              <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:label_check_uncheck_all_in_row)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.id}')",
+                                         :class => 'no-decoration-on-hover',
+                                         :title => "#{l(:label_check_uncheck_all_in_row)}",
+                                         :alt => "#{l(:label_check_uncheck_all_in_row)}") %>
+              <%=h old_status.name %>
+            </td>
+            <% for new_status in @statuses -%>
+              <td>
+                <%= check_box_tag "status[#{ old_status.id }][#{new_status.id}][]", name, workflows.detect {|w| w.old_status_id == old_status.id && w.new_status_id == new_status.id},
+                :class => "old-status-#{old_status.id} new-status-#{new_status.id}" %>
+              </td>
+            <% end -%>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="generic-table--header-background"></div>
+  </div>
+</div>
+

@@ -43,7 +43,6 @@ describe UsersController, type: :controller do
   let(:anonymous) { FactoryGirl.create(:anonymous) }
 
   describe 'GET deletion_info' do
-
     describe "WHEN the current user is the requested user
               WHEN the setting users_deletable_by_self is set to true" do
       let(:params) { { 'id' => user.id.to_s } }
@@ -238,7 +237,7 @@ describe UsersController, type: :controller do
 
       it 'should send an email to the correct user in the correct language' do
         mail = ActionMailer::Base.deliveries.last
-        assert_not_nil mail
+        refute_nil mail
         assert_equal [registered_user.mail], mail.to
         mail.parts.each do |part|
           assert part.body.encoded.include?(I18n.t(:notice_account_activated,
@@ -552,20 +551,18 @@ describe UsersController, type: :controller do
 
       expect(response.status).to eql(200)
 
-      is_member = user.reload.memberships.any? do |m|
+      is_member = user.reload.memberships.any? { |m|
         m.project_id == project.id && m.role_ids.include?(role.id)
-      end
+      }
       expect(is_member).to eql(true)
     end
   end
 
   describe 'Anonymous should not be able to create a user' do
-
     it 'should redirect to the login page' do
       post :create, user: { login: 'psmith', firstname: 'Paul', lastname: 'Smith' }, password: 'psmithPSMITH09', password_confirmation: 'psmithPSMITH09'
       expect(response).to redirect_to '/login?back_url=http%3A%2F%2Ftest.host%2Fusers'
     end
-
   end
 
   describe 'show' do
@@ -646,7 +643,6 @@ describe UsersController, type: :controller do
       it 'should have more than one event for today' do
         expect(assigns(:events_by_day).first.size).to be > 1
       end
-
     end
   end
 end

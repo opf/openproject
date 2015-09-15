@@ -1,3 +1,7 @@
+*Please be aware that Web Server and Website Management Tools like Plesk
+and others do not work well together with our packaged solution. We
+strongly recommend to install OpenProject CE on a clean install.*
+
 # OpenProject installation via package manager
 
 The installation of the OpenProject software can be done manually or via official software-packages build by the packager.io service. Using these software packages is highly recommended to reduce the pain of installation and configuration errors. Besides the installation via package manager is done via configuration wizard which is very helpful to get everything up and running right from the beginning.
@@ -14,10 +18,17 @@ Ruby 2.1.3 (MRI) and necessary libraries to run the OpenProject source code.
 The installation procedure assumes the following prerequisites to be met:
 
 * A server running one of the following Linux distributions:
-    * _Debian 7.6 Wheezy 64 bits server_
-    * _Ubuntu 14.04 Trusty 64bits server_
-    * _Fedora 20 64bits server_
-    * _CentOS 6 / RHEL 6 64 bits server_
+
+| Distribution (64 bits only)     | Identifier   | init system |
+| :------------------------------ | :----------- | :---------- |
+| Ubuntu 14.04 Trusty             | ubuntu-14.04 | upstart     |
+| Debian 8 Jessie                 | debian-8     | systemd     |
+| Debian 7 Wheezy                 | debiani-7    | sysvinit    |
+| CentOS/RHEL 7.x                 | centos-7     | systemd     |
+| CentOS/RHEL 6.x                 | centos-6     | upstart     |
+| Fedora 20                       | fedora-20    | sysvinit    |
+| Suse Linux Enterprise Server 12 | sles-12      | sysvinit    |
+
 * A mail server that is accessible via SMTP that can be used for sending notification emails. OpenProject supports authentication, yet does not provide support for SMTP via SSL/TLS.
 
 If you intend to use SSL for OpenProject:
@@ -27,41 +38,65 @@ If you intend to use SSL for OpenProject:
 
 The following steps have to be performed to initiate the actual installation of OpenProject via package manager. Note that all commands should either be run as root or should be prepended by sudo otherwise (typically depending what linux distribution is used).
 
-## Debian 7.6 Wheezy 64bits server
+## Debian 7 Wheezy
 
     # install https support
     apt-get install apt-transport-https
 
     sudo wget -qO - https://deb.packager.io/key | apt-key add -
-    echo "deb https://deb.packager.io/gh/opf/openproject wheezy stable" | sudo tee /etc/apt/sources.list.d/openproject.list
+    echo "deb https://deb.packager.io/gh/opf/openproject wheezy stable/4.2" | sudo tee /etc/apt/sources.list.d/openproject.list
     sudo apt-get update
     sudo apt-get install openproject
 
-## Ubuntu 14.04 Trusty 64bits server
+## Debian 8 Jessie
+
+    # install https support
+    apt-get install apt-transport-https
 
     wget -qO - https://deb.packager.io/key | sudo apt-key add -
-    echo "deb https://deb.packager.io/gh/opf/openproject trusty stable" |
-    sudo tee /etc/apt/sources.list.d/openproject.list
+    echo "deb https://deb.packager.io/gh/opf/openproject jessie stable/4.2" | sudo tee /etc/apt/sources.list.d/openproject.list
     sudo apt-get update
     sudo apt-get install openproject
 
-## Fedora 20 64bits server
+## Ubuntu 14.04 Trusty
+
+    wget -qO - https://deb.packager.io/key | sudo apt-key add -
+    echo "deb https://deb.packager.io/gh/opf/openproject trusty stable/4.2" | sudo tee /etc/apt/sources.list.d/openproject.list
+    sudo apt-get update
+    sudo apt-get install openproject
+
+## Fedora 20
 
     sudo rpm --import https://rpm.packager.io/key
     echo "[openproject]
     name=Repository for opf/openproject application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject/fedora20/stable
+    baseurl=https://rpm.packager.io/gh/opf/openproject/fedora20/stable/4.2
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
 
-## CentOS / RHEL 6 64 bits server
+## CentOS / RHEL 6.x
 
     sudo rpm --import https://rpm.packager.io/key
     echo "[openproject]
     name=Repository for opf/openproject application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject/centos6/stable
+    baseurl=https://rpm.packager.io/gh/opf/openproject/centos6/stable/4.2
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
+
+## CentOS / RHEL 7.x
+
+    sudo rpm --import https://rpm.packager.io/key
+    echo "[openproject]
+    name=Repository for opf/openproject application.
+    baseurl=https://rpm.packager.io/gh/opf/openproject/centos7/stable/4.2
+    enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
+    sudo yum install openproject
+
+## Suse Linux Enterprise Server 12
+
+    sudo rpm --import https://rpm.packager.io/key
+    sudo zypper addrepo "https://rpm.packager.io/gh/opf/openproject/sles12/stable/4.2" "openproject"
+    sudo zypper install openproject
 
 # Post-Install Configuration
 
@@ -95,8 +130,10 @@ During the installation process a lot of settings were set to get the applicatio
     SMTP_HOST=127.0.0.1
     SMTP_PASSWORD=mail
     SMTP_PORT=25
-    SMTP_URL=smtp://mail:<a class="email" href="mailto:mail@127.0.0.1">mail@127.0.0.1</a>:25/10.10.3.6
+    SMTP_URL=smtp://mail:9sfiaef3fsf@10.10.3.6:25
     SMTP_USERNAME=mail
+    SMTP_ENABLE_STARTTLS_AUTO=true
+    SMTP_AUTHENTICATION=plain
 
     WEB_CONCURRENCY=2
     WEB_TIMEOUT=15
@@ -135,7 +172,7 @@ The command above will bring up the installation wizard again. Please be aware t
 
 # Upgrade to a newer version
 
-Upgrading the OpenProject is as easy as installing a newer OpenProject package and running the openproject configure command.
+Upgrading the OpenProject is as easy as installing a newer OpenProject package and running the `openproject configure` command.
 
 ## Debian / Ubuntu
 
@@ -148,4 +185,9 @@ Upgrading the OpenProject is as easy as installing a newer OpenProject package a
     sudo yum update
     sudo yum install openproject
     sudo openproject
+
+## SuSE Enterprise Server 12
+
+  sudo zypper update openproject
+  sudo openproject configure
 

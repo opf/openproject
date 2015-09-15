@@ -30,10 +30,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <section class="form--section">
     <div class="form--field"><%= setting_text_field :app_title, :size => 30 %></div>
     <div class="form--field">
-      <%= setting_text_area :welcome_text, :cols => 60, :rows => 5, :class => 'wiki-edit', :'ng-non-bindable' => '' %>
-      <%= wikitoolbar_for 'settings_welcome_text' %>
-    </div>
-    <div class="form--field">
       <%= setting_text_field :attachment_max_size, :size => 6, unit: l(:"number.human.storage_units.units.kb") %>
     </div>
     <div class="form--field">
@@ -63,6 +59,16 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
     <div class="form--field"><%= setting_text_field :diff_max_lines_displayed, :size => 6 %></div>
     <%= call_hook(:view_settings_general_form) %>
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= l(:setting_welcome_text) %></legend>
+      <div class="form--field"><%= setting_text_field :welcome_title, :size => 30 %></div>
+      <div class="form--field">
+        <%= setting_text_area :welcome_text, :cols => 60, :rows => 5, :class => 'wiki-edit', :'ng-non-bindable' => '' %>
+        <%= wikitoolbar_for 'settings_welcome_text' %>
+      </div>
+      <div class="form--field"><%= setting_check_box :welcome_on_homescreen %></div>
+      <div class="form--field"><%= setting_check_box :welcome_on_projects_page %></div>
+    </fieldset>
   </section>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
 <% end %>

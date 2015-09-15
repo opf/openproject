@@ -1,0 +1,35 @@
+<div class="notification-box{{' -' + content.type}}">
+  <div class="notification-box--content">
+    <p>{{content.message}}</p>
+    <div data-ng-switch="content.type" data-ng-if="typeable()">
+      <div data-ng-switch-when="upload">
+        <div data-ng-show="canBeHidden()">
+          <a data-ng-click="show = true" data-ng-hide="show">
+            <i class="icon-arrow-right5"></i>
+          </a>
+          <a data-ng-click="show = false" data-ng-show="show">
+            <i class="icon-arrow-right5-2"></i>
+          </a>
+          <span>
+            {{::I18n.t('js.label_upload_counter', { done: uploadCount, count: content.uploads.length})}}
+          </span>
+        </div>
+        <div data-ng-show="show || !canBeHidden()">
+          <ul class="notification-box--uploads" data-ng-show="content.uploads.length > 0">
+            <upload-progress data-upload="upload" data-ng-repeat="upload in content.uploads"></upload-progress>
+          </ul>
+        </div>
+      </div>
+      <div data-ng-switch-when="success">
+        <!-- "create another" button -->
+      </div>
+      <div data-ng-switch-when="error">
+        <ul class="notification-box--errors">
+          <li data-ng-repeat="error in content.errors">{{error}}</li>
+        </ul>
+        <!-- "continue editing" button -->
+      </div>
+    </div>
+  </div>
+  <a data-ng-click="remove()" data-ng-if="removable()" title="{{ ::I18n.t('js.close_popup_title') }}" class="notification-box--close icon-context icon-close2"></a>
+</div>

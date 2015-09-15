@@ -95,9 +95,8 @@ describe 'Journalized Objects' do
   end
 
   it 'should work with changesets' do
-    Setting.enabled_scm = ['Subversion']
-    @repository ||= Repository.factory('Subversion', url: 'http://svn.test.com')
-    @repository.save!
+    Setting.enabled_scm = ['subversion']
+    @repository ||= FactoryGirl.create(:repository_subversion, url: 'http://svn.test.com')
     @changeset ||= FactoryGirl.create(:changeset, committer: @current.login, repository: @repository)
 
     initial_journal = @changeset.journals.first
@@ -134,5 +133,4 @@ describe 'Journalized Objects' do
       end
     end
   end
-
 end

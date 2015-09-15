@@ -30,7 +30,7 @@ FactoryGirl.define do
   factory :query do
     project
     user factory: :user
-    sequence(:name) { |n| "Query #{n}" }
+    sequence(:name) do |n| "Query #{n}" end
 
     factory :public_query do
       is_public true

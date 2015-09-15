@@ -39,7 +39,9 @@ var ModalHelper = (function() {
       // prototype, so that all ModalHelper instances can share them.
       if (ModalHelper._done !== true) {
         // one time initialization
-        modalDiv = jQuery('<div/>').css('hidden', true).attr('id', 'modalDiv');
+        modalDiv = jQuery('<div/>').css('hidden', true)
+                                   .attr('id', 'modalDiv')
+                                   .css('display', 'none');
         body.append(modalDiv);
 
         // close when body is clicked
@@ -242,7 +244,8 @@ var ModalHelper = (function() {
 
     if (this._firstLoad) {
       //add closer
-      modalDiv.parent().prepend('<div id="ui-dialog-closer" />').click(jQuery.proxy(this.close, this));
+      modalDiv.parent().prepend('<div id="ui-dialog-closer" class="icon icon-close" />')
+        .click(jQuery.proxy(this.close, this));
       jQuery('.ui-dialog-titlebar').hide();
       jQuery('.ui-dialog-buttonpane').hide();
 

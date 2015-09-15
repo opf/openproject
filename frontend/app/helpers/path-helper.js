@@ -49,9 +49,6 @@ module.exports = function() {
 
       return link;
     },
-    attachmentPath: function(attachmentId, fileName) {
-      return '/attachments/' + attachmentId + '/' + fileName;
-    },
     boardsPath: function(projectIdentifier) {
       return PathHelper.projectPath(projectIdentifier) + '/boards';
     },
@@ -73,6 +70,9 @@ module.exports = function() {
     projectWorkPackagesPath: function(projectId) {
       return PathHelper.projectPath(projectId) + PathHelper.workPackagesPath();
     },
+    projectWorkPackagesFormPath: function(projectId) {
+      return PathHelper.projectWorkPackagesPath(projectId) + '/form';
+    },
     queryPath: function(queryIdentifier) {
       return '/queries/' + queryIdentifier;
     },
@@ -88,7 +88,7 @@ module.exports = function() {
       return path;
     },
     timeEntryPath: function(timeEntryIdentifier) {
-      return '/time_entries/' + timeEntryIdentifier;
+      return PathHelper.staticBase + '/time_entries/' + timeEntryIdentifier;
     },
     timeEntryNewPath: function(workPackageId) {
       return PathHelper.timeEntriesPath(null, workPackageId) + '/new';
@@ -128,9 +128,6 @@ module.exports = function() {
     },
     workPackagesBulkDeletePath: function() {
       return PathHelper.workPackagesPath() + '/bulk';
-    },
-    workPackageAutoCompletePath: function(projectId, workPackageId) {
-      return '/work_packages/auto_complete?escape=false&id=' + workPackageId + '&project_id=' + projectId;
     },
     workPackageJsonAutoCompletePath: function() {
       return '/work_packages/auto_complete.json';
@@ -220,27 +217,10 @@ module.exports = function() {
       return PathHelper.apiWorkPackagesPath() + '/column_sums';
     },
 
-    // API V2
-    apiPrioritiesPath: function() {
-      return PathHelper.apiV2 + '/planning_element_priorities';
-    },
-    apiProjectStatusesPath: function(projectIdentifier) {
-      return PathHelper.apiV2ProjectPath(projectIdentifier) + '/statuses';
-    },
-    apiProjectWorkPackageTypesPath: function(projectIdentifier) {
-      return PathHelper.apiV2ProjectPath(projectIdentifier) + '/planning_element_types';
-    },
-    apiStatusesPath: function() {
-      return PathHelper.apiV2 + '/statuses';
-    },
-    apiV2ProjectPath: function(projectIdentifier) {
-      return PathHelper.apiV2 + PathHelper.projectPath(projectIdentifier);
-    },
-    apiWorkPackageTypesPath: function() {
-      return PathHelper.apiV2 + '/planning_element_types';
-    },
-
     // API V3
+    apiConfigurationPath: function() {
+      return PathHelper.apiV3 + '/configuration';
+    },
     apiQueryStarPath: function(queryId) {
       return PathHelper.apiV3QueryPath(queryId) + '/star';
     },
@@ -253,16 +233,28 @@ module.exports = function() {
     apiV3WorkPackagePath: function(workPackageId) {
       return PathHelper.apiV3 + '/work_packages/' + workPackageId;
     },
+    apiPrioritiesPath: function() {
+      return PathHelper.apiV3 + '/priorities';
+    },
     apiV3ProjectsPath: function(projectIdentifier) {
       return PathHelper.apiV3 + PathHelper.projectsPath() + '/' + projectIdentifier;
     },
     apiV3ProjectCategoriesPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/categories';
     },
-    // Static
-    staticAttachmentPath: function(attachmentId, fileName) {
-      return PathHelper.staticBase + PathHelper.attachmentPath(attachmentId, fileName);
+    apiV3TypePath: function(typeId) {
+      return PathHelper.apiV3 + '/types/' + typeId;
     },
+    apiStatusesPath: function() {
+      return PathHelper.apiV3 + '/statuses';
+    },
+    apiProjectWorkPackageTypesPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/types';
+    },
+    apiWorkPackageTypesPath: function() {
+      return PathHelper.apiV3 + '/types';
+    },
+    // Static
     staticUserPath: function(userId) {
       return PathHelper.userPath(userId);
     },
@@ -290,15 +282,11 @@ module.exports = function() {
     staticWorkPackagesAutocompletePath: function(projectId) {
       return PathHelper.staticBase + '/work_packages/auto_complete.json?project_id=' + projectId;
     },
-    staticWorkPackageAutoCompletePath: function(projectId, workPackageId) {
-      return PathHelper.staticBase
-        + PathHelper.workPackageAutoCompletePath(projectId, workPackageId);
-    },
     staticProjectWikiPath: function(projectId) {
       return PathHelper.staticProjectPath(projectId) + '/wiki';
     },
     staticProjectCalendarPath: function(projectId) {
-      return PathHelper.staticProjectPath(projectId) + '/calendar';
+      return PathHelper.staticProjectPath(projectId) + '/work_packages/calendar';
     },
     staticProjectNewsPath: function(projectId) {
       return PathHelper.staticProjectPath(projectId) + '/news';

@@ -106,14 +106,14 @@ describe WorkPackage, type: :model do
         end
 
         describe 'non-existing' do
-          before { work_package.status = status_2 }
+          before do work_package.status = status_2 end
 
           it { expect(work_package.save).to be_falsey }
         end
       end
 
       describe 'non-admin user' do
-        before { allow(User).to receive(:current).and_return user }
+        before do allow(User).to receive(:current).and_return user end
 
         it_behaves_like 'work package status transition' do
           let(:invalid_result) { false }
@@ -123,7 +123,7 @@ describe WorkPackage, type: :model do
       describe 'admin user' do
         let(:admin) { FactoryGirl.create(:admin) }
 
-        before { allow(User).to receive(:current).and_return admin }
+        before do allow(User).to receive(:current).and_return admin end
 
         it_behaves_like 'work package status transition' do
           let(:invalid_result) { true }

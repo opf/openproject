@@ -39,14 +39,23 @@ describe Api::V2::AuthenticationController, type: :controller do
     it_should_behave_like 'a controller action with require_login'
 
     describe 'REST API disabled' do
-      before do
+      before { allow(Setting).to receive(:rest_api_enabled?).and_return false }
 
-        allow(Setting).to receive(:rest_api_enabled?).and_return false
+      context 'without login_required' do
+        before { fetch }
 
-        fetch
+        it { expect(response.status).to eq(403) }
       end
 
-      it { expect(response.status).to eq(403) }
+      context 'with login_required' do
+        before do
+          allow(Setting).to receive(:login_required?).and_return true
+
+          fetch
+        end
+
+        it { expect(response.status).to eq(403) }
+      end
     end
 
     describe 'authorization data' do
@@ -97,6 +106,50 @@ describe Api::V2::AuthenticationController, type: :controller do
         # Now another request after a normal session would be expired
         get :index, format: 'xml', key: api_key
         expect(response.status).to eq(200)
+      end
+    end
+  end
+
+  describe 'WWW-Authenticate response header upon failure' do
+    let(:api_key) { user.api_key }
+    let(:user) { FactoryGirl.create(:admin) }
+    let(:ttl) { 42 }
+
+    before do
+      allow(Setting).to receive(:login_required?).and_return true
+      allow(Setting).to receive(:rest_api_enabled?).and_return true
+    end
+
+    it 'has Basic auth_scheme per default' do
+      get :index, format: 'xml', key: api_key.reverse
+
+      expect(response.status).to eq 401
+      expect(response.headers['WWW-Authenticate']).to eq 'Basic realm="OpenProject API"'
+    end
+
+    context 'with Session auth scheme requested' do
+      before do
+        request.env['HTTP_X_AUTHENTICATION_SCHEME'] = 'Session'
+      end
+
+      it 'has Session auth scheme' do
+        get :index, format: 'xml', key: api_key.reverse
+
+        expect(response.status).to eq 401
+        expect(response.headers['WWW-Authenticate']).to eq 'Session realm="OpenProject API"'
+      end
+    end
+
+    context 'with another default realm' do
+      before do
+        allow(OpenProject::Authentication::WWWAuthenticate)
+          .to receive(:default_realm).and_return 'Narnia'
+      end
+
+      it 'has another realm' do
+        get :index, format: 'xml', key: api_key.reverse
+
+        expect(response.headers['WWW-Authenticate']).to eq 'Basic realm="Narnia"'
       end
     end
   end

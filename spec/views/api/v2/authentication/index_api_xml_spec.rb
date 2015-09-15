@@ -38,7 +38,7 @@ describe 'api/v2/authentication/index.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it { expect(subject).to have_selector('authorization authorized', text: true) }
   end
@@ -50,7 +50,7 @@ describe 'api/v2/authentication/index.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it { expect(subject).to have_selector('authorization authenticated_user_id', text: 12345) }
   end

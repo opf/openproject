@@ -61,7 +61,7 @@ describe ProjectsHelper, type: :helper do
 
     describe 'with a valid user' do
       let(:user) { FactoryGirl.create :user, member_in_project: test_project }
-      before { allow(User).to receive(:current).and_return(user) }
+      before do allow(User).to receive(:current).and_return(user) end
 
       it 'generates a link' do
         expect(link_to_version(version)).to eq("<a href=\"/versions/#{version.id}\">#{test_project.name} - #{version.name}</a>")
@@ -79,7 +79,7 @@ describe ProjectsHelper, type: :helper do
       end
 
       it 'generates an option tag' do
-        expect(version_options_for_select([], version)).to eq("<option value=\"#{version.id}\" selected=\"selected\">#{version.name}</option>")
+        expect(version_options_for_select([], version)).to eq("<option selected=\"selected\" value=\"#{version.id}\">#{version.name}</option>")
       end
     end
   end

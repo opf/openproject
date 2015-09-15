@@ -31,7 +31,7 @@ namespace :setting do
   task set: :environment do |_t, args|
     args.extras.each do |tuple|
       key, value = tuple.split('=')
-      setting = Setting.find_by_name(key)
+      setting = Setting.find_by(name: key)
       if setting.nil?
         Setting.create! name: key, value: value
       else
@@ -42,7 +42,7 @@ namespace :setting do
 
   desc 'Allow to get a Setting: rake setting:get[key]'
   task :get, [:key] => :environment do |_t, args|
-    setting = Setting.find_by_name(args[:key])
+    setting = Setting.find_by(name: args[:key])
     unless setting.nil?
       puts(setting.value)
     end

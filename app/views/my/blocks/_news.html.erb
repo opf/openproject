@@ -33,9 +33,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= content_for "#{block_name}_remove_block" %>
 <% end %>
 
-<%= render(:partial => 'news/news',
-            :collection => News.find(:all,
-                                     :limit => 10,
-                                     :order => "#{News.table_name}.created_on DESC",
-                                     :conditions => "#{News.table_name}.project_id in (#{@user.projects.collect{|m| m.id}.join(',')})",
-                                     :include => [:project, :author])) unless @user.projects.empty? %>
+<%= render(partial: 'news/news',
+           collection: News.limit(10)
+                         .order("#{News.table_name}.created_on DESC")
+                         .where("#{News.table_name}.project_id in (#{@user.projects.collect{|m| m.id}.join(',')})")
+                         .includes(:project, :author)) unless @user.projects.empty?
+%>

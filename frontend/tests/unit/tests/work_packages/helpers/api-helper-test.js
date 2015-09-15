@@ -47,53 +47,56 @@ describe('API helper', function() {
     return error;
   }
 
-  describe('500', function() {
-    var error = createErrorObject(500, "Internal Server Error");
+  describe('.getErrorMessages', function() {
+    describe('500', function() {
+      var error = createErrorObject(500, 'Internal Server Error');
 
-    it('should return status text', function() {
-      expect(ApiHelper.getErrorMessage(error)).to.eq(error.statusText);
-    });
-  });
-
-  describe('other codes', function() {
-    function createApiErrorObject(errorIdentifier, message, multiple) {
-      var apiError = {};
-
-      apiError._type = 'Error';
-      apiError.errorIdentifier = (multiple) ? 'urn:openproject-org:api:v3:errors:MultipleErrors' : errorIdentifier;
-      apiError.message = message;
-
-      if (multiple) {
-        apiError._embedded = { errors: [] };
-
-        for (var x=0; x < 2; x++) {
-          apiError._embedded.errors.push(createApiErrorObject(errorIdentifier, message));
-        }
-      }
-
-      return apiError;
-    }
-
-    describe('single error', function() {
-      var apiError = createApiErrorObject('NotFound', 'Not found.');
-      var error = createErrorObject(404, null, JSON.stringify(apiError));
-      var expectedResult = 'Not found.';
-
-      it('should return api error message', function() {
-        expect(ApiHelper.getErrorMessage(error)).to.eq(expectedResult);
+      it('should return status text in an array', function() {
+        expect(ApiHelper.getErrorMessages(error)).to.eql([error.statusText]);
       });
     });
 
-    describe('multiple errors', function() {
-      var errorMessage = 'This is an error message.';
-      var apiError = createApiErrorObject('PropertyIsReadOnly', errorMessage, true);
-      var error = createErrorObject(404, null, JSON.stringify(apiError));
+    describe('other codes', function() {
+      function createApiErrorObject(errorIdentifier, message, multiple) {
+        var apiError = {};
 
-      it('should return concatenated api error messages', function() {
-        var messages = [];
-        var expectedResult = errorMessage + ' ' + errorMessage;
+        apiError._type = 'Error';
+        apiError.errorIdentifier = (multiple) ?
+          'urn:openproject-org:api:v3:errors:MultipleErrors' :
+          errorIdentifier;
+        apiError.message = message;
 
-        expect(ApiHelper.getErrorMessage(error)).to.eq(expectedResult);
+        if (multiple) {
+          apiError._embedded = { errors: [] };
+
+          for (var x=0; x < 2; x++) {
+            apiError._embedded.errors.push(createApiErrorObject(errorIdentifier, message));
+          }
+        }
+
+        return apiError;
+      }
+
+      describe('single error', function() {
+        var apiError = createApiErrorObject('NotFound', 'Not found.');
+        var error = createErrorObject(404, null, JSON.stringify(apiError));
+        var expectedResult = 'Not found.';
+
+        it('should return api error message in an arry', function() {
+          expect(ApiHelper.getErrorMessages(error)).to.eql([expectedResult]);
+        });
+      });
+
+      describe('multiple errors', function() {
+        var errorMessage = 'This is an error message.';
+        var apiError = createApiErrorObject('PropertyIsReadOnly', errorMessage, true);
+        var error = createErrorObject(404, null, JSON.stringify(apiError));
+
+        it('should return an array of messages', function() {
+          var expectedResult = [errorMessage, errorMessage];
+
+          expect(ApiHelper.getErrorMessages(error)).to.eql(expectedResult);
+        });
       });
     });
   });

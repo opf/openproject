@@ -31,7 +31,9 @@ class News < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
-  has_many :comments, as: :commented, dependent: :delete_all, order: 'created_on'
+  has_many :comments, -> {
+    order('created_on')
+  }, as: :commented, dependent: :delete_all
 
   attr_protected :project_id, :author_id
 
@@ -44,17 +46,18 @@ class News < ActiveRecord::Base
   acts_as_event url: Proc.new { |o| { controller: '/news', action: 'show', id: o.id } },
                 datetime: :created_on
 
-  acts_as_searchable columns: ["#{table_name}.title", "#{table_name}.summary", "#{table_name}.description"], include: :project
+  acts_as_searchable columns: ["#{table_name}.title", "#{table_name}.summary", "#{table_name}.description"],
+                     include: :project,
+                     references: :projects
 
   acts_as_watchable
 
   after_create :add_author_as_watcher
 
-  scope :visible, lambda {|*args|
-                    {
-                      include: :project,
-                      conditions: Project.allowed_to_condition(args.first || User.current, :view_news)
-                    }}
+  scope :visible, -> (*args) {
+    includes(:project)
+      .merge(Project.allowed_to(args.first || User.current, :view_news))
+  }
 
   safe_attributes 'title', 'summary', 'description'
 
@@ -63,18 +66,15 @@ class News < ActiveRecord::Base
   end
 
   # returns latest news for projects visible by user
-  def self.latest(user = User.current, count = 5)
-    find(:all, limit: count, conditions: Project.allowed_to_condition(user, :view_news), include: [:author, :project], order: "#{News.table_name}.created_on DESC")
+  def self.latest(user: User.current, count: 5)
+    latest_for(user, count: count)
   end
 
-  def self.latest_for(user, options = {})
-    limit = options.fetch(:count) { 5 }
-
-    conditions = Project.allowed_to_condition(user, :view_news)
-
-    # TODO: remove the includes from here, it's required by Project.allowed_to_condition
-    # News has nothing to do with it
-    where(conditions).limit(limit).newest_first.includes(:author, :project)
+  def self.latest_for(user, count: 5)
+    limit(count)
+      .newest_first
+      .includes(:project, :author)
+      .merge(Project.allowed_to(user, :view_news))
   end
 
   # table_name shouldn't be needed :(

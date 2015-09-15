@@ -28,7 +28,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-FIXTURES_PATH = File.dirname(__FILE__) + '/../../test/fixtures/mail_handler'
+FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
 DEVELOPER_PERMISSIONS = [:view_messages, :delete_own_messages, :edit_own_messages, :add_project, :edit_project, :select_project_modules, :manage_members, :manage_versions, :manage_categories, :view_work_packages, :add_work_packages, :edit_work_packages, :manage_work_package_relations, :manage_subtasks, :add_work_package_notes, :move_work_packages, :delete_work_packages, :view_work_package_watchers, :add_work_package_watchers, :delete_work_package_watchers, :manage_public_queries, :save_queries, :view_gantt, :view_calendar, :log_time, :view_time_entries, :edit_time_entries, :delete_time_entries, :manage_news, :comment_news, :view_documents, :manage_documents, :view_wiki_pages, :export_wiki_pages, :view_wiki_edits, :edit_wiki_pages, :delete_wiki_pages_attachments, :protect_wiki_pages, :delete_wiki_pages, :rename_wiki_pages, :add_messages, :edit_messages, :delete_messages, :manage_boards, :view_files, :manage_files, :browse_repository, :manage_repository, :view_changesets, :manage_project_activities, :export_work_packages]
 
@@ -67,7 +67,7 @@ describe MailHandler, type: :model do
 
   before do
     ActionMailer::Base.deliveries.clear
-    Setting.notified_events = Redmine::Notifiable.all.map(&:name)
+    allow(Setting).to receive(:notified_events).and_return(Redmine::Notifiable.all.map(&:name))
     # we need both of these run first so the anonymous user is created and
     # there is a default work package priority to save any work packages
     priority_low
@@ -215,7 +215,7 @@ describe MailHandler, type: :model do
   #   work_package = submit_email('ticket_with_custom_fields.eml', {:work_package => {'project' => 'onlinestore'}})
   #   work_package_created(work_package)
   #   work_package.subject.should == "New ticket with custom field values"
-  #   work_package.custom_value_for(CustomField.find_by_name('Searchable field')).value.should == 'Value for a custom field'
+  #   work_package.custom_value_for(CustomField.find_by(name: 'Searchable field')).value.should == 'Value for a custom field'
   #   work_package.description.should_not match(/^searchable field:/i)
   # end
 
@@ -302,7 +302,6 @@ describe MailHandler, type: :model do
       found_user = User.find_by_login(login)
       expect(work_package.author).to eq(found_user)
       expect(found_user.check_password?(password)).to be_truthy
-
     }.to change(User, :count).by(1)
   end
 
@@ -392,7 +391,7 @@ describe MailHandler, type: :model do
   #   work_package.start_date.to_s.should == '2010-01-01'
   #   work_package.due_date.to_s.should == '2010-12-31'
   #   work_package.assigned_to.should == user
-  #   #issue.custom_value_for(CustomField.find_by_name('Float field')).value.should == "52.6"
+  #   #issue.custom_value_for(CustomField.find_by(name: 'Float field')).value.should == "52.6"
   #   # keywords should be removed from the email body
   #   journal.notes.should_not match(/^Status:/i)
   #   journal.notes.should_not match(/^Start Date:/i)

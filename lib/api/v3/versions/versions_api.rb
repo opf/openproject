@@ -32,9 +32,7 @@ module API
     module Versions
       class VersionsAPI < ::API::OpenProjectAPI
         resources :versions do
-
           route_param :id do
-
             before do
               @version = Version.find(params[:id])
 
@@ -49,14 +47,10 @@ module API
 
                 authorize_any(permissions, projects: projects, user: current_user)
               end
-
-              def context
-                { current_user: current_user }
-              end
             end
 
             get do
-              VersionRepresenter.new(@version, context)
+              VersionRepresenter.new(@version, current_user: current_user)
             end
 
             mount ::API::V3::Versions::ProjectsByVersionAPI

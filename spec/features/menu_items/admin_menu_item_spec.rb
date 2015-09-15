@@ -46,7 +46,7 @@ feature 'Admin menu items' do
       expect(page).to have_selector('a', text: I18n.t('label_user_plural'))
       expect(page).to have_selector('a', text: I18n.t('label_project_plural'))
       expect(page).to have_selector('a', text: I18n.t('label_role_plural'))
-      expect(page).to have_selector('a', text: I18n.t('label_type_plural'))
+      expect(page).to have_selector('a', text: I18n.t('label_work_package_types'))
     end
   end
 
@@ -62,7 +62,7 @@ feature 'Admin menu items' do
       expect(page).to have_selector('a', text: I18n.t('label_project_plural'))
 
       expect(page).not_to have_selector('a', text: I18n.t('label_role_plural'))
-      expect(page).not_to have_selector('a', text: I18n.t('label_type_plural'))
+      expect(page).not_to have_selector('a', text: I18n.t('label_work_package_types'))
     end
   end
 end

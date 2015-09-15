@@ -57,8 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= f.text_area :journal_notes, :cols => 60,
                                     :rows => 10,
                                     :class => 'wiki-edit',
-                                    :label => Journal.human_attribute_name(:notes),
-                                    :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => project, :format => :json) %>
+                                    :label => Journal.human_attribute_name(:notes) %>
 
     <%= wikitoolbar_for 'work_package_journal_notes' %>
   </div>

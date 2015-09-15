@@ -49,6 +49,41 @@ var browsersList = JSON.stringify(_.filter(browsersListConfig.split('\n'), funct
   return entry && entry.charAt(0) !== '#';
 }));
 
+var loaders = [
+  { test: /[\/]angular\.js$/,         loader: 'exports?angular' },
+  { test: /[\/]jquery\.js$/,          loader: 'expose?jQuery' },
+  { test: /[\/]moment\.js$/,          loader: 'expose?moment' },
+  { test: /[\/]mousetrap\.js$/,       loader: 'expose?Mousetrap' },
+  { test: /[\/]vendor[\/]i18n\.js$/,  loader: 'expose?I18n' },
+  {
+    test: /\.css$/,
+    loader: ExtractTextPlugin.extract(
+      'style-loader',
+      'css-loader!autoprefixer-loader?{browsers:' + browsersList + ',cascade:false}'
+    )
+  },
+  { test: /\.png$/,                   loader: 'url-loader?limit=100000&mimetype=image/png' },
+  { test: /\.gif$/,                   loader: 'file-loader' },
+  { test: /\.jpg$/,                   loader: 'file-loader' },
+  { test: /js-[\w|-]{2,5}\.yml$/,     loader: 'json!yaml' }
+];
+
+for (var k in pathConfig.pluginNamesPaths) {
+  if (pathConfig.pluginNamesPaths.hasOwnProperty(k)) {
+    loaders.push({
+      test: new RegExp('templates/plugin-' + k.replace(/^openproject\-/, '') + '/.*\.html$'),
+      loader: 'ngtemplate?module=openproject.templates&relativeTo=' +
+        path.join(pathConfig.pluginNamesPaths[k], 'frontend', 'app') + '!html'
+    });
+  }
+}
+
+loaders.push({
+  test: /^((?!templates\/plugin).)*\.html$/,
+  loader: 'ngtemplate?module=openproject.templates&relativeTo=' +
+    path.resolve(__dirname, './app') + '!html'
+});
+
 module.exports = {
   context: __dirname + '/app',
 
@@ -64,29 +99,7 @@ module.exports = {
   },
 
   module: {
-    loaders: [
-      { test: /[\/]angular\.js$/,         loader: 'exports?angular' },
-      { test: /[\/]jquery\.js$/,          loader: 'expose?jQuery' },
-      { test: /[\/]moment\.js$/,          loader: 'expose?moment' },
-      { test: /[\/]mousetrap\.js$/,       loader: 'expose?Mousetrap' },
-      { test: /[\/]vendor[\/]i18n\.js$/,  loader: 'expose?I18n' },
-      {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract(
-          'style-loader',
-          'css-loader!autoprefixer-loader?{browsers:' + browsersList + ',cascade:false}'
-        )
-      },
-      { test: /\.png$/,                   loader: 'url-loader?limit=100000&mimetype=image/png' },
-      { test: /\.gif$/,                   loader: 'file-loader' },
-      { test: /\.jpg$/,                   loader: 'file-loader' },
-      { test: /js-[\w|-]{2,5}\.yml$/,     loader: 'json!yaml' },
-      {
-        test: /\.html$/,
-        loader: 'ngtemplate?module=openproject.templates&relativeTo=' +
-                  path.resolve(__dirname, './app') + '!html'
-      },
-    ]
+    loaders: loaders
   },
 
   resolve: {
@@ -109,7 +122,9 @@ module.exports = {
       'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
       'mousetrap': 'mousetrap/mousetrap.js',
       'hyperagent': 'hyperagent/dist/hyperagent',
-      'openproject-ui_components': 'openproject-ui_components/app/assets/javascripts/angular/ui-components-app'
+      'openproject-ui_components':
+        'openproject-ui_components/app/assets/javascripts/angular/ui-components-app',
+      'ngFileUpload': 'ng-file-upload/ng-file-upload'
     }, pluginAliases)
   },
 

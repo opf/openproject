@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <h2><%= l(:label_bulk_edit_selected_work_packages) %></h2>
 <ul><%= @work_packages.collect {|i| content_tag('li', link_to(h("#{i.type} ##{i.id}"), work_package_path(i)) + h(": #{i.subject}")) }.join("\n").html_safe %></ul>
-<%= styled_form_tag(url_for(controller: '/work_packages/bulk', action: :update, ids: @work_packages),
+<%= styled_form_tag(url_for(controller: '/work_packages/bulk', action: :update),
              method: :put) do %>
   <%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
   <section class="form--section">
@@ -53,7 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <div class="form--field">
             <label class="form--label" for='work_package_priority_id'><%= WorkPackage.human_attribute_name(:priority) %></label>
             <div class="form--field-container">
-              <%= styled_select_tag('work_package[priority_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>".html_safe + options_from_collection_for_select(IssuePriority.all, :id, :name)) %>
+              <%= styled_select_tag('work_package[priority_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>".html_safe + options_from_collection_for_select(IssuePriority.active, :id, :name)) %>
             </div>
           </div>
           <div class="form--field">
@@ -140,8 +140,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= Journal.human_attribute_name(:notes) %></legend>
       <%= label_tag 'notes', Journal.human_attribute_name(:notes), :class => 'hidden-for-sighted' %>
-      <%= styled_text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
-                  :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %>
+      <%= styled_text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
       <%= wikitoolbar_for 'notes' %>
       <p><%= send_notification_option %></p>
     </fieldset>

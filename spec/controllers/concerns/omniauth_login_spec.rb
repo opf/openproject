@@ -125,7 +125,6 @@ describe AccountController, type: :controller do
 
         context 'unavailable' do
           it 'keeps the default mapping' do
-
             post :omniauth_login
 
             user = User.find_by_login('whattheheck@example.com')
@@ -178,7 +177,6 @@ describe AccountController, type: :controller do
         end
 
         context 'after a timeout expired' do
-
           before do
             session[:auth_source_registration] = omniauth_hash.merge(
               omniauth: true,
@@ -375,7 +373,7 @@ describe AccountController, type: :controller do
 
             it 'is approved against any other provider' do
               expect(OpenProject::OmniAuth::Authorization).to receive(:after_login!) do |u|
-                new_user = User.find_by_identity_url 'some other:123545'
+                new_user = User.find_by identity_url: 'some other:123545'
 
                 expect(u).to eq new_user
               end
@@ -444,7 +442,6 @@ describe AccountController, type: :controller do
           expect(response).to redirect_to signin_path
         end
       end
-
     end
 
     describe 'with an invalid auth_hash' do
@@ -498,5 +495,4 @@ describe AccountController, type: :controller do
       expect(result).to eql('developer:veryuniqueid')
     end
   end
-
 end

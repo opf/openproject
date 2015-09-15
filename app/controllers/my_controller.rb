@@ -67,9 +67,9 @@ class MyController < ApplicationController
   def account
     @user = User.current
     @pref = @user.pref
-    if request.put?
+    if request.patch?
       @user.attributes = permitted_params.user
-      @user.pref.attributes = params[:pref]
+      @user.pref.attributes = params[:pref] || {}
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       if @user.save
         @user.pref.save
@@ -116,7 +116,7 @@ class MyController < ApplicationController
       @back_url = url_for(params[:back_url])
 
     elsif request.post? || request.put?
-      User.current.pref.attributes = params[:pref]
+      User.current.pref.attributes = params[:pref] || {}
       User.current.pref.save
 
       flash[:notice] = l(:notice_account_updated)
@@ -167,7 +167,7 @@ class MyController < ApplicationController
     @user = User.current
     layout = get_current_layout
     # remove if already present in a group
-    %w(top left right).each { |f| (layout[f] ||= []).delete block }
+    %w(top left right).each do |f| (layout[f] ||= []).delete block end
     # add it on top
     layout['top'].unshift block
     @user.pref[:my_page_layout] = layout
@@ -182,7 +182,7 @@ class MyController < ApplicationController
     @user = User.current
     # remove block in all groups
     layout = get_current_layout
-    %w(top left right).each { |f| (layout[f] ||= []).delete block }
+    %w(top left right).each do |f| (layout[f] ||= []).delete block end
     @user.pref[:my_page_layout] = layout
     @user.pref.save
     render nothing: true
@@ -199,9 +199,9 @@ class MyController < ApplicationController
       if group_items and group_items.is_a? Array
         layout = get_current_layout
         # remove group blocks if they are presents in other groups
-        %w(top left right).each {|f|
+        %w(top left right).each do |f|
           layout[f] = (layout[f] || []) - group_items
-        }
+        end
         layout[group] = group_items
         @user.pref[:my_page_layout] = layout
         @user.pref.save

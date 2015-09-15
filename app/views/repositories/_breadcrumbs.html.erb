@@ -27,30 +27,32 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= link_to 'root', :action => 'show', :project_id => @project, :path => nil, :rev => @rev %>
+<%= link_to({ action: 'show', project_id: @project, path: nil, rev: @rev },
+            { title: I18n.t(:label_repository_root) }) do %>
+  <i class="icon-home2 repository-breadcrumbs--home"></i>
+<% end %>
 <%
 dirs = path.split('/')
-if 'file' == kind
-    filename = dirs.pop
-end
 link_path = ''
-dirs.each do |dir|
+dirs.each_with_index do |dir, index|
     next if dir.blank?
     link_path << '/' unless link_path.empty?
     link_path << "#{dir}"
     %>
-    / <%= link_to h(dir), :action => 'show', :project_id => @project,
-                :path => to_path_param(link_path), :rev => @rev %>
-<% end %>
-<% if filename %>
-    / <%= link_to h(filename),
-                   :action => 'changes', :project_id => @project,
-                   :path => to_path_param("#{link_path}/#{filename}"), :rev => @rev %>
+    <span class="repository-breadcrumbs--sep"></span>
+      <% if index == dirs.size - 1 %>
+        <strong><%= h(dir) %></strong>
+      <% else %>
+        <%= link_to h(dir), action: 'show', project_id: @project,
+                            path: to_path_param(link_path), rev: @rev %>
+      <% end %>
 <% end %>
 <%
   # @rev is revsion or git branch or tag.
   rev_text = @changeset.nil? ? @rev : format_revision(@changeset)
 %>
-<%= "@ #{h rev_text}" unless rev_text.blank? %>
+<span class="repository-bradcrumbs--identifier">
+  <%= "(#{l('repositories.at_identifier', identifier: rev_text)})" if rev_text.present? %>
+</span>
 
 <% html_title(h(with_leading_slash(path))) -%>

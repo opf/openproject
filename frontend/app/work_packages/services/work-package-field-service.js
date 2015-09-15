@@ -109,25 +109,27 @@ module.exports = function(
     }
   }
 
-  function getValue(workPackage, field) {
+  function getValue(workPackage, field, isReadMode) {
+    var payload = isReadMode ? workPackage : workPackage.form.embedded.payload;
+    //var payload = workPackage;
     if (field === 'date') {
       if(isMilestone(workPackage)) {
-        return workPackage.props['dueDate'];
+        return payload.props['dueDate'];
       }
       return {
-        startDate: workPackage.props['startDate'],
-        dueDate: workPackage.props['dueDate']
+        startDate: payload.props['startDate'],
+        dueDate: payload.props['dueDate']
       };
     }
-    if (!_.isUndefined(workPackage.props[field])) {
-      return workPackage.props[field];
+    if (!_.isUndefined(payload.props[field])) {
+      return payload.props[field];
     }
-    if (WorkPackageFieldService.isEmbedded(workPackage, field)) {
-      return workPackage.embedded[field];
+    if (WorkPackageFieldService.isEmbedded(payload, field)) {
+      return payload.embedded[field];
     }
 
-    if (workPackage.links[field] && workPackage.links[field].props.href !== null) {
-      return workPackage.links[field];
+    if (payload.links[field] && payload.links[field].props.href !== null) {
+      return payload.links[field];
     }
     return null;
   }
@@ -145,11 +147,6 @@ module.exports = function(
       return _.extend({}, item, { name: item.title });
     });
 
-    if (!WorkPackageFieldService.isRequired(workPackage, field)) {
-      var arrayWithEmptyOption = [{ href: null }];
-      options = arrayWithEmptyOption.concat(options);
-    }
-
     return options;
   }
 
@@ -161,10 +158,6 @@ module.exports = function(
       options = _.map(r.data._embedded.elements, function(item) {
         return _.extend({}, item._links.self, { name: item.name });
       });
-      if (!WorkPackageFieldService.isRequired(workPackage, field)) {
-        var arrayWithEmptyOption = [{ href: null }];
-        options = arrayWithEmptyOption.concat(options);
-      }
       return options;
     });
   }
@@ -367,7 +360,8 @@ module.exports = function(
     var value = workPackage.props[field];
     if (_.isUndefined(value)) {
       // might be embedded
-      return WorkPackageFieldService.getValue(workPackage, field);
+      var isReadMode = true;
+      return WorkPackageFieldService.getValue(workPackage, field, isReadMode);
     }
 
     if (value === null) {

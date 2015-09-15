@@ -69,7 +69,7 @@ describe AuthSourcesController, type: :controller do
 
     it { is_expected.to respond_with :redirect }
     it { is_expected.to redirect_to auth_sources_path }
-    it { is_expected.to set_the_flash.to /success/i }
+    it { is_expected.to set_flash.to /success/i }
   end
 
   describe 'edit' do
@@ -91,7 +91,7 @@ describe AuthSourcesController, type: :controller do
 
     it { is_expected.to respond_with :redirect }
     it { is_expected.to redirect_to auth_sources_path }
-    it { is_expected.to set_the_flash.to /update/i }
+    it { is_expected.to set_flash.to /update/i }
   end
 
   describe 'destroy' do
@@ -106,7 +106,7 @@ describe AuthSourcesController, type: :controller do
 
       it { is_expected.to respond_with :redirect }
       it { is_expected.to redirect_to auth_sources_path }
-      it { is_expected.to set_the_flash.to /deletion/i }
+      it { is_expected.to set_flash.to /deletion/i }
     end
 
     context 'with users' do

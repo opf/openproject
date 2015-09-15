@@ -27,41 +27,48 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= error_messages_for 'project' %>
+<%= error_messages_for project %>
 
 <!--[form:project]-->
 
 <section class="form--section">
   <%= render partial: "projects/form/project_attributes",
-             locals: { project: project,
-                       form: f } %>
+             locals: { project: project, form: f } %>
 
-  <%= call_hook(:view_projects_form,
-                project: project,
-                form: f) %>
+  <%= call_hook(:view_projects_form, project: project, form: f) %>
 </section>
 
+<% unless project.new_record? %>
+  <section class="form--section">
+    <%= render partial: "projects/form/required_storage",
+               locals: { project: project, storage: project.count_required_storage } %>
+  </section>
+<% end %>
+
 <% if project.new_record? %>
-  <div>
-    <%= render partial: "projects/form/modules",
-               locals: { form: f } %>
-  </div>
+  <section class="form--section">
+    <%= render partial: "projects/form/modules", locals: { form: f } %>
+  </section>
 
   <%= javascript_tag 'observeProjectModules();' %>
 <% end %>
 
 <% if (project.new_record? || project.module_enabled?('work_package_tracking')) && renderTypes %>
-  <div>
+  <section class="form--section">
     <%= render partial: 'projects/form/types',
-               locals: { f: f,
-                         project: project } %>
-  </div>
+               locals: { f: f, project: project } %>
+  </section>
 <% end %>
 
-<% unless @issue_custom_fields.empty? %>
-  <%= render partial: "projects/form/custom_fields",
-             locals: { project: project,
-                       form: f,
-                       work_package_custom_fields: @issue_custom_fields } %>
+<% if project.new_record? %>
+  <section class="form--section">
+    <%= render partial: 'projects/form/custom_fields',
+               locals: {
+                 form: f,
+                 project: project,
+                 work_package_custom_fields: @issue_custom_fields
+                } %>
+  </section>
 <% end %>
+
 <!--[eoform:project]-->

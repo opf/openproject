@@ -26,7 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, settingsModal, QueryService, AuthorisationService, $rootScope, QUERY_MENU_ITEM_TYPE) {
+module.exports = function(
+    $scope,
+    settingsModal,
+    QueryService,
+    AuthorisationService,
+    $rootScope,
+    QUERY_MENU_ITEM_TYPE,
+    NotificationsService
+  ) {
 
   var query = QueryService.getQuery();
 
@@ -43,7 +51,7 @@ module.exports = function($scope, settingsModal, QueryService, AuthorisationServ
       })
       .then(function(data) {
         settingsModal.deactivate();
-        $scope.$emit('flashMessage', data.status);
+        NotificationsService.addSuccess(data.status.text);
 
         $rootScope.$broadcast('openproject.layout.renameQueryMenuItem', {
           itemType: QUERY_MENU_ITEM_TYPE,
@@ -52,7 +60,7 @@ module.exports = function($scope, settingsModal, QueryService, AuthorisationServ
         });
 
         if(data.query) {
-          AuthorisationService.initModelAuth("query", data.query._links);
+          AuthorisationService.initModelAuth('query', data.query._links);
         }
       });
     };

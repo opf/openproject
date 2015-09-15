@@ -29,11 +29,18 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title(l(:label_settings)) -%>
 <% breadcrumb_paths(l(:label_settings)) %>
 <%= toolbar title: l(:label_settings) do %>
+  <% if User.current.allowed_to?(:add_subprojects, @project) %>
+    <li class="toolbar-item">
+      <%= link_to new_project_path(parent_id: @project), class: 'button -alt-highlight' do %>
+        <i class="icon-add"></i> <%= l(:label_subproject_new) %>
+      <% end %>
+    </li>
+  <% end %>
   <% if @project.copy_allowed? %>
     <li class="toolbar-item">
       <%= link_to copy_from_project_path(@project, coming_from: :settings), class: 'button copy', accesskey: accesskey(:copy) do %>
         <i class="button--icon icon-copy"></i>
-        <span class="button--text"><%= l(:button_copy) %></span>
+        <span class="button--text"><%= l(:label_copy_project) %></span>
       <% end %>
     </li>
   <% end %>

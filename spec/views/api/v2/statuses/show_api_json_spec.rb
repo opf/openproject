@@ -29,7 +29,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/statuses/show.api.rabl', type: :view do
-
   before do
     params[:format] = 'json'
   end
@@ -51,13 +50,12 @@ describe 'api/v2/statuses/show.api.rabl', type: :view do
     end
 
     it 'renders a status node' do
-      expect(response).to have_json_path('status')
+      expect(rendered).to have_json_path('status')
     end
 
     it 'renders a status-details' do
       expected_json = { name: 'Almost Done', position: 100, is_default: true, is_closed: false, default_done_ratio: 90 }.to_json
-      expect(response).to be_json_eql(expected_json).at_path('status')
+      expect(rendered).to be_json_eql(expected_json).at_path('status')
     end
-
   end
 end

@@ -86,6 +86,7 @@ storage config above like this:
 * [`hidden_menu_items`](#hidden-menu-items) (default: {})
 * [`disabled_modules`](#disabled-modules) (default: [])
 * [`blacklisted_routes`](#blacklisted-routes) (default: [])
+* [`global_basic_auth`](#global-basic-auth)
 
 ### disable password login
 
@@ -186,7 +187,7 @@ OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU='roles types'
 
 *default: []*
 
-You can blacklist specific routes 
+You can blacklist specific routes
 The following example forbid all routes for above disabled menu:
 
 ```
@@ -235,6 +236,21 @@ The option to use a string is mostly relevant for when you want to override the 
 
 ```
 OPENPROJECT_DISABLED__MODULES='backlogs meetings'
+```
+
+### global basic auth
+
+*default: none*
+
+You can define a global set of credentials used to authenticate towards API v3.
+Example section for `configuration.yml`:
+
+```
+default:
+  authentication:
+    global_basic_auth:
+      user: admin
+      password: admin
 ```
 
 ## Email configuration

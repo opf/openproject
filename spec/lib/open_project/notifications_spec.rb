@@ -55,6 +55,45 @@ describe OpenProject::Notifications do
         OpenProject::Notifications.subscribe('notifications_spec_send')
       }.to raise_error ArgumentError, /provide a block as a callback/
     end
-  end
 
+    describe 'clear_subscriptions:' do
+      let(:key) { 'test_clear_subs' }
+      let(:as) { [] }
+      let(:bs) { [] }
+
+      def example_with(clear:)
+        OpenProject::Notifications.subscribe(key) do |out|
+          as << out
+        end
+        OpenProject::Notifications.send(key, 1)
+
+        OpenProject::Notifications.subscribe(key, clear_subscriptions: clear) do |out|
+          bs << out
+        end
+        OpenProject::Notifications.send(key, 2)
+      end
+
+      context 'true' do
+        before do
+          example_with clear: true
+        end
+
+        it 'clears previous subscriptions' do
+          expect(as).to eq [1]
+          expect(bs).to eq [2]
+        end
+      end
+
+      context 'false' do
+        before do
+          example_with clear: false
+        end
+
+        it 'notifies both subscriptions' do
+          expect(as).to eq [1, 2]
+          expect(bs).to eq [2]
+        end
+      end
+    end
+  end
 end

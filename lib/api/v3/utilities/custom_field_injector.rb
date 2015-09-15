@@ -83,9 +83,9 @@ module API
           end
 
           def create_value_representer_for_property_patching(customizable, representer)
-            property_fields = customizable.available_custom_fields.select do |cf|
+            property_fields = customizable.available_custom_fields.select { |cf|
               property_field?(cf)
-            end
+            }
 
             injector = CustomFieldInjector.new(representer)
             property_fields.each do |custom_field|
@@ -96,9 +96,9 @@ module API
           end
 
           def create_value_representer_for_link_patching(customizable, representer)
-            linked_fields = customizable.available_custom_fields.select do |cf|
+            linked_fields = customizable.available_custom_fields.select { |cf|
               linked_field?(cf)
-            end
+            }
 
             injector = CustomFieldInjector.new(representer)
             linked_fields.each do |custom_field|
@@ -172,10 +172,8 @@ module API
                                                 type: 'Version',
                                                 name_source: -> (*) { custom_field.name },
                                                 values_callback: -> (*) {
-                                                  # for now we ASSUME that every customized will
-                                                  # understand define that method if it has
-                                                  # version custom fields
-                                                  customized.assignable_versions
+                                                  customized.assignable_values(:version,
+                                                                               current_user)
                                                 },
                                                 value_representer: Versions::VersionRepresenter,
                                                 link_factory: -> (version) {

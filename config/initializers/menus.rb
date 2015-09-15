@@ -36,18 +36,39 @@ Redmine::MenuManager.map :top_menu do |menu|
             if: Proc.new { User.current.logged? }
   # projects menu will be added by
   # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
-  menu.push :administration,
-            { controller: '/admin', action: 'projects' },
-            if: Proc.new { User.current.admin? },
-            last: true
+  menu.push :work_packages,
+            { controller: '/work_packages', project_id: nil, action: 'index' },
+            caption: I18n.t('label_work_package_plural'),
+            if: Proc.new {
+              (User.current.logged? || !Setting.login_required?) &&
+                User.current.allowed_to?(:view_work_packages, nil, global: true)
+            }
+  menu.push :news,
+            { controller: '/news', project_id: nil, action: 'index' },
+            if: Proc.new {
+              (User.current.logged? || !Setting.login_required?) &&
+                User.current.allowed_to?(:view_news, nil, global: true)
+            }
+  menu.push :time_sheet,
+            { controller: '/time_entries', project_id: nil, action: 'index' },
+            caption: I18n.t('label_time_sheet_menu'),
+            if: Proc.new {
+              (User.current.logged? || !Setting.login_required?) &&
+                User.current.allowed_to?(:view_time_entries, nil, global: true)
+            }
   menu.push :help, OpenProject::Info.help_url,
             last: true,
-            caption: I18n.t('label_help'),
+            caption: '',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
-                    class: 'icon5 icon-help' }
+                    title: I18n.t('label_help'),
+                    class: 'icon5 icon-help',
+                    target: '_blank' }
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
+  menu.push :administration,
+            { controller: '/admin', action: 'projects' },
+            if: Proc.new { User.current.admin? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
             if: Proc.new { User.current.logged? }
@@ -99,7 +120,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :types,
             { controller: '/types' },
-            caption: :label_type_plural,
+            caption: :label_work_package_types,
             html: { class: 'icon2 icon-tracker' }
 
   menu.push :statuses,
@@ -226,6 +247,13 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.repository && !p.repository.new_record? },
             html: { class: 'icon2 icon-open-folder' }
 
+  menu.push :time_entries,
+            { controller: '/timelog', action: 'index' },
+            param: :project_id,
+            if: -> (project) { User.current.allowed_to?(:view_time_entries, project) },
+            caption: :label_time_sheet_menu,
+            html: { class: 'icon2 icon-stats' }
+
   menu.push :reportings,
             { controller: '/reportings', action: 'index' },
             param: :project_id,
@@ -238,6 +266,12 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :'timelines.project_menu.project_associations',
             if: Proc.new { |p| p.project_type.try :allows_association },
             html: { class: 'icon2 icon-dependency' }
+
+  menu.push :members,
+            { controller: :members, action: :index },
+            param: :project_id,
+            caption: :label_member_plural,
+            html: { class: 'icon2 icon-group' }
 
   menu.push :settings,
             { controller: '/projects', action: 'settings' },

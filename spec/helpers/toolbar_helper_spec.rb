@@ -30,16 +30,16 @@
 require 'spec_helper'
 
 describe ToolbarHelper, type: :helper do
-  describe '#toolbar' do
+  describe '.toolbar' do
     it 'should create a default toolbar' do
       result = toolbar title: 'Title'
       expect(result).to be_html_eql %{
         <div class="toolbar-container">
-          <div id="toolbar">
+          <div class="toolbar">
             <div class="title-container">
               <h2 title="Title">Title</h2>
             </div>
-            <ul id="toolbar-items"></ul>
+            <ul class="toolbar-items"></ul>
           </div>
         </div>
       }
@@ -49,11 +49,11 @@ describe ToolbarHelper, type: :helper do
       result = toolbar title: 'Title', subtitle: 'lorem'
       expect(result).to be_html_eql %{
         <div class="toolbar-container">
-          <div id="toolbar">
+          <div class="toolbar">
             <div class="title-container">
               <h2 title="Title">Title</h2>
             </div>
-            <ul id="toolbar-items"></ul>
+            <ul class="toolbar-items"></ul>
           </div>
           <p class="subtitle">lorem</p>
         </div>
@@ -68,11 +68,11 @@ describe ToolbarHelper, type: :helper do
       end
       expect(result).to be_html_eql %{
         <div class="toolbar-container">
-          <div id="toolbar">
+          <div class="toolbar">
             <div class="title-container">
               <h2 title="Title">Title</h2>
             </div>
-            <ul id="toolbar-items">
+            <ul class="toolbar-items">
               <li>
                 <p data-number="2">paragraph</p>
               </li>

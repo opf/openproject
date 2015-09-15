@@ -39,33 +39,38 @@ angular.module('openproject.workPackages.controllers')
     '$scope',
     'WorkPackagesOverviewService',
     'WorkPackageFieldService',
+    'EditableFieldsState',
+    'WorkPackagesDisplayHelper',
+    'NotificationsService',
+    'I18n',
+    'WorkPackageAttachmentsService',
     require('./details-tab-overview-controller')
   ])
   .constant('ADD_WATCHER_SELECT_INDEX', -1)
-  .controller('DetailsTabWatchersController', ['$scope',
-    '$filter',
-    '$timeout',
+  .controller('DetailsTabWatchersController', [
+    '$scope',
     'I18n',
+    'WatchersService',
     'ADD_WATCHER_SELECT_INDEX', require('./details-tab-watchers-controller')
   ])
   .constant('RELATION_TYPES', {
-    relatedTo: "Relation::Relates",
-    duplicates: "Relation::Duplicates",
-    duplicated: "Relation::Duplicated",
-    blocks: "Relation::Blocks",
-    blocked: "Relation::Blocked",
-    precedes: "Relation::Precedes",
-    follows: "Relation::Follows"
+    relatedTo: 'Relation::Relates',
+    duplicates: 'Relation::Duplicates',
+    duplicated: 'Relation::Duplicated',
+    blocks: 'Relation::Blocks',
+    blocked: 'Relation::Blocked',
+    precedes: 'Relation::Precedes',
+    follows: 'Relation::Follows'
   })
   .constant('RELATION_IDENTIFIERS', {
-    parent: "parent",
-    relatedTo: "relates",
-    duplicates: "duplicates",
-    duplicated: "duplicated",
-    blocks: "blocks",
-    blocked: "blocked",
-    precedes: "precedes",
-    follows: "follows"
+    parent: 'parent',
+    relatedTo: 'relates',
+    duplicates: 'duplicates',
+    duplicated: 'duplicated',
+    blocks: 'blocks',
+    blocked: 'blocked',
+    precedes: 'precedes',
+    follows: 'follows'
   })
   .controller('WorkPackageDetailsController', [
     '$scope',
@@ -76,6 +81,7 @@ angular.module('openproject.workPackages.controllers')
     'RELATION_TYPES',
     'RELATION_IDENTIFIERS',
     '$q',
+    '$filter',
     'WorkPackagesHelper',
     'PathHelper',
     'UsersHelper',
@@ -84,8 +90,23 @@ angular.module('openproject.workPackages.controllers')
     'CommonRelationsHandler',
     'ChildrenRelationsHandler',
     'ParentRelationsHandler',
-    'EditableFieldsState',
+    'NotificationsService',
     require('./work-package-details-controller')
+  ])
+  .controller('WorkPackageNewController', [
+    '$scope',
+    '$rootScope',
+    '$state',
+    '$stateParams',
+    '$timeout',
+    '$window',
+    'PathHelper',
+    'WorkPackagesOverviewService',
+    'WorkPackageFieldService',
+    'WorkPackageService',
+    'EditableFieldsState',
+    'WorkPackagesDisplayHelper',
+    require('./work-package-new-controller')
   ])
   .controller('WorkPackagesController', [
     '$scope',
@@ -113,6 +134,7 @@ angular.module('openproject.workPackages.controllers')
     'PathHelper',
     'Query',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
+    'NotificationsService',
     require('./work-packages-list-controller')
   ])
   .factory('columnsModal', ['btfModal', function(btfModal) {
@@ -159,6 +181,7 @@ angular.module('openproject.workPackages.controllers')
     'groupingModal',
     'QueryService',
     'WorkPackagesTableService',
+    'I18n',
     require('./dialogs/group-by')
   ])
   .factory('saveModal', ['btfModal', function(btfModal) {
@@ -175,6 +198,7 @@ angular.module('openproject.workPackages.controllers')
     'QueryService',
     'AuthorisationService',
     '$state',
+    'NotificationsService',
     require('./dialogs/save')
   ])
   .factory('settingsModal', ['btfModal', function(btfModal) {
@@ -192,6 +216,7 @@ angular.module('openproject.workPackages.controllers')
     'AuthorisationService',
     '$rootScope',
     'QUERY_MENU_ITEM_TYPE',
+    'NotificationsService',
     require('./dialogs/settings')
   ])
   .factory('shareModal', ['btfModal', function(btfModal) {
@@ -209,6 +234,7 @@ angular.module('openproject.workPackages.controllers')
     'AuthorisationService',
     'queryMenuItemFactory',
     'PathHelper',
+    'NotificationsService',
     require('./dialogs/share')
   ])
   .factory('sortingModal', ['btfModal', function(btfModal) {

@@ -38,10 +38,10 @@ describe 'work_packages/auto_completes/index.html.erb', type: :view do
     assign :work_packages, [work_package]
     render
     # there are items
-    expect(response).to have_selector 'li'
+    expect(rendered).to have_selector 'li'
     # but there is not script tag
-    expect(response).not_to have_selector 'script'
+    expect(rendered).not_to have_selector 'script'
     # normal text should be included
-    expect(response).to include 'do not alert this'
+    expect(rendered).to include 'do not alert this'
   end
 end

@@ -26,11 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(PathHelper, CommonRelationsHandler, WorkPackageService) {
+module.exports = function(
+    CommonRelationsHandler,
+    WorkPackageService,
+    ApiNotificationsService
+  ) {
   function ChildrenRelationsHandler(workPackage, children) {
       var handler = new CommonRelationsHandler(workPackage, children, undefined);
 
-      handler.type = "child";
+      handler.type = 'child';
       handler.applyCustomExtensions = undefined;
 
       handler.canAddRelation = function() { return !!this.workPackage.links.addChild; };
@@ -55,7 +59,7 @@ module.exports = function(PathHelper, CommonRelationsHandler, WorkPackageService
               scope.updateFocus(index);
               scope.$emit('workPackageRefreshRequired');
           }, function(error) {
-              ApiHelper.handleError(scope, error);
+            ApiNotificationsService.addError(error);
           });
       };
 

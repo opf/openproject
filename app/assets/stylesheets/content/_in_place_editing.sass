@@ -52,7 +52,6 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
       opacity: 0.5
     *
       cursor: wait!important
-      inplace-edit--write
 
   .inplace-edit--date
     margin: 0
@@ -106,6 +105,8 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
 .inplace-edit--select
   .select2-display-none
     display: none
+  &.-full-width
+    max-width: 100%
 
 .inplace-edit--textarea
   min-height: 200px
@@ -143,8 +144,6 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
 
 .inplace-edit--controls
   display: inline-block
-  width: 115px
-  height: 35px
   background: $inplace-edit--dark-background
   border: 1px solid $inplace-edit--color--very-dark
   box-shadow: 1px 1px 2px $inplace-edit--border-color
@@ -160,7 +159,8 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
   right: 0
 
 .inplace-edit--read
-  @extend .form--field-container
+  @include grid-block
+  overflow: visible
 
 .inplace-edit--read-value
   @include grid-block
@@ -168,6 +168,12 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
 
   &.-default
     font-style: italic
+
+  p
+    font-size: inherit
+
+    &:last-of-type
+      margin-bottom: 0
 
 .inplace-edit--preview
   border: 1px solid $inplace-edit--border-color
@@ -184,19 +190,21 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
   visibility: hidden
   font-size: rem-calc(14px)
 
-  .icon-edit::before
+  .icon-edit::before,
+  .icon-delete::before
     // HACK: overriding default padding here
     padding-right: 0
 
-  a
-    color: $body-font-color
+a.inplace-edit--icon-wrapper
+  color: $body-font-color
 
-  a:hover
+  &:hover
     color: $body-font-color
     text-decoration: none
 
 .inplace-editing--trigger-container
   @include grid-block
+  overflow: visible
 
 // need to specify the a explicitly as otherwise
 // the default class will win
@@ -205,9 +213,11 @@ a.inplace-editing--trigger-link,
   @include grid-block
   color: $body-font-color
   font-weight: inherit
+  overflow: visible
 
   &:hover,
   &:focus,
+  &.-focus,
     text-decoration: none
     color: $body-font-color
 
@@ -216,15 +226,14 @@ a.inplace-editing--trigger-link,
     .inplace-edit--icon-wrapper
       visibility: visible
 
+
 .inplace-editing--container
   @include grid-block
   border-color: #fff
   border-style: solid
   border-radius: 2px
   border-width: 1px
-
-.inplace-edit--read
-  @include grid-block
+  overflow: visible
 
 .inplace-edit--control
   background: $inplace-edit--color--very-dark
@@ -242,7 +251,6 @@ a.inplace-editing--trigger-link,
   a
     color: $body-font-color
     text-decoration: none
-    &:hover
 
     .icon-context::before
       padding: 0
@@ -263,3 +271,24 @@ a.inplace-editing--trigger-link,
 
 .inplace-edit--highlight
   border-color: $inplace-edit--color-highlight !important
+
+.work-package--details--long-field
+  margin-top: 10px
+
+  .inplace-editing--trigger-container
+    line-height: 1.6
+
+  .inplace-edit--read
+    margin-left: 0px
+    max-width: 100%
+    padding-bottom: 5px
+
+    .inplace-edit--read-value
+      span.deleting
+        opacity: 0.5
+
+      img.avatar-mini
+        float: inherit
+
+      i
+        vertical-align: text-top

@@ -376,7 +376,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                   include_context 'post request'
 
-                  it_behaves_like 'constraint violation' do
+                  it_behaves_like 'invalid resource link' do
                     let(:message) {
                       I18n.t('api_v3.errors.invalid_resource',
                              property: 'status',
@@ -472,7 +472,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                     include_context 'post request'
 
-                    it_behaves_like 'constraint violation' do
+                    it_behaves_like 'invalid resource link' do
                       let(:message) {
                         I18n.t('api_v3.errors.invalid_resource',
                                property: property,

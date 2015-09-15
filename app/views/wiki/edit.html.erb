@@ -33,7 +33,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="form--field -required -vertical">
     <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
                   :value => format_text(@content, :text, :attachments => @content.page.attachments, :edit => true),
-                  :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
                   :'ng-non-bindable' => '' %>
   </div>
   <div class="form--field">

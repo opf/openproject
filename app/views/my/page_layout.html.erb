@@ -102,13 +102,13 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </div>
   <div class="grid-block">
-    <div id="list-left" class="grid-content block-receiver">
+    <div id="list-left" class="grid-content block-receiver left">
       <% @blocks['left'].each do |b|
          next unless MyController.available_blocks.keys.include? b %>
         <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
       <% end if @blocks['left'] %>
     </div>
-    <div id="list-right" class="grid-content block-receiver">
+    <div id="list-right" class="grid-content block-receiver right">
       <% @blocks['right'].each do |b|
          next unless MyController.available_blocks.keys.include? b %>
         <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>

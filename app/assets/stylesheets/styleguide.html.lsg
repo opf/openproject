@@ -1,14 +1,15 @@
-# Base setup:
-source: ../stylesheets/default.css.sass
-title: "Living Style Guide for OpenProject"
+@require sass
 
-# Adjust default LivingStyleGuide design:
-style:
-  base-font: Lato
-  base-font-size: 16px
-  background-color: white
+@css ../stylesheets/default.css.sass
+@title "Living Style Guide for OpenProject"
 
-styleguide-sass: |
+@style base-font: Lato
+@style base-font-size: 16px
+@style background-color: white
+
+@default preprocessor: sass
+
+@css
   .livingstyleguide--header
     @include grid-content
 
@@ -39,10 +40,26 @@ styleguide-sass: |
   .livingstyleguide--example
     overflow: visible
 
-javascript-before:
-  - "/assets/styleguide.js"
+  .icon-list
+    display: flex
+    flex-flow: row wrap
+    width: 640px
+    margin: 0 auto
 
-header: |
+    li
+      flex: 1
+      flex-basis: 15%
+      display: block
+      text-align: center
+      margin: 10px
+      font-size: 12px
+
+    span
+      display: block
+      font-size: 30px
+
+
+@header
   <header class="livingstyleguide--header">
     <div class="styleguide-banner">
       <h1 class="styleguide-banner--text">Living Style Guide</h1>
@@ -67,7 +84,11 @@ header: |
     <p>&nbsp;</p>
   </section>
 
-footer: |
+@javascript-before /assets/styleguide.js
+
+@footer
   <footer class="livingstyleguide--footer">
     Copyright © 2015 OpenProject - All rights reserved.
   </footer>
+
+@import ../stylesheets/**/_*.lsg

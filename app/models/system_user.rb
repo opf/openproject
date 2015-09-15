@@ -62,7 +62,7 @@ class SystemUser < User
 
   # There should be only one SystemUser in the database
   def validate_unique_system_user
-    errors.add :base, 'A SystemUser already exists.' if SystemUser.find(:first)
+    errors.add :base, 'A SystemUser already exists.' if SystemUser.any?
   end
 
   # Overrides a few properties

@@ -66,6 +66,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </h2>
       </div>
     </noscript>
+    <notifications></notifications>
     <% main_menu = render_main_menu(@project) %>
     <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
     <div id="wrapper" class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>"
@@ -121,7 +122,6 @@ See doc/COPYRIGHT.rdoc for more details.
       ng-class="{ 'hidden-navigation': !showNavigation }">
           <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
           <%= render_flash_messages %>
-          <flash-message></flash-message>
           <div ui-view></div>
           <%= call_hook :view_layouts_base_content %>
           <div style="clear:both;">&nbsp;</div>

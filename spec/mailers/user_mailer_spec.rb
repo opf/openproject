@@ -108,7 +108,7 @@ describe UserMailer, type: :mailer do
 
   describe '#work_package_added' do
     before do
-      UserMailer.work_package_added(recipient, work_package, user).deliver
+      UserMailer.work_package_added(recipient, journal, user).deliver
     end
 
     it_behaves_like 'mail is sent'
@@ -128,6 +128,19 @@ describe UserMailer, type: :mailer do
     it_behaves_like 'mail is sent'
 
     it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#work_package_watcher_added' do
+    let(:watcher_setter) { user }
+    before do
+      UserMailer.work_package_watcher_added(work_package, recipient, watcher_setter).deliver
+    end
+
+    it_behaves_like 'mail is sent'
+
+    it 'contains the WP subject in the mail subject' do
+      expect(ActionMailer::Base.deliveries.first.subject).to include(work_package.subject)
+    end
   end
 
   describe :wiki_content_added do

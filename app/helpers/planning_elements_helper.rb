@@ -98,6 +98,6 @@ module PlanningElementsHelper
 
     formatter.send(:format_details,
                    attribute,
-                   journal.changed_data[attribute])
+                   journal.details[attribute])
   end
 end

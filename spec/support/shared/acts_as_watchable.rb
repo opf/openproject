@@ -133,7 +133,7 @@ MESSAGE
 
     subject { model_instance.watcher_recipients }
 
-    it { is_expected.to match_array([watching_user.mail]) }
+    it { is_expected.to match_array([watching_user]) }
 
     context 'when the permission to watch has been removed' do
       before do

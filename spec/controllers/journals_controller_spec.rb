@@ -62,7 +62,7 @@ describe JournalsController, type: :controller do
     before do
       work_package.update_attribute :description, 'description'
 
-      get :diff, params
+      xhr :get, :diff, params
     end
 
     describe 'w/ authorization' do
@@ -70,7 +70,7 @@ describe JournalsController, type: :controller do
         expect(response).to be_success
       end
 
-      it 'should presetn the diff correctly' do
+      it 'should present the diff correctly' do
         expect(response.body.strip).to eq("<div class=\"text-diff\">\n  <ins class=\"diffmod\">description</ins>\n</div>")
       end
     end

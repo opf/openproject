@@ -37,10 +37,12 @@ module API
       mount ::API::V3::Activities::ActivitiesAPI
       mount ::API::V3::Attachments::AttachmentsAPI
       mount ::API::V3::Categories::CategoriesAPI
+      mount ::API::V3::Configuration::ConfigurationAPI
       mount ::API::V3::Priorities::PrioritiesAPI
       mount ::API::V3::Projects::ProjectsAPI
       mount ::API::V3::Queries::QueriesAPI
       mount ::API::V3::Render::RenderAPI
+      mount ::API::V3::Repositories::RevisionsAPI
       mount ::API::V3::Statuses::StatusesAPI
       mount ::API::V3::StringObjects::StringObjectsAPI
       mount ::API::V3::Types::TypesAPI
@@ -49,7 +51,7 @@ module API
       mount ::API::V3::WorkPackages::WorkPackagesAPI
 
       get '/' do
-        RootRepresenter.new({})
+        RootRepresenter.new({}, current_user: current_user)
       end
     end
   end

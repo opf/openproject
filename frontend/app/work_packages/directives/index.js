@@ -94,6 +94,24 @@ angular.module('openproject.workPackages.directives')
     'featureFlags',
     'PathHelper',
     require('./work-packages-table-directive')
+  ])
+  .directive('workPackageAttachments', [
+    'WorkPackageAttachmentsService',
+    'NotificationsService',
+    'I18n',
+    'ConfigurationService',
+    'ConversionService',
+    'FocusHelper',
+    require('./work-package-attachments-directive')
+  ])
+  .directive('workPackageWatcher', [
+    'I18n',
+    require('./work-package-watcher-directive')
+  ])
+  .directive('workPackageWatchersLookup', [
+    'I18n',
+    'FocusHelper',
+    require('./work-package-watchers-lookup-directive.js')
   ]);
 
   require('./inplace_editor');

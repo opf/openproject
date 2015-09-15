@@ -1,2 +1,0 @@
-this is a text file for upload tests
-with multiple lines

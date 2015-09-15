@@ -252,12 +252,12 @@ Then /^the "([^"]*)" field should have no error$/ do |field|
   classes.should_not include('error')
 end
 
-Then /^the (hidden )?"([^"]*)" checkbox should be checked$/ do |hidden, label |
+Then /^the (hidden )?"([^"]*)" checkbox should be checked$/ do |hidden, label|
   field_checked = find_field(label, visible: hidden.nil?)['checked']
   field_checked.should be_truthy
 end
 
-Then /^the (hidden )?"([^"]*)" checkbox should not be checked$/ do |hidden, label |
+Then /^the (hidden )?"([^"]*)" checkbox should not be checked$/ do |hidden, label|
   field_checked = find_field(label, visible: hidden.nil?)['checked']
   field_checked.should be_falsey
 end
@@ -342,7 +342,6 @@ Then /^the "([^\"]*)" select(?: within "([^\"]*)")? should have the following op
   options_expected = option_table.raw.flatten
 
   with_scope(selector) do
-
     field = find_field(field)
     options_actual = field.all('option').map(&:text)
     options_actual.should =~ options_expected
@@ -361,7 +360,7 @@ Given /^I (accept|dismiss) the alert dialog$/ do |method|
 end
 
 Then(/^(.*) in the new window$/) do |step|
-  new_window = page.driver.browser.window_handles.last
+  new_window = windows.last
   page.within_window new_window do
     step(step)
   end

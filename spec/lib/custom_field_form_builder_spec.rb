@@ -43,7 +43,7 @@ describe CustomFieldFormBuilder do
                       mail:       'jj@lost-mail.com',
                       failed_login_count: 45)
   }
-  let(:builder)  { described_class.new(:user, resource, helper, {}, nil) }
+  let(:builder)  { described_class.new(:user, resource, helper, {}) }
 
   describe '#custom_field' do
     let(:options) { { class: 'custom-class' } }
@@ -97,7 +97,6 @@ describe CustomFieldFormBuilder do
                  id="user#{resource.custom_field_id}"
                  lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
-                 size="30"
                  type="text"
                  value="" />
         }).at_path('input')
@@ -116,7 +115,6 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output).to be_html_eql(%{
           <textarea class="custom-class form--text-area"
-                    cols="40"
                     id="user#{resource.custom_field_id}"
                     lang=\"en\"
                     name="user[#{resource.custom_field_id}]"
@@ -141,7 +139,6 @@ describe CustomFieldFormBuilder do
                  id="user#{resource.custom_field_id}"
                  lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
-                 size="30"
                  type="text"
                  value="" />
         }).at_path('input')
@@ -163,7 +160,6 @@ describe CustomFieldFormBuilder do
                  id="user#{resource.custom_field_id}"
                  lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
-                 size="30"
                  type="text"
                  value="" />
         }).at_path('input')
@@ -185,7 +181,6 @@ describe CustomFieldFormBuilder do
                  id="user#{resource.custom_field_id}"
                  lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
-                 size="30"
                  type="text"
                  value="" />
         }).at_path('input')

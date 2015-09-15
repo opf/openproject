@@ -30,14 +30,14 @@
 namespace :test do
   desc 'Run unit and functional scm tests'
   task :scm do
-    errors = %w(test:scm:units test:scm:functionals).collect do |task|
+    errors = %w(test:scm:units test:scm:functionals).collect { |task|
       begin
         Rake::Task[task].invoke
         nil
       rescue => e
         task
       end
-    end.compact
+    }.compact
     abort "Errors running #{errors.to_sentence(locale: :en)}!" if errors.any?
   end
 
@@ -48,20 +48,16 @@ namespace :test do
         FileUtils.mkdir_p Rails.root + '/tmp/test'
       end
 
-      supported_scms = [:subversion, :git, :filesystem]
+      supported_scms = [:subversion, :git]
 
       desc 'Creates a test subversion repository'
-      task subversion: :create_dir do
-        repo_path = 'tmp/test/subversion_repository'
-        system "svnadmin create #{repo_path}"
-        system "gunzip < test/fixtures/repositories/subversion_repository.dump.gz | svnadmin load #{repo_path}"
-      end
-
-      (supported_scms - [:subversion]).each do |scm|
+      supported_scms.each do |scm|
         desc "Creates a test #{scm} repository"
         task scm => :create_dir do
-          # system "gunzip < test/fixtures/repositories/#{scm}_repository.tar.gz | tar -xv -C tmp/test"
-          system "tar -xvz -C tmp/test -f test/fixtures/repositories/#{scm}_repository.tar.gz"
+          repo_path = File.join(Rails.root, "tmp/test/#{scm}_repository")
+          FileUtils.mkdir_p repo_path
+          # system "gunzip < spec/fixtures/repositories/#{scm}_repository.tar.gz | tar -xv -C tmp/test"
+          system "tar -xvz -C #{repo_path} -f spec/fixtures/repositories/#{scm}_repository.tar.gz"
         end
       end
 
@@ -75,7 +71,7 @@ namespace :test do
       Dir.glob('tmp/test/*_repository').each do |dir|
         next unless File.basename(dir) =~ %r{\A(.+)_repository\z} && File.directory?(dir)
         scm = $1
-        next unless fixture = Dir.glob("test/fixtures/repositories/#{scm}_repository.*").first
+        next unless fixture = Dir.glob("spec/fixtures/repositories/#{scm}_repository.*").first
         next if File.stat(dir).ctime > File.stat(fixture).mtime
 
         FileUtils.rm_rf dir
@@ -101,6 +97,37 @@ namespace :test do
   desc 'runs all tests'
   namespace :suite do
     task run: [:cucumber, :spec, :test]
+  end
+end
+
+task('spec').clear
+task('spec:legacy').clear
+
+desc 'Run all specs in spec directory (excluding plugin specs)'
+task spec: %w(spec:core spec:legacy)
+
+namespace :spec do
+  desc 'Run the code examples in spec, excluding legacy'
+  begin
+    require 'rspec/core/rake_task'
+    RSpec::Core::RakeTask.new(core: 'spec:prepare') do |t|
+      t.exclude_pattern = 'spec/legacy/**/*_spec.rb'
+    end
+
+    desc 'Run the code examples in spec/legacy'
+    task legacy: %w(legacy:unit legacy:functional legacy:integration)
+    namespace :legacy do
+      %w(unit functional integration).each do |type|
+        desc "Run the code examples in spec/legacy/#{type}"
+        RSpec::Core::RakeTask.new(type => 'spec:prepare') do |t|
+          t.pattern = "spec/legacy/#{type}/**/*_spec.rb"
+          t.exclude_pattern = ''
+        end
+      end
+    end
+  rescue LoadError
+    # when you bundle without development and test (e.g. to create a deployment
+    # artefact) still all tasks get loaded. To avoid an error we rescue here.
   end
 end
 

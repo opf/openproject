@@ -34,6 +34,18 @@ module API
   module V3
     module Relations
       class RelationRepresenter < ::API::Decorators::Single
+        def self.create(user, current_user:, work_package: nil)
+          new(user, current_user: current_user, work_package: work_package)
+        end
+
+        def initialize(user, current_user:, work_package: nil)
+          # FIXME: we should not change our representation depending on the embedding work package
+          # especially since we only change the type's direction, e.g. Blocks to Blocked,
+          # which makes no sense, since the relation itself is already directional (from->to)
+          @work_package = work_package
+          super(user, current_user: current_user)
+        end
+
         link :self do
           { href: api_v3_paths.relation(represented.id) }
         end
@@ -51,7 +63,8 @@ module API
             href: api_v3_paths.work_package_relation(represented.id, represented.from.id),
             method: :delete,
             title: 'Remove relation'
-          } if current_user_allowed_to(:manage_work_package_relations)
+          } if current_user_allowed_to(:manage_work_package_relations,
+                                       context: represented.from.project)
         end
 
         property :delay, render_nil: true, if: -> (*) { relation_type == 'precedes' }
@@ -62,20 +75,12 @@ module API
 
         private
 
-        def current_user_allowed_to(permission)
-          current_user && current_user.allowed_to?(permission, represented.from.project)
-        end
-
         def relation_type
           represented.relation_type_for(work_package).camelize
         end
 
         def work_package
-          context[:work_package]
-        end
-
-        def current_user
-          context[:current_user]
+          @work_package
         end
       end
     end

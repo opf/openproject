@@ -53,7 +53,7 @@ class Attachment < ActiveRecord::Base
 
   def filesize_below_allowed_maximum
     if filesize > Setting.attachment_max_size.to_i.kilobytes
-      errors.add(:base, :too_long, count: Setting.attachment_max_size.to_i.kilobytes)
+      errors.add(:file, :file_too_large, count: Setting.attachment_max_size.to_i.kilobytes)
     end
   end
 

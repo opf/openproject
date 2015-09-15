@@ -29,7 +29,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/workflows/index.api.rabl', type: :view do
-
   before do
     params[:format] = 'xml'
   end
@@ -40,7 +39,7 @@ describe 'api/v2/workflows/index.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders an empty workflows document' do
       is_expected.to have_selector('workflows', count: 1)
@@ -64,7 +63,7 @@ describe 'api/v2/workflows/index.api.rabl', type: :view do
       render
     end
 
-    subject { Nokogiri.XML(response.body) }
+    subject { Nokogiri.XML(rendered) }
 
     it { expect(subject).to have_selector('workflows workflow', count: 2) }
 

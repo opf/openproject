@@ -27,10 +27,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= call_hook(:view_repositories_show_contextual, { :repository => @repository, :project => @project }) %>
+<%= call_hook(:view_repositories_show_contextual, { repository: @repository, project: @project }) %>
 
-<%= render :partial => 'navigation', locals: { merge: { kind: 'file'} } %>
+<%= render partial: 'repository_header', locals: { empty: false } %>
 
-<p><%= render :partial => 'link_to_functions' %></p>
+<div class="repository-breadcrumbs">
+  <%= render partial: 'breadcrumbs',
+             locals: { path: @path, revision: @rev }.merge(kind: 'dir') %>
+</div>
 
-<%= render :partial => 'common/file', :locals => {:filename => @path, :content => @content} %>
+<p><%= render partial: 'link_to_functions' %></p>
+
+<%= render partial: 'common/file', locals: {filename: @path, content: @content} %>

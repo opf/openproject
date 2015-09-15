@@ -27,28 +27,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'migration_utils/yaml_migrator'
+require_relative 'migration_utils/legacy_yamler'
 
 class MigrateSerializedYamlFromSyckToPsych < ActiveRecord::Migration
-  include Migration::YamlMigrator
+  include Migration::LegacyYamler
 
   def up
-    migrate_yaml_columns('syck', 'psych')
+    %w(filters column_names sort_criteria).each do |column|
+      migrate_to_psych('queries', column)
+    end
+
+    migrate_to_psych('custom_field_translations', 'possible_values')
+    migrate_to_psych('roles', 'permissions')
+    migrate_to_psych('settings', 'value')
+    migrate_to_psych('timelines', 'options')
+    migrate_to_psych('user_preferences', 'others')
+    migrate_to_psych('wiki_menu_items', 'options')
   end
 
   def down
-    migrate_yaml_columns('psych', 'syck')
-  end
-
-  def migrate_yaml_columns(source_yamler, target_yamler)
-    ['filters', 'column_names', 'sort_criteria'].each do |column|
-      migrate_yaml('queries', column, source_yamler, target_yamler)
-    end
-    migrate_yaml('custom_field_translations', 'possible_values', source_yamler, target_yamler)
-    migrate_yaml('roles', 'permissions', source_yamler, target_yamler)
-    migrate_yaml('settings', 'value', source_yamler, target_yamler)
-    migrate_yaml('timelines', 'options', source_yamler, target_yamler)
-    migrate_yaml('user_preferences', 'others', source_yamler, target_yamler)
-    migrate_yaml('wiki_menu_items', 'options', source_yamler, target_yamler)
+    puts 'YAML data serialized with Psych is still compatible with Syck. Skipping migration.'
   end
 end

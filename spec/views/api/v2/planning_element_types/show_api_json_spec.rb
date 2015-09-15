@@ -29,7 +29,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/planning_element_types/show.api.rabl', type: :view do
-
   before do
     params[:format] = 'json'
   end
@@ -55,7 +54,7 @@ describe 'api/v2/planning_element_types/show.api.rabl', type: :view do
       render
     end
 
-    subject { response.body }
+    subject { rendered }
 
     it 'renders a planning_element_type document' do
       is_expected.to have_json_path('planning_element_type')
@@ -73,6 +72,5 @@ describe 'api/v2/planning_element_types/show.api.rabl', type: :view do
 
       is_expected.to be_json_eql(expected_json).at_path('planning_element_type')
     end
-
   end
 end

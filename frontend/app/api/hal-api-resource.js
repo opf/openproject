@@ -26,44 +26,50 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/* globals Hyperagent */
 require('hyperagent');
 
 module.exports = function HALAPIResource($timeout, $q, PathHelper) {
   'use strict';
+  var configure = function() {
+    Hyperagent.configure('ajax', function(settings) {
+      var deferred = $q.defer(),
+          resolve = settings.success,
+          reject = settings.error;
 
-  var HALAPIResource = {
-    configure: function() {
-      Hyperagent.configure('ajax', function(settings) {
-        var deferred = $q.defer(),
-            resolve = settings.success,
-            reject = settings.error;
+      settings.success = deferred.resolve;
+      settings.reject = deferred.reject;
 
-        settings.success = deferred.resolve;
-        settings.reject = deferred.reject;
-
-        deferred.promise.then(function(response) {
-          $timeout(function() { resolve(response); });
-        }, function(reason) {
-          $timeout(function() { reject(reason); });
-        });
-
-        return jQuery.ajax(settings);
+      deferred.promise.then(function(response) {
+        $timeout(function() { resolve(response); });
+      }, function(reason) {
+        $timeout(function() { reject(reason); });
       });
-      Hyperagent.configure('defer', $q.defer);
-      // keep this if you want null values to not be overwritten by
-      // Hyperagent.js miniscore
-      // this weird line replaces HA miniscore with normal underscore
-      // Freud would be happy with what ('_', _) reminds me of
-      Hyperagent.configure('_', _);
-    },
 
-    setup: function(uri) {
-      HALAPIResource.configure();
-      return new Hyperagent.Resource({
-        url: PathHelper.appBasePath + PathHelper.apiV3 + '/' + uri,
-      });
+      return jQuery.ajax(settings);
+    });
+    Hyperagent.configure('defer', $q.defer);
+    // keep this if you want null values to not be overwritten by
+    // Hyperagent.js miniscore
+    // this weird line replaces HA miniscore with normal underscore
+    // Freud would be happy with what ('_', _) reminds me of
+    Hyperagent.configure('_', _);
+  };
+  return {
+    setup: function(uri, params) {
+      if (!params) {
+        params = {};
+      }
+      configure();
+      var url = PathHelper.appBasePath + PathHelper.apiV3 + '/' + uri;
+      var link = new Hyperagent.Resource(_.extend({
+        url: url
+      }, params));
+      if (params.method) {
+        link.props.href = url;
+        link.props.method = params.method;
+      }
+      return link;
     }
   };
-
-  return HALAPIResource;
 };

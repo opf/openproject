@@ -63,7 +63,7 @@ describe 'Custom field accessibility', type: :feature do
       it { expect(element['lang']).to eq(lang_tag_locale) }
     end
 
-    before { allow(User).to receive(:current).and_return current_user }
+    before do allow(User).to receive(:current).and_return current_user end
 
     describe 'Custom Field Admin Page', js: true do
       let(:custom_fields_page) { CustomFieldsPage.new }
@@ -161,7 +161,7 @@ describe 'Custom field accessibility', type: :feature do
         before do
           allow(I18n).to receive(:locale).and_return locale
 
-          project_settings_page.visit_settings
+          project_settings_page.visit_settings_tab('custom_fields')
         end
       end
 
@@ -294,7 +294,7 @@ describe 'Custom field accessibility', type: :feature do
             work_package.save!
           end
 
-          after { Globalize.fallbacks = [:en] }
+          after do Globalize.fallbacks = [:en] end
 
           shared_context 'work package show view' do
             before do
@@ -402,7 +402,7 @@ describe 'Custom field accessibility', type: :feature do
             work_package.save!
           end
 
-          after { Globalize.fallbacks = [:en] }
+          after do Globalize.fallbacks = [:en] end
 
           context 'attribute value' do
             context 'en' do

@@ -28,7 +28,7 @@
 #++
 
 class Api::V2::Pagination::PrincipalsController < ApplicationController
-  extend Pagination::Controller
+  extend ::Pagination::Controller
 
   paginate_model Principal
   search_for Principal, :active_or_registered_like

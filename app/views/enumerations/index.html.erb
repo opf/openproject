@@ -32,32 +32,75 @@ See doc/COPYRIGHT.rdoc for more details.
   <h3><%= l(klass::OptionName) %></h3>
   <% enumerations = klass.shared %>
   <% if enumerations.any? %>
-    <table class="list">
-      <thead>
-        <tr>
-          <th><%= Enumeration.human_attribute_name(:name) %></th>
-          <th style="width:15%;"><%= Enumeration.human_attribute_name(:is_default) %></th>
-          <th style="width:15%;"><%= Enumeration.human_attribute_name(:active) %></th>
-          <th style="width:15%;"></th>
-          <th align="center" style="width:10%;"> </th>
-        </tr>
-      </thead>
-      <% enumerations.each do |enumeration| %>
-        <tr class="<%= cycle('odd', 'even') %>">
-          <td><%= link_to h(enumeration), :action => 'edit', :id => enumeration %></td>
-          <td class="center" style="width:15%;"><%= checked_image enumeration.is_default? %></td>
-          <td class="center" style="width:15%;"><%= checked_image enumeration.active? %></td>
-          <td style="width:15%;"><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}, :method => :put) %></td>
-          <td class="buttons">
-            <%= link_to l(:button_delete), { :action => 'destroy', :id => enumeration },
-                :method => :delete,
-                :confirm => l(:text_are_you_sure),
-                :class => 'icon icon-delete' %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
-    <% reset_cycle %>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table interactive-table role="grid" class="generic-table">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Enumeration.human_attribute_name(:name) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer" style="max-width:200px;">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Enumeration.human_attribute_name(:is_default) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer" style="max-width:200px;">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Enumeration.human_attribute_name(:active) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer" style="max-width:200px;">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%=l(:button_sort)%>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th style="max-width:200px;"></th>
+            </tr>
+          </thead>
+          <% enumerations.each do |enumeration| %>
+            <tr>
+              <td><%= link_to h(enumeration), :action => 'edit', :id => enumeration %></td>
+              <td style="width:200px;"><%= checked_image enumeration.is_default? %></td>
+              <td style="width:200px;"><%= checked_image enumeration.active? %></td>
+              <td style="width:200px;"><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}, :method => :put) %></td>
+              <td class="buttons" style="width:200px;">
+                <%= link_to l(:button_delete), { :action => 'destroy', :id => enumeration },
+                    :method => :delete,
+                    data: { confirm: l(:text_are_you_sure) },
+                    :class => 'icon icon-delete' %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+        <div class="generic-table--header-background"></div>
+      </div>
+    </div>
   <% end %>
   <p><%= link_to l(:label_enumeration_new), { :action => 'new', :type => klass.name } %></p>
 <% end %>

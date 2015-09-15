@@ -31,36 +31,72 @@ require 'will_paginate'
 
 module PaginationHelper
   def pagination_links_full(paginator, options = {})
-    merged_options = { next_label: I18n.t(:label_next),
-                       previous_label: I18n.t(:label_previous),
-                       container: true }.merge(options)
-
-    html = ''.html_safe
-
     if paginator.total_entries > 0
-      html << will_paginate(paginator, merged_options.merge(container: false))
+      merged_options = {
+        renderer: LinkRenderer,
+        per_page_links: true,
+        params: params
+      }.merge(options)
 
-      html << content_tag(:span, "(#{paginator.offset + 1} - #{paginator.offset + paginator.length}/#{paginator.total_entries})", class: 'range')
+      content_tag(:div, class: 'pagination') do
+        content = content_tag(:nav, pagination_entries(paginator, merged_options),
+                              class: 'pagination--pages')
 
-      if per_page_links && links = per_page_links(paginator.per_page, merged_options[:params] || params)
-        html << links
+        if merged_options[:per_page_links]
+          content << content_tag(:div, pagination_settings(paginator, merged_options[:params]),
+                                 class: 'pagination--options')
+        end
+
+        content.html_safe
       end
     end
-
-    merged_options[:container] ?
-      content_tag(:p, html, class: 'legacy-pagination') :
-      html
   end
 
-  def per_page_links(selected = nil, options = params)
-    links = Setting.per_page_options_array.map do |n|
-      n == selected ?
-              content_tag(:span, n, class: 'current') :
-              link_to_content_update(n, options.merge(page: 1, per_page: n))
+
+
+  ##
+  # Builds the pagination nav with pages and range
+  def pagination_entries(paginator, options)
+    page_first = paginator.offset + 1
+    page_last = paginator.offset + paginator.length
+    total = paginator.total_entries
+
+    content_tag(:ul, class: 'pagination--items') do
+      # will_paginate will return nil early when no pages available
+      content = will_paginate(paginator, options) || ''
+
+      range = "(#{page_first} - #{page_last}/#{total})"
+      content << content_tag(:li, range, class: 'pagination--range', title: range)
+
+      content.html_safe
     end
-    content_tag :span, class: 'per_page_options' do
-      links.size > 1 ? l(:label_display_per_page, links.join(', ')).html_safe : nil
+  end
+
+  ##
+  # Builds pagination options (range).
+  def pagination_settings(paginator, options)
+    links = per_page_links(paginator, options)
+
+    if links.size > 1
+      label = I18n.t(:label_per_page)
+      content_tag(:ul, class: 'pagination--items') do
+        content_tag(:li, label + ':', class: 'pagination--label', title: label) + links
+      end
     end
+  end
+
+  ##
+  # Constructs the 'n items per page' entries
+  # determined from available options in the settings.
+  def per_page_links(paginator, options)
+    Setting.per_page_options_array.inject('') { |html, n|
+      if n == paginator.per_page
+        html + content_tag(:li, n, class: 'pagination--item -current')
+      else
+        link = link_to_content_update(n, options.merge(page: 1, per_page: n))
+        html + content_tag(:li, link.html_safe, class: 'pagination--item')
+      end
+    }.html_safe
   end
 
   # Returns page option used for pagination
@@ -115,6 +151,46 @@ module PaginationHelper
       union.first
     else
       Setting.per_page_options_array.sort.first
+    end
+  end
+
+  class LinkRenderer < ::WillPaginate::ActionView::LinkRenderer
+    def to_html
+      pagination.inject('') { |html, item|
+        html + (item.is_a?(Fixnum) ? page_number(item) : send(item))
+      }.html_safe
+    end
+
+    protected
+
+    def page_number(page)
+      if page == current_page
+        tag(:li, page, class: 'pagination--item -current')
+      else
+        tag(:li, link(page, page), class: 'pagination--item')
+      end
+    end
+
+    def gap
+      tag(:li, '&#x2026;', class: 'pagination--space')
+    end
+
+    def previous_page
+      num = @collection.current_page > 1 && @collection.current_page - 1
+      previous_or_next_page(num, I18n.t(:label_previous), '-prev')
+    end
+
+    def next_page
+      num = @collection.current_page < total_pages && @collection.current_page + 1
+      previous_or_next_page(num, I18n.t(:label_next), '-next')
+    end
+
+    def previous_or_next_page(page, text, classname)
+      if page
+        tag(:li, link(text, page), class: 'pagination--item ' + classname)
+      else
+        ''
+      end
     end
   end
 end

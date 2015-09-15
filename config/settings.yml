@@ -42,8 +42,16 @@ brute_force_block_minutes:
 brute_force_block_after_failed_logins:
   default: 20
   format: int
+welcome_title:
+  default:
 welcome_text:
   default:
+welcome_on_homescreen:
+  default: 0
+  format: boolean
+welcome_on_projects_page:
+  default: 0
+  format: boolean
 log_requesting_user:
   default: 0
   format: int
@@ -75,7 +83,7 @@ password_days_valid:
 software_name:
   default: OpenProject
 software_url:
-  default: 'https://community.openproject.org/'
+  default: 'https://www.openproject.org/'
 attachment_max_size:
   format: int
   default: 5120
@@ -103,6 +111,8 @@ available_languages:
   serialized: true
   default:
   - en
+  - de
+  - fr
 default_language:
   default: en
 host_name:
@@ -125,8 +135,8 @@ diff_max_lines_displayed:
 enabled_scm:
   serialized: true
   default:
-  - Subversion
-  - Git
+  - subversion
+  - git
 autofetch_changesets:
   default: 1
 sys_api_enabled:
@@ -135,6 +145,8 @@ sys_api_key:
   default: ''
 repository_authentication_caching_enabled:
   default: 1
+repositories_automatic_managed_vendor:
+  default: ''
 commit_ref_keywords:
   default: 'refs,references,IssueID'
 commit_fix_keywords:
@@ -171,6 +183,15 @@ notified_events:
   default:
   - work_package_added
   - work_package_updated
+  - work_package_note_added
+  - status_updated
+  - work_package_priority_updated
+  - news_added
+  - news_comment_added
+  - file_added
+  - message_posted
+  - wiki_content_added
+  - wiki_content_updated
 mail_handler_body_delimiters:
   default: ''
 mail_handler_api_enabled:
@@ -243,7 +264,7 @@ gravatar_default:
 start_of_week:
   default: ''
 rest_api_enabled:
-  default: 0
+  default: 1
 session_ttl_enabled:
   default: 0
 session_ttl:
@@ -261,3 +282,19 @@ users_deletable_by_admins:
   default: 0
 users_deletable_by_self:
   default: 0
+journal_aggregation_time_minutes:
+  default: 5
+  format: int
+repository_storage_cache_minutes:
+  default: 720
+  format: int
+repository_checkout_data:
+  serialized: true
+  default:
+    git:
+      enabled: 0
+    subversion:
+      enabled: 0
+api_max_page_size:
+  format: int
+  default: 500

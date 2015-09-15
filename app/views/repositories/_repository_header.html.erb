@@ -1,0 +1,86 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag 'repository_navigation' %>
+<% end %>
+<%= toolbar title: l('repositories.named_repository',
+                     vendor_name: @repository.class.vendor_name) do %>
+  <% if @instructions && @instructions.available? %>
+  <li class="toolbar-item toolbar-input-group">
+    <div class="toolbar-input-group--affix -prepend">
+      <span><%= @instructions.checkout_command %></span>
+    </div>
+    <input id="repository-checkout-url"
+           type="text" class="-clickable" size="40"
+           value="<%= @instructions.checkout_url %>"
+           onclick="this.focus(); this.select();"
+           readonly>
+    <button class="toolbar-input--affix toolbar-input-group--affix -append"
+            title="<%= l(:label_copy_to_clipboard) %>"
+            copy-to-clipboard
+            clipboard-target="#repository-checkout-url">
+      <span class="icon-copy3"></span>
+      <span class="hidden-for-sighted"><%= l(:label_copy_to_clipboard) %></span>
+    </button>
+  </li>
+  <li class="toolbar-item -icon-only">
+    <a id="repository--checkout-instructions-toggle" class="button -pressed" href="javascript:"
+       title="<%= l('repositories.checkout.show_instructions') %>">
+      <i class="button--icon icon-info"></i>
+    </a>
+  </li>
+  <% end %>
+  <% if !empty && User.current.allowed_to?(:browse_repository, @project) %>
+  <li class="toolbar-item -icon-only">
+    <%= link_to stats_project_repository_path(@project),
+        class: 'button', title: l(:label_statistics) do %>
+      <i class="button--icon icon-stats1"></i>
+    <% end %>
+  </li>
+  <% end %>
+  <%= call_hook(:repositories_navigation_toolbar,
+                { repository: @repository, project: @project, repository_empty: empty }) %>
+  <% if User.current.allowed_to?(:manage_repository, @project) %>
+    <li class="toolbar-item -icon-only">
+      <%= link_to settings_project_path(@project, tab: 'repository'),
+          class: 'button', title: l(:label_settings) do %>
+        <i class="button--icon icon-settings"></i>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
+
+
+<% if @instructions && @instructions.available? %>
+  <%= render partial: 'checkout_instructions',
+             locals: { repository: @repository, instructions: @instructions, embedded: false } %>
+<% end %>
+
+

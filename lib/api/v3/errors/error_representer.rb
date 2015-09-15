@@ -55,30 +55,7 @@ module API
         end
 
         def error_identifier
-          return 'urn:openproject-org:api:v3:errors:MultipleErrors' unless Array(represented.errors).empty?
-
-          case represented
-          when ::API::Errors::Conflict
-            'urn:openproject-org:api:v3:errors:UpdateConflict'
-          when ::API::Errors::NotFound
-            'urn:openproject-org:api:v3:errors:NotFound'
-          when ::API::Errors::Unauthenticated, ::API::Errors::Unauthorized
-            'urn:openproject-org:api:v3:errors:MissingPermission'
-          when ::API::Errors::UnwritableProperty
-            'urn:openproject-org:api:v3:errors:PropertyIsReadOnly'
-          when ::API::Errors::PropertyFormatError
-            'urn:openproject-org:api:v3:errors:PropertyFormatError'
-          when ::API::Errors::Validation
-            'urn:openproject-org:api:v3:errors:PropertyConstraintViolation'
-          when ::API::Errors::InvalidRenderContext
-            'urn:openproject-org:api:v3:errors:InvalidRenderContext'
-          when ::API::Errors::InvalidUserStatusTransition
-            'urn:openproject-org:api:v3:errors:InvalidUserStatusTransition'
-          when ::API::Errors::InvalidRequestBody
-            'urn:openproject-org:api:v3:errors:InvalidRequestBody'
-          when ::API::Errors::UnsupportedMediaType
-            'urn:openproject-org:api:v3:errors:TypeNotSupported'
-          end
+          represented.class.identifier
         end
       end
     end

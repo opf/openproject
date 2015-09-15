@@ -29,9 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: (@query.new_record? ? l(:label_calendar) : h(@query.name)) %>
 <%= form_tag(work_packages_calendar_index_path, :method => :get, :id => 'query_form') do %>
   <%= hidden_field_tag('project_id', @project.to_param) if @project%>
-  <fieldset id="filters" class="form--fieldset -collapsible <%= @query.new_record? ? "" : "collapsed" %>">
+  <fieldset id="filters" class="form--fieldset -collapsible collapsed" >
     <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_filter_plural) %></a></legend>
-    <div class=""<%= " style=\"display: none;\"" if !@query.new_record? %>>
+    <div class="" style="display: none;">
       <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     </div>
   </fieldset>
@@ -39,27 +39,28 @@ See doc/COPYRIGHT.rdoc for more details.
     <legend><%= l('timeframe.show') %></legend>
     <ul class="simple-filters--filters">
       <li class="simple-filters--filter">
-        <%= label_tag('month', l(:label_month)) %>
+        <%= label_tag('month', l(:label_month), :class => 'simple-filters--filter-name') %>
         <%= select_month(@month, { :prefix => "month", :discard_type => true }, class: 'simple-filters--filter-value') %>
       </li>
       <li class="simple-filters--filter">
-        <%= label_tag('year', l(:label_year)) %>
+        <%= label_tag('year', l(:label_year), :class => 'simple-filters--filter-name') %>
         <%= select_year(@year, { :prefix => "year", :discard_type => true }, class: 'simple-filters--filter-value') %>
       </li>
+      <li class="simple-filters--controls">
+        <%= link_to_remote l(:button_apply),
+                         { :url => { :set_filter => 1 },
+                           :method => :get,
+                           :update => "content",
+                           :with => "jQuery('#query_form').serialize()"
+                         }, :class => 'button -highlight -small' %>
+        <%= link_to_remote l(:button_clear),
+                         { :url => { :project_id => @project, :set_filter => 1 },
+                           :method => :get,
+                           :update => "content",
+                         }, :class => 'button -small -with-icon icon-undo' %>
+      </li>
     </ul>
-    <div class="simple-filters--controls">
-      <%= link_to_remote l(:button_apply),
-                       { :url => { :set_filter => 1 },
-                         :method => :get,
-                         :update => "content",
-                         :with => "jQuery('#query_form').serialize()"
-                       }, :class => 'button -highlight -small' %>
-      <%= link_to_remote l(:button_clear),
-                       { :url => { :project_id => @project, :set_filter => 1 },
-                         :method => :get,
-                         :update => "content",
-                       }, :class => 'button -small -with-icon icon-undo' %>
-    </div>
+
   </fieldset>
 <% end %>
 <%= error_messages_for 'query' %>
@@ -69,9 +70,16 @@ See doc/COPYRIGHT.rdoc for more details.
   </p>
   <%= render :partial => 'common/calendar', :locals => {:calendar => @calendar} %>
   <p class="legend cal">
-    <span class="starting"><%= l(:text_tip_work_package_begin_day) %></span>
-    <span class="ending"><%= l(:text_tip_work_package_end_day) %></span>
-    <span class="starting ending"><%= l(:text_tip_work_package_begin_end_day) %></span>
+    <span class="starting icon icon-arrow-right7"></span>
+    <%= l(:text_tip_work_package_begin_day) %>
+  </p>
+  <p class="legend cal">
+    <span class="ending icon icon-arrow-right7"></span>
+    <%= l(:text_tip_work_package_end_day) %>
+  </p>
+  <p class="legend cal">
+    <span class="icon icon-milestone diamond"></span>
+    <%= l(:text_tip_work_package_begin_end_day) %>
   </p>
 <% end %>
 <% content_for :sidebar do %>

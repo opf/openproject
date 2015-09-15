@@ -48,7 +48,7 @@ When(/^I should see the following inline diff(?: on (.+?)):$/) do |page, table|
     when 'unchanged'
       find '.text-diff', text: value
     else
-      raise ArgumentError, "#{ key } is not supported. 'new', 'old', 'unchanged' is."
+      raise ArgumentError, "#{key} is not supported. 'new', 'old', 'unchanged' is."
     end
   end
 end

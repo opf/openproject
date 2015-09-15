@@ -29,7 +29,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/projects/show.api.rabl', type: :view do
-
   let(:project) { FactoryGirl.build(:project) }
 
   before do
@@ -38,7 +37,7 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
     render
   end
 
-  subject { Nokogiri.XML(response.body) }
+  subject { Nokogiri.XML(rendered) }
 
   it 'should render the project' do
     identifier = subject.xpath('/project/identifier/text()').map(&:to_s).first

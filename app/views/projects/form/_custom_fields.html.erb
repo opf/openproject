@@ -28,28 +28,25 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <fieldset class="form--fieldset -with-control" id="project_issue_custom_fields">
-  <legend class="form--fieldset-legend"><%=l(:label_custom_field_plural)%></legend>
+  <legend class="form--fieldset-legend"><%=l(:label_enabled_project_custom_fields)%></legend>
   <div class="form--fieldset-control">
     <span class="form--fieldset-control-container">
       (<%= check_all_links 'project_issue_custom_fields' %>)
     </span>
   </div>
 
-  <ul class="form--list">
     <% work_package_custom_fields.each do |custom_field| %>
-      <li class="form--field -trailing-label">
+      <%
+        css_classes = custom_field.is_for_all? ? { disabled:  "disabled" } : {}
+        css_classes[:lang] = custom_field.name_locale
+      %>
 
-        <%
-          css_classes = custom_field.is_for_all? ? { disabled:  "disabled" } : {}
-          css_classes[:lang] = custom_field.name_locale
-        %>
-
-        <%= form.collection_check_box :work_package_custom_field_ids,
-                                      custom_field.id,
-                                      @project.all_work_package_custom_fields.include?(custom_field),
-                                      custom_field.name,
-                                      css_classes %>
-      </li>
-    <% end %>
-  </ul>
+    <div class="form--field">
+      <%= form.collection_check_box :work_package_custom_field_ids,
+                                    custom_field.id,
+                                    @project.all_work_package_custom_fields.include?(custom_field),
+                                    custom_field.name,
+                                    css_classes %>
+    </div>
+  <% end %>
 </fieldset>

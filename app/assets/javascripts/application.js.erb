@@ -62,6 +62,7 @@
 //= require date-range
 //= require search
 //= require colors
+//= require tooltips
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {
@@ -94,13 +95,10 @@ jQuery(document).ready(function ($) {
   });
 });
 
-function checkAll (id, checked) {
-  var els = Element.descendants(id);
-  for (var i = 0; i < els.length; i++) {
-    if (els[i].disabled === false) {
-      els[i].checked = checked;
-    }
-  }
+function checkAll(selector, checked) {
+  jQuery('#' + selector + ' input:checkbox').not(':disabled').each(function() {
+    this.checked = checked;
+  });
 }
 
 function toggleCheckboxesBySelector(selector) {
@@ -344,7 +342,7 @@ function observeParentIssueField(url) {
                            updateElement: function(value) {
                              document.getElementById('issue_parent_id').value = value.id;
                            },
-                           parameters: 'scope=all'
+                           parameters: 'scope=relatable'
                            });
 }
 
@@ -358,7 +356,7 @@ function observeWorkPackageParentField(url) {
                            updateElement: function(value) {
                              document.getElementById('work_package_parent_id').value = value.id;
                            },
-                           parameters: 'scope=all'
+                           parameters: 'scope=relatable'
                            });
 }
 
@@ -372,7 +370,7 @@ function observeRelatedIssueField(url) {
                            updateElement: function(value) {
                              document.getElementById('relation_to_id').value = value.id;
                            },
-                           parameters: 'scope=all'
+                           parameters: 'scope=relatable'
                            });
 }
 

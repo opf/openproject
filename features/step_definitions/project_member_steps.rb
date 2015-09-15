@@ -28,7 +28,7 @@
 #++
 
 When /^I check the role "(.+?)" for the project member "(.+?)"$/ do |role_name, user_login|
-  role = Role.find_by_name(role_name)
+  role = Role.find_by(name: role_name)
 
   member = member_for_login user_login
 
@@ -62,13 +62,13 @@ When /^I add(?: the)? principal "(.+)" as(?: a)? "(.+)"$/ do |principal, role|
   }
 end
 
-When /^I select(?: the)? principal "(.+)"$/ do | principal |
+When /^I select(?: the)? principal "(.+)"$/ do |principal|
   found_principal = Principal.like(principal).first
   raise "No Principal #{principal} found" unless found_principal
   select_principal(found_principal)
 end
 
-When /^I select(?: the)? role "(.+)"$/ do | role |
+When /^I select(?: the)? role "(.+)"$/ do |role|
   found_role = Role.like(role).first
   raise "No Role #{role} found" unless found_role
   select_role(found_role)
@@ -105,7 +105,6 @@ def enter_name_without_select2(name)
 end
 
 When /^I add the principal "(.+)" as a member with the roles:$/ do |principal_name, roles_table|
-
   roles_table.raw.flatten.each do |role_name|
     steps %{ When I add the principal "#{principal_name}" as a "#{role_name}" }
   end
@@ -113,7 +112,7 @@ end
 
 Then /^I should see the principal "(.+)" as a member with the roles:$/ do |principal_name, roles_table|
   principal = InstanceFinder.find(Principal, principal_name)
-  steps %{ Then I should see "#{principal.name}" within "#tab-content-members .members" }
+  steps %{ Then I should see "#{principal.name}" within "#tab-content-members .generic-table" }
 
   found_roles = page.find(:xpath, "//tr[contains(concat(' ',normalize-space(@class),' '),' member ')][contains(.,'#{principal.name}')]").find(:css, 'td.roles span').text.split(',').map(&:strip)
 
@@ -123,7 +122,7 @@ end
 Then /^I should not see the principal "(.+)" as a member$/ do |principal_name|
   principal = InstanceFinder.find(Principal, principal_name)
 
-  steps %{ Then I should not see "#{principal.name}" within "#tab-content-members .members" }
+  steps %{ Then I should not see "#{principal.name}" within "#tab-content-members .generic-table" }
 end
 
 When /^I enter the (principal|role) name "(.+)"$/ do |model, principal_name|

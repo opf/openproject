@@ -46,7 +46,7 @@ class Member < ActiveRecord::Base
   after_destroy :unwatch_from_permission_change
 
   def name
-    user.name
+    principal.name
   end
 
   def to_s
@@ -98,7 +98,8 @@ class Member < ActiveRecord::Base
   end
 
   def <=>(member)
-    a, b = roles.sort.first, member.roles.sort.first
+    a = roles.sort.first
+    b = member.roles.sort.first
     a == b ? (principal <=> member.principal) : (a <=> b)
   end
 
@@ -116,7 +117,8 @@ class Member < ActiveRecord::Base
 
   # remove category based auto assignments for this member
   def remove_from_category_assignments
-    Category.update_all 'assigned_to_id = NULL', ['project_id = ? AND assigned_to_id = ?', project.id, user.id] if user
+    Category.where(['project_id = ? AND assigned_to_id = ?', project.id, user.id])
+      .update_all 'assigned_to_id = NULL' if user
   end
 
   # Find or initialize a Member with an id, attributes, and for a Principal
@@ -126,6 +128,14 @@ class Member < ActiveRecord::Base
     # not critical atm because only admins can invoke it (see users and groups controllers)
     @membership.force_attributes = new_attributes
     @membership
+  end
+
+  ##
+  # Returns true if this user can be deleted as they have no other memberships
+  # and haven't been activated yet. Only applies if the member is actually a user
+  # as opposed to a group.
+  def disposable?
+    user && user.invited? && user.memberships.none? { |m| m.project_id != project_id }
   end
 
   protected
@@ -179,7 +189,7 @@ class Member < ActiveRecord::Base
     # Add new roles
     # Do this before destroying them, otherwise the Member is destroyed due to not having any
     # Roles assigned via MemberRoles.
-    new_role_ids.each { |id| do_add_role(id, nil, save_and_possibly_destroy) }
+    new_role_ids.each do |id| do_add_role(id, nil, save_and_possibly_destroy) end
 
     # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
     member_roles_to_destroy = member_roles.select { |mr| !ids.include?(mr.role_id) }

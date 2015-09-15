@@ -27,36 +27,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 API::V3::Utilities::DateTimeFormatter
 
 module API
   module V3
     module Activities
-      class ActivityRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include API::V3::Utilities::PathHelper
+      class ActivityRepresenter < ::API::Decorators::Single
         include API::V3::Utilities
 
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        def initialize(model, options = {})
-          @current_user = options[:current_user]
-
-          super(model)
-        end
-
-        property :_type, exec_context: :decorator
-
-        link :self do
-          {
-            href: api_v3_paths.activity(represented.id),
-            title: "#{represented.id}"
-          }
-        end
+        self_link path: :activity,
+                  id_attribute: :notes_id,
+                  title_getter: -> (*) { nil }
 
         link :workPackage do
           {
@@ -67,25 +48,25 @@ module API
 
         link :user do
           {
-            href: api_v3_paths.user(represented.user.id),
-            title: "#{represented.user.name} - #{represented.user.login}"
+            href: api_v3_paths.user(represented.user.id)
           }
         end
 
         link :update do
           {
-            href: api_v3_paths.activity(represented.id),
-            method: :patch,
-            title: "#{represented.id}"
+            href: api_v3_paths.activity(represented.notes_id),
+            method: :patch
           } if current_user_allowed_to_edit?
         end
 
-        property :id, render_nil: true
+        property :id,
+                 getter: -> (*) { notes_id },
+                 render_nil: true
         property :comment,
                  exec_context: :decorator,
                  getter: -> (*) {
                    ::API::Decorators::Formattable.new(represented.notes,
-                                                     object: represented.journable)
+                                                      object: represented.journable)
                  },
                  setter: -> (value, *) { represented.notes = value['raw'] },
                  render_nil: true
@@ -113,11 +94,11 @@ module API
         private
 
         def current_user_allowed_to_edit?
-          (current_user_allowed_to(:edit_own_work_package_notes, represented.journable) && represented.editable_by?(@current_user)) || current_user_allowed_to(:edit_work_package_notes, represented.journable)
-        end
-
-        def current_user_allowed_to(permission, work_package)
-          @current_user && @current_user.allowed_to?(permission, work_package.project)
+          (current_user_allowed_to(:edit_own_work_package_notes,
+                                   context: represented.journable.project) &&
+            represented.editable_by?(current_user)) ||
+            current_user_allowed_to(:edit_work_package_notes,
+                                    context: represented.journable.project)
         end
 
         def render_details(journal, no_html: false)

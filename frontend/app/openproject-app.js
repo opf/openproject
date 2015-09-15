@@ -30,17 +30,20 @@ var I18n = require('./vendor/i18n');
 
 // standard locales
 I18n.translations.en = require("locales/js-en.yml").en;
-I18n.translations.de = require("locales/js-de.yml").de;
 
 I18n.addTranslations = function(locale, translations) {
-  I18n.translations[locale] = _.merge(I18n.translations[locale], translations);
+  if (I18n.translations[locale] === undefined) {
+    I18n.translations[locale] = translations;
+  }
+  else {
+    I18n.translations[locale] = _.merge(I18n.translations[locale], translations);
+  }
 };
 
 require('angular-animate');
 require('angular-aria');
 require('angular-modal');
 
-// require('angular-i18n/angular-locale_en-us');
 if (I18n.locale === 'de') {
   require('angular-i18n/angular-locale_de-de');
 }
@@ -56,6 +59,7 @@ require('angular-busy/dist/angular-busy.css');
 
 require('angular-context-menu');
 require('mousetrap');
+require('ngFileUpload');
 
 // global
 angular.module('openproject.uiComponents', ['ui.select', 'ngSanitize'])
@@ -104,12 +108,14 @@ angular.module('openproject.timelines.directives', [
 
 // work packages
 angular.module('openproject.workPackages', [
+  'openproject.workPackages.activities',
   'openproject.workPackages.controllers',
   'openproject.workPackages.filters',
   'openproject.workPackages.directives',
   'openproject.workPackages.tabs',
   'openproject.uiComponents',
-  'ng-context-menu'
+  'ng-context-menu',
+  'ngFileUpload'
 ]);
 angular.module('openproject.workPackages.services', []);
 angular.module(
@@ -140,6 +146,7 @@ angular.module(
     'openproject.workPackages.models'
   ]);
 angular.module('openproject.workPackages.tabs', []);
+angular.module('openproject.workPackages.activities', []);
 
 // messages
 angular.module('openproject.messages', [
@@ -195,7 +202,7 @@ openprojectApp
       $locationProvider.html5Mode(true);
       $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery(
         'meta[name=csrf-token]').attr('content'); // TODO find a more elegant way to keep the session alive
-
+      $httpProvider.defaults.headers.common['X-Authentication-Scheme'] = 'Session';
       // prepend a given base path to requests performed via $http
       //
       // NOTE: this does not apply to Hyperagent-based queries, which instead use
@@ -236,13 +243,27 @@ openprojectApp
       TimezoneService.setupLocale();
       KeyboardShortcutService.activate();
 
+      // at the moment of adding this code it was mostly used to
+      // keep the previous state for the code to know where
+      // to redirect the user on cancel new work package form
+      $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
+          $rootScope.previousState = {
+            name: from.name,
+            params: fromParams
+          };
+      });
     }
   ]);
 
 require('./api');
 
-angular.module('openproject.config').service('ConfigurationService', require(
-  './config/configuration-service'));
+angular.module('openproject.config')
+  .service('ConfigurationService', [
+    'PathHelper',
+    '$q',
+    '$http',
+    require('./config/configuration-service')
+  ]);
 
 require('./helpers');
 require('./layout');

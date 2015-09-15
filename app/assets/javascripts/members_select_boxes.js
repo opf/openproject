@@ -83,7 +83,7 @@ jQuery(document).ready(function($) {
                           q: term, //search term
                           page_limit: 10, // page size
                           page: page, // current page number
-                          id: fakeInput.attr("data-projectId") // current project id
+                          project_id: fakeInput.attr("data-projectId") // current project id
                       };
                   },
                   results: function (data, page) {
@@ -103,10 +103,5 @@ jQuery(document).ready(function($) {
     });
   };
 
-  memberstab = $('#tab-members').first();
-  if ((memberstab !== null) && (memberstab.hasClass("selected"))) {
-    init_members_cb();
-  } else {
-    memberstab.click(init_members_cb);
-  }
+  init_members_cb();
 });

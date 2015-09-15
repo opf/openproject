@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<div ng-repeat="group in vm.groupedFields" ng-hide="vm.hideEmptyFields && vm.isGroupHideable(group.groupName)" class="attributes-group">
+<div ng-repeat="group in vm.groupedFields" ng-hide="vm.hideEmptyFields && vm.isGroupHideable(vm.groupedFields, group.groupName, vm.workPackage)" class="attributes-group">
 
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
@@ -31,21 +31,23 @@
 
   <dl class="attributes-key-value">
     <dt
-        ng-hide="vm.hideEmptyFields && vm.isFieldHideable(field)"
-        ng-if="vm.isSpecified(field)"
+        ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+        ng-if="vm.isSpecified(vm.workPackage, field)"
         ng-repeat-start="field in group.attributes" class="attributes-key-value--key">
-        {{vm.getLabel(field)}}
-        <span class="required" ng-if="vm.hasNiceStar(field)"> *</span>
+        {{vm.getLabel(vm.workPackage, field)}}
+        <span class="required" ng-if="vm.hasNiceStar(vm.workPackage, field)"> *</span>
     </dt>
     <dd
-        ng-hide="vm.hideEmptyFields && vm.isFieldHideable(field)"
-        ng-if="vm.isSpecified(field)"
+        ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+        ng-if="vm.isSpecified(vm.workPackage, field)"
         ng-repeat-end
         class="attributes-key-value--value-container">
       <work-package-field field="field"></work-package-field>
     </dd>
   </dl>
 </div>
+
+<work-package-attachments edit work-package="vm.workPackage" data-ng-show="!vm.hideEmptyFields || vm.filesExist"></work-package-attachments>
 
 <div class="attributes-group">
   <div class="attributes-group--header">
@@ -59,13 +61,15 @@
       <li ng-repeat="activity in activities | latestItems:activitiesSortedInDescendingOrder:3"
           class="work-package-details-activities-activity"
           ng-init="currentAnchor = 'note-' + ($index+1);
-                   activityNo = activities.length - $index;">
-        <user-activity work-package="workPackage"
-                       activity="activity"
-                       activity-no="activityNo"
-                       input-element-id="'add-comment-text'"
-                       autocomplete-path="{{ autocompletePath }}">
-        </user-activity>
+                   activityNo = activities.length - $index;
+                   isInitial = isInitialActivity(activity, activityNo);">
+        <activity-entry work-package="workPackage"
+                        activity="activity"
+                        activity-no="activityNo"
+                        is-initial="isInitial"
+                        autocomplete-path="autocompletePath"
+                        input-element-id="'add-comment-text'">
+        </activity-entry>
       </li>
     </ul>
     <activity-comment work-package="workPackage"

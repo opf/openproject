@@ -210,34 +210,52 @@ default:
   # airbrake:
   #   api_key: <your_api_key>
   #   host: errbit.example.org
-  #   post: 443
+  #   port: 443 (default)
 
-  # Configuration of SCM executable command.
-  # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
-  # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
-  # Examples:
-  # scm_subversion_command: svn                                       # (default: svn)
-  # scm_git_command:        /usr/local/bin/git                        # (default: git)
-  # scm_subversion_command:
-  # scm_git_command:
+  # Configuration of Source control vendors
+  # client_command:
+  #   Use this command to the default SCM vendor command (taken from path).
+  #   Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
+  #   On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
+  # manages:
+  #   Enable managed repositories for this vendor. This allows OpenProject to
+  #   take control over the given path to create and delete repositories directly
+  #   when created in the frontend.
+  #   NOTE: Disabling :managed repositories using disabled_types takes precedence over this setting.
+  # mode:
+  #   The octal file mode to set the repository folder to (defaults to 0700).
   #
-  # Enable filesystem base SCM by specifying the directories that are available
-  # to serve as an SCM directory. The format in which the available directories
-  # can be specified is close to a shell glob.  Please see
-  # http://ruby-doc.org/core-2.2.0/Dir.html#method-c-glob for details.
+  # group:
+  #   The group that should own the repository folder.
+  #   Important: The user running OpenProject must be a member of this group in order to have the
+  #   privilege to set the group ownership.  
+  #   Note: The owner is always the user that runs OpenProject!
+  # disabled_types:
+  #   Disable specific repository types for this particular vendor. This allows
+  #   to restrict the available choices a project administrator has for creating repositories
+  #   See the example below for available types
   #
-  # Multiple patterns can be configured.
+  #   Available types for git:
+  #     - :local (Local repositories, registered using a local path)
+  #     - :managed (Managed repositores, available IF :manages path is set below)
+  #   Available types for subversion:
+  #     - :existing (Existing subversion repositories by URL - local using file:/// or remote
+  #                 using one of the supported URL schemes (e.g., https://, svn+ssh:// )
+  #     - :managed (Managed repositores, available IF :manages path is set below)
   #
-  # If no directory is specified, there will be no option to configure a
-  # filesystem based SCM within OpenProject.
+  # Examplary configuration
   #
-  # Please note that this allows users to browse the filesystem which could
-  # lead to sensitive information (e.g. db credentials) being made accessible
-  # to them.
-  #
-  # scm_filesystem_path_whitelist:
-  #   - "/opt/app/openproject/repositories/*"
-  #   - "/tmp/**/*"
+  # scm:
+  #   git:
+  #     client_command: /usr/local/bin/git
+  #     disabled_types:
+  #       - :local
+  #     manages: /opt/repositories/git
+  #   subversion:
+  #     client_command: /usr/local/bin/svn
+  #     disabled_types:
+  #       - :existing
+  #     manages: /opt/repositories/svn
 
   # Key used to encrypt sensitive data in the database (SCM and LDAP passwords).
   # If you don't want to enable data encryption, just leave it blank.
@@ -276,6 +294,14 @@ default:
   # Instead, if the password needs to be changed, a random, temporary password can be
   # generated and sent to the user who then has to change their password upon login.
   disable_password_choice: false
+
+  # You can configure a global set of credentials to authenticate towards
+  # API v3 via basic auth. Note that this will grant admin access. Use with care
+  # and make sure the password does not leak.
+  # authentication:
+  #   global_basic_auth:
+  #     user: admin
+  #     password: admin
 
 # specific configuration options for production environment
 # that overrides the default ones

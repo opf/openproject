@@ -64,7 +64,7 @@ module API
                  embedded: true,
                  getter: -> (*) {
                    allowed_values.map do |value|
-                     value_representer.new(value, current_user: context[:current_user])
+                     value_representer.new(value, current_user: current_user)
                    end if allowed_values
                  }
     end
