@@ -243,7 +243,8 @@ class AccountController < ApplicationController
     else
       invalid_credentials
     end
-    render 'my/password'
+    # Render the username to hint to a user in case of a forced password change
+    render 'my/password', locals: { show_user_name: @user.force_password_change_was }
   end
 
   private
@@ -432,7 +433,8 @@ class AccountController < ApplicationController
   def render_password_change(message)
     flash[:error] = message
     @username = params[:username]
-    render 'my/password'
+    # Render the username to hint to a user in case of a forced password change
+    render 'my/password', locals: { show_user_name: true }
   end
 
   # Register a user depending on Setting.self_registration

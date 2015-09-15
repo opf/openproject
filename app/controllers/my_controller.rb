@@ -105,7 +105,8 @@ class MyController < ApplicationController
     else
       flash.now[:error] = l(:notice_account_wrong_password)
     end
-    render 'my/password'
+    # Render the username to hint to a user in case of a forced password change
+    render 'my/password', locals: { show_user_name: @user.force_password_change }
   end
 
   # Administer access tokens
