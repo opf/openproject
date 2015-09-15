@@ -269,9 +269,12 @@ a.inplace-editing--trigger-link,
 
     .icon-context::before
       padding: 0
-
 // custom hack to have the jsToolbar in the same line as the "Description" title
 .inplace-edit.attribute-description
+
+  .inplace-editing--container
+    border: 1px solid #eee
+
   .inplace-edit--write
     margin-top: -48px
     // for non-textile description we need to not overlap the 'Description' header
@@ -279,9 +282,17 @@ a.inplace-editing--trigger-link,
     &.edit-strategy-textarea
       margin-top: auto
 
-// Explicit styles for comment / input-esque trigger appearance
+
+// Explicit styles for input-esque trigger appearance
+.work-packages--activity--add-comment,
+.work-package--watchers-lookup,
+.inplace-edit.attribute-description
+
+  .inplace-editing--container
+    border: 1px solid #eee
+
 .work-packages--activity--add-comment
-  margin: 20px
+  margin: 20px 0
 
   .inplace-edit--read-value
     padding: 10px 5px
