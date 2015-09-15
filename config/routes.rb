@@ -425,6 +425,9 @@ OpenProject::Application.routes.draw do
     match 'auto_complete' => 'auto_completes#index', via: [:get, :post]
     resources :calendar, controller: 'calendars', only: [:index]
     resource :bulk, controller: 'bulk', only: [:edit, :update, :destroy]
+    # FIXME: this is kind of evil!! We need to remove this soonest and
+    # cover the functionality. Route is being used in work-package-service.js:331
+    get '/bulk' => 'bulk#destroy'
   end
 
   resources :work_packages, only: [:edit, :update, :index] do
