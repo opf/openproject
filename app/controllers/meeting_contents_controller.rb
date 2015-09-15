@@ -90,7 +90,7 @@ class MeetingContentsController < ApplicationController
       @content.meeting.participants.each do |recipient|
         begin
           next if recipient.mail == author_mail && do_not_notify_author
-          MeetingMailer.content_for_review(@content, @content_type, recipient.mail).deliver
+          MeetingMailer.content_for_review(@content, @content_type, recipient.mail).deliver_now
         rescue
           recipients_with_errors << recipient
         end
