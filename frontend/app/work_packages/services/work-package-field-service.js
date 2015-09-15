@@ -398,12 +398,14 @@ module.exports = function(
 
   function submitWorkPackageChanges(notify, callback) {
     // We have to ensure that some promises are executed earlier then others
-    var fields = Object.values(EditableFieldsState.submissionPromises)
-                       .sort(function(a, b) { return a.order >= b.order; });
-
     var promises = [];
-    fields.each(function(el) {
-      promises.push(el.thePromise.call(this,notify));
+    angular.forEach(EditableFieldsState.submissionPromises, function(field) {
+      var p = field.thePromise.call(this, notify);
+      if (field.prepend) {
+        promises.unshift(p);
+      } else {
+        promises.push(p);
+      }
     });
 
     $q.all(promises).then(function() {

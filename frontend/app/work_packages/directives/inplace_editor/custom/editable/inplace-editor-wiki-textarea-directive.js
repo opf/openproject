@@ -68,7 +68,6 @@ module.exports = function(TextileService, EditableFieldsState, $sce, AutoComplet
         element.find('textarea').data('changed', true);
       });
 
-
       // Listen to elastic textara expansion to always make the bottom
       // of that textarea visible.
       // Otherwise, when expanding the textarea with newlines,

@@ -51,6 +51,7 @@ module.exports = function(
 
     ctrl.state.isBusy = false;
     ctrl.isEditing = ctrl.state.forcedEditState;
+    ctrl.isRequired = true;
     ctrl.canAddComment = !!ctrl.workPackage.links.addComment;
 
     ctrl.showAbove = ConfigurationService.commentsSortedInDescendingOrder();
@@ -65,6 +66,12 @@ module.exports = function(
 
     // Propagate submission to all active fields
     ctrl.submit = function(notify) {
+
+      // Avoid submitting empty comments
+      if (ctrl.isEmpty()) {
+        return;
+      }
+
       var nextActivity = ctrl.activities.length + 1;
       WorkPackageFieldService.submitWorkPackageChanges(
         notify,
@@ -74,11 +81,16 @@ module.exports = function(
       );
     };
 
-    // Submits this very comment field
+    /**
+    * Returns a promise to submits this very comment field
+    */
     ctrl.submitField = function(notify) {
       var submit = $q.defer();
+
+      // Avoid submitting empty comments
+      // but do not break chain of promises
       if (ctrl.isEmpty()) {
-        submit.resolve();
+        return submit.resolve();
       }
 
       ctrl.state.isBusy = true;
@@ -104,7 +116,9 @@ module.exports = function(
       ctrl.markActive();
 
       if (withText) {
-        if (ctrl.writeValue.raw !== '') {
+        if (!ctrl.writeValue.raw) {
+          ctrl.writeValue.raw = '';
+        } else {
           ctrl.writeValue.raw += '\n';
         }
         ctrl.writeValue.raw += withText;
@@ -140,8 +154,7 @@ module.exports = function(
     ctrl.markActive = function() {
       EditableFieldsState.submissionPromises[ctrl.field] = {
         field: ctrl.field,
-        thePromise: ctrl.submitField,
-        order: 0
+        thePromise: ctrl.submitField
       };
       EditableFieldsState.currentField = ctrl.field;
     };

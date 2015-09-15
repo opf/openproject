@@ -41,7 +41,7 @@ module API
                 send_notifications: notify,
               )
 
-              update_service.add_journal(comment)
+              update_service.create_journal(comment)
               journals = ::Journal::AggregatedJournal.aggregated_journals(journable: work_package)
               Activities::ActivityRepresenter.new(journals.last, current_user: current_user)
             end

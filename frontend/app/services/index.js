@@ -28,7 +28,6 @@
 
 angular.module('openproject.services')
   .service('ActivityService', [
-    'URI',
     'HALAPIResource',
     '$http',
     'I18n',

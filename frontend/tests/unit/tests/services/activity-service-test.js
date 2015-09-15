@@ -47,7 +47,7 @@ describe('ActivityService', function() {
   }));
 
   describe('createComment', function() {
-    var setupFunction;
+    var apiFetchResource;
     var activityId = 10;
     var comment = 'Jack Bauer 24 hour power shower';
     var activityUrl = '/api/v3/work_packages/10/activities';

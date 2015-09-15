@@ -52,7 +52,7 @@ class UpdateWorkPackageService
   ##
   # Create journal for the given user and note.
   # Does not change the work package itself.
-  def add_journal(notes = '')
+  def create_journal(notes = '')
     work_package.add_journal(user, notes)
     work_package.save_journals
   end

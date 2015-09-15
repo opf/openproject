@@ -128,9 +128,9 @@ module.exports = function($uiViewScroll,
             scope.previewHtml = $sce.trustAsHtml(r.data);
 
 
-          }), function() {
+          }, function() {
             this.inPreview = false;
-          };
+          });
         }
       };
 
