@@ -341,6 +341,7 @@ en:
       description_options_hide: "Hide options"
       description_options_show: "Show options"
       error: "An error has occured."
+      error_update_failed: "The work package could not be updated."
       label_enable_multi_select: "Enable multiselect"
       label_disable_multi_select: "Disable multiselect"
       label_filter_add: "Add filter"

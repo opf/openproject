@@ -31,6 +31,7 @@ module.exports = function(
   EditableFieldsState,
   FocusHelper,
   $timeout,
+  $q,
   ApiHelper,
   $rootScope,
   NotificationsService,
@@ -64,13 +65,19 @@ module.exports = function(
       // Propagate submission to all active fields
       // not contained in the workPackage.form (e.g., comment)
       this.submit = function(notify) {
-        WorkPackageFieldService.submitWorkPackageChanges(EditableFieldsState.activeFields, notify);
+        WorkPackageFieldService.submitWorkPackageChanges(notify);
       };
 
-      this.submitField = function(notify, success) {
+      this.submitField = function(notify) {
+        var submit = $q.defer();
         var fieldController = $scope.fieldController;
         var pendingFormChanges = getPendingFormChanges();
         var detectedViolations = [];
+        var handleFailure = function(e) {
+          setFailure(e);
+          submit.reject(e);
+        };
+
         pendingFormChanges[fieldController.field] = fieldController.writeValue;
         if (vm.editForm.$invalid) {
           var acknowledgedValidationErrors = Object.keys(vm.editForm.$error);
@@ -81,11 +88,13 @@ module.exports = function(
               }));
             }
           });
+          submit.reject();
         }
         if (detectedViolations.length) {
           EditableFieldsState.errors = EditableFieldsState.errors || {};
           EditableFieldsState.errors[fieldController.field] = detectedViolations.join(' ');
           showErrors();
+          submit.reject();
         } else {
           fieldController.state.isBusy = true;
           WorkPackageService.loadWorkPackageForm(EditableFieldsState.workPackage).then(
@@ -97,21 +106,18 @@ module.exports = function(
                   notify
                 );
                 result.then(angular.bind(this, function(updatedWorkPackage) {
-                  success();
+                  submit.resolve();
                   $scope.$emit('workPackageUpdatedInEditor', updatedWorkPackage);
-                  $scope.$emit(
-                    'workPackageRefreshRequired',
-                    function() {
-                      fieldController.state.isBusy = false;
-                      fieldController.isEditing = false;
-                      fieldController.updateWriteValue();
-                      EditableFieldsState.errors = null;
-                    }
-                  );
+                  $scope.$on('workPackageRefreshed', function() {
+                    fieldController.state.isBusy = false;
+                    fieldController.isEditing = false;
+                    fieldController.updateWriteValue();
+                  });
                   uploadPendingAttachments(updatedWorkPackage);
-                })).catch(setFailure);
+                })).catch(handleFailure);
               } else {
                 afterError();
+                submit.reject();
                 EditableFieldsState.errors = {};
                  _.forEach(form.embedded.validationErrors.props, function(error, field) {
                   if(field === 'startDate' || field === 'dueDate') {
@@ -121,14 +127,15 @@ module.exports = function(
                   }
                 });
               }
-            }).catch(setFailure);
+            }).catch(handleFailure);
         }
 
+        return submit.promise;
       };
 
       this.discardEditing = function() {
         $scope.fieldController.isEditing = false;
-        delete EditableFieldsState.activeFields[$scope.fieldController.field];
+        delete EditableFieldsState.submissionPromises[$scope.fieldController.field];
         delete getPendingFormChanges()[$scope.fieldController.field];
         $scope.fieldController.updateWriteValue();
         if (
@@ -147,7 +154,11 @@ module.exports = function(
       };
 
       this.markActive = function() {
-        EditableFieldsState.activeFields[$scope.fieldController.field] = this.submitField;
+        EditableFieldsState.submissionPromises[$scope.fieldController.field] = {
+          field: $scope.fieldController.field,
+          thePromise: this.submitField,
+          order: 0
+        };
         EditableFieldsState.currentField = $scope.fieldController.field;
       };
 

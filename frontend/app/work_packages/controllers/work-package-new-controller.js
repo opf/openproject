@@ -106,10 +106,8 @@ module.exports = function(
     var field = angular.element('.work-packages--details--subject:first .inplace-edit--write')
                        .scope().editPaneController.submitField;
 
-    WorkPackageFieldService.submitWorkPackageChanges(
-      { subject: field },
-      notify
-    );
+    EditableFieldsState.submissionPromises = { subject: field };
+    WorkPackageFieldService.submitWorkPackageChanges(notify);
   }
 
   function cancel() {

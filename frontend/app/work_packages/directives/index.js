@@ -60,6 +60,8 @@ angular.module('openproject.workPackages.directives')
   ])
   .directive('workPackageComment', [
     '$timeout',
+    '$location',
+    '$q',
     'WorkPackageFieldService',
     'EditableFieldsState',
     'FocusHelper',

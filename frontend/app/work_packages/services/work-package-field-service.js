@@ -32,7 +32,9 @@ module.exports = function(
   WorkPackagesHelper,
   $q,
   $http,
+  $rootScope,
   HookService,
+  NotificationsService,
   EditableFieldsState
   ) {
 
@@ -393,18 +395,26 @@ module.exports = function(
     return WorkPackagesHelper.formatValue(value, mappings[field]);
   }
 
-  function submitWorkPackageChanges(fields, notify) {
-    var comment = fields['activity-comment'];
-    delete fields['activity-comment'];
+  function submitWorkPackageChanges(notify, refreshWorkPackages) {
+    // We have to ensure that some promises are executed earlier then others
+    var fields = Object.values(EditableFieldsState.submissionPromises)
+                       .sort(function(a, b) { a.order >= b.order });
 
-    var wpField = fields[Object.keys(fields)[0]];
-    // Access work package first, if any field was edited
-    var initial = wpField || comment;
-    initial.call(this, notify, function() {
-      // Call potentially edited comment submit
-      if (typeof(comment) === 'function' && initial !== comment) {
-        comment.call(notify);
-      }
+    var promises = [];
+    fields.each(function(el) {
+      promises.push(el.thePromise.call(this,notify));
+    });
+
+    $q.all(promises).then(function() {
+      // Update work package after this call
+      $rootScope.$broadcast('workPackageRefreshRequired', function() {
+        console.log('refreshed!');
+      });
+      EditableFieldsState.errors = null;
+      EditableFieldsState.submissionPromises = {};
+      EditableFieldsState.currentField = null;
+    }, function(reason){
+      NotificationsService.addError(I18n.t('js.work_packages.error_update_failed'));
     });
   }
 

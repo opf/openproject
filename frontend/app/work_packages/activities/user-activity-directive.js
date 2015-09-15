@@ -112,7 +112,7 @@ module.exports = function($uiViewScroll,
 
       scope.updateComment = function() {
         ActivityService.updateComment(scope.activity, scope.writeValue).then(function(){
-          scope.$emit('workPackageRefreshRequired', '');
+          scope.$emit('workPackageRefreshed', '');
           scope.inEdit = false;
         });
       };

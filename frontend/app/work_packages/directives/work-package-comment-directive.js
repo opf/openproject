@@ -28,6 +28,8 @@
 
 module.exports = function(
   $timeout,
+  $location,
+  $q,
   WorkPackageFieldService,
   EditableFieldsState,
   FocusHelper,
@@ -63,13 +65,14 @@ module.exports = function(
 
     // Propagate submission to all active fields
     ctrl.submit = function(notify) {
-      WorkPackageFieldService.submitWorkPackageChanges(EditableFieldsState.activeFields, notify);
+      WorkPackageFieldService.submitWorkPackageChanges(notify);
     };
 
     // Submits this very comment field
     ctrl.submitField = function(notify) {
+      var submit = $q.defer();
       if (ctrl.isEmpty()) {
-        return;
+        submit.resolve();
       }
 
       ctrl.state.isBusy = true;
@@ -80,12 +83,14 @@ module.exports = function(
       ).then(function(response) {
         ctrl.discardEditing();
         NotificationsService.addSuccess(I18n.t('js.work_packages.comment_added'));
-        $scope.$emit('workPackageRefreshRequired', '');
-        return response;
+        submit.resolve();
       }, function() {
         NotificationsService.addError(I18n.t('js.work_packages.comment_send_failed'));
         ctrl.state.isBusy = false;
+        submit.reject();
       });
+
+      return submit.promise;
     };
 
     ctrl.startEditing = function(withText) {
@@ -94,7 +99,7 @@ module.exports = function(
 
       if (withText) {
         if (ctrl.writeValue.raw !== '') {
-          ctrl.writeValue.raw += '\n'
+          ctrl.writeValue.raw += '\n';
         }
         ctrl.writeValue.raw += withText;
       }
@@ -113,7 +118,7 @@ module.exports = function(
     };
 
     ctrl.discardEditing = function() {
-      delete EditableFieldsState.activeFields[ctrl.field];
+      delete EditableFieldsState.submissionPromises[ctrl.field];
       ctrl.writeValue = { raw: '' };
       ctrl.isEditing = false;
       ctrl.state.isBusy = false;
@@ -127,7 +132,11 @@ module.exports = function(
     };
 
     ctrl.markActive = function() {
-      EditableFieldsState.activeFields[ctrl.field] = ctrl.submitField;
+      EditableFieldsState.submissionPromises[ctrl.field] = {
+        field: ctrl.field,
+        thePromise: ctrl.submitField,
+        order: 0
+      };
       EditableFieldsState.currentField = ctrl.field;
     };
 
