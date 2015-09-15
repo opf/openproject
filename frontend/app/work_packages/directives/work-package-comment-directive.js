@@ -41,6 +41,7 @@ module.exports = function(
     var ctrl = this;
     ctrl.state = EditableFieldsState;
     ctrl.field = 'activity-comment';
+    ctrl.writeValue = { raw: '' };
 
     ctrl.editTitle = I18n.t('js.inplace.button_edit', { attribute: I18n.t('js.label_comment') });
     ctrl.placeholder = I18n.t('js.label_add_comment_title');
@@ -53,7 +54,7 @@ module.exports = function(
     ctrl.showAbove = ConfigurationService.commentsSortedInDescendingOrder();
 
     ctrl.isEmpty = function() {
-      return ctrl.writeValue === undefined || !ctrl.writeValue.raw;
+      return !ctrl.writeValue.raw;
     };
 
     ctrl.isEditable = function() {
@@ -92,7 +93,10 @@ module.exports = function(
       ctrl.markActive();
 
       if (withText) {
-        ctrl.writeValue.raw += '\n' + withText;
+        if (ctrl.writeValue.raw !== '') {
+          ctrl.writeValue.raw += '\n'
+        }
+        ctrl.writeValue.raw += withText;
       }
 
       $timeout(function() {

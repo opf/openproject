@@ -175,6 +175,13 @@ module.exports = function(
       scope.fieldController = fieldController;
       scope.editableFieldsState = EditableFieldsState;
 
+      scope.editPaneController.isRequired = function() {
+        return WorkPackageFieldService.isRequired(
+          EditableFieldsState.workPackage,
+          this.field
+        );
+      };
+
       scope.$watchCollection('editableFieldsState.workPackage.form', function(form) {
         var strategy = WorkPackageFieldService.getInplaceEditStrategy(
           EditableFieldsState.workPackage,
