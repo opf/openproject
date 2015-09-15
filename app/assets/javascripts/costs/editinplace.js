@@ -48,21 +48,25 @@ function edit(obj, name, obj_value) {
   var value = parsed[0];
   var currency = parsed[1];
 
-  var button = '<span id="'+obj.id+'_cancel" class="form--field-affix -transparent"><input id="'+obj.id+'_cancel" type="image" '+ _cancelButtonAttributes  +' /> </span>';
-  var span = '<span id="'+obj.id+'_editor" class="form--text-field-container">';
+  var form_start = '<section class="form--section" id="'+obj.id+
+                   '_section"><div class="form--field"><div class="form--field-container">';
+  var button = '<div id="'+obj.id+
+               '_cancel" class="form--field-affix -transparent icon icon-close"></div>';
+  var span = '<div id="'+obj.id+'_editor" class="form--text-field-container">';
       span += '<input id="'+obj.id+'_edit" class="form--text-field" name="'+name+'" value="'+value+'" class="currency" type="text" /> ';
-      span += '</span>';
+      span += '</div>';
 
-  var affix = '<span class="form--field-affix" id="'+obj.id+'_affix">' + currency + '</span>';
+  var affix = '<div class="form--field-affix" id="'+obj.id+'_affix">' +
+               currency +
+               '</div>';
+  var form_end = '</div></div></section>';
 
-  new Insertion.After(obj, button + span + affix);
+  new Insertion.After(obj, form_start + button + span + affix + form_end);
 
   Event.observe(obj.id+'_cancel', 'click', function(){cleanUp(obj)});
 }
 
 function cleanUp(obj){
-  Element.remove(obj.id+'_editor');
-  Element.remove(obj.id+'_affix');
-  Element.remove(obj.id+'_cancel');
+  Element.remove(obj.id+'_section');
   Element.show(obj);
 }

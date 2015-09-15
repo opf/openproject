@@ -102,7 +102,3 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
     <%= styled_button_tag l(:button_save), class: '-with-icon icon-yes' %>
 <% end %>
-
-<% content_for :header_tags do %>
-  <%= javascript_tag "initialize_editinplace('src=\"#{asset_path('webalys/cancel.png')}\" value=\"#{l(:label_cancel)}\" alt=\"#{l(:button_cancel_edit_costs)}\" title=\"#{l(:button_cancel_edit_costs)}\"' )" %>
-<% end %>
