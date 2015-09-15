@@ -61,6 +61,22 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
     &.-compressed
       padding: 10px 20px 0 20px
 
+    &.-danger-zone
+      .form--section-title
+        background-color: $content-form-danger-zone-bg-color
+        color: $content-form-danger-zone-font-color !important
+        padding: 0.5rem !important
+        border-radius: 2px
+        border: 1px solid $content-form-danger-zone-bg-color
+
+      .button.-highlight
+        background: $gray-light
+        color: $content-form-danger-zone-bg-color
+        border-color: $content-form-danger-zone-bg-color
+        &:hover
+          color: $content-form-danger-zone-font-color
+          background-color: $content-form-danger-zone-bg-color
+
 .form--separator
   border: 0
   border-bottom: 1px solid $content-form-separator-color
