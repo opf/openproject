@@ -98,8 +98,8 @@ describe MyController, type: :controller do
                                new_password_confirmation: 'adminADMIN!New'
       end
 
-      it 'should redirect to the my account page' do
-        expect(response).to redirect_to('/my/account')
+      it 'should redirect to the my password page' do
+        expect(response).to redirect_to('/my/password')
       end
 
       it 'should allow the user to login with the new password' do
