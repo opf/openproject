@@ -317,7 +317,7 @@ module OpenProject
                                 .references(:statuses)
                                 .find_by(id: oid)
                 link = link_to("##{oid}",
-                               work_package_path(id: oid, only_path: only_path),
+                               work_package_path_or_url(id: oid, only_path: only_path),
                                class: work_package_css_classes(work_package),
                                title: "#{truncate(work_package.subject, length: 100)} (#{work_package.status.try(:name)})")
               end
