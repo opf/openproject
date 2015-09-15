@@ -152,12 +152,10 @@ angular.module('openproject')
       controller: 'DetailsTabOverviewController',
       templateUrl: '/templates/work_packages/tabs/overview.html',
       controllerAs: 'vm',
-      reloadOnSearch: false
     })
     .state('work-packages.list.details.activity', {
       url: '/activity',
       templateUrl: '/templates/work_packages/tabs/activity.html',
-      reloadOnSearch: false
     })
     .state('work-packages.list.details.activity.details', {
       url: '#{activity_no:[0-9]+}',
@@ -166,14 +164,12 @@ angular.module('openproject')
     .state('work-packages.list.details.relations', {
       url: '/relations',
       templateUrl: '/templates/work_packages/tabs/relations.html',
-      reloadOnSearch: false
     })
     .state('work-packages.list.details.watchers', {
       url: '/watchers',
       controller: 'DetailsTabWatchersController',
       templateUrl: '/templates/work_packages/tabs/watchers.html',
       controllerAs: 'watchers',
-      reloadOnSearch: false
     });
 }])
 
