@@ -270,6 +270,9 @@ module NavigationHelpers
     when /^the [mM]y account page$/
       '/my/account'
 
+    when /^the [aA]ccess [tT]oken page$/
+      '/my/access_token'
+
     when /^the (administration|admin) page$/
       '/admin'
 

@@ -47,10 +47,12 @@ Feature: Update User Information
 
   @javascript
   Scenario: A user is able to reset their API access key
-    Given I click the API access key reset link
+    Given I go to the Access token page
+    And I click the API access key reset link
     Then  I should see "Your API access key was reset."
 
   @javascript
   Scenario: A user is able to reset their RSS access key
-    Given I click the RSS access key reset link
+    Given I go to the Access token page
+    And I click the RSS access key reset link
     Then  I should see "Your RSS access key was reset."

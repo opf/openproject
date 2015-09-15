@@ -146,7 +146,7 @@ When /^I filter the users list by status "([^\"]+)"$/ do |status|
 end
 
 Given(/^I click the (\w+) access key reset link$/) do |access_key_type|
-  within '#sidebar' do
-    find('p', text: "#{access_key_type} access key created").click_link('Reset')
+  within '#access-token-table' do
+    find('tr', text: "#{access_key_type} access key").click_link('Reset')
   end
 end
