@@ -54,7 +54,7 @@ angular.module('openproject.workPackages')
     function(ngContextMenu) {
       return ngContextMenu({
         templateUrl: '/templates/work_packages/menus/show_more_dropdown_menu.html',
-        container: '#toolbar'
+        container: '#action-show-more-dropdown-menu'
       });
     }
   ])
