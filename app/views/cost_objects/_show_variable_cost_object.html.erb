@@ -145,7 +145,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
             entries = cost_entries.inject(Hash.new)  do |results, entry|
               result = results[entry.cost_type.id.to_s]
               unless result
-                result = CostEntry.new(:cost_type => entry.cost_type, :cost_object => @cost_object, :overridden_costs => 0.0, :units => 0)
+                result = CostEntry.new(cost_type: entry.cost_type, overridden_costs: 0.0, units: 0)
                 results[entry.cost_type.id.to_s] = result
               end
 
