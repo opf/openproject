@@ -83,7 +83,9 @@ if (window.RB === null || window.RB === undefined) {
     // Utilities
     Dialog = object.create({
       msg: function (msg) {
-        var dialog;
+        var dialog, baseClasses;
+
+        baseClasses = 'ui-button ui-widget ui-state-default ui-corner-all';
 
         if ($('#msgBox').size() === 0) {
           dialog = $('<div id="msgBox"></div>').appendTo('body');
@@ -95,13 +97,17 @@ if (window.RB === null || window.RB === undefined) {
         dialog.html(msg);
         dialog.dialog({
           title: 'Backlogs Plugin',
-          buttons: {
-            OK: function () {
+          buttons: [
+          {
+            text: 'OK',
+            class: 'button -highlight',
+            click: function () {
               $(this).dialog("close");
             }
-          },
+          }],
           modal: true
         });
+        $('.button').removeClass(baseClasses);
       }
     });
 
