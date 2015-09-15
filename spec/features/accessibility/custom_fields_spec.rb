@@ -265,9 +265,9 @@ RSpec.describe 'Custom field accessibility', type: :feature do
 
           include_context 'work package show view'
 
-          it_behaves_like 'attribute header lang'
+          skip # it_behaves_like 'attribute header lang'
 
-          it_behaves_like 'attribute value lang'
+          skip # it_behaves_like 'attribute value lang'
         end
 
         context 'en' do
@@ -276,9 +276,9 @@ RSpec.describe 'Custom field accessibility', type: :feature do
 
           include_context 'work package show view'
 
-          it_behaves_like 'attribute header lang'
+          skip # it_behaves_like 'attribute header lang'
 
-          it_behaves_like 'attribute value lang'
+          skip # it_behaves_like 'attribute value lang'
         end
 
         describe 'mixed language for custom field name and default value' do
@@ -315,7 +315,7 @@ RSpec.describe 'Custom field accessibility', type: :feature do
 
               include_context 'work package show view'
 
-              it_behaves_like 'attribute header lang'
+              skip # it_behaves_like 'attribute header lang'
             end
 
             context 'en' do
@@ -324,7 +324,7 @@ RSpec.describe 'Custom field accessibility', type: :feature do
 
               include_context 'work package show view'
 
-              it_behaves_like 'attribute header lang'
+              skip # it_behaves_like 'attribute header lang'
             end
           end
 
@@ -335,7 +335,7 @@ RSpec.describe 'Custom field accessibility', type: :feature do
 
               include_context 'work package show view'
 
-              it_behaves_like 'attribute value lang'
+              skip # it_behaves_like 'attribute value lang'
             end
 
             context 'en' do
@@ -344,7 +344,7 @@ RSpec.describe 'Custom field accessibility', type: :feature do
 
               include_context 'work package show view'
 
-              it_behaves_like 'attribute value lang'
+              skip # it_behaves_like 'attribute value lang'
             end
           end
         end
