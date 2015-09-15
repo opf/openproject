@@ -87,7 +87,7 @@ Feature: Foldable versions in master backlog
 
   @javascript
   Scenario: Version fold status depends on users setting
-    When I go to the my account page
+    When I go to the my settings page
      And I check "Show versions folded"
      And I submit the form by the "Save" button
     Then I should see "Account was successfully updated"
@@ -98,7 +98,7 @@ Feature: Foldable versions in master backlog
     When I change the fold state of a version
     Then I should see "Story A" within ".backlog"
 
-    Then I go to the my account page
+    Then I go to the my settings page
      And I uncheck "Show versions folded"
      And I submit the form by the "Save" button
     Then I should see "Account was successfully updated"
