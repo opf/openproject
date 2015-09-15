@@ -79,7 +79,7 @@ module.exports = function(
       ).then(function(response) {
         ctrl.discardEditing();
         NotificationsService.addSuccess(I18n.t('js.work_packages.comment_added'));
-        scope.$emit('workPackageRefreshRequired', '');
+        $scope.$emit('workPackageRefreshRequired', '');
         return response;
       }, function() {
         NotificationsService.addError(I18n.t('js.work_packages.comment_send_failed'));
