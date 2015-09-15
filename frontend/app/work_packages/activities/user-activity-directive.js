@@ -69,7 +69,6 @@ module.exports = function($uiViewScroll,
       scope.I18n = I18n;
       scope.userPath = PathHelper.staticUserPath;
       scope.inEdit = false;
-      scope.inFocus = false;
       scope.inPreview = false;
       scope.userCanEdit = !!scope.activity.links.update;
       scope.userCanQuote = !!scope.workPackage.links.addComment;
@@ -94,14 +93,6 @@ module.exports = function($uiViewScroll,
           $uiViewScroll(element);
         }
       });
-
-      scope.focus = function() {
-        scope.inFocus = true;
-      };
-
-      scope.blur = function() {
-        scope.inFocus = false;
-      };
 
       scope.editComment = function() {
         scope.writeValue = scope.activity.props.comment.raw;
@@ -143,13 +134,24 @@ module.exports = function($uiViewScroll,
         }
       };
 
-      scope.showActions = function() {
-        scope.inFocus = true;
+      var focused = false;
+      var timeout;
+      scope.focus = function() {
+        focused = true;
+        clearTimeout(timeout);
       };
 
-      scope.hideActions = function() {
-        scope.inFocus = false;
+      scope.blur = function() {
+        timeout = setTimeout(function() {
+          focused = false;
+        }, 50);
       };
+
+      scope.focussing = function() {
+        return focused;
+      };
+
+      element.on('focusout', blur);
 
       function quotedText(rawComment) {
         var quoted = rawComment.split("\n")
