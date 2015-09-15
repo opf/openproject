@@ -67,6 +67,7 @@ angular.module('openproject.workPackages.services')
     '$q',
     '$http',
     '$rootScope',
+    '$timeout',
     'HookService',
     'NotificationsService',
     'EditableFieldsState',

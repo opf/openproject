@@ -33,6 +33,7 @@ module.exports = function(
   $q,
   $http,
   $rootScope,
+  $timeout,
   HookService,
   NotificationsService,
   EditableFieldsState
@@ -395,10 +396,10 @@ module.exports = function(
     return WorkPackagesHelper.formatValue(value, mappings[field]);
   }
 
-  function submitWorkPackageChanges(notify, refreshWorkPackages) {
+  function submitWorkPackageChanges(notify, callback) {
     // We have to ensure that some promises are executed earlier then others
     var fields = Object.values(EditableFieldsState.submissionPromises)
-                       .sort(function(a, b) { a.order >= b.order });
+                       .sort(function(a, b) { return a.order >= b.order; });
 
     var promises = [];
     fields.each(function(el) {
@@ -407,13 +408,11 @@ module.exports = function(
 
     $q.all(promises).then(function() {
       // Update work package after this call
-      $rootScope.$broadcast('workPackageRefreshRequired', function() {
-        console.log('refreshed!');
-      });
+      $rootScope.refreshWorkPackage(callback);
       EditableFieldsState.errors = null;
       EditableFieldsState.submissionPromises = {};
       EditableFieldsState.currentField = null;
-    }, function(reason){
+    }, function(){
       NotificationsService.addError(I18n.t('js.work_packages.error_update_failed'));
     });
   }

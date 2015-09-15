@@ -1,14 +1,16 @@
-<div ng-switch="activityType">
-  <revision-activity work-package="workPackage"
-                 activity="activity"
-                 activity-no="activityNo"
-                 ng-switch-when="Revision">
-  </revision-activity>
-  <user-activity work-package="workPackage"
-            activity="activity"
-            activity-no="activityNo"
-            is-initial="isInitial"
-            autocomplete-path="{{ autocompletePath }}"
-            ng-switch-default>
-  </user-activity>
+<div id="activity-{{activityNo}">
+  <div ng-switch="activityType">
+    <revision-activity work-package="workPackage"
+                       activity="activity"
+                       activity-no="activityNo"
+                       ng-switch-when="Revision">
+    </revision-activity>
+    <user-activity work-package="workPackage"
+                   activity="activity"
+                   activity-no="activityNo"
+                   is-initial="isInitial"
+                   autocomplete-path="{{ autocompletePath }}"
+                   ng-switch-default>
+    </user-activity>
+  </div>
 </div>

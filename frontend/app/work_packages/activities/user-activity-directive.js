@@ -89,7 +89,7 @@ module.exports = function($uiViewScroll,
       }, scope.details);
 
       $timeout(function() {
-        if($location.hash() == scope.activityNo.toString()) {
+        if($location.hash() === 'activity-' + scope.activityNo) {
           $uiViewScroll(element);
         }
       });
@@ -112,7 +112,7 @@ module.exports = function($uiViewScroll,
 
       scope.updateComment = function() {
         ActivityService.updateComment(scope.activity, scope.writeValue).then(function(){
-          scope.$emit('workPackageRefreshed', '');
+          scope.$emit('workPackageRefreshRequired', '');
           scope.inEdit = false;
         });
       };

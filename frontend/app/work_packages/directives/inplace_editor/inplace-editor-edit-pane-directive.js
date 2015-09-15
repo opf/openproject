@@ -54,7 +54,7 @@ module.exports = function(
     require: '^workPackageField',
     templateUrl: '/templates/work_packages/inplace_editor/edit_pane.html',
     controllerAs: 'editPaneController',
-    controller: function($scope, WorkPackageService) {
+    controller: function($scope, $element, WorkPackageService) {
       var vm = this;
 
       // go full retard
@@ -65,7 +65,14 @@ module.exports = function(
       // Propagate submission to all active fields
       // not contained in the workPackage.form (e.g., comment)
       this.submit = function(notify) {
-        WorkPackageFieldService.submitWorkPackageChanges(notify);
+        WorkPackageFieldService.submitWorkPackageChanges(
+          notify,
+          function() {
+            $timeout(function() {
+              $element[0].scrollIntoView(false);
+            });
+          }
+        );
       };
 
       this.submitField = function(notify) {

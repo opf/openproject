@@ -65,7 +65,13 @@ module.exports = function(
 
     // Propagate submission to all active fields
     ctrl.submit = function(notify) {
-      WorkPackageFieldService.submitWorkPackageChanges(notify);
+      var nextActivity = ctrl.activities.length + 1;
+      WorkPackageFieldService.submitWorkPackageChanges(
+        notify,
+        function() {
+          $location.hash('activity-' + (nextActivity));
+        }
+      );
     };
 
     // Submits this very comment field
@@ -80,7 +86,7 @@ module.exports = function(
         ctrl.workPackage,
         ctrl.writeValue,
         notify
-      ).then(function(response) {
+      ).then(function() {
         ctrl.discardEditing();
         NotificationsService.addSuccess(I18n.t('js.work_packages.comment_added'));
         submit.resolve();

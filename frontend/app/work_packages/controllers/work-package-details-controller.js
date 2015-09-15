@@ -34,6 +34,7 @@ module.exports = function($scope,
     RELATION_TYPES,
     RELATION_IDENTIFIERS,
     $q,
+    $rootScope,
     $filter,
     WorkPackagesHelper,
     PathHelper,
@@ -71,6 +72,7 @@ module.exports = function($scope,
       });
   }
   $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
+  $rootScope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
 
   // Inform parent that work package is loaded so back url can be maintained
   $scope.$emit('workPackgeLoaded');
