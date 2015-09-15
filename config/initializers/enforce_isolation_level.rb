@@ -44,7 +44,7 @@ module ConnectionIsolationLevel
 
   def self.set_connection_isolation_level(connection)
     isolation_level = 'ISOLATION LEVEL READ COMMITTED'
-    if OpenProject::Database.mysql?
+    if OpenProject::Database.mysql?(connection)
       connection.execute("SET SESSION TRANSACTION #{isolation_level}")
     else
       connection.execute("SET SESSION CHARACTERISTICS AS TRANSACTION #{isolation_level}")
