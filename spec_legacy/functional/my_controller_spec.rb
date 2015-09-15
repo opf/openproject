@@ -120,7 +120,7 @@ describe MyController, type: :controller do
       end
 
       it { is_expected.to set_flash.to /reset/ }
-      it { is_expected.to redirect_to '/my/account' }
+      it { is_expected.to redirect_to '/my/access_token' }
     end
 
     context 'with no rss_token' do
@@ -134,7 +134,7 @@ describe MyController, type: :controller do
       end
 
       it { is_expected.to set_flash.to /reset/ }
-      it { is_expected.to redirect_to '/my/account' }
+      it { is_expected.to redirect_to '/my/access_token' }
     end
   end
 
@@ -154,7 +154,7 @@ describe MyController, type: :controller do
       end
 
       it { is_expected.to set_flash.to /reset/ }
-      it { is_expected.to redirect_to '/my/account' }
+      it { is_expected.to redirect_to '/my/access_token' }
     end
 
     context 'with no api_token' do
@@ -168,7 +168,7 @@ describe MyController, type: :controller do
       end
 
       it { is_expected.to set_flash.to /reset/ }
-      it { is_expected.to redirect_to '/my/account' }
+      it { is_expected.to redirect_to '/my/access_token' }
     end
   end
 end
