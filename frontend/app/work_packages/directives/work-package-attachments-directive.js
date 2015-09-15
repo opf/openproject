@@ -69,10 +69,6 @@ module.exports = function(
     scope.rejectedFiles = [];
     scope.size = ConversionService.fileSize;
 
-    scope.instantUpload = function() {
-      scope.$emit('uploadPendingAttachments', workPackage);
-    };
-
     var currentlyRemoving = [];
     scope.remove = function(file) {
       currentlyRemoving.push(file);
@@ -99,6 +95,22 @@ module.exports = function(
     };
 
     scope.$on('uploadPendingAttachments', upload);
+
+    scope.filterFiles = function(files) {
+      // Directories cannot be uploaded and as such, should not become files in
+      // the sense of this directive.  The files within the direcotories will
+      // be taken though.
+      _.remove(files, function(file) {
+        return file.type === 'directory';
+      });
+    };
+
+    scope.uploadFilteredFiles = function(files) {
+      scope.filterFiles(files);
+
+      scope.$emit('uploadPendingAttachments', workPackage);
+    };
+
     scope.$watch('rejectedFiles', function(rejectedFiles) {
       if (rejectedFiles.length === 0) {
         return;
