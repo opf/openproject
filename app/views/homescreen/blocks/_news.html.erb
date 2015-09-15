@@ -1,18 +1,18 @@
-<h3 class="homescreen--blocks--item-header">
+<h3 class="widget-box--header">
   <span class="icon-context icon-news"></span>
-  <%= l(:label_news_latest) %>
+  <span class="widget-box--header-title"><%= l(:label_news_latest) %></span>
 </h3>
 
 <% unless @news.empty? %>
-  <ul class="homescreen--arrow-links">
+  <ul class="widget-box--arrow-links">
   <% @news.each do |news| %>
-    <li class="-homescreen--arrow-multiline">
+    <li class="-widget-box--arrow-multiline">
       <div>
         <%= avatar(news.author, {class: 'avatar-mini'}) %>
         <%= link_to_project(news.project) + ': ' %>
         <%= link_to h(news.title), news_path(news) %>
         <br/>
-        <p class="homescreen--additional-info"><%= authoring news.created_on, news.author %></p>
+        <p class="widget-box--additional-info"><%= authoring news.created_on, news.author %></p>
       </div>
     </li>
   <% end %>
