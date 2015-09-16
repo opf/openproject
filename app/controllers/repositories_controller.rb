@@ -39,6 +39,7 @@ end
 
 class RepositoriesController < ApplicationController
   include PaginationHelper
+  include RepositoriesHelper
 
   menu_item :repository
   menu_item :settings, only: [:edit, :destroy_info]
@@ -301,10 +302,6 @@ class RepositoriesController < ApplicationController
     else
       flash.now[:error] = @repository.errors.full_messages.join('\n')
     end
-  end
-
-  def settings_repository_tab_path
-    settings_project_path(@project, tab: 'repository')
   end
 
   def find_repository
