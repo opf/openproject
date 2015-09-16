@@ -185,8 +185,8 @@ class AccountController < ApplicationController
     session[:invitation_token] = token.value
     user = token.user
 
-    if user.auth_source
-      activate_through_auth_source user
+    if user.auth_source && user.auth_source.auth_method_name == 'LDAP'
+      activate_through_ldap user
     else
       activate_user user
     end
@@ -204,7 +204,7 @@ class AccountController < ApplicationController
     end
   end
 
-  def activate_through_auth_source(user)
+  def activate_through_ldap(user)
     session[:auth_source_registration] = {
       login: user.login,
       auth_source_id: user.auth_source_id
@@ -276,7 +276,7 @@ class AccountController < ApplicationController
       end
     else
       @user.attributes = permitted_params.user
-      @user.login = params[:user][:login]
+      @user.login = params[:user][:login] if params[:user][:login].present?
       @user.password = params[:user][:password]
       @user.password_confirmation = params[:user][:password_confirmation]
 

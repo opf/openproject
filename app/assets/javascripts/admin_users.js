@@ -66,4 +66,6 @@
     jQuery('#user_assign_random_password').change(on_assign_random_password_change);
     jQuery('#user_auth_source_id').change(on_auth_source_change);
   });
+
+  jQuery(document).ready(on_auth_source_change);
 })();

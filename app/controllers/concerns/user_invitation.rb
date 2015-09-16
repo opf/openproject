@@ -51,7 +51,8 @@ module UserInvitation
     user = User.new login: login || email,
                     mail: email,
                     firstname: first_name || email,
-                    lastname: last_name || '(invited)'
+                    lastname: last_name || '(invited)',
+                    status: Principal::STATUSES[:invited]
 
     yield user if block_given?
 
@@ -84,11 +85,12 @@ module UserInvitation
   # @return Returns the user and the invitation token required to register.
   def user_invitation(user)
     User.transaction do
+      user.invite
+
       if user.valid?
         token = invitation_token user
         token.save!
 
-        user.invite
         user.save!
 
         return [user, token]
