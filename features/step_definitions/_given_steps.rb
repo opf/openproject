@@ -163,7 +163,7 @@ end
 Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the following sprints:$/ do |project_name, table|
   project = get_project(project_name)
 
-  project.work_packages.delete_all
+  project.work_packages.destroy_all
   prev_id = ''
 
   table.hashes.each do |story|
