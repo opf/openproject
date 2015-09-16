@@ -90,12 +90,17 @@ table
           text-transform: uppercase
           font-weight: bold
           max-width: 50px
+          min-width: 50px
+          position: relative
 
           span
             white-space: nowrap
             transform: rotate(270deg)
-            display: block
-            text-align: right
+            position: absolute
+            top: -40px
+            right: 50%
+            transform-origin: right center
+            margin-top: 8px
 
     thead
       .workflow-table--header

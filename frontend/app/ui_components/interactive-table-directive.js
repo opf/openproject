@@ -56,10 +56,6 @@ module.exports = function($timeout, $window){
                                         '.generic-table--footer-background');
       }
 
-      function getTurnedHeader(){
-        return getInnerContainer().find('.workflow-table--turned-header-text');
-      }
-
       function getHeadersFooters() {
         return element.find(
           '.generic-table--sort-header-outer,' +
@@ -71,8 +67,7 @@ module.exports = function($timeout, $window){
       function setTableContainerWidths() {
         // adjust overall containers
         var tableWidth = getTable().width(),
-          scrollBarWidth = 16,
-          turnedHeaderMargin;
+          scrollBarWidth = 16;
 
         // account for a possible scrollbar
         if (tableWidth > document.documentElement.clientWidth - scrollBarWidth) {
@@ -94,15 +89,6 @@ module.exports = function($timeout, $window){
             getBackgrounds().css('width', '100%');
           }
         }
-
-          // HACK: Important for workflow table
-          // The turned Header needs to be as high as the table to correctly align it at the end.
-          // Because of the rotation the width needs to be set instead of height.
-          // Because of that the text gets misaligned and needs a margin, to remove the space on the left side.
-          // So the calculation: height/2 - font-size
-          turnedHeaderMargin = -(getInnerContainer().height()/2 - parseInt(getTurnedHeader().css('font-size'), 10));
-          getTurnedHeader().width(getInnerContainer().height())
-                           .css('margin-left', turnedHeaderMargin);
       }
 
       function setHeaderFooterWidths() {
