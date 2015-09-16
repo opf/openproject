@@ -52,8 +52,6 @@ class CostType < ActiveRecord::Base
     CostRate.where(['cost_type_id = ? and valid_from <= ?', id, date])
             .order('valid_from DESC')
             .first
-  rescue ActiveRecord::RecordNotFound
-    return nil
   end
 
   def visible?(user)

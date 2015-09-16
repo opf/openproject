@@ -68,15 +68,15 @@ describe CostEntry, type: :model do
     cost_type
   end
   let(:first_rate) {
-    FactoryGirl.build(:cost_rate, valid_from: 6.days.ago,
+    FactoryGirl.build(:cost_rate, valid_from: date - 6.days,
                                   rate: 10.0)
   }
   let(:second_rate) {
-    FactoryGirl.build(:cost_rate, valid_from: 4.days.ago,
+    FactoryGirl.build(:cost_rate, valid_from: date - 4.days,
                                   rate: 100.0)
   }
   let(:third_rate) {
-    FactoryGirl.build(:cost_rate, valid_from: 2.days.ago,
+    FactoryGirl.build(:cost_rate, valid_from: date - 2.days,
                                   rate: 1000.0)
   }
   let(:member) {
@@ -143,7 +143,7 @@ describe CostEntry, type: :model do
   describe 'instance' do
     describe '#costs' do
       let(:fourth_rate) {
-        FactoryGirl.build(:cost_rate, valid_from: 1.days.ago,
+        FactoryGirl.build(:cost_rate, valid_from: date - 1.days,
                                       rate: 10000.0,
                                       cost_type: cost_type)
       }
@@ -175,7 +175,7 @@ describe CostEntry, type: :model do
       describe 'WHEN a new rate is added for the future' do
         before do
           cost_entry.save!
-          fourth_rate.valid_from = 1.day.from_now
+          fourth_rate.valid_from = date + 1.day
           fourth_rate.save!
           cost_entry.reload
         end
@@ -186,7 +186,7 @@ describe CostEntry, type: :model do
       describe 'WHEN a new rate is added in between' do
         before do
           cost_entry.save!
-          fourth_rate.valid_from = 3.days.ago
+          fourth_rate.valid_from = date - 3.days
           fourth_rate.save!
           cost_entry.reload
         end
@@ -207,7 +207,7 @@ describe CostEntry, type: :model do
       describe "WHEN a rate's valid from is updated" do
         before do
           cost_entry.save!
-          first_rate.update_attribute(:valid_from, 1.days.ago)
+          first_rate.update_attribute(:valid_from, date - 1.days)
           cost_entry.reload
         end
 
