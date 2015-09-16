@@ -108,6 +108,7 @@ if (window.RB === null || window.RB === undefined) {
           modal: true
         });
         $('.button').removeClass(baseClasses);
+        $('.ui-icon-closethick').prop('title', 'close');
       }
     });
 

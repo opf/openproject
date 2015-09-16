@@ -126,7 +126,7 @@ RB.Model = (function ($) {
             self.cancelEdit();
             $(this).dialog("close");
           }
-        }
+        },
         ],
         close: function (e, ui) {
           if (e.which === 27) {
@@ -141,6 +141,7 @@ RB.Model = (function ($) {
       });
       editor.find(".editor").first().focus();
       $('.button').removeClass(baseClasses);
+      $('.ui-icon-closethick').prop('title', 'close');
     },
 
     edit: function () {
