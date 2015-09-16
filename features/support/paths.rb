@@ -198,6 +198,14 @@ module NavigationHelpers
     when /^the index page (?:for|of) users$/
       '/users'
 
+    when /^the members page of the project(?: called)? (.+)$/
+      project_identifier = $1.gsub("\"", '')
+      "/projects/#{project_identifier}/members"
+
+    when /^the new member page of the project(?: called)? (.+)$/
+      project_identifier = $1.gsub("\"", '')
+      "/projects/#{project_identifier}/members/new"
+
     when /^the global index page (?:for|of) (.+)$/
       "/#{$1.gsub(' ', '_')}"
 
