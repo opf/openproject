@@ -73,6 +73,7 @@ RB.Burndown = (function ($) {
         title: RB.i18n.burndown_graph,
         resizable: false
       });
+      $('.ui-icon-closethick').prop('title', 'close');
     }
   });
 }(jQuery));
