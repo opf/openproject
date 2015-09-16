@@ -142,7 +142,7 @@ class AccountController < ApplicationController
     if token && token.action == 'register' && Setting.self_registration?
       activate_self_registered token
     else
-      activate_invited token
+      activate_by_invite_token token
     end
   end
 
@@ -171,7 +171,7 @@ class AccountController < ApplicationController
     end
   end
 
-  def activate_by_token(token)
+  def activate_by_invite_token(token)
     if token.nil? || token.expired? || !token.user.invited?
       flash[:error] = I18n.t(:notice_account_invalid_token)
 
