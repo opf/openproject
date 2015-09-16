@@ -51,8 +51,7 @@ Feature: Watch issues
       | subject     | issue1              |
     And I am already logged in as "bob"
 
-  @wip
-  @javascript
+  @javascript @wip
   Scenario: Watch an issue
     When I go to the page of the issue "issue1"
     Then I should find "#watch-button"
@@ -66,8 +65,7 @@ Feature: Watch issues
      And I should see "Bob Bobbit" within "#watchers ul"
      And the issue "issue1" should have 1 watchers
 
-  @wip
-  @javascript
+  @javascript @wip
   Scenario: Unwatch an issue
     Given the issue "issue1" is watched by:
       | bob |
@@ -81,7 +79,7 @@ Feature: Watch issues
      And I should not see "Bob Bobbit" within "#watchers"
      And the issue "issue1" should have 0 watchers
 
-  @javascript
+  @javascript @wip
   Scenario: Add a watcher to an issue
     When I go to the page of the issue "issue1"
     Then I click on "Watchers" within "#tabs"

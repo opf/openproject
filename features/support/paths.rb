@@ -140,7 +140,7 @@ module NavigationHelpers
 
     when /^the page (?:for|of) the work package(?: called)? "([^\"]+)"$/
       work_package = WorkPackage.find_by(subject: $1)
-      "/work_packages/#{work_package.id}"
+      "/work_packages/#{work_package.id}/activity"
 
     when /^the new work_package page (?:for|of) the project called "([^\"]+)"$/
       "/projects/#{$1}/work_packages/new"

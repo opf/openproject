@@ -28,6 +28,11 @@
 
 .work-packages--show-view {
 
+  .toolbar-container {
+    @include clearfix;
+    margin-bottom: 1rem;
+  }
+
   height: 100%;
 
   .subject-header {
@@ -72,14 +77,60 @@
     width: 40%;
   }
 
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      margin: 0;
+      padding: 0;
+
+      &.toolbar-item {
+        margin: 0 5px;
+      }
+    }
+
+    &.dropdown-menu {
+      li {
+        float: none;
+      }
+    }
+
+    button {
+      margin-right: 0;
+    }
+  }
+
+  ul#toolbar-items {
+    float: right;
+    margin-top: 10px;
+
+    button {
+      margin-bottom: 0;
+    }
+
+    li {
+      float: left;
+      position: relative;
+
+      .dropdown {
+        top: 100% !important;
+        right: 0px !important;
+        left: auto !important;
+
+        ul li {
+          float: none;
+        }
+      }
+    }
+  }
+
   ul.subject-header {
-    float: left !important;
-    padding-top: 10px !important;
     // with sidebar
     width: 58%;
 
     li {
-      display: inline;
       float: left;
 
       &.type {
@@ -106,6 +157,10 @@
         }
       }
     }
+  }
+
+  .activity-comment {
+    margin-top: 15px;
   }
 }
 
