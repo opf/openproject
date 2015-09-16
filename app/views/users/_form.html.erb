@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
              locals:      { form: f } %>
 
   <div class="form--field"><%= f.check_box :admin, :disabled => (@user == User.current) %></div>
-  <%= call_hook(:view_users_form, user: @user, form: f, render_heading: true) %>
+  <%= call_hook(:view_users_form, user: @user, form: f) %>
 </section>
 
 <section class="form--section">
