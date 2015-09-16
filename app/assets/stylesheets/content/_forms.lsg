@@ -184,7 +184,7 @@
         <div class="form--field-affix icon-context icon-phone">
         </div>
         <div class="form--text-field-container">
-          <input type="number" class="form--text-field">
+          <input type="tel" class="form--text-field">
         </div>
       </div>
     </div>
