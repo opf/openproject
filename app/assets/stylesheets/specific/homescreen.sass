@@ -26,90 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@mixin homescreen-block-style
-  background: $homescreen-block-bg-color
-  border: 1px solid $homescreen-block-border-color
-  margin: 10px
-
-$homescreen--enumeration-width: 20px
-
 .controller-homescreen,
 .controller-homescreen #content
-  background: $homescreen-content-bg-color
+  background: $widget-box-content-bg-color
 
 .controller-homescreen #breadcrumb
   display: none
 
-.homescreen--header
-  margin-left: 10px
-
-.homescreen--blocks
-  display: flex
-  flex-flow: row wrap
-
-  .icon-context:before
-    padding-right: 5px
-
-  .homescreen--blocks--item
-    @include homescreen-block-style
-    padding: 10px 10px 10px 20px
-    flex: 1
-    flex-basis: 32%
-    display: flex
-    flex-direction: column
-    min-height: 250px
-    word-wrap: break-words
-    overflow: hidden
-
-    .homescreen--blocks--item-header
-      font-weight: bold
-      font-size: 1rem
-      text-transform: uppercase
-      border-color: $homescreen-block-border-color
-
-
-    .homescreen--additional-info
-      margin: 0
-      font-size: 0.9rem
-      font-style: italic
-
-    .homescreen--enumeration
-      margin-left: 1.5rem
-      margin-top: 0.5rem
-      flex-grow: 2
-
-    .homescreen--arrow-links
-      list-style: none
-      margin: 0.5rem 0 1rem 0
-      flex-grow: 2
-
-      li:before
-        @include icon-common
-        @extend .icon-context
-        content: "\e03f"
-        display: inline-block
-        font-size: 0.6rem
-        color: $content-icon-link-color
-        width: $homescreen--enumeration-width
-
-      .-homescreen--arrow-multiline
-        &:before
-          float: left
-
-        &:after
-          clear: both
-          content: ""
-          display: table
-
-        > div
-          float: left
-          margin-bottom: 10px
-          //necessary for correct alignment even with long texts
-          width: calc(100% - #{$homescreen--enumeration-width})
-
 
 .homescreen--links
-  @include homescreen-block-style
+  @include widget-box--style
   display: flex
   padding: 20px 20%
   align-items: center
