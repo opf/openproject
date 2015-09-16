@@ -31,10 +31,7 @@
             <accessible-by-keyboard execute="fieldController.submit(true)"
                                     ng-disabled="fieldController.isEmpty()"
                                     class="inplace-edit--control -icons-2 inplace-edit--control--send">
-              <span title="{{ fieldController.saveAndSendTitle }}">
-                <i class="icon-yes"></i>
-                <i class="icon-mail"></i>
-              </span>
+             <icon-wrapper icon-name="send-mail" icon-title="{{ editPaneController.saveAndSendTitle }}"></icon-wrapper>
             </accessible-by-keyboard>
             <accessible-by-keyboard execute="fieldController.discardEditing()" class="inplace-edit--control inplace-edit--control--cancel">
               <icon-wrapper icon-name="close" icon-title="{{ fieldController.cancelTitle }}">

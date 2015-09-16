@@ -26,14 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$inplace-edit--border-color: #ddd
-$inplace-edit--dark-background: #f8f8f8
-$inplace-edit--color--very-dark: #cacaca
-$inplace-edit--color--disabled: #999
-$inplace-edit--bg-color--disabled: #eee
-$inplace-edit--color-highlight: $primary-color
-$inplace-edit--selected-date-border-color: $primary-color-dark
-
 %inline-date-picker-container-position-absolute
   display: none
   z-index: 99999
@@ -152,31 +144,6 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
     white-space: pre-line
     padding-left: 18px
 
-.inplace-edit--controls
-  display: inline-block
-  background: $inplace-edit--dark-background
-  border: 1px solid $inplace-edit--color--very-dark
-  box-shadow: 1px 1px 2px $inplace-edit--border-color
-  text-align: center
-  float: right
-  padding: 5px
-  line-height: 1.6rem
-  margin-top: -1px
-  // Having to get the element out of the normal dom flow to
-  // prevent the element overlapping and thereby blocking the click on
-  // inplace-editable elements below the current one.
-  position: absolute
-  right: 0
-
-// Disabled submit styles when not applicable
-.inplace-edit--control--save[disabled],
-.inplace-edit--control--send[disabled]
-  background-color: $inplace-edit--bg-color--disabled
-
-  span
-    color: $inplace-edit--color--disabled
-    cursor: not-allowed
-
 .inplace-edit--read
   @include grid-block
   overflow: visible
@@ -254,24 +221,51 @@ a.inplace-editing--trigger-link,
   border-width: 1px
   overflow: visible
 
-.inplace-edit--control
-  background: $inplace-edit--color--very-dark
-  width: 1.5rem
-  height: 1.5rem
-  line-height: 1.5rem
-  border: 1px solid $inplace-edit--dark-background
+.inplace-edit--controls
   display: inline-block
-  border-radius: 0.75rem
-  font-size: 0.75rem
+  background: $inplace-edit--dark-background
+  border: 1px solid $inplace-edit--color--very-dark
+  box-shadow: 2px 2px 4px $inplace-edit--border-color
+  text-align: center
+  float: right
+  padding: 5px
+  line-height: 1.6rem
+  margin-top: -1px
+  // Having to get the element out of the normal dom flow to
+  // prevent the element overlapping and thereby blocking the click on
+  // inplace-editable elements below the current one.
+  position: absolute
+  right: 0
 
-  &.-icons-2
-    width: 2.875rem
+// Disabled submit styles when not applicable
+.inplace-edit--control--save[disabled],
+.inplace-edit--control--send[disabled]
+  background-color: $inplace-edit--bg-color--disabled
+
+  span
+    color: $inplace-edit--color--disabled
+    cursor: not-allowed
+
+.inplace-edit--control
+  width: 1.75rem
+  height: 1.75rem
+  line-height: 1.75rem
+  display: inline-block
+  font-size: 0.9rem
 
   a
+    display: inline-block
+    width: 100%
+    height: 100%
+    border: 1px solid transparent
     color: $body-font-color
     text-decoration: none
 
-    .icon-context::before
+    &:hover, &:active
+      border-color: $inplace-edit--border-color
+      border-radius: 2px
+
+    .icon-context:before
       padding: 0
 // custom hack to have the jsToolbar in the same line as the "Description" title
 .inplace-edit.attribute-description
