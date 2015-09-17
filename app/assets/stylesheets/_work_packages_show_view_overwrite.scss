@@ -118,6 +118,7 @@
         top: 100% !important;
         right: 0px !important;
         left: auto !important;
+        margin-top: 0;
 
         ul li {
           float: none;
@@ -179,5 +180,15 @@
 .work-packages--split-view  {
   .inplace-edit.attribute-subject {
     line-height: 30px;
+  }
+}
+
+@media only screen and (max-width: 1280px) {
+  .work-packages--details {
+    @at-root {
+      li[feature-flag=detailsView] {
+        display: block;
+      }
+    }
   }
 }
