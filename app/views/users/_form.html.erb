@@ -38,13 +38,14 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="form--field"><%= f.text_field :lastname, :required => true %></div>
   <div class="form--field"><%= f.text_field :mail, :required => true %></div>
   <div class="form--field"><%= f.select :language, lang_options_for_select %></div>
+  <div class="form--field"><%= f.check_box :admin, :disabled => (@user == User.current) %></div>
 
+  <h3 class="form--section-title"><%= l(:label_custom_field_plural) %></h3>
   <%= render partial:     'customizable/field',
              collection:  @user.custom_field_values,
              as:          :value,
              locals:      { form: f } %>
 
-  <div class="form--field"><%= f.check_box :admin, :disabled => (@user == User.current) %></div>
   <%= call_hook(:view_users_form, user: @user, form: f) %>
 </section>
 

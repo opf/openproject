@@ -29,7 +29,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%# locals: form %>
 
-<h3 class="form--section-title"><%= l(:label_custom_field_plural) %></h3>
 <%= form.fields_for_custom_fields :custom_field_values, value do |value_form| %>
   <% required = value.custom_field.is_required? %>
   <div class="form--field <%= required ? '-required' : '' %>">
