@@ -57,7 +57,7 @@ When /^I add(?: the)? principal "(.+)" as(?: a)? "(.+)"$/ do |principal, role|
   steps %{
     And I select the principal "#{principal}"
     And I select the role "#{role}"
-    And I click on "Add" within "#tab-content-members"
+    And I click on "Add"
     And I wait for AJAX
   }
 end
@@ -112,7 +112,7 @@ end
 
 Then /^I should see the principal "(.+)" as a member with the roles:$/ do |principal_name, roles_table|
   principal = InstanceFinder.find(Principal, principal_name)
-  steps %{ Then I should see "#{principal.name}" within "#tab-content-members .generic-table" }
+  steps %{ Then I should see "#{principal.name}" within ".generic-table" }
 
   found_roles = page.find(:xpath, "//tr[contains(concat(' ',normalize-space(@class),' '),' member ')][contains(.,'#{principal.name}')]").find(:css, 'td.roles span').text.split(',').map(&:strip)
 
@@ -122,7 +122,7 @@ end
 Then /^I should not see the principal "(.+)" as a member$/ do |principal_name|
   principal = InstanceFinder.find(Principal, principal_name)
 
-  steps %{ Then I should not see "#{principal.name}" within "#tab-content-members .generic-table" }
+  steps %{ Then I should not see "#{principal.name}" within ".generic-table" }
 end
 
 When /^I enter the (principal|role) name "(.+)"$/ do |model, principal_name|
