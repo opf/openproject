@@ -24,10 +24,11 @@ See doc/COPYRIGHT.md for more details.
   content, content_type = tab[:content], tab[:content_type] if tab && tab.present?
 -%>
 <div class="meeting_content <%= content_type %>">
-  <div class="contextual">
-    <%=raw meeting_content_context_menu content, content_type %>
+  <div>
+    <%= toolbar title: l(:"label_#{content_type}") do %>
+      <%=raw meeting_content_context_menu content, content_type %>
+    <% end %>
   </div>
-  <h2><%=l :"label_#{content_type}" %></h2>
 
   <% if can_edit_meeting_content?(content, content_type) -%>
     <div id="edit-<%= content_type %>" class="edit-<%= content_type %>"<%= " style=\"display: none;\"" unless show_meeting_content_editor?(content, content_type)%>>

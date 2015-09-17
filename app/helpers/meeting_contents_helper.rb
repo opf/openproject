@@ -49,22 +49,26 @@ module MeetingContentsHelper
   def close_meeting_agenda_link(content_type, meeting)
     case content_type
     when 'meeting_agenda'
-      content_tag :div, '', class: 'button' do
-        link_to_if_authorized l(:label_meeting_close),
-                              { controller: '/meeting_agendas',
-                                action: 'close',
-                                meeting_id: meeting },
-                              method: :put,
-                              class: 'icon-context icon-locked'
+      content_tag :li, '', class: 'toolbar-item' do
+        content_tag :button, '', class: 'button' do
+          link_to_if_authorized l(:label_meeting_close),
+                                { controller: '/meeting_agendas',
+                                  action: 'close',
+                                  meeting_id: meeting },
+                                method: :put,
+                                class: 'icon-context icon-locked'
+        end
       end
     when 'meeting_minutes'
-      content_tag :div, '', class: 'button' do
-        link_to_if_authorized l(:label_meeting_agenda_close),
-                              { controller: '/meeting_agendas',
-                                action: 'close',
-                                meeting_id: meeting },
-                              method: :put,
-                              class: 'icon-context icon-locked'
+      content_tag :li, '', class: 'toolbar-item' do
+        content_tag :button, '', class: 'button' do
+          link_to_if_authorized l(:label_meeting_agenda_close),
+                                { controller: '/meeting_agendas',
+                                  action: 'close',
+                                  meeting_id: meeting },
+                                method: :put,
+                                class: 'icon-context icon-locked'
+        end
       end
     end
   end
@@ -72,48 +76,58 @@ module MeetingContentsHelper
   def open_meeting_agenda_link(content_type, meeting)
     case content_type
     when 'meeting_agenda'
-      content_tag :div, '', class: 'button' do
-        link_to_if_authorized l(:label_meeting_open),
-                              { controller: '/meeting_agendas',
-                                action: 'open',
-                                meeting_id: meeting },
-                              method: :put,
-                              class: 'icon-context icon-unlocked',
-                              confirm: l(:text_meeting_agenda_open_are_you_sure)
+      content_tag :li, '', class: 'toolbar-item' do
+        content_tag :button, '', class: 'button' do
+          link_to_if_authorized l(:label_meeting_open),
+                                { controller: '/meeting_agendas',
+                                  action: 'open',
+                                  meeting_id: meeting },
+                                method: :put,
+                                class: 'icon-context icon-unlocked',
+                                confirm: l(:text_meeting_agenda_open_are_you_sure)
+        end
       end
     when 'meeting_minutes'
     end
   end
 
   def meeting_content_edit_link(content_type)
-    content_tag :div, '', class: 'button' do
-      link_to l(:button_edit),
-              '#',
-              class: 'icon-context icon-edit',
-              accesskey: accesskey(:edit),
-              onclick: "$$('.edit-#{content_type}').invoke('show');
-                        $$('.show-#{content_type}').invoke('hide');
-                        return false;"
+    content_tag :li, '', class: 'toolbar-item' do
+      content_tag :button, '', class: 'button button--edit-agenda' do
+        link_to l(:button_edit),
+                '',
+                class: 'icon-context icon-edit',
+                accesskey: accesskey(:edit),
+                onclick: "$$('.edit-#{content_type}').invoke('show');
+                          $$('.show-#{content_type}').invoke('hide');
+                          $$('.button--edit-agenda').invoke('addClassName', '-active');
+                          $$('.button--edit-agenda').invoke('disable');
+                          return false;"
+      end
     end
   end
 
   def meeting_content_history_link(content_type, meeting)
-    content_tag :div, '', class: 'button' do
-      link_to_if_authorized l(:label_history),
-                            { controller: '/' + content_type.pluralize,
-                              action: 'history',
-                              meeting_id: meeting },
-                            class: 'icon-context icon-wiki'
+    content_tag :li, '', class: 'toolbar-item' do
+      content_tag :button, '', class: 'button' do
+        link_to_if_authorized l(:label_history),
+                              { controller: '/' + content_type.pluralize,
+                                action: 'history',
+                                meeting_id: meeting },
+                              class: 'icon-context icon-wiki'
+      end
     end
   end
 
   def meeting_content_notify_link(content_type, meeting)
-    content_tag :div, '', class: 'button' do
-      link_to_if_authorized l(:label_notify),
-                            { controller: '/' + content_type.pluralize,
-                              action: 'notify', meeting_id: meeting },
-                            method: :put,
-                            class: 'icon-context icon-mail'
+    content_tag :li, '', class: 'toolbar-item' do
+      content_tag :button, '', class: 'button' do
+        link_to_if_authorized l(:label_notify),
+                              { controller: '/' + content_type.pluralize,
+                                action: 'notify', meeting_id: meeting },
+                              method: :put,
+                              class: 'icon-context icon-mail'
+      end
     end
   end
 end
