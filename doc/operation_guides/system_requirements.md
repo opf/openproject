@@ -17,7 +17,7 @@ provide any official support for them.
 | :------------------------------ | :----------- | :---------- |
 | Ubuntu 14.04 Trusty             | ubuntu-14.04 | upstart     |
 | Debian 8 Jessie                 | debian-8     | systemd     |
-| Debian 7 Wheezy                 | debiani-7    | sysvinit    |
+| Debian 7 Wheezy                 | debian-7    | sysvinit    |
 | CentOS/RHEL 7.x                 | centos-7     | systemd     |
 | CentOS/RHEL 6.x                 | centos-6     | upstart     |
 | Fedora 20                       | fedora-20    | sysvinit    |
