@@ -34,11 +34,11 @@ require 'cgi'
 class RedirectPolicy
   attr_reader :validated_redirect_url, :request
 
-  def initialize(requested_url, hostname:, default:, escape: true, return_escaped: true)
+  def initialize(requested_url, hostname:, default:, return_escaped: true)
     @current_host = hostname
     @return_escaped = return_escaped
 
-    @requested_url = preprocess(requested_url, escape)
+    @requested_url = preprocess(requested_url)
     @default_url = default
   end
 
@@ -79,8 +79,8 @@ class RedirectPolicy
   # - Escapes it when necessary
   # - Tries to parse it
   # - Escapes the redirect URL when requested so.
-  def preprocess(requested, escape)
-    url = escape ? URI.escape(CGI.unescape(requested.to_s)) : requested
+  def preprocess(requested)
+    url = URI.escape(CGI.unescape(requested.to_s))
     URI.parse(url)
   rescue URI::InvalidURIError => e
     Rails.logger.warn("Encountered invalid redirect URL '#{requested}': #{e.message}")
@@ -103,7 +103,7 @@ class RedirectPolicy
   ##
   # Avoid paths with references to parent paths
   def no_upper_levels
-    !@requested_url.path.include? '..'
+    !@requested_url.path.include? '../'
   end
 
   ##
@@ -133,7 +133,8 @@ class RedirectPolicy
       # normally cause you to be redirected to this page. As it is the logout page, however,
       # this would log you right out again after a successful login.
       logout |
-      # TODO explain reasoning for this
+      # Avoid sending users to the register form. The exact reasoning behind
+      # this is unclear, but grown from tradition.
       account/register
       )}x # ignore whitespace
     )

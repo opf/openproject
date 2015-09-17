@@ -438,12 +438,11 @@ class ApplicationController < ActionController::Base
     params[:back_url] || request.env['HTTP_REFERER']
   end
 
-  def redirect_back_or_default(default, escape = true, use_escaped = true)
+  def redirect_back_or_default(default, use_escaped = true)
     policy = RedirectPolicy.new(
       params[:back_url],
       hostname: request.host,
       default: default,
-      escape: escape,
       return_escaped: use_escaped,
     )
 

@@ -31,7 +31,6 @@ require File.expand_path('../../spec_helper', __FILE__)
 describe RedirectPolicy, type: :controller do
   let(:host) { 'test.host' }
 
-  let(:escape) { true }
   let(:return_escaped) { true }
   let(:default) { 'http://test.foo/default' }
 
@@ -40,7 +39,6 @@ describe RedirectPolicy, type: :controller do
       back_url,
       default: default,
       hostname: host,
-      escape: escape,
       return_escaped: return_escaped
     )
   }
@@ -76,6 +74,8 @@ describe RedirectPolicy, type: :controller do
       @test.foo
       fake@test.foo
       //foo:bar@test.foo
+      /../somedir
+      /work_packages/../../secret
     )
 
     uris.each do |uri|
@@ -83,29 +83,17 @@ describe RedirectPolicy, type: :controller do
     end
   end
 
-  context 'with escaped URLs' do
-    let(:escape) { true }
-    it_behaves_like 'ignores invalid URLs'
-    it_behaves_like 'valid redirect URL', '/work_packages/1234?filter=[foo,bar]'
+  it_behaves_like 'ignores invalid URLs'
+  it_behaves_like 'valid redirect URL', '/work_packages/1234?filter=[foo,bar]'
 
-    it_behaves_like 'valid redirect, escaped URL',
-                    'http://test.host/?a=\11\15',
-                    'http://test.host/?a=%5C11%5C15'
-  end
+  it_behaves_like 'valid redirect, escaped URL',
+                  'http://test.host/?a=\11\15',
+                  'http://test.host/?a=%5C11%5C15'
 
-  context 'with escaped URLs, but unescaped return URLs' do
-    let(:escape) { true }
+  context 'without escaped return URLs' do
     let(:return_escaped) { false }
     it_behaves_like 'valid redirect URL', '/work_packages/1234?filter=[foo,bar]'
     it_behaves_like 'valid redirect URL', 'http://test.host/?a=\11\15'
-  end
-
-  context 'without escaped URLs' do
-    let(:escape) { false }
-
-    it_behaves_like 'ignores invalid URLs'
-    it_behaves_like 'valid redirect URL', '/work_packages/1234?filter=[foo,bar]'
-    it_behaves_like 'redirects to default', 'http://test.host/?a=\11\15'
   end
 
   context 'with relative root' do
@@ -121,6 +109,11 @@ describe RedirectPolicy, type: :controller do
     it_behaves_like 'valid redirect URL', '/mysubdir'
     it_behaves_like 'redirects to default', '/'
     it_behaves_like 'redirects to default', '/foobar'
+    it_behaves_like 'redirects to default', '/mysubdir/../foobar'
+    it_behaves_like 'redirects to default', '/mysubdir/%2E%2E/secret/etc/passwd'
+    it_behaves_like 'redirects to default', '/%2E%2E/secret/etc/passwd'
+    it_behaves_like 'redirects to default', '/foobar/%2E%2E/secret/etc/passwd'
+    it_behaves_like 'redirects to default', 'wusdus/%2E%2E/%2E%2E/secret/etc/passwd'
   end
 
   describe 'auth credentials' do
