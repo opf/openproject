@@ -27,6 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= javascript_include_tag 'new_user' %>
+
 <% html_title l(:label_administration), l("label_user_new") %>
 <%= render partial: 'toolbar', locals: { new_user: true } %>
 <%= labelled_tabular_form_for @user,
