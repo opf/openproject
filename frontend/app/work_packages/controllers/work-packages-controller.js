@@ -32,10 +32,6 @@ module.exports = function($scope, $state, $stateParams, QueryService, PathHelper
   $scope.$state = $state;
   $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
 
-  if ($stateParams.projectPath.indexOf(PathHelper.staticBase + '/projects') === 0) {
-    $scope.projectIdentifier = $stateParams.projectPath.replace(PathHelper.staticBase + '/projects/', '');
-  }
-
   $scope.query_id = $stateParams.query_id;
 
   $scope.$watch(QueryService.getAvailableGroupedQueries, function(availableQueries) {
@@ -47,6 +43,14 @@ module.exports = function($scope, $state, $stateParams, QueryService, PathHelper
 
   $scope.isDetailsViewActive = function() {
     return $state.includes('work-packages.list.details');
+  };
+
+  $scope.isListViewActive = function() {
+    return $state.is('work-packages.list');
+  };
+
+  $scope.isShowViewActive = function() {
+    return $state.includes('work-packages.show');
   };
 
   $scope.getToggleActionLabel = function(active) {

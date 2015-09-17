@@ -33,6 +33,7 @@ module.exports = function(PathHelper, WorkPackagesHelper, UserService){
     replace: true,
     scope: {
       workPackage: '=',
+      projectIdentifier: '=',
       column: '=',
       displayType: '@',
       displayEmpty: '@'
@@ -114,14 +115,23 @@ module.exports = function(PathHelper, WorkPackagesHelper, UserService){
       function displayDataAsLink(id) {
         // Example of how we can look to the provided meta data to format the column
         // This relies on the meta being sent from the server
-        scope.displayType = 'link';
-        scope.url = getLinkFor(id, scope.column.meta_data.link);
+        var linkMeta = scope.column.meta_data.link;
+        if (linkMeta.model_type === 'work_package') {
+          scope.displayType = 'ref';
+          if (scope.projectIdentifier) {
+            var projectPath = PathHelper.staticBase + '/projects/' + scope.projectIdentifier;
+            scope.stateRef = "work-packages.show.activity({projectPath: '" + projectPath + "', workPackageId: " + id + "})";
+          } else {
+            scope.stateRef = "work-packages.show.activity({projectPath: '" + PathHelper.staticBase + "', workPackageId: " + id + "})";
+          }
+        } else {
+          scope.displayType = 'link';
+          scope.url = getLinkFor(id, linkMeta);
+        }
       }
 
-      function getLinkFor(id, link_meta){
-        switch (link_meta.model_type) {
-          case 'work_package':
-            return PathHelper.workPackagePath(id);
+      function getLinkFor(id, linkMeta){
+        switch (linkMeta.model_type) {
           case 'user':
             if (scope.workPackage[scope.column.name] && scope.workPackage[scope.column.name].type == 'Group') {
               // if it's a group, we have nothing to link to

@@ -55,10 +55,6 @@ describe 'attachments', type: :feature do
 
       expect(page).to have_text('Successful creation.')
       expect(page).to have_text(file_name)
-
-      click_link file_name
-
-      expect(page).to have_text('some silly content')
     end
   end
 end

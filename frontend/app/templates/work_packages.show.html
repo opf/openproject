@@ -1,0 +1,196 @@
+<div class="work-packages--show-view">
+  <div class="toolbar-container">
+    <div toolbar id="toolbar">
+      <ul class="subject-header">
+        <li class="type">{{type.props.name}} #{{workPackage.props.id}}:</li>
+        <li class="inline-edit">
+          <work-package-field field="'subject'"></work-package-field>
+        </li>
+      </ul>
+
+      <ul id="toolbar-items">
+        <li class="toolbar-item">
+          <button class="button -alt-highlight"
+                  has-dropdown-menu
+                  target="TasksDropdownMenu"
+                  locals="availableTypes,projectIdentifier"
+                  ng-disabled="cannot('work_package', 'create')">
+            <i class="button--icon icon-add"></i>
+            <span class="button--text" ng-bind="::I18n.t('js.toolbar.unselected_title')"></span>
+            <i class="button--dropdown-indicator"></i>
+          </button>
+        </li>
+        <li class="toolbar-item">
+          <button class="button"
+                  ng-click="editWorkPackage()"
+                  title="{{I18n.t('js.button_edit')}}">
+            <i class="button--icon icon-edit"></i>
+          </button>
+        </li>
+        <li class="toolbar-item" ng-if="isWatched && displayWatchButton">
+          <button class="button"
+                  ng-click="unwatch()"
+                  title="{{I18n.t('js.label_unwatch_work_package')}}"
+                  id="unwatch-button">
+            <i class="button--icon icon-watch-1"></i>
+          </button>
+        </li>
+        <li class="toolbar-item" ng-if="!isWatched && displayWatchButton">
+          <button class="button"
+                  ng-click="watch()"
+                  title="{{I18n.t('js.label_watch_work_package')}}"
+                  id="watch-button">
+            <i class="button--icon icon-not-watch"></i>
+          </button>
+        </li>
+        <li class="toolbar-item" feature-flag="detailsView">
+          <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
+            <li>
+              <label for="work-packages-list-view-button" class="hidden-for-sighted">
+                {{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}
+              </label>
+              <button id="work-packages-list-view-button"
+                      accesskey="{{ isListViewActive() ? '' : '8' }}"
+                      class="button"
+                      title="{{ getActivationActionLabel(!isListViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
+                      ng-click="closeShowView()"
+                      ng-class="{ '-active': isListViewActive() }">
+                <i class="icon-list-view button--icon"></i>
+              </button>
+            </li>
+            <li feature-flag="detailsView">
+              <label for="work-packages-details-view-button" class="hidden-for-sighted">
+                {{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}
+              </label>
+              <button class="hide"
+                      ng-click="openOverviewTab()"
+                      accesskey="{{ isDetailsViewActive() ? '' : '8' }}"></button>
+              <button id="work-packages-details-view-button"
+                      class="button"
+                      title="{{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}"
+                      ng-class="{ '-active': isDetailsViewActive() }"
+                      ng-click="showWorkPackageDetails()">
+                <i class="icon-split-view button--icon"></i>
+              </button>
+            </li>
+            <li>
+              <label for="work-packages-show-view-button" class="hidden-for-sighted">
+                {{ getActivationActionLabel(!isShowViewActive()) + ' ' + I18n.t('js.button_show_view') }}
+              </label>
+              <button id="work-packages-list-view-button"
+                      accesskey="{{ isShowViewActive() ? '' : '9' }}"
+                      class="button"
+                      title="{{ getActivationActionLabel(!isShowViewActive()) + ' ' + I18n.t('js.button_show_view') }}"
+                      ng-click="showWorkPackageShowView()"
+                      ng-class="{ '-active': isShowViewActive() }">
+                <i class="icon-fullscreen-view button--icon"></i>
+              </button>
+            </li>
+          </ul>
+        </li>
+        <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
+          <button class="button dropdown-relative"
+                  ng-disabled="!actionsAvailable"
+                  has-dropdown-menu
+                  target="ShowMoreDropdownMenu"
+                  locals="permittedActions,actionsAvailable,triggerMoreMenuAction">
+            <span class="button--text" ng-bind="::I18n.t('js.button_more')"></span>
+            <i class="button--dropdown-indicator"></i>
+          </button>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+  <div class="work-packages--filters-optional-container" ng-show="showFiltersOptions">
+    <div query-form id="query_form_content" class="hide-when-print">
+      <query-filters></query-filters>
+    </div>
+  </div>
+
+  <back-url></back-url>
+
+
+  <div class="work-packages--split-view">
+    <div class="work-packages--left-panel">
+      <div class="work-packages--panel-inner">
+        <div class="attributes-group">
+
+          <div class="attributes-group--header">
+            <div class="attributes-group--header-container">
+              <h3 class="attributes-group--header-text">
+                {{ I18n.t('js.label_description') }}
+              </h3>
+            </div>
+          </div>
+
+          <div class="single-attribute wiki">
+            <work-package-field field="'description'"></work-package-field>
+          </div>
+        </div>
+
+        <div ng-repeat="group in vm.groupedFields" ng-hide="vm.hideEmptyFields && vm.isGroupHideable(vm.groupedFields, group.groupName, vm.workPackage)" class="attributes-group">
+
+          <div class="attributes-group--header">
+            <div class="attributes-group--header-container">
+              <h3 class="attributes-group--header-text"
+                ng-bind="I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
+            </div>
+            <div class="attributes-group--header-toggle">
+              <panel-expander tabindex="-1" ng-if="vm.showToggleButton() && $first"
+                collapsed="vm.hideEmptyFields"
+                expand-text="{{ I18n.t('js.label_show_attributes') }}"
+                collapse-text="{{ I18n.t('js.label_hide_attributes') }}">
+              </panel-expander>
+            </div>
+          </div>
+
+          <dl class="attributes-key-value">
+            <dt
+                ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+                ng-if="vm.isSpecified(vm.workPackage, field)"
+                ng-repeat-start="field in group.attributes" class="attributes-key-value--key">
+                {{vm.getLabel(vm.workPackage, field)}}
+                <span class="required" ng-if="vm.hasNiceStar(vm.workPackage, field)"> *</span>
+            </dt>
+            <dd
+                ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+                ng-if="vm.isSpecified(vm.workPackage, field)"
+                ng-repeat-end
+                class="attributes-key-value--value-container">
+              <work-package-field field="field"></work-package-field>
+            </dd>
+          </dl>
+        </div>
+
+        <work-package-attachments edit data-ng-show="!vm.hideEmptyFields || vm.filesExist" work-package="vm.workPackage"></work-package-attachments>
+      </div>
+    </div>
+    <div class="work-packages--right-panel">
+      <div class="work-packages--panel-inner">
+        <div id="tabs">
+          <ul class="tabrow">
+            <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+            properly. Thus, don't remove the hrefs or the empty URLs! -->
+            <li ui-sref="work-packages.show.activity({})"
+                ui-sref-active="selected">
+              <a href="" ng-bind="I18n.t('js.work_packages.tabs.activity')"/>
+            </li>
+            <li ui-sref="work-packages.show.relations({})"
+                ui-sref-active="selected">
+              <a href="" ng-bind="I18n.t('js.work_packages.tabs.relations')"/>
+            </li>
+            <li ng-if="canViewWorkPackageWatchers()"
+                ui-sref="work-packages.show.watchers({})"
+                ui-sref-active="selected">
+              <a href="" ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
+            </li>
+          </ul>
+        </div>
+        <div class="tabcontent" ui-view>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

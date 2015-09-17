@@ -83,8 +83,9 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [iI]ssue(?:s)? with(?: the following
 end
 
 When(/^I click the first delete attachment link$/) do
-  delete_link = find :xpath, "//a[@title='Delete'][1]"
-  delete_link.click
+  within('.work-package--attachments--files') do
+    find('.icon-delete', visible: false).click
+  end
 end
 
 Given (/^there are the following issues(?: in project "([^"]*)")?:$/) do |project_name, table|

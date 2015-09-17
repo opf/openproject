@@ -79,7 +79,7 @@ class WorkPackagesPage
 
   def index_path(work_package = nil)
     path = @project ? project_work_packages_path(@project) : work_packages_path
-    path += "/#{work_package.id}/overview" if work_package
+    path += "/details/#{work_package.id}/overview" if work_package
     path
   end
 

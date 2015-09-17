@@ -44,8 +44,7 @@ describe WorkPackagesController, type: :routing do
     expect(get('/work_packages/1/overview'))
       .to route_to(controller: 'work_packages',
                    action: 'index',
-                   id: '1',
-                   state: 'overview')
+                   state: '1/overview')
   end
 
   it 'should connect GET /projects/:project_id/work_packages/:id/overview to work_packages#index' do
@@ -53,8 +52,7 @@ describe WorkPackagesController, type: :routing do
       .to route_to(controller: 'work_packages',
                    action: 'index',
                    project_id: '1',
-                   id: '2',
-                   state: 'overview')
+                   state: '2/overview')
   end
 
   context 'when "/work_packages/:param1/:param2" is called with param1 being something other than an id' do
@@ -66,10 +64,10 @@ describe WorkPackagesController, type: :routing do
     end
   end
 
-  it 'should connect GET /work_packages/:id to work_packages#show' do
+  it 'should connect GET /work_packages/:id to work_packages#index' do
     expect(get('/work_packages/1')).to route_to(controller: 'work_packages',
-                                                action: 'show',
-                                                id: '1')
+                                                action: 'index',
+                                                state: '1')
   end
 
   it 'should connect GET /projects/:project_id/work_packages/new to work_packages#new' do

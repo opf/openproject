@@ -66,13 +66,18 @@ module.exports = function(
 
   function activate() {
     EditableFieldsState.forcedEditState = true;
-    vm.loaderPromise = WorkPackageService.initializeWorkPackage($scope.projectIdentifier, {
-      _links: {
-        type: {
-          href: PathHelper.apiV3TypePath($stateParams.type)
+    var data = {};
+    if (angular.isDefined($stateParams.type)) {
+      data = {
+        _links: {
+          type: {
+            href: PathHelper.apiV3TypePath($stateParams.type)
+          }
         }
-      }
-    }).then(function(wp) {
+      };
+    }
+    vm.loaderPromise = WorkPackageService.initializeWorkPackage($scope.projectIdentifier, data)
+    .then(function(wp) {
       vm.workPackage = wp;
       WorkPackageDisplayHelper.setFocus();
       $scope.workPackage = wp;

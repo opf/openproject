@@ -56,6 +56,7 @@ Feature: Viewing an issue
       | type    | Bug    |
     And I am already logged in as "bob"
 
+  @javascript
   Scenario: Calling the issue page and view the issue
     When I go to the page of the issue "issue1"
     Then I should see "Bug #1: issue1"

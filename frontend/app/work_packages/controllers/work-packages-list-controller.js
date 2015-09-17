@@ -26,11 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, $rootScope, $state, $location, latestTab,
+module.exports = function($scope, $rootScope, $state, $stateParams, $location, latestTab,
       I18n, WorkPackagesTableService,
       WorkPackageService, ProjectService, QueryService, PaginationService,
       AuthorisationService, UrlParamsHelper, PathHelper, Query,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService) {
+
+  if ($stateParams.projectPath.indexOf(PathHelper.staticBase + '/projects') === 0) {
+    $scope.projectIdentifier = $stateParams.projectPath.replace(PathHelper.staticBase + '/projects/', '');
+  }
 
   // Setup
   function initialSetup() {
@@ -284,12 +288,9 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
   };
 
   $scope.closeDetailsView = function() {
-    // can't use query_props in $state.go since it's not specified
-    // in the config. if I put it into config, a reload will be triggered
-    // on each filter change
-    var path = $state.href("work-packages.list"),
-        query_props = $location.search().query_props;
-    $location.url(path).search('query_props', query_props);
+    var queryProps = $state.params['query_props'];
+
+    $state.go('work-packages.list', { 'query_props': queryProps});
   };
 
   $scope.showWorkPackageDetails = function(id, force) {
@@ -299,6 +300,26 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
         { workPackageId: id, 'query_props': $location.search()['query_props'] }
       );
     }
+  };
+
+  $scope.showWorkPackageShowView = function() {
+    var id = $state.params.workPackageId || $scope.preselectedWorkPackageId,
+        // Have to use $location.search() here as $state.params
+        // isn't filled unless the url is queried for by the
+        // browser. This seems to be caused by #maintainUrlQueryState
+        // where we set the search via $location.search.
+        queryProps = $location.search()['query_props'];
+    var projectPath = '';
+    if ($scope.projectIdentifier) {
+      projectPath = PathHelper.projectPath($scope.projectIdentifier);
+    }
+
+    $state.go('work-packages.show.activity',
+              {
+                projectPath: projectPath,
+                workPackageId: id,
+                'query_props': queryProps
+              });
   };
 
   $scope.getFilterCount = function() {

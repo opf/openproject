@@ -198,7 +198,7 @@ describe('WorkPackagesListController', function() {
     var testParams, testState, testLocation;
 
     beforeEach(function(){
-      testParams = {};
+      testParams = { projectPath: '/projects/my-project' };
       testState = {
         params: {},
         href: function() { return ''; }
@@ -238,7 +238,7 @@ describe('WorkPackagesListController', function() {
     var testParams, testState, testLocation;
 
     beforeEach(function(){
-      testParams = { };
+      testParams = { projectPath: '/projects/my-project' };
       testState = {
         params: {
           query_id: testQueries['2'].id
@@ -275,7 +275,7 @@ describe('WorkPackagesListController', function() {
         url: angular.identity
       };
 
-      buildController({}, testState, testLocation);
+      buildController({projectPath: ''}, testState, testLocation);
     });
 
     it('returns 0 with no filters', function() {
@@ -292,6 +292,29 @@ describe('WorkPackagesListController', function() {
       scope.query.filters = [{}, { deactivated: true }, { deactivated: true }];
 
       expect(scope.getFilterCount()).to.eq(1);
+    });
+  });
+
+  describe('setting projectIdentifier', function() {
+    var testParams, testState, testLocation;
+
+    beforeEach(function() {
+      testState = {
+        params: {},
+        href: function() { return ''; },
+      };
+      testLocation = {
+        search: function() {
+          return {};
+        },
+        url: angular.identity
+      };
+      testParams = { projectPath: '/projects/my-project' };
+      buildController(testParams, testState, testLocation);
+    });
+
+    it('should set the projectIdentifier', function() {
+      expect(scope.projectIdentifier).to.eq('my-project');
     });
   });
 });

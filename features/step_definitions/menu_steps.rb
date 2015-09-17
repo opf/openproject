@@ -54,11 +54,16 @@ end
 
 When /^I select "(.+?)" from the action menu$/ do |entry_name|
   within(action_menu_selector) do
-    if !find_link(entry_name, visible: false).visible?
-      click_link(I18n.t(:more_actions))
-    end
+    find('button').click
+  end
+  within('.dropdown-menu') do
+    click_link(entry_name)
+  end
+end
 
-    click_link(entry_name, visible: false)
+When /^I click on the edit button$/ do
+  within('#toolbar-items') do
+    click_button(I18n.t('js.button_edit'))
   end
 end
 

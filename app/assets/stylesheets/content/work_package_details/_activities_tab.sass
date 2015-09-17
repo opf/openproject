@@ -37,8 +37,8 @@
 
 .user-comment
   display: block
-  margin: 10px 0 0 46px
-  padding: 0 100px 0 0
+  margin: 5px 0 0 0
+  padding: 0 25px 0 0
   color: #777777
   font-style: italic
 
@@ -51,6 +51,10 @@
       vertical-align: top
   p
     word-wrap: break-word
+
+  &.wiki
+    ul
+      padding-left: 15px
 
 .comments-number
   padding: 0
@@ -69,6 +73,7 @@
 .comment ul
   list-style-type: disc !important
   margin: 10px 0 0 12px !important
+
   li
     padding: 0 !important
     margin: 0 !important
@@ -101,8 +106,8 @@
 
   .date
     display: block
+    font-size: 0.9rem
 
-.work-package-details-activities-activity-contents
   .comments-icons
     a:hover
       text-decoration: none
@@ -110,3 +115,10 @@
     color: $main-menu-font-color
     &::before
       padding: 0 0 0 0.3em
+
+  ul
+    li
+      // this also hides the list icons
+      // overflow: hidden
+      text-overflow: ellipsis
+      list-style-type: disc
