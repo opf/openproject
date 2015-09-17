@@ -493,11 +493,6 @@ input[readonly].-clickable
   //prevent radio-buttons from being cut at the border
   padding: 0 1px
 
-.form--radio-button
-  // Be on par with Foundation's margin-bottom on labels.
-  .form &
-    margin-bottom: 0.5rem
-
 .form--grouping
   @include grid-block($wrap: true)
   align-items: center
@@ -620,3 +615,8 @@ input[readonly].-clickable
 
   li, div
     padding: 0
+
+
+.form--text-field-container
+  input[type=text]
+    margin-bottom: 0
