@@ -67,5 +67,7 @@
     jQuery('#user_auth_source_id').change(on_auth_source_change);
   });
 
-  jQuery(document).ready(on_auth_source_change);
+  jQuery(document).ready(function() {
+    jQuery.proxy(on_auth_source_change, jQuery('#user_auth_source_id').get(0))(); 
+  });
 })();
