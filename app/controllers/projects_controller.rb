@@ -215,15 +215,9 @@ class ProjectsController < ApplicationController
   def destroy
     @project_to_destroy = @project
 
-    if params[:confirm]
-      @project_to_destroy.destroy
-      respond_to do |format|
-        format.html do redirect_to controller: '/admin', action: 'projects' end
-      end
-    else
-      flash[:error] = l(:notice_project_not_deleted)
-      redirect_to confirm_destroy_project_path(@project)
-      return
+    @project_to_destroy.destroy
+    respond_to do |format|
+      format.html do redirect_to controller: '/admin', action: 'projects' end
     end
 
     hide_project_in_layout

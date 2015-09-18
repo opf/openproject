@@ -27,29 +27,28 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% if @repository.managed? %>
-<form class="form -bordered -danger-zone">
+<form class="form danger-zone">
   <section class="form--section">
     <h3 class="form--section-title">
-      <%= l('repositories.destroy.title') %>
+      <%= l('repositories.destroy.title', name: "<em>#{h(@repository.root_url)}</em>").html_safe %>
     </h3>
     <p>
-      <%= l('repositories.destroy.managed_text', project_name: @project.identifier) %>
+      <%= l('repositories.destroy.confirmation', project_name: @project.identifier) %>
       <br/>
       <%= l('repositories.destroy.managed_path_note', path: @repository.root_url) %>
     </p>
-    <div>
-      <%= link_to project_repository_path(@project),
+    <p class="danger-zone--warning">
+      <span class="icon icon-attention2"></span>
+      <span><%= l('repositories.destroy.info') %></span>
+    </p>
+    <div class="danger-zone--verification">
+      <%= styled_button_tag project_repository_path(@project),
         method: :delete,
         title: l(:button_delete),
+        disabled: false,
         class: 'button -highlight' do %>
-        <i class="button--icon icon-delete"></i>
-        <span class="button--text"><%= l(:button_delete) %></span>
-      <% end %>
-      <%= link_to settings_repository_tab_path,
-        title: l(:button_cancel),
-        class: 'button' do %>
-        <i class="button--icon icon-close"></i>
-        <span class="button--text"><%= l(:button_cancel) %></span>
+          <i class="button--icon icon-delete"></i>
+          <span class="button--text"><%= l(:button_delete) %></span>
       <% end %>
     </div>
   </section>
@@ -57,7 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% else %>
 <div class="notification-box -warning">
   <div class="notification-box--content">
-    <p><strong><%= l('repositories.destroy.title') %></strong><br /></p>
+    <p><strong><%= l('repositories.destroy.title', name: h(@repository.root_url)) %></strong><br /></p>
     <p>
       <%= simple_format l('repositories.destroy.linked_text',
                         project_name: @project.identifier, url: @repository.url) %>
