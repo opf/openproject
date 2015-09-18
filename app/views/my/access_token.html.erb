@@ -81,7 +81,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <tbody>
           <% if Setting.feeds_enabled != '0' %>
               <tr>
-                <td><%= l(:label_feeds_access_key) %></td>
+                <td><%= l(:label_feeds_access_key_type) %></td>
                 <td>
                   <% if @user.rss_token %>
                     <span title="<%= format_time(@user.rss_token.created_on) %>">
@@ -102,7 +102,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% end %>
           <% if Setting.rest_api_enabled != '0' %>
               <tr>
-                <td><%= l(:label_api_access_key) %></td>
+                <td><%= l(:label_api_access_key_type) %></td>
                 <td>
                   <% if @user.api_token %>
                     <span title="<%= format_time(@user.api_token.created_on) %>">
