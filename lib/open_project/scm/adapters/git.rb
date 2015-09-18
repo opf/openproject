@@ -355,7 +355,7 @@ module OpenProject
           end
         end
 
-        private
+        protected
 
         ##
         # Builds the full git arguments from the parameters

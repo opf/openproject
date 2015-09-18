@@ -59,6 +59,7 @@ class RolesController < ApplicationController
       end
       flash[:notice] = l(:notice_successful_create)
       redirect_to action: 'index'
+      notify_changed_roles(:added, @role)
     else
       @permissions = @role.setable_permissions
       @roles = Role.order('builtin, position')
@@ -78,6 +79,7 @@ class RolesController < ApplicationController
     if @role.update_attributes(permitted_params.role)
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: 'index'
+      notify_changed_roles(:updated, @role)
     else
       @permissions = @role.setable_permissions
       render action: 'edit'
@@ -88,6 +90,7 @@ class RolesController < ApplicationController
     @role = Role.find(params[:id])
     @role.destroy
     redirect_to action: 'index'
+    notify_changed_roles(:removed, @role)
   rescue
     flash[:error] =  l(:error_can_not_remove_role)
     redirect_to action: 'index'
@@ -108,6 +111,7 @@ class RolesController < ApplicationController
 
     flash[:notice] = l(:notice_successful_update)
     redirect_to action: 'index'
+    notify_changed_roles(:bulk_update, @roles)
   end
 
   def autocomplete_for_role
@@ -122,5 +126,11 @@ class RolesController < ApplicationController
     respond_to do |format|
       format.json
     end
+  end
+
+  private
+
+  def notify_changed_roles(action, changed_role)
+    OpenProject::Notifications.send(:roles_changed, action: action, role: changed_role)
   end
 end

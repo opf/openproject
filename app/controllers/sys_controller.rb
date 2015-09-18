@@ -87,9 +87,8 @@ class SysController < ActionController::Base
   def authorized?(project, user)
     repository = project.repository
 
-    if repository
-      policy = repository.class.authorization_policy
-      policy.new(project, user).authorized?(params)
+    if repository && repository.class.authorization_policy
+      repository.class.authorization_policy.new(project, user).authorized?(params)
     else
       false
     end

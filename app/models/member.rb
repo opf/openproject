@@ -45,6 +45,9 @@ class Member < ActiveRecord::Base
   before_destroy :remove_from_category_assignments
   after_destroy :unwatch_from_permission_change
 
+  after_save :save_notification
+  after_destroy :destroy_notification
+
   def name
     principal.name
   end
@@ -213,5 +216,13 @@ class Member < ActiveRecord::Base
     if user
       Watcher.prune(user: user, project: project)
     end
+  end
+
+  def save_notification
+    ::OpenProject::Notifications.send(:member_updated, member: self)
+  end
+
+  def destroy_notification
+    ::OpenProject::Notifications.send(:member_removed, member: self)
   end
 end

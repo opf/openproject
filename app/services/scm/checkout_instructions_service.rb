@@ -71,12 +71,19 @@ class Scm::CheckoutInstructionsService
   end
 
   ##
+  # Determines whether the checkout URL may be built, i.e. all information is available
+  # This is the case when the base_url is set or the vendor doesn't use base URLs.
+  def checkout_url_buildable?
+    !repository.class.requires_checkout_base_url? || checkout_base_url.present?
+  end
+
+  ##
   # Returns whether the repository supports showing checkout information
   # and has been configured for it.
   def available?
     checkout_enabled? &&
       repository.supports_checkout_info? &&
-      checkout_base_url.present?
+      checkout_url_buildable?
   end
 
   def checkout_enabled?
