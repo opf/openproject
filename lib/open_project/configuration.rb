@@ -194,7 +194,8 @@ module OpenProject
           && @config['rails_cache_store'].nil?
 
         # rails defaults to :file_store, use :dalli when :memcaches is configured in configuration.yml
-        cache_store = @config['rails_cache_store'].to_sym
+        cache_store = @config['rails_cache_store'].to_sym \
+          if @config['rails_cache_store'].respond_to? :to_sym
         if cache_store == :memcache
           cache_config = [:dalli_store]
           cache_config << @config['cache_memcache_server'] \
