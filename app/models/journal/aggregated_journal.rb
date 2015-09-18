@@ -64,17 +64,16 @@ class Journal::AggregatedJournal
     # The +until_version+ parameter can be used in conjunction with the +journable+ parameter
     # to see the aggregated journals as if no versions were known after the specified version.
     def aggregated_journals(journable: nil, until_version: nil)
-      predecessor = nil
-      query_aggregated_journals(journable: journable, until_version: until_version).map { |journal|
-        if journable
-          # if we only aggregate the journals of a single journable, we easily know all the
-          # predecessors and can pre-fill them apropriately
-          predecessor = Journal::AggregatedJournal.new(journal, predecessor: predecessor)
-        else
-          # TODO: We fetched all predecessors from SQL, it is just harder to correctly match them
-          # together. We should do that to improve efficiency...
-          Journal::AggregatedJournal.new(journal)
-        end
+      raw_journals = query_aggregated_journals(journable: journable, until_version: until_version)
+      predecessors = {}
+      raw_journals.each do |journal|
+        journable_key = [journal.journable_type, journal.journable_id]
+        predecessors[journable_key] = [nil] unless predecessors[journable_key]
+        predecessors[journable_key] << journal
+      end
+      raw_journals.map { |journal|
+        journable_key = [journal.journable_type, journal.journable_id]
+        Journal::AggregatedJournal.new(journal, predecessor: predecessors[journable_key].shift)
       }
     end
 
