@@ -76,11 +76,14 @@
       <span>Deleting your account is an irrevsible action</span>
     </p>
     <p>
-      Enter your login <em>foo.bar@openproject.org</em> to verfiy the deletion
+      Enter your login <em>foo.bar@openproject.org</em> to verify the deletion
     </p>
     <div class="danger-zone--verification">
       <input type="text"></input>
-      <button class="button -highlight icon icon-delete" disabled>Delete</button>
+      <button class="button -highlight" disabled>
+        <i class="button--icon icon-delete"></i>
+        <span class="button--text">Delete</span>
+      </button>
     </div>
   </section>
 </form>
