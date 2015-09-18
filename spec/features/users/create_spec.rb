@@ -94,19 +94,19 @@ describe 'create users', type: :feature do
   end
 
   context 'with external authentication', js: true do
+    let(:new_user) { Pages::NewUser.new }
+
     before do
       auth_source.save!
 
-      visit new_user_path
+      new_user.visit!
+      new_user.fill_in! first_name: 'bobfirst',
+                        last_name: 'boblast',
+                        email: 'bob@mail.com',
+                        login: 'bob',
+                        auth_source: auth_source.name
 
-      fill_in 'First name', with: 'bobfirst'
-      fill_in 'Last name', with: 'boblast'
-      fill_in 'Email', with: 'bob@mail.com'
-
-      select auth_source.name, from: 'Authentication mode'
-      fill_in 'Login', with: 'bob'
-
-      click_button 'Create'
+      new_user.submit!
     end
 
     it_behaves_like 'successful user creation' do
