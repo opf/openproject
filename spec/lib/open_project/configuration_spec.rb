@@ -213,4 +213,67 @@ describe OpenProject::Configuration do
     end
   end
 
+  describe '.configure_cache' do
+    let(:application_config) { Rails::Application::Configuration.new }
+
+    after do
+      # reload configuration to isolate specs
+      OpenProject::Configuration.load
+    end
+
+    context 'with cache store already set' do
+      before do
+        application_config.cache_store = 'foo'
+      end
+
+      context 'with additional cache store configuration' do
+        before do
+          OpenProject::Configuration['rails_cache_store'] = 'bar'
+        end
+
+        it 'changes the cache store' do
+          OpenProject::Configuration.send(:configure_cache, application_config)
+          expect(application_config.cache_store).to eq([:bar])
+        end
+      end
+
+      context 'without additional cache store configuration' do
+        before do
+          OpenProject::Configuration['rails_cache_store'] = nil
+        end
+
+        it 'does not change the cache store' do
+          OpenProject::Configuration.send(:configure_cache, application_config)
+          expect(application_config.cache_store).to eq('foo')
+        end
+      end
+    end
+
+    context 'without cache store already set' do
+      before do
+        application_config.cache_store = nil
+      end
+
+      context 'with additional cache store configuration' do
+        before do
+          OpenProject::Configuration['rails_cache_store'] = 'bar'
+        end
+
+        it 'changes the cache store' do
+          OpenProject::Configuration.send(:configure_cache, application_config)
+          expect(application_config.cache_store).to eq([:bar])
+        end
+      end
+
+      context 'without additional cache store configuration' do
+        before do
+          OpenProject::Configuration['rails_cache_store'] = nil
+        end
+        it 'defaults the cache store to :file_store' do
+          OpenProject::Configuration.send(:configure_cache, application_config)
+          expect(application_config.cache_store.first).to eq(:file_store)
+        end
+      end
+    end
+  end
 end
