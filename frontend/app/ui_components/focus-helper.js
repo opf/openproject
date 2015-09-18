@@ -37,6 +37,13 @@ module.exports = function($timeout, FOCUSABLE_SELECTOR) {
       }
 
       var focusable = element;
+      
+      jQuery('input.ui-select-focusser').on('keydown', function(e){
+        if (e.keyCode === 13) {
+            jQuery('.icon-button.icon-yes').trigger('click');        
+            jQuery('body').trigger('click');        
+          }
+        });
 
       if (!element.is(FOCUSABLE_SELECTOR)) {
         focusable = element.find(FOCUSABLE_SELECTOR);
@@ -64,12 +71,6 @@ module.exports = function($timeout, FOCUSABLE_SELECTOR) {
     focusElement: function(element) {
       $timeout(function() {
         FocusHelper.focus(element);
-      });
-    },
-
-    focusUiSelect: function(element) {
-      $timeout(function() {
-        element.find('.ui-select-match').trigger('click');
       });
     },
 
