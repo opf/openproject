@@ -94,7 +94,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 <td><%= l(:label_access_token_expiration_indefinite) %></td>
                 <td>
                   <%= link_to l(:button_reset), {:action => 'reset_rss_key'}, :method => :post %>
-                  <a href="" click-notification="<%= l(:notice_value_information, key_name: l(:label_feeds_access_key), value: @user.api_key) %>" click-notification-type="notice">
+                  <a href="" click-notification="<%= l(:notice_value_information, key_name: l(:label_feeds_access_key), value: @user.rss_key) %>" click-notification-type="notice">
                     <%= l(:button_show) %>
                   </a>
                 </td>
