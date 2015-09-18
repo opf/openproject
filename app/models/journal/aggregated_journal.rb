@@ -64,8 +64,17 @@ class Journal::AggregatedJournal
     # The +until_version+ parameter can be used in conjunction with the +journable+ parameter
     # to see the aggregated journals as if no versions were known after the specified version.
     def aggregated_journals(journable: nil, until_version: nil)
+      predecessor = nil
       query_aggregated_journals(journable: journable, until_version: until_version).map { |journal|
-        Journal::AggregatedJournal.new(journal)
+        if journable
+          # if we only aggregate the journals of a single journable, we easily know all the
+          # predecessors and can pre-fill them apropriately
+          predecessor = Journal::AggregatedJournal.new(journal, predecessor: predecessor)
+        else
+          # TODO: We fetched all predecessors from SQL, it is just harder to correctly match them
+          # together. We should do that to improve efficiency...
+          Journal::AggregatedJournal.new(journal)
+        end
       }
     end
 
@@ -89,6 +98,7 @@ class Journal::AggregatedJournal
                          ON #{sql_on_groups_belong_condition('predecessor', table_name)}")
       .where('predecessor.id IS NULL')
       .order("COALESCE(addition.created_at, #{table_name}.created_at) ASC")
+      .order("#{version_projection} ASC")
       .select("#{table_name}.journable_id,
                #{table_name}.journable_type,
                #{table_name}.user_id,
@@ -270,8 +280,17 @@ class Journal::AggregatedJournal
            :notes_version,
            to: :journal
 
-  def initialize(journal)
+  # Initializes a new AggregatedJournal. Allows to explicitly set a predecessor, if it is already
+  # known. Providing a predecessor is only to improve efficiency, it is not required.
+  # In case the predecessor is not known, it will be lazily retrieved.
+  def initialize(journal, predecessor: false)
     @journal = journal
+
+    # explicitly checking false to allow passing nil as "no predecessor"
+    # mind that we check @predecessor with defined? below, so don't assign to it in all cases!
+    unless predecessor == false
+      @predecessor = predecessor
+    end
   end
 
   # returns an instance of this class that is reloaded from the database
