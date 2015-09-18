@@ -1554,7 +1554,7 @@ en:
       sentence_connector: "and"
       skip_last_comma: "false"
 
-  text_access_token_hint: "You can create new access tokens by using the Reset and Generate buttons below. This will invalidate your current tokens."
+  text_access_token_hint: "Access tokens allow you to grant external applications access to resources in OpenProject."
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Are you sure?"
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
