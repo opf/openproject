@@ -73,10 +73,10 @@
     </p>
     <p class="danger-zone--warning">
       <span class="icon icon-attention2"></span>
-      <span>Deleting your account is an irrevsible action</span>
+      <span>Deleting your account is an irreversible action.</span>
     </p>
     <p>
-      Enter your login <em>foo.bar@openproject.org</em> to verify the deletion
+      Enter your login <em class="danger-zone--expected-value">foo.bar@openproject.org</em> to verify the deletion.
     </p>
     <div class="danger-zone--verification">
       <input type="text"></input>
