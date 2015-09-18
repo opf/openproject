@@ -83,8 +83,9 @@ notifications:
     urls:
       - "https://webhooks.gitter.im/e/435ab5d5c6944305da2f"
 
+addons:
+  firefox: "38.0esr"
 # Disabling coverage reporting until CodeClimate supports merging results from multiple partial tests
-# addons:
 #   code_climate:
 #       repo_token:
 #         secure: "W/lyd8Ud18GRASuVShsIKa2MRHhxjh8WICMQ4WKr68qt0X0Tlp7Bclv4ReiEgiQeKsIoJJy5FfJfINdAT8A4sy2JbrLeISShcIU7Kqpfh6DSLNoRAuLz5P7EXMNFns1gBKCmrSzcB+9ksuTLyTCKkjUcj1NbJzGqpB4jSTecAdg="
