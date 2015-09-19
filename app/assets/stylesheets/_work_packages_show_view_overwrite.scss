@@ -30,14 +30,14 @@
 
   .toolbar-container {
     @include clearfix;
-    margin-bottom: 1rem;
+    margin-bottom: 1.6875rem;
   }
 
   height: 100%;
 
   .subject-header {
     float: left;
-    line-height: 40px;
+    line-height: 32px;
     padding: 10px 0 0 0;
     font-weight: bold;
     font-size: 1.5rem;
@@ -45,7 +45,7 @@
 
   .work-packages--split-view {
     border-top: 1px solid #ccc;
-    height: calc(100% - 62px);
+    height: calc(100% - 120px);
     overflow: hidden;
     position: relative;
 
@@ -128,19 +128,25 @@
   }
 
   ul.subject-header {
-    // with sidebar
-    width: 58%;
+    float: none;
 
     li {
-      float: left;
+      float: none;
 
       &.type {
         margin-right: 5px;
+        margin-bottom: 20px;
+        float: none;
       }
 
       &.inline-edit {
-        // with sidebar
-        width: 65%;
+        width: 100%;
+      }
+
+      .inplace-editing--container,
+      .inplace-editing--trigger-container,
+      .inplace-editing--trigger-link {
+        width: 100%;
       }
     }
 
@@ -149,7 +155,9 @@
 
       .inplace-edit {
         .inplace-edit--read {
+          display: block;
           white-space: nowrap;
+          width: 98%;
         }
 
         .inplace-edit--read-value {

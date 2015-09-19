@@ -1,13 +1,6 @@
 <div class="work-packages--show-view">
   <div class="toolbar-container">
     <div toolbar id="toolbar">
-      <ul class="subject-header">
-        <li class="type">{{type.props.name}} #{{workPackage.props.id}}:</li>
-        <li class="inline-edit">
-          <work-package-field field="'subject'"></work-package-field>
-        </li>
-      </ul>
-
       <ul id="toolbar-items">
         <li class="toolbar-item">
           <button class="button -alt-highlight"
@@ -97,6 +90,12 @@
             <span class="button--text" ng-bind="::I18n.t('js.button_more')"></span>
             <i class="button--dropdown-indicator"></i>
           </button>
+        </li>
+      </ul>
+      <ul class="subject-header">
+        <li class="type subheader">{{type.props.name}} #{{workPackage.props.id}}:</li>
+        <li class="inline-edit">
+          <work-package-field field="'subject'"></work-package-field>
         </li>
       </ul>
 
