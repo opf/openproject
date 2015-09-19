@@ -55,6 +55,8 @@
 
     .tabrow {
       margin: -16px -20px 0 -10px;
+
+      li { margin-right: 15px; }
     }
   }
 
@@ -70,6 +72,8 @@
   }
 
   .work-packages--right-panel {
+    min-width: 420px;
+
     .work-packages--panel-inner {
       padding: 20px 20px 20px 20px;
     }
