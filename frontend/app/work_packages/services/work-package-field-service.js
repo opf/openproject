@@ -113,8 +113,9 @@ module.exports = function(
   }
 
   function getValue(workPackage, field, isReadMode) {
-    var payload = isReadMode ? workPackage : workPackage.form.embedded.payload;
-    //var payload = workPackage;
+    var embeddedPayload = isReadMode && workPackage.form && workPackage.form.embedded.payload;
+    var payload = embeddedPayload || workPackage;
+
     if (field === 'date') {
       if(isMilestone(workPackage)) {
         return payload.props['dueDate'];
