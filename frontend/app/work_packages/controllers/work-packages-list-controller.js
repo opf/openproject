@@ -309,17 +309,12 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
         // browser. This seems to be caused by #maintainUrlQueryState
         // where we set the search via $location.search.
         queryProps = $location.search()['query_props'];
-    var projectPath = '';
-    if ($scope.projectIdentifier) {
-      projectPath = PathHelper.projectPath($scope.projectIdentifier);
-    }
 
-    $state.go('work-packages.show.activity',
-              {
-                projectPath: projectPath,
-                workPackageId: id,
-                'query_props': queryProps
-              });
+    $state.go('work-packages.show.activity', {
+        projectPath: $scope.projectIdentifier || '',
+        workPackageId: id,
+        'query_props': queryProps
+      });
   };
 
   $scope.getFilterCount = function() {

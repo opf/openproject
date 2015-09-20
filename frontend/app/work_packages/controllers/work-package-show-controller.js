@@ -110,7 +110,7 @@ module.exports = function($scope,
     var promise = WorkPackageService.performBulkDelete([$scope.workPackage.props.id], true);
 
     promise.success(function() {
-      $state.go('work-packages.list', {projectPath: getProjectPath()});
+      $state.go('work-packages.list', {projectPath: $scope.projectIdentifier});
     });
   }
   $scope.triggerMoreMenuAction = function(action, link) {
@@ -348,38 +348,24 @@ module.exports = function($scope,
     hideAllAttributes: true
   };
 
-  function isNestedWithinProject() {
-    return $stateParams.projectPath.indexOf('/projects/') === 0 || $stateParams.projectPath.indexOf('projects/') === 0;
-  };
-
-  function getProjectPath() {
-    if (isNestedWithinProject()) {
-      return PathHelper.projectPath($scope.projectIdentifier);
-    } else {
-      return '';
-    }
-  }
-
   $scope.showWorkPackageDetails = function() {
     var queryProps = $state.params['query_props'];
 
-    $state.go('work-packages.list.details.overview',
-              {
-                projectPath: getProjectPath(),
-                workPackageId: $scope.workPackage.props.id,
-                'query_props': queryProps
-              });
+    $state.go('work-packages.list.details.overview', {
+      projectPath: $scope.projectIdentifier,
+      workPackageId: $scope.workPackage.props.id,
+      'query_props': queryProps
+    });
   };
 
   $scope.closeShowView = function() {
     var queryProps = $state.params['query_props'];
 
-    $state.go('work-packages.list',
-              {
-                projectPath: getProjectPath(),
-                workPackageId: $scope.workPackage.props.id,
-                'query_props': queryProps
-              });
+    $state.go('work-packages.list', {
+      projectPath: $scope.projectIdentifier,
+      workPackageId: $scope.workPackage.props.id,
+      'query_props': queryProps
+    });
   };
 
   function getFocusAnchorLabel(tab, workPackage) {
