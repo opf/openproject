@@ -117,13 +117,9 @@ module.exports = function(PathHelper, WorkPackagesHelper, UserService){
         // This relies on the meta being sent from the server
         var linkMeta = scope.column.meta_data.link;
         if (linkMeta.model_type === 'work_package') {
+          var projectId = scope.projectIdentifier || '';
           scope.displayType = 'ref';
-          if (scope.projectIdentifier) {
-            var projectPath = PathHelper.staticBase + '/projects/' + scope.projectIdentifier;
-            scope.stateRef = "work-packages.show.activity({projectPath: '" + projectPath + "', workPackageId: " + id + "})";
-          } else {
-            scope.stateRef = "work-packages.show.activity({projectPath: '" + PathHelper.staticBase + "', workPackageId: " + id + "})";
-          }
+          scope.stateRef = "work-packages.show.activity({projectPath: '" + projectId + "', workPackageId: " + id + "})";
         } else {
           scope.displayType = 'link';
           scope.url = getLinkFor(id, linkMeta);
