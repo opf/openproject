@@ -142,6 +142,7 @@ angular.module('openproject.workPackages.controllers')
     'HookService',
     '$window',
     'WorkPackageAttachmentsService',
+    'AuthorisationService',
     require('./work-package-show-controller')
   ])
   .controller('WorkPackagesController', [

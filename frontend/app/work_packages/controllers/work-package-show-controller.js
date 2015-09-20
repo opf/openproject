@@ -56,9 +56,12 @@ module.exports = function($scope,
     PERMITTED_MORE_MENU_ACTIONS,
     HookService,
     $window,
-    WorkPackageAttachmentsService
+    WorkPackageAttachmentsService,
+    AuthorisationService
   ) {
 
+  $scope.can = AuthorisationService.can;
+  $scope.cannot = AuthorisationService.cannot;
 
   $scope.$on('$stateChangeSuccess', function(event, toState){
     latestTab.registerState(toState.name);
