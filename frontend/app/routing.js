@@ -68,8 +68,14 @@ angular.module('openproject')
       controllerAs: 'vm',
       abstract: true,
       resolve: {
-        workPackage: function(WorkPackageService, $stateParams) {
-          return WorkPackageService.getWorkPackage($stateParams.workPackageId);
+        workPackage: function(WorkPackageService, $stateParams, $state) {
+          var wsPromise = WorkPackageService.getWorkPackage($stateParams.workPackageId);
+
+          wsPromise.catch(function(){
+            $state.go('work-packages.list', $stateParams);
+          });
+
+          return wsPromise;
         },
         // TODO hack, get rid of latestTab in ShowController
         latestTab: function($state) {
