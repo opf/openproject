@@ -49,6 +49,10 @@
     overflow: hidden;
     position: relative;
 
+    &[cg-busy] {
+      overflow: visible;
+    }
+
     .tabrow {
       margin: -16px -20px 0 -10px;
 

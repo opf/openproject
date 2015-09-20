@@ -188,6 +188,7 @@ module.exports = function($scope,
       });
   }
   $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
+  $scope.wpPromise = WorkPackageService.getWorkPackage($scope.workPackage.props.id);
 
   // Inform parent that work package is loaded so back url can be maintained
   $scope.$emit('workPackgeLoaded');
