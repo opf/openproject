@@ -31,26 +31,8 @@ angular.module('openproject')
 .config([
   '$stateProvider',
   '$urlRouterProvider',
-  '$urlMatcherFactoryProvider',
-  function($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
-
-  (function() {
-    function valToString(val) { return val !== null ? val.toString() : val; }
-    function valFromString(val) { return val !== null ? val.toString() : val; }
-    function regexpMatches(val) {
-      /*jshint validthis:true */
-      // I'm not really sure why `val` can be undefined here, but undefined errors
-      // kept appearing after moving the routes around.
-      // This "fixes" it. Sorry.
-      return angular.isUndefined(val) ? false : this.pattern.test(val);
-    }
-    $urlMatcherFactoryProvider.type('projectPathType', {
-        encode: valToString,
-        decode: valFromString,
-        is: regexpMatches,
-        pattern: /.*/
-      });
-  })();
+  function($stateProvider, $urlRouterProvider) {
+    var basePath = window.appBasePath || '';
 
   // redirect to default activity tab when user lands at /work_packages/:id
   // TODO: Preserve #note-4 part of the URL.
@@ -80,7 +62,7 @@ angular.module('openproject')
     })
 
     .state('work-packages.show', {
-      url: '{projectPath:projectPathType}/work_packages/{workPackageId:[0-9]+}?query_props',
+      url: basePath + '/projects/{projectPath}/work_packages/{workPackageId:[0-9]+}?query_props',
       templateUrl: '/templates/work_packages.show.html',
       controller: 'WorkPackageShowController',
       controllerAs: 'vm',
@@ -130,7 +112,7 @@ angular.module('openproject')
     })
 
     .state('work-packages.list', {
-      url: '{projectPath:projectPathType}/work_packages?query_id&query_props',
+      url: basePath + '/projects/{projectPath}/work_packages?query_id&query_props',
       controller: 'WorkPackagesListController',
       templateUrl: '/templates/work_packages.list.html',
       reloadOnSearch: false
