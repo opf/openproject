@@ -26,9 +26,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Timeline View Tests
+Feature: Timeline Work Package Show View
 	As a Project Member
-	I want edit planning elements via a modal window
+	I want edit planning elements to open in a new tab
 
   Background:
     Given there is 1 user with:
@@ -51,7 +51,7 @@ Feature: Timeline View Tests
     And I am already logged in as "manager"
 
   @javascript
-  Scenario: planning element click should show modal window
+  Scenario: planning element click should show the plannin element
     When I go to the page of the timeline "Testline" of the project called "ecookbook"
     And I wait for timeline to load table
     And I click on the Planning Element with name "January"
