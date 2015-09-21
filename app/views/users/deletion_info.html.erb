@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </p>
       <div class="danger-zone--verification">
         <input type="text" name="login_verification"/>
-        <%= form.button '', class: 'button -highlight', disabled: true do
+        <%= styled_button_tag '', class: 'button -highlight', disabled: true do
           concat content_tag :i, '', class: 'button--icon icon-delete'
           concat content_tag :span, l(:button_delete), class: 'button--text'
           end %>
