@@ -63,6 +63,13 @@ Capybara.configure do |config|
   config.visible_text_only = true
 end
 
+unless (env_no = ENV['TEST_ENV_NUMBER'].to_i).zero?
+  Capybara.server_port = 8888 + env_no
+
+  # Give firefox some time to setup / load himself
+  sleep env_no * 5
+end
+
 Capybara.register_driver :selenium do |app|
   require 'selenium/webdriver'
   Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
