@@ -62,7 +62,7 @@ angular.module('openproject')
     })
 
     .state('work-packages.show', {
-      url: basePath + '/projects/{projectPath}/work_packages/{workPackageId:[0-9]+}?query_props',
+      url: basePath + '/work_packages/{workPackageId:[0-9]+}?query_props',
       templateUrl: '/templates/work_packages.show.html',
       controller: 'WorkPackageShowController',
       controllerAs: 'vm',
@@ -72,7 +72,7 @@ angular.module('openproject')
           var wsPromise = WorkPackageService.getWorkPackage($stateParams.workPackageId);
 
           wsPromise.catch(function(){
-            $state.go('work-packages.list', $stateParams);
+            $state.go('/projects');
           });
 
           return wsPromise;
