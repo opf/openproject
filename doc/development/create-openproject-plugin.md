@@ -120,3 +120,44 @@ It is probably best to use READMEs of already released plugins as a template.
 5. If the plugin is referenced in our feature tour, add a download link to the plugin in the feature tour
 6. Add the newly released plugin to the list of [released plugins](https://www.openproject.org/download/install-plugins/openproject-plugins/).
 
+
+# Frontend plugins [WIP]
+
+Plugins that extend the frontend application may be packaged as **npm modules**.
+These plugins must contain a `package.json` in the root directory of the plugin.
+
+Plugins are responsible for loading their own assets, including additional
+images, styles and I18n translations.
+
+To load translation strings use the provided `I18n.addTranslation` function:
+
+    ```js
+    I18n.addTranslations('en', require('../../config/locales/js-en.yml').en);
+    ```
+
+Pure frontend plugins should be considered _a work in progress_. As such, it is
+currently recommended to create hybrid plugins (see below).
+
+**To use a frontend plugin:**
+
+  * You will currently need to modify the `package.json` of OpenProject core
+    directly. A more robust solution is currently in planning.
+
+## Hybrid plugins
+
+Plugins that extend both the Rails and frontend applications are possible. They
+must contain both a `Gem::Specification` and `package.json`.
+
+_CAVEAT: npm dependencies for hybrid plugins are not yet resolved._
+
+**To use a hybrid plugin:**
+
+  * declare the dependency in `Gemfile.plugins` within the `:opf_plugins` group
+    using the Bundler DSL.
+
+  * then run `bundle install`.
+
+You **do not** need to modify the `package.json` of OpenProject core. Provided
+Ruby Bundler is aware of these plugins, Webpack (our node-based build pipeline)
+will bundle their assets.
+
