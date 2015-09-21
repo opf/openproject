@@ -54,7 +54,7 @@ Feature: Copy meetings
        When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Alices Meeting"
-       Then I should see "Copy" within ".toolbar"
+       Then I should see "Copy" within ".meeting--main-toolbar"
 
   Scenario: Navigate to a meeting copy page
       Given the role "user" may have the following rights:
