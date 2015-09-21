@@ -665,6 +665,9 @@ en:
 
   my_account:
     access_tokens:
+      no_results:
+        title: "No access tokens to display"
+        description: "All of them have been disabled. They can be re-enabled in the administration menu."
       access_token: "Access token"
       headers:
         action: "Action"
