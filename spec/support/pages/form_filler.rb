@@ -65,8 +65,8 @@ module Pages
     end
 
     ##
-    # Ticks (or unticks) a check box.
-    def tick!(field, key)
+    # Checks (or unchecks) a check box. 
+    def set_checked!(field, key)
       if fields.include? key
         checked = fields[field]
 

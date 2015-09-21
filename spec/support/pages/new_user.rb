@@ -46,7 +46,7 @@ module Pages
       form.select! 'Authentication mode', :auth_source
       form.fill! 'Login', :login
 
-      form.tick! 'Administrator', :admin
+      form.set_checked! 'Administrator', :admin
     end
 
     def submit!
