@@ -60,7 +60,7 @@ describe 'create users', type: :feature do
     before do
       visit new_user_path
 
-      new_user_page.fill_in! fist_name: 'bobfirst',
+      new_user_page.fill_in! first_name: 'bobfirst',
                              last_name: 'boblast',
                              email: 'bob@mail.com'
 
@@ -108,7 +108,7 @@ describe 'create users', type: :feature do
     end
 
     it_behaves_like 'successful user creation' do
-      describe 'activation' do
+      describe 'activation', js: true do
         before do
           allow(User).to receive(:current).and_call_original
 
