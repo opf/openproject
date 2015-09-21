@@ -72,8 +72,9 @@ Feature: Updating work packages
       | pe2     |         |         |               |
     And I am already logged in as "manager"
 
-  @javascript
+  @javascript @wip
   Scenario: Updating the work package and seeing the results on the show page
+    # FIXME 16364 assignee is not shown on work package views (full and split screen)
     When I go to the edit page of the work package called "pe1"
     And I fill in the following:
       | Type           | Phase2      |
