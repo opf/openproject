@@ -2,7 +2,7 @@ class SetLocalizationService
   attr_reader :user, :http_accept_header
   include Redmine::I18n
 
-  def initialize(user, http_accept_header)
+  def initialize(user, http_accept_header = nil)
     @user = user
     @http_accept_header = http_accept_header
   end
@@ -28,6 +28,7 @@ class SetLocalizationService
   end
 
   def header_language
+    return unless http_accept_header
     accept_lang = parse_qvalues(http_accept_header).first
 
     lang = if accept_lang
