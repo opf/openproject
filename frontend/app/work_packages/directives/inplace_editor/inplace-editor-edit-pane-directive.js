@@ -146,7 +146,7 @@ module.exports = function(
 
       this.discardEditing = function() {
         $scope.fieldController.isEditing = false;
-        delete EditableFieldsState.submissionPromises[$scope.fieldController.field];
+        delete EditableFieldsState.submissionPromises['work_package'];
         delete getPendingFormChanges()[$scope.fieldController.field];
         $scope.fieldController.updateWriteValue();
         if (
@@ -165,7 +165,7 @@ module.exports = function(
       };
 
       this.markActive = function() {
-        EditableFieldsState.submissionPromises[$scope.fieldController.field] = {
+        EditableFieldsState.submissionPromises['work_package'] = {
           field: $scope.fieldController.field,
           thePromise: this.submitField,
           prepend: true,

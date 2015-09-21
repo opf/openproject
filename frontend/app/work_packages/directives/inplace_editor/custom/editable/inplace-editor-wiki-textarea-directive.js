@@ -84,7 +84,9 @@ module.exports = function(TextileService, EditableFieldsState, $sce, AutoComplet
           var controls = element.closest('.inplace-edit--form ')
                                 .find('.inplace-edit--controls');
 
-          controls[0].scrollIntoView(false);
+          if (!controls.isVisibleWithin(controls.scrollParent())) {
+            controls[0].scrollIntoView(false);
+          }
         }, 200);
       });
     }
