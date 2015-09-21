@@ -34,8 +34,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p><%= l(:text_access_token_hint) %></p>
 
-<% if Setting.feeds_enabled != '0' ||
-      Setting.rest_api_enabled != '0' ||
+<% if Setting.feeds_enabled? ||
+      Setting.rest_api_enabled? ||
       ExtendedToken.exists?(type: 'SVNToken') %>
     <div class="generic-table--container">
       <div class="generic-table--results-container" style="max-height: 340px;">
@@ -79,7 +79,7 @@ See doc/COPYRIGHT.rdoc for more details.
           </tr>
           </thead>
           <tbody>
-          <% if Setting.feeds_enabled != '0' %>
+          <% if Setting.feeds_enabled? %>
               <tr>
                 <td><%= l(:label_feeds_access_key_type) %></td>
                 <td>
@@ -108,7 +108,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 </td>
               </tr>
           <% end %>
-          <% if Setting.rest_api_enabled != '0' %>
+          <% if Setting.rest_api_enabled? %>
               <tr>
                 <td><%= l(:label_api_access_key_type) %></td>
                 <td>
