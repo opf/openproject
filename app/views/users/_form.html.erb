@@ -33,12 +33,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <!--[form:user]-->
 <section class="form--section">
-  <div class="form--field"><%= f.text_field :login, :required => true, :size => 25  %></div>
-  <div class="form--field"><%= f.text_field :firstname, :required => true %></div>
-  <div class="form--field"><%= f.text_field :lastname, :required => true %></div>
-  <div class="form--field"><%= f.text_field :mail, :required => true %></div>
+  <div class="form--field"><%= f.text_field :login, required: true, size: 25 %></div>
+  <div class="form--field"><%= f.text_field :firstname, required: true %></div>
+  <div class="form--field"><%= f.text_field :lastname, required: true %></div>
+  <div class="form--field"><%= f.text_field :mail, required: true %></div>
   <div class="form--field"><%= f.select :language, lang_options_for_select %></div>
-  <div class="form--field"><%= f.check_box :admin, :disabled => (@user == User.current) %></div>
+  <div class="form--field"><%= f.check_box :admin, disabled: (@user == User.current) %></div>
 
   <h3 class="form--section-title"><%= l(:label_custom_field_plural) %></h3>
   <%= render partial:     'customizable/field',
@@ -50,8 +50,8 @@ See doc/COPYRIGHT.rdoc for more details.
 </section>
 
 <section class="form--section">
-  <h3 class="form--section-title"><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
-  <%= render :partial => "users/impaired_settings" %>
+  <h3 class="form--section-title"><%=l(:label_ui, app_title: Setting.app_title)%></h3>
+  <%= render partial: "users/impaired_settings" %>
 </section>
 
 <section class="form--section">
@@ -95,21 +95,21 @@ See doc/COPYRIGHT.rdoc for more details.
         <% unless OpenProject::Configuration.disable_password_choice? %>
           <div class="form--field">
             <%= f.password_field :password,
-                                 :required => @user.new_record?,
-                                 :disabled => assign_random_password_enabled %>
+                                 required: @user.new_record?,
+                                 disabled: assign_random_password_enabled %>
             <div class="form--field-instructions">
               <%= password_complexity_requirements %>
             </div>
           </div>
           <div class="form--field">
             <%= f.password_field :password_confirmation,
-                                 :required => @user.new_record?,
-                                 :disabled => assign_random_password_enabled %>
+                                 required: @user.new_record?,
+                                 disabled: assign_random_password_enabled %>
           </div>
         <% end %>
         <div class="form--field">
           <%= f.check_box :force_password_change,
-                          :disabled => assign_random_password_enabled %>
+                          disabled: assign_random_password_enabled %>
         </div>
       </div>
     <% else %>
@@ -127,11 +127,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <section class="form--section">
   <h3 class="form--section-title"><%= User.human_attribute_name(:mail_notification) %></h3>
-  <%= render :partial => 'users/mail_notifications' %>
+  <%= render partial: 'users/mail_notifications' %>
 </section>
 
 <section class="form--section">
   <h3 class="form--section-title"><%=l(:label_preferences)%></h3>
-  <%= render :partial => 'users/preferences' %>
+  <%= render partial: 'users/preferences' %>
 </section>
 <!--[eoform:user]-->
