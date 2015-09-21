@@ -20,7 +20,8 @@ See doc/COPYRIGHT.md for more details.
 ++#%>
 
 <% html_title "#{l(:label_meeting)}: #{@meeting.title}" %>
-<%= toolbar title: "#{l(:label_meeting)}: #{link_to @meeting}" do %>
+<%= toolbar title: "#{l(:label_meeting)}: #{link_to @meeting}",
+            html: { class: 'meeting--main-toolbar' } do %>
   <% unless User.current.anonymous? %>
     <li class="toolbar-item">
       <div class="button">
