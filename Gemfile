@@ -146,7 +146,7 @@ group :test do
   gem 'rspec-rails', '~> 3.3.0', group: :development
   gem 'rspec-activemodel-mocks', '~> 1.0.2', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
-  gem 'rspec-legacy_formatters'
+  # gem 'rspec-legacy_formatters'
   gem 'capybara', '~> 2.4.4'
   gem 'capybara-screenshot', '~> 1.0.4'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
