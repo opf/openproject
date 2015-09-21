@@ -311,6 +311,9 @@ GEM
     omniauth (1.2.2)
       hashie (>= 1.2, < 4)
       rack (~> 1.0)
+    parallel (1.6.1)
+    parallel_tests (1.6.1)
+      parallel
     parser (2.2.2.5)
       ast (>= 1.1, < 3.0)
     pg (0.18.3)
@@ -559,6 +562,7 @@ DEPENDENCIES
   oj (~> 2.11.4)
   omniauth
   openproject-translations!
+  parallel_tests
   pg (~> 0.18.3)
   protected_attributes
   prototype-rails!
