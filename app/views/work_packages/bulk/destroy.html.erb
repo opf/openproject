@@ -26,17 +26,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
-<h2><%= l(:label_confirmation) %></h2>
-
 <%= error_messages_for work_packages.first %>
 
-<%= styled_form_tag work_packages_bulk_path, :method => :delete do %>
+<%= styled_form_tag work_packages_bulk_path, method: :delete, class: 'form danger-zone' do %>
   <% work_packages.each do |work_package| %>
     <%= hidden_field_tag 'ids[]', work_package.id %>
   <% end %>
 
-  <div class="form--section">
+  <section class="form--section">
+    <h3 class="form--section-title">
+      <%= l('work_package.destroy.title') %>
+    </h3>
 
     <%= work_package_associations_to_address(associated) %>
 
@@ -66,8 +66,11 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
       </div>
     <% end %>
-  </div>
-
-  <%= styled_submit_tag l(:button_apply), class: '-highlight' %>
+    <div class="danger-zone--verification">
+      <%= styled_button_tag title: l(:button_apply), class: '-highlight' do
+            concat content_tag :i, '', class: 'button--icon icon-yes'
+            concat content_tag :span, l(:button_apply), class: 'button--text'
+            end %>
+  </section>
 
 <% end %>

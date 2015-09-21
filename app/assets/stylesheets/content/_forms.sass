@@ -67,6 +67,9 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
     .form--section
       padding-top: 0px
 
+      & > *
+        padding-left: 0.5rem
+
     .form--section-title
       background-color: $content-form-danger-zone-bg-color
       color: $content-form-danger-zone-font-color !important
@@ -76,24 +79,19 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
     em
       font-style: italic
 
+    p.danger-zone--warning
+      font-weight: bold
+      color: $content-form-danger-zone-bg-color
 
-    p
-      padding-left: 0.5rem
-
-      &.danger-zone--warning
-        font-weight: bold
-        color: $content-form-danger-zone-bg-color
-
-        span.icon,
-        span.icon-context
-          vertical-align: middle
-          &:before
-            padding-left: 0px
-            color: $content-form-danger-zone-bg-color
+      span.icon,
+      span.icon-context
+        vertical-align: middle
+        &:before
+          padding-left: 0px
+          color: $content-form-danger-zone-bg-color
 
     .danger-zone--verification
       display: flex
-      margin-left: 0.5rem
 
       input
         flex-basis: 50%
@@ -513,7 +511,7 @@ input[readonly].-clickable
   @include grid-content(2)
   @include grid-visible-overflow
   @extend %label-style
-  padding:      0 1rem 0 0
+  padding:      0 1rem 0.5rem 0
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
   color:        $form-label-color
