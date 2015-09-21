@@ -29,19 +29,29 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= javascript_include_tag "members_select_boxes.js" %>
 
+<% html_title I18n.t(:label_member_new) %>
+<%= toolbar title: I18n.t(:label_member_new) %>
+
 <%= labelled_tabular_form_for(:member, :url => {:controller => 'members', :action => 'create', :project_id => project},
-                     :remote => true,
                      :method => :post,
                      :html => {:id => "members_add_form"}) do |f| %>
   <div class="form--section">
-    <h3 class="form--section-title"><%= l(:label_member_new) %></h3>
+    <div id="new-member-message"></div>
     <div class="grid-block medium-up-2">
       <div class="form--column">
         <div class="form--field -vertical">
-          <%= styled_label_tag :member_user_ids, l(:label_principal_search) %>
+          <%
+             user_id_title = I18n.t(:label_principal_search)
+
+             if current_user.admin?
+               user_id_title += I18n.t(:label_principal_invite_via_email)
+             end
+          %>
+          <%= styled_label_tag :member_user_ids, user_id_title %>
           <%= select_tag "member[user_ids]", options_for_select([]),
-                           :title => l(:label_principal_search),
+                           :title => user_id_title,
                            :multiple => true,
+                           :autofocus => true,
                            :'data-ajaxURL' => url_for(:controller => "/members", :action => "autocomplete_for_member"),
                            :'data-projectId' => project.id,
                            no_label: true,
@@ -61,7 +71,8 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
       </div>
     </div>
-    <%= f.button l(:button_add), :id => 'member-add-submit',
+    <%= f.button l(:button_add), id: 'member-add-submit',
           class: 'button -highlight -with-icon icon-yes' %>
+    <%= link_to I18n.t('button_cancel'), :back, class: 'button' %>
   </div>
 <% end %>

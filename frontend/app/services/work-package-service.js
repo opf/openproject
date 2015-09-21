@@ -36,12 +36,14 @@ module.exports = function($http,
     $rootScope,
     $window,
     $q,
+    $cacheFactory,
     AuthorisationService,
     EditableFieldsState,
     WorkPackageFieldService,
     NotificationsService
   ) {
-  var workPackage;
+  var workPackage,
+      workPackageCache = $cacheFactory('workPackageCache');
 
   function getPendingChanges(workPackage) {
     var data = {
@@ -333,6 +335,10 @@ module.exports = function($http,
       }
 
       return promise;
+    },
+
+    cache: function() {
+      return workPackageCache;
     }
   };
 

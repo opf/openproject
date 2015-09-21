@@ -61,6 +61,52 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
     &.-compressed
       padding: 10px 20px 0 20px
 
+  &.danger-zone
+    border: 1px solid $content-form-danger-zone-bg-color
+
+    .form--section
+      padding-top: 0px
+
+    .form--section-title
+      background-color: $content-form-danger-zone-bg-color
+      color: $content-form-danger-zone-font-color !important
+      padding: 0.5rem !important
+      margin: 0 0 1rem 0
+
+    em
+      font-style: italics
+
+
+    p
+      padding-left: 0.5rem
+
+      &.danger-zone--warning
+        font-weight: bold
+        color: $content-form-danger-zone-bg-color
+
+        span.icon,
+        span.icon-context
+          vertical-align: middle
+          &:before
+            padding-left: 0px
+            color: $content-form-danger-zone-bg-color
+
+    .danger-zone--verification
+      display: flex
+
+      input
+        flex-basis: 50%
+        margin: 0 0.5rem 0 0.5rem
+
+      .button.-highlight
+        background: $content-form-danger-zone-bg-color
+        color: $content-form-danger-zone-font-color
+        border-color: $content-form-danger-zone-bg-color
+        &.icon:before,
+        &.icon-context:before
+          color: $content-form-danger-zone-font-color
+          padding-left: 0px
+
 .form--separator
   border: 0
   border-bottom: 1px solid $content-form-separator-color
@@ -243,6 +289,11 @@ fieldset.form--fieldset
   &.-break-words > .form--label
     text-overflow: ellipsis
     overflow: hidden
+
+  &.-required
+    input.form--text-field:invalid
+      // avoids the box-shadow from Firefox at required input fields
+      box-shadow: none
 
 .form--label
   @include grid-content(2)
@@ -535,6 +586,12 @@ input[readonly].-clickable
   padding:        0 $form-padding
   margin-bottom:  0.5rem
   align-items:    center
+  line-height:    1
+
+  &.icon, &.icon-context
+    padding:  5px
+    &:before
+      padding:  0
 
   %form--field-element-container + &
     margin-left:  -1rem

@@ -27,14 +27,15 @@
 #++
 
 en:
+  label_invitation: Invitation
   account:
     delete: "Delete account"
     delete_confirmation: "Are you sure you want to delete the account?"
     deleted: "Account successfully deleted"
     deletion_info:
       data_consequences:
-        other: "Of the data the user created (e.g. e-mail, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
-        self: "Of the data you created (e.g. e-mail, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account."
+        other: "Of the data the user created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
+        self: "Of the data you created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account."
       heading: "Delete account %{name}"
       info:
         other: "Deleting the user account is an irreversible action."
@@ -52,6 +53,9 @@ en:
       User registration is disabled on this system. Please ask an administrator to create an
       account for you.
     login_with_auth_provider: "or sign in with your existing account"
+    signup_with_auth_provider: "or sign up using"
+    auth_source_login: Please login as <em>%{login}</em> to activate your account.
+    omniauth_login: Please login to activate your account.
 
   actionview_instancetag_blank_option: "Please select"
 
@@ -356,6 +360,7 @@ en:
     work_package: "Work package"
 
   button_add: "Add"
+  button_add_member: Add member
   button_add_watcher: "Add watcher"
   button_annotate: "Annotate"
   button_apply: "Apply"
@@ -387,6 +392,7 @@ en:
   button_move: "Move"
   button_move_and_follow: "Move and follow"
   button_quote: "Quote"
+  button_remove: Remove
   button_remove_widget: "Remove widget"
   button_rename: "Rename"
   button_reply: "Reply"
@@ -599,7 +605,6 @@ en:
   error_no_default_work_package_status: "No default work package status is defined. Please check your configuration (Go to \"Administration -> Work package statuses\")."
   error_no_type_in_project: "No type is associated to this project. Please check the Project settings."
   error_omniauth_registration_timed_out: "The registration via an external authentication provider timed out. Please try again."
-  error_scm_annotate: "The entry does not exist or cannot be annotated."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_unable_delete_status: "The work package status cannot be deleted since it is used by at least one work package."
@@ -638,12 +643,26 @@ en:
   gui_validation_error: "1 error"
   gui_validation_error_plural: "%{count} errors"
 
+  homescreen:
+    additional:
+      projects: "Newest visible projects in this instance."
+      users: "Newest registered users in this instance."
+    blocks:
+      community: "OpenProject Community"
+    links:
+      user_guides: "User guides"
+      faq: "FAQ"
+      glossary: "Glossary"
+      shortcuts: "Shortcuts"
+      forums: "Forums"
+
   instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
   instructions_after_logout: "You can sign in again by clicking %{signin}."
   instructions_after_error: "You can try to sign in again by clicking %{signin}. If the error persists, ask your admin for help."
 
   label_account: "Account"
   label_activity: "Activity"
+  label_add_edit_translations: "Add and edit translations"
   label_add_another_file: "Add another file"
   label_add_columns: "Add selected columns"
   label_add_note: "Add a note"
@@ -679,8 +698,10 @@ en:
   label_available_project_boards: 'Available boards'
   label_available_project_versions: 'Available versions'
   label_available_project_repositories: 'Available repositories'
+  label_api_documentation: "API documentation"
   label_blocked_by: "blocked by"
   label_blocks: "blocks"
+  label_blog: "Blog"
   label_board_locked: "Locked"
   label_board_new: "New forum"
   label_board_plural: "Forums"
@@ -702,6 +723,8 @@ en:
   label_changes_details: "Details of all changes"
   label_changeset_plural: "Changesets"
   label_checked: "checked"
+  label_check_uncheck_all_in_column: "Check/Uncheck all in column"
+  label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Child element"
   label_chronological_order: "In chronological order"
   label_close_versions: "Close completed versions"
@@ -741,6 +764,7 @@ en:
   label_deleted_custom_field: "(deleted custom field)"
   label_descending: "Descending"
   label_details: "Details"
+  label_development_roadmap: "Development roadmap"
   label_diff: "diff"
   label_diff_inline: "inline"
   label_diff_side_by_side: "side by side"
@@ -801,6 +825,7 @@ en:
   label_information_plural: "Information"
   label_integer: "Integer"
   label_internal: "Internal"
+  label_invite_user: "Invite user"
   label_work_package_added: "Work package added"
   label_work_package_category_new: "New category"
   label_work_package_category_plural: "Work package categories"
@@ -840,11 +865,13 @@ en:
   label_login: "Sign in"
   label_logout: "Sign out"
   label_main_menu: "Side Menu"
+  label_manage_groups: "Manage groups"
   label_managed_repositories_vendor: "Managed %{vendor} repositories"
   label_max_size: "Maximum size"
   label_me: "me"
   label_member_new: "New member"
   label_member_plural: "Members"
+  label_memder_view_all: "View all members"
   label_menu_item_name: "Name of menu item"
   label_message_last: "Last message"
   label_message_new: "New message"
@@ -916,7 +943,9 @@ en:
   label_preview: "Preview"
   label_previous: "Previous"
   label_previous_week: "Previous week"
-  label_principal_search: "Search for users or groups"
+  label_principal_invite_via_email: " or invite new users via email"
+  label_principal_search: "Add existing users or groups"
+  label_professional_support: "Professional support"
   label_profile: "Profile"
   label_project_all: "All Projects"
   label_project_count: "Total number of projects"
@@ -944,10 +973,12 @@ en:
   label_relates_to: "related to"
   label_relation_delete: "Delete relation"
   label_relation_new: "New relation"
+  label_release_notes: "Release notes"
   label_remove_columns: "Remove selected columns"
   label_renamed: "renamed"
   label_reply_plural: "Replies"
   label_report: "Report"
+  label_report_bug: "Report a bug"
   label_report_plural: "Reports"
   label_reported_work_packages: "Reported work packages"
   label_reporting: "Reporting"
@@ -969,7 +1000,7 @@ en:
   label_role_and_permissions: "Roles and permissions"
   label_role_new: "New role"
   label_role_plural: "Roles"
-  label_role_search: "Search for roles"
+  label_role_search: "Assign roles to new members"
   label_scm: "SCM"
   label_search: "Search"
   label_search_titles_only: "Search titles only"
@@ -1044,6 +1075,7 @@ en:
   label_version_sharing_system: "With all projects"
   label_version_sharing_tree: "With project tree"
   label_view_all_revisions: "View all revisions"
+  label_view_all_users: "View all users"
   label_view_diff: "View differences"
   label_view_revisions: "View revisions"
   label_watched_work_packages: "Watched work packages"
@@ -1064,6 +1096,8 @@ en:
   label_work_package: "Work package"
   label_work_package_plural: "Work packages"
   label_work_package_new: "New work package"
+  label_work_package_status: "Work package status"
+  label_work_package_types: "Work package types"
   label_workflow: "Workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Summary"
@@ -1098,7 +1132,7 @@ en:
   label_keyboard_shortcut_some_pages_only: "Special shortcuts:"
   label_keyboard_shortcut_search_global: "Global search"
   label_keyboard_shortcut_search_project: "Find a project"
-  label_keyboard_shortcut_go_my_page: "Go to My Page"
+  label_keyboard_shortcut_go_my_page: "Go to my page"
   label_keyboard_shortcut_show_help: "Show this help message"
   label_keyboard_shortcut_go_overview: "Go to project overview"
   label_keyboard_shortcut_go_work_package: "Go to project work packages"
@@ -1146,6 +1180,8 @@ en:
   noscript_learn_more: "Learn more"
 
   notice_account_activated: "Your account has been activated. You can now log in."
+  notice_account_already_activated: The account has already been activated.
+  notice_account_invalid_token: Invalid activation token
   notice_account_invalid_credentials: "Invalid user or password"
   notice_account_invalid_credentials_or_blocked: "Invalid user or password or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time."
   notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
@@ -1159,6 +1195,7 @@ en:
   notice_account_updated: "Account was successfully updated."
   notice_account_wrong_password: "Wrong password"
   notice_account_registered_and_logged_in: "Welcome, your account has been activated. You are logged in now."
+  notice_activation_failed: The account could not be activated.
   notice_api_access_key_reseted: "Your API access key was reset."
   notice_can_t_change_password: "This account uses an external authentication source. Impossible to change the password."
   notice_email_error: "An error occurred while sending mail (%{value})"
@@ -1173,6 +1210,10 @@ en:
   notice_locking_conflict: "Information has been updated by at least one other user in the meantime."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
+  notice_member_added: Added %{name} to the project.
+  notice_members_added: Added %{number} users to the the project.
+  notice_member_removed: "Removed %{user} from project."
+  notice_member_deleted: "%{user} has been removed from the project and deleted."
   notice_no_principals_found: "No results found."
   notice_bad_request: "Bad Request."
   notice_not_authorized: "You are not authorized to access this page."
@@ -1185,8 +1226,10 @@ en:
   notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
   notice_unable_delete_time_entry: "Unable to delete time log entry."
   notice_unable_delete_version: "Unable to delete version."
+  notice_user_missing_authentication_method: User has yet to chose a password or another way the sign in.
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "You have been logged out."
+  notice_wont_delete_auth_source: The authentication mode cannot be deleted as long as there are still users using it.
   error_types_in_use_by_work_packages: "The following types are still referenced by work packages: %{types}"
   notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields."
 
@@ -1380,6 +1423,8 @@ en:
     named_repository: "%{vendor_name} repository"
     update_settings_successful: "The settings have been sucessfully saved."
     url: "URL to repository"
+    warnings:
+      cannot_annotate: "This file cannot be annotated."
 
   search_input_placeholder: "search ..."
 
@@ -1468,7 +1513,10 @@ en:
   setting_user_format: "Users display format"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
-  setting_welcome_text: "Welcome text"
+  setting_welcome_text: "Welcome block text"
+  setting_welcome_title: "Welcome block title"
+  setting_welcome_on_homescreen: "Display welcome block on homescreen"
+  setting_welcome_on_projects_page: "Display welcome block on project overview"
   setting_wiki_compression: "Wiki history compression"
   setting_work_package_group_assignment: "Allow assignment to groups"
 
@@ -1482,6 +1530,8 @@ en:
   show_hide_project_menu: "Show/Hide project menu"
 
   status_active: "active"
+  status_invited: invited
+  status_registered: registered
 
   # Used in array.to_sentence.
   support:
@@ -1531,6 +1581,7 @@ en:
   text_line_separated: "Multiple values allowed (one line for each value)."
   text_load_default_configuration: "Load the default configuration"
   text_min_max_length_info: "0 means no restriction"
+  text_no_roles_defined: There are no roles defined.
   text_no_configuration_data: "Roles, types, work package statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_no_notes: "There are no comments available for this work package."
   text_notice_too_many_values_are_inperformant: "Note: Displaying more than 100 items per page can increase the page load time."
@@ -1553,6 +1604,7 @@ en:
   text_tip_work_package_end_day: "work package ending this day"
   text_type_no_workflow: "No workflow defined for this type"
   text_unallowed_characters: "Unallowed characters"
+  text_user_invited: The user has been invited and is pending registration.
   text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. work packages you're the author or assignee)."
   text_user_wrote: "%{value} wrote:"
   text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
@@ -1764,6 +1816,8 @@ en:
       quarters: "Quarters"
       years: "Years"
 
+  title_remove_and_delete_user: Remove the invited user from the project and delete them.
+
   queries:
     apply_filter: Apply preconfigured filter
 
@@ -1780,7 +1834,7 @@ en:
     authentication_settings_disabled_due_to_external_authentication: >
       This user authenticates via an external authentication provider, so there is no password
       in OpenProject to be changed.
-    assign_random_password: "Assign random password (sent to user via e-mail)"
+    assign_random_password: "Assign random password (sent to user via email)"
     blocked: "locked temporarily"
     blocked_num_failed_logins:
       one: "locked temporarily (one failed login attempt)"
@@ -1790,6 +1844,7 @@ en:
     lock: "Lock permanently"
     locked: "locked permanently"
     registered: "registered"
+    invited: invited
     reset_failed_logins: "Reset failed logins"
     status_user_and_brute_force: "%{user} and %{brute_force}"
     unlock: "Unlock"
@@ -1797,6 +1852,7 @@ en:
     no_login: "This user authenticates through login by password. Since it is disabled, they cannot log in."
     password_change_unsupported: Change of password is not supported.
     authorization_rejected: "You are not allowed to sign in."
+    invite: Invite user via email
 
   version_status_closed: "closed"
   version_status_locked: "locked"

@@ -160,6 +160,16 @@ $se2-width: 100%;
     }
   }
 
+  &.select2-container-multi {
+    .select2-search-choice {
+      margin: 7px 0 0 5px;
+
+      &:nth-last-of-type(1) {
+        margin-bottom: 7px;
+      }
+    }
+  }
+
   &.ui-select-multiple {
 
     .ui-select-search {

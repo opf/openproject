@@ -28,7 +28,7 @@
 #++
 
 OpenProject::Application.routes.draw do
-  root to: 'welcome#index', as: 'home'
+  root to: 'homescreen#index', as: 'home'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
   # Redirect deprecated issue links to new work packages uris
@@ -45,7 +45,7 @@ OpenProject::Application.routes.draw do
     get '/account/force_password_change', action: 'force_password_change'
     post '/account/change_password', action: 'change_password'
     match '/account/lost_password', action: 'lost_password', via: [:get, :post]
-    match '/account/register', action: 'register', via: [:get, :post]
+    match '/account/register', action: 'register', via: [:get, :post, :patch]
 
     # omniauth routes
     match '/auth/:provider/callback', action: 'omniauth_login',
@@ -230,7 +230,8 @@ OpenProject::Application.routes.draw do
 
       match 'copy_project_from_(:coming_from)' => 'copy_projects#copy_project', via: :get, as: :copy_from,
             constraints: { coming_from: /(admin|settings)/ }
-      match 'copy' => 'copy_projects#copy', via: :post
+      match 'copy_from_(:coming_from)' => 'copy_projects#copy', via: :post, as: :copy,
+            constraints: { coming_from: /(admin|settings)/ }
       put :modules
       put :custom_fields
       put :archive
@@ -326,7 +327,7 @@ OpenProject::Application.routes.draw do
 
     resources :categories, except: [:index, :show], shallow: true
 
-    resources :members, only: [:create, :update, :destroy], shallow: true do
+    resources :members, only: [:index, :new, :create, :update, :destroy], shallow: true do
       match :autocomplete_for_member, on: :collection, via: [:get, :post]
     end
 
@@ -370,7 +371,7 @@ OpenProject::Application.routes.draw do
 
   # TODO: evaluate whether this can be turned into a namespace
   scope 'admin' do
-    match '/projects' => 'admin#projects', via: :get
+    match '/projects' => 'admin#projects', via: :get, as: :admin_projects
 
     resources :enumerations
 
@@ -574,6 +575,11 @@ OpenProject::Application.routes.draw do
   end
 
   resources :reported_project_statuses, controller: 'reported_project_statuses'
+
+  resources :invitations, controller: 'invitations', only: [:index, :show, :create]
+  scope controller: 'invitations' do
+    get 'claim/:id', action: 'claim'
+  end
 
   # This route should probably be removed, but it's used at least by one cuke and we don't
   # want to break it.

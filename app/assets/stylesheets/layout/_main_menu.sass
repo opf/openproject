@@ -90,10 +90,14 @@ $toggler-width: 40px
           // placeholder for highlighted left-item-border
           a:not(.toggler)
             border-left: $main-menu-selected-hover-indicator-width solid $main-menu-bg-color
-            flex-basis: 100%
+            @extend .small-12
 
             &.selected
               +highlight-left-item-border
+
+          a:not(:only-child):first-of-type
+            @extend .small-10
+
         .open .toggler
           .icon-toggler:before
             content: "\e0cc"

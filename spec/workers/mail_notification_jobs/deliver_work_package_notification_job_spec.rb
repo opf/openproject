@@ -39,11 +39,10 @@ describe DeliverWorkPackageNotificationJob, type: :model do
   let(:work_package) {
     FactoryGirl.create(:work_package,
                        project: project,
-                       author: author,
-                       assigned_to: recipient)
+                       author: author)
   }
   let(:journal) { work_package.journals.first }
-  subject { described_class.new(journal.id, author.id) }
+  subject { described_class.new(journal.id, recipient.id, author.id) }
 
   before do
     # make sure no actual calls make it into the UserMailer
@@ -95,8 +94,8 @@ describe DeliverWorkPackageNotificationJob, type: :model do
       work_package.save!
     end
 
-    it 'raises an error' do
-      expect { subject.perform }.to raise_error('aggregated journal got outdated')
+    it 'raises no observable error' do
+      expect { subject.perform }.not_to raise_error
     end
   end
 
@@ -148,17 +147,25 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     end
   end
 
-  describe 'exceptions' do
-    describe 'exceptions should be raised' do
-      before do
-        mail = double('mail')
-        allow(mail).to receive(:deliver).and_raise(SocketError)
-        expect(UserMailer).to receive(:work_package_added).and_return(mail)
-      end
+  describe 'exceptions during delivery' do
+    before do
+      mail = double('mail')
+      allow(mail).to receive(:deliver).and_raise(SocketError)
+      expect(UserMailer).to receive(:work_package_added).and_return(mail)
+    end
 
-      it 'raises the error' do
-        expect { subject.perform }.to raise_error(SocketError)
-      end
+    it 'raises the error' do
+      expect { subject.perform }.to raise_error(SocketError)
+    end
+  end
+
+  describe 'exceptions during rendering' do
+    before do
+      expect(UserMailer).to receive(:work_package_added).and_raise('not today!')
+    end
+
+    it 'swallows the error' do
+      expect { subject.perform }.not_to raise_error
     end
   end
 end

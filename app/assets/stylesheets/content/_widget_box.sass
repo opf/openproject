@@ -1,0 +1,106 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+@mixin widget-box--style
+  background: $widget-box-block-bg-color
+  border: 1px solid $widget-box-block-border-color
+  margin: 10px
+
+$widget-box--enumeration-width: 20px
+
+.widget-boxes--screen-header
+  margin-left: 10px
+
+.widget-boxes
+  display: flex
+  flex-flow: row wrap
+
+  .icon-context:before
+    padding-right: 5px
+
+  .widget-box
+    @include widget-box--style
+    padding: 10px 10px 10px 20px
+    flex: 1
+    flex-basis: 32%
+    display: flex
+    flex-direction: column
+    min-height: 250px
+    word-wrap: break-words
+    overflow: hidden
+
+    .widget-box--header
+      font-weight: bold
+      font-size: 1.25rem
+      border: none
+
+      .widget-box--header-title
+        vertical-align: middle
+      .icon:before,
+      .icon-context:before
+        vertical-align: middle
+
+
+    .widget-box--additional-info
+      margin: 0
+      font-size: 0.9rem
+      font-style: italic
+
+    .widget-box--enumeration
+      margin-left: 1.5rem
+      margin-top: 0.5rem
+      flex-grow: 2
+
+    .widget-box--arrow-links
+      list-style: none
+      margin: 0.5rem 0 1rem 0
+      flex-grow: 2
+
+      li:before
+        @include icon-common
+        @extend .icon-context
+        content: "\e03f"
+        display: inline-block
+        font-size: 0.6rem
+        color: $content-icon-link-color
+        width: $widget-box--enumeration-width
+
+      .-widget-box--arrow-multiline
+        &:before
+          float: left
+
+        &:after
+          clear: both
+          content: ""
+          display: table
+
+        > div
+          float: left
+          margin-bottom: 10px
+          //necessary for correct alignment even with long texts
+          width: calc(100% - #{$widget-box--enumeration-width})

@@ -130,7 +130,7 @@ table.generic-table
 
   tbody
     tr
-      border-bottom: 1px solid #dddddd
+      border-bottom: 1px solid $light-gray
       &:hover
         background: #e4f7fb
 
@@ -161,6 +161,7 @@ table.generic-table
   .generic-table--footer-outer
     position:     absolute
     bottom:       0
+    padding:      0 6px
     line-height:  $generic-table--footer-height
     z-index:      1
 
@@ -177,10 +178,12 @@ table.generic-table
     &.hover
       background:   #f8f8f8
 
-  .generic-table--header-spacer
+  .generic-table--column-spacer
     padding:      0 6px
     visibility:   hidden
     height:       0px
+    font-size:    0px
+    line-height:  0px
 
   .generic-table--sort-header
     white-space: nowrap
@@ -200,15 +203,16 @@ table.generic-table
       width: 1em
       text-align: right
       overflow: visible
+      min-width: 1em
 
 .generic-table--header-background
   position:     absolute
   top:          0
   width:        100%
   height:       $generic-table--header-height
-  background:   white
-  border-bottom: 1px solid #dddddd
-  box-shadow:   0 5px 15px -5px #dddddd
+  background:   $body-background
+  border-bottom: 1px solid $light-gray
+  box-shadow:   0 5px 15px -5px $light-gray
   z-index:      0
 
 .generic-table--footer-background
@@ -221,7 +225,7 @@ table.generic-table
 
 .generic-table--no-results-container
   background:   #fff
-  border:       1px solid #ddd
+  border:       1px solid $light-gray
   border-radius: $global-radius
   padding:      20px
 

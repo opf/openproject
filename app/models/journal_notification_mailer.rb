@@ -44,8 +44,13 @@ class JournalNotificationMailer
 
       # Send the notification on behalf of the predecessor in case it could not send it on its own
       if Journal::AggregatedJournal.hides_notifications?(aggregated, aggregated.predecessor)
-        job = DeliverWorkPackageNotificationJob.new(aggregated.predecessor.id, User.current.id)
-        Delayed::Job.enqueue job
+        work_package = aggregated.predecessor.journable
+        notification_receivers(work_package).each do |recipient|
+          job = DeliverWorkPackageNotificationJob.new(aggregated.predecessor.id,
+                                                      recipient.id,
+                                                      User.current.id)
+          Delayed::Job.enqueue job
+        end
       end
 
       job = EnqueueWorkPackageNotificationJob.new(journal.id, User.current.id)
@@ -81,6 +86,10 @@ class JournalNotificationMailer
     def find_aggregated_journal_for(raw_journal)
       wp_journals = Journal::AggregatedJournal.aggregated_journals(journable: raw_journal.journable)
       wp_journals.detect { |journal| journal.version == raw_journal.version }
+    end
+
+    def notification_receivers(work_package)
+      (work_package.recipients + work_package.watcher_recipients).uniq
     end
   end
 end

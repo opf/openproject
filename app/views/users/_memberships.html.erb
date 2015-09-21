@@ -68,7 +68,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <tbody>
             <% @user.memberships.each do |membership| %>
               <% next if membership.new_record? %>
-                <tr id="member-<%= membership.id %>" class="class">
+                <tr id="member-<%= membership.id %>" class="member">
                   <td class="project">
                     <%= link_to_project membership.project %>
                   </td>

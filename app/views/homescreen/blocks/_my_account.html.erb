@@ -1,0 +1,17 @@
+<h3 class="widget-box--header">
+  <%= homescreen_user_avatar %>
+  <span class="widget-box--header-title"><%= l(:label_my_account) %></span>
+</h3>
+
+<ul class="widget-box--arrow-links">
+  <li>
+    <%= link_to l(:label_profile), my_account_path, title: l(:label_profile) %>
+  </li>
+  <li>
+    <%= link_to l(:label_my_page), my_page_path,
+                title: l(:label_my_page) %>
+  </li>
+  <li>
+    <%= link_to l(:button_change_password), my_password_path, title: l(:button_change_password) %>
+  </li>
+</ul>

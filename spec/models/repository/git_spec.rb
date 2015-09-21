@@ -54,8 +54,16 @@ describe Repository::Git, type: :model do
       expect(instance.class.available_types).to eq([:local])
     end
 
-    context 'with disabled typed' do
+    context 'with disabled types' do
       let(:config) { { disabled_types: [:local, :managed] } }
+
+      it 'does not have any types' do
+        expect(instance.class.available_types).to be_empty
+      end
+    end
+
+    context 'with mixed disabled types' do
+      let(:config) { { disabled_types: [:local, 'managed'] } }
 
       it 'does not have any types' do
         expect(instance.class.available_types).to be_empty

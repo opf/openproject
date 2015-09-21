@@ -59,10 +59,17 @@ a
   &.work_package.closed, &.work_package.closed:hover
     text-decoration: line-through
 
+  &.-no-decoration
+    color: inherit
+
+    &:hover
+      text-decoration: none
 
 a.icon, a.icon-context
   color: $content-icon-link-color
   font-weight: normal
+  &.external
+    color: $content-link-color
 
 a.icon:hover, a.icon-context:hover
   text-decoration: none

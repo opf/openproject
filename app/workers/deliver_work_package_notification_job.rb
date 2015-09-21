@@ -27,16 +27,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverWorkPackageNotificationJob
-  include OpenProject::BeforeDelayedJob
+class DeliverWorkPackageNotificationJob < DeliverNotificationJob
 
-  def initialize(journal_id, author_id)
+  def initialize(journal_id, recipient_id, author_id)
     @journal_id = journal_id
-    @author_id = author_id
+    super(recipient_id, author_id)
   end
 
-  def perform
-    return unless raw_journal # abort, assuming that the underlying WP was deleted
+  def render_mail(recipient:, sender:)
+    return nil unless raw_journal # abort, assuming that the underlying WP was deleted
 
     journal = find_aggregated_journal
 
@@ -44,39 +43,25 @@ class DeliverWorkPackageNotificationJob
     # before queuing a notification
     raise 'aggregated journal got outdated' unless journal
 
-    notification_receivers(work_package).uniq.each do |recipient|
-      mail = User.execute_as(recipient) {
-        if journal.initial?
-          UserMailer.work_package_added(recipient, journal, author)
-        else
-          UserMailer.work_package_updated(recipient, journal, author)
-        end
-      }
-
-      mail.deliver
+    if journal.initial?
+      UserMailer.work_package_added(recipient, journal, sender)
+    else
+      UserMailer.work_package_updated(recipient, journal, sender)
     end
   end
 
   private
+
+  def raw_journal
+    @raw_journal ||= Journal.find_by(id: @journal_id)
+  end
 
   def find_aggregated_journal
     wp_journals = Journal::AggregatedJournal.aggregated_journals(journable: work_package)
     wp_journals.detect { |journal| journal.version == raw_journal.version }
   end
 
-  def notification_receivers(work_package)
-    work_package.recipients + work_package.watcher_recipients
-  end
-
-  def raw_journal
-    @raw_journal ||= Journal.find_by(id: @journal_id)
-  end
-
   def work_package
     @work_package ||= raw_journal.journable
-  end
-
-  def author
-    @author ||= User.find_by(id: @author_id) || DeletedUser.first
   end
 end

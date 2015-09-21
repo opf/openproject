@@ -36,7 +36,8 @@ class Principal < ActiveRecord::Base
     builtin: 0,
     active: 1,
     registered: 2,
-    locked: 3
+    locked: 3,
+    invited: 4
   }
 
   self.table_name = "#{table_name_prefix}users#{table_name_suffix}"
@@ -55,7 +56,9 @@ class Principal < ActiveRecord::Base
 
   scope :active, -> { where(status: STATUSES[:active]) }
 
-  scope :active_or_registered, -> { where(status: [STATUSES[:active], STATUSES[:registered]]) }
+  scope :active_or_registered, -> {
+    where(status: [STATUSES[:active], STATUSES[:registered], STATUSES[:invited]])
+  }
 
   scope :active_or_registered_like, ->(query) { active_or_registered.like(query) }
 

@@ -68,7 +68,8 @@ class Project < ActiveRecord::Base
       .where("#{Principal.table_name}.type='Group' OR " +
       "(#{Principal.table_name}.type='User' AND " +
       "(#{Principal.table_name}.status=#{Principal::STATUSES[:active]} OR " +
-      "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]}))")
+      "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]} OR " +
+      "#{Principal.table_name}.status=#{Principal::STATUSES[:invited]}))")
   }, class_name: 'Member'
   has_many :users, through: :members
   has_many :principals, through: :member_principals, source: :principal
@@ -138,6 +139,7 @@ class Project < ActiveRecord::Base
   scope :active, -> { where(status: STATUS_ACTIVE) }
   scope :public_projects, -> { where(is_public: true) }
   scope :visible, ->(user = User.current) { where(Project.visible_by(user)) }
+  scope :newest, -> { order(created_on: :desc) }
 
   # timelines stuff
 
@@ -288,21 +290,6 @@ class Project < ActiveRecord::Base
   def add_member!(user, roles)
     add_member(user, roles)
     save
-  end
-
-  # returns latest created projects
-  # non public projects will be returned only if user is a member of those
-  def self.latest(user = nil, count = 5)
-    latest_for(user, count: count)
-  end
-
-  def self.latest_for(user, count: 5)
-    where(visible_by(user)).limit(count).newest_first
-  end
-
-  # table_name shouldn't be needed :(
-  def self.newest_first
-    order "#{table_name}.created_on DESC"
   end
 
   # Returns a SQL :conditions string used to find all active projects for the specified user.

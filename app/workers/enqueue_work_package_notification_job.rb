@@ -63,8 +63,10 @@ class EnqueueWorkPackageNotificationJob
   end
 
   def deliver_notifications_for(journal)
-    job = DeliverWorkPackageNotificationJob.new(journal.id, @author_id)
-    Delayed::Job.enqueue job
+    notification_receivers(work_package).each do |recipient|
+      job = DeliverWorkPackageNotificationJob.new(journal.id, recipient.id, @author_id)
+      Delayed::Job.enqueue job
+    end
   end
 
   def raw_journal
@@ -73,5 +75,9 @@ class EnqueueWorkPackageNotificationJob
 
   def work_package
     @work_package ||= raw_journal.journable
+  end
+
+  def notification_receivers(work_package)
+    (work_package.recipients + work_package.watcher_recipients).uniq
   end
 end

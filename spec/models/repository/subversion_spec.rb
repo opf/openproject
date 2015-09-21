@@ -57,8 +57,16 @@ describe Repository::Subversion, type: :model do
       expect(instance.class.available_types).to eq [:existing]
     end
 
-    context 'with disabled typed' do
+    context 'with disabled types' do
       let(:config) { { disabled_types: [:existing, :managed] } }
+
+      it 'does not have any types' do
+        expect(instance.class.available_types).to be_empty
+      end
+    end
+
+    context 'with mixed disabled types' do
+      let(:config) { { disabled_types: ['existing', :managed] } }
 
       it 'does not have any types' do
         expect(instance.class.available_types).to be_empty

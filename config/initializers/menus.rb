@@ -120,7 +120,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :types,
             { controller: '/types' },
-            caption: :label_type_plural,
+            caption: :label_work_package_types,
             html: { class: 'icon2 icon-tracker' }
 
   menu.push :statuses,
@@ -266,6 +266,12 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :'timelines.project_menu.project_associations',
             if: Proc.new { |p| p.project_type.try :allows_association },
             html: { class: 'icon2 icon-dependency' }
+
+  menu.push :members,
+            { controller: :members, action: :index },
+            param: :project_id,
+            caption: :label_member_plural,
+            html: { class: 'icon2 icon-group' }
 
   menu.push :settings,
             { controller: '/projects', action: 'settings' },

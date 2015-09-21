@@ -1,0 +1,158 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title 'Members' %>
+<%= toolbar title: 'Members' do %>
+    <% if authorize_for(:members, :new) %>
+        <a href="<%= new_project_member_path %>" id="add-member-button" title="Add Member" class="button -alt-highlight">
+          <i class="button--icon icon-add"></i>
+          <span class="button--text"><%= I18n.t(:button_add_member) %></span>
+        </a>
+    <% end %>
+<% end %>
+
+<%= error_messages_for 'member' %>
+
+<div>
+  <% if @members.any? %>
+    <% authorized = authorize_for('members', 'update') %>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table interactive-table role="grid" class="generic-table">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <%= call_hook(:view_projects_settings_members_table_colgroup, :project => @project) %>
+            <col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= User.model_name.human %> / <%= Group.model_name.human %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= l(:label_role_plural) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @members.each do |member| %>
+              <% next if member.new_record? %>
+                <tr id="member-<%= member.id %>" class=" member">
+                  <%
+                    member_type = member.principal.class.name.downcase
+                    classes = [
+                      member_type,
+                      ('icon icon-group' if member_type == 'group'),
+                      user_status_class(member.principal)
+                    ].compact.join(' ')
+                  %>
+                  <td class="<%= classes %>" title="<%= user_status_i18n member.principal %>">
+                    <%= link_to_user member.principal %>
+                    <% if member.user && member.user.invited? %>
+                        <i title="<%= t('text_user_invited') %>" class="icon icon-mail"></i>
+                    <% end %>
+                  </td>
+                  <td class="roles">
+                    <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
+                    <% if authorized %>
+                      <%= form_for(member, :url => {:controller => '/members',
+                                              :action => 'update',
+                                              :id => member,
+                                              :page => params[:page],
+                                              :per_page => params[:per_page] },
+                                     :method => :put,
+                                     :html => { :id => "member-#{member.id}-roles-form",
+                                                :class => 'hol',
+                                                :style => 'display:none' }) do |f| %>
+                        <p><% @roles.each do |role| %>
+                            <label><%= check_box_tag 'member[role_ids][]', role.id, member.roles.include?(role),
+                                                                 :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label>
+                          <% end %></p>
+                        <%= hidden_field_tag 'member[role_ids][]', '' %>
+                        <p><%= submit_tag l(:button_change), :class => 'button -highlight -small' %>
+                          <%= link_to_function l(:button_cancel),
+                        "$('member-#{member.id}-roles').show(); $('member-#{member.id}-roles-form').hide(); return false;",
+                        class: 'button -small' %></p>
+                      <% end %>
+                    <% end %>
+                  </td>
+                  <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
+                  <% if authorized %>
+                    <td class="buttons">
+                      <%
+                         delete_class, delete_title = if member.disposable?
+                           ['icon icon-delete', I18n.t(:title_remove_and_delete_user)]
+                         else
+                           ['icon icon-close', I18n.t(:button_remove)]
+                         end
+                      %>
+                      <%= link_to_function '', "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit', :title => l(:button_edit) %>
+                      <%= link_to('', {:controller => '/members', :action => 'destroy', :id => member, :page => params[:page]},
+                        :method => :delete,
+                        data: { confirm: ((!User.current.admin? && member.include?(User.current)) ? l(:text_own_membership_delete_confirmation) : nil) },
+                        :title => delete_title, :class => delete_class) if member.deletable? %>
+                    </td>
+                  <% end %>
+                </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="generic-table--header-background"></div>
+      </div>
+    </div>
+    <%= pagination_links_full @members, @pagination_url_options || {} %>
+  <% else %>
+    <div class="generic-table--container">
+      <div class="generic-table--no-results-container">
+        <h2 class="generic-table--no-results-title">
+          <i class="icon-info"></i>
+          <%= l(:label_nothing_display) %>
+        </h2>
+        <div class="generic-table--no-results-description">
+          <p class="nodata"><%= l(:label_no_data) %></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

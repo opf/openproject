@@ -216,7 +216,6 @@ class RepositoriesController < ApplicationController
     (show_error_not_found; return) unless @entry
 
     @annotate = @repository.scm.annotate(@path, @rev)
-    (render_error l(:error_scm_annotate); return) if @annotate.nil? || @annotate.empty?
     @changeset = @repository.find_changeset_by_name(@rev)
   end
 

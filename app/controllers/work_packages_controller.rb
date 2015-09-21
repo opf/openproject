@@ -189,7 +189,7 @@ class WorkPackagesController < ApplicationController
 
       flash[:notice] = l(:notice_successful_update)
 
-      redirect_back_or_default(work_package_path(work_package), true, false)
+      redirect_back_or_default(work_package_path(work_package), false)
     else
       edit
     end
@@ -354,9 +354,11 @@ class WorkPackagesController < ApplicationController
       changes = work_package.changesets.visible
                 .includes({ repository: { project: :enabled_modules } }, :user)
 
-      changes.reverse! if current_user.wants_comments_in_reverse_order?
-
-      changes
+      if current_user.wants_comments_in_reverse_order?
+        changes.reverse
+      else
+        changes.to_a
+      end
     end
   end
 

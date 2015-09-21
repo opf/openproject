@@ -37,8 +37,8 @@ $nm-box-padding: rem-calc(10px 35px 10px 35px)
 $nm-font-color: $body-font-color
 $nm-notification-width: rem-calc(550)
 
-$nm-color-error-border: #ca3f3f
-$nm-color-error-icon: #ca3f3f
+$nm-color-error-border: $content-form-danger-zone-bg-color
+$nm-color-error-icon: $content-form-danger-zone-bg-color
 $nm-color-error-background: #fedada
 
 $nm-color-success-border: #35c53f
@@ -118,15 +118,14 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
   .notification-box--close
     position: absolute
-    top: rem-calc(10px)
-    right: rem-calc(10px)
-    color: #000000
-    background-color: rgba(0, 0, 0, 0.08)
+    top: rem-calc(12px)
+    right: rem-calc(12px)
+    background-color: rgba(0, 0, 0, 0)
     border-radius: rem-calc(50px)
-    width: rem-calc(23px)
-    height: rem-calc(23px)
+    width: 1rem
+    height: 1rem
     text-align: center
-    font-size: rem-calc(23px)
+    font-size: 1rem
     line-height: rem-calc(20px)
     &:hover
       text-decoration: none

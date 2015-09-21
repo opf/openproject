@@ -37,6 +37,8 @@ describe Project::Storage, type: :model do
   let(:project2) { FactoryGirl.create(:project) }
 
   before do
+    allow(Setting).to receive(:enabled_scm).and_return(['git'])
+
     wp = FactoryGirl.create(:work_package, project: project1)
     FactoryGirl.create(:work_package, project: project1)
     FactoryGirl.create_list(:attachment, 10, filesize: 250, container: wp)
