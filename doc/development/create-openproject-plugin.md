@@ -4,7 +4,7 @@ OpenProject plugins are special ruby gems. You may include them in your `Gemfile
 
 ## Generate the plugin
 
-You can generate a new plugin directly from OpenProject. Think of a good name and a place (in your filesystem) where the plugin should go. In this example, we have a `plugins directory right next to the `openproject` directory. Then do
+You can generate a new plugin directly from OpenProject. Think of a good name and a place (in your filesystem) where the plugin should go. In this example, we have a `plugins` directory right next to the `openproject` directory. Then do
 
 ```bash
 bundle exec rails generate open_project:plugin a_good_name ../plugins/
