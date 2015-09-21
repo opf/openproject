@@ -27,11 +27,9 @@
 //++
 
 module.exports = function($timeout, NotificationsService) {
-
   return {
     restrict: 'A',
     link: function(scope, element, attributes) {
-
       var pushNotification = function() {
         switch(attributes.clickNotificationType) {
           case 'notice':
@@ -49,8 +47,7 @@ module.exports = function($timeout, NotificationsService) {
           default:
             NotificationsService.addNotice(attributes.clickNotification);
         }
-      }
-
+      };
 
       var addNotification = function() {
         // use timeout to trigger the digest cycle
@@ -58,10 +55,7 @@ module.exports = function($timeout, NotificationsService) {
           pushNotification(),
           0
         });
-
-
-      }
-
+      };
       element.bind('click', addNotification);
     }
   };
