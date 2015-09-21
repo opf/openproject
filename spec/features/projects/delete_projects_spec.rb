@@ -29,11 +29,11 @@
 require 'spec_helper'
 require 'features/projects/projects_page'
 
-describe 'Delete project', type: :feature do
+describe 'Delete project', type: :feature, js: true do
   let(:current_user) { FactoryGirl.create (:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:projects_page) { ProjectsPage.new(project) }
-  let(:delete_button) { find('input[type="submit"]') }
+
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -41,23 +41,25 @@ describe 'Delete project', type: :feature do
     projects_page.visit_confirm_destroy
   end
 
-  it { expect(find('input#confirm')).not_to be_nil }
 
-  describe 'click delete w/o confirm' do
-    before do delete_button.click end
 
-    it { expect(find('.error', text: I18n.t(:notice_project_not_deleted))).not_to be_nil }
+  describe 'disable delete w/o confirm' do
+    it { expect(page).to have_css('.danger-zone .button[disabled]') }
   end
 
-  describe 'click delete with confirm' do
-    let(:confirm_checkbox) { find('input#confirm') }
-
-    before do
-      confirm_checkbox.set true
-
-      delete_button.click
+  describe 'disable delete with wrong input' do
+    let(:input) { find('.danger-zone input') }
+    it do
+      input.set 'Not the project name'
+      expect(page).to have_css('.danger-zone .button[disabled]')
     end
+  end
 
-    it { expect(find('h2', text: 'Projects')).not_to be_nil }
+  describe 'enable delete with correct input' do
+    let(:input) { find('.danger-zone input') }
+    it do
+      input.set project.name
+      expect(page).to have_css('.danger-zone .button:not([disabled])')
+    end
   end
 end

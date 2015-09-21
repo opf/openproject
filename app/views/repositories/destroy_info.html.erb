@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% if @repository.managed? %>
-<form class="form danger-zone">
+<%= styled_form_tag(project_repository_path(@project), method: :delete, class: 'danger-zone') do %>
   <section class="form--section">
     <h3 class="form--section-title">
       <%= l('repositories.destroy.title', name: "<em>#{h(@repository.root_url)}</em>").html_safe %>
@@ -52,7 +52,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% end %>
     </div>
   </section>
-</form>
+<% end %>
 <% else %>
 <div class="notification-box -warning">
   <div class="notification-box--content">

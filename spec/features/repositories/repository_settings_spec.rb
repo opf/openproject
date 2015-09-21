@@ -63,11 +63,13 @@ describe 'Repository Settings', type: :feature, js: true do
 
       # Confirm the notification warning
       if type == 'managed'
-        expect(page).to have_selector("form.-danger-zone")
+        expect(page).to have_selector('form.danger-zone')
+        find('.danger-zone .button').click
       else
-        expect(page).to have_selector(".notification-box.-warning")
+        expect(page).to have_selector('.notification-box.-warning')
+        find('a', text: I18n.t(:button_delete)).click
       end
-      find('a', text: I18n.t(:button_delete)).click
+
 
       vendor = find('select[name="scm_vendor"]')
       expect(vendor).not_to be_nil
