@@ -92,30 +92,19 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <h4><%=l(:label_visible_elements) %></h4>
-<div id="visible-grid">
-  <div class="grid-block">
-    <div id="list-top" class="grid-content block-receiver">
-      <% @blocks['top'].each do |b|
-         next unless MyController.available_blocks.keys.include? b %>
-        <%= render partial: 'block', locals: {user: @user, block_name: b} %>
-      <% end if @blocks['top'] %>
-    </div>
+<div class="my-page--container -visible-grid">
+  <div id="list-top" class="grid-content block-receiver">
+    <%= render partial: 'block_container', locals: { edit: true, blocks: @blocks['top'] } %>
   </div>
   <div class="grid-block">
-    <div id="list-left" class="grid-content block-receiver left">
-      <% @blocks['left'].each do |b|
-         next unless MyController.available_blocks.keys.include? b %>
-        <%= render partial: 'block', locals: {user: @user, block_name: b} %>
-      <% end if @blocks['left'] %>
-    </div>
-    <div id="list-right" class="grid-content block-receiver right">
-      <% @blocks['right'].each do |b|
-         next unless MyController.available_blocks.keys.include? b %>
-        <%= render partial: 'block', locals: {user: @user, block_name: b} %>
-      <% end if @blocks['right'] %>
-    </div>
+    <% %w(left right).each do |position| %>
+        <div id="list-<%= position %>" class="grid-content block-receiver">
+          <%= render partial: 'block_container', locals: { edit: true, blocks: @blocks[position] } %>
+        </div>
+    <% end %>
   </div>
 </div>
+
 <%= sortable_element 'list-top',
       tag: 'div',
       only: 'mypage-box',

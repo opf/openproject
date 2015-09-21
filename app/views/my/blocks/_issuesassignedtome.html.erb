@@ -26,24 +26,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<h3><%=l(:label_assigned_to_me_work_packages)%> (<%= wps_assigned_to_me_count %>)</h3>
 
 <% if defined? block_name %>
   <%= content_for "#{block_name}_remove_block" %>
 <% end %>
 
+<h3 class="widget-box--header">
+  <span class="icon-context icon-issue-assignedtome"></span>
+  <span class="widget-box--header-title"><%=l(:label_assigned_to_me_work_packages)%> (<%= wps_assigned_to_me_count %>)</span>
+</h3>
+
 <%= render partial: 'work_packages/list_simple',
-           locals: {
-                        work_packages: wps_assigned_to_me,
-                        list_for: :assigned
-                      } %>
+           locals: { work_packages: wps_assigned_to_me, list_for: :assigned } %>
 
 <% if wps_assigned_to_me_count > 0 %>
-  <p class="small">
+  <div class="generic-table--action-buttons">
     <%= link_to l(:label_work_package_view_all_assigned_to_me),
                 work_packages_assigned_to_me_path,
                 class: 'button -highlight' %>
-  </p>
+
+  </div>
 <% end %>
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom,

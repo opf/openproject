@@ -31,7 +31,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% watched_count = WorkPackage.visible.open.watched_by(user.id).count %>
 
-<h3><%=l(:label_watched_work_packages)%> (<%= watched_count %>)</h3>
+<h3 class="widget-box--header">
+  <span class="icon-context icon-issue-watched"></span>
+  <span class="widget-box--header-title"><%=l(:label_watched_work_packages)%> (<%= watched_count %>)</span>
+</h3>
 
 <% if defined? block_name %>
   <%= content_for "#{block_name}_remove_block" %>
@@ -44,9 +47,9 @@ See doc/COPYRIGHT.rdoc for more details.
                       } %>
 
 <% if watched.length > 0 %>
-  <p class="small">
+  <div class="generic-table--action-buttons">
     <%= link_to l(:label_work_package_view_all_watched),
                 work_packages_watched_path,
                 class: 'button -highlight' %>
-  </p>
+  </div>
 <% end %>

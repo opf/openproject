@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <% if @homescreen[:blocks].any? %>
-  <section class="widget-boxes">
+  <section class="widget-boxes -flex">
   <% @homescreen[:blocks].each do |block| %>
     <% if block[:if].nil? || instance_eval(&block[:if]) %>
       <div class="widget-box">

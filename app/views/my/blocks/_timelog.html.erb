@@ -27,7 +27,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h3><%=l(:label_spent_time)%> (<%= l(:label_last_n_days, 7) %>)</h3>
+<h3 class="widget-box--header">
+  <span class="icon-context icon-time"></span>
+  <span class="widget-box--header-title"><%=l(:label_spent_time)%> (<%= l(:label_last_n_days, 7) %>)</span>
+</h3>
 
 <% if defined? block_name %>
   <%= content_for "#{block_name}_remove_block" %>
