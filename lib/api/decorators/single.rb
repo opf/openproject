@@ -51,6 +51,8 @@ module API
       end
 
       def initialize(model, current_user:, embed_links: false)
+        raise 'no represented object passed' if model_required? && model.nil?
+
         @current_user = current_user
         @embed_links = embed_links
 
@@ -137,7 +139,15 @@ module API
         ::API::V3::Utilities::DateTimeFormatter
       end
 
+      # Override in subclasses to specify the JSON indicated "_type" of this representer
       def _type; end
+
+      # If a subclass does not depend on a model being passed to this class, it can override
+      # this method and return false. Otherwise it will be enforced that the model of each
+      # representer is non-nil.
+      def model_required?
+        true
+      end
     end
   end
 end

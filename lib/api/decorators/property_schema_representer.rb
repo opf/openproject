@@ -57,6 +57,13 @@ module API
       property :min_length, exec_context: :decorator
       property :max_length, exec_context: :decorator
       property :regular_expression, exec_context: :decorator
+
+      private
+
+      def model_required?
+        # we never pass a model to our superclass
+        false
+      end
     end
   end
 end

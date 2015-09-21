@@ -52,8 +52,15 @@ module API
                  # (nil values are not supported by a string_objects URL anyway)
                  getter: -> (*) { represented || '' }
 
+        private
+
         def _type
           'StringObject'
+        end
+
+        def model_required?
+          # the string may also be nil, we are prepared for that
+          false
         end
       end
     end
