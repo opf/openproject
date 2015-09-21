@@ -251,6 +251,12 @@ class MyController < ApplicationController
     end
   end
 
+  helper_method :has_tokens?
+
+  def has_tokens?
+    Setting.feeds_enabled? || Setting.rest_api_enabled?
+  end
+
   def get_current_layout
     @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
   end

@@ -34,9 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p><%= l(:text_access_token_hint) %></p>
 
-<% if Setting.feeds_enabled? ||
-      Setting.rest_api_enabled? ||
-      ExtendedToken.exists?(type: 'SVNToken') %>
+<% if has_tokens? %>
     <div class="generic-table--container">
       <div class="generic-table--results-container" style="max-height: 340px;">
         <table id="access-token-table" role="grid" class="generic-table" interactive-table>
