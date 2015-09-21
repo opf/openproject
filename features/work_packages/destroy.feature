@@ -54,7 +54,7 @@ Feature: Deleting work packages
     And I confirm popups
     Then I should see "Confirmation"
     When I choose "Reassign"
-    And I fill in the id of work package "wp2" into "work package"
+    And I fill in the id of work package "wp2" into "to_do_reassign_to_id"
     And I submit the form by the "Delete" button
     Then I should be on the work packages index page of the project called "ecookbook"
     # When I go to the page of the work package "wp2"
