@@ -663,10 +663,14 @@ en:
   instructions_after_logout: "You can sign in again by clicking %{signin}."
   instructions_after_error: "You can try to sign in again by clicking %{signin}. If the error persists, ask your admin for help."
 
-  label_access_token: "Access token"
-  label_access_token_action_header: "Action"
-  label_access_token_expiration_header: "Expires"
-  label_access_token_expiration_indefinite: "Never"
+  my_account:
+    access_tokens:
+      access_token: "Access token"
+      headers:
+        action: "Action"
+        expiration: "Expires"
+      indefinite_expiration: "Never"
+
   label_account: "Account"
   label_activity: "Activity"
   label_add_edit_translations: "Add and edit translations"

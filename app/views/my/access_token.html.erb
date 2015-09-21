@@ -27,10 +27,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title(l(:label_my_account), l(:label_access_token)) -%>
+<% html_title(l(:label_my_account), I18n.t('my_account.access_tokens.access_token')) -%>
 
-<% breadcrumb_paths(l(:label_my_account), l(:label_access_token)) %>
-<%= toolbar title: l(:label_access_token) %>
+<% breadcrumb_paths(l(:label_my_account), I18n.t('my_account.access_tokens.access_token')) %>
+<%= toolbar title: I18n.t('my_account.access_tokens.access_token') %>
 
 <p><%= l(:text_access_token_hint) %></p>
 
@@ -63,14 +63,14 @@ See doc/COPYRIGHT.rdoc for more details.
             <th>
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
-                  <%= l(:label_access_token_expiration_header) %>
+                  <%= I18n.t('my_account.access_tokens.headers.expiration') %>
                 </div>
               </div>
             </th>
             <th>
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
-                  <%= l(:label_access_token_action_header) %>
+                  <%= I18n.t('my_account.access_tokens.headers.action') %>
                 </div>
               </div>
             </th>
@@ -89,7 +89,7 @@ See doc/COPYRIGHT.rdoc for more details.
                       <%= l(:label_missing_feeds_access_key) %>
                   <% end %>
                 </td>
-                <td><%= l(:label_access_token_expiration_indefinite) %></td>
+                <td><%= I18n.t('my_account.access_tokens.indefinite_expiration') %></td>
                 <td>
                   <%= link_to l(:button_reset),
                               { action: 'reset_rss_key' },
@@ -118,7 +118,7 @@ See doc/COPYRIGHT.rdoc for more details.
                       <%= l(:label_missing_api_access_key) %>
                   <% end %>
                 </td>
-                <td><%= l(:label_access_token_expiration_indefinite) %></td>
+                <td><%= I18n.t('my_account.access_tokens.indefinite_expiration') %></td>
                 <td>
                   <%= link_to l(:button_reset),
                               { action: 'reset_api_key' },
