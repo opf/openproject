@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="form--field">
     <div class="form--field-container -vertical">
       <% @user.projects.each do |project| %>
-        <label class="form--label-with-check-box"l>
+        <label class="form--label-with-check-box">
           <%= styled_check_box_tag 'notified_project_ids[]', project.id, @user.notified_projects_ids.include?(project.id) %>
           <%= project.name %>
         </label>
