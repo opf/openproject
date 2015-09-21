@@ -91,4 +91,27 @@ RSpec.configure do |config|
 
     I18n.locale = 'en'
   end
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with :truncation
+  end
+
+  config.before(:each) do |example|
+    DatabaseCleaner.strategy = if example.metadata[:js]
+                                 # JS => doesn't share connections => can't use transactions
+                                 # as of database_cleaner 1.4 'deletion' causes error:
+                                 # 'column "table_rows" does not exist'
+                                 # https://github.com/DatabaseCleaner/database_cleaner/issues/345
+                                 :truncation
+                               else
+                                 # No JS/Devise => run with Rack::Test => transactions are ok
+                                 :transaction
+                               end
+
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end
