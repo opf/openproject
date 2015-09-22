@@ -5,6 +5,7 @@
             ng-disabled="fieldController.state.isBusy"
             ng-model="fieldController.writeValue.props.href"
             title="{{ fieldController.editTitle }}"
+            on-select="fieldController.onSelect($item)"
             reset-search-input="true"
             theme="select2">
         <ui-select-match>{{ $select.selected.name }}</ui-select-match>

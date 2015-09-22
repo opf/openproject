@@ -50,6 +50,18 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState) {
       ));
     };
 
+    this.onSelect = function($item){
+      var uiSelect = angular.element('.select2').controller('uiSelect');
+      angular.element('.ui-select-focusser').off();
+      angular.element('.ui-select-focusser').bind('keydown keypress', function(event) {
+          if(event.which == 13) {
+            uiSelect.close();
+            $scope.$broadcast('editPaneController.submitForm');
+             angular.element('.ui-select-focusser').off();
+          }
+      });
+     }
+
     if (this.isEditable()) {
       this.state.isBusy = false;
       this.isEditing = this.state.forcedEditState;

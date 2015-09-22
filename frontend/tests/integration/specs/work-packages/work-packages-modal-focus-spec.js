@@ -65,7 +65,5 @@ describe('OpenProject', function() {
         .to.eventually.equal(elementId);
     });
   });
-
-
 });
 

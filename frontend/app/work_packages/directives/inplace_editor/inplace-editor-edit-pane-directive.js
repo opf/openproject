@@ -119,6 +119,10 @@ module.exports = function(
 
       };
 
+       $scope.$on('editPaneController.submitForm', function(event) { 
+          $scope.editPaneController.submit(false);
+       });
+
       this.discardEditing = function() {
         $scope.fieldController.isEditing = false;
         delete getPendingFormChanges()[$scope.fieldController.field];
