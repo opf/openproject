@@ -3688,6 +3688,11 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 
 ## Delete Work Package [DELETE]
 
+Deletes the work package, as well as:
+
+* all associated time entries
+* its hierarchy of child work packages
+
 + Parameters
     + id (required, integer, `1`) ... Work package id
 
