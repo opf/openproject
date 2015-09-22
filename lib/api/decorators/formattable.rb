@@ -61,6 +61,13 @@ module API
       def to_html
         format_text(represented, format: @format, object: @object)
       end
+
+      private
+
+      def model_required?
+        # the formatted string may also be nil, we are prepared for that
+        false
+      end
     end
   end
 end
