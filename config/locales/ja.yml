@@ -11,12 +11,12 @@ ja:
         work_package:
           attributes:
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: では現在のスプリントの作業パッケージＩＤのみを含めることができます。
-              must_block_at_least_one_work_package: は少なくとも 1 つのチケットの ID を含める必要があります。
+              can_only_contain_work_packages_of_current_sprint: では現在のスプリント内の作業項目IDのみを含めることができます。
+              must_block_at_least_one_work_package: は少なくとも 1つのチケットのIDを含める必要があります。
             fixed_version_id:
               task_version_must_be_the_same_as_story_version: はストーリーのバージョンと同じである必要があります。
             parent_id:
-              parent_child_relationship_across_projects: "は無効です。作業パッケージ'%{work_package_name}' は バックログタスクであり、バックログストーリー '%{parent_name}'は別のプロジェクトである限り、ストーリーは親にすることができません。"
+              parent_child_relationship_across_projects: "は無効です。作業項目'%{work_package_name}'はバックログタスクで、現在のプロジェクト外の親を持つことはできません。"
               type_must_be_one_of_the_following: '型は次のいずれかである必要があります: %{type_names}'
         sprint:
           cannot_end_before_it_starts: スプリントは開始する前に終了できません。
@@ -62,33 +62,33 @@ ja:
   backlogs_product_backlog: プロダクトバックログ
   backlogs_product_backlog_is_empty: プロダクトバックログはありません。
   backlogs_product_backlog_unsized: プロダクトバックログの最上部にはサイズ化されてないストーリーがあります。
-  backlogs_sizing_inconsistent: Story sizes vary against their estimates
-  backlogs_sprint_notes_missing: Closed sprints without retrospective/review notes
-  backlogs_sprint_unestimated: Closed or active sprints with unestimated stories
-  backlogs_sprint_unsized: Project has stories on active or recently closed sprints that were not sized
-  backlogs_sprints: Sprints
+  backlogs_sizing_inconsistent: ストーリーのサイズは見積もりと異なります。
+  backlogs_sprint_notes_missing: 反復振り返り/レビューのメモなしで閉じたスプリント
+  backlogs_sprint_unestimated: 見積もってないストーリーを持つアクティブなもしくはクローズされたスプリント
+  backlogs_sprint_unsized: プロジェクトはアクティブなもしくは最近クローズされたスプリントに対しサイズが合っていないストーリーを含んでいます
+  backlogs_sprints: スプリント
   backlogs_story: ストーリー
-  backlogs_story_type: Story types
+  backlogs_story_type: ストーリーの種類
   backlogs_task: タスク
-  backlogs_task_type: Task type
-  backlogs_velocity_missing: No velocity could be calculated for this project
-  backlogs_velocity_varies: Velocity varies significantly over sprints
-  backlogs_wiki_template: Template for sprint wiki page
-  button_edit_wiki: Edit wiki page
-  error_intro_plural: 'The following errors were encountered:'
-  error_intro_singular: 'The following error was encountered:'
-  error_outro: Please correct the above errors before submitting again.
+  backlogs_task_type: タスクの種類
+  backlogs_velocity_missing: このプロジェクトのベロシティを計算できなかった
+  backlogs_velocity_varies: ベロシティがスプリントと大幅に異なります
+  backlogs_wiki_template: スプリントのWikiページのテンプレート
+  button_edit_wiki: Wikiページの編集
+  error_intro_plural: 次のエラーが発生しました：
+  error_intro_singular: 次のエラーが発生しました：
+  error_outro: 送信する前に上記のエラーを修正してください。
   event_sprint_description: |
     %{summary}: %{url}
     %{description}
   event_sprint_summary: '%{project}: %{summary}'
-  ideal: ideal
-  inclusion: is not included in the list
-  label_back_to_project: Back to project page
-  label_backlog: Backlog
-  label_backlogs: Backlogs
+  ideal: 理想時間
+  inclusion: はリストに含まれていません。
+  label_back_to_project: プロジェクトページに戻る
+  label_backlog: バックログ
+  label_backlogs: バックログ
   label_backlogs_unconfigured: 'You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool.'
-  label_blocks_ids: Blocks (IDs)
+  label_blocks_ids: IDs of blocked work packages
   label_burndown: Burndown
   label_chart_options: Chart Options
   label_column_in_backlog: Column in backlog
@@ -126,7 +126,7 @@ ja:
   points_resolved: points resolved
   points_to_accept: points not accepted
   points_to_resolve: points not resolved
-  project_module_backlogs: Backlogs
+  project_module_backlogs: バックログ
   rb_label_copy_tasks: Copy work packages
   rb_label_copy_tasks_all: All
   rb_label_copy_tasks_none: None
