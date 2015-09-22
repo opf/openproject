@@ -185,29 +185,6 @@ module ApplicationHelper
     [objects.compact, options]
   end
 
-  # Renders flash messages
-  def render_flash_messages
-    flash.map { |k, v| render_flash_message(k, v) }.join.html_safe
-  end
-
-  def join_flash_messages(messages)
-    if messages.respond_to?(:join)
-      messages.join('<br />').html_safe
-    else
-      messages
-    end
-  end
-
-  def render_flash_message(type, message, html_options = {})
-    css_classes = ["flash #{type} icon icon-#{type}", html_options.delete(:class)].join(' ')
-    html_options = { class: css_classes, role: 'alert' }.merge(html_options)
-    if User.current.impaired?
-      content_tag('div', content_tag('a', join_flash_messages(message), href: 'javascript:;'), html_options)
-    else
-      content_tag('div', join_flash_messages(message), html_options)
-    end
-  end
-
   # Renders tabs and their content
   def render_tabs(tabs)
     if tabs.any?

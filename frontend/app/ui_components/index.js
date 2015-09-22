@@ -105,4 +105,9 @@ angular.module('openproject.uiComponents')
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))
   .filter('latestItems', require('./filters/latest-items-filter'))
   .directive('highlightCol', [require('./highlight-col-directive')])
-  .directive('confirmPopup', ['$window', require('./confirm-popup-directive')]);
+  .directive('confirmPopup', ['$window', require('./confirm-popup-directive')])
+  .directive('flashMessages', [
+    'NotificationsService',
+    '$timeout',
+    require('./flash-messages-directive')
+  ]);
