@@ -49,6 +49,8 @@ module.exports = function(
           if (scope.files.length > 0) {
             workPackageAttachmentsService.upload(workPackage, scope.files).then(function() {
               scope.files = [];
+              // Reload work package in order to prevent version conflicts.
+              scope.$emit('workPackageRefreshRequired');
               loadAttachments();
             });
           }
@@ -75,6 +77,8 @@ module.exports = function(
       workPackageAttachmentsService.remove(file).then(function(file) {
         _.remove(scope.attachments, file);
         _.remove(scope.files, file);
+        // Reload work package in order to prevent version conflicts.
+        scope.$emit('workPackageRefreshRequired');
       }).finally(function() {
         _.remove(currentlyRemoving, file);
       });
