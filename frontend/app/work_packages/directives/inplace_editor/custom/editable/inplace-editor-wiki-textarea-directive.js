@@ -32,7 +32,6 @@ module.exports = function(TextileService, EditableFieldsState, $sce, AutoComplet
     transclude: true,
     replace: true,
     scope: {},
-    require: '^workPackageField',
     templateUrl: '/templates/work_packages/inplace_editor/custom/editable/wiki_textarea.html',
     controller: function($scope) {
       this.isPreview = false;
@@ -61,12 +60,34 @@ module.exports = function(TextileService, EditableFieldsState, $sce, AutoComplet
       };
     },
     controllerAs: 'customEditorController',
-    link: function(scope, element, attrs, fieldController) {
-      scope.fieldController = fieldController;
+    link: function(scope, element) {
+      scope.fieldController = scope.$parent.fieldController;
       $timeout(function() {
         AutoCompleteHelper.enableTextareaAutoCompletion(element.find('textarea'));
         // set as dirty for the script to show a confirm on leaving the page
         element.find('textarea').data('changed', true);
+      });
+
+      // Listen to elastic textara expansion to always make the bottom
+      // of that textarea visible.
+      // Otherwise, when expanding the textarea with newlines,
+      // its bottom border may no longer be visible
+      scope.$on('elastic:resize', function(event, textarea, oldHeight, newHeight) {
+        var containerHeight = element.scrollParent().height();
+
+        // We can only help the user if the whole textarea fits in the screen
+        if (newHeight >= (containerHeight - (containerHeight / 5))) {
+          return;
+        }
+
+        $timeout(function() {
+          var controls = element.closest('.inplace-edit--form ')
+                                .find('.inplace-edit--controls');
+
+          if (!controls.isVisibleWithin(controls.scrollParent())) {
+            controls[0].scrollIntoView(false);
+          }
+        }, 200);
       });
     }
   };

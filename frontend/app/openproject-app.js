@@ -58,6 +58,7 @@ require('angular-busy/dist/angular-busy');
 require('angular-busy/dist/angular-busy.css');
 
 require('angular-context-menu');
+require('angular-elastic');
 require('mousetrap');
 require('ngFileUpload');
 
@@ -188,7 +189,8 @@ var openprojectApp = angular.module('openproject', [
   'openproject.layout',
   'cgBusy',
   'openproject.api',
-  'openproject.templates'
+  'openproject.templates',
+  'monospaced.elastic'
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') ||

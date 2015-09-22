@@ -56,7 +56,9 @@
     </div>
   </div>
 
-  <exclusive-edit>
+  <work-package-comment work-package="workPackage"
+                        activities="activities"
+                        autocomplete-path="{{ autocompletePath }}">
     <ul class='work-package-details-activities-list'>
       <li ng-repeat="activity in activities | latestItems:activitiesSortedInDescendingOrder:3"
           class="work-package-details-activities-activity"
@@ -67,14 +69,9 @@
                         activity="activity"
                         activity-no="activityNo"
                         is-initial="isInitial"
-                        autocomplete-path="autocompletePath"
-                        input-element-id="'add-comment-text'">
+                        autocomplete-path="autocompletePath">
         </activity-entry>
       </li>
     </ul>
-    <activity-comment work-package="workPackage"
-                      activities="activities"
-                      autocomplete-path="{{ autocompletePath }}">
-    </activity-comment>
-  </exclusive-edit>
+  </work-package-comment>
 </div>

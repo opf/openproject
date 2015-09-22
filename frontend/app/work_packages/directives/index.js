@@ -58,6 +58,20 @@ angular.module('openproject.workPackages.directives')
     'UserService',
     require('./work-package-column-directive')
   ])
+  .directive('workPackageComment', [
+    '$timeout',
+    '$location',
+    '$q',
+    'WorkPackageFieldService',
+    'EditableFieldsState',
+    'FocusHelper',
+    'I18n',
+    'ActivityService',
+    'ConfigurationService',
+    'AutoCompleteHelper',
+    'NotificationsService',
+    require('./work-package-comment-directive')
+  ])
   .directive('workPackageField', require('./work-package-field-directive'))
   .constant('PERMITTED_MORE_MENU_ACTIONS', ['log_time', 'duplicate', 'move',
     'delete'

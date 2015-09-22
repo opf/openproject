@@ -81,6 +81,7 @@ angular.module('openproject.workPackages.controllers')
     'RELATION_TYPES',
     'RELATION_IDENTIFIERS',
     '$q',
+    '$rootScope',
     '$filter',
     'WorkPackagesHelper',
     'PathHelper',

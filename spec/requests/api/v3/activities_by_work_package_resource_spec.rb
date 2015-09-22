@@ -68,7 +68,7 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
       shared_context 'create activity' do
         before {
           post (api_v3_paths.work_package_activities work_package.id),
-               { comment: comment }.to_json,  'CONTENT_TYPE' => 'application/json'
+               { comment: { raw: comment } }.to_json, 'CONTENT_TYPE' => 'application/json'
         }
       end
 
@@ -78,18 +78,6 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
 
       it_behaves_like 'valid activity request' do
         let(:status_code) { 201 }
-
-        include_context 'create activity'
-      end
-
-      it_behaves_like 'invalid activity request' do
-        before do
-          work_package.errors.add :base, :invalid
-
-          # Using allow_any_instance because we don't control the WP returned to the API
-          allow_any_instance_of(WorkPackage).to receive(:save).and_return(false)
-          allow_any_instance_of(WorkPackage).to receive(:errors).and_return(work_package.errors)
-        end
 
         include_context 'create activity'
       end

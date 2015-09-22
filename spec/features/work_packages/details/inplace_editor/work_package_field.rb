@@ -4,8 +4,14 @@ class WorkPackageField
 
   attr_reader :element
 
-  def initialize(page, property_name)
+  def initialize(page, property_name, selector = nil)
     @property_name = property_name
+
+    if selector.nil?
+      @selector = ".work-package-field.work-packages--details--#{@property_name}"
+    else
+      @selector = selector
+    end
 
     ensure_page_loaded
 
@@ -25,7 +31,7 @@ class WorkPackageField
   end
 
   def field_selector
-    ".work-package-field.work-packages--details--#{@property_name}"
+    @selector
   end
 
   def activate_edition

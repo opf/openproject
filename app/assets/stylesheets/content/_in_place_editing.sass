@@ -29,6 +29,8 @@
 $inplace-edit--border-color: #ddd
 $inplace-edit--dark-background: #f8f8f8
 $inplace-edit--color--very-dark: #cacaca
+$inplace-edit--color--disabled: #999
+$inplace-edit--bg-color--disabled: #eee
 $inplace-edit--color-highlight: $primary-color
 $inplace-edit--selected-date-border-color: $primary-color-dark
 
@@ -82,7 +84,8 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
 #ui-datepicker-div
   z-index: 9999 !important
 
-.inplace-edit--form
+.inplace-edit--form,
+.user-comment--form
   display: block
   position: relative
 
@@ -109,9 +112,16 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
     max-width: 100%
 
 .inplace-edit--textarea
-  min-height: 200px
+  min-height: 20px
   width: 100%
   margin-bottom: -1px
+  
+  // Resize done by angular-elastic
+  &[msd-elastic]
+    resize: none
+
+  &.-animated:focus
+    transition: height 50ms ease-in-out
 
 .inplace-edit--text-field
   margin-bottom: 0!important
@@ -157,6 +167,15 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
   // inplace-editable elements below the current one.
   position: absolute
   right: 0
+
+// Disabled submit styles when not applicable
+.inplace-edit--control--save[disabled],
+.inplace-edit--control--send[disabled]
+  background-color: $inplace-edit--bg-color--disabled
+
+  span
+    color: $inplace-edit--color--disabled
+    cursor: not-allowed
 
 .inplace-edit--read
   @include grid-block
@@ -254,16 +273,36 @@ a.inplace-editing--trigger-link,
 
     .icon-context::before
       padding: 0
-
 // custom hack to have the jsToolbar in the same line as the "Description" title
-
 .inplace-edit.attribute-description
+
+  .inplace-editing--container
+    border: 1px solid #eee
+
   .inplace-edit--write
     margin-top: -48px
     // for non-textile description we need to not overlap the 'Description' header
     // which in textile is shown due to edit buttons on the right side
     &.edit-strategy-textarea
       margin-top: auto
+
+
+// Explicit styles for input-esque trigger appearance
+.work-packages--activity--add-comment,
+.work-package--watchers-lookup,
+.inplace-edit.attribute-description
+
+  .inplace-editing--container
+    border: 1px solid #eee
+
+.work-packages--activity--add-comment
+  margin: 20px 0
+
+  .inplace-edit--read-value
+    padding: 10px 5px
+
+  .inplace-editing--trigger-link
+    font-size: 1rem
 
 // this aligns the title for the WP
 .work-packages--details--title

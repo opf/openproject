@@ -30,8 +30,7 @@ module.exports = function() {
   return {
     transclude: true,
     replace: true,
-    scope: {},
-    require: '^workPackageField',
+    scope: false,
     templateUrl: '/templates/work_packages/inplace_editor/main_pane.html',
     controller: function($scope, $timeout) {
       // controller is invoked before linker
@@ -52,8 +51,5 @@ module.exports = function() {
       });
     },
     controllerAs: 'mainPaneController',
-    link: function(scope, element, attrs, fieldController) {
-      scope.fieldController = fieldController;
-    }
   };
 };

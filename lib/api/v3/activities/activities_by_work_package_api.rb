@@ -34,14 +34,16 @@ module API
       class ActivitiesByWorkPackageAPI < ::API::OpenProjectAPI
         resource :activities do
           helpers do
-            def save_work_package(work_package)
-              if work_package.save
-                journals = ::Journal::AggregatedJournal.aggregated_journals(
-                  journable: work_package)
-                Activities::ActivityRepresenter.new(journals.last, current_user: current_user)
-              else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(work_package.errors)
-              end
+            def comment_on_work_package(work_package, notify:, comment:)
+              update_service = UpdateWorkPackageService.new(
+                user: current_user,
+                work_package: work_package,
+                send_notifications: notify,
+              )
+
+              update_service.create_journal(comment)
+              journals = ::Journal::AggregatedJournal.aggregated_journals(journable: work_package)
+              Activities::ActivityRepresenter.new(journals.last, current_user: current_user)
             end
           end
 
@@ -54,17 +56,18 @@ module API
           end
 
           params do
-            requires :comment, type: String
+            requires :comment, type: Hash
           end
           post do
-            authorize({ controller: :journals, action: :new },
-                      context: @work_package.project) do
+            authorize({ controller: :journals, action: :new }, context: @work_package.project) do
               raise ::API::Errors::NotFound.new
             end
 
-            @work_package.journal_notes = params[:comment]
-
-            save_work_package(@work_package)
+            comment_on_work_package(
+              @work_package,
+              notify: !(params.has_key?(:notify) && params[:notify] == 'false'),
+              comment: params[:comment][:raw]
+            )
           end
         end
       end

@@ -1,27 +1,25 @@
-  <exclusive-edit>
-    <div class="detail-activity">
-      <ul class="work-package-details-activities-list">
-        <li ng-repeat="activity in activities"
-            class="work-package-details-activities-activity"
-            ng-init="activityNo    = activitiesSortedInDescendingOrder && activities.length - $index || $index + 1;
-                     isInitial     = isInitialActivity(activity, activityNo);
-                     currentDate   = (activity.props.createdAt|date:'longDate');
-                     currentAnchor = 'note-' + activityNo">
-          <h3 class="activity-date"
-              ng-if="currentDate !== (activities[$index-1].props.createdAt | date:'longDate')"
-              ng-bind="currentDate"/>
-            <activity-entry work-package="workPackage"
-                           activity="activity"
-                           activity-no="activityNo"
-                           is-initial="isInitial"
-                           autocomplete-path="autocompletePath"
-                           input-element-id="'add-comment-text'">
-            </activity-entry>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <activity-comment work-package="workPackage"
-                      activities="activities">
-    </activity-comment>
-  </exclusive-edit>
+<work-package-comment work-package="workPackage"
+                      activities="activities"
+                      autocomplete-path="{{ autocompletePath }}">
+  <div class="detail-activity">
+    <ul class="work-package-details-activities-list">
+      <li ng-repeat="activity in activities"
+          class="work-package-details-activities-activity"
+          ng-init="activityNo    = activitiesSortedInDescendingOrder && activities.length - $index || $index + 1;
+                   isInitial     = isInitialActivity(activity, activityNo);
+                   currentDate   = (activity.props.createdAt|date:'longDate');
+                   currentAnchor = 'note-' + activityNo">
+        <h3 class="activity-date"
+            ng-if="currentDate !== (activities[$index-1].props.createdAt | date:'longDate')"
+            ng-bind="currentDate"/>
+          <activity-entry work-package="workPackage"
+                          activity="activity"
+                          activity-no="activityNo"
+                          is-initial="isInitial"
+                          autocomplete-path="autocompletePath">
+          </activity-entry>
+        </div>
+      </li>
+    </ul>
+  </div>
+</work-package-comment>

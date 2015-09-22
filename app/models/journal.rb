@@ -132,7 +132,13 @@ class Journal < ActiveRecord::Base
 
   def touch_journable
     if journable && !journable.changed?
-      journable.touch
+      # Not using touch here on purpose,
+      # as to avoid changing lock versions on the journables for this change
+      time = journable.send(:current_time_from_proper_timezone)
+      attributes = journable.send(:timestamp_attributes_for_update_in_model)
+
+      timestamps = Hash[attributes.map { |column| [column, time] }]
+      journable.update_columns(timestamps) if timestamps.any?
     end
   end
 
