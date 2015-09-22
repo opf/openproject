@@ -8,7 +8,7 @@ class DummyAuthSource < AuthSource
   end
 
   def auth_method_name
-    'DerpLAP'
+    'LDAP'
   end
 
   private

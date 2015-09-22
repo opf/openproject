@@ -136,7 +136,7 @@ describe WikiController, type: :controller do
                        content: {
                          comments: 'my comments',
                          text: 'edited',
-                         lock_version: 2
+                         lock_version: 1
                        }
         end
       end

@@ -60,11 +60,21 @@ table
 
   &.workflow-table
     margin-bottom: 16px
+    border-collapse: separate
+    overflow-x: hidden
     tbody
       tr:nth-of-type(2)
-        border-top: 1px solid #ddd
+        td
+          border-top: 1px solid $light-gray
+
+      td
+        border-bottom: 1px solid $light-gray
 
       td.workflow-table--current-status
+        font-weight: bold
+        text-transform: uppercase
+        font-size: 0.875rem
+
         .icon-context,
         .icon
           color: $body-font-color
@@ -74,16 +84,23 @@ table
           background: none
         th
           overflow: visible
-          border-right: 1px solid #ddd
-          border-top: 1px solid #ddd
-          vertical-align: top
+          border-right: 1px solid $light-gray
+          vertical-align: middle
+          font-size: 0.875rem
+          text-transform: uppercase
+          font-weight: bold
+          max-width: 50px
+          min-width: 50px
+          position: relative
 
           span
             white-space: nowrap
-            transform: rotate(90deg)
-            display: block
-            width: 50px
-            margin-top: 25px
+            transform: rotate(270deg)
+            position: absolute
+            top: -40px
+            right: 50%
+            transform-origin: right center
+            margin-top: 8px
 
     thead
       .workflow-table--header

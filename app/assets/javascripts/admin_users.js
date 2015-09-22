@@ -41,29 +41,26 @@
                                          .prop('disabled', checked);
   }
 
-  // Hide password fields when non-internal authentication source is selected
+  /**
+   * Hide password fields when non-internal authentication source is selected.
+   * Also disables the fields so they are not submitted and not required to
+   * enter.
+   */
   function on_auth_source_change() {
     var passwordFields = jQuery('#password_fields'),
-        passwordInputs = passwordFields.find('#user_password, #user_password_confirmation'),
-        newUserLogin   = jQuery('#new_user_login');
+        passwordInputs = passwordFields.find('#user_password, #user_password_confirmation');
 
     if (this.value === '') {
       passwordFields.show();
       passwordInputs.removeProp('disabled');
-
-      newUserLogin.hide();
-      newUserLogin.find('input').prop('disabled', true);
     } else {
       passwordFields.hide();
       passwordInputs.prop('disabled', 'disabled');
-
-      newUserLogin.show();
-      newUserLogin.find('input').prop('disabled', false);
     }
   }
 
   jQuery(function init(){
     jQuery('#user_assign_random_password').change(on_assign_random_password_change);
-    jQuery('#user_auth_source_id').change(on_auth_source_change);
+    jQuery('#user_auth_source_id').on('change.togglePasswordFields', on_auth_source_change);
   });
 })();

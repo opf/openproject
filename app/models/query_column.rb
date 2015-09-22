@@ -28,13 +28,15 @@
 #++
 
 class QueryColumn
-  attr_accessor :name, :sortable, :groupable, :join, :default_order
+  attr_accessor :name, :sortable, :groupable, :summable, :join, :default_order
+  alias_method :summable?, :summable
   include Redmine::I18n
 
   def initialize(name, options = {})
     self.name = name
     self.sortable = options[:sortable]
     self.groupable = options[:groupable]
+    self.summable = options[:summable]
 
     self.join = options.delete(:join)
 
@@ -66,6 +68,16 @@ class QueryColumn
 
   def value(issue)
     issue.send name
+  end
+
+  def sum_of(work_packages)
+    if work_packages.is_a?(Array)
+      # TODO: Sums::grouped_sums might call through here without an AR::Relation
+      # Ensure that this also calls using a Relation and drop this (slow!) implementation
+      work_packages.map { |wp| value(wp) }.compact.reduce(:+)
+    else
+      work_packages.sum(name)
+    end
   end
 
   protected

@@ -4542,7 +4542,7 @@ Gets a list of revisions that are linked to this work package, e.g., because it 
             }
 
 
-## Work Package activities [/api/v3/work_packages/{id}/activities]
+## Work Package activities [/api/v3/work_packages/{id}/activities{?notify}]
 
 + Model
     + Body
@@ -4635,6 +4635,10 @@ updated activity.
 
 + Parameters
     + id (required, integer, `1`) ... Work package id
+
+    + notify = `true` (optional, boolean, `false`) ... Indicates whether change notifications (e.g. via E-Mail) should be sent.
+    Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
+    not just the current user.
 
 + Request (application/json)
 

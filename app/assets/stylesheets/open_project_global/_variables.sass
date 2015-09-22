@@ -29,6 +29,7 @@
 $gray:                    #EAEAEA
 $gray-dark:               #878787
 $gray-light:              #F8F8F8
+$gray-lighter:            #E9E9E9
 
 $light-gray: #ccc
 
@@ -123,7 +124,7 @@ $main-menu-sidebar-h3-font-size:                15px !default
 
 $toolbar-title-color:                           #5F5F5F
 $toolbar-item--bg-color:                        #F8F8F8
-$toolbar-item--bg-color-pressed:                #E9E9E9
+$toolbar-item--bg-color-pressed:                $gray-lighter
 $toolbar-item--border-color:                    #DDD
 
 $breadcrumb-height:                             40px !default
@@ -151,6 +152,9 @@ $content-form-input-border:                     1px solid #CACACA !default
 $content-form-input-hover-border:               1px solid #888888 !default
 
 $content-form-separator-color:                  #DDDDDD !default
+
+$content-form-danger-zone-bg-color:             #CA3F3F !default
+$content-form-danger-zone-font-color:           white !default
 
 $content-flash-msg-font-color:                  #111111 !default
 $content-flash-error-msg-bg-color:              #FF8B8B !default
@@ -195,8 +199,16 @@ $user-avatar-mini-width:                        20px !default
 
 $select-element-padding:                        3px, 24px, 3px, 3px
 
-$homescreen-content-bg-color:                   $body-background
-$homescreen-block-bg-color:                     $body-background
-$homescreen-block-border-color:                 $content-default-border-color
+$widget-box-content-bg-color:                   $body-background
+$widget-box-block-bg-color:                     $body-background
+$widget-box-block-border-color:                 $content-default-border-color
 $homescreen-footer-bg-color:                    $gray-light
 $homescreen-footer-icon-color:                  #7B827B
+
+$inplace-edit--border-color:                    #ddd
+$inplace-edit--dark-background:                 $gray-light
+$inplace-edit--color--very-dark:                #cacaca
+$inplace-edit--color-highlight:                 $primary-color
+$inplace-edit--selected-date-border-color:      $primary-color-dark
+$inplace-edit--color--disabled:                 #999
+$inplace-edit--bg-color--disabled:              #eee

@@ -104,6 +104,10 @@ These are generic (and condensed) installation instructions for the **current de
 
    For more information refer to Foreman documentation section on [default options][foreman-defaults].
 
+## Full Guide
+
+Please see [here](./development/setting-up-development-environment.md)
+
 [Node.js]:http://nodejs.org/
 [Bundler]:http://bundler.io/
 [npm]:https://www.npmjs.org/

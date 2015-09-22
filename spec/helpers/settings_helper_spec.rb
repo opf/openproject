@@ -87,9 +87,25 @@ describe SettingsHelper, type: :helper do
     end
 
     subject(:output) {
-      helper.settings_matrix [:field_a, :field_b], [
-        ['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3'], 'Quarkspeise'
+      settings = [:field_a, :field_b]
+      choices = [
+        {
+          caption: 'Popsickle',
+          value: '1'
+        },
+        {
+          caption: 'Jello',
+          value: '2'
+        },
+        {
+          caption: 'Ice Cream',
+          value: '3'
+        },
+        {
+          value: 'Quarkspeise'
+        }
       ]
+      helper.settings_matrix settings, choices
     }
 
     it_behaves_like 'not wrapped in container'

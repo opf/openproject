@@ -94,7 +94,7 @@ describe HomescreenController, type: :controller do
         end
 
         it 'renders the text' do
-          expect(response.body).to have_selector('.homescreen--blocks--item-header',
+          expect(response.body).to have_selector('.widget-box--header',
                                                  text: 'Woohoo!')
         end
       end

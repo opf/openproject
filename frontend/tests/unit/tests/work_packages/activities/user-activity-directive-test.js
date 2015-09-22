@@ -49,7 +49,7 @@ describe('userActivity Directive', function() {
 
     beforeEach(inject(function($rootScope, $compile, $uiViewScroll, $timeout, $location, I18n, PathHelper, ActivityService, UsersHelper) {
       var html;
-      html = '<div exclusive-edit class="exclusive-edit"><user-activity work-package="workPackage" activity="activity" activity-no="activityNo" is-initial="isInitial" input-element-id="inputElementId"></user-activity></div>';
+      html = '<user-activity work-package="workPackage" activity="activity" activity-no="activityNo" is-initial="isInitial" input-element-id="inputElementId"></user-activity>';
 
       rootScope = $rootScope;
       scope = $rootScope.$new();

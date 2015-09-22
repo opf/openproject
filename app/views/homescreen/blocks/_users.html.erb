@@ -1,12 +1,12 @@
-<h3 class="homescreen--blocks--item-header">
+<h3 class="widget-box--header">
   <span class="icon-context icon-group"></span>
-  <%= l(:label_user_plural) %>
+  <span class="widget-box--header-title"><%= l(:label_user_plural) %></span>
 </h3>
 
-<p class="homescreen--additional-info"><%= l('homescreen.additional.users') %></p>
+<p class="widget-box--additional-info"><%= l('homescreen.additional.users') %></p>
 
 <% unless @newest_users.empty? %>
-<ul class="homescreen--arrow-links">
+<ul class="widget-box--arrow-links">
   <% @newest_users.each do |user| %>
   <li>
     <%= link_to user, user_path(user), :title => user.name %>
@@ -16,7 +16,7 @@
 </ul>
 <% end %>
 
-<div class="homescreen--blocks--buttons">
+<div class="widget-box--buttons">
   <% if User.current.admin? %>
     <%= link_to new_user_path, class: 'button -alt-highlight' do %>
       <i class="button--icon icon-add"></i>

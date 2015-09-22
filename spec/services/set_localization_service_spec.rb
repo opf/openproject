@@ -43,6 +43,23 @@ describe SetLocalizationService do
       instance.call
     end
 
+    context 'with a language prefix being valid' do
+      let(:prefix) { 'someprefix' }
+      let(:user_language) { "#{prefix}-specific" }
+
+      before do
+        allow(instance).to receive(:valid_languages).and_return [prefix,
+                                                                 http_accept_language,
+                                                                 default_language]
+      end
+
+      it "sets the language to the valid prefix of the user's selected language" do
+        expect_locale(prefix)
+
+        instance.call
+      end
+    end
+
     context 'with the language not being valid' do
       before do
         allow(instance).to receive(:valid_languages).and_return [http_accept_language,
@@ -50,6 +67,22 @@ describe SetLocalizationService do
       end
 
       it_behaves_like 'falls back to the header'
+
+      context 'with a language prefix being valid' do
+        let(:prefix) { 'someprefix' }
+        let(:http_accept_header) { "#{prefix}-specific" }
+
+        before do
+          allow(instance).to receive(:valid_languages).and_return [prefix,
+                                                                   default_language]
+        end
+
+        it "sets the language to the valid prefix of the accept header" do
+          expect_locale(prefix)
+
+          instance.call
+        end
+      end
     end
 
     context 'with the user not having a language selected' do

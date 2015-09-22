@@ -90,12 +90,12 @@ describe AccountController, type: :controller do
 
       context 'with a relative url root' do
         before do
-          @old_relative_url_root = ApplicationController.relative_url_root
-          ApplicationController.relative_url_root = '/openproject'
+          @old_relative_url_root = OpenProject::Configuration['rails_relative_url_root']
+          OpenProject::Configuration['rails_relative_url_root'] = '/openproject'
         end
 
         after do
-          ApplicationController.relative_url_root = @old_relative_url_root
+          OpenProject::Configuration['rails_relative_url_root'] = @old_relative_url_root
         end
 
         it 'should redirect to the same subdirectory with an absolute path' do

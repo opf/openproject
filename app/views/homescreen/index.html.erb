@@ -27,18 +27,18 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% breadcrumb_paths(nil) %>
-<div class="homescreen--header">
+<div class="widget-boxes--screen-header">
   <h2>
-    <span class="homescreen--header--icon"><%= organization_icon %></span>
+    <span><%= organization_icon %></span>
     <%= organization_name %>
   </h2>
 </div>
 
 <% if @homescreen[:blocks].any? %>
-  <section class="homescreen--blocks">
+  <section class="widget-boxes">
   <% @homescreen[:blocks].each do |block| %>
     <% if block[:if].nil? || instance_eval(&block[:if]) %>
-      <div class="homescreen--blocks--item">
+      <div class="widget-box">
       <%= render partial: "homescreen/blocks/#{block[:partial]}", locals: (block[:locals] || {}) %>
       </div>
     <% end %>

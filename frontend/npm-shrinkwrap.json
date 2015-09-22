@@ -3,6 +3,14 @@
     "URIjs": {
       "version": "1.15.0"
     },
+    "angular-elastic": {
+      "version": "2.5.0",
+      "dependencies": {
+        "angular": {
+          "version": "1.4.5"
+        }
+      }
+    },
     "autoprefixer-loader": {
       "version": "1.2.0",
       "dependencies": {

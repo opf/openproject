@@ -1,11 +1,11 @@
-<h3 class="homescreen--blocks--item-header">
+<h3 class="widget-box--header">
   <span class="icon-context icon-settings"></span>
-  <%= l(:label_administration) %>
+  <span class="widget-box--header-title"><%= l(:label_administration) %></span>
 </h3>
 
-<ul class="homescreen--arrow-links">
+<ul class="widget-box--arrow-links">
   <li>
-    <%= link_to l(:label_project_plural), settings_path(tab: :projects),
+    <%= link_to l(:label_project_plural), admin_projects_path,
                title: l(:label_project_plural) %>
   </li>
   <li>

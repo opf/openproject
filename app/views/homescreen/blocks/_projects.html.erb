@@ -1,11 +1,11 @@
-<h3 class="homescreen--blocks--item-header">
+<h3 class="widget-box--header">
   <span class="icon-context icon-unit"></span>
-  <%= l(:label_project_plural) %>
+  <span class="widget-box--header-title"><%= l(:label_project_plural) %></span>
 </h3>
 
 <% unless @newest_projects.empty? %>
-  <p class="homescreen--additional-info"><%= l('homescreen.additional.projects') %></p>
-  <ul class="homescreen--arrow-links">
+  <p class="widget-box--additional-info"><%= l('homescreen.additional.projects') %></p>
+  <ul class="widget-box--arrow-links">
     <% @newest_projects.each do |project| %>
     <li>
       <%= link_to project, project_path(project), :title => project.short_description %>
@@ -15,7 +15,7 @@
   </ul>
 <% end %>
 
-<div class="homescreen--blocks--buttons">
+<div class="widget-box--blocks--buttons">
   <% if User.current.allowed_to?(:add_project, nil, global: true) %>
     <%= link_to new_project_path, class: 'button -alt-highlight' do %>
       <i class="button--icon icon-add"></i>

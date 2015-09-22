@@ -99,6 +99,7 @@ OpenProject::Application.configure do
                                   jstoolbar/lang/*.js
                                   members_form.js
                                   members_select_boxes.js
+                                  new_user.js
                                   project/responsible_attribute.js
                                   repository_navigation.js
                                   select_list_move.js

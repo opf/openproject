@@ -26,33 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
-  return {
-    restrict: 'EA',
-    replace: true,
-    transclude: true,
-    template: '<div class="exclusive-edit" ng-transclude></div>',
-    controller: function() {
-      var editors = [];
-      var creator;
+(function($) {
+    $(function() {
+        // This will only work iff there is a single danger zone on the page
+        var dangerZoneVerification = $('.danger-zone--verification');
+        var expectedValue = $('.danger-zone--expected-value').text();
 
-      this.gotEditable = function(selectedEditor) {
-        angular.forEach(editors, function(editor) {
-          editor.inEdit = selectedEditor == editor;
+        dangerZoneVerification.find('input').on('input', function(){
+            var actualValue = dangerZoneVerification.find('input').val();
+            if (expectedValue === actualValue) {
+                dangerZoneVerification.find('button').prop('disabled', false);
+            } else {
+                dangerZoneVerification.find('button').prop('disabled', true);
+            }
         });
-      };
+    });
+}(jQuery));
 
-      this.addEditable = function(editor) {
-        editors.push(editor);
-      };
-
-      this.setCreator = function(newCreator) {
-        creator = newCreator;
-      };
-
-      this.setQuoted = function(text) {
-        creator.activity.comment = text;
-      };
-    }
-  };
-};
