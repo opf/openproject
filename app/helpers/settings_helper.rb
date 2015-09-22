@@ -149,14 +149,18 @@ module SettingsHelper
 
   def build_settings_matrix_body(settings, choices)
     choices.map { |choice|
-      text, value = (choice.is_a?(Array)) ? choice : [choice, choice]
+      value = choice[:value]
+      caption = choice[:caption] || value.to_s
+      exceptions = Array(choice[:except]).compact
       content_tag(:tr, class: 'form--matrix-row') do
-        content_tag(:td, text, class: 'form--matrix-cell') +
+        content_tag(:td, caption, class: 'form--matrix-cell') +
           settings.map { |setting|
             content_tag(:td, class: 'form--matrix-checkbox-cell') do
-              styled_check_box_tag("settings[#{setting}][]", value,
-                                   Setting.send(setting).include?(value),
-                                   id: "#{setting}_#{value}")
+              unless exceptions.include?(setting)
+                styled_check_box_tag("settings[#{setting}][]", value,
+                                     Setting.send(setting).include?(value),
+                                     id: "#{setting}_#{value}")
+              end
             end
           }.join.html_safe
       end
