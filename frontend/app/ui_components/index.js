@@ -56,6 +56,8 @@ angular.module('openproject.uiComponents')
   .constant('ENTER_KEY', 13)
   .directive('executeOnEnter', ['ENTER_KEY', require(
     './execute-on-enter-directive')])
+  .directive('executeDropdownOnEnter', ['ENTER_KEY', require(
+    './execute-dropdown-on-enter-directive')])
   .directive('expandableSearch', ['ENTER_KEY', require('./expandable-search')])
   .directive('focus', ['FocusHelper', require('./focus-directive')])
   .constant('FOCUSABLE_SELECTOR', 'a, button, :input, [tabindex], select')

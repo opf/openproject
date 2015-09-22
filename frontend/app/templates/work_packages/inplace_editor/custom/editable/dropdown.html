@@ -1,11 +1,11 @@
-<div class="dropdown-wrapper">
+<div class="dropdown-wrapper" execute-dropdown-on-enter>
     <ui-select
             class="inplace-edit--select"
             name="value"
             ng-disabled="fieldController.state.isBusy"
             ng-model="fieldController.writeValue.props.href"
             title="{{ fieldController.editTitle }}"
-            on-select="fieldController.onSelect($item)"
+            on-select="onSelect($item)"
             reset-search-input="true"
             theme="select2">
         <ui-select-match>{{ $select.selected.name }}</ui-select-match>
