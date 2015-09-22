@@ -46,10 +46,16 @@
 
 div[class*='work-packages--details--']
   width: 100%
+  .inplace-edit--read
+    span:first-of-type
+      width: 100%
   .inplace-edit--read-value
+    width: 100%
     .dynamic-attribute
       width: 100%
 
+    div[class*='-wrapper']
+      width: 100%
     span
       overflow: hidden
       text-overflow: ellipsis
@@ -58,11 +64,6 @@ div[class*='work-packages--details--']
       p
         overflow: inherit
         text-overflow: inherit
-
-      a
-        overflow: inherit
-        text-overflow: inherit
-        display: inherit
 
 .work-packages--details--subject
   @include grid-content
