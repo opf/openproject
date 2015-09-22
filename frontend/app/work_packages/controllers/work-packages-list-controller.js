@@ -303,7 +303,7 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
   };
 
   $scope.showWorkPackageShowView = function() {
-    var id = $state.params.workPackageId || $scope.preselectedWorkPackageId,
+    var id = $state.params.workPackageId || $scope.preselectedWorkPackageId || nextAvailableWorkPackage(),
         // Have to use $location.search() here as $state.params
         // isn't filled unless the url is queried for by the
         // browser. This seems to be caused by #maintainUrlQueryState
