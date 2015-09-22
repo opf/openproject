@@ -121,6 +121,9 @@ RSpec.configure do |config|
   config.include ::Angular::DSL
 
   Capybara.default_wait_time = 4
+  # set to true to fix select2 which uses first to find the select2 container
+  # and fails occasionally when its too slow
+  Capybara.wait_on_first_by_default = true
 
   config.after(:each) do
     OpenProject::RspecCleanup.cleanup
