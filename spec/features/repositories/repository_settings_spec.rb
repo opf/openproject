@@ -70,7 +70,6 @@ describe 'Repository Settings', type: :feature, js: true do
         find('a', text: I18n.t(:button_delete)).click
       end
 
-
       vendor = find('select[name="scm_vendor"]')
       expect(vendor).not_to be_nil
       expect(vendor.value).to be_empty

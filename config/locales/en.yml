@@ -1325,7 +1325,7 @@ en:
       confirmation: "If you continue, the project %{identifier} and all related data will be permanently destroyed."
       info: "Deleting the project is an irreversible action."
       project_verification: "Enter the project's name %{name} to verify the deletion."
-      subprojects_confirmation: "Its subproject(s): %{value} will be also deleted."
+      subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
       title: "Do you really want to delete the project %{name}?"
 
   project_module_activity: "Activity"
@@ -1598,6 +1598,7 @@ en:
   text_powered_by: "Powered by %{link}"
   text_project_identifier_info: "Only lower case letters (a-z), numbers, dashes and underscores are allowed, must start with a lower case letter."
   text_reassign: "Reassign to work package:"
+  text_reassign_to: "work package:"
   text_regexp_info: "eg. ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
   text_select_mail_notifications: "Select actions for which email notifications should be sent."

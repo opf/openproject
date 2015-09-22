@@ -56,8 +56,8 @@ Feature: Deleting work packages
     Then I should be on the bulk destroy page of work packages
 
     When I choose "Reassign"
-    And I fill in the id of work package "wp2" into "to_do[reassign_to_id]"
-    And I submit the form by the "Apply" button
+    And I fill in the id of work package "wp2" into "work package"
+    And I submit the form by the "Delete" button
 
     Then I should be on the work packages index page of the project called "ecookbook"
 

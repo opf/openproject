@@ -69,6 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <div class="grid-block">
           <div class="form--field">
             <div class="form--text-field-container -xslim">
+              <%= styled_label_tag 'to_do_reassign_to_id', l(:text_reassign_to), class: 'hidden-for-sighted' %>
               <%= f.text_field 'reassign_to_id', :placeholder => WorkPackage.human_attribute_name(:id), :value => params[:reassign_to_id], :size => 6, :onfocus => 'jQuery("#to_do_action_reassign").prop("checked", true);' %>
             </div>
           </div>
@@ -76,9 +77,9 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     <% end %>
     <div class="danger-zone--verification">
-      <%= styled_button_tag title: l(:button_apply), class: '-highlight' do
-            concat content_tag :i, '', class: 'button--icon icon-yes'
-            concat content_tag :span, l(:button_apply), class: 'button--text'
+      <%= styled_button_tag title: l(:button_delete), class: '-highlight' do
+            concat content_tag :i, '', class: 'button--icon icon-delete'
+            concat content_tag :span, l(:button_delete), class: 'button--text'
             end %>
   </section>
 

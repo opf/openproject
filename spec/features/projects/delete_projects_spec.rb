@@ -34,14 +34,11 @@ describe 'Delete project', type: :feature, js: true do
   let(:project) { FactoryGirl.create(:project) }
   let(:projects_page) { ProjectsPage.new(project) }
 
-
   before do
     allow(User).to receive(:current).and_return current_user
 
     projects_page.visit_confirm_destroy
   end
-
-
 
   describe 'disable delete w/o confirm' do
     it { expect(page).to have_css('.danger-zone .button[disabled]') }
