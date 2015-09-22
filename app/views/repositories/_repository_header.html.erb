@@ -80,7 +80,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if @instructions && @instructions.available? %>
   <%= render partial: 'checkout_instructions',
-             locals: { repository: @repository, instructions: @instructions, embedded: false } %>
+             locals: { repository: @repository, instructions: @instructions } %>
 <% end %>
 
 
