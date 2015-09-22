@@ -197,13 +197,14 @@ $se2-width: 100%;
       font-family: "openproject-icon-font";
       color: #E0E0E0;
       position: absolute;
-      top: 8px;
+      top: 6px;
       right: 16px;
     }
 
     .select2-input {
       background-image: none !important;
       padding-right: 32px;
+      height: $se2-input-height !important;
     }
   }
 
@@ -218,8 +219,10 @@ $se2-width: 100%;
   }
 }
 
-input[type="text"].select2-input {
-  height: $se2-input-height;
+.select2-drop:not(.project-search-results) {
+  input[type="text"].select2-input {
+    height: $se2-input-height !important;
+  }
 }
 
 .columns-modal-content {
