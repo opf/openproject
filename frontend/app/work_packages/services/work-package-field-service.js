@@ -112,8 +112,9 @@ module.exports = function(
     }
   }
 
-  function getValue(workPackage, field) {
-    var payload = workPackage;
+  function getValue(workPackage, field, isReadMode) {
+    var embedded = !isReadMode && workPackage.form && workPackage.form.embedded.payload;
+    var payload = embedded || workPackage;
 
     if (field === 'date') {
       if(isMilestone(workPackage)) {
@@ -362,7 +363,7 @@ module.exports = function(
 
     var value = workPackage.props[field];
     if (_.isUndefined(value)) {
-      return WorkPackageFieldService.getValue(workPackage, field);
+      return WorkPackageFieldService.getValue(workPackage, field, true);
     }
 
     if (value === null) {
