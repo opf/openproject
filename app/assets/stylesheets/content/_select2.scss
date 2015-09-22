@@ -192,8 +192,18 @@ $se2-width: 100%;
 
 .select2-drop {
   .select2-search {
+    &:before {
+      content: "\e0a1";
+      font-family: "openproject-icon-font";
+      color: #E0E0E0;
+      position: absolute;
+      top: 8px;
+      right: 16px;
+    }
+
     .select2-input {
-      //possible background tweaks
+      background-image: none !important;
+      padding-right: 32px;
     }
   }
 
