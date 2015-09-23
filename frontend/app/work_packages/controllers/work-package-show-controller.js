@@ -27,6 +27,7 @@
 //++
 
 module.exports = function($scope,
+    $rootScope,
     $state,
     $stateParams,
     $location,
@@ -190,7 +191,7 @@ module.exports = function($scope,
         }
       });
   }
-  $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
+  $rootScope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
   $scope.wpPromise = WorkPackageService.getWorkPackage($scope.workPackage.props.id);
 
   // Inform parent that work package is loaded so back url can be maintained

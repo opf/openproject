@@ -112,6 +112,7 @@ angular.module('openproject.workPackages.controllers')
   ])
   .controller('WorkPackageShowController', [
     '$scope',
+    '$rootScope',
     '$state',
     '$stateParams',
     '$location',
