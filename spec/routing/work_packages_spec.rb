@@ -40,11 +40,10 @@ describe WorkPackagesController, type: :routing do
                                                              action: 'index')
   end
 
-  it 'should connect GET /work_packages/:id/overview to work_packages#index' do
+  it 'should connect GET /work_packages/:id/overview to work_packages#show' do
     expect(get('/work_packages/1/overview'))
       .to route_to(controller: 'work_packages',
-                   action: 'index',
-                   state: '1/overview')
+                   action: 'show', id: '1', tab: 'overview')
   end
 
   it 'should connect GET /projects/:project_id/work_packages/:id/overview to work_packages#index' do
@@ -64,10 +63,10 @@ describe WorkPackagesController, type: :routing do
     end
   end
 
-  it 'should connect GET /work_packages/:id to work_packages#index' do
+  it 'should connect GET /work_packages/:id to work_packages#show' do
     expect(get('/work_packages/1')).to route_to(controller: 'work_packages',
-                                                action: 'index',
-                                                state: '1')
+                                                action: 'show',
+                                                id: '1')
   end
 
   it 'should connect GET /projects/:project_id/work_packages/new to work_packages#new' do
