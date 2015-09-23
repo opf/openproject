@@ -47,14 +47,15 @@
 div[class*='work-packages--details--']
   width: 100%
   .inplace-edit--read
-    span:first-of-type
+    &>span:first-of-type
       width: 100%
   .inplace-edit--read-value
     width: 100%
     .dynamic-attribute
       width: 100%
 
-    div[class*='-wrapper']
+    .version-wrapper,
+    .spent-time-wrapper
       width: 100%
     span
       overflow: hidden
