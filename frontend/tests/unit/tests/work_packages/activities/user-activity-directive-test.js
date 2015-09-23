@@ -63,7 +63,7 @@ describe('userActivity Directive', function() {
 
     describe('element', function() {
       describe('with a valid user', function(){
-        beforeEach(function() {
+        beforeEach(inject(function($q) {
           scope.workPackage = {
             links: {
               addComment: true

@@ -29,42 +29,49 @@
 module.exports = function(
   HALAPIResource,
   $http,
-  PathHelper,
-  CacheService) {
+  $q,
+  CacheFactory) {
 
-  var registeredUserIds = [];
-  var UserService = {
-    getUser: function(id) {
-      var path = PathHelper.apiV3UserPath(id),
-          resource = HALAPIResource.setup(path);
+  var cacheName = 'openproject-cache';
+  var _cache = CacheFactory(cacheName, {
+    maxAge: 30 * 60 * 1000, // 30 mins
+    storageMode: 'sessionStorage'
+  });
 
-      return getUserByResource(resource);
+  var CacheService = {
 
-    getUserByResource: function(user, force) {
-      return CacheService.loadResource(user, force);
+    cache: function(key, value) {
+      _cache.put(key, value);
     },
 
-    getUsers: function(projectIdentifier) {
-      var url, params;
+    get: function(key) {
+      return _cache.get(key);
+    },
 
-      if (projectIdentifier) {
-        url = PathHelper.apiProjectUsersPath(projectIdentifier);
-      } else {
-        url = PathHelper.apiUsersPath();
-        params = {status: 'all'};
+    loadResource: function(resource, force) {
+      var deferred = $q.defer(),
+          key = resource.props.href,
+          cached = CacheService.get(key);
+
+      // Return an existing promise if it exists
+      // Avoids intermittent requests while a first
+      // is already underway.
+      if (cached && !force) {
+        return cached;
       }
 
-      return UserService.doQuery(url, params);
+      var promise = deferred.promise;
+      CacheService.cache(key, promise);
+
+      resource.fetch().then(function(data) {
+        deferred.resolve(data);
+      }, function() {
+        deferred.reject();
+      });
+
+      return promise;
     },
-
-    doQuery: function(url, params) {
-      return $http.get(url, { params: params })
-        .then(function(response){
-          return response.data.users;
-        });
-    }
-
   };
 
-  return UserService;
+  return CacheService;
 };
