@@ -29,6 +29,8 @@
 
 OpenProject::Application.configure do
   config.after_initialize do
-    TransactionalLock.initialize
+    TransactionalLock.initialize do |config|
+      config.merge(default_timeout: 60)
+    end
   end
 end
