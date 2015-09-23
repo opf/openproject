@@ -7,8 +7,8 @@ GIT
       activerecord (>= 3.0.0)
 
 GIT
-  remote: git://github.com/finnlabs/capybara-select2.git
-  revision: 4088099ecc8a03c0c3155827a89a1a51057b0e38
+  remote: git://github.com/goodwill/capybara-select2.git
+  revision: 585192e4bb0db8d52e761ab68f08c17294806447
   specs:
     capybara-select2 (1.0.1)
       capybara
