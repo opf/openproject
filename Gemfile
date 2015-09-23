@@ -147,7 +147,7 @@ group :test do
   gem 'rspec-legacy_formatters'
   gem 'capybara', '~> 2.4.4'
   gem 'capybara-screenshot', '~> 1.0.4'
-  gem 'capybara-select2', github: 'finnlabs/capybara-select2'
+  gem 'capybara-select2', github: 'goodwill/capybara-select2'
   gem 'capybara-ng', '~> 0.2.1'
   gem 'selenium-webdriver', '~> 2.47.1'
   gem 'timecop', '~> 0.7.1'
