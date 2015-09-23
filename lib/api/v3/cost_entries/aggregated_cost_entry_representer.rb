@@ -38,8 +38,14 @@ module API
                  exec_context: :decorator,
                  getter: -> (*) { @spent_units }
 
+        private
+
         def _type
           'AggregatedCostEntry'
+        end
+
+        def model_required?
+          false
         end
       end
     end
