@@ -127,6 +127,49 @@ describe Version, type: :model do
 
       expect(version1 <=> version2).to eql 1
     end
+
+    it 'is 0 if name and project are equal except for case' do
+      version1.project.name = version2.project.name.upcase
+      version1.name = version2.name.upcase
+
+      expect(version1 <=> version2).to be 0
+    end
+
+    it "is -1 if the project name is alphabetically before the other's project name ignoring case" do
+      version1.name = 'BBBB'
+      version1.project.name = 'aaaa'
+      version2.name = 'AAAA'
+      version2.project.name = 'BBBB'
+
+      expect(version1 <=> version2).to eql -1
+    end
+
+    it "is 1 if the project name is alphabetically after the other's project name ignoring case" do
+      version1.name = 'AAAA'
+      version1.project.name = 'BBBB'
+      version2.name = 'BBBB'
+      version2.project.name = 'aaaa'
+
+      expect(version1 <=> version2).to eql 1
+    end
+
+    it "is -1 if the project name is equal
+        and the version's name is alphabetically before the other's name ignoring case" do
+      version1.project.name = version2.project.name
+      version1.name = 'aaaa'
+      version2.name = 'BBBB'
+
+      expect(version1 <=> version2).to eql -1
+    end
+
+    it "is 1 if the project name is equal
+        and the version's name is alphabetically after the other's name ignoring case" do
+      version1.project.name = version2.project.name
+      version1.name = 'BBBB'
+      version2.name = 'aaaa'
+
+      expect(version1 <=> version2).to eql 1
+    end
   end
 
   context '#projects' do
