@@ -31,7 +31,6 @@
 	        restrict: 'A',
 	        link: function(scope, element) {
 	            scope.onSelect = function($item) {
-	                console.log("NOooo")
 	                var uiSelect = angular.element('.select2').controller('uiSelect');
 	                angular.element('.ui-select-focusser').off();
 	                angular.element('.ui-select-focusser').bind('keydown keypress', function(event) {
