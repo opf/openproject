@@ -66,8 +66,6 @@ class Journal < ActiveRecord::Base
       Journal.transaction do
         # MySQL is very weak when combining transactions and locks. Using an emulation layer to
         # automatically release an advisory lock at the end of the transaction
-        # FIXME: still creates duplicates... because MySQL defaults to READ REPEATABLE isolation
-        # we need READ COMMITED, which is also the default for PostgreSQL
         TransactionalLock::AdvisoryLock.new('journals.write_lock').acquire
         yield
       end

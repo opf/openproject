@@ -190,12 +190,6 @@ gem 'grape', '~> 0.10.1'
 gem 'roar',   '~> 1.0.0'
 gem 'reform', '~> 1.2.6', require: false
 
-# Use the commented pure ruby gems, if you have not the needed prerequisites on
-# board to compile the native ones.  Note, that their use is discouraged, since
-# their integration is propbably not that well tested and their are slower in
-# orders of magnitude compared to their native counterparts. You have been
-# warned.
-
 platforms :mri, :mingw, :x64_mingw do
   group :mysql2 do
     gem 'mysql2', '~> 0.3.11'
