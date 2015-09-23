@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir['spec/**/*']
 
   s.add_dependency 'rails', '~> 4.2.4'
-  s.add_dependency 'acts_as_silent_list', '~> 1.3.0'
+  s.add_dependency 'acts_as_silent_list', '~> 2.0.0'
 
   s.add_dependency 'openproject-pdf_export'
 
