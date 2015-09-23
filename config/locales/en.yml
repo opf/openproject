@@ -1320,6 +1320,14 @@ en:
   permission_view_wiki_edits: "View wiki history"
   permission_view_wiki_pages: "View wiki"
 
+  project:
+    destroy:
+      confirmation: "If you continue, the project %{identifier} and all related data will be permanently destroyed."
+      info: "Deleting the project is an irreversible action."
+      project_verification: "Enter the project's name %{name} to verify the deletion."
+      subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
+      title: "Do you really want to delete the project %{name}?"
+
   project_module_activity: "Activity"
   project_module_boards: "Forums"
   project_module_calendar: "Calendar"
@@ -1365,10 +1373,11 @@ en:
     create_successful: "The repository has been registered."
     delete_sucessful: "The repository has been deleted."
     destroy:
-      title: "Are you absolutely sure?"
-      managed_text: "If you continue, this will permanently delete the managed repository of %{project_name}. This action cannot be reverted."
-      managed_path_note: "The following directory will be erased: %{path}"
+      confirmation: "If you continue, this will permanently delete the managed repository of %{project_name}."
+      info: "Deleting the repository is an irreversible action."
       linked_text: "You're about to remove the linked repository %{url} from the project %{project_name}.\nNote: This will NOT delete the contents of this repository, as it is not managed by OpenProject."
+      managed_path_note: "The following directory will be erased: %{path}"
+      title: "Do you really want to delete the repository %{name}?"
     errors:
       build_failed: "Unable to create the repository with the selected configuration. %{reason}"
       empty_repository: "The repository exists, but is empty. It does not contain any revisions yet."
@@ -1587,16 +1596,13 @@ en:
   text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
   text_plugin_assets_writable: "Plugin assets directory writable"
   text_powered_by: "Powered by %{link}"
-  text_project_destroy_title: "Do you really want to delete this project?"
-  text_project_destroy_confirmation: "If you continue, the project %{identifier} and all related data will be permanently destroyed. Please check the box below if you want to continue."
   text_project_identifier_info: "Only lower case letters (a-z), numbers, dashes and underscores are allowed, must start with a lower case letter."
-  text_reassign: "Reassign to"
+  text_reassign: "Reassign to work package:"
   text_reassign_to: "work package:"
   text_regexp_info: "eg. ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
   text_select_mail_notifications: "Select actions for which email notifications should be sent."
   text_status_changed_by_changeset: "Applied in changeset %{value}."
-  text_subprojects_destroy_warning: "Its subproject(s): %{value} will be also deleted."
   text_time_logged_by_changeset: "Applied in changeset %{value}."
   text_tip_work_package_begin_day: "work package beginning this day"
   text_tip_work_package_begin_end_day: "work package beginning and ending this day"
@@ -1877,6 +1883,9 @@ en:
   work_package:
     updated_automatically_by_child_changes: |
         _Updated automatically by changing values within child work package %{child}_
+    destroy:
+      info: "Deleting the work package is an irreversible action."
+      title: "Do you really want to delete the work package?"
 
   nothing_to_preview: "Nothing to preview"
 

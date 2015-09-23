@@ -28,6 +28,10 @@
 #++
 
 module RepositoriesHelper
+  def settings_repository_tab_path
+    settings_project_path(@project, tab: 'repository')
+  end
+
   def format_revision(revision)
     if revision.respond_to? :format_identifier
       revision.format_identifier
