@@ -45,7 +45,9 @@ module.exports = function($http, PathHelper) {
     doQuery: function(url, params) {
       return $http.get(url, { params: params })
         .then(function(response){
-          return _.sortBy(response.data.versions, 'name');
+          return _.sortBy(response.data.versions, function(version) {
+            return version.name.toLowerCase();
+          });
         });
     }
   };
