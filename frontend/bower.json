@@ -17,6 +17,7 @@
     "angular-sanitize": "~1.3.14",
     "angular-truncate": "sparkalow/angular-truncate#fdf60fda265042d12e9414b5354b2cc52f1419de",
     "angular-feature-flags": "mjt01/angular-feature-flags",
+    "angular-elastic": "2.5.0",
     "jquery-migrate": "~1.2.1",
     "moment": "~2.10.6",
     "moment-timezone": "0.4.x",
