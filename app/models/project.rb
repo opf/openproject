@@ -57,11 +57,31 @@ class Project < ActiveRecord::Base
       .where(Project.possible_principles_condition)
       .references(:principals, :roles)
   }, class_name: 'Member'
+  # Read only
+  has_many :possible_assignees, -> {
+      # Have to reference it again although possible_assignee_members does already specify it
+      # to be able to use the Project.possible_principles_condition there
+      includes(members: :roles)
+      .references(:roles)
+      .merge(Principal.order_by_name)
+    },
+    through: :possible_assignee_members,
+    source: :principal
   has_many :possible_responsible_members, -> {
     includes(:principal, :roles)
       .where(Project.possible_principles_condition)
       .references(:principals, :roles)
   }, class_name: 'Member'
+  # Read only
+  has_many :possible_responsibles, -> {
+      # Have to reference it again although possible_assignee_members does already specify it
+      # to be able to use the Project.possible_principles_condition there
+      includes(members: :roles)
+      .references(:roles)
+      .merge(Principal.order_by_name)
+    },
+    through: :possible_responsible_members,
+    source: :principal
   has_many :memberships, class_name: 'Member'
   has_many :member_principals, -> {
     includes(:principal)
@@ -607,16 +627,6 @@ class Project < ActiveRecord::Base
       rescue ActiveRecord::RecordNotFound => e
       end
     end
-  end
-
-  # Users/groups a work_package can be assigned to
-  def possible_assignees
-    possible_assignee_members.map(&:principal).compact.sort
-  end
-
-  # Users who can become responsible for a work_package
-  def possible_responsibles
-    possible_responsible_members.map(&:principal).compact.sort
   end
 
   # Returns users that should be always notified on project events
