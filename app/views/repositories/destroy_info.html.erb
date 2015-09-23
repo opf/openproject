@@ -26,28 +26,57 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= toolbar title: l(:label_confirmation) %>
-<div class="notification-box -warning <%= @repository.managed? ? '-severe' : '' %>">
-  <div class="notification-box--content">
-    <p><strong><%= l('repositories.destroy.title') %></strong><br /></p>
+<% if @repository.managed? %>
+<%= styled_form_tag(project_repository_path(@project), method: :delete, class: 'danger-zone') do %>
+  <section class="form--section">
+    <h3 class="form--section-title">
+      <%= l('repositories.destroy.title', name: "<em>#{h(@repository.root_url)}</em>").html_safe %>
+    </h3>
     <p>
-      <% if @repository.managed? %>
-        <%= l('repositories.destroy.managed_text', project_name: @project.identifier) %>
-        <br/>
-        <%= l('repositories.destroy.managed_path_note', path: @repository.root_url) %>
-      <% else %>
-        <%= simple_format l('repositories.destroy.linked_text',
-                          project_name: @project.identifier, url: @repository.url) %>
+      <%= l('repositories.destroy.confirmation', project_name: @project.identifier) %>
+      <br/>
+      <%= l('repositories.destroy.managed_path_note', path: @repository.root_url) %>
+    </p>
+    <p class="danger-zone--warning">
+      <span class="icon icon-attention2"></span>
+      <span><%= l('repositories.destroy.info') %></span>
+    </p>
+    <div class="danger-zone--verification">
+      <%= styled_button_tag project_repository_path(@project),
+        method: :delete,
+        title: l(:button_delete),
+        disabled: false,
+        class: '-highlight' do %>
+          <i class="button--icon icon-delete"></i>
+          <span class="button--text"><%= l(:button_delete) %></span>
       <% end %>
+    </div>
+  </section>
+<% end %>
+<% else %>
+<div class="notification-box -warning">
+  <div class="notification-box--content">
+    <p><strong><%= l('repositories.destroy.title', name: h(@repository.root_url)) %></strong><br /></p>
+    <p>
+      <%= simple_format l('repositories.destroy.linked_text',
+                        project_name: @project.identifier, url: @repository.url) %>
     </p>
     <p>
       <%= link_to project_repository_path(@project),
-        :method => :delete,
-        :class => 'button' do %>
+        title: l(:button_delete),
+        method: :delete,
+        class: 'button' do %>
         <i class="button--icon icon-delete"></i>
         <span class="button--text"><%= l(:button_delete) %></span>
+      <% end %>
+      <%= link_to settings_repository_tab_path,
+        title: l(:button_cancel),
+        class: 'button' do %>
+        <i class="button--icon icon-close"></i>
+        <span class="button--text"><%= l(:button_cancel) %></span>
       <% end %>
     </p>
   </div>
 </div>
+<% end %>
 

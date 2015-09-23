@@ -46,17 +46,6 @@
 </div>
 ```
 
-## Severe warning
-
-```
-<div class="notification-box -warning -severe">
-  <a href="#" title="close" class="notification-box--close icon-context icon-close"></a>
-  <div class="notification-box--content">
-    <p>This is a warning with severe consequences. You should not ignore it.</p>
-  </div>
-</div>
-```
-
 ## Success
 
 ```
