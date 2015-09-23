@@ -121,7 +121,7 @@ $se2-input-height: rem-calc(34px);
 $se2-line-height: 30px;
 $se2-button-width: 28px;
 $se2-arrow-button-width: 18px;
-$se2-results-max-height: 500px;
+$se2-results-max-height: 200px;
 
 $se-multiple-input-line-height: 19px;
 $se-multiple-tags-line-height: 19px;
@@ -192,14 +192,27 @@ $se2-width: 100%;
 
 .select2-drop {
   .select2-search {
+    &:before {
+      content: "\e0a1";
+      font-family: "openproject-icon-font";
+      color: #E0E0E0;
+      position: absolute;
+      top: 6px;
+      right: 16px;
+    }
+
     .select2-input {
-      //possible background tweaks
+      background-image: none !important;
+      padding-right: 32px;
+      height: $se2-input-height !important;
     }
   }
 
   .select2-results {
     max-height: $se2-results-max-height;
     overflow: auto;
+    margin: 4px 9px 9px 0;
+    padding: 0 0 0 9px;
 
     .select2-highlighted {
       background-color: $se2-theme-selectable-color-highlighted;
@@ -208,8 +221,19 @@ $se2-width: 100%;
   }
 }
 
-input[type="text"].select2-input {
-  height: $se2-input-height;
+.select2-drop:not(.project-search-results) {
+  input[type="text"].select2-input {
+    height: $se2-input-height !important;
+  }
+
+  .select2-search {
+    margin: 10px 0 6px 0;
+    padding: 0 9px;
+
+    input {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .columns-modal-content {
