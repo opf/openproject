@@ -34,12 +34,10 @@ describe MailHandler, type: :model do
   FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures/mail_handler'
 
   before do
-    ActionMailer::Base.deliveries.clear
     allow(Setting).to receive(:notified_events).and_return(Redmine::Notifiable.all.map(&:name))
   end
 
   it 'should add work package' do
-    ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml', allow_override: 'fixed_version')
     assert issue.is_a?(WorkPackage)
@@ -335,7 +333,7 @@ describe MailHandler, type: :model do
 
   it 'should add work package should send email notification' do
     Setting.notified_events = ['work_package_added']
-    ActionMailer::Base.deliveries.clear
+
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')
     assert issue.is_a?(WorkPackage)
@@ -385,7 +383,6 @@ describe MailHandler, type: :model do
 
   it 'should add work package note should send email notification' do
     WorkPackage.find(2).recreate_initial_journal!
-    ActionMailer::Base.deliveries.clear
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
     assert_equal 3, ActionMailer::Base.deliveries.size

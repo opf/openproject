@@ -88,7 +88,6 @@ describe MessagesController, type: :controller do
 
   it 'should post create' do
     session[:user_id] = 2
-    ActionMailer::Base.deliveries.clear
     allow(Setting).to receive(:notified_events).and_return ['message_posted']
 
     post :create, board_id: 1,

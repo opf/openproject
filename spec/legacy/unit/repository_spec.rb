@@ -87,7 +87,6 @@ describe Repository, type: :model do
     Setting.commit_ref_keywords = 'refs , references, IssueID'
     Setting.commit_fix_keywords = 'fixes , closes'
     Setting.default_language = 'en'
-    ActionMailer::Base.deliveries.clear
 
     # make sure work package 1 is not already closed
     fixed_work_package = WorkPackage.find(1)

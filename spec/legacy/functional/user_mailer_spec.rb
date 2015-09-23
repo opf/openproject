@@ -42,7 +42,6 @@ describe UserMailer, type: :mailer do
     WorkPackage.delete_all
     Project.delete_all
     ::Type.delete_all
-    ActionMailer::Base.deliveries.clear
 
     User.current = User.anonymous
   end
@@ -323,7 +322,7 @@ describe UserMailer, type: :mailer do
       issue = FactoryGirl.create(:work_package)
       user  = FactoryGirl.create(:user, mail: 'foo@bar.de', language: 'de')
       FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
-      ActionMailer::Base.deliveries.clear
+
       with_settings available_languages: ['en', 'de'] do
         I18n.locale = 'en'
         assert UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
@@ -343,7 +342,7 @@ describe UserMailer, type: :mailer do
       issue = FactoryGirl.create(:work_package)
       user  = FactoryGirl.create(:user, mail: 'foo@bar.de', language: '') # (auto)
       FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
-      ActionMailer::Base.deliveries.clear
+
       with_settings available_languages: ['en', 'de'],
                     default_language: 'de' do
         I18n.locale = 'de'
@@ -402,7 +401,7 @@ describe UserMailer, type: :mailer do
   it 'should reminders' do
     user  = FactoryGirl.create(:user, mail: 'foo@bar.de')
     issue = FactoryGirl.create(:work_package, due_date: Date.tomorrow, assigned_to: user, subject: 'some issue')
-    ActionMailer::Base.deliveries.clear
+
     DueIssuesReminder.new(42).remind_users
     assert_equal 1, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.last
@@ -415,7 +414,6 @@ describe UserMailer, type: :mailer do
     user1  = FactoryGirl.create(:user, mail: 'foo1@bar.de')
     user2  = FactoryGirl.create(:user, mail: 'foo2@bar.de')
     issue = FactoryGirl.create(:work_package, due_date: Date.tomorrow, assigned_to: user1, subject: 'some issue')
-    ActionMailer::Base.deliveries.clear
 
     DueIssuesReminder.new(42, nil, nil, [user2.id]).remind_users
     assert_equal 0, ActionMailer::Base.deliveries.size

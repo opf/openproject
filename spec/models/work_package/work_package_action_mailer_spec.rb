@@ -44,8 +44,6 @@ describe WorkPackage, type: :model do
     let(:work_package) { FactoryGirl.build(:work_package, project: project) }
 
     before do
-      ActionMailer::Base.deliveries.clear
-
       allow(work_package).to receive(:recipients).and_return([user_1])
       allow(work_package).to receive(:watcher_recipients).and_return([user_2])
 
@@ -74,8 +72,6 @@ describe WorkPackage, type: :model do
 
     context 'no notification' do
       before do
-        ActionMailer::Base.deliveries.clear
-
         JournalManager.send_notification = false
 
         work_package.save!

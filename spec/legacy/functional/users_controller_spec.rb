@@ -224,7 +224,6 @@ describe UsersController, type: :controller do
   end
 
   it 'should update with password change should send a notification' do
-    ActionMailer::Base.deliveries.clear
     Setting.bcc_recipients = '1'
 
     put :update, id: 2, user: { password: 'newpassPASS!', password_confirmation: 'newpassPASS!' }, send_information: '1'

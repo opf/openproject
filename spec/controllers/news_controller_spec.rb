@@ -104,8 +104,6 @@ describe NewsController, type: :controller do
 
   describe '#create' do
     it 'persists a news item and delivers email notifications' do
-      ActionMailer::Base.deliveries.clear
-
       become_member_with_permissions(project, user)
 
       with_settings notified_events: ['news_added'] do

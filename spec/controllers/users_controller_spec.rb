@@ -220,7 +220,6 @@ describe UsersController, type: :controller do
       end
 
       before do
-        ActionMailer::Base.deliveries.clear
         with_settings(available_languages: [:en, :de],
                       bcc_recipients: '1') do
           as_logged_in_user admin do
@@ -455,8 +454,6 @@ describe UsersController, type: :controller do
       }
 
       before do
-        ActionMailer::Base.deliveries.clear
-
         as_logged_in_user(admin) do
           put :update, id: user.id, user: { admin: false,
                                             firstname: 'Changed',
