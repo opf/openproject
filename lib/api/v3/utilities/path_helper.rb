@@ -84,6 +84,10 @@ module API
             "#{work_packages_by_project(project_id)}/form"
           end
 
+          def self.my_preferences
+            "#{root}/my_preferences"
+          end
+
           def self.priorities
             "#{root}/priorities"
           end

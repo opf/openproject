@@ -32,6 +32,8 @@ class UserPreference < ActiveRecord::Base
   serialize :others
 
   validates_presence_of :user
+  validate :time_zone_correctness, if: -> { time_zone.present? }
+  validate :theme_correctness, if: -> { theme.present? }
 
   attr_accessible :user
 
@@ -59,25 +61,81 @@ class UserPreference < ActiveRecord::Base
     others[:comments_sorting] = order
   end
 
+  def comments_in_reverse_order?
+    comments_sorting == 'desc'
+  end
+
+  def warn_on_leaving_unsaved?
+    # Need to cast here as previous values were '0' / '1'
+    to_boolean(others.fetch(:warn_on_leaving_unsaved) { true })
+  end
+
+  def warn_on_leaving_unsaved=(value)
+    others[:warn_on_leaving_unsaved] = to_boolean(value)
+  end
+
+  # Provide an alias to form builders
+  alias :comments_in_reverse_order :comments_in_reverse_order?
+  alias :warn_on_leaving_unsaved :warn_on_leaving_unsaved?
+
+  def comments_in_reverse_order=(value)
+    others[:comments_sorting] = to_boolean(value) ? 'desc' : 'asc'
+  end
+
   def theme
     others[:theme] || OpenProject::Themes.application_theme_identifier
   end
 
-  def theme=(order)
-    others[:theme] = order
+  def theme=(identifier)
+    others[:theme] = identifier.nil? ? nil : identifier.to_sym
+  end
+
+  def canonical_time_zone
+    return if time_zone.nil?
+
+    zone = ActiveSupport::TimeZone.new(time_zone)
+    unless zone.nil?
+      zone.tzinfo.canonical_identifier
+    end
+  end
+
+  def impaired?
+    !!impaired
+  end
+
+  def warn_on_leaving_unsaved?
+    # Need to cast here as previous values were '0' / '1'
+    to_boolean(others.fetch(:warn_on_leaving_unsaved) { true })
   end
 
   def warn_on_leaving_unsaved
-    others.fetch(:warn_on_leaving_unsaved) { '1' }
+    warn_on_leaving_unsaved?
   end
 
   def warn_on_leaving_unsaved=(value)
-    others[:warn_on_leaving_unsaved] = value
+    others[:warn_on_leaving_unsaved] = to_boolean(value)
   end
 
   private
 
+  def to_boolean(value)
+    ActiveRecord::Type::Boolean.new.type_cast_from_user(value)
+  end
+
   def init_other_preferences
     self.others ||= { no_self_notified: true }
+  end
+
+  def time_zone_correctness
+    errors.add(:time_zone, :inclusion) if time_zone.present? && canonical_time_zone.nil?
+  end
+
+  def theme_correctness
+    return true if theme == OpenProject::Themes.application_theme_identifier
+    themes = OpenProject::Themes.all.map(&:identifier)
+
+    unless themes.any? { |identifier| theme.to_sym == identifier }
+      errors.add(:theme, :inclusion)
+    end
   end
 end

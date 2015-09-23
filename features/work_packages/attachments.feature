@@ -44,7 +44,7 @@ Feature: Attachments on work packages
     And there is 1 user with the following:
       | login | bob|
     And the user "bob" has the following preferences
-      | warn_on_leaving_unsaved | 0 |
+      | warn_on_leaving_unsaved | false |
     And the user "bob" is a "member" in the project "parent"
     And there are the following issue status:
       | name        | is_closed | is_default |

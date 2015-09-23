@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,32 +26,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require_dependency 'api/v3/user_preferences/user_preferences_representer'
 
 module API
   module V3
-    class Root < ::API::OpenProjectAPI
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Categories::CategoriesAPI
-      mount ::API::V3::Configuration::ConfigurationAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Render::RenderAPI
-      mount ::API::V3::Repositories::RevisionsAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::StringObjects::StringObjectsAPI
-      mount ::API::V3::Types::TypesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::UserPreferences::UserPreferencesAPI
-      mount ::API::V3::Versions::VersionsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+    module UserPreferences
+      class UserPreferencesAPI < ::API::OpenProjectAPI
+        resource :my_preferences do
+          helpers do
+            def represent_preferences
+              UserPreferencesRepresenter.new(@preferences, current_user: current_user)
+            end
+          end
 
-      get '/' do
-        RootRepresenter.new({}, current_user: current_user)
+          before do
+            fail ::API::Errors::Unauthenticated unless current_user.logged?
+            @preferences = current_user.pref
+          end
+
+          get do
+            represent_preferences
+          end
+
+          patch do
+            representer = represent_preferences
+            representer.from_hash(request_body)
+
+            if @preferences.save
+              representer
+            else
+              raise ::API::Errors::ErrorBase.create_and_merge_errors(@preferences.errors)
+            end
+          end
+        end
       end
     end
   end

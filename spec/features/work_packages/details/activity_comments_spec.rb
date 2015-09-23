@@ -20,7 +20,7 @@ describe 'activity comments', js: true do
 
   before do
     login_as(user)
-    allow(user.pref).to receive(:warn_on_leaving_unsaved).and_return('0')
+    allow(user.pref).to receive(:warn_on_leaving_unsaved?).and_return(false)
   end
 
   context 'with permission' do

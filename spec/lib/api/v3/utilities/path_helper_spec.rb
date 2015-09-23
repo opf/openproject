@@ -120,6 +120,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/projects/42/work_packages/form'
   end
 
+  describe '#user_preferences' do
+    subject { helper.my_preferences }
+
+    it_behaves_like 'api v3 path', '/my_preferences'
+  end
+
   describe '#render_markup' do
     subject { helper.render_markup(format: 'super_fancy', link: 'link-ish') }
 

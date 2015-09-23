@@ -49,6 +49,10 @@ describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
         @env
       end
 
+      def request_body
+        @env['api.request.body']
+      end
+
       def current_user
         @user
       end

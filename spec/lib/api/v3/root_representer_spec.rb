@@ -31,7 +31,8 @@ require 'spec_helper'
 describe ::API::V3::RootRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:representer) { described_class.new({}, current_user: double('current_user')) }
+  let(:user) { FactoryGirl.build(:user) }
+  let(:representer) { described_class.new({}, current_user: user) }
   let(:app_title) { 'Foo Project' }
   let(:version) { 'The version is over 9000!' }
 
@@ -67,6 +68,29 @@ describe ::API::V3::RootRepresenter do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'workPackages' }
         let(:href) { api_v3_paths.work_packages }
+      end
+
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'user' }
+        let(:href) { api_v3_paths.user(user.id) }
+        let(:title) { user.name }
+      end
+
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'userPreferences' }
+        let(:href) { api_v3_paths.my_preferences }
+      end
+
+      context 'anonymous user' do
+        let(:representer) { described_class.new({}, current_user: User.anonymous) }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'user' }
+        end
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'userPreferences' }
+        end
       end
     end
 
