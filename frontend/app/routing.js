@@ -68,11 +68,11 @@ angular.module('openproject')
       controllerAs: 'vm',
       abstract: true,
       resolve: {
-        workPackage: function(WorkPackageService, $stateParams, $state) {
+        workPackage: function(WorkPackageService, $stateParams) {
           var wsPromise = WorkPackageService.getWorkPackage($stateParams.workPackageId);
 
           wsPromise.catch(function(){
-            $state.go('/projects');
+            location.href = '/projects'
           });
 
           return wsPromise;
