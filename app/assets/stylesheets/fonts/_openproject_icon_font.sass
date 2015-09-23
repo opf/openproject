@@ -1006,6 +1006,11 @@ dt > .icon-wiki-page:before,
 
 .icon-remove:before
   content: "\e109"
+  // HACK to align this icon and it's text
+  // This occurs because the icon is not aligned at its border.
+  // This should be removed when the icon font is updated.
+  position: relative
+  top: 0.15em
 
 /* remove once all menu items have an icon */
 .no-icon
