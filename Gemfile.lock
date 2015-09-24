@@ -30,10 +30,11 @@ GIT
 
 GIT
   remote: https://github.com/finnlabs/transactional_lock.git
-  revision: fe82192efa0346e49d19bbe82865280fdae79487
+  revision: 6948b1d446db0da5645e68ffeeddca1c4944c3bc
   branch: master
   specs:
     transactional_lock (0.1.0)
+      activerecord (>= 4.0)
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
