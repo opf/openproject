@@ -95,7 +95,7 @@ module.exports = function($uiViewScroll,
       });
 
       scope.editComment = function() {
-        scope.writeValue = scope.activity.props.comment.raw;
+        scope.activity.editedComment = scope.activity.props.comment.raw;
         scope.inEdit = true;
       };
 
@@ -111,7 +111,7 @@ module.exports = function($uiViewScroll,
       };
 
       scope.updateComment = function() {
-        ActivityService.updateComment(scope.activity, scope.writeValue).then(function(){
+        ActivityService.updateComment(scope.activity, scope.activity.editedComment).then(function(){
           scope.$emit('workPackageRefreshRequired', '');
           scope.inEdit = false;
         });
@@ -123,7 +123,7 @@ module.exports = function($uiViewScroll,
         if (scope.inPreview) {
           TextileService.renderWithWorkPackageContext(
             EditableFieldsState.workPackage.form,
-            scope.activity.props.comment.raw
+            scope.activity.editedComment
           ).then(function(r) {
             scope.previewHtml = $sce.trustAsHtml(r.data);
 
@@ -144,14 +144,12 @@ module.exports = function($uiViewScroll,
       scope.blur = function() {
         timeout = setTimeout(function() {
           focused = false;
-        }, 50);
+        }, 0);
       };
 
       scope.focussing = function() {
         return focused;
       };
-
-      element.on('focusout', blur);
 
       function quotedText(rawComment) {
         var quoted = rawComment.split("\n")
