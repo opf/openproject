@@ -74,7 +74,8 @@ angular.module(
     'openproject.uiComponents',
     'openproject.helpers',
     'openproject.workPackages.config',
-    'openproject.workPackages.helpers'
+    'openproject.workPackages.helpers',
+    'angular-cache'
   ]);
 angular.module('openproject.helpers', ['openproject.services']);
 angular
@@ -191,8 +192,7 @@ var openprojectApp = angular.module('openproject', [
   'cgBusy',
   'openproject.api',
   'openproject.templates',
-  'monospaced.elastic',
-  'angular-cache'
+  'monospaced.elastic'
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') ||

@@ -75,7 +75,8 @@ module.exports = function($uiViewScroll,
       scope.userCanQuote = !!scope.workPackage.links.addComment;
       scope.accessibilityModeEnabled = ConfigurationService.accessibilityModeEnabled();
 
-      UserService.getUserByResource(scope.activity.links.user).then(function(user) {
+      var resource = UserService.getUserByResource(scope.activity.links.user);
+      resource.then(function(user) {
         scope.userId = user.props.id;
         scope.userName = user.props.name;
         scope.userAvatar = user.props.avatar;

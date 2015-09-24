@@ -32,11 +32,16 @@ module.exports = function(
   $q,
   CacheFactory) {
 
-  var cacheName = 'openproject-cache';
-  var _cache = CacheFactory(cacheName, {
-    maxAge: 30 * 60 * 1000, // 30 mins
-    storageMode: 'sessionStorage'
-  });
+  var cacheName = 'openproject-cache',
+      _promises = {},
+      _cache = CacheFactory.get(cacheName);
+
+  if (!_cache) {
+    _cache = CacheFactory(cacheName, {
+      maxAge: 10 * 60 * 1000, // 10 mins
+      storageMode: 'sessionStorage',
+    });
+  }
 
   var CacheService = {
 
@@ -48,29 +53,40 @@ module.exports = function(
       return _cache.get(key);
     },
 
+    remove: function(key) {
+      _cache.remove(key);
+    },
+
     loadResource: function(resource, force) {
       var deferred = $q.defer(),
           key = resource.props.href,
           cached = CacheService.get(key);
 
+
+      // Got the result directly? Great.
+      if (cached && !force) {
+        deferred.resolve(cached);
+      }
+
       // Return an existing promise if it exists
       // Avoids intermittent requests while a first
       // is already underway.
-      if (cached && !force) {
-        return cached;
+      if (_promises[key]) {
+        return _promises[key];
       }
 
-      var promise = deferred.promise;
-      CacheService.cache(key, promise);
-
       resource.fetch().then(function(data) {
+        CacheService.cache(key, data);
         deferred.resolve(data);
       }, function() {
         deferred.reject();
+        CacheService.remove(key);
       });
 
+      var promise = deferred.promise;
+      _promises[key] = promise;
       return promise;
-    },
+    }
   };
 
   return CacheService;

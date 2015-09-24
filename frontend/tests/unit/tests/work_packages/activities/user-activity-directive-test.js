@@ -47,7 +47,7 @@ describe('userActivity Directive', function() {
       });
     });
 
-    beforeEach(inject(function($rootScope, $compile, $uiViewScroll, $timeout, $location, I18n, PathHelper, ActivityService, UsersHelper) {
+    beforeEach(inject(function($rootScope, $compile, $uiViewScroll, $timeout, $location, I18n, PathHelper, ActivityService, UsersHelper, UserService) {
       var html;
       html = '<user-activity work-package="workPackage" activity="activity" activity-no="activityNo" is-initial="isInitial" input-element-id="inputElementId"></user-activity>';
 
@@ -74,21 +74,20 @@ describe('userActivity Directive', function() {
           };
           scope.activity = {
             links: {
-              update: true,
               user: {
+                props: { href: '/api/v3/users/1' },
                 fetch: function() {
-                  return {
-                    then: function(cb) {
-                      cb({
-                        props: {
-                          id: 1,
-                          name: "John Doe",
-                          avatar: 'avatar.png',
-                          status: 1
-                        }
-                      }
-                    );}
-                  };
+                  var deferred = $q.defer();
+                  deferred.resolve({
+                    props: {
+                      id: 1,
+                      name: "John Doe",
+                      avatar: 'avatar.png',
+                      status: 1
+                    }
+                  });
+
+                  return deferred.promise;
                 }
               }
             },
@@ -114,7 +113,7 @@ describe('userActivity Directive', function() {
           };
           scope.isInitial = false;
           compile();
-        });
+        }));
 
         context("user's avatar", function() {
           it('should have an alt attribute', function() {
@@ -126,23 +125,28 @@ describe('userActivity Directive', function() {
           });
 
           describe('when being empty', function() {
-            beforeEach(function() {
-              scope.activity.links.user.fetch = function() {
-                return {
-                  then: function(cb) {
-                    cb({
-                      props: {
-                        id: 1,
-                        name: "John Doe",
-                        avatar: '',
-                        status: 1
-                      }
-                    });
-                  }
-                };
+            beforeEach(inject(function($q) {
+              scope.activity.links.user = {
+                props: {
+                  href: '/api/v3/users/2'
+                },
+                fetch: function() {
+                  var deferred = $q.defer();
+                  deferred.resolve({
+                    props: {
+                      id: 2,
+                      name: "John Doe",
+                      avatar: '',
+                      status: 1
+                    }
+                  });
+
+                  return deferred.promise;
+                }
               };
+
               compile();
-            });
+            }));
 
             it('should not be rendered', function() {
               expect(element.find('.avatar')).to.have.length(0);
