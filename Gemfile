@@ -99,6 +99,8 @@ gem 'gon', '~> 4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 4.1.0', require: false
 
+gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.git', branch: 'master'
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
@@ -187,12 +189,6 @@ end
 gem 'grape', '~> 0.10.1'
 gem 'roar',   '~> 1.0.0'
 gem 'reform', '~> 1.2.6', require: false
-
-# Use the commented pure ruby gems, if you have not the needed prerequisites on
-# board to compile the native ones.  Note, that their use is discouraged, since
-# their integration is propbably not that well tested and their are slower in
-# orders of magnitude compared to their native counterparts. You have been
-# warned.
 
 platforms :mri, :mingw, :x64_mingw do
   group :mysql2 do

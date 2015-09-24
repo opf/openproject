@@ -45,22 +45,27 @@ module OpenProject
 
     # Get the raw name of the currently used database adapter.
     # This string is set by the used adapter gem.
-    def self.adapter_name
-      ActiveRecord::Base.connection.adapter_name
+    def self.adapter_name(connection)
+      connection.adapter_name
     end
 
-    # returns the identifier of the currently used database type
-    def self.name
+    # returns the identifier of the specified connection
+    # (defaults to ActiveRecord::Base.connection)
+    def self.name(connection = ActiveRecord::Base.connection)
       supported_adapters.find(proc { [:unknown, //] }) { |_adapter, regex|
-        adapter_name =~ regex
+        adapter_name(connection) =~ regex
       }[0]
     end
 
     # Provide helper methods to quickly check the database type
     # OpenProject::Database.mysql? returns true, if we have a MySQL DB
+    # Also allows specification of a connection e.g.
+    # OpenProject::Database.mysql?(my_connection)
     supported_adapters.keys.each do |adapter|
       (class << self; self; end).class_eval do
-        define_method(:"#{adapter.to_s}?") { send(:name) == adapter }
+        define_method(:"#{adapter.to_s}?") do |connection = ActiveRecord::Base.connection|
+          send(:name, connection) == adapter
+        end
       end
     end
 
