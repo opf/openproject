@@ -206,7 +206,6 @@ en:
         greater_than_start_date: "must be greater than start date."
         inclusion: "is not set to one of the allowed values."
         invalid: "is invalid."
-        less_than: "must be less than %{count}."
         less_than_or_equal_to: "must be less than or equal to %{count}."
         not_a_date: "is not a valid date."
         not_a_number: "is not a number."
