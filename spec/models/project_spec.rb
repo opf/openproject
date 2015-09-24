@@ -205,7 +205,7 @@ describe Project, type: :model do
     end
   end
 
-  describe 'avialable principles' do
+  describe 'available principles' do
     let(:user) { FactoryGirl.create(:user) }
     let(:group) { FactoryGirl.create(:group) }
     let(:role) { FactoryGirl.create(:role) }
