@@ -216,11 +216,8 @@ dt > .icon-changeset:before,
 .icon-changeset:before
   content: "\e006"
 
-.icon-close:before
+.icon-cross:before
   content: "\e007"
-
-.icon-close2:before
-  content: "\e0f6"
 
 .icon-copy:before
   content: "\e008"
@@ -950,7 +947,7 @@ dt > .icon-wiki-page:before,
 .icon-glossar:before
   content: "\e0f5"
 
-.icon-close2:before
+.icon-close:before
   content: "\e0f6"
 
 .icon-hosting:before
@@ -1006,6 +1003,14 @@ dt > .icon-wiki-page:before,
 
 .icon-compare:before
   content: "\e108"
+
+.icon-remove:before
+  content: "\e109"
+  // HACK to align this icon and it's text
+  // This occurs because the icon is not aligned at its border.
+  // This should be removed when the icon font is updated.
+  position: relative
+  top: 0.15em
 
 /* remove once all menu items have an icon */
 .no-icon

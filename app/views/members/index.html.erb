@@ -124,7 +124,7 @@ See doc/COPYRIGHT.rdoc for more details.
                          delete_class, delete_title = if member.disposable?
                            ['icon icon-delete', I18n.t(:title_remove_and_delete_user)]
                          else
-                           ['icon icon-close', I18n.t(:button_remove)]
+                           ['icon icon-remove', I18n.t(:button_remove)]
                          end
                       %>
                       <%= link_to_function '', "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit', :title => l(:button_edit) %>

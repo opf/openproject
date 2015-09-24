@@ -85,10 +85,10 @@ See doc/COPYRIGHT.rdoc for more details.
                     </td>
                     <td class="buttons">
                       <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
-                      <%= link_to l(:button_delete), membership_of_group_path(@group, membership),
+                      <%= link_to l(:button_remove), membership_of_group_path(@group, membership),
                                            :method => :delete,
                                            :remote => true,
-                                           :class => 'icon icon-delete' %>
+                                           :class => 'icon icon-remove' %>
                     </td>
                   </tr>
             </tbody>

@@ -57,8 +57,7 @@
 <li><span class="icon-changeset3"></span> changeset3</li>
 <li><span class="icon-clock-reminder"></span> clock-reminder</li>
 <li><span class="icon-close"></span> close</li>
-<li><span class="icon-close2"></span> close2</li>
-<li><span class="icon-close2"></span> close2</li>
+<li><span class="icon-cross"></span> cross</li>
 <li><span class="icon-code-tag"></span> code-tag</li>
 <li><span class="icon-color-text"></span> color-text</li>
 <li><span class="icon-color-underline"></span> color-underline</li>
@@ -191,6 +190,7 @@
 <li><span class="icon-redo"></span> redo</li>
 <li><span class="icon-reload1"></span> reload1</li>
 <li><span class="icon-reload2"></span> reload2</li>
+<li><span class="icon-remove"></span> remove</li>
 <li><span class="icon-rename"></span> rename</li>
 <li><span class="icon-rss"></span> rss</li>
 <li><span class="icon-rss2"></span> rss2</li>
@@ -246,7 +246,6 @@
 <li><span class="icon-underline"></span> underline</li>
 <li><span class="icon-undo"></span> undo</li>
 <li><span class="icon-unit"></span> unit</li>
-<li><span class="icon-unit2"></span> unit2</li>
 <li><span class="icon-unit2"></span> unit2</li>
 <li><span class="icon-unlocked"></span> unlocked</li>
 <li><span class="icon-user-guide-admin"></span> user-guide-admin</li>
