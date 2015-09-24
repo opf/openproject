@@ -484,6 +484,8 @@ GEM
     timecop (0.7.3)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2015.6)
+      tzinfo (>= 1.0.0)
     uber (0.0.13)
     unicorn (4.9.0)
       kgio (~> 2.6)
@@ -604,6 +606,7 @@ DEPENDENCIES
   thin
   timecop (~> 0.7.1)
   transactional_lock!
+  tzinfo-data
   unicorn
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
