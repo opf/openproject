@@ -73,6 +73,7 @@ module.exports = function($uiViewScroll,
       scope.userCanEdit = !!scope.activity.links.update;
       scope.userCanQuote = !!scope.workPackage.links.addComment;
       scope.accessibilityModeEnabled = ConfigurationService.accessibilityModeEnabled();
+      scope.workPackageId = scope.workPackage.props.id;
 
       scope.activity.links.user.fetch().then(function(user) {
         scope.userId = user.props.id;
