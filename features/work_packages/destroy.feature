@@ -52,7 +52,7 @@ Feature: Deleting work packages
     When I go to the page of the work package "wp1"
     And I select "Delete" from the action menu
     And I confirm popups
-    Then I should see "Confirmation"
+    Then I should see "DO YOU REALLY WANT TO DELETE THE WORK PACKAGE?"
     When I choose "Reassign"
     And I fill in the id of work package "wp2" into "to_do_reassign_to_id"
     And I submit the form by the "Delete" button
