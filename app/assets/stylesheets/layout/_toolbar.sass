@@ -111,9 +111,14 @@
         vertical-align: text-top
 
 .title-container
+  @include clearfix
+  float:   left
+  height:  auto
+  padding: 0
+
   h2
     border: 0
-    padding: 12px 0 0 0
+    padding: 12px 0
     color: $toolbar-title-color
     @include breakpoint(medium down)
       font-size: $h2-font-size
@@ -123,10 +128,6 @@
 
     &:hover
       text-decoration: underline
-
-  float:   left
-  height:  $header-height
-  padding: 0
 
   ul
     margin:  0
