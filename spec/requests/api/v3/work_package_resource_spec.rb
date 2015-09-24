@@ -269,6 +269,7 @@ h4. things we like
         before(:each) do
           allow(User).to receive(:current).and_return current_user
           work_package
+          ActionMailer::Base.deliveries.clear # throw away mails due to work package creation
         end
 
         include_context 'patch request'

@@ -72,6 +72,8 @@ describe WorkPackage, type: :model do
 
     context 'no notification' do
       before do
+        ActionMailer::Base.deliveries.clear # clear mails sent due to prior WP creation
+
         JournalManager.send_notification = false
 
         work_package.save!
