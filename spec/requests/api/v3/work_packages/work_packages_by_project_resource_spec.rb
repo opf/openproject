@@ -247,7 +247,6 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
       priority.save!
 
       FactoryGirl.create(:user_preference, user: current_user, others: { no_self_notified: false })
-      ActionMailer::Base.deliveries.clear
       post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
     end
 

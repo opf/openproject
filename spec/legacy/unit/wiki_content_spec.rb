@@ -54,7 +54,7 @@ describe WikiContent, type: :model do
 
   it 'should create should send email notification' do
     Setting.notified_events = ['wiki_content_added']
-    ActionMailer::Base.deliveries.clear
+
     page = WikiPage.new(wiki: @wiki, title: 'A new page')
     page.content = WikiContent.new(text: 'Content text', author: User.find(1), comments: 'My comment')
     assert page.save
@@ -74,7 +74,7 @@ describe WikiContent, type: :model do
 
   it 'should update should send email notification' do
     Setting.notified_events = ['wiki_content_updated']
-    ActionMailer::Base.deliveries.clear
+
     content = @page.content
     content.text = 'My new content'
     assert content.save

@@ -95,8 +95,6 @@ describe News, type: :model do
 
   describe '#save' do
     it 'sends email notifications when created' do
-      ActionMailer::Base.deliveries.clear
-
       user = FactoryGirl.create(:user)
       become_member_with_permissions(project, user)
       # reload

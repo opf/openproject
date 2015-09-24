@@ -158,7 +158,6 @@ describe 'Redmine::Hook::Manager' do # FIXME: naming (RSpec-port)
     user = User.find(1)
     issue = FactoryGirl.create(:work_package)
 
-    ActionMailer::Base.deliveries.clear
     UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
     mail = ActionMailer::Base.deliveries.last
 
