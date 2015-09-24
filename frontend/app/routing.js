@@ -32,8 +32,6 @@ angular.module('openproject')
   '$stateProvider',
   '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider) {
-    var basePath = window.appBasePath || '';
-
   // redirect to default activity tab when user lands at /work_packages/:id
   // TODO: Preserve #note-4 part of the URL.
   $urlRouterProvider.when('/work_packages/{id}', '/work_packages/{id}/activity');
@@ -62,7 +60,7 @@ angular.module('openproject')
     })
 
     .state('work-packages.show', {
-      url: basePath + '/work_packages/{workPackageId:[0-9]+}?query_props',
+      url: '/work_packages/{workPackageId:[0-9]+}?query_props',
       templateUrl: '/templates/work_packages.show.html',
       controller: 'WorkPackageShowController',
       controllerAs: 'vm',
@@ -112,7 +110,7 @@ angular.module('openproject')
     })
 
     .state('work-packages.list', {
-      url: basePath + '/projects/{projectPath}/work_packages?query_id&query_props',
+      url: '/projects/{projectPath}/work_packages?query_id&query_props',
       controller: 'WorkPackagesListController',
       templateUrl: '/templates/work_packages.list.html',
       reloadOnSearch: false
