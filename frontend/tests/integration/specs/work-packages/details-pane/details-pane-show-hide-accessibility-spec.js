@@ -33,12 +33,11 @@ var expect = require('../../../spec_helper.js').expect,
 describe('OpenProject', function () {
   describe('accessibility', function () {
     beforeEach(function () {
-      detailsPaneHelper.loadPane(819, 'activity');
+      detailsPaneHelper.loadPane(819);
     });
     describe('...', function () {
       beforeEach(function () {
-        $('.attributes-group.ng-scope:nth-child(1) .inplace-edit--read-value').click();
-        //element(by.css('.attributes-group.ng-scope:nth-child(1) textarea'));
+        $('#work-package-description .inplace-edit--read-value').click();
 
         // tab through all the elements in the inplace edit control
         // Save

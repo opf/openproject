@@ -34,7 +34,7 @@ var expect = require('../../../spec_helper.js').expect,
 describe('OpenProject', function() {
   describe('pane itself', function() {
     beforeEach(function() {
-      detailsPaneHelper.loadPane(819, 'activity');
+      detailsPaneHelper.loadPane(819);
     });
 
     it('should be visible', function() {
@@ -45,7 +45,7 @@ describe('OpenProject', function() {
   describe('activities', function() {
     describe('activity tab', function() {
       before(function() {
-        detailsPaneHelper.loadPane(819, 'activity');
+        detailsPaneHelper.loadPane(819);
       });
 
       describe('custom fields order', function() {
@@ -69,18 +69,22 @@ describe('OpenProject', function() {
       });
 
       describe('activities', function() {
-        it('should render the last 3 activites', function() {
+        it('should render activites', function() {
           expect(
             $('ul li:nth-child(1) div.comments-number').getText()
-          ).to.eventually.equal('#4');
+          ).to.eventually.equal('#1');
 
           expect(
             $('ul li:nth-child(2) div.comments-number').getText()
-          ).to.eventually.equal('#3');
+          ).to.eventually.equal('#2');
 
           expect(
             $('ul li:nth-child(3) div.comments-number').getText()
-          ).to.eventually.equal('#2');
+          ).to.eventually.equal('#3');
+
+          expect(
+            $('ul li:nth-child(4) div.comments-number').getText()
+          ).to.eventually.equal('#4');
         });
 
         it('should contain the activities details', function() {
