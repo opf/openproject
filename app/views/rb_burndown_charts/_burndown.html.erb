@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
         $.each(Burndown.datasets, function (key, val) {
           val.color = i;
-          val.points = {show: true, radius: 2};
+          val.points = {show: false, radius: 2};
           val.lines = {show: true};
           ++i;
         });
@@ -77,7 +77,7 @@ See doc/COPYRIGHT.rdoc for more details.
             yaxis: { min: 0,
               ticks: [ <%= yaxis_labels(burndown) %> ] },
             xaxis: {
-              ticks: [<%= xaxis_labels(burndown) %>],
+              ticks: [ <%= xaxis_labels(burndown) %> ],
               tickDecimals: 0,
               max: <%= burndown.days.length + 1 %>,
               min: 1
