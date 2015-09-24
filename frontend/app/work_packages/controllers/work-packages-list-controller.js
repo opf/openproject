@@ -32,9 +32,7 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
       AuthorisationService, UrlParamsHelper, PathHelper, Query,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService) {
 
-  if ($stateParams.projectPath.indexOf(PathHelper.staticBase + '/projects') === 0) {
-    $scope.projectIdentifier = $stateParams.projectPath.replace(PathHelper.staticBase + '/projects/', '');
-  }
+  $scope.projectIdentifier = $stateParams.projectPath || null;
 
   // Setup
   function initialSetup() {
