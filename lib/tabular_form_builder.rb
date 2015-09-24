@@ -128,7 +128,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     if options[:no_label]
       field_html
     else
-      content_tag(:span, field_html, class: options[:no_class] ? '' : 'form--field-container')
+      content_tag(:div, field_html, class: options[:no_class] ? '' : 'form--field-container')
     end
   end
 
