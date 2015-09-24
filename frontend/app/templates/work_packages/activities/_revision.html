@@ -1,10 +1,9 @@
 <div class="work-package-details-activities-activity-contents">
   <div class="comments-number">
-    <span ui-sref="work-packages.list.details.activity.details({ activity_no: activityNo })">
-      <a name="{{ activityNo }}"
-         ng-bind="'#' + activityNo"
-         ng-href="#{{ activityNo }}"></a>
-    </span>
+    <activity-link work-package="workPackage"
+                   activity-no="activityNo"
+                   on-focus="focus()",
+                   on-blur="blur()"></activity-link>
   </div>
   <div ng-if="userAvatar">
     <img class="avatar" ng-src="{{ userAvatar }}" alt="Avatar" title="{{userName}}" />

@@ -54,4 +54,7 @@ angular.module('openproject.workPackages.activities')
     'UsersHelper',
     require('./revision-activity-directive')
   ])
+  .directive('activityLink', [
+    require('./activity-link-directive')
+  ])
   ;
