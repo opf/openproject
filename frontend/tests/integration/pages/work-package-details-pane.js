@@ -28,7 +28,7 @@
 
 function WorkPackageDetailsPane(id, tab) {
   this.get = function() {
-    browser.get('/work_packages/details/' + id + '/' + tab);
+    browser.get('/work_packages/' + id + '/' + tab);
   };
 }
 

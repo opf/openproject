@@ -34,7 +34,7 @@ var expect = require('../../../spec_helper.js').expect,
 describe('OpenProject', function() {
   describe('pane itself', function() {
     beforeEach(function() {
-      detailsPaneHelper.loadPane(819, 'overview');
+      detailsPaneHelper.loadPane(819, 'activity');
     });
 
     it('should be visible', function() {
@@ -43,9 +43,9 @@ describe('OpenProject', function() {
   });
 
   describe('activities', function() {
-    describe('overview tab', function() {
+    describe('activity tab', function() {
       before(function() {
-        detailsPaneHelper.loadPane(819, 'overview');
+        detailsPaneHelper.loadPane(819, 'activity');
       });
 
       describe('custom fields order', function() {

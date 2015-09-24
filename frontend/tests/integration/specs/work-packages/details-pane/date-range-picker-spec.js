@@ -42,7 +42,7 @@ describe('details pane', function() {
 
   describe('date range picker', function() {
     beforeEach(function() {
-      detailsPaneHelper.loadPane(819, 'overview');
+      detailsPaneHelper.loadPane(819, 'activity');
       dateRangePicker = element(by.css('.inplace-edit.attribute-date'));
     });
 
@@ -327,7 +327,7 @@ describe('details pane', function() {
 
   describe('date range picker with start null date', function() {
     beforeEach(function() {
-      detailsPaneHelper.loadPane(823, 'overview');
+      detailsPaneHelper.loadPane(823, 'activity');
       dateRangePicker = element(by.css('.inplace-edit.attribute-date'));
     });
 
@@ -392,7 +392,7 @@ describe('details pane', function() {
 
   describe('date range picker with due null date', function() {
     beforeEach(function() {
-      detailsPaneHelper.loadPane(824, 'overview');
+      detailsPaneHelper.loadPane(824, 'activity');
       dateRangePicker = element(by.css('.inplace-edit.attribute-date'));
     });
 
@@ -455,7 +455,7 @@ describe('details pane', function() {
 
   describe('date range picker with children', function() {
     beforeEach(function() {
-      detailsPaneHelper.loadPane(825, 'overview');
+      detailsPaneHelper.loadPane(825, 'activity');
       dateRangePicker = element(by.css('.inplace-edit.attribute-date'));
     });
 

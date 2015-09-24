@@ -33,7 +33,7 @@ var expect = require('../../../spec_helper.js').expect,
 describe('OpenProject', function () {
   describe('accessibility', function () {
     beforeEach(function () {
-      detailsPaneHelper.loadPane(819, 'overview');
+      detailsPaneHelper.loadPane(819, 'activity');
     });
     describe('...', function () {
       beforeEach(function () {

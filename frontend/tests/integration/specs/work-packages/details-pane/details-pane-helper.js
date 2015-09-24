@@ -44,7 +44,7 @@ function behaveLikeEmbeddedDropdown(name, correctValue) {
     var editor = $('.inplace-edit.attribute-' + name);
 
     before(function() {
-      loadPane(819, 'overview');
+      loadPane(819, 'activity');
       showAll();
     });
 
