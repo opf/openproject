@@ -32,7 +32,9 @@ module.exports = function() {
 
     switch(field) {
       case 'version':
-        sorting = 'title';
+        sorting = function(field) {
+          return field.title.toLowerCase();
+        };
         break;
       default:
         sorting = null;
