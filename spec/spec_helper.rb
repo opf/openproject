@@ -167,6 +167,11 @@ Rails.application.config.plugins_to_test_paths.each do |dir|
   end
 end
 
+require 'rack_session_access/capybara'
+Rails.application.config do
+  config.middleware.use RackSessionAccess::Middleware
+end
+
 module OpenProject::RspecCleanup
   def self.cleanup
     # Cleanup after specs changing locale explicitly or
