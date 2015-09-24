@@ -197,7 +197,6 @@ en:
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
         empty: "can't be empty."
-        equal_to: "must be equal to %{count}."
         even: "must be even."
         exclusion: "is reserved."
         file_too_large: "is too large (maximum size is %{count} Bytes)."
