@@ -31,18 +31,17 @@ See doc/COPYRIGHT.rdoc for more details.
   project = form.object
   id = project.identifier
   id_max_length = Project::IDENTIFIER_MAX_LENGTH
-  id_locked = project.identifier_frozen?
+  identifier_editable = project.new_record?
 %>
 
-<div class="form--field -required">
-  <%= form.text_field :identifier,
-                      disabled: id_locked %>
-  <% unless id_locked %>
+<div class="form--field <%= identifier_editable ? '-required' : '' %>">
+  <% if identifier_editable %>
+    <%= form.text_field :identifier %>
 
     <script type="text/javascript" charset="utf-8">
       projectIdentifierMaxLength = <%= id_max_length %>;
       projectIdentifierDefault = '<%= id %>';
-      projectIdentifierLocked = <%= id_locked %>;
+      projectIdentifierLocked = false;
       observeProjectIdentifier();
       observeProjectName();
     </script>
@@ -52,6 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                   max: Project::IDENTIFIER_MAX_LENGTH) %>
       <%= l(:text_project_identifier_info).html_safe %>
     </div>
-
+  <% else %>
+    <%= form.fixed_value :identifier %>
   <% end %>
 </div>
