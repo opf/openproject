@@ -42,7 +42,7 @@ module API
         end
 
         def format_columns
-          return nil unless @query.column_names
+          return [] unless @query.column_names
           @query.column_names.map { |name| ar_to_api_name name }
         end
 
@@ -72,7 +72,8 @@ module API
         end
 
         def format_filters
-          @query.filters.map { |filter|
+          filters = @query.filters || []
+          filters.map { |filter|
             attribute = ar_to_api_name filter.field
             {
               attribute => { operator: filter.operator, values: filter.values }
@@ -87,7 +88,7 @@ module API
         end
 
         def format_sorting
-          return nil unless @query.sort_criteria
+          return [] unless @query.sort_criteria
           @query.sort_criteria.map { |attribute, order|
             [ar_to_api_name(attribute), order]
           }

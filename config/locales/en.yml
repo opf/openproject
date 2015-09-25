@@ -115,8 +115,9 @@ en:
         queries: "Queries"
       query:
         column_names: "Columns"
-        group_by: "Group results by"
         filters: "Filters"
+        group_by: "Group results by"
+        sort_criteria: "Sort results by"
       repository:
         url: "URL"
       role:
@@ -334,6 +335,7 @@ en:
     is_default: "Default value"
     is_for_all: "For all projects"
     is_public: "Public"
+    is_starred: "Starred"
     # kept for backwards compatibility
     issue: "Work package"
     lastname: "Last name"
