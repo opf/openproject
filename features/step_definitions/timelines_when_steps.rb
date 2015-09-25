@@ -177,18 +177,6 @@ When (/^I show only projects which have a planning element which lies between "(
   page.execute_script("jQuery('#content form').submit()")
 end
 
-When (/^I set the second level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |project_type_name, timeline_name, project_name|
-  steps %{
-    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
-  }
-  project_type = ProjectType.find_by(name: project_type_name)
-
-  check(I18n.t('timelines.filter.grouping_two'))
-  fill_in(I18n.t('timelines.filter.grouping_two_phrase'), with: project_type.name)
-  find('.select2-result-label', text: project_type.name).click
-
-  click_button(I18n.t(:button_save))
-end
 When (/^I set the columns shown in the timeline to:$/) do |table|
   steps %{
     When I edit the settings of the current timeline

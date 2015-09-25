@@ -686,10 +686,6 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
       url += '&grouping_one=' + this.options.grouping_one.join();
     }
 
-    if (this.options.grouping_two) {
-      url += '&grouping_two=' + this.options.grouping_two.join();
-    }
-
     this.loader.register(Reporting.identifier,
                          { url : url });
   };

@@ -74,9 +74,6 @@ class Timeline < ActiveRecord::Base
     'grouping_one_enabled',
     'grouping_one_selection',
     'grouping_one_sort',
-    'grouping_two_enabled',
-    'grouping_two_selection',
-    'grouping_two_sort',
     'hide_chart',
     'hide_other_group',
     'initial_outline_expansion',
@@ -351,12 +348,6 @@ class Timeline < ActiveRecord::Base
 
   def selectable_projects
     Project.selectable_projects
-  end
-
-  def selected_grouping_project_types
-    resolve_with_none_element(:grouping_two_selection) do |ary|
-      ProjectType.where(id: ary)
-    end
   end
 
   def available_grouping_project_types

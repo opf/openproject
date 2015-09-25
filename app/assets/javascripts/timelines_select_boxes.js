@@ -40,7 +40,6 @@ jQuery(document).ready(function($) {
     $("#timeline_options_compare_to_relative_unit"),
     $("#timeline_options_grouping_one_sort"),
     $("#timeline_options_project_sort"),
-    $("#timeline_options_grouping_two_sort"),
     $("#timeline_options_planning_element_time_relative_one_unit"),
     $("#timeline_options_planning_element_time_relative_two_unit")
   ].forEach(function (item) {
@@ -71,8 +70,7 @@ jQuery(document).ready(function($) {
     $("#timeline_options_project_status"),
     $("#timeline_options_project_types"),
     $("#timeline_options_planning_element_responsibles"),
-    $("#timeline_options_planning_element_assignee"),
-    $("#timeline_options_grouping_two_selection")
+    $("#timeline_options_planning_element_assignee")
   ].forEach(function (item) {
     $(item).autocomplete({ multiple: true,
                            ajax: {null_element: {id: -1, name: I18n.t("js.filter.noneElement")}}
