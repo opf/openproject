@@ -68,7 +68,9 @@ module.exports = function($scope,
     latestTab.registerState(toState.name);
   });
 
-  $scope.$on('workPackageRefreshRequired', function(e, callback) {
+  // Listen to the event globally, as listeners are not necessarily
+  // in the child scope
+  $rootScope.$on('workPackageRefreshRequired', function(e, callback) {
     refreshWorkPackage(callback);
   });
 
@@ -191,7 +193,6 @@ module.exports = function($scope,
         }
       });
   }
-  $rootScope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
   $scope.wpPromise = WorkPackageService.getWorkPackage($scope.workPackage.props.id);
 
   // Inform parent that work package is loaded so back url can be maintained
