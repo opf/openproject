@@ -44,6 +44,18 @@ class Group < Principal
   validate :uniqueness_of_groupname
   validates_length_of :groupname, maximum: 30
 
+  # HACK: We want to have the :preference association on the Principal to allow
+  # for eager loading preferences.
+  # However, the preferences are currently very user specific.  We therefore
+  # remove the methods added by
+  #   has_one :preference
+  # to avoid accidental assignment and usage of preferences on groups.
+  undef_method :preference,
+               :preference=,
+               :build_preference,
+               :create_preference,
+               :create_preference!
+
   def to_s
     lastname.to_s
   end

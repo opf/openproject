@@ -34,7 +34,7 @@ module API
       class AvailableResponsiblesAPI < ::API::OpenProjectAPI
         resource :available_responsibles do
           get do
-            available_responsibles = @project.possible_responsibles
+            available_responsibles = @project.possible_responsibles.includes(:preference)
             self_link = api_v3_paths.available_responsibles(@project.id)
             Users::UserCollectionRepresenter.new(available_responsibles,
                                                  self_link,

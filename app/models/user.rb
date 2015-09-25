@@ -93,7 +93,6 @@ class User < Principal
   }, class_name: 'UserPassword',
      dependent: :destroy,
      inverse_of: :user
-  has_one :preference, dependent: :destroy, class_name: 'UserPreference'
   has_one :rss_token, -> {
     where("action='feeds'")
   }, dependent: :destroy, class_name: 'Token'

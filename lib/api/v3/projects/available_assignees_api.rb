@@ -34,7 +34,7 @@ module API
       class AvailableAssigneesAPI < ::API::OpenProjectAPI
         resource :available_assignees do
           get do
-            available_assignees = @project.possible_assignees
+            available_assignees = @project.possible_assignees.includes(:preference)
             self_link = api_v3_paths.available_assignees(@project.id)
             Users::UserCollectionRepresenter.new(available_assignees,
                                                  self_link,
