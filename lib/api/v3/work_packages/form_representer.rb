@@ -30,49 +30,29 @@
 module API
   module V3
     module WorkPackages
-      class FormRepresenter < ::API::Decorators::Single
+      class FormRepresenter < ::API::Decorators::Form
         def initialize(model, current_user: nil, errors: [], action: :update)
-          self.errors = errors
           self.action = action
 
-          super(model, current_user: current_user)
+          super(model, current_user: current_user, errors: errors)
         end
 
-        property :payload,
-                 embedded: true,
-                 decorator: ->(represented, *) {
-                   WorkPackagePayloadRepresenter.create_class(represented)
-                 },
-                 getter: ->(*) { self }
-        property :schema,
-                 embedded: true,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   schema = Schema::SpecificWorkPackageSchema.new(work_package: represented)
-                   schema_link = api_v3_paths.work_package_schema(represented.project_id,
-                                                                  represented.type_id)
-                   Schema::WorkPackageSchemaRepresenter.create(schema,
-                                                               nil,
-                                                               form_embedded: true,
-                                                               base_schema_link: schema_link,
-                                                               current_user: current_user,
-                                                               action: action)
-                 }
-        property :validation_errors, embedded: true, exec_context: :decorator
+        attr_accessor :action
 
-        attr_accessor :action,
-                      :errors
-
-        def _type
-          'Form'
+        def payload_representer
+          WorkPackagePayloadRepresenter.create_class(represented).new(represented)
         end
 
-        def validation_errors
-          errors.group_by(&:property).inject({}) do |hash, (property, errors)|
-            error = ::API::Errors::MultipleErrors.create_if_many(errors)
-            hash[property] = ::API::V3::Errors::ErrorRepresenter.new(error)
-            hash
-          end
+        def schema_representer
+          schema = Schema::SpecificWorkPackageSchema.new(work_package: represented)
+          schema_link = api_v3_paths.work_package_schema(represented.project_id,
+                                                         represented.type_id)
+          Schema::WorkPackageSchemaRepresenter.create(schema,
+                                                      nil,
+                                                      form_embedded: true,
+                                                      base_schema_link: schema_link,
+                                                      current_user: current_user,
+                                                      action: action)
         end
       end
     end
