@@ -409,7 +409,7 @@ module.exports = function(
 
     $q.all(promises).then(function() {
       // Update work package after this call
-      $rootScope.refreshWorkPackage(callback);
+      $rootScope.$emit('workPackageRefreshRequired', callback);
       EditableFieldsState.errors = null;
       EditableFieldsState.submissionPromises = {};
       EditableFieldsState.currentField = null;

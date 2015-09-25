@@ -111,7 +111,7 @@ module.exports = function(
     var field = angular.element('.work-packages--details--subject:first .inplace-edit--write')
                        .scope().editPaneController.submitField;
 
-    EditableFieldsState.submissionPromises['work-package'] = {
+    EditableFieldsState.submissionPromises['work_package'] = {
       field: 'subject',
       thePromise: field,
       prepend: true,
