@@ -300,16 +300,14 @@ describe('WorkPackagesListController', function() {
 
     beforeEach(function() {
       testState = {
-        params: {},
-        href: function() { return ''; },
+        href: function() { return '' },
+        params: {}
       };
       testLocation = {
-        search: function() {
-          return {};
-        },
+        search: function() { return {} },
         url: angular.identity
       };
-      testParams = { projectPath: '/projects/my-project' };
+      testParams = { projectPath: 'my-project' };
       buildController(testParams, testState, testLocation);
     });
 
