@@ -95,13 +95,13 @@ See doc/COPYRIGHT.rdoc for more details.
                   <%= call_hook(:view_users_memberships_table_row, :user => @user, :membership => membership, :roles => roles, :projects => projects )%>
                   <td class="buttons">
                     <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
-                    <%= link_to(l(:button_delete), { :controller => 'users',
+                    <%= link_to(l(:button_remove), { :controller => 'users',
                                            :action => 'destroy_membership',
                                            :id => @user,
                                            :membership_id => membership },
                                           :remote => true,
                                           :method => :post,
-                                          :class => 'icon icon-delete') if membership.deletable? %>
+                                          :class => 'icon icon-remove') if membership.deletable? %>
                   </td>
                 </tr>
               <% end %>
