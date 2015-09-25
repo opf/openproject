@@ -546,6 +546,7 @@ OpenProject::Application.routes.draw do
     match '/my/mail_notifications', action: 'mail_notifications', via: [:get, :patch]
     post '/my/reset_rss_key', action: 'reset_rss_key'
     post '/my/reset_api_key', action: 'reset_api_key'
+    get '/my/access_token', action: 'access_token'
   end
 
   get 'authentication' => 'authentication#index'
