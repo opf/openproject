@@ -33,11 +33,11 @@ describe 'api/experimental/projects/show.api.rabl', type: :view do
   let(:types)     { FactoryGirl.build_list(:type,   2) }
 
   let(:project)   {
-    project = FactoryGirl.build(:project,
-                                possible_responsibles: principals,
-                                possible_assignees:    principals,
-                                types:                 types
-                               )
+    FactoryGirl.build(:project,
+                      possible_responsibles: principals,
+                      possible_assignees:    principals,
+                      types:                 types
+                     )
   }
 
   before do
