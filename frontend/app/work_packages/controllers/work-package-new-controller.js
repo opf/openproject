@@ -117,7 +117,9 @@ module.exports = function(
       prepend: true,
     };
 
-    WorkPackageFieldService.submitWorkPackageChanges(notify);
+    WorkPackageFieldService.submitWorkPackageChanges(notify, function() {
+      $rootScope.$emit('workPackagesRefreshRequired');
+    });
   }
 
   function cancel() {
