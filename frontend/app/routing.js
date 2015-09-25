@@ -112,13 +112,39 @@ angular.module('openproject')
       url: '/projects/{projectPath}/work_packages?query_id&query_props',
       controller: 'WorkPackagesListController',
       templateUrl: '/templates/work_packages.list.html',
-      reloadOnSearch: false
+      reloadOnSearch: false,
+      // HACK
+      // This is to avoid problems with the css depending on which page the
+      // browser starts from (deep-link). As we have CSS rules that change the
+      // layout drastically when on the index action (e.g. position: absolute,
+      // heigt of footer, ...), and this should not be applied to the other
+      // states, we need to remove the trigger used in the CSS The correct fix
+      // would be to alter the CSS.
+      onEnter: function(){
+        jQuery('body').addClass('action-index');
+      },
+      onExit: function(){
+        jQuery('body').removeClass('action-index');
+      }
     })
     .state('work-packages.list-all', {
       url: '/work_packages?query_id&query_props',
       controller: 'WorkPackagesListController',
       templateUrl: '/templates/work_packages.list.html',
-      reloadOnSearch: false
+      reloadOnSearch: false,
+      // HACK
+      // This is to avoid problems with the css depending on which page the
+      // browser starts from (deep-link). As we have CSS rules that change the
+      // layout drastically when on the index action (e.g. position: absolute,
+      // heigt of footer, ...), and this should not be applied to the other
+      // states, we need to remove the trigger used in the CSS The correct fix
+      // would be to alter the CSS.
+      onEnter: function(){
+        jQuery('body').addClass('action-index');
+      },
+      onExit: function(){
+        jQuery('body').removeClass('action-index');
+      }
     })
     .state('work-packages.list.new', {
       url: '/create_new?type',
