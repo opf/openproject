@@ -28,18 +28,37 @@
 #++
 
 module API
-  module V3
-    module WorkPackages
-      class FormRepresenter < ::API::Decorators::Form
-        def payload_representer
-          WorkPackagePayloadRepresenter.create_class(represented).new(represented)
-        end
+  module Decorators
+    class Form < ::API::Decorators::Single
+      def initialize(model, current_user: nil, errors: [])
+        @errors = errors
 
-        def schema_representer
-          schema = Schema::SpecificWorkPackageSchema.new(work_package: represented)
-          Schema::WorkPackageSchemaRepresenter.create(schema,
-                                                      form_embedded: true,
-                                                      current_user: current_user)
+        super(model, current_user: current_user)
+      end
+
+      property :payload,
+               embedded: true,
+               exec_context: :decorator,
+               getter: -> (*) {
+                 payload_representer
+               }
+      property :schema,
+               embedded: true,
+               exec_context: :decorator,
+               getter: -> (*) {
+                 schema_representer
+               }
+      property :validation_errors, embedded: true, exec_context: :decorator
+
+      def _type
+        'Form'
+      end
+
+      def validation_errors
+        @errors.group_by(&:property).inject({}) do |hash, (property, errors)|
+          error = ::API::Errors::MultipleErrors.create_if_many(errors)
+          hash[property] = ::API::V3::Errors::ErrorRepresenter.new(error)
+          hash
         end
       end
     end
