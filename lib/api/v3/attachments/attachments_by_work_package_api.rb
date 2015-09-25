@@ -59,7 +59,7 @@ module API
           end
 
           post do
-            authorize(:edit_work_packages, context: @work_package.project)
+            authorize_any [:edit_work_packages, :add_work_packages], projects: @work_package.project
 
             metadata = parse_metadata params[:metadata]
             file = params[:file]
