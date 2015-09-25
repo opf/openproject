@@ -82,6 +82,7 @@ module.exports = function($http,
     initializeWorkPackage: function(projectIdentifier, initialData) {
       var changes = _.clone(initialData);
       var wp = {
+        isNew: true,
         embedded: {},
         props: {},
         links: {
