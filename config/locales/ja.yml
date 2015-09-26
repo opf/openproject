@@ -2,7 +2,7 @@ ja:
   activerecord:
     attributes:
       cost_entry:
-        work_package: ワーク パッケージ
+        work_package: 作業項目
         overridden_costs: オーバーライドされたコスト
         spent: 使用済
         spent_on: 日付
@@ -24,24 +24,24 @@ ja:
         unit_plural: 単位名
       work_package:
         cost_object_subject: 予算のタイトル
-        labor_costs: 労働コスト
+        labor_costs: 作業員コスト
         material_costs: 単価
-        overall_costs: 全体的なコスト
+        overall_costs: 集計コスト
         spent_costs: 使用済コスト
-        spent_units: 使用済ユニット
+        spent_units: 使用済単価
       rate:
-        rate: 率
+        rate: 原価率
       user:
-        default_rates: デフォルト率
+        default_rates: デフォルト原価率
       variable_cost_object:
-        labor_budget: 計画労務コスト
+        labor_budget: 計画作業員コスト
         material_budget: 計画単価
     models:
       cost_object: 予算
       cost_type:
         other: コスト種類
       material_budget_item: ユニット
-      rate: 率
+      rate: 原価率
     errors:
       models:
         work_package:
@@ -53,14 +53,14 @@ ja:
     cost_object: 予算
     cost_type: コスト種類
     costs: コスト
-    current_rate: 現在の率
+    current_rate: 現状原価率
     hours: 時間
     units: 単位
     valid_from: から有効
   button_add_budget_item: 計画コストを追加
   button_add_cost_object: 予算を追加
   button_add_cost_type: コストの種類を追加
-  button_add_rate: 率を追加
+  button_add_rate: 原価率を追加
   button_cancel_edit_budget: 予算の編集を取り消し
   button_cancel_edit_costs: コストの編集を取り消し
   button_log_costs: 単価を記録
@@ -125,8 +125,8 @@ ja:
   label_log_costs: 単価を記録
   label_no: 'No'
   label_option_plural: Options
-  label_overall_costs: 全体的なコスト
-  label_rate: 率
+  label_overall_costs: 集計コスト
+  label_rate: 原価率
   label_rate_plural: Rates
   label_status_finished: Finished
   label_units: 単価
