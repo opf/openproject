@@ -44,8 +44,8 @@ require 'rspec/mocks'
 require 'factory_girl_rails'
 
 require_relative './support/file_helpers'
-require_relative './support/shared/with_mock_request'
-require_relative './legacy/support/legacy_assertions'
+require_relative './support/with_mock_request'
+require_relative './support/legacy_assertions'
 require_relative './support/repository_helpers'
 
 require 'rspec/rails'
@@ -55,7 +55,7 @@ require 'rspec/example_disabler'
 RSpec.configure do |config|
   config.expect_with :rspec, :minitest
 
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = "#{::Rails.root}/spec_legacy/fixtures"
 
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures  = false
@@ -66,9 +66,10 @@ RSpec.configure do |config|
   # included in order to use #fixture_file_upload
   config.include ActionDispatch::TestProcess
 
-  config.include RSpec::Rails::RequestExampleGroup, file_path: %r(spec/legacy/integration)
-  config.include Shoulda::Matchers::ActionController, file_path: %r(spec/legacy/integration)
-  config.extend Shoulda::Matchers::ActionController, file_path: %r(spec/legacy/integration)
+  config.include RSpec::Rails::RequestExampleGroup,   file_path: %r(spec_legacy/integration)
+  config.include Shoulda::Matchers::ActionController, file_path: %r(spec_legacy/integration)
+  config.extend  Shoulda::Matchers::ActionController, file_path: %r(spec_legacy/integration)
+
   config.include(Module.new {
     extend ActiveSupport::Concern
 
@@ -76,7 +77,7 @@ RSpec.configure do |config|
     included do
       subject { self }
     end
-  }, file_path: %r(spec/legacy/integration))
+  }, file_path: %r(spec_legacy/integration))
 
   config.before(:suite) do |_example|
     Delayed::Worker.delay_jobs = false
