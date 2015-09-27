@@ -163,6 +163,8 @@ group :test do
   gem 'activerecord-tableless', '~> 1.0'
   gem 'codecov', require: nil
   gem 'equivalent-xml', '~> 0.5.1'
+
+  gem 'rspec-retry'
 end
 
 group :ldap do
