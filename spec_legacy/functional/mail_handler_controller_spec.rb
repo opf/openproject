@@ -32,8 +32,6 @@ require 'mail_handler_controller'
 describe MailHandlerController, type: :controller do
   fixtures :all
 
-  FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures/mail_handler'
-
   before do
     User.current = nil
   end
@@ -43,7 +41,7 @@ describe MailHandlerController, type: :controller do
     Setting.mail_handler_api_enabled = 1
     Setting.mail_handler_api_key = 'secret'
 
-    post :index, key: 'secret', email: IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+    post :index, key: 'secret', email: IO.read(fixture_file('ticket_on_given_project.eml'))
     assert_response 201
   end
 
@@ -52,7 +50,14 @@ describe MailHandlerController, type: :controller do
     Setting.mail_handler_api_enabled = 0
     Setting.mail_handler_api_key = 'secret'
 
-    post :index, key: 'secret', email: IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+    post :index, key: 'secret', email: IO.read(fixture_file('ticket_on_given_project.eml'))
     assert_response 403
   end
+
+  private
+
+  def fixture_file file
+    File.join(File.dirname(__FILE__) + '/../fixtures/mail_handler/' + file)
+  end
+
 end

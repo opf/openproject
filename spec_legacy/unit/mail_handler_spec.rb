@@ -31,8 +31,6 @@ require 'legacy_spec_helper'
 describe MailHandler, type: :model do
   fixtures :all
 
-  FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures/mail_handler'
-
   before do
     allow(Setting).to receive(:notified_events).and_return(Redmine::Notifiable.all.map(&:name))
   end
@@ -322,7 +320,7 @@ describe MailHandler, type: :model do
       'Auto-Submitted: Auto-Replied',
       'Auto-Submitted: auto-generated'
     ].each do |header|
-      raw = IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+      raw = raw_fixture_file('ticket_on_given_project.eml')
       raw = header + "\n" + raw
 
       assert_no_difference 'WorkPackage.count' do
@@ -565,8 +563,16 @@ describe MailHandler, type: :model do
 
   private
 
+  def fixture_file file
+    File.join(File.dirname(__FILE__) + '/../fixtures/mail_handler/' + file)
+  end
+
+  def raw_fixture_file file
+    IO.read(fixture_file(file))
+  end
+
   def submit_email(filename, options = {})
-    raw = IO.read(File.join(FIXTURES_PATH, filename))
+    raw = raw_fixture_file(filename)
     yield raw if block_given?
     MailHandler.receive(raw, options)
   end
