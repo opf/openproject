@@ -93,12 +93,12 @@
         </li>
       </ul>
       <ul class="subject-header">
-        <li class="type subheader">{{type.props.name}} #{{workPackage.props.id}}:</li>
-        <li class="inline-edit">
-          <work-package-field field="'subject'"></work-package-field>
+        <li class="subject-header-inner">
+          <div class="inline-edit">
+            <work-package-field field="'subject'"></work-package-field>
+          </div>
         </li>
       </ul>
-
     </div>
   </div>
 
@@ -146,6 +146,8 @@
           </div>
 
           <dl class="attributes-key-value">
+            <dt class="attributes-key-value--key">ID</dt>
+            <dd class="attributes-key-value--value-container not-editable">#{{workPackage.props.id}}</dd>
             <dt
                 ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
                 ng-if="vm.isSpecified(vm.workPackage, field)"
