@@ -27,7 +27,7 @@
 //++
 
 module.exports = function() {
-  var HELP_LINK_ONCLICK = 'window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, ' +
+  var HELP_LINK_ONCLICK = 'window.open(&quot;' + window.appBasePath + '/help/wiki_syntax&quot;, &quot;&quot;, ' +
                           '&quot;resizable=yes, location=no, width=600, height=640, ' +
                           'menubar=no, status=no, scrollbars=yes&quot;); return false;',
       HELP_LINK_HTML = jQuery('<button title="' + I18n.t('js.inplace.link_formatting_help') + '"' +
