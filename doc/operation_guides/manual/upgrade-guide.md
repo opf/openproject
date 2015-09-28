@@ -1,3 +1,11 @@
+# OpenProject 4.2 to OpenProject 5.0 Debian/Ubuntu Upgrade Guide
+
+One of the main new features of OpenProject 5.0 is that it manages your
+repos directly. To use this feature you have to configure OpenProject as shown [here]:(../../subversion_and_git_integration.md).
+
+For the other steps necessary to upgrade to OpenProject 5.0 please look
+at the sections below and exchange `v4.1.0` with `v5.0.0`.
+
 # OpenProject 4.1 to OpenProject 4.2 Debian/Ubuntu Upgrade Guide
 
 Please look at the steps in the section about the upgrade to OpenProject 4.1. Just exchange `v4.1.0` to `v4.2.0` when checking out the git repository.
