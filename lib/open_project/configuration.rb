@@ -210,8 +210,10 @@ module OpenProject
 
       def override_cache_config?(application_config)
         # override if cache store is not set
+        # or cache store is :file_store
         # or there is something to overwrite it
         application_config.cache_store.nil? \
+          || application_config.cache_store == :file_store \
           || @config['rails_cache_store'].present?
       end
 
