@@ -198,7 +198,7 @@ module OpenProject
           cache_config << @config['cache_memcache_server'] \
             if @config['cache_memcache_server']
         # default to :file_store
-        elsif cache_store.nil?
+        elsif cache_store.nil? || cache_store == :file_store
           cache_config = [:file_store, Rails.root.join('tmp/cache')]
         else
           cache_config = [cache_store]
