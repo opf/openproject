@@ -42,7 +42,7 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
   font-weight: normal
   vertical-align: middle
 
-@mixin danger-zone--verification--sizing
+%input--sizing
   height: 40px
   line-height: 22px
 
@@ -99,12 +99,12 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
       display: flex
 
       input
-        @include danger-zone--verification--sizing
+        @extend %input--sizing
         flex-basis: 50%
         margin: 0 0.5rem 0 0
 
       .button.-highlight
-        @include danger-zone--verification--sizing
+        @extend %input--sizing
         background: $content-form-danger-zone-bg-color
         color: $content-form-danger-zone-font-color
         border-color: $content-form-danger-zone-bg-color
