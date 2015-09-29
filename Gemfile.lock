@@ -433,7 +433,7 @@ GEM
       structured_warnings (>= 0.1.3)
     rubyzip (1.1.6)
     sass (3.4.12)
-    selenium-webdriver (2.45.0)
+    selenium-webdriver (2.47.1)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
@@ -576,7 +576,7 @@ DEPENDENCIES
   rubytree (~> 0.8.3)
   sass (~> 3.4.12)
   sass-rails!
-  selenium-webdriver (~> 2.45.0)
+  selenium-webdriver (~> 2.47.1)
   shoulda-context (~> 1.2)
   shoulda-matchers (~> 2.8)
   simplecov (= 0.8.0.pre)
