@@ -26,8 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+body.controller-work_packages.action-show {
+  overflow-x: auto;
+
+  #content {
+    padding-bottom: 0;
+    position: relative;
+  }
+}
+
 .work-packages--show-view {
-  height: 100%;
+  height: calc(100vh - 161px);
 
   #toolbar {
     @include clearfix;
@@ -49,9 +58,13 @@
 
   .work-packages--split-view {
     border-top: 1px solid #ccc;
-    height: calc(100% - 66px);
     overflow: hidden;
-    position: relative;
+    position: absolute;
+    padding-right: 20px;
+    top: 76px;
+    left: 20px;
+    right: 0px;
+    bottom: 0px;
 
     &[cg-busy] {
       overflow: visible;
