@@ -111,7 +111,7 @@ namespace :spec do
   begin
     require 'rspec/core/rake_task'
     RSpec::Core::RakeTask.new(core: 'spec:prepare') do |t|
-      t.exclude_pattern = 'spec/legacy/**/*_spec.rb'
+      t.exclude_pattern = ''
     end
 
     desc 'Run the code examples in spec/legacy'
@@ -120,8 +120,8 @@ namespace :spec do
       %w(unit functional integration).each do |type|
         desc "Run the code examples in spec/legacy/#{type}"
         RSpec::Core::RakeTask.new(type => 'spec:prepare') do |t|
-          t.pattern = "spec/legacy/#{type}/**/*_spec.rb"
-          t.exclude_pattern = ''
+          t.pattern = "spec_legacy/#{type}/**/*_spec.rb"
+          t.rspec_opts = '-I spec_legacy'
         end
       end
     end
