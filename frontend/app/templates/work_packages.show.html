@@ -119,7 +119,8 @@
           <div class="attributes-group--header">
             <div class="attributes-group--header-container">
               <h3 class="attributes-group--header-text">
-                {{ I18n.t('js.label_description') }}
+                <!-- {{ I18n.t('js.label_description') }} -->
+                {{type.props.name}} #{{workPackage.props.id}}
               </h3>
             </div>
           </div>
@@ -146,8 +147,6 @@
           </div>
 
           <dl class="attributes-key-value">
-            <dt class="attributes-key-value--key">ID</dt>
-            <dd class="attributes-key-value--value-container not-editable">#{{workPackage.props.id}}</dd>
             <dt
                 ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
                 ng-if="vm.isSpecified(vm.workPackage, field)"
