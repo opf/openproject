@@ -71,9 +71,15 @@ body.controller-work_packages.action-show {
     }
 
     .tabrow {
-      margin: -16px -20px 0 -10px;
+      display: table;
+      margin: 0;
+      width: 100%;
+      height: 32px;
 
-      li { margin-right: 15px; }
+      li {
+        display: table-cell;
+        margin-right: 15px;
+      }
     }
   }
 
@@ -92,7 +98,7 @@ body.controller-work_packages.action-show {
     min-width: 420px;
 
     .work-packages--panel-inner {
-      padding: 20px 20px 20px 20px;
+      padding: 2px 20px 20px 20px;
     }
   }
 
