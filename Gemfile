@@ -137,7 +137,7 @@ group :test do
   gem 'rack-test', '~> 0.6.2'
   gem 'shoulda-context', '~> 1.2'
   gem 'launchy', '~> 2.3.0'
-  gem 'factory_girl_rails', '~> 4.5'
+  gem 'factory_girl_rails', '~> 4.5', require: false
   gem 'cucumber-rails', '~> 1.4.2', require: false
   gem 'rack_session_access'
   gem 'database_cleaner', '~> 1.4.1'
@@ -157,7 +157,7 @@ group :test do
   gem 'rb-readline', '~> 0.5.1' # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
-  gem 'simplecov', '0.8.0.pre'
+  gem 'simplecov', '0.8.0.pre', require: false
   gem 'shoulda-matchers', '~> 2.8', require: nil
   gem 'json_spec'
   gem 'activerecord-tableless', '~> 1.0'

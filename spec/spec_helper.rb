@@ -38,6 +38,7 @@ require 'shoulda/matchers'
 require 'rspec/example_disabler'
 require 'capybara/rails'
 require 'capybara-screenshot/rspec'
+require 'factory_girl_rails'
 
 Capybara.register_driver :selenium do |app|
   require 'selenium/webdriver'
@@ -151,7 +152,7 @@ end
 Rails.application.config.plugins_to_test_paths.each do |dir|
   ['disable_specs.rb', 'config_spec_helper.rb'].each do |file_name|
     file = File.join(dir, 'spec', file_name)
-    
+
     if File.exists?(file)
       puts "Loading #{file}"
       require file
