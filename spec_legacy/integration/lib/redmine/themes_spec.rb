@@ -46,8 +46,7 @@ describe 'Themes' do
     get '/'
 
     assert_response :success
-    assert_tag tag: 'link',
-               attributes: { href: '/assets/default.css' }
+    assert_tag tag: 'link', attributes: { href: '/assets/default.css' }
   end
 
   xit 'test without theme js' do
@@ -65,7 +64,7 @@ describe 'Themes' do
       get '/'
 
       assert_response :success
-      assert_tag tag: 'script',
+      assert_select 'script',
                  attributes: { src: '/assets/default.js' }
     ensure
       @theme.javascripts.delete 'theme'
@@ -79,9 +78,9 @@ describe 'Themes' do
       get '/'
 
       assert_response :success
-      assert_tag tag: 'link',
+      assert_select 'link',
                  attributes: { src: '/foo/assets/default.js' }
-      assert_tag tag: 'script',
+      assert_select 'script',
                  attributes: { src: '/foo/assets/default.js' }
     ensure
       OpenProject::Configuration['rails_relative_url_root'] = ''

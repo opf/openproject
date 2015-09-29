@@ -50,10 +50,10 @@ describe WikiController, type: :controller do
     get :show, project_id: 'ecookbook'
     assert_response :success
     assert_template 'show'
-    assert_tag tag: 'h1', content: /CookBook documentation/
+    assert_select 'h1', content: /CookBook documentation/
 
     # child_pages macro
-    assert_tag :ul, attributes: { class: 'pages-hierarchy' },
+    assert_select 'ul', attributes: { class: 'pages-hierarchy' },
                     child: { tag: 'li',
                              child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page_with_an_inline_image' },
                                       content: 'Page with an inline image' } }
@@ -63,10 +63,10 @@ describe WikiController, type: :controller do
     get :show, project_id: 1, id: 'Another_page'
     assert_response :success
     assert_template 'show'
-    assert_tag tag: 'h1', content: /Another page/
+    assert_select 'h1', content: /Another page/
     # Included page with an inline image
-    assert_tag tag: 'p', content: /This is an inline image/
-    assert_tag tag: 'img', attributes: { src: '/attachments/3/download',
+    assert_select 'p', content: /This is an inline image/
+    assert_select 'img', attributes: { src: '/attachments/3/download',
                                          alt: 'This is a logo' }
   end
 
@@ -77,7 +77,7 @@ describe WikiController, type: :controller do
 
     get :show, project_id: 1, id: 'Another_page'
     assert_response :success
-    assert_tag tag: 'div', attributes: { id: 'sidebar' },
+    assert_select 'div', attributes: { id: 'sidebar' },
                content: /Side bar content for test_show_with_sidebar/
   end
 
@@ -168,8 +168,8 @@ describe WikiController, type: :controller do
     assert_template 'edit'
 
     assert_error_tag descendant: { content: /Comment is too long/ }
-    assert_tag tag: 'textarea', attributes: { id: 'content_text' }, content: /edited/
-    assert_tag tag: 'input', attributes: { id: 'content_lock_version', value: '1' }
+    assert_select 'textarea', attributes: { id: 'content_text' }, content: /edited/
+    assert_select 'input', attributes: { id: 'content_lock_version', value: '1' }
   end
 
   # NOTE: this test seems to depend on other tests in suite
@@ -202,13 +202,13 @@ describe WikiController, type: :controller do
     end
     assert_response :success
     assert_template 'edit'
-    assert_tag :div,
+    assert_select 'div',
                attributes: { class: /error/ },
                content: /Information has been updated by at least one other user in the meantime/
-    assert_tag 'textarea',
+    assert_select 'textarea',
                attributes: { name: 'content[text]' },
                content: /Text should not be lost/
-    assert_tag 'input',
+    assert_select 'input',
                attributes: { name: 'content[comments]', value: 'My comments' }
 
     c.reload
@@ -264,7 +264,7 @@ describe WikiController, type: :controller do
     get :diff, project_id: 1, id: 'CookBook_documentation', version: journal_to.version, version_from: journal_from.version
     assert_response :success
     assert_template 'diff'
-    assert_tag tag: 'ins', attributes: { class: 'diffins' },
+    assert_select 'ins', attributes: { class: 'diffins' },
                content: /updated/
   end
 
@@ -282,11 +282,11 @@ describe WikiController, type: :controller do
     assert_response :success
     assert_template 'annotate'
     # Line 1
-    assert_tag tag: 'tr', child: { tag: 'th', attributes: { class: 'line-num' }, content: '1' },
+    assert_select 'tr', child: { tag: 'th', attributes: { class: 'line-num' }, content: '1' },
                child: { tag: 'td', attributes: { class: 'author' }, content: /John Smith/ },
                child: { tag: 'td', content: /h1\. CookBook documentation/ }
     # Line 2
-    assert_tag tag: 'tr', child: { tag: 'th', attributes: { class: 'line-num' }, content: '2' },
+    assert_select 'tr', child: { tag: 'th', attributes: { class: 'line-num' }, content: '2' },
                child: { tag: 'td', attributes: { class: 'author' }, content: /redMine Admin/ },
                child: { tag: 'td', content: /Some updated \[\[documentation\]\] here/ }
   end
@@ -379,7 +379,7 @@ describe WikiController, type: :controller do
     assert_equal wiki.pages.size, pages.size
     assert_equal pages.first.content.updated_on, pages.first.updated_on
 
-    assert_tag :ul, attributes: { class: 'pages-hierarchy' },
+    assert_select 'ul', attributes: { class: 'pages-hierarchy' },
                     child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/CookBook_documentation' },
                                                  content: 'CookBook documentation' },
                              child: { tag: 'ul',
@@ -392,7 +392,7 @@ describe WikiController, type: :controller do
 
   it 'should index should include atom link' do
     get :index, project_id: 'ecookbook'
-    assert_tag 'a', attributes: { href: '/projects/ecookbook/activity.atom?show_wiki_edits=1' }
+    assert_select 'a', attributes: { href: '/projects/ecookbook/activity.atom?show_wiki_edits=1' }
   end
 
   context 'GET :export' do
@@ -433,7 +433,7 @@ describe WikiController, type: :controller do
     it { is_expected.to render_template 'wiki/date_index' }
 
     it 'should include atom link' do
-      assert_tag 'a', attributes: { href: '/projects/ecookbook/activity.atom?show_wiki_edits=1' }
+      assert_select 'a', attributes: { href: '/projects/ecookbook/activity.atom?show_wiki_edits=1' }
     end
   end
 
@@ -465,7 +465,7 @@ describe WikiController, type: :controller do
     get :show, project_id: 1
     assert_response :success
     assert_template 'show'
-    assert_tag tag: 'a', attributes: { href: '/projects/1/wiki/CookBook_documentation/edit' }
+    assert_select 'a', attributes: { href: '/projects/1/wiki/CookBook_documentation/edit' }
   end
 
   it 'should show page without edit link' do

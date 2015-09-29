@@ -43,14 +43,14 @@ describe CustomFieldsController, type: :controller do
     get :new, type: 'WorkPackageCustomField'
     assert_response :success
     assert_template 'new'
-    assert_tag :select,
+    assert_select 'select',
                attributes: { name: 'custom_field[field_format]' },
                child: {
                  tag: 'option',
                  attributes: { value: 'user' },
                  content: 'User'
                }
-    assert_tag :select,
+    assert_select 'select',
                attributes: { name: 'custom_field[field_format]' },
                child: {
                  tag: 'option',

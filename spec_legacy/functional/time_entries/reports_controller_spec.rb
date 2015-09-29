@@ -38,7 +38,7 @@ describe TimeEntries::ReportsController, type: :controller do
     get :show, project_id: 'ecookbook'
     assert_response :success
     assert_template 'time_entries/reports/show'
-    assert_tag :form,
+    assert_select 'form',
                attributes: { action: '/projects/ecookbook/time_entries/report', id: 'query_form' }
   end
 
@@ -46,7 +46,7 @@ describe TimeEntries::ReportsController, type: :controller do
     get :show
     assert_response :success
     assert_template 'time_entries/reports/show'
-    assert_tag :form,
+    assert_select 'form',
                attributes: { action: '/time_entries/report', id: 'query_form' }
   end
 
@@ -81,7 +81,7 @@ describe TimeEntries::ReportsController, type: :controller do
     assert_template 'time_entries/reports/show'
     refute_nil assigns(:total_hours)
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
-    assert_tag tag: 'th', descendant: { content: /\s*2007-03-12\s*/ }
+    assert_select 'th', descendant: { content: /\s*2007-03-12\s*/ }
   end
 
   it 'should report one criteria' do
@@ -114,7 +114,7 @@ describe TimeEntries::ReportsController, type: :controller do
     assert_template 'time_entries/reports/show'
     refute_nil assigns(:total_hours)
     assert_equal '154.25', '%.2f' % assigns(:total_hours)
-    assert_tag :form,
+    assert_select 'form',
                attributes: { action: work_package_time_entries_report_path(1), id: 'query_form' }
   end
 
@@ -127,14 +127,14 @@ describe TimeEntries::ReportsController, type: :controller do
     assert_equal 3, assigns(:criterias).size
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
     # Custom field column
-    assert_tag tag: 'th', descendant: { content: /\s*Database\s*/ }
+    assert_select 'th', descendant: { content: /\s*Database\s*/ }
     # Custom field row
-    assert_tag tag: 'td', content: 'MySQL',
+    assert_select 'td', content: 'MySQL',
                sibling: { tag: 'td', attributes: { class: 'hours' },
                           child: { tag: 'span', attributes: { class: 'hours hours-int' },
                                    content: '1' } }
     # Second custom field column
-    assert_tag tag: 'th', descendant: { content: /\s*Billable\s*/ }
+    assert_select 'th', descendant: { content: /\s*Billable\s*/ }
   end
 
   it 'should report one criteria no result' do

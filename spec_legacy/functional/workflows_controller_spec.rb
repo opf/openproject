@@ -45,7 +45,7 @@ describe WorkflowsController, type: :controller do
     assert_template 'index'
 
     count = Workflow.where('role_id = 1 AND type_id = 2').count
-    assert_tag tag: 'a', content: count.to_s,
+    assert_select 'a', content: count.to_s,
                attributes: { href: '/workflows/edit?role_id=1&amp;type_id=2' }
   end
 
@@ -71,12 +71,12 @@ describe WorkflowsController, type: :controller do
     assert_equal [2, 3, 5], assigns(:statuses).map(&:id)
 
     # allowed transitions
-    assert_tag tag: 'input', attributes: { type: 'checkbox',
+    assert_select 'input', attributes: { type: 'checkbox',
                                            name: 'status[3][5][]',
                                            value: 'always',
                                            checked: 'checked' }
     # not allowed
-    assert_tag tag: 'input', attributes: { type: 'checkbox',
+    assert_select 'input', attributes: { type: 'checkbox',
                                            name: 'status[3][2][]',
                                            value: 'always',
                                            checked: nil }
@@ -95,7 +95,7 @@ describe WorkflowsController, type: :controller do
     refute_nil assigns(:statuses)
     assert_equal Status.count, assigns(:statuses).size
 
-    assert_tag tag: 'input', attributes: { type: 'checkbox',
+    assert_select 'input', attributes: { type: 'checkbox',
                                            name: 'status[1][1][]',
                                            value: 'always',
                                            checked: nil }

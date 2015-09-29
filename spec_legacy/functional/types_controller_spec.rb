@@ -75,15 +75,15 @@ describe TypesController, type: :controller do
     assert_response :success
     assert_template 'edit'
 
-    assert_tag :input, attributes: { name: 'type[project_ids][]',
+    assert_select 'input', attributes: { name: 'type[project_ids][]',
                                      value: '1',
                                      checked: 'checked' }
 
-    assert_tag :input, attributes: { name: 'type[project_ids][]',
+    assert_select 'input', attributes: { name: 'type[project_ids][]',
                                      value: '2',
                                      checked: nil }
 
-    assert_tag :input, attributes: { name: 'type[project_ids][]',
+    assert_select 'input', attributes: { name: 'type[project_ids][]',
                                      value: '',
                                      type: 'hidden' }
   end

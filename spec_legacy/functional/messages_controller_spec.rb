@@ -70,7 +70,7 @@ describe MessagesController, type: :controller do
     get :show, board_id: 1, id: 1
     assert_response :success
     assert_template 'show'
-    assert_tag :div, attributes: { id: 'reply' },
+    assert_select 'div', attributes: { id: 'reply' },
                      descendant: { tag: 'textarea', attributes: { id: 'reply_content' } }
   end
 

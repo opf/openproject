@@ -46,13 +46,13 @@ describe 'Application' do
     # a french user
     get '/projects', {},  'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
     assert_response :success
-    assert_tag tag: 'h2', content: 'Projekte'
+    assert_tag 'h2', content: 'Projekte'
     assert_equal :de, current_language
 
     # not a supported language: default language should be used
     get '/projects', {}, 'HTTP_ACCEPT_LANGUAGE' => 'zz'
     assert_response :success
-    assert_tag tag: 'h2', content: 'Projects'
+    assert_tag 'h2', content: 'Projects'
   end
 
   it 'token based access should not start session' do
