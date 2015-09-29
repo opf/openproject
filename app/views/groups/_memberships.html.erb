@@ -78,9 +78,11 @@ See doc/COPYRIGHT.rdoc for more details.
                         <p><% roles.each do |role| %>
                             <label><%= check_box_tag 'membership[role_ids][]', role.id, membership.roles.include?(role) %> <%=h role %></label>
                           <% end %></p>
-                        <p><%= submit_tag l(:button_change), class: 'button -highlight -small' %>
+                        <p class="generic-table--cell-controls">
+                          <%= submit_tag l(:button_change), class: 'button -highlight -small' %>
                           <%= link_to_function l(:button_cancel), "$('member-#{membership.id}-roles').show(); $('member-#{membership.id}-roles-form').hide(); return false;",
-                    class: 'button -small' %></p>
+                                                                  class: 'button -small' %>
+                        </p>
                       <% end %>
                     </td>
                     <td class="buttons">
