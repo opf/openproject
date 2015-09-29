@@ -50,7 +50,7 @@ describe SearchController, type: :controller do
 
     assert assigns(:results_by_type).is_a?(Hash)
     assert_equal 5, assigns(:results_by_type)['changesets']
-    assert_tag :a, content: 'Changesets (5)'
+    assert_select 'a', content: 'Changesets (5)'
   end
 
   it 'should search project and subprojects' do

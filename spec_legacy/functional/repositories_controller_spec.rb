@@ -80,7 +80,7 @@ describe RepositoriesController, type: :controller do
                                   )
                                 }
                   }
-    assert_tag tag: 'ul',
+    assert_select 'ul',
                attributes: { class: 'toolbar-items' },
                descendant: { tag: 'a',
                              attributes: {
@@ -116,7 +116,7 @@ describe RepositoriesController, type: :controller do
     assert_response :success
     assert_template 'committers'
 
-    assert_tag :td,
+    assert_select 'td',
                content: 'foo',
                sibling: {
                  tag: 'td',

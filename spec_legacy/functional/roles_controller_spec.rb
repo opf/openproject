@@ -47,7 +47,7 @@ describe RolesController, type: :controller do
     refute_nil assigns(:roles)
     assert_equal Role.order('builtin, position').to_a, assigns(:roles)
 
-    assert_tag tag: 'a', attributes: { href: edit_role_path(1) },
+    assert_select 'a', attributes: { href: edit_role_path(1) },
                content: 'Manager'
   end
 
@@ -64,7 +64,7 @@ describe RolesController, type: :controller do
 
     assert_response :success
     assert_template 'new'
-    assert_tag tag: 'div', attributes: { id: 'errorExplanation' }
+    assert_select 'div', attributes: { id: 'errorExplanation' }
   end
 
   it 'should post new without workflow copy' do
@@ -133,12 +133,12 @@ describe RolesController, type: :controller do
     refute_nil assigns(:roles)
     assert_equal Role.order('builtin, position'), assigns(:roles)
 
-    assert_tag tag: 'input', attributes: { type: 'checkbox',
+    assert_select 'input', attributes: { type: 'checkbox',
                                            name: 'permissions[3][]',
                                            value: 'add_work_packages',
                                            checked: 'checked' }
 
-    assert_tag tag: 'input', attributes: { type: 'checkbox',
+    assert_select 'input', attributes: { type: 'checkbox',
                                            name: 'permissions[3][]',
                                            value: 'delete_work_packages',
                                            checked: nil }

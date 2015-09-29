@@ -147,7 +147,7 @@ describe RepositoriesController, 'Git', type: :controller do
     get :changes, project_id: 3, path: 'images/edit.png'
     assert_response :success
     assert_template 'changes'
-    assert_tag tag: 'div',
+    assert_select 'div',
                attributes: { class: 'repository-breadcrumbs' },
                content: 'edit.png'
   end
@@ -157,7 +157,7 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_response :success
     assert_template 'entry'
     # Line 19
-    assert_tag tag: 'th',
+    assert_select 'th',
                content: /11/,
                attributes: { class: /line-num/ },
                sibling: { tag: 'td', content: /WITHOUT ANY WARRANTY/ }
@@ -187,12 +187,12 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_response :success
     assert_template 'diff'
     # Line 22 removed
-    assert_tag tag: 'th',
+    assert_select 'th',
                content: /22/,
                sibling: { tag: 'td',
                           attributes: { class: /diff_out/ },
                           content: /def remove/ }
-    assert_tag tag: 'h2', content: /2f9c0091/
+    assert_select 'h2', content: /2f9c0091/
   end
 
   it 'should diff two revs' do
@@ -206,7 +206,7 @@ describe RepositoriesController, 'Git', type: :controller do
 
     diff = assigns(:diff)
     refute_nil diff
-    assert_tag tag: 'h2', content: /2f9c0091:61b685fb/
+    assert_select 'h2', content: /2f9c0091:61b685fb/
   end
 
   it 'should annotate' do
@@ -214,7 +214,7 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_response :success
     assert_template 'annotate'
     # Line 23, changeset 2f9c0091
-    assert_tag tag: 'th', content: /24/,
+    assert_select 'th', content: /24/,
                sibling: { tag: 'td', child: { tag: 'a', content: /2f9c0091/ } },
                sibling: { tag: 'td', content: /jsmith/ },
                sibling: { tag: 'td', content: /watcher =/ }
@@ -226,7 +226,7 @@ describe RepositoriesController, 'Git', type: :controller do
     get :annotate, project_id: 3, rev: 'deff7', path: 'sources/watchers_controller.rb'
     assert_response :success
     assert_template 'annotate'
-    assert_tag tag: 'div',
+    assert_select 'div',
                attributes: { class: 'repository-breadcrumbs' },
                content: /at deff712f/
   end
@@ -235,7 +235,7 @@ describe RepositoriesController, 'Git', type: :controller do
     get :annotate, project_id: 3, path: 'images/edit.png'
     assert_response 200
 
-    assert_tag tag: 'p', attributes: { class: /nodata/ },
+    assert_select 'p', attributes: { class: /nodata/ },
                content: I18n.t('repositories.warnings.cannot_annotate')
   end
 

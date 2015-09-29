@@ -47,7 +47,7 @@ describe ProjectsController, type: :controller do
     assert_template 'index'
     refute_nil assigns(:projects)
 
-    assert_tag :ul, child: { tag: 'li',
+    assert_select 'ul', child: { tag: 'li',
                              descendant: { tag: 'a', content: 'eCookbook' },
                              child: { tag: 'ul',
                                       descendant: { tag: 'a',
@@ -122,7 +122,7 @@ describe ProjectsController, type: :controller do
         assert_response :success
         assert_template 'new'
         # parent project selected
-        assert_tag :select, attributes: { name: 'project[parent_id]' },
+        assert_select 'select', attributes: { name: 'project[parent_id]' },
                             child: { tag: 'option', attributes: { value: '1', selected: 'selected' } }
         # no empty value
         assert_no_tag :select, attributes: { name: 'project[parent_id]' },
@@ -310,7 +310,7 @@ describe ProjectsController, type: :controller do
     refute_nil assigns(:project)
     assert_equal Project.find_by(identifier: 'ecookbook'), assigns(:project)
 
-    assert_tag 'li', content: /Development status/
+    assert_select 'li', content: /Development status/
   end
 
   it 'should show should not display hidden custom fields' do
@@ -340,7 +340,7 @@ describe ProjectsController, type: :controller do
     get :show, id: 'ecookbook'
     assert_response 403
     assert_nil assigns(:project)
-    assert_tag tag: 'p', content: /archived/
+    assert_select 'p', content: /archived/
   end
 
   it 'should private subprojects hidden' do
@@ -355,7 +355,7 @@ describe ProjectsController, type: :controller do
     get :show, id: 'ecookbook'
     assert_response :success
     assert_template 'show'
-    assert_tag tag: 'a', content: /Private child/
+    assert_select 'a', content: /Private child/
   end
 
   it 'should settings' do
@@ -443,7 +443,7 @@ describe ProjectsController, type: :controller do
   it 'should hook response' do
     Redmine::Hook.add_listener(ProjectBasedTemplate)
     get :show, id: 1
-    assert_tag tag: 'link', attributes: { href: '/stylesheets/ecookbook.css' },
+    assert_select 'link', attributes: { href: '/stylesheets/ecookbook.css' },
                parent: { tag: 'head' }
 
     Redmine::Hook.clear_listeners

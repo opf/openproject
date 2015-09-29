@@ -45,10 +45,10 @@ describe AttachmentsController, type: :controller do
     assert_template 'diff'
     assert_equal 'text/html', response.content_type
 
-    assert_tag 'th',
+    assert_select 'th',
                attributes: { class: /filename/ },
                content: /issues_controller.rb\t\(révision 1484\)/
-    assert_tag 'td',
+    assert_select 'td',
                attributes: { class: /line-code/ },
                content: /Demande créée avec succès/
   end
@@ -59,10 +59,10 @@ describe AttachmentsController, type: :controller do
     assert_template 'diff'
     assert_equal 'text/html', response.content_type
 
-    assert_tag 'th',
+    assert_select 'th',
                attributes: { class: /filename/ },
                content: /issues_controller.rb\t\(rvision 1484\)/
-    assert_tag 'td',
+    assert_select 'td',
                attributes: { class: /line-code/ },
                content: /Demande cre avec succs/
   end

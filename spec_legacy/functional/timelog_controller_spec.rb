@@ -41,7 +41,7 @@ describe TimelogController, type: :controller do
     assert_response :success
     assert_template 'edit'
     # Default activity selected
-    assert_tag tag: 'option', attributes: { selected: 'selected' },
+    assert_select 'option', attributes: { selected: 'selected' },
                content: 'Development'
   end
 
@@ -59,7 +59,7 @@ describe TimelogController, type: :controller do
     assert_response :success
     assert_template 'edit'
     # Default activity selected
-    assert_tag tag: 'form', attributes: { action: '/projects/ecookbook/time_entries/2' }
+    assert_select 'form', attributes: { action: '/projects/ecookbook/time_entries/2' }
   end
 
   it 'should get edit with an existing time entry with inactive activity' do
@@ -72,7 +72,7 @@ describe TimelogController, type: :controller do
     assert_response :success
     assert_template 'edit'
     # Blank option since nothing is pre-selected
-    assert_tag tag: 'option', content: '--- Please select ---'
+    assert_select 'option', content: '--- Please select ---'
   end
 
   it 'should post create' do
@@ -166,7 +166,7 @@ describe TimelogController, type: :controller do
     assert_template 'index'
     refute_nil assigns(:total_hours)
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
-    assert_tag :form,
+    assert_select 'form',
                attributes: { action: '/time_entries', id: 'query_form' }
   end
 
@@ -183,7 +183,7 @@ describe TimelogController, type: :controller do
     # display all time by default
     assert_equal '2007-03-12'.to_date, assigns(:from)
     assert_equal '2007-04-22'.to_date, assigns(:to)
-    assert_tag :form,
+    assert_select 'form',
                attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
   end
 
@@ -197,7 +197,7 @@ describe TimelogController, type: :controller do
     assert_equal '12.90', '%.2f' % assigns(:total_hours)
     assert_equal '2007-03-20'.to_date, assigns(:from)
     assert_equal '2007-04-30'.to_date, assigns(:to)
-    assert_tag :form,
+    assert_select 'form',
                attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
   end
 
@@ -209,7 +209,7 @@ describe TimelogController, type: :controller do
     refute_nil assigns(:total_hours)
     assert_equal Date.today - 7, assigns(:from)
     assert_equal Date.today, assigns(:to)
-    assert_tag :form,
+    assert_select 'form',
                attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
   end
 
@@ -219,7 +219,7 @@ describe TimelogController, type: :controller do
     assert_template 'index'
     refute_nil assigns(:total_hours)
     assert_equal '4.25', '%.2f' % assigns(:total_hours)
-    assert_tag :form,
+    assert_select 'form',
                attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
   end
 
@@ -234,7 +234,7 @@ describe TimelogController, type: :controller do
     # display all time based on what's been logged
     assert_equal '2007-03-12'.to_date, assigns(:from)
     assert_equal '2007-04-22'.to_date, assigns(:to)
-    assert_tag :form,
+    assert_select 'form',
                attributes: { action: work_package_time_entries_path(1), id: 'query_form' }
   end
 

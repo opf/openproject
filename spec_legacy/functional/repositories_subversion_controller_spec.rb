@@ -90,7 +90,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     entry = assigns(:entries).detect { |e| e.name == 'helloworld.c' }
     assert_equal 'file', entry.kind
     assert_equal 'subversion_test/helloworld.c', entry.path
-    assert_tag :a, content: 'helloworld.c', attributes: { class: /text\-x\-c/ }
+    assert_select 'a', content: 'helloworld.c', attributes: { class: /text\-x\-c/ }
   end
 
   it 'should browse at given revision' do
@@ -118,7 +118,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     if @repository.scm.client_version_above?([1, 5, 0])
       refute_nil assigns(:properties)
       assert_equal 'native', assigns(:properties)['svn:eol-style']
-      assert_tag :ul,
+      assert_select 'ul',
                  child: { tag: 'li',
                           child: { tag: 'b', content: 'svn:eol-style' },
                           child: { tag: 'span', content: 'native' } }
@@ -164,7 +164,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     assert_response :success
     assert_template 'entry'
     # this line was removed in r3 and file was moved in r6
-    assert_tag tag: 'td', attributes: { class: /line-code/ },
+    assert_select 'td', attributes: { class: /line-code/ },
                content: /Here's the code/
   end
 
@@ -172,7 +172,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     @repository.fetch_changesets
     @repository.reload
     get :entry, project_id: PRJ_ID, path: 'subversion_test/zzz.c'
-    assert_tag tag: 'div', attributes: { id: /errorExplanation/ },
+    assert_select 'div', attributes: { id: /errorExplanation/ },
                content: /The entry or revision was not found in the repository/
   end
 
@@ -202,7 +202,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     get :revision, project_id: 1, rev: 2
     assert_response :success
     assert_template 'revision'
-    assert_tag tag: 'ul',
+    assert_select 'ul',
                child: { tag: 'li',
                         # link to the entry at rev 2
                         child: { tag: 'a',
@@ -249,7 +249,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     get :revision, project_id: 1, rev: 2
     assert_response :success
     assert_template 'revision'
-    assert_tag tag: 'ul',
+    assert_select 'ul',
                child: { tag: 'li',
                         # link to the entry at rev 2
                         child: { tag: 'a',
@@ -270,7 +270,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     assert_response :success
     assert_template 'diff'
 
-    assert_tag tag: 'h2', content: /3/
+    assert_select 'h2', content: /3/
   end
 
   it 'should directory diff' do
@@ -285,7 +285,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     # 2 files modified
     assert_equal 2, Redmine::UnifiedDiff.new(diff).size
 
-    assert_tag tag: 'h2', content: /2:6/
+    assert_select 'h2', content: /2:6/
   end
 
   it 'should annotate' do
@@ -302,7 +302,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     get :annotate, project_id: PRJ_ID, rev: 8, path: 'subversion_test/helloworld.c'
     assert_response :success
     assert_template 'annotate'
-    assert_tag tag: 'div',
+    assert_select 'div',
                attributes: { class: 'repository-breadcrumbs' },
                content: /at 8/
   end

@@ -56,7 +56,7 @@ describe MyController, type: :controller do
     assert_template 'account'
     assert_equal User.find(2), assigns(:user)
 
-    assert_no_tag :input, attributes: { name: 'user[custom_field_values][4]' }
+    assert_no_tag 'input', attributes: { name: 'user[custom_field_values][4]' }
   end
 
   it 'should update account' do

@@ -41,7 +41,7 @@ describe AdminController, type: :controller do
 
   it 'should index' do
     get :index
-    assert_no_tag tag: 'div',
+    assert_select 'div', false,
                   attributes: { class: /nodata/ }
   end
 
@@ -97,8 +97,8 @@ describe AdminController, type: :controller do
     assert_response :success
     assert_template 'plugins'
 
-    assert_tag :td, child: { tag: 'span', content: 'Foo plugin' }
-    assert_tag :td, child: { tag: 'span', content: 'Bar' }
+    assert_select 'td', child: { tag: 'span', content: 'Foo plugin' }
+    assert_select 'td', child: { tag: 'span', content: 'Bar' }
   end
 
   it 'should info' do
@@ -118,7 +118,7 @@ describe AdminController, type: :controller do
 
     get :projects
     assert_response :success
-    assert_tag :a, attributes: { href: '/projects' },
+    assert_select 'a', attributes: { href: '/projects' },
                    content: 'Test'
 
     Redmine::MenuManager.map :admin_menu do |menu|

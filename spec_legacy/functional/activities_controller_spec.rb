@@ -67,7 +67,7 @@ describe ActivitiesController, type: :controller do
     assert_template 'index'
     refute_nil assigns(:events_by_day)
 
-    assert_tag tag: 'h3',
+    assert_select 'h3',
                content: /#{1.day.ago.to_date.day}/,
                sibling: { tag: 'dl',
                           child: { tag: 'dt',
@@ -95,7 +95,7 @@ describe ActivitiesController, type: :controller do
     assert_template 'index'
     refute_nil assigns(:events_by_day)
 
-    assert_tag tag: 'h3',
+    assert_select 'h3',
                content: /#{3.day.ago.to_date.day}/,
                sibling: { tag: 'dl',
                           child: { tag: 'dt',
@@ -124,7 +124,7 @@ describe ActivitiesController, type: :controller do
     assert_template 'index'
     refute_nil assigns(:events_by_day)
 
-    assert_tag tag: 'h3',
+    assert_select 'h3',
                content: /#{3.day.ago.to_date.day}/,
                sibling: { tag: 'dl',
                           child: { tag: 'dt',
