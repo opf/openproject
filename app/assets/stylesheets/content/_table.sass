@@ -38,6 +38,8 @@ $generic-table--header-font-size: 0.875rem
 $generic-table--header-height: 40px
 $generic-table--footer-height: 34px
 
+$input-elements: input, 'input.form--text-field', select, 'select.form--select', '.form--field-affix'
+
 .generic-table--container
   position:     relative
   height:       100%
@@ -143,9 +145,16 @@ table.generic-table
       text-overflow: ellipsis
       text-align: left
       line-height: 34px
+      vertical-align: middle
 
-      &.icon-table
-        //
+      // Center input fields and select boxes vertically in tables
+      .form--field
+        margin: 0px
+      @each $inputElement in $input-elements
+        #{$inputElement}
+          margin-top: 0.5rem
+          margin-bottom: 0.5rem
+
       &.checkbox
         min-width: 0
         width: 20px
