@@ -64,7 +64,8 @@ describe('revisionActivity Directive', function() {
           links: {
             revisions: true
           },
-          embedded: { }
+          embedded: {},
+          props: {}
         };
         scope.activity = {
           links: {
