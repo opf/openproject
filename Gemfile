@@ -28,16 +28,17 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.13'
+gem 'rails', '4.2.4'
 gem 'protected_attributes'
 gem 'actionpack-action_caching'
 gem 'activerecord-session_store'
 gem 'rails-observers'
+gem 'responders', '~> 2.0'
 
 gem 'coderay', '~> 1.1.0'
 gem 'rubytree', '~> 0.8.3'
 gem 'rdoc', '>= 2.4.2'
-gem 'globalize', '~> 4.0.3'
+gem 'globalize', '~> 5.0.1'
 gem 'omniauth'
 gem 'request_store', '~> 1.1.0'
 gem 'gravatar_image_tag', '~> 1.2.0'
@@ -48,7 +49,7 @@ gem 'warden-basic_auth', '~> 0.2.1'
 # TODO: adds #auto_link which was deprecated in rails 3.1
 gem 'rails_autolink', '~> 1.1.6'
 gem 'will_paginate', '~> 3.0'
-gem 'acts_as_list', '~> 0.3.0'
+gem 'acts_as_list', '~> 0.7.2'
 
 gem 'friendly_id', '~> 5.1.0'
 
@@ -98,6 +99,8 @@ gem 'gon', '~> 4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 4.1.0', require: false
 
+gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.git', branch: 'master'
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
@@ -113,7 +116,7 @@ gem 'autoprefixer-rails'
 gem 'execjs',           '~> 2.4.0'
 gem 'bourbon',          '~> 4.2.0'
 
-gem 'prototype-rails'
+gem 'prototype-rails', git: 'https://github.com/rails/prototype-rails.git', branch: '4.2'
 # remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
 # replace those with :remote => true
 gem 'prototype_legacy_helper', '0.0.0', git: 'https://github.com/rails/prototype_legacy_helper.git'
@@ -125,12 +128,6 @@ gem 'cocaine'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-# Security fixes
-# Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
-# version. Please add a link to a security advisory when adding a Gem here.
-
-gem 'rack', '~> 1.5.4' # CVE-2015-3225
-
 gem 'nokogiri', '~> 1.6.6'
 
 gem 'carrierwave', '~> 0.10.0'
@@ -139,8 +136,6 @@ gem 'fog', '~> 1.23.0', require: 'fog/aws/storage'
 group :test do
   gem 'rack-test', '~> 0.6.2'
   gem 'shoulda-context', '~> 1.2'
-
-  gem 'object-daddy', '~> 1.1.0'
   gem 'launchy', '~> 2.3.0'
   gem 'factory_girl_rails', '~> 4.5'
   gem 'cucumber-rails', '~> 1.4.2', require: false
@@ -149,7 +144,7 @@ group :test do
   gem 'rspec', '~> 3.3.0'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 3.3.0', group: :development
-  gem 'rspec-activemodel-mocks'
+  gem 'rspec-activemodel-mocks', '~> 1.0.2', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters'
   gem 'capybara', '~> 2.4.4'
@@ -195,19 +190,18 @@ gem 'grape', '~> 0.10.1'
 gem 'roar',   '~> 1.0.0'
 gem 'reform', '~> 1.2.6', require: false
 
-# Use the commented pure ruby gems, if you have not the needed prerequisites on
-# board to compile the native ones.  Note, that their use is discouraged, since
-# their integration is propbably not that well tested and their are slower in
-# orders of magnitude compared to their native counterparts. You have been
-# warned.
-
 platforms :mri, :mingw, :x64_mingw do
   group :mysql2 do
-    gem 'mysql2', '~> 0.3.11'
+    # Can not be updated beyond this because of:
+    # https://github.com/brianmario/mysql2/issues/675
+    # Please also see
+    # https://github.com/rails/rails/commit/5da5e3772c32593ecf2f27b8865e81dcbe3af692
+    # meaning the limitation will be removed in rails 5.x.x and 4.2.5
+    gem 'mysql2', '~> 0.3.20'
   end
 
   group :postgres do
-    gem 'pg', '~> 0.17.1'
+    gem 'pg', '~> 0.18.3'
   end
 end
 
@@ -224,7 +218,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'dev'
+  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'dev'
 end
 
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles

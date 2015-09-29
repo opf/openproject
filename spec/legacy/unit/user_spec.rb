@@ -40,8 +40,8 @@ describe User, type: :model do
   end
 
   specify 'object_daddy creation' do
-    User.generate_with_protected!(firstname: 'Testing connection')
-    User.generate_with_protected!(firstname: 'Testing connection')
+    FactoryGirl.create(:user, firstname: 'Testing connection')
+    FactoryGirl.create(:user, firstname: 'Testing connection')
     assert_equal 2, User.where(firstname: 'Testing connection').count
   end
 
@@ -79,11 +79,11 @@ describe User, type: :model do
 
   context 'User#before_create' do
     it 'should set the mail_notification to the default Setting' do
-      @user1 = User.generate_with_protected!
+      @user1 = FactoryGirl.create(:user, mail_notification: nil)
       assert_equal 'only_my_events', @user1.mail_notification
 
       with_settings default_notification_option: 'all' do
-        @user2 = User.generate_with_protected!
+        @user2 = FactoryGirl.create(:user)
         assert_equal 'all', @user2.mail_notification
       end
     end
@@ -156,7 +156,7 @@ describe User, type: :model do
     end
 
     it 'should select the exact matching user first' do
-      case_sensitive_user = User.generate_with_protected!(login: 'changed', password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
+      case_sensitive_user = FactoryGirl.create(:user, login: 'changed', password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
       # bypass validations to make it appear like existing data
       case_sensitive_user.update_attribute(:login, 'ADMIN')
 
@@ -283,7 +283,7 @@ describe User, type: :model do
 
   context 'User#api_key' do
     it "should generate a new one if the user doesn't have one" do
-      user = User.generate_with_protected!(api_token: nil)
+      user = FactoryGirl.create(:user, api_token: nil)
       assert_nil user.api_token
 
       key = user.api_key
@@ -293,8 +293,8 @@ describe User, type: :model do
     end
 
     it 'should return the existing api token value' do
-      user = User.generate_with_protected!
-      token = Token.generate!(action: 'api')
+      user = FactoryGirl.create(:user)
+      token = FactoryGirl.create(:token, action: 'api')
       user.api_token = token
       assert user.save
 
@@ -308,8 +308,8 @@ describe User, type: :model do
     end
 
     it 'should return nil if the key is found for an inactive user' do
-      user = User.generate_with_protected!(status: User::STATUSES[:locked])
-      token = Token.generate!(action: 'api')
+      user = FactoryGirl.create(:user, status: User::STATUSES[:locked])
+      token = FactoryGirl.create(:token, action: 'api')
       user.api_token = token
       user.save
 
@@ -317,8 +317,8 @@ describe User, type: :model do
     end
 
     it 'should return the user if the key is found for an active user' do
-      user = User.generate_with_protected!(status: User::STATUSES[:active])
-      token = Token.generate!(action: 'api')
+      user = FactoryGirl.create(:user, status: User::STATUSES[:active])
+      token = FactoryGirl.create(:token, action: 'api')
       user.api_token = token
       user.save
 
@@ -345,7 +345,7 @@ describe User, type: :model do
   end
 
   it 'should projects by role for user with no role' do
-    user = User.generate!
+    user = FactoryGirl.create(:user)
     assert_equal({}, user.projects_by_role)
   end
 
@@ -482,8 +482,8 @@ describe User, type: :model do
     context 'Issues' do
       before do
         @project = Project.find(1)
-        @author = User.generate_with_protected!
-        @assignee = User.generate_with_protected!
+        @author = FactoryGirl.create(:user)
+        @assignee = FactoryGirl.create(:user)
         @issue = FactoryGirl.create(:work_package, project: @project, assigned_to: @assignee, author: @author)
       end
 
@@ -498,7 +498,7 @@ describe User, type: :model do
       end
 
       it "should be false for a user with :only_my_events and isn't an author, creator, or assignee" do
-        @user = User.generate_with_protected!(mail_notification: 'only_my_events')
+        @user = FactoryGirl.create(:user, mail_notification: 'only_my_events')
         (Member.new.tap do |m|
           m.force_attributes = { user: @user, project: @project, role_ids: [1] }
         end).save!
@@ -546,7 +546,7 @@ describe User, type: :model do
       end
 
       it 'should be false for a user with :selected and is not the author or assignee' do
-        @user = User.generate_with_protected!(mail_notification: 'selected')
+        @user = FactoryGirl.create(:user, mail_notification: 'selected')
         (Member.new.tap do |m|
           m.force_attributes = { user: @user, project: @project, role_ids: [1] }
         end).save!

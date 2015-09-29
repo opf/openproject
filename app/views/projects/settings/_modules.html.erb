@@ -29,10 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for @project,
                               :url => { :action => 'modules', :id => @project },
-                              :method => :put,
-                              :html => {
-                                :id => 'modules-form'
-                              } do |form| %>
+                              :method => :put do |form| %>
 
   <%= render partial: "projects/form/modules",
              locals: { form: form } %>

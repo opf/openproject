@@ -30,12 +30,12 @@ require 'legacy_spec_helper'
 
 describe Redmine::MenuManager::MenuHelper, type: :helper do
   include Redmine::MenuManager::MenuHelper
-  include ActionDispatch::Assertions::SelectorAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions
   fixtures :all
 
   # Used by assert_select
   def html_document
-    HTML::Document.new(@response.body)
+    Nokogiri::HTML(@response.body)
   end
 
   before do
@@ -70,7 +70,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     node = Redmine::MenuManager::MenuItem.new(:testing, '/test', {})
     @response.body = render_single_menu_node(node, 'This is a test', node.url, false)
 
-    html_node = HTML::Document.new(@response.body)
+    html_node = Nokogiri::HTML(@response.body)
     assert_select(html_node.root, 'a.testing-menu-item', 'This is a test')
   end
 
@@ -78,7 +78,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     single_node = Redmine::MenuManager::MenuItem.new(:single_node, '/test', {})
     @response.body = render_menu_node(single_node, nil)
 
-    html_node = HTML::Document.new(@response.body)
+    html_node = Nokogiri::HTML(@response.body)
     assert_select(html_node.root, 'li') do
       assert_select('a.single-node-menu-item', 'Single node')
     end
@@ -94,7 +94,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
 
     @response.body = render_menu_node(parent_node, nil)
 
-    html_node = HTML::Document.new(@response.body)
+    html_node = Nokogiri::HTML(@response.body)
     assert_select(html_node.root, 'li') do
       assert_select('a.parent-node-menu-item', 'Parent node')
       assert_select('ul') do
@@ -128,7 +128,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
                                                     )
     @response.body = render_menu_node(parent_node, Project.find(1))
 
-    html_node = HTML::Document.new(@response.body)
+    html_node = Nokogiri::HTML(@response.body)
     assert_select(html_node.root, 'li') do
       assert_select('a.parent-node-menu-item', 'Parent node')
       assert_select('ul') do
@@ -168,7 +168,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
 
     @response.body = render_menu_node(parent_node, Project.find(1))
 
-    html_node = HTML::Document.new(@response.body)
+    html_node = Nokogiri::HTML(@response.body)
     assert_select(html_node.root, 'li') do
       assert_select('a.parent-node-menu-item', 'Parent node')
       assert_select('ul') do

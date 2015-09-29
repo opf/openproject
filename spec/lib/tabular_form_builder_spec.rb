@@ -306,14 +306,14 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'radio-button-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="custom-class form--radio-button"
                id="user_name_john"
                name="user[name]"
                title="Name"
                type="radio"
                value="John" />
-      }.squish
+      }).at_path('input')
     end
   end
 

@@ -89,9 +89,9 @@ module Api
       end
 
       def scope(transition)
-        if ActiveRecord::ConnectionAdapters::Column.value_to_boolean(transition.author)
+        if ActiveRecord::Type::Boolean.new.type_cast_from_database(transition.author)
           :author
-        elsif ActiveRecord::ConnectionAdapters::Column.value_to_boolean(transition.assignee)
+        elsif ActiveRecord::Type::Boolean.new.type_cast_from_database(transition.assignee)
           :assignee
         else
           :role

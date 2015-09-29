@@ -35,37 +35,41 @@ module.exports = function($uiViewScroll,
     ActivityService,
     UsersHelper,
     ConfigurationService,
-    AutoCompleteHelper) {
+    AutoCompleteHelper,
+    EditableFieldsState,
+    TextileService) {
   return {
     restrict: 'E',
     replace: true,
-    require: '^?exclusiveEdit',
     templateUrl: '/templates/work_packages/activities/_user.html',
     scope: {
       workPackage: '=',
       activity: '=',
       activityNo: '=',
-      isInitial: '=',
-      inputElementId: '='
+      isInitial: '='
     },
-    link: function(scope, element, attrs, exclusiveEditController) {
-      exclusiveEditController.addEditable(scope);
+    link: function(scope, element) {
       scope.$watch('inEdit', function(newVal, oldVal) {
+        var textarea = element.find('.edit-comment-text');
         if(newVal) {
           $timeout(function() {
-            var textarea = angular.element('#edit-comment-text');
-
             AutoCompleteHelper.enableTextareaAutoCompletion(textarea);
-
             textarea.focus();
+            textarea.on('keydown keypress', function(e) {
+              if (e.keyCode === 27) {
+                scope.inEdit = false;
+              }
+            });
           });
+        } else {
+          textarea.off('keydown keypress');
         }
       });
 
       scope.I18n = I18n;
       scope.userPath = PathHelper.staticUserPath;
       scope.inEdit = false;
-      scope.inFocus = false;
+      scope.inPreview = false;
       scope.userCanEdit = !!scope.activity.links.update;
       scope.userCanQuote = !!scope.workPackage.links.addComment;
       scope.accessibilityModeEnabled = ConfigurationService.accessibilityModeEnabled();
@@ -77,7 +81,7 @@ module.exports = function($uiViewScroll,
         scope.userActive = UsersHelper.isActive(user);
       });
 
-      scope.comment = $sce.trustAsHtml(scope.activity.props.comment.html);
+      scope.postedComment = $sce.trustAsHtml(scope.activity.props.comment.html);
       scope.details = [];
 
       angular.forEach(scope.activity.props.details, function(detail) {
@@ -85,13 +89,14 @@ module.exports = function($uiViewScroll,
       }, scope.details);
 
       $timeout(function() {
-        if($location.hash() == scope.activityNo.toString()) {
+        if($location.hash() === 'activity-' + scope.activityNo) {
           $uiViewScroll(element);
         }
       });
 
       scope.editComment = function() {
-        exclusiveEditController.gotEditable(scope);
+        scope.activity.editedComment = scope.activity.props.comment.raw;
+        scope.inEdit = true;
       };
 
       scope.cancelEdit = function() {
@@ -99,26 +104,51 @@ module.exports = function($uiViewScroll,
       };
 
       scope.quoteComment = function() {
-        exclusiveEditController.setQuoted(quotedText(scope.activity.props.comment.raw));
-        var elem = angular.element('#' + scope.inputElementId);
-        $uiViewScroll(elem);
-        elem.focus();
+        scope.$emit(
+          'workPackage.comment.quoteThis',
+          quotedText(scope.activity.props.comment.raw)
+        );
       };
 
-      scope.updateComment = function(comment) {
-        var comment = angular.element('#edit-comment-text').val();
-        ActivityService.updateComment(scope.activity, comment).then(function(activity){
+      scope.updateComment = function() {
+        ActivityService.updateComment(scope.activity, scope.activity.editedComment).then(function(){
           scope.$emit('workPackageRefreshRequired', '');
           scope.inEdit = false;
         });
       };
 
-      scope.showActions = function() {
-        scope.inFocus = true;
+      scope.toggleCommentPreview = function() {
+        scope.inPreview = !scope.inPreview;
+        scope.previewHtml = '';
+        if (scope.inPreview) {
+          TextileService.renderWithWorkPackageContext(
+            EditableFieldsState.workPackage.form,
+            scope.activity.editedComment
+          ).then(function(r) {
+            scope.previewHtml = $sce.trustAsHtml(r.data);
+
+
+          }, function() {
+            this.inPreview = false;
+          });
+        }
       };
 
-      scope.hideActions = function() {
-        scope.inFocus = false;
+      var focused = false;
+      var timeout;
+      scope.focus = function() {
+        focused = true;
+        clearTimeout(timeout);
+      };
+
+      scope.blur = function() {
+        timeout = setTimeout(function() {
+          focused = false;
+        }, 0);
+      };
+
+      scope.focussing = function() {
+        return focused;
       };
 
       function quotedText(rawComment) {

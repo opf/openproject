@@ -26,6 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+$project-table--start-indentation: 0.5em
+$project-table--child-indentation: 1.1em
+$project-table--icon-distance: 5px
+
+@mixin calc-indentation($indentation)
+  // This does not work for big font-sizes
+  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} - #{$project-table--icon-distance})
+
 table
   td
     padding: 3px 6px
@@ -34,7 +42,6 @@ table
 
   &.plugins
     td
-      vertical-align: middle
       &.configure
         text-align: right
         padding-right: 1em
@@ -124,27 +131,26 @@ tr
     td.name a
       white-space: nowrap
     &.idnt td.project--hierarchy span
-      padding-left: 16px
       &.icon-context:before
-        padding: 9px 5px 0 10px
+        padding: 9px 5px 0 0px
     &.idnt-1 td.project--hierarchy
-      padding-left: 0.5em
+      @include calc-indentation(0)
     &.idnt-2 td.project--hierarchy
-      padding-left: 2em
+      @include calc-indentation(1)
     &.idnt-3 td.project--hierarchy
-      padding-left: 3.5em
+      @include calc-indentation(2)
     &.idnt-4 td.project--hierarchy
-      padding-left: 5em
+      @include calc-indentation(3)
     &.idnt-5 td.project--hierarchy
-      padding-left: 6.5em
+      @include calc-indentation(4)
     &.idnt-6 td.project--hierarchy
-      padding-left: 8em
+      @include calc-indentation(5)
     &.idnt-7 td.project--hierarchy
-      padding-left: 9.5em
+      @include calc-indentation(6)
     &.idnt-8 td.project--hierarchy
-      padding-left: 11em
+      @include calc-indentation(7)
     &.idnt-9 td.project--hierarchy
-      padding-left: 12.5em
+      @include calc-indentation(8)
 
   &.issue
     white-space: nowrap

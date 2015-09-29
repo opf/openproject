@@ -43,8 +43,8 @@ describe DeliverWatcherNotificationJob, type: :model do
 
   before do
     # make sure no actual calls make it into the UserMailer
-    allow(UserMailer).to receive(:work_package_watcher_added).and_return(double('mail',
-                                                                                deliver: nil))
+    allow(UserMailer).to receive(:work_package_watcher_added)
+      .and_return(double('mail', deliver_now: nil))
   end
 
   it 'sends a mail' do
@@ -58,7 +58,7 @@ describe DeliverWatcherNotificationJob, type: :model do
     describe 'exceptions should be raised' do
       before do
         mail = double('mail')
-        allow(mail).to receive(:deliver).and_raise(SocketError)
+        allow(mail).to receive(:deliver_now).and_raise(SocketError)
         expect(UserMailer).to receive(:work_package_watcher_added).and_return(mail)
       end
 

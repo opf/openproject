@@ -176,81 +176,30 @@ describe WorkPackage, type: :model do
   end
 
   describe '#assignable_assignees' do
-    let(:user) { FactoryGirl.build_stubbed(:user) }
+    let(:value) { double('value') }
 
-    context 'single user' do
-      before do
-        allow(stub_work_package.project).to receive(:possible_assignees).and_return([user])
-      end
-
-      subject { stub_work_package.assignable_assignees }
-
-      it 'should return all users the project deems to be possible assignees' do
-        is_expected.to include(user)
-      end
+    before do
+      allow(stub_work_package.project).to receive(:possible_assignees).and_return(value)
     end
 
-    context 'with work_package_group_assignment' do
-      let(:group) { FactoryGirl.create(:group) }
-      let(:work_package) { FactoryGirl.create(:work_package) }
+    subject { stub_work_package.assignable_assignees }
 
-      before do
-        allow(Setting).to receive(:work_package_group_assignment?).and_return(true)
-        work_package.project.add_member! group, FactoryGirl.create(:role)
-      end
-
-      subject { work_package.assignable_assignees }
-      it { is_expected.to include(group) }
-    end
-
-    context 'without work_package_group_assignment' do
-      let(:group) { FactoryGirl.create(:group) }
-      let(:work_package) { FactoryGirl.create(:work_package) }
-
-      before do
-        allow(Setting).to receive(:work_package_group_assignment?).and_return(false)
-        work_package.project.add_member! group, FactoryGirl.create(:role)
-      end
-
-      subject { work_package.assignable_assignees }
-      it { is_expected.not_to include(group) }
-    end
-
-    context 'multiple users' do
-      let(:user_2) { FactoryGirl.build_stubbed(:user) }
-
-      before do
-        allow(stub_work_package.project)
-          .to receive(:assignable_assignees).and_return([user, user_2])
-      end
-
-      subject { stub_work_package.assignable_assignees.uniq }
-
-      it { is_expected.to eq(stub_work_package.assignable_assignees) }
+    it 'calls project#possible_assignees and returns the value' do
+      is_expected.to eql(value)
     end
   end
 
   describe '#assignable_responsibles' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group) }
+    let(:value) { double('value') }
 
     before do
-      work_package.project.add_member! user, FactoryGirl.create(:role)
-      work_package.project.add_member! group, FactoryGirl.create(:role)
+      allow(stub_work_package.project).to receive(:possible_responsibles).and_return(value)
     end
 
-    subject { work_package.assignable_responsibles }
+    subject { stub_work_package.assignable_responsibles }
 
-    context 'with assignable groups' do
-      before do allow(Setting).to receive(:work_package_group_assignment?).and_return(true) end
-
-      it { is_expected.to match_array([user, group]) }
-    end
-
-    context 'w/o assignable groups' do
-      before do allow(Setting).to receive(:work_package_group_assignment?).and_return(false) end
-
-      it { is_expected.to match_array([user]) }
+    it 'calls project#possible_responsibles and returns the value' do
+      is_expected.to eql(value)
     end
   end
 

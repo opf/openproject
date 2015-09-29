@@ -35,6 +35,8 @@ class QueryCustomFieldColumn < QueryColumn
       self.groupable = custom_field.order_statements
     end
     self.groupable ||= false
+    self.summable = %w(float int).include?(custom_field.field_format)
+
     @cf = custom_field
   end
 
@@ -46,8 +48,22 @@ class QueryCustomFieldColumn < QueryColumn
     @cf
   end
 
-  def value(issue)
-    cv = issue.custom_values.detect { |v| v.custom_field_id == @cf.id }
+  def value(work_package)
+    cv = work_package.custom_values.detect { |value| value.custom_field_id == @cf.id }
     cv && cv.typed_value
+  end
+
+  def sum_of(work_packages)
+    if work_packages.respond_to?(:joins)
+      # we can't perform the aggregation on the SQL side. Try to filter useless rows to reduce work.
+      work_packages = work_packages
+                      .joins(:custom_values)
+                      .where(custom_values: { custom_field: @cf })
+                      .where("#{CustomValue.table_name}.value IS NOT NULL")
+                      .where("#{CustomValue.table_name}.value != ''")
+    end
+
+    # TODO: eliminate calls of this method with an Array and drop the :compact call below
+    work_packages.map { |wp| value(wp) }.compact.reduce(:+)
   end
 end

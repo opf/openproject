@@ -35,7 +35,6 @@ describe Changeset, type: :model do
     with_settings notified_events: %w(work_package_updated) do
       WorkPackage.all.each(&:recreate_initial_journal!)
 
-      ActionMailer::Base.deliveries.clear
       Setting.commit_fix_status_id = Status.where(['is_closed = ?', true]).first.id
       Setting.commit_fix_done_ratio = '90'
       Setting.commit_ref_keywords = '*'

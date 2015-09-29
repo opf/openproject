@@ -57,11 +57,31 @@ class Project < ActiveRecord::Base
       .where(Project.possible_principles_condition)
       .references(:principals, :roles)
   }, class_name: 'Member'
+  # Read only
+  has_many :possible_assignees, -> {
+      # Have to reference it again although possible_assignee_members does already specify it
+      # to be able to use the Project.possible_principles_condition there
+      includes(members: :roles)
+      .references(:roles)
+      .merge(Principal.order_by_name)
+    },
+    through: :possible_assignee_members,
+    source: :principal
   has_many :possible_responsible_members, -> {
     includes(:principal, :roles)
       .where(Project.possible_principles_condition)
       .references(:principals, :roles)
   }, class_name: 'Member'
+  # Read only
+  has_many :possible_responsibles, -> {
+      # Have to reference it again although possible_assignee_members does already specify it
+      # to be able to use the Project.possible_principles_condition there
+      includes(members: :roles)
+      .references(:roles)
+      .merge(Principal.order_by_name)
+    },
+    through: :possible_responsible_members,
+    source: :principal
   has_many :memberships, class_name: 'Member'
   has_many :member_principals, -> {
     includes(:principal)
@@ -609,16 +629,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # Users/groups a work_package can be assigned to
-  def possible_assignees
-    possible_assignee_members.map(&:principal).compact.sort
-  end
-
-  # Users who can become responsible for a work_package
-  def possible_responsibles
-    possible_responsible_members.map(&:principal).compact.sort
-  end
-
   # Returns users that should be always notified on project events
   def recipients
     notified_users
@@ -861,13 +871,18 @@ class Project < ActiveRecord::Base
     WorkPackage.new do |i|
       i.project = self
 
-      type_attribute = attributes.delete(:type) || attributes.delete(:type_id)
+      type    = attributes.delete(:type)
+      type_id = if type && type.respond_to?(:id)
+                  type.id
+                else
+                  attributes.delete(:type_id)
+                end
 
-      i.type = if type_attribute
-                 project.types.find(type_attribute)
+      i.type = if type_id
+                 project.types.find(type_id)
                else
                  project.types.first
-                  end
+               end
 
       i.attributes = attributes
     end

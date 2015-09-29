@@ -28,9 +28,10 @@
 
 /*jshint expr: true*/
 
-describe('activityCommentDirective', function() {
+describe('workPackageCommentDirectiveTest', function() {
   var I18n, ActivityService, compile, scope, element, stateParams, q, commentCreation;
-  var html = "<exclusive-edit><activity-comment work-package='workPackage' activities='activities'></activity-comment></exclusive-edit>";
+  var workPackageFieldService = {};
+  var html = "<work-package-comment work-package='workPackage' activities='activities'></work-package-comment>";
   stateParams = {};
 
   beforeEach(module('ui.router',
@@ -41,8 +42,7 @@ describe('activityCommentDirective', function() {
                     'openproject.uiComponents',
                     'openproject.workPackages.tabs',
                     'openproject.workPackages.directives',
-                    'openproject.workPackages.models',
-                    'openproject.workPackages.services'));
+                    'openproject.workPackages.models'));
 
   beforeEach(module('openproject.templates', function($provide) {
     var configurationService = {
@@ -53,15 +53,23 @@ describe('activityCommentDirective', function() {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
+  beforeEach(module('openproject.services', function($provide) {
+    $provide.constant('WorkPackageFieldService', workPackageFieldService);
+    $provide.constant('WorkPackageService', {});
+  }));
+
   beforeEach(inject(function($rootScope, $compile, $q, _I18n_, _ActivityService_) {
     I18n = _I18n_;
     q = $q;
     scope = $rootScope.$new();
 
     compile = function() {
+      workPackageFieldService.isEmpty = sinon.stub().returns(true);
       element = $compile(html)(scope);
       scope.$digest();
     };
+
+    workPackageFieldService.isEmpty = sinon.stub().returns(true);
 
     ActivityService = _ActivityService_;
     var createComments = sinon.stub(ActivityService, 'createComment');
@@ -98,7 +106,8 @@ describe('activityCommentDirective', function() {
       });
 
       it('should not display the comments form', function() {
-        expect(element.find('.activity-comment').length).to.equal(0);
+        expect(element.find('.work-packages--activity--add-comment').hasClass('ng-hide'))
+          .to.equal(true);
       });
     });
 
@@ -108,58 +117,36 @@ describe('activityCommentDirective', function() {
       beforeEach(function() {
         compile();
 
-        commentSection  = element.find('.activity-comment');
-        commentField    = commentSection.find('textarea');
+        commentSection  = element.find('.work-packages--activity--add-comment');
       });
 
       it('should display the comments form', function() {
         expect(commentSection.length).to.equal(1);
       });
 
-      it('should provide a label next to the comments field', function() {
-        var label = commentSection.find('label[for=' + commentField.attr('id') + ']');
-
-        expect(label.text().trim()).to.equal('trans_title');
-      });
-
       it('should display a placeholder in the comments field', function() {
-        expect(commentField.attr('placeholder')).to.equal('trans_title');
+        var readvalue = commentSection.find('.inplace-edit--read-value');
+        expect(readvalue.text().trim()).to.equal('trans_title');
       });
 
-      it('does not allow sending comment with an empty message', function() {
-        var saveButton = commentSection.find('button');
+      describe('when clicking the inplace edit', function() {
+        beforeEach(function() {
+          commentSection.find('.inplace-editing--trigger-link').click();
+        });
 
-        commentField.val('');
-        commentField.change();
-        expect(saveButton.prop('disabled')).to.be.true;
+        it('does not allow sending comment with an empty message', function() {
+          var saveButton = commentSection.find('.inplace-edit--control--save');
+          var sendButton = commentSection.find('.inplace-edit--control--send');
+          var commentField = commentSection.find('textarea').click();
 
-        commentField.val('a useful comment');
-        commentField.change();
-        expect(saveButton.prop('disabled')).to.be.false;
-      });
+          expect(saveButton.attr('disabled')).to.eq('disabled');
+          expect(sendButton.attr('disabled')).to.eq('disabled');
 
-      it('does prevent double posts', function() {
-        var saveButton = commentSection.find('button');
-
-        // comments can be saved when there is text to post
-        commentField.val('a useful comment');
-        commentField.change();
-        expect(saveButton.prop('disabled')).to.be.false;
-
-        // while sending the comment, one cannot send another comment
-        saveButton.click();
-        expect(saveButton.scope().$parent.processingComment).to.be.true;
-        expect(saveButton.scope().$parent.activity.comment).to.equal('a useful comment');
-        expect(commentField.prop('disabled')).to.be.true;
-        expect(saveButton.prop('disabled')).to.be.true;
-
-        // after sending, we can send comments again
-        commentCreation.resolve();
-        scope.$digest();
-        expect(saveButton.scope().$parent.processingComment).to.be.false;
-        expect(saveButton.scope().$parent.activity.comment).to.equal('');
-        expect(commentField.val()).to.equal('');
-        expect(commentField.prop('disabled')).to.be.false;
+          commentField.val('a useful comment');
+          commentField.trigger('change');
+          expect(saveButton.attr('disabled')).to.be.undefined;
+          expect(sendButton.attr('disabled')).to.be.undefined;
+        });
       });
     });
   });

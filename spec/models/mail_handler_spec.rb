@@ -66,7 +66,6 @@ describe MailHandler, type: :model do
   # let(:a_custom_field) {FactoryGirl.create(:work_package_custom_field)}
 
   before do
-    ActionMailer::Base.deliveries.clear
     allow(Setting).to receive(:notified_events).and_return(Redmine::Notifiable.all.map(&:name))
     # we need both of these run first so the anonymous user is created and
     # there is a default work package priority to save any work packages
@@ -279,7 +278,6 @@ describe MailHandler, type: :model do
   # end
 
   it 'should add a work_package by create user on public project' do
-    ActionMailer::Base.deliveries.clear
     allow(Setting).to receive(:default_language).and_return('en')
     Role.non_member.update_attribute :permissions, [:add_work_packages]
     project.update_attribute :is_public, true

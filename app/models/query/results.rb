@@ -78,12 +78,13 @@ class ::Query::Results
   end
 
   def work_packages
-    WorkPackage.where(::Query.merge_conditions(query.statement, options[:conditions]))
-      .includes([:status, :project] + (options[:include] || []).uniq)
-      .includes(includes_for_columns(query.involved_columns))
-      .joins((query.group_by_column ? query.group_by_column.join : nil))
-      .order(order_option)
-      .references(:projects)
+    @work_packages ||= WorkPackage
+                       .where(::Query.merge_conditions(query.statement, options[:conditions]))
+                       .includes([:status, :project] + (options[:include] || []).uniq)
+                       .includes(includes_for_columns(query.involved_columns))
+                       .joins((query.group_by_column ? query.group_by_column.join : nil))
+                       .order(order_option)
+                       .references(:projects)
   end
 
   # Same as :work_packages, but returns a result sorted by the sort_criteria defined in the query.
@@ -91,7 +92,7 @@ class ::Query::Results
   # If there is a reason: This is a somewhat DRY way of using the sort criteria.
   # If there is no reason: The :work_package method can die over time and be replaced by this one.
   def sorted_work_packages
-    work_packages.order(query.sort_criteria_sql)
+    @sorted_work_packages ||= work_packages.order(query.sort_criteria_sql)
   end
 
   def versions
@@ -117,7 +118,7 @@ class ::Query::Results
   def all_sums_for_group(group)
     return nil unless query.grouped?
 
-    group_work_packages = all_work_packages.select { |wp| query.group_by_column.value(wp) == group }
+    group_work_packages = work_packages.select { |wp| query.group_by_column.value(wp) == group }
     query.available_columns.inject({}) { |result, column|
       sum = sum_of(column, group_work_packages)
       result[column] = sum unless sum.nil?
@@ -140,7 +141,7 @@ class ::Query::Results
 
   def includes_for_columns(column_names)
     column_names = Array(column_names)
-    includes = (WorkPackage.reflections.keys & column_names.map(&:to_sym))
+    includes = (WorkPackage.reflections.keys.map(&:to_sym) & column_names.map(&:to_sym))
 
     if column_names.any? { |column| custom_field_column?(column) }
       includes << { custom_values: :custom_field }

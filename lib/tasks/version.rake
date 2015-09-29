@@ -27,16 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Comment < ActiveRecord::Base
-  generator_for :commented, method: :generate_news
-  generator_for :author, method: :generate_author
-  generator_for comments: 'What great news this is.'
-
-  def self.generate_news
-    News.generate!
-  end
-
-  def self.generate_author
-    User.generate_with_protected!
-  end
+require 'open_project/version'
+desc 'Displays the current version of OpenProject'
+task :version do
+  puts ::OpenProject::VERSION.to_semver
 end

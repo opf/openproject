@@ -96,8 +96,8 @@ describe ::API::V3::Repositories::RevisionRepresenter do
 
         str = 'Totally references <a'
         str << " class=\"issue work_package status-1 priority-1 parent\""
-        str << " href=\"/work_packages/#{id}\""
-        str << " title=\"#{work_package.subject} (#{work_package.status})\">"
+        str << " title=\"#{work_package.subject} (#{work_package.status})\""
+        str << " href=\"/work_packages/#{id}\">"
         str << "##{id}</a>"
       }
 

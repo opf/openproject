@@ -205,7 +205,7 @@ class Version < ActiveRecord::Base
     # tie the comparison to the presentation as sorting is mostly
     # used within sorted tables.
     # Thus, when the representation changes, the sorting will change as well.
-    to_s_with_project <=> version.to_s_with_project
+    to_s_with_project.downcase <=> version.to_s_with_project.downcase
   end
 
   # Returns the sharings that +user+ can set the version to

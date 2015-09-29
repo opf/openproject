@@ -46,7 +46,7 @@ describe('revisionActivity Directive', function() {
 
     beforeEach(inject(function($rootScope, $compile) {
       var html;
-      html = '<div exclusive-edit class="exclusive-edit"><revision-activity work-package="workPackage" activity="activity" activity-no="activityNo" is-initial="isInitial"></revision-activity></div>';
+      html = '<revision-activity work-package="workPackage" activity="activity" activity-no="activityNo" is-initial="isInitial"></revision-activity>';
 
       rootScope = $rootScope;
       scope = $rootScope.$new();

@@ -43,14 +43,13 @@ describe Journal, type: :model do
       issue.add_journal(User.current, 'This journal represents the creationa of journal version 1')
       issue.save
     end
-    ActionMailer::Base.deliveries.clear
+
     issue.reload
     issue.update_attribute(:subject, 'New subject to trigger automatic journal entry')
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   it 'create should not send email notification if told not to' do
-    ActionMailer::Base.deliveries.clear
     issue = WorkPackage.first
     user = User.first
     journal = issue.add_journal(user, 'A note')
@@ -64,12 +63,12 @@ describe Journal, type: :model do
 
   specify 'creating the initial journal should track the changes from creation' do
     Journal.delete_all
-    @project = Project.generate!
+    @project = FactoryGirl.create(:project)
     issue = WorkPackage.new do |i|
       i.project = @project
       i.subject = 'Test initial journal'
       i.type = @project.types.first
-      i.author = User.generate!
+      i.author = FactoryGirl.create(:user)
       i.description = 'Some content'
     end
 

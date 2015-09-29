@@ -48,7 +48,7 @@ module API
         end
 
         def user_allowed_to_access
-          unless ::WorkPackage.visible(@user).exists?(model)
+          unless ::WorkPackage.visible(@user).exists?(model.id)
             errors.add :base, :error_not_found
           end
         end

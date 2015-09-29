@@ -29,7 +29,13 @@
 
 ENV['RAILS_ENV'] = 'test'
 
-require 'simplecov'
+if ENV['COVERAGE']
+  require 'bundler'
+  Bundler.setup(:default, :test)
+
+  require 'simplecov'
+  SimpleCov.start 'rails'
+end
 
 require File.expand_path('../../config/environment', __FILE__)
 
@@ -41,10 +47,6 @@ require_relative './support/file_helpers'
 require_relative './support/shared/with_mock_request'
 require_relative './legacy/support/legacy_assertions'
 require_relative './support/repository_helpers'
-
-require_relative './legacy/support/object_daddy_helpers'
-
-include ObjectDaddyHelpers
 
 require 'rspec/rails'
 require 'shoulda/matchers'

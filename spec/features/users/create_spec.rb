@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe 'create users', type: :feature do
   let(:current_user) { FactoryGirl.create :admin }
-
   let(:auth_source) { FactoryGirl.build :dummy_auth_source }
+  let(:new_user_page) { Pages::NewUser.new }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -60,11 +60,11 @@ describe 'create users', type: :feature do
     before do
       visit new_user_path
 
-      fill_in 'First name', with: 'bobfirst'
-      fill_in 'Last name', with: 'boblast'
-      fill_in 'Email', with: 'bob@mail.com'
+      new_user_page.fill_in! first_name: 'bobfirst',
+                             last_name: 'boblast',
+                             email: 'bob@mail.com'
 
-      click_button 'Create'
+      new_user_page.submit!
     end
 
     it_behaves_like 'successful user creation' do
@@ -97,20 +97,18 @@ describe 'create users', type: :feature do
     before do
       auth_source.save!
 
-      visit new_user_path
+      new_user_page.visit!
+      new_user_page.fill_in! first_name: 'bobfirst',
+                             last_name: 'boblast',
+                             email: 'bob@mail.com',
+                             login: 'bob',
+                             auth_source: auth_source.name
 
-      fill_in 'First name', with: 'bobfirst'
-      fill_in 'Last name', with: 'boblast'
-      fill_in 'Email', with: 'bob@mail.com'
-
-      select auth_source.name, from: 'Authentication mode'
-      fill_in 'Login', with: 'bob'
-
-      click_button 'Create'
+      new_user_page.submit!
     end
 
     it_behaves_like 'successful user creation' do
-      describe 'activation' do
+      describe 'activation', js: true do
         before do
           allow(User).to receive(:current).and_call_original
 

@@ -70,7 +70,7 @@ en:
     label_activate: "Activate"
     label_add_columns: "Add selected columns"
     label_add_comment: "Add comment"
-    label_add_comment_title: "Add your comments here"
+    label_add_comment_title: "Click to add a comment"
     label_added_by: "added by"
     label_added_time_by: "Added by %{author} %{age}"
     label_ago: "days ago"
@@ -87,6 +87,7 @@ en:
     label_collapse: "Collapse"
     label_collapsed: "collapsed"
     label_collapse_all: "Collapse all"
+    label_comment: "Comment"
     label_committed_at: "%{committed_revision_link} at %{date}"
     label_committed_link: "committed revision %{revision_identifier}"
     label_contains: "contains"
@@ -164,7 +165,7 @@ en:
     label_drop_files: Drop files here
     label_drop_files_hint: or click to add files
     label_remove_file: "Delete %{fileName}"
-    label_remove_watcher: "Delete watcher %{name}"
+    label_remove_watcher: "Remove watcher %{name}"
     label_remove_all_files: Delete all files
     label_add_description: "Add a description for %{file}"
     label_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
@@ -332,11 +333,15 @@ en:
       image: "Image"
     work_packages:
       button_clear: "Clear"
+      comment_added: "The comment was successfully added."
+      comment_send_failed: "An error has occured. Could not submit the comment."
+      comment_updated: "The comment was successfully updated."
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
       description_options_show: "Show options"
       error: "An error has occured."
+      error_update_failed: "The work package could not be updated."
       label_enable_multi_select: "Enable multiselect"
       label_disable_multi_select: "Disable multiselect"
       label_filter_add: "Add filter"
@@ -431,7 +436,7 @@ en:
     notice_bad_request: "Bad Request."
     relations:
       empty: No relation exists
-      delete: Delete relation
+      remove: Remove relation
     inplace:
       button_edit: "%{attribute}: Edit"
       button_save: "%{attribute}: Save"

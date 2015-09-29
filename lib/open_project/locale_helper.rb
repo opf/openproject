@@ -29,9 +29,12 @@
 
 module OpenProject
   module LocaleHelper
-    def with_locale_for(user, &block)
-      locale = user.language.presence || Setting.default_language.presence || I18n.default_locale
-      I18n.with_locale(locale, &block)
+    def with_locale_for(user)
+      previous_locale = I18n.locale
+      SetLocalizationService.new(user).call
+      yield
+    ensure
+      I18n.locale = previous_locale
     end
   end
 end

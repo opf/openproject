@@ -42,6 +42,10 @@ class Principal < ActiveRecord::Base
 
   self.table_name = "#{table_name_prefix}users#{table_name_suffix}"
 
+  has_one :preference,
+    dependent: :destroy,
+    class_name: 'UserPreference',
+    foreign_key: 'user_id'
   has_many :members, foreign_key: 'user_id', dependent: :destroy
   has_many :memberships, -> {
     includes(:project, :roles)
@@ -112,6 +116,10 @@ class Principal < ActiveRecord::Base
     project_ids = principal.projects.pluck(:id)
     where('id IN (select m.user_id FROM members AS m WHERE (m.project_id IN (?)))',
           project_ids)
+  end
+
+  def self.order_by_name
+    order(User::USER_FORMATS_STRUCTURE[Setting.user_format].map(&:to_s))
   end
 
   def status_name

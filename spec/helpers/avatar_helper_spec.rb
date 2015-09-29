@@ -83,7 +83,7 @@ describe AvatarHelper, type: :helper do
       digest = Digest::MD5.hexdigest(user.mail)
 
       with_settings gravatar_enabled: '1', protocol: 'http' do
-        expect(helper.avatar(user)).to eq(expected_image_tag(digest))
+        expect(helper.avatar(user)).to be_html_eql(expected_image_tag(digest))
       end
     end
 
@@ -91,7 +91,7 @@ describe AvatarHelper, type: :helper do
       digest = Digest::MD5.hexdigest(user.mail)
 
       with_settings gravatar_enabled: '1', protocol: 'https' do
-        expect(helper.avatar(user)).to eq(expected_image_tag(digest, ssl: true))
+        expect(helper.avatar(user)).to be_html_eql(expected_image_tag(digest, ssl: true))
       end
     end
 
@@ -118,7 +118,7 @@ describe AvatarHelper, type: :helper do
         mail = '<e-mail@mail.de>'
         digest = Digest::MD5.hexdigest('e-mail@mail.de')
 
-        expect(helper.avatar(mail)).to eq(expected_image_tag(digest, title: nil))
+        expect(helper.avatar(mail)).to be_html_eql(expected_image_tag(digest, title: nil))
       end
     end
   end

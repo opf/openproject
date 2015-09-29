@@ -41,7 +41,7 @@ class DeliverNotificationJob
 
     mail = User.execute_as(recipient) { build_mail }
     if mail
-      mail.deliver
+      mail.deliver_now
     end
   end
 

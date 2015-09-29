@@ -34,12 +34,10 @@ describe MailHandler, type: :model do
   FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures/mail_handler'
 
   before do
-    ActionMailer::Base.deliveries.clear
     allow(Setting).to receive(:notified_events).and_return(Redmine::Notifiable.all.map(&:name))
   end
 
   it 'should add work package' do
-    ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml', allow_override: 'fixed_version')
     assert issue.is_a?(WorkPackage)
@@ -169,8 +167,9 @@ describe MailHandler, type: :model do
   end
 
   it 'should add work package should match assignee on display name' do # added from redmine  - not sure if it is ok here
-    user = User.generate!(firstname: 'Foo', lastname: 'Bar')
-    User.add_to_project(user, Project.find(2), Role.generate!(name: 'Superhero'))
+    user = FactoryGirl.create(:user, firstname: 'Foo', lastname: 'Bar')
+    role = FactoryGirl.create(:role, name: 'Superhero')
+    FactoryGirl.create(:member, user: user, project: Project.find(2), role_ids: [role.id] )
     issue = submit_email('ticket_on_given_project.eml') do |email|
       email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar')
     end
@@ -334,7 +333,7 @@ describe MailHandler, type: :model do
 
   it 'should add work package should send email notification' do
     Setting.notified_events = ['work_package_added']
-    ActionMailer::Base.deliveries.clear
+
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')
     assert issue.is_a?(WorkPackage)
@@ -353,9 +352,7 @@ describe MailHandler, type: :model do
   specify 'reply to issue update (Journal) by message_id' do
     Journal.delete_all
     issue = WorkPackage.find(2)
-    j = FactoryGirl.create :work_package_journal,
-                           id: 3,
-                           journable_id: issue.id
+    j = FactoryGirl.create :work_package_journal, id: 3, journable_id: issue.id
     journal = submit_email('ticket_reply_by_message_id.eml')
     assert journal.data.is_a?(Journal::WorkPackageJournal), "Email was a #{journal.data.class}"
     assert_equal User.find_by_login('jsmith'), journal.user
@@ -386,7 +383,6 @@ describe MailHandler, type: :model do
 
   it 'should add work package note should send email notification' do
     WorkPackage.find(2).recreate_initial_journal!
-    ActionMailer::Base.deliveries.clear
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
     assert_equal 3, ActionMailer::Base.deliveries.size

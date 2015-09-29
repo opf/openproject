@@ -103,9 +103,16 @@ module.exports = function(
   }
 
   function submit(notify) {
-    angular
-      .element('.work-packages--details--subject:first .inplace-edit--write')
-      .scope().editPaneController.submit(notify);
+    var field = angular.element('.work-packages--details--subject:first .inplace-edit--write')
+                       .scope().editPaneController.submitField;
+
+    EditableFieldsState.submissionPromises['work_package'] = {
+      field: 'subject',
+      thePromise: field,
+      prepend: true,
+    };
+
+    WorkPackageFieldService.submitWorkPackageChanges(notify);
   }
 
   function cancel() {

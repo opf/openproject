@@ -92,12 +92,12 @@ describe ApplicationHelper, type: :helper do
       # wrap in angle brackets
       '<http://foo.bar>' => '&lt;<a class="external icon-context icon-copy2" href="http://foo.bar">http://foo.bar</a>&gt;'
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text) }
+    to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text) }
   end
 
   it 'should auto mailto' do
-    assert_equal '<p><a class="email" href="mailto:test@foo.bar">test@foo.bar</a></p>',
-                 helper.format_text('test@foo.bar')
+    assert_dom_equal '<p><a class="email" href="mailto:test@foo.bar">test@foo.bar</a></p>',
+                     helper.format_text('test@foo.bar')
   end
 
   it 'should inline images' do
@@ -110,7 +110,7 @@ describe ApplicationHelper, type: :helper do
       'with title !http://foo.bar/image.jpg(This is a title)!' => 'with title <img src="http://foo.bar/image.jpg" title="This is a title" alt="This is a title" />',
       'with title !http://foo.bar/image.jpg(This is a double-quoted "title")!' => 'with title <img src="http://foo.bar/image.jpg" title="This is a double-quoted &quot;title&quot;" alt="This is a double-quoted &quot;title&quot;" />',
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text) }
+    to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text) }
   end
 
   it 'should inline images inside tags' do
@@ -135,7 +135,7 @@ RAW
       # link image
       '!logo.gif!:http://foo.bar/' => "<a href=\"http://foo.bar/\"><img src=\"/attachments/#{@attachment.id}/download\" title=\"This is a logo\" alt=\"This is a logo\" /></a>",
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text, attachments: [@attachment]) }
+    to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text, attachments: [@attachment]) }
   end
 
   it 'should textile external links' do
@@ -154,7 +154,7 @@ RAW
       # escaping
       '"test":http://foo"bar' => '<a href="http://foo&quot;bar" class="external">test</a>',
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text) }
+    to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text) }
   end
 
   it 'should textile relative to full links in a controller', :with_mock_request_for_helper do
@@ -163,7 +163,7 @@ RAW
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
       'This is an intern "link":/foo/bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a>',
       'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>',
-    }.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text, only_path: false) }
+    }.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text, only_path: false) }
   end
 
   it 'should textile relative to full links in the mailer' do
@@ -179,7 +179,7 @@ RAW
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
       'This is an intern "link":/foo/bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a>',
       'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>',
-    }.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text, only_path: false) }
+    }.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text, only_path: false) }
   end
 
   it 'should cross project redmine links' do
@@ -231,8 +231,8 @@ RAW
     the_other_project = FactoryGirl.create :valid_project
 
     to_test.each do |text, result|
-      assert_equal "<p>#{result}</p>",
-                   helper.format_text(text, project: the_other_project), "#{text} failed"
+      assert_dom_equal "<p>#{result}</p>",
+                       helper.format_text(text, project: the_other_project), "#{text} failed"
     end
   end
 
@@ -258,7 +258,7 @@ RAW
                       comments: 'test commit')
     assert(c.save)
     @project.reload
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text) }
+    to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text) }
   end
 
   it 'should attachment links' do
@@ -266,7 +266,7 @@ RAW
     to_test = {
       'attachment:logo.gif' => attachment_link
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text, attachments: [@attachment]), "#{text} failed" }
+    to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text, attachments: [@attachment]), "#{text} failed" }
   end
 
   it 'should html tags' do
@@ -290,7 +290,7 @@ RAW
       '<pre><code class=""onmouseover="alert(1)">text</code></pre>' => '<pre><code>text</code></pre>',
       '<pre class=""onmouseover="alert(1)">text</pre>' => '<pre>text</pre>',
     }
-    to_test.each { |text, result| assert_equal result, helper.format_text(text) }
+    to_test.each { |text, result| assert_dom_equal result, helper.format_text(text) }
   end
 
   it 'should allowed html tags' do
@@ -299,7 +299,7 @@ RAW
       '<notextile>no *textile* formatting</notextile>' => 'no *textile* formatting',
       '<notextile>this is <tag>a tag</tag></notextile>' => 'this is &lt;tag&gt;a tag&lt;/tag&gt;'
     }
-    to_test.each { |text, result| assert_equal result, helper.format_text(text) }
+    to_test.each { |text, result| assert_dom_equal result, helper.format_text(text) }
   end
 
   it 'should pre tags' do
@@ -351,7 +351,7 @@ EXPECTED
                  "</tr><tr><td>Cell 21</td><td><a class=\"wiki-page\" href=\"/projects/#{@project.identifier}/wiki/Last_page\">Last page</a></td></tr>"
     }
 
-    to_test.each { |text, result| assert_equal "<table>#{result}</table>", helper.format_text(text).gsub(/[\t\n]/, '') }
+    to_test.each { |text, result| assert_dom_equal "<table>#{result}</table>", helper.format_text(text).gsub(/[\t\n]/, '') }
   end
 
   it 'should text formatting' do
@@ -361,7 +361,7 @@ EXPECTED
                 'a H *umane* W *eb* T *ext* G *enerator*' => 'a H <strong>umane</strong> W <strong>eb</strong> T <strong>ext</strong> G <strong>enerator</strong>',
                 'a *H* umane *W* eb *T* ext *G* enerator' => 'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator',
               }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text) }
+    to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text) }
   end
 
   it 'should wiki horizontal rule' do
@@ -508,7 +508,7 @@ RAW
 
   it 'should link to user' do
     t = link_to_user(@admin)
-    assert_equal "<a href=\"/users/#{ @admin.id }\">#{ @admin.name }</a>", t
+    assert_dom_equal "<a href=\"/users/#{@admin.id}\">#{@admin.name}</a>", t
   end
 
   it 'should link to user should not link to locked user' do
@@ -529,15 +529,15 @@ RAW
   it 'should link to project' do
     p_id = @project.identifier
     p_name = @project.name
-    assert_equal %(<a href="/projects/#{p_id}">#{p_name}</a>),
-                 link_to_project(@project)
-    assert_equal %(<a href="/projects/#{p_id}/settings">#{p_name}</a>),
-                 link_to_project(@project, action: 'settings')
-    assert_equal %(<a href="/projects/#{p_id}/settings/members">#{p_name}</a>),
-                 link_to_project(@project, action: 'settings', tab: 'members')
-    assert_equal %(<a href="#{root_url}projects/#{p_id}?jump=blah">#{p_name}</a>),
-                 link_to_project(@project, only_path: false, jump: 'blah')
-    assert_equal %(<a class="project" href="/projects/#{p_id}/settings">#{p_name}</a>),
-                 link_to_project(@project, { action: 'settings' }, class: 'project')
+    assert_dom_equal %(<a href="/projects/#{p_id}">#{p_name}</a>),
+                     link_to_project(@project)
+    assert_dom_equal %(<a href="/projects/#{p_id}/settings">#{p_name}</a>),
+                     link_to_project(@project, action: 'settings')
+    assert_dom_equal %(<a href="/projects/#{p_id}/settings/members">#{p_name}</a>),
+                     link_to_project(@project, action: 'settings', tab: 'members')
+    assert_dom_equal %(<a href="#{root_url}projects/#{p_id}?jump=blah">#{p_name}</a>),
+                     link_to_project(@project, only_path: false, jump: 'blah')
+    assert_dom_equal %(<a class="project" href="/projects/#{p_id}/settings">#{p_name}</a>),
+                     link_to_project(@project, { action: 'settings' }, class: 'project')
   end
 end

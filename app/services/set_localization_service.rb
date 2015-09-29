@@ -2,7 +2,7 @@ class SetLocalizationService
   attr_reader :user, :http_accept_header
   include Redmine::I18n
 
-  def initialize(user, http_accept_header)
+  def initialize(user, http_accept_header = nil)
     @user = user
     @http_accept_header = http_accept_header
   end
@@ -24,18 +24,13 @@ class SetLocalizationService
   private
 
   def user_language
-    find_language(user.language) if user.logged?
+    find_language_or_prefix(user.language) if user.logged?
   end
 
   def header_language
+    return unless http_accept_header
     accept_lang = parse_qvalues(http_accept_header).first
-
-    lang = if accept_lang
-             accept_lang = accept_lang.downcase
-             find_language(accept_lang) || find_language(accept_lang.split('-').first)
-           end
-
-    lang
+    find_language_or_prefix accept_lang
   end
 
   def default_language
@@ -62,5 +57,11 @@ class SetLocalizationService
     return tmp
   rescue
     nil
+  end
+
+  def find_language_or_prefix(language)
+    return nil unless language
+    language = language.to_s.downcase
+    find_language(language) || find_language(language.split('-').first)
   end
 end

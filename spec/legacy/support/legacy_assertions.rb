@@ -34,6 +34,7 @@ module LegacyAssertionsAndHelpers
   # should not affect other tests.
   def reset_global_state!
     User.current = User.anonymous # reset current user in case it was changed in a test
+    ActionMailer::Base.deliveries.clear
   end
 
   ##
@@ -168,8 +169,8 @@ module LegacyAssertionsAndHelpers
         if block_given?
           instance_eval &block
         else
-          @old_value = model.generate!
-          @new_value = model.generate!
+          @old_value = FactoryGirl.create(model.to_sym)
+          @new_value = FactoryGirl.create(model.to_sym)
         end
       end
 
@@ -317,7 +318,7 @@ module LegacyAssertionsAndHelpers
       context "should allow http basic auth using a username and password for #{http_method} #{url}" do
         context 'with a valid HTTP authentication' do
           before do
-            @user = User.generate_with_protected!(password: 'adminADMIN!', password_confirmation: 'adminADMIN!', admin: true) # Admin so they can access the project
+            @user = FactoryGirl.create(:user, password: 'adminADMIN!', password_confirmation: 'adminADMIN!', admin: true) # Admin so they can access the project
 
             send(http_method, url, parameters, credentials(@user.login, 'adminADMIN!'))
           end
@@ -330,7 +331,7 @@ module LegacyAssertionsAndHelpers
 
         context 'with an invalid HTTP authentication' do
           before do
-            @user = User.generate_with_protected!
+            @user = FactoryGirl.create(:user)
 
             send(http_method, url, parameters, credentials(@user.login, 'wrong_password'))
           end
@@ -377,8 +378,8 @@ module LegacyAssertionsAndHelpers
       context "should allow http basic auth with a key for #{http_method} #{url}" do
         context 'with a valid HTTP authentication using the API token' do
           before do
-            @user = User.generate_with_protected!(admin: true)
-            @token = Token.generate!(user: @user, action: 'api')
+            @user = FactoryGirl.create(:user, admin: true)
+            @token = FactoryGirl.create(:token, user: @user, action: 'api')
 
             send(http_method, url, parameters, credentials(@token.value, 'X'))
           end
@@ -392,8 +393,8 @@ module LegacyAssertionsAndHelpers
 
         context 'with an invalid HTTP authentication' do
           before do
-            @user = User.generate_with_protected!
-            @token = Token.generate!(user: @user, action: 'feeds')
+            @user = FactoryGirl.create(:user)
+            @token = FactoryGirl.create(:token, user: @user, action: 'feeds')
 
             send(http_method, url, parameters, credentials(@token.value, 'X'))
           end
@@ -421,8 +422,8 @@ module LegacyAssertionsAndHelpers
       context "should allow key based auth using key=X for #{http_method} #{url}" do
         context 'with a valid api token' do
           before do
-            @user = User.generate_with_protected!(admin: true)
-            @token = Token.generate!(user: @user, action: 'api')
+            @user = FactoryGirl.create(:user, admin: true)
+            @token = FactoryGirl.create(:token, user: @user, action: 'api')
             # Simple url parse to add on ?key= or &key=
             request_url = if url.match(/\?/)
                             url + "&key=#{@token.value}"
@@ -441,8 +442,8 @@ module LegacyAssertionsAndHelpers
 
         context 'with an invalid api token' do
           before do
-            @user = User.generate_with_protected!
-            @token = Token.generate!(user: @user, action: 'feeds')
+            @user = FactoryGirl.create(:user)
+            @token = FactoryGirl.create(:token, user: @user, action: 'feeds')
             # Simple url parse to add on ?key= or &key=
             request_url = if url.match(/\?/)
                             url + "&key=#{@token.value}"
@@ -461,9 +462,9 @@ module LegacyAssertionsAndHelpers
 
       context "should allow key based auth using X-OpenProject-API-Key header for #{http_method} #{url}" do
         before do
-          @user = User.generate_with_protected!(admin: true)
-          @token = Token.generate!(user: @user, action: 'api')
-          send(http_method, url, {}, 'X-OpenProject-API-Key' => @token.value.to_s)
+          @user = FactoryGirl.create(:user, admin: true)
+          @token = FactoryGirl.create(:token, user: @user, action: 'api')
+          send(http_method, url, {}, {'X-OpenProject-API-Key' => @token.value.to_s})
         end
         it { should respond_with success_code }
         it { should_respond_with_content_type_based_on_url(url) }

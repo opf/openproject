@@ -66,37 +66,40 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
 
     .form--section
       padding-top: 0px
+      margin-bottom: 0px
+
+      & > *
+        padding-left: 1rem
 
     .form--section-title
       background-color: $content-form-danger-zone-bg-color
       color: $content-form-danger-zone-font-color !important
-      padding: 0.5rem !important
+      padding: 1rem !important
       margin: 0 0 1rem 0
 
+    input[type=text]
+      margin-bottom: 0
+
     em
-      font-style: italics
+      font-style: italic
 
+    p.danger-zone--warning
+      font-weight: bold
+      color: $content-form-danger-zone-bg-color
 
-    p
-      padding-left: 0.5rem
-
-      &.danger-zone--warning
-        font-weight: bold
-        color: $content-form-danger-zone-bg-color
-
-        span.icon,
-        span.icon-context
-          vertical-align: middle
-          &:before
-            padding-left: 0px
-            color: $content-form-danger-zone-bg-color
+      span.icon,
+      span.icon-context
+        vertical-align: middle
+        &:before
+          padding-left: 0px
+          color: $content-form-danger-zone-bg-color
 
     .danger-zone--verification
       display: flex
 
       input
         flex-basis: 50%
-        margin: 0 0.5rem 0 0.5rem
+        margin: 0 0.5rem 0 0
 
       .button.-highlight
         background: $content-form-danger-zone-bg-color
@@ -493,11 +496,6 @@ input[readonly].-clickable
   //prevent radio-buttons from being cut at the border
   padding: 0 1px
 
-.form--radio-button
-  // Be on par with Foundation's margin-bottom on labels.
-  .form &
-    margin-bottom: 0.5rem
-
 .form--grouping
   @include grid-block($wrap: true)
   align-items: center
@@ -512,7 +510,7 @@ input[readonly].-clickable
   @include grid-content(2)
   @include grid-visible-overflow
   @extend %label-style
-  padding:      0 1rem 0 0
+  padding:      0 1rem 0.5rem 0
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
   color:        $form-label-color

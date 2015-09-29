@@ -96,6 +96,7 @@ RSpec.configure do |config|
                                end
 
     DatabaseCleaner.start
+    ActionMailer::Base.deliveries.clear
   end
 
   config.after(:each) do
@@ -140,12 +141,21 @@ RSpec.configure do |config|
   config.include RSpec::Rails::RequestExampleGroup, type: :request
 end
 
-# load disable_specs.rbs from plugins
+# Loads two files automatically from plugins:
+#
+# 1. `spec/disable_specs.rbs` to disable specs which don't work in conjunction with the
+# respective plugin.
+# 2. The config spec helper in `spec/config_spec_helper` makes sure that the core specs
+# (and other plugins' specs) keep working with this plugin in an OpenProject configuration
+# even if it changes things which would otherwise break existing specs.
 Rails.application.config.plugins_to_test_paths.each do |dir|
-  disable_specs_file = File.join(dir, 'spec', 'disable_specs.rb')
-  if File.exists?(disable_specs_file)
-    puts 'Loading ' + disable_specs_file
-    require disable_specs_file
+  ['disable_specs.rb', 'config_spec_helper.rb'].each do |file_name|
+    file = File.join(dir, 'spec', file_name)
+    
+    if File.exists?(file)
+      puts "Loading #{file}"
+      require file
+    end
   end
 end
 

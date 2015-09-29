@@ -148,6 +148,9 @@ module OpenProject
     # parameters by using an attr_accessible or attr_protected declaration.
     config.active_record.whitelist_attributes = false
 
+    # Do not swallow errors in after_commit/after_rollback callbacks.
+    config.active_record.raise_in_transactional_callbacks = true
+
     # initialize variable for register plugin tests
     config.plugins_to_test_paths = []
 

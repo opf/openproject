@@ -27,9 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <div id="repository--checkout-instructions" class="notification-box -info">
-  <% unless embedded %>
-    <a href="javscript:" title="{{ ::I18n.t('js.close_popup_title') }}" class="notification-box--close icon-context icon-close2"></a>
-  <% end %>
+  <a href="javscript:" title="{{ ::I18n.t('js.close_popup_title') }}" class="notification-box--close icon-context icon-close"></a>
   <div class="notification-box--content">
     <p>
     <%= simple_format instructions.instructions %>
@@ -39,23 +37,5 @@ See doc/COPYRIGHT.rdoc for more details.
       <strong><%= l("repositories.checkout.access.#{instructions.permission}") %></strong>
     <% end %>
     </p>
-  <% if embedded %>
-    <div class="repository--checkout-instructions--url">
-      <form class="form">
-        <div class="form--field">
-          <div class="form--field-container">
-              <div class="form--field-affix">
-                <%= instructions.checkout_command %>
-              </div>
-              <div class="form--text-field-container -xwide">
-                  <input type="text" class="form--text-field -clickable"
-                  onclick="this.focus(); this.select()"
-                  readonly="readonly" value="<%= instructions.checkout_url %>">
-              </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  <% end %>
   </div>
 </div>

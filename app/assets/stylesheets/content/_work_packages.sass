@@ -28,6 +28,9 @@
 
 .work-packages--details-content
   font-size:  0.875rem
+  .inplace-edit--write-value
+    textarea
+      overflow: hidden
 
 @mixin details-pane--form-field
   @include grid-visible-overflow
@@ -43,11 +46,18 @@
 
 div[class*='work-packages--details--']
   width: 100%
+  .inplace-edit--read
+    &>span:first-of-type
+      width: 100%
   .inplace-edit--read-value
+    width: 100%
     .dynamic-attribute
       width: 100%
 
-    span          
+    .version-wrapper,
+    .spent-time-wrapper
+      width: 100%
+    span
       overflow: hidden
       text-overflow: ellipsis
       display: block
@@ -55,11 +65,6 @@ div[class*='work-packages--details--']
       p
         overflow: inherit
         text-overflow: inherit
-
-      a
-        overflow: inherit
-        text-overflow: inherit
-        display: inherit
 
 .work-packages--details--subject
   @include grid-content

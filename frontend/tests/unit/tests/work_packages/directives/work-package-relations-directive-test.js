@@ -76,7 +76,7 @@ describe('Work Package Relations Directive', function() {
     stub.withArgs('js.work_packages.properties.subject').returns('Column0');
     stub.withArgs('js.work_packages.properties.status').returns('Column1');
     stub.withArgs('js.work_packages.properties.assignee').returns('Column2');
-    stub.withArgs('js.relations.delete').returns('Delete relation');
+    stub.withArgs('js.relations.remove').returns('Remove relation');
   }));
 
   afterEach(function() {
@@ -294,9 +294,9 @@ describe('Work Package Relations Directive', function() {
 
         if(removable) {
           var column4 = angular.element(element.find('.workpackages table tbody tr:nth-of-type(' + x + ') td:nth-child(4)'));
-          var deleteIcon = angular.element(column4.find('span.icon-delete'));
-          expect(deleteIcon.length).not.to.eq(0);
-          expect(deleteIcon.attr('title')).to.include('Delete relation');
+          var removeIcon = angular.element(column4.find('span.icon-remove'));
+          expect(removeIcon.length).not.to.eq(0);
+          expect(removeIcon.attr('title')).to.include('Remove relation');
         }
       }
     });

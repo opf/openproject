@@ -29,6 +29,17 @@
 
 module OpenProject
   module ObjectLinking
+    # path helpers shim to support deprecated :only_path option
+    %i(project settings_project topic work_package).each do |model|
+      define_method :"#{model}_path_or_url" do |*args, options|
+        if options.delete(:only_path) == false
+          __send__(:"#{model}_url", *args, options)
+        else
+          __send__(:"#{model}_path", *args, options)
+        end
+      end
+    end
+
     # Displays a link to user's account page if active or registered
     def link_to_user(user, options = {})
       if user.is_a?(User)
@@ -85,10 +96,10 @@ module OpenProject
     def link_to_message(message, options = {}, html_options = nil)
       link_to(
         h(truncate(message.subject, length: 60)),
-        topic_path(message.root,
-                   { r: (message.parent_id && message.id),
-                     anchor: (message.parent_id ? "message-#{message.id}" : nil)
-                   }.merge(options)),
+        topic_path_or_url(message.root,
+                          { r: (message.parent_id && message.id),
+                            anchor: (message.parent_id ? "message-#{message.id}" : nil)
+                          }.merge(options)),
         html_options
       )
     end
@@ -112,9 +123,9 @@ module OpenProject
       if project.active?
         # backwards compatibility
         if options.delete(:action) == 'settings'
-          link << link_to(project_link_name, settings_project_path(project, options), html_options)
+          link << link_to(project_link_name, settings_project_path_or_url(project, options), html_options)
         else
-          link << link_to(project_link_name, project_path(project, options), html_options)
+          link << link_to(project_link_name, project_path_or_url(project, options), html_options)
         end
       else
         link << project_link_name

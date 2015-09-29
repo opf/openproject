@@ -51,7 +51,7 @@ describe 'API v3 Render resource' do
 
     it { expect(subject.content_type).to eq('text/html') }
 
-    it { expect(subject.body).to eq(text) }
+    it { expect(subject.body).to be_html_eql(text) }
   end
 
   describe 'textile' do

@@ -464,7 +464,7 @@ class DueIssuesReminder
                          .references(:projects)
                          .group_by(&:assigned_to)
     issues_by_assignee.each do |assignee, issues|
-      UserMailer.reminder_mail(assignee, issues, @days).deliver if assignee && assignee.active?
+      UserMailer.reminder_mail(assignee, issues, @days).deliver_now if assignee && assignee.active?
     end
   end
 end

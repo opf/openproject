@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "URIjs": "^1.14.1",
+    "angular-elastic": "^2.5.0",
     "autoprefixer-loader": "^1.2.0",
     "bower": "^1.4.1",
     "css-loader": "^0.9.0",

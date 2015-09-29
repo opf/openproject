@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,20 +26,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Attachment < ActiveRecord::Base
-  generator_for :container, method: :generate_project
-  generator_for :file, method: :generate_file
-  generator_for :author, method: :generate_author
+require 'support/pages/page'
 
-  def self.generate_project
-    Project.generate!
-  end
+module Pages
+  class NewUser < Page
+    def path
+      '/users/new'
+    end
 
-  def self.generate_author
-    User.generate_with_protected!
-  end
+    ##
+    # Fills in the given user form fields.
+    def fill_in!(fields = {})
+      form = FormFiller.new fields
 
-  def self.generate_file
-    @file = FileHelpers.mock_uploaded_file
+      form.fill! 'First name', :first_name
+      form.fill! 'Last name', :last_name
+      form.fill! 'Email', :email
+
+      form.select! 'Authentication mode', :auth_source
+      form.fill! 'Login', :login
+
+      form.set_checked! 'Administrator', :admin
+    end
+
+    def submit!
+      click_button 'Create'
+    end
   end
 end

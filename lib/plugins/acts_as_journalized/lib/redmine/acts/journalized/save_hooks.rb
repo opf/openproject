@@ -66,11 +66,7 @@ module Redmine::Acts::Journalized
 
       add_journal = journals.empty? || JournalManager.changed?(self) || !@journal_notes.empty?
 
-      journal = JournalManager.add_journal self, @journal_user, @journal_notes if add_journal
-
-      journals.select(&:new_record?).each do |journal|
-        save_journal_with_retry(journal)
-      end
+      journal = JournalManager.add_journal! self, @journal_user, @journal_notes if add_journal
 
       if add_journal
         OpenProject::Notifications.send('journal_created',
@@ -88,19 +84,6 @@ module Redmine::Acts::Journalized
     def add_journal(user = User.current, notes = '')
       @journal_user ||= user
       @journal_notes ||= notes
-    end
-
-    def save_journal_with_retry(journal, tries: 2)
-      journal.save!
-    rescue ActiveRecord::RecordInvalid => e
-      # TODO: rescue from ActiveRecord::RecordNotUnique as well
-      if e.message =~ /Version has already been taken/ && tries > 0
-        journal.increment(:version)
-        tries -= 1
-        retry
-      else
-        raise
-      end
     end
 
     module ClassMethods

@@ -129,21 +129,25 @@ describe 'users/edit', type: :view do
         it 'shows the password and password confirmation fields' do
           render
 
-          expect(rendered).to have_text('Password')
-          expect(rendered).to have_text('Confirmation')
+          within '#password_fields' do
+            expect(rendered).to have_text('Password')
+            expect(rendered).to have_text('Confirmation')
+          end  
         end
       end
 
-      context 'with password choice enabled' do
+      context 'with password choice disabled' do
         before do
           expect(OpenProject::Configuration).to receive(:disable_password_choice?).and_return(true)
         end
 
-        it 'doesn not show the password and password confirmation fields' do
+        it "doesn't show the password and password confirmation fields" do
           render
-
-          expect(rendered).not_to have_text('Password')
-          expect(rendered).not_to have_text('Password confirmation')
+          
+          within '#password_fields' do
+            expect(rendered).not_to have_text('Password')
+            expect(rendered).not_to have_text('Password confirmation')
+          end  
         end
       end
     end

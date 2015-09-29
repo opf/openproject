@@ -27,12 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Group < Principal
-  generator_for :lastname, method: :next_lastname
-
-  def self.next_lastname
-    @last_lastname ||= 'Group'
-    @last_lastname.succ!
-    @last_lastname
+OpenProject::Application.configure do
+  config.after_initialize do
+    TransactionalLock.initialize do |config|
+      config.merge(default_timeout: 60)
+    end
   end
 end

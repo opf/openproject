@@ -56,6 +56,27 @@ class Journal < ActiveRecord::Base
   # logs like the history on issue#show
   scope :changing, -> { where(['version > 1']) }
 
+  # Ensure that no INSERT/UPDATE/DELETE statements as well as other code inside :with_write_lock
+  # is run concurrently to the code inside this block, by using database locking.
+  # Note for PostgreSQL: If this is called from inside a transaction, the lock will last until the
+  #   end of that transaction.
+  # Note for MySQL: THis method does not currently change anything (no locking at all)
+  def self.with_write_lock
+    if OpenProject::Database.mysql?
+      Journal.transaction do
+        # MySQL is very weak when combining transactions and locks. Using an emulation layer to
+        # automatically release an advisory lock at the end of the transaction
+        TransactionalLock::AdvisoryLock.new('journals.write_lock').acquire
+        yield
+      end
+    else
+      Journal.transaction do
+        ActiveRecord::Base.connection.execute("LOCK TABLE #{table_name} IN SHARE ROW EXCLUSIVE MODE")
+        yield
+      end
+    end
+  end
+
   def changed_data=(changed_attributes)
     attributes = changed_attributes
 
@@ -132,7 +153,13 @@ class Journal < ActiveRecord::Base
 
   def touch_journable
     if journable && !journable.changed?
-      journable.touch
+      # Not using touch here on purpose,
+      # as to avoid changing lock versions on the journables for this change
+      time = journable.send(:current_time_from_proper_timezone)
+      attributes = journable.send(:timestamp_attributes_for_update_in_model)
+
+      timestamps = Hash[attributes.map { |column| [column, time] }]
+      journable.update_columns(timestamps) if timestamps.any?
     end
   end
 

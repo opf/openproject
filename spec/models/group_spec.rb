@@ -83,4 +83,17 @@ describe Group, type: :model do
       end
     end
   end
+
+  describe 'preference' do
+    %w{preference
+       preference=
+       build_preference
+       create_preference
+       create_preference!}.each do |method|
+
+      it "should not respond to #{method}" do
+        expect(group).to_not respond_to method
+      end
+    end
+  end
 end

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,12 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Status < ActiveRecord::Base
-  generator_for :name, method: :next_name
-
-  def self.next_name
-    @last_name ||= 'Status 0'
-    @last_name.succ!
-    @last_name
+FactoryGirl.define do
+  factory :issue_priority do
+    sequence(:name) { |n| "IssuePriority #{n}" }
   end
 end

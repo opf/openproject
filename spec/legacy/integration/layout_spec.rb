@@ -32,6 +32,10 @@ require 'legacy_spec_helper'
 describe 'Layout' do
   fixtures :all
 
+  def document_root_element
+    html_document.root
+  end
+
   specify 'browsing to a missing page should render the base layout' do
     get '/users/100000000'
 
@@ -56,15 +60,17 @@ describe 'Layout' do
   end
 
   specify 'page titles should be properly escaped' do
-    project = Project.generate(name: 'C&A', is_public: true)
+    project = FactoryGirl.create(:project, name: 'C&A', is_public: true)
 
     with_settings app_title: '<3' do
       get "/projects/#{project.to_param}"
 
-      html_node = HTML::Document.new(response.body)
+      def title_html
+        title = document_root_element.at('//title') and title.inner_html
+      end
 
-      assert_select html_node.root, 'title', /C&amp;A/
-      assert_select html_node.root, 'title', /&lt;3/
+      expect(title_html).to match /C&amp;A/
+      expect(title_html).to match /&lt;3/
     end
   end
 end
