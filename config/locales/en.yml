@@ -1375,7 +1375,7 @@ en:
       info: "Deleting the repository is an irreversible action."
       linked_text: "You're about to remove the linked repository %{url} from the project %{project_name}.\nNote: This will NOT delete the contents of this repository, as it is not managed by OpenProject."
       managed_path_note: "The following directory will be erased: %{path}"
-      title: "Do you really want to delete the repository %{name}?"
+      title: "Do you really want to delete the %{type} of the project %{project_name}?"
     errors:
       build_failed: "Unable to create the repository with the selected configuration. %{reason}"
       empty_repository: "The repository exists, but is empty. It does not contain any revisions yet."

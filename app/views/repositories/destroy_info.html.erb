@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= styled_form_tag(project_repository_path(@project), method: :delete, class: 'danger-zone') do %>
   <section class="form--section">
     <h3 class="form--section-title">
-      <%= l('repositories.destroy.title', name: "<em>#{h(@repository.root_url)}</em>").html_safe %>
+      <%= l('repositories.destroy.title', type: "<em>#{h(@repository.repository_type)} - #{l(:project_module_repository)}</em>", project_name: h(@project.identifier)).html_safe %>
     </h3>
     <p>
       <%= l('repositories.destroy.confirmation', project_name: @project.identifier) %>

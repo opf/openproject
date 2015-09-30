@@ -93,7 +93,12 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
 
       span.icon,
       span.icon-context
+        display: inline-block
         vertical-align: middle
+        // This is an approximation necessary for vertical alignment (especially FF under Windows)
+        // This should be removable once the icon font is updated
+        // see: https://community.openproject.org/work_packages/21589/activity
+        margin-bottom: 0.0625em
         &:before
           padding-left: 0px
           color: $content-form-danger-zone-bg-color
