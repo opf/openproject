@@ -62,27 +62,10 @@ class WorkPackagesController < ApplicationController
   def show
     respond_to do |format|
       format.html do
-        render :show, locals: { work_package: work_package,
-                                project: project,
-                                priorities: priorities,
-                                user: current_user,
-                                ancestors: ancestors,
-                                descendants: descendants,
-                                changesets: changesets,
-                                relations: relations,
-                                journals: journals }
-      end
+        gon.settings = client_preferences
+        gon.settings[:enabled_modules] = @project ? @project.enabled_modules.collect(&:name) : []
 
-      format.js do
-        render :show, partial: 'show', locals: { work_package: work_package,
-                                                 project: project,
-                                                 priorities: priorities,
-                                                 user: current_user,
-                                                 ancestors: ancestors,
-                                                 descendants: descendants,
-                                                 changesets: changesets,
-                                                 relations: relations,
-                                                 journals: journals }
+        render :show, locals: { work_package: work_package }, layout: 'angular'
       end
 
       format.pdf do
@@ -186,7 +169,6 @@ class WorkPackagesController < ApplicationController
     render_attachment_warning_if_needed(work_package)
 
     if updated
-
       flash[:notice] = l(:notice_successful_update)
 
       redirect_back_or_default(work_package_path(work_package), false)
@@ -218,10 +200,10 @@ class WorkPackagesController < ApplicationController
         gon.settings = client_preferences
         gon.settings[:enabled_modules] = @project ? @project.enabled_modules.collect(&:name) : []
 
-        render :index, locals: { query: @query,
-                                 project: @project },
-                       layout: 'angular' # !request.xhr?
+        render :index, locals: { query: @query, project: @project },
+                       layout: 'angular'
       end
+
       format.csv do
         serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @query)
         charset = "charset=#{l(:general_csv_encoding).downcase}"
@@ -230,6 +212,7 @@ class WorkPackagesController < ApplicationController
         send_data(serialized_work_packages, type: "text/csv; #{charset}; header=present",
                                             filename: "#{title}.csv")
       end
+
       format.pdf do
         serialized_work_packages = WorkPackage::Exporter.pdf(@work_packages,
                                                              @project,
@@ -241,6 +224,7 @@ class WorkPackagesController < ApplicationController
                   type: 'application/pdf',
                   filename: 'export.pdf')
       end
+
       format.atom do
         render_feed(@work_packages,
                     title: "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
@@ -273,8 +257,13 @@ class WorkPackagesController < ApplicationController
                user: current_user }
 
     respond_to do |format|
-      format.js   do render partial: 'edit', locals: locals end
-      format.html do render action: 'edit', locals: locals end
+      format.js   do
+        render partial: 'edit', locals: locals
+      end
+
+      format.html do
+        render action: 'edit', locals: locals
+      end
     end
   end
 
@@ -288,13 +277,8 @@ class WorkPackagesController < ApplicationController
 
   def existing_work_package
     @existing_work_package ||= begin
-
-      wp = WorkPackage.includes(:project)
-           .find_by(id: params[:id])
-
-      wp && wp.visible?(current_user) ?
-        wp :
-        nil
+      wp = WorkPackage.includes(:project).find_by(id: params[:id])
+      wp && wp.visible?(current_user) ? wp : nil
     end
   end
 

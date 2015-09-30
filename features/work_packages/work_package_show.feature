@@ -41,11 +41,9 @@ Feature: Viewing a work package
       | name   | High |
     And there is a issuepriority with:
       | name   | Immediate |
-
     And there are the following types:
       | Name  | Is Milestone | In aggregation | Is default |
       | Phase | false        | true           | true       |
-
     And there is a role "member"
     And the role "member" may have the following rights:
       | manage_subtasks               |
@@ -63,61 +61,65 @@ Feature: Viewing a work package
     And there are the following issue status:
       | name        | is_closed  | is_default  |
       | New         | false      | true        |
-
     And there are the following issues in project "omicronpersei8":
       | subject | type | description | author |
       | issue1  | Bug  | "1"         | bob    |
       | issue2  | Bug  | "2"         | bob    |
       | issue3  | Bug  | "3"         | bob    |
-
     And there are the following work packages in project "omicronpersei8":
       | subject | start_date | due_date   |
       | pe1     | 2013-01-01 | 2013-12-31 |
       | pe2     | 2013-01-01 | 2013-12-31 |
-
     And the work package "issue1" has the following children:
       | issue2 |
-
     And the work package "pe1" has the following children:
       | pe2    |
-
     And I am already logged in as "bob"
 
+  @javascript
   Scenario: Call the work package page for an issue and view the issue
     When I go to the page of the work package "issue1"
-    Then I should see "Bug #1: issue1"
-    Then I should see "Bug #2: issue2" within ".idnt-1"
-    And I should see "0% Total progress"
+    Then I should see "issue1" within "#work-package-subject"
+    And  I should see "Bug #1" within ".work-packages--left-panel"
+     And I open the work package tab "Relations"
+    Then I should see "#2 issue2" within ".work-packages--right-panel"
+    # And I should see "0% Total progress"
 
+  @javascript @wip
   Scenario: View work package with issue done ratio disabled
     Given the "work_package_done_ratio" setting is set to disabled
     When I go to the page of the work package "issue1"
-    Then I should see "Bug #1: issue1"
-    And I should not see "Total progress"
+    Then I should see "#1 issue1" within ".work-packages--right-panel"
+    # And I should not see "Total progress"
 
+  @javascript
   Scenario: View child work package of type issue
     When I go to the page of the work package "issue1"
-    When I click on "Bug #2" within ".idnt-1"
-    Then I should see "Bug #2: issue2"
-    Then I should see "Bug #1: issue1" within ".work-package-1"
+    And I open the work package tab "Relations"
+    When I click on "#2 issue2" within ".work-packages--right-panel"
+    Then I should see "issue2" within "#work-package-subject"
+    And  I should see "Bug #2" within ".work-packages--left-panel"
+     And I open the work package tab "Relations"
+    Then I should see "#1 issue1" within ".work-packages--right-panel"
 
+  @javascript @wip
   Scenario: Add subtask leads to issue creation page for a parent issue
     When I go to the page of the work package "issue1"
     Then I should see "Add subtask"
     When I click on "Add subtask"
     Then I should be on the new work_package page of the project called "omicronpersei8"
 
-  @javascript
+  @javascript @wip
   Scenario: Adding a relation will add it to the list of related work packages through AJAX instantly
     When I go to the page of the work package "issue1"
-    And I click on "Add related work package"
-    And I fill in "relation_to_id" with "3"
-    And I press "Add"
-    And I wait for the AJAX requests to finish
+     And I click on "Add related work package"
+     And I fill in "relation_to_id" with "3"
+     And I press "Add"
+     And I wait for the AJAX requests to finish
     Then I should be on the page of the work package "issue1"
-    And I should see "related to Bug #3: issue3"
+     And I should see "related to Bug #3: issue3"
 
-  @javascript
+  @javascript @wip
   Scenario: Removing an existing relation will remove it from the list of related work packages through AJAX instantly
     Given a relation between "issue1" and "issue3"
     When I go to the page of the work package "issue1"
@@ -127,14 +129,29 @@ Feature: Viewing a work package
     Then I should be on the page of the work package "issue1"
     Then I should not see "Bug #3: issue3"
 
-  @javascript
+  @javascript @wip
+  Scenario: Watch and unwatch a work package
+    # Can't see watchers tab
+    When I go to the page of the work package "issue1"
+     And I open the work package tab "Watchers"
+    Then I should see "bob" within ".work-packages--right-panel"
+     And I click the unwatch work package button
+     And I go to the page of the work package "issue1"
+     And I open the work package tab "Watchers"
+    Then I should not see "bob" within ".work-packages--right-panel"
+     And I click the watch work package button
+     And I go to the page of the work package "issue1"
+     And I open the work package tab "Watchers"
+    Then I should see "bob" within ".work-packages--right-panel"
+
+  @javascript @wip
   Scenario: User adds herself as watcher to an issue
     When I go to the page of the work package "issue1"
     Then I should see "Watch" within "#content > .action_menu_specific"
     When I click "Watch" within "#content > .action_menu_specific"
     Then I should see "Unwatch" within "#content > .action_menu_specific"
 
-  @javascript
+  @javascript @wip
   Scenario: User removes herself as watcher from an issue
     Given user is already watching "issue1"
     When I go to the page of the work package "issue1"
@@ -146,21 +163,19 @@ Feature: Viewing a work package
   Scenario: Log time leads to time entry creation page for issues
     When I go to the page of the work package "issue1"
     When I select "Log time" from the action menu
-
     Then I should see "Spent time"
 
-  @javascript
+  @javascript @wip
   Scenario: For an issue copy leads to work package copy page
+    # Copy is somewhy not available
     When I go to the page of the work package "issue1"
     When I select "Copy" from the action menu
-
     Then I should see "Copy"
 
   @javascript
   Scenario: For an issue move leads to work package copy page
     When I go to the page of the work package "issue1"
     When I select "Move" from the action menu
-
     Then I should see "Move"
 
   @javascript
@@ -168,16 +183,15 @@ Feature: Viewing a work package
     When I go to the page of the work package "issue1"
     When I select "Delete" from the action menu
      And I confirm popups
-
     Then I should see "Work packages"
 
+  @javascript @wip
   Scenario: Description quoting link visible
     When I go to the page of the work package "issue1"
     Then I should see "Quote" within ".description"
 
-  @javascript
+  @javascript @wip
   Scenario: Description quoting link sets edit note
     When I go to the page of the work package "issue1"
      And I click on "Quote" within ".description"
-
     Then I should see "Bob Bobbit wrote:"

@@ -30,6 +30,7 @@ module Pages
   class Page
     include Capybara::DSL
     include RSpec::Matchers
+    include OpenProject::StaticRouting::UrlHelpers
 
     def current_page?
       URI.parse(current_url).path == path

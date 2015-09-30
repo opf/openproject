@@ -1,0 +1,242 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+body.controller-work_packages.action-show {
+  overflow-x: auto;
+
+  #content {
+    padding-bottom: 0;
+    position: relative;
+  }
+}
+
+.work-packages--show-view {
+  height: calc(100vh - 161px);
+
+  #toolbar {
+    @include clearfix;
+  }
+
+  .toolbar-container {
+    @include clearfix;
+    margin-bottom: 20px;
+  }
+
+  .subject-header {
+    float: left;
+    line-height: 34px;
+    padding: 10px 0 0 0;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-top: 0px;
+  }
+
+  .work-packages--split-view {
+    border-top: 1px solid #ccc;
+    overflow: hidden;
+    position: absolute;
+    padding-right: 20px;
+    top: 76px;
+    left: 20px;
+    right: 0px;
+    bottom: 0px;
+
+    &[cg-busy] {
+      overflow: visible;
+    }
+
+    .tabrow {
+      display: table;
+      margin: 0;
+      width: 100%;
+      height: 32px;
+
+      li {
+        display: table-cell;
+        margin-right: 15px;
+      }
+    }
+  }
+
+  .work-packages--left-panel {
+    border-right: 1px solid #ccc;
+    overflow-y: auto;
+    overflow-x: auto;
+    width: 60%;
+
+    .work-packages--panel-inner {
+      padding: 0px 20px 20px 0px;
+    }
+  }
+
+  .work-packages--right-panel {
+    min-width: 420px;
+
+    .work-packages--panel-inner {
+      padding: 2px 20px 20px 20px;
+    }
+  }
+
+  .work-packages--right-panel {
+    overflow-y: auto;
+    overflow-x: auto;
+    width: 40%;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      margin: 0;
+      padding: 0;
+
+      &.toolbar-item {
+        margin: 0 5px;
+      }
+    }
+
+    &.dropdown-menu {
+      li {
+        float: none;
+      }
+    }
+
+    button {
+      margin-right: 0;
+    }
+  }
+
+  .work-package-details-activities-activity-contents {
+    ul { padding-left: 2em; }
+  }
+
+  ul#toolbar-items {
+    @include clearfix;
+    float: right;
+    margin-top: 10px;
+
+    button {
+      margin-bottom: 0;
+    }
+
+    li {
+      float: left;
+      position: relative;
+
+      .dropdown {
+        top: 100% !important;
+        right: 0px !important;
+        left: auto !important;
+        margin-top: 0;
+
+        ul li {
+          float: none;
+        }
+      }
+    }
+  }
+
+  ul.subject-header {
+    float: left;
+    width: 100%;
+    margin-right: -300px;
+    padding-right: 300px;
+
+    .subject-header-inner {
+      white-space: nowrap;
+      width: 100%;
+      text-overflow: ellipsis;
+    }
+
+    li {
+      .inline-edit {
+        width: 100%;
+      }
+    }
+
+    .work-package-field.work-packages--details--subject {
+      .inplace-edit {
+        .inplace-edit--read {
+          display: block;
+          white-space: nowrap;
+          width: 100%;
+        }
+
+        .inplace-edit--read-value {
+          margin: 0;
+          padding: 0;
+
+          span {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  .activity-comment {
+    margin-top: 15px;
+  }
+}
+
+.nosidebar {
+  ul.subject-header {
+    width: 67%;
+
+    li {
+      &.inline-edit {
+        width: 75%;
+      }
+    }
+  }
+}
+
+.work-packages--split-view  {
+  .inplace-edit.attribute-subject {
+    line-height: 24px;
+    margin-bottom: 16px;
+  }
+}
+
+@media only screen and (max-width: 1280px) {
+  .work-packages--details {
+    @at-root {
+      li[feature-flag=detailsView] {
+        display: block;
+      }
+    }
+  }
+}
+
+#work-packages-index {
+  .wiki-anchor {
+    display: none;
+  }
+}

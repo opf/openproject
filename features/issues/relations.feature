@@ -27,7 +27,6 @@
 #++
 
 Feature: Relating issues to each other
-
   Background:
     Given there is 1 user with the following:
       | login | bob |
@@ -49,9 +48,10 @@ Feature: Relating issues to each other
       | type    | Bug           |
     And I am already admin
 
-  @javascript
+  @javascript @wip
   Scenario: Adding a relation will add it to the list of related issues through AJAX instantly
     When I go to the page of the issue "Some Issue"
+    And I open the work package tab "Relations"
     And I click on "Add related work package"
     And I fill in "relation_to_id" with "2"
     And I press "Add"
@@ -59,7 +59,7 @@ Feature: Relating issues to each other
     Then I should be on the page of the issue "Some Issue"
     And I should see "related to Bug #2: Another Issue"
 
-  @javascript
+  @javascript @wip
   Scenario: Adding a relation to an issue with special chars in subject should not end in broken html
     Given the user "bob" has 1 issue with the following:
       | subject | Anothe'r & Issue |
@@ -71,4 +71,3 @@ Feature: Relating issues to each other
     And I wait for the AJAX requests to finish
     Then I should be on the page of the issue "Some Issue"
     And I should see "related to Bug #3: Anothe'r & Issue"
-

@@ -51,19 +51,21 @@ Feature: Watch issues
       | subject     | issue1              |
     And I am already logged in as "bob"
 
-  @javascript
+  @javascript @wip
   Scenario: Watch an issue
     When I go to the page of the issue "issue1"
-    Then I should see "Watch" within "#content > .action_menu_specific"
-    When I click on "Watch" within "#content > .action_menu_specific"
-    Then I should see "Unwatch" within "#content > .action_menu_specific"
+    Then I should find "#watch-button"
+    #Then I should see "Watch" within "#content > .action_menu_specific"
+    When I click on "watch-button" within "#toolbar-items"
+    Then I should find ".button--icon.icon-not-watch" within "#toolbar-items"
+    #Then I should see "Unwatch" within "#content > .action_menu_specific"
     # The space before and after 'Watch' is important as 'Unwatch' includes the
     # string 'watch' if matched case insenstivive.
     And  I should not see " Watch " within "#content > .action_menu_specific"
      And I should see "Bob Bobbit" within "#watchers ul"
      And the issue "issue1" should have 1 watchers
 
-  @javascript
+  @javascript @wip
   Scenario: Unwatch an issue
     Given the issue "issue1" is watched by:
       | bob |
@@ -77,14 +79,14 @@ Feature: Watch issues
      And I should not see "Bob Bobbit" within "#watchers"
      And the issue "issue1" should have 0 watchers
 
-  @javascript
+  @javascript @wip
   Scenario: Add a watcher to an issue
     When I go to the page of the issue "issue1"
-    Then I should see button "Add watcher"
-    When I click on "Add watcher" within "#watchers"
-    And I select "Bob Bobbit" from "watcher_user_id" within "#watchers"
-    And I press "Add" within "#watchers"
-    Then I should see "Bob Bobbit" within "#watchers ul"
+    Then I click on "Watchers" within "#tabs"
+    When I click on ".ui-select-match" within "#detail-panel-watchers"
+    Then I click on "Bob Bobbit" within "#detail-panel-watchers"
+    And I click on ".icon-button.icon-yes" within "#detail-panel-watchers"
+    Then I should see "Bob Bobbit" within "#detail-panel-watchers"
      And the issue "issue1" should have 1 watchers
 
   @javascript
@@ -92,7 +94,8 @@ Feature: Watch issues
     Given the issue "issue1" is watched by:
       | bob |
     When I go to the page of the issue "issue1"
-    Then I should see "Bob Bobbit" within "#watchers ul"
-    When I click on "Delete" within "#watchers ul"
-    Then I should not see "Bob Bobbit" within "#watchers"
+    Then I click on "Watchers" within "#tabs"
+    Then I should see "Bob Bobbit" within "#detail-panel-watchers"
+    Then I click on hidden ".remove-watcher-btn"
+    Then I should not see "Bob Bobbit" within "#detail-panel-watchers"
      And the issue "issue1" should have 0 watchers

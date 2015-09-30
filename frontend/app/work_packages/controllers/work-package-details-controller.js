@@ -41,6 +41,7 @@ module.exports = function($scope,
     UsersHelper,
     ConfigurationService,
     WorkPackageService,
+    ActivityService,
     CommonRelationsHandler,
     ChildrenRelationsHandler,
     ParentRelationsHandler,
@@ -50,7 +51,7 @@ module.exports = function($scope,
     latestTab.registerState(toState.name);
   });
 
-  $scope.$on('workPackageRefreshRequired', function(e, callback) {
+  $rootScope.$on('workPackageRefreshRequired', function(e, callback) {
     refreshWorkPackage(callback);
   });
 
@@ -71,9 +72,6 @@ module.exports = function($scope,
         }
       });
   }
-  $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
-  $rootScope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
-
   // Inform parent that work package is loaded so back url can be maintained
   $scope.$emit('workPackgeLoaded');
 
@@ -179,34 +177,7 @@ module.exports = function($scope,
     return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
   };
 
-  $scope.isInitialActivity = function(activity, activityNo) {
-    var type = activity.props._type,
-      activities = $scope.activities;
-
-
-    // Type must be Activity
-    if (type.indexOf('Activity') !== 0) {
-      return false;
-    }
-
-    // Shortcut, activityNo is 1 and its an Activity
-    if (activityNo === 1) {
-      return true;
-    }
-
-    // Otherwise, the current acitity may be initial if ALL other preceding activites are
-    // other types.
-    while (--activityNo > 0) {
-      var index = ($scope.activitiesSortedInDescendingOrder ?
-                    activities.length - activityNo : activityNo - 1);
-
-      if (activities[index].props._type.indexOf('Activity') === 0) {
-        return false;
-      }
-    }
-
-    return true;
-  };
+  $scope.isInitialActivity = ActivityService.isInitialActivity;
 
   function aggregateActivities(workPackage) {
     // Do not yet add any intermittent result to the scope,

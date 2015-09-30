@@ -67,6 +67,9 @@ describe('userActivity Directive', function() {
           scope.workPackage = {
             links: {
               addComment: true
+            },
+            props: {
+              id: null
             }
           };
           scope.activity = {

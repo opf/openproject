@@ -116,12 +116,15 @@ end
 Then /^the work package "(.+?)" should be shown as the parent$/ do |wp_name|
   work_package = InstanceFinder.find(WorkPackage, wp_name)
 
-  should have_css('tr.work-package', text: Regexp.new(".*#{work_package.to_s}.*"))
+  step "I open the work package tab \"Relations\""
+  within('.tabcontent') do
+    should have_content(work_package.to_s)
+  end
 end
 
 Then /^the work package should be shown with the following values:$/ do |table|
   table_attributes = table.raw.select { |k, _v|
-    !['Subject', 'Type', 'Description'].include?(k)
+    !['Subject', 'Description'].include?(k)
   }
 
   table_attributes.each do |key, value|
@@ -129,14 +132,14 @@ Then /^the work package should be shown with the following values:$/ do |table|
     should have_css("dd.#{label[:class].split(' ').last}", text: value)
   end
 
-  if table.rows_hash['Type'] || table.rows_hash['Subject']
+  if table.rows_hash['Subject']
     expected_header = Regexp.new("#{table.rows_hash['Type']}\\s?#\\d+: #{table.rows_hash['Subject']}", Regexp::IGNORECASE)
 
-    should have_css('h2', text: expected_header)
+    should have_css('.subject-header', text: expected_header)
   end
 
   if table.rows_hash['Description']
-    should have_css('.description', text: table.rows_hash['Description'])
+    should have_css('.work-packages--details--description', text: table.rows_hash['Description'])
   end
 end
 
@@ -144,4 +147,28 @@ Then(/^the attribute "(.*?)" of work package "(.*?)" should be "(.*?)"$/) do |at
   wp = WorkPackage.find_by(subject: wp_name)
   wp ||= WorkPackages.where('subject like ?', wp_name).to_sql
   wp.send(attribute).to_s.should == value
+end
+
+When /^I open the work package tab "(.+?)"$/ do |tab_label|
+  within('#tabs') do
+    click_link tab_label
+  end
+end
+
+When /^I click the edit work package button$/ do
+  within('#toolbar-items') do
+    find('button[title=Edit]').click
+  end
+end
+
+When /^I click the watch work package button$/ do
+  within('#toolbar-items') do
+    find('#watch-button').click
+  end
+end
+
+When /^I click the unwatch work package button$/ do
+  within('#toolbar-items') do
+    find('#unwatch-button').click
+  end
 end

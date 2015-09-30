@@ -39,7 +39,7 @@ describe('details pane', function() {
     var dateInput, datePicker;
     describe('date editable', function() {
       beforeEach(function() {
-        detailsPaneHelper.loadPane(819, 'overview');
+        detailsPaneHelper.loadPane(819, 'activity');
 
         dateInput = element(by.css('.inplace-edit.attribute-customField9'));
       });

@@ -29,15 +29,16 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'New work package', type: :feature do
+describe 'Create work package', type: :feature do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 
   before do allow(User).to receive(:current).and_return(user) end
 
-  describe 'Datepicker', js: true do
+  describe 'first day in datepicker', js: true do
     shared_examples_for 'first week day set' do |locale: :de|
+      pending
       let(:datepicker_selector) { '#ui-datepicker-div table.ui-datepicker-calendar thead tr th:nth-of-type(2)' }
 
       before do
@@ -47,34 +48,35 @@ describe 'New work package', type: :feature do
         work_packages_page.visit_new
 
         # Fill in the date, as a simple click does not seem to trigger the datepicker here
-        fill_in 'Start date', with: DateTime.now.strftime('%Y-%m-%d')
+        sleep 1
+        fill_in 'Start date', with: Time.new(2015, 8, 1).strftime('%Y-%m-%d')
       end
 
       it { expect(page).to have_selector(datepicker_selector, text: day_acronym) }
     end
 
-    context 'Monday' do
+    context 'is Monday' do
       it_behaves_like 'first week day set' do
         let(:day_of_week) { 1 }
         let(:day_acronym) { 'Mo' }
       end
     end
 
-    context 'Sunday' do
+    context 'is Sunday' do
       it_behaves_like 'first week day set' do
         let(:day_of_week) { 7 }
         let(:day_acronym) { 'So' }
       end
     end
 
-    context 'Saturday' do
+    context 'is Saturday' do
       it_behaves_like 'first week day set' do
         let(:day_of_week) { 6 }
         let(:day_acronym) { 'Sa' }
       end
     end
 
-    context 'Language-specific' do
+    context 'is locale specific' do
       it_behaves_like 'first week day set' do
         let(:day_of_week) { nil }
         let(:day_acronym) { 'Mo' }

@@ -285,7 +285,9 @@ Then /^(?:|I )should have the following query string:$/ do |expected_pairs|
 end
 
 Then /^show me the page$/ do
-  save_and_open_page
+  # save_and_open_page
+  sleep 2 # sleep to ensure page has been fully loaded
+  save_and_open_screenshot
 end
 
 # newly generated until here

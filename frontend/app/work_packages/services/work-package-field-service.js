@@ -113,8 +113,9 @@ module.exports = function(
   }
 
   function getValue(workPackage, field, isReadMode) {
-    var payload = isReadMode ? workPackage : workPackage.form.embedded.payload;
-    //var payload = workPackage;
+    var embedded = !isReadMode && workPackage.form && workPackage.form.embedded.payload;
+    var payload = embedded || workPackage;
+
     if (field === 'date') {
       if(isMilestone(workPackage)) {
         return payload.props['dueDate'];
@@ -362,9 +363,7 @@ module.exports = function(
 
     var value = workPackage.props[field];
     if (_.isUndefined(value)) {
-      // might be embedded
-      var isReadMode = true;
-      return WorkPackageFieldService.getValue(workPackage, field, isReadMode);
+      return WorkPackageFieldService.getValue(workPackage, field, true);
     }
 
     if (value === null) {
@@ -410,7 +409,7 @@ module.exports = function(
 
     $q.all(promises).then(function() {
       // Update work package after this call
-      $rootScope.refreshWorkPackage(callback);
+      $rootScope.$emit('workPackageRefreshRequired', callback);
       EditableFieldsState.errors = null;
       EditableFieldsState.submissionPromises = {};
       EditableFieldsState.currentField = null;

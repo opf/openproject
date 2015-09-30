@@ -2,13 +2,10 @@
      ng-mouseover="focus()"
      ng-mouseout="blur()">
   <div class="comments-number">
-    <span ui-sref="work-packages.list.details.activity.details({ activity_no: activityNo })">
-      <a name="{{ activityNo }}"
-         ng-bind="'#' + activityNo"
-         ng-focus="focus()"
-         ng-blur="blur()"
-         href="activity-#{{ activityNo }}"></a>
-    </span>
+    <activity-link work-package="workPackage"
+                   activity-no="activityNo"
+                   on-focus="focus()",
+                   on-blur="blur()"></activity-link>
     <div class="comments-icons"
          ng-focus="focus()"
          ng-blur="blur()"

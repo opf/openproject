@@ -40,25 +40,19 @@ Given(/^the work package "(.*?)" has the following changesets:$/) do |subject, t
 end
 
 Then(/^I should see the following changesets:$/) do |table|
-  displayed_changesets = all('#work_package-changesets .changeset')
-
   unless (unsupported = table.headers - ['revision', 'comments']).empty?
     raise ArgumentError, "#{unsupported.join(', ')} is unsupported. But you can change that."
   end
 
   table.hashes.each do |row|
-    displayed_changesets.any? { |displayed_changeset|
-      (!row[:revision] ||
-       (row[:revision] &&
-        displayed_changeset.has_selector?('a', text: I18n.t(:label_revision_id,
-                                                            value: row[:revision])))) &&
-        (row[:comments] ||
-         (row[:comments] &&
-          displayed_changeset.has_selector?('', text: row[:comments])))
-    }.should be_truthy
+    # this will only work with one revision as we do not have proper markup
+    # to identify different changesets
+    within('.work-package-details-activities-list .revision-activity--revision-link') do
+      should have_content("committed revision #{row[:revision]}")
+    end
   end
 end
 
 Then(/^I should not be presented changesets$/) do
-  should_not have_selector('#work_package-changesets .changeset')
+  should_not have_selector('.work-package-details-activities-list .revision-activity--revision-link')
 end

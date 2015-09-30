@@ -135,7 +135,7 @@ describe('WorkPackageDetailsController', function() {
 
     buildController = function() {
       var testState = {
-        current: { url: '/overview' }
+        current: { url: '/activity' }
       };
       scope = $rootScope.$new();
 

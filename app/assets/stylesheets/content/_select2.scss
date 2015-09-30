@@ -35,6 +35,10 @@
   /* Disabling rounded corners and drop shadow on result list */
   border-radius        : 0;
   box-shadow        : none;
+
+  .select2-results {
+    max-height: 55vh !important;
+  }
 }
 
 /* Hide upper half of select2-select widget */
@@ -126,12 +130,10 @@ $se2-results-max-height: 200px;
 $se-multiple-input-line-height: 19px;
 $se-multiple-tags-line-height: 19px;
 
-$se2-max-width: 350px;
 $se2-width: 100%;
 
 .select2-container {
   //Indirectly styling size of result list
-  max-width: $se2-max-width;
   width: $se2-width;
 
   .select2-choice {

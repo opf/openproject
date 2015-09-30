@@ -69,6 +69,8 @@ module.exports = function(
     scope.rejectedFiles = [];
     scope.size = ConversionService.fileSize;
 
+    scope.hasRightToUpload = !!(workPackage.links.addAttachment || workPackage.isNew);
+
     var currentlyRemoving = [];
     scope.remove = function(file) {
       currentlyRemoving.push(file);
