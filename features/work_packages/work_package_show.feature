@@ -79,7 +79,8 @@ Feature: Viewing a work package
   @javascript
   Scenario: Call the work package page for an issue and view the issue
     When I go to the page of the work package "issue1"
-    Then I should see "Bug #1: issue1"
+    Then I should see "issue1" within "#work-package-subject"
+    And  I should see "Bug #1" within ".work-packages--left-panel"
      And I open the work package tab "Relations"
     Then I should see "#2 issue2" within ".work-packages--right-panel"
     # And I should see "0% Total progress"
@@ -96,7 +97,8 @@ Feature: Viewing a work package
     When I go to the page of the work package "issue1"
     And I open the work package tab "Relations"
     When I click on "#2 issue2" within ".work-packages--right-panel"
-    Then I should see "Bug #2: issue2"
+    Then I should see "issue2" within "#work-package-subject"
+    And  I should see "Bug #2" within ".work-packages--left-panel"
      And I open the work package tab "Relations"
     Then I should see "#1 issue1" within ".work-packages--right-panel"
 
