@@ -199,7 +199,7 @@ class JournalManager
     journal_class_attributes = journal_class.columns.map(&:name)
 
     valid_journal_attributes = changed_data.select { |k, _v| journal_class_attributes.include?(k.to_s) }
-    valid_journal_attributes.except 'id', 'updated_at', 'updated_on'
+    valid_journal_attributes.except :id, :updated_at, :updated_on
   end
 
   def self.create_journal_data(_journal_id, type, changed_data)
