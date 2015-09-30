@@ -50,15 +50,7 @@ class Task < WorkPackage
   end
 
   def self.create_with_relationships(params, project_id)
-    task = new
-
-    task.author = User.current
-    task.project_id = project_id
-    task.type_id = Task.type
-
-    task.safe_attributes = params
-
-    if task.save
+    if task = create_with_relationships_without_move(params, project_id)
       task.move_after params[:prev]
     end
 
@@ -77,9 +69,7 @@ class Task < WorkPackage
   end
 
   def update_with_relationships(params, _is_impediment = false)
-    self.safe_attributes = params
-
-    save.tap do |result|
+    update_with_relationships_without_move(params).tap do |result|
       move_after(params[:prev]) if result
     end
   end
@@ -101,5 +91,25 @@ class Task < WorkPackage
   def rank
     @rank ||= WorkPackage.where(['type_id = ? and not parent_id is NULL and root_id = ? and lft <= ?', Task.type, story_id, lft]).count
     @rank
+  end
+
+  def self.create_with_relationships_without_move(params, project_id)
+    task = new
+
+    task.author = User.current
+    task.project_id = project_id
+    task.type_id = Task.type
+
+    task.safe_attributes = params
+
+    task.save
+
+    task
+  end
+
+  def update_with_relationships_without_move(params)
+    self.safe_attributes = params
+
+    save
   end
 end
