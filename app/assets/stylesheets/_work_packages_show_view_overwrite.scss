@@ -133,6 +133,10 @@ body.controller-work_packages.action-show {
     }
   }
 
+  .work-package-details-activities-activity-contents {
+    ul { padding-left: 2em; }
+  }
+
   ul#toolbar-items {
     @include clearfix;
     float: right;

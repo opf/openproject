@@ -35,6 +35,10 @@
   /* Disabling rounded corners and drop shadow on result list */
   border-radius        : 0;
   box-shadow        : none;
+
+  .select2-results {
+    max-height: 55vh !important;
+  }
 }
 
 /* Hide upper half of select2-select widget */
