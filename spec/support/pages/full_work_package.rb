@@ -26,56 +26,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'support/pages/page'
+
 module Pages
-  class Page
-    include Capybara::DSL
-    include RSpec::Matchers
-    include OpenProject::StaticRouting::UrlHelpers
+  class FullWorkPackage < Page
 
-    def current_page?
-      URI.parse(current_url).path == path
+    attr_reader :work_package
+
+    def initialize(work_package)
+      @work_package = work_package
     end
 
-    def visit!
-      raise 'No path defined' unless path
-
-      visit path
-
-      self
-    end
-
-    def accept_alert_dialog!
-      alert_dialog.accept if selenium_driver?
-    end
-
-    def dismiss_alert_dialog!
-      alert_dialog.dismiss if selenium_driver?
-    end
-
-    def alert_dialog
-      page.driver.browser.switch_to.alert
-    end
-
-    def has_alert_dialog?
-      if selenium_driver?
-        begin
-          page.driver.browser.switch_to.alert
-        rescue Selenium::WebDriver::Error::NoAlertPresentError
-          false
-        end
+    def expect_subject
+      within(container) do
+        expect(page).to have_content(work_package.subject)
       end
     end
 
-    def selenium_driver?
-      Capybara.current_driver.to_s.include?('selenium')
+    def expect_current_path
+      current_path = URI.parse(current_url).path
+      expect(current_path).to eql path
     end
 
-    def set_items_per_page!(n)
-      Setting.per_page_options = "#{n}, 50, 100"
+    private
+
+    def container
+      find('.work-packages--show-view')
     end
 
     def path
-      nil
+      work_package_path(work_package.id, "activity")
     end
   end
 end

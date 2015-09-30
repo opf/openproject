@@ -32,8 +32,6 @@ angular.module('openproject')
   '$stateProvider',
   '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider) {
-    var wpListStateCfg;
-
   // redirect to default activity tab when user lands at /work_packages/:id
   // TODO: Preserve #note-4 part of the URL.
   $urlRouterProvider.when('/work_packages/{id}', '/work_packages/{id}/activity');
@@ -71,7 +69,7 @@ angular.module('openproject')
           var wsPromise = WorkPackageService.getWorkPackage($stateParams.workPackageId);
 
           wsPromise.catch(function(){
-            location.href = '/projects'
+            location.href = '/projects';
           });
 
           return wsPromise;
@@ -110,10 +108,16 @@ angular.module('openproject')
       controllerAs: 'watchers'
     })
 
-    .state('work-packages.list', wpListStateCfg = {
-      url: '/projects/{projectPath}/work_packages?query_id&query_props',
+    .state('work-packages.list', {
+      url: '/{projects}/{projectPath}/work_packages?query_id&query_props',
       controller: 'WorkPackagesListController',
       templateUrl: '/templates/work_packages.list.html',
+      params: {
+        // value: null makes the parameter optional
+        // squash: true avoids duplicate slashes when the paramter is not provided
+        projectPath: { value: null, squash: true },
+        projects: { value: null, squash: true }
+      },
       reloadOnSearch: false,
       // HACK
       // This is to avoid problems with the css depending on which page the
@@ -123,15 +127,12 @@ angular.module('openproject')
       // states, we need to remove the trigger used in the CSS The correct fix
       // would be to alter the CSS.
       onEnter: function(){
-        jQuery('body').addClass('action-index');
+        angular.element('body').addClass('action-index');
       },
       onExit: function(){
-        jQuery('body').removeClass('action-index');
+        angular.element('body').removeClass('action-index');
       }
-      })
-    .state('work-packages.list-all', _.extend(_.clone(wpListStateCfg), {
-        url: '/work_packages?query_id&query_props'
-      }))
+    })
     .state('work-packages.list.new', {
       url: '/create_new?type',
       controller: 'WorkPackageNewController',

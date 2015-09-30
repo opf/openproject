@@ -26,56 +26,49 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'support/pages/page'
+
 module Pages
-  class Page
-    include Capybara::DSL
-    include RSpec::Matchers
-    include OpenProject::StaticRouting::UrlHelpers
+  class WorkPackagesTable < Page
 
-    def current_page?
-      URI.parse(current_url).path == path
+    attr_reader :project
+
+    def initialize(project = nil)
+      @project = project
     end
 
-    def visit!
-      raise 'No path defined' unless path
-
-      visit path
-
-      self
-    end
-
-    def accept_alert_dialog!
-      alert_dialog.accept if selenium_driver?
-    end
-
-    def dismiss_alert_dialog!
-      alert_dialog.dismiss if selenium_driver?
-    end
-
-    def alert_dialog
-      page.driver.browser.switch_to.alert
-    end
-
-    def has_alert_dialog?
-      if selenium_driver?
-        begin
-          page.driver.browser.switch_to.alert
-        rescue Selenium::WebDriver::Error::NoAlertPresentError
-          false
-        end
+    def expect_work_package_listed(work_package)
+      within(table_container) do
+        expect(page).to have_content(work_package.subject)
       end
     end
 
-    def selenium_driver?
-      Capybara.current_driver.to_s.include?('selenium')
+    def open_split_view(work_package)
+      split_page = SplitWorkPackage.new(work_package, project)
+
+      page.driver.browser.mouse.double_click(row(work_package).native)
+
+      split_page
     end
 
-    def set_items_per_page!(n)
-      Setting.per_page_options = "#{n}, 50, 100"
+    def open_full_screen(work_package)
+      row(work_package).find_link(work_package.subject).click
+
+      FullWorkPackage.new(work_package)
     end
+
+    private
 
     def path
-      nil
+      project ? project_work_packages_path(project) : work_packages_path
+    end
+
+    def table_container
+      find('#content .work-package-table--container')
+    end
+
+    def row(work_package)
+      table_container.find("#work-package-#{work_package.id}")
     end
   end
 end

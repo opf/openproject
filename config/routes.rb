@@ -297,7 +297,11 @@ OpenProject::Application.routes.draw do
       resources :calendar, controller: 'calendars', only: [:index]
     end
 
-    resources :work_packages, only: [:new, :create] do
+    # Prevent the /*state route from overriding Rails' new
+    # view which is being used for e.g. duplicating work packages.
+    resources :work_packages, only: [:new]
+
+    resources :work_packages, only: [:create] do
       get :new_type, on: :collection
 
       collection do
@@ -305,19 +309,8 @@ OpenProject::Application.routes.draw do
         match '/report' => 'work_packages/reports#report', via: :get
       end
 
-      # Prevent the /*state route from overriding Rails' new and create
-      # view which is being used for e.g. duplicating work packages.
-      get '/new' => 'work_packages#new', on: :collection
-      post '/' => 'work_packages#create', on: :collection
-
       # states managed by client-side routing on work_package#index
-      get '/*state' => 'work_packages#index', on: :collection
-
-      # explicitly define index for preserving the order in which
-      # the path helpers are created - this otherwise leads to
-      # link_to { controller: ... } to point to the create_new path
-      get '/' => 'work_packages#index', on: :collection
-      get '/create_new' => 'work_packages#index', on: :collection
+      get '(/*state)' => 'work_packages#index', on: :collection, as: ''
     end
 
     resources :activity, :activities, only: :index, controller: 'activities'
@@ -430,7 +423,7 @@ OpenProject::Application.routes.draw do
     get '/bulk' => 'bulk#destroy'
   end
 
-  resources :work_packages, only: [:show, :edit, :update, :index] do
+  resources :work_packages, only: [:update, :index] do
     get :new_type, on: :member
 
     get :column_data, on: :collection # TODO move to API
@@ -454,10 +447,14 @@ OpenProject::Application.routes.draw do
 
     get 'quoted/:id', action: 'quoted', on: :collection
 
-    get '/edit' => 'work_packages#edit', on: :member # made explicit to avoid conflict with catch-all route
+    # states managed by client-side routing on work_package#index
+    get 'details/*state' => 'work_packages#index', on: :collection, as: :details
+
+    # made explicit to avoid conflict with catch-all client-side route
+    get '/edit' => 'work_packages#edit', on: :member
 
     # states managed by client-side (angular) routing on work_package#show
-    get '/:id(/:tab)' => 'work_packages#show', on: :collection
+    get '(/*state)' => 'work_packages#show', on: :member, as: ''
   end
 
   resources :versions, only: [:show, :edit, :update, :destroy] do

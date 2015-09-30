@@ -26,56 +26,44 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'support/pages/page'
+
 module Pages
-  class Page
-    include Capybara::DSL
-    include RSpec::Matchers
-    include OpenProject::StaticRouting::UrlHelpers
+  class SplitWorkPackage < Page
 
-    def current_page?
-      URI.parse(current_url).path == path
+    attr_reader :work_package,
+                :project
+
+    def initialize(work_package, project = nil)
+      @work_package = work_package
+      @project = project
     end
 
-    def visit!
-      raise 'No path defined' unless path
-
-      visit path
-
-      self
-    end
-
-    def accept_alert_dialog!
-      alert_dialog.accept if selenium_driver?
-    end
-
-    def dismiss_alert_dialog!
-      alert_dialog.dismiss if selenium_driver?
-    end
-
-    def alert_dialog
-      page.driver.browser.switch_to.alert
-    end
-
-    def has_alert_dialog?
-      if selenium_driver?
-        begin
-          page.driver.browser.switch_to.alert
-        rescue Selenium::WebDriver::Error::NoAlertPresentError
-          false
-        end
+    def expect_subject
+      within(details_container) do
+        expect(page).to have_content(work_package.subject)
       end
     end
 
-    def selenium_driver?
-      Capybara.current_driver.to_s.include?('selenium')
+    def expect_current_path
+      current_path = URI.parse(current_url).path
+      expect(current_path).to eql path
     end
 
-    def set_items_per_page!(n)
-      Setting.per_page_options = "#{n}, 50, 100"
+    private
+
+    def details_container
+      find('.work-packages--details')
     end
 
     def path
-      nil
+      state = "#{work_package.id}/overview"
+
+      if project
+        project_work_packages_path(project, "details/#{state}")
+      else
+        details_work_packages_path(state)
+      end
     end
   end
 end
