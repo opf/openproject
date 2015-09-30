@@ -26,37 +26,60 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+body.controller-work_packages.action-show {
+  overflow-x: auto;
+
+  #content {
+    padding-bottom: 0;
+    position: relative;
+  }
+}
+
 .work-packages--show-view {
+  height: calc(100vh - 161px);
+
+  #toolbar {
+    @include clearfix;
+  }
 
   .toolbar-container {
     @include clearfix;
-    margin-bottom: 1.6875rem;
+    margin-bottom: 20px;
   }
-
-  height: 100%;
 
   .subject-header {
     float: left;
-    line-height: 32px;
+    line-height: 34px;
     padding: 10px 0 0 0;
     font-weight: bold;
     font-size: 1.5rem;
+    margin-top: 0px;
   }
 
   .work-packages--split-view {
     border-top: 1px solid #ccc;
-    height: calc(100% - 120px);
     overflow: hidden;
-    position: relative;
+    position: absolute;
+    padding-right: 20px;
+    top: 76px;
+    left: 20px;
+    right: 0px;
+    bottom: 0px;
 
     &[cg-busy] {
       overflow: visible;
     }
 
     .tabrow {
-      margin: -16px -20px 0 -10px;
+      display: table;
+      margin: 0;
+      width: 100%;
+      height: 32px;
 
-      li { margin-right: 15px; }
+      li {
+        display: table-cell;
+        margin-right: 15px;
+      }
     }
   }
 
@@ -75,7 +98,7 @@
     min-width: 420px;
 
     .work-packages--panel-inner {
-      padding: 20px 20px 20px 20px;
+      padding: 2px 20px 20px 20px;
     }
   }
 
@@ -111,6 +134,7 @@
   }
 
   ul#toolbar-items {
+    @include clearfix;
     float: right;
     margin-top: 10px;
 
@@ -136,41 +160,38 @@
   }
 
   ul.subject-header {
-    float: none;
+    float: left;
+    width: 100%;
+    margin-right: -300px;
+    padding-right: 300px;
+
+    .subject-header-inner {
+      white-space: nowrap;
+      width: 100%;
+      text-overflow: ellipsis;
+    }
 
     li {
-      float: none;
-
-      &.type {
-        margin-right: 5px;
-        margin-bottom: 20px;
-        float: none;
-      }
-
-      &.inline-edit {
-        width: 100%;
-      }
-
-      .inplace-editing--container,
-      .inplace-editing--trigger-container,
-      .inplace-editing--trigger-link {
+      .inline-edit {
         width: 100%;
       }
     }
 
     .work-package-field.work-packages--details--subject {
-      margin-top: -1px;
-
       .inplace-edit {
         .inplace-edit--read {
           display: block;
           white-space: nowrap;
-          width: 98%;
+          width: 100%;
         }
 
         .inplace-edit--read-value {
           margin: 0;
           padding: 0;
+
+          span {
+            width: 100%;
+          }
         }
       }
     }
