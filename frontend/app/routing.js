@@ -87,6 +87,19 @@ angular.module('openproject')
             }
           };
         }
+      },
+      // HACK
+      // This is to avoid problems with the css depending on which page the
+      // browser starts from (deep-link). As we have CSS rules that change the
+      // layout drastically when on the show action (e.g. position: relative)
+      // and this should not be applied to the other states, we need to remove
+      // the trigger used in the CSS. The correct fix would be to alter the
+      // CSS.
+      onEnter: function(){
+        angular.element('body').addClass('action-show');
+      },
+      onExit: function(){
+        angular.element('body').removeClass('action-show');
       }
     })
     .state('work-packages.show.activity', {
