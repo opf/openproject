@@ -255,11 +255,7 @@ class JournalManager
   end
 
   def self.base_class(type)
-    supertype = type.ancestors.find { |a| a != type and a.is_a? Class }
-
-    supertype = type if supertype == ActiveRecord::Base
-
-    supertype
+    type.base_class
   end
 
   def self.create_association_data(journable, journal)
