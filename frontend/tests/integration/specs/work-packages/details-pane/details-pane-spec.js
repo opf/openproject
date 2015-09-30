@@ -38,7 +38,7 @@ describe('OpenProject', function() {
     });
 
     it('should be visible', function() {
-      expect($('.work-packages--details').isPresent()).to.eventually.be.true;
+      expect($('.work-packages--show-view').isPresent()).to.eventually.be.true;
     });
   });
 
