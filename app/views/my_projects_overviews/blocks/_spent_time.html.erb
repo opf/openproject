@@ -38,47 +38,94 @@ See doc/COPYRIGHT.md for more details.
 </div>
 
 <% if entries.any? %>
-    <table class="list time-entries">
-      <thead><tr>
-        <th><%= l(:label_activity) %></th>
-        <th><%= Project.model_name.human %></th>
-        <th><%= TimeEntry.human_attribute_name(:comments) %></th>
-        <th><%= TimeEntry.human_attribute_name(:hours) %></th>
-        <th></th>
-      </tr></thead>
-      <tbody>
-      <% entries_by_day.keys.sort.reverse.each do |day| %>
-          <tr class="odd">
-            <td><strong><%= day == Date.today ? l(:label_today).titleize : format_date(day) %></strong></td>
-            <td colspan="2"></td>
-            <td class="hours"><em><%= html_hours("%.2f" % entries_by_day[day].sum(&:hours).to_f) %></em></td>
-            <td></td>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table interactive-table class="generic-table time-entries">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--header-outer">
+                <div class="generic-table--header">
+                  <span>
+                    <%= l(:label_activity) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--header-outer">
+                <div class="generic-table--header">
+                  <span>
+                    <%= Project.model_name.human %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--header-outer">
+                <div class="generic-table--header">
+                  <span>
+                    <%= TimeEntry.human_attribute_name(:comments) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--header-outer">
+                <div class="generic-table--header">
+                  <span>
+                    <%= TimeEntry.human_attribute_name(:hours) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th></th>
           </tr>
-          <% entries_by_day[day].each do |entry| -%>
-              <tr class="time-entry" style="border-bottom: 1px solid #f5f5f5;">
-                <td class="activity"><%=h entry.activity %></td>
-                <td class="subject"><%=h entry.project %> <%= ' - '.html_safe + link_to_work_package(entry.work_package, :truncate => 50) if entry.work_package%></td>
-                <td class="comments"><%=h entry.comments %></td>
-                <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
-                <td align="center">
-                  <% if entry.editable_by?(@user) -%>
-                    <%= link_to icon_wrapper('icon-context icon-edit', t(:button_edit)),
-                                {:controller => '/timelog', :action => 'edit', :id => entry},
-                                :alt => l(:button_edit),
-                                :class => 'no-decoration-on-hover',
-                                :title => l(:button_edit) %>
-                    <%= link_to icon_wrapper('icon-context icon-delete', t(:button_delete)),
-                                {:controller => '/timelog', :action => 'destroy', :id => entry},
-                                :confirm => l(:text_are_you_sure),
-                                :method => :delete,
-                                :class => 'no-decoration-on-hover',
-                                :alt => l(:button_delete),
-                                :title => l(:button_delete) %>
-                  <% end -%>
-                </td>
-              </tr>
-          <% end -%>
-      <% end -%>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+        <% entries_by_day.keys.sort.reverse.each do |day| %>
+            <tr>
+              <td><strong><%= day == Date.today ? l(:label_today).titleize : format_date(day) %></strong></td>
+              <td ></td>
+              <td ></td>
+              <td class="hours"><em><%= html_hours("%.2f" % entries_by_day[day].sum(&:hours).to_f) %></em></td>
+              <td class="-short"></td>
+            </tr>
+            <% entries_by_day[day].each do |entry| -%>
+                <tr class="time-entry" style="border-bottom: 1px solid #f5f5f5;">
+                  <td class="activity"><%=h entry.activity %></td>
+                  <td class="subject"><%=h entry.project %> <%= ' - '.html_safe + link_to_work_package(entry.work_package, :truncate => 50) if entry.work_package%></td>
+                  <td class="comments"><%=h entry.comments %></td>
+                  <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
+                  <td class="buttons -short">
+                    <% if entry.editable_by?(@user) -%>
+                      <%= link_to icon_wrapper('icon-context icon-edit', t(:button_edit)),
+                                  {:controller => '/timelog', :action => 'edit', :id => entry},
+                                  :alt => l(:button_edit),
+                                  :class => 'no-decoration-on-hover',
+                                  :title => l(:button_edit) %>
+                      <%= link_to icon_wrapper('icon-context icon-delete', t(:button_delete)),
+                                  {:controller => '/timelog', :action => 'destroy', :id => entry},
+                                  :confirm => l(:text_are_you_sure),
+                                  :method => :delete,
+                                  :class => 'no-decoration-on-hover',
+                                  :alt => l(:button_delete),
+                                  :title => l(:button_delete) %>
+                    <% end -%>
+                  </td>
+                </tr>
+            <% end -%>
+        <% end -%>
+        </tbody>
+      </table>
+      <div class="generic-table--header-background"></div>
+    </div>
+  </div>
 <% end %>
