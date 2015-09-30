@@ -42,6 +42,10 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
   font-weight: normal
   vertical-align: middle
 
+%input--sizing
+  height: 40px
+  line-height: 22px
+
 // A general CSS class to be applied to forms using the above defined form style.
 // We can't define this on form itself as this would break a lot of existing forms.
 //
@@ -98,10 +102,12 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
       display: flex
 
       input
+        @extend %input--sizing
         flex-basis: 50%
         margin: 0 0.5rem 0 0
 
       .button.-highlight
+        @extend %input--sizing
         background: $content-form-danger-zone-bg-color
         color: $content-form-danger-zone-font-color
         border-color: $content-form-danger-zone-bg-color
