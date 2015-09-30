@@ -70,6 +70,7 @@ module.exports = function($timeout, FOCUSABLE_SELECTOR) {
     focusUiSelect: function(element) {
       $timeout(function() {
         element.find('.ui-select-match').trigger('click');
+        scrollIntoView(element);
       });
     },
 
@@ -90,6 +91,23 @@ module.exports = function($timeout, FOCUSABLE_SELECTOR) {
       focusSelect2ElementRecursiv(3);
     }
   };
+
+  // This function is used to scroll an opened select2-drop into view.
+  // Thus select boxes at the end of the page are shown completely and the user does not have to scroll.
+  var scrollIntoView = function(element){
+    $timeout(function() {
+      var dropDownElement = element.find('.select2-drop-active')[0]
+      dropDownElement.scrollIntoView();
+      element.find('.select2-choice').click(function(){
+        $timeout(function() {
+           // The second iteration is necessary to assure that the box is scrolled into view
+           // even when it has not been completly closed before (by click on close or save),
+           // but opened again by click on the choice field.
+          dropDownElement.scrollIntoView();
+        });
+      });
+    });
+  }
 
   return FocusHelper;
 };
