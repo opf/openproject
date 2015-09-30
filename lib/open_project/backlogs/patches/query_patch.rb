@@ -40,8 +40,12 @@ module OpenProject::Backlogs::Patches::QueryPatch
     base.class_eval do
       include InstanceMethods
 
-      add_available_column(QueryColumn.new(:story_points, sortable: "#{WorkPackage.table_name}.story_points"))
-      add_available_column(QueryColumn.new(:remaining_hours, sortable: "#{WorkPackage.table_name}.remaining_hours"))
+      add_available_column(QueryColumn.new(:story_points,
+                                           sortable: "#{WorkPackage.table_name}.story_points",
+                                           summable: true))
+      add_available_column(QueryColumn.new(:remaining_hours,
+                                           sortable: "#{WorkPackage.table_name}.remaining_hours",
+                                           summable: true))
 
       add_available_column(QueryColumn.new(:position,
                                            default_order: 'asc',
