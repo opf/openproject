@@ -537,6 +537,7 @@ DEPENDENCIES
   delayed_job_active_record (~> 4.0.2)
   equivalent-xml (~> 0.5.1)
   execjs (~> 2.4.0)
+  factory_girl (~> 4.5)
   factory_girl_rails (~> 4.5)
   faker
   fog (~> 1.23.0)
