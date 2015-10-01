@@ -93,5 +93,7 @@ openprojectCostsApp.run(['HookService',
   });
 }]);
 
+require('./services/cost-type-service');
 require('./work_packages/directives/cost-object-directive');
 require('./work_packages/directives/summarized-cost-entries-directive');
+require('./work_packages/directives/cost-entry-directive');
