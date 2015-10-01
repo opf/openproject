@@ -1,6 +1,6 @@
-# Installation of OpenProject 4.2 with Apache on Ubuntu 14.04. LTS
+# Installation of OpenProject 5.0 with Apache on Ubuntu 14.04. LTS
 
-This tutorial helps you to deploy OpenProject 4.2. Please, aware that:
+This tutorial helps you to deploy OpenProject 5.0. Please, aware that:
 
 This guide requires that you have a clean Ubuntu 14.04 x64 installation
 with administrative rights. We have tested the installation guide on an
@@ -140,7 +140,7 @@ v0.12.7
 [openproject@host] cd ~
 [openproject@host] git clone https://github.com/opf/openproject.git
 [openproject@host] cd openproject
-[openproject@host] git checkout v4.2.0 # please use actual current stable version v4.2.X
+[openproject@host] git checkout v5.0.0 # please use actual current stable version v5.0.X
 [openproject@host] gem install bundler
 [openproject@host] bundle install --deployment --without postgres sqlite rmagick development test therubyracer
 [openproject@host] npm install
@@ -196,6 +196,10 @@ production:                          #main level
   smtp_enable_starttls_auto: true
   smtp_authentication: plain
 ```
+
+Starting with 5.0, OpenProject directly manages your repositories. To
+use this feature you have to configure OpenProject as shown
+[here]:(../../subversion_and_git_integration.md).
 
 Add this line into `configuration.yml` file at the end of the file for
 a better performance of OpenProject:
