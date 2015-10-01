@@ -32,13 +32,12 @@ describe OpenProject::Acts::Watchable::Routes do
   let(:request) {
     Struct.new(:type, :id) do
       def path_parameters
-        { object_id: id,
-          object_type: type }
+        { object_id: id, object_type: type }
       end
     end.new(type, id)
   }
 
-  describe 'matches?' do
+  describe 'matches?', retry: 3, retry_wait: 5 do
     shared_examples_for 'watched model' do
       describe 'for a valid id string' do
         let(:id) { '1' }
