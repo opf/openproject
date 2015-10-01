@@ -131,9 +131,9 @@ describe StatusesController, type: :controller do
     before do
       status
 
-      put :update,
-          id: status.id,
-          status: { name: name }
+      patch :update,
+            id: status.id,
+            status: { name: name }
     end
 
     it_behaves_like :statuses
