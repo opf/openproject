@@ -90,7 +90,21 @@ body.controller-work_packages.action-show {
     width: 60%;
 
     .work-packages--panel-inner {
-      padding: 0px 20px 20px 0px;
+      padding: 2px 20px 20px 0px;
+
+      // These styles were taken over from the details tab styling.
+      // Thus the header and the details tab can be aligned on the same line.
+      .attributes-group:first-of-type {
+        margin-top: 0px;
+
+        .attributes-group--header-container {
+          padding-bottom: 2px;
+
+          h3.attributes-group--header-text {
+            line-height: $work-package-details--tab-height - 10px;
+          }
+        }
+      }
     }
   }
 
