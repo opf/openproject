@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module FileHelpers
+module LegacyFileHelpers
   module_function
 
   def mock_uploaded_file(name: 'test.txt',

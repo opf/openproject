@@ -50,7 +50,7 @@ module LegacyAssertionsAndHelpers
           a.file = uploaded_test_file a.disk_filename, a.attributes['content_type'],
                                       original_filename: a.attributes['filename']
         rescue # imaginary file: create it on-the-fly
-          a.file = FileHelpers.mock_uploaded_file name: a.attributes['filename'],
+          a.file = LegacyFileHelpers.mock_uploaded_file name: a.attributes['filename'],
                                                   content_type: a.attributes['content_type']
         end
 

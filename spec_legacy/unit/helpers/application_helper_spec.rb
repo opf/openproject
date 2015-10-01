@@ -47,7 +47,7 @@ describe ApplicationHelper, type: :helper do
 
     @issue = FactoryGirl.create :work_package, project: @project, author: @project_member, type: @project.types.first
 
-    file = FileHelpers.mock_uploaded_file name: 'logo.gif',
+    file = LegacyFileHelpers.mock_uploaded_file name: 'logo.gif',
                                           content_type: 'image/gif',
                                           content: 'not actually a gif',
                                           binary: true
