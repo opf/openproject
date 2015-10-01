@@ -63,7 +63,7 @@ class StatusesController < ApplicationController
     @status = Status.find(params[:id])
   end
 
-  verify method: :put, only: :update, render: { nothing: true, status: :method_not_allowed }
+  verify method: :patch, only: :update, render: { nothing: true, status: :method_not_allowed }
   def update
     @status = Status.find(params[:id])
     if @status.update_attributes(permitted_params.status)
