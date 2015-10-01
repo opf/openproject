@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
           </colgroup>
           <thead>
             <tr>
-              <th>
+              <th class="-short">
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
                     <span>
@@ -80,7 +80,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <tbody>
             <% for work_package in work_packages %>
               <tr id="work_package-<%= h(work_package.id) %>" class="hascontextmenu <%= work_package_css_classes(work_package) %>">
-                <td class="id">
+                <td class="id -short">
                   <%= check_box_tag("ids[]", work_package.id, false, :style => 'display:none;') %>
                   <%= link_to_work_package(work_package, :id_only => true) %>
                 </td>

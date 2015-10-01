@@ -89,8 +89,6 @@ table.generic-table
       line-height: 34px
       padding: 0
 
-      &.icon-table
-        //
       &.active-column
         background: #f8f8f8
       a
@@ -155,16 +153,11 @@ table.generic-table
           margin-top: 0.5rem
           margin-bottom: 0.5rem
 
-      &.checkbox
-        min-width: 0
-        width: 20px
-        line-height: 1
-      &.id
-        min-width: 0
+      &.-short
+        min-width: 50px
         width: 50px
+
       &.info
-        min-width: 0
-        width: 20px
         a
           text-decoration: none
           color: $body-font-color
@@ -221,6 +214,7 @@ table.generic-table
     & > .dropdown-indicator
       width: 1em
       text-align: right
+      overflow: visible
       min-width: 1em
 
   .generic-table--cell-controls
