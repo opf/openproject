@@ -528,7 +528,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                 include_context 'post request'
 
-                it 'should list all versions available for the project' do
+                it 'should list all versions available for the project', retry: 2, retry_wait: 5 do
                   expect(subject.body).to be_json_eql(version_link.to_json)
                     .at_path('_embedded/schema/version/_links/allowedValues/1/href')
                   expect(subject.body).to be_json_eql(other_version_link.to_json)

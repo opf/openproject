@@ -120,6 +120,24 @@ executing scenarios by name, e.g. `"cucumber:all[-n 'Adding an issue link']"`.
 Like with spaces in `cucumber:custom` arguments, task name and arguments
 have to be enclosed in quotation marks.
 
+#### Running cucumber features without rake
+
+Running cucumber features without going through `rake` is possible by using
+the following command
+
+`cucumber -r features features/my/path/to/cucumber.feature`
+
+It is also possible to run a certain cuke by passing a line number:
+
+`cucumber -r features features/my/path/to/cucumber.feature:123`
+
+You may also run cukes within a certain folder:
+
+`cucumber -r features features/my/path`
+
+**Note: `-r features` is required otherwise the step definitions cannot be found.**
+
+
 #### Shortcuts
 
 Here are two bash functions which allow using shorter commands for running
@@ -150,6 +168,50 @@ To activate selenium as test driver to test javascript on web pages, you can add
 You can always start a debugger using the step "And I start debugging".
 If you need Firebug and Firepath while debugging a scenario, just replace
 @javascript with @firebug.
+
+### Parallel testing
+
+Running tests in parallel makes usage of all available cores of the machine.
+Functionality is being provided by [parallel_tests](https://github.com/grosser/parallel_tests) gem.
+
+#### Prepare
+
+Adjust `database.yml` to use different databases:
+
+```yml
+test: &test
+  database: openproject_test<%= ENV['TEST_ENV_NUMBER'] %>
+  # ...
+```
+
+Create all databases: `rake parallel:create`
+
+Prepare all databases:
+
+`RAILS_ENV=test parallel_test -e "rake db:drop db:create db:migrate"`
+
+**Note: Until `rake db:schema:load` we have to use the command above. Then we
+can use `rake parallel:prepare`**
+
+
+#### RSpec legacy specs
+
+Run all legacy specs in parallel:
+
+`parallel_test -t rspec spec/legacy`
+
+#### RSpec specs
+
+Run all specs excluding legacy ones in parallel:
+
+`parallel_test -t rspec -o "--exclude-pattern 'spec/legacy/**/*'" spec`
+
+#### Cucumber
+
+Run all cucumber features in parallel:
+
+`parallel_test -t cucumber -o '-r features' features`
+
 
 ## For the fancy programmer
 

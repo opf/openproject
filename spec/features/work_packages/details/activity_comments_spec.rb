@@ -8,9 +8,7 @@ require 'features/work_packages/work_packages_page'
 describe 'activity comments', js: true do
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }
   let!(:work_package) {
-    FactoryGirl.create(:work_package,
-                       project: project,
-                       journal_notes: initial_comment)
+    FactoryGirl.create(:work_package, project: project, journal_notes: initial_comment)
   }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:selector) { '.work-packages--activity--add-comment' }
@@ -63,10 +61,6 @@ describe 'activity comments', js: true do
         field.activate_edition
       end
 
-      after do
-        field.cancel_by_click
-      end
-
       describe 'editing' do
         it 'buttons are disabled when empty' do
           expect(page).to have_selector("#{selector} .inplace-edit--control--save[disabled]")
@@ -74,39 +68,23 @@ describe 'activity comments', js: true do
       end
 
       describe 'submitting comment' do
-        it 'does not submit with enter' do
-          expect(UpdateWorkPackageService).not_to receive(:new)
-          field.input_element.set 'this is a comment'
-          field.submit_by_enter
-        end
-
-        it 'submits with click' do
-          expect(UpdateWorkPackageService).to receive(:new).and_call_original
-          field.input_element.set 'this is a comment!1'
-          field.submit_by_click
-
-          expect(page).to have_selector('.user-comment .message', text: 'this is a comment!1')
-        end
-
         it 'submits comments repeatedly' do
           expect(UpdateWorkPackageService).to receive(:new).twice.and_call_original
-          field.input_element.set 'this is my first comment!1'
+          field.input_element.set 'First comment'
           field.submit_by_click
 
           expect(page).to have_selector('.user-comment .message', count: 2)
-          expect(page).to have_selector('.user-comment .message',
-                                        text: 'this is my first comment!1')
+          expect(page).to have_selector('.user-comment .message', text: 'First comment')
 
           expect(field.editing?).to be false
           field.activate_edition
           expect(field.editing?).to be true
 
-          field.input_element.set 'this is my second comment!1'
+          field.input_element.set 'Second comment'
           field.submit_by_click
 
           expect(page).to have_selector('.user-comment .message', count: 3)
-          expect(page).to have_selector('.user-comment .message',
-                                        text: 'this is my second comment!1')
+          expect(page).to have_selector('.user-comment .message', text: 'Second comment')
         end
       end
 
@@ -115,16 +93,16 @@ describe 'activity comments', js: true do
           expect(UpdateWorkPackageService).not_to receive(:new)
         end
 
-        it 'cancels with escape' do
+        it 'cancels with escape or clicking cancel button' do
           expect(field.editing?).to be true
           field.input_element.set 'this is a comment'
           field.cancel_by_escape
           expect(field.editing?).to be false
-        end
 
-        it 'cancels with click' do
+          field.activate_edition
           expect(field.editing?).to be true
-          field.input_element.set 'this is a comment'
+          field.input_element.set 'this is a comment 2'
+
           field.cancel_by_click
           expect(field.editing?).to be false
         end
@@ -132,8 +110,7 @@ describe 'activity comments', js: true do
 
       describe 'quoting' do
         it 'can quote a previous comment' do
-          expect(page).to have_selector('.user-comment .message',
-                                        text: initial_comment)
+          expect(page).to have_selector('.user-comment .message', text: initial_comment)
 
           # Hover comment
           page.find('.work-package-details-activities-activity-contents').hover

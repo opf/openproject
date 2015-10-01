@@ -96,23 +96,17 @@ namespace :test do
 
   desc 'runs all tests'
   namespace :suite do
-    task run: [:cucumber, :spec, :test]
+    task run: [:cucumber, :spec, 'spec:legacy']
   end
 end
 
-task('spec').clear
 task('spec:legacy').clear
-
-desc 'Run all specs in spec directory (excluding plugin specs)'
-task spec: %w(spec:core spec:legacy)
 
 namespace :spec do
   desc 'Run the code examples in spec, excluding legacy'
   begin
     require 'rspec/core/rake_task'
-    RSpec::Core::RakeTask.new(core: 'spec:prepare') do |t|
-      t.exclude_pattern = 'spec/legacy/**/*_spec.rb'
-    end
+    RSpec::Core::RakeTask.new(core: :spec)
 
     desc 'Run the code examples in spec/legacy'
     task legacy: %w(legacy:unit legacy:functional legacy:integration)
@@ -120,8 +114,8 @@ namespace :spec do
       %w(unit functional integration).each do |type|
         desc "Run the code examples in spec/legacy/#{type}"
         RSpec::Core::RakeTask.new(type => 'spec:prepare') do |t|
-          t.pattern = "spec/legacy/#{type}/**/*_spec.rb"
-          t.exclude_pattern = ''
+          t.pattern = "spec_legacy/#{type}/**/*_spec.rb"
+          t.rspec_opts = '-I spec_legacy'
         end
       end
     end
@@ -131,7 +125,7 @@ namespace :spec do
   end
 end
 
-%w(test spec).each do |type|
+%w(spec).each do |type|
   if Rake::Task.task_defined?("#{type}:prepare")
     Rake::Task["#{type}:prepare"].enhance(['assets:webpack'])
   end

@@ -153,7 +153,7 @@ group :test do
   gem 'rspec-rails', '~> 3.3.0', group: :development
   gem 'rspec-activemodel-mocks', '~> 1.0.2', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
-  gem 'rspec-legacy_formatters'
+  # gem 'rspec-legacy_formatters'
   gem 'capybara', '~> 2.4.4'
   gem 'capybara-screenshot', '~> 1.0.4'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
@@ -170,6 +170,8 @@ group :test do
   gem 'activerecord-tableless', '~> 1.0'
   gem 'codecov', require: nil
   gem 'equivalent-xml', '~> 0.5.1'
+
+  gem 'rspec-retry'
 end
 
 group :ldap do
@@ -182,6 +184,7 @@ group :development do
   gem 'faker'
   gem 'quiet_assets'
   gem 'rubocop', '~> 0.32'
+  gem 'parallel_tests'
 end
 
 group :development, :test do
