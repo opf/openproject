@@ -245,6 +245,9 @@ module.exports = function() {
     apiV3TypePath: function(typeId) {
       return PathHelper.apiV3 + '/types/' + typeId;
     },
+    apiV3UserPath: function(userId) {
+      return PathHelper.apiV3 + '/users/' + userId;
+    },
     apiStatusesPath: function() {
       return PathHelper.apiV3 + '/statuses';
     },

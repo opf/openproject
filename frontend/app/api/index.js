@@ -29,5 +29,5 @@
 angular.module('openproject.api')
   .factory('HALAPIResource', ['$timeout',
       '$q',
-      'PathHelper', require('./hal-api-resource')
+      require('./hal-api-resource')
   ]);
