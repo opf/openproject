@@ -590,7 +590,7 @@ OpenProject::Application.routes.draw do
 
   # Install the default route as the lowest priority.
   get '/:controller(/:action(/:id))'
-  get '/robots' => 'welcome#robots', defaults: { format: :txt }
+  get '/robots' => 'homescreen#robots', defaults: { format: :txt }
 
   root to: 'account#login'
 end

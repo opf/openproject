@@ -28,9 +28,9 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 User-agent: *
 <% @projects.each do |p| -%>
-  Disallow: /projects/<%= p.to_param %>/repository
-Disallow: /projects/<%= p.to_param %>/issues
+Disallow: /projects/<%= p.to_param %>/repository
+Disallow: /projects/<%= p.to_param %>/work_packages
 Disallow: /projects/<%= p.to_param %>/activity
 <% end -%>
-Disallow: /issues/calendar
+Disallow: /work_packages/calendar
 Disallow: /activity
