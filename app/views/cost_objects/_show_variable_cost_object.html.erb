@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <div class="grid-content">
     <h4><%= VariableCostObject.human_attribute_name(:material_budget) %></h4>
     <div>
-      <div class="generic-table--container">
+      <div class="generic-table--container -with-footer">
         <div class="generic-table--results-container">
           <table interactive-table role="grid" class="generic-table material_budget_items">
             <colgroup>
@@ -81,12 +81,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                 <td class="currency"><%= material_budget_item.costs_visible_by?(User.current) ? number_to_currency(material_budget_item.costs) : "" %></td>
               </tr>
               <% end %>
-              <% if User.current.allowed_to?(:view_cost_rates, @project) %>
-              <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.material_budget) %></strong></td></tr>
-              <% end %>
             </tbody>
+            <% if User.current.allowed_to?(:view_cost_rates, @project) %>
+            <tfoot>
+              <tr>
+                <td class="currency">
+                  <div class="generic-table--footer-outer">
+                    <strong><%= number_to_currency(@cost_object.material_budget) %></strong>
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+            <% end %>
           </table>
           <div class="generic-table--header-background"></div>
+          <div class="generic-table--footer-background"></div>
         </div>
       </div>
     </div>
@@ -94,7 +103,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <div class="grid-content">
     <h4><%= l(:caption_material_costs) %></h4>
     <div>
-      <div class="generic-table--container">
+      <div class="generic-table--container -with-footer">
         <div class="generic-table--results-container">
           <table interactive-table role="grid" class="generic-table material_budget_items">
             <colgroup>
@@ -109,7 +118,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
                     <span>
-                      <%= MaterialBudgetItem.human_attribute_name(:units) %>
+                      <%= MaterialBudgetItem.human_attribute_name(:units)%>
                     </span>
                   </div>
                 </div>
@@ -151,12 +160,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                   result = CostEntry.new(cost_type: entry.cost_type, overridden_costs: 0.0, units: 0)
                   results[entry.cost_type.id.to_s] = result
                 end
-
-                result.overridden_costs += entry.real_costs
-                result.units += entry.units
-                results
-              end.values
-
+                  result.overridden_costs += entry.real_costs
+                  result.units += entry.units
+                  results
+                end.values
               entries.each do |c|
               %>
                 <tr>
@@ -167,12 +174,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                 </tr>
               <% end %>
               <% end %>
-              <% if User.current.allowed_to?(:view_cost_rates, @project) %>
-                <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.spent_material) %></strong></td></tr>
-              <% end %>
             </tbody>
+            <% if User.current.allowed_to?(:view_cost_rates, @project) %>
+            <tfoot>
+              <tr>
+                <td class="currency">
+                  <div class="generic-table--footer-outer">
+                    <strong><%= number_to_currency(@cost_object.spent_material) %></strong>
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+            <% end %>
           </table>
           <div class="generic-table--header-background"></div>
+          <div class="generic-table--footer-background"></div>
         </div>
       </div>
     </div>
@@ -180,12 +196,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 </div>
 
 <h3><%= l(:caption_labor) %></h3>
-
 <div class="grid-block">
   <div class="grid-content">
     <h4><%= VariableCostObject.human_attribute_name(:labor_budget)%></h4>
     <div>
-      <div class="generic-table--container">
+      <div class="generic-table--container -with-footer">
         <div class="generic-table--results-container">
           <table interactive-table role="grid" class="generic-table labor_budget_items">
             <colgroup>
@@ -249,12 +264,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                 <% end %>
               </tr>
               <% end %>
-              <% if User.current.allowed_to?(:view_hourly_rates, @project) || User.current.allowed_to?(:view_own_hourly_rate, @project) %>
-              <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.labor_budget) %></strong></td></tr>
-              <% end %>
             </tbody>
+            <% if User.current.allowed_to?(:view_hourly_rates, @project) || User.current.allowed_to?(:view_own_hourly_rate, @project) %>
+            <tfoot>
+              <tr>
+                <td class="currency">
+                  <div class="generic-table--footer-outer">
+                    <strong><%= number_to_currency(@cost_object.labor_budget) %></strong>
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+            <% end %>
           </table>
           <div class="generic-table--header-background"></div>
+          <div class="generic-table--footer-background"></div>
         </div>
       </div>
     </div>
@@ -262,7 +286,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <div class="grid-content">
     <h4><%= l(:caption_labor_costs) %></h4>
     <div>
-      <div class="generic-table--container">
+      <div class="generic-table--container -with-footer">
         <div class="generic-table--results-container">
           <table interactive-table role="grid" class="generic-table labor_budget_items">
             <colgroup>
@@ -336,11 +360,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                 </tr>
               <% end %>
             <% end %>
-              <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.spent_labor) %></strong></td></tr>
-
             </tbody>
+            <tfoot>
+              <tr>
+                <td class="currency">
+                  <div class="generic-table--footer-outer">
+                    <strong><%= number_to_currency(@cost_object.spent_labor) %></strong>
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
           </table>
           <div class="generic-table--header-background"></div>
+          <div class="generic-table--footer-background"></div>
         </div>
       </div>
     </div>
