@@ -31,7 +31,7 @@ require 'legacy_spec_helper'
 describe MailHandler, type: :model do
   fixtures :all
 
-  FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures/mail_handler'
+  FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
   before do
     allow(Setting).to receive(:notified_events).and_return(Redmine::Notifiable.all.map(&:name))

@@ -32,7 +32,7 @@ require 'mail_handler_controller'
 describe MailHandlerController, type: :controller do
   fixtures :all
 
-  FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures/mail_handler'
+  FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
   before do
     User.current = nil
