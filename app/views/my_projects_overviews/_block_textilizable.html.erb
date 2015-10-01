@@ -25,48 +25,49 @@ See doc/COPYRIGHT.md for more details.
       <div id="<%= block_name %>-form-div" style="display: none;" ng-non-bindable>
         <div class="box-actions">
           <a href="#" data-block-name="<%= block_name %>"
-             class="icon icon-cancel reset-textilizable"><%= l(:button_cancel) %></a>
+             class="icon icon-cancel reset-textilizable"
+             title=<%= l(:button_cancel) %>></a>
         </div>
         <div style="clear: right;"></div>
         <%= form_for :overview,
-                     :url => {:action => 'update_custom_element'},
-                     :html => {:id => "block_form_#{block_name.dasherize}",
-                               :class => nil,
-                               :method => :put,
-                               :multipart => true} do |f| %>
+                     url: {action: 'update_custom_element'},
+                     html: {id: "block_form_#{block_name.dasherize}",
+                               class:nil,
+                               method: :put,
+                               multipart: true} do |f| %>
 
               <%= hidden_field_tag 'block_name', block_name %>
               <%= text_field_tag "block_title_#{block_name}", block_title %>
-              <%= text_area_tag "textile_#{block_name}", textile, :cols => 40, :rows => 5, :class => 'wiki-edit' %>
+              <%= text_area_tag "textile_#{block_name}", textile, cols: 40, rows: 5, class: 'wiki-edit' %>
               <%= wikitoolbar_for "textile_#{block_name}" %>
             <p><label><%=l(:label_attachment_plural)%></label><br />
-              <%= render :partial => 'attachments/form' %>
+              <%= render partial: 'attachments/form' %>
             </p>
             <%= styled_button_tag l(:button_save),
-                :id => "#{block_name}-form-submit",
+                id: "#{block_name}-form-submit",
                 class: '-highlight -with-icon icon-yes' %>
         <% end %>
       </div>
       <div id="<%= block_name %>-preview-div" class="wiki">
         <div class="box-actions">
           <% unless User.current.anonymous? %>
-            <a href="#" class="icon icon-edit edit-textilizable" data-block-name="<%= block_name %>"><%= l(:button_edit) %></a>
+            <a href="#" class="icon icon-edit edit-textilizable" data-block-name="<%= block_name %>" title="<%= l(:button_edit) %>"></a>
           <% end %>
           <% if User.current.allowed_to?(:remove_block, nil, global: true) %>
-            <%= link_to_remote l(:button_delete), {
-                  :confirm => l(:label_confirm_delete),
-                :url => { :action => "remove_block", :block => block_name },
-                :class => "icon icon-delete"
+            <%= link_to_remote '', {
+                  confirm: l(:label_confirm_delete),
+                  url: { action: "remove_block", block: block_name },
+                  html: {class: "icon icon-delete", title: l(:button_delete)}
               }
             %>
           <% end %>
         </div>
       </div>
     <% end %>
-    <%= render :partial => "textilizable",
-      :locals => { :block_title => block_title,
-                   :textile => textile,
-                   :block_name => block_name }
+    <%= render partial: "textilizable",
+      locals: { block_title: block_title,
+                   textile: textile,
+                   block_name: block_name }
                  %>
   </div>
 </div>
