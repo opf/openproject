@@ -37,9 +37,9 @@ Feature: Credit unit costs
   @javascript
   Scenario: Crediting units costs to an work_package
     When I am already logged in as "manager"
-    And I go to the page of the issue "work_package1"
+    And I go to the page of the work package "work_package1"
     And I select "Log unit costs" from the action menu
     And I fill in "cost_entry_units" with "100"
     And I select "cost_type_1" from "Cost type"
     And I press "Save"
-    Then I should be on the page of the issue "work_package1"
+    Then I should be on the page of the work package "work_package1"
