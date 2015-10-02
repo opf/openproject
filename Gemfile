@@ -64,7 +64,7 @@ gem 'htmldiff'
 
 # generates SVG Graphs
 # used for statistics on svn repositories
-gem 'svg-graph'
+gem 'svg-graph', github: 'why-el/svg-graph', branch: 'silence-class-access-warning'
 
 gem 'date_validator', '~> 0.7.1'
 gem 'ruby-duration', '~> 3.2.0'
