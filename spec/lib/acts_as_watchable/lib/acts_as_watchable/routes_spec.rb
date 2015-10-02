@@ -37,7 +37,7 @@ describe OpenProject::Acts::Watchable::Routes do
     end.new(type, id)
   }
 
-  describe 'matches?', retry: 3, retry_wait: 5 do
+  describe 'matches?', retry: 3, retry_wait: 10 do
     shared_examples_for 'watched model' do
       describe 'for a valid id string' do
         let(:id) { '1' }
