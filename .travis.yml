@@ -79,9 +79,6 @@ script:
 
 notifications:
   email: false
-  webhooks:
-    urls:
-      - "https://webhooks.gitter.im/e/435ab5d5c6944305da2f"
 
 addons:
   firefox: "38.0esr"
