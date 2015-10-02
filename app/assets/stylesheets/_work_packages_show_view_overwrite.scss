@@ -28,15 +28,9 @@
 
 body.controller-work_packages.action-show {
   overflow-x: auto;
-
-  #content {
-    padding-bottom: 0;
-    position: relative;
-  }
 }
 
 .work-packages--show-view {
-  height: calc(100vh - 161px);
 
   #toolbar {
     @include clearfix;
