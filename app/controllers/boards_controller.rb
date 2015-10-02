@@ -60,7 +60,7 @@ class BoardsController < ApplicationController
       format.html do
         set_topics
 
-        gon.rabl 'app/views/messages/index.rabl'
+        gon.rabl template: 'app/views/messages/index.rabl'
         gon.project_id = @project.id
         gon.activity_modul_enabled = @project.module_enabled?('activity')
         gon.board_id = @board.id
@@ -75,7 +75,7 @@ class BoardsController < ApplicationController
       format.json do
         set_topics
 
-        gon.rabl 'app/views/messages/index.rabl'
+        gon.rabl template: 'app/views/messages/index.rabl'
 
         render template: 'messages/index'
       end
