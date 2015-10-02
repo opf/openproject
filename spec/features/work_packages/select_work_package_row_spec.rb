@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Select work package row', type: :feature do
+describe 'Select work package row', type: :feature, js:true, selenium: true do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:work_package_1) { FactoryGirl.create(:work_package, project: project) }
@@ -64,6 +64,7 @@ describe 'Select work package row', type: :feature do
 
     def select_work_package_row_with_shift(number)
       element = find(".work-package-table--container tr:nth-of-type(#{number}).issue td.id")
+
       page.driver.browser.action.key_down(:shift)
         .click(element.native)
         .key_up(:shift)
@@ -72,6 +73,7 @@ describe 'Select work package row', type: :feature do
 
     def select_work_package_row_with_ctrl(number)
       element = find(".work-package-table--container tr:nth-of-type(#{number}).issue td.id")
+
       page.driver.browser.action.key_down(:control)
         .click(element.native)
         .key_up(:control)
@@ -266,7 +268,9 @@ describe 'Select work package row', type: :feature do
     end
 
     describe 'specific selection' do
-      before do select_work_package_row_with_ctrl(1) end
+      before do
+        select_work_package_row_with_ctrl(1)
+      end
 
       it_behaves_like 'work package row selected' do
         # apparently it should be selected if there one row only
@@ -284,7 +288,9 @@ describe 'Select work package row', type: :feature do
         end
 
         context 'uninvolved row' do
-          before do check_row_selection_state(3) end
+          before do
+            check_row_selection_state(3)
+          end
 
           it_behaves_like 'work package row not selected' do
             let(:index) { 2 }

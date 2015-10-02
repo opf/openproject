@@ -62,16 +62,12 @@ feature 'Query menu items' do
   context 'with dots in their name' do
     let(:query) { FactoryGirl.create :public_query, name: 'OP 3.0', project: project }
 
-    def check(input_name)
-      find(:css, "input[name=#{input_name}]").set true
-    end
-
-    it 'can be added', js: true do
+    it 'can be added', js: true, selenium: true do
       visit_index_page(query)
 
       click_on 'Settings'
       click_on 'Share ...'
-      check 'show_in_menu'
+      check 'Show page in menu'
       click_on 'Save'
 
       notification.expect_success('Successful update')
