@@ -26,5 +26,3 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
---color
---exclude-pattern spec/legacy/**/*_spec.rb
