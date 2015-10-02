@@ -144,6 +144,9 @@ RSpec.configure do |config|
 
   # include spec/api for API request specs
   config.include RSpec::Rails::RequestExampleGroup, type: :request
+
+  # colorized rspec output
+  config.color = true
 end
 
 # Loads two files automatically from plugins:
