@@ -33,7 +33,7 @@ RSpec.feature 'Work package index view' do
   let(:project) { FactoryGirl.create(:project) }
 
   before do
-    allow(User).to receive(:current).and_return(user)
+    login_as(user)
   end
 
   scenario 'is reachable by clicking the sidebar menu item', js: true do

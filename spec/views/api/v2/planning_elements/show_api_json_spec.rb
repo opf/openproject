@@ -257,7 +257,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
 
     before do
       # prevents problems related to the journal not having a user associated
-      allow(User).to receive(:current).and_return(user)
+      login_as(user)
 
       allow(journal_1).to receive(:journable).and_return planning_element
       allow(journal_2).to receive(:journable).and_return planning_element

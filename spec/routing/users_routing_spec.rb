@@ -48,7 +48,7 @@ describe UsersController, type: :routing do
       let(:user) { FactoryGirl.create(:user) }
 
       before do
-        allow(User).to receive(:current).and_return(user)
+        login_as(user)
       end
 
       it {

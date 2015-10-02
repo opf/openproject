@@ -604,7 +604,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:user) { FactoryGirl.create(:user, member_in_project: project) }
 
         before do
-          allow(User).to receive(:current).and_return(user)
+          login_as(user)
           allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
         end
 

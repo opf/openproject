@@ -31,7 +31,7 @@ require 'spec_helper'
 describe MyController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   before(:each) do
-    allow(User).to receive(:current).and_return(user)
+    login_as(user)
   end
 
   describe 'password change' do

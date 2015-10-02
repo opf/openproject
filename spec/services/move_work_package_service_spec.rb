@@ -40,7 +40,7 @@ describe MoveWorkPackageService, type: :model do
   let(:instance) { MoveWorkPackageService.new(work_package, user) }
 
   before do
-    allow(User).to receive(:current).and_return(user)
+    login_as(user)
   end
 
   def mock_allowed_to_move_to_project(project, is_allowed = true)

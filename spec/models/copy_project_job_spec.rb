@@ -133,7 +133,7 @@ describe CopyProjectJob, type: :model do
 
   describe 'perform' do
     before do
-      allow(User).to receive(:current).and_return(user)
+      login_as(user)
       expect(User).to receive(:current=).with(user)
     end
 

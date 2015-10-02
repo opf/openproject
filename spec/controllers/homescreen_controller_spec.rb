@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe HomescreenController, type: :controller do
   before do
-    allow(User).to receive(:current).and_return(user)
+    login_as(user)
 
     # assume anonymous may access the page
     allow(Setting).to receive(:login_required?).and_return(false)

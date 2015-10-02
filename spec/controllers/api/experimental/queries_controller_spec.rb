@@ -253,7 +253,7 @@ describe Api::Experimental::QueriesController, type: :controller do
                                role_ids: [role.id])
           }
 
-          before { allow(User).to receive(:current).and_return(user) }
+          before { login_as(user) }
 
           context 'with other changes' do
             include_context 'expects policy to be followed', [:update, :publicize]

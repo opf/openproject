@@ -19,7 +19,7 @@ describe 'activity comments', js: true do
   include_context 'maximized window'
 
   before do
-    allow(User).to receive(:current).and_return(user)
+    login_as(user)
     allow(user.pref).to receive(:warn_on_leaving_unsaved).and_return('0')
   end
 

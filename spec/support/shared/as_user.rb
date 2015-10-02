@@ -38,7 +38,7 @@
 
 def as_logged_in_user(user, &_block)
   allow(@controller).to receive(:user_setup).and_return(user)
-  allow(User).to receive(:current).and_return(user)
+  login_as(user)
 
   yield
 end

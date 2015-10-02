@@ -46,7 +46,7 @@ describe VersionsController, type: :controller do
 
     context 'without additional params' do
       before do
-        allow(User).to receive(:current).and_return(user)
+        login_as(user)
         get :index, project_id: project.id
       end
 
@@ -67,7 +67,7 @@ describe VersionsController, type: :controller do
 
     context 'with showing completed versions' do
       before do
-        allow(User).to receive(:current).and_return(user)
+        login_as(user)
         get :index, project_id: project, completed: '1'
       end
 
@@ -91,7 +91,7 @@ describe VersionsController, type: :controller do
       let(:version4) { FactoryGirl.create(:version, project: sub_project) }
 
       before do
-        allow(User).to receive(:current).and_return(user)
+        login_as(user)
         version4
         get :index, project_id: project, with_subprojects: '1'
       end
@@ -116,7 +116,7 @@ describe VersionsController, type: :controller do
     render_views
 
     before do
-      allow(User).to receive(:current).and_return(user)
+      login_as(user)
       version2
       get :show, id: version2.id
     end
@@ -132,7 +132,7 @@ describe VersionsController, type: :controller do
   describe '#create' do
     context 'with vaild attributes' do
       before do
-        allow(User).to receive(:current).and_return(user)
+        login_as(user)
         post :create, project_id: project.id, version: { name: 'test_add_version' }
       end
 
@@ -148,7 +148,7 @@ describe VersionsController, type: :controller do
       render_views
 
       before do
-        allow(User).to receive(:current).and_return(user)
+        login_as(user)
         post :create, project_id: project.id, version: { name: 'test_add_version_from_issue_form' }, format: :js
       end
 
@@ -179,7 +179,7 @@ describe VersionsController, type: :controller do
     render_views
 
     before do
-      allow(User).to receive(:current).and_return(user)
+      login_as(user)
       version2
       get :edit, id: version2.id
     end
@@ -192,7 +192,7 @@ describe VersionsController, type: :controller do
 
   describe '#close_completed' do
     before do
-      allow(User).to receive(:current).and_return(user)
+      login_as(user)
       version1.update_attribute :status, 'open'
       version2.update_attribute :status, 'open'
       version3.update_attribute :status, 'open'
@@ -206,7 +206,7 @@ describe VersionsController, type: :controller do
   describe '#update' do
     context 'with valid params' do
       before do
-        allow(User).to receive(:current).and_return(user)
+        login_as(user)
         patch :update, id: version1.id,
                        version: { name: 'New version name',
                                   effective_date: Date.today.strftime('%Y-%m-%d') }
@@ -220,7 +220,7 @@ describe VersionsController, type: :controller do
     context "with valid params
              with a redirect url" do
       before do
-        allow(User).to receive(:current).and_return(user)
+        login_as(user)
         patch :update, id: version1.id,
                        version: { name: 'New version name',
                                   effective_date: Date.today.strftime('%Y-%m-%d') },
@@ -232,7 +232,7 @@ describe VersionsController, type: :controller do
 
     context 'with invalid params' do
       before do
-        allow(User).to receive(:current).and_return(user)
+        login_as(user)
         patch :update, id: version1.id,
                        version: { name: '',
                                   effective_date: Date.today.strftime('%Y-%m-%d') }
@@ -245,7 +245,7 @@ describe VersionsController, type: :controller do
 
   describe '#destroy' do
     before do
-      allow(User).to receive(:current).and_return(user)
+      login_as(user)
       @deleted = version3.id
       delete :destroy, id: @deleted
     end
@@ -258,7 +258,7 @@ describe VersionsController, type: :controller do
 
   describe '#status_by' do
     before do
-      allow(User).to receive(:current).and_return(user)
+      login_as(user)
     end
 
     context 'status by version' do

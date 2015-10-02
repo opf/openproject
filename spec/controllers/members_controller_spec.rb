@@ -106,7 +106,7 @@ describe MembersController, type: :controller do
     let(:params) { ActionController::Parameters.new('project_id' => project.identifier.to_s) }
 
     before do
-      allow(User).to receive(:current).and_return(user)
+      login_as(user)
     end
 
     describe "WHEN the user is authorized

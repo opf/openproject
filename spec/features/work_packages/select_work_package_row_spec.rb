@@ -40,7 +40,7 @@ describe 'Select work package row', type: :feature, retry: 3, retry_wait: 5 do
   include_context 'work package table helpers'
 
   before do
-    allow(User).to receive(:current).and_return(user)
+    login_as(user)
 
     work_package_1
     work_package_2

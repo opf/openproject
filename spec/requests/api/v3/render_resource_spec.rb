@@ -42,7 +42,7 @@ describe 'API v3 Render resource' do
   let(:context) { nil }
 
   before(:each) do
-    allow(User).to receive(:current).and_return(user)
+    login_as(user)
     post path, params, 'CONTENT_TYPE' => content_type
   end
 

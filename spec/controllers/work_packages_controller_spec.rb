@@ -1049,7 +1049,7 @@ describe WorkPackagesController, type: :controller do
                         journal_notes: notes } }
     }
 
-    before do allow(User).to receive(:current).and_return(user) end
+    before do login_as(user) end
 
     it_behaves_like 'valid preview' do
       let(:preview_texts) { [description, notes] }

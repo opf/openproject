@@ -45,7 +45,7 @@ describe 'Work package index accessibility', type: :feature do
   end
 
   before do
-    allow(User).to receive(:current).and_return(user)
+    login_as(user)
 
     work_package
   end

@@ -182,7 +182,7 @@ describe Project, type: :model do
                          roles: [role_copy_projects])
     }
     before do
-      allow(User).to receive(:current).and_return(user)
+      login_as(user)
     end
 
     context 'with permission to add subprojects' do
