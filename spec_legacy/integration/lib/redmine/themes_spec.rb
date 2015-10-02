@@ -46,15 +46,15 @@ describe 'Themes' do
     get '/'
 
     assert_response :success
-    assert_tag tag: 'link', attributes: { href: '/assets/default.css' }
+  assert_select 'link', attributes: { href: '/assets/default.css' }
   end
 
   xit 'test without theme js' do
     get '/'
 
     assert_response :success
-    assert_no_tag tag: 'script',
-                  attributes: { src: '/assets/default.js' }
+  assert_select 'script',
+                  attributes: { src: '/assets/default.js' }, false
   end
 
   xit 'test with theme js' do

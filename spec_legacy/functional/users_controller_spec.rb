@@ -82,7 +82,7 @@ describe UsersController, type: :controller do
     assert_template 'show'
     refute_nil assigns(:user)
 
-    assert_no_tag 'li', content: /Phone number/
+    assert_select 'li', content: /Phone number/, false
   end
 
   it 'should show should not fail when custom values are nil' do

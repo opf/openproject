@@ -43,7 +43,7 @@ describe SysController, type: :controller do
     assert_response :success
     assert_equal 'application/xml', response.content_type
     with_options tag: 'projects' do |test|
-      test.assert_tag children: { count:  Project.active.has_module(:repository).count }
+      test.assert_select children: { count:  Project.active.has_module(:repository).count }
     end
   end
 

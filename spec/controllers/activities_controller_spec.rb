@@ -69,7 +69,7 @@ describe ActivitiesController, type: :controller do
         render_views
 
         it do
-          assert_tag tag: 'h3',
+        assert_select 'h3',
                      content: /#{3.day.ago.to_date.day}/,
                      sibling: { tag: 'dl',
                                 child: { tag: 'dt',
@@ -137,7 +137,7 @@ describe ActivitiesController, type: :controller do
           before do get 'index', format: 'atom' end
 
           it do
-            assert_tag tag: 'entry',
+          assert_select 'entry',
                        child: { tag: 'link',
                                 attributes: { href: Regexp.new("/work_packages/#{wp_1.id}#") } }
           end

@@ -81,8 +81,8 @@ describe WorkflowsController, type: :controller do
                                            value: 'always',
                                            checked: nil }
     # unused
-    assert_no_tag tag: 'input', attributes: { type: 'checkbox',
-                                              name: 'status[1][1][]' }
+  assert_select 'input', attributes: { type: 'checkbox',
+                                              name: 'status[1][1][]' }, false
   end
 
   it 'should get edit with role and type and all statuses' do

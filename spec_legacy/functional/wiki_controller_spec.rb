@@ -473,7 +473,7 @@ describe WikiController, type: :controller do
     get :show, project_id: 1
     assert_response :success
     assert_template 'show'
-    assert_no_tag tag: 'a', attributes: { href: '/projects/1/wiki/CookBook_documentation/edit' }
+  assert_select 'a', attributes: { href: '/projects/1/wiki/CookBook_documentation/edit' }, false
   end
 
   it 'should edit unprotected page' do
