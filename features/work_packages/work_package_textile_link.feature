@@ -69,8 +69,8 @@ Feature: Work package textile quickinfo links
   Scenario: Adding a work package quickinfo link
     Given I am already logged in as "manager"
     When I go to the wiki page "testitest" for the project called "ecookbook"
-    And I fill in a 2 hashes quickinfo link to "January" for "content_text"
-    And I press "Save"
+     And I fill in a 2 hashes quickinfo link to "January" for "content_text"
+     And I press "Save"
     Then I should see a 2 hashes work package quickinfo link to "January" within "div.wiki"
     When I follow the 2 hashes work package quickinfo link to "January"
     Then I should see "January" within "#work-package-subject"
@@ -80,11 +80,12 @@ Feature: Work package textile quickinfo links
   Scenario: Adding a work package quickinfo link with description
     Given I am already logged in as "manager"
     When I go to the wiki page "testitest" for the project called "ecookbook"
-    And I fill in a 3 hashes quickinfo link to "January" for "content_text"
-    And I press "Save"
+     And I fill in a 3 hashes quickinfo link to "January" for "content_text"
+     And I press "Save"
     Then I should see a 3 hashes work package quickinfo link to "January" within "div.wiki"
     When I follow the 3 hashes work package quickinfo link to "January"
-    Then I should be on the page of the work package "January"
+    Then I should see "January" within "#work-package-subject"
+     And I should be on the page of the work package "January"
 
 
   Scenario: Adding a work package quickinfo link without the right to see the work package
