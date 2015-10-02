@@ -84,7 +84,7 @@ describe 'Repository Settings', type: :feature, js: true do
     end
   end
 
-  shared_examples 'manages the repository with' do |name, type|
+  shared_examples 'manages the repository with' do |name, type, repository_type, project_name|
     let(:repository) {
       FactoryGirl.create("repository_#{name}".to_sym,
                          scm_type: type,
@@ -93,8 +93,8 @@ describe 'Repository Settings', type: :feature, js: true do
     it_behaves_like 'manages the repository', type
   end
 
-  it_behaves_like 'manages the repository with', 'subversion', 'existing'
-  it_behaves_like 'manages the repository with', 'git', 'local'
+  it_behaves_like 'manages the repository with', 'subversion', 'existing', 'Subversion - Repository', 'project'
+  it_behaves_like 'manages the repository with', 'git', 'local', 'Git - Repository', 'project'
 
   context 'managed repositories' do
     include_context 'with tmpdir'

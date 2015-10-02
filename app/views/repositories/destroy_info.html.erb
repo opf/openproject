@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= styled_form_tag(project_repository_path(@project), method: :delete, class: 'danger-zone') do %>
   <section class="form--section">
     <h3 class="form--section-title">
-      <%= l('repositories.destroy.title', name: "<em>#{h(@repository.root_url)}</em>").html_safe %>
+      <%= l('repositories.destroy.title', repository_type: "<em>#{h(@repository.repository_type)} - #{l(:project_module_repository)}</em>", project_name: h(@project.identifier)).html_safe %>
     </h3>
     <p>
       <%= l('repositories.destroy.confirmation', project_name: @project.identifier) %>
@@ -56,7 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% else %>
 <div class="notification-box -warning">
   <div class="notification-box--content">
-    <p><strong><%= l('repositories.destroy.title', name: h(@repository.root_url)) %></strong><br /></p>
+    <p><strong><%= l('repositories.destroy.title', repository_type: "<em>#{h(@repository.repository_type)} - #{l(:project_module_repository)}</em>", project_name: h(@project.identifier)).html_safe %></strong><br /></p>
     <p>
       <%= simple_format l('repositories.destroy.linked_text',
                         project_name: @project.identifier, url: @repository.url) %>

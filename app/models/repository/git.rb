@@ -69,6 +69,10 @@ class Repository::Git < Repository
     "#{super}.git"
   end
 
+  def repository_type
+    'Git'
+  end
+
   ##
   # Git doesn't like local urls when visiting
   # the repository, thus always use the path.

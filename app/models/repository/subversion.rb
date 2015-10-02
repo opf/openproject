@@ -70,6 +70,10 @@ class Repository::Subversion < Repository
     scm.create_empty_svn
   end
 
+  def repository_type
+    'Subversion'
+  end
+
   def supports_directory_revisions?
     true
   end
