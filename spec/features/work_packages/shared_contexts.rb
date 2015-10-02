@@ -30,12 +30,14 @@
 # is needed for certain situations where the details pane must be visible
 
 shared_context 'maximized window' do
-  def maximize!
-    page.driver.browser.manage.window.maximize
-  end
+  # def maximize!
+  #   # page.driver.browser.manage.window.maximize
+  #   page.driver.resize(1900, 1200)
+  # end
 
   before do
-    maximize!
+    # maximize!
+    # page.driver.resize(1900, 1200)
   end
 end
 
