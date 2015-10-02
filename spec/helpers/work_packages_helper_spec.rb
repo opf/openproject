@@ -237,7 +237,7 @@ describe WorkPackagesHelper, type: :helper do
     let(:stub_custom_value) do
       FactoryGirl.build_stubbed(:work_package_custom_value, customized: stub_work_package,
                                                             custom_field: stub_custom_field,
-                                                            value: '5')
+                                                            value: true)
     end
 
     it 'should show the field name unchanged' do
