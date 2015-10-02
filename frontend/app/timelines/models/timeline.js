@@ -113,9 +113,7 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
     },
     isGrouping: function() {
       if ((this.options.grouping_one_enabled === 'yes' &&
-           this.options.grouping_one_selection !== undefined) ||
-          (this.options.grouping_two_enabled === 'yes' &&
-           this.options.grouping_two_selection !== undefined)) {
+           this.options.grouping_one_selection !== undefined)) {
         return true;
       } else {
         return false;
@@ -287,7 +285,6 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
         custom_fields                 : this.options.custom_fields,
         planning_element_status       : this.options.planning_element_status,
         grouping_one                  : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
-        grouping_two                  : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),
         ajax_defaults                 : this.ajax_defaults,
         current_time                  : this.comparisonCurrentTime(),
         target_time                   : this.comparisonTarget(),
@@ -330,10 +327,6 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
       try {
         window.clearTimeout(this.safetyHook);
 
-        if (this.isGrouping() && this.options.grouping_two_enabled) {
-          this.secondLevelGroupingAdjustments();
-        }
-
         tree = this.getLefthandTree();
         if (tree.containsPlanningElements() || tree.containsProjects()) {
           this.adjustForPlanningElements();
@@ -344,48 +337,6 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
       } catch (e) {
         this.die(e);
       }
-    },
-    /* This function calculates the second level grouping adjustments.
-     * For every base project it finds all associates with the given project type.
-     * It removes every such project from the trees root and adds it underneath the base project.
-     */
-    secondLevelGroupingAdjustments: function () {
-      var grouping = jQuery.map(this.options.grouping_two_selection || [], Timeline.pnum);
-      var root = this.getProject();
-      var associations = ProjectAssociation.all(this);
-      var listToRemove = [];
-
-      // for all projects on the first level
-      jQuery.each(root.getReporters(), function (i, reporter) {
-
-        // find all projects that are associated
-        jQuery.each(associations, function (j, association) {
-
-          // check if the reporter is involved and hasn't already been included by a second level grouping adjustment
-          if (!reporter.hasSecondLevelGroupingAdjustment && association.involves(reporter)) {
-            var other = association.getOther(reporter);
-            if (typeof other.getProjectType === "function") {
-              var projectType = other.getProjectType();
-              var projectTypeId = projectType !== null ? projectType.id : -1;
-
-              //check if the type is selected as 2nd level grouping
-              if (grouping.indexOf(projectTypeId) !== -1) {
-                // add the other project as a simulated reporter to the current one.
-                reporter.addReporter(other);
-                other.hasSecondLevelGroupingAdjustment = true;
-                // remove the project from the root level of the report.
-                listToRemove.push(other);
-
-              }
-            }
-          }
-        });
-      });
-
-      // remove all children of root that we couldn't remove while still iterating.
-      jQuery.each(listToRemove, function(i, reporter) {
-        root.removeReporter(reporter);
-      });
     }
   });
 

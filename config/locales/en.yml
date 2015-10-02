@@ -1719,8 +1719,6 @@ en:
       grouping_one: "First grouping criterion"
       grouping_one_phrase: "Is a subproject of"
       grouping_other: "Other"
-      grouping_two: "Second grouping criterion"
-      grouping_two_phrase: "Has a dependency to project type"
       hide_chart: "Hide chart"
       noneElement: "(none)"
       noneSelection: "(none)"

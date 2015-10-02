@@ -68,40 +68,6 @@ See doc/COPYRIGHT.rdoc for more details.
                       container_class: '-wide') %>
       </div>
       <div class="form--field">
-        <%= ff.check_box :grouping_two_enabled, { label: l('timelines.filter.grouping_two') }, 'yes', 'no' %>
-      </div>
-      <div class="form--field">
-        <% if User.current.impaired? %>
-          <%= ff.select(:grouping_two_selection,
-                     filter_select_with_none(
-                       timeline.available_grouping_project_types,
-                       :name, :id),
-                     {:selected => timeline.selected_grouping_project_types.map(&:id), label: l('timelines.filter.grouping_two_phrase') },
-                     {:multiple => true,
-                      :size => 12}) %>
-        <% else %>
-          <%= ff.select(:grouping_two_selection,
-                     options_for_select([]),
-                     { label: l('timelines.filter.grouping_two_phrase'),
-                       container_class: '-wide' },
-                     { :'data-ajaxURL' => api_v2_paginate_project_types_path,
-                       :multiple => true,
-                       :'data-selected' => filter_select(
-                                             timeline.selected_grouping_project_types,
-                                             :name, :id).to_json
-                     })
-          %>
-        <% end %>
-      </div>
-      <div class="form--field">
-        <%= ff.select(:grouping_two_sort,
-                      [[l('timelines.filter.sort.default'), '0'],
-                       [l('timelines.filter.sort.date'), '1'],
-                       [l('timelines.filter.sort.alphabet'), '2']],
-                      label: l('timelines.filter.sort.sortation'),
-                      container_class: '-wide' ) %>
-      </div>
-      <div class="form--field">
         <%= ff.check_box :hide_other_group, { label: I18n.t('timelines.filter.grouping_hide_group', :group => l('timelines.filter.grouping_other')) }, 'yes', 'no' %>
       </div>
     <% end %>

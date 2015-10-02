@@ -252,13 +252,6 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :'timelines.project_menu.reportings',
             html: { class: 'icon2 icon-status-reporting' }
 
-  menu.push :project_associations,
-            { controller: '/project_associations', action: 'index' },
-            param: :project_id,
-            caption: :'timelines.project_menu.project_associations',
-            if: Proc.new { |p| p.project_type.try :allows_association },
-            html: { class: 'icon2 icon-dependency' }
-
   menu.push :members,
             { controller: :members, action: :index },
             param: :project_id,
