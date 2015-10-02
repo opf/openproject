@@ -16,7 +16,7 @@ GIT
 
 GIT
   remote: git://github.com/why-el/svg-graph.git
-  revision: 7d7e77ac7adbafac671c26f55e6934f66e737dd3
+  revision: e79abffa66639ab203d099250c5d2656a4ebf917
   branch: silence-class-access-warning
   specs:
     svg-graph (1.0.2)
