@@ -50,11 +50,11 @@ env:
     - "TEST_SUITE=protractor"
     # mysql2
     - "TEST_SUITE=cucumber    DB=mysql2"
-    - "TEST_SUITE=spec:core   DB=mysql2"
+    - "TEST_SUITE=spec        DB=mysql2"
     - "TEST_SUITE=spec:legacy DB=mysql2"
     # postgres
     - "TEST_SUITE=cucumber    DB=postgres"
-    - "TEST_SUITE=spec:core   DB=postgres"
+    - "TEST_SUITE=spec        DB=postgres"
     - "TEST_SUITE=spec:legacy DB=postgres"
 
 before_install:
@@ -79,9 +79,6 @@ script:
 
 notifications:
   email: false
-  webhooks:
-    urls:
-      - "https://webhooks.gitter.im/e/435ab5d5c6944305da2f"
 
 addons:
   firefox: "38.0esr"

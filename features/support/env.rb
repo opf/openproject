@@ -33,7 +33,11 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
-require 'simplecov'
+if ENV['COVERAGE']
+  require 'simplecov'
+  SimpleCov.start 'rails'
+end
+
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'capybara-screenshot/cucumber'
@@ -61,6 +65,13 @@ Capybara.configure do |config|
   config.ignore_hidden_elements = true
   config.match = :one
   config.visible_text_only = true
+end
+
+unless (env_no = ENV['TEST_ENV_NUMBER'].to_i).zero?
+  Capybara.server_port = 8888 + env_no
+
+  # Give firefox some time to setup / load himself
+  sleep env_no * 5
 end
 
 Capybara.register_driver :selenium do |app|

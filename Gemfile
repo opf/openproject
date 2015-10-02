@@ -170,6 +170,8 @@ group :test do
   gem 'activerecord-tableless', '~> 1.0'
   gem 'codecov', require: nil
   gem 'equivalent-xml', '~> 0.5.1'
+
+  gem 'rspec-retry'
 end
 
 group :ldap do
@@ -182,6 +184,7 @@ group :development do
   gem 'faker'
   gem 'quiet_assets'
   gem 'rubocop', '~> 0.32'
+  gem 'parallel_tests'
 end
 
 group :development, :test do

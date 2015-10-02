@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -25,23 +26,33 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'legacy_spec_helper'
+require 'mail_handler_controller'
 
-Feature: Searching
-  Background:
-    Given there is 1 project with the following:
-      | identifier | project |
-      | name       | test-project |
-    And there are the following work packages in project "test-project":
-      | subject |
-      | wp1     |
-    And I am admin
+describe MailHandlerController, type: :controller do
+  fixtures :all
 
-  @javascript
-  Scenario: Searching stuff retains a project's scope
-    When I am on the overview page for the project called "test-project"
-     And I search globally for "stuff"
-     And I search for "wp1" after having searched
-    Then I should see "Overview" within "#main-menu"
-     And I click on "wp1" within "#search-results"
-    Then I should see "wp1" within "#work-package-subject"
-     And I should be on the page of the work package "wp1"
+  FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
+
+  before do
+    User.current = nil
+  end
+
+  it 'should _create_issue' do
+    # Enable API and set a key
+    Setting.mail_handler_api_enabled = 1
+    Setting.mail_handler_api_key = 'secret'
+
+    post :index, key: 'secret', email: IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+    assert_response 201
+  end
+
+  it 'should _not_allow' do
+    # Disable API
+    Setting.mail_handler_api_enabled = 0
+    Setting.mail_handler_api_key = 'secret'
+
+    post :index, key: 'secret', email: IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+    assert_response 403
+  end
+end

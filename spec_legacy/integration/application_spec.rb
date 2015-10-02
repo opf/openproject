@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -25,23 +26,43 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'legacy_spec_helper'
 
-Feature: Searching
-  Background:
-    Given there is 1 project with the following:
-      | identifier | project |
-      | name       | test-project |
-    And there are the following work packages in project "test-project":
-      | subject |
-      | wp1     |
-    And I am admin
+describe 'Application' do
+  include Redmine::I18n
 
-  @javascript
-  Scenario: Searching stuff retains a project's scope
-    When I am on the overview page for the project called "test-project"
-     And I search globally for "stuff"
-     And I search for "wp1" after having searched
-    Then I should see "Overview" within "#main-menu"
-     And I click on "wp1" within "#search-results"
-    Then I should see "wp1" within "#work-package-subject"
-     And I should be on the page of the work package "wp1"
+  fixtures :all
+
+  around do |example|
+    with_settings login_required: '0' do
+      example.run
+    end
+  end
+
+  it 'set localization' do
+    Setting.available_languages = [:de, :en]
+    Setting.default_language = 'en'
+
+    # a french user
+    get '/projects', {},  'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
+    assert_response :success
+    assert_tag 'h2', content: 'Projekte'
+    assert_equal :de, current_language
+
+    # not a supported language: default language should be used
+    get '/projects', {}, 'HTTP_ACCEPT_LANGUAGE' => 'zz'
+    assert_response :success
+    assert_tag 'h2', content: 'Projects'
+  end
+
+  it 'token based access should not start session' do
+    # work_packages of a private project
+    get '/work_packages/4.atom'
+    assert_response 404
+
+    rss_key = User.find(2).rss_key
+    get "/work_packages/4.atom?key=#{rss_key}"
+    assert_response 200
+    assert_nil session[:user_id]
+  end
+end

@@ -26,22 +26,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Searching
-  Background:
-    Given there is 1 project with the following:
-      | identifier | project |
-      | name       | test-project |
-    And there are the following work packages in project "test-project":
-      | subject |
-      | wp1     |
-    And I am admin
+require 'rspec/retry'
 
-  @javascript
-  Scenario: Searching stuff retains a project's scope
-    When I am on the overview page for the project called "test-project"
-     And I search globally for "stuff"
-     And I search for "wp1" after having searched
-    Then I should see "Overview" within "#main-menu"
-     And I click on "wp1" within "#search-results"
-    Then I should see "wp1" within "#work-package-subject"
-     And I should be on the page of the work package "wp1"
+RSpec.configure do |config|
+  # show retry status in spec process
+  config.verbose_retry = true
+  # show exception that triggers a retry if verbose_retry is set to true
+  config.display_try_failure_messages = true
+end

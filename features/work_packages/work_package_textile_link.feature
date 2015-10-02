@@ -62,7 +62,8 @@ Feature: Work package textile quickinfo links
     And I press "Save"
     Then I should see a 1 hash work package quickinfo link to "January" within "div.wiki"
     When I follow the 1 hash work package quickinfo link to "January"
-    Then I should be on the page of the work package "January"
+    Then I should see "January" within "#work-package-subject"
+     And I should be on the page of the work package "January"
 
   @javascript
   Scenario: Adding a work package quickinfo link
@@ -72,7 +73,8 @@ Feature: Work package textile quickinfo links
     And I press "Save"
     Then I should see a 2 hashes work package quickinfo link to "January" within "div.wiki"
     When I follow the 2 hashes work package quickinfo link to "January"
-    Then I should be on the page of the work package "January"
+    Then I should see "January" within "#work-package-subject"
+     And I should be on the page of the work package "January"
 
   @javascript
   Scenario: Adding a work package quickinfo link with description

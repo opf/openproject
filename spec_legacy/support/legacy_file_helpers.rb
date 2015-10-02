@@ -26,22 +26,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Searching
-  Background:
-    Given there is 1 project with the following:
-      | identifier | project |
-      | name       | test-project |
-    And there are the following work packages in project "test-project":
-      | subject |
-      | wp1     |
-    And I am admin
+module LegacyFileHelpers
+  module_function
 
-  @javascript
-  Scenario: Searching stuff retains a project's scope
-    When I am on the overview page for the project called "test-project"
-     And I search globally for "stuff"
-     And I search for "wp1" after having searched
-    Then I should see "Overview" within "#main-menu"
-     And I click on "wp1" within "#search-results"
-    Then I should see "wp1" within "#work-package-subject"
-     And I should be on the page of the work package "wp1"
+  def mock_uploaded_file(name: 'test.txt',
+                         content_type: 'text/plain',
+                         content: 'test content',
+                         binary: false)
+
+    tmp = ::OpenProject::Files.create_temp_file name: name, content: content, binary: binary
+    Rack::Test::UploadedFile.new tmp.path, content_type, binary
+  end
+end
