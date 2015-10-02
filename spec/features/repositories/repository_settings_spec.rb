@@ -58,7 +58,7 @@ describe 'Repository Settings', type: :feature, js: true do
     end
 
     it 'deletes the repository' do
-      expect(Repository.exists?(repository)).to be true
+      expect(Repository.exists?(repository.id)).to be true
       find('a.icon-delete', text: I18n.t(:button_delete)).click
 
       # Confirm the notification warning
@@ -80,7 +80,7 @@ describe 'Repository Settings', type: :feature, js: true do
       expect(selected[:selected]).to be_truthy
 
       # Project should have no repository
-      expect(Repository.exists?(repository)).to be false
+      expect(Repository.exists?(repository.id)).to be false
     end
   end
 

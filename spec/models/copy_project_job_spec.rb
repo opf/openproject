@@ -79,8 +79,8 @@ describe CopyProjectJob, type: :model do
                          is_for_all: true)
     }
     let(:copy_job) {
-      CopyProjectJob.new admin,
-                         source_project,
+      CopyProjectJob.new admin.id,
+                         source_project.id,
                          params,
                          [], # enabled modules
                          [:work_packages], # associations
@@ -120,8 +120,8 @@ describe CopyProjectJob, type: :model do
 
   shared_context 'copy project' do
     before do
-      copy_project_job = CopyProjectJob.new(user,
-                                            project_to_copy,
+      copy_project_job = CopyProjectJob.new(user.id,
+                                            project_to_copy.id,
                                             params,
                                             [],
                                             [:members],
