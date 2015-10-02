@@ -99,12 +99,12 @@ module.exports = function($timeout, FOCUSABLE_SELECTOR) {
       var dropDownElement = element.find('.select2-drop-active')[0]
       dropDownElement.scrollIntoView();
       element.find('.select2-choice').click(function(){
-        $timeout(function() {
-           // The second iteration is necessary to assure that the box is scrolled into view
-           // even when it has not been completly closed before (by click on close or save),
-           // but opened again by click on the choice field.
+        setTimeout(function() {
+          // The second iteration is necessary to assure that the box is scrolled into view
+          // even when it has not been completly closed before (by click on close or save),
+          // but opened again by click on the choice field.
           dropDownElement.scrollIntoView();
-        });
+        }, 50);
       });
     });
   }
