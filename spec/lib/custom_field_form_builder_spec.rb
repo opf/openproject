@@ -29,12 +29,10 @@
 require 'spec_helper'
 require 'ostruct'
 
-TestViewHelper = Class.new(ActionView::Base)
-
 describe CustomFieldFormBuilder do
   include Capybara::RSpecMatchers
 
-  let(:helper)   { TestViewHelper.new }
+  let(:helper)   { ActionView::Base.new }
   let(:resource) {
     FactoryGirl.build(:user,
                       firstname:  'JJ',
