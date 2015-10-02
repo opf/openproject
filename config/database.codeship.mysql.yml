@@ -26,6 +26,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
---color
---exclude-pattern spec/legacy/**/*_spec.rb
---profile
+test:
+  adapter: mysql2
+  host: localhost
+  encoding: utf8
+  pool: 10
+  username: <%= ENV['MYSQL_USER'] %>
+  password: <%= ENV['MYSQL_PASSWORD'] %>
+  database: test<%= ENV['TEST_ENV_NUMBER'] %>
+  socket: /var/run/mysqld/mysqld.sock

@@ -44,7 +44,7 @@ describe WorkPackages::CalendarsController, type: :controller do
                        project: project)
   }
 
-  before do allow(User).to receive(:current).and_return(user) end
+  before do login_as(user) end
 
   describe '#index' do
     shared_examples_for 'calendar#index' do

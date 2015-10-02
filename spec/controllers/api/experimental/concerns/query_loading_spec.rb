@@ -41,7 +41,7 @@ describe 'QueryLoading', type: :controller do
     let(:view_context) { ActionController::Base.new.view_context }
 
     before do
-      allow(User).to receive(:current).and_return(user)
+      login_as(user)
       allow(user).to receive(:allowed_to?).and_return true
       allow(view_context).to receive(:add_filter_from_params)
     end

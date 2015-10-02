@@ -46,7 +46,7 @@ describe TimelogController, type: :controller do
   let(:project_id) { project.id }
   let(:work_package_id) { '' }
 
-  before do allow(User).to receive(:current).and_return(user) end
+  before do login_as(user) end
 
   describe '#create' do
     shared_examples_for 'successful timelog creation' do

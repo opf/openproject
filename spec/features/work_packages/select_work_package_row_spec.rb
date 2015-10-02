@@ -40,7 +40,7 @@ describe 'Select work package row', type: :feature, retry: 3, retry_wait: 5 do
   include_context 'work package table helpers'
 
   before do
-    allow(User).to receive(:current).and_return(user)
+    login_as(user)
 
     work_package_1
     work_package_2
@@ -88,8 +88,6 @@ describe 'Select work package row', type: :feature, retry: 3, retry_wait: 5 do
       let(:indices) { Array(index) }
 
       it do
-        Capybara.default_selector = :css
-
         indices.each do |i|
           check_row_selection_state(i)
         end
@@ -100,8 +98,6 @@ describe 'Select work package row', type: :feature, retry: 3, retry_wait: 5 do
       let(:indices) { Array(index) }
 
       it do
-        Capybara.default_selector = :css
-
         indices.each do |i|
           check_row_selection_state(i, false)
         end

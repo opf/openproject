@@ -62,7 +62,7 @@ describe Api::V2::AuthenticationController, type: :controller do
       let(:user) { FactoryGirl.create(:user) }
 
       before do
-        allow(User).to receive(:current).and_return(user)
+        login_as(user)
 
         fetch
       end

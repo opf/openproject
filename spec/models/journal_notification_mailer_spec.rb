@@ -53,7 +53,7 @@ describe JournalNotificationMailer do
     # make sure no other calls are made due to WP creation/update
     allow(OpenProject::Notifications).to receive(:send) # ... and do nothing
 
-    allow(User).to receive(:current).and_return(user)
+    login_as(user)
     allow(Setting).to receive(:notified_events).and_return(notifications)
 
     allow(Delayed::Job).to receive(:enqueue)

@@ -26,51 +26,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-describe OpenProject::Acts::Watchable::Routes do
-  let(:request) {
-    Struct.new(:type, :id) do
-      def path_parameters
-        { object_id: id, object_type: type }
-      end
-    end.new(type, id)
-  }
-
-  describe 'matches?', retry: 3, retry_wait: 10 do
-    shared_examples_for 'watched model' do
-      describe 'for a valid id string' do
-        let(:id) { '1' }
-
-        it 'should be true' do
-          expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_truthy
-        end
-      end
-
-      describe 'for an invalid id string' do
-        let(:id) { 'schmu' }
-
-        it 'should be false' do
-          expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_falsey
-        end
-      end
-    end
-
-    ['work_packages', 'news', 'boards', 'messages', 'wikis', 'wiki_pages'].each do |type|
-      describe "routing #{type} watches" do
-        let(:type) { type }
-
-        it_should_behave_like 'watched model'
-      end
-    end
-
-    describe 'for a non watched model' do
-      let(:type) { 'schmu' }
-      let(:id) { '4' }
-
-      it 'should be false' do
-        expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_falsey
-      end
-    end
+module AuthenticationHelpers
+  def login_as user
+    allow(User).to receive(:current).and_return(user)
   end
+end
+
+RSpec.configure do |config|
+  config.include AuthenticationHelpers
 end

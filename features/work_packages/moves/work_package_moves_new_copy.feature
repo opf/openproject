@@ -96,19 +96,17 @@ Feature: Copying a work package
     And I select "project_2" from "Project"
     When I click "Move and follow"
     Then I should see "Successful update."
-    # FIXME: we currently do not have the project scope
-    # And I should see "project_2" within ".breadcrumb"
+     And I should see "project_2" within ".breadcrumb"
 
   @javascript
   Scenario: Issue children are moved
     Given the "cross_project_work_package_relations" setting is set to true
     When I go to the move page of the work package "issue1"
-    And I select "project_2" from "Project"
+     And I select "project_2" from "Project"
     When I click "Move and follow"
     Then I should see "Successful update."
-    When I go to the page of the work package "issue2"
-    # FIXME: we currently do not have the project scope
-    # And I should see "project_2" within ".breadcrumb"
+    Then I should see "issue1" within "#work-package-subject"
+     And I should see "project_2" within ".breadcrumb"
 
 
   Scenario: Move an issue to project with missing type

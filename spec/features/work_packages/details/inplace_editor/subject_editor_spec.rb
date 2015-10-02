@@ -16,7 +16,7 @@ describe 'subject inplace editor', js: true, retry: 3, retry_wait: 5 do
   let(:field) { WorkPackageField.new page, property_name }
 
   before do
-    allow(User).to receive(:current).and_return(user)
+    login_as(user)
 
     work_packages_page.visit_index(work_package)
   end

@@ -64,7 +64,7 @@ describe Activity::WorkPackageActivityProvider, type: :model do
         let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.yesterday, Date.tomorrow,  limit: 10).first.try :event_type }
 
         before do
-          allow(User).to receive(:current).and_return(user)
+          login_as(user)
 
           work_package.save!
 

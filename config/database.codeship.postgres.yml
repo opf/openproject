@@ -26,31 +26,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-RSpec.feature 'Work package index view' do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
-
-  before do
-    login_as(user)
-  end
-
-  scenario 'is reachable by clicking the sidebar menu item', js: true do
-    visit project_path(project)
-
-    within('#content') do
-      expect(page).to have_content('Overview')
-    end
-
-    within('#main-menu') do
-      click_link 'Work packages'
-    end
-
-    expect(current_path).to eql("/projects/#{project.identifier}/work_packages")
-    within('#content') do
-      expect(page).to have_content('Work packages')
-      expect(page).to have_content('No work packages to display')
-    end
-  end
-end
+test:
+  adapter: postgresql
+  host: localhost
+  encoding: unicode
+  pool: 10
+  username: <%= ENV['PG_USER'] %>
+  template: template1
+  password: <%= ENV['PG_PASSWORD'] %>
+  database: test<%= ENV['TEST_ENV_NUMBER'] %>
+  # see https://codeship.com/documentation/databases/postgresql/ for supported
+  # and used version of postgresql
+  port: 5433
+  sslmode: disable

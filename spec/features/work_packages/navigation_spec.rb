@@ -35,7 +35,7 @@ RSpec.feature 'Work package navigation' do
 
   before do
     work_package.save!
-    allow(User).to receive(:current).and_return(user)
+    login_as(user)
   end
 
   scenario 'all different angular based work package views', js: true, retry: 3, retry_wait: 5 do

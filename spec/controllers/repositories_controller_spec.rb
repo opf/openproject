@@ -54,7 +54,7 @@ describe RepositoriesController, type: :controller do
   end
 
   before do
-    allow(User).to receive(:current).and_return(user)
+    login_as(user)
     allow(project).to receive(:repository).and_return(repository)
   end
 

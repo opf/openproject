@@ -381,7 +381,7 @@ describe WorkPackage, type: :model do
                                roles: [workflow.role])
           }
 
-          before do allow(User).to receive(:current).and_return(user) end
+          before do login_as(user) end
 
           shared_context 'in locked version' do
             before do
@@ -1528,7 +1528,7 @@ describe WorkPackage, type: :model do
       before do
         allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
 
-        allow(User).to receive(:current).and_return(user)
+        login_as(user)
       end
 
       it 'should not update the work package done_ratio' do
@@ -1672,7 +1672,7 @@ describe WorkPackage, type: :model do
       }
 
       before do
-        allow(User).to receive(:current).and_return(user)
+        login_as(user)
       end
 
       it_behaves_like 'returns spent hours', 44.0

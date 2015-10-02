@@ -38,7 +38,7 @@ describe ::API::V3::WorkPackages::CreateFormAPI do
   let(:user) { FactoryGirl.build(:admin) }
 
   before do
-    allow(User).to receive(:current).and_return(user)
+    login_as(user)
     post post_path
   end
 
