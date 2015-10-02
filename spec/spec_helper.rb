@@ -44,17 +44,6 @@ require 'capybara/rails'
 require 'capybara-screenshot/rspec'
 require 'factory_girl_rails'
 
-Capybara.register_driver :selenium do |app|
-  require 'selenium/webdriver'
-  Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
-    Selenium::WebDriver::Firefox::Binary.path
-
-  profile = Selenium::WebDriver::Firefox::Profile.new
-  profile['intl.accept_languages'] = 'en'
-
-  Capybara::Selenium::Driver.new(app, browser: :firefox, profile: profile)
-end
-
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }

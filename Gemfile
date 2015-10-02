@@ -159,6 +159,7 @@ group :test do
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
   gem 'capybara-ng', '~> 0.2.1'
   gem 'selenium-webdriver', '~> 2.47.1'
+  gem 'poltergeist'
   gem 'timecop', '~> 0.7.1'
 
   gem 'rb-readline', '~> 0.5.1' # ruby on CI needs this
