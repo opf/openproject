@@ -60,6 +60,15 @@ class Impediment < Task
     @blocks_ids_list ||= relations_from.select { |rel| rel.relation_type == Relation::TYPE_BLOCKS }.map(&:to_id)
   end
 
+  def self.create_with_relationships(params, project_id)
+    create_with_relationships_without_move(params, project_id)
+  end
+
+
+  def update_with_relationships(params, _is_impediment = false)
+    update_with_relationships_without_move(params)
+  end
+
   private
 
   def update_blocks_list
