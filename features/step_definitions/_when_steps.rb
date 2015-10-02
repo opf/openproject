@@ -230,13 +230,9 @@ When /^the request on task "(.+?)" is finished$/ do |task_name|
 end
 
 When /^I follow the link to add a subtask$/ do
-  begin
-    # new layout
-    step 'I follow "Add subtask"'
-  rescue Capybara::ElementNotFound
-    # old layout
-    step 'I follow "Add" within "#work_package_tree"'
-  end
+  step 'I follow "Relations"'
+  step 'I click "Children"'
+  step 'I press "Add child"'
 end
 
 When /^I change the fold state of a version$/ do

@@ -168,8 +168,9 @@ Feature: Edit story on backlogs view
       | subject | parent  |
       | Task 1  | Story A |
       And I am on the work package index page for the project called "ecookbook"
-      And I follow "Story A"
+     When I follow "Story A"
       And I select "Duplicate" from the action menu
       And I choose "copy_tasks_all" within "#backlogs-attributes"
       And I press "Create"
+      And I follow "Relations"
      Then I should see "Task 1"

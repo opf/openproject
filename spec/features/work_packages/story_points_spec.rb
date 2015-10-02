@@ -35,31 +35,23 @@
 
 require 'spec_helper'
 
-describe WorkPackagesController, type: :controller do
+describe 'Work packages having story points', type: :feature, js: true do
   before do
     allow(User).to receive(:current).and_return current_user
-    # disables sending mails
-    allow(UserMailer).to receive(:new).and_return(double('mailer').as_null_object)
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return('points_burn_direction' => 'down',
                                                                        'wiki_template'         => '',
                                                                        'card_spec'             => 'Sattleford VM-5040',
                                                                        'story_types'           => [story_type.id.to_s],
                                                                        'task_type'             => task_type.id.to_s)
-    [task, story, closed_task].map(&:reload)
   end
 
   let(:current_user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: true) }
+  let(:project) { FactoryGirl.create(:project) }
   let(:status) { FactoryGirl.create :default_status }
-  let(:closed) { FactoryGirl.create :closed_status }
   let(:story_type) { FactoryGirl.create(:type_feature) }
   let(:task_type) { FactoryGirl.create(:type_feature) }
-  let(:story) { FactoryGirl.create(:story, type: story_type, author: current_user, project: project, status: status) }
-  let(:task) { FactoryGirl.create(:story, type: task_type, author: current_user, project: project, status: status, parent: story) }
-  let(:closed_task) { FactoryGirl.create(:story, type: task_type, author: current_user, project: project, status: closed, parent: story) }
-  let(:params) { { copy_from: story.id, project_id: project.id } }
 
-  describe 'show' do
+  describe 'showing the story points on the work package show page' do
     let(:story_points) { 42 }
     let(:story_with_sp) {
       FactoryGirl.create(:story,
@@ -70,53 +62,10 @@ describe WorkPackagesController, type: :controller do
                          story_points: story_points)
     }
 
-    before do get 'show', id: story_with_sp.id end
+    it 'should be displayed' do
+      visit work_package_path(story_with_sp.id)
 
-    subject { response }
-
-    it { is_expected.to be_success }
-
-    it { is_expected.to render_template('work_packages/show') }
-  end
-
-  describe 'create with copy_from' do
-    describe do
-      'copying no tasks'
-      before do
-        post('create', params.merge(copy_tasks: 'none'))
-      end
-
-      subject { response }
-
-      it { expect(assigns['new_work_package'].children(true)).to be_empty }
-    end
-
-    describe do
-      'copying no tasks'
-      before do
-        post('create', params.merge(copy_tasks: "open:#{story.id}"))
-      end
-
-      subject { response }
-
-      it do
-        expect(assigns['new_work_package'].children(true)).not_to be_empty
-        expect(assigns['new_work_package'].children(true).count).to eq(1)
-      end
-    end
-
-    describe do
-      'copying no tasks'
-      before do
-        post('create', params.merge(copy_tasks: "all:#{story.id}"))
-      end
-
-      subject { response }
-
-      it do
-        expect(assigns['new_work_package'].children(true)).not_to be_empty
-        expect(assigns['new_work_package'].children(true).count).to eq(2)
-      end
+      expect(page).to have_selector('#work-package-storyPoints', text: story_points)
     end
   end
 end

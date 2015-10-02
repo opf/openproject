@@ -143,16 +143,18 @@ Feature: The work_package hierarchy defines the allowed versions for each work_p
       And I select "Task" from "work_package_type_id"
       And I fill in "Task 0815" for "work_package_subject"
       And I click on the first button matching "Create"
-     Then I should see "Sprint 001" within ".work_package.details dd.-fixed-version"
+     Then I should see "Sprint 001" within "#work-package-version"
 
+  @javascript
   Scenario: Creating a task, via new work_package, as a subtask to a story set´s the new task´s fixed version to the parent´s fixed version
      When I go to the new work_package page of the project called "ecookbook"
       And I select "Task" from "work_package_type_id"
       And I fill in "Task 0815" for "work_package_subject"
       And I fill in the id of the work_package "Story A" as the parent work_package
       And I click on the first button matching "Create"
-     Then I should see "Sprint 001" within ".work_package.details dd.-fixed-version"
+     Then I should see "Sprint 001" within "#work-package-version"
 
+  @javascript
   Scenario: Creating a task, via new work_package, as a subtask to a story and setting a fixed version is overriden by the parent´s fixed version (bug 8904)
      When I go to the new work_package page of the project called "ecookbook"
       And I select "Task" from "work_package_type_id"
@@ -160,8 +162,9 @@ Feature: The work_package hierarchy defines the allowed versions for each work_p
       And I fill in the id of the work_package "Story A" as the parent work_package
       And I select "Sprint 003" from "work_package_fixed_version_id"
       And I click on the first button matching "Create"
-     Then I should see "Sprint 001" within ".work_package.details dd.-fixed-version"
+     Then I should see "Sprint 001" within "#work-package-version"
 
+  @javascript
   Scenario: Moving a task between stories via work_package/edit (bug 9324)
     Given the project has the following tasks:
           | subject | parent  |
@@ -169,7 +172,7 @@ Feature: The work_package hierarchy defines the allowed versions for each work_p
     When I go to the edit page of the work_package "Task 1"
      And I fill in the id of the work_package "Story C" as the parent work_package
      And I press "Submit"
-    Then I should see "Sprint 002" within ".work_package.details dd.-fixed-version"
+    Then I should see "Sprint 002" within "#work-package-version"
 
   Scenario: Changing the fixed_version of a task with a non backlogs parent work_package (bug 8354)
     Given the project has the following work_packages:
