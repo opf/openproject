@@ -59,8 +59,8 @@ Feature: Permission View Own hourly and cost rates
       | cost type | Translation |
     And I am already logged in as "testuser"
    When I am on the page for the issue "test_work_package"
-   Then I should see "1.00 hour"
-    And I should see "2.0 Translations"
+   Then I should see "1 hour"
+    And I should see "2 Translations"
     And I should see "24.00 EUR"
     And I should not see "33.00 EUR" # labour costs only of Manager
     And I should not see "35.00 EUR" # material costs only of Manager
