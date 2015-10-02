@@ -46,9 +46,7 @@ module SimpleBenchmark
   end
 end
 
-SimpleBenchmark.bench "require 'rails/all'" do
-  require 'rails/all'
-end
+require 'rails/all'
 
 if defined?(Bundler)
   # lib directory has to be added to the load path so that
@@ -65,9 +63,7 @@ if defined?(Bundler)
 
   # Require the gems listed in Gemfile, including any gems
   # you've limited to :test, :development, or :production.
-  SimpleBenchmark.bench 'Bundler.require' do
-    Bundler.require(*Rails.groups(:opf_plugins))
-  end
+  Bundler.require(*Rails.groups(:opf_plugins))
 end
 
 require File.dirname(__FILE__) + '/../lib/open_project/configuration'

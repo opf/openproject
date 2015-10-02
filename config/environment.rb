@@ -30,7 +30,5 @@
 # Load the Rails application.
 require File.expand_path('../application', __FILE__)
 
-SimpleBenchmark.bench 'Application.initialize!' do
-  # Initialize the Rails application.
-  OpenProject::Application.initialize!
-end
+# Initialize the Rails application.
+OpenProject::Application.initialize!
