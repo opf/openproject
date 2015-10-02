@@ -50,10 +50,10 @@ Feature: Deleting work packages
     And I select "Delete" from the action menu
     And I confirm popups
 
-    Then I should be on the bulk destroy page of work packages
+    Then I should see "There are additional objects assossociated with the work package"
 
     When I choose "Reassign"
-    And I fill in the id of work package "wp2" into "work package"
+    And I fill in the id of work package "wp2" into "to_do_reassign_to_id"
     And I submit the form by the "Delete" button
 
     Then I should be on the work packages index page of the project called "ecookbook"
@@ -61,4 +61,4 @@ Feature: Deleting work packages
     When I go to the page of the work package "wp2"
 
     Then the work package should be shown with the following values:
-      | Spent units | 1.0 CT |
+      | Spent units | 1 CTs |
