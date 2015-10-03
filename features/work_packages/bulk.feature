@@ -83,7 +83,7 @@ Feature: Updating work packages
     And I follow "pe1"
     And I should see "deleted (version1)"
 
-  @javascript
+  @javascript @selenium
     Scenario: Bulk updating several work packages without back url should return index
       When I go to the work package index page of the project called "ecookbook"
       And  I open the context menu on the work packages:
