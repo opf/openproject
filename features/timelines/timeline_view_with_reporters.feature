@@ -172,7 +172,7 @@ Feature: Timeline View Tests with reporters
       And I should see the project "ecookbook13"
       And I should see the project "ecookbook0"
 
-  @javascript
+  @javascript @wip
   Scenario: Second Level Grouping
     When there is a timeline "Testline" for project "ecookbook"
       And I set the first level grouping criteria to "ecookbook" for the timeline "Testline" of the project called "ecookbook"
