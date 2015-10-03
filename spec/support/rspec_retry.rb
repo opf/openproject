@@ -31,6 +31,12 @@ require 'rspec/retry'
 RSpec.configure do |config|
   # show retry status in spec process
   config.verbose_retry = true
+
   # show exception that triggers a retry if verbose_retry is set to true
   config.display_try_failure_messages = true
+
+  # retry every failure by default
+  config.default_retry_count = 2
+
+  config.default_sleep_interval = 5
 end
