@@ -116,7 +116,7 @@ Feature: Copying a work package
     Then I should see "Failed to save 1 work package(s) on 1 selected:"
 
 
-  @javascript
+  @javascript @selenium
   Scenario: Going to the Copy Page of 2 Work Packages via bulk edit
     When I go to the work package index page of the project called "project_1"
      And  I open the context menu on the work packages:

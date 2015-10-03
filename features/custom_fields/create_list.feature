@@ -36,7 +36,7 @@ Feature: Localized list custom fields can be created
     When I go to the custom fields page
     When I follow "New custom field" within "#tab-content-WorkPackageCustomField"
 
-  @javascript
+  @javascript @selenium
   Scenario: Creating a list custom field
     When I select "List" from "custom_field_field_format"
     And I set the english localization of the "name" attribute to "New Field"

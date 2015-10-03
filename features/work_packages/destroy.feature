@@ -47,7 +47,7 @@ Feature: Deleting work packages
     And there is a time entry for "wp1" with 10 hours
     And I am already logged in as "manager"
 
-  @javascript
+  @javascript @selenium
   Scenario: Deleting a work package via the action menu
     When I go to the page of the work package "wp1"
     And I select "Delete" from the action menu
