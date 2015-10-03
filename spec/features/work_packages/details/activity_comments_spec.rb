@@ -16,8 +16,6 @@ describe 'activity comments', js: true, selenium: true do
   let(:selector) { '.work-packages--activity--add-comment' }
   let(:initial_comment) { 'the first comment in this WP' }
 
-  include_context 'maximized window'
-
   before do
     login_as(user)
     allow(user.pref).to receive(:warn_on_leaving_unsaved?).and_return(false)
