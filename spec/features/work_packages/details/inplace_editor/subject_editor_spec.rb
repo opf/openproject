@@ -5,8 +5,6 @@ require 'features/work_packages/details/inplace_editor/work_package_field'
 require 'features/work_packages/work_packages_page'
 
 describe 'subject inplace editor', js: true, selenium: true do
-  include_context 'maximized window'
-
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }
   let(:property_name) { :subject }
   let(:property_title) { 'Subject' }
