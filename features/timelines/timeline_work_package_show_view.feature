@@ -54,5 +54,6 @@ Feature: Timeline Work Package Show View
   Scenario: planning element click should show the plannin element
     When I go to the page of the timeline "Testline" of the project called "ecookbook"
     And I wait for timeline to load table
-    And I click on the Planning Element with name "January"
+    And I should see "January"
+    When I click on the Planning Element with name "January"
     Then I should see "January" in the new window
