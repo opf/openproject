@@ -56,7 +56,7 @@ Feature: Wiki menu items
     And I press "Save"
     And I should see "Avocado Wuaärst" within "#main-menu"
 
-  @javascript
+  @javascript @selenium
   Scenario: Adding a main menu entry with index and toc links
     When I go to the wiki page "AwesomePage" for the project called "Awesome Project"
     And I click on "More functions"
@@ -71,7 +71,7 @@ Feature: Wiki menu items
     Then I should see "Table of Contents" within "#main-menu"
     Then I should see "Create new child page" within "#main-menu"
 
-  @javascript
+  @javascript @selenium
   Scenario: Change existing entry
     When I go to the wiki page "Wiki" for the project called "Awesome Project"
     Then I should see "Table of Contents" within "#main-menu"
@@ -115,7 +115,7 @@ Feature: Wiki menu items
     When I go to the wiki page "Wiki" for the project called "Awesome Project"
     Then I should see "Wiki" within ".menu-children"
 
-  @javascript
+  @javascript @selenium
   Scenario: Removing a menu item
     Given the project "Awesome Project" has a wiki menu item with the following:
       | title | DontKillMe |
@@ -127,7 +127,7 @@ Feature: Wiki menu items
     And I press "Save"
     Then I should not see "Wiki" within "#main-menu"
 
-  @javascript
+  @javascript @selenium
   Scenario: When I delete the last wiki page with a menu item I can select a new menu item and the menu item is replaced
     Given the project "Awesome Project" has a wiki menu item with the following:
       | title | AwesomePage |
