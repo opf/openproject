@@ -192,6 +192,16 @@ module.exports = function(
         };
         showErrors();
       }
+
+      $scope.$watch('editableFieldsState.editAll.state', function(state) {
+        var field = $scope.fieldController.field;
+        $scope.fieldController.isEditing = state;
+        $scope.fieldController.lockFocus = true;
+
+        if (EditableFieldsState.editAll.isFocusField(field)) {
+          vm.markActive();
+        }
+      });
     },
     link: function(scope, element, attrs, fieldController) {
       scope.fieldController = fieldController;
@@ -263,8 +273,15 @@ module.exports = function(
       });
 
       scope.$watch('fieldController.isEditing', function(isEditing) {
-        if (isEditing && !EditableFieldsState.forcedEditState) {
+        var efs = EditableFieldsState, field = fieldController.field;
+
+        if (isEditing && !efs.editAll.state && !efs.forcedEditState) {
           scope.focusInput();
+
+        } else if (efs.editAll.state && efs.editAll.isFocusField(field)) {
+          $timeout(function () {
+            element.find('.focus-input').focus()[0].select();
+          });
         }
       });
     }

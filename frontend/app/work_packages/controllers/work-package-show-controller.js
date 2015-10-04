@@ -390,14 +390,7 @@ module.exports = function($scope,
   );
 
   $scope.editWorkPackage = function() {
-    // TODO: Copied from work-package-details-toolbar-directive
-    //       since reusing the directive would break the existing toolbar
-    //       markup.
-    var editWorkPackagePath = PathHelper.staticEditWorkPackagePath($scope.workPackage.props.id);
-    var backUrl = '?back_url=' + encodeURIComponent($location.url());
-
-    // TODO: Temporarily going to the old edit dialog until we get in-place editing done
-    window.location = editWorkPackagePath + backUrl;
+    EditableFieldsState.editAll.toggleState();
   };
 
   // Stuff copied from DetailsTabOverviewController

@@ -107,7 +107,7 @@ module.exports = function(TimezoneService, ConfigurationService,
       };
 
       $timeout(function() {
-        startDatepicker.focus();
+        EditableFieldsState.editAll.state || startDatepicker.focus();
       });
 
       startDatepicker.textbox.on('click focusin', function() {

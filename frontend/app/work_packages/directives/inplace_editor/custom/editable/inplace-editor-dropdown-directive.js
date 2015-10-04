@@ -86,7 +86,7 @@ module.exports = function(
         fieldController.state.isBusy = false;
 
         if (!EditableFieldsState.forcedEditState) {
-          FocusHelper.focusUiSelect(element);
+          EditableFieldsState.editAll.state || FocusHelper.focusUiSelect(element);
         }
       });
     }
