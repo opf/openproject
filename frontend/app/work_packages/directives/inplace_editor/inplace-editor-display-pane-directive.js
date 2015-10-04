@@ -107,7 +107,7 @@ module.exports = function(
       }, true);
 
       scope.$watch('fieldController.isEditing', function(isEditing, oldIsEditing) {
-        if (!isEditing) {
+        if (!isEditing && !fieldController.lockFocus) {
           $timeout(function() {
             if (oldIsEditing) {
               // check old value to not trigger focus on the first time
@@ -118,6 +118,8 @@ module.exports = function(
             });
           });
         }
+
+        fieldController.lockFocus = false;
       });
     }
   };

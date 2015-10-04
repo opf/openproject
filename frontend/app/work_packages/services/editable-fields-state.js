@@ -33,6 +33,19 @@ module.exports = function() {
     isBusy: false,
     currentField: null,
     submissionPromises: {},
-    forcedEditState: false
+    forcedEditState: false,
+
+    editAll: {
+      focusField: 'subject',
+      state: false,
+
+      toggleState: function () {
+        return this.state = !this.state;
+      },
+
+      isFocusField: function (field) {
+        return this.focusField === field;
+      }
+    }
   };
 };
