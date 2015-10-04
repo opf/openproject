@@ -80,7 +80,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
       };
 
       $timeout(function() {
-        datepicker.focus();
+        EditableFieldsState.editAll.state || datepicker.focus();
       });
 
       angular.element('.work-packages--details-content').on('click', function(e) {
