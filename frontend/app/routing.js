@@ -195,7 +195,8 @@ angular.module('openproject')
   '$rootElement',
   '$browser',
   '$rootScope',
-  function($location, $rootElement, $browser, $rootScope) {
+  '$state',
+  function($location, $rootElement, $browser, $rootScope, $state) {
     // Our application is still a hybrid one, meaning most routes are still
     // handled by Rails. As such, we disable the default link-hijacking that
     // Angular's HTML5-mode turns on.
@@ -221,6 +222,15 @@ angular.module('openproject')
           // hack to work around FF6 bug 684208 when scenario runner clicks on links
           window.angular['ff-684208-preventDefault'] = true;
         }
+      }
+    });
+
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams){
+      var matchListState = toState.name.match(/work-packages\.list.*/);
+
+      if (matchListState && !toParams.projects && toParams.projectPath) {
+        toParams.projects = 'projects';
+        $state.go(toState, toParams);
       }
     });
   }
