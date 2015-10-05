@@ -72,9 +72,8 @@ module API
 
         link :delete do
           {
-            href: work_packages_bulk_path(ids: represented),
-            method: :delete,
-            title: "Delete #{represented.subject}"
+            href: api_v3_paths.work_package(represented.id),
+            method: :delete
           } if current_user_allowed_to(:delete_work_packages, context: represented.project)
         end
 

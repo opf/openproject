@@ -72,10 +72,8 @@ h4. things we like
   let(:project) do
     FactoryGirl.create(:project, identifier: 'test_project', is_public: false)
   end
-  let(:role) do
-    FactoryGirl.create(:role,
-                       permissions: [:view_work_packages, :view_timelines, :edit_work_packages])
-  end
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:permissions) { [:view_work_packages, :view_timelines, :edit_work_packages] }
   let(:current_user) do
     user = FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
 
@@ -93,11 +91,14 @@ h4. things we like
   let(:unauthorize_user) { FactoryGirl.create(:user) }
   let(:type) { FactoryGirl.create(:type) }
 
+  before do
+    allow(User).to receive(:current).and_return current_user
+  end
+
   describe '#get list' do
     subject { last_response }
 
     before(:each) do
-      allow(User).to receive(:current).and_return current_user
       get api_v3_paths.work_packages
     end
 
@@ -915,6 +916,53 @@ h4. things we like
             }
           end
         end
+      end
+    end
+  end
+
+  describe '#delete' do
+    let(:path) { api_v3_paths.work_package work_package.id }
+
+    before do
+      delete path
+    end
+
+    subject { last_response }
+
+    context 'with required permissions' do
+      let(:permissions) { [:view_work_packages, :delete_work_packages] }
+
+      it 'responds with HTTP No Content' do
+        expect(subject.status).to eq 204
+      end
+
+      it 'deletes the work package' do
+        expect(WorkPackage.exists?(work_package.id)).to be_falsey
+      end
+
+      context 'for a non-existent work package' do
+        let(:path) { api_v3_paths.work_package 1337 }
+
+        it_behaves_like 'not found' do
+          let(:id) { 1337 }
+          let(:type) { 'WorkPackage' }
+        end
+      end
+    end
+
+    context 'without permission to see work packages' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'not found'
+    end
+
+    context 'without permission to delete work packages' do
+      let(:permissions) { [:view_work_packages] }
+
+      it_behaves_like 'unauthorized access'
+
+      it 'does not delete the work package' do
+        expect(WorkPackage.exists?(work_package.id)).to be_truthy
       end
     end
   end
