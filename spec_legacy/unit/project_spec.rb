@@ -448,15 +448,7 @@ describe Project, type: :model do
     it 'should short description returns shortened description' do
       @project = FactoryGirl.create(:project)
       @project.description = ('Abcd ' * 5 + "\n") * 11
-      @project.summary = ''
       assert_equal (('Abcd ' * 5 + "\n") * 10)[0..-2] + '...', @project.short_description
-    end
-
-    it 'should short description returns summary' do
-      @project = FactoryGirl.create(:project)
-      @project.description = ('Abcd ' * 5 + "\n") * 11
-      @project.summary = 'In short'
-      assert_equal 'In short', @project.short_description
     end
   end
 

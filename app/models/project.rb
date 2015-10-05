@@ -124,7 +124,7 @@ class Project < ActiveRecord::Base
   acts_as_nested_set order_column: :name, dependent: :destroy
 
   acts_as_customizable
-  acts_as_searchable columns: ["#{table_name}.name", "#{table_name}.identifier", "#{table_name}.description", "#{table_name}.summary"], project_key: 'id', permission: nil
+  acts_as_searchable columns: ["#{table_name}.name", "#{table_name}.identifier", "#{table_name}.description"], project_key: 'id', permission: nil
   acts_as_event title: Proc.new { |o| "#{Project.model_name.human}: #{o.name}" },
                 url: Proc.new { |o| { controller: '/projects', action: 'show', id: o } },
                 author: nil,
@@ -672,14 +672,11 @@ class Project < ActiveRecord::Base
 
   # Returns a short description of the projects (first lines)
   def short_description(length = 255)
-    case
-    when summary.present?
-      summary
-    when description.present?
-      description.gsub(/\A(.{#{length}}[^\n\r]*).*\z/m, '\1...').strip
-    else
-      ''
+    unless description.present?
+      return ''
     end
+
+    description.gsub(/\A(.{#{length}}[^\n\r]*).*\z/m, '\1...').strip
   end
 
   def css_classes
@@ -763,7 +760,6 @@ class Project < ActiveRecord::Base
 
   safe_attributes 'name',
                   'description',
-                  'summary',
                   'is_public',
                   'identifier',
                   'custom_field_values',
