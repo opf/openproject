@@ -67,8 +67,8 @@ describe RepositoriesController, type: :controller do
     get :revision, project_id: 1, rev: 1
     assert_response :success
     assert_template 'revision'
-  assert_select 'ul',
-                  attributes: { class: 'toolbar-items' },
+  assert_select('ul',
+                  {attributes: { class: 'toolbar-items' },
                   descendant: { tag: 'a',
                                 attributes: {
                                   href: @controller.url_for(
@@ -78,8 +78,7 @@ describe RepositoriesController, type: :controller do
                                     project_id: 'ecookbook',
                                     rev: '0'
                                   )
-                                }, false
-                  }
+                                }}}, false)
     assert_select 'ul',
                attributes: { class: 'toolbar-items' },
                descendant: { tag: 'a',
@@ -124,12 +123,12 @@ describe RepositoriesController, type: :controller do
                           attributes: { name: %r{^committers\[\d+\]\[\]$} }
                  }
                }
-    assert_select :td,
-                  content: 'foo',
+    assert_select('td',
+                  {content: 'foo',
                   sibling: {
                     tag: 'td',
                     descendant: { tag: 'option', attributes: { selected: 'selected' } }
-                  }, false
+                  }}, false)
   end
 
   it 'should map committers' do

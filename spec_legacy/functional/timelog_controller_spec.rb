@@ -50,7 +50,7 @@ describe TimelogController, type: :controller do
     get :new, project_id: 1
     assert_response :success
     assert_template 'edit'
-  assert_select 'option', content: 'Inactive Activity', false
+    assert_select('option', {content: 'Inactive Activity'}, false)
   end
 
   it 'should get edit existing time' do

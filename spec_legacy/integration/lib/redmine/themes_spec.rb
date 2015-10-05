@@ -33,6 +33,10 @@ describe 'Themes' do
 
   fixtures :all
 
+  def document_root_element
+    html_document.root
+  end
+
   before do
     @theme = OpenProject::Themes.default_theme
     Setting.ui_theme = @theme.identifier
@@ -53,8 +57,8 @@ describe 'Themes' do
     get '/'
 
     assert_response :success
-  assert_select 'script',
-                  attributes: { src: '/assets/default.js' }, false
+  assert_select('script',
+                  {attributes: { src: '/assets/default.js' }}, false)
   end
 
   xit 'test with theme js' do

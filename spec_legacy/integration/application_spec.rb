@@ -31,6 +31,10 @@ require 'legacy_spec_helper'
 describe 'Application' do
   include Redmine::I18n
 
+  def document_root_element
+    html_document.root
+  end
+
   fixtures :all
 
   around do |example|

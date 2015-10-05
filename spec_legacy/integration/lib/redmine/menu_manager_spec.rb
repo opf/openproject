@@ -33,6 +33,10 @@ describe 'MenuManager' do
 
   fixtures :all
 
+  def document_root_element
+    html_document.root
+  end
+
   around do |example|
     with_settings login_required: '0' do
       example.run

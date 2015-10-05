@@ -55,8 +55,6 @@ describe MyController, type: :controller do
     assert_response :success
     assert_template 'account'
     assert_equal User.find(2), assigns(:user)
-
-    assert_select 'input', attributes: { name: 'user[custom_field_values][4]' }, false
   end
 
   it 'should update account' do

@@ -85,7 +85,7 @@ describe Enumeration, type: :model do
 
   it 'should destroy with reassign' do
     new_priority = FactoryGirl.create :priority
-    Enumeration.find(@low_priority).destroy(new_priority)
+    Enumeration.find(@low_priority.id).destroy(new_priority)
     assert_nil WorkPackage.find_by(priority_id: @low_priority.id)
     assert_equal @issues.size, new_priority.objects_count
   end

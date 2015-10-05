@@ -42,9 +42,7 @@ describe SysController, type: :controller do
     get :projects
     assert_response :success
     assert_equal 'application/xml', response.content_type
-    with_options tag: 'projects' do |test|
-      test.assert_select children: { count:  Project.active.has_module(:repository).count }
-    end
+    assert_select 'projects', children: { count:  Project.active.has_module(:repository).count }
   end
 
   it 'should create project repository' do

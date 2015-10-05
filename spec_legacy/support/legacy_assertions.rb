@@ -210,7 +210,7 @@ module LegacyAssertionsAndHelpers
   end
 
   def assert_error_tag(options = {})
-    assert_select({ attributes: { id: 'errorExplanation' } }.merge(options))
+    assert_select('body', { attributes: { id: 'errorExplanation' } }.merge(options))
   end
 
   def credentials(login, password = nil)
