@@ -145,9 +145,9 @@ Feature: Cost Reporting Linkage
     And I am already logged in as "manager"
     And I am on the page for the work package "manager work_package"
 
-    Then I should see "10.0 words"
+    Then I should see "10 words"
 
-    When I follow "10.0 words"
+    When I follow "10 words"
 
     Then I should be on the Cost Reports page for the project called "Standard Project"
     # 10 EUR x 10 (words)
