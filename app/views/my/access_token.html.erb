@@ -98,7 +98,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   <a href=""
                      click-notification="<%= l(:present_access_key_value,
                                                key_name: l(:label_feeds_access_key),
-                                               value: @user.rss_key) %>"
+                                               value: @user.rss_token) %>"
                      click-notification-type="notice"
                      class="icon icon-key-1">
                     <%= l(:button_show) %>
@@ -127,7 +127,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   <a href=""
                      click-notification="<%= l(:present_access_key_value,
                                                key_name: l(:label_api_access_key),
-                                               value: @user.api_key) %>"
+                                               value: @user.api_token) %>"
                      click-notification-type="notice"
                      class="icon icon-key-1">
                     <%= l(:button_show) %>
@@ -152,4 +152,3 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </div>
 <% end %>
-
