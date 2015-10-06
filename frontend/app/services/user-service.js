@@ -32,8 +32,9 @@ module.exports = function(HALAPIResource, $http, PathHelper) {
 
   var UserService = {
     getUser: function(id) {
-      // TODO authorization
-      var resource = HALAPIResource.setup("users/" + id);
+      var path = PathHelper.apiV3UserPath(id),
+          resource = HALAPIResource.setup(path);
+
       return resource.fetch();
     },
 

@@ -29,7 +29,7 @@
 /* globals Hyperagent */
 require('hyperagent');
 
-module.exports = function HALAPIResource($timeout, $q, PathHelper) {
+module.exports = function HALAPIResource($timeout, $q) {
   'use strict';
   var configure = function() {
     Hyperagent.configure('ajax', function(settings) {
@@ -61,12 +61,12 @@ module.exports = function HALAPIResource($timeout, $q, PathHelper) {
         params = {};
       }
       configure();
-      var url = PathHelper.appBasePath + PathHelper.apiV3 + '/' + uri;
+
       var link = new Hyperagent.Resource(_.extend({
-        url: url
+        url: uri
       }, params));
       if (params.method) {
-        link.props.href = url;
+        link.props.href = uri;
         link.props.method = params.method;
       }
       return link;

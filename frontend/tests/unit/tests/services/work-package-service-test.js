@@ -100,7 +100,7 @@ describe('WorkPackageService', function() {
     }));
 
     it('makes an api setup call', function() {
-      expect(setupFunction).to.have.been.calledWith("work_packages/" + workPackageId);
+      expect(setupFunction).to.have.been.calledWith("/api/v3/work_packages/" + workPackageId);
     });
 
     it('returns work package', function() {

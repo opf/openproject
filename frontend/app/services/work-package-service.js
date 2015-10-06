@@ -115,7 +115,9 @@ module.exports = function($http,
     },
 
     getWorkPackage: function(id) {
-      var resource = HALAPIResource.setup('work_packages/' + id);
+      var path = PathHelper.apiV3WorkPackagePath(id),
+          resource = HALAPIResource.setup(path);
+
       return resource.fetch().then(function (wp) {
         return $q.all([
           WorkPackageService.loadWorkPackageForm(wp),

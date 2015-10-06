@@ -50,7 +50,7 @@ describe('HALAPIResource', function() {
 
   describe('setup', function() {
     var apiResource, resourceFunction;
-    var workPackageUri = 'work_packages/1';
+    var workPackageUri = 'api/v3/work_packages/1';
 
     beforeEach(inject(function($q) {
       apiResource = {
@@ -60,37 +60,17 @@ describe('HALAPIResource', function() {
 
     beforeEach(inject(function(HALAPIResource) {
       resourceFunction = sinon.stub(Hyperagent, 'Resource').returns(apiResource);
+      HALAPIResource.setup(workPackageUri);
     }));
 
     afterEach(function() {
       resourceFunction.restore();
     });
 
-    describe('with default (empty) base path', function() {
-      beforeEach(inject(function() {
-        HALAPIResource.setup(workPackageUri);
-      }));
-
-      it('makes an api setup call', function() {
-        expect(resourceFunction).to.have.been.calledWith({
-          url: "/api/v3/" + workPackageUri
-        });
-      });
-    });
-
-    describe('with custom appBasePath', function() {
-      beforeEach(inject(function() {
-        testPathHelper.appBasePath = '/whitelabel';
-
-        HALAPIResource.setup(workPackageUri);
-      }));
-
-      it('makes an api setup call', function() {
-        expect(resourceFunction).to.have.been.calledWith({
-          url: "/whitelabel/api/v3/" + workPackageUri
-        });
-      });
-    });
-
+   it('makes an api setup call', function() {
+     expect(resourceFunction).to.have.been.calledWith({
+       url: workPackageUri
+     });
+   });
   });
 });
