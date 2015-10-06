@@ -39,7 +39,7 @@ Feature: User settings
     Given there is 1 user with the following:
       | login     | bob |
     And I am already logged in as "bob"
-    And I go to the my account page
+    And I go to the my settings page
     And I fill in "Task color" with "#FBC4B3"
     And I submit the form by the "Save" button
     Then I should see "Account was successfully updated"

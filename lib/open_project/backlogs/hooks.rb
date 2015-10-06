@@ -103,9 +103,15 @@ module OpenProject::Backlogs::Hooks
       end
     end
 
-    def view_my_account(context = {})
-      context[:controller].send(:render_to_string,           partial: 'shared/view_my_account',
-                                                             locals: { user: context[:user], color: context[:user].backlogs_preference(:task_color), versions_default_fold_state: context[:user].backlogs_preference(:versions_default_fold_state) })
+    def view_my_settings(context = {})
+      context[:controller].send(
+        :render_to_string,
+        partial: 'shared/view_my_settings',
+        locals: {
+          user: context[:user],
+          color: context[:user].backlogs_preference(:task_color),
+          versions_default_fold_state:
+            context[:user].backlogs_preference(:versions_default_fold_state) })
     end
 
     def controller_work_package_new_after_save(context = {})
