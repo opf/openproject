@@ -32,13 +32,11 @@ describe OpenProject::JournalFormatter::CustomField do
   include CustomFieldsHelper
   include ActionView::Helpers::TagHelper
 
-  Struct.new('TestJournal', :id)
-
   let(:klass) { OpenProject::JournalFormatter::CustomField }
   let(:instance) { klass.new(journal) }
   let(:id) { 1 }
   let(:journal) do
-    Struct::TestJournal.new(id)
+    OpenStruct.new(id: id)
   end
   let(:user) { FactoryGirl.create(:user) }
   let(:custom_field) { FactoryGirl.create(:issue_custom_field) }

@@ -40,13 +40,11 @@ describe OpenProject::JournalFormatter::Attachment do
     { only_path: true }
   end
 
-  Struct.new('TestJournal', :id)
-
   let(:klass) { OpenProject::JournalFormatter::Attachment }
   let(:instance) { klass.new(journal) }
   let(:id) { 1 }
   let(:journal) do
-    Struct::TestJournal.new(id)
+    OpenStruct.new(id: id)
   end
   let(:user) { FactoryGirl.create(:user) }
   let(:attachment) {

@@ -56,7 +56,7 @@ describe ProjectsController, type: :controller do
                                           }
                                }
 
-    assert_no_tag :a, content: /Private child of eCookbook/
+    assert_select('a', {content: /Private child of eCookbook/}, false)
   end
 
   it 'should index atom' do
@@ -78,7 +78,7 @@ describe ProjectsController, type: :controller do
       it 'should not show overall spent time link' do
         get :index
         assert_template 'index'
-        assert_no_tag :a, attributes: { href: '/time_entries' }
+        assert_select('a', {attributes: { href: '/time_entries' }}, false)
       end
     end
   end
@@ -106,7 +106,7 @@ describe ProjectsController, type: :controller do
         get :new
         assert_response :success
         assert_template 'new'
-        assert_no_tag :select, attributes: { name: 'project[parent_id]' }
+        assert_select('select', {attributes: { name: 'project[parent_id]' }}, false)
       end
     end
 
@@ -125,8 +125,8 @@ describe ProjectsController, type: :controller do
         assert_select 'select', attributes: { name: 'project[parent_id]' },
                             child: { tag: 'option', attributes: { value: '1', selected: 'selected' } }
         # no empty value
-        assert_no_tag :select, attributes: { name: 'project[parent_id]' },
-                               child: { tag: 'option', attributes: { value: '' } }
+        assert_select('select', {attributes: { name: 'project[parent_id]' },
+                               child: { tag: 'option', attributes: { value: '' } }}, false)
       end
     end
   end
@@ -320,7 +320,7 @@ describe ProjectsController, type: :controller do
     assert_template 'show'
     refute_nil assigns(:project)
 
-    assert_no_tag 'li', content: /Development status/
+    assert_select('li', {content: /Development status/}, false)
   end
 
   it 'should show should not fail when custom values are nil' do
@@ -347,7 +347,7 @@ describe ProjectsController, type: :controller do
     get :show, id: 'ecookbook'
     assert_response :success
     assert_template 'show'
-    assert_no_tag tag: 'a', content: /Private child/
+    assert_select('a', {content: /Private child/}, false)
   end
 
   it 'should private subprojects visible' do
@@ -443,8 +443,8 @@ describe ProjectsController, type: :controller do
   it 'should hook response' do
     Redmine::Hook.add_listener(ProjectBasedTemplate)
     get :show, id: 1
-    assert_select 'link', attributes: { href: '/stylesheets/ecookbook.css' },
-               parent: { tag: 'head' }
+    assert_select('link', {attributes: { href: '/stylesheets/ecookbook.css' },
+               parent: { tag: 'head' }})
 
     Redmine::Hook.clear_listeners
   end

@@ -33,6 +33,10 @@ describe 'MenuManager' do
 
   fixtures :all
 
+  def document_root_element
+    html_document.root
+  end
+
   around do |example|
     with_settings login_required: '0' do
       example.run
@@ -43,11 +47,11 @@ describe 'MenuManager' do
     Setting.available_languages = [:de, :en]
     get '/projects/ecookbook', {}, 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
 
-    assert_tag 'div', attributes: { id: 'main-menu' },
+    assert_select 'div', attributes: { id: 'main-menu' },
                      descendant: { tag: 'li', child: { tag: 'a', content: ll('de', :label_activity),
                                                        attributes: { href: '/projects/ecookbook/activity',
                                                                      class: 'icon2 icon-yes activity-menu-item ellipsis' } } }
-    assert_tag 'div', attributes: { id: 'main-menu' },
+    assert_select 'div', attributes: { id: 'main-menu' },
                      descendant: { tag: 'li', child: { tag: 'a', content: ll('de', :label_overview),
                                                        attributes: { href: '/projects/ecookbook',
                                                                      class: 'icon2 icon-list-view2 overview-menu-item ellipsis selected' } } }
@@ -63,16 +67,16 @@ describe 'MenuManager' do
       end
 
       get '/projects/ecookbook'
-      assert_tag 'div', attributes: { id: 'main-menu' },
+      assert_select 'div', attributes: { id: 'main-menu' },
                        descendant: { tag: 'li', child: { tag: 'a', content: 'Foo',
                                                          attributes: { class: 'foo-menu-item ellipsis' } } }
 
-      assert_tag 'div', attributes: { id: 'main-menu' },
+      assert_select 'div', attributes: { id: 'main-menu' },
                        descendant: { tag: 'li', child: { tag: 'a', content: 'Bar',
                                                          attributes: { class: 'bar-menu-item ellipsis' } },
                                      before: { tag: 'li', child: { tag: 'a', content: 'ECOOKBOOK' } } }
 
-      assert_tag 'div', attributes: { id: 'main-menu' },
+      assert_select 'div', attributes: { id: 'main-menu' },
                        descendant: { tag: 'li', child: { tag: 'a', content: 'ECOOKBOOK',
                                                          attributes: { class: 'hello-menu-item ellipsis' } },
                                      before: { tag: 'li', child: { tag: 'a', content: 'Activity' } } }

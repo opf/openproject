@@ -42,8 +42,8 @@ describe OpenProject::Scm::Adapters::Git, type: :model do
   ## Ruby uses ANSI api to fork a process on Windows.
   ## Japanese Shift_JIS and Traditional Chinese Big5 have 0x5c(backslash) problem
   ## and these are incompatible with ASCII.
-  # WINDOWS_PASS = Redmine::Platform.mswin?
-  WINDOWS_PASS = false
+  # WINDOWS_PASS1 = Redmine::Platform.mswin?
+  WINDOWS_PASS1 = false
 
   before do
     skip 'Git test repository NOT FOUND. Skipping unit tests !!!' unless File.directory?(git_repository_path)
@@ -171,7 +171,7 @@ describe OpenProject::Scm::Adapters::Git, type: :model do
   end
 
   it 'test latin 1 path' do
-    if WINDOWS_PASS
+    if WINDOWS_PASS1
       #
     else
       p2 = "latin-1-dir/test-#{@char_1}-2.txt"
@@ -231,7 +231,7 @@ describe OpenProject::Scm::Adapters::Git, type: :model do
   end
 
   it 'should entries latin 1 dir' do
-    if WINDOWS_PASS
+    if WINDOWS_PASS1
       #
     else
       entries1 = @adapter.entries("latin-1-dir/test-#{@char_1}-subdir",

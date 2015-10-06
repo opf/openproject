@@ -15,6 +15,13 @@ GIT
       rspec
 
 GIT
+  remote: git://github.com/why-el/svg-graph.git
+  revision: e79abffa66639ab203d099250c5d2656a4ebf917
+  branch: silence-class-access-warning
+  specs:
+    svg-graph (1.0.2)
+
+GIT
   remote: https://github.com/finnlabs/rack-protection.git
   revision: 5a7d1bd2f05ca75faf7909c8cc978732a0080898
   ref: 5a7d1bd
@@ -476,7 +483,6 @@ GEM
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
     structured_warnings (0.2.0)
-    svg-graph (1.0.5)
     syck (1.0.5)
     sys-filesystem (1.1.4)
       ffi
@@ -607,7 +613,7 @@ DEPENDENCIES
   shoulda-matchers (~> 2.8)
   simplecov (= 0.8.0.pre)
   sprockets (~> 2.12.3)
-  svg-graph
+  svg-graph!
   syck (~> 1.0.5)
   sys-filesystem (~> 1.1.4)
   thin

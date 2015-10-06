@@ -38,12 +38,10 @@ describe OpenProject::JournalFormatter::Diff do
     Rails.application.routes.url_helpers
   end
 
-  Struct.new('TestJournal', :id, :journable)
-
   let(:klass) { OpenProject::JournalFormatter::Diff }
   let(:id) { 1 }
   let(:journal) do
-    Struct::TestJournal.new(id, WorkPackage.new)
+    OpenStruct.new(id: id, journable: WorkPackage.new)
   end
   let(:instance) { klass.new(journal) }
   let(:key) { 'description' }

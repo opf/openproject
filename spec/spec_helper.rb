@@ -134,7 +134,7 @@ RSpec.configure do |config|
 
   config.after(:suite) do
     [User, Project, WorkPackage].each do |cls|
-      raise "your specs leave a #{cls} in the DB\ndid you use before(:all) instead of before or forget to kill the instances in a after(:all)?" if cls.count > 0
+      raise "your specs left a #{cls} in the DB\ndid you use before(:all) instead of before or forget to kill the instances in a after(:all)?" if cls.count > 0
     end
   end
 

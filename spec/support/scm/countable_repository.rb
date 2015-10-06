@@ -19,7 +19,7 @@ shared_examples_for 'is a countable repository' do
 
     it 'does not raise' do
       expect(Rails.logger).to receive(:warn).with(/StorageUpdater requested for Repository/)
-      expect { job.perform }.not_to raise_error(ActiveRecord::RecordNotFound)
+      expect { job.perform }.not_to raise_error
     end
   end
 

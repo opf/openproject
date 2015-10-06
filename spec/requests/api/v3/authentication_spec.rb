@@ -44,7 +44,7 @@ describe API::V3, type: :request do
 
     let(:expected_message) { 'You need to be authenticated to access this resource.' }
 
-    Strategies = OpenProject::Authentication::Strategies::Warden
+    strategies = OpenProject::Authentication::Strategies::Warden
 
     def basic_auth(user, password)
       credentials = ActionController::HttpAuthentication::Basic.encode_credentials user, password
@@ -148,7 +148,7 @@ describe API::V3, type: :request do
         let(:password) { 'toor' }
 
         before do
-          Strategies::GlobalBasicAuth.configure! user: 'root', password: 'toor'
+          strategies::GlobalBasicAuth.configure! user: 'root', password: 'toor'
         end
 
         it_behaves_like 'it is basic auth protected'
@@ -190,7 +190,7 @@ describe API::V3, type: :request do
 
         before do
           config = { user: 'global_account', password: 'global_password' }
-          Strategies::GlobalBasicAuth.configure! config
+          strategies::GlobalBasicAuth.configure! config
         end
 
         context 'without credentials' do

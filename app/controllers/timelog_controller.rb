@@ -79,7 +79,7 @@ class TimelogController < ApplicationController
 
         set_entries(cond)
 
-        gon.rabl 'app/views/timelog/index.rabl'
+        gon.rabl template: 'app/views/timelog/index.rabl'
         gon.project_id = @project.id if @project
         gon.work_package_id = @issue.id if @issue
         gon.sort_column = 'spent_on'
@@ -92,7 +92,7 @@ class TimelogController < ApplicationController
       format.json do
         set_entries(cond)
 
-        gon.rabl 'app/views/timelog/index.rabl'
+        gon.rabl template: 'app/views/timelog/index.rabl'
       end
       format.atom do
         entries = TimeEntry.visible
