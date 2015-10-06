@@ -86,8 +86,8 @@ describe 'create users', type: :feature do
           click_button 'Submit'
 
           # landed on the 'my page'
-          expect(page).to have_text 'your account has been activated'
-          expect(page).to have_text 'Login: bob@mail.com'
+          expect(page).to have_text 'Welcome, your account has been activated. You are logged in now.'
+          expect(page).to have_text 'bobfirst boblast'
         end
       end
     end
@@ -125,9 +125,9 @@ describe 'create users', type: :feature do
 
           click_button 'Sign in'
 
-          # landed on the 'my page'
           expect(page).to have_text 'My account'
-          expect(page).to have_text 'Login: bob'
+          expect(page).to have_text 'bobfirst boblast'
+          expect(current_path).to eq '/my/first_login'
         end
       end
     end

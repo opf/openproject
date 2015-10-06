@@ -83,18 +83,31 @@ end
 Redmine::MenuManager.map :my_menu do |menu|
   menu.push :account,
             { controller: '/my', action: 'account' },
-            caption: :label_my_account,
+            caption: :label_profile,
             html: { class: 'icon2 icon-user1' }
+  menu.push :settings,
+            { controller: '/my', action: 'settings' },
+            caption: :label_settings,
+            html: { class: 'icon2 icon-settings2' }
   menu.push :password,
             { controller: '/my', action: 'password' },
             caption: :button_change_password,
             if: Proc.new { User.current.change_password_allowed? },
             html: { class: 'icon2 icon-locked' }
+  menu.push :access_token,
+            { controller: '/my', action: 'access_token' },
+            caption: I18n.t('my_account.access_tokens.access_token'),
+            html: { class: 'icon2 icon-key-1' }
+  menu.push :mail_notifications,
+            { controller: '/my', action: 'mail_notifications' },
+            caption: I18n.t('activerecord.attributes.user.mail_notification'),
+            html: { class: 'icon2 icon-news' }
 
   menu.push :delete_account, :deletion_info_path,
             caption: I18n.t('account.delete'),
             param: :user_id,
             if: Proc.new { Setting.users_deletable_by_self? },
+            last: :delete_account,
             html: { class: 'icon2 icon-delete' }
 end
 

@@ -71,7 +71,7 @@ describe 'Login', type: :feature do
         fill_in('password', with: user_password)
         fill_in('new_password', with: new_user_password)
         fill_in('new_password_confirmation', with: new_user_password + 'typo')
-        click_link_or_button I18n.t(:button_apply)
+        click_link_or_button I18n.t(:button_save)
       end
       expect(current_path).to eql account_change_password_path
 
@@ -80,7 +80,7 @@ describe 'Login', type: :feature do
         fill_in('password', with: user_password)
         fill_in('new_password', with: new_user_password)
         fill_in('new_password_confirmation', with: new_user_password)
-        click_link_or_button I18n.t(:button_apply)
+        click_link_or_button I18n.t(:button_save)
       end
       expect(current_path).to eql my_first_login_path
 

@@ -477,7 +477,7 @@ OpenProject::Application.routes.draw do
 
   resources :users do
     member do
-      match '/edit/:tab' => 'users#edit', via: :get
+      match '/edit/:tab' => 'users#edit', via: :get, as: 'tab_edit'
       match '/memberships/:membership_id/destroy' => 'users#destroy_membership', via: :post
       match '/memberships/:membership_id' => 'users#edit_membership', via: :post
       match '/memberships' => 'users#edit_membership', via: :post
@@ -541,8 +541,13 @@ OpenProject::Application.routes.draw do
     match '/my/first_login', action: 'first_login', via: [:get, :put]
     get '/my/page', action: 'page'
     match '/my/account', action: 'account', via: [:get, :patch]
+    match '/my/settings', action: 'settings', via: [:get, :patch]
+    match '/my/mail_notifications', action: 'mail_notifications', via: [:get, :patch]
     post '/my/reset_rss_key', action: 'reset_rss_key'
+    post '/my/generate_rss_key', action: 'generate_rss_key'
     post '/my/reset_api_key', action: 'reset_api_key'
+    post '/my/generate_api_key', action: 'generate_api_key'
+    get '/my/access_token', action: 'access_token'
   end
 
   get 'authentication' => 'authentication#index'

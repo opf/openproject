@@ -33,7 +33,10 @@ class MyController < ApplicationController
   before_filter :require_login
 
   menu_item :account, only: [:account]
+  menu_item :settings, only: [:settings]
   menu_item :password, only: [:password]
+  menu_item :access_token, only: [:access_token]
+  menu_item :mail_notifications, only: [:mail_notifications]
 
   DEFAULT_BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_work_packages,
                      'workpackagesresponsiblefor' => :label_responsible_for_work_packages,
@@ -67,18 +70,13 @@ class MyController < ApplicationController
   def account
     @user = User.current
     @pref = @user.pref
-    if request.patch?
-      @user.attributes = permitted_params.user
-      @user.pref.attributes = params[:pref] || {}
-      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
-      if @user.save
-        @user.pref.save
-        @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
-        set_language_if_valid @user.language
-        flash[:notice] = l(:notice_account_updated)
-        redirect_to action: 'account'
-      end
-    end
+    write_settings(redirect_to: :account)
+  end
+
+  # Edit user's settings
+  def settings
+    @user = User.current
+    write_settings(redirect_to: :settings)
   end
 
   # Manage user's password
@@ -101,13 +99,25 @@ class MyController < ApplicationController
       @user.force_password_change = false
       if @user.save
         flash[:notice] = l(:notice_account_password_updated)
-        redirect_to action: 'account'
+        redirect_to action: 'password'
         return
       end
     else
       flash.now[:error] = l(:notice_account_wrong_password)
     end
-    render 'my/password'
+    # Render the username to hint to a user in case of a forced password change
+    render 'my/password', locals: { show_user_name: @user.force_password_change }
+  end
+
+  # Administer access tokens
+  def access_token
+    @user = User.current
+  end
+
+  # Configure user's mail notifications
+  def mail_notifications
+    @user = User.current
+    write_settings(redirect_to: :mail_notifications)
   end
 
   def first_login
@@ -134,7 +144,15 @@ class MyController < ApplicationController
       User.current.rss_key
       flash[:notice] = l(:notice_feeds_access_key_reseted)
     end
-    redirect_to action: 'account'
+    redirect_to action: 'access_token'
+  end
+
+  def generate_rss_key
+    if request.post?
+      User.current.rss_key
+      flash[:notice] = l(:notice_feeds_access_key_generated)
+    end
+    redirect_to action: 'access_token'
   end
 
   # Create a new API key
@@ -147,7 +165,15 @@ class MyController < ApplicationController
       User.current.api_key
       flash[:notice] = l(:notice_api_access_key_reseted)
     end
-    redirect_to action: 'account'
+    redirect_to action: 'access_token'
+  end
+
+  def generate_api_key
+    if request.post?
+      User.current.api_key
+      flash[:notice] = l(:notice_api_access_key_generated)
+    end
+    redirect_to action: 'access_token'
   end
 
   # User's page layout configuration
@@ -223,6 +249,28 @@ class MyController < ApplicationController
       return true
     end
     false
+  end
+
+  def write_settings(redirect_to:)
+    if request.patch?
+      @user.attributes = permitted_params.user
+      @user.pref.attributes = params[:pref] || {}
+      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
+      if @user.save
+        @user.pref.save
+        @user.notified_project_ids =
+          (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
+        set_language_if_valid @user.language
+        flash[:notice] = l(:notice_account_updated)
+        redirect_to(action: redirect_to)
+      end
+    end
+  end
+
+  helper_method :has_tokens?
+
+  def has_tokens?
+    Setting.feeds_enabled? || Setting.rest_api_enabled?
   end
 
   def get_current_layout
