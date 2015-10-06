@@ -53,4 +53,3 @@ Feature: Menu items
 
     When I click on "Summary" within "#main-menu"
     Then I should see "SUMMARY" within "#content"
-
