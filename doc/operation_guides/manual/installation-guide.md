@@ -350,14 +350,24 @@ Now, the crontab file opens in the standard editor. Add the following entry to t
 
 This will start the worker job every minute.
 
+## Repository Integration
+
+OpenProject can (by default) browse Subversion and Git repositories, but it does not serve them to git/svn clients.
+
+We do however support an integration with the Apache webserver to create and serve repositories on the fly, including integration into the fine-grained project authorization system of OpenProject.
+
+OpenProject ships with support for so-called *managed* repositories, which can be created and maintained directly within OpenProeject and are linked to a single project.
+
+The complete guide for the integration of Subversion and Git repositories can be found in the [repository integration guide](repository-integration.md).
+
 ## Follow-Ups
 
 Your OpenProject installation is ready to run. However, there are some things to consider:
 
 * Regularly backup your OpenProject installation. See the [backup guide](backup-guide.md) for details.
 * Serve OpenProject via https
-* Enable Repositories for your OpenProject projects
 * Watch for OpenProject updates. We advise to always run the latest stable version of OpenProject (especially for security updates). Information on how to perform an update can been found in the [upgrade guide](upgrade-guide.md). You can find out about new OpenProject releases in our [news](https://community.openproject.org/projects/openproject/news), or on [twitter](https://twitter.com/openproject).
+
 
 ## Plug-In Installation (Optional)
 

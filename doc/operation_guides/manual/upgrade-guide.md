@@ -1,10 +1,49 @@
 # OpenProject 4.2 to OpenProject 5.0 Debian/Ubuntu Upgrade Guide
 
-One of the main new features of OpenProject 5.0 is that it manages your
-repos directly. To use this feature you have to configure OpenProject as shown [here]:(../../subversion_and_git_integration.md).
+One of the main new features of OpenProject 5.0 is that it provides management of repositories directly within the user interface (with so-called *managed* repositories).
+
+Starting with OpenProject 5.0, you can explicitly select the SCM vendor you want to associate to your project, and let OpenProject generate the repository on the filesystem on the fly.
+
+If you haven't configured serving repositories through Apache before, you'll find the [repository integration guide](./repository-integration.md) to guide you through the necessary steps to configure this integration.
 
 For the other steps necessary to upgrade to OpenProject 5.0 please look
 at the sections below and exchange `v4.1.0` with `v5.0.0`.
+
+## Upgrading to Managed Repositories
+
+You can create repositories explicitly on the filesystem using managed repositories.
+Enable managed repositories for each SCM vendor individually using the templates
+defined in configuration.yml. For more information, please refer to the [repository integration guide](./repository-integration.md).
+
+This functionality was previously provided as a cron job `reposman.rb`.
+This script has been integrated into OpenProject.
+Please remove any existing cronjobs that still use this script.
+
+### Convert Repositories Created by Reposman
+
+If you want to convert existing repositories previously created (by reposman.rb or manually)
+into managed repositories, use the following command:
+
+    $ ./bin/rake scm:migrate:managed[URL prefix (, URL prefix, ...)]
+
+the URL prefix denotes a common prefix of repositories whose status should be upgraded to `:managed`.
+Example:
+
+If you have executed reposman.rb with the following parameters:
+
+    $ reposman.rb [...] --svn-dir "/opt/svn" --url "file:///opt/svn"
+
+Then you can pass the task a URL prefix `file:///opt/svn` and the rake task will migrate all repositories
+matching this prefix to `:managed`.
+You may pass more than one URL prefix to the task.
+
+### Listing Potential Conflicting Identifiers
+
+As managed repositories on the filesystem are uniquely associated using the project identifier, any existing directories in the managed repositories root *may* cause a conflict in the future when trying to create a repository with the same name.
+
+To help you identify these conflicts, you can run the following rake task, which will list entries in the managed repositories path with no associated project:
+
+    $ ./bin/rake scm:find_unassociated
 
 # OpenProject 4.1 to OpenProject 4.2 Debian/Ubuntu Upgrade Guide
 
