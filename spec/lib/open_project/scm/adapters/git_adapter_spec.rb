@@ -63,7 +63,7 @@ describe OpenProject::Scm::Adapters::Git do
       it 'should set the correct client version' do
         expect(adapter)
           .to receive(:scm_version_from_command_line)
-          .and_return(git_string)
+                .and_return(git_string)
 
         expect(adapter.client_version).to eq(expected_version)
         expect(adapter.client_available).to be true
@@ -87,7 +87,7 @@ describe OpenProject::Scm::Adapters::Git do
 
       it 'should raise a meaningful error if shell output fails' do
         expect(adapter).to receive(:branches)
-          .and_raise OpenProject::Scm::Exceptions::CommandFailed.new('git', '')
+                             .and_raise OpenProject::Scm::Exceptions::CommandFailed.new('git', '')
 
         expect { adapter.check_availability! }
           .to raise_error(OpenProject::Scm::Exceptions::ScmUnavailable)
@@ -104,9 +104,29 @@ describe OpenProject::Scm::Adapters::Git do
     end
 
     describe '.check_availability!' do
-      it 'should be marked empty' do
-        expect { adapter.check_availability! }
-          .to raise_error(OpenProject::Scm::Exceptions::ScmEmpty)
+      shared_examples 'check_availibility raises empty' do
+        it do
+          expect { adapter.check_availability! }
+            .to raise_error(OpenProject::Scm::Exceptions::ScmEmpty)
+        end
+      end
+
+      it_behaves_like 'check_availibility raises empty'
+
+      describe 'Git version compatibility' do
+        before do
+          allow(::Open3).to receive(:capture2e).and_return(output, nil)
+        end
+
+        context 'older Git version' do
+          let(:output) { "fatal: bad default revision 'HEAD'\n" }
+          it_behaves_like 'check_availibility raises empty'
+        end
+
+        context 'new Git version' do
+          let(:output) { "fatal: your current branch 'master' does not have any commits yet\n" }
+          it_behaves_like 'check_availibility raises empty'
+        end
       end
     end
   end
