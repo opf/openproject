@@ -28,19 +28,45 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('summarizedCostEntries', function() {
+.directive('costEntry', ['PathHelper', 'CostTypeService', function(PathHelper, CostTypeService) {
   return {
     restrict: 'E',
     trasclude: true,
-    require: '^inplaceEditorDisplayPane',
-    templateUrl: '/assets/work_packages/summarized_cost_entries.html',
-    link: function(scope, element, attributes, displayPaneController) {
-      scope.workPackage = displayPaneController.getWorkPackage();
-      scope.costTypes = scope
-        .workPackage
-        .embedded
-        .costsByType
-        .embedded.elements;
+    templateUrl: '/assets/work_packages/cost_entry.html',
+    scope: {
+      workPackage: "=",
+      costEntry: "="
+    },
+    controller: function($scope) {
+      $scope.spentUnits = $scope.costEntry.props.spentUnits;
+
+      CostTypeService.getCostType($scope.costEntry.links.costType.props.href)
+        .then(function(costType) {
+
+        $scope.costType = costType;
+
+        setUnitName();
+
+        setLink();
+      });
+
+      var setUnitName = function() {
+        if ($scope.spentUnits === "1") {
+          $scope.unit = $scope.costType.props.unit;
+        }
+        else {
+          $scope.unit = $scope.costType.props.unitPlural;
+        }
+      };
+
+      var setLink = function() {
+        var link = PathHelper.staticWorkPackagePath($scope.workPackage.props.id);
+
+        link += '/cost_entries?cost_type_id=' + $scope.costType.props.id;
+        link += '&project_id=' + $scope.workPackage.embedded.project.props.id;
+
+        $scope.summaryLink = link;
+      };
     }
   };
-});
+}]);
