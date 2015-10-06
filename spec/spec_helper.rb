@@ -43,6 +43,7 @@ require 'rspec/example_disabler'
 require 'capybara/rails'
 require 'capybara-screenshot/rspec'
 require 'factory_girl_rails'
+require 'webmock/rspec'
 
 Capybara.register_driver :selenium do |app|
   require 'selenium/webdriver'

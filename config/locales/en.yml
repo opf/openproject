@@ -1402,10 +1402,11 @@ en:
       title: "Do you really want to delete the %{repository_type} of the project %{project_name}?"
     errors:
       build_failed: "Unable to create the repository with the selected configuration. %{reason}"
+      managed_delete: "Unable to delete the managed repository."
+      managed_delete_local: "Unable to delete the local repository on filesystem at '%{path}': %{error_message}"
       empty_repository: "The repository exists, but is empty. It does not contain any revisions yet."
       exists_on_filesystem: "The repository directory already exists in the filesystem."
       filesystem_access_failed: "An error occurred while accessing the repository in the filesystem: %{message}"
-      deletion_failed: "The repository could not be deleted from disk due to lacking permissions. Please contact your administrator to resolve this issue."
       not_manageable: "This repository vendor cannot be managed by OpenProject."
       path_permission_failed: "An error occurred trying to create the following path: %{path}. Please ensure that OpenProject may write to that folder."
       unauthorized: "You're not authorized to access the repository or the credentials are invalid."

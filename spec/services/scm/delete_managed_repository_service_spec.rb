@@ -35,7 +35,7 @@ describe Scm::DeleteManagedRepositoryService do
   let(:repository) { FactoryGirl.build(:repository_subversion) }
   subject(:service) { Scm::DeleteManagedRepositoryService.new(repository) }
 
-  let(:config)   { {} }
+  let(:config) { {} }
 
   before do
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
@@ -68,7 +68,7 @@ describe Scm::DeleteManagedRepositoryService do
     let(:config) {
       {
         subversion: { manages: File.join(tmpdir, 'svn') },
-        git:        { manages: File.join(tmpdir, 'git') }
+        git: { manages: File.join(tmpdir, 'git') }
       }
     }
 
@@ -82,7 +82,9 @@ describe Scm::DeleteManagedRepositoryService do
     }
 
     before do
-      allow_any_instance_of(Scm::CreateRepositoryJob)
+      allow_any_instance_of(Scm::DeleteLocalRepositoryJob)
+        .to receive(:repository).and_return(repository)
+      allow_any_instance_of(Scm::DeleteRemoteRepositoryJob)
         .to receive(:repository).and_return(repository)
     end
 
@@ -94,7 +96,7 @@ describe Scm::DeleteManagedRepositoryService do
 
     it 'does not raise an exception upon permission errors' do
       expect(File.directory?(repository.root_url)).to be true
-      expect(Scm::DeleteRepositoryJob)
+      expect(Scm::DeleteLocalRepositoryJob)
         .to receive(:new).and_raise(Errno::EACCES)
 
       expect(service.call).to be false
@@ -116,6 +118,39 @@ describe Scm::DeleteManagedRepositoryService do
         expect(path.parent.exist?).to be true
         expect(path.parent.to_s).to eq(repository.class.managed_root)
       end
+    end
+  end
+
+  context 'with managed remote config' do
+    let(:url) { 'http://myreposerver.example.com/api/' }
+    let(:config) {
+      {
+        subversion: { manages: url }
+      }
+    }
+
+    let(:repository) {
+      repo = Repository::Subversion.new(scm_type: :managed)
+      repo.project = project
+      repo.configure(:managed, nil)
+
+      repo.save!
+      repo
+    }
+
+    before do
+      stub_request(:post, url).to_return(status: 200)
+    end
+
+    it 'calls the callback' do
+      expect(Scm::DeleteRemoteRepositoryJob)
+        .to receive(:new).and_call_original
+
+      expect(service.call).to be true
+      expect(WebMock)
+        .to have_requested(:post, url)
+        .with(body: hash_including(identifier: repository.repository_identifier,
+                                   action: 'delete'))
     end
   end
 end
