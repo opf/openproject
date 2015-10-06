@@ -54,18 +54,20 @@ describe 'my', type: :feature, js: true do
       expect(u.lastname).to eq 'Bar'
     end
 
-    it 'in Access Tokens they can reset their API key' do
+    it 'in Access Tokens they can generate their API key' do
       visit my_access_token_path
-      find(:xpath, "//tr[contains(.,'API')]/td/a", text: 'Reset').click
+      expect(page).to have_content 'Missing API access key'
+      find(:xpath, "//tr[contains(.,'API')]/td/a", text: 'Generate').click
 
-      expect(page).to have_content 'Your API access key was reset.'
+      expect(page).to have_content 'Your API access key was generated.'
     end
 
-    it 'in Access Tokens they can reset their RSS key' do
+    it 'in Access Tokens they can generate their RSS key' do
       visit my_access_token_path
-      find(:xpath, "//tr[contains(.,'RSS')]/td/a", text: 'Reset').click
+      expect(page).to have_content 'Missing RSS access key'
+      find(:xpath, "//tr[contains(.,'RSS')]/td/a", text: 'Generate').click
 
-      expect(page).to have_content 'Your RSS access key was reset.'
+      expect(page).to have_content 'Your RSS access key was generated.'
     end
   end
 end

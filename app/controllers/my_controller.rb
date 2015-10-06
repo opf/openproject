@@ -147,6 +147,14 @@ class MyController < ApplicationController
     redirect_to action: 'access_token'
   end
 
+  def generate_rss_key
+    if request.post?
+      User.current.rss_key
+      flash[:notice] = l(:notice_feeds_access_key_generated)
+    end
+    redirect_to action: 'access_token'
+  end
+
   # Create a new API key
   def reset_api_key
     if request.post?
@@ -156,6 +164,14 @@ class MyController < ApplicationController
       end
       User.current.api_key
       flash[:notice] = l(:notice_api_access_key_reseted)
+    end
+    redirect_to action: 'access_token'
+  end
+
+  def generate_api_key
+    if request.post?
+      User.current.api_key
+      flash[:notice] = l(:notice_api_access_key_generated)
     end
     redirect_to action: 'access_token'
   end
