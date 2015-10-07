@@ -85,7 +85,7 @@ angular.module('openproject.workPackages.directives')
     'HookService',
     'WorkPackageService',
     'WorkPackageAuthorization',
-    'PathHelper',
+    'EditableFieldsState',
     require('./work-package-details-toolbar-directive')
   ])
   .directive('workPackageDynamicAttribute', ['$compile', require(
