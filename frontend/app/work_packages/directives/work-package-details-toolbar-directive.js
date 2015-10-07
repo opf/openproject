@@ -34,7 +34,7 @@ module.exports = function(PERMITTED_MORE_MENU_ACTIONS,
            HookService,
            WorkPackageService,
            WorkPackageAuthorization,
-           PathHelper) {
+           EditableFieldsState) {
 
   function getPermittedActions(authorization, permittedMoreMenuActions) {
     var permittedActions = authorization.permittedActions(permittedMoreMenuActions);
@@ -85,11 +85,7 @@ module.exports = function(PERMITTED_MORE_MENU_ACTIONS,
       scope.actionsAvailable = Object.keys(scope.permittedActions).length > 0;
 
       scope.editWorkPackage = function() {
-        var editWorkPackagePath = PathHelper.staticEditWorkPackagePath(scope.workPackage.props.id);
-        var backUrl = '?back_url=' + encodeURIComponent($location.url());
-
-        // TODO: Temporarily going to the old edit dialog until we get in-place editing done
-        window.location = editWorkPackagePath + backUrl;
+        EditableFieldsState.editAll.toggleState();
       };
 
       scope.triggerMoreMenuAction = function(action, link) {
