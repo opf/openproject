@@ -218,22 +218,25 @@ default:
   #   Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
   #   On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
   # manages:
-  #   Enable managed repositories for this vendor. This allows OpenProject to
-  #   take control over the given path to create and delete repositories directly
-  #   when created in the frontend.
-  #   NOTE: Disabling :managed repositories using disabled_types takes precedence over this setting.
-  # mode:
-  #   The octal file mode to set the repository folder to (defaults to 0700).
+  #   Enable managed repositories for this vendor.
+  #   You may either specify a local path on the filesystem or an absolute URL to call when
+  #   repositories are to be created or deleted.
+  #   This allows OpenProject to take control over the given path to create and delete repositories
+  #   directly when created in the frontend.
   #
-  # group:
-  #   The group that should own the repository folder.
-  #   Important: The user running OpenProject must be a member of this group in order to have the
-  #   privilege to set the group ownership.  
-  #   Note: The owner is always the user that runs OpenProject!
+  #   When entering a URL, OpenProject will POST to this resource when repositories are created
+  #   using the following form-encoded payload:
+  #     - action: The action to perform (create, delete)
+  #     - identifier: The repository identifier name
+  #     - vendor: The SCM vendor of the repository to create
+  #     - project: identifier, name and ID of the associated project
+  #
+  #   NOTE: Disabling :managed repositories using disabled_types takes precedence over this setting.
+  #
   # disabled_types:
   #   Disable specific repository types for this particular vendor. This allows
   #   to restrict the available choices a project administrator has for creating repositories
-  #   See the example below for available types
+  #   See the example below for available types.
   #
   #   Available types for git:
   #     - :local (Local repositories, registered using a local path)
@@ -243,7 +246,7 @@ default:
   #                 using one of the supported URL schemes (e.g., https://, svn+ssh:// )
   #     - :managed (Managed repositores, available IF :manages path is set below)
   #
-  # Examplary configuration
+  # Exemplary configuration
   #
   # scm:
   #   git:
