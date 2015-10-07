@@ -150,6 +150,7 @@ class ProjectsController < ApplicationController
           redirect_to action: 'settings', id: @altered_project
         end
       end
+      OpenProject::Notifications.send('project_updated', project: @altered_project)
     else
       respond_to do |format|
         format.html do
@@ -215,6 +216,7 @@ class ProjectsController < ApplicationController
   def destroy
     @project_to_destroy = @project
 
+    OpenProject::Notifications.send('project_deletion_imminent', project: @project_to_destroy)
     @project_to_destroy.destroy
     respond_to do |format|
       format.html do redirect_to controller: '/admin', action: 'projects' end

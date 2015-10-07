@@ -138,6 +138,10 @@ class Repository < ActiveRecord::Base
     true
   end
 
+  def self.requires_checkout_base_url?
+    true
+  end
+
   def entry(path = nil, identifier = nil)
     scm.entry(path, identifier)
   end
@@ -410,7 +414,7 @@ class Repository < ActiveRecord::Base
     self.class.connection.delete("DELETE FROM #{cs} WHERE #{cs}.repository_id = #{id}")
   end
 
-  private
+  protected
 
   ##
   # Create local managed repository request when the built instance
