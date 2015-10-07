@@ -28,69 +28,21 @@
 
 require 'spec_helper'
 
-describe 'Login', type: :feature do
+describe 'robots.txt', type: :feature do
+  let!(:project) { FactoryGirl.create(:public_project) }
+
   before do
-    @capybara_ignore_elements = Capybara.ignore_hidden_elements
-    Capybara.ignore_hidden_elements = true
+    visit '/robots.txt'
   end
 
-  after do
-    Capybara.ignore_hidden_elements = @capybara_ignore_elements
-    User.delete_all
-    User.current = nil
+  it 'disallows global paths' do
+    expect(page).to have_content('Disallow: /work_packages/calendar')
+    expect(page).to have_content('Disallow: /activity')
   end
 
-  context 'sign in user' do
-    let(:user_password) { 'bob' * 4 }
-    let(:new_user_password) { 'obb' * 4 }
-    let(:user) do
-      FactoryGirl.create(:user,
-                         force_password_change: true,
-                         first_login: true,
-                         login: 'bob',
-                         mail: 'bob@example.com',
-                         firstname: 'Bo',
-                         lastname: 'B',
-                         password: user_password,
-                         password_confirmation: user_password,
-                        )
-    end
-
-    it 'redirects to my_page after forced password change (with validation error) and first login' do
-      # first login
-      visit signin_path
-      within('#login-form') do
-        fill_in('username', with: user.login)
-        fill_in('password', with: user_password)
-        click_link_or_button I18n.t(:button_login)
-      end
-      expect(current_path).to eql signin_path
-
-      # change password page (giving an invalid password)
-      within('#main') do
-        fill_in('password', with: user_password)
-        fill_in('new_password', with: new_user_password)
-        fill_in('new_password_confirmation', with: new_user_password + 'typo')
-        click_link_or_button I18n.t(:button_apply)
-      end
-      expect(current_path).to eql account_change_password_path
-
-      # change password page
-      within('#main') do
-        fill_in('password', with: user_password)
-        fill_in('new_password', with: new_user_password)
-        fill_in('new_password_confirmation', with: new_user_password)
-        click_link_or_button I18n.t(:button_apply)
-      end
-      expect(current_path).to eql my_first_login_path
-
-      # we just save the form and go on
-      within('#main') do
-        click_link_or_button I18n.t(:button_save)
-      end
-
-      # on the my page
-      expect(current_path).to eql my_page_path
-    end
+  it 'disallows paths from the public project' do
+    expect(page).to have_content("Disallow: /projects/#{project.identifier}/repository")
+    expect(page).to have_content("Disallow: /projects/#{project.identifier}/work_packages")
+    expect(page).to have_content("Disallow: /projects/#{project.identifier}/activity")
   end
 end
