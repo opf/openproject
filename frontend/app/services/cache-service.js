@@ -26,50 +26,52 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function (HALAPIResource,
-                           $http,
-                           $q,
-                           $window,
-                           CacheFactory) {
+module.exports = function(HALAPIResource,
+                          $http,
+                          $q,
+                          $window,
+                          CacheFactory) {
 
-  var cacheName = 'openproject-cache',
-    _promises = {},
-    _cache = CacheFactory.get(cacheName);
-
-  if (!_cache) {
-    _cache = CacheFactory(cacheName, {
-      maxAge: 10 * 60 * 1000, // 10 mins
-      storageMode: 'sessionStorage',
-    });
-  }
-
+  var _promises = {};
   var CacheService = {
 
-    cache: function (key, value) {
-      _cache.put(key, value);
+    temporaryCache: function() {
+      return CacheService.customCache('openproject-session_cache', {
+        maxAge: 10 * 60 * 1000, // 10 mins
+        storageMode: 'sessionStorage'
+      });
     },
 
-    get: function (key) {
-      return _cache.get(key);
+    localStorage: function() {
+      return CacheService.customCache('openproject-local_storage_cache', {
+        storageMode: 'localStorage'
+      });
     },
 
-    remove: function (key) {
-      _cache.remove(key);
+    customCache: function(identifier, params) {
+      var _cache = CacheFactory.get(identifier);
+
+      if (!_cache) {
+        _cache = CacheFactory(identifier, params);
+      }
+
+      return _cache;
     },
 
-    loadResource: function (resource, force) {
+    loadResource: function(resource, force) {
       var key = resource.props.href,
         cacheDisabled = $window.openProject.environment === 'test',
-        cached,
-        _fetchResource = function () {
+        cache = CacheService.temporaryCache(),
+        cachedValue,
+        _fetchResource = function() {
           var deferred = $q.defer();
 
-          resource.fetch().then(function (data) {
-            CacheService.cache(key, data);
+          resource.fetch().then(function(data) {
+            cache.put(key, data);
             deferred.resolve(data);
-          }, function () {
+          }, function() {
             deferred.reject();
-            CacheService.remove(key);
+            cache.remove(key);
           });
 
           return deferred.promise;
@@ -81,10 +83,10 @@ module.exports = function (HALAPIResource,
       }
 
       // Got the result directly? Great.
-      cached = CacheService.get(key);
-      if (cached && !force) {
+      cachedValue = cache.get(key);
+      if (cachedValue && !force) {
         var deferred = $q.defer();
-        deferred.resolve(cached);
+        deferred.resolve(cachedValue);
         return deferred.promise;
       }
 

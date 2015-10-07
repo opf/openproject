@@ -38,7 +38,7 @@ module.exports = function(
       var path = PathHelper.apiV3UserPath(id),
         resource = HALAPIResource.setup(path);
 
-      return getUserByResource(resource);
+      return UserService.getUserByResource(resource);
     },
 
     getUserByResource: function(user, force) {
