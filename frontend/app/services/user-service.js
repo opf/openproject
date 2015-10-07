@@ -36,9 +36,10 @@ module.exports = function(
   var UserService = {
     getUser: function(id) {
       var path = PathHelper.apiV3UserPath(id),
-          resource = HALAPIResource.setup(path);
+        resource = HALAPIResource.setup(path);
 
       return getUserByResource(resource);
+    },
 
     getUserByResource: function(user, force) {
       return CacheService.loadResource(user, force);

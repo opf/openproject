@@ -39,6 +39,7 @@ angular.module('openproject.services')
     'HALAPIResource',
     '$http',
     '$q',
+    '$window',
     'CacheFactory',
     require('./cache-service')
   ])

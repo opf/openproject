@@ -26,15 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(
-  HALAPIResource,
-  $http,
-  $q,
-  CacheFactory) {
+module.exports = function (HALAPIResource,
+                           $http,
+                           $q,
+                           $window,
+                           CacheFactory) {
 
   var cacheName = 'openproject-cache',
-      _promises = {},
-      _cache = CacheFactory.get(cacheName);
+    _promises = {},
+    _cache = CacheFactory.get(cacheName);
 
   if (!_cache) {
     _cache = CacheFactory(cacheName, {
@@ -45,27 +45,47 @@ module.exports = function(
 
   var CacheService = {
 
-    cache: function(key, value) {
+    cache: function (key, value) {
       _cache.put(key, value);
     },
 
-    get: function(key) {
+    get: function (key) {
       return _cache.get(key);
     },
 
-    remove: function(key) {
+    remove: function (key) {
       _cache.remove(key);
     },
 
-    loadResource: function(resource, force) {
-      var deferred = $q.defer(),
-          key = resource.props.href,
-          cached = CacheService.get(key);
+    loadResource: function (resource, force) {
+      var key = resource.props.href,
+        cacheDisabled = $window.openProject.environment === 'test',
+        cached,
+        _fetchResource = function () {
+          var deferred = $q.defer();
 
+          resource.fetch().then(function (data) {
+            CacheService.cache(key, data);
+            deferred.resolve(data);
+          }, function () {
+            deferred.reject();
+            CacheService.remove(key);
+          });
+
+          return deferred.promise;
+        };
+
+      // Return early when frontend caching is not desired
+      if (cacheDisabled) {
+        return _fetchResource();
+      }
 
       // Got the result directly? Great.
+      cached = CacheService.get(key);
       if (cached && !force) {
+        var deferred = $q.defer();
         deferred.resolve(cached);
+        return deferred.promise;
       }
 
       // Return an existing promise if it exists
@@ -75,15 +95,7 @@ module.exports = function(
         return _promises[key];
       }
 
-      resource.fetch().then(function(data) {
-        CacheService.cache(key, data);
-        deferred.resolve(data);
-      }, function() {
-        deferred.reject();
-        CacheService.remove(key);
-      });
-
-      var promise = deferred.promise;
+      var promise = _fetchResource();
       _promises[key] = promise;
       return promise;
     }
