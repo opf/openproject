@@ -4,8 +4,6 @@ echo "ruby '2.1.6'" > Gemfile.local
 cp -f packaging/conf/configuration.yml config/configuration.yml
 sed -i "s|config.serve_static_files = false|config.serve_static_files = true|" config/environments/production.rb
 
-cp -f packaging/conf/000-establish-connection.rb config/initializers/
-
 # Specific npmrc used for packaging
 cp -f packaging/.npmrc .npmrc
 
