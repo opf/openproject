@@ -219,16 +219,16 @@ prevents you from such errors.
 
 ```bash
 [openproject@host] cd ~/openproject
-[openproject@host] bundle exec rake db:create:all
-[openproject@host] bundle exec rake generate_secret_token
-[openproject@host] RAILS_ENV="production" bundle exec rake db:migrate
-[openproject@host] RAILS_ENV="production" bundle exec rake db:seed
-[openproject@host] RAILS_ENV="production" bundle exec rake assets:precompile
+[openproject@host] ./bin/rake db:create:all
+[openproject@host] ./bin/rake generate_secret_token
+[openproject@host] RAILS_ENV="production" ./bin/rake db:migrate
+[openproject@host] RAILS_ENV="production" ./bin/rake db:seed
+[openproject@host] RAILS_ENV="production" ./bin/rake assets:precompile
 ```
 
 **NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `LOCALE` environment variable on the call to `db:seed`. E.g.
 ```bash
-[openproject@all] RAILS_ENV="production" LOCALE=fr bundle exec rake db:seed
+[openproject@all] RAILS_ENV="production" LOCALE=fr ./bin/rake db:seed
 ```
 will seed the database in the french language.
 
@@ -389,9 +389,9 @@ If you have modified the `Gemfile.plugin` file, always repeat the following step
 [openproject@all] cd ~/openproject
 [openproject@all] bundle install
 [openproject@all] npm install
-[openproject@all] RAILS_ENV="production" bundle exec rake db:migrate
-[openproject@all] RAILS_ENV="production" bundle exec rake db:seed
-[openproject@all] RAILS_ENV="production" bundle exec rake assets:precompile
+[openproject@all] RAILS_ENV="production" ./bin/rake db:migrate
+[openproject@all] RAILS_ENV="production" ./bin/rake db:seed
+[openproject@all] RAILS_ENV="production" ./bin/rake assets:precompile
 ```
 
 Restart the OpenProject server afterwards:
@@ -428,7 +428,7 @@ If you need to restart the server (for example after a configuration change), do
   If you cannot login as the admin user, make sure that you have executed the `db:seed` command.
 
   ```bash
-  [openproject@all] RAILS_ENV="production" bundle exec rake db:seed
+  [openproject@all] RAILS_ENV="production" ./bin/rake db:seed
   ```
 
 * **When accessing OpenProject, I get an error page. How do I find out what went wrong?**
