@@ -88,9 +88,9 @@ module.exports = function($http,
         links: {
           update: HALAPIResource
             .setup(PathHelper
-              .projectWorkPackagesFormPath(projectIdentifier)),
+              .apiV3WorkPackageFormPath(projectIdentifier)),
           updateImmediately: HALAPIResource.setup(
-            PathHelper.projectWorkPackagesPath(projectIdentifier),
+            PathHelper.apiv3ProjectWorkPackagesPath(projectIdentifier),
             { method: 'post' }
           )
         }
