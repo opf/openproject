@@ -94,16 +94,16 @@ use [rbenv](http://rbenv.org/).
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 2.1.6
+[openproject@host] rbenv install 2.1.7
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 2.1.6
+[openproject@host] rbenv global 2.1.7
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 2.1.6p336 (2015-04-13 revision 50298) [x86_64-linux]
+ruby 2.1.7p400 (2015-08-18 revision 51632) [x86_64-linux]
 ```
 
 ## Installation of Node
@@ -219,18 +219,27 @@ prevents you from such errors.
 
 ```bash
 [openproject@host] cd ~/openproject
-[openproject@host] bundle exec rake db:create:all
-[openproject@host] bundle exec rake generate_secret_token
-[openproject@host] RAILS_ENV="production" bundle exec rake db:migrate
-[openproject@host] RAILS_ENV="production" bundle exec rake db:seed
-[openproject@host] RAILS_ENV="production" bundle exec rake assets:precompile
+[openproject@host] RAILS_ENV="production" ./bin/rake db:create
+[openproject@host] RAILS_ENV="production" ./bin/rake db:migrate
+[openproject@host] RAILS_ENV="production" ./bin/rake db:seed
+[openproject@host] RAILS_ENV="production" ./bin/rake assets:precompile
 ```
 
 **NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `LOCALE` environment variable on the call to `db:seed`. E.g.
 ```bash
-[openproject@all] RAILS_ENV="production" LOCALE=fr bundle exec rake db:seed
+[openproject@all] RAILS_ENV="production" LOCALE=fr ./bin/rake db:seed
 ```
 will seed the database in the french language.
+
+### Secret Token
+
+You need to generate a secret key base for the production environment with `./bin/rake secret` and make that available through the environment variable `SECRET_KEY_BASE`.
+In this installation guide, we will use the local `.profile` of the OpenProject user. You may alternatively put set the environment variable in `/etc/environment` or pass it to the server upon start manually.
+
+```bash
+[openproject@host] echo "export SECRET_KEY_BASE="`./bin/rake secret`" >> ~/.profile
+[openproject@host] source ~/.profile
+```
 
 ## Serve OpenProject with Apache and Passenger
 
@@ -389,9 +398,9 @@ If you have modified the `Gemfile.plugin` file, always repeat the following step
 [openproject@all] cd ~/openproject
 [openproject@all] bundle install
 [openproject@all] npm install
-[openproject@all] RAILS_ENV="production" bundle exec rake db:migrate
-[openproject@all] RAILS_ENV="production" bundle exec rake db:seed
-[openproject@all] RAILS_ENV="production" bundle exec rake assets:precompile
+[openproject@all] RAILS_ENV="production" ./bin/rake db:migrate
+[openproject@all] RAILS_ENV="production" ./bin/rake db:seed
+[openproject@all] RAILS_ENV="production" ./bin/rake assets:precompile
 ```
 
 Restart the OpenProject server afterwards:
@@ -428,7 +437,7 @@ If you need to restart the server (for example after a configuration change), do
   If you cannot login as the admin user, make sure that you have executed the `db:seed` command.
 
   ```bash
-  [openproject@all] RAILS_ENV="production" bundle exec rake db:seed
+  [openproject@all] RAILS_ENV="production" ./bin/rake db:seed
   ```
 
 * **When accessing OpenProject, I get an error page. How do I find out what went wrong?**
