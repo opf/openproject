@@ -34,8 +34,6 @@ class MemberRole < ActiveRecord::Base
   after_create :add_role_to_group_users
   after_destroy :remove_role_from_group_users
 
-  attr_protected :member_id, :role_id
-
   validates_presence_of :role
   validate :validate_project_member_role
 

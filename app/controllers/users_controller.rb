@@ -162,7 +162,7 @@ class UsersController < ApplicationController
 
     if @user.save
       # TODO: Similar to My#account
-      @user.pref.attributes = params[:pref] || {}
+      @user.pref.attributes = permitted_params.pref || {}
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       @user.pref.save
 
@@ -238,7 +238,7 @@ class UsersController < ApplicationController
   end
 
   def edit_membership
-    @membership = Member.edit_membership(params[:membership_id], params[:membership], @user)
+    @membership = Member.edit_membership(params[:membership_id], permitted_params.membership, @user)
     @membership.save if request.post?
     respond_to do |format|
       if @membership.valid?

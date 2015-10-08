@@ -71,7 +71,7 @@ class NewsController < ApplicationController
 
   def create
     @news = News.new(project: @project, author: User.current)
-    @news.safe_attributes = params[:news]
+    @news.safe_attributes = permitted_params.news
     if @news.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to controller: '/news', action: 'index', project_id: @project
@@ -84,7 +84,7 @@ class NewsController < ApplicationController
   end
 
   def update
-    @news.safe_attributes = params[:news]
+    @news.safe_attributes = permitted_params.news
     if @news.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: 'show', id: @news

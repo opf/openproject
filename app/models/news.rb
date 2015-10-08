@@ -35,8 +35,6 @@ class News < ActiveRecord::Base
     order('created_on')
   }, as: :commented, dependent: :delete_all
 
-  attr_protected :project_id, :author_id
-
   validates_presence_of :title, :description
   validates_length_of :title, maximum: 60
   validates_length_of :summary, maximum: 255

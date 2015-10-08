@@ -41,8 +41,6 @@ class Version < ActiveRecord::Base
   VERSION_STATUSES = %w(open locked closed)
   VERSION_SHARINGS = %w(none descendants hierarchy tree system)
 
-  attr_protected :project_id
-
   validates_presence_of :name
   validates_uniqueness_of :name, scope: [:project_id]
   validates_length_of :name, maximum: 60

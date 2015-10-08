@@ -78,13 +78,13 @@ describe ProjectAssociation, type: :model do
       FactoryGirl.create(:project, id: 2)
     }
 
-    it { expect(ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes, without_protection: true) }).to be_valid }
+    it { expect(ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes) }).to be_valid }
 
     it 'should be invalid for a self referential association' do
       attributes[:project_b_id] = attributes[:project_a_id]
 
       project_association = ProjectAssociation.new do |a|
-        a.send(:assign_attributes, attributes, without_protection: true)
+        a.send(:assign_attributes, attributes)
       end
 
       expect(project_association).not_to be_valid
@@ -98,7 +98,7 @@ describe ProjectAssociation, type: :model do
     describe 'project_a' do
       it 'is invalid w/o a project_a' do
         attributes[:project_a_id] = nil
-        project_association = ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes, without_protection: true) }
+        project_association = ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes) }
 
         expect(project_association).not_to be_valid
 
@@ -109,7 +109,7 @@ describe ProjectAssociation, type: :model do
     describe 'project_b' do
       it 'is invalid w/o a project_b' do
         attributes[:project_b_id] = nil
-        project_association = ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes, without_protection: true) }
+        project_association = ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes) }
 
         expect(project_association).not_to be_valid
 

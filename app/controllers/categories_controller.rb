@@ -41,7 +41,7 @@ class CategoriesController < ApplicationController
 
   def create
     @category = @project.categories.build
-    @category.safe_attributes = params[:category]
+    @category.safe_attributes = permitted_params.category
 
     if @category.save
       respond_to do |format|
@@ -66,11 +66,11 @@ class CategoriesController < ApplicationController
   end
 
   def edit
-    @category.safe_attributes = params[:category]
+    @category.safe_attributes = permitted_params.category
   end
 
   def update
-    @category.safe_attributes = params[:category]
+    @category.safe_attributes = permitted_params.category
     if @category.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to controller: '/projects', action: 'settings', tab: 'categories', id: @project

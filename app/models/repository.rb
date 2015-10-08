@@ -46,8 +46,6 @@ class Repository < ActiveRecord::Base
   # has_many :changesets, :dependent => :destroy is too slow for big repositories
   before_destroy :clear_changesets
 
-  attr_protected :project_id
-
   validates_length_of :password, maximum: 255, allow_nil: true
   validate :validate_enabled_scm, on: :create
 

@@ -33,8 +33,6 @@ class Category < ActiveRecord::Base
   belongs_to :assigned_to, class_name: 'Principal', foreign_key: 'assigned_to_id'
   has_many :work_packages, foreign_key: 'category_id', dependent: :nullify
 
-  attr_protected :project_id
-
   validates_presence_of :name
   validates_uniqueness_of :name, scope: [:project_id]
   validates_length_of :name, maximum: 30

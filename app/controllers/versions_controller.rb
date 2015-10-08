@@ -67,8 +67,8 @@ class VersionsController < ApplicationController
 
   def new
     @version = @project.versions.build
-    if params[:version]
-      attributes = params[:version].dup
+    if permitted_params.version.present?
+      attributes = permitted_params.version.dup
       attributes.delete('sharing') unless attributes.nil? || @version.allowed_sharings.include?(attributes['sharing'])
       @version.safe_attributes = attributes
     end
@@ -77,8 +77,8 @@ class VersionsController < ApplicationController
   def create
     # TODO: refactor with code above in #new
     @version = @project.versions.build
-    if params[:version]
-      attributes = params[:version].dup
+    if permitted_params.version.present?
+      attributes = permitted_params.version.dup
       attributes.delete('sharing') unless attributes.nil? || @version.allowed_sharings.include?(attributes['sharing'])
       @version.safe_attributes = attributes
     end
@@ -109,8 +109,8 @@ class VersionsController < ApplicationController
   end
 
   def update
-    if request.patch? && params[:version]
-      attributes = params[:version].dup
+    if request.patch? && permitted_params.version.present?
+      attributes = permitted_params.version.dup
       attributes.delete('sharing') unless @version.allowed_sharings.include?(attributes['sharing'])
       @version.safe_attributes = attributes
       if @version.save

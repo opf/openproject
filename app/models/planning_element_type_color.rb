@@ -37,8 +37,6 @@ class PlanningElementTypeColor < ActiveRecord::Base
                                     foreign_key: 'color_id',
                                     dependent:   :nullify
 
-  include ActiveModel::ForbiddenAttributesProtection
-
   before_validation :normalize_hexcode
 
   validates_presence_of :name, :hexcode

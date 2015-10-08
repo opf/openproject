@@ -130,8 +130,6 @@ class Project < ActiveRecord::Base
                 author: nil,
                 datetime: :created_on
 
-  attr_protected :status
-
   validates_presence_of :name, :identifier
   # TODO: we temporarily disable this validation because it leads to failed tests
   # it implicitly assumes a db:seed-created standard type to be present and currently

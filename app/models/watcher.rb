@@ -33,8 +33,6 @@ class Watcher < ActiveRecord::Base
   belongs_to :watchable, polymorphic: true
   belongs_to :user
 
-  attr_accessible :watchable, :user, :user_id
-
   validates_presence_of :watchable, :user
   validates_uniqueness_of :user_id, scope: [:watchable_type, :watchable_id]
 

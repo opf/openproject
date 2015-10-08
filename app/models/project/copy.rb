@@ -97,7 +97,7 @@ module Project::Copy
       wiki_menu_items_map = {}
       project.wiki.wiki_menu_items.each do |item|
         new_item = MenuItems::WikiMenuItem.new
-        new_item.force_attributes = item.attributes.dup.except('id', 'wiki_id', 'parent_id')
+        new_item.attributes = item.attributes.dup.except('id', 'wiki_id', 'parent_id')
         new_item.wiki = wiki
         (wiki_menu_items_map[item.id] = new_item.reload) if new_item.save
       end
@@ -122,7 +122,7 @@ module Project::Copy
     def copy_categories(project)
       project.categories.each do |category|
         new_category = Category.new
-        new_category.send(:assign_attributes, category.attributes.dup.except('id', 'project_id'), without_protection: true)
+        new_category.send(:assign_attributes, category.attributes.dup.except('id', 'project_id'))
         categories << new_category
       end
     end
@@ -182,7 +182,7 @@ module Project::Copy
         # Relations
         issue.relations_from.each do |source_relation|
           new_relation = Relation.new
-          new_relation.force_attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id')
+          new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id')
           new_relation.to = work_packages_map[source_relation.to_id]
           if new_relation.to.nil? && Setting.cross_project_work_package_relations?
             new_relation.to = source_relation.to
@@ -193,7 +193,7 @@ module Project::Copy
 
         issue.relations_to.each do |source_relation|
           new_relation = Relation.new
-          new_relation.force_attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id')
+          new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id')
           new_relation.from = work_packages_map[source_relation.from_id]
           if new_relation.from.nil? && Setting.cross_project_work_package_relations?
             new_relation.from = source_relation.from
@@ -212,7 +212,7 @@ module Project::Copy
       members_to_copy += project.memberships.select { |m| !m.principal.is_a?(User) }
       members_to_copy.each do |member|
         new_member = Member.new
-        new_member.send(:assign_attributes, member.attributes.dup.except('id', 'project_id', 'created_on'), without_protection: true)
+        new_member.send(:assign_attributes, member.attributes.dup.except('id', 'project_id', 'created_on'))
         # only copy non inherited roles
         # inherited roles will be added when copying the group membership
         role_ids = member.member_roles.reject(&:inherited?).map(&:role_id)
@@ -265,7 +265,7 @@ module Project::Copy
       [:project_a, :project_b].each do |association_type|
         project.send(:"#{association_type}_associations").each do |association|
           new_association = ProjectAssociation.new
-          new_association.force_attributes = association.attributes.dup.except('id', "#{association_type}_id")
+          new_association.attributes = association.attributes.dup.except('id', "#{association_type}_id")
           new_association.send(:"#{association_type}=", self)
           new_association.save
         end
@@ -276,7 +276,7 @@ module Project::Copy
     def copy_timelines(project)
       project.timelines.each do |timeline|
         copied_timeline = Timeline.new
-        copied_timeline.force_attributes = timeline.attributes.dup.except('id', 'project_id', 'options')
+        copied_timeline.attributes = timeline.attributes.dup.except('id', 'project_id', 'options')
         copied_timeline.options = timeline.options if timeline.options.present?
         copied_timeline.project = self
         copied_timeline.save
@@ -287,13 +287,13 @@ module Project::Copy
     def copy_reportings(project)
       project.reportings_via_source.each do |reporting|
         copied_reporting = Reporting.new
-        copied_reporting.force_attributes = reporting.attributes.dup.except('id', 'project_id')
+        copied_reporting.attributes = reporting.attributes.dup.except('id', 'project_id')
         copied_reporting.project = self
         copied_reporting.save
       end
       project.reportings_via_target.each do |reporting|
         copied_reporting = Reporting.new
-        copied_reporting.force_attributes = reporting.attributes.dup.except('id', 'reporting_to_project')
+        copied_reporting.attributes = reporting.attributes.dup.except('id', 'reporting_to_project')
         copied_reporting.reporting_to_project = self
         copied_reporting.save
       end

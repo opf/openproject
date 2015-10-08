@@ -31,12 +31,6 @@ class PermittedParams
   # This class intends to provide a method for all params hashes coming from the
   # client and that are used for mass assignment.
   #
-  # As such, please make it a deliberate decision to whitelist attributes.
-  #
-  # This implementation depends on the strong_parameters gem. For further
-  # information see here: https://github.com/rails/strong_parameters
-  #
-  #
   # A method should look like the following:
   #
   # def name_of_the_params_key_referenced
@@ -46,18 +40,8 @@ class PermittedParams
   #
   # A controller could use a permitted_params method like this
   #
-  # model_instance.attributes = permitted_params.name_of_the_params_key_referenced
+  # model_instance.METHOD_USING_ASSIGMENT = permitted_params.name_of_the_params_key_referenced
   #
-  # instead of doing something like this which will not work anymore once the
-  # model is protected:
-  #
-  # model_instance.attributes = params[:name_of_the_params_key_referenced]
-  #
-  #
-  # A model will need the following module included in order to be protected by
-  # strong_params
-  #
-  # include ActiveModel::ForbiddenAttributesProtection
   attr_reader :params, :current_user
 
   def initialize(params, current_user)
@@ -266,6 +250,77 @@ class PermittedParams
 
   def wiki_content
     params.require(:content).permit(*self.class.permitted_attributes[:wiki_content])
+  end
+
+  def timeline
+    params.require(:timeline).permit(:name, :options)
+  end
+
+  def pref
+    params.require(:pref).permit(:hide_mail, :time_zone, :impaired,
+                                 :comments_sorting, :warn_on_leaving_unsaved,
+                                 :theme)
+  end
+
+  def membership
+    params.require(:membership).permit(:project_id, role_ids: [])
+  end
+
+  def project
+    params.require(:project).permit(:name,
+                                    :description,
+                                    :is_public,
+                                    :identifier,
+                                    :project_type_id,
+                                    custom_field_values: {},
+                                    custom_fields: [],
+                                    work_package_custom_field_ids: [],
+                                    type_ids: [],
+                                    enabled_module_names: [])
+  end
+
+  def time_entry
+    params.require(:time_entry).permit(:hours, :comments, :work_package_id,
+                                       :activity_id, :spent_on, custom_field_values: [])
+  end
+
+  def news
+    params.require(:news).permit(:title, :summary, :description)
+  end
+
+  def category
+    params.require(:category).permit(:name, :assigned_to_id)
+  end
+
+  def version
+    params.require(:version).permit(:name,
+                                    :description,
+                                    :effective_date,
+                                    :due_date,
+                                    :start_date,
+                                    :wiki_page_title,
+                                    :status,
+                                    :sharing,
+                                    :custom_field_value)
+  end
+
+  def comment
+    params.require(:comment).permit(:commented, :author, :comments)
+  end
+
+  # `params.fetch` and not `require` because the update controller action associated
+  # with this is doing multiple things, therefore not requiring a message hash
+  # all the time.
+  def message(instance = nil)
+    if instance && current_user.allowed_to?(:edit_messages, instance.project)
+      params.fetch(:message, {}).permit(:subject, :content, :board_id, :locked, :sticky)
+    else
+      params.fetch(:message, {}).permit(:subject, :content, :board_id)
+    end
+  end
+
+  def attachments
+    params.permit(attachments: [:file, :description])['attachments']
   end
 
   protected

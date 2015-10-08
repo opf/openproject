@@ -875,7 +875,7 @@ describe Project, type: :model do
 
       # group role
       (Member.new.tap do |m|
-        m.force_attributes = { project_id: @source_project.id,
+        m.attributes = { project_id: @source_project.id,
                                principal: group,
                                role_ids: [2] }
       end).save!

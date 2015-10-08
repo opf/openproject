@@ -31,8 +31,6 @@ class Comment < ActiveRecord::Base
   belongs_to :commented, polymorphic: true, counter_cache: true
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 
-  attr_accessible :commented, :author, :comments
-
   validates :commented, :author, :comments, presence: true
 
   def text

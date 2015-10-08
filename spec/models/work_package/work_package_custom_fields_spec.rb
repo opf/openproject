@@ -231,7 +231,7 @@ describe WorkPackage, type: :model do
 
         subject do
           wp = WorkPackage.new.tap do |i|
-            i.force_attributes = { project: project }
+            i.attributes = { project: project }
           end
           wp.attributes = attribute_hash
 

@@ -28,8 +28,6 @@
 #++
 
 class Member < ActiveRecord::Base
-  include ActiveModel::ForbiddenAttributesProtection
-
   belongs_to :user
   belongs_to :principal, foreign_key: 'user_id'
   has_many :member_roles, dependent: :destroy, autosave: true
@@ -127,9 +125,7 @@ class Member < ActiveRecord::Base
   # Find or initialize a Member with an id, attributes, and for a Principal
   def self.edit_membership(id, new_attributes, principal = nil)
     @membership = id.present? ? Member.find(id) : Member.new(principal: principal)
-    # interface refactoring needed
-    # not critical atm because only admins can invoke it (see users and groups controllers)
-    @membership.force_attributes = new_attributes
+    @membership.attributes = new_attributes
     @membership
   end
 

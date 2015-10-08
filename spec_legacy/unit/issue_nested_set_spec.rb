@@ -43,7 +43,7 @@ describe 'IssueNestedSet', type: :model do
     Setting.cross_project_work_package_relations = '0'
     issue = create_issue!
     child = WorkPackage.new.tap do |i|
-      i.force_attributes = { project_id: 2,
+      i.attributes = { project_id: 2,
                              type_id: 1,
                              author_id: 1,
                              subject: 'child',
@@ -57,7 +57,7 @@ describe 'IssueNestedSet', type: :model do
     Setting.cross_project_work_package_relations = '1'
     issue = create_issue!
     child = WorkPackage.new.tap do |i|
-      i.force_attributes = { project_id: 2,
+      i.attributes = { project_id: 2,
                              type_id: 1,
                              author_id: 1,
                              subject: 'child',
@@ -107,17 +107,17 @@ describe 'IssueNestedSet', type: :model do
     issue3 = create_issue!(parent_id: issue2.id)
     issue4 = create_issue!
     (r1 = Relation.new.tap do |i|
-      i.force_attributes = { from: issue1,
+      i.attributes = { from: issue1,
                              to: issue2,
                              relation_type: Relation::TYPE_PRECEDES }
     end).save!
     (r2 = Relation.new.tap do |i|
-      i.force_attributes = { from: issue1,
+      i.attributes = { from: issue1,
                              to: issue3,
                              relation_type: Relation::TYPE_PRECEDES }
     end).save!
     (r3 = Relation.new.tap do |i|
-      i.force_attributes = { from: issue2,
+      i.attributes = { from: issue2,
                              to: issue4,
                              relation_type: Relation::TYPE_PRECEDES }
     end).save!
@@ -296,7 +296,7 @@ describe 'IssueNestedSet', type: :model do
   def create_issue!(attributes = {})
     (i = WorkPackage.new.tap do |i|
       attr = { project_id: 1, type_id: 1, author_id: 1, subject: 'test' }.merge(attributes)
-      i.force_attributes = attr
+      i.attributes = attr
     end).save!
     i
   end

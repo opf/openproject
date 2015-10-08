@@ -65,9 +65,6 @@ class WorkPackage < ActiveRecord::Base
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
   }
 
-  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  attr_protected :project_id, :author_id, :lft, :rgt
-  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   scope :recently_updated, ->() {
     # Specified as a String due to https://github.com/rails/rails/issues/15405
@@ -290,8 +287,8 @@ class WorkPackage < ActiveRecord::Base
 
     work_package = arg.is_a?(WorkPackage) ? arg : WorkPackage.visible.find(arg)
 
-    # attributes don't come from form, so it's save to force assign
-    self.force_attributes = work_package.attributes.dup.except(*merged_options[:exclude])
+    # attributes don't come from form, so it's safe to force assign
+    self.attributes = work_package.attributes.dup.except(*merged_options[:exclude])
     self.parent_id = work_package.parent_id if work_package.parent_id
     self.custom_field_values =
       work_package.custom_field_values.inject({}) do |h, v|

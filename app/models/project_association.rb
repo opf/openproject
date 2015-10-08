@@ -37,8 +37,6 @@ class ProjectAssociation < ActiveRecord::Base
 
   validates_presence_of :project_a, :project_b
 
-  attr_accessible :description
-
   validate :validate,
            :validate_projects_not_identical
 

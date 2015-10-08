@@ -46,8 +46,6 @@ class Wiki < ActiveRecord::Base
 
   safe_attributes 'wiki_menu_items_attributes'
 
-  attr_protected :project_id
-
   validates_presence_of :start_page
   validates_format_of :start_page, with: /\A[^,\.\/\?\;\|\:]*\z/
 

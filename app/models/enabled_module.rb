@@ -30,8 +30,6 @@
 class EnabledModule < ActiveRecord::Base
   belongs_to :project
 
-  attr_protected :project_id
-
   validates_presence_of :name
   validates_uniqueness_of :name, scope: :project_id
 
