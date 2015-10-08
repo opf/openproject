@@ -219,8 +219,7 @@ prevents you from such errors.
 
 ```bash
 [openproject@host] cd ~/openproject
-[openproject@host] ./bin/rake db:create
-[openproject@host] ./bin/rake generate_secret_token
+[openproject@host] RAILS_ENV="production" ./bin/rake db:create
 [openproject@host] RAILS_ENV="production" ./bin/rake db:migrate
 [openproject@host] RAILS_ENV="production" ./bin/rake db:seed
 [openproject@host] RAILS_ENV="production" ./bin/rake assets:precompile
@@ -231,6 +230,16 @@ prevents you from such errors.
 [openproject@all] RAILS_ENV="production" LOCALE=fr ./bin/rake db:seed
 ```
 will seed the database in the french language.
+
+### Secret Token
+
+You need to generate a secret key base for the production environment with `./bin/rake secret` and make that available through the environment variable `SECRET_KEY_BASE`.
+In this installation guide, we will use the local `.profile` of the OpenProject user. You may alternatively put set the environment variable in `/etc/environment` or pass it to the server upon start manually.
+
+```bash
+[openproject@host] echo "export SECRET_KEY_BASE="`./bin/rake secret`" >> ~/.profile
+[openproject@host] source ~/.profile
+```
 
 ## Serve OpenProject with Apache and Passenger
 
