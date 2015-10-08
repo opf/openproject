@@ -219,7 +219,7 @@ prevents you from such errors.
 
 ```bash
 [openproject@host] cd ~/openproject
-[openproject@host] ./bin/rake db:create:all
+[openproject@host] ./bin/rake db:create
 [openproject@host] ./bin/rake generate_secret_token
 [openproject@host] RAILS_ENV="production" ./bin/rake db:migrate
 [openproject@host] RAILS_ENV="production" ./bin/rake db:seed
