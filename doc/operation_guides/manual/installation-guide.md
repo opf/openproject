@@ -94,16 +94,16 @@ use [rbenv](http://rbenv.org/).
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 2.1.6
+[openproject@host] rbenv install 2.1.7
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 2.1.6
+[openproject@host] rbenv global 2.1.7
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 2.1.6p336 (2015-04-13 revision 50298) [x86_64-linux]
+ruby 2.1.7p400 (2015-08-18 revision 51632) [x86_64-linux]
 ```
 
 ## Installation of Node
