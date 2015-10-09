@@ -193,6 +193,7 @@ group :development, :test do
   gem 'pry-rescue'
   gem 'pry-byebug', platforms: [:mri]
   gem 'pry-doc'
+  gem 'fuubar'
 end
 
 # API gems
