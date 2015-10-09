@@ -71,28 +71,17 @@
 .advanced-filters--number-field
   @extend .form--text-field, .form--text-field.-small
 
-%advanced-filters--filter-part
-  .inline-label
-    margin-bottom: 0
-  // adding the input rules to be more specific than the resets of
-  // foundation.
-  input, select
-    margin-bottom: 0
-
 .advanced-filters--filter-name
   @include grid-content(3)
-  @extend %advanced-filters--filter-part
   overflow-y: hidden
   white-space: nowrap
   text-overflow: ellipsis
 
 .advanced-filters--filter-operator
   @include grid-content(3)
-  @extend %advanced-filters--filter-part
 
 .advanced-filters--filter-value
   @include grid-content(5)
-  @extend %advanced-filters--filter-part
 
 .advanced-filters--remove-filter
   @include grid-content($size: shrink)
@@ -106,7 +95,6 @@
 
 .advanced-filters--add-filter
   @include advanced-filters--sizing
-  @extend %advanced-filters--filter-part
   align-items:      center
   padding:          0.25rem 0
 

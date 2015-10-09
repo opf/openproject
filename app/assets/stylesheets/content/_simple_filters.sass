@@ -38,7 +38,7 @@ $filters--border-color: $gray !default
 
 .simple-filters--container
   @extend %filters--container
-  padding: 1rem 1rem 0
+  padding: 1rem 1rem 1rem 1rem
   margin: 0.6em 0
 
   .simple-filter--trailing-labels
@@ -70,6 +70,7 @@ $filters--border-color: $gray !default
   .simple-filters--filter,
     padding: 0
     display: flex
+    align-items: center
     @include breakpoint(large)
 
     .simple-filters--filter-name
@@ -83,9 +84,13 @@ $filters--border-color: $gray !default
 
   .simple-filters--controls
     padding: 0
-    align-self: flex-start
+    align-self: center
     @include breakpoint(large)
       flex: 1
+
+    button,
+    .button
+      margin-bottom: 0rem
 
 .simple-filters--filters.-columns-3
   justify-content: flex-start
@@ -100,4 +105,9 @@ $filters--border-color: $gray !default
   .simple-filters--filter,
   .simple-filters--controls
     padding: 0
+    align-self: center
     @include breakpoint(large)
+
+    button,
+    .button
+      margin-bottom: 0rem
