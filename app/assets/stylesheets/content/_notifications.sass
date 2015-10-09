@@ -258,3 +258,73 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     @extend %success-placeholder
   &.-warning
     @extend %warning-placeholder
+
+
+// Use same styles for flash messages
+.flash, #errorExplanation
+  position: absolute
+  top: rem-calc(52px) //this value probably will change
+  width: $nm-notification-width
+  margin-left: -($nm-notification-width / 2)
+  left: 50%
+  border-radius: $nm-border-radius
+  border-style: solid
+  border-width: rem-calc(1)
+  font-size: $nm-font-size
+  line-height: 1.6
+  padding: $nm-box-padding
+  box-shadow: rem-calc(1px 2px 3px) #dddddd
+  margin-bottom: 0.1875rem
+  margin-top: 0.5rem
+  z-index: 1000
+
+  &.ng-leave
+    @include animation(0.5s fade-out)
+
+  a
+    text-decoration: none
+    cursor: default
+
+  ul
+    font-size: $nm-font-size
+    margin: 0 0 0 30px
+
+  h2, p
+    @extend .hidden-for-sighted
+
+  .close-handler
+    float: none
+    position: absolute
+    top: rem-calc(11)
+    right: rem-calc(11)
+    font-size: 12px
+    cursor: pointer
+
+  &::before
+    @include messages-icon
+    padding: 0 !important
+
+  &.notice
+    @extend %success-placeholder
+
+    &::before
+      @extend %nm-icon-success
+      color: $nm-color-success-icon
+
+  &.error, &.nodata
+    @extend %error-placeholder
+
+    &::before
+      @extend %nm-icon-error
+      color: $nm-color-error-icon
+
+  &.warning
+    @extend %warning-placeholder
+
+    &::before
+      @extend %nm-icon-warning
+      color: $nm-color-warning-icon
+
+#errorExplanation
+  &::before
+    color: $nm-color-error-icon !important
