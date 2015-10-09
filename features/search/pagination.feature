@@ -31,7 +31,7 @@ Feature: Pagination
     Given there are 15 work packages with "wurst" in their description
     And I am admin
 
-  @javascript
+  @javascript @selenium
   Scenario: The search result pages do not change while going back and forth
     When I search globally for "wurst"
     Then I should see "Results (15)"

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'create users', type: :feature do
+describe 'create users', type: :feature, selenium: true do
   let(:current_user) { FactoryGirl.create :admin }
   let(:auth_source) { FactoryGirl.build :dummy_auth_source }
   let(:new_user_page) { Pages::NewUser.new }
