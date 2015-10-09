@@ -75,7 +75,7 @@ class MessagesController < ApplicationController
       m.board = @board
     end
 
-    @message.safe_attributes = permitted_params.message(@message)
+    @message.attributes = permitted_params.message(@message)
 
     @message.attach_files(permitted_params.attachments)
 
@@ -95,7 +95,7 @@ class MessagesController < ApplicationController
     @reply = Message.new
     @reply.author = User.current
     @reply.board = @board
-    @reply.safe_attributes = params[:reply]
+    @reply.attributes = params[:reply]
 
     @topic.children << @reply
     if !@reply.new_record?
@@ -109,14 +109,14 @@ class MessagesController < ApplicationController
   # Edit a message
   def edit
     (render_403; return false) unless @message.editable_by?(User.current)
-    @message.safe_attributes = permitted_params.message(@message)
+    @message.attributes = permitted_params.message(@message)
   end
 
   # Edit a message
   def update
     (render_403; return false) unless @message.editable_by?(User.current)
 
-    @message.safe_attributes = permitted_params.message(@message)
+    @message.attributes = permitted_params.message(@message)
 
     @message.attach_files(permitted_params.attachments)
 

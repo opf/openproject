@@ -28,7 +28,6 @@
 #++
 
 class TimeEntry < ActiveRecord::Base
-  include Redmine::SafeAttributes
   # could have used polymorphic association
   # project association here allows easy loading of time entries at project level with one database trip
   belongs_to :project
@@ -63,8 +62,6 @@ class TimeEntry < ActiveRecord::Base
 
   after_initialize :set_default_activity
   before_validation :set_default_project
-
-  safe_attributes 'hours', 'comments', 'work_package_id', 'activity_id', 'spent_on', 'custom_field_values'
 
   def set_default_activity
     if new_record? && activity.nil?

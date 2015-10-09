@@ -70,7 +70,7 @@ class VersionsController < ApplicationController
     if permitted_params.version.present?
       attributes = permitted_params.version.dup
       attributes.delete('sharing') unless attributes.nil? || @version.allowed_sharings.include?(attributes['sharing'])
-      @version.safe_attributes = attributes
+      @version.attributes = attributes
     end
   end
 
@@ -80,7 +80,7 @@ class VersionsController < ApplicationController
     if permitted_params.version.present?
       attributes = permitted_params.version.dup
       attributes.delete('sharing') unless attributes.nil? || @version.allowed_sharings.include?(attributes['sharing'])
-      @version.safe_attributes = attributes
+      @version.attributes = attributes
     end
 
     if request.post?
@@ -112,7 +112,7 @@ class VersionsController < ApplicationController
     if request.patch? && permitted_params.version.present?
       attributes = permitted_params.version.dup
       attributes.delete('sharing') unless @version.allowed_sharings.include?(attributes['sharing'])
-      @version.safe_attributes = attributes
+      @version.attributes = attributes
       if @version.save
         flash[:notice] = l(:notice_successful_update)
         redirect_back_or_default(settings_project_path(tab: 'versions', id: @project))

@@ -79,14 +79,14 @@ class ProjectsController < ApplicationController
     @types = ::Type.all
     @project = Project.new
     @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
-    @project.safe_attributes = permitted_params.project if params[:project].present?
+    @project.attributes = permitted_params.project if params[:project].present?
   end
 
   def create
     @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
     @project = Project.new
-    @project.safe_attributes = permitted_params.project
+    @project.attributes = permitted_params.project
 
     if validate_parent_id && @project.save
       @project.set_allowed_parent!(permitted_params.project['parent_id']) if permitted_params.project.has_key?('parent_id')
@@ -139,7 +139,7 @@ class ProjectsController < ApplicationController
   def update
     @altered_project = Project.find(@project.id)
 
-    @altered_project.safe_attributes = permitted_params.project
+    @altered_project.attributes = permitted_params.project
     if validate_parent_id && @altered_project.save
       if permitted_params.project.has_key?('parent_id')
         @altered_project.set_allowed_parent!(permitted_params.project['parent_id'])

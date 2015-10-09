@@ -129,7 +129,7 @@ class TimelogController < ApplicationController
 
   def new
     @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
-    @time_entry.safe_attributes = permitted_params.time_entry
+    @time_entry.attributes = permitted_params.time_entry
 
     call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
 
@@ -138,7 +138,7 @@ class TimelogController < ApplicationController
 
   def create
     @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
-    @time_entry.safe_attributes = permitted_params.time_entry
+    @time_entry.attributes = permitted_params.time_entry
 
     call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
 
@@ -159,13 +159,13 @@ class TimelogController < ApplicationController
   end
 
   def edit
-    @time_entry.safe_attributes = permitted_params.time_entry
+    @time_entry.attributes = permitted_params.time_entry
 
     call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
   end
 
   def update
-    @time_entry.safe_attributes = permitted_params.time_entry
+    @time_entry.attributes = permitted_params.time_entry
 
     call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
 

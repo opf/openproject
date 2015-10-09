@@ -161,8 +161,8 @@ class MailHandler < ActionMailer::Base
     end
 
     issue = WorkPackage.new(author: user, project: project)
-    issue.safe_attributes = issue_attributes_from_keywords(issue)
-    issue.safe_attributes = { 'custom_field_values' => custom_field_values_from_keywords(issue) }
+    issue.attributes = issue_attributes_from_keywords(issue)
+    issue.attributes = { 'custom_field_values' => custom_field_values_from_keywords(issue) }
     issue.subject = email.subject.to_s.chomp[0, 255]
     if issue.subject.blank?
       issue.subject = '(no subject)'
@@ -188,8 +188,8 @@ class MailHandler < ActionMailer::Base
     # ignore CLI-supplied defaults for new issues
     @@handler_options[:issue].clear
 
-    issue.safe_attributes = issue_attributes_from_keywords(issue)
-    issue.safe_attributes = { 'custom_field_values' => custom_field_values_from_keywords(issue) }
+    issue.attributes = issue_attributes_from_keywords(issue)
+    issue.attributes = { 'custom_field_values' => custom_field_values_from_keywords(issue) }
     issue.add_journal(user, cleaned_up_text_body)
     add_attachments(issue)
     issue.save!

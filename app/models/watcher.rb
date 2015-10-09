@@ -28,8 +28,6 @@
 #++
 
 class Watcher < ActiveRecord::Base
-  include Redmine::SafeAttributes
-
   belongs_to :watchable, polymorphic: true
   belongs_to :user
 

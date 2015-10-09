@@ -28,7 +28,6 @@
 #++
 
 class Wiki < ActiveRecord::Base
-  include Redmine::SafeAttributes
   belongs_to :project
   has_many :pages, -> {
     order('title')
@@ -44,12 +43,8 @@ class Wiki < ActiveRecord::Base
                                 allow_destroy: true,
                                 reject_if: proc { |attr| attr['name'].blank? && attr['title'].blank? }
 
-  safe_attributes 'wiki_menu_items_attributes'
-
   validates_presence_of :start_page
   validates_format_of :start_page, with: /\A[^,\.\/\?\;\|\:]*\z/
-
-  safe_attributes 'start_page'
 
   after_create :create_menu_item_for_start_page
 

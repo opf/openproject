@@ -28,7 +28,6 @@
 #++
 
 class Version < ActiveRecord::Base
-  include Redmine::SafeAttributes
   extend DeprecatedAlias
 
   include Version::ProjectSharing
@@ -57,16 +56,6 @@ class Version < ActiveRecord::Base
   }
 
   scope :systemwide, -> { where(sharing: 'system') }
-
-  safe_attributes 'name',
-                  'description',
-                  'effective_date',
-                  'due_date',
-                  'start_date',
-                  'wiki_page_title',
-                  'status',
-                  'sharing',
-                  'custom_field_values'
 
   # Returns true if +user+ or current user is allowed to view the version
   def visible?(user = User.current)

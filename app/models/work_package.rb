@@ -40,9 +40,6 @@ class WorkPackage < ActiveRecord::Base
 
   include OpenProject::Journal::AttachmentHelper
 
-  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  include Redmine::SafeAttributes
-
   DONE_RATIO_OPTIONS = %w(field status disabled)
   ATTRIBS_WITH_VALUES_FROM_CHILDREN =
     %w(priority_id start_date due_date estimated_hours done_ratio)
@@ -505,7 +502,6 @@ class WorkPackage < ActiveRecord::Base
     converted_hours = (h.is_a?(String) ? h.to_hours : h)
     write_attribute :estimated_hours, !!converted_hours ? converted_hours : h
   end
-  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   # Safely sets attributes
   # Should be called from controllers instead of #attributes=
@@ -766,32 +762,6 @@ class WorkPackage < ActiveRecord::Base
   # Do not redefine alias chain on reload (see #4838)
   alias_method_chain(:attributes=,
                      :type_first) unless method_defined?(:attributes_without_type_first=)
-
-  safe_attributes 'type_id',
-                  'status_id',
-                  'parent_id',
-                  'category_id',
-                  'assigned_to_id',
-                  'priority_id',
-                  'fixed_version_id',
-                  'subject',
-                  'description',
-                  'start_date',
-                  'due_date',
-                  'done_ratio',
-                  'estimated_hours',
-                  'custom_field_values',
-                  'custom_fields',
-                  'lock_version',
-                  if: ->(issue, user) do
-                    issue.new_record? || user.allowed_to?(:edit_work_packages, issue.project)
-                  end
-
-  safe_attributes 'status_id',
-                  'assigned_to_id',
-                  'fixed_version_id',
-                  'done_ratio',
-                  if: lambda { |issue, user| issue.new_statuses_allowed_to(user).any? }
 
   def <=>(issue)
     if issue.nil?
