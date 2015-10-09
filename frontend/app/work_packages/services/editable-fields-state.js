@@ -39,6 +39,14 @@ module.exports = function() {
       focusField: 'subject',
       state: false,
 
+      start: function () {
+        return this.state = true;
+      },
+
+      stop: function () {
+        return this.state = false;
+      },
+
       toggleState: function () {
         return this.state = !this.state;
       },
