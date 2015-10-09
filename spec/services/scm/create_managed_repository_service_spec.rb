@@ -138,6 +138,8 @@ describe Scm::CreateManagedRepositoryService do
   end
 
   context 'with managed remote config' do
+    include_context 'with webmock'
+
     let(:url) { 'http://myreposerver.example.com/api/' }
     let(:config) {
       {

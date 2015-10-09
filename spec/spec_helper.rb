@@ -109,6 +109,11 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  # As we're using WebMock to mock and test remote HTTP requests,
+  # we require specs to selectively enable mocking of Net::HTTP et al. when the example desires.
+  # Otherwise, all requests are being mocked by default.
+  WebMock.disable!
+
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
   # rspec-rails.
