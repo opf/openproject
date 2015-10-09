@@ -194,13 +194,8 @@ module.exports = function(
       }
 
       $scope.$watch('editableFieldsState.editAll.state', function(state) {
-        var field = $scope.fieldController.field;
         $scope.fieldController.isEditing = state;
         $scope.fieldController.lockFocus = true;
-
-        if (EditableFieldsState.editAll.isFocusField(field)) {
-          vm.markActive();
-        }
       });
     },
     link: function(scope, element, attrs, fieldController) {

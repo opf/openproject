@@ -32,7 +32,11 @@ module.exports = function WorkPackageShowPage() {
 
   this.editButton = $('.button[title="Edit"]');
   this.focusElement = $('#work-package-subject .focus-input');
-
+  this.editableFields = $$('.focus-input');
+  this.editActions = {
+    container: $('.work-packages--edit-actions'),
+    cancel: $('.work-packages--edit-actions .button:last-child')
+  };
 
   this.get = function() {
     browser.get('/work_packages/' + wpId + '/activity');
