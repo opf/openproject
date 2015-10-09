@@ -26,31 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('EditableFieldsState service', function () {
-  var EditableFieldsState, eAll;
+module.exports = function () {
+  return {
+    restrict: 'E',
+    templateUrl: '/templates/work_packages/work_package_edit_actions.html',
+    scope: {
+      workPackage: '='
+    },
 
-  beforeEach(module('openproject'));
-
-  beforeEach(inject(function (_EditableFieldsState_) {
-    EditableFieldsState = _EditableFieldsState_;
-    eAll = EditableFieldsState.editAll;
-  }));
-
-  describe('edit all', function () {
-    it('toggle state switches its current state', function () {
-      expect(EditableFieldsState.state === eAll.toggleState()).to.be.false;
-    });
-
-    it('turns on editing on start', function () {
-      expect(eAll.start()).to.be.true;
-    });
-
-    it('turns off editing on stop', function () {
-      expect(eAll.stop()).to.be.false;
-    });
-
-    it('matches its focused field', function () {
-      expect(eAll.isFocusField(eAll.focusField)).to.be.true;
-    });
-  });
-});
+    controller: ['$scope', 'I18n', 'EditableFieldsState',
+        function ($scope, I18n, EditableFieldsState) {
+      $scope.I18n = I18n;
+      $scope.efs = EditableFieldsState;
+    }]
+  };
+};
