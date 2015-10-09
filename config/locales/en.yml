@@ -180,13 +180,13 @@ en:
         reported_project_status: Project status
         created_at: Created
       work_package:
-        done_ratio: "% done"
+        done_ratio: "Progress (%)"
         fixed_version: "Version"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
         priority: "Priority"
-        progress: "% done"
+        progress: "Progress (%)"
         responsible: "Responsible"
         spent_time: "Spent time"
         subproject: "Subproject"
