@@ -38,7 +38,7 @@ RSpec.feature 'Work package navigation' do
     login_as(user)
   end
 
-  scenario 'all different angular based work package views', js: true, retry: 3, retry_wait: 5 do
+  scenario 'all different angular based work package views', js: true do
     # deep link global work package index
     global_work_packages = Pages::WorkPackagesTable.new
     global_work_packages.visit!
