@@ -15,7 +15,8 @@
         </li>
         <li class="toolbar-item">
           <button class="button"
-                  ng-click="editWorkPackage()"
+                  ng-class="{'-active': editAll.state}"
+                  ng-click="editAll.toggleState()"
                   title="{{I18n.t('js.button_edit')}}">
             <i class="button--icon icon-edit"></i>
           </button>
@@ -168,6 +169,9 @@
         </div>
 
         <work-package-attachments edit data-ng-show="!vm.hideEmptyFields || vm.filesExist" work-package="vm.workPackage"></work-package-attachments>
+
+
+        <work-package-edit-actions work-package="vm.workPackage"></work-package-edit-actions>
       </div>
     </div>
     <div class="work-packages--right-panel">

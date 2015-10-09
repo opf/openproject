@@ -64,6 +64,8 @@ module.exports = function($scope,
   $scope.can = AuthorisationService.can;
   $scope.cannot = AuthorisationService.cannot;
 
+  $scope.editAll = EditableFieldsState.editAll;
+
   $scope.$on('$stateChangeSuccess', function(event, toState){
     latestTab.registerState(toState.name);
   });
@@ -388,10 +390,6 @@ module.exports = function($scope,
     $state.current.url.replace(/\//, ''),
     $scope.workPackage
   );
-
-  $scope.editWorkPackage = function() {
-    EditableFieldsState.editAll.toggleState();
-  };
 
   // Stuff copied from DetailsTabOverviewController
   var vm = this;

@@ -37,23 +37,37 @@ describe('Work package edit', function() {
 
       };
 
-  beforeEach(function () {
-    page.get();
-    page.editButton.isPresent().then(function () {
+  describe('when clicking edit button on show page', function () {
+    beforeEach(function () {
+      page.get();
+      page.editButton.isPresent().then(function () {
+        page.editButton.click();
+      })
+    });
+
+    it('should focus the subject field when used', function() {
+      page.focusElement.getId().then(expectFocusEquals);
+    });
+
+    it('should show multiple editable input fields', function() {
+      expect(page.editableFields.count()).to.eventually.be.above(1);
+    });
+
+    it('should reset previously edited fields without focusing one', function() {
       page.editButton.click();
-    })
-  });
+      page.editButton.getId().then(expectFocusEquals);
+      expect(page.editableFields.count()).to.eventually.equal(0);
+    });
 
-  it('should focus the subject field when used', function() {
-    page.focusElement.getId().then(expectFocusEquals);
-  });
+    it('should show the edit actions', function () {
+      expect(page.editActions.container.isDisplayed()).to.eventually.be.true;
+    });
 
-  it('should show multiple editable input fields', function() {
-    expect($$('.focus-input').count()).to.eventually.be.above(1);
-  });
-
-  it('should reset previously edited fields without focusing one', function() {
-    page.editButton.click();
-    page.editButton.getId().then(expectFocusEquals);
+    describe('when triggering the edit actions', function () {
+      it('should cancel editing when the cancel button is clicked', function () {
+        page.editActions.cancel.click();
+        expect(page.editableFields.count()).to.eventually.equal(0);
+      });
+    });
   });
 });
