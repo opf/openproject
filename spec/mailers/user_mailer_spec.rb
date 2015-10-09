@@ -226,7 +226,7 @@ describe UserMailer, type: :mailer do
           end
 
           it 'displays changed done ratio' do
-            is_expected.to match('% done changed from 40 to 100')
+            is_expected.to include('Progress (%) changed from 40 to 100')
           end
         end
 
@@ -236,7 +236,7 @@ describe UserMailer, type: :mailer do
           end
 
           it 'displays new done ratio' do
-            is_expected.to match('% done changed from 0 to 100')
+            is_expected.to include('Progress (%) changed from 0 to 100')
           end
         end
 
@@ -246,7 +246,7 @@ describe UserMailer, type: :mailer do
           end
 
           it 'displays deleted done ratio' do
-            is_expected.to match('% done changed from 50 to 0')
+            is_expected.to include('Progress (%) changed from 50 to 0')
           end
         end
       end
@@ -501,7 +501,7 @@ describe UserMailer, type: :mailer do
         end
 
         it 'displays changed done ratio' do
-          is_expected.to match(expected)
+          is_expected.to include(expected)
         end
       end
 
@@ -513,7 +513,7 @@ describe UserMailer, type: :mailer do
         end
 
         it 'displays new done ratio' do
-          is_expected.to match(expected)
+          is_expected.to include(expected)
         end
       end
 
@@ -525,7 +525,7 @@ describe UserMailer, type: :mailer do
         end
 
         it 'displays deleted done ratio' do
-          is_expected.to match(expected)
+          is_expected.to include(expected)
         end
       end
     end

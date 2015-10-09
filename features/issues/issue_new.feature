@@ -61,7 +61,7 @@ Feature: Issue edit
     And I fill in "2013-06-18" for "Start date"
     And I fill in "2013-07-18" for "Due date"
     And I fill in "7" for "Estimated time"
-    And I select "50 %" from "% done"
+    And I select "50 %" from "Progress (%)"
     And I submit the form by the "Create" button
     Then I should see "Successful creation."
 

@@ -144,7 +144,7 @@
       },
       "percentageDone": {
         "type": "Integer",
-        "name": "% done",
+        "name": "Progress (%)",
         "required": true,
         "writable": true
       },

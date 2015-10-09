@@ -259,7 +259,7 @@
       </div>
     </li>
     <li id="filter_done_ratio" class="advanced-filters--filter ng-hide">
-      <label for="operators-done_ratio" class="advanced-filters--filter-name">% done</label>
+      <label for="operators-done_ratio" class="advanced-filters--filter-name">Progress (%)</label>
       <div class="advanced-filters--filter-operator">
         <select class="advanced-filters--select " id="operators-done_ratio" style="vertical-align: top;" >
           <option value="=" label="is" selected="selected">is</option>
@@ -290,8 +290,8 @@
       <label for="add_filter_select" class="advanced-filters--add-filter-label">Add filter:</label>
       <div class="advanced-filters--add-filter-value">
         <select class="advanced-filters--select" id="add_filter_select">
-          <option value="0" label="% done">
-            % done
+          <option value="0" label="Progress (%)">
+            Progress (%)
           </option>
           <option value="1" label="Assignee's group">
             Assignee's group

@@ -361,8 +361,8 @@
               },
               {
                 "format": "custom",
-                "raw": "% done changed from 0 to 0",
-                "html": "<strong>% done</strong> changed from <i title=\"0\">0</i> to <i title=\"0\">0</i>"
+                "raw": "Progress (%) changed from 0 to 0",
+                "html": "<strong>Progress (%)</strong> changed from <i title=\"0\">0</i> to <i title=\"0\">0</i>"
               },
               {
                 "format": "custom",

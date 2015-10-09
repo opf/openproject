@@ -179,7 +179,7 @@
           "Status set to New",
           "Priority set to Normal",
           "Author set to Reinhold Weber",
-          "% done changed from 0 to 0",
+          "Progress (%) changed from 0 to 0",
           "Start date set to 02/28/2014"
         ],
         "htmlDetails": [
@@ -191,7 +191,7 @@
           "<strong>Status</strong> set to <i title=\"New\">New</i>",
           "<strong>Priority</strong> set to <i title=\"Normal\">Normal</i>",
           "<strong>Author</strong> set to <i title=\"Reinhold Weber\">Reinhold Weber</i>",
-          "<strong>% done</strong> changed from <i title=\"0\">0</i> to <i title=\"0\">0</i>",
+          "<strong>Progress (%)</strong> changed from <i title=\"0\">0</i> to <i title=\"0\">0</i>",
           "<strong>Start date</strong> set to <i title=\"02/28/2014\">02/28/2014</i>"
         ],
         "version": 1,

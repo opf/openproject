@@ -77,7 +77,7 @@ Feature: Fields editable on work package edit
       | Start date      | 2013-01-01       |
       | Due date        | 2013-12-31       |
       | Estimated time  | 5.00             |
-      | % done          | 30 %             |
+      | Progress (%)    | 30 %             |
       | Notes           |                  |
     And the "Parent" field should contain the id of work package "parentpe"
 

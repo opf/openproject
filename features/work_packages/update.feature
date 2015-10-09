@@ -88,7 +88,7 @@ Feature: Updating work packages
       | Start date     | 2013-03-04  |
       | Due date       | 2013-03-06  |
       | Estimated time | 5.00        |
-      | % done         | 30 %        |
+      | Progress (%)   | 30 %        |
       | Priority       | prio2       |
       | Status         | status2     |
       | Subject        | New subject |
@@ -101,7 +101,7 @@ Feature: Updating work packages
       | Assignee       | the manager |
       | Date           | 03/04/2013 - 03/06/2013 |
       | Estimated time | 5.00        |
-      | % done         | 30          |
+      | Progress (%)   | 30          |
       | Priority       | prio2       |
       | Status         | status2     |
       | Subject        | New subject |

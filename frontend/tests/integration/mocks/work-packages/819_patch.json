@@ -190,7 +190,7 @@
           "Status set to new",
           "Priority set to Normal",
           "Author set to Freida Fay",
-          "% done changed from 0 to 0",
+          "Progress (%) changed from 0 to 0",
           "Start date set to 10/23/2014"
         ],
         "htmlDetails": [
@@ -202,7 +202,7 @@
           "<strong>Status</strong> set to <i title=\"new\">new</i>",
           "<strong>Priority</strong> set to <i title=\"Normal\">Normal</i>",
           "<strong>Author</strong> set to <i title=\"Freida Fay\">Freida Fay</i>",
-          "<strong>% done</strong> changed from <i title=\"0\">0</i> to <i title=\"0\">0</i>",
+          "<strong>Progress (%)</strong> changed from <i title=\"0\">0</i> to <i title=\"0\">0</i>",
           "<strong>Start date</strong> set to <i title=\"10/23/2014\">10/23/2014</i>"
         ],
         "version": 1,
