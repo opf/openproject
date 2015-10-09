@@ -86,6 +86,10 @@ Capybara.register_driver :selenium do |app|
 end
 
 require 'capybara/poltergeist'
+Capybara.register_driver :poltergeist do |app|
+  options = { js_errors: false, window_size: [1200, 1000] }
+  Capybara::Poltergeist::Driver.new(app, options)
+end
 Capybara.javascript_driver = :poltergeist
 
 # By default, any exception happening in your Rails application will bubble up
