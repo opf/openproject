@@ -181,7 +181,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 .notification-box--wrapper
   position: absolute
-  top: rem-calc(52px) //this value probably will change
+  top: rem-calc(12px)
   width: $nm-notification-width
   margin-left: -($nm-notification-width / 2)
   left: 50%
@@ -263,7 +263,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 // Use same styles for flash messages
 .flash, #errorExplanation
   position: absolute
-  top: rem-calc(52px) //this value probably will change
+  top: rem-calc(12px)
   width: $nm-notification-width
   margin-left: -($nm-notification-width / 2)
   left: 50%
@@ -326,5 +326,8 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
       color: $nm-color-warning-icon
 
 #errorExplanation
+  @extend %error-placeholder
+  top: rem-calc(68px)
+
   &::before
     color: $nm-color-error-icon !important

@@ -26,15 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.controller-work_packages.action-index
-  @extend %absolute-layout-mode
-
+.controller-work_packages.action-index,
 .controller-work_packages.action-show
   @extend %absolute-layout-mode
 
 #content
-  $flash-margins-padding: 10px
-
   // HACK: workaround to ensure correct height applied to child elements.
   // The dom looks like this:
   // flash (generated from rails - if it was generated when rendering the page)
@@ -45,15 +41,6 @@
   // Per default, the height is always 100%
   & > div[ui-view]
     height: 100%
-
-  // Subtract the height of the flash message
-  .flash ~ div[ui-view]
-    height: calc(100% - #{($content-flash-height + $flash-margins-padding)})
-
-  // If there are two flash messages shown:
-  // Subtract the height of the two flash messages
-  .flash:not(.ng-hide) ~ .flash:not(.ng-hide) ~ div[ui-view]
-    height: calc(100% - #{2 * ($content-flash-height + $flash-margins-padding)})
 
   //This can be deleted once the legcy WP view is gone
   #history
