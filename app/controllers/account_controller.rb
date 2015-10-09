@@ -85,7 +85,7 @@ class AccountController < ApplicationController
       return
     else
       if request.post?
-        user = User.find_by(mail: params[:mail])
+        user = User.find_by_mail(params[:mail])
 
         unless user
           # user not found in db
