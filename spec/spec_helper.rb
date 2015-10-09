@@ -84,6 +84,14 @@ RSpec.configure do |config|
   # Thanks a lot!
   config.use_transactional_fixtures = false
 
+  # Use fuubar as the defualt formatter, which outputs failures immediately while
+  # continuing to run the suite.
+  # Also may be disabled on the user's choice with a custom env variable
+  # Needs to remain disabled on the CI due to tty incompatibility
+  unless ENV['CI'] || ENV['RSPEC_USE_DEFAULT_FORMATTER']
+    config.formatter = 'Fuubar'
+  end
+
   config.before(:suite) do
     DatabaseCleaner.clean_with :truncation
   end
