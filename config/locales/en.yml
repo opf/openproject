@@ -1079,7 +1079,7 @@ en:
   label_user_mail_option_only_assigned: "Only for things I am assigned to"
   label_user_mail_option_only_my_events: "Only for things I watch or I'm involved in"
   label_user_mail_option_only_owner: "Only for things I am the owner of"
-  label_user_mail_option_selected: "For any event on the selected projects only..."
+  label_user_mail_option_selected: "For any event on the selected projects only"
   label_user_new: "New user"
   label_user_plural: "Users"
   label_user_search: "Search for user"
