@@ -27,26 +27,54 @@
 #++
 
 require 'spec_helper'
+require 'features/projects/projects_page'
 
 describe 'Projects', type: :feature do
   let(:current_user) { FactoryGirl.create(:admin) }
-  let!(:project_type) { FactoryGirl.create(:project_type, name: 'Standard Foo')}
 
   before do
     allow(User).to receive(:current).and_return current_user
   end
 
   describe 'creation', js: true do
-    it 'can create a project' do
+    let!(:project) { FactoryGirl.create(:project, name: 'Foo project', identifier: 'foo-project') }
+
+    before do
       visit admin_path
+    end
+
+    it 'can create a project' do
       click_on 'New project'
 
       fill_in 'project[name]', with: 'Foo bar'
       click_on 'Advanced settings'
       fill_in 'project[identifier]', with: 'foo'
-      select 'Standard Foo', from: 'project[project_type_id]'
       click_on 'Create'
+
       expect(page).to have_content 'Successful creation.'
+      expect(page).to have_content 'Foo bar'
+      expect(current_path).to eq '/projects/foo/settings'
+    end
+
+    it 'can create a subproject' do
+      click_on 'Foo project'
+      click_on 'New subproject'
+
+      fill_in 'project[name]', with: 'Foo child'
+      click_on 'Create'
+
+      expect(page).to have_content 'Successful creation.'
+      expect(current_path).to eq '/projects/foo-child/settings'
+    end
+
+    it 'does not create a project with an already existing identifier' do
+      click_on 'New project'
+
+      fill_in 'project[name]', with: 'Foo project'
+      click_on 'Create'
+
+      expect(page).to have_content 'Identifier has already been taken'
+      expect(current_path).to eq '/projects'
     end
   end
 
@@ -64,6 +92,35 @@ describe 'Projects', type: :feature do
       expect(field_checked).to be_truthy
       field_checked = find_field('Milestone', visible: false)['checked']
       expect(field_checked).to be_truthy
+    end
+  end
+
+  describe 'deletion', js: true do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:projects_page) { ProjectsPage.new(project) }
+
+    before do
+      projects_page.visit_confirm_destroy
+    end
+
+    describe 'disable delete w/o confirm' do
+      it { expect(page).to have_css('.danger-zone .button[disabled]') }
+    end
+
+    describe 'disable delete with wrong input' do
+      let(:input) { find('.danger-zone input') }
+      it do
+        input.set 'Not the project name'
+        expect(page).to have_css('.danger-zone .button[disabled]')
+      end
+    end
+
+    describe 'enable delete with correct input' do
+      let(:input) { find('.danger-zone input') }
+      it do
+        input.set project.name
+        expect(page).to have_css('.danger-zone .button:not([disabled])')
+      end
     end
   end
 end
