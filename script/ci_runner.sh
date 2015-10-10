@@ -33,12 +33,17 @@
 set -e
 
 # Usage:
-# sh script/ci_runner.sh spec 3 1
+#   sh script/ci_runner.sh spec 3 1
+#
+# Use
+#   sh script/ci_runner.sh spec
+# to make use of all available cores on the current machine. Most likely to
+# be used on local dev machines.
+#
 
 # $1: type
 # $2: group size
 # $3: group number
-
 run() {
   echo $1;
   eval $1;
@@ -48,15 +53,22 @@ run() {
   eval $3;
 }
 
+if [ $2 != '' ] && [ $3 != '' ]
+then
+  GROUPING=" -n $2 --only-group $3"
+else
+  GROUPING=''
+fi
+
 if [ $1 = "legacy" ]
 then
-  run "bundle exec parallel_test --type rspec -o '-I spec_legacy' spec_legacy -n $2 --only-group $3"
+  run "bundle exec parallel_test --type rspec -o '-I spec_legacy' spec_legacy $GROUPING"
 elif [ $1 = "spec" ]
 then
-  run "bundle exec parallel_test --type rspec spec -n $2 --only-group $3 || \
+  run "bundle exec parallel_test --type rspec spec $GROUPING || \
        bundle exec rspec --only-failures"
 elif [ $1 = "cucumber" ]
 then
-  run "bundle exec parallel_test --type cucumber -o '-p rerun -r features' features -n $2 --only-group $3 || \
+  run "bundle exec parallel_test --type cucumber -o '-p rerun -r features' features $GROUPING || \
        bundle exec cucumber -p rerun -r features"
 fi
