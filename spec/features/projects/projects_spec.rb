@@ -123,4 +123,34 @@ describe 'Projects', type: :feature do
       end
     end
   end
+
+  describe 'identifier edit', js: true do
+    let!(:project) { FactoryGirl.create(:project, identifier: 'foo') }
+
+    it 'updates the project identifier' do
+      visit admin_path
+      click_on project.name
+      click_on 'Edit'
+
+      expect(page).to have_content "DO YOU REALLY WANT TO CHANGE THE PROJECT'S IDENTIFIER"
+      expect(current_path).to eq '/projects/foo/identifier'
+
+      fill_in 'project[identifier]', with: 'foo-bar'
+      click_on 'Update'
+
+      expect(page).to have_content 'Successful update.'
+      expect(current_path).to eq '/projects/foo-bar/settings'
+      expect(Project.first.identifier).to eq 'foo-bar'
+    end
+
+    it 'displays error messages on invalid input' do
+      visit identifier_project_path(project)
+
+      fill_in 'project[identifier]', with: 'FOOO'
+      click_on 'Update'
+
+      expect(page).to have_content 'Identifier is invalid.'
+      expect(current_path).to eq '/projects/foo/identifier'
+    end
+  end
 end

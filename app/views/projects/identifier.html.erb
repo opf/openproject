@@ -27,36 +27,35 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%
-  project = form.object
-  id = project.identifier
-  id_max_length = Project::IDENTIFIER_MAX_LENGTH
-  identifier_editable = project.new_record?
-%>
+<%= error_messages_for @project %>
 
-<div class="form--field <%= identifier_editable ? '-required' : '' %>">
-  <% if identifier_editable %>
-    <%= form.text_field :identifier %>
+<%= form_for @project, url: { action: 'update_identifier' }, html: { class: 'danger-zone form' } do |f| %>
+  <section class="form--section">
+    <h3 class="form--section-title">
+      <%= l('project.identifier.title') %>
+    </h3>
 
-    <script type="text/javascript" charset="utf-8">
-      projectIdentifierMaxLength = <%= id_max_length %>;
-      projectIdentifierDefault = '<%= id %>';
-      projectIdentifierLocked = false;
-      observeProjectIdentifier();
-      observeProjectName();
-    </script>
+    <p class="danger-zone--warning">
+      <span class="icon icon-attention2"></span>
+      <span><%= l('project.identifier.warning_one').html_safe %></span>
+      <br>
+      <span class="icon icon-attention2"></span>
+      <span><%= l('project.identifier.warning_two').html_safe %></span>
+    </p>
+
+    <div class="danger-zone--verification">
+      <%= f.text_field :identifier %>
+      <span>
+        <%= f.submit l(:button_update), class: 'button -highlight -with-icon icon-yes' %>
+      </span>
+    </div>
+    <br>
 
     <div class="form--field-instructions">
       <%= l(:text_length_between, min: 1,
                                   max: Project::IDENTIFIER_MAX_LENGTH) %>
       <%= l(:text_project_identifier_info).html_safe %>
     </div>
-  <% else %>
-    <%= form.fixed_value :identifier %>
-    <div class="form--field-container">
-      <%= link_to l('button_edit'),
-                  identifier_project_path,
-                  class: 'button -with-icon icon-edit' %>
-    </div>
-  <% end %>
-</div>
+
+  </section>
+<% end %>
