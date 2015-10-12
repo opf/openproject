@@ -33,11 +33,33 @@ describe('EditableFieldsState service', function () {
 
   beforeEach(inject(function (_EditableFieldsState_) {
     EditableFieldsState = _EditableFieldsState_;
-    EditableFieldsState.workPackage = { links: {} };
-    eAll = EditableFieldsState.editAll;
   }));
 
+  describe('is active field method', function () {
+    var field = 'my_field', other = 'other_field';
+
+    beforeEach(function () {
+      EditableFieldsState.currentField = field;
+    });
+
+    it('checks if the given field is active or not', function () {
+      expect(EditableFieldsState.isActiveField(field)).to.be.true;
+      expect(EditableFieldsState.isActiveField(other)).to.be.false;
+    });
+
+    it('returns false if editAll.state or forcedEditState are set', function () {
+      EditableFieldsState.editAll.state = true;
+      EditableFieldsState.forcedEditState = true;
+      expect(EditableFieldsState.isActiveField(field)).to.be.false;
+    });
+  });
+
   describe('edit all', function () {
+    beforeEach(function () {
+      EditableFieldsState.workPackage = { links: {} };
+      eAll = EditableFieldsState.editAll;
+    });
+
     it('toggle state switches its current state', function () {
       expect(EditableFieldsState.state === eAll.toggleState()).to.be.false;
     });
