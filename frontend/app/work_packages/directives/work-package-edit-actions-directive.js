@@ -30,14 +30,13 @@ module.exports = function () {
   return {
     restrict: 'E',
     templateUrl: '/templates/work_packages/work_package_edit_actions.html',
-    scope: {
-      workPackage: '='
-    },
 
-    controller: ['$scope', 'I18n', 'EditableFieldsState',
-        function ($scope, I18n, EditableFieldsState) {
-      $scope.I18n = I18n;
-      $scope.efs = EditableFieldsState;
+    controller: ['$scope', 'I18n', 'EditableFieldsState', function ($scope, I18n,
+                                                                    EditableFieldsState) {
+      angular.extend($scope, {
+        I18n: I18n,
+        efs: EditableFieldsState
+      })
     }]
   };
 };

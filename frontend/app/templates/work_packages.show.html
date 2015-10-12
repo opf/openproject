@@ -17,6 +17,7 @@
           <button class="button"
                   ng-class="{'-active': editAll.state}"
                   ng-click="editAll.toggleState()"
+                  ng-disabled="!editAll.allowed"
                   title="{{I18n.t('js.button_edit')}}">
             <i class="button--icon icon-edit"></i>
           </button>
@@ -171,7 +172,7 @@
         <work-package-attachments edit data-ng-show="!vm.hideEmptyFields || vm.filesExist" work-package="vm.workPackage"></work-package-attachments>
 
 
-        <work-package-edit-actions work-package="vm.workPackage"></work-package-edit-actions>
+        <work-package-edit-actions></work-package-edit-actions>
       </div>
     </div>
     <div class="work-packages--right-panel">
