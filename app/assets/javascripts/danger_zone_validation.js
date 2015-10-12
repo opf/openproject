@@ -34,7 +34,7 @@
 
         dangerZoneVerification.find('input').on('input', function(){
             var actualValue = dangerZoneVerification.find('input').val();
-            if (expectedValue === actualValue) {
+            if (expectedValue.toLowerCase() === actualValue.toLowerCase()) {
                 dangerZoneVerification.find('button').prop('disabled', false);
             } else {
                 dangerZoneVerification.find('button').prop('disabled', true);
@@ -42,4 +42,3 @@
         });
     });
 }(jQuery));
-
