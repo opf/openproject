@@ -27,7 +27,7 @@
 //++
 
 module.exports = function() {
-  return {
+  var EditableFieldsState = {
     workPackage: null,
     errors: null,
     isBusy: false,
@@ -38,6 +38,10 @@ module.exports = function() {
     editAll: {
       focusField: 'subject',
       state: false,
+
+      get allowed() {
+        return EditableFieldsState.workPackage && !!EditableFieldsState.workPackage.links.update;
+      },
 
       start: function () {
         return this.state = true;
@@ -56,4 +60,6 @@ module.exports = function() {
       }
     }
   };
+
+  return EditableFieldsState;
 };

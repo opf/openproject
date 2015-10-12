@@ -28,7 +28,7 @@
   ~ ++
   -->
 
-<div class="work-packages--edit-actions" ng-show="efs.editAll.state">
+<div class="work-packages--edit-actions" ng-show="efs.editAll.state && efs.editAll.allowed">
   <button class="button" accesskey="3" ng-click="efs.editAll.stop()">
     <i class="button--icon icon-save1"></i>
     <span class="button--text" ng-bind="::I18n.t('js.button_save')"></span>

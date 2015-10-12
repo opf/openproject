@@ -33,6 +33,7 @@ describe('EditableFieldsState service', function () {
 
   beforeEach(inject(function (_EditableFieldsState_) {
     EditableFieldsState = _EditableFieldsState_;
+    EditableFieldsState.workPackage = { links: {} };
     eAll = EditableFieldsState.editAll;
   }));
 
@@ -51,6 +52,15 @@ describe('EditableFieldsState service', function () {
 
     it('matches its focused field', function () {
       expect(eAll.isFocusField(eAll.focusField)).to.be.true;
+    });
+
+    it('is allowed if the WP update action is defined', function () {
+      EditableFieldsState.workPackage.links.update = 'something';
+      expect(eAll.allowed).to.be.true;
+    });
+
+    it('is not allowed if th WP update action does not exist', function () {
+      expect(eAll.allowed).to.be.false;
     });
   });
 });
