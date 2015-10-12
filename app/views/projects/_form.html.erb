@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <section class="form--section">
   <%= render partial: "projects/form/project_attributes",
-             locals: { project: project, form: f } %>
+             locals: { project: project, form: f, show_all_fields: show_all_fields } %>
 
   <%= call_hook(:view_projects_form, project: project, form: f) %>
 </section>
@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </section>
 <% end %>
 
-<% if project.new_record? %>
+<% if show_all_fields %>
   <section class="form--section">
     <%= render partial: "projects/form/modules", locals: { form: f } %>
   </section>
@@ -53,14 +53,14 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= javascript_tag 'observeProjectModules();' %>
 <% end %>
 
-<% if (project.new_record? || project.module_enabled?('work_package_tracking')) && renderTypes %>
+<% if ((show_all_fields && project.module_enabled?('work_package_tracking') ) && renderTypes) %>
   <section class="form--section">
     <%= render partial: 'projects/form/types',
                locals: { f: f, project: project } %>
   </section>
 <% end %>
 
-<% if project.new_record? %>
+<% if show_all_fields %>
   <section class="form--section">
     <%= render partial: 'projects/form/custom_fields',
                locals: {
