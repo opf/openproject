@@ -28,6 +28,6 @@
 
 jQuery(document).ready(function($) {
   $("body").on('click', '.close-handler', function () {
-    $(this).closest('.flash').remove();
+    $(this).parent('.flash, .errorExplanation').remove();
   });
 });
