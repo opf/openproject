@@ -142,14 +142,15 @@ table.generic-table
       overflow:  hidden
       text-overflow: ellipsis
       text-align: left
-      line-height: 34px
+      line-height: 2rem
       vertical-align: middle
 
       // Center input fields and select boxes vertically in tables
       .form--field
         margin: 0px
       @each $inputElement in $input-elements
-        #{$inputElement}
+        #{$inputElement},
+        #{$inputElement}~.form-label
           margin-top: 0.5rem
           margin-bottom: 0.5rem
 
