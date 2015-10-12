@@ -54,7 +54,7 @@
     "glob": "^4.5.3",
     "html-loader": "^0.2.3",
     "json-loader": "^0.5.1",
-    "lodash": "^2.4.1",
+    "lodash": "^2.4.2",
     "ngtemplate-loader": "^0.1.2",
     "polyfill-function-prototype-bind": "0.0.1",
     "shelljs": "^0.3.0",
