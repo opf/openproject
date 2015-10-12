@@ -65,9 +65,9 @@ if [ $1 = "npm" ]; then
 elif [ $1 = "legacy" ]; then
   run "bundle exec parallel_test --type rspec -o '-I spec_legacy' spec_legacy $GROUPING"
 elif [ $1 = "spec" ]; then
-  run "bundle exec parallel_test --type rspec spec $GROUPING || \
+  run "bundle exec parallel_test --type rspec --runtime-log script/files/parallel_runtime_rspec.log spec $GROUPING || \
        bundle exec rspec --only-failures"
 elif [ $1 = "cucumber" ]; then
-  run "bundle exec parallel_test --type cucumber -o '-p rerun -r features' features $GROUPING || \
+  run "bundle exec parallel_test --type cucumber -o '-p rerun -r features' --runtime-log script/files/parallel_runtime_cucumber.log features $GROUPING || \
        bundle exec cucumber -p rerun -r features"
 fi
