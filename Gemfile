@@ -182,8 +182,6 @@ group :development do
   gem 'thin'
   gem 'faker'
   gem 'quiet_assets'
-  gem 'rubocop', '~> 0.32'
-  gem 'parallel_tests'
 end
 
 group :development, :test do
@@ -192,6 +190,8 @@ group :development, :test do
   gem 'pry-rescue'
   gem 'pry-byebug', platforms: [:mri]
   gem 'pry-doc'
+  gem 'parallel_tests'
+  gem 'rubocop', '~> 0.32'
 end
 
 # API gems
