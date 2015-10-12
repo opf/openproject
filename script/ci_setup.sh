@@ -27,47 +27,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# script/ci_runner.sh
+# script/ci_setup.sh
 #!/bin/sh
 
-set -e
-
-# Usage:
-#   sh script/ci_runner.sh spec 3 1
-#
-# Use
-#   sh script/ci_runner.sh spec
-# to make use of all available cores on the current machine. Most likely to
-# be used on local dev machines.
-#
-
-# $1: type
-# $2: group size
-# $3: group number
 run() {
   echo $1;
   eval $1;
-  echo $2;
-  eval $2;
-  echo $3;
-  eval $3;
 }
 
-if [ $2 != '' ] && [ $3 != '' ]
-then
-  GROUPING=" -n $2 --only-group $3"
-else
-  GROUPING=''
+if [ $1 = "mysql" ]; then
+  run "mysql -e 'create database travis_ci_test;'"
+  run "cp script/templates/database.travis.mysql.yml config/database.yml"
+
+elif [ $1 = "postgres" ]; then
+  run "psql -c 'create database travis_ci_test;' -U postgres"
+  run "cp script/templates/database.travis.postgres.yml config/database.yml"
+
 fi
 
-if [ $1 = "npm" ]; then
-  run "npm test"
-elif [ $1 = "legacy" ]; then
-  run "bundle exec parallel_test --type rspec -o '-I spec_legacy' spec_legacy $GROUPING"
-elif [ $1 = "spec" ]; then
-  run "bundle exec parallel_test --type rspec spec $GROUPING || \
-       bundle exec rspec --only-failures"
-elif [ $1 = "cucumber" ]; then
-  run "bundle exec parallel_test --type cucumber -o '-p rerun -r features' features $GROUPING || \
-       bundle exec cucumber -p rerun -r features"
+# run migrations for mysql or postgres
+if [ $1 != '' ]; then
+  run "bundle exec rake db:migrate"
+  run "bundle exec rake spec:prepare"
+  run "bundle exec rake test:scm:setup:all"
 fi
