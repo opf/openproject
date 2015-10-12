@@ -45,7 +45,7 @@ Feature: Switching types of work packages
       | lastname  | Bobbit |
     # prevent alerts to occur that would impede subsequent scenarios
     And the user "bob" has the following preferences
-      | warn_on_leaving_unsaved | 0 |
+      | warn_on_leaving_unsaved | false |
     And the user "bob" is a "member" in the project "project1"
     And I am already logged in as "bob"
 

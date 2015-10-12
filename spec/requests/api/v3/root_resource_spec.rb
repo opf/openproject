@@ -40,7 +40,8 @@ describe 'API v3 Root resource' do
   let(:project) { FactoryGirl.create(:project, is_public: false) }
 
   describe '#get' do
-    subject(:response) { last_response }
+    let(:response) { last_response }
+    subject { response.body }
     let(:get_path) { api_v3_paths.root }
 
     context 'anonymous user' do
@@ -49,11 +50,11 @@ describe 'API v3 Root resource' do
       end
 
       it 'should respond with 200' do
-        expect(subject.status).to eq(200)
+        expect(response.status).to eq(200)
       end
 
       it 'should respond with a root representer' do
-        expect(subject.body).to have_json_path('instanceName')
+        expect(subject).to have_json_path('instanceName')
       end
     end
 
@@ -65,11 +66,11 @@ describe 'API v3 Root resource' do
       end
 
       it 'should respond with 200' do
-        expect(subject.status).to eq(200)
+        expect(response.status).to eq(200)
       end
 
       it 'should respond with a root representer' do
-        expect(subject.body).to have_json_path('instanceName')
+        expect(subject).to have_json_path('instanceName')
       end
     end
   end
