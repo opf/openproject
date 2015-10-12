@@ -78,7 +78,7 @@ Feature: Issue edit
     Given the user "bob" has 1 issue with the following:
       | subject | child1      |
     When I go to the edit page of the work package "issue1"
-    Then there should not be a "Progress (%)" field
+    Then there should not be a "Progress \(%\)" field
     And there should be a disabled "Priority" field
     And there should be a disabled "Start date" field
     And there should be a disabled "Due date" field
