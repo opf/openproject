@@ -1347,6 +1347,9 @@ en:
       project_verification: "Enter the project's name %{name} to verify the deletion."
       subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
       title: "Do you really want to delete the project %{name}?"
+    identifier:
+      info: Members of the project will have to relocate the project's repositories and existing links will no longer work
+      title: "Do you really want to change the project's identifier"
 
   project_module_activity: "Activity"
   project_module_boards: "Forums"
