@@ -34,6 +34,15 @@ module.exports = function() {
     currentField: null,
     submissionPromises: {},
     forcedEditState: false,
+    
+    isActiveField: function (field) {
+      return !(this.forcedEditState || this.editAll.state) && this.currentField === field;
+    },
+    
+    getPendingFormChanges: function () {
+      var form = this.workPackage.form;
+      return form.pendingChanges = form.pendingChanges || angular.copy(form.embedded.payload.props);
+    },
 
     editAll: {
       focusField: 'subject',

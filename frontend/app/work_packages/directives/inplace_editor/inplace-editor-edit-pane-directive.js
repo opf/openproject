@@ -82,7 +82,7 @@ module.exports = function(
       this.submitField = function(notify) {
         var submit = $q.defer();
         var fieldController = $scope.fieldController;
-        var pendingFormChanges = getPendingFormChanges();
+        var pendingFormChanges = EditableFieldsState.getPendingFormChanges();
         var detectedViolations = [];
         var handleFailure = function(e) {
           setFailure(e);
@@ -147,7 +147,7 @@ module.exports = function(
       this.discardEditing = function() {
         $scope.fieldController.isEditing = false;
         delete EditableFieldsState.submissionPromises['work_package'];
-        delete getPendingFormChanges()[$scope.fieldController.field];
+        delete EditableFieldsState.getPendingFormChanges()[$scope.fieldController.field];
         $scope.fieldController.updateWriteValue();
         if (
           EditableFieldsState.errors &&
@@ -158,10 +158,7 @@ module.exports = function(
       };
 
       this.isActive = function() {
-        if (EditableFieldsState.forcedEditState) {
-          return false;
-        }
-        return EditableFieldsState.currentField === $scope.fieldController.field;
+        return EditableFieldsState.isActiveField($scope.fieldController.field);
       };
 
       this.markActive = function() {
@@ -172,14 +169,6 @@ module.exports = function(
         };
         EditableFieldsState.currentField = $scope.fieldController.field;
       };
-
-      this.getPendingFormChanges = getPendingFormChanges;
-
-      function getPendingFormChanges() {
-        var form = EditableFieldsState.workPackage.form;
-        form.pendingChanges = form.pendingChanges || angular.copy(form.embedded.payload.props);
-        return form.pendingChanges;
-      }
 
       function afterError() {
         $scope.fieldController.state.isBusy = false;
@@ -216,7 +205,7 @@ module.exports = function(
         );
 
         if (fieldController.field === 'date' && strategy === 'date') {
-          form.pendingChanges = scope.editPaneController.getPendingFormChanges();
+          form.pendingChanges = EditableFieldsState.getPendingFormChanges();
           form.pendingChanges['startDate'] =
           form.pendingChanges['dueDate'] =
           fieldController.writeValue ? fieldController.writeValue['dueDate'] : null;
@@ -257,9 +246,7 @@ module.exports = function(
 
       scope.$watch('fieldController.writeValue', function(writeValue) {
         if (scope.fieldController.isEditing) {
-          var pendingChanges = scope
-            .editPaneController
-            .getPendingFormChanges();
+          var pendingChanges = EditableFieldsState.getPendingFormChanges();
           pendingChanges[scope.fieldController.field] = writeValue;
         }
       }, true);
