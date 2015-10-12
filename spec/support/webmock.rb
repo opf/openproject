@@ -26,8 +26,9 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-shared_context 'with webmock' do
-  around do |example|
+
+RSpec.configure do |config|
+  config.around(:example, webmock: true) do |example|
     begin
       WebMock.enable!
       example.run

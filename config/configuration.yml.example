@@ -225,7 +225,7 @@ default:
   #   directly when created in the frontend.
   #
   #   When entering a URL, OpenProject will POST to this resource when repositories are created
-  #   using the following form-encoded payload:
+  #   using the following JSON-encoded payload:
   #     - action: The action to perform (create, delete)
   #     - identifier: The repository identifier name
   #     - vendor: The SCM vendor of the repository to create

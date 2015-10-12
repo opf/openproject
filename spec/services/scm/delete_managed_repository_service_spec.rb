@@ -121,9 +121,7 @@ describe Scm::DeleteManagedRepositoryService do
     end
   end
 
-  context 'with managed remote config' do
-    include_context 'with webmock'
-
+  context 'with managed remote config', webmock: true do
     let(:url) { 'http://myreposerver.example.com/api/' }
     let(:config) {
       {
