@@ -32,10 +32,8 @@ module.exports = function(
   WorkPackagesHelper,
   $q,
   $http,
-  $rootScope,
   $timeout,
   HookService,
-  NotificationsService,
   EditableFieldsState
   ) {
 
@@ -395,29 +393,6 @@ module.exports = function(
     return WorkPackagesHelper.formatValue(value, mappings[field]);
   }
 
-  function submitWorkPackageChanges(notify, callback) {
-    // We have to ensure that some promises are executed earlier then others
-    var promises = [];
-    angular.forEach(EditableFieldsState.submissionPromises, function(field) {
-      var p = field.thePromise.call(this, notify);
-      if (field.prepend) {
-        promises.unshift(p);
-      } else {
-        promises.push(p);
-      }
-    });
-
-    $q.all(promises).then(function() {
-      // Update work package after this call
-      $rootScope.$emit('workPackageRefreshRequired', callback);
-      EditableFieldsState.errors = null;
-      EditableFieldsState.submissionPromises = {};
-      EditableFieldsState.currentField = null;
-    }, function(){
-      NotificationsService.addError(I18n.t('js.work_packages.error_update_failed'));
-    });
-  }
-
   var WorkPackageFieldService = {
     getSchema: getSchema,
     isEditable: isEditable,
@@ -434,8 +409,7 @@ module.exports = function(
     format: format,
     getInplaceEditStrategy: getInplaceEditStrategy,
     getInplaceDisplayStrategy: getInplaceDisplayStrategy,
-    defaultPlaceholder: '-',
-    submitWorkPackageChanges: submitWorkPackageChanges
+    defaultPlaceholder: '-'
   };
 
   return WorkPackageFieldService;

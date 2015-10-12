@@ -53,12 +53,6 @@ describe('Work package edit', function() {
       expect(page.editableFields.count()).to.eventually.be.above(1);
     });
 
-    it('should reset previously edited fields without focusing one', function() {
-      page.editButton.click();
-      page.editButton.getId().then(expectFocusEquals);
-      expect(page.editableFields.count()).to.eventually.equal(0);
-    });
-
     it('should show the edit actions', function () {
       expect(page.editActions.container.isDisplayed()).to.eventually.be.true;
     });

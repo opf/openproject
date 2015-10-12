@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
+module.exports = function($q, $rootScope, NotificationsService) {
   var EditableFieldsState = {
     workPackage: null,
     errors: null,
@@ -42,6 +42,26 @@ module.exports = function() {
     getPendingFormChanges: function () {
       var form = this.workPackage.form;
       return form.pendingChanges = form.pendingChanges || angular.copy(form.embedded.payload.props);
+    },
+
+    save: function (notify, callback) {
+      // We have to ensure that some promises are executed earlier then others
+      var promises = [];
+      angular.forEach(this.submissionPromises, function(field) {
+        var p = field.thePromise.call(this, notify);
+        promises[field.prepend ? 'unshift' : 'push' ](p);
+      });
+
+      return $q.all(promises).then(angular.bind(this, function() {
+        // Update work package after this call
+        $rootScope.$broadcast('workPackageRefreshRequired', callback);
+        this.errors = null;
+        this.submissionPromises = {};
+        this.currentField = null;
+        this.editAll.stop();
+      }), function(){
+        NotificationsService.addError(I18n.t('js.work_packages.error_update_failed'));
+      });
     },
 
     editAll: {
