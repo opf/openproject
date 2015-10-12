@@ -95,7 +95,7 @@ class MessagesController < ApplicationController
     @reply = Message.new
     @reply.author = User.current
     @reply.board = @board
-    @reply.attributes = params[:reply]
+    @reply.attributes = permitted_params.reply
 
     @topic.children << @reply
     if !@reply.new_record?

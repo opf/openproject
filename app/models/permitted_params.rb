@@ -88,15 +88,7 @@ class PermittedParams
   end
 
   def enumeration_type
-    params.require(:type)
-  end
-
-  def enumeration
-    permitted_params = params.require(:enumeration).permit(*self.class.permitted_attributes[:enumeration])
-
-    permitted_params.merge!(custom_field_values(:enumeration))
-
-    permitted_params
+    params.fetch(:type, {})
   end
 
   def group
@@ -253,7 +245,25 @@ class PermittedParams
   end
 
   def timeline
-    params.require(:timeline).permit(:name, :options)
+    acceptable_options_params = ["exist", "zoom_factor", "initial_outline_expansion", "timeframe_start",
+    "timeframe_end", "columns", "project_sort", "compare_to_relative", "compare_to_relative_unit",
+    "compare_to_absolute", "vertical_planning_elements", "exclude_own_planning_elements",
+    "planning_element_status", "planning_element_types", "planning_element_responsibles",
+    "planning_element_assignee", "exclude_reporters", "exclude_empty", "project_types",
+    "project_status", "project_responsibles", "parents", "planning_element_time_types",
+    "planning_element_time_absolute_one", "planning_element_time_absolute_two",
+    "planning_element_time_relative_one", "planning_element_time_relative_one_unit",
+    "planning_element_time_relative_two", "planning_element_time_relative_two_unit",
+    "grouping_one_enabled", "grouping_one_selection", "grouping_one_sort", "hide_other_group"]
+
+    # Options here will be empty. This is just initializing it.
+    whitelist = params.require(:timeline).permit(:name, options: {})
+
+    params['timeline']['options'].each do |key, _value|
+      whitelist['options'][key] = params['timeline']['options'][key]
+    end if params['timeline'].has_key?('options')
+
+    whitelist.permit!
   end
 
   def pref
@@ -266,21 +276,32 @@ class PermittedParams
     params.require(:membership).permit(:project_id, role_ids: [])
   end
 
-  def project
-    params.require(:project).permit(:name,
-                                    :description,
-                                    :is_public,
-                                    :identifier,
-                                    :project_type_id,
-                                    custom_field_values: {},
-                                    custom_fields: [],
-                                    work_package_custom_field_ids: [],
-                                    type_ids: [],
-                                    enabled_module_names: [])
+  def project(instance = nil)
+    whitelist = params.require(:project).permit(:name,
+                                                :description,
+                                                :is_public,
+                                                :identifier,
+                                                :project_type_id,
+                                                custom_fields: [],
+                                                work_package_custom_field_ids: [],
+                                                type_ids: [],
+                                                enabled_module_names: [])
+
+
+    if instance && (instance.new_record? || current_user.allowed_to?(:select_project_modules, instance))
+      whitelist.permit(enabled_module_names: [])
+    end
+
+    whitelist.tap do
+      break if params[:project][:custom_field_values].nil?
+      whitelist[:custom_field_values] = params[:project][:custom_field_values]
+    end
+
+    whitelist
   end
 
   def time_entry
-    params.require(:time_entry).permit(:hours, :comments, :work_package_id,
+    params.fetch(:time_entry, {}).permit(:hours, :comments, :work_package_id,
                                        :activity_id, :spent_on, custom_field_values: [])
   end
 
@@ -321,6 +342,51 @@ class PermittedParams
 
   def attachments
     params.permit(attachments: [:file, :description])['attachments']
+  end
+
+  def enumerations
+    acceptable_params = [:active, :is_default, :move_to, :name, :reassign_to_i, :parent_id,
+                         :custom_field_values, :reassign_to_id]
+
+    whitelist = ActionController::Parameters.new
+
+    # Sometimes we receive one enumeration, sometimes many in params, hence
+    # the following branching.
+    if params[:enumerations].present?
+      params[:enumerations].each do |enum, value|
+        enum.tap do
+          whitelist[enum] = {}
+          acceptable_params.each do |param|
+            # We rely on enum being an integer, an id that is. This will blow up
+            # otherwise, which is fine.
+            next if params[:enumerations][enum][param].nil?
+            whitelist[enum][param] = params[:enumerations][enum][param]
+          end
+        end
+      end
+    else
+      params[:enumeration].each do |key, _value|
+        whitelist[key] = params[:enumeration][key]
+      end
+    end
+
+    whitelist.permit!
+  end
+
+  def watcher
+    params.require(:watcher).permit(:watchable, :user, :user_id)
+  end
+
+  def reply
+    params.require(:reply).permit(:content, :subject)
+  end
+
+  def wiki
+    params.require(:wiki).permit(:start_page)
+  end
+
+  def reporting
+    params.fetch(:reporting, {}).permit(:reporting_to_project_id, :reported_project_status_id, :reported_project_status_comment)
   end
 
   protected

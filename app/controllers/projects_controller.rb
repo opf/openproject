@@ -89,7 +89,7 @@ class ProjectsController < ApplicationController
     @project.attributes = permitted_params.project
 
     if validate_parent_id && @project.save
-      @project.set_allowed_parent!(permitted_params.project['parent_id']) if permitted_params.project.has_key?('parent_id')
+      @project.set_allowed_parent!(params['project']['parent_id']) if params['project'].has_key?('parent_id')
       add_current_user_to_project_if_not_admin(@project)
       respond_to do |format|
         format.html do
@@ -141,8 +141,8 @@ class ProjectsController < ApplicationController
 
     @altered_project.attributes = permitted_params.project
     if validate_parent_id && @altered_project.save
-      if permitted_params.project.has_key?('parent_id')
-        @altered_project.set_allowed_parent!(permitted_params.project['parent_id'])
+      if params['project'].has_key?('parent_id')
+        @altered_project.set_allowed_parent!(params['project']['parent_id'])
       end
       respond_to do |format|
         format.html do
@@ -303,7 +303,7 @@ class ProjectsController < ApplicationController
   # TODO: move it to Project model in a validation that depends on User.current
   def validate_parent_id
     return true if User.current.admin?
-    parent_id = permitted_params.project && permitted_params.project[:parent_id]
+    parent_id = permitted_params.project && params[:project][:parent_id]
     if parent_id || @project.new_record?
       parent = parent_id.blank? ? nil : Project.find_by(id: parent_id.to_i)
       unless @project.allowed_parents.include?(parent)

@@ -49,8 +49,8 @@ class EnumerationsController < ApplicationController
   end
 
   def create
-    enum_params = permitted_params.enumeration
-    type = params[:enumeration][:type]
+    enum_params = permitted_params.enumerations
+    type = permitted_params.enumeration_type
     @enumeration = (enumeration_class(type) || Enumeration).new do |e|
       e.attributes = enum_params
     end
@@ -64,8 +64,8 @@ class EnumerationsController < ApplicationController
   end
 
   def update
-    enum_params = permitted_params.enumeration
-    type = params[:enumeration][:type]
+    enum_params = permitted_params.enumerations
+    type = permitted_params.enumeration_type
     @enumeration.type = enumeration_class(type).try(:name) || @enumeration.type
     if @enumeration.update_attributes enum_params
       flash[:notice] = l(:notice_successful_update)

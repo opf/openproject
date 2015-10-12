@@ -707,15 +707,21 @@ describe PermittedParams, type: :model do
     it { expect(subject).not_to eq(hash) }
   end
 
+  shared_examples_for 'allows enumeration move params' do
+    let(:hash) { {"2" =>{ 'move_to' => 'lower' }} }
+
+    it_behaves_like 'allows params'
+  end
+
   shared_examples_for 'allows move params' do
-    let(:hash) { { 'move_to' => 'lower' } }
+    let(:hash) { { 'move_to' => 'lower' }}
 
     it_behaves_like 'allows params'
   end
 
   shared_examples_for 'allows custom fields' do
     describe 'valid custom fields' do
-      let(:hash) { { 'custom_field_values' => { '1' => '5' } } }
+      let(:hash) { {"1" => { 'custom_field_values' => { '1' => '5' } } }}
 
       it_behaves_like 'allows params'
     end
@@ -760,34 +766,34 @@ describe PermittedParams, type: :model do
   end
 
   describe '#enumerations' do
-    let (:attribute) { :enumeration }
+    let (:attribute) { :enumerations }
 
     describe 'name' do
-      let(:hash) { { 'name' => 'blubs' } }
+      let(:hash) { {"1" => { 'name' => 'blubs' } }}
 
       it_behaves_like 'allows params'
     end
 
     describe 'active' do
-      let(:hash) { { 'active' => 'true' } }
+      let(:hash) { {"1" => { 'active' => 'true' } }}
 
       it_behaves_like 'allows params'
     end
 
     describe 'is_default' do
-      let(:hash) { { 'is_default' => 'true' } }
+      let(:hash) { {"1" => { 'is_default' => 'true' } }}
 
       it_behaves_like 'allows params'
     end
 
     describe 'reassign_to_id' do
-      let(:hash) { { 'reassign_to_id' => '1' } }
+      let(:hash) { {"1" => { 'reassign_to_id' => '1' } }}
 
       it_behaves_like 'allows params'
     end
 
     describe 'move_to' do
-      it_behaves_like 'allows move params'
+      it_behaves_like 'allows enumeration move params'
     end
 
     describe 'custom fields' do

@@ -162,7 +162,11 @@ class UsersController < ApplicationController
 
     if @user.save
       # TODO: Similar to My#account
-      @user.pref.attributes = permitted_params.pref || {}
+      @user.pref.attributes = if params[:pref].present?
+        permitted_params.pref
+      else
+        {}
+      end
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       @user.pref.save
 

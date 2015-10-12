@@ -47,7 +47,7 @@ class WatchersController < ApplicationController
   end
 
   def new
-    @watcher = Watcher.new(params[:watcher])
+    @watcher = Watcher.new(permitted_params.watcher)
     @watcher.watchable = @watched
     @watcher.save if request.post?
 
@@ -82,7 +82,8 @@ class WatchersController < ApplicationController
 
   def find_watched_by_object
     # Necessary check, otherwise anything can be constantized.
-    return false unless Redmine::Search.available_search_types.include?(params[:object_type])
+    # The search types are plural, hence the `+ s`.
+    return false unless Redmine::Search.available_search_types.include?(params[:object_type] + 's')
 
     klass = params[:object_type].singularize.camelcase.constantize
 

@@ -254,7 +254,11 @@ class MyController < ApplicationController
   def write_settings(redirect_to:)
     if request.patch?
       @user.attributes = permitted_params.user
-      @user.pref.attributes = permitted_params.pref || {}
+      @user.pref.attributes = if params[:pref].present?
+        permitted_params.pref
+      else
+        {}
+      end
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       if @user.save
         @user.pref.save
