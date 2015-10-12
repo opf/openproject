@@ -66,17 +66,18 @@ angular.module('openproject.workPackages.services')
     'WorkPackagesHelper',
     '$q',
     '$http',
-    '$rootScope',
     '$timeout',
     '$filter',
     'HookService',
-    'NotificationsService',
     'EditableFieldsState',
     require('./work-package-field-service')
   ])
-  .service('EditableFieldsState',
+  .service('EditableFieldsState',[
+    '$q',
+    '$rootScope',
+    'NotificationsService',
     require('./editable-fields-state')
-  )
+  ])
   .service('WorkPackageAttachmentsService', [
     'Upload', // 'Upload' is provided by ngFileUpload
     'PathHelper',

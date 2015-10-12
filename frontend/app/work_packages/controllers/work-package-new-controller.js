@@ -117,7 +117,7 @@ module.exports = function(
       prepend: true,
     };
 
-    WorkPackageFieldService.submitWorkPackageChanges(notify, function() {
+    EditableFieldsState.save(notify, function() {
       $rootScope.$emit('workPackagesRefreshRequired');
     });
   }

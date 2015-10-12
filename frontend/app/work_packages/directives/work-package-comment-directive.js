@@ -73,11 +73,9 @@ module.exports = function(
       }
 
       var nextActivity = ctrl.activities.length + 1;
-      WorkPackageFieldService.submitWorkPackageChanges(
-        notify,
-        function() {
-          $location.hash('activity-' + (nextActivity));
-        }
+      EditableFieldsState.save(notify, function() {
+        $location.hash('activity-' + (nextActivity));
+      }
       );
     };
 

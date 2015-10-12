@@ -66,17 +66,14 @@ module.exports = function(
       // Propagate submission to all active fields
       // not contained in the workPackage.form (e.g., comment)
       this.submit = function(notify) {
-        WorkPackageFieldService.submitWorkPackageChanges(
-          notify,
-          function() {
-            // Clears the location hash, as we're now
-            // scrolling to somewhere else
-            $location.hash(null);
-            $timeout(function() {
-              $element[0].scrollIntoView(false);
-            });
-          }
-        );
+        EditableFieldsState.save(notify, function() {
+          // Clears the location hash, as we're now
+          // scrolling to somewhere else
+          $location.hash(null);
+          $timeout(function() {
+            $element[0].scrollIntoView(false);
+          });
+        });
       };
 
       this.submitField = function(notify) {
@@ -262,7 +259,8 @@ module.exports = function(
 
         } else if (efs.editAll.state && efs.editAll.isFocusField(field)) {
           $timeout(function () {
-            element.find('.focus-input').focus()[0].select();
+            var focusElement = element.find('.focus-input');
+            focusElement.length && focusElement.focus()[0].select();
           });
         }
       });
