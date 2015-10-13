@@ -52,8 +52,8 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= l(:text_project_identifier_info).html_safe %>
     </div>
   <% else %>
-    <label class="form--label" title="<%= l('activerecord.attributes.project.identifier') %>">
-      <%= l('activerecord.attributes.project.identifier') %>
+    <label class="form--label" title="<%= Project.human_attribute_name(:identifier) %>">
+      <%= Project.human_attribute_name(:identifier) %>
     </label>
     <span class="form--field-container">
       <span id="identifier">
