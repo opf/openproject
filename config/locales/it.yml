@@ -90,7 +90,6 @@ it:
   label_backlogs_unconfigured: 'Non hai ancora configurato i Backlog. Vai su %{administration} > %{plugins}, quindi fai clic sul link %{configure} per il plugin. Dopo aver impostato i campi, torna su questa pagina per iniziare a utilizzare lo strumento.'
   label_blocks_ids: ID dei pacchetti di lavoro bloccati
   label_burndown: Burndown
-  label_chart_options: Opzioni grafico
   label_column_in_backlog: Colonna nel backlog
   label_hours: ore
   label_work_package_hierarchy: Gerarchia dei pacchetto di lavoro

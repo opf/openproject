@@ -90,7 +90,6 @@ fr:
   label_backlogs_unconfigured: "Vous n'avez pas encore configuré Backlogs. Veuillez vous rendre dans %{administration} > %{plugins}, puis cliquer sur le lien %{configure} pour ce plugin. Une fois que vous avez défini les champs, revenez sur cette page pour commencer à utiliser l'outil."
   label_blocks_ids: ID des lots de travaux bloqués
   label_burndown: Avancement
-  label_chart_options: Options du graphique
   label_column_in_backlog: Colonne dans le backlog
   label_hours: heures
   label_work_package_hierarchy: Hiérarchie du lot de travaux

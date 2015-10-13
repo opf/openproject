@@ -90,7 +90,6 @@ ja:
   label_backlogs_unconfigured: 'バックログは未設定です。%{administration} > %{plugins}をアクセスして、このプラグインの%{configure}リンクをクリックしてください。フィールドを設定した後、このページに戻ってツールを使用開始してください。'
   label_blocks_ids: ブロックされている作業項目のID
   label_burndown: バーンダウン
-  label_chart_options: チャートオプション
   label_column_in_backlog: バックログの列
   label_hours: 時間
   label_work_package_hierarchy: 作業項目の階層
