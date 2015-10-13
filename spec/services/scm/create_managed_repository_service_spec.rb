@@ -35,7 +35,7 @@ describe Scm::CreateManagedRepositoryService do
   let(:repository) { FactoryGirl.build(:repository_subversion) }
   subject(:service) { Scm::CreateManagedRepositoryService.new(repository) }
 
-  let(:config)   { {} }
+  let(:config) { {} }
 
   before do
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
@@ -69,12 +69,12 @@ describe Scm::CreateManagedRepositoryService do
     end
   end
 
-  context 'with managed config' do
+  context 'with managed local config' do
     include_context 'with tmpdir'
     let(:config) {
       {
         subversion: { manages: File.join(tmpdir, 'svn') },
-        git:        { manages: File.join(tmpdir, 'git') }
+        git: { manages: File.join(tmpdir, 'git') }
       }
     }
 
@@ -86,7 +86,9 @@ describe Scm::CreateManagedRepositoryService do
     }
 
     before do
-      allow_any_instance_of(Scm::CreateRepositoryJob)
+      allow_any_instance_of(Scm::CreateLocalRepositoryJob)
+        .to receive(:repository).and_return(repository)
+      allow_any_instance_of(Scm::CreateRemoteRepositoryJob)
         .to receive(:repository).and_return(repository)
     end
 
@@ -109,7 +111,7 @@ describe Scm::CreateManagedRepositoryService do
 
     context 'with a permission error occuring in the Job' do
       before do
-        allow(Scm::CreateRepositoryJob)
+        allow(Scm::CreateLocalRepositoryJob)
           .to receive(:new).and_raise(Errno::EACCES)
       end
 
@@ -123,7 +125,7 @@ describe Scm::CreateManagedRepositoryService do
 
     context 'with an OS error occuring in the Job' do
       before do
-        allow(Scm::CreateRepositoryJob)
+        allow(Scm::CreateLocalRepositoryJob)
           .to receive(:new).and_raise(Errno::ENOENT)
       end
 
@@ -131,6 +133,43 @@ describe Scm::CreateManagedRepositoryService do
         expect(service.call).to be false
         expect(service.localized_rejected_reason)
           .to include('An error occurred while accessing the repository in the filesystem')
+      end
+    end
+  end
+
+  context 'with managed remote config', webmock: true do
+    let(:url) { 'http://myreposerver.example.com/api/' }
+    let(:config) {
+      {
+        subversion: { manages: url }
+      }
+    }
+
+    let(:repository) {
+      repo = Repository::Subversion.new(scm_type: :managed)
+      repo.project = project
+      repo.configure(:managed, nil)
+      repo
+    }
+
+    it 'detects the remote config' do
+      expect(repository.class.managed_remote.to_s).to eq(url)
+      expect(repository.class).to be_manages_remote
+    end
+
+    context 'with a remote callback' do
+      before do
+        stub_request(:post, url).to_return(status: 200)
+      end
+
+      it 'calls the callback' do
+        expect(Scm::CreateRemoteRepositoryJob)
+          .to receive(:new).and_call_original
+
+        expect(service.call).to be true
+        expect(WebMock)
+          .to have_requested(:post, url)
+          .with(body: hash_including(action: 'create'))
       end
     end
   end

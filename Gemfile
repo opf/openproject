@@ -160,6 +160,7 @@ group :test do
   gem 'capybara-ng', '~> 0.2.1'
   gem 'selenium-webdriver', '~> 2.47.1'
   gem 'timecop', '~> 0.7.1'
+  gem 'webmock', '~> 1.21.0', require: false
 
   gem 'rb-readline', '~> 0.5.1' # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test

@@ -97,34 +97,61 @@ describe 'Repository Settings', type: :feature, js: true do
   it_behaves_like 'manages the repository with', 'git', 'local', 'Git - Repository', 'project'
 
   context 'managed repositories' do
-    include_context 'with tmpdir'
-    let(:config) {
-      {
-        subversion: { manages: File.join(tmpdir, 'svn') },
-        git:        { manages: File.join(tmpdir, 'git') }
+    context 'local' do
+      include_context 'with tmpdir'
+      let(:config) {
+        {
+          subversion: { manages: File.join(tmpdir, 'svn') },
+          git: { manages: File.join(tmpdir, 'git') }
+        }
       }
-    }
 
-    let(:repository) {
-      repo = Repository.build(
-        project,
-        managed_vendor,
-        # Need to pass AC params here manually to simulate a regular repository build
-        ActionController::Parameters.new({}),
-        :managed
-      )
+      let(:repository) {
+        repo = Repository.build(
+          project,
+          managed_vendor,
+          # Need to pass AC params here manually to simulate a regular repository build
+          ActionController::Parameters.new({}),
+          :managed
+        )
 
-      repo.save!
-      repo
-    }
+        repo.save!
+        repo
+      }
 
-    context 'Subversion' do
-      let(:managed_vendor) { :subversion }
-      it_behaves_like 'manages the repository', 'managed'
+      context 'Subversion' do
+        let(:managed_vendor) { :subversion }
+        it_behaves_like 'manages the repository', 'managed'
+      end
+
+      context 'Git' do
+        let(:managed_vendor) { :git }
+        it_behaves_like 'manages the repository', 'managed'
+      end
     end
 
-    context 'Git' do
+    context 'remote', webmock: true do
+      let(:url) { 'http://myreposerver.example.com/api/' }
+      let(:config) {
+        {
+          git: { manages: url }
+        }
+      }
       let(:managed_vendor) { :git }
+      let(:repository) {
+        repo = Repository.build(
+          project,
+          managed_vendor,
+          # Need to pass AC params here manually to simulate a regular repository build
+          ActionController::Parameters.new({}),
+          :managed
+        )
+
+        stub_request(:post, url).to_return(status: 200)
+
+        repo.save!
+        repo
+      }
       it_behaves_like 'manages the repository', 'managed'
     end
   end

@@ -204,5 +204,21 @@ describe 'Create repository', type: :feature, js: true do
                         '/tmp/git/foo.git'
       end
     end
+
+    describe 'remote managed repositories', webmock: true do
+      let(:vendor) { 'git' }
+      let(:url) { 'http://myreposerver.example.com/api/' }
+      let(:config) {
+        {
+          git: { manages: url }
+        }
+      }
+
+      before do
+        stub_request(:post, url).to_return(status: 200)
+      end
+
+      it_behaves_like 'it can create the managed repository'
+    end
   end
 end

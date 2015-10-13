@@ -38,9 +38,6 @@ Scm::CreateManagedRepositoryService = Struct.new :repository do
   def call
     if repository.managed? && repository.manageable?
 
-      # Cowardly refusing to override existing local repository
-      return false if repository_exists?
-
       ##
       # We want to move this functionality in a Delayed Job,
       # but this heavily interferes with the error handling of the whole
@@ -48,7 +45,11 @@ Scm::CreateManagedRepositoryService = Struct.new :repository do
       # Instead, this will be refactored into a single service wrapper for
       # creating and deleting repositories, which provides transactional DB access
       # as well as filesystem access.
-      Scm::CreateRepositoryJob.new(repository).perform
+      if repository.class.manages_remote?
+        Scm::CreateRemoteRepositoryJob.new(repository).perform
+      else
+        Scm::CreateLocalRepositoryJob.new(repository).perform
+      end
       return true
     end
 
@@ -61,22 +62,14 @@ Scm::CreateManagedRepositoryService = Struct.new :repository do
     @rejected = I18n.t('repositories.errors.filesystem_access_failed',
                        message: e.message)
     false
+  rescue OpenProject::Scm::Exceptions::ScmError => e
+    @rejected = e.message
+    false
   end
 
   ##
   # Returns the error symbol
   def localized_rejected_reason
     @rejected ||= I18n.t('repositories.errors.not_manageable')
-  end
-
-  private
-
-  ##
-  # Test if the repository exists already on filesystem.
-  def repository_exists?
-    if File.directory?(repository.root_url)
-      @rejected = I18n.t('repositories.errors.exists_on_filesystem')
-      return true
-    end
   end
 end

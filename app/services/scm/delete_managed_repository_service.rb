@@ -35,14 +35,17 @@ Scm::DeleteManagedRepositoryService = Struct.new :repository do
   # Registers an asynchronous job to delete the repository on disk.
   #
   def call
-    if repository.managed?
-      delete_repository
+    return false unless repository.managed?
+
+    if repository.class.manages_remote?
+      Scm::DeleteRemoteRepositoryJob.new(repository).perform
+      true
     else
-      false
+      delete_local_repository
     end
   end
 
-  def delete_repository
+  def delete_local_repository
     # Create necessary changes to repository to mark
     # it as managed by OP, but delete asynchronously.
     managed_path = repository.root_url
@@ -55,13 +58,20 @@ Scm::DeleteManagedRepositoryService = Struct.new :repository do
       # Instead, this will be refactored into a single service wrapper for
       # creating and deleting repositories, which provides transactional DB access
       # as well as filesystem access.
-      Scm::DeleteRepositoryJob.new(managed_path).perform
+      Scm::DeleteLocalRepositoryJob.new(managed_path).perform
     end
 
     true
   rescue SystemCallError => e
-    Rails.logger.error("An error occurred while accessing the repository '#{repository.root_url}'" +
-                       " on filesystem: #{e.message}")
+    @rejected = I18n.t('repositories.errors.managed_delete_local',
+                       path: repository.root_url,
+                       error_message: e.message)
     false
+  end
+
+  ##
+  # Returns the error symbol
+  def localized_rejected_reason
+    @rejected ||= I18n.t('repositories.errors.managed_delete')
   end
 end
