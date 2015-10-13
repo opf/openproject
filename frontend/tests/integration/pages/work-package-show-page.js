@@ -26,19 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function WorkPackageShowPage() {
+function WorkPackageShowPage() {}
 
-  var wpId = 819;
+WorkPackageShowPage.prototype = {
 
-  this.editButton = $('.button[title="Edit"]');
-  this.focusElement = $('#work-package-subject .focus-input');
-  this.editableFields = $$('.focus-input');
-  this.editActions = {
+  wpId: 819,
+  editButton: $('.button[title="Edit"]'),
+  focusElement: $('#work-package-subject .focus-input'),
+  overviewButton: $('#work-packages-details-view-button'),
+  editableFields: $$('.focus-input'),
+
+  editActions: {
     container: $('.work-packages--edit-actions'),
     cancel: $('.work-packages--edit-actions .button:last-child')
-  };
+  },
 
-  this.get = function() {
-    browser.get('/work_packages/' + wpId + '/activity');
-  };
+  get: function() {
+    browser.get('/work_packages/' + this.wpId + '/activity');
+  }
 };
+
+module.exports = WorkPackageShowPage;

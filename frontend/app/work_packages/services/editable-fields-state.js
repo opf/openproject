@@ -27,6 +27,8 @@
 //++
 
 module.exports = function($q, $rootScope, NotificationsService) {
+  var editAllState = false;
+
   var EditableFieldsState = {
     workPackage: null,
     errors: null,
@@ -66,7 +68,24 @@ module.exports = function($q, $rootScope, NotificationsService) {
 
     editAll: {
       focusField: 'subject',
-      state: false,
+      fieldValues: {},
+
+      get state() {
+        return editAllState;
+      },
+
+      set state(state) {
+        editAllState = state;
+        if (!state) this.fieldValues = {};
+      },
+
+      addFieldValue: function (field, value) {
+        this.fieldValues[field] = value;
+      },
+
+      getFieldValue: function (field) {
+        return this.fieldValues[field];
+      },
 
       get allowed() {
         return EditableFieldsState.workPackage && !!EditableFieldsState.workPackage.links.update;

@@ -34,7 +34,6 @@ describe('Work package edit', function() {
       expectFocusEquals = function (id) {
         var activeId = browser.driver.switchTo().activeElement().getId();
         expect(activeId).to.eventually.deep.equal(id);
-
       };
 
   describe('when clicking edit button on show page', function () {
@@ -55,6 +54,17 @@ describe('Work package edit', function() {
 
     it('should show the edit actions', function () {
       expect(page.editActions.container.isDisplayed()).to.eventually.be.true;
+    });
+
+    it('should keep the user input when switching to overview mode', function () {
+      var val = 'my_value';
+      page.focusElement.sendKeys(val);
+
+      page.overviewButton.click().then(function () {
+        page.focusElement.isPresent().then(function () {
+          expect(page.focusElement.getAttribute('value')).to.eventually.equal(val);
+        });
+      });
     });
 
     describe('when triggering the edit actions', function () {
