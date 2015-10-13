@@ -133,7 +133,6 @@ en:
   label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool."
   label_blocks_ids: "IDs of blocked work packages"
   label_burndown: "Burndown"
-  label_chart_options: "Chart Options"
   label_column_in_backlog: "Column in backlog"
   label_hours: "hours"
   label_work_package_hierarchy: "Work package Hierarchy"
