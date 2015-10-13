@@ -28,8 +28,9 @@
 
 /***** Form error messages ***
 
-span.errorSpan,
-span.errorSpan:hover
+span.errorSpan
   font-weight: bold
+
   textarea, select, input
-    border: 2px solid $content-form-danger-zone-bg-color
+    &, &:hover, &:focus
+      border: 2px solid $content-form-danger-zone-bg-color
