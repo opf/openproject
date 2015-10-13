@@ -52,11 +52,19 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= l(:text_project_identifier_info).html_safe %>
     </div>
   <% else %>
-    <%= form.fixed_value :identifier %>
-    <div class="form--field-container">
-      <%= link_to l('button_edit'),
-                  identifier_project_path,
-                  class: 'button -with-icon icon-edit' %>
-    </div>
+    <label class="form--label" title="<%= l('activerecord.attributes.project.identifier') %>">
+      <%= l('activerecord.attributes.project.identifier') %>
+    </label>
+    <span class="form--field-container">
+      <span id="identifier">
+        <%= project.identifier %>
+      </span>
+      <%= link_to identifier_project_path, title: l(:button_edit), class: "icon" do %>
+        <i class="icon icon-edit"></i>
+        <span class="hidden-for-sighted">
+          <%= l(:button_edit) %>
+        </span>
+      <% end %>
+    </span>
   <% end %>
 </div>
