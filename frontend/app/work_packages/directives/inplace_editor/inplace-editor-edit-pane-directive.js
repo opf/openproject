@@ -182,6 +182,8 @@ module.exports = function(
       $scope.$watch('editableFieldsState.editAll.state', function(state) {
         $scope.fieldController.isEditing = state;
         $scope.fieldController.lockFocus = true;
+
+        !state && $scope.fieldController.updateWriteValue();
       });
     },
     link: function(scope, element, attrs, fieldController) {
