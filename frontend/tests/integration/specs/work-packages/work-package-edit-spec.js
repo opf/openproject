@@ -34,13 +34,16 @@ describe('Work package edit', function() {
       expectFocusEquals = function (id) {
         var activeId = browser.driver.switchTo().activeElement().getId();
         expect(activeId).to.eventually.deep.equal(id);
-      };
+      }, val;
 
   describe('when clicking edit button on show page', function () {
     beforeEach(function () {
+      val = 'my_value';
+
       page.get();
       page.editButton.isPresent().then(function () {
         page.editButton.click();
+        page.focusElement.sendKeys(val);
       })
     });
 
@@ -57,9 +60,6 @@ describe('Work package edit', function() {
     });
 
     it('should keep the user input when switching to overview mode', function () {
-      var val = 'my_value';
-      page.focusElement.sendKeys(val);
-
       page.overviewButton.click().then(function () {
         page.focusElement.isPresent().then(function () {
           expect(page.focusElement.getAttribute('value')).to.eventually.equal(val);
@@ -67,10 +67,17 @@ describe('Work package edit', function() {
       });
     });
 
-    describe('when triggering the edit actions', function () {
-      it('should cancel editing when the cancel button is clicked', function () {
+    describe('when triggering the cancel action', function () {
+      beforeEach(function () {
         page.editActions.cancel.click();
+      });
+
+      it('should cancel editing', function () {
         expect(page.editableFields.count()).to.eventually.equal(0);
+      });
+
+      it('should reset user input', function () {
+        expect(page.focusElementValue.getText()).to.eventually.not.equal(val);
       });
     });
   });

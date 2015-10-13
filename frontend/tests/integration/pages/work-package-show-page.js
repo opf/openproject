@@ -33,6 +33,7 @@ WorkPackageShowPage.prototype = {
   wpId: 819,
   editButton: $('.button[title="Edit"]'),
   focusElement: $('#work-package-subject .focus-input'),
+  focusElementValue: $('#work-package-subject span.inplace-edit--read-value > span:first-child'),
   overviewButton: $('#work-packages-details-view-button'),
   editableFields: $$('.focus-input'),
 
