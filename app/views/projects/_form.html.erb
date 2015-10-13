@@ -47,7 +47,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if show_all_fields %>
   <section class="form--section">
-    <%= render partial: "projects/form/modules", locals: { form: f } %>
+    <%= render partial: "projects/form/modules",
+               locals: {
+                 form: f,
+                 fieldset_id: 'modules-edit-form'
+               } %>
   </section>
 
   <%= javascript_tag 'observeProjectModules();' %>

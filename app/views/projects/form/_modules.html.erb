@@ -31,12 +31,12 @@ See doc/COPYRIGHT.rdoc for more details.
   project = form.object
 %>
 
-<fieldset class="form--fieldset -with-control" id="modules-form">
+<fieldset class="form--fieldset -with-control" id="<%= fieldset_id %>">
   <legend class="form--fieldset-legend"><%= l(:label_enabled_project_modules) %></legend>
 
   <div class="form--fieldset-control">
     <span class="form--fieldset-control-container">
-      (<%= check_all_links 'modules-form' %>)
+      (<%= check_all_links(fieldset_id) %>)
     </span>
   </div>
 
