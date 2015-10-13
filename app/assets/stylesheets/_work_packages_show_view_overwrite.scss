@@ -216,6 +216,11 @@ body.controller-work_packages.action-show {
   .activity-comment {
     margin-top: 15px;
   }
+
+  .button.icon-edit.ng-hide {
+    display: block !important;
+    visibility: hidden;
+  }
 }
 
 .nosidebar {
