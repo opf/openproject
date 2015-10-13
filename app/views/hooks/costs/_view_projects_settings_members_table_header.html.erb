@@ -30,15 +30,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       </div>
      </th>
   <% end %>
-  <% if User.current.allowed_to?(:edit_hourly_rates, project) %>
-    <th>
-      <div class="generic-table--sort-header-outer">
-        <div class="generic-table--sort-header">
-          <span>
-            <%= l(:caption_set_rate) %>
-          </span>
-        </div>
-      </div>
-    </th>
-  <% end %>
 <% end %>

@@ -38,30 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <td id="rate_for_<%= member.user.id %>" class="currency"></td>
 <%- end -%>
 
-<% if allow_edit %>
-  <td align="center" style="white-space: nowrap;">
-    <%= remote_form_for :rate, :url => { :controller => '/hourly_rates', :action => 'set_rate', :id => member.user, :project_id => project}, :method => :post, html: { class: 'form' }  do |f| %>
-      <div class="form--field">
-        <label class="hidden-for-sighted form-label", for="rate_text_field_for_<%= member.user.id %>"><%= l(:caption_set_rate) %></label>
-        <div class="form--field-container">
-          <div class="form--text-field-container">
-            <%= f.text_field :rate, :value => "", :name => :rate, :size => 7, :id => "rate_text_field_for_#{member.user.id}", class: 'form--text-field -tiny' %>
-          </div>
-          <div class="form--field-affix">
-            <small>
-              <%= Setting.plugin_openproject_costs['costs_currency'] %>
-            </small>
-          </div>
-          <div class="form--field-affix">
-            <a href="#" onclick="submitFormWithConfirmation(event, this, false);" class="set_current_rate no-decoration-on-hover"><%= icon_wrapper('icon icon-save1', I18n.t(:button_save)) %></a>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  </td>
-<% else %>
   <td align="center" style="white-space: nowrap;"></td>
-<% end %>
 
 <% end %>
 <% end %>
