@@ -7,14 +7,17 @@ Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :firefox)
 end
 
-RSpec.configure do |config|
-  config.around(:each, selenium: true) do |example|
-    Capybara.javascript_driver = :selenium
-    Capybara.default_wait_time = 5
+# RSpec.configure do |config|
+#   config.around(:each, selenium: true) do |example|
+#     Capybara.javascript_driver = :selenium
+#     Capybara.default_wait_time = 5
+#
+#     example.run
+#
+#     Capybara.javascript_driver = :poltergeist
+#     Capybara.default_wait_time = 2
+#   end
+# end
 
-    example.run
-
-    Capybara.javascript_driver = :poltergeist
-    Capybara.default_wait_time = 2
-  end
-end
+# Use selenium until we upgraded jenkins workers
+Capybara.javascript_driver = :selenium

@@ -94,7 +94,11 @@ Capybara.register_driver :poltergeist do |app|
   }
   Capybara::Poltergeist::Driver.new(app, options)
 end
-Capybara.javascript_driver = :poltergeist
+# Disable using poltergeist until we upgraded jenkins workers
+# Capybara.javascript_driver = :poltergeist
+
+# Use selenium until we upgraded jenkins workers
+Capybara.javascript_driver = :selenium
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
