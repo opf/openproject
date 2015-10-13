@@ -44,9 +44,8 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState) {
     };
 
     this.updateWriteValue = function() {
-      this.writeValue = _.cloneDeep(WorkPackageFieldService.getValue(
-        EditableFieldsState.workPackage,
-        this.field
+      this.writeValue = EditableFieldsState.editAll.getFieldValue(this.field)
+        || _.cloneDeep(WorkPackageFieldService.getValue(EditableFieldsState.workPackage, this.field
       ));
     };
 
@@ -56,6 +55,10 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState) {
       this.updateWriteValue();
       this.editTitle = I18n.t('js.inplace.button_edit', { attribute: this.getLabel() });
     }
+
+    $scope.$watch('fieldController.writeValue', angular.bind(this, function (newValue) {
+      EditableFieldsState.editAll.addFieldValue(this.field, newValue);
+    }))
   }
 
   return {
