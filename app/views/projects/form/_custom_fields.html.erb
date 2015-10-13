@@ -27,11 +27,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<fieldset class="form--fieldset -with-control" id="project_issue_custom_fields">
+<fieldset class="form--fieldset -with-control" id="<%= fieldset_id %>">
   <legend class="form--fieldset-legend"><%=l(:label_enabled_project_custom_fields)%></legend>
   <div class="form--fieldset-control">
     <span class="form--fieldset-control-container">
-      (<%= check_all_links 'project_issue_custom_fields' %>)
+      (<%= check_all_links(fieldset_id) %>)
     </span>
   </div>
 
