@@ -53,8 +53,14 @@
        data-ngf-multiple="true"
        data-ngf-change="uploadFilteredFiles($files)"
        data-ngf-max-size="{{::maximumFileSize}}">
-    <p class="work-package--attachments--label">{{ ::I18n.t('js.label_drop_files') }}</p>
-    <p class="work-package--attachments--hint">{{ ::I18n.t('js.label_drop_files_hint') }}</p>
+    <div class="work-package--attachments--label">
+      <i class="icon-attachment"></i>
+      <p>
+        {{ ::I18n.t('js.label_drop_files') }}
+        <br>
+        {{ ::I18n.t('js.label_drop_files_hint') }}
+      </p>
+    </div>
   </div>
 </div>
 

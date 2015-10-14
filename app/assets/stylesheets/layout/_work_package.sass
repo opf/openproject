@@ -175,6 +175,7 @@
     margin: .5rem .5rem 0 0
 
 .work-package--attachments--files
+  margin-bottom: 1rem
   > h4
     margin-top: 5px
 
@@ -183,16 +184,29 @@
 
 .work-package--attachments--drop-box
   border: 2px dashed $light-gray
-  background-color: lighten($gray, 5)
+  border-radius: 2px
   text-align: center
   padding: 20px
 
-  > p
-    margin-bottom: 8px
-
 .work-package--attachments--label
-  font-size: 1rem
-  font-weight: bold
+  color: $light-gray
+  text-align: center
+
+  i, p
+    display: inline-block
+    vertical-align: middle
+
+  .icon-attachment:before
+    color: $light-gray
+    font-size: 3rem
+
+  p
+    color: $gray-dark
+    font-size: 0.9rem
+    font-weight: bold
+    line-height: 1.4
+    margin: 0 0 0 10px
+    text-align: left
 
 .work-package--attachments--hint
   font-size: 85%
