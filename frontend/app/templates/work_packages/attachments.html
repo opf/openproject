@@ -6,30 +6,13 @@
       </h3>
     </div>
   </div>
-  <div data-ngf-drop
-       data-ng-show="hasRightToUpload"
-       data-ng-model="files"
-       data-ng-model-rejected="rejectedFiles"
-       data-ngf-select
-       class="work-package--attachments--drop-box"
-       data-ngf-multiple="true"
-       data-ngf-allow-dir="true"
-       data-ngf-keep-distinct
-       data-ngf-max-size="{{::maximumFileSize}}"
-       data-ng-disabled="fetchingConfiguration"
-       data-ngf-keep="true"
-       data-ngf-change="filterFiles($files)">
-    <p data-ng-hide="fetchingConfiguration" class="work-package--attachments--label">{{ ::I18n.t('js.label_drop_files') }}</p>
-    <p data-ng-hide="fetchingConfiguration" class="work-package--attachments--hint">{{ ::I18n.t('js.label_drop_files_hint') }}</p>
-    <p data-ng-show="fetchingConfiguration" class="work-package--attachments--label">{{ ::I18n.t('js.label_wait') }}</p>
-  </div>
   <div class="work-package--attachments--files"
     data-ng-show="files.length > 0">
     <div class="work-package--details--long-field">
       <span class="inplace-edit--read"
             data-ng-repeat="attachment in files">
         <span class="inplace-editing--trigger-container">
-          <span class="inplace-editing--trigger-link"
+          <span class="inplace-editing--trigger-link -focus-style"
                 ng-class="{'-focus': focussing(attachment)}">
             <span class="inplace-editing--container">
               <span class="inplace-edit--read-value" >
@@ -60,5 +43,22 @@
         </span>
       </span>
     </div>
+  </div>
+  <div data-ngf-drop
+       data-ng-show="hasRightToUpload"
+       data-ng-model="files"
+       data-ng-model-rejected="rejectedFiles"
+       data-ngf-select
+       class="work-package--attachments--drop-box"
+       data-ngf-multiple="true"
+       data-ngf-allow-dir="true"
+       data-ngf-keep-distinct
+       data-ngf-max-size="{{::maximumFileSize}}"
+       data-ng-disabled="fetchingConfiguration"
+       data-ngf-keep="true"
+       data-ngf-change="filterFiles($files)">
+    <p data-ng-hide="fetchingConfiguration" class="work-package--attachments--label">{{ ::I18n.t('js.label_drop_files') }}</p>
+    <p data-ng-hide="fetchingConfiguration" class="work-package--attachments--hint">{{ ::I18n.t('js.label_drop_files_hint') }}</p>
+    <p data-ng-show="fetchingConfiguration" class="work-package--attachments--label">{{ ::I18n.t('js.label_wait') }}</p>
   </div>
 </div>
