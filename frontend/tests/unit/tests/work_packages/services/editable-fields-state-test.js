@@ -112,8 +112,8 @@ describe('EditableFieldsState service', function () {
         expect(eAll.getFieldValue(field)).to.equal(value);
       });
 
-      it('clears stored values when edit all mode is turned off', function () {
-        eAll.stop();
+      it('clears stored values when cancel is called', function () {
+        eAll.cancel();
         expect(eAll.getFieldValue(field)).to.be.falsy;
       });
     });

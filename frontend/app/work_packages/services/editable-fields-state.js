@@ -27,8 +27,6 @@
 //++
 
 module.exports = function($q, $rootScope, NotificationsService) {
-  var editAllState = false;
-
   var EditableFieldsState = {
     workPackage: null,
     errors: null,
@@ -36,11 +34,11 @@ module.exports = function($q, $rootScope, NotificationsService) {
     currentField: null,
     submissionPromises: {},
     forcedEditState: false,
-    
+
     isActiveField: function (field) {
       return !(this.forcedEditState || this.editAll.state) && this.currentField === field;
     },
-    
+
     getPendingFormChanges: function () {
       var form = this.workPackage.form;
       return form.pendingChanges = form.pendingChanges || angular.copy(form.embedded.payload.props);
@@ -70,21 +68,17 @@ module.exports = function($q, $rootScope, NotificationsService) {
       focusField: 'subject',
       fieldValues: {},
 
-      get state() {
-        return editAllState;
-      },
-
-      set state(state) {
-        editAllState = state;
-        if (!state) this.fieldValues = {};
-      },
-
       addFieldValue: function (field, value) {
         this.fieldValues[field] = value;
       },
 
       getFieldValue: function (field) {
         return this.fieldValues[field];
+      },
+
+      cancel: function () {
+        this.stop();
+        this.fieldValues = {};
       },
 
       get allowed() {

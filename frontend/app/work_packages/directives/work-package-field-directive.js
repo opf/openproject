@@ -44,9 +44,8 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState) {
     };
 
     this.updateWriteValue = function() {
-      this.writeValue = EditableFieldsState.editAll.getFieldValue(this.field)
-        || _.cloneDeep(WorkPackageFieldService.getValue(EditableFieldsState.workPackage, this.field
-      ));
+      this.writeValue = EditableFieldsState.editAll.getFieldValue(this.field) || _.cloneDeep(
+          WorkPackageFieldService.getValue(EditableFieldsState.workPackage, this.field));
     };
 
     if (this.isEditable()) {
