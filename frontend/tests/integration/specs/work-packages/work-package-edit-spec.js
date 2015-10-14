@@ -34,15 +34,27 @@ describe('Work package edit', function() {
       expectFocusEquals = function (id) {
         var activeId = browser.driver.switchTo().activeElement().getId();
         expect(activeId).to.eventually.deep.equal(id);
-      }, val;
+      }, val = 'my_value';
 
   describe('when clicking edit button on show page', function () {
-    beforeEach(function () {
-      val = 'my_value';
+    var expectBetweenViews = function () {
+      it('should show the edit actions', function () {
+        expect(page.editActions.container.isDisplayed()).to.eventually.be.true;
+      });
 
+      it('should disable the add-work-package button', function () {
+        expect(page.toolBar.addWorkPackage.isEnabled()).to.eventually.be.false;
+      });
+
+      it('should disable the list view button', function () {
+        expect(page.toolBar.listView.isEnabled()).to.eventually.be.false;
+      });
+    };
+
+    beforeEach(function () {
       page.get();
-      page.editButton.isPresent().then(function () {
-        page.editButton.click();
+      page.toolBar.edit.isPresent().then(function () {
+        page.toolBar.edit.click();
         page.focusElement.sendKeys(val);
       })
     });
@@ -55,16 +67,40 @@ describe('Work package edit', function() {
       expect(page.editableFields.count()).to.eventually.be.above(1);
     });
 
-    it('should show the edit actions', function () {
-      expect(page.editActions.container.isDisplayed()).to.eventually.be.true;
+    it('should hide the edit button', function () {
+      expect(page.toolBar.edit.isDisplayed()).to.eventually.be.false;
     });
 
-    it('should keep the user input when switching to overview mode', function () {
-      page.overviewButton.click().then(function () {
+    it('should disable the watch/unwatch button button', function () {
+      expect(page.toolBar.watch.isEnabled()).to.eventually.be.false;
+    });
+
+    it('should disable the drop-down-menu button', function () {
+      expect(page.toolBar.dropDown.isEnabled()).to.eventually.be.false;
+    });
+
+    expectBetweenViews();
+
+    describe('when switching to overview mode', function () {
+      beforeEach(function () {
+        browser.wait(page.toolBar.overview.click);
+      });
+
+      it('should keep the user input when switching to overview mode', function () {
         page.focusElement.isPresent().then(function () {
           expect(page.focusElement.getAttribute('value')).to.eventually.equal(val);
         });
       });
+
+      it('should disable the filter-toggle button', function () {
+        expect(page.toolBar.filter.isEnabled()).to.eventually.be.false;
+      });
+
+      it('should disable the settings button', function () {
+        expect(page.toolBar.settings.isEnabled()).to.eventually.be.false;
+      });
+
+      expectBetweenViews();
     });
 
     describe('when triggering the cancel action', function () {
