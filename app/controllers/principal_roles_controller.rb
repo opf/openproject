@@ -22,7 +22,7 @@ class PrincipalRolesController < ApplicationController
   def create
     @principal_roles = new_principal_roles_from_params
     @global_roles = GlobalRole.all
-    @user = Principal.find(params[:principal_role][:principal_id])
+    @user = Principal.find(principle_role_params[:principal_id])
 
     call_hook :principal_roles_controller_create_before_save,
               {:principal_roles => @principal_roles}
@@ -36,12 +36,12 @@ class PrincipalRolesController < ApplicationController
   end
 
   def update
-    @principal_role = PrincipalRole.find(params[:principal_role][:id])
+    @principal_role = PrincipalRole.find(principle_role_params[:id])
 
     call_hook :principal_roles_controller_update_before_save,
               {:principal_role => @principal_role}
 
-    @principal_role.update_attributes(params[:principal_role]) unless performed?
+    @principal_role.update_attributes(principle_role_params) unless performed?
 
     call_hook :principal_roles_controller_update_before_respond,
               {:principal_role => @principal_role}
@@ -68,7 +68,7 @@ class PrincipalRolesController < ApplicationController
   private
 
   def new_principal_roles_from_params
-    pr_params = params[:principal_role].dup
+    pr_params = principle_role_params.dup
     role_ids = pr_params[:role_id] ? [pr_params.delete(:role_id)] : pr_params.delete(:role_ids)
     principal_id = pr_params.delete(:principal_id)
 
@@ -143,5 +143,10 @@ class PrincipalRolesController < ApplicationController
         end
       end
     end
+  end
+
+private
+  def principle_role_params
+    params.require(:principal_role).permit(:principal_id, :role_id, role_ids: [])
   end
 end
