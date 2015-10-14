@@ -182,7 +182,13 @@
   @extend .work-packages--details-toolbar
 
   .work-packages--left-panel &
-    position: static
+    position: absolute
+    width: calc(60% + 7px)
+    left: -20px
+    padding: 0 20px .5rem
+
+.edit-all-mode .work-packages--left-panel
+  padding-bottom: 50px
 
 .work-package--attachments--files
   margin-bottom: 1rem
