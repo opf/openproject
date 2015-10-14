@@ -31,15 +31,24 @@ function WorkPackageShowPage() {}
 WorkPackageShowPage.prototype = {
 
   wpId: 819,
-  editButton: $('.button[title="Edit"]'),
   focusElement: $('#work-package-subject .focus-input'),
   focusElementValue: $('#work-package-subject span.inplace-edit--read-value > span:first-child'),
-  overviewButton: $('#work-packages-details-view-button'),
   editableFields: $$('.focus-input'),
 
   editActions: {
     container: $('.work-packages--edit-actions'),
     cancel: $('.work-packages--edit-actions .button:last-child')
+  },
+
+  toolBar: {
+    edit: $('.button.icon-edit'),
+    overview: $('#work-packages-details-view-button'),
+    watch: $('[id*="watch"]'),
+    dropDown: $('#action-show-more-dropdown-menu > button'),
+    filter: $('#work-packages-filter-toggle-button'),
+    settings: $('#work-packages-settings-button'),
+    addWorkPackage: $('.button.add-work-package'),
+    listView: $('#work-packages-list-view-button')
   },
 
   get: function() {
