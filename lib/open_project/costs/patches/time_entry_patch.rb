@@ -27,7 +27,6 @@ module OpenProject::Costs::Patches::TimeEntryPatch
     # Same as typing in the class t.update_costs
     base.class_eval do
       belongs_to :rate, -> { where(type: ['HourlyRate', 'DefaultHourlyRate']) }, class_name: 'Rate'
-      attr_protected :costs, :rate_id
 
       scope :visible, lambda { |*args|
         where(TimeEntry.visible_condition(args[0] || User.current, args[1]))
