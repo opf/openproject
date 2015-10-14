@@ -176,7 +176,7 @@ RSpec.describe 'Custom field accessibility', type: :feature, selenium: true do
       end
 
       context 'de' do
-        let(:locale) { 'en' }
+        let(:locale) { 'de' }
 
         include_context 'project settings page'
 
