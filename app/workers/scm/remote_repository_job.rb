@@ -53,9 +53,27 @@ class Scm::RemoteRepositoryJob
     req = ::Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
     req.body = request.to_json
 
-    ::Net::HTTP.start(uri.hostname, uri.port) do |http|
+    response = ::Net::HTTP.start(uri.hostname, uri.port) do |http|
       http.request(req)
     end
+
+    unless response.is_a? ::Net::HTTPSuccess
+      info = try_to_parse_response(response.body)
+      raise OpenProject::Scm::Exceptions::ScmError.new(
+        I18n.t('repositories.errors.remote_call_failed',
+               code: response.code,
+               message: info['message']
+           )
+      )
+    end
+  end
+
+  def try_to_parse_response(body)
+    JSON.parse(body)
+  rescue JSON::JSONError => e
+    raise OpenProject::Scm::Exceptions::ScmError.new(
+      I18n.t('repositories.errors.remote_invalid_response')
+    )
   end
 
   def repository_request

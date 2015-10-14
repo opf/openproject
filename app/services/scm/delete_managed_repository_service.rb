@@ -43,6 +43,9 @@ Scm::DeleteManagedRepositoryService = Struct.new :repository do
     else
       delete_local_repository
     end
+  rescue OpenProject::Scm::Exceptions::ScmError => e
+    @rejected = e.message
+    false
   end
 
   def delete_local_repository

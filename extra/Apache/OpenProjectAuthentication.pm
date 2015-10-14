@@ -1,4 +1,4 @@
-package Apache::Authn::OpenProject;
+package Apache::OpenProjectAuthentication;
 
 use strict;
 use warnings FATAL => 'all', NONFATAL => 'redefine';
