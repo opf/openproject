@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,24 +27,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: User Authentication
-  @javascript
-  Scenario: A user gets a error message if the false credentials are filled in
-    Given I am logged in as "joe"
-    Then I should see "Invalid user or password"
+# script/ci_runner.sh
+#!/bin/sh
 
-  @javascript
-  Scenario: A user is able to login successfully with provided credentials
-    Given I am on the login page
-    And I am admin
-    Then I should see "Admin" within "#top-menu-items"
+set -e
 
-  @javascript
-  Scenario: Lost password notification mail will not be sent in case incorrect mail is given
-    Given I am on the login page
-    And I open the "Openproject Admin" menu
-    And I follow "t:label_password_lost" within "#login-form" [i18n]
-    Then I should be on the lost password page
-    And I fill in "mail" with "bilbo@shire.com"
-    And I click on "Submit"
-    Then I should see "Unknown user"
+# Usage:
+#   sh script/ci_runner.sh spec 3 1
+#
+# Use
+#   sh script/ci_runner.sh spec
+# to make use of all available cores on the current machine. Most likely to
+# be used on local dev machines.
+#
+
+# $1: type
+# $2: group size
+# $3: group number
+run() {
+  echo $1;
+  eval $1;
+  echo $2;
+  eval $2;
+  echo $3;
+  eval $3;
+}
+
+if [ $2 != '' ] && [ $3 != '' ]
+then
+  GROUPING=" -n $2 --only-group $3"
+else
+  GROUPING=''
+fi
+
+if [ $1 = "npm" ]; then
+  run "npm test"
+elif [ $1 = "legacy" ]; then
+  run "bundle exec parallel_test --type rspec -o '-I spec_legacy' spec_legacy $GROUPING"
+elif [ $1 = "spec" ]; then
+  run "bundle exec parallel_test --type rspec --runtime-log script/files/parallel_runtime_rspec.log spec $GROUPING || \
+       bundle exec rspec --only-failures"
+elif [ $1 = "cucumber" ]; then
+  run "bundle exec parallel_test --type cucumber -o '-p rerun -r features' --runtime-log script/files/parallel_runtime_cucumber.log features $GROUPING || \
+       bundle exec cucumber -p rerun -r features"
+fi

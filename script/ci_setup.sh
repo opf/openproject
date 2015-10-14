@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,24 +27,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: User Authentication
-  @javascript
-  Scenario: A user gets a error message if the false credentials are filled in
-    Given I am logged in as "joe"
-    Then I should see "Invalid user or password"
+# script/ci_setup.sh
+#!/bin/sh
 
-  @javascript
-  Scenario: A user is able to login successfully with provided credentials
-    Given I am on the login page
-    And I am admin
-    Then I should see "Admin" within "#top-menu-items"
+run() {
+  echo $1;
+  eval $1;
+}
 
-  @javascript
-  Scenario: Lost password notification mail will not be sent in case incorrect mail is given
-    Given I am on the login page
-    And I open the "Openproject Admin" menu
-    And I follow "t:label_password_lost" within "#login-form" [i18n]
-    Then I should be on the lost password page
-    And I fill in "mail" with "bilbo@shire.com"
-    And I click on "Submit"
-    Then I should see "Unknown user"
+if [ $1 = "mysql" ]; then
+  run "mysql -e 'create database travis_ci_test;'"
+  run "cp script/templates/database.travis.mysql.yml config/database.yml"
+
+elif [ $1 = "postgres" ]; then
+  run "psql -c 'create database travis_ci_test;' -U postgres"
+  run "cp script/templates/database.travis.postgres.yml config/database.yml"
+
+fi
+
+# run migrations for mysql or postgres
+if [ $1 != '' ]; then
+  run "bundle exec rake db:migrate"
+  run "bundle exec rake spec:prepare"
+  run "bundle exec rake test:scm:setup:all"
+fi

@@ -26,19 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# maximizes the window for any given page
-# is needed for certain situations where the details pane must be visible
-
-shared_context 'maximized window' do
-  def maximize!
-    page.driver.browser.manage.window.maximize
-  end
-
-  before do
-    maximize!
-  end
-end
-
 # Ensure the page is completely loaded before the spec is run.
 # The status filter is loaded very late in the page setup.
 def ensure_wp_table_loaded

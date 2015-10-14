@@ -37,7 +37,7 @@ describe 'user deletion: ', type: :feature, js: true do
   context 'regular user' do
     let(:current_user) { FactoryGirl.create :user }
 
-    it 'can delete their own account' do
+    it 'can delete their own account', selenium: true do
       Setting.users_deletable_by_self = 1
       visit delete_my_account_info_path
 
@@ -64,7 +64,7 @@ describe 'user deletion: ', type: :feature, js: true do
     let!(:user) { FactoryGirl.create :user }
     let(:current_user) { FactoryGirl.create :admin }
 
-    it 'can delete other users if the setting permitts it' do
+    it 'can delete other users if the setting permitts it', selenium: true do
       Setting.users_deletable_by_admins = 1
       visit edit_user_path(user)
 

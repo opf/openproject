@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'Top menu items', js: true do
+feature 'Top menu items', js: true, selenium: true do
   let(:user) { FactoryGirl.create :user }
   let(:modules) { find(:css, "[title=#{I18n.t('label_modules')}]") }
 

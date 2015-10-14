@@ -110,7 +110,7 @@ Feature: User
       | beta  |
       | gamma |
 
-  @javascript
+  @javascript @selenium
   Scenario: re-adding a Member inside Admin Panel
     When the user "peter" is a "alpha" in the project "project1"
      And I go to the memberships tab of the edit page for the user peter

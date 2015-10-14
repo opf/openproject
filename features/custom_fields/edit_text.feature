@@ -51,7 +51,7 @@ Feature: Editing text custom fields
       | en      | default         | My Custom Field   |
       | de      | Standard        | My Custom Field   |
 
-  @javascript
+  @javascript @selenium
   Scenario: Changing a localization which is not present for any other attribute to a locale existing in another attribute deletes the localization completely
     When the Custom Field called "My Custom Field" has the following localizations:
       | locale        | name            | default_value   |

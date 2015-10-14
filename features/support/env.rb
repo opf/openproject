@@ -60,7 +60,7 @@ require_relative 'paths.rb'
 # steps to use the XPath syntax.
 Capybara.configure do |config|
   config.default_selector = :css
-  config.default_wait_time = 10
+  config.default_wait_time = 5
   config.exact_options = true
   config.ignore_hidden_elements = true
   config.match = :one
@@ -82,10 +82,23 @@ Capybara.register_driver :selenium do |app|
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile['intl.accept_languages'] = 'en,en-us'
 
-  Capybara::Selenium::Driver.new(app,
-                               browser: :firefox,
-                               profile: profile)
+  Capybara::Selenium::Driver.new(app, browser: :firefox, profile: profile)
 end
+
+require 'capybara/poltergeist'
+Capybara.register_driver :poltergeist do |app|
+  options = {
+    js_errors: false,
+    window_size: [1200, 1000],
+    timeout: 60
+  }
+  Capybara::Poltergeist::Driver.new(app, options)
+end
+# Disable using poltergeist until we upgraded jenkins workers
+# Capybara.javascript_driver = :poltergeist
+
+# Use selenium until we upgraded jenkins workers
+Capybara.javascript_driver = :selenium
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
@@ -135,6 +148,12 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 # Remove any modal dialog remaining from the scenarios which finish in an unclean state
 Before do |_scenario|
   page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertOpenError
+end
+
+Before do
+  if Capybara.current_driver == :poltergeist
+    page.driver.headers = { "Accept-Language" => "en" }
+  end
 end
 
 # Capybara.register_driver :selenium do |app|

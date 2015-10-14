@@ -170,6 +170,7 @@ GEM
       ffi (~> 1.0, >= 1.0.11)
     climate_control (0.0.3)
       activesupport (>= 3.0)
+    cliver (0.3.2)
     cocaine (0.5.7)
       climate_control (>= 0.0.3, < 1.0)
     codecov (0.0.8)
@@ -326,6 +327,11 @@ GEM
     parser (2.2.2.5)
       ast (>= 1.1, < 3.0)
     pg (0.18.3)
+    poltergeist (1.7.0)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      multi_json (~> 1.0)
+      websocket-driver (>= 0.2.0)
     powerpack (0.1.1)
     protected_attributes (1.0.9)
       activemodel (>= 4.0.1, < 5.0)
@@ -436,8 +442,6 @@ GEM
       rspec-expectations (~> 3.3.0)
       rspec-mocks (~> 3.3.0)
       rspec-support (~> 3.3.0)
-    rspec-retry (0.4.4)
-      rspec-core
     rspec-support (3.3.0)
     rubocop (0.32.1)
       astrolabe (~> 1.3)
@@ -518,6 +522,9 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
     websocket (1.2.2)
+    websocket-driver (0.6.2)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.2)
     will_paginate (3.0.7)
     xpath (2.0.0)
       nokogiri (~> 1.3)
@@ -578,6 +585,7 @@ DEPENDENCIES
   openproject-translations!
   parallel_tests
   pg (~> 0.18.3)
+  poltergeist
   protected_attributes
   prototype-rails!
   prototype_legacy_helper (= 0.0.0)!
@@ -606,7 +614,6 @@ DEPENDENCIES
   rspec-example_disabler!
   rspec-legacy_formatters
   rspec-rails (~> 3.3.0)
-  rspec-retry
   rubocop (~> 0.32)
   ruby-duration (~> 3.2.0)
   ruby-prof

@@ -153,12 +153,13 @@ group :test do
   gem 'rspec-rails', '~> 3.3.0', group: :development
   gem 'rspec-activemodel-mocks', '~> 1.0.2', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
-  gem 'rspec-legacy_formatters'
+  gem 'rspec-legacy_formatters', require: false
   gem 'capybara', '~> 2.4.4'
   gem 'capybara-screenshot', '~> 1.0.4'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
   gem 'capybara-ng', '~> 0.2.1'
   gem 'selenium-webdriver', '~> 2.47.1'
+  gem 'poltergeist'
   gem 'timecop', '~> 0.7.1'
   gem 'webmock', '~> 1.21.0', require: false
 
@@ -171,8 +172,6 @@ group :test do
   gem 'activerecord-tableless', '~> 1.0'
   gem 'codecov', require: nil
   gem 'equivalent-xml', '~> 0.5.1'
-
-  gem 'rspec-retry'
 end
 
 group :ldap do
@@ -184,8 +183,6 @@ group :development do
   gem 'thin'
   gem 'faker'
   gem 'quiet_assets'
-  gem 'rubocop', '~> 0.32'
-  gem 'parallel_tests'
 end
 
 group :development, :test do
@@ -194,6 +191,8 @@ group :development, :test do
   gem 'pry-rescue'
   gem 'pry-byebug', platforms: [:mri]
   gem 'pry-doc'
+  gem 'parallel_tests'
+  gem 'rubocop', '~> 0.32'
 end
 
 # API gems
