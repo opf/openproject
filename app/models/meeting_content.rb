@@ -26,8 +26,6 @@ class MeetingContent < ActiveRecord::Base
 
   validates_length_of :comment, maximum: 255, allow_nil: true
 
-  attr_accessible :text, :lock_version, :comment
-
   before_save :comment_to_journal_notes
 
   acts_as_journalized

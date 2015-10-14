@@ -25,8 +25,6 @@ class MeetingParticipant < ActiveRecord::Base
   scope :invited, -> { where(invited: true) }
   scope :attended, -> { where(attended: true) }
 
-  attr_accessible :email, :name, :invited, :attended, :user, :user_id, :meeting
-
   User.before_destroy do |user|
     MeetingParticipant.where(['user_id = ?', user.id]).update_all ['user_id = ?', DeletedUser.first]
   end
