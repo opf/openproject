@@ -3,11 +3,11 @@
     <div toolbar id="toolbar">
       <ul id="toolbar-items">
         <li class="toolbar-item" ng-hide="true">
-          <button class="button -alt-highlight"
+          <button class="button -alt-highlight add-work-package"
                   has-dropdown-menu
                   target="TasksDropdownMenu"
                   locals="availableTypes,projectIdentifier"
-                  ng-disabled="cannot('work_package', 'create')">
+                  ng-disabled="cannot('work_package', 'create') || editAll.state">
             <i class="button--icon icon-add"></i>
             <span class="button--text" ng-bind="::I18n.t('js.toolbar.unselected_title')"></span>
             <i class="button--dropdown-indicator"></i>
@@ -24,6 +24,7 @@
         <li class="toolbar-item" ng-if="isWatched && displayWatchButton">
           <button class="button"
                   ng-click="unwatch()"
+                  ng-disabled="editAll.state"
                   title="{{I18n.t('js.label_unwatch_work_package')}}"
                   id="unwatch-button">
             <i class="button--icon icon-watch-1"></i>
@@ -32,6 +33,7 @@
         <li class="toolbar-item" ng-if="!isWatched && displayWatchButton">
           <button class="button"
                   ng-click="watch()"
+                  ng-disabled="editAll.state"
                   title="{{I18n.t('js.label_watch_work_package')}}"
                   id="watch-button">
             <i class="button--icon icon-not-watch"></i>
@@ -46,6 +48,7 @@
                 {{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}
               </label>
               <button id="work-packages-list-view-button"
+                      ng-disabled="editAll.state"
                       class="button"
                       title="{{ getActivationActionLabel(!isListViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
                       ng-click="closeShowView()"
@@ -87,7 +90,7 @@
         </li>
         <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
           <button class="button dropdown-relative"
-                  ng-disabled="!actionsAvailable"
+                  ng-disabled="!actionsAvailable || editAll.state"
                   has-dropdown-menu
                   target="ShowMoreDropdownMenu"
                   locals="permittedActions,actionsAvailable,triggerMoreMenuAction">
