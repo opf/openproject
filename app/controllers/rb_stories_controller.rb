@@ -38,7 +38,7 @@ class RbStoriesController < RbApplicationController
 
   def create
     params['author_id'] = User.current.id
-    story = Story.create_and_position(params, project: @project,
+    story = Story.create_and_position(story_params, project: @project,
                                               author: User.current)
     status = (story.id ? 200 : 400)
 
@@ -49,12 +49,18 @@ class RbStoriesController < RbApplicationController
 
   def update
     story = Story.find(params[:id])
-    result = story.update_and_position!(params)
+    result = story.update_and_position!(story_params)
     story.reload
     status = (result ? 200 : 400)
 
     respond_to do |format|
       format.html { render partial: 'story', object: story, status: status }
     end
+  end
+
+private
+
+  def story_params
+    params.permit(:project_id, :sprint_id, :id)
   end
 end

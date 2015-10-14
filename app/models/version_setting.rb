@@ -37,8 +37,6 @@ class VersionSetting < ActiveRecord::Base
   belongs_to :project
   belongs_to :version
 
-  attr_accessible :display, :project
-
   validates_presence_of :project
 
   DISPLAY_NONE = 1

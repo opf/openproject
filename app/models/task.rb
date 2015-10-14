@@ -100,7 +100,7 @@ class Task < WorkPackage
     task.project_id = project_id
     task.type_id = Task.type
 
-    task.safe_attributes = params
+    task.attributes = params
 
     task.save
 
@@ -108,7 +108,7 @@ class Task < WorkPackage
   end
 
   def update_with_relationships_without_move(params)
-    self.safe_attributes = params
+    self.attributes = params
 
     save
   end
