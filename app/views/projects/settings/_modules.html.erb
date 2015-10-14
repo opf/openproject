@@ -32,7 +32,10 @@ See doc/COPYRIGHT.rdoc for more details.
                               :method => :put do |form| %>
 
   <%= render partial: "projects/form/modules",
-             locals: { form: form } %>
+             locals: {
+               form: form,
+               fieldset_id: 'modules-tab'
+             } %>
 
   <p><%= form.button l(:button_save), class: 'button -highlight -with-icon icon-yes' %></p>
 <% end %>

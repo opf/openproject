@@ -47,7 +47,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if show_all_fields %>
   <section class="form--section">
-    <%= render partial: "projects/form/modules", locals: { form: f } %>
+    <%= render partial: "projects/form/modules",
+               locals: {
+                 form: f,
+                 fieldset_id: 'modules-edit-form'
+               } %>
   </section>
 
   <%= javascript_tag 'observeProjectModules();' %>
@@ -66,7 +70,8 @@ See doc/COPYRIGHT.rdoc for more details.
                locals: {
                  form: f,
                  project: project,
-                 work_package_custom_fields: @issue_custom_fields
+                 work_package_custom_fields: @issue_custom_fields,
+                 fieldset_id: 'custom_fields-edit-form'
                 } %>
   </section>
 <% end %>
