@@ -26,7 +26,7 @@ ja:
     backlog_settings: バックログの設定
     burndown_graph: バーンダウングラフ
     card_paper_size: カード印刷用の用紙サイズ
-    chart_options: アクティブシリーズ
+    chart_options: Chart options
     close: 終了する
     column_width: '列の幅:'
     date: 日

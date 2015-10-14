@@ -26,7 +26,7 @@ fr:
     backlog_settings: Paramètres du backlog
     burndown_graph: "Graphique d'avancement"
     card_paper_size: "Format de papier pour l'impression des cartes"
-    chart_options: Séries actives
+    chart_options: Chart options
     close: Clôturer
     column_width: 'Largeur de la colonne :'
     date: Jour

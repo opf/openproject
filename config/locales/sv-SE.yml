@@ -26,7 +26,7 @@ sv:
     backlog_settings: Inställningar för backlog
     burndown_graph: Burndown Graph
     card_paper_size: Pappersstorlek för kortutskrift
-    chart_options: Aktiva serier
+    chart_options: Chart options
     close: Stäng
     column_width: 'Kolumnens bredd:'
     date: Dag

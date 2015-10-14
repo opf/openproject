@@ -26,7 +26,7 @@ it:
     backlog_settings: Impostazioni di backlog
     burndown_graph: Grafico Burndown
     card_paper_size: Formato della carta per la stampa delle schede
-    chart_options: Serie attive
+    chart_options: Chart options
     close: Chiuso
     column_width: 'Larghezza della colonna:'
     date: Giorno
