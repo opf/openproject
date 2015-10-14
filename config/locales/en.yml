@@ -64,7 +64,7 @@ en:
     backlog_settings: "Backlog Settings"
     burndown_graph: "Burndown Graph"
     card_paper_size: "Paper size for card printing"
-    chart_options: "Active series"
+    chart_options: "Chart options"
     close: "Close"
     column_width: "Column width:"
     date: "Day"
