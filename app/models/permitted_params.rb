@@ -272,10 +272,6 @@ class PermittedParams
                                  :theme)
   end
 
-  def membership
-    params.require(:membership).permit(:project_id, role_ids: [])
-  end
-
   def project(instance = nil)
     whitelist = params.require(:project).permit(:name,
                                                 :description,
@@ -292,8 +288,7 @@ class PermittedParams
       whitelist.permit(enabled_module_names: [])
     end
 
-    whitelist.tap do
-      break if params[:project][:custom_field_values].nil?
+    unless params[:project][:custom_field_values].nil?
       whitelist[:custom_field_values] = params[:project][:custom_field_values]
     end
 
@@ -314,6 +309,9 @@ class PermittedParams
   end
 
   def version
+    # `version_settings_attributes` is from a plugin. Unfortunately as it stands
+    # now it is less work to do it this way than have the plugin override this
+    # method. We hopefully will change this in the future.
     params.require(:version).permit(:name,
                                     :description,
                                     :effective_date,
@@ -322,7 +320,8 @@ class PermittedParams
                                     :wiki_page_title,
                                     :status,
                                     :sharing,
-                                    :custom_field_value)
+                                    :custom_field_value,
+                                    version_settings_attributes: [:id, :display, :project])
   end
 
   def comment
@@ -387,6 +386,10 @@ class PermittedParams
 
   def reporting
     params.fetch(:reporting, {}).permit(:reporting_to_project_id, :reported_project_status_id, :reported_project_status_comment)
+  end
+
+  def membership
+    params.require(:membership).permit(*self.class.permitted_attributes[:membership])
   end
 
   protected
@@ -469,6 +472,9 @@ class PermittedParams
         :reassign_to_id],
       group: [
         :lastname],
+      membership: [
+        :project_id,
+        role_ids: []],
       group_membership: [
         :membership_id,
         membership: [

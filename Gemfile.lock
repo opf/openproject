@@ -584,7 +584,6 @@ DEPENDENCIES
   parallel_tests
   pg (~> 0.18.3)
   poltergeist
-  protected_attributes
   prototype-rails!
   prototype_legacy_helper (= 0.0.0)!
   pry-byebug

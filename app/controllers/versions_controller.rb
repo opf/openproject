@@ -109,7 +109,7 @@ class VersionsController < ApplicationController
   end
 
   def update
-    if request.patch? && permitted_params.version.present?
+    if request.patch? && permitted_params.version
       attributes = permitted_params.version.dup
       attributes.delete('sharing') unless @version.allowed_sharings.include?(attributes['sharing'])
       @version.attributes = attributes
