@@ -4,8 +4,8 @@ module OpenProject
       module_function
 
       def load!
-        add_permissions! member_role, member_permissions || raise('Member role not found')
-        add_permissions! reader_role, reader_permissions || raise('Reader role not found')
+        add_permissions! (member_role || raise('Member role not found')), member_permissions
+        add_permissions! (reader_role || raise('Reader role not found')), reader_permissions
       end
 
       def add_permissions!(role, permissions)
