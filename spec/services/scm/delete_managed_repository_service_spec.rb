@@ -134,23 +134,44 @@ describe Scm::DeleteManagedRepositoryService do
       repo.project = project
       repo.configure(:managed, nil)
 
-      repo.save!
       repo
     }
 
-    before do
-      stub_request(:post, url).to_return(status: 200)
+    context 'with a valid remote' do
+      before do
+        stub_request(:post, url).to_return(status: 200)
+      end
+
+      it 'calls the callback' do
+        expect(Scm::DeleteRemoteRepositoryJob)
+          .to receive(:new).and_call_original
+
+        expect(service.call).to be true
+        expect(WebMock)
+          .to have_requested(:post, url)
+          .with(body: hash_including(identifier: repository.repository_identifier,
+                                     action: 'delete'))
+      end
     end
 
-    it 'calls the callback' do
-      expect(Scm::DeleteRemoteRepositoryJob)
-        .to receive(:new).and_call_original
+    context 'with a remote callback returning an error' do
+      before do
+        stub_request(:post, url)
+          .to_return(status: 400, body: { success: false, message: 'An error occurred' }.to_json)
+      end
 
-      expect(service.call).to be true
-      expect(WebMock)
-        .to have_requested(:post, url)
-        .with(body: hash_including(identifier: repository.repository_identifier,
-                                   action: 'delete'))
+      it 'calls the callback' do
+        expect(Scm::DeleteRemoteRepositoryJob)
+          .to receive(:new).and_call_original
+
+        expect(service.call).to be false
+
+        expect(service.localized_rejected_reason)
+          .to eq("Calling the managed remote failed with message 'An error occurred' (Code: 400)")
+        expect(WebMock)
+          .to have_requested(:post, url)
+                .with(body: hash_including(action: 'delete'))
+      end
     end
   end
 end

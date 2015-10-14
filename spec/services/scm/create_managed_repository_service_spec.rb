@@ -172,5 +172,24 @@ describe Scm::CreateManagedRepositoryService do
           .with(body: hash_including(action: 'create'))
       end
     end
+
+    context 'with a faulty remote callback' do
+      before do
+        stub_request(:post, url)
+          .to_return(status: 400, body: { success: false, message: 'An error occurred' }.to_json)
+      end
+
+      it 'calls the callback' do
+        expect(Scm::CreateRemoteRepositoryJob)
+          .to receive(:new).and_call_original
+
+        expect(service.call).to be false
+        expect(service.localized_rejected_reason)
+          .to eq("Calling the managed remote failed with message 'An error occurred' (Code: 400)")
+        expect(WebMock)
+          .to have_requested(:post, url)
+                .with(body: hash_including(action: 'create'))
+      end
+    end
   end
 end
