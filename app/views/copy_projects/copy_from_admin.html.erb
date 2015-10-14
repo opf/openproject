@@ -34,7 +34,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= labelled_tabular_form_for @copy_project, url: { action: 'copy', coming_from: 'admin' } do |f| %>
   <%= hidden_field_tag :coming_from, 'admin' %>
 
-  <%= render :partial => 'projects/form', :locals => { :f => f, :project => @copy_project, :renderTypes => true, :show_all_fields => true } %>
+  <%= render :partial => 'projects/form', :locals => { :f => f,
+                                                       :project => @copy_project,
+                                                       :render_advanced => false,
+                                                       :render_types => true,
+                                                       :render_modules => true,
+                                                       :render_custom_fields => true } %>
 
   <%= render :partial => "copy_projects/copy_settings/copy_associations", :locals => { :project => @project } %>
 

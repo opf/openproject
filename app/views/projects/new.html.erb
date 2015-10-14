@@ -31,8 +31,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= labelled_tabular_form_for @project do |f| %>
   <%= render :partial => 'form', :locals => { :f => f,
                                               :project => @project,
-                                              :renderTypes => true,
-                                              :show_all_fields => false } %>
+                                              :render_advanced => true,
+                                              :render_types => false,
+                                              :render_modules => false,
+                                              :render_custom_fields => false } %>
   <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-yes' %>
   <%= javascript_tag "Form.Element.focus('project_name');" %>
 <% end %>
