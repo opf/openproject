@@ -54,11 +54,9 @@ module BurndownChartsHelper
     # 14 entries (plus the axis label) have come along as the best value for a good optical result.
     # Thus it is enough space between the entries.
     entries_displayed = (burndown.days.length / 14.0).ceil
-    burndown.days.enum_for(:each_with_index).map do |d, i|
+    result = burndown.days.enum_for(:each_with_index).map do |d, i|
       if ((i % entries_displayed) == 0)
-        "[#{i + 1},
-         '#{escape_javascript(::I18n.t('date.abbr_day_names')[d.wday % 7])}
-         #{d.strftime('%d/%m')}']"
+        "[#{i + 1}, '#{escape_javascript(::I18n.t('date.abbr_day_names')[d.wday % 7])} #{d.strftime('%d/%m')}']"
       end
     end.join(',').html_safe +
       ", [#{burndown.days.length + 1},
