@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for @project %>
 
-<%= form_for @project, url: { action: 'update_identifier' }, html: { class: 'danger-zone form' } do |f| %>
+<%= form_for @project, url: { action: 'update_identifier' }, html: { class: 'danger-zone form -vertical' } do |f| %>
   <section class="form--section">
     <h3 class="form--section-title">
       <%= l('project.identifier.title') %>
@@ -43,12 +43,15 @@ See doc/COPYRIGHT.rdoc for more details.
       <span><%= l('project.identifier.warning_two').html_safe %></span>
     </p>
 
+    <%= styled_label_tag 'identifier', Project.human_attribute_name(:identifier), class: '-required' %>
     <div class="danger-zone--verification">
       <%= f.text_field :identifier %>
       <span>
         <%= f.submit l(:button_update), class: 'button -highlight -with-icon icon-yes' %>
       </span>
     </div>
+
+
     <br>
 
     <div class="form--field-instructions">
