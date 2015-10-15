@@ -117,8 +117,8 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= full_breadcrumb %>
           </div>
         <% end %>
-        <notifications></notifications>
         <%= render_flash_messages %>
+        <notifications></notifications>
         <div class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>" id="content"
       ng-class="{ 'hidden-navigation': !showNavigation }">
           <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>

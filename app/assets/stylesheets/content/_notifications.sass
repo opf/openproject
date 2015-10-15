@@ -190,6 +190,9 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     .notification-box
       margin-bottom: rem-calc(3px)
 
+.flash + .notification-box--wrapper
+  top: 3.85rem
+
 // awesome animations
 .notification-box
   &.ng-enter
@@ -297,7 +300,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     position: absolute
     top: rem-calc(11)
     right: rem-calc(11)
-    font-size: 12px
+    font-size: 1rem
     cursor: pointer
 
   &::before
