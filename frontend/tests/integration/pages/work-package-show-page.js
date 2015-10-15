@@ -41,7 +41,7 @@ WorkPackageShowPage.prototype = {
   },
 
   toolBar: {
-    edit: $('.button.icon-edit'),
+    edit: $('.edit-all-button'),
     overview: $('#work-packages-details-view-button'),
     watch: $('[id*="watch"]'),
     dropDown: $('#action-show-more-dropdown-menu > button'),
@@ -50,6 +50,8 @@ WorkPackageShowPage.prototype = {
     addWorkPackage: $('.button.add-work-package'),
     listView: $('#work-packages-list-view-button')
   },
+
+  listViewWorkPackage: $('#work-package-820 .subject a'),
 
   get: function() {
     browser.get('/work_packages/' + this.wpId + '/activity');

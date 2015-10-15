@@ -29,13 +29,28 @@
 module.exports = function () {
   return {
     restrict: 'E',
+    replace: true,
     templateUrl: '/templates/work_packages/work_package_edit_actions.html',
+    scope: {},
 
-    controller: ['$scope', 'I18n', 'EditableFieldsState', function ($scope, I18n,
-                                                                    EditableFieldsState) {
+    controller: ['$scope', 'I18n', 'EditableFieldsState', '$window', function ($scope, I18n,
+                                                                    EditableFieldsState, $window) {
       angular.extend($scope, {
         I18n: I18n,
         efs: EditableFieldsState
+      });
+
+      $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        if (EditableFieldsState.editAll.state
+          && toParams.workPackageId !== fromParams.workPackageId) {
+
+          if (!$window.confirm(I18n.t('js.text_are_you_sure'))) {
+            event.preventDefault();
+
+          } else {
+            EditableFieldsState.editAll.cancel();
+          }
+        }
       })
     }]
   };
