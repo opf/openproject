@@ -62,6 +62,15 @@ module OpenProject::Plugins
             config.paths['db/migrate'].expanded.each do |expanded_path|
               app.config.paths['db/migrate'] << expanded_path
             end
+
+            ##
+            # Manually inject these paths into various places
+            # in order to re-enable chained rake tasks
+            # finding all migrations.
+            # http://blog.pivotal.io/pivotal-labs/labs/leave-your-migrations-in-your-rails-engines
+            paths = app.config.paths['db/migrate'].to_a
+            ActiveRecord::Tasks::DatabaseTasks.migrations_paths |= paths
+            ActiveRecord::Migrator.migrations_paths |= paths
           end
         end
       end
