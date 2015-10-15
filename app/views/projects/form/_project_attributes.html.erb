@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
            locals: { form: form } %>
 <%= render partial: "projects/form/attributes/responsible_id",
            locals: { form: form } %>
-<% unless show_all_fields %>
+<% if render_advanced %>
 <fieldset id="advanced-settings" class="form--fieldset -collapsible collapsed">
   <legend class="form--fieldset-legend" title="<%=l(:label_show_hide)%>" onclick="toggleFieldset(this);">
     <a href="javascript:"><%= l(:label_advanced_settings) %></a>
@@ -51,7 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
                locals: { form: form } %>
     <%= render partial: "projects/form/attributes/is_public",
                locals: { form: form } %>
-<% unless show_all_fields %>
+<% if render_advanced %>
   </div>
 </fieldset>
 <% end %>
