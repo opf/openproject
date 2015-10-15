@@ -1350,9 +1350,9 @@ en:
       subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
       title: "Delete the project %{name}"
     identifier:
-      warning_one: Members of the project will have to relocate the project's repositories
-      warning_two: Existing links to the project will no longer work
-      title: "Change the project's identifier"
+      warning_one: Members of the project will have to relocate the project's repositories.
+      warning_two: Existing links to the project will no longer work.
+      title: Change the project's identifier
 
   project_module_activity: "Activity"
   project_module_boards: "Forums"

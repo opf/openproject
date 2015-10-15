@@ -132,7 +132,7 @@ describe 'Projects', type: :feature do
       click_on project.name
       click_on 'Edit'
 
-      expect(page).to have_content "DO YOU REALLY WANT TO CHANGE THE PROJECT'S IDENTIFIER"
+      expect(page).to have_content "CHANGE THE PROJECT'S IDENTIFIER"
       expect(current_path).to eq '/projects/foo/identifier'
 
       fill_in 'project[identifier]', with: 'foo-bar'
