@@ -14,11 +14,12 @@
           </button>
         </li>
         <li class="toolbar-item">
-          <button class="button button--icon icon-edit"
+          <button class="button edit-all-button"
                   ng-hide="editAll.state"
                   ng-click="editAll.start()"
                   ng-disabled="!editAll.allowed"
                   title="{{I18n.t('js.button_edit')}}">
+            <i class="button--icon icon-edit"></i>
           </button>
         </li>
         <li class="toolbar-item" ng-if="isWatched && displayWatchButton">
