@@ -101,6 +101,41 @@ describe('Work package edit', function() {
       });
 
       expectBetweenViews();
+
+      describe('when clicking on a work package in the list view', function () {
+        var confirm, url;
+
+        beforeEach(function () {
+          browser.getCurrentUrl().then(function (currentUrl) {
+            url = currentUrl;
+          });
+
+          page.listViewWorkPackage.click().then(function () {
+            confirm = browser.switchTo().alert();
+          });
+        });
+
+        it('should show a confirmation dialog', function () {
+          expect(protractor.ExpectedConditions.alertIsPresent()()).to.eventually.be.true;
+          confirm.dismiss();
+        });
+
+        it('should change the route when the confirmation is accepted', function () {
+          confirm.accept().then(function () {
+            browser.getCurrentUrl().then(function (newUrl) {
+              expect(newUrl).to.not.equal(url);
+            })
+          });
+        });
+
+        it('should change nothing when the confirmation is dismissed', function () {
+          confirm.dismiss().then(function () {
+            browser.getCurrentUrl().then(function (newUrl) {
+              expect(newUrl).to.equal(url);
+            })
+          });
+        });
+      });
     });
 
     describe('when triggering the cancel action', function () {
