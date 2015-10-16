@@ -181,17 +181,15 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 .notification-box--wrapper
   position: absolute
-  top: rem-calc(12px)
   width: $nm-notification-width
   margin-left: -($nm-notification-width / 2)
   left: 50%
+  z-index: 15
+
   .notification-box--casing
     position: relative
     .notification-box
       margin-bottom: rem-calc(3px)
-
-.flash + .notification-box--wrapper
-  top: 3.85rem
 
 // awesome animations
 .notification-box
@@ -205,6 +203,22 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     opacity: 1
   &.ng-leave.ng-leave-active
     opacity: 0
+
+  .notification-box--content
+    width: 100%
+
+    > p
+      margin-bottom: 0
+
+    progress[value]
+      @extend %progress-styles
+      &::-moz-progress-bar
+        border-radius: $nm-pb-border-radius
+      &::-webkit-progress-bar
+        background-color: $nm-pb-regress-color
+        border-radius: $nm-pb-border-radius
+      &::-webkit-progress-value
+        border-radius: $nm-pb-border-radius
 
 // upload notification styles
 %progress-styles
@@ -237,18 +251,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   font-size: $nm-upload-status-font-size !important
   line-height: $nm-upload-status-font-size !important
 
-.notification-box--content
-  width: 100%
-  progress[value]
-    @extend %progress-styles
-    &::-moz-progress-bar
-      border-radius: $nm-pb-border-radius
-    &::-webkit-progress-bar
-      background-color: $nm-pb-regress-color
-      border-radius: $nm-pb-border-radius
-    &::-webkit-progress-value
-      border-radius: $nm-pb-border-radius
-
 .notification-box--notice
   border-radius: $nm-border-radius
   border-style: solid
@@ -266,7 +268,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 // Use same styles for flash messages
 .flash, #errorExplanation
   position: absolute
-  top: rem-calc(12px)
   width: $nm-notification-width
   margin-left: -($nm-notification-width / 2)
   left: 50%
@@ -279,7 +280,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   box-shadow: rem-calc(1px 2px 3px) #dddddd
   margin-bottom: 0.1875rem
   margin-top: 0.5rem
-  z-index: 1000
+  z-index: 15
 
   &.ng-leave
     @include animation(0.5s fade-out)
@@ -334,3 +335,15 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
   &::before
     color: $nm-color-error-icon !important
+
+.flash,
+#errorExplanation,
+.notification-box--wrapper
+  top: 4.25rem
+
+  %absolute-layout-mode &
+    top: rem-calc(12px)
+
+.flash + .notification-box--wrapper
+  %absolute-layout-mode &
+    top: 3.85rem
