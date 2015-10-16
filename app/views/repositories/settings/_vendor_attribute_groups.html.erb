@@ -14,9 +14,15 @@
     <div class="attributes-group--header-control">
       <%= link_to l(:label_user_plural), committers_project_repository_path(repository.project),
             class: 'icon icon-user1' %>
-      <%= link_to l(:button_delete), destroy_info_project_repository_path(repository.project),
+      <% if type === 'managed' %>
+        <%= link_to l(:button_delete), destroy_info_project_repository_path(repository.project),
             method: :get,
             class:  'icon icon-delete' %>
+      <% else %>
+        <%= link_to l(:button_remove), destroy_info_project_repository_path(repository.project),
+            method: :get,
+            class:  'icon icon-remove' %>
+      <% end %>
     </div>
     <% end %>
   </div>

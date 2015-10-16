@@ -1400,6 +1400,7 @@ en:
       info_not_managed: "Note: This will NOT delete the contents of this repository, as it is not managed by OpenProject."
       linked_text: "You're about to remove the linked repository %{url} from the project %{project_name}."
       managed_path_note: "The following directory will be erased: %{path}"
+      repository_verification: "Enter the project's identifier %{identifier} to verify the deletion of its reopsitory."
       title: "Do you really want to delete the %{repository_type} of the project %{project_name}?"
       title_not_managed: "Do you really want to delete the linked %{repository_type}?"
     errors:
