@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <%= error_messages_for :role %>
 <div class="form--field">
-  <%= f.text_field :name, required: true %>
+  <%= f.text_field :name, required: true, container_class: '-slim' %>
 </div>
 <div class="form--field">
   <% if role.new_record? %>
@@ -48,7 +48,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   </div>
 <% end %>
 
-<h3><%= l(:label_permissions) %></h3>
 <% if role.new_record? || role.is_a?(GlobalRole) %>
   <div id="global_permissions" style=<%= role.new_record? && !role.is_a?(GlobalRole) ? "display:none" : ""%> >
     <%= render :partial => "permissions", :locals => {:permissions => global_permissions, :role => role }%>
