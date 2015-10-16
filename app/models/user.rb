@@ -442,7 +442,7 @@ class User < Principal
   end
 
   def impaired
-    (anonymous? && Setting.accessibility_mode_for_anonymous?) || !!pref.impaired
+    (anonymous? && Setting.accessibility_mode_for_anonymous?) || pref.impaired?
   end
 
   def impaired?
@@ -450,7 +450,7 @@ class User < Principal
   end
 
   def wants_comments_in_reverse_order?
-    pref[:comments_sorting] == 'desc'
+    pref.comments_in_reverse_order?
   end
 
   # Return user's RSS key (a 40 chars long string), used to access feeds

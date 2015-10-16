@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,20 +27,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rspec/retry'
-
 RSpec.configure do |config|
-  # show retry status in spec process
-  config.verbose_retry = true
-
-  # show exception that triggers a retry if verbose_retry is set to true
-  config.display_try_failure_messages = true
-
-  # We only want to retry when running on CI servers
-  if ENV['CI']
-    # retry every failure by default
-    config.default_retry_count = 2
-
-    config.default_sleep_interval = 5
+  config.around(:example, webmock: true) do |example|
+    begin
+      WebMock.enable!
+      example.run
+    ensure
+      WebMock.disable!
+    end
   end
 end

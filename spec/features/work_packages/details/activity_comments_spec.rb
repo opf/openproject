@@ -5,7 +5,7 @@ require 'features/work_packages/details/inplace_editor/shared_examples'
 require 'features/work_packages/details/inplace_editor/work_package_field'
 require 'features/work_packages/work_packages_page'
 
-describe 'activity comments', js: true do
+describe 'activity comments', js: true, selenium: true do
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }
   let!(:work_package) {
     FactoryGirl.create(:work_package,
@@ -16,11 +16,9 @@ describe 'activity comments', js: true do
   let(:selector) { '.work-packages--activity--add-comment' }
   let(:initial_comment) { 'the first comment in this WP' }
 
-  include_context 'maximized window'
-
   before do
     login_as(user)
-    allow(user.pref).to receive(:warn_on_leaving_unsaved).and_return('0')
+    allow(user.pref).to receive(:warn_on_leaving_unsaved?).and_return(false)
   end
 
   context 'with permission' do

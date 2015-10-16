@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/repositories/repository_settings_page'
 
-describe 'Create repository', type: :feature, js: true do
+describe 'Create repository', type: :feature, js: true, selenium: true do
   let(:current_user) { FactoryGirl.create (:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }
@@ -203,6 +203,22 @@ describe 'Create repository', type: :feature, js: true do
                         'local',
                         '/tmp/git/foo.git'
       end
+    end
+
+    describe 'remote managed repositories', webmock: true do
+      let(:vendor) { 'git' }
+      let(:url) { 'http://myreposerver.example.com/api/' }
+      let(:config) {
+        {
+          git: { manages: url }
+        }
+      }
+
+      before do
+        stub_request(:post, url).to_return(status: 200)
+      end
+
+      it_behaves_like 'it can create the managed repository'
     end
   end
 end

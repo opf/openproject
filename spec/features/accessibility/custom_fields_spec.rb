@@ -31,7 +31,7 @@ require 'features/custom_fields/custom_fields_page'
 require 'features/projects/project_settings_page'
 require 'features/work_packages/work_packages_page'
 
-RSpec.describe 'Custom field accessibility', type: :feature do
+RSpec.describe 'Custom field accessibility', type: :feature, selenium: true do
   describe 'language tag' do
     let(:custom_field) {
       FactoryGirl.create(:work_package_custom_field,
@@ -176,7 +176,7 @@ RSpec.describe 'Custom field accessibility', type: :feature do
       end
 
       context 'de' do
-        let(:locale) { 'en' }
+        let(:locale) { 'de' }
 
         include_context 'project settings page'
 

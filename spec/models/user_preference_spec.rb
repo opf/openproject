@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 describe UserPreference do
-  subject { described_class.new }
+  let(:user) { FactoryGirl.build_stubbed(:user) }
+  subject { FactoryGirl.build(:user_preference, user: user) }
 
   describe 'default settings' do
     it 'hides the email address' do
@@ -42,6 +43,105 @@ describe UserPreference do
 
     it 'activates no self notification' do
       expect(subject.others[:no_self_notified]).to be_truthy
+    end
+  end
+
+  shared_examples 'accepts real and false booleans' do |setter, getter|
+    it 'accepts true boolean' do
+      subject.send(setter, true)
+      expect(subject.send(getter)).to be true
+
+      subject.send(setter, false)
+      expect(subject.send(getter)).to be false
+    end
+
+    it 'accepts false booleans' do
+      %w(true 1).each do |str|
+        subject.send(setter, str)
+        expect(subject.send(getter)).to be true
+      end
+
+      %w(false 0).each do |str|
+        subject.send(setter, str)
+        expect(subject.send(getter)).to be false
+      end
+    end
+  end
+
+  describe 'sort order' do
+    it_behaves_like 'accepts real and false booleans',
+                    :comments_in_reverse_order=,
+                    :comments_in_reverse_order?
+
+    it 'can be changed by string' do
+      subject.comments_sorting = 'desc'
+      expect(subject.comments_in_reverse_order?).to be true
+
+      subject.comments_sorting = 'asc'
+      expect(subject.comments_in_reverse_order?).to be false
+    end
+  end
+
+  describe 'warn on unsaved changes' do
+    it_behaves_like 'accepts real and false booleans',
+                    :warn_on_leaving_unsaved=,
+                    :warn_on_leaving_unsaved?
+  end
+
+  describe 'time_zone' do
+    it 'allows to save short time zones' do
+      subject.time_zone = 'Berlin'
+      expect(subject).to be_valid
+      expect(subject.time_zone).to eq('Berlin')
+      expect(subject.canonical_time_zone).to eq('Europe/Berlin')
+    end
+
+    it 'allows to set full time zones' do
+      subject.time_zone = 'Europe/Paris'
+      expect(subject).to be_valid
+      expect(subject.time_zone).to eq('Europe/Paris')
+      expect(subject.canonical_time_zone).to eq('Europe/Paris')
+    end
+
+    it 'disallows invalid time zones' do
+      subject.time_zone = 'Berlin123'
+      expect(subject).not_to be_valid
+    end
+
+    it 'allows empty values' do
+      subject.time_zone = nil
+      expect(subject).to be_valid
+
+      subject.time_zone = ''
+      expect(subject).to be_valid
+    end
+  end
+
+  describe 'theme' do
+    it 'allows to save valid themes' do
+      subject.theme = 'default'
+      expect(subject).to be_valid
+      expect(subject.theme).to eq(:default)
+
+      subject.theme = :default
+      expect(subject).to be_valid
+      expect(subject.theme).to eq(:default)
+    end
+
+    it 'allows empty values' do
+      subject.theme = nil
+      expect(subject).to be_valid
+
+      subject.theme = ''
+      expect(subject).to be_valid
+    end
+
+    it 'rejects invalid themes' do
+      subject.theme = :mycoolthemethatisnotavailableyet
+      expect(subject).not_to be_valid
+
+      subject.theme = 'mycoolthemethatisnotavailableyet'
+      expect(subject).not_to be_valid
     end
   end
 end

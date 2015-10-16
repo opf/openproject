@@ -36,6 +36,7 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
     border: $content-form-input-hover-border
 
   vertical-align: middle
+  margin-bottom: 0rem
 
 %label-style
   text-align: left
@@ -272,6 +273,7 @@ fieldset.form--fieldset
   @include grid-visible-overflow
   align-items: center
   margin-bottom: 0.825rem
+  height: 100%
 
   &.-vertical,
   .form.-vertical &
@@ -453,8 +455,10 @@ fieldset.form--fieldset
   @extend %input-style
 
 .form--text-field,
-#{$text-input-selectors}
+#{$text-input-selectors},
+select
   line-height: 100%
+  margin-bottom: 0rem
 
 input[readonly].-clickable
   cursor: pointer
@@ -479,6 +483,12 @@ input[readonly].-clickable
   border: none
   padding-right: 0
 
+  &.select2-container
+    // styles adapted to input fields to align them
+    margin-bottom: 0.5rem
+    .select2-choice
+      height: 2.15rem
+
 .form--text-field,
 .form--select
   &.-tiny
@@ -495,13 +505,13 @@ input[readonly].-clickable
     max-width: 100%
 
   .form &
-    margin-bottom: 0.5rem
+    margin-bottom: 0rem
 
 .form--text-area
   @extend %input-style
 
   .form &
-    margin-bottom: 0.5rem
+    margin-bottom: 0rem
 
 .form--radio-button-container
   //prevent radio-buttons from being cut at the border
@@ -513,6 +523,7 @@ input[readonly].-clickable
 
   .form--grouping-row
     @include grid-block(10)
+    align-items: center
 
   .form--grouping-row + .form--grouping-row
     @include grid-offset(2)
@@ -567,6 +578,7 @@ input[readonly].-clickable
     flex-basis: auto
 
 .inline-label
+  margin: 0rem
   > .form-label.-transparent
     margin-bottom: 0
     font-size: 1em
@@ -593,7 +605,7 @@ input[readonly].-clickable
   // OR $inlinelabel-border
   border-radius:  2px
   padding:        0 $form-padding
-  margin-bottom:  0.5rem
+  margin-bottom:  0rem
   align-items:    center
   line-height:    1
 

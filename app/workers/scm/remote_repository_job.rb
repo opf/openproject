@@ -34,7 +34,7 @@
 # We envision a repository management wrapper that covers transactional
 # creation and deletion of repositories BOTH on the database and filesystem.
 # Until then, a synchronous process is more failsafe.
-class Scm::CreateRepositoryJob
+class Scm::RemoteRepositoryJob
   include OpenProject::BeforeDelayedJob
 
   def initialize(repository)
@@ -44,59 +44,50 @@ class Scm::CreateRepositoryJob
     @repository = repository
   end
 
-  def perform
-    # Create the repository locally.
-    mode = (config[:mode] || default_mode)
+  protected
 
-    # Ensure that chmod receives an octal number
-    unless mode.is_a? Integer
-      mode = mode.to_i(8)
+  ##
+  # Submits the request to the configured managed remote as JSON.
+  def send(request)
+    uri = @repository.class.managed_remote
+    req = ::Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+    req.body = request.to_json
+
+    response = ::Net::HTTP.start(uri.hostname, uri.port) do |http|
+      http.request(req)
     end
 
-    create(mode)
-
-    # Allow adapter to act upon the created repository
-    # e.g., initializing an empty scm repository within it
-    repository.managed_repo_created
-
-    # Ensure group ownership after creation
-    ensure_group(mode, config[:group])
+    unless response.is_a? ::Net::HTTPSuccess
+      info = try_to_parse_response(response.body)
+      raise OpenProject::Scm::Exceptions::ScmError.new(
+        I18n.t('repositories.errors.remote_call_failed',
+               code: response.code,
+               message: info['message']
+           )
+      )
+    end
   end
 
-  def destroy_failed_jobs?
-    true
+  def try_to_parse_response(body)
+    JSON.parse(body)
+  rescue JSON::JSONError => e
+    raise OpenProject::Scm::Exceptions::ScmError.new(
+      I18n.t('repositories.errors.remote_invalid_response')
+    )
   end
 
-  private
+  def repository_request
+    project = @repository.project
 
-  ##
-  # Creates the repository at the +root_url+.
-  # Accepts an overriden permission mode mask from the scm config,
-  # or sets a sensible default of 0700.
-  def create(mode)
-    FileUtils.mkdir_p(repository.root_url, mode: mode)
-  end
-
-  ##
-  # Overrides the group permission of the created repository
-  # after the adapter was able to work in the directory.
-  def ensure_group(mode, group)
-    FileUtils.chmod_R(mode, repository.root_url)
-
-    # Note that this is effectively a noop when group is nil,
-    # and then permissions remain OPs runuser/-group
-    FileUtils.chown_R(nil, group, repository.root_url)
-  end
-
-  def config
-    @config ||= repository.class.scm_config
-  end
-
-  def repository
-    @repository
-  end
-
-  def default_mode
-    0700
+    {
+      identifier: @repository.repository_identifier,
+      vendor: @repository.vendor,
+      scm_type: @repository.scm_type,
+      project: {
+        id: project.id,
+        name: project.name,
+        identifier: project.identifier,
+      }
+    }
   end
 end

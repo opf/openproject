@@ -30,7 +30,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render partial: 'form', locals: {
                                 f: f,
                                 project: @altered_project,
-                                renderTypes: false
+                                render_advanced: false,
+                                render_types: false,
+                                render_modules: false,
+                                render_custom_fields: false
                               } %>
 
   <%= f.button l(:button_update), class: 'button -highlight -with-icon icon-yes' %>

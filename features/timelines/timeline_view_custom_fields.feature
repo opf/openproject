@@ -34,43 +34,37 @@ Feature: Timeline View Tests
   Background:
     Given there is 1 user with:
           | login | manager |
-      And there is a role "manager"
-      And the role "manager" may have the following rights:
-          | view_work_packages |
-          | view_timelines     |
-          | edit_timelines     |
-          | edit_work_packages |
+    And there is a role "manager"
+    And the role "manager" may have the following rights:
+        | view_work_packages |
+        | view_timelines     |
+        | edit_timelines     |
+        | edit_work_packages |
+    And there are the following types:
+        | Name      | Is Milestone | In aggregation |
+        | Phase     | false        | true           |
+    And there is a project named "ecookbook"
+    And the project "ecookbook" has the following types:
+      | name    | position |
+      | Phase   | 1        |
+    And I am working in project "ecookbook"
+    And the project uses the following modules:
+        | timelines |
+    And the user "manager" is a "manager"
+    And I am already logged in as "manager"
+    And the following work package custom fields are defined:
+      | name    | type  | is_for_all | is_filter | possible_values |
+      | cfBool  | bool  | true       | true      |                 |
+      | cfList  | list  | true       | true      | A,B,C           |
+      | cfUser  | user  | true       | true      |                 |
+      | cfLocal | bool  | false      | true      |                 |
+  And the custom field "cfBool" is activated for type "Phase"
+  And the custom field "cfList" is activated for type "Phase"
+  And the custom field "cfUser" is activated for type "Phase"
+  And the custom field "cfLocal" is activated for type "Phase"
+  And the custom field "cfLocal" is enabled for the project "ecookbook"
 
-      And there are the following types:
-          | Name      | Is Milestone | In aggregation |
-          | Phase     | false        | true           |
-
-      And there is a project named "ecookbook"
-
-      And the project "ecookbook" has the following types:
-        | name    | position |
-        | Phase   | 1        |
-
-      And I am working in project "ecookbook"
-      And the project uses the following modules:
-          | timelines |
-      And the user "manager" is a "manager"
-      And I am already logged in as "manager"
-      And the following work package custom fields are defined:
-        | name    | type  | is_for_all | is_filter | possible_values |
-        | cfBool  | bool  | true       | true      |                 |
-        | cfList  | list  | true       | true      | A,B,C           |
-        | cfUser  | user  | true       | true      |                 |
-        | cfLocal | bool  | false      | true      |                 |
-
-    And the custom field "cfBool" is activated for type "Phase"
-    And the custom field "cfList" is activated for type "Phase"
-    And the custom field "cfUser" is activated for type "Phase"
-    And the custom field "cfLocal" is activated for type "Phase"
-
-    And the custom field "cfLocal" is enabled for the project "ecookbook"
-
-  @javascript
+  @javascript @selenium
   Scenario: Select custom field column
     Given I am working in the timeline "Testline" of the project called "ecookbook"
     When there is a timeline "Testline" for project "ecookbook"
@@ -82,7 +76,7 @@ Feature: Timeline View Tests
         And I should see the column "Start date" before the column "cfBool" in the timelines table
         And I should see the column "cfBool" before the column "End date" in the timelines table
 
-  @javascript
+  @javascript @selenium
   Scenario: Select custom field column and deactivate custom field
     Given I am working in the timeline "Testline" of the project called "ecookbook"
     When there is a timeline "Testline" for project "ecookbook"
@@ -93,7 +87,7 @@ Feature: Timeline View Tests
       And the custom field "cfLocal" is disabled for the project "ecookbook"
       Then I should see the column "Start date" immediately before the column "End date" in the timelines table
 
-  @javascript
+  @javascript @selenium
   Scenario: Show Boolean Custom Field Value
     Given I am working in the timeline "Testline" of the project called "ecookbook"
       And there are the following work packages in project "ecookbook":
@@ -116,7 +110,7 @@ Feature: Timeline View Tests
       And I should not see "No" in the row of the work package "booleanNone"
 
 
-  @javascript
+  @javascript @selenium
   Scenario: Show Boolean Custom Field Value
     Given I am working in the timeline "Testline" of the project called "ecookbook"
       And there are the following work packages in project "ecookbook":

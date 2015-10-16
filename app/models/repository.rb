@@ -435,13 +435,10 @@ class Repository < ActiveRecord::Base
   # is managed by OpenProject
   def delete_managed_repository
     service = Scm::DeleteManagedRepositoryService.new(self)
-    # Even if the service can't remove the physical repository,
-    # we should continue removing the associated instance.
     if service.call
       true
     else
-      errors.add(:base, I18n.t('repositories.errors.filesystem_access_failed',
-                               message: I18n.t('repositories.errors.deletion_failed')))
+      errors.add(:base, service.localized_rejected_reason)
       raise ActiveRecord::Rollback
     end
   end

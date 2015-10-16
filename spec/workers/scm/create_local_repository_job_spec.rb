@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe Scm::CreateRepositoryJob do
+describe Scm::CreateLocalRepositoryJob do
   subject { described_class.new(repository) }
 
   # Allow to override configuration values to determine

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,37 +27,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'features/projects/projects_page'
+# script/ci_runner.sh
+#!/bin/sh
 
-describe 'Delete project', type: :feature, js: true do
-  let(:current_user) { FactoryGirl.create (:admin) }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:projects_page) { ProjectsPage.new(project) }
+set -e
 
-  before do
-    allow(User).to receive(:current).and_return current_user
+# Usage:
+#   sh script/ci_runner.sh spec 3 1
+#
+# Use
+#   sh script/ci_runner.sh spec
+# to make use of all available cores on the current machine. Most likely to
+# be used on local dev machines.
+#
 
-    projects_page.visit_confirm_destroy
-  end
+# $1: type
+# $2: group size
+# $3: group number
+run() {
+  echo $1;
+  eval $1;
+  echo $2;
+  eval $2;
+  echo $3;
+  eval $3;
+}
 
-  describe 'disable delete w/o confirm' do
-    it { expect(page).to have_css('.danger-zone .button[disabled]') }
-  end
+if [ $2 != '' ] && [ $3 != '' ]
+then
+  GROUPING=" -n $2 --only-group $3"
+else
+  GROUPING=''
+fi
 
-  describe 'disable delete with wrong input' do
-    let(:input) { find('.danger-zone input') }
-    it do
-      input.set 'Not the project name'
-      expect(page).to have_css('.danger-zone .button[disabled]')
-    end
-  end
-
-  describe 'enable delete with correct input' do
-    let(:input) { find('.danger-zone input') }
-    it do
-      input.set project.name
-      expect(page).to have_css('.danger-zone .button:not([disabled])')
-    end
-  end
-end
+if [ $1 = "npm" ]; then
+  run "npm test"
+elif [ $1 = "legacy" ]; then
+  run "bundle exec parallel_test --type rspec -o '-I spec_legacy' spec_legacy $GROUPING"
+elif [ $1 = "spec" ]; then
+  run "bundle exec parallel_test --type rspec --runtime-log script/files/parallel_runtime_rspec.log spec $GROUPING || \
+       bundle exec rspec --only-failures"
+elif [ $1 = "cucumber" ]; then
+  run "bundle exec parallel_test --type cucumber -o '-p rerun -r features' --runtime-log script/files/parallel_runtime_cucumber.log features $GROUPING || \
+       bundle exec cucumber -p rerun -r features"
+fi

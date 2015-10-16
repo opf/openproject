@@ -61,7 +61,7 @@ Feature: Tracking Time
     Then I should see a time entry with 2 hours and comment "test"
     And I should see a total spent time of 6 hours
 
-  @javascript
+  @javascript @selenium
   Scenario: Editing a time entry
     When I update the first time entry with 4 hours and the comment "updated test"
     Then I should see a time entry with 4 hours and comment "updated test"

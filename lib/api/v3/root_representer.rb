@@ -38,6 +38,19 @@ module API
         }
       end
 
+      link :user do
+        {
+          href: api_v3_paths.user(current_user.id),
+          title: current_user.name
+        } if current_user.logged?
+      end
+
+      link :userPreferences do
+        {
+          href: api_v3_paths.my_preferences
+        } if current_user.logged?
+      end
+
       link :priorities do
         {
           href: api_v3_paths.priorities

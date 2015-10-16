@@ -26,10 +26,20 @@ The following is an excerpt of the configuration and contains all required infor
 	#   Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
 	#   On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
 	# manages:
-	#   Enable managed repositories for this vendor. This allows OpenProject to
-	#   take control over the given path to create and delete repositories directly
-	#   when created in the frontend.
+	#   You may either specify a local path on the filesystem or an absolute URL to call when
+	#   repositories are to be created or deleted.
+	#   This allows OpenProject to take control over the given path to create and delete repositories
+	#   directly when created in the frontend.
+	#
+	#   When entering a URL, OpenProject will POST to this resource when repositories are created
+	#   using the following JSON-encoded payload:
+	#     - action: The action to perform (create, delete)
+	#     - identifier: The repository identifier name
+	#     - vendor: The SCM vendor of the repository to create
+	#     - project: identifier, name and ID of the associated project
+	#
 	#   NOTE: Disabling :managed repositories using disabled_types takes precedence over this setting.
+	#
 	# disabled_types:
 	#   Disable specific repository types for this particular vendor. This allows
 	#   to restrict the available choices a project administrator has for creating repositories
@@ -51,13 +61,62 @@ The following is an excerpt of the configuration and contains all required infor
 
 With this configuration, you can create managed repositories by selecting the `managed` Git repository in the Project repository settings tab.
 
-### reposman.rb
+### Reposman.rb
 
 Part of the managed repositories functionality was previously provided with reposman.rb.
 Reposman periodically checked for new projects and automatically created a repository of a given type.
 It never deleted repositories on the filesystem when their associated project was removed in OpenProject.
 
 This script has been integrated into OpenProject and extended. If you previously used reposman, please see the [upgrade guide to 5.0](./upgrade-guide.md) for further guidance on how to migrate to managed repositories.
+
+### Managing Repositories Remotely
+
+OpenProject comes with a simple webhook to call other services rather than management repositories itself.
+To enable remote managed repositories, simply pass an absolute URL to the `manages` key of a vendor in the `configuration.yml`. The following excerpt shows that configuration for Subversion, assuming your callback is `https://example.org/repos`.
+
+	scm:
+	  subversion:
+	    manages: https://example.org/repos
+	    accesstoken: <Fixed access token passed to the endpoint>
+
+Upon creating and deleting repositories in the frontend, OpenProject will POST to this endpoint a JSON object containg information on the repository.
+
+	{
+		"identifier": "seeded_project.git",
+		"vendor": "git",
+		"scm_type": "managed",
+		"project": {
+			"id": 1,
+			"name": "Seeded Project",
+			"identifier": "seeded_project"
+		},
+		"action": "create",
+		"token": <Fixed access token passed to the endpoint>
+	}
+
+Our main use-case for this feature is to reduce the complexity of permission issues around Subversion mainly in packager, for which a simple Apache wrapper script is used in `extra/Apache/OpenProjectRepoman.pm`.
+This functionality is very limited, but may be extended when other use cases arise.
+	If you're interested in setting up the integration manually outside the context of packager, the following excerpt will help you:
+	
+	PerlSwitches -I/srv/www/perl-lib -T
+	PerlLoadModule Apache::OpenProjectRepoman
+	
+	<Location /repos>
+	        SetHandler perl-script
+	
+	        # Sets the access token secret to check against
+	        AccessSecret "<Fixed access token passed to the endpoint>"
+	
+	        # Configure pairs of (vendor, path) to the wrapper
+	        PerlAddVar ScmVendorPaths "git"
+	        PerlAddVar ScmVendorPaths "/srv/repositories/git"
+	
+	        PerlAddVar ScmVendorPaths "subversion"
+	        PerlAddVar ScmVendorPaths "/srv/repositories/subversion"
+	
+	        PerlResponseHandler Apache::OpenProjectRepoman
+	</Location>
+
 
 ## Other Features
 
@@ -138,7 +197,7 @@ The following workarounds exist:
 
 This is a simple solution, but theoretically less secure when the server provides more than just SVN and OpenProject.
 
-#### Use filesystem ACLs
+#### Use Filesystem ACLs
 
 You can define ACLs on the managed repository root (requires compatible FS).
 You'll need the the `acl` package and define the ACL.
@@ -177,6 +236,12 @@ Assuming the following situation:
 On many file systems, ACLS are enabled by default. On others, you might need to remount affected filesystems with the `acl` option set.
 
 Note that this issue applies to mod_dav_svn only.
+
+### Use the Apache wrapper script
+
+Similar to the integration we use ourselves for the packager-based installation, you can set up Apache to manage repositories using the remote hook in OpenProject.
+
+For more information, see the section 'Managing Repositories Remotely'.
 
 ### Exemplary Apache Configuration
 

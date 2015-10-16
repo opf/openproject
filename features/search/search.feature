@@ -36,7 +36,7 @@ Feature: Searching
       | wp1     |
     And I am admin
 
-  @javascript
+  @javascript @selenium
   Scenario: Searching stuff retains a project's scope
     When I am on the overview page for the project called "test-project"
      And I search globally for "stuff"

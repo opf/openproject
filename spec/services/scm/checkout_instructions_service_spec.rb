@@ -93,7 +93,7 @@ describe Scm::CheckoutInstructionsService do
 
       it 'returns the default translated instructions' do
         expect(service.instructions)
-          .to eq(I18n.t("repositories.checkout.default_instructions.subversion"))
+          .to eq(I18n.t('repositories.checkout.default_instructions.subversion'))
       end
     end
   end

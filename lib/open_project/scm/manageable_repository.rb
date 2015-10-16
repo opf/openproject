@@ -58,10 +58,24 @@ module OpenProject
         def managed_root
           scm_config[:manages]
         end
+
+        ##
+        # Returns the managed remote for this repository vendor,
+        # if any. Use +manages_remote?+ to determine whether the configuration
+        # specifies local or remote managed repositories.
+        def managed_remote
+          URI.parse(scm_config[:manages])
+        rescue URI::Error
+          nil
+        end
+
+        ##
+        # Returns whether the managed root is a remote URL to post to
+        def manages_remote?
+          managed_remote.present? && managed_remote.absolute?
+        end
       end
 
-      ##
-      #
       def manageable?
         self.class.manageable?
       end

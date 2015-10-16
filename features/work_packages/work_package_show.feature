@@ -178,7 +178,7 @@ Feature: Viewing a work package
     When I select "Move" from the action menu
     Then I should see "Move"
 
-  @javascript
+  @javascript @selenium
   Scenario: For an issue deletion leads to the work package list
     When I go to the page of the work package "issue1"
     When I select "Delete" from the action menu
