@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title l("label_project_new") %>
 <%= toolbar title: l(:label_project_new) %>
 <%= labelled_tabular_form_for @project do |f| %>
-  <%= render partial: 'form', :locals: { f: f,
+  <%= render partial: 'form', locals: { f: f,
                                          project: @project,
                                          render_advanced: true,
                                          render_types: false,
