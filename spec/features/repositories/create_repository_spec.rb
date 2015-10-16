@@ -158,7 +158,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
         expect(page).to have_selector('div.flash.notice',
                                       text: I18n.t('repositories.create_successful'))
         expect(page).to have_selector('button[type="submit"]', text: I18n.t(:button_save))
-        expect(page).to have_selector('a.icon-delete', text: I18n.t(:button_delete))
+        expect(page).to have_selector('a.icon-remove', text: I18n.t(:button_remove))
       end
     end
 
