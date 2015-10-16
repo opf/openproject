@@ -49,6 +49,11 @@ See doc/COPYRIGHT.rdoc for more details.
       <span>
         <%= f.submit l(:button_update), class: 'button -highlight -with-icon icon-yes' %>
       </span>
+      <span>
+        <%= link_to settings_project_path(@project), class: 'button -highlight' do %>
+          <span class="button--text"><%= l(:button_cancel) %></span>
+        <% end %>
+      </span>
     </div>
 
 
