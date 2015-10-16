@@ -55,6 +55,11 @@ See doc/COPYRIGHT.rdoc for more details.
             <i class="button--icon icon-delete"></i>
             <span class="button--text"><%= l(:button_delete) %></span>
         <% end %>
+        <%= link_to settings_repository_tab_path,
+          title: l(:button_cancel),
+          class: 'button -with-icon icon-cancel' do %>
+            <%= l(:button_cancel) %>
+        <% end %>
       </div>
     </section>
   <% end %>
@@ -81,9 +86,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <% end %>
         <%= link_to settings_repository_tab_path,
           title: l(:button_cancel),
-          class: 'button' do %>
-          <i class="button--icon icon-close"></i>
-          <span class="button--text"><%= l(:button_cancel) %></span>
+          class: 'button -with-icon icon-cancel' do %>
+            <%= l(:button_cancel) %>
         <% end %>
       </p>
     </div>
