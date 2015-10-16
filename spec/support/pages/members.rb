@@ -118,6 +118,37 @@ module Pages
       end
     end
 
+    ##
+    # Searches for a string in the 'New Member' dialogue's principal
+    # selection and selects the given entry.
+    #
+    # @param query What to search for in the user search field.
+    # @param selection The exact result to select.
+    def search_and_select_principal!(query, selection)
+      search_principal! query
+      select_search_result! selection
+    end
+
+    def search_principal!(query)
+      input = find '.select2-search-field input#s2id_autogen4'
+      input.set query
+    end
+
+    def select_search_result!(value)
+      find('.select2-results div', text: value).click
+    end
+
+    def has_no_search_results?
+      has_text?('No matches found')
+    end
+
+    ##
+    # Indicates whether the given principal has been selected as one
+    # of the users to be added to the project in the 'New member' dialogue.
+    def has_selected_new_principal?(name)
+      has_selector? '.select2-search-choice', text: name
+    end
+
     def select_role!(role_name)
       if !User.current.impaired?
         select2(role_name, css: '#s2id_member_role_ids')

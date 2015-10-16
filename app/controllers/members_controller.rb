@@ -171,7 +171,7 @@ class MembersController < ApplicationController
   def suggest_invite_via_email?(user, query, principals)
     user.admin? && # only admins may add new users via email
       query =~ mail_regex &&
-      principals.none? { |p| p.mail == query } &&
+      principals.none? { |p| p.mail == query || p.login == query } &&
       query # finally return email
   end
 
