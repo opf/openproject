@@ -54,30 +54,32 @@ See doc/COPYRIGHT.rdoc for more details.
   </section>
 <% end %>
 <% else %>
-<%= styled_form_tag(project_repository_path(@project), method: :delete, class: 'danger-zone') do %>
-  <section class="form--section">
-    <h3 class="form--section-title">
-      <%= l('repositories.destroy.title_not_managed', repository_type: "<em>#{h(@repository.repository_type)} - #{l(:project_module_repository)}</em>").html_safe %>
-    </h3>
-    <p>
-      <%= simple_format l('repositories.destroy.linked_text',
-                        project_name: @project.identifier, url: @repository.url) %>
-    </p>
-    <p class="danger-zone--warning">
-      <span class="icon icon-attention2"></span>
-      <span><%= l('repositories.destroy.info_not_managed') %></span>
-    </p>
-    <div class="danger-zone--verification">
-      <%= styled_button_tag project_repository_path(@project),
-        title: l(:button_delete),
-        method: :delete,
-        disabled: false,
-        class: '-highlight' do %>
+  <div class="notification-box -warning">
+    <div class="notification-box--content">
+      <p><strong><%= l('repositories.destroy.title_not_managed', repository_type: "<em>#{h(@repository.repository_type)} - #{l(:project_module_repository)}</em>").html_safe %></strong><br /></p>
+      <p>
+        <%= simple_format l('repositories.destroy.linked_text',
+                          project_name: @project.identifier, url: @repository.url) %>
+      </p>
+      <p>
+        <span><%= l('repositories.destroy.info_not_managed') %></span>
+      </p>
+      <p>
+        <%= link_to project_repository_path(@project),
+          title: l(:button_delete),
+          method: :delete,
+          class: 'button' do %>
           <i class="button--icon icon-delete"></i>
           <span class="button--text"><%= l(:button_delete) %></span>
-      <% end %>
+        <% end %>
+        <%= link_to settings_repository_tab_path,
+          title: l(:button_cancel),
+          class: 'button' do %>
+          <i class="button--icon icon-close"></i>
+          <span class="button--text"><%= l(:button_cancel) %></span>
+        <% end %>
+      </p>
     </div>
-  </section>
-<% end %>
+  </div>
 <% end %>
 
