@@ -52,82 +52,50 @@ describe('Inplace editor dropdown directive', function() {
 
     scope = $rootScope.$new();
 
-    allowedValues = [{
-                       href: '/1',
-                       name: 'zzzzzz'
-                     },
-                     {
-                       href: '/2',
-                       name: 'mmmmmm'
-                     },
-                     {
-                       href: '/3',
-                       name: 'aaaaaa'
-                     }];
+    allowedValues = [
+      { href: '/1', name: 'zzzzzz' },
+      { href: '/2', name: 'mmmmmm'},
+      { href: '/3', name: 'aaaaaa'}
+    ];
 
     var allowedValuePromise = $q(function(resolve) {
       resolve(allowedValues);
     });
 
     workPackageFieldService.getAllowedValues = sinon.stub().returns(allowedValuePromise);
+    workPackageFieldService.format = sinon.stub().returns({
+      props: { name: allowedValues[0].name }
+    });
 
     // severing dependency from the work package field directive as described by
     // http://busypeoples.github.io/post/testing-angularjs-hierarchical-directives
     element = angular.element(html);
-    var workPackageFieldController = { state:
-                                        { isBusy: false }
-                                     };
+    var workPackageFieldController = {
+      state: { isBusy: false },
+      writeValue: { props: { href: allowedValues[0].href } }
+    };
     element.data('$workPackageFieldController', workPackageFieldController);
-  }));
-
-  var compile = function(configuration) {
-    var defaultConfig = {
-                          isRequired: true,
-                          getDropdownSortingStrategy: null
-                        };
-
-    configuration = angular.extend(defaultConfig, configuration);
-    workPackageFieldService.isRequired = sinon.stub()
-      .returns(configuration.isRequired);
-    workPackageFieldConfigurationService.getDropdownSortingStrategy = sinon.stub()
-      .returns(configuration.getDropdownSortingStrategy);
+    
+    workPackageFieldService.isRequired = sinon.stub().returns(true);
+    workPackageFieldConfigurationService.getDropdownSortingStrategy = sinon.stub().returns(null);
 
     angularCompile(element)(scope);
-
     scope.$digest();
+  }));
 
-    // open the ui-select
-    var uiSelectScope = element.find('.inplace-edit--select .ui-select-match')
-                               .data()
-                               .$scope;
+  it('has options to choose from', function () {
+    var amount = element.find('.inplace-edit-select > option').length;
+    expect(amount).to.equal(allowedValues.length);
+  });
 
-    uiSelectScope.$select.activate();
-
-    uiSelectScope.$digest();
-  };
-
-  it('prints the allowedValues as options in a ui-select', function() {
-    compile({});
-
-    element.find('li .select2-result-label div').each(function(index) {
+  it('prints the allowedValues as options', function() {
+    element.find('.inplace-edit-select > option').each(function(index) {
       expect(angular.element(this).text()).to.equal(allowedValues[index].name);
     });
   });
 
-  // Disabled as I didn't get it to work on travis.
-  // Works locally, hm.
-//  it ('has a ui-select option at the beginning if isRequired is false', function () {
-//    compile({ isRequired: false });
-//
-//    expect(element.find('li .select2-result-label div').length).to.equal(4);
-//    expect(element.find('li .select2-result-label div').first().text()).to.equal('');
-//  });
-
-  it('sorts the allowed values if specified by the configuration service', function() {
-    compile({ getDropdownSortingStrategy: 'name' });
-
-    element.find('li .select2-result-label div').each(function(index) {
-      expect(angular.element(this).text()).to.equal(allowedValues[2 - index].name);
-    });
+  it('preselects a value', function() {
+    var selectedText = element.find('.inplace-edit-select > option:selected').text();
+    expect(selectedText).to.equal(allowedValues[0].name);
   });
 });

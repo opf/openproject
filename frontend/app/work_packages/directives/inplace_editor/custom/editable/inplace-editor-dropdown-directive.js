@@ -79,7 +79,13 @@ module.exports = function(
     },
     controllerAs: 'customEditorController',
     link: function(scope, element, attrs, fieldController) {
+      var selected = WorkPackageFieldService.format(
+        EditableFieldsState.workPackage,
+        fieldController.field
+      );
+
       scope.fieldController = fieldController;
+      scope.customEditorController.selected = selected && selected.props && selected.props.name;
       scope.fieldController.state.isBusy = true;
 
       scope.customEditorController.updateAllowedValues(fieldController.field).then(function() {
