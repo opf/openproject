@@ -28,11 +28,13 @@
 
 require 'spec_helper'
 require 'features/repositories/repository_settings_page'
+require 'features/support/components/danger_zone'
 
 describe 'Repository Settings', type: :feature, js: true do
   let(:current_user) { FactoryGirl.create (:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }
+  let(:dangerzone) { DangerZone.new(page) }
 
   # Allow to override configuration values to determine
   # whether to activate managed repositories
@@ -59,13 +61,24 @@ describe 'Repository Settings', type: :feature, js: true do
 
     it 'deletes the repository' do
       expect(Repository.exists?(repository.id)).to be true
-      find('a.icon-remove', text: I18n.t(:button_remove)).click
 
-      # Confirm the notification warning
       if type == 'managed'
-        expect(page).to have_selector('form.danger-zone')
-        find('.danger-zone .button').click
+        find('a.icon-delete', text: I18n.t(:button_delete)).click
+
+        dangerzone = DangerZone.new(page)
+
+        expect(page).to have_selector(dangerzone.container_selector)
+        expect(dangerzone.disabled?).to be true
+
+        dangerzone.confirm_with('definitely not the correct value')
+        expect(dangerzone.disabled?).to be true
+
+        dangerzone.confirm_with(project.identifier)
+        expect(dangerzone.disabled?).to be false
+
+        dangerzone.danger_button.click
       else
+        find('a.icon-remove', text: I18n.t(:button_remove)).click
         expect(page).to have_selector('.notification-box.-warning')
         find('a', text: I18n.t(:button_remove)).click
       end
