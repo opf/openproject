@@ -271,8 +271,6 @@ openprojectApp
     }
   ]);
 
-require('./api');
-
 angular.module('openproject.config')
   .service('ConfigurationService', [
     'PathHelper',
