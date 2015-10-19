@@ -141,6 +141,7 @@ de:
   notice_no_cost_objects_available: Kein Budget verfügbar.
   notice_something_wrong: Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.
   notice_successful_restore: Erfolgreich wiederhergestellt.
+  notice_cost_logged_successfully: Unit cost logged successfully.
   permission_edit_cost_entries: Bearbeiten gebuchter Stückkosten
   permission_edit_cost_objects: Budgets bearbeiten
   permission_edit_own_cost_entries: Bearbeiten eigener gebuchter Stückkosten

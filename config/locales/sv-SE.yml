@@ -141,6 +141,7 @@ sv:
   notice_no_cost_objects_available: Inga budgetar tillgängliga.
   notice_something_wrong: Ett fel inträffade. Försök igen.
   notice_successful_restore: Lyckad återställning.
+  notice_cost_logged_successfully: Unit cost logged successfully.
   permission_edit_cost_entries: Redigera bokade enhetskostnader
   permission_edit_cost_objects: Redigera budgetar
   permission_edit_own_cost_entries: Redigera egna bokade enhetskostnader

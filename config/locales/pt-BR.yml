@@ -141,6 +141,7 @@ pt-BR:
   notice_no_cost_objects_available: Não há orçamentos disponíveis.
   notice_something_wrong: Algo deu errado. Por favor, tente novamente.
   notice_successful_restore: Restauração bem-sucedida.
+  notice_cost_logged_successfully: Unit cost logged successfully.
   permission_edit_cost_entries: Editar custos unitários reservados
   permission_edit_cost_objects: Editar os orçamentos
   permission_edit_own_cost_entries: Editar custos unitários próprios reservados

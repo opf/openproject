@@ -141,6 +141,7 @@ es:
   notice_no_cost_objects_available: No hay presupuestos disponibles.
   notice_something_wrong: Algo salió mal. Por favor intentelo nuevamente.
   notice_successful_restore: Restauración exitosa.
+  notice_cost_logged_successfully: Unit cost logged successfully.
   permission_edit_cost_entries: Editar los costos unitarios reservados
   permission_edit_cost_objects: Editar presupuestos
   permission_edit_own_cost_entries: Editar los costos unitarios propios reservados

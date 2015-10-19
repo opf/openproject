@@ -140,6 +140,7 @@ id:
   notice_no_cost_objects_available: Pilihan budget tidak tersedia.
   notice_something_wrong: Terjadi suatu kesalahan. Silahkan coba lagi.
   notice_successful_restore: Restore berhasil.
+  notice_cost_logged_successfully: Unit cost logged successfully.
   permission_edit_cost_entries: Ubah booked biaya unit
   permission_edit_cost_objects: Edit budget
   permission_edit_own_cost_entries: Edit booked biaya unit sendiri

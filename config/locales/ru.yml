@@ -142,6 +142,7 @@ ru:
   notice_no_cost_objects_available: Нет доступных бюджетов.
   notice_something_wrong: Произошла ошибка. Пожалуйста, попробуйте снова.
   notice_successful_restore: Успешное восстановление.
+  notice_cost_logged_successfully: Unit cost logged successfully.
   permission_edit_cost_entries: Править зарегестрированные количественные затраты
   permission_edit_cost_objects: Править бюджеты
   permission_edit_own_cost_entries: Править собственные зарегистрированные количественные затраты

@@ -141,6 +141,7 @@ da:
   notice_no_cost_objects_available: Ingen tilgængelige budgetter.
   notice_something_wrong: Noget gik galt. Forsøg venligst igen.
   notice_successful_restore: Gendannet.
+  notice_cost_logged_successfully: Unit cost logged successfully.
   permission_edit_cost_entries: Redigér reserverede enhedsomkostninger
   permission_edit_cost_objects: Redigér budgetter
   permission_edit_own_cost_entries: Redigér egne reserverede enhedsomkostninger

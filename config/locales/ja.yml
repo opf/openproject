@@ -140,6 +140,7 @@ ja:
   notice_no_cost_objects_available: 予算がありません。
   notice_something_wrong: エラーが発生しました。再試行してください。
   notice_successful_restore: 復元処理が成功します。
+  notice_cost_logged_successfully: Unit cost logged successfully.
   permission_edit_cost_entries: 予約単価の編集
   permission_edit_cost_objects: 予算の編集
   permission_edit_own_cost_entries: 自分が予約した単価の編集
