@@ -53,6 +53,7 @@ Feature: Global Create Project
     And I go to the overall projects page
     Then I should not see "New project"
 
+  @javascript
   Scenario: Create Project displayed to user
     Given there is a global role "Global"
     And the global role "Global" may have the following rights:
@@ -66,7 +67,6 @@ Feature: Global Create Project
     When I am already logged in as "bob"
     And I go to the new page of "Project"
     And I fill in "project_name" with "ProjectName"
-    And I fill in "project_identifier" with "projectid"
     And I press "Create"
     Then I should see "Successful creation."
     And I should be on the settings page of the project called "ProjectName"
