@@ -170,6 +170,7 @@ en:
   notice_no_cost_objects_available: "No budgets available."
   notice_something_wrong: "Something went wrong. Please try again."
   notice_successful_restore: "Successful restore."
+  notice_cost_logged_successfully: 'Unit cost logged successfully.'
 
   permission_edit_cost_entries: "Edit booked unit costs"
   permission_edit_cost_objects: "Edit budgets"

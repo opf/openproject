@@ -283,7 +283,7 @@ describe CostlogController, type: :controller do
       it { expect(response).to redirect_to(controller: 'costlog', action: 'index', project_id: project) }
       it { expect(assigns(:cost_entry)).not_to be_new_record }
       it_should_behave_like 'assigns'
-      it { expect(flash[:notice]).to eql I18n.t(:notice_successful_create) }
+      it { expect(flash[:notice]).to eql('Unit cost logged successfully.') }
     end
 
     shared_examples_for 'invalid create' do

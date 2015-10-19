@@ -96,7 +96,7 @@ class CostlogController < ApplicationController
 
     elsif @cost_entry.save
 
-      flash[:notice] = l(:notice_successful_create)
+      flash[:notice] = l(:notice_cost_logged_successfully)
       redirect_back_or_default action: 'index', project_id: @cost_entry.project
 
     else
