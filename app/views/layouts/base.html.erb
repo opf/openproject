@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <meta name="current_menu_item" content="<%= current_menu_item %>" />
     <meta name="accessibility-mode" content="<%= current_user.impaired? %>" />
     <%= csrf_meta_tags %>
-    <%= favicon_link_tag 'favicon.ico' %>
+    <%= render 'common/favicons' %>
     <%= stylesheet_link_tag current_theme.stylesheet_manifest, :media => "all" %>
     <% if User.current.impaired? && accessibility_css_enabled? %>
       <%= stylesheet_link_tag 'accessibility' %>
