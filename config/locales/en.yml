@@ -140,7 +140,7 @@ en:
         language: "Language"
         last_login_on: "Last login"
         mail_notification: "Email notifications"
-        current_password: "Current Password"
+        current_password: "Current password"
         new_password: "New password"
         password_confirmation: "Confirmation"
         force_password_change: "Enforce password change on next login"
