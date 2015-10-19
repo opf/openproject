@@ -29,6 +29,11 @@
 require 'spec_helper'
 
 describe 'layouts/base', type: :view do
+  # This is to make `visit` available. It might be already included by the time
+  # we reach this spec, but for running this spec alone we need it here. Best
+  # of both worlds.
+  include Capybara::DSL
+
   include Redmine::MenuManager::MenuHelper
   helper Redmine::MenuManager::MenuHelper
   let!(:user) { FactoryGirl.create :user }
@@ -122,6 +127,38 @@ describe 'layouts/base', type: :view do
         expect(rendered).not_to include 'Login'
         expect(rendered).not_to include 'Password'
       end
+    end
+  end
+
+
+  describe 'icons' do
+    before do
+      allow(User).to receive(:current).and_return anonymous
+      allow(view).to receive(:current_user).and_return anonymous
+      render
+    end
+
+    it 'renders main favicon' do
+      expect(rendered).to have_selector("link[rel='shortcut icon'][type='image/x-icon'][href='/assets/favicon.ico']", visible: false)
+    end
+
+    it 'renders apple icons' do
+      expect(rendered).to have_selector("link[rel='apple-touch-icon'][type='image/png'][href='/assets/apple-touch-icon-120x120-precomposed.png']", visible: false)
+    end
+
+    # We perform a get request against the icons to ensure they are there (and
+    # avoid 404 errors in production). Should you continue to see 404s in production,
+    # ensure your asset cache is not stale.
+
+    # We do this here as opposed to a request spec to 1. keep icon specs contained
+    # in one place, and 2. the view itself makes this request, so this is an appropriate
+    # location for it.
+    it 'icons actually exist' do
+      visit 'assets/favicon.ico'
+      expect(page.status_code).to eq(200)
+
+      visit 'apple-touch-icon-120x120-precomposed.png'
+      expect(page.status_code).to eq(200)
     end
   end
 end
