@@ -84,6 +84,9 @@
         <i class="button--icon icon-delete"></i>
         <span class="button--text">Delete</span>
       </button>
+      <a class="button -with-icon icon-cancel">
+       Cancel
+      </a>
     </div>
   </section>
 </form>
