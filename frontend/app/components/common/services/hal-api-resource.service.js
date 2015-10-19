@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,52 +24,42 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
 /* globals Hyperagent */
 require('hyperagent');
 
-module.exports = function HALAPIResource($timeout, $q) {
-  'use strict';
-  var configure = function() {
-    Hyperagent.configure('ajax', function(settings) {
-      var deferred = $q.defer(),
-          resolve = settings.success,
-          reject = settings.error;
+angular.module('openproject.api')
+  .run(run)
+  .factory('HALAPIResource', HALAPIResource);
 
-      settings.success = deferred.resolve;
-      settings.reject = deferred.reject;
+run.$inject = ['$http', '$q'];
 
-      deferred.promise.then(function(response) {
-        $timeout(function() { resolve(response); });
-      }, function(reason) {
-        $timeout(function() { reject(reason); });
-      });
+function run($http, $q) {
+  Hyperagent.configure('ajax', function(settings) {
+    settings.transformResponse = function (data) { return data; };
 
-      return jQuery.ajax(settings);
-    });
-    Hyperagent.configure('defer', $q.defer);
-    // keep this if you want null values to not be overwritten by
-    // Hyperagent.js miniscore
-    // this weird line replaces HA miniscore with normal underscore
-    // Freud would be happy with what ('_', _) reminds me of
-    Hyperagent.configure('_', _);
-  };
+    return $http(settings).then(
+      function (response) { settings.success(response.data); },
+      settings.error
+    );
+  });
+  Hyperagent.configure('defer', $q.defer);
+  Hyperagent.configure('_', _);
+}
+
+function HALAPIResource () {
   return {
     setup: function(uri, params) {
-      if (!params) {
-        params = {};
-      }
-      configure();
+      params = params || {};
+      var link = new Hyperagent.Resource(_.extend({ url: uri }, params));
 
-      var link = new Hyperagent.Resource(_.extend({
-        url: uri
-      }, params));
       if (params.method) {
         link.props.href = uri;
         link.props.method = params.method;
       }
+
       return link;
     }
   };
-};
+}
