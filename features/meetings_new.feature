@@ -77,11 +77,11 @@ Feature: Create new meetings
         And I should see "03/28/2013 01:30 PM - 03:00 PM"
 
   Examples:
-    | t_zone |
-    | nil    |
-    | UTC    |
-    | CET    |
-    | CEST   |
+    | t_zone                     |
+    | CET                        |
+    | UTC                        |
+    |                            |
+    | Pacific Time (US & Canada) |
 
   Scenario: Visit the new meeting page to make sure the author is selected as invited
       Given the role "user" may have the following rights:
