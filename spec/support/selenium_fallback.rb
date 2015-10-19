@@ -4,7 +4,10 @@ Capybara.register_driver :selenium do |app|
   Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
     Selenium::WebDriver::Firefox::Binary.path
 
-  Capybara::Selenium::Driver.new(app, browser: :firefox)
+  profile = Selenium::WebDriver::Firefox::Profile.new
+  profile['intl.accept_languages'] = 'en'
+
+  Capybara::Selenium::Driver.new(app, browser: :firefox, profile: profile)
 end
 
 # RSpec.configure do |config|
