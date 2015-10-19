@@ -19,12 +19,11 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe 'hourly rates', type: :feature, js: true do
+describe 'hourly rates on user edit', type: :feature, js: true do
   let(:user) { FactoryGirl.create :admin }
 
   def view_rates
-    visit edit_user_path(user)
-    click_on 'Rate History'
+    visit edit_user_path(user, tab: 'rates')
   end
 
   before do
@@ -49,7 +48,7 @@ describe 'hourly rates', type: :feature, js: true do
     end
 
     it 'shows the rates' do
-      expect(page).to have_text 'Current rate'
+      expect(page).to have_text 'Current rate'.upcase
     end
 
     describe 'deleting all rates' do
