@@ -205,10 +205,10 @@ module ApplicationHelper
     content_tag :div, html_options do
       if User.current.impaired?
         concat(content_tag('a', join_flash_messages(message), href: 'javascript:;'))
-        concat(content_tag(:i, '', class: 'icon-close close-handler', aria: { label: ::I18n.t('js.close_popup_title') }))
+        concat(content_tag(:i, '', class: 'icon-close close-handler', tabindex: '0', role: 'button', aria: { label: ::I18n.t('js.close_popup_title') }))
       else
         concat(join_flash_messages(message))
-        concat(content_tag(:i, '', class: 'icon-close close-handler', aria: { label: ::I18n.t('js.close_popup_title') }))
+        concat(content_tag(:i, '', class: 'icon-close close-handler', tabindex: '0', role: 'button', aria: { label: ::I18n.t('js.close_popup_title') }))
       end
     end
   end

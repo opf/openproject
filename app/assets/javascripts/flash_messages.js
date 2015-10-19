@@ -27,7 +27,9 @@
 //++
 
 jQuery(document).ready(function($) {
-  $("body").on('click', '.close-handler', function () {
-    $(this).parent('.flash, .errorExplanation').remove();
+  $('body').on('click keydown', '.close-handler', function (e) {
+    if (e.type == 'click' || e.keyCode == 13) {
+      $(this).parent('.flash, .errorExplanation').remove();
+    }
   });
 });
