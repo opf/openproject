@@ -35,11 +35,12 @@
       <li class="toolbar-item" feature-flag="detailsView">
         <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
           <li>
-            <label for="work-packages-list-view-button" class="hidden-for-sighted">
+            <label for="work-packages-list-view-button"
+                   ng-attr-accesskey="{{ !isDetailsViewActive() ? undefined : '8' }}"
+                   class="hidden-for-sighted">
               {{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}
             </label>
             <button id="work-packages-list-view-button"
-                    accesskey="{{ !isDetailsViewActive() ? '' : '8' }}"
                     class="button"
                     title="{{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
                     ng-click="closeDetailsView()"
@@ -48,12 +49,13 @@
             </button>
           </li>
           <li feature-flag="detailsView">
-            <label for="work-packages-details-view-button" class="hidden-for-sighted">
+            <label for="work-packages-details-view-button"
+                   ng-attr-accesskey="{{ isDetailsViewActive() ? undefined : '8' }}"
+                   class="hidden-for-sighted">
               {{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}
             </label>
             <button class="hide"
-                    ng-click="openOverviewTab()"
-                    accesskey="{{ isDetailsViewActive() ? '' : '8' }}"></button>
+                    ng-click="openOverviewTab()"></button>
             <button id="work-packages-details-view-button"
                     class="button"
                     title="{{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}"
@@ -63,11 +65,12 @@
             </button>
           </li>
           <li>
-            <label for="work-packages-show-view-button" class="hidden-for-sighted">
+            <label for="work-packages-show-view-button"
+                   ng-attr-accesskey="{{ isShowViewActive() ? undefined : '9' }}"
+                   class="hidden-for-sighted">
               {{ getActivationActionLabel(!isShowViewActive()) + ' ' + I18n.t('js.button_show_view') }}
             </label>
             <button id="work-packages-show-view-button"
-                    accesskey="{{ isShowViewActive() ? '' : '9' }}"
                     class="button"
                     title="{{ getActivationActionLabel(!isShowViewActive()) + ' ' + I18n.t('js.button_show_view') }}"
                     ng-click="showWorkPackageShowView()"
