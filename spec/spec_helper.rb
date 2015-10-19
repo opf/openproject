@@ -103,6 +103,12 @@ RSpec.configure do |config|
   # Otherwise, all requests are being mocked by default.
   WebMock.disable!
 
+  # When we enable webmock, no connections other than stubbed ones are allowed.
+  # We will exempt local connections from this block, since selenium etc.
+  # uses localhost to communicate with the browser.
+  # Leaving this off will randomly fail some specs with WebMock::NetConnectNotAllowedError
+  WebMock.disable_net_connect!(allow_localhost: true)
+
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
   # rspec-rails.
