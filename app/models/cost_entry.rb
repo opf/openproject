@@ -58,6 +58,25 @@ class CostEntry < ActiveRecord::Base
       .includes([:project, :user])
   }
 
+  def self.costs_of(work_packages:)
+    # N.B. Because of an AR quirks the code below uses statements like
+    #   where(work_package_id: ids)
+    # You would expect to be able to simply write those as
+    #   where(work_package: work_packages)
+    # However, AR (Rails 4.2) will not expand :includes + :references inside a subquery,
+    # which will render the query invalid. Therefore we manually extract the IDs in a separate (pluck) query.
+    ids = if work_packages.respond_to?(:pluck)
+            work_packages.pluck(:id)
+          else
+            Array(work_packages).map { |wp| wp.id }
+          end
+    CostEntry.where(work_package_id: ids)
+      .joins(work_package: :project)
+      .visible_costs
+      .sum("COALESCE(#{CostEntry.table_name}.overridden_costs,
+                     #{CostEntry.table_name}.costs)").to_f
+  end
+
   def after_initialize
     if new_record? && cost_type.nil?
       if default_cost_type = CostType.default

@@ -53,6 +53,25 @@ module OpenProject::Costs::Patches::TimeEntryPatch
         includes(:project, :user)
           .where([view_time_entries, view_hourly_rates].join(' AND '))
       }
+
+      def self.costs_of(work_packages:)
+        # N.B. Because of an AR quirks the code below uses statements like
+        #   where(work_package_id: ids)
+        # You would expect to be able to simply write those as
+        #   where(work_package: work_packages)
+        # However, AR (Rails 4.2) will not expand :includes + :references inside a subquery,
+        # which will render the query invalid. Therefore we manually extract the IDs in a separate (pluck) query.
+        ids = if work_packages.respond_to?(:pluck)
+                work_packages.pluck(:id)
+              else
+                Array(work_packages).map { |wp| wp.id }
+              end
+        TimeEntry.where(work_package_id: ids)
+          .joins(work_package: :project)
+          .visible_costs
+          .sum("COALESCE(#{TimeEntry.table_name}.overridden_costs,
+                         #{TimeEntry.table_name}.costs)").to_f
+      end
     end
   end
 

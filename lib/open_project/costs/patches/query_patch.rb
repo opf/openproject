@@ -22,6 +22,13 @@ module OpenProject::Costs::Patches::QueryPatch
     include ActionView::Helpers::NumberHelper
     alias :super_value :value
 
+    def initialize(name, options = {})
+      super
+
+      @sum_function = options[:summable]
+      self.summable = @sum_function.respond_to?(:call)
+    end
+
     def value(work_package)
       number_to_currency(work_package.send(name))
     end
@@ -37,6 +44,10 @@ module OpenProject::Costs::Patches::QueryPatch
     def xls_value(work_package)
       super_value work_package
     end
+
+    def sum_of(work_packages)
+      @sum_function.call(work_packages)
+    end
   end
 
   def self.included(base) # :nodoc:
@@ -47,9 +58,26 @@ module OpenProject::Costs::Patches::QueryPatch
     # Same as typing in the class
     base.class_eval do
       add_available_column(QueryColumn.new(:cost_object_subject))
-      add_available_column(CurrencyQueryColumn.new(:material_costs))
-      add_available_column(CurrencyQueryColumn.new(:labor_costs))
-      add_available_column(CurrencyQueryColumn.new(:overall_costs))
+
+      add_available_column(CurrencyQueryColumn.new(
+                             :material_costs,
+                             summable: -> (work_packages) {
+                               CostEntry.costs_of(work_packages: work_packages)
+                             }))
+
+      add_available_column(CurrencyQueryColumn.new(
+                             :labor_costs,
+                             summable: -> (work_packages) {
+                               TimeEntry.costs_of(work_packages: work_packages)
+                             }))
+
+      add_available_column(CurrencyQueryColumn.new(
+                             :overall_costs,
+                             summable: -> (work_packages) {
+                               labor_costs = TimeEntry.costs_of(work_packages: work_packages)
+                               material_costs = CostEntry.costs_of(work_packages: work_packages)
+                               labor_costs + material_costs
+                             }))
 
       Queries::WorkPackages::Filter.add_filter_type_by_field('cost_object_id', 'list_optional')
 
@@ -58,15 +86,6 @@ module OpenProject::Costs::Patches::QueryPatch
   end
 
   module ClassMethods
-    # Setter for +available_columns+ that isn't provided by the core.
-    def available_columns=(v)
-      self.available_columns = (v)
-    end
-
-    # Method to add a column to the +available_columns+ that isn't provided by the core.
-    def add_available_column(column)
-      available_columns << (column)
-    end
   end
 
   module InstanceMethods
