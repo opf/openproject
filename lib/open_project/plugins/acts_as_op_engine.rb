@@ -69,8 +69,8 @@ module OpenProject::Plugins
             # finding all migrations.
             # http://blog.pivotal.io/pivotal-labs/labs/leave-your-migrations-in-your-rails-engines
             paths = app.config.paths['db/migrate'].to_a
-            ActiveRecord::Tasks::DatabaseTasks.migrations_paths |= paths
-            ActiveRecord::Migrator.migrations_paths |= paths
+            ActiveRecord::Tasks::DatabaseTasks.migrations_paths = paths
+            ActiveRecord::Migrator.migrations_paths = paths
           end
         end
       end
