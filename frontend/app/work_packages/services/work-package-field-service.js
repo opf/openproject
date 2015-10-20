@@ -244,7 +244,7 @@ module.exports = function(
     }
     switch(fieldType) {
       case 'DateRange':
-        inplaceType = 'daterange';
+        inplaceType = 'date-range';
         break;
       case 'Date':
         inplaceType = 'date';
@@ -260,7 +260,7 @@ module.exports = function(
         break;
       case 'Formattable':
         if (workPackage.form.embedded.payload.props[field].format === 'textile') {
-          inplaceType = 'wiki_textarea';
+          inplaceType = 'wiki-textarea';
         } else {
           inplaceType = 'textarea';
         }
@@ -275,7 +275,7 @@ module.exports = function(
       case 'Priority':
       case 'Category':
       case 'Type':
-        inplaceType = 'dropdown';
+        inplaceType = 'drop-down';
         break;
     }
 
@@ -314,10 +314,10 @@ module.exports = function(
         displayStrategy = 'text';
         break;
       case 'SpentTime':
-        displayStrategy = 'spent_time';
+        displayStrategy = 'spent-time';
         break;
       case 'Formattable':
-        displayStrategy = 'wiki_textarea';
+        displayStrategy = 'wiki-textarea';
         break;
       case 'Version':
         displayStrategy = 'version';
@@ -326,7 +326,7 @@ module.exports = function(
         displayStrategy = 'user';
         break;
       case 'DateRange':
-        displayStrategy = 'daterange';
+        displayStrategy = 'date-range';
         break;
       case 'Date':
         displayStrategy = 'date';
