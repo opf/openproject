@@ -27,22 +27,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class UpdateUserEmailSettingsService < Struct.new :user
+UpdateUserEmailSettingsService = Struct.new(:user) do
   def call(mail_notification: nil,
            self_notified: nil,
            notified_project_ids: [])
 
-    user.mail_notification = mail_notification unless mail_notification.nil?
-    user.pref.self_notified = self_notified unless self_notified.nil?
+    set_mail_notification(mail_notification)
+    set_self_notified(self_notified)
 
     ret_value = false
 
     user.transaction do
-      if (ret_value = user.save && user.pref.save) && user.mail_notification == 'selected'
-        user.notified_project_ids = notified_project_ids
+      if (ret_value = user.save && user.pref.save)
+        set_notified_project_ids(notified_project_ids)
       end
     end
 
     ret_value
+  end
+
+  private
+
+  def set_mail_notification(mail_notification)
+    user.mail_notification = mail_notification unless mail_notification.nil?
+  end
+
+  def set_self_notified(self_notified)
+    user.pref.self_notified = self_notified unless self_notified.nil?
+  end
+
+  def set_notified_project_ids(notified_project_ids)
+    user.notified_project_ids = notified_project_ids if user.mail_notification == 'selected'
   end
 end
