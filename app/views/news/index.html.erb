@@ -38,7 +38,12 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 <% end %>
 <% if @newss.empty? %>
-  <p class="nodata"><%= l(:label_no_data) %></p>
+  <% if User.current.allowed_to?(:manage_news, @project) %>
+    <%= no_results_box(action_url:     new_project_news_path(@project),
+                       display_action: true) %>
+  <% else %>
+    <%= no_results_box %>
+  <% end %>
 <% else %>
   <% @newss.each do |news| %>
     <h3><%= avatar(news.author) %><%= link_to_project(news.project) + ': ' unless news.project == @project %>
