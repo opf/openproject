@@ -30,6 +30,10 @@
 class WatcherNotificationMailer
   class << self
     def handle_watcher(watcher, watcher_setter)
+      # We only handle this watcher setting if associated user wants to be notified
+      # about it.
+      return unless watcher.user.notify_about?(watcher)
+
       unless other_jobs_queued?(watcher.watchable)
         job = DeliverWatcherNotificationJob.new(watcher.id, watcher.user.id, watcher_setter.id)
         Delayed::Job.enqueue job

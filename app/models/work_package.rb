@@ -427,7 +427,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # TODO: move into Business Object and rename to update
-  # update for now is a private method defined by AR
+  # update for now is a public method defined by AR
   def update_by!(user, attributes)
     attributes = attributes.dup
     raw_attachments = attributes.delete(:attachments)
