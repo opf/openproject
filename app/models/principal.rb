@@ -90,10 +90,6 @@ class Principal < ActiveRecord::Base
       .order(:type, :login, :lastname, :firstname, :mail)
   }
 
-  scope :visible_by, -> (principal) {
-    Principal.visible_by_condition(principal)
-  }
-
   before_create :set_default_empty_values
 
   def name(_formatter = nil)
@@ -106,16 +102,6 @@ class Principal < ActiveRecord::Base
 
   def self.search_scope_without_project(project, query)
     active_or_registered_like(query).not_in_project(project)
-  end
-
-  def self.visible_by_condition(principal)
-    if principal.respond_to?(:admin?) && principal.admin?
-      return where('true')
-    end
-
-    project_ids = principal.projects.pluck(:id)
-    where('id IN (select m.user_id FROM members AS m WHERE (m.project_id IN (?)))',
-          project_ids)
   end
 
   def self.order_by_name
