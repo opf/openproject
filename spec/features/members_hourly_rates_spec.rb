@@ -40,7 +40,7 @@ describe 'hourly rates on a member', type: :feature, js: true do
   end
 
   def add_rate(date: nil, rate:)
-    if page.has_no_selector?("tr[id^='user_new_rate_attributes_']", wait: 0.1)
+    if page.has_no_selector?("tr[id^='user_new_rate_attributes_']", wait: 1)
       click_link_or_button 'Add rate'
     end
 
