@@ -29,11 +29,11 @@
 
 class UpdateUserEmailSettingsService < Struct.new :user
   def call(mail_notification: nil,
-           no_self_notified: nil,
+           self_notified: nil,
            notified_project_ids: [])
 
     user.mail_notification = mail_notification unless mail_notification.nil?
-    user.pref[:no_self_notified] = no_self_notified unless no_self_notified.nil?
+    user.pref.self_notified = self_notified unless self_notified.nil?
 
     ret_value = false
 

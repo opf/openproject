@@ -59,8 +59,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="form--field">
   <div class="form--field-container">
     <label class="form--label-with-check-box">
-      <%= styled_check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %>
-      <%= l(:label_user_mail_no_self_notified) %>
+      <%= styled_check_box_tag 'self_notified', 1, @user.pref.self_notified? %>
+      <%= l(:label_user_mail_self_notified) %>
     </label>
   </div>
 </div>

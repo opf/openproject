@@ -64,9 +64,9 @@ describe UpdateUserEmailSettingsService, type: :model do
       service.call()
     end
 
-    it 'sets the no_self_notified if provided' do
-      expect(user.pref).to receive(:[]=).with(:no_self_notified, true)
-      service.call(no_self_notified: true)
+    it 'sets self_notified if provided' do
+      expect(user.pref).to receive(:self_notified=).with(true)
+      service.call(self_notified: true)
     end
 
     it 'does not alter no_self_notified if not provided' do

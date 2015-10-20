@@ -254,7 +254,7 @@ class MyController < ApplicationController
   def write_email_settings(redirect_to:)
     update_service = UpdateUserEmailSettingsService.new(@user)
     if update_service.call(mail_notification: permitted_params.user[:mail_notification],
-                           no_self_notified: params[:no_self_notified] == '1',
+                           self_notified: params[:self_notified] == '1',
                            notified_project_ids: params[:notified_project_ids])
       flash[:notice] = l(:notice_account_updated)
       redirect_to(action: redirect_to)

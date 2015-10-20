@@ -165,7 +165,7 @@ class UsersController < ApplicationController
 
       update_email_service = UpdateUserEmailSettingsService.new(@user)
       update_email_service.call(mail_notification: pref_params.delete(:mail_notification),
-                                no_self_notified: params[:no_self_notified] == '1',
+                                self_notified: params[:self_notified] == '1',
                                 notified_project_ids: params[:notified_project_ids])
 
       @user.pref.attributes = pref_params
