@@ -20,12 +20,16 @@ describe 'new work package', js: true do
   let(:subject_field) { WorkPackageField.new(page, :subject) }
   let(:description_field) { WorkPackageField.new(page, :description) }
 
+  def disable_leaving_unsaved_warning
+    FactoryGirl.create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
+  end
+
   before do
     status.save!
     priority.save!
+    disable_leaving_unsaved_warning
 
     login_as(user)
-    allow(user.pref).to receive(:warn_on_leaving_unsaved).and_return('0')
 
     work_packages_page.visit_index
     work_packages_page.click_toolbar_button 'Work packages'
@@ -36,7 +40,8 @@ describe 'new work package', js: true do
   end
 
   it 'sucessfully creates a work package' do
-    expect(page).to have_selector('.work-packages--details-content.-create-mode')
+    # Safeguard to ensure the create form to be loaded
+    expect(page).to have_selector('.work-packages--details-content.-create-mode', wait: 10)
 
     find('#work-package-subject input').set(subject)
     find('#work-package-description textarea').set(description)
