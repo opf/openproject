@@ -181,10 +181,11 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 .notification-box--wrapper
   position: absolute
-  top: rem-calc(52px) //this value probably will change
   width: $nm-notification-width
   margin-left: -($nm-notification-width / 2)
   left: 50%
+  z-index: 15
+
   .notification-box--casing
     position: relative
     .notification-box
@@ -202,6 +203,22 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     opacity: 1
   &.ng-leave.ng-leave-active
     opacity: 0
+
+  .notification-box--content
+    width: 100%
+
+    > p
+      margin-bottom: 0
+
+    progress[value]
+      @extend %progress-styles
+      &::-moz-progress-bar
+        border-radius: $nm-pb-border-radius
+      &::-webkit-progress-bar
+        background-color: $nm-pb-regress-color
+        border-radius: $nm-pb-border-radius
+      &::-webkit-progress-value
+        border-radius: $nm-pb-border-radius
 
 // upload notification styles
 %progress-styles
@@ -234,18 +251,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   font-size: $nm-upload-status-font-size !important
   line-height: $nm-upload-status-font-size !important
 
-.notification-box--content
-  width: 100%
-  progress[value]
-    @extend %progress-styles
-    &::-moz-progress-bar
-      border-radius: $nm-pb-border-radius
-    &::-webkit-progress-bar
-      background-color: $nm-pb-regress-color
-      border-radius: $nm-pb-border-radius
-    &::-webkit-progress-value
-      border-radius: $nm-pb-border-radius
-
 .notification-box--notice
   border-radius: $nm-border-radius
   border-style: solid
@@ -258,3 +263,87 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     @extend %success-placeholder
   &.-warning
     @extend %warning-placeholder
+
+
+// Use same styles for flash messages
+.flash, #errorExplanation
+  position: absolute
+  width: $nm-notification-width
+  margin-left: -($nm-notification-width / 2)
+  left: 50%
+  border-radius: $nm-border-radius
+  border-style: solid
+  border-width: rem-calc(1)
+  font-size: $nm-font-size
+  line-height: 1.6
+  padding: $nm-box-padding
+  box-shadow: rem-calc(1px 2px 3px) #dddddd
+  margin-bottom: 0.1875rem
+  margin-top: 0.5rem
+  z-index: 15
+
+  &.ng-leave
+    @include animation(0.5s fade-out)
+
+  a
+    text-decoration: none
+    cursor: default
+
+  ul
+    font-size: $nm-font-size
+    margin: 0 0 0 30px
+
+  h2, p
+    @extend .hidden-for-sighted
+
+  .close-handler
+    float: none
+    position: absolute
+    top: rem-calc(11)
+    right: rem-calc(11)
+    font-size: 1rem
+    cursor: pointer
+
+  &::before
+    @include messages-icon
+    padding: 0 !important
+
+  &.notice
+    @extend %success-placeholder
+
+    &::before
+      @extend %nm-icon-success
+      color: $nm-color-success-icon
+
+  &.error, &.nodata
+    @extend %error-placeholder
+
+    &::before
+      @extend %nm-icon-error
+      color: $nm-color-error-icon
+
+  &.warning
+    @extend %warning-placeholder
+
+    &::before
+      @extend %nm-icon-warning
+      color: $nm-color-warning-icon
+
+#errorExplanation
+  @extend %error-placeholder
+  top: rem-calc(68px)
+
+  &::before
+    color: $nm-color-error-icon !important
+
+.flash,
+#errorExplanation,
+.notification-box--wrapper
+  top: 4.25rem
+
+  %absolute-layout-mode &
+    top: rem-calc(12px)
+
+.flash + .notification-box--wrapper
+  %absolute-layout-mode &
+    top: 3.85rem

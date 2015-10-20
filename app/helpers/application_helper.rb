@@ -199,12 +199,17 @@ module ApplicationHelper
   end
 
   def render_flash_message(type, message, html_options = {})
-    css_classes = ["flash #{type} icon icon-#{type}", html_options.delete(:class)].join(' ')
+    css_classes  = ["flash #{type} icon icon-#{type}", html_options.delete(:class)].join(' ')
     html_options = { class: css_classes, role: 'alert' }.merge(html_options)
-    if User.current.impaired?
-      content_tag('div', content_tag('a', join_flash_messages(message), href: 'javascript:;'), html_options)
-    else
-      content_tag('div', join_flash_messages(message), html_options)
+
+    content_tag :div, html_options do
+      if User.current.impaired?
+        concat(content_tag('a', join_flash_messages(message), href: 'javascript:;'))
+        concat(content_tag(:i, '', class: 'icon-close close-handler', tabindex: '0', role: 'button', aria: { label: ::I18n.t('js.close_popup_title') }))
+      else
+        concat(join_flash_messages(message))
+        concat(content_tag(:i, '', class: 'icon-close close-handler', tabindex: '0', role: 'button', aria: { label: ::I18n.t('js.close_popup_title') }))
+      end
     end
   end
 

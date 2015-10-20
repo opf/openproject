@@ -253,14 +253,6 @@ body.controller-work_packages.action-show {
   }
 }
 
-.flash ~ div[ui-view] .work-packages--split-view {
-  top: 142px;
-}
-
-.controller-work_packages.action-show {
-  .flash { margin: 10px 20px 10px 0; }
-}
-
 .work-packages--show-view {
   padding-right: 20px;
 }

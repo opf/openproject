@@ -6,8 +6,8 @@
 	<% unless flash.empty? %>
 	<%# TODO: Double flash from regular flash %>
 	var div_content = $('#content');
-	div_content.find('.flash').remove();
-	div_content.prepend('<%= render_flash_messages %>');
+	div_content.parent().find('.flash').remove();
+	div_content.before('<%= render_flash_messages %>');
 	<% end %>
 
 	var toggleContent = function(content, selected) {

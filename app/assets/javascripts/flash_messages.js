@@ -26,51 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-#errorExplanation, .flash, .nodata, .warning
-  padding: 4px
-  margin: 0 0 10px 0
-  color: $content-flash-msg-font-color
-
-  &.icon:before
-    color: $content-flash-msg-font-color
-
-  %absolute-layout-mode &
-    height: $content-flash-height
-
-.flash.error a:link, .flash.warning a:link, .flash.notice a:link, #errorExplanation a:link,
-.flash.error a:hover, .flash.warning a:hover, .flash.notice a:hover, #errorExplanation a:hover
-  @include default-font($content-flash-msg-font-color)
-  text-decoration: none
-  cursor: default
-
-.flash
-  display: none
-  padding: 15px 5px
-
-  &.ng-leave
-    @include animation(0.5s fade-out)
-  i.close-handler
-    float: right
-    font-size: $content-flash-icon-close-handler-font-size
-    padding: 3px 2px
-    cursor: pointer
-
-#errorExplanation
-  display: none
-  ul
-    font-size: 0.9em
-    margin-left: 30px
-  h2, p
-    @extend .hidden-for-sighted
-
-.flash.error, #errorExplanation
-  background-color: $content-flash-error-msg-bg-color
-
-.flash.notice
-  background-color: $content-flash-notice-msg-bg-color
-
-.flash.warning, .nodata, .warning
-  background-color: $content-flash-warning-msg-bg-color
-
-.flash.permanent
-  display: block
+jQuery(document).ready(function($) {
+  $('body').on('click keydown', '.close-handler', function (e) {
+    if (e.type == 'click' || e.keyCode == 13) {
+      $(this).parent('.flash, .errorExplanation').remove();
+    }
+  });
+});
