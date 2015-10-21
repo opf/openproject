@@ -3,7 +3,7 @@ package Apache::OpenProjectRepoman;
 use strict;
 use warnings FATAL => 'all', NONFATAL => 'redefine';
 
-use File::Path qw(remove_tree);
+use File::Path qw(rmtree);
 use File::Spec ();
 
 use Apache2::Module;
@@ -61,7 +61,7 @@ sub create_repository {
 # Removes the repository with a given identifier on disk.
 sub delete_repository {
   my ($r, $vendor, $repository) = @_;
-  remove_tree($repository, { safe => 1 }) if -d $repository;
+  rmtree($repository) if -d $repository;
 }
 
 ##
