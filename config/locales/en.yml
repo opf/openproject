@@ -228,6 +228,10 @@ en:
         before_or_equal_to: "must be before or equal to %{date}."
         could_not_be_copied: "could not be (fully) copied."
       models:
+        project:
+          attributes:
+            types:
+              in_use_by_work_packages: "still in use by work packages: %{types}"
         project_association:
           identical_projects: "Dependency cannot be created between one project and itself."
           project_association_not_allowed: "does not allow associations."
@@ -1251,7 +1255,6 @@ en:
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "You have been logged out."
   notice_wont_delete_auth_source: The authentication mode cannot be deleted as long as there are still users using it.
-  error_types_in_use_by_work_packages: "The following types are still referenced by work packages: %{types}"
   notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields."
 
   # Default format for numbers

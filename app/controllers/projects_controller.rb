@@ -162,28 +162,13 @@ class ProjectsController < ApplicationController
   end
 
   def types
-    flash[:notice] = []
-
-    unless params.has_key? :project
-      params[:project] = { 'type_ids' => [::Type.standard_type.id] }
-      flash[:notice] << l(:notice_automatic_set_of_standard_type)
-    end
-
-    params[:project].assert_valid_keys('type_ids')
-
-    selected_type_ids = params[:project][:type_ids].map(&:to_i)
-
-    if types_missing?(selected_type_ids)
-      flash.delete :notice
-      flash[:error] = I18n.t(:error_types_in_use_by_work_packages,
-                             types: missing_types(selected_type_ids).map(&:name).join(', '))
-    elsif @project.update_attributes(params[:project])
-      flash[:notice] << l('notice_successful_update')
+    if UpdateProjectsTypesService.new(@project).call(permitted_params.projects_type_ids)
+      flash[:notice] = l('notice_successful_update')
     else
-      flash.delete :notice
       flash[:error] = @project.errors.full_messages
     end
-    redirect_to action: 'settings', tab: 'types'
+
+    redirect_to settings_project_path(@project.identifier, tab: 'types')
   end
 
   def modules
@@ -281,20 +266,6 @@ class ProjectsController < ApplicationController
     else
       @base = Project
     end
-  end
-
-  def types_missing?(selected_type_ids)
-    !missing_types(selected_type_ids).empty?
-  end
-
-  def missing_types(selected_type_ids)
-    types_used_by_work_packages.select { |t| !selected_type_ids.include?(t.id) }
-  end
-
-  def types_used_by_work_packages
-    @types_used_by_work_packages ||= ::Type.where(id: WorkPackage.where(project_id: @project.id)
-                                                                    .select(:type_id)
-                                                                    .uniq)
   end
 
   # Validates parent_id param according to user's permissions

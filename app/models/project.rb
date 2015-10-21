@@ -555,6 +555,12 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def types_used_by_work_packages
+    ::Type.where(id: WorkPackage.where(project_id: project.id)
+                                .select(:type_id)
+                                .uniq)
+  end
+
   # Returns an array of the types used by the project and its active sub projects
   def rolled_up_types
     @rolled_up_types ||=
