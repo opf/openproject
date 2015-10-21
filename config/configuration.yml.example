@@ -232,6 +232,13 @@ default:
   #     - project: identifier, name and ID of the associated project
   #
   #   NOTE: Disabling :managed repositories using disabled_types takes precedence over this setting.
+  # mode:
+  #   The octal file mode to set the repository folder to (defaults to 0700).
+  # group:
+  #   The group that should own the repository folder.
+  #   Important: The user running OpenProject must be a member of this group in order to have the
+  #   privilege to set the group ownership.
+  #   Note: The owner is always the user that runs OpenProject!
   #
   # disabled_types:
   #   Disable specific repository types for this particular vendor. This allows
