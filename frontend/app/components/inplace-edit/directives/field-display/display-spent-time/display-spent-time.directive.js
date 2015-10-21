@@ -26,29 +26,37 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular.module('openproject.inplace-edit').directive('inplaceDisplaySpentTime', [
-  'EditableFieldsState', function(EditableFieldsState) {
-    return {
-      restrict: 'E',
-      transclude: true,
-      replace: true,
-      scope: {},
-      require: ['^inplaceEditorDisplayPane', '^workPackageField'],
-      templateUrl: '/components/inplace-edit/directives/field-display/display-spent-time/display-spent-time.directive.html',
-      controller: function() {
-        this.isLinkViewable = function() {
-          return EditableFieldsState.workPackage.links.timeEntries;
-        };
+angular
+  .module('openproject.inplace-edit')
+  .directive('inplaceDisplaySpentTime', inplaceDisplaySpentTime);
 
-        this.getPath = function() {
-          return EditableFieldsState.workPackage.links.timeEntries.href;
-        };
-      },
-      controllerAs: 'customEditorController',
-      link: function(scope, element, attrs, controllers) {
-        scope.displayPaneController = controllers[0];
-        scope.fieldController = controllers[1];
-      }
-    };
-  }
-]);
+function inplaceDisplaySpentTime() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    scope: {},
+    require: ['^inplaceEditorDisplayPane', '^workPackageField'],
+    templateUrl: '/components/inplace-edit/directives/field-display/display-spent-time/' +
+      'display-spent-time.directive.html',
+
+    controller: InplaceDisplaySpentTimeController,
+    controllerAs: 'customEditorController',
+
+    link: function(scope, element, attrs, controllers) {
+      scope.displayPaneController = controllers[0];
+      scope.fieldController = controllers[1];
+    }
+  };
+}
+
+function InplaceDisplaySpentTimeController(EditableFieldsState) {
+  this.isLinkViewable = function() {
+    return EditableFieldsState.workPackage.links.timeEntries;
+  };
+
+  this.getPath = function() {
+    return EditableFieldsState.workPackage.links.timeEntries.href;
+  };
+}
+InplaceDisplaySpentTimeController.$inject = ['EditableFieldsState'];

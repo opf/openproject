@@ -26,74 +26,83 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular.module('openproject.inplace-edit').directive('inplaceEditorDropDown', [
-  'WorkPackageFieldService', 'WorkPackageFieldConfigurationService', 'EditableFieldsState', 'I18n',
-  '$timeout', '$q', 'FocusHelper',
+angular
+  .module('openproject.inplace-edit')
+  .directive('inplaceEditorDropDown', inplaceEditorDropDown);
 
-  function(WorkPackageFieldService, WorkPackageFieldConfigurationService, EditableFieldsState,
-            I18n, $timeout, $q, FocusHelper) {
+function inplaceEditorDropDown(WorkPackageFieldService, EditableFieldsState, FocusHelper) {
+  return {
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    scope: {},
+    require: '^workPackageField',
+    templateUrl: '/components/inplace-edit/directives/field-edit/edit-drop-down/' +
+      'edit-drop-down.directive.html',
 
-    return {
-      restrict: 'E',
-      transclude: true,
-      replace: true,
-      scope: {},
-      require: '^workPackageField',
-      templateUrl: '/components/inplace-edit/directives/field-edit/edit-drop-down/edit-drop-down.directive.html',
-      controller: function() {
-        this.allowedValues = [];
-        this.nullValueLabel = I18n.t('js.inplace.null_value_label');
+    controller: InplaceEditorDropDownController,
+    controllerAs: 'customEditorController',
 
-        this.updateAllowedValues = function(field) {
-          var customEditorController = this;
+    link: function(scope, element, attrs, fieldController) {
+      var selected = WorkPackageFieldService.format(
+        EditableFieldsState.workPackage,
+        fieldController.field
+      );
 
-          return $q(function(resolve) {
-            WorkPackageFieldService.getAllowedValues(
-              EditableFieldsState.workPackage,
-              field
-            ).then(function(values) {
+      scope.fieldController = fieldController;
+      scope.customEditorController.selected = selected && selected.props && selected.props.name;
+      scope.fieldController.state.isBusy = true;
 
-              var sorting = WorkPackageFieldConfigurationService
-                .getDropdownSortingStrategy(field);
+      scope.customEditorController.updateAllowedValues(fieldController.field).then(function() {
+        fieldController.state.isBusy = false;
 
-              if (sorting !== null) {
-                values = _.sortBy(values, sorting);
-              }
+        if (!EditableFieldsState.forcedEditState) {
+          EditableFieldsState.editAll.state || FocusHelper.focusUiSelect(element);
+        }
+      });
+    }
+  };
+}
+inplaceEditorDropDown.$inject = ['WorkPackageFieldService', 'EditableFieldsState', 'FocusHelper'];
 
-              if (!WorkPackageFieldService.isRequired(EditableFieldsState.workPackage,
-                                                      field)) {
-                var arrayWithEmptyOption = [{
-                  href: null,
-                  name: I18n.t('js.inplace.clear_value_label')
-                }];
 
-                values = arrayWithEmptyOption.concat(values);
-              }
-              customEditorController.allowedValues = values;
+function InplaceEditorDropDownController($q, I18n, WorkPackageFieldService,
+    WorkPackageFieldConfigurationService, EditableFieldsState) {
 
-              resolve();
-            });
-          });
-        };
-      },
-      controllerAs: 'customEditorController',
-      link: function(scope, element, attrs, fieldController) {
-        var selected = WorkPackageFieldService.format(
-          EditableFieldsState.workPackage,
-          fieldController.field
-        );
+  this.allowedValues = [];
+  this.nullValueLabel = I18n.t('js.inplace.null_value_label');
 
-        scope.fieldController = fieldController;
-        scope.customEditorController.selected = selected && selected.props && selected.props.name;
-        scope.fieldController.state.isBusy = true;
+  this.updateAllowedValues = function(field) {
+    var customEditorController = this;
 
-        scope.customEditorController.updateAllowedValues(fieldController.field).then(function() {
-          fieldController.state.isBusy = false;
+    return $q(function(resolve) {
+      WorkPackageFieldService.getAllowedValues(
+        EditableFieldsState.workPackage,
+        field
+      ).then(function(values) {
 
-          if (!EditableFieldsState.forcedEditState) {
-            EditableFieldsState.editAll.state || FocusHelper.focusUiSelect(element);
+          var sorting = WorkPackageFieldConfigurationService
+            .getDropdownSortingStrategy(field);
+
+          if (sorting !== null) {
+            values = _.sortBy(values, sorting);
           }
+
+          if (!WorkPackageFieldService.isRequired(EditableFieldsState.workPackage,
+              field)) {
+            var arrayWithEmptyOption = [{
+              href: null,
+              name: I18n.t('js.inplace.clear_value_label')
+            }];
+
+            values = arrayWithEmptyOption.concat(values);
+          }
+          customEditorController.allowedValues = values;
+
+          resolve();
         });
-      }
-    };
-}]);
+    });
+  };
+}
+InplaceEditorDropDownController.$inject = ['$q', 'I18n', 'WorkPackageFieldService',
+  'WorkPackageFieldConfigurationService', 'EditableFieldsState'];

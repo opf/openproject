@@ -26,16 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular.module('openproject.inplace-edit').directive('inplaceEditorDuration', function() {
+angular
+  .module('openproject.inplace-edit')
+  .directive('inplaceEditorDuration', inplaceEditorDuration);
+
+function inplaceEditorDuration() {
   return {
     restrict: 'E',
     transclude: true,
     replace: true,
     scope: {},
     require: '^workPackageField',
-    templateUrl: '/components/inplace-edit/directives/field-edit/edit-duration/edit-duration.directive.html',
+    templateUrl: '/components/inplace-edit/directives/field-edit/edit-duration/' +
+      'edit-duration.directive.html',
+
     controllerAs: 'customEditorController',
     controller: function() {},
+
     link: function(scope, element, attrs, fieldController) {
       scope.fieldController = fieldController;
       if (fieldController.writeValue === null) {
@@ -60,4 +67,4 @@ angular.module('openproject.inplace-edit').directive('inplaceEditorDuration', fu
       });
     }
   };
-});
+}
