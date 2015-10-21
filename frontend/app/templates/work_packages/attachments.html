@@ -16,7 +16,6 @@
                 ng-class="{'-focus': focussing(attachment)}">
             <span class="inplace-editing--container">
               <span class="inplace-edit--read-value" >
-                <attachment-icon type="attachment.contentType"></attachment-icon>
                 <a class="work-package--attachments--filename -no-decoration"
                    href=""
                    data-ng-focus="focus(attachment)"
@@ -24,7 +23,6 @@
                    ng-click="true">
                   {{::attachment.name}}
                 </a>
-                <span class="work-package--attachments--filesize">({{::size(attachment.size)}})</span>
               </span>
               <a href=''
                  class="inplace-edit--icon-wrapper"
