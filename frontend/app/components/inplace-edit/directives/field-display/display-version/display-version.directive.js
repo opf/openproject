@@ -26,27 +26,34 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular.module('openproject.inplace-edit').directive('inplaceDisplayVersion', [
-  'EditableFieldsState', 'PathHelper',
-  function(EditableFieldsState, PathHelper) {
-    return {
-      restrict: 'E',
-      transclude: true,
-      replace: true,
-      scope: {},
-      require: '^inplaceEditorDisplayPane',
-      templateUrl: '/components/inplace-edit/directives/field-display/display-version/display-version.directive.html',
-      controller: ['$scope', function($scope) {
-        this.pathHelper = PathHelper;
-        this.isVersionLinkViewable = function() {
-          var version = $scope.displayPaneController.getReadValue();
-          return version.links.definingProject && version.links.definingProject.href;
-        }
-      }],
-      controllerAs: 'customEditorController',
-      link: function(scope, element, attrs, displayPaneController) {
-        scope.displayPaneController = displayPaneController;
-      }
-    };
+angular
+  .module('openproject.inplace-edit')
+  .directive('inplaceDisplayVersion', inplaceDisplayVersion);
+
+function inplaceDisplayVersion() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    scope: {},
+    require: '^inplaceEditorDisplayPane',
+    templateUrl: '/components/inplace-edit/directives/field-display/display-version/' +
+      'display-version.directive.html',
+
+    controller: InplaceDisplayVersionController,
+    controllerAs: 'customEditorController',
+
+    link: function(scope, element, attrs, displayPaneController) {
+      scope.displayPaneController = displayPaneController;
+    }
+  };
+}
+
+function InplaceDisplayVersionController($scope, PathHelper) {
+  this.pathHelper = PathHelper;
+  this.isVersionLinkViewable = function() {
+    var version = $scope.displayPaneController.getReadValue();
+    return version.links.definingProject && version.links.definingProject.href;
   }
-]);
+}
+InplaceDisplayVersionController.$inject = ['$scope', 'PathHelper'];

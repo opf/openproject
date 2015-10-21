@@ -26,32 +26,40 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular.module('openproject.inplace-edit').directive('inplaceDisplayUser', [
-  'PathHelper', function(PathHelper) {
-    return {
-      restrict: 'E',
-      transclude: true,
-      replace: true,
-      scope: {},
-      require: '^inplaceEditorDisplayPane',
-      templateUrl: '/components/inplace-edit/directives/field-display/display-user/display-user.directive.html',
-      controller: ['$scope', function($scope) {
-        this.userPath = PathHelper.staticUserPath;
-        this.getUser = function() {
-          return $scope.inplaceEditorDisplayPane.getReadValue();
-        };
-        this.getUserName = function() {
-          var user = this.getUser();
-          if (user && user.props && (user.props.firstName || user.props.lastName)) {
-            return user.props.firstName + ' ' + user.props.lastName;
-          }
-          return null;
-        };
-      }],
-      controllerAs: 'customEditorController',
-      link: function(scope, element, attrs, inplaceEditorDisplayPane) {
-        scope.inplaceEditorDisplayPane = inplaceEditorDisplayPane;
-      }
-    };
-  }
-]);
+angular
+  .module('openproject.inplace-edit')
+  .directive('inplaceDisplayUser', inplaceDisplayUser);
+
+function inplaceDisplayUser() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    scope: {},
+    require: '^inplaceEditorDisplayPane',
+    templateUrl: '/components/inplace-edit/directives/field-display/display-user/' +
+      'display-user.directive.html',
+
+    controller: InplaceDisplayUserController,
+    controllerAs: 'customEditorController',
+
+    link: function(scope, element, attrs, inplaceEditorDisplayPane) {
+      scope.inplaceEditorDisplayPane = inplaceEditorDisplayPane;
+    }
+  };
+}
+
+function InplaceDisplayUserController($scope, PathHelper) {
+  this.userPath = PathHelper.staticUserPath;
+  this.getUser = function() {
+    return $scope.inplaceEditorDisplayPane.getReadValue();
+  };
+  this.getUserName = function() {
+    var user = this.getUser();
+    if (user && user.props && (user.props.firstName || user.props.lastName)) {
+      return user.props.firstName + ' ' + user.props.lastName;
+    }
+    return null;
+  };
+}
+InplaceDisplayUserController.$inject = ['$scope', 'PathHelper'];

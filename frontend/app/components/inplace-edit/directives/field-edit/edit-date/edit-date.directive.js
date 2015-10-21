@@ -26,76 +26,77 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular.module('openproject.inplace-edit').directive('inplaceEditorDate', [
-  'WorkPackageFieldService', 'EditableFieldsState', 'TimezoneService', 'ConfigurationService',
-  'I18n', '$timeout', 'Datepicker',
+angular
+  .module('openproject.inplace-edit')
+  .directive('inplaceEditorDate', inplaceEditorDate);
 
-  function(WorkPackageFieldService, EditableFieldsState, TimezoneService, ConfigurationService,
-           I18n, $timeout, Datepicker) {
-
-    var parseISODate = TimezoneService.parseISODate,
-        customDateFormat = 'YYYY-MM-DD',
-        customFormattedDate = function(date) {
-          return parseISODate(date).format(customDateFormat);
-        };
-
-    return {
-      restrict: 'E',
-      transclude: true,
-      replace: true,
-      scope: {},
-      require: '^workPackageField',
-      templateUrl: '/components/inplace-edit/directives/field-edit/edit-date/edit-date.directive.html',
-      controller: function() {
-      },
-      controllerAs: 'customEditorController',
-      link: function(scope, element, attrs, fieldController) {
-        scope.fieldController = fieldController;
-        var form = element.parents('.inplace-edit--form'),
-            input = element.find('.inplace-edit--date'),
-            datepickerContainer = element.find('.inplace-edit--date-picker'),
-            datepicker;
-
-        scope.execute = function() {
-          form.scope().editPaneController.submit(false);
-        };
-
-        if(scope.fieldController.writeValue) {
-          scope.fieldController.writeValue = customFormattedDate(scope.fieldController.writeValue);
-        }
-
-        datepicker = new Datepicker(datepickerContainer, input, scope.fieldController.writeValue);
-        datepicker.onChange = function(date) {
-          scope.fieldController.writeValue = date;
-        };
-        scope.onEdit = function() {
-          datepicker.onEdit();
-        };
-        datepicker.onDone = function() {
-          form.scope().editPaneController.discardEditing();
-        };
-
-        datepicker.textbox.attr({
-          'placeholder': '-',
-          'aria-label': customDateFormat
-        });
-
-        scope.showDatepicker = function() {
-          datepicker.show();
-        };
-
-        $timeout(function() {
-          EditableFieldsState.editAll.state || datepicker.focus();
-        });
-
-        angular.element('.work-packages--details-content').on('click', function(e) {
-          var target = angular.element(e.target);
-          if(!target.is('.inplace-edit--date input') &&
-              target.parents('.inplace-edit--date .hasDatepicker').length <= 0 &&
-              target.parents('.ui-datepicker-header').length <= 0) {
-            datepicker.hide();
-          }
-        });
-      }
+function inplaceEditorDate(EditableFieldsState, TimezoneService, $timeout, Datepicker) {
+  var parseISODate = TimezoneService.parseISODate,
+    customDateFormat = 'YYYY-MM-DD',
+    customFormattedDate = function(date) {
+      return parseISODate(date).format(customDateFormat);
     };
-}]);
+
+  return {
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    scope: {},
+    require: '^workPackageField',
+    templateUrl: '/components/inplace-edit/directives/field-edit/edit-date/' +
+      'edit-date.directive.html',
+
+    controller: function() {},
+    controllerAs: 'customEditorController',
+
+    link: function(scope, element, attrs, fieldController) {
+      scope.fieldController = fieldController;
+      var form = element.parents('.inplace-edit--form'),
+        input = element.find('.inplace-edit--date'),
+        datepickerContainer = element.find('.inplace-edit--date-picker'),
+        datepicker;
+
+      scope.execute = function() {
+        form.scope().editPaneController.submit(false);
+      };
+
+      if(scope.fieldController.writeValue) {
+        scope.fieldController.writeValue = customFormattedDate(scope.fieldController.writeValue);
+      }
+
+      datepicker = new Datepicker(datepickerContainer, input, scope.fieldController.writeValue);
+      datepicker.onChange = function(date) {
+        scope.fieldController.writeValue = date;
+      };
+      scope.onEdit = function() {
+        datepicker.onEdit();
+      };
+      datepicker.onDone = function() {
+        form.scope().editPaneController.discardEditing();
+      };
+
+      datepicker.textbox.attr({
+        'placeholder': '-',
+        'aria-label': customDateFormat
+      });
+
+      scope.showDatepicker = function() {
+        datepicker.show();
+      };
+
+      $timeout(function() {
+        EditableFieldsState.editAll.state || datepicker.focus();
+      });
+
+      angular.element('.work-packages--details-content').on('click', function(e) {
+        var target = angular.element(e.target);
+        if(!target.is('.inplace-edit--date input') &&
+          target.parents('.inplace-edit--date .hasDatepicker').length <= 0 &&
+          target.parents('.ui-datepicker-header').length <= 0) {
+          datepicker.hide();
+        }
+      });
+    }
+  };
+}
+inplaceEditorDate.$inject = ['EditableFieldsState', 'TimezoneService', '$timeout', 'Datepicker'];

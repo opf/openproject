@@ -26,241 +26,249 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular.module('openproject.inplace-edit').directive('inplaceEditorEditPane', [
-  'WorkPackageFieldService', 'EditableFieldsState', 'FocusHelper', '$timeout', '$location', '$q',
-  'ApiHelper', '$rootScope', 'NotificationsService', 'I18n',
+angular
+  .module('openproject.inplace-edit')
+  .directive('inplaceEditorEditPane', inplaceEditorEditPane);
 
-  function(WorkPackageFieldService, EditableFieldsState, FocusHelper, $timeout, $location, $q,
-           ApiHelper, $rootScope, NotificationsService, I18n) {
+function inplaceEditorEditPane(WorkPackageFieldService, EditableFieldsState, FocusHelper,
+    $timeout) {
 
-    var showErrors = function() {
-      var errors  = EditableFieldsState.errors;
-      if (_.isEmpty(_.keys(errors))) {
-        return;
-      }
-      var errorMessages = _.flatten(_.map(errors), true);
-      NotificationsService.addError(I18n.t('js.label_validation_error'), errorMessages);
-    };
+  return {
+    transclude: true,
+    replace: true,
+    scope: true,
+    require: '^workPackageField',
+    templateUrl: '/components/inplace-edit/directives/edit-pane/edit-pane.directive.html',
+    controllerAs: 'editPaneController',
+    controller: InplaceEditorEditPaneController,
+    link: function(scope, element, attrs, fieldController) {
+      scope.fieldController = fieldController;
+      scope.editableFieldsState = EditableFieldsState;
 
-    return {
-      transclude: true,
-      replace: true,
-      scope: true,
-      require: '^workPackageField',
-      templateUrl: '/components/inplace-edit/directives/edit-pane/edit-pane.directive.html',
-      controllerAs: 'editPaneController',
-      controller: function($scope, $element, WorkPackageService) {
-        var vm = this;
+      scope.editPaneController.isRequired = function() {
+        return WorkPackageFieldService.isRequired(
+          EditableFieldsState.workPackage,
+          this.field
+        );
+      };
 
-        // go full retard
-        var uploadPendingAttachments = function(wp) {
-          $rootScope.$broadcast('uploadPendingAttachments', wp);
-        };
+      scope.$watchCollection('editableFieldsState.workPackage.form', function(form) {
+        var strategy = WorkPackageFieldService.getInplaceEditStrategy(
+          EditableFieldsState.workPackage,
+          fieldController.field
+        );
 
-        // Propagate submission to all active fields
-        // not contained in the workPackage.form (e.g., comment)
-        this.submit = function(notify) {
-          EditableFieldsState.save(notify, function() {
-            // Clears the location hash, as we're now
-            // scrolling to somewhere else
-            $location.hash(null);
-            $timeout(function() {
-              $element[0].scrollIntoView(false);
+        if (fieldController.field === 'date' && strategy === 'date') {
+          form.pendingChanges = EditableFieldsState.getPendingFormChanges();
+          form.pendingChanges['startDate'] =
+            form.pendingChanges['dueDate'] =
+              fieldController.writeValue ? fieldController.writeValue['dueDate'] : null;
+        }
+
+        if (strategy !== scope.strategy) {
+          scope.strategy = strategy;
+          scope.templateUrl = '/templates/inplace-edit/edit/fields/' +
+            scope.strategy + '.html';
+          fieldController.updateWriteValue();
+        }
+      });
+
+      scope.focusInput = function() {
+        $timeout(function() {
+          var inputElement = element.find('.focus-input');
+          FocusHelper.focus(inputElement);
+          inputElement.triggerHandler('keyup');
+          scope.editPaneController.markActive();
+          inputElement.off('focus.inplace').on('focus.inplace', function() {
+            // ♥♥♥ angular ♥♥♥
+            scope.$apply(function() {
+              scope.editPaneController.markActive();
             });
           });
-        };
+        });
+      };
 
-        this.submitField = function(notify) {
-          var submit = $q.defer();
-          var fieldController = $scope.fieldController;
-          var pendingFormChanges = EditableFieldsState.getPendingFormChanges();
-          var detectedViolations = [];
-          var handleFailure = function(e) {
-            setFailure(e);
-            submit.reject(e);
-          };
+      if (!EditableFieldsState.forcedEditState) {
+        element.bind('keydown keypress', function(e) {
+          if (e.keyCode === 27) {
+            scope.$apply(function() {
+              scope.editPaneController.discardEditing();
+            });
+          }
+        });
+      }
 
-          pendingFormChanges[fieldController.field] = fieldController.writeValue;
-          if (vm.editForm.$invalid) {
-            var acknowledgedValidationErrors = Object.keys(vm.editForm.$error);
-            acknowledgedValidationErrors.forEach(function(error) {
-              if (vm.editForm.$error[error]) {
-                detectedViolations.push(I18n.t('js.inplace.errors.' + error, {
-                  field: fieldController.getLabel()
-                }));
+      scope.$watch('fieldController.writeValue', function(writeValue) {
+        if (scope.fieldController.isEditing) {
+          var pendingChanges = EditableFieldsState.getPendingFormChanges();
+          pendingChanges[scope.fieldController.field] = writeValue;
+        }
+      }, true);
+      scope.$on('workPackageRefreshed', function() {
+        scope.editPaneController.discardEditing();
+      });
+
+      scope.$watch('fieldController.isEditing', function(isEditing) {
+        var efs = EditableFieldsState, field = fieldController.field;
+
+        if (isEditing && !efs.editAll.state && !efs.forcedEditState) {
+          scope.focusInput();
+
+        } else if (efs.editAll.state && efs.editAll.isFocusField(field)) {
+          $timeout(function () {
+            var focusElement = element.find('.focus-input');
+            focusElement.length && focusElement.focus()[0].select();
+          });
+        }
+      });
+    }
+  };
+}
+inplaceEditorEditPane.$inject = ['WorkPackageFieldService', 'EditableFieldsState', 'FocusHelper',
+  '$timeout'];
+
+
+function InplaceEditorEditPaneController($scope, $element, $location, $timeout, $q, $rootScope,
+    WorkPackageService, EditableFieldsState, ApiHelper, NotificationsService) {
+
+  var showErrors = function() {
+    var errors  = EditableFieldsState.errors;
+    if (_.isEmpty(_.keys(errors))) {
+      return;
+    }
+    var errorMessages = _.flatten(_.map(errors), true);
+    NotificationsService.addError(I18n.t('js.label_validation_error'), errorMessages);
+  };
+
+  var vm = this;
+
+  // go full retard
+  var uploadPendingAttachments = function(wp) {
+    $rootScope.$broadcast('uploadPendingAttachments', wp);
+  };
+
+  // Propagate submission to all active fields
+  // not contained in the workPackage.form (e.g., comment)
+  this.submit = function(notify) {
+    EditableFieldsState.save(notify, function() {
+      // Clears the location hash, as we're now
+      // scrolling to somewhere else
+      $location.hash(null);
+      $timeout(function() {
+        $element[0].scrollIntoView(false);
+      });
+    });
+  };
+
+  this.submitField = function(notify) {
+    var submit = $q.defer();
+    var fieldController = $scope.fieldController;
+    var pendingFormChanges = EditableFieldsState.getPendingFormChanges();
+    var detectedViolations = [];
+    var handleFailure = function(e) {
+      setFailure(e);
+      submit.reject(e);
+    };
+
+    pendingFormChanges[fieldController.field] = fieldController.writeValue;
+    if (vm.editForm.$invalid) {
+      var acknowledgedValidationErrors = Object.keys(vm.editForm.$error);
+      acknowledgedValidationErrors.forEach(function(error) {
+        if (vm.editForm.$error[error]) {
+          detectedViolations.push(I18n.t('js.inplace.errors.' + error, {
+            field: fieldController.getLabel()
+          }));
+        }
+      });
+      submit.reject();
+    }
+    if (detectedViolations.length) {
+      EditableFieldsState.errors = EditableFieldsState.errors || {};
+      EditableFieldsState.errors[fieldController.field] = detectedViolations.join(' ');
+      showErrors();
+      submit.reject();
+    } else {
+      fieldController.state.isBusy = true;
+      WorkPackageService.loadWorkPackageForm(EditableFieldsState.workPackage).then(
+        function(form) {
+          EditableFieldsState.workPackage.form = form;
+          if (_.isEmpty(form.embedded.validationErrors.props)) {
+            var result = WorkPackageService.updateWorkPackage(
+              EditableFieldsState.workPackage,
+              notify
+            );
+            result.then(angular.bind(this, function(updatedWorkPackage) {
+              submit.resolve();
+              $scope.$emit('workPackageUpdatedInEditor', updatedWorkPackage);
+              $scope.$on('workPackageRefreshed', function() {
+                fieldController.state.isBusy = false;
+                fieldController.isEditing = false;
+                fieldController.updateWriteValue();
+              });
+              uploadPendingAttachments(updatedWorkPackage);
+            })).catch(handleFailure);
+          } else {
+            afterError();
+            submit.reject();
+            EditableFieldsState.errors = {};
+            _.forEach(form.embedded.validationErrors.props, function(error, field) {
+              if(field === 'startDate' || field === 'dueDate') {
+                EditableFieldsState.errors['date'] = error.message;
+              } else {
+                EditableFieldsState.errors[field] = error.message;
               }
             });
-            submit.reject();
           }
-          if (detectedViolations.length) {
-            EditableFieldsState.errors = EditableFieldsState.errors || {};
-            EditableFieldsState.errors[fieldController.field] = detectedViolations.join(' ');
-            showErrors();
-            submit.reject();
-          } else {
-            fieldController.state.isBusy = true;
-            WorkPackageService.loadWorkPackageForm(EditableFieldsState.workPackage).then(
-              function(form) {
-                EditableFieldsState.workPackage.form = form;
-                if (_.isEmpty(form.embedded.validationErrors.props)) {
-                  var result = WorkPackageService.updateWorkPackage(
-                    EditableFieldsState.workPackage,
-                    notify
-                  );
-                  result.then(angular.bind(this, function(updatedWorkPackage) {
-                    submit.resolve();
-                    $scope.$emit('workPackageUpdatedInEditor', updatedWorkPackage);
-                    $scope.$on('workPackageRefreshed', function() {
-                      fieldController.state.isBusy = false;
-                      fieldController.isEditing = false;
-                      fieldController.updateWriteValue();
-                    });
-                    uploadPendingAttachments(updatedWorkPackage);
-                  })).catch(handleFailure);
-                } else {
-                  afterError();
-                  submit.reject();
-                  EditableFieldsState.errors = {};
-                   _.forEach(form.embedded.validationErrors.props, function(error, field) {
-                    if(field === 'startDate' || field === 'dueDate') {
-                      EditableFieldsState.errors['date'] = error.message;
-                    } else {
-                      EditableFieldsState.errors[field] = error.message;
-                    }
-                  });
-                }
-              }).catch(handleFailure);
-          }
+        }).catch(handleFailure);
+    }
 
-          return submit.promise;
-        };
+    return submit.promise;
+  };
 
-        this.discardEditing = function() {
-          $scope.fieldController.isEditing = false;
-          delete EditableFieldsState.submissionPromises['work_package'];
-          delete EditableFieldsState.getPendingFormChanges()[$scope.fieldController.field];
-          $scope.fieldController.updateWriteValue();
-          if (
-            EditableFieldsState.errors &&
-            EditableFieldsState.errors.hasOwnProperty($scope.fieldController.field)
-          ) {
-            delete EditableFieldsState.errors[$scope.fieldController.field];
-          }
-        };
+  this.discardEditing = function() {
+    $scope.fieldController.isEditing = false;
+    delete EditableFieldsState.submissionPromises['work_package'];
+    delete EditableFieldsState.getPendingFormChanges()[$scope.fieldController.field];
+    $scope.fieldController.updateWriteValue();
+    if (
+      EditableFieldsState.errors &&
+      EditableFieldsState.errors.hasOwnProperty($scope.fieldController.field)
+    ) {
+      delete EditableFieldsState.errors[$scope.fieldController.field];
+    }
+  };
 
-        this.isActive = function() {
-          return EditableFieldsState.isActiveField($scope.fieldController.field);
-        };
+  this.isActive = function() {
+    return EditableFieldsState.isActiveField($scope.fieldController.field);
+  };
 
-        this.markActive = function() {
-          EditableFieldsState.submissionPromises['work_package'] = {
-            field: $scope.fieldController.field,
-            thePromise: this.submitField,
-            prepend: true,
-          };
-          EditableFieldsState.currentField = $scope.fieldController.field;
-        };
-
-        function afterError() {
-          $scope.fieldController.state.isBusy = false;
-          $scope.focusInput();
-        }
-        function setFailure(e) {
-          afterError();
-          EditableFieldsState.errors = {
-            '_common': ApiHelper.getErrorMessages(e)
-          };
-          showErrors();
-        }
-
-        $scope.$watch('editableFieldsState.editAll.state', function(state) {
-          $scope.fieldController.isEditing = state;
-          $scope.fieldController.lockFocus = true;
-
-          !state && $scope.fieldController.updateWriteValue();
-        });
-      },
-      link: function(scope, element, attrs, fieldController) {
-        scope.fieldController = fieldController;
-        scope.editableFieldsState = EditableFieldsState;
-
-        scope.editPaneController.isRequired = function() {
-          return WorkPackageFieldService.isRequired(
-            EditableFieldsState.workPackage,
-            this.field
-          );
-        };
-
-        scope.$watchCollection('editableFieldsState.workPackage.form', function(form) {
-          var strategy = WorkPackageFieldService.getInplaceEditStrategy(
-            EditableFieldsState.workPackage,
-            fieldController.field
-          );
-
-          if (fieldController.field === 'date' && strategy === 'date') {
-            form.pendingChanges = EditableFieldsState.getPendingFormChanges();
-            form.pendingChanges['startDate'] =
-            form.pendingChanges['dueDate'] =
-            fieldController.writeValue ? fieldController.writeValue['dueDate'] : null;
-          }
-
-          if (strategy !== scope.strategy) {
-            scope.strategy = strategy;
-            scope.templateUrl = '/templates/inplace-edit/edit/fields/' +
-              scope.strategy + '.html';
-            fieldController.updateWriteValue();
-          }
-        });
-
-        scope.focusInput = function() {
-          $timeout(function() {
-            var inputElement = element.find('.focus-input');
-            FocusHelper.focus(inputElement);
-            inputElement.triggerHandler('keyup');
-            scope.editPaneController.markActive();
-            inputElement.off('focus.inplace').on('focus.inplace', function() {
-              // ♥♥♥ angular ♥♥♥
-              scope.$apply(function() {
-                scope.editPaneController.markActive();
-              });
-            });
-          });
-        };
-
-        if (!EditableFieldsState.forcedEditState) {
-          element.bind('keydown keypress', function(e) {
-            if (e.keyCode === 27) {
-              scope.$apply(function() {
-                scope.editPaneController.discardEditing();
-              });
-            }
-          });
-        }
-
-        scope.$watch('fieldController.writeValue', function(writeValue) {
-          if (scope.fieldController.isEditing) {
-            var pendingChanges = EditableFieldsState.getPendingFormChanges();
-            pendingChanges[scope.fieldController.field] = writeValue;
-          }
-        }, true);
-        scope.$on('workPackageRefreshed', function() {
-          scope.editPaneController.discardEditing();
-        });
-
-        scope.$watch('fieldController.isEditing', function(isEditing) {
-          var efs = EditableFieldsState, field = fieldController.field;
-
-          if (isEditing && !efs.editAll.state && !efs.forcedEditState) {
-            scope.focusInput();
-
-          } else if (efs.editAll.state && efs.editAll.isFocusField(field)) {
-            $timeout(function () {
-              var focusElement = element.find('.focus-input');
-              focusElement.length && focusElement.focus()[0].select();
-            });
-          }
-        });
-      }
+  this.markActive = function() {
+    EditableFieldsState.submissionPromises['work_package'] = {
+      field: $scope.fieldController.field,
+      thePromise: this.submitField,
+      prepend: true,
     };
+    EditableFieldsState.currentField = $scope.fieldController.field;
+  };
+
+  function afterError() {
+    $scope.fieldController.state.isBusy = false;
+    $scope.focusInput();
   }
-]);
+  function setFailure(e) {
+    afterError();
+    EditableFieldsState.errors = {
+      '_common': ApiHelper.getErrorMessages(e)
+    };
+    showErrors();
+  }
+
+  $scope.$watch('editableFieldsState.editAll.state', function(state) {
+    $scope.fieldController.isEditing = state;
+    $scope.fieldController.lockFocus = true;
+
+    !state && $scope.fieldController.updateWriteValue();
+  });
+}
+InplaceEditorEditPaneController.$inject = ['$scope', '$element', '$location', '$timeout', '$q',
+  '$rootScope', 'WorkPackageService', 'EditableFieldsState', 'ApiHelper', 'NotificationsService'];
