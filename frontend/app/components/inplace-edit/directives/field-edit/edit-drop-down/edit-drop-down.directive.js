@@ -30,12 +30,11 @@ angular
   .module('openproject.inplace-edit')
   .directive('inplaceEditorDropDown', inplaceEditorDropDown);
 
-function inplaceEditorDropDown(WorkPackageFieldService, EditableFieldsState, FocusHelper) {
+function inplaceEditorDropDown(EditableFieldsState, FocusHelper) {
   return {
     restrict: 'E',
     transclude: true,
     replace: true,
-    scope: {},
     require: '^workPackageField',
     templateUrl: '/components/inplace-edit/directives/field-edit/edit-drop-down/' +
       'edit-drop-down.directive.html',
@@ -44,16 +43,13 @@ function inplaceEditorDropDown(WorkPackageFieldService, EditableFieldsState, Foc
     controllerAs: 'customEditorController',
 
     link: function(scope, element, attrs, fieldController) {
-      var selected = WorkPackageFieldService.format(
-        EditableFieldsState.workPackage,
-        fieldController.field
-      );
+      var selected = scope.field.format();
 
       scope.fieldController = fieldController;
       scope.customEditorController.selected = selected && selected.props && selected.props.name;
       scope.fieldController.state.isBusy = true;
 
-      scope.customEditorController.updateAllowedValues(fieldController.field).then(function() {
+      scope.customEditorController.updateAllowedValues(scope.field.name).then(function() {
         fieldController.state.isBusy = false;
 
         if (!EditableFieldsState.forcedEditState) {
@@ -63,12 +59,10 @@ function inplaceEditorDropDown(WorkPackageFieldService, EditableFieldsState, Foc
     }
   };
 }
-inplaceEditorDropDown.$inject = ['WorkPackageFieldService', 'EditableFieldsState', 'FocusHelper'];
+inplaceEditorDropDown.$inject = ['EditableFieldsState', 'FocusHelper'];
 
 
-function InplaceEditorDropDownController($q, I18n, WorkPackageFieldService,
-    WorkPackageFieldConfigurationService, EditableFieldsState) {
-
+function InplaceEditorDropDownController($q, $scope, I18n, WorkPackageFieldConfigurationService) {
   this.allowedValues = [];
   this.nullValueLabel = I18n.t('js.inplace.null_value_label');
 
@@ -76,10 +70,8 @@ function InplaceEditorDropDownController($q, I18n, WorkPackageFieldService,
     var customEditorController = this;
 
     return $q(function(resolve) {
-      WorkPackageFieldService.getAllowedValues(
-        EditableFieldsState.workPackage,
-        field
-      ).then(function(values) {
+      $scope.field.getAllowedValues()
+        .then(function(values) {
 
           var sorting = WorkPackageFieldConfigurationService
             .getDropdownSortingStrategy(field);
@@ -88,8 +80,7 @@ function InplaceEditorDropDownController($q, I18n, WorkPackageFieldService,
             values = _.sortBy(values, sorting);
           }
 
-          if (!WorkPackageFieldService.isRequired(EditableFieldsState.workPackage,
-              field)) {
+          if (!$scope.field.isRequired()) {
             var arrayWithEmptyOption = [{
               href: null,
               name: I18n.t('js.inplace.clear_value_label')
@@ -104,5 +95,5 @@ function InplaceEditorDropDownController($q, I18n, WorkPackageFieldService,
     });
   };
 }
-InplaceEditorDropDownController.$inject = ['$q', 'I18n', 'WorkPackageFieldService',
-  'WorkPackageFieldConfigurationService', 'EditableFieldsState'];
+InplaceEditorDropDownController.$inject = ['$q', '$scope', 'I18n',
+  'WorkPackageFieldConfigurationService'];
