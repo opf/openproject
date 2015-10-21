@@ -27,20 +27,14 @@
 //++
 
 describe('Inplace editor drop-down directive', function() {
-  var element,
-      scope,
-      html,
-      workPackageFieldService = {},
-      workPackageFieldConfigurationService = {},
-      allowedValues = [],
-      angularCompile;
+  var element, scope, html, workPackageFieldConfigurationService = {},
+      allowedValues = [], angularCompile;
 
   html = '<div><inplace-editor-drop-down></inplace-editor-drop-down></div>';
 
   beforeEach(angular.mock.module('openproject.inplace-edit'));
 
   beforeEach(module('openproject.services', function($provide) {
-    $provide.constant('WorkPackageFieldService', workPackageFieldService);
     $provide.constant('WorkPackageService', {});
     $provide.constant('WorkPackageFieldConfigurationService', workPackageFieldConfigurationService);
   }));
@@ -53,7 +47,7 @@ describe('Inplace editor drop-down directive', function() {
     scope = $rootScope.$new();
 
     allowedValues = [
-      { href: '/1', name: 'zzzzzz' },
+      { href: '/1', name: 'zzzzzz'},
       { href: '/2', name: 'mmmmmm'},
       { href: '/3', name: 'aaaaaa'}
     ];
@@ -62,10 +56,11 @@ describe('Inplace editor drop-down directive', function() {
       resolve(allowedValues);
     });
 
-    workPackageFieldService.getAllowedValues = sinon.stub().returns(allowedValuePromise);
-    workPackageFieldService.format = sinon.stub().returns({
-      props: { name: allowedValues[0].name }
-    });
+    scope.field = {
+      getAllowedValues: sinon.stub().returns(allowedValuePromise),
+      format: sinon.stub().returns({ props: { name: allowedValues[0].name } }),
+      isRequired: sinon.stub().returns(true)
+  };
 
     // severing dependency from the work package field directive as described by
     // http://busypeoples.github.io/post/testing-angularjs-hierarchical-directives
@@ -75,8 +70,7 @@ describe('Inplace editor drop-down directive', function() {
       writeValue: { props: { href: allowedValues[0].href } }
     };
     element.data('$workPackageFieldController', workPackageFieldController);
-    
-    workPackageFieldService.isRequired = sinon.stub().returns(true);
+
     workPackageFieldConfigurationService.getDropdownSortingStrategy = sinon.stub().returns(null);
 
     angularCompile(element)(scope);

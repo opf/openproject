@@ -28,42 +28,20 @@
 
 angular
   .module('openproject.inplace-edit')
-  .directive('inplaceEditorDuration', inplaceEditorDuration);
+  .factory('inplaceEditField', inplaceEditField);
 
-function inplaceEditorDuration() {
-  return {
-    restrict: 'E',
-    transclude: true,
-    replace: true,
-    require: '^workPackageField',
-    templateUrl: '/components/inplace-edit/directives/field-edit/edit-duration/' +
-      'edit-duration.directive.html',
+function inplaceEditField(WorkPackageFieldService) {
+  function Field(resource, name) {
+    this.resource = resource;
+    this.name = name;
+  }
 
-    controllerAs: 'customEditorController',
-    controller: function() {},
-
-    link: function(scope, element, attrs, fieldController) {
-      scope.fieldController = fieldController;
-      if (fieldController.writeValue === null) {
-        scope.customEditorController.writeValue = null;
-      } else {
-        scope.customEditorController.writeValue = Number(
-          moment
-            .duration(fieldController.writeValue)
-            .asHours()
-            .toFixed(2)
-        );
-      }
-      scope.$watch('customEditorController.writeValue', function(value) {
-        if (value === null) {
-          fieldController.writeValue = null;
-        } else {
-          // get rounded minutes so that we don't have to send 12.223000000003
-          // to the server
-          var minutes = Number(moment.duration(value, 'hours').asMinutes().toFixed(2));
-          fieldController.writeValue = moment.duration(minutes, 'minutes');
-        }
-      });
+  _.forOwn(WorkPackageFieldService, function (method, name) {
+    Field.prototype[name] = function () {
+      return method(this.resource, this.name);
     }
-  };
+  });
+
+  return Field;
 }
+inplaceEditField.$indect = ['WorkPackageFieldService'];

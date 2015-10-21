@@ -35,8 +35,7 @@ function inplaceDisplaySpentTime() {
     restrict: 'E',
     transclude: true,
     replace: true,
-    scope: {},
-    require: ['^inplaceEditorDisplayPane', '^workPackageField'],
+    require: '^inplaceEditorDisplayPane',
     templateUrl: '/components/inplace-edit/directives/field-display/display-spent-time/' +
       'display-spent-time.directive.html',
 
@@ -45,7 +44,6 @@ function inplaceDisplaySpentTime() {
 
     link: function(scope, element, attrs, controllers) {
       scope.displayPaneController = controllers[0];
-      scope.fieldController = controllers[1];
     }
   };
 }

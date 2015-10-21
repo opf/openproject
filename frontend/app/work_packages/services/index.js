@@ -60,17 +60,6 @@ angular.module('openproject.workPackages.services')
     'WORK_PACKAGE_ATTRIBUTES',
     require('./work-packages-overview-service')
   ])
-  .service('WorkPackageFieldService', [
-    'I18n',
-    'WORK_PACKAGE_REGULAR_EDITABLE_FIELD',
-    'WorkPackagesHelper',
-    '$q',
-    '$http',
-    '$timeout',
-    'HookService',
-    'EditableFieldsState',
-    require('./work-package-field-service')
-  ])
   .service('EditableFieldsState',[
     '$q',
     '$rootScope',
