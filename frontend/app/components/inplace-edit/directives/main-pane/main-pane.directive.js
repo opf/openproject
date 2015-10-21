@@ -26,30 +26,37 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular.module('openproject.inplace-edit').directive('inplaceEditorMainPane', function() {
+angular
+  .module('openproject.inplace-edit')
+  .directive('inplaceEditorMainPane', inplaceEditorMainPane);
+
+function inplaceEditorMainPane() {
   return {
     transclude: true,
     replace: true,
     scope: false,
     templateUrl: '/components/inplace-edit/directives/main-pane/main-pane.directive.html',
-    controller: function($scope, $timeout) {
-      // controller is invoked before linker
-      $timeout(function() {
-        var fieldController = $scope.fieldController;
-        this.saveTitle = I18n.t(
-          'js.inplace.button_save',
-          { attribute: fieldController.field }
-        );
-        this.saveAndSendTitle = I18n.t(
-          'js.inplace.button_save_and_send',
-          { attribute: fieldController.field }
-        );
-        this.cancelTitle = I18n.t(
-          'js.inplace.button_cancel',
-          { attribute: fieldController.field }
-        );
-      });
-    },
+    controller: InplaceEditorMainPaneController,
     controllerAs: 'mainPaneController'
   };
-});
+}
+
+function InplaceEditorMainPaneController($scope, $timeout) {
+  // controller is invoked before linker
+  $timeout(function() {
+    var fieldController = $scope.fieldController;
+    this.saveTitle = I18n.t(
+      'js.inplace.button_save',
+      { attribute: fieldController.field }
+    );
+    this.saveAndSendTitle = I18n.t(
+      'js.inplace.button_save_and_send',
+      { attribute: fieldController.field }
+    );
+    this.cancelTitle = I18n.t(
+      'js.inplace.button_cancel',
+      { attribute: fieldController.field }
+    );
+  });
+}
+InplaceEditorMainPaneController.$inject = ['$scope', '$timeout'];
