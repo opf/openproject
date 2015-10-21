@@ -37,7 +37,6 @@ function inplaceEditorDateRange(TimezoneService, I18n, $timeout, WorkPackageFiel
     restrict: 'E',
     transclude: true,
     replace: true,
-    scope: {},
     require: '^workPackageField',
     templateUrl: '/components/inplace-edit/directives/field-edit/edit-date-range/' +
       'edit-date-range.directive.html',

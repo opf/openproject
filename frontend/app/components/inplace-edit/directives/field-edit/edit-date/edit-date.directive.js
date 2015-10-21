@@ -41,7 +41,6 @@ function inplaceEditorDate(EditableFieldsState, TimezoneService, $timeout, Datep
     restrict: 'E',
     transclude: true,
     replace: true,
-    scope: {},
     require: '^workPackageField',
     templateUrl: '/components/inplace-edit/directives/field-edit/edit-date/' +
       'edit-date.directive.html',

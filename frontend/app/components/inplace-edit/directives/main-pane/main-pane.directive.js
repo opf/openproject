@@ -44,19 +44,10 @@ function inplaceEditorMainPane() {
 function InplaceEditorMainPaneController($scope, $timeout) {
   // controller is invoked before linker
   $timeout(function() {
-    var fieldController = $scope.fieldController;
-    this.saveTitle = I18n.t(
-      'js.inplace.button_save',
-      { attribute: fieldController.field }
-    );
-    this.saveAndSendTitle = I18n.t(
-      'js.inplace.button_save_and_send',
-      { attribute: fieldController.field }
-    );
-    this.cancelTitle = I18n.t(
-      'js.inplace.button_cancel',
-      { attribute: fieldController.field }
-    );
+    this.saveTitle = I18n.t('js.inplace.button_save', { attribute: $scope.field.name });
+    this.saveAndSendTitle = I18n.t('js.inplace.button_save_and_send',
+      { attribute: $scope.field.name });
+    this.cancelTitle = I18n.t('js.inplace.button_cancel', { attribute: $scope.field.name });
   });
 }
 InplaceEditorMainPaneController.$inject = ['$scope', '$timeout'];

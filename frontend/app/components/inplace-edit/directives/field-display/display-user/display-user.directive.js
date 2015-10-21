@@ -35,7 +35,6 @@ function inplaceDisplayUser() {
     restrict: 'E',
     transclude: true,
     replace: true,
-    scope: {},
     require: '^inplaceEditorDisplayPane',
     templateUrl: '/components/inplace-edit/directives/field-display/display-user/' +
       'display-user.directive.html',
