@@ -180,7 +180,8 @@ class ProjectsController < ApplicationController
     elsif @project.update_attributes(params[:project])
       flash[:notice] << l('notice_successful_update')
     else
-      flash[:error] = l('timelines.cannot_update_planning_element_types')
+      flash.delete :notice
+      flash[:error] = @project.errors.full_messages
     end
     redirect_to action: 'settings', tab: 'types'
   end
