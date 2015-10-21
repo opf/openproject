@@ -80,6 +80,7 @@ class Scm::RemoteRepositoryJob
     project = @repository.project
 
     {
+      token: @repository.scm.config[:access_token],
       identifier: @repository.repository_identifier,
       vendor: @repository.vendor,
       scm_type: @repository.scm_type,
