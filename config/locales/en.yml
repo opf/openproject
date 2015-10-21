@@ -963,7 +963,7 @@ en:
   label_work_package_view_all: "View all work packages"
   label_work_package_view_all_assigned_to_me: "View all work packages assigned to me"
   label_work_package_view_all_reported_by_me: "View all work packages reported by me"
-  label_work_package_view_all_responsible_for: "View all work packages I am responsible for"
+  label_work_package_view_all_responsible_for: "View all work packages that I am responsible for"
   label_work_package_view_all_watched: "View all watched work packages"
   label_work_package_watchers: "Watchers"
   label_journal_diff: "Description Comparison"

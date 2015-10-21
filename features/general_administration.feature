@@ -28,19 +28,19 @@
 
 Feature: General Timelines administration
   As a ChiliProject Admin
-  I want to see 'No data to display' instead of an empty table
+  I want to see useful information instead of an empty table
   So that I can see the reason why I cannot see anything
 
-  Scenario: The admin gets 'No data to display' when there are no colors defined
+  Scenario: The admin gets 'There are currently no colors' when there are no colors defined
     Given I am already admin
      When I go to the admin page
       And I follow "Colors"
-     Then I should see "No data to display"
+     Then I should see "There are currently no colors"
       And I should see "New color"
 
-  Scenario: The admin gets 'No data to display' when there are no project types defined
+  Scenario: The admin gets 'There are currently no project types' when there are no project types defined
     Given I am already admin
      When I go to the admin page
       And I follow "Project types"
-     Then I should see "No data to display"
+     Then I should see "There are currently no project types"
       And I should see "New project type"

@@ -29,9 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= render partial: 'action_menu', locals: { title: l(:label_workflow_plural) } %>
 <% html_title l(:label_administration), l(:label_workflow_plural) -%>
 <% if @workflow_counts.empty? %>
-  <%= render partial: '/common/no_results',
-             locals:  { model_name: WorkFlow.model_name
-                        display_content: false } %>
+  <%= no_results_box %>
 <% else %>
   <div class="autoscroll">
     <div class="generic-table--container">

@@ -60,7 +60,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
 
       members_page.remove_user! 'A-Team'
       expect(page).to have_text 'Removed A-Team from project'
-      expect(page).to have_text 'Nothing to display'
+      expect(page).to have_text 'There are currently no members part of this project.'
     end
 
     scenario 'Adding and removing a User as Member' do
@@ -71,7 +71,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
 
       members_page.remove_user! 'Hannibal Smith'
       expect(page).to have_text 'Removed Hannibal Smith from project'
-      expect(page).to have_text 'Nothing to display'
+      expect(page).to have_text 'There are currently no members part of this project.'
     end
 
     scenario 'Entering a Username as Member in firstname, lastname order' do
