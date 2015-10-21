@@ -36,7 +36,6 @@ function inplaceEditorEditPane(WorkPackageFieldService, EditableFieldsState, Foc
   return {
     transclude: true,
     replace: true,
-    scope: true,
     require: '^workPackageField',
     templateUrl: '/components/inplace-edit/directives/edit-pane/edit-pane.directive.html',
     controllerAs: 'editPaneController',
@@ -53,12 +52,9 @@ function inplaceEditorEditPane(WorkPackageFieldService, EditableFieldsState, Foc
       };
 
       scope.$watchCollection('editableFieldsState.workPackage.form', function(form) {
-        var strategy = WorkPackageFieldService.getInplaceEditStrategy(
-          EditableFieldsState.workPackage,
-          fieldController.field
-        );
+        var strategy = scope.field.getInplaceEditStrategy();
 
-        if (fieldController.field === 'date' && strategy === 'date') {
+        if (scope.field.name === 'date' && strategy === 'date') {
           form.pendingChanges = EditableFieldsState.getPendingFormChanges();
           form.pendingChanges['startDate'] =
             form.pendingChanges['dueDate'] =
@@ -101,7 +97,7 @@ function inplaceEditorEditPane(WorkPackageFieldService, EditableFieldsState, Foc
       scope.$watch('fieldController.writeValue', function(writeValue) {
         if (scope.fieldController.isEditing) {
           var pendingChanges = EditableFieldsState.getPendingFormChanges();
-          pendingChanges[scope.fieldController.field] = writeValue;
+          pendingChanges[scope.field.name] = writeValue;
         }
       }, true);
       scope.$on('workPackageRefreshed', function() {
@@ -109,7 +105,7 @@ function inplaceEditorEditPane(WorkPackageFieldService, EditableFieldsState, Foc
       });
 
       scope.$watch('fieldController.isEditing', function(isEditing) {
-        var efs = EditableFieldsState, field = fieldController.field;
+        var efs = EditableFieldsState, field = scope.field.name;
 
         if (isEditing && !efs.editAll.state && !efs.forcedEditState) {
           scope.focusInput();
@@ -170,7 +166,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
       submit.reject(e);
     };
 
-    pendingFormChanges[fieldController.field] = fieldController.writeValue;
+    pendingFormChanges[$scope.field.name] = fieldController.writeValue;
     if (vm.editForm.$invalid) {
       var acknowledgedValidationErrors = Object.keys(vm.editForm.$error);
       acknowledgedValidationErrors.forEach(function(error) {
@@ -184,7 +180,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
     }
     if (detectedViolations.length) {
       EditableFieldsState.errors = EditableFieldsState.errors || {};
-      EditableFieldsState.errors[fieldController.field] = detectedViolations.join(' ');
+      EditableFieldsState.errors[$scope.field.name] = detectedViolations.join(' ');
       showErrors();
       submit.reject();
     } else {
@@ -228,27 +224,27 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
   this.discardEditing = function() {
     $scope.fieldController.isEditing = false;
     delete EditableFieldsState.submissionPromises['work_package'];
-    delete EditableFieldsState.getPendingFormChanges()[$scope.fieldController.field];
+    delete EditableFieldsState.getPendingFormChanges()[$scope.field.name];
     $scope.fieldController.updateWriteValue();
     if (
       EditableFieldsState.errors &&
-      EditableFieldsState.errors.hasOwnProperty($scope.fieldController.field)
+      EditableFieldsState.errors.hasOwnProperty($scope.field.name)
     ) {
-      delete EditableFieldsState.errors[$scope.fieldController.field];
+      delete EditableFieldsState.errors[$scope.field.name];
     }
   };
 
   this.isActive = function() {
-    return EditableFieldsState.isActiveField($scope.fieldController.field);
+    return EditableFieldsState.isActiveField($scope.field.name);
   };
 
   this.markActive = function() {
     EditableFieldsState.submissionPromises['work_package'] = {
-      field: $scope.fieldController.field,
+      field: $scope.field.name,
       thePromise: this.submitField,
-      prepend: true,
+      prepend: true
     };
-    EditableFieldsState.currentField = $scope.fieldController.field;
+    EditableFieldsState.currentField = $scope.field.name;
   };
 
   function afterError() {

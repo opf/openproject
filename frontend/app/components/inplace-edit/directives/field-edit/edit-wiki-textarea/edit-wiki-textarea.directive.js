@@ -35,7 +35,6 @@ function inplaceEditorWikiTextarea(AutoCompleteHelper, $timeout) {
     restrict: 'E',
     transclude: true,
     replace: true,
-    scope: {},
     templateUrl: '/components/inplace-edit/directives/field-edit/edit-wiki-textarea/' +
       'edit-wiki-textarea.directive.html',
 

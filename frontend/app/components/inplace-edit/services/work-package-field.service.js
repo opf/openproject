@@ -26,16 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(
-  I18n,
-  WORK_PACKAGE_REGULAR_EDITABLE_FIELD,
-  WorkPackagesHelper,
-  $q,
-  $http,
-  $timeout,
-  HookService,
-  EditableFieldsState
-  ) {
+angular
+  .module('openproject.services')
+  .service('WorkPackageFieldService', WorkPackageFieldService);
+
+WorkPackageFieldService.$inject = ['$q', '$http', 'I18n', 'WorkPackagesHelper', 'HookService',
+  'EditableFieldsState'];
+
+function WorkPackageFieldService($q, $http, I18n,  WorkPackagesHelper, HookService,
+  EditableFieldsState ) {
 
   function getSchema(workPackage) {
     if (workPackage.form) {
@@ -413,4 +412,4 @@ module.exports = function(
   };
 
   return WorkPackageFieldService;
-};
+}

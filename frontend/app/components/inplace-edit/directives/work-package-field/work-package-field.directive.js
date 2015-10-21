@@ -34,46 +34,37 @@ function workPackageField() {
   return {
     restrict: 'E',
     replace: true,
-    controllerAs: 'fieldController',
-    bindToController: true,
-    templateUrl: '/components/inplace-edit/directives/work-package-field/work-package-field.directive.html',
+    templateUrl: '/components/inplace-edit/directives/work-package-field/' +
+      'work-package-field.directive.html',
     scope: {
-      field: '='
+      fieldName: '='
     },
-    controller: WorkPackageFieldController
+
+    bindToController: true,
+    controller: WorkPackageFieldController,
+    controllerAs: 'fieldController'
   };
 }
 
-function WorkPackageFieldController($scope, EditableFieldsState, WorkPackageFieldService) {
+function WorkPackageFieldController($scope, EditableFieldsState, inplaceEditField) {
   this.state = EditableFieldsState;
-
-  this.isEditable = function() {
-    return WorkPackageFieldService.isEditable(EditableFieldsState.workPackage, this.field);
-  };
-
-  this.isEmpty = function() {
-    return WorkPackageFieldService.isEmpty(EditableFieldsState.workPackage, this.field);
-  };
-
-  this.getLabel = function() {
-    return WorkPackageFieldService.getLabel(EditableFieldsState.workPackage, this.field);
-  };
+  $scope.field = new inplaceEditField(EditableFieldsState.workPackage, this.fieldName);
 
   this.updateWriteValue = function() {
-    this.writeValue = EditableFieldsState.editAll.getFieldValue(this.field) || _.cloneDeep(
-        WorkPackageFieldService.getValue(EditableFieldsState.workPackage, this.field));
+    this.writeValue = EditableFieldsState.editAll.getFieldValue($scope.field.name)
+      || _.cloneDeep($scope.field.getValue());
   };
 
-  if (this.isEditable()) {
+  if ($scope.field.isEditable()) {
     this.state.isBusy = false;
     this.isEditing = this.state.forcedEditState;
     this.updateWriteValue();
-    this.editTitle = I18n.t('js.inplace.button_edit', { attribute: this.getLabel() });
+    this.editTitle = I18n.t('js.inplace.button_edit', { attribute: $scope.field.getLabel() });
   }
 
   $scope.$watch('fieldController.writeValue', angular.bind(this, function (newValue) {
-    EditableFieldsState.editAll.addFieldValue(this.field, newValue);
+    EditableFieldsState.editAll.addFieldValue(this.fieldName, newValue);
   }));
 }
-WorkPackageFieldController.$inject = ['$scope', 'EditableFieldsState', 'WorkPackageFieldService'];
+WorkPackageFieldController.$inject = ['$scope', 'EditableFieldsState', 'inplaceEditField'];
 
