@@ -26,73 +26,82 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular.module('openproject.inplace-edit').directive('inplaceEditorWikiTextarea', [
-  'TextileService', 'EditableFieldsState', '$sce', 'AutoCompleteHelper', '$timeout',
+angular
+  .module('openproject.inplace-edit')
+  .directive('inplaceEditorWikiTextarea', inplaceEditorWikiTextarea);
 
-  function(TextileService, EditableFieldsState, $sce, AutoCompleteHelper, $timeout) {
-    return {
-      restrict: 'E',
-      transclude: true,
-      replace: true,
-      scope: {},
-      templateUrl: '/components/inplace-edit/directives/field-edit/edit-wiki-textarea/edit-wiki-textarea.directive.html',
-      controller: function($scope) {
-        this.isPreview = false;
-        this.previewHtml = '';
-        this.autocompletePath = '/work_packages/auto_complete.json';
+function inplaceEditorWikiTextarea(AutoCompleteHelper, $timeout) {
+  return {
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    scope: {},
+    templateUrl: '/components/inplace-edit/directives/field-edit/edit-wiki-textarea/' +
+      'edit-wiki-textarea.directive.html',
 
-        this.togglePreview = function() {
-          this.isPreview = !this.isPreview;
-          this.previewHtml = '';
-          // $scope.error = null;
-          if (!this.isPreview) {
-            return;
-          }
-          $scope.fieldController.state.isBusy = true;
-          TextileService
-            .renderWithWorkPackageContext(
-            EditableFieldsState.workPackage.form,
-            $scope.fieldController.writeValue.raw)
-            .then(angular.bind(this, function(r) {
-              this.previewHtml = $sce.trustAsHtml(r.data);
-              $scope.fieldController.state.isBusy = false;
-            }), angular.bind(this, function() {
-              this.isPreview = false;
-              $scope.fieldController.state.isBusy = false;
-            }));
-        };
-      },
-      controllerAs: 'customEditorController',
-      link: function(scope, element) {
-        scope.fieldController = scope.$parent.fieldController;
+    controller: InplaceEditorWikiTextareaController,
+    controllerAs: 'customEditorController',
+    
+    link: function(scope, element) {
+      scope.fieldController = scope.$parent.fieldController;
+      $timeout(function() {
+        AutoCompleteHelper.enableTextareaAutoCompletion(element.find('textarea'));
+        // set as dirty for the script to show a confirm on leaving the page
+        element.find('textarea').data('changed', true);
+      });
+
+      // Listen to elastic textara expansion to always make the bottom
+      // of that textarea visible.
+      // Otherwise, when expanding the textarea with newlines,
+      // its bottom border may no longer be visible
+      scope.$on('elastic:resize', function(event, textarea, oldHeight, newHeight) {
+        var containerHeight = element.scrollParent().height();
+
+        // We can only help the user if the whole textarea fits in the screen
+        if (newHeight >= (containerHeight - (containerHeight / 5))) {
+          return;
+        }
+
         $timeout(function() {
-          AutoCompleteHelper.enableTextareaAutoCompletion(element.find('textarea'));
-          // set as dirty for the script to show a confirm on leaving the page
-          element.find('textarea').data('changed', true);
-        });
+          var controls = element.closest('.inplace-edit--form ')
+            .find('.inplace-edit--controls');
 
-        // Listen to elastic textara expansion to always make the bottom
-        // of that textarea visible.
-        // Otherwise, when expanding the textarea with newlines,
-        // its bottom border may no longer be visible
-        scope.$on('elastic:resize', function(event, textarea, oldHeight, newHeight) {
-          var containerHeight = element.scrollParent().height();
-
-          // We can only help the user if the whole textarea fits in the screen
-          if (newHeight >= (containerHeight - (containerHeight / 5))) {
-            return;
+          if (!controls.isVisibleWithin(controls.scrollParent())) {
+            controls[0].scrollIntoView(false);
           }
+        }, 200);
+      });
+    }
+  };
+}
+inplaceEditorWikiTextarea.$inject = ['AutoCompleteHelper', '$timeout'];
 
-          $timeout(function() {
-            var controls = element.closest('.inplace-edit--form ')
-              .find('.inplace-edit--controls');
 
-            if (!controls.isVisibleWithin(controls.scrollParent())) {
-              controls[0].scrollIntoView(false);
-            }
-          }, 200);
-        });
-      }
-    };
-  }
-]);
+function InplaceEditorWikiTextareaController($scope,$sce, TextileService, EditableFieldsState) {
+  this.isPreview = false;
+  this.previewHtml = '';
+  this.autocompletePath = '/work_packages/auto_complete.json';
+
+  this.togglePreview = function() {
+    this.isPreview = !this.isPreview;
+    this.previewHtml = '';
+    // $scope.error = null;
+    if (!this.isPreview) {
+      return;
+    }
+
+    $scope.fieldController.state.isBusy = true;
+    TextileService.renderWithWorkPackageContext(EditableFieldsState.workPackage.form,
+        $scope.fieldController.writeValue.raw)
+
+      .then(angular.bind(this, function(r) {
+        this.previewHtml = $sce.trustAsHtml(r.data);
+        $scope.fieldController.state.isBusy = false;
+      }), angular.bind(this, function() {
+        this.isPreview = false;
+        $scope.fieldController.state.isBusy = false;
+      }));
+  };
+}
+InplaceEditorWikiTextareaController.$inject = ['$scope', '$sce', 'TextileService',
+  'EditableFieldsState'];

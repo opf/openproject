@@ -26,48 +26,54 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.inplace-edit').directive('workPackageField',
-  function() {
-    return {
-      restrict: 'E',
-      replace: true,
-      controllerAs: 'fieldController',
-      bindToController: true,
-      templateUrl: '/components/inplace-edit/directives/work-package-field/work-package-field.directive.html',
-      scope: {
-        field: '='
-      },
-      controller: function ($scope, EditableFieldsState, WorkPackageFieldService) {
-        this.state = EditableFieldsState;
+angular
+  .module('openproject.inplace-edit')
+  .directive('workPackageField', workPackageField);
 
-        this.isEditable = function() {
-          return WorkPackageFieldService.isEditable(EditableFieldsState.workPackage, this.field);
-        };
+function workPackageField() {
+  return {
+    restrict: 'E',
+    replace: true,
+    controllerAs: 'fieldController',
+    bindToController: true,
+    templateUrl: '/components/inplace-edit/directives/work-package-field/work-package-field.directive.html',
+    scope: {
+      field: '='
+    },
+    controller: WorkPackageFieldController
+  };
+}
 
-        this.isEmpty = function() {
-          return WorkPackageFieldService.isEmpty(EditableFieldsState.workPackage, this.field);
-        };
+function WorkPackageFieldController($scope, EditableFieldsState, WorkPackageFieldService) {
+  this.state = EditableFieldsState;
 
-        this.getLabel = function() {
-          return WorkPackageFieldService.getLabel(EditableFieldsState.workPackage, this.field);
-        };
+  this.isEditable = function() {
+    return WorkPackageFieldService.isEditable(EditableFieldsState.workPackage, this.field);
+  };
 
-        this.updateWriteValue = function() {
-          this.writeValue = EditableFieldsState.editAll.getFieldValue(this.field) || _.cloneDeep(
-              WorkPackageFieldService.getValue(EditableFieldsState.workPackage, this.field));
-        };
+  this.isEmpty = function() {
+    return WorkPackageFieldService.isEmpty(EditableFieldsState.workPackage, this.field);
+  };
 
-        if (this.isEditable()) {
-          this.state.isBusy = false;
-          this.isEditing = this.state.forcedEditState;
-          this.updateWriteValue();
-          this.editTitle = I18n.t('js.inplace.button_edit', { attribute: this.getLabel() });
-        }
+  this.getLabel = function() {
+    return WorkPackageFieldService.getLabel(EditableFieldsState.workPackage, this.field);
+  };
 
-        $scope.$watch('fieldController.writeValue', angular.bind(this, function (newValue) {
-          EditableFieldsState.editAll.addFieldValue(this.field, newValue);
-        }));
-      }
-    };
+  this.updateWriteValue = function() {
+    this.writeValue = EditableFieldsState.editAll.getFieldValue(this.field) || _.cloneDeep(
+        WorkPackageFieldService.getValue(EditableFieldsState.workPackage, this.field));
+  };
+
+  if (this.isEditable()) {
+    this.state.isBusy = false;
+    this.isEditing = this.state.forcedEditState;
+    this.updateWriteValue();
+    this.editTitle = I18n.t('js.inplace.button_edit', { attribute: this.getLabel() });
   }
-);
+
+  $scope.$watch('fieldController.writeValue', angular.bind(this, function (newValue) {
+    EditableFieldsState.editAll.addFieldValue(this.field, newValue);
+  }));
+}
+WorkPackageFieldController.$inject = ['$scope', 'EditableFieldsState', 'WorkPackageFieldService'];
+
