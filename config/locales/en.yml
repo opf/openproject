@@ -1349,6 +1349,9 @@ en:
       project_verification: "Enter the project's name %{name} to verify the deletion."
       subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
       title: "Delete the project %{name}"
+    members:
+      no_members_title: This project does not have any members yet.
+      no_members_text: Please invite members to this project.
 
   project_module_activity: "Activity"
   project_module_boards: "Forums"
