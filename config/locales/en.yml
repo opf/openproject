@@ -258,7 +258,7 @@ en:
         user:
           attributes:
             password:
-              weak: "must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}."
               lowercase: "lowercase (e.g. 'a')"
               uppercase: "uppercase (e.g. 'A')"
               numeric: "numeric (e.g. '1')"
