@@ -50,7 +50,7 @@ module NoResultsHelper
                      custom_title:       nil,
                      custom_action_text: nil)
 
-    title = custom_title || t('.no_results_title_text')
+    title = custom_title || t('.no_results_title_text', cascade: true)
     action_text = custom_action_text || t('.no_results_content_text')
 
     render partial: '/common/no_results',

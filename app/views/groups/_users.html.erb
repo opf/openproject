@@ -68,17 +68,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
       </div>
     <% else %>
-      <div class="generic-table--container">
-        <div class="generic-table--no-results-container">
-          <h2 class="generic-table--no-results-title">
-            <i class="icon-info"></i>
-            <%= l(:label_nothing_display) %>
-          </h2>
-          <div class="generic-table--no-results-description">
-            <p class="nodata"><%= l(:label_no_data) %></p>
-          </div>
-        </div>
-      </div>
+      <%= no_results_box %>
     <% end %>
   </div>
   <div class="grid-content">

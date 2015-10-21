@@ -37,7 +37,12 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= content_for "#{block_name}_remove_block" %>
 <% end %>
 
-<%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => watched } %>
+<%= render :partial => 'work_packages/list_simple',
+           :locals => {
+                        :work_packages => watched,
+                        :list_for => :watched
+                      } %>
+
 <% if watched.length > 0 %>
   <p class="small">
     <%= link_to l(:label_work_package_view_all_watched),

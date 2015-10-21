@@ -38,7 +38,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= content_for "#{block_name}_remove_block" %>
 <% end %>
 
-<%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => reported } %>
+<%= render :partial => 'work_packages/list_simple',
+           :locals => {
+                        :work_packages => reported,
+                        :list_for => :reported
+                      } %>
 
 <% if reported.length > 0 %>
   <p class="small">

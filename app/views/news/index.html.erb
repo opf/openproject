@@ -26,9 +26,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<%
+  managable = User.current.allowed_to?(:manage_news, @project)
+ %>
+
 <% html_title(l(:label_news_plural)) -%>
 <%= toolbar title: l(:label_news_plural) do %>
-  <% if User.current.allowed_to?(:manage_news, @project) %>
+  <% if managable %>
     <li class="toolbar-item">
       <%= link_to new_project_news_path(@project), title: l(:label_news_new), id: 'new_news_link', class: 'button -alt-highlight' do %>
         <i class="button--icon icon-add"></i>
@@ -38,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 <% end %>
 <% if @newss.empty? %>
-  <% if User.current.allowed_to?(:manage_news, @project) %>
+  <% if managable %>
     <%= no_results_box(action_url:     new_project_news_path(@project),
                        display_action: true) %>
   <% else %>
