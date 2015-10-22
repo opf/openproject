@@ -27,14 +27,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CopyProjectJob < Struct.new(:user_id,
-                                  :source_project_id,
-                                  :target_project_params,
-                                  :enabled_modules,
-                                  :associations_to_copy,
-                                  :send_mails)
+class CopyProjectJob
   include OpenProject::LocaleHelper
   include OpenProject::BeforeDelayedJob
+
+  attr_reader :user_id,
+              :source_project_id,
+              :target_project_params,
+              :enabled_modules,
+              :associations_to_copy,
+              :send_mails
+
+  def initialize(user_id:, source_project_id:, target_project_params:,
+                 enabled_modules:, associations_to_copy:, send_mails: false)
+   @user_id = user_id
+   @source_project_id = source_project_id
+   @target_project_params = target_project_params
+   @enabled_modules = enabled_modules
+   @associations_to_copy = associations_to_copy
+   @send_mails = send_mails
+  end
 
   def perform
     User.current = user
