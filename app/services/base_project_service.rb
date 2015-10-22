@@ -27,33 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class UpdateProjectsTypesService < BaseProjectService
-  def call(type_ids)
-    type_ids = [::Type.standard_type.id] if type_ids.nil? || type_ids.empty?
-
-    if types_missing?(type_ids)
-      project.errors.add(:type,
-                         :in_use_by_work_packages,
-                         types: missing_types(type_ids).map(&:name).join(', '))
-      false
-    else
-      project.type_ids = type_ids
-
-      true
-    end
+class BaseProjectService
+  def initialize(project)
+    self.project = project
   end
 
-  protected
+  private
 
-  def types_missing?(type_ids)
-    !missing_types(type_ids).empty?
-  end
-
-  def missing_types(type_ids)
-    types_used_by_work_packages.select { |t| !type_ids.include?(t.id) }
-  end
-
-  def types_used_by_work_packages
-    @types_used_by_work_packages ||= project.types_used_by_work_packages
-  end
+  attr_accessor :project
 end
