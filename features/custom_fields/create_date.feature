@@ -34,7 +34,7 @@ Feature: Date custom fields can be created
       | en |
       | de |
     When I go to the custom fields page
-    When I follow "New custom field" within "#tab-content-WorkPackageCustomField"
+    When I follow "Create a new custom field" within "#tab-content-WorkPackageCustomField"
 
   @javascript
   Scenario: Creating a date custom field
