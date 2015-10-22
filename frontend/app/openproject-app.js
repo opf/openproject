@@ -295,5 +295,5 @@ requireTemplate.keys().forEach(requireTemplate);
 
 require('!ngtemplate?module=openproject.templates!html!angular-busy/angular-busy.html');
 
-var requireComponent = require.context('./components/', true, /\.(js|html)$/);
+var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|html)$/);
 requireComponent.keys().forEach(requireComponent);
