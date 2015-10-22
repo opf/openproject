@@ -30,9 +30,7 @@ angular
   .module('openproject.inplace-edit')
   .directive('inplaceEditorEditPane', inplaceEditorEditPane);
 
-function inplaceEditorEditPane(WorkPackageFieldService, EditableFieldsState, FocusHelper,
-    $timeout) {
-
+function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
   return {
     transclude: true,
     replace: true,
@@ -41,31 +39,29 @@ function inplaceEditorEditPane(WorkPackageFieldService, EditableFieldsState, Foc
     controllerAs: 'editPaneController',
     controller: InplaceEditorEditPaneController,
     link: function(scope, element, attrs, fieldController) {
+      var field = scope.field;
+      
       scope.fieldController = fieldController;
       scope.editableFieldsState = EditableFieldsState;
 
       scope.editPaneController.isRequired = function() {
-        return WorkPackageFieldService.isRequired(
-          EditableFieldsState.workPackage,
-          this.field
-        );
+        return field.isRequired();
       };
 
       scope.$watchCollection('editableFieldsState.workPackage.form', function(form) {
-        var strategy = scope.field.getInplaceEditStrategy();
+        var strategy = field.getInplaceEditStrategy();
 
-        if (scope.field.name === 'date' && strategy === 'date') {
+        if (field.name === 'date' && strategy === 'date') {
           form.pendingChanges = EditableFieldsState.getPendingFormChanges();
           form.pendingChanges['startDate'] =
             form.pendingChanges['dueDate'] =
-              fieldController.writeValue ? fieldController.writeValue['dueDate'] : null;
+              field.value ? field.value['dueDate'] : null;
         }
 
         if (strategy !== scope.strategy) {
           scope.strategy = strategy;
           scope.templateUrl = '/templates/inplace-edit/edit/fields/' +
             scope.strategy + '.html';
-          fieldController.updateWriteValue();
         }
       });
 
@@ -94,10 +90,10 @@ function inplaceEditorEditPane(WorkPackageFieldService, EditableFieldsState, Foc
         });
       }
 
-      scope.$watch('fieldController.writeValue', function(writeValue) {
+      scope.$watch('field.value', function(value) {
         if (scope.fieldController.isEditing) {
           var pendingChanges = EditableFieldsState.getPendingFormChanges();
-          pendingChanges[scope.field.name] = writeValue;
+          pendingChanges[field.name] = value;
         }
       }, true);
       scope.$on('workPackageRefreshed', function() {
@@ -105,12 +101,12 @@ function inplaceEditorEditPane(WorkPackageFieldService, EditableFieldsState, Foc
       });
 
       scope.$watch('fieldController.isEditing', function(isEditing) {
-        var efs = EditableFieldsState, field = scope.field.name;
+        var efs = EditableFieldsState;
 
         if (isEditing && !efs.editAll.state && !efs.forcedEditState) {
           scope.focusInput();
 
-        } else if (efs.editAll.state && efs.editAll.isFocusField(field)) {
+        } else if (efs.editAll.state && efs.editAll.isFocusField(field.name)) {
           $timeout(function () {
             var focusElement = element.find('.focus-input');
             focusElement.length && focusElement.focus()[0].select();
@@ -120,8 +116,7 @@ function inplaceEditorEditPane(WorkPackageFieldService, EditableFieldsState, Foc
     }
   };
 }
-inplaceEditorEditPane.$inject = ['WorkPackageFieldService', 'EditableFieldsState', 'FocusHelper',
-  '$timeout'];
+inplaceEditorEditPane.$inject = ['EditableFieldsState', 'FocusHelper', '$timeout'];
 
 
 function InplaceEditorEditPaneController($scope, $element, $location, $timeout, $q, $rootScope,
@@ -137,6 +132,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
   };
 
   var vm = this;
+  var field = $scope.field;
 
   // go full retard
   var uploadPendingAttachments = function(wp) {
@@ -166,13 +162,13 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
       submit.reject(e);
     };
 
-    pendingFormChanges[$scope.field.name] = fieldController.writeValue;
+    pendingFormChanges[field.name] = field.value;
     if (vm.editForm.$invalid) {
       var acknowledgedValidationErrors = Object.keys(vm.editForm.$error);
       acknowledgedValidationErrors.forEach(function(error) {
         if (vm.editForm.$error[error]) {
           detectedViolations.push(I18n.t('js.inplace.errors.' + error, {
-            field: fieldController.getLabel()
+            field: field.getLabel()
           }));
         }
       });
@@ -180,7 +176,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
     }
     if (detectedViolations.length) {
       EditableFieldsState.errors = EditableFieldsState.errors || {};
-      EditableFieldsState.errors[$scope.field.name] = detectedViolations.join(' ');
+      EditableFieldsState.errors[field.name] = detectedViolations.join(' ');
       showErrors();
       submit.reject();
     } else {
@@ -195,11 +191,12 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
             );
             result.then(angular.bind(this, function(updatedWorkPackage) {
               submit.resolve();
+              field.resource = _.extend(field.resource, updatedWorkPackage);
+
               $scope.$emit('workPackageUpdatedInEditor', updatedWorkPackage);
               $scope.$on('workPackageRefreshed', function() {
                 fieldController.state.isBusy = false;
                 fieldController.isEditing = false;
-                fieldController.updateWriteValue();
               });
               uploadPendingAttachments(updatedWorkPackage);
             })).catch(handleFailure);
@@ -224,27 +221,26 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
   this.discardEditing = function() {
     $scope.fieldController.isEditing = false;
     delete EditableFieldsState.submissionPromises['work_package'];
-    delete EditableFieldsState.getPendingFormChanges()[$scope.field.name];
-    $scope.fieldController.updateWriteValue();
+    delete EditableFieldsState.getPendingFormChanges()[field.name];
     if (
       EditableFieldsState.errors &&
-      EditableFieldsState.errors.hasOwnProperty($scope.field.name)
+      EditableFieldsState.errors.hasOwnProperty(field.name)
     ) {
-      delete EditableFieldsState.errors[$scope.field.name];
+      delete EditableFieldsState.errors[field.name];
     }
   };
 
   this.isActive = function() {
-    return EditableFieldsState.isActiveField($scope.field.name);
+    return EditableFieldsState.isActiveField(field.name);
   };
 
   this.markActive = function() {
     EditableFieldsState.submissionPromises['work_package'] = {
-      field: $scope.field.name,
+      field: field.name,
       thePromise: this.submitField,
       prepend: true
     };
-    EditableFieldsState.currentField = $scope.field.name;
+    EditableFieldsState.currentField = field.name;
   };
 
   function afterError() {
@@ -262,8 +258,6 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
   $scope.$watch('editableFieldsState.editAll.state', function(state) {
     $scope.fieldController.isEditing = state;
     $scope.fieldController.lockFocus = true;
-
-    !state && $scope.fieldController.updateWriteValue();
   });
 }
 InplaceEditorEditPaneController.$inject = ['$scope', '$element', '$location', '$timeout', '$q',

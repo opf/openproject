@@ -35,33 +35,23 @@ function inplaceEditorDuration() {
     restrict: 'E',
     transclude: true,
     replace: true,
-    require: '^workPackageField',
     templateUrl: '/components/inplace-edit/directives/field-edit/edit-duration/' +
       'edit-duration.directive.html',
 
     controllerAs: 'customEditorController',
     controller: function() {},
 
-    link: function(scope, element, attrs, fieldController) {
-      scope.fieldController = fieldController;
-      if (fieldController.writeValue === null) {
-        scope.customEditorController.writeValue = null;
-      } else {
-        scope.customEditorController.writeValue = Number(
-          moment
-            .duration(fieldController.writeValue)
-            .asHours()
-            .toFixed(2)
-        );
+    link: function(scope) {
+      var field = scope.field;
+      
+      if (field.value) {
+        field.value = Number(moment.duration(field.value).asHours().toFixed(2));
       }
-      scope.$watch('customEditorController.writeValue', function(value) {
-        if (value === null) {
-          fieldController.writeValue = null;
-        } else {
-          // get rounded minutes so that we don't have to send 12.223000000003
-          // to the server
+
+      scope.$watch('field.value', function(value) {
+        if(value) {
           var minutes = Number(moment.duration(value, 'hours').asMinutes().toFixed(2));
-          fieldController.writeValue = moment.duration(minutes, 'minutes');
+          field.value = moment.duration(minutes, 'minutes');
         }
       });
     }

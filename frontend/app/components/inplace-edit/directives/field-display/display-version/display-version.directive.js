@@ -35,23 +35,21 @@ function inplaceDisplayVersion() {
     restrict: 'E',
     transclude: true,
     replace: true,
-    require: '^inplaceEditorDisplayPane',
     templateUrl: '/components/inplace-edit/directives/field-display/display-version/' +
       'display-version.directive.html',
 
     controller: InplaceDisplayVersionController,
-    controllerAs: 'customEditorController',
+    controllerAs: 'customEditorController'
 
-    link: function(scope, element, attrs, displayPaneController) {
-      scope.displayPaneController = displayPaneController;
-    }
   };
 }
 
 function InplaceDisplayVersionController($scope, PathHelper) {
-  this.pathHelper = PathHelper;
+  var field = $scope.field;
+
+  this.versionLink = field.text && PathHelper.staticVersionPath(field.text.props.id);
   this.isVersionLinkViewable = function() {
-    var version = $scope.displayPaneController.getReadValue();
+    var version = field.text;
     return version.links.definingProject && version.links.definingProject.href;
   }
 }

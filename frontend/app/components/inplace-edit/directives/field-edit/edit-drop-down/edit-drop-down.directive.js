@@ -43,13 +43,13 @@ function inplaceEditorDropDown(EditableFieldsState, FocusHelper) {
     controllerAs: 'customEditorController',
 
     link: function(scope, element, attrs, fieldController) {
-      var selected = scope.field.format();
+      var field = scope.field;
+      var selected = field.format();
 
-      scope.fieldController = fieldController;
       scope.customEditorController.selected = selected && selected.props && selected.props.name;
-      scope.fieldController.state.isBusy = true;
+      fieldController.state.isBusy = true;
 
-      scope.customEditorController.updateAllowedValues(scope.field.name).then(function() {
+      scope.customEditorController.updateAllowedValues(field.name).then(function() {
         fieldController.state.isBusy = false;
 
         if (!EditableFieldsState.forcedEditState) {

@@ -48,8 +48,9 @@ function inplaceEditorDate(EditableFieldsState, TimezoneService, $timeout, Datep
     controller: function() {},
     controllerAs: 'customEditorController',
 
-    link: function(scope, element, attrs, fieldController) {
-      scope.fieldController = fieldController;
+    link: function(scope, element) {
+      var field = scope.field;
+      
       var form = element.parents('.inplace-edit--form'),
         input = element.find('.inplace-edit--date'),
         datepickerContainer = element.find('.inplace-edit--date-picker'),
@@ -59,13 +60,11 @@ function inplaceEditorDate(EditableFieldsState, TimezoneService, $timeout, Datep
         form.scope().editPaneController.submit(false);
       };
 
-      if(scope.fieldController.writeValue) {
-        scope.fieldController.writeValue = customFormattedDate(scope.fieldController.writeValue);
-      }
+      field.value = field.value && customFormattedDate(field.value);
 
-      datepicker = new Datepicker(datepickerContainer, input, scope.fieldController.writeValue);
+      datepicker = new Datepicker(datepickerContainer, input, field.value);
       datepicker.onChange = function(date) {
-        scope.fieldController.writeValue = date;
+        field.value = date;
       };
       scope.onEdit = function() {
         datepicker.onEdit();

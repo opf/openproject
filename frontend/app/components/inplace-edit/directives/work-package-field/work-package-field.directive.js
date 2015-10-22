@@ -49,22 +49,13 @@ function workPackageField() {
 function WorkPackageFieldController($scope, EditableFieldsState, inplaceEditField) {
   this.state = EditableFieldsState;
   $scope.field = new inplaceEditField(EditableFieldsState.workPackage, this.fieldName);
+  var field = $scope.field;
 
-  this.updateWriteValue = function() {
-    this.writeValue = EditableFieldsState.editAll.getFieldValue($scope.field.name)
-      || _.cloneDeep($scope.field.getValue());
-  };
-
-  if ($scope.field.isEditable()) {
+  if (field.isEditable()) {
     this.state.isBusy = false;
     this.isEditing = this.state.forcedEditState;
-    this.updateWriteValue();
-    this.editTitle = I18n.t('js.inplace.button_edit', { attribute: $scope.field.getLabel() });
+    this.editTitle = I18n.t('js.inplace.button_edit', { attribute: field.getLabel() });
   }
-
-  $scope.$watch('fieldController.writeValue', angular.bind(this, function (newValue) {
-    EditableFieldsState.editAll.addFieldValue(this.fieldName, newValue);
-  }));
 }
 WorkPackageFieldController.$inject = ['$scope', 'EditableFieldsState', 'inplaceEditField'];
 

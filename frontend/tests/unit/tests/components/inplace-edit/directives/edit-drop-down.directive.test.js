@@ -59,15 +59,15 @@ describe('Inplace editor drop-down directive', function() {
     scope.field = {
       getAllowedValues: sinon.stub().returns(allowedValuePromise),
       format: sinon.stub().returns({ props: { name: allowedValues[0].name } }),
-      isRequired: sinon.stub().returns(true)
-  };
+      isRequired: sinon.stub().returns(true),
+      value: { props: { href: allowedValues[0].href } }
+    };
 
     // severing dependency from the work package field directive as described by
     // http://busypeoples.github.io/post/testing-angularjs-hierarchical-directives
     element = angular.element(html);
     var workPackageFieldController = {
-      state: { isBusy: false },
-      writeValue: { props: { href: allowedValues[0].href } }
+      state: { isBusy: false }
     };
     element.data('$workPackageFieldController', workPackageFieldController);
 

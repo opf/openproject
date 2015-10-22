@@ -1,11 +1,11 @@
 <div class="version-wrapper">
-    <span ng-if="!displayPaneController.getReadValue()">-</span>
-    <span ng-if="displayPaneController.getReadValue() && customEditorController.isVersionLinkViewable()">
-      <a href="{{customEditorController.pathHelper.staticVersionPath(displayPaneController.getReadValue().props.id)}}">
-        {{displayPaneController.getReadValue().props.name}}
+    <span ng-if="!field.text">-</span>
+    <span ng-if="field.text && customEditorController.isVersionLinkViewable()">
+      <a ng-href="{{ customEditorController.versionLink }}">
+        {{field.text.props.name}}
       </a>
     </span>
-    <span ng-if="displayPaneController.getReadValue() && !customEditorController.isVersionLinkViewable()">
-      {{displayPaneController.getReadValue().props.name}}
+    <span ng-if="field.text && !customEditorController.isVersionLinkViewable()">
+      {{field.text.props.name}}
     </span>
 </div>

@@ -34,12 +34,21 @@ function inplaceEditField(WorkPackageFieldService) {
   function Field(resource, name) {
     this.resource = resource;
     this.name = name;
+    this.value = this.getValue();
+
+    Object.defineProperties(this, {
+      text: {
+        get: function() {
+          return this.format();
+        }
+      }
+    });
   }
 
-  _.forOwn(WorkPackageFieldService, function (method, name) {
-    Field.prototype[name] = function () {
-      return method(this.resource, this.name);
-    }
+  _.forOwn(WorkPackageFieldService, function (property, name) {
+    Field.prototype[name] = _.isFunction(property) && function () {
+      return property(this.resource, this.name);
+    } || property;
   });
 
   return Field;

@@ -100,22 +100,5 @@ describe('EditableFieldsState service', function () {
     it('is not allowed if th WP update action does not exist', function () {
       expect(eAll.allowed).to.be.false;
     });
-
-    describe('field value storage', function () {
-      var field = 'my_field', value = 'my_val';
-
-      beforeEach(function () {
-        eAll.addFieldValue(field, value);
-      });
-
-      it('saves and retrieves the correct value', function () {
-        expect(eAll.getFieldValue(field)).to.equal(value);
-      });
-
-      it('clears stored values when cancel is called', function () {
-        eAll.cancel();
-        expect(eAll.getFieldValue(field)).to.be.falsy;
-      });
-    });
   });
 });

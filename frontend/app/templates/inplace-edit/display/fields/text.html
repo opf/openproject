@@ -1,2 +1,2 @@
-<span ng-if="displayPaneController.isReadValueEmpty()" ng-bind="displayPaneController.placeholder"></span>
-<span ng-if="!displayPaneController.isReadValueEmpty()" ng-bind="displayPaneController.getReadValue()"></span>
+<span ng-if="field.isEmpty()" ng-bind="field.defaultPlaceholder"></span>
+<span ng-if="!field.isEmpty()" ng-bind="field.text"></span>
