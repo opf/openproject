@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= toolbar title: l(:label_roadmap) %>
 <% if @versions.empty? %>
-  <p class="nodata"><%= l(:label_no_data) %></p>
+  <%= no_results_box %>
 <% else %>
   <div id="roadmap">
     <% @versions.each do |version| %>

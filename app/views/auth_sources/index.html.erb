@@ -36,77 +36,82 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </li>
 <% end %>
-<div class="generic-table--container">
-  <div class="generic-table--results-container">
-    <table interactive-table role="grid" class="generic-table">
-      <colgroup>
-        <col highlight-col>
-        <col highlight-col>
-        <col highlight-col>
-        <col highlight-col>
-        <col>
-      </colgroup>
-      <thead>
-        <tr>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= AuthSource.human_attribute_name(:name) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= AuthSource.human_attribute_name(:type) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= AuthSource.human_attribute_name(:host) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= l(:label_user_plural)%>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% for source in @auth_sources %>
+
+<% if @auth_sources.empty? %>
+  <%= no_results_box(action_url: { action: 'new' }, display_action: true) %>
+<% else %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table interactive-table role="grid" class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
           <tr>
-            <td><%= link_to source.name, :action => 'edit', :id => source %></td>
-            <td><%= source.auth_method_name %></td>
-            <td><%= source.host %></td>
-            <td><%= source.users.count %></td>
-            <td class="buttons">
-              <%= link_to l(:button_test), { :action => 'test_connection', :id => source } %>
-              <%= link_to l(:button_delete), { :action => 'destroy', :id => source },
-                                         :method => :delete,
-                                         data: { confirm: l(:text_are_you_sure) },
-                                         :class => 'icon icon-delete',
-                                         :disabled => source.users.any? %>
-            </td>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= AuthSource.human_attribute_name(:name) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= AuthSource.human_attribute_name(:type) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= AuthSource.human_attribute_name(:host) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= l(:label_user_plural)%>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th></th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <div class="generic-table--header-background"></div>
+        </thead>
+        <tbody>
+          <% for source in @auth_sources %>
+            <tr>
+              <td><%= link_to source.name, :action => 'edit', :id => source %></td>
+              <td><%= source.auth_method_name %></td>
+              <td><%= source.host %></td>
+              <td><%= source.users.count %></td>
+              <td class="buttons">
+                <%= link_to l(:button_test), { :action => 'test_connection', :id => source } %>
+                <%= link_to l(:button_delete), { :action => 'destroy', :id => source },
+                                           :method => :delete,
+                                           data: { confirm: l(:text_are_you_sure) },
+                                           :class => 'icon icon-delete',
+                                           :disabled => source.users.any? %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="generic-table--header-background"></div>
+    </div>
   </div>
-</div>
-<%= pagination_links_full @auth_sources %>
+  <%= pagination_links_full @auth_sources %>
+<% end %>

@@ -34,12 +34,25 @@ en:
       no_results_title_text: There has not been any activity for the project.
 
   admin:
+    projects:
+      no_results_title_text: There are currently no projects.
+      no_results_content_text: Create a new project
     plugins:
       no_results_title_text: There are currently no plugins available.
+
+  auth_sources:
+    index:
+      no_results_content_title: There are currently no authentication modes.
+      no_results_content_text: Create a new authentication mode
 
   boards:
     show:
       no_results_title_text: There are currently no posts for the board.
+
+  custom_fields:
+    tab:
+      no_results_title_text: There are currently no custom fields.
+      no_results_content_text: Create a new custom field
 
   groups:
     index:
@@ -56,16 +69,24 @@ en:
       no_results_content_text: Create a new color
 
   projects:
+    index:
+      no_results_title_text: There are currently no projects
     settings:
-      versions:
-        no_results_title_text: There are currently no versions for the project.
-        no_results_content_text: Create a new version
-      categories:
-        no_results_title_text: There are currently no work package categories.
-        no_results_content_text: Create a new work package category
+      activities:
+        no_results_title_text: There are currently no activities available.
       boards:
         no_results_title_text: There are currently no boards for the project.
         no_results_content_text: Create a new board
+      categories:
+        no_results_title_text: There are currently no work package categories.
+        no_results_content_text: Create a new work package category
+      custom_fields:
+        no_results_title_text: There are currently custom fields available.
+      types:
+        no_results_title_text: There are currently no types available.
+      versions:
+        no_results_title_text: There are currently no versions for the project.
+        no_results_content_text: Create a new version
 
   project_types:
     index:
@@ -75,6 +96,11 @@ en:
     index:
       no_results_title_text: There are currently no members part of this project.
       no_results_content_text: Add a member to the project
+
+  my:
+    access_token:
+      no_results_title_text: There are currently no access tokens available.
+
   news:
     index:
       no_results_title_text: There is currently no news to report.
@@ -91,6 +117,16 @@ en:
       no_results_title_text: There are currently no status reportings.
       no_results_content_text: Add a status reporting
 
+  statuses:
+    index:
+      no_results_title_text: There are currently no work package statuses.
+      no_results_content_text: Add a new status
+
+  types:
+    index:
+      no_results_title_text: There are currently no types.
+      no_results_content_text: Create a new type
+
   versions:
     overview:
       no_results_title_text: There are currently no workpackages for this version.
@@ -100,6 +136,10 @@ en:
 
     index:
       no_results_content_text: Add a new wiki page
+
+  work_flows:
+    index:
+      no_results_title_text: There are currently no workflows.
 
   work_packages:
     list_simple:

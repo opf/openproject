@@ -26,13 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
-<fieldset class="form--fieldset -with-control">
-  <legend class="form--fieldset-legend">
-    <%= l(:label_available_project_versions) %>
-  </legend>
-
-  <% if @project.shared_versions.any? %>
+<% if @project.shared_versions.any? %>
+  <fieldset class="form--fieldset -with-control">
+    <legend class="form--fieldset-legend">
+      <%= l(:label_available_project_versions) %>
+    </legend>
     <div class="generic-table--container">
       <div class="generic-table--results-container">
         <table interactive-table role="grid" class="generic-table">

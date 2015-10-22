@@ -27,12 +27,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<fieldset class="form--fieldset -with-control">
-  <legend class="form--fieldset-legend">
-    <%= l(:label_available_project_boards) %>
-  </legend>
-
-  <% if @project.boards.any? %>
+<% if @project.boards.any? %>
+  <fieldset class="form--fieldset -with-control">
+    <legend class="form--fieldset-legend">
+      <%= l(:label_available_project_boards) %>
+    </legend>
     <div class="generic-table--container">
       <div class="generic-table--results-container">
         <table interactive-table role="grid" class="generic-table">
