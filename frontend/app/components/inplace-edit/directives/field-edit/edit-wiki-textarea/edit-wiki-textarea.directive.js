@@ -42,7 +42,6 @@ function inplaceEditorWikiTextarea(AutoCompleteHelper, $timeout) {
     controllerAs: 'customEditorController',
     
     link: function(scope, element) {
-      scope.fieldController = scope.$parent.fieldController;
       $timeout(function() {
         AutoCompleteHelper.enableTextareaAutoCompletion(element.find('textarea'));
         // set as dirty for the script to show a confirm on leaving the page
@@ -76,7 +75,9 @@ function inplaceEditorWikiTextarea(AutoCompleteHelper, $timeout) {
 inplaceEditorWikiTextarea.$inject = ['AutoCompleteHelper', '$timeout'];
 
 
-function InplaceEditorWikiTextareaController($scope,$sce, TextileService, EditableFieldsState) {
+function InplaceEditorWikiTextareaController($scope, $sce, TextileService, EditableFieldsState) {
+  var field = $scope.field;
+
   this.isPreview = false;
   this.previewHtml = '';
   this.autocompletePath = '/work_packages/auto_complete.json';
@@ -91,7 +92,7 @@ function InplaceEditorWikiTextareaController($scope,$sce, TextileService, Editab
 
     $scope.fieldController.state.isBusy = true;
     TextileService.renderWithWorkPackageContext(EditableFieldsState.workPackage.form,
-        $scope.fieldController.writeValue.raw)
+        field.value.raw)
 
       .then(angular.bind(this, function(r) {
         this.previewHtml = $sce.trustAsHtml(r.data);

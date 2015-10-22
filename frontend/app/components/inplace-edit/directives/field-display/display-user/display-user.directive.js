@@ -49,16 +49,17 @@ function inplaceDisplayUser() {
 }
 
 function InplaceDisplayUserController($scope, PathHelper) {
+  var field = $scope.field;
+
   this.userPath = PathHelper.staticUserPath;
-  this.getUser = function() {
-    return $scope.inplaceEditorDisplayPane.getReadValue();
-  };
+  this.user = field.text;
+
   this.getUserName = function() {
-    var user = this.getUser();
+    var user = this.user;
+
     if (user && user.props && (user.props.firstName || user.props.lastName)) {
       return user.props.firstName + ' ' + user.props.lastName;
     }
-    return null;
   };
 }
 InplaceDisplayUserController.$inject = ['$scope', 'PathHelper'];

@@ -37,14 +37,14 @@ function inplaceEditorDateRange(TimezoneService, I18n, $timeout, WorkPackageFiel
     restrict: 'E',
     transclude: true,
     replace: true,
-    require: '^workPackageField',
     templateUrl: '/components/inplace-edit/directives/field-edit/edit-date-range/' +
       'edit-date-range.directive.html',
 
     controller: function() {},
     controllerAs: 'customEditorController',
 
-    link: function(scope, element, attrs, fieldController) {
+    link: function(scope, element) {
+      var field = scope.field;
       var customDateFormat = 'YYYY-MM-DD';
 
       function getTitle(labelName) {
@@ -56,8 +56,8 @@ function inplaceEditorDateRange(TimezoneService, I18n, $timeout, WorkPackageFiel
         });
       }
 
-      scope.startDate = fieldController.writeValue.startDate;
-      scope.endDate = fieldController.writeValue.dueDate;
+      scope.startDate = field.value.startDate;
+      scope.endDate = field.value.dueDate;
       var form = element.parents('.inplace-edit--form'),
         inputStart = element.find('.inplace-edit--date-range-start-date'),
         inputEnd = element.find('.inplace-edit--date-range-end-date'),
@@ -81,10 +81,10 @@ function inplaceEditorDateRange(TimezoneService, I18n, $timeout, WorkPackageFiel
       startDatepicker = new Datepicker(divStart, inputStart, scope.startDate);
       endDatepicker = new Datepicker(divEnd, inputEnd, scope.endDate);
       startDatepicker.onChange = function(date) {
-        scope.startDate = fieldController.writeValue.startDate = date;
+        scope.startDate = field.value.startDate = date;
         if (startDatepicker.prevDate.isAfter(endDatepicker.prevDate)) {
           scope.startDateIsChanged = true;
-          scope.endDate = fieldController.writeValue.dueDate = scope.startDate;
+          scope.endDate = field.value.dueDate = scope.startDate;
           endDatepicker.setDate(scope.endDate);
         }
       };
@@ -93,10 +93,10 @@ function inplaceEditorDateRange(TimezoneService, I18n, $timeout, WorkPackageFiel
         startDatepicker.onEdit();
       };
       endDatepicker.onChange = function(date) {
-        scope.endDate = fieldController.writeValue.dueDate = date;
+        scope.endDate = field.value.dueDate = date;
         if (endDatepicker.prevDate.isBefore(startDatepicker.prevDate)) {
           scope.endDateIsChanged = true;
-          scope.startDate = fieldController.writeValue.startDate = scope.endDate;
+          scope.startDate = field.value.startDate = scope.endDate;
           startDatepicker.setDate(scope.startDate);
         }
       };

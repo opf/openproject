@@ -30,9 +30,6 @@ angular
   .module('openproject.services')
   .service('WorkPackageFieldService', WorkPackageFieldService);
 
-WorkPackageFieldService.$inject = ['$q', '$http', 'I18n', 'WorkPackagesHelper', 'HookService',
-  'EditableFieldsState'];
-
 function WorkPackageFieldService($q, $http, I18n,  WorkPackagesHelper, HookService,
   EditableFieldsState ) {
 
@@ -414,3 +411,5 @@ function WorkPackageFieldService($q, $http, I18n,  WorkPackagesHelper, HookServi
 
   return WorkPackageFieldService;
 }
+WorkPackageFieldService.$inject = ['$q', '$http', 'I18n', 'WorkPackagesHelper', 'HookService',
+  'EditableFieldsState'];
