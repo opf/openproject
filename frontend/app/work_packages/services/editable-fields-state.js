@@ -66,19 +66,9 @@ module.exports = function($q, $rootScope, NotificationsService) {
 
     editAll: {
       focusField: 'subject',
-      fieldValues: {},
-
-      addFieldValue: function (field, value) {
-        this.fieldValues[field] = value;
-      },
-
-      getFieldValue: function (field) {
-        return this.fieldValues[field];
-      },
 
       cancel: function () {
         this.stop();
-        this.fieldValues = {};
       },
 
       get allowed() {
