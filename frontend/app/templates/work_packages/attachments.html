@@ -56,8 +56,16 @@
        data-ng-disabled="fetchingConfiguration"
        data-ngf-keep="true"
        data-ngf-change="filterFiles($files)">
-    <p data-ng-hide="fetchingConfiguration" class="work-package--attachments--label">{{ ::I18n.t('js.label_drop_files') }}</p>
-    <p data-ng-hide="fetchingConfiguration" class="work-package--attachments--hint">{{ ::I18n.t('js.label_drop_files_hint') }}</p>
-    <p data-ng-show="fetchingConfiguration" class="work-package--attachments--label">{{ ::I18n.t('js.label_wait') }}</p>
+    <div class="work-package--attachments--label">
+      <i class="icon-attachment"></i>
+      <p data-ng-hide="fetchingConfiguration">
+        {{ ::I18n.t('js.label_drop_files') }}
+        <br>
+        {{ ::I18n.t('js.label_drop_files_hint') }}
+      </p>
+      <p data-ng-show="fetchingConfiguration">
+        {{ ::I18n.t('js.label_wait') }}
+      </p>
+    </div>
   </div>
 </div>
