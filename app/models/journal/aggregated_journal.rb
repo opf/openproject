@@ -50,10 +50,14 @@ class Journal::AggregatedJournal
       raw ? Journal::AggregatedJournal.new(raw) : nil
     end
 
+    # Returns the aggregated journal that contains the vanilla/pure journal with the specified id.
     def with_notes_id(notes_id)
-      raw_journal = query_aggregated_journals
-                      .where("#{table_name}.id = ?", notes_id)
-                      .first
+      # We need to limit the journal aggregation as soon as possible for performance reasons.
+      # Therefore we have to provide the notes_id to the aggregation on top of it being used
+      # in the where clause to pick the desired AggregatedJournal.
+      raw_journal = query_aggregated_journals(journal_id: notes_id)
+                    .where("#{table_name}.id = #{notes_id}")
+                    .first
 
       raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
     end
@@ -77,7 +81,7 @@ class Journal::AggregatedJournal
       }
     end
 
-    def query_aggregated_journals(journable: nil, until_version: nil)
+    def query_aggregated_journals(journable: nil, until_version: nil, journal_id: nil)
       # Using the roughly aggregated groups from :sql_rough_group we need to merge journals
       # where an entry with empty notes follows an entry containing notes, so that the notes
       # from the main entry are taken, while the remaining information is taken from the
@@ -90,10 +94,10 @@ class Journal::AggregatedJournal
       # that our own row (master) would not already have been merged by its predecessor. If it is
       # (that means if we can find a valid predecessor), we drop our current row, because it will
       # already be present (in a merged form) in the row of our predecessor.
-      Journal.from("(#{sql_rough_group(journable, until_version, 1)}) #{table_name}")
-      .joins("LEFT OUTER JOIN (#{sql_rough_group(journable, until_version, 2)}) addition
+      Journal.from("(#{sql_rough_group(1, journable, until_version, journal_id)}) #{table_name}")
+      .joins("LEFT OUTER JOIN (#{sql_rough_group(2, journable, until_version, journal_id)}) addition
                               ON #{sql_on_groups_belong_condition(table_name, 'addition')}")
-      .joins("LEFT OUTER JOIN (#{sql_rough_group(journable, until_version, 3)}) predecessor
+      .joins("LEFT OUTER JOIN (#{sql_rough_group(3, journable, until_version, journal_id)}) predecessor
                          ON #{sql_on_groups_belong_condition('predecessor', table_name)}")
       .where('predecessor.id IS NULL')
       .order("COALESCE(addition.created_at, #{table_name}.created_at) ASC")
@@ -156,34 +160,62 @@ class Journal::AggregatedJournal
     # To be able to self-join results of this statement, we add an additional column called
     # "group_number" to the result. This allows to compare a group resulting from this query with
     # its predecessor and successor.
-    def sql_rough_group(journable, until_version, uid)
+    def sql_rough_group(uid, journable, until_version, journal_id)
       if until_version && !journable
         raise 'need to provide a journable, when specifying a version limit'
+      elsif journable && journable.id.nil?
+        raise 'journable has no id'
       end
 
-      sql = "SELECT predecessor.*, #{sql_group_counter(uid)} AS group_number
+      conditions = additional_conditions(journable, until_version, journal_id)
+
+      "SELECT predecessor.*, #{sql_group_counter(uid)} AS group_number
       FROM #{sql_rough_group_from_clause(uid)}
-      LEFT OUTER JOIN journals successor
-        ON predecessor.version + 1 = successor.version AND
-           predecessor.journable_type = successor.journable_type AND
-           predecessor.journable_id = successor.journable_id
-           #{until_version ? " AND successor.version <= #{until_version}" : ''}
-      WHERE (predecessor.user_id != successor.user_id OR
-            (predecessor.notes != '' AND predecessor.notes IS NOT NULL) OR
-            #{sql_beyond_aggregation_time?('predecessor', 'successor')} OR
-            successor.id IS NULL)"
+      #{sql_rough_group_join(conditions[:join_conditions])}
+      #{sql_rough_group_where(conditions[:where_conditions])}"
+    end
+
+    def additional_conditions(journable, until_version, journal_id)
+      where_conditions = ''
+      join_conditions = ''
 
       if journable
-        raise 'journable has no id' if journable.id.nil?
-        sql += " AND predecessor.journable_type = '#{journable.class.name}' AND
-                     predecessor.journable_id = #{journable.id}"
+        where_conditions += " AND predecessor.journable_type = '#{journable.class.name}' AND
+                                  predecessor.journable_id = #{journable.id}"
 
         if until_version
-          sql += " AND predecessor.version <= #{until_version}"
+          where_conditions += " AND predecessor.version <= #{until_version}"
+          join_conditions += "AND successor.version <= #{until_version}"
         end
       end
 
-      sql
+      if journal_id
+        where_conditions += "AND predecessor.id IN (
+                SELECT id_key.id
+                FROM #{table_name} id_key JOIN #{table_name} journable_key
+                  ON id_key.journable_id = journable_key.journable_id
+                  AND id_key.journable_type = journable_key.journable_type
+                  AND journable_key.id = #{journal_id})"
+      end
+
+      { where_conditions: where_conditions,
+        join_conditions: join_conditions }
+    end
+
+    def sql_rough_group_join(additional_conditions)
+      "LEFT OUTER JOIN #{table_name} successor
+        ON predecessor.version + 1 = successor.version AND
+           predecessor.journable_type = successor.journable_type AND
+           predecessor.journable_id = successor.journable_id
+           #{additional_conditions}"
+    end
+
+    def sql_rough_group_where(additional_conditions)
+      "WHERE (predecessor.user_id != successor.user_id OR
+             (predecessor.notes != '' AND predecessor.notes IS NOT NULL) OR
+             #{sql_beyond_aggregation_time?('predecessor', 'successor')} OR
+             successor.id IS NULL)
+             #{additional_conditions}"
     end
 
     # The "group_number" required in :sql_rough_group has to be generated differently depending on
