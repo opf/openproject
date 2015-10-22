@@ -40,11 +40,13 @@ function inplaceEditorDisplayPane(EditableFieldsState, $timeout, I18n) {
     controllerAs: 'displayPaneController',
 
     link: function(scope, element, attrs, fieldController) {
+      var field = scope.field;
+
       scope.fieldController = fieldController;
       scope.editableFieldsState = EditableFieldsState;
 
       scope.$watchCollection('editableFieldsState.workPackage.form', function() {
-        var strategy = scope.field.getInplaceDisplayStrategy();
+        var strategy = field.getInplaceDisplayStrategy();
 
         if (strategy !== scope.displayStrategy) {
           scope.displayStrategy = strategy;
@@ -53,15 +55,13 @@ function inplaceEditorDisplayPane(EditableFieldsState, $timeout, I18n) {
       });
 
       // TODO: extract this when more placeholders come
-      if (scope.field.name === 'description') {
+      if (field.name === 'description') {
         scope.displayPaneController.placeholder = I18n.t('js.label_click_to_enter_description');
       }
 
       scope.$watch('editableFieldsState.errors', function(errors) {
-        if (errors) {
-          if (errors[scope.scope.field.name]) {
-            scope.displayPaneController.startEditing();
-          }
+        if (errors && errors[field.name]) {
+          scope.displayPaneController.startEditing();
         }
       }, true);
 
@@ -86,36 +86,24 @@ function inplaceEditorDisplayPane(EditableFieldsState, $timeout, I18n) {
 inplaceEditorDisplayPane.$inject = ['EditableFieldsState', '$timeout', 'I18n'];
 
 
-function InplaceEditorDisplayPaneController($scope, EditableFieldsState, HookService) {
+function InplaceEditorDisplayPaneController($scope, HookService) {
+  var field = $scope.field;
 
-  this.placeholder = $scope.field.defaultPlaceholder;
+  this.placeholder = field.defaultPlaceholder;
 
   this.startEditing = function() {
     var fieldController = $scope.fieldController;
     fieldController.isEditing = true;
   };
 
-  this.isReadValueEmpty = function() {
-    return $scope.field.isEmpty();
-  };
-
-  this.getReadValue = function() {
-    return $scope.field.format();
-  };
-
   // for dynamic type that is set by plugins
   // refactor to a service method the whole extraction
   this.getDynamicDirectiveName = function() {
     return HookService.call('workPackageOverviewAttributes', {
-      type: EditableFieldsState.workPackage.schema.props[$scope.field.name].type,
-      field: $scope.field.name,
-      workPackage: EditableFieldsState.workPackage
+      type: field.resource.schema.props[field.name].type,
+      field: field.name,
+      workPackage: field.resource
     })[0];
   };
-
-  // expose work package to the dynamic directive
-  this.getWorkPackage = function() {
-    return EditableFieldsState.workPackage;
-  };
 }
-InplaceEditorDisplayPaneController.$inject = ['$scope', 'EditableFieldsState', 'HookService'];
+InplaceEditorDisplayPaneController.$inject = ['$scope', 'HookService'];

@@ -40,10 +40,14 @@ module.exports = function(
   NotificationsService) {
 
   function commentFieldDirectiveController($scope, $element) {
+    var field = {};
+    $scope.field = field;
+
     var ctrl = this;
     ctrl.state = EditableFieldsState;
     ctrl.field = 'activity-comment';
     ctrl.writeValue = { raw: '' };
+    field.value = ctrl.writeValue;
 
     ctrl.editTitle = I18n.t('js.inplace.button_edit', { attribute: I18n.t('js.label_comment') });
     ctrl.placeholder = I18n.t('js.label_add_comment_title');

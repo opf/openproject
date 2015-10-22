@@ -1,13 +1,13 @@
 <div class="spent-time-wrapper">
-  <span ng-if="field.isEmpty()">{{ displayPaneController.placeholder }}</span>
+  <span ng-if="field.isEmpty()">{{ field.defaultPlaceholder }}</span>
   <span ng-if="!field.isEmpty()">
     <span ng-if="customEditorController.isLinkViewable()">
       <a href="{{ customEditorController.getPath() }}">
-          {{ displayPaneController.getReadValue() }}
+          {{ field.text }}
       </a>
     </span>
     <span ng-if="!customEditorController.isLinkViewable()">
-      {{ displayPaneController.getReadValue() }}
+      {{ field.text }}
     </span>
   </span>
 </div>

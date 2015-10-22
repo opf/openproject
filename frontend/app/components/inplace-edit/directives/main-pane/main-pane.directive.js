@@ -34,20 +34,6 @@ function inplaceEditorMainPane() {
   return {
     transclude: true,
     replace: true,
-    scope: false,
-    templateUrl: '/components/inplace-edit/directives/main-pane/main-pane.directive.html',
-    controller: InplaceEditorMainPaneController,
-    controllerAs: 'mainPaneController'
+    templateUrl: '/components/inplace-edit/directives/main-pane/main-pane.directive.html'
   };
 }
-
-function InplaceEditorMainPaneController($scope, $timeout) {
-  // controller is invoked before linker
-  $timeout(function() {
-    this.saveTitle = I18n.t('js.inplace.button_save', { attribute: $scope.field.name });
-    this.saveAndSendTitle = I18n.t('js.inplace.button_save_and_send',
-      { attribute: $scope.field.name });
-    this.cancelTitle = I18n.t('js.inplace.button_cancel', { attribute: $scope.field.name });
-  });
-}
-InplaceEditorMainPaneController.$inject = ['$scope', '$timeout'];

@@ -35,26 +35,23 @@ function inplaceDisplaySpentTime() {
     restrict: 'E',
     transclude: true,
     replace: true,
-    require: '^inplaceEditorDisplayPane',
     templateUrl: '/components/inplace-edit/directives/field-display/display-spent-time/' +
       'display-spent-time.directive.html',
 
     controller: InplaceDisplaySpentTimeController,
-    controllerAs: 'customEditorController',
-
-    link: function(scope, element, attrs, controllers) {
-      scope.displayPaneController = controllers[0];
-    }
+    controllerAs: 'customEditorController'
   };
 }
 
-function InplaceDisplaySpentTimeController(EditableFieldsState) {
+function InplaceDisplaySpentTimeController($scope) {
+  var field = $scope.field;
+
   this.isLinkViewable = function() {
-    return EditableFieldsState.workPackage.links.timeEntries;
+    return field.resource.links.timeEntries;
   };
 
   this.getPath = function() {
-    return EditableFieldsState.workPackage.links.timeEntries.href;
+    return field.resource.links.timeEntries.href;
   };
 }
-InplaceDisplaySpentTimeController.$inject = ['EditableFieldsState'];
+InplaceDisplaySpentTimeController.$inject = ['$scope'];
