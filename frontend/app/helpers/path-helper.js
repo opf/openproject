@@ -133,7 +133,7 @@ module.exports = function() {
       return '/work_packages/auto_complete.json';
     },
     workPackageNewWithParameterPath: function(projectId, parameters) {
-      var path = "/projects/" + projectId + '/work_packages/new?';
+      var path = '/projects/' + projectId + '/work_packages/new?';
 
       for (var parameter in parameters) {
         path += 'work_package[' + parameter + ']=' + parameters[parameter] + ';';
@@ -218,8 +218,11 @@ module.exports = function() {
     },
 
     // API V3
+    apiV3BasePath: function() {
+      return PathHelper.staticBase + PathHelper.apiV3;
+    },
     apiConfigurationPath: function() {
-      return PathHelper.apiV3 + '/configuration';
+      return PathHelper.apiV3BasePath() + '/configuration';
     },
     apiQueryStarPath: function(queryId) {
       return PathHelper.apiV3QueryPath(queryId) + '/star';
@@ -228,19 +231,19 @@ module.exports = function() {
       return PathHelper.apiV3QueryPath(queryId) + '/unstar';
     },
     apiV3QueryPath: function(queryId) {
-      return PathHelper.apiV3 + PathHelper.queryPath(queryId);
+      return PathHelper.apiV3BasePath() + PathHelper.queryPath(queryId);
     },
     apiV3WorkPackagePath: function(workPackageId) {
-      return PathHelper.apiV3 + '/work_packages/' + workPackageId;
+      return PathHelper.apiV3BasePath() + '/work_packages/' + workPackageId;
     },
     apiV3WorkPackageFormPath: function(projectIdentifier) {
       return PathHelper.apiv3ProjectWorkPackagesPath(projectIdentifier) + '/form';
     },
     apiPrioritiesPath: function() {
-      return PathHelper.apiV3 + '/priorities';
+      return PathHelper.apiV3BasePath() + '/priorities';
     },
     apiV3ProjectsPath: function(projectIdentifier) {
-      return PathHelper.apiV3 + PathHelper.projectsPath() + '/' + projectIdentifier;
+      return PathHelper.apiV3BasePath() + PathHelper.projectsPath() + '/' + projectIdentifier;
     },
     apiv3ProjectWorkPackagesPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/work_packages';
@@ -249,19 +252,19 @@ module.exports = function() {
       return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/categories';
     },
     apiV3TypePath: function(typeId) {
-      return PathHelper.apiV3 + '/types/' + typeId;
+      return PathHelper.apiV3BasePath() + '/types/' + typeId;
     },
     apiV3UserPath: function(userId) {
-      return PathHelper.apiV3 + '/users/' + userId;
+      return PathHelper.apiV3BasePath() + '/users/' + userId;
     },
     apiStatusesPath: function() {
-      return PathHelper.apiV3 + '/statuses';
+      return PathHelper.apiV3BasePath() + '/statuses';
     },
     apiProjectWorkPackageTypesPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/types';
     },
     apiWorkPackageTypesPath: function() {
-      return PathHelper.apiV3 + '/types';
+      return PathHelper.apiV3BasePath() + '/types';
     },
     // Static
     staticUserPath: function(userId) {
