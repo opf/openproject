@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div id="list-top" class="grid-content">
       <% @blocks['top'].each do |b|
          next unless MyController.available_blocks.keys.include? b  %>
-        <div>
+        <div class="container">
           <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
         </div>
       <% end if @blocks['top'] %>
@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div id="list-left" class="grid-content left">
       <% @blocks['left'].each do |b|
          next unless MyController.available_blocks.keys.include? b %>
-        <div>
+        <div class="container">
           <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
         </div>
       <% end if @blocks['left'] %>
@@ -58,7 +58,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div id="list-right" class="grid-content right">
       <% @blocks['right'].each do |b|
          next unless MyController.available_blocks.keys.include? b %>
-        <div>
+        <div class="container">
           <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
         </div>
       <% end if @blocks['right'] %>
