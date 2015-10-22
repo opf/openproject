@@ -153,20 +153,20 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
   <% else %>
-    <%= no_results_box %>
+    <%= no_results_box(action_url: new_project_version_path(@project), display_action: authorize_for('messages', 'new')) %>
   <% end %>
 </fieldset>
 
-<div class="contextual">
-  <% if @project.versions.any? %>
-    <%= link_to l(:label_close_versions),
-                close_completed_project_versions_path(@project),
-                method: :put %>
-  <% end %>
-</div>
+<% if @project.versions.any? %>
+  <div class="contextual">
+      <%= link_to l(:label_close_versions),
+                  close_completed_project_versions_path(@project),
+                  method: :put %>
+  </div>
 
-<p>
-  <%= link_to_if_authorized l(:label_version_new),
-                            { controller: '/versions', action: 'new', project_id: @project },
-                            class: 'button -alt-highlight' %>
-</p>
+  <p>
+    <%= link_to_if_authorized l(:label_version_new),
+                              { controller: '/versions', action: 'new', project_id: @project },
+                              class: 'button -alt-highlight' %>
+  </p>
+<% end %>

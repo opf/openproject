@@ -90,11 +90,14 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
   <% else %>
-    <%= no_results_box %>
+    <%= no_results_box(action_url: new_project_category_path(@project), display_action: authorize_for('categories', 'new')) %>
   <% end %>
-</fieldset
-<p>
-  <%= link_to_if_authorized l(:label_work_package_category_new),
-                            { controller: '/categories', action: 'new', project_id: @project },
-                            class: 'button -alt-highlight' %>
-</p>
+</fieldset>
+
+<% if @project.categories.any? %>
+  <p>
+    <%= link_to_if_authorized l(:label_work_package_category_new),
+                              { controller: '/categories', action: 'new', project_id: @project },
+                              class: 'button -alt-highlight' %>
+  </p>
+<% end %>

@@ -59,10 +59,13 @@ en:
     settings:
       versions:
         no_results_title_text: There are currently no versions for the project.
+        no_results_content_text: Create a new version
       categories:
         no_results_title_text: There are currently no work package categories.
+        no_results_content_text: Create a new work package category
       boards:
         no_results_title_text: There are currently no boards for the project.
+        no_results_content_text: Create a new board
 
   project_types:
     index:
