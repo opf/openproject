@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,10 +24,40 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-angular.module('openproject.api')
-  .factory('HALAPIResource', ['$timeout',
-      '$q',
-      require('./hal-api-resource')
-  ]);
+describe('HALAPIResource', function() {
+
+  var HALAPIResource;
+  beforeEach(angular.mock.module('openproject.api'));
+
+  beforeEach(inject(function(_HALAPIResource_) {
+    HALAPIResource = _HALAPIResource_;
+  }));
+
+  describe('setup', function() {
+    var apiResource, resourceFunction;
+    var workPackageUri = 'api/v3/work_packages/1';
+
+    beforeEach(inject(function($q) {
+      apiResource = {
+        fetch: $q.when(function() { return { id: workPackageId }; })
+      };
+    }));
+
+    beforeEach(inject(function(HALAPIResource) {
+      resourceFunction = sinon.stub(Hyperagent, 'Resource').returns(apiResource);
+      HALAPIResource.setup(workPackageUri);
+    }));
+
+    afterEach(function() {
+      resourceFunction.restore();
+    });
+
+   it('makes an api setup call', function() {
+     expect(resourceFunction).to.have.been.calledWith({
+       url: workPackageUri
+     });
+   });
+  });
+});

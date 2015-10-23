@@ -257,8 +257,6 @@ openprojectApp
     }
   ]);
 
-require('./api');
-
 angular.module('openproject.config')
   .service('ConfigurationService', [
     'PathHelper',
@@ -282,3 +280,6 @@ var requireTemplate = require.context('./templates', true, /\.html$/);
 requireTemplate.keys().forEach(requireTemplate);
 
 require('!ngtemplate?module=openproject.templates!html!angular-busy/angular-busy.html');
+
+var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|html)$/);
+requireComponent.keys().forEach(requireComponent);
