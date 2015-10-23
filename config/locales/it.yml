@@ -141,7 +141,7 @@ it:
   notice_no_cost_objects_available: Nessun budget disponibile.
   notice_something_wrong: Qualcosa è andato storto. Si prega di riprovare.
   notice_successful_restore: Ripristino eseguito con successo.
-  notice_cost_logged_successfully: Unit cost logged successfully.
+  notice_cost_logged_successfully: Costo unitario registrato con successo.
   permission_edit_cost_entries: Modifica unità di costo riservate
   permission_edit_cost_objects: Modifica budget
   permission_edit_own_cost_entries: Modifica le proprie unità di costo riservate
