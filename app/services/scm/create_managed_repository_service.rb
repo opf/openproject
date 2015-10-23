@@ -29,7 +29,7 @@
 
 ##
 # Implements the creation of a local repository.
-Scm::CreateManagedRepositoryService = Struct.new :repository do
+class Scm::CreateManagedRepositoryService < Scm::BaseRepositoryService
   ##
   # Checks if a given repository may be created and managed locally.
   # Registers an job to create the repository on disk.

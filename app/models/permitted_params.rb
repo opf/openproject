@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class PermittedParams < Struct.new(:params, :current_user)
+class PermittedParams
   # This class intends to provide a method for all params hashes coming from the
   # client and that are used for mass assignment.
   #
@@ -58,6 +58,12 @@ class PermittedParams < Struct.new(:params, :current_user)
   # strong_params
   #
   # include ActiveModel::ForbiddenAttributesProtection
+  attr_reader :params, :current_user
+
+  def initialize(params, current_user)
+    @params = params
+    @current_user = current_user
+  end
 
   def self.permit(key, *params)
     raise(ArgumentError, "no permitted params are configured for #{key}") unless permitted_attributes.has_key?(key)

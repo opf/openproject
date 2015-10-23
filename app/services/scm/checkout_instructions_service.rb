@@ -32,7 +32,7 @@
 class Scm::CheckoutInstructionsService
   attr_reader :repository, :user
 
-  def initialize(repository, user = User.current)
+  def initialize(repository, user: User.current)
     @repository = repository
     @user = user
   end

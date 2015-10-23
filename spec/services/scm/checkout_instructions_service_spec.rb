@@ -51,7 +51,7 @@ describe Scm::CheckoutInstructionsService do
     }
   }
 
-  subject(:service) { Scm::CheckoutInstructionsService.new(repository, user) }
+  subject(:service) { Scm::CheckoutInstructionsService.new(repository, user: user) }
 
   before do
     allow(Setting).to receive(:repository_checkout_data).and_return(checkout_hash)

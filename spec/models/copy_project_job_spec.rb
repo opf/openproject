@@ -40,13 +40,12 @@ describe CopyProjectJob, type: :model do
     let(:target_project) { FactoryGirl.create(:project) }
 
     let(:copy_job) {
-      CopyProjectJob.new user_de.id,
-                         source_project.id,
-                         target_project,
-                         [], # enabled modules
-                         [], # associations
-                         false
-    } # send mails
+      CopyProjectJob.new user_id: user_de.id,
+                         source_project_id: source_project.id,
+                         target_project_params: target_project,
+                         enabled_modules: [],
+                         associations_to_copy: []
+    }
 
     before do
       # 'Delayed Job' uses a work around to get Rails 3 mailers working with it
@@ -79,12 +78,11 @@ describe CopyProjectJob, type: :model do
                          is_for_all: true)
     }
     let(:copy_job) {
-      CopyProjectJob.new admin.id,
-                         source_project.id,
-                         params,
-                         [], # enabled modules
-                         [:work_packages], # associations
-                         false
+      CopyProjectJob.new user_id: admin.id,
+                         source_project_id: source_project.id,
+                         target_project_params: params,
+                         enabled_modules: [],
+                         associations_to_copy: [:work_packages]
     } # send mails
     let(:params) { { name: 'Copy', identifier: 'copy', type_ids: [type.id], work_package_custom_field_ids: [custom_field.id] } }
     let(:expected_error_message) { "#{WorkPackage.model_name.human} '#{work_package.type.name} #: #{work_package.subject}': #{custom_field.name} #{I18n.t('errors.messages.blank')}." }
@@ -120,13 +118,11 @@ describe CopyProjectJob, type: :model do
 
   shared_context 'copy project' do
     before do
-      copy_project_job = CopyProjectJob.new(user.id,
-                                            project_to_copy.id,
-                                            params,
-                                            [],
-                                            [:members],
-                                            false)
-
+      copy_project_job = CopyProjectJob.new(user_id: user.id,
+                                            source_project_id: project_to_copy.id,
+                                            target_project_params: params,
+                                            enabled_modules: [],
+                                            associations_to_copy: [:members])
       copy_project_job.perform
     end
   end

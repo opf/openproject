@@ -29,7 +29,7 @@
 
 ##
 # Implements the asynchronous deletion of a local repository.
-Scm::DeleteManagedRepositoryService = Struct.new :repository do
+class Scm::DeleteManagedRepositoryService < Scm::BaseRepositoryService
   ##
   # Checks if a given repository may be deleted
   # Registers an asynchronous job to delete the repository on disk.

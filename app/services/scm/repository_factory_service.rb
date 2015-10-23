@@ -29,8 +29,13 @@
 
 ##
 # Implements a repository factory for building temporary and permanent repositories.
-Scm::RepositoryFactoryService = Struct.new :project, :params do
-  attr_reader :repository
+class Scm::RepositoryFactoryService
+  attr_reader :project, :params, :repository
+
+  def initialize(project, params)
+    @project = project
+    @params = params
+  end
 
   ##
   # Build a full repository from a given scm_type
