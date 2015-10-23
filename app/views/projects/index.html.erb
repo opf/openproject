@@ -53,9 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 <% end %>
 
-<% if @projects.empty? %>
-  <%= no_results_box  %>
-<% else %>
+<% if @projects.any? %>
   <% if User.current.logged? %>
     <p style="float:right;">
       <span class="icon icon-star2"><%= l(:label_my_projects) %></span>
@@ -63,6 +61,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 
   <%= render_project_hierarchy(@projects)%>
+<% else %>
+  <%= no_results_box  %>
 <% end %>
 
 <%= other_formats_links do |f| %>

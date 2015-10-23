@@ -26,9 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% if @project.activities(true).empty? %>
-  <%= no_results_box %>
-<% else %>
+<% if @project.activities(true).any? %>
   <%= form_tag  project_enumerations_path(@project),
                 method: :put,
                 class: "tabular" do %>
@@ -39,4 +37,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 
   <br/>
+<% else %>
+  <%= no_results_box %>
 <% end %>

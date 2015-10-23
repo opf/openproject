@@ -44,9 +44,8 @@ See doc/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
 <% end %>
-<% if @statuses.empty? %>
-  <%= no_results_box(action_url: new_status_path, display_action: true) %>
-<% else %>
+
+<% if @statuses.any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table interactive-table role="grid" class="generic-table">
@@ -133,4 +132,6 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </div>
   <%= pagination_links_full @statuses %>
+<% else %>
+  <%= no_results_box(action_url: new_status_path, display_action: true) %>
 <% end %>

@@ -27,9 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% if (@custom_fields_by_type[tab[:name]] || []).empty? %>
-  <%= no_results_box(action_url: new_custom_field_path(type: tab[:name]), display_action: true) %>
-<% else %>
+<% if (@custom_fields_by_type[tab[:name]] || []).any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table interactive-table role="grid" class="generic-table">
@@ -131,4 +129,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <i class="button--icon icon-add"></i>
     <span class="button--text"><%= l(:label_custom_field_new) %></span>
   <% end %>
+<% else %>
+  <%= no_results_box(action_url: new_custom_field_path(type: tab[:name]), display_action: true) %>
 <% end %>

@@ -38,10 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </li>
 <% end %>
 
-
-<% if @project_types.blank? %>
-  <%= no_results_box(action_url: new_project_type_path, display_action: true) %>
-<% else %>
+<% if @project_types.any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table interactive-table role="grid" class="generic-table">
@@ -109,4 +106,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="generic-table--header-background"></div>
     </div>
   </div>
+<% else %>
+  <%= no_results_box(action_url: new_project_type_path, display_action: true) %>
 <% end %>

@@ -26,9 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% if  @issue_custom_fields.empty? %>
-  <%= no_results_box %>
-<% else %>
+<% if  @issue_custom_fields.any? %>
   <%= labelled_tabular_form_for @project,
                                 url: { action: 'custom_fields', id: @project },
                                 method: :put,
@@ -43,4 +41,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <p><%= form.button l(:button_save), class: 'button -highlight -with-icon icon-yes' %></p>
   <% end %>
+<% else %>
+  <%= no_results_box %>
 <% end %>

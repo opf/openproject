@@ -41,14 +41,8 @@ See doc/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
 <% end %>
-<% if @newss.empty? %>
-  <% if managable %>
-    <%= no_results_box(action_url:     new_project_news_path(@project),
-                       display_action: true) %>
-  <% else %>
-    <%= no_results_box %>
-  <% end %>
-<% else %>
+
+<% if @newss.any? %>
   <% @newss.each do |news| %>
     <h3><%= avatar(news.author) %><%= link_to_project(news.project) + ': ' unless news.project == @project %>
       <%= link_to h(news.title), news_path(news) %>
@@ -58,8 +52,17 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= format_text(news.summary.present? ? news.summary : truncate(news.description), :object => news) %>
     </div>
   <% end %>
+<% else %>
+  <% if managable %>
+    <%= no_results_box(action_url:     new_project_news_path(@project),
+                       display_action: true) %>
+  <% else %>
+    <%= no_results_box %>
+  <% end %>
 <% end %>
+
 <%= pagination_links_full @newss %>
+
 <%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => {:project_id => @project, :key => User.current.rss_key} %>
 <% end %>

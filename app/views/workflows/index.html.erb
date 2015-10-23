@@ -28,9 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= render partial: 'action_menu', locals: { title: l(:label_workflow_plural) } %>
 <% html_title l(:label_administration), l(:label_workflow_plural) -%>
-<% if @workflow_counts.empty? %>
-  <%= no_results_box %>
-<% else %>
+<% if @workflow_counts.any? %>
   <div class="autoscroll">
     <div class="generic-table--container">
       <div class="generic-table--results-container">
@@ -75,4 +73,6 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
   </div>
+<% else %>
+  <%= no_results_box %>
 <% end %>

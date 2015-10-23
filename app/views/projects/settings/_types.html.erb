@@ -27,9 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% if  Type.all.empty? %>
-  <%= no_results_box %>
-<% else %>
+<% if  Type.all.any? %>
   <%= form_for @project,
                :url => { :action => 'types', :id => @project },
                :method => :patch,
@@ -40,4 +38,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 
   <br/>
+<% else %>
+  <%= no_results_box %>
 <% end %>

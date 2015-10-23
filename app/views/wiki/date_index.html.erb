@@ -46,7 +46,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :sidebar do %>
   <%= render :partial => 'sidebar' %>
 <% end %>
-<% unless @pages.empty? %>
+<% if @pages.any? %>
   <%= other_formats_links do |f| %>
     <%= f.link_to 'Atom', :url => {:controller => '/activities', :action => 'index', :show_wiki_edits => 1, :key => User.current.rss_key} %>
     <%= f.link_to('HTML', :url => {:action => 'export'}) if User.current.allowed_to?(:export_wiki_pages, @project) %>

@@ -38,9 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </li>
 <% end %>
 
-<% if @colors.blank? %>
-  <%= no_results_box(action_url: new_color_path, display_action: true) %>
-<% else %>
+<% if @colors.any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table interactive-table role="grid" class="generic-table">
@@ -105,4 +103,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="generic-table--header-background"></div>
     </div>
   </div>
+<% else %>
+  <%= no_results_box(action_url: new_color_path, display_action: true) %>
 <% end %>

@@ -39,10 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 <% end %>
 
-<% if @reportings.blank? %>
-  <%= no_results_box(action_url:     new_project_reporting_path(@project),
-                     display_action: authorize_for(:reportings, :new)) %>
-<% else %>
+<% if @reportings.any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table interactive-table role="grid" class="generic-table">
@@ -133,4 +130,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="generic-table--header-background"></div>
   </div>
 </div>
+<% else %>
+  <%= no_results_box(action_url:     new_project_reporting_path(@project),
+                     display_action: authorize_for(:reportings, :new)) %>
 <% end %>

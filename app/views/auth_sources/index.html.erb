@@ -37,9 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </li>
 <% end %>
 
-<% if @auth_sources.empty? %>
-  <%= no_results_box(action_url: { action: 'new' }, display_action: true) %>
-<% else %>
+<% if @auth_sources.any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table interactive-table role="grid" class="generic-table">
@@ -114,4 +112,6 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </div>
   <%= pagination_links_full @auth_sources %>
+<% else %>
+  <%= no_results_box(action_url: { action: 'new' }, display_action: true) %>
 <% end %>

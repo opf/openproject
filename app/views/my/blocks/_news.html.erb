@@ -37,10 +37,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= content_for "#{block_name}_remove_block" %>
 <% end %>
 
-<% unless news %>
-   <%= no_results_box(custom_title: t('news.my_page.no_results_title_text')) %>
-<% else %>
+<% if news %>
   <%= render(partial: 'news/news',
              collection: news)
   %>
+<% else %>
+  <%= no_results_box(custom_title: t('news.my_page.no_results_title_text')) %>
 <% end %>

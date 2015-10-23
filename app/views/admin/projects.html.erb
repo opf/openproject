@@ -61,9 +61,8 @@ See doc/COPYRIGHT.rdoc for more details.
         count: Project.count,
         storage: number_to_human_size(Project.total_projects_size, precision: 2)) %>
 </p>
-<% if @projects.empty? %>
-  <%= no_results_box(action_url: new_project_path, display_action: true) %>
-<% else %>
+
+<% if @projects.any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table interactive-table role="grid" class="generic-table">
@@ -147,4 +146,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= pagination_links_full @projects %>
     </div>
   </div>
+<% else %>
+  <%= no_results_box(action_url: new_project_path, display_action: true) %>
 <% end %>
