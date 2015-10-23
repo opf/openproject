@@ -50,11 +50,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <% if role.new_record? || role.is_a?(GlobalRole) %>
   <div id="global_permissions" style=<%= role.new_record? && !role.is_a?(GlobalRole) ? "display:none" : ""%> >
-    <%= render :partial => "permissions", :locals => {:permissions => global_permissions, :role => role }%>
+    <%= render :partial => "permissions", :locals => {:permissions => global_permissions, :role => role, :globalRole => "true" }%>
   </div>
 <% end %>
 <% if role.new_record? || !role.is_a?(GlobalRole) %>
   <div id="member_permissions" style=<%= role.new_record? && role.is_a?(GlobalRole) ? "display:none" : ""%>>
-    <%= render :partial => "permissions", :locals => {:permissions => member_permissions, :role => role }%>
+    <%= render :partial => "permissions", :locals => {:permissions => member_permissions, :role => role, :globalRole => "false" }%>
   </div>
 <% end %>
