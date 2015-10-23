@@ -44,9 +44,9 @@ require('angular-animate');
 require('angular-aria');
 require('angular-modal');
 
-if (I18n.locale === 'de') {
-  require('angular-i18n/angular-locale_de-de');
-}
+// depends on the html element having a 'lang' attribute
+var documentLang = angular.element('html').attr('lang');
+require('angular-i18n/angular-locale_' + documentLang + '.js');
 
 require('angular-ui-router');
 
