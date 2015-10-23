@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,39 +24,46 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-function WorkPackageShowPage() {}
+angular
+  .module('openproject.inplace-edit')
+  .factory('inplaceEdit', inplaceEdit);
 
-WorkPackageShowPage.prototype = {
+function inplaceEdit(WorkPackageFieldService) {
+  var forms = {};
 
-  wpId: 819,
-  focusElement: $('#work-package-subject .focus-input'),
-  focusElementValue: $('#work-package-subject span.inplace-edit--read-value > span:first-child'),
-  descriptionInput: $('#work-package-description .focus-input'),
-  editableFields: $$('.focus-input'),
+  function Form(resource) {
+    this.resource = resource;
+    this.fields = {};
 
-  editActions: {
-    container: $('.work-packages--edit-actions'),
-    cancel: $('.work-packages--edit-actions .button:last-child')
-  },
-
-  toolBar: {
-    edit: $('.edit-all-button'),
-    overview: $('#work-packages-details-view-button'),
-    watch: $('[id*="watch"]'),
-    dropDown: $('#action-show-more-dropdown-menu > button'),
-    filter: $('#work-packages-filter-toggle-button'),
-    settings: $('#work-packages-settings-button'),
-    addWorkPackage: $('.button.add-work-package'),
-    listView: $('#work-packages-list-view-button')
-  },
-
-  listViewWorkPackage: $('#work-package-820 .subject a'),
-
-  get: function() {
-    browser.get('/work_packages/' + this.wpId + '/activity');
+    this.field = function (name) {
+      return this.fields[name] = this.fields[name] || new Field(this.resource, name);
+    }
   }
-};
 
-module.exports = WorkPackageShowPage;
+  function Field(resource, name) {
+    this.resource = resource;
+    this.name = name;
+    this.value = !_.isUndefined(this.value) ? this.value : _.cloneDeep(this.getValue());
+  }
+  Object.defineProperties(Field.prototype, {
+    text: {
+      get: function() {
+        return this.format();
+      }
+    }
+  });
+  _.forOwn(WorkPackageFieldService, function (property, name) {
+    Field.prototype[name] = _.isFunction(property) && function () {
+      return property(this.resource, this.name);
+    } || property;
+  });
+
+  return {
+    form: function (resource) {
+      return forms[resource.props.id] = forms[resource.props.id] || new Form(resource);
+    }
+  };
+}
+inplaceEdit.$indect = ['WorkPackageFieldService'];
