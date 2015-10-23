@@ -72,11 +72,12 @@ $filters--border-color: $gray !default
     display: flex
     align-items: center
     @include breakpoint(large)
-    margin-bottom: 1rem
+
+    @media only screen and (max-width: 1200px)
+      margin-bottom: 1rem
 
     .simple-filters--filter-name
       flex-basis: 15%
-      margin-top: 5px
     .simple-filters--filter-value
       flex-basis: 75%
 
