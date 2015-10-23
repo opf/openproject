@@ -26,31 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.inplace-edit')
-  .factory('inplaceEditField', inplaceEditField);
+describe('Inplace edit service', function () {
+  var inplaceEdit,
+    resources = [{ props: { id: 1 } }, { props: { id: 2 } }],
+    WorkPackageFieldService = {};
 
-function inplaceEditField(WorkPackageFieldService) {
-  function Field(resource, name) {
-    this.resource = resource;
-    this.name = name;
-    this.value = this.getValue();
+  beforeEach(angular.mock.module('openproject.inplace-edit', function ($provide) {
+    $provide.constant('WorkPackageFieldService', WorkPackageFieldService);
+    WorkPackageFieldService.getValue = sinon.stub()
+  }));
 
-    Object.defineProperties(this, {
-      text: {
-        get: function() {
-          return this.format();
-        }
-      }
-    });
-  }
+  beforeEach(inject(function(_inplaceEdit_) {
+    inplaceEdit = _inplaceEdit_;
 
-  _.forOwn(WorkPackageFieldService, function (property, name) {
-    Field.prototype[name] = _.isFunction(property) && function () {
-      return property(this.resource, this.name);
-    } || property;
+    inplaceEdit.form(resources[0]).field('myField');
+    inplaceEdit.form(resources[1]).field('myField');
+    inplaceEdit.form(resources[1]).field('myOtherField');
+  }));
+
+  it('should return a form by resource', function () {
+    expect(Object.keys(inplaceEdit.form(resources[0]).fields).length).to.equal(1);
+    expect(Object.keys(inplaceEdit.form(resources[1]).fields).length).to.equal(2);
   });
-
-  return Field;
-}
-inplaceEditField.$indect = ['WorkPackageFieldService'];
+});

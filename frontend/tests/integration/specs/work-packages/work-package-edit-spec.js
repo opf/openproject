@@ -55,8 +55,7 @@ describe('Work package edit', function() {
       page.get();
       page.toolBar.edit.isPresent().then(function () {
         page.toolBar.edit.click();
-        page.focusElement.sendKeys(val);
-      })
+      });
     });
 
     it('should focus the subject field when used', function() {
@@ -83,13 +82,21 @@ describe('Work package edit', function() {
 
     describe('when switching to overview mode', function () {
       beforeEach(function () {
+        page.focusElement.sendKeys(val);
+        page.descriptionInput.clear();
         browser.wait(page.toolBar.overview.click);
       });
 
-      it('should keep the user input when switching to overview mode', function () {
+      it('should keep the user input', function () {
         page.focusElement.isPresent().then(function () {
           expect(page.focusElement.getAttribute('value')).to.eventually.equal(val);
         });
+      });
+
+      it('should keep empty user input', function () {
+        page.descriptionInput.isPresent().then(function () {
+          expect(page.descriptionInput.getAttribute('value')).to.eventually.equal('');
+        })
       });
 
       it('should disable the filter-toggle button', function () {
