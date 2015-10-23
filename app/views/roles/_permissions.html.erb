@@ -20,14 +20,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <% perms_by_module = permissions.group_by {|p| p.project_module.to_s} %>
 <% perms_by_module.keys.sort.each do |mod| %>
-  <fieldset><legend><%= mod.blank? ? Project.model_name.human : l_or_humanize(mod, :prefix => 'project_module_') %></legend>
-  <% perms_by_module[mod].each do |permission| %>
-      <label class="floating form--label">
-        <%= check_box_tag 'role[permissions][]', permission.name, (role.permissions && role.permissions.include?(permission.name)) %>
-        <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
-      </label>
+  <% if globalRole === 'false' %>
+    <fieldset class="form--fieldset" id="<%= mod.blank? ? 'fieldset--' + Project.model_name.human.downcase.gsub(' ', '_') : 'fieldset--' + l_or_humanize(mod, prefix: 'project_module_').downcase.gsub(' ', '_') %>">
+  <% else %>
+    <fieldset class="form--fieldset" id="<%= mod.blank? ? 'fieldset--global--' + Project.model_name.human.downcase.gsub(' ', '_') : 'fieldset--global--' + l_or_humanize(mod, prefix: 'project_module_').downcase.gsub(' ', '_') %>">
   <% end %>
+
+    <legend class="form--fieldset-legend">
+      <%= mod.blank? ? Project.model_name.human : l_or_humanize(mod, prefix: 'project_module_') %>
+    </legend>
+    <% perms_by_module[mod].each do |permission| %>
+        <label class="floating form--label">
+          <%= check_box_tag 'role[permissions][]', permission.name, (role.permissions && role.permissions.include?(permission.name)) %>
+          <%= l_or_humanize(permission.name, prefix: 'permission_') %>
+        </label>
+    <% end %>
+
+    <% if globalRole === 'false' %>
+      <br /><%= check_all_links (mod.blank? ? 'fieldset--' + Project.model_name.human.downcase.gsub(' ', '_') : 'fieldset--' + l_or_humanize(mod, prefix: 'project_module_').downcase.gsub(' ', '_')) %>
+    <% else %>
+      <br /><%= check_all_links (mod.blank? ? 'fieldset--global--' + Project.model_name.human.downcase.gsub(' ', '_') : 'fieldset--global--' + l_or_humanize(mod, prefix: 'project_module_').downcase.gsub(' ', '_')) %>
+    <% end %>
+
   </fieldset>
 <% end %>
-<br /><%= check_all_links permissions_id(permissions) %>
 <%= hidden_field_tag 'role[permissions][]', '' %>

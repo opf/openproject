@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <%= error_messages_for :role %>
 <div class="form--field">
-  <%= f.text_field :name, required: true %>
+  <%= f.text_field :name, required: true, container_class: '-slim' %>
 </div>
 <div class="form--field">
   <% if role.new_record? %>
@@ -38,24 +38,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <% if role.new_record? || role.is_a?(GlobalRole) %>
   <div id="global_attributes" style="display:none">
-    <%= render :partial => "global_attributes", :locals => { :f => f, :role => role, :roles => (roles.present? ? roles.select {|r| r.is_a?(GlobalRole)} : nil) }%>
+    <%= render partial: "global_attributes", locals: { f: f, role: role, roles: (roles.present? ? roles.select {|r| r.is_a?(GlobalRole)} : nil) }%>
   </div>
 <% end %>
 
 <% if role.new_record? || !role.is_a?(GlobalRole) %>
   <div id="member_attributes">
-    <%= render :partial => "member_attributes", :locals => { :f => f, :role => role, :roles => (roles.present? ? roles.select {|r| !r.is_a?(GlobalRole)} : nil)}%>
+    <%= render partial: "member_attributes", locals: { f: f, role: role, roles: (roles.present? ? roles.select {|r| !r.is_a?(GlobalRole)} : nil)}%>
   </div>
 <% end %>
 
-<h3><%= l(:label_permissions) %></h3>
 <% if role.new_record? || role.is_a?(GlobalRole) %>
   <div id="global_permissions" style=<%= role.new_record? && !role.is_a?(GlobalRole) ? "display:none" : ""%> >
-    <%= render :partial => "permissions", :locals => {:permissions => global_permissions, :role => role }%>
+    <%= render partial: "permissions", locals: {permissions: global_permissions, role: role, globalRole: "true" }%>
   </div>
 <% end %>
 <% if role.new_record? || !role.is_a?(GlobalRole) %>
   <div id="member_permissions" style=<%= role.new_record? && role.is_a?(GlobalRole) ? "display:none" : ""%>>
-    <%= render :partial => "permissions", :locals => {:permissions => member_permissions, :role => role }%>
+    <%= render partial: "permissions", locals: {permissions: member_permissions, role: role, globalRole: "false" }%>
   </div>
 <% end %>
