@@ -38,23 +38,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <% if role.new_record? || role.is_a?(GlobalRole) %>
   <div id="global_attributes" style="display:none">
-    <%= render :partial => "global_attributes", :locals => { :f => f, :role => role, :roles => (roles.present? ? roles.select {|r| r.is_a?(GlobalRole)} : nil) }%>
+    <%= render partial: "global_attributes", locals: { f: f, role: role, roles: (roles.present? ? roles.select {|r| r.is_a?(GlobalRole)} : nil) }%>
   </div>
 <% end %>
 
 <% if role.new_record? || !role.is_a?(GlobalRole) %>
   <div id="member_attributes">
-    <%= render :partial => "member_attributes", :locals => { :f => f, :role => role, :roles => (roles.present? ? roles.select {|r| !r.is_a?(GlobalRole)} : nil)}%>
+    <%= render partial: "member_attributes", locals: { f: f, role: role, roles: (roles.present? ? roles.select {|r| !r.is_a?(GlobalRole)} : nil)}%>
   </div>
 <% end %>
 
 <% if role.new_record? || role.is_a?(GlobalRole) %>
   <div id="global_permissions" style=<%= role.new_record? && !role.is_a?(GlobalRole) ? "display:none" : ""%> >
-    <%= render :partial => "permissions", :locals => {:permissions => global_permissions, :role => role, :globalRole => "true" }%>
+    <%= render partial: "permissions", locals: {permissions: global_permissions, role: role, globalRole: "true" }%>
   </div>
 <% end %>
 <% if role.new_record? || !role.is_a?(GlobalRole) %>
   <div id="member_permissions" style=<%= role.new_record? && role.is_a?(GlobalRole) ? "display:none" : ""%>>
-    <%= render :partial => "permissions", :locals => {:permissions => member_permissions, :role => role, :globalRole => "false" }%>
+    <%= render partial: "permissions", locals: {permissions: member_permissions, role: role, globalRole: "false" }%>
   </div>
 <% end %>
