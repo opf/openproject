@@ -6,18 +6,6 @@
       </h3>
     </div>
   </div>
-  <div data-ng-show="hasRightToUpload"
-       data-ngf-drop
-       data-ng-model="files"
-       data-ng-model-rejected="rejectedFiles"
-       data-ngf-select
-       class="work-package--attachments--drop-box"
-       data-ngf-multiple="true"
-       data-ngf-change="uploadFilteredFiles($files)"
-       data-ngf-max-size="{{::maximumFileSize}}">
-    <p class="work-package--attachments--label">{{ ::I18n.t('js.label_drop_files') }}</p>
-    <p class="work-package--attachments--hint">{{ ::I18n.t('js.label_drop_files_hint') }}</p>
-  </div>
   <div class="work-package--attachments--files"
        data-ng-show="attachments.length > 0">
     <div class="work-package--details--long-field">
@@ -27,8 +15,8 @@
           <span class="inplace-editing--trigger-link"
                 ng-class="{'-focus': focussing(attachment)}">
             <span class="inplace-editing--container">
-              <span class="inplace-edit--read-value" >
-                <attachment-icon type="attachment.contentType"></attachment-icon>
+              <span class="inplace-edit--read-value">
+                <i class="icon-attachment"></i>
                 <a class="work-package--attachments--filename"
                    data-ng-href="{{attachment._links.downloadLocation.href}}"
                    download
@@ -36,7 +24,6 @@
                    data-ng-blur="focus(null)">
                   {{::attachment.fileName}}
                 </a>
-                <span class="work-package--attachments--filesize">({{::size(attachment.fileSize)}})</span>
               </span>
               <a href=''
                  class="inplace-edit--icon-wrapper"
@@ -56,5 +43,22 @@
       </span>
     </div>
   </div>
+  <div data-ng-show="hasRightToUpload"
+       data-ngf-drop
+       data-ng-model="files"
+       data-ng-model-rejected="rejectedFiles"
+       data-ngf-select
+       class="work-package--attachments--drop-box"
+       data-ngf-multiple="true"
+       data-ngf-change="uploadFilteredFiles($files)"
+       data-ngf-max-size="{{::maximumFileSize}}">
+    <div class="work-package--attachments--label">
+      <i class="icon-attachment"></i>
+      <p>
+        {{ ::I18n.t('js.label_drop_files') }}
+        <br>
+        {{ ::I18n.t('js.label_drop_files_hint') }}
+      </p>
+    </div>
+  </div>
 </div>
-
