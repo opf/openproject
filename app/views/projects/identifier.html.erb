@@ -27,44 +27,43 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%
-  project = form.object
-  id = project.identifier
-  id_max_length = Project::IDENTIFIER_MAX_LENGTH
-  identifier_editable = project.new_record?
-%>
+<%= error_messages_for @project %>
 
-<div class="form--field <%= identifier_editable ? '-required' : '' %>">
-  <% if identifier_editable %>
-    <%= form.text_field :identifier %>
+<%= form_for @project, url: { action: 'update_identifier' }, html: { class: 'danger-zone form -vertical' } do |f| %>
+  <section class="form--section">
+    <h3 class="form--section-title">
+      <%= l('project.identifier.title') %>
+    </h3>
 
-    <script type="text/javascript" charset="utf-8">
-      projectIdentifierMaxLength = <%= id_max_length %>;
-      projectIdentifierDefault = '<%= id %>';
-      projectIdentifierLocked = false;
-      observeProjectIdentifier();
-      observeProjectName();
-    </script>
+    <p class="danger-zone--warning">
+      <span class="icon icon-attention2"></span>
+      <span><%= l('project.identifier.warning_one').html_safe %></span>
+      <br>
+      <span class="icon icon-attention2"></span>
+      <span><%= l('project.identifier.warning_two').html_safe %></span>
+    </p>
+
+    <%= styled_label_tag 'identifier', Project.human_attribute_name(:identifier), class: '-required' %>
+    <div class="danger-zone--verification">
+      <%= f.text_field :identifier %>
+      <span>
+        <%= f.submit l(:button_update), class: 'button -highlight -with-icon icon-yes' %>
+      </span>
+      <span>
+        <%= link_to settings_project_path(@project), class: 'button' do %>
+          <span class="button--text"><%= l(:button_cancel) %></span>
+        <% end %>
+      </span>
+    </div>
+
+
+    <br>
 
     <div class="form--field-instructions">
       <%= l(:text_length_between, min: 1,
                                   max: Project::IDENTIFIER_MAX_LENGTH) %>
       <%= l(:text_project_identifier_info).html_safe %>
     </div>
-  <% else %>
-    <label class="form--label" title="<%= Project.human_attribute_name(:identifier) %>">
-      <%= Project.human_attribute_name(:identifier) %>
-    </label>
-    <span class="form--field-container">
-      <span id="identifier">
-        <%= project.identifier %>
-      </span>
-      <%= link_to identifier_project_path, title: l(:button_edit), class: "icon" do %>
-        <i class="icon icon-edit"></i>
-        <span class="hidden-for-sighted">
-          <%= l(:button_edit) %>
-        </span>
-      <% end %>
-    </span>
-  <% end %>
-</div>
+
+  </section>
+<% end %>

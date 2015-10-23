@@ -161,6 +161,27 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def update_identifier
+    @project.safe_attributes = params[:project]
+
+    if @project.save
+      respond_to do |format|
+        format.html do
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to action: 'settings', id: @project
+        end
+      end
+      OpenProject::Notifications.send('project_updated', project: @project)
+    else
+      respond_to do |format|
+        format.html do
+          load_project_settings
+          render action: 'identifier'
+        end
+      end
+    end
+  end
+
   def types
     flash[:notice] = []
 

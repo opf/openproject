@@ -288,14 +288,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def identifier=(identifier)
-    super unless identifier_frozen?
-  end
-
-  def identifier_frozen?
-    errors[:identifier].nil? && !(new_record? || identifier.blank?)
-  end
-
   def possible_members(criteria, limit)
     Principal.active_or_registered.like(criteria).not_in_project(self).limit(limit)
   end

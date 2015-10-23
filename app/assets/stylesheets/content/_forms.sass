@@ -112,15 +112,27 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
         flex-basis: 50%
         margin: 0 0.5rem 0 0
 
-      .button.-highlight
+      .button
         @extend %input--sizing
-        background: $content-form-danger-zone-bg-color
-        color: $content-form-danger-zone-font-color
-        border-color: $content-form-danger-zone-bg-color
-        &.icon:before,
-        &.icon-context:before
+
+        &.-highlight
+          background: $content-form-danger-zone-bg-color
           color: $content-form-danger-zone-font-color
-          padding-left: 0px
+          border-color: $content-form-danger-zone-bg-color
+          &.icon:before,
+          &.icon-context:before
+            color: $content-form-danger-zone-font-color
+            padding-left: 0px
+
+    + .form--field-instructions
+      max-width: 100%
+
+    .form--field-instructions
+      margin: 0 0 1rem 0
+
+    .errorSpan
+      flex-basis: 50%
+      margin-right: 0.5rem
 
 .form--separator
   border: 0

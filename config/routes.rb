@@ -228,6 +228,10 @@ OpenProject::Application.routes.draw do
       #
       get 'settings(/:tab)', action: 'settings', as: :settings
 
+      get 'identifier', action: 'identifier'
+      patch 'identifier', action: 'update_identifier'
+
+
       match 'copy_project_from_(:coming_from)' => 'copy_projects#copy_project', via: :get, as: :copy_from,
             constraints: { coming_from: /(admin|settings)/ }
       match 'copy_from_(:coming_from)' => 'copy_projects#copy', via: :post, as: :copy,
