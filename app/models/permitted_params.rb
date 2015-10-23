@@ -312,7 +312,7 @@ class PermittedParams
     # `version_settings_attributes` is from a plugin. Unfortunately as it stands
     # now it is less work to do it this way than have the plugin override this
     # method. We hopefully will change this in the future.
-    params.require(:version).permit(:name,
+    params.fetch(:version, {}).permit(:name,
                                     :description,
                                     :effective_date,
                                     :due_date,
