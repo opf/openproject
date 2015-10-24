@@ -28,7 +28,7 @@
 
 describe('Inplace edit service', function () {
   var inplaceEdit,
-    resources = [{ props: { id: 1 } }, { props: { id: 2 } }],
+    resources = ['some object', 'some other object'],
     WorkPackageFieldService = {};
 
   beforeEach(angular.mock.module('openproject.inplace-edit', function ($provide) {
@@ -39,13 +39,13 @@ describe('Inplace edit service', function () {
   beforeEach(inject(function(_inplaceEdit_) {
     inplaceEdit = _inplaceEdit_;
 
-    inplaceEdit.form(resources[0]).field('myField');
-    inplaceEdit.form(resources[1]).field('myField');
-    inplaceEdit.form(resources[1]).field('myOtherField');
+    inplaceEdit.form(1, resources[0]).field('myField');
+    inplaceEdit.form(2, resources[1]).field('myField');
+    inplaceEdit.form(2, resources[1]).field('myOtherField');
   }));
 
-  it('should return a form by resource', function () {
-    expect(Object.keys(inplaceEdit.form(resources[0]).fields).length).to.equal(1);
-    expect(Object.keys(inplaceEdit.form(resources[1]).fields).length).to.equal(2);
+  it('should return correct number of fields', function () {
+    expect(inplaceEdit.form(1).length).to.equal(1);
+    expect(inplaceEdit.form(2).length).to.equal(2);
   });
 });

@@ -49,7 +49,7 @@ function workPackageField() {
 function WorkPackageFieldController($scope, EditableFieldsState, inplaceEdit) {
   var workPackage = EditableFieldsState.workPackage;
   this.state = EditableFieldsState;
-  $scope.field = new inplaceEdit.form(workPackage).field(this.fieldName);
+  $scope.field = inplaceEdit.form(workPackage.props.id, workPackage).field(this.fieldName);
 
   var field = $scope.field;
 
