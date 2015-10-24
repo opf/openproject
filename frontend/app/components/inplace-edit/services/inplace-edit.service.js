@@ -42,18 +42,25 @@ function inplaceEdit(WorkPackageFieldService) {
     }
   }
 
+  Object.defineProperty(Form.prototype, 'length', {
+    get: function () {
+      return Object.keys(this.fields).length;
+    }
+  });
+
+
   function Field(resource, name) {
     this.resource = resource;
     this.name = name;
     this.value = !_.isUndefined(this.value) ? this.value : _.cloneDeep(this.getValue());
   }
-  Object.defineProperties(Field.prototype, {
-    text: {
-      get: function() {
-        return this.format();
-      }
+
+  Object.defineProperty(Field.prototype, 'text', {
+    get: function() {
+      return this.format();
     }
   });
+
   _.forOwn(WorkPackageFieldService, function (property, name) {
     Field.prototype[name] = _.isFunction(property) && function () {
       return property(this.resource, this.name);
@@ -61,8 +68,8 @@ function inplaceEdit(WorkPackageFieldService) {
   });
 
   return {
-    form: function (resource) {
-      return forms[resource.props.id] = forms[resource.props.id] || new Form(resource);
+    form: function (id, resource) {
+      return forms[id] = forms[id] || new Form(resource);
     }
   };
 }
