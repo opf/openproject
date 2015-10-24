@@ -371,7 +371,7 @@ function WorkPackageFieldService($q, $http, I18n,  WorkPackagesHelper, HookServi
       updatedAt: 'datetime'
     };
 
-    if (schema.props[field]) {
+    if (schema.props[field] && schema.props[field]) {
       if (schema.props[field].type === 'Duration') {
         var hours = moment.duration(value).asHours();
         return I18n.t('js.units.hour', { count: hours.toFixed(2) });

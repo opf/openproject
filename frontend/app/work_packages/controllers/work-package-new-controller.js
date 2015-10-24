@@ -66,6 +66,7 @@ module.exports = function(
 
   function activate() {
     EditableFieldsState.forcedEditState = true;
+    EditableFieldsState.editAll.state = true;
     var data = {};
     if (angular.isDefined($stateParams.type)) {
       data = {
