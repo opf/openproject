@@ -144,4 +144,31 @@ describe UserPreference do
       expect(subject).not_to be_valid
     end
   end
+
+  describe 'self_notified getter/setter' do
+    it 'has a getter and a setter for self_notified' do
+      subject.self_notified = false
+      expect(subject.self_notified?).to be_falsey
+      expect(subject[:no_self_notified]).to be_truthy
+    end
+  end
+
+  describe '[]=' do
+    let(:user) { FactoryGirl.create(:user) }
+
+    context 'for attributes stored in "others"' do
+      it 'will save the values on sending "save"' do
+        subject.save
+
+        value = !subject[:no_self_notified]
+
+        subject[:no_self_notified] = value
+
+        subject.save
+        subject.reload
+
+        expect(subject[:no_self_notified]).to eql(value)
+      end
+    end
+  end
 end

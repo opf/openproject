@@ -1075,7 +1075,7 @@ en:
   label_used_by: "Used by"
   label_user_activity: "%{value}'s activity"
   label_user_anonymous: "Anonymous"
-  label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
+  label_user_mail_self_notified: "I want to be notified of changes that I make myself"
   label_user_mail_option_all: "For any event on all my projects"
   label_user_mail_option_none: "No events"
   label_user_mail_option_only_assigned: "Only for things I am assigned to"

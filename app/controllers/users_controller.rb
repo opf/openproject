@@ -161,12 +161,15 @@ class UsersController < ApplicationController
     end
 
     if @user.save
-      # TODO: Similar to My#account
-      @user.pref.attributes = params[:pref] || {}
-      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
-      @user.pref.save
+      pref_params = params[:pref] || {}
 
-      @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
+      update_email_service = UpdateUserEmailSettingsService.new(@user)
+      update_email_service.call(mail_notification: pref_params.delete(:mail_notification),
+                                self_notified: params[:self_notified] == '1',
+                                notified_project_ids: params[:notified_project_ids])
+
+      @user.pref.attributes = pref_params
+      @user.pref.save
 
       if !@user.password.blank? && @user.change_password_allowed?
         send_information = params[:send_information]
