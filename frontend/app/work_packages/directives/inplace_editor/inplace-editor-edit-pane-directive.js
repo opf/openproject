@@ -144,6 +144,10 @@ module.exports = function(
         return submit.promise;
       };
 
+       $scope.$on('editPaneController.submitForm', function(event) { 
+          $scope.editPaneController.submit(false);
+       });
+
       this.discardEditing = function() {
         $scope.fieldController.isEditing = false;
         delete EditableFieldsState.submissionPromises['work_package'];
