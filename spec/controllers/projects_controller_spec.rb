@@ -177,101 +177,59 @@ describe ProjectsController, type: :controller do
     render_views
 
     describe '#type' do
+      let(:update_service) do
+        service = double('update service')
+
+        allow(UpdateProjectsTypesService).to receive(:new).with(project).and_return(service)
+
+        service
+      end
       let(:user) { FactoryGirl.create(:admin) }
-      let(:type_standard) { FactoryGirl.create(:type_standard) }
-      let(:type_bug) { FactoryGirl.create(:type_bug) }
-      let(:type_feature) { FactoryGirl.create(:type_feature) }
-      let(:types) { [type_standard, type_bug, type_feature] }
-      let(:project) {
-        FactoryGirl.create(:project, types: types)
-      }
-      let(:work_package_standard) {
-        FactoryGirl.create(:work_package, project: project, type: type_standard)
-      }
-      let(:work_package_bug) {
-        FactoryGirl.create(:work_package, project: project, type: type_bug)
-      }
-      let(:work_package_feature) {
-        FactoryGirl.create(:work_package, project: project, type: type_feature)
-      }
+      let(:project) do
+        project = FactoryGirl.build_stubbed(:project)
 
-      shared_examples_for :redirect do
-        subject { response }
+        allow(Project).to receive(:find).and_return(project)
 
-        it { is_expected.to be_redirect }
+        project
       end
 
       before do
         allow(User).to receive(:current).and_return user
       end
 
-      shared_context 'work_packages' do
+      context 'on success' do
         before do
-          work_package_standard
-          work_package_bug
-          work_package_feature
+          expect(update_service).to receive(:call).with([1, 2, 3]).and_return true
+
+          patch :types, id: project.id, project: { 'type_ids' => ['1', '2', '3'] }
+        end
+
+        it 'sets a flash message' do
+          expect(flash[:notice]).to eql(I18n.t('notice_successful_update'))
+        end
+
+        it 'redirects to settings#types' do
+          expect(response).to redirect_to(settings_project_path(project.identifier, tab: 'types'))
         end
       end
 
-      shared_examples_for :success do
-        let(:regex) { Regexp.new(I18n.t(:notice_successful_update)) }
-
-        subject { flash[:notice].last }
-
-        it { is_expected.to match(regex) }
-      end
-
-      context 'no type missing' do
-        include_context 'work_packages'
-
-        let(:type_ids) { types.map(&:id) }
+      context 'on failure' do
+        let(:error_message) { 'error message' }
 
         before do
-          patch :types, id: project.id, project: { 'type_ids' => type_ids }
+          expect(update_service).to receive(:call).with([1, 2, 3]).and_return false
+
+          allow(project).to receive_message_chain(:errors, :full_messages).and_return(error_message)
+
+          patch :types, id: project.id, project: { 'type_ids' => ['1', '2', '3'] }
         end
 
-        it_behaves_like :redirect
-
-        it_behaves_like :success
-      end
-
-      context 'all types missing' do
-        include_context 'work_packages'
-
-        let(:missing_types) { types }
-
-        before do
-          patch :types, id: project.id, project: { 'type_ids' => [] }
+        it 'sets a flash message' do
+          expect(flash[:error]).to eql(error_message)
         end
 
-        it_behaves_like :redirect
-
-        describe 'shows missing types' do
-          let(:regex) { Regexp.new(I18n.t(:error_types_in_use_by_work_packages).sub('%{types}', '')) }
-
-          subject { flash[:error] }
-
-          it { is_expected.to match(regex) }
-
-          it { is_expected.to match(Regexp.new(type_standard.name)) }
-
-          it { is_expected.to match(Regexp.new(type_bug.name)) }
-
-          it { is_expected.to match(Regexp.new(type_feature.name)) }
-        end
-      end
-
-      context 'no type selected' do
-        before do patch :types, id: project.id end
-
-        it_behaves_like :success
-
-        describe 'automatic selection of standard type' do
-          let(:regex) { Regexp.new(I18n.t(:notice_automatic_set_of_standard_type)) }
-
-          subject { flash[:notice].all? { |n| regex.match(n).nil? } }
-
-          it { is_expected.to be_falsey }
+        it 'redirects to settings#types' do
+          expect(response).to redirect_to(settings_project_path(project.identifier, tab: 'types'))
         end
       end
     end
