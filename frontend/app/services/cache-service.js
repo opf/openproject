@@ -29,10 +29,14 @@
 module.exports = function(HALAPIResource,
                           $http,
                           $q,
-                          $window,
                           CacheFactory) {
 
+  // Temporary storage for currently resolving promises
   var _promises = {};
+
+  // Global switch to disable all caches
+  var disabled = false;
+
   var CacheService = {
 
     temporaryCache: function() {
@@ -55,12 +59,27 @@ module.exports = function(HALAPIResource,
         _cache = CacheFactory(identifier, params);
       }
 
+      if (disabled) {
+        _cache.disable();
+      }
+
       return _cache;
+    },
+
+    isCacheDisabled: function() {
+      return disabled;
+    },
+
+    enableCaching: function() {
+      disabled = false;
+    },
+
+    disableCaching: function() {
+      disabled = true;
     },
 
     loadResource: function(resource, force) {
       var key = resource.props.href,
-        cacheDisabled = $window.openProject.environment === 'test',
         cache = CacheService.temporaryCache(),
         cachedValue,
         _fetchResource = function() {
@@ -78,7 +97,7 @@ module.exports = function(HALAPIResource,
         };
 
       // Return early when frontend caching is not desired
-      if (cacheDisabled) {
+      if (cache.disabled) {
         return _fetchResource();
       }
 

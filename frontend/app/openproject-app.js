@@ -235,8 +235,15 @@ openprojectApp
     '$window',
     'featureFlags',
     'TimezoneService',
+    'CacheService',
     'KeyboardShortcutService',
-    function($http, $rootScope, $window, flags, TimezoneService, KeyboardShortcutService) {
+    function($http,
+             $rootScope,
+             $window,
+             flags,
+             TimezoneService,
+             CacheService,
+             KeyboardShortcutService) {
       $http.defaults.headers.common.Accept = 'application/json';
 
       $rootScope.showNavigation =
@@ -246,6 +253,11 @@ openprojectApp
       flags.set($http.get('/javascripts/feature-flags.json'));
       TimezoneService.setupLocale();
       KeyboardShortcutService.activate();
+
+      // Disable the CacheService for test environment
+      if ($window.openProject.environment === 'test') {
+        CacheService.disableCaching();
+      }
 
       // at the moment of adding this code it was mostly used to
       // keep the previous state for the code to know where
