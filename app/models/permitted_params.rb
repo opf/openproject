@@ -259,9 +259,11 @@ class PermittedParams
     # Options here will be empty. This is just initializing it.
     whitelist = params.require(:timeline).permit(:name, options: {})
 
-    params['timeline']['options'].each do |key, _value|
-      whitelist['options'][key] = params['timeline']['options'][key]
-    end if params['timeline'].has_key?('options')
+    if params['timeline'].has_key?('options')
+      params['timeline']['options'].each do |key, _value|
+        whitelist['options'][key] = params['timeline']['options'][key]
+      end
+    end
 
     whitelist.permit!
   end

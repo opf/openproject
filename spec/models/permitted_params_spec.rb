@@ -83,6 +83,236 @@ describe PermittedParams, type: :model do
     end
   end
 
+  describe '#timeline' do
+    it 'should permit all acceptable options params and one name params' do
+      acceptable_options_params = ["exist", "zoom_factor", "initial_outline_expansion", "timeframe_start",
+        "timeframe_end", "columns", "project_sort", "compare_to_relative", "compare_to_relative_unit",
+        "compare_to_absolute", "vertical_planning_elements", "exclude_own_planning_elements",
+        "planning_element_status", "planning_element_types", "planning_element_responsibles",
+        "planning_element_assignee", "exclude_reporters", "exclude_empty", "project_types",
+        "project_status", "project_responsibles", "parents", "planning_element_time_types",
+        "planning_element_time_absolute_one", "planning_element_time_absolute_two",
+        "planning_element_time_relative_one", "planning_element_time_relative_one_unit",
+        "planning_element_time_relative_two", "planning_element_time_relative_two_unit",
+        "grouping_one_enabled", "grouping_one_selection", "grouping_one_sort", "hide_other_group"]
+
+      acceptable_options_params_with_data = HashWithIndifferentAccess[acceptable_options_params.map {|x| [x, 'value']}]
+
+      params = ActionController::Parameters.new(timeline: {'name' => 'my name', 'options' => acceptable_options_params_with_data})
+
+      expect(PermittedParams.new(params, user).timeline).to eq({'name' => 'my name', 'options' => acceptable_options_params_with_data})
+    end
+
+    it 'should accept with no options' do
+      params = ActionController::Parameters.new(timeline: {'name' => 'my name'})
+
+      expect(PermittedParams.new(params, user).timeline).to eq({'name' => 'my name'})
+    end
+  end
+
+  describe '#pref' do
+    it 'should permit its withlisted params' do
+      acceptable_params = [:hide_mail, :time_zone, :impaired,
+                           :comments_sorting, :warn_on_leaving_unsaved,
+                           :theme]
+
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+
+      params = ActionController::Parameters.new(pref: acceptable_params_with_data)
+
+      expect(PermittedParams.new(params, user).pref).to eq(acceptable_params_with_data)
+    end
+  end
+
+  describe '#time_entry' do
+    it 'should permit its whitelisted params' do
+      acceptable_params = [:hours, :comments, :work_package_id,
+                            :activity_id, :spent_on]
+
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+
+      acceptable_params_with_data.merge!(custom_field_values: [1,2,3])
+
+      params = ActionController::Parameters.new(time_entry: acceptable_params_with_data)
+
+      expect(PermittedParams.new(params, user).time_entry).to eq(acceptable_params_with_data)
+    end
+
+    it 'allows passing an empty HashWithIndifferentAccess (no time_entry)' do
+      params = ActionController::Parameters.new
+
+      expect(PermittedParams.new(params, user).time_entry).to eq({})
+    end
+  end
+
+  describe '#news' do
+    it 'should permit its whitelisted params' do
+      acceptable_params = [:title, :summary, :description]
+
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+
+      params = ActionController::Parameters.new(news: acceptable_params_with_data)
+
+      expect(PermittedParams.new(params, user).news).to eq(acceptable_params_with_data)
+    end
+  end
+
+  describe '#comment' do
+    it 'should permit its whitelisted params' do
+      acceptable_params = [:commented, :author, :comments]
+
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+
+      params = ActionController::Parameters.new(comment: acceptable_params_with_data)
+
+      expect(PermittedParams.new(params, user).comment).to eq(acceptable_params_with_data)
+    end
+  end
+
+  describe '#watcher' do
+    it 'should permit its whitelisted params' do
+      acceptable_params = [:watchable, :user, :user_id]
+
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+
+      params = ActionController::Parameters.new(watcher: acceptable_params_with_data)
+
+      expect(PermittedParams.new(params, user).watcher).to eq(acceptable_params_with_data)
+    end
+  end
+
+  describe '#reply' do
+    it 'should permit its whitelisted params' do
+      acceptable_params = [:content, :subject]
+
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+
+      params = ActionController::Parameters.new(reply: acceptable_params_with_data)
+
+      expect(PermittedParams.new(params, user).reply).to eq(acceptable_params_with_data)
+    end
+  end
+
+  describe '#wiki' do
+    it 'should permit its whitelisted params' do
+      acceptable_params = [:start_page]
+
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+
+      params = ActionController::Parameters.new(wiki: acceptable_params_with_data)
+
+      expect(PermittedParams.new(params, user).wiki).to eq(acceptable_params_with_data)
+    end
+  end
+
+  describe '#reporting' do
+    it 'should permit its whitelisted params' do
+      acceptable_params = [:reporting_to_project_id, :reported_project_status_id, :reported_project_status_comment]
+
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+
+      params = ActionController::Parameters.new(reporting: acceptable_params_with_data)
+
+      expect(PermittedParams.new(params, user).reporting).to eq(acceptable_params_with_data)
+    end
+
+    it 'allows an empty params hash' do
+      params = ActionController::Parameters.new
+      expect(PermittedParams.new(params, user).time_entry).to eq({})
+    end
+  end
+
+  describe '#membership' do
+    it 'should permit its whitelisted params' do
+      acceptable_params_with_data = HashWithIndifferentAccess[project_id: '1', role_ids: [1,2,4]]
+
+      params = ActionController::Parameters.new(membership: acceptable_params_with_data)
+
+      expect(PermittedParams.new(params, user).membership).to eq(acceptable_params_with_data)
+    end
+  end
+
+  describe '#category' do
+    it 'should permit its whitelisted params' do
+      acceptable_params = [:name, :assigned_to_id]
+
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+
+      params = ActionController::Parameters.new(category: acceptable_params_with_data)
+
+      expect(PermittedParams.new(params, user).category).to eq(acceptable_params_with_data)
+    end
+  end
+
+  describe '#version' do
+    it 'should permit its whitelisted params' do
+      acceptable_params = [:name, :description, :effective_date, :due_date,
+                           :start_date, :wiki_page_title, :status, :sharing,
+                           :custom_field_value]
+
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+
+      acceptable_params_with_data.merge!(version_settings_attributes: {id: '1',
+                                                                       display: '2',
+                                                                       project: '3'})
+
+      params = ActionController::Parameters.new(version: acceptable_params_with_data)
+
+      expect(PermittedParams.new(params, user).version).to eq(acceptable_params_with_data)
+    end
+
+    it 'allows an empty params hash' do
+      params = ActionController::Parameters.new
+      expect(PermittedParams.new(params, user).time_entry).to eq({})
+    end
+  end
+
+  describe '#message' do
+    describe 'with no instance passed' do
+      it 'should permit its whitelisted params' do
+        acceptable_params = [:subject, :content, :board_id]
+
+        acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+
+        # Sticky and evil should not make it.
+        params = ActionController::Parameters.new(message: acceptable_params_with_data.merge(evil: true, sticky: true))
+
+        expect(PermittedParams.new(params, user).message).to eq(acceptable_params_with_data)
+      end
+
+      it 'allows an empty params hash' do
+        params = ActionController::Parameters.new
+        expect(PermittedParams.new(params, user).time_entry).to eq({})
+      end
+    end
+
+    describe 'with instance passed' do
+      it 'allows additional params for authorized users' do
+        instance = double('message', project: double('project'))
+        allow(user).to receive(:allowed_to?).with(:edit_messages, instance.project).and_return(true)
+
+        acceptable_params = [:locked, :sticky]
+
+        acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+
+        params = ActionController::Parameters.new(message: acceptable_params_with_data)
+
+        expect(PermittedParams.new(params, user).message(instance)).to eq(acceptable_params_with_data)
+      end
+    end
+  end
+
+  describe '#attachments' do
+    it 'should permit its whitelisted params' do
+      acceptable_params_with_data = HashWithIndifferentAccess[file: 'myfile',
+                                     description: 'mydescription']
+
+      params = ActionController::Parameters.new(attachments: acceptable_params_with_data)
+
+      expect(PermittedParams.new(params, user).attachments).to eq(acceptable_params_with_data)
+    end
+  end
+
   describe '#color' do
     it 'should permit name' do
       params = ActionController::Parameters.new(color: { 'name' => 'blubs' })
