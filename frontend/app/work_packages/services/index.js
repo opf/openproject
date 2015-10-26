@@ -60,22 +60,12 @@ angular.module('openproject.workPackages.services')
     'WORK_PACKAGE_ATTRIBUTES',
     require('./work-packages-overview-service')
   ])
-  .service('WorkPackageFieldService', [
-    'I18n',
-    'WORK_PACKAGE_REGULAR_EDITABLE_FIELD',
-    'WorkPackagesHelper',
+  .service('EditableFieldsState',[
     '$q',
-    '$http',
     '$rootScope',
-    '$timeout',
-    'HookService',
     'NotificationsService',
-    'EditableFieldsState',
-    require('./work-package-field-service')
-  ])
-  .service('EditableFieldsState',
     require('./editable-fields-state')
-  )
+  ])
   .service('WorkPackageAttachmentsService', [
     'Upload', // 'Upload' is provided by ngFileUpload
     'PathHelper',
