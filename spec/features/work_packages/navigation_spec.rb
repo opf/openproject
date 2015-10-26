@@ -34,8 +34,8 @@ RSpec.feature 'Work package navigation', selenium: true do
   let(:work_package) { FactoryGirl.build(:work_package, project: project) }
 
   before do
-    work_package.save!
     login_as(user)
+    work_package.save!
   end
 
   scenario 'all different angular based work package views', js: true do
