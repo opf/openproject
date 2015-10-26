@@ -89,5 +89,8 @@ RSpec.feature 'Work package navigation', selenium: true do
 
     full_work_package.expect_subject
     full_work_package.expect_current_path
+
+    # Safeguard: ensure spec to have finished loading everything before proceeding to the next spec
+    full_work_package.ensure_page_loaded
   end
 end

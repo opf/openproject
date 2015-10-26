@@ -30,7 +30,6 @@ require 'support/pages/page'
 
 module Pages
   class FullWorkPackage < Page
-
     attr_reader :work_package
 
     def initialize(work_package)
@@ -48,6 +47,11 @@ module Pages
       expect(current_path).to eql path
     end
 
+    def ensure_page_loaded
+      expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
+                                    text: work_package.journals.last.user.name)
+    end
+
     private
 
     def container
@@ -55,7 +59,7 @@ module Pages
     end
 
     def path
-      work_package_path(work_package.id, "activity")
+      work_package_path(work_package.id, 'activity')
     end
   end
 end
