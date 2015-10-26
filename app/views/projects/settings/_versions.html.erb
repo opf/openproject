@@ -26,13 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
-<fieldset class="form--fieldset -with-control">
-  <legend class="form--fieldset-legend">
-    <%= l(:label_available_project_versions) %>
-  </legend>
-
-  <% if @project.shared_versions.any? %>
+<% if @project.shared_versions.any? %>
+  <fieldset class="form--fieldset -with-control">
+    <legend class="form--fieldset-legend">
+      <%= l(:label_available_project_versions) %>
+    </legend>
     <div class="generic-table--container">
       <div class="generic-table--results-container">
         <table interactive-table role="grid" class="generic-table">
@@ -153,30 +151,20 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
   <% else %>
-    <div class="generic-table--container">
-      <div class="generic-table--no-results-container">
-        <h2 class="generic-table--no-results-title">
-          <i class="icon-info"></i>
-          <%= l(:label_nothing_display) %>
-        </h2>
-        <div class="generic-table--no-results-description">
-          <p class="nodata"><%= l(:label_no_data) %></p>
-        </div>
-      </div>
-    </div>
+    <%= no_results_box(action_url: new_project_version_path(@project), display_action: authorize_for('messages', 'new')) %>
   <% end %>
 </fieldset>
 
-<div class="contextual">
-  <% if @project.versions.any? %>
-    <%= link_to l(:label_close_versions),
-                close_completed_project_versions_path(@project),
-                method: :put %>
-  <% end %>
-</div>
+<% if @project.versions.any? %>
+  <div class="contextual">
+      <%= link_to l(:label_close_versions),
+                  close_completed_project_versions_path(@project),
+                  method: :put %>
+  </div>
 
-<p>
-  <%= link_to_if_authorized l(:label_version_new),
-                            { controller: '/versions', action: 'new', project_id: @project },
-                            class: 'button -alt-highlight' %>
-</p>
+  <p>
+    <%= link_to_if_authorized l(:label_version_new),
+                              { controller: '/versions', action: 'new', project_id: @project },
+                              class: 'button -alt-highlight' %>
+  </p>
+<% end %>

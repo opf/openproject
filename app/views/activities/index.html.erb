@@ -54,7 +54,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end -%>
 </div>
 
-<%= content_tag('p', l(:label_no_data), :class => 'nodata') if @events_by_day.empty? %>
+<% if @events_by_day.empty? %>
+  <%= no_results_box %>
+  <br>
+<% end %>
 
 <div style="float:left;">
   <%= link_to_content_update(l(:label_previous),

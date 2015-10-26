@@ -37,103 +37,107 @@ See doc/COPYRIGHT.rdoc for more details.
   </li>
 <% end %>
 
-<div class="generic-table--container">
-  <div class="generic-table--results-container">
-    <table interactive-table role="grid" class="generic-table">
-      <colgroup>
-        <col highlight-col>
-        <col>
-        <col highlight-col>
-        <col highlight-col>
-        <col highlight-col>
-        <col highlight-col>
-        <col highlight-col>
-        <col>
-      </colgroup>
-      <thead>
-        <tr>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Type.human_attribute_name(:name) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th></th>
-           <!-- Missing workflow warning -->
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Type.human_attribute_name(:color) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Type.human_attribute_name(:is_default) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th title="<%= l('timelines.work_packages_are_displayed_in_aggregations') %>">
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Type.human_attribute_name(:in_aggregation) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Type.human_attribute_name(:is_milestone) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%=l(:button_sort)%>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% for type in @types %>
+<% if @types.any? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table interactive-table role="grid" class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
           <tr>
-            <td class="timelines-pet-name"><%= link_to type.name, edit_type_path(type) %></td>
-            <td><% if type.workflows.empty? %><span class="icon-context icon-warning"><%= l(:text_type_no_workflow) %> (<%= link_to l(:button_edit), {:controller => '/workflows', :action => 'edit', :type_id => type} %>)</span><% end %></td>
-            <td class="timelines-pet-color"><%= icon_for_type type %></td>
-            <td class="timelines-pet-is_default"><%= checked_image(type.is_default) %></td>
-            <td class="timelines-pet-in_aggregation"><%= checked_image(type.in_aggregation) %></td>
-            <td class="timelines-pet-is_milestone"><%= checked_image(type.is_milestone) %></td>
-            <td class="timelines-pet-reorder"><%= reorder_links('type', {:action => 'move', :id => type}) %></td>
-            <td class="buttons">
-              <% if !type.is_standard? %>
-                <%= link_to type, :method => :delete, data: { confirm: t(:text_are_you_sure) }, :class => 'icon icon-delete' do %>
-                  <%= t(:button_delete) %>
-                  <span class="hidden-for-sighted"><%=h type.name %></span>
-                <% end %>
-              <% end %>
-            </td>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Type.human_attribute_name(:name) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th></th>
+             <!-- Missing workflow warning -->
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Type.human_attribute_name(:color) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Type.human_attribute_name(:is_default) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th title="<%= l('timelines.work_packages_are_displayed_in_aggregations') %>">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Type.human_attribute_name(:in_aggregation) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Type.human_attribute_name(:is_milestone) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%=l(:button_sort)%>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th></th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <div class="generic-table--header-background"></div>
+        </thead>
+        <tbody>
+          <% for type in @types %>
+            <tr>
+              <td class="timelines-pet-name"><%= link_to type.name, edit_type_path(type) %></td>
+              <td><% if type.workflows.empty? %><span class="icon-context icon-warning"><%= l(:text_type_no_workflow) %> (<%= link_to l(:button_edit), {:controller => '/workflows', :action => 'edit', :type_id => type} %>)</span><% end %></td>
+              <td class="timelines-pet-color"><%= icon_for_type type %></td>
+              <td class="timelines-pet-is_default"><%= checked_image(type.is_default) %></td>
+              <td class="timelines-pet-in_aggregation"><%= checked_image(type.in_aggregation) %></td>
+              <td class="timelines-pet-is_milestone"><%= checked_image(type.is_milestone) %></td>
+              <td class="timelines-pet-reorder"><%= reorder_links('type', {:action => 'move', :id => type}) %></td>
+              <td class="buttons">
+                <% if !type.is_standard? %>
+                  <%= link_to type, :method => :delete, data: { confirm: t(:text_are_you_sure) }, :class => 'icon icon-delete' do %>
+                    <%= t(:button_delete) %>
+                    <span class="hidden-for-sighted"><%=h type.name %></span>
+                  <% end %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="generic-table--header-background"></div>
+    </div>
   </div>
-</div>
-<%= pagination_links_full @types %>
+  <%= pagination_links_full @types %>
+<% else %>
+  <%= no_results_box(action_url: new_type_path, display_action: true)%>
+<% end %>

@@ -30,17 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= render partial: 'repository_header',
            locals: { empty: true } %>
 
-<div class="generic-table--container">
-  <div class="generic-table--no-results-container">
-    <h2 class="generic-table--no-results-title">
-      <i class="icon-info"></i>
-      <%= l(:label_nothing_display) %>
-    </h2>
-    <div class="generic-table--no-results-description">
-      <p class="nodata"><%= l('repositories.errors.empty_repository') %></p>
-    </div>
-  </div>
-</div>
+<%= no_results_box %>
 
 <%= call_hook(:repositories_below_empty_warning,
     { repository: @repository, project: @project }) %>

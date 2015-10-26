@@ -27,6 +27,148 @@
 #++
 
 en:
+  no_results_title_text: There is currently nothing to display.
+
+  activities:
+    index:
+      no_results_title_text: There has not been any activity for the project.
+
+  admin:
+    projects:
+      no_results_title_text: There are currently no projects.
+      no_results_content_text: Create a new project
+    plugins:
+      no_results_title_text: There are currently no plugins available.
+
+  auth_sources:
+    index:
+      no_results_content_title: There are currently no authentication modes.
+      no_results_content_text: Create a new authentication mode
+
+  boards:
+    show:
+      no_results_title_text: There are currently no posts for the board.
+
+  custom_fields:
+    tab:
+      no_results_title_text: There are currently no custom fields.
+      no_results_content_text: Create a new custom field
+
+  groups:
+    index:
+      no_results_title_text: There are currently no groups.
+      no_results_content_text: Create a new group
+    users:
+      no_results_title_text: There are currently no users part of this group.
+    memberships:
+      no_results_title_text: There are currently no projects part of this group.
+
+  planning_element_type_colors:
+    index:
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
+
+  projects:
+    index:
+      no_results_title_text: There are currently no projects
+    settings:
+      activities:
+        no_results_title_text: There are currently no activities available.
+      boards:
+        no_results_title_text: There are currently no boards for the project.
+        no_results_content_text: Create a new board
+      categories:
+        no_results_title_text: There are currently no work package categories.
+        no_results_content_text: Create a new work package category
+      custom_fields:
+        no_results_title_text: There are currently custom fields available.
+      types:
+        no_results_title_text: There are currently no types available.
+      versions:
+        no_results_title_text: There are currently no versions for the project.
+        no_results_content_text: Create a new version
+
+  project_types:
+    index:
+      no_results_title_text: There are currently no project types.
+      no_results_content_text: Create a new project type
+  members:
+    index:
+      no_results_title_text: There are currently no members part of this project.
+      no_results_content_text: Add a member to the project
+
+  my:
+    access_token:
+      no_results_title_text: There are currently no access tokens available.
+
+  news:
+    index:
+      no_results_title_text: There is currently no news to report.
+      no_results_content_text: Add a news item
+    my_page:
+      no_results_title_text: Nothing new to report.
+
+  users:
+    memberships:
+      no_results_title_text: This user is currently not a member of a project.
+
+  reportings:
+    index:
+      no_results_title_text: There are currently no status reportings.
+      no_results_content_text: Add a status reporting
+
+  statuses:
+    index:
+      no_results_title_text: There are currently no work package statuses.
+      no_results_content_text: Add a new status
+
+  types:
+    index:
+      no_results_title_text: There are currently no types.
+      no_results_content_text: Create a new type
+
+  versions:
+    overview:
+      no_results_title_text: There are currently no workpackages for this version.
+
+  wiki:
+    no_results_title_text: There are currently no wiki pages.
+
+    index:
+      no_results_content_text: Add a new wiki page
+
+  work_flows:
+    index:
+      no_results_title_text: There are currently no workflows.
+
+  work_packages:
+    list_simple:
+      assigned:
+        no_results_title_text: There are currently no work packages assigned to me.
+      reported:
+        no_results_title_text: There are currently no work packages that I have reported.
+      responsible:
+        no_results_title_text: There are currently no work packages that I am resposible for.
+      watched:
+        no_results_title_text: There are currently no work packages that I am watching.
+
+    summary:
+      reports:
+        category:
+          no_results_title_text: There are currently no categories available.
+        assigned_to:
+          no_results_title_text: There are currently no members part of this project.
+        responsible:
+          no_results_title_text: There are currently no members part of this project.
+        author:
+          no_results_title_text: There are currently no members part of this project.
+        priority:
+          no_results_title_text: There are currently no priorities available.
+        type:
+          no_results_title_text: There are currently no types available.
+        version:
+          no_results_title_text: There are currently no versions available.
+
   label_invitation: Invitation
   account:
     delete: "Delete account"
@@ -864,7 +1006,7 @@ en:
   label_work_package_view_all: "View all work packages"
   label_work_package_view_all_assigned_to_me: "View all work packages assigned to me"
   label_work_package_view_all_reported_by_me: "View all work packages reported by me"
-  label_work_package_view_all_responsible_for: "View all work packages I am responsible for"
+  label_work_package_view_all_responsible_for: "View all work packages that I am responsible for"
   label_work_package_view_all_watched: "View all watched work packages"
   label_work_package_watchers: "Watchers"
   label_journal_diff: "Description Comparison"

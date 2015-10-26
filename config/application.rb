@@ -108,6 +108,9 @@ module OpenProject
     # Fall back to default locale
     config.i18n.fallbacks = true
 
+    # Enable cascade key lookup for i18n
+    I18n.backend.class.send(:include, I18n::Backend::Cascade)
+
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = 'utf-8'
 

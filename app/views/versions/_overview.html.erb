@@ -63,5 +63,5 @@ See doc/COPYRIGHT.rdoc for more details.
     (<%= '%0.0f' % (version.open_issues_count.to_f / version.fixed_issues.count * 100) %>%)
   </p>
 <% else %>
-  <p><em><%= l(:label_roadmap_no_work_packages) %></em></p>
+  <%= no_results_box %>
 <% end %>

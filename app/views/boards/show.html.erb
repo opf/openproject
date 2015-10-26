@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <hr class="form--separator">
       <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-yes' %>
       <%= preview_link preview_board_topics_path(@board), 'message-form-preview' %>
-      <%= link_to l(:button_cancel), "#", onclick: 'Element.hide("add-message")', class: 'button' %>
+      <%= link_to l(:button_cancel), '', onclick: 'Element.hide("add-message")', class: 'button' %>
     <% end %>
     <div id="preview"></div>
   <% end %>
@@ -161,17 +161,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <table-pagination total-entries="totalMessageCount" update-results="loadMessages()"></table-pagination>
     <modal-loading></modal-loading>
   <% else %>
-    <div class="generic-table--container">
-      <div class="generic-table--no-results-container">
-        <h2 class="generic-table--no-results-title">
-          <i class="icon-info"></i>
-          <%= l(:label_nothing_display) %>
-        </h2>
-        <div class="generic-table--no-results-description">
-          <p class="nodata"><%= l(:label_no_data) %></p>
-        </div>
-      </div>
-    </div>
+    <%= no_results_box %>
   <% end %>
 </div>
 

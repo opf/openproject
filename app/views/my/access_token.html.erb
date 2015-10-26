@@ -164,13 +164,5 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
 <% else %>
-  <div class="generic-table--no-results-container" ng-if="!rows.length">
-    <h2 class="generic-table--no-results-title">
-      <i class="icon-info"></i>
-      <%= I18n.t('my_account.access_tokens.no_results.title') %>
-    </h2>
-    <div class="generic-table--no-results-description">
-      <%= I18n.t('my_account.access_tokens.no_results.description') %>
-    </div>
-  </div>
+  <%= no_results_box %>
 <% end %>

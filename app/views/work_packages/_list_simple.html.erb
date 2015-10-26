@@ -98,15 +98,12 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   <% end %>
 <% else %>
- <div class="generic-table--container">
-    <div class="generic-table--no-results-container">
-      <h2 class="generic-table--no-results-title">
-        <i class="icon-info"></i>
-        <%= l(:label_nothing_display) %>
-      </h2>
-      <div class="generic-table--no-results-description">
-        <p class="nodata"><%= l(:label_no_data) %></p>
-      </div>
-    </div>
-  </div>
+  <%=
+    title = t("work_packages.list_simple.#{list_for.to_s}.no_results_title_text")
+
+    no_results_box(action_url: work_packages_path,
+                   display_action: true,
+                   custom_title: title,
+                   custom_action_text: t(:label_work_package_view_all))
+  %>
 <% end %>

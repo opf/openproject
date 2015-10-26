@@ -39,19 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 <% end %>
 
-<% if @reportings.blank? %>
-  <div class="generic-table--container">
-    <div class="generic-table--no-results-container">
-      <h2 class="generic-table--no-results-title">
-        <i class="icon-info"></i>
-        <%= l(:label_nothing_display) %>
-      </h2>
-      <div class="generic-table--no-results-description">
-        <p class="nodata"><%= l(:label_no_data) %></p>
-      </div>
-    </div>
-  </div>
-<% else %>
+<% if @reportings.any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table interactive-table role="grid" class="generic-table">
@@ -142,4 +130,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="generic-table--header-background"></div>
   </div>
 </div>
+<% else %>
+  <%= no_results_box(action_url:     new_project_reporting_path(@project),
+                     display_action: authorize_for(:reportings, :new)) %>
 <% end %>

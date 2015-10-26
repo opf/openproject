@@ -32,7 +32,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= content_for "#{block_name}_remove_block" %>
 <% end %>
 
-<%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => wps_assigned_to_me } %>
+<%= render :partial => 'work_packages/list_simple',
+           :locals => {
+                        :work_packages => wps_assigned_to_me,
+                        :list_for => :assigned
+                      } %>
 
 <% if wps_assigned_to_me_count > 0 %>
   <p class="small">

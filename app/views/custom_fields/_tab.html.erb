@@ -27,23 +27,17 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l(:label_administration), l(:label_auth_source_plural) %>
-<%= toolbar title: l(:label_auth_source_plural) do %>
-  <li class="toolbar-item">
-    <%= link_to({ action: 'new' }, class: 'button -alt-highlight') do %>
-      <i class="button--icon icon-add"></i>
-      <span class="button--text"><%= l(:label_auth_source_new) %></span>
-    <% end %>
-  </li>
-<% end %>
-
-<% if @auth_sources.any? %>
+<% if (@custom_fields_by_type[tab[:name]] || []).any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table interactive-table role="grid" class="generic-table">
         <colgroup>
           <col highlight-col>
           <col highlight-col>
+          <% if tab[:name] == 'WorkPackageCustomField' %>
+            <col highlight-col>
+            <col highlight-col>
+          <% end %>
           <col highlight-col>
           <col highlight-col>
           <col>
@@ -54,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
                   <span>
-                    <%= AuthSource.human_attribute_name(:name) %>
+                    <%= CustomField.human_attribute_name(:name) %>
                   </span>
                 </div>
               </div>
@@ -63,7 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
                   <span>
-                    <%= AuthSource.human_attribute_name(:type) %>
+                    <%= CustomField.human_attribute_name(:field_format) %>
                   </span>
                 </div>
               </div>
@@ -72,16 +66,36 @@ See doc/COPYRIGHT.rdoc for more details.
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
                   <span>
-                    <%= AuthSource.human_attribute_name(:host) %>
+                    <%= CustomField.human_attribute_name(:is_required) %>
                   </span>
                 </div>
               </div>
             </th>
+            <% if tab[:name] == 'WorkPackageCustomField' %>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= CustomField.human_attribute_name(:is_for_all) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%=l(:label_used_by)%>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            <% end %>
             <th>
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
                   <span>
-                    <%= l(:label_user_plural)%>
+                    <%=l(:button_sort)%>
                   </span>
                 </div>
               </div>
@@ -90,19 +104,18 @@ See doc/COPYRIGHT.rdoc for more details.
           </tr>
         </thead>
         <tbody>
-          <% for source in @auth_sources %>
+          <% (@custom_fields_by_type[tab[:name]] || []).sort.each do |custom_field| -%>
             <tr>
-              <td><%= link_to source.name, :action => 'edit', :id => source %></td>
-              <td><%= source.auth_method_name %></td>
-              <td><%= source.host %></td>
-              <td><%= source.users.count %></td>
+              <td><%= link_to h(custom_field.name), edit_custom_field_path(custom_field), lang: custom_field.name_locale %></td>
+              <td><%= Redmine::CustomFieldFormat.label_for(custom_field.field_format) %></td>
+              <td><%= checked_image custom_field.is_required? %></td>
+              <% if tab[:name] == 'WorkPackageCustomField' %>
+                <td><%= checked_image custom_field.is_for_all? %></td>
+                <td><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? WorkPackageCustomField and !custom_field.is_for_all? %></td>
+              <% end %>
+              <td><%= reorder_links('custom_field', {:action => 'update', :id => custom_field}, method: :put) %></td>
               <td class="buttons">
-                <%= link_to l(:button_test), { :action => 'test_connection', :id => source } %>
-                <%= link_to l(:button_delete), { :action => 'destroy', :id => source },
-                                           :method => :delete,
-                                           data: { confirm: l(:text_are_you_sure) },
-                                           :class => 'icon icon-delete',
-                                           :disabled => source.users.any? %>
+                <%= delete_link custom_field_path(custom_field) %>
               </td>
             </tr>
           <% end %>
@@ -111,7 +124,11 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="generic-table--header-background"></div>
     </div>
   </div>
-  <%= pagination_links_full @auth_sources %>
+  <br>
+  <%= link_to new_custom_field_path(type: tab[:name]), class: 'button -alt-highlight' do %>
+    <i class="button--icon icon-add"></i>
+    <span class="button--text"><%= l(:label_custom_field_new) %></span>
+  <% end %>
 <% else %>
-  <%= no_results_box(action_url: { action: 'new' }, display_action: true) %>
+  <%= no_results_box(action_url: new_custom_field_path(type: tab[:name]), display_action: true) %>
 <% end %>
