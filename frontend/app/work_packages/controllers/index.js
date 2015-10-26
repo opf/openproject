@@ -174,7 +174,6 @@ angular.module('openproject.workPackages.controllers')
     'Query',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
     'NotificationsService',
-    'EditableFieldsState',
     require('./work-packages-list-controller')
   ])
   .factory('columnsModal', ['btfModal', function(btfModal) {

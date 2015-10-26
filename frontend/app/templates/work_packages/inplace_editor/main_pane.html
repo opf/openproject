@@ -1,0 +1,6 @@
+<div
+  class="inplace-edit attribute-{{ fieldController.field }}"
+  ng-class="{'-busy': fieldController.state.isBusy}"
+  aria-busy="{{ fieldController.state.isBusy }}">
+  <ng-transclude></ng-transclude>
+</div>

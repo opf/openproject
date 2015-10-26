@@ -30,7 +30,7 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
       I18n, WorkPackagesTableService,
       WorkPackageService, ProjectService, QueryService, PaginationService,
       AuthorisationService, UrlParamsHelper, PathHelper, Query,
-      OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService, EditableFieldsState) {
+      OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService) {
 
   $scope.projectIdentifier = $stateParams.projectPath || null;
 
@@ -235,8 +235,6 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
   // Just to keep the templates a bit cleaner
   $scope.can = AuthorisationService.can;
   $scope.cannot = AuthorisationService.cannot;
-
-  $scope.editAll = EditableFieldsState.editAll;
 
   $scope.$watch(QueryService.getQueryName, function(queryName){
     $scope.selectedTitle = queryName || I18n.t('js.toolbar.unselected_title');

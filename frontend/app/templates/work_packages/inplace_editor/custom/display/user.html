@@ -1,0 +1,14 @@
+<span class="user-avatar--container">
+  <img class="user-avatar--avatar"
+       ng-if="customEditorController.getUserName() && customEditorController.getUser().props.avatar"
+       ng-src="{{customEditorController.getUser().props.avatar}}" alt="Avatar" title="{{customEditorController.getUserName()}}" />
+  <span class="user-avatar--user-with-role">
+    <span class="user-avatar--user" ng-if="customEditorController.getUserName()">
+      <a ng-if="customEditorController.getUser().props.subtype !== 'Group'" ng-href="{{ customEditorController.userPath(customEditorController.getUser().props.id) }}" ng-bind="customEditorController.getUser().props.name"
+         class="user-field-user-link"/>
+      <span ng-if="customEditorController.getUser().props.subtype == 'Group'" ng-bind="customEditorController.getUser().props.name" class="user-field-user-link"/>
+    </span>
+    <span class="user-avatar--user" ng-if="!customEditorController.getUserName()"> - </span>
+    <span class="user-avatar--role" ng-if="customEditorController.getUser().props.role" ng-bind="customEditorController.getUser().props.role"/>
+  </span>
+</span>

@@ -71,9 +71,7 @@ module.exports = function(config) {
 
       'tests/unit/tests/asset_functions.js',
       'tests/unit/tests/**/*test.js',
-      'tests/unit/tests/legacy-tests.js',
-
-      'app/components/**/*.test.js'
+      'tests/unit/tests/legacy-tests.js'
     ],
 
 
