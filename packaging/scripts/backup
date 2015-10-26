@@ -39,7 +39,7 @@ rm -f ${tmpfile}
 if [ -d "$SVN_REPOSITORIES" ]; then
   dst="${TARGET}/svn-repositories-${timestamp}.tar.gz"
   touch "$dst" && chmod 0640 "$dst"
-  echo -n "* Generating SVN repositories backup..." >&2 
+  echo -n "* Generating SVN repositories backup..." >&2
   if tar czf "$dst" -C "${SVN_REPOSITORIES}" . ; then
     echo " done" >&2
     echo "$dst"
@@ -48,6 +48,20 @@ if [ -d "$SVN_REPOSITORIES" ]; then
   fi
 else
   echo "* No SVN repositories folder. Ignoring." >&2
+fi
+
+if [ -d "$GIT_REPOSITORIES" ]; then
+  dst="${TARGET}/git-repositories-${timestamp}.tar.gz"
+  touch "$dst" && chmod 0640 "$dst"
+  echo -n "* Generating Git repositories backup..." >&2
+  if tar czf "$dst" -C "${GIT_REPOSITORIES}" . ; then
+    echo " done" >&2
+    echo "$dst"
+  else
+    echo " failed" >&2
+  fi
+else
+  echo "* No Git repositories folder. Ignoring." >&2
 fi
 
 if [ -d "$ATTACHMENTS_STORAGE_PATH" ]; then
