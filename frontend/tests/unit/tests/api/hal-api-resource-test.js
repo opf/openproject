@@ -26,32 +26,51 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-exports.config = {
+/*jshint expr: true*/
 
-  framework: 'mocha',
+describe('HALAPIResource', function() {
 
-  // Capabilities to be passed to the webdriver instance.
-  capabilities: {
-    'browserName': 'firefox'
-  },
+  var HALAPIResource, testPathHelper;
+  beforeEach(module('openproject.api'));
 
-  directConnect: false,
+  beforeEach(function() {
+    testPathHelper = {
+      apiV3: '/api/v3',
+      appBasePath: ''
+    };
 
-  specs: [
-    'specs/*spec.js',
-    'specs/**/*spec.js'
-  ],
+    module(function($provide) {
+      $provide.value('PathHelper', testPathHelper);
+    });
 
-  allScriptsTimeout: 500000,
+    inject(function(_HALAPIResource_) {
+      HALAPIResource = _HALAPIResource_;
+    });
+  });
 
-  mochaOpts: {
-    timeout:  500000,
-    reporter: 'mocha-jenkins-reporter'
-  },
+  describe('setup', function() {
+    var apiResource, resourceFunction;
+    var workPackageUri = 'api/v3/work_packages/1';
 
-  baseUrl: 'http://localhost:8080',
+    beforeEach(inject(function($q) {
+      apiResource = {
+        fetch: $q.when(function() { return { id: workPackageId }; })
+      };
+    }));
 
-  onPrepare: function() {
-    browser.driver.manage().window().maximize();
-  }
-};
+    beforeEach(inject(function(HALAPIResource) {
+      resourceFunction = sinon.stub(Hyperagent, 'Resource').returns(apiResource);
+      HALAPIResource.setup(workPackageUri);
+    }));
+
+    afterEach(function() {
+      resourceFunction.restore();
+    });
+
+   it('makes an api setup call', function() {
+     expect(resourceFunction).to.have.been.calledWith({
+       url: workPackageUri
+     });
+   });
+  });
+});
