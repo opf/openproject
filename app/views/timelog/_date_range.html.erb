@@ -54,7 +54,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= calendar_for('to') %>
       </div>
     </li>
-    <li>
+    <li class="simple-filters--controls">
       <%= styled_button_tag l(:button_apply), class: 'button -highlight -small' %>
       <%= link_to l(:button_clear), polymorphic_time_entries_path(@issue || @project), :class => 'button -small' %>
     </li>
