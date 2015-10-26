@@ -78,12 +78,6 @@
 
               <span class="count">
                 ({{ countByGroup[row.groupName] }})
-
-                <span aria-hidden="true" role="presentation" tabindex="-1">
-                  <a class="toggle-all" href ng-click="toggleAllGroups()">
-                    {{ groupExpanded[currentGroup] && I18n.t('js.label_collapse_all') || I18n.t('js.label_expand_all') }}
-                  </a>
-                </span>
               </span>
             </div>
 

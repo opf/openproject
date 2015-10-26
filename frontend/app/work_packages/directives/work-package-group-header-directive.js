@@ -37,14 +37,6 @@ module.exports = function() {
 
           pushGroup(scope.currentGroup);
 
-          scope.toggleAllGroups = function() {
-            var targetExpansion = !scope.groupExpanded[scope.currentGroup];
-
-            angular.forEach(scope.groupExpanded, function(currentExpansion, group) {
-              scope.groupExpanded[group] = targetExpansion;
-            });
-          };
-
           scope.toggleCurrentGroup = function() {
             scope.groupExpanded[scope.currentGroup] = !scope.groupExpanded[scope.currentGroup];
           };
