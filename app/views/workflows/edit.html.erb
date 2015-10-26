@@ -26,9 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= render :partial => 'action_menu', locals: { title: Workflow.model_name.human } %>
-<%= render :partial => 'layouts/action_menu_specific' %>
-<%= styled_form_tag({}, :method => 'get') do %>
+<%= render partial: 'action_menu', locals: { title: Workflow.model_name.human } %>
+<%= render partial: 'layouts/action_menu_specific' %>
+<%= styled_form_tag({}, method: 'get') do %>
   <fieldset class="simple-filters--container">
     <legend><%=l(:text_workflow_edit)%></legend>
     <ul class="simple-filters--filters">
@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
       </li>
       <li class="simple-filters--controls">
-        <%= submit_tag l(:button_edit), :name => nil, :accesskey => accesskey(:edit), class: 'button -highlight' %>
+        <%= submit_tag l(:button_edit), name: nil, accesskey: accesskey(:edit), class: 'button -highlight' %>
       </li>
     </ul>
     <ul class="simple-filter--trailing-labels">
@@ -62,32 +62,36 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 <%# TODO: remove the prototype stuff from the DOM -%>
 <% if @type && @role && @statuses.any? %>
-    <%= form_tag({}, :id => 'workflow_form_always' ) do %>
-      <%= render :partial => 'form', :locals => {:name => 'always', :workflows => @workflows['always']} %>
-    <% end %>
+    <%= form_tag({}, id: 'workflow_form' ) do %>
+      <%= hidden_field_tag 'type_id', @type.id %>
+      <%= hidden_field_tag 'role_id', @role.id %>
 
-    <%= form_tag({}, :id => 'workflow_form_author' ) do %>
+      <%= render partial: 'form',
+                 locals: { name: 'always', workflows: @workflows['always'] } %>
+
       <fieldset class="form--fieldset -collapsible" style="margin-top: 0.5em;">
-        <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_additional_workflow_transitions_for_author) %></a></legend>
+        <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
+          <a href="javascript:"><%= l(:label_additional_workflow_transitions_for_author) %></a>
+        </legend>
         <div id="author_workflows" style="margin: 0.5em 0 0.5em 0;">
-          <%= render :partial => 'form', :locals => {:name => 'author', :workflows => @workflows['author']} %>
+          <%= render partial: 'form',
+                     locals: { name: 'author', workflows: @workflows['author'] } %>
         </div>
+      <%= javascript_tag "hideFieldset($('author_workflows'))" unless @workflows['author'].present? %>
       </fieldset>
-    <% end %>
-    <%= javascript_tag "hideFieldset($('author_workflows'))" unless @workflows['author'].present? %>
 
-
-    <%= form_tag({}, :id => 'workflow_form_assignee' ) do %>
       <fieldset class="form--fieldset -collapsible">
-        <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_additional_workflow_transitions_for_assignee) %></a></legend>
+        <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
+          <a href="javascript:"><%= l(:label_additional_workflow_transitions_for_assignee) %></a>
+        </legend>
         <div id="assignee_workflows" style="margin: 0.5em 0 0.5em 0;">
-          <%= render :partial => 'form', :locals => {:name => 'assignee', :workflows => @workflows['assignee']} %>
+          <%= render partial: 'form',
+                     locals: { name: 'assignee', workflows: @workflows['assignee'] } %>
         </div>
+        <%= javascript_tag "hideFieldset($('assignee_workflows'))" unless @workflows['assignee'].present? %>
       </fieldset>
+      <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
     <% end %>
-    <%= javascript_tag "hideFieldset($('assignee_workflows'))" unless @workflows['assignee'].present? %>
-
-    <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
 <% end %>
 
 <% html_title(Workflow.model_name.human) -%>
