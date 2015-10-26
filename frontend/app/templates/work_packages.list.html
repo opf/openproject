@@ -8,11 +8,11 @@
 
     <ul class="toolbar-items">
       <li class="toolbar-item">
-        <button class="button -alt-highlight add-work-package"
+        <button class="button -alt-highlight"
                 has-dropdown-menu
                 target="TasksDropdownMenu"
                 locals="availableTypes,projectIdentifier"
-                ng-disabled="cannot('work_package', 'create') || editAll.state">
+                ng-disabled="cannot('work_package', 'create')">
           <i class="button--icon icon-add"></i>
           <span class="button--text" ng-bind="::I18n.t('js.toolbar.unselected_title')"></span>
           <i class="button--dropdown-indicator"></i>
@@ -23,7 +23,6 @@
           {{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}
         </label>
         <button id="work-packages-filter-toggle-button"
-                ng-disabled="editAll.state"
                 class="button"
                 title="{{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}"
                 ng-click="toggleShowFilterOptions()"
@@ -42,7 +41,6 @@
               {{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}
             </label>
             <button id="work-packages-list-view-button"
-                    ng-disabled="editAll.state"
                     class="button"
                     title="{{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
                     ng-click="closeDetailsView()"
@@ -87,7 +85,6 @@
           {{ I18n.t('js.button_settings') }}
         </label>
         <button id="work-packages-settings-button"
-                ng-disabled="editAll.state"
                 title="{{ I18n.t('js.button_settings') }}"
                 class="button last work-packages-settings-button"
                 has-dropdown-menu
@@ -110,8 +107,7 @@
 <back-url></back-url>
 
 
-<div class="work-packages--split-view" cg-busy="[settingUpPage,refreshWorkPackages]"
-     ng-class="{'edit-all-mode': editAll.state}">
+<div class="work-packages--split-view" cg-busy="[settingUpPage,refreshWorkPackages]">
   <div class="work-packages--list">
     <div class="work-packages--list-table-area">
       <work-packages-table ng-if="rows && columns"

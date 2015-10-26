@@ -65,12 +65,18 @@ function behaveLikeEmbeddedDropdown(name, correctValue) {
 
       context('dropdown', function() {
         it('should be rendered', function() {
-          expect(editor.$('.inplace-edit-select').isDisplayed()).to.eventually.be.true;
+          expect(
+            editor
+            .$('.select2-container').isDisplayed()
+          ).to.eventually.be.true;
         });
 
         it('should have the correct value', function() {
-          var text = editor.$('.inplace-edit-select option[selected]').getText();
-          expect(text).to.eventually.equal(correctValue);
+          expect(
+            editor
+            .$('.select2-choice .select2-chosen span')
+            .getText()
+          ).to.eventually.equal(correctValue);
         });
       });
     });

@@ -64,8 +64,6 @@ module.exports = function($scope,
   $scope.can = AuthorisationService.can;
   $scope.cannot = AuthorisationService.cannot;
 
-  $scope.editAll = EditableFieldsState.editAll;
-
   $scope.$on('$stateChangeSuccess', function(event, toState){
     latestTab.registerState(toState.name);
   });
@@ -390,6 +388,17 @@ module.exports = function($scope,
     $state.current.url.replace(/\//, ''),
     $scope.workPackage
   );
+
+  $scope.editWorkPackage = function() {
+    // TODO: Copied from work-package-details-toolbar-directive
+    //       since reusing the directive would break the existing toolbar
+    //       markup.
+    var editWorkPackagePath = PathHelper.staticEditWorkPackagePath($scope.workPackage.props.id);
+    var backUrl = '?back_url=' + encodeURIComponent($location.url());
+
+    // TODO: Temporarily going to the old edit dialog until we get in-place editing done
+    window.location = editWorkPackagePath + backUrl;
+  };
 
   // Stuff copied from DetailsTabOverviewController
   var vm = this;

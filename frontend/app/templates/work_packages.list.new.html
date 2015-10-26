@@ -3,7 +3,7 @@
     <h2>{{ ::I18n.t('js.work_packages.create.header') }}</h2>
 
     <div class="work-packages--create--title">
-      <work-package-field field-name="'subject'" tabindex="0"></work-package-field>
+      <work-package-field field="'subject'" tabindex="0"></work-package-field>
     </div>
 
     <div class="attributes-group--header">
@@ -15,7 +15,7 @@
     </div>
 
     <div class="single-attribute wiki">
-      <work-package-field field-name="'description'"></work-package-field>
+      <work-package-field field="'description'"></work-package-field>
     </div>
 
     <div ng-repeat="group in vm.groupedFields" ng-hide="vm.hideEmptyFields && vm.isGroupHideable(vm.groupedFields, group.groupName, vm.workPackage)" class="attributes-group">
@@ -47,7 +47,7 @@
           ng-if="vm.isSpecified(vm.workPackage, field) && vm.isEditable(vm.workPackage, field)"
           ng-repeat-end
           class="attributes-key-value--value-container">
-          <work-package-field field-name="field"></work-package-field>
+          <work-package-field field="field"></work-package-field>
         </dd>
       </dl>
     </div>

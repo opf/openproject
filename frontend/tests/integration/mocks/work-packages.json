@@ -403,50 +403,6 @@
                 "delete"
             ],
             "_links": {
-                "copy": "/work_packages/move/new?copy=true&ids%5B%5D=16923",
-                "delete": "/work_packages/bulk?ids%5B%5D=16923&method=delete",
-                "duplicate": "/projects/openproject/work_packages/new?copy_from=16923",
-                "edit": "/work_packages/16923/edit",
-                "move": "/work_packages/move/new?ids%5B%5D=16923"
-            },
-            "assigned_to": {
-                "firstname": "Karol",
-                "id": 9248,
-                "name": "Karol Skolar"
-            },
-            "created_at": "2014-10-22T13:25:56Z",
-            "custom_values": [],
-            "id": 820,
-            "parent_id": null,
-            "status": {
-                "id": 1,
-                "name": "new"
-            },
-            "subject": "The other work package (820.json)",
-            "type": {
-                "color_id": 8,
-                "created_at": "11/13/2013/ 13:11 PM",
-                "id": 4,
-                "in_aggregation": true,
-                "is_default": false,
-                "is_in_roadmap": false,
-                "is_milestone": false,
-                "is_standard": false,
-                "name": "Task",
-                "position": 2,
-                "updated_at": "05/13/2014/ 12:10 PM"
-            },
-            "updated_at": "2014-10-22T13:25:56Z"
-        },
-        {
-            "_actions": [
-                "edit",
-                "move",
-                "copy",
-                "duplicate",
-                "delete"
-            ],
-            "_links": {
                 "copy": "/work_packages/move/new?copy=true&ids%5B%5D=16914",
                 "delete": "/work_packages/bulk?ids%5B%5D=16914&method=delete",
                 "duplicate": "/projects/openproject/work_packages/new?copy_from=16914",

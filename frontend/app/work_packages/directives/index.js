@@ -72,6 +72,7 @@ angular.module('openproject.workPackages.directives')
     'NotificationsService',
     require('./work-package-comment-directive')
   ])
+  .directive('workPackageField', require('./work-package-field-directive'))
   .constant('PERMITTED_MORE_MENU_ACTIONS', ['log_time', 'duplicate', 'move',
     'delete'
   ])
@@ -84,10 +85,8 @@ angular.module('openproject.workPackages.directives')
     'HookService',
     'WorkPackageService',
     'WorkPackageAuthorization',
+    'PathHelper',
     require('./work-package-details-toolbar-directive')
-  ])
-  .directive('workPackageEditActions', [
-    require('./work-package-edit-actions-directive')
   ])
   .directive('workPackageDynamicAttribute', ['$compile', require(
     './work-package-dynamic-attribute-directive')])
@@ -128,3 +127,7 @@ angular.module('openproject.workPackages.directives')
     'FocusHelper',
     require('./work-package-watchers-lookup-directive.js')
   ]);
+
+  require('./inplace_editor');
+  require('./inplace_editor/custom/display');
+  require('./inplace_editor/custom/editable');

@@ -219,14 +219,20 @@ describe('OpenProject', function(){
           responsibleEditor.$('.inplace-editing--trigger-link').click();
         });
 
-        context('inplace select', function() {
+        context('select2', function() {
           it('should be rendered', function() {
-            expect(responsibleEditor.$('.inplace-edit-select').isDisplayed()).to.eventually.be.true;
+            expect(
+              responsibleEditor
+                .$('.select2-container').isDisplayed()
+            ).to.eventually.be.true;
           });
 
           it('should have the correct value', function() {
-            var text = responsibleEditor.$('.inplace-edit-select option[selected]').getText();
-            expect(text).to.eventually.equal('OpenProject Admin');
+            expect(
+              responsibleEditor
+                .$('.select2-choice .select2-chosen span')
+                .getText()
+            ).to.eventually.equal('OpenProject Admin');
           });
         });
       });

@@ -33,6 +33,8 @@ angular.module('openproject.api')
   .run(run)
   .factory('HALAPIResource', HALAPIResource);
 
+run.$inject = ['$http', '$q'];
+
 function run($http, $q) {
   Hyperagent.configure('ajax', function(settings) {
     settings.transformResponse = function (data) { return data; };
@@ -45,8 +47,6 @@ function run($http, $q) {
   Hyperagent.configure('defer', $q.defer);
   Hyperagent.configure('_', _);
 }
-run.$inject = ['$http', '$q'];
-
 
 function HALAPIResource () {
   return {
