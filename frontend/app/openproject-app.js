@@ -45,7 +45,7 @@ require('angular-aria');
 require('angular-modal');
 
 // depends on the html element having a 'lang' attribute
-var documentLang = angular.element('html').attr('lang');
+var documentLang = angular.element('html').attr('lang') || 'en';
 require('angular-i18n/angular-locale_' + documentLang + '.js');
 
 require('angular-ui-router');
