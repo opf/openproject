@@ -54,9 +54,15 @@ namespace :scm do
     scm.each_pair do |vendor, config|
       vendor = vendor.to_s.classify
       managed = config['manages']
+      repo_class = Repository.const_get(vendor)
 
       if managed.nil?
-        puts 'SCM vendor #{vendor} does not use managed repositories. Skipping.'
+        puts "SCM vendor #{vendor} does not use managed repositories. Skipping."
+        next
+      end
+
+      if repo_class.manages_remote?
+        puts "SCM vendor #{vendor} uses remote managed repositories. Skipping."
         next
       end
 
