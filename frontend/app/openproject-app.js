@@ -59,6 +59,7 @@ require('angular-busy/dist/angular-busy.css');
 
 require('angular-context-menu');
 require('angular-elastic');
+require('angular-cache');
 require('mousetrap');
 require('ngFileUpload');
 
@@ -73,7 +74,8 @@ angular.module(
     'openproject.uiComponents',
     'openproject.helpers',
     'openproject.workPackages.config',
-    'openproject.workPackages.helpers'
+    'openproject.workPackages.helpers',
+    'angular-cache'
   ]);
 angular.module('openproject.helpers', ['openproject.services']);
 angular
@@ -233,8 +235,15 @@ openprojectApp
     '$window',
     'featureFlags',
     'TimezoneService',
+    'CacheService',
     'KeyboardShortcutService',
-    function($http, $rootScope, $window, flags, TimezoneService, KeyboardShortcutService) {
+    function($http,
+             $rootScope,
+             $window,
+             flags,
+             TimezoneService,
+             CacheService,
+             KeyboardShortcutService) {
       $http.defaults.headers.common.Accept = 'application/json';
 
       $rootScope.showNavigation =
@@ -244,6 +253,11 @@ openprojectApp
       flags.set($http.get('/javascripts/feature-flags.json'));
       TimezoneService.setupLocale();
       KeyboardShortcutService.activate();
+
+      // Disable the CacheService for test environment
+      if ($window.openProject.environment === 'test') {
+        CacheService.disableCaching();
+      }
 
       // at the moment of adding this code it was mostly used to
       // keep the previous state for the code to know where

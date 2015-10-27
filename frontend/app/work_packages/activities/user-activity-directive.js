@@ -34,6 +34,7 @@ module.exports = function($uiViewScroll,
     PathHelper,
     ActivityService,
     UsersHelper,
+    UserService,
     ConfigurationService,
     AutoCompleteHelper,
     EditableFieldsState,
@@ -74,7 +75,8 @@ module.exports = function($uiViewScroll,
       scope.userCanQuote = !!scope.workPackage.links.addComment;
       scope.accessibilityModeEnabled = ConfigurationService.accessibilityModeEnabled();
 
-      scope.activity.links.user.fetch().then(function(user) {
+      var resource = UserService.getUserByResource(scope.activity.links.user);
+      resource.then(function(user) {
         scope.userId = user.props.id;
         scope.userName = user.props.name;
         scope.userAvatar = user.props.avatar;

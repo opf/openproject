@@ -35,6 +35,13 @@ angular.module('openproject.services')
     require('./activity-service')
   ])
   .service('AuthorisationService', require('./authorisation-service'))
+  .service('CacheService', [
+    'HALAPIResource',
+    '$http',
+    '$q',
+    'CacheFactory',
+    require('./cache-service')
+  ])
   .service('GroupService', ['$http', 'PathHelper', require('./group-service')])
   .service('HookService', require('./hook-service'))
   .service('KeyboardShortcutService', [
@@ -83,6 +90,7 @@ angular.module('openproject.services')
     'HALAPIResource',
     '$http',
     'PathHelper',
+    'CacheService',
     require('./user-service')
   ])
   .service('VersionService', ['$http', 'PathHelper', require(
