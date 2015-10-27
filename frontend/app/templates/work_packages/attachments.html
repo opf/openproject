@@ -56,8 +56,7 @@
        data-ng-disabled="fetchingConfiguration"
        data-ngf-keep="true"
        data-ngf-change="filterFiles($files)"
-       data-ng-keyup="openSelectOnEnter($event)"
-       data-ng-keydown="preventDefault($event)">
+       data-click-on-keypress="[13, 32]">
     <div class="work-package--attachments--label">
       <i class="icon-attachment"></i>
       <p data-ng-hide="fetchingConfiguration">

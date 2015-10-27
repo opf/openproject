@@ -52,8 +52,7 @@
        data-ngf-multiple="true"
        data-ngf-change="uploadFilteredFiles($files)"
        data-ngf-max-size="{{::maximumFileSize}}"
-       data-ng-keyup="openSelectOnEnter($event)"
-       data-ng-keydown="preventDefault($event)">
+       data-click-on-keypress="[13, 32]">
     <div class="work-package--attachments--label">
       <i class="icon-attachment"></i>
       <p>
