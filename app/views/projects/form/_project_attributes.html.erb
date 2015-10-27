@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <a href="javascript:"><%= l(:label_advanced_settings) %></a>
   </legend>
 
-  <div style="display:none;">
+  <div style="display:none;" class="advanced-settings-inner">
 <% end %>
     <%= render partial: "projects/form/attributes/parent_id",
                locals: { form: form } %>
@@ -59,4 +59,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if render_advanced %>
   </div>
 </fieldset>
+<% end %>
+
+<% unless form.object.errors[:identifier].blank? %>
+  <script type="text/javascript">
+    jQuery('#advanced-settings > .advanced-settings-inner').show();
+  </script>
 <% end %>
