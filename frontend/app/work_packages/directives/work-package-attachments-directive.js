@@ -135,8 +135,15 @@ module.exports = function(
       scope.fetchingConfiguration = false;
     });
 
+    scope.preventDefault = function(keyEvent) {
+      if (keyEvent.keyCode === 32) {
+        keyEvent.stopPropagation();
+        keyEvent.preventDefault();
+      }
+    };
+
     scope.openSelectOnEnter = function(keyEvent) {
-      if (keyEvent.keyCode === 13) {
+      if (keyEvent.keyCode === 13 || keyEvent.keyCode === 32) {
         keyEvent.stopPropagation();
         keyEvent.preventDefault();
 
