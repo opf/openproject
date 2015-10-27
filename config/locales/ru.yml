@@ -5,7 +5,7 @@ ru:
   default_doc_category_tech: Техническая документация
   default_doc_category_user: Документация пользователя
   enumeration_doc_categories: Категории документов
-  label_document_added: Добавленные документы
+  label_document_added: Документ добавлен
   label_document_new: Новый документ
   label_document_plural: Документы
   label_documents: Документы
