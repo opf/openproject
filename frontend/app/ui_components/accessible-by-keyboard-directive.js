@@ -35,9 +35,6 @@ module.exports = function() {
       linkClass: '@',
       spanClass: '@'
     },
-    templateUrl: '/templates/components/accessible_by_keyboard.html',
-    link: function(scope, element, attrs) {
-      scope.defaultEventHandling = !attrs.execute;
-    }
+    templateUrl: '/templates/components/accessible_by_keyboard.html'
   };
 };
