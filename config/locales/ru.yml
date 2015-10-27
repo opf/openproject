@@ -8,7 +8,7 @@ ru:
   label_filter_plural: Фильтры
   label_greater: '>'
   label_group_by: Группировать по
-  label_group_by_add: Добавьте атрибут Группировать по
+  label_group_by_add: 'Добавить атрибут "Группировать по"'
   label_help: Справка
   label_inactive: «неактивен»
   label_less: '<'
@@ -21,7 +21,7 @@ ru:
   label_saving: Сохранение ...
   label_sum: Сумма
   label_yes: Да
-  load_query_question: 'Отчет будет иметь ячейки таблицы %{size} и может занять некоторое время для визуализации. Вы все еще хотите попробовать его?'
+  load_query_question: 'Отчет будет иметь %{size} ячеек таблицы и может занять некоторое время для визуализации. Вы все еще хотите его сформировать?'
   units: Модули
   validation_failure_date: не является допустимой датой
   validation_failure_integer: не является допустимым целым числом
