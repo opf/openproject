@@ -38,12 +38,12 @@ ja:
   label_units: 単位
   label_week_reporting: 週 (経過)
   label_year_reporting: 年 (経過)
-  load_query_question: 'レポートは%{size}個のセルを持つために、描画するに時間がかかる場合があります。描画してもよろしいですか?'
+  load_query_question: 'レポートは%{size}つセルを持つために、描画するに時間がかかる場合があります。描画してもよろしいですか?'
   permission_save_cost_reports: 共有コストレポートを保存
   permission_save_private_cost_reports: マイコストレポートを保存
   project_module_reporting_module: コストレポート
-  text_costs_are_rounded_note: Displayed values are rounded. All calculations are based on the non-rounded values.
-  toggle_multiselect: activate/deactivate multiselect
+  text_costs_are_rounded_note: 表示されている数字は四捨五入されています。すべての計算は非四捨五入の値に基づいています。
+  toggle_multiselect: 複数選択を有効/無効にする
   units: 単位
-  validation_failure_date: is not a valid date
-  validation_failure_integer: is not a valid integer
+  validation_failure_date: は有効な日付ではありません。
+  validation_failure_integer: は有効な整数ではありません。
