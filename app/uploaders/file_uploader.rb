@@ -49,7 +49,7 @@ module FileUploader
         tmp = Tempfile.new 'op_uploaded_files'
         path = Pathname(tmp)
 
-        tmp.delete # delete temp file
+        tmp.close! # delete temp file
         path.mkdir # create temp directory
 
         path.to_s
