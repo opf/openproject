@@ -49,7 +49,10 @@ module FileUploader
         tmp = Tempfile.new 'op_uploaded_files'
         path = Pathname(tmp)
 
-        tmp.delete # delete temp file
+        tmp.unlink # delete temp file. In windows this fails silently.
+        tmp.close! # Closes the file handle (needed for windows to work). 
+                   # If the file wasn't unlinked because #unlink failed, 
+                   # then this method will attempt to do so again.
         path.mkdir # create temp directory
 
         path.to_s
