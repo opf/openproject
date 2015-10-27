@@ -46,8 +46,6 @@ angular.module('openproject.uiComponents')
   .directive('opDateTime', ['$compile', 'TimezoneService', require('./date/date-time-directive')])
   .directive('emptyElement', [require('./empty-element-directive')])
   .constant('ENTER_KEY', 13)
-  .directive('executeOnEnter', ['ENTER_KEY', require(
-    './execute-on-enter-directive')])
   .directive('expandableSearch', ['ENTER_KEY', require('./expandable-search')])
   .directive('focus', ['FocusHelper', require('./focus-directive')])
   .constant('FOCUSABLE_SELECTOR', 'a, button, :input, [tabindex], select')
