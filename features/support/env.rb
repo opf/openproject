@@ -82,6 +82,10 @@ Capybara.register_driver :selenium do |app|
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile['intl.accept_languages'] = 'en,en-us'
 
+  # Turn off the super annoying popup!
+  # see http://docs.travis-ci.com/user/gui-and-headless-browsers/#Selenium-and-Firefox-popups
+  profile["network.http.prompt-temp-redirect"] = false
+
   Capybara::Selenium::Driver.new(app, browser: :firefox, profile: profile)
 end
 
