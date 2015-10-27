@@ -36,7 +36,7 @@ module.exports = function() {
     },
     link: function(scope, element) {
       var doIfWatchedKey = function(keyEvent, callback) {
-        if (scope.clickOnKeypress.indexOf(keyEvent.keyCode) !== -1){
+        if (scope.clickOnKeypress.indexOf(keyEvent.which) !== -1){
           keyEvent.stopPropagation();
           keyEvent.preventDefault();
 
@@ -52,7 +52,7 @@ module.exports = function() {
 
       element.on('keyup', function(keyEvent) {
         doIfWatchedKey(keyEvent, function() {
-          keyEvent.target.click();
+          angular.element(keyEvent.target).click();
         });
       });
     }
