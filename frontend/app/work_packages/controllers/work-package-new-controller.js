@@ -66,6 +66,7 @@ module.exports = function(
 
   function activate() {
     EditableFieldsState.forcedEditState = true;
+    EditableFieldsState.editAll.state = true;
     var data = {};
     if (angular.isDefined($stateParams.type)) {
       data = {
@@ -117,7 +118,7 @@ module.exports = function(
       prepend: true,
     };
 
-    WorkPackageFieldService.submitWorkPackageChanges(notify, function() {
+    EditableFieldsState.save(notify, function() {
       $rootScope.$emit('workPackagesRefreshRequired');
     });
   }

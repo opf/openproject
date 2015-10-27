@@ -43,7 +43,7 @@ describe('details pane', function() {
   describe('date range picker', function() {
     beforeEach(function() {
       detailsPaneHelper.loadPane(819, 'activity');
-      dateRangePicker = element(by.css('.inplace-edit.attribute-date'));
+      dateRangePicker = $('.inplace-edit.attribute-date');
     });
 
     context('read value', function() {

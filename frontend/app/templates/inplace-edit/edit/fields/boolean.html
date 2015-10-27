@@ -1,0 +1,10 @@
+<div class="switch">
+  <input type="checkbox"
+         class="focus-input"
+         id="checkbox-switch-{{ field.name }}"
+         name="value"
+         ng-disabled="fieldController.state.isBusy"
+         title="{{ fieldController.editTitle }}"
+         ng-model="field.value" />
+  <label for="checkbox-switch-{{ field.name }}" title="{{ fieldController.editTitle }}"></label>
+</div>
