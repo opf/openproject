@@ -150,7 +150,6 @@ module.exports = function(
   return {
     restrict: 'E',
     replace: true,
-    reqire: '^workPackageField',
     scope: {
       workPackage: '&'
     },
