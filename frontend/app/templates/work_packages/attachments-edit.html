@@ -51,7 +51,8 @@
        class="work-package--attachments--drop-box"
        data-ngf-multiple="true"
        data-ngf-change="uploadFilteredFiles($files)"
-       data-ngf-max-size="{{::maximumFileSize}}">
+       data-ngf-max-size="{{::maximumFileSize}}"
+       data-ng-keyup="openSelectOnEnter($event)">
     <div class="work-package--attachments--label">
       <i class="icon-attachment"></i>
       <p>

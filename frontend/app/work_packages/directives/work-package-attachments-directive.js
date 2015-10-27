@@ -40,6 +40,7 @@ module.exports = function(
 
   var attachmentsController = function(scope, element, attrs) {
     scope.files = [];
+    scope.element = element;
 
     var workPackage = scope.workPackage(),
         upload = function(event, workPackage) {
@@ -133,6 +134,15 @@ module.exports = function(
       scope.maxFileSize = scope.size(settings.maximumAttachmentFileSize);
       scope.fetchingConfiguration = false;
     });
+
+    scope.openSelectOnEnter = function(keyEvent) {
+      if (keyEvent.keyCode === 13) {
+        keyEvent.stopPropagation();
+        keyEvent.preventDefault();
+
+        keyEvent.target.click();
+      }
+    };
 
     loadAttachments();
   };
