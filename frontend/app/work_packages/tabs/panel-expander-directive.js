@@ -35,6 +35,11 @@ module.exports = function() {
       collapsed: '=',
       expandText: '@',
       collapseText: '@'
+    },
+    link: function(scope) {
+      scope.toggle = function() {
+        scope.collapsed = !scope.collapsed;
+      };
     }
   };
 };

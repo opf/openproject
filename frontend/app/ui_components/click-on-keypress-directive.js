@@ -26,39 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+module.exports = function() {
+  'use strict';
 
-describe('executeOnEnter Directive', function() {
-    var compile, element, rootScope, scope;
+  return {
+    restrict: 'A',
+    scope: {
+      clickOnKeypress: '='
+    },
+    link: function(scope, element) {
+      var doIfWatchedKey = function(keyEvent, callback) {
+        if (scope.clickOnKeypress.indexOf(keyEvent.which) !== -1){
+          keyEvent.stopPropagation();
+          keyEvent.preventDefault();
 
-    beforeEach(angular.mock.module('openproject.uiComponents'));
-    beforeEach(module('openproject.templates'));
-
-    beforeEach(inject(function($rootScope, $compile) {
-      var html;
-      html = '<input execute-on-enter="myFunction()"></input>';
-
-      element = angular.element(html);
-      rootScope = $rootScope;
-      scope = $rootScope.$new();
-      scope.myFunction = sinon.spy();
-
-      compile = function() {
-        $compile(element)(scope);
-        scope.$digest();
+          if (callback !== undefined) {
+            callback(keyEvent);
+          }
+        }
       };
-    }));
 
-    describe('element', function() {
-      beforeEach(function() {
-        compile();
+      element.on('keydown', function(keyEvent) {
+        doIfWatchedKey(keyEvent);
       });
 
-      it('should execute the function passed to its scope', function() {
-        var event = jQuery.Event('keydown', { which: 13 });
-        element.trigger(event);
-        expect(scope.myFunction).to.have.been.called;
+      element.on('keyup', function(keyEvent) {
+        doIfWatchedKey(keyEvent, function() {
+          angular.element(keyEvent.target).click();
+        });
       });
+    }
+  };
+};
 
-    });
-});

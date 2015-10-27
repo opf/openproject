@@ -91,12 +91,13 @@ describe('queryFilters', function() {
       var filter2 = Factory.build('Filter', { name: 'start_date' });
       var filter3 = Factory.build('Filter', { name: 'done_ratio' });
 
-      var enterEvent = jQuery.Event('keydown', { which: 13 });
-
       var removeFilter = function(filterName) {
         var removeLinkElement = angular.element(element).find('#filter_' + filterName +
           ' .advanced-filters--remove-filter a');
+        var enterEvent = jQuery.Event('keyup', { which: 13 });
+
         angular.element(removeLinkElement[0]).trigger(enterEvent);
+
         $timeout.flush();
       };
 
