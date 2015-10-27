@@ -30,7 +30,7 @@ angular
   .module('openproject.services')
   .service('WorkPackageFieldService', WorkPackageFieldService);
 
-function WorkPackageFieldService($q, $http, I18n,  WorkPackagesHelper, HookService,
+function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, HookService,
   EditableFieldsState ) {
 
   function getSchema(workPackage) {
@@ -411,5 +411,5 @@ function WorkPackageFieldService($q, $http, I18n,  WorkPackagesHelper, HookServi
 
   return WorkPackageFieldService;
 }
-WorkPackageFieldService.$inject = ['$q', '$http', 'I18n', 'WorkPackagesHelper', 'HookService',
+WorkPackageFieldService.$inject = ['$q', '$http', '$filter', 'I18n', 'WorkPackagesHelper', 'HookService',
   'EditableFieldsState'];
