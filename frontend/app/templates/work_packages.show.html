@@ -115,8 +115,8 @@
 
 
   <div class="work-packages--split-view" cg-busy="wpPromise">
-    <div class="work-packages--left-panel">
-      <div class="work-packages--panel-inner">
+    <div class="work-packages--left-panel" data-scroll-into-view="scroller-container">
+      <div class="work-packages--panel-inner" data-scroll-into-view="scroller">
         <div class="attributes-group">
 
           <div class="attributes-group--header">
@@ -170,8 +170,8 @@
         <work-package-attachments edit data-ng-show="!vm.hideEmptyFields || vm.filesExist" work-package="vm.workPackage"></work-package-attachments>
       </div>
     </div>
-    <div class="work-packages--right-panel">
-      <div class="work-packages--panel-inner">
+    <div class="work-packages--right-panel" data-scroll-into-view="scroller-container">
+      <div class="work-packages--panel-inner" data-scroll-into-view="scroller">
         <div id="tabs">
           <ul class="tabrow">
             <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
