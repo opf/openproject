@@ -46,7 +46,7 @@ class Scm::CreateManagedRepositoryService < Scm::BaseRepositoryService
       # creating and deleting repositories, which provides transactional DB access
       # as well as filesystem access.
       if repository.class.manages_remote?
-        Scm::CreateRemoteRepositoryJob.new(repository).perform
+        Scm::CreateRemoteRepositoryJob.new(repository, perform_now: true).perform
       else
         Scm::CreateLocalRepositoryJob.new(repository).perform
       end
