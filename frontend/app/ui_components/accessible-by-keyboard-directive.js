@@ -35,10 +35,7 @@ module.exports = function() {
       linkClass: '@',
       spanClass: '@'
     },
-    template: "<a execute-on-enter='execute()' default-event-handling='defaultEventHandling'" +
-      " ng-click='execute()' href='' class='{{ linkClass }}'>" +
-      "<span ng-transclude class='{{ spanClass }}'></span>" +
-      "</a>",
+    templateUrl: '/templates/components/accessible_by_keyboard.html',
     link: function(scope, element, attrs) {
       scope.defaultEventHandling = !attrs.execute;
     }
