@@ -48,7 +48,7 @@ function EditableFieldsState($q, $rootScope) {
       return form.pendingChanges = form.pendingChanges || angular.copy(form.embedded.payload.props);
     },
 
-    save: function (callback) {
+    save: function () {
       var promises = [];
       angular.forEach(this.submissionPromises, function(field) {
         var p = field.thePromise.call(this);
@@ -56,7 +56,7 @@ function EditableFieldsState($q, $rootScope) {
       });
 
       return $q.all(promises).then(angular.bind(this, function() {
-        $rootScope.$broadcast('workPackageRefreshRequired', callback);
+        $rootScope.$broadcast('workPackageRefreshRequired');
         this.errors = null;
         this.submissionPromises = {};
         this.currentField = null;

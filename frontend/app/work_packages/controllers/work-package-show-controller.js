@@ -72,8 +72,8 @@ module.exports = function($scope,
 
   // Listen to the event globally, as listeners are not necessarily
   // in the child scope
-  $rootScope.$on('workPackageRefreshRequired', function(e, callback) {
-    refreshWorkPackage(callback);
+  $rootScope.$on('workPackageRefreshRequired', function(e) {
+    refreshWorkPackage();
   });
 
   // initialization
@@ -153,15 +153,12 @@ module.exports = function($scope,
 
   fetchProjectTypes();
 
-  function refreshWorkPackage(callback) {
+  function refreshWorkPackage() {
     WorkPackageService.getWorkPackage($scope.workPackage.props.id)
       .then(function(workPackage) {
         setWorkPackageScopeProperties(workPackage);
         fetchProjectTypes();
         $scope.$broadcast('workPackageRefreshed');
-        if (angular.isFunction(callback)) {
-          callback(workPackage);
-        }
       });
   }
   $scope.wpPromise = WorkPackageService.getWorkPackage($scope.workPackage.props.id);

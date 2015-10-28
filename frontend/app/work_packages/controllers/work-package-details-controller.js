@@ -51,8 +51,8 @@ module.exports = function($scope,
     latestTab.registerState(toState.name);
   });
 
-  $rootScope.$on('workPackageRefreshRequired', function(e, callback) {
-    refreshWorkPackage(callback);
+  $rootScope.$on('workPackageRefreshRequired', function(e) {
+    refreshWorkPackage();
   });
 
   // initialization
@@ -62,15 +62,12 @@ module.exports = function($scope,
   WorkPackageService.cache().put('preselectedWorkPackageId', $scope.workPackage.props.id);
   $scope.maxDescriptionLength = 800;
 
-  function refreshWorkPackage(callback) {
+  function refreshWorkPackage() {
     WorkPackageService.getWorkPackage($scope.workPackage.props.id)
       .then(function(workPackage) {
         setWorkPackageScopeProperties(workPackage);
         $scope.$broadcast('workPackageRefreshed');
-        if (callback) {
-          callback(workPackage);
-        }
-      }, outputError);
+      });
   }
   // Inform parent that work package is loaded so back url can be maintained
   $scope.$emit('workPackgeLoaded');

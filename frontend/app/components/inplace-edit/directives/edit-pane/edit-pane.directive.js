@@ -141,21 +141,19 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
   var vm = this;
   var field = $scope.field;
 
-  // go full retard
   var uploadPendingAttachments = function(wp) {
     $rootScope.$broadcast('uploadPendingAttachments', wp);
   };
 
-  // Propagate submission to all active fields
-  // not contained in the workPackage.form (e.g., comment)
   this.submit = function() {
-    EditableFieldsState.save(function() {
-      // Clears the location hash, as we're now
-      // scrolling to somewhere else
+    EditableFieldsState.save().then(function() {
       $location.hash(null);
       $timeout(function() {
         $element[0].scrollIntoView(false);
       });
+
+    }, function () {
+      NotificationsService.addError(I18n.t('js.work_packages.error_update_failed'));
     });
   };
 
