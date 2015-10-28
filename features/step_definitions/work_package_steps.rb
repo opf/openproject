@@ -172,3 +172,23 @@ When /^I click the unwatch work package button$/ do
     find('#unwatch-button').click
   end
 end
+
+When /^I fill in a comment with "(.+?)"$/ do |comment|
+  steps %{
+    And I click on "Click to add a comment"
+    Then I fill in "value" with "#{comment}" within ".work-packages--activity--add-comment"
+  }
+end
+
+When /^I preview the comment to be added and see "(.+?)"$/ do |comment|
+  steps %{
+    And I click on "Preview" within ".work-packages--activity--add-comment"
+    And I should see "#{comment}" within ".work-packages--activity--add-comment .-preview"
+  }
+end
+
+When /^I should see the comment "(.+?)"$/ do |comment|
+  steps %{
+    And I should see "#{comment}" within ".work-package-details-activities-list"
+  }
+end

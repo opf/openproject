@@ -57,21 +57,20 @@ Feature: Issue edit
   Scenario: User updates an issue successfully
     When I go to the page of the issue "issue1"
     And I click on the edit button
-    Then I fill in "Notes" with "human Horn"
-    And I submit the form by the "Submit" button
-    And I should see "Successful update." within ".notice"
-    And I should see "human Horn" within ".work-package-details-activities-list"
+    And I fill in a comment with "human horn"
+    And I submit the form by the "Save" button
+    And I should see "The comment was successfully added."
+    And I should see "human horn" within ".work-package-details-activities-list"
 
   @javascript
-  Scenario: User updates an issue with previewing the stuff before
+  Scenario: User adds a comment to an issue with previewing the stuff before
     When I go to the page of the issue "issue1"
     And I click on the edit button
-    Then I fill in "Notes" with "human Horn"
-    When I follow "Preview"
-    Then I should see "human Horn" within "#preview"
-    And I submit the form by the "Submit" button
-    And I should see "Successful update." within ".notice"
-    And I should see "human Horn" within ".work-package-details-activities-list"
+    And I fill in a comment with "human horn"
+    And I preview the comment to be added and see "human horn"
+    And I submit the form by the "Save" button
+    And I should see "The comment was successfully added."
+    And I should see the comment "human horn"
 
   @javascript
   Scenario: On an issue with children a user should not be able to change attributes which are overridden by children
