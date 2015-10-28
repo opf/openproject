@@ -153,7 +153,10 @@ sub _handle_request {
   return {
     success => JSON::PP::true,
     message => "The action has completed sucessfully.",
-    repository => $target
+    repository => $target,
+    path => $target,
+    # This is only useful in the packager context
+    url => 'file://' + $target
   };
 }
 

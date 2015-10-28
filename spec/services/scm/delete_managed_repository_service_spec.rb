@@ -132,7 +132,7 @@ describe Scm::DeleteManagedRepositoryService do
 
     context 'with a valid remote' do
       before do
-        stub_request(:post, url).to_return(status: 200)
+        stub_request(:post, url).to_return(status: 200, body: {}.to_json )
       end
 
       it 'calls the callback' do

@@ -95,6 +95,11 @@ Upon creating and deleting repositories in the frontend, OpenProject will POST t
 		"token": <Fixed access token passed to the endpoint>
 	}
 
+The endpoint is expected to return a JSON with at least a `message` property when the response is not successful (2xx).
+When the response is successful, it must at least return a `url` property that contains an accessible URL, an optionally, a `path` property to access the repository locally.
+Note that for Git repositories, OpenProject currently can only read them locally (i.e, through an NFS mount), so a path is mandatory here.
+For Subversion, you can either return a `file:///<path>` URL, or a local path.
+
 Our main use-case for this feature is to reduce the complexity of permission issues around Subversion mainly in packager, for which a simple Apache wrapper script is used in `extra/Apache/OpenProjectRepoman.pm`.
 This functionality is very limited, but may be extended when other use cases arise.
 It supports notifications for creating repositories (action `create`), moving repositories (action `relocate`, when a project's identifier has changed), and deleting repositories (action `delete`).

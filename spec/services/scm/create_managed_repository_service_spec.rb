@@ -146,7 +146,7 @@ describe Scm::CreateManagedRepositoryService do
     }
 
     let(:repository) {
-      repo = Repository::Subversion.new(scm_type: :managed)
+      repo = FactoryGirl.build(:repository_subversion, scm_type: :managed)
       repo.project = project
       repo.configure(:managed, nil)
       repo
@@ -158,8 +158,18 @@ describe Scm::CreateManagedRepositoryService do
     end
 
     context 'with a remote callback' do
+      let(:returned_url) { 'file:///tmp/some/url/to/repo' }
+      let(:root_url) { '/tmp/some/url/to/repo' }
       before do
-        stub_request(:post, url).to_return(status: 200)
+        stub_request(:post, url)
+          .to_return(
+            status: 200,
+            body: { url: returned_url, path: root_url }.to_json
+          )
+
+        # Avoid setting up a second call to the remote during save
+        # since we only templated the repository, not created one!
+        expect(repository).to receive(:save).and_return(true)
       end
 
       it 'calls the callback' do
@@ -167,6 +177,9 @@ describe Scm::CreateManagedRepositoryService do
           .to receive(:new).and_call_original
 
         expect(service.call).to be true
+        expect(repository.root_url).to eq(root_url)
+        expect(repository.url).to eq(returned_url)
+
         expect(WebMock)
           .to have_requested(:post, url)
           .with(body: hash_including(action: 'create'))

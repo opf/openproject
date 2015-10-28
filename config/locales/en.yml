@@ -1569,6 +1569,7 @@ en:
       disabled_or_unknown_vendor: "The SCM vendor %{vendor} is disabled or no longer available."
       remote_call_failed: "Calling the managed remote failed with message '%{message}' (Code: %{code})"
       remote_invalid_response: "Received an invalid response from the managed remote."
+      remote_save_failed: "Could not save the repository with the parameters retrieved from the remote."
     git:
       instructions:
         managed_url: "This is the URL of the managed (local) Git repository."

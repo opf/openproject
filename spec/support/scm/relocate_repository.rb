@@ -46,14 +46,18 @@ shared_examples_for 'repository can be relocated' do |vendor|
     let(:config) { { manages: url } }
 
     let(:repository) {
-      stub_request(:post, url).to_return(status: 200)
+      stub_request(:post, url)
+        .to_return(status: 200,
+                   body: { success: true, url: 'file:///foo/bar', path: '/tmp/foo/bar' }.to_json)
       FactoryGirl.create("repository_#{vendor}".to_sym,
                          project: project,
                          scm_type: :managed)
     }
 
     before do
-      stub_request(:post, url).to_return(status: 200)
+      stub_request(:post, url)
+        .to_return(status: 200,
+                   body: { success: true, url: 'file:///new/bar', path: '/tmp/new/bar' }.to_json)
     end
 
     it 'sends a relocation request when project identifier is updated' do
