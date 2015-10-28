@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= render :partial => "projects/form/attributes/identifier", :locals => { :form => f,
                                                                                :project => @copy_project } %>
     <%= render :partial => "projects/form/attributes/description", :locals => { :form => f } %>
-    <%= render :partial => "customizable/form", :locals => { :project => @project, form: f } %>
+    <%= render :partial => "customizable/form", :locals => { :project => @project, form: f, all_fields: true, only_required: false } %>
     <%= render :partial => "projects/form/attributes/responsible_id", :locals => { :form => f,
                                                                                    :project => @project } %>
     <%= render :partial => "projects/form/attributes/hidden_field",

@@ -76,6 +76,8 @@ describe 'Projects', type: :feature do
       expect(page).to have_content 'Identifier has already been taken'
       expect(current_path).to eq '/projects'
     end
+
+
   end
 
   describe 'project types' do
@@ -151,6 +153,44 @@ describe 'Projects', type: :feature do
 
       expect(page).to have_content 'Identifier is invalid.'
       expect(current_path).to eq '/projects/foo/identifier'
+    end
+  end
+
+  describe 'form', js: true do
+    let(:project) { FactoryGirl.build(:project, name: 'Foo project', identifier: 'foo-project') }
+    let!(:optional_custom_field) do
+      FactoryGirl.create(:custom_field, name: 'Optional Foo',
+                                        type: ProjectCustomField,
+                                        is_for_all: true)
+    end
+    let!(:required_custom_field) do
+      FactoryGirl.create(:custom_field, name: 'Required Foo',
+                                        type: ProjectCustomField,
+                                        is_for_all: true,
+                                        is_required: true)
+    end
+
+    it 'seperates optional and required custom fields for new' do
+      visit new_project_path
+
+      expect(page).to have_content 'Required Foo'
+
+      click_on 'Advanced settings'
+
+      within('#advanced-settings') do
+        expect(page).to have_content 'Optional Foo'
+        expect(page).not_to have_content 'Required Foo'
+      end
+    end
+
+    it 'shows optional and required custom fields for edit without an seperation' do
+      project.custom_field_values.last.value = 'FOO'
+      project.save!
+
+      visit settings_project_path(id: project.id, tab: 'info')
+
+      expect(page).to have_content 'Required Foo'
+      expect(page).to have_content 'Optional Foo'
     end
   end
 end
