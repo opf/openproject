@@ -107,7 +107,7 @@ module.exports = function(
     });
   }
 
-  function submit(notify) {
+  function submit() {
     var field = angular.element('.work-packages--details--subject:first .inplace-edit--write')
                        .scope().editPaneController.submitField;
 
@@ -117,7 +117,7 @@ module.exports = function(
       prepend: true,
     };
 
-    WorkPackageFieldService.submitWorkPackageChanges(notify, function() {
+    WorkPackageFieldService.submitWorkPackageChanges(function() {
       $rootScope.$emit('workPackagesRefreshRequired');
     });
   }

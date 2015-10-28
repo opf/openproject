@@ -397,11 +397,11 @@ module.exports = function(
     return WorkPackagesHelper.formatValue(value, mappings[field]);
   }
 
-  function submitWorkPackageChanges(notify, callback) {
+  function submitWorkPackageChanges(callback) {
     // We have to ensure that some promises are executed earlier then others
     var promises = [];
     angular.forEach(EditableFieldsState.submissionPromises, function(field) {
-      var p = field.thePromise.call(this, notify);
+      var p = field.thePromise.call(this);
       if (field.prepend) {
         promises.unshift(p);
       } else {

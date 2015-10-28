@@ -40,10 +40,6 @@ module.exports = function() {
           'js.inplace.button_save',
           { attribute: fieldController.field }
         );
-        this.saveAndSendTitle = I18n.t(
-          'js.inplace.button_save_and_send',
-          { attribute: fieldController.field }
-        );
         this.cancelTitle = I18n.t(
           'js.inplace.button_cancel',
           { attribute: fieldController.field }

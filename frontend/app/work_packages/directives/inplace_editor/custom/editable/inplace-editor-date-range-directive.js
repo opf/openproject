@@ -72,7 +72,7 @@ module.exports = function(TimezoneService, ConfigurationService,
       }
 
       scope.execute = function() {
-        form.scope().editPaneController.submit(false);
+        form.scope().editPaneController.submit();
       };
 
       startDatepicker = new Datepicker(divStart, inputStart, scope.startDate);

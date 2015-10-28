@@ -259,11 +259,10 @@ module.exports = function($http,
       return workPackage.links.updateImmediately.fetch(options);
     },
 
-    updateWorkPackage: function(workPackage, notify) {
+    updateWorkPackage: function(workPackage) {
       var options = { ajax: {
         method: workPackage.links.updateImmediately.props.method,
-        url: URI(workPackage.links.updateImmediately.props.href)
-            .addSearch('notify', notify).toString(),
+        url: workPackage.links.updateImmediately.props.href,
         headers: {
           Accept: 'application/hal+json'
         },

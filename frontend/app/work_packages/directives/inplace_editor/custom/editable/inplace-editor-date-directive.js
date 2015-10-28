@@ -52,7 +52,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
           datepicker;
 
       scope.execute = function() {
-        form.scope().editPaneController.submit(false);
+        form.scope().editPaneController.submit();
       };
 
       if(scope.fieldController.writeValue) {

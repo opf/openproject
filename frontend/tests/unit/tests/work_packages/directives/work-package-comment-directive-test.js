@@ -136,16 +136,13 @@ describe('workPackageCommentDirectiveTest', function() {
 
         it('does not allow sending comment with an empty message', function() {
           var saveButton = commentSection.find('.inplace-edit--control--save');
-          var sendButton = commentSection.find('.inplace-edit--control--send');
           var commentField = commentSection.find('textarea').click();
 
           expect(saveButton.attr('disabled')).to.eq('disabled');
-          expect(sendButton.attr('disabled')).to.eq('disabled');
 
           commentField.val('a useful comment');
           commentField.trigger('change');
           expect(saveButton.attr('disabled')).to.be.undefined;
-          expect(sendButton.attr('disabled')).to.be.undefined;
         });
       });
     });
