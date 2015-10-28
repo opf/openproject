@@ -43,7 +43,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
         input_options, label_options = extract_from options
 
-        label = form_label_for_field(field, label_options)
+        label = label_for_field(field, label_options)
         input = super(field, input_options, *args)
 
         (label + container_wrap_field(input, selector, options))
@@ -63,7 +63,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     input_options, label_options = extract_from options
     label_options[:for] = "#{sanitized_object_name}_#{field}_#{value.downcase}"
 
-    label = form_label_for_field(field, label_options)
+    label = label_for_field(field, label_options)
     input = super(field, value, input_options, *args)
 
     (label + container_wrap_field(input, 'radio-button', options))
@@ -72,13 +72,13 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   def select(field, choices, options = {}, html_options = {})
     html_options[:class] = Array(html_options[:class]) + %w(form--select)
 
-    form_label_for_field(field, options) + container_wrap_field(super, 'select', options)
+    label_for_field(field, options) + container_wrap_field(super, 'select', options)
   end
 
   def collection_select(field, collection, value_method, text_method, options = {}, html_options = {})
     html_options[:class] = Array(html_options[:class]) + %w(form--select)
 
-    form_label_for_field(field, options) + container_wrap_field(super, 'select', options)
+    label_for_field(field, options) + container_wrap_field(super, 'select', options)
   end
 
   def collection_check_box(field,
@@ -102,14 +102,6 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     options_with_defaults = options.merge(builder: CustomFieldFormBuilder)
 
     fields_for(record_name, record_object, options_with_defaults, &block)
-  end
-
-  def fixed_value(field, options = {})
-    value_options, label_options = extract_from options
-
-    label = soft_label_for_field(field, label_options)
-    value = container_wrap_field(object.send(field), 'pure-text', value_options)
-    label + value
   end
 
   private
@@ -150,7 +142,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     translation_objects = translation_objects field, options
 
     fields_for(:translations, translation_objects, builder: TabularFormBuilder) do |translation_form|
-      ret = form_label_for_field(field, options, translation_form) unless ret
+      ret = label_for_field(field, options, translation_form) unless ret
 
       ret.concat localized_field.call(translation_form)
     end
@@ -183,20 +175,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   # Returns a label tag for the given field
-  def form_label_for_field(field, options = {}, translation_form = nil)
-    text, label_options = label_text_and_options(field, options, translation_form)
-    @template.label(@object_name, field, h(text), label_options)
-  end
-
-  # Returns a label-like tag for the given field
-  # Can be used when a label tag can't be used (e.g. no form control as "for" target),
-  # but its semantics are required.
-  def soft_label_for_field(field, options = {})
-    text, label_options = label_text_and_options(field, options)
-    content_tag :span, text, label_options.except(:for)
-  end
-
-  def label_text_and_options(field, options = {}, translation_form = nil)
+  def label_for_field(field, options = {}, translation_form = nil)
     options = options.dup
     return ''.html_safe if options.delete(:no_label)
 
@@ -225,10 +204,9 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                             id.sub(/\_id$/, "_#{field}")
                           end
     label_options[:lang] = options[:lang]
-    label_options[:id] = options[:id]
     label_options.reject! do |_k, v| v.nil? end
 
-    [text, label_options]
+    @template.label(@object_name, field, h(text), label_options)
   end
 
   def element_id(translation_form)
