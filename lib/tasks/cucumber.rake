@@ -72,6 +72,18 @@ unless ARGV.any? { |a| a =~ /\Agems/ } # Don't load anything when running the ge
             features = args[:features].split(/\s+/)
           else
             features = get_plugin_features
+
+            if name == :plugins
+              # in case we want to run cucumber plugins and there are none
+              # we exit with positive message
+              if features.empty?
+                puts
+                puts '##### There are no cucumber features for OpenProject plugins to be run.'
+                puts
+                exit(0)
+              end
+            end
+
             if name == :all
               features += [File.join(Rails.root, 'features')]
             end
