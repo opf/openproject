@@ -39,7 +39,6 @@ class Scm::RemoteRepositoryJob
 
   attr_reader :repository
 
-
   ##
   # Initialize the job, optionally saving the whole repository object
   # (use only when not serializing the job.)
@@ -65,9 +64,9 @@ class Scm::RemoteRepositoryJob
     response = ::Net::HTTP.start(uri.hostname, uri.port) do |http|
       http.request(req)
     end
+    info = try_to_parse_response(response.body)
 
     unless response.is_a? ::Net::HTTPSuccess
-      info = try_to_parse_response(response.body)
       raise OpenProject::Scm::Exceptions::ScmError.new(
               I18n.t('repositories.errors.remote_call_failed',
                      code: response.code,
@@ -75,6 +74,8 @@ class Scm::RemoteRepositoryJob
               )
             )
     end
+
+    info
   end
 
   def try_to_parse_response(body)

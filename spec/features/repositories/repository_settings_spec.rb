@@ -160,7 +160,9 @@ describe 'Repository Settings', type: :feature, js: true do
           :managed
         )
 
-        stub_request(:post, url).to_return(status: 200)
+        stub_request(:post, url)
+          .to_return(status: 200,
+                     body: { success: true, url: 'file:///foo/bar' }.to_json)
 
         repo.save!
         repo

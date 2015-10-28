@@ -43,9 +43,16 @@ class Scm::RelocateRepositoryJob < Scm::RemoteRepositoryJob
   ##
   # POST to the remote managed repository a request to relocate the repository
   def relocate_remote
-    send(repository_request.merge(
+    response = send(repository_request.merge(
            action: :relocate,
            old_repository: repository.root_url))
+    repository.root_url = response['path']
+    repository.url = response['url']
+
+    unless repository.save
+      Rails.logger.error("Could not relocate the remote repository " \
+                         "#{repository.repository_identifier}.")
+    end
   end
 
   ##
