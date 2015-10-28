@@ -54,15 +54,6 @@ Feature: Issue edit
     And I am already logged in as "bob"
 
   @javascript
-  Scenario: User updates an issue successfully
-    When I go to the page of the issue "issue1"
-    And I click on the edit button
-    And I fill in a comment with "human horn"
-    And I submit the form by the "Save" button
-    And I should see "The comment was successfully added."
-    And I should see "human horn" within ".work-package-details-activities-list"
-
-  @javascript
   Scenario: User adds a comment to an issue with previewing the stuff before
     When I go to the page of the issue "issue1"
     And I click on the edit button
