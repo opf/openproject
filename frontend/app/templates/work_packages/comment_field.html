@@ -18,8 +18,9 @@
     </div>
     <div class="inplace-edit--write edit-strategy-comment" ng-show="fieldController.isEditing">
       <form class="inplace-edit--form" ng-if="fieldController.isEditing" name="fieldController.editForm" ng-submit="fieldController.submit(false)" novalidate>
-        <div class="inplace-edit--write-value" ng-include="'/components/inplace-edit/directives/field-edit/edit-wiki-textarea/edit-wiki-textarea.directive.html'"
+        <div class="inplace-edit--write-value"
              ng-click="fieldController.markActive()" tabindex="-1">
+          <inplace-editor-wiki-textarea> </inplace-editor-wiki-textarea>
         </div>
         <div class="inplace-edit--dashboard">
           <div class="inplace-edit--controls" ng-hide="fieldController.state.isBusy || !fieldController.isActive()">
