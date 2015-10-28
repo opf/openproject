@@ -68,14 +68,15 @@ Feature: Updating work packages
     And the type "Phase2" has the default workflow for the role "manager"
     And there are the following work packages in project "ecookbook":
       | subject | type    | status  | fixed_version |
-      | pe1     | Phase1  | status1 | version1      |
-      | pe2     |         |         |               |
+      | wp1     | Phase1  | status1 | version1      |
+      | wp2     |         |         |               |
     And I am already logged in as "manager"
 
-  @javascript @wip
+  @javascript
   Scenario: Updating the work package and seeing the results on the show page
-    # FIXME 16364 assignee is not shown on work package views (full and split screen)
-    When I go to the edit page of the work package called "pe1"
+    When I go to the edit page of the work package called "wp1"
+    And I click the edit work package button
+    And I click on "Show all"
     And I fill in the following:
       | Type           | Phase2      |
     # This is to be removed once the bug
@@ -93,9 +94,10 @@ Feature: Updating work packages
       | Status         | status2     |
       | Subject        | New subject |
       | Description    | Desc2       |
-    And I fill in the id of work package "pe2" into "Parent"
-    And I submit the form by the "Submit" button
+    And I submit the form by the "Save" button
+    Then I should see "Successful update"
     Then I should be on the page of the work package "New subject"
+    And I click the edit work package button
     And the work package should be shown with the following values:
       | Responsible    | the manager |
       | Assignee       | the manager |
@@ -107,24 +109,39 @@ Feature: Updating work packages
       | Subject        | New subject |
       | Type           | Phase2      |
       | Description    | Desc2       |
-    # And the work package "pe2" should be shown as the parent
 
   @javascript
   Scenario: Concurrent updates to work packages
-    When I go to the edit page of the work package called "pe1"
+    When I go to the edit page of the work package called "wp1"
+    And I click the edit work package button
+    And I click on "Show all"
     And I fill in the following:
       | Start date     | 03-04-2013   |
-    And the work_package "pe1" is updated with the following:
+    And the work_package "wp1" is updated with the following:
       | Start date | 04-04-2013 |
-    And I submit the form by the "Submit" button
+    And I submit the form by the "Save" button
     Then I should see "Information has been updated by at least one other user in the meantime."
     And I should see "The update(s) came from"
 
   @javascript
-  Scenario: Adding a note
-    When I go to the edit page of the work package called "pe1"
-     And I fill in "Notes" with "Note message"
-     And I submit the form by the "Submit" button
-    Then I should be on the page of the work package "pe1"
-     And I should see a journal with the following:
-      | Notes | Note message |
+  Scenario: User adds a comment to an work package with previewing the stuff before
+    When I go to the page of the issue "wp1"
+    And I click on the edit button
+    And I fill in a comment with "human horn"
+    And I preview the comment to be added and see "human horn"
+    And I submit the form by the "Save" button
+    And I should see "The comment was successfully added."
+    And I should see the comment "human horn"
+
+  @javascript
+  Scenario: On a work package with children a user should not be able to change attributes which are overridden by children
+    Given the user "manager" has 1 issue with the following:
+      | subject | wp2      |
+    When I go to the edit page of the work package "wp2"
+    And I click the edit work package button
+    And I click on "Show all"
+    Then there should not be a "Progress \(%\)" field
+    And there should be a disabled "Priority" field
+    And there should be a disabled "Start date" field
+    And there should be a disabled "Due date" field
+    And there should be a disabled "Estimated time" field
