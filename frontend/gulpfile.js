@@ -162,6 +162,7 @@ gulp.task('default', ['webpack', 'fonts', 'styleguide', 'sass', 'express']);
 gulp.task('dev', ['default', 'watch']);
 gulp.task('watch', function() {
   gulp.watch('app/**/*.js', ['webpack']);
+  gulp.watch('app/**/*.html', ['webpack']);
   gulp.watch('config/locales/js-*.yml', ['webpack']);
   gulp.watch('app/templates/**/*.html', ['webpack']);
 
