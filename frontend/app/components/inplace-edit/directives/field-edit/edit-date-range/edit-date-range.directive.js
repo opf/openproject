@@ -58,6 +58,11 @@ function inplaceEditorDateRange(TimezoneService, I18n, $timeout, WorkPackageFiel
 
       scope.startDate = field.value.startDate;
       scope.endDate = field.value.dueDate;
+
+      // TODO: make this work package agnostic
+      scope.startDateLabel = I18n.t('js.work_packages.properties.startDate');
+      scope.endDateLabel = I18n.t('js.work_packages.properties.dueDate');
+
       var form = element.parents('.inplace-edit--form'),
         inputStart = element.find('.inplace-edit--date-range-start-date'),
         inputEnd = element.find('.inplace-edit--date-range-end-date'),

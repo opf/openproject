@@ -1,9 +1,15 @@
 <div class="dropdown-wrapper">
+  <label
+    class="hidden-for-sighted"
+    for="inplace-edit--write-value--{{::field.name}}">
+      {{::field.getLabel()}}
+  </label>
   <select
       ng-disabled="fieldController.state.isBusy"
       ng-model="field.value.props.href"
       title="{{ fieldController.editTitle }}"
-      class="inplace-edit-select">
+      class="inplace-edit-select"
+      id="inplace-edit--write-value--{{::field.name}}">
     <option ng-repeat="item in customEditorController.allowedValues" value="{{ item.href }}"
         ng-selected="item.name === customEditorController.selected"
         ng-bind="item.name || customEditorController.nullValueLabel">

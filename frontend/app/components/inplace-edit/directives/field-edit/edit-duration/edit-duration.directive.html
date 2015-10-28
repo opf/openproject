@@ -1,8 +1,16 @@
-<input class="focus-input inplace-edit--text-field"
-       name="value"
-       type="number"
-       step="0.5"
-       ng-disabled="fieldController.state.isBusy"
-       ng-required="fieldController.isRequired"
-       title="{{ fieldController.editTitle }}"
-       ng-model="field.value" />
+<div class="edit-duration-wrapper">
+  <label
+    class="hidden-for-sighted"
+    for="inplace-edit--write-value--{{::field.name}}">
+      {{::field.getLabel()}}
+  </label>
+  <input class="focus-input inplace-edit--text-field"
+         id="inplace-edit--write-value--{{::field.name}}"
+         name="value"
+         type="number"
+         step="0.5"
+         ng-disabled="fieldController.state.isBusy"
+         ng-required="fieldController.isRequired"
+         title="{{ fieldController.editTitle }}"
+         ng-model="field.value" />
+</div>

@@ -1,12 +1,24 @@
 <div class="inplace-edit--date-range">
+  <label
+    class="hidden-for-sighted"
+    for="inplace-edit--write-value--{{::field.name}}-start">
+      {{::startDateLabel}}
+  </label>
   <input type="text"
          class="inplace-edit--date-range-start-date"
+         id="inplace-edit--write-value--{{::field.name}}-start"
          ng-change="onStartEdit()"
          ng-model="startDate" ng-class="{'inplace-edit--highlight': startDateIsChanged}" />
   <div class="inplace-edit--date-range-start-date-picker"></div>
   <span class="delimeter">-</span>
+  <label
+    class="hidden-for-sighted"
+    for="inplace-edit--write-value--{{::field.name}}-end">
+      {{::endDateLabel}}
+  </label>
   <input type="text"
          class="inplace-edit--date-range-end-date"
+         id="inplace-edit--write-value--{{::field.name}}-end"
          ng-change="onEndEdit()"
          ng-model="endDate" ng-class="{'inplace-edit--highlight': endDateIsChanged}" />
   <div class="inplace-edit--date-range-end-date-picker"></div>

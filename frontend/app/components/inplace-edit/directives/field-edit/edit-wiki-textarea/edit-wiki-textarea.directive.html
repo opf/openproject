@@ -1,18 +1,24 @@
 <div class="textarea-wrapper" ng-class="{'-preview': customEditorController.isPreview}">
-    <textarea
-            wiki-toolbar
-            style="min-height: 38px"
-            msd-elastic="\n"
-            class="focus-input inplace-edit--textarea -animated"
-            ng-hide="customEditorController.isPreview && !fieldController.state.isBusy"
-            preview-toggle="customEditorController.togglePreview()"
-            name="value"
-            ng-disabled="fieldController.state.isBusy"
-            ng-required="fieldController.isRequired"
-            ng-model="field.value.raw"
-            title="{{ fieldController.editTitle }}">
-    </textarea>
-    <div class="inplace-edit--preview" ng-if="customEditorController.isPreview && !fieldController.state.isBusy">
-        <span ng-bind-html="customEditorController.previewHtml"></span>
-    </div>
+  <label
+    class="hidden-for-sighted"
+    for="inplace-edit--write-value--{{::field.name}}">
+      {{::field.getLabel()}}
+  </label>
+  <textarea
+          wiki-toolbar
+          style="min-height: 38px"
+          msd-elastic="\n"
+          class="focus-input inplace-edit--textarea -animated"
+          id="inplace-edit--write-value--{{::field.name}}"
+          ng-hide="customEditorController.isPreview && !fieldController.state.isBusy"
+          preview-toggle="customEditorController.togglePreview()"
+          name="value"
+          ng-disabled="fieldController.state.isBusy"
+          ng-required="fieldController.isRequired"
+          ng-model="field.value.raw"
+          title="{{ fieldController.editTitle }}">
+  </textarea>
+  <div class="inplace-edit--preview" ng-if="customEditorController.isPreview && !fieldController.state.isBusy">
+      <span ng-bind-html="customEditorController.previewHtml"></span>
+  </div>
 </div>
