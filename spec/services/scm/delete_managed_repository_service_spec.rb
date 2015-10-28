@@ -81,13 +81,6 @@ describe Scm::DeleteManagedRepositoryService do
       repo
     }
 
-    before do
-      allow_any_instance_of(Scm::DeleteLocalRepositoryJob)
-        .to receive(:repository).and_return(repository)
-      allow_any_instance_of(Scm::DeleteRemoteRepositoryJob)
-        .to receive(:repository).and_return(repository)
-    end
-
     it 'deletes the repository' do
       expect(File.directory?(repository.root_url)).to be true
       expect(service.call).to be true

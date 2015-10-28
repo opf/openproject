@@ -32,6 +32,16 @@ module OpenProject
     module ManageableRepository
       def self.included(base)
         base.extend(ClassMethods)
+
+        ##
+        # Take note when projects are renamed and check for associated managed repositories
+        OpenProject::Notifications.subscribe('project_renamed') do |payload|
+          repository = payload[:project].repository
+
+          if repository && repository.managed?
+            Delayed::Job.enqueue ::Scm::RelocateRepositoryJob.new(repository)
+          end
+        end
       end
 
       module ClassMethods

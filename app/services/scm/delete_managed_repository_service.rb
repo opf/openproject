@@ -38,7 +38,7 @@ class Scm::DeleteManagedRepositoryService < Scm::BaseRepositoryService
     return false unless repository.managed?
 
     if repository.class.manages_remote?
-      Scm::DeleteRemoteRepositoryJob.new(repository).perform
+      Scm::DeleteRemoteRepositoryJob.new(repository, perform_now: true).perform
       true
     else
       delete_local_repository

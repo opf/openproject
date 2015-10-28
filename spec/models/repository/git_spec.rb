@@ -388,6 +388,9 @@ describe Repository::Git, type: :model do
       it_behaves_like 'is a countable repository' do
         let(:repository) { instance }
       end
+
     end
   end
+
+  it_behaves_like 'repository can be relocated', :git
 end
