@@ -28,11 +28,9 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= toolbar title: l(:label_user_plural) do %>
-  <% unless OpenProject::Configuration.disable_password_login? %>
-    <%= link_to new_user_path, class: 'button -alt-highlight' do %>
-      <i class="button--icon icon-add"></i>
-      <span class="button--text"><%= l(:label_user_new) %></span>
-    <% end %>
+  <%= link_to new_user_path, class: 'button -alt-highlight' do %>
+    <i class="button--icon icon-add"></i>
+    <span class="button--text"><%= l(:label_user_new) %></span>
   <% end %>
   <%= call_hook(:user_admin_action_menu) %>
 <% end %>
