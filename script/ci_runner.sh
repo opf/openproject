@@ -53,8 +53,7 @@ run() {
   eval $3;
 }
 
-if [ $2 != '' ] && [ $3 != '' ]
-then
+if [ -n "$2" ] && [ -n "$3" ]; then
   GROUPING=" -n $2 --only-group $3"
 else
   GROUPING=''
@@ -62,6 +61,8 @@ fi
 
 if [ $1 = "npm" ]; then
   run "npm test"
+elif [ $1 = "spec:plugins" ] || [ $1 = "cucumber:plugins" ]; then
+  run "bundle exec rake $1"
 elif [ $1 = "legacy" ]; then
   run "bundle exec parallel_test --type rspec -o '-I spec_legacy' spec_legacy $GROUPING"
 elif [ $1 = "spec" ]; then
