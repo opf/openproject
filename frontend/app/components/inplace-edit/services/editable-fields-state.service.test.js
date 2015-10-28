@@ -29,7 +29,7 @@
 describe('EditableFieldsState service', function () {
   var EditableFieldsState, eAll;
 
-  beforeEach(module('openproject'));
+  beforeEach(angular.mock.module('openproject.services', 'openproject.workPackages.services'));
 
   beforeEach(inject(function (_EditableFieldsState_) {
     EditableFieldsState = _EditableFieldsState_;
