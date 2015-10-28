@@ -7,8 +7,8 @@ require 'open_project/costs/version'
 Gem::Specification.new do |s|
   s.name        = 'openproject-costs'
   s.version     = OpenProject::Costs::VERSION
-  s.authors = 'Finn GmbH'
-  s.email = 'info@finn.de'
+  s.authors = 'OpenProject GmbH'
+  s.email = 'info@openproject.com'
   s.homepage = 'https://www.openproject.org/projects/costs-plugin'
   s.summary     = 'OpenProject Costs'
   s.description = 'This Plugin adds features for planning and tracking costs of projects.'
