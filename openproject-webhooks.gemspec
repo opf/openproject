@@ -6,8 +6,8 @@ require 'open_project/webhooks/version'
 Gem::Specification.new do |s|
   s.name        = "openproject-webhooks"
   s.version     = OpenProject::Webhooks::VERSION
-    s.authors     = "Finn GmbH"
-  s.email       = "info@finn.de"
+  s.authors     = "OpenProject GmbH"
+  s.email       = "info@openproject.com"
   s.homepage    = "https://www.openproject.org/projects/webhooks"
   s.summary     = 'OpenProject Webhooks'
   s.description = 'Provides a plug-in API to support OpenProject webhooks for better 3rd party integration'
