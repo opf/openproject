@@ -6,8 +6,8 @@ require 'open_project/pdf_export/version'
 Gem::Specification.new do |s|
   s.name        = "openproject-pdf_export"
   s.version     = OpenProject::PdfExport::VERSION
-  s.authors     = "Finn GmbH"
-  s.email       = "info@finn.de"
+  s.authors     = "OpenProject GmbH"
+  s.email       = "info@openproject.com"
   s.homepage    = "https://www.openproject.org/projects/pdf-export"
   s.summary     = 'OpenProject Pdf Export'
   s.description = "Pdf Export Plugin"
