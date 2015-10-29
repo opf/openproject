@@ -26,23 +26,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= styled_form_tag({:action => 'edit', :tab => 'mail_handler'}) do %>
+<%= styled_form_tag({action: 'edit', tab: 'mail_handler'}) do %>
   <section class="form--section">
     <div class="form--field">
-      <%= setting_text_area :mail_handler_body_delimiters, :rows => 5 %>
+      <%= setting_text_area :mail_handler_body_delimiters, rows: 5 %>
       <div class="form--field-instructions"><%= l(:text_line_separated) %></div>
     </div>
   </section>
   <section class="form--section">
     <div class="form--field"><%= setting_check_box :mail_handler_api_enabled,
-         :onclick => "if (this.checked) { Form.Element.enable('settings_mail_handler_api_key'); } else { Form.Element.disable('settings_mail_handler_api_key'); }"%>
+         onclick: "if (this.checked) { Form.Element.enable('settings_mail_handler_api_key'); } else { Form.Element.disable('settings_mail_handler_api_key'); }"%>
       <div class="form--field-instructions">
         <%= l(:setting_mail_handler_api_description) %>
       </div>
     </div>
-    <div class="form--field"><%= setting_text_field :mail_handler_api_key, :size => 30,
-                                                 :id => 'settings_mail_handler_api_key',
-                                                 :disabled => !Setting.mail_handler_api_enabled? %>
+    <div class="form--field"><%= setting_text_field :mail_handler_api_key, size: 30,
+                                                 id: 'settings_mail_handler_api_key',
+                                                 disabled: !Setting.mail_handler_api_enabled? %>
       <span class="form--field-extra-actions">
         <%= link_to_function l(:label_generate_key), "if ($('settings_mail_handler_api_key').disabled == false) { $('settings_mail_handler_api_key').value = randomKey(20) }" %>
       </span>

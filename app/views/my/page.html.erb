@@ -41,7 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% @blocks['top'].each do |b|
          next unless MyController.available_blocks.keys.include? b  %>
         <div class="container">
-          <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+          <%= render partial: "my/blocks/#{b}", locals: { user: @user } %>
         </div>
       <% end if @blocks['top'] %>
     </div>
@@ -51,7 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% @blocks['left'].each do |b|
          next unless MyController.available_blocks.keys.include? b %>
         <div class="container">
-          <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+          <%= render partial: "my/blocks/#{b}", locals: { user: @user } %>
         </div>
       <% end if @blocks['left'] %>
     </div>
@@ -59,7 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% @blocks['right'].each do |b|
          next unless MyController.available_blocks.keys.include? b %>
         <div class="container">
-          <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+          <%= render partial: "my/blocks/#{b}", locals: { user: @user } %>
         </div>
       <% end if @blocks['right'] %>
     </div>

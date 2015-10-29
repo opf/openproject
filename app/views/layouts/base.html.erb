@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <meta name="accessibility-mode" content="<%= current_user.impaired? %>" />
     <%= csrf_meta_tags %>
     <%= render 'common/favicons' %>
-    <%= stylesheet_link_tag current_theme.stylesheet_manifest, :media => "all" %>
+    <%= stylesheet_link_tag current_theme.stylesheet_manifest, media: "all" %>
     <% if User.current.impaired? && accessibility_css_enabled? %>
       <%= stylesheet_link_tag 'accessibility' %>
     <% end %>
@@ -71,12 +71,12 @@ See doc/COPYRIGHT.rdoc for more details.
         <div id="top-menu">
           <div id="header">
             <div id="logo">
-              <%= link_to(I18n.t('label_home'), home_url, :class => 'home-link') %>
+              <%= link_to(I18n.t('label_home'), home_url, class: 'home-link') %>
             </div>
             <div id="top-menu-items">
               <%= render_top_menu_left %>
               <div class="top-menu-items-right">
-                <%= render :partial => 'search/mini_form' %>
+                <%= render partial: 'search/mini_form' %>
                 <h1 class="hidden-for-sighted">
                   <%= l(:label_top_menu) %>
                 </h1>
@@ -120,7 +120,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
           <notifications></notifications>
           <!-- Action menu -->
-          <%= render :partial => 'layouts/action_menu' %>
+          <%= render partial: 'layouts/action_menu' %>
           <%= yield %>
           <%= call_hook :view_layouts_base_content %>
           <div style="clear:both;">&nbsp;</div>

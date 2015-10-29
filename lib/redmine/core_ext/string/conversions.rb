@@ -39,7 +39,7 @@ module Redmine #:nodoc:
           if s =~ %r{^(\d+([.,]\d+)?)h?$}
             s = $1
           else
-            # 2:30 => 2.5
+            # 230: 2.5
             s.gsub!(%r{^(\d+):(\d+)$}) do $1.to_i + $2.to_i / 60.0 end
             # 2h30, 2h, 30m => 2.5, 2, 0.5
             s.gsub!(%r{^((\d+)\s*(h|hours?))?\s*((\d+)\s*(m|min)?)?$}) { |m| ($1 || $4) ? ($2.to_i + $5.to_i / 60.0) : m[0] }

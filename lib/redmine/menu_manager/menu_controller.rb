@@ -39,8 +39,8 @@ module Redmine::MenuManager::MenuController
     # Set the menu item name for a controller or specific actions
     # Examples:
     #   * menu_item :tickets # => sets the menu name to :tickets for the whole controller
-    #   * menu_item :tickets, :only => :list # => sets the menu name to :tickets for the 'list' action only
-    #   * menu_item :tickets, :only => [:list, :show] # => sets the menu name to :tickets for 2 actions only
+    #   * menu_item :tickets, only: :list # => sets the menu name to :tickets for the 'list' action only
+    #   * menu_item :tickets, only: [:list, :show] # => sets the menu name to :tickets for 2 actions only
     #
     # The default menu item name for a controller is controller_name by default
     # Eg. the default menu item name for ProjectsController is :projects

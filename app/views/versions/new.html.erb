@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for [@project, @version] do |f| %>
 
-  <%= render :partial => 'versions/form', :locals => { :f => f,
+  <%= render partial: 'versions/form', locals: { f: f,
                                                        project: @project } %>
 
   <hr class="form--separator">

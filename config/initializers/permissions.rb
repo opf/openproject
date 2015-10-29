@@ -111,7 +111,7 @@ Redmine::AccessControl.map do |map|
                                                          :column_data,
                                                          :column_sums],
                    # This is api/v2/planning_element_types
-                   :planning_element_types => [:index,
+                   planning_element_types: [:index,
                                                :show]
 
     wpt.permission :export_work_packages,
@@ -173,7 +173,7 @@ Redmine::AccessControl.map do |map|
 
     wpt.permission :save_queries,
                    { :'api/experimental/queries' => [:create, :update, :destroy],
-                     :queries => [:star, :unstar] },
+                     queries: [:star, :unstar] },
                    require: :loggedin
     # Watchers
     wpt.permission :view_work_package_watchers,

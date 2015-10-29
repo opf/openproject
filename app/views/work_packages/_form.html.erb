@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= call_hook(:view_work_packages_form_details_top, { :issue => work_package, :form => f }) %>
+<%= call_hook(:view_work_packages_form_details_top, { issue: work_package, form: f }) %>
 
 <div class="grid-block">
   <div class="form--column medium-6">
@@ -61,11 +61,11 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <div id="attributes" class="attributes">
-  <%= render :partial => 'attributes', :locals => { :f => f,
-                                                    :work_package => work_package,
-                                                    :project => project,
-                                                    :priorities => priorities,
-                                                    :user => user
+  <%= render partial: 'attributes', locals: { f: f,
+                                                    work_package: work_package,
+                                                    project: project,
+                                                    priorities: priorities,
+                                                    user: user
                                                   } %>
 </div>
 
@@ -97,9 +97,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% if work_package.new_record? %>
-  <%= render :partial => 'attachments/nested_form', locals: { open: true } %>
+  <%= render partial: 'attachments/nested_form', locals: { open: true } %>
 <% end %>
 
-<%= call_hook(:view_work_packages_form_details_bottom, { :issue => work_package, :form => f }) %>
+<%= call_hook(:view_work_packages_form_details_bottom, { issue: work_package, form: f }) %>
 
 <%= wikitoolbar_for 'work_package_description' %>

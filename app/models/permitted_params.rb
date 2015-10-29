@@ -501,7 +501,7 @@ class PermittedParams
   ## Add attributes as permitted attributes (only to be used by the plugins plugin)
   #
   # attributes should be given as a Hash in the form
-  # {:key => [:param1, :param2]}
+  # {key: [:param1, :param2]}
   def self.add_permitted_attributes(attributes)
     # Make sure the permitted attributes are cached in @whitelisted_params
     permitted_attributes

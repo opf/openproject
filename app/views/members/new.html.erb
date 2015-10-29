@@ -32,8 +32,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div>
   <% if @principals_available.any? %>
-    <%= render :partial => "members/member_form",
-               :locals => { :project => @project, :roles => @roles } %>
+    <%= render partial: "members/member_form",
+               locals: { project: @project, roles: @roles } %>
   <% else %>
     <p>
       <%= I18n.t('text_no_roles_defined') %>

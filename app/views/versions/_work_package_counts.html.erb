@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                   class: 'form--select -narrow') %>
 
 <%= form_tag status_by_version_path(version),
-             :id => "status_by_form" do %>
+             id: "status_by_form" do %>
 
   <fieldset class="form--fieldset">
 
@@ -61,8 +61,8 @@ See doc/COPYRIGHT.rdoc for more details.
             </td>
             <td width="240px">
               <%= progress_bar((count[:closed].to_f / count[:total])*100,
-                      :legend => "#{count[:closed]}/#{count[:total]}",
-                      :width => "#{(count[:total].to_f / max * 200).floor}px;") %>
+                      legend: "#{count[:closed]}/#{count[:total]}",
+                      width: "#{(count[:total].to_f / max * 200).floor}px;") %>
             </td>
           </tr>
 

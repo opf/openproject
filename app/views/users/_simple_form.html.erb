@@ -49,12 +49,12 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
 
       <div class="form--field" id="new_user_login" style="display: none;">
-        <%= f.text_field :login, :required => true, :size => 25, :disabled => true %>
+        <%= f.text_field :login, required: true, size: 25, disabled: true %>
       </div>
   <% end %>
 
-  <div class="form--field"><%= f.check_box :admin, :disabled => (@user == User.current) %></div>
-  <%= call_hook(:view_users_form, :user => @user, :form => f) %>
+  <div class="form--field"><%= f.check_box :admin, disabled: (@user == User.current) %></div>
+  <%= call_hook(:view_users_form, user: @user, form: f) %>
 </section>
 
 <!--[eoform:user]-->

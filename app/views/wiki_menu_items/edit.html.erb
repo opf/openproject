@@ -27,17 +27,17 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= error_messages_for "wiki_menu_item", :object => @wiki_menu_item %>
+<%= error_messages_for "wiki_menu_item", object: @wiki_menu_item %>
 
-<% breadcrumb_paths(*@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:id => parent.title, :project_id => parent.project}}.push(@page_title)) %>
-<%= toolbar title: l(:wiki_menu_item_for, :title => @page_title) %>
-<%= form_for @wiki_menu_item, :html => {:id => 'wiki_menu_item_form', :class => 'menu-item-form', :method => :put}, :url => wiki_menu_item_path(@project, @page) do |form| %>
+<% breadcrumb_paths(*@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {id: parent.title, project_id: parent.project}}.push(@page_title)) %>
+<%= toolbar title: l(:wiki_menu_item_for, title: @page_title) %>
+<%= form_for @wiki_menu_item, html: {id: 'wiki_menu_item_form', class: 'menu-item-form', method: :put}, url: wiki_menu_item_path(@project, @page) do |form| %>
 <p class="item-name">
-  <%= form.label :name, l(:label_menu_item_name), {:id => 'item-name'} %>
+  <%= form.label :name, l(:label_menu_item_name), {id: 'item-name'} %>
   <% if @wiki_menu_item.name.nil? %>
-  <%= form.text_field :name, :size => 20, :value => @page_title.gsub("_"," ") %>
+  <%= form.text_field :name, size: 20, value: @page_title.gsub("_"," ") %>
   <% else %>
-  <%= form.text_field :name, :size => 20 %>
+  <%= form.text_field :name, size: 20 %>
   <% end %>
 </p>
 <br>
@@ -63,16 +63,16 @@ See doc/COPYRIGHT.rdoc for more details.
   </p>
   <p>
     <% disabled = @parent_menu_item_options.empty? %>
-    <%= form.radio_button 'setting', :sub_item, :disabled => disabled %>
-    <%= form.label 'setting_sub_item', l(:label_wiki_show_submenu_item), {:id => 'with-select'} %>
-    <%= select_tag "parent_wiki_menu_item", options_for_select(@parent_menu_item_options, @selected_parent_menu_item_id), :disabled => disabled %>
+    <%= form.radio_button 'setting', :sub_item, disabled: disabled %>
+    <%= form.label 'setting_sub_item', l(:label_wiki_show_submenu_item), {id: 'with-select'} %>
+    <%= select_tag "parent_wiki_menu_item", options_for_select(@parent_menu_item_options, @selected_parent_menu_item_id), disabled: disabled %>
   </p>
 </fieldset>
 <p>
-  <%= styled_button_tag l(:button_save), :method => :post,
+  <%= styled_button_tag l(:button_save), method: :post,
   class: '-highlight -with-icon icon-yes' %>
   <%= link_to l(:button_cancel),
-  {:controller => '/wiki', :action => 'show', :project_id => @project, :id => @page_title},
+  {controller: '/wiki', action: 'show', project_id: @project, id: @page_title},
   class: 'button'%>
 </p>
 <% end %>

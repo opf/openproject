@@ -28,8 +28,8 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= toolbar title: h(@color.name) %>
 <%= labelled_tabular_form_for @color,
-            :url  => color_url(@color),
-            :html => {:method => 'delete'},
+            url: color_url(@color),
+            html: {method: 'delete'},
             as: :color do |f| %>
 
   <div class='flash warning'>
@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>
     <div class="form--field">
-      <%= f.text_field :hexcode, :disabled => 'disabled' %>
+      <%= f.text_field :hexcode, disabled: 'disabled' %>
       <%= icon_for_color(@color) %>
     </div>
   </fieldset>

@@ -30,23 +30,23 @@ See doc/COPYRIGHT.rdoc for more details.
 
 
 <%= labelled_tabular_form_for @project_association,
-            :url  => project_project_association_path(@project, @project_association),
-            :html => {:method => 'put'} do |f| %>
+            url: project_project_association_path(@project, @project_association),
+            html: {method: 'put'} do |f| %>
 
   <%= f.hidden_field :project_a_id %>
   <%= f.hidden_field :project_b_id %>
 
   <% title = l('timelines.project_association_with_other',
-               :project_a => h(@project.name),
-               :project_b => h(@project_association.project(@project).try(:name))) %>
+               project_a: h(@project.name),
+               project_b: h(@project_association.project(@project).try(:name))) %>
 
   <h2><%= title.tap { |t| html_title t } %></h2>
 
   <%= error_messages_for 'project_association' %>
 
-  <%= render :partial => 'form', :locals => {:f => f, :project => @project} %>
+  <%= render partial: 'form', locals: {f: f, project: @project} %>
 
-  <%= f.button l(:button_update), :name => nil, class: 'button -highlight -with-icon icon-yes' %>
+  <%= f.button l(:button_update), name: nil, class: 'button -highlight -with-icon icon-yes' %>
   <%= link_to l(:button_cancel), project_project_associations_path(@project),
         class: 'button'%>
 <% end %>

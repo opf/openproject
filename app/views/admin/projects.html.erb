@@ -36,20 +36,20 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </li>
 <% end %>
-<%= form_tag({}, :method => :get) do %>
+<%= form_tag({}, method: :get) do %>
   <fieldset class="simple-filters--container">
     <legend><%= l(:label_filter_plural) %></legend>
     <ul class="simple-filters--filters">
       <li class="simple-filters--filter">
           <label class='simple-filters--filter-name' for='status'><%= Project.human_attribute_name(:status) %></label>
-          <%= select_tag 'status', project_status_options_for_select(@status), :onchange => "this.form.submit(); return false;", :class => 'simple-filters--filter-value'  %>
+          <%= select_tag 'status', project_status_options_for_select(@status), onchange: "this.form.submit(); return false;", class: 'simple-filters--filter-value'  %>
       </li>
       <li class="simple-filters--filter">
           <label class='simple-filters--filter-name' for='name'><%= Project.model_name.human %></label>
-          <%= text_field_tag 'name', params[:name], :class => 'simple-filters--filter-value' %>
+          <%= text_field_tag 'name', params[:name], class: 'simple-filters--filter-value' %>
       </li>
       <li class="simple-filters--controls">
-        <%= submit_tag l(:button_apply), :class => 'button -highlight', :name => nil %>
+        <%= submit_tag l(:button_apply), class: 'button -highlight', name: nil %>
       </li>
     </ul>
 
@@ -113,30 +113,30 @@ See doc/COPYRIGHT.rdoc for more details.
         <tbody>
           <% project_tree_when_sorted(@projects) do |project, level| %>
             <tr class="<%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
-              <td class="name project--hierarchy"><span class="<%= level > 0 ? 'icon-context icon-pulldown-arrow4' : nil %>"><%= link_to project, settings_project_path(project), :title => project.short_description %></span></td>
+              <td class="name project--hierarchy"><span class="<%= level > 0 ? 'icon-context icon-pulldown-arrow4' : nil %>"><%= link_to project, settings_project_path(project), title: project.short_description %></span></td>
               <td><%= checked_image project.is_public? %></td>
               <td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td>
               <td><%= format_date(project.created_on) %></td>
               <td class="buttons">
                 <%= link_to('',
-                    archive_project_path(project, :status => params[:status]),
+                    archive_project_path(project, status: params[:status]),
                     data: { confirm: l(:text_are_you_sure) },
-                    :method => :put,
-                    :title => l(:button_archive),
-                    :class => 'icon icon-locked') if project.active? %>
+                    method: :put,
+                    title: l(:button_archive),
+                    class: 'icon icon-locked') if project.active? %>
                 <%= link_to('',
-                    unarchive_project_path(project, :status => params[:status]),
-                    :method => :put,
-                    :title => l(:button_unarchive),
-                    :class => 'icon icon-unlocked') if !project.active? && (project.parent.nil? || project.parent.active?) %>
+                    unarchive_project_path(project, status: params[:status]),
+                    method: :put,
+                    title: l(:button_unarchive),
+                    class: 'icon icon-unlocked') if !project.active? && (project.parent.nil? || project.parent.active?) %>
                 <%= link_to('',
                     copy_from_project_path(project, :admin),
-                    :title => l(:button_copy),
-                    :class => 'icon icon-copy') %>
+                    title: l(:button_copy),
+                    class: 'icon icon-copy') %>
                 <%= link_to('',
                     confirm_destroy_project_path(project),
-                    :title => l(:button_delete),
-                    :class => 'icon icon-delete') %>
+                    title: l(:button_delete),
+                    class: 'icon icon-delete') %>
               </td>
             </tr>
           <% end %>

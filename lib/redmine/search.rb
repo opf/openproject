@@ -57,8 +57,8 @@ module Redmine
         # Set the default search scope for a controller or specific actions
         # Examples:
         #   * search_scope :issues # => sets the search scope to :issues for the whole controller
-        #   * search_scope :issues, :only => :index
-        #   * search_scope :issues, :only => [:index, :show]
+        #   * search_scope :issues, only: :index
+        #   * search_scope :issues, only: [:index, :show]
         def default_search_scope(id, options = {})
           if actions = options[:only]
             actions = [] << actions unless actions.is_a?(Array)

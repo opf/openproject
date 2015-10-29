@@ -29,10 +29,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if  Type.all.any? %>
   <%= form_for @project,
-               :url => { :action => 'types', :id => @project },
-               :method => :patch,
-               :html => {:id => 'types-form'} do |f| %>
-    <%= render :partial => 'projects/form/types', :locals => { :f => f, :project => @project } %>
+               url: { action: 'types', id: @project },
+               method: :patch,
+               html: {id: 'types-form'} do |f| %>
+    <%= render partial: 'projects/form/types', locals: { f: f, project: @project } %>
 
     <p><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %></p>
   <% end %>

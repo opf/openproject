@@ -29,11 +29,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if User.current.impaired? %>
   <% partial = "members/member_form_impaired" %>
-  <% locals = { :principals => @project.possible_members("", 21) }%>
+  <% locals = { principals: @project.possible_members("", 21) }%>
 <% else %>
   <% partial = "members/member_form_non_impaired" %>
   <% locals = {} %>
 <% end %>
 
-<%= render :partial => partial,
-           :locals => locals.merge!({ :project => project, :roles => roles }) %>
+<%= render partial: partial,
+           locals: locals.merge!({ project: project, roles: roles }) %>

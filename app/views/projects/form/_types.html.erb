@@ -106,11 +106,11 @@ See doc/COPYRIGHT.rdoc for more details.
             <tr>
               <td class='center'>
                 <% type_id = "project_planning_element_type_ids_#{type.id}" %>
-                <%= label_tag type_id, l('timelines.enable_type_in_project', :type => type.name), class: 'hidden-for-sighted' %>
+                <%= label_tag type_id, l('timelines.enable_type_in_project', type: type.name), class: 'hidden-for-sighted' %>
                 <%= check_box_tag "project[type_ids][]",
                                   type.id,
                                   project.types.include?(type),
-                                  :id => type_id,
+                                  id: type_id,
                                   :'data-standard' => type.is_standard %>
                 <%= hidden_field_tag 'project[type_ids][]', '', :'data-for' => type_id %>
               </td>

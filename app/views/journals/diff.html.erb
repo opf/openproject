@@ -27,10 +27,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<p><%= authoring @journal.created_at, @journal.user, :label => :label_updated_time_by %></p>
+<p><%= authoring @journal.created_at, @journal.user, label: :label_updated_time_by %></p>
 
-<%= render :partial => 'diff',
-           :locals => { :diff => @diff } %>
+<%= render partial: 'diff',
+           locals: { diff: @diff } %>
 
 <p><%= link_to(l(:button_back), polymorphic_path(@journable)) %></p>
 

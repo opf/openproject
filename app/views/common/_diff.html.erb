@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% diff = Redmine::UnifiedDiff.new(diff, :type => diff_type, :max_lines => Setting.diff_max_lines_displayed.to_i) -%>
+<% diff = Redmine::UnifiedDiff.new(diff, type: diff_type, max_lines: Setting.diff_max_lines_displayed.to_i) -%>
 <% diff.each do |table_file| -%>
   <div class="autoscroll">
     <% if diff.diff_type == 'sbs' -%>

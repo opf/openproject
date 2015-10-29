@@ -111,9 +111,9 @@ See doc/COPYRIGHT.rdoc for more details.
               <td><%= checked_image custom_field.is_required? %></td>
               <% if tab[:name] == 'WorkPackageCustomField' %>
                 <td><%= checked_image custom_field.is_for_all? %></td>
-                <td><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? WorkPackageCustomField and !custom_field.is_for_all? %></td>
+                <td><%= l(:label_x_projects, count: custom_field.projects.count) if custom_field.is_a? WorkPackageCustomField and !custom_field.is_for_all? %></td>
               <% end %>
-              <td><%= reorder_links('custom_field', {:action => 'update', :id => custom_field}, method: :put) %></td>
+              <td><%= reorder_links('custom_field', {action: 'update', id: custom_field}, method: :put) %></td>
               <td class="buttons">
                 <%= delete_link custom_field_path(custom_field) %>
               </td>

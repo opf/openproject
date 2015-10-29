@@ -28,4 +28,4 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% options ||= {}  %>
-<%= form.hidden_field name, {:value => (value.nil? ? "" : value)}.merge(options) %>
+<%= form.hidden_field name, {value: (value.nil? ? "" : value)}.merge(options) %>

@@ -32,15 +32,15 @@ See doc/COPYRIGHT.rdoc for more details.
   <% content_for "#{block_name}_remove_block" do %>
     <div class="box-actions">
       <%= link_to_remote "", {
-          :url => { :action => "remove_block", :block => block_name },
-          :complete => "removeBlock('block_#{block_name.dasherize}')" },
-          :class => "icon icon-close close-icon",
-          :title => l(:button_remove_widget)
+          url: { action: "remove_block", block: block_name },
+          complete: "removeBlock('block_#{block_name.dasherize}')" },
+          class: "icon icon-close close-icon",
+          title: l(:button_remove_widget)
            %>
     </div>
   <% end %>
 
   <div class="handle">
-    <%= render :partial => "my/blocks/#{block_name}", :locals => { :user => user, :block_name => block_name } %>
+    <%= render partial: "my/blocks/#{block_name}", locals: { user: user, block_name: block_name } %>
   </div>
 </div>

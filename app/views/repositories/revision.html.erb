@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </li>
   <li class="toolbar-item">
-    <%= form_tag({:controller => '/repositories', :action => 'revision', :project_id => @project}, :method => :get) do %>
+    <%= form_tag({controller: '/repositories', action: 'revision', project_id: @project}, method: :get) do %>
       <%= text_field_tag :rev, @rev, placeholder: l(:label_revision) %>
     <% end %>
   </li>
@@ -69,7 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <li class="change change-R icon icon-pulldown-arrow4"><%= l(:label_renamed) %></li>
     <li class="change change-D icon icon-delete2"><%= l(:label_deleted) %></li>
   </ul>
-  <p><%= link_to(l(:label_view_diff), :action => 'diff', :project_id => @project, :path => nil, :rev => @changeset.identifier) if @changeset.file_changes.any? %></p>
+  <p><%= link_to(l(:label_view_diff), action: 'diff', project_id: @project, path: nil, rev: @changeset.identifier) if @changeset.file_changes.any? %></p>
   <div class="changeset-changes">
     <%= render_changeset_changes %>
   </div>

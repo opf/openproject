@@ -27,9 +27,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= render :partial => 'action_menu', locals: { title: Workflow.model_name.human } %>
+<%= render partial: 'action_menu', locals: { title: Workflow.model_name.human } %>
 
-<%= styled_form_tag({}, :id => 'workflow_copy_form') do %>
+<%= styled_form_tag({}, id: 'workflow_copy_form') do %>
   <section class="form--section">
     <div class="form--field">
       <label class="form--label" for="source_type_id"><%= l(:label_copy_source) %></label>
@@ -57,13 +57,13 @@ See doc/COPYRIGHT.rdoc for more details.
           <label for="target_type_ids"><%= Type.model_name.human %></label>
           <%= styled_select_tag 'target_type_ids',
                           "<option value=\"\" disabled=\"disabled\">--- #{l(:actionview_instancetag_blank_option)} ---</option>".html_safe +
-                        options_from_collection_for_select(@types, 'id', 'name', @target_types && @target_types.map(&:id)), :multiple => true %><br />
+                        options_from_collection_for_select(@types, 'id', 'name', @target_types && @target_types.map(&:id)), multiple: true %><br />
         </div>
         <div>
           <label for='target_role_ids'><%= Role.model_name.human %></label>
           <%= styled_select_tag 'target_role_ids',
                         "<option value=\"\" disabled=\"disabled\">--- #{l(:actionview_instancetag_blank_option)} ---</option>".html_safe +
-                        options_from_collection_for_select(@roles, 'id', 'name', @target_roles && @target_roles.map(&:id)), :multiple => true %>
+                        options_from_collection_for_select(@roles, 'id', 'name', @target_roles && @target_roles.map(&:id)), multiple: true %>
         </div>
       </div>
     </div>

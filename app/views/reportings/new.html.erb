@@ -41,8 +41,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l('timelines.new_reporting') %>
 
 <%= labelled_tabular_form_for :reporting,
-            :url  => project_reportings_path(@project),
-            :html => {:method => 'post'} do |f| %>
+            url: project_reportings_path(@project),
+            html: {method: 'post'} do |f| %>
 
   <%= error_messages_for 'project' %>
 
@@ -62,9 +62,9 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= select("reporting", :reporting_to_project_id,
                  options_for_select([]),
                  {},
-                 { :'data-ajaxURL' => url_for({:controller => "/api/v2/reportings",
-                                               :action     => "available_projects",
-                                               :format     => "json"})
+                 { :'data-ajaxURL' => url_for({controller: "/api/v2/reportings",
+                                               action: "available_projects",
+                                               format: "json"})
                  })
       %>
       <% end %>
@@ -73,10 +73,10 @@ See doc/COPYRIGHT.rdoc for more details.
   </fieldset>
 
   <hr class="form--separator">
-  <%= f.button l(:button_create), :name => nil, class: 'button -highlight -with-icon icon-yes' %>
+  <%= f.button l(:button_create), name: nil, class: 'button -highlight -with-icon icon-yes' %>
   <%= link_to l(:button_cancel), project_reportings_path(@project), class: 'button' %>
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'timelines.css', :media => "all" %>
+  <%= stylesheet_link_tag 'timelines.css', media: "all" %>
 <% end %>

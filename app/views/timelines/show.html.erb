@@ -61,7 +61,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <div id="timeline">
-  <%= form_tag '', {:id => "specialForm", 'ng-controller' => 'TimelineSelectionController'} do %>
+  <%= form_tag '', {id: "specialForm", 'ng-controller' => 'TimelineSelectionController'} do %>
     <span class="inline-label">
       <%= label_tag 'timeline_select', l("timelines.timeline"), class: "form-label -transparent" %>
       <ui-select ng-model="vm.currentTimeline" theme="select2"
@@ -77,5 +77,5 @@ See doc/COPYRIGHT.rdoc for more details.
   <% push_visible_timelines @visible_timelines %>
   <% push_current_timeline_id @timeline.id %>
 
-  <%= render :partial => "timeline", :locals => {:timeline => @timeline} %>
+  <%= render partial: "timeline", locals: {timeline: @timeline} %>
 </div>

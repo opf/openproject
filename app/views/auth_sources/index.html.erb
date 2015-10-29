@@ -92,17 +92,17 @@ See doc/COPYRIGHT.rdoc for more details.
         <tbody>
           <% for source in @auth_sources %>
             <tr>
-              <td><%= link_to source.name, :action => 'edit', :id => source %></td>
+              <td><%= link_to source.name, action: 'edit', id: source %></td>
               <td><%= source.auth_method_name %></td>
               <td><%= source.host %></td>
               <td><%= source.users.count %></td>
               <td class="buttons">
-                <%= link_to l(:button_test), { :action => 'test_connection', :id => source } %>
-                <%= link_to l(:button_delete), { :action => 'destroy', :id => source },
-                                           :method => :delete,
+                <%= link_to l(:button_test), { action: 'test_connection', id: source } %>
+                <%= link_to l(:button_delete), { action: 'destroy', id: source },
+                                           method: :delete,
                                            data: { confirm: l(:text_are_you_sure) },
-                                           :class => 'icon icon-delete',
-                                           :disabled => source.users.any? %>
+                                           class: 'icon icon-delete',
+                                           disabled: source.users.any? %>
               </td>
             </tr>
           <% end %>

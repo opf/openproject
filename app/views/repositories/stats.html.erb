@@ -30,26 +30,26 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l(:label_statistics) %>
 
 <p>
-  <%= tag("embed", :width => 800,
-                   :height => 300,
-                   :type => "image/svg+xml",
-                   :src => url_for(:controller => '/repositories',
-                                   :action => 'graph',
-                                   :id => @project,
-                                   :graph => "commits_per_month")) %>
+  <%= tag("embed", width: 800,
+                   height: 300,
+                   type: "image/svg+xml",
+                   src: url_for(controller: '/repositories',
+                                   action: 'graph',
+                                   id: @project,
+                                   graph: "commits_per_month")) %>
 </p>
 <% if @show_commits_per_author %>
   <p>
-    <%= tag("embed", :width => 800,
-                     :height => 400,
-                     :type => "image/svg+xml",
-                     :src => url_for(:controller => '/repositories',
-                                     :action => 'graph',
-                                     :id => @project,
-                                     :graph => "commits_per_author")) %>
+    <%= tag("embed", width: 800,
+                     height: 400,
+                     type: "image/svg+xml",
+                     src: url_for(controller: '/repositories',
+                                     action: 'graph',
+                                     id: @project,
+                                     graph: "commits_per_author")) %>
   </p>
 <% end %>
 
-<p><%= link_to l(:button_back), :action => 'show', :project_id => @project %></p>
+<p><%= link_to l(:button_back), action: 'show', project_id: @project %></p>
 
 <% html_title(l(:label_repository), l(:label_statistics)) -%>

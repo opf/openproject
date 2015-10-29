@@ -141,7 +141,7 @@ describe RepositoriesController, type: :controller do
       revision: 100,
       comments: 'Committed by foo.'
     )
-    assert_no_difference "Changeset.count(:conditions => 'user_id = 3')" do
+    assert_no_difference "Changeset.count(conditions: 'user_id = 3')" do
       post :committers, project_id: 1,
            committers: { '0' => ['foo', '2'], '1' => ['dlopper', '3'] }
       assert_redirected_to '/projects/ecookbook/repository/committers'

@@ -53,7 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% @pages.each do |page| %>
       <hr />
       <a name="<%= h(page.to_param) %>" />
-        <%= format_text page.content ,:text, :wiki_links => :anchor %>
+        <%= format_text page.content ,:text, wiki_links: :anchor %>
       <% end %>
     </body>
   </html>

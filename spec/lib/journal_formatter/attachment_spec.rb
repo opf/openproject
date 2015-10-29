@@ -62,8 +62,8 @@ describe OpenProject::JournalFormatter::Attachment do
       #
       # let(:expected) {
       #  I18n.t(:text_journal_added,
-      #                        :label => "<strong>#{I18n.t(:label_attachment)}</strong>",
-      #                        :value => link_to_attachment(attachment)) }
+      #                        label: "<strong>#{I18n.t(:label_attachment)}</strong>",
+      #                        value: link_to_attachment(attachment)) }
 
       # it { instance.render(key, [nil, attachment.id.to_s]).should == expected }
       #
