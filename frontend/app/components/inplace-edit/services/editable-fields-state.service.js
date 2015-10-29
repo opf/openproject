@@ -64,6 +64,15 @@ function EditableFieldsState($q, $rootScope) {
       }));
     },
 
+    discard: function (fieldName) {
+      this.submissionPromises['work_package'] = null;
+      this.getPendingFormChanges()[fieldName] = null;
+
+      if (this.errors && this.errors.hasOwnProperty(fieldName)) {
+        this.errors[fieldName] = null;
+      }
+    },
+
     editAll: {
       focusField: 'subject',
 

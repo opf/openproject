@@ -199,14 +199,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
 
   this.discardEditing = function() {
     $scope.fieldController.isEditing = false;
-    delete EditableFieldsState.submissionPromises['work_package'];
-    delete EditableFieldsState.getPendingFormChanges()[field.name];
-    if (
-      EditableFieldsState.errors &&
-      EditableFieldsState.errors.hasOwnProperty(field.name)
-    ) {
-      delete EditableFieldsState.errors[field.name];
-    }
+    EditableFieldsState.discard(field.name);
   };
 
   this.isActive = function() {
