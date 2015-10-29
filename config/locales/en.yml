@@ -148,7 +148,7 @@ en:
       reported:
         no_results_title_text: There are currently no work packages that I have reported.
       responsible:
-        no_results_title_text: There are currently no work packages that I am resposible for.
+        no_results_title_text: There are currently no work packages that I am responsible for.
       watched:
         no_results_title_text: There are currently no work packages that I am watching.
 
