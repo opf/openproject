@@ -43,14 +43,27 @@ function inplaceEditorDuration() {
 
     link: function(scope) {
       var field = scope.field;
-      
+      scope.numberValue = 0;
+
       if (field.value) {
-        field.value = Number(moment.duration(field.value).asHours().toFixed(2));
+        scope.numberValue = Number(moment.duration(field.value).asHours().toFixed(2));
       }
 
-      scope.$watch('field.value', function(value) {
-        if(value) {
-          var minutes = Number(moment.duration(value, 'hours').asMinutes().toFixed(2));
+      // The level of indirection introduced by numberValue is necessary to prevent
+      // a non terminating digest cycle. The alternative would be:
+      // scope.$watch('field.value', function(newValue) {
+      //   ...
+      //   field.value = calculatedValue;
+      // });
+      // This would mean that we change the value we are watching inside the function to be called
+      // upon changes.
+      //
+      // The indirection fixes it but it might break two-way-binding. If someone where to change
+      // field.value from the outside, this would not be reflected by numberValue.
+      scope.$watch('numberValue', function(newValue) {
+        if(newValue) {
+          var minutes = Number(moment.duration(newValue, 'hours').asMinutes().toFixed(2));
+
           field.value = moment.duration(minutes, 'minutes');
         }
       });
