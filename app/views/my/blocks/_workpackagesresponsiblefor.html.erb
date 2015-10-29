@@ -37,7 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% responsible_count = WorkPackage.visible.open.where(responsible_id: User.current.id).count %>
 
 <% if defined? block_name %>
-  <%= content_for "#{block_name}_remove_block" %>
+  <%= content_for "#{block_name}-remove-block" %>
 <% end %>
 
 <h3 class="widget-box--header">

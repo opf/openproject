@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
               .includes(:project, :author) unless @user.projects.empty? %>
 
 <% if defined? block_name %>
-  <%= content_for "#{block_name}_remove_block" %>
+  <%= content_for "#{block_name}-remove-block" %>
 <% end %>
 
 <h3 class="widget-box--header">
@@ -41,8 +41,11 @@ See doc/COPYRIGHT.rdoc for more details.
 </h3>
 
 <% news = News.latest(count: 3) %>
+
 <% if news.empty? %>
   <%= no_results_box(custom_title: t('news.my_page.no_results_title_text')) %>
+<% end %>
+
 <% unless news.empty? %>
   <ul class="widget-box--arrow-links">
   <% news.each do |news| %>

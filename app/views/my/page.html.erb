@@ -35,13 +35,14 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </li>
 <% end %>
+
 <div class="my-page--container">
-  <div id="list-top">
+  <div id="top">
     <%= render partial: 'block_container', locals: { edit: false, blocks: @blocks['top'] } %>
   </div>
   <div class="grid-block">
   <% %w(left right).each do |position| %>
-    <div id="list-<%= position %>">
+    <div id="<%= position %>" class="widget-boxes">
       <%= render partial: 'block_container', locals: { edit: false, blocks: @blocks[position] } %>
     </div>
   <% end %>

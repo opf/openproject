@@ -27,114 +27,78 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <script language="JavaScript">
-  //<![CDATA[
-  function recreateSortables() {
-      Sortable.destroy('list-top');
-      Sortable.destroy('list-left');
-      Sortable.destroy('list-right');
+  jQuery(document).ready(function($) {
+    // Canonical list of containers that will exchange draggable elements.
+    var containers = jQuery('.dragula-container').toArray();
 
-    Sortable.create("list-top", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(controller: '/my', action: 'order_blocks', group: 'top') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-top")})}, only:'mypage-box', tag:'div'})
-    Sortable.create("list-left", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(controller: '/my', action: 'order_blocks', group: 'left') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-left")})}, only:'mypage-box', tag:'div'})
-    Sortable.create("list-right", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(controller: '/my', action: 'order_blocks', group: 'right') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-right")})}, only:'mypage-box', tag:'div'})
-  }
+    drake = dragula(containers);
 
-  function updateSelect() {
-      s = $('block-select')
-      for (var i = 0; i < s.options.length; i++) {
-          var block = $('block_' + s.options[i].value);
-          if (block && block.visible()) {
-              s.options[i].disabled = true;
-          } else {
-              if (block) { block.remove(); }
-              s.options[i].disabled = false;
-          }
-      }
-      s.options[0].selected = true;
-  }
+    // On 'el' drop, we fire an Ajax request to persist the order chosen by
+    // the user. Actual ordering details are handled on the server.
+    drake.on('drop', function(el, target, source, sibling){
+      var url = "<%= url_for(controller: '/my', action: 'order_blocks') %>";
 
-  function afterAddBlock() {
-      recreateSortables();
-      updateSelect();
-  }
+      // Array of target ordered children after this drop.
+      var target_ordered_children = jQuery(target).find('.block-wrapper').map(function(){
+        return jQuery(this).data('name');
+      }).get();
 
-  function removeBlock(block) {
-      Effect.DropOut(block,{ 'afterFinish':function(){
-          updateSelect();
-      }});
-  }
-  //]]>
+      // Array of source ordered children after this drop.
+      var source_ordered_children = jQuery(source).find('.block-wrapper').map(function(){
+        return jQuery(this).data('name');
+      }).get();
+
+      // We send the source, target, and the new order of the children in both
+      // containers to the server.
+      jQuery.ajax({
+        url: url,
+        type: 'POST',
+        data: {
+                target: jQuery(target).attr('id'),
+                source: jQuery(source).attr('id'),
+                target_ordered_children: target_ordered_children,
+                source_ordered_children: source_ordered_children
+              }
+      });
+    });
+  });
 </script>
 
 <%= toolbar title: l(:label_my_page) do %>
+  <%= styled_form_tag({ action: "add_block" }, remote: true) do %>
+    <% options = "<option>--#{t(:button_add)}--</option>"
+                  .html_safe
+                  .concat(options_for_select(@block_options)) %>
+
     <li class="toolbar-item">
-      <%= styled_form_tag({action: "add_block"}, id: "block-form") do %>
-        <%= styled_select_tag 'block', "<option>--#{t(:button_add)}--</option>".html_safe + options_for_select(@block_options),
-              id: "block-select",
-              class: '-small' %>
+      <%= styled_select_tag 'block', options, id: 'block-options',class: '-small' %>
+    </li>
+
+    <li class="toolbar-item">
+      <%= submit_tag l(:button_add), class: 'button' %>
+    </li>
+
+    <li class="toolbar-item">
+      <%= link_to({action: 'page'}, class: 'button') do %>
+        <i class="button--icon icon-cancel"></i>
+        <span class="button--text"><%= l(:button_back) %></span>
       <% end %>
     </li>
-    <li class="toolbar-item">
-      <%= link_to_remote l(:button_add),
-                       {url: { action: "add_block" },
-                        with: "Form.serialize('block-form')",
-                        update: "list-top",
-                        position: :top,
-                        complete: "afterAddBlock();"
-                       }, class: 'button'
-                         %>
-    </li>
-  <li class="toolbar-item">
-    <%= link_to({action: 'page'}, class: 'button') do %>
-      <i class="button--icon icon-cancel"></i>
-      <span class="button--text"><%= l(:button_back) %></span>
-    <% end %>
-  </li>
+  <% end %>
 <% end %>
 
 <h4><%=l(:label_visible_elements) %></h4>
-<div class="my-page--container -visible-grid">
-  <div id="list-top" class="grid-content block-receiver">
+<div id='visible-grid' class="my-page--container">
+  <div id="top" class="dragula-container widget-boxes grid-content block-receiver">
     <%= render partial: 'block_container', locals: { edit: true, blocks: @blocks['top'] } %>
   </div>
   <div class="grid-block">
     <% %w(left right).each do |position| %>
-        <div id="list-<%= position %>" class="grid-content block-receiver">
+        <div id="<%= position %>" class="dragula-container widget-boxes grid-content block-receiver">
           <%= render partial: 'block_container', locals: { edit: true, blocks: @blocks[position] } %>
         </div>
     <% end %>
   </div>
 </div>
 
-<%= sortable_element 'list-top',
-      tag: 'div',
-      only: 'mypage-box',
-      handle: "handle",
-      dropOnEmpty: true,
-      containment: ['list-top', 'list-left', 'list-right'],
-      constraint: false,
-      url: { action: "order_blocks", group: "top" }
-       %>
-
-
-<%= sortable_element 'list-left',
-      tag: 'div',
-      only: 'mypage-box',
-      handle: "handle",
-      dropOnEmpty: true,
-      containment: ['list-top', 'list-left', 'list-right'],
-      constraint: false,
-      url: { action: "order_blocks", group: "left" }
-       %>
-
-<%= sortable_element 'list-right',
-      tag: 'div',
-      only: 'mypage-box',
-      handle: "handle",
-      dropOnEmpty: true,
-      containment: ['list-top', 'list-left', 'list-right'],
-      constraint: false,
-      url: { action: "order_blocks", group: "right" }
-       %>
-
-<%= javascript_tag "updateSelect()" %>
 <% html_title(l(:label_my_page)) -%>

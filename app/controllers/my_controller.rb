@@ -32,24 +32,26 @@ class MyController < ApplicationController
 
   before_filter :require_login
 
-  menu_item :account, only: [:account]
-  menu_item :settings, only: [:settings]
-  menu_item :password, only: [:password]
-  menu_item :access_token, only: [:access_token]
-  menu_item :mail_notifications, only: [:mail_notifications]
+  menu_item :account,             only: [:account]
+  menu_item :settings,            only: [:settings]
+  menu_item :password,            only: [:password]
+  menu_item :access_token,        only: [:access_token]
+  menu_item :mail_notifications,  only: [:mail_notifications]
 
-  DEFAULT_BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_work_packages,
+  DEFAULT_BLOCKS = { 'issuesassignedtome'         => :label_assigned_to_me_work_packages,
                      'workpackagesresponsiblefor' => :label_responsible_for_work_packages,
-                     'issuesreportedbyme' => :label_reported_work_packages,
-                     'issueswatched' => :label_watched_work_packages,
-                     'news' => :label_news_latest,
-                     'calendar' => :label_calendar,
-                     'timelog' => :label_spent_time
+                     'issuesreportedbyme'         => :label_reported_work_packages,
+                     'issueswatched'              => :label_watched_work_packages,
+                     'news'                       => :label_news_latest,
+                     'calendar'                   => :label_calendar,
+                     'timelog'                    => :label_spent_time
            }.freeze
 
   DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'],
                       'right' => ['issuesreportedbyme']
                    }.freeze
+
+  DRAG_AND_DROP_CONTAINERS = ['top', 'left', 'right']
 
   verify xhr: true,
          only: [:add_block, :remove_block, :order_blocks]
@@ -178,61 +180,84 @@ class MyController < ApplicationController
 
   # User's page layout configuration
   def page_layout
-    @user = User.current
-    @blocks = get_current_layout
-    @block_options = []
-    MyController.available_blocks.each { |k, v| @block_options << [l("my.blocks.#{v}", default: [v, v.to_s.humanize]), k.dasherize] }
-  end
+    @user           = User.current
+    @blocks         = get_current_layout
+    @block_options  = []
 
-  # Add a block to user's page
-  # The block is added on top of the page
-  # params[:block] : id of the block to add
-  def add_block
-    block = params[:block].to_s.underscore
-    (render nothing: true; return) unless block && (MyController.available_blocks.keys.include? block)
-    @user = User.current
-    layout = get_current_layout
-    # remove if already present in a group
-    %w(top left right).each do |f| (layout[f] ||= []).delete block end
-    # add it on top
-    layout['top'].unshift block
-    @user.pref[:my_page_layout] = layout
-    @user.pref.save
-    render partial: 'block', locals: { user: @user, block_name: block }
-  end
+    # We track blocks that will show up on the page. This is in order to have
+    # them disabled in the blocks-to-add-to-page dropdown.
+    blocks_on_page =  if User.current.pref[:my_page_layout].present?
+                        User.current.pref[:my_page_layout].values.flatten
+                      else
+                        []
+                      end
 
-  # Remove a block to user's page
-  # params[:block] : id of the block to remove
-  def remove_block
-    block = params[:block].to_s.underscore
-    @user = User.current
-    # remove block in all groups
-    layout = get_current_layout
-    %w(top left right).each do |f| (layout[f] ||= []).delete block end
-    @user.pref[:my_page_layout] = layout
-    @user.pref.save
-    render nothing: true
-  end
-
-  # Change blocks order on user's page
-  # params[:group] : group to order (top, left or right)
-  # params[:list-(top|left|right)] : array of block ids of the group
-  def order_blocks
-    group = params[:group]
-    @user = User.current
-    if group.is_a?(String)
-      group_items = (params["list-#{group}"] || []).map(&:underscore)
-      if group_items and group_items.is_a? Array
-        layout = get_current_layout
-        # remove group blocks if they are presents in other groups
-        %w(top left right).each do |f|
-          layout[f] = (layout[f] || []) - group_items
-        end
-        layout[group] = group_items
-        @user.pref[:my_page_layout] = layout
-        @user.pref.save
+    MyController.available_blocks.each do |block, value|
+      if blocks_on_page.include?(block)
+        @block_options << [l("my.blocks.#{value}", default: [value, value.to_s.humanize]), block.dasherize, disabled: true]
+      else
+        @block_options << [l("my.blocks.#{value}", default: [value, value.to_s.humanize]), block.dasherize]
       end
     end
+  end
+
+  # Add a block to the user's page at the top.
+  # params[:block] : id of the block to add
+  #
+  # Responds with a JS layout.
+  def add_block
+    @block = params[:block].to_s.underscore
+
+    unless MyController.available_blocks.keys.include? @block
+      render nothing: true
+      return
+    end
+
+    @user  = User.current
+    layout = get_current_layout
+
+    # Remove if already present in a group.
+    DRAG_AND_DROP_CONTAINERS.each { |f| (layout[f] ||= []).delete @block }
+
+    # Add it on top.
+    layout['top'].unshift @block
+
+    # Save user preference.
+    @user.pref[:my_page_layout] = layout
+    @user.pref.save
+  end
+
+  # Remove a block from the user's `my` page.
+  # params[:block] : id of the block to remove
+  #
+  # Responds with a JS layout.
+  def remove_block
+    @block = params[:block].to_s.underscore
+    @user  = User.current
+
+    # Remove block in all groups.
+    layout = get_current_layout
+    DRAG_AND_DROP_CONTAINERS.each { |f| (layout[f] ||= []).delete @block }
+
+    # Save user preference.
+    @user.pref[:my_page_layout] = layout
+    @user.pref.save
+  end
+
+  def order_blocks
+    @user = User.current
+
+    layout = get_current_layout
+
+    # A nil +params[source_ordered_children]+ means all elements within
+    # +params['source']+ were dragged out elsewhere.
+    layout[params['source']] = params['source_ordered_children'] || []
+
+    layout[params['target']] = params['target_ordered_children']
+
+    @user.pref[:my_page_layout] = layout
+    @user.pref.save
+
     render nothing: true
   end
 

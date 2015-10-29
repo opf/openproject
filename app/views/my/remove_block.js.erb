@@ -1,0 +1,4 @@
+jQuery("#block-<%= @block.dasherize %>").remove();
+
+// Enable the option for this block in the blocks-to-add-to-page dropdown.
+jQuery('#block-options option[value="<%= @block %>"]').removeAttr("disabled");
