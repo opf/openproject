@@ -6,8 +6,8 @@ require 'open_project/github_integration/version'
 Gem::Specification.new do |s|
   s.name        = "openproject-github_integration"
   s.version     = OpenProject::GithubIntegration::VERSION
-  s.authors     = "Finn GmbH"
-  s.email       = "info@finn.de"
+  s.authors     = "OpenProject GmbH"
+  s.email       = "info@openproject.com"
   s.homepage    = "https://www.openproject.org/projects/github-integration"
   s.summary     = 'OpenProject Github Integration'
   s.description = 'Integrates OpenProject and Github for a better workflow'
