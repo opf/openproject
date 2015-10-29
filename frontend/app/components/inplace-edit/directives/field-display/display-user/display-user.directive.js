@@ -44,6 +44,10 @@ function inplaceDisplayUser() {
 
     link: function(scope, element, attrs, inplaceEditorDisplayPane) {
       scope.inplaceEditorDisplayPane = inplaceEditorDisplayPane;
+
+      scope.$watch('field.text', function(value) {
+        scope.customEditorController.user = value;
+      });
     }
   };
 }
