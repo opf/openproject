@@ -221,6 +221,10 @@ a.inplace-editing--trigger-link,
       visibility: visible
 
 
+  // Otherwise the description will show up in one line on IE10
+  .inplace-edit--read-value
+    display: block
+
 .inplace-editing--container
   @include grid-block
   border-color: #fff
