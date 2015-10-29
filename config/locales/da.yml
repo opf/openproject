@@ -39,8 +39,8 @@ da:
     models:
       cost_object: Budget
       cost_type:
-        one: Omkostningstype
-        other: Omkostningstyper
+        one: Cost type
+        other: Cost types
       material_budget_item: Enhed
       rate: Sats
     errors:
@@ -167,7 +167,7 @@ da:
   text_warning_hidden_elements: Visse angivelser kan været blevet ekskluderet fra sammenlægning.
   week: uge
   x_entries:
-    one: 1 angivelse
-    other: '%{count} angivelser'
+    one: 1 entry
+    other: '%{count} entries'
   js:
     text_are_you_sure: Sikker?

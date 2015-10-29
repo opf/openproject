@@ -39,7 +39,7 @@ id:
     models:
       cost_object: Bugdet
       cost_type:
-        other: Jenis biaya
+        other: Cost types
       material_budget_item: Unit
       rate: Rate
     errors:
@@ -166,6 +166,6 @@ id:
   text_warning_hidden_elements: Beberapa entri mungkin tidak dipakai oleh agregasi yang dilakukan.
   week: minggu
   x_entries:
-    other: '%{count} entri'
+    other: '%{count} entries'
   js:
     text_are_you_sure: Apakah anda yakin?

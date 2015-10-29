@@ -39,8 +39,8 @@ de:
     models:
       cost_object: Budget
       cost_type:
-        one: Kostenart
-        other: Kostenarten
+        one: Cost type
+        other: Cost types
       material_budget_item: Stück
       rate: Satz
     errors:
@@ -141,7 +141,7 @@ de:
   notice_no_cost_objects_available: Kein Budget verfügbar.
   notice_something_wrong: Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.
   notice_successful_restore: Erfolgreich wiederhergestellt.
-  notice_cost_logged_successfully: Unit cost logged successfully.
+  notice_cost_logged_successfully: Stückkosten erfolgreich gebucht.
   permission_edit_cost_entries: Bearbeiten gebuchter Stückkosten
   permission_edit_cost_objects: Budgets bearbeiten
   permission_edit_own_cost_entries: Bearbeiten eigener gebuchter Stückkosten
@@ -167,7 +167,7 @@ de:
   text_warning_hidden_elements: Es wurden möglicherweise nicht alle Einträge berücksichtigt.
   week: Woche
   x_entries:
-    one: 1 Eintrag
-    other: '%{count} Einträge'
+    one: 1 entry
+    other: '%{count} entries'
   js:
     text_are_you_sure: Sind Sie sicher?

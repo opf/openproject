@@ -39,9 +39,9 @@ ru:
     models:
       cost_object: Бюджет
       cost_type:
-        one: Тип расходов
+        one: Cost type
         few: Cost types
-        other: Типы расходов
+        other: Cost types
       material_budget_item: Единица
       rate: Тариф
     errors:
@@ -168,8 +168,8 @@ ru:
   text_warning_hidden_elements: Некоторые записи были исключены из агрегирования.
   week: неделя
   x_entries:
-    one: 1 запись
-    few: '%{count} записи'
-    other: '%{count} записей'
+    one: 1 entry
+    few: '%{count} entries'
+    other: '%{count} entries'
   js:
     text_are_you_sure: Уверены?

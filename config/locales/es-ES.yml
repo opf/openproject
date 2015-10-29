@@ -39,8 +39,8 @@ es:
     models:
       cost_object: Presupuesto
       cost_type:
-        one: Tipo de costo
-        other: Tipos de costo
+        one: Cost type
+        other: Cost types
       material_budget_item: Unidad
       rate: Tasa
     errors:
@@ -167,7 +167,7 @@ es:
   text_warning_hidden_elements: Algunas entradas han sido excluidas de la agregación.
   week: semana
   x_entries:
-    one: 1 entrada
-    other: '%{count} entradas'
+    one: 1 entry
+    other: '%{count} entries'
   js:
     text_are_you_sure: ¿Estás seguro?
