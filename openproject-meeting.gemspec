@@ -8,8 +8,8 @@ require 'open_project/meeting/version'
 Gem::Specification.new do |s|
   s.name        = 'openproject-meeting'
   s.version     = OpenProject::Meeting::VERSION
-  s.authors     = 'Finn GmbH'
-  s.email       = 'info@finn.de'
+  s.authors     = 'OpenProject GmbH'
+  s.email       = 'info@openproject.com'
   s.homepage    = 'https://www.openproject.org/projects/plugin-meetings'
   s.summary     = 'OpenProject Meeting'
   s.description = "This plugin adds functions to support project meetings to OpenProject. Meetings
