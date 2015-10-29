@@ -7,8 +7,8 @@ require 'open_project/backlogs/version'
 Gem::Specification.new do |s|
   s.name        = 'openproject-backlogs'
   s.version     = OpenProject::Backlogs::VERSION
-  s.authors = 'Finn GmbH'
-  s.email = 'info@finn.de'
+  s.authors = 'OpenProject GmbH'
+  s.email = 'info@openproject.com'
   s.homepage = 'https://www.openproject.org/projects/plugin-backlogs'
   s.summary     = 'OpenProject Backlogs'
   s.description = 'This plugin adds features enabling agile teams to work with OpenProject in Scrum projects.'
