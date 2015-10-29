@@ -46,24 +46,48 @@ function inplaceDisplayUser() {
       scope.inplaceEditorDisplayPane = inplaceEditorDisplayPane;
 
       scope.$watch('field.text', function(value) {
-        scope.customEditorController.user = value;
+        scope.customEditorController.initializeUserWith(value);
       });
     }
   };
 }
 
 function InplaceDisplayUserController($scope, PathHelper) {
-  var field = $scope.field;
+  var getUserName = function(user) {
+    if (user && user.props) {
+      return user.props.name;
+    }
+  };
 
-  this.userPath = PathHelper.staticUserPath;
-  this.user = field.text;
+  var getIsGroup = function(user) {
+    return user.props.subtype === 'Group';
+  };
 
-  this.getUserName = function() {
-    var user = this.user;
+  var getHref = function(user) {
+    var id = user.props.id;
 
-    if (user && user.props && (user.props.firstName || user.props.lastName)) {
-      return user.props.firstName + ' ' + user.props.lastName;
+    return PathHelper.staticUserPath(id);
+  };
+
+  var getAvatar = function(user) {
+    return user.props.avatar;
+  };
+
+  var getRole = function(userData) {
+    return userData.props.role;
+  };
+
+  this.initializeUserWith = function(userData) {
+    $scope.user = userData;
+
+    if (userData) {
+      $scope.user.name = getUserName(userData);
+      $scope.user.isGroup = getIsGroup(userData);
+      $scope.user.href = getHref(userData);
+      $scope.user.avatar = getAvatar(userData);
+      $scope.user.role = getRole(userData);
     }
   };
 }
+
 InplaceDisplayUserController.$inject = ['$scope', 'PathHelper'];

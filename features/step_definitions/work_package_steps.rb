@@ -133,9 +133,7 @@ Then /^the work package should be shown with the following values:$/ do |table|
   end
 
   if table.rows_hash['Subject']
-    expected_header = Regexp.new("#{table.rows_hash['Type']}\\s?#\\d+: #{table.rows_hash['Subject']}", Regexp::IGNORECASE)
-
-    should have_css('.subject-header', text: expected_header)
+    should have_css('.subject-header', text: table.rows_hash['Subject'])
   end
 
   if table.rows_hash['Description']

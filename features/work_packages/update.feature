@@ -89,7 +89,7 @@ Feature: Updating work packages
       | Start date     | 2013-03-04  |
       | Due date       | 2013-03-06  |
       | Estimated time | 5.00        |
-      | Progress (%)   | 30 %        |
+      | Progress (%)   | 30          |
       | Priority       | prio2       |
       | Status         | status2     |
       | Subject        | New subject |
@@ -97,7 +97,6 @@ Feature: Updating work packages
     And I submit the form by the "Save" button
     Then I should see "Successful update"
     Then I should be on the page of the work package "New subject"
-    And I click the edit work package button
     And the work package should be shown with the following values:
       | Responsible    | the manager |
       | Assignee       | the manager |
