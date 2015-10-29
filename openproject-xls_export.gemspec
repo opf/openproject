@@ -6,8 +6,8 @@ require 'open_project/xls_export/version'
 Gem::Specification.new do |s|
   s.name        = "openproject-xls_export"
   s.version     = OpenProject::XlsExport::VERSION
-  s.authors     = "Finn GmbH"
-  s.email       = "info@finn.de"
+  s.authors     = "OpenProject GmbH"
+  s.email       = "info@openproject.com"
   s.homepage    = "https://www.openproject.org/projects/export"
   s.summary     = 'OpenProject XLS Export'
   s.description = 'Export issue lists as Excel spreadsheets (.xls). Support for exporting
