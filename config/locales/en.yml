@@ -1421,7 +1421,7 @@ en:
           tb: "TB"
 
   permission_add_work_package_notes: "Add notes"
-  permission_add_work_packages: "Add work packages"
+  permission_add_work_packages: "Add work packages (also allows to add attachments to all work packages)"
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
   permission_add_subprojects: "Create subprojects"
