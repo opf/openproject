@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe PrincipalRolesController, :type => :controller do
+describe PrincipalRolesController, type: :controller do
   before(:each) do
     allow(@controller).to receive(:require_admin).and_return(true)
     allow(@controller).to receive(:check_if_login_required).and_return(true)
@@ -41,17 +41,16 @@ describe PrincipalRolesController, :type => :controller do
 
   describe '#post' do
     before :each do
-      @params = {"principal_role"=>{"principal_id"=>"3", "role_ids"=>["7"]}}
+      @params = { 'principal_role' => { 'principal_id' => '3', 'role_ids' => ['7'] } }
     end
 
-    unless privacy_plugin_loaded? #tests than are defined in privacy_plugin
+    unless privacy_plugin_loaded? # tests than are defined in privacy_plugin
 
       describe '#create' do
         before :each do
-
         end
 
-        describe "SUCCESS" do
+        describe 'SUCCESS' do
           before :each do
             @global_role = mock_model(GlobalRole)
             allow(@global_role).to receive(:id).and_return(42)
@@ -85,19 +84,19 @@ describe PrincipalRolesController, :type => :controller do
             allow(@principal_role).to receive(:valid?).and_return(true)
           end
 
-          describe "js" do
+          describe 'js' do
             before :each do
               response_should_render :replace,
-                                     "available_principal_roles",
-                                     :partial => "users/available_global_roles",
-                                     :locals => {:global_roles => anything(),
-                                                 :user => anything()}
+                                     'available_principal_roles',
+                                     partial: 'users/available_global_roles',
+                                     locals: { global_roles: anything,
+                                               user: anything }
               response_should_render :insert_html,
                                      :top, 'table_principal_roles_body',
-                                     :partial => "principal_roles/show_table_row",
-                                     :locals => {:principal_role => anything()}
+                                     partial: 'principal_roles/show_table_row',
+                                     locals: { principal_role: anything }
 
-              #post :create, { "format" => "js", "principal_role"=>{"principal_id"=>"3", "role_ids"=>["7"]}}
+              # post :create, { "format" => "js", "principal_role"=>{"principal_id"=>"3", "role_ids"=>["7"]}}
               xhr :post, :create, @params
             end
 
@@ -110,7 +109,7 @@ describe PrincipalRolesController, :type => :controller do
 
   describe '#put' do
     before :each do
-      @params = {"principal_role"=>{"id"=>"6", "role_id" => "5"}}
+      @params = { 'principal_role' => { 'id' => '6', 'role_id' => '5' } }
     end
 
     describe '#update' do
@@ -118,36 +117,36 @@ describe PrincipalRolesController, :type => :controller do
         allow(@principal_role).to receive(:update_attributes)
       end
 
-      describe "SUCCESS" do
-        describe "js" do
+      describe 'SUCCESS' do
+        describe 'js' do
           before :each do
             allow(@principal_role).to receive(:valid?).and_return(true)
 
             response_should_render :replace,
-                                  "principal_role-#{@principal_role.id}",
-                                  :partial => "principal_roles/show_table_row",
-                                  :locals => {:principal_role => anything()}
+                                   "principal_role-#{@principal_role.id}",
+                                   partial: 'principal_roles/show_table_row',
+                                   locals: { principal_role: anything }
 
             xhr :put, :update, @params
           end
 
-          it {expect(response).to be_success}
+          it { expect(response).to be_success }
         end
       end
 
-      describe "FAILURE" do
-        describe "js" do
+      describe 'FAILURE' do
+        describe 'js' do
           before :each do
             allow(@principal_role).to receive(:valid?).and_return(false)
             response_should_render :insert_html,
                                    :top,
-                                   "tab-content-global_roles",
-                                   :partial => 'errors'
+                                   'tab-content-global_roles',
+                                   partial: 'errors'
 
             xhr :put, :update, @params
           end
 
-          it {expect(response).to be_success}
+          it { expect(response).to be_success }
         end
       end
     end
@@ -158,25 +157,28 @@ describe PrincipalRolesController, :type => :controller do
       allow(@principal_role).to receive(:principal_id).and_return(1)
       @user = mock_model User
       allow(@user).to receive(:logged?).and_return(true)
-      allow(@user).to receive(:global_roles).and_return([]) # only necessary with impermanent-memberships
+      # only necessary with impermanent-memberships
+      allow(@user).to receive(:global_roles).and_return([])
       allow(Principal).to receive(:find).and_return(@user)
       allow(@principal_role).to receive(:destroy)
-      allow(@principal_role).to receive(:role).and_return(Struct.new(:id, :permanent?).new(42, false)) # only necessary with impermanent-memberships
-      @params = {"id" => "1"}
+
+      # only necessary with impermanent-memberships
+      allow(@principal_role).to receive(:role).and_return(Struct.new(:id, :permanent?).new(42, false))
+      @params = { 'id' => '1' }
     end
 
     describe '#destroy' do
-      describe "SUCCESS" do
+      describe 'SUCCESS' do
         before :each do
           response_should_render :remove, "principal_role-#{@principal_role.id}"
           response_should_render :replace,
-                                 "available_principal_roles",
-                                 :partial => "users/available_global_roles",
-                                 :locals => {:global_roles => anything(),
-                                             :user => anything()}
+                                 'available_principal_roles',
+                                 partial: 'users/available_global_roles',
+                                 locals: { global_roles: anything,
+                                           user: anything }
         end
 
-        describe "js" do
+        describe 'js' do
           before :each do
             xhr :delete, :destroy, @params
           end

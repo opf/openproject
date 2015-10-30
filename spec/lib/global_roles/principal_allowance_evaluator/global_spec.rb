@@ -20,13 +20,14 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global do
-
   let(:klass) { OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global }
   let(:user) { FactoryGirl.build(:user) }
   let(:filter) { klass.new user }
   let(:member) { FactoryGirl.build(:member) }
-  let(:principal_role) { FactoryGirl.build(:principal_role,
-                                       :role => role) }
+  let(:principal_role) {
+    FactoryGirl.build(:principal_role,
+                      role: role)
+  }
   let(:principal_role2) { FactoryGirl.build(:principal_role) }
   let(:role) { FactoryGirl.build(:global_role) }
   let(:project) { FactoryGirl.build(:project) }
@@ -40,7 +41,7 @@ describe OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global do
   end
 
   describe '#granted_for_global?' do
-    describe "WHEN checking a Member" do
+    describe 'WHEN checking a Member' do
       it { expect(filter.granted_for_global?(member, :action, {})).to be_falsey }
     end
 
@@ -68,7 +69,7 @@ describe OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global do
   end
 
   describe '#global_granting_candidates' do
-    describe "WHEN the user has a PrincipalRole assigned" do
+    describe 'WHEN the user has a PrincipalRole assigned' do
       before do
         user.principal_roles = [principal_role]
       end
@@ -76,7 +77,7 @@ describe OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global do
       it { filter.global_granting_candidates =~ [principal_role] }
     end
 
-    describe "WHEN the user has multiple PrincipalRole assigned" do
+    describe 'WHEN the user has multiple PrincipalRole assigned' do
       before do
         user.principal_roles = [principal_role, principal_role2]
       end
@@ -84,7 +85,7 @@ describe OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global do
       it { filter.global_granting_candidates =~ [principal_role, principal_role2] }
     end
 
-    describe "WHEN the user has no PrincipalRoles assigned" do
+    describe 'WHEN the user has no PrincipalRoles assigned' do
       it { filter.global_granting_candidates =~ [] }
     end
   end

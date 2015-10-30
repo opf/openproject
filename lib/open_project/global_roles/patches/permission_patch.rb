@@ -25,7 +25,6 @@ module OpenProject::GlobalRoles::Patches
       base.send(:include, InstanceMethods)
 
       base.class_eval do
-
         alias_method_chain :initialize, :global_option
       end
     end

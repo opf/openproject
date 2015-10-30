@@ -17,17 +17,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe PrincipalRole, :type => :model do
-
-  describe "ATTRIBUTES" do
+describe PrincipalRole, type: :model do
+  describe 'ATTRIBUTES' do
     before :each do
-
     end
 
-    it {is_expected.to belong_to :principal}
-    it {is_expected.to belong_to :role}
+    it { is_expected.to belong_to :principal }
+    it { is_expected.to belong_to :role }
   end
 
   describe '#valid?' do
@@ -35,17 +33,19 @@ describe PrincipalRole, :type => :model do
       @principal_role = FactoryGirl.build(:principal_role)
     end
 
-    describe "role not assignable to user" do
+    describe 'role not assignable to user' do
       before :each do
         allow(@principal_role.role).to receive(:assignable_to?).and_return(false)
       end
 
       it { expect(@principal_role.valid?).to be_falsey }
-      it { @principal_role.valid?
-           expect(@principal_role.errors[:base]).to include(I18n.t(:error_can_not_be_assigned))}
+      it {
+        @principal_role.valid?
+        expect(@principal_role.errors[:base]).to include(I18n.t(:error_can_not_be_assigned))
+      }
     end
 
-    describe "role assignable to user" do
+    describe 'role assignable to user' do
       before(:each) do
         allow(@principal_role.role).to receive(:assignable_to?).and_return(true)
       end

@@ -17,42 +17,42 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe GlobalRole, :type => :model do
-  before {GlobalRole.create :name => "globalrole", :permissions => ["permissions"]} # for validate_uniqueness_of
+describe GlobalRole, type: :model do
+  before { GlobalRole.create name: 'globalrole', permissions: ['permissions'] } # for validate_uniqueness_of
 
-  it {is_expected.to have_many :principals}
-  it {is_expected.to have_many :principal_roles}
-  it {is_expected.to validate_presence_of :name}
-  it {is_expected.to validate_uniqueness_of :name}
-  it {is_expected.to ensure_length_of(:name).is_at_most(30)}
+  it { is_expected.to have_many :principals }
+  it { is_expected.to have_many :principal_roles }
+  it { is_expected.to validate_presence_of :name }
+  it { is_expected.to validate_uniqueness_of :name }
+  it { is_expected.to ensure_length_of(:name).is_at_most(30) }
 
-  describe "attributes" do
-    before {@role = GlobalRole.new}
+  describe 'attributes' do
+    before { @role = GlobalRole.new }
 
-    subject {@role}
+    subject { @role }
 
-    it {is_expected.to respond_to :name}
-    it {is_expected.to respond_to :permissions}
-    it {is_expected.to respond_to :position}
+    it { is_expected.to respond_to :name }
+    it { is_expected.to respond_to :permissions }
+    it { is_expected.to respond_to :position }
   end
 
-  describe "class methods" do
-    describe "WITH available global permissions defined" do
-      before (:each) do
+  describe 'class methods' do
+    describe 'WITH available global permissions defined' do
+      before do
         @permission_options = [:perm1, :perm2, :perm3]
         allow(Redmine::AccessControl).to receive(:global_permissions).and_return(@permission_options)
       end
 
       describe '#setable_permissions' do
-        it {expect(GlobalRole.setable_permissions).to eql @permission_options}
+        it { expect(GlobalRole.setable_permissions).to eql @permission_options }
       end
     end
   end
 
-  describe "instance methods" do
-    before (:each) do
+  describe 'instance methods' do
+    before do
       @role = GlobalRole.new
 
       if costs_plugin_loaded?
@@ -64,111 +64,111 @@ describe GlobalRole, :type => :model do
       end
     end
 
-    describe "WITH no attributes set" do
-      before (:each) do
+    describe 'WITH no attributes set' do
+      before do
         @role = GlobalRole.new
       end
 
       describe '#permissions' do
-        subject {@role.permissions}
+        subject { @role.permissions }
 
-        it {is_expected.to be_an_instance_of(Array)}
+        it { is_expected.to be_an_instance_of(Array) }
         it 'has no items' do
           expect(subject.size).to eq(0)
         end
       end
 
       describe '#permissions=' do
-        describe "WITH parameter" do
-          before {expect(@role).to receive(:write_attribute).with(:permissions, [:perm1, :perm2])}
+        describe 'WITH parameter' do
+          before { expect(@role).to receive(:write_attribute).with(:permissions, [:perm1, :perm2]) }
 
-          it "should write permissions" do
+          it 'should write permissions' do
             @role.permissions = [:perm1, :perm2]
           end
 
-          it "should write permissions only once" do
+          it 'should write permissions only once' do
             @role.permissions = [:perm1, :perm2, :perm2]
           end
 
-          it "should write permissions as symbols" do
-            @role.permissions = ["perm1", "perm2"]
+          it 'should write permissions as symbols' do
+            @role.permissions = %w(perm1 perm2)
           end
 
-          it "should remove empty perms" do
-            @role.permissions = [:perm1, :perm2, "", nil]
+          it 'should remove empty perms' do
+            @role.permissions = [:perm1, :perm2, '', nil]
           end
         end
 
-        describe "WITHOUT parameter" do
-          before {expect(@role).to receive(:write_attribute).with(:permissions, nil)}
+        describe 'WITHOUT parameter' do
+          before { expect(@role).to receive(:write_attribute).with(:permissions, nil) }
 
-          it "should write permissions" do
+          it 'should write permissions' do
             @role.permissions = nil
           end
         end
       end
 
       describe '#has_permission?' do
-        it {expect(@role.has_permission?(:perm)).to be_falsey}
+        it { expect(@role.has_permission?(:perm)).to be_falsey }
       end
 
       describe '#allowed_to?' do
-        describe "WITH requested permission" do
-          it {expect(@role.allowed_to?(:perm1)).to be_falsey}
+        describe 'WITH requested permission' do
+          it { expect(@role.allowed_to?(:perm1)).to be_falsey }
         end
       end
     end
 
-    describe "WITH set permissions" do
-      before{ @role = GlobalRole.new :permissions => [:perm1, :perm2, :perm3]}
+    describe 'WITH set permissions' do
+      before { @role = GlobalRole.new permissions: [:perm1, :perm2, :perm3] }
 
       describe '#has_permission?' do
-        it {expect(@role.has_permission?(:perm1)).to be_truthy}
-        it {expect(@role.has_permission?("perm1")).to be_truthy}
-        it {expect(@role.has_permission?(:perm5)).to be_falsey}
+        it { expect(@role.has_permission?(:perm1)).to be_truthy }
+        it { expect(@role.has_permission?('perm1')).to be_truthy }
+        it { expect(@role.has_permission?(:perm5)).to be_falsey }
       end
 
       describe '#allowed_to?' do
-        describe "WITH requested permission" do
-          it {expect(@role.allowed_to?(:perm1)).to be_truthy}
-          it {expect(@role.allowed_to?(:perm5)).to be_falsey}
+        describe 'WITH requested permission' do
+          it { expect(@role.allowed_to?(:perm1)).to be_truthy }
+          it { expect(@role.allowed_to?(:perm5)).to be_falsey }
         end
       end
     end
 
-    describe "WITH available global permissions defined" do
-      before (:each) do
+    describe 'WITH available global permissions defined' do
+      before do
         @role = GlobalRole.new
         @permission_options = [:perm1, :perm2, :perm3]
         allow(Redmine::AccessControl).to receive(:global_permissions).and_return(@permission_options)
       end
 
       describe '#setable_permissions' do
-        it {expect(@role.setable_permissions).to eql @permission_options}
+        it { expect(@role.setable_permissions).to eql @permission_options }
       end
     end
 
-    describe "WITH set name" do
-      before{ @role = GlobalRole.new :name => "name"}
+    describe 'WITH set name' do
+      before { @role = GlobalRole.new name: 'name' }
 
       describe '#to_s' do
-        it {expect(@role.to_s).to eql("name")}
+        it { expect(@role.to_s).to eql('name') }
       end
     end
 
     describe '#destroy' do
-      before {@role = GlobalRole.create :name => "global"}
+      before { @role = GlobalRole.create name: 'global' }
 
-      it {@role.destroy}
+      it { @role.destroy }
     end
 
     describe '#assignable' do
-      it {expect(@role.assignable).to be_falsey}
+      it { expect(@role.assignable).to be_falsey }
     end
 
     describe '#assignable=' do
-      it {expect {@role.assignable = true}.to raise_error ArgumentError}
-      it {expect {@role.assignable = false}.not_to raise_error}
+      it { expect { @role.assignable = true }.to raise_error ArgumentError }
+      it { expect { @role.assignable = false }.not_to raise_error }
     end
 
     describe '#assignable_to?' do
@@ -176,10 +176,9 @@ describe GlobalRole, :type => :model do
         @role = FactoryGirl.build(:global_role)
         @user = FactoryGirl.build(:user)
       end
-      it "always true global roles for now" do
+      it 'always true global roles for now' do
         expect(@role.assignable_to?(@user)).to be_truthy
       end
     end
   end
-
 end
