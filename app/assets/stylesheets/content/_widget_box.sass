@@ -57,7 +57,7 @@ $widget-box--enumeration-width: 20px
 
   .widget-box
     @include widget-box--style
-    padding: 10px 10px 10px 20px
+    padding: 10px 20px 30px 20px
     min-height: 250px
     word-wrap: break-word
     overflow: hidden
@@ -88,6 +88,9 @@ $widget-box--enumeration-width: 20px
     .widget-box--arrow-links
       list-style: none
       margin: 0.5rem 0 1rem 0
+
+      &:last-child
+        margin-bottom: 0
 
       li:before
         @include icon-common
