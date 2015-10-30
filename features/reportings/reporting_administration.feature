@@ -39,11 +39,14 @@ Feature: General Reporting administration
           | Name | World Domination                    |
     Given there is 1 project with the following:
           | Name | How to stay sane and drink lemonade |
+    And there is a timeline "Testline" for project "Santas Project"
+    And there is a timeline "Testline" for project "World Domination"
+    And there is a timeline "Testline" for project "How to stay sane and drink lemonade"
 
   @javascript
   Scenario: Creating a reporting
      When I go to the page of the project called "Santas Project"
-      And I toggle the "Timelines" submenu
+      And I open the "Timelines" menu
       And I click on "Status reportings"
       And I click on "New reporting"
       And I should see "Reports to project"
@@ -59,7 +62,7 @@ Feature: General Reporting administration
           | Project        | Reporting To Project | Reported Project Status Comment |
           | Santas Project | World Domination     | Hallo Junge                     |
      When I go to the page of the project called "Santas Project"
-      And I toggle the "Timelines" submenu
+      And I open the "Timelines" menu
       And I click on "Status reportings"
       And I click on "New reporting"
       And I should see "Reports to project"
@@ -75,7 +78,7 @@ Feature: General Reporting administration
           | Project        | Reporting To Project | Reported Project Status Comment |
           | Santas Project | World Domination     | Hallo Junge                     |
      When I go to the page of the project called "Santas Project"
-      And I toggle the "Timelines" submenu
+      And I open the "Timelines" menu
       And I click on "Status reportings"
      Then I should see "World Domination"
       And I should see "Hallo Junge"
@@ -98,7 +101,7 @@ Feature: General Reporting administration
           | Santas Project | Careful Boy          | Don't be a-gamblin'             |
 
      When I go to the page of the project called "Santas Project"
-      And I toggle the "Timelines" submenu
+      And I open the "Timelines" menu
       And I click on "Status reportings"
      Then I should see "World Domination"
       And I should see "Hallo Junge"
@@ -120,7 +123,7 @@ Feature: General Reporting administration
           | Project        | Reporting To Project | Reported Project Status Comment |
           | Santas Project | World Domination     | Hallo Junge                     |
      When I go to the page of the project called "Santas Project"
-      And I toggle the "Timelines" submenu
+      And I open the "Timelines" menu
       And I click on "Status reportings"
      When I follow link "Delete" for report "World Domination"
       And I click on "Delete"
@@ -134,7 +137,7 @@ Feature: General Reporting administration
           | Project        | Reporting To Project | Reported Project Status Comment |
           | Santas Project | World Domination     | Hallo Junge                     |
      When I go to the page of the project called "Santas Project"
-      And I toggle the "Timelines" submenu
+      And I open the "Timelines" menu
       And I click on "Status reportings"
       And I click on "Delete"
       And I click on "Cancel"
