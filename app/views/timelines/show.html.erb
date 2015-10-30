@@ -58,6 +58,13 @@ See doc/COPYRIGHT.rdoc for more details.
       <% end %>
     </li>
   <% end %>
+
+  <li class="toolbar-item">
+    <%= link_to url_for(controller: '/reportings', action: 'index', project_id: @project.id), class: 'button' do %>
+      <i class="button--icon icon2 icon-status-reporting"></i>
+      <span class="button--text"><%= l('timelines.project_menu.reportings') %></span>
+    <% end %>
+  </li>
 <% end %>
 
 <div id="timeline">
