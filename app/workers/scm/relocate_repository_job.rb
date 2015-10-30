@@ -28,23 +28,40 @@
 #++
 
 ##
-# Provides an asynchronous job to create a managed repository on a remote system
-# using a simple HTTP callback
-# Currently, this is run synchronously due to potential issues
-# with error handling.
-# We envision a repository management wrapper that covers transactional
-# creation and deletion of repositories BOTH on the database and filesystem.
-# Until then, a synchronous process is more failsafe.
-class Scm::CreateRemoteRepositoryJob < Scm::RemoteRepositoryJob
+# Provides an asynchronous job to relocate a managed repository on the local or remote system
+class Scm::RelocateRepositoryJob < Scm::RemoteRepositoryJob
   def perform
-    response = send(repository_request.merge(action: :create))
+    if repository.class.manages_remote?
+      relocate_remote
+    else
+      relocate_on_disk
+    end
+  end
+
+  private
+
+  ##
+  # POST to the remote managed repository a request to relocate the repository
+  def relocate_remote
+    response = send(repository_request.merge(
+           action: :relocate,
+           old_repository: repository.root_url))
     repository.root_url = response['path']
     repository.url = response['url']
 
     unless repository.save
-      raise OpenProject::Scm::Exceptions::ScmError.new(
-        I18n.t('repositories.errors.remote_save_failed')
-      )
+      Rails.logger.error("Could not relocate the remote repository " \
+                         "#{repository.repository_identifier}.")
     end
+  end
+
+  ##
+  # Tries to relocate the repository on disk.
+  # As we're performing this in a job and currently have no explicit means
+  # of error handling in this context, there's not much to do here in case of failure.
+  def relocate_on_disk
+    FileUtils.mv repository.root_url, repository.managed_repository_path
+    repository.update_columns(root_url: repository.managed_repository_path,
+                              url: repository.managed_repository_url)
   end
 end

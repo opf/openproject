@@ -40,7 +40,7 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
     controller: InplaceEditorEditPaneController,
     link: function(scope, element, attrs, fieldController) {
       var field = scope.field;
-      
+
       scope.fieldController = fieldController;
       scope.editableFieldsState = EditableFieldsState;
 
@@ -211,6 +211,8 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
                 EditableFieldsState.errors[field] = error.message;
               }
             });
+
+            showErrors();
           }
         }).catch(handleFailure);
     }

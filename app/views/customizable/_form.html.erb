@@ -27,13 +27,16 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%# locals: form %>
+<%# locals: form, all_fields, only_required #%>
 
 <% form.object.custom_field_values.each do |value| %>
   <%= form.fields_for_custom_fields :custom_field_values, value do |value_form| %>
     <% required = value.custom_field.is_required? %>
     <div class="form--field <%= required ? '-required' : '' %>">
-      <%= value_form.custom_field %>
+      <%# display all fields OR only display required fields OR only display optional fields #%>
+      <% if all_fields || (only_required && required) || (!only_required && !required) %>
+        <%= value_form.custom_field %>
+      <% end %>
     </div>
   <% end %>
 <% end %>

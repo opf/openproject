@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($q, $rootScope, NotificationsService) {
+module.exports = function($q, $rootScope) {
   var EditableFieldsState = {
     workPackage: null,
     errors: null,
@@ -59,9 +59,7 @@ module.exports = function($q, $rootScope, NotificationsService) {
         this.submissionPromises = {};
         this.currentField = null;
         this.editAll.stop();
-      }), function(){
-        NotificationsService.addError(I18n.t('js.work_packages.error_update_failed'));
-      });
+      }));
     },
 
     editAll: {

@@ -171,7 +171,7 @@ class ProjectsController < ApplicationController
           redirect_to action: 'settings', id: @project
         end
       end
-      OpenProject::Notifications.send('project_updated', project: @project)
+      OpenProject::Notifications.send('project_renamed', project: @project)
     else
       respond_to do |format|
         format.html do
