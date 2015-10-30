@@ -1051,6 +1051,30 @@
         }
       }
     },
+    "dragula": {
+      "version": "3.5.2",
+      "dependencies": {
+        "contra": {
+          "version": "1.9.1",
+          "dependencies": {
+            "atoa": {
+              "version": "1.0.0"
+            },
+            "ticky": {
+              "version": "1.0.0"
+            }
+          }
+        },
+        "crossvent": {
+          "version": "1.5.4",
+          "dependencies": {
+            "custom-event": {
+              "version": "1.0.0"
+            }
+          }
+        }
+      }
+    },
     "exports-loader": {
       "version": "0.6.2",
       "dependencies": {
