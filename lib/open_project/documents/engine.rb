@@ -37,18 +37,20 @@ module OpenProject::Documents
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-documents',
-             :author_url => "http://www.finn.de",
-             :requires_openproject => ">= 4.0.0" do
+             author_url: "http://www.finn.de",
+             requires_openproject: ">= 4.0.0" do
 
       menu :project_menu, :documents,
-                          { :controller => '/documents', :action => 'index' },
-                          :param => :project_id,
-                          :caption => :label_document_plural,
-                          :html => { :class => 'icon2 icon-book1' }
+                          { controller: '/documents', action: 'index' },
+                          param: :project_id,
+                          caption: :label_document_plural,
+                          html: { class: 'icon2 icon-book1' }
 
-      project_module :documents do |map|
-        permission :manage_documents, {:documents => [:new, :create, :edit, :update, :destroy, :add_attachment]}, :require => :loggedin
-        permission :view_documents, :documents => [:index, :show, :download]
+      project_module :documents do |_map|
+        permission :manage_documents, {
+          documents: [:new, :create, :edit, :update, :destroy, :add_attachment]
+          }, require: :loggedin
+        permission :view_documents, documents: [:index, :show, :download]
       end
 
       Redmine::Notifiable.all << Redmine::Notifiable.new('document_added')
@@ -68,7 +70,7 @@ module OpenProject::Documents
       require 'open_project/documents/hooks'
     end
 
-    initializer 'documents.register_observers' do |app|
+    initializer 'documents.register_observers' do |_app|
       ActiveRecord::Base.observers.push :document_observer
     end
 

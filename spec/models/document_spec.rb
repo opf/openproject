@@ -33,7 +33,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Document do
 
-  let(:documentation_category) { FactoryGirl.create :document_category, :name => 'User documentation'}
+  let(:documentation_category) { FactoryGirl.create :document_category, name: 'User documentation'}
   let(:project)                { FactoryGirl.create :project}
   let(:user)                   { FactoryGirl.create(:user)}
   let(:admin)                  { FactoryGirl.create(:admin)}
@@ -76,7 +76,7 @@ describe Document do
     end
 
     it "should set a default-category, if none is given" do
-      default_category = FactoryGirl.create :document_category, :name => 'Technical documentation', :is_default => true
+      default_category = FactoryGirl.create :document_category, name: 'Technical documentation', is_default: true
       document = Document.new(project: project, title: "New Document")
       expect(document.category).to eql default_category
       expect{
@@ -102,9 +102,11 @@ describe Document do
   end
 
   describe "acts as event" do
-    let(:now) { Time.now }
-    let(:document) { FactoryGirl.build(:document,
-                                       created_on: now) }
+    let(:now) { Time.zone.now }
+    let(:document) {
+      FactoryGirl.build(:document,
+                                       created_on: now)
+    }
 
     it { expect(document.event_datetime).to eq(now) }
   end

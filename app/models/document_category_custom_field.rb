@@ -35,4 +35,3 @@ class DocumentCategoryCustomField < CustomField
     :enumeration_doc_categories
   end
 end
-

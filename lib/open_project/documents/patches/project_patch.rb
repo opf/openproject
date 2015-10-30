@@ -34,7 +34,7 @@ module OpenProject::Documents::Patches
     def self.included(base)
       base.class_eval do
 
-        has_many :documents, :dependent => :destroy
+        has_many :documents, dependent: :destroy
       end
     end
   end

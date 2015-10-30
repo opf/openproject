@@ -41,14 +41,20 @@ describe ApplicationHelper do
   describe ".format_text" do
     let(:project) { FactoryGirl.create :valid_project }
     let(:identifier) { project.identifier }
-    let(:project_member) { FactoryGirl.create :user,
-                                              :member_in_project => project,
-                                              :member_through_role => FactoryGirl.create(:role,
-                                                                                         :permissions => [:view_work_packages, :edit_work_packages,
-                                                                                         :view_documents, :browse_repository, :view_changesets, :view_wiki_pages]) }
-    let(:document) { FactoryGirl.create :document,
-                                          :title => 'Test document',
-                                          :project => project }
+    let(:role) { 
+      FactoryGirl.create(:role, permissions: [
+      :view_work_packages, :edit_work_packages, :view_documents, :browse_repository, :view_changesets, :view_wiki_pages
+      ])
+    }
+    let(:project_member) {
+      FactoryGirl.create :user, member_in_project: project,
+                                member_through_role: role
+    }
+    let(:document) {
+      FactoryGirl.create :document,
+                                          title: 'Test document',
+                                          project: project
+    }
 
     before do
       @project = project
@@ -60,9 +66,11 @@ describe ApplicationHelper do
     end
 
     context "Simple Document links" do
-      let(:document_link) { link_to('Test document',
-                                     {:controller => 'documents', :action => 'show', :id => document.id},
-                                     :class => 'document') }
+      let(:document_link) {
+        link_to('Test document',
+                                     { controller: 'documents', action: 'show', id: document.id },
+                                     class: 'document')
+      }
 
       context "Plain link" do
         subject { format_text("document##{document.id}") }
@@ -93,25 +101,25 @@ describe ApplicationHelper do
       let(:the_other_project) { FactoryGirl.create :valid_project }
 
       context "By name without project" do
-        subject { format_text("document:\"#{document.title}\"", :project => the_other_project) }
+        subject { format_text("document:\"#{document.title}\"", project: the_other_project) }
 
         it { is_expected.to eq('<p>document:"Test document"</p>') }
       end
 
       context "By id and given project" do
-        subject { format_text("#{identifier}:document##{document.id}", :project => the_other_project) }
+        subject { format_text("#{identifier}:document##{document.id}", project: the_other_project) }
 
         it { is_expected.to eq("<p><a class=\"document\" href=\"/documents/#{document.id}\">Test document</a></p>") }
       end
 
       context "By name and given project" do
-        subject { format_text("#{identifier}:document:\"#{document.title}\"", :project => the_other_project) }
+        subject { format_text("#{identifier}:document:\"#{document.title}\"", project: the_other_project) }
 
         it { is_expected.to eq("<p><a class=\"document\" href=\"/documents/#{document.id}\">Test document</a></p>") }
       end
 
       context "Invalid link" do
-        subject { format_text("invalid:document:\"Test document\"", :project => the_other_project) }
+        subject { format_text("invalid:document:\"Test document\"", project: the_other_project) }
 
         it { is_expected.to eq('<p>invalid:document:"Test document"</p>') }
       end

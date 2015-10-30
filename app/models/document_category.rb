@@ -31,12 +31,12 @@
 #++
 
 class DocumentCategory < Enumeration
-  has_many :documents, :foreign_key => 'category_id'
+  has_many :documents, foreign_key: 'category_id'
 
-  OptionName = :enumeration_doc_categories
+  OPTION_NAME = :enumeration_doc_categories
 
   def option_name
-    OptionName
+    OPTION_NAME
   end
 
   def objects_count

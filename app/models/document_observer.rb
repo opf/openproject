@@ -41,4 +41,3 @@ class DocumentObserver < ActiveRecord::Observer
     end
   end
 end
-
