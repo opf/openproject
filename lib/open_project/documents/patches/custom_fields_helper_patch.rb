@@ -36,7 +36,7 @@ module OpenProject::Documents::Patches
       base.class_eval do
 
         def custom_fields_tabs_with_documents
-          custom_fields_tabs_without_documents << {:name => 'DocumentCategoryCustomField', :partial => 'custom_fields/index', :label => DocumentCategory::OptionName}
+          custom_fields_tabs_without_documents << {:name => 'DocumentCategoryCustomField', :partial => 'custom_fields/tab', :label => DocumentCategory::OptionName}
         end
 
         alias_method_chain :custom_fields_tabs, :documents
