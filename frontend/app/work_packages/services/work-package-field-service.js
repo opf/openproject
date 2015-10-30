@@ -415,8 +415,6 @@ module.exports = function(
       EditableFieldsState.errors = null;
       EditableFieldsState.submissionPromises = {};
       EditableFieldsState.currentField = null;
-    }, function(){
-      NotificationsService.addError(I18n.t('js.work_packages.error_update_failed'));
     });
   }
 

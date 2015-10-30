@@ -137,6 +137,7 @@ module.exports = function(
                     EditableFieldsState.errors[field] = error.message;
                   }
                 });
+                showErrors();
               }
             }).catch(handleFailure);
         }
