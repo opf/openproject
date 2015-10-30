@@ -81,7 +81,7 @@ en:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
       custom_fields:
-        no_results_title_text: There are currently custom fields available.
+        no_results_title_text: There are currently no custom fields available.
       types:
         no_results_title_text: There are currently no types available.
       versions:
