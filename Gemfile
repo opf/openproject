@@ -229,8 +229,44 @@ platforms :jruby do
   end
 end
 
+# plugin development dependencies start
+gem "pdf-inspector", "~>1.0.0", :group => [:development, :test]
+
 group :opf_plugins do
-  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'dev'
+  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'dev'
+
+  # global roles must be loaded first as it changes the permission model
+  gem "openproject-global_roles", git: "git@github.com:finnlabs/openproject-global_roles.git", branch: 'dev'
+
+  # this needs to be on top otherwise some functionality in my_project_page will fail
+  gem 'openproject-documents', git: 'git@github.com:opf/openproject-documents.git', branch: 'dev'
+
+  gem 'openproject-auth_plugins', git: 'git@github.com:opf/openproject-auth_plugins.git', branch: 'dev'
+  gem 'omniauth-openid_connect-providers', git: 'git@github.com:finnlabs/omniauth-openid_connect-providers.git', branch: 'dev'
+  gem 'omniauth-openid-connect', git: 'git@github.com:finnlabs/omniauth-openid-connect.git', branch: 'dev'
+  gem 'openproject-openid_connect', git: 'git@github.com:finnlabs/openproject-openid_connect.git', branch: 'dev'
+
+  gem "openproject-help_link", git: "git@github.com:finnlabs/openproject-help_link.git", branch: 'dev'
+  gem "openproject-release", git: "git@github.com:finnlabs/openproject-release.git", branch: 'dev'
+  gem "openproject-locale_chooser", git: "git@github.com:finnlabs/openproject-locale_chooser", branch: 'dev'
+  gem "openproject-announcements", git: "git@github.com:finnlabs/openproject-announcements.git", branch: 'dev'
+  gem "openproject-my_project_page", git: "git@github.com:finnlabs/openproject-my_project_page.git", branch: 'dev'
+
+  # delete this gem
+  gem "openproject-self_registration_by_mail", git: "git@github.com:finnlabs/openproject-self_registration_by_mail.git", branch: 'dev'
+
+  gem "openproject-xls_export", git: "git@github.com:finnlabs/openproject-xls_export.git", branch: 'dev'
+  gem "openproject-meeting", git: "git@github.com:finnlabs/openproject-meeting.git", branch: 'dev'
+  gem "openproject-costs", git: "git@github.com:finnlabs/openproject-costs.git", branch: 'dev'
+  gem "reporting_engine", git: "git@github.com:finnlabs/reporting_engine.git", branch: 'dev'
+  gem "openproject-reporting", git: "git@github.com:finnlabs/openproject-reporting.git", branch: 'dev'
+  gem "openproject-pdf_export", git: "git@github.com:finnlabs/openproject-pdf_export.git", branch: 'dev'
+  gem "openproject-backlogs", git: "git@github.com:finnlabs/openproject-backlogs.git", branch: 'dev'
+  gem "openproject-themes-dark", git: "git@github.com:finnlabs/openproject-themes-dark.git", branch: 'dev'
+  gem "openproject-local_avatars", git: "git@github.com:finnlabs/openproject-local_avatars", branch: 'dev'
+  gem "openproject-webhooks", git: "git@github.com:finnlabs/openproject-webhooks", branch: 'dev'
+  gem "openproject-github_integration", git: "git@github.com:finnlabs/openproject-github_integration", branch: 'dev'
+  gem "openproject-emoji", git: 'git@github.com:opf/openproject-emoji.git', branch: 'master'
 end
 
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
