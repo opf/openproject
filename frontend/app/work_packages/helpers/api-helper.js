@@ -32,7 +32,7 @@ module.exports = function() {
       if(error.status === 500) {
         return [error.statusText];
       } else {
-        var response = JSON.parse(error.responseText);
+        var response = JSON.parse(error.data);
         var messages = [];
 
         if (ApiHelper.isMultiErrorMessage(response)) {
