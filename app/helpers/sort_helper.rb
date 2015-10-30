@@ -60,18 +60,18 @@
 #     sort_init 'last_name'
 #     sort_update %w(first_name last_name)
 #     @contact_pages, @items = paginate :contacts,
-#       :order_by => sort_clause,
-#       :per_page => 10
+#       order_by: sort_clause,
+#       per_page: 10
 #   end
 #
 # View (table header in list.rhtml):
 #
 #   <thead>
 #     <tr>
-#       <%= sort_header_tag('id', :title => 'Sort by contact ID') %>
-#       <%= sort_header_tag('last_name', :caption => 'Name') %>
+#       <%= sort_header_tag('id', title: 'Sort by contact ID') %>
+#       <%= sort_header_tag('last_name', caption: 'Name') %>
 #       <%= sort_header_tag('phone') %>
-#       <%= sort_header_tag('address', :width => 200) %>
+#       <%= sort_header_tag('address', width: 200) %>
 #     </tr>
 #   </thead>
 #
@@ -254,7 +254,7 @@ module SortHelper
   #
   # Example:
   #
-  #   <%= sort_header_tag('id', :title => 'Sort by contact ID') %>
+  #   <%= sort_header_tag('id', title: 'Sort by contact ID') %>
   #
   #   Generates (for the users controller and if the table is sorted by the column)
   #     <th>

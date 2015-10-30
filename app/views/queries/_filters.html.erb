@@ -91,12 +91,12 @@ See doc/COPYRIGHT.rdoc for more details.
   function apply_filters_observer() {
     $$("#query_form input[type=text]").invoke("observe", "keypress", function(e){
       if(e.keyCode == Event.KEY_RETURN) {
-        <%= remote_function(:url => { :set_filter => 1},
-                            :update => "content",
-                            :before => 'selectAllOptions("selected_columns");',
-                            :method => :get,
-                            :with => "jQuery('#query_form').serialize()",
-                            :complete => "e.stop(); apply_filters_observer()") %>
+        <%= remote_function(url: { set_filter: 1},
+                            update: "content",
+                            before: 'selectAllOptions("selected_columns");',
+                            method: :get,
+                            with: "jQuery('#query_form').serialize()",
+                            complete: "e.stop(); apply_filters_observer()") %>
       }
     });
   }
@@ -109,18 +109,18 @@ See doc/COPYRIGHT.rdoc for more details.
        options = filter[1] %>
      <li <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter advanced-filters--filter">
       <label class="advanced-filters--filter-name">
-         <%= check_box_tag 'f[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>
+         <%= check_box_tag 'f[]', field, query.has_filter?(field), onclick: "toggle_filter('#{field}');", id: "cb_#{field}" %>
          <%= filter[1][:name] || WorkPackage.human_attribute_name(field) %>
        </label>
        <div class="advanced-filters--filter-operator">
-         <%= label_tag "op_#{field}", l(:description_filter), :class => "hidden-for-sighted" %>
+         <%= label_tag "op_#{field}", l(:description_filter), class: "hidden-for-sighted" %>
          <%= select_tag "op[#{field}]",
                         options_for_select(operators_for_select(options[:type]),
                                            query.filter_for(field).try(:operator)),
-                        :id => "operators_#{field}",
-                        :onchange => "toggle_operator('#{field}');",
-                        :class => "advanced-filters--select",
-                        :style => "vertical-align: top;" %>
+                        id: "operators_#{field}",
+                        onchange: "toggle_operator('#{field}');",
+                        class: "advanced-filters--select",
+                        style: "vertical-align: top;" %>
 
        </div>
        <div id="div_values_<%= field %>" style="display:none;" class="advanced-filters--filter-value">
@@ -139,19 +139,19 @@ when  :list, :list_optional, :list_status, :list_subprojects %>
              </select>
              <%= link_to_function icon_wrapper('icon-context icon-plus', l(:label_enable_multi_select)),
                         "toggle_multi_select('#{field}');",
-                        :title => l(:label_enable_multi_select),
-                        :class => 'form-label no-decoration-on-hover -transparent' %>
+                        title: l(:label_enable_multi_select),
+                        class: 'form-label no-decoration-on-hover -transparent' %>
            </span>
            <% when :date, :date_past %>
              <span class="inline-label">
-               <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 3, :class => "advanced-filters--text-field" %>
+               <%= text_field_tag "v[#{field}][]", field_values, id: "values_#{field}", size: 3, class: "advanced-filters--text-field" %>
              <label for='<%= "values_#{field}" %>' class="form-label -transparent"><%= l(:label_day_plural) %></label>
            </span>
            <% when :string, :text %>
-             <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 30, :class => "advanced-filters--text-field" %>
+             <%= text_field_tag "v[#{field}][]", field_values, id: "values_#{field}", size: 30, class: "advanced-filters--text-field" %>
              <label for='<%= "values_#{field}" %>' class='hidden-for-sighted' ><%= l(:description_enter_text) %></label>
            <% when :integer %>
-             <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 3, :class => "advanced-filters--number-field" %>
+             <%= text_field_tag "v[#{field}][]", field_values, id: "values_#{field}", size: 3, class: "advanced-filters--number-field" %>
              <label for='<%= "values_#{field}" %>' class='hidden-for-sighted' ><%= l(:description_enter_number) %></label>
            <% end %>
        </div>
@@ -171,9 +171,9 @@ when  :list, :list_optional, :list_status, :list_subprojects %>
     <div class="advanced-filters--add-filter-value">
        <%= select_tag 'add_filter_select',
                       options_for_select(entries_for_filter_select_sorted(query)),
-                      :onchange => "add_filter();",
-                      :class => "advanced-filters--select",
-                      :name => nil %>
+                      onchange: "add_filter();",
+                      class: "advanced-filters--select",
+                      name: nil %>
     </div>
   </li>
 </ul>

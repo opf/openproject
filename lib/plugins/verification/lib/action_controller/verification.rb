@@ -22,18 +22,18 @@ module ActionController #:nodoc:
     #     # the 'admin_privileges' request parameter exists. The
     #     # settings action will be redirected to in current controller
     #     # if verification fails.
-    #     verify :params => "admin_privileges", :only => :update_post,
-    #            :redirect_to => { :action => "settings" }
+    #     verify params: "admin_privileges", only: :update_post,
+    #            redirect_to: { action: "settings" }
     #
     #     # Disallow a post from being updated if there was no information
     #     # submitted with the post, and if there is no active post in the
     #     # session, and if there is no "note" key in the flash. The route
     #     # named category_url will be redirected to if verification fails.
     #
-    #     verify :params => "post", :session => "post", "flash" => "note",
-    #            :only => :update_post,
-    #            :add_flash => { "alert" => "Failed to create your message" },
-    #            :redirect_to => :category_url
+    #     verify params: "post", session: "post", "flash" => "note",
+    #            only: :update_post,
+    #            add_flash: { "alert" => "Failed to create your message" },
+    #            redirect_to: :category_url
     #
     # Note that these prerequisites are not business rules. They do not examine
     # the content of the session or the parameters. That level of validation should

@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= toggle_link icon_wrapper('icon icon-add', l(:label_add_related_work_packages)),
                       'new-relation-form',
                       { focus: 'relation_to_id' },
-                      { :class => 'no-decoration-on-hover', :title => l(:label_add_related_work_packages) } %>
+                      { class: 'no-decoration-on-hover', title: l(:label_add_related_work_packages) } %>
     <% end %>
   </div>
 </div>
@@ -58,20 +58,20 @@ See doc/COPYRIGHT.rdoc for more details.
       </tr>
     </thead>
     <tbody>
-      <%= render :partial => 'relation', :collection => relations,
-                                         :as => :relation,
-                                         :locals => { :work_package => work_package } -%>
+      <%= render partial: 'relation', collection: relations,
+                                         as: :relation,
+                                         locals: { work_package: work_package } -%>
     </tbody>
   </table>
 
   <%= form_for(work_package.new_relation,
-               :as => :relation,
-               :url => work_package_relations_path(work_package),
-               :method => :post,
-               :remote => true,
-               :complete => "Form.Element.focus('relation_to_id');",
-               :html => {:id => 'new-relation-form', :style => (@relation ? '' : 'display: none;')}) do |f| %>
-    <%= render :partial => 'work_package_relations/form', :locals => {:f => f}%>
+               as: :relation,
+               url: work_package_relations_path(work_package),
+               method: :post,
+               remote: true,
+               complete: "Form.Element.focus('relation_to_id');",
+               html: {id: 'new-relation-form', style: (@relation ? '' : 'display: none;')}) do |f| %>
+    <%= render partial: 'work_package_relations/form', locals: {f: f}%>
 
   <% end %>
 </div>

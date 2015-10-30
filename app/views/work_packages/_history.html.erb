@@ -36,11 +36,11 @@ a journal as the cache could then not be used between all of an issue's journals
 <% for journal in journals %>
   <%= render_journal work_package,
                      journal,
-                     :edit_permission => :edit_work_package_notes,
-                     :quote_permission => :edit_work_packages,
-                     :edit_own_permission => :edit_own_work_package_notes,
-                     :cache => @journal_cache %>
-  <%= call_hook(:view_work_packages_history_journal_bottom, { :journal => journal }) %>
+                     edit_permission: :edit_work_package_notes,
+                     quote_permission: :edit_work_packages,
+                     edit_own_permission: :edit_own_work_package_notes,
+                     cache: @journal_cache %>
+  <%= call_hook(:view_work_packages_history_journal_bottom, { journal: journal }) %>
 <% end %>
 
 <% heads_for_wiki_formatter if User.current.allowed_to?(:edit_work_package_notes, work_package.project) || User.current.allowed_to?(:edit_own_work_package_notes, work_package.project) %>

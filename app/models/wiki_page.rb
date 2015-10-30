@@ -220,7 +220,7 @@ class WikiPage < ActiveRecord::Base
   end
 
   # Returns the wiki menu item of nearest ancestor page that has a wiki menu item.
-  # To restrict the result to main menu items pass <tt>:is_main_item => true</tt> as +options+ hash
+  # To restrict the result to main menu items pass <tt>is_main_item: true</tt> as +options+ hash
   def nearest_parent_menu_item(options = {})
     return nil unless parent
 

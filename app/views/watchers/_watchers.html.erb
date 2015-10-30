@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= toggle_link icon_wrapper('icon icon-add', l(:button_add_watcher)),
                       'new-watcher-form',
                       { focus: 'watcher_user_id' },
-                      { :class => 'no-decoration-on-hover', :title => l(:button_add_watcher) } %>
+                      { class: 'no-decoration-on-hover', title: l(:button_add_watcher) } %>
     <% end %>
   </div>
 </div>
@@ -56,7 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="choice">
       <div class="choice--select">
         <%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}.sort_by{|name, id | name}),
-              { :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---", no_label: true } %>
+              { prompt: "--- #{l(:actionview_instancetag_blank_option)} ---", no_label: true } %>
 
       </div>
       <div class="choice--button">

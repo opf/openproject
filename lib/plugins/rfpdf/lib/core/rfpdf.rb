@@ -17,7 +17,7 @@ module Core::RFPDF
   #
   # Example:
   #
-  #   draw_circle(x, y, radius, :border_color => ReportHelper::COLOR_PALETTE[:dark_blue], :border_width => 1)
+  #   draw_circle(x, y, radius, border_color: ReportHelper::COLOR_PALETTE[:dark_blue], border_width: 1)
   #
   def draw_circle(mid_x, mid_y, radius, options = {})
     options[:border] ||= 1
@@ -43,7 +43,7 @@ module Core::RFPDF
   #
   # Example:
   #
-  #   draw_line(x1, y1, x1, y1+h, :line_color => ReportHelper::COLOR_PALETTE[:dark_blue], :line_width => 1)
+  #   draw_line(x1, y1, x1, y1+h, line_color: ReportHelper::COLOR_PALETTE[:dark_blue], line_width: 1)
   #
   def draw_line(x1, y1, x2, y2, options = {})
     options[:line_color] ||= Core::RFPDF::COLOR_PALETTE[:black]
@@ -63,7 +63,7 @@ module Core::RFPDF
   #
   # Example:
   #
-  #   draw_text(x, y, header_left, :font_size => 10)
+  #   draw_text(x, y, header_left, font_size: 10)
   #
   def draw_text(x, y, text, options = {})
     options[:font_color] ||= Core::RFPDF::COLOR_PALETTE[:black]
@@ -88,9 +88,9 @@ module Core::RFPDF
   # Example:
   #
   #   draw_text_block(left_margin, 85, "question", left_margin, 280,
-  #       :font_color => ReportHelper::COLOR_PALETTE[:dark_blue],
-  #       :font_size => 12,
-  #       :font_style => 'I')
+  #       font_color: ReportHelper::COLOR_PALETTE[:dark_blue],
+  #       font_size: 12,
+  #       font_style: 'I')
   #
   def draw_text_block(x, y, text, left_margin, right_margin_from_right_edge, options = {})
     options[:font] ||= default_font
@@ -157,11 +157,11 @@ module Core::RFPDF
   #
   #   draw_text_box(x, y - 1, 38, 22,
   #                 "your_score_title",
-  #                 :fill => 0,
-  #                 :font_color => ReportHelper::COLOR_PALETTE[:blue],
-  #                 :font_line_spacing => 0,
-  #                 :font_style => "B",
-  #                 :valign => "M")
+  #                 fill: 0,
+  #                 font_color: ReportHelper::COLOR_PALETTE[:blue],
+  #                 font_line_spacing: 0,
+  #                 font_style: "B",
+  #                 valign: "M")
   #
   def draw_text_box(x, y, w, h, text, options = {})
     options[:align] ||= 'C'
@@ -228,7 +228,7 @@ module Core::RFPDF
   #
   #   draw_title(left_margin, 60,
   #       "title:",
-  #       :font_color => ReportHelper::COLOR_PALETTE[:dark_blue])
+  #       font_color: ReportHelper::COLOR_PALETTE[:dark_blue])
   #
   def draw_title(x, y, title, options = {})
     options[:font_color] ||= Core::RFPDF::COLOR_PALETTE[:black]
@@ -286,7 +286,7 @@ module Core::RFPDF
   #
   # Example:
   #
-  #   write_html_with_options(html, :height => 12)
+  #   write_html_with_options(html, height: 12)
   #
   #FIXME 2007-08-07 (EJM) Level=0 - This needs to call the TCPDF version.
   def write_html_with_options(html, options = {})

@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= watcher_link(@wiki, User.current) %>
 <% end %>
 <h2 class="legacy-heading"><%= l(:label_index_by_date) %></h2>
-<%= render :partial => 'layouts/action_menu_specific' %>
+<%= render partial: 'layouts/action_menu_specific' %>
 <% if @pages.empty? %>
   <%= no_results_box %>
 <% end %>
@@ -44,14 +44,14 @@ See doc/COPYRIGHT.rdoc for more details.
   </ul>
 <% end %>
 <% content_for :sidebar do %>
-  <%= render :partial => 'sidebar' %>
+  <%= render partial: 'sidebar' %>
 <% end %>
 <% if @pages.any? %>
   <%= other_formats_links do |f| %>
-    <%= f.link_to 'Atom', :url => {:controller => '/activities', :action => 'index', :show_wiki_edits => 1, :key => User.current.rss_key} %>
-    <%= f.link_to('HTML', :url => {:action => 'export'}) if User.current.allowed_to?(:export_wiki_pages, @project) %>
+    <%= f.link_to 'Atom', url: {controller: '/activities', action: 'index', show_wiki_edits: 1, key: User.current.rss_key} %>
+    <%= f.link_to('HTML', url: {action: 'export'}) if User.current.allowed_to?(:export_wiki_pages, @project) %>
   <% end %>
 <% end %>
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, :controller => '/activities', :action => 'index', :id => @project, :show_wiki_edits => 1, :format => 'atom', :key => User.current.rss_key) %>
+  <%= auto_discovery_link_tag(:atom, controller: '/activities', action: 'index', id: @project, show_wiki_edits: 1, format: 'atom', key: User.current.rss_key) %>
 <% end %>

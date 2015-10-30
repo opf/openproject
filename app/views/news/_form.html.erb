@@ -28,13 +28,13 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= error_messages_for 'news' %>
 <div class="form--field">
-  <%= f.text_field :title, :required => true, :size => 60 %>
+  <%= f.text_field :title, required: true, size: 60 %>
 </div>
 <div class="form--field">
-  <%= f.text_area :summary, :cols => 60, :rows => 2 %>
+  <%= f.text_area :summary, cols: 60, rows: 2 %>
 </div>
 <div class="form--field">
-  <%= f.text_area :description, :required => true, :cols => 60, :rows => 15, :class => 'wiki-edit',
+  <%= f.text_area :description, required: true, cols: 60, rows: 15, class: 'wiki-edit',
                 :'ng-non-bindable' => '' %>
 </div>
 <%= wikitoolbar_for 'news_description' %>

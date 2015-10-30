@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= toolbar title: "#{link_to l(@enumeration.option_name), enumerations_path} &raquo; #{h @enumeration}" %>
-<%= styled_form_tag({}, :method => :delete) do %>
+<%= styled_form_tag({}, method: :delete) do %>
   <section class="form--section">
     <p><strong><%= l(:text_enumeration_destroy_question, @enumeration.objects_count) %></strong></p>
     <div class="form--field">
@@ -38,6 +38,6 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </section>
   <%= styled_submit_tag l(:button_apply), class: '-highlight' %>
-  <%= link_to l(:button_cancel), { :controller => '/enumerations', :action => 'index' },
+  <%= link_to l(:button_cancel), { controller: '/enumerations', action: 'index' },
       class: 'button' %>
 <% end %>

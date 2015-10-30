@@ -55,7 +55,7 @@ module Redmine #:nodoc:
   #     author 'John Smith'
   #     description 'This is an example plugin for Redmine'
   #     version '0.0.1'
-  #     settings :default => {'foo'=>'bar'}, :partial => 'settings/settings'
+  #     settings default: {'foo'=>'bar'}, partial: 'settings/settings'
   #   end
   #
   # === Plugin attributes
@@ -65,7 +65,7 @@ module Redmine #:nodoc:
   # * <tt>:default</tt>: default value for the plugin settings
   # * <tt>:partial</tt>: path of the configuration partial view, relative to the plugin <tt>app/views</tt> directory
   # Example:
-  #   settings :default => {'foo'=>'bar'}, :partial => 'settings/settings'
+  #   settings default: {'foo'=>'bar'}, partial: 'settings/settings'
   # In this example, the settings partial will be found here in the plugin directory: <tt>app/views/settings/_settings.rhtml</tt>.
   #
   # When rendered, the plugin settings value is available as the local variable +settings+
@@ -197,8 +197,8 @@ module Redmine #:nodoc:
     ##
     # Registers an assets (javascript, css file) to be injected into every page
     # params: Hash containing associations with
-    #   :type => (symbol): either :js or :css
-    #   :path => (string): path to asset to include, or array with multiple asset paths
+    #   type: (symbol): either :js or :css
+    #   path: (string): path to asset to include, or array with multiple asset paths
     def global_assets(assets_hash = {})
       assets_hash.each { |k, v| registered_global_assets[k] = Array(v) }
     end
@@ -217,12 +217,12 @@ module Redmine #:nodoc:
     #
     # Examples
     #   # Requires a plugin named :foo version 0.7.3 or higher
-    #   requires_redmine_plugin :foo, :version_or_higher => '0.7.3'
+    #   requires_redmine_plugin :foo, version_or_higher: '0.7.3'
     #   requires_redmine_plugin :foo, '0.7.3'
     #
     #   # Requires a specific version of a Redmine plugin
-    #   requires_redmine_plugin :foo, :version => '0.7.3'              # 0.7.3 only
-    #   requires_redmine_plugin :foo, :version => ['0.7.3', '0.8.0']   # 0.7.3 or 0.8.0
+    #   requires_redmine_plugin :foo, version: '0.7.3'              # 0.7.3 only
+    #   requires_redmine_plugin :foo, version: ['0.7.3', '0.8.0']   # 0.7.3 or 0.8.0
     def requires_redmine_plugin(plugin_name, arg)
       arg = { version_or_higher: arg } unless arg.is_a?(Hash)
       arg.assert_valid_keys(:version, :version_or_higher)
@@ -250,7 +250,7 @@ module Redmine #:nodoc:
 
     # Adds an item to the given +menu+.
     # The +id+ parameter (equals to the project id) is automatically added to the url.
-    #   menu :project_menu, :plugin_example, { :controller => '/example', :action => 'say_hello' }, :caption => 'Sample'
+    #   menu :project_menu, :plugin_example, { controller: '/example', action: 'say_hello' }, caption: 'Sample'
     #
     # +name+ parameter can be: :top_menu, :account_menu, :application_menu or :project_menu
     #
@@ -282,8 +282,8 @@ module Redmine #:nodoc:
     # Defines a permission called +name+ for the given +actions+.
     #
     # The +actions+ argument is a hash with controllers as keys and actions as values (a single value or an array):
-    #   permission :destroy_contacts, { :contacts => :destroy }
-    #   permission :view_contacts, { :contacts => [:index, :show] }
+    #   permission :destroy_contacts, { contacts: :destroy }
+    #   permission :view_contacts, { contacts: [:index, :show] }
     #
     # The +options+ argument can be used to make the permission public (implicitly given to any user)
     # or to restrict users the permission can be given to.
@@ -291,16 +291,16 @@ module Redmine #:nodoc:
     # Examples
     #   # A permission that is implicitly given to any user
     #   # This permission won't appear on the Roles & Permissions setup screen
-    #   permission :say_hello, { :example => :say_hello }, :public => true
+    #   permission :say_hello, { example: :say_hello }, public: true
     #
     #   # A permission that can be given to any user
-    #   permission :say_hello, { :example => :say_hello }
+    #   permission :say_hello, { example: :say_hello }
     #
     #   # A permission that can be given to registered users only
-    #   permission :say_hello, { :example => :say_hello }, :require => :loggedin
+    #   permission :say_hello, { example: :say_hello }, require: :loggedin
     #
     #   # A permission that can be given to project members only
-    #   permission :say_hello, { :example => :say_hello }, :require => :member
+    #   permission :say_hello, { example: :say_hello }, require: :member
     def permission(name, actions, options = {})
       if @project_module
         Redmine::AccessControl.map { |map| map.project_module(@project_module) { |map| map.permission(name, actions, options) } }
@@ -313,8 +313,8 @@ module Redmine #:nodoc:
     # Permissions defined inside +block+ will be bind to the module.
     #
     #   project_module :things do
-    #     permission :view_contacts, { :contacts => [:list, :show] }, :public => true
-    #     permission :destroy_contacts, { :contacts => :destroy }
+    #     permission :view_contacts, { contacts: [:list, :show] }, public: true
+    #     permission :destroy_contacts, { contacts: :destroy }
     #   end
     def project_module(name, &block)
       @project_module = name
@@ -332,8 +332,8 @@ module Redmine #:nodoc:
     #
     # Examples:
     #   register :news
-    #   register :scrums, :class_name => 'Meeting'
-    #   register :issues, :class_name => ['Issue', 'Journal']
+    #   register :scrums, class_name: 'Meeting'
+    #   register :issues, class_name: ['Issue', 'Journal']
     #
     # Retrieving events:
     # Associated model(s) must implement the find_events class method.
@@ -341,7 +341,7 @@ module Redmine #:nodoc:
     #
     # The following call should return all the scrum events visible by current user that occurred in the 5 last days:
     #   Meeting.find_events('scrums', User.current, 5.days.ago, Date.today)
-    #   Meeting.find_events('scrums', User.current, 5.days.ago, Date.today, :project => foo) # events for project foo only
+    #   Meeting.find_events('scrums', User.current, 5.days.ago, Date.today, project: foo) # events for project foo only
     #
     # Note that :view_scrums permission is required to view these events in the activity view.
     def activity_provider(*args)

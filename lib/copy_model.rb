@@ -53,8 +53,8 @@ module CopyModel
     #
     # Examples:
     #   model.copy_associations(1)                                    # => copies everything
-    #   model.copy_associations(1, :only => 'members')                # => copies members only
-    #   model.copy_associations(1, :only => ['members', 'versions'])  # => copies members and versions
+    #   model.copy_associations(1, only: 'members')                # => copies members only
+    #   model.copy_associations(1, only: ['members', 'versions'])  # => copies members and versions
     def copy_associations(from_model, options = {})
       to_be_copied = self.class.reflect_on_all_associations.map(&:name)
       to_be_copied = Array(options[:only]) unless options[:only].nil?

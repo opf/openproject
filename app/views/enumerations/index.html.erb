@@ -85,15 +85,15 @@ See doc/COPYRIGHT.rdoc for more details.
           </thead>
           <% enumerations.each do |enumeration| %>
             <tr>
-              <td><%= link_to h(enumeration), :action => 'edit', :id => enumeration %></td>
+              <td><%= link_to h(enumeration), action: 'edit', id: enumeration %></td>
               <td style="width:200px;"><%= checked_image enumeration.is_default? %></td>
               <td style="width:200px;"><%= checked_image enumeration.active? %></td>
-              <td style="width:200px;"><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}, :method => :put) %></td>
+              <td style="width:200px;"><%= reorder_links('enumeration', {action: 'update', id: enumeration}, method: :put) %></td>
               <td class="buttons" style="width:200px;">
-                <%= link_to l(:button_delete), { :action => 'destroy', :id => enumeration },
-                    :method => :delete,
+                <%= link_to l(:button_delete), { action: 'destroy', id: enumeration },
+                    method: :delete,
                     data: { confirm: l(:text_are_you_sure) },
-                    :class => 'icon icon-delete' %>
+                    class: 'icon icon-delete' %>
               </td>
             </tr>
           <% end %>
@@ -102,5 +102,5 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
   <% end %>
-  <p><%= link_to l(:label_enumeration_new), { :action => 'new', :type => klass.name } %></p>
+  <p><%= link_to l(:label_enumeration_new), { action: 'new', type: klass.name } %></p>
 <% end %>

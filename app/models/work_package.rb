@@ -513,7 +513,7 @@ class WorkPackage < ActiveRecord::Base
   # Safely sets attributes
   # Should be called from controllers instead of #attributes=
   # attr_accessible is too rough because we still want things like
-  # WorkPackage.new(:project => foo) to work
+  # WorkPackage.new(project: foo) to work
   # TODO: move workflow/permission checks from controllers to here
   def safe_attributes=(attrs, user = User.current)
     return unless attrs.is_a?(Hash)

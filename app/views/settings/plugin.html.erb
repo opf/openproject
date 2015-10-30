@@ -28,9 +28,9 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= toolbar title: "#{l(:label_settings)}: #{h @plugin.name}" %>
 <div id="settings">
-  <%= styled_form_tag({:action => 'plugin'}) do %>
+  <%= styled_form_tag({action: 'plugin'}) do %>
     <div class="box">
-      <%= render :partial => @partial, :locals => {:settings => @settings}%>
+      <%= render partial: @partial, locals: {settings: @settings}%>
     </div>
     <%= styled_submit_tag l(:button_apply), class: '-highlight' %>
   <% end %>

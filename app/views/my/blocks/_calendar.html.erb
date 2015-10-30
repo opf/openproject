@@ -36,4 +36,4 @@ See doc/COPYRIGHT.rdoc for more details.
 <% calendar = Redmine::Helpers::Calendar.new(Date.today, current_language, :week)
    calendar.events = calendar_items(calendar.startdt, calendar.enddt) %>
 
-<%= render :partial => 'common/calendar', :locals => {:calendar => calendar } %>
+<%= render partial: 'common/calendar', locals: {calendar: calendar } %>

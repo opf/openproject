@@ -27,10 +27,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= fields_for :work_package, work_package, :builder => TabularFormBuilder do |f| %>
-  <%= render :partial => 'attributes', :locals => { :f => f,
-                                                    :work_package => work_package,
-                                                    :priorities => priorities,
-                                                    :project => project,
-                                                    :user => user } %>
+<%= fields_for :work_package, work_package, builder: TabularFormBuilder do |f| %>
+  <%= render partial: 'attributes', locals: { f: f,
+                                                    work_package: work_package,
+                                                    priorities: priorities,
+                                                    project: project,
+                                                    user: user } %>
 <% end %>

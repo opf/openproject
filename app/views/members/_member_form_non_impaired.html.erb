@@ -32,9 +32,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title I18n.t(:label_member_new) %>
 <%= toolbar title: I18n.t(:label_member_new) %>
 
-<%= labelled_tabular_form_for(:member, :url => {:controller => 'members', :action => 'create', :project_id => project},
-                     :method => :post,
-                     :html => {:id => "members_add_form"}) do |f| %>
+<%= labelled_tabular_form_for(:member, url: {controller: 'members', action: 'create', project_id: project},
+                     method: :post,
+                     html: {id: "members_add_form"}) do |f| %>
   <div class="form--section">
     <div id="new-member-message"></div>
     <div class="grid-block medium-up-2">
@@ -49,13 +49,13 @@ See doc/COPYRIGHT.rdoc for more details.
           %>
           <%= styled_label_tag :member_user_ids, user_id_title %>
           <%= select_tag "member[user_ids]", options_for_select([]),
-                           :title => user_id_title,
-                           :multiple => true,
-                           :autofocus => true,
-                           :'data-ajaxURL' => url_for(:controller => "/members", :action => "autocomplete_for_member"),
+                           title: user_id_title,
+                           multiple: true,
+                           autofocus: true,
+                           :'data-ajaxURL' => url_for(controller: "/members", action: "autocomplete_for_member"),
                            :'data-projectId' => project.id,
                            no_label: true,
-                           :class => "select2-select remote" %>
+                           class: "select2-select remote" %>
         </div>
       </div>
       <div class="form--column">
@@ -63,11 +63,11 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= styled_label_tag :member_role_ids, l(:label_role_search) %>
           <% options = roles.collect { |obj| [obj.name, obj.id] } %>
           <%= select_tag 'member[role_ids]', options_for_select(options),
-                           :multiple => true,
+                           multiple: true,
                             no_label: true,
-                           :title => l(:label_role_search),
-                           :tabIndex => 0,
-                           :class => "select2-select" %>
+                           title: l(:label_role_search),
+                           tabIndex: 0,
+                           class: "select2-select" %>
         </div>
       </div>
     </div>

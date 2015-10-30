@@ -59,16 +59,16 @@ See doc/COPYRIGHT.rdoc for more details.
           <div class="form--field">
             <label class="form--label" for='work_package_assigned_to_id'><%= WorkPackage.human_attribute_name(:assigned_to) %></label>
             <div class="form--field-container">
-              <%= styled_select_tag('work_package[assigned_to_id]', content_tag('option', l(:label_no_change_option), :value => '') +
-                                     content_tag('option', l(:label_nobody), :value => 'none') +
+              <%= styled_select_tag('work_package[assigned_to_id]', content_tag('option', l(:label_no_change_option), value: '') +
+                                     content_tag('option', l(:label_nobody), value: 'none') +
                                      options_from_collection_for_select(@assignables, :id, :name)) %>
             </div>
           </div>
           <div class="form--field">
             <label class="form--label" for='work_package_responsible_id'><%= WorkPackage.human_attribute_name(:responsible) %></label>
             <div class="form--field-container">
-              <%= styled_select_tag('work_package[responsible_id]', content_tag('option', l(:label_no_change_option), :value => '') +
-                                     content_tag('option', l(:label_nobody), :value => 'none') +
+              <%= styled_select_tag('work_package[responsible_id]', content_tag('option', l(:label_no_change_option), value: '') +
+                                     content_tag('option', l(:label_nobody), value: 'none') +
                                      options_from_collection_for_select(@responsibles, :id, :name)) %>
             </div>
           </div>
@@ -76,8 +76,8 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="form--field">
               <label class="form--label" for='category_id'><%= WorkPackage.human_attribute_name(:category) %></label>
               <div class="form--field-container">
-                <%= styled_select_tag('work_package[category_id]', content_tag('option', l(:label_no_change_option), :value => '') +
-                                    content_tag('option', l(:label_none), :value => 'none') +
+                <%= styled_select_tag('work_package[category_id]', content_tag('option', l(:label_no_change_option), value: '') +
+                                    content_tag('option', l(:label_none), value: 'none') +
                                     options_from_collection_for_select(@project.categories, :id, :name)) %>
               </div>
             </div>
@@ -87,8 +87,8 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="form--field">
               <label class="form--label" for='work_package_fixed_version_id'><%= WorkPackage.human_attribute_name(:fixed_version) %></label>
               <div class="form--field-container">
-                <%= styled_select_tag('work_package[fixed_version_id]', content_tag('option', l(:label_no_change_option), :value => '') +
-                                       content_tag('option', l(:label_none), :value => 'none') +
+                <%= styled_select_tag('work_package[fixed_version_id]', content_tag('option', l(:label_no_change_option), value: '') +
+                                       content_tag('option', l(:label_none), value: 'none') +
                                        version_options_for_select(@project.shared_versions.open.sort)) %>
               </div>
             </div>
@@ -108,7 +108,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="form--field">
               <label class="form--label" for='work_package_parent_id'><%= WorkPackage.human_attribute_name(:parent) %></label>
               <div class="form--field-container">
-                <%= styled_text_field_tag 'work_package[parent_id]', '', :size => 10 %>
+                <%= styled_text_field_tag 'work_package[parent_id]', '', size: 10 %>
               </div>
             </div>
             <div id="parent_work_package_candidates" class="autocomplete"></div>
@@ -117,13 +117,13 @@ See doc/COPYRIGHT.rdoc for more details.
           <div class="form--field">
             <label class="form--label" for='work_package_start_date'><%= WorkPackage.human_attribute_name(:start_date) %></label>
             <div class="form--field-container">
-              <%= styled_text_field_tag 'work_package[start_date]', '', :size => 10 %><%= calendar_for('work_package_start_date') %>
+              <%= styled_text_field_tag 'work_package[start_date]', '', size: 10 %><%= calendar_for('work_package_start_date') %>
             </div>
           </div>
           <div class="form--field">
             <label class="form--label" for='work_package_due_date'><%= WorkPackage.human_attribute_name(:due_date) %></label>
             <div class="form--field-container">
-              <%= styled_text_field_tag 'work_package[due_date]', '', :size => 10 %><%= calendar_for('work_package_due_date') %>
+              <%= styled_text_field_tag 'work_package[due_date]', '', size: 10 %><%= calendar_for('work_package_due_date') %>
             </div>
           </div>
           <% if WorkPackage.use_field_for_done_ratio? %>
@@ -139,8 +139,8 @@ See doc/COPYRIGHT.rdoc for more details.
     </fieldset>
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= Journal.human_attribute_name(:notes) %></legend>
-      <%= label_tag 'notes', Journal.human_attribute_name(:notes), :class => 'hidden-for-sighted' %>
-      <%= styled_text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
+      <%= label_tag 'notes', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
+      <%= styled_text_area_tag 'notes', @notes, cols: 60, rows: 10, class: 'wiki-edit' %>
       <%= wikitoolbar_for 'notes' %>
       <p><%= send_notification_option %></p>
     </fieldset>

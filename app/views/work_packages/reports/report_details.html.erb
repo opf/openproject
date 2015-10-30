@@ -31,11 +31,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h3><%=@report_title%></h3>
 
-<%= render :partial => 'report', :locals => { :statuses => @statuses,
-                                              :rows => @rows,
-                                              :data => @data,
-                                              :field_name => @field,
-                                              :report => @report } %>
+<%= render partial: 'report', locals: { statuses: @statuses,
+                                              rows: @rows,
+                                              data: @data,
+                                              field_name: @field,
+                                              report: @report } %>
 <br />
 
 <%= link_to l(:button_back), report_project_work_packages_path(@project) %>

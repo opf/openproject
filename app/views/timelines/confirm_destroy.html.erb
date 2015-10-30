@@ -27,11 +27,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title I18n.t("timelines.delete_timeline", :timeline => @timeline.name) %>
+<% html_title I18n.t("timelines.delete_timeline", timeline: @timeline.name) %>
 <%= toolbar title: h(@timeline.name) %>
 <%= labelled_tabular_form_for @timeline,
-            :url  => project_timeline_path(@project, @timeline),
-            :html => {:method => 'delete'} do |f| %>
+            url: project_timeline_path(@project, @timeline),
+            html: {method: 'delete'} do |f| %>
 
   <div class='flash warning'>
     <%= l('timelines.really_delete_timeline') %>

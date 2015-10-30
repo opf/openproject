@@ -30,9 +30,9 @@
 #
 #   project = FactoryGirl.create(:project)
 #   user    = FactoryGirl.create(:user)
-#   role    = FactoryGirl.create(:role, :permissions => [:view_wiki_pages, :edit_wiki_pages])
+#   role    = FactoryGirl.create(:role, permissions: [:view_wiki_pages, :edit_wiki_pages])
 #
-#   member = FactoryGirl.create(:member, :user => user, :project => project)
+#   member = FactoryGirl.create(:member, user: user, project: project)
 #   member.role_ids = [role.id]
 #   member.save!
 #

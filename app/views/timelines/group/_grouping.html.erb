@@ -43,16 +43,16 @@ See doc/COPYRIGHT.rdoc for more details.
                      filter_select_with_none(
                        timeline.available_grouping_projects,
                        :name, :id),
-                     {:selected => timeline.selected_grouping_projects.map(&:id), label: l('timelines.filter.grouping_one_phrase') },
-                     {:multiple => true,
-                      :size => 12}) %>
+                     {selected: timeline.selected_grouping_projects.map(&:id), label: l('timelines.filter.grouping_one_phrase') },
+                     {multiple: true,
+                      size: 12}) %>
         <% else %>
           <%= ff.select :grouping_one_selection,
                    options_for_select([]),
                    { label: l('timelines.filter.grouping_one_phrase'),
                      container_class: '-wide' },
                    { :'data-ajaxURL' => api_v2_paginate_projects_path,
-                     :multiple => true,
+                     multiple: true,
                      :'data-selected' => filter_select(
                                            timeline.selected_grouping_projects,
                                            :name, :id).to_json
@@ -68,7 +68,7 @@ See doc/COPYRIGHT.rdoc for more details.
                       container_class: '-wide') %>
       </div>
       <div class="form--field">
-        <%= ff.check_box :hide_other_group, { label: I18n.t('timelines.filter.grouping_hide_group', :group => l('timelines.filter.grouping_other')) }, 'yes', 'no' %>
+        <%= ff.check_box :hide_other_group, { label: I18n.t('timelines.filter.grouping_hide_group', group: l('timelines.filter.grouping_other')) }, 'yes', 'no' %>
       </div>
     <% end %>
   </div>

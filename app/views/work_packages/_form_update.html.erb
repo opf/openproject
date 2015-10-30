@@ -29,10 +29,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="attributes">
   <% attributes = work_package_form_minimal_middle_attributes(f, work_package,
-                                                                 :priorities => priorities,
-                                                                 :project => project,
-                                                                 :user => user) %>
+                                                                 priorities: priorities,
+                                                                 project: project,
+                                                                 user: user) %>
 
-  <%= render :partial => "two_column_attributes",
-             :locals => { :attributes => attributes } %>
+  <%= render partial: "two_column_attributes",
+             locals: { attributes: attributes } %>
 </div>

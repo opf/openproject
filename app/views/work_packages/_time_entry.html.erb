@@ -29,8 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= f.fields_for :time_entry,
                  time_entry,
-                 { :builder => TabularFormBuilder,
-                 :lang => current_language} do |fields| %>
+                 { builder: TabularFormBuilder,
+                 lang: current_language} do |fields| %>
   <fieldset id="timelog" class="form--fieldset -collapsible">
     <legend class="form--fieldset-legend" title="<%=l(:button_log_time)%>" onclick="toggleFieldset(this);">
       <a href="javascript:"><%=l(:button_log_time)%></a>
@@ -40,10 +40,10 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="grid-block small-up-2">
         <div class="form--field">
           <%= fields.text_field :hours,
-                                :value => number_with_delimiter(time_entry.hours, locale: I18n.locale),
-                                :label => :label_spent_time,
-                                :placeholder => TimeEntry.human_attribute_name(:hours),
-                                :class => 'short' %>
+                                value: number_with_delimiter(time_entry.hours, locale: I18n.locale),
+                                label: :label_spent_time,
+                                placeholder: TimeEntry.human_attribute_name(:hours),
+                                class: 'short' %>
         </div>
 
         <div class="form--field">

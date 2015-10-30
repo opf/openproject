@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <colgroup>
             <col highlight-col>
             <col highlight-col>
-            <%= call_hook(:view_users_memberships_table_colgroup, :user => @user )%>
+            <%= call_hook(:view_users_memberships_table_colgroup, user: @user )%>
             <col>
           </colgroup>
           <thead>
@@ -61,7 +61,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   </div>
                 </div>
               </th>
-              <%= call_hook(:view_users_memberships_table_header, :user => @user )%>
+              <%= call_hook(:view_users_memberships_table_header, user: @user )%>
               <th></th>
             </tr>
           </thead>
@@ -74,14 +74,14 @@ See doc/COPYRIGHT.rdoc for more details.
                   </td>
                   <td class="roles">
                     <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
-                    <%= labelled_tabular_form_for(:membership, :remote => true,
-                                  :url => edit_membership_user_path(:id => @user, :membership_id => membership),
-                                  :html => { :id => "member-#{membership.id}-roles-form", :style => 'display:none;'}) do %>
+                    <%= labelled_tabular_form_for(:membership, remote: true,
+                                  url: edit_membership_user_path(id: @user, membership_id: membership),
+                                  html: { id: "member-#{membership.id}-roles-form", style: 'display:none;'}) do %>
                       <div>
                         <% roles.each do |role| %>
                           <label class="form--label-with-check-box">
                             <%= styled_check_box_tag 'membership[role_ids][]', role.id, membership.roles.include?(role),
-                                                               :disabled => membership.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %>
+                                                               disabled: membership.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %>
                             <%= role %>
                           </label>
                         <% end %>
@@ -92,16 +92,16 @@ See doc/COPYRIGHT.rdoc for more details.
                   class: 'button -small' %></p>
                     <% end %>
                   </td>
-                  <%= call_hook(:view_users_memberships_table_row, :user => @user, :membership => membership, :roles => roles, :projects => projects )%>
+                  <%= call_hook(:view_users_memberships_table_row, user: @user, membership: membership, roles: roles, projects: projects )%>
                   <td class="buttons">
-                    <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
-                    <%= link_to(l(:button_remove), { :controller => 'users',
-                                           :action => 'destroy_membership',
-                                           :id => @user,
-                                           :membership_id => membership },
-                                          :remote => true,
-                                          :method => :post,
-                                          :class => 'icon icon-remove') if membership.deletable? %>
+                    <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show(); return false;", class: 'icon icon-edit' %>
+                    <%= link_to(l(:button_remove), { controller: 'users',
+                                           action: 'destroy_membership',
+                                           id: @user,
+                                           membership_id: membership },
+                                          remote: true,
+                                          method: :post,
+                                          class: 'icon icon-remove') if membership.deletable? %>
                   </td>
                 </tr>
               <% end %>
@@ -116,11 +116,11 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
   <div class="grid-content">
     <% if projects.any? %>
-      <%= labelled_tabular_form_for(:membership, :url => {:controller => 'users',
-                                   :action => 'edit_membership',
-                                   :id => @user,
-                                   :membership_id => nil },
-             :remote => true, :html => {:id => "new_project_membership"}) do %>
+      <%= labelled_tabular_form_for(:membership, url: {controller: 'users',
+                                   action: 'edit_membership',
+                                   id: @user,
+                                   membership_id: nil },
+             remote: true, html: {id: "new_project_membership"}) do %>
         <fieldset class="form--fieldset">
           <legend class="form--fieldset-legend"><%=l(:label_project_new)%></legend>
           <%= styled_select_tag 'membership[project_id]', options_for_membership_project_select(@user, projects) %>

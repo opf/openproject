@@ -39,7 +39,7 @@ module Redmine
       #
       # Example:
       #   safe_attributes 'title', 'pages'
-      #   safe_attributes 'isbn', :if => {|book, user| book.author == user}
+      #   safe_attributes 'isbn', if: {|book, user| book.author == user}
       def safe_attributes(*args)
         @safe_attributes ||= []
         if args.empty?

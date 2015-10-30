@@ -48,4 +48,4 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= f.text_area :content, required: true, label: l(:description_message_content), class: 'wiki-edit', data: {:'ng-non-bindable' => '' } %>
   <%= wikitoolbar_for(replying ? 'reply_content' : 'message_content') %>
 </div>
-<%= render :partial => 'attachments/form' %>
+<%= render partial: 'attachments/form' %>

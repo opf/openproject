@@ -33,7 +33,7 @@
 # Example usage:
 #
 #   as_logged_in_user admin do
-#     post :create, { :name => "foo" }
+#     post :create, { name: "foo" }
 #   end
 
 def as_logged_in_user(user, &_block)

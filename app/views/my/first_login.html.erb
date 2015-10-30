@@ -27,13 +27,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= styled_form_tag({ :controller => '/my', :action => "first_login" }, {:method => :put}) do %>
+<%= styled_form_tag({ controller: '/my', action: "first_login" }, {method: :put}) do %>
 
   <%= back_url_hidden_field_tag %>
 
-  <h3 class="form--section-title"><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
+  <h3 class="form--section-title"><%=l(:label_ui, app_title: Setting.app_title)%></h3>
   <section class="form--section">
-    <%= render :partial => "users/impaired_settings" %>
+    <%= render partial: "users/impaired_settings" %>
   </section>
 
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>

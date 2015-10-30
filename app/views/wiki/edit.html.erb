@@ -27,19 +27,19 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= toolbar title: "#{h(@page.pretty_title)}" %>
-<%= labelled_tabular_form_for @content, :as => :content, :url => {:action => 'update', :id => @page}, :html => {:method => :put, :multipart => true, :id => 'wiki_form'} do |f| %>
+<%= labelled_tabular_form_for @content, as: :content, url: {action: 'update', id: @page}, html: {method: :put, multipart: true, id: 'wiki_form'} do |f| %>
   <%= f.hidden_field :lock_version %>
   <%= error_messages_for 'content' %>
   <div class="form--field -required -vertical">
-    <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
-                  :value => format_text(@content, :text, :attachments => @content.page.attachments, :edit => true),
+    <%= f.text_area :text, cols: 100, rows: 25, class: 'wiki-edit', accesskey: accesskey(:edit),
+                  value: format_text(@content, :text, attachments: @content.page.attachments, edit: true),
                   :'ng-non-bindable' => '' %>
   </div>
   <div class="form--field">
-    <%= f.text_field :comments, :size => 120 %>
+    <%= f.text_field :comments, size: 120 %>
   </div>
 
-  <%= render :partial => 'attachments/form' %>
+  <%= render partial: 'attachments/form' %>
 
   <hr class="form--separator">
   <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-yes' %>

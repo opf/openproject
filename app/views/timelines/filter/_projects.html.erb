@@ -56,7 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
                    { label: l("timelines.filter.project_types"),
                      container_class: '-wide' },
                    { :'data-ajaxURL' => api_v2_paginate_project_types_path,
-                     :multiple => true,
+                     multiple: true,
                      :'data-selected' => filter_select(
                                            timeline.selected_project_types,
                                            :name, :id).to_json
@@ -69,16 +69,16 @@ See doc/COPYRIGHT.rdoc for more details.
                      filter_select_with_none(
                        timeline.available_project_status,
                        :name, :id),
-                     {:selected => timeline.selected_project_status.map(&:id), label: l("timelines.filter.project_status") },
-                     {:multiple => true,
-                      :size => 12}) %>
+                     {selected: timeline.selected_project_status.map(&:id), label: l("timelines.filter.project_status") },
+                     {multiple: true,
+                      size: 12}) %>
         <% else %>
           <%= ff.select(:project_status,
                    options_for_select([]),
                    { label:  l("timelines.filter.project_status"),
                      container_class: '-wide' },
                    { :'data-ajaxURL' => api_v2_paginate_reported_project_statuses_path,
-                     :multiple => true,
+                     multiple: true,
                      :'data-selected' => filter_select(
                                            timeline.selected_project_status,
                                            :name, :id).to_json
@@ -91,16 +91,16 @@ See doc/COPYRIGHT.rdoc for more details.
                      filter_select_with_none(
                        timeline.available_responsibles,
                        :name, :id),
-                     {:selected => timeline.selected_project_responsibles.map(&:id), label: l("timelines.filter.project_responsible") },
-                     {:multiple => true,
-                      :size => 12}) %>
+                     {selected: timeline.selected_project_responsibles.map(&:id), label: l("timelines.filter.project_responsible") },
+                     {multiple: true,
+                      size: 12}) %>
         <% else %>
           <%= ff.select(:project_responsibles,
                    options_for_select([]),
                    { label: l("timelines.filter.project_responsible"),
                      container_class: '-wide' },
                    { :'data-ajaxURL' => api_v2_paginate_users_path,
-                    :multiple => true,
+                    multiple: true,
                     :'data-selected' => filter_select(
                                            timeline.selected_project_responsibles,
                                            :name, :id).to_json
@@ -113,16 +113,16 @@ See doc/COPYRIGHT.rdoc for more details.
                      filter_select_with_none(
                        timeline.available_parents,
                        :name, :id),
-                     {:selected => timeline.selected_parents.map(&:id), label: l("timelines.filter.parent") },
-                     {:multiple => true,
-                      :size => 12}) %>
+                     {selected: timeline.selected_parents.map(&:id), label: l("timelines.filter.parent") },
+                     {multiple: true,
+                      size: 12}) %>
         <% else %>
           <%= ff.select(:parents,
                    options_for_select([]),
                    { label: l("timelines.filter.parent"),
                      container_class: '-wide' },
                    { :'data-ajaxURL' => api_v2_paginate_projects_path,
-                     :multiple => true,
+                     multiple: true,
                      :'data-selected' => filter_select(
                                          timeline.selected_parents,
                                          :name, :id).to_json
@@ -136,16 +136,16 @@ See doc/COPYRIGHT.rdoc for more details.
                    filter_select_with_none(
                      timeline.available_planning_element_types,
                      :name, :id),
-                   {:selected => timeline.selected_planning_element_time_types.map(&:id), label: l('timelines.filter.project_time_filter') },
-                   {:multiple => true,
-                    :size => 12}) %>
+                   {selected: timeline.selected_planning_element_time_types.map(&:id), label: l('timelines.filter.project_time_filter') },
+                   {multiple: true,
+                    size: 12}) %>
         <% else %>
           <%= ff.select(:planning_element_time_types,
                      options_for_select([]),
                      { label: l('timelines.filter.project_time_filter'),
                        container_class: '-wide' },
                      { :'data-ajaxURL' => api_v2_paginate_types_path,
-                       :multiple => true,
+                       multiple: true,
                        :'data-selected' => filter_select(
                                              timeline.selected_planning_element_time_types,
                                              :name, :id).to_json

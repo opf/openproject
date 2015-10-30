@@ -71,10 +71,10 @@ See doc/COPYRIGHT.rdoc for more details.
                     <td class="roles">
                       <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
                       <%= form_tag(membership_of_group_path(@group, membership),
-                       :method => :put,
-                       :remote => true,
-                       :id => "member-#{membership.id}-roles-form",
-                       :style => 'display:none;') do %>
+                       method: :put,
+                       remote: true,
+                       id: "member-#{membership.id}-roles-form",
+                       style: 'display:none;') do %>
                         <p><% roles.each do |role| %>
                             <label><%= check_box_tag 'membership[role_ids][]', role.id, membership.roles.include?(role) %> <%=h role %></label>
                           <% end %></p>
@@ -86,11 +86,11 @@ See doc/COPYRIGHT.rdoc for more details.
                       <% end %>
                     </td>
                     <td class="buttons">
-                      <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
+                      <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show(); return false;", class: 'icon icon-edit' %>
                       <%= link_to l(:button_remove), membership_of_group_path(@group, membership),
-                                           :method => :delete,
-                                           :remote => true,
-                                           :class => 'icon icon-remove' %>
+                                           method: :delete,
+                                           remote: true,
+                                           class: 'icon icon-remove' %>
                     </td>
                   </tr>
             </tbody>
@@ -106,11 +106,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="grid-content">
     <% if projects.any? %>
       <%= styled_form_tag(memberships_of_group_path(@group),
-                                             :method => :post,
-                                             :remote => true) do %>
+                                             method: :post,
+                                             remote: true) do %>
          <fieldset class="form--fieldset">
             <legend class="form--fieldset-legend"><%=l(:label_project_new)%></legend>
-            <%= label_tag "membership_project_id", l(:description_choose_project), :class => "hidden-for-sighted" %>
+            <%= label_tag "membership_project_id", l(:description_choose_project), class: "hidden-for-sighted" %>
             <%= styled_select_tag 'membership[project_id]', options_for_membership_project_select(@group, projects) %>
             <div class="form--field -vertical">
               <%= styled_label_tag nil, "#{l(:label_role_plural)}:" %>

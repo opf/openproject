@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title l(:label_summary) %>
 <%= toolbar title: l(:label_summary) %>
 <% @reports.each do |report| %>
-  <%= render :partial => 'report_category', :locals => { report: report} %>
+  <%= render partial: 'report_category', locals: { report: report} %>
 <% end %>
-<%= call_hook(:view_reports_issue_report, :project => @project) %>
+<%= call_hook(:view_reports_issue_report, project: @project) %>
 

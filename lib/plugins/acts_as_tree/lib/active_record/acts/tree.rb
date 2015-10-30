@@ -10,7 +10,7 @@ module ActiveRecord
       # association. This requires that you have a foreign key column, which by default is called +parent_id+.
       #
       #   class Category < ActiveRecord::Base
-      #     acts_as_tree :order => "name"
+      #     acts_as_tree order: "name"
       #   end
       #
       #   Example:
