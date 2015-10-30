@@ -185,17 +185,17 @@ class CostlogController < ApplicationController
   end
 
   def find_associated_objects
-    user_id = params[:cost_entry].delete(:user_id)
+    user_id = cost_entry_params.delete(:user_id)
     @user = @cost_entry.present? && @cost_entry.user_id == user_id ?
               @cost_entry.user :
               User.find_by_id(user_id)
 
-    work_package_id = params[:cost_entry].delete(:work_package_id)
+    work_package_id = cost_entry_params.delete(:work_package_id)
     @work_package = @cost_entry.present? && @cost_entry.work_package_id == work_package_id ?
                @cost_entry.work_package :
                WorkPackage.find_by_id(work_package_id)
 
-    cost_type_id = params[:cost_entry].delete(:cost_type_id)
+    cost_type_id = cost_entry_params.delete(:cost_type_id)
     @cost_type = @cost_entry.present? && @cost_entry.cost_type_id == cost_type_id ?
                    @cost_entry.cost_type :
                    CostType.find_by_id(cost_type_id)
@@ -267,5 +267,11 @@ class CostlogController < ApplicationController
     @cost_entry.cost_type = @cost_type
 
     @cost_entry.attributes = permitted_params.cost_entry
+  end
+
+private
+  def cost_entry_params
+    params.require(:cost_entry).permit(:work_package_id, :spent_on, :user_id,
+                                       :cost_type_id, :units, :comments)
   end
 end
