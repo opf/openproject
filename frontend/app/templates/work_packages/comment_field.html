@@ -17,21 +17,16 @@
       </accessible-by-keyboard>
     </div>
     <div class="inplace-edit--write edit-strategy-comment" ng-show="fieldController.isEditing">
-      <form class="inplace-edit--form" ng-if="fieldController.isEditing" name="fieldController.editForm" ng-submit="fieldController.submit(false)" novalidate>
+      <form class="inplace-edit--form" ng-if="fieldController.isEditing" name="fieldController.editForm" ng-submit="fieldController.submit()" novalidate>
         <div class="inplace-edit--write-value" ng-include="'/templates/components/inplace_editor/editable/wiki_textarea.html'" ng-click="fieldController.markActive()" tabindex="-1">
         </div>
         <div class="inplace-edit--dashboard">
           <div class="inplace-edit--controls" ng-hide="fieldController.state.isBusy || !fieldController.isActive()">
-            <accessible-by-keyboard execute="fieldController.submit(false)"
+            <accessible-by-keyboard execute="fieldController.submit()"
                                     ng-disabled="fieldController.isEmpty()"
                                     class="inplace-edit--control inplace-edit--control--save">
               <icon-wrapper icon-name="yes" icon-title="{{ fieldController.saveTitle }}">
               </icon-wrapper>
-            </accessible-by-keyboard>
-            <accessible-by-keyboard execute="fieldController.submit(true)"
-                                    ng-disabled="fieldController.isEmpty()"
-                                    class="inplace-edit--control -icons-2 inplace-edit--control--send">
-             <icon-wrapper icon-name="send-mail" icon-title="{{ editPaneController.saveAndSendTitle }}"></icon-wrapper>
             </accessible-by-keyboard>
             <accessible-by-keyboard execute="fieldController.discardEditing()" class="inplace-edit--control inplace-edit--control--cancel">
               <icon-wrapper icon-name="close" icon-title="{{ fieldController.cancelTitle }}">

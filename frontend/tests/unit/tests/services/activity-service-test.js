@@ -70,8 +70,7 @@ describe('ActivityService', function() {
 
       apiFetchResource = ActivityService.createComment(
         workPackage,
-        comment,
-        false
+        comment
       );
     }));
 

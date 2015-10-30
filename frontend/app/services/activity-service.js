@@ -34,9 +34,9 @@ module.exports = function(
   NotificationsService
   ) {
   var ActivityService = {
-    createComment: function(workPackage, comment, notify) {
+    createComment: function(workPackage, comment) {
       return $http({
-        url: URI(workPackage.links.addComment.url()).addSearch('notify', notify).toString(),
+        url: workPackage.links.addComment.url(),
         method: 'POST',
         data: JSON.stringify({ comment: comment }),
         headers: { 'Content-Type': 'application/json; charset=UTF-8' }

@@ -1,10 +1,10 @@
 <div class="inplace-edit--write edit-strategy-{{ strategy }}" ng-show="fieldController.isEditing">
-  <form class="inplace-edit--form" ng-if="fieldController.isEditing" name="editPaneController.editForm" ng-submit="editPaneController.submit(false)" novalidate>
+  <form class="inplace-edit--form" ng-if="fieldController.isEditing" name="editPaneController.editForm" ng-submit="editPaneController.submit()" novalidate>
       <div class="inplace-edit--write-value" ng-include="templateUrl" ng-click="editPaneController.markActive()" tabindex="-1" ng-attr-role="{{ strategy == 'text' || 'wiki_textarea' ? 'textbox' : 'button' }}">
       </div>
     <div class="inplace-edit--dashboard">
       <div class="inplace-edit--controls" ng-hide="fieldController.state.isBusy || !editPaneController.isActive()">
-        <accessible-by-keyboard execute="editPaneController.submit(true)" class="inplace-edit--control inplace-edit--control--save">
+        <accessible-by-keyboard execute="editPaneController.submit()" class="inplace-edit--control inplace-edit--control--save">
           <icon-wrapper icon-name="yes" icon-title="{{ editPaneController.saveTitle }}">
           </icon-wrapper>
         </accessible-by-keyboard>

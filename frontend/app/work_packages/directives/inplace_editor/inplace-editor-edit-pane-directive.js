@@ -65,9 +65,8 @@ module.exports = function(
 
       // Propagate submission to all active fields
       // not contained in the workPackage.form (e.g., comment)
-      this.submit = function(notify) {
+      this.submit = function() {
         WorkPackageFieldService.submitWorkPackageChanges(
-          notify,
           function() {
             // Clears the location hash, as we're now
             // scrolling to somewhere else
@@ -79,7 +78,7 @@ module.exports = function(
         );
       };
 
-      this.submitField = function(notify) {
+      this.submitField = function() {
         var submit = $q.defer();
         var fieldController = $scope.fieldController;
         var pendingFormChanges = getPendingFormChanges();
@@ -112,10 +111,7 @@ module.exports = function(
             function(form) {
               EditableFieldsState.workPackage.form = form;
               if (_.isEmpty(form.embedded.validationErrors.props)) {
-                var result = WorkPackageService.updateWorkPackage(
-                  EditableFieldsState.workPackage,
-                  notify
-                );
+                var result = WorkPackageService.updateWorkPackage(EditableFieldsState.workPackage);
                 result.then(angular.bind(this, function(updatedWorkPackage) {
                   submit.resolve();
                   $scope.$emit('workPackageUpdatedInEditor', updatedWorkPackage);
