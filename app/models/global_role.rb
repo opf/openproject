@@ -18,8 +18,8 @@
 #++
 
 class GlobalRole < Role
-  has_many :principal_roles, :foreign_key => :role_id, :dependent => :destroy
-  has_many :principals, :through => :principal_roles
+  has_many :principal_roles, foreign_key: :role_id, dependent: :destroy
+  has_many :principals, through: :principal_roles
 
   def initialize(*args)
     super
@@ -27,7 +27,7 @@ class GlobalRole < Role
   end
 
   def permissions=(perms)
-    perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms
+    perms = perms.collect { |p| p.to_sym unless p.blank? }.compact.uniq if perms
     write_attribute(:permissions, perms)
   end
 
@@ -44,11 +44,11 @@ class GlobalRole < Role
   end
 
   def assignable=(value)
-    raise ArgumentError if value == true
+    fail ArgumentError if value == true
     super
   end
 
-  def assignable_to?(user)
+  def assignable_to?(_user)
     true
   end
 end

@@ -26,12 +26,12 @@ module OpenProject::GlobalRoles
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-global_roles',
-             :author_url => 'http://finn.de',
-             :requires_openproject => '>= 4.0.0'
+             author_url: 'http://finn.de',
+             requires_openproject: '>= 4.0.0'
 
     assets %w(global_roles/global_roles.js)
 
-    patches [ :Principal, :Role, :User, :RolesController, :UsersController, :RolesHelper, :UsersHelper]
+    patches [:Principal, :Role, :User, :RolesController, :UsersController, :RolesHelper, :UsersHelper]
 
     initializer 'global_roles.patch_access_control' do
       require 'open_project/global_roles/patches/access_control_patch'

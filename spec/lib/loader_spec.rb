@@ -20,7 +20,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe 'Seeding' do
-
   describe '#load' do
     before :each do
       stash_access_control_permissions

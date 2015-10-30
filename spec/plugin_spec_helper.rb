@@ -21,19 +21,19 @@ module OpenProject
   module GlobalRoles
     module PluginSpecHelper
       def mobile_tan_plugin_loaded?
-        plugin_loaded?("openproject_mobile_otp")
+        plugin_loaded?('openproject_mobile_otp')
       end
 
       def privacy_plugin_loaded?
-        plugin_loaded?("openproject_dtag_customizing")
+        plugin_loaded?('openproject_dtag_customizing')
       end
 
       def costs_plugin_loaded?
-        plugin_loaded?("openproject_costs")
+        plugin_loaded?('openproject_costs')
       end
 
       def plugin_loaded?(name)
-        Redmine::Plugin.all.detect {|x| x.id == name.to_sym}.present?
+        Redmine::Plugin.all.detect { |x| x.id == name.to_sym }.present?
       end
 
       def mocks_for_member_roles
@@ -56,7 +56,7 @@ module OpenProject
         mock_permissions_on @role
       end
 
-      def mock_permissions_on role
+      def mock_permissions_on(role)
         permissions = [:perm1, :perm2, :perm3]
         allow(role).to receive(:setable_permissions).and_return(permissions)
         allow(role).to receive(:permissions).and_return(permissions << :perm4)
@@ -88,7 +88,7 @@ module OpenProject
         allow(GlobalRole).to receive(:all).and_return(@global_roles)
       end
 
-      def mocks_for_creating role_class
+      def mocks_for_creating(role_class)
         role = mock_model role_class
         allow(role_class).to receive(:new).and_return role
         mock_permissions_on role
@@ -96,16 +96,16 @@ module OpenProject
       end
 
       def disable_flash_sweep
-       @controller.instance_eval{allow(flash).to receive(:sweep)}
+        @controller.instance_eval { allow(flash).to receive(:sweep) }
       end
 
       def disable_log_requesting_user
         allow(@controller).to receive(:log_requesting_user)
       end
 
-      def response_should_render method, *params
+      def response_should_render(method, *params)
         unless @page
-          @page ||= double("page")
+          @page ||= double('page')
           expect(controller).to receive(:render).with(:update).and_yield(@page)
           expect(controller).to receive(:render).with(no_args)
         end
@@ -137,11 +137,11 @@ module OpenProject
       end
 
       def create_anonymous_role
-        create_builtin_role "Anonymous", Role::BUILTIN_ANONYMOUS
+        create_builtin_role 'Anonymous', Role::BUILTIN_ANONYMOUS
       end
 
       def create_builtin_role(name, const)
-        Role.create(:name => name, :position => 0) do |role|
+        Role.create(name: name, position: 0) do |role|
           role.builtin = const
         end
       end

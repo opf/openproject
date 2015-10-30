@@ -17,16 +17,21 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global < OpenProject::PrincipalAllowanceEvaluator::Base
+module OpenProject
+  module GlobalRoles
+    module PrincipalAllowanceEvaluator
+      class Global < OpenProject::PrincipalAllowanceEvaluator::Base
+        def granted_for_global?(membership, action, options)
+          return false unless membership.is_a?(PrincipalRole)
+          granted = super
 
-  def granted_for_global? membership, action, options
-    return false unless membership.is_a?(PrincipalRole)
-    granted = super
+          granted || membership.role.allowed_to?(action).present?
+        end
 
-    granted ||= membership.role.allowed_to?(action).present?
-  end
-
-  def global_granting_candidates
-    @user.principal_roles
+        def global_granting_candidates
+          @user.principal_roles
+        end
+      end
+    end
   end
 end

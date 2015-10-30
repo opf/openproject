@@ -17,15 +17,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-require_dependency "roles_helper"
+require_dependency 'roles_helper'
 
 module OpenProject::GlobalRoles::Patches
   module RolesHelperPatch
     def self.included(base)
       base.class_eval do
-
-        def permissions_id permissions
-          "permissions_" + permissions[0].hash.to_s
+        def permissions_id(permissions)
+          'permissions_' + permissions[0].hash.to_s
         end
       end
     end

@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-require_dependency "users_controller"
+require_dependency 'users_controller'
 
 module OpenProject::GlobalRoles::Patches
   module UsersControllerPatch
@@ -25,13 +25,13 @@ module OpenProject::GlobalRoles::Patches
       base.send(:include, InstanceMethods)
 
       base.class_eval do
-
-        before_filter :add_global_roles, :only => [:edit]
+        before_filter :add_global_roles, only: [:edit]
       end
     end
 
     module InstanceMethods
       private
+
       def add_global_roles
         @global_roles = GlobalRole.all
       end

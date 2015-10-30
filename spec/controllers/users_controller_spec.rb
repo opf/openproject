@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe UsersController, :type => :controller do
+describe UsersController, type: :controller do
   before(:each) do
     allow(@controller).to receive(:require_admin).and_return(true)
     allow(@controller).to receive(:check_if_login_required)
@@ -28,38 +28,34 @@ describe UsersController, :type => :controller do
     allow(GlobalRole).to receive(:all).and_return(@global_roles)
     user_mock = mock_model User
     allow(user_mock).to receive(:logged?).and_return(true)
-    allow(User).to receive(:find).with(any_args()).and_return(user_mock)
+    allow(User).to receive(:find).with(any_args).and_return(user_mock)
 
     disable_log_requesting_user
   end
 
-  describe "get" do
+  describe 'get' do
     before :each do
-      @params = {"id" => "1"}
+      @params = { 'id' => '1' }
     end
 
     describe '#edit' do
       before :each do
-
       end
 
-      describe "RESULT" do
+      describe 'RESULT' do
         before :each do
-
         end
 
-        describe "html" do
+        describe 'html' do
           before :each do
-            get "edit", @params
+            get 'edit', @params
           end
 
           it { expect(response).to be_success }
           it { expect(assigns(:global_roles)).to eql @global_roles }
-          it { expect(response).to render_template "users/edit"}
+          it { expect(response).to render_template 'users/edit' }
         end
       end
-
     end
-
   end
 end

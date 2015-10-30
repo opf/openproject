@@ -24,7 +24,9 @@ module OpenProject::GlobalRoles::Patches
 
       base.class_eval do
         class << self
-          alias_method :available_project_modules_without_no_global, :available_project_modules unless method_defined?(:available_project_modules_without_no_global)
+          unless method_defined?(:available_project_modules_without_no_global)
+            alias_method :available_project_modules_without_no_global, :available_project_modules
+          end
           alias_method :available_project_modules, :available_project_modules_with_no_global
         end
       end
@@ -33,14 +35,14 @@ module OpenProject::GlobalRoles::Patches
     module ClassMethods
       def available_project_modules_with_no_global
         @available_project_modules = (
-            @permissions.reject{|p| p.global? }.collect(&:project_module) +
+            @permissions.reject(&:global?).collect(&:project_module) +
             @project_modules_without_permissions
-          ).uniq.compact
+        ).uniq.compact
         available_project_modules_without_no_global
       end
 
       def global_permissions
-        @permissions.select {|p| p.global?}
+        @permissions.select(&:global?)
       end
     end
   end
