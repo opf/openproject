@@ -124,11 +124,12 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="generic-table--header-background"></div>
     </div>
   </div>
-  <br>
-  <%= link_to new_custom_field_path(type: tab[:name]), class: 'button -alt-highlight' do %>
-    <i class="button--icon icon-add"></i>
-    <span class="button--text"><%= l(:label_custom_field_new) %></span>
-  <% end %>
+  <div class="generic-table--action-buttons">
+    <%= link_to new_custom_field_path(type: tab[:name]), class: 'button -alt-highlight' do %>
+      <i class="button--icon icon-add"></i>
+      <span class="button--text"><%= l(:label_custom_field_new) %></span>
+    <% end %>
+  </div>
 <% else %>
   <%= no_results_box(action_url: new_custom_field_path(type: tab[:name]), display_action: true) %>
 <% end %>
