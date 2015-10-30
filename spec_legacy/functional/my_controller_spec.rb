@@ -97,7 +97,7 @@ describe MyController, type: :controller do
   end
 
   it 'should order blocks' do
-    xhr :post, :order_blocks, group: 'left', 'list-left' => ['documents', 'calendar', 'latestnews']
+    xhr :post, :order_blocks, target: 'left', 'target_ordered_children' => ['documents', 'calendar', 'latestnews']
     assert_response :success
     assert_equal ['documents', 'calendar', 'latestnews'], User.find(2).pref[:my_page_layout]['left']
   end

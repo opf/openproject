@@ -1,0 +1,11 @@
+// Add partial to the top container.
+jQuery("#top").prepend("<%= j (render partial: 'block',
+                                                locals: { user: @user,
+                                                          block_name: @block
+                                                        }) %>");
+
+// Revert options selection back to the default one.
+jQuery('#block-options option[value="--<%= t(:button_add) %>--"]').prop('selected', true);
+
+// Disable the option for this block in the blocks-to-add-to-page dropdown.
+jQuery('#block-options option[value="<%= @block %>"]').attr("disabled", "true");

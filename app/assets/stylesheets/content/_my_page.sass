@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+
+
 #content
   .mypage-box
     @include content-box
@@ -38,13 +40,22 @@
       table, td, th
         border: none
 
+.my-page--container
+
+  #left,
+  #right
+    @extend .medium-6
+
+.handle
+  cursor: move
+
 div.box-actions
   float: right
   margin-right: 16px
   z-index: 500
 
 #invisible-grid
-  #list-top
+  #top
     padding: 0 4px
 
   .container
@@ -81,9 +92,6 @@ div.box-actions
   div.mypage-box
     margin-top: 8px
     padding-bottom: 8px
-
-  div.mypage-box div.box-actions
-    margin-top: -60px
 
 div.mypage-box p.summary
   font-style: normal
