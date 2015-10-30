@@ -39,7 +39,7 @@ class DocumentsMailer < UserMailer
 
     with_locale_for(user) do
       subject = "[#{@document.project.name}] #{t(:label_document_new)}: #{@document.title}"
-      mail :to => user.mail, :subject => subject
+      mail to: user.mail, subject: subject
     end
   end
 
@@ -47,11 +47,9 @@ class DocumentsMailer < UserMailer
     container = attachments.first.container
 
     @added_to     = "#{Document.model_name.human}: #{container.title}"
-    @added_to_url = url_for(:controller => '/documents', :action => 'show', :id => container.id)
+    @added_to_url = url_for(controller: '/documents', action: 'show', id: container.id)
 
     super
   end
 
 end
-
-

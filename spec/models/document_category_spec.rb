@@ -40,10 +40,10 @@ describe DocumentCategory do
   end
 
   it "should order documents by the category they are created with" do
-    uncategorized  = FactoryGirl.create :document_category, :name => "Uncategorized", :project => project
-    user_documentation = FactoryGirl.create :document_category, :name => "User documentation"
+    uncategorized  = FactoryGirl.create :document_category, name: "Uncategorized", project: project
+    user_documentation = FactoryGirl.create :document_category, name: "User documentation"
 
-    FactoryGirl.create_list :document, 2, :category => uncategorized, :project => project
+    FactoryGirl.create_list :document, 2, category: uncategorized, project: project
 
     expect(DocumentCategory.find_by_name(uncategorized.name).objects_count).to eql 2
     expect(DocumentCategory.find_by_name(user_documentation.name).objects_count).to eql 0
@@ -51,14 +51,14 @@ describe DocumentCategory do
   end
 
   it "should file the categorizations under the option name :enumeration_doc_categories" do
-    expect(DocumentCategory.new.option_name).to eql  :enumeration_doc_categories
+    expect(DocumentCategory.new.option_name).to eql :enumeration_doc_categories
   end
 
   it "should only allow one category to be the default-category" do
-    old_default = FactoryGirl.create :document_category, :name => "old default", :project => project, :is_default => true
+    old_default = FactoryGirl.create :document_category, name: "old default", project: project, is_default: true
 
     expect{
-      new_default = FactoryGirl.create :document_category, :name => "new default", :project => project, :is_default => true
+      FactoryGirl.create :document_category, name: "new default", project: project, is_default: true
       old_default.reload
     }.to change{old_default.is_default?}.from(true).to(false)
 
@@ -66,6 +66,3 @@ describe DocumentCategory do
   end
 
 end
-
-
-

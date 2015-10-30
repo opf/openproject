@@ -33,10 +33,10 @@
 class DocumentsController < ApplicationController
   default_search_scope :documents
   model_object Document
-  before_filter :find_project_by_project_id, :only => [:index, :new, :create]
-  before_filter :find_model_object, :except => [:index, :new, :create]
-  before_filter :find_project_from_association, :except => [:index, :new, :create]
-  before_filter :authorize
+  before_action :find_project_by_project_id, only: [:index, :new, :create]
+  before_action :find_model_object, except: [:index, :new, :create]
+  before_action :find_project_from_association, except: [:index, :new, :create]
+  before_action :authorize
 
 
   def index
@@ -52,7 +52,7 @@ class DocumentsController < ApplicationController
     else
       @grouped = documents.includes(:category).group_by(&:category)
     end
-    render :layout => false if request.xhr?
+    render layout: false if request.xhr?
   end
 
   def show
@@ -68,12 +68,12 @@ class DocumentsController < ApplicationController
     @document = @project.documents.build
     @document.attributes = document_params
     if @document.save
-      attachments = Attachment.attach_files(@document, params[:attachments])
+      Attachment.attach_files(@document, params[:attachments])
       render_attachment_warning_if_needed(@document)
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_documents_path(@project)
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -85,15 +85,15 @@ class DocumentsController < ApplicationController
     @document.attributes = document_params
     if @document.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'show', :id => @document
+      redirect_to action: 'show', id: @document
     else
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 
   def destroy
     @document.destroy
-    redirect_to :controller => '/documents', :action => 'index', :project_id => @project
+    redirect_to controller: '/documents', action: 'index', project_id: @project
   end
 
   def add_attachment
@@ -106,10 +106,10 @@ class DocumentsController < ApplicationController
         UserMailer.attachments_added(user, attachments[:files]).deliver
       end
     end
-    redirect_to :action => 'show', :id => @document
+    redirect_to action: 'show', id: @document
   end
 
-private
+  private
   def document_params
     params.require(:document).permit('category_id', 'title', 'description')
   end

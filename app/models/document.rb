@@ -32,8 +32,8 @@
 
 class Document < ActiveRecord::Base
   belongs_to :project
-  belongs_to :category, :class_name => "DocumentCategory", :foreign_key => "category_id"
-  acts_as_attachable :delete_permission => :manage_documents
+  belongs_to :category, class_name: "DocumentCategory", foreign_key: "category_id"
+  acts_as_attachable delete_permission: :manage_documents
 
   acts_as_journalized
   acts_as_event title: Proc.new { |o| "#{Document.model_name.human}: #{o.title}" },
@@ -44,12 +44,12 @@ class Document < ActiveRecord::Base
                           end)
 
 
-  acts_as_searchable :columns => ['title', "#{table_name}.description"],
-                    :include => :project,
-                    references: :projects
+  acts_as_searchable columns: ['title', "#{table_name}.description"],
+                     include: :project,
+                     references: :projects
 
   validates_presence_of :project, :title, :category
-  validates_length_of :title, :maximum => 60
+  validates_length_of :title, maximum: 60
 
   scope :visible, lambda {
     includes(:project)

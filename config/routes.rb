@@ -35,5 +35,3 @@ OpenProject::Application.routes.draw do
     resources :documents, shallow: true
   end
 end
-
-
