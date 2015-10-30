@@ -32,9 +32,10 @@ Feature: Subproject Widget
   @javascript
   Scenario: Adding a "Subproject" widget
     Given I am on the project "Parent" overview personalization page
-    When I select "Subprojects" from the available widgets drop down
+    When I select "Subprojects" from "block-select"
     And I wait for the AJAX requests to finish
     Then the "Subprojects" widget should be in the hidden block
+     And "Subprojects" should be disabled in the my project page available widgets drop down
 
   Scenario: Includes links to all child projects
     Given the following widgets are selected for the overview page of the "Parent" project:
@@ -42,5 +43,3 @@ Feature: Subproject Widget
     And I am on the homepage for the project "Parent"
     And I follow "Child" within ".mypage-box .subprojects"
     Then I should be on the overview page of the project called "Child"
-
-

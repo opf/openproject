@@ -32,7 +32,7 @@ Feature: Project Details Widget
   @javascript
   Scenario: Adding a "Calendar" widget
     Given I am on the project "Parent" overview personalization page
-    When I select "Calendar" from the available widgets drop down
+    When I select "Calendar" from "block-select"
     And I wait for the AJAX requests to finish
     Then the "Calendar" widget should be in the hidden block
 
