@@ -19,4 +19,6 @@
 #++
 
 # The plugin changes the project-overview-page, which breaks this Scenario
-ScenarioDisabler.disable(:feature => "Showing Projects", :scenario => "Calendar link in the 'tickets box' should work when calendar is activated")
+ScenarioDisabler.disable(feature: "Showing Projects",
+                         scenario: "Calendar link in the 'tickets box' should work when calendar is activated"
+                        )

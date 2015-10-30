@@ -20,12 +20,12 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MyProjectsOverview, :type => :model do
+describe MyProjectsOverview, type: :model do
   before do
     @enabled_module_names = %w[activity work_package_tracking news wiki]
-    FactoryGirl.create(:project, :enabled_module_names => @enabled_module_names)
+    FactoryGirl.create(:project, enabled_module_names: @enabled_module_names)
     @project = Project.first
-    @overview = MyProjectsOverview.create(:project_id => @project.id)
+    @overview = MyProjectsOverview.create(project_id: @project.id)
   end
 
   it 'sets default elements for new records if no elements are provided' do
@@ -37,7 +37,7 @@ describe MyProjectsOverview, :type => :model do
   end
 
   it 'does not set default elements if elements are provided' do
-    o = MyProjectsOverview.new :left => ["members"]
+    o = MyProjectsOverview.new left: ["members"]
     expect(o.left).to match_array(["members"])
     expect(o.right).to match_array(["members", "news_latest"])
     expect(o.top).to match_array([])

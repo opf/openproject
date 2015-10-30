@@ -23,12 +23,12 @@ class MyProjectsOverviewsController < ApplicationController
 
   menu_item :overview
 
-  before_filter :find_project, :find_user
-  before_filter :authorize
-  before_filter :jump_to_project_menu_item, :only => :index
+  before_action :find_project, :find_user
+  before_action :authorize
+  before_action :jump_to_project_menu_item, only: :index
 
-  verify :xhr => true,
-         :only => [:add_block, :remove_block, :order_blocks]
+  verify xhr: true,
+         only: [:add_block, :remove_block, :order_blocks]
 
   def self.available_blocks
     @available_blocks ||= OpenProject::MyProjectPage.plugin_blocks
@@ -64,25 +64,25 @@ class MyProjectsOverviewsController < ApplicationController
   # params[:block] : id of the block to add
   def add_block
     block = params[:block].to_s.underscore
-    if (MyProjectsOverviewsController.available_blocks.keys.include? block)
+    if MyProjectsOverviewsController.available_blocks.keys.include? block
       # remove if already present in a group
       %w(top left right hidden).each {|f| overview.send(f).delete block }
       # add it hidden
       overview.hidden.unshift block
       overview.save!
-      render :partial => "block",
-             :locals => { :block_name => block }
+      render partial: "block",
+             locals: { block_name: block }
     elsif block == "custom_element"
       overview.hidden.unshift overview.new_custom_element
       overview.save!
-      render(:partial => "block_textilizable",
-             :locals => { :user => user,
-                          :project => project,
-                          :block_title => l(:label_custom_element),
-                          :block_name => overview.hidden.first.first,
-                          :textile => overview.hidden.first.last})
+      render(partial: "block_textilizable",
+             locals: { user: user,
+                       project: project,
+                       block_title: l(:label_custom_element),
+                       block_name: overview.hidden.first.first,
+                       textile: overview.hidden.first.last })
     else
-      render :nothing => true
+      render nothing: true
     end
   end
 
@@ -115,7 +115,7 @@ class MyProjectsOverviewsController < ApplicationController
 
   def param_to_block(param)
     block = param.to_s.underscore
-    unless (MyProjectsOverviewsController.available_blocks.keys.include? block)
+    unless MyProjectsOverviewsController.available_blocks.keys.include? block
       block = overview.custom_elements.detect {|ary| ary.first == block}
     end
     block
@@ -131,14 +131,16 @@ class MyProjectsOverviewsController < ApplicationController
       end
     end
 
-    render :partial => 'page_layout_attachments'
+    render partial: 'page_layout_attachments'
   end
 
   def show_all_members
     respond_to do |format|
-      format.js { render :partial => "members",
-                         :locals => { :users_by_role => users_by_role(0),
-                                      :count_users_by_role => count_users_by_role } }
+      format.js {
+        render partial: "members",
+               locals: { users_by_role: users_by_role(0),
+                         count_users_by_role: count_users_by_role }
+      }
     end
   end
 
@@ -212,8 +214,8 @@ class MyProjectsOverviewsController < ApplicationController
                     %Q{ (Select users.*, member_roles.role_id from users
                         JOIN members on users.id = members.user_id
                         JOIN member_roles on member_roles.member_id = members.id
-                        WHERE members.project_id = #{ project.id } AND member_roles.role_id = #{ r.id }
-                        LIMIT #{ size } ) }
+                        WHERE members.project_id = #{project.id} AND member_roles.role_id = #{r.id}
+                        LIMIT #{size} ) }
                   end.join(" UNION ALL ")
 
                   User.find_by_sql(sql_string).group_by(&:role_id).inject({}) do |hash, (role_id, users)|
@@ -231,32 +233,32 @@ class MyProjectsOverviewsController < ApplicationController
 
   def count_users_by_role
     @count_users_per_role ||= begin
-                                sql_string = all_roles.map do |r|
-                                  %Q{ (Select COUNT(DISTINCT users.id) AS count, member_roles.role_id AS role_id from users
-                                      JOIN members on users.id = members.user_id
-                                      JOIN member_roles on member_roles.member_id = members.id
-                                      WHERE members.project_id = #{ project.id } AND member_roles.role_id = #{ r.id }
-                                      GROUP BY (member_roles.role_id)) }
-                                end.join(" UNION ALL ")
+      sql_string = all_roles.map do |r|
+        %Q{ (Select COUNT(DISTINCT users.id) AS count, member_roles.role_id AS role_id from users
+            JOIN members on users.id = members.user_id
+            JOIN member_roles on member_roles.member_id = members.id
+            WHERE members.project_id = #{project.id} AND member_roles.role_id = #{r.id}
+            GROUP BY (member_roles.role_id)) }
+      end.join(" UNION ALL ")
 
-                                role_count = {}
+      role_count = {}
 
-                                ActiveRecord::Base.connection.execute(sql_string).each do |entry|
-                                  if entry.is_a?(Hash)
-                                    # MySql
-                                    count = entry['count'].to_i
-                                    role_id = entry['role_id'].to_i
-                                  else
-                                    # Postgresql
-                                    count = entry.first.to_i
-                                    role_id = entry.last.to_i
-                                  end
+      ActiveRecord::Base.connection.execute(sql_string).each do |entry|
+        if entry.is_a?(Hash)
+          # MySql
+          count = entry['count'].to_i
+          role_id = entry['role_id'].to_i
+        else
+          # Postgresql
+          count = entry.first.to_i
+          role_id = entry.last.to_i
+        end
 
-                                  role_count[all_roles.detect{ |r| r.id == role_id }] = count if count > 0
-                                end
+        role_count[all_roles.detect{ |r| r.id == role_id }] = count if count > 0
+      end
 
-                                role_count
-                              end
+      role_count
+    end
   end
 
   def all_roles
@@ -282,7 +284,9 @@ class MyProjectsOverviewsController < ApplicationController
 
   def block_options
     @block_options = []
-    MyProjectsOverviewsController.available_blocks.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
+    MyProjectsOverviewsController.available_blocks.each do |k, v|
+      @block_options << [l("my.blocks.#{v}", default: [v, v.to_s.humanize]), k.dasherize]
+    end
     @block_options << [l(:label_custom_element), :custom_element]
   end
 
