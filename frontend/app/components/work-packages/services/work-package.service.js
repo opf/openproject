@@ -27,21 +27,14 @@
 //++
 /* globals URI */
 
-module.exports = function($http,
-    PathHelper,
-    WorkPackagesHelper,
-    HALAPIResource,
-    DEFAULT_FILTER_PARAMS,
-    DEFAULT_PAGINATION_OPTIONS,
-    $rootScope,
-    $window,
-    $q,
-    $cacheFactory,
-    AuthorisationService,
-    EditableFieldsState,
-    WorkPackageFieldService,
-    NotificationsService
-  ) {
+angular
+  .module('openproject.services')
+  .factory('WorkPackageService', WorkPackageService);
+
+function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResource,
+    DEFAULT_FILTER_PARAMS, DEFAULT_PAGINATION_OPTIONS, $rootScope, $window, $q, $cacheFactory,
+    AuthorisationService, EditableFieldsState, WorkPackageFieldService, NotificationsService) {
+
   var workPackage,
       workPackageCache = $cacheFactory('workPackageCache');
 
@@ -362,4 +355,8 @@ module.exports = function($http,
   };
 
   return WorkPackageService;
-};
+}
+WorkPackageService.$inject = ['$http', 'PathHelper', 'WorkPackagesHelper', 'HALAPIResource',
+  'DEFAULT_FILTER_PARAMS', 'DEFAULT_PAGINATION_OPTIONS', '$rootScope', '$window', '$q',
+  '$cacheFactory', 'AuthorisationService', 'EditableFieldsState', 'WorkPackageFieldService',
+  'NotificationsService'];
