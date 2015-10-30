@@ -41,7 +41,7 @@ describe Member, type: :model do
 
   it 'should create' do
     member = Member.new.tap do |m|
-      m.force_attributes = { project_id: @project.id,
+      m.attributes = { project_id: @project.id,
                              user_id: FactoryGirl.create(:user).id,
                              role_ids: [@role.id] }
     end
@@ -73,7 +73,7 @@ describe Member, type: :model do
     user_id = FactoryGirl.create(:user).id
     2.times do
       members << Member.new.tap do |m|
-        m.force_attributes = { project_id: @project.id,
+        m.attributes = { project_id: @project.id,
                                user_id: user_id,
                                role_ids: [@role.id] }
       end
@@ -84,7 +84,7 @@ describe Member, type: :model do
     assert !members.last.save
 
     member = Member.new.tap do |m|
-      m.force_attributes = { project_id: @project,
+      m.attributes = { project_id: @project,
                              user_id: FactoryGirl.create(:user).id,
                              role_ids: [] }
     end
@@ -131,7 +131,7 @@ describe Member, type: :model do
     context 'of user' do
       before do
         (@member = Member.new.tap do |m|
-          m.force_attributes = { project_id: @private_project.id,
+          m.attributes = { project_id: @private_project.id,
                                  user_id: @watcher_user.id,
                                  role_ids: [@private_role.id, FactoryGirl.create(:role).id] }
         end).save!
@@ -161,7 +161,7 @@ describe Member, type: :model do
       before do
         @group = FactoryGirl.create :group
         @member = (Member.new.tap do |m|
-          m.force_attributes = { project_id: @private_project.id,
+          m.attributes = { project_id: @private_project.id,
                                  user_id: @group.id,
                                  role_ids: [@private_role.id, FactoryGirl.create(:role).id] }
         end)

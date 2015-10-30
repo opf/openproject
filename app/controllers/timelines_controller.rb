@@ -56,7 +56,7 @@ class TimelinesController < ApplicationController
   def create
     remove_blank_options
 
-    @timeline = @project.timelines.build(params[:timeline])
+    @timeline = @project.timelines.build(permitted_params.timeline)
 
     if @timeline.save
       flash[:notice] = l(:notice_successful_create)
@@ -73,7 +73,7 @@ class TimelinesController < ApplicationController
   def update
     @timeline = @project.timelines.find(params[:id])
 
-    if @timeline.update_attributes(params[:timeline])
+    if @timeline.update_attributes(permitted_params.timeline)
       flash[:notice] = l(:notice_successful_update)
       redirect_to project_timeline_path(@project, @timeline)
     else
@@ -100,12 +100,12 @@ class TimelinesController < ApplicationController
   end
 
   def remove_blank_options
-    options = params[:timeline][:options] || {}
+    options = permitted_params.timeline[:options] || {}
 
     options.each do |k, v|
       options[k] = v.reject(&:blank?) if v.is_a? Array
     end
 
-    params[:timeline][:options] = options
+    permitted_params.timeline[:options] = options
   end
 end

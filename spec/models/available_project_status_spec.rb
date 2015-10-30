@@ -66,12 +66,12 @@ describe AvailableProjectStatus, type: :model do
       FactoryGirl.create(:reported_project_status, id: 2)
     }
 
-    it { expect(AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes, without_protection: true) }).to be_valid }
+    it { expect(AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes) }).to be_valid }
 
     describe 'project_type' do
       it 'is invalid w/o a project_type' do
         attributes[:project_type_id] = nil
-        available_project_status = AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes, without_protection: true) }
+        available_project_status = AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes) }
 
         expect(available_project_status).not_to be_valid
 
@@ -83,7 +83,7 @@ describe AvailableProjectStatus, type: :model do
     describe 'reported_project_status' do
       it 'is invalid w/o a reported_project_status' do
         attributes[:reported_project_status_id] = nil
-        available_project_status = AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes, without_protection: true) }
+        available_project_status = AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes) }
 
         expect(available_project_status).not_to be_valid
 

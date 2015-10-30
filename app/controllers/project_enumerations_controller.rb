@@ -32,9 +32,9 @@ class ProjectEnumerationsController < ApplicationController
   before_filter :authorize
 
   def update
-    if request.put? && params[:enumerations]
+    if request.put? && permitted_params.enumerations.present?
       Project.transaction do
-        params[:enumerations].each do |id, activity|
+        permitted_params.enumerations.each do |id, activity|
           @project.update_or_create_time_entry_activity(id, activity)
         end
       end

@@ -35,14 +35,6 @@ class UserPreference < ActiveRecord::Base
   validate :time_zone_correctness, if: -> { time_zone.present? }
   validate :theme_correctness, if: -> { theme.present? }
 
-  attr_accessible :user
-
-  # attributes that have their own column
-  attr_accessible :hide_mail, :time_zone, :impaired
-
-  # shortcut methods to others hash
-  attr_accessible :comments_sorting, :warn_on_leaving_unsaved, :theme
-
   after_initialize :init_other_preferences
 
   def [](attr_name)

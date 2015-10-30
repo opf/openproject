@@ -28,7 +28,6 @@
 #++
 
 class CustomField < ActiveRecord::Base
-  include ActiveModel::ForbiddenAttributesProtection
   include CustomField::OrderStatements
 
   has_many :custom_values, dependent: :delete_all

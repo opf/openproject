@@ -41,7 +41,7 @@ describe WorkPackage, type: :model do
   let(:priority) { FactoryGirl.create(:priority) }
   let(:work_package) {
     WorkPackage.new.tap do |w|
-      w.force_attributes = { project_id: project.id,
+      w.attributes = { project_id: project.id,
                              type_id: type.id,
                              author_id: user.id,
                              status_id: status.id,
@@ -73,7 +73,7 @@ describe WorkPackage, type: :model do
     describe 'minimal' do
       let(:work_package_minimal) {
         WorkPackage.new.tap do |w|
-          w.force_attributes = { project_id: project.id,
+          w.attributes = { project_id: project.id,
                                  type_id: type.id,
                                  author_id: user.id,
                                  status_id: status.id,
@@ -166,7 +166,7 @@ describe WorkPackage, type: :model do
     }
 
     before do
-      work_package.force_attributes = { category_id: category.id }
+      work_package.attributes = { category_id: category.id }
       work_package.save!
     end
 

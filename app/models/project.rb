@@ -28,7 +28,6 @@
 #++
 
 class Project < ActiveRecord::Base
-  include Redmine::SafeAttributes
   extend Pagination::Model
   extend FriendlyId
 
@@ -129,8 +128,6 @@ class Project < ActiveRecord::Base
                 url: Proc.new { |o| { controller: '/projects', action: 'show', id: o } },
                 author: nil,
                 datetime: :created_on
-
-  attr_protected :status
 
   validates_presence_of :name, :identifier
   # TODO: we temporarily disable this validation because it leads to failed tests
@@ -755,21 +752,6 @@ class Project < ActiveRecord::Base
   def enabled_module_names
     enabled_modules.map(&:name)
   end
-
-  safe_attributes 'name',
-                  'description',
-                  'is_public',
-                  'identifier',
-                  'custom_field_values',
-                  'custom_fields',
-                  'type_ids',
-                  'work_package_custom_field_ids',
-                  'project_type_id',
-                  'type_ids',
-                  'responsible_id'
-
-  safe_attributes 'enabled_module_names',
-                  if: lambda { |project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
 
   # Returns an array of projects that are in this project's hierarchy
   #

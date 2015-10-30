@@ -97,7 +97,6 @@ module Redmine::Acts::Journalized
       def self.included(base) # :nodoc:
         base.class_eval do
           belongs_to :user
-          # attr_protected :user_id
           alias_method_chain :user=, :name
         end
       end

@@ -47,8 +47,6 @@ class Changeset < ActiveRecord::Base
                      project_key: "#{Repository.table_name}.project_id",
                      date_column: 'committed_on'
 
-  attr_protected :user_id
-
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
   validates_uniqueness_of :revision, scope: :repository_id
   validates_uniqueness_of :scmid, scope: :repository_id, allow_nil: true

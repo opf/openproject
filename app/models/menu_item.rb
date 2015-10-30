@@ -28,8 +28,6 @@
 #++
 
 class MenuItem < ActiveRecord::Base
-  include ActiveModel::ForbiddenAttributesProtection
-
   belongs_to :parent, class_name: 'MenuItem'
   has_many :children, -> {
     order('id ASC')

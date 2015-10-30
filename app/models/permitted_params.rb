@@ -31,12 +31,6 @@ class PermittedParams
   # This class intends to provide a method for all params hashes coming from the
   # client and that are used for mass assignment.
   #
-  # As such, please make it a deliberate decision to whitelist attributes.
-  #
-  # This implementation depends on the strong_parameters gem. For further
-  # information see here: https://github.com/rails/strong_parameters
-  #
-  #
   # A method should look like the following:
   #
   # def name_of_the_params_key_referenced
@@ -46,18 +40,8 @@ class PermittedParams
   #
   # A controller could use a permitted_params method like this
   #
-  # model_instance.attributes = permitted_params.name_of_the_params_key_referenced
+  # model_instance.METHOD_USING_ASSIGMENT = permitted_params.name_of_the_params_key_referenced
   #
-  # instead of doing something like this which will not work anymore once the
-  # model is protected:
-  #
-  # model_instance.attributes = params[:name_of_the_params_key_referenced]
-  #
-  #
-  # A model will need the following module included in order to be protected by
-  # strong_params
-  #
-  # include ActiveModel::ForbiddenAttributesProtection
   attr_reader :params, :current_user
 
   def initialize(params, current_user)
@@ -104,15 +88,7 @@ class PermittedParams
   end
 
   def enumeration_type
-    params.require(:type)
-  end
-
-  def enumeration
-    permitted_params = params.require(:enumeration).permit(*self.class.permitted_attributes[:enumeration])
-
-    permitted_params.merge!(custom_field_values(:enumeration))
-
-    permitted_params
+    params.fetch(:type, {})
   end
 
   def group
@@ -272,6 +248,156 @@ class PermittedParams
     params.require(:content).permit(*self.class.permitted_attributes[:wiki_content])
   end
 
+  def timeline
+    acceptable_options_params = ["exist", "zoom_factor", "initial_outline_expansion", "timeframe_start",
+    "timeframe_end", "columns", "project_sort", "compare_to_relative", "compare_to_relative_unit",
+    "compare_to_absolute", "vertical_planning_elements", "exclude_own_planning_elements",
+    "planning_element_status", "planning_element_types", "planning_element_responsibles",
+    "planning_element_assignee", "exclude_reporters", "exclude_empty", "project_types",
+    "project_status", "project_responsibles", "parents", "planning_element_time_types",
+    "planning_element_time_absolute_one", "planning_element_time_absolute_two",
+    "planning_element_time_relative_one", "planning_element_time_relative_one_unit",
+    "planning_element_time_relative_two", "planning_element_time_relative_two_unit",
+    "grouping_one_enabled", "grouping_one_selection", "grouping_one_sort", "hide_other_group"]
+
+    # Options here will be empty. This is just initializing it.
+    whitelist = params.require(:timeline).permit(:name, options: {})
+
+    if params['timeline'].has_key?('options')
+      params['timeline']['options'].each do |key, _value|
+        whitelist['options'][key] = params['timeline']['options'][key]
+      end
+    end
+
+    whitelist.permit!
+  end
+
+  def pref
+    params.require(:pref).permit(:hide_mail, :time_zone, :impaired,
+                                 :comments_sorting, :warn_on_leaving_unsaved,
+                                 :theme)
+  end
+
+  def project(instance = nil)
+    whitelist = params.require(:project).permit(:name,
+                                                :description,
+                                                :is_public,
+                                                :identifier,
+                                                :project_type_id,
+                                                custom_fields: [],
+                                                work_package_custom_field_ids: [],
+                                                type_ids: [],
+                                                enabled_module_names: [])
+
+
+    if instance && (instance.new_record? || current_user.allowed_to?(:select_project_modules, instance))
+      whitelist.permit(enabled_module_names: [])
+    end
+
+    unless params[:project][:custom_field_values].nil?
+      whitelist[:custom_field_values] = params[:project][:custom_field_values]
+    end
+
+    whitelist
+  end
+
+  def time_entry
+    params.fetch(:time_entry, {}).permit(:hours, :comments, :work_package_id,
+                                       :activity_id, :spent_on, custom_field_values: [])
+  end
+
+  def news
+    params.require(:news).permit(:title, :summary, :description)
+  end
+
+  def category
+    params.require(:category).permit(:name, :assigned_to_id)
+  end
+
+  def version
+    # `version_settings_attributes` is from a plugin. Unfortunately as it stands
+    # now it is less work to do it this way than have the plugin override this
+    # method. We hopefully will change this in the future.
+    params.fetch(:version, {}).permit(:name,
+                                    :description,
+                                    :effective_date,
+                                    :due_date,
+                                    :start_date,
+                                    :wiki_page_title,
+                                    :status,
+                                    :sharing,
+                                    :custom_field_value,
+                                    version_settings_attributes: [:id, :display, :project])
+  end
+
+  def comment
+    params.require(:comment).permit(:commented, :author, :comments)
+  end
+
+  # `params.fetch` and not `require` because the update controller action associated
+  # with this is doing multiple things, therefore not requiring a message hash
+  # all the time.
+  def message(instance = nil)
+    if instance && current_user.allowed_to?(:edit_messages, instance.project)
+      params.fetch(:message, {}).permit(:subject, :content, :board_id, :locked, :sticky)
+    else
+      params.fetch(:message, {}).permit(:subject, :content, :board_id)
+    end
+  end
+
+  def attachments
+    params.permit(attachments: [:file, :description])['attachments']
+  end
+
+  def enumerations
+    acceptable_params = [:active, :is_default, :move_to, :name, :reassign_to_i, :parent_id,
+                         :custom_field_values, :reassign_to_id]
+
+    whitelist = ActionController::Parameters.new
+
+    # Sometimes we receive one enumeration, sometimes many in params, hence
+    # the following branching.
+    if params[:enumerations].present?
+      params[:enumerations].each do |enum, value|
+        enum.tap do
+          whitelist[enum] = {}
+          acceptable_params.each do |param|
+            # We rely on enum being an integer, an id that is. This will blow up
+            # otherwise, which is fine.
+            next if params[:enumerations][enum][param].nil?
+            whitelist[enum][param] = params[:enumerations][enum][param]
+          end
+        end
+      end
+    else
+      params[:enumeration].each do |key, _value|
+        whitelist[key] = params[:enumeration][key]
+      end
+    end
+
+    whitelist.permit!
+  end
+
+  def watcher
+    params.require(:watcher).permit(:watchable, :user, :user_id)
+  end
+
+  def reply
+    params.require(:reply).permit(:content, :subject)
+  end
+
+  def wiki
+    params.require(:wiki).permit(:start_page)
+  end
+
+  def reporting
+    params.fetch(:reporting, {}).permit(:reporting_to_project_id, :reported_project_status_id, :reported_project_status_comment)
+  end
+
+  def membership
+    params.require(:membership).permit(*self.class.permitted_attributes[:membership])
+  end
+
   protected
 
   def custom_field_values(key)
@@ -352,6 +478,9 @@ class PermittedParams
         :reassign_to_id],
       group: [
         :lastname],
+      membership: [
+        :project_id,
+        role_ids: []],
       group_membership: [
         :membership_id,
         membership: [

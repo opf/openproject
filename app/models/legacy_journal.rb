@@ -50,8 +50,6 @@ class LegacyJournal < ActiveRecord::Base
   belongs_to :journaled, class_name: 'Journal'
   belongs_to :user
 
-  # attr_protected :user_id
-
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
   register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField

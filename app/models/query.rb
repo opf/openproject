@@ -28,7 +28,6 @@
 #++
 
 class Query < ActiveRecord::Base
-  include ActiveModel::ForbiddenAttributesProtection
   include Queries::WorkPackages::AvailableFilterOptions
 
   # referenced in plugin patches - currently there are only work package queries and filters
@@ -44,8 +43,6 @@ class Query < ActiveRecord::Base
   serialize :filters, Queries::WorkPackages::FilterSerializer
   serialize :column_names
   serialize :sort_criteria, Array
-
-  attr_protected :project_id # , :user_id
 
   validates :name, presence: true
   validates_length_of :name, maximum: 255

@@ -38,8 +38,6 @@ class Journal < ActiveRecord::Base
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
   register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
 
-  attr_accessible :journable_type, :journable_id, :activity_type, :version, :notes, :user_id
-
   # Make sure each journaled model instance only has unique version ids
   validates_uniqueness_of :version, scope: [:journable_id, :journable_type]
 

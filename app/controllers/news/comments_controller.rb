@@ -34,7 +34,7 @@ class News::CommentsController < ApplicationController
   before_filter :authorize
 
   def create
-    @comment = Comment.new(params[:comment])
+    @comment = Comment.new(permitted_params.comment)
     @comment.author = User.current
     if @news.comments << @comment
       flash[:notice] = l(:label_comment_added)

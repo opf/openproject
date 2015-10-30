@@ -28,8 +28,6 @@
 #++
 
 class Group < Principal
-  include ActiveModel::ForbiddenAttributesProtection
-
   has_and_belongs_to_many :users,
                           join_table:   "#{table_name_prefix}group_users#{table_name_suffix}",
                           after_add:    :user_added,

@@ -37,7 +37,7 @@ module CopyModel
     def copy_attributes(from_model)
       with_model(from_model) do |model|
         # clear unique attributes
-        self.safe_attributes = model.attributes.dup.except(*(Array(self.class.not_to_copy).map(&:to_s)))
+        self.attributes = model.attributes.dup.except(*(Array(self.class.not_to_copy).map(&:to_s)))
         return self
       end
     end
@@ -154,12 +154,10 @@ module CopyModel
   def self.included(base)
     base.send :extend,  self::ClassMethods
     base.send :include, self::InstanceMethods
-    base.send :include, Redmine::SafeAttributes
   end
 
   def self.extended(base)
     base.send :extend,  self::ClassMethods
     base.send :include, self::InstanceMethods
-    base.send :include, Redmine::SafeAttributes
   end
 end

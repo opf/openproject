@@ -53,8 +53,6 @@ class Timeline < ActiveRecord::Base
   validate :validate_option_dates
   validate :validate_option_numeric
 
-  attr_accessible :name, :options
-
   before_save :remove_empty_options_values
   before_save :split_joined_options_values
 

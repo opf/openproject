@@ -79,17 +79,17 @@ class ProjectsController < ApplicationController
     @types = ::Type.all
     @project = Project.new
     @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
-    @project.safe_attributes = params[:project]
+    @project.attributes = permitted_params.project if params[:project].present?
   end
 
   def create
     @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
     @project = Project.new
-    @project.safe_attributes = params[:project]
+    @project.attributes = permitted_params.project
 
     if validate_parent_id && @project.save
-      @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
+      @project.set_allowed_parent!(params['project']['parent_id']) if params['project'].has_key?('parent_id')
       add_current_user_to_project_if_not_admin(@project)
       respond_to do |format|
         format.html do
@@ -139,10 +139,10 @@ class ProjectsController < ApplicationController
   def update
     @altered_project = Project.find(@project.id)
 
-    @altered_project.safe_attributes = params[:project]
+    @altered_project.attributes = permitted_params.project
     if validate_parent_id && @altered_project.save
-      if params[:project].has_key?('parent_id')
-        @altered_project.set_allowed_parent!(params[:project]['parent_id'])
+      if params['project'].has_key?('parent_id')
+        @altered_project.set_allowed_parent!(params['project']['parent_id'])
       end
       respond_to do |format|
         format.html do
@@ -162,7 +162,7 @@ class ProjectsController < ApplicationController
   end
 
   def update_identifier
-    @project.safe_attributes = params[:project]
+    @project.attributes = permitted_params.project
 
     if @project.save
       respond_to do |format|
@@ -182,6 +182,7 @@ class ProjectsController < ApplicationController
     end
   end
 
+
   def types
     if UpdateProjectsTypesService.new(@project).call(permitted_params.projects_type_ids)
       flash[:notice] = l('notice_successful_update')
@@ -193,13 +194,13 @@ class ProjectsController < ApplicationController
   end
 
   def modules
-    @project.enabled_module_names = params[:project][:enabled_module_names]
+    @project.enabled_module_names = permitted_params.project[:enabled_module_names]
     flash[:notice] = l(:notice_successful_update)
     redirect_to action: 'settings', id: @project, tab: 'modules'
   end
 
   def custom_fields
-    @project.work_package_custom_field_ids = params[:project][:work_package_custom_field_ids]
+    @project.work_package_custom_field_ids = permitted_params.project[:work_package_custom_field_ids]
     if @project.save
       flash[:notice] = l(:notice_successful_update)
     else
@@ -293,7 +294,7 @@ class ProjectsController < ApplicationController
   # TODO: move it to Project model in a validation that depends on User.current
   def validate_parent_id
     return true if User.current.admin?
-    parent_id = params[:project] && params[:project][:parent_id]
+    parent_id = permitted_params.project && params[:project][:parent_id]
     if parent_id || @project.new_record?
       parent = parent_id.blank? ? nil : Project.find_by(id: parent_id.to_i)
       unless @project.allowed_parents.include?(parent)

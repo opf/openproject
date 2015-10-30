@@ -34,7 +34,7 @@ describe Group, type: :model do
     @member = FactoryGirl.build :member
     @work_package = FactoryGirl.create :work_package
     @roles = FactoryGirl.create_list :role, 2
-    @member.force_attributes = { principal: @group, role_ids: @roles.map(&:id) }
+    @member.attributes = { principal: @group, role_ids: @roles.map(&:id) }
     @member.save!
     @project = @member.project
     @user = FactoryGirl.create :user
@@ -63,7 +63,7 @@ describe Group, type: :model do
     member = FactoryGirl.build :member
     roles = FactoryGirl.create_list :role, 2
     role_ids = roles.map(&:id)
-    member.force_attributes = { principal: group, role_ids: role_ids }
+    member.attributes = { principal: group, role_ids: role_ids }
     member.save!
     user = FactoryGirl.create :user
     group.users << user

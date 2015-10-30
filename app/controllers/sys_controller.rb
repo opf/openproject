@@ -114,7 +114,7 @@ class SysController < ActionController::Base
   def find_project
     @project = Project.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render text: "Could not find project ##{params[:id]}.", status: 404
+    render plain: "Could not find project ##{params[:id]}.", status: 404
   end
 
   def find_repository_with_storage

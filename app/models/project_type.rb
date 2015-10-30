@@ -44,8 +44,6 @@ class ProjectType < ActiveRecord::Base
                                         validate: false
   has_many :reported_project_statuses, through: :available_project_statuses
 
-  include ActiveModel::ForbiddenAttributesProtection
-
   validates_presence_of :name
   validates_inclusion_of :allows_association, in: [true, false]
 

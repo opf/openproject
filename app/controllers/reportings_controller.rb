@@ -202,7 +202,7 @@ class ReportingsController < ApplicationController
   end
 
   def update
-    if @reporting.update_attributes(params[:reporting])
+    if @reporting.update_attributes(permitted_params.reporting)
       flash[:notice] = l(:notice_successful_update)
       redirect_to project_reportings_path
     else
@@ -231,7 +231,7 @@ class ReportingsController < ApplicationController
 
   def build_reporting
     @reporting = @project.reportings_via_source.build
-    @reporting.reporting_to_project_id = params['reporting']['reporting_to_project_id']
+    @reporting.reporting_to_project_id = permitted_params.reporting['reporting_to_project_id']
   end
 
   def check_visibility

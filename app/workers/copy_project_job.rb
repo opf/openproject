@@ -89,7 +89,7 @@ class CopyProjectJob
     UserMailer.with_deliveries(send_mails) do
       parent_id = target_project_params[:parent_id]
       target_project = Project.new.tap do |p|
-        p.safe_attributes = target_project_params
+        p.attributes = target_project_params
         p.enabled_module_names = enabled_modules
       end
 

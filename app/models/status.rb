@@ -28,7 +28,6 @@
 #++
 
 class Status < ActiveRecord::Base
-  include ActiveModel::ForbiddenAttributesProtection
   extend Pagination::Model
 
   default_scope { order('position ASC') }

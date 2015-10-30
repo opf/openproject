@@ -38,9 +38,6 @@ class CopyDummy < Tableless
 
   not_to_copy :safe_attribute_that_should_not_be_copied
 
-  safe_attributes 'safe_attribute1',
-                  'safe_attribute2',
-                  'safe_attribute_that_should_not_be_copied'
 
   column :safe_attribute1, :string
   column :safe_attribute2, :string
@@ -117,16 +114,6 @@ describe 'Copying Models' do
 
       expect(dummy.safe_attribute1).to eq(copy.safe_attribute1)
       expect(dummy.safe_attribute2).to eq(copy.safe_attribute2)
-    end
-
-    it 'should not copy unsafe attributes' do
-      dummy.unsafe_attribute = 'foo'
-      dummy.safe_attribute1 = 'foo'
-
-      copy = CopyDummy.copy(dummy)
-
-      expect(dummy.safe_attribute1).to eq(copy.safe_attribute1)
-      expect(dummy.unsafe_attribute).not_to eq(copy.unsafe_attribute)
     end
 
     it 'should not copy safe attributes that are flagged as not_to_copy' do
