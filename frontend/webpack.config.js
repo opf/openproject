@@ -50,6 +50,7 @@ var browsersList = JSON.stringify(_.filter(browsersListConfig.split('\n'), funct
 }));
 
 var loaders = [
+  { test: /\.ts$/,                    loader: 'ts-loader' },
   { test: /[\/]angular\.js$/,         loader: 'exports?angular' },
   { test: /[\/]jquery\.js$/,          loader: 'expose?jQuery' },
   { test: /[\/]moment\.js$/,          loader: 'expose?moment' },
@@ -104,6 +105,8 @@ module.exports = {
 
   resolve: {
     root: __dirname,
+
+    extensions: ['', '.webpack.js', '.ts', '.js'],
 
     modulesDirectories: [
       'node_modules',

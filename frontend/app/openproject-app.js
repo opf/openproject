@@ -293,6 +293,8 @@ require('./ui_components');
 require('./work_packages');
 
 var requireTemplate = require.context('./templates', true, /\.html$/);
-requireTemplate.keys().forEach(requireTemplate);
 
+requireTemplate.keys().forEach(requireTemplate);
 require('!ngtemplate?module=openproject.templates!html!angular-busy/angular-busy.html');
+
+require('./typescript_demo/demo.controller');
