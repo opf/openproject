@@ -196,16 +196,6 @@ module OpenProject::Backlogs
       end
     end
 
-    config.to_prepare do
-      if WorkPackage.const_defined? 'SAFE_ATTRIBUTES'
-        WorkPackage::SAFE_ATTRIBUTES << 'story_points'
-        WorkPackage::SAFE_ATTRIBUTES << 'remaining_hours'
-        WorkPackage::SAFE_ATTRIBUTES << 'position'
-      else
-        WorkPackage.safe_attributes 'story_points', 'remaining_hours', 'position'
-      end
-    end
-
     initializer 'backlogs.register_hooks' do
       require 'open_project/backlogs/hooks'
     end

@@ -40,12 +40,6 @@ class Impediment < Task
 
   validate :validate_blocks_list
 
-  safe_attributes 'blocks_ids',
-                  if: lambda {|impediment, user|
-                    (impediment.new_record? && user.allowed_to?(:create_impediments, impediment.project)) ||
-                      user.allowed_to?(:update_impediments, impediment.project)
-                  }
-
   def self.default_scope
     where(parent_id: nil, type_id: type)
   end

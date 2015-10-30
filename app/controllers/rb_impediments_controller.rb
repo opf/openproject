@@ -35,7 +35,7 @@
 
 class RbImpedimentsController < RbApplicationController
   def create
-    @impediment = Impediment.create_with_relationships(params, @project.id)
+    @impediment = Impediment.create_with_relationships(impediment_params, @project.id)
     status = (@impediment.errors.empty? ? 200 : 400)
     @include_meta = true
 
@@ -46,12 +46,20 @@ class RbImpedimentsController < RbApplicationController
 
   def update
     @impediment = Impediment.find(params[:id])
-    result = @impediment.update_with_relationships(params)
+    result = @impediment.update_with_relationships(impediment_params(@impediment))
     status = (result ? 200 : 400)
     @include_meta = true
 
     respond_to do |format|
       format.html { render partial: 'impediment', object: @impediment, status: status }
+    end
+  end
+
+private
+
+  def impediment_params(instance = nil)
+    if instance && instance.new_record? && (user.allowed_to?(:create_impediments, instance.project) || user.allowed_to?(:update_impediments, impediment.project))
+      params.permit 'blocks_ids'
     end
   end
 end

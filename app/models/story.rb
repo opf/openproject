@@ -66,7 +66,7 @@ class Story < WorkPackage
     Story.new.tap do |s|
       s.author  = safer_attributes[:author]  if safer_attributes[:author]
       s.project = safer_attributes[:project] if safer_attributes[:project]
-      s.safe_attributes = params
+      s.attributes = params
 
       if s.save
         s.move_after(params['prev_id'])
@@ -144,7 +144,7 @@ class Story < WorkPackage
   end
 
   def update_and_position!(params)
-    self.safe_attributes = params
+    self.attributes = params
     self.status_id = nil if params[:status_id] == ''
 
     save.tap do |result|

@@ -41,9 +41,6 @@ module OpenProject::Backlogs::Patches::VersionPatch
       has_many :version_settings, dependent: :destroy
       accepts_nested_attributes_for :version_settings
 
-      include Redmine::SafeAttributes
-      safe_attributes 'version_settings_attributes'
-
       include InstanceMethods
     end
   end
