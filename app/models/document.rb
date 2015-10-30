@@ -31,7 +31,6 @@
 #++
 
 class Document < ActiveRecord::Base
-  include Redmine::SafeAttributes
   belongs_to :project
   belongs_to :category, :class_name => "DocumentCategory", :foreign_key => "category_id"
   acts_as_attachable :delete_permission => :manage_documents
@@ -65,10 +64,6 @@ class Document < ActiveRecord::Base
   }
 
   after_initialize :set_default_category
-
-  attr_accessible :title, :description, :project, :category, :category_id
-
-  safe_attributes 'category_id', 'title', 'description'
 
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_documents, project)

@@ -61,12 +61,12 @@ class DocumentsController < ApplicationController
 
   def new
     @document = @project.documents.build
-    @document.safe_attributes = params[:document]
+    @document.attributes = document_params
   end
 
   def create
     @document = @project.documents.build
-    @document.safe_attributes = params[:document]
+    @document.attributes = document_params
     if @document.save
       attachments = Attachment.attach_files(@document, params[:attachments])
       render_attachment_warning_if_needed(@document)
@@ -82,7 +82,7 @@ class DocumentsController < ApplicationController
   end
 
   def update
-    @document.safe_attributes = params[:document]
+    @document.attributes = document_params
     if @document.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @document
@@ -107,5 +107,10 @@ class DocumentsController < ApplicationController
       end
     end
     redirect_to :action => 'show', :id => @document
+  end
+
+private
+  def document_params
+    params.require(:document).permit('category_id', 'title', 'description')
   end
 end
