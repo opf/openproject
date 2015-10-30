@@ -405,8 +405,7 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
     getAllowedValues: getAllowedValues,
     format: format,
     getInplaceEditStrategy: getInplaceEditStrategy,
-    getInplaceDisplayStrategy: getInplaceDisplayStrategy,
-    defaultPlaceholder: '-'
+    getInplaceDisplayStrategy: getInplaceDisplayStrategy
   };
 
   return WorkPackageFieldService;

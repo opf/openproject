@@ -89,7 +89,7 @@ inplaceEditorDisplayPane.$inject = ['EditableFieldsState', '$timeout', 'I18n'];
 function InplaceEditorDisplayPaneController($scope, HookService) {
   var field = $scope.field;
 
-  this.placeholder = field.defaultPlaceholder;
+  this.placeholder = field.placeholder;
 
   this.startEditing = function() {
     var fieldController = $scope.fieldController;

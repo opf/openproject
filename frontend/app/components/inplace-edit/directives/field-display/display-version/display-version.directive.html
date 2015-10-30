@@ -1,5 +1,7 @@
 <div class="version-wrapper">
-    <span ng-if="!field.text">-</span>
+    <span ng-if="!field.text">
+      {{field.placeholder}}
+    </span>
     <span ng-if="field.text && customEditorController.isVersionLinkViewable()">
       <a ng-href="{{ customEditorController.versionLink }}">
         {{field.text.props.name}}

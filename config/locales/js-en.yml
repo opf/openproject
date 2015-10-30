@@ -161,7 +161,6 @@ en:
     label_global_queries: "Shared queries"
     label_custom_queries: "Private queries"
     label_columns: "Columns"
-    label_click_to_enter_description: "Click to enter description..."
     label_attachments: Files
     label_drop_files: Drop files here
     label_drop_files_hint: or click to add files
@@ -384,6 +383,9 @@ en:
         updatedAt: "Updated on"
         versionName: "Version"
         version: "Version"
+      placeholders:
+        default: "-"
+        description: "Click to enter description..."
       query:
         column_names: "Columns"
         group_by: "Group results by"

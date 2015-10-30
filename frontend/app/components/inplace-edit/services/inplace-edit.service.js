@@ -38,8 +38,10 @@ function inplaceEdit(WorkPackageFieldService) {
     this.fields = {};
 
     this.field = function (name) {
-      return this.fields[name] = this.fields[name] || new Field(this.resource, name);
-    }
+      this.fields[name] = this.fields[name] || new Field(this.resource, name);
+
+      return this.fields[name];
+    };
   }
 
   Object.defineProperty(Form.prototype, 'length', {
@@ -47,7 +49,6 @@ function inplaceEdit(WorkPackageFieldService) {
       return Object.keys(this.fields).length;
     }
   });
-
 
   function Field(resource, name) {
     this.resource = resource;
@@ -61,6 +62,35 @@ function inplaceEdit(WorkPackageFieldService) {
     }
   });
 
+  // Looks up placeholders in the localization files (e.g. js-en.yml).
+  // The path is
+  //  js:
+  //    [name of the resource in snake case and pluralized]:
+  //      placeholders:
+  //        [name of the field]:
+  //
+  // Falls back to default if no specific placeholder is defined.
+  Object.defineProperty(Field.prototype, 'placeholder', {
+    get: function() {
+      // lodash does snakeCase in version 3.10
+      // This also pluralizes the easy way by appending 's' to the end
+      // which is error prone
+      var resourceName = this.resource.props._type
+        .replace(/([A-Z])/g, function($1){return '_' + $1.toLowerCase();})
+        .replace(/^_/, '') + 's';
+
+      var scope = 'js.' + resourceName + '.placeholders.' + this.name;
+
+      var translation = I18n.t(scope);
+      if (I18n.missingTranslation(scope) === translation) {
+        return I18n.t('js.' + resourceName + '.placeholders.default');
+      }
+      else {
+        return translation;
+      }
+    }
+  });
+
   _.forOwn(WorkPackageFieldService, function (property, name) {
     Field.prototype[name] = _.isFunction(property) && function () {
       return property(this.resource, this.name);
@@ -69,8 +99,10 @@ function inplaceEdit(WorkPackageFieldService) {
 
   return {
     form: function (id, resource) {
-      return forms[id] = forms[id] || new Form(resource);
+      forms[id] = forms[id] || new Form(resource);
+
+      return forms[id];
     }
   };
 }
-inplaceEdit.$indect = ['WorkPackageFieldService'];
+inplaceEdit.$inject = ['WorkPackageFieldService'];
