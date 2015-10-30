@@ -26,6 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<% news = News.limit(10)
+              .order("#{News.table_name}.created_on DESC")
+              .where("#{News.table_name}.project_id in (#{@user.projects.collect{|m| m.id}.join(',')})")
+              .includes(:project, :author) unless @user.projects.empty? %>
 
 <h3><%=l(:label_news_latest)%></h3>
 
@@ -33,9 +37,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= content_for "#{block_name}_remove_block" %>
 <% end %>
 
-<%= render(partial: 'news/news',
-           collection: News.limit(10)
-                         .order("#{News.table_name}.created_on DESC")
-                         .where("#{News.table_name}.project_id in (#{@user.projects.collect{|m| m.id}.join(',')})")
-                         .includes(:project, :author)) unless @user.projects.empty?
-%>
+<% if news %>
+  <%= render(partial: 'news/news',
+             collection: news)
+  %>
+<% else %>
+  <%= no_results_box(custom_title: t('news.my_page.no_results_title_text')) %>
+<% end %>

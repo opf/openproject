@@ -49,7 +49,7 @@ describe 'Deletion', type: :feature do
   end
 
   shared_examples_for 'deleted category' do
-    it { expect(page).to have_selector('div#tab-content-categories p.nodata') }
+    it { expect(page).to have_selector('div.generic-table--no-results-container') }
 
     it { expect(page).to have_no_selector(delete_button) }
   end

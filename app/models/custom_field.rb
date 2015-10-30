@@ -141,7 +141,7 @@ class CustomField < ActiveRecord::Base
   # Notes: You SHOULD pass a customizable if this CF has a format of user or version.
   #        You MUST NOT pass a customizable if this CF has any other format
   # read_attribute is localized - to get values for a specific locale pass the following options hash
-  # :locale => <locale (-> :en, :de, ...)>
+  # locale: <locale (-> :en, :de, ...)>
   def possible_values(obj = nil)
     case field_format
     when 'user', 'version'

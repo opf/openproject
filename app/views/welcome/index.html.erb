@@ -36,12 +36,12 @@ See doc/COPYRIGHT.rdoc for more details.
         <i class="icon-context icon-news"></i>
         <h3><%=l(:label_news_latest)%></h3>
         <div class="overview">
-          <%= render :partial => 'news/news', :collection => @news %>
-          <%= link_to l(:label_news_view_all), :controller => '/news' %>
+          <%= render partial: 'news/news', collection: @news %>
+          <%= link_to l(:label_news_view_all), controller: '/news' %>
         </div>
       </div>
     <% end %>
-    <%= call_hook(:view_welcome_index_left, :projects => @projects) %>
+    <%= call_hook(:view_welcome_index_left, projects: @projects) %>
   </div>
 
   <div class="grid-content">
@@ -54,19 +54,19 @@ See doc/COPYRIGHT.rdoc for more details.
             <% @project = project %>
             <li>
               <%= link_to_project project %> (<%= format_time(project.created_on) %>)
-          <%= format_text project.short_description, :project => project %>
+          <%= format_text project.short_description, project: project %>
             </li>
           <% end %>
           <% @project = nil %>
         </ul>
       </div>
     <% end %>
-    <%= call_hook(:view_welcome_index_right, :projects => @projects) %>
+    <%= call_hook(:view_welcome_index_right, projects: @projects) %>
   </div>
 </div>
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, {:controller => '/news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
-                                   :title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>
-  <%= auto_discovery_link_tag(:atom, {:controller => '/activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
-                                   :title => "#{Setting.app_title}: #{l(:label_activity)}") %>
+  <%= auto_discovery_link_tag(:atom, {controller: '/news', action: 'index', key: User.current.rss_key, format: 'atom'},
+                                   title: "#{Setting.app_title}: #{l(:label_news_latest)}") %>
+  <%= auto_discovery_link_tag(:atom, {controller: '/activities', action: 'index', key: User.current.rss_key, format: 'atom'},
+                                   title: "#{Setting.app_title}: #{l(:label_activity)}") %>
 <% end %>

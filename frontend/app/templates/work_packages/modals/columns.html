@@ -4,7 +4,7 @@
 
     <h3>{{ ::I18n.t('js.label_columns') }}</h3>
 
-    <div cg-busy="vm.promise" class="columns-modal-content">
+    <div cg-busy="vm.promise" class="columns-modal-content select2-modal-content">
       <label for="selected_columns" class="hidden-for-sighted">{{ ::I18n.t('js.description_selected_columns') }}</label>
       <ui-select multiple sortable="true" ng-model="vm.selectedColumns" theme="select2" id="selected_columns" focus aria-labelledby="column_multiselect_description">
         <ui-select-match>

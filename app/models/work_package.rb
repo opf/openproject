@@ -503,47 +503,6 @@ class WorkPackage < ActiveRecord::Base
     write_attribute :estimated_hours, !!converted_hours ? converted_hours : h
   end
 
-  # Safely sets attributes
-  # Should be called from controllers instead of #attributes=
-  # attr_accessible is too rough because we still want things like
-  # WorkPackage.new(:project => foo) to work
-  # TODO: move workflow/permission checks from controllers to here
-  def safe_attributes=(attrs, user = User.current)
-    return unless attrs.is_a?(Hash)
-
-    # User can change issue attributes only if he has :edit permission
-    # or if a workflow transition is allowed
-    attrs = delete_unsafe_attributes(attrs, user)
-    return if attrs.empty?
-
-    # ::Type must be set before since new_statuses_allowed_to depends on it.
-    if t = attrs.delete('type_id')
-      self.type_id = t
-    end
-
-    if attrs['status_id']
-      unless new_statuses_allowed_to(user).map(&:id).include?(attrs['status_id'].to_i)
-        attrs.delete('status_id')
-      end
-    end
-
-    if parent.present?
-      attrs.reject! do |k, _v|
-        %w(priority_id done_ratio start_date due_date estimated_hours).include?(k)
-      end
-    end
-
-    if attrs.has_key?('parent_id')
-      if !user.allowed_to?(:manage_subtasks, project)
-        attrs.delete('parent_id')
-      elsif !attrs['parent_id'].blank?
-        attrs.delete('parent_id') unless WorkPackage.visible(user).exists?(attrs['parent_id'].to_i)
-      end
-    end
-
-    self.attributes = attrs
-  end
-
   # Saves an issue, time_entry, attachments, and a journal from the parameters
   # Returns false if save fails
   def save_issue_with_child_records(params, existing_time_entry = nil)

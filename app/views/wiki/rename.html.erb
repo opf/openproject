@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'page' %>
 
-<%= labelled_tabular_form_for @page, :url => { id: @page, action: 'rename' }, :as => :page do |f| %>
+<%= labelled_tabular_form_for @page, url: { id: @page, action: 'rename' }, as: :page do |f| %>
   <div class="box">
     <div class='form--field -required'>
       <%= f.text_field :title %>

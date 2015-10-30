@@ -30,17 +30,17 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="form--field">
   <%= label_tag "user_mail_notification",
         l(:description_user_mail_notification),
-        :class => "hidden-for-sighted" %>
+        class: "hidden-for-sighted" %>
   <div class="form--field-container">
     <%= styled_select_tag 'user[mail_notification]',
           options_for_select(user_mail_notification_options(@user),
           @user.mail_notification),
-          :onchange => 'if (this.value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}',
+          onchange: 'if (this.value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}',
           container_class: (defined? input_size) ? "-#{input_size}" : '' %>
   </div>
 </div>
 
-<%= content_tag 'div', :id => 'notified-projects', :style => (@user.mail_notification == 'selected' ? '' : 'display:none;') do %>
+<%= content_tag 'div', id: 'notified-projects', style: (@user.mail_notification == 'selected' ? '' : 'display:none;') do %>
   <div class="form--field">
     <div class="form--field-container -vertical">
       <% @user.projects.each do |project| %>
@@ -59,8 +59,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="form--field">
   <div class="form--field-container">
     <label class="form--label-with-check-box">
-      <%= styled_check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %>
-      <%= l(:label_user_mail_no_self_notified) %>
+      <%= styled_check_box_tag 'self_notified', 1, @user.pref.self_notified? %>
+      <%= l(:label_user_mail_self_notified) %>
     </label>
   </div>
 </div>

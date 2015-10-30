@@ -31,11 +31,11 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l('timelines.new_timeline') %>
 
 <%= labelled_tabular_form_for(@timeline,
-             :url => project_timelines_path,
-             :html => {:method => 'post'}) do |f| %>
+             url: project_timelines_path,
+             html: {method: 'post'}) do |f| %>
 
-  <%= render(:partial => "timelines/form",
-             :locals => {:f => f, :timeline => @timeline}) %>
+  <%= render(partial: "timelines/form",
+             locals: {f: f, timeline: @timeline}) %>
 
   <%= f.button l(:button_create), class: 'button -highlight -with-icon icon-yes' %>
   <%= link_to l(:button_cancel), project_path(@project), class: 'button' %>

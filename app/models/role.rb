@@ -112,7 +112,7 @@ class Role < ActiveRecord::Base
 
   # Return true if role is allowed to do the specified action
   # action can be:
-  # * a parameter-like Hash (eg. :controller => '/projects', :action => 'edit')
+  # * a parameter-like Hash (eg. controller: '/projects', action: 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action)
     if action.is_a? Hash

@@ -34,7 +34,7 @@ Feature: Localized decimal custom fields can be created
       | en |
       | de |
     When I go to the custom fields page
-    When I follow "New custom field" within "#tab-content-WorkPackageCustomField"
+    When I follow "Create a new custom field" within "#tab-content-WorkPackageCustomField"
 
   @javascript
   Scenario: Creating a decimal custom field
@@ -43,4 +43,3 @@ Feature: Localized decimal custom fields can be created
     And I set the english localization of the "default_value" attribute to "20.34"
     And I press "Save"
     Then I should be on the custom fields page
-

@@ -73,23 +73,4 @@ describe('workPackageGroupHeader Directive', function() {
         });
       });
     });
-
-    describe('element', function() {
-      beforeEach(function() {
-        scope.row = { groupName: 'donkey' };
-        scope.groupExpanded = { llama: true };
-      });
-
-      describe('group header toggling', function(){
-        beforeEach(function(){
-          compile();
-        });
-
-        it('should toggle all group expansion to be false', function() {
-          scope.toggleAllGroups();
-          expect(scope.groupExpanded['llama']).to.be.false;
-          expect(scope.groupExpanded['donkey']).to.be.false;
-        });
-      });
-    });
 });

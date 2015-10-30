@@ -26,21 +26,39 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(ENTER_KEY) {
-  return {
-    restrict: 'A',
-    scope: { executeOnEnter: '&', defaultEventHandling: '=' },
-    link: function(scope, element) {
-      element.on('keydown', function(event) {
-        if(event.which === ENTER_KEY) {
-          if (!scope.defaultEventHandling) {
-            event.preventDefault();
-          }
-          scope.$apply(function() {
-            scope.$eval(scope.executeOnEnter, { 'event': event });
-          });
-        }
+/*jshint expr: true*/
+
+describe('clickOnKeypress Directive', function() {
+    var compile, element, rootScope, scope;
+
+    beforeEach(angular.mock.module('openproject.uiComponents'));
+    beforeEach(module('openproject.templates'));
+
+    beforeEach(inject(function($rootScope, $compile) {
+      var html;
+      html = '<a click-on-keypress="[13, 32]" ng-click="myFunction()"></a>';
+
+      element = angular.element(html);
+      rootScope = $rootScope;
+      scope = $rootScope.$new();
+      scope.myFunction = sinon.spy();
+
+      compile = function() {
+        $compile(element)(scope);
+        scope.$digest();
+      };
+    }));
+
+    describe('element', function() {
+      beforeEach(function() {
+        compile();
       });
-    }
-  };
-};
+
+      it('should execute the function defined for ng-click', function() {
+        var event = jQuery.Event('keyup', { which: 13 });
+        element.trigger(event);
+
+        expect(scope.myFunction).to.have.been.called;
+      });
+    });
+});

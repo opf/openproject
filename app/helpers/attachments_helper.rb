@@ -45,6 +45,6 @@ module AttachmentsHelper
     forced_str.force_encoding('UTF-8')
     return forced_str if forced_str.valid_encoding?
 
-    str.encode('UTF-8', invalid: :replace, undef: :replace, replace: '') # better :replace => '?'
+    str.encode('UTF-8', invalid: :replace, undef: :replace, replace: '') # better replace: '?'
   end
 end

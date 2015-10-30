@@ -58,6 +58,9 @@ gem 'color-tools', '~> 1.3.0', require: 'color'
 
 gem 'ruby-progressbar'
 
+# Provide timezone info for TZInfo used by AR
+gem 'tzinfo-data'
+
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
 

@@ -70,7 +70,7 @@ module JournalDeprecated
     journalized.respond_to?(:attachments) ? journalized.attachments : nil
   end
 
-  # deprecate :created_on => "use #created_at"
-  # deprecate :journalized => "use journaled"
-  # deprecate :attachments => "implement it yourself"
+  # deprecate created_on: "use #created_at"
+  # deprecate journalized: "use journaled"
+  # deprecate attachments: "implement it yourself"
 end

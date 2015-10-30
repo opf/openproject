@@ -76,6 +76,8 @@ describe 'Projects', type: :feature do
       expect(page).to have_content 'Identifier has already been taken'
       expect(current_path).to eq '/projects'
     end
+
+
   end
 
   describe 'project types' do
@@ -121,6 +123,74 @@ describe 'Projects', type: :feature do
         input.set project.name
         expect(page).to have_css('.danger-zone .button:not([disabled])')
       end
+    end
+  end
+
+  describe 'identifier edit', js: true do
+    let!(:project) { FactoryGirl.create(:project, identifier: 'foo') }
+
+    it 'updates the project identifier' do
+      visit admin_path
+      click_on project.name
+      click_on 'Edit'
+
+      expect(page).to have_content "CHANGE THE PROJECT'S IDENTIFIER"
+      expect(current_path).to eq '/projects/foo/identifier'
+
+      fill_in 'project[identifier]', with: 'foo-bar'
+      click_on 'Update'
+
+      expect(page).to have_content 'Successful update.'
+      expect(current_path).to eq '/projects/foo-bar/settings'
+      expect(Project.first.identifier).to eq 'foo-bar'
+    end
+
+    it 'displays error messages on invalid input' do
+      visit identifier_project_path(project)
+
+      fill_in 'project[identifier]', with: 'FOOO'
+      click_on 'Update'
+
+      expect(page).to have_content 'Identifier is invalid.'
+      expect(current_path).to eq '/projects/foo/identifier'
+    end
+  end
+
+  describe 'form', js: true do
+    let(:project) { FactoryGirl.build(:project, name: 'Foo project', identifier: 'foo-project') }
+    let!(:optional_custom_field) do
+      FactoryGirl.create(:custom_field, name: 'Optional Foo',
+                                        type: ProjectCustomField,
+                                        is_for_all: true)
+    end
+    let!(:required_custom_field) do
+      FactoryGirl.create(:custom_field, name: 'Required Foo',
+                                        type: ProjectCustomField,
+                                        is_for_all: true,
+                                        is_required: true)
+    end
+
+    it 'seperates optional and required custom fields for new' do
+      visit new_project_path
+
+      expect(page).to have_content 'Required Foo'
+
+      click_on 'Advanced settings'
+
+      within('#advanced-settings') do
+        expect(page).to have_content 'Optional Foo'
+        expect(page).not_to have_content 'Required Foo'
+      end
+    end
+
+    it 'shows optional and required custom fields for edit without an seperation' do
+      project.custom_field_values.last.value = 'FOO'
+      project.save!
+
+      visit settings_project_path(id: project.id, tab: 'info')
+
+      expect(page).to have_content 'Required Foo'
+      expect(page).to have_content 'Optional Foo'
     end
   end
 end

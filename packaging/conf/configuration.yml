@@ -38,3 +38,18 @@ default:
   smtp_password: <%= ENV['SMTP_PASSWORD'] %>
   smtp_enable_starttls_auto: <%= ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO') { "false" } %>
   attachments_storage_path: <%= ENV.fetch('ATTACHMENTS_STORAGE_PATH') { "/var/db/_APP_NAME_/files" } %>
+<% if (ENV['GIT_REPOSITORIES'] || ENV['SVN_REPOSITORIES']).present? %>
+  scm:
+  <% if ENV['GIT_REPOSITORIES'].present? %>
+    git:
+      manages: <%= ENV['GIT_REPOSITORIES'] %>
+      mode: 0770
+      group: <%= ENV['SERVER_USER'] %>
+  <% end %>
+  <% if ENV['SVN_REPOSITORIES'].present? %>
+    subversion:
+      # SVN uses Apache repository wrapper due to permission errors in multi-user operation
+      manages: http://localhost/repoman_svn
+      access_token: <%= ENV['SVN_REPOMAN_TOKEN'] %>
+  <% end %>
+<% end %>

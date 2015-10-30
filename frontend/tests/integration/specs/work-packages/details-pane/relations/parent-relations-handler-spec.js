@@ -35,7 +35,7 @@ describe('Details pane', function() {
       var parentsSlide;
       beforeEach(function () {
         detailsPaneHelper.loadPane(819, 'relations');
-        parentsSlide = element(by.css('[handler="wpParent"] [execute-on-enter]'));
+        parentsSlide = element(by.css('[handler="wpParent"] accessible-by-keyboard a'));
         parentsSlide.click();
         browser.waitForAngular();
       });
@@ -51,7 +51,7 @@ describe('Details pane', function() {
       var parentsSlide;
       beforeEach(function () {
         detailsPaneHelper.loadPane(822, 'relations');
-        parentsSlide = element(by.css('[handler="wpParent"] [execute-on-enter]'));
+        parentsSlide = element(by.css('[handler="wpParent"] accessible-by-keyboard a'));
         parentsSlide.click();
         browser.waitForAngular();
       });

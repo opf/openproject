@@ -46,8 +46,6 @@ angular.module('openproject.uiComponents')
   .directive('opDateTime', ['$compile', 'TimezoneService', require('./date/date-time-directive')])
   .directive('emptyElement', [require('./empty-element-directive')])
   .constant('ENTER_KEY', 13)
-  .directive('executeOnEnter', ['ENTER_KEY', require(
-    './execute-on-enter-directive')])
   .directive('expandableSearch', ['ENTER_KEY', require('./expandable-search')])
   .directive('focus', ['FocusHelper', require('./focus-directive')])
   .constant('FOCUSABLE_SELECTOR', 'a, button, :input, [tabindex], select')
@@ -106,4 +104,5 @@ angular.module('openproject.uiComponents')
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))
   .filter('latestItems', require('./filters/latest-items-filter'))
   .directive('highlightCol', [require('./highlight-col-directive')])
-  .directive('confirmPopup', ['$window', require('./confirm-popup-directive')]);
+  .directive('confirmPopup', ['$window', require('./confirm-popup-directive')])
+  .directive('clickOnKeypress', [require('./click-on-keypress-directive')]);

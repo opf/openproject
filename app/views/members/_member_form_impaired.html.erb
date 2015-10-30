@@ -31,11 +31,11 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: t(:label_member_new) %>
 
 <%= labelled_tabular_form_for(:member,
-             :url => {:controller => '/members', :action => 'create', :project_id => project},
-             :method => :post,
-             :loading => '$(\'member-add-submit\').disable();',
-             :complete => 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable(); activateFlashError();',
-             :html => {:id => "members_add_form"}) do |f| %>
+             url: {controller: '/members', action: 'create', project_id: project},
+             method: :post,
+             loading: '$(\'member-add-submit\').disable();',
+             complete: 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable(); activateFlashError();',
+             html: {id: "members_add_form"}) do |f| %>
   <div class="form--section">
     <div id="new-member-message"></div>
     <div class="grid-block medium-up-2">
@@ -51,10 +51,10 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= styled_label_tag :principal_search, user_id_title %>
           <%= styled_text_field_tag :principal_search, nil %>
           <%= observe_field(:principal_search,
-                       :frequency => 0.5,
-                       :update => :principal_results,
-                       :url => { :controller => '/members', :action => 'autocomplete_for_member', :project_id => project },
-                       :with => 'q')
+                       frequency: 0.5,
+                       update: :principal_results,
+                       url: { controller: '/members', action: 'autocomplete_for_member', project_id: project },
+                       with: 'q')
                         %>
         </div>
         <div id="principal_results">
@@ -69,7 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
     <% if roles.any? && (principals.any? && principals.size <= 20) %>
-      <%= f.button l(:button_add), :id => 'member-add-submit',
+      <%= f.button l(:button_add), id: 'member-add-submit',
             class: 'button -highlight -with-icon icon-yes' %>
     <% end %>
     <%= link_to I18n.t('button_cancel'), :back, class: 'button' %>

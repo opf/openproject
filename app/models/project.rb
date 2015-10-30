@@ -285,14 +285,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def identifier=(identifier)
-    super unless identifier_frozen?
-  end
-
-  def identifier_frozen?
-    errors[:identifier].nil? && !(new_record? || identifier.blank?)
-  end
-
   def possible_members(criteria, limit)
     Principal.active_or_registered.like(criteria).not_in_project(self).limit(limit)
   end
@@ -328,9 +320,9 @@ class Project < ActiveRecord::Base
   # Returns a ActiveRecord::Relation to find all projects for which +user+ has the given +permission+
   #
   # Valid options:
-  # * :project => limit the condition to project
-  # * :with_subprojects => limit the condition to project and its subprojects
-  # * :member => limit the condition to the user projects
+  # * project: limit the condition to project
+  # * with_subprojects: limit the condition to project and its subprojects
+  # * member: limit the condition to the user projects
   def self.allowed_to(user, permission, options = {})
     where(allowed_to_condition(user, permission, options))
       .references(:projects)
@@ -339,9 +331,9 @@ class Project < ActiveRecord::Base
   # Returns a SQL conditions string used to find all projects for which +user+ has the given +permission+
   #
   # Valid options:
-  # * :project => limit the condition to project
-  # * :with_subprojects => limit the condition to project and its subprojects
-  # * :member => limit the condition to the user projects
+  # * project: limit the condition to project
+  # * with_subprojects: limit the condition to project and its subprojects
+  # * member: limit the condition to the user projects
   def self.allowed_to_condition(user, permission, options = {})
     base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     if perm = Redmine::AccessControl.permission(permission)
@@ -552,6 +544,12 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def types_used_by_work_packages
+    ::Type.where(id: WorkPackage.where(project_id: project.id)
+                                .select(:type_id)
+                                .uniq)
+  end
+
   # Returns an array of the types used by the project and its active sub projects
   def rolled_up_types
     @rolled_up_types ||=
@@ -726,7 +724,7 @@ class Project < ActiveRecord::Base
 
   # Return true if this project is allowed to do the specified action.
   # action can be:
-  # * a parameter-like Hash (eg. :controller => '/projects', :action => 'edit')
+  # * a parameter-like Hash (eg. controller: '/projects', action: 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allows_to?(action)
     if action.is_a? Hash
@@ -783,7 +781,7 @@ class Project < ActiveRecord::Base
   #
   # where each entry has the form
   #
-  #   project_info = { :project => the_project, :children => [ child_info_1, child_info_2, ... ] }
+  #   project_info = { project: the_project, children: [ child_info_1, child_info_2, ... ] }
   #
   # if a project has no children the :children array is just empty
   #

@@ -48,6 +48,7 @@ $filters--border-color: $gray !default
 
     .simple-filters--filter
       flex-basis: 33.33%
+      padding: 0 1rem 0 0
 
     &.-label-columns-3
       .simple-filters--filter
@@ -67,16 +68,17 @@ $filters--border-color: $gray !default
   // is 50% and two elements should be within a row and padding is anything but
   // 0. The elements will in sum take up more than 100% and thus the second
   // element will move to the next row.
-  .simple-filters--filter,
-    padding: 0
+  .simple-filters--filter
+    padding: 0 1rem 0 0
     display: flex
     align-items: center
     @include breakpoint(large)
-    margin-bottom: 1rem
+
+    @media only screen and (max-width: 1200px)
+      margin-bottom: 1rem
 
     .simple-filters--filter-name
       flex-basis: 15%
-      margin-top: 5px
     .simple-filters--filter-value
       flex-basis: 75%
 
@@ -84,7 +86,7 @@ $filters--border-color: $gray !default
       margin-right: 20px
 
   .simple-filters--controls
-    padding: 0
+    padding: 0 0 0 1rem
     align-self: center
     @include breakpoint(large)
       flex: 1
@@ -105,10 +107,13 @@ $filters--border-color: $gray !default
   // element will move to the next row.
   .simple-filters--filter,
   .simple-filters--controls
-    padding: 0
+    padding: 0 0 0 1rem
     align-self: center
     @include breakpoint(large)
 
     button,
     .button
       margin-bottom: 0rem
+
+.simple-filters--filters + .simple-filter--trailing-labels
+  margin-top: 1rem

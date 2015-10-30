@@ -42,7 +42,7 @@ Then /^I should not see membership to the project "(.+)"$/ do |project|
     page.find(:css, '#tab-content-memberships .memberships')
     steps %{ Then I should not see "#{project.name}" within "#tab-content-memberships .memberships" }
   rescue Capybara::ElementNotFound
-    steps %{ Then I should see "No data to display" within "#tab-content-memberships" }
+    steps %{ Then I should see "This user is currently not a member of a project." within "#tab-content-memberships" }
   end
 end
 

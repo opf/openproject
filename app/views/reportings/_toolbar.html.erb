@@ -1,5 +1,5 @@
 <%= toolbar(title: l("timelines.reporting_for_project.show",
-              :title => link_to_project(@reporting.reporting_to_project))) do %>
+              title: link_to_project(@reporting.reporting_to_project))) do %>
     <% if show_actions %>
       <% if authorize_for :reportings, :edit %>
         <li class="toolbar-item">

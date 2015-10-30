@@ -223,10 +223,14 @@ OpenProject::Application.routes.draw do
       #   settings_project_path(@project)
       #     => "/projects/1/settings"
       #
-      #   settings_project_path(@project, :tab => 'members')
+      #   settings_project_path(@project, tab: 'members')
       #     => "/projects/1/settings/members"
       #
       get 'settings(/:tab)', action: 'settings', as: :settings
+
+      get 'identifier', action: 'identifier'
+      patch 'identifier', action: 'update_identifier'
+
 
       match 'copy_project_from_(:coming_from)' => 'copy_projects#copy_project', via: :get, as: :copy_from,
             constraints: { coming_from: /(admin|settings)/ }
@@ -254,7 +258,7 @@ OpenProject::Application.routes.draw do
 
     # this is only another name for versions#index
     # For nice "road in the url for the index action
-    # this could probably be rewritten with a resource :as => 'roadmap'
+    # this could probably be rewritten with a resource as: 'roadmap'
     match '/roadmap' => 'versions#index', via: :get
 
     resources :news, only: [:index, :new, :create]

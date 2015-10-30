@@ -315,4 +315,6 @@ describe Repository::Subversion, type: :model do
       end
     end
   end
+
+  it_behaves_like 'repository can be relocated', :subversion
 end

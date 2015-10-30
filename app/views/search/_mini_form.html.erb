@@ -27,14 +27,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <div class="top-menu-search--wrapper">
-  <%= label_tag("q", l(:label_search), :class => "hidden-for-sighted") %>
+  <%= label_tag("q", l(:label_search), class: "hidden-for-sighted") %>
 
   <%= form_tag(search_path(@project), method: :get) do %>
-    <%= hidden_field_tag(controller.default_search_scope, 1, :project_id => nil) if controller.default_search_scope %>
+    <%= hidden_field_tag(controller.default_search_scope, 1, project_id: nil) if controller.default_search_scope %>
 
     <expandable-search class="top-menu-search -collapsed" ng-class="{'-collapsed': collapsed === true}">
       <div>
-        <%= text_field_tag 'q', @question, :size => 20, :class => 'top-menu-search--input', :placeholder => l(:search_input_placeholder) %>
+        <%= text_field_tag 'q', nil, size: 20, class: 'top-menu-search--input', placeholder: l(:search_input_placeholder) %>
         <a id="top-menu-search-button"
            class="top-menu-search--button search-form-normal"
            title="<%= l(:label_search) %>"

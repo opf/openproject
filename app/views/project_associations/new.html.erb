@@ -39,13 +39,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 
 <%= labelled_tabular_form_for @project_association,
-                              :url  => project_project_associations_path(@project),
-                              :html => {:method => 'post'},
+                              url: project_project_associations_path(@project),
+                              html: {method: 'post'},
                               class: "inline-label" do |f| %>
 
   <% title = l('timelines.project_association_new',
-               :project_a => h(@project.name),
-               :project_b => '?') %>
+               project_a: h(@project.name),
+               project_b: '?') %>
   <h2><%= title.tap { |t| html_title t } %></h2>
 
   <%= error_messages_for 'project_association' %>
@@ -63,22 +63,22 @@ See doc/COPYRIGHT.rdoc for more details.
                    options_for_select([]),
                    { label:  l('timelines.project_association_new_for_with',
                      project_a: h(@project.name)) },
-                   { :'data-ajaxURL' => url_for({:controller => "/api/v2/project_associations",
-                                                 :action     => "available_projects",
-                                                 :format     => "json"})
+                   { :'data-ajaxURL' => url_for({controller: "/api/v2/project_associations",
+                                                 action: "available_projects",
+                                                 format: "json"})
                    })
       %>
     <% end %>
   </span>
 
-  <%= render :partial => 'form', :locals => {:f => f, :project => @project} %>
+  <%= render partial: 'form', locals: {f: f, project: @project} %>
   <hr class="form--separator">
-  <%= f.button l("timelines.add_project_association"), :name => nil,
+  <%= f.button l("timelines.add_project_association"), name: nil,
         class: 'button -highlight -with-icon icon-yes'%>
   <%= link_to l(:button_cancel), project_project_associations_path(@project),
         class: 'button'%>
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'timelines.css', :media => "all" %>
+  <%= stylesheet_link_tag 'timelines.css', media: "all" %>
 <% end %>

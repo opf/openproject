@@ -35,5 +35,5 @@ See doc/COPYRIGHT.rdoc for more details.
   jQuery('#tab-content-memberships').prepend('<%= flash_message %>');
   jQuery('#member-<%= @membership.id %>').effect("highlight", {}, 2000);
 <% else %>
-  alert('<%= escape_javascript(l(:notice_failed_to_save_members, :errors => @membership.errors.full_messages.join(', '))).html_safe %>');
+  alert('<%= escape_javascript(l(:notice_failed_to_save_members, errors: @membership.errors.full_messages.join(', '))).html_safe %>');
 <% end %>

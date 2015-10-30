@@ -34,6 +34,7 @@ module.exports = function(
   $http,
   $rootScope,
   $timeout,
+  $filter,
   HookService,
   NotificationsService,
   EditableFieldsState
@@ -380,7 +381,8 @@ module.exports = function(
     if (schema.props[field]) {
       if (schema.props[field].type === 'Duration') {
         var hours = moment.duration(value).asHours();
-        return I18n.t('js.units.hour', { count: hours.toFixed(2) });
+        var formattedHours = $filter('number')(hours, 2);
+        return I18n.t('js.units.hour', { count: formattedHours });
       }
 
       if (schema.props[field].type === 'Boolean') {
@@ -413,8 +415,6 @@ module.exports = function(
       EditableFieldsState.errors = null;
       EditableFieldsState.submissionPromises = {};
       EditableFieldsState.currentField = null;
-    }, function(){
-      NotificationsService.addError(I18n.t('js.work_packages.error_update_failed'));
     });
   }
 

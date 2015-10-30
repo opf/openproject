@@ -30,33 +30,33 @@ See doc/COPYRIGHT.rdoc for more details.
 <h2 class="legacy-heading">
   <% if @page.parent %>
     <% breadcrumb_for_page(@page.parent, l("create_new_page")) %>
-    <%= l("create_child_page_for", :title => @page.parent.pretty_title) %>
+    <%= l("create_child_page_for", title: @page.parent.pretty_title) %>
   <% else %>
     <% breadcrumb_paths(l("create_new_page")) %>
     <%= l("create_new_page") %>
   <% end %>
 </h2>
 
-<%= labelled_tabular_form_for @content, :as => :content, :url => wiki_create_path(:project_id => @project), :html => {:method => :post, :multipart => true, :id => 'wiki_form'} do |f| %>
+<%= labelled_tabular_form_for @content, as: :content, url: wiki_create_path(project_id: @project), html: {method: :post, multipart: true, id: 'wiki_form'} do |f| %>
 
   <%= error_messages_for 'page' %>
 
     <div class="form--field -required">
       <%= f.fields_for :page, @page do |page_fields| %>
         <%= page_fields.hidden_field :parent_id %>
-        <%= page_fields.text_field :title, :size => 120 %>
+        <%= page_fields.text_field :title, size: 120 %>
       <% end %>
     </div>
     <div class="form--field -required -vertical">
-      <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
+      <%= f.text_area :text, cols: 100, rows: 25, class: 'wiki-edit', accesskey: accesskey(:edit),
                       :'ng-non-bindable' => '' %>
     </div>
 
     <div class="form--field">
-      <%= f.text_field :comments, :size => 120 %>
+      <%= f.text_field :comments, size: 120 %>
     </div>
 
-    <%= render :partial => 'attachments/form', :f => f %>
+    <%= render partial: 'attachments/form', f: f %>
 
   <hr class="form--separator">
   <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-yes' %>

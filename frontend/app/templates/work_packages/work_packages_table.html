@@ -78,12 +78,6 @@
 
               <span class="count">
                 ({{ countByGroup[row.groupName] }})
-
-                <span aria-hidden="true" role="presentation" tabindex="-1">
-                  <a class="toggle-all" href ng-click="toggleAllGroups()">
-                    {{ groupExpanded[currentGroup] && I18n.t('js.label_collapse_all') || I18n.t('js.label_expand_all') }}
-                  </a>
-                </span>
               </span>
             </div>
 
@@ -183,8 +177,8 @@
     <div class="generic-table--footer-background" ng-if="displaySums"></div>
   </div>
   <div class="generic-table--no-results-container" ng-if="!rows.length">
+    <i class="icon-info"></i>
     <h2 class="generic-table--no-results-title">
-      <i class="icon-info"></i>
       {{ I18n.t('js.work_packages.no_results.title') }}
     </h2>
     <div class="generic-table--no-results-description"

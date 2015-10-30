@@ -39,6 +39,7 @@ angular.module('openproject.workPackages.activities')
     'PathHelper',
     'ActivityService',
     'UsersHelper',
+    'UserService',
     'ConfigurationService',
     'AutoCompleteHelper',
     'EditableFieldsState',

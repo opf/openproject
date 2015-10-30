@@ -44,89 +44,94 @@ See doc/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
 <% end %>
-<div class="generic-table--container">
-  <div class="generic-table--results-container">
-    <table interactive-table role="grid" class="generic-table">
-      <colgroup>
-        <col highlight-col>
-        <% if WorkPackage.use_status_for_done_ratio? %>
-           <col highlight-col>
-        <% end %>
-        <col highlight-col>
-        <col highlight-col>
-        <col highlight-col>
-        <col>
-      </colgroup>
-      <thead>
-        <tr>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Status.model_name.human %>
-                </span>
-              </div>
-            </div>
-          </th>
+
+<% if @statuses.any? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table interactive-table role="grid" class="generic-table">
+        <colgroup>
+          <col highlight-col>
           <% if WorkPackage.use_status_for_done_ratio? %>
+             <col highlight-col>
+          <% end %>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
             <th>
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
                   <span>
-                    <%= WorkPackage.human_attribute_name(:done_ratio) %>
+                    <%= Status.model_name.human %>
                   </span>
                 </div>
               </div>
             </th>
-          <% end %>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Status.human_attribute_name(:is_default) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Status.human_attribute_name(:is_closed) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%=l(:button_sort)%>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% for status in @statuses %>
-          <tr>
-            <td><%= link_to h(status.name), edit_status_path(status) %></td>
             <% if WorkPackage.use_status_for_done_ratio? %>
-              <td><%= h status.default_done_ratio %></td>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= WorkPackage.human_attribute_name(:done_ratio) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
             <% end %>
-            <td><%= checked_image status.is_default? %></td>
-            <td ><%= checked_image status.is_closed? %></td>
-            <td>
-              <%= reorder_links('status', {:action => 'update', :id => status}, :method => :put) %>
-            </td>
-            <td class="buttons"><%= delete_link status_path(status) %></td>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Status.human_attribute_name(:is_default) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Status.human_attribute_name(:is_closed) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%=l(:button_sort)%>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th></th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <div class="generic-table--header-background"></div>
+        </thead>
+        <tbody>
+          <% for status in @statuses %>
+            <tr>
+              <td><%= link_to h(status.name), edit_status_path(status) %></td>
+              <% if WorkPackage.use_status_for_done_ratio? %>
+                <td><%= h status.default_done_ratio %></td>
+              <% end %>
+              <td><%= checked_image status.is_default? %></td>
+              <td ><%= checked_image status.is_closed? %></td>
+              <td>
+                <%= reorder_links('status', {action: 'update', id: status}, method: :put) %>
+              </td>
+              <td class="buttons"><%= delete_link status_path(status) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="generic-table--header-background"></div>
+    </div>
   </div>
-</div>
-<%= pagination_links_full @statuses %>
+  <%= pagination_links_full @statuses %>
+<% else %>
+  <%= no_results_box(action_url: new_status_path, display_action: true) %>
+<% end %>

@@ -248,4 +248,19 @@ describe Project, type: :model do
       it_behaves_like 'respecting group assignment settings'
     end
   end
+
+  describe '#types_used_by_work_packages' do
+    let(:project) { FactoryGirl.create(:project_with_types) }
+    let(:type) { project.types.first }
+    let(:other_type) { project.types.second }
+    let(:project_work_package) { FactoryGirl.create(:work_package, type: type, project: project) }
+    let(:other_project_work_package) { FactoryGirl.create(:work_package, type: other_type) }
+
+    it 'returns the type used by a work package of the project' do
+      project_work_package
+      other_project_work_package
+
+      expect(project.types_used_by_work_packages).to match_array [project_work_package.type]
+    end
+  end
 end

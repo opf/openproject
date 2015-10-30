@@ -28,21 +28,19 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= toolbar title: l(:label_user_plural) do %>
-  <% unless OpenProject::Configuration.disable_password_login? %>
-    <%= link_to new_user_path, class: 'button -alt-highlight' do %>
-      <i class="button--icon icon-add"></i>
-      <span class="button--text"><%= l(:label_user_new) %></span>
-    <% end %>
+  <%= link_to new_user_path, class: 'button -alt-highlight' do %>
+    <i class="button--icon icon-add"></i>
+    <span class="button--text"><%= l(:label_user_new) %></span>
   <% end %>
   <%= call_hook(:user_admin_action_menu) %>
 <% end %>
-<%= form_tag({}, :method => :get) do %>
+<%= form_tag({}, method: :get) do %>
   <fieldset class="simple-filters--container">
     <legend><%= l(:label_filter_plural) %></legend>
     <ul class="simple-filters--filters <%= @groups.present? ? "-columns-3" : '' %>">
       <li class="simple-filters--filter">
           <label class='simple-filters--filter-name' for='status'><%= User.human_attribute_name(:status) %>:</label>
-          <%= select_tag 'status', users_status_options_for_select(@status), :onchange => "this.form.submit(); return false;", :class => 'simple-filters--filter-value' %>
+          <%= select_tag 'status', users_status_options_for_select(@status), onchange: "this.form.submit(); return false;", class: 'simple-filters--filter-value' %>
       </li>
       <% if @groups.present? %>
       <li class="simple-filters--filter">
@@ -52,20 +50,20 @@ See doc/COPYRIGHT.rdoc for more details.
                               @groups,
                               :id,
                               :name,
-                              { :include_blank => true,
-                                :selected => params[:group_id].to_i },
-                              { :name => "group_id",
-                                :onchange => "this.form.submit(); return false;",
-                                :class => 'simple-filters--filter-value' } %>
+                              { include_blank: true,
+                                selected: params[:group_id].to_i },
+                              { name: "group_id",
+                                onchange: "this.form.submit(); return false;",
+                                class: 'simple-filters--filter-value' } %>
       </li>
       <% end %>
       <li class="simple-filters--filter">
         <label class='simple-filters--filter-name' for='name'><%= User.human_attribute_name :name %>:</label>
-        <%= text_field_tag 'name', params[:name], :class => 'simple-filters--filter-value' %>
+        <%= text_field_tag 'name', params[:name], class: 'simple-filters--filter-value' %>
       </li>
       <li class="simple-filters--controls">
-        <%= submit_tag l(:button_apply), :class => 'button -highlight -small', :name => nil %>
-        <%= link_to l(:button_clear), users_path, :class => 'button -small -with-icon icon-undo' %>
+        <%= submit_tag l(:button_apply), class: 'button -highlight -small', name: nil %>
+        <%= link_to l(:button_clear), users_path, class: 'button -small -with-icon icon-undo' %>
       </li>
     </ul>
   </fieldset>
@@ -88,13 +86,13 @@ See doc/COPYRIGHT.rdoc for more details.
       </colgroup>
       <thead>
         <tr>
-          <%= sort_header_tag('login', :caption => User.human_attribute_name(:login)) %>
-          <%= sort_header_tag('firstname', :caption => User.human_attribute_name(:firstname)) %>
-          <%= sort_header_tag('lastname', :caption => User.human_attribute_name(:lastname)) %>
-          <%= sort_header_tag('mail', :caption => User.human_attribute_name(:mail)) %>
-          <%= sort_header_tag('admin', :caption => User.human_attribute_name(:admin), :default_order => 'desc') %>
-          <%= sort_header_tag('created_on', :caption => User.human_attribute_name(:created_on), :default_order => 'desc') %>
-          <%= sort_header_tag('last_login_on', :caption => User.human_attribute_name(:last_login_on), :default_order => 'desc') %>
+          <%= sort_header_tag('login', caption: User.human_attribute_name(:login)) %>
+          <%= sort_header_tag('firstname', caption: User.human_attribute_name(:firstname)) %>
+          <%= sort_header_tag('lastname', caption: User.human_attribute_name(:lastname)) %>
+          <%= sort_header_tag('mail', caption: User.human_attribute_name(:mail)) %>
+          <%= sort_header_tag('admin', caption: User.human_attribute_name(:admin), default_order: 'desc') %>
+          <%= sort_header_tag('created_on', caption: User.human_attribute_name(:created_on), default_order: 'desc') %>
+          <%= sort_header_tag('last_login_on', caption: User.human_attribute_name(:last_login_on), default_order: 'desc') %>
           <th></th>
         </tr>
       </thead>

@@ -32,17 +32,21 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= content_for "#{block_name}_remove_block" %>
 <% end %>
 
-<%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => wps_assigned_to_me } %>
+<%= render partial: 'work_packages/list_simple',
+           locals: {
+                        work_packages: wps_assigned_to_me,
+                        list_for: :assigned
+                      } %>
 
 <% if wps_assigned_to_me_count > 0 %>
   <p class="small">
     <%= link_to l(:label_work_package_view_all_assigned_to_me),
                 work_packages_assigned_to_me_path,
-                :class => 'button -highlight' %>
+                class: 'button -highlight' %>
   </p>
 <% end %>
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom,
-                            work_packages_assigned_to_me_path({:format => 'atom', :key => User.current.rss_key}),
+                            work_packages_assigned_to_me_path({format: 'atom', key: User.current.rss_key}),
                             {title: l(:label_assigned_to_me_work_packages)}) %>
 <% end %>

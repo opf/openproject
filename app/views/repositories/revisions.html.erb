@@ -37,13 +37,13 @@ See doc/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
 <% end %>
-<%= render :partial => 'revisions', :locals => {:project => @project, :path => '', :revisions => @changesets, :entry => nil }%>
+<%= render partial: 'revisions', locals: {project: @project, path: '', revisions: @changesets, entry: nil }%>
 <%= pagination_links_full @changesets %>
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :page => nil, :key => User.current.rss_key})) %>
+  <%= auto_discovery_link_tag(:atom, params.merge({format: 'atom', page: nil, key: User.current.rss_key})) %>
 <% end %>
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', url: {key: User.current.rss_key} %>
 <% end %>
 
 <% html_title(l(:label_revision_plural)) -%>

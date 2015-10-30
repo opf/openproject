@@ -204,7 +204,7 @@ module ApplicationHelper
 
     content_tag :div, html_options do
       if User.current.impaired?
-        concat(content_tag('a', join_flash_messages(message), href: 'javascript:;'))
+        concat(content_tag('a', join_flash_messages(message), href: 'javascript:;', class: 'impaired--empty-link'))
         concat(content_tag(:i, '', class: 'icon-close close-handler', tabindex: '0', role: 'button', aria: { label: ::I18n.t('js.close_popup_title') }))
       else
         concat(join_flash_messages(message))
@@ -559,6 +559,7 @@ module ApplicationHelper
     tags += javascript_tag(%{
       window.openProject = new OpenProject({
         urlRoot : '#{OpenProject::Configuration.rails_relative_url_root}',
+        environment: '#{Rails.env}',
         loginUrl: '#{url_for controller: '/account', action: 'login'}'
       });
       I18n.defaultLocale = "#{I18n.default_locale}";

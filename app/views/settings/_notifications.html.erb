@@ -27,9 +27,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% if @deliveries %>
-  <%= styled_form_tag({:action => 'edit', :tab => 'notifications'}) do %>
+  <%= styled_form_tag({action: 'edit', tab: 'notifications'}) do %>
     <section class="form--section">
-      <div class="form--field"><%= setting_text_field :mail_from, :size => 60 %></div>
+      <div class="form--field"><%= setting_text_field :mail_from, size: 60 %></div>
       <div class="form--field"><%= setting_check_box :bcc_recipients %></div>
       <div class="form--field"><%= setting_check_box :plain_text_mail %></div>
       <div class="form--field"><%= setting_select(:default_notification_option, User.valid_notification_options.collect {|o| [l(o.last), o.first.to_s]}) %></div>
@@ -48,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <fieldset id="emails_decorators" class="form--fieldset"><legend class="form--fieldset-legend"><%= l(:setting_emails_header) %> & <%= l(:setting_emails_footer) %></legend>
       <div class="form--field -vertical">
         <div class="form--field-container">
-          <%= styled_select_tag 'lang', options_for_select(lang_options_for_select(false), current_language.to_s), :id => 'emails_decorators_switch', :onchange => "toggleEmailDecoratorFields()" %>
+          <%= styled_select_tag 'lang', options_for_select(lang_options_for_select(false), current_language.to_s), id: 'emails_decorators_switch', onchange: "toggleEmailDecoratorFields()" %>
         </div>
       </div>
       <% Setting.available_languages.each do |lang| %>
@@ -56,13 +56,13 @@ See doc/COPYRIGHT.rdoc for more details.
           <div class="form--field -vertical">
             <%= styled_label_tag "settings[emails_header][#{lang}]", l(:setting_emails_header) %>
             <div class="form--field-container">
-              <%= styled_text_area_tag("settings[emails_header][#{lang}]", Setting.emails_header[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+              <%= styled_text_area_tag("settings[emails_header][#{lang}]", Setting.emails_header[lang], label: false, class: 'wiki-edit', rows: 5) %>
             </div>
           </div>
           <div class="form--field -vertical">
             <%= styled_label_tag "settings[emails_footer][#{lang}]", l(:setting_emails_footer) %>
             <div class="form--field-container">
-              <%= styled_text_area_tag("settings[emails_footer][#{lang}]", Setting.emails_footer[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+              <%= styled_text_area_tag("settings[emails_footer][#{lang}]", Setting.emails_footer[lang], label: false, class: 'wiki-edit', rows: 5) %>
             </div>
           </div>
         </div>
@@ -74,7 +74,7 @@ See doc/COPYRIGHT.rdoc for more details.
       });
     <% end -%>
     <div style="float:right;">
-      <%= link_to l(:label_send_test_email), :controller => '/admin', :action => 'test_email' %>
+      <%= link_to l(:label_send_test_email), controller: '/admin', action: 'test_email' %>
     </div>
     <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
   <% end %>

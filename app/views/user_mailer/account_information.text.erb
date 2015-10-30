@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% if @user.auth_source %>
-  <%= t(:mail_body_account_information_external, :value => @user.auth_source.name) %>
+  <%= t(:mail_body_account_information_external, value: @user.auth_source.name) %>
 <% else %>
   <%= t(:mail_body_account_information) %>:
 * <%= User.human_attribute_name(:login) %>: <%= @user.login %>

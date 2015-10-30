@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= form.collection_check_box :enabled_module_names,
                                     name,
                                     @project.module_enabled?(name),
-                                    l_or_humanize(name, :prefix => "project_module_") %>
+                                    l_or_humanize(name, prefix: "project_module_") %>
 
     </div>
   <% end %>

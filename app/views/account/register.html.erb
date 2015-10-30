@@ -30,48 +30,48 @@ See doc/COPYRIGHT.rdoc for more details.
 <% disable_accessibility_css! %>
 <%= toolbar title: l(:label_register) %>
 
-<%= labelled_tabular_form_for(@user, :url => url_for(:action => 'register')) do |f| %>
+<%= labelled_tabular_form_for(@user, url: url_for(action: 'register')) do |f| %>
   <%= back_url_hidden_field_tag %>
   <%= error_messages_for :user %>
 
   <section class="form--section">
     <% if @user.auth_source_id.nil? %>
       <div class="form--field">
-        <%= f.text_field :login, :size => 25, :required => true %>
+        <%= f.text_field :login, size: 25, required: true %>
       </div>
     <% end %>
 
     <% if @user.change_password_allowed? %>
       <div class="form--field">
         <%= f.password_field :password,
-                             :required => true,
-                             :size => 25,
-                             :autocomplete => 'off' %>
+                             required: true,
+                             size: 25,
+                             autocomplete: 'off' %>
         <div class="form--field-instructions">
           <%= password_complexity_requirements %>
         </div>
       </div>
       <div class="form--field">
         <%= f.password_field :password_confirmation,
-                             :required => true,
-                             :size => 25,
-                             :autocomplete => 'off'  %>
+                             required: true,
+                             size: 25,
+                             autocomplete: 'off'  %>
       </div>
     <% end %>
 
     <div class="form--field">
-      <%= f.text_field :firstname, :required => true %>
+      <%= f.text_field :firstname, required: true %>
     </div>
 
     <div class="form--field">
-      <%= f.text_field :lastname,  :required => true %>
+      <%= f.text_field :lastname,  required: true %>
     </div>
 
     <div class="form--field">
-      <%= f.text_field :mail,      :required => true %>
+      <%= f.text_field :mail,      required: true %>
     </div>
 
-    <%= call_hook :view_account_register_after_basic_information, :f => f %>
+    <%= call_hook :view_account_register_after_basic_information, f: f %>
     <div class="form--field"><%= f.select(:language, lang_options_for_select) %></div>
 
     <%= render partial:     'customizable/field',

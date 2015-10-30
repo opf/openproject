@@ -56,14 +56,14 @@ module WorkPackagesHelper
   # Examples:
   #
   #   link_to_work_package(package)                             # => Defect #6: This is the subject
-  #   link_to_work_package(package, :all_link => true)          # => Defect #6: This is the subject (everything within the link)
-  #   link_to_work_package(package, :truncate => 9)             # => Defect #6: This i...
-  #   link_to_work_package(package, :subject => false)          # => Defect #6
-  #   link_to_work_package(package, :type => false)             # => #6: This is the subject
-  #   link_to_work_package(package, :project => true)           # => Foo - Defect #6
-  #   link_to_work_package(package, :id_only => true)           # => #6
-  #   link_to_work_package(package, :subject_only => true)      # => This is the subject (as link)
-  #   link_to_work_package(package, :status => true)            # => #6 New (if #id => true)
+  #   link_to_work_package(package, all_link: true)          # => Defect #6: This is the subject (everything within the link)
+  #   link_to_work_package(package, truncate: 9)             # => Defect #6: This i...
+  #   link_to_work_package(package, subject: false)          # => Defect #6
+  #   link_to_work_package(package, type: false)             # => #6: This is the subject
+  #   link_to_work_package(package, project: true)           # => Foo - Defect #6
+  #   link_to_work_package(package, id_only: true)           # => #6
+  #   link_to_work_package(package, subject_only: true)      # => This is the subject (as link)
+  #   link_to_work_package(package, status: true)            # => #6 New (if #id => true)
   def link_to_work_package(package, options = {})
     if options[:subject_only]
       options.merge!(type: false,

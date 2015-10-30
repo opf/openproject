@@ -51,7 +51,7 @@ class UserSearchService
   def ids_search(scope)
     ids = params[:ids].split(',')
 
-    scope.where(id: ids)
+    scope.not_builtin.where(id: ids)
   end
 
   def query_search(scope)

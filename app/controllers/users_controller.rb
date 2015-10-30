@@ -45,8 +45,6 @@ class UsersController < ApplicationController
   before_filter :check_if_deletion_allowed, only: [:deletion_info,
                                                    :destroy]
 
-  before_filter :block_if_password_login_disabled, only: [:new, :create]
-
   accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper
@@ -160,17 +158,21 @@ class UsersController < ApplicationController
       end
     end
 
-    if @user.save
-      # TODO: Similar to My#account
-      @user.pref.attributes = if params[:pref].present?
-        permitted_params.pref
-      else
-        {}
-      end
-      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
-      @user.pref.save
+    pref_params = if params[:pref].present?
+                    permitted_params.pref
+                  else
+                    {}
+                  end
 
-      @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
+    if @user.save
+      update_email_service = UpdateUserEmailSettingsService.new(@user)
+      update_email_service.call(mail_notification: pref_params.delete(:mail_notification),
+                                self_notified: params[:self_notified] == '1',
+                                notified_project_ids: params[:notified_project_ids])
+
+
+      @user.pref.attributes = pref_params
+      @user.pref.save
 
       if !@user.password.blank? && @user.change_password_allowed?
         send_information = params[:send_information]
@@ -341,10 +343,6 @@ class UsersController < ApplicationController
     else
       'admin'
     end
-  end
-
-  def block_if_password_login_disabled
-    render_404 if OpenProject::Configuration.disable_password_login?
   end
 
   def set_password?(params)

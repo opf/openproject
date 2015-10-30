@@ -81,7 +81,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <% for board in @boards %>
           <tr>
             <td>
-              <%= link_to h(board.name), {:action => 'show', :id => board}, :class => "board"  %><br />
+              <%= link_to h(board.name), {action: 'show', id: board}, class: "board"  %><br />
               <%=h board.description %>
             </td>
             <td><%= board.topics_count %></td>
@@ -100,10 +100,10 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 </div>
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:controller => '/activities', :action => 'index', :id => @project, :show_messages => 1, :key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', url: {controller: '/activities', action: 'index', id: @project, show_messages: 1, key: User.current.rss_key} %>
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, {:controller => '/activities', :action => 'index', :id => @project, :format => 'atom', :show_messages => 1, :key => User.current.rss_key}) %>
+  <%= auto_discovery_link_tag(:atom, {controller: '/activities', action: 'index', id: @project, format: 'atom', show_messages: 1, key: User.current.rss_key}) %>
 <% end %>
 

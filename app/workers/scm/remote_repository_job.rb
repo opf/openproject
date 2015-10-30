@@ -37,11 +37,19 @@
 class Scm::RemoteRepositoryJob
   include OpenProject::BeforeDelayedJob
 
-  def initialize(repository)
-    # TODO currently uses the full repository object,
-    # as the Job is performed synchronously.
-    # Change this to serialize the ID once its turned to process asynchronously.
-    @repository = repository
+  attr_reader :repository
+
+  ##
+  # Initialize the job, optionally saving the whole repository object
+  # (use only when not serializing the job.)
+  # As we're using the jobs majorly synchronously for the time being, it saves a db trip.
+  # When we have error handling for asynchronous tasks, refactor this.
+  def initialize(repository, perform_now: false)
+    if perform_now
+      @repository = repository
+    else
+      @repository_id = repository.id
+    end
   end
 
   protected
@@ -49,45 +57,52 @@ class Scm::RemoteRepositoryJob
   ##
   # Submits the request to the configured managed remote as JSON.
   def send(request)
-    uri = @repository.class.managed_remote
+    uri = repository.class.managed_remote
     req = ::Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
     req.body = request.to_json
 
     response = ::Net::HTTP.start(uri.hostname, uri.port) do |http|
       http.request(req)
     end
+    info = try_to_parse_response(response.body)
 
     unless response.is_a? ::Net::HTTPSuccess
-      info = try_to_parse_response(response.body)
       raise OpenProject::Scm::Exceptions::ScmError.new(
-        I18n.t('repositories.errors.remote_call_failed',
-               code: response.code,
-               message: info['message']
-           )
-      )
+              I18n.t('repositories.errors.remote_call_failed',
+                     code: response.code,
+                     message: info['message']
+              )
+            )
     end
+
+    info
   end
 
   def try_to_parse_response(body)
     JSON.parse(body)
   rescue JSON::JSONError => e
     raise OpenProject::Scm::Exceptions::ScmError.new(
-      I18n.t('repositories.errors.remote_invalid_response')
-    )
+            I18n.t('repositories.errors.remote_invalid_response')
+          )
   end
 
   def repository_request
-    project = @repository.project
+    project = repository.project
 
     {
-      identifier: @repository.repository_identifier,
-      vendor: @repository.vendor,
-      scm_type: @repository.scm_type,
+      token: repository.scm.config[:access_token],
+      identifier: repository.repository_identifier,
+      vendor: repository.vendor,
+      scm_type: repository.scm_type,
       project: {
         id: project.id,
         name: project.name,
         identifier: project.identifier,
       }
     }
+  end
+
+  def repository
+    @repository ||= Repository.find(@repository_id)
   end
 end

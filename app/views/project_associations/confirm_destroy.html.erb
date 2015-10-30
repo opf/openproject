@@ -28,12 +28,12 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= labelled_tabular_form_for @project_association,
-            :url  => project_project_association_path(@project, @project_association),
-            :html => {:method => 'delete'} do |f| %>
+            url: project_project_association_path(@project, @project_association),
+            html: {method: 'delete'} do |f| %>
 
   <div class='flash warning'>
     <%= l('timelines.really_delete_project_association_between_project_a_and_project_b',
-          :project_a => @project, :project_b => @project_association.project(@project)) %>
+          project_a: @project, project_b: @project_association.project(@project)) %>
     <i class="icon-close close-handler" role="button" tabindex="0" aria-label="{{ ::I18n.t('js.close_popup_title') }}"></i>
   </div>
 

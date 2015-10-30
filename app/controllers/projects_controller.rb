@@ -161,31 +161,36 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def update_identifier
+    @project.attributes = permitted_params.project
+
+    if @project.save
+      respond_to do |format|
+        format.html do
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to action: 'settings', id: @project
+        end
+      end
+      OpenProject::Notifications.send('project_renamed', project: @project)
+    else
+      respond_to do |format|
+        format.html do
+          load_project_settings
+          render action: 'identifier'
+        end
+      end
+    end
+  end
+
+
   def types
-    flash[:notice] = []
-    project_params = {}
-
-    if params.has_key? :project
-      project_params = permitted_params.project
+    if UpdateProjectsTypesService.new(@project).call(permitted_params.projects_type_ids)
+      flash[:notice] = l('notice_successful_update')
     else
-      project_params = { 'type_ids' => [::Type.standard_type.id] }
-      flash[:notice] << l(:notice_automatic_set_of_standard_type)
+      flash[:error] = @project.errors.full_messages
     end
 
-    project_params.assert_valid_keys('type_ids')
-
-    selected_type_ids = project_params['type_ids'].map(&:to_i)
-
-    if types_missing?(selected_type_ids)
-      flash.delete :notice
-      flash[:error] = I18n.t(:error_types_in_use_by_work_packages,
-                             types: missing_types(selected_type_ids).map(&:name).join(', '))
-    elsif @project.update_attributes(project_params)
-      flash[:notice] << l('notice_successful_update')
-    else
-      flash[:error] = l('timelines.cannot_update_planning_element_types')
-    end
-    redirect_to action: 'settings', tab: 'types'
+    redirect_to settings_project_path(@project.identifier, tab: 'types')
   end
 
   def modules
@@ -283,20 +288,6 @@ class ProjectsController < ApplicationController
     else
       @base = Project
     end
-  end
-
-  def types_missing?(selected_type_ids)
-    !missing_types(selected_type_ids).empty?
-  end
-
-  def missing_types(selected_type_ids)
-    types_used_by_work_packages.select { |t| !selected_type_ids.include?(t.id) }
-  end
-
-  def types_used_by_work_packages
-    @types_used_by_work_packages ||= ::Type.where(id: WorkPackage.where(project_id: @project.id)
-                                                                    .select(:type_id)
-                                                                    .uniq)
   end
 
   # Validates parent_id param according to user's permissions

@@ -43,7 +43,7 @@ class Repository < ActiveRecord::Base
   after_destroy :delete_managed_repository, if: Proc.new { |repo| repo.managed? }
 
   # Raw SQL to delete changesets and changes in the database
-  # has_many :changesets, :dependent => :destroy is too slow for big repositories
+  # has_many :changesets, dependent: :destroy is too slow for big repositories
   before_destroy :clear_changesets
 
   validates_length_of :password, maximum: 255, allow_nil: true

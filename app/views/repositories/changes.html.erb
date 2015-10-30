@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= call_hook(:view_repositories_show_contextual, { :repository => @repository, :project => @project }) %>
+<%= call_hook(:view_repositories_show_contextual, { repository: @repository, project: @project }) %>
 <%= render partial: 'repository_header', locals: { empty: false } %>
 
 <div class="repository-breadcrumbs">
@@ -36,11 +36,11 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 
-<p><%= render :partial => 'link_to_functions' %></p>
+<p><%= render partial: 'link_to_functions' %></p>
 
 <%= render_properties(@properties) %>
 
-<%= render(:partial => 'revisions',
-           :locals => {:project => @project, :path => @path, :revisions => @changesets, :entry => @entry }) unless @changesets.empty? %>
+<%= render(partial: 'revisions',
+           locals: {project: @project, path: @path, revisions: @changesets, entry: @entry }) unless @changesets.empty? %>
 
 <% html_title(l(:label_change_plural)) -%>

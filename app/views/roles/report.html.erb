@@ -27,8 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= toolbar title: "#{link_to(l(:label_role_plural), roles_path)} &raquo; #{l(:label_permissions_report)}" %>
-<%= form_tag(roles_path, :method => :put, :id => 'permissions_form') do %>
-  <%= hidden_field_tag 'permissions[0]', '', :id => nil %>
+<%= form_tag(roles_path, method: :put, id: 'permissions_form') do %>
+  <%= hidden_field_tag 'permissions[0]', '', id: nil %>
   <div class="autoscroll">
     <div class="generic-table--container">
       <div class="generic-table--results-container">
@@ -59,8 +59,8 @@ See doc/COPYRIGHT.rdoc for more details.
                       <span>
                         <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
                         <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('input.role-#{role.id}')",
-                                                                      :class => 'no-decoration-on-hover',
-                                                                      :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+                                                                      class: 'no-decoration-on-hover',
+                                                                      title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
                       </span>
                     </div>
                   </div>
@@ -75,7 +75,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 <tr class="group open">
                   <td colspan="<%= @roles.size + 1 %>">
                     <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
-                    <%= l_or_humanize(mod, :prefix => 'project_module_') %>
+                    <%= l_or_humanize(mod, prefix: 'project_module_') %>
                   </td>
                 </tr>
               <% end %>
@@ -83,14 +83,14 @@ See doc/COPYRIGHT.rdoc for more details.
                 <tr class="permission-<%= permission.name %>">
                   <td>
                     <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
-                                                                    :class => 'no-decoration-on-hover',
-                                                                    :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
-                    <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
+                                                                    class: 'no-decoration-on-hover',
+                                                                    title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+                    <%= l_or_humanize(permission.name, prefix: 'permission_') %>
                   </td>
                   <% @roles.each do |role| %>
                     <td>
                       <% if role.setable_permissions.include? permission %>
-                        <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name), :id => nil, :class => "role-#{role.id}" %>
+                        <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name), id: nil, class: "role-#{role.id}" %>
                       <% end %>
                     </td>
                   <% end %>

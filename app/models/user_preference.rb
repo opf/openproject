@@ -57,6 +57,14 @@ class UserPreference < ActiveRecord::Base
     comments_sorting == 'desc'
   end
 
+  def self_notified?
+    !others[:no_self_notified]
+  end
+
+  def self_notified=(value)
+    others[:no_self_notified] = !value
+  end
+
   def warn_on_leaving_unsaved?
     # Need to cast here as previous values were '0' / '1'
     to_boolean(others.fetch(:warn_on_leaving_unsaved) { true })

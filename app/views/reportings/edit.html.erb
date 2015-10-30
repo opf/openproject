@@ -38,12 +38,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% html_title l('timelines.reporting_for_project.show',
-                :title => h(@reporting.reporting_to_project.name)) %>
+                title: h(@reporting.reporting_to_project.name)) %>
 <%= render partial: 'toolbar', locals: { show_actions: false } %>
 
 <%= labelled_tabular_form_for :reporting,
-            :url  => project_reporting_path(@project, @reporting),
-            :html => {:method => 'put'} do |f| %>
+            url: project_reporting_path(@project, @reporting),
+            html: {method: 'put'} do |f| %>
 
   <%= error_messages_for 'project' %>
 
@@ -57,17 +57,17 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
 
     <div class="form--field">
-      <%= f.text_area(:reported_project_status_comment, :class => 'wiki-edit', :rows => 10,
+      <%= f.text_area(:reported_project_status_comment, class: 'wiki-edit', rows: 10,
                       :'ng-non-bindable' => '', label: Reporting.human_attribute_name(:reported_project_status_comment)) %>
     </div>
     <%= wikitoolbar_for 'reporting_reported_project_status_comment' %>
   </fieldset>
   <hr class="form--separator">
-  <%= f.button l(:button_save), :name => nil, class: 'button -highlight -with-icon icon-yes' %>
+  <%= f.button l(:button_save), name: nil, class: 'button -highlight -with-icon icon-yes' %>
   <%= link_to l(:button_cancel), project_reportings_path(@project), class: 'button' %>
 <% end %>
 
 
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'timelines.css', :media => "all" %>
+  <%= stylesheet_link_tag 'timelines.css', media: "all" %>
 <% end %>

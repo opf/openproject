@@ -313,6 +313,14 @@ describe PermittedParams, type: :model do
     end
   end
 
+  describe '#project_types' do
+    it 'should require type_ids within project' do
+      params = ActionController::Parameters.new(project: { type_ids: ['1', '', '2'] })
+
+      expect(PermittedParams.new(params, user).projects_type_ids).to eq([1, 2])
+    end
+  end
+
   describe '#color' do
     it 'should permit name' do
       params = ActionController::Parameters.new(color: { 'name' => 'blubs' })

@@ -28,17 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= render partial: 'action_menu', locals: { title: l(:label_workflow_plural) } %>
 <% html_title l(:label_administration), l(:label_workflow_plural) -%>
-<% if @workflow_counts.empty? %>
-  <div class="generic-table--no-results-container">
-    <h2 class="generic-table--no-results-title">
-      <i class="icon-info"></i>
-      <%= l(:label_nothing_display) %>
-    </h2>
-    <div class="generic-table--no-results-description">
-      <p class="nodata"><%= l(:label_no_data) %></p>
-    </div>
-  </div>
-<% else %>
+<% if @workflow_counts.any? %>
   <div class="autoscroll">
     <div class="generic-table--container">
       <div class="generic-table--results-container">
@@ -72,7 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 <td><%= h type %></td>
                 <% roles.each do |role, count| -%>
                   <td>
-                    <%= link_to((count > 0 ? count : content_tag(:span, '', class: "icon-close icon-context icon-button")), {:action => 'edit', :role_id => role, :type_id => type}, :title => l(:button_edit)) %>
+                    <%= link_to((count > 0 ? count : content_tag(:span, '', class: "icon-close icon-context icon-button")), {action: 'edit', role_id: role, type_id: type}, title: l(:button_edit)) %>
                   </td>
                 <% end -%>
               </tr>
@@ -83,4 +73,6 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
   </div>
+<% else %>
+  <%= no_results_box %>
 <% end %>

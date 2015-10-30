@@ -29,8 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p>
   <%=raw t(:mail_body_wiki_content_updated,
-               :id     => link_to(@wiki_content.page.pretty_title, project_wiki_url(@wiki_content.page.project, @wiki_content.page)),
-               :author => @wiki_content.author) %><br />
+               id: link_to(@wiki_content.page.pretty_title, project_wiki_url(@wiki_content.page.project, @wiki_content.page)),
+               author: @wiki_content.author) %><br />
   <em><%= @wiki_content.comments %></em>
 </p>
 

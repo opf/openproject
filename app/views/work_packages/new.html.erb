@@ -31,24 +31,24 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l(:label_work_package_new) %>
 
 <%= labelled_tabular_form_for work_package,
-                              :url => project_work_packages_path(project),
-                              :html => { :multipart => true,
-                                         :id => 'work_package-form',
-                                         :class => 'new-work_package-form form' } do |f| %>
+                              url: project_work_packages_path(project),
+                              html: { multipart: true,
+                                         id: 'work_package-form',
+                                         class: 'new-work_package-form form' } do |f| %>
 
-  <%= error_messages_for :object => work_package %>
+  <%= error_messages_for object: work_package %>
 
-  <%= render :partial => 'form', :locals => { :f => f,
-                                              :work_package => work_package,
-                                              :project => project,
-                                              :priorities => priorities,
-                                              :user => user } %>
+  <%= render partial: 'form', locals: { f: f,
+                                              work_package: work_package,
+                                              project: project,
+                                              priorities: priorities,
+                                              user: user } %>
 
   <hr class="form--separator -invisible">
 
   <%= send_notification_option(params['send_notification'] != '0') %>
 
-  <%= f.button l(:button_create), :class => "button -highlight -with-icon icon-yes" %>
+  <%= f.button l(:button_create), class: "button -highlight -with-icon icon-yes" %>
   <!-- not supported by controller for now -->
   <%= link_to_work_package_preview(project) %>
 

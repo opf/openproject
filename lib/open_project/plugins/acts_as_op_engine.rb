@@ -129,7 +129,7 @@ module OpenProject::Plugins
       # See PermittedParams in OpenProject for available models
       #
       # Example:
-      #  additional_permitted_attributes :user => [:registration_reason]
+      #  additional_permitted_attributes user: [:registration_reason]
       def additional_permitted_attributes(attributes)
         config.to_prepare do
           ::PermittedParams.send(:add_permitted_attributes, attributes)

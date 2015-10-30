@@ -108,8 +108,8 @@ class Attachment < ActiveRecord::Base
   # Bulk attaches a set of files to an object
   #
   # Returns a Hash of the results:
-  # :files => array of the attached files
-  # :unsaved => array of the files that could not be attached
+  # files: array of the attached files
+  # unsaved: array of the files that could not be attached
   def self.attach_files(obj, attachments)
     attached = []
     if attachments && attachments.is_a?(Hash)

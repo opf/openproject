@@ -43,11 +43,11 @@ class Redmine::MenuManager::Mapper
   #   * a localized string Symbol
   #   * a String
   #   * a Proc that can take the project as argument
-  # * before, after: specify where the menu item should be inserted (eg. :after => :activity)
-  # * parent: menu item will be added as a child of another named menu (eg. :parent => :issues)
+  # * before, after: specify where the menu item should be inserted (eg. after: :activity)
+  # * parent: menu item will be added as a child of another named menu (eg. parent: :issues)
   # * children: a Proc that is called before rendering the item. The Proc should return an array of MenuItems, which will be added as children to this item.
-  #   eg. :children => Proc.new {|project| [Redmine::MenuManager::MenuItem.new(...)] }
-  # * last: menu item will stay at the end (eg. :last => true)
+  #   eg. children: Proc.new {|project| [Redmine::MenuManager::MenuItem.new(...)] }
+  # * last: menu item will stay at the end (eg. last: true)
   # * html_options: a hash of html options that are passed to link_to
   def push(name, url, options = {})
     options = options.dup

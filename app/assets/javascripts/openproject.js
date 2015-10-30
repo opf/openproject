@@ -33,8 +33,8 @@ window.OpenProject = (function ($) {
   var OP = function (options) {
     options = options || {};
     this.urlRoot = options.urlRoot || "";
-
     this.loginUrl = options.loginUrl || "";
+    this.environment = options.environment || "";
 
     if (!/\/$/.test(this.urlRoot)) {
       this.urlRoot += '/';

@@ -38,20 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </li>
 <% end %>
 
-
-<% if @project_types.blank? %>
- <div class="generic-table--container">
-    <div class="generic-table--no-results-container">
-      <h2 class="generic-table--no-results-title">
-        <i class="icon-info"></i>
-        <%= l(:label_nothing_display) %>
-      </h2>
-      <div class="generic-table--no-results-description">
-        <p class="nodata"><%= l(:label_no_data) %></p>
-      </div>
-    </div>
-  </div>
-<% else %>
+<% if @project_types.any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table interactive-table role="grid" class="generic-table">
@@ -100,14 +87,14 @@ See doc/COPYRIGHT.rdoc for more details.
                 <%= link_to(h(type.name), edit_project_type_path(type)) %>
               </td>
               <td class="timelines-pt-reorder">
-                <%= reorder_links('project_type', {:action => 'move', :id => type}) %>
+                <%= reorder_links('project_type', {action: 'move', id: type}) %>
               </td>
               <td class="timelines-pt-allows_association">
                 <%= checked_image(type.allows_association) %>
               </td>
               <td class="timelines-pt-actions buttons">
                 <%= link_to(confirm_destroy_project_type_path(type),
-                           :class => 'icon icon-delete') do %>
+                           class: 'icon icon-delete') do %>
                   <%= l(:button_delete) %>
                   <span class="hidden-for-sighted"><%=h type.name %></span>
                 <% end %>
@@ -119,4 +106,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="generic-table--header-background"></div>
     </div>
   </div>
+<% else %>
+  <%= no_results_box(action_url: new_project_type_path, display_action: true) %>
 <% end %>

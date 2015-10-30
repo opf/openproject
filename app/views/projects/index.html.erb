@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, {:action => 'index', :format => 'atom', :key => User.current.rss_key}) %>
+  <%= auto_discovery_link_tag(:atom, {action: 'index', format: 'atom', key: User.current.rss_key}) %>
 <% end %>
 
 <% html_title(l(:label_project_plural)) -%>
@@ -53,14 +53,18 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 <% end %>
 
-<% if User.current.logged? %>
-  <p style="float:right;">
-    <span class="icon icon-star2"><%= l(:label_my_projects) %></span>
-  </p>
+<% if @projects.any? %>
+  <% if User.current.logged? %>
+    <p style="float:right;">
+      <span class="icon icon-star2"><%= l(:label_my_projects) %></span>
+    </p>
+  <% end %>
+
+  <%= render_project_hierarchy(@projects)%>
+<% else %>
+  <%= no_results_box  %>
 <% end %>
 
-<%= render_project_hierarchy(@projects)%>
-
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', url: {key: User.current.rss_key} %>
 <% end %>

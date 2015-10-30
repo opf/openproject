@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <section class="form--section" id="custom_field_form">
   <div class="form--field -required" id="custom_field_name_attributes">
     <%= f.text_field :name,
-                     :multi_locale => true %>
+                     multi_locale: true %>
   </div>
   <div class="form--field">
     <%= f.select :field_format,
@@ -56,7 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div class="form--field">
     <%= f.text_field :regexp,
-                     :size => 50 %>
+                     size: 50 %>
     <span class="form--field-instructions">
       <%=l(:text_regexp_info)%>
     </span>
@@ -69,30 +69,30 @@ See doc/COPYRIGHT.rdoc for more details.
         h
       end %>
       <%= f.text_area :possible_values,
-                      :value => possible_values,
-                      :rows => 15,
-                      :multi_locale => true %><br>
+                      value: possible_values,
+                      rows: 15,
+                      multi_locale: true %><br>
     <% end %>
     <span class="form--field-instructions"><%= l(:text_custom_field_possible_values_info) %></span>
   </div>
   <div id="custom_field_default_value_attributes">
     <div class="form--field" id="default_value_text_multi">
       <% unless @custom_field.field_format == 'bool' %>
-        <%= f.text_field(:default_value, :multi_locale => true) %>
+        <%= f.text_field(:default_value, multi_locale: true) %>
       <% end %>
     </div>
     <div class="form--field" id="default_value_text_single">
       <% if @custom_field.new_record? || ['date', 'float', 'int'].include?(@custom_field.field_format) %>
-        <%= f.text_field(:default_value, :single_locale => true) %>
+        <%= f.text_field(:default_value, single_locale: true) %>
       <% end %>
     </div>
     <div class="form--field" style="display:none" id="default_value_bool">
       <% if @custom_field.new_record? || @custom_field.field_format == 'bool' %>
-        <%= f.check_box(:default_value, :single_locale => true) %>
+        <%= f.check_box(:default_value, single_locale: true) %>
       <% end %>
     </div>
   </div>
-  <%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>
+  <%= call_hook(:view_custom_fields_form_upper_box, custom_field: @custom_field, form: f) %>
 </section>
 
 <section class="form--section">
@@ -102,11 +102,11 @@ See doc/COPYRIGHT.rdoc for more details.
       <legend class="form--fieldset-legend"><%=l(:label_type_plural)%></legend>
       <% for type in @types %>
         <%= check_box_tag "custom_field[type_ids][]", type.id, (@custom_field.types.include? type),
-              :id => "custom_field_type_ids_#{type.id}",
+              id: "custom_field_type_ids_#{type.id}",
               class: 'form--checkbox' %>
         <%= content_tag :label, (type.is_standard) ? l(:label_custom_field_default_type) : h(type),
-              :class => "no-css",
-              :for => "custom_field_type_ids_#{type.id}" %>
+              class: "no-css",
+              for: "custom_field_type_ids_#{type.id}" %>
       <% end %>
       <%= hidden_field_tag "custom_field[type_ids][]", '' %>
     </fieldset>
@@ -129,6 +129,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <% else %>
     <div class="form--field"><%= f.check_box :is_required %></div>
   <% end %>
-  <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
+  <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", custom_field: @custom_field, form: f) %>
 </section>
 

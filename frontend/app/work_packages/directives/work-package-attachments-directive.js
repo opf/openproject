@@ -40,6 +40,7 @@ module.exports = function(
 
   var attachmentsController = function(scope, element, attrs) {
     scope.files = [];
+    scope.element = element;
 
     var workPackage = scope.workPackage(),
         upload = function(event, workPackage) {
@@ -140,7 +141,6 @@ module.exports = function(
   return {
     restrict: 'E',
     replace: true,
-    reqire: '^workPackageField',
     scope: {
       workPackage: '&'
     },

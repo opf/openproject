@@ -226,10 +226,11 @@ default:
   #
   #   When entering a URL, OpenProject will POST to this resource when repositories are created
   #   using the following JSON-encoded payload:
-  #     - action: The action to perform (create, delete)
+  #     - action: The action to perform (create, delete, relocate)
   #     - identifier: The repository identifier name
   #     - vendor: The SCM vendor of the repository to create
   #     - project: identifier, name and ID of the associated project
+  #     - old_repository: The known path to the old repository (used during relocate, only)
   #
   #   NOTE: Disabling :managed repositories using disabled_types takes precedence over this setting.
   # mode:

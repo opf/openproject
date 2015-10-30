@@ -68,6 +68,16 @@ begin
         end
       end
       t.pattern = pattern
+
+      # in case we want to run plugins' specs and there are none
+      # we exit with positive message
+      if pattern.empty?
+        puts
+        puts '##### There are no specs for OpenProject plugins to be run.'
+        puts
+        exit(0)
+      end
+
     end
   end
 rescue LoadError

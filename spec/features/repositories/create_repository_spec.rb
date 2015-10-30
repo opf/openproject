@@ -215,7 +215,9 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
       }
 
       before do
-        stub_request(:post, url).to_return(status: 200)
+        stub_request(:post, url)
+          .to_return(status: 200,
+                     body: { success: true, url: 'file:///foo/bar' }.to_json)
       end
 
       it_behaves_like 'it can create the managed repository'

@@ -117,7 +117,7 @@ class MyController < ApplicationController
   # Configure user's mail notifications
   def mail_notifications
     @user = User.current
-    write_settings(redirect_to: :mail_notifications)
+    write_email_settings(redirect_to: :mail_notifications) if request.patch?
   end
 
   def first_login
@@ -251,6 +251,16 @@ class MyController < ApplicationController
     false
   end
 
+  def write_email_settings(redirect_to:)
+    update_service = UpdateUserEmailSettingsService.new(@user)
+    if update_service.call(mail_notification: permitted_params.user[:mail_notification],
+                           self_notified: params[:self_notified] == '1',
+                           notified_project_ids: params[:notified_project_ids])
+      flash[:notice] = l(:notice_account_updated)
+      redirect_to(action: redirect_to)
+    end
+  end
+
   def write_settings(redirect_to:)
     if request.patch?
       @user.attributes = permitted_params.user
@@ -262,9 +272,6 @@ class MyController < ApplicationController
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       if @user.save
         @user.pref.save
-        @user.notified_project_ids =
-          (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
-        set_language_if_valid @user.language
         flash[:notice] = l(:notice_account_updated)
         redirect_to(action: redirect_to)
       end

@@ -37,7 +37,7 @@ class WikisController < ApplicationController
     @wiki.attributes = permitted_params.wiki
     @wiki.save if request.post?
     # there's is no wiki anymore, see: opf/openproject/master#e375875
-    # render(:update) {|page| page.replace_html "tab-content-wiki", :partial => 'projects/settings/wiki'}
+    # render(:update) {|page| page.replace_html "tab-content-wiki", partial: 'projects/settings/wiki'}
     render nothing: true
   end
 

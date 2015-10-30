@@ -45,7 +45,7 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: e018b2fe8bcef4e164354a0092a2bbf54654e701
+  revision: 1fcd6d780d746dad6583290a154bd09ffd817609
   branch: dev
   specs:
     openproject-translations (5.0.0.pre.alpha)
@@ -501,6 +501,8 @@ GEM
     timecop (0.7.3)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2015.6)
+      tzinfo (>= 1.0.0)
     uber (0.0.13)
     unicorn (4.9.0)
       kgio (~> 2.6)
@@ -629,6 +631,7 @@ DEPENDENCIES
   thin
   timecop (~> 0.7.1)
   transactional_lock!
+  tzinfo-data
   unicorn
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)

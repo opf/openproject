@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </ul>
 
 <% if version.fixed_issues.count > 0 %>
-  <%= progress_bar([version.closed_percent, version.completed_percent], :width => '40em', :legend => ('%0.0f' % version.completed_percent)) %>
+  <%= progress_bar([version.closed_percent, version.completed_percent], width: '40em', legend: ('%0.0f' % version.completed_percent)) %>
   <p class="progress-info">
     <%= link_to_if(version.closed_issues_count > 0,
                    l(:label_x_closed_work_packages_abbr, count: version.closed_issues_count),
@@ -63,5 +63,5 @@ See doc/COPYRIGHT.rdoc for more details.
     (<%= '%0.0f' % (version.open_issues_count.to_f / version.fixed_issues.count * 100) %>%)
   </p>
 <% else %>
-  <p><em><%= l(:label_roadmap_no_work_packages) %></em></p>
+  <%= no_results_box %>
 <% end %>

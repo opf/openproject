@@ -135,6 +135,10 @@ class PermittedParams
     params.require(:project_type).permit(*self.class.permitted_attributes[:project_type])
   end
 
+  def projects_type_ids
+    params.require(:project).require(:type_ids).map(&:to_i).select { |x| x > 0 }
+  end
+
   def project_type_move
     params.require(:project_type).permit(*self.class.permitted_attributes[:move_to])
   end
@@ -626,7 +630,7 @@ class PermittedParams
   ## Add attributes as permitted attributes (only to be used by the plugins plugin)
   #
   # attributes should be given as a Hash in the form
-  # {:key => [:param1, :param2]}
+  # {key: [:param1, :param2]}
   def self.add_permitted_attributes(attributes)
     # Make sure the permitted attributes are cached in @whitelisted_params
     permitted_attributes
