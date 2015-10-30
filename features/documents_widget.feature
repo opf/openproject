@@ -42,7 +42,7 @@ Feature: Adding the document widget to personalisable pages
     And I am on the project "project1" overview personalization page
     # Safeguard to ensure the page is loaded
     And I should see "Add" within "#block-select"
-    When I select "Documents" from the available widgets drop down
+    When I select "Documents" from "block-select"
     Then the "Documents" widget should be in the hidden block
     And "Documents" should be disabled in the my project page available widgets drop down
 
