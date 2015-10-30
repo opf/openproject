@@ -20,13 +20,13 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe GlobalRole, type: :model do
-  before { GlobalRole.create name: 'globalrole', permissions: ['permissions'] } # for validate_uniqueness_of
+  before { GlobalRole.create name: 'globalrole', permissions: ['permissions'] }
 
   it { is_expected.to have_many :principals }
   it { is_expected.to have_many :principal_roles }
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_uniqueness_of :name }
-  it { is_expected.to ensure_length_of(:name).is_at_most(30) }
+  it { is_expected.to validate_length_of(:name).is_at_most(30) }
 
   describe 'attributes' do
     before { @role = GlobalRole.new }
