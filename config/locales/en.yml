@@ -400,7 +400,7 @@ en:
                 "The category of a work package must be within the same project as the work package."
               does_not_exist: "The specified category does not exist."
             estimated_hours:
-              only_values_greater_or_equal_zeroes_allowed: "The estimated hours must be >= 0."
+              only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
         user:
           attributes:
             password:
