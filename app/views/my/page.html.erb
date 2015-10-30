@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
   <div class="grid-block">
   <% %w(left right).each do |position| %>
-    <div id="<%= position %>" class="widget-boxes">
+    <div id="<%= position %>" class="widget-boxes medium-12">
       <%= render partial: 'block_container', locals: { edit: false, blocks: @blocks[position] } %>
     </div>
   <% end %>
