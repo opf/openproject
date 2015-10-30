@@ -26,7 +26,32 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+module BasicData
+  class ProjectTypeSeeder
 
-# add seeds specific for the production-environment here
+    def self.seed!
+      if ProjectType.any?
+        puts '   *** Skipping project types as there are already some configured'
+      elsif !ReportedProjectStatus.any?
+        puts '   *** Skipping project types as it required to have reported project status'
+      else
 
-require "#{Rails.root}/db/seeds/basic_setup"
+        ProjectType.transaction do
+          ProjectType.new.tap do |type|
+            type.name = I18n.t(:default_project_type_scrum)
+          end.save!
+
+          ProjectType.new.tap do |type|
+            type.name = I18n.t(:default_project_type_standard)
+          end.save!
+
+          reported_status_ids = ReportedProjectStatus.pluck(:id)
+          ProjectType.all.each { |project_type|
+            project_type.update_attributes(reported_project_status_ids: reported_status_ids)
+          }
+        end
+      end
+    end
+
+  end
+end

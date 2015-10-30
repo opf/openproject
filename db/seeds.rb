@@ -64,12 +64,23 @@ else
   raise "Locale #{desired_lang} is not supported"
 end
 
-['all', Rails.env].each do |seed|
-  seed_file = "#{Rails.root}/db/seeds/#{seed}.rb"
-  if File.exists?(seed_file)
-    puts "*** Loading #{seed} seed data"
-    require seed_file
-  end
+# Basic data needs be seeded before anything else.
+puts '*** Seeding basic data'
+BasicData::BasicDataSeeder.seed!
+
+puts '*** Seeding admin user'
+AdminUserSeeder.seed!
+
+# Only seed the sample data in development.
+if Rails.env.development?
+  # Disable mail delivery for the duration of this task
+  ActionMailer::Base.perform_deliveries = false
+
+  # Avoid asynchronous DeliverWorkPackageCreatedJob
+  Delayed::Worker.delay_jobs = false
+
+  puts '*** Seeding sample data'
+  SampleData::SampleDataSeeder.seed!
 end
 
 ::Rails::Engine.subclasses.map(&:instance).each do |engine|

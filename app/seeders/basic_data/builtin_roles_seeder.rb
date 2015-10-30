@@ -26,25 +26,28 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+module BasicData
+  class BuiltinRolesSeeder
 
-if ProjectType.any?
-  puts '***** Skipping project types as there are already some configured'
-elsif !ReportedProjectStatus.any?
-  puts '***** Skipping project types as it required to have reported project status'
-else
+    def self.seed!
+      if Role.find_by(builtin: Role::BUILTIN_NON_MEMBER).nil?
+        role = Role.new
 
-  ProjectType.transaction do
-    ProjectType.new.tap do |type|
-      type.name = I18n.t(:default_project_type_scrum)
-    end.save!
+        role.name = 'Non member'
+        role.position = 0
+        role.builtin = Role::BUILTIN_NON_MEMBER
+        role.save!
+      end
 
-    ProjectType.new.tap do |type|
-      type.name = I18n.t(:default_project_type_standard)
-    end.save!
+      if Role.find_by(builtin: Role::BUILTIN_ANONYMOUS).nil?
+        role = Role.new
 
-    reported_status_ids = ReportedProjectStatus.pluck(:id)
-    ProjectType.all.each { |project_type|
-      project_type.update_attributes(reported_project_status_ids: reported_status_ids)
-    }
+        role.name = 'Anonymous'
+        role.position = 1
+        role.builtin = Role::BUILTIN_ANONYMOUS
+        role.save!
+      end
+    end
+
   end
 end

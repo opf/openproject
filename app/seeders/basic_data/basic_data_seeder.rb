@@ -26,40 +26,34 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+module BasicData
+  class BasicDataSeeder
 
-if TimeEntryActivity.any?
-  puts '***** Skipping activities as there are already some configured'
-else
-  TimeEntryActivity.transaction do
-    TimeEntryActivity.new.tap do |activity|
-      activity.name = I18n.t(:default_activity_management)
-      activity.position = 1
-      activity.is_default = true
-    end.save!
+    def self.seed!
+      puts ' ↳ Builtin Roles'
+      BuiltinRolesSeeder.seed!
 
-    TimeEntryActivity.new.tap do |activity|
-      activity.name = I18n.t(:default_activity_specification)
-      activity.position = 2
-    end.save!
+      puts ' ↳ Roles'
+      RoleSeeder.seed!
 
-    TimeEntryActivity.new.tap do |activity|
-      activity.name = I18n.t(:default_activity_development)
-      activity.position = 3
-    end.save!
+      puts ' ↳ Activities'
+      ActivitySeeder.seed!
 
-    TimeEntryActivity.new.tap do |activity|
-      activity.name = I18n.t(:default_activity_testing)
-      activity.position = 4
-    end.save!
+      puts ' ↳ Colors'
+      ColorSeeder.seed!
 
-    TimeEntryActivity.new.tap do |activity|
-      activity.name = I18n.t(:default_activity_support)
-      activity.position = 5
-    end.save!
+      puts ' ↳ Workflows'
+      WorkflowSeeder.seed!
 
-    TimeEntryActivity.new.tap do |activity|
-      activity.name = I18n.t(:default_activity_other)
-      activity.position = 6
-    end.save!
+      puts ' ↳ Priorities'
+      PrioritySeeder.seed!
+
+      puts ' ↳ ProjectStatuses'
+      ProjectStatusSeeder.seed!
+
+      puts ' ↳ ProjectTypes'
+      ProjectTypeSeeder.seed!
+    end
+
   end
 end

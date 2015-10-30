@@ -26,5 +26,31 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+module BasicData
+  class ProjectStatusSeeder
 
-# add seeds specific for the test-environment here
+    def self.seed!
+      if ReportedProjectStatus.any?
+        puts '  *** Skipping reported project status as there are already some configured'
+      else
+        ReportedProjectStatus.transaction do
+          ReportedProjectStatus.new.tap do |status|
+            status.name = I18n.t(:default_reported_project_status_green)
+            status.is_default = true
+          end.save!
+
+          ReportedProjectStatus.new.tap do |status|
+            status.name = I18n.t(:default_reported_project_status_amber)
+            status.is_default = false
+          end.save!
+
+          ReportedProjectStatus.new.tap do |status|
+            status.name = I18n.t(:default_reported_project_status_red)
+            status.is_default = false
+          end.save!
+        end
+      end
+    end
+
+  end
+end

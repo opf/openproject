@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,23 +26,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-if ReportedProjectStatus.any?
-  puts '***** Skipping reported project status as there are already some configured'
-else
-  ReportedProjectStatus.transaction do
-    ReportedProjectStatus.new.tap do |status|
-      status.name = I18n.t(:default_reported_project_status_green)
-      status.is_default = true
-    end.save!
-
-    ReportedProjectStatus.new.tap do |status|
-      status.name = I18n.t(:default_reported_project_status_amber)
-      status.is_default = false
-    end.save!
-
-    ReportedProjectStatus.new.tap do |status|
-      status.name = I18n.t(:default_reported_project_status_red)
-      status.is_default = false
-    end.save!
+namespace 'demo_data' do
+  desc 'Seed the database with usefull demo data for onboarding users'
+  task :seed do
+    puts 'Seeded the database.'
   end
 end

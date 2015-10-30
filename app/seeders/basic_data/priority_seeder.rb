@@ -26,30 +26,37 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+module BasicData
+  class PrioritySeeder
 
-if IssuePriority.any?
-  puts '***** Skipping priorities as there are already some configured'
-else
-  IssuePriority.transaction do
-    IssuePriority.new.tap do |priority|
-      priority.name = I18n.t(:default_priority_low)
-      priority.position = 1
-    end.save!
+    def self.seed!
+      if IssuePriority.any?
+        puts '   *** Skipping priorities as there are already some configured'
+      else
+        IssuePriority.transaction do
+          IssuePriority.new.tap do |priority|
+            priority.name = I18n.t(:default_priority_low)
+            priority.position = 1
+          end.save!
 
-    IssuePriority.new.tap do |priority|
-      priority.name = I18n.t(:default_priority_normal)
-      priority.position = 2
-      priority.is_default = true
-    end.save!
+          IssuePriority.new.tap do |priority|
+            priority.name = I18n.t(:default_priority_normal)
+            priority.position = 2
+            priority.is_default = true
+          end.save!
 
-    IssuePriority.new.tap do |priority|
-      priority.name = I18n.t(:default_priority_high)
-      priority.position = 3
-    end.save!
+          IssuePriority.new.tap do |priority|
+            priority.name = I18n.t(:default_priority_high)
+            priority.position = 3
+          end.save!
 
-    IssuePriority.new.tap do |priority|
-      priority.name = I18n.t(:default_priority_immediate)
-      priority.position = 4
-    end.save!
+          IssuePriority.new.tap do |priority|
+            priority.name = I18n.t(:default_priority_immediate)
+            priority.position = 4
+          end.save!
+        end
+      end
+    end
+
   end
 end
