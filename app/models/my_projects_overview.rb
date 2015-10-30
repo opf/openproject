@@ -38,7 +38,7 @@ class MyProjectsOverview < ActiveRecord::Base
       # mysql and postgres handle serialized arrays differently: This check initializes the defaults for both cases -
       # this especially deals properly with the case where [] is written into the db and re-read ( which
       # is not properly handled by a .blank?- check !!!)
-      self.send("#{attribute_name}=",DEFAULTS[attribute_name])  if attr[attribute_name].nil? || attr[attribute_name] ==""
+      self.send("#{attribute_name}=",DEFAULTS[attribute_name]) if attr[attribute_name].nil? || attr[attribute_name] ==""
     end
   end
 
@@ -50,7 +50,7 @@ class MyProjectsOverview < ActiveRecord::Base
 
   validate :fields_are_arrays
 
-  acts_as_attachable :delete_permission => :edit_project, :view_permission => :view_project
+  acts_as_attachable delete_permission: :edit_project, view_permission: :view_project
 
   def fields_are_arrays
     Array === top && Array === left && Array === right && Array === hidden
@@ -77,7 +77,7 @@ class MyProjectsOverview < ActiveRecord::Base
     elements.select {|x| x.respond_to? :to_ary }
   end
 
-  def attachments_visible?(user)
+  def attachments_visible?(_user)
     true
   end
 end

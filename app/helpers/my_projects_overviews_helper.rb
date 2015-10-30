@@ -45,7 +45,7 @@ module MyProjectsOverviewsHelper
   def grid_field(name)
     css_classes = %w(block-receiver list-position) + [name]
     data = {
-      :'ajax-url' => ajax_url(name),
+      'ajax-url': ajax_url(name),
       position: name
     }
     construct_blocks(name: name, css_classes: css_classes, data: data)

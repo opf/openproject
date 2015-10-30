@@ -19,7 +19,7 @@
 #++
 
 Then /^"(.+)" should be disabled in the my project page available widgets drop down$/ do |widget_name|
-  option_name = MyProjectsOverviewsController.available_blocks.detect{|k, v| I18n.t(v) == widget_name}.first.dasherize
+  option_name = MyProjectsOverviewsController.available_blocks.detect{|_k, v| I18n.t(v) == widget_name}.first.dasherize
 
   steps %Q{Then the "block-select" drop-down should have the following options disabled:
             | #{option_name} |}
