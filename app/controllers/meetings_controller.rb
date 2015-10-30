@@ -57,8 +57,8 @@ class MeetingsController < ApplicationController
 
   def create
     @meeting.participants.clear # Start with a clean set of participants
-    @meeting.participants_attributes = params[:meeting].delete(:participants_attributes)
-    @meeting.attributes = params[:meeting]
+    @meeting.participants_attributes = meeting_params.delete(:participants_attributes)
+    @meeting.attributes = meeting_params
     if params[:copied_from_meeting_id].present? && params[:copied_meeting_agenda_text].present?
       @meeting.agenda = MeetingAgenda.new(
         text: params[:copied_meeting_agenda_text],
@@ -99,8 +99,8 @@ class MeetingsController < ApplicationController
   end
 
   def update
-    @meeting.participants_attributes = params[:meeting].delete(:participants_attributes)
-    @meeting.attributes = params[:meeting]
+    @meeting.participants_attributes = meeting_params.delete(:participants_attributes)
+    @meeting.attributes = meeting_params
     if @meeting.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: 'show', id: @meeting
@@ -142,18 +142,24 @@ class MeetingsController < ApplicationController
   end
 
   def convert_params
-    start_date = params[:meeting].delete(:start_date)
-    start_time_hour = params[:meeting].delete(:"start_time_hour")
+    start_date = meeting_params.delete(:start_date)
+    start_time_hour = meeting_params.delete(:"start_time_hour")
     begin
       timestring = "#{start_date} #{start_time_hour}"
       time = Time.zone.parse(timestring)
-      params[:meeting][:start_time] = time
+      meeting_params[:start_time] = time
     rescue ArgumentError
-      params[:meeting][:start_time] = nil
+      meeting_params[:start_time] = nil
     end
-    params[:meeting][:duration] = params[:meeting][:duration].to_hours
+    meeting_params[:duration] = meeting_params[:duration].to_hours
     # Force defaults on participants
-    params[:meeting][:participants_attributes] ||= {}
-    params[:meeting][:participants_attributes].each { |p| p.reverse_merge! attended: false, invited: false }
+    meeting_params[:participants_attributes] ||= {}
+    meeting_params[:participants_attributes].each { |p| p.reverse_merge! attended: false, invited: false }
+  end
+
+private
+  def meeting_params
+    params.require(:meeting).permit(:title, :location, :start_time, :duration, :start_date, :start_time_hour,
+      participants_attributes: [:email, :name, :invited, :attended, :user, :user_id, :meeting])
   end
 end

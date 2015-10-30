@@ -37,8 +37,6 @@ class Meeting < ActiveRecord::Base
       .includes({ participants: :user }, :author)
   }
 
-  attr_accessible :title, :location, :start_time, :duration
-
   acts_as_watchable
 
   acts_as_searchable columns: ["#{table_name}.title", "#{MeetingContent.table_name}.text"],

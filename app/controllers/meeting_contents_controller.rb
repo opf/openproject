@@ -50,7 +50,7 @@ class MeetingContentsController < ApplicationController
 
   def update
     (render_403; return) unless @content.editable? # TODO: not tested!
-    @content.attributes = params[:"#{@content_type}"]
+    @content.attributes = content_params
     @content.author = User.current
     if @content.save
       flash[:notice] = l(:notice_successful_update)
@@ -123,8 +123,12 @@ class MeetingContentsController < ApplicationController
   def parse_preview_data
     text = {}
 
-    text = { WikiContent.human_attribute_name(:content) => params[@content_type][:text] } if @content.editable?
+    text = { WikiContent.human_attribute_name(:content) => content_params[:text] } if @content.editable?
 
     [text, [], @content]
+  end
+
+  def content_params
+    params.require(@content_type).permit(:text, :lock_version, :comment)
   end
 end
