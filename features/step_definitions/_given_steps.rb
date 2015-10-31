@@ -224,7 +224,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following work_packages:$/ do |pr
       # setting up the database for the actual tests. The actual tests,
       # however, should NOT bypass the controller
       work_package = WorkPackage.new
-      work_package.force_attributes = params
+      work_package.attributes = params
       work_package.save!
     end
   end
