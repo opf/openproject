@@ -39,7 +39,7 @@
 # RbTaskboardsController
 class RbSprintsController < RbApplicationController
   def update
-    result  = @sprint.update_attributes(params.slice(:name,
+    result  = @sprint.update_attributes(params.permit(:name,
                                                      :start_date,
                                                      :effective_date))
     status  = (result ? 200 : 400)

@@ -34,7 +34,8 @@
 #++
 
 def initialize_story_params(project, user = User.first)
-  story = HashWithIndifferentAccess.new(Story.new.attributes)
+  data = Story.new.attributes.slice(RbStoriesController::PERMITTED_PARAMS)
+  story = HashWithIndifferentAccess.new(data)
   story['type_id'] = Story.types.first
 
   # unsafe attributes that will not be used directly but added for your
@@ -80,7 +81,7 @@ def initialize_work_package_params(project, type = Type.first, parent = nil, use
 end
 
 def initialize_impediment_params(project, sprint, user = User.first)
-  params = HashWithIndifferentAccess.new(Task.new.attributes)
+  params = HashWithIndifferentAccess.new(RbTasksController::PERMITTED_PARAMS)
   params['type_id'] = Task.type
   params['fixed_version_id'] = sprint.id
   params['status_id'] = Status.first.id
