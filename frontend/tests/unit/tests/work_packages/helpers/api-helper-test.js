@@ -37,12 +37,12 @@ describe('API helper', function() {
     ApiHelper = _ApiHelper_;
   }));
 
-  function createErrorObject(status, statusText, responseText) {
+  function createErrorObject(status, statusText, data) {
     var error = {};
 
     error.status = status;
     error.statusText = statusText;
-    error.responseText = responseText;
+    error.data = data;
 
     return error;
   }
