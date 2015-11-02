@@ -30,7 +30,7 @@ See doc/COPYRIGHT.md for more details.
                             .limit(10)
                             .includes([:status, :project, :type, :priority])
                             .order("#{IssuePriority.table_name}.position DESC, #{WorkPackage.table_name}.updated_at DESC") %>
-<%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => assigned_work_packages } %>
+<%= render partial: 'work_packages/list_simple', :locals => { :work_packages => assigned_work_packages, list_for: :assigned } %>
 <% if assigned_work_packages.length > 0 %>
   <p class="small">
     <%= link_to l(:label_work_package_view_all_assigned_to_me),

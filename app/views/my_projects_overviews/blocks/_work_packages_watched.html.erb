@@ -27,7 +27,7 @@ See doc/COPYRIGHT.md for more details.
 
 <% watched_work_packages = WorkPackage.where(project_id: @project.id).visible.on_active_project.watched_by(@user.id).recently_updated.with_limit(10) %>
 
-<%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => watched_work_packages } %>
+<%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => watched_work_packages, list_for: :watched } %>
 <% if watched_work_packages.length > 0 %>
   <p class="small">
     <%= link_to l(:label_work_package_view_all_watched),
