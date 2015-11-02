@@ -26,25 +26,41 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 module SampleData
-  class SampleDataSeeder
+  class WikiSeeder
 
-    def self.seed!
-      project = SampleData::ProjectSeeder.seed!
+    def self.seed!(project)
+      user = User.first
+      wiki = Wiki.create(project: project, start_page: 'Seed')
 
-      SampleData::CustomFieldSeeder.seed!(project)
-      SampleData::BoardSeeder.seed!(project)
-      SampleData::WikiSeeder.seed!(project)
-      SampleData::WorkPackageSeeder.seed!(project)
-      SampleData::NewsSeeder.seed!(project)
+      ## create some wiki pages
 
-      puts "\n"
-      puts " #{WorkPackage.where(project_id: project.id).count} issues created."
-      puts " #{Message.joins(:board).where(boards: { project_id: project.id }).count} messages created."
-      puts " #{News.where(project_id: project.id).count} news created."
-      puts " #{WikiContent.joins(page: [:wiki]).where('wikis.project_id = ?', project.id).count} wiki contents created."
-      puts " #{TimeEntry.where(project_id: project.id).count} time entries created."
-      puts " #{Changeset.joins(:repository).where(repositories: { project_id: project.id }).count} changesets created."
-      puts 'Sample data seeding...done.'
+      puts ''
+      print ' ↳ Creating wikis'
+
+      rand(5).times do
+        print '.'
+        wiki_page = WikiPage.create wiki: wiki,
+                                    title: Faker::Lorem.words(5).join(' ')
+
+        ## create some wiki contents
+
+        rand(5).times do
+          print '.'
+          wiki_content = WikiContent.create page: wiki_page,
+                                            author: user,
+                                            text: Faker::Lorem.paragraph(5, true, 3)
+
+          ## create some journal entries
+
+          rand(5).times do
+            wiki_content.reload
+
+            wiki_content.text = Faker::Lorem.paragraph(5, true, 3) if rand(99).even?
+
+            wiki_content.save!
+          end
+        end
+      end
     end
 
   end

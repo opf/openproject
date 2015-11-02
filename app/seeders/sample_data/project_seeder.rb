@@ -26,25 +26,39 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 module SampleData
-  class SampleDataSeeder
+  class ProjectSeeder
 
     def self.seed!
-      project = SampleData::ProjectSeeder.seed!
+      # Careful: The seeding recreates the seeded project before it runs, so any changes
+      # on the seeded project will be lost.
+      puts ' ↳ Creating seeded project...'
 
-      SampleData::CustomFieldSeeder.seed!(project)
-      SampleData::BoardSeeder.seed!(project)
-      SampleData::WikiSeeder.seed!(project)
-      SampleData::WorkPackageSeeder.seed!(project)
-      SampleData::NewsSeeder.seed!(project)
+      if delete_me = Project.find_by(identifier: 'seeded_project')
+        delete_me.destroy
+      end
 
-      puts "\n"
-      puts " #{WorkPackage.where(project_id: project.id).count} issues created."
-      puts " #{Message.joins(:board).where(boards: { project_id: project.id }).count} messages created."
-      puts " #{News.where(project_id: project.id).count} news created."
-      puts " #{WikiContent.joins(page: [:wiki]).where('wikis.project_id = ?', project.id).count} wiki contents created."
-      puts " #{TimeEntry.where(project_id: project.id).count} time entries created."
-      puts " #{Changeset.joins(:repository).where(repositories: { project_id: project.id }).count} changesets created."
-      puts 'Sample data seeding...done.'
+      project = Project.create(name: 'Seeded Project',
+                               identifier: 'seeded_project',
+                               description: Faker::Lorem.paragraph(5),
+                               types: Type.all,
+                               is_public: true
+                              )
+
+      project.enabled_module_names += ['timelines']
+
+      # project's repository
+      repository = Repository::Subversion.create!(project: project,
+                                                  url: 'file:///tmp/foo/bar.svn',
+                                                  scm_type: 'existing')
+
+      # create a default timeline that shows all our work packages
+      timeline = Timeline.create
+      timeline.project = project
+      timeline.name = 'Sample Timeline'
+      timeline.options.merge!(zoom_factor: ['4'])
+      timeline.save
+
+      project
     end
 
   end

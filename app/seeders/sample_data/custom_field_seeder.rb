@@ -26,26 +26,29 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 module SampleData
-  class SampleDataSeeder
+  class CustomFieldSeeder
 
-    def self.seed!
-      project = SampleData::ProjectSeeder.seed!
+    def self.seed!(project)
+      # Careful: The seeding recreates the seeded project before it runs, so any changes
+      # on the seeded project will be lost.
+      print ' ↳ Creating custom fields...'
 
-      SampleData::CustomFieldSeeder.seed!(project)
-      SampleData::BoardSeeder.seed!(project)
-      SampleData::WikiSeeder.seed!(project)
-      SampleData::WorkPackageSeeder.seed!(project)
-      SampleData::NewsSeeder.seed!(project)
+      # create some custom fields and add them to the project
+      3.times do |_count|
+        cf = WorkPackageCustomField.create!(name: Faker::Lorem.words(2).join(' '),
+                                            regexp: '',
+                                            is_required: false,
+                                            min_length: false,
+                                            default_value: '',
+                                            max_length: false,
+                                            editable: true,
+                                            possible_values: '',
+                                            visible: true,
+                                            field_format: 'text')
+        print '.'
 
-      puts "\n"
-      puts " #{WorkPackage.where(project_id: project.id).count} issues created."
-      puts " #{Message.joins(:board).where(boards: { project_id: project.id }).count} messages created."
-      puts " #{News.where(project_id: project.id).count} news created."
-      puts " #{WikiContent.joins(page: [:wiki]).where('wikis.project_id = ?', project.id).count} wiki contents created."
-      puts " #{TimeEntry.where(project_id: project.id).count} time entries created."
-      puts " #{Changeset.joins(:repository).where(repositories: { project_id: project.id }).count} changesets created."
-      puts 'Sample data seeding...done.'
+        project.work_package_custom_fields << cf
+      end
     end
-
   end
 end

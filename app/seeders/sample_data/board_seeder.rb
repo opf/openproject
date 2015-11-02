@@ -26,25 +26,34 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 module SampleData
-  class SampleDataSeeder
+  class BoardSeeder
 
-    def self.seed!
-      project = SampleData::ProjectSeeder.seed!
+    def self.seed!(project)
+      user = User.first
 
-      SampleData::CustomFieldSeeder.seed!(project)
-      SampleData::BoardSeeder.seed!(project)
-      SampleData::WikiSeeder.seed!(project)
-      SampleData::WorkPackageSeeder.seed!(project)
-      SampleData::NewsSeeder.seed!(project)
+      board = Board.create! project: project,
+                            name: Faker::Lorem.words(2).join(' '),
+                            description: Faker::Lorem.paragraph(5).slice(0, 255)
 
-      puts "\n"
-      puts " #{WorkPackage.where(project_id: project.id).count} issues created."
-      puts " #{Message.joins(:board).where(boards: { project_id: project.id }).count} messages created."
-      puts " #{News.where(project_id: project.id).count} news created."
-      puts " #{WikiContent.joins(page: [:wiki]).where('wikis.project_id = ?', project.id).count} wiki contents created."
-      puts " #{TimeEntry.where(project_id: project.id).count} time entries created."
-      puts " #{Changeset.joins(:repository).where(repositories: { project_id: project.id }).count} changesets created."
-      puts 'Sample data seeding...done.'
+      puts ''
+      print ' ↳ Creating forum board with posts'
+
+      rand(30).times do
+        print '.'
+        message = Message.create board: board,
+                                 author: user,
+                                 subject: Faker::Lorem.words(5).join(' '),
+                                 content: Faker::Lorem.paragraph(5, true, 3)
+
+        rand(5).times do
+          print '.'
+          Message.create board: board,
+                         author: user,
+                         subject: message.subject,
+                         content: Faker::Lorem.paragraph(5, true, 3),
+                         parent: message
+        end
+      end
     end
 
   end
