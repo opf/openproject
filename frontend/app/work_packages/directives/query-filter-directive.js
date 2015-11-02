@@ -54,7 +54,9 @@ module.exports = function(
       scope.showValueOptionsAsSelect = !scope.filter.isSingleInputField();
 
       if (scope.showValueOptionsAsSelect) {
-        WorkPackageLoadingHelper.withLoading(scope, QueryService.getAvailableFilterValues, [scope.filter.name, scope.projectIdentifier])
+        WorkPackageLoadingHelper.withLoading(scope, QueryService.getAvailableFilterValues,
+          [scope.filter.name, scope.projectIdentifier])
+
           .then(buildOptions)
           .then(addStandardOptions)
           .then(function(options) {
@@ -71,12 +73,18 @@ module.exports = function(
       // Filter updates
 
       scope.$watch('filter.operator', function(operator) {
-        if(operator && scope.filter.requiresValues) scope.showValuesInput = scope.filter.requiresValues();
+        if(operator && scope.filter.requiresValues){
+          scope.showValuesInput = scope.filter.requiresValues();
+        }
       });
 
       scope.$watch('filter', function(filter, oldFilter) {
+        var isEmptyText = filter.type === 'text' && filter.textValue === undefined;
+
         if (filter !== oldFilter) {
-          if (filter.isConfigured() && (filterChanged(filter, oldFilter) || valueReset(filter, oldFilter))) {
+          if ((isEmptyText || filter.isConfigured())
+              && (filterChanged(filter, oldFilter) || valueReset(filter, oldFilter))) {
+
             PaginationService.resetPage();
             scope.$emit('queryStateChange');
             scope.$emit('workPackagesRefreshRequired');
