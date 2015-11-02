@@ -27,46 +27,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
   module V3
     module Queries
-      class QueryRepresenter < ::API::Decorators::Single
-
-        self_link
-
-        linked_property :user
-        linked_property :project
-
-        property :id
-        property :name
-        property :filters,
-                 exec_context: :decorator,
-                 getter: -> (*) { serializer.format_filters }
-        property :is_public, getter: -> (*) { is_public }
-        property :column_names,
-                 exec_context: :decorator,
-                 getter: -> (*) { serializer.format_columns }
-        property :sort_criteria,
-                 exec_context: :decorator,
-                 getter: -> (*) { serializer.format_sorting }
-        property :group_by,
-                 exec_context: :decorator,
-                 getter: -> (*) { serializer.format_group_by },
-                 render_nil: true
-        property :display_sums, getter: -> (*) { display_sums }
-        property :is_starred, getter: -> (*) { starred }
-
-        private
-
-        def serializer
-          @serializer ||= ::API::V3::Queries::QuerySerializationHelper.new(represented)
+      class FormRepresenter < ::API::Decorators::Form
+        def payload_representer
+          QueryPayloadRepresenter.new(represented)
         end
 
-        def _type
-          'Query'
+        def schema_representer
+          schema = Schema::SpecificQuerySchema.new(query: represented)
+          Schema::QuerySchemaRepresenter.new(schema,
+                                             form_embedded: true,
+                                             current_user: current_user)
         end
       end
     end

@@ -27,46 +27,55 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
   module V3
     module Queries
-      class QueryRepresenter < ::API::Decorators::Single
+      module Schema
+        class QuerySchemaRepresenter < ::API::Decorators::SchemaRepresenter
+          class << self
+            def represented_class
+              Query
+            end
+          end
 
-        self_link
+          def initialize(schema, context)
+            @self_link = context.delete(:self_link) || nil
+            super(schema, context)
+          end
 
-        linked_property :user
-        linked_property :project
+          link :self do
+            { href: @self_link } if @self_link
+          end
 
-        property :id
-        property :name
-        property :filters,
-                 exec_context: :decorator,
-                 getter: -> (*) { serializer.format_filters }
-        property :is_public, getter: -> (*) { is_public }
-        property :column_names,
-                 exec_context: :decorator,
-                 getter: -> (*) { serializer.format_columns }
-        property :sort_criteria,
-                 exec_context: :decorator,
-                 getter: -> (*) { serializer.format_sorting }
-        property :group_by,
-                 exec_context: :decorator,
-                 getter: -> (*) { serializer.format_group_by },
-                 render_nil: true
-        property :display_sums, getter: -> (*) { display_sums }
-        property :is_starred, getter: -> (*) { starred }
+          schema :id,
+                 type: 'Integer'
 
-        private
+          schema :name,
+                 type: 'String',
+                 min_length: 1,
+                 max_length: 255
 
-        def serializer
-          @serializer ||= ::API::V3::Queries::QuerySerializationHelper.new(represented)
-        end
+          schema :filters,
+                 type: 'Object'
 
-        def _type
-          'Query'
+          schema :column_names,
+                 type: 'String[]'
+
+          schema :sort_criteria,
+                 type: 'Object'
+
+          schema :group_by,
+                 type: 'String',
+                 required: false
+
+          schema :display_sums,
+                 type: 'Boolean'
+
+          schema :is_public,
+                 type: 'Boolean'
+
+          schema :is_starred,
+                 type: 'Boolean'
         end
       end
     end

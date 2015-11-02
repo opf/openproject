@@ -184,6 +184,18 @@ describe ::API::V3::Utilities::PathHelper do
 
       it_behaves_like 'api v3 path', '/projects/1'
     end
+
+    describe '#project_queries' do
+      subject { helper.project_queries 1 }
+
+      it_behaves_like 'api v3 path', '/projects/1/queries'
+    end
+  end
+
+  describe '#queries' do
+    subject { helper.queries }
+
+    it_behaves_like 'api v3 path', '/queries'
   end
 
   describe '#query' do

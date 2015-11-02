@@ -49,7 +49,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   end
 
   describe '#inject_schema' do
-    let(:base_class) { Class.new(::API::Decorators::Schema) }
+    let(:base_class) { Class.new(::API::Decorators::SchemaRepresenter) }
     let(:modified_class) { described_class.create_schema_representer(schema, base_class) }
     let(:schema) {
       double('WorkPackageSchema',

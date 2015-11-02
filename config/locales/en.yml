@@ -260,8 +260,9 @@ en:
         queries: "Queries"
       query:
         column_names: "Columns"
-        group_by: "Group results by"
         filters: "Filters"
+        group_by: "Group results by"
+        sort_criteria: "Sort results by"
       repository:
         url: "URL"
       role:
@@ -484,6 +485,7 @@ en:
     is_default: "Default value"
     is_for_all: "For all projects"
     is_public: "Public"
+    is_starred: "Starred"
     # kept for backwards compatibility
     issue: "Work package"
     lastname: "Last name"
@@ -962,6 +964,7 @@ en:
   label_file_added: "File added"
   label_file_plural: "Files"
   label_filter_add: "Add filter"
+  label_filter_for: "“%{column}” filter"
   label_filter_plural: "Filters"
   label_float: "Float"
   label_follows: "follows"

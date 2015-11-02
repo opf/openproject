@@ -80,6 +80,7 @@ class Queries::Filter
   attr_accessor :field, *@@filter_params
 
   validates_presence_of :field, :operator
+  validate :validate_operator_is_allowed
   validate :validate_presence_of_values, unless: Proc.new { |filter| @@operators_not_requiring_values.include?(filter.operator) }
   validate :validate_filter_values
 
@@ -132,6 +133,12 @@ class Queries::Filter
   end
 
   private
+
+  def validate_operator_is_allowed
+    unless @@operators.include? operator
+      errors.add :operator, I18n.t('activerecord.errors.messages.invalid')
+    end
+  end
 
   def validate_presence_of_values
     errors.add(:values, I18n.t('activerecord.errors.messages.blank')) if values.nil? || values.reject(&:blank?).empty?

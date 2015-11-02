@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,21 +26,43 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      class FormRepresenter < ::API::Decorators::Form
-        def payload_representer
-          WorkPackagePayloadRepresenter.create_class(represented).new(represented)
-        end
+require 'spec_helper'
+require 'rack/test'
 
-        def schema_representer
-          schema = Schema::SpecificWorkPackageSchema.new(work_package: represented)
-          Schema::WorkPackageSchemaRepresenter.create(schema,
-                                                      form_embedded: true,
-                                                      current_user: current_user)
-        end
-      end
+describe 'API v3 Queries by project resource', type: :request do
+  include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
+
+  let(:project) { FactoryGirl.create(:project, is_public: false) }
+  let(:current_user) {
+    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+  }
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:permissions) { [:view_work_packages] }
+
+  before do
+    allow(User).to receive(:current).and_return(current_user)
+  end
+
+  describe '#get' do
+    before do
+      get api_v3_paths.project_queries(project.id)
+    end
+
+    it 'succeeds' do
+      expect(last_response.status).to eql 200
+    end
+
+    context 'user not allowed to see work packages' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'unauthorized access'
+    end
+
+    context 'user not allowed to see project' do
+      let(:current_user) { FactoryGirl.create(:user) }
+
+      it_behaves_like 'not found'
     end
   end
 end

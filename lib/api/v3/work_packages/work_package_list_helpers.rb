@@ -34,12 +34,13 @@ module API
 
         def work_packages_by_params(project: nil)
           query = Query.new(name: '_', project: project)
+          serializer = ::API::V3::Queries::QuerySerializationHelper.new(query)
           query_params = {}
 
           begin
-            apply_filters query, query_params
-            apply_sorting query, query_params
-            groups = apply_and_generate_groups query, query_params
+            apply_filters serializer, query_params
+            apply_sorting serializer, query_params
+            groups = apply_and_generate_groups serializer, query_params
 
             total_sums = generate_total_sums query.results, query_params
           rescue ::JSON::ParserError => error
@@ -53,71 +54,31 @@ module API
                                  sums: total_sums)
         end
 
-        def apply_filters(query, query_params)
+        def apply_filters(serializer, query_params)
           if params[:filters]
-            filters = parse_filters_from_json(params[:filters])
-            set_filters(query, filters)
+            serializer.parse_filters(JSON.parse(params[:filters]))
             query_params[:filters] = params[:filters]
+
+            bad_filter = serializer.query.filters.detect(&:invalid?)
+            if bad_filter
+              raise_invalid_query(bad_filter.errors)
+            end
           end
         end
 
-        # Expected format looks like:
-        # [
-        #   {
-        #     "filtered_field_name": {
-        #       "operator": "a name for a filter operation",
-        #       "values": ["values", "for the", "operation"]
-        #     }
-        #   },
-        #   { /* more filters if needed */}
-        # ]
-        def parse_filters_from_json(json)
-          filters = JSON.parse(json)
-          operators = {}
-          values = {}
-          filters.each do |filter|
-            attribute = filter.keys.first # there should only be one attribute per filter
-            ar_attribute = convert_attribute attribute, append_id: true
-            operators[ar_attribute] = filter[attribute]['operator']
-            values[ar_attribute] = filter[attribute]['values']
-          end
-
-          {
-            attributes: values.keys,
-            operators: operators,
-            values: values
-          }
-        end
-
-        def set_filters(query, filters)
-          query.filters = []
-          query.add_filters(filters[:attributes], filters[:operators], filters[:values])
-
-          bad_filter = query.filters.detect(&:invalid?)
-          if bad_filter
-            raise_invalid_query(bad_filter.errors)
-          end
-        end
-
-        def apply_sorting(query, query_params)
+        def apply_sorting(serializer, query_params)
           if params[:sortBy]
-            query.sort_criteria = parse_sorting_from_json(params[:sortBy])
+            serializer.parse_sorting(JSON.parse(params[:sortBy]))
             query_params[:sortBy] = params[:sortBy]
           end
         end
 
-        def parse_sorting_from_json(json)
-          JSON.parse(json).map { |(attribute, order)|
-            [convert_attribute(attribute), order]
-          }
-        end
-
-        def apply_and_generate_groups(query, query_params)
+        def apply_and_generate_groups(serializer, query_params)
           if params[:groupBy]
-            query.group_by = convert_attribute params[:groupBy]
+            serializer.parse_group_by(params[:groupBy])
             query_params[:groupBy] = params[:groupBy]
 
-            generate_groups query.results
+            generate_groups serializer.query.results
           end
         end
 
@@ -183,13 +144,6 @@ module API
             groups: groups,
             total_sums: sums,
             current_user: current_user)
-        end
-
-        def convert_attribute(attribute, append_id: false)
-          @conversion_wp ||= WorkPackage.new
-          ::API::Utilities::PropertyNameConverter.to_ar_name(attribute,
-                                                             context: @conversion_wp,
-                                                             refer_to_ids: append_id)
         end
 
         def raise_invalid_query(errors)

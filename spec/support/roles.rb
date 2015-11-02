@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,21 +26,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      class FormRepresenter < ::API::Decorators::Form
-        def payload_representer
-          WorkPackagePayloadRepresenter.create_class(represented).new(represented)
-        end
+#
+shared_context 'with non-member permissions from non_member_permissions' do
+  around do |example|
+    non_member = Role.non_member
+    previous_permissions = non_member.permissions
 
-        def schema_representer
-          schema = Schema::SpecificWorkPackageSchema.new(work_package: represented)
-          Schema::WorkPackageSchemaRepresenter.create(schema,
-                                                      form_embedded: true,
-                                                      current_user: current_user)
-        end
-      end
-    end
+    non_member.update_attribute(:permissions, non_member_permissions)
+    example.run
+    non_member.update_attribute(:permissions, previous_permissions)
   end
 end

@@ -33,40 +33,35 @@ require 'roar/json/hal'
 module API
   module V3
     module Queries
-      class QueryRepresenter < ::API::Decorators::Single
+      class QueryPayloadRepresenter < ::API::Decorators::Single
+        def initialize(query)
+          super(query, current_user: nil)
+        end
 
-        self_link
-
-        linked_property :user
-        linked_property :project
-
-        property :id
         property :name
         property :filters,
                  exec_context: :decorator,
-                 getter: -> (*) { serializer.format_filters }
-        property :is_public, getter: -> (*) { is_public }
+                 getter: -> (*) { serializer.format_filters },
+                 setter: -> (value, *) { serializer.parse_filters(value) }
         property :column_names,
                  exec_context: :decorator,
-                 getter: -> (*) { serializer.format_columns }
+                 getter: -> (*) { serializer.format_columns },
+                 setter: -> (value, *) { serializer.parse_columns(value) }
         property :sort_criteria,
                  exec_context: :decorator,
-                 getter: -> (*) { serializer.format_sorting }
+                 getter: -> (*) { serializer.format_sorting },
+                 setter: -> (value, *) { serializer.parse_sorting(value) }
         property :group_by,
                  exec_context: :decorator,
                  getter: -> (*) { serializer.format_group_by },
+                 setter: -> (value, *) { serializer.parse_group_by(value) },
                  render_nil: true
-        property :display_sums, getter: -> (*) { display_sums }
-        property :is_starred, getter: -> (*) { starred }
+        property :display_sums
 
         private
 
         def serializer
           @serializer ||= ::API::V3::Queries::QuerySerializationHelper.new(represented)
-        end
-
-        def _type
-          'Query'
         end
       end
     end

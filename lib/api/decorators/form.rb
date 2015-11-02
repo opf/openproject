@@ -27,46 +27,38 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
-  module V3
-    module Queries
-      class QueryRepresenter < ::API::Decorators::Single
+  module Decorators
+    class Form < ::API::Decorators::Single
+      def initialize(model, current_user: nil, errors: [])
+        @errors = errors
 
-        self_link
+        super(model, current_user: current_user)
+      end
 
-        linked_property :user
-        linked_property :project
+      property :payload,
+               embedded: true,
+               exec_context: :decorator,
+               getter: -> (*) {
+                 payload_representer
+               }
+      property :schema,
+               embedded: true,
+               exec_context: :decorator,
+               getter: -> (*) {
+                 schema_representer
+               }
+      property :validation_errors, embedded: true, exec_context: :decorator
 
-        property :id
-        property :name
-        property :filters,
-                 exec_context: :decorator,
-                 getter: -> (*) { serializer.format_filters }
-        property :is_public, getter: -> (*) { is_public }
-        property :column_names,
-                 exec_context: :decorator,
-                 getter: -> (*) { serializer.format_columns }
-        property :sort_criteria,
-                 exec_context: :decorator,
-                 getter: -> (*) { serializer.format_sorting }
-        property :group_by,
-                 exec_context: :decorator,
-                 getter: -> (*) { serializer.format_group_by },
-                 render_nil: true
-        property :display_sums, getter: -> (*) { display_sums }
-        property :is_starred, getter: -> (*) { starred }
+      def _type
+        'Form'
+      end
 
-        private
-
-        def serializer
-          @serializer ||= ::API::V3::Queries::QuerySerializationHelper.new(represented)
-        end
-
-        def _type
-          'Query'
+      def validation_errors
+        @errors.group_by(&:property).inject({}) do |hash, (property, errors)|
+          error = ::API::Errors::MultipleErrors.create_if_many(errors)
+          hash[property] = ::API::V3::Errors::ErrorRepresenter.new(error)
+          hash
         end
       end
     end

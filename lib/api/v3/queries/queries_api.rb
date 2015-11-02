@@ -34,13 +34,25 @@ module API
     module Queries
       class QueriesAPI < ::API::OpenProjectAPI
         resources :queries do
+          helpers ::API::V3::Queries::QueryRequestHelpers
+
+          get do
+            authorize(:view_work_packages, global: true)
+
+            queries = Query.visible(to: current_user).global
+            self_link = api_v3_paths.queries
+            ::API::V3::Queries::QueryCollectionRepresenter.new(queries,
+                                                               self_link,
+                                                               current_user: current_user)
+          end
+
           params do
             requires :id, desc: 'Query id'
           end
           route_param :id do
             before do
               @query = Query.find(params[:id])
-              @representer = QueryRepresenter.new(@query, current_user: current_user)
+
               authorize_by_policy(:show) do
                 raise API::Errors::NotFound
               end
@@ -57,7 +69,28 @@ module API
             end
 
             get do
-              @representer
+              QueryRepresenter.new(@query, current_user: current_user)
+            end
+
+            patch do
+              authorize_by_policy(:update)
+              merge_request_into_query(@query)
+
+              if @query.save
+                @query.reload
+
+                QueryRepresenter.new(@query, current_user: current_user)
+              else
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(@query.errors)
+              end
+            end
+
+            delete do
+              authorize_by_policy(:destroy)
+
+              @query.destroy
+
+              status 204
             end
 
             patch :star do
@@ -72,17 +105,17 @@ module API
                   item.title = @query.name
                 }
               query_menu_item.save!
-              @representer
+              QueryRepresenter.new(@query, current_user: current_user)
             end
 
             patch :unstar do
               authorize_by_policy(:unstar)
 
               query_menu_item = @query.query_menu_item
-              return @representer if @query.query_menu_item.nil?
+              return QueryRepresenter.new(@query, current_user: current_user) if @query.query_menu_item.nil?
               query_menu_item.destroy
               @query.reload
-              @representer
+              QueryRepresenter.new(@query, current_user: current_user)
             end
           end
         end
