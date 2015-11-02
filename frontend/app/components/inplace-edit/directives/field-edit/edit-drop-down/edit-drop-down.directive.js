@@ -44,10 +44,10 @@ function inplaceEditorDropDown(EditableFieldsState, FocusHelper) {
 
     link: function(scope, element, attrs, fieldController) {
       var field = scope.field;
-      var selected = field.format();
 
-      scope.customEditorController.selected = selected && selected.props && selected.props.name;
       fieldController.state.isBusy = true;
+
+      scope.emptyField = !scope.field.isRequired();
 
       scope.customEditorController.updateAllowedValues(field.name).then(function() {
         fieldController.state.isBusy = false;
@@ -61,10 +61,9 @@ function inplaceEditorDropDown(EditableFieldsState, FocusHelper) {
 }
 inplaceEditorDropDown.$inject = ['EditableFieldsState', 'FocusHelper'];
 
-
 function InplaceEditorDropDownController($q, $scope, I18n, WorkPackageFieldConfigurationService) {
+
   this.allowedValues = [];
-  this.nullValueLabel = I18n.t('js.inplace.null_value_label');
 
   this.updateAllowedValues = function(field) {
     var customEditorController = this;
@@ -81,18 +80,45 @@ function InplaceEditorDropDownController($q, $scope, I18n, WorkPackageFieldConfi
           }
 
           if (!$scope.field.isRequired()) {
-            var arrayWithEmptyOption = [{
-              href: null,
-              name: I18n.t('js.inplace.clear_value_label')
-            }];
-
-            values = arrayWithEmptyOption.concat(values);
+            values = addEmptyOption(values);
           }
+
+          addHrefTracker(values);
+
           customEditorController.allowedValues = values;
 
           resolve();
         });
     });
+  };
+
+  var addEmptyOption = function(values) {
+    var emptyOption = { props: { href: null,
+                                 name: $scope.field.placeholder } };
+
+    if (!$scope.field.isRequired()) {
+      var arrayWithEmptyOption = [emptyOption.props];
+
+      values = arrayWithEmptyOption.concat(values);
+
+      if ($scope.field.value === null) {
+        $scope.field.value = emptyOption;
+      }
+    }
+
+    return values;
+  };
+
+  // We have to maintain a separate property just to track the object by
+  // in the template. This is due to angular aparently not being able to
+  // track correclty with a field having null as it's value. It does work for
+  // 'null' (String) however.
+  var addHrefTracker = function(values) {
+    _.forEach(values, function(value) {
+      value.hrefTracker = String(value.href);
+    });
+
+    $scope.field.value.props.hrefTracker = String($scope.field.value.props.href);
   };
 }
 InplaceEditorDropDownController.$inject = ['$q', '$scope', 'I18n',

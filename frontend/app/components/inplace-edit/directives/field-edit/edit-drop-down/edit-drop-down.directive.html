@@ -6,13 +6,10 @@
   </label>
   <select
       ng-disabled="fieldController.state.isBusy"
-      ng-model="field.value.props.href"
+      ng-model="field.value.props"
       title="{{ fieldController.editTitle }}"
       class="inplace-edit-select"
-      id="inplace-edit--write-value--{{::field.name}}">
-    <option ng-repeat="item in customEditorController.allowedValues" value="{{ item.href }}"
-        ng-selected="item.name === customEditorController.selected"
-        ng-bind="item.name || customEditorController.nullValueLabel">
-    </option>
+      id="inplace-edit--write-value--{{::field.name}}"
+      ng-options="option as option.name for option in customEditorController.allowedValues track by option.hrefTracker">
   </select>
 </div>
