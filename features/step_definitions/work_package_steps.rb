@@ -190,3 +190,10 @@ When /^I should see the comment "(.+?)"$/ do |comment|
     And I should see "#{comment}" within ".work-package-details-activities-list"
   }
 end
+
+When /^I preview the "(.+?)" and see "(.+?)"$/ do |field_name, text|
+  steps %{
+    And I click on "Preview" within ".work-packages--details--#{field_name}"
+    And I should see "#{text}" within ".work-packages--details--#{field_name} .-preview"
+  }
+end

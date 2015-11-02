@@ -32,6 +32,8 @@ Feature: Updating work packages
       | login     | manager |
       | firstname | the     |
       | lastname  | manager |
+    And the user "manager" has the following preferences
+      | warn_on_leaving_unsaved | false |
     And there are the following types:
       | Name   | Is milestone |
       | Phase1 | false        |
@@ -119,11 +121,10 @@ Feature: Updating work packages
     And the work_package "wp1" is updated with the following:
       | Start date | 04-04-2013 |
     And I submit the form by the "Save" button
-    Then I should see "Information has been updated by at least one other user in the meantime."
-    And I should see "The update(s) came from"
+    Then I should see an error notification stating "Couldn't update the resource because of conflicting modifications."
 
   @javascript
-  Scenario: User adds a comment to an work package with previewing the stuff before
+  Scenario: User adds a comment to a work package with previewing the stuff before
     When I go to the page of the issue "wp1"
     And I click on the edit button
     And I fill in a comment with "human horn"
