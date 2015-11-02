@@ -35,7 +35,7 @@
 
 class RbImpedimentsController < RbApplicationController
   def create
-    @impediment = Impediment.create_with_relationships(impediment_params, @project.id)
+    @impediment = Impediment.create_with_relationships(impediment_params(Impediment.new), @project.id)
     status = (@impediment.errors.empty? ? 200 : 400)
     @include_meta = true
 
@@ -57,10 +57,20 @@ class RbImpedimentsController < RbApplicationController
 
 private
 
-  def impediment_params(instance = nil)
-    if instance && instance.new_record? && (user.allowed_to?(:create_impediments, instance.project) || user.allowed_to?(:update_impediments, impediment.project))
-      byebug
-      params.permit 'blocks_ids'
+  def impediment_params(instance)
+    # We do not need project_id, since ApplicationController will take care of
+    # fetching the record.
+    params.delete(:project_id)
+
+    hash = params.permit(:fixed_version_id, :status_id, :id, :prev, :sprint_id,
+                         :assigned_to_id, :remaining_hours, :subject, :blocks_ids)
+
+    # We block block_ids only when user is not allowed to create or update the
+    # instance passed.
+    unless instance && ((instance.new_record? && User.current.allowed_to?(:create_impediments, @project)) || User.current.allowed_to?(:update_impediments, @project))
+      hash.delete(:block_ids)
     end
+
+    hash
   end
 end

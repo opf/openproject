@@ -96,6 +96,9 @@ class Task < WorkPackage
   end
 
   def self.create_with_relationships_without_move(params, project_id)
+    # Important, otherwise attributes= fails with unknown attribute error.
+    _prev = params.delete(:prev)
+
     task = new
 
     task.author = User.current
@@ -110,6 +113,7 @@ class Task < WorkPackage
   end
 
   def update_with_relationships_without_move(params)
+    prev = params.delete(:prev)
     self.attributes = params
 
     save

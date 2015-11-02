@@ -39,7 +39,8 @@ class RbTasksController < RbApplicationController
   # attributes. This is necessary for now as we still directly use `attributes=`
   # in non-controller code.
   PERMITTED_PARAMS = ["id", "subject", "assigned_to_id", "remaining_hours", "parent_id",
-                      "status_id", "prev", "project_id", "sprint_id"]
+                      "estimated_hours", "status_id", "prev", "sprint_id"]
+
   def create
     @task = Task.create_with_relationships(task_params, @project.id)
 
