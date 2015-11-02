@@ -254,7 +254,7 @@ describe PermittedParams, type: :model do
 
       acceptable_params_with_data.merge!(version_settings_attributes: {id: '1',
                                                                        display: '2',
-                                                                       project: '3'})
+                                                                       project_id: '3'})
 
       params = ActionController::Parameters.new(version: acceptable_params_with_data)
 
