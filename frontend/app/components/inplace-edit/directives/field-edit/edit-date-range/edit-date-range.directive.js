@@ -111,7 +111,9 @@ function inplaceEditorDateRange(TimezoneService, I18n, $timeout, WorkPackageFiel
       };
 
       startDatepicker.onDone = endDatepicker.onDone = function() {
-        form.scope().editPaneController.discardEditing();
+        $timeout(function() {
+          form.scope().editPaneController.discardEditing();
+        });
       };
 
       $timeout(function() {
