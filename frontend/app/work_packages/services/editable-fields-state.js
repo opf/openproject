@@ -44,11 +44,11 @@ module.exports = function($q, $rootScope) {
       return form.pendingChanges = form.pendingChanges || angular.copy(form.embedded.payload.props);
     },
 
-    save: function (notify, callback) {
+    save: function (callback) {
       // We have to ensure that some promises are executed earlier then others
       var promises = [];
       angular.forEach(this.submissionPromises, function(field) {
-        var p = field.thePromise.call(this, notify);
+        var p = field.thePromise.call(this);
         promises[field.prepend ? 'unshift' : 'push' ](p);
       });
 
