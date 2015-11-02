@@ -27,37 +27,37 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= toolbar title: (@query.new_record? ? l(:label_calendar) : h(@query.name)) %>
-<%= form_tag(work_packages_calendar_index_path, :method => :get, :id => 'query_form') do %>
+<%= form_tag(work_packages_calendar_index_path, method: :get, id: 'query_form') do %>
   <%= hidden_field_tag('project_id', @project.to_param) if @project%>
   <fieldset id="filters" class="form--fieldset -collapsible collapsed" >
     <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_filter_plural) %></a></legend>
     <div class="" style="display: none;">
-      <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+      <%= render partial: 'queries/filters', locals: {query: @query} %>
     </div>
   </fieldset>
   <fieldset class="simple-filters--container">
     <legend><%= l('timeframe.show') %></legend>
     <ul class="simple-filters--filters">
       <li class="simple-filters--filter">
-        <%= label_tag('month', l(:label_month), :class => 'simple-filters--filter-name') %>
-        <%= select_month(@month, { :prefix => "month", :discard_type => true }, class: 'simple-filters--filter-value') %>
+        <%= label_tag('month', l(:label_month), class: 'simple-filters--filter-name') %>
+        <%= select_month(@month, { prefix: "month", discard_type: true }, class: 'simple-filters--filter-value') %>
       </li>
       <li class="simple-filters--filter">
-        <%= label_tag('year', l(:label_year), :class => 'simple-filters--filter-name') %>
-        <%= select_year(@year, { :prefix => "year", :discard_type => true }, class: 'simple-filters--filter-value') %>
+        <%= label_tag('year', l(:label_year), class: 'simple-filters--filter-name') %>
+        <%= select_year(@year, { prefix: "year", discard_type: true }, class: 'simple-filters--filter-value') %>
       </li>
       <li class="simple-filters--controls">
         <%= link_to_remote l(:button_apply),
-                         { :url => { :set_filter => 1 },
-                           :method => :get,
-                           :update => "content",
-                           :with => "jQuery('#query_form').serialize()"
-                         }, :class => 'button -highlight -small' %>
+                         { url: { set_filter: 1 },
+                           method: :get,
+                           update: "content",
+                           with: "jQuery('#query_form').serialize()"
+                         }, class: 'button -highlight -small' %>
         <%= link_to_remote l(:button_clear),
-                         { :url => { :project_id => @project, :set_filter => 1 },
-                           :method => :get,
-                           :update => "content",
-                         }, :class => 'button -small -with-icon icon-undo' %>
+                         { url: { project_id: @project, set_filter: 1 },
+                           method: :get,
+                           update: "content",
+                         }, class: 'button -small -with-icon icon-undo' %>
       </li>
     </ul>
 
@@ -66,9 +66,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>
   <p style="float:right;">
-    <%= link_to_previous_month(@year, @month, :project => @project) %> | <%= link_to_next_month(@year, @month, :project => @project) %>
+    <%= link_to_previous_month(@year, @month, project: @project) %> | <%= link_to_next_month(@year, @month, project: @project) %>
   </p>
-  <%= render :partial => 'common/calendar', :locals => {:calendar => @calendar} %>
+  <%= render partial: 'common/calendar', locals: {calendar: @calendar} %>
   <p class="legend cal">
     <span class="starting icon icon-arrow-right7"></span>
     <%= l(:text_tip_work_package_begin_day) %>
@@ -83,7 +83,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </p>
 <% end %>
 <% content_for :sidebar do %>
-  <%= render :partial => 'work_packages/sidebar' %>
+  <%= render partial: 'work_packages/sidebar' %>
 <% end %>
 
 <% html_title(l(:label_calendar)) -%>

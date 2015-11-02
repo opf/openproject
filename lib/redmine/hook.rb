@@ -117,7 +117,7 @@ module Redmine
       # Helper method to directly render a partial using the context:
       #
       #   class MyHook < Redmine::Hook::ViewListener
-      #     render_on :view_issues_show_details_bottom, :partial => "show_more_data"
+      #     render_on :view_issues_show_details_bottom, partial: "show_more_data"
       #   end
       #
       def self.render_on(hook, options = {})
@@ -145,11 +145,11 @@ module Redmine
     # hooks can be called in views like this:
     #
     #   <%= call_hook(:some_hook) %>
-    #   <%= call_hook(:another_hook, :foo => 'bar') %>
+    #   <%= call_hook(:another_hook, foo: 'bar') %>
     #
     # Or in controllers like:
     #   call_hook(:some_hook)
-    #   call_hook(:another_hook, :foo => 'bar')
+    #   call_hook(:another_hook, foo: 'bar')
     #
     # Hooks added to views will be concatenated into a string. Hooks added to
     # controllers will return an array of results.

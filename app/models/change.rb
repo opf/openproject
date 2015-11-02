@@ -35,8 +35,6 @@ class Change < ActiveRecord::Base
 
   delegate :repository_encoding, to: :changeset, allow_nil: true, prefix: true
 
-  attr_protected :changeset_id
-
   def relative_path
     changeset.repository.relative_path(path)
   end

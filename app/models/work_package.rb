@@ -40,9 +40,6 @@ class WorkPackage < ActiveRecord::Base
 
   include OpenProject::Journal::AttachmentHelper
 
-  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  include Redmine::SafeAttributes
-
   DONE_RATIO_OPTIONS = %w(field status disabled)
   ATTRIBS_WITH_VALUES_FROM_CHILDREN =
     %w(priority_id start_date due_date estimated_hours done_ratio)
@@ -65,9 +62,6 @@ class WorkPackage < ActiveRecord::Base
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
   }
 
-  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  attr_protected :project_id, :author_id, :lft, :rgt
-  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   scope :recently_updated, ->() {
     # Specified as a String due to https://github.com/rails/rails/issues/15405
@@ -290,8 +284,8 @@ class WorkPackage < ActiveRecord::Base
 
     work_package = arg.is_a?(WorkPackage) ? arg : WorkPackage.visible.find(arg)
 
-    # attributes don't come from form, so it's save to force assign
-    self.force_attributes = work_package.attributes.dup.except(*merged_options[:exclude])
+    # attributes don't come from form, so it's safe to force assign
+    self.attributes = work_package.attributes.dup.except(*merged_options[:exclude])
     self.parent_id = work_package.parent_id if work_package.parent_id
     self.custom_field_values =
       work_package.custom_field_values.inject({}) do |h, v|
@@ -507,48 +501,6 @@ class WorkPackage < ActiveRecord::Base
   def estimated_hours=(h)
     converted_hours = (h.is_a?(String) ? h.to_hours : h)
     write_attribute :estimated_hours, !!converted_hours ? converted_hours : h
-  end
-  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-  # Safely sets attributes
-  # Should be called from controllers instead of #attributes=
-  # attr_accessible is too rough because we still want things like
-  # WorkPackage.new(:project => foo) to work
-  # TODO: move workflow/permission checks from controllers to here
-  def safe_attributes=(attrs, user = User.current)
-    return unless attrs.is_a?(Hash)
-
-    # User can change issue attributes only if he has :edit permission
-    # or if a workflow transition is allowed
-    attrs = delete_unsafe_attributes(attrs, user)
-    return if attrs.empty?
-
-    # ::Type must be set before since new_statuses_allowed_to depends on it.
-    if t = attrs.delete('type_id')
-      self.type_id = t
-    end
-
-    if attrs['status_id']
-      unless new_statuses_allowed_to(user).map(&:id).include?(attrs['status_id'].to_i)
-        attrs.delete('status_id')
-      end
-    end
-
-    if parent.present?
-      attrs.reject! do |k, _v|
-        %w(priority_id done_ratio start_date due_date estimated_hours).include?(k)
-      end
-    end
-
-    if attrs.has_key?('parent_id')
-      if !user.allowed_to?(:manage_subtasks, project)
-        attrs.delete('parent_id')
-      elsif !attrs['parent_id'].blank?
-        attrs.delete('parent_id') unless WorkPackage.visible(user).exists?(attrs['parent_id'].to_i)
-      end
-    end
-
-    self.attributes = attrs
   end
 
   # Saves an issue, time_entry, attachments, and a journal from the parameters
@@ -769,32 +721,6 @@ class WorkPackage < ActiveRecord::Base
   # Do not redefine alias chain on reload (see #4838)
   alias_method_chain(:attributes=,
                      :type_first) unless method_defined?(:attributes_without_type_first=)
-
-  safe_attributes 'type_id',
-                  'status_id',
-                  'parent_id',
-                  'category_id',
-                  'assigned_to_id',
-                  'priority_id',
-                  'fixed_version_id',
-                  'subject',
-                  'description',
-                  'start_date',
-                  'due_date',
-                  'done_ratio',
-                  'estimated_hours',
-                  'custom_field_values',
-                  'custom_fields',
-                  'lock_version',
-                  if: ->(issue, user) do
-                    issue.new_record? || user.allowed_to?(:edit_work_packages, issue.project)
-                  end
-
-  safe_attributes 'status_id',
-                  'assigned_to_id',
-                  'fixed_version_id',
-                  'done_ratio',
-                  if: lambda { |issue, user| issue.new_statuses_allowed_to(user).any? }
 
   def <=>(issue)
     if issue.nil?

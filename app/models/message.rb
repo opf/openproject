@@ -28,7 +28,6 @@
 #++
 
 class Message < ActiveRecord::Base
-  include Redmine::SafeAttributes
   include OpenProject::Journal::AttachmentHelper
 
   belongs_to :board
@@ -61,8 +60,6 @@ class Message < ActiveRecord::Base
 
   acts_as_watchable
 
-  attr_protected :author_id
-
   validates_presence_of :board, :subject, :content
   validates_length_of :subject, maximum: 255
 
@@ -75,12 +72,6 @@ class Message < ActiveRecord::Base
     includes(board: :project)
       .merge(Project.allowed_to(args.first || User.current, :view_messages))
   }
-
-  safe_attributes 'subject', 'content', 'board_id'
-  safe_attributes 'locked', 'sticky',
-                  if: lambda {|message, user|
-                    user.allowed_to?(:edit_messages, message.project)
-                  }
 
   def visible?(user = User.current)
     !user.nil? && user.allowed_to?(:view_messages, project)

@@ -37,21 +37,29 @@ $widget-box--enumeration-width: 20px
   margin-left: 10px
 
 .widget-boxes
-  display: flex
-  flex-flow: row wrap
+
+  &.-flex
+    display: flex
+    flex-flow: row wrap
+
+    .widget-box
+      flex: 1
+      flex-basis: 32%
+      display: flex
+      flex-direction: column
+
+    .widget-box--enumeration,
+    .widget-box--arrow-links
+      flex-grow: 2
 
   .icon-context:before
     padding-right: 5px
 
   .widget-box
     @include widget-box--style
-    padding: 10px 10px 10px 20px
-    flex: 1
-    flex-basis: 32%
-    display: flex
-    flex-direction: column
+    padding: 10px 20px 30px 20px
     min-height: 250px
-    word-wrap: break-words
+    word-wrap: break-word
     overflow: hidden
 
     .widget-box--header
@@ -76,12 +84,13 @@ $widget-box--enumeration-width: 20px
     .widget-box--enumeration
       margin-left: 1.5rem
       margin-top: 0.5rem
-      flex-grow: 2
 
     .widget-box--arrow-links
       list-style: none
       margin: 0.5rem 0 1rem 0
-      flex-grow: 2
+
+      &:last-child
+        margin-bottom: 0
 
       li:before
         @include icon-common
@@ -106,3 +115,4 @@ $widget-box--enumeration-width: 20px
           margin-bottom: 10px
           //necessary for correct alignment even with long texts
           width: calc(100% - #{$widget-box--enumeration-width})
+

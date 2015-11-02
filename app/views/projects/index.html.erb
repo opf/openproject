@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, {:action => 'index', :format => 'atom', :key => User.current.rss_key}) %>
+  <%= auto_discovery_link_tag(:atom, {action: 'index', format: 'atom', key: User.current.rss_key}) %>
 <% end %>
 
 <% html_title(l(:label_project_plural)) -%>
@@ -66,5 +66,5 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', url: {key: User.current.rss_key} %>
 <% end %>

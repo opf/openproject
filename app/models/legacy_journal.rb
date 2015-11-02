@@ -46,11 +46,9 @@ class LegacyJournal < ActiveRecord::Base
   # Define a default class_name to prevent `uninitialized constant Journal::Journaled`
   # subclasses will be given an actual class name when they are created by aaj
   #
-  #  e.g. IssueJournal will get :class_name => 'Issue'
+  #  e.g. IssueJournal will get class_name: 'Issue'
   belongs_to :journaled, class_name: 'Journal'
   belongs_to :user
-
-  # attr_protected :user_id
 
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment

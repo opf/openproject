@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= styled_check_box_tag "project_type[#{attribute_name}][]",
                       association_instance.id,
                       active_list.include?(association_instance),
-                      :id => "project_type_#{attribute_name}_#{association_instance.id}" %>
+                      id: "project_type_#{attribute_name}_#{association_instance.id}" %>
     <%=h association_instance.name %>
   </label>
 <% end %>

@@ -28,7 +28,6 @@
 #++
 
 class Role < ActiveRecord::Base
-  include ActiveModel::ForbiddenAttributesProtection
   extend Pagination::Model
 
   # Built-in roles
@@ -56,7 +55,6 @@ class Role < ActiveRecord::Base
   acts_as_list
 
   serialize :permissions, Array
-  attr_protected :builtin
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -114,7 +112,7 @@ class Role < ActiveRecord::Base
 
   # Return true if role is allowed to do the specified action
   # action can be:
-  # * a parameter-like Hash (eg. :controller => '/projects', :action => 'edit')
+  # * a parameter-like Hash (eg. controller: '/projects', action: 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action)
     if action.is_a? Hash

@@ -62,7 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <div class="form--field -trailing-label">
             <%= styled_label_tag 'to_do_action_reassign', l(:text_reassign) %>
             <div class="form--field-container">
-              <%= styled_radio_button_tag 'to_do[action]', 'reassign', :onclick => 'if(jQuery("#to_do_action_reassign").prop("checked")) { jQuery("#to_do_reassign_to_id").focus(); }' %>
+              <%= styled_radio_button_tag 'to_do[action]', 'reassign', onclick: 'if(jQuery("#to_do_action_reassign").prop("checked")) { jQuery("#to_do_reassign_to_id").focus(); }' %>
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <div class="form--field">
             <div class="form--text-field-container -xslim">
               <%= styled_label_tag 'to_do_reassign_to_id', l(:text_reassign), class: 'form--label hidden-for-sighted' %>
-              <%= f.text_field 'reassign_to_id', :placeholder => WorkPackage.human_attribute_name(:id), :value => params[:reassign_to_id], :size => 6, :onfocus => 'jQuery("#to_do_action_reassign").prop("checked", true);' %>
+              <%= f.text_field 'reassign_to_id', placeholder: WorkPackage.human_attribute_name(:id), value: params[:reassign_to_id], size: 6, onfocus: 'jQuery("#to_do_action_reassign").prop("checked", true);' %>
             </div>
           </div>
         </div>

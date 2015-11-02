@@ -129,7 +129,7 @@ class TimelogController < ApplicationController
 
   def new
     @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
-    @time_entry.safe_attributes = params[:time_entry]
+    @time_entry.attributes = permitted_params.time_entry
 
     call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
 
@@ -138,7 +138,7 @@ class TimelogController < ApplicationController
 
   def create
     @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
-    @time_entry.safe_attributes = params[:time_entry]
+    @time_entry.attributes = permitted_params.time_entry
 
     call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
 
@@ -159,13 +159,13 @@ class TimelogController < ApplicationController
   end
 
   def edit
-    @time_entry.safe_attributes = params[:time_entry]
+    @time_entry.attributes = permitted_params.time_entry
 
     call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
   end
 
   def update
-    @time_entry.safe_attributes = params[:time_entry]
+    @time_entry.attributes = permitted_params.time_entry
 
     call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
 
@@ -246,8 +246,8 @@ class TimelogController < ApplicationController
   def project_id_from_params
     if params.has_key?(:project_id)
       project_id = params[:project_id]
-    elsif params.has_key?(:time_entry) && params[:time_entry].has_key?(:project_id)
-      project_id = params[:time_entry][:project_id]
+    elsif params.has_key?(:time_entry) && permitted_params.time_entry.has_key?(:project_id)
+      project_id = permitted_params.time_entry[:project_id]
     end
   end
 
@@ -259,8 +259,8 @@ class TimelogController < ApplicationController
   def work_package_from_params
     if params.has_key?(:work_package_id)
       work_package_id = params[:work_package_id]
-    elsif params.has_key?(:time_entry) && params[:time_entry].has_key?(:work_package_id)
-      work_package_id = params[:time_entry][:work_package_id]
+    elsif params.has_key?(:time_entry) && permitted_params.time_entry.has_key?(:work_package_id)
+      work_package_id = permitted_params.time_entry[:work_package_id]
     end
 
     WorkPackage.find_by id: work_package_id

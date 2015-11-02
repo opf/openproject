@@ -46,10 +46,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <% @newss.each do |news| %>
     <h3><%= avatar(news.author) %><%= link_to_project(news.project) + ': ' unless news.project == @project %>
       <%= link_to h(news.title), news_path(news) %>
-      <%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %></h3>
+      <%= "(#{l(:label_x_comments, count: news.comments_count)})" if news.comments_count > 0 %></h3>
     <p class="author"><%= authoring news.created_on, news.author %></p>
     <div class="wiki">
-      <%= format_text(news.summary.present? ? news.summary : truncate(news.description), :object => news) %>
+      <%= format_text(news.summary.present? ? news.summary : truncate(news.description), object: news) %>
     </div>
   <% end %>
 <% else %>
@@ -64,9 +64,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= pagination_links_full @newss %>
 
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:project_id => @project, :key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', url: {project_id: @project, key: User.current.rss_key} %>
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :page => nil, :key => User.current.rss_key})) %>
+  <%= auto_discovery_link_tag(:atom, params.merge({format: 'atom', page: nil, key: User.current.rss_key})) %>
 <% end %>

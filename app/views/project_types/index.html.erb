@@ -87,14 +87,14 @@ See doc/COPYRIGHT.rdoc for more details.
                 <%= link_to(h(type.name), edit_project_type_path(type)) %>
               </td>
               <td class="timelines-pt-reorder">
-                <%= reorder_links('project_type', {:action => 'move', :id => type}) %>
+                <%= reorder_links('project_type', {action: 'move', id: type}) %>
               </td>
               <td class="timelines-pt-allows_association">
                 <%= checked_image(type.allows_association) %>
               </td>
               <td class="timelines-pt-actions buttons">
                 <%= link_to(confirm_destroy_project_type_path(type),
-                           :class => 'icon icon-delete') do %>
+                           class: 'icon icon-delete') do %>
                   <%= l(:button_delete) %>
                   <span class="hidden-for-sighted"><%=h type.name %></span>
                 <% end %>

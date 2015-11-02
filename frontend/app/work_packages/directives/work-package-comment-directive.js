@@ -69,7 +69,7 @@ module.exports = function(
     };
 
     // Propagate submission to all active fields
-    ctrl.submit = function(notify) {
+    ctrl.submit = function() {
 
       // Avoid submitting empty comments
       if (ctrl.isEmpty()) {
@@ -77,16 +77,15 @@ module.exports = function(
       }
 
       var nextActivity = ctrl.activities.length + 1;
-      EditableFieldsState.save(notify, function() {
+      EditableFieldsState.save(function() {
         $location.hash('activity-' + (nextActivity));
-      }
-      );
+      });
     };
 
     /**
     * Returns a promise to submits this very comment field
     */
-    ctrl.submitField = function(notify) {
+    ctrl.submitField = function() {
       var submit = $q.defer();
 
       // Avoid submitting empty comments
@@ -98,8 +97,7 @@ module.exports = function(
       ctrl.state.isBusy = true;
       ActivityService.createComment(
         ctrl.workPackage,
-        ctrl.writeValue,
-        notify
+        ctrl.writeValue
       ).then(function() {
         ctrl.discardEditing();
         NotificationsService.addSuccess(I18n.t('js.work_packages.comment_added'));

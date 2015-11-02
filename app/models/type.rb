@@ -30,8 +30,6 @@
 class ::Type < ActiveRecord::Base
   extend Pagination::Model
 
-  include ActiveModel::ForbiddenAttributesProtection
-
   before_destroy :check_integrity
 
   has_many :work_packages

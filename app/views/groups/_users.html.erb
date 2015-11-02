@@ -56,9 +56,9 @@ See doc/COPYRIGHT.rdoc for more details.
                   <td class="user"><%= link_to_user user %></td>
                   <td class="buttons">
                     <%= link_to l(:button_remove), member_of_group_path(@group, user),
-                                               :method => :delete,
-                                               :remote => :true,
-                                               :class => 'icon icon-remove' %>
+                                               method: :delete,
+                                               remote: :true,
+                                               class: 'icon icon-remove' %>
                   </td>
                 </tr>
               <% end %>
@@ -74,7 +74,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="grid-content">
     <% users = User.active.not_in_group(@group).limit(100) %>
     <% if users.any? %>
-      <%= styled_form_tag(members_of_group_path(@group), :method => :post, :remote => true) do |f| %>
+      <%= styled_form_tag(members_of_group_path(@group), method: :post, remote: true) do |f| %>
         <fieldset class="form--fieldset">
           <legend class="form--fieldset-legend"><%=l(:label_user_new)%></legend>
           <div class="form--field -vertical">
@@ -85,11 +85,11 @@ See doc/COPYRIGHT.rdoc for more details.
           </div>
           <div class="form--field -vertical">
             <%= observe_field(:user_search,
-                          :frequency => 0.5,
-                          :update => :users,
-                          :url => { :controller => '/groups', :action => 'autocomplete_for_user', :id => @group },
-                          :with => 'q',
-                          :method => :get)
+                          frequency: 0.5,
+                          update: :users,
+                          url: { controller: '/groups', action: 'autocomplete_for_user', id: @group },
+                          with: 'q',
+                          method: :get)
                       %>
             <div id="users" class="form--field-container -vertical">
               <%= principals_check_box_tags 'user_ids[]', users %>

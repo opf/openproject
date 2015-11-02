@@ -31,10 +31,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: "#{link_to l(@enumeration.option_name), enumerations_path} &raquo; #{h @enumeration}" %>
 
 <%= labelled_tabular_form_for @enumeration do |f| %>
-  <%= render :partial => 'form', :locals => { :f => f } %>
+  <%= render partial: 'form', locals: { f: f } %>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
 <% end %>
 
-<%= styled_form_tag(enumeration_path(@enumeration), :method => :delete) do %>
+<%= styled_form_tag(enumeration_path(@enumeration), method: :delete) do %>
   <%= styled_submit_tag l(:button_delete) %>
 <% end %>

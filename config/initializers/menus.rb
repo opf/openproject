@@ -259,12 +259,6 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_time_sheet_menu,
             html: { class: 'icon2 icon-stats' }
 
-  menu.push :reportings,
-            { controller: '/reportings', action: 'index' },
-            param: :project_id,
-            caption: :'timelines.project_menu.reportings',
-            html: { class: 'icon2 icon-status-reporting' }
-
   menu.push :members,
             { controller: :members, action: :index },
             param: :project_id,

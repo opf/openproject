@@ -33,10 +33,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="form--field">
   <% if project && project.persisted? %>
     <% if User.current.impaired? %>
-      <%= form.select :responsible_id, project.possible_responsibles.map {|m| [m.name, m.id]}, :include_blank => true %>
+      <%= form.select :responsible_id, project.possible_responsibles.map {|m| [m.name, m.id]}, include_blank: true %>
     <% else %>
-      <% options = { :'data-ajaxURL' => url_for({:controller => "/members",
-                                               :action     => "paginate_users" }),
+      <% options = { :'data-ajaxURL' => url_for({controller: "/members",
+                                               action: "paginate_users" }),
                    :'data-projectId' => project.id
                  } %>
       <%= javascript_include_tag "autocompleter.js" %>

@@ -57,7 +57,7 @@ function inplaceEditorDate(EditableFieldsState, TimezoneService, $timeout, Datep
         datepicker;
 
       scope.execute = function() {
-        form.scope().editPaneController.submit(false);
+        form.scope().editPaneController.submit();
       };
 
       field.value = field.value && customFormattedDate(field.value);

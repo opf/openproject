@@ -36,8 +36,6 @@ class Attachment < ActiveRecord::Base
 
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 
-  attr_protected :author_id
-
   validates_presence_of :container, :author, :content_type, :filesize
   validates_length_of :description, maximum: 255
 
@@ -110,8 +108,8 @@ class Attachment < ActiveRecord::Base
   # Bulk attaches a set of files to an object
   #
   # Returns a Hash of the results:
-  # :files => array of the attached files
-  # :unsaved => array of the files that could not be attached
+  # files: array of the attached files
+  # unsaved: array of the files that could not be attached
   def self.attach_files(obj, attachments)
     attached = []
     if attachments && attachments.is_a?(Hash)

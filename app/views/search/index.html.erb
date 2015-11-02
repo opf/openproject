@@ -31,11 +31,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= call_hook :search_index_head %>
 <% end %>
 <%= toolbar title: l(:label_search) %>
-<%= styled_form_tag(search_path(@project), :method => :get) do %>
+<%= styled_form_tag(search_path(@project), method: :get) do %>
   <fieldset class="simple-filters--container" id="search-filter">
     <ul class="simple-filters--filters">
       <li class="simple-filters--filter">
-        <%= styled_label_tag "search-input", l(:description_search), :class => "hidden-for-sighted simple-filters--filter-name" %>
+        <%= styled_label_tag "search-input", l(:description_search), class: "hidden-for-sighted simple-filters--filter-name" %>
         <div class="simple-filters--filter-value">
           <%= styled_text_field_tag :q, @question, id: 'search-input' %>
         </div>
@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
       </li>
       <li class="simple-filters--controls">
-        <%= styled_submit_tag l(:button_submit), :name => 'submit', class: 'button -highlight -small' %>
+        <%= styled_submit_tag l(:button_submit), name: 'submit', class: 'button -highlight -small' %>
       </li>
     </ul>
     <ul class="simple-filter--trailing-labels">
@@ -83,7 +83,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= render_results_by_type(@results_by_type) unless @scope.size == 1 %>
   </div>
   <h3><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
-  <%= render :partial => 'pagination', :locals => {:pagination_previous_date => @pagination_previous_date, :pagination_next_date => @pagination_next_date } %>
+  <%= render partial: 'pagination', locals: {pagination_previous_date: @pagination_previous_date, pagination_next_date: @pagination_next_date } %>
   <dl id="search-results">
     <% @results.each do |e| %>
       <dt class="<%= e.event_type %>">
@@ -98,5 +98,5 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </dl>
 <% end %>
-<%= render :partial => 'pagination', :locals => {:pagination_previous_date => @pagination_previous_date, :pagination_next_date => @pagination_next_date } %>
+<%= render partial: 'pagination', locals: {pagination_previous_date: @pagination_previous_date, pagination_next_date: @pagination_next_date } %>
 <% html_title(l(:label_search)) -%>

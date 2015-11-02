@@ -71,9 +71,9 @@ See doc/COPYRIGHT.rdoc for more details.
         <tbody>
           <% @groups.each do |group| %>
             <tr>
-              <td><%= link_to h(group), :action => 'edit', :id => group %></td>
+              <td><%= link_to h(group), action: 'edit', id: group %></td>
               <td><%= group.users.size %></td>
-              <td class="buttons"><%= link_to l(:button_delete), group, data: { confirm: l(:text_are_you_sure) }, :method => :delete, :class => 'icon icon-delete' %></td>
+              <td class="buttons"><%= link_to l(:button_delete), group, data: { confirm: l(:text_are_you_sure) }, method: :delete, class: 'icon icon-delete' %></td>
             </tr>
           <% end %>
         </tbody>

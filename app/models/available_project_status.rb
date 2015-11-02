@@ -35,7 +35,5 @@ class AvailableProjectStatus < ActiveRecord::Base
   belongs_to :reported_project_status, class_name:  'ReportedProjectStatus',
                                        foreign_key: 'reported_project_status_id'
 
-  attr_accessible :reported_project_status_id
-
   validates_presence_of :reported_project_status, :project_type
 end

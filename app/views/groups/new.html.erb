@@ -31,6 +31,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: "#{link_to l(:label_group_plural), groups_path} &raquo; #{l(:label_group_new)}" %>
 
 <%= labelled_tabular_form_for(@group) do |f| %>
-  <%= render :partial => 'form', :locals => { :f => f } %>
+  <%= render partial: 'form', locals: { f: f } %>
   <div><%= f.button l(:button_create), class: 'button -highlight -with-icon icon-yes' %></div>
 <% end %>

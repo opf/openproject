@@ -28,7 +28,6 @@
 #++
 
 class Project < ActiveRecord::Base
-  include Redmine::SafeAttributes
   extend Pagination::Model
   extend FriendlyId
 
@@ -129,8 +128,6 @@ class Project < ActiveRecord::Base
                 url: Proc.new { |o| { controller: '/projects', action: 'show', id: o } },
                 author: nil,
                 datetime: :created_on
-
-  attr_protected :status
 
   validates_presence_of :name, :identifier
   # TODO: we temporarily disable this validation because it leads to failed tests
@@ -323,9 +320,9 @@ class Project < ActiveRecord::Base
   # Returns a ActiveRecord::Relation to find all projects for which +user+ has the given +permission+
   #
   # Valid options:
-  # * :project => limit the condition to project
-  # * :with_subprojects => limit the condition to project and its subprojects
-  # * :member => limit the condition to the user projects
+  # * project: limit the condition to project
+  # * with_subprojects: limit the condition to project and its subprojects
+  # * member: limit the condition to the user projects
   def self.allowed_to(user, permission, options = {})
     where(allowed_to_condition(user, permission, options))
       .references(:projects)
@@ -334,9 +331,9 @@ class Project < ActiveRecord::Base
   # Returns a SQL conditions string used to find all projects for which +user+ has the given +permission+
   #
   # Valid options:
-  # * :project => limit the condition to project
-  # * :with_subprojects => limit the condition to project and its subprojects
-  # * :member => limit the condition to the user projects
+  # * project: limit the condition to project
+  # * with_subprojects: limit the condition to project and its subprojects
+  # * member: limit the condition to the user projects
   def self.allowed_to_condition(user, permission, options = {})
     base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     if perm = Redmine::AccessControl.permission(permission)
@@ -727,7 +724,7 @@ class Project < ActiveRecord::Base
 
   # Return true if this project is allowed to do the specified action.
   # action can be:
-  # * a parameter-like Hash (eg. :controller => '/projects', :action => 'edit')
+  # * a parameter-like Hash (eg. controller: '/projects', action: 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allows_to?(action)
     if action.is_a? Hash
@@ -755,21 +752,6 @@ class Project < ActiveRecord::Base
   def enabled_module_names
     enabled_modules.map(&:name)
   end
-
-  safe_attributes 'name',
-                  'description',
-                  'is_public',
-                  'identifier',
-                  'custom_field_values',
-                  'custom_fields',
-                  'type_ids',
-                  'work_package_custom_field_ids',
-                  'project_type_id',
-                  'type_ids',
-                  'responsible_id'
-
-  safe_attributes 'enabled_module_names',
-                  if: lambda { |project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
 
   # Returns an array of projects that are in this project's hierarchy
   #
@@ -799,7 +781,7 @@ class Project < ActiveRecord::Base
   #
   # where each entry has the form
   #
-  #   project_info = { :project => the_project, :children => [ child_info_1, child_info_2, ... ] }
+  #   project_info = { project: the_project, children: [ child_info_1, child_info_2, ... ] }
   #
   # if a project has no children the :children array is just empty
   #

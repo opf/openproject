@@ -38,7 +38,7 @@ describe Category, type: :model do
   end
 
   it 'should create' do
-    (new_cat = Category.new).force_attributes = { project_id: @project.id, name: 'New category' }
+    (new_cat = Category.new).attributes = { project_id: @project.id, name: 'New category' }
     assert new_cat.valid?
     assert new_cat.save
     assert_equal 'New category', new_cat.name
@@ -48,9 +48,9 @@ describe Category, type: :model do
     group = FactoryGirl.create :group
     role = FactoryGirl.create :role
     (Member.new.tap do |m|
-      m.force_attributes = { principal: group, project: @project, role_ids: [role.id] }
+      m.attributes = { principal: group, project: @project, role_ids: [role.id] }
     end).save!
-    (new_cat = Category.new).force_attributes = { project_id: @project.id, name: 'Group assignment', assigned_to_id: group.id }
+    (new_cat = Category.new).attributes = { project_id: @project.id, name: 'Group assignment', assigned_to_id: group.id }
     assert new_cat.valid?
     assert new_cat.save
     assert_kind_of Group, new_cat.assigned_to

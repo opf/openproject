@@ -56,37 +56,37 @@ See doc/COPYRIGHT.rdoc for more details.
           <% for type in @types %>
             <li><%= link_to (type.is_standard) ? l(:default_type) : h(type.name),
                           project_property_path(@project, "type_id", type.id) %>:
-              <%= l(:label_x_open_work_packages_abbr_on_total, :count => @open_issues_by_type[type].to_i,
-                                                               :total => @total_issues_by_type[type].to_i) %>
+              <%= l(:label_x_open_work_packages_abbr_on_total, count: @open_issues_by_type[type].to_i,
+                                                               total: @total_issues_by_type[type].to_i) %>
             </li>
           <% end %>
         </ul>
         <p>
-          <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project}, :class => 'button -highlight' %>
-          <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-            <%= link_to(l(:label_calendar), {:controller => '/work_packages/calendars', :action => 'index', :project_id => @project}, :class => 'button -highlight') %>
+          <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project}, class: 'button -highlight' %>
+          <% if User.current.allowed_to?(:view_calendar, @project, global: true) %>
+            <%= link_to(l(:label_calendar), {controller: '/work_packages/calendars', action: 'index', project_id: @project}, class: 'button -highlight') %>
           <% end %>
         </p>
       </div>
     <% end %>
-    <%= call_hook(:view_projects_show_left, :project => @project) %>
+    <%= call_hook(:view_projects_show_left, project: @project) %>
   </div>
 
   <div class="grid-content">
-    <%= render :partial => 'members_box' %>
+    <%= render partial: 'members_box' %>
 
     <% if @news.any? && authorize_for('news', 'index') %>
       <div class="news content-box">
         <h3><%=l(:label_news_latest)%></h3>
-        <%= render :partial => 'news/news', :collection => @news %>
-        <p><%= link_to l(:label_news_view_all), {:controller => '/news', :action => 'index', :project_id => @project}, :class => 'button -highlight' %></p>
+        <%= render partial: 'news/news', collection: @news %>
+        <p><%= link_to l(:label_news_view_all), {controller: '/news', action: 'index', project_id: @project}, class: 'button -highlight' %></p>
       </div>
     <% end %>
-    <%= call_hook(:view_projects_show_right, :project => @project) %>
+    <%= call_hook(:view_projects_show_right, project: @project) %>
   </div>
 </div>
 
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, {:controller => '/activities', :action => 'index', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
+  <%= auto_discovery_link_tag(:atom, {controller: '/activities', action: 'index', id: @project, format: 'atom', key: User.current.rss_key}) %>
 <% end %>
 <% html_title(l(:label_overview)) -%>

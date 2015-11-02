@@ -33,14 +33,14 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="choice--select">
     <span class="inline-label">
       <%= f.select :relation_type, collection_for_relation_type_select, {},
-            :onchange => "setPredecessorFieldsVisibility();",
+            onchange: "setPredecessorFieldsVisibility();",
             class: 'form--select' %>
       <span class="form-label"><%= WorkPackage.model_name.human %> #</span>
-      <%= f.text_field :to_id, :size => 10, class: 'form--text-field'%>
+      <%= f.text_field :to_id, size: 10, class: 'form--text-field'%>
     </span>
     <span id="predecessor_fields" class="inline-label" style="display:none;">
       <span class="form-label"><%= Relation.human_attribute_name(:delay) %>:</span>
-      <%= f.text_field :delay, :size => 3, class: 'form--text-field' %>
+      <%= f.text_field :delay, size: 3, class: 'form--text-field' %>
       <span class="form-label"><%= l(:label_day_plural) %></span>
     </span>
   </div>
@@ -54,5 +54,5 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="clearfix"></div>
 
 <div id="related_issue_candidates" class="autocomplete"></div>
-<%= javascript_tag "observeRelatedIssueField('#{work_packages_auto_complete_path(:id => controller.work_package, :project_id => @project, :escape => false) }')" %>
+<%= javascript_tag "observeRelatedIssueField('#{work_packages_auto_complete_path(id: controller.work_package, project_id: @project, escape: false) }')" %>
 <%= javascript_tag "setPredecessorFieldsVisibility();" %>

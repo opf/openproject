@@ -158,13 +158,18 @@ class UsersController < ApplicationController
       end
     end
 
-    if @user.save
-      pref_params = params[:pref] || {}
+    pref_params = if params[:pref].present?
+                    permitted_params.pref
+                  else
+                    {}
+                  end
 
+    if @user.save
       update_email_service = UpdateUserEmailSettingsService.new(@user)
       update_email_service.call(mail_notification: pref_params.delete(:mail_notification),
                                 self_notified: params[:self_notified] == '1',
                                 notified_project_ids: params[:notified_project_ids])
+
 
       @user.pref.attributes = pref_params
       @user.pref.save
@@ -239,7 +244,7 @@ class UsersController < ApplicationController
   end
 
   def edit_membership
-    @membership = Member.edit_membership(params[:membership_id], params[:membership], @user)
+    @membership = Member.edit_membership(params[:membership_id], permitted_params.membership, @user)
     @membership.save if request.post?
     respond_to do |format|
       if @membership.valid?

@@ -52,7 +52,7 @@ describe MessagesController, type: :controller do
     assert_difference 'Message.count', 110 do
       110.times do
         m = Message.new
-        m.force_attributes = { subject: 'Reply', content: 'Reply body', author_id: 2, board_id: 1 }
+        m.attributes = { subject: 'Reply', content: 'Reply body', author_id: 2, board_id: 1 }
         message.children << m
       end
     end

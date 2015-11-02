@@ -30,6 +30,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l(:label_board_new) %>
 
 <%= labelled_tabular_form_for [@project, @board] do |f| %>
-  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= render partial: 'form', locals: {f: f} %>
   <%= f.button l(:button_create), class: 'button -highlight -with-icon icon-yes' %>
 <% end %>

@@ -458,6 +458,24 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'user is not allowed to edit work packages' do
           let(:permissions) { all_permissions - [:edit_work_packages] }
 
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'addAttachment' }
+            let(:href) { api_v3_paths.attachments_by_work_package(work_package.id) }
+          end
+        end
+
+        context 'user is not allowed to add work packages' do
+          let(:permissions) { all_permissions - [:add_work_packages] }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'addAttachment' }
+            let(:href) { api_v3_paths.attachments_by_work_package(work_package.id) }
+          end
+        end
+
+        context 'user is neither allowed to edit work packages nor to add them' do
+          let(:permissions) { all_permissions - [:edit_work_packages, :add_work_packages] }
+
           it_behaves_like 'has no link' do
             let(:link) { 'addAttachment' }
           end

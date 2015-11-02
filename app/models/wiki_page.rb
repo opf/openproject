@@ -31,8 +31,6 @@ require 'diff'
 require 'enumerator'
 
 class WikiPage < ActiveRecord::Base
-  include ActiveModel::ForbiddenAttributesProtection
-
   belongs_to :wiki
   has_one :content, class_name: 'WikiContent', foreign_key: 'page_id', dependent: :destroy
   acts_as_attachable delete_permission: :delete_wiki_pages_attachments
@@ -220,7 +218,7 @@ class WikiPage < ActiveRecord::Base
   end
 
   # Returns the wiki menu item of nearest ancestor page that has a wiki menu item.
-  # To restrict the result to main menu items pass <tt>:is_main_item => true</tt> as +options+ hash
+  # To restrict the result to main menu items pass <tt>is_main_item: true</tt> as +options+ hash
   def nearest_parent_menu_item(options = {})
     return nil unless parent
 

@@ -28,15 +28,15 @@
 #++
 
 Then /^the "(.+)" widget should be in the top block$/ do |widget_name|
-  steps %{Then I should see "#{widget_name}" within "#list-top"}
+  steps %{Then I should see "#{widget_name}" within "#top"}
 end
 
 When /^I select "(.+)" from the available widgets drop down$/ do |widget_name|
-  steps %{When I select "#{widget_name}" from "block-select"}
+  steps %{When I select "#{widget_name}" from "block-options"}
 end
 
 Then /^I should see the dropdown of available widgets$/ do
-  page.has_select?('block-select', options: ['Watched Issues', 'Issues assigned to me'])
+  page.has_select?('block-options', options: ['Watched Issues', 'Issues assigned to me'])
 end
 
 Then(/^I should see the widget "([^"]*)"$/) do |arg|
@@ -47,10 +47,10 @@ Then /^"(.+)" should( not)? be disabled in the my page available widgets drop do
   option_name = MyController.available_blocks.detect { |_k, v| I18n.t(v) == widget_name }.first.dasherize
 
   unless neg
-    steps %{Then the "block-select" drop-down should have the following options disabled:
+    steps %{Then the "block-options" drop-down should have the following options disabled:
               | #{option_name} |}
   else
-    steps %{Then the "block-select" drop-down should have the following options enabled:
+    steps %{Then the "block-options" drop-down should have the following options enabled:
             | #{option_name} |}
   end
 end

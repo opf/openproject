@@ -103,7 +103,7 @@ shared_examples_for 'a controller action which needs project permissions' do
   # let(:project) { FactoryGirl.create(:project) }
   #
   # def fetch
-  #   get 'action', :project_id => project.identifier
+  #   get 'action', project_id: project.identifier
   # end
   #
   # Optionally also provide the following

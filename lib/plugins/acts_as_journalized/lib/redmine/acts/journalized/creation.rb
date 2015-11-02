@@ -129,7 +129,7 @@ module Redmine::Acts::Journalized
         attributes_setter = ActiveRecord::Base.instance_method(:assign_attributes)
         attributes_setter = attributes_setter.bind(fill_object)
 
-        attributes_setter.call(initial_changes, without_protection: true)
+        attributes_setter.call(initial_changes)
 
         # Call the journal creating method
         changed_data = fill_object.send(:merge_journal_changes)

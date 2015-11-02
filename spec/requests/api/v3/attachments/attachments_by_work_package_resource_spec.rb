@@ -129,5 +129,19 @@ describe 'API v3 Attachments by work package resource', type: :request do
         let(:message) { "File #{expanded_localization}" }
       end
     end
+
+    context 'only allowed to add work packages, but no edit permission' do
+      let(:permissions) { [:view_work_packages, :add_work_packages] }
+
+      it 'should respond with HTTP Created' do
+        expect(subject.status).to eq(201)
+      end
+    end
+
+    context 'only allowed to view work packages' do
+      let(:permissions) { [:view_work_packages] }
+
+      it_behaves_like 'unauthorized access'
+    end
   end
 end

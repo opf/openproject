@@ -9,7 +9,7 @@
 <ul class="widget-box--arrow-links">
   <% @newest_users.each do |user| %>
   <li>
-    <%= link_to user, user_path(user), :title => user.name %>
+    <%= link_to user, user_path(user), title: user.name %>
     <small>(<%= format_date(user.created_on) %>)</small>
   </li>
   <% end %>

@@ -35,34 +35,18 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </li>
 <% end %>
-<div id="invisible-grid">
-  <div class="grid-block">
-    <div id="list-top" class="grid-content">
-      <% @blocks['top'].each do |b|
-         next unless MyController.available_blocks.keys.include? b  %>
-        <div class="container">
-          <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-        </div>
-      <% end if @blocks['top'] %>
-    </div>
+
+<div class="my-page--container">
+  <div id="top" class="widget-boxes">
+    <%= render partial: 'block_container', locals: { edit: false, blocks: @blocks['top'] } %>
   </div>
   <div class="grid-block">
-    <div id="list-left" class="grid-content left">
-      <% @blocks['left'].each do |b|
-         next unless MyController.available_blocks.keys.include? b %>
-        <div class="container">
-          <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-        </div>
-      <% end if @blocks['left'] %>
+  <% %w(left right).each do |position| %>
+    <div id="<%= position %>" class="widget-boxes medium-12">
+      <%= render partial: 'block_container', locals: { edit: false, blocks: @blocks[position] } %>
     </div>
-    <div id="list-right" class="grid-content right">
-      <% @blocks['right'].each do |b|
-         next unless MyController.available_blocks.keys.include? b %>
-        <div class="container">
-          <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-        </div>
-      <% end if @blocks['right'] %>
-    </div>
+  <% end %>
   </div>
 </div>
+
 <% html_title(l(:label_my_page)) -%>

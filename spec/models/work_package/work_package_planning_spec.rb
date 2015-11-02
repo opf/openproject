@@ -93,12 +93,12 @@ describe WorkPackage, type: :model do
       }
     }
 
-    it { expect(WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }).to be_valid }
+    it { expect(WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes) }).to be_valid }
 
     describe 'subject' do
       it 'is invalid w/o a subject' do
         attributes[:subject] = nil
-        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes) }
 
         expect(planning_element).not_to be_valid
 
@@ -108,7 +108,7 @@ describe WorkPackage, type: :model do
 
       it 'is invalid w/ a subject longer than 255 characters' do
         attributes[:subject] = 'A' * 500
-        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes) }
 
         expect(planning_element).not_to be_valid
 
@@ -120,7 +120,7 @@ describe WorkPackage, type: :model do
     describe 'start_date' do
       it 'is valid w/o a start_date' do
         attributes[:start_date] = nil
-        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes) }
 
         expect(planning_element).to be_valid
 
@@ -131,7 +131,7 @@ describe WorkPackage, type: :model do
     describe 'due_date' do
       it 'is valid w/o a due_date' do
         attributes[:due_date] = nil
-        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes) }
 
         expect(planning_element).to be_valid
 
@@ -141,7 +141,7 @@ describe WorkPackage, type: :model do
       it 'is invalid if start_date is after due_date' do
         attributes[:start_date] = Date.today
         attributes[:due_date]   = Date.today - 1.week
-        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes) }
 
         expect(planning_element).not_to be_valid
 
@@ -153,7 +153,7 @@ describe WorkPackage, type: :model do
         attributes[:type] = FactoryGirl.build(:type, is_milestone: true)
         attributes[:start_date]            = Date.today
         attributes[:due_date]              = Date.today + 1.week
-        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes) }
 
         expect(planning_element).not_to be_valid
 
@@ -165,7 +165,7 @@ describe WorkPackage, type: :model do
     describe 'project' do
       it 'is invalid w/o a project' do
         attributes[:project_id] = nil
-        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes) }
 
         expect(planning_element).not_to be_valid
 
@@ -179,11 +179,11 @@ describe WorkPackage, type: :model do
 
       it 'is invalid if parent is_milestone' do
         parent = WorkPackage.new.tap do |pe|
-          pe.send(:assign_attributes, attributes.merge(type: FactoryGirl.build(:type, is_milestone: true)), without_protection: true)
+          pe.send(:assign_attributes, attributes.merge(type: FactoryGirl.build(:type, is_milestone: true)))
         end
 
         attributes[:parent] = parent
-        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes) }
 
         expect(planning_element).not_to be_valid
 

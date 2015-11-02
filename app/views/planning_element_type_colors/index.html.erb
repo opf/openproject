@@ -88,10 +88,10 @@ See doc/COPYRIGHT.rdoc for more details.
                 <%= icon_for_color(color) %>
                 <code><%=h color.hexcode %></code>
               </td>
-              <td class="timelines-color-reorder"><%= reorder_links('color', {:action => 'move', :id => color}) %></td>
+              <td class="timelines-color-reorder"><%= reorder_links('color', {action: 'move', id: color}) %></td>
               <td class="timelines-color-actions buttons">
                 <%= link_to(confirm_destroy_color_path(color),
-                           :class => 'icon icon-delete') do %>
+                           class: 'icon icon-delete') do %>
                   <%= l(:button_delete) %>
                   <span class="hidden-for-sighted"><%=h color.name %></span>
                 <% end %>

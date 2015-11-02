@@ -26,15 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% html_title I18n.t("timelines.edit_timeline", :timeline => h(@timeline.name)) %>
-<%= toolbar title: I18n.t("timelines.edit_timeline", :timeline => h(@timeline.name)) %>
+<% html_title I18n.t("timelines.edit_timeline", timeline: h(@timeline.name)) %>
+<%= toolbar title: I18n.t("timelines.edit_timeline", timeline: h(@timeline.name)) %>
 
 <%= labelled_tabular_form_for(@timeline,
-            :url => project_timeline_path(@project, @timeline),
-            :html => {:method => 'put'}) do |f| %>
+            url: project_timeline_path(@project, @timeline),
+            html: {method: 'put'}) do |f| %>
 
-  <%= render(:partial => "timelines/form",
-             :locals => {:f => f, :timeline => @timeline}) %>
+  <%= render(partial: "timelines/form",
+             locals: {f: f, timeline: @timeline}) %>
 
   <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-yes' %>
   <%= link_to l(:button_cancel), project_timeline_path(@project, @timeline), class: 'button' %>

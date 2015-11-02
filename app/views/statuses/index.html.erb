@@ -121,7 +121,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <td><%= checked_image status.is_default? %></td>
               <td ><%= checked_image status.is_closed? %></td>
               <td>
-                <%= reorder_links('status', {:action => 'update', :id => status}, :method => :put) %>
+                <%= reorder_links('status', {action: 'update', id: status}, method: :put) %>
               </td>
               <td class="buttons"><%= delete_link status_path(status) %></td>
             </tr>

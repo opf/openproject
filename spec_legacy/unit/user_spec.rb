@@ -500,7 +500,7 @@ describe User, type: :model do
       it "should be false for a user with :only_my_events and isn't an author, creator, or assignee" do
         @user = FactoryGirl.create(:user, mail_notification: 'only_my_events')
         (Member.new.tap do |m|
-          m.force_attributes = { user: @user, project: @project, role_ids: [1] }
+          m.attributes = { user: @user, project: @project, role_ids: [1] }
         end).save!
         assert ! @user.notify_about?(@issue)
       end
@@ -548,7 +548,7 @@ describe User, type: :model do
       it 'should be false for a user with :selected and is not the author or assignee' do
         @user = FactoryGirl.create(:user, mail_notification: 'selected')
         (Member.new.tap do |m|
-          m.force_attributes = { user: @user, project: @project, role_ids: [1] }
+          m.attributes = { user: @user, project: @project, role_ids: [1] }
         end).save!
         assert ! @user.notify_about?(@issue)
       end

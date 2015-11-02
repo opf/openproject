@@ -30,11 +30,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 
 <% html_title l('timelines.reporting_for_project.show',
-                :title => h(@reporting.reporting_to_project.name)) %>
+                title: h(@reporting.reporting_to_project.name)) %>
 
 <%= render partial: 'toolbar', locals: { show_actions: true } %>
 
-<%= render :partial => 'show' %>
+<%= render partial: 'show' %>
 
 <br/>
 <p>

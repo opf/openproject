@@ -61,7 +61,6 @@ module Redmine
               includes(:watchers)
                 .where(watchers: { user_id: user_id })
             }
-            attr_protected :watcher_ids, :watcher_user_ids if accessible_attributes.nil?
           end
           send :include, Redmine::Acts::Watchable::InstanceMethods
           alias_method_chain :watcher_user_ids=, :uniq_ids

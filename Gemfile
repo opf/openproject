@@ -29,7 +29,6 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.4'
-gem 'protected_attributes'
 gem 'actionpack-action_caching'
 gem 'activerecord-session_store'
 gem 'rails-observers'

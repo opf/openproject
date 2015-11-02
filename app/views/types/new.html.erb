@@ -31,5 +31,5 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: "#{link_to t(:label_type_plural), types_path} &raquo; #{t(:label_type_new)}" %>
 
 <%= form_for controller.type, builder: TabularFormBuilder, lang: current_language  do |f| %>
-  <%= render :partial => 'form', :locals => { :f => f } %>
+  <%= render partial: 'form', locals: { f: f } %>
 <% end %>

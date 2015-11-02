@@ -81,7 +81,7 @@ en:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
       custom_fields:
-        no_results_title_text: There are currently custom fields available.
+        no_results_title_text: There are currently no custom fields available.
       types:
         no_results_title_text: There are currently no types available.
       versions:
@@ -129,7 +129,7 @@ en:
 
   versions:
     overview:
-      no_results_title_text: There are currently no workpackages for this version.
+      no_results_title_text: There are currently no work packages assigned to this version.
 
   wiki:
     no_results_title_text: There are currently no wiki pages.
@@ -1421,7 +1421,7 @@ en:
           tb: "TB"
 
   permission_add_work_package_notes: "Add notes"
-  permission_add_work_packages: "Add work packages"
+  permission_add_work_packages: "Add work packages (also allows to add attachments to all work packages)"
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
   permission_add_subprojects: "Create subprojects"

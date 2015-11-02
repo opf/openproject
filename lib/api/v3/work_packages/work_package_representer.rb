@@ -124,7 +124,8 @@ module API
           {
             href: api_v3_paths.attachments_by_work_package(represented.id),
             method: :post
-          } if current_user_allowed_to(:edit_work_packages, context: represented.project)
+          } if current_user_allowed_to(:edit_work_packages, context: represented.project) ||
+               current_user_allowed_to(:add_work_packages, context: represented.project)
         end
 
         link :availableWatchers do

@@ -30,23 +30,23 @@ See doc/COPYRIGHT.rdoc for more details.
 
 
 <% html_title l('timelines.reporting_for_project.show',
-                :title => h(@reporting.reporting_to_project.name)) %>
+                title: h(@reporting.reporting_to_project.name)) %>
 
 <%= render partial: 'toolbar', locals: { show_actions: false } %>
 
 <%= form_for :reporting,
-            :url  => project_reporting_path(@project, @reporting),
-            :html => {:method => 'delete'} do |f| %>
+            url: project_reporting_path(@project, @reporting),
+            html: {method: 'delete'} do |f| %>
 
   <div class='flash warning'>
     <%= l('timelines.really_delete_reporting') %>
   </div>
 
-  <%= render :partial => 'show' %>
+  <%= render partial: 'show' %>
 
   <br/>
   <p>
-    <%= f.submit l(:button_delete), :name => nil, class: 'button -highlight' %>
+    <%= f.submit l(:button_delete), name: nil, class: 'button -highlight' %>
     <%= link_to l(:button_cancel), project_reportings_path(@project), class: 'button' %>
   </p>
 <% end %>

@@ -50,6 +50,13 @@ This repository contains several main branches:
 * `dev`: The main development branch. We try to keep it stable in the sense of all tests are passing, but we don't recommend it for production systems.
 * `stable/<version>`: Contains the latest stable release for a specific version. We recommend to use this for production use. Example: `stable/4.1`.
 
+## Security / Responsible Disclosure
+
+We take security very seriously at OpenProject. We value any kind of feedback that
+will keep our community secure. If you happen to come across a security issue we urge
+you to disclose it to us privately to allow our users and community enough time to
+upgrade. Security issues will always take precedence over anything else in the pipeline. 
+
 ## License
 
 OpenProject is licensed under the terms of the GNU General Public License version 3.

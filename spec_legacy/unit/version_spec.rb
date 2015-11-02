@@ -33,7 +33,7 @@ describe Version, type: :model do
 
   it 'should create' do
     (v = Version.new.tap do |v|
-      v.force_attributes = { project: Project.find(1), name: '1.1', effective_date: '2011-03-25' }
+      v.attributes = { project: Project.find(1), name: '1.1', effective_date: '2011-03-25' }
     end)
     assert v.save
     assert_equal 'open', v.status
@@ -41,7 +41,7 @@ describe Version, type: :model do
 
   it 'should invalid effective date validation' do
     (v = Version.new.tap do |v|
-      v.force_attributes = { project: Project.find(1), name: '1.1', effective_date: '99999-01-01' }
+      v.attributes = { project: Project.find(1), name: '1.1', effective_date: '99999-01-01' }
     end)
     assert !v.save
     assert_includes v.errors[:effective_date], I18n.translate('activerecord.errors.messages.not_a_date')
@@ -52,7 +52,7 @@ describe Version, type: :model do
       it 'should be the date of the earlist issue' do
         project = Project.find(1)
         (v = Version.new.tap do |v|
-          v.force_attributes = { project: project, name: 'Progress' }
+          v.attributes = { project: project, name: 'Progress' }
         end).save!
         add_work_package(v, estimated_hours: 10, start_date: '2010-03-01')
         FactoryGirl.create(:work_package, project: project, subject: 'not assigned', start_date: '2010-01-01')
@@ -65,7 +65,7 @@ describe Version, type: :model do
       it 'should be the value' do
         project = Project.find(1)
         (v = Version.new.tap do |v|
-          v.force_attributes = { project: project, name: 'Progress', start_date: '2010-01-05' }
+          v.attributes = { project: project, name: 'Progress', start_date: '2010-01-05' }
         end).save!
 
         add_work_package(v, estimated_hours: 10, start_date: '2010-03-01')
@@ -78,7 +78,7 @@ describe Version, type: :model do
   it 'should progress should be 0 with no assigned issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
-      v.force_attributes = { project: project, name: 'Progress' }
+      v.attributes = { project: project, name: 'Progress' }
     end).save!
     assert_equal 0, v.completed_percent
     assert_equal 0, v.closed_percent
@@ -87,7 +87,7 @@ describe Version, type: :model do
   it 'should progress should be 0 with unbegun assigned issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
-      v.force_attributes = { project: project, name: 'Progress' }
+      v.attributes = { project: project, name: 'Progress' }
     end).save!
     add_work_package(v)
     add_work_package(v, done_ratio: 0)
@@ -99,7 +99,7 @@ describe Version, type: :model do
     project = Project.find(1)
     status = Status.where(is_closed: true).first
     (v = Version.new.tap do |v|
-      v.force_attributes = { project: project, name: 'Progress' }
+      v.attributes = { project: project, name: 'Progress' }
     end).save!
     add_work_package(v, status: status)
     add_work_package(v, status: status, done_ratio: 20)
@@ -112,7 +112,7 @@ describe Version, type: :model do
   it 'should progress should consider done ratio of open assigned issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
-      v.force_attributes = { project: project, name: 'Progress' }
+      v.attributes = { project: project, name: 'Progress' }
     end).save!
     add_work_package(v)
     add_work_package(v, done_ratio: 20)
@@ -124,7 +124,7 @@ describe Version, type: :model do
   it 'should progress should consider closed issues as completed' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
-      v.force_attributes = { project: project, name: 'Progress' }
+      v.attributes = { project: project, name: 'Progress' }
     end).save!
     add_work_package(v)
     add_work_package(v, done_ratio: 20)
@@ -136,7 +136,7 @@ describe Version, type: :model do
   it 'should progress should consider estimated hours to weigth issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
-      v.force_attributes = { project: project, name: 'Progress' }
+      v.attributes = { project: project, name: 'Progress' }
     end).save!
     add_work_package(v, estimated_hours: 10)
     add_work_package(v, estimated_hours: 20, done_ratio: 30)
@@ -149,7 +149,7 @@ describe Version, type: :model do
   it 'should progress should consider average estimated hours to weigth unestimated issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
-      v.force_attributes = { project: project, name: 'Progress' }
+      v.attributes = { project: project, name: 'Progress' }
     end).save!
     add_work_package(v, done_ratio: 20)
     add_work_package(v, status: Status.where(is_closed: true).first)
@@ -166,7 +166,7 @@ describe Version, type: :model do
       @project.types << FactoryGirl.create(:type)
 
       (@version = Version.new.tap do |v|
-        v.force_attributes = { project: @project, effective_date: nil, name: 'test' }
+        v.attributes = { project: @project, effective_date: nil, name: 'test' }
       end).save!
     end
 
@@ -213,7 +213,7 @@ describe Version, type: :model do
   context '#estimated_hours' do
     before do
       (@version = Version.new.tap do |v|
-        v.force_attributes = { project_id: 1, name: '#estimated_hours' }
+        v.attributes = { project_id: 1, name: '#estimated_hours' }
       end).save!
     end
 
@@ -279,7 +279,7 @@ describe Version, type: :model do
 
   def add_work_package(version, attributes = {})
     (v = WorkPackage.new.tap do |v|
-      v.force_attributes = { project: version.project,
+      v.attributes = { project: version.project,
                              fixed_version: version,
                              subject: 'Test',
                              author: User.first,

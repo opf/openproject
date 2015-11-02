@@ -410,5 +410,12 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
 
   return WorkPackageFieldService;
 }
-WorkPackageFieldService.$inject = ['$q', '$http', '$filter', 'I18n', 'WorkPackagesHelper', 'HookService',
+
+WorkPackageFieldService.$inject = [
+  '$q',
+  '$http',
+  '$filter',
+  'I18n',
+  'WorkPackagesHelper',
+  'HookService',
   'EditableFieldsState'];

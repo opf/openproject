@@ -141,8 +141,8 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
 
   // Propagate submission to all active fields
   // not contained in the workPackage.form (e.g., comment)
-  this.submit = function(notify) {
-    EditableFieldsState.save(notify, function() {
+  this.submit = function() {
+    EditableFieldsState.save(function() {
       // Clears the location hash, as we're now
       // scrolling to somewhere else
       $location.hash(null);
@@ -152,7 +152,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
     });
   };
 
-  this.submitField = function(notify) {
+  this.submitField = function() {
     var submit = $q.defer();
     var fieldController = $scope.fieldController;
     var pendingFormChanges = EditableFieldsState.getPendingFormChanges();
@@ -186,8 +186,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
           EditableFieldsState.workPackage.form = form;
           if (_.isEmpty(form.embedded.validationErrors.props)) {
             var result = WorkPackageService.updateWorkPackage(
-              EditableFieldsState.workPackage,
-              notify
+              EditableFieldsState.workPackage
             );
             result.then(angular.bind(this, function(updatedWorkPackage) {
               submit.resolve();

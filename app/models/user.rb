@@ -30,7 +30,6 @@
 require 'digest/sha1'
 
 class User < Principal
-  include ActiveModel::ForbiddenAttributesProtection
   include User::Authorization
 
   USER_FORMATS_STRUCTURE = {
@@ -46,9 +45,9 @@ class User < Principal
   end
 
   USER_FORMATS = {
-    firstname_lastname:      User.user_format_structure_to_format(:firstname_lastname, ' '),
+    firstname_lastname:      User.user_format_structure_to_format(:firstname_lastname),
     firstname:               User.user_format_structure_to_format(:firstname),
-    lastname_firstname:      User.user_format_structure_to_format(:lastname_firstname, ' '),
+    lastname_firstname:      User.user_format_structure_to_format(:lastname_firstname),
     lastname_coma_firstname: User.user_format_structure_to_format(:lastname_coma_firstname, ', '),
     username:                User.user_format_structure_to_format(:username)
   }
@@ -298,9 +297,9 @@ class User < Principal
   # Return user's full name for display
   def name(formatter = nil)
     if formatter
-      eval('"' + (USER_FORMATS[formatter] || USER_FORMATS[:firstname_lastname]) + '"')
+      eval ('"' + (User::USER_FORMATS[formatter] || User::USER_FORMATS[:firstname_lastname]) + '"')
     else
-      @name ||= eval('"' + (USER_FORMATS[Setting.user_format] || USER_FORMATS[:firstname_lastname]) + '"')
+      @name ||= eval ('"' + (User::USER_FORMATS[Setting.user_format] || User::USER_FORMATS[:firstname_lastname]) + '"')
     end
   end
 
@@ -606,7 +605,7 @@ class User < Principal
 
   # Return true if the user is allowed to do the specified action on a specific context
   # Action can be:
-  # * a parameter-like Hash (eg. :controller => '/projects', :action => 'edit')
+  # * a parameter-like Hash (eg. controller: '/projects', action: 'edit')
   # * a permission Symbol (eg. :edit_project)
   # Context can be:
   # * a project : returns true if user is allowed to do the specified action on this project

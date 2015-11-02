@@ -29,14 +29,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%#
   needs locals:
-  :f => labelled form builder
+  f: labelled form builder
 %>
 
 <%= error_messages_for :group %>
 
 <section class="form--section">
   <div class="form--field">
-    <%= f.text_field :lastname, :label => Group.human_attribute_name(:name), :required => true %>
+    <%= f.text_field :lastname, label: Group.human_attribute_name(:name), required: true %>
   </div>
 
   <%= render partial: 'customizable/form', locals: { form: f } %>

@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= labelled_tabular_form_for(:user, :url => { :action => 'update' }, :html => {:method => :put}) do %>
+<%= labelled_tabular_form_for(:user, url: { action: 'update' }, html: {method: :put}) do %>
   <section class="form--section">
     <% Group.all.sort.each do |group| %>
       <label class="form--label-with-check-box">

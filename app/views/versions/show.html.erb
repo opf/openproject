@@ -38,16 +38,16 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
   <% if authorize_for(:wiki, :edit) && !(@version.wiki_page_title.blank? || @version.project.wiki.nil?) %>
     <li class="toolbar-item">
-      <%= link_to({:controller => '/wiki', :action => 'edit',
-                   :project_id => @version.project,
-                   :id => Wiki.titleize(@version.wiki_page_title)},
+      <%= link_to({controller: '/wiki', action: 'edit',
+                   project_id: @version.project,
+                   id: Wiki.titleize(@version.wiki_page_title)},
                    class: 'button') do %>
         <i class="button--icon icon-edit"></i>
-        <span class="button--text"><%= l(:button_edit_associated_wikipage, :page_title => truncate(@version.wiki_page_title, :length => 50, :separator => ' ')) %></span>
+        <span class="button--text"><%= l(:button_edit_associated_wikipage, page_title: truncate(@version.wiki_page_title, length: 50, separator: ' ')) %></span>
       <% end %>
     </li>
   <% end %>
-  <%= call_hook(:view_versions_show_contextual, { :version => @version, :project => @project }) %>
+  <%= call_hook(:view_versions_show_contextual, { version: @version, project: @project }) %>
 <% end %>
 
 
@@ -75,20 +75,20 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <div id="roadmap">
-  <%= render :partial => 'versions/overview', :locals => {:version => @version} %>
-  <%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>
+  <%= render partial: 'versions/overview', locals: {version: @version} %>
+  <%= render(partial: "wiki/content", locals: {content: @version.wiki_page.content}) if @version.wiki_page %>
 
   <% if @issues.present? %>
     <fieldset class="form--fieldset related_issues"><legend class="form--fieldset-legend"><%= l(:label_related_work_packages) %></legend>
       <ul>
         <% @issues.each do |issue| -%>
-          <li><%= link_to_work_package(issue, :project => issue.project != @version.project) %></li>
+          <li><%= link_to_work_package(issue, project: issue.project != @version.project) %></li>
         <% end -%>
       </ul>
     </fieldset>
   <% end %>
 </div>
 
-<%= call_hook :view_versions_show_bottom, :version => @version %>
+<%= call_hook :view_versions_show_bottom, version: @version %>
 
 <% html_title h(@version.name) %>

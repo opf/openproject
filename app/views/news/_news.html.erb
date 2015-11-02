@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <h4 class='overview'><%= link_to h(news.title), news_path(news) %></h4>
   <p class="author additional-information"><%= authoring news.created_on, news.author %></p>
   <div>
-    <%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %>
+    <%= "(#{l(:label_x_comments, count: news.comments_count)})" if news.comments_count > 0 %>
     <% unless news.summary.blank? %>
       <div class="summary"><%=h news.summary %></div>
     <% end %>

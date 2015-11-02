@@ -62,7 +62,10 @@ module Queries::WorkPackages::AvailableFilterOptions
       when 'date'
         options = { type: :date, order: 20 }
       when 'bool'
-        options = { type: :list, values: [[l(:general_text_yes), '1'], [l(:general_text_no), '0']], order: 20 }
+        options = { type: :list,
+                    values: [[l(:general_text_yes), ActiveRecord::Base.connection.unquoted_true],
+                             [l(:general_text_no), ActiveRecord::Base.connection.unquoted_false]],
+                    order: 20 }
       when 'user', 'version'
         next unless project
         options = { type: :list_optional, values: field.possible_values_options(project), order: 20 }

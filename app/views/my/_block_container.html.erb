@@ -1,0 +1,12 @@
+<% unless blocks.nil? || blocks.empty? %>
+  <% blocks.each do |block_name| %>
+    <% next unless MyController.available_blocks.keys.include? block_name %>
+    <% if edit %>
+      <%= render partial: "my/block", locals: { block_name: block_name, user: @user } %>
+    <% else %>
+      <div class="widget-box">
+        <%= render partial: "my/blocks/#{block_name}", locals: { user: @user } %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

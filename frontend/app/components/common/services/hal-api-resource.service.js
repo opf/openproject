@@ -47,7 +47,6 @@ function run($http, $q) {
 }
 run.$inject = ['$http', '$q'];
 
-
 function HALAPIResource () {
   return {
     setup: function(uri, params) {

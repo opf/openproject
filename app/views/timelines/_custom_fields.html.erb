@@ -47,14 +47,14 @@ custom_fields.each do |custom_field|
                                 [l('general_text_Yes'), '1'],
                                 [l('general_text_No'), '0']
                               ], timeline.custom_fields_filter[custom_field.id.to_s]),
-                              :class => "cf_boolean_select"
+                              class: "cf_boolean_select"
       %>
     <% elsif custom_field.field_format == 'list' %>
       <%= hidden_field_tag("timeline[options][custom_fields][#{custom_field.id.to_s}][]",
             timeline.custom_field_list_value(custom_field.id.to_s),
             {
               :"data-values" => list_to_select_object_with_none(custom_field.possible_values).to_json,
-              :class => "cf_list_select"
+              class: "cf_list_select"
             }
           ) %>
     <% end %>

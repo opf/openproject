@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= icon_wrapper("icon-context icon-#{e.event_type}", e.event_name) %>
           <%= avatar(e.event_author) if e.respond_to?(:event_author) %>
           <span class="time"><%= format_time(e.event_datetime.to_time, false) %></span>
-          <%= content_tag('span', link_to(e.project.name, e.project), :class => 'project') if (@project.nil? || @project != e.project) && e.project %>
+          <%= content_tag('span', link_to(e.project.name, e.project), class: 'project') if (@project.nil? || @project != e.project) && e.project %>
           <%= link_to format_activity_title(e.event_title), e.event_path%>
         </dt>
         <dd>
@@ -61,27 +61,27 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div style="float:left;">
   <%= link_to_content_update(l(:label_previous),
-                             params.merge(:from => @date_to - @days - 1),
-                             {:title => l(:label_date_from_to, :start => format_date(@date_to - 2*@days), :end => format_date(@date_to - @days - 1)),
-                             :class => 'navigate-left'}) %>
+                             params.merge(from: @date_to - @days - 1),
+                             {title: l(:label_date_from_to, start: format_date(@date_to - 2*@days), end: format_date(@date_to - @days - 1)),
+                             class: 'navigate-left'}) %>
 </div>
 <div style="float:right;">
   <%= link_to_content_update(l(:label_next),
-                             params.merge(:from => @date_to + @days - 1),
-                             {:title => l(:label_date_from_to, :start => format_date(@date_to), :end => format_date(@date_to + @days - 1)),
-                             :class => 'navigate-right'}) unless @date_to >= Date.today %>
+                             params.merge(from: @date_to + @days - 1),
+                             {title: l(:label_date_from_to, start: format_date(@date_to), end: format_date(@date_to + @days - 1)),
+                             class: 'navigate-right'}) unless @date_to >= Date.today %>
 </div>
 &nbsp;
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => params.merge(:from => nil, :key => User.current.rss_key) %>
+  <%= f.link_to 'Atom', url: params.merge(from: nil, key: User.current.rss_key) %>
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, params.merge(:format => 'atom', :from => nil, :key => User.current.rss_key)) %>
+  <%= auto_discovery_link_tag(:atom, params.merge(format: 'atom', from: nil, key: User.current.rss_key)) %>
 <% end %>
 
 <% content_for :sidebar do %>
-  <%= form_tag({}, :method => :get) do %>
+  <%= form_tag({}, method: :get) do %>
     <h3><%= l(:description_filter) %></h3>
     <p>
       <% @activity.event_types.each do |t| %>
@@ -96,7 +96,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
     <%= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
     <%= hidden_field_tag('apply', true) %>
-    <p><%= submit_tag l(:button_apply), :class => 'button -tiny -round -highlight', :name => nil %></p>
+    <p><%= submit_tag l(:button_apply), class: 'button -tiny -round -highlight', name: nil %></p>
   <% end %>
 <% end %>
 

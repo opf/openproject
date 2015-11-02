@@ -62,7 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 <td><%= h type %></td>
                 <% roles.each do |role, count| -%>
                   <td>
-                    <%= link_to((count > 0 ? count : content_tag(:span, '', class: "icon-close icon-context icon-button")), {:action => 'edit', :role_id => role, :type_id => type}, :title => l(:button_edit)) %>
+                    <%= link_to((count > 0 ? count : content_tag(:span, '', class: "icon-close icon-context icon-button")), {action: 'edit', role_id: role, type_id: type}, title: l(:button_edit)) %>
                   </td>
                 <% end -%>
               </tr>

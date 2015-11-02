@@ -223,7 +223,7 @@ OpenProject::Application.routes.draw do
       #   settings_project_path(@project)
       #     => "/projects/1/settings"
       #
-      #   settings_project_path(@project, :tab => 'members')
+      #   settings_project_path(@project, tab: 'members')
       #     => "/projects/1/settings/members"
       #
       get 'settings(/:tab)', action: 'settings', as: :settings
@@ -258,7 +258,7 @@ OpenProject::Application.routes.draw do
 
     # this is only another name for versions#index
     # For nice "road in the url for the index action
-    # this could probably be rewritten with a resource :as => 'roadmap'
+    # this could probably be rewritten with a resource as: 'roadmap'
     match '/roadmap' => 'versions#index', via: :get
 
     resources :news, only: [:index, :new, :create]
@@ -539,6 +539,7 @@ OpenProject::Application.routes.draw do
   scope controller: 'my' do
     post '/my/add_block', action: 'add_block'
     post '/my/remove_block', action: 'remove_block'
+    post '/my/order_blocks', action: 'order_blocks'
     get '/my/page_layout', action: 'page_layout'
     get '/my/password', action: 'password'
     post '/my/change_password', action: 'change_password'

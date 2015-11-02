@@ -80,7 +80,7 @@ function inplaceEditorDateRange(TimezoneService, I18n, $timeout, WorkPackageFiel
       }
 
       scope.execute = function() {
-        form.scope().editPaneController.submit(false);
+        form.scope().editPaneController.submit();
       };
 
       startDatepicker = new Datepicker(divStart, inputStart, scope.startDate);

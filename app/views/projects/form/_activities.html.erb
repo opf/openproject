@@ -87,11 +87,11 @@ See doc/COPYRIGHT.rdoc for more details.
            <%= fields_for "enumerations[#{enumeration.id}]", enumeration do |ff| %>
               <tr>
                 <td>
-                  <%= label_tag "enumerations_#{enumeration.id}_active", "#{h(enumeration.name)} #{l(:description_active)}", :class => "hidden-for-sighted" %>
+                  <%= label_tag "enumerations_#{enumeration.id}_active", "#{h(enumeration.name)} #{l(:description_active)}", class: "hidden-for-sighted" %>
                   <%= ff.check_box :active %>
                 </td>
                 <td>
-                  <%= ff.hidden_field :parent_id, :value => enumeration.id unless enumeration.project %>
+                  <%= ff.hidden_field :parent_id, value: enumeration.id unless enumeration.project %>
                   <%= h(enumeration) %>
                 </td>
                 <td><%= checked_image !enumeration.project %></td>

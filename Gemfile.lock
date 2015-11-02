@@ -45,11 +45,11 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 1fcd6d780d746dad6583290a154bd09ffd817609
+  revision: 45d29fa4dbf1603d263990d475f5180d9d40fa94
   branch: dev
   specs:
     openproject-translations (5.0.0.pre.alpha)
-      crowdin-api (~> 0.2.4)
+      crowdin-api (~> 0.4.0)
       mixlib-shellout (~> 2.1.0)
       rails (~> 4.2.3)
       rubyzip
@@ -184,8 +184,8 @@ GEM
     columnize (0.9.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
-    crowdin-api (0.2.8)
-      rest-client (~> 1.6.8)
+    crowdin-api (0.4.0)
+      rest-client
     cucumber (1.3.19)
       builder (>= 2.1.2)
       diff-lcs (>= 1.1.3)
@@ -216,6 +216,8 @@ GEM
     disposable (0.0.9)
       representable (~> 2.0)
       uber
+    domain_name (0.5.25)
+      unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
     equivalent-xml (0.5.1)
       nokogiri (>= 1.4.3)
@@ -282,6 +284,8 @@ GEM
     hashie (3.4.1)
     hike (1.2.3)
     htmldiff (0.0.1)
+    http-cookie (1.0.2)
+      domain_name (~> 0.5)
     i18n (0.7.0)
     ice_nine (0.11.1)
     inflecto (0.0.2)
@@ -314,6 +318,7 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
+    netrc (0.11.0)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     non-stupid-digest-assets (1.0.4)
@@ -333,8 +338,6 @@ GEM
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
     powerpack (0.1.1)
-    protected_attributes (1.0.9)
-      activemodel (>= 4.0.1, < 5.0)
     pry (0.9.12.6)
       coderay (~> 1.0)
       method_source (~> 0.8)
@@ -415,8 +418,10 @@ GEM
     request_store (1.1.0)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
-    rest-client (1.6.9)
-      mime-types (~> 1.16)
+    rest-client (1.8.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 3.0)
+      netrc (~> 0.7)
     roar (1.0.1)
       representable (>= 2.0.1, <= 3.0.0)
     rspec (3.3.0)
@@ -506,6 +511,9 @@ GEM
     tzinfo-data (1.2015.6)
       tzinfo (>= 1.0.0)
     uber (0.0.13)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.1)
     unicorn (4.9.0)
       kgio (~> 2.6)
       rack
@@ -588,7 +596,6 @@ DEPENDENCIES
   parallel_tests
   pg (~> 0.18.3)
   poltergeist
-  protected_attributes
   prototype-rails!
   prototype_legacy_helper (= 0.0.0)!
   pry-byebug

@@ -35,9 +35,9 @@ See doc/COPYRIGHT.rdoc for more details.
   }.squish
 %>
 
-<%= labelled_tabular_form_for @custom_field, :as => :custom_field,
-                              :url => custom_field_path(@custom_field),
-                              :html => {:method => :put, :id => 'custom_field_form'} do |f| %>
-  <%= render :partial => 'form', :locals => { :f => f } %>
+<%= labelled_tabular_form_for @custom_field, as: :custom_field,
+                              url: custom_field_path(@custom_field),
+                              html: {method: :put, id: 'custom_field_form'} do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
 <% end %>

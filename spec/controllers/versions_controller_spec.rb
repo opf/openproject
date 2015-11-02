@@ -129,6 +129,16 @@ describe VersionsController, type: :controller do
     it { is_expected.to eq(version2) }
   end
 
+  describe '#new' do
+    # This spec is here because at one point the `new` action was requiring
+    # the `version` key in params, so visiting it without one failed.
+    it 'renders correctly' do
+      login_as(user)
+      get :new, project_id: project.id
+      expect(response.status).to eq(200)
+    end
+  end
+
   describe '#create' do
     context 'with vaild attributes' do
       before do

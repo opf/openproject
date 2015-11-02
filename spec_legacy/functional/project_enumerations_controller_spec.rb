@@ -150,7 +150,7 @@ describe ProjectEnumerationsController, type: :controller do
     # second one is a duplicate
     # parent = TimeEntryActivity.find(9)
     parent = TimeEntryActivity.new
-    parent.force_attributes = { name: parent.name, project_id: 1, position: parent.position, active: true }
+    parent.attributes = { name: parent.name, project_id: 1, position: parent.position, active: true }
     parent.save(validate: false)
 
     project = Project.find(1)

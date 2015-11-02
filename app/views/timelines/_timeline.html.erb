@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% unless @timeline_header_included %>
     <% content_for :header_tags do %>
       <!-- additional resources for timelines -->
-      <%= stylesheet_link_tag 'timelines.css', :media => "all" %>
+      <%= stylesheet_link_tag 'timelines.css', media: "all" %>
       <%=
     case I18n.locale
     when :de

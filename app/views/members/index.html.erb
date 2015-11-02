@@ -48,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <colgroup>
             <col highlight-col>
             <col highlight-col>
-            <%= call_hook(:view_projects_settings_members_table_colgroup, :project => @project) %>
+            <%= call_hook(:view_projects_settings_members_table_colgroup, project: @project) %>
             <col>
           </colgroup>
           <thead>
@@ -71,7 +71,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   </div>
                 </div>
               </th>
-              <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %>
+              <%= call_hook(:view_projects_settings_members_table_header, project: @project) %>
               <th></th>
             </tr>
           </thead>
@@ -96,28 +96,28 @@ See doc/COPYRIGHT.rdoc for more details.
                   <td class="roles">
                     <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
                     <% if authorized %>
-                      <%= form_for(member, :url => {:controller => '/members',
-                                              :action => 'update',
-                                              :id => member,
-                                              :page => params[:page],
-                                              :per_page => params[:per_page] },
-                                     :method => :put,
-                                     :html => { :id => "member-#{member.id}-roles-form",
-                                                :class => 'hol',
-                                                :style => 'display:none' }) do |f| %>
+                      <%= form_for(member, url: {controller: '/members',
+                                              action: 'update',
+                                              id: member,
+                                              page: params[:page],
+                                              per_page: params[:per_page] },
+                                     method: :put,
+                                     html: { id: "member-#{member.id}-roles-form",
+                                                class: 'hol',
+                                                style: 'display:none' }) do |f| %>
                         <p><% @roles.each do |role| %>
                             <label><%= check_box_tag 'member[role_ids][]', role.id, member.roles.include?(role),
-                                                                 :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label>
+                                                                 disabled: member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label>
                           <% end %></p>
                         <%= hidden_field_tag 'member[role_ids][]', '' %>
-                        <p><%= submit_tag l(:button_change), :class => 'button -highlight -small' %>
+                        <p><%= submit_tag l(:button_change), class: 'button -highlight -small' %>
                           <%= link_to_function l(:button_cancel),
                         "$('member-#{member.id}-roles').show(); $('member-#{member.id}-roles-form').hide(); return false;",
                         class: 'button -small' %></p>
                       <% end %>
                     <% end %>
                   </td>
-                  <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
+                  <%= call_hook(:view_projects_settings_members_table_row, { project: @project, member: member}) %>
                   <% if authorized %>
                     <td class="buttons">
                       <%
@@ -127,11 +127,11 @@ See doc/COPYRIGHT.rdoc for more details.
                            ['icon icon-remove', I18n.t(:button_remove)]
                          end
                       %>
-                      <%= link_to_function '', "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit', :title => l(:button_edit) %>
-                      <%= link_to('', {:controller => '/members', :action => 'destroy', :id => member, :page => params[:page]},
-                        :method => :delete,
+                      <%= link_to_function '', "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", class: 'icon icon-edit', title: l(:button_edit) %>
+                      <%= link_to('', {controller: '/members', action: 'destroy', id: member, page: params[:page]},
+                        method: :delete,
                         data: { confirm: ((!User.current.admin? && member.include?(User.current)) ? l(:text_own_membership_delete_confirmation) : nil) },
-                        :title => delete_title, :class => delete_class) if member.deletable? %>
+                        title: delete_title, class: delete_class) if member.deletable? %>
                     </td>
                   <% end %>
                 </tr>

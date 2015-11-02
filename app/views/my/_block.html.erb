@@ -27,20 +27,18 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div id="block_<%= block_name.dasherize %>" class="mypage-box">
+<div id="block-<%= block_name.dasherize %>" class="widget-box block-wrapper" data-name='<%= block_name %>'>
 
-  <% content_for "#{block_name}_remove_block" do %>
+  <% content_for "#{block_name}-remove-block" do %>
     <div class="box-actions">
-      <%= link_to_remote "", {
-          :url => { :action => "remove_block", :block => block_name },
-          :complete => "removeBlock('block_#{block_name.dasherize}')" },
-          :class => "icon icon-close close-icon",
-          :title => l(:button_remove_widget)
-           %>
+      <%= link_to '', { action: "remove_block", block: block_name },
+          class: "icon icon-close close-icon", title: l(:button_remove_widget),
+          remote: true
+      %>
     </div>
   <% end %>
 
-  <div class="handle">
-    <%= render :partial => "my/blocks/#{block_name}", :locals => { :user => user, :block_name => block_name } %>
+  <div class='handle'>
+    <%= render partial: "my/blocks/#{block_name}", locals: { user: user, block_name: block_name } %>
   </div>
 </div>

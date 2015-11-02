@@ -31,8 +31,6 @@ class Token < ActiveRecord::Base
   belongs_to :user
   validates_uniqueness_of :value
 
-  # attr_protected :user_id
-
   before_create :delete_previous_tokens
   before_create :assign_generated_token
 

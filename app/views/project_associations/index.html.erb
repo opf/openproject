@@ -32,13 +32,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% content_for :action_menu_specific do %>
   <%= link_to_if_authorized(l("timelines.new_association"),
-                            { :action => :new },
-                            { :title => l("timelines.new_association"),
-                              :class => ("icon icon-add")
+                            { action: :new },
+                            { title: l("timelines.new_association"),
+                              class: ("icon icon-add")
                             }) %>
 <% end %>
 <h2><%= l('timelines.associations') %></h2>
-<%= render :partial => 'layouts/action_menu_specific' %>
+<%= render partial: 'layouts/action_menu_specific' %>
 <% @project_types.each do |project_type| %>
   <% project_assocs = @project_associations_by_type[project_type] %>
   <% next if project_assocs.blank? %>
@@ -108,10 +108,10 @@ See doc/COPYRIGHT.rdoc for more details.
                 <% other = association.project(@project) %>
                 <tr>
                   <td class="timelines-pa-identifier">
-                    <%= link_to(h(other.identifier), project_path(other, :jump => 'project_associations')) %>
+                    <%= link_to(h(other.identifier), project_path(other, jump: 'project_associations')) %>
                   </td>
                   <td class="timelines-pa-name">
-                    <%= link_to(h(other.name), project_path(other, :jump => 'project_associations')) %>
+                    <%= link_to(h(other.name), project_path(other, jump: 'project_associations')) %>
                   </td>
                   <td class="timelines-pa-responsible">
                     <% if other.responsible.present? %>
@@ -125,21 +125,21 @@ See doc/COPYRIGHT.rdoc for more details.
                     <%= format_text association, :description %>
                   </td>
                   <td class="timelines-pa-actions buttons">
-                    <%= link_to_if_authorized({:controller => '/project_associations',
-                                          :action     => 'edit',
-                                          :project_id => @project,
-                                          :id         => association},
-                                          {:class => 'icon icon-edit'}) do %>
+                    <%= link_to_if_authorized({controller: '/project_associations',
+                                          action: 'edit',
+                                          project_id: @project,
+                                          id: association},
+                                          {class: 'icon icon-edit'}) do %>
                       <%= l('timelines.edit_thing') %>
                       <span class="hidden-for-sighted">
                         <%= h(other.name) %>
                       </span>
                     <% end %>
-                    <%= link_to_if_authorized({:controller => '/project_associations',
-                                          :action     => 'confirm_destroy',
-                                          :project_id => @project,
-                                          :id         => association},
-                                         {:class => 'icon icon-delete'}) do %>
+                    <%= link_to_if_authorized({controller: '/project_associations',
+                                          action: 'confirm_destroy',
+                                          project_id: @project,
+                                          id: association},
+                                         {class: 'icon icon-delete'}) do %>
                       <%= l('timelines.delete_thing') %>
                       <span class="hidden-for-sighted">
                         <%= h(other.name) %>

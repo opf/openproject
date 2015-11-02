@@ -74,13 +74,13 @@ describe Reporting, type: :model do
       FactoryGirl.create(:project, id: 2)
     }
 
-    it { expect(Reporting.new.tap { |r| r.send(:assign_attributes, attributes, without_protection: true) }).to be_valid }
+    it { expect(Reporting.new.tap { |r| r.send(:assign_attributes, attributes) }).to be_valid }
 
     describe 'project' do
       it 'is invalid w/o a project' do
         attributes[:project_id] = nil
         reporting = Reporting.new
-        reporting.send(:assign_attributes, attributes, without_protection: true)
+        reporting.send(:assign_attributes, attributes)
 
         expect(reporting).not_to be_valid
 
@@ -93,7 +93,7 @@ describe Reporting, type: :model do
       it 'is invalid w/o a reporting_to_project' do
         attributes[:reporting_to_project_id] = nil
         reporting = Reporting.new
-        reporting.send(:assign_attributes, attributes, without_protection: true)
+        reporting.send(:assign_attributes, attributes)
 
         expect(reporting).not_to be_valid
 

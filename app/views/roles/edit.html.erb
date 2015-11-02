@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: "#{link_to(l(:label_role_plural), roles_path)} &raquo; #{@role.name}" %>
 
 
-<%= labelled_tabular_form_for @role, :html => { :id => 'role_form' }, :as => :role do |f| %>
-  <%= render :partial => 'form', :locals => { :f => f } %>
+<%= labelled_tabular_form_for @role, html: { id: 'role_form' }, as: :role do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
 <% end %>
