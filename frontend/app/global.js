@@ -65,5 +65,5 @@ require('select2/select2.css');
 require('angular');
 require('angular-sanitize');
 
-require('ui-select/dist/select');
-require('ui-select/dist/select.css');
+require('angular-ui-select/dist/select');
+require('angular-ui-select/dist/select.css');
