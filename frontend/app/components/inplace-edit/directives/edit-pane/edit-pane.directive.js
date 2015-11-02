@@ -94,6 +94,7 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
         if (scope.fieldController.isEditing) {
           var pendingChanges = EditableFieldsState.getPendingFormChanges();
           pendingChanges[field.name] = value;
+          scope.editPaneController.markActive();
         }
       }, true);
       scope.$on('workPackageRefreshed', function() {
