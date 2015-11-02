@@ -72,6 +72,11 @@ function inplaceEdit(WorkPackageFieldService) {
   // Falls back to default if no specific placeholder is defined.
   Object.defineProperty(Field.prototype, 'placeholder', {
     get: function() {
+
+      if (this.resource.props._type === undefined) {
+        return I18n.t('js.placeholders.default');
+      }
+
       // lodash does snakeCase in version 3.10
       // This also pluralizes the easy way by appending 's' to the end
       // which is error prone

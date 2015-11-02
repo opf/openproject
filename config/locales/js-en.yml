@@ -177,6 +177,9 @@ en:
     label_successful_update: 'Successful update'
     label_validation_error: "The work package could not be saved due to the following errors:"
 
+    placeholders:
+      default: '-'
+
     text_are_you_sure: "Are you sure?"
 
     watchers:

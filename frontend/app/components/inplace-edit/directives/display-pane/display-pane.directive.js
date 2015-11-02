@@ -54,11 +54,6 @@ function inplaceEditorDisplayPane(EditableFieldsState, $timeout, I18n) {
         }
       });
 
-      // TODO: extract this when more placeholders come
-      if (field.name === 'description') {
-        scope.displayPaneController.placeholder = I18n.t('js.label_click_to_enter_description');
-      }
-
       scope.$watch('editableFieldsState.errors', function(errors) {
         if (errors && errors[field.name]) {
           scope.displayPaneController.startEditing();
