@@ -110,4 +110,8 @@ module.exports = function($scope, $filter, columnsModal, QueryService,
         event.preventDefault(); 
       });
   });
+
+  $timeout(function () {
+    $scope.$broadcast('columnsModalOpened');
+  });
 };
