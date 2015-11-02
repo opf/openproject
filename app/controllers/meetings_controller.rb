@@ -164,6 +164,6 @@ class MeetingsController < ApplicationController
 private
   def meeting_params
     params.require(:meeting).permit(:title, :location, :start_time, :duration, :start_date, :start_time_hour,
-      participants_attributes: [:email, :name, :invited, :attended, :user, :user_id, :meeting])
+      participants_attributes: [:email, :name, :invited, :attended, :user, :user_id, :meeting, :id])
   end
 end
