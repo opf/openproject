@@ -327,7 +327,7 @@ class PermittedParams
                                     :status,
                                     :sharing,
                                     :custom_field_value,
-                                    version_settings_attributes: [:id, :display, :project])
+                                    version_settings_attributes: [:id, :display, :project_id])
   end
 
   def comment
