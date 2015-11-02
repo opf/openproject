@@ -205,15 +205,18 @@ table.generic-table
     white-space: nowrap
     width:   100%
     clear:   both
-    display: table
+    display: block
 
     & > a,
     & > span
-      display: table-cell
+      display: block
       font-weight: bold
       overflow: hidden
       text-overflow: ellipsis
-      max-width: 0px
+
+    & > a
+      float: left
+      width: calc(100% - 18px)
 
     & > .dropdown-indicator
       width: 1em
