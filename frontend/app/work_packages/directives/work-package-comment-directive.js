@@ -81,6 +81,8 @@ module.exports = function(
     };
 
     ctrl.initialize = function(withText) {
+      ctrl.writeValue = { raw: '' };
+
       if (withText) {
         if (!ctrl.writeValue.raw) {
           ctrl.writeValue.raw = '';
@@ -90,7 +92,6 @@ module.exports = function(
         ctrl.writeValue.raw += withText;
       }
 
-      ctrl.writeValue = { raw: '' };
       field.value = ctrl.writeValue;
     };
     ctrl.initialize();
