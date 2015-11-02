@@ -225,8 +225,8 @@ describe('OpenProject', function(){
           });
 
           it('should have the correct value', function() {
-            var text = responsibleEditor.$('.inplace-edit-select option[selected]').getText();
-            expect(text).to.eventually.equal('OpenProject Admin');
+            expect(responsibleEditor.$('.inplace-edit-select').getAttribute('value'))
+              .to.eventually.equal('/api/v3/users/1');
           });
         });
       });
