@@ -62,14 +62,14 @@ class Story < WorkPackage
     Story.backlogs(project.id, [sprint.id], options)[sprint.id]
   end
 
-  def self.create_and_position(params, safer_attributes)
+  def self.create_and_position(params, safer_attributes, prev)
     Story.new.tap do |s|
       s.author  = safer_attributes[:author]  if safer_attributes[:author]
       s.project = safer_attributes[:project] if safer_attributes[:project]
       s.attributes = params
 
       if s.save
-        s.move_after(params['prev_id'])
+        s.move_after(prev)
       end
     end
   end
@@ -143,14 +143,15 @@ class Story < WorkPackage
     { open: open, closed: closed }
   end
 
-  def update_and_position!(params)
+  def update_and_position!(params, project, prev)
     self.attributes = params
+    self.project = project
     self.status_id = nil if params[:status_id] == ''
 
     save.tap do |result|
-      if result and params[:prev]
+      if result and prev
         reload
-        move_after(params[:prev])
+        move_after(prev)
       end
     end
   end

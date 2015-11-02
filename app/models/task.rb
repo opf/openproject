@@ -50,8 +50,9 @@ class Task < WorkPackage
   end
 
   def self.create_with_relationships(params, project_id)
+    prev = params.delete(:prev)
     if task = create_with_relationships_without_move(params, project_id)
-      task.move_after params[:prev]
+      task.move_after prev
     end
 
     task
@@ -69,8 +70,9 @@ class Task < WorkPackage
   end
 
   def update_with_relationships(params, _is_impediment = false)
+    prev = params.delete(:prev)
     update_with_relationships_without_move(params).tap do |result|
-      move_after(params[:prev]) if result
+      move_after(prev) if result
     end
   end
 

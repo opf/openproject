@@ -59,6 +59,7 @@ private
 
   def impediment_params(instance = nil)
     if instance && instance.new_record? && (user.allowed_to?(:create_impediments, instance.project) || user.allowed_to?(:update_impediments, impediment.project))
+      byebug
       params.permit 'blocks_ids'
     end
   end

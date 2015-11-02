@@ -34,8 +34,14 @@
 #++
 
 class RbTasksController < RbApplicationController
+
+  # This is a constant here because we will recruit it elsewhere to whitelist
+  # attributes. This is necessary for now as we still directly use `attributes=`
+  # in non-controller code.
+  PERMITTED_PARAMS = ["id", "subject", "assigned_to_id", "remaining_hours", "parent_id",
+                      "status_id", "prev", "project_id", "sprint_id"]
   def create
-    @task = Task.create_with_relationships(params, @project.id)
+    @task = Task.create_with_relationships(task_params, @project.id)
 
     status = (@task.errors.empty? ? 200 : 400)
     @include_meta = true
@@ -46,13 +52,18 @@ class RbTasksController < RbApplicationController
   end
 
   def update
-    @task = Task.find(params[:id])
-    result = @task.update_with_relationships(params)
+    @task = Task.find(task_params[:id])
+    result = @task.update_with_relationships(task_params)
     status = (result ? 200 : 400)
     @include_meta = true
 
     respond_to do |format|
       format.html { render partial: 'task', object: @task, status: status }
     end
+  end
+
+private
+  def task_params
+    params.permit(PERMITTED_PARAMS)
   end
 end

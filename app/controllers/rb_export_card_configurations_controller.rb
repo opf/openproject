@@ -62,6 +62,6 @@ class RbExportCardConfigurationsController < RbApplicationController
 
   def load_project_and_sprint
     @project = Project.find(params[:project_id])
-    @sprint = Sprint.find(params[:sprint_id])
+    @sprint = Sprint.find(@sprint_id)
   end
 end

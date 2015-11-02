@@ -170,7 +170,6 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     params = initialize_story_params(project)
     params['parent'] = WorkPackage.find_by(subject: story['parent'])
     params['subject'] = story['subject']
-    params['prev_id'] = prev_id
     params['fixed_version_id'] = Version.find_by(name: story['sprint'] || story['backlog']).id
     params['story_points'] = story['story_points']
     params['status_id'] = Status.find_by(name: story['status']).id if story['status']
@@ -180,7 +179,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    s = Story.create_and_position(params, project: params[:project], author: params['author'])
+    s = Story.create_and_position(params, { project: params[:project], author: params['author'] }, prev_id)
     prev_id = s.id
   end
 end
@@ -224,7 +223,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following work_packages:$/ do |pr
       # setting up the database for the actual tests. The actual tests,
       # however, should NOT bypass the controller
       work_package = WorkPackage.new
-      work_package.force_attributes = params
+      work_package.attributes = params
       work_package.save!
     end
   end

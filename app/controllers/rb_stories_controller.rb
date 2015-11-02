@@ -36,10 +36,19 @@
 class RbStoriesController < RbApplicationController
   include OpenProject::PdfExport::ExportCard
 
+  # This is a constant here because we will recruit it elsewhere to whitelist
+  # attributes. This is necessary for now as we still directly use `attributes=`
+  # in non-controller code.
+  PERMITTED_PARAMS = [:id, :status_id, :fixed_version_id,
+                      :story_points, :type_id, :subject, :author_id, :prev,
+                      :sprint_id]
+
   def create
     params['author_id'] = User.current.id
-    story = Story.create_and_position(story_params, project: @project,
-                                              author: User.current)
+    prev = params.delete('prev')
+    story = Story.create_and_position(story_params, {project: @project,
+                                                    author: User.current},
+                                                    prev)
     status = (story.id ? 200 : 400)
 
     respond_to do |format|
@@ -49,7 +58,8 @@ class RbStoriesController < RbApplicationController
 
   def update
     story = Story.find(params[:id])
-    result = story.update_and_position!(story_params)
+    prev = params.delete('prev')
+    result = story.update_and_position!(story_params, @project, prev)
     story.reload
     status = (result ? 200 : 400)
 
@@ -61,6 +71,6 @@ class RbStoriesController < RbApplicationController
 private
 
   def story_params
-    params.permit(:project_id, :sprint_id, :id)
+    params.permit(PERMITTED_PARAMS)
   end
 end
