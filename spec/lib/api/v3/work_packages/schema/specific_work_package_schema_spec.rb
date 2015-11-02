@@ -231,5 +231,17 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
         expect(subject.writable?(:due_date)).to be true
       end
     end
+
+    context 'priority' do
+      it 'is not writable when the work package is a parent' do
+        allow(work_package).to receive(:leaf?).and_return(false)
+        expect(subject.writable?(:priority)).to be false
+      end
+
+      it 'is writable when the work package is a leaf' do
+        allow(work_package).to receive(:leaf?).and_return(true)
+        expect(subject.writable?(:priority)).to be true
+      end
+    end
   end
 end
