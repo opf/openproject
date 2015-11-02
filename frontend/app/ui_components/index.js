@@ -67,6 +67,11 @@ angular.module('openproject.uiComponents')
   .directive('inaccessibleByTab', [require('./inaccessible-by-tab-directive')])
   .directive('modal', [require('./modal-directive')])
   .directive('modalLoading', ['I18n', require('./modal-loading-directive')])
+  .directive('persistentToggle', [
+    '$timeout',
+    'CacheService',
+    require('./persistent-toggle-directive')]
+  )
   .directive('progressBar', ['I18n', require('./progress-bar-directive')])
   .constant('LABEL_MAX_CHARS', 40)
   .constant('KEY_CODES', {
