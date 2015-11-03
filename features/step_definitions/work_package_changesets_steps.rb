@@ -48,11 +48,12 @@ Then(/^I should see the following changesets:$/) do |table|
     # this will only work with one revision as we do not have proper markup
     # to identify different changesets
     within('.work-package-details-activities-list .revision-activity--revision-link') do
-      should have_content("committed revision #{row[:revision]}")
+      expect(page).to have_content("committed revision #{row[:revision]}")
     end
   end
 end
 
 Then(/^I should not be presented changesets$/) do
-  should_not have_selector('.work-package-details-activities-list .revision-activity--revision-link')
+  expect(page)
+    .not_to have_selector('.work-package-details-activities-list .revision-activity--revision-link')
 end
