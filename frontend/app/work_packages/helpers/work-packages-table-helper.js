@@ -31,14 +31,13 @@ module.exports = function(WorkPackagesHelper) {
     /* builds rows from work packages, see IssuesHelper */
     buildRows: function(workPackages, groupBy) {
       var rows = [], ancestors = [];
-      var currentGroup, allGroups = [], groupIndex = -1;
+      var currentGroup, allGroups = [];
 
       angular.forEach(workPackages, function(workPackage, i) {
         while(ancestors.length > 0 && workPackage.parent_id !== _.last(ancestors).object.id) {
           // this helper method only reflects hierarchies if nested work packages follow one another
           ancestors.pop();
         }
-
 
         // compose row
 
@@ -51,18 +50,18 @@ module.exports = function(WorkPackagesHelper) {
 
         // manage groups
 
-        // this helper method assumes that the work packages are passed in in blocks each of which consisting of work packages which belong to one group
+        // this helper method assumes that the work packages are passed in in blocks
+        // each of which consisting of work packages which belong to one group
 
         if (groupBy) {
           currentGroup = WorkPackagesHelper.getRowObjectContent(workPackage, groupBy);
 
           if(allGroups.indexOf(currentGroup) === -1) {
             allGroups.push(currentGroup);
-            groupIndex++;
           }
 
           angular.extend(row, {
-            groupIndex: groupIndex,
+            groupIndex: allGroups.indexOf(currentGroup),
             groupName: currentGroup
           });
         }
@@ -72,7 +71,7 @@ module.exports = function(WorkPackagesHelper) {
         if (!workPackage['leaf?']) ancestors.push(row);
       });
 
-      return rows;
+      return _.sortBy(rows, 'groupIndex');
     },
 
     allRowsChecked: function(rows) {
