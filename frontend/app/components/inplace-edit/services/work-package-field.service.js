@@ -263,13 +263,15 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
       case 'Duration':
         inplaceType = 'duration';
         break;
+      case 'Type':
+        inplaceType = 'type';
+        break;
       case 'StringObject':
-      case 'Version':
       case 'User':
       case 'Status':
       case 'Priority':
       case 'Category':
-      case 'Type':
+      case 'Version':
         inplaceType = 'drop-down';
         break;
     }

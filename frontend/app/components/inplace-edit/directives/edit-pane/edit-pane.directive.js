@@ -30,7 +30,7 @@ angular
   .module('openproject.inplace-edit')
   .directive('inplaceEditorEditPane', inplaceEditorEditPane);
 
-function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
+function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout, $q) {
   return {
     transclude: true,
     replace: true,
@@ -47,6 +47,12 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
       scope.editPaneController.isRequired = function() {
         return field.isRequired();
       };
+
+      scope.$on('form.updateRequired', function() {
+        var submit = $q.defer();
+
+        scope.editPaneController.updateWorkPackageForm(submit);
+      });
 
       scope.$watchCollection('editableFieldsState.workPackage.form', function(form) {
         var strategy = field.getInplaceEditStrategy();
@@ -117,7 +123,7 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
     }
   };
 }
-inplaceEditorEditPane.$inject = ['EditableFieldsState', 'FocusHelper', '$timeout'];
+inplaceEditorEditPane.$inject = ['EditableFieldsState', 'FocusHelper', '$timeout', '$q'];
 
 
 function InplaceEditorEditPaneController($scope, $element, $location, $timeout, $q, $rootScope,
@@ -153,15 +159,42 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
     });
   };
 
+  this.handleFailure = function(submit, e) {
+    setFailure(e);
+    submit.reject(e);
+  };
+
+  this.updateWorkPackageForm = function(submit) {
+    WorkPackageService.loadWorkPackageForm(EditableFieldsState.workPackage).then(
+      function(form) {
+        field.resource.form = form;
+        EditableFieldsState.workPackage.form = form;
+        if (_.isEmpty(form.embedded.validationErrors.props)) {
+          submit.resolve();
+        } else {
+          afterError();
+          submit.reject();
+          EditableFieldsState.errors = {};
+          _.forEach(form.embedded.validationErrors.props, function(error, field) {
+            if(field === 'startDate' || field === 'dueDate') {
+              EditableFieldsState.errors['date'] = error.message;
+            } else {
+              EditableFieldsState.errors[field] = error.message;
+            }
+          });
+
+          showErrors();
+        }
+      }).catch(vm.handleFailure);
+
+    return submit.promise;
+  };
+
   this.submitField = function() {
     var submit = $q.defer();
     var fieldController = $scope.fieldController;
     var pendingFormChanges = EditableFieldsState.getPendingFormChanges();
     var detectedViolations = [];
-    var handleFailure = function(e) {
-      setFailure(e);
-      submit.reject(e);
-    };
 
     pendingFormChanges[field.name] = field.value;
     if (vm.editForm.$invalid) {
@@ -182,39 +215,22 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
       submit.reject();
     } else {
       fieldController.state.isBusy = true;
-      WorkPackageService.loadWorkPackageForm(EditableFieldsState.workPackage).then(
-        function(form) {
-          EditableFieldsState.workPackage.form = form;
-          if (_.isEmpty(form.embedded.validationErrors.props)) {
-            var result = WorkPackageService.updateWorkPackage(
-              EditableFieldsState.workPackage
-            );
-            result.then(angular.bind(this, function(updatedWorkPackage) {
-              submit.resolve();
-              field.resource = _.extend(field.resource, updatedWorkPackage);
+      vm.updateWorkPackageForm(submit).then(function() {
+        var result = WorkPackageService.updateWorkPackage(
+          EditableFieldsState.workPackage
+        );
+        result.then(angular.bind(this, function(updatedWorkPackage) {
+          submit.resolve();
+          field.resource = _.extend(field.resource, updatedWorkPackage);
 
-              $scope.$emit('workPackageUpdatedInEditor', updatedWorkPackage);
-              $scope.$on('workPackageRefreshed', function() {
-                fieldController.state.isBusy = false;
-                fieldController.isEditing = false;
-              });
-              uploadPendingAttachments(updatedWorkPackage);
-            })).catch(handleFailure);
-          } else {
-            afterError();
-            submit.reject();
-            EditableFieldsState.errors = {};
-            _.forEach(form.embedded.validationErrors.props, function(error, field) {
-              if(field === 'startDate' || field === 'dueDate') {
-                EditableFieldsState.errors['date'] = error.message;
-              } else {
-                EditableFieldsState.errors[field] = error.message;
-              }
-            });
-
-            showErrors();
-          }
-        }).catch(handleFailure);
+          $scope.$emit('workPackageUpdatedInEditor', updatedWorkPackage);
+          $scope.$on('workPackageRefreshed', function() {
+            fieldController.state.isBusy = false;
+            fieldController.isEditing = false;
+          });
+          uploadPendingAttachments(updatedWorkPackage);
+        })).catch(vm.handleFailure);
+      });
     }
 
     return submit.promise;
