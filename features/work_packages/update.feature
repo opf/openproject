@@ -71,7 +71,6 @@ Feature: Updating work packages
     And there are the following work packages in project "ecookbook":
       | subject | type    | status  | fixed_version |
       | wp1     | Phase1  | status1 | version1      |
-      | wp2     |         |         |               |
     And I am already logged in as "manager"
 
   @javascript
@@ -135,13 +134,22 @@ Feature: Updating work packages
 
   @javascript
   Scenario: On a work package with children a user should not be able to change attributes which are overridden by children
-    Given the user "manager" has 1 issue with the following:
-      | subject | wp2      |
-    When I go to the edit page of the work package "wp2"
+    And there are the following work packages in project "ecookbook":
+      | subject | type   | status  | fixed_version | priority | done_ratio | estimated_hours | start_date | due_date   |
+      | child   | Phase1 | status1 | version1      | prio2    | 50         | 5               | 2015-10-01 | 2015-10-30 |
+      | parent  |        |         |               |          | 0          |                 |            |            |
+    Given the work package "parent" has the following children:
+      | child |
+    When I go to the edit page of the work package "parent"
     And I click the edit work package button
     And I click on "Show all"
-    Then there should not be a "Progress \(%\)" field
-    And there should be a disabled "Priority" field
-    And there should be a disabled "Start date" field
-    And there should be a disabled "Due date" field
-    And there should be a disabled "Estimated time" field
+    Then the work package should be shown with the following values:
+      | Priority       | prio2                   |
+      | Date           | 10/01/2015 - 10/30/2015 |
+      | Estimated time | 5                       |
+      | Progress (%)   | 50                      |
+    And there should not be a "Progress \(%\)" field
+    And there should not be a "Priority" field
+    And there should not be a "Start date" field
+    And there should not be a "End date" field
+    And there should not be a "Estimated time" field
