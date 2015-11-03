@@ -159,7 +159,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
     });
   };
 
-  this.handleFailure = function(submit, e) {
+  this.handleFailure = function(e, submit) {
     setFailure(e);
     submit.reject(e);
   };
@@ -185,7 +185,9 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
 
           showErrors();
         }
-      }).catch(vm.handleFailure);
+      }).catch(function(e) {
+        vm.handleFailure(e, submit);
+      });
 
     return submit.promise;
   };
@@ -229,7 +231,9 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
             fieldController.isEditing = false;
           });
           uploadPendingAttachments(updatedWorkPackage);
-        })).catch(vm.handleFailure);
+        })).catch(function(e) {
+          vm.handleFailure(e, submit);
+        });
       });
     }
 
