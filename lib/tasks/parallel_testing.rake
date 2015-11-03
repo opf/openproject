@@ -87,7 +87,8 @@ namespace :parallel do
 
   desc 'Run legacy specs in parallel'
   task :spec_legacy do
-    sh "bundle exec parallel_test --type rspec -o '-I spec_legacy' spec_legacy"
+    sh "bundle exec parallel_test --type rspec -o '-I spec_legacy' spec_legacy || \
+        bundle exec rspec -I spec_legacy spec_legacy"
   end
 
   desc 'Run cucumber features in parallel (custom task)'
