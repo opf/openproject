@@ -65,34 +65,6 @@ Feature: Cost Reporting Linkage
     Then I should see "107.07"
     And I should not see "No data to display"
 
-  @javascript
-  Scenario: Deleting the cost entry
-    Given there is a standard cost control project named "Standard Project"
-    And the user "manager" has 1 issue with:
-      | subject | manager work_package |
-    And there is 1 cost type with the following:
-      | name      | word |
-      | cost rate | 1.01 |
-    And the work package "manager work_package" has 1 cost entry with the following:
-      | units     | 7       |
-      | user      | manager |
-      | cost type | word    |
-    And there is 1 user with:
-        | login | admin |
-        | admin | true |
-    And I am already logged in as "admin"
-    And I am on the Cost Reports page for the project called "Standard Project"
-
-    When I click on "Clear"
-    And I choose "Cash value"
-    And I send the query
-
-    # 7.07 EUR (words)
-    Then I should see "7.07"
-    And I delete the cost entry "7.07"
-    Then I should see "Successful deletion."
-    And I should see "No data to display"
-
   #have to use annotation capybara due to
   #https://github.com/aslakhellesoy/cucumber-rails/issues/issues/77
   @javascript
