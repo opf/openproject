@@ -55,7 +55,7 @@ function inplaceEditorDisplayPane(EditableFieldsState, $timeout, I18n) {
       });
 
       scope.$watch('editableFieldsState.errors', function(errors) {
-        if (errors && errors[field.name]) {
+        if (errors && errors[field.name] && field.isEditable()) {
           scope.displayPaneController.startEditing();
         }
       }, true);
@@ -87,6 +87,9 @@ function InplaceEditorDisplayPaneController($scope, HookService) {
   this.placeholder = field.placeholder;
 
   this.startEditing = function() {
+    if (!field.isEditable()) {
+      throw 'Trying to edit the non editable field "' + field.name + '"';
+    }
     var fieldController = $scope.fieldController;
     fieldController.isEditing = true;
   };
