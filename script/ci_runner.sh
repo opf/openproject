@@ -64,7 +64,8 @@ if [ $1 = "npm" ]; then
 elif [ $1 = "spec:plugins" ] || [ $1 = "cucumber:plugins" ]; then
   run "bundle exec rake $1"
 elif [ $1 = "legacy" ]; then
-  run "bundle exec parallel_test --type rspec -o '-I spec_legacy' spec_legacy $GROUPING"
+  run "bundle exec parallel_test --type rspec -o '-I spec_legacy' spec_legacy $GROUPING || \
+       bundle exec rspec -I spec_legacy --only-failures spec_legacy"
 elif [ $1 = "spec" ]; then
   run "bundle exec parallel_test --type rspec --runtime-log script/files/parallel_runtime_rspec.log spec $GROUPING || \
        bundle exec rspec --only-failures"
