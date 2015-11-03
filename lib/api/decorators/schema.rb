@@ -66,7 +66,7 @@ module API
                                      name_source: property,
                                      href_callback:,
                                      required: true,
-                                     writable: true,
+                                     writable: -> { represented.writable?(property) },
                                      show_if: true)
           raise ArgumentError if property.nil?
 
@@ -97,7 +97,7 @@ module API
                                            value_representer:,
                                            link_factory:,
                                            required: true,
-                                           writable: true,
+                                           writable: -> { represented.writable?(property) },
                                            show_if: true)
           raise ArgumentError unless property
 

@@ -67,7 +67,11 @@ module API
           end
 
           def writable?(property)
-            if [:percentage_done, :estimated_time, :start_date, :due_date].include? property
+            if [:percentage_done,
+                :estimated_time,
+                :start_date,
+                :due_date,
+                :priority].include? property
               return false unless @work_package.leaf?
             end
 

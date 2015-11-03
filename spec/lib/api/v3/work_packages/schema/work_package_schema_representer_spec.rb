@@ -435,6 +435,10 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'priorities' do
+      before do
+        allow(schema).to receive(:writable?).with(:priority).and_return true
+      end
+
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'priority' }
         let(:type) { 'Priority' }
@@ -447,6 +451,20 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:json_path) { 'priority' }
         let(:href_path) { 'priorities' }
         let(:factory) { :priority }
+      end
+
+      context 'not writable' do
+        before do
+          allow(schema).to receive(:writable?).with(:priority).and_return false
+        end
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'priority' }
+          let(:type) { 'Priority' }
+          let(:name) { I18n.t('activerecord.attributes.work_package.priority') }
+          let(:required) { true }
+          let(:writable) { false }
+        end
       end
     end
 
