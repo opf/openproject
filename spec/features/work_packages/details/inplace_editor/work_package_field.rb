@@ -18,8 +18,8 @@ class WorkPackageField
     @element = page.find(field_selector)
   end
 
-  def read_state_text
-    @element.find('.inplace-edit--read-value').text
+  def expect_state_text(text)
+    expect(@element).to have_selector('.inplace-edit--read-value', text: text)
   end
 
   def trigger_link

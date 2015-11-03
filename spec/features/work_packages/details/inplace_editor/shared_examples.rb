@@ -81,7 +81,7 @@ shared_examples 'a cancellable field' do
     end
 
     it 'keeps old content' do
-      expect(field.read_state_text).to eq work_package.send(property_name)
+      field.expect_state_text(work_package.send(property_name))
     end
 
     it 'focuses the trigger link' do

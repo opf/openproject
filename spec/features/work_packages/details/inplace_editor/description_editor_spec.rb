@@ -28,14 +28,14 @@ describe 'description inplace editor', js: true, selenium: true do
 
   context 'in read state' do
     it 'renders the correct text' do
-      expect(field.read_state_text).to eq work_package.send(property_name)
+      field.expect_state_text work_package.send(property_name)
     end
 
     context 'when is empty' do
       let(:description_text) { '' }
 
       it 'renders a placeholder' do
-        expect(field.read_state_text).to eq 'Click to enter description...'
+        field.expect_state_text 'Click to enter description...'
       end
     end
 

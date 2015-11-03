@@ -21,7 +21,7 @@ describe 'subject inplace editor', js: true, selenium: true do
 
   context 'in read state' do
     it 'has correct content' do
-      expect(field.read_state_text).to eq work_package.send(property_name)
+      field.expect_state_text(work_package.send(property_name))
     end
   end
 
@@ -56,12 +56,12 @@ describe 'subject inplace editor', js: true, selenium: true do
 
       it 'displays the new value after save' do
         field.submit_by_click
-        expect(field.read_state_text).to eq 'Aloha'
+        field.expect_state_text('Aloha')
       end
 
       it 'saves the value on ENTER' do
         field.submit_by_enter
-        expect(field.read_state_text).to eq 'Aloha'
+        field.expect_state_text('Aloha')
       end
     end
   end
