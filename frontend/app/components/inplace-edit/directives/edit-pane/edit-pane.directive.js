@@ -88,7 +88,7 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout, $q) {
 
       if (!EditableFieldsState.forcedEditState) {
         element.bind('keydown keypress', function(e) {
-          if (e.keyCode === 27) {
+          if (e.keyCode === 27 && !EditableFieldsState.editAll.state) {
             scope.$apply(function() {
               scope.editPaneController.discardEditing();
             });
