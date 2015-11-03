@@ -228,8 +228,9 @@ module.exports = function($scope,
 
   function setWorkPackageScopeProperties(workPackage){
     $scope.workPackage = workPackage;
-    $scope.isWatched = !!workPackage.links.unwatch;
-    $scope.displayWatchButton = !!workPackage.links.unwatch || !!workPackage.links.watch;
+    $scope.isWatched = workPackage.links.hasOwnProperty('unwatch');
+    $scope.displayWatchButton = workPackage.links.hasOwnProperty('unwatch') ||
+                                workPackage.links.hasOwnProperty('watch');
 
     // autocomplete path
     var projectId = workPackage.embedded.project.props.id;

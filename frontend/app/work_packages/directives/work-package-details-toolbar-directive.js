@@ -81,7 +81,6 @@ module.exports = function(PERMITTED_MORE_MENU_ACTIONS,
       scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
                                               getPermittedPluginActions(authorization));
       scope.actionsAvailable = Object.keys(scope.permittedActions).length > 0;
-      scope.displayWatchButton = !!scope.workPackage.links.unwatch || !!scope.workPackage.links.watch;
 
       scope.editWorkPackage = function() {
         var editWorkPackagePath = PathHelper.staticEditWorkPackagePath(scope.workPackage.props.id);
