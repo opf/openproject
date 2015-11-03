@@ -33,13 +33,15 @@ module SampleData
       # on the seeded project will be lost.
       puts ' ↳ Creating seeded project...'
 
-      if delete_me = Project.find_by(identifier: 'seeded_project')
+      identifier = I18n.t('seeders.sample_data.project.identifier')
+
+      if delete_me = Project.find_by(identifier: identifier)
         delete_me.destroy
       end
 
-      project = Project.create(name: 'Seeded Project',
-                               identifier: 'seeded_project',
-                               description: Faker::Lorem.paragraph(5),
+      project = Project.create(name: I18n.t('seeders.sample_data.project.name'),
+                               identifier: identifier,
+                               description: I18n.t('seeders.sample_data.project.description'),
                                types: Type.all,
                                is_public: true
                               )
@@ -54,7 +56,7 @@ module SampleData
       # create a default timeline that shows all our work packages
       timeline = Timeline.create
       timeline.project = project
-      timeline.name = 'Sample Timeline'
+      timeline.name = I18n.t('seeders.sample_data.timeline.name')
       timeline.options.merge!(zoom_factor: ['4'])
       timeline.save
 

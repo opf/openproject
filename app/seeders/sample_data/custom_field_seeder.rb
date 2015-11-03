@@ -34,8 +34,8 @@ module SampleData
       print ' ↳ Creating custom fields...'
 
       # create some custom fields and add them to the project
-      3.times do |_count|
-        cf = WorkPackageCustomField.create!(name: Faker::Lorem.words(2).join(' '),
+      I18n.t('seeders.sample_data.custom_fields.names').each do |name|
+        cf = WorkPackageCustomField.create!(name: name,
                                             regexp: '',
                                             is_required: false,
                                             min_length: false,

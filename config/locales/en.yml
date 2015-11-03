@@ -1727,6 +1727,22 @@ en:
       sentence_connector: "and"
       skip_last_comma: "false"
 
+  seeders:
+    sample_data:
+      board:
+        name: Demo Board
+        description: General discussion on various topics for the project.
+      custom_fields:
+        names:
+          - Company
+          - City
+      project:
+        name: Demo project
+        identifier: demo-project
+        description: 'This is a description for your project. You can edit the description in the Project settings -> Description'
+      timeline:
+        name: Timeline
+
   text_access_token_hint: "Access tokens allow you to grant external applications access to resources in OpenProject."
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Are you sure?"

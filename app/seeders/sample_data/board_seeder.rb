@@ -31,12 +31,12 @@ module SampleData
     def self.seed!(project)
       user = User.first
 
-      board = Board.create! project: project,
-                            name: Faker::Lorem.words(2).join(' '),
-                            description: Faker::Lorem.paragraph(5).slice(0, 255)
-
       puts ''
       print ' ↳ Creating forum board with posts'
+
+      board = Board.create! project: project,
+                            name: I18n.t('seeders.sample_data.board.name'),
+                            description: I18n.t('seeders.sample_data.board.description')
 
       rand(30).times do
         print '.'
