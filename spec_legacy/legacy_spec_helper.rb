@@ -117,4 +117,7 @@ RSpec.configure do |config|
 
   # colorized rspec output
   config.color = true
+
+  config.example_status_persistence_file_path = "tmp/rspec-legacy-examples.txt"
+  config.run_all_when_everything_filtered = true
 end
