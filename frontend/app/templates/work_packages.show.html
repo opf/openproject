@@ -22,7 +22,7 @@
         </li>
         <li class="toolbar-item" ng-if="isWatched && displayWatchButton">
           <button class="button"
-                  ng-click="unwatch()"
+                  ng-click="toggleWatch()"
                   title="{{I18n.t('js.label_unwatch_work_package')}}"
                   id="unwatch-button">
             <i class="button--icon icon-watch-1"></i>
@@ -30,7 +30,7 @@
         </li>
         <li class="toolbar-item" ng-if="!isWatched && displayWatchButton">
           <button class="button"
-                  ng-click="watch()"
+                  ng-click="toggleWatch()"
                   title="{{I18n.t('js.label_watch_work_package')}}"
                   id="watch-button">
             <i class="button--icon icon-not-watch"></i>

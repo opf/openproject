@@ -142,37 +142,6 @@ module.exports = function($scope,
   $scope.projectIdentifier = $scope.workPackage.embedded.project.props.identifier;
 
 
-  $scope.watch = function() {
-    if ($scope.isWatched) {
-      return;
-    }
-
-    $scope.toggleWatchLink
-      .fetch({ ajax: {
-        method: $scope.toggleWatchLink.props.method,
-        href: $scope.toggleWatchLink.props.href,
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify($scope.toggleWatchLink.props.payload)
-      }})
-      .then(refreshWorkPackage, $scope.outputError);
-  };
-
-  $scope.unwatch = function() {
-    if (!$scope.isWatched) {
-      return;
-    }
-
-    $scope.toggleWatchLink
-      .fetch({ ajax: {
-        method: $scope.toggleWatchLink.props.method,
-        href: $scope.toggleWatchLink.props.href,
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify($scope.toggleWatchLink.props.payload)
-      }})
-      .then(refreshWorkPackage, $scope.outputError);
-  };
-
-
   function fetchProjectTypes() {
     ProjectService.getProject($scope.projectIdentifier)
       .then(function(project) {
@@ -206,7 +175,7 @@ module.exports = function($scope,
   }
 
   function outputError(error) {
-    outputMessage(error.message, true);
+    outputMessage(error.message || I18n.t('js.work_packages.error'), true);
   }
 
   $scope.outputMessage = outputMessage; // expose to child controllers
@@ -261,12 +230,6 @@ module.exports = function($scope,
     $scope.workPackage = workPackage;
     $scope.isWatched = !!workPackage.links.unwatch;
     $scope.displayWatchButton = !!workPackage.links.unwatch || !!workPackage.links.watch;
-
-    if (workPackage.links.watch === undefined) {
-      $scope.toggleWatchLink = workPackage.links.unwatch;
-    } else {
-      $scope.toggleWatchLink = workPackage.links.watch;
-    }
 
     // autocomplete path
     var projectId = workPackage.embedded.project.props.id;
@@ -326,18 +289,10 @@ module.exports = function($scope,
   }
 
   $scope.toggleWatch = function() {
-    var fetchOptions = {
-      method: $scope.toggleWatchLink.props.method
-    };
-
-    if($scope.toggleWatchLink.props.payload !== undefined) {
-      fetchOptions.contentType = 'application/json; charset=utf-8';
-      fetchOptions.data = JSON.stringify($scope.toggleWatchLink.props.payload);
-    }
-
-    $scope.toggleWatchLink
-      .fetch({ajax: fetchOptions})
-      .then(refreshWorkPackage, outputError);
+    // Toggle early to avoid delay.
+    $scope.isWatched = !$scope.isWatched;
+    WorkPackageService.toggleWatch($scope.workPackage)
+                      .then(function() { refreshWorkPackage() }, outputError);
   };
 
   $scope.canViewWorkPackageWatchers = function() {

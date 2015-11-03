@@ -85,7 +85,7 @@ module.exports = function($scope,
   }
 
   function outputError(error) {
-    NotificationsService.addError(error.message || I18n.t('js.work_packages.error'));
+    outputMessage(error.message || I18n.t('js.work_packages.error'), true);
   }
 
   $scope.outputMessage = outputMessage; // expose to child controllers
