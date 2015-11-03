@@ -49,7 +49,11 @@ namespace :parallel do
 
       spec_folders = Plugins::LoadPathHelper.spec_load_paths.join(' ')
 
-      cmd = "bundle exec parallel_test --type rspec #{record_runtime_option} #{runtime_log_option} #{group_options} #{spec_folders}"
+      # Change this if changed in spec/support/rspec_failures.rb
+      sh 'rm tmp/rspec-examples.txt'
+
+      cmd = "bundle exec parallel_test --type rspec #{record_runtime_option} #{runtime_log_option} #{group_options} #{spec_folders} || \
+             bundle exec rspec --only-failures"
 
       p cmd
       sh cmd
