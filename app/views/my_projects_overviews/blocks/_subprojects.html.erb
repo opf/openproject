@@ -19,11 +19,13 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<h3><%=l(:label_subproject_plural)%></h3>
-
 <% if defined? block_name_id %>
   <%= content_for block_name_id %>
 <% end %>
+
+<h3 class="widget-box--header">
+  <span class="widget-box--header-title"><%=l(:label_subproject_plural)%></span>
+</h3>
 
 <% if childprojects.any? %>
   <div class="subprojects overview">

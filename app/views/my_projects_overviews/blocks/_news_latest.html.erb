@@ -19,11 +19,14 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<h3><%=l(:label_news_latest)%></h3>
-
 <% if defined? block_name_id %>
   <%= content_for block_name_id %>
 <% end %>
+
+<h3 class="widget-box--header">
+  <span class="icon-context icon-news"></span>
+  <span class="widget-box--header-title"><%=l(:label_news_latest)%></span>
+</h3>
 
 <% if recent_news.any? && authorize_for('news', 'index') %>
   <div class="news overview">

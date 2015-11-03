@@ -19,11 +19,14 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<h3><%=l(:label_work_packages_responsible_for)%> (<%= WorkPackage.visible.open.where(responsible_id: User.current.id, project_id: @project.id).count %>)</h3>
-
 <% if defined? block_name_id %>
   <%= content_for block_name_id %>
 <% end %>
+
+<h3 class="widget-box--header">
+  <span class="icon-context icon-issue-assignedtome"></span>
+  <span class="widget-box--header-title"><%=l(:label_work_packages_responsible_for)%> (<%= WorkPackage.visible.open.where(responsible_id: User.current.id, project_id: @project.id).count %>)</span>
+</h3>
 
 <% responsible_work_packages = WorkPackage.visible.open
                                .where(responsible_id: User.current.id, project_id: @project.id)

@@ -19,11 +19,14 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<h3><%= l(:label_calendar) %></h3>
-
 <% if defined? block_name_id %>
   <%= content_for block_name_id %>
 <% end %>
+
+<h3 class="widget-box--header">
+  <span class="icon-context icon-calendar"></span>
+  <span class="widget-box--header-title"><%=l(:label_calendar)%></span>
+</h3>
 
 <% calendar = Redmine::Helpers::Calendar.new(Date.today, current_language, :week)
    calendar.events = WorkPackage.visible.where("#{WorkPackage.table_name}.project_id in (#{@user.projects.collect{|m| m.id}.join(',')}) AND ((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", calendar.startdt, calendar.enddt, calendar.startdt, calendar.enddt)

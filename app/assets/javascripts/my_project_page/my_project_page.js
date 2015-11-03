@@ -54,7 +54,7 @@
                 // block names when they contain underscores
                 parameters: (function serialize(id, $) {
                   var element =  $('#' + id),
-                      blocks = element.find('.mypage-box').map(function() {
+                      blocks = element.find('.widget-box').map(function() {
                         return this.id.replace(/^block_/, '');
                       }).get();
                   return blocks.map(function(item) {
@@ -64,7 +64,7 @@
               });
             },
             containment: containedPositions,
-            only: 'mypage-box',
+            only: 'widget-box',
             tag: 'div'
           });
         };
@@ -81,7 +81,7 @@
     for (var i = 0; i < s.options.length; i++) {
       var name = s.options[i].value || '';
       // this becomes necessary as the block names are saved with dashes in the db,
-      // but their ids use underscores in the frontend - this changes the name to find 
+      // but their ids use underscores in the frontend - this changes the name to find
       // the block in the DOM
       name = name.replace(/\-/g, '_');
       if ($('block_' + name)) {

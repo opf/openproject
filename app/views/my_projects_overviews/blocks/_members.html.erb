@@ -19,11 +19,14 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<h3><%=l(:label_member_plural)%></h3>
-
 <% if defined? block_name_id %>
   <%= content_for block_name_id %>
 <% end %>
+
+<h3 class="widget-box--header">
+  <span class="icon-context icon-group"></span>
+  <span class="widget-box--header-title"><%=l(:label_member_plural)%></span>
+</h3>
 
 <% if @project.members.count > 0 && users_by_role(50).any? %>
   <div class="members overview" id="users_per_role">

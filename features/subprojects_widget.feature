@@ -41,5 +41,5 @@ Feature: Subproject Widget
     Given the following widgets are selected for the overview page of the "Parent" project:
       | top        | Subprojects   |
     And I am on the homepage for the project "Parent"
-    And I follow "Child" within ".mypage-box .subprojects"
+    And I follow "Child" within ".widget-box .subprojects"
     Then I should be on the overview page of the project called "Child"

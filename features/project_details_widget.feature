@@ -40,5 +40,5 @@ Feature: Project Details Widget
     Given the following widgets are selected for the overview page of the "Parent" project:
       | top        | Project_details   |
     When I go to the overview page of the project called "Parent"
-    And I follow "Child" within ".mypage-box .project_details"
+    And I follow "Child" within ".widget-box .project_details"
     Then I should be on the overview page of the project called "Child"

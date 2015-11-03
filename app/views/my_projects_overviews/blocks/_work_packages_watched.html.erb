@@ -19,11 +19,14 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<h3><%=l(:label_work_package_view_all_watched)%> (<%= WorkPackage.where(project_id: @project.id).visible.watched_by(@user.id).count %>)</h3>
-
 <% if defined? block_name_id %>
   <%= content_for block_name_id %>
 <% end %>
+
+<h3 class="widget-box--header">
+  <span class="icon-context icon-issue-watched"></span>
+  <span class="widget-box--header-title"><%=l(:label_work_package_view_all_watched)%> (<%= WorkPackage.where(project_id: @project.id).visible.watched_by(@user.id).count %>)</span>
+</h3>
 
 <% watched_work_packages = WorkPackage.where(project_id: @project.id).visible.on_active_project.watched_by(@user.id).recently_updated.with_limit(10) %>
 

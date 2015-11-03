@@ -19,11 +19,14 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<h3><%=l(:label_work_package_tracking)%></h3>
-
 <% if defined? block_name_id %>
   <%= content_for block_name_id %>
 <% end %>
+
+<h3 class="widget-box--header">
+  <span class="icon-context icon-tracker"></span>
+  <span class="widget-box--header-title"><%=l(:label_work_package_tracking)%></span>
+</h3>
 
 <% if User.current.allowed_to?(:view_work_packages, project) %>
   <div class="issues overview">
