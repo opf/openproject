@@ -218,8 +218,7 @@ module.exports = function(
       return true;
     }
 
-    // strategy pattern, guys
-    if (field === 'spentTime' && WorkPackageFieldService.getValue(workPackage, field) === 'PT0S') {
+    if (field === 'spentTime' && workPackage.props[field] === 'PT0S') {
       return true;
     }
 
