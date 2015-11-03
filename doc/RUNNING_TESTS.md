@@ -100,7 +100,7 @@ You can run the specs with the following commands:
 
 ### Cucumber
 
-NOTE: *We do not write new cucumber features. The current plan is to move away from
+**Note:** *We do not write new cucumber features. The current plan is to move away from
 cucumber towards regular specs using Capybara. For the time being however, please keep the existing
 cucumber features green or write your feature specs in Capybara for any  code that is not already
 covered by cucumber.*
@@ -178,6 +178,7 @@ If you need Firebug and Firepath while debugging a scenario, just replace
 
 Running tests in parallel makes usage of all available cores of the machine.
 Functionality is being provided by [parallel_tests](https://github.com/grosser/parallel_tests) gem.
+See the github page for any options like number of cpus used.
 
 #### Prepare
 
@@ -195,28 +196,50 @@ Prepare all databases:
 
 `RAILS_ENV=test parallel_test -e "rake db:drop db:create db:migrate"`
 
-**Note: Until `rake db:schema:load` we have to use the command above. Then we
+**Note: Until `rake db:schema:load` works we have to use the command above. Then we
 can use `rake parallel:prepare`**
 
+You may also just dump your current schema with `rake db:schema:dump` (db/schema.rb)
+is not part of the repository. Then you can just use `rake parallel:prepare` to prepare
+test databases.
 
 #### RSpec legacy specs
 
-Run all legacy specs in parallel:
+Run all legacy specs in parallel with `rake parallel:spec_legacy`
 
-`parallel_test -t rspec -o '-I spec_legacy' spec_legacy`
+Or run them manually with `parallel_test -t rspec -o '-I spec_legacy' spec_legacy`
 
 #### RSpec specs
 
-Run all specs in parallel:
+Run all specs in parallel with `rake parallel:spec`
 
-`parallel_test -t rspec spec`
+Or run them manually with `parallel_test -t rspec spec`.
 
 #### Cucumber
 
-Run all cucumber features in parallel:
+Run all cucumber features in parallel with `rake parallel:cucumber`.
 
-`parallel_test -t cucumber -o '-r features' features`
+Or run them manually with `parallel_test -t cucumber -o '-r features' features`.
 
+**Note:** there is also a official rake task to run cucumber features but the OpenProject cucumber
+test suite requires `-r features` to run correctly. This needs to be passed to the command
+thus it looks not very handy `rake parallel:features\[,,"-r features"\]`
+(this is zsh compatible, command takes three arguments but we just want to pass the last one here.)
+
+#### Plugins
+
+Run specs for all activated plugins with `rake parallel:plugins:spec`.
+
+Run cucumber features for all activated plugins with `rake parallel:plugins:cucumber`.
+
+#### Full test suite
+
+You may run all existing parts of OpenProject test suite in parallel with
+`rake parallel:all`
+
+**Note:** This will run core specs, core cucumber features, core legacy specs,
+plugin specs and plugin cucumber features. This task will take around 40 minutes
+on a machine with 8 parallel instances.
 
 ## For the fancy programmer
 
