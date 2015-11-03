@@ -37,25 +37,21 @@ namespace :parallel do
       num_cpus       = ENV['GROUP_SIZE']
       group          = ENV['GROUP']
       runtime_log    = ENV['RUNTIME_LOG'] || 'tmp/parallel_runtime_plugins_rspec.log'
-      record_runtime = ENV['RECORD_RUNTIME'] || false
 
       group_options       = num_cpus ? "-n #{num_cpus}" : ''
       group_options      += " --only-group #{group}" if group
       runtime_log_option  = "--runtime-log #{runtime_log}"
 
-      if record_runtime
-        record_runtime_option = "-o '--format progress --format ParallelTests::RSpec::RuntimeLogger --out #{runtime_log}'"
-      end
-
       spec_folders = Plugins::LoadPathHelper.spec_load_paths.join(' ')
 
       # Change this if changed in spec/support/rspec_failures.rb
-      sh 'rm tmp/rspec-examples.txt'
+      if File.exist? 'tmp/rspec-examples.txt'
+        sh 'rm tmp/rspec-examples.txt'
+      end
 
-      cmd = "bundle exec parallel_test --type rspec #{record_runtime_option} #{runtime_log_option} #{group_options} #{spec_folders} || \
+      cmd = "bundle exec parallel_test --type rspec #{runtime_log_option} #{group_options} #{spec_folders} || \
              bundle exec rspec --only-failures"
 
-      p cmd
       sh cmd
     end
 
@@ -66,15 +62,10 @@ namespace :parallel do
       num_cpus       = ENV['GROUP_SIZE']
       group          = ENV['GROUP']
       runtime_log    = ENV['RUNTIME_LOG'] || 'tmp/parallel_runtime_plugins_cucumber.log'
-      record_runtime = ENV['RECORD_RUNTIME'] || false
 
       group_options       = num_cpus ? "-n #{num_cpus}" : ''
       group_options      += " --only-group #{group}" if group
       runtime_log_option  = "--runtime-log #{runtime_log}"
-
-      if record_runtime
-        record_runtime_option = "-o '--format ParallelTests::Gherkin::RuntimeLogger --out #{runtime_log}'"
-      end
 
       support_files = [Rails.root.join('features').to_s] + Plugins::LoadPathHelper.cucumber_load_paths
       support_files = support_files.map { |path|
@@ -86,13 +77,13 @@ namespace :parallel do
 
       cmd = "bundle exec parallel_test --type cucumber #{cucumber_options} #{runtime_log_option} #{group_options} #{feature_folders}"
 
-      p cmd
       sh cmd
     end
   end
 
   desc 'Run all suites in parallel (one after another)'
   task all: [:spec, :cucumber, :spec_legacy, 'parallel:plugins:spec', 'parallel:plugins:cucumber']
+
 
   desc 'Run legacy specs in parallel'
   task :spec_legacy do
