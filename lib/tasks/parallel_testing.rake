@@ -30,8 +30,8 @@
 namespace :parallel do
   namespace :plugins do
 
-    desc "Run plugin specs in parallel"
-    task :spec => [:environment] do
+    desc 'Run plugin specs in parallel'
+    task spec: [:environment] do
       ParallelTests::Tasks.check_for_pending_migrations
 
       num_cpus       = ENV['GROUP_SIZE']
@@ -49,14 +49,14 @@ namespace :parallel do
 
       spec_folders = Plugins::LoadPathHelper.spec_load_paths.join(' ')
 
-      cmd  = "bundle exec parallel_test --type rspec #{record_runtime_option} #{runtime_log_option} #{group_options} #{spec_folders}"
+      cmd = "bundle exec parallel_test --type rspec #{record_runtime_option} #{runtime_log_option} #{group_options} #{spec_folders}"
 
       p cmd
       sh cmd
     end
 
-    desc "Run plugin cucumber features in parallel"
-    task :cucumber => [:environment] do
+    desc 'Run plugin cucumber features in parallel'
+    task cucumber: [:environment] do
       ParallelTests::Tasks.check_for_pending_migrations
 
       num_cpus       = ENV['GROUP_SIZE']
@@ -73,17 +73,25 @@ namespace :parallel do
       end
 
       support_files = [Rails.root.join('features').to_s] + Plugins::LoadPathHelper.cucumber_load_paths
-      support_files =  support_files.map { |path|
+      support_files = support_files.map { |path|
         ['-r', Shellwords.escape(path)]
       }.flatten.join(' ')
 
       feature_folders  = Plugins::LoadPathHelper.cucumber_load_paths.join(' ')
       cucumber_options = "-o '#{support_files}'"
 
-      cmd  = "bundle exec parallel_test --type cucumber #{cucumber_options} #{runtime_log_option} #{group_options} #{feature_folders}"
+      cmd = "bundle exec parallel_test --type cucumber #{cucumber_options} #{runtime_log_option} #{group_options} #{feature_folders}"
 
       p cmd
       sh cmd
     end
+  end
+
+  desc 'Run all suites in parallel (one after another)'
+  task all: [:spec, :cucumber, :spec_legacy, 'parallel:plugins:spec', 'parallel:plugins:cucumber']
+
+  desc 'Run legacy specs in parallel'
+  task :spec_legacy do
+    sh "bundle exec parallel_test --type rspec -o '-I spec_legacy' spec_legacy"
   end
 end
