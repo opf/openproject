@@ -34,7 +34,7 @@ module SampleData
       SampleData::CustomFieldSeeder.seed!(project)
       SampleData::BoardSeeder.seed!(project)
       SampleData::WikiSeeder.seed!(project)
-      SampleData::WorkPackageSeeder.seed!(project)
+      SampleData::WorkPackageSeeder.new(project).seed!
       SampleData::NewsSeeder.seed!(project)
 
       puts "\n"
