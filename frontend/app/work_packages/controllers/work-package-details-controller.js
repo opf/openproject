@@ -85,7 +85,7 @@ module.exports = function($scope,
   }
 
   function outputError(error) {
-    NotificationsService.addError(error.message);
+    NotificationsService.addError(error.message || I18n.t('js.work_packages.error'));
   }
 
   $scope.outputMessage = outputMessage; // expose to child controllers
@@ -94,12 +94,6 @@ module.exports = function($scope,
   function setWorkPackageScopeProperties(workPackage){
     $scope.workPackage = workPackage;
     $scope.isWatched = !!workPackage.links.unwatch;
-
-    if (workPackage.links.watch === undefined) {
-      $scope.toggleWatchLink = workPackage.links.unwatch;
-    } else {
-      $scope.toggleWatchLink = workPackage.links.watch;
-    }
 
     // autocomplete path
     var projectId = workPackage.embedded.project.props.id;
@@ -159,18 +153,10 @@ module.exports = function($scope,
   }
 
   $scope.toggleWatch = function() {
-    var fetchOptions = {
-      method: $scope.toggleWatchLink.props.method
-    };
-
-    if($scope.toggleWatchLink.props.payload !== undefined) {
-      fetchOptions.contentType = 'application/json; charset=utf-8';
-      fetchOptions.data = JSON.stringify($scope.toggleWatchLink.props.payload);
-    }
-
-    $scope.toggleWatchLink
-      .fetch({ajax: fetchOptions})
-      .then(refreshWorkPackage, outputError);
+    // Toggle early to avoid delay.
+    $scope.isWatched = !$scope.isWatched;
+    WorkPackageService.toggleWatch($scope.workPackage)
+                      .then(function() { refreshWorkPackage() }, outputError);
   };
 
   $scope.canViewWorkPackageWatchers = function() {

@@ -73,9 +73,7 @@ module.exports = function(PERMITTED_MORE_MENU_ACTIONS,
   return {
     restrict: 'E',
     templateUrl: '/templates/work_packages/work_package_details_toolbar.html',
-    scope: {
-      workPackage: '='
-    },
+    scope: true,
     link: function(scope, element, attributes) {
       var authorization = new WorkPackageAuthorization(scope.workPackage);
 
@@ -83,6 +81,7 @@ module.exports = function(PERMITTED_MORE_MENU_ACTIONS,
       scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
                                               getPermittedPluginActions(authorization));
       scope.actionsAvailable = Object.keys(scope.permittedActions).length > 0;
+      scope.displayWatchButton = !!scope.workPackage.links.unwatch || !!scope.workPackage.links.watch;
 
       scope.editWorkPackage = function() {
         var editWorkPackagePath = PathHelper.staticEditWorkPackagePath(scope.workPackage.props.id);

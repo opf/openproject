@@ -5,6 +5,20 @@
     <i class="button--icon icon-edit"></i>
     <span class="button--text" ng-bind="::I18n.t('js.button_edit')"></span>
   </button>
+  <span ng-if="!isWatched && displayWatchButton">
+    <button class="button"
+            ng-click="toggleWatch()">
+      <i class="button--icon icon-not-watch"></i>
+      <span class="button--text" ng-bind="::I18n.t('js.label_watch')"></span>
+    </button>
+  </span>
+  <span ng-if="isWatched && displayWatchButton">
+    <button class="button"
+            ng-click="toggleWatch()">
+      <i class="button--icon icon-watch-1"></i>
+      <span class="button--text" ng-bind="::I18n.t('js.label_unwatch')"></span>
+    </button>
+  </span>
   <button class="button dropdown-relative"
           ng-disabled="!actionsAvailable"
           has-dropdown-menu
