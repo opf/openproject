@@ -30,7 +30,7 @@ angular
   .module('openproject.inplace-edit')
   .directive('inplaceEditorDisplayPane', inplaceEditorDisplayPane);
 
-function inplaceEditorDisplayPane(EditableFieldsState, $timeout, I18n) {
+function inplaceEditorDisplayPane(EditableFieldsState, $timeout) {
   return {
     replace: true,
     transclude: true,
@@ -78,7 +78,7 @@ function inplaceEditorDisplayPane(EditableFieldsState, $timeout, I18n) {
     }
   };
 }
-inplaceEditorDisplayPane.$inject = ['EditableFieldsState', '$timeout', 'I18n'];
+inplaceEditorDisplayPane.$inject = ['EditableFieldsState', '$timeout'];
 
 
 function InplaceEditorDisplayPaneController($scope, HookService) {
