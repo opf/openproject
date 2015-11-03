@@ -98,7 +98,12 @@ You can run the specs with the following commands:
 * `bundle exec rake spec:all` Run core and plugin specs with a random seed
 * `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935
 
-### Cucumber [DEPRECATED]
+### Cucumber
+
+NOTE: *We do not write new cucumber features. The current plan is to move away from
+cucumber towards regular specs using Capybara. For the time being however, please keep the existing
+cucumber features green or write your feature specs in Capybara for any  code that is not already
+covered by cucumber.*
 
 The cucumber features can be run using rake. You can run the following
 rake tasks using the command `bundle exec rake <task>`.
