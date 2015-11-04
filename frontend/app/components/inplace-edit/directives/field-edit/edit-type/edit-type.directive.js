@@ -39,24 +39,7 @@ function inplaceEditorType(EditableFieldsState, FocusHelper, WorkPackageService)
     templateUrl: '/components/inplace-edit/directives/field-edit/edit-type/' +
       'edit-type.directive.html',
 
-    controller: InplaceEditorTypeController,
-    controllerAs: 'customEditorController',
-
     link: function(scope, element, attrs, fieldController) {
-      var field = scope.field;
-
-      fieldController.state.isBusy = true;
-
-      scope.emptyField = !scope.field.isRequired();
-
-      scope.customEditorController.updateAllowedValues(field.name).then(function() {
-        fieldController.state.isBusy = false;
-
-        if (!EditableFieldsState.forcedEditState) {
-          EditableFieldsState.editAll.state || FocusHelper.focusUiSelect(element);
-        }
-      });
-
       scope.$watch('field.value.props', function(newValue, oldValue) {
         if (newValue.hrefTracker !== oldValue.hrefTracker) {
           scope.$emit('form.updateRequired');
@@ -66,70 +49,3 @@ function inplaceEditorType(EditableFieldsState, FocusHelper, WorkPackageService)
   };
 }
 inplaceEditorType.$inject = ['EditableFieldsState', 'FocusHelper', 'WorkPackageService'];
-
-function InplaceEditorTypeController($q, $scope, I18n, WorkPackageFieldConfigurationService) {
-
-  this.allowedValues = [];
-
-  this.updateAllowedValues = function(field) {
-    var customEditorController = this;
-
-    return $q(function(resolve) {
-      $scope.field.getAllowedValues()
-        .then(function(values) {
-
-          var sorting = WorkPackageFieldConfigurationService
-            .getDropdownSortingStrategy(field);
-
-          if (sorting !== null) {
-            values = _.sortBy(values, sorting);
-          }
-
-          if (!$scope.field.isRequired()) {
-            values = addEmptyOption(values);
-          }
-
-          addHrefTracker(values);
-
-          customEditorController.allowedValues = values;
-
-          resolve();
-        });
-    });
-  };
-
-  var addEmptyOption = function(values) {
-    var emptyOption = { props: { href: null,
-                                 name: $scope.field.placeholder } };
-
-    if (!$scope.field.isRequired()) {
-      var arrayWithEmptyOption = [emptyOption.props];
-
-      values = arrayWithEmptyOption.concat(values);
-
-      if ($scope.field.value === null) {
-        $scope.field.value = emptyOption;
-      }
-    }
-
-    return values;
-  };
-
-  // We have to maintain a separate property just to track the object by
-  // in the template. This is due to angular aparently not being able to
-  // track correclty with a field having null as it's value. It does work for
-  // 'null' (String) however.
-  var addHrefTracker = function(values) {
-    _.forEach(values, function(value) {
-      value.hrefTracker = String(value.href);
-    });
-
-    $scope.field.value.props.hrefTracker = String($scope.field.value.props.href);
-  };
-}
-
-InplaceEditorTypeController.$inject = [
-  '$q',
-  '$scope',
-  'I18n',
-  'WorkPackageFieldConfigurationService'];
