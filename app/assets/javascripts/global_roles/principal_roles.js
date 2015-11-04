@@ -25,13 +25,13 @@
 
     set_table_visibility: function(){
       if ($('#table_principal_roles_body tr').length > 0){
-        $('.generic-table--results-container').show();
-        $('.generic-table--no-results-container').hide();
+        $('#tab-content-global_roles .generic-table--results-container').show();
+        $('#tab-content-global_roles .generic-table--no-results-container').hide();
       }
       else
       {
-        $('.generic-table--results-container').hide();
-        $('.generic-table--no-results-container').show();
+        $('#tab-content-global_roles .generic-table--results-container').hide();
+        $('#tab-content-global_roles .generic-table--no-results-container').show();
       }
     },
 
