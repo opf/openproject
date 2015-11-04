@@ -61,8 +61,8 @@ fi
 
 if [ $1 = "npm" ]; then
   run "npm test"
-elif [ $1 = "spec:plugins" ] || [ $1 = "cucumber:plugins" ]; then
-  run "bundle exec rake $1"
+elif [ $1 = "plugins:spec" ] || [ $1 = "plugins:cucumber" ]; then
+  run "bundle exec rake parallel:$1 GROUP_SIZE=$2 GROUP=$3"
 elif [ $1 = "legacy" ]; then
   run "bundle exec parallel_test --type rspec -o '-I spec_legacy' spec_legacy $GROUPING || \
        bundle exec rspec -I spec_legacy --only-failures spec_legacy"
