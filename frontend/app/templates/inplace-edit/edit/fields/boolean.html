@@ -1,0 +1,14 @@
+<div class="switch">
+  <label
+    class="hidden-for-sighted"
+    for="inplace-edit--write-value--{{::field.name}}">
+      {{::field.getLabel()}}
+  </label>
+  <input type="checkbox"
+         class="focus-input"
+         id="inplace-edit--write-value--{{::field.name}}"
+         name="value"
+         ng-disabled="fieldController.state.isBusy"
+         title="{{ fieldController.editTitle }}"
+         ng-model="field.value" />
+</div>

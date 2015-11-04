@@ -60,11 +60,9 @@ Feature: Switching types of work packages
   Scenario: Previewing changes on an existing work package
     Given there are the following work packages in project "project1":
       | subject  | description     |
-      | pe1      | pe1 description |
-    When I am on the edit page of the work package called "pe1"
+      | wp1      | wp1 description |
+    When I am on the edit page of the work package called "wp1"
+     And I click the edit work package button
      And I fill in the following:
-       | Description | pe1 description changed |
-       | Notes       | Update note             |
-     And I follow "Preview"
-    Then I should see "pe1 description changed" within "#preview"
-    Then I should see "Update note" within "#preview"
+       | Description | wp1 description changed |
+     And I preview the "description" and see "wp1 description"

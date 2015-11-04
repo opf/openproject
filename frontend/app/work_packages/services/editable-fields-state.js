@@ -26,13 +26,70 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
-  return {
+module.exports = function($q, $rootScope) {
+  var EditableFieldsState = {
     workPackage: null,
     errors: null,
     isBusy: false,
     currentField: null,
     submissionPromises: {},
-    forcedEditState: false
+    forcedEditState: false,
+
+    isActiveField: function (field) {
+      return !(this.forcedEditState || this.editAll.state) && this.currentField === field;
+    },
+
+    getPendingFormChanges: function () {
+      var form = this.workPackage.form;
+      return form.pendingChanges = form.pendingChanges || angular.copy(form.embedded.payload.props);
+    },
+
+    save: function (callback) {
+      // We have to ensure that some promises are executed earlier then others
+      var promises = [];
+      angular.forEach(this.submissionPromises, function(field) {
+        var p = field.thePromise.call(this);
+        promises[field.prepend ? 'unshift' : 'push' ](p);
+      });
+
+      return $q.all(promises).then(angular.bind(this, function() {
+        // Update work package after this call
+        $rootScope.$broadcast('workPackageRefreshRequired', callback);
+        this.errors = null;
+        this.submissionPromises = {};
+        this.currentField = null;
+        this.editAll.stop();
+      }));
+    },
+
+    editAll: {
+      focusField: 'subject',
+
+      cancel: function () {
+        this.stop();
+      },
+
+      get allowed() {
+        return EditableFieldsState.workPackage && !!EditableFieldsState.workPackage.links.update;
+      },
+
+      start: function () {
+        return this.state = true;
+      },
+
+      stop: function () {
+        return this.state = false;
+      },
+
+      toggleState: function () {
+        return this.state = !this.state;
+      },
+
+      isFocusField: function (field) {
+        return this.focusField === field;
+      }
+    }
   };
+
+  return EditableFieldsState;
 };

@@ -40,6 +40,7 @@ describe('workPackageCommentDirectiveTest', function() {
                     'openproject.layout',
                     'openproject.services',
                     'openproject.uiComponents',
+                    'openproject.inplace-edit',
                     'openproject.workPackages.tabs',
                     'openproject.workPackages.directives',
                     'openproject.workPackages.models'));

@@ -1,0 +1,15 @@
+<div class="dropdown-wrapper">
+  <label
+    class="hidden-for-sighted"
+    for="inplace-edit--write-value--{{::field.name}}">
+      {{::field.getLabel()}}
+  </label>
+  <select
+      ng-disabled="fieldController.state.isBusy"
+      ng-model="field.value.props"
+      title="{{ fieldController.editTitle }}"
+      class="inplace-edit-select"
+      id="inplace-edit--write-value--{{::field.name}}"
+      ng-options="option as option.name for option in customEditorController.allowedValues track by option.hrefTracker">
+  </select>
+</div>

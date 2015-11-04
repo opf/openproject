@@ -39,8 +39,8 @@ Feature: A work packages changesets are displayed on the work package show page
     And the user "manager" is a "manager"
     And there are the following work packages in project "ecookbook":
       | subject | start_date | due_date   |
-      | pe1     | 2013-01-01 | 2013-12-31 |
-    And the work package "pe1" has the following changesets:
+      | wp1     | 2013-01-01 | 2013-12-31 |
+    And the work package "wp1" has the following changesets:
       | revision | committer | committed_on | comments | commit_date |
       | 1        | manager   | 2013-02-01   | blubs    | 2013-02-01  |
     And I am already logged in as "manager"
@@ -50,7 +50,7 @@ Feature: A work packages changesets are displayed on the work package show page
     Given the role "manager" may have the following rights:
         | view_work_packages |
         | view_changesets    |
-    When I go to the page of the work package "pe1"
+    When I go to the page of the work package "wp1"
     Then I should see the following changesets:
         | revision | comments |
         | 1        | blubs    |
@@ -59,5 +59,7 @@ Feature: A work packages changesets are displayed on the work package show page
   Scenario: Going to the work package show page and not seeing the changesets because the user is not allowed to see them
     Given the role "manager" may have the following rights:
         | view_work_packages |
-    When I go to the page of the work package "pe1"
+    When I go to the page of the work package "wp1"
+    # Safeguard to ensure the page is loaded
+    Then I should see "wp1" within ".work-packages--details--subject"
     Then I should not be presented changesets

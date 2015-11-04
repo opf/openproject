@@ -35,8 +35,14 @@ Then /^there should( not)? be an(?:y)? error message$/ do |no_message|
   end
 end
 
+# This one aims at the rails flash based errors
 Then /^I should see an error explanation stating "([^"]*)"$/ do |message|
   page.all(:css, '.errorExplanation li, .errorExplanation li *', text: message).should_not be_empty
+end
+
+# This one aims at the angular js notifications which can be errors
+Then /^I should see an error notification stating "([^"]*)"$/ do |message|
+  step "I should see \"#{message}\" within \".notification-box--errors li\""
 end
 
 Then /^there should( not)? be a flash (error|notice) message$/ do |no_message, kind_of_message|

@@ -225,7 +225,7 @@ module.exports = function($http,
           headers: {
             Accept: 'application/hal+json'
           },
-          data:getPendingChanges(workPackage),
+          data: getPendingChanges(workPackage),
           contentType: 'application/json; charset=utf-8'
         }, force: true};
 

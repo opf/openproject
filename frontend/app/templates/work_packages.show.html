@@ -1,27 +1,29 @@
-<div class="work-packages--show-view">
+<div class="work-packages--show-view" ng-class="{'edit-all-mode': editAll.state}">
   <div class="toolbar-container">
     <div toolbar id="toolbar">
       <ul id="toolbar-items">
         <li class="toolbar-item" ng-hide="true">
-          <button class="button -alt-highlight"
+          <button class="button -alt-highlight add-work-package"
                   has-dropdown-menu
                   target="TasksDropdownMenu"
                   locals="availableTypes,projectIdentifier"
-                  ng-disabled="cannot('work_package', 'create')">
+                  ng-disabled="cannot('work_package', 'create') || editAll.state">
             <i class="button--icon icon-add"></i>
             <span class="button--text" ng-bind="::I18n.t('js.toolbar.unselected_title')"></span>
             <i class="button--dropdown-indicator"></i>
           </button>
         </li>
         <li class="toolbar-item">
-          <button class="button"
-                  ng-click="editWorkPackage()"
+          <button class="button edit-all-button"
+                  ng-hide="editAll.state"
+                  ng-click="editAll.start()"
+                  ng-disabled="!editAll.allowed"
                   title="{{I18n.t('js.button_edit')}}">
             <i class="button--icon icon-edit"></i>
           </button>
         </li>
         <li class="toolbar-item" ng-if="displayWatchButton">
-          <work-package-watcher-button work-package="workPackage"></work-package-watcher-button>
+          <work-package-watcher-button work-package="workPackage" disabled="editAll.state"></work-package-watcher-button>
         </li>
         <li class="toolbar-item" feature-flag="detailsView">
           <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
@@ -32,6 +34,7 @@
                 {{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}
               </label>
               <button id="work-packages-list-view-button"
+                      ng-disabled="editAll.state"
                       class="button"
                       title="{{ getActivationActionLabel(!isListViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
                       ng-click="closeShowView()"
@@ -73,7 +76,7 @@
         </li>
         <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
           <button class="button dropdown-relative"
-                  ng-disabled="!actionsAvailable"
+                  ng-disabled="!actionsAvailable || editAll.state"
                   has-dropdown-menu
                   target="ShowMoreDropdownMenu"
                   locals="permittedActions,actionsAvailable,triggerMoreMenuAction">
@@ -85,7 +88,7 @@
       <ul class="subject-header">
         <li class="subject-header-inner">
           <div class="inline-edit">
-            <work-package-field field="'subject'"></work-package-field>
+            <work-package-field field-name="'subject'"></work-package-field>
           </div>
         </li>
       </ul>
@@ -116,7 +119,7 @@
           </div>
 
           <div class="single-attribute wiki">
-            <work-package-field field="'description'"></work-package-field>
+            <work-package-field field-name="'description'"></work-package-field>
           </div>
         </div>
 
@@ -149,12 +152,15 @@
                 ng-if="vm.isSpecified(vm.workPackage, field)"
                 ng-repeat-end
                 class="attributes-key-value--value-container">
-              <work-package-field field="field"></work-package-field>
+              <work-package-field field-name="field"></work-package-field>
             </dd>
           </dl>
         </div>
 
         <work-package-attachments edit data-ng-show="!vm.hideEmptyFields || vm.filesExist" work-package="vm.workPackage"></work-package-attachments>
+
+
+        <work-package-edit-actions></work-package-edit-actions>
       </div>
     </div>
     <div class="work-packages--right-panel">

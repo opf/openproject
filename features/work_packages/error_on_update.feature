@@ -33,6 +33,8 @@ Feature: Error messages are displayed
       | login     | manager |
       | firstname | the     |
       | lastname  | manager |
+    And the user "manager" has the following preferences
+      | warn_on_leaving_unsaved | false |
     And there is 1 project with the following:
       | identifier | ecookbook |
       | name       | ecookbook |
@@ -40,7 +42,6 @@ Feature: Error messages are displayed
     And the role "manager" may have the following rights:
       | edit_work_packages |
       | view_work_packages |
-      | log_time           |
     And I am working in project "ecookbook"
     And the user "manager" is a "manager"
     And there are the following work packages in project "ecookbook":
@@ -52,8 +53,10 @@ Feature: Error messages are displayed
   @javascript
   Scenario: Inserting a too long subject results in an error beeing shown
     When I go to the edit page of the work package called "pe1"
+     And I click the edit work package button
+     And I click on "Show all"
      And I fill in the following:
-       | Subject |  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. mollit anim id est laborum.|
-     And I submit the form by the "Submit" button
+       | Subject  | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. mollit anim id est laborum. |
+     And I submit the form by the "Save" button
 
-    Then I should see an error explanation stating "Subject is too long (maximum is 255 characters)"
+    Then I should see an error notification stating "Subject is too long (maximum is 255 characters)"

@@ -124,9 +124,9 @@ module NavigationHelpers
       issue = WorkPackage.find_by(subject: $1)
       "/work_packages/#{issue.id}"
 
-    when /^the edit page (?:for|of) the issue "([^\"]+)"$/
+    when /^the edit page (?:for|of) the work package(?: called)? "([^\"]+)"$/
       issue = WorkPackage.find_by(subject: $1)
-      "/issues/#{issue.id}/edit"
+      "/work_packages/#{issue.id}/activity"
 
     when /^the copy page (?:for|of) the work package "([^\"]+)"$/
       package = WorkPackage.find_by(subject: $1)

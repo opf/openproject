@@ -1,0 +1,28 @@
+<span class="user-avatar--container">
+  <img class="user-avatar--avatar"
+       ng-if="user && user.avatar"
+       ng-src="{{user.avatar}}"
+       alt="Avatar"
+       title="{{user.name}}" />
+  <span class="user-avatar--user-with-role">
+    <span class="user-avatar--user">
+      <a ng-if="!user.isGroup"
+         ng-href="{{user.href}}"
+         class="user-field-user-link">
+        {{user.name}}
+      </a>
+      <span ng-if="user.isGroup"
+            class="user-field-user-link">
+        {{user.name}}
+      </span>
+    </span>
+    <span class="user-avatar--user"
+          ng-if="!user">
+      {{ field.placeholder }}
+    </span>
+    <span class="user-avatar--role"
+          ng-if="user.role">
+      {{user.role}}
+    </span>
+  </span>
+</span>

@@ -30,6 +30,8 @@ Feature: Navigating to the work package edit page
   Background:
     Given there is 1 user with:
         | login | manager |
+    And the user "manager" has the following preferences
+      | warn_on_leaving_unsaved | false |
     And there is a role "manager"
     And the role "manager" may have the following rights:
       | edit_work_packages |
@@ -53,5 +55,4 @@ Feature: Navigating to the work package edit page
     When I go to the page of the work package called "pe1"
     # need to click on edit icon
     And I click the edit work package button
-    # And I select "Update" from the action menu
     Then I should be on the edit page of the work package called "pe1"

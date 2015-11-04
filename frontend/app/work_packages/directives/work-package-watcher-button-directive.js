@@ -75,7 +75,8 @@ module.exports = function(I18n, WorkPackageService) {
     link: workPackageWatcherButtonController,
     scope: {
       workPackage: '=',
-      showText: '='
+      showText: '=',
+      disabled: '='
     }
   };
 };

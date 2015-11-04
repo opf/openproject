@@ -46,6 +46,8 @@ Feature: Switching types of work packages
       | login     | bob    |
       | firstname | Bob    |
       | lastname  | Bobbit |
+    And the user "bob" has the following preferences
+      | warn_on_leaving_unsaved | false |
     And the user "bob" is a "member" in the project "project1"
     Given the user "bob" has 1 issue with the following:
       | subject     | wp1                 |
@@ -56,6 +58,8 @@ Feature: Switching types of work packages
   @javascript
   Scenario: Switching type should keep the inserted value
     When I go to the edit page of the work package "wp1"
+    And I click the edit work package button
+    And I click on "Show all"
     And I fill in the following:
       | Responsible | Bob Bobbit |
     And I select "Feature" from "Type"
@@ -77,6 +81,8 @@ Feature: Switching types of work packages
     And the custom field "cfAll" is activated for type "Feature"
 
     When I go to the edit page of the work package "wp1"
+    And I click the edit work package button
+    And I click on "Show all"
     And I fill in the following:
       | cfAll | 5 |
     And I select "Feature" from "Type"

@@ -32,6 +32,8 @@ Feature: Fields editable on work package edit
       | login     | manager |
       | firstname | the     |
       | lastname  | manager |
+    And the user "manager" has the following preferences
+      | warn_on_leaving_unsaved | false |
     And there is a role "manager"
     And there is 1 project with the following:
       | identifier | ecookbook |
@@ -65,6 +67,8 @@ Feature: Fields editable on work package edit
       | pe1      | pe1 description | 2013-01-01 | 2013-12-31 | 30         | Phase | manager     | manager     | prio1    | parentpe | 5               | version1      |
 
     When I go to the edit page of the work package called "pe1"
+    And I click the edit work package button
+    And I click on "Show all"
 
     Then I should see the following fields:
       | Type            | Phase            |
@@ -76,34 +80,14 @@ Feature: Fields editable on work package edit
       | Version         | version1         |
       | Start date      | 2013-01-01       |
       | Due date        | 2013-12-31       |
-      | Estimated time  | 5.00             |
-      | Progress (%)    | 30 %             |
-      | Notes           |                  |
-    And the "Parent" field should contain the id of work package "parentpe"
+      | Estimated time  | 5                |
+      | Progress (%)    | 30               |
 
+    When I click on "Relations"
 
-  Scenario: Going to the page and viewing timelog fields if this module is enabled
-    Given the role "manager" may have the following rights:
-      | edit_work_packages |
-      | view_work_packages |
-      | log_time           |
+    Then I should see "parentpe" within ".relation[title='Parent']"
 
-    And there are the following work packages in project "ecookbook":
-      | subject |
-      | pe1     |
-
-    And the project "ecookbook" uses the following modules:
-      | time_tracking |
-
-    And there is an activity "design"
-
-    When I go to the edit page of the work package called "pe1"
-
-    Then I should see the following fields:
-      | Spent time |
-      | Activity   |
-      | Comment    |
-
+  @javascript
   Scenario: Going to the page and viewing custom field fields
     Given the role "manager" may have the following rights:
       | view_work_packages |
@@ -127,6 +111,8 @@ Feature: Fields editable on work package edit
     And the work package "pe1" has the custom field "cf1" set to "4"
 
     When I go to the edit page of the work package called "pe1"
+    And I click the edit work package button
+    And I click on "Show all"
 
     Then I should see the following fields:
       | cf1 | 4 |

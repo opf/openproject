@@ -26,15 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(PERMITTED_MORE_MENU_ACTIONS,
-           $state,
-           $window,
-           $location,
-           I18n,
-           HookService,
-           WorkPackageService,
-           WorkPackageAuthorization,
-           PathHelper) {
+module.exports = function(
+    PERMITTED_MORE_MENU_ACTIONS,
+    $state,
+    $window,
+    $location,
+    I18n,
+    HookService,
+    WorkPackageService,
+    WorkPackageAuthorization) {
 
   function getPermittedActions(authorization, permittedMoreMenuActions) {
     var permittedActions = authorization.permittedActions(permittedMoreMenuActions);
@@ -73,8 +73,15 @@ module.exports = function(PERMITTED_MORE_MENU_ACTIONS,
   return {
     restrict: 'E',
     templateUrl: '/templates/work_packages/work_package_details_toolbar.html',
-    scope: true,
-    link: function(scope, element, attributes) {
+    scope: {
+      workPackage: '='
+    },
+
+    controller: ['$scope', 'EditableFieldsState', function ($scope, EditableFieldsState) {
+      $scope.editAll = EditableFieldsState.editAll;
+    }],
+
+    link: function(scope) {
       var authorization = new WorkPackageAuthorization(scope.workPackage);
 
       scope.displayWatchButton = scope.workPackage.links.hasOwnProperty('unwatch') ||
@@ -84,14 +91,6 @@ module.exports = function(PERMITTED_MORE_MENU_ACTIONS,
       scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
                                               getPermittedPluginActions(authorization));
       scope.actionsAvailable = Object.keys(scope.permittedActions).length > 0;
-
-      scope.editWorkPackage = function() {
-        var editWorkPackagePath = PathHelper.staticEditWorkPackagePath(scope.workPackage.props.id);
-        var backUrl = '?back_url=' + encodeURIComponent($location.url());
-
-        // TODO: Temporarily going to the old edit dialog until we get in-place editing done
-        window.location = editWorkPackagePath + backUrl;
-      };
 
       scope.triggerMoreMenuAction = function(action, link) {
         switch (action) {

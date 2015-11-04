@@ -40,10 +40,12 @@ module.exports = function(
   NotificationsService) {
 
   function commentFieldDirectiveController($scope, $element) {
+    var field = {};
+    $scope.field = field;
+
     var ctrl = this;
     ctrl.state = EditableFieldsState;
     ctrl.field = 'activity-comment';
-    ctrl.writeValue = { raw: '' };
 
     ctrl.editTitle = I18n.t('js.inplace.button_edit', { attribute: I18n.t('js.label_comment') });
     ctrl.placeholder = I18n.t('js.label_add_comment_title');
@@ -73,12 +75,26 @@ module.exports = function(
       }
 
       var nextActivity = ctrl.activities.length + 1;
-      WorkPackageFieldService.submitWorkPackageChanges(
-        function() {
-          $location.hash('activity-' + (nextActivity));
-        }
-      );
+      EditableFieldsState.save(function() {
+        $location.hash('activity-' + (nextActivity));
+      });
     };
+
+    ctrl.initialize = function(withText) {
+      ctrl.writeValue = { raw: '' };
+
+      if (withText) {
+        if (!ctrl.writeValue.raw) {
+          ctrl.writeValue.raw = '';
+        } else {
+          ctrl.writeValue.raw += '\n';
+        }
+        ctrl.writeValue.raw += withText;
+      }
+
+      field.value = ctrl.writeValue;
+    };
+    ctrl.initialize();
 
     /**
     * Returns a promise to submits this very comment field
@@ -112,15 +128,7 @@ module.exports = function(
     ctrl.startEditing = function(withText) {
       ctrl.isEditing = true;
       ctrl.markActive();
-
-      if (withText) {
-        if (!ctrl.writeValue.raw) {
-          ctrl.writeValue.raw = '';
-        } else {
-          ctrl.writeValue.raw += '\n';
-        }
-        ctrl.writeValue.raw += withText;
-      }
+      ctrl.initialize(withText);
 
       $timeout(function() {
         var inputElement = $element.find('.focus-input');

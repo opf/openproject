@@ -44,7 +44,7 @@ describe 'activity comments', js: true, selenium: true do
         expect(UpdateWorkPackageService).to receive(:new).twice.and_call_original
         description.submit_by_click
         expect(page).to have_selector('.user-comment .message', text: 'comment with description')
-        expect(description.read_state_text).to eq('description goes here')
+        description.expect_state_text('description goes here')
       end
 
       it 'saves both fields from comment submit' do
@@ -52,7 +52,7 @@ describe 'activity comments', js: true, selenium: true do
         field.input_element.click
         field.submit_by_click
         expect(page).to have_selector('.user-comment .message', text: 'comment with description')
-        expect(description.read_state_text).to eq('description goes here')
+        description.expect_state_text('description goes here')
       end
     end
 

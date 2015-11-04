@@ -173,6 +173,9 @@ angular.module('openproject.api', []);
 
 angular.module('openproject.templates', []);
 
+// refactoring
+angular.module('openproject.inplace-edit', []);
+
 // main app
 var openprojectApp = angular.module('openproject', [
   'ui.date',
@@ -192,7 +195,8 @@ var openprojectApp = angular.module('openproject', [
   'cgBusy',
   'openproject.api',
   'openproject.templates',
-  'monospaced.elastic'
+  'monospaced.elastic',
+  'openproject.inplace-edit'
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') ||
@@ -271,8 +275,6 @@ openprojectApp
     }
   ]);
 
-require('./api');
-
 angular.module('openproject.config')
   .service('ConfigurationService', [
     'PathHelper',
@@ -296,3 +298,6 @@ var requireTemplate = require.context('./templates', true, /\.html$/);
 requireTemplate.keys().forEach(requireTemplate);
 
 require('!ngtemplate?module=openproject.templates!html!angular-busy/angular-busy.html');
+
+var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|html)$/);
+requireComponent.keys().forEach(requireComponent);

@@ -1,0 +1,15 @@
+<div class="inplace-edit--date">
+  <label
+    class="hidden-for-sighted"
+    for="inplace-edit--write-value--{{::field.name}}">
+      {{::field.getLabel()}}
+  </label>
+  <input ng-model="field.value"
+         ng-change="onEdit()"
+         ng-click="showDatepicker()"
+         title="{{ fieldController.editTitle }}"
+         class="inplace-edit--date"
+         id="inplace-edit--write-value--{{::field.name}}"
+         type="text" />
+	<div class="inplace-edit--date-picker"></div>
+</div>

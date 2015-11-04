@@ -51,7 +51,8 @@ describe 'new work package', js: true do
     end
 
     expect(page).to have_selector('.work-packages--details #tabs')
-    expect(subject_field.read_state_text).to eq(subject)
-    expect(description_field.read_state_text).to eq(description)
+
+    subject_field.expect_state_text(subject)
+    description_field.expect_state_text(description)
   end
 end
