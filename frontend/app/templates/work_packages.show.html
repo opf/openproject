@@ -23,7 +23,7 @@
           </button>
         </li>
         <li class="toolbar-item" ng-if="displayWatchButton">
-          <work-package-watcher-button work-package="workPackage"></work-package-watcher-button>
+          <work-package-watcher-button work-package="workPackage" disabled="editAll.state"></work-package-watcher-button>
         </li>
         <li class="toolbar-item" feature-flag="detailsView">
           <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
