@@ -31,12 +31,11 @@ angular.module('openproject.workPackages.directives')
 .directive('costObject', ['$timeout', function($timeout) {
   return {
     restrict: 'E',
-    trasclude: true,
-    require: '^inplaceEditorDisplayPane',
+    require: '^workPackageField',
     templateUrl: '/assets/work_packages/cost_object.html',
-    link: function(scope, element, attributes, displayPaneController) {
+    link: function(scope, element, attributes, fieldController) {
       scope.$watch(function() {
-        return displayPaneController.getWorkPackage();
+        return fieldController.state.workPackage;
       }, function(workPackage) {
         scope.workPackage = workPackage;
         scope.costObject = scope.workPackage.embedded.costObject;

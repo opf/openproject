@@ -31,16 +31,16 @@ angular.module('openproject.workPackages.directives')
 .directive('summarizedCostEntries', function() {
   return {
     restrict: 'E',
-    trasclude: true,
-    require: '^inplaceEditorDisplayPane',
+    require: '^workPackageField',
     templateUrl: '/assets/work_packages/summarized_cost_entries.html',
-    link: function(scope, element, attributes, displayPaneController) {
-      scope.workPackage = displayPaneController.getWorkPackage();
+    link: function(scope, element, attributes, fieldController) {
+      scope.workPackage = scope.field.resource;
       scope.costTypes = scope
         .workPackage
         .embedded
         .costsByType
-        .embedded.elements;
+        .embedded
+        .elements;
     }
   };
 });
