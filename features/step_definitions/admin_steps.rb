@@ -68,4 +68,5 @@ When /^I edit membership to project "(.*?)" to contain the roles:$/ do |project,
     checkbox.click unless checkbox.checked?
   end
   steps %{ And I click "Change" within "#tab-content-memberships .memberships" }
+  steps %{ And I wait for AJAX }
 end
