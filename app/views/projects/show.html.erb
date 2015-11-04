@@ -31,24 +31,25 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% breadcrumb_paths(l(:label_overview)) %>
 
-<div class="grid-block medium-up-2">
+<div class="wiki" ng-non-bindable>
+  <%= format_text @project.description %>
+</div>
+<ul>
+  <% if @subprojects.any? %>
+    <li>
+      <%= l(:label_subproject_plural) %>:
+      <%=raw @subprojects.map { |project| link_to(project.name, project) }.to_sentence %>
+    </li>
+  <% end %>
+  <% @project.visible_custom_field_values.each do |custom_value| %>
+    <% if custom_value.value.present? %>
+      <li><%= custom_value.custom_field.name %>: <%= show_value(custom_value) %></li>
+    <% end %>
+  <% end %>
+</ul>
+
+<div class="grid-block medium-up-2 project-overview">
   <div class="grid-content widget-boxes">
-    <div class="wiki" ng-non-bindable>
-      <%= format_text @project.description %>
-    </div>
-    <ul>
-      <% if @subprojects.any? %>
-        <li>
-          <%= l(:label_subproject_plural) %>:
-          <%=raw @subprojects.map { |project| link_to(project.name, project) }.to_sentence %>
-        </li>
-      <% end %>
-      <% @project.visible_custom_field_values.each do |custom_value| %>
-        <% if custom_value.value.present? %>
-          <li><%= custom_value.custom_field.name %>: <%= show_value(custom_value) %></li>
-        <% end %>
-      <% end %>
-    </ul>
     <% if User.current.allowed_to?(:view_work_packages, @project) %>
       <div class="issues widget-box">
         <h3 class="widget-box--header">
