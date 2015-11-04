@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :header_tags do %>
   <%= javascript_include_tag 'repository_navigation' %>
 <% end %>
+<persistent-toggle identifier="repository.checkout_instructions">
 <%= toolbar title: l('repositories.named_repository',
                      vendor_name: @repository.class.vendor_name) do %>
   <% if @instructions && @instructions.available? %>
@@ -51,7 +52,9 @@ See doc/COPYRIGHT.rdoc for more details.
     </button>
   </li>
   <li class="toolbar-item -icon-only">
-    <a id="repository--checkout-instructions-toggle" class="button -pressed" href="javascript:"
+    <a id="repository--checkout-instructions-toggle"
+       class="persistent-toggle--click-handler button"
+       ng-class="{ '-pressed': !isHidden }"
        title="<%= l('repositories.checkout.show_instructions') %>">
       <i class="button--icon icon-info"></i>
     </a>
@@ -82,5 +85,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render partial: 'checkout_instructions',
              locals: { repository: @repository, instructions: @instructions } %>
 <% end %>
+</persistent-toggle>
 
 
