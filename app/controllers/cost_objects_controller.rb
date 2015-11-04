@@ -46,9 +46,6 @@ class CostObjectsController < ApplicationController
   include WorkPackage::PdfExporter
   include PaginationHelper
 
-  menu_item :new_budget, only: [:new]
-  menu_item :show_all, only: [:index]
-
   def index
     respond_to do |format|
       format.html do end
