@@ -343,6 +343,19 @@ module.exports = function($http,
       return promise;
     },
 
+    toggleWatch: function(workPackage) {
+      var toggleWatchLink = (workPackage.links.watch === undefined) ?
+                             workPackage.links.unwatch : workPackage.links.watch;
+      var fetchOptions = { method: toggleWatchLink.props.method };
+
+      if(toggleWatchLink.props.payload !== undefined) {
+        fetchOptions.contentType = 'application/json; charset=utf-8';
+        fetchOptions.data = JSON.stringify(toggleWatchLink.props.payload);
+      }
+
+      return toggleWatchLink.fetch({ajax: fetchOptions});
+    },
+
     cache: function() {
       return workPackageCache;
     }

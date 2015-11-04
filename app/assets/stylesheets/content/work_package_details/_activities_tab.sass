@@ -30,21 +30,29 @@
   display: block
   margin: 5px 0 0 0
   padding: 0 25px 0 0
-  color: #777777
-  font-style: italic
 
   li
     span
       word-wrap: break-word
       // important for IE
-      display: inline-block
+      display: block
       max-width: 100%
   p
     word-wrap: break-word
 
   &.wiki
     ul
-      padding-left: 15px
+      padding-left: 8px
+
+  > .message:first-child
+    display: block
+    margin-bottom: 1rem
+
+    p:last-child
+      margin-bottom: 0
+
+    ul
+      margin-bottom: 1rem
 
 .comments-number
   padding: 0
@@ -93,11 +101,12 @@
 
   .user
     display: block
+    font-weight: bold
     line-height: 16px
 
   .date
     display: block
-    font-size: 0.9rem
+    font-size: 0.875rem
 
   .comments-icons
     a:hover
@@ -113,3 +122,11 @@
       // overflow: hidden
       text-overflow: ellipsis
       list-style-type: disc
+
+ul.work-package-details-activities-messages
+  li
+    color: #777777
+    margin-bottom: 0.1rem
+
+    &:last-child
+      margin-bottom: 0

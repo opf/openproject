@@ -3,8 +3,12 @@
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
       <h3 class="attributes-group--header-text">
-        {{ I18n.t('js.label_description') }}
+        {{ type.props.name }} #{{ workPackage.props.id }}
       </h3>
+    </div>
+    <div class="attributes-group--header-container-right">
+      <span ng-bind="I18n.t('js.label_last_updated_on')"/>
+      <op-date date-value="workPackage.props.updatedAt"></op-date>
     </div>
   </div>
 

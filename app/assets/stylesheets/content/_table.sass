@@ -145,7 +145,9 @@ table.generic-table
       overflow:  hidden
       text-overflow: ellipsis
       text-align: left
-      line-height: 2rem
+      line-height: 1.6
+      padding-top: 0.5rem
+      padding-bottom: 0.5rem
       vertical-align: middle
 
       // Center input fields and select boxes vertically in tables
@@ -154,8 +156,11 @@ table.generic-table
       @each $inputElement in $input-elements
         #{$inputElement},
         #{$inputElement}~.form-label
-          margin-top: 0.5rem
-          margin-bottom: 0.5rem
+          display: inline-block
+          vertical-align: middle
+
+      input[type="checkbox"], input[type="radio"]
+        margin-top: -0.25rem
 
       &.-short
         min-width: 50px
@@ -205,15 +210,18 @@ table.generic-table
     white-space: nowrap
     width:   100%
     clear:   both
-    display: table
+    display: block
 
     & > a,
     & > span
-      display: table-cell
+      display: block
       font-weight: bold
       overflow: hidden
       text-overflow: ellipsis
-      max-width: 0px
+
+    & > a
+      float: left
+      width: calc(100% - 18px)
 
     & > .dropdown-indicator
       width: 1em
