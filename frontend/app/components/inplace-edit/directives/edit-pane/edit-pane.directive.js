@@ -30,46 +30,20 @@ angular
   .module('openproject.inplace-edit')
   .directive('inplaceEditorEditPane', inplaceEditorEditPane);
 
-function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout, $q) {
+function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
   return {
     transclude: true,
-    replace: true,
     require: '^workPackageField',
     templateUrl: '/components/inplace-edit/directives/edit-pane/edit-pane.directive.html',
+
     controllerAs: 'editPaneController',
     controller: InplaceEditorEditPaneController,
+
     link: function(scope, element, attrs, fieldController) {
       var field = scope.field;
 
       scope.fieldController = fieldController;
       scope.editableFieldsState = EditableFieldsState;
-
-      scope.editPaneController.isRequired = function() {
-        return field.isRequired();
-      };
-
-      scope.$on('form.updateRequired', function() {
-        var submit = $q.defer();
-
-        scope.editPaneController.updateWorkPackageForm(submit);
-      });
-
-      scope.$watchCollection('editableFieldsState.workPackage.form', function(form) {
-        var strategy = field.getInplaceEditStrategy();
-
-        if (field.name === 'date' && strategy === 'date') {
-          form.pendingChanges = EditableFieldsState.getPendingFormChanges();
-          form.pendingChanges['startDate'] =
-            form.pendingChanges['dueDate'] =
-              field.value ? field.value['dueDate'] : null;
-        }
-
-        if (strategy !== scope.strategy) {
-          scope.strategy = strategy;
-          scope.templateUrl = '/templates/inplace-edit/edit/fields/' +
-            scope.strategy + '.html';
-        }
-      });
 
       scope.focusInput = function() {
         $timeout(function() {
@@ -78,7 +52,6 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout, $q) {
           inputElement.triggerHandler('keyup');
           scope.editPaneController.markActive();
           inputElement.off('focus.inplace').on('focus.inplace', function() {
-            // ♥♥♥ angular ♥♥♥
             scope.$apply(function() {
               scope.editPaneController.markActive();
             });
@@ -95,17 +68,6 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout, $q) {
           }
         });
       }
-
-      scope.$watch('field.value', function(value) {
-        if (scope.fieldController.isEditing) {
-          var pendingChanges = EditableFieldsState.getPendingFormChanges();
-          pendingChanges[field.name] = value;
-          scope.editPaneController.markActive();
-        }
-      }, true);
-      scope.$on('workPackageRefreshed', function() {
-        scope.editPaneController.discardEditing();
-      });
 
       scope.$watch('fieldController.isEditing', function(isEditing) {
         var efs = EditableFieldsState;
@@ -151,9 +113,6 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
       $timeout(function() {
         $element[0].scrollIntoView(false);
       });
-
-    }, function () {
-      NotificationsService.addError(I18n.t('js.work_packages.error_update_failed'));
     });
   };
 
@@ -263,6 +222,10 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
     EditableFieldsState.currentField = field.name;
   };
 
+  this.isRequired = function() {
+    return field.isRequired();
+  };
+
   function afterError() {
     $scope.fieldController.state.isBusy = false;
     $scope.focusInput();
@@ -278,6 +241,39 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
   $scope.$watch('editableFieldsState.editAll.state', function(state) {
     $scope.fieldController.isEditing = state;
     $scope.fieldController.lockFocus = true;
+  });
+
+  $scope.$watch('field.value', function(value) {
+    if ($scope.fieldController.isEditing) {
+      var pendingChanges = EditableFieldsState.getPendingFormChanges();
+      pendingChanges[field.name] = value;
+      vm.markActive();
+    }
+  }, true);
+
+  $scope.$watchCollection('field.resource.form', function(form) {
+    var strategy = field.getInplaceEditStrategy();
+
+    if (field.name === 'date' && strategy === 'date') {
+      form.pendingChanges = EditableFieldsState.getPendingFormChanges();
+      form.pendingChanges['startDate'] =
+        form.pendingChanges['dueDate'] =
+          field.value ? field.value['dueDate'] : null;
+    }
+
+    if (strategy !== $scope.strategy) {
+      $scope.strategy = strategy;
+      $scope.templateUrl = '/templates/inplace-edit/edit/fields/' + strategy + '.html';
+    }
+  });
+
+  $scope.$on('form.updateRequired', function() {
+    var submit = $q.defer();
+    vm.updateWorkPackageForm(submit);
+  });
+
+  $scope.$on('workPackageRefreshed', function() {
+    vm.discardEditing();
   });
 }
 InplaceEditorEditPaneController.$inject = ['$scope', '$element', '$location', '$timeout', '$q',
