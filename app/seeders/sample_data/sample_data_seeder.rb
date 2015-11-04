@@ -37,14 +37,17 @@ module SampleData
       SampleData::WorkPackageSeeder.new(project).seed!
       SampleData::NewsSeeder.seed!(project)
 
-      puts "\n"
-      puts " #{WorkPackage.where(project_id: project.id).count} issues created."
-      puts " #{Message.joins(:board).where(boards: { project_id: project.id }).count} messages created."
-      puts " #{News.where(project_id: project.id).count} news created."
-      puts " #{WikiContent.joins(page: [:wiki]).where('wikis.project_id = ?', project.id).count} wiki contents created."
-      puts " #{TimeEntry.where(project_id: project.id).count} time entries created."
-      puts " #{Changeset.joins(:repository).where(repositories: { project_id: project.id }).count} changesets created."
-      puts 'Sample data seeding...done.'
+      puts "\n\n"
+      puts ' ###############################'
+      puts ' #  Core data seeding....done  #'
+      puts ' ###############################'
+      puts " #  %02d %-22s  #" % [WorkPackage.where(project_id: project.id).count, 'issues created.']
+      puts " #  %02d %-22s  #" % [Message.joins(:board).where(boards: { project_id: project.id }).count, 'messages created.']
+      puts " #  %02d %-22s  #" % [News.where(project_id: project.id).count, 'news created.']
+      puts " #  %02d %-22s  #" % [WikiContent.joins(page: [:wiki]).where('wikis.project_id = ?', project.id).count, 'wiki contents created.']
+      puts " #  %02d %-22s  #" % [TimeEntry.where(project_id: project.id).count, 'time entries created.']
+      puts " #  %02d %-22s  #" % [Changeset.joins(:repository).where(repositories: { project_id: project.id }).count, 'changesets created.']
+      puts " ###############################\n\n"
     end
 
   end
