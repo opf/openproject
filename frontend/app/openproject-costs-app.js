@@ -66,7 +66,7 @@ openprojectCostsApp.run(['HookService',
   HookService.register('workPackageAttributeEditableType', function(params) {
     switch (params.type) {
       case 'Budget':
-        return 'dropdown';
+        return 'drop-down';
     }
     return null;
   });
