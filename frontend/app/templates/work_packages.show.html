@@ -22,23 +22,8 @@
             <i class="button--icon icon-edit"></i>
           </button>
         </li>
-        <li class="toolbar-item" ng-if="isWatched && displayWatchButton">
-          <button class="button"
-                  ng-click="unwatch()"
-                  ng-disabled="editAll.state"
-                  title="{{I18n.t('js.label_unwatch_work_package')}}"
-                  id="unwatch-button">
-            <i class="button--icon icon-watch-1"></i>
-          </button>
-        </li>
-        <li class="toolbar-item" ng-if="!isWatched && displayWatchButton">
-          <button class="button"
-                  ng-click="watch()"
-                  ng-disabled="editAll.state"
-                  title="{{I18n.t('js.label_watch_work_package')}}"
-                  id="watch-button">
-            <i class="button--icon icon-not-watch"></i>
-          </button>
+        <li class="toolbar-item" ng-if="displayWatchButton">
+          <work-package-watcher-button work-package="workPackage"></work-package-watcher-button>
         </li>
         <li class="toolbar-item" feature-flag="detailsView">
           <ul id="work-packages-view-mode-selection" class="toolbar-button-group">

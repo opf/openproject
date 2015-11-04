@@ -3,6 +3,10 @@
     <i class="button--icon icon-edit"></i>
     <span class="button--text" ng-bind="::I18n.t('js.button_edit')"></span>
   </button>
+  <work-package-watcher-button work-package="workPackage"
+                               show-text="true"
+                               ng-if="displayWatchButton">
+  </work-package-watcher-button>
   <button class="button dropdown-relative"
           ng-disabled="!actionsAvailable"
           has-dropdown-menu

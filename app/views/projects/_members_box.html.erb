@@ -28,8 +28,11 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% if @users_by_role.any? %>
-  <div class="members content-box">
-    <h3><%=l(:label_member_plural)%></h3>
+  <div class="members widget-box">
+    <h3 class="widget-box--header">
+      <span class="icon-context icon-group"></span>
+      <span class="widget-box--header-title"><%=l(:label_member_plural)%></span>
+    </h3>
     <p>
       <% @users_by_role.sort.each do |role, users| %>
         <%= role %>: <%= users.sort.collect{ |u| link_to_user u }.join(", ").html_safe %><br />

@@ -70,7 +70,7 @@ module.exports = function($scope,
         if (callback) {
           callback(workPackage);
         }
-      });
+      }, outputError);
   }
   // Inform parent that work package is loaded so back url can be maintained
   $scope.$emit('workPackgeLoaded');
@@ -85,21 +85,17 @@ module.exports = function($scope,
   }
 
   function outputError(error) {
-    NotificationsService.addError(error.message);
+    outputMessage(error.message || I18n.t('js.work_packages.error'), true);
   }
 
-  $scope.outputMessage = outputMessage; // expose to child controllers
-  $scope.outputError = outputError; // expose to child controllers
+  // expose to child controllers
+  $scope.outputMessage = outputMessage;
+  $scope.outputError = outputError;
 
   function setWorkPackageScopeProperties(workPackage){
     $scope.workPackage = workPackage;
-    $scope.isWatched = !!workPackage.links.unwatch;
-
-    if (workPackage.links.watch === undefined) {
-      $scope.toggleWatchLink = workPackage.links.unwatch;
-    } else {
-      $scope.toggleWatchLink = workPackage.links.watch;
-    }
+    $scope.displayWatchButton = workPackage.links.hasOwnProperty('unwatch') ||
+                                workPackage.links.hasOwnProperty('watch');
 
     // autocomplete path
     var projectId = workPackage.embedded.project.props.id;
@@ -157,21 +153,6 @@ module.exports = function($scope,
       }
     }
   }
-
-  $scope.toggleWatch = function() {
-    var fetchOptions = {
-      method: $scope.toggleWatchLink.props.method
-    };
-
-    if($scope.toggleWatchLink.props.payload !== undefined) {
-      fetchOptions.contentType = 'application/json; charset=utf-8';
-      fetchOptions.data = JSON.stringify($scope.toggleWatchLink.props.payload);
-    }
-
-    $scope.toggleWatchLink
-      .fetch({ajax: fetchOptions})
-      .then(refreshWorkPackage, outputError);
-  };
 
   $scope.canViewWorkPackageWatchers = function() {
     return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);

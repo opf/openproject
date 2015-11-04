@@ -80,14 +80,7 @@ module.exports = function($timeout, $window){
         } else {
           // ensure table stretches to container sizes
           getInnerContainer().css('width', '100%');
-          if(isWorkPackagesTable()) {
-            // HACK: This prevents a horizontal scroll bar in
-            //       the work package table when there is nothing to scroll
-            getBackgrounds().css('width', 'calc(100% - 20px)');
-          }
-          else {
-            getBackgrounds().css('width', '100%');
-          }
+          getBackgrounds().css('width', '100%');
         }
       }
 

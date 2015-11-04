@@ -81,7 +81,11 @@ body.controller-work_packages.action-show {
     border-right: 1px solid #ccc;
     overflow-y: auto;
     overflow-x: auto;
-    width: 60%;
+
+    // Don't cut border-left from editable description
+    width: calc(60% + 0.375rem);
+    margin-left: -0.375rem;
+    padding-left: 0.375rem;
 
     .work-packages--panel-inner {
       padding: 2px 20px 20px 0px;
@@ -238,7 +242,6 @@ body.controller-work_packages.action-show {
 .work-packages--split-view  {
   .inplace-edit.attribute-subject {
     line-height: 24px;
-    margin-bottom: 16px;
   }
 }
 

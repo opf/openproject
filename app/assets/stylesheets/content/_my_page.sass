@@ -50,6 +50,9 @@
     .widget-box
       margin-bottom: 20px
 
+      &:last-child
+        margin-bottom: 10px
+
 .handle
   cursor: move
 
@@ -79,10 +82,11 @@ div.box-actions
   .left, .right
     @extend .medium-6
 
-  .left
-    padding: 0 10px 0px 4px
-  .right
-    padding: 0 4px 0 10px
+  .widget-box
+    margin-bottom: 20px
+
+    &:last-child
+      margin-bottom: 10px
 
 .block-receiver
   border: 1px dashed $my-page-edit-box-border-color
