@@ -77,6 +77,9 @@ module.exports = function(PERMITTED_MORE_MENU_ACTIONS,
     link: function(scope, element, attributes) {
       var authorization = new WorkPackageAuthorization(scope.workPackage);
 
+      scope.displayWatchButton = scope.workPackage.links.hasOwnProperty('unwatch') ||
+        scope.workPackage.links.hasOwnProperty('watch');
+
       scope.I18n = I18n;
       scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
                                               getPermittedPluginActions(authorization));

@@ -122,6 +122,11 @@ angular.module('openproject.workPackages.directives')
     'I18n',
     require('./work-package-watcher-directive')
   ])
+  .directive('workPackageWatcherButton', [
+    'I18n',
+    'WorkPackageService',
+    require('./work-package-watcher-button-directive')
+  ])
   .directive('workPackageWatchersLookup', [
     'I18n',
     'FocusHelper',

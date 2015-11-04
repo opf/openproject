@@ -70,7 +70,7 @@ module.exports = function($scope,
         if (callback) {
           callback(workPackage);
         }
-      });
+      }, outputError);
   }
   // Inform parent that work package is loaded so back url can be maintained
   $scope.$emit('workPackgeLoaded');
@@ -88,12 +88,12 @@ module.exports = function($scope,
     outputMessage(error.message || I18n.t('js.work_packages.error'), true);
   }
 
-  $scope.outputMessage = outputMessage; // expose to child controllers
-  $scope.outputError = outputError; // expose to child controllers
+  // expose to child controllers
+  $scope.outputMessage = outputMessage;
+  $scope.outputError = outputError;
 
   function setWorkPackageScopeProperties(workPackage){
     $scope.workPackage = workPackage;
-    $scope.isWatched = workPackage.links.hasOwnProperty('unwatch');
     $scope.displayWatchButton = workPackage.links.hasOwnProperty('unwatch') ||
                                 workPackage.links.hasOwnProperty('watch');
 
@@ -153,13 +153,6 @@ module.exports = function($scope,
       }
     }
   }
-
-  $scope.toggleWatch = function() {
-    // Toggle early to avoid delay.
-    $scope.isWatched = !$scope.isWatched;
-    WorkPackageService.toggleWatch($scope.workPackage)
-                      .then(function() { refreshWorkPackage() }, outputError);
-  };
 
   $scope.canViewWorkPackageWatchers = function() {
     return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
