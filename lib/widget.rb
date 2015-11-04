@@ -63,9 +63,3 @@ end
 
 ActionView::Base.send(:include, Widget::RenderWidgetInstanceMethods)
 ActionController::Base.send(:include, Widget::RenderWidgetInstanceMethods)
-
-class ::String
-  def write(s)
-    concat(s)
-  end
-end
