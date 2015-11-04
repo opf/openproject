@@ -38,11 +38,15 @@ module SampleData
       self.types = project.types.all.reject(&:is_milestone?)
     end
 
-    def seed!
+    def seed!(random: true)
       puts ''
       print ' ↳ Creating work_packages'
 
-      seed_random_work_packages
+      if random
+        seed_random_work_packages
+      else
+        seed_demo_work_packages
+      end
     end
 
     private
@@ -68,17 +72,37 @@ module SampleData
       make_changes(work_package)
     end
 
-    # Using the attribute values passed in or random ones
-    def new_work_package(subject: nil, status: nil, type: nil, start_date: nil, due_date: nil)
-      WorkPackage.create(
-        project:      project,
-        author:       user,
-        subject:      subject     || Faker::Lorem.words(8).join(' '),
-        status:       status      || statuses.sample,
-        type:         type        || types.sample,
-        start_date:   start_date  || s = Date.today - (25 - rand(50)).days,
-        due_date:     due_date    || s + (1 + rand(120)).days
-      )
+    def seed_demo_work_packages
+      work_packages_data = I18n.t('seeders.sample_data.work_packages')
+
+      work_packages_data.each do |attributes|
+        start_date = calculate_start_date(attributes[:start])
+
+        print '.'
+        work_package = new_work_package(
+          subject:    attributes[:subject],
+          status:     Status.find_by!(name: attributes[:status_name]),
+          type:       Type.find_by!(name: attributes[:type_name]),
+          start_date: start_date,
+          due_date:   calculate_due_date(start_date, attributes[:duration])
+        )
+
+        attributes[:children].each do |child_attributes|
+          start_date = calculate_start_date(child_attributes[:start])
+
+          print '.'
+          child = new_work_package(
+            subject:    child_attributes[:subject],
+            status:     Status.find_by!(name: child_attributes[:status_name]),
+            type:       Type.find_by!(name: child_attributes[:type_name]),
+            start_date: start_date,
+            due_date:   calculate_due_date(start_date, child_attributes[:duration])
+          )
+
+          child.parent = work_package
+          child.save!
+        end
+      end
     end
 
     def add_changeset(work_package)
@@ -191,6 +215,28 @@ module SampleData
 
         work_package.save!
       end
+    end
+
+    # Using the attribute values passed in or random onesbb
+    def new_work_package(subject: nil, status: nil, type: nil, start_date: nil, due_date: nil)
+      WorkPackage.create!(
+        project:      project,
+        author:       user,
+        subject:      subject     || Faker::Lorem.words(8).join(' '),
+        status:       status      || statuses.sample,
+        type:         type        || types.sample,
+        start_date:   start_date  || s = Date.today - (25 - rand(50)).days,
+        due_date:     due_date    || s + (1 + rand(120)).days
+      )
+    end
+
+    def calculate_start_date(days_ahead)
+      monday = Date.today.monday
+      days_ahead > 0 ? monday + days_ahead : monday
+    end
+
+    def calculate_due_date(date, duration)
+      duration > 1 ? date + duration : date
     end
 
   end
