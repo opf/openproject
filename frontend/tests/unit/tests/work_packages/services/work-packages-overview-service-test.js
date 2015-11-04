@@ -74,8 +74,8 @@ describe('WorkPackagesOverviewService', function() {
       var attributes = Service.getGroupAttributes(groupName);
 
       expect(attributes).not.to.be.null;
-      expect(attributes).to.have.length(3);
-      expect(attributes).to.include.members(['assignee', 'responsible', attribute]);
+      expect(attributes).to.have.length(4);
+      expect(attributes).to.include.members(['author', 'assignee', 'responsible', attribute]);
       expect(attributes[1]).to.equal(attribute);
     });
   });

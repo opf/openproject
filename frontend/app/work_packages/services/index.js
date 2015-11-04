@@ -40,7 +40,7 @@ angular.module('openproject.workPackages.services')
     },
     {
       groupName: 'people',
-      attributes: ['assignee', 'responsible']
+      attributes: ['author', 'assignee', 'responsible']
     },
     {
       groupName: 'estimatesAndTime',
