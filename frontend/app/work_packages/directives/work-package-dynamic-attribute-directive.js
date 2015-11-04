@@ -31,9 +31,9 @@ module.exports = function($compile){
     restrict: 'EA',
     scope: {
       htmlElement: '=',
-      workPackage: '='
+      field: '='
     },
-    link: function(scope, element, attributes) {
+    link: function(scope, element) {
       var html = '<' + scope.htmlElement + '></' + scope.htmlElement +'>';
 
       element.html(html);
