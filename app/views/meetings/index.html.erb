@@ -21,7 +21,15 @@ See doc/COPYRIGHT.md for more details.
 
 <% html_title l(:label_meeting_plural) %>
 
-<%= toolbar title: l(:label_meeting_plural) %>
+<%= toolbar title: l(:label_meeting_plural) do %>
+  <% if authorize_for(:meetings, :new) %>
+      <a href="<%= new_meeting_path %>" id="add-meeting-button" title="Add meeting" class="button -alt-highlight">
+        <i class="button--icon icon-add"></i>
+        <span class="button--text"><%= I18n.t(:label_meeting_new) %></span>
+      </a>
+  <% end %>
+<% end %>
+
 <% if @meetings_by_start_year_month_date.empty? -%>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else -%>
