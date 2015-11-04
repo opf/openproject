@@ -60,10 +60,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
       <div class="form--field">
         <%= styled_label_tag :criterias, "#{l(:button_add)}:" %>
-        <%= styled_select_tag('criterias[]', options_for_select([[]] + (@available_criterias.keys - @criterias).collect{|k| [l_or_humanize(@available_criterias[k][:label]), k]}),
-                                                              style: 'width: 200px',
-                                                              id: nil,
-                                                              disabled: (@criterias.length >= 3), id: "criterias") %>
+        <% available_criterias = [[]] + (@available_criterias.keys - @criterias).collect{ |k|
+          [l_or_humanize(@available_criterias[k][:label]), k]
+          }
+        %>
+        <%= styled_select_tag('criterias[]', options_for_select(available_criterias),
+                                             style: 'width: 200px',
+                                             id: "criterias",
+                                             disabled: (@criterias.length >= 3)) %>
       </div>
     </div>
     <div class="grid-block">
