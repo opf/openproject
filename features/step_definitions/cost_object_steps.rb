@@ -20,9 +20,11 @@
 When(/^I create a budget with the following:$/) do |table|
   rows = table.rows_hash
 
-  steps %{And I toggle the "Budgets" submenu
-           And I follow "New budget" within "#main-menu"
-           And I fill in "Subject" with "#{rows['subject']}"}
+  steps %{
+    And I open the "Budgets" menu
+    And I follow "Add budget" within ".toolbar-container"
+    And I fill in "Subject" with "#{rows['subject']}"
+  }
 
   click_button(I18n.t(:button_create), exact: true)
 end
@@ -34,9 +36,11 @@ end
 When(/^I setup a budget with the following:$/) do |table|
   rows = table.rows_hash
 
-  steps %{And I toggle the "Budgets" submenu
-           And I follow "New budget" within "#main-menu"
-           And I fill in "Subject" with "#{rows['subject']}"}
+  steps %{
+    And I open the "Budgets" menu
+    And I follow "Add budget" within ".toolbar-container"
+    And I fill in "Subject" with "#{rows['subject']}"
+  }
 end
 
 When(/^I (?:create|update) (?:a|the) (labor|material) item in row (\d+) with the following:$/) do |type, row_nr, table|
@@ -48,7 +52,7 @@ When(/^I (?:create|update) (?:a|the) (labor|material) item in row (\d+) with the
 
   if type == 'labor'
     page.find(:xpath, "//tbody[@id='#{type}_budget_items_body']/tr[#{row_nr}]//option[contains(., '#{rows['user']}')]").select_option
-end
+  end
 
   # Here's why we need the following ugly hack of waiting two seconds.
   #

@@ -82,22 +82,6 @@ module OpenProject::Costs
            caption: :cost_objects_title,
            html: { class: 'icon2 icon-budget' }
 
-      menu :project_menu,
-           :new_budget,
-           { controller: '/cost_objects', action: 'new' },
-           param: :project_id,
-           caption: :label_cost_object_new,
-           parent: :cost_objects,
-           html: { class: 'icon2 icon-add' }
-
-      menu :project_menu,
-           :show_all,
-           { controller: '/cost_objects', action: 'index' },
-           param: :project_id,
-           caption: :label_view_all_cost_objects,
-           parent: :cost_objects,
-           html: { class: 'icon2 icon-list-view1' }
-
       Redmine::Activity.map do |activity|
         activity.register :cost_objects, class_name: 'Activity::CostObjectActivityProvider', default: false
       end

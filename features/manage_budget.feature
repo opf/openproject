@@ -41,14 +41,6 @@ Feature: Managing Budgets
     And the user "testuser" is a "manager" in the project "project1"
     And I am already logged in as "testuser"
 
-  Scenario: Empty budgets can be created
-    When I go to the overview page of the project called "project1"
-    And I create a budget with the following:
-      | subject | budget1 |
-    Then I should see "Successful creation"
-    And I should be on the show page for the budget "budget1"
-    And I should see "budget1" within ".cost_object"
-
 @javascript
   Scenario: Budgets with cost items can be created adding new cost items
     When I go to the overview page of the project called "project1"
