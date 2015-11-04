@@ -50,28 +50,17 @@ unless ARGV.any? { |a| a =~ /\Agems/ } # Don't load anything when running the ge
         ::CodeStatistics::TEST_TYPES << 'Cucumber features' if File.exist?('features')
       end
 
-      def get_plugin_features(prefix = nil)
-        features = []
-        Rails.application.config.plugins_to_test_paths.each do |dir|
-          feature_dir = Shellwords.escape(File.join(dir, 'features'))
-          if File.directory?(feature_dir)
-            features << prefix unless prefix.nil?
-            features << feature_dir
-          end
-        end
-        features
-      end
-
       def define_cucumber_task(name, description, arguments = [])
         desc description
-        task name, arguments => ['db:test:prepare', 'assets:webpack'] do |_t, args|
+        # task name, arguments => ['db:test:prepare', 'assets:webpack'] do |_t, args|
+        task name, arguments => ['db:test:prepare'] do |_t, args|
           if name == :custom
             if not args[:features]
               raise 'Please provide :features argument, e.g. rake cucumber:custom[features/my_feature.feature]'
             end
             features = args[:features].split(/\s+/)
           else
-            features = get_plugin_features
+            features = Plugins::LoadPathHelper.cucumber_load_paths
 
             if name == :plugins
               # in case we want to run cucumber plugins and there are none
@@ -85,7 +74,7 @@ unless ARGV.any? { |a| a =~ /\Agems/ } # Don't load anything when running the ge
             end
 
             if name == :all
-              features += [File.join(Rails.root, 'features')]
+              features << File.join(Rails.root, 'features')
             end
           end
 
@@ -94,9 +83,10 @@ unless ARGV.any? { |a| a =~ /\Agems/ } # Don't load anything when running the ge
             ENV.delete('CUCUMBER_OPTS')
             opts += args[:options].split(/\s+/) if args[:options]
 
-            # load feature support files from Rails root
-            support_files = ['-r', Shellwords.escape(File.join(Rails.root, 'features'))]
-            support_files += get_plugin_features(prefix = '-r')
+            support_files = [Rails.root.join('features').to_s] + Plugins::LoadPathHelper.cucumber_load_paths
+            support_files =  support_files.map { |path|
+              ['-r', Shellwords.escape(path)]
+            }.flatten
 
             t.cucumber_opts = opts + support_files + features
 

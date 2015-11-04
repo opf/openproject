@@ -211,8 +211,7 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
       return true;
     }
 
-    // strategy pattern, guys
-    if (field === 'spentTime' && WorkPackageFieldService.getValue(workPackage, field) === 'PT0S') {
+    if (field === 'spentTime' && workPackage.props[field] === 'PT0S') {
       return true;
     }
 
