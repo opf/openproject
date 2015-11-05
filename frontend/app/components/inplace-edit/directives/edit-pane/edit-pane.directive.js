@@ -152,7 +152,6 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
 
   this.submitField = function() {
     var submit = $q.defer();
-    var fieldController = $scope.fieldController;
     var pendingFormChanges = EditableFieldsState.getPendingFormChanges();
     var detectedViolations = [];
 
@@ -174,7 +173,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
       showErrors();
       submit.reject();
     } else {
-      fieldController.state.isBusy = true;
+      EditableFieldsState.isBusy = true;
       vm.updateWorkPackageForm(submit).then(function() {
         var result = WorkPackageService.updateWorkPackage(
           EditableFieldsState.workPackage
@@ -218,7 +217,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
   };
 
   function afterError() {
-    $scope.fieldController.state.isBusy = false;
+    EditableFieldsState.isBusy = false;
     $scope.focusInput();
   }
 
