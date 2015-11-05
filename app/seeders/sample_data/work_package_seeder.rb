@@ -81,8 +81,8 @@ module SampleData
         print '.'
         work_package = new_work_package(
           subject:    attributes[:subject],
-          status:     Status.find_by!(name: attributes[:status_name]),
-          type:       Type.find_by!(name: attributes[:type_name]),
+          status:     Status.find_by!(name: I18n.t(attributes[:status_name])),
+          type:       Type.find_by!(name: I18n.t(attributes[:type_name])),
           start_date: start_date,
           due_date:   calculate_due_date(start_date, attributes[:duration])
         )
@@ -93,8 +93,8 @@ module SampleData
           print '.'
           child = new_work_package(
             subject:    child_attributes[:subject],
-            status:     Status.find_by!(name: child_attributes[:status_name]),
-            type:       Type.find_by!(name: child_attributes[:type_name]),
+            status:     Status.find_by!(name: I18n.t(child_attributes[:status_name])),
+            type:       Type.find_by!(name: I18n.t(child_attributes[:type_name])),
             start_date: start_date,
             due_date:   calculate_due_date(start_date, child_attributes[:duration])
           )
