@@ -32,7 +32,7 @@ module Report::Controller
 
       before_filter :determine_engine
       before_filter :prepare_query, only: [:index, :create]
-      before_filter :find_optional_report, only: [:index, :show, :update, :delete, :rename]
+      before_filter :find_optional_report, only: [:index, :show, :update, :destroy, :rename]
       before_filter :possibly_only_narrow_values
       before_filter { @no_progress = no_progress? }
     end
@@ -45,7 +45,7 @@ module Report::Controller
   ##
   # Render the report. Renders either the complete index or the table only
   def table
-    if set_filter? and request.xhr?
+    if set_filter? && request.xhr?
       if no_progress?
         table_without_progress_info
       else
@@ -60,7 +60,7 @@ module Report::Controller
   end
 
   def table_with_progress_info
-    render text: render_widget(Widget::Table::Progressbar, @query), layout: !request.xhr?
+    render text: render_widget(Widget::Table::Progressbar, @query), layout: !request.xhr? and return
   end
 
   ##
@@ -93,7 +93,7 @@ module Report::Controller
   ##
   # Delete a saved record, if found. Redirects to index on success, raises a
   # RecordNotFound if the query at :id does not exist
-  def delete
+  def destroy
     if @query
       @query.destroy if allowed_to? :delete, @query
     else
