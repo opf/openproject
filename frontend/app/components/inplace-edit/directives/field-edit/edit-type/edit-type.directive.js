@@ -30,7 +30,7 @@ angular
   .module('openproject.inplace-edit')
   .directive('inplaceEditorType', inplaceEditorType);
 
-function inplaceEditorType(EditableFieldsState, FocusHelper, WorkPackageService) {
+function inplaceEditorType() {
   return {
     restrict: 'E',
     transclude: true,
@@ -39,7 +39,7 @@ function inplaceEditorType(EditableFieldsState, FocusHelper, WorkPackageService)
     templateUrl: '/components/inplace-edit/directives/field-edit/edit-type/' +
       'edit-type.directive.html',
 
-    link: function(scope, element, attrs, fieldController) {
+    link: function(scope) {
       scope.$watch('field.value.props', function(newValue, oldValue) {
         if (newValue.hrefTracker !== oldValue.hrefTracker) {
           scope.$emit('form.updateRequired');
@@ -48,4 +48,3 @@ function inplaceEditorType(EditableFieldsState, FocusHelper, WorkPackageService)
     }
   };
 }
-inplaceEditorType.$inject = ['EditableFieldsState', 'FocusHelper', 'WorkPackageService'];
