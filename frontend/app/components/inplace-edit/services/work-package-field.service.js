@@ -372,27 +372,20 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
       updatedAt: 'datetime'
     }[field] || schema.props[field].type;
 
-
-    if (schema.props[field] && schema.props[field]) {
-      if (schema.props[field].type === 'Duration') {
+    switch(fieldMapping) {
+      case('Duration'):
         var hours = moment.duration(value).asHours();
         var formattedHours = $filter('number')(hours, 2);
         return I18n.t('js.units.hour', { count: formattedHours });
-      }
-
-      if (schema.props[field].type === 'Boolean') {
+      case('Boolean'):
         return value ? I18n.t('js.general_text_yes') : I18n.t('js.general_text_no');
-      }
-
-      if (workPackage.schema.props[field].type === 'Date') {
+      case('Date'):
         return value;
-      }
-      if (fieldMapping === 'Float') {
+      case('Float'):
         return $filter('number')(value);
-      }
+      default:
+        return WorkPackagesHelper.formatValue(value, fieldMapping);
     }
-
-    return WorkPackagesHelper.formatValue(value, fieldMapping);
   }
 
   var WorkPackageFieldService = {
