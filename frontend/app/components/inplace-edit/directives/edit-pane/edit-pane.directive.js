@@ -113,7 +113,12 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
   };
 
   this.handleFailure = function(e, submit) {
-    setFailure(e);
+    afterError();
+    EditableFieldsState.errors = {
+      _common: ApiHelper.getErrorMessages(e)
+    };
+    showErrors();
+
     submit.reject(e);
   };
 
@@ -191,6 +196,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
   };
 
   this.discardEditing = function() {
+    $scope.fieldController.isEditing = false;
     EditableFieldsState.discard(field.name);
   };
 
@@ -214,13 +220,6 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
   function afterError() {
     $scope.fieldController.state.isBusy = false;
     $scope.focusInput();
-  }
-  function setFailure(e) {
-    afterError();
-    EditableFieldsState.errors = {
-      '_common': ApiHelper.getErrorMessages(e)
-    };
-    showErrors();
   }
 
   $scope.$watch('editableFieldsState.editAll.state', function(state) {
