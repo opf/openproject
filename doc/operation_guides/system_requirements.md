@@ -49,4 +49,4 @@ for some older browsers.
 
 ## Screen reader support (accessibility)
 
-* [JAWS](http://www.freedomscientific.com/Products/Blindness/JAWS) >= 14.0
+* [JAWS](http://www.freedomscientific.com/Products/Blindness/JAWS) >= 17.0
