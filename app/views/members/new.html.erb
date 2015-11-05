@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'member' %>
 
 <div>
-  <% if @principals_available.any? %>
+  <% if @roles.any? %>
     <%= render partial: "members/member_form",
                locals: { project: @project, roles: @roles } %>
   <% else %>
