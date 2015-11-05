@@ -55,6 +55,13 @@
     & > .inplace-edit--date-picker
       @extend %inline-date-picker-container-position-absolute
       left: 0
+
+  &.attribute-date
+    .inplace-edit--read-value
+      span
+        display: inline-block
+        vertical-align: middle
+
   .inplace-edit--date-range
     display: table
     width: 100%
@@ -65,6 +72,8 @@
     & > .delimeter
       padding-right: 5px
       padding-left: 5px
+      text-align: center
+      vertical-align: middle
     & > .inplace-edit--date-range-start-date-picker
       @extend %inline-date-picker-container-position-absolute
       left: 0
