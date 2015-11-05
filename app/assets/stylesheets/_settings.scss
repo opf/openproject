@@ -365,8 +365,8 @@ $form-padding: 0.375rem;
 
 // Select menus
 // $select-color: #000;
-// $select-background: #fafafa;
-// $select-background-hover: smartscale($select-background, 4%);
+$select-background: #fff;
+$select-background-hover: smartscale($select-background, 0%);
 // $select-arrow: true;
 // $select-arrow-color: $select-color;
 
