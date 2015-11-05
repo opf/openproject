@@ -182,8 +182,8 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
           submit.resolve();
           field.resource = _.extend(field.resource, updatedWorkPackage);
 
-          $scope.$emit('workPackageUpdatedInEditor', updatedWorkPackage);
-          $rootScope.$broadcast('uploadPendingAttachments', wp);
+          $rootScope.$broadcast('workPackageUpdatedInEditor', updatedWorkPackage);
+          $rootScope.$broadcast('uploadPendingAttachments', updatedWorkPackage);
 
         })).catch(function(e) {
           vm.handleFailure(e, submit);
