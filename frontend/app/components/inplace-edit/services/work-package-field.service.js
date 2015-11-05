@@ -365,12 +365,13 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
       return null;
     }
 
-    var mappings = {
+    var fieldMapping = {
       dueDate: 'date',
       startDate: 'date',
       createdAt: 'datetime',
       updatedAt: 'datetime'
-    };
+    }[field] || schema.props[field].type;
+
 
     if (schema.props[field] && schema.props[field]) {
       if (schema.props[field].type === 'Duration') {
@@ -386,9 +387,12 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
       if (workPackage.schema.props[field].type === 'Date') {
         return value;
       }
+      if (fieldMapping === 'Float') {
+        return $filter('number')(value);
+      }
     }
 
-    return WorkPackagesHelper.formatValue(value, mappings[field]);
+    return WorkPackagesHelper.formatValue(value, fieldMapping);
   }
 
   var WorkPackageFieldService = {
