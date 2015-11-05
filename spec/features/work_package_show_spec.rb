@@ -26,50 +26,33 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
+require 'spec_helper'
 
-module Pages
-  class FullWorkPackage < Page
-    attr_reader :work_package
+RSpec.feature 'Work package show page', selenium: true do
+  let(:user) { FactoryGirl.create(:admin) }
+  let(:project) { FactoryGirl.create(:project) }
+  let(:work_package) {
+    FactoryGirl.build(:work_package,
+                      project: project,
+                      assigned_to: user,
+                      responsible: user)
+  }
 
-    def initialize(work_package)
-      @work_package = work_package
-    end
+  before do
+    login_as(user)
+    work_package.save!
+  end
 
-    def expect_subject
-      within(container) do
-        expect(page).to have_content(work_package.subject)
-      end
-    end
+  scenario 'all different angular based work package views', js: true do
+    wp_page = Pages::FullWorkPackage.new(work_package)
 
-    def expect_current_path
-      current_path = URI.parse(current_url).path
-      expect(current_path).to eql path
-    end
+    wp_page.visit!
 
-    def ensure_page_loaded
-      expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
-                                    text: work_package.journals.last.user.name)
-    end
-
-    def expect_attributes(attribute_expectations)
-      attribute_expectations.each do |label_name, value|
-        expect(page).to have_selector('.attributes-key-value--key', text: label_name.to_s)
-
-        dl_element = page.find('.attributes-key-value--key', text: label_name.to_s).parent
-
-        expect(dl_element).to have_selector('.attributes-key-value--value-container', text: value)
-      end
-    end
-
-    private
-
-    def container
-      find('.work-packages--show-view')
-    end
-
-    def path
-      work_package_path(work_package.id, 'activity')
-    end
+    wp_page.expect_attributes Author: work_package.author.name,
+                              Type: work_package.type.name,
+                              Status: work_package.status.name,
+                              Priority: work_package.priority.name,
+                              Assignee: work_package.assigned_to.name,
+                              Responsible: work_package.responsible.name
   end
 end
