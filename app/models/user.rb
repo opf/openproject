@@ -33,23 +33,11 @@ class User < Principal
   include User::Authorization
 
   USER_FORMATS_STRUCTURE = {
-    firstname_lastname: [:firstname, :lastname],
-    firstname: [:firstname],
-    lastname_firstname: [:lastname, :firstname],
-    lastname_coma_firstname: [:lastname, :firstname],
-    username: [:login]
-  }
-
-  def self.user_format_structure_to_format(key, delimiter = ' ')
-    USER_FORMATS_STRUCTURE[key].map { |elem| "\#{#{elem}}" }.join(delimiter)
-  end
-
-  USER_FORMATS = {
-    firstname_lastname:      User.user_format_structure_to_format(:firstname_lastname),
-    firstname:               User.user_format_structure_to_format(:firstname),
-    lastname_firstname:      User.user_format_structure_to_format(:lastname_firstname),
-    lastname_coma_firstname: User.user_format_structure_to_format(:lastname_coma_firstname, ', '),
-    username:                User.user_format_structure_to_format(:username)
+    firstname_lastname:       [:firstname, :lastname],
+    firstname:                [:firstname],
+    lastname_firstname:       [:lastname, :firstname],
+    lastname_coma_firstname:  [:lastname, :firstname],
+    username:                 [:login]
   }
 
   USER_MAIL_OPTION_ALL            = ['all', :label_user_mail_option_all]
@@ -294,12 +282,18 @@ class User < Principal
     end
   end
 
-  # Return user's full name for display
+  # Formats the user's name.
   def name(formatter = nil)
-    if formatter
-      eval ('"' + (User::USER_FORMATS[formatter] || User::USER_FORMATS[:firstname_lastname]) + '"')
+    case formatter || Setting.user_format
+
+    when :firstname_lastname      then "#{firstname} #{lastname}"
+    when :lastname_firstname      then "#{lastname} #{firstname}"
+    when :lastname_coma_firstname then "#{lastname}, #{firstname}"
+    when :firstname               then firstname
+    when :username                then login
+
     else
-      @name ||= eval ('"' + (User::USER_FORMATS[Setting.user_format] || User::USER_FORMATS[:firstname_lastname]) + '"')
+      "#{firstname} #{lastname}"
     end
   end
 
