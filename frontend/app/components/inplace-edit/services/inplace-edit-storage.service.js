@@ -48,6 +48,11 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
           .then(function (updatedWorkPackage) {
             $rootScope.$broadcast('workPackageUpdatedInEditor', updatedWorkPackage);
             $rootScope.$broadcast('uploadPendingAttachments', updatedWorkPackage);
+            $rootScope.$broadcast('workPackageRefreshRequired');
+
+            EditableFieldsState.errors = null;
+            EditableFieldsState.currentField = null;
+            EditableFieldsState.editAll.stop();
 
             deferred.resolve(updatedWorkPackage);
           })
