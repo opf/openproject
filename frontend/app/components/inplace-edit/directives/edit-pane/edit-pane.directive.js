@@ -88,110 +88,45 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
 inplaceEditorEditPane.$inject = ['EditableFieldsState', 'FocusHelper', '$timeout'];
 
 
-function InplaceEditorEditPaneController($scope, $element, $location, $timeout, $q, $rootScope,
-    WorkPackageService, EditableFieldsState, ApiHelper, NotificationsService) {
-
-  var showErrors = function() {
-    var errors  = EditableFieldsState.errors;
-    if (_.isEmpty(_.keys(errors))) {
-      return;
-    }
-    var errorMessages = _.flatten(_.map(errors), true);
-    NotificationsService.addError(I18n.t('js.label_validation_error'), errorMessages);
-  };
+function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
+    EditableFieldsState, NotificationsService, inplaceEditStorage) {
 
   var vm = this;
   var field = $scope.field;
 
   this.submit = function() {
-    EditableFieldsState.save().then(function() {
-      $location.hash(null);
-      $timeout(function() {
-        $element[0].scrollIntoView(false);
-      });
-    });
-  };
-
-  this.handleFailure = function(e, submit) {
-    afterError();
-    EditableFieldsState.errors = {
-      _common: ApiHelper.getErrorMessages(e)
-    };
-    showErrors();
-
-    submit.reject(e);
-  };
-
-  this.updateWorkPackageForm = function(submit) {
-    WorkPackageService.loadWorkPackageForm(EditableFieldsState.workPackage).then(
-      function(form) {
-        field.resource.form = form;
-        EditableFieldsState.workPackage.form = form;
-        if (_.isEmpty(form.embedded.validationErrors.props)) {
-          submit.resolve();
-        } else {
-          afterError();
-          submit.reject();
-          EditableFieldsState.errors = {};
-          _.forEach(form.embedded.validationErrors.props, function(error, field) {
-            if(field === 'startDate' || field === 'dueDate') {
-              EditableFieldsState.errors['date'] = error.message;
-            } else {
-              EditableFieldsState.errors[field] = error.message;
-            }
-          });
-
-          showErrors();
-        }
-      }).catch(function(e) {
-        vm.handleFailure(e, submit);
-      });
-
-    return submit.promise;
-  };
-
-  this.submitField = function() {
-    var submit = $q.defer();
-    var pendingFormChanges = EditableFieldsState.getPendingFormChanges();
     var detectedViolations = [];
 
-    pendingFormChanges[field.name] = field.value;
     if (vm.editForm.$invalid) {
-      var acknowledgedValidationErrors = Object.keys(vm.editForm.$error);
-      acknowledgedValidationErrors.forEach(function(error) {
+      Object.keys(vm.editForm.$error).forEach(function(error) {
+
         if (vm.editForm.$error[error]) {
           detectedViolations.push(I18n.t('js.inplace.errors.' + error, {
             field: field.getLabel()
           }));
         }
       });
-      submit.reject();
     }
+
     if (detectedViolations.length) {
       EditableFieldsState.errors = EditableFieldsState.errors || {};
       EditableFieldsState.errors[field.name] = detectedViolations.join(' ');
-      showErrors();
-      submit.reject();
-    } else {
-      EditableFieldsState.isBusy = true;
-      vm.updateWorkPackageForm(submit).then(function() {
-        var result = WorkPackageService.updateWorkPackage(
-          EditableFieldsState.workPackage
-        );
-        result.then(angular.bind(this, function(updatedWorkPackage) {
-          submit.resolve();
-          field.resource = _.extend(field.resource, updatedWorkPackage);
-
-          $rootScope.$broadcast('workPackageUpdatedInEditor', updatedWorkPackage);
-          $rootScope.$broadcast('uploadPendingAttachments', updatedWorkPackage);
-
-        })).catch(function(e) {
-          vm.handleFailure(e, submit);
-        });
-      });
     }
 
-    return submit.promise;
+    inplaceEditStorage.saveWorkPackage()
+      .then(function() {
+        $location.hash(null);
+        $timeout(function() {
+          $element[0].scrollIntoView(false);
+        });
+      })
+
+      .catch(function (errors) {
+        $scope.focusInput();
+
+        var errorMessages = _.flatten(_.map(errors), true);
+        NotificationsService.addError(I18n.t('js.label_validation_error'), errorMessages);
+      });
   };
 
   this.discardEditing = function() {
@@ -204,22 +139,12 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
   };
 
   this.markActive = function() {
-    EditableFieldsState.submissionPromises['work_package'] = {
-      field: field.name,
-      thePromise: this.submitField,
-      prepend: true
-    };
     EditableFieldsState.currentField = field.name;
   };
 
   this.isRequired = function() {
     return field.isRequired();
   };
-
-  function afterError() {
-    EditableFieldsState.isBusy = false;
-    $scope.focusInput();
-  }
 
   $scope.$watch('editableFieldsState.editAll.state', function(state) {
     $scope.fieldController.isEditing = state;
@@ -251,8 +176,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
   });
 
   $scope.$on('form.updateRequired', function() {
-    var submit = $q.defer();
-    vm.updateWorkPackageForm(submit);
+    inplaceEditStorage.updateWorkPackageForm();
   });
 
   $scope.$on('workPackageRefreshed', function() {
@@ -260,5 +184,5 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
     EditableFieldsState.isBusy = false;
   });
 }
-InplaceEditorEditPaneController.$inject = ['$scope', '$element', '$location', '$timeout', '$q',
-  '$rootScope', 'WorkPackageService', 'EditableFieldsState', 'ApiHelper', 'NotificationsService'];
+InplaceEditorEditPaneController.$inject = ['$scope', '$element', '$location', '$timeout',
+   'EditableFieldsState', 'NotificationsService', 'inplaceEditStorage'];
