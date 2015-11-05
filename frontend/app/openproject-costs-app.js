@@ -93,6 +93,9 @@ openprojectCostsApp.run(['HookService',
   });
 }]);
 
+var requireTemplate = require.context('./templates', true, /\.html$/);
+requireTemplate.keys().forEach(requireTemplate);
+
 require('./services/cost-type-service');
 require('./work_packages/directives/cost-object-directive');
 require('./work_packages/directives/summarized-cost-entries-directive');

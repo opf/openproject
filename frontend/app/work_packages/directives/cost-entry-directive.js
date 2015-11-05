@@ -32,7 +32,7 @@ angular.module('openproject.workPackages.directives')
   return {
     restrict: 'E',
     trasclude: true,
-    templateUrl: '/assets/work_packages/cost_entry.html',
+    templateUrl: '/templates/plugin-costs/work_packages/cost_entry.html',
     scope: {
       workPackage: "=",
       costEntry: "="

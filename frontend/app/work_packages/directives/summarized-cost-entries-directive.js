@@ -32,7 +32,7 @@ angular.module('openproject.workPackages.directives')
   return {
     restrict: 'E',
     require: '^workPackageField',
-    templateUrl: '/assets/work_packages/summarized_cost_entries.html',
+    templateUrl: '/templates/plugin-costs/work_packages/summarized_cost_entries.html',
     link: function(scope, element, attributes, fieldController) {
       scope.workPackage = scope.field.resource;
       scope.costTypes = scope
