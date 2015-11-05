@@ -183,10 +183,6 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
           field.resource = _.extend(field.resource, updatedWorkPackage);
 
           $scope.$emit('workPackageUpdatedInEditor', updatedWorkPackage);
-          $scope.$on('workPackageRefreshed', function() {
-            fieldController.state.isBusy = false;
-            fieldController.isEditing = false;
-          });
           uploadPendingAttachments(updatedWorkPackage);
         })).catch(function(e) {
           vm.handleFailure(e, submit);
@@ -198,7 +194,6 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
   };
 
   this.discardEditing = function() {
-    $scope.fieldController.isEditing = false;
     EditableFieldsState.discard(field.name);
   };
 
@@ -267,6 +262,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
 
   $scope.$on('workPackageRefreshed', function() {
     vm.discardEditing();
+    EditableFieldsState.isBusy = false;
   });
 }
 InplaceEditorEditPaneController.$inject = ['$scope', '$element', '$location', '$timeout', '$q',
