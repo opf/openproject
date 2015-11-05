@@ -147,3 +147,7 @@ en:
           start: 60
           duration: 1
           children: []
+
+      wiki:
+        title: 'Demo Wiki'
+        content:  "h1. Demo Wiki\r\n\r\nh2#. Text\r\n\r\nLorem *ipsum* dolor sit amet, consectetur +adipiscing+ elit. Morbi sodales commodo tristique. Donec _condimentum_ nunc eget elit rutrum vehicula. In eros odio, suscipit non libero feugiat, aliquam pretium metus. \r\n\r\nh2#. Bullets\r\n\r\n* Integer ac augue\r\n* ac nulla sagittis egestas.\r\n* Quisque tincidunt, eros ac\r\n\r\nh2#. Enumeration\r\n\r\n# Integer ac augue \r\n# Quisque tincidunt, eros ac\r\n# vulputate vulputate, lacus leo\r\n\r\nh2#. Quote\r\n\r\n> Cras at purus nunc. Integer _felis mauris_, pharetra non leo eu, pulvinar gravida nulla. Fusce auctor dui id eros suscipit, non blandit orci fermentum. Aenean at venenatis nibh. -Donec finibus- eu neque ut gravida.\r\n> \r\n\r\nh2#. Links\r\n\r\n* Wiki: [[Page 1]]\r\n* Externa: https://www.openproject.com\r\n* Work package (link only): #1 \r\n* Work package: ##1\r\n\r\nh2#. Code\r\n\r\n@sudo apt-get update\r\nsudo apt-get install openproject@\r\n\r\nh2#. Preformatted text\r\n\r\n<pre>\r\nvulputate vulputate, lacus leo ultricies \r\n</pre>"

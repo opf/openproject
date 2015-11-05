@@ -27,40 +27,64 @@
 # See doc/COPYRIGHT.rdoc for more details.
 module SampleData
   class WikiSeeder
+    attr_accessor :user, :project
 
-    def self.seed!(project)
-      user = User.first
-      wiki = Wiki.create(project: project, start_page: 'Seed')
+    def initialize(project)
+      self.user = User.first
+      self.project = project
+    end
 
-      ## create some wiki pages
-
+    def seed!(random: true)
       puts ''
       print ' ↳ Creating wikis'
 
+      if random
+        create_random_wiki_pages
+      else
+        create_demo_wiki
+      end
+    end
+
+    def create_random_wiki_pages
       rand(5).times do
         print '.'
-        wiki_page = WikiPage.create wiki: wiki,
-                                    title: Faker::Lorem.words(5).join(' ')
+        wiki_page = WikiPage.create(
+          wiki:  project.wiki,
+          title: Faker::Lorem.words(5).join(' ')
+        )
 
         ## create some wiki contents
-
         rand(5).times do
           print '.'
-          wiki_content = WikiContent.create page: wiki_page,
-                                            author: user,
-                                            text: Faker::Lorem.paragraph(5, true, 3)
+          wiki_content = WikiContent.create(
+            page:    wiki_page,
+            authorz: user,
+            text:    Faker::Lorem.paragraph(5, true, 3)
+          )
 
           ## create some journal entries
-
           rand(5).times do
             wiki_content.reload
-
             wiki_content.text = Faker::Lorem.paragraph(5, true, 3) if rand(99).even?
-
             wiki_content.save!
           end
         end
       end
+    end
+
+    def create_demo_wiki
+      print '.'
+      wiki_page = WikiPage.create!(
+        wiki:  project.wiki,
+        title: 'Wiki'
+      )
+
+      print '.'
+      WikiContent.create!(
+        page:   wiki_page,
+        author: user,
+        text:   I18n.t('seeders.sample_data.wiki.content')
+      )
     end
 
   end
