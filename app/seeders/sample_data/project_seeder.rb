@@ -47,10 +47,15 @@ module SampleData
         is_public:    true
       )
 
+      project.members << Member.create(
+        user: User.admin.first,
+        roles: [Role.find_by(name: I18n.t(:default_role_project_admin))]
+      )
+
       project.enabled_module_names += ['timelines']
 
       # project's repository
-      repository = Repository::Subversion.create!(
+      Repository::Subversion.create!(
         project:  project,
         url:      'file:///tmp/foo/bar.svn',
         scm_type: 'existing'
@@ -67,8 +72,8 @@ module SampleData
       version_data = I18n.t('seeders.sample_data.project.versions')
       version_data.each do |attributes|
         project.versions << Version.create!(
-          name:   attributes[:name],
-          status: I18n.t(attributes[:status]),
+          name:    attributes[:name],
+          status:  I18n.t(attributes[:status]),
           sharing: I18n.t(attributes[:sharing])
         )
       end
