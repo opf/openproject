@@ -52,6 +52,7 @@ var browsersList = JSON.stringify(_.filter(browsersListConfig.split('\n'), funct
 var loaders = [
   { test: /[\/]angular\.js$/,         loader: 'exports?angular' },
   { test: /[\/]jquery\.js$/,          loader: 'expose?jQuery' },
+  { test: /[\/]dragula\.js$/,         loader: 'expose?dragula' },
   { test: /[\/]moment\.js$/,          loader: 'expose?moment' },
   { test: /[\/]mousetrap\.js$/,       loader: 'expose?Mousetrap' },
   { test: /[\/]vendor[\/]i18n\.js$/,  loader: 'expose?I18n' },
@@ -99,7 +100,9 @@ module.exports = {
   },
 
   module: {
-    loaders: loaders
+    loaders: loaders,
+    // Prevent 'This seems to be a pre-built javascript file.' error due to crossvent dist
+    noParse: /node_modules\/crossvent/,
   },
 
   resolve: {

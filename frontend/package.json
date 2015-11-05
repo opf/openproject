@@ -47,6 +47,7 @@
     "autoprefixer-loader": "^1.2.0",
     "bower": "^1.4.1",
     "css-loader": "^0.9.0",
+    "dragula": "^3.5.2",
     "exports-loader": "^0.6.2",
     "expose-loader": "^0.6.0",
     "extract-text-webpack-plugin": "^0.3.8",

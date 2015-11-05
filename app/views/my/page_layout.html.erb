@@ -30,13 +30,12 @@ See doc/COPYRIGHT.rdoc for more details.
   jQuery(document).ready(function($) {
     // Canonical list of containers that will exchange draggable elements.
     var containers = jQuery('.dragula-container').toArray();
-
-    drake = dragula(containers);
+    var drake = dragula(containers);
 
     // On 'el' drop, we fire an Ajax request to persist the order chosen by
     // the user. Actual ordering details are handled on the server.
     drake.on('drop', function(el, target, source, sibling){
-      var url = "<%= url_for(controller: '/my', action: 'order_blocks') %>";
+      var url = "<%= my_order_blocks_url %>";
 
       // Array of target ordered children after this drop.
       var target_ordered_children = jQuery(target).find('.block-wrapper').map(function(){
@@ -54,11 +53,11 @@ See doc/COPYRIGHT.rdoc for more details.
         url: url,
         type: 'POST',
         data: {
-                target: jQuery(target).attr('id'),
-                source: jQuery(source).attr('id'),
-                target_ordered_children: target_ordered_children,
-                source_ordered_children: source_ordered_children
-              }
+          target: jQuery(target).attr('id'),
+          source: jQuery(source).attr('id'),
+          target_ordered_children: target_ordered_children,
+          source_ordered_children: source_ordered_children
+        }
       });
     });
   });
