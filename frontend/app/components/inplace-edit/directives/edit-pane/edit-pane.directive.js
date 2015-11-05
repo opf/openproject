@@ -103,10 +103,6 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
   var vm = this;
   var field = $scope.field;
 
-  var uploadPendingAttachments = function(wp) {
-    $rootScope.$broadcast('uploadPendingAttachments', wp);
-  };
-
   this.submit = function() {
     EditableFieldsState.save().then(function() {
       $location.hash(null);
@@ -183,7 +179,8 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout, 
           field.resource = _.extend(field.resource, updatedWorkPackage);
 
           $scope.$emit('workPackageUpdatedInEditor', updatedWorkPackage);
-          uploadPendingAttachments(updatedWorkPackage);
+          $rootScope.$broadcast('uploadPendingAttachments', wp);
+
         })).catch(function(e) {
           vm.handleFailure(e, submit);
         });
