@@ -215,10 +215,9 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
   function updateResults() {
     $scope.$broadcast('openproject.workPackages.updateResults');
 
-    $scope.refreshWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier, $scope.query, PaginationService.getPaginationOptions())
+    WorkPackageService.getWorkPackages($scope.projectIdentifier,
+      $scope.query, PaginationService.getPaginationOptions())
       .then(setupWorkPackagesTable);
-
-    return $scope.refreshWorkPackages;
   }
 
   // More
