@@ -114,7 +114,7 @@ module.exports = function($uiViewScroll,
 
       scope.updateComment = function() {
         ActivityService.updateComment(scope.activity, scope.activity.editedComment).then(function(){
-          scope.$emit('workPackageRefreshRequired', '');
+          scope.$emit('workPackageRefreshRequired');
           scope.inEdit = false;
         });
       };

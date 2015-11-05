@@ -101,23 +101,6 @@ angular.module('openproject.services')
     'fields[]': 'status_id',
     'operators[status_id]': 'o'
   })
-  .service('WorkPackageService', [
-    '$http',
-    'PathHelper',
-    'WorkPackagesHelper',
-    'HALAPIResource',
-    'DEFAULT_FILTER_PARAMS',
-    'DEFAULT_PAGINATION_OPTIONS',
-    '$rootScope',
-    '$window',
-    '$q',
-    '$cacheFactory',
-    'AuthorisationService',
-    'EditableFieldsState',
-    'WorkPackageFieldService',
-    'NotificationsService',
-    require('./work-package-service')
-  ])
   .service('NotificationsService', [
     'I18n',
     '$rootScope',

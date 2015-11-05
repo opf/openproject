@@ -32,9 +32,10 @@ describe('WorkPackageService', function() {
 
   var WorkPackageService,
       stateParams = {};
-  beforeEach(module('openproject.api', 'openproject.layout','openproject.services', 'openproject.models'));
+  beforeEach(angular.mock.module('openproject.api', 'openproject.layout','openproject.services',
+    'openproject.models'));
 
-  beforeEach(module('openproject.templates', function($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function($provide) {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -43,7 +44,7 @@ describe('WorkPackageService', function() {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(inject(function(_WorkPackageService_, _HALAPIResource_){
+  beforeEach(inject(function(_WorkPackageService_){
     WorkPackageService = _WorkPackageService_;
   }));
 

@@ -26,7 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($q, $rootScope) {
+angular
+  .module('openproject.workPackages.services')
+  .factory('EditableFieldsState', EditableFieldsState);
+
+function EditableFieldsState($q, $rootScope) {
   var EditableFieldsState = {
     workPackage: null,
     errors: null,
@@ -44,8 +48,7 @@ module.exports = function($q, $rootScope) {
       return form.pendingChanges = form.pendingChanges || angular.copy(form.embedded.payload.props);
     },
 
-    save: function (callback) {
-      // We have to ensure that some promises are executed earlier then others
+    save: function () {
       var promises = [];
       angular.forEach(this.submissionPromises, function(field) {
         var p = field.thePromise.call(this);
@@ -53,13 +56,21 @@ module.exports = function($q, $rootScope) {
       });
 
       return $q.all(promises).then(angular.bind(this, function() {
-        // Update work package after this call
-        $rootScope.$broadcast('workPackageRefreshRequired', callback);
+        $rootScope.$broadcast('workPackageRefreshRequired');
         this.errors = null;
         this.submissionPromises = {};
         this.currentField = null;
         this.editAll.stop();
       }));
+    },
+
+    discard: function (fieldName) {
+      this.submissionPromises = {};
+      delete this.getPendingFormChanges()[fieldName];
+
+      if (this.errors && this.errors.hasOwnProperty(fieldName)) {
+        delete this.errors[fieldName];
+      }
     },
 
     editAll: {
@@ -92,4 +103,5 @@ module.exports = function($q, $rootScope) {
   };
 
   return EditableFieldsState;
-};
+}
+EditableFieldsState.$inject = ['$q', '$rootScope'];

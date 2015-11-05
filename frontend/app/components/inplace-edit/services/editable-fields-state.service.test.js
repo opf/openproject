@@ -29,7 +29,7 @@
 describe('EditableFieldsState service', function () {
   var EditableFieldsState, eAll;
 
-  beforeEach(module('openproject'));
+  beforeEach(angular.mock.module('openproject.services', 'openproject.workPackages.services'));
 
   beforeEach(inject(function (_EditableFieldsState_) {
     EditableFieldsState = _EditableFieldsState_;
@@ -64,8 +64,8 @@ describe('EditableFieldsState service', function () {
     it('should call the "workPackageRefreshRequired" event', function () {
       var spy = sinon.spy($rootScope.$broadcast);
 
-      EditableFieldsState.save(false, false).then(function () {
-        expect(spy.withArgs('workPackageRefreshRequired', false).calledOnce).to.be.true
+      EditableFieldsState.save(false).then(function () {
+        expect(spy.withArgs('workPackageRefreshRequired').calledOnce).to.be.true
       });
     });
   });
