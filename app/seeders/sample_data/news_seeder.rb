@@ -29,7 +29,7 @@ module SampleData
   class NewsSeeder
 
     def self.seed!(project)
-      user = User.first
+      user = User.admin.first
 
       ## create some news
 

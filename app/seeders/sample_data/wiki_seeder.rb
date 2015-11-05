@@ -30,7 +30,7 @@ module SampleData
     attr_accessor :user, :project
 
     def initialize(project)
-      self.user = User.first
+      self.user = User.admin.first
       self.project = project
     end
 

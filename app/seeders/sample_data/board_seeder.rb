@@ -29,7 +29,7 @@ module SampleData
   class BoardSeeder
 
     def self.seed!(project)
-      user = User.first
+      user = User.admin.first
 
       puts ''
       print ' ↳ Creating forum board with posts'

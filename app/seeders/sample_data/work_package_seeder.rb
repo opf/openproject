@@ -31,7 +31,7 @@ module SampleData
 
     def initialize(project)
       self.project = project
-      self.user = User.first
+      self.user = User.admin.first
       self.statuses = Status.all
       self.repository = Repository.first
       self.time_entry_activities = TimeEntryActivity.all
