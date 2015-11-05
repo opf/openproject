@@ -39,6 +39,29 @@ en:
         name: Demo project
         identifier: demo-project
         description: 'This is a description for your project. You can edit the description in the Project settings -> Description'
+        versions:
+          - name: '1.0'
+            sharing: :label_none
+            status: :version_status_open
+          - name: '1.1'
+            sharing: :label_none
+            status: :version_status_open
+          - name: '2.0'
+            sharing: :label_none
+            status: :version_status_open
+          - name: Product Backlog
+            sharing: :label_none
+            status: :version_status_open
+          - name: Sprint 1
+            sharing: :label_none
+            status: :version_status_open
+          - name: Sprint 2
+            sharing: :label_none
+            status: :version_status_open
+          - name: Wish List
+            sharing: :label_none
+            status: :version_status_open
+
       timeline:
         name: Timeline
       work_packages:
