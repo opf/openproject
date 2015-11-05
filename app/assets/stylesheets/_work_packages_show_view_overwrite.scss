@@ -272,6 +272,11 @@ body.controller-work_packages.action-show {
   }
 }
 
-.work-packages--page-container {
-  select { height: 36px; }
+.edit-all-mode {
+  .subject-header .work-packages--details--subject .inplace-edit--text-field {
+    padding-left: 0.375rem;
+  }
+  .work-packages--details--title, .work-packages--details--description {
+    margin-left: 0;
+  }
 }
