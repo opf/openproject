@@ -8,7 +8,7 @@
       ng-disabled="fieldController.state.isBusy"
       ng-model="field.value.props"
       title="{{ fieldController.editTitle }}"
-      class="inplace-edit-select"
+      class="inplace-edit-select form--select"
       id="inplace-edit--write-value--{{::field.name}}"
       ng-options="option as option.name for option in customEditorController.allowedValues track by option.hrefTracker">
   </select>
