@@ -36,6 +36,7 @@ OpenProject::Application.routes.draw do
     end
 
     member do
+      post :update
       post :rename
     end
   end
