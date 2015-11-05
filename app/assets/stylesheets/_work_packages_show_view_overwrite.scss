@@ -41,15 +41,6 @@ body.controller-work_packages.action-show {
     margin-bottom: 20px;
   }
 
-  .subject-header {
-    float: left;
-    line-height: 34px;
-    padding: 10px 0 0 0;
-    font-weight: bold;
-    font-size: 1.5rem;
-    margin-top: 0px;
-  }
-
   .work-packages--split-view {
     border-top: 1px solid #ccc;
     overflow: hidden;
@@ -108,16 +99,13 @@ body.controller-work_packages.action-show {
 
   .work-packages--right-panel {
     min-width: 420px;
+    overflow-y: auto;
+    overflow-x: auto;
+    width: 40%;
 
     .work-packages--panel-inner {
       padding: 2px 20px 20px 20px;
     }
-  }
-
-  .work-packages--right-panel {
-    overflow-y: auto;
-    overflow-x: auto;
-    width: 40%;
   }
 
   ul {
@@ -179,44 +167,6 @@ body.controller-work_packages.action-show {
     }
   }
 
-  ul.subject-header {
-    float: left;
-    width: 100%;
-    margin-right: -300px;
-    padding-right: 300px;
-
-    .subject-header-inner {
-      white-space: nowrap;
-      width: 100%;
-      text-overflow: ellipsis;
-    }
-
-    li {
-      .inline-edit {
-        width: 100%;
-      }
-    }
-
-    .work-package-field.work-packages--details--subject {
-      .inplace-edit {
-        .inplace-edit--read {
-          display: block;
-          white-space: nowrap;
-          width: 100%;
-        }
-
-        .inplace-edit--read-value {
-          margin: 0;
-          padding: 0;
-
-          span {
-            width: 100%;
-          }
-        }
-      }
-    }
-  }
-
   .activity-comment {
     margin-top: 15px;
   }
@@ -239,12 +189,6 @@ body.controller-work_packages.action-show {
   }
 }
 
-.work-packages--split-view  {
-  .inplace-edit.attribute-subject {
-    line-height: 24px;
-  }
-}
-
 @media only screen and (max-width: 1280px) {
   .work-packages--details {
     @at-root {
@@ -263,4 +207,67 @@ body.controller-work_packages.action-show {
 
 .work-packages--show-view {
   padding-right: 20px;
+
+  .subject-header {
+    float: left;
+    margin-right: -300px;
+    margin-top: 0px;
+    padding: 10px 300px 0 0;
+    width: 100%;
+
+    .subject-header-inner {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+    }
+
+    li .inline-edit { width: 100%; }
+
+    .work-package-field.work-packages--details--subject {
+      .inplace-edit {
+        .inplace-edit--read {
+          display: block;
+          white-space: nowrap;
+          width: 100%;
+        }
+      }
+    }
+
+    .inplace-edit--read-value {
+      margin: 0;
+      padding: 0;
+
+      span { width: 100%; }
+    }
+
+    .work-packages--details--subject,
+    .work-packages--details--subject .inplace-edit--text-field {
+      font-size: 1.5rem;
+      font-weight: bold;
+      line-height: 34px;
+    }
+
+    .work-packages--details--subject .inplace-edit--text-field {
+      height: auto;
+      padding: 0;
+    }
+  }
+}
+
+.work-packages--split-view {
+  .work-packages--details--subject,
+  .work-packages--details--subject .inplace-edit--text-field {
+    font-size: 1.125rem;
+    font-weight: bold;
+  }
+
+  .work-packages--details--subject {
+    line-height: 24px;
+
+    .inplace-edit--text-field {
+      height: 38px;
+      line-height: 36px;
+      padding: 0 0.375rem;
+    }
+  }
 }
