@@ -63,9 +63,13 @@ describe 'Work packages having story points', type: :feature, js: true do
     }
 
     it 'should be displayed' do
-      visit work_package_path(story_with_sp.id)
+      wp_page = Pages::FullWorkPackage.new(story_with_sp)
+
+      wp_page.visit!
 
       expect(page).to have_selector('#work-package-storyPoints', text: story_points)
+
+      wp_page.ensure_page_loaded
     end
   end
 end
