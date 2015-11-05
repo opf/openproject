@@ -30,6 +30,7 @@
 module Redmine
   class CustomFieldFormat
     include Redmine::I18n
+    include ActionView::Helpers::NumberHelper
 
     cattr_accessor :available
     @@available = {}
@@ -56,10 +57,14 @@ module Redmine
       l(is_true ? :general_text_Yes : :general_text_No)
     end
 
-    ['string', 'text', 'int', 'float', 'list'].each do |name|
+    ['string', 'text', 'int', 'list'].each do |name|
       define_method("format_as_#{name}") {|value|
         return value.to_s
       }
+    end
+
+    def format_as_float(value)
+      number_with_delimiter(value.to_s)
     end
 
     ['user', 'version'].each do |name|

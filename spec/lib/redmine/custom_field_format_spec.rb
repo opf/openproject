@@ -26,14 +26,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class JournalFormatter::Fraction < JournalFormatter::Attribute
-  include ActionView::Helpers::NumberHelper
+require 'spec_helper'
 
-  def format_values(values)
-    values.map do |v|
-      v.nil? ?
-        nil :
-        number_with_precision(v.to_f, precision: 2)
+describe Redmine::CustomFieldFormat do
+  let(:instance) { described_class.new 'test', label: 'blubs', order: '1' }
+
+  describe '#format_value' do
+    it 'returns a localized float' do
+      I18n.with_locale(:de) do
+        expect(instance.format_as_float('5.67')).to eql '5,67'
+      end
     end
   end
 end
