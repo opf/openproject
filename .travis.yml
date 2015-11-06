@@ -86,6 +86,8 @@ env:
     - "TEST_SUITE=cucumber:plugins      DB=postgres     GROUP_SIZE=6  GROUP=6"
 
 before_install:
+  - echo -e "machine github.com\n  login $CI_USER_TOKEN" >> ~/.netrc
+
   - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
   - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1920x1080x16"
