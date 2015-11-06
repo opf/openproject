@@ -75,7 +75,7 @@ puts '*** Seeding basic data'
 BasicDataSeeder.seed!
 
 puts '*** Seeding admin user'
-AdminUserSeeder.seed!
+AdminUserSeeder.new.seed!
 
 puts '*** Seeding demo data'
 DemoDataSeeder.seed!

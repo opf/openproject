@@ -34,7 +34,7 @@ namespace :random_data do
     BasicDataSeeder.seed!
 
     puts '*** Seeding admin user'
-    AdminUserSeeder.seed!
+    AdminUserSeeder.new.seed!
 
     puts '*** Seeding demo data'
     RandomDataSeeder.seed!

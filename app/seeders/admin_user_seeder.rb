@@ -27,11 +27,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 class AdminUserSeeder
-
-  def self.seed!
+  def seed!
     if User.admin.empty?
-      user = User.new
+      user = new_admin
+      user.save!
 
+      user.force_password_change = Rails.env != 'development'
+      user.password = 'admin'
+      user.save(validate: false)
+    end
+  end
+
+  def new_admin
+    User.new.tap do |user|
       user.admin = true
       user.login = 'admin'
       user.password = '!AdminAdminAdmin123%&/'
@@ -41,15 +49,6 @@ class AdminUserSeeder
       user.mail_notification = User::USER_MAIL_OPTION_NON.first
       user.language = I18n.locale.to_s
       user.status = User::STATUSES[:active]
-      user.save!
-
-      # Enable the user to login easily but force him
-      # to change his password right away unless we are
-      # only seeding the development database.
-      user.force_password_change = Rails.env != 'development'
-      user.password = 'admin'
-      user.save(validate: false)
     end
   end
-
 end
