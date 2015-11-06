@@ -35,7 +35,12 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
 
   return {
     saveWorkPackage: function () {
-      var deferred = $q.defer();
+      var deferred = $q.defer(),
+          handleErrors = function (errors) {
+            EditableFieldsState.isBusy = false;
+            EditableFieldsState.errors = { _common: ApiHelper.getErrorMessages(errors) };
+            deferred.reject(errors);
+          };
 
       if (EditableFieldsState.errors) {
         deferred.reject(EditableFieldsState.errors);
@@ -44,28 +49,24 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
 
       EditableFieldsState.isBusy = true;
 
-      this.updateWorkPackageForm().then(function () {
-        WorkPackageService.updateWorkPackage(EditableFieldsState.workPackage)
-          .then(function (updatedWorkPackage) {
-            $rootScope.$broadcast('workPackageUpdatedInEditor', updatedWorkPackage);
-            $rootScope.$broadcast('uploadPendingAttachments', updatedWorkPackage);
-            $rootScope.$broadcast('workPackageRefreshRequired', updatedWorkPackage);
+      this.updateWorkPackageForm()
+        .then(function () {
+          WorkPackageService.updateWorkPackage(EditableFieldsState.workPackage)
+            .then(function (updatedWorkPackage) {
 
-            EditableFieldsState.errors = null;
-            EditableFieldsState.currentField = null;
-            EditableFieldsState.editAll.stop();
+              $rootScope.$broadcast('workPackageUpdatedInEditor', updatedWorkPackage);
+              $rootScope.$broadcast('uploadPendingAttachments', updatedWorkPackage);
+              $rootScope.$broadcast('workPackageRefreshRequired', updatedWorkPackage);
 
-            deferred.resolve(updatedWorkPackage);
-          })
+              EditableFieldsState.errors = null;
+              EditableFieldsState.currentField = null;
+              EditableFieldsState.editAll.stop();
 
-          .catch(function (errors) {
-            EditableFieldsState.isBusy = false;
-            EditableFieldsState.errors = {
-              _common: ApiHelper.getErrorMessages(errors)
-            };
-            deferred.reject(errors);
-          });
-        });
+              deferred.resolve(updatedWorkPackage);
+            })
+            .catch(handleErrors);
+        })
+        .catch(handleErrors);
 
       return deferred.promise;
     },
@@ -94,9 +95,7 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
           }
         })
 
-        .catch(function(errors) {
-          deferred.reject(errors);
-        });
+        .catch(deferred.reject);
 
       return deferred.promise;
     }
