@@ -55,6 +55,13 @@
     & > .inplace-edit--date-picker
       @extend %inline-date-picker-container-position-absolute
       left: 0
+
+  &.attribute-date
+    .inplace-edit--read-value
+      span
+        display: inline-block
+        vertical-align: middle
+
   .inplace-edit--date-range
     display: table
     width: 100%
@@ -65,6 +72,8 @@
     & > .delimeter
       padding-right: 5px
       padding-left: 5px
+      text-align: center
+      vertical-align: middle
     & > .inplace-edit--date-range-start-date-picker
       @extend %inline-date-picker-container-position-absolute
       left: 0
@@ -284,15 +293,12 @@ a.inplace-editing--trigger-link,
 .inplace-edit.attribute-description
 
   .inplace-edit--write
-    margin-top: -48px
+    margin-top: -10px
+
     // for non-textile description we need to not overlap the 'Description' header
     // which in textile is shown due to edit buttons on the right side
     &.edit-strategy-textarea
       margin-top: auto
-
-    .work-packages--details &
-      margin-top: 0
-
 
 // Explicit styles for input-esque trigger appearance
 .work-packages--activity--add-comment,
