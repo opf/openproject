@@ -19,7 +19,7 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<div id="block_<%= block_name %>" class="mypage-box">
+<div id="block_<%= block_name %>" class="widget-box">
 
   <% block_name_id = "my_page_#{block_name}_box_actions" %>
   <% content_for block_name_id do %>
@@ -28,7 +28,7 @@ See doc/COPYRIGHT.md for more details.
       <%= link_to_remote '', {
             confirm: l(:label_confirm_delete),
             url: { action: "remove_block", block: block_name },
-            html: { class: "icon icon-delete", title: l(:button_delete) }
+            html: { class: "icon icon-close", title: l(:button_delete) }
           }
           %>
       <% end %>
@@ -36,8 +36,6 @@ See doc/COPYRIGHT.md for more details.
   <% end %>
 
   <div class="handle">
-    <div class="wiki">
-      <%= render partial: "my_projects_overviews/blocks/#{block_name}", locals: { block_name_id: block_name_id } %>
-    </div>
+    <%= render partial: "my_projects_overviews/blocks/#{block_name}", locals: { block_name_id: block_name_id } %>
   </div>
 </div>

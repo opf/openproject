@@ -18,14 +18,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.md for more details.
 
 ++#%>
-<div class="wiki">
-  <h3><%= block_title || l(:label_custom_element) %></h3>
-  <% if defined? block_name %>
-    <%= content_for block_name %>
-    <div id="<%= block_name %>-text">
-      <%= textilizable(textile, :object => overview) %>
-    </div>
-  <% else %>
+
+<h3 class="widget-box--header">
+  <span class="widget-box--header-title"><%= block_title || l(:label_custom_element) %></span>
+</h3>
+
+<% if defined? block_name %>
+  <%= content_for block_name %>
+<% end %>
+
+<% if defined? block_name %>
+  <div id="<%= block_name %>-text">
     <%= textilizable(textile, :object => overview) %>
-  <% end %>
-</div>
+  </div>
+<% else %>
+  <%= textilizable(textile, :object => overview) %>
+<% end %>

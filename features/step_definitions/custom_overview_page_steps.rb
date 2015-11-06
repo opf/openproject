@@ -43,9 +43,9 @@ Then /^I should be able to change things and see my changes when I finish$/ do
   !60.times{ break unless (driver.find_element(:css, "#ajax-indicator").displayed? rescue true); sleep 1 }
   (driver.find_elements(:css, "#block-select > option[value='wiki'][disabled]").size).should == 0
   driver.find_element(:link, "Back").click
-  driver.find_element(:css, "#list-top > .mypage-box > .issues.overview").should be_displayed
-  driver.find_element(:css, "#list-top > .mypage-box > .total-hours").should be_displayed
-  (driver.find_elements(:css, "#list-left > .mypage-box > .wiki").size).should == 0
+  driver.find_element(:css, "#list-top > .widget-box > .issues.overview").should be_displayed
+  driver.find_element(:css, "#list-top > .widget-box > .total-hours").should be_displayed
+  (driver.find_elements(:css, "#list-left > .widget-box > .wiki").size).should == 0
 end
 
 Then /^I should be able to add a teaser element with custom text$/ do
@@ -70,12 +70,12 @@ Then /^I should be able to add a teaser element with custom text$/ do
   (driver.find_element(:css, "#list-right > #block_a > .handle > #a-preview-div > p").text).should == "NewContent"
   (driver.find_element(:css, "#list-right > #block_a > .handle > #a-preview-div > h2").text).should == "NewTitle"
   driver.find_element(:link, "Back").click
-  (driver.find_element(:css, "#list-right > .mypage-box > p").text).should == "NewContent"
+  (driver.find_element(:css, "#list-right > .widget-box > p").text).should == "NewContent"
 end
 
 Then /^I should be able to delete a teaser element$/ do
   driver.find_element(:css, "#block_a > div > a.icon.icon-delete").click
   # ERROR: Caught exception [ERROR: Unsupported command [getConfirmation]]
   driver.find_element(:link, "Back").click
-  (driver.find_elements(:css, "#list-right > .mypage-box > p").size).should == 0
+  (driver.find_elements(:css, "#list-right > .widget-box > p").size).should == 0
 end

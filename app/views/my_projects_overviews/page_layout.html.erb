@@ -41,7 +41,7 @@ See doc/COPYRIGHT.md for more details.
 
 
 <h4><%=l(:label_visible_elements) %></h4>
-<div id="visible-grid">
+<div id="visible-grid" class="widget-boxes">
   <% top_fields.each do |f| %>
     <%= grid_field f %>
   <% end %>
@@ -54,9 +54,11 @@ See doc/COPYRIGHT.md for more details.
 </div>
 
 <h4><%=l(:label_hidden_elements) %></h4>
-<% hidden_fields.each do |f| %>
-  <%= grid_field f %>
-<% end %>
+<div class="widget-boxes">
+  <% hidden_fields.each do |f| %>
+    <%= grid_field f %>
+  <% end %>
+</div>
 
 <h4><%= l(:label_file_plural) %></h4>
 <div class="attachments" id="page_layout_attachments">
