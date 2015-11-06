@@ -48,11 +48,13 @@ $filters--border-color: $gray !default
 
     .simple-filters--filter
       flex-basis: 33.33%
+      max-width: 33.33%
       padding: 0 1rem 0 0
 
     &.-label-columns-3
       .simple-filters--filter
         flex-basis: 25%
+        max-width: 25%
 
 .simple-filters--filters
   @extend .advanced-filters--filters
@@ -84,7 +86,7 @@ $filters--border-color: $gray !default
     .simple-filters--filter-value
       flex-basis: 75%
       // important for consistent padding between input and select fields
-      padding: 0.375rem
+      padding-right: 0.375rem
 
     .form--radio-button-container
       margin-right: 20px
