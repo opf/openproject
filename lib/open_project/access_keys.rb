@@ -36,7 +36,8 @@ module OpenProject
                    project_search: '5',
                    help: '6',
                    more_menu: '7',
-                   details: '8'
+                   details: '8',
+                   new_project: '9'
                  }.freeze unless const_defined?(:ACCESSKEYS)
 
     def self.key_for(action)
