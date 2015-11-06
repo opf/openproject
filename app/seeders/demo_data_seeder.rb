@@ -32,6 +32,7 @@ class DemoDataSeeder
     DemoData::CustomFieldSeeder.seed!(project)
     DemoData::WikiSeeder.seed!(project)
     DemoData::WorkPackageSeeder.new(project).seed!
+    DemoData::QuerySeeder.seed!(project)
 
     puts "\n\n"
     puts ' ###############################'
@@ -40,6 +41,7 @@ class DemoDataSeeder
     puts " #  %02d %-22s  #" % [1, 'project created.']
     puts " #  %02d %-22s  #" % [WorkPackage.where(project_id: project.id).count, 'issues created.']
     puts " #  %02d %-22s  #" % [WikiContent.joins(page: [:wiki]).where('wikis.project_id = ?', project.id).count, 'wiki created.']
+    puts " #  %02d %-22s  #" % [Query.where(user_id: User.admin.first).count, 'quieries created.']
     puts " ###############################\n\n"
   end
 end
