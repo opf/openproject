@@ -119,10 +119,6 @@ td.comment input {
   margin: 1rem 1rem 1rem 0.1rem;
 }
 
-.budget-table--add-button{
-  margin-top: 5px;
-}
-
 table.progress td.exceeded { background: #E1B9B9 none repeat scroll 0%; }
 
 fieldset#group-by table { border-collapse: collapse; }
