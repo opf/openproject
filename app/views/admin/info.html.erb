@@ -30,32 +30,33 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title(l(:label_administration), l(:label_information_plural)) -%>
 
 <%= toolbar title: I18n.t('label_information_plural') %>
-<%= call_hook(:view_admin_info_top) %>
 
-<%= content_tag :h3, I18n.t('label_core_version') %>
-<p><strong><%= OpenProject::Info.versioned_name %></strong> (<%= @db_adapter_name %>)</p>
+<div class="attributes-group">
+  <dl class="attributes-key-value">
+    <%= call_hook(:view_admin_info_top) %>
+    <dt class="attributes-key-value--key"><%= l(:label_core_version) %></dt>
+    <dd class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span><strong><%= OpenProject::Info.versioned_name %></strong> (<%= @db_adapter_name %>)</span>
+      </div>
+    </dd>
+  </dl>
+</div>
 
 <%= content_tag :h3, I18n.t('label_system') %>
 
-<div class="generic-table--container">
-  <div class="generic-table--results-container">
-    <table interactive-table role="grid" class="generic-table">
-      <colgroup>
-        <col>
-        <col>
-      </colgroup>
-      <tbody>
-        <% @checklist.each do |label, result| %>
-          <tr>
-            <td><%= l(label) %></td>
-            <td><%= icon_wrapper((result ? 'icon-context icon-yes' : 'icon-context icon-error'), (result ? l(:general_text_Yes) : l(:general_text_No))) %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <div class="generic-table--header-background"></div>
-  </div>
- </div>
+<div class="attributes-group">
+  <dl class="attributes-key-value">
+    <% @checklist.each do |label, result| %>
+      <dt class="attributes-key-value--key"><%= l(label) %></dt>
+      <dd class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= icon_wrapper((result ? 'icon-context icon-yes' : 'icon-context icon-error'), (result ? l(:general_text_Yes) : l(:general_text_No))) %></span>
+        </div>
+      </dd>
+    <% end %>
+  </dl>
+</div>
 
 <%= content_tag :h3, I18n.t('label_system_storage') %>
 
@@ -70,12 +71,12 @@ See doc/COPYRIGHT.rdoc for more details.
     <dt class="attributes-key-value--key"><%= l(:label_storage_for) %></dt>
     <dd class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -text">
-        <p>
+        <span>
           <% entries[:labels].each do |l| %>
             <%= l %>
             <br/>
           <% end %>
-        </p>
+        </span>
       </div>
     </dd>
     <dt class="attributes-key-value--key"><%= l(:label_storage_free_space) %></dt>
