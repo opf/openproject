@@ -54,11 +54,13 @@ module.exports = function(I18n, WorkPackageService) {
       if (scope.isWatched) {
         scope.buttonTitle = I18n.t('js.label_unwatch_work_package');
         scope.buttonText = I18n.t('js.label_unwatch');
+        scope.buttonClass = 'button -active';
         scope.buttonId = 'unwatch-button';
         scope.watchIconClass = 'icon-watch-1';
       } else {
         scope.buttonTitle = I18n.t('js.label_watch_work_package');
         scope.buttonText = I18n.t('js.label_watch');
+        scope.buttonClass = 'button';
         scope.buttonId = 'watch-button';
         scope.watchIconClass = 'icon-not-watch';
       }
