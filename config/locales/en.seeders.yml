@@ -107,18 +107,21 @@ en:
             type_name: :default_type_feature
             start: 14
             duration: 26
+            version: Sprint 1
 
           - subject: Great feature
             status_name: :default_status_developed
             type_name: :default_type_feature
             start: 14
             duration: 11
+            version: Sprint 1
 
           - subject: Best feature
             status_name: :default_status_specified
             type_name: :default_type_feature
             start: 29
             duration: 11
+            version: Sprint 2
 
         - subject: Release public beta
           status_name: :default_status_scheduled

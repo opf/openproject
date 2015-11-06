@@ -52,30 +52,34 @@ module DemoData
 
       work_packages_data.each do |attributes|
         start_date = calculate_start_date(attributes[:start])
+        version    = Version.find_by(name: attributes[:version])
 
         print '.'
         work_package = WorkPackage.create!(
-          project:    project,
-          author:     user,
-          subject:    attributes[:subject],
-          status:     Status.find_by!(name: I18n.t(attributes[:status_name])),
-          type:       Type.find_by!(name: I18n.t(attributes[:type_name])),
-          start_date: start_date,
-          due_date:   calculate_due_date(start_date, attributes[:duration])
+          project:       project,
+          author:        user,
+          subject:       attributes[:subject],
+          status:        Status.find_by!(name: I18n.t(attributes[:status_name])),
+          type:          Type.find_by!(name: I18n.t(attributes[:type_name])),
+          start_date:    start_date,
+          due_date:      calculate_due_date(start_date, attributes[:duration]),
+          fixed_version: version
         )
 
         attributes[:children].each do |child_attributes|
           start_date = calculate_start_date(child_attributes[:start])
+          version    = Version.find_by(name: child_attributes[:version])
 
           print '.'
           child = WorkPackage.create!(
-            project:    project,
-            author:     user,
-            subject:    child_attributes[:subject],
-            status:     Status.find_by!(name: I18n.t(child_attributes[:status_name])),
-            type:       Type.find_by!(name: I18n.t(child_attributes[:type_name])),
-            start_date: start_date,
-            due_date:   calculate_due_date(start_date, child_attributes[:duration])
+            project:       project,
+            author:        user,
+            subject:       child_attributes[:subject],
+            status:        Status.find_by!(name: I18n.t(child_attributes[:status_name])),
+            type:          Type.find_by!(name: I18n.t(child_attributes[:type_name])),
+            start_date:    start_date,
+            due_date:      calculate_due_date(start_date, child_attributes[:duration]),
+            fixed_version: version
           )
 
           child.parent = work_package
