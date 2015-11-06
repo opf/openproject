@@ -22,8 +22,8 @@ GIT
     svg-graph (1.0.2)
 
 GIT
-  remote: git@github.com:finnlabs/openproject-backlogs.git
-  revision: 51a6cf8395085ceae17e3c3abf4b538422dae1de
+  remote: https://github.com/finnlabs/openproject-backlogs.git
+  revision: 9fbeb776bb6093057a9b3be7a98f84e24336e402
   branch: dev
   specs:
     openproject-backlogs (5.0.0.pre.alpha)
@@ -32,15 +32,15 @@ GIT
       rails (~> 4.2.4)
 
 GIT
-  remote: git@github.com:finnlabs/openproject-costs.git
-  revision: 39572aa76581ebb653fbde563db20b74a7023c3a
+  remote: https://github.com/finnlabs/openproject-costs.git
+  revision: 89b57ede0e6749580806d1cf4edb333cb7b0d6e1
   branch: dev
   specs:
     openproject-costs (5.0.0.pre.alpha)
       rails (~> 4.2.4)
 
 GIT
-  remote: git@github.com:finnlabs/openproject-global_roles.git
+  remote: https://github.com/finnlabs/openproject-global_roles.git
   revision: c4cd543c547139adb958ffbd0621bcde97d6fb6b
   branch: dev
   specs:
@@ -48,7 +48,7 @@ GIT
       rails (~> 4.2.4)
 
 GIT
-  remote: git@github.com:finnlabs/openproject-help_link.git
+  remote: https://github.com/finnlabs/openproject-help_link.git
   revision: c346371778796b5f196af9ce8f5dc9eabde430af
   branch: dev
   specs:
@@ -56,7 +56,7 @@ GIT
       rails (~> 4.2.4)
 
 GIT
-  remote: git@github.com:finnlabs/openproject-meeting.git
+  remote: https://github.com/finnlabs/openproject-meeting.git
   revision: e492427dd27a753eee4a429d7bc09695aec2e98a
   branch: dev
   specs:
@@ -64,16 +64,16 @@ GIT
       rails (~> 4.2.4)
 
 GIT
-  remote: git@github.com:finnlabs/openproject-my_project_page.git
-  revision: 680818a7024a238a18e163e1c157843ad0f6a1ce
+  remote: https://github.com/finnlabs/openproject-my_project_page.git
+  revision: 1a58b28e6722bf13976d9f7508d4591e7094b9ff
   branch: dev
   specs:
     openproject-my_project_page (5.0.0.pre.alpha)
       rails (~> 4.2.4)
 
 GIT
-  remote: git@github.com:finnlabs/openproject-pdf_export.git
-  revision: 807859bbfaf30c2d80958e55e7347ee90d23a9f6
+  remote: https://github.com/finnlabs/openproject-pdf_export.git
+  revision: 9b7b0d72ca4c8c21b6fc56845a9fce05f21ea473
   branch: dev
   specs:
     openproject-pdf_export (5.0.0.pre.alpha)
@@ -81,8 +81,8 @@ GIT
       rails (~> 4.2.4)
 
 GIT
-  remote: git@github.com:finnlabs/openproject-reporting.git
-  revision: 9216224a400371277cc8f69bf9b1e37a08670b3f
+  remote: https://github.com/finnlabs/openproject-reporting.git
+  revision: da441f6755e3de687a883ca9da8680b0ad911453
   branch: dev
   specs:
     openproject-reporting (5.0.0.pre.alpha)
@@ -91,29 +91,21 @@ GIT
       reporting_engine (>= 1.1.0)
 
 GIT
-  remote: git@github.com:finnlabs/reporting_engine.git
-  revision: 7decc0aa0a728a5ad6c0fb7e11b0e6c37c6cc435
-  branch: dev
-  specs:
-    reporting_engine (1.2.0)
-      json
-      rails (~> 4.2.4)
-
-GIT
-  remote: git@github.com:opf/openproject-documents.git
-  revision: 0a08433f08b90c107f7335cf1f9ffbb89d2d56fe
-  branch: dev
-  specs:
-    openproject-documents (5.0.0.pre.alpha)
-      rails (~> 4.2.4)
-
-GIT
   remote: https://github.com/finnlabs/rack-protection.git
   revision: 5a7d1bd2f05ca75faf7909c8cc978732a0080898
   ref: 5a7d1bd
   specs:
     rack-protection (1.5.2)
       rack
+
+GIT
+  remote: https://github.com/finnlabs/reporting_engine.git
+  revision: 7decc0aa0a728a5ad6c0fb7e11b0e6c37c6cc435
+  branch: dev
+  specs:
+    reporting_engine (1.2.0)
+      json
+      rails (~> 4.2.4)
 
 GIT
   remote: https://github.com/finnlabs/rspec-example_disabler.git
@@ -128,6 +120,22 @@ GIT
   specs:
     transactional_lock (0.1.0)
       activerecord (>= 4.0)
+
+GIT
+  remote: https://github.com/opf/openproject-documents.git
+  revision: 0a08433f08b90c107f7335cf1f9ffbb89d2d56fe
+  branch: dev
+  specs:
+    openproject-documents (5.0.0.pre.alpha)
+      rails (~> 4.2.4)
+
+GIT
+  remote: https://github.com/opf/openproject-emoji.git
+  revision: cd140c3fdcecf9c67adb85dd972d367464c8544c
+  branch: master
+  specs:
+    openproject-emoji (5.0.0)
+      rails (~> 4.2.4)
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
@@ -162,14 +170,6 @@ GIT
       activemodel (>= 3.0)
       activesupport (>= 3.0)
       rspec-mocks (>= 2.99, < 4.0)
-
-GIT
-  remote: https://github.com/tessi/openproject-emoji.git
-  revision: b82d4b4e9c0ac3fced724857568a6ee5e4a9997e
-  branch: op-5-stable
-  specs:
-    openproject-emoji (5.0.0)
-      rails (~> 4.2.4)
 
 GEM
   remote: https://rubygems.org/
