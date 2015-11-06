@@ -109,7 +109,7 @@ function workPackageComment($timeout, $location, $q, EditableFieldsState,
         ctrl.writeValue
       ).then(function() {
         ctrl.discardEditing();
-        NotificationsService.addSuccess(I18n.t('js.work_packages.comment_added'));
+        NotificationsService.addSuccess(I18n.t('js.notice_successful_update'));
         submit.resolve();
       }, function() {
         NotificationsService.addError(I18n.t('js.work_packages.comment_send_failed'));

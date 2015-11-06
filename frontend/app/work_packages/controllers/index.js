@@ -95,23 +95,6 @@ angular.module('openproject.workPackages.controllers')
     'NotificationsService',
     require('./work-package-details-controller')
   ])
-  .controller('WorkPackageNewController', [
-    '$scope',
-    '$rootScope',
-    '$state',
-    '$stateParams',
-    '$timeout',
-    '$window',
-    'PathHelper',
-    'WorkPackagesOverviewService',
-    'WorkPackageFieldService',
-    'WorkPackageService',
-    'EditableFieldsState',
-    'WorkPackagesDisplayHelper',
-    'NotificationsService',
-    'I18n',
-    require('./work-package-new-controller')
-  ])
   .controller('WorkPackageShowController', [
     '$scope',
     '$rootScope',
