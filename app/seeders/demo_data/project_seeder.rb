@@ -44,7 +44,6 @@ module DemoData
         identifier:   identifier,
         description:  I18n.t('seeders.demo_data.project.description'),
         types:        Type.all,
-        is_public:    true
       )
 
       project.members << Member.create(
@@ -54,18 +53,16 @@ module DemoData
 
       project.enabled_module_names += ['timelines']
 
-      # project's repository
-      Repository::Subversion.create!(
-        project:  project,
-        url:      'file:///tmp/foo/bar.svn',
-        scm_type: 'existing'
-      )
-
       # create a default timeline that shows all our work packages
       timeline = Timeline.create
       timeline.project = project
       timeline.name = I18n.t('seeders.demo_data.timeline.name')
-      timeline.options.merge!(zoom_factor: ['4'])
+      timeline.options = {
+        'zoom_factor' => ['3'],
+        'initial_outline_expansion' => ['2'],
+        'columns' => [:start_date, :due_date, :status]
+      }
+
       timeline.save
 
       # create versions
