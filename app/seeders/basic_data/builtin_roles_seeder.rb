@@ -28,7 +28,7 @@
 #++
 module BasicData
   class BuiltinRolesSeeder < Seeder
-    def seed!
+    def seed_data!
       return unless applicable?
 
       data.each do |attributes|

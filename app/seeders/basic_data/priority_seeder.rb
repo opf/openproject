@@ -28,7 +28,7 @@
 #++
 module BasicData
   class PrioritySeeder < Seeder
-    def seed!
+    def seed_data!
       unless applicable?
         puts '   *** Skipping priorities as there are already some configured'
         return

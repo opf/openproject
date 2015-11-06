@@ -28,7 +28,7 @@
 #++
 module BasicData
   class WorkflowSeeder < Seeder
-    def seed!
+    def seed_data!
       colors = PlanningElementTypeColor.all
       colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
 

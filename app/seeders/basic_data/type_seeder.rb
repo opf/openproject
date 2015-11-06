@@ -28,7 +28,7 @@
 #++
 module BasicData
   class TypeSeeder < Seeder
-    def seed!
+    def seed_data!
       unless applicable?
         '   *** Skipping types - already exists/configured'
       end

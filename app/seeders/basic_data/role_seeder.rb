@@ -28,7 +28,7 @@
 #++
 module BasicData
   class RoleSeeder < Seeder
-    def seed!
+    def seed_data!
       unless applicable?
         puts '   *** Skipping roles as there are already some configured'
         return

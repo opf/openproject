@@ -28,7 +28,7 @@
 #++
 module BasicData
   class ProjectTypeSeeder < Seeder
-    def seed!
+    def seed_data!
       return unless applicable?
 
       ProjectType.transaction do

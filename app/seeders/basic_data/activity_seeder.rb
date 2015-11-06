@@ -28,7 +28,7 @@
 #++
 module BasicData
   class ActivitySeeder < Seeder
-    def seed!
+    def seed_data!
       unless applicable?
         puts '   *** Skipping activities as there are already some configured'
         return

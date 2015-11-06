@@ -28,7 +28,7 @@
 #++
 module BasicData
   class ProjectStatusSeeder < Seeder
-    def seed!
+    def seed_data!
       unless applicable?
         puts '  *** Skipping reported project status as there are already some configured'
         return

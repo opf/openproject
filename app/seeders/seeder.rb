@@ -29,6 +29,10 @@
 
 class Seeder
   def seed!
+    seed_data! if applicable?
+  end
+
+  def seed_data!
     raise NotImplementedError
   end
 

@@ -28,7 +28,7 @@
 #++
 module BasicData
   class StatusSeeder < Seeder
-    def seed!
+    def seed_data!
       unless applicable?
         '   *** Skipping statuses - already exists/configured'
       end

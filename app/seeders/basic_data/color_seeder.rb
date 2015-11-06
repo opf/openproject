@@ -28,7 +28,7 @@
 #++
 module BasicData
   class ColorSeeder < Seeder
-    def seed!
+    def seed_data!
       unless applicable?
         puts '   *** Skipping colors as there are already some configured'
       end
