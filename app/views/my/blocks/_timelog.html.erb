@@ -105,6 +105,7 @@ entries_by_day = entries.group_by(&:spent_on)
             <tr>
               <td><strong><%= day == Date.today ? l(:label_today).titleize : format_date(day) %></strong></td>
               <td></td>
+              <td></td>
               <td class="hours"><em><%= html_hours("%.2f" % entries_by_day[day].sum(&:hours).to_f) %></em></td>
               <td></td>
             </tr>
@@ -114,7 +115,7 @@ entries_by_day = entries.group_by(&:spent_on)
                 <td class="subject"><%=h entry.project %> <%= ' - '.html_safe + link_to_work_package(entry.work_package, truncate: 50) if entry.work_package%></td>
                 <td class="comments"><%=h entry.comments %></td>
                 <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
-                <td>
+                <td class="buttons">
                   <% if entry.editable_by?(@user) -%>
                     <%= link_to icon_wrapper('icon-context icon-edit', l(:button_edit)),
                                 {controller: '/timelog', action: 'edit', id: entry},
