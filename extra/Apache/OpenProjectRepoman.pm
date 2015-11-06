@@ -156,7 +156,7 @@ sub _handle_request {
     repository => $target,
     path => $target,
     # This is only useful in the packager context
-    url => 'file://' + $target
+    url => 'file://' . $target
   };
 }
 
