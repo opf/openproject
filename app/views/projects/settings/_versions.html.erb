@@ -146,6 +146,12 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="generic-table--header-background"></div>
     </div>
   </div>
+  <div class="generic-table--action-buttons">
+        <%= link_to_if_authorized({:controller => '/versions', :action => 'new', :project_id => @project}, class: 'button -alt-highlight') do %>
+          <i class="button--icon icon-add"></i>
+          <span class="button--text"><%= l(:label_version_new) %></span>
+        <% end %>
+  </div>
 <% else %>
   <div class="generic-table--container">
     <div class="generic-table--no-results-container">
@@ -166,4 +172,3 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 </div>
 
-<p><%= link_to_if_authorized l(:label_version_new), :controller => '/versions', :action => 'new', :project_id => @project %></p>

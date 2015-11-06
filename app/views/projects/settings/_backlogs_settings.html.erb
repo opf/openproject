@@ -79,8 +79,10 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="generic-table--header-background"></div>
   </div>
 </div>
+<div class="generic-table--action-buttons">
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
+</div>
 
-<p><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %></p>
 <% end %>
 
 <h3><%=l('backlogs.rebuild_positions')%></h3>
