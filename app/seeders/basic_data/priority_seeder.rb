@@ -27,36 +27,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 module BasicData
-  class PrioritySeeder
-
-    def self.seed!
-      if IssuePriority.any?
+  class PrioritySeeder < Seeder
+    def seed!
+      unless applicable?
         puts '   *** Skipping priorities as there are already some configured'
-      else
-        IssuePriority.transaction do
-          IssuePriority.new.tap do |priority|
-            priority.name = I18n.t(:default_priority_low)
-            priority.position = 1
-          end.save!
+        return
+      end
 
-          IssuePriority.new.tap do |priority|
-            priority.name = I18n.t(:default_priority_normal)
-            priority.position = 2
-            priority.is_default = true
-          end.save!
-
-          IssuePriority.new.tap do |priority|
-            priority.name = I18n.t(:default_priority_high)
-            priority.position = 3
-          end.save!
-
-          IssuePriority.new.tap do |priority|
-            priority.name = I18n.t(:default_priority_immediate)
-            priority.position = 4
-          end.save!
+      IssuePriority.transaction do
+        data.each do |attributes|
+          IssuePriority.create!(attributes)
         end
       end
     end
 
+    def applicable?
+      IssuePriority.all.empty?
+    end
+
+    def data
+      [
+        { name: I18n.t(:default_priority_low),       position: 1, is_default: false },
+        { name: I18n.t(:default_priority_normal),    position: 2, is_default: true  },
+        { name: I18n.t(:default_priority_high),      position: 3, is_default: false },
+        { name: I18n.t(:default_priority_immediate), position: 4, is_default: false }
+      ]
+    end
   end
 end

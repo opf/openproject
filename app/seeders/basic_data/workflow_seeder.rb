@@ -27,9 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 module BasicData
-  class WorkflowSeeder
-
-    def self.seed!
+  class WorkflowSeeder < Seeder
+    def seed!
       colors = PlanningElementTypeColor.all
       colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
 
@@ -84,309 +83,60 @@ module BasicData
 
         puts '   *** Skipping types, statuses and workflows as the required roles do not exist'
       else
+        member = Role.where(name: I18n.t(:default_role_member)).first
+        manager = Role.where(name: I18n.t(:default_role_project_admin)).first
 
-        Type.transaction do
-          task = Type.new.tap do |type|
-            type.name = I18n.t(:default_type_task)
-            type.color_id = colors[I18n.t(:default_color_grey)]
-            type.is_default = true
-            type.is_in_roadmap = true
-            type.in_aggregation = false
-            type.is_milestone = false
-            type.position = 1
-          end
+        puts '   ↳ Types'
+        TypeSeeder.new.seed!
 
-          task.save!
+        puts '   ↳ Statuses'
+        StatusSeeder.new.seed!
 
-          milestone = Type.new.tap do |type|
-            type.name = I18n.t(:default_type_milestone)
-            type.color_id = colors[I18n.t(:default_color_green_light)]
-            type.is_default = false
-            type.is_in_roadmap = false
-            type.in_aggregation = true
-            type.is_milestone = true
-            type.position = 2
-          end
-
-          milestone.save!
-
-          phase = Type.new.tap do |type|
-            type.name = I18n.t(:default_type_phase)
-            type.color_id = colors[I18n.t(:default_color_blue_dark)]
-            type.is_default = false
-            type.is_in_roadmap = false
-            type.in_aggregation = true
-            type.is_milestone = false
-            type.position = 3
-          end
-
-          phase.save!
-
-          feature = Type.new.tap do |type|
-            type.name = I18n.t(:default_type_feature)
-            type.color_id = colors[I18n.t(:default_color_blue)]
-            type.is_default = false
-            type.is_in_roadmap = true
-            type.in_aggregation = false
-            type.is_milestone = false
-            type.position = 4
-          end
-
-          feature.save!
-
-          epic = Type.new.tap do |type|
-            type.name = I18n.t(:default_type_epic)
-            type.color_id = colors[I18n.t(:default_color_orange)]
-            type.is_default = false
-            type.is_in_roadmap = true
-            type.in_aggregation = true
-            type.is_milestone = false
-            type.position = 5
-          end
-
-          epic.save!
-
-          user_story = Type.new.tap do |type|
-            type.name = I18n.t(:default_type_user_story)
-            type.color_id = colors[I18n.t(:default_color_grey_dark)]
-            type.is_default = false
-            type.is_in_roadmap = true
-            type.in_aggregation = false
-            type.is_milestone = false
-            type.position = 6
-          end
-
-          user_story.save!
-
-          bug = Type.new.tap do |type|
-            type.name = I18n.t(:default_type_bug)
-            type.is_default = false
-            type.color_id = colors[I18n.t(:default_color_red)]
-            type.is_in_roadmap = true
-            type.in_aggregation = false
-            type.is_milestone = false
-            type.position = 7
-          end
-
-          bug.save!
-
-          new = Status.new.tap do |type|
-            type.name = I18n.t(:default_status_new)
-            type.is_closed = false
-            type.is_default = true
-            type.position = 1
-          end
-
-          new.save!
-
-          in_specification = Status.new.tap do |type|
-            type.name = I18n.t(:default_status_in_specification)
-            type.is_closed = false
-            type.is_default = false
-            type.position = 2
-          end
-
-          in_specification.save!
-
-          specified = Status.new.tap do |type|
-            type.name = I18n.t(:default_status_specified)
-            type.is_closed = false
-            type.is_default = false
-            type.position = 3
-          end
-
-          specified.save!
-
-          confirmed = Status.new.tap do |type|
-            type.name = I18n.t(:default_status_confirmed)
-            type.is_closed = false
-            type.is_default = false
-            type.position = 4
-          end
-
-          confirmed.save!
-
-          to_be_scheduled = Status.new.tap do |type|
-            type.name = I18n.t(:default_status_to_be_scheduled)
-            type.is_closed = false
-            type.is_default = false
-            type.position = 5
-          end
-
-          to_be_scheduled.save!
-
-          scheduled = Status.new.tap do |type|
-            type.name = I18n.t(:default_status_scheduled)
-            type.is_closed = false
-            type.is_default = false
-            type.position = 6
-          end
-
-          scheduled.save!
-
-          in_progress = Status.new.tap do |type|
-            type.name = I18n.t(:default_status_in_progress)
-            type.is_closed = false
-            type.is_default = false
-            type.position = 7
-          end
-
-          in_progress.save!
-
-          in_development = Status.new.tap do |type|
-            type.name = I18n.t(:default_status_in_development)
-            type.is_closed = false
-            type.is_default = false
-            type.position = 8
-          end
-
-          in_development.save!
-
-          developed = Status.new.tap do |type|
-            type.name = I18n.t(:default_status_developed)
-            type.is_closed = false
-            type.is_default = false
-            type.position = 9
-          end
-
-          developed.save!
-
-          in_testing = Status.new.tap do |type|
-            type.name = I18n.t(:default_status_in_testing)
-            type.is_closed = false
-            type.is_default = false
-            type.position = 10
-          end
-
-          in_testing.save!
-
-          tested = Status.new.tap do |type|
-            type.name = I18n.t(:default_status_tested)
-            type.is_closed = false
-            type.is_default = false
-            type.position = 11
-          end
-
-          tested.save!
-
-          test_failed = Status.new.tap do |type|
-            type.name = I18n.t(:default_status_test_failed)
-            type.is_closed = false
-            type.is_default = false
-            type.position = 12
-          end
-
-          test_failed.save!
-
-          closed = Status.new.tap do |type|
-            type.name = I18n.t(:default_status_closed)
-            type.is_closed = true
-            type.is_default = false
-            type.position = 13
-          end
-
-          closed.save!
-
-          on_hold = Status.new.tap do |type|
-            type.name = I18n.t(:default_status_on_hold)
-            type.is_closed = false
-            type.is_default = false
-            type.position = 14
-          end
-
-          on_hold.save!
-
-          rejected = Status.new.tap do |type|
-            type.name = I18n.t(:default_status_rejected)
-            type.is_default = false
-            type.is_closed = true
-            type.position = 15
-          end
-
-          rejected.save!
-
-          member = Role.where(name: I18n.t(:default_role_member)).first
-          manager = Role.where(name: I18n.t(:default_role_project_admin)).first
-
-          # Workflow - Each type has its own workflow
-          workflows = { task.id =>       [new,
-                                          in_progress,
-                                          on_hold,
-                                          rejected,
-                                          closed],
-                        milestone.id =>  [new,
-                                          to_be_scheduled,
-                                          scheduled,
-                                          in_progress,
-                                          on_hold,
-                                          rejected,
-                                          closed],
-                        phase.id =>      [new,
-                                          to_be_scheduled,
-                                          scheduled,
-                                          in_progress,
-                                          on_hold,
-                                          rejected,
-                                          closed],
-                        feature.id =>    [new,
-                                          in_specification,
-                                          specified,
-                                          in_development,
-                                          developed,
-                                          in_testing,
-                                          tested,
-                                          test_failed,
-                                          on_hold,
-                                          rejected,
-                                          closed],
-                        epic.id =>       [new,
-                                          in_specification,
-                                          specified,
-                                          in_development,
-                                          developed,
-                                          in_testing,
-                                          tested,
-                                          test_failed,
-                                          on_hold,
-                                          rejected,
-                                          closed],
-                        user_story.id => [new,
-                                          in_specification,
-                                          specified,
-                                          in_development,
-                                          developed,
-                                          in_testing,
-                                          tested,
-                                          test_failed,
-                                          on_hold,
-                                          rejected,
-                                          closed],
-                        bug.id =>        [new,
-                                          confirmed,
-                                          in_development,
-                                          developed,
-                                          in_testing,
-                                          tested,
-                                          test_failed,
-                                          on_hold,
-                                          rejected,
-                                          closed] }
-
-          workflows.each { |type_id, statuses_for_type|
-            statuses_for_type.each { |old_status|
-              statuses_for_type.each { |new_status|
-                [manager.id, member.id].each { |role_id|
-                  Workflow.create type_id: type_id,
-                                  role_id: role_id,
-                                  old_status_id: old_status.id,
-                                  new_status_id: new_status.id
-                }
+        # Workflow - Each type has its own workflow
+        workflows.each { |type_id, statuses_for_type|
+          statuses_for_type.each { |old_status|
+            statuses_for_type.each { |new_status|
+              [manager.id, member.id].each { |role_id|
+                Workflow.create type_id: type_id,
+                                role_id: role_id,
+                                old_status_id: old_status.id,
+                                new_status_id: new_status.id
               }
             }
           }
-        end
+        }
       end
     end
 
+    def workflows
+      types = Type.all
+      types = types.map { |t| { t.name =>  t.id } }.reduce({}, :merge)
+
+      new              = Status.find_by(name: I18n.t(:default_status_new))
+      in_specification = Status.find_by(name: I18n.t(:default_status_in_specification))
+      specified        = Status.find_by(name: I18n.t(:default_status_specified))
+      confirmed        = Status.find_by(name: I18n.t(:default_status_confirmed))
+      to_be_scheduled  = Status.find_by(name: I18n.t(:default_status_to_be_scheduled))
+      scheduled        = Status.find_by(name: I18n.t(:default_status_scheduled))
+      in_progress      = Status.find_by(name: I18n.t(:default_status_in_progress))
+      in_development   = Status.find_by(name: I18n.t(:default_status_in_development))
+      developed        = Status.find_by(name: I18n.t(:default_status_developed))
+      in_testing       = Status.find_by(name: I18n.t(:default_status_in_testing))
+      tested           = Status.find_by(name: I18n.t(:default_status_tested))
+      test_failed      = Status.find_by(name: I18n.t(:default_status_test_failed))
+      closed           = Status.find_by(name: I18n.t(:default_status_closed))
+      on_hold          = Status.find_by(name: I18n.t(:default_status_on_hold))
+      rejected         = Status.find_by(name: I18n.t(:default_status_rejected))
+
+      {
+        types[I18n.t(:default_type_task)]       => [new, in_progress, on_hold, rejected, closed],
+        types[I18n.t(:default_type_milestone)]  => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
+        types[I18n.t(:default_type_phase)]      => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
+        types[I18n.t(:default_type_feature)]    => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
+        types[I18n.t(:default_type_epic)]       => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
+        types[I18n.t(:default_type_user_story)] => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
+        types[I18n.t(:default_type_bug)]        => [new, confirmed, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed]
+      }
+    end
   end
 end

@@ -27,31 +27,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 module BasicData
-  class ProjectTypeSeeder
+  class ProjectTypeSeeder < Seeder
+    def seed!
+      return unless applicable?
 
-    def self.seed!
-      if ProjectType.any?
-        puts '   *** Skipping project types as there are already some configured'
-      elsif !ReportedProjectStatus.any?
-        puts '   *** Skipping project types as it required to have reported project status'
-      else
-
-        ProjectType.transaction do
-          ProjectType.new.tap do |type|
-            type.name = I18n.t(:default_project_type_scrum)
-          end.save!
-
-          ProjectType.new.tap do |type|
-            type.name = I18n.t(:default_project_type_standard)
-          end.save!
-
-          reported_status_ids = ReportedProjectStatus.pluck(:id)
-          ProjectType.all.each { |project_type|
-            project_type.update_attributes(reported_project_status_ids: reported_status_ids)
-          }
+      ProjectType.transaction do
+        data.each do |attributes|
+          ProjectType.create!(attributes)
         end
       end
     end
 
+    def applicable?
+      if ProjectType.any?
+        puts '   *** Skipping project types as there are already some configured'
+        return false
+      end
+
+      if ReportedProjectStatus.all.empty?
+        puts '   *** Skipping project types as it required to have reported project status'
+        return false
+      end
+
+      true
+    end
+
+    def data
+      [
+        { name: I18n.t(:default_project_type_scrum),    reported_project_status_ids: ReportedProjectStatus.pluck(:id) },
+        { name: I18n.t(:default_project_type_standard), reported_project_status_ids: ReportedProjectStatus.pluck(:id) }
+      ]
+    end
   end
 end

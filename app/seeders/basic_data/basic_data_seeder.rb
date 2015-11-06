@@ -28,32 +28,30 @@
 #++
 module BasicData
   class BasicDataSeeder
-
     def self.seed!
       puts ' ↳ Builtin Roles'
-      BuiltinRolesSeeder.seed!
+      BuiltinRolesSeeder.new.seed!
 
       puts ' ↳ Roles'
-      RoleSeeder.seed!
+      RoleSeeder.new.seed!
 
       puts ' ↳ Activities'
-      ActivitySeeder.seed!
+      ActivitySeeder.new.seed!
 
       puts ' ↳ Colors'
-      ColorSeeder.seed!
+      ColorSeeder.new.seed!
 
       puts ' ↳ Workflows'
-      WorkflowSeeder.seed!
+      WorkflowSeeder.new.seed!
 
       puts ' ↳ Priorities'
-      PrioritySeeder.seed!
+      PrioritySeeder.new.seed!
 
       puts ' ↳ ProjectStatuses'
-      ProjectStatusSeeder.seed!
+      ProjectStatusSeeder.new.seed!
 
       puts ' ↳ ProjectTypes'
-      ProjectTypeSeeder.seed!
+      ProjectTypeSeeder.new.seed!
     end
-
   end
 end

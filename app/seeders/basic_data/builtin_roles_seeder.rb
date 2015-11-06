@@ -27,27 +27,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 module BasicData
-  class BuiltinRolesSeeder
+  class BuiltinRolesSeeder < Seeder
+    def seed!
+      return unless applicable?
 
-    def self.seed!
-      if Role.find_by(builtin: Role::BUILTIN_NON_MEMBER).nil?
-        role = Role.new
+      data.each do |attributes|
+        unless Role.find_by(builtin: attributes[:builtin]).nil?
+          puts "   *** Skipping built in role #{attributes[:name]} - already exists"
+          next
+        end
 
-        role.name = 'Non member'
-        role.position = 0
-        role.builtin = Role::BUILTIN_NON_MEMBER
-        role.save!
-      end
-
-      if Role.find_by(builtin: Role::BUILTIN_ANONYMOUS).nil?
-        role = Role.new
-
-        role.name = 'Anonymous'
-        role.position = 1
-        role.builtin = Role::BUILTIN_ANONYMOUS
-        role.save!
+        Role.create(attributes)
       end
     end
 
+    def data
+      [
+        {name: 'Non member', position: 0, builtin: Role::BUILTIN_NON_MEMBER },
+        {name: 'Anonymous',  position: 1, builtin: Role::BUILTIN_ANONYMOUS  }
+      ]
+    end
   end
 end

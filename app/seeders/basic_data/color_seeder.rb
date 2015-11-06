@@ -27,57 +27,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 module BasicData
-  class ColorSeeder
-
-    def self.seed!
-      if PlanningElementTypeColor.any?
+  class ColorSeeder < Seeder
+    def seed!
+      unless applicable?
         puts '   *** Skipping colors as there are already some configured'
-      else
-        PlanningElementTypeColor.transaction do
-          PlanningElementTypeColor.create(name: I18n.t(:default_color_blue_dark),
-                                          hexcode: '#06799F')
+      end
 
-          PlanningElementTypeColor.create(name: I18n.t(:default_color_blue),
-                                          hexcode: '#3493B3')
-
-          PlanningElementTypeColor.create(name: I18n.t(:default_color_blue_light),
-                                          hexcode: '#00B0F0')
-
-          PlanningElementTypeColor.create(name: I18n.t(:default_color_green_light),
-                                          hexcode: '#35C53F')
-
-          PlanningElementTypeColor.create(name: I18n.t(:default_color_green_dark),
-                                          hexcode: '#339933')
-
-          PlanningElementTypeColor.create(name: I18n.t(:default_color_yellow),
-                                          hexcode: '#FFFF00')
-
-          PlanningElementTypeColor.create(name: I18n.t(:default_color_orange),
-                                          hexcode: '#FFCC00')
-
-          PlanningElementTypeColor.create(name: I18n.t(:default_color_red),
-                                          hexcode: '#FF3300')
-
-          PlanningElementTypeColor.create(name: I18n.t(:default_color_magenta),
-                                          hexcode: '#E20074')
-
-          PlanningElementTypeColor.create(name: I18n.t(:default_color_white),
-                                          hexcode: '#FFFFFF')
-
-          PlanningElementTypeColor.create(name: I18n.t(:default_color_grey_light),
-                                          hexcode: '#F8F8F8')
-
-          PlanningElementTypeColor.create(name: I18n.t(:default_color_grey),
-                                          hexcode: '#EAEAEA')
-
-          PlanningElementTypeColor.create(name: I18n.t(:default_color_grey_dark),
-                                          hexcode: '#878787')
-
-          PlanningElementTypeColor.create(name: I18n.t(:default_color_black),
-                                          hexcode: '#000000')
+      PlanningElementTypeColor.transaction do
+        data.each do |attributes|
+          PlanningElementTypeColor.create(attributes)
         end
       end
     end
 
+    def applicable?
+      PlanningElementTypeColor.all.empty?
+    end
+
+    def data
+      [
+        { name: I18n.t(:default_color_blue_dark),   hexcode: '#06799F' },
+        { name: I18n.t(:default_color_blue),        hexcode: '#3493B3' },
+        { name: I18n.t(:default_color_blue_light),  hexcode: '#00B0F0' },
+        { name: I18n.t(:default_color_green_light), hexcode: '#35C53F' },
+        { name: I18n.t(:default_color_green_dark),  hexcode: '#339933' },
+        { name: I18n.t(:default_color_yellow),      hexcode: '#FFFF00' },
+        { name: I18n.t(:default_color_orange),      hexcode: '#FFCC00' },
+        { name: I18n.t(:default_color_red),         hexcode: '#FF3300' },
+        { name: I18n.t(:default_color_magenta),     hexcode: '#E20074' },
+        { name: I18n.t(:default_color_white),       hexcode: '#FFFFFF' },
+        { name: I18n.t(:default_color_grey_light),  hexcode: '#F8F8F8' },
+        { name: I18n.t(:default_color_grey),        hexcode: '#EAEAEA' },
+        { name: I18n.t(:default_color_grey_dark),   hexcode: '#878787' },
+        { name: I18n.t(:default_color_black),       hexcode: '#000000' }
+      ]
+    end
   end
 end

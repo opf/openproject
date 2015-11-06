@@ -26,31 +26,13 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-module BasicData
-  class ProjectStatusSeeder < Seeder
-    def seed!
-      unless applicable?
-        puts '  *** Skipping reported project status as there are already some configured'
-        return
-      end
 
-      ReportedProjectStatus.transaction do
-        data.each do |attributes|
-          ReportedProjectStatus.create!(attributes)
-        end
-      end
-    end
+class Seeder
+  def seed!
+    raise NotImplementedError
+  end
 
-    def applicable?
-      ReportedProjectStatus.all.empty?
-    end
-
-    def data
-      [
-        { name: I18n.t(:default_reported_project_status_green), is_default: true  },
-        { name: I18n.t(:default_reported_project_status_amber), is_default: false },
-        { name: I18n.t(:default_reported_project_status_red),   is_default: false }
-      ]
-    end
+  def applicable?
+    true
   end
 end

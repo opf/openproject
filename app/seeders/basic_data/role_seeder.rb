@@ -27,110 +27,137 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 module BasicData
-  class RoleSeeder
-
-    def self.seed!
-      if Role.where(builtin: false).any?
+  class RoleSeeder < Seeder
+    def seed!
+      unless applicable?
         puts '   *** Skipping roles as there are already some configured'
-      else
-        Role.transaction do
-          Role.new.tap do |role|
-            role.name = I18n.t(:default_role_project_admin)
-            role.position = 3
-            role.permissions = Role.new.setable_permissions.map(&:name)
-          end.save!
-
-          Role.new.tap do |role|
-            role.name = I18n.t(:default_role_member)
-            role.position = 4
-            role.permissions = [:view_work_packages,
-                                :export_work_packages,
-                                :add_work_packages,
-                                :move_work_packages,
-                                :edit_work_packages,
-                                :add_work_package_notes,
-                                :edit_own_work_package_notes,
-                                :manage_work_package_relations,
-                                :manage_subtasks,
-                                :manage_public_queries,
-                                :save_queries,
-                                :view_work_package_watchers,
-                                :add_work_package_watchers,
-                                :delete_work_package_watchers,
-                                :view_calendar,
-                                :comment_news,
-                                :log_time,
-                                :view_time_entries,
-                                :view_own_time_entries,
-                                :manage_project_activities,
-                                :edit_own_time_entries,
-                                :view_project_associations,
-                                :view_timelines,
-                                :edit_timelines,
-                                :delete_timelines,
-                                :view_reportings,
-                                :edit_reportings,
-                                :delete_reportings,
-                                :manage_wiki,
-                                :manage_wiki_menu,
-                                :rename_wiki_pages,
-                                :change_wiki_parent_page,
-                                :delete_wiki_pages,
-                                :view_wiki_pages,
-                                :export_wiki_pages,
-                                :view_wiki_edits,
-                                :edit_wiki_pages,
-                                :delete_wiki_pages_attachments,
-                                :protect_wiki_pages,
-                                :list_attachments,
-                                :add_messages,
-                                :edit_own_messages,
-                                :delete_own_messages,
-                                :browse_repository,
-                                :view_changesets,
-                                :commit_access,
-                                :view_commit_author_statistics,
-                                :view_members]
-          end.save!
-
-          Role.new.tap do |reader|
-            reader.name = I18n.t(:default_role_reader)
-            reader.position =  5
-            reader.permissions = [:view_work_packages,
-                                  :add_work_package_notes,
-                                  :edit_own_work_package_notes,
-                                  :save_queries,
-                                  :view_calendar,
-                                  :comment_news,
-                                  :view_project_associations,
-                                  :view_timelines,
-                                  :view_reportings,
-                                  :view_wiki_pages,
-                                  :export_wiki_pages,
-                                  :list_attachments,
-                                  :add_messages,
-                                  :edit_own_messages,
-                                  :delete_own_messages,
-                                  :browse_repository,
-                                  :view_changesets]
-          end.save!
-
-          Role.non_member.update_attributes name: I18n.t(:default_role_non_member),
-                                            permissions: [:view_work_packages,
-                                                          :view_calendar,
-                                                          :comment_news,
-                                                          :browse_repository,
-                                                          :view_changesets,
-                                                          :view_wiki_pages]
-
-          Role.anonymous.update_attributes name: I18n.t(:default_role_anonymous),
-                                           permissions: [:view_work_packages,
-                                                         :browse_repository,
-                                                         :view_changesets,
-                                                         :view_wiki_pages]
-        end
+        return
       end
+
+      Role.transaction do
+        roles.each do |attributes|
+          Role.create!(attributes)
+        end
+
+        builtin_roles.each do |attributes|
+          Role.find_by!(name: attributes[:name]).update_attributes(attributes)
+        end
+     end
     end
 
+    def applicable?
+      Role.where(builtin: false).empty?
+    end
+
+    def roles
+     [project_admin, member, reader]
+    end
+
+    def builtin_roles
+      [non_member, anonymous]
+    end
+
+    def project_admin
+     { name: I18n.t(:default_role_project_admin), position: 3, permissions: Role.new.setable_permissions.map(&:name) }
+    end
+
+    def member
+     { name: I18n.t(:default_role_member), position: 4, permissions: [
+          :view_work_packages,
+          :export_work_packages,
+          :add_work_packages,
+          :move_work_packages,
+          :edit_work_packages,
+          :add_work_package_notes,
+          :edit_own_work_package_notes,
+          :manage_work_package_relations,
+          :manage_subtasks,
+          :manage_public_queries,
+          :save_queries,
+          :view_work_package_watchers,
+          :add_work_package_watchers,
+          :delete_work_package_watchers,
+          :view_calendar,
+          :comment_news,
+          :log_time,
+          :view_time_entries,
+          :view_own_time_entries,
+          :manage_project_activities,
+          :edit_own_time_entries,
+          :view_project_associations,
+          :view_timelines,
+          :edit_timelines,
+          :delete_timelines,
+          :view_reportings,
+          :edit_reportings,
+          :delete_reportings,
+          :manage_wiki,
+          :manage_wiki_menu,
+          :rename_wiki_pages,
+          :change_wiki_parent_page,
+          :delete_wiki_pages,
+          :view_wiki_pages,
+          :export_wiki_pages,
+          :view_wiki_edits,
+          :edit_wiki_pages,
+          :delete_wiki_pages_attachments,
+          :protect_wiki_pages,
+          :list_attachments,
+          :add_messages,
+          :edit_own_messages,
+          :delete_own_messages,
+          :browse_repository,
+          :view_changesets,
+          :commit_access,
+          :view_commit_author_statistics,
+          :view_members
+        ]
+      }
+    end
+
+    def reader
+      { name: I18n.t(:default_role_reader), position: 5, permissions: [
+          :view_work_packages,
+          :add_work_package_notes,
+          :edit_own_work_package_notes,
+          :save_queries,
+          :view_calendar,
+          :comment_news,
+          :view_project_associations,
+          :view_timelines,
+          :view_reportings,
+          :view_wiki_pages,
+          :export_wiki_pages,
+          :list_attachments,
+          :add_messages,
+          :edit_own_messages,
+          :delete_own_messages,
+          :browse_repository,
+          :view_changesets
+        ]
+      }
+    end
+
+    def non_member
+      { name: I18n.t(:default_role_non_member), permissions: [
+          :view_work_packages,
+          :view_calendar,
+          :comment_news,
+          :browse_repository,
+          :view_changesets,
+          :view_wiki_pages
+        ]
+      }
+    end
+
+    def anonymous
+      { name: I18n.t(:default_role_anonymous), permissions: [
+          :view_work_packages,
+          :browse_repository,
+          :view_changesets,
+          :view_wiki_pages
+        ]
+      }
+    end
   end
 end

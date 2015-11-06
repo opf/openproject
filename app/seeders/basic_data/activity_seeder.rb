@@ -27,46 +27,33 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 module BasicData
-  class ActivitySeeder
-
-    def self.seed!
-      if TimeEntryActivity.any?
+  class ActivitySeeder < Seeder
+    def seed!
+      unless applicable?
         puts '   *** Skipping activities as there are already some configured'
-      else
-        TimeEntryActivity.transaction do
-          TimeEntryActivity.new.tap do |activity|
-            activity.name = I18n.t(:default_activity_management)
-            activity.position = 1
-            activity.is_default = true
-          end.save!
+        return
+      end
 
-          TimeEntryActivity.new.tap do |activity|
-            activity.name = I18n.t(:default_activity_specification)
-            activity.position = 2
-          end.save!
-
-          TimeEntryActivity.new.tap do |activity|
-            activity.name = I18n.t(:default_activity_development)
-            activity.position = 3
-          end.save!
-
-          TimeEntryActivity.new.tap do |activity|
-            activity.name = I18n.t(:default_activity_testing)
-            activity.position = 4
-          end.save!
-
-          TimeEntryActivity.new.tap do |activity|
-            activity.name = I18n.t(:default_activity_support)
-            activity.position = 5
-          end.save!
-
-          TimeEntryActivity.new.tap do |activity|
-            activity.name = I18n.t(:default_activity_other)
-            activity.position = 6
-          end.save!
+      TimeEntryActivity.transaction do
+        data.each do |attributes|
+          TimeEntryActivity.create(attributes)
         end
       end
     end
 
+    def applicable?
+      TimeEntryActivity.all.empty?
+    end
+
+    def data
+      [
+        { name: I18n.t(:default_activity_management),    position: 1, is_default: true  },
+        { name: I18n.t(:default_activity_specification), position: 2, is_default: false },
+        { name: I18n.t(:default_activity_development),   position: 3, is_default: false },
+        { name: I18n.t(:default_activity_testing),       position: 4, is_default: false },
+        { name: I18n.t(:default_activity_support),       position: 5, is_default: false },
+        { name: I18n.t(:default_activity_other),         position: 6, is_default: false }
+      ]
+    end
   end
 end
