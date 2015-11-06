@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% if @project.boards.any? %>
-  <fieldset class="form--fieldset -with-control">
+  <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend">
       <%= l(:label_available_project_boards) %>
     </legend>
@@ -104,15 +104,17 @@ See doc/COPYRIGHT.rdoc for more details.
         <div class="generic-table--header-background"></div>
       </div>
     </div>
+    <% if @project.boards.any? %>
+      <div class="generic-table--action-buttons">
+        <%= link_to_if_authorized({ controller: '/boards', action: 'new', project_id: @project },
+                                class: 'button -alt-highlight') do %>
+          <i class="button--icon icon-add"></i>
+          <span class="button--text"><%= l(:label_board_new) %></span>
+        <% end %>
+      </div>
+    <% end %>
   <% else %>
     <%= no_results_box(action_url: new_project_category_path(@project), display_action: authorize_for('categories', 'new')) %>
   <% end %>
 </fieldset>
 
-<% if @project.boards.any? %>
-  <p>
-    <%= link_to_if_authorized l(:label_board_new),
-                              { controller: '/boards', action: 'new', project_id: @project },
-                              class: 'button -alt-highlight' %>
-  </p>
-<% end %>
