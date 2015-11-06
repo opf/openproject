@@ -17,6 +17,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
+# need to define all the operators
+require 'cost_query/operator'
+
 module OpenProject::Reporting
   module QueryHelper
     def minimal_query

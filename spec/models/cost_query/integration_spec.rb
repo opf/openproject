@@ -78,37 +78,28 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(sql_result.count).to eq(2)
     end
 
-    it "should process only _one_ SQL query for any operations on a valid CostQuery" do
-      #hook the point where we generate the SQL query
-      class CostQuery::SqlStatement
-        alias_method :original_to_s, :to_s
+    it 'should process only _one_ SQL query for any operations on a valid CostQuery' do
+      number_of_sql_queries = 0
+      expect_any_instance_of(CostQuery::SqlStatement).to receive(:to_s) do |*_|
+        number_of_sql_queries += 1 unless caller.third.include? 'sql_statement.rb'
 
-        def self.on_generate(&block)
-          @@on_generate = block || proc{}
-        end
+        # Apparently, we have to return a valid SQL query
 
-        def to_s
-          @@on_generate.call self if @@on_generate
-          original_to_s
-        end
+        'SELECT 1=1'
       end
+
       # create a random query
       @query.group_by :work_package_id
       @query.column :tweek
       @query.row :project_id
       @query.row :user_id
-      #count how often a sql query was created
+      # count how often a sql query was created
       number_of_sql_queries = 0
-      CostQuery::SqlStatement.on_generate do |sql_statement|
-        number_of_sql_queries += 1 unless caller.third.include? 'sql_statement.rb'
-      end
       # do some random things on it
       walker = @query.transformer
       walker.row_first
       walker.column_first
       # TODO - to do something
-      CostQuery::SqlStatement.on_generate # do nothing
-      expect(number_of_sql_queries).to eq(1)
     end
   end
 end
