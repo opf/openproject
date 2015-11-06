@@ -1,6 +1,8 @@
+project:
+  after:
+    - npm install npm
 stage:
   before:
-    - npm install npm
     - pushd frontend;
       npm install --unsafe-perm --ignore-scripts;
       bower install --allow-root;
@@ -13,4 +15,5 @@ stage:
     - bundle exec rake db:create db:migrate
     - bundle exec rake db:seed RAILS_ENV=development
 
-  run: foreman start -f Procfile.dev
+  assets: bundle exec rake assets:webpack RAILS_ENV=development
+  run: foreman start -f Procfile.dev -c all=1,assets=0
