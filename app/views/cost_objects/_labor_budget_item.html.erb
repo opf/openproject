@@ -57,7 +57,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     <%= observe_field( "#{id_prefix}_user_id", :url => {:action => :update_labor_budget_item, :project_id => @project.id}, :with => "'user_id=' + encodeURIComponent(value) + '&hours=' + encodeURIComponent(document.getElementById('#{id_prefix}_hours').value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_object_fixed_date').value) + '&element_id=#{id_prefix}'") %>
     <%= observe_field( "#{id_prefix}_hours", :frequency => 1, :url => {:action => :update_labor_budget_item, :project_id => @project.id}, :with => "'user_id=' + encodeURIComponent(document.getElementById('#{id_prefix}_user_id').value) + '&hours=' + encodeURIComponent(value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_object_fixed_date').value) + '&element_id=#{id_prefix}'") %>
   </td>
-  <td class="delete budget-table--fields">
+  <td class="delete budget-table--fields buttons -short">
     <%= link_to_function icon_wrapper('icon-context icon-delete',t(:button_delete)), "deleteLaborBudgetItem('#{id_prefix}')", :class => 'no-decoration-on-hover', :title => t(:button_delete) %>
   </td>
 </tr>
