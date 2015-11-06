@@ -26,13 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-describe('NotificationsService', function() {
+describe('NotificationsService', function(){
   'use strict';
-  var NotificationsService;
+  var NotificationsService,
+      $rootScope;
 
   beforeEach(module('openproject.services'));
 
-  beforeEach(inject(function(_NotificationsService_){
+  beforeEach(inject(function(_$rootScope_, _NotificationsService_) {
+    $rootScope = _$rootScope_;
     NotificationsService = _NotificationsService_;
   }));
 
@@ -79,5 +81,63 @@ describe('NotificationsService', function() {
     expect(function() {
       NotificationsService.addWorkPackageUpload('themUploads');
     }).to.throw(Error);
+  });
+
+  it('sends a broadcast on rootScope upon adding', function() {
+    sinon.spy($rootScope, '$broadcast');
+
+    NotificationsService.add('very important');
+
+    expect($rootScope.$broadcast).to.have.been.calledWith('notification.add');
+  });
+
+  it('sends a broadcast on rootScope upon removal', function() {
+    sinon.spy($rootScope, '$broadcast');
+
+    NotificationsService.remove({ message: 'blubs', type: 'success' });
+
+    expect($rootScope.$broadcast).to.have.been.calledWith('notification.remove');
+  });
+
+  it('sends a broadcast to remove the first notification upon adding a second success notification',
+     function() {
+
+       sinon.spy($rootScope, '$broadcast');
+
+       var firstNotification = NotificationsService.add('blubs');
+
+       NotificationsService.addSuccess('blubs2');
+
+       expect($rootScope.$broadcast).to.have.been.calledWith('notification.remove',
+                                                             firstNotification);
+  });
+
+  it('sends a broadcast to remove the first notification upon adding a second error notification',
+     function() {
+
+       sinon.spy($rootScope, '$broadcast');
+
+       var firstNotification = NotificationsService.add('blubs');
+
+       NotificationsService.addError('blubs2');
+
+       expect($rootScope.$broadcast).to.have.been.calledWith('notification.remove',
+                                                             firstNotification);
+  });
+
+  it('does not send a broadcast upon the second error/success ' +
+     'if the notification has already been removed',
+      function() {
+
+        var firstNotification = NotificationsService.add('blubs');
+        $rootScope.$broadcast('notification.remove', firstNotification);
+
+        sinon.spy($rootScope, '$broadcast');
+
+        NotificationsService.addError('blubs2');
+
+        expect($rootScope.$broadcast).not.to.have.been.calledWith('notification.remove',
+                                                                  firstNotification);
+
   });
 });
