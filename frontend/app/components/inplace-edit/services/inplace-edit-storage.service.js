@@ -30,15 +30,13 @@ angular
   .module('openproject.inplace-edit')
   .factory('inplaceEditStorage', inplaceEditStorage);
 
-function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageService,
-    ApiHelper) {
+function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageService) {
 
   return {
     saveWorkPackage: function () {
       var deferred = $q.defer(),
           handleErrors = function (errors) {
             EditableFieldsState.isBusy = false;
-            EditableFieldsState.errors = { _common: ApiHelper.getErrorMessages(errors) };
             deferred.reject(errors);
           };
 
