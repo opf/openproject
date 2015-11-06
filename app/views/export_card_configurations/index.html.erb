@@ -24,10 +24,6 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<div class="contextual">
-<%= link_to l(:label_export_card_configuration_new), {:action => 'new'}, :class => 'icon icon-add' %>
-</div>
-
 <% html_title l(:label_administration), l(:label_export_card_configuration_plural) %>
 
 <h2><%=l(:label_export_card_configuration_plural)%></h2>
@@ -127,4 +123,10 @@ See doc/COPYRIGHT.md for more details.
     </table>
     <div class="generic-table--header-background"></div>
   </div>
+</div>
+<div class="generic-table--action-buttons">
+  <%= link_to({action: 'new'}, class: 'button -alt-highlight') do %>
+    <i class="button--icon icon-add"></i>
+    <span class="button--text"><%= l(:label_export_card_configuration_new) %></span>
+  <% end %>
 </div>
