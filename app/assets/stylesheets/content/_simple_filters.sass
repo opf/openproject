@@ -48,11 +48,13 @@ $filters--border-color: $gray !default
 
     .simple-filters--filter
       flex-basis: 33.33%
+      max-width: 33.33%
       padding: 0 1rem 0 0
 
     &.-label-columns-3
       .simple-filters--filter
         flex-basis: 25%
+        max-width: 25%
 
 .simple-filters--filters
   @extend .advanced-filters--filters
@@ -73,14 +75,18 @@ $filters--border-color: $gray !default
     display: flex
     align-items: center
     @include breakpoint(large)
+    max-width: 33.33%
 
     @media only screen and (max-width: 1200px)
       margin-bottom: 1rem
+      max-width: 100%
 
     .simple-filters--filter-name
-      flex-basis: 15%
+      flex-basis: 20%
     .simple-filters--filter-value
       flex-basis: 75%
+      // important for consistent padding between input and select fields
+      padding-right: 0.375rem
 
     .form--radio-button-container
       margin-right: 20px
@@ -90,6 +96,7 @@ $filters--border-color: $gray !default
     align-self: center
     @include breakpoint(large)
       flex: 1
+    max-width: 33.33%
 
     button,
     .button
@@ -110,6 +117,10 @@ $filters--border-color: $gray !default
     padding: 0 0 0 1rem
     align-self: center
     @include breakpoint(large)
+    max-width: 25%
+
+    @media only screen and (max-width: 1200px)
+      max-width: 100%
 
     button,
     .button
