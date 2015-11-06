@@ -114,6 +114,9 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="generic-table--header-background"></div>
     </div>
   </div>
-  <%= submit_tag l(:label_view_diff), class: 'button -highlight -small' if show_diff %>
+  <div class="generic-table--action-buttons">
+    <%= submit_tag l(:label_view_diff), class: 'button -highlight -small' if show_diff %>
+  </div>
+
   <%= pagination_links_full @versions %>
 <% end %>
