@@ -32,9 +32,8 @@ See doc/COPYRIGHT.rdoc for more details.
                url: { action: 'types', id: @project },
                method: :patch,
                html: {id: 'types-form'} do |f| %>
-    <%= render partial: 'projects/form/types', locals: { f: f, project: @project } %>
+    <%= render partial: 'projects/form/types', locals: { f: f, project: @project, withControlls: true } %>
 
-    <p><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %></p>
   <% end %>
 
   <br/>

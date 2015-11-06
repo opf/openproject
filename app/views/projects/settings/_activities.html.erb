@@ -31,9 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 method: :put,
                 class: "tabular" do %>
 
-    <%= render partial: 'projects/form/activities', locals: { project: @project } %>
-
-    <p><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %></p>
+    <%= render partial: 'projects/form/activities', locals: { project: @project, withControlls: true } %>
   <% end %>
 
   <br/>

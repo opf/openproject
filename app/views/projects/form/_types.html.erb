@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
                          id: "types_flash_notice",
                          class: "ignored-by-flash-activation" %>
 
-<fieldset class="form--fieldset -with-control" id="project_types">
+<fieldset class="form--fieldset" id="project_types">
   <legend class="form--fieldset-legend"><%=l(:label_enabled_project_types)%></legend>
   <div class="form--fieldset-control">
     <span class="form--fieldset-control-container">
@@ -134,4 +134,9 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="generic-table--header-background"></div>
     </div>
   </div>
+  <% if withControlls == true %>
+    <div class="generic-table--action-buttons">
+      <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
+    </div>
+  <% end %>
 </fieldset>

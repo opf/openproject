@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% if @project.categories.any? %>
-  <fieldset class="form--fieldset -with-control">
+  <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend">
       <%= l(:label_available_project_work_package_categories) %>
     </legend>
@@ -87,15 +87,16 @@ See doc/COPYRIGHT.rdoc for more details.
         <div class="generic-table--header-background"></div>
       </div>
     </div>
+    <% if @project.categories.any? %>
+      <div class="generic-table--action-buttons">
+        <%= link_to_if_authorized({ controller: '/categories', action: 'new', project_id: @project },
+                              class: 'button -alt-highlight') do %>
+          <i class="button--icon icon-add"></i>
+          <span class="button--text"><%= l(:label_work_package_category_new) %></span>
+        <% end %>
+      </div>
+    <% end %>
   <% else %>
     <%= no_results_box(action_url: new_project_category_path(@project), display_action: authorize_for('categories', 'new')) %>
   <% end %>
 </fieldset>
-
-<% if @project.categories.any? %>
-  <p>
-    <%= link_to_if_authorized l(:label_work_package_category_new),
-                              { controller: '/categories', action: 'new', project_id: @project },
-                              class: 'button -alt-highlight' %>
-  </p>
-<% end %>

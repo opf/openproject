@@ -56,7 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if ((project.module_enabled?('work_package_tracking')) && render_types) %>
   <section class="form--section">
     <%= render partial: 'projects/form/types',
-               locals: { f: f, project: project } %>
+               locals: { f: f, project: project, withControlls: false} %>
   </section>
 <% end %>
 
