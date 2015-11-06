@@ -38,6 +38,7 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
           handleErrors = function (errors) {
             EditableFieldsState.isBusy = false;
             deferred.reject(errors);
+            EditableFieldsState.errors = null
           };
 
       if (EditableFieldsState.errors) {
