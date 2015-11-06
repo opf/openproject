@@ -71,6 +71,19 @@ class WorkPackagesPage
     ensure_index_page_loaded
   end
 
+  def select_query_from_dropdown(query)
+    within('.title-container') do
+      find('a').click
+      find('a', text: query.name).click
+    end
+  end
+
+  def expect_query(query)
+    within('.title-container') do
+      expect(page).to have_selector('a', text: query.name)
+    end
+  end
+
   def find_filter(filter_name)
     find(".advanced-filters--filters #filter_#{filter_name}")
   end
