@@ -25,13 +25,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-module DemoData
+module RandomData
   class NewsSeeder
-
     def self.seed!(project)
       user = User.admin.first
-
-      ## create some news
 
       puts ''
       print ' ↳ Creating news'
@@ -45,7 +42,6 @@ module DemoData
                            description: Faker::Lorem.paragraph(5, true, 3)
 
         ## create some journal entries
-
         rand(5).times do
           news.reload
 
@@ -57,6 +53,5 @@ module DemoData
         end
       end
     end
-
   end
 end

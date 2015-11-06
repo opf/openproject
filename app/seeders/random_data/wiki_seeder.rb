@@ -25,25 +25,38 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-module DemoData
+module RandomData
   class WikiSeeder
     def self.seed!(project)
       user = User.admin.first
 
       puts ''
       print ' ↳ Creating wikis'
-      print '.'
-      wiki_page = WikiPage.create!(
-        wiki:  project.wiki,
-        title: 'Wiki'
-      )
 
-      print '.'
-      WikiContent.create!(
-        page:   wiki_page,
-        author: user,
-        text:   I18n.t('seeders.demo_data.wiki.content')
-      )
+      rand(5).times do
+        print '.'
+        wiki_page = WikiPage.create(
+          wiki:  project.wiki,
+          title: Faker::Lorem.words(5).join(' ')
+        )
+
+        ## create some wiki contents
+        rand(5).times do
+          print '.'
+          wiki_content = WikiContent.create(
+            page:    wiki_page,
+            author:  user,
+            text:    Faker::Lorem.paragraph(5, true, 3)
+          )
+
+          ## create some journal entries
+          rand(5).times do
+            wiki_content.reload
+            wiki_content.text = Faker::Lorem.paragraph(5, true, 3) if rand(99).even?
+            wiki_content.save!
+          end
+        end
+      end
     end
   end
 end
