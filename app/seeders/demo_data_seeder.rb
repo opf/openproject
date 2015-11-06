@@ -25,30 +25,26 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-module SampleData
-  class CustomFieldSeeder
+class DemoDataSeeder
+  def self.seed!
+    project = DemoData::ProjectSeeder.seed!
 
-    def self.seed!(project)
-      # Careful: The seeding recreates the seeded project before it runs, so any changes
-      # on the seeded project will be lost.
-      print ' ↳ Creating custom fields...'
+    DemoData::CustomFieldSeeder.seed!(project)
+    DemoData::BoardSeeder.seed!(project)
+    DemoData::WikiSeeder.new(project).seed! random: false
+    DemoData::WorkPackageSeeder.new(project).seed! random: false
+    DemoData::NewsSeeder.seed!(project)
 
-      # create some custom fields and add them to the project
-      I18n.t('seeders.sample_data.custom_fields.names').each do |name|
-        cf = WorkPackageCustomField.create!(name: name,
-                                            regexp: '',
-                                            is_required: false,
-                                            min_length: false,
-                                            default_value: '',
-                                            max_length: false,
-                                            editable: true,
-                                            possible_values: '',
-                                            visible: true,
-                                            field_format: 'text')
-        print '.'
-
-        project.work_package_custom_fields << cf
-      end
-    end
+    puts "\n\n"
+    puts ' ###############################'
+    puts ' #  Demo data seeding....done  #'
+    puts ' ###############################'
+    puts " #  %02d %-22s  #" % [WorkPackage.where(project_id: project.id).count, 'issues created.']
+    puts " #  %02d %-22s  #" % [Message.joins(:board).where(boards: { project_id: project.id }).count, 'messages created.']
+    puts " #  %02d %-22s  #" % [News.where(project_id: project.id).count, 'news created.']
+    puts " #  %02d %-22s  #" % [WikiContent.joins(page: [:wiki]).where('wikis.project_id = ?', project.id).count, 'wiki contents created.']
+    puts " #  %02d %-22s  #" % [TimeEntry.where(project_id: project.id).count, 'time entries created.']
+    puts " #  %02d %-22s  #" % [Changeset.joins(:repository).where(repositories: { project_id: project.id }).count, 'changesets created.']
+    puts " ###############################\n\n"
   end
 end

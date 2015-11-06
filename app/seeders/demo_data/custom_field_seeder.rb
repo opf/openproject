@@ -25,33 +25,31 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++
-module BasicData
-  class BasicDataSeeder
-    def self.seed!
-      puts ' ↳ Builtin Roles'
-      BuiltinRolesSeeder.new.seed!
+module DemoData
+  class CustomFieldSeeder
+    def self.seed!(project)
+      # Careful: The seeding recreates the seeded project before it runs, so any changes
+      # on the seeded project will be lost.
+      print ' ↳ Creating custom fields...'
 
-      puts ' ↳ Roles'
-      RoleSeeder.new.seed!
+      unless (WorkPackageCustomField.any?)
+        # create some custom fields and add them to the project
+        I18n.t('seeders.demo_data.custom_fields.names').each do |name|
+          cf = WorkPackageCustomField.create!(name: name,
+                                              regexp: '',
+                                              is_required: false,
+                                              min_length: false,
+                                              default_value: '',
+                                              max_length: false,
+                                              editable: true,
+                                              possible_values: '',
+                                              visible: true,
+                                              field_format: 'text')
+          print '.'
 
-      puts ' ↳ Activities'
-      ActivitySeeder.new.seed!
-
-      puts ' ↳ Colors'
-      ColorSeeder.new.seed!
-
-      puts ' ↳ Workflows'
-      WorkflowSeeder.new.seed!
-
-      puts ' ↳ Priorities'
-      PrioritySeeder.new.seed!
-
-      puts ' ↳ ProjectStatuses'
-      ProjectStatusSeeder.new.seed!
-
-      puts ' ↳ ProjectTypes'
-      ProjectTypeSeeder.new.seed!
+          project.work_package_custom_fields << cf
+        end
+      end
     end
   end
 end

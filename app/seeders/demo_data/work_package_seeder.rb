@@ -25,7 +25,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-module SampleData
+module DemoData
   class WorkPackageSeeder
     attr_accessor :project, :user, :statuses, :repository, :time_entry_activities, :types
 
@@ -73,7 +73,7 @@ module SampleData
     end
 
     def seed_demo_work_packages
-      work_packages_data = I18n.t('seeders.sample_data.work_packages')
+      work_packages_data = I18n.t('seeders.demo_data.work_packages')
 
       work_packages_data.each do |attributes|
         start_date = calculate_start_date(attributes[:start])
@@ -238,6 +238,5 @@ module SampleData
     def calculate_due_date(date, duration)
       duration > 1 ? date + duration : date
     end
-
   end
 end

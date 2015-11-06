@@ -25,7 +25,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-module SampleData
+module DemoData
   class WikiSeeder
     attr_accessor :user, :project
 
@@ -83,9 +83,8 @@ module SampleData
       WikiContent.create!(
         page:   wiki_page,
         author: user,
-        text:   I18n.t('seeders.sample_data.wiki.content')
+        text:   I18n.t('seeders.demo_data.wiki.content')
       )
     end
-
   end
 end

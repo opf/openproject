@@ -25,38 +25,31 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-module SampleData
-  class NewsSeeder
+#++
+class BasicDataSeeder
+  def self.seed!
+    puts ' ↳ Builtin Roles'
+    BasicData::BuiltinRolesSeeder.new.seed!
 
-    def self.seed!(project)
-      user = User.admin.first
+    puts ' ↳ Roles'
+    BasicData::RoleSeeder.new.seed!
 
-      ## create some news
+    puts ' ↳ Activities'
+    BasicData::ActivitySeeder.new.seed!
 
-      puts ''
-      print ' ↳ Creating news'
+    puts ' ↳ Colors'
+    BasicData::ColorSeeder.new.seed!
 
-      rand(30).times do
-        print '.'
-        news = News.create project: project,
-                           author: user,
-                           title: Faker::Lorem.characters(60),
-                           summary: Faker::Lorem.paragraph(1, true, 3),
-                           description: Faker::Lorem.paragraph(5, true, 3)
+    puts ' ↳ Workflows'
+    BasicData::WorkflowSeeder.new.seed!
 
-        ## create some journal entries
+    puts ' ↳ Priorities'
+    BasicData::PrioritySeeder.new.seed!
 
-        rand(5).times do
-          news.reload
+    puts ' ↳ ProjectStatuses'
+    BasicData::ProjectStatusSeeder.new.seed!
 
-          news.title = Faker::Lorem.words(5).join(' ').slice(0, 60) if rand(99).even?
-          news.summary = Faker::Lorem.paragraph(1, true, 3) if rand(99).even?
-          news.description = Faker::Lorem.paragraph(5, true, 3) if rand(99).even?
-
-          news.save!
-        end
-      end
-    end
-
+    puts ' ↳ ProjectTypes'
+    BasicData::ProjectTypeSeeder.new.seed!
   end
 end

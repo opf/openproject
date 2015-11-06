@@ -25,7 +25,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-module SampleData
+module DemoData
   class ProjectSeeder
 
     def self.seed!
@@ -33,16 +33,16 @@ module SampleData
       # on the seeded project will be lost.
       puts ' ↳ Creating seeded project...'
 
-      identifier = I18n.t('seeders.sample_data.project.identifier')
+      identifier = I18n.t('seeders.demo_data.project.identifier')
 
       if delete_me = Project.find_by(identifier: identifier)
         delete_me.destroy
       end
 
       project = Project.create(
-        name:         I18n.t('seeders.sample_data.project.name'),
+        name:         I18n.t('seeders.demo_data.project.name'),
         identifier:   identifier,
-        description:  I18n.t('seeders.sample_data.project.description'),
+        description:  I18n.t('seeders.demo_data.project.description'),
         types:        Type.all,
         is_public:    true
       )
@@ -64,12 +64,12 @@ module SampleData
       # create a default timeline that shows all our work packages
       timeline = Timeline.create
       timeline.project = project
-      timeline.name = I18n.t('seeders.sample_data.timeline.name')
+      timeline.name = I18n.t('seeders.demo_data.timeline.name')
       timeline.options.merge!(zoom_factor: ['4'])
       timeline.save
 
       # create versions
-      version_data = I18n.t('seeders.sample_data.project.versions')
+      version_data = I18n.t('seeders.demo_data.project.versions')
       version_data.each do |attributes|
         project.versions << Version.create!(
           name:    attributes[:name],

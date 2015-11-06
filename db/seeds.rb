@@ -64,24 +64,22 @@ else
   raise "Locale #{desired_lang} is not supported"
 end
 
+# Disable mail delivery for the duration of this task
+ActionMailer::Base.perform_deliveries = false
+
+# Avoid asynchronous DeliverWorkPackageCreatedJob
+Delayed::Worker.delay_jobs = false
+
 # Basic data needs be seeded before anything else.
 puts '*** Seeding basic data'
-BasicData::BasicDataSeeder.seed!
+BasicDataSeeder.seed!
 
 puts '*** Seeding admin user'
 AdminUserSeeder.seed!
 
-# Only seed the sample data in development.
-if Rails.env.development?
-  # Disable mail delivery for the duration of this task
-  ActionMailer::Base.perform_deliveries = false
+puts '*** Seeding demo data'
+DemoDataSeeder.seed!
 
-  # Avoid asynchronous DeliverWorkPackageCreatedJob
-  Delayed::Worker.delay_jobs = false
-
-  puts '*** Seeding sample data'
-  SampleData::SampleDataSeeder.seed!
-end
 
 ::Rails::Engine.subclasses.map(&:instance).each do |engine|
   puts "*** Loading #{engine.engine_name} seed data"

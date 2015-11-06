@@ -25,33 +25,35 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-module SampleData
-  class BoardSeeder
+module DemoData
+  class NewsSeeder
 
     def self.seed!(project)
       user = User.admin.first
 
-      puts ''
-      print ' ↳ Creating forum board with posts'
+      ## create some news
 
-      board = Board.create! project: project,
-                            name: I18n.t('seeders.sample_data.board.name'),
-                            description: I18n.t('seeders.sample_data.board.description')
+      puts ''
+      print ' ↳ Creating news'
 
       rand(30).times do
         print '.'
-        message = Message.create board: board,
-                                 author: user,
-                                 subject: Faker::Lorem.words(5).join(' '),
-                                 content: Faker::Lorem.paragraph(5, true, 3)
+        news = News.create project: project,
+                           author: user,
+                           title: Faker::Lorem.characters(60),
+                           summary: Faker::Lorem.paragraph(1, true, 3),
+                           description: Faker::Lorem.paragraph(5, true, 3)
+
+        ## create some journal entries
 
         rand(5).times do
-          print '.'
-          Message.create board: board,
-                         author: user,
-                         subject: message.subject,
-                         content: Faker::Lorem.paragraph(5, true, 3),
-                         parent: message
+          news.reload
+
+          news.title = Faker::Lorem.words(5).join(' ').slice(0, 60) if rand(99).even?
+          news.summary = Faker::Lorem.paragraph(1, true, 3) if rand(99).even?
+          news.description = Faker::Lorem.paragraph(5, true, 3) if rand(99).even?
+
+          news.save!
         end
       end
     end

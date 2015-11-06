@@ -27,7 +27,7 @@
 #++
 en:
   seeders:
-    sample_data:
+    demo_data:
       board:
         name: Demo Board
         description: General discussion on various topics for the project.
