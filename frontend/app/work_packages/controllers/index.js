@@ -108,6 +108,8 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackageService',
     'EditableFieldsState',
     'WorkPackagesDisplayHelper',
+    'NotificationsService',
+    'I18n',
     require('./work-package-new-controller')
   ])
   .controller('WorkPackageShowController', [
