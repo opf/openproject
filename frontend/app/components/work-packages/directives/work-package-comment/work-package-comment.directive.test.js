@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,7 +24,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
 /*jshint expr: true*/
 
@@ -34,7 +34,7 @@ describe('workPackageCommentDirectiveTest', function() {
   var html = "<work-package-comment work-package='workPackage' activities='activities'></work-package-comment>";
   stateParams = {};
 
-  beforeEach(module('ui.router',
+  beforeEach(angular.mock.module('ui.router',
                     'openproject.api',
                     'openproject.models',
                     'openproject.layout',
@@ -45,7 +45,7 @@ describe('workPackageCommentDirectiveTest', function() {
                     'openproject.workPackages.directives',
                     'openproject.workPackages.models'));
 
-  beforeEach(module('openproject.templates', function($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function($provide) {
     var configurationService = {
       commentsSortedInDescendingOrder: function() { return []; }
     };
@@ -54,7 +54,7 @@ describe('workPackageCommentDirectiveTest', function() {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(module('openproject.services', function($provide) {
+  beforeEach(angular.mock.module('openproject.services', function($provide) {
     $provide.constant('WorkPackageFieldService', workPackageFieldService);
     $provide.constant('WorkPackageService', {});
   }));
