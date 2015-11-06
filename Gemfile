@@ -233,6 +233,36 @@ group :opf_plugins do
   gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'dev'
 end
 
+CORE_VERSION='dev'
+
+# plugin development dependencies start
+gem "pdf-inspector", "~>1.0.0", :group => [:development, :test]
+# plugin development dependencies end
+
+group :opf_plugins do
+  gem 'openproject-global_roles',    :git => 'git@github.com:finnlabs/openproject-global_roles.git', :branch => CORE_VERSION
+
+  gem 'openproject-documents',       :git => 'git@github.com:opf/openproject-documents.git', :branch => CORE_VERSION
+
+  gem 'openproject-help_link',       :git => 'git@github.com:finnlabs/openproject-help_link.git', :branch => CORE_VERSION
+  gem 'openproject-my_project_page', :git => 'git@github.com:finnlabs/openproject-my_project_page.git', :branch => CORE_VERSION
+
+  gem 'reporting_engine',            :git => 'git@github.com:finnlabs/reporting_engine.git', :branch => 'dev'
+  gem 'openproject-costs',           :git => 'git@github.com:finnlabs/openproject-costs.git', :branch => CORE_VERSION
+  gem "openproject-reporting",       :git => "git@github.com:finnlabs/openproject-reporting.git",     :branch => CORE_VERSION
+
+  gem 'openproject-meeting',         :git => 'git@github.com:finnlabs/openproject-meeting.git', :branch => CORE_VERSION
+
+  gem 'openproject-pdf_export',      :git => 'git@github.com:finnlabs/openproject-pdf_export.git', :branch => CORE_VERSION
+  # the dependencies from the gemspec from a git repo are ignored
+  # see also https://github.com/bundler/bundler/issues/1041
+  gem "acts_as_silent_list", "~> 2.0.0"
+  gem "openproject-backlogs",        :git => "git@github.com:finnlabs/openproject-backlogs.git", :branch => CORE_VERSION
+
+  # The following plugins don't work with core 3.0.x
+  gem 'openproject-emoji',           :git => 'https://github.com/tessi/openproject-emoji.git', :branch => 'op-5-stable'
+end
+
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
 Dir.glob File.expand_path('../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfile}', __FILE__) do |file|
   next unless File.readable?(file)

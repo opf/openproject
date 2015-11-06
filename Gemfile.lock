@@ -22,6 +22,92 @@ GIT
     svg-graph (1.0.2)
 
 GIT
+  remote: git@github.com:finnlabs/openproject-backlogs.git
+  revision: 51a6cf8395085ceae17e3c3abf4b538422dae1de
+  branch: dev
+  specs:
+    openproject-backlogs (5.0.0.pre.alpha)
+      acts_as_silent_list (~> 2.0.0)
+      openproject-pdf_export
+      rails (~> 4.2.4)
+
+GIT
+  remote: git@github.com:finnlabs/openproject-costs.git
+  revision: 39572aa76581ebb653fbde563db20b74a7023c3a
+  branch: dev
+  specs:
+    openproject-costs (5.0.0.pre.alpha)
+      rails (~> 4.2.4)
+
+GIT
+  remote: git@github.com:finnlabs/openproject-global_roles.git
+  revision: c4cd543c547139adb958ffbd0621bcde97d6fb6b
+  branch: dev
+  specs:
+    openproject-global_roles (5.0.0.pre.alpha)
+      rails (~> 4.2.4)
+
+GIT
+  remote: git@github.com:finnlabs/openproject-help_link.git
+  revision: c346371778796b5f196af9ce8f5dc9eabde430af
+  branch: dev
+  specs:
+    openproject-help_link (5.0.0.pre.alpha)
+      rails (~> 4.2.4)
+
+GIT
+  remote: git@github.com:finnlabs/openproject-meeting.git
+  revision: e492427dd27a753eee4a429d7bc09695aec2e98a
+  branch: dev
+  specs:
+    openproject-meeting (5.0.0.pre.alpha)
+      rails (~> 4.2.4)
+
+GIT
+  remote: git@github.com:finnlabs/openproject-my_project_page.git
+  revision: 680818a7024a238a18e163e1c157843ad0f6a1ce
+  branch: dev
+  specs:
+    openproject-my_project_page (5.0.0.pre.alpha)
+      rails (~> 4.2.4)
+
+GIT
+  remote: git@github.com:finnlabs/openproject-pdf_export.git
+  revision: 807859bbfaf30c2d80958e55e7347ee90d23a9f6
+  branch: dev
+  specs:
+    openproject-pdf_export (5.0.0.pre.alpha)
+      prawn (~> 0.14.0)
+      rails (~> 4.2.4)
+
+GIT
+  remote: git@github.com:finnlabs/openproject-reporting.git
+  revision: 9216224a400371277cc8f69bf9b1e37a08670b3f
+  branch: dev
+  specs:
+    openproject-reporting (5.0.0.pre.alpha)
+      openproject-costs (>= 4.0.0)
+      rails (~> 4.2.4)
+      reporting_engine (>= 1.1.0)
+
+GIT
+  remote: git@github.com:finnlabs/reporting_engine.git
+  revision: 7decc0aa0a728a5ad6c0fb7e11b0e6c37c6cc435
+  branch: dev
+  specs:
+    reporting_engine (1.2.0)
+      json
+      rails (~> 4.2.4)
+
+GIT
+  remote: git@github.com:opf/openproject-documents.git
+  revision: 0a08433f08b90c107f7335cf1f9ffbb89d2d56fe
+  branch: dev
+  specs:
+    openproject-documents (5.0.0.pre.alpha)
+      rails (~> 4.2.4)
+
+GIT
   remote: https://github.com/finnlabs/rack-protection.git
   revision: 5a7d1bd2f05ca75faf7909c8cc978732a0080898
   ref: 5a7d1bd
@@ -77,9 +163,18 @@ GIT
       activesupport (>= 3.0)
       rspec-mocks (>= 2.99, < 4.0)
 
+GIT
+  remote: https://github.com/tessi/openproject-emoji.git
+  revision: b82d4b4e9c0ac3fced724857568a6ee5e4a9997e
+  branch: op-5-stable
+  specs:
+    openproject-emoji (5.0.0)
+      rails (~> 4.2.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
+    Ascii85 (1.0.2)
     actionmailer (4.2.4)
       actionpack (= 4.2.4)
       actionview (= 4.2.4)
@@ -125,7 +220,9 @@ GEM
       tzinfo (~> 1.1)
     acts_as_list (0.7.2)
       activerecord (>= 3.0)
+    acts_as_silent_list (2.0.0)
     addressable (2.3.8)
+    afm (0.2.2)
     airbrake (4.1.0)
       builder
       multi_json
@@ -281,6 +378,7 @@ GEM
       rack-mount
       virtus (>= 1.0.0)
     gravatar_image_tag (1.2.0)
+    hashery (2.1.1)
     hashie (3.4.1)
     hike (1.2.3)
     htmldiff (0.0.1)
@@ -331,6 +429,14 @@ GEM
       parallel
     parser (2.2.2.5)
       ast (>= 1.1, < 3.0)
+    pdf-inspector (1.0.2)
+      pdf-reader (>= 0.9.0)
+    pdf-reader (1.3.3)
+      Ascii85 (~> 1.0.0)
+      afm (~> 0.2.0)
+      hashery (~> 2.0)
+      ruby-rc4
+      ttfunk
     pg (0.18.3)
     poltergeist (1.7.0)
       capybara (~> 2.1)
@@ -338,6 +444,10 @@ GEM
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
     powerpack (0.1.1)
+    prawn (0.14.0)
+      pdf-reader (~> 1.2)
+      ruby-rc4
+      ttfunk (~> 1.0.3)
     pry (0.9.12.6)
       coderay (~> 1.0)
       method_source (~> 0.8)
@@ -460,6 +570,7 @@ GEM
       iso8601
     ruby-prof (0.15.8)
     ruby-progressbar (1.7.5)
+    ruby-rc4 (0.1.5)
     rubytree (0.8.3)
       json (>= 1.7.5)
       structured_warnings (>= 0.1.3)
@@ -506,6 +617,7 @@ GEM
     thread_safe (0.3.5)
     tilt (1.4.1)
     timecop (0.7.3)
+    ttfunk (1.0.3)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     tzinfo-data (1.2015.6)
@@ -550,6 +662,7 @@ DEPENDENCIES
   activerecord-session_store
   activerecord-tableless (~> 1.0)
   acts_as_list (~> 0.7.2)
+  acts_as_silent_list (~> 2.0.0)
   airbrake (~> 4.1.0)
   autoprefixer-rails
   awesome_nested_set!
@@ -592,8 +705,19 @@ DEPENDENCIES
   non-stupid-digest-assets
   oj (~> 2.11.4)
   omniauth
+  openproject-backlogs!
+  openproject-costs!
+  openproject-documents!
+  openproject-emoji!
+  openproject-global_roles!
+  openproject-help_link!
+  openproject-meeting!
+  openproject-my_project_page!
+  openproject-pdf_export!
+  openproject-reporting!
   openproject-translations!
   parallel_tests
+  pdf-inspector (~> 1.0.0)
   pg (~> 0.18.3)
   poltergeist
   prototype-rails!
@@ -615,6 +739,7 @@ DEPENDENCIES
   rb-readline (~> 0.5.1)
   rdoc (>= 2.4.2)
   reform (~> 1.2.6)
+  reporting_engine!
   request_store (~> 1.1.0)
   responders (~> 2.0)
   roar (~> 1.0.0)
