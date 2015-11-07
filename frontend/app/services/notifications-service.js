@@ -61,12 +61,33 @@ module.exports = function(I18n, $rootScope) {
   },
   broadcast = function(event, data) {
     $rootScope.$broadcast(event, data);
+  },
+  currentNotifications = [],
+  notificationAdded = function(newNotification) {
+    var toRemove = currentNotifications.slice(0);
+    _.each(toRemove, function(existingNotification) {
+      if (newNotification.type === 'success' || newNotification.type === 'error') {
+        remove(existingNotification);
+      }
+    });
+
+    currentNotifications.push(newNotification);
+  },
+  notificationRemoved = function(removedNotification) {
+    _.remove(currentNotifications, function(element) {
+      return element === removedNotification;
+    });
   };
+
+  $rootScope.$on('notification.remove', function(_e, notification) {
+    notificationRemoved(notification);
+  });
 
   // public
   var add = function(message) {
     var notification = createNotification(message);
     broadcast('notification.add', notification);
+    notificationAdded(notification);
     return notification;
   },
   addError = function(message, errors) {
@@ -79,7 +100,7 @@ module.exports = function(I18n, $rootScope) {
     return add(createSuccessNotification(message));
   },
   addNotice = function(message) {
-    return add(createNoticeNotification(message))
+    return add(createNoticeNotification(message));
   },
   addWorkPackageUpload = function(message, uploads) {
     return add(createWorkPackageUploadNotification(message, uploads));
@@ -87,6 +108,7 @@ module.exports = function(I18n, $rootScope) {
   remove = function(notification) {
     broadcast('notification.remove', notification);
   };
+
 
   return {
     add: add,

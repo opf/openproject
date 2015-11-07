@@ -38,7 +38,9 @@ module.exports = function(
            WorkPackageFieldService,
            WorkPackageService,
            EditableFieldsState,
-           WorkPackageDisplayHelper
+           WorkPackageDisplayHelper,
+           NotificationsService,
+           I18n
            ) {
 
   var vm = this;
@@ -120,6 +122,7 @@ module.exports = function(
 
     EditableFieldsState.save(function() {
       $rootScope.$emit('workPackagesRefreshRequired');
+      NotificationsService.addSuccess(I18n.t('js.notice_successful_create'));
     });
   }
 
