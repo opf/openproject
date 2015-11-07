@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 class DemoDataSeeder
   def self.seed!
-    project = DemoData::ProjectSeeder.seed!
+    project = DemoData::ProjectSeeder.new.seed!
 
     DemoData::CustomFieldSeeder.seed!(project)
     DemoData::WikiSeeder.seed!(project)

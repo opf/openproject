@@ -27,45 +27,70 @@
 # See doc/COPYRIGHT.rdoc for more details.
 module DemoData
   class ProjectSeeder
+    # Careful: The seeding recreates the seeded project before it runs, so any changes
+    # on the seeded project will be lost.
+    def seed!
+      puts ' ↳ Creating demo project...'
 
-    def self.seed!
-      # Careful: The seeding recreates the seeded project before it runs, so any changes
-      # on the seeded project will be lost.
-      puts ' ↳ Creating seeded project...'
+      puts '   -Creating/Resetting Demo project'
+      project = reset_demo_project
 
-      identifier = I18n.t('seeders.demo_data.project.identifier')
+      puts '   -Setting modules.'
+      set_modules(project)
 
-      if delete_me = Project.find_by(identifier: identifier)
+      puts '   -Setting members.'
+      set_members(project)
+
+      puts '   -Creating timeline.'
+      seed_timeline(project)
+
+      puts '   -Creating versions.'
+      seed_versions(project)
+
+      project
+    end
+
+    def reset_demo_project
+      if delete_me = Project.find_by(identifier: I18n.t('seeders.demo_data.project.identifier'))
         delete_me.destroy
       end
 
-      project = Project.create(
+      Project.create!(
         name:         I18n.t('seeders.demo_data.project.name'),
-        identifier:   identifier,
+        identifier:   I18n.t('seeders.demo_data.project.identifier'),
         description:  I18n.t('seeders.demo_data.project.description'),
-        types:        Type.all,
+        types:        Type.all
       )
+    end
 
-      project.members << Member.create(
-        user: User.admin.first,
-        roles: [Role.find_by(name: I18n.t(:default_role_project_admin))]
-      )
-
+    def set_modules(project)
       project.enabled_module_names += ['timelines']
+    end
 
-      # create a default timeline that shows all our work packages
-      timeline = Timeline.create
-      timeline.project = project
-      timeline.name = I18n.t('seeders.demo_data.timeline.name')
-      timeline.options = {
-        'zoom_factor' => ['3'],
-        'initial_outline_expansion' => ['2'],
-        'columns' => [:start_date, :due_date, :status]
-      }
+    def set_members(project)
+      role = Role.find_by(name: I18n.t(:default_role_project_admin))
+      user = User.admin.first
 
-      timeline.save
+      Member.create!(
+        project: project,
+        user:    user,
+        roles:   [role],
+      )
+    end
 
-      # create versions
+    def seed_timeline(project)
+      timeline = Timeline.create!(
+        project: project,
+        name: I18n.t('seeders.demo_data.timeline.name'),
+        options: {
+          'zoom_factor' => ['3'],
+          'initial_outline_expansion' => ['2'],
+          'columns' => [:start_date, :due_date, :status]
+        }
+      )
+    end
+
+    def seed_versions(project)
       version_data = I18n.t('seeders.demo_data.project.versions')
       version_data.each do |attributes|
         project.versions << Version.create!(
@@ -74,9 +99,6 @@ module DemoData
           sharing: I18n.t(attributes[:sharing])
         )
       end
-
-      project
     end
-
   end
 end
