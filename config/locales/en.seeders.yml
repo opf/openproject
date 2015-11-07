@@ -29,8 +29,8 @@ en:
   seeders:
     demo_data:
       board:
-        name: Demo Board
-        description: General discussion on various topics for the project.
+        name: Demo Forum
+        description: This is a demo forum.
       custom_fields:
         names:
           - Company

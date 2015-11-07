@@ -47,6 +47,9 @@ module DemoData
       puts '   -Creating versions.'
       seed_versions(project)
 
+      puts '   -Creating board'
+      seed_board(project)
+
       project
     end
 
@@ -99,6 +102,16 @@ module DemoData
           sharing: I18n.t(attributes[:sharing])
         )
       end
+    end
+
+    def seed_board(project)
+      user = User.admin.first
+
+      board = Board.create!(
+        project:     project,
+        name:        I18n.t('seeders.demo_data.board.name'),
+        description: I18n.t('seeders.demo_data.board.description')
+      )
     end
   end
 end
