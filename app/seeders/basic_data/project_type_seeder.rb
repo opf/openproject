@@ -39,17 +39,19 @@ module BasicData
     end
 
     def applicable?
-      if ProjectType.any?
-        puts '   *** Skipping project types as there are already some configured'
-        return false
-      end
-
-      if ReportedProjectStatus.all.empty?
-        puts '   *** Skipping project types as it required to have reported project status'
+      if ProjectType.any? || ReportedProjectStatus.all.empty?
         return false
       end
 
       true
+    end
+
+    def not_applicable_msg
+      if ProjectType.any?
+        '   *** Skipping project types as there are already some configured'
+      elsif ReportedProjectStatus.all.empty?
+        '   *** Skipping project types as it required to have reported project status'
+      end
     end
 
     def data

@@ -29,8 +29,6 @@
 module BasicData
   class BuiltinRolesSeeder < Seeder
     def seed_data!
-      return unless applicable?
-
       data.each do |attributes|
         unless Role.find_by(builtin: attributes[:builtin]).nil?
           puts "   *** Skipping built in role #{attributes[:name]} - already exists"

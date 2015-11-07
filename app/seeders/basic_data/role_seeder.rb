@@ -29,11 +29,6 @@
 module BasicData
   class RoleSeeder < Seeder
     def seed_data!
-      unless applicable?
-        puts '   *** Skipping roles as there are already some configured'
-        return
-      end
-
       Role.transaction do
         roles.each do |attributes|
           Role.create!(attributes)
@@ -47,6 +42,10 @@ module BasicData
 
     def applicable?
       Role.where(builtin: false).empty?
+    end
+
+    def not_applicable_msg
+      '   *** Skipping roles as there are already some configured'
     end
 
     def roles

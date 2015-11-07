@@ -29,10 +29,6 @@
 module BasicData
   class ColorSeeder < Seeder
     def seed_data!
-      unless applicable?
-        puts '   *** Skipping colors as there are already some configured'
-      end
-
       PlanningElementTypeColor.transaction do
         data.each do |attributes|
           PlanningElementTypeColor.create(attributes)
@@ -42,6 +38,10 @@ module BasicData
 
     def applicable?
       PlanningElementTypeColor.all.empty?
+    end
+
+    def not_applicable_msg
+      '   *** Skipping colors as there are already some configured'
     end
 
     def data

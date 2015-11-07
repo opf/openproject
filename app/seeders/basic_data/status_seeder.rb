@@ -29,10 +29,6 @@
 module BasicData
   class StatusSeeder < Seeder
     def seed_data!
-      unless applicable?
-        '   *** Skipping statuses - already exists/configured'
-      end
-
       Status.transaction do
         data.each do |attributes|
           Status.create!(attributes)
@@ -42,6 +38,10 @@ module BasicData
 
     def applicable
       Status.all.any?
+    end
+
+    def not_applicable_msg
+      '   *** Skipping statuses - already exists/configured'
     end
 
     def data

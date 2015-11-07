@@ -29,11 +29,6 @@
 module BasicData
   class ProjectStatusSeeder < Seeder
     def seed_data!
-      unless applicable?
-        puts '  *** Skipping reported project status as there are already some configured'
-        return
-      end
-
       ReportedProjectStatus.transaction do
         data.each do |attributes|
           ReportedProjectStatus.create!(attributes)
@@ -43,6 +38,10 @@ module BasicData
 
     def applicable?
       ReportedProjectStatus.all.empty?
+    end
+
+    def not_applicable_msg
+      '  *** Skipping reported project status as there are already some configured'
     end
 
     def data

@@ -29,11 +29,6 @@
 module BasicData
   class ActivitySeeder < Seeder
     def seed_data!
-      unless applicable?
-        puts '   *** Skipping activities as there are already some configured'
-        return
-      end
-
       TimeEntryActivity.transaction do
         data.each do |attributes|
           TimeEntryActivity.create(attributes)
@@ -43,6 +38,10 @@ module BasicData
 
     def applicable?
       TimeEntryActivity.all.empty?
+    end
+
+    def not_applicable_msg
+      '   *** Skipping activities as there are already some configured'
     end
 
     def data

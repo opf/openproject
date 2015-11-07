@@ -29,10 +29,6 @@
 module BasicData
   class TypeSeeder < Seeder
     def seed_data!
-      unless applicable?
-        '   *** Skipping types - already exists/configured'
-      end
-
       Type.transaction do
         data.each do |attributes|
           Type.create!(attributes)
@@ -42,6 +38,10 @@ module BasicData
 
     def applicable
       Type.all.any?
+    end
+
+    def not_applicable_msg
+      '   *** Skipping types - already exists/configured'
     end
 
     def data

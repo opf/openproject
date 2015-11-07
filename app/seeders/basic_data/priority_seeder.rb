@@ -29,11 +29,6 @@
 module BasicData
   class PrioritySeeder < Seeder
     def seed_data!
-      unless applicable?
-        puts '   *** Skipping priorities as there are already some configured'
-        return
-      end
-
       IssuePriority.transaction do
         data.each do |attributes|
           IssuePriority.create!(attributes)
@@ -43,6 +38,10 @@ module BasicData
 
     def applicable?
       IssuePriority.all.empty?
+    end
+
+    def not_applicable_msg
+      '   *** Skipping priorities as there are already some configured'
     end
 
     def data
