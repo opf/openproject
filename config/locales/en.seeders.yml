@@ -70,6 +70,7 @@ en:
           type_name: :default_type_milestone
           start: 0
           duration: 1
+          relations: []
           children: []
 
         - subject: Project planning
@@ -77,30 +78,35 @@ en:
           type_name: :default_type_phase
           start: 1
           duration: 10
+          relations: []
           children:
           - subject: Collect ideas
             status_name: :default_status_closed
             type_name: :default_type_task
             start: 1
             duration: 3
+            relations: []
 
           - subject: Ensure financing
             status_name: :default_status_closed
             type_name: :default_type_task
             start: 1
             duration: 3
+            relations: []
 
           - subject: Build a project team
             status_name: :default_status_in_progress
             type_name: :default_type_task
             start: 7
             duration: 4
+            relations: []
 
         - subject: Development
           status_name: :default_status_scheduled
           type_name: :default_type_phase
           start: 14
           duration: 26
+          relations: []
           children:
           - subject: Nice feature
             status_name: :default_status_in_development
@@ -108,6 +114,7 @@ en:
             start: 14
             duration: 26
             version: Sprint 1
+            relations: []
 
           - subject: Great feature
             status_name: :default_status_developed
@@ -115,6 +122,7 @@ en:
             start: 14
             duration: 11
             version: Sprint 1
+            relations: []
 
           - subject: Best feature
             status_name: :default_status_specified
@@ -122,6 +130,7 @@ en:
             start: 29
             duration: 11
             version: Sprint 2
+            relations: []
 
           - subject: Awful bug
             status_name: :default_status_confirmed
@@ -129,6 +138,9 @@ en:
             start: 31
             duration: 7
             version: Sprint 1
+            relations:
+              - to: Terrible bug
+                type: relates
 
           - subject: Terrible bug
             status_name: :default_status_confirmed
@@ -136,12 +148,16 @@ en:
             start: 37
             duration: 3
             version: Sprint 1
+            relations: []
 
         - subject: Release public beta
           status_name: :default_status_scheduled
           type_name: :default_type_milestone
           start: 41
           duration: 1
+          relations:
+            - to: 'Development'
+              type: 'follows'
           children: []
 
         - subject: Documentation and help resources
@@ -149,6 +165,7 @@ en:
           type_name: :default_type_phase
           start: 43
           duration: 16
+          relations: []
           children: []
 
         - subject: Testing and bugfixing
@@ -156,6 +173,7 @@ en:
           type_name: :default_type_phase
           start: 43
           duration: 16
+          relations: []
           children: []
 
         - subject: Go-Live
@@ -163,6 +181,7 @@ en:
           type_name: :default_type_milestone
           start: 60
           duration: 1
+          relations: []
           children: []
 
       wiki:

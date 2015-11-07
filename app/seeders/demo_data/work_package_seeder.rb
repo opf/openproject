@@ -43,6 +43,7 @@ module DemoData
       print ' ↳ Creating work_packages'
 
       seed_demo_work_packages
+      set_workpackage_relations
     end
 
     private
@@ -71,7 +72,7 @@ module DemoData
           version    = Version.find_by(name: child_attributes[:version])
 
           print '.'
-          child = WorkPackage.create!(
+          child = WorkPackage.new(
             project:       project,
             author:        user,
             subject:       child_attributes[:subject],
@@ -85,6 +86,38 @@ module DemoData
           child.parent = work_package
           child.save!
         end
+      end
+    end
+
+    def set_workpackage_relations
+      work_packages_data = I18n.t('seeders.demo_data.work_packages')
+
+      work_packages_data.each do |attributes|
+        attributes[:relations].each do |relation|
+          create_relation(
+            to:   WorkPackage.find_by!(subject: relation[:to]),
+            from: WorkPackage.find_by!(subject: attributes[:subject]),
+            type: relation[:type]
+          )
+        end
+
+        attributes[:children].each do |child_attributes|
+          child_attributes[:relations].each do |relation|
+            create_relation(
+              to:   WorkPackage.find_by!(subject: relation[:to]),
+              from: WorkPackage.find_by!(subject: child_attributes[:subject]),
+              type: relation[:type]
+            )
+          end
+        end
+      end
+    end
+
+    def create_relation(to:, from:, type:)
+      from.new_relation.tap do |relation|
+        relation.to = to
+        relation.relation_type = type
+        relation.save!
       end
     end
 
