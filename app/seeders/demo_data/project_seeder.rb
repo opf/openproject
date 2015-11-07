@@ -68,6 +68,7 @@ module DemoData
 
     def set_modules(project)
       project.enabled_module_names += ['timelines']
+      project.enabled_module_names -= ['repository']
     end
 
     def set_members(project)
