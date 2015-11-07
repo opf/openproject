@@ -123,6 +123,20 @@ en:
             duration: 11
             version: Sprint 2
 
+          - subject: Awful bug
+            status_name: :default_status_confirmed
+            type_name: :default_type_bug
+            start: 31
+            duration: 7
+            version: Sprint 1
+
+          - subject: Terrible bug
+            status_name: :default_status_confirmed
+            type_name: :default_type_bug
+            start: 37
+            duration: 3
+            version: Sprint 1
+
         - subject: Release public beta
           status_name: :default_status_scheduled
           type_name: :default_type_milestone
