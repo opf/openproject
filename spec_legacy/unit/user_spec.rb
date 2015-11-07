@@ -553,9 +553,5 @@ describe User, type: :model do
         assert ! @user.notify_about?(@issue)
       end
     end
-
-    context 'other events' do
-      it 'should be added and tested'
-    end
   end
 end

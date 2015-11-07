@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 
 describe Redmine::MenuManager::Mapper do
-  context 'Mapper#initialize' do
-    it 'should be tested'
-  end
 
   it 'should push onto root' do
     menu_mapper = Redmine::MenuManager::Mapper.new(:test_menu, {})

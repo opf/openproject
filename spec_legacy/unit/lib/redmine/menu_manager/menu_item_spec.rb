@@ -44,14 +44,6 @@ describe Redmine::MenuManager::MenuItem do
     menu.push(:child2_menu, '/test',  parent: :parent)
   end
 
-  context 'MenuItem#caption' do
-    it 'should be tested'
-  end
-
-  context 'MenuItem#html_options' do
-    it 'should be tested'
-  end
-
   # context new menu item
   it 'should new menu item should require a name' do
     assert_raises ArgumentError do

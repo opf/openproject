@@ -46,26 +46,6 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     end
   end
 
-  context 'MenuManager#current_menu_item' do
-    it 'should be tested'
-  end
-
-  context 'MenuManager#render_main_menu' do
-    it 'should be tested'
-  end
-
-  context 'MenuManager#render_menu' do
-    it 'should be tested'
-  end
-
-  context 'MenuManager#menu_item_and_children' do
-    it 'should be tested'
-  end
-
-  context 'MenuManager#extract_node_details' do
-    it 'should be tested'
-  end
-
   it 'should render single menu node' do
     node = Redmine::MenuManager::MenuItem.new(:testing, '/test', {})
     @response.body = render_single_menu_node(node, 'This is a test', node.url, false)
