@@ -157,7 +157,7 @@ angular.module('openproject')
       url: '/create_new?type',
       controller: 'WorkPackageNewController',
       controllerAs: 'vm',
-      templateUrl: '/templates/work_packages.list.new.html',
+      templateUrl: '/components/routes/templates/work-package-new.route.html',
       reloadOnSearch: false
     })
     .state('work-packages.list.details', {
