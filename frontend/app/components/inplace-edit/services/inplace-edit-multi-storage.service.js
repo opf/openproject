@@ -48,13 +48,13 @@ function inplaceEditMultiStorage($rootScope, $q, inplaceEditStorage, EditableFie
       });
 
       return $q.all(promises).then(function () {
-        EditableFieldsState.errors = null;
         EditableFieldsState.currentField = null;
 
         $rootScope.$broadcast('workPackageRefreshRequired');
 
       }).finally(function () {
         promises = [];
+        EditableFieldsState.errors = null;
         EditableFieldsState.isBusy = false;
       });
     },

@@ -35,11 +35,7 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
 
   return {
     saveWorkPackage: function () {
-      var deferred = $q.defer(),
-          handleErrors = function (errors) {
-            deferred.reject(errors);
-            EditableFieldsState.errors = null
-          };
+      var deferred = $q.defer();
 
       if (EditableFieldsState.errors) {
         deferred.reject(EditableFieldsState.errors);
@@ -60,9 +56,9 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
 
               deferred.resolve(updatedWorkPackage);
             })
-            .catch(handleErrors);
+            .catch(deferred.reject);
         })
-        .catch(handleErrors);
+        .catch(deferred.reject);
 
       return deferred.promise;
     },
