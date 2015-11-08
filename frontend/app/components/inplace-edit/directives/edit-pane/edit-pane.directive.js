@@ -172,7 +172,7 @@ function InplaceEditorEditPaneController($rootScope, $scope, $element, $location
     vm.discardEditing();
   });
 
-  $rootScope.$on('inplaceEditMultiStorage.save.workPackage', function (event, promise) {
+  $scope.$on('inplaceEditMultiStorage.save.workPackage', function (event, promise) {
     promise.then(function() {
       $location.hash(null);
       $timeout(function() {

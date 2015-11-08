@@ -42,19 +42,20 @@ function inplaceEditMultiStorage($rootScope, $q, inplaceEditStorage, EditableFie
             store.active = false;
           });
 
-          $rootScope.$emit('inplaceEditMultiStorage.save.' + store.name, promises[store.index]);
+          $rootScope.$broadcast(
+            'inplaceEditMultiStorage.save.' + store.name, promises[store.index]);
         }
       });
 
       return $q.all(promises).then(function () {
         EditableFieldsState.errors = null;
         EditableFieldsState.currentField = null;
-        EditableFieldsState.isBusy  = false;
 
         $rootScope.$broadcast('workPackageRefreshRequired');
 
-      }).catch(function () {
-        EditableFieldsState.isBusy  = false;
+      }).finally(function () {
+        promises = [];
+        EditableFieldsState.isBusy = false;
       });
     },
 
