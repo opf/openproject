@@ -39,7 +39,6 @@ function WorkPackageNewController($scope, $rootScope, $state, $stateParams, Path
   vm.groupedFields = [];
   vm.hideEmptyFields = true;
 
-  vm.submit = submit;
   vm.cancel = cancel;
 
   vm.loaderPromise = null;
@@ -101,24 +100,7 @@ function WorkPackageNewController($scope, $rootScope, $state, $stateParams, Path
     });
   }
 
-  function submit() {
-    var field = angular.element('.work-packages--details--subject:first .inplace-edit--write')
-                       .scope().editPaneController.submitField;
-
-    EditableFieldsState.submissionPromises['work_package'] = {
-      field: 'subject',
-      thePromise: field,
-      prepend: true,
-    };
-
-    EditableFieldsState.save(function() {
-      $rootScope.$emit('workPackagesRefreshRequired');
-    });
-  }
-
   function cancel() {
-    // previousState set in a $stateChangeSuccess callback
-    // in the .run() sequence
     if ($rootScope.previousState && $rootScope.previousState.name) {
       vm.loaderPromise = $state.go($rootScope.previousState.name, $rootScope.previousState.params);
     } else {
