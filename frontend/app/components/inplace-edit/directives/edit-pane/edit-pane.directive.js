@@ -182,8 +182,10 @@ function InplaceEditorEditPaneController($rootScope, $scope, $element, $location
     }).catch(function (errors) {
       $scope.focusInput();
 
-      var errorMessages = _.flatten(_.map(errors), true);
-      NotificationsService.addError(I18n.t('js.label_validation_error'), errorMessages);
+      if (errors.hasOwnProperty(field.name)) {
+        var errorMessages = _.flatten(_.map(errors), true);
+        NotificationsService.addError(I18n.t('js.label_validation_error'), errorMessages);
+      }
     });
   });
 }
