@@ -44,7 +44,8 @@ function editActionsBar() {
 
     bindToController: true,
     controllerAs: 'vm',
-    controller:  function ($scope, I18n, EditableFieldsState, NotificationsService) {
+
+    controller:  function ($scope, I18n, EditableFieldsState, inplaceEditMultiStorage) {
       var vm = this;
 
       angular.extend(vm, {
@@ -53,7 +54,7 @@ function editActionsBar() {
         },
 
         save: function () {
-          EditableFieldsState.save().then(vm.onSave);
+          inplaceEditMultiStorage.save().then(vm.onSave);
         },
 
         cancel: function () {
