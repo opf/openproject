@@ -31,7 +31,7 @@ angular
   .factory('inplaceEditStorage', inplaceEditStorage);
 
 function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageService,
-  ActivityService) {
+  ActivityService, inplaceEdit) {
 
   return {
     saveWorkPackage: function () {
@@ -72,7 +72,7 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
 
       WorkPackageService.loadWorkPackageForm(EditableFieldsState.workPackage)
         .then(function(form) {
-          EditableFieldsState.workPackage.form = form;
+          inplaceEdit.form(EditableFieldsState.workPackage.props.id).resource.form = form;
 
           if (_.isEmpty(form.embedded.validationErrors.props)) {
             deferred.resolve(form);
