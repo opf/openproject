@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,22 +24,15 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function(
-           $scope,
-           $rootScope,
-           $state,
-           $stateParams,
-           $timeout,
-           $window,
-           PathHelper,
-           WorkPackagesOverviewService,
-           WorkPackageFieldService,
-           WorkPackageService,
-           EditableFieldsState,
-           WorkPackageDisplayHelper
-           ) {
+angular
+  .module('openproject.workPackages.controllers')
+  .controller('WorkPackageNewController', WorkPackageNewController);
+
+function WorkPackageNewController($scope, $rootScope, $state, $stateParams, PathHelper,
+    WorkPackagesOverviewService, WorkPackageFieldService, WorkPackageService, EditableFieldsState,
+    WorkPackagesDisplayHelper) {
 
   var vm = this;
 
@@ -51,16 +44,16 @@ module.exports = function(
 
   vm.loaderPromise = null;
 
-  vm.isFieldHideable = WorkPackageDisplayHelper.isFieldHideableOnCreate;
+  vm.isFieldHideable = WorkPackagesDisplayHelper.isFieldHideableOnCreate;
   vm.isGroupHideable = function(groups, group, wp) {
     // custom wrapper for injecting a special callback
-    return WorkPackageDisplayHelper.isGroupHideable(groups, group, wp, vm.isFieldHideable);
+    return WorkPackagesDisplayHelper.isGroupHideable(groups, group, wp, vm.isFieldHideable);
   };
-  vm.getLabel = WorkPackageDisplayHelper.getLabel;
-  vm.isSpecified = WorkPackageDisplayHelper.isSpecified;
-  vm.isEditable = WorkPackageDisplayHelper.isEditable;
-  vm.hasNiceStar = WorkPackageDisplayHelper.hasNiceStar;
-  vm.showToggleButton = WorkPackageDisplayHelper.showToggleButton;
+  vm.getLabel = WorkPackagesDisplayHelper.getLabel;
+  vm.isSpecified = WorkPackagesDisplayHelper.isSpecified;
+  vm.isEditable = WorkPackagesDisplayHelper.isEditable;
+  vm.hasNiceStar = WorkPackagesDisplayHelper.hasNiceStar;
+  vm.showToggleButton = WorkPackagesDisplayHelper.showToggleButton;
 
   activate();
 
@@ -80,7 +73,7 @@ module.exports = function(
     vm.loaderPromise = WorkPackageService.initializeWorkPackage($scope.projectIdentifier, data)
     .then(function(wp) {
       vm.workPackage = wp;
-      WorkPackageDisplayHelper.setFocus();
+      WorkPackagesDisplayHelper.setFocus();
       $scope.workPackage = wp;
       $scope.$watchCollection('vm.workPackage.form', function() {
         vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
@@ -132,4 +125,4 @@ module.exports = function(
       vm.loaderPromise = $state.go('^');
     }
   }
-};
+}
