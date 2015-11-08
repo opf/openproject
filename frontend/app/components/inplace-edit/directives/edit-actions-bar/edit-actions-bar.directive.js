@@ -39,11 +39,27 @@ function editActionsBar() {
 
     scope: {},
 
-    controller: ['$scope', 'I18n', 'EditableFieldsState', '$window', function ($scope, I18n,
-                                                                    EditableFieldsState, $window) {
-      angular.extend($scope, {
-        I18n: I18n,
-        efs: EditableFieldsState
+    bindToController: true,
+    controllerAs: 'vm',
+    controller:  function ($scope, I18n, EditableFieldsState, $window) {
+
+      angular.extend(this, {
+        visible: function () {
+          return EditableFieldsState.editAll.state && EditableFieldsState.editAll.allowed;
+        },
+
+        save: function () {
+          EditableFieldsState.save();
+        },
+
+        cancel: function () {
+          EditableFieldsState.editAll.cancel();
+        },
+
+        text: {
+          save: I18n.t('js.button_save'),
+          cancel: I18n.t('js.button_cancel')
+        }
       });
 
       $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
@@ -58,6 +74,6 @@ function editActionsBar() {
           }
         }
       })
-    }]
+    }
   };
 };
