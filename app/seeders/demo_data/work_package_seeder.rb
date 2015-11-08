@@ -59,6 +59,7 @@ module DemoData
         work_package = WorkPackage.create!(
           project:       project,
           author:        user,
+          assigned_to:   user,
           subject:       attributes[:subject],
           status:        Status.find_by!(name: I18n.t(attributes[:status_name])),
           type:          Type.find_by!(name: I18n.t(attributes[:type_name])),
@@ -75,6 +76,7 @@ module DemoData
           child = WorkPackage.new(
             project:       project,
             author:        user,
+            assigned_to:   user,
             subject:       child_attributes[:subject],
             status:        Status.find_by!(name: I18n.t(child_attributes[:status_name])),
             type:          Type.find_by!(name: I18n.t(child_attributes[:type_name])),
