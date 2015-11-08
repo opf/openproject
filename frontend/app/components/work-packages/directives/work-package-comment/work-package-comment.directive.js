@@ -31,7 +31,7 @@ angular
   .directive('workPackageComment', workPackageComment);
 
 function workPackageComment($timeout, $location, EditableFieldsState, FocusHelper, I18n,
-  ActivityService, ConfigurationService, AutoCompleteHelper, NotificationsService) {
+  inplaceEditStorage, ConfigurationService, AutoCompleteHelper, NotificationsService) {
 
   function commentFieldDirectiveController($scope, $element) {
     var field = {};
@@ -65,22 +65,17 @@ function workPackageComment($timeout, $location, EditableFieldsState, FocusHelpe
         return;
       }
 
-      EditableFieldsState.isBusy = true;
-
-      ActivityService.createComment(ctrl.workPackage, ctrl.writeValue)
+      inplaceEditStorage.addComment(ctrl.writeValue)
         .then(function() {
           ctrl.discardEditing();
           NotificationsService.addSuccess(I18n.t('js.work_packages.comment_added'));
+
+          var nextActivity = ctrl.activities.length + 1;
+          $location.hash('activity-' + (nextActivity));
         })
         .catch(function() {
           NotificationsService.addError(I18n.t('js.work_packages.comment_send_failed'));
-          EditableFieldsState.isBusy = false;
         });
-
-      var nextActivity = ctrl.activities.length + 1;
-      EditableFieldsState.save().then(function() {
-        $location.hash('activity-' + (nextActivity));
-      });
     };
 
     ctrl.initialize = function(withText) {
@@ -120,7 +115,7 @@ function workPackageComment($timeout, $location, EditableFieldsState, FocusHelpe
     ctrl.discardEditing = function() {
       ctrl.writeValue = { raw: '' };
       ctrl.isEditing = false;
-      ctrl.state.isBusy = false;
+      EditableFieldsState.isBusy = false;
     };
 
     ctrl.isActive = function() {

@@ -181,7 +181,6 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
 
   $scope.$on('workPackageRefreshed', function() {
     vm.discardEditing();
-    EditableFieldsState.isBusy = false;
   });
 }
 InplaceEditorEditPaneController.$inject = ['$scope', '$element', '$location', '$timeout',

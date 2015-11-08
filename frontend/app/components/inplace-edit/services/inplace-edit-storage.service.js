@@ -30,7 +30,8 @@ angular
   .module('openproject.inplace-edit')
   .factory('inplaceEditStorage', inplaceEditStorage);
 
-function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageService) {
+function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageService,
+  ActivityService) {
 
   return {
     saveWorkPackage: function () {
@@ -55,7 +56,7 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
 
               $rootScope.$broadcast('workPackageUpdatedInEditor', updatedWorkPackage);
               $rootScope.$broadcast('uploadPendingAttachments', updatedWorkPackage);
-              $rootScope.$broadcast('workPackageRefreshRequired', updatedWorkPackage);
+              $rootScope.$broadcast('workPackageRefreshRequired');
 
               EditableFieldsState.errors = null;
               EditableFieldsState.currentField = null;
@@ -97,6 +98,17 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
         .catch(deferred.reject);
 
       return deferred.promise;
+    },
+
+    addComment: function (value) {
+      return ActivityService.createComment(EditableFieldsState.workPackage, value)
+        .then(function() {
+          $rootScope.$broadcast('workPackageRefreshRequired');
+          EditableFieldsState.isBusy = false;
+        })
+        .catch(function () {
+          EditableFieldsState.isBusy = false;
+        });
     }
   };
 }
