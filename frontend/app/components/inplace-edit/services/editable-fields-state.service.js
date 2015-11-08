@@ -30,7 +30,7 @@ angular
   .module('openproject.workPackages.services')
   .factory('EditableFieldsState', EditableFieldsState);
 
-function EditableFieldsState($q, $rootScope) {
+function EditableFieldsState($q, $rootScope, $window) {
   var EditableFieldsState = {
     workPackage: null,
     errors: null,
@@ -102,6 +102,17 @@ function EditableFieldsState($q, $rootScope) {
     }
   };
 
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+    if (EditableFieldsState.editAll.state
+      && toParams.workPackageId !== fromParams.workPackageId) {
+
+      if (!$window.confirm(I18n.t('js.text_are_you_sure'))) {
+        return event.preventDefault();
+      }
+
+      EditableFieldsState.editAll.cancel();
+    }
+  });
+
   return EditableFieldsState;
 }
-EditableFieldsState.$inject = ['$q', '$rootScope'];

@@ -41,8 +41,7 @@ function editActionsBar() {
 
     bindToController: true,
     controllerAs: 'vm',
-    controller:  function ($scope, I18n, EditableFieldsState, $window) {
-
+    controller:  function ($scope, I18n, EditableFieldsState) {
       angular.extend(this, {
         visible: function () {
           return EditableFieldsState.editAll.state && EditableFieldsState.editAll.allowed;
@@ -61,19 +60,6 @@ function editActionsBar() {
           cancel: I18n.t('js.button_cancel')
         }
       });
-
-      $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-        if (EditableFieldsState.editAll.state
-          && toParams.workPackageId !== fromParams.workPackageId) {
-
-          if (!$window.confirm(I18n.t('js.text_are_you_sure'))) {
-            event.preventDefault();
-
-          } else {
-            EditableFieldsState.editAll.cancel();
-          }
-        }
-      })
     }
   };
-};
+}
