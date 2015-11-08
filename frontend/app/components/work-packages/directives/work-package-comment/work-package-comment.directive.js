@@ -30,11 +30,13 @@ angular
   .module('openproject.workPackages.directives')
   .directive('workPackageComment', workPackageComment);
 
-function workPackageComment($timeout, $location, EditableFieldsState, FocusHelper, I18n,
-  inplaceEditStorage, ConfigurationService, AutoCompleteHelper, NotificationsService) {
+function workPackageComment($rootScope, $timeout, $location, EditableFieldsState, FocusHelper, I18n,
+  inplaceEditMultiStorage, ConfigurationService, AutoCompleteHelper, NotificationsService) {
 
   function commentFieldDirectiveController($scope, $element) {
-    var field = {};
+    var field = {},
+        commentStore = inplaceEditMultiStorage.stores.comment;
+
     $scope.field = field;
 
     var ctrl = this;
@@ -65,17 +67,7 @@ function workPackageComment($timeout, $location, EditableFieldsState, FocusHelpe
         return;
       }
 
-      inplaceEditStorage.addComment(ctrl.writeValue)
-        .then(function() {
-          ctrl.discardEditing();
-          NotificationsService.addSuccess(I18n.t('js.work_packages.comment_added'));
-
-          var nextActivity = ctrl.activities.length + 1;
-          $location.hash('activity-' + (nextActivity));
-        })
-        .catch(function() {
-          NotificationsService.addError(I18n.t('js.work_packages.comment_send_failed'));
-        });
+      inplaceEditMultiStorage.save();
     };
 
     ctrl.initialize = function(withText) {
@@ -91,6 +83,7 @@ function workPackageComment($timeout, $location, EditableFieldsState, FocusHelpe
       }
 
       field.value = ctrl.writeValue;
+      commentStore.value = field.value;
     };
     ctrl.initialize();
 
@@ -126,6 +119,7 @@ function workPackageComment($timeout, $location, EditableFieldsState, FocusHelpe
     };
 
     ctrl.markActive = function() {
+      commentStore.active = true;
       EditableFieldsState.currentField = ctrl.field;
     };
 
@@ -141,6 +135,19 @@ function workPackageComment($timeout, $location, EditableFieldsState, FocusHelpe
 
     $scope.$on('workPackage.comment.quoteThis', function(evt, quote) {
       ctrl.startEditing(quote);
+    });
+
+    $rootScope.$on('inplaceEditMultiStorage.save.comment', function (event, promise) {
+      promise.then(function() {
+        ctrl.discardEditing();
+        NotificationsService.addSuccess(I18n.t('js.work_packages.comment_added'));
+
+        var nextActivity = ctrl.activities.length + 1;
+        $location.hash('activity-' + (nextActivity));
+
+      }).catch(function() {
+        NotificationsService.addError(I18n.t('js.work_packages.comment_send_failed'));
+      });
     });
   }
 

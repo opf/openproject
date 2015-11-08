@@ -88,11 +88,12 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
 inplaceEditorEditPane.$inject = ['EditableFieldsState', 'FocusHelper', '$timeout'];
 
 
-function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
-    EditableFieldsState, NotificationsService, inplaceEditStorage) {
+function InplaceEditorEditPaneController($rootScope, $scope, $element, $location, $timeout,
+    EditableFieldsState, NotificationsService, inplaceEditStorage, inplaceEditMultiStorage) {
 
   var vm = this;
   var field = $scope.field;
+  var wpStore = inplaceEditMultiStorage.stores.workPackage;
 
   this.submit = function() {
     var detectedViolations = [];
@@ -113,20 +114,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
       EditableFieldsState.errors[field.name] = detectedViolations.join(' ');
     }
 
-    inplaceEditStorage.saveWorkPackage()
-      .then(function() {
-        $location.hash(null);
-        $timeout(function() {
-          $element[0].scrollIntoView(false);
-        });
-      })
-
-      .catch(function (errors) {
-        $scope.focusInput();
-
-        var errorMessages = _.flatten(_.map(errors), true);
-        NotificationsService.addError(I18n.t('js.label_validation_error'), errorMessages);
-      });
+    inplaceEditMultiStorage.save();
   };
 
   this.discardEditing = function() {
@@ -139,6 +127,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
   };
 
   this.markActive = function() {
+    wpStore.active = true;
     EditableFieldsState.currentField = field.name;
   };
 
@@ -182,6 +171,22 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
   $scope.$on('workPackageRefreshed', function() {
     vm.discardEditing();
   });
+
+  $rootScope.$on('inplaceEditMultiStorage.save.workPackage', function (event, promise) {
+    promise.then(function() {
+      $location.hash(null);
+      $timeout(function() {
+        $element[0].scrollIntoView(false);
+      });
+
+    }).catch(function (errors) {
+      $scope.focusInput();
+
+      var errorMessages = _.flatten(_.map(errors), true);
+      NotificationsService.addError(I18n.t('js.label_validation_error'), errorMessages);
+    });
+  });
 }
-InplaceEditorEditPaneController.$inject = ['$scope', '$element', '$location', '$timeout',
-   'EditableFieldsState', 'NotificationsService', 'inplaceEditStorage'];
+InplaceEditorEditPaneController.$inject = ['$rootScope', '$scope', '$element', '$location',
+  '$timeout', 'EditableFieldsState', 'NotificationsService', 'inplaceEditStorage',
+  'inplaceEditMultiStorage'];
