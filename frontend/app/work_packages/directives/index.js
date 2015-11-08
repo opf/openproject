@@ -72,9 +72,6 @@ angular.module('openproject.workPackages.directives')
     'WorkPackageAuthorization',
     require('./work-package-details-toolbar-directive')
   ])
-  .directive('workPackageEditActions', [
-    require('./work-package-edit-actions-directive')
-  ])
   .directive('workPackageDynamicAttribute', ['$compile', require(
     './work-package-dynamic-attribute-directive')])
   .directive('workPackageGroupHeader', require(
