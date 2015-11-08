@@ -26,11 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-module.exports = function () {
+angular
+  .module('openproject.inplace-edit')
+  .directive('editActionsBar', editActionsBar);
+
+function editActionsBar() {
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/work_packages/work_package_edit_actions.html',
+    templateUrl: '/components/inplace-edit/directives/edit-actions-bar/' +
+      'edit-actions-bar.directive.html',
+
     scope: {},
 
     controller: ['$scope', 'I18n', 'EditableFieldsState', '$window', function ($scope, I18n,
