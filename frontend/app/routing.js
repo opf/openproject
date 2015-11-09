@@ -162,7 +162,7 @@ angular.module('openproject')
     })
     .state('work-packages.list.details', {
       url: '/details/{workPackageId:[0-9]+}',
-      templateUrl: '/templates/work_packages.list.details.html',
+      templateUrl: '/components/routes/templates/work-package-details.route.html',
       controller: 'WorkPackageDetailsController',
       reloadOnSearch: false,
       resolve: {

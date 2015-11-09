@@ -72,29 +72,6 @@ angular.module('openproject.workPackages.controllers')
     precedes: 'precedes',
     follows: 'follows'
   })
-  .controller('WorkPackageDetailsController', [
-    '$scope',
-    '$state',
-    'latestTab',
-    'workPackage',
-    'I18n',
-    'RELATION_TYPES',
-    'RELATION_IDENTIFIERS',
-    '$q',
-    '$rootScope',
-    '$filter',
-    'WorkPackagesHelper',
-    'PathHelper',
-    'UsersHelper',
-    'ConfigurationService',
-    'WorkPackageService',
-    'ActivityService',
-    'CommonRelationsHandler',
-    'ChildrenRelationsHandler',
-    'ParentRelationsHandler',
-    'NotificationsService',
-    require('./work-package-details-controller')
-  ])
   .controller('WorkPackageShowController', [
     '$scope',
     '$rootScope',

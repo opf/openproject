@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,29 +24,17 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function($scope,
-    $state,
-    latestTab,
-    workPackage,
-    I18n,
-    RELATION_TYPES,
-    RELATION_IDENTIFIERS,
-    $q,
-    $rootScope,
-    $filter,
-    WorkPackagesHelper,
-    PathHelper,
-    UsersHelper,
-    ConfigurationService,
-    WorkPackageService,
-    ActivityService,
-    CommonRelationsHandler,
-    ChildrenRelationsHandler,
-    ParentRelationsHandler,
-    NotificationsService
-  ) {
+angular
+  .module('openproject.workPackages.controllers')
+  .controller('WorkPackageDetailsController', WorkPackageDetailsController);
+
+function WorkPackageDetailsController($scope, $state, latestTab, workPackage, I18n, RELATION_TYPES,
+    RELATION_IDENTIFIERS, $q, $rootScope, $filter, WorkPackagesHelper, PathHelper, UsersHelper,
+    ConfigurationService, WorkPackageService, ActivityService, CommonRelationsHandler,
+    ChildrenRelationsHandler, ParentRelationsHandler, NotificationsService) {
+
   $scope.$on('$stateChangeSuccess', function(event, toState){
     latestTab.registerState(toState.name);
   });
@@ -224,4 +212,4 @@ module.exports = function($scope,
     $state.current.url.replace(/\//, ''),
     $scope.workPackage
   );
-};
+}
