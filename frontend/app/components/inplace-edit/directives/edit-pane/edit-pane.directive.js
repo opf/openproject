@@ -114,7 +114,15 @@ function InplaceEditorEditPaneController($rootScope, $scope, $element, $location
       EditableFieldsState.errors[field.name] = detectedViolations.join(' ');
     }
 
-    inplaceEditMultiStorage.save();
+    inplaceEditMultiStorage.save().then(function () {
+      $location.hash(null);
+      $timeout(function() {
+        $element[0].scrollIntoView(false);
+      });
+
+    }).catch(function () {
+      $scope.focusInput();
+    });
   };
 
   this.discardEditing = function() {
@@ -173,15 +181,7 @@ function InplaceEditorEditPaneController($rootScope, $scope, $element, $location
   });
 
   $scope.$on('inplaceEditMultiStorage.save.workPackage', function (event, promise) {
-    promise.then(function() {
-      $location.hash(null);
-      $timeout(function() {
-        $element[0].scrollIntoView(false);
-      });
-
-    }).catch(function (errors) {
-      $scope.focusInput();
-
+    promise.catch(function (errors) {
       if (errors.hasOwnProperty(field.name)) {
         var errorMessages = _.flatten(_.map(errors), true);
         NotificationsService.addError(I18n.t('js.label_validation_error'), errorMessages);
