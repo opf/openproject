@@ -94,17 +94,11 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
               }
             });
 
-            deferred.reject(handleAPIErrors(deferred));
+            deferred.reject(EditableFieldsState.errors);
           }
         })
 
-        .catch(function (errors) {
-          EditableFieldsState.errors = {
-            _common: ApiHelper.getErrorMessages(errors)
-          };
-
-          deferred.reject(EditableFieldsState.errors);
-        });
+        .catch(handleAPIErrors(deferred));
 
       return deferred.promise;
     },
