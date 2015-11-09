@@ -108,7 +108,7 @@ function EditableFieldsState($q, $rootScope, $window) {
   };
 
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-    if (EditableFieldsState.editAll.state
+    if (EditableFieldsState.editAll.state && fromParams.workPackageId
       && toParams.workPackageId !== fromParams.workPackageId) {
 
       if (!$window.confirm(I18n.t('js.text_are_you_sure'))) {
