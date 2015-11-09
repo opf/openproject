@@ -32,7 +32,7 @@ angular
 
 function WorkPackageNewController($scope, $rootScope, $state, $stateParams, PathHelper,
     WorkPackagesOverviewService, WorkPackageFieldService, WorkPackageService, EditableFieldsState,
-    WorkPackagesDisplayHelper) {
+    WorkPackagesDisplayHelper, NotificationsService) {
 
   var vm = this;
 
@@ -53,6 +53,10 @@ function WorkPackageNewController($scope, $rootScope, $state, $stateParams, Path
   vm.isEditable = WorkPackagesDisplayHelper.isEditable;
   vm.hasNiceStar = WorkPackagesDisplayHelper.hasNiceStar;
   vm.showToggleButton = WorkPackagesDisplayHelper.showToggleButton;
+
+  vm.notifyCreation = function() {
+    NotificationsService.addSuccess(I18n.t('js.notice_successful_create'));
+  };
 
   activate();
 

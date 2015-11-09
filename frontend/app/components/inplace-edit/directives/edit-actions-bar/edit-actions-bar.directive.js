@@ -38,7 +38,8 @@ function editActionsBar() {
       'edit-actions-bar.directive.html',
 
     scope: {
-      onCancel: '&'
+      onCancel: '&',
+      onSave: '&'
     },
 
     bindToController: true,
@@ -52,9 +53,7 @@ function editActionsBar() {
         },
 
         save: function () {
-          EditableFieldsState.save().then(function() {
-            NotificationsService.addSuccess(I18n.t('js.notice_successful_create'));
-          });
+          EditableFieldsState.save().then(vm.onSave);
         },
 
         cancel: function () {
