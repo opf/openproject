@@ -40,9 +40,6 @@
   margin: 0.625rem 0 0
   @extend %input--sizing
 
-.toolbar
-  padding: 0 10px 0 0
-
 .toolbar-container
   padding: 0
   margin-bottom: 12px
@@ -73,6 +70,9 @@
     float: left
     &.toolbar-item
       margin: 0 5px //$drop-nav-spacing // spacing between nav items
+
+      &:last-child
+        margin-right: 0
 
   button, .button, input[type=text], input[type=number], select
     @include toolbar-element-sizing
