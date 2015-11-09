@@ -88,8 +88,8 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
 inplaceEditorEditPane.$inject = ['EditableFieldsState', 'FocusHelper', '$timeout'];
 
 
-function InplaceEditorEditPaneController($rootScope, $scope, $element, $location, $timeout,
-    EditableFieldsState, NotificationsService, inplaceEditStorage, inplaceEditMultiStorage) {
+function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
+    EditableFieldsState, inplaceEditStorage, inplaceEditMultiStorage) {
 
   var vm = this;
   var field = $scope.field;
@@ -180,6 +180,3 @@ function InplaceEditorEditPaneController($rootScope, $scope, $element, $location
     vm.discardEditing();
   });
 }
-InplaceEditorEditPaneController.$inject = ['$rootScope', '$scope', '$element', '$location',
-  '$timeout', 'EditableFieldsState', 'NotificationsService', 'inplaceEditStorage',
-  'inplaceEditMultiStorage'];
