@@ -84,4 +84,6 @@
     <work-package-attachments work-package="vm.workPackage" data-ng-show="!vm.hideEmptyFields"></work-package-attachments>
   </div>
 </div>
-<edit-actions-bar on-cancel="vm.cancel()"></edit-actions-bar>
+<edit-actions-bar on-cancel="vm.cancel()"
+                  on-save="vm.notifyCreation()">
+</edit-actions-bar>

@@ -38,12 +38,13 @@ function editActionsBar() {
       'edit-actions-bar.directive.html',
 
     scope: {
-      onCancel: '&'
+      onCancel: '&',
+      onSave: '&'
     },
 
     bindToController: true,
     controllerAs: 'vm',
-    controller:  function ($scope, I18n, EditableFieldsState) {
+    controller:  function ($scope, I18n, EditableFieldsState, NotificationsService) {
       var vm = this;
 
       angular.extend(vm, {
@@ -52,7 +53,7 @@ function editActionsBar() {
         },
 
         save: function () {
-          EditableFieldsState.save();
+          EditableFieldsState.save().then(vm.onSave);
         },
 
         cancel: function () {

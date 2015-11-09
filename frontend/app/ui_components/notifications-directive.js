@@ -32,7 +32,7 @@ module.exports = function() {
     scope.stack = [];
 
     scope.$on('notification.add', function(_e, notification) {
-      scope.stack.push(notification);
+      scope.stack.unshift(notification);
     });
 
     scope.$on('notification.remove', function(_e, notification) {
