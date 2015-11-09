@@ -129,7 +129,6 @@ Feature: Updating work packages
     And I fill in a comment with "human horn"
     And I preview the comment to be added and see "human horn"
     And I submit the form by the "Save" button
-    And I should see "The comment was successfully added."
     And I should see the comment "human horn"
 
   @javascript
