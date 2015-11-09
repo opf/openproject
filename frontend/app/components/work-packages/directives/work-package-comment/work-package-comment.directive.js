@@ -137,16 +137,12 @@ function workPackageComment($rootScope, $timeout, $location, EditableFieldsState
       ctrl.startEditing(quote);
     });
 
-    $rootScope.$on('inplaceEditMultiStorage.save.comment', function (event, promise) {
+    $scope.$on('inplaceEditMultiStorage.save.comment', function (event, promise) {
       promise.then(function() {
         ctrl.discardEditing();
-        NotificationsService.addSuccess(I18n.t('js.work_packages.comment_added'));
 
         var nextActivity = ctrl.activities.length + 1;
         $location.hash('activity-' + (nextActivity));
-
-      }).catch(function() {
-        NotificationsService.addError(I18n.t('js.work_packages.comment_send_failed'));
       });
     });
   }
