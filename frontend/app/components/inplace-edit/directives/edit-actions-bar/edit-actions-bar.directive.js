@@ -37,12 +37,16 @@ function editActionsBar() {
     templateUrl: '/components/inplace-edit/directives/edit-actions-bar/' +
       'edit-actions-bar.directive.html',
 
-    scope: {},
+    scope: {
+      onCancel: '&'
+    },
 
     bindToController: true,
     controllerAs: 'vm',
     controller:  function ($scope, I18n, EditableFieldsState) {
-      angular.extend(this, {
+      var vm = this;
+
+      angular.extend(vm, {
         visible: function () {
           return EditableFieldsState.editAll.state && EditableFieldsState.editAll.allowed;
         },
@@ -52,6 +56,7 @@ function editActionsBar() {
         },
 
         cancel: function () {
+          vm.onCancel();
           EditableFieldsState.editAll.cancel();
         },
 

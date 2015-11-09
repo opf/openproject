@@ -46,7 +46,7 @@ describe 'new work package', js: true do
     find('#work-package-subject input').set(subject)
     find('#work-package-description textarea').set(description)
 
-    within '.work-packages--details-toolbar' do
+    within '.work-packages--edit-actions' do
       click_button 'Save'
     end
 
