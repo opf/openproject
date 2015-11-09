@@ -43,7 +43,7 @@ module OpenProject
     # Displays a link to user's account page if active or registered
     def link_to_user(user, options = {})
       if user.is_a?(User)
-        name = user.name(options.delete(:format))
+        name = user.name
         if user.active? || user.registered? || user.invited?
           link_to(name, user, options)
         else
