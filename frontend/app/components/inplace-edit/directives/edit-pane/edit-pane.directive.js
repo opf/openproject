@@ -179,15 +179,6 @@ function InplaceEditorEditPaneController($rootScope, $scope, $element, $location
   $scope.$on('workPackageRefreshed', function() {
     vm.discardEditing();
   });
-
-  $scope.$on('inplaceEditMultiStorage.save.workPackage', function (event, promise) {
-    promise.catch(function (errors) {
-      if (errors.hasOwnProperty(field.name)) {
-        var errorMessages = _.flatten(_.map(errors), true);
-        NotificationsService.addError(I18n.t('js.label_validation_error'), errorMessages);
-      }
-    });
-  });
 }
 InplaceEditorEditPaneController.$inject = ['$rootScope', '$scope', '$element', '$location',
   '$timeout', 'EditableFieldsState', 'NotificationsService', 'inplaceEditStorage',

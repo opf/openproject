@@ -31,7 +31,7 @@ angular
   .factory('inplaceEditStorage', inplaceEditStorage);
 
 function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageService,
-  ActivityService, inplaceEdit) {
+  ActivityService, inplaceEdit, ApiHelper) {
 
   return {
     saveWorkPackage: function () {
@@ -87,7 +87,11 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
           }
         })
 
-        .catch(deferred.reject);
+        .catch(function (errors) {
+          EditableFieldsState.errors = {
+            _common: ApiHelper.getErrorMessages(errors)
+          };
+        });
 
       return deferred.promise;
     },

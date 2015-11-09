@@ -31,7 +31,16 @@ angular
   .factory('inplaceEditMultiStorage', inplaceEditMultiStorage);
 
 
-function inplaceEditMultiStorage($rootScope, $q, inplaceEditStorage, EditableFieldsState) {
+function inplaceEditMultiStorage($rootScope, $q, inplaceEditStorage, EditableFieldsState,
+    NotificationsService) {
+
+  $rootScope.$on('inplaceEditMultiStorage.save.workPackage', function (event, promise) {
+    promise.catch(function (errors) {
+      var errorMessages = _.flatten(_.map(errors), true);
+      NotificationsService.addError(I18n.t('js.label_validation_error'), errorMessages);
+    });
+  });
+
   return {
     save: function () {
       var promises = [];
