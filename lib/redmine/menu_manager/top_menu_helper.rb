@@ -51,21 +51,38 @@ module Redmine::MenuManager::TopMenuHelper
 
     return '' if User.current.anonymous? and User.current.number_of_known_projects.zero?
 
-    heading = link_to l(:label_project_plural),
-                      { controller: '/projects',
-                        action: 'index' },
-                      title: l(:label_project_plural),
-                      accesskey: OpenProject::AccessKeys.key_for(:project_search),
-                      class: 'icon5 icon-unit'
+    link_to_all_projects = link_to l(:label_project_plural),
+                            { controller: '/projects',
+                              action: 'index' },
+                            title: l(:label_project_plural),
+                            accesskey: OpenProject::AccessKeys.key_for(:project_search),
+                            class: 'icon5 icon-unit'
 
     if User.current.impaired?
-      content_tag :li do
-        heading
+      result =  content_tag :li do
+                  link_to_all_projects
+                end
+
+      if User.current.allowed_to?(:add_project, nil, global: true)
+        result +=   content_tag :li do
+                      link_to l(:label_project_new), new_project_path,
+                        class: 'icon4 icon-add',
+                        # For the moment we actually don't have a key for new project.
+                        # Need to decide on one.
+                        accesskey: OpenProject::AccessKeys.key_for(:new_project)
+                    end
       end
+
     else
-      render_drop_down_menu_node heading do
+      render_drop_down_menu_node link_to_all_projects do
         content_tag :ul, style: 'display:none' do
-          ret = content_tag :li do
+          ret = ''
+          if User.current.allowed_to?(:add_project, nil, global: true)
+            ret +=  content_tag :li do
+                      link_to l(:label_project_new), new_project_path, class: 'icon4 icon-add'
+                    end
+          end
+          ret += content_tag :li do
             link_to l(:label_project_view_all), { controller: '/projects',
                                                   action: 'index' },
                     class: 'icon4 icon-list-view2'
@@ -75,7 +92,7 @@ module Redmine::MenuManager::TopMenuHelper
             hidden_field_tag('', '', class: 'select2-select')
           end
 
-          ret
+          ret.html_safe
         end
       end
     end
