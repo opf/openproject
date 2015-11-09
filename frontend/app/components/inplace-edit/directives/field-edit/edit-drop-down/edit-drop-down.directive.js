@@ -92,6 +92,11 @@ function InplaceEditorDropDownController($q, $scope, I18n, WorkPackageFieldConfi
     });
   };
 
+  this.optionGroup = function(option) {
+   return WorkPackageFieldConfigurationService
+     .getDropDownOptionGroup($scope.field.name, option);
+  };
+
   var addEmptyOption = function(values) {
     var emptyOption = { props: { href: null,
                                  name: $scope.field.placeholder } };

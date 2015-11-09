@@ -51,8 +51,10 @@ angular.module('openproject.workPackages.services')
       attributes: []
     }
   ])
-  .factory('WorkPackageFieldConfigurationService',
-           require('./work-package-field-configuration-service'))
+  .factory('WorkPackageFieldConfigurationService', [
+    'VersionService',
+    require('./work-package-field-configuration-service')
+  ])
   .service('WorkPackagesOverviewService', [
     'WORK_PACKAGE_ATTRIBUTES',
     require('./work-packages-overview-service')

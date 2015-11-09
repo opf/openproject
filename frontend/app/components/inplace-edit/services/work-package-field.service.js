@@ -140,9 +140,9 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
   function getEmbeddedAllowedValues(workPackage, field) {
     var options = [];
     var schema = getSchema(workPackage);
-    var allowedValues = schema.props[field]._links.allowedValues;
+    var allowedValues = schema.props[field]._embedded.allowedValues;
     options = _.map(allowedValues, function(item) {
-      return _.extend({}, item, { name: item.title });
+      return _.extend({}, item, { name: item.name || item.title });
     });
 
     return options;
