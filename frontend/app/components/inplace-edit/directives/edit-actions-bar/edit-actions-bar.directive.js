@@ -43,7 +43,7 @@ function editActionsBar() {
 
     bindToController: true,
     controllerAs: 'vm',
-    controller:  function ($scope, I18n, EditableFieldsState) {
+    controller:  function ($scope, I18n, EditableFieldsState, NotificationsService) {
       var vm = this;
 
       angular.extend(vm, {
@@ -52,7 +52,9 @@ function editActionsBar() {
         },
 
         save: function () {
-          EditableFieldsState.save();
+          EditableFieldsState.save().then(function() {
+            NotificationsService.addSuccess(I18n.t('js.notice_successful_create'));
+          });
         },
 
         cancel: function () {

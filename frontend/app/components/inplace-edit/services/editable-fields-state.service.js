@@ -49,7 +49,9 @@ function EditableFieldsState($q, $rootScope, $window) {
     },
 
     save: function () {
-      var promises = [];
+      var promises = [],
+          deferred = $q.defer();
+
       angular.forEach(this.submissionPromises, function(field) {
         var p = field.thePromise.call(this);
         promises[field.prepend ? 'unshift' : 'push' ](p);
@@ -61,7 +63,10 @@ function EditableFieldsState($q, $rootScope, $window) {
         this.submissionPromises = {};
         this.currentField = null;
         this.editAll.stop();
+        deferred.resolve();
       }));
+
+      return deferred.promise;
     },
 
     discard: function (fieldName) {
