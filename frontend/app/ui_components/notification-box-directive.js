@@ -26,9 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n) {
+module.exports = function(I18n, $timeout) {
 
-  var notificationBoxController = function(scope) {
+  var notificationBoxController = function(scope, element) {
     scope.uploadCount = 0;
     scope.show = false;
     scope.I18n = I18n;
@@ -50,6 +50,11 @@ module.exports = function(I18n) {
         scope.$emit('notification.remove', scope.content);
       }
     };
+
+    $timeout(function() {
+      element.find('.notification-box--errors').attr('role', 'alert');
+      element.find('.notification-box--close').focus();
+    });
 
     scope.$on('upload.error', function() {
       if (scope.content.type === 'upload') {

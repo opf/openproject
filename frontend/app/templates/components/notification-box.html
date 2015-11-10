@@ -24,12 +24,16 @@
         <!-- "create another" button -->
       </div>
       <div data-ng-switch-when="error">
-        <ul class="notification-box--errors">
+        <ul class="notification-box--errors" role="alert">
           <li data-ng-repeat="error in content.errors">{{error}}</li>
         </ul>
         <!-- "continue editing" button -->
       </div>
     </div>
   </div>
-  <a data-ng-click="remove()" data-ng-if="removable()" title="{{ ::I18n.t('js.close_popup_title') }}" class="notification-box--close icon-context icon-close"></a>
+  <accessible-by-keyboard ng-if="removable()"
+                          execute="remove()"
+                          link-title="{{ ::I18n.t('js.close_popup_title') }}"
+                          link-class="notification-box--close icon-context icon-close">
+  </accessible-by-keyboard>
 </div>
