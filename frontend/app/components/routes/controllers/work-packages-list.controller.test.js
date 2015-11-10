@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,19 +24,22 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
 /*jshint expr: true*/
 
 describe('WorkPackagesListController', function() {
-  var scope, ctrl, win,
-     testProjectService, testWorkPackageService, testQueryService, testPaginationService, testAuthorisationService;
+  var scope, ctrl, win, testProjectService, testWorkPackageService, testQueryService,
+      testPaginationService, testAuthorisationService;
   var testQueries;
   var buildController;
   var stateParams = {};
 
-  beforeEach(module('openproject.api', 'openproject.workPackages.controllers', 'openproject.workPackages.services', 'ng-context-menu', 'btford.modal', 'openproject.layout', 'openproject.services'));
-  beforeEach(module('openproject.templates', function($provide) {
+  beforeEach(angular.mock.module('openproject.api', 'openproject.workPackages.controllers',
+    'openproject.workPackages.services', 'ng-context-menu', 'btford.modal', 'openproject.layout',
+    'openproject.services'));
+
+  beforeEach(angular.mock.module('openproject.templates', function($provide) {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -92,12 +95,12 @@ describe('WorkPackagesListController', function() {
     };
 
     testProjectService = {
-      getProject: function(identifier) {
+      getProject: function() {
         return $timeout(function() {
           return projectData;
         }, 10);
       },
-      getProjects: function(identifier) {
+      getProjects: function() {
         return $timeout(function() {
           return projectsData;
         }, 10);
@@ -110,14 +113,9 @@ describe('WorkPackagesListController', function() {
           return defaultWorkPackagesData;
         }, 10);
       },
-      getWorkPackagesByQueryId: function (params) {
+      getWorkPackagesByQueryId: function () {
         return $timeout(function () {
           return workPackagesDataByQueryId;
-        }, 10);
-      },
-      getWorkPackagesFromUrlQueryParams: function () {
-        return $timeout(function () {
-          return defaultWorkPackagesData;
         }, 10);
       }
     };
@@ -133,9 +131,6 @@ describe('WorkPackagesListController', function() {
         return testQueries[queryId];
       },
       clearQuery: function() {},
-      getAvailableOptions: function() {
-        return {};
-      },
       loadAvailableColumns: function () {
         return $timeout(function () {
           return columnData;

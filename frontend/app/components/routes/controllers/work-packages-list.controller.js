@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,13 +24,16 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function($scope, $rootScope, $state, $stateParams, $location, latestTab,
-      I18n, WorkPackagesTableService,
-      WorkPackageService, ProjectService, QueryService, PaginationService,
-      AuthorisationService, UrlParamsHelper, PathHelper, Query,
-      OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService, EditableFieldsState) {
+angular
+  .module('openproject.workPackages.controllers')
+  .controller('WorkPackagesListController', WorkPackagesListController);
+
+function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $location, latestTab,
+  I18n, WorkPackagesTableService, WorkPackageService, ProjectService, QueryService,
+  PaginationService, AuthorisationService, UrlParamsHelper, Query,
+  OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService, EditableFieldsState) {
 
   $scope.projectIdentifier = $stateParams.projectPath || null;
 
@@ -53,7 +56,9 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
       fetchWorkPackages = fetchWorkPackagesFromUrlParams(queryParams);
     } else if($state.params.query_id) {
       // Load the query by id if present
-      fetchWorkPackages = WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $state.params.query_id);
+      fetchWorkPackages = WorkPackageService.getWorkPackagesByQueryId(
+        $scope.projectIdentifier, $state.params.query_id);
+
     } else {
       // Clear the cached query and load the default
       QueryService.clearQuery();
@@ -84,7 +89,9 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
         PaginationService.setPerPage(queryFromParams.perPage);
       }
 
-      return WorkPackageService.getWorkPackages($scope.projectIdentifier, queryFromParams, PaginationService.getPaginationOptions());
+      return WorkPackageService.getWorkPackages(
+        $scope.projectIdentifier, queryFromParams, PaginationService.getPaginationOptions());
+
     } catch(e) {
       NotificationsService.addError(
           I18n.t('js.work_packages.query.errors.unretrievable_query')
@@ -134,7 +141,9 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
       $scope.query = QueryService.updateQuery(updateData, afterQuerySetupCallback);
     } else {
       // Set up fresh query from retrieved query meta data
-      $scope.query = QueryService.initQuery($state.params.query_id, queryData, columnData, metaData.export_formats, afterQuerySetupCallback);
+      $scope.query = QueryService.initQuery($state.params.query_id, queryData, columnData,
+        metaData.export_formats, afterQuerySetupCallback);
+
       if (queryParamsPresent) {
         $scope.query.dirty = true;
       }
@@ -302,7 +311,9 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
   };
 
   $scope.showWorkPackageShowView = function() {
-    var id = $state.params.workPackageId || $scope.preselectedWorkPackageId || nextAvailableWorkPackage(),
+    var id = $state.params.workPackageId
+          || $scope.preselectedWorkPackageId || nextAvailableWorkPackage(),
+
         // Have to use $location.search() here as $state.params
         // isn't filled unless the url is queried for by the
         // browser. This seems to be caused by #maintainUrlQueryState
@@ -326,4 +337,4 @@ module.exports = function($scope, $rootScope, $state, $stateParams, $location, l
       return 0;
     }
   };
-};
+}
