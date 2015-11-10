@@ -43,7 +43,7 @@ function workPackageComment($rootScope, $timeout, $location, EditableFieldsState
     ctrl.state = EditableFieldsState;
     ctrl.field = 'activity-comment';
 
-    ctrl.editTitle = I18n.t('js.inplace.button_edit', { attribute: I18n.t('js.label_comment') });
+    ctrl.editTitle = I18n.t('js.label_add_comment');
     ctrl.placeholder = I18n.t('js.label_add_comment_title');
     ctrl.title = I18n.t('js.label_add_comment_title');
 

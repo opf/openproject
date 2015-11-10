@@ -95,6 +95,9 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
   var field = $scope.field;
   var wpStore = inplaceEditMultiStorage.stores.workPackage;
 
+  this.saveTitle = I18n.t('js.inplace.button_save', { attribute: field.name });
+  this.cancelTitle = I18n.t('js.inplace.button_cancel', { attribute: field.name });
+
   this.submit = function() {
     var detectedViolations = [];
 

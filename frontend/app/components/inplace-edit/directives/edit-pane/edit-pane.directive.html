@@ -4,11 +4,15 @@
       </div>
     <div class="inplace-edit--dashboard">
       <div class="inplace-edit--controls" ng-hide="fieldController.state.isBusy || !editPaneController.isActive()">
-        <accessible-by-keyboard execute="editPaneController.submit()" class="inplace-edit--control inplace-edit--control--save">
+        <accessible-by-keyboard execute="editPaneController.submit()"
+                                link-title="{{ editPaneController.saveTitle }}"
+                                class="inplace-edit--control inplace-edit--control--save">
           <icon-wrapper icon-name="yes" icon-title="{{ editPaneController.saveTitle }}">
           </icon-wrapper>
         </accessible-by-keyboard>
-        <accessible-by-keyboard execute="editPaneController.discardEditing()" class="inplace-edit--control inplace-edit--control--cancel">
+        <accessible-by-keyboard execute="editPaneController.discardEditing()"
+                                link-title="{{ editPaneController.cancelTitle }}"
+                                class="inplace-edit--control inplace-edit--control--cancel">
           <icon-wrapper icon-name="close" icon-title="{{ editPaneController.cancelTitle }}">
           </icon-wrapper>
         </accessible-by-keyboard>

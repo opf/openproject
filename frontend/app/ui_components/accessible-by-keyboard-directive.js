@@ -33,6 +33,7 @@ module.exports = function() {
     scope: {
       execute: '&',
       linkClass: '@',
+      linkTitle: '@',
       spanClass: '@'
     },
     templateUrl: '/templates/components/accessible_by_keyboard.html'
