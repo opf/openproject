@@ -109,7 +109,13 @@ function inplaceEdit($rootScope, WorkPackageFieldService) {
 
   return service = {
     form: function (id, resource) {
-      return forms[id] = forms[id] || new Form(resource);
+      forms[id] = forms[id] || new Form(resource);
+
+      if (!forms[id].resource) {
+        forms[id].resource = resource;
+      }
+
+      return forms[id];
     }
   };
 }
