@@ -57,14 +57,12 @@ Feature: Tracking Time
 
   @javascript
   Scenario: Adding a time entry
-    Given the plugin openproject_costs is not loaded
     When I log 2 hours with the comment "test"
     Then I should see a time entry with 2 hours and comment "test"
     And I should see a total spent time of 6 hours
 
   @javascript @selenium
   Scenario: Editing a time entry
-    Given the plugin openproject_costs is not loaded
     When I update the first time entry with 4 hours and the comment "updated test"
     Then I should see a time entry with 4 hours and comment "updated test"
     And I should see a total spent time of 4 hours
