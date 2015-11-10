@@ -112,18 +112,6 @@ Feature: Updating work packages
       | Description    | Desc2       |
 
   @javascript
-  Scenario: Concurrent updates to work packages
-    When I go to the edit page of the work package called "wp1"
-    And I click the edit work package button
-    And I click on "Show all"
-    And I fill in the following:
-      | Start date     | 03-04-2013   |
-    And the work_package "wp1" is updated with the following:
-      | Start date | 04-04-2013 |
-    And I submit the form by the "Save" button
-    Then I should see an error notification stating "Couldn't update the resource because of conflicting modifications."
-
-  @javascript
   Scenario: User adds a comment to a work package with previewing the stuff before
     When I go to the page of the issue "wp1"
     And I click on the edit button

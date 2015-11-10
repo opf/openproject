@@ -36,8 +36,23 @@ module PageObjects
       @page = page
     end
 
+    def expect_type(type, message)
+      raise "Unimplemented type #{type}." unless types.include?(type)
+      expect(page).to have_selector(".notification-box.-#{type}", text: message)
+    end
+
     def expect_success(message)
-      expect(page).to have_selector('.notification-box.-success', text: message)
+      expect_type(:success, message)
+    end
+
+    def expect_error(message)
+      expect_type(:error, message)
+    end
+
+    private
+
+    def types
+      [:success, :error]
     end
   end
 end
