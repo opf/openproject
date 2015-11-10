@@ -50,44 +50,7 @@ describe 'Themes' do
     get '/'
 
     assert_response :success
-  assert_select 'link', attributes: { href: '/assets/default.css' }
+    assert_select 'link', attributes: { href: '/assets/default.css' }
   end
 
-  xit 'test without theme js' do
-    get '/'
-
-    assert_response :success
-  assert_select('script',
-                  {attributes: { src: '/assets/default.js' }}, false)
-  end
-
-  xit 'test with theme js' do
-    begin
-      # Simulates a theme.js
-      @theme.javascripts << 'theme'
-      get '/'
-
-      assert_response :success
-      assert_select 'script',
-                 attributes: { src: '/assets/default.js' }
-    ensure
-      @theme.javascripts.delete 'theme'
-    end
-  end
-
-  xit 'test with sub uri' do
-    begin
-      OpenProject::Configuration['rails_relative_url_root'] = '/foo'
-      @theme.javascripts << 'theme'
-      get '/'
-
-      assert_response :success
-      assert_select 'link',
-                 attributes: { src: '/foo/assets/default.js' }
-      assert_select 'script',
-                 attributes: { src: '/foo/assets/default.js' }
-    ensure
-      OpenProject::Configuration['rails_relative_url_root'] = ''
-    end
-  end
 end

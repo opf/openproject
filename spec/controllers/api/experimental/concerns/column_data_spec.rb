@@ -48,8 +48,6 @@ describe 'ColumnData', type: :controller do
 
       expect(column_data_type(column)).to eq('currency')
     end
-
-    xit 'should test the full gamut of types'
   end
 
   describe '#link_meta' do
