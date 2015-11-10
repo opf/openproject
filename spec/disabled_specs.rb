@@ -17,7 +17,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-RAILS_ENV = "test" unless defined? RAILS_ENV
+require 'rspec/example_disabler'
 
-require "spec_helper"
-Dir[File.dirname(__FILE__) + '/support/*.rb'].each { |file| require file }
+RSpec::ExampleDisabler.disable_example('Top menu items as a user with permissions displays all options', 'plugin openproject-reporting removes the menu item')
+RSpec::ExampleDisabler.disable_example('Top menu items as an admin visits the time sheet page', 'plugin openproject-reporting removes the menu item')
+RSpec::ExampleDisabler.disable_example('Top menu items as an admin displays all items', 'plugin openproject-reporting removes the menu item')
