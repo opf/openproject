@@ -73,32 +73,47 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
       return deferred.promise;
     },
 
-    updateWorkPackageForm: function () {
+    /**
+     * Refreshes the work package form without validation,
+     * but rejects upon API errors.
+     */
+    refreshWorkPackageForm: function() {
       var deferred = $q.defer();
-
       WorkPackageService.loadWorkPackageForm(EditableFieldsState.workPackage)
         .then(function(form) {
           inplaceEdit.form(EditableFieldsState.workPackage.props.id).resource.form = form;
           EditableFieldsState.workPackage.form = form;
 
-          if (_.isEmpty(form.embedded.validationErrors.props)) {
-            deferred.resolve(form);
+          deferred.resolve(form);
+      }).catch(handleAPIErrors(deferred));
 
-          } else {
-            EditableFieldsState.errors = {};
-            _.forEach(form.embedded.validationErrors.props, function(error, field) {
-              if(field === 'startDate' || field === 'dueDate') {
-                EditableFieldsState.errors['date'] = error.message;
-              } else {
-                EditableFieldsState.errors[field] = error.message;
-              }
-            });
+      return deferred.promise;
+    },
 
-            deferred.reject(EditableFieldsState.errors);
-          }
-        })
+    /**
+     * Updates and processes the work package form, validating
+     * and rejecting upon form errors.
+     */
+    updateWorkPackageForm: function () {
+      var deferred = $q.defer();
 
-        .catch(handleAPIErrors(deferred));
+      this.refreshWorkPackageForm().then(function(form) {
+        if (_.isEmpty(form.embedded.validationErrors.props)) {
+          deferred.resolve(form);
+
+        } else {
+          EditableFieldsState.errors = {};
+          _.forEach(form.embedded.validationErrors.props, function(error, field) {
+            if(field === 'startDate' || field === 'dueDate') {
+              EditableFieldsState.errors['date'] = error.message;
+            } else {
+              EditableFieldsState.errors[field] = error.message;
+            }
+          });
+
+          deferred.reject(EditableFieldsState.errors);
+        }
+      }).catch(deferred.reject);
 
       return deferred.promise;
     },

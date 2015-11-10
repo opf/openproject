@@ -173,7 +173,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
   });
 
   $scope.$on('form.updateRequired', function() {
-    inplaceEditStorage.updateWorkPackageForm();
+    inplaceEditStorage.refreshWorkPackageForm();
   });
 
   $scope.$on('workPackageRefreshed', function() {
