@@ -61,15 +61,6 @@ fi
 
 if [ $1 = "npm" ]; then
   run "npm test"
-elif [ $1 = "spec:plugins" ] || [ $1 = "cucumber:plugins" ]; then
-  run "bundle exec rake $1"
-elif [ $1 = "legacy" ]; then
-  run "bundle exec parallel_test --type rspec -o '-I spec_legacy' spec_legacy $GROUPING || \
-       bundle exec rspec -I spec_legacy --only-failures spec_legacy"
-elif [ $1 = "spec" ]; then
-  run "bundle exec parallel_test --type rspec --runtime-log script/files/parallel_runtime_rspec.log spec $GROUPING || \
-       bundle exec rspec --only-failures"
-elif [ $1 = "cucumber" ]; then
-  run "bundle exec parallel_test --type cucumber -o '-p rerun -r features' --runtime-log script/files/parallel_runtime_cucumber.log features $GROUPING || \
-       bundle exec cucumber -p rerun -r features"
+else
+  run "bundle exec rake parallel:$1 GROUP_SIZE=$2 GROUP=$3"
 fi
