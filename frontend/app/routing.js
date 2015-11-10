@@ -67,7 +67,7 @@ angular.module('openproject')
 
     .state('work-packages.show', {
       url: '/work_packages/{workPackageId:[0-9]+}?query_props',
-      templateUrl: '/components/routes/templates/work-package-show.route.html',
+      templateUrl: '/components/routes/partials/work-packages.show.html',
       controller: 'WorkPackageShowController',
       controllerAs: 'vm',
       abstract: true,
@@ -157,12 +157,12 @@ angular.module('openproject')
       url: '/create_new?type',
       controller: 'WorkPackageNewController',
       controllerAs: 'vm',
-      templateUrl: '/components/routes/templates/work-package-new.route.html',
+      templateUrl: '/components/routes/partials/work-packages.list.new.html',
       reloadOnSearch: false
     })
     .state('work-packages.list.details', {
       url: '/details/{workPackageId:[0-9]+}',
-      templateUrl: '/components/routes/templates/work-package-details.route.html',
+      templateUrl: '/components/routes/partials/work-packages.list.details.html',
       controller: 'WorkPackageDetailsController',
       reloadOnSearch: false,
       resolve: {
