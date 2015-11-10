@@ -3,15 +3,7 @@
     <div toolbar id="toolbar">
       <ul id="toolbar-items">
         <li class="toolbar-item" ng-hide="true">
-          <button class="button -alt-highlight add-work-package"
-                  has-dropdown-menu
-                  target="TasksDropdownMenu"
-                  locals="availableTypes,projectIdentifier"
-                  ng-disabled="cannot('work_package', 'create') || editAll.state">
-            <i class="button--icon icon-add"></i>
-            <span class="button--text" ng-bind="::I18n.t('js.toolbar.unselected_title')"></span>
-            <i class="button--dropdown-indicator"></i>
-          </button>
+          <wp-create-button></wp-create-button>
         </li>
         <li class="toolbar-item">
           <button class="button edit-all-button"
