@@ -34,10 +34,7 @@ angular.module('openproject')
   '$urlMatcherFactoryProvider',
   function($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
   // TODO: Preserve #note-4 part of the URL.
-  $urlRouterProvider.when('/work_packages/{id}', function ($match) {
-    if($match.id.length === 0) {
-      return '/work_packages';
-    }
+  $urlRouterProvider.when('/work_packages/{id: [0-9]+}', function ($match) {
     return '/work_packages/' + $match.id + '/activity';
   });
 
@@ -63,6 +60,14 @@ angular.module('openproject')
           };
         }
       }
+    })
+
+    .state('work-packages.new', {
+      url: '/{projects}/{projectPath}/work_packages/create',
+      templateUrl: '/components/routes/partials/work-packages.create.html',
+      controller: 'WorkPackageNewController',
+      controllerAs: 'vm',
+      reloadOnSearch: false
     })
 
     .state('work-packages.show', {
