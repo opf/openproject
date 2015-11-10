@@ -76,6 +76,7 @@
       @include default-font($header-item-font-color, $header-item-font-size)
       text-decoration: none
       padding: 0 10px 0 10px
+
     > a:hover
       background: $header-item-bg-hover-color
       color: $header-item-font-hover-color
@@ -90,12 +91,13 @@
       border: 2px solid $header-drop-down-border-color
       border-top: 0
       background-color: $header-drop-down-bg-color
-      li  a
-        height: 30px
-        line-height: 30px
       li
         float: none
         white-space: nowrap
+        a
+          height: 32px
+          line-height: 32px
+          font-size: 1rem
   li.open > a
     position: relative
     top: 0
@@ -130,6 +132,11 @@
         &:hover
           background: $header-item-bg-hover-color
           color: $header-drop-down-item-font-hover-color
+
+      &:first-child
+        margin-top: 6px
+      &:nth-last-child(2)
+        margin-bottom: 6px
 
   #loggedas
     float: right
@@ -220,24 +227,30 @@ input.top-menu-search--input
   @include default-font($header-drop-down-projects-search-font-color, 13px)
   li
     padding: 0 10px
+    font-size: 15px
 
   .select2-search
-    background: $header-drop-down-projects-search-bg-color
-    margin: 0 0 10px 0
+    margin: 0
+    color: #b3b3b3
+    border-top: 1px solid #D9D9D9
+    border-bottom: 1px solid #D9D9D9
 
     &:before
-      top: 21px
+      color: #b3b3b3
+      top: 19px
       right: 26px
+      font-size: 14px
 
   .select2-search input.select2-input
-    margin: 10px 10px
+    margin: 9px 10px
     padding: 0px 32px 0px 10px
-    border: none
-    border-radius: 25px
+    border: 1px solid #D9D9D9
+    box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.1)
     width: 92%
+    background: $header-drop-down-projects-search-input-bg-color
 
   .select2-results
-    margin: 0
+    margin: 8px 0
     padding: 0
 
     .select2-highlighted
