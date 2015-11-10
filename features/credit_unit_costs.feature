@@ -34,7 +34,7 @@ Feature: Credit unit costs
       | unit        | single_unit |
       | unit_plural | multi_unit  |
 
-  @javascript
+  @javascript @wip
   Scenario: Crediting units costs to an work_package
     When I am already logged in as "manager"
     And I go to the page of the work package "work_package1"
