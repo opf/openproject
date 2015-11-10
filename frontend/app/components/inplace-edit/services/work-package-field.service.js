@@ -140,12 +140,7 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
   function getEmbeddedAllowedValues(workPackage, field) {
     var options = [];
     var schema = getSchema(workPackage);
-    var allowedValues = schema.props[field]._links.allowedValues;
-    options = _.map(allowedValues, function(item) {
-      return _.extend({}, item, { name: item.title });
-    });
-
-    return options;
+    return schema.props[field]._embedded.allowedValues;
   }
 
   function getLinkedAllowedValues(workPackage, field) {
@@ -401,6 +396,7 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
     getValue: getValue,
     getLabel: getLabel,
     getAllowedValues: getAllowedValues,
+    allowedValuesEmbedded: allowedValuesEmbedded,
     format: format,
     getInplaceEditStrategy: getInplaceEditStrategy,
     getInplaceDisplayStrategy: getInplaceDisplayStrategy

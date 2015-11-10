@@ -26,14 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
+module.exports = function(VersionService) {
   function getDropdownSortingStrategy(field) {
     var sorting;
 
     switch(field) {
       case 'version':
-        sorting = function(field) {
-          return field.title.toLowerCase();
+        sorting = function(option) {
+          var definingProject = VersionService.getDefininingProject(option) || '';
+
+          // This is a hack to work around limited lodash multi-attribute
+          // sorting and works fine for string-based sorting in our case.
+          // TODO Possibly refactor when v3 hits
+          return definingProject + '_' + option.name.toLowerCase();
         };
         break;
       default:
@@ -42,7 +47,16 @@ module.exports = function() {
     return sorting;
   }
 
+  function getDropDownOptionGroup(field, option) {
+    switch(field) {
+      case 'version':
+        return VersionService.getDefininingProject(option);
+        break;
+    }
+  }
+
   return {
-    getDropdownSortingStrategy: getDropdownSortingStrategy
+    getDropdownSortingStrategy: getDropdownSortingStrategy,
+    getDropDownOptionGroup: getDropDownOptionGroup
   };
 };

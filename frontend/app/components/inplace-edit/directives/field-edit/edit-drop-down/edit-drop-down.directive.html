@@ -10,6 +10,6 @@
       title="{{ fieldController.editTitle }}"
       class="inplace-edit-select form--select"
       id="inplace-edit--write-value--{{::field.name}}"
-      ng-options="option as option.name for option in customEditorController.allowedValues track by option.hrefTracker">
+      ng-options="option.name group by option.group for option in customEditorController.allowedValues track by option.hrefTracker">
   </select>
 </div>

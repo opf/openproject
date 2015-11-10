@@ -30,6 +30,12 @@ module.exports = function($http, PathHelper) {
 
   var VersionService = {
 
+    getDefininingProject: function(resource) {
+      if (resource._links && resource._links.definingProject) {
+        return resource._links.definingProject.title;
+      }
+    },
+
     getVersions: function(projectIdentifier) {
       var url;
 

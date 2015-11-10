@@ -58,6 +58,7 @@ describe('Inplace editor drop-down directive', function() {
 
     scope.field = {
       getAllowedValues: sinon.stub().returns(allowedValuePromise),
+      allowedValuesEmbedded: sinon.stub().returns(false),
       format: sinon.stub().returns({ props: { name: allowedValues[0].name } }),
       isRequired: sinon.stub().returns(true),
       value: { props: { href: allowedValues[0].href } }
