@@ -29,10 +29,10 @@
 
 class UpdateProjectsTypesService < BaseProjectService
   def call(type_ids)
-    type_ids = [::Type.standard_type.id] if type_ids.nil? || type_ids.empty?
+    type_ids = standard_types if type_ids.nil? || type_ids.empty?
 
     if types_missing?(type_ids)
-      project.errors.add(:type,
+      project.errors.add(:types,
                          :in_use_by_work_packages,
                          types: missing_types(type_ids).map(&:name).join(', '))
       false
@@ -44,6 +44,15 @@ class UpdateProjectsTypesService < BaseProjectService
   end
 
   protected
+
+  def standard_types
+    type = ::Type.standard_type
+    if type.nil?
+      []
+    else
+      [type.id]
+    end
+  end
 
   def types_missing?(type_ids)
     !missing_types(type_ids).empty?
