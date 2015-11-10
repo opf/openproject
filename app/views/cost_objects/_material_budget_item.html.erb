@@ -64,7 +64,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       page << "edit($('#{id_prefix}_costs'), '#{name_prefix}[budget]', '#{number_to_currency(material_budget_item.budget)}');" if material_budget_item.budget
     end %>
   </td>
-  <td class="delete budget-table--fields">
+  <td class="delete budget-table--fields buttons -short">
     <%= link_to_function icon_wrapper('icon-context icon-delete',t(:button_delete)), "deleteMaterialBudgetItem('#{id_prefix}')", :class => 'no-decoration-on-hover', :title => t(:button_delete) %>
   </td>
 </tr>
