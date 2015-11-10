@@ -96,6 +96,7 @@ Feature: Updating work packages
       | Subject        | New subject |
       | Description    | Desc2       |
     And I submit the form by the "Save" button
+    And I wait for the AJAX requests to finish
     Then I should see "Successful update"
     Then I should be on the page of the work package "New subject"
     And the work package should be shown with the following values:
