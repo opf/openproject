@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'features/page_objects/notification'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 require 'features/work_packages/shared_contexts'
 require 'features/work_packages/details/inplace_editor/work_package_field'
@@ -12,6 +13,7 @@ describe 'subject inplace editor', js: true, selenium: true do
   let(:user) { FactoryGirl.create :admin }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:field) { WorkPackageField.new page, property_name }
+  let(:notification) { ::PageObjects::Notifications.new(page) }
 
   before do
     login_as(user)
@@ -62,6 +64,21 @@ describe 'subject inplace editor', js: true, selenium: true do
       it 'saves the value on ENTER' do
         field.submit_by_enter
         field.expect_state_text('Aloha')
+      end
+    end
+
+    context 'conflicting modification' do
+      it 'shows a conflict when modified elsewhere' do
+        work_package.subject = 'Some other subject!'
+        work_package.save!
+
+        field.input_element.set 'Aloha'
+        field.submit_by_enter
+        expect(field.editing?).to be true
+
+        notification.expect_error(
+          "Couldn't update the resource because of conflicting modifications."
+        )
       end
     end
   end
