@@ -28,7 +28,13 @@
 #++
 
 namespace :parallel do
+  desc 'Run all suites in parallel (one after another)'
+  task all: ['parallel:plugins:spec', 'parallel:plugins:cucumber', :spec_legacy, :rspec, :cucumber]
+
   namespace :plugins do
+
+    desc 'Run all plugin tests in parallel'
+    task all: ['parallel:plugins:spec', 'parallel:plugins:cucumber']
 
     desc 'Run plugin specs in parallel'
     task spec: [:environment] do
@@ -36,11 +42,9 @@ namespace :parallel do
 
       num_cpus       = ENV['GROUP_SIZE']
       group          = ENV['GROUP']
-      runtime_log    = ENV['RUNTIME_LOG'] || 'tmp/parallel_runtime_plugins_rspec.log'
 
-      group_options       = num_cpus ? "-n #{num_cpus}" : ''
-      group_options      += " --only-group #{group}" if group
-      runtime_log_option  = "--runtime-log #{runtime_log}"
+      group_options  = num_cpus ? "-n #{num_cpus}" : ''
+      group_options += " --only-group #{group}" if group
 
       spec_folders = Plugins::LoadPathHelper.spec_load_paths.join(' ')
 
@@ -49,8 +53,8 @@ namespace :parallel do
         sh 'rm tmp/rspec-examples.txt'
       end
 
-      cmd = "bundle exec parallel_test --type rspec #{runtime_log_option} #{group_options} #{spec_folders} || \
-             bundle exec rspec --only-failures"
+      cmd  = "bundle exec parallel_test --type rspec #{group_options} #{spec_folders}"
+      cmd += " || bundle exec rspec --only-failures #{spec_folders}"
 
       sh cmd
     end
@@ -61,11 +65,9 @@ namespace :parallel do
 
       num_cpus       = ENV['GROUP_SIZE']
       group          = ENV['GROUP']
-      runtime_log    = ENV['RUNTIME_LOG'] || 'tmp/parallel_runtime_plugins_cucumber.log'
 
-      group_options       = num_cpus ? "-n #{num_cpus}" : ''
-      group_options      += " --only-group #{group}" if group
-      runtime_log_option  = "--runtime-log #{runtime_log}"
+      group_options  = num_cpus ? "-n #{num_cpus}" : ''
+      group_options += " --only-group #{group}" if group
 
       support_files = [Rails.root.join('features').to_s] + Plugins::LoadPathHelper.cucumber_load_paths
       support_files = support_files.map { |path|
@@ -73,26 +75,75 @@ namespace :parallel do
       }.flatten.join(' ')
 
       feature_folders  = Plugins::LoadPathHelper.cucumber_load_paths.join(' ')
-      cucumber_options = "-o '#{support_files}'"
+      cucumber_options = "-o ' -p rerun #{support_files}'"
 
-      cmd = "bundle exec parallel_test --type cucumber #{cucumber_options} #{runtime_log_option} #{group_options} #{feature_folders}"
+      cmd  = "bundle exec parallel_test --type cucumber #{cucumber_options} #{group_options} #{feature_folders}"
+      cmd += " || bundle exec cucumber -p rerun #{support_files}"
+
+      if File.exist? 'tmp/cucumber-rerun.txt'
+        sh 'rm tmp/cucumber-rerun.txt'
+      end
 
       sh cmd
     end
   end
 
-  desc 'Run all suites in parallel (one after another)'
-  task all: [:spec, :cucumber, :spec_legacy, 'parallel:plugins:spec', 'parallel:plugins:cucumber']
-
-
   desc 'Run legacy specs in parallel'
   task :spec_legacy do
-    sh "bundle exec parallel_test --type rspec -o '-I spec_legacy' spec_legacy || \
-        bundle exec rspec -I spec_legacy spec_legacy"
+    ParallelTests::Tasks.check_for_pending_migrations
+
+    num_cpus       = ENV['GROUP_SIZE']
+    group          = ENV['GROUP']
+
+    group_options  = num_cpus ? "-n #{num_cpus}" : ''
+    group_options += " --only-group #{group}" if group
+
+    cmd  = "bundle exec parallel_test --type rspec -o '-I spec_legacy' #{group_options} spec_legacy"
+    cmd += ' || bundle exec rspec -I spec_legacy --only-failures spec_legacy'
+
+    sh cmd
   end
 
   desc 'Run cucumber features in parallel (custom task)'
   task :cucumber do
-    sh "bundle exec parallel_test --type cucumber -o '-r features' features"
+    ParallelTests::Tasks.check_for_pending_migrations
+
+    num_cpus       = ENV['GROUP_SIZE']
+    group          = ENV['GROUP']
+
+    group_options  = num_cpus ? "-n #{num_cpus}" : ''
+    group_options += " --only-group #{group}" if group
+
+    support_files = [Rails.root.join('features').to_s] + Plugins::LoadPathHelper.cucumber_load_paths
+    support_files = support_files.map { |path|
+      ['-r', Shellwords.escape(path)]
+    }.flatten.join(' ')
+
+    cucumber_options = "-o ' -p rerun #{support_files}'"
+
+    cmd  = "bundle exec parallel_test --type cucumber #{cucumber_options} #{group_options} features"
+    cmd += ' || bundle exec cucumber -p rerun'
+
+    if File.exist? 'tmp/cucumber-rerun.txt'
+      sh 'rm tmp/cucumber-rerun.txt'
+    end
+
+    sh cmd
+  end
+
+  desc 'Run rspec in parallel (custom task)'
+  task :rspec do
+    ParallelTests::Tasks.check_for_pending_migrations
+
+    num_cpus       = ENV['GROUP_SIZE']
+    group          = ENV['GROUP']
+
+    group_options  = num_cpus ? "-n #{num_cpus}" : ''
+    group_options += " --only-group #{group}" if group
+
+    cmd  = "bundle exec parallel_test --type rspec #{group_options} spec"
+    cmd += ' || bundle exec rspec --only-failures'
+
+    sh cmd
   end
 end
