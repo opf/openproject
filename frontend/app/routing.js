@@ -31,17 +31,17 @@ angular.module('openproject')
 .config([
   '$stateProvider',
   '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
-  // redirect to default activity tab when user lands at /work_packages/:id
+  '$urlMatcherFactoryProvider',
+  function($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
   // TODO: Preserve #note-4 part of the URL.
   $urlRouterProvider.when('/work_packages/{id}', function ($match) {
     if($match.id.length === 0) {
       return '/work_packages';
     }
-    else {
-      return '/work_packages/' + $match.id + '/activity';
-    }
+    return '/work_packages/' + $match.id + '/activity';
   });
+
+  $urlMatcherFactoryProvider.strictMode(false);
 
   $stateProvider
     .state('work-packages', {
