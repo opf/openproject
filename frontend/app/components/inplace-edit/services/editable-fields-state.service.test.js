@@ -54,22 +54,6 @@ describe('EditableFieldsState service', function () {
     });
   });
 
-  describe('save action', function () {
-    var $rootScope;
-
-    beforeEach(inject(function (_$rootScope_) {
-      $rootScope = _$rootScope_;
-    }));
-
-    it('should call the "workPackageRefreshRequired" event', function () {
-      var spy = sinon.spy($rootScope.$broadcast);
-
-      EditableFieldsState.save(false).then(function () {
-        expect(spy.withArgs('workPackageRefreshRequired').calledOnce).to.be.true
-      });
-    });
-  });
-
   describe('edit all', function () {
     beforeEach(function () {
       EditableFieldsState.workPackage = { links: {} };

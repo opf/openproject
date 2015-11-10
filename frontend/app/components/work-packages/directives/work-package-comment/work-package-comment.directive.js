@@ -30,12 +30,13 @@ angular
   .module('openproject.workPackages.directives')
   .directive('workPackageComment', workPackageComment);
 
-function workPackageComment($timeout, $location, $q, EditableFieldsState,
-  FocusHelper, I18n, ActivityService, ConfigurationService, AutoCompleteHelper,
-  NotificationsService) {
+function workPackageComment($rootScope, $timeout, $location, EditableFieldsState, FocusHelper, I18n,
+  inplaceEditMultiStorage, ConfigurationService, AutoCompleteHelper, NotificationsService) {
 
   function commentFieldDirectiveController($scope, $element) {
-    var field = {};
+    var field = {},
+        commentStore = inplaceEditMultiStorage.stores.comment;
+
     $scope.field = field;
 
     var ctrl = this;
@@ -61,18 +62,12 @@ function workPackageComment($timeout, $location, $q, EditableFieldsState,
       return true;
     };
 
-    // Propagate submission to all active fields
     ctrl.submit = function() {
-
-      // Avoid submitting empty comments
       if (ctrl.isEmpty()) {
         return;
       }
 
-      var nextActivity = ctrl.activities.length + 1;
-      EditableFieldsState.save(function() {
-        $location.hash('activity-' + (nextActivity));
-      });
+      inplaceEditMultiStorage.save();
     };
 
     ctrl.initialize = function(withText) {
@@ -88,36 +83,9 @@ function workPackageComment($timeout, $location, $q, EditableFieldsState,
       }
 
       field.value = ctrl.writeValue;
+      commentStore.value = field.value;
     };
     ctrl.initialize();
-
-    /**
-    * Returns a promise to submits this very comment field
-    */
-    ctrl.submitField = function() {
-      var submit = $q.defer();
-
-      // Avoid submitting empty comments
-      // but do not break chain of promises
-      if (ctrl.isEmpty()) {
-        return submit.resolve();
-      }
-
-      ctrl.state.isBusy = true;
-      ActivityService.createComment(
-        ctrl.workPackage,
-        ctrl.writeValue
-      ).then(function() {
-        ctrl.discardEditing();
-        submit.resolve();
-      }, function() {
-        NotificationsService.addError(I18n.t('js.work_packages.comment_send_failed'));
-        ctrl.state.isBusy = false;
-        submit.reject();
-      });
-
-      return submit.promise;
-    };
 
     ctrl.startEditing = function(withText) {
       ctrl.isEditing = true;
@@ -138,10 +106,9 @@ function workPackageComment($timeout, $location, $q, EditableFieldsState,
     };
 
     ctrl.discardEditing = function() {
-      delete EditableFieldsState.submissionPromises[ctrl.field];
       ctrl.writeValue = { raw: '' };
       ctrl.isEditing = false;
-      ctrl.state.isBusy = false;
+      EditableFieldsState.isBusy = false;
     };
 
     ctrl.isActive = function() {
@@ -152,10 +119,7 @@ function workPackageComment($timeout, $location, $q, EditableFieldsState,
     };
 
     ctrl.markActive = function() {
-      EditableFieldsState.submissionPromises[ctrl.field] = {
-        field: ctrl.field,
-        thePromise: ctrl.submitField
-      };
+      commentStore.active = true;
       EditableFieldsState.currentField = ctrl.field;
     };
 
@@ -171,6 +135,15 @@ function workPackageComment($timeout, $location, $q, EditableFieldsState,
 
     $scope.$on('workPackage.comment.quoteThis', function(evt, quote) {
       ctrl.startEditing(quote);
+    });
+
+    $scope.$on('inplaceEditMultiStorage.save.comment', function (event, promise) {
+      promise.then(function() {
+        ctrl.discardEditing();
+
+        var nextActivity = ctrl.activities.length + 1;
+        $location.hash('activity-' + (nextActivity));
+      });
     });
   }
 
@@ -191,9 +164,7 @@ function workPackageComment($timeout, $location, $q, EditableFieldsState,
 
     link: function(scope, element) {
       $timeout(function() {
-        AutoCompleteHelper.enableTextareaAutoCompletion(
-          element.find('textarea')
-        );
+        AutoCompleteHelper.enableTextareaAutoCompletion(element.find('textarea'));
       });
     }
   };

@@ -30,13 +30,12 @@ angular
   .module('openproject.workPackages.services')
   .factory('EditableFieldsState', EditableFieldsState);
 
-function EditableFieldsState($q, $rootScope, $window) {
+function EditableFieldsState($rootScope, $window) {
   var EditableFieldsState = {
     workPackage: null,
     errors: null,
     isBusy: false,
     currentField: null,
-    submissionPromises: {},
     forcedEditState: false,
 
     isActiveField: function (field) {
@@ -48,29 +47,7 @@ function EditableFieldsState($q, $rootScope, $window) {
       return form.pendingChanges = form.pendingChanges || angular.copy(form.embedded.payload.props);
     },
 
-    save: function () {
-      var promises = [],
-          deferred = $q.defer();
-
-      angular.forEach(this.submissionPromises, function(field) {
-        var p = field.thePromise.call(this);
-        promises[field.prepend ? 'unshift' : 'push' ](p);
-      });
-
-      return $q.all(promises).then(angular.bind(this, function() {
-        $rootScope.$broadcast('workPackageRefreshRequired');
-        this.errors = null;
-        this.submissionPromises = {};
-        this.currentField = null;
-        this.editAll.stop();
-        deferred.resolve();
-      }));
-
-      return deferred.promise;
-    },
-
     discard: function (fieldName) {
-      this.submissionPromises = {};
       delete this.getPendingFormChanges()[fieldName];
 
       if (this.errors && this.errors.hasOwnProperty(fieldName)) {
@@ -108,7 +85,7 @@ function EditableFieldsState($q, $rootScope, $window) {
   };
 
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-    if (EditableFieldsState.editAll.state
+    if (EditableFieldsState.editAll.state && fromParams.workPackageId
       && toParams.workPackageId !== fromParams.workPackageId) {
 
       if (!$window.confirm(I18n.t('js.text_are_you_sure'))) {
