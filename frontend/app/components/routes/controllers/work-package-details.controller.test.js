@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,7 +24,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
 /*jshint expr: true*/
 
@@ -33,15 +33,6 @@ describe('WorkPackageDetailsController', function() {
   var buildController, ctrl;
   var stateParams = {};
   var I18n = { t: angular.identity },
-      WorkPackagesHelper = {
-        formatWorkPackageProperty: angular.identity
-      },
-      UserService = {
-        getUser: angular.identity
-      },
-      CustomFieldHelper = {
-        formatCustomFieldValue: angular.identity
-      },
       workPackage = {
         props: {
         },
@@ -106,7 +97,7 @@ describe('WorkPackageDetailsController', function() {
           addWatcher: {
             fetch: function() { return {then: angular.noop}; }
           }
-        },
+        }
       };
 
   function buildWorkPackageWithId(id) {
@@ -114,9 +105,10 @@ describe('WorkPackageDetailsController', function() {
     return workPackage;
   }
 
-  beforeEach(module('openproject.api', 'openproject.layout', 'openproject.services', 'openproject.workPackages.controllers', 'openproject.services'));
+  beforeEach(angular.mock.module('openproject.api', 'openproject.layout', 'openproject.services',
+    'openproject.workPackages.controllers', 'openproject.services'));
 
-  beforeEach(module('openproject.templates', function($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function($provide) {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -124,7 +116,7 @@ describe('WorkPackageDetailsController', function() {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(module('openproject.templates', function($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function($provide) {
     var state = { go: function() { return false; } };
     $provide.value('$state', state);
     $provide.constant('$stateParams', stateParams);
