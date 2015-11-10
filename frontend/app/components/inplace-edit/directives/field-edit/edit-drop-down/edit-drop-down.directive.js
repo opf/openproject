@@ -65,13 +65,30 @@ function InplaceEditorDropDownController($q, $scope, I18n, WorkPackageFieldConfi
 
   this.allowedValues = [];
 
+  function extractOptions(values) {
+    var options = values;
+
+    // Extract options and groups from embedded values only
+    if ($scope.field.allowedValuesEmbedded()) {
+       options = _.map(values, function(item) {
+        return _.extend({}, item._links.self, {
+          name: item._links.self.title,
+          group: WorkPackageFieldConfigurationService
+                   .getDropDownOptionGroup($scope.field.name, item)
+        });
+      });
+    }
+
+    return options;
+  }
+
   this.updateAllowedValues = function(field) {
     var customEditorController = this;
 
     return $q(function(resolve) {
       $scope.field.getAllowedValues()
         .then(function(values) {
-
+          var options;
           var sorting = WorkPackageFieldConfigurationService
             .getDropdownSortingStrategy(field);
 
@@ -79,22 +96,19 @@ function InplaceEditorDropDownController($q, $scope, I18n, WorkPackageFieldConfi
             values = _.sortBy(values, sorting);
           }
 
+          options = extractOptions(values);
+
           if (!$scope.field.isRequired()) {
-            values = addEmptyOption(values);
+            options = addEmptyOption(options);
           }
 
-          addHrefTracker(values);
+          addHrefTracker(options);
 
-          customEditorController.allowedValues = values;
+          customEditorController.allowedValues = options;
 
           resolve();
         });
     });
-  };
-
-  this.optionGroup = function(option) {
-   return WorkPackageFieldConfigurationService
-     .getDropDownOptionGroup($scope.field.name, option);
   };
 
   var addEmptyOption = function(values) {
