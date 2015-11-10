@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,42 +24,20 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function($scope,
-    $rootScope,
-    $state,
-    $stateParams,
-    $location,
-    latestTab,
-    workPackage,
-    I18n,
-    RELATION_TYPES,
-    RELATION_IDENTIFIERS,
-    $filter,
-    $q,
-    WorkPackagesHelper,
-    PathHelper,
-    UsersHelper,
-    ConfigurationService,
-    WorkPackageService,
-    ActivityService,
-    ProjectService,
-    CommonRelationsHandler,
-    ChildrenRelationsHandler,
-    ParentRelationsHandler,
-    WorkPackagesOverviewService,
-    WorkPackageFieldService,
-    EditableFieldsState,
-    WorkPackagesDisplayHelper,
-    NotificationsService,
-    WorkPackageAuthorization,
-    PERMITTED_MORE_MENU_ACTIONS,
-    HookService,
-    $window,
-    WorkPackageAttachmentsService,
-    AuthorisationService
-  ) {
+angular
+  .module('openproject.workPackages.controllers')
+  .controller('WorkPackageShowController', WorkPackageShowController);
+
+function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPackage, I18n,
+    RELATION_TYPES, RELATION_IDENTIFIERS, $filter, $q, WorkPackagesHelper, PathHelper, UsersHelper,
+    ConfigurationService, WorkPackageService, ActivityService, ProjectService,
+    CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler,
+    WorkPackagesOverviewService, WorkPackageFieldService, EditableFieldsState,
+    WorkPackagesDisplayHelper, NotificationsService, WorkPackageAuthorization,
+    PERMITTED_MORE_MENU_ACTIONS, HookService, $window, WorkPackageAttachmentsService,
+    AuthorisationService) {
 
   $scope.can = AuthorisationService.can;
   $scope.cannot = AuthorisationService.cannot;
@@ -397,4 +375,4 @@ module.exports = function($scope,
       NotificationsService.addSuccess(I18n.t('js.label_successful_update'));
     });
   }
-};
+}
