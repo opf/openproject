@@ -82,7 +82,7 @@ class SettingsController < ApplicationController
   end
 
   def default_breadcrumb
-    l(:label_settings)
+    l(:label_system_settings)
   end
 
   private
