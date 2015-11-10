@@ -157,6 +157,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :settings,
             { controller: '/settings' },
+            caption: :label_system_settings,
             html: { class: 'icon2 icon-settings2' }
 
   menu.push :ldap_authentication,
