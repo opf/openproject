@@ -30,13 +30,15 @@ angular
   .module('openproject.services')
   .factory('AuthorisationService', AuthorisationService);
 
-function AuthorisationService() {
+function AuthorisationService($rootScope) {
   var links = {};
 
   var AuthorisationService = {
 
     initModelAuth: function(modelName, modelLinks) {
       links[modelName] = modelLinks;
+
+      $rootScope.$broadcast('modelAuthUpdate.' + modelName)
     },
 
     can: function(modelName, action) {
