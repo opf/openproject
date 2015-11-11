@@ -47,7 +47,11 @@ angular.module('openproject.uiComponents')
   .directive('emptyElement', [require('./empty-element-directive')])
   .constant('ENTER_KEY', 13)
   .directive('expandableSearch', ['ENTER_KEY', require('./expandable-search')])
-  .directive('focus', ['FocusHelper', require('./focus-directive')])
+  .directive('focus', [
+    'FocusHelper',
+    'ConfigurationService',
+    require('./focus-directive')
+  ])
   .constant('FOCUSABLE_SELECTOR', 'a, button, :input, [tabindex], select')
   .service('FocusHelper', ['$timeout', 'FOCUSABLE_SELECTOR', require(
     './focus-helper')])
