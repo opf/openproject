@@ -76,7 +76,7 @@
 /.ruby-version
 /.ruby-gemset
 /.foreman
-/.env
+/.env*
 .rspec
 # coverage in plugins
 /lib/plugins/*/coverage
