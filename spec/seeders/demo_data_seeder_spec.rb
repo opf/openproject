@@ -42,6 +42,7 @@ describe 'seeds' do
       expect{ AdminUserSeeder.new.seed! }.not_to raise_error
       expect{ DemoDataSeeder.seed! }.not_to raise_error
 
+      expect(User.where(admin: true).count).to eq 1
       expect(Project.count).to eq 1
       expect(WorkPackage.count).to eq 15
       expect(Wiki.count).to eq 1

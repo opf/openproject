@@ -26,29 +26,37 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-class AdminUserSeeder
-  def seed!
-    if User.admin.empty?
-      user = new_admin
-      user.save!
-
-      user.force_password_change = Rails.env != 'development'
-      user.password = 'admin'
-      user.save(validate: false)
+class AdminUserSeeder < Seeder
+  def seed_data!
+    user = new_admin
+    unless user.save! validate: false
+      puts 'Seeding admin failed:'
+      user.errors.full_messages.each do |msg|
+        puts "  #{msg}"
+      end
     end
+  end
+
+  def applicable?
+    User.admin.empty?
+  end
+
+  def not_applicable_message
+    'No need to seed an admin as there already is one.'
   end
 
   def new_admin
     User.new.tap do |user|
       user.admin = true
       user.login = 'admin'
-      user.password = '!AdminAdminAdmin123%&/'
+      user.password = 'admin'
       user.firstname = 'OpenProject'
       user.lastname = 'Admin'
       user.mail = ENV.fetch('ADMIN_EMAIL') { 'admin@example.net' }
       user.mail_notification = User::USER_MAIL_OPTION_NON.first
       user.language = I18n.locale.to_s
       user.status = User::STATUSES[:active]
+      user.force_password_change = Rails.env != 'development'
     end
   end
 end
