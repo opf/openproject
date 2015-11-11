@@ -37,7 +37,8 @@ function wpCreateButton() {
       'wp-create-button.directive.html',
 
     scope: {
-      projectIdentifier: '='
+      projectIdentifier: '=',
+      stateName: '@'
     },
 
     bindToController: true,
@@ -50,10 +51,10 @@ function WorkPackageCreateButtonController($scope, AuthorisationService, Editabl
     ProjectService) {
 
   var vm = this,
-      editAll = EditableFieldsState.editAll.state;
-  var setDisabled = function () {
-    vm.disabled = editAll || AuthorisationService.cannot('work_package', 'create');
-  };
+      editAll = EditableFieldsState.editAll.state,
+      setDisabled = function () {
+        vm.disabled = editAll || AuthorisationService.cannot('work_package', 'create');
+      };
 
   vm.text = I18n.t('js.toolbar.unselected_title');
 
