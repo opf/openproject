@@ -35,11 +35,11 @@ See doc/COPYRIGHT.rdoc for more details.
              method: :post,
              loading: '$(\'member-add-submit\').disable();',
              complete: 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable(); activateFlashError();',
-             html: {id: "members_add_form"}) do |f| %>
+             html: {id: "members_add_form", class: "form -vertical"}) do |f| %>
   <div class="form--section">
     <div id="new-member-message"></div>
-    <div class="grid-block medium-up-3">
-      <div class="form--column">
+    <div class="grid-block">
+      <div class="grid-block medium-6">
         <div class="form--field">
           <%
              user_id_title = I18n.t(:label_principal_search)
@@ -57,15 +57,21 @@ See doc/COPYRIGHT.rdoc for more details.
                        with: 'q')
                         %>
         </div>
-        <div id="principal_results">
-          <%= render partial: 'members/autocomplete_for_member', locals: { principals: principals, roles: roles } %>
-        </div>
       </div>
-      <div class="form--column roles">
-        <fieldset class="form--fieldset">
-          <legend class="form--fieldset-legend"><%= l(:label_role_plural) %></legend>
-          <%= labeled_check_box_tags 'member[role_ids][]', roles %>
-        </fieldset>
+    </div>
+    <div class="grid-block">
+      <div class="grid-block medium-4">
+        <div class="grid-block">
+          <div id="principal_results">
+            <%= render partial: 'members/autocomplete_for_member', locals: { principals: principals, roles: roles } %>
+          </div>
+        </div>
+        <div class="grid-block roles">
+          <fieldset class="form--fieldset">
+            <legend class="form--fieldset-legend"><%= l(:label_role_plural) %></legend>
+            <%= labeled_check_box_tags 'member[role_ids][]', roles %>
+          </fieldset>
+        </div>
       </div>
     </div>
     <% if roles.any? && (principals.any? && principals.size <= 20) %>
