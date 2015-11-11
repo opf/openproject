@@ -26,12 +26,24 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+module BasicData
+  class BuiltinRolesSeeder < Seeder
+    def seed_data!
+      data.each do |attributes|
+        unless Role.find_by(builtin: attributes[:builtin]).nil?
+          puts "   *** Skipping built in role #{attributes[:name]} - already exists"
+          next
+        end
 
-# Disable mail delivery for the duration of this task
-ActionMailer::Base.perform_deliveries = false
+        Role.create(attributes)
+      end
+    end
 
-# Avoid asynchronous DeliverWorkPackageCreatedJob
-Delayed::Worker.delay_jobs = false
-
-require_relative 'basic_setup'
-require_relative 'sample_data'
+    def data
+      [
+        {name: 'Non member', position: 0, builtin: Role::BUILTIN_NON_MEMBER },
+        {name: 'Anonymous',  position: 1, builtin: Role::BUILTIN_ANONYMOUS  }
+      ]
+    end
+  end
+end

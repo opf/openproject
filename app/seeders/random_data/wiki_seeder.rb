@@ -25,26 +25,38 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++
+module RandomData
+  class WikiSeeder
+    def self.seed!(project)
+      user = User.admin.first
 
-if User.admin.empty?
-  user = User.new
+      puts ''
+      print ' ↳ Creating wikis'
 
-  user.admin = true
-  user.login = 'admin'
-  user.password = '!AdminAdminAdmin123%&/'
-  user.firstname = 'OpenProject'
-  user.lastname = 'Admin'
-  user.mail = ENV.fetch('ADMIN_EMAIL') { 'admin@example.net' }
-  user.mail_notification = User::USER_MAIL_OPTION_NON.first
-  user.language = I18n.locale.to_s
-  user.status = User::STATUSES[:active]
-  user.save!
+      rand(5).times do
+        print '.'
+        wiki_page = WikiPage.create(
+          wiki:  project.wiki,
+          title: Faker::Lorem.words(5).join(' ')
+        )
 
-  # Enable the user to login easily but force him
-  # to change his password right away unless we are
-  # only seeding the development database.
-  user.force_password_change = Rails.env != 'development'
-  user.password = 'admin'
-  user.save(validate: false)
+        ## create some wiki contents
+        rand(5).times do
+          print '.'
+          wiki_content = WikiContent.create(
+            page:    wiki_page,
+            author:  user,
+            text:    Faker::Lorem.paragraph(5, true, 3)
+          )
+
+          ## create some journal entries
+          rand(5).times do
+            wiki_content.reload
+            wiki_content.text = Faker::Lorem.paragraph(5, true, 3) if rand(99).even?
+            wiki_content.save!
+          end
+        end
+      end
+    end
+  end
 end

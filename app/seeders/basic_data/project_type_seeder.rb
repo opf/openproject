@@ -26,15 +26,39 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+module BasicData
+  class ProjectTypeSeeder < Seeder
+    def seed_data!
+      return unless applicable?
 
-%w{ roles
-    activities
-    colors
-    workflows
-    priorities
-    project_statuses
-    project_types }.each do |file|
-  puts "**** #{file}"
+      ProjectType.transaction do
+        data.each do |attributes|
+          ProjectType.create!(attributes)
+        end
+      end
+    end
 
-  require "#{Rails.root}/db/seeds/#{file}"
+    def applicable?
+      if ProjectType.any? || ReportedProjectStatus.all.empty?
+        return false
+      end
+
+      true
+    end
+
+    def not_applicable_message
+      if ProjectType.any?
+        'Skipping project types as there are already some configured'
+      elsif ReportedProjectStatus.all.empty?
+        'Skipping project types as it required to have reported project status'
+      end
+    end
+
+    def data
+      [
+        { name: I18n.t(:default_project_type_scrum),    reported_project_status_ids: ReportedProjectStatus.pluck(:id) },
+        { name: I18n.t(:default_project_type_standard), reported_project_status_ids: ReportedProjectStatus.pluck(:id) }
+      ]
+    end
+  end
 end

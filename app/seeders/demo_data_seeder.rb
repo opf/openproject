@@ -25,31 +25,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++
+class DemoDataSeeder < Seeder
+  def seed_data!
+    data_seeders.each do |seeder|
+      puts " ↳ #{seeder.class.name.demodulize}"
+      seeder.seed!
+    end
+  end
 
-if IssuePriority.any?
-  puts '***** Skipping priorities as there are already some configured'
-else
-  IssuePriority.transaction do
-    IssuePriority.new.tap do |priority|
-      priority.name = I18n.t(:default_priority_low)
-      priority.position = 1
-    end.save!
-
-    IssuePriority.new.tap do |priority|
-      priority.name = I18n.t(:default_priority_normal)
-      priority.position = 2
-      priority.is_default = true
-    end.save!
-
-    IssuePriority.new.tap do |priority|
-      priority.name = I18n.t(:default_priority_high)
-      priority.position = 3
-    end.save!
-
-    IssuePriority.new.tap do |priority|
-      priority.name = I18n.t(:default_priority_immediate)
-      priority.position = 4
-    end.save!
+  def data_seeders
+    [DemoData::ProjectSeeder.new]
   end
 end

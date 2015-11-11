@@ -27,39 +27,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-if TimeEntryActivity.any?
-  puts '***** Skipping activities as there are already some configured'
-else
-  TimeEntryActivity.transaction do
-    TimeEntryActivity.new.tap do |activity|
-      activity.name = I18n.t(:default_activity_management)
-      activity.position = 1
-      activity.is_default = true
-    end.save!
+class Seeder
+  def seed!
+    if applicable?
+      seed_data!
+    else
+      puts "   *** #{not_applicable_message}"
+    end
+  end
 
-    TimeEntryActivity.new.tap do |activity|
-      activity.name = I18n.t(:default_activity_specification)
-      activity.position = 2
-    end.save!
+  def seed_data!
+    raise NotImplementedError
+  end
 
-    TimeEntryActivity.new.tap do |activity|
-      activity.name = I18n.t(:default_activity_development)
-      activity.position = 3
-    end.save!
+  def applicable?
+    true
+  end
 
-    TimeEntryActivity.new.tap do |activity|
-      activity.name = I18n.t(:default_activity_testing)
-      activity.position = 4
-    end.save!
-
-    TimeEntryActivity.new.tap do |activity|
-      activity.name = I18n.t(:default_activity_support)
-      activity.position = 5
-    end.save!
-
-    TimeEntryActivity.new.tap do |activity|
-      activity.name = I18n.t(:default_activity_other)
-      activity.position = 6
-    end.save!
+  def not_applicable_message
+    "Skipping #{self.class.name}"
   end
 end

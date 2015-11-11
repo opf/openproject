@@ -25,13 +25,32 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++
+module DemoData
+  class WikiSeeder < Seeder
+    attr_reader :project
 
-# add seeds here, that need to be available in all environments
+    def initialize(project)
+      @project = project
+    end
 
-%w{ builtin_roles
-    admin_user }.each do |file|
-  puts "**** #{file}"
+    def seed_data!
+      user = User.admin.first
 
-  require "#{Rails.root}/db/seeds/#{file}"
+      print '    ↳ Creating wikis'
+      print '.'
+      wiki_page = WikiPage.create!(
+        wiki:  project.wiki,
+        title: 'Wiki'
+      )
+
+      print '.'
+      WikiContent.create!(
+        page:   wiki_page,
+        author: user,
+        text:   I18n.t('seeders.demo_data.wiki.content')
+      )
+
+      puts
+    end
+  end
 end

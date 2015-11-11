@@ -26,25 +26,33 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+module BasicData
+  class ActivitySeeder < Seeder
+    def seed_data!
+      TimeEntryActivity.transaction do
+        data.each do |attributes|
+          TimeEntryActivity.create(attributes)
+        end
+      end
+    end
 
-if ProjectType.any?
-  puts '***** Skipping project types as there are already some configured'
-elsif !ReportedProjectStatus.any?
-  puts '***** Skipping project types as it required to have reported project status'
-else
+    def applicable?
+      TimeEntryActivity.all.empty?
+    end
 
-  ProjectType.transaction do
-    ProjectType.new.tap do |type|
-      type.name = I18n.t(:default_project_type_scrum)
-    end.save!
+    def not_applicable_message
+      'Skipping activities as there are already some configured'
+    end
 
-    ProjectType.new.tap do |type|
-      type.name = I18n.t(:default_project_type_standard)
-    end.save!
-
-    reported_status_ids = ReportedProjectStatus.pluck(:id)
-    ProjectType.all.each { |project_type|
-      project_type.update_attributes(reported_project_status_ids: reported_status_ids)
-    }
+    def data
+      [
+        { name: I18n.t(:default_activity_management),    position: 1, is_default: true  },
+        { name: I18n.t(:default_activity_specification), position: 2, is_default: false },
+        { name: I18n.t(:default_activity_development),   position: 3, is_default: false },
+        { name: I18n.t(:default_activity_testing),       position: 4, is_default: false },
+        { name: I18n.t(:default_activity_support),       position: 5, is_default: false },
+        { name: I18n.t(:default_activity_other),         position: 6, is_default: false }
+      ]
+    end
   end
 end

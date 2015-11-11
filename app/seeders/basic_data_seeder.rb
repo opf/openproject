@@ -26,7 +26,26 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+class BasicDataSeeder < Seeder
+  def seed_data!
+    data_seeders.each do |seeder|
+      puts " ↳ #{seeder.class.name.demodulize}"
+      seeder.seed!
+    end
+  end
 
-# add seeds specific for the production-environment here
+  def data_seeders
+    seeders = [
+      BasicData::BuiltinRolesSeeder,
+      BasicData::RoleSeeder,
+      BasicData::ActivitySeeder,
+      BasicData::ColorSeeder,
+      BasicData::WorkflowSeeder,
+      BasicData::PrioritySeeder,
+      BasicData::ProjectStatusSeeder,
+      BasicData::ProjectTypeSeeder
+    ]
 
-require "#{Rails.root}/db/seeds/basic_setup"
+    seeders.map(&:new)
+  end
+end

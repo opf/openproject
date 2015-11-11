@@ -25,22 +25,34 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++
+module RandomData
+  class BoardSeeder
+    def self.seed!(project)
+      user = User.admin.first
 
-if Role.find_by(builtin: Role::BUILTIN_NON_MEMBER).nil?
-  role = Role.new
+      puts ''
+      print ' ↳ Creating forum board with posts'
 
-  role.name = 'Non member'
-  role.position = 0
-  role.builtin = Role::BUILTIN_NON_MEMBER
-  role.save!
-end
+      board = Board.create! project: project,
+                            name: I18n.t('seeders.demo_data.board.name'),
+                            description: I18n.t('seeders.demo_data.board.description')
 
-if Role.find_by(builtin: Role::BUILTIN_ANONYMOUS).nil?
-  role = Role.new
+      rand(30).times do
+        print '.'
+        message = Message.create board: board,
+                                 author: user,
+                                 subject: Faker::Lorem.words(5).join(' '),
+                                 content: Faker::Lorem.paragraph(5, true, 3)
 
-  role.name = 'Anonymous'
-  role.position = 1
-  role.builtin = Role::BUILTIN_ANONYMOUS
-  role.save!
+        rand(5).times do
+          print '.'
+          Message.create board: board,
+                         author: user,
+                         subject: message.subject,
+                         content: Faker::Lorem.paragraph(5, true, 3),
+                         parent: message
+        end
+      end
+    end
+  end
 end

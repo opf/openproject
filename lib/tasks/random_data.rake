@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,23 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-if ReportedProjectStatus.any?
-  puts '***** Skipping reported project status as there are already some configured'
-else
-  ReportedProjectStatus.transaction do
-    ReportedProjectStatus.new.tap do |status|
-      status.name = I18n.t(:default_reported_project_status_green)
-      status.is_default = true
-    end.save!
+namespace :random_data do
+  desc 'seeds the data base wth random data'
+  task seed: :environment do
 
-    ReportedProjectStatus.new.tap do |status|
-      status.name = I18n.t(:default_reported_project_status_amber)
-      status.is_default = false
-    end.save!
+    puts '*** Seeding basic data'
+    BasicDataSeeder.seed!
 
-    ReportedProjectStatus.new.tap do |status|
-      status.name = I18n.t(:default_reported_project_status_red)
-      status.is_default = false
-    end.save!
+    puts '*** Seeding admin user'
+    AdminUserSeeder.new.seed!
+
+    puts '*** Seeding demo data'
+    RandomDataSeeder.seed!
+
+    ::Rails::Engine.subclasses.map(&:instance).each do |engine|
+      puts "*** Loading #{engine.engine_name} seed data"
+      engine.load_seed
+    end
   end
 end
