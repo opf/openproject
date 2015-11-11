@@ -35,10 +35,11 @@ RSpec.feature 'Work package navigation', selenium: true do
 
   before do
     login_as(user)
-    work_package.save!
   end
 
   scenario 'all different angular based work package views', js: true do
+    work_package.save!
+
     # deep link global work package index
     global_work_packages = Pages::WorkPackagesTable.new
     global_work_packages.visit!
@@ -92,5 +93,12 @@ RSpec.feature 'Work package navigation', selenium: true do
 
     # Safeguard: ensure spec to have finished loading everything before proceeding to the next spec
     full_work_package.ensure_page_loaded
+  end
+
+  scenario 'show 404 upon wrong url', js: true do
+    visit '/work_packages/0'
+
+    expect(page).to have_selector('.errorExplanation',
+                                  text: I18n.t('notice_file_not_found'))
   end
 end

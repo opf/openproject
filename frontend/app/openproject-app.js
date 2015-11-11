@@ -263,6 +263,13 @@ openprojectApp
         CacheService.disableCaching();
       }
 
+      $rootScope.$on('$stateChangeError',
+        function(event){
+            event.preventDefault();
+            // transitionTo() promise will be rejected with
+            // a 'transition prevented' error
+      });
+
       // at the moment of adding this code it was mostly used to
       // keep the previous state for the code to know where
       // to redirect the user on cancel new work package form
