@@ -94,7 +94,7 @@ activity_days_default:
   format: int
   default: 30
 per_page_options:
-  default: '10, 20, 50, 100'
+  default: '20, 100'
 mail_from:
   default: openproject@example.net
 bcc_recipients:
