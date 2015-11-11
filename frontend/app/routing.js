@@ -75,10 +75,6 @@ angular.module('openproject')
         workPackage: function(WorkPackageService, $stateParams) {
           var wsPromise = WorkPackageService.getWorkPackage($stateParams.workPackageId);
 
-          wsPromise.catch(function(){
-            location.href = '/projects';
-          });
-
           return wsPromise;
         },
         // TODO hack, get rid of latestTab in ShowController
