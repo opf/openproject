@@ -36,6 +36,11 @@ I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
 if Setting.table_exists? # don't want to prevent migrations
   defaults = Set.new I18n.fallbacks.defaults + Setting.available_languages.map(&:to_sym)
   I18n.fallbacks.defaults = defaults
+
+  if Setting.new_project_user_role_id == '' && \
+      role_project_admin = Role.where(name: I18n.t(:default_role_project_admin)).first
+    Setting.new_project_user_role_id = role_project_admin.id
+  end
 end
 
 require 'open_project'
