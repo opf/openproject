@@ -221,11 +221,9 @@ default_projects_public:
 default_projects_modules:
   serialized: true
   default:
-  - boards
   - calendar
   - work_package_tracking
   - news
-  - repository
   - time_tracking
   - timelines
   - wiki
