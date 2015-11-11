@@ -1,44 +1,44 @@
 <div class="work-package-details-activities-activity-contents"
+     tabindex="0"
+     aria-label="{{ activityLabelWithComment || activityLabel  }}"
      ng-mouseover="focus()"
      ng-mouseout="blur()">
-  <div class="comments-number">
-    <activity-link work-package="workPackage"
-                   activity-no="activityNo"
-                   on-focus="focus()",
-                   on-blur="blur()"></activity-link>
-    <div class="comments-icons"
-         ng-focus="focus()"
-         ng-blur="blur()"
-         ng-show="activity.props._type == 'Activity::Comment' && (focussing() || accessibilityModeEnabled)">
-      <accessible-by-keyboard ng-if="userCanQuote"
-                              execute="quoteComment()"
-                              ng-focus="focus()"
-                              ng-blur="blur()">
-        <icon-wrapper icon-name="quote" icon-title="{{ I18n.t('js.wiki_formatting.quote') }}" css-class="action-icon">
-        </icon-wrapper>
-      </accessible-by-keyboard>
-      <accessible-by-keyboard ng-if="userCanEdit"
-                              execute="editComment()"
-                              ng-focus="focus()"
-                              ng-blur="blur()">
-        <icon-wrapper icon-name="edit" icon-title="{{ I18n.t('js.button_edit') }}" css-class="action-icon">
-        </icon-wrapper>
-      </accessible-by-keyboard>
-    </div>
-  </div>
   <div ng-if="userAvatar">
     <img class="avatar" ng-src="{{ userAvatar }}" alt="Avatar" title="{{userName}}" />
   </div>
   <span class="user" ng-if="userActive">
     <a ng-href="{{ userPath(userId) }}"
-       ng-focus="focus()"
-       ng-blur="blur()"
        name="{{ currentAnchor }}"
+       aria-label="{{ userLabel }}"
        ng-bind="userName">
     </a>
   </span>
   <span class="user" ng-if="!userActive">{{ userName }}</span>
   <span class="date">{{ isInitial ? I18n.t('js.label_created_on') : I18n.t('js.label_updated_on') }} <op-date-time date-time-value="activity.props.createdAt" /></span>
+  <div class="comments-number">
+    <activity-link work-package="workPackage"
+                   activity-no="activityNo"
+                   ></activity-link>
+    <div class="comments-icons"
+         ng-show="activity.props._type == 'Activity::Comment' && (focussing() || accessibilityModeEnabled)">
+      <accessible-by-keyboard ng-if="userCanQuote"
+                              execute="quoteComment()"
+                              link-title="{{ I18n.t('js.label_quote_comment') }}">
+        <icon-wrapper icon-name="quote"
+                      icon-title="{{ I18n.t('js.label_quote_comment') }}"
+                      css-class="action-icon">
+        </icon-wrapper>
+      </accessible-by-keyboard>
+      <accessible-by-keyboard ng-if="userCanEdit"
+                              execute="editComment()"
+                              link-title="{{ I18n.t('js.label_edit_comment') }}">
+        <icon-wrapper icon-name="edit"
+                      icon-title="{{ I18n.t('js.label_edit_comment') }}"
+                      css-class="action-icon">
+        </icon-wrapper>
+      </accessible-by-keyboard>
+    </div>
+  </div>
   <span class="user-comment wiki">
     <div ng-if="inEdit">
       <div class="user-comment--form inplace-edit--write-value">

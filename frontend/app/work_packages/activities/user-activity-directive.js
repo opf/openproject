@@ -47,6 +47,7 @@ module.exports = function($uiViewScroll,
       workPackage: '=',
       activity: '=',
       activityNo: '=',
+      activityLabel: '=',
       isInitial: '='
     },
     link: function(scope, element) {
@@ -81,9 +82,15 @@ module.exports = function($uiViewScroll,
         scope.userName = user.props.name;
         scope.userAvatar = user.props.avatar;
         scope.userActive = UsersHelper.isActive(user);
+        scope.userLabel = I18n.t('js.label_author', { user: scope.userName });
       });
 
       scope.postedComment = $sce.trustAsHtml(scope.activity.props.comment.html);
+      if(scope.postedComment) {
+        scope.activityLabelWithComment = I18n.t('js.label_activity_with_comment_no', {
+          activityNo: scope.activityNo
+        });
+      }
       scope.details = [];
 
       angular.forEach(scope.activity.props.details, function(detail) {
@@ -137,21 +144,24 @@ module.exports = function($uiViewScroll,
       };
 
       var focused = false;
-      var timeout;
       scope.focus = function() {
-        focused = true;
-        clearTimeout(timeout);
+        $timeout(function() {
+          focused = true;
+        });
       };
 
       scope.blur = function() {
-        timeout = setTimeout(function() {
+        $timeout(function() {
           focused = false;
-        }, 0);
+        });
       };
 
       scope.focussing = function() {
         return focused;
       };
+
+      element.bind('focusin', scope.focus);
+      element.bind('focusout', scope.blur);
 
       function quotedText(rawComment) {
         var quoted = rawComment.split("\n")
