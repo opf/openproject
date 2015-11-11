@@ -36,7 +36,7 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
     ChildrenRelationsHandler, ParentRelationsHandler, WorkPackagesOverviewService,
     WorkPackageFieldService, EditableFieldsState, WorkPackagesDisplayHelper, NotificationsService,
     WorkPackageAuthorization, PERMITTED_MORE_MENU_ACTIONS, HookService, $window,
-    WorkPackageAttachmentsService) {
+    WorkPackageAttachmentsService, AuthorisationService) {
 
   $scope.editAll = EditableFieldsState.editAll;
 
@@ -46,9 +46,11 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
 
   // Listen to the event globally, as listeners are not necessarily
   // in the child scope
-  $rootScope.$on('workPackageRefreshRequired', function(e) {
+  $rootScope.$on('workPackageRefreshRequired', function() {
     refreshWorkPackage();
   });
+
+  AuthorisationService.initModelAuth('work_package', workPackage.links);
 
   // initialization
   setWorkPackageScopeProperties(workPackage);

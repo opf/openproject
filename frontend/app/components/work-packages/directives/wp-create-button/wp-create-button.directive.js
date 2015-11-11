@@ -53,7 +53,8 @@ function WorkPackageCreateButtonController($scope, AuthorisationService, Editabl
   var vm = this,
       editAll = EditableFieldsState.editAll.state,
       setDisabled = function () {
-        vm.disabled = editAll || AuthorisationService.cannot('work_package', 'create');
+        vm.disabled = editAll || AuthorisationService.cannot('work_package', 'create')
+          && AuthorisationService.cannot('work_package', 'duplicate');
       };
 
   vm.text = I18n.t('js.toolbar.unselected_title');
