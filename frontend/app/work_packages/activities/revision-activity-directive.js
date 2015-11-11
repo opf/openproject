@@ -39,6 +39,7 @@ module.exports = function($compile,
     scope: {
       workPackage: '=',
       activity: '=',
+      activityLabel: '=',
       activityNo: '=',
     },
     link: function(scope, element) {
@@ -52,6 +53,7 @@ module.exports = function($compile,
           scope.userName = user.props.name;
           scope.userAvatar = user.props.avatar;
           scope.userActive = UsersHelper.isActive(user);
+          scope.userLabel = I18n.t('js.label_author', { user: scope.userName });
         });
       }
 

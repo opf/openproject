@@ -27,7 +27,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
+module.exports = function(I18n) {
   return {
     restrict: 'E',
     replace: true,
@@ -42,6 +42,7 @@ module.exports = function() {
     },
     link: function(scope) {
       scope.activityType = scope.activity.props._type;
+      scope.activityLabel = I18n.t('js.label_activity_no', { activityNo: scope.activityNo });
     }
   };
 };
