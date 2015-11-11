@@ -34,7 +34,6 @@ angular.module('openproject.services')
     'NotificationsService',
     require('./activity-service')
   ])
-  .service('AuthorisationService', require('./authorisation-service'))
   .service('CacheService', [
     'HALAPIResource',
     '$http',

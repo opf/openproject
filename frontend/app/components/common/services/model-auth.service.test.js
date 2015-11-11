@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,15 +24,15 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
 /*jshint expr: true*/
 
 describe('AuthorisationService', function() {
 
-  var AuthorisationService, query, queryData;
+  var AuthorisationService, query;
 
-  beforeEach(module('openproject.services', 'openproject.models'));
+  beforeEach(angular.mock.module('openproject.services', 'openproject.models'));
 
   beforeEach(inject(function(_AuthorisationService_){
     AuthorisationService = _AuthorisationService_;
@@ -52,7 +52,5 @@ describe('AuthorisationService', function() {
     it('should not allow action', function() {
       expect(AuthorisationService.can('query', 'delete')).to.be.false;
     });
-
   });
-
 });
