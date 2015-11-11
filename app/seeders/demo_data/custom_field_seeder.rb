@@ -26,30 +26,40 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 module DemoData
-  class CustomFieldSeeder
-    def self.seed!(project)
+  class CustomFieldSeeder < Seeder
+    attr_reader :project
+
+    def initialize(project)
+      @project = project
+    end
+
+    def seed_data!
       # Careful: The seeding recreates the seeded project before it runs, so any changes
       # on the seeded project will be lost.
-      print ' ↳ Creating custom fields...'
+      print '    ↳ Creating custom fields...'
 
-      unless (WorkPackageCustomField.any?)
-        # create some custom fields and add them to the project
-        I18n.t('seeders.demo_data.custom_fields.names').each do |name|
-          cf = WorkPackageCustomField.create!(name: name,
-                                              regexp: '',
-                                              is_required: false,
-                                              min_length: false,
-                                              default_value: '',
-                                              max_length: false,
-                                              editable: true,
-                                              possible_values: '',
-                                              visible: true,
-                                              field_format: 'text')
-          print '.'
+      # create some custom fields and add them to the project
+      I18n.t('seeders.demo_data.custom_fields.names').each do |name|
+        cf = WorkPackageCustomField.create!(name: name,
+                                            regexp: '',
+                                            is_required: false,
+                                            min_length: false,
+                                            default_value: '',
+                                            max_length: false,
+                                            editable: true,
+                                            possible_values: '',
+                                            visible: true,
+                                            field_format: 'text')
+        print '.'
 
-          project.work_package_custom_fields << cf
-        end
+        project.work_package_custom_fields << cf
       end
+
+      puts
+    end
+
+    def applicable?
+      not WorkPackageCustomField.any?
     end
   end
 end

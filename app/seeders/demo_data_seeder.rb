@@ -25,23 +25,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-class DemoDataSeeder
-  def self.seed!
-    project = DemoData::ProjectSeeder.new.seed!
+class DemoDataSeeder < Seeder
+  def seed_data!
+    data_seeders.each do |seeder|
+      puts " ↳ #{seeder.class.name.demodulize}"
+      seeder.seed!
+    end
+  end
 
-    DemoData::CustomFieldSeeder.seed!(project)
-    DemoData::WikiSeeder.seed!(project)
-    DemoData::WorkPackageSeeder.new(project).seed!
-    DemoData::QuerySeeder.seed!(project)
-
-    puts "\n\n"
-    puts ' ###############################'
-    puts ' #  Demo data seeding....done  #'
-    puts ' ###############################'
-    puts " #  %02d %-22s  #" % [1, 'project created.']
-    puts " #  %02d %-22s  #" % [WorkPackage.where(project_id: project.id).count, 'issues created.']
-    puts " #  %02d %-22s  #" % [WikiContent.joins(page: [:wiki]).where('wikis.project_id = ?', project.id).count, 'wiki created.']
-    puts " #  %02d %-22s  #" % [Query.where(user_id: User.admin.first).count, 'quieries created.']
-    puts " ###############################\n\n"
+  def data_seeders
+    [DemoData::ProjectSeeder.new]
   end
 end

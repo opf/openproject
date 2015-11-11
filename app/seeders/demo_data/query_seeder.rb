@@ -26,10 +26,15 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 module DemoData
-  class QuerySeeder
-    def self.seed!(project)
-      puts ''
-      print ' ↳ Creating Queries'
+  class QuerySeeder < Seeder
+    attr_reader :project
+
+    def initialize(project)
+      @project = project
+    end
+
+    def seed_data!
+      print '    ↳ Creating Queries'
 
       data.each do |attributes|
         print '.'
@@ -43,9 +48,11 @@ module DemoData
           }
         query_menu_item.save!
       end
+
+      puts
     end
 
-    def self.data
+    def data
       [
         { name: "Bugs",         filters: [Queries::WorkPackages::Filter.new(:status_id, operator: "o"), Queries::WorkPackages::Filter.new(:type_id, operator: "=", values: ['7'])], user_id: User.admin.first.id, is_public: true, column_names: [:id, :type, :status, :priority, :subject, :assigned_to, :create_at] },
         { name: "Epics",        filters: [Queries::WorkPackages::Filter.new(:status_id, operator: "o"), Queries::WorkPackages::Filter.new(:type_id, operator: "=", values: ['5'])], user_id: User.admin.first.id, is_public: true, column_names: [:id, :type, :status, :priority, :subject, :assigned_to] },

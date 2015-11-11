@@ -78,7 +78,7 @@ puts '*** Seeding admin user'
 AdminUserSeeder.new.seed!
 
 puts '*** Seeding demo data'
-DemoDataSeeder.seed!
+DemoDataSeeder.new.seed!
 
 
 ::Rails::Engine.subclasses.map(&:instance).each do |engine|

@@ -26,8 +26,9 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 module DemoData
-  class WorkPackageSeeder
-    attr_accessor :project, :user, :statuses, :repository, :time_entry_activities, :types
+  class WorkPackageSeeder < Seeder
+    attr_accessor :project, :user, :statuses, :repository,
+                  :time_entry_activities, :types
 
     def initialize(project)
       self.project = project
@@ -38,12 +39,13 @@ module DemoData
       self.types = project.types.all.reject(&:is_milestone?)
     end
 
-    def seed!
-      puts ''
-      print ' ↳ Creating work_packages'
+    def seed_data!
+      print '    ↳ Creating work_packages'
 
       seed_demo_work_packages
       set_workpackage_relations
+
+      puts
     end
 
     private

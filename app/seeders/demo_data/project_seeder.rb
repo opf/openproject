@@ -26,10 +26,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 module DemoData
-  class ProjectSeeder
+  class ProjectSeeder < Seeder
     # Careful: The seeding recreates the seeded project before it runs, so any changes
     # on the seeded project will be lost.
-    def seed!
+    def seed_data!
       puts ' ↳ Creating demo project...'
 
       puts '   -Creating/Resetting Demo project'
@@ -50,7 +50,21 @@ module DemoData
       puts '   -Creating board'
       seed_board(project)
 
-      project
+      project_data_seeders(project).each do |seeder|
+        puts "   -#{seeder.class.name.demodulize}"
+        seeder.seed!
+      end
+    end
+
+    def project_data_seeders(project)
+      seeders = [
+        DemoData::CustomFieldSeeder,
+        DemoData::WikiSeeder,
+        DemoData::WorkPackageSeeder,
+        DemoData::QuerySeeder
+      ]
+
+      seeders.map { |seeder| seeder.new project }
     end
 
     def reset_demo_project

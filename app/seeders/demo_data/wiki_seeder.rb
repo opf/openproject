@@ -26,12 +26,17 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 module DemoData
-  class WikiSeeder
-    def self.seed!(project)
+  class WikiSeeder < Seeder
+    attr_reader :project
+
+    def initialize(project)
+      @project = project
+    end
+
+    def seed_data!
       user = User.admin.first
 
-      puts ''
-      print ' ↳ Creating wikis'
+      print '    ↳ Creating wikis'
       print '.'
       wiki_page = WikiPage.create!(
         wiki:  project.wiki,
@@ -44,6 +49,8 @@ module DemoData
         author: user,
         text:   I18n.t('seeders.demo_data.wiki.content')
       )
+
+      puts
     end
   end
 end
