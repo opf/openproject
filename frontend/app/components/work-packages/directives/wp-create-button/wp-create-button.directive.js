@@ -51,15 +51,17 @@ function WorkPackageCreateButtonController($scope, AuthorisationService, Editabl
 
   var vm = this,
       editAll = EditableFieldsState.editAll.state;
+  var setDisabled = function () {
+    vm.disabled = editAll || AuthorisationService.cannot('work_package', 'create');
+  };
 
   vm.text = I18n.t('js.toolbar.unselected_title');
-  vm.disabled = editAll || AuthorisationService.cannot('work_package', 'create');
 
   ProjectService.getProject(vm.projectIdentifier).then(function(project) {
     vm.types = project.embedded.types;
   });
 
-  $scope.$on('modelAuthUpdate.work_package', function (event, can, cannot) {
-    vm.disabled = editAll || cannot('create');
-  })
+  setDisabled();
+
+  $scope.$on('modelAuthUpdate.work_package', setDisabled);
 }
