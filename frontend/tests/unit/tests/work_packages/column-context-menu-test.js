@@ -45,6 +45,7 @@ describe('columnContextMenu', function() {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
+    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
 
     $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);

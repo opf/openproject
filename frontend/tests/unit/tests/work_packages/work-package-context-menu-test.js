@@ -44,6 +44,7 @@ describe('workPackageContextMenu', function() {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
+    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
 
     $provide.constant('ConfigurationService', configurationService);
     $provide.constant('$stateParams', stateParams);

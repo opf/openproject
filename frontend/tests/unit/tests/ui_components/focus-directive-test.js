@@ -39,6 +39,15 @@ describe('focus Directive', function() {
   beforeEach(angular.mock.module('openproject.uiComponents'));
   beforeEach(module('openproject.templates'));
 
+  beforeEach(module('openproject.uiComponents', function($provide) {
+    var configurationService = {};
+
+    configurationService.isTimezoneSet = sinon.stub().returns(false);
+    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
+
+    $provide.constant('ConfigurationService', configurationService);
+  }));
+
   beforeEach(inject(function($compile, $rootScope, $document, $timeout) {
     doc = $document[0];
     rootScope = $rootScope;

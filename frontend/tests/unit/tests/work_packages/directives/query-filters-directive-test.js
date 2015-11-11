@@ -42,7 +42,11 @@ describe('queryFilters', function() {
                     'openproject.workPackages.filters'));
 
   beforeEach(module('openproject.templates', function($provide) {
-    $provide.constant('ConfigurationService', new Object());
+    var configurationService = {};
+
+    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
+
+    $provide.constant('ConfigurationService', configurationService);
   }));
 
   beforeEach(inject(function(
