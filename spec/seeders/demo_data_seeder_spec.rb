@@ -31,19 +31,23 @@ require 'spec_helper'
 
 describe 'seeds' do
   it 'create the demo data' do
-    # Disable mail delivery for the duration of this task
+    perform_deliveries = ActionMailer::Base.perform_deliveries
     ActionMailer::Base.perform_deliveries = false
 
-    # Avoid asynchronous DeliverWorkPackageCreatedJob
-    Delayed::Worker.delay_jobs = false
+    begin
+      # Avoid asynchronous DeliverWorkPackageCreatedJob
+      Delayed::Worker.delay_jobs = false
 
-    expect{ BasicDataSeeder.seed! }.not_to raise_error
-    expect{ AdminUserSeeder.new.seed! }.not_to raise_error
-    expect{ DemoDataSeeder.seed! }.not_to raise_error
+      expect{ BasicDataSeeder.seed! }.not_to raise_error
+      expect{ AdminUserSeeder.new.seed! }.not_to raise_error
+      expect{ DemoDataSeeder.seed! }.not_to raise_error
 
-    expect(Project.count).to eq 1
-    expect(WorkPackage.count).to eq 13
-    expect(Wiki.count).to eq 1
-    expect(Query.count).to eq 6
+      expect(Project.count).to eq 1
+      expect(WorkPackage.count).to eq 15
+      expect(Wiki.count).to eq 1
+      expect(Query.count).to eq 6
+    ensure
+      ActionMailer::Base.perform_deliveries = perform_deliveries
+    end
   end
 end
