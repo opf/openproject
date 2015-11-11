@@ -131,7 +131,7 @@ angular.module('openproject')
     .state('work-packages.list', {
       url: '/{projects}/{projectPath}/work_packages?query_id&query_props',
       controller: 'WorkPackagesListController',
-      templateUrl: '/templates/work_packages.list.html',
+      templateUrl: '/components/routes/partials/work-packages.list.html',
       params: {
         // value: null makes the parameter optional
         // squash: true avoids duplicate slashes when the paramter is not provided
