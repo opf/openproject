@@ -44,8 +44,8 @@ module BasicData
       Role.where(builtin: false).empty?
     end
 
-    def not_applicable_msg
-      '   *** Skipping roles as there are already some configured'
+    def not_applicable_message
+      'Skipping roles as there are already some configured'
     end
 
     def roles

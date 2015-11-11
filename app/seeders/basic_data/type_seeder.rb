@@ -40,8 +40,8 @@ module BasicData
       Type.all.any?
     end
 
-    def not_applicable_msg
-      '   *** Skipping types - already exists/configured'
+    def not_applicable_message
+      'Skipping types - already exists/configured'
     end
 
     def data

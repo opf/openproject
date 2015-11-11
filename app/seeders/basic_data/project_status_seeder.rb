@@ -40,8 +40,8 @@ module BasicData
       ReportedProjectStatus.all.empty?
     end
 
-    def not_applicable_msg
-      '  *** Skipping reported project status as there are already some configured'
+    def not_applicable_message
+      'Skipping reported project status as there are already some configured'
     end
 
     def data

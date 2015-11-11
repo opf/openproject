@@ -40,8 +40,8 @@ module BasicData
       Status.all.any?
     end
 
-    def not_applicable_msg
-      '   *** Skipping statuses - already exists/configured'
+    def not_applicable_message
+      'Skipping statuses - already exists/configured'
     end
 
     def data

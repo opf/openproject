@@ -40,8 +40,8 @@ module BasicData
       PlanningElementTypeColor.all.empty?
     end
 
-    def not_applicable_msg
-      '   *** Skipping colors as there are already some configured'
+    def not_applicable_message
+      'Skipping colors as there are already some configured'
     end
 
     def data

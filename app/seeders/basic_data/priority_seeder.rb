@@ -40,8 +40,8 @@ module BasicData
       IssuePriority.all.empty?
     end
 
-    def not_applicable_msg
-      '   *** Skipping priorities as there are already some configured'
+    def not_applicable_message
+      'Skipping priorities as there are already some configured'
     end
 
     def data

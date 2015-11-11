@@ -29,12 +29,11 @@
 
 class Seeder
   def seed!
-    unless applicable?
-      puts not_applicable_msg
-      return
+    if applicable?
+      seed_data!
+    else
+      puts "   *** #{not_applicable_message}"
     end
-
-    seed_data!
   end
 
   def seed_data!
@@ -45,7 +44,7 @@ class Seeder
     true
   end
 
-  def not_applicable_msg
-    '   *** Skipping'
+  def not_applicable_message
+    "Skipping #{self.class.name}"
   end
 end

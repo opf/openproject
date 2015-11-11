@@ -40,8 +40,8 @@ module BasicData
       TimeEntryActivity.all.empty?
     end
 
-    def not_applicable_msg
-      '   *** Skipping activities as there are already some configured'
+    def not_applicable_message
+      'Skipping activities as there are already some configured'
     end
 
     def data
