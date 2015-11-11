@@ -36,11 +36,30 @@ function wpCreateButton() {
     templateUrl: '/components/work-packages/directives/wp-create-button/' +
       'wp-create-button.directive.html',
 
+    scope: {
+      projectIdentifier: '='
+    },
+
+    bindToController: true,
     controllerAs: 'vm',
     controller: WorkPackageCreateButtonController
   }
 }
 
-function WorkPackageCreateButtonController() {
+function WorkPackageCreateButtonController($scope, AuthorisationService, EditableFieldsState,
+    ProjectService) {
 
+  var vm = this,
+      editAll = EditableFieldsState.editAll.state;
+
+  vm.text = I18n.t('js.toolbar.unselected_title');
+  vm.disabled = editAll || AuthorisationService.cannot('work_package', 'create');
+
+  ProjectService.getProject(vm.projectIdentifier).then(function(project) {
+    vm.types = project.embedded.types;
+  });
+
+  $scope.$on('modelAuthUpdate.work_package', function (event, can, cannot) {
+    vm.disabled = editAll || cannot('create');
+  })
 }

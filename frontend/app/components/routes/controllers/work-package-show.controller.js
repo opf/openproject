@@ -32,15 +32,11 @@ angular
 
 function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPackage, I18n,
     RELATION_TYPES, RELATION_IDENTIFIERS, $filter, $q, WorkPackagesHelper, PathHelper, UsersHelper,
-    ConfigurationService, WorkPackageService, ActivityService, ProjectService,
-    CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler,
-    WorkPackagesOverviewService, WorkPackageFieldService, EditableFieldsState,
-    WorkPackagesDisplayHelper, NotificationsService, WorkPackageAuthorization,
-    PERMITTED_MORE_MENU_ACTIONS, HookService, $window, WorkPackageAttachmentsService,
-    AuthorisationService) {
-
-  $scope.can = AuthorisationService.can;
-  $scope.cannot = AuthorisationService.cannot;
+    ConfigurationService, WorkPackageService, ActivityService, CommonRelationsHandler,
+    ChildrenRelationsHandler, ParentRelationsHandler, WorkPackagesOverviewService,
+    WorkPackageFieldService, EditableFieldsState, WorkPackagesDisplayHelper, NotificationsService,
+    WorkPackageAuthorization, PERMITTED_MORE_MENU_ACTIONS, HookService, $window,
+    WorkPackageAttachmentsService) {
 
   $scope.editAll = EditableFieldsState.editAll;
 
@@ -122,20 +118,10 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
   $scope.projectIdentifier = $scope.workPackage.embedded.project.props.identifier;
 
 
-  function fetchProjectTypes() {
-    ProjectService.getProject($scope.projectIdentifier)
-      .then(function(project) {
-        $scope.availableTypes = project.embedded.types;
-      });
-  }
-
-  fetchProjectTypes();
-
   function refreshWorkPackage() {
     WorkPackageService.getWorkPackage($scope.workPackage.props.id)
       .then(function(workPackage) {
         setWorkPackageScopeProperties(workPackage);
-        fetchProjectTypes();
         $scope.$broadcast('workPackageRefreshed');
       });
   }

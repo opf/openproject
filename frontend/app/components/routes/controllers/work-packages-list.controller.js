@@ -31,9 +31,9 @@ angular
   .controller('WorkPackagesListController', WorkPackagesListController);
 
 function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $location, latestTab,
-  I18n, WorkPackagesTableService, WorkPackageService, ProjectService, QueryService,
-  PaginationService, AuthorisationService, UrlParamsHelper, Query,
-  OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService, EditableFieldsState) {
+  I18n, WorkPackagesTableService, WorkPackageService, QueryService, PaginationService,
+  AuthorisationService, UrlParamsHelper, Query, OPERATORS_AND_LABELS_BY_FILTER_TYPE,
+  NotificationsService, EditableFieldsState) {
 
   $scope.projectIdentifier = $stateParams.projectPath || null;
 
@@ -71,7 +71,6 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
       })
       .then(function() {
         fetchAvailableColumns();
-        fetchProjectTypesAndQueries();
         QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
       });
   }
@@ -105,18 +104,6 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
   function clearUrlQueryParams() {
     $location.search('query_props', null);
     $location.search('query_id', null);
-  }
-
-  function fetchProjectTypesAndQueries() {
-    if ($scope.projectIdentifier) {
-      ProjectService.getProject($scope.projectIdentifier)
-        .then(function(project) {
-          $scope.project = project;
-          $scope.projects = [ project ];
-          $scope.availableTypes = project.embedded.types;
-        });
-
-    }
   }
 
   function setupPage(json, queryParamsPresent) {
@@ -239,10 +226,6 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
   // Go
 
   initialSetup();
-
-  // Just to keep the templates a bit cleaner
-  $scope.can = AuthorisationService.can;
-  $scope.cannot = AuthorisationService.cannot;
 
   $scope.editAll = EditableFieldsState.editAll;
 

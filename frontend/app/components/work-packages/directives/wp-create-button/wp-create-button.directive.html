@@ -1,9 +1,7 @@
-<button class="button -alt-highlight add-work-package"
-        has-dropdown-menu
-        target="TasksDropdownMenu"
-        locals="availableTypes,projectIdentifier"
-        ng-disabled="cannot('work_package', 'create') || editAll.state">
+<button class="button -alt-highlight add-work-package" has-dropdown-menu target="TasksDropdownMenu"
+    locals="vm.types,vm.projectIdentifier" ng-disabled="vm.disabled">
+
   <i class="button--icon icon-add"></i>
-  <span class="button--text" ng-bind="::I18n.t('js.toolbar.unselected_title')"></span>
+  <span class="button--text" ng-bind="::vm.text"></span>
   <i class="button--dropdown-indicator"></i>
 </button>
