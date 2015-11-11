@@ -57,8 +57,7 @@ describe('WorkPackagesController', function() {
         $window: win,
         $state: {},
         $stateParams: testParams,
-        project: {},
-        availableTypes: {}
+        project: {}
       });
     };
   }));
