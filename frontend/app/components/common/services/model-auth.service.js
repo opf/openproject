@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,15 +24,21 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function() {
+angular
+  .module('openproject.services')
+  .factory('AuthorisationService', AuthorisationService);
+
+function AuthorisationService($rootScope) {
   var links = {};
 
   var AuthorisationService = {
 
     initModelAuth: function(modelName, modelLinks) {
       links[modelName] = modelLinks;
+
+      $rootScope.$broadcast('modelAuthUpdate.' + modelName)
     },
 
     can: function(modelName, action) {
@@ -45,4 +51,4 @@ module.exports = function() {
   };
 
   return AuthorisationService;
-};
+}

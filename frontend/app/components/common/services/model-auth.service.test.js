@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,18 +24,19 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
 /*jshint expr: true*/
 
 describe('AuthorisationService', function() {
 
-  var AuthorisationService, query, queryData;
+  var AuthorisationService, $rootScope, query;
 
-  beforeEach(module('openproject.services', 'openproject.models'));
+  beforeEach(angular.mock.module('openproject.services', 'openproject.models'));
 
-  beforeEach(inject(function(_AuthorisationService_){
+  beforeEach(inject(function(_AuthorisationService_, _$rootScope_){
     AuthorisationService = _AuthorisationService_;
+    $rootScope = _$rootScope_;
   }));
 
   describe('model action authorisation', function () {
@@ -47,12 +48,23 @@ describe('AuthorisationService', function() {
 
     it('should allow action', function() {
       expect(AuthorisationService.can('query', 'create')).to.be.true;
+      expect(AuthorisationService.cannot('query', 'create')).to.be.false;
     });
 
     it('should not allow action', function() {
       expect(AuthorisationService.can('query', 'delete')).to.be.false;
+      expect(AuthorisationService.cannot('query', 'delete')).to.be.true;
     });
 
-  });
+    it('should call an event on initialisation', function () {
+      var eventCalled = false;
 
+      $rootScope.$on('modelAuthUpdate.my_model', function () {
+        eventCalled = true;
+      });
+
+      AuthorisationService.initModelAuth('my_model');
+      expect(eventCalled).to.be.true;
+    });
+  });
 });
