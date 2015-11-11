@@ -26,30 +26,26 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-class BasicDataSeeder
-  def self.seed!
-    puts ' ↳ Builtin Roles'
-    BasicData::BuiltinRolesSeeder.new.seed!
+class BasicDataSeeder < Seeder
+  def seed_data!
+    data_seeders.each do |seeder|
+      puts " ↳ #{seeder.class.name.demodulize}"
+      seeder.seed!
+    end
+  end
 
-    puts ' ↳ Roles'
-    BasicData::RoleSeeder.new.seed!
+  def data_seeders
+    seeders = [
+      BasicData::BuiltinRolesSeeder,
+      BasicData::RoleSeeder,
+      BasicData::ActivitySeeder,
+      BasicData::ColorSeeder,
+      BasicData::WorkflowSeeder,
+      BasicData::PrioritySeeder,
+      BasicData::ProjectStatusSeeder,
+      BasicData::ProjectTypeSeeder
+    ]
 
-    puts ' ↳ Activities'
-    BasicData::ActivitySeeder.new.seed!
-
-    puts ' ↳ Colors'
-    BasicData::ColorSeeder.new.seed!
-
-    puts ' ↳ Workflows'
-    BasicData::WorkflowSeeder.new.seed!
-
-    puts ' ↳ Priorities'
-    BasicData::PrioritySeeder.new.seed!
-
-    puts ' ↳ ProjectStatuses'
-    BasicData::ProjectStatusSeeder.new.seed!
-
-    puts ' ↳ ProjectTypes'
-    BasicData::ProjectTypeSeeder.new.seed!
+    seeders.map(&:new)
   end
 end

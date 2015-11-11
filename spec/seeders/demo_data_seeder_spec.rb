@@ -38,7 +38,7 @@ describe 'seeds' do
       # Avoid asynchronous DeliverWorkPackageCreatedJob
       Delayed::Worker.delay_jobs = false
 
-      expect{ BasicDataSeeder.seed! }.not_to raise_error
+      expect{ BasicDataSeeder.new.seed! }.not_to raise_error
       expect{ AdminUserSeeder.new.seed! }.not_to raise_error
       expect{ DemoDataSeeder.seed! }.not_to raise_error
 

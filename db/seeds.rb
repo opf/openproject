@@ -72,7 +72,7 @@ Delayed::Worker.delay_jobs = false
 
 # Basic data needs be seeded before anything else.
 puts '*** Seeding basic data'
-BasicDataSeeder.seed!
+BasicDataSeeder.new.seed!
 
 puts '*** Seeding admin user'
 AdminUserSeeder.new.seed!
