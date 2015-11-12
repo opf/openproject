@@ -229,7 +229,7 @@ angular.module('openproject')
     });
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams){
-      if (toParams.projects === ''  && toParams.projectPath) {
+      if (!toParams.projects && toParams.projectPath) {
         toParams.projects = 'projects';
         $state.go(toState, toParams);
       }

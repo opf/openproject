@@ -46,7 +46,7 @@ describe('Routing', function () {
 
     beforeEach(function () {
       toState = { name: 'work-packages.list' };
-      toParams = { projectPath: 'my_project', projects: '' };
+      toParams = { projectPath: 'my_project', projects: null };
     });
 
     it('sets the projects path segment to "projects" ', function () {
