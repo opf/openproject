@@ -25,9 +25,6 @@ describe 'Seeding' do
       stash_access_control_permissions
       create_non_member_role
       create_anonymous_role
-
-      # Load all data that a user would when seeding.
-      load "#{Rails.root}/db/seeds/all.rb"
     end
 
     after(:each) do
