@@ -1,4 +1,4 @@
-<div class="notification-box{{' -' + content.type}}">
+<div class="notification-box{{' -' + content.type}}" tabindex="0" aria-atomic="true">
   <div class="notification-box--content">
     <p>{{content.message}}</p>
     <div data-ng-switch="content.type" data-ng-if="typeable()">
