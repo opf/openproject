@@ -427,202 +427,208 @@ class PermittedParams
   end
 
   def self.permitted_attributes
-    @whitelisted_params ||= {
-      auth_source: [
-        :name,
-        :host,
-        :port,
-        :tls,
-        :account,
-        :account_password,
-        :base_dn,
-        :onthefly_register,
-        :attr_login,
-        :attr_firstname,
-        :attr_lastname,
-        :attr_mail],
-      board: [
-        :name,
-        :description],
-      color: [
-        :name,
-        :hexcode,
-        :move_to],
-      custom_field: [
-        :editable,
-        :field_format,
-        :is_filter,
-        :is_for_all,
-        :is_required,
-        :max_length,
-        :min_length,
-        :move_to,
-        :name,
-        :possible_values,
-        :regexp,
-        :searchable,
-        :visible,
-        translations_attributes: [
-          :_destroy,
-          :default_value,
-          :id,
-          :locale,
+    @whitelisted_params ||= begin
+      params = {
+        auth_source: [
           :name,
-          :possible_values],
-        type_ids: []],
-      enumeration: [
-        :active,
-        :is_default,
-        :move_to,
-        :name,
-        :reassign_to_id],
-      group: [
-        :lastname],
-      membership: [
-        :project_id,
-        role_ids: []],
-      group_membership: [
-        :membership_id,
+          :host,
+          :port,
+          :tls,
+          :account,
+          :account_password,
+          :base_dn,
+          :onthefly_register,
+          :attr_login,
+          :attr_firstname,
+          :attr_lastname,
+          :attr_mail],
+        board: [
+          :name,
+          :description],
+        color: [
+          :name,
+          :hexcode,
+          :move_to],
+        custom_field: [
+          :editable,
+          :field_format,
+          :is_filter,
+          :is_for_all,
+          :is_required,
+          :max_length,
+          :min_length,
+          :move_to,
+          :name,
+          :possible_values,
+          :regexp,
+          :searchable,
+          :visible,
+          translations_attributes: [
+            :_destroy,
+            :default_value,
+            :id,
+            :locale,
+            :name,
+            :possible_values],
+          type_ids: []],
+        enumeration: [
+          :active,
+          :is_default,
+          :move_to,
+          :name,
+          :reassign_to_id],
+        group: [
+          :lastname],
         membership: [
           :project_id,
-          role_ids: []]],
-      member: [
-        role_ids: []],
-      new_work_package: [
-        # attributes common with :planning_element below
-        :assigned_to_id,
-        { attachments: [:file, :description] },
-        :category_id,
-        :description,
-        :done_ratio,
-        :due_date,
-        :estimated_hours,
-        :fixed_version_id,
-        :parent_id,
-        :priority_id,
-        :responsible_id,
-        :start_date,
-        :status_id,
-        :type_id,
-        :subject,
-        Proc.new do |args|
-          # avoid costly allowed_to? if the param is not there at all
-          if args[:params]['work_package'] &&
-             args[:params]['work_package'].has_key?('watcher_user_ids') &&
-             args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
+          role_ids: []],
+        group_membership: [
+          :membership_id,
+          membership: [
+            :project_id,
+            role_ids: []]],
+        member: [
+          role_ids: []],
+        new_work_package: [
+          # attributes common with :planning_element below
+          :assigned_to_id,
+          { attachments: [:file, :description] },
+          :category_id,
+          :description,
+          :done_ratio,
+          :due_date,
+          :estimated_hours,
+          :fixed_version_id,
+          :parent_id,
+          :priority_id,
+          :responsible_id,
+          :start_date,
+          :status_id,
+          :type_id,
+          :subject,
+          Proc.new do |args|
+            # avoid costly allowed_to? if the param is not there at all
+            if args[:params]['work_package'] &&
+               args[:params]['work_package'].has_key?('watcher_user_ids') &&
+               args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
 
-            { watcher_user_ids: [] }
-          end
-        end,
-        Proc.new do |args|
-          # avoid costly allowed_to? if the param is not there at all
-          if args[:params]['work_package'] &&
-             args[:params]['work_package'].has_key?('time_entry') &&
-             args[:current_user].allowed_to?(:log_time, args[:project])
+              { watcher_user_ids: [] }
+            end
+          end,
+          Proc.new do |args|
+            # avoid costly allowed_to? if the param is not there at all
+            if args[:params]['work_package'] &&
+               args[:params]['work_package'].has_key?('time_entry') &&
+               args[:current_user].allowed_to?(:log_time, args[:project])
 
-            { time_entry: [:hours, :activity_id, :comments] }
-          end
-        end,
-        # attributes unique to :new_work_package
-        :journal_notes,
-        :lock_version],
-      planning_element: [
-        # attributes common with :new_work_package above
-        :assigned_to_id,
-        { attachments: [:file, :description] },
-        :category_id,
-        :description,
-        :done_ratio,
-        :due_date,
-        :estimated_hours,
-        :fixed_version_id,
-        :parent_id,
-        :priority_id,
-        :responsible_id,
-        :start_date,
-        :status_id,
-        :type_id,
-        :subject,
-        Proc.new do |args|
-          # avoid costly allowed_to? if the param is not there at all
-          if args[:params]['planning_element'] &&
-             args[:params]['planning_element'].has_key?('watcher_user_ids') &&
-             args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
+              { time_entry: [:hours, :activity_id, :comments] }
+            end
+          end,
+          # attributes unique to :new_work_package
+          :journal_notes,
+          :lock_version],
+        planning_element: [
+          # attributes common with :new_work_package above
+          :assigned_to_id,
+          { attachments: [:file, :description] },
+          :category_id,
+          :description,
+          :done_ratio,
+          :due_date,
+          :estimated_hours,
+          :fixed_version_id,
+          :parent_id,
+          :priority_id,
+          :responsible_id,
+          :start_date,
+          :status_id,
+          :type_id,
+          :subject,
+          Proc.new do |args|
+            # avoid costly allowed_to? if the param is not there at all
+            if args[:params]['planning_element'] &&
+               args[:params]['planning_element'].has_key?('watcher_user_ids') &&
+               args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
 
-            { watcher_user_ids: [] }
-          end
-        end,
-        Proc.new do |args|
-          # avoid costly allowed_to? if the param is not there at all
-          if args[:params]['planning_element'] &&
-             args[:params]['planning_element'].has_key?('time_entry') &&
-             args[:current_user].allowed_to?(:log_time, args[:project])
+              { watcher_user_ids: [] }
+            end
+          end,
+          Proc.new do |args|
+            # avoid costly allowed_to? if the param is not there at all
+            if args[:params]['planning_element'] &&
+               args[:params]['planning_element'].has_key?('time_entry') &&
+               args[:current_user].allowed_to?(:log_time, args[:project])
 
-            { time_entry: [:hours, :activity_id, :comments] }
-          end
-        end,
-        # attributes unique to planning_element
-        :note,
-        :planning_element_status_comment,
-        custom_fields: [ # json
-          :id,
-          :value,
-          custom_field: [ # xml
+              { time_entry: [:hours, :activity_id, :comments] }
+            end
+          end,
+          # attributes unique to planning_element
+          :note,
+          :planning_element_status_comment,
+          custom_fields: [ # json
             :id,
-            :value]]],
-      planning_element_type: [
-        :name,
-        :in_aggregation,
-        :is_milestone,
-        :is_default,
-        :color_id],
-      project_type: [
-        :name,
-        :allows_association,
-        type_ids: [],
-        reported_project_status_ids: []],
-      query: [
-        :name,
-        :display_sums,
-        :is_public,
-        :group_by],
-      role: [
-        :name,
-        :assignable,
-        :move_to,
-        permissions: []],
-      status: [
-        :name,
-        :default_done_ratio,
-        :is_closed,
-        :is_default,
-        :move_to],
-      type: [
-        :name,
-        :is_in_roadmap,
-        :in_aggregation,
-        :is_milestone,
-        :is_default,
-        :color_id,
-        project_ids: [],
-        custom_field_ids: []],
-      user: [
-        :firstname,
-        :lastname,
-        :mail,
-        :mail_notification,
-        :language,
-        :custom_fields],
-      wiki_page: [
-        :title,
-        :parent_id,
-        :redirect_existing_links],
-      wiki_content: [
-        :comments,
-        :text,
-        :lock_version],
-      move_to: [:move_to]
-    }
+            :value,
+            custom_field: [ # xml
+              :id,
+              :value]]],
+        planning_element_type: [
+          :name,
+          :in_aggregation,
+          :is_milestone,
+          :is_default,
+          :color_id],
+        project_type: [
+          :name,
+          :allows_association,
+          type_ids: [],
+          reported_project_status_ids: []],
+        query: [
+          :name,
+          :display_sums,
+          :is_public,
+          :group_by],
+        role: [
+          :name,
+          :assignable,
+          :move_to,
+          permissions: []],
+        status: [
+          :name,
+          :default_done_ratio,
+          :is_closed,
+          :is_default,
+          :move_to],
+        type: [
+          :name,
+          :is_in_roadmap,
+          :in_aggregation,
+          :is_milestone,
+          :is_default,
+          :color_id,
+          project_ids: [],
+          custom_field_ids: []],
+        user: [
+          :firstname,
+          :lastname,
+          :mail,
+          :mail_notification,
+          :language,
+          :custom_fields],
+        wiki_page: [
+          :title,
+          :parent_id,
+          :redirect_existing_links],
+        wiki_content: [
+          :comments,
+          :text,
+          :lock_version],
+        move_to: [:move_to]
+      }
+
+      # Accept new parameters, defaulting to an empty array
+      params.default = []
+      params
+    end
   end
 
   private
@@ -632,18 +638,8 @@ class PermittedParams
   # attributes should be given as a Hash in the form
   # {key: [:param1, :param2]}
   def self.add_permitted_attributes(attributes)
-    # Make sure the permitted attributes are cached in @whitelisted_params
-    permitted_attributes
-
-    # Check no unsupported parameters are attempted to be whitelisted (they're ignored)
-    unknown_keys = (attributes.keys - @whitelisted_params.keys)
-    if unknown_keys.size > 0
-      Rails.logger.warn(
-        "Attempt to whitelist attributes for unknown keys: #{unknown_keys}, ignoring them.")
-    end
-
     attributes.each_pair do |key, attrs|
-      @whitelisted_params[key] += attrs unless unknown_keys.include?(key)
+      permitted_attributes[key] += attrs
     end
   end
 end
