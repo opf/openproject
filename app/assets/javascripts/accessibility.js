@@ -29,5 +29,11 @@
 // If there is a flash message, give focus it.
 // This is necessary for screen readers.
 jQuery(function() {
-  jQuery('div.flash a').first().focus();
+  var flash = jQuery('.flash').first();
+
+  if (flash.hasClass('error')) {
+    flash.find('a').focus();
+  } else {
+    flash.find('.close-handler').focus();
+  }
 });

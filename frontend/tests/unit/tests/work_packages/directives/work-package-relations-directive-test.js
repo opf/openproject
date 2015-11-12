@@ -44,9 +44,10 @@ describe('Work Package Relations Directive', function() {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
+    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
 
     $provide.constant('$stateParams', stateParams);
-    $provide.constant('ConfigurationService', function() { return configurationService; });
+    $provide.constant('ConfigurationService', configurationService);
   }));
 
   beforeEach(inject(function($rootScope,

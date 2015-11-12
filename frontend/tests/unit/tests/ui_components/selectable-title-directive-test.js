@@ -37,6 +37,15 @@ describe('selectableTitle Directive', function() {
     'openproject.templates',
     'truncate'));
 
+  beforeEach(module('openproject.uiComponents', function($provide) {
+    var configurationService = {};
+
+    configurationService.isTimezoneSet = sinon.stub().returns(false);
+    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
+
+    $provide.constant('ConfigurationService', configurationService);
+  }));
+
   beforeEach(inject(function($rootScope, $compile, _$timeout_) {
     var html;
     $timeout = _$timeout_;

@@ -49,6 +49,8 @@ describe('workPackageDetailsToolbar', function() {
   beforeEach(module('openproject.templates', function($provide) {
     var configurationService = {};
 
+    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
+
     $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
   }));

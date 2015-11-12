@@ -42,9 +42,7 @@ function inplaceEditMultiStorage($rootScope, $q, inplaceEditStorage, EditableFie
   });
 
   $rootScope.$on('inplaceEditMultiStorage.save.comment', function (event, promise) {
-    promise.then(function() {
-      NotificationsService.addSuccess(I18n.t('js.work_packages.comment_added'));
-    }).catch(function() {
+    promise.catch(function() {
       NotificationsService.addError(I18n.t('js.work_packages.comment_send_failed'));
     });
   });

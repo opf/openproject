@@ -27,7 +27,7 @@
 //++
 
 // TODO move to UI components
-module.exports = function(FocusHelper) {
+module.exports = function(FocusHelper, ConfigurationService) {
 
   function isSelect2Element(attrs) {
     var select2attributes = Object.keys(attrs).filter(function(attribute) {
@@ -55,7 +55,10 @@ module.exports = function(FocusHelper) {
 
   return {
     link: function(scope, element, attrs) {
-      updateFocus(scope, element, attrs);
+      // Set initial focus only when not on accessibility mode
+      if (!ConfigurationService.accessibilityModeEnabled()) {
+        updateFocus(scope, element, attrs);
+      }
 
       scope.$on('updateFocus', function() {
         updateFocus(scope, element, attrs);
