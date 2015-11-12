@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,43 +24,46 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-/*jshint expr: true*/
+angular
+  .module('openproject.workPackages')
+  .directive('wpCreateButton', wpCreateButton);
 
-describe('WorkPackagesController', function() {
-  var scope, win, ctrl, testParams, buildController, stateParams = {};
+function wpCreateButton() {
+  return {
+    restrict: 'E',
+    templateUrl: '/components/work-packages/directives/wp-create-button/' +
+      'wp-create-button.directive.html',
 
-  beforeEach(module('openproject.workPackages.controllers', 'openproject.api', 'openproject.layout','openproject.services'));
-  beforeEach(module('openproject.templates', function($provide) {
-    var configurationService = {};
+    scope: {
+      projectIdentifier: '=',
+      stateName: '@'
+    },
 
-    configurationService.isTimezoneSet = sinon.stub().returns(false);
+    bindToController: true,
+    controllerAs: 'vm',
+    controller: WorkPackageCreateButtonController
+  }
+}
 
-    $provide.constant('$stateParams', stateParams);
-    $provide.constant('ConfigurationService', configurationService);
-  }));
-  beforeEach(inject(function($rootScope, $controller, $timeout) {
-    scope = $rootScope.$new();
-  }));
+function WorkPackageCreateButtonController(AuthorisationService, EditableFieldsState,
+    ProjectService) {
 
-  beforeEach(inject(function($rootScope, $controller) {
-    scope = $rootScope.$new();
-    win   = {
-     location: { pathname: "" }
-    };
-    testParams = { projectIdentifier: 'anything' };
+  var vm = this,
+      inProjectContext = !!vm.projectIdentifier;
 
-    buildController = function() {
-      ctrl = $controller("WorkPackagesController", {
-        $scope:  scope,
-        $window: win,
-        $state: {},
-        $stateParams: testParams,
-        project: {}
-      });
-    };
-  }));
+  vm.text = I18n.t('js.toolbar.unselected_title');
+  vm.isDisabled = function () {
+    return !inProjectContext
+      || EditableFieldsState.editAll.state
+      || (AuthorisationService.cannot('work_package', 'create')
+        && AuthorisationService.cannot('work_package', 'duplicate'));
+  };
 
-
-});
+  if (inProjectContext) {
+    ProjectService.getProject(vm.projectIdentifier).then(function(project) {
+      vm.types = project.embedded.types;
+    });
+  }
+}

@@ -71,7 +71,7 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
       })
       .then(function() {
         fetchAvailableColumns();
-        fetchProjectTypesAndQueries();
+        fetchProjectQueries();
         QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
       });
   }
@@ -107,15 +107,13 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
     $location.search('query_id', null);
   }
 
-  function fetchProjectTypesAndQueries() {
+  function fetchProjectQueries() {
     if ($scope.projectIdentifier) {
       ProjectService.getProject($scope.projectIdentifier)
         .then(function(project) {
           $scope.project = project;
           $scope.projects = [ project ];
-          $scope.availableTypes = project.embedded.types;
         });
-
     }
   }
 
@@ -239,10 +237,6 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
   // Go
 
   initialSetup();
-
-  // Just to keep the templates a bit cleaner
-  $scope.can = AuthorisationService.can;
-  $scope.cannot = AuthorisationService.cannot;
 
   $scope.editAll = EditableFieldsState.editAll;
 

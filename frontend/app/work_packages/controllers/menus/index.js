@@ -91,7 +91,7 @@ angular.module('openproject.workPackages')
     function(ngContextMenu) {
       return ngContextMenu({
         templateUrl: '/templates/work_packages/menus/tasks_dropdown_menu.html',
-        container: '.toolbar'
+        container: '.wp-create-button'
       });
     }
   ])
