@@ -30,22 +30,19 @@ angular
   .module('openproject.workPackages.controllers')
   .controller('WorkPackageNewController', WorkPackageNewController);
 
-function WorkPackageNewController($scope, $rootScope, $state, $stateParams, PathHelper,
-    WorkPackagesOverviewService, WorkPackageFieldService, WorkPackageService, EditableFieldsState,
-    WorkPackagesDisplayHelper, NotificationsService) {
+function WorkPackageNewController($scope, $stateParams, PathHelper, WorkPackagesOverviewService,
+    WorkPackageFieldService, WorkPackageService, EditableFieldsState, WorkPackagesDisplayHelper,
+    NotificationsService) {
 
   var vm = this;
 
   vm.groupedFields = [];
   vm.hideEmptyFields = true;
 
-  vm.cancel = cancel;
-
   vm.loaderPromise = null;
 
   vm.isFieldHideable = WorkPackagesDisplayHelper.isFieldHideableOnCreate;
   vm.isGroupHideable = function(groups, group, wp) {
-    // custom wrapper for injecting a special callback
     return WorkPackagesDisplayHelper.isGroupHideable(groups, group, wp, vm.isFieldHideable);
   };
   vm.getLabel = WorkPackagesDisplayHelper.getLabel;
@@ -58,12 +55,15 @@ function WorkPackageNewController($scope, $rootScope, $state, $stateParams, Path
     NotificationsService.addSuccess(I18n.t('js.notice_successful_create'));
   };
 
+  $scope.I18n = I18n;
+
   activate();
 
   function activate() {
     EditableFieldsState.forcedEditState = true;
     EditableFieldsState.editAll.state = true;
     var data = {};
+
     if (angular.isDefined($stateParams.type)) {
       data = {
         _links: {
@@ -73,21 +73,24 @@ function WorkPackageNewController($scope, $rootScope, $state, $stateParams, Path
         }
       };
     }
-    vm.loaderPromise = WorkPackageService.initializeWorkPackage($scope.projectIdentifier, data)
+
+    vm.loaderPromise = WorkPackageService.initializeWorkPackage(vm.projectIdentifier, data)
     .then(function(wp) {
       vm.workPackage = wp;
       WorkPackagesDisplayHelper.setFocus();
-      $scope.workPackage = wp;
+
       $scope.$watchCollection('vm.workPackage.form', function() {
         vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
         var schema = WorkPackageFieldService.getSchema(vm.workPackage);
         var otherGroup = _.find(vm.groupedFields, { groupName: 'other' });
         otherGroup.attributes = [];
+
         _.forEach(schema.props, function(prop, propName) {
           if (propName.match(/^customField/)) {
             otherGroup.attributes.push(propName);
           }
         });
+
         otherGroup.attributes.sort(function(a, b) {
           var getLabel = function(field) {
             return vm.getLabel(vm.workPackage, field);
@@ -98,17 +101,5 @@ function WorkPackageNewController($scope, $rootScope, $state, $stateParams, Path
         });
       });
     });
-
-    $scope.$on('workPackageUpdatedInEditor', function(e, workPackage) {
-      $state.go('work-packages.list.details.overview', {workPackageId: workPackage.props.id});
-    });
-  }
-
-  function cancel() {
-    if ($rootScope.previousState && $rootScope.previousState.name) {
-      vm.loaderPromise = $state.go($rootScope.previousState.name, $rootScope.previousState.params);
-    } else {
-      vm.loaderPromise = $state.go('^');
-    }
   }
 }

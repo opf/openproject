@@ -28,22 +28,22 @@
 
 angular
   .module('openproject.workPackages')
-  .directive('wpCreateForm', wpCreateForm);
+  .controller('WorkPackageListNewStateController', WorkPackageListNewStateController);
 
-function wpCreateForm() {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/work-packages/directives/wp-create-form/' +
-      'wp-create-form.directive.html',
+function WorkPackageListNewStateController($rootScope, $scope, $state) {
+  var vm = this;
 
-    scope: {
-      workPackage: '=',
-      projectIdentifier: '=',
-      onCancel: '&'
-    },
+  vm.goBack = function() {
+    var args = ['^'];
 
-    controller: 'WorkPackageNewController',
-    controllerAs: 'vm',
-    bindToController: true
-  }
+    if ($rootScope.previousState && $rootScope.previousState.name) {
+      args = [$rootScope.previousState.name, $rootScope.previousState.params];
+    }
+
+    vm.loaderPromise = $state.go.apply($state, args);
+  };
+
+  $scope.$on('workPackageUpdatedInEditor', function(e, workPackage) {
+    $state.go('work-packages.list.details.overview', { workPackageId: workPackage.props.id });
+  });
 }
