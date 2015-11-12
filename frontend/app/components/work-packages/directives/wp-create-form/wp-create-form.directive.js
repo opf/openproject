@@ -38,7 +38,6 @@ function wpCreateForm() {
 
     scope: {
       workPackage: '=',
-      projectIdentifier: '=',
       onCancel: '&'
     },
 

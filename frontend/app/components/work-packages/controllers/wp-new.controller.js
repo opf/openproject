@@ -74,7 +74,7 @@ function WorkPackageNewController($scope, $stateParams, PathHelper, WorkPackages
       };
     }
 
-    vm.loaderPromise = WorkPackageService.initializeWorkPackage(vm.projectIdentifier, data)
+    vm.loaderPromise = WorkPackageService.initializeWorkPackage($stateParams.projectPath, data)
     .then(function(wp) {
       vm.workPackage = wp;
       WorkPackagesDisplayHelper.setFocus();

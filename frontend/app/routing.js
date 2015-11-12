@@ -65,7 +65,6 @@ angular.module('openproject')
     .state('work-packages.new', {
       url: '/{projects}/{projectPath}/work_packages/new?type',
       templateUrl: '/components/routes/partials/work-packages.new.html',
-      controller: 'WorkPackageNewController',
       controllerAs: 'vm',
       reloadOnSearch: false
     })
