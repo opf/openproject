@@ -94,7 +94,7 @@ activity_days_default:
   format: int
   default: 30
 per_page_options:
-  default: '10, 20, 50, 100'
+  default: '20, 100'
 mail_from:
   default: openproject@example.net
 bcc_recipients:
@@ -221,11 +221,9 @@ default_projects_public:
 default_projects_modules:
   serialized: true
   default:
-  - boards
   - calendar
   - work_package_tracking
   - news
-  - repository
   - time_tracking
   - timelines
   - wiki
