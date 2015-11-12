@@ -9,8 +9,8 @@ it:
         participants_invited: Invitati
         start_time: Tempo
     models:
-      meeting_agenda: Agenda
-      meeting_minutes: Minuti
+      meeting_agenda: Ordine del giorno
+      meeting_minutes: Verbali
   description_attended: ha partecipato
   description_invite: invitato
   events:
@@ -25,8 +25,8 @@ it:
   label_meeting_plural: Riunioni
   label_meeting_new: Nuova riunione
   label_meeting_edit: Modifica riunione
-  label_meeting_agenda: Agenda
-  label_meeting_minutes: Minuti
+  label_meeting_agenda: Ordine del giorno
+  label_meeting_minutes: Verbali
   label_meeting_close: Chiuso
   label_meeting_open: Aperto
   label_meeting_agenda_close: "Chiudere l'agenda per iniziare i verbali"
@@ -36,18 +36,18 @@ it:
   label_version: Versione
   notice_successful_notification: Notifica inviata con successo
   notice_timezone_missing: 'Nessun fuso orario è impostato e la %{zone} è un requisito necessario. Per scegliere il tuo fuso orario, fare clic qui.'
-  permission_create_meetings: Crea la riunione
+  permission_create_meetings: Creare riunioni
   permission_edit_meetings: Modificare riunioni
-  permission_delete_meetings: Annulla la riunione
-  permission_view_meetings: Vedi riunioni
-  permission_create_meeting_agendas: Gestisci agende
-  permission_close_meeting_agendas: Chiudi agende
-  permission_send_meeting_agendas_notification: Invia notifica di modifica per agende
-  permission_create_meeting_minutes: Il gestore di verbali
-  permission_send_meeting_minutes_notification: Inviare la notifica di modifica per vabali
+  permission_delete_meetings: Annullare riunioni
+  permission_view_meetings: Vedere riunioni
+  permission_create_meeting_agendas: Gestire gli ordini del giorno
+  permission_close_meeting_agendas: Chiudere gli ordini del giorno
+  permission_send_meeting_agendas_notification: Inviare notifiche di modifica degli ordini del giorno
+  permission_create_meeting_minutes: Gestire i verbali
+  permission_send_meeting_minutes_notification: Inviare notifiche di verbali modificati
   project_module_meetings: Riunioni
   text_in_hours: in ore
-  text_meeting_agenda_for_meeting: 'agenda per riunione "%{meeting}"'
+  text_meeting_agenda_for_meeting: 'ordine del giorno della riunione "%{meeting}"'
   text_meeting_agenda_open_are_you_sure: Il contenuto non salvato nei verbali verrà perso! Continuare?
   text_meeting_minutes_for_meeting: |-
     verbali per l'incontro "%{meeting}"
