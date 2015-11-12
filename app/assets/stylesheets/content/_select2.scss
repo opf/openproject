@@ -164,12 +164,23 @@ $se2-width: 100%;
   }
 
   &.select2-container-multi {
-    .select2-search-choice {
-      margin: 7px 0 0 5px;
+    .select2-choices {
+      min-height: 34px;
+      padding: 5px 0 0 6px;
+    }
+    .select2-search-field {
+      margin: 0 6px 6px 0;
 
-      &:nth-last-of-type(1) {
-        margin-bottom: 7px;
+      input {
+        height: auto;
+        padding: 0;
       }
+    }
+    .select2-search-choice {
+      font-size: 0.875rem;
+      line-height: 12px;
+      margin: 0 6px 5px 0;
+      padding: 4px 5px 4px 18px;
     }
   }
 

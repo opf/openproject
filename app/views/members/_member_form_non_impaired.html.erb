@@ -34,12 +34,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for(:member, url: {controller: 'members', action: 'create', project_id: project},
                      method: :post,
-                     html: {id: "members_add_form"}) do |f| %>
+                     html: {id: "members_add_form", class: "form -vertical"}) do |f| %>
   <div class="form--section">
     <div id="new-member-message"></div>
-    <div class="grid-block medium-up-2">
-      <div class="form--column">
-        <div class="form--field -vertical">
+    <div class="grid-block">
+      <div class="grid-block medium-6">
+        <div class="form--field">
           <%
              user_id_title = I18n.t(:label_principal_search)
 
@@ -58,8 +58,10 @@ See doc/COPYRIGHT.rdoc for more details.
                            class: "select2-select remote" %>
         </div>
       </div>
-      <div class="form--column">
-        <div class="form--field -vertical">
+    </div>
+    <div class="grid-block">
+      <div class="grid-block medium-6">
+        <div class="form--field">
           <%= styled_label_tag :member_role_ids, l(:label_role_search) %>
           <% options = roles.collect { |obj| [obj.name, obj.id] } %>
           <%= select_tag 'member[role_ids]', options_for_select(options),
@@ -67,7 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
                             no_label: true,
                            title: l(:label_role_search),
                            tabIndex: 0,
-                           class: "select2-select" %>
+                           class: 'form--select' %>
         </div>
       </div>
     </div>
