@@ -130,7 +130,7 @@ module Pages
     end
 
     def search_principal!(query)
-      input = find '.select2-search-field input#s2id_autogen4'
+      input = find '.select2-search-field input#s2id_autogen3'
       input.set query
     end
 
@@ -151,7 +151,8 @@ module Pages
 
     def select_role!(role_name)
       if !User.current.impaired?
-        select2(role_name, css: '#s2id_member_role_ids')
+        select = find('select#member_role_ids')
+        select.select role_name
       else
         find('form .roles').check role_name
       end
