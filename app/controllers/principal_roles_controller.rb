@@ -147,6 +147,6 @@ class PrincipalRolesController < ApplicationController
   private
 
   def principle_role_params
-    params.require(:principal_role).permit(:principal_id, :role_id, role_ids: [])
+    params.require(:principal_role).permit(*PermittedParams.permitted_attributes[:global_roles_principal_role])
   end
 end

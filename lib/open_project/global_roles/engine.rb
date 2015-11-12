@@ -33,6 +33,10 @@ module OpenProject::GlobalRoles
 
     patches [:Principal, :Role, :User, :RolesController, :UsersController, :RolesHelper, :UsersHelper]
 
+
+    global_roles_attributes = [:id, :principal_id, :role_id, role_ids: []]
+    additional_permitted_attributes global_roles_principal_role: global_roles_attributes
+
     initializer 'global_roles.patch_access_control' do
       require 'open_project/global_roles/patches/access_control_patch'
       require 'open_project/global_roles/patches/permission_patch'
