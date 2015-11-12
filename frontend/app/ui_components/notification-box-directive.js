@@ -52,8 +52,11 @@ module.exports = function(I18n, $timeout) {
     };
 
     $timeout(function() {
-      element.find('.notification-box--errors').attr('role', 'alert');
-      element.find('.notification-box--close').focus();
+      if (scope.content.type === 'error') {
+        element.focus();
+      } else {
+        element.find('.notification-box--close').focus();
+      }
     });
 
     scope.$on('upload.error', function() {
