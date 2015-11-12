@@ -46,7 +46,7 @@ describe('Routing', function () {
 
     beforeEach(function () {
       toState = { name: 'work-packages.list' };
-      toParams = { projectPath: 'my_project', projects: null };
+      toParams = { projectPath: 'my_project', projects: '' };
     });
 
     it('sets the projects path segment to "projects" ', function () {
@@ -58,21 +58,5 @@ describe('Routing', function () {
       broadcast();
       expect(spy.withArgs(toState, toParams).called).to.be.true;
     });
-
-    it('routes to child states of work-packages.list', function () {
-      var childStates = ['child', 'my.other.child'];
-
-      childStates.forEach(function (childState) {
-        toState.name = 'work-packages.list.' + childState;
-        broadcast();
-        expect(spy.withArgs(toState, toParams).calledOnce).to.be.true;
-      });
-    });
-
-    it('is ignored on other routes than work-packages.list', function () {
-      toState.name = 'work-packages.other.route';
-      broadcast();
-      expect(spy.withArgs(toState, toParams).called).to.be.false;
-    })
   });
 });
