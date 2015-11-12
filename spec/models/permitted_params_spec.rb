@@ -1176,12 +1176,12 @@ describe PermittedParams, type: :model do
       let(:hash) { { 'a_test_field' => 'a test value' } }
 
       before do
-        expect(Rails.logger).to receive(:warn)
+        expect(Rails.logger).not_to receive(:warn)
         PermittedParams.send(:add_permitted_attributes, unknown_key: [:a_test_field])
       end
 
-      it 'permitted attributes should not include the key and the rails logger should receive a warning' do
-        expect(PermittedParams.permitted_attributes.keys).not_to include(:unknown_key)
+      it 'permitted attributes should include the key' do
+        expect(PermittedParams.permitted_attributes.keys).to include(:unknown_key)
       end
     end
   end
