@@ -37,8 +37,8 @@ function wpCreateForm() {
       'wp-create-form.directive.html',
 
     scope: {
-      workPackage: '=',
-      onCancel: '&'
+      workPackage: '=?',
+      onCancel: '&?'
     },
 
     controller: 'WorkPackageNewController',
