@@ -54,12 +54,15 @@ function WorkPackageCreateButtonController(AuthorisationService, EditableFieldsS
 
   vm.text = I18n.t('js.toolbar.unselected_title');
   vm.isDisabled = function () {
-    return EditableFieldsState.editAll.state
-      || AuthorisationService.cannot('work_package', 'create')
-      && AuthorisationService.cannot('work_package', 'duplicate');
+    return vm.projectIdentifier
+      || EditableFieldsState.editAll.state
+      || (AuthorisationService.cannot('work_package', 'create')
+        && AuthorisationService.cannot('work_package', 'duplicate'));
   };
 
-  ProjectService.getProject(vm.projectIdentifier).then(function(project) {
-    vm.types = project.embedded.types;
-  });
+  if (vm.projectIdentifier) {
+    ProjectService.getProject(vm.projectIdentifier).then(function(project) {
+      vm.types = project.embedded.types;
+    });
+  }
 }

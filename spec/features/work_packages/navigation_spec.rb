@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package navigation', selenium: true do
+RSpec.feature 'Work package navigation', js: true, selenium: true do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:work_package) { FactoryGirl.build(:work_package, project: project) }
@@ -37,7 +37,7 @@ RSpec.feature 'Work package navigation', selenium: true do
     login_as(user)
   end
 
-  scenario 'all different angular based work package views', js: true do
+  scenario 'all different angular based work package views' do
     work_package.save!
 
     # deep link global work package index
@@ -95,7 +95,7 @@ RSpec.feature 'Work package navigation', selenium: true do
     full_work_package.ensure_page_loaded
   end
 
-  scenario 'show 404 upon wrong url', js: true do
+  scenario 'show 404 upon wrong url' do
     visit '/work_packages/0'
 
     expect(page).to have_selector('.errorExplanation',
