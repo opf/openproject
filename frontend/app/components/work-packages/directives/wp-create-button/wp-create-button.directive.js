@@ -50,17 +50,18 @@ function wpCreateButton() {
 function WorkPackageCreateButtonController(AuthorisationService, EditableFieldsState,
     ProjectService) {
 
-  var vm = this;
+  var vm = this,
+      inProjectContext = !!vm.projectIdentifier;
 
   vm.text = I18n.t('js.toolbar.unselected_title');
   vm.isDisabled = function () {
-    return vm.projectIdentifier
+    return !inProjectContext
       || EditableFieldsState.editAll.state
       || (AuthorisationService.cannot('work_package', 'create')
         && AuthorisationService.cannot('work_package', 'duplicate'));
   };
 
-  if (vm.projectIdentifier) {
+  if (inProjectContext) {
     ProjectService.getProject(vm.projectIdentifier).then(function(project) {
       vm.types = project.embedded.types;
     });

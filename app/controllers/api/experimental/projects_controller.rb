@@ -65,8 +65,8 @@ module Api
       private
 
       def find_project
-        @project = Project.where(identifier: params[:project_id]).first ||
-                   Project.find(params[:id])
+        @project = Project.where(identifier: params[:project_id].presence || params[:id]).first
+        render_404 unless @project
       end
     end
   end
