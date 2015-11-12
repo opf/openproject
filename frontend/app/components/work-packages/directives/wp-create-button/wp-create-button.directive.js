@@ -47,23 +47,19 @@ function wpCreateButton() {
   }
 }
 
-function WorkPackageCreateButtonController($scope, AuthorisationService, EditableFieldsState,
+function WorkPackageCreateButtonController(AuthorisationService, EditableFieldsState,
     ProjectService) {
 
-  var vm = this,
-      editAll = EditableFieldsState.editAll.state,
-      setDisabled = function () {
-        vm.disabled = editAll || AuthorisationService.cannot('work_package', 'create')
-          && AuthorisationService.cannot('work_package', 'duplicate');
-      };
+  var vm = this;
 
   vm.text = I18n.t('js.toolbar.unselected_title');
+  vm.isDisabled = function () {
+    return EditableFieldsState.editAll.state
+      || AuthorisationService.cannot('work_package', 'create')
+      && AuthorisationService.cannot('work_package', 'duplicate');
+  };
 
   ProjectService.getProject(vm.projectIdentifier).then(function(project) {
     vm.types = project.embedded.types;
   });
-
-  setDisabled();
-
-  $scope.$on('modelAuthUpdate.work_package', setDisabled);
 }
