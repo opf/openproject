@@ -357,7 +357,7 @@ module ApplicationHelper
                         method: method,
                         title: l(:label_sort_highest)) +
                 link_to(content_tag(:span, '',
-                                    class: 'icon-context icon-arrow-right6-1',
+                                    class: 'icon-context icon-arrow-up2',
                                     title: l(:label_sort_higher)),
                         url.merge("#{name}[move_to]" => 'higher'),
                         method: method,

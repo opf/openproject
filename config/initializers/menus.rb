@@ -144,7 +144,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :workflows,
             { controller: '/workflows', action: 'edit' },
             caption: Proc.new { Workflow.model_name.human },
-            html: { class: 'icon2 icon-arrow-circle1' }
+            html: { class: 'icon2 icon-workflow' }
 
   menu.push :custom_fields,
             { controller: '/custom_fields' },

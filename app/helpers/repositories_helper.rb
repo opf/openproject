@@ -129,7 +129,7 @@ module RepositoriesHelper
         text << raw(' ' + content_tag('span', h(c.from_path), class: 'copied-from')) unless c.from_path.blank?
         case c.action
         when 'A'
-          output << "<li class='#{style} icon icon-added'>#{text}</li>"
+          output << "<li class='#{style} icon icon-add'>#{text}</li>"
         when 'D'
           output << "<li class='#{style} icon icon-delete2'>#{text}</li>"
         else
