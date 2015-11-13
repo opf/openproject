@@ -90,6 +90,7 @@ module OpenProject::Costs
     patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :PermittedParams,
              :ProjectsController, :ApplicationHelper, :UsersHelper, :WorkPackagesHelper]
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
+    patch_with_namespace :BasicData, :RoleSeeder
 
     add_api_attribute on: :work_package, ar_name: :cost_object_id, api_name: :cost_object
 
