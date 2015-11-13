@@ -52,6 +52,14 @@ function wpCreateForm() {
 
     controller: 'WorkPackageNewController',
     controllerAs: 'vm',
-    bindToController: true
+    bindToController: true,
+
+    link: function (scope) {
+      var body = angular.element('body').addClass('full-create');
+
+      scope.$on('$stateChangeStart', function () {
+        body.removeClass('full-create');
+      })
+    }
   };
 }
