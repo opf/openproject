@@ -71,7 +71,7 @@ These can contain simple texts but are not suitable for HTML within the Tooltip.
       </div>
       <div class="form--tooltip-container">
         <span class="tooltip--bottom" tabindex="0" data-tooltip="Ice-type maybe?">
-          <i class="icon icon-heart"></i>
+          <i class="icon icon-help3"></i>
         </span>
       </div>
     </div>
