@@ -126,5 +126,5 @@ See doc/COPYRIGHT.rdoc for more details.
          [[l(:label_default), 0]] + TimeEntryActivity.shared.map {|activity| [activity.name, activity.id.to_s]},
          disabled: !Setting.commit_logtime_enabled?%></div>
   </fieldset>
-  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

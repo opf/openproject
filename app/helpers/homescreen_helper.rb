@@ -45,6 +45,6 @@ module HomescreenHelper
   def homescreen_user_avatar
     avatar = avatar(User.current)
 
-    avatar.presence || content_tag(:span, '', class: 'icon-context icon-user1')
+    avatar.presence || content_tag(:span, '', class: 'icon-context icon-user')
   end
 end

@@ -74,7 +74,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render partial: 'form', locals: {f: f, project: @project} %>
   <hr class="form--separator">
   <%= f.button l("timelines.add_project_association"), name: nil,
-        class: 'button -highlight -with-icon icon-yes'%>
+        class: 'button -highlight -with-icon icon-checkmark'%>
   <%= link_to l(:button_cancel), project_project_associations_path(@project),
         class: 'button'%>
 <% end %>

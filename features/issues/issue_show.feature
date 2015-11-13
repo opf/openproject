@@ -85,7 +85,7 @@ Feature: Watch issues
     Then I click on "Watchers" within "#tabs"
     When I click on ".ui-select-match" within "#detail-panel-watchers"
     Then I click on "Bob Bobbit" within "#detail-panel-watchers"
-    And I click on ".icon-button.icon-yes" within "#detail-panel-watchers"
+    And I click on ".icon-button.icon-checkmark" within "#detail-panel-watchers"
     Then I should see "Bob Bobbit" within "#detail-panel-watchers"
      And the issue "issue1" should have 1 watchers
 

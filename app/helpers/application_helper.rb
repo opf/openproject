@@ -520,7 +520,7 @@ module ApplicationHelper
 
   def checked_image(checked = true)
     if checked
-      icon_wrapper('icon-context icon-yes', l(:label_checked))
+      icon_wrapper('icon-context icon-checkmark', l(:label_checked))
     end
   end
 
