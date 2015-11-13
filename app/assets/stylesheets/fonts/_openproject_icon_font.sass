@@ -92,6 +92,9 @@ $icon-font-file-formats: eot woff ttf
   padding: 0
   font-size: 50px
 
+@mixin icon-small-rules
+  font-size: 10px
+
 @mixin icon-context-padding
   padding: 10px 10px 0 0
 
@@ -180,6 +183,10 @@ $icon-font-file-formats: eot woff ttf
 // used for very big icons
 .icon-big:before
   @include icon-big-rules
+
+// used for smaller icons
+.icon-small:before
+  @include icon-small-rules
 
 #errorExplanation:before
   @include icon-common
