@@ -63,7 +63,14 @@ inplaceEditorDropDown.$inject = ['EditableFieldsState', 'FocusHelper'];
 
 function InplaceEditorDropDownController($q, $scope, I18n, WorkPackageFieldConfigurationService) {
 
+  var customEditorController = this;
+
   this.allowedValues = [];
+  this.emptyOption = {
+    props: { href: null },
+    href: null,
+    name: $scope.field.placeholder
+  };
 
   function extractOptions(values) {
     var options = values;
@@ -83,7 +90,6 @@ function InplaceEditorDropDownController($q, $scope, I18n, WorkPackageFieldConfi
   }
 
   this.updateAllowedValues = function(field) {
-    var customEditorController = this;
 
     return $q(function(resolve) {
       $scope.field.getAllowedValues()
@@ -98,8 +104,15 @@ function InplaceEditorDropDownController($q, $scope, I18n, WorkPackageFieldConfi
 
           options = extractOptions(values);
 
-          if (!$scope.field.isRequired()) {
-            options = addEmptyOption(options);
+          var nullUsed = false;
+          if ($scope.field.value === null) {
+            nullUsed = true;
+            $scope.field.value = customEditorController.emptyOption;
+          }
+
+          if (nullUsed || !$scope.field.isRequired()) {
+            var arrayWithEmptyOption = [customEditorController.emptyOption];
+            options = arrayWithEmptyOption.concat(options);
           }
 
           addHrefTracker(options);
@@ -109,23 +122,6 @@ function InplaceEditorDropDownController($q, $scope, I18n, WorkPackageFieldConfi
           resolve();
         });
     });
-  };
-
-  var addEmptyOption = function(values) {
-    var emptyOption = { props: { href: null,
-                                 name: $scope.field.placeholder } };
-
-    if (!$scope.field.isRequired()) {
-      var arrayWithEmptyOption = [emptyOption.props];
-
-      values = arrayWithEmptyOption.concat(values);
-
-      if ($scope.field.value === null) {
-        $scope.field.value = emptyOption;
-      }
-    }
-
-    return values;
   };
 
   // We have to maintain a separate property just to track the object by
