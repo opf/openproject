@@ -85,35 +85,6 @@ describe WorkPackagesController, type: :routing do
                                                 id: '1')
   end
 
-  it 'should connect GET /projects/:project_id/work_packages/new to work_packages#new' do
-    expect(get('/projects/1/work_packages/new')).to route_to(controller: 'work_packages',
-                                                             action: 'new',
-                                                             project_id: '1')
-  end
-
-  it 'should connect GET /projects/:project_id/work_packages/new_type to work_packages#new_type' do
-    expect(get('/projects/1/work_packages/new_type')).to route_to(controller: 'work_packages',
-                                                                  action: 'new_type',
-                                                                  project_id: '1')
-  end
-
-  it 'should connect GET /work_packages/1/new_type to work_packages#new_type' do
-    expect(get('/work_packages/1/new_type')).to route_to(controller: 'work_packages',
-                                                         action: 'new_type',
-                                                         id: '1')
-  end
-
-  it 'should connect GET /work_packages/:id/edit to work_packages#edit' do
-    expect(get('/work_packages/1/edit')).to route_to(controller: 'work_packages',
-                                                     action: 'edit',
-                                                     id: '1')
-  end
-
-  it 'should connect POST /projects/:project_id/work_packages to work_packages#create' do
-    expect(post('/projects/1/work_packages')).to route_to(controller: 'work_packages',
-                                                          action: 'create',
-                                                          project_id: '1')
-  end
 
   it 'should connect GET /work_packages/:work_package_id/moves/new to work_packages/moves#new' do
     expect(get('/work_packages/1/move/new')).to route_to(controller: 'work_packages/moves',

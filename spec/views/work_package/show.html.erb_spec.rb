@@ -37,15 +37,6 @@ describe 'work_packages/show', type: :view do
                        filename: 'foo.jpg')
   }
 
-  it 'renders correct image paths in journal entries' do
-    work_package.add_journal(work_package.author, 'bar !foo.jpg! bar')
-    work_package.attachments << attachment
-    work_package.save
-    render 'history', work_package: work_package, journals: work_package.journals
-    expect(rendered)
-      .to have_selector "img[src='/attachments/#{attachment.id}/download']"
-  end
-
   context 'watchers list is sorted alphabeticaly' do
     let!(:project) { FactoryGirl.create(:project) }
     let!(:work_package_watchers) { FactoryGirl.create(:work_package, project: project) }
