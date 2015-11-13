@@ -32,9 +32,9 @@ See doc/COPYRIGHT.md for more details.
 
 <%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => watched_work_packages, list_for: :watched } %>
 <% if watched_work_packages.length > 0 %>
-  <p class="small">
+  <div class="generic-table--action-buttons">
     <%= link_to l(:label_work_package_view_all_watched),
                   project_work_packages_watched_path(@project),
                   :class => 'button -highlight' %>
-  </p>
+  </div>
 <% end %>
