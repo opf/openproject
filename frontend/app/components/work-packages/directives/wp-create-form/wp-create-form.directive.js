@@ -38,7 +38,8 @@ function wpCreateForm() {
 
     scope: {
       workPackage: '=?',
-      onCancel: '&?'
+      onCancel: '&?',
+      successState: '@'
     },
 
     controller: 'WorkPackageNewController',

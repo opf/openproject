@@ -30,9 +30,16 @@ angular
   .module('openproject.workPackages.controllers')
   .controller('WorkPackageNewController', WorkPackageNewController);
 
-function WorkPackageNewController($scope, $stateParams, PathHelper, WorkPackagesOverviewService,
-    WorkPackageFieldService, WorkPackageService, EditableFieldsState, WorkPackagesDisplayHelper,
-    NotificationsService) {
+function WorkPackageNewController($scope,
+                                  $state,
+                                  $stateParams,
+                                  PathHelper,
+                                  WorkPackagesOverviewService,
+                                  WorkPackageFieldService,
+                                  WorkPackageService,
+                                  EditableFieldsState,
+                                  WorkPackagesDisplayHelper,
+                                  NotificationsService) {
 
   var vm = this;
 
@@ -100,6 +107,10 @@ function WorkPackageNewController($scope, $stateParams, PathHelper, WorkPackages
           return left.localeCompare(right);
         });
       });
+    });
+
+    $scope.$on('workPackageUpdatedInEditor', function(e, workPackage) {
+      $state.go(vm.successState, { workPackageId: workPackage.props.id });
     });
   }
 }

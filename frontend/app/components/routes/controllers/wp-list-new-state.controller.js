@@ -42,8 +42,4 @@ function WorkPackageListNewStateController($rootScope, $scope, $state) {
 
     vm.loaderPromise = $state.go.apply($state, args);
   };
-
-  $scope.$on('workPackageUpdatedInEditor', function(e, workPackage) {
-    $state.go('work-packages.list.details.overview', { workPackageId: workPackage.props.id });
-  });
 }
