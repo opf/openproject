@@ -34,8 +34,12 @@ angular.module('openproject')
   '$urlMatcherFactoryProvider',
   function($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
   // TODO: Preserve #note-4 part of the URL.
-  $urlRouterProvider.when('/work_packages/{id: [0-9]+}', function ($match) {
-    return '/work_packages/' + $match.id + '/activity';
+  $urlRouterProvider.when('/work_packages/{id:[0-9]+}', function ($match) {
+    if($match.id.length) {
+      return '/work_packages/' + $match.id + '/activity';
+    }
+
+    return '/work_packages';
   });
 
   $urlMatcherFactoryProvider.strictMode(false);
