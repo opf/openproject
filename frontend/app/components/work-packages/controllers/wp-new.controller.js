@@ -122,5 +122,9 @@ function WorkPackageNewController($scope,
     $scope.$on('workPackageUpdatedInEditor', function(e, workPackage) {
       $state.go(vm.successState, { workPackageId: workPackage.props.id });
     });
+    
+    $scope.$on('$stateChangeStart', function () {
+      EditableFieldsState.editAll.stop();
+    });
   }
 }
