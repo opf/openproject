@@ -74,7 +74,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
               <%= content_tag(role.builtin? ? 'em' : 'span', link_to(role.name, :action => 'edit', :id => role)) %>
             </td>
             <td>
-              <%= icon_wrapper('icon-context icon-yes', I18n.t(:general_text_Yes)) if role.is_a?(GlobalRole) %>
+              <%= icon_wrapper('icon-context icon-checkmark', I18n.t(:general_text_Yes)) if role.is_a?(GlobalRole) %>
             </td>
             <td>
               <% unless role.builtin? %>
