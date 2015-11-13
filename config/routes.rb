@@ -452,11 +452,9 @@ OpenProject::Application.routes.draw do
     # states managed by client-side routing on work_package#index
     get 'details/*state' => 'work_packages#index', on: :collection, as: :details
 
-    # made explicit to avoid conflict with catch-all client-side route
-    get '/edit' => 'work_packages#edit', on: :member
-
     # states managed by client-side (angular) routing on work_package#show
     get '(/*state)' => 'work_packages#show', on: :member, as: ''
+    get '/edit' => 'work_packages#show', on: :member, as: 'edit'
   end
 
   resources :versions, only: [:show, :edit, :update, :destroy] do

@@ -63,7 +63,7 @@ end
 
 When /^I click on the edit button$/ do
   within('#toolbar-items') do
-    click_button(I18n.t('js.button_edit'))
+    find('.edit-all-button').click
   end
 end
 
