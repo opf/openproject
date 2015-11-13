@@ -59,7 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= render partial: 'attachments/form', f: f %>
 
   <hr class="form--separator">
-  <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-yes' %>
+  <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
   <%= preview_link preview_wiki_path(@project), 'wiki_form-preview' %>
 
   <%= wikitoolbar_for 'content_text' %>

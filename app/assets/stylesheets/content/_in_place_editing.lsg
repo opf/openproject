@@ -136,7 +136,7 @@
             <accessible-by-keyboard execute="editForm.$valid &amp;&amp; submit(false)" >
               <a execute-on-enter="execute()" default-event-handling="defaultEventHandling"  href=""  tabindex="0">
                 <span >
-                  <span class="icon-context icon-button icon-yes " title="Description: Save" icon-name="yes" icon-title="Description: Save">
+                  <span class="icon-context icon-button icon-checkmark " title="Description: Save" icon-name="yes" icon-title="Description: Save">
                     <span class="hidden-for-sighted ">Description: Save</span>
                   </span>
                 </span>
@@ -147,7 +147,7 @@
               <a execute-on-enter="execute()" default-event-handling="defaultEventHandling"  href=""  tabindex="0">
                 <span  >
                   <span title="Description: Save and send email" >
-                    <i class="icon-yes"></i>
+                    <i class="icon-checkmark"></i>
                     <i class="icon-mail1"></i>
                   </span>
                 </span>
@@ -265,7 +265,7 @@
                       <accessible-by-keyboard execute="editForm.$valid &amp;&amp; submit(false)" >
                         <a execute-on-enter="execute()" default-event-handling="defaultEventHandling"  href=""  tabindex="0">
                           <span >
-                            <span class="icon-context icon-button icon-yes " title="Description: Save" icon-name="yes" icon-title="Description: Save">
+                            <span class="icon-context icon-button icon-checkmark " title="Description: Save" icon-name="yes" icon-title="Description: Save">
                               <span class="hidden-for-sighted ">Description: Save</span>
                             </span>
                           </span>
@@ -276,7 +276,7 @@
                         <a execute-on-enter="execute()" default-event-handling="defaultEventHandling"  href=""  tabindex="0">
                           <span  >
                             <span title="Description: Save and send email" >
-                              <i class="icon-yes"></i>
+                              <i class="icon-checkmark"></i>
                               <i class="icon-mail1"></i>
                             </span>
                           </span>

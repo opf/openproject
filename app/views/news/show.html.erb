@@ -62,7 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <div id="edit-news" style="display:none;">
     <%= labelled_tabular_form_for @news, html: { id: 'news-form' } do |f| %>
       <%= render partial: 'form', locals: { f: f } %>
-      <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
+      <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
       <%= link_to l(:button_cancel), "#", onclick: 'Element.hide("edit-news"); return false;',
         class: 'button'%>
       <%= preview_link preview_news_path(@news), 'news-form-preview' %>

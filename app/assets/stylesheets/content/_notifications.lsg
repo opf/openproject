@@ -137,7 +137,7 @@
             </li>
             <li class="notification-box--uploads-element">
               <span class="filename">Awesome_Landscape3.png</span>
-              <span class="upload-completed"><i class="icon-yes -success"></i></span>
+              <span class="upload-completed"><i class="icon-checkmark -success"></i></span>
             </li>
           </ul>
         </div>
@@ -162,7 +162,7 @@
           <ul class="notification-box--uploads">
             <li class="notification-box--uploads-element">
               <span class="filename">Awesome_Landscape1.png</span>
-              <span class="upload-completed"><i class="icon-yes -success"></i></span>
+              <span class="upload-completed"><i class="icon-checkmark -success"></i></span>
             </li>
             <li class="notification-box--uploads-element">
               <span class="filename">Awesome_Landscape2.png</span>
@@ -171,15 +171,15 @@
             </li>
             <li class="notification-box--uploads-element">
               <span class="filename">Awesome_Landscape3.png</span>
-              <span class="upload-completed"><i class="icon-yes -success"></i></span>
+              <span class="upload-completed"><i class="icon-checkmark -success"></i></span>
             </li>
             <li class="notification-box--uploads-element">
               <span class="filename">Awesome_Landscape3.png</span>
-              <span class="upload-completed"><i class="icon-yes -success"></i></span>
+              <span class="upload-completed"><i class="icon-checkmark -success"></i></span>
             </li>
             <li class="notification-box--uploads-element">
               <span class="filename">Awesome_Landscape3.png</span>
-              <span class="upload-completed"><i class="icon-yes -success"></i></span>
+              <span class="upload-completed"><i class="icon-checkmark -success"></i></span>
             </li>
           </ul>
         </div>
@@ -212,15 +212,15 @@
             </li>
             <li class="notification-box--uploads-element">
               <span class="filename">Awesome_Landscape3.png</span>
-              <span class="upload-completed"><i class="icon-yes -success"></i></span>
+              <span class="upload-completed"><i class="icon-checkmark -success"></i></span>
             </li>
             <li class="notification-box--uploads-element">
               <span class="filename">Awesome_Landscape4.png</span>
-              <span class="upload-completed"><i class="icon-yes -success"></i></span>
+              <span class="upload-completed"><i class="icon-checkmark -success"></i></span>
             </li>
             <li class="notification-box--uploads-element">
               <span class="filename">Awesome_Landscape5.png</span>
-              <span class="upload-completed"><i class="icon-yes -success"></i></span>
+              <span class="upload-completed"><i class="icon-checkmark -success"></i></span>
             </li>
           </ul>
         </div>

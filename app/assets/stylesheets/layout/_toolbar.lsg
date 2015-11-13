@@ -20,7 +20,7 @@ A toolbar that can and should be used for actions on the current view. Initially
       </li>
       <li class="toolbar-item">
         <button class="button">
-          <i class="button--icon icon-star1"></i>
+          <i class="button--icon icon-star"></i>
           <span class="button--text">Favourite button</span>
         </button>
       </li>

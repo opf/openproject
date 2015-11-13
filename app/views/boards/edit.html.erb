@@ -30,5 +30,5 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for [@project, @board] do |f| %>
   <%= render partial: 'form', locals: {f: f} %>
-  <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-yes' %>
+  <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
 <% end %>

@@ -48,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= send_notification_option(params['send_notification'] != '0') %>
 
-  <%= f.button l(:button_create), class: "button -highlight -with-icon icon-yes" %>
+  <%= f.button l(:button_create), class: "button -highlight -with-icon icon-checkmark" %>
   <!-- not supported by controller for now -->
   <%= link_to_work_package_preview(project) %>
 

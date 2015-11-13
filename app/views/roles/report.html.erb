@@ -58,7 +58,7 @@ See doc/COPYRIGHT.rdoc for more details.
                     <div class="generic-table--sort-header">
                       <span>
                         <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
-                        <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('input.role-#{role.id}')",
+                        <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('input.role-#{role.id}')",
                                                                       class: 'no-decoration-on-hover',
                                                                       title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
                       </span>
@@ -82,7 +82,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <% perms_by_module[mod].each do |permission| %>
                 <tr class="permission-<%= permission.name %>">
                   <td>
-                    <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
+                    <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
                                                                     class: 'no-decoration-on-hover',
                                                                     title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
                     <%= l_or_humanize(permission.name, prefix: 'permission_') %>
@@ -104,5 +104,5 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </div>
   <p><%= check_all_links 'permissions_form' %></p>
-  <p><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %></p>
+  <p><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %></p>
 <% end %>

@@ -80,7 +80,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= send_notification_option(params['send_notification'] != '0') %>
 
   <%= f.hidden_field :lock_version %>
-  <%= f.button l(:button_submit), class: 'button -highlight -with-icon icon-yes' %>
+  <%= f.button l(:button_submit), class: 'button -highlight -with-icon icon-checkmark' %>
   <%= link_to_work_package_preview(work_package) %>
 <% end %>
 
