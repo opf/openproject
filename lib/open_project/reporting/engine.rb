@@ -100,5 +100,6 @@ module OpenProject::Reporting
              :TimelogController,
              :CustomFieldsController,
              :'OpenProject::Configuration']
+    patch_with_namespace :BasicData, :RoleSeeder
   end
 end
