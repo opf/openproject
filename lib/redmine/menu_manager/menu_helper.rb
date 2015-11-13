@@ -70,7 +70,7 @@ module Redmine::MenuManager::MenuHelper
                   { action: 'index', controller: '/wiki', id: CGI.escape(main_item.title) },
                   param:   :project_id,
                   caption: :label_table_of_contents,
-                  html:    { class: 'icon2 icon-list-view1' },
+                  html:    { class: 'icon2 icon-view-list' },
                   parent:  "#{main_item.item_class}".to_sym if main_item.index_page
 
         main_item.children.each do |child|

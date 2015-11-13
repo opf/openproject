@@ -31,7 +31,7 @@ module.exports = function() {
                           '&quot;resizable=yes, location=no, width=600, height=640, ' +
                           'menubar=no, status=no, scrollbars=yes&quot;); return false;',
       HELP_LINK_HTML = jQuery('<button title="' + I18n.t('js.inplace.link_formatting_help') + '"' +
-                              ' class="jstb_help icon icon-help" ' +
+                              ' class="jstb_help icon icon-help1" ' +
                               ' type="button" ' +
                               'onclick="' + HELP_LINK_ONCLICK + '">' +
                               '<span class="hidden-for-sighted">' +

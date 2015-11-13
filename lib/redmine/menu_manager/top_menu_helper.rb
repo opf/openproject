@@ -85,7 +85,7 @@ module Redmine::MenuManager::TopMenuHelper
           ret += content_tag :li do
             link_to l(:label_project_view_all), { controller: '/projects',
                                                   action: 'index' },
-                    class: 'icon4 icon-list-view2'
+                    class: 'icon4 icon-show-all-projects'
           end
 
           ret += content_tag :li, id: 'project-search-container' do

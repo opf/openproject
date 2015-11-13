@@ -155,7 +155,7 @@
 ```
 <div class="generic-table--container work-package-table--container" style="height:150px">
   <div class="generic-table--no-results-container">
-    <i class="icon-info"></i>
+    <i class="icon-info1"></i>
     <h2 class="generic-table--no-results-title">
       No work packages to display
     </h2>
