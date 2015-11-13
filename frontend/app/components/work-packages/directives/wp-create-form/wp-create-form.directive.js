@@ -33,8 +33,16 @@ angular
 function wpCreateForm() {
   return {
     restrict: 'E',
-    templateUrl: '/components/work-packages/directives/wp-create-form/' +
-      'wp-create-form.directive.html',
+    templateUrl: function (element, attrs) {
+      var directory = '/components/work-packages/directives/wp-create-form/',
+          template = 'wp-create-form.directive.html';
+
+      if (attrs.formTemplate === 'full-create') {
+        template = 'wp-full-create-form.directive.html';
+      }
+
+      return directory + template;
+    },
 
     scope: {
       workPackage: '=?',
@@ -45,5 +53,5 @@ function wpCreateForm() {
     controller: 'WorkPackageNewController',
     controllerAs: 'vm',
     bindToController: true
-  }
+  };
 }
