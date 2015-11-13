@@ -5,5 +5,5 @@
 gem 'openproject-reporting', path: 'plugins/this'
 
 # If the plugin has any dependencies declare them here:
-gem "openproject-costs",           :git => "git@github.com:finnlabs/openproject-costs.git",         :branch => "dev"
-gem "reporting_engine",            :git => "git@github.com:finnlabs/reporting_engine.git",          :branch => "dev"
+gem "openproject-costs",           :git => "https://github.com/finnlabs/openproject-costs.git",         :branch => "dev"
+gem "reporting_engine",            :git => "https://github.com/finnlabs/reporting_engine.git",          :branch => "dev"
