@@ -301,9 +301,6 @@ OpenProject::Application.routes.draw do
       resources :calendar, controller: 'calendars', only: [:index]
     end
 
-    # Prevent the /*state route from overriding Rails' new
-    # view which is being used for e.g. duplicating work packages.
-    resources :work_packages, only: [:new]
 
     resources :work_packages, only: [:create] do
       get :new_type, on: :collection
@@ -315,6 +312,7 @@ OpenProject::Application.routes.draw do
 
       # states managed by client-side routing on work_package#index
       get '(/*state)' => 'work_packages#index', on: :collection, as: ''
+      get '/new' => 'work_packages#index', on: :collection, as: 'new'
     end
 
     resources :activity, :activities, only: :index, controller: 'activities'

@@ -87,7 +87,7 @@ module API
 
         link :duplicate do
           {
-            href: new_project_work_package_path(represented.project, copy_from: represented),
+            href: new_project_work_packages_path(represented.project, copy_from: represented),
             type: 'text/html',
             title: "Duplicate #{represented.subject}"
           } if current_user_allowed_to(:add_work_packages, context: represented.project)
@@ -189,7 +189,7 @@ module API
 
         link :addChild do
           {
-            href: new_project_work_package_path(represented.project,
+            href: new_project_work_packages_path(represented.project,
                                                 work_package: { parent_id: represented }),
             type: 'text/html',
             title: "Add child of #{represented.subject}"

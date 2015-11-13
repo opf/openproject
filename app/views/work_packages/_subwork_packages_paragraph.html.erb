@@ -34,7 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="attributes-group--header-control">
       <% if User.current.allowed_to?(:manage_subtasks, @project) %>
         <%= link_to(icon_wrapper('icon icon-add', l(:label_add_subtask)),
-                    new_project_work_package_path(project_id: @project, work_package: { parent_id: work_package }),
+                    new_project_work_packages_path(project_id: @project, work_package: { parent_id: work_package }),
                     title: l(:label_add_subtask),
                     class: 'no-decoration-on-hover') %>
       <% end %>
