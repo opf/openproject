@@ -72,7 +72,7 @@ function InplaceEditorDropDownController($q, $scope, I18n, WorkPackageFieldConfi
     if ($scope.field.allowedValuesEmbedded()) {
        options = _.map(values, function(item) {
         return _.extend({}, item._links.self, {
-          name: item._links.self.title,
+          name: item._links.self.title || item.value,
           group: WorkPackageFieldConfigurationService
                    .getDropDownOptionGroup($scope.field.name, item)
         });

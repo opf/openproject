@@ -61,10 +61,9 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
 
     // not writable if no embedded allowed values
     if (schema.props[field]._links && allowedValuesEmbedded(workPackage, field)) {
-      if (getEmbeddedAllowedValues(workPackage, field).length === 0) {
-        return false;
-      }
+      isWritable = getEmbeddedAllowedValues(workPackage, field).length > 0;
     }
+
     return isWritable;
   }
 
