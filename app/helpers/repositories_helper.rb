@@ -131,7 +131,7 @@ module RepositoriesHelper
         when 'A'
           output << "<li class='#{style} icon icon-add'>#{text}</li>"
         when 'D'
-          output << "<li class='#{style} icon icon-delete2'>#{text}</li>"
+          output << "<li class='#{style} icon icon-delete'>#{text}</li>"
         else
           output << "<li class='#{style} icon icon-pulldown-arrow4'>#{text}</li>"
         end

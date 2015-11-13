@@ -21,7 +21,7 @@
                 title="{{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}"
                 ng-click="toggleShowFilterOptions()"
                 ng-class="{ '-active': showFiltersOptions }">
-          <i class="icon-filter-big button--icon"></i>
+          <i class="icon-filter button--icon"></i>
           <span class="button--text" ng-bind="::I18n.t('js.toolbar.filter')"></span>
           <span class="badge -secondary">{{ getFilterCount() }}</span>
         </button>

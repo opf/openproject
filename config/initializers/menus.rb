@@ -153,7 +153,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :enumerations,
             { controller: '/enumerations' },
-            html: { class: 'icon2 icon-enumerations2' }
+            html: { class: 'icon2 icon-enumerations' }
 
   menu.push :settings,
             { controller: '/settings' },

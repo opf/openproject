@@ -19,7 +19,7 @@
 
     <li ng-if="isGroupable">
       <a role="menuitem" focus="focusFeature('group')" href="" ng-click="groupBy(column.name)">
-        <i class="icon-action-menu icon-group-by2"></i>
+        <i class="icon-action-menu icon-group-by"></i>
         <span ng-bind="I18n.t('js.work_packages.query.group')"/>
       </a>
     </li>
@@ -40,7 +40,7 @@
 
     <li ng-if="canBeHidden()">
       <a role="menuitem" focus="focusFeature('hide')" href="" ng-click="hideColumn(column.name)">
-        <i class="icon-action-menu icon-delete2"></i>
+        <i class="icon-action-menu icon-delete"></i>
         <span ng-bind="I18n.t('js.work_packages.query.hide_column')"/>
       </a>
     </li>

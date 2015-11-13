@@ -107,7 +107,7 @@ describe Redmine::WikiFormatting::Textile::Formatter do
 
   it 'should inline auto link' do
     assert_html_output(
-      'Autolink to http://www.google.com' =>         'Autolink to <a class="external icon-context icon-copy2" href="http://www.google.com">http://www.google.com</a>'
+      'Autolink to http://www.google.com' =>         'Autolink to <a class="external icon-context" href="http://www.google.com">http://www.google.com</a>'
     )
   end
 
