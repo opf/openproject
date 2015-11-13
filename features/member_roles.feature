@@ -22,13 +22,11 @@ Feature: Unchanged Member Roles
   @javascript
   Scenario: Global Roles should not be displayed as assignable project roles
     Given there is 1 project with the following:
-      | Name | projectname |
-      | Identifier | projectid |
-    And there is a global role "GlobalRole1"
-    And there is a role "MemberRole1"
-    And I am already admin
+      | Name       | projectname |
+      | Identifier | projectid   |
+     And there is a global role "GlobalRole1"
+     And there is a role "MemberRole1"
+     And I am already admin
     When I go to the new member page of the project "projectid"
-    And I enter the role name "MemberRole1"
-    Then I should see "MemberRole1"
-    And I enter the role name "GlobalRole1"
-    Then I should not see "GlobalRole1"
+    Then I should see "MemberRole1" within "#member_role_ids"
+    Then I should not see "GlobalRole1" within "#member_role_ids"
