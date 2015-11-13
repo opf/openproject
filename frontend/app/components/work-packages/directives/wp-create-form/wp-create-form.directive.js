@@ -46,7 +46,6 @@ function wpCreateForm() {
 
     scope: {
       workPackage: '=?',
-      onCancel: '&?',
       successState: '@'
     },
 
