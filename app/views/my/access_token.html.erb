@@ -97,7 +97,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                                key_name: l(:label_feeds_access_key),
                                                value: @user.rss_token.value) %>"
                      click-notification-type="notice"
-                     class="icon icon-key-1">
+                     class="icon icon-key">
                     <%= l(:button_show) %>
                   </a>
                 </td>
@@ -111,7 +111,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   <%= link_to l(:button_generate),
                               { action: 'generate_rss_key' },
                               method: :post,
-                              class: 'icon icon-key-1' %>
+                              class: 'icon icon-key' %>
                   </a>
                 </td>
               </tr>
@@ -137,7 +137,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                                key_name: l(:label_api_access_key),
                                                value: @user.api_token.value) %>"
                      click-notification-type="notice"
-                     class="icon icon-key-1">
+                     class="icon icon-key">
                     <%= l(:button_show) %>
                   </a>
                 </td>
@@ -151,7 +151,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   <%= link_to l(:button_generate),
                               { action: 'generate_api_key' },
                               method: :post,
-                              class: 'icon icon-key-1' %>
+                              class: 'icon icon-key' %>
                   </a>
                 </td>
               </tr>

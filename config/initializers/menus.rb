@@ -61,7 +61,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             caption: '',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
                     title: I18n.t('label_help'),
-                    class: 'icon5 icon-help',
+                    class: 'icon5 icon-help1',
                     target: '_blank' }
 end
 
@@ -97,7 +97,7 @@ Redmine::MenuManager.map :my_menu do |menu|
   menu.push :access_token,
             { controller: '/my', action: 'access_token' },
             caption: I18n.t('my_account.access_tokens.access_token'),
-            html: { class: 'icon2 icon-key-1' }
+            html: { class: 'icon2 icon-key' }
   menu.push :mail_notifications,
             { controller: '/my', action: 'mail_notifications' },
             caption: I18n.t('activerecord.attributes.user.mail_notification'),
@@ -115,7 +115,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :projects,
             { controller: '/admin', action: 'projects' },
             caption: :label_project_plural,
-            html: { class: 'icon2 icon-list-view2' }
+            html: { class: 'icon2 icon-show-all-projects' }
 
   menu.push :users,
             { controller: '/users' },
@@ -174,7 +174,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/admin', action: 'info' },
             caption: :label_information_plural,
             last: true,
-            html: { class: 'icon2 icon-info' }
+            html: { class: 'icon2 icon-info1' }
 
   menu.push :colors,
             { controller: '/planning_element_type_colors', action: 'index' },
@@ -190,7 +190,7 @@ end
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview,
             { controller: '/projects', action: 'show' },
-            html: { class: 'icon2 icon-list-view2' }
+            html: { class: 'icon2 icon-show-all-projects' }
 
   menu.push :activity,
             { controller: '/activities', action: 'index' },

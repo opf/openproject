@@ -236,7 +236,7 @@
 ```
 <div class="generic-table--container" style="height:150px">
   <div class="generic-table--no-results-container">
-    <i class="icon-info"></i>
+    <i class="icon-info1"></i>
     <h2 class="generic-table--no-results-title">
       Nothing to display
     </h2>
