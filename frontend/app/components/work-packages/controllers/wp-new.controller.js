@@ -31,6 +31,7 @@ angular
   .controller('WorkPackageNewController', WorkPackageNewController);
 
 function WorkPackageNewController($scope,
+                                  $rootScope,
                                   $state,
                                   $stateParams,
                                   PathHelper,
@@ -60,6 +61,15 @@ function WorkPackageNewController($scope,
 
   vm.notifyCreation = function() {
     NotificationsService.addSuccess(I18n.t('js.notice_successful_create'));
+  };
+  vm.goBack = function() {
+    var args = ['^'];
+
+    if ($rootScope.previousState && $rootScope.previousState.name) {
+      args = [$rootScope.previousState.name, $rootScope.previousState.params];
+    }
+
+    vm.loaderPromise = $state.go.apply($state, args);
   };
 
   $scope.I18n = I18n;
