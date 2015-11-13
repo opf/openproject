@@ -89,7 +89,8 @@
   padding: 0
 
 .advanced-filters--remove-filter-icon
-  @extend .icon-close, .icon4
+  //TODO: remove !optional as soon as .icon-close is defined again
+  @extend .icon-close, .icon4 !optional
   @include grid-content(1)
   @include grid-visible-overflow
 
