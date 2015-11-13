@@ -125,15 +125,6 @@ Then /^I should not see the principal "(.+)" as a member$/ do |principal_name|
   steps %{ Then I should not see "#{principal.name}" within ".generic-table" }
 end
 
-When /^I enter the (principal|role) name "(.+)"$/ do |model, principal_name|
-  model = (model == 'role' ? 'role' : 'user')
-  if !User.current.impaired?
-    enter_name_with_select2(principal_name, "#s2id_member_#{model}_ids")
-  else
-    enter_name_without_select2(principal_name)
-  end
-end
-
 When /^I delete the "([^"]*)" membership$/ do |group_name|
   membership = member_for_login(group_name)
   step %(I follow "Delete" within "#member-#{membership.id}")
