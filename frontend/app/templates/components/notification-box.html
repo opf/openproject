@@ -25,7 +25,7 @@
       </div>
       <div data-ng-switch-when="error">
         <ul class="notification-box--errors" role="alert">
-          <li data-ng-repeat="error in content.errors">{{error}}</li>
+          <li data-ng-repeat="error in content.errors track by $index">{{error}}</li>
         </ul>
         <!-- "continue editing" button -->
       </div>
