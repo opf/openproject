@@ -57,7 +57,7 @@ Feature: Watch issues
     Then I should find "#watch-button"
     #Then I should see "Watch" within "#content > .action_menu_specific"
     When I click on "watch-button" within "#toolbar-items"
-    Then I should find ".button--icon.icon-not-watch" within "#toolbar-items"
+    Then I should find ".button--icon.icon-unwatched" within "#toolbar-items"
     #Then I should see "Unwatch" within "#content > .action_menu_specific"
     # The space before and after 'Watch' is important as 'Unwatch' includes the
     # string 'watch' if matched case insenstivive.

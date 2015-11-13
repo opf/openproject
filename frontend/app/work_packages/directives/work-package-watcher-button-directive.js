@@ -62,7 +62,7 @@ module.exports = function(I18n, WorkPackageService) {
         scope.buttonText = I18n.t('js.label_watch');
         scope.buttonClass = 'button';
         scope.buttonId = 'watch-button';
-        scope.watchIconClass = 'icon-not-watch';
+        scope.watchIconClass = 'icon-unwatched';
       }
     }
 

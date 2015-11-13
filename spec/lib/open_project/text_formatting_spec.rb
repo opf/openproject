@@ -587,7 +587,7 @@ WIKI_TEXT
         expect(html).to be_html_eql(%{
           <fieldset class='form--fieldset -collapsible'>
             <legend class='form--fieldset-legend' title='Show/Hide table of contents' onclick='toggleFieldset(this);'>
-              <a class="icon-context icon-pulldown-arrow1" href='javascript:'>Table of Contents</a>
+              <a class="icon-context icon-pulldown" href='javascript:'>Table of Contents</a>
             </legend>
             <div>
               <ul class="toc">
@@ -626,7 +626,7 @@ WIKI_TEXT
         expect(html).to be_html_eql(%{
           <fieldset class='form--fieldset -collapsible'>
             <legend class='form--fieldset-legend' title='Show/Hide table of contents' onclick='toggleFieldset(this);'>
-              <a class="icon-context icon-pulldown-arrow1" href='javascript:'>Table of Contents</a>
+              <a class="icon-context icon-pulldown" href='javascript:'>Table of Contents</a>
             </legend>
             <div>
               <ul class="toc">

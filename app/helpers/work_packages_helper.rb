@@ -250,7 +250,7 @@ module WorkPackagesHelper
 
     if level > 0
       tr_css_classes << 'idnt' << "idnt-#{level}"
-      subject_css_classes += ['icon-context', 'icon-pulldown-arrow4']
+      subject_css_classes += ['icon-context', 'icon-arrow-right5']
     end
 
     content_tag :tr, class: tr_css_classes.join(' ') do

@@ -202,7 +202,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/versions', action: 'index' },
             param: :project_id,
             if: Proc.new { |p| p.shared_versions.any? },
-            html: { class: 'icon2 icon-process-arrow1' }
+            html: { class: 'icon2 icon-roadmap' }
 
   menu.push :work_packages,
             { controller: '/work_packages', action: 'index' },
@@ -210,7 +210,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_work_package_plural,
             html: {
               id: 'main-menu-work-packages',
-              class: 'icon2 icon-project-tree',
+              class: 'icon2 icon-work-packages',
               'data-ui-route' => '',
               query_menu_item: 'query_menu_item'
             }
@@ -251,7 +251,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/repositories', action: 'show' },
             param: :project_id,
             if: Proc.new { |p| p.repository && !p.repository.new_record? },
-            html: { class: 'icon2 icon-open-folder' }
+            html: { class: 'icon2 icon-folder-open' }
 
   menu.push :time_entries,
             { controller: '/timelog', action: 'index' },
