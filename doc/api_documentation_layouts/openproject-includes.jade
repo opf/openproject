@@ -15,8 +15,8 @@ mixin Nav(multipage, collapsible)
                  = resourceGroup.name || 'Resource Group'
                     if resourceGroup.resources.length
                         a.dropdown-toggle.toggle-open-menu(href="##{slug(resourceGroup.name)}", data-toggle="dropdown")
-                            i.icon.icon-arrow-right5-2
-                            i.icon.icon-arrow-right5-3
+                            i.icon.icon-arrow-down1
+                            i.icon.icon-arrow-up1
                         ul.dropdown-menu
                             each resource in resourceGroup.resources
                                 - var randomResourceIndex = Math.random().toString(16).slice(2)
@@ -27,8 +27,8 @@ mixin Nav(multipage, collapsible)
                                     = resource.name || 'Resource'
                                     if (resource.actions.length != 1)
                                             a.dropdown-toggle.toggle-open-menu(href="##{slug(resourceGroup.name)}-#{slug(resource.name)}", data-toggle="dropdown")
-                                                i.icon.icon-arrow-right5-2
-                                                i.icon.icon-arrow-right5-3
+                                                i.icon.icon-arrow-down1
+                                                i.icon.icon-arrow-up1
                                             ul.dropdown-menu
                                                 each action in resource.actions
                                                     - var randomActionIndex = Math.random().toString(16).slice(2)

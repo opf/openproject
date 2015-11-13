@@ -49,9 +49,9 @@ while day <= calendar.enddt %>
                 <% if day == i.start_date and day == i.due_date %>
                   <% date_img = content_tag(:span, '', class: "icon icon-milestone diamond") %>
                 <% elsif day == i.start_date %>
-                  <% date_img = content_tag(:span, '', class: "icon icon-arrow-right7 starting") %>
+                  <% date_img = content_tag(:span, '', class: "icon icon-arrow-right4 starting") %>
                 <% elsif day == i.due_date %>
-                  <% date_img = content_tag(:span, '', class: "icon icon-arrow-right7 ending") %>
+                  <% date_img = content_tag(:span, '', class: "icon icon-arrow-right4 ending") %>
                 <% end %>
                 <%= date_img %>
                 <%= link_to_work_package i, truncate: 30%>

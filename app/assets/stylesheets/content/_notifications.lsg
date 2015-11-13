@@ -123,7 +123,7 @@
     <div>
       <div>
         <div class="notification-box--toggle-message">
-          <a href="#"><i class="icon-arrow-right5-2"></i></a> 1 of 3 files finished
+          <a href="#"><i class="icon-arrow-down1"></i></a> 1 of 3 files finished
         </div>
         <div class="notification-box--uploads-wrapper">
           <ul class="notification-box--uploads">
@@ -156,7 +156,7 @@
     <div>
       <div>
         <div class="notification-box--toggle-message">
-          <a href="#"><i class="icon-arrow-right5-2"></i></a> 5 of 5 files finished
+          <a href="#"><i class="icon-arrow-down1"></i></a> 5 of 5 files finished
         </div>
         <div class="notification-box--uploads-wrapper">
           <ul class="notification-box--uploads">
@@ -198,7 +198,7 @@
     <div>
       <div>
         <div class="notification-box--toggle-message">
-          <a href="#"><i class="icon-arrow-right5"></i></a> 3 of 5 files finished
+          <a href="#"><i class="icon-arrow-right2"></i></a> 3 of 5 files finished
         </div>
         <div class="notification-box--uploads-wrapper hide">
           <ul class="notification-box--uploads">

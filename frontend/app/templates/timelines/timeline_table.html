@@ -43,7 +43,7 @@
           <span ng-if="changeDetected">
             <a title="{{I18n.t('js.timelines.change')}}"
                ng-class="{
-                 'icon icon-added': rowObject.isNewlyAdded(),
+                 'icon icon-add': rowObject.isNewlyAdded(),
                  'icon icon-delete2': rowObject.isDeleted(),
                  'icon icon-arrow-left-right': !rowObject.isDeleted() && !rowObject.isNewlyAdded()
                }" />

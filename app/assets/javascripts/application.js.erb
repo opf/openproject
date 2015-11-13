@@ -90,7 +90,7 @@ jQuery(document).ready(function ($) {
   });
 
   $(document).on('click', '#show_more_wp_properties', function(el){
-    $(this).find('.icon').toggleClass('icon-arrow-right6-3 icon-arrow-right6-1');
+    $(this).find('.icon').toggleClass('icon-arrow-down2 icon-arrow-up2');
     Effect.toggle("work_package_descr_fields", "appear", {duration:0.3});
     enable_textarea_auto_completion(jQuery("#work_package_description"));
 
