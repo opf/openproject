@@ -67,7 +67,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <li class="change change-M icon icon-pulldown-arrow4"><%= l(:label_modified) %></li>
     <li class="change change-C icon icon-pulldown-arrow4"><%= l(:label_copied) %></li>
     <li class="change change-R icon icon-pulldown-arrow4"><%= l(:label_renamed) %></li>
-    <li class="change change-D icon icon-delete2"><%= l(:label_deleted) %></li>
+    <li class="change change-D icon icon-delete"><%= l(:label_deleted) %></li>
   </ul>
   <p><%= link_to(l(:label_view_diff), action: 'diff', project_id: @project, path: nil, rev: @changeset.identifier) if @changeset.file_changes.any? %></p>
   <div class="changeset-changes">

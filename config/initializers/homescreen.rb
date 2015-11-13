@@ -70,7 +70,7 @@ OpenProject::Homescreen.manage :links do |links|
     },
     {
       label: :forums,
-      icon: 'icon-context icon-bubble3',
+      icon: 'icon-context icon-forums',
       url: 'https://community.openproject.org/projects/openproject/boards'
     }
   )
