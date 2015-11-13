@@ -79,6 +79,7 @@ angular.module('openproject.workPackages.controllers')
     'QueryService',
     'PathHelper',
     '$rootScope',
+    'EditableFieldsState',
     require('./work-packages-controller')
   ])
   .factory('columnsModal', ['btfModal', function(btfModal) {
