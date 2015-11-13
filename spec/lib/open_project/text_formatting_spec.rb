@@ -291,7 +291,7 @@ describe OpenProject::TextFormatting do
     context 'Url links' do
       subject { format_text('http://foo.bar/FAQ#3') }
 
-      it { is_expected.to be_html_eql('<p><a class="external icon-context" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a></p>') }
+      it { is_expected.to be_html_eql('<p><a class="external icon-context icon-copy" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a></p>') }
     end
 
     context 'Wiki links' do
