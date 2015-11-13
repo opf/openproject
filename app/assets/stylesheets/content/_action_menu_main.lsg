@@ -14,7 +14,7 @@
 		</li>
 		<li>
 			<a href="#"><i class="icon-priority icon-action-menu"></i>menu item with sub</a>
-			<i class="icon-pulldown-arrow4 icon-sub-menu"></i>
+			<i class="icon-arrow-right5 icon-sub-menu"></i>
 				<ul class="sub-menu">
 					<li>
 						<a href="#"><i class="icon-edit icon-action-menu"></i>menu item</a>

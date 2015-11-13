@@ -64,9 +64,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <h3><%= l(:label_attachment_plural) %></h3>
   <ul id="changes-legend">
     <li class="change change-A icon icon-add"><%= l(:label_added) %></li>
-    <li class="change change-M icon icon-pulldown-arrow4"><%= l(:label_modified) %></li>
-    <li class="change change-C icon icon-pulldown-arrow4"><%= l(:label_copied) %></li>
-    <li class="change change-R icon icon-pulldown-arrow4"><%= l(:label_renamed) %></li>
+    <li class="change change-M icon icon-arrow-right5"><%= l(:label_modified) %></li>
+    <li class="change change-C icon icon-arrow-right5"><%= l(:label_copied) %></li>
+    <li class="change change-R icon icon-arrow-right5"><%= l(:label_renamed) %></li>
     <li class="change change-D icon icon-delete"><%= l(:label_deleted) %></li>
   </ul>
   <p><%= link_to(l(:label_view_diff), action: 'diff', project_id: @project, path: nil, rev: @changeset.identifier) if @changeset.file_changes.any? %></p>

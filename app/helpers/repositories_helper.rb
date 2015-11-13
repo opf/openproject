@@ -108,7 +108,7 @@ module RepositoriesHelper
                        project_id: @project,
                        path: path_param,
                        rev: @changeset.identifier)
-        output << "<li class='#{style} icon icon-open-folder'>#{text}</li>"
+        output << "<li class='#{style} icon icon-folder-open'>#{text}</li>"
         output << render_changes_tree(s)
       elsif c = tree[file][:c]
         style << " change-#{c.action}"
@@ -133,7 +133,7 @@ module RepositoriesHelper
         when 'D'
           output << "<li class='#{style} icon icon-delete'>#{text}</li>"
         else
-          output << "<li class='#{style} icon icon-pulldown-arrow4'>#{text}</li>"
+          output << "<li class='#{style} icon icon-arrow-right5'>#{text}</li>"
         end
       end
     end
