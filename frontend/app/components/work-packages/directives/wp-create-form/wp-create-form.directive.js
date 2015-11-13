@@ -33,17 +33,33 @@ angular
 function wpCreateForm() {
   return {
     restrict: 'E',
-    templateUrl: '/components/work-packages/directives/wp-create-form/' +
-      'wp-create-form.directive.html',
+    templateUrl: function (element, attrs) {
+      var directory = '/components/work-packages/directives/wp-create-form/',
+          template = 'wp-create-form.directive.html';
+
+      if (attrs.formTemplate === 'full-create') {
+        template = 'wp-full-create-form.directive.html';
+      }
+
+      return directory + template;
+    },
 
     scope: {
-      workPackage: '=',
-      projectIdentifier: '=',
-      onCancel: '&'
+      workPackage: '=?',
+      onCancel: '&?',
+      successState: '@'
     },
 
     controller: 'WorkPackageNewController',
     controllerAs: 'vm',
-    bindToController: true
-  }
+    bindToController: true,
+
+    link: function (scope) {
+      var body = angular.element('body').addClass('full-create');
+
+      scope.$on('$stateChangeStart', function () {
+        body.removeClass('full-create');
+      })
+    }
+  };
 }

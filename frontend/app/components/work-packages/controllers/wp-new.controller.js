@@ -30,9 +30,17 @@ angular
   .module('openproject.workPackages.controllers')
   .controller('WorkPackageNewController', WorkPackageNewController);
 
-function WorkPackageNewController($scope, $stateParams, PathHelper, WorkPackagesOverviewService,
-    WorkPackageFieldService, WorkPackageService, EditableFieldsState, WorkPackagesDisplayHelper,
-    NotificationsService) {
+function WorkPackageNewController($scope,
+                                  $rootScope,
+                                  $state,
+                                  $stateParams,
+                                  PathHelper,
+                                  WorkPackagesOverviewService,
+                                  WorkPackageFieldService,
+                                  WorkPackageService,
+                                  EditableFieldsState,
+                                  WorkPackagesDisplayHelper,
+                                  NotificationsService) {
 
   var vm = this;
 
@@ -54,6 +62,15 @@ function WorkPackageNewController($scope, $stateParams, PathHelper, WorkPackages
   vm.notifyCreation = function() {
     NotificationsService.addSuccess(I18n.t('js.notice_successful_create'));
   };
+  vm.goBack = function() {
+    var args = ['^'];
+
+    if ($rootScope.previousState && $rootScope.previousState.name) {
+      args = [$rootScope.previousState.name, $rootScope.previousState.params];
+    }
+
+    vm.loaderPromise = $state.go.apply($state, args);
+  };
 
   $scope.I18n = I18n;
 
@@ -74,7 +91,7 @@ function WorkPackageNewController($scope, $stateParams, PathHelper, WorkPackages
       };
     }
 
-    vm.loaderPromise = WorkPackageService.initializeWorkPackage(vm.projectIdentifier, data)
+    vm.loaderPromise = WorkPackageService.initializeWorkPackage($stateParams.projectPath, data)
     .then(function(wp) {
       vm.workPackage = wp;
       WorkPackagesDisplayHelper.setFocus();
@@ -100,6 +117,14 @@ function WorkPackageNewController($scope, $stateParams, PathHelper, WorkPackages
           return left.localeCompare(right);
         });
       });
+    });
+
+    $scope.$on('workPackageUpdatedInEditor', function(e, workPackage) {
+      $state.go(vm.successState, { workPackageId: workPackage.props.id });
+    });
+    
+    $scope.$on('$stateChangeStart', function () {
+      EditableFieldsState.editAll.stop();
     });
   }
 }

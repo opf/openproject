@@ -26,7 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, $state, $stateParams, QueryService, PathHelper, $rootScope) {
+module.exports = function($scope, $state, $stateParams, QueryService, PathHelper, $rootScope,
+    EditableFieldsState) {
 
   // Setup
   $scope.$state = $state;
@@ -42,7 +43,7 @@ module.exports = function($scope, $state, $stateParams, QueryService, PathHelper
   });
 
   $scope.isDetailsViewActive = function() {
-    return $state.includes('work-packages.list.details');
+    return $state.includes('work-packages.list.details') || EditableFieldsState.editAll.state;
   };
 
   $scope.isListViewActive = function() {
