@@ -116,7 +116,7 @@ module Redmine
               tag = content_tag('a',
                                 proto + url,
                                 href: "#{proto == 'www.' ? 'http://www.' : proto}#{url}",
-                                class: 'external icon-context icon-copy2')
+                                class: 'external icon-context icon-copy')
               %(#{leading}#{tag}#{post})
             end
           end

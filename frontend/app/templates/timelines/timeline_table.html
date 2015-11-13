@@ -37,7 +37,7 @@
             'tl-indent-' + indent,
             row.childNodes.length > 0 && (row.isExpanded() && 'tl-expanded' || 'tl-collapsed')
           ]">
-        <a ng-class="['icon-context', (row.isExpanded() && 'icon-pulldown' || 'icon-arrow-right5')]" ng-click="toggleRowExpansion(row)" ng-if="row.childNodes.length > 0"></a>
+        <a ng-class="['icon-context icon-small', (row.isExpanded() && 'icon-pulldown' || 'icon-arrow-right5')]" ng-click="toggleRowExpansion(row)" ng-if="row.childNodes.length > 0"></a>
 
         <span class="tl-word-ellipsis">
           <span ng-if="changeDetected">
