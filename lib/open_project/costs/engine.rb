@@ -71,7 +71,7 @@ module OpenProject::Costs
       menu :admin_menu,
            :cost_types,
            { controller: '/cost_types', action: 'index' },
-           html: { class: 'icon2 icon-tracker' },
+           html: { class: 'icon2 icon-types' },
            caption: :label_cost_type_plural
 
       menu :project_menu,

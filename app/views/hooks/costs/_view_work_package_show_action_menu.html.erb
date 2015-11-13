@@ -20,5 +20,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <% if @project && @project.module_enabled?(:costs_module) %>
   <hr />
-  <%= li_unless_nil(link_to_if_authorized l(:button_log_costs), {:controller => '/costlog', :action => 'new', :work_package_id => work_package}, :class => 'icon-context icon-unit') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_log_costs), {:controller => '/costlog', :action => 'new', :work_package_id => work_package}, :class => 'icon-context icon-projects') %>
 <% end %>

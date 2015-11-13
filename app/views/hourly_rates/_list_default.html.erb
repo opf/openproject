@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <div class="generic-table--container">
         <div class="generic-table--no-results-container">
           <h2 class="generic-table--no-results-title">
-            <i class="icon-info"></i>
+            <i class="icon-info1"></i>
             <%= l(:label_nothing_display) %>
           </h2>
           <div class="generic-table--no-results-description">
@@ -80,7 +80,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
           <tr>
             <td style="padding-right: 1em;"><%= rate.valid_from %></td>
             <td class="currency"><%= number_to_currency(rate.rate) %></td>
-            <td><%= rate == current_rate ? icon_wrapper('icon-context icon-yes',I18n.t(:general_text_Yes)) : "" %></td>
+            <td><%= rate == current_rate ? icon_wrapper('icon-context icon-checkmark',I18n.t(:general_text_Yes)) : "" %></td>
           </tr>
         <%- end -%>
         </tbody>

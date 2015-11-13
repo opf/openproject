@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <div class="generic-table--container">
     <div class="generic-table--no-results-container">
       <h2 class="generic-table--no-results-title">
-        <i class="icon-info"></i>
+        <i class="icon-info1"></i>
         <%= l(:label_nothing_display) %>
       </h2>
       <div class="generic-table--no-results-description">
@@ -96,12 +96,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                     <%= Setting.plugin_openproject_costs['costs_currency'] %>
                   </span>
                   <span class="form-label">
-                    <a href="#" onclick="submitFormWithConfirmation(event, this, false);" class="submit_cost_type"><%= icon_wrapper('icon icon-save1', I18n.t(:caption_save_rate)) %></a>
+                    <a href="#" onclick="submitFormWithConfirmation(event, this, false);" class="submit_cost_type"><%= icon_wrapper('icon icon-save', I18n.t(:caption_save_rate)) %></a>
                   </span>
                 </span>
               <% end %>
             </td>
-            <%= content_tag :td, cost_type.is_default? ? icon_wrapper('icon icon-yes', I18n.t(:general_text_Yes)) : "" %>
+            <%= content_tag :td, cost_type.is_default? ? icon_wrapper('icon icon-checkmark', I18n.t(:general_text_Yes)) : "" %>
             <td>
               <%= form_for cost_type, url:    cost_type_path(cost_type),
                                       method: :delete,
