@@ -227,6 +227,9 @@ default_projects_modules:
   - time_tracking
   - timelines
   - wiki
+  - meetings
+  - reporting_module
+  - backlogs
 # Role given to a non-admin user who creates a project
 new_project_user_role_id:
   format: int
