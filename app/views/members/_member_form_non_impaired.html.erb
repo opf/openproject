@@ -66,12 +66,13 @@ See doc/COPYRIGHT.rdoc for more details.
           <div class="form--field-container">
             <div class="form--select-container -auto">
               <% options = roles.collect { |obj| [obj.name, obj.id] } %>
-              <%= select_tag 'member[role_ids]', options_for_select(options),
-                               multiple: false,
-                               no_label: true,
-                               title: l(:label_role_search),
-                               tabIndex: 0,
-                               class: 'form--select' %>
+              <%= select_tag 'member[role_ids][]', options_for_select(options),
+                                                   multiple: false,
+                                                   no_label: true,
+                                                   title:    l(:label_role_search),
+                                                   tabIndex: 0,
+                                                   class:    'form--select',
+                                                   id:       'member_role_ids' %>
             </div>
           </div>
         </div>
