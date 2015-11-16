@@ -85,14 +85,6 @@ module API
           } if current_user_allowed_to(:log_time, context: represented.project)
         end
 
-        link :duplicate do
-          {
-            href: new_project_work_packages_path(represented.project, copy_from: represented),
-            type: 'text/html',
-            title: "Duplicate #{represented.subject}"
-          } if current_user_allowed_to(:add_work_packages, context: represented.project)
-        end
-
         link :move do
           {
             href: new_work_package_move_path(represented),

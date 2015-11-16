@@ -301,14 +301,9 @@ OpenProject::Application.routes.draw do
       resources :calendar, controller: 'calendars', only: [:index]
     end
 
-
-    resources :work_packages, only: [:create] do
-      get :new_type, on: :collection
-
-      collection do
-        match '/report/:detail' => 'work_packages/reports#report_details', via: :get
-        match '/report' => 'work_packages/reports#report', via: :get
-      end
+    resources :work_packages, only: [] do
+      match '/report/:detail' => 'work_packages/reports#report_details', via: :get
+      match '/report' => 'work_packages/reports#report', via: :get
 
       # states managed by client-side routing on work_package#index
       get '(/*state)' => 'work_packages#index', on: :collection, as: ''
@@ -425,12 +420,8 @@ OpenProject::Application.routes.draw do
     get '/bulk' => 'bulk#destroy'
   end
 
-  resources :work_packages, only: [:update, :index] do
-    get :new_type, on: :member
-
+  resources :work_packages, only: [:index] do
     get :column_data, on: :collection # TODO move to API
-
-    resources :relations, controller: 'work_package_relations', only: [:create, :destroy]
 
     # move bulk of wps
     get 'move/new' => 'work_packages/moves#new', on: :collection, as: 'new_move'
@@ -443,11 +434,6 @@ OpenProject::Application.routes.draw do
       resource :report, controller: 'reports'
     end
     resources :time_entries, controller: 'timelog'
-
-    post :preview, on: :collection
-    post :preview, on: :member
-
-    get 'quoted/:id', action: 'quoted', on: :collection
 
     # states managed by client-side routing on work_package#index
     get 'details/*state' => 'work_packages#index', on: :collection, as: :details
