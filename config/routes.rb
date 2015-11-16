@@ -543,7 +543,6 @@ OpenProject::Application.routes.draw do
     get '/my/page_layout', action: 'page_layout'
     get '/my/password', action: 'password'
     post '/my/change_password', action: 'change_password'
-    match '/my/first_login', action: 'first_login', via: [:get, :put]
     get '/my/page', action: 'page'
     match '/my/account', action: 'account', via: [:get, :patch]
     match '/my/settings', action: 'settings', via: [:get, :patch]

@@ -69,6 +69,47 @@ module Redmine
       Setting.date_format.blank? ? ::I18n.l(date.to_date) : date.strftime(Setting.date_format)
     end
 
+    ##
+    # Gives a translation and inserts links into designated spots within it
+    # in the style of markdown links. Instead of the actual URL only names for
+    # the respective links are used in the translation.
+    #
+    # The method then expects a hash mapping each of those keys to actual URLs.
+    #
+    # For example:
+    #
+    #     en.yml:
+    #       en:
+    #         logged_out: You have been logged out. Click [here](login) to login again.
+    #
+    # Which would then be used like this:
+    #
+    #     link_translate(:logged_out, login: login_url)
+    #
+    # @param i18n_key [String] The I18n key to translate.
+    # @param links [Hash] Link names mapped to URLs.
+    def link_translate(i18n_key, links = {})
+      translation = ::I18n.t(i18n_key.to_s)
+      result = translation.scan(link_regex).inject(translation) do |t, matches|
+        link, text, key = matches
+        href = String(links[key.to_sym])
+
+        t.sub(link, "<a href=\"#{href}\">#{text}</a>")
+      end
+
+      result.html_safe
+    end
+
+    ##
+    # Example: in `foo [bar](name) baz` matches:
+    #
+    #   - `[bar](name)`
+    #   - `bar`
+    #   - `name`
+    def link_regex
+      /(\[(.+?)\]\((.+?)\))/
+    end
+
     # format the time in the user time zone if one is set
     # if none is set and the time is in utc time zone (meaning it came from active record), format the date in the system timezone
     # otherwise just use the date in the time zone attached to the time

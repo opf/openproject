@@ -30,6 +30,7 @@
 class AccountController < ApplicationController
   include CustomFieldsHelper
   include Concerns::OmniauthLogin
+  include Concerns::RedirectAfterLogin
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_filter :check_if_login_required
@@ -162,7 +163,7 @@ class AccountController < ApplicationController
 
       if user.save
         token.destroy
-        flash[:notice] = I18n.t(:notice_account_activated)
+        flash[:notice] = with_accessibility_notice I18n.t(:notice_account_activated)
       else
         flash[:error] = I18n.t(:notice_activation_failed)
       end
@@ -406,7 +407,7 @@ class AccountController < ApplicationController
     if @user.save
       session[:auth_source_registration] = nil
       self.logged_user = @user
-      flash[:notice] = l(:notice_account_activated)
+      flash[:notice] = with_accessibility_notice l(:notice_account_activated)
       redirect_to controller: '/my', action: 'account'
     end
     # Otherwise render register view again
@@ -477,7 +478,7 @@ class AccountController < ApplicationController
       self.logged_user = user
       opts[:after_login].call user if opts[:after_login]
 
-      flash[:notice] = l(:notice_account_registered_and_logged_in)
+      flash[:notice] = with_accessibility_notice l(:notice_account_registered_and_logged_in)
       redirect_after_login(user)
     else
       yield if block_given?
@@ -558,20 +559,17 @@ class AccountController < ApplicationController
     redirect_to action: 'login', back_url: params[:back_url]
   end
 
-  def redirect_after_login(user)
-    if user.first_login
-      user.update_attribute(:first_login, false)
-      redirect_to controller: '/my', action: 'first_login', back_url: params[:back_url]
-    else
-      redirect_back_or_default controller: '/my', action: 'page'
-    end
-  end
-
   def invited_user
     if session.include? :invitation_token
       token = Token.find_by(value: session[:invitation_token])
 
       token.user
     end
+  end
+
+  def with_accessibility_notice(text)
+    notice = link_translate(:notice_accessibility_mode, url: my_settings_url)
+
+    "#{text} #{notice}".html_safe
   end
 end
