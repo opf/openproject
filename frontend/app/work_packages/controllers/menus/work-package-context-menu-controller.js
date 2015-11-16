@@ -26,7 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, WorkPackagesTableService, I18n, $window, PERMITTED_CONTEXT_MENU_ACTIONS) {
+module.exports = function(
+  $scope,
+  $state,
+  WorkPackagesTableHelper,
+  WorkPackageContextMenuHelper,
+  WorkPackageService,
+  WorkPackagesTableService,
+  EditableFieldsState,
+  I18n,
+  $window,
+  PERMITTED_CONTEXT_MENU_ACTIONS
+) {
 
   $scope.I18n = I18n;
 
@@ -44,10 +55,23 @@ module.exports = function($scope, WorkPackagesTableHelper, WorkPackageContextMen
   };
 
   $scope.triggerContextMenuAction = function(action, link) {
-    if (action === 'delete') {
-      deleteSelectedWorkPackages();
-    } else {
-      $window.location.href = link;
+    switch(action) {
+
+      case 'delete':
+        deleteSelectedWorkPackages();
+        break;
+
+      case 'edit':
+        var params = {
+          workPackageId: getSelectedWorkPackageId()
+        }
+        EditableFieldsState.editAll.start();
+        $state.transitionTo('work-packages.list.details.overview', params);
+        break;
+
+      default:
+        $window.location.href = link;
+        break;
     }
   };
 
@@ -61,6 +85,11 @@ module.exports = function($scope, WorkPackagesTableHelper, WorkPackageContextMen
     var selectedRows = WorkPackagesTableHelper.getSelectedRows($scope.rows);
 
     return WorkPackagesTableHelper.getWorkPackagesFromRows(selectedRows);
+  }
+
+  function getSelectedWorkPackageId() {
+    var selected = getSelectedWorkPackages()[0];
+    return selected && selected.id;
   }
 
   function getSelectedWorkPackages() {
