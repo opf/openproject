@@ -1077,6 +1077,7 @@ en:
   label_nothing_display: "Nothing to display"
   label_nobody: "nobody"
   label_none: "none"
+  label_none_parentheses: "(none)"
   label_not_contains: "doesn't contain"
   label_not_equals: "is not"
   label_notify_member_plural: "Email updates"
