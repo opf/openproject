@@ -63,6 +63,7 @@ module OpenProject::Meeting
 
     patches [:Project]
     patch_with_namespace :BasicData, :RoleSeeder
+    patch_with_namespace :BasicData, :SettingSeeder
 
     initializer 'meeting.precompile_assets' do
       Rails.application.config.assets.precompile += %w(meeting/meeting.css)
