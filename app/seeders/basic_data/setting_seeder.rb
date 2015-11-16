@@ -26,27 +26,40 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-class BasicDataSeeder < Seeder
-  def seed_data!
-    data_seeders.each do |seeder|
-      puts " ↳ #{seeder.class.name.demodulize}"
-      seeder.seed!
+module BasicData
+  class SettingSeeder < Seeder
+    def seed_data!
+      Setting.transaction do
+        settings_not_in_db.each do |setting_name|
+          datum = data[setting_name]
+
+          Setting[setting_name.to_sym] = datum
+        end
+      end
     end
-  end
 
-  def data_seeders
-    seeders = [
-      BasicData::BuiltinRolesSeeder,
-      BasicData::RoleSeeder,
-      BasicData::ActivitySeeder,
-      BasicData::ColorSeeder,
-      BasicData::WorkflowSeeder,
-      BasicData::PrioritySeeder,
-      BasicData::ProjectStatusSeeder,
-      BasicData::ProjectTypeSeeder,
-      BasicData::SettingSeeder
-    ]
+    def applicable?
+      !settings_not_in_db.empty?
+    end
 
-    seeders.map(&:new)
+    def not_applicable_message
+      'Skipping settings as all settings already exist in the db'
+    end
+
+    def data
+      Setting.available_settings.each_with_object({}) do |(k, v), hash|
+        hash[k] = v['default'] || ''
+      end
+    end
+
+    private
+
+    def settings_in_db
+      Setting.all.pluck(:name)
+    end
+
+    def settings_not_in_db
+      data.keys - settings_in_db
+    end
   end
 end
