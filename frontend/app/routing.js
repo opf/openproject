@@ -73,6 +73,19 @@ angular.module('openproject')
       reloadOnSearch: false
     })
 
+    .state('work-packages.edit', {
+      url: '/{projects}/{projectPath}/work_packages/{workPackageId}/edit',
+      params: {
+        projectPath: { value: null, squash: true },
+        projects: { value: null, squash: true }
+      },
+
+      onEnter: function ($state, $stateParams, EditableFieldsState) {
+        EditableFieldsState.editAll.start();
+        $state.go('work-packages.list.details.overview', $stateParams);
+      }
+    })
+
     .state('work-packages.show', {
       url: '/work_packages/{workPackageId:[0-9]+}?query_props',
       templateUrl: '/components/routes/partials/work-packages.show.html',
