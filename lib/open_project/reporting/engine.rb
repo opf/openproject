@@ -101,5 +101,6 @@ module OpenProject::Reporting
              :CustomFieldsController,
              :'OpenProject::Configuration']
     patch_with_namespace :BasicData, :RoleSeeder
+    patch_with_namespace :BasicData, :SettingSeeder
   end
 end
