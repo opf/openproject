@@ -60,7 +60,7 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
     var isWritable = schema.props[field].writable;
 
     // not writable if no embedded allowed values
-    if (schema.props[field]._links && allowedValuesEmbedded(workPackage, field)) {
+    if (isWritable && schema.props[field]._links && allowedValuesEmbedded(workPackage, field)) {
       isWritable = getEmbeddedAllowedValues(workPackage, field).length > 0;
     }
 
