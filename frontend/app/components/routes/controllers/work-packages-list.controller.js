@@ -305,20 +305,25 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
   };
 
   $scope.showWorkPackageShowView = function() {
-    var id = $state.params.workPackageId
+    if (EditableFieldsState.editAll.state && $state.params.type) {
+      $state.go('work-packages.new', $state.params);
+
+    } else {
+      var id = $state.params.workPackageId
           || $scope.preselectedWorkPackageId || nextAvailableWorkPackage(),
 
-        // Have to use $location.search() here as $state.params
-        // isn't filled unless the url is queried for by the
-        // browser. This seems to be caused by #maintainUrlQueryState
-        // where we set the search via $location.search.
+      // Have to use $location.search() here as $state.params
+      // isn't filled unless the url is queried for by the
+      // browser. This seems to be caused by #maintainUrlQueryState
+      // where we set the search via $location.search.
         queryProps = $location.search()['query_props'];
 
-    $state.go('work-packages.show.activity', {
+      $state.go('work-packages.show.activity', {
         projectPath: $scope.projectIdentifier || '',
         workPackageId: id,
         'query_props': queryProps
       });
+    }
   };
 
   $scope.getFilterCount = function() {

@@ -63,13 +63,17 @@ function WorkPackageNewController($scope,
     NotificationsService.addSuccess(I18n.t('js.notice_successful_create'));
   };
   vm.goBack = function() {
-    var args = ['^'];
+    var args = ['^'],
+        prevState = $rootScope.previousState;
 
-    if ($rootScope.previousState && $rootScope.previousState.name) {
-      args = [$rootScope.previousState.name, $rootScope.previousState.params];
+    if (['work-packages.list.new', 'work-packages.new'].indexOf(prevState.name) !== -1) {
+      args = ['work-packages.list', $state.params];
+
+    } else if (prevState && prevState.name) {
+      args = [prevState.name, prevState.params];
     }
 
-    vm.loaderPromise = $state.go.apply($state, args);
+      vm.loaderPromise = $state.go.apply($state, args);
   };
 
   $scope.I18n = I18n;
