@@ -35,19 +35,16 @@ See doc/COPYRIGHT.rdoc for more details.
     <% if User.current.impaired? %>
       <%= form.select :responsible_id, project.possible_responsibles.map {|m| [m.name, m.id]}, include_blank: true %>
     <% else %>
-      <% options = { :'data-ajaxURL' => url_for({controller: "/members",
+      <% responsible = project.responsible.nil? ? [t('label_none_parentheses'), -1] : [project.responsible.name, project.responsible.id]
+         options = { :'data-ajaxURL' => url_for({controller: "/members",
                                                action: "paginate_users" }),
-                   :'data-projectId' => project.id
-                 } %>
+                     :'data-projectId' => project.id,
+                     :'data-selected' => [responsible].to_json
+                   }
+      %>
       <%= javascript_include_tag "autocompleter.js" %>
       <%= javascript_include_tag "project/responsible_attribute.js" %>
-      <%= form.select(:responsible_id, options_for_select([]),
-        {},
-        project.responsible.nil? ? options : options.merge({ :'data-selected' =>
-                                                             [[project.responsible.name, project.
-                                                             responsible.id]].to_json
-                                                            }))
-     %>
+      <%= form.select(:responsible_id, options_for_select([]), {}, options) %>
     <% end %>
   <% end %>
 </div>
