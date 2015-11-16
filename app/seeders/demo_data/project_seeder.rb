@@ -56,6 +56,10 @@ module DemoData
       end
     end
 
+    def applicable?
+      Project.count == 0
+    end
+
     def project_data_seeders(project)
       seeders = [
         DemoData::CustomFieldSeeder,
