@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="form--section">
     <div id="new-member-message"></div>
     <div class="grid-block">
-      <div class="grid-block medium-6">
+      <div class="grid-block medium-4">
         <div class="form--field">
           <%
              user_id_title = I18n.t(:label_principal_search)
@@ -60,16 +60,21 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
     <div class="grid-block">
-      <div class="grid-block medium-6">
+      <div class="grid-block">
         <div class="form--field">
           <%= styled_label_tag :member_role_ids, l(:label_role_search) %>
-          <% options = roles.collect { |obj| [obj.name, obj.id] } %>
-          <%= select_tag 'member[role_ids]', options_for_select(options),
-                           multiple: true,
-                            no_label: true,
-                           title: l(:label_role_search),
-                           tabIndex: 0,
-                           class: 'form--select' %>
+          <div class="form--field-container">
+            <div class="form--select-container -auto">
+              <% options = roles.collect { |obj| [obj.name, obj.id] } %>
+              <%= select_tag 'member[role_ids][]', options_for_select(options),
+                                                   multiple: false,
+                                                   no_label: true,
+                                                   title:    l(:label_role_search),
+                                                   tabIndex: 0,
+                                                   class:    'form--select',
+                                                   id:       'member_role_ids' %>
+            </div>
+          </div>
         </div>
       </div>
     </div>

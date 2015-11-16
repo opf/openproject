@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'group memberships through groups page', type: :feature do
+feature 'Group memberships through groups page', type: :feature do
   let!(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
 
   let(:admin)  { FactoryGirl.create :admin }
@@ -43,13 +43,6 @@ feature 'group memberships through groups page', type: :feature do
   end
 
   shared_examples 'errors when adding members' do
-    scenario 'adding a principal without a role, non impaired', js: true do
-      members_page.visit!
-      members_page.add_user! 'Peter Pan', as: nil
-
-      expect(page).to have_text 'choose at least one role'
-    end
-
     scenario 'adding a role without a principal, non impaired', js: true do
       members_page.visit!
       members_page.add_user! nil, as: 'Manager'
@@ -58,16 +51,18 @@ feature 'group memberships through groups page', type: :feature do
     end
   end
 
-  context 'with an impaired user' do
-    before do
-      admin.impaired = true
-      admin.save!
+  context 'creating membership' do
+    context 'with an impaired user' do
+      before do
+        admin.impaired = true
+        admin.save!
+      end
+
+      it_behaves_like 'errors when adding members'
     end
 
-    it_behaves_like 'errors when adding members'
-  end
-
-  context 'with an un-impaired user' do
-    it_behaves_like 'errors when adding members'
+    context 'with an un-impaired user' do
+      it_behaves_like 'errors when adding members'
+    end
   end
 end
