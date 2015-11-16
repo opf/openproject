@@ -30,26 +30,7 @@ angular
   .module('openproject.inplace-edit')
   .factory('inplaceEdit', inplaceEdit);
 
-function inplaceEdit($rootScope, WorkPackageFieldService) {
-  var forms = {}, service;
-
-  function Form(resource) {
-    this.resource = resource;
-    this.fields = {};
-
-    this.field = function (name) {
-      this.fields[name] = this.fields[name] || new Field(this.resource, name);
-
-      return this.fields[name];
-    };
-  }
-
-  Object.defineProperty(Form.prototype, 'length', {
-    get: function () {
-      return Object.keys(this.fields).length;
-    }
-  });
-
+function inplaceEdit(WorkPackageFieldService) {
   function Field(resource, name) {
     this.resource = resource;
     this.name = name;
@@ -102,21 +83,7 @@ function inplaceEdit($rootScope, WorkPackageFieldService) {
     } || property;
   });
 
-  $rootScope.$on('workPackageUpdatedInEditor', function (event, updatedWorkPackage) {
-    var form = service.form(updatedWorkPackage.props.id);
-    form.resource = _.extend(form.resource, updatedWorkPackage);
-  });
-
-  return service = {
-    form: function (id, resource) {
-      forms[id] = forms[id] || new Form(resource);
-
-      if (!forms[id].resource) {
-        forms[id].resource = resource;
-      }
-
-      return forms[id];
-    }
-  };
+  return {
+    Field: Field
+  }
 }
-inplaceEdit.$inject = ['$rootScope', 'WorkPackageFieldService'];

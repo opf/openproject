@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,39 +24,47 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
 angular
   .module('openproject.inplace-edit')
-  .directive('workPackageField', workPackageField);
+  .factory('inplaceEditForm', inplaceEditForm);
 
-function workPackageField() {
-  return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: '/components/inplace-edit/directives/work-package-field/' +
-      'work-package-field.directive.html',
-    scope: {
-      fieldName: '='
-    },
+function inplaceEditForm($rootScope, inplaceEdit) {
+  var inplaceEditForm,
+      forms = {};
 
-    bindToController: true,
-    controller: WorkPackageFieldController,
-    controllerAs: 'fieldController'
+  function Form(resource) {
+    this.resource = resource;
+    this.fields = {};
+
+    this.field = function (name) {
+      this.fields[name] = this.fields[name] || new inplaceEdit.Field(this.resource, name);
+
+      return this.fields[name];
+    };
+  }
+
+  Object.defineProperty(Form.prototype, 'length', {
+    get: function () {
+      return Object.keys(this.fields).length;
+    }
+  });
+
+  $rootScope.$on('workPackageUpdatedInEditor', function (event, updatedWorkPackage) {
+    var form = inplaceEditForm.getForm(updatedWorkPackage.props.id);
+    form.resource = _.extend(form.resource, updatedWorkPackage);
+  });
+
+  return inplaceEditForm = {
+    getForm: function (id, resource) {
+      forms[id] = forms[id] || new Form(resource);
+
+      if (!forms[id].resource) {
+        forms[id].resource = resource;
+      }
+
+      return forms[id];
+    }
   };
 }
-
-function WorkPackageFieldController($scope, EditableFieldsState, inplaceEditForm) {
-  var workPackage = EditableFieldsState.workPackage;
-  this.state = EditableFieldsState;
-  $scope.field = inplaceEditForm.getForm(workPackage.props.id, workPackage).field(this.fieldName);
-
-  var field = $scope.field;
-
-  if (field.isEditable()) {
-    this.state.isBusy = false;
-    this.isEditing = this.state.forcedEditState;
-    this.editTitle = I18n.t('js.inplace.button_edit', { attribute: field.getLabel() });
-  }
-}
-
