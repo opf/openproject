@@ -85,8 +85,6 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
     }
   };
 }
-inplaceEditorEditPane.$inject = ['EditableFieldsState', 'FocusHelper', '$timeout'];
-
 
 function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
     EditableFieldsState, inplaceEditStorage, inplaceEditMultiStorage) {

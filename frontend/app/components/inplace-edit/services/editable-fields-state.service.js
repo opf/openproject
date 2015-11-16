@@ -30,10 +30,10 @@ angular
   .module('openproject.workPackages.services')
   .factory('EditableFieldsState', EditableFieldsState);
 
-function EditableFieldsState($rootScope, $window) {
+function EditableFieldsState($rootScope, $window, inplaceEditErrors) {
   var EditableFieldsState = {
     workPackage: null,
-    errors: null,
+    errors: inplaceEditErrors.errors,
     isBusy: false,
     currentField: null,
     forcedEditState: false,
@@ -50,8 +50,8 @@ function EditableFieldsState($rootScope, $window) {
     discard: function (fieldName) {
       delete this.getPendingFormChanges()[fieldName];
 
-      if (this.errors && this.errors.hasOwnProperty(fieldName)) {
-        delete this.errors[fieldName];
+      if (inplaceEditErrors.errors && inplaceEditErrors.hasOwnProperty(fieldName)) {
+        delete inplaceEditErrors.errors[fieldName];
       }
     },
 

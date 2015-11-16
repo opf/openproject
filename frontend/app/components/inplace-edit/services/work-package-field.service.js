@@ -31,7 +31,7 @@ angular
   .service('WorkPackageFieldService', WorkPackageFieldService);
 
 function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, HookService,
-  EditableFieldsState ) {
+  inplaceEditErrors) {
 
   function getSchema(workPackage) {
     if (workPackage.form) {
@@ -81,7 +81,7 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
   // e.g. when an error should trigger the editing state
   // of an empty field after type change
   function isHideable(workPackage, field) {
-    if (EditableFieldsState.errors && EditableFieldsState.errors[field]) {
+    if (inplaceEditErrors.errors && inplaceEditErrors.errors[field]) {
       return false;
     }
     return isEmpty(workPackage, field);
@@ -403,12 +403,3 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
 
   return WorkPackageFieldService;
 }
-
-WorkPackageFieldService.$inject = [
-  '$q',
-  '$http',
-  '$filter',
-  'I18n',
-  'WorkPackagesHelper',
-  'HookService',
-  'EditableFieldsState'];
