@@ -81,8 +81,11 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
       var deferred = $q.defer();
       WorkPackageService.loadWorkPackageForm(EditableFieldsState.workPackage)
         .then(function(form) {
-          inplaceEditForm.getForm(EditableFieldsState.workPackage.props.id).resource.form = form;
+          var editForm = inplaceEditForm.getForm(EditableFieldsState.workPackage.props.id);
+          editForm.resource.form = form;
           EditableFieldsState.workPackage.form = form;
+
+          editForm.updateFieldValues();
 
           deferred.resolve(form);
       }).catch(handleAPIErrors(deferred));

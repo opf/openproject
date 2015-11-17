@@ -34,13 +34,23 @@ function inplaceEdit(WorkPackageFieldService) {
   function Field(resource, name) {
     this.resource = resource;
     this.name = name;
-    this.value = !_.isUndefined(this.value) ? this.value : _.cloneDeep(this.getValue());
+    this.value = undefined;
+
+    if (_.isUndefined(this.value)) {
+      this.updateValue();
+    }
   }
 
   Object.defineProperties(Field.prototype, {
     text: {
       get: function() {
         return this.format();
+      }
+    },
+    
+    updateValue: {
+      value: function () {
+        this.value = _.cloneDeep(this.getValue());
       }
     },
 
