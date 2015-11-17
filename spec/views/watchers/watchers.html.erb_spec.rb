@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'work_packages/show', type: :view do
+describe 'watchers/watchers', type: :view do
   let(:work_package) { FactoryGirl.create(:work_package, description: '') }
   let(:attachment)   {
     FactoryGirl.create(:attached_picture,
