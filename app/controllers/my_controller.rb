@@ -290,10 +290,10 @@ class MyController < ApplicationController
     if request.patch?
       @user.attributes = permitted_params.user
       @user.pref.attributes = if params[:pref].present?
-        permitted_params.pref
-      else
-        {}
-      end
+                                permitted_params.pref
+                              else
+                                {}
+                              end
       if @user.save
         @user.pref.save
         flash[:notice] = l(:notice_account_updated)
