@@ -272,9 +272,9 @@ en:
         spent_on: "Date"
         type: "Type"
       type:
-        is_in_roadmap: "Work packages displayed in roadmap"
-        in_aggregation: "Work packages displayed in aggregation"
-        is_milestone: "Work packages displayed as milestone"
+        is_in_roadmap: "In roadmap"
+        in_aggregation: "In aggregation"
+        is_milestone: "Is milestone"
         color: "Color"
       user:
         admin: "Administrator"
