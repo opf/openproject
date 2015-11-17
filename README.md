@@ -3,13 +3,13 @@ OpenProject Costs Plugin
 
 This Plugin adds features for planning and tracking costs of projects. Budgets can be created containing the planned unit costs and labor costs. The actual costs can be assigned to the different work packages and planned and actual costs can be compared.
 
-A more detailed description can be found on [OpenProject.org](https://www.openproject.org/projects/openproject/wiki/Time_and_Cost).
+A more detailed description can be found on [OpenProject.org](https://community.openproject.org/projects/openproject/wiki/Time_and_Cost).
 
 
 Requirements
 ------------
 
-The OpenProject Costs plug-in requires the [OpenProject Core](https://github.com/opf/openproject/) in version greater or equal to *3.0.0*.
+The OpenProject Costs plug-in requires the [OpenProject Core](https://github.com/opf/openproject/) in the same version.
 
 
 Installation
