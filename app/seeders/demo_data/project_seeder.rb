@@ -30,13 +30,11 @@ module DemoData
     # Careful: The seeding recreates the seeded project before it runs, so any changes
     # on the seeded project will be lost.
     def seed_data!
+      # We are relying on the default_projects_modules setting to set the desired project modules
       puts ' ↳ Creating demo project...'
 
       puts '   -Creating/Resetting Demo project'
       project = reset_demo_project
-
-      puts '   -Setting modules.'
-      set_modules(project)
 
       puts '   -Setting members.'
       set_members(project)
@@ -82,11 +80,6 @@ module DemoData
         description:  I18n.t('seeders.demo_data.project.description'),
         types:        Type.all
       )
-    end
-
-    def set_modules(project)
-      project.enabled_module_names += ['timelines']
-      project.enabled_module_names -= ['repository']
     end
 
     def set_members(project)

@@ -47,9 +47,17 @@ module BasicData
     end
 
     def data
-      Setting.available_settings.each_with_object({}) do |(k, v), hash|
+      settings = Setting.available_settings.each_with_object({}) do |(k, v), hash|
         hash[k] = v['default'] || ''
       end
+
+      # deviate from the defaults specified in settings.yml here
+      # to set a default role. The role cannot be specified in the settings.yml as
+      # that would mean to know the ID upfront.
+      default_role_id = Role.find_by(name: I18n.t(:default_role_project_admin)).id
+      settings['new_project_user_role_id'] = default_role_id
+
+      settings
     end
 
     private
