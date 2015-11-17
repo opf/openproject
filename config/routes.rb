@@ -302,8 +302,11 @@ OpenProject::Application.routes.draw do
     end
 
     resources :work_packages, only: [] do
-      match '/report/:detail' => 'work_packages/reports#report_details', via: :get
-      match '/report' => 'work_packages/reports#report', via: :get
+
+      collection do
+        get '/report/:detail' => 'work_packages/reports#report_details'
+        get '/report' => 'work_packages/reports#report'
+      end
 
       # states managed by client-side routing on work_package#index
       get '(/*state)' => 'work_packages#index', on: :collection, as: ''
