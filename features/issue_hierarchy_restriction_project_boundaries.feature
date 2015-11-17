@@ -98,15 +98,3 @@ Feature: The work_package hierarchy between backlogs stories and backlogs tasks 
     And the user "markus" is a "scrum master" in the project "child_project"
     And the "cross_project_work_package_relations" setting is set to true
     And I am already logged in as "markus"
-
-  @javascript
-  Scenario: Adding a task in the child project as a child to the story is inhibited
-   Given the project "parent_project" has the following work_packages:
-        | subject      | type    |
-        | Story A      | Story      |
-   When I go to the work_packages/new page of the project called "child_project"
-    And I select "Task" from "work_package_type_id"
-    And I fill in "Task 0815" for "work_package_subject"
-    And I fill in the id of the work_package "Story A" as the parent work_package
-    And I click on the first button matching "Create"
-   Then I should be notified that the work_package "Story A" is an invalid parent to the work_package "Task 0815" because of cross project limitations
