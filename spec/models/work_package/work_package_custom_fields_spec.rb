@@ -75,6 +75,8 @@ describe WorkPackage, type: :model do
       describe 'invalid custom field values' do
         context 'short error message' do
           shared_examples_for 'custom field with invalid value' do
+            let(:custom_field_key) { "custom_field_#{custom_field.id}".to_sym }
+
             before do
               change_custom_field_value(work_package, custom_field_value)
             end
@@ -82,11 +84,22 @@ describe WorkPackage, type: :model do
             describe 'error message' do
               before do work_package.save end
 
-              subject { work_package.errors["custom_field_#{custom_field.id}"] }
+              subject { work_package.errors[custom_field_key] }
 
               it {
                 is_expected.to include(I18n.translate("activerecord.errors.messages.#{error_key}"))
               }
+            end
+
+            describe 'symbols_for' do
+              before do
+                work_package.save
+              end
+
+              it 'stores the symbol' do
+                actual_symbols = work_package.errors.symbols_for(custom_field_key)
+                expect(actual_symbols).to match_array([error_key.to_sym])
+              end
             end
 
             describe 'work package attribute update' do
