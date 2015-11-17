@@ -30,7 +30,7 @@ angular
   .module('openproject.workPackages.services')
   .factory('EditableFieldsState', EditableFieldsState);
 
-function EditableFieldsState($rootScope, $window, inplaceEditErrors) {
+function EditableFieldsState($rootScope, $window, inplaceEditErrors, inplaceEditForm) {
   var EditableFieldsState = {
     workPackage: null,
     errors: inplaceEditErrors.errors,
@@ -59,6 +59,7 @@ function EditableFieldsState($rootScope, $window, inplaceEditErrors) {
       focusField: 'subject',
 
       cancel: function () {
+        inplaceEditForm.deleteNewForm();
         this.stop();
       },
 

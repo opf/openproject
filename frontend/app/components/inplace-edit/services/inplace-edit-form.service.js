@@ -65,6 +65,10 @@ function inplaceEditForm($rootScope, inplaceEdit) {
       }
 
       return forms[id];
+    },
+
+    deleteNewForm: function () {
+      delete forms['undefined'];
     }
   };
 }
