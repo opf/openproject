@@ -39,11 +39,12 @@ sudo passwd openproject #(enter desired password)
 
 ```bash
 [root@host] apt-get update -y
-[root@host] apt-get install -y zlib1g-dev build-essential \
-                    libssl-dev libreadline-dev            \
-                    libyaml-dev libgdbm-dev               \
-                    libncurses5-dev automake              \
-                    libtool bison libffi-dev git curl     \
+[root@host] apt-get install -y zlib1g-dev build-essential           \
+                    libssl-dev libreadline-dev                      \
+                    libyaml-dev libgdbm-dev                         \
+                    libncurses5-dev automake                        \
+                    imagemagick libmagickcore-dev libmagickwand-dev \
+                    libtool bison libffi-dev git curl               \
                     libxml2 libxml2-dev libxslt1-dev # nokogiri
 ```
 
