@@ -93,12 +93,14 @@ module API
                  type: 'Duration',
                  show_if: -> (_) do
                    current_user_allowed_to(:view_time_entries, context: represented.project)
-                 end
+                 end,
+                 required: false
 
           schema :percentage_done,
                  type: 'Integer',
                  name_source: :done_ratio,
-                 show_if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
+                 show_if: -> (*) { Setting.work_package_done_ratio != 'disabled' },
+                 required: false
 
           schema :created_at,
                  type: 'DateTime'

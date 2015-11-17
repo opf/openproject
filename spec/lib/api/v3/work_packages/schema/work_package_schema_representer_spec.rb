@@ -275,7 +275,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:path) { 'spentTime' }
         let(:type) { 'Duration' }
         let(:name) { I18n.t('activerecord.attributes.work_package.spent_time') }
-        let(:required) { true }
+        let(:required) { false }
         let(:writable) { false }
       end
 
@@ -301,7 +301,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:path) { 'percentageDone' }
         let(:type) { 'Integer' }
         let(:name) { I18n.t('activerecord.attributes.work_package.done_ratio') }
-        let(:required) { true }
+        let(:required) { false }
         let(:writable) { true }
       end
 
@@ -314,7 +314,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:path) { 'percentageDone' }
           let(:type) { 'Integer' }
           let(:name) { I18n.t('activerecord.attributes.work_package.done_ratio') }
-          let(:required) { true }
+          let(:required) { false }
           let(:writable) { false }
         end
       end
