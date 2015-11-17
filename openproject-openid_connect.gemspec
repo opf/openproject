@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = OpenProject::OpenIDConnect::VERSION
   s.authors     = 'OpenProject GmbH'
   s.email       = 'info@openproject.com'
-  s.homepage    = 'https://www.openproject.org/projects/openid-connect'  # TODO check this URL
+  s.homepage    = 'https://community.openproject.org/projects/openid-connect'  # TODO check this URL
   s.summary     = 'OpenProject OpenID Connect'
   s.description = 'Adds OmniAuth OpenID Connect strategy providers to Openproject.'
   s.license     = 'GPLv3'
