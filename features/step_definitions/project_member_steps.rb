@@ -83,10 +83,10 @@ def select_principal(principal)
 end
 
 def select_role(role)
-  if !User.current.impaired?
-    select2(role.name, css: '#s2id_member_role_ids')
-  else
+  if User.current.impaired?
     select_without_select2(role.name, 'form .roles')
+  else
+    select(role.name, from: 'member_role_ids')
   end
 end
 
