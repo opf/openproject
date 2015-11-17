@@ -62,11 +62,7 @@ module.exports = function(
         break;
 
       case 'edit':
-        var params = {
-          workPackageId: getSelectedWorkPackageId()
-        }
-        EditableFieldsState.editAll.start();
-        $state.transitionTo('work-packages.list.details.overview', params);
+        editSelectedWorkPackages(link);
         break;
 
       default:
@@ -81,15 +77,26 @@ module.exports = function(
     WorkPackageService.performBulkDelete(getSelectedWorkPackages().map(function(wp) { return wp.id; }), true);
   }
 
+  function editSelectedWorkPackages(link) {
+    var selected = getSelectedWorkPackages();
+
+    if (selected.length > 1) {
+      $window.location.href = link;
+      return;
+    }
+
+    var params = {
+      workPackageId: selected[0].id
+    };
+
+    EditableFieldsState.editAll.start();
+    $state.transitionTo('work-packages.list.details.overview', params);
+  }
+
   function getWorkPackagesFromSelectedRows() {
     var selectedRows = WorkPackagesTableHelper.getSelectedRows($scope.rows);
 
     return WorkPackagesTableHelper.getWorkPackagesFromRows(selectedRows);
-  }
-
-  function getSelectedWorkPackageId() {
-    var selected = getSelectedWorkPackages()[0];
-    return selected && selected.id;
   }
 
   function getSelectedWorkPackages() {
