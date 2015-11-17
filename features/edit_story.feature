@@ -161,16 +161,3 @@ Feature: Edit story on backlogs view
       And I follow "New Story" of the "Sprint 001" backlogs menu
       And I close the "Sprint 001" backlogs menu
      Then I should not see "Epic" within_hidden ".type_id.helper"
-
-  @javascript
-  Scenario: Story duplication with copying all tasks
-    Given the project has the following tasks:
-      | subject | parent  |
-      | Task 1  | Story A |
-      And I am on the work package index page for the project called "ecookbook"
-     When I follow "Story A"
-      And I select "Duplicate" from the action menu
-      And I choose "copy_tasks_all" within "#backlogs-attributes"
-      And I press "Create"
-      And I follow "Relations"
-     Then I should see "Task 1"
