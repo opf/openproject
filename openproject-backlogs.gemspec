@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = OpenProject::Backlogs::VERSION
   s.authors = 'OpenProject GmbH'
   s.email = 'info@openproject.com'
-  s.homepage = 'https://www.openproject.org/projects/plugin-backlogs'
+  s.homepage = 'https://community.openproject.org/projects/plugin-backlogs'
   s.summary     = 'OpenProject Backlogs'
   s.description = 'This plugin adds features enabling agile teams to work with OpenProject in Scrum projects.'
   s.files = Dir['{app,config,db,lib,doc}/**/*', 'README.md']
