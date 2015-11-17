@@ -70,16 +70,18 @@ module DemoData
     end
 
     def reset_demo_project
-      if delete_me = Project.find_by(identifier: I18n.t('seeders.demo_data.project.identifier'))
+      delete_demo_project
+      create_demo_project
+    end
+
+    def create_demo_project
+      Project.create! project_data
+    end
+
+    def delete_demo_project
+      if delete_me = find_demo_project
         delete_me.destroy
       end
-
-      Project.create!(
-        name:         I18n.t('seeders.demo_data.project.name'),
-        identifier:   I18n.t('seeders.demo_data.project.identifier'),
-        description:  I18n.t('seeders.demo_data.project.description'),
-        types:        Type.all
-      )
     end
 
     def set_members(project)
@@ -125,5 +127,40 @@ module DemoData
         description: I18n.t('seeders.demo_data.board.description')
       )
     end
+
+    module Data
+      module_function
+
+      def project_data
+        {
+          name:         project_name,
+          identifier:   project_identifier,
+          description:  project_description,
+          types:        project_types
+        }
+      end
+
+      def project_name
+        I18n.t('seeders.demo_data.project.name')
+      end
+
+      def project_identifier
+        I18n.t('seeders.demo_data.project.identifier')
+      end
+
+      def project_description
+        I18n.t('seeders.demo_data.project.description')
+      end
+
+      def project_types
+        Type.all
+      end
+
+      def find_demo_project
+        Project.find_by(identifier: project_identifier)
+      end
+    end
+
+    include Data
   end
 end

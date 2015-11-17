@@ -151,5 +151,24 @@ module OpenProject
         expect(find_language(:DE)).to eql :de
       end
     end
+
+    describe 'link_translation' do
+      before do
+        allow(::I18n)
+          .to receive(:t)
+          .with('translation_with_a_link')
+          .and_return('There is a [link](url_1) in this translation! Maybe even [two](url_2)?')
+      end
+
+      it 'allows to insert links into translations' do
+        translated = link_translate :translation_with_a_link,
+                                    url_1: 'http://openproject.com/foobar',
+                                    url_2: '/baz'
+
+        expect(translated).to eq(
+          "There is a <a href=\"http://openproject.com/foobar\">link</a> in this translation!" +
+          " Maybe even <a href=\"/baz\">two</a>?")
+      end
+    end
   end
 end

@@ -82,12 +82,6 @@ describe 'Login', type: :feature do
         fill_in('new_password_confirmation', with: new_user_password)
         click_link_or_button I18n.t(:button_save)
       end
-      expect(current_path).to eql my_first_login_path
-
-      # we just save the form and go on
-      within('#main') do
-        click_link_or_button I18n.t(:button_save)
-      end
 
       # on the my page
       expect(current_path).to eql my_page_path
