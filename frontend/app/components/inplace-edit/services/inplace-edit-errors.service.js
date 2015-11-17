@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,39 +24,15 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
 angular
-  .module('openproject.inplace-edit')
-  .directive('workPackageField', workPackageField);
+// TODO: this should be the 'inplace-edit' module
+  .module('openproject.workPackages.services')
+  .factory('inplaceEditErrors', inplaceEditErrors);
 
-function workPackageField() {
+function inplaceEditErrors() {
   return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: '/components/inplace-edit/directives/work-package-field/' +
-      'work-package-field.directive.html',
-    scope: {
-      fieldName: '='
-    },
-
-    bindToController: true,
-    controller: WorkPackageFieldController,
-    controllerAs: 'fieldController'
+    errors: null
   };
 }
-
-function WorkPackageFieldController($scope, EditableFieldsState, inplaceEditForm) {
-  var workPackage = EditableFieldsState.workPackage;
-  this.state = EditableFieldsState;
-  $scope.field = inplaceEditForm.getForm(workPackage.props.id, workPackage).field(this.fieldName);
-
-  var field = $scope.field;
-
-  if (field.isEditable()) {
-    this.state.isBusy = false;
-    this.isEditing = this.state.forcedEditState;
-    this.editTitle = I18n.t('js.inplace.button_edit', { attribute: field.getLabel() });
-  }
-}
-

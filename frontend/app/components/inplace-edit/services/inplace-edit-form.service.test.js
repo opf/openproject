@@ -27,7 +27,7 @@
 // ++
 
 describe('Inplace edit service', function () {
-  var inplaceEdit,
+  var inplaceEditForm,
     resources = ['some object', 'some other object'],
     WorkPackageFieldService = {};
 
@@ -36,16 +36,16 @@ describe('Inplace edit service', function () {
     WorkPackageFieldService.getValue = sinon.stub()
   }));
 
-  beforeEach(inject(function(_inplaceEdit_) {
-    inplaceEdit = _inplaceEdit_;
+  beforeEach(inject(function(_inplaceEditForm_) {
+    inplaceEditForm = _inplaceEditForm_;
 
-    inplaceEdit.form(1, resources[0]).field('myField');
-    inplaceEdit.form(2, resources[1]).field('myField');
-    inplaceEdit.form(2, resources[1]).field('myOtherField');
+    inplaceEditForm.getForm(1, resources[0]).field('myField');
+    inplaceEditForm.getForm(2, resources[1]).field('myField');
+    inplaceEditForm.getForm(2, resources[1]).field('myOtherField');
   }));
 
   it('should return correct number of fields', function () {
-    expect(inplaceEdit.form(1).length).to.equal(1);
-    expect(inplaceEdit.form(2).length).to.equal(2);
+    expect(inplaceEditForm.getForm(1).length).to.equal(1);
+    expect(inplaceEditForm.getForm(2).length).to.equal(2);
   });
 });
