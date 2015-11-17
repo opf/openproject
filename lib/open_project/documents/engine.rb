@@ -37,7 +37,7 @@ module OpenProject::Documents
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-documents',
-             author_url: "http://www.finn.de",
+             author_url: "http://www.openproject.com",
              requires_openproject: ">= 4.0.0" do
 
       menu :project_menu, :documents,
