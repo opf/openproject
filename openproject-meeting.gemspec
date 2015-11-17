@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.version     = OpenProject::Meeting::VERSION
   s.authors     = 'OpenProject GmbH'
   s.email       = 'info@openproject.com'
-  s.homepage    = 'https://www.openproject.org/projects/plugin-meetings'
+  s.homepage    = 'https://community.openproject.org/projects/plugin-meetings'
   s.summary     = 'OpenProject Meeting'
   s.description = "This plugin adds functions to support project meetings to OpenProject. Meetings
     can be scheduled selecting invitees from the same project to take part in the meeting. An agenda
