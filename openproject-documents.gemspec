@@ -6,9 +6,9 @@ require 'open_project/documents/version'
 Gem::Specification.new do |s|
   s.name        = "openproject-documents"
   s.version     = OpenProject::Documents::VERSION
-  s.authors     = "Finn GmbH"
-  s.email       = "info@finn.de"
-  s.homepage    = "https://www.openproject.org/projects/documents"
+  s.authors     = "OpenProject GmbH"
+  s.email       = "info@openproject.com"
+  s.homepage    = "https://github.com/opf/openproject-documents"
   s.summary     = "OpenProject Documents"
   s.description = "An OpenProject plugin to allow creation of documents in projects"
   s.license     = "GPLv3"
