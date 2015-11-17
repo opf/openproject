@@ -127,7 +127,6 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
         $scope.$broadcast('workPackageRefreshed');
       });
   }
-  $scope.wpPromise = WorkPackageService.getWorkPackage($scope.workPackage.props.id);
 
   // Inform parent that work package is loaded so back url can be maintained
   $scope.$emit('workPackgeLoaded');
