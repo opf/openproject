@@ -294,7 +294,6 @@ class MyController < ApplicationController
       else
         {}
       end
-      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       if @user.save
         @user.pref.save
         flash[:notice] = l(:notice_account_updated)
