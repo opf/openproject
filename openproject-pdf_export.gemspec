@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = OpenProject::PdfExport::VERSION
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
-  s.homepage    = "https://www.openproject.org/projects/pdf-export"
+  s.homepage    = "https://community.openproject.org/projects/pdf-export"
   s.summary     = 'OpenProject Pdf Export'
   s.description = "Pdf Export Plugin"
   s.license     = "GPLv3"
