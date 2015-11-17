@@ -1,9 +1,9 @@
 OpenProject Reporting Plugin
 =============================
 
-The OpenProject Reporting plugin allows to create custom reports for costs associated to projects using the [OpenProject Costs plugin](https://www.openproject.org/projects/costs-plugin). Various attributes including custom fields can be used to filter the data and the results can be grouped by these attributes.
+The OpenProject Reporting plugin allows to create custom reports for costs associated to projects using the [OpenProject Costs plugin](https://community.openproject.org/projects/costs-plugin). Various attributes including custom fields can be used to filter the data and the results can be grouped by these attributes.
 
-The OpenProject Reporting plugin is built on top of the [ReportingEngine Rails engine](https://www.openproject.org/projects/plugin-reportingengine), providing the base functionality for customized database reports.
+The OpenProject Reporting plugin is built on top of the [ReportingEngine Rails engine](https://community.openproject.org/projects/plugin-reportingengine), providing the base functionality for customized database reports.
 
 Requirements
 ------------
