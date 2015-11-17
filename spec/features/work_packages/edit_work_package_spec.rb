@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'features/work_packages/details/inplace_editor/work_package_field'
-require 'features/work_packages/work_packages_page'
 require 'features/page_objects/notification'
 
 
@@ -8,7 +7,6 @@ describe 'edit work package', js: true do
   let(:user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create(:project) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-  let(:work_packages_page) { WorkPackagesPage.new(project) }
 
   let(:new_subject) { 'Some other subject' }
   let(:subject_field) { WorkPackageField.new(page, :subject) }
@@ -26,6 +24,7 @@ describe 'edit work package', js: true do
     subject.set new_subject
     find('#work-packages--edit-actions-save').click
 
-    subject_field.expect_state_text(subject)
+    subject_field.expect_state_text(new_subject)
+    expect(work_package.reload.subject).to eq(new_subject)
   end
 end
