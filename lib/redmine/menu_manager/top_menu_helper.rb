@@ -75,7 +75,7 @@ module Redmine::MenuManager::TopMenuHelper
 
     else
       render_drop_down_menu_node link_to_all_projects do
-        content_tag :ul, style: 'display:none' do
+        content_tag :ul, style: 'display:none', class: 'projects-menu' do
           ret = ''
           if User.current.allowed_to?(:add_project, nil, global: true)
             ret +=  content_tag :li do
