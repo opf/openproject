@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = OpenProject::Webhooks::VERSION
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
-  s.homepage    = "https://www.openproject.org/projects/webhooks"
+  s.homepage    = "https://community.openproject.org/projects/webhooks"
   s.summary     = 'OpenProject Webhooks'
   s.description = 'Provides a plug-in API to support OpenProject webhooks for better 3rd party integration'
   s.license     = 'GPLv3'
