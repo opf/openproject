@@ -84,7 +84,7 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
     if (inplaceEditErrors.errors && inplaceEditErrors.errors[field]) {
       return false;
     }
-    return isEmpty(workPackage, field);
+    return isEmpty(workPackage, field) && !isRequired(workPackage, field);
   }
 
   function isMilestone(workPackage) {
