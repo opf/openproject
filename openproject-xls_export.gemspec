@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = OpenProject::XlsExport::VERSION
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
-  s.homepage    = "https://www.openproject.org/projects/export"
+  s.homepage    = "https://community.openproject.org/projects/export"
   s.summary     = 'OpenProject XLS Export'
   s.description = 'Export issue lists as Excel spreadsheets (.xls). Support for exporting
     cost entries and cost reports is not yet migrated to Rails 3 and disabled.'
