@@ -125,8 +125,16 @@ module Redmine
 
         def validate_custom_values
           custom_field_values.reject(&:marked_for_destruction?).select(&:invalid?).each do |cv|
-            cv.errors.each do |_, message|
-              errors.add(cv.custom_field.accessor_name.to_sym, message)
+
+            cv.errors.each do |attribute, _|
+              # Relies on patch to AR::Errors in 10-patches.rb.
+              # We need to take the original symbol used to set the message to
+              # make the same symbol available on the customized object itself.
+              # This is important e.g. in the API v3 where the error messages are
+              # post processed.
+              cv.errors.symbols_for(attribute).each do |symbol|
+                errors.add(cv.custom_field.accessor_name.to_sym, symbol)
+              end
             end
           end
         end

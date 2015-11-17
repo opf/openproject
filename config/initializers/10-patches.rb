@@ -103,6 +103,16 @@ module ActiveModel
                                                               message: message)
     end
 
+    # Need to do the house keeping along with AR::Errors
+    # so that the symbols are removed when a new validation round starts
+    def clear_with_storing_error_symbols
+      clear_without_storing_error_symbols
+
+      @error_symbols = Hash.new
+    end
+
+    alias_method_chain :clear, :storing_error_symbols
+
     private
 
     def error_symbols
