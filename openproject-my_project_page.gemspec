@@ -8,9 +8,9 @@ require "open_project/my_project_page/version"
 Gem::Specification.new do |s|
   s.name        = "openproject-my_project_page"
   s.version     = OpenProject::MyProjectPage::VERSION
-  s.authors     = "Finn GmbH"
-  s.email       = "info@finn.de"
-  s.homepage    = "https://www.openproject.org/projects/my-project-page"
+  s.authors     = "OpenProject GmbH"
+  s.email       = "info@openproject.com"
+  s.homepage    = "https://community.openproject.org/projects/my-project-page"
   s.summary     = 'OpenProject My Project Page'
   s.description = "This plugin replaces the old overview page for projects with something similar to the 'My Page':
       The provided blocks are scoped to the project and show only information (open tickets, News etc.).
