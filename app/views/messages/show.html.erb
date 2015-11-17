@@ -33,21 +33,36 @@ See doc/COPYRIGHT.rdoc for more details.
 %>
 
 <% content_for :action_menu_specific do %>
-  <%= watcher_link(@topic, User.current) %>
-  <%= link_to(l(:button_quote),
-              { action: 'quote', id: @topic },
-              remote: true,
-              method: 'get',
-              class: 'icon icon-quote') if !@topic.locked? && authorize_for('messages', 'reply') %>
-  <%= link_to(l(:button_edit),
-              edit_topic_path(@topic),
-              class: 'icon icon-edit',
-              accesskey: accesskey(:edit)) if @message.editable_by?(User.current) %>
-  <%= link_to(l(:button_delete),
-              topic_path(@topic),
-              method: :delete,
-              data: { confirm: l(:text_are_you_sure) },
-              class: 'icon icon-delete') if @message.destroyable_by?(User.current) %>
+  <li class="toolbar-item">
+    <%# hack around the old watchers_link implementation %>
+    <div class="button">
+      <%= watcher_link(@topic, User.current) %>
+    </div>
+  </li>
+  <li class="toolbar-item">
+    <% if !@topic.locked? && authorize_for('messages', 'reply') %>
+      <%= link_to({ action: 'quote', id: @topic }, remote: true, method: 'get', class: 'button') do %>
+        <i class="button--icon icon-quote"></i>
+        <span class="button--text"><%= l(:button_quote) %></span>
+      <% end %>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <% if @message.editable_by?(User.current) %>
+      <%= link_to(edit_topic_path(@topic), accesskey: accesskey(:edit), class: 'button') do %>
+        <i class="button--icon icon-edit"></i>
+        <span class="button--text"><%= l(:button_edit) %></span>
+      <% end %>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <% if @message.destroyable_by?(User.current) %>
+      <%= link_to(topic_path(@topic), method: :delete, data: { confirm: l(:text_are_you_sure) }, class: 'button') do %>
+        <i class="button--icon icon-delete"></i>
+        <span class="button--text"><%= l(:button_delete) %></span>
+      <% end %>
+    <% end %>
+  </li>
 <% end %>
 
 <div class="top-page">

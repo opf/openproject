@@ -131,3 +131,11 @@ a.button
 
   &:before
     @extend .icon-pulldown-arrow1:before
+
+// hack around the old watchers_link implementation
+a.watcher_link
+  color: $button--font-color
+  text-decoration: none
+
+  &:before
+    margin-right: $button--text-icon-spacing
