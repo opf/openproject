@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.version     = OpenProject::Reporting::VERSION
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
-  s.homepage    = "http://www.openproject.com"
-  s.summary     = "An OpenProject plugin to create cost reports"
+  s.homepage    = "https://community.openproject.org/projects/plugin-reporting"
+  s.summary     = "OpenProject Reporting"
   s.description = "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Costs plugin"
 
   s.files       = Dir["{app,config,db,lib,doc}/**/*", "README.md"]
