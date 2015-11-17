@@ -88,7 +88,7 @@ module OpenProject::Costs
     end
 
     patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :PermittedParams,
-             :ProjectsController, :ApplicationHelper, :UsersHelper, :WorkPackagesHelper]
+             :ProjectsController, :ApplicationHelper, :UsersHelper]
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
     patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
