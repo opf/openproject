@@ -386,32 +386,6 @@ describe WorkPackagesController, type: :controller do
         allow(Project).to receive(:find_visible).and_return stub_project
       end
 
-      describe 'when we copy stuff' do
-        before do
-          controller.params = { work_package: {} }.merge(params)
-
-          allow(controller).to receive(:current_user).and_return(stub_user)
-          expect(controller.send(:permitted_params)).to receive(:new_work_package)
-            .with(project: stub_project)
-            .and_return(wp_params)
-
-          expect(stub_project).to receive(:add_work_package) { |args|
-            expect(args[:author]).to eql stub_user
-          }.and_return(stub_issue)
-        end
-
-        it 'should return a new issue on the project' do
-          expect(controller.work_package).to eq(stub_issue)
-        end
-
-        it 'should copy over attributes from another work_package provided as the source' do
-          controller.params[:copy_from] = 2
-          expect(stub_issue).to receive(:copy_from).with(2, exclude: [:project_id])
-
-          controller.work_package
-        end
-      end
-
       describe 'if the project is not visible for the current_user' do
         before do
           projects = [stub_project]

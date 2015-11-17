@@ -70,15 +70,6 @@ describe WorkPackagesController, type: :routing do
                    state: 'details/2/overview')
   end
 
-  context 'when "/work_packages/:param1/:param2" is called with param1 being something other than an id' do
-    it 'falls back to the default action' do
-      expect(get('/work_packages/quoted/1'))
-        .to route_to(controller: 'work_packages',
-                     action: 'quoted',
-                     id: '1')
-    end
-  end
-
   it 'should connect GET /work_packages/:id to work_packages#show' do
     expect(get('/work_packages/1')).to route_to(controller: 'work_packages',
                                                 action: 'show',
@@ -108,17 +99,5 @@ describe WorkPackagesController, type: :routing do
     expect(post('/work_packages/move?ids=1,2,3')).to route_to(controller: 'work_packages/moves',
                                                               action: 'create',
                                                               ids: '1,2,3')
-  end
-
-  it do
-    expect(get('/work_packages/quoted/1')).to route_to(controller: 'work_packages',
-                                                       action: 'quoted',
-                                                       id: '1')
-  end
-
-  it 'should connect PUT /work_packages/1 to work_packages#update' do
-    expect(put('/work_packages/1')).to route_to(controller: 'work_packages',
-                                                action: 'update',
-                                                id: '1')
   end
 end
