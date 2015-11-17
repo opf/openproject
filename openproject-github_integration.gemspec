@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = OpenProject::GithubIntegration::VERSION
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
-  s.homepage    = "https://www.openproject.org/projects/github-integration"
+  s.homepage    = "https://community.openproject.org/projects/github-integration"
   s.summary     = 'OpenProject Github Integration'
   s.description = 'Integrates OpenProject and Github for a better workflow'
   s.license     = 'GPLv3'
