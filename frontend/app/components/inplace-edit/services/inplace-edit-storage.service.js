@@ -81,8 +81,11 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
       var deferred = $q.defer();
       WorkPackageService.loadWorkPackageForm(EditableFieldsState.workPackage)
         .then(function(form) {
-          inplaceEditForm.getForm(EditableFieldsState.workPackage.props.id).resource.form = form;
+          var editForm = inplaceEditForm.getForm(EditableFieldsState.workPackage.props.id);
+          editForm.resource.form = form;
           EditableFieldsState.workPackage.form = form;
+
+          editForm.updateFieldValues();
 
           deferred.resolve(form);
       }).catch(handleAPIErrors(deferred));
@@ -104,11 +107,13 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
         } else {
           inplaceEditErrors.errors = {};
           _.forEach(form.embedded.validationErrors.props, function(error, field) {
+            var fieldName = field;
+
             if(field === 'startDate' || field === 'dueDate') {
-              inplaceEditErrors.errors['date'] = error.message;
-            } else {
-              inplaceEditErrors.errors[field] = error.message;
+              fieldName = 'date';
             }
+
+            inplaceEditErrors.errors[fieldName] = error.message;
           });
 
           deferred.reject(inplaceEditErrors.errors);

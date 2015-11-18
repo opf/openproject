@@ -34,45 +34,58 @@ function inplaceEdit(WorkPackageFieldService) {
   function Field(resource, name) {
     this.resource = resource;
     this.name = name;
-    this.value = !_.isUndefined(this.value) ? this.value : _.cloneDeep(this.getValue());
+    this.value = undefined;
+
+    if (_.isUndefined(this.value)) {
+      this.updateValue();
+    }
   }
 
-  Object.defineProperty(Field.prototype, 'text', {
-    get: function() {
-      return this.format();
-    }
-  });
-
-  // Looks up placeholders in the localization files (e.g. js-en.yml).
-  // The path is
-  //  js:
-  //    [name of the resource in snake case and pluralized]:
-  //      placeholders:
-  //        [name of the field]:
-  //
-  // Falls back to default if no specific placeholder is defined.
-  Object.defineProperty(Field.prototype, 'placeholder', {
-    get: function() {
-
-      if (this.resource.props._type === undefined) {
-        return I18n.t('js.placeholders.default');
+  Object.defineProperties(Field.prototype, {
+    text: {
+      get: function() {
+        return this.format();
       }
-
-      // lodash does snakeCase in version 3.10
-      // This also pluralizes the easy way by appending 's' to the end
-      // which is error prone
-      var resourceName = this.resource.props._type
-        .replace(/([A-Z])/g, function($1){return '_' + $1.toLowerCase();})
-        .replace(/^_/, '') + 's';
-
-      var scope = 'js.' + resourceName + '.placeholders.' + this.name;
-
-      var translation = I18n.t(scope);
-      if (I18n.missingTranslation(scope) === translation) {
-        return I18n.t('js.' + resourceName + '.placeholders.default');
+    },
+    
+    updateValue: {
+      value: function () {
+        this.value = _.cloneDeep(this.getValue());
       }
-      else {
-        return translation;
+    },
+
+
+    // Looks up placeholders in the localization files (e.g. js-en.yml).
+    // The path is
+    //  js:
+    //    [name of the resource in snake case and pluralized]:
+    //      placeholders:
+    //        [name of the field]:
+    //
+    // Falls back to default if no specific placeholder is defined.
+    placeholder: {
+      get: function() {
+
+        if (this.resource.props._type === undefined) {
+          return I18n.t('js.placeholders.default');
+        }
+
+        // lodash does snakeCase in version 3.10
+        // This also pluralizes the easy way by appending 's' to the end
+        // which is error prone
+        var resourceName = this.resource.props._type
+            .replace(/([A-Z])/g, function($1){return '_' + $1.toLowerCase();})
+            .replace(/^_/, '') + 's';
+
+        var scope = 'js.' + resourceName + '.placeholders.' + this.name;
+
+        var translation = I18n.t(scope);
+        if (I18n.missingTranslation(scope) === translation) {
+          return I18n.t('js.' + resourceName + '.placeholders.default');
+        }
+        else {
+          return translation;
+        }
       }
     }
   });

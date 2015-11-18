@@ -43,6 +43,14 @@ function inplaceEditForm($rootScope, inplaceEdit) {
 
       return this.fields[name];
     };
+
+    this.updateFieldValues = function () {
+      _.forOwn(this.fields, function (field) {
+        if (!field.isEmbedded()) {
+          field.updateValue();
+        }
+      });
+    }
   }
 
   Object.defineProperty(Form.prototype, 'length', {
