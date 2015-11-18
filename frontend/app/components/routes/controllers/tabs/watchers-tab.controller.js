@@ -91,7 +91,10 @@ function WatchersTabController($scope, WatchersService) {
       };
 
   vm.watching = [];
-  vm.I18n = I18n;
+  vm.text = {
+    loading: I18n.t('js.watchers.label_loading'),
+    loadingError: I18n.t('js.watchers.label_error_loading')
+  };
   fetchWatchers();
 
   $scope.$on('watchers.add', addWatcher);

@@ -1,16 +1,16 @@
 <div id="detail-panel-watchers">
-  <div class="notification-box -error" data-ng-show="watchers.error">
+  <div class="notification-box -error" ng-show="watchers.error">
     <div class="notification-box--content">
-      <p>{{::I18n.t('js.watchers.label_error_loading')}}</p>
+      <p>{{ ::watchers.text.loadingError }}</p>
     </div>
   </div>
-  <div data-ng-show="watchers.loading">
-    <p>{{I18n.t('js.watchers.label_loading')}}</p>
+  <div ng-show="watchers.loading">
+    <p>{{ ::watchers.text.loading }}</p>
   </div>
-  <div data-ng-hide="watchers.loading || watchers.error">
+  <div ng-hide="watchers.loading || watchers.error">
     <div class="work-package--watchers work-package--details--long-field">
-      <work-package-watcher data-watcher="watcher" data-ng-repeat="watcher in watchers.watching track by watcher.id"></work-package-watcher>
+      <work-package-watcher watcher="watcher" ng-repeat="watcher in watchers.watching track by watcher.id"></work-package-watcher>
     </div>
-    <work-package-watchers-lookup data-watchers="watchers.available" data-ng-show="watchers.available.length"></work-package-watchers-lookup>
+    <work-package-watchers-lookup watchers="watchers.available" ng-show="watchers.available.length"></work-package-watchers-lookup>
   </div>
 </div>
