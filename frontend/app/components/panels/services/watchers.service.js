@@ -35,72 +35,80 @@ function WatchersService($http, $q) {
   var getWatchers = function(path) {
     return function() {
       var watchers = $q.defer();
+
       $http.get(path).success(function(data) {
         watchers.resolve(data._embedded.elements);
+
       }).error(function(err) {
         watchers.reject(err);
       });
+
       return watchers.promise;
     };
   };
 
   var watching = function(workPackage) {
-        var path = workPackage.links.watchers.url();
-        return getWatchers(path)();
-      },
-      available = function(workPackage) {
-        var path = workPackage.links.availableWatchers.url();
-        return getWatchers(path)();
-      },
-      all = function(workPackage) {
-        var watchers = $q.defer();
-        $q.all([watching(workPackage), available(workPackage)]).then(function(allWatchers) {
-          var watching = allWatchers[0],
-              available = _.filter(allWatchers[1], function(user) {
-                return _.findIndex(watching, function(watchingUser) {
-                  return user.id === watchingUser.id;
-                }) === -1;
-              });
-          watchers.resolve({ watching: watching, available: available });
-        }, function(err) {
-          watchers.reject(err);
-        });
-        return watchers.promise;
-      },
-      add = function(workPackage, watcher) {
-        var added = $q.defer(),
-            // somehow, the path will not be correctly inferred when using url()
-            path = workPackage.links.addWatcher.props.href,
-            method = workPackage.links.addWatcher.props.method,
-            payload = {
-              user: {
-                href: watcher._links.self.href // watcher is not a ressource
-              }
-            };
+    var path = workPackage.links.watchers.url();
+    return getWatchers(path)();
+  };
 
-        $http[method](path, payload).then(function() {
-          added.resolve(watcher);
-        }, function(err) {
-          added.reject(err);
+  var available = function(workPackage) {
+    var path = workPackage.links.availableWatchers.url();
+    return getWatchers(path)();
+  };
+
+  var all = function(workPackage) {
+    var watchers = $q.defer();
+
+    $q.all([watching(workPackage), available(workPackage)]).then(function(allWatchers) {
+      var watching = allWatchers[0],
+        available = _.filter(allWatchers[1], function(user) {
+          return _.findIndex(watching, function(watchingUser) {
+              return user.id === watchingUser.id;
+            }) === -1;
         });
 
-        return added.promise;
-      },
-      remove = function(workPackage, watcher) {
-        var removed = $q.defer(),
-            path = workPackage.links.removeWatcher.props.href,
-            method = workPackage.links.removeWatcher.props.method;
+      watchers.resolve({ watching: watching, available: available });
 
-        path = path.replace(/\{user\_id\}/, watcher.id);
+    }, function(err) {
+      watchers.reject(err);
+    });
 
-        $http[method](path).then(function() {
-          removed.resolve(watcher);
-        }, function(err) {
-          remove.reject(err);
-        });
+    return watchers.promise;
+  };
 
-        return removed.promise;
-      };
+  var add = function(workPackage, watcher) {
+    var added = $q.defer(),
+      path = workPackage.links.addWatcher.props.href,
+      method = workPackage.links.addWatcher.props.method,
+      payload = { user: { href: watcher._links.self.href } };
+
+    $http[method](path, payload).then(function() {
+      added.resolve(watcher);
+
+    }, function(err) {
+      added.reject(err);
+    });
+
+    return added.promise;
+  };
+
+  var remove = function(workPackage, watcher) {
+    var removed = $q.defer(),
+      path = workPackage.links.removeWatcher.props.href,
+      method = workPackage.links.removeWatcher.props.method;
+
+    path = path.replace(/\{user\_id\}/, watcher.id);
+
+    $http[method](path).then(function() {
+      removed.resolve(watcher);
+
+    }, function(err) {
+      remove.reject(err);
+    });
+
+    return removed.promise;
+  };
 
   /*
    * NOTE: In theory, this service is independent from WorkPackages,
