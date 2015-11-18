@@ -44,7 +44,6 @@ class WorkPackagesController < ApplicationController
   include QueriesHelper
   include PaginationHelper
   include SortHelper
-  include OpenProject::Concerns::Preview
   include OpenProject::ClientPreferenceExtractor
 
   accept_key_auth :index, :show
