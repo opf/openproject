@@ -35,7 +35,7 @@ function WatchersPanelController($scope, WatchersService) {
       fetchWatchers = function(loading) {
         vm.error = false;
         vm.loading = angular.isUndefined(loading) ? true : false;
-        WatchersService.forWorkPackage($scope.workPackage).then(function(users) {
+        WatchersService.forWorkPackage(vm.workPackage).then(function(users) {
           vm.watching = users.watching;
           vm.available = users.available;
         }, function() {
@@ -53,7 +53,7 @@ function WatchersPanelController($scope, WatchersService) {
         add(watcher, vm.watching);
         remove(watcher, vm.available);
         WatchersService
-          .addForWorkPackage($scope.workPackage, watcher)
+          .addForWorkPackage(vm.workPackage, watcher)
           .then(function(watcher) {
             $scope.$broadcast('watchers.add.finished', watcher);
           })
@@ -64,7 +64,7 @@ function WatchersPanelController($scope, WatchersService) {
       removeWatcher = function(event, watcher) {
         event.stopPropagation();
         WatchersService
-          .removeFromWorkPackage($scope.workPackage, watcher)
+          .removeFromWorkPackage(vm.workPackage, watcher)
           .then(function(watcher) {
             remove(watcher, vm.watching);
             add(watcher, vm.available);

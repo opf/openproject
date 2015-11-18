@@ -48,7 +48,7 @@ angular.module('openproject')
     get watchers() {
       return {
         url: '/watchers',
-        template: '<watchers-panel></watchers-panel>'
+        template: '<watchers-panel work-package="workPackage"></watchers-panel>'
       }
     }
   };
