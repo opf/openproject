@@ -33,9 +33,9 @@ angular
 function watchersPanel()  {
   return {
     restrict: 'E',
-    templateUrl: '/components/panels/directives/watchers-tab.directive.html',
+    templateUrl: '/components/panels/directives/watchers-panel.directive.html',
 
-    controller: 'WatchersTabController',
+    controller: 'WatchersPanelController',
     controllerAs: 'watchers'
   }
 }

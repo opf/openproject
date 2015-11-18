@@ -28,9 +28,9 @@
 
 angular
   .module('openproject.workPackages.controllers')
-  .controller('WatchersTabController', WatchersTabController);
+  .controller('WatchersPanelController', WatchersPanelController);
 
-function WatchersTabController($scope, WatchersService) {
+function WatchersPanelController($scope, WatchersService) {
   var vm = this,
       fetchWatchers = function(loading) {
         vm.error = false;

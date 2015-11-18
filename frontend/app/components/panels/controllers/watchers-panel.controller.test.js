@@ -28,7 +28,7 @@
 
 /*jshint expr: true*/
 
-describe('WatchersTabController', function() {
+describe('WatchersPanelController', function() {
   'use strict';
 
   beforeEach(angular.mock.module('openproject.workPackages.controllers'));
@@ -61,7 +61,7 @@ describe('WatchersTabController', function() {
         };
 
     locals.$scope.workPackage = workPackage;
-    expect($controller('WatchersTabController', locals)).to.exist;
+    expect($controller('WatchersPanelController', locals)).to.exist;
   });
 
   it('should not work without a work workPackage', function() {
@@ -70,7 +70,7 @@ describe('WatchersTabController', function() {
     };
 
     expect(function() {
-      $controller('WatchersTabController', locals);
+      $controller('WatchersPanelController', locals);
     }).to.throw;
   });
 });

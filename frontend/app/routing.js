@@ -140,7 +140,7 @@ angular.module('openproject')
     })
     .state('work-packages.show.watchers', {
       url: '/watchers',
-      templateUrl: '/components/routes/partials/tabs/watchers.html'
+      templateUrl: '/components/routes/partials/panels/watchers.html'
     })
 
     .state('work-packages.list', {
@@ -204,7 +204,7 @@ angular.module('openproject')
     })
     .state('work-packages.list.details.watchers', {
       url: '/watchers',
-      templateUrl: '/components/routes/partials/tabs/watchers.html'
+      templateUrl: '/components/routes/partials/panels/watchers.html'
     });
 }])
 
