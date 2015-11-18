@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,11 +24,13 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
+angular
+  .module('openproject.services')
+  .factory('WatchersService', WatchersService);
 
-module.exports = function($http, $q) {
-  'use strict';
+function WatchersService($http, $q) {
 
   var getWatchers = function(path) {
     return function() {
@@ -101,7 +103,7 @@ module.exports = function($http, $q) {
       };
 
   /*
-   * NOTE: In theorey, this service is independent from WorkPackages,
+   * NOTE: In theory, this service is independent from WorkPackages,
    * however, the only thing currently handled by it is WorkPackage
    * related watching.
    * This might change in the future, as other Objects are watchable in
@@ -116,4 +118,4 @@ module.exports = function($http, $q) {
     addForWorkPackage: add,
     removeFromWorkPackage: remove
   };
-};
+}
