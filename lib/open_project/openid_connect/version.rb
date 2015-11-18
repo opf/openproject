@@ -1,5 +1,5 @@
 module OpenProject
   module OpenIDConnect
-    VERSION = "5.0.0"
+    VERSION = "5.0.1"
   end
 end
