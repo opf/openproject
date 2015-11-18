@@ -44,6 +44,15 @@ angular.module('openproject')
 
   $urlMatcherFactoryProvider.strictMode(false);
 
+  var panels = {
+    get watchers() {
+      return {
+        url: '/watchers',
+        template: '<watchers-panel></watchers-panel>'
+      }
+    }
+  };
+
   $stateProvider
     .state('work-packages', {
       url: '',
@@ -138,10 +147,7 @@ angular.module('openproject')
       url: '/relations',
       templateUrl: '/templates/work_packages/tabs/relations.html'
     })
-    .state('work-packages.show.watchers', {
-      url: '/watchers',
-      templateUrl: '/components/routes/partials/panels/watchers.html'
-    })
+    .state('work-packages.show.watchers', panels.watchers)
 
     .state('work-packages.list', {
       url: '/{projects}/{projectPath}/work_packages?query_id&query_props',
@@ -202,10 +208,7 @@ angular.module('openproject')
       url: '/relations',
       templateUrl: '/templates/work_packages/tabs/relations.html',
     })
-    .state('work-packages.list.details.watchers', {
-      url: '/watchers',
-      templateUrl: '/components/routes/partials/panels/watchers.html'
-    });
+    .state('work-packages.list.details.watchers', panels.watchers);
 }])
 
 .run([
