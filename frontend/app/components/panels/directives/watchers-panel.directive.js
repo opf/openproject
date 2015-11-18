@@ -40,6 +40,6 @@ function watchersPanel()  {
 
     bindToController: true,
     controller: 'WatchersPanelController',
-    controllerAs: 'watchers'
+    controllerAs: 'vm'
   };
 }
