@@ -99,6 +99,6 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     visit '/work_packages/0'
 
     expect(page).to have_selector('.errorExplanation',
-                                  text: I18n.t('notice_file_not_found'))
+                                  text: I18n.t('notice_not_authorized'))
   end
 end

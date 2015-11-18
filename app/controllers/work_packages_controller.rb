@@ -175,7 +175,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def not_found_unless_work_package
-    render_404 unless work_package
+    deny_access unless work_package
   end
 
   def protect_from_unauthorized_export
