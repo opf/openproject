@@ -141,7 +141,7 @@ angular.module('openproject')
     .state('work-packages.show.watchers', {
       url: '/watchers',
       controller: 'DetailsTabWatchersController',
-      templateUrl: '/templates/work_packages/tabs/watchers.html',
+      templateUrl: '/components/routes/partials/tabs/watchers.html',
       controllerAs: 'watchers'
     })
 
@@ -207,8 +207,8 @@ angular.module('openproject')
     .state('work-packages.list.details.watchers', {
       url: '/watchers',
       controller: 'DetailsTabWatchersController',
-      templateUrl: '/templates/work_packages/tabs/watchers.html',
-      controllerAs: 'watchers',
+      templateUrl: '/components/routes/partials/tabs/watchers.html',
+      controllerAs: 'watchers'
     });
 }])
 
