@@ -47,15 +47,15 @@ class WorkPackagesController < ApplicationController
   include OpenProject::Concerns::Preview
   include OpenProject::ClientPreferenceExtractor
 
-  accept_key_auth :index, :show, :create, :update
+  accept_key_auth :index, :show
 
   # before_filter :disable_api # TODO re-enable once API is used for any JSON request
   before_filter :not_found_unless_work_package,
                 :project,
-                :authorize, except: [:index, :preview, :column_data, :column_sums]
+                :authorize, only: :show
   before_filter :find_optional_project,
-                :protect_from_unauthorized_export, only: [:index, :all, :preview]
-  before_filter :load_query, only: :index
+                :protect_from_unauthorized_export,
+                :load_query, only: :index
 
   def show
     respond_to do |format|
