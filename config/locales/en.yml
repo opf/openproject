@@ -1543,7 +1543,7 @@ en:
       instructions: "Checkout instructions"
       show_instructions: "Display checkout instructions"
       text_instructions: "This text is displayed alongside the checkout URL for guidance on how to check out the repository."
-      not_available: "Checkout instructions are not available for this repository"
+      not_available: "Checkout instructions are not defined for this repository. Ask your administrator to enable them for this repository in the system settings."
     create_managed_delay: "Please note: The repository is managed, it is created asynchronously on the disk and will be available shortly."
     create_successful: "The repository has been registered."
     delete_sucessful: "The repository has been deleted."
