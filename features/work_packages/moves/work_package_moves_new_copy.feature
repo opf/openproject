@@ -80,23 +80,23 @@ Feature: Copying a work package
       | issue2 |
     And I am already logged in as "bob"
 
-  @javascript
+  @javascript @selenium
   Scenario: Copy an issue
     When I go to the move new page of the work package "issue1"
      And I select "project_2" from "Project"
     When I click "Copy and follow"
     Then I should see "Successful creation."
-    Then I should see "issue1" within "#work-package-subject"
+    Then I should see "issue1" within ".work-packages--details--subject"
      And I should see "project_2" within ".breadcrumb"
 
-  @javascript
+  @javascript @selenium
   Scenario: Issue children are moved
     Given the "cross_project_work_package_relations" setting is set to true
     When I go to the move page of the work package "issue1"
      And I select "project_2" from "Project"
     When I click "Move and follow"
     #Then I should see "Successful update."
-    Then I should see "issue1" within "#work-package-subject"
+    Then I should see "issue1" within ".work-packages--details--subject"
      And I should see "project_2" within ".breadcrumb"
 
 

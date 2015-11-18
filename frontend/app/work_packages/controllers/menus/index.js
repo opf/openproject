@@ -97,7 +97,7 @@ angular.module('openproject.workPackages')
   ])
   .constant('PERMITTED_CONTEXT_MENU_ACTIONS', [
     'edit', 'watch', 'log_time',
-    'duplicate', 'move', 'copy', 'delete'
+    'move', 'copy', 'delete'
   ])
   .factory('WorkPackageContextMenu', [
     'ngContextMenu',
