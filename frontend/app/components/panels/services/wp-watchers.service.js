@@ -28,9 +28,9 @@
 
 angular
   .module('openproject.services')
-  .factory('WatchersService', WatchersService);
+  .factory('wpWatchers', wpWatchers);
 
-function WatchersService($http, $q) {
+function wpWatchers($http, $q) {
 
   var getWatchers = function(path) {
     return function() {

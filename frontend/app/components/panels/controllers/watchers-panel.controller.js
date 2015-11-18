@@ -30,14 +30,14 @@ angular
   .module('openproject.workPackages.controllers')
   .controller('WatchersPanelController', WatchersPanelController);
 
-function WatchersPanelController($scope, WatchersService) {
+function WatchersPanelController($scope, wpWatchers) {
   var vm = this;
 
   var fetchWatchers = function(loading) {
     vm.error = false;
     vm.loading = angular.isUndefined(loading);
 
-    WatchersService.forWorkPackage(vm.workPackage).then(function(users) {
+    wpWatchers.forWorkPackage(vm.workPackage).then(function(users) {
       vm.watching = users.watching;
       vm.available = users.available;
 
@@ -58,7 +58,7 @@ function WatchersPanelController($scope, WatchersService) {
     add(watcher, vm.watching);
     remove(watcher, vm.available);
 
-    WatchersService.addForWorkPackage(vm.workPackage, watcher).then(function(watcher) {
+    wpWatchers.addForWorkPackage(vm.workPackage, watcher).then(function(watcher) {
       $scope.$broadcast('watchers.add.finished', watcher);
 
     }).finally(function() {
@@ -69,7 +69,7 @@ function WatchersPanelController($scope, WatchersService) {
   var removeWatcher = function(event, watcher) {
     event.stopPropagation();
 
-    WatchersService.removeFromWorkPackage(vm.workPackage, watcher).then(function(watcher) {
+    wpWatchers.removeFromWorkPackage(vm.workPackage, watcher).then(function(watcher) {
       remove(watcher, vm.watching);
       add(watcher, vm.available);
     });

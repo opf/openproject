@@ -27,13 +27,13 @@
 // ++
 
 
-describe('WatchersService', function() {
-  var WatchersService;
+describe('wpWatchers', function() {
+  var wpWatchers;
 
   beforeEach(angular.mock.module('openproject.services'));
 
-  beforeEach(inject(['WatchersService', function(_WatchersService_) {
-      WatchersService = _WatchersService_;
+  beforeEach(inject(['wpWatchers', function(_wpWatchers_) {
+      wpWatchers = _wpWatchers_;
     }]
   ));
 
@@ -122,7 +122,7 @@ describe('WatchersService', function() {
         $httpBackend.expectGET(watchersPath).respond(watchers);
         $httpBackend.expectGET(availableWatchersPath).respond(availableWatchers);
 
-        WatchersService.forWorkPackage(workPackage).then(function(users) {
+        wpWatchers.forWorkPackage(workPackage).then(function(users) {
           expect(users).to.have.keys(['available', 'watching']);
           expect(users.watching.length).to.eql(2);
           expect(users.available.length).to.eql(2);
@@ -159,7 +159,7 @@ describe('WatchersService', function() {
           }
         };
 
-        WatchersService.addForWorkPackage(workPackage, watcher);
+        wpWatchers.addForWorkPackage(workPackage, watcher);
         $httpBackend.flush();
       });
     });
@@ -177,7 +177,7 @@ describe('WatchersService', function() {
           id: 9
         };
 
-        WatchersService.removeFromWorkPackage(workPackage, watcher);
+        wpWatchers.removeFromWorkPackage(workPackage, watcher);
         $httpBackend.flush();
       });
     });
