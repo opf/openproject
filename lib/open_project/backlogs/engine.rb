@@ -130,8 +130,7 @@ module OpenProject::Backlogs
              :Query,
              :User,
              :VersionsController,
-             :Version,
-             :WorkPackagesHelper]
+             :Version]
 
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
     patch_with_namespace :BasicData, :SettingSeeder
