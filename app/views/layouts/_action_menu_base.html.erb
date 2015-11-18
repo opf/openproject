@@ -40,9 +40,10 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= content_for action_menu_key %>
       <% if content_for?(:action_menu_more) %>
         <li class="drop-down toolbar-item">
-          <a href="javascript:" class="icon icon-arrow-right6-3"
+          <a href="javascript:" class="button"
              accesskey="<%= OpenProject::AccessKeys.key_for(:more_menu) %>">
-            <%= l(:more_actions) %>
+            <span class="button--text"><%= l(:label_more) %></span>
+            <i class="button--dropdown-indicator"></i>
           </a>
           <ul class="legacy-actions-more" style="display:none;">
             <%= content_for :action_menu_more %>
