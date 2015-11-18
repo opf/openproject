@@ -1,7 +1,3 @@
-*Please be aware that Web Server and Website Management Tools like Plesk
-and others do not work well together with our packaged solution. We
-strongly recommend to install OpenProject CE on a clean install.*
-
 # OpenProject installation via package manager
 
 The installation of the OpenProject software can be done manually or via official software-packages build by the packager.io service. Using these software packages is highly recommended to reduce the pain of installation and configuration errors. Besides the installation via package manager is done via configuration wizard which is very helpful to get everything up and running right from the beginning.
@@ -44,7 +40,7 @@ The following steps have to be performed to initiate the actual installation of 
     apt-get install apt-transport-https
 
     sudo wget -qO - https://deb.packager.io/key | apt-key add -
-    echo "deb https://deb.packager.io/gh/opf/openproject wheezy stable/4.2" | sudo tee /etc/apt/sources.list.d/openproject.list
+    echo "deb https://deb.packager.io/gh/opf/openproject-ce wheezy stable/5" | sudo tee /etc/apt/sources.list.d/openproject.list
     sudo apt-get update
     sudo apt-get install openproject
 
@@ -54,14 +50,14 @@ The following steps have to be performed to initiate the actual installation of 
     apt-get install apt-transport-https
 
     wget -qO - https://deb.packager.io/key | sudo apt-key add -
-    echo "deb https://deb.packager.io/gh/opf/openproject jessie stable/4.2" | sudo tee /etc/apt/sources.list.d/openproject.list
+    echo "deb https://deb.packager.io/gh/opf/openproject-ce jessie stable/5" | sudo tee /etc/apt/sources.list.d/openproject.list
     sudo apt-get update
     sudo apt-get install openproject
 
 ## Ubuntu 14.04 Trusty
 
     wget -qO - https://deb.packager.io/key | sudo apt-key add -
-    echo "deb https://deb.packager.io/gh/opf/openproject trusty stable/4.2" | sudo tee /etc/apt/sources.list.d/openproject.list
+    echo "deb https://deb.packager.io/gh/opf/openproject-ce trusty stable/5" | sudo tee /etc/apt/sources.list.d/openproject.list
     sudo apt-get update
     sudo apt-get install openproject
 
@@ -69,8 +65,8 @@ The following steps have to be performed to initiate the actual installation of 
 
     sudo rpm --import https://rpm.packager.io/key
     echo "[openproject]
-    name=Repository for opf/openproject application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject/fedora20/stable/4.2
+    name=Repository for opf/openproject-ce application.
+    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/fedora20/stable/5
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
 
@@ -78,8 +74,8 @@ The following steps have to be performed to initiate the actual installation of 
 
     sudo rpm --import https://rpm.packager.io/key
     echo "[openproject]
-    name=Repository for opf/openproject application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject/centos6/stable/4.2
+    name=Repository for opf/openproject-ce application.
+    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos6/stable/5
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
 
@@ -87,15 +83,15 @@ The following steps have to be performed to initiate the actual installation of 
 
     sudo rpm --import https://rpm.packager.io/key
     echo "[openproject]
-    name=Repository for opf/openproject application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject/centos7/stable/4.2
+    name=Repository for opf/openproject-ce application.
+    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos7/stable/5
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
 
 ## Suse Linux Enterprise Server 12
 
     sudo rpm --import https://rpm.packager.io/key
-    sudo zypper addrepo "https://rpm.packager.io/gh/opf/openproject/sles12/stable/4.2" "openproject"
+    sudo zypper addrepo "https://rpm.packager.io/gh/opf/openproject-ce/sles12/stable/5" "openproject"
     sudo zypper install openproject
 
 # Post-Install Configuration
