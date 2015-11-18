@@ -1,6 +1,10 @@
 # Install Plugins
 
-OpenProject plug-ins are separated in ruby gems. You can install them by listing them in a file called `Gemfile.plugins`. An example `Gemfile.plugins` file looks like this:
+OpenProject plugins are separated in ruby gems.
+The OpenProject Community Edition contains the recommended set of plugins for use
+with OpenProject. For more information, see https://github.com/opf/openproject-ce.
+
+You can install plugins by listing them in a file called `Gemfile.plugins`. An example `Gemfile.plugins` file looks like this:
 
 ```
 # Required by backlogs
@@ -15,9 +19,7 @@ If you have modified the `Gemfile.plugins` file, always repeat the following ste
 [openproject@debian]# cd ~/openproject
 [openproject@debian]# bundle install
 [openproject@debian]# bower install
-[openproject@debian]# RAILS_ENV="production" bundle exec rake db:migrate
-[openproject@debian]# RAILS_ENV="production" bundle exec rake db:seed
-[openproject@debian]# RAILS_ENV="production" bundle exec rake assets:precompile
+[openproject@debian]# RAILS_ENV="production" bundle exec rake db:migrate db:seed assets:precompile
 ```
 Restart the OpenProject server afterwards (yes, you can do that without restarting Apache):
 
@@ -26,7 +28,5 @@ Restart the OpenProject server afterwards (yes, you can do that without restarti
 ```
 
 The next web-request to the server will take longer (as the application is restarted). All subsequent request should be as fast as always.
-
-Note: plugins are only supported for the manual installation. The `Gemfile.plugins` file needs to be created first in the OpenProject root folder.
 
 Always make sure that the plugin version is compatible with your OpenProject version (e.g. use the ‘stable’ branch of both, OpenProject, and the plugin).
