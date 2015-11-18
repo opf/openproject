@@ -32,12 +32,10 @@ describe('WatchersService', function() {
 
   beforeEach(angular.mock.module('openproject.services'));
 
-  beforeEach(inject([
-    'WatchersService',
-    function(_WatchersService_) {
+  beforeEach(inject(['WatchersService', function(_WatchersService_) {
       WatchersService = _WatchersService_;
-    }])
-  );
+    }]
+  ));
 
   context('for workPackage', function() {
 
