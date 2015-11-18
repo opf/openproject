@@ -18,23 +18,32 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 ++#%>
 
-<fieldset id="filters"><legend><%= l(:label_date_range) %></legend>
-<p>
-<%= radio_button_tag 'period_type', '1', !@free_period %>
-<%= select_tag 'period', options_for_period_select(params[:period]),
-                         :onchange => 'this.form.onsubmit();',
-                         :onfocus => '$("period_type_1").checked = true;' %>
-</p>
-<p>
-<%= radio_button_tag 'period_type', '2', @free_period %>
-<span onclick="$('period_type_2').checked = true;">
-<%= l(:label_date_from) %>
-<%= label_tag 'from', l(:description_date_range_list) %>
-<%= text_field_tag 'from', @from, :size => 10 %> <%= calendar_for('from') %>
-<%= l(:label_date_to) %>
-<%= label_tag 'to', l(:description_date_range_interval) %>
-<%= text_field_tag 'to', @to, :size => 10 %> <%= calendar_for('to') %>
-</span>
-<%= submit_tag l(:button_apply), :name => nil %>
-</p>
+<fieldset id="filters">
+  <legend><%= l(:label_date_range) %></legend>
+  <div class="form--field">
+    <%= styled_radio_button_tag 'period_type', '1', !@free_period %>
+  </div>
+  <div class="form--field">
+    <%= styled_select_tag 'period', options_for_period_select(params[:period]),
+                             :onchange => 'this.form.onsubmit();',
+                             :onfocus => '$("period_type_1").checked = true;' %>
+  </div>
+  <div class="form--field">
+    <%= styled_radio_button_tag 'period_type', '2', @free_period %>
+  </div>
+  <div onclick="$('period_type_2').checked = true;">
+    <h4><%= l(:label_date_from) %></h4>
+    <div class="form--field">
+      <%= styled_label_tag :from, l(:description_date_range_list) %>
+      <%= styled_text_field_tag :from, @from %>
+      <%= calendar_for :from %>
+    </div>
+    <h4><%= l(:label_date_to) %></h4>
+    <div class="form--field">
+      <%= styled_label_tag :to, l(:description_date_range_interval) %>
+      <%= styled_text_field_tag :to, @to %>
+      <%= calendar_for :to %>
+    </div>
+  </div>
+  <%= styled_button_tag l(:button_apply), class: '-with-icon icon-yes' %>
 </fieldset>

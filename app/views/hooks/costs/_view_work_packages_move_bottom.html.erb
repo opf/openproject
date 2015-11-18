@@ -19,10 +19,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ++#%>
 
 <% if @project && @project.module_enabled?(:costs_module) %>
-<p>
-  <label><%= CostObject.model_name.human %></label>
-  <%= select_tag('cost_object_id', (@target_project == @project ? content_tag('option', l(:label_no_change_option), :value => '') : "") +
+  <div class="form--field">
+    <%= styled_label_tag :cost_object_id, CostObject.model_name.human %>
+    <%= styled_select_tag('cost_object_id', (@target_project == @project ? content_tag('option', l(:label_no_change_option), :value => '') : "") +
                                    content_tag('option', l(:label_none), :value => 'none') +
                                    options_from_collection_for_select(@target_project.cost_objects, :id, :subject)) %>
-</p>
+  </div>
 <% end %>

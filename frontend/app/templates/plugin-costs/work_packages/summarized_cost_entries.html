@@ -1,0 +1,7 @@
+<span class="costs costTypes" ng-if="costTypes">
+  <span ng-repeat="costType in costTypes">
+    <cost-entry cost-entry="costType" work-package="workPackage"></cost-entry>
+    <span class="separator" ng-if="!$last">,</span>
+  </span>
+</span>
+<span ng-if="!costTypes.length">-</span>

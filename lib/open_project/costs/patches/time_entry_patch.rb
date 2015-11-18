@@ -26,39 +26,52 @@ module OpenProject::Costs::Patches::TimeEntryPatch
 
     # Same as typing in the class t.update_costs
     base.class_eval do
-      unloadable
+      belongs_to :rate, -> { where(type: ['HourlyRate', 'DefaultHourlyRate']) }, class_name: 'Rate'
 
-      belongs_to :rate, :conditions => {:type => ["HourlyRate", "DefaultHourlyRate"]}, :class_name => "Rate"
-      attr_protected :costs, :rate_id
-
-      scope :visible, lambda{|*args|
-        { :include => [:project, :user],
-          :conditions => TimeEntry.visible_condition(args[0] || User.current, args[1])
-        }
+      scope :visible, lambda { |*args|
+        where(TimeEntry.visible_condition(args[0] || User.current, args[1]))
+          .includes(:project, :user)
+          .references(:project)
       }
 
       before_save :update_costs
 
       def self.visible_condition(user, project)
-        %Q{ (#{Project.allowed_to_condition(user, :view_time_entries, :project => project)} OR
-             (#{Project.allowed_to_condition(user, :view_own_time_entries, :project => project)} AND #{TimeEntry.table_name}.user_id = #{user.id})) }
+        %{ (#{Project.allowed_to_condition(user, :view_time_entries, project: project)} OR
+             (#{Project.allowed_to_condition(user, :view_own_time_entries, project: project)} AND #{TimeEntry.table_name}.user_id = #{user.id})) }
       end
 
       scope :visible_costs, lambda{|*args|
         user = args.first || User.current
         project = args[1]
 
-        view_hourly_rates = %Q{ (#{Project.allowed_to_condition(user, :view_hourly_rates, :project => project)} OR
-                                (#{Project.allowed_to_condition(user, :view_own_hourly_rate, :project => project)} AND #{TimeEntry.table_name}.user_id = #{user.id})) }
+        view_hourly_rates = %{ (#{Project.allowed_to_condition(user, :view_hourly_rates, project: project)} OR
+                                (#{Project.allowed_to_condition(user, :view_own_hourly_rate, project: project)} AND #{TimeEntry.table_name}.user_id = #{user.id})) }
         view_time_entries = TimeEntry.visible_condition(user, project)
 
-        { :include => [:project, :user],
-          :conditions => [view_time_entries, view_hourly_rates].join(" AND ")
-        }
+        includes(:project, :user)
+          .where([view_time_entries, view_hourly_rates].join(' AND '))
       }
 
+      def self.costs_of(work_packages:)
+        # N.B. Because of an AR quirks the code below uses statements like
+        #   where(work_package_id: ids)
+        # You would expect to be able to simply write those as
+        #   where(work_package: work_packages)
+        # However, AR (Rails 4.2) will not expand :includes + :references inside a subquery,
+        # which will render the query invalid. Therefore we manually extract the IDs in a separate (pluck) query.
+        ids = if work_packages.respond_to?(:pluck)
+                work_packages.pluck(:id)
+              else
+                Array(work_packages).map { |wp| wp.id }
+              end
+        TimeEntry.where(work_package_id: ids)
+          .joins(work_package: :project)
+          .visible_costs
+          .sum("COALESCE(#{TimeEntry.table_name}.overridden_costs,
+                         #{TimeEntry.table_name}.costs)").to_f
+      end
     end
-
   end
 
   module ClassMethods
@@ -67,7 +80,7 @@ module OpenProject::Costs::Patches::TimeEntryPatch
       # to trigger the update of the costs based on new rates
       if conditions.respond_to?(:keys) && conditions.keys == [:work_package_id] && updates =~ /^project_id = ([\d]+)$/
         project_id = $1
-        time_entries = TimeEntry.all(:conditions => conditions)
+        time_entries = TimeEntry.where(conditions)
         time_entries.each do |entry|
           entry.project_id = project_id
           entry.save!
@@ -79,7 +92,6 @@ module OpenProject::Costs::Patches::TimeEntryPatch
   end
 
   module InstanceMethods
-
     def real_costs
       # This methods returns the actual assigned costs of the entry
       overridden_costs || costs || calculated_costs
@@ -105,12 +117,12 @@ module OpenProject::Costs::Patches::TimeEntryPatch
     end
 
     def update_costs!(rate_attr = nil)
-      self.update_costs(rate_attr)
+      update_costs(rate_attr)
       self.save!
     end
 
     def current_rate
-      self.user.rate_at(self.spent_on, self.project_id)
+      user.rate_at(spent_on, project_id)
     end
 
     def visible_by?(usr)

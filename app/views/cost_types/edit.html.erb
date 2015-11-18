@@ -22,52 +22,86 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <% html_title l(:label_cost_type_specific, id: @cost_type.id, name: @cost_type.name) %>
 
-<h2><%= CostType.model_name.human %></h2>
+<%= toolbar title: CostType.model_name.human %>
 
 <%= labelled_tabular_form_for @cost_type do |f| %>
   <%= error_messages_for 'cost_type' %>
   <%= back_url_hidden_field_tag %>
 
-  <div class="box">
-    <p><%= f.text_field :name, :size => 40, :required => true %></p>
-    <p><%= f.text_field :unit, :size => 20, :required => true %></p>
-    <p><%= f.text_field :unit_plural, :size => 20, :required => true %></p>
-    <p><%= f.check_box :default %></p>
+  <div class="form--field">
+    <%= f.text_field :name, required: true %>
+  </div>
+  <div class="form--field">
+    <%= f.text_field :unit, required: true %>
+  </div>
+  <div class="form--field">
+    <%= f.text_field :unit_plural, required: true %>
+  </div>
+  <div class="form--field">
+    <%= f.check_box :default %>
   </div>
 
   <h3><%= l :caption_rate_history %></h3>
   <%= javascript_tag do -%>
     RatesForm = new Subform('<%= escape_javascript(render(:partial => "rate", :object => CostRate.new )) %>',<%= @cost_type.rates.length %>,'rates_body');
   <% end -%>
-  <table class="list" style="width:auto">
-    <thead><tr>
-      <th><%= Rate.human_attribute_name(:valid_from) %></th>
-      <th class="currency"><%= Rate.model_name.human %></th>
-      <th></th>
-    </tr></thead>
-    <tbody id="rates_body">
-      <% @cost_type.rates.sort do |a,b|
-        case
-        when !a.valid? && !b.valid?
-          0
-        when !a.valid?
-          -1
-        when !b.valid?
-          1
-        else
-          b.valid_from <=> a.valid_from
-        end
-      end.each_with_index do |rate, index| %>
-        <%= render :partial => 'rate', :object => rate, :locals => {:index => index, :classes => cycle('odd', 'even')} %>
-      <%- end -%>
-    </tbody>
-  </table>
-  <div>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table interactive-table role="grid" class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Rate.human_attribute_name(:valid_from) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th class="currency">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Rate.model_name.human %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="rates_body">
+          <% @cost_type.rates.sort do |a,b|
+            case
+            when !a.valid? && !b.valid?
+              0
+            when !a.valid?
+              -1
+            when !b.valid?
+              1
+            else
+              b.valid_from <=> a.valid_from
+            end
+          end.each_with_index do |rate, index| %>
+            <%= render :partial => 'rate', :object => rate, :locals => {:index => index} %>
+          <%- end -%>
+        </tbody>
+      </table>
+      <div class="generic-table--header-background"></div>
+    </div>
+  </div>
   <div>
     <label class="hidden-for-sighted", for="add_rate_date" %>"><%= l(:description_date_for_new_rate) %></label>
-    <%= link_to_function l(:button_add_rate), "addRate($('add_rate_date'))", {:class => "icon icon-add"} %>
+    <%= link_to_function l(:button_add_rate), "addRate($('add_rate_date'))", {:class => "button icon icon-add"} %>
   </div>
-  <div><%= submit_tag l(:button_save) %></div>
+  <hr class="form--separator">
+  <%= styled_button_tag l(:button_save), class: '-with-icon icon-yes' %>
 <% end %>
 
 

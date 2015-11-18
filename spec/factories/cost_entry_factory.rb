@@ -20,11 +20,13 @@
 FactoryGirl.define do
   factory :cost_entry  do
     project
-    user { FactoryGirl.create(:user, :member_in_project => project)}
-    work_package { FactoryGirl.create(:work_package, :project => project) }
+    user do FactoryGirl.create(:user, member_in_project: project)end
+    work_package do FactoryGirl.create(:work_package, project: project) end
     cost_type
     spent_on Date.today
     units 1
     comments ''
+    created_on do Time.now end
+    updated_on { Time.now }
   end
 end

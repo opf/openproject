@@ -1,0 +1,6 @@
+<span class="costs costObject" ng-if="costObject">
+  <a  ng-href="{{ linkToCostObject }}" title="{{ costObject.props.subject }}">
+    {{ costObject.props.subject }}
+  </a>
+</span>
+<span ng-if="!costObject">-</span>

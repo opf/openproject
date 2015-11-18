@@ -18,30 +18,27 @@
 #++
 
 class HourlyRatesController < ApplicationController
-  unloadable
-
   helper :users
   helper :sort
   include SortHelper
   helper :hourly_rates
   include HourlyRatesHelper
 
-  before_filter :find_user, :only => [:show, :edit, :update, :set_rate]
+  before_filter :find_user, only: [:show, :edit, :update, :set_rate]
 
-  before_filter :find_optional_project, :only => [:show, :edit, :update]
-  before_filter :find_project, :only => [:set_rate]
+  before_filter :find_optional_project, only: [:show, :edit, :update]
+  before_filter :find_project, only: [:set_rate]
 
   # #show, #edit have their own authorization
-  before_filter :authorize, :except => [:show, :edit, :update]
+  before_filter :authorize, except: [:show, :edit, :update]
 
   # TODO: this should be an index
   def show
     if @project
-      return deny_access unless User.current.allowed_to?(:view_hourly_rates, @project, :for => @user)
+      return deny_access unless User.current.allowed_to?(:view_hourly_rates, @project, for: @user)
 
-      @rates = HourlyRate.all(
-          :conditions =>  { :user_id => @user, :project_id => @project },
-          :order => "#{HourlyRate.table_name}.valid_from desc")
+      @rates = HourlyRate.where(user_id: @user, project_id: @project)
+               .order("#{HourlyRate.table_name}.valid_from desc")
     else
       @rates = HourlyRate.history_for_user(@user, true)
       @rates_default = @rates.delete(nil)
@@ -60,16 +57,15 @@ class HourlyRatesController < ApplicationController
     end
 
     if @project.nil?
-      @rates = DefaultHourlyRate.all(
-        :conditions => {:user_id => @user},
-        :order => "#{DefaultHourlyRate.table_name}.valid_from desc")
-      @rates << @user.default_rates.build({:valid_from => Date.today}) if @rates.empty?
+      @rates = DefaultHourlyRate.where(user_id: @user)
+               .order("#{DefaultHourlyRate.table_name}.valid_from desc")
+      @rates << @user.default_rates.build(valid_from: Date.today) if @rates.empty?
     else
-      @rates = @user.rates.select{|r| r.project_id == @project.id}.sort { |a,b| b.valid_from <=> a.valid_from }
-      @rates << @user.rates.build({:valid_from => Date.today, :project => @project}) if @rates.empty?
+      @rates = @user.rates.select { |r| r.project_id == @project.id }.sort { |a, b| b.valid_from <=> a.valid_from }
+      @rates << @user.rates.build(valid_from: Date.today, project: @project) if @rates.empty?
     end
 
-    render :action => "edit", :layout => !request.xhr?
+    render action: 'edit', layout: !request.xhr?
   end
 
   def update
@@ -83,25 +79,31 @@ class HourlyRatesController < ApplicationController
       return deny_access unless User.current.admin?
     end
 
-    @user.add_rates(@project, permitted_params.user_rates[:new_rate_attributes])
-    @user.set_existing_rates(@project, permitted_params.user_rates[:existing_rate_attributes])
+    if params.include? 'user'
+      update_rates @user,
+                   @project,
+                   permitted_params.user_rates[:new_rate_attributes],
+                   permitted_params.user_rates[:existing_rate_attributes]
+    else
+      delete_rates @user, @project
+    end
 
     if @user.save
       flash[:notice] = l(:notice_successful_update)
       if @project.nil?
-        redirect_back_or_default(:controller => 'users', :action => 'edit', :id => @user)
+        redirect_back_or_default(controller: 'users', action: 'edit', id: @user)
       else
-        redirect_back_or_default(:action => 'show', :id => @user, :project_id => @project)
+        redirect_back_or_default(action: 'show', id: @user, project_id: @project)
       end
     else
       if @project.nil?
         @rates = @user.default_rates
-        @rates << @user.default_rates.build({:valid_from => Date.today}) if @rates.empty?
+        @rates << @user.default_rates.build(valid_from: Date.today) if @rates.empty?
       else
-        @rates = @user.rates.select{|r| r.project_id == @project.id}.sort { |a,b| b.valid_from <=> a.valid_from }
-        @rates << @user.rates.build({:valid_from => Date.today, :project => @project}) if @rates.empty?
+        @rates = @user.rates.select { |r| r.project_id == @project.id }.sort { |a, b| b.valid_from <=> a.valid_from }
+        @rates << @user.rates.build(valid_from: Date.today, project: @project) if @rates.empty?
       end
-      render :action => "edit", :layout => !request.xhr?
+      render action: 'edit', layout: !request.xhr?
     end
   end
 
@@ -121,17 +123,30 @@ class HourlyRatesController < ApplicationController
     if rate.save
       if request.xhr?
         render :update do |page|
-          page.replace_html "rate_for_#{@user.id}", link_to(number_to_currency(rate.rate), :action => 'edit', :id => @user, :project_id => @project)
+          page.replace_html "rate_for_#{@user.id}", link_to(number_to_currency(rate.rate), action: 'edit', id: @user, project_id: @project)
         end
       else
         flash[:notice] = l(:notice_successful_update)
-        redirect_to :action => 'index'
+        redirect_to action: 'index'
       end
     end
   end
 
+  private
 
-private
+  def update_rates(user, project, added_rates, changed_rates)
+    user.add_rates(project, added_rates)
+    user.set_existing_rates(project, changed_rates)
+  end
+
+  def delete_rates(user, project)
+    if project.present?
+      user.rates.delete_all
+    else
+      user.default_rates.delete_all
+    end
+  end
+
   def find_project
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
@@ -149,5 +164,4 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-
 end

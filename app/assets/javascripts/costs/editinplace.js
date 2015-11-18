@@ -30,12 +30,12 @@ function makeEditable(id, name){
   var obj = $(id);
   obj.addClassName("inline_editable");
   Event.observe(id, 'click', function(){edit_and_focus(obj, name)});
-  
+
 }
 
 function edit_and_focus(obj, name) {
   edit(obj, name);
-  
+
   Form.Element.focus(obj.id+'_edit');
   Form.Element.select(obj.id+'_edit');
 }
@@ -46,19 +46,27 @@ function edit(obj, name, obj_value) {
   var obj_value = typeof(obj_value) != 'undefined' ? obj_value : obj.innerHTML;
   var parsed = getCurrencyValue(obj_value);
   var value = parsed[0];
-  var currency = parsed[1]
-  
-  var span_in = '<span id="'+obj.id+'_editor">'
-    var text = '<input id="'+obj.id+'_edit" name="'+name+'" size="7" value="'+value+'" class="currency" /> '+currency;
-    var button = '<input id="'+obj.id+'_cancel" type="image" '+ _cancelButtonAttributes  +' /> ';
-  var span_end = '</span>';
-  
-  new Insertion.After(obj, span_in+text+button+span_end);
+  var currency = parsed[1];
+
+  var form_start = '<section class="form--section" id="'+obj.id+
+                   '_section"><div class="form--field"><div class="form--field-container">';
+  var button = '<div id="'+obj.id+
+               '_cancel" class="form--field-affix -transparent icon icon-close"></div>';
+  var span = '<div id="'+obj.id+'_editor" class="form--text-field-container">';
+      span += '<input id="'+obj.id+'_edit" class="form--text-field" name="'+name+'" value="'+value+'" class="currency" type="text" /> ';
+      span += '</div>';
+
+  var affix = '<div class="form--field-affix" id="'+obj.id+'_affix">' +
+               currency +
+               '</div>';
+  var form_end = '</div></div></section>';
+
+  new Insertion.After(obj, form_start + button + span + affix + form_end);
 
   Event.observe(obj.id+'_cancel', 'click', function(){cleanUp(obj)});
 }
 
 function cleanUp(obj){
-  Element.remove(obj.id+'_editor');
+  Element.remove(obj.id+'_section');
   Element.show(obj);
 }

@@ -1,0 +1,483 @@
+FORMAT: 1A
+
+# Additions to OpenProject API v3
+
+This documentation lists the changes and additions that the costs plugin will
+introduce to the core OpenProject API.
+
+Unless otherwise stated it will only add endpoints and properties, but not remove anything that is
+already present in the core API.
+
+# Group Budgets
+
+## Linked Properties:
+|  Link     | Description                                 | Type          | Constraints           | Supported operations |
+|:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
+| self      | This budget                                 | Budget        | not null              | READ                 |
+
+## Properties
+| Property    | Description                                 | Type        | Constraints | Supported operations | Condition                   |
+| :---------: | ------------------------------------------- | ----------- | ----------- | -------------------- | --------------------------- |
+| id          | Budget id                                   | Integer     | x > 0       | READ                 |                             |
+| subject     | Budget name                                 | String      | not empty   | READ                 |                             |
+
+*Note: Further properties of budgets might be added at a future date, however they will require the view budget permission to be displayed.*
+
+## Budget [/api/v3/budgets/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type" : "Budget",
+                "_links" : {
+                    "self" : {
+                        "href" : "/api/v3/budgets/1",
+                        "title" : "Q3 2015"
+                    }
+                },
+                "id" : 1,
+                "subject" : "Q3 2015"
+            }
+
+
+## view Budget [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Budget id
+
++ Response 200 (application/hal+json)
+
+    [Budget][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work packages **or** view budgets (on the budgets project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see this budget."
+            }
+
+## Budgets by Project [/api/v3/projects/{id}/budgets]
+
++ Model
+    + Body
+
+            {
+                "_links" : {
+                    "self" : {
+                        "href" : "/api/v3/projects/1/budgets"
+                    }
+                },
+                "_type" : "Collection",
+                "total" : 2,
+                "count" : 2,
+                "_embedded" : {
+                    "elements" : [
+                        {
+                            "_type" : "Budget",
+                            "_links" : {
+                                "self" : {
+                                    "href" : "/api/v3/budgets/1",
+                                    "title" : "Q3 2015"
+                                }
+                            },
+                            "id" : 1,
+                            "subject" : "Q3 2015"
+                        },
+                        {
+                            "_type" : "Budget",
+                            "_links" : {
+                                "self" : {
+                                    "href" : "/api/v3/budgets/2",
+                                    "title" : "Q4 2015"
+                                }
+                            },
+                            "id" : 2,
+                            "subject" : "Q4 2015"
+                        }
+                    ]
+                }
+            }
+
+
+## view Budgets of a Project [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Project id
+
++ Response 200 (application/hal+json)
+
+    [Budgets by Project][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions to see the budgets of the given
+    project.
+
+    **Required permission:** view work packages **or** view budgets
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the budgets of this project."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if either:
+
+    * the project does not exist
+    * the client does not have sufficient permissions to see the project
+    * the costs module is not enabled on the given project
+
+    **Required permission:** view project
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
+# Group Cost Entries
+
+## Linked Properties:
+|  Link       | Description                                 | Type          | Constraints           | Supported operations |
+|:-----------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
+| self        | This cost entry                             | CostEntry     | not null              | READ                 |
+| project     | The project in which this entry was logged  | Project       | not null              | READ                 |
+| costType    | The type of this entry                      | CostType      | not null              | READ                 |
+| user        | The user logging this entry                 | User          | not null              | READ                 |
+| workPackage | The work package that got the entry logged  | WorkPackage   | not null              | READ                 |
+
+## Properties
+| Property    | Description                                 | Type        | Constraints | Supported operations | Condition                   |
+| :---------: | ------------------------------------------- | ----------- | ----------- | -------------------- | --------------------------- |
+| id          | cost entry id                               | Integer     | x > 0       | READ                 |                             |
+| spentUnits  | The amount of units logged in this entry    | Float       |             | READ                 |                             |
+| spentOn     | The date when the units were spent          | Date        |             | READ                 |                             |
+| createdAt   | Time of creation                            | DateTime    |             | READ                 |                             |
+| updatedAt   | Time of the most recent change to the entry | DateTime    |             | READ                 |                             |
+
+## Cost Entry [/api/v3/cost_entries/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "CostEntry",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/cost_entries/1"
+                    },
+                    "project": {
+                        "href": "/api/v3/projects/1"
+                    },
+                    "costType": {
+                        "href": "/api/v3/cost_types/1"
+                    },
+                    "user": {
+                        "href": "/api/v3/users/1"
+                    },
+                    "workPackage": {
+                        "href": "/api/v3/work_packages/1"
+                    }
+                },
+                "id": 1,
+                "spentUnits": 3.14,
+                "spentOn": "2015-03-31",
+                "createdAt": "2015-03-31T08:51:20Z",
+                "updatedAt": "2015-03-31T08:51:20Z"
+            }
+
+
+## view Cost Entry [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Cost Entry id
+
++ Response 200 (application/hal+json)
+
+    [Cost Entry][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view cost entries **or** view own cost entries (on cost entry's project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see this cost entry."
+            }
+
+## Cost Entries by work package [/api/v3/work_packages/{id}/cost_entries]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/work_packages/1/cost_entries"
+                    }
+                },
+                "total": 1,
+                "count": 1,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "CostEntry",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/cost_entries/1"
+                                },
+                                "project": {
+                                    "href": "/api/v3/projects/1"
+                                },
+                                "costType": {
+                                    "href": "/api/v3/cost_types/1"
+                                },
+                                "user": {
+                                    "href": "/api/v3/users/1"
+                                },
+                                "workPackage": {
+                                    "href": "/api/v3/work_packages/1"
+                                }
+                            },
+                            "id": 1,
+                            "spentUnits": 3.14,
+                            "spentOn": "2015-03-31",
+                            "createdAt": "2015-03-31T08:51:20Z",
+                            "updatedAt": "2015-03-31T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## list Cost Entries of a work package [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... work package id
+
++ Response 200 (application/hal+json)
+
+    [Cost Entries by work package][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view cost entries **or** view own cost entries (on work package's project)
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the cost entries of this work package."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work package
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a work package.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
+
+## Work package costs per type [/api/v3/work_packages/{id}/summarized_costs_by_type]
+
+Returns a list of `AggregatedCostEntry`, with one entry per spent cost type.
+The spent units of all cost entries visible to the current user are summed up for each entry.
+
+An `AggregatedCostEntry` is a stripped down variant of a normal `CostEntry` which only has the link to
+a `CostType` and the amount of `spentUnits`.
+
+*Note that this is a preliminary endpoint. It is subject to future changes or removal.*
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/work_packages/1/summarized_costs_by_type"
+                    }
+                },
+                "total": 1,
+                "count": 1,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "AggregatedCostEntry",
+                            "_links": {
+                                "costType": {
+                                    "href": "/api/v3/cost_types/1"
+                                }
+                            },
+                            "spentUnits": 31.4
+                        }
+                    ]
+                }
+            }
+
+## Show aggregated costs of a work package [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... work package id
+
++ Response 200 (application/hal+json)
+
+    [Work package costs per type][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view cost entries **or** view own cost entries (on work package's project)
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the cost entries of this work package."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work package
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a work package.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
+
+# Group Cost Types
+
+## Linked Properties:
+|  Link     | Description                                 | Type          | Constraints           | Supported operations |
+|:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
+| self      | This cost type                              | CostType      | not null              | READ                 |
+
+## Properties
+| Property    | Description                                 | Type        | Constraints | Supported operations | Condition                   |
+| :---------: | ------------------------------------------- | ----------- | ----------- | -------------------- | --------------------------- |
+| id          | cost type id                                | Integer     | x > 0       | READ                 |                             |
+| name        | cost type name                              | String      | not empty   | READ                 |                             |
+| unit        | The unit in which the costs are measured    | String      | not empty   | READ                 |                             |
+| unitPlural  | The pluralized form of the unit             | String      | not empty   | READ                 |                             |
+| isDefault   | `true` for the default type of new entries  | Boolean     | not null    | READ                 |                             |
+
+## Cost Type [/api/v3/cost_types/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "CostType",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/cost_types/1",
+                        "title": "Energy cost"
+                    }
+                },
+                "id": 1,
+                "name": "Energy cost",
+                "unit": "kWh",
+                "unitPlural": "kWh",
+                "isDefault": true
+            }
+
+
+## view Cost Type [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Cost Type id
+
++ Response 200 (application/hal+json)
+
+    [Cost Type][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view cost entries **or** view own cost entries (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see cost types."
+            }
+
+# Group Work Packages
+
+The following properties are only added to work packages in projects where the costs module is activated.
+If the costs module is not available on a given work package, there will be no additional properties.
+
+## Linked Properties:
+|  Link       | Description                                 | Type                              | Constraints           | Supported operations |
+|:-----------:|-------------------------------------------- | --------------------------------- | --------------------- | -------------------- |
+| costObject  | The budget associated to this work package  | Budget                            |                       | READ / WRITE         |
+| costsByType | List of accumulated costs per cost type     | Collection of AggregatedCostEntry |                       | READ / WRITE         |
+
+## Properties:
+|  Link        | Description                                                        | Type          | Constraints           | Supported operations |
+|:------------:|------------------------------------------------------------------- | ------------- | --------------------- | -------------------- |
+| overallCosts | The total amount of user visible costs logged on this work package | String        |                       | READ / WRITE         |
+
+`spentTime` has its visibility condition changed! It is now only visible when the client is either allowed to view time entries, or if
+he is allowed to see his own time entries in projects where the costs module is enabled.

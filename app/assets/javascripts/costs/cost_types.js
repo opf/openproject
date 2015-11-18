@@ -17,11 +17,13 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //++
 
-function submitForm(el) {
-  submitFormWithConfirmation(el, true);
+function submitForm(event, el) {
+  submitFormWithConfirmation(event, el, true);
 }
 
-function submitFormWithConfirmation(el, withConfirmation) {
+function submitFormWithConfirmation(event, el, withConfirmation) {
+  event.preventDefault();
+
   if (!withConfirmation || confirm(I18n.t("js.text_are_you_sure"))) {
     jQuery(el).parent().submit();
   }

@@ -18,8 +18,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 ++#%>
 
-<% if @project && @project.module_enabled?(:costs_module) %>
-  <div class="attribute_wrapper">
-    <%= form.select :cost_object_id, CostObject.find_all_by_project_id(@project, :order => 'subject ASC').collect { |d| [d.subject, d.id] }, :include_blank => true%>
-  </div>
-<% end %>
+<%= stylesheet_link_tag 'costs/costs.css' %>

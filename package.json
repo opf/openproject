@@ -1,0 +1,6 @@
+{
+  "name": "openproject-costs",
+  "version": "0.1.0",
+  "main": "frontend/app/openproject-costs-app.js",
+  "dependencies": {}
+}

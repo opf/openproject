@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <% html_title l(:label_administration), "#{l(:label_edit)} #{l((@project.nil? ? :caption_default_rate_history_for : :caption_rate_history_for), user: ' ')} #{@user.name}" %>
 
-<h2><%= @project.nil? ? l(:caption_default_rate_history_for, :user => @user.name) :  l(:caption_rate_history_for_project, :user => @user.name, :project => @project.name) %></h2>
+<%= toolbar title: (@project.nil? ? l(:caption_default_rate_history_for, :user => @user.name) :  l(:caption_rate_history_for_project, :user => @user.name, :project => @project.name) ) %>
 
 <%- default_rate = @user.current_default_rate -%>
 <% if default_rate%>
@@ -34,28 +34,55 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <% end -%>
 
 <%= labelled_tabular_form_for @user, :url => {:action => 'update', :project_id => @project}, :method => :put do |f| %>
-<%= back_url_hidden_field_tag %>
-<%= error_messages_for 'user' %>
-<%- @rates.each do |rate| -%>
-  <%- @rate = rate -%>
-  <%= error_messages_for 'rate' %>
-<%- end -%>
-<table class="list" style="width:auto">
-  <thead><tr>
-    <th><%= Rate.human_attribute_name(:valid_from) %></th>
-    <th class="currency"><%= Rate.model_name.human %></th>
-    <th></th>
-  </tr></thead>
-  <tbody id="rates_body">
-    <%- @rates.each_with_index do |rate, index| -%>
-      <%= render :partial => 'rate', :object => rate, :locals => {:index => index, :classes => cycle('odd', 'even')} %>
-    <%- end -%>
-  </tbody>
-</table>
-<div>
-<div>
-  <label class="hidden-for-sighted", for="add_rate_date" %>"><%= l(:description_date_for_new_rate) %></label>
-  <%= link_to_function l(:button_add_rate), "addRate($('add_rate_date'))", {:class => "icon icon-add"} %>
-</div>
-<div><%= submit_tag l(:button_save) %></div>
+  <%= back_url_hidden_field_tag %>
+  <%= error_messages_for 'user' %>
+  <%- @rates.each do |rate| -%>
+    <%- @rate = rate -%>
+    <%= error_messages_for 'rate' %>
+  <%- end -%>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table interactive-table role="grid" class="generic-table rates" width="200px">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Rate.human_attribute_name(:valid_from) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th class="currency">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Rate.model_name.human %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="rates_body">
+          <%- @rates.each_with_index do |rate, index| -%>
+            <%= render :partial => 'rate', :object => rate, :locals => {:index => index} %>
+          <%- end -%>
+        </tbody>
+      </table>
+      <div class="generic-table--header-background"></div>
+    </div>
+  </div>
+  <div class="generic-table--action-buttons">
+    <label class="hidden-for-sighted" for="add_rate_date" %>"><%= l(:description_date_for_new_rate) %></label>
+    <%= link_to_function l(:button_add_rate), "addRate($('add_rate_date'))", {class: "button -alt-highlight -with-icon icon-add"} %>
+    <%= styled_button_tag l(:button_save), class: '-with-icon icon-yes' %>
+  </div>
 <% end %>

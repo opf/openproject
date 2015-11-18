@@ -25,10 +25,8 @@ module OpenProject::Costs::Patches::WorkPackagePatch
 
     # Same as typing in the class
     base.class_eval do
-      unloadable
-
-      belongs_to :cost_object, :inverse_of => :work_packages
-      has_many :cost_entries, :dependent => :delete_all
+      belongs_to :cost_object, inverse_of: :work_packages
+      has_many :cost_entries, dependent: :delete_all
 
       # disabled for now, implements part of ticket blocking
       validate :validate_cost_object
@@ -43,23 +41,18 @@ module OpenProject::Costs::Patches::WorkPackagePatch
 
       register_on_journal_formatter(:cost_association, 'cost_object_id')
 
-      def spent_hours
-        # overwritten method
-        @spent_hours ||= self.time_entries.visible(User.current).sum(:hours) || 0
-      end
-
       associated_to_ask_before_destruction CostEntry,
                                            ->(work_packages) { CostEntry.on_work_packages(work_packages).count > 0 },
-                                          self.method(:cleanup_cost_entries_before_destruction_of)
+                                           method(:cleanup_cost_entries_before_destruction_of)
     end
-
   end
 
   module ClassMethods
-
     protected
 
-    def cleanup_cost_entries_before_destruction_of(work_packages, user, to_do = { :action => 'destroy'} )
+    def cleanup_cost_entries_before_destruction_of(work_packages, user, to_do = { action: 'destroy' })
+      work_packages = Array(work_packages)
+
       return false unless to_do.present?
 
       case to_do[:action]
@@ -67,24 +60,26 @@ module OpenProject::Costs::Patches::WorkPackagePatch
         true
         # nothing to do
       when 'nullify'
-        Array(work_packages).each do |wp|
+        work_packages.each do |wp|
           wp.errors.add(:base, :nullify_is_not_valid_for_cost_entries)
         end
 
         false
       when 'reassign'
-        reassign_to = WorkPackage.includes(:project)
-                                 .where(Project.allowed_to_condition(user, :edit_cost_entries))
-                                 .find_by_id(to_do[:reassign_to_id])
+        reassign_to = WorkPackage
+                      .where(Project.allowed_to_condition(user, :edit_cost_entries))
+                      .includes(:project)
+                      .references(:projects)
+                      .find_by_id(to_do[:reassign_to_id])
 
         if reassign_to.nil?
-          Array(work_packages).each do |wp|
+          work_packages.each do |wp|
             wp.errors.add(:base, :is_not_a_valid_target_for_cost_entries, id: to_do[:reassign_to_id])
           end
 
           false
         else
-          WorkPackage.update_cost_entries(work_packages, "work_package_id = #{reassign_to.id}, project_id = #{reassign_to.project_id}")
+          WorkPackage.update_cost_entries(work_packages.map(&:id), "work_package_id = #{reassign_to.id}, project_id = #{reassign_to.project_id}")
         end
       else
         false
@@ -94,33 +89,29 @@ module OpenProject::Costs::Patches::WorkPackagePatch
     protected
 
     def update_cost_entries(work_packages, action)
-      CostEntry.update_all(action, ['work_package_id IN (?)', work_packages])
+      CostEntry.where(work_package_id: work_packages).update_all(action)
     end
   end
 
   module InstanceMethods
+    def costs_enabled?
+      project && project.costs_enabled?
+    end
+
     def validate_cost_object
-      if cost_object && cost_object.changed?
-        unless (cost_object.blank? || project.cost_object_ids.include?(cost_object.id))
-          errors.add :cost_object, :invalid
+      if cost_object_id_changed?
+        unless cost_object_id.blank? || project.cost_object_ids.include?(cost_object_id)
+          errors.add :cost_object, :inclusion
         end
       end
     end
 
     def material_costs
-      @material_costs ||= cost_entries.visible_costs(User.current, self.project).sum("CASE
-        WHEN #{CostEntry.table_name}.overridden_costs IS NULL THEN
-          #{CostEntry.table_name}.costs
-        ELSE
-          #{CostEntry.table_name}.overridden_costs END").to_f
+      CostEntry.costs_of(work_packages: self)
     end
 
     def labor_costs
-      @labor_costs ||= time_entries.visible_costs(User.current, self.project).sum("CASE
-        WHEN #{TimeEntry.table_name}.overridden_costs IS NULL THEN
-          #{TimeEntry.table_name}.costs
-        ELSE
-          #{TimeEntry.table_name}.overridden_costs END").to_f
+      TimeEntry.costs_of(work_packages: self)
     end
 
     def overall_costs
@@ -130,8 +121,8 @@ module OpenProject::Costs::Patches::WorkPackagePatch
     # Wraps the association to get the Cost Object subject.  Needed for the
     # Query and filtering
     def cost_object_subject
-      unless self.cost_object.nil?
-        return self.cost_object.subject
+      unless cost_object.nil?
+        return cost_object.subject
       end
     end
 
@@ -142,4 +133,4 @@ module OpenProject::Costs::Patches::WorkPackagePatch
   end
 end
 
-WorkPackage::SAFE_ATTRIBUTES << "cost_object_id" if WorkPackage.const_defined? "SAFE_ATTRIBUTES"
+WorkPackage::SAFE_ATTRIBUTES << 'cost_object_id' if WorkPackage.const_defined? 'SAFE_ATTRIBUTES'

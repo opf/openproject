@@ -19,27 +19,73 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ++#%>
 
 <div class="contextual">
-<%= link_to l(:button_update), edit_hourly_rate_path(@user), :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
+  <%= link_to l(:button_update), edit_hourly_rate_path(@user), :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
 </div>
 <h3><%= User.human_attribute_name(:default_rates) %></h3>
 <% if @rates_default.blank? %>
-<p class="nodata"><%= l(:label_no_data) %></p>
+  <div class="generic-table--container">
+        <div class="generic-table--no-results-container">
+          <h2 class="generic-table--no-results-title">
+            <i class="icon-info"></i>
+            <%= l(:label_nothing_display) %>
+          </h2>
+          <div class="generic-table--no-results-description">
+            <p class="nodata"><%= l(:label_no_data) %></p>
+          </div>
+        </div>
+      </div>
 <% else %>
-<table class="list rates">
-  <thead><tr>
-    <th><%= Rate.human_attribute_name(:valid_from) %></th>
-    <th class="currency"><%= Rate.model_name.human %></th>
-    <th><%= User.human_attribute_name(:current_rate) %></th>
-  </tr></thead>
-  <tbody id="rates_body">
-  <% current_rate = @user.current_default_rate() %>
-  <%- @rates_default.each do |rate| -%>
-    <tr class="<%= cycle('odd', 'even') %>">
-      <td style="padding-right: 1em;"><%= rate.valid_from %></td>
-      <td class="currency"><%= number_to_currency(rate.rate) %></td>
-      <td><%= rate == current_rate ? icon_wrapper('icon-context icon-yes',I18n.t(:general_text_Yes)) : "" %></td>
-    </tr>
-  <%- end -%>
-  </tbody>
-</table>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table interactive-table role="grid" class="generic-table rates">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Rate.human_attribute_name(:valid_from) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th class="currency">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Rate.model_name.human %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= User.human_attribute_name(:current_rate) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="rates_body">
+        <% current_rate = @user.current_default_rate() %>
+        <%- @rates_default.each do |rate| -%>
+          <tr>
+            <td style="padding-right: 1em;"><%= rate.valid_from %></td>
+            <td class="currency"><%= number_to_currency(rate.rate) %></td>
+            <td><%= rate == current_rate ? icon_wrapper('icon-context icon-yes',I18n.t(:general_text_Yes)) : "" %></td>
+          </tr>
+        <%- end -%>
+        </tbody>
+      </table>
+      <div class="generic-table--header-background"></div>
+    </div>
+  </div>
 <% end %>

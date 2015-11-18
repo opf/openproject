@@ -21,19 +21,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <%= render :partial => 'shared/costs_header' %>
 
 <% html_title(l(:label_cost_object_new)) %>
-
-<h2><%=l(:label_cost_object_new)%></h2>
+<%= toolbar title: l(:label_cost_object_new) %>
 
 <%= labelled_tabular_form_for @cost_object,
                               :url => projects_cost_objects_path(@project),
                               :as => :cost_object,
                               :html => {:multipart => true, :id => 'cost_object_form'} do |f| %>
     <%= error_messages_for 'cost_object' %>
-    <div class="box">
     <%= render :partial => 'form', :locals => {:f => f} %>
-    </div>
-    <%= submit_tag l(:button_create) %>
-    <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+    <%= styled_button_tag l(:button_create), class: '-with-icon icon-yes' %>
+    <%= styled_button_tag l(:button_create_and_continue), :name => 'continue',
+          class: 'button -highlight'%>
 
     <%= javascript_tag "Form.Element.focus('cost_object_subject');" %>
 <% end %>

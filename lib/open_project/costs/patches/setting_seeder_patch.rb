@@ -17,19 +17,20 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-module OpenProject::Costs::Patches::VersionPatch
+module OpenProject::Costs::Patches::SettingSeederPatch
   def self.included(base) # :nodoc:
-    base.send(:include, InstanceMethods)
-
-    base.class_eval do
-      alias_method_chain :spent_hours, :inheritance
-    end
+    base.prepend InstanceMethods
   end
 
   module InstanceMethods
-    def spent_hours_with_inheritance
-      # overwritten method
-      @spent_hours ||= TimeEntry.visible.sum(:hours, :include => :work_package, :conditions => ["#{WorkPackage.table_name}.fixed_version_id = ?", id]).to_f
+    def data
+      original_data = super
+
+      unless original_data['default_projects_modules'].include? 'costs_module'
+        original_data['default_projects_modules'] << 'costs_module'
+      end
+
+      original_data
     end
   end
 end

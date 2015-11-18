@@ -19,8 +19,8 @@
 
 class CostType < ActiveRecord::Base
   has_many :material_budget_items
-  has_many :cost_entries, :dependent => :destroy
-  has_many :rates, :class_name => "CostRate", :foreign_key => "cost_type_id", :dependent => :destroy
+  has_many :cost_entries, dependent: :destroy
+  has_many :rates, class_name: 'CostRate', foreign_key: 'cost_type_id', dependent: :destroy
 
   validates_presence_of :name, :unit, :unit_plural
   validates_uniqueness_of :name
@@ -29,19 +29,15 @@ class CostType < ActiveRecord::Base
 
   include ActiveModel::ForbiddenAttributesProtection
 
-  scope :active, :conditions => { :deleted_at => nil }
+  scope :active, -> { where(deleted_at: nil) }
 
   # finds the default CostType
   def self.default
-    result = CostType.find(:first, :conditions => { :default => true})
-    result ||= CostType.find(:first)
-    result
-  rescue ActiveRecord::RecordNotFound
-    nil
+    CostType.find_by(default: true) || CostType.first
   end
 
   def is_default?
-    self.default
+    default
   end
 
   def <=>(cost_type)
@@ -53,9 +49,13 @@ class CostType < ActiveRecord::Base
   end
 
   def rate_at(date)
-    CostRate.find(:first, :conditions => [ "cost_type_id = ? and valid_from <= ?", id, date], :order => "valid_from DESC")
-  rescue ActiveRecord::RecordNotFound
-    return nil
+    CostRate.where(['cost_type_id = ? and valid_from <= ?', id, date])
+            .order('valid_from DESC')
+            .first
+  end
+
+  def visible?(user)
+    user.admin?
   end
 
   def to_s
@@ -63,7 +63,7 @@ class CostType < ActiveRecord::Base
   end
 
   def new_rate_attributes=(rate_attributes)
-    rate_attributes.each do |index, attributes|
+    rate_attributes.each do |_index, attributes|
       attributes[:rate] = Rate.clean_currency(attributes[:rate])
       rates.build(attributes)
     end
@@ -88,10 +88,6 @@ class CostType < ActiveRecord::Base
   end
 
   def save_rates
-    rates.each do |rate|
-      rate.save!
-    end
+    rates.each(&:save!)
   end
-
-
 end

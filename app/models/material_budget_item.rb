@@ -18,12 +18,10 @@
 #++
 
 class MaterialBudgetItem < ActiveRecord::Base
-  unloadable
-
   belongs_to :cost_object
   belongs_to :cost_type
 
-  validates_length_of :comments, :maximum => 255, :allow_nil => true
+  validates_length_of :comments, maximum: 255, allow_nil: true
   validates_presence_of :cost_type
 
   include ActiveModel::ForbiddenAttributesProtection
@@ -31,17 +29,17 @@ class MaterialBudgetItem < ActiveRecord::Base
   def self.visible_condition(user, project)
     Project.allowed_to_condition(user,
                                  :view_cost_rates,
-                                 :project => project)
+                                 project: project)
   end
 
-  scope :visible_costs, lambda{|*args|
-    { :include => [{:cost_object => :project}],
-      :conditions => MaterialBudgetItem.visible_condition((args.first || User.current), args[1])
-    }
+  scope :visible_costs, lambda { |*args|
+    where(MaterialBudgetItem.visible_condition((args.first || User.current), args[1]))
+      .includes(cost_object: :project)
+      .references(:projects)
   }
 
   def costs
-    self.budget || self.calculated_costs
+    budget || calculated_costs
   end
 
   def calculated_costs(fixed_date = cost_object.fixed_date)

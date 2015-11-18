@@ -3,25 +3,21 @@ OpenProject Costs Plugin
 
 This Plugin adds features for planning and tracking costs of projects. Budgets can be created containing the planned unit costs and labor costs. The actual costs can be assigned to the different work packages and planned and actual costs can be compared.
 
-A more detailed description can be found on [OpenProject.org](https://www.openproject.org/projects/openproject/wiki/Time_and_Cost).
+A more detailed description can be found on [OpenProject.org](https://community.openproject.org/projects/openproject/wiki/Time_and_Cost).
 
 
 Requirements
 ------------
 
-The OpenProject Costs plug-in requires the [OpenProject Core](https://github.com/opf/openproject/) in version greater or equal to *3.0.0*.
+The OpenProject Costs plug-in requires the [OpenProject Core](https://github.com/opf/openproject/) in the same version.
 
 
 Installation
 ------------
 
-OpenProject Costs depends on OpenProject Plugins. Thus, if you haven't done it already, add the following line to the `Gemfile.plugins` in your OpenProject installation:
+For OpenProject Costs itself you need to add the following line to the `Gemfile.plugins` of OpenProject (if you use a different OpenProject version than OpenProject 4.1, adapt `:branch => "stable/4.1"` to your OpenProject version):
 
-`gem "openproject-plugins", git: "https://github.com/opf/openproject-plugins.git", :branch => "stable"`
-
-For OpenProject Costs itself you need to add the following line to the `Gemfile.plugins` of OpenProject:
-
-`gem "openproject-costs", git: "https://github.com/finnlabs/openproject-costs.git", :branch => "stable"`
+`gem "openproject-costs", git: "https://github.com/finnlabs/openproject-costs.git", :branch => "stable/4.1"`
 
 Afterwards, run:
 
@@ -37,7 +33,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-costs", git: "https://github.com/finnlabs/openproject-costs.git"`, :branch => "stable"`
+`gem "openproject-costs", git: "https://github.com/finnlabs/openproject-costs.git", :branch => "stable/4.1"`
 
 from the file `Gemfile.plugins` and run:
 

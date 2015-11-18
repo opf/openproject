@@ -21,8 +21,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <%= render :partial => 'shared/costs_header' %>
 
 <% html_title(l(:label_cost_object_plural)) %>
-
-<h2><%=l(:label_cost_object_plural)%></h2>
+<%= toolbar title: l(:label_cost_object_plural) do %>
+  <% if authorize_for(:cost_objects, :new) %>
+    <a href="<%= new_projects_cost_object_path(@project) %>" id="add-budget-button" title="Add budget" class="button -alt-highlight">
+      <i class="button--icon icon-add"></i>
+      <span class="button--text"><%= I18n.t(:button_add_cost_object) %></span>
+    </a>
+  <% end %>
+<% end %>
 
 <% if @cost_objects.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>

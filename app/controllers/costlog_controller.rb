@@ -18,18 +18,16 @@
 #++
 
 class CostlogController < ApplicationController
-  unloadable
-
   menu_item :work_packages
-  before_filter :find_project, :authorize, :only => [:edit,
-                                                     :new,
-                                                     :create,
-                                                     :update,
-                                                     :destroy]
-  before_filter :find_associated_objects, :only => [:create,
-                                                    :update]
-  before_filter :find_optional_project, :only => [:report,
-                                                  :index]
+  before_filter :find_project, :authorize, only: [:edit,
+                                                  :new,
+                                                  :create,
+                                                  :update,
+                                                  :destroy]
+  before_filter :find_associated_objects, only: [:create,
+                                                 :update]
+  before_filter :find_optional_project, only: [:report,
+                                               :index]
 
   helper :sort
   include SortHelper
@@ -53,14 +51,12 @@ class CostlogController < ApplicationController
     elsif @work_package.nil?
       cond << @project.project_condition(Setting.display_subprojects_work_packages?)
     else
-      root_cond = "#{WorkPackage.table_name}.root_id #{(@work_package.root_id.nil?) ? "IS NULL" : "= #{@work_package.root_id}"}"
+      root_cond = "#{WorkPackage.table_name}.root_id #{(@work_package.root_id.nil?) ? 'IS NULL' : "= #{@work_package.root_id}"}"
       cond << "#{root_cond} AND #{WorkPackage.table_name}.lft >= #{@work_package.lft} AND #{WorkPackage.table_name}.rgt <= #{@work_package.rgt}"
     end
 
-    cond << Project.allowed_to_condition(User.current, :view_cost_entries, :project => @project)
-
     if @cost_type
-      cond << ["#{CostEntry.table_name}.cost_type_id = ?", @cost_type.id ]
+      cond << ["#{CostEntry.table_name}.cost_type_id = ?", @cost_type.id]
     end
 
     retrieve_date_range
@@ -68,13 +64,14 @@ class CostlogController < ApplicationController
 
     respond_to do |format|
       format.html {
-        @entries = CostEntry.includes(:project, :cost_type, :user, {:work_package => :type})
-                            .where(cond.conditions)
-                            .order(sort_clause)
-                            .page(page_param)
-                            .per_page(per_page_param)
+        @entries = CostEntry.includes(:project, :cost_type, :user, work_package: :type)
+                   .merge(Project.allowed_to(User.current, :view_cost_entries, project: @project))
+                   .where(cond.conditions)
+                   .order(sort_clause)
+                   .page(page_param)
+                   .per_page(per_page_param)
 
-        render :layout => !request.xhr?
+        render layout: !request.xhr?
       }
     end
   end
@@ -82,7 +79,7 @@ class CostlogController < ApplicationController
   def new
     new_default_cost_entry
 
-    render :action => 'edit'
+    render action: 'edit'
   end
 
   def edit
@@ -99,11 +96,11 @@ class CostlogController < ApplicationController
 
     elsif @cost_entry.save
 
-      flash[:notice] = l(:notice_successful_create)
-      redirect_back_or_default :action => 'index', :project_id => @cost_entry.project
+      flash[:notice] = l(:notice_cost_logged_successfully)
+      redirect_back_or_default action: 'index', project_id: @cost_entry.project
 
     else
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 
@@ -117,14 +114,14 @@ class CostlogController < ApplicationController
     elsif @cost_entry.save
 
       flash[:notice] = l(:notice_successful_update)
-      redirect_back_or_default :action => 'index', :project_id => @cost_entry.project
+      redirect_back_or_default action: 'index', project_id: @cost_entry.project
 
     else
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 
-  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
+  verify method: :delete, only: :destroy, render: { nothing: true, status: :method_not_allowed }
   def destroy
     render_404 and return unless @cost_entry
     render_403 and return unless @cost_entry.editable_by?(User.current)
@@ -132,23 +129,24 @@ class CostlogController < ApplicationController
     flash[:notice] = l(:notice_successful_delete)
 
     if request.referer =~ /cost_reports/
-      redirect_to :controller => '/cost_reports', :action => :index
+      redirect_to controller: '/cost_reports', action: :index
     else
       redirect_to :back
     end
   rescue ::ActionController::RedirectBackError
-    redirect_to :action => 'index', :project_id => @cost_entry.project
+    redirect_to action: 'index', project_id: @cost_entry.project
   end
 
   def get_cost_type_unit_plural
     @cost_type = CostType.find(params[:cost_type_id]) unless params[:cost_type_id].empty?
 
     if request.xhr?
-      render :partial => "cost_type_unit_plural", :layout => false
+      render partial: 'cost_type_unit_plural', layout: false
     end
   end
 
-private
+  private
+
   def find_project
     # copied from timelog_controller.rb
     if params[:id]
@@ -187,17 +185,17 @@ private
   end
 
   def find_associated_objects
-    user_id = params[:cost_entry].delete(:user_id)
+    user_id = cost_entry_params.delete(:user_id)
     @user = @cost_entry.present? && @cost_entry.user_id == user_id ?
               @cost_entry.user :
               User.find_by_id(user_id)
 
-    work_package_id = params[:cost_entry].delete(:work_package_id)
+    work_package_id = cost_entry_params.delete(:work_package_id)
     @work_package = @cost_entry.present? && @cost_entry.work_package_id == work_package_id ?
                @cost_entry.work_package :
                WorkPackage.find_by_id(work_package_id)
 
-    cost_type_id = params[:cost_entry].delete(:cost_type_id)
+    cost_type_id = cost_entry_params.delete(:cost_type_id)
     @cost_type = @cost_entry.present? && @cost_entry.cost_type_id == cost_type_id ?
                    @cost_entry.cost_type :
                    CostType.find_by_id(cost_type_id)
@@ -206,7 +204,8 @@ private
   def retrieve_date_range
     # Mostly copied from timelog_controller.rb
     @free_period = false
-    @from, @to = nil, nil
+    @from = nil
+    @to = nil
 
     if params[:period_type] == '1' || (params[:period_type].nil? && !params[:period].nil?)
       case params[:period].to_s
@@ -215,10 +214,10 @@ private
       when 'yesterday'
         @from = @to = Date.today - 1
       when 'current_week'
-        @from = Date.today - (Date.today.cwday - 1)%7
+        @from = Date.today - (Date.today.cwday - 1) % 7
         @to = @from + 6
       when 'last_week'
-        @from = Date.today - 7 - (Date.today.cwday - 1)%7
+        @from = Date.today - 7 - (Date.today.cwday - 1) % 7
         @to = @from + 6
       when '7_days'
         @from = Date.today - 7
@@ -240,13 +239,16 @@ private
       begin; @from = params[:from].to_s.to_date unless params[:from].blank?; rescue; end
       begin; @to = params[:to].to_s.to_date unless params[:to].blank?; rescue; end
       @free_period = true
-    else
       # default
     end
 
     @from, @to = @to, @from if @from && @to && @from > @to
-    @from ||= (CostEntry.minimum(:spent_on, :include => [:project, :user], :conditions => Project.allowed_to_condition(User.current, :view_cost_entries)) || Date.today) - 1
-    @to   ||= (CostEntry.maximum(:spent_on, :include => [:project, :user], :conditions => Project.allowed_to_condition(User.current, :view_cost_entries)) || Date.today)
+    @from ||= (CostEntry.includes([:project, :user])
+              .where(Project.allowed_to_condition(User.current, :view_cost_entries))
+              .minimum(:spent_on) || Date.today) - 1
+    @to ||= (CostEntry.includes([:project, :user])
+            .where(Project.allowed_to_condition(User.current, :view_cost_entries))
+            .maximum(:spent_on) || Date.today)
   end
 
   def new_default_cost_entry
@@ -265,5 +267,11 @@ private
     @cost_entry.cost_type = @cost_type
 
     @cost_entry.attributes = permitted_params.cost_entry
+  end
+
+private
+  def cost_entry_params
+    params.require(:cost_entry).permit(:work_package_id, :spent_on, :user_id,
+                                       :cost_type_id, :units, :comments)
   end
 end
