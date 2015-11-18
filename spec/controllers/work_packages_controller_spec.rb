@@ -63,8 +63,7 @@ describe WorkPackagesController, type: :controller do
     describe 'w/ the permission to see the project
               w/ having the necessary permissions' do
       before do
-        allow(controller).to receive(:work_package).and_return(stub_work_package)
-        expect(controller).to receive(:authorize).and_return(true)
+        expect(WorkPackage).to receive_message_chain('visible.find_by').and_return(stub_work_package)
       end
 
       instance_eval(&block)
@@ -350,87 +349,4 @@ describe WorkPackagesController, type: :controller do
       end
     end
   end
-
-  describe '#work_package' do
-    describe 'when providing an id (wanting to see an existing wp)' do
-      describe 'when beeing allowed to see the work_package' do
-        become_member_with_view_planning_element_permissions
-
-        it 'should return the work_package' do
-          controller.params = { id: planning_element.id }
-
-          expect(controller.work_package).to eq(planning_element)
-        end
-
-        it 'should return nil for non existing work_packages' do
-          controller.params = { id: 0 }
-
-          expect(controller.work_package).to be_nil
-        end
-      end
-
-      describe 'when not beeing allowed to see the work_package' do
-        it 'should return nil' do
-          controller.params = { id: planning_element.id }
-
-          expect(controller.work_package).to be_nil
-        end
-      end
-    end
-
-    describe 'when providing a project_id (wanting to build a new wp)' do
-      let(:wp_params) { { wp_attribute: double('wp_attribute') } }
-      let(:params) { { project_id: stub_project.id } }
-
-      before do
-        allow(Project).to receive(:find_visible).and_return stub_project
-      end
-
-      describe 'if the project is not visible for the current_user' do
-        before do
-          projects = [stub_project]
-          allow(Project).to receive(:visible).and_return projects
-          allow(projects).to receive(:find_by).and_return(stub_project)
-        end
-
-        it 'should return nil' do
-          expect(controller.work_package).to be_nil
-        end
-      end
-    end
-
-    describe 'when providing neither id nor project_id (error)' do
-      it 'should return nil' do
-        controller.params = {}
-
-        expect(controller.work_package).to be_nil
-      end
-    end
-  end
-
-  describe '#project' do
-    it "should be the work_packages's project" do
-      allow(controller).to receive(:work_package).and_return(planning_element)
-
-      expect(controller.project).to eq(planning_element.project)
-    end
-  end
-
-  describe '#time_entry' do
-    before do
-      allow(controller).to receive(:work_package).and_return(stub_planning_element)
-    end
-
-    it 'should return a time entry' do
-      expected = double('time_entry')
-
-      allow(stub_planning_element).to receive(:add_time_entry).and_return(expected)
-
-      expect(controller.time_entry).to eq(expected)
-    end
-  end
-
-  let(:filename) { 'testfile.txt' }
-  let(:file) { File.open(Rails.root.join('spec/fixtures/files', filename)) }
-  let(:uploaded_file) { ActionDispatch::Http::UploadedFile.new(tempfile: file, type: 'text/plain', filename: filename) }
 end

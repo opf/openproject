@@ -50,9 +50,7 @@ class WorkPackagesController < ApplicationController
   accept_key_auth :index, :show
 
   # before_filter :disable_api # TODO re-enable once API is used for any JSON request
-  before_filter :not_found_unless_work_package,
-                :project,
-                :authorize, only: :show
+  before_filter :authorize_on_work_package, only: :show
   before_filter :find_optional_project,
                 :protect_from_unauthorized_export,
                 :load_query, only: :index
@@ -61,7 +59,7 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         gon.settings = client_preferences
-        gon.settings[:enabled_modules] = @project ? @project.enabled_modules.collect(&:name) : []
+        gon.settings[:enabled_modules] = project ? project.enabled_modules.collect(&:name) : []
 
         render :show, locals: { work_package: work_package }, layout: 'angular'
       end
@@ -82,14 +80,6 @@ class WorkPackagesController < ApplicationController
                          journals: journals }
       end
     end
-  end
-
-  def journals
-    @journals ||= work_package.journals.changing
-                  .includes(:user)
-                  .order("#{Journal.table_name}.created_at ASC").to_a
-    @journals.reverse_order if current_user.wants_comments_in_reverse_order?
-    @journals
   end
 
   def index
@@ -134,47 +124,9 @@ class WorkPackagesController < ApplicationController
     render_404
   end
 
-  def project
-    @project ||= work_package.project
-  end
-
-  def time_entry
-    attributes = {}
-    permitted = {}
-
-    if params[:work_package]
-      permitted = permitted_params.update_work_package(project: project)
-    end
-
-    if permitted.has_key?('time_entry')
-      attributes = permitted['time_entry']
-    end
-
-    work_package.add_time_entry(attributes)
-  end
-
-  def work_package
-    if params[:id]
-      existing_work_package
-    end
-  end
-
   protected
 
-  def load_query
-    @query ||= retrieve_query
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
-  def existing_work_package
-    @existing_work_package ||= begin
-      wp = WorkPackage.includes(:project).find_by(id: params[:id])
-      wp && wp.visible?(current_user) ? wp : nil
-    end
-  end
-
-  def not_found_unless_work_package
+  def authorize_on_work_package
     deny_access unless work_package
   end
 
@@ -187,8 +139,10 @@ class WorkPackagesController < ApplicationController
     end
   end
 
-  def send_notifications?
-    params[:send_notification] != '0'
+  def load_query
+    @query ||= retrieve_query
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def per_page_param
@@ -200,6 +154,22 @@ class WorkPackagesController < ApplicationController
     else
       super
     end
+  end
+
+  def project
+    @project ||= work_package.project
+  end
+
+  def work_package
+    @work_package ||= WorkPackage.visible(current_user).find_by(id: params[:id])
+  end
+
+  def journals
+    @journals ||= work_package.journals.changing
+                  .includes(:user)
+                  .order("#{Journal.table_name}.created_at ASC").to_a
+    @journals.reverse_order if current_user.wants_comments_in_reverse_order?
+    @journals
   end
 
   private
