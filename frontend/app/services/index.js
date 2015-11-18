@@ -53,7 +53,7 @@ angular.module('openproject.services')
     './pagination-service')])
   .service('PriorityService', ['$http', 'PathHelper', require(
     './priority-service')])
-  .service('ProjectService', ['$http', 'PathHelper', 'FiltersHelper', require(
+  .service('ProjectService', ['$http', 'PathHelper', 'FiltersHelper', 'HALAPIResource', require(
     './project-service')])
   .service('QueryService', [
     'Query',
