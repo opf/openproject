@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </p>
   </div>
 </div>
-<% else %>
+<% elsif @instructions.supported_but_not_enabled? %>
 <div class="notification-box -warning">
   <a title="{{ ::I18n.t('js.close_popup_title') }}"
      class="notification-box--close icon-context icon-close">
