@@ -98,7 +98,7 @@ function InplaceEditorDisplayPaneController($scope, HookService) {
   // refactor to a service method the whole extraction
   this.getDynamicDirectiveName = function() {
     return HookService.call('workPackageOverviewAttributes', {
-      type: field.resource.schema.props[field.name].type,
+      type: field.getSchema(field.resource).props[field.name].type,
       field: field.name,
       workPackage: field.resource
     })[0];
