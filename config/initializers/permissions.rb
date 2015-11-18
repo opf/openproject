@@ -270,6 +270,12 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :repository do |repo|
+    repo.permission :view_changesets,
+                    repositories: [:show, :revisions, :revision]
+
+    repo.permission :commit_access,
+                    {}
+
     repo.permission :manage_repository,
                     { repositories: [:edit, :create, :update, :committers,
                                      :destroy_info, :destroy] },
@@ -278,12 +284,6 @@ Redmine::AccessControl.map do |map|
     repo.permission :browse_repository,
                     repositories: [:show, :browse, :entry, :annotate,
                                    :changes, :diff, :stats, :graph]
-
-    repo.permission :view_changesets,
-                    repositories: [:show, :revisions, :revision]
-
-    repo.permission :commit_access,
-                    {}
 
     repo.permission :view_commit_author_statistics,
                     {}
