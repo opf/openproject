@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,14 +24,14 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
 /*jshint expr: true*/
 
-describe('DetailsTabWatchersController', function() {
+describe('WatchersTabController', function() {
   'use strict';
 
-  beforeEach(module('openproject'));
+  beforeEach(angular.mock.module('openproject.workPackages.controllers'));
 
   var $controller, $rootScope;
   beforeEach(inject(['$controller', '$rootScope', function(ctrl, root) {
@@ -61,7 +61,7 @@ describe('DetailsTabWatchersController', function() {
         };
 
     locals.$scope.workPackage = workPackage;
-    expect($controller('DetailsTabWatchersController', locals)).to.exist;
+    expect($controller('WatchersTabController', locals)).to.exist;
   });
 
   it('should not work without a work workPackage', function() {
@@ -70,7 +70,7 @@ describe('DetailsTabWatchersController', function() {
     };
 
     expect(function() {
-      $controller('DetailsTabWatchersController', locals);
+      $controller('WatchersTabController', locals);
     }).to.throw;
   });
 });

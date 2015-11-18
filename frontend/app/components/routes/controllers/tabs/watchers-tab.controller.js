@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,16 +24,18 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function(scope, I18n, WatchersService) {
-  'use strict';
+angular
+  .module('openproject.workPackages.controllers')
+  .controller('WatchersTabController', WatchersTabController);
 
+function WatchersTabController($scope, WatchersService) {
   var vm = this,
       fetchWatchers = function(loading) {
         vm.error = false;
         vm.loading = angular.isUndefined(loading) ? true : false;
-        WatchersService.forWorkPackage(scope.workPackage).then(function(users) {
+        WatchersService.forWorkPackage($scope.workPackage).then(function(users) {
           vm.watching = users.watching;
           vm.available = users.available;
         }, function() {
@@ -51,9 +53,9 @@ module.exports = function(scope, I18n, WatchersService) {
         add(watcher, vm.watching);
         remove(watcher, vm.available);
         WatchersService
-          .addForWorkPackage(scope.workPackage, watcher)
+          .addForWorkPackage($scope.workPackage, watcher)
           .then(function(watcher) {
-            scope.$broadcast('watchers.add.finished', watcher);
+            $scope.$broadcast('watchers.add.finished', watcher);
           })
           .finally(function() {
             delete watcher.loading;
@@ -62,7 +64,7 @@ module.exports = function(scope, I18n, WatchersService) {
       removeWatcher = function(event, watcher) {
         event.stopPropagation();
         WatchersService
-          .removeFromWorkPackage(scope.workPackage, watcher)
+          .removeFromWorkPackage($scope.workPackage, watcher)
           .then(function(watcher) {
             remove(watcher, vm.watching);
             add(watcher, vm.available);
@@ -92,6 +94,6 @@ module.exports = function(scope, I18n, WatchersService) {
   vm.I18n = I18n;
   fetchWatchers();
 
-  scope.$on('watchers.add', addWatcher);
-  scope.$on('watchers.remove', removeWatcher);
-};
+  $scope.$on('watchers.add', addWatcher);
+  $scope.$on('watchers.remove', removeWatcher);
+}
