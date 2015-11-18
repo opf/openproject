@@ -53,7 +53,9 @@ module WatchersHelper
       l(:button_unwatch) :
       l(:button_watch)
 
-    link_to(label, path, html_options.merge(remote: true, method: method))
+    content_tag :div, class: 'button' do
+      link_to(label, path, html_options.merge(remote: true, method: method))
+    end
   end
 
   # Returns HTML for a list of users watching the given object
