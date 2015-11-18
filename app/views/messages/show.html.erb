@@ -62,9 +62,9 @@ See doc/COPYRIGHT.rdoc for more details.
   </li>
 <% end %>
 
-<div class="top-page">
+<div class="top-page messages-wrapper">
+  <h2 class="message-title" title="<%= h @topic.subject %>"><%= avatar(@topic.author) %><%=h @topic.subject %></h2>
   <%= render partial: 'layouts/action_menu_specific' %>
-  <h2 title="<%= h @topic.subject %>"><%= avatar(@topic.author) %><%=h @topic.subject %></h2>
 </div>
 <div class="message">
   <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
