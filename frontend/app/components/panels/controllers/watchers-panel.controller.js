@@ -31,64 +31,72 @@ angular
   .controller('WatchersPanelController', WatchersPanelController);
 
 function WatchersPanelController($scope, WatchersService) {
-  var vm = this,
-      fetchWatchers = function(loading) {
-        vm.error = false;
-        vm.loading = angular.isUndefined(loading) ? true : false;
-        WatchersService.forWorkPackage(vm.workPackage).then(function(users) {
-          vm.watching = users.watching;
-          vm.available = users.available;
-        }, function() {
-          vm.watchers = [];
-          vm.available = [];
-          vm.error = true;
-        }).finally(function() {
-          vm.loading = false;
-        });
-      },
-      addWatcher = function(event, watcher) {
-        // last stop for this one
-        event.stopPropagation();
-        watcher.loading = true;
-        add(watcher, vm.watching);
-        remove(watcher, vm.available);
-        WatchersService
-          .addForWorkPackage(vm.workPackage, watcher)
-          .then(function(watcher) {
-            $scope.$broadcast('watchers.add.finished', watcher);
-          })
-          .finally(function() {
-            delete watcher.loading;
-          });
-      },
-      removeWatcher = function(event, watcher) {
-        event.stopPropagation();
-        WatchersService
-          .removeFromWorkPackage(vm.workPackage, watcher)
-          .then(function(watcher) {
-            remove(watcher, vm.watching);
-            add(watcher, vm.available);
-          });
-      };
-  // helpers to work with the watchers array
-  var remove = function(watcher, arr) {
-        var idx = _.findIndex(arr, watcher, equality(watcher));
+  var vm = this;
 
-        if (idx > -1) {
-          arr.splice(idx, 1);
-        }
-      },
-      add = function(watcher, arr) {
-        var idx = _.findIndex(arr, watcher, equality(watcher));
-        if (idx === -1) {
-          arr.push(watcher);
-        }
-      },
-      equality = function(firstElement) {
-        return function(secondElement) {
-          return firstElement.id === secondElement.id;
-        };
-      };
+  var fetchWatchers = function(loading) {
+    vm.error = false;
+    vm.loading = angular.isUndefined(loading);
+
+    WatchersService.forWorkPackage(vm.workPackage).then(function(users) {
+      vm.watching = users.watching;
+      vm.available = users.available;
+
+    }, function() {
+      vm.watchers = [];
+      vm.available = [];
+      vm.error = true;
+
+    }).finally(function() {
+      vm.loading = false;
+    });
+  };
+
+  var addWatcher = function(event, watcher) {
+    event.stopPropagation();
+
+    watcher.loading = true;
+    add(watcher, vm.watching);
+    remove(watcher, vm.available);
+
+    WatchersService.addForWorkPackage(vm.workPackage, watcher).then(function(watcher) {
+      $scope.$broadcast('watchers.add.finished', watcher);
+
+    }).finally(function() {
+      delete watcher.loading;
+    });
+  };
+
+  var removeWatcher = function(event, watcher) {
+    event.stopPropagation();
+
+    WatchersService.removeFromWorkPackage(vm.workPackage, watcher).then(function(watcher) {
+      remove(watcher, vm.watching);
+      add(watcher, vm.available);
+    });
+  };
+
+
+  var remove = function(watcher, arr) {
+    var idx = _.findIndex(arr, watcher, equality(watcher));
+
+    if (idx > -1) {
+      arr.splice(idx, 1);
+    }
+  };
+
+  var add = function(watcher, arr) {
+    var idx = _.findIndex(arr, watcher, equality(watcher));
+
+    if (idx === -1) {
+      arr.push(watcher);
+    }
+  };
+
+  var equality = function(firstElement) {
+    return function(secondElement) {
+      return firstElement.id === secondElement.id;
+    };
+  };
 
   vm.watching = [];
   vm.text = {
