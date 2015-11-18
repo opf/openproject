@@ -26,18 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-/*jshint expr: true*/
-
 describe('WatchersPanelController', function() {
-  'use strict';
-
-  beforeEach(angular.mock.module('openproject.workPackages.controllers'));
-
-  var $controller, $rootScope;
-  beforeEach(inject(['$controller', '$rootScope', function(ctrl, root) {
-    $controller = ctrl;
-    $rootScope = root;
-  }]));
+  var $controller, $rootScope, locals;
 
   var workPackage = {
     links: {
@@ -54,21 +44,22 @@ describe('WatchersPanelController', function() {
     }
   };
 
+  beforeEach(angular.mock.module('openproject.workPackages.controllers'));
+
+  beforeEach(inject(['$controller', '$rootScope', function(ctrl, root) {
+    $controller = ctrl;
+    $rootScope = root;
+
+    locals = {
+      $scope: $rootScope.$new()
+    };
+  }]));
 
   it('should exist', function() {
-    var locals = {
-          $scope: $rootScope.$new()
-        };
-
-    locals.$scope.workPackage = workPackage;
-    expect($controller('WatchersPanelController', locals)).to.exist;
+    expect($controller('WatchersPanelController', locals, { workPackage: workPackage })).to.exist;
   });
 
   it('should not work without a work workPackage', function() {
-    var locals = {
-      $scope: $rootScope.$new()
-    };
-
     expect(function() {
       $controller('WatchersPanelController', locals);
     }).to.throw;
