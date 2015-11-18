@@ -17,15 +17,7 @@ The packager installation provides a backup tool which can be used to take a sna
 
 `openproject run backup`
 
-for the _OpenProject Core Editon_ or a slighly different command if the
-_OpenProject Community Edition_ is used (a `-ce` is prepended):
-
-`openproject-ce run backup`
-
-The command will create backup files in the following location:
-
-`/var/db/openproject/backup` or `/var/db/openproject-ce/backup`
-depending on the Edition used (as above `-ce` is used for Community Edition).
+The command will create backup files in the following location: `/var/db/openproject/backup`
 
 In detail the content of the directory should look very similar to the following:
 
