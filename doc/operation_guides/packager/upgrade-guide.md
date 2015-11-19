@@ -123,6 +123,10 @@ For repositories, there are references in the database to the old `/var/db/openp
 As a final step, disable the `openproject-ce` configuration.
 
     sudo a2dissite openproject-ce
+    
+Optionally, remove the disabled site. The following path applies to Debian/Ubuntu.
+
+    sudo rm -i /etc/apache2/sites-available/openproject-ce.conf
 
 Note:
 
