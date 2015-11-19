@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,10 +24,13 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function(I18n, WorkPackageService) {
-  'use strict';
+angular
+  .module('openproject.workPackages.directives')
+  .directive('workPackageWatcherButton', workPackageWatcherButton);
+
+function workPackageWatcherButton(WorkPackageService) {
 
   var workPackageWatcherButtonController = function(scope) {
     var workPackage = scope.workPackage;
@@ -73,7 +76,9 @@ module.exports = function(I18n, WorkPackageService) {
 
   return {
     replace: true,
-    templateUrl: '/templates/work_packages/watcher_button.html',
+    templateUrl: '/components/work-packages/directives/wp-watcher-button/' +
+      'wp-watcher-button.directive.html',
+
     link: workPackageWatcherButtonController,
     scope: {
       workPackage: '=',
@@ -81,4 +86,4 @@ module.exports = function(I18n, WorkPackageService) {
       disabled: '='
     }
   };
-};
+}
