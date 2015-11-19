@@ -107,4 +107,8 @@ function WatchersPanelController($scope, wpWatchers) {
 
   $scope.$on('watchers.add', addWatcher);
   $scope.$on('watchers.remove', removeWatcher);
+
+  $scope.$on('workPackageRefreshRequired', function () {
+    fetchWatchers();
+  });
 }

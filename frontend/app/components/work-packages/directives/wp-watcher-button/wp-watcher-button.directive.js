@@ -48,7 +48,7 @@ function wpWatcherButton() {
   };
 }
 
-function WorkPackageWatcherButtonController($scope, WorkPackageService) {
+function WorkPackageWatcherButtonController($rootScope, WorkPackageService) {
   var vm = this,
       workPackage = vm.workPackage;
 
@@ -63,7 +63,7 @@ function WorkPackageWatcherButtonController($scope, WorkPackageService) {
     setWatchStatus();
 
     WorkPackageService.toggleWatch(vm.workPackage).then(function() {
-      $scope.$emit('workPackageRefreshRequired');
+      $rootScope.$broadcast('workPackageRefreshRequired');
     });
   };
 
