@@ -33,15 +33,8 @@ angular.module('openproject')
   '$urlRouterProvider',
   '$urlMatcherFactoryProvider',
   function($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
-  // TODO: Preserve #note-4 part of the URL.
-  $urlRouterProvider.when('/work_packages/{id:[0-9]+}', function ($match) {
-    if($match.id.length) {
-      return '/work_packages/' + $match.id + '/activity';
-    }
 
-    return '/work_packages';
-  });
-
+  $urlRouterProvider.when('/work_packages/', '/work_packages');
   $urlMatcherFactoryProvider.strictMode(false);
 
   var panels = {
@@ -100,12 +93,9 @@ angular.module('openproject')
       templateUrl: '/components/routes/partials/work-packages.show.html',
       controller: 'WorkPackageShowController',
       controllerAs: 'vm',
-      abstract: true,
       resolve: {
         workPackage: function(WorkPackageService, $stateParams) {
-          var wsPromise = WorkPackageService.getWorkPackage($stateParams.workPackageId);
-
-          return wsPromise;
+          return WorkPackageService.getWorkPackage($stateParams.workPackageId);
         },
         // TODO hack, get rid of latestTab in ShowController
         latestTab: function($state) {
@@ -128,9 +118,16 @@ angular.module('openproject')
       // and this should not be applied to the other states, we need to remove
       // the trigger used in the CSS. The correct fix would be to alter the
       // CSS.
-      onEnter: function(){
+      onEnter: function($state, $timeout){
         angular.element('body').addClass('action-show');
+
+        $timeout(function () {
+          if ($state.is('work-packages.show')) {
+            $state.go('work-packages.show.activity');
+          }
+        });
       },
+
       onExit: function(){
         angular.element('body').removeClass('action-show');
       }
