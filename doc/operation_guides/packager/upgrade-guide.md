@@ -17,14 +17,14 @@ Please jump directly to the part of this guide depending on your OpenProject ver
 
 ### Debian 7.6 Wheezy 64bits server
 
-    echo "deb https://deb.packager.io/gh/opf/openproject wheezy stable/5" | sudo tee /etc/apt/sources.list.d/openproject.list
+    echo "deb https://deb.packager.io/gh/opf/openproject-ce wheezy stable/5" | sudo tee /etc/apt/sources.list.d/openproject.list
     sudo apt-get update
     sudo apt-get install openproject
     sudo openproject configure
 
 ### Ubuntu 14.04 Trusty 64bits server
 
-    echo "deb https://deb.packager.io/gh/opf/openproject trusty stable/5" | sudo tee /etc/apt/sources.list.d/openproject.list
+    echo "deb https://deb.packager.io/gh/opf/openproject-ce trusty stable/5" | sudo tee /etc/apt/sources.list.d/openproject.list
     sudo apt-get update
     sudo apt-get install openproject
     sudo openproject configure
@@ -32,8 +32,8 @@ Please jump directly to the part of this guide depending on your OpenProject ver
 ### Fedora 20 64bits server
 
     echo "[openproject]
-    name=Repository for opf/openproject application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject/fedora20/stable/5
+    name=Repository for opf/openproject-ce application.
+    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/fedora20/stable/5
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
     sudo openproject configure
@@ -41,15 +41,15 @@ Please jump directly to the part of this guide depending on your OpenProject ver
 ### CentOS / RHEL 6 64 bits server
 
     echo "[openproject]
-    name=Repository for opf/openproject application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject/centos6/stable/5
+    name=Repository for opf/openproject-ce application.
+    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos6/stable/5
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
     sudo openproject configure
 
 ### SUSE Linux Enterprise Server 12
 
-    sudo zypper addrepo "https://rpm.packager.io/gh/opf/openproject/sles12/stable/5" "openproject"
+    sudo zypper addrepo "https://rpm.packager.io/gh/opf/openproject-ce/sles12/stable/5" "openproject"
     sudo zypper install openproject
     sudo openproject configure
 
