@@ -49,7 +49,7 @@ default:
   <% if ENV['SVN_REPOSITORIES'].present? %>
     subversion:
       # SVN uses Apache repository wrapper due to permission errors in multi-user operation
-      manages: http://localhost/repoman_svn
+      manages: <%= ENV['SERVER_PROTOCOL'] %>://<%= ENV['SERVER_HOSTNAME'] %>/repoman_svn
       access_token: <%= ENV['SVN_REPOMAN_TOKEN'] %>
   <% end %>
 <% end %>
