@@ -124,10 +124,6 @@ As a final step, disable the `openproject-ce` configuration.
 
     sudo a2dissite openproject-ce
 
-Optionally, remove the disabled site. The following path applies to Debian/Ubuntu.
-
-    sudo rm -i /etc/apache2/sites-available/openproject-ce
-
 Note:
 
 * For RedHat, the path should be changed to `/etc/httpd/conf.d/openproject-ce.conf`.
