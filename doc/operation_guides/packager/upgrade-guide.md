@@ -80,13 +80,7 @@ To avoid any further changes to the application, stop the web and worker process
 
     sudo openproject-ce scale web=0 worker=0
 
-### Step 3: Remove the openproject-ce package
-
-Remove the `openproject-ce` package from your system. For Debian/Ubuntu, run:
-
-    sudo apt-get remove openproject-ce
-    
-### Step 4: Confirm database connection details
+### Step 3: Confirm database connection details
 
 If you used autoinstall, the database name and database user name should equal `openproject_ce`. You can confirm this by running:
 
@@ -98,6 +92,12 @@ Which should output something of the form
 
 If the URI contains `openproject_ce` as the username and database name as the example above, we can simply continue.
 Otherwise, note user-, database name and password just to be sure.
+
+### Step 4: Remove the openproject-ce package
+
+Remove the `openproject-ce` package from your system. For Debian/Ubuntu, run:
+
+    sudo apt-get remove openproject-ce
 
 ### Step 5: Remove the sources.list that defines the Community Edition package
 
