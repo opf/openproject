@@ -26,9 +26,9 @@ version 3.0.0 or newer.
 Installation
 ------------
 
-For OpenProject Global Roles itself you need to add the following line to the `Gemfile.plugins` of OpenProject (if you use a different OpenProject version than OpenProject 4.1, adapt `:branch => "stable/4.1"` to your OpenProject version):
+For OpenProject Global Roles itself you need to add the following line to the `Gemfile.plugins` of OpenProject (if you use a different OpenProject version than OpenProject 5, adapt `:branch => "stable/5"` to your OpenProject version):
 
-`gem "openproject-global_roles", git: "https://github.com/finnlabs/openproject-global_roles.git", :branch => "stable/4.1"`
+`gem "openproject-global_roles", git: "https://github.com/finnlabs/openproject-global_roles.git", :branch => "stable/5"`
 
 Afterwards, run:
 
@@ -45,7 +45,7 @@ Currently, a complete automatic uninstall is not supported.
 Before the plugin can be removed, all global roles have to be deleted.
 Afterwards, remove the line
 
-`gem "openproject-global_roles", git: "https://github.com/finnlabs/openproject-global_roles.git", :branch => "stable/4.1"`
+`gem "openproject-global_roles", git: "https://github.com/finnlabs/openproject-global_roles.git", :branch => "stable/5"`
 
 from the file `Gemfile.plugins` and run:
 
