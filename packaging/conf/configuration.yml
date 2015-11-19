@@ -49,7 +49,11 @@ default:
   <% if ENV['SVN_REPOSITORIES'].present? %>
     subversion:
       # SVN uses Apache repository wrapper due to permission errors in multi-user operation
-      manages: <%= ENV['SERVER_PROTOCOL'] %>://<%= ENV['SERVER_HOSTNAME'] %>/repoman_svn
+      manages: http://127.0.0.1/repoman_svn
+      # Do noot verify SSL certificates when SERVER_PROTOCOL is 'https'.
+      # As we currently only support local repoman installations with packager,
+      # this option is set to true by default.
+      insecure: true
       access_token: <%= ENV['SVN_REPOMAN_TOKEN'] %>
   <% end %>
 <% end %>

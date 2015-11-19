@@ -37,7 +37,7 @@
 # Until then, a synchronous process is more failsafe.
 class Scm::CreateRemoteRepositoryJob < Scm::RemoteRepositoryJob
   def perform
-    response = send(repository_request.merge(action: :create))
+    response = send_request(repository_request.merge(action: :create))
     repository.root_url = response['path']
     repository.url = response['url']
 
