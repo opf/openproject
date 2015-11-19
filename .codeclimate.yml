@@ -1,0 +1,29 @@
+---
+languages:
+  Ruby: true
+  JavaScript: true
+engines:
+  rubocop:
+    enabled: true
+  bundler-audit:
+    enabled: true
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+  scsslint:
+    enabled: true
+  fixme:
+    enabled: true
+ratings:
+  paths:
+  - app/**
+  - config/**
+  - features/**
+  - frontend/**
+  - lib/**
+  - spec/**
+exclude_paths:
+  - .bundle/**/*
+  - lib/plugins/rfpdf/**/*
+  - spec_legacy/**/*
