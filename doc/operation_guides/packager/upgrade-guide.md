@@ -15,6 +15,13 @@ Please jump directly to the part of this guide depending on your OpenProject ver
 
 ## Upgrading from OpenProject Core Edition 4.2
 
+### Preliminary step: Remove the sources.list that defines the OpenProject Core Edition 4.2
+
+To avoid trying to update the deprecated 4.2 package, remove the following entry:
+
+    sudo rm -i /etc/apt/sources.list.d/openproject.list
+
+
 ### Debian 7.6 Wheezy 64bits server
 
     echo "deb https://deb.packager.io/gh/opf/openproject-ce wheezy stable/5" | sudo tee /etc/apt/sources.list.d/openproject.list
@@ -78,15 +85,28 @@ To avoid any further changes to the application, stop the web and worker process
 Remove the `openproject-ce` package from your system. For Debian/Ubuntu, run:
 
     sudo apt-get remove openproject-ce
+    
+### Step 4: Confirm database connection details
 
-### Step 4: Remove the sources.list that defines the Community Edition package
+If you used autoinstall, the database name and database user name should equal `openproject_ce`. You can confirm this by running:
+
+   openproject-ce config:get DATABASE_URL
+   
+Which should output something of the form
+
+   mysql2://<username>:<password>@127.0.0.1:3306/<dbname>
+
+If the URI contains `openproject_ce` as the username and database name as the example above, we can simply continue.
+Otherwise, note user-, database name and password just to be sure.
+
+### Step 5: Remove the sources.list that defines the Community Edition package
 
 To avoid installing the deprecated 4.2 package, remove the following entry:
 
     sudo rm -i /etc/apt/sources.list.d/pkgr-openproject-community.list
 
 
-### Step 5: Move the existing application and configuration files
+### Step 6: Move the existing application and configuration files
 
 As the OpenProject 5.0 package is identitical to the core in regards to paths, you'll need to reference the configuration and application (e.g., attachments, SVN repositories) files to the path that is expected from the new package.
 
@@ -98,7 +118,7 @@ For repositories, there are references in the database to the old `/var/db/openp
     # Symlink existing attachments and
     sudo ln -s /var/db/openproject-ce /var/db/openproject
 
-### Step 6: Disable the Community Edition Apache2 configuration
+### Step 7: Disable the Community Edition Apache2 configuration
 
 As a final step, disable the `openproject-ce` configuration.
 
@@ -112,3 +132,40 @@ Note:
 
 * For RedHat, the path should be changed to `/etc/httpd/conf.d/openproject-ce.conf`.
 * For SLES, the path should be changed to `/etc/apache2/vhosts.d/openproject-ce.conf`.
+
+### Step 8: Install the OpenProject 5.0 package and select database
+
+The rest of the installation is mostly identical to the installation guide of the OpenProject 5.0 package:
+https://www.openproject.org/open-source/packaged-installation/packaged-installation-guide/
+
+Add the package source to your package manager, update the sources, and install the `openproject` package. (See the installation guide linked above for the detailed steps for the various distributions).
+
+**Important:** Instead of running `openproject configure`, run `openproject reconfigure`, which will lead you through the complete wizard.
+
+In the first step *mysql/autoinstall*, select the **reuse**  option (Use an existing database).
+
+![](https://dl.dropboxusercontent.com/u/270758/op/mysql-reuse.png)
+
+Press OK for the following steps, which will simply take the existing values from your old configuration
+
+ * MySQL IP or hostname
+ * MySQL port
+ 
+In the dialog `mysql/username`, enter `openproject_ce` if the Database URI from Step 4 contained it. If you chose a different user name in the original CE installation, it should already be set to this value.
+
+![](https://dl.dropboxusercontent.com/u/270758/op/mysql-username.png)
+
+In the dialog `mysql/password`, **leave the password empty**. It will use the value from your original installation. You can optionally enter the password you retrieved from the database URI from Step 4, but that should be identical.
+
+![](https://dl.dropboxusercontent.com/u/270758/op/mysql-password.png)
+
+And again, in the `mysql/db_name` step,  enter `openproject_ce` if the Database URI from Step 4 contained it. If you chose a different database name in the original CE installation, it should already be set to this value.
+
+The other installation steps (mysql/db_source_host, mysql/ssl) may again be skipped by pressing OK, as they should still contain the old values from the Community Edition.
+
+There will be other new steps in the installation wizard for which we will provide additional information in the packager installation guide.
+
+Once the wizard has completed, the OpenProject instance should be updated to 5.0.0 while re-using your existing database.
+
+**Note:** This last step is a workaround for the package upgrading process. We are working on making this step optional.
+The workaround is necessary since since the package appname changed from `openproject-ce` to `openproject`, and the installer wizard automatically sets the database to the app name when selecting an automatic installation of MySQL. Instead, the updater should respect an existing database (user-) name in its configuration.
