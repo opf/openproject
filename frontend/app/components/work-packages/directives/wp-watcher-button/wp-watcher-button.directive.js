@@ -72,13 +72,14 @@ function WorkPackageWatcherButtonController($scope, WorkPackageService) {
     if (vm.isWatched) {
       vm.buttonTitle = I18n.t('js.label_unwatch_work_package');
       vm.buttonText = I18n.t('js.label_unwatch');
-      vm.buttonClass = 'button -active';
+      vm.buttonClass = '-active';
       vm.buttonId = 'unwatch-button';
       vm.watchIconClass = 'icon-watch-1';
+
     } else {
       vm.buttonTitle = I18n.t('js.label_watch_work_package');
       vm.buttonText = I18n.t('js.label_watch');
-      vm.buttonClass = 'button';
+      vm.buttonClass = '';
       vm.buttonId = 'watch-button';
       vm.watchIconClass = 'icon-not-watch';
     }
