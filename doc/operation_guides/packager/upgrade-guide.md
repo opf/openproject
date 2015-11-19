@@ -84,11 +84,11 @@ To avoid any further changes to the application, stop the web and worker process
 
 If you used autoinstall, the database name and database user name should equal `openproject_ce`. You can confirm this by running:
 
-   openproject-ce config:get DATABASE_URL
+    openproject-ce config:get DATABASE_URL
    
 Which should output something of the form
 
-   mysql2://<username>:<password>@127.0.0.1:3306/<dbname>
+    mysql2://<username>:<password>@127.0.0.1:3306/<dbname>
 
 If the URI contains `openproject_ce` as the username and database name as the example above, we can simply continue.
 Otherwise, note user-, database name and password just to be sure.
