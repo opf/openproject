@@ -1,12 +1,8 @@
-<button ng-click="toggleWatch()"
-        title="{{ buttonTitle }}"
-        ng-disabled="disabled"
-        class="{{ buttonClass }}"
-        id="{{ buttonId }}">
-    <i class="button--icon" ng-class="watchIconClass"></i>
-    <span class="button--text"
-          ng-if="showText"
-          ng-bind="buttonText">
-    </span>
+<button ng-click="vm.toggleWatch()" title="{{ vm.buttonTitle }}" ng-disabled="vm.disabled"
+        class="{{ vm.buttonClass }}" id="{{ vm.buttonId }}">
+
+    <i class="button--icon" ng-class="vm.watchIconClass"></i>
+
+    <span class="button--text" ng-if="vm.showText" ng-bind="vm.buttonText"></span>
 </button>
 

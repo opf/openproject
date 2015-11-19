@@ -42,42 +42,45 @@ function wpWatcherButton() {
       disabled: '='
     },
 
-    controller: WorkPackageWatcherButtonController
+    bindToController: true,
+    controller: WorkPackageWatcherButtonController,
+    controllerAs: 'vm'
   };
 }
 
 function WorkPackageWatcherButtonController($scope, WorkPackageService) {
-  var workPackage = $scope.workPackage;
+  var vm = this,
+      workPackage = vm.workPackage;
 
-  $scope.isWatched = workPackage.links.hasOwnProperty('unwatch');
-  $scope.displayWatchButton = workPackage.links.hasOwnProperty('unwatch') ||
+  vm.isWatched = workPackage.links.hasOwnProperty('unwatch');
+  vm.displayWatchButton = workPackage.links.hasOwnProperty('unwatch') ||
     workPackage.links.hasOwnProperty('watch');
 
 
-  $scope.toggleWatch = function() {
-    $scope.isWatched = !$scope.isWatched;
+  vm.toggleWatch = function() {
+    vm.isWatched = !vm.isWatched;
 
     setWatchStatus();
 
-    WorkPackageService.toggleWatch($scope.workPackage).then(function() {
+    WorkPackageService.toggleWatch(vm.workPackage).then(function() {
       $scope.$emit('workPackageRefreshRequired');
     });
   };
 
 
   function setWatchStatus() {
-    if ($scope.isWatched) {
-      $scope.buttonTitle = I18n.t('js.label_unwatch_work_package');
-      $scope.buttonText = I18n.t('js.label_unwatch');
-      $scope.buttonClass = 'button -active';
-      $scope.buttonId = 'unwatch-button';
-      $scope.watchIconClass = 'icon-watch-1';
+    if (vm.isWatched) {
+      vm.buttonTitle = I18n.t('js.label_unwatch_work_package');
+      vm.buttonText = I18n.t('js.label_unwatch');
+      vm.buttonClass = 'button -active';
+      vm.buttonId = 'unwatch-button';
+      vm.watchIconClass = 'icon-watch-1';
     } else {
-      $scope.buttonTitle = I18n.t('js.label_watch_work_package');
-      $scope.buttonText = I18n.t('js.label_watch');
-      $scope.buttonClass = 'button';
-      $scope.buttonId = 'watch-button';
-      $scope.watchIconClass = 'icon-not-watch';
+      vm.buttonTitle = I18n.t('js.label_watch_work_package');
+      vm.buttonText = I18n.t('js.label_watch');
+      vm.buttonClass = 'button';
+      vm.buttonId = 'watch-button';
+      vm.watchIconClass = 'icon-not-watch';
     }
   }
 
