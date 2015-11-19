@@ -28,9 +28,9 @@
 
 angular
   .module('openproject.workPackages.directives')
-  .directive('workPackageWatcherButton', workPackageWatcherButton);
+  .directive('wpWatcherButton', wpWatcherButton);
 
-function workPackageWatcherButton(WorkPackageService) {
+function wpWatcherButton(WorkPackageService) {
 
   var workPackageWatcherButtonController = function(scope) {
     var workPackage = scope.workPackage;
