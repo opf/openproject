@@ -30,7 +30,7 @@ it already, add the following lines to the `Gemfile.plugins` to your OpenProject
 
 For OpenProject Backlogs itself you need to add the following line to the
 
-`Gemfile.plugins` of OpenProject (if you use a different OpenProject version than OpenProject 4.1, adapt :branch => "stable/5" to your OpenProject version):
+`Gemfile.plugins` of OpenProject (if you use a different OpenProject version than OpenProject 5, adapt :branch => "stable/5" to your OpenProject version):
 
 
 `gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => "stable/5"`
