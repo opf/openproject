@@ -30,60 +30,56 @@ angular
   .module('openproject.workPackages.directives')
   .directive('wpWatcherButton', wpWatcherButton);
 
-function wpWatcherButton(WorkPackageService) {
-
-  var workPackageWatcherButtonController = function(scope) {
-    var workPackage = scope.workPackage;
-
-    scope.isWatched = workPackage.links.hasOwnProperty('unwatch');
-    scope.displayWatchButton = workPackage.links.hasOwnProperty('unwatch') ||
-      workPackage.links.hasOwnProperty('watch');
-
-
-    scope.toggleWatch = function() {
-      // Toggle early to avoid delay.
-      scope.isWatched = !scope.isWatched;
-
-      setWatchStatus();
-
-      WorkPackageService.toggleWatch(scope.workPackage)
-        .then(function() {
-          scope.$emit('workPackageRefreshRequired');
-        });
-    };
-
-
-    function setWatchStatus() {
-      if (scope.isWatched) {
-        scope.buttonTitle = I18n.t('js.label_unwatch_work_package');
-        scope.buttonText = I18n.t('js.label_unwatch');
-        scope.buttonClass = 'button -active';
-        scope.buttonId = 'unwatch-button';
-        scope.watchIconClass = 'icon-watch-1';
-      } else {
-        scope.buttonTitle = I18n.t('js.label_watch_work_package');
-        scope.buttonText = I18n.t('js.label_watch');
-        scope.buttonClass = 'button';
-        scope.buttonId = 'watch-button';
-        scope.watchIconClass = 'icon-not-watch';
-      }
-    }
-
-    // Set initial status
-    setWatchStatus();
-
-  };
-
+function wpWatcherButton() {
   return {
     replace: true,
     templateUrl: '/components/work-packages/directives/wp-watcher-button/' +
       'wp-watcher-button.directive.html',
 
-    link: workPackageWatcherButtonController,
     scope: {
       workPackage: '=',
       showText: '=',
       disabled: '='
-    }
+    },
+
+    controller: WorkPackageWatcherButtonController
   };
+}
+
+function WorkPackageWatcherButtonController($scope, WorkPackageService) {
+  var workPackage = $scope.workPackage;
+
+  $scope.isWatched = workPackage.links.hasOwnProperty('unwatch');
+  $scope.displayWatchButton = workPackage.links.hasOwnProperty('unwatch') ||
+    workPackage.links.hasOwnProperty('watch');
+
+
+  $scope.toggleWatch = function() {
+    $scope.isWatched = !$scope.isWatched;
+
+    setWatchStatus();
+
+    WorkPackageService.toggleWatch($scope.workPackage).then(function() {
+      $scope.$emit('workPackageRefreshRequired');
+    });
+  };
+
+
+  function setWatchStatus() {
+    if ($scope.isWatched) {
+      $scope.buttonTitle = I18n.t('js.label_unwatch_work_package');
+      $scope.buttonText = I18n.t('js.label_unwatch');
+      $scope.buttonClass = 'button -active';
+      $scope.buttonId = 'unwatch-button';
+      $scope.watchIconClass = 'icon-watch-1';
+    } else {
+      $scope.buttonTitle = I18n.t('js.label_watch_work_package');
+      $scope.buttonText = I18n.t('js.label_watch');
+      $scope.buttonClass = 'button';
+      $scope.buttonId = 'watch-button';
+      $scope.watchIconClass = 'icon-not-watch';
+    }
+  }
+
+  setWatchStatus();
 }
