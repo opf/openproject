@@ -306,7 +306,7 @@ class PermittedParams
     permitted_params = params.fetch(:time_entry, {}).permit(
       :hours, :comments, :work_package_id, :activity_id, :spent_on)
 
-    permitted_params.merge(custom_field_values(:time_entry))
+    permitted_params.merge(custom_field_values(:time_entry, required: false))
   end
 
   def news
@@ -403,10 +403,11 @@ class PermittedParams
 
   protected
 
-  def custom_field_values(key)
+  def custom_field_values(key, required: true)
     # a hash of arbitrary values is not supported by strong params
     # thus we do it by hand
-    values = params.fetch(key, {})[:custom_field_values] || {}
+    object = required ? params.require(key) : params.fetch(key, {})
+    values = object[:custom_field_values] || {}
 
     # only permit values following the schema
     # 'id as string' => 'value as string'
