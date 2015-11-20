@@ -63,7 +63,7 @@ module OpenProject::Reporting
            after: :time_entries,
            caption: :cost_reports_title,
            if: Proc.new { |project| project.module_enabled?(:reporting_module) },
-           html: { class: 'icon2 icon-stats' }
+           html: { class: 'icon2 icon-cost-reports' }
 
       # Cost reports should remove the default time entries menu item
       hide_menu_item :project_menu,
