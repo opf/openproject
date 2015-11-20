@@ -38,11 +38,7 @@ describe 'new work package', js: true do
     login_as(user)
 
     work_packages_page.visit_index
-    work_packages_page.click_toolbar_button 'Work packages'
-
-    within '#tasksDropdown' do
-      click_link 'Task'
-    end
+    create_work_package('Task')
   end
 
   def save_work_package!(expect_success=true)
@@ -55,7 +51,33 @@ describe 'new work package', js: true do
     end
   end
 
+  def create_work_package(type)
+    work_packages_page.click_toolbar_button 'Work packages'
+    sleep(0.1)
+
+    within '#tasksDropdown' do
+      click_link type
+    end
+  end
+
   shared_examples 'work package creation workflow' do
+
+    context 'creating subsequent work packages' do
+      before do
+        work_packages_page.find_subject_field.set(subject)
+        save_work_package!
+
+        create_work_package('Bug')
+      end
+
+      it 'should have emtpy field values' do
+        expect(work_packages_page.find_subject_field.value).to be_empty
+      end
+
+      it 'should have the type of the new work package' do
+        expect(find('#inplace-edit--write-value--type option[selected]').text).to eq('Bug')
+      end
+    end
 
     context 'with missing values' do
       it 'shows an error when subject is missing' do

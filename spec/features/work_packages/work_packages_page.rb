@@ -88,6 +88,10 @@ class WorkPackagesPage
     find(".advanced-filters--filters #filter_#{filter_name}")
   end
 
+  def find_subject_field
+    find('#work-package-subject input')
+  end
+
   private
 
   def index_path(work_package = nil)
