@@ -261,7 +261,7 @@ input.top-menu-search--input
 
 #header
   height: $header-height
-  min-width: 1100px
+  min-width: 840px
   .chzn-container .chzn-results .highlighted
     background-color:  #24b3e7
 
@@ -273,3 +273,16 @@ input.top-menu-search--input
       padding: 0 9px 0
     > ul > li
       max-width: 350px
+
+// Temporary overwrite searchfield styles for mobile view
+// until we have a full responsive layout
+input.top-menu-search--input
+  margin: 0 0 0 20px
+  position: absolute
+  right: 0
+  top: 6px
+  z-index: 10
+
+.top-menu-search:not(.-collapsed) .top-menu-search--button
+  top: -3px
+  z-index: 10
