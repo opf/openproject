@@ -44,7 +44,7 @@ default:
     git:
       manages: <%= ENV['GIT_REPOSITORIES'] %>
       mode: 0770
-      group: <%= ENV['SERVER_USER'] %>
+      group: <%= ENV['SERVER_GROUP'] %>
   <% end %>
   <% if ENV['SVN_REPOSITORIES'].present? %>
     subversion:
