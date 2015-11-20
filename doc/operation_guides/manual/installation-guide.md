@@ -144,7 +144,7 @@ with OpenProject. For more information, see https://github.com/opf/openproject-c
 ```bash
 [openproject@host] cd ~
 [openproject@host] git clone https://github.com/opf/openproject-ce.git --branch stable/5 --depth 1
-[openproject@host] cd openproject
+[openproject@host] cd openproject-ce
 [openproject@host] gem install bundler
 [openproject@host] bundle install --deployment --without postgres sqlite development test therubyracer
 [openproject@host] npm install
