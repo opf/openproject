@@ -97,6 +97,10 @@ body.controller-work_packages.action-show {
     }
   }
 
+  .work-packages--split-view {
+    overflow: visible !important;
+  }
+
   .work-packages--right-panel {
     min-width: 420px;
     overflow-y: auto;
