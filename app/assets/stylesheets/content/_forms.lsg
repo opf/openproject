@@ -72,7 +72,7 @@
       Of the data you created as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called "Deleted user".
     </p>
     <p class="danger-zone--warning">
-      <span class="icon icon-attention2"></span>
+      <span class="icon icon-error"></span>
       <span>Deleting your account is an irreversible action.</span>
     </p>
     <p>

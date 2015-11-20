@@ -50,11 +50,11 @@ describe 'MenuManager' do
     assert_select 'div', attributes: { id: 'main-menu' },
                      descendant: { tag: 'li', child: { tag: 'a', content: ll('de', :label_activity),
                                                        attributes: { href: '/projects/ecookbook/activity',
-                                                                     class: 'icon2 icon-yes activity-menu-item ellipsis' } } }
+                                                                     class: 'icon2 icon-checkmark activity-menu-item ellipsis' } } }
     assert_select 'div', attributes: { id: 'main-menu' },
                      descendant: { tag: 'li', child: { tag: 'a', content: ll('de', :label_overview),
                                                        attributes: { href: '/projects/ecookbook',
-                                                                     class: 'icon2 icon-list-view2 overview-menu-item ellipsis selected' } } }
+                                                                     class: 'icon2 icon-show-all-projects overview-menu-item ellipsis selected' } } }
   end
 
   it 'project menu with additional menu items' do

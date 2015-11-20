@@ -291,7 +291,7 @@ describe OpenProject::TextFormatting do
     context 'Url links' do
       subject { format_text('http://foo.bar/FAQ#3') }
 
-      it { is_expected.to be_html_eql('<p><a class="external icon-context icon-copy2" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a></p>') }
+      it { is_expected.to be_html_eql('<p><a class="external icon-context icon-copy" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a></p>') }
     end
 
     context 'Wiki links' do
@@ -587,7 +587,7 @@ WIKI_TEXT
         expect(html).to be_html_eql(%{
           <fieldset class='form--fieldset -collapsible'>
             <legend class='form--fieldset-legend' title='Show/Hide table of contents' onclick='toggleFieldset(this);'>
-              <a class="icon-context icon-pulldown-arrow1" href='javascript:'>Table of Contents</a>
+              <a class="icon-context icon-pulldown" href='javascript:'>Table of Contents</a>
             </legend>
             <div>
               <ul class="toc">
@@ -626,7 +626,7 @@ WIKI_TEXT
         expect(html).to be_html_eql(%{
           <fieldset class='form--fieldset -collapsible'>
             <legend class='form--fieldset-legend' title='Show/Hide table of contents' onclick='toggleFieldset(this);'>
-              <a class="icon-context icon-pulldown-arrow1" href='javascript:'>Table of Contents</a>
+              <a class="icon-context icon-pulldown" href='javascript:'>Table of Contents</a>
             </legend>
             <div>
               <ul class="toc">

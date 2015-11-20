@@ -33,7 +33,7 @@
                       title="{{ getActivationActionLabel(!isListViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
                       ng-click="closeShowView()"
                       ng-class="{ '-active': isListViewActive() }">
-                <i class="icon-list-view button--icon"></i>
+                <i class="icon-view-list button--icon"></i>
               </button>
             </li>
             <li feature-flag="detailsView">
@@ -49,7 +49,7 @@
                       title="{{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}"
                       ng-class="{ '-active': isDetailsViewActive() }"
                       ng-click="showWorkPackageDetails()">
-                <i class="icon-split-view button--icon"></i>
+                <i class="icon-view-split button--icon"></i>
               </button>
             </li>
             <li>
@@ -63,7 +63,7 @@
                       title="{{ getActivationActionLabel(!isShowViewActive()) + ' ' + I18n.t('js.button_show_view') }}"
                       ng-click="showWorkPackageShowView()"
                       ng-class="{ '-active': isShowViewActive() }">
-                <i class="icon-fullscreen-view button--icon"></i>
+                <i class="icon-view-fullscreen button--icon"></i>
               </button>
             </li>
           </ul>

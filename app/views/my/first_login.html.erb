@@ -27,21 +27,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= error_messages_for 'color' %>
+<%= styled_form_tag({ controller: '/my', action: "first_login" }, {method: :put}) do %>
 
-<%= toolbar title: (color.new_record? ? l('timelines.new_color') : l('timelines.edit_color')) %>
+  <%= back_url_hidden_field_tag %>
 
-<fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>
+  <h3 class="form--section-title"><%=l(:label_ui, app_title: Setting.app_title)%></h3>
+  <section class="form--section">
+    <%= render partial: "users/impaired_settings" %>
+  </section>
 
-  <div class="form--field">
-    <%= f.text_field :name, required: true %>
-  </div>
-  <div class="form--field">
-    <%= f.text_field :hexcode, required: true %>
-    <%= icon_for_color(color, class: 'timelines-x-update-color timelines-color-properties-preview', data: { target: '#color_hexcode' }) %>
-  </div>
-</fieldset>
-
-<%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-<%= link_to l(:button_cancel), colors_path, class: 'button' %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

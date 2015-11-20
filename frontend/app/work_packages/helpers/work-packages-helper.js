@@ -214,11 +214,11 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
     },
 
     collapseStateIcon: function(collapsed) {
-      var iconClass = 'icon-arrow-right5-';
+      var iconClass = 'icon-arrow-';
       if (collapsed) {
-        iconClass += '3';
+        iconClass += 'up1';
       } else {
-        iconClass += '2';
+        iconClass += 'down1';
       }
 
       return iconClass;

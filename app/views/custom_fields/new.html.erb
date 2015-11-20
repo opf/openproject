@@ -39,5 +39,5 @@ See doc/COPYRIGHT.rdoc for more details.
                                              html: {id: 'custom_field_form'} do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
   <%= hidden_field_tag 'type', @custom_field.type %>
-  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

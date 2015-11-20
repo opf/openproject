@@ -111,7 +111,7 @@
             <span>Image</span>
           </button>
           <div class="jstb_help">
-            <a href="/help/wiki_syntax" title="Text formatting" class="icon icon-help" onclick="window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;">
+            <a href="/help/wiki_syntax" title="Text formatting" class="icon icon-help1" onclick="window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;">
               <span class="hidden-for-sighted">
                 Text formatting
               </span>
@@ -136,7 +136,7 @@
             <accessible-by-keyboard execute="editForm.$valid &amp;&amp; submit(false)" >
               <a execute-on-enter="execute()" default-event-handling="defaultEventHandling"  href=""  tabindex="0">
                 <span >
-                  <span class="icon-context icon-button icon-yes " title="Description: Save" icon-name="yes" icon-title="Description: Save">
+                  <span class="icon-context icon-button icon-checkmark " title="Description: Save" icon-name="yes" icon-title="Description: Save">
                     <span class="hidden-for-sighted ">Description: Save</span>
                   </span>
                 </span>
@@ -147,8 +147,8 @@
               <a execute-on-enter="execute()" default-event-handling="defaultEventHandling"  href=""  tabindex="0">
                 <span  >
                   <span title="Description: Save and send email" >
-                    <i class="icon-yes"></i>
-                    <i class="icon-mail"></i>
+                    <i class="icon-checkmark"></i>
+                    <i class="icon-mail1"></i>
                   </span>
                 </span>
               </a>
@@ -265,7 +265,7 @@
                       <accessible-by-keyboard execute="editForm.$valid &amp;&amp; submit(false)" >
                         <a execute-on-enter="execute()" default-event-handling="defaultEventHandling"  href=""  tabindex="0">
                           <span >
-                            <span class="icon-context icon-button icon-yes " title="Description: Save" icon-name="yes" icon-title="Description: Save">
+                            <span class="icon-context icon-button icon-checkmark " title="Description: Save" icon-name="yes" icon-title="Description: Save">
                               <span class="hidden-for-sighted ">Description: Save</span>
                             </span>
                           </span>
@@ -276,8 +276,8 @@
                         <a execute-on-enter="execute()" default-event-handling="defaultEventHandling"  href=""  tabindex="0">
                           <span  >
                             <span title="Description: Save and send email" >
-                              <i class="icon-yes"></i>
-                              <i class="icon-mail"></i>
+                              <i class="icon-checkmark"></i>
+                              <i class="icon-mail1"></i>
                             </span>
                           </span>
                         </a>

@@ -21,7 +21,7 @@
                 title="{{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}"
                 ng-click="toggleShowFilterOptions()"
                 ng-class="{ '-active': showFiltersOptions }">
-          <i class="icon-filter-big button--icon"></i>
+          <i class="icon-filter button--icon"></i>
           <span class="button--text" ng-bind="::I18n.t('js.toolbar.filter')"></span>
           <span class="badge -secondary">{{ getFilterCount() }}</span>
         </button>
@@ -40,7 +40,7 @@
                     title="{{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
                     ng-click="closeDetailsView()"
                     ng-class="{ '-active': !isDetailsViewActive() }">
-              <i class="icon-list-view button--icon"></i>
+              <i class="icon-view-list button--icon"></i>
             </button>
           </li>
           <li feature-flag="detailsView">
@@ -56,7 +56,7 @@
                     title="{{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}"
                     ng-class="{ '-active': isDetailsViewActive() }"
                     ng-click="openLatestTab()">
-              <i class="icon-split-view button--icon"></i>
+              <i class="icon-view-split button--icon"></i>
             </button>
           </li>
           <li>
@@ -70,7 +70,7 @@
                     title="{{ getActivationActionLabel(!isShowViewActive()) + ' ' + I18n.t('js.button_show_view') }}"
                     ng-click="showWorkPackageShowView()"
                     ng-class="{ '-active': isShowViewActive() }">
-              <i class="icon-fullscreen-view button--icon"></i>
+              <i class="icon-view-fullscreen button--icon"></i>
             </button>
           </li>
         </ul>

@@ -119,7 +119,7 @@
                   column="column"
                   display-type="{{column.meta_data.data_type}}"
                   project-identifier="projectIdentifier"
-                  ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-pulldown-arrow4']"/>
+                  ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']"/>
           </td>
         </tr>
 
@@ -177,7 +177,7 @@
     <div class="generic-table--footer-background" ng-if="displaySums"></div>
   </div>
   <div class="generic-table--no-results-container" ng-if="!rows.length">
-    <i class="icon-info"></i>
+    <i class="icon-info1"></i>
     <h2 class="generic-table--no-results-title">
       {{ I18n.t('js.work_packages.no_results.title') }}
     </h2>

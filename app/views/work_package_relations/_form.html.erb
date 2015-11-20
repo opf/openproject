@@ -1,0 +1,58 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= error_messages_for 'relation' %>
+
+<div class="choice">
+  <div class="choice--select">
+    <span class="inline-label">
+      <%= f.select :relation_type, collection_for_relation_type_select, {},
+            onchange: "setPredecessorFieldsVisibility();",
+            class: 'form--select' %>
+      <span class="form-label"><%= WorkPackage.model_name.human %> #</span>
+      <%= f.text_field :to_id, size: 10, class: 'form--text-field'%>
+    </span>
+    <span id="predecessor_fields" class="inline-label" style="display:none;">
+      <span class="form-label"><%= Relation.human_attribute_name(:delay) %>:</span>
+      <%= f.text_field :delay, size: 3, class: 'form--text-field' %>
+      <span class="form-label"><%= l(:label_day_plural) %></span>
+    </span>
+  </div>
+  <div class="choice--button">
+    <%= styled_button_tag l(:button_add), class: '-highlight -with-icon icon-checkmark' %>
+  </div>
+  <div class="choice--button">
+    <%= toggle_link l(:button_cancel), 'new-relation-form', {}, class: 'button' %>
+  </div>
+</div>
+<div class="clearfix"></div>
+
+<div id="related_issue_candidates" class="autocomplete"></div>
+<%= javascript_tag "observeRelatedIssueField('#{work_packages_auto_complete_path(id: controller.work_package, project_id: @project, escape: false) }')" %>
+<%= javascript_tag "setPredecessorFieldsVisibility();" %>

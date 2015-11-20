@@ -3,7 +3,7 @@
 ```
 <div style="padding: 0.25rem">
   <span class="icon-control">
-    <span class="icon-control--icon icon-star1" title="Star">
+    <span class="icon-control--icon icon-star" title="Star">
       <span class="hidden-for-sighted">Star</span>
     </span>
   </span>
@@ -11,7 +11,7 @@
 </div>
 <div style="padding: 0.25rem">
   <span class="icon-control -active">
-    <span class="icon-control--icon icon-star1" title="Unstar">
+    <span class="icon-control--icon icon-star" title="Unstar">
       <span class="hidden-for-sighted">Unstar</span>
     </span>
   </span>
@@ -20,7 +20,7 @@
 
 <div style="padding: 0.25rem; background-color: #eee">
   <span class="icon-control">
-    <span class="icon-control--icon icon-watch-1" title="Watch">
+    <span class="icon-control--icon icon-watched" title="Watch">
       <span class="hidden-for-sighted">Watch</span>
     </span>
   </span>
@@ -28,7 +28,7 @@
 </div>
 <div style="padding: 0.25rem; background-color: #eee">
   <span class="icon-control -active">
-    <span class="icon-control--icon icon-watch-1" title="Unwatch">
+    <span class="icon-control--icon icon-watched" title="Unwatch">
       <span class="hidden-for-sighted">Unwatch</span>
     </span>
   </span>
@@ -37,19 +37,19 @@
 
 <div style="padding: 0.25rem">
   <span class="icon-control">
-    <span class="icon-control--icon icon-heart" title="Love">
-      <span class="hidden-for-sighted">Love</span>
+    <span class="icon-control--icon icon-group" title="Group">
+      <span class="hidden-for-sighted">Group</span>
     </span>
   </span>
-  Зыд ут выльёт ножтро нужквюам.
+  Group
 </div>
 <div style="padding: 0.25rem">
   <span class="icon-control -active">
-    <span class="icon-control--icon icon-heart" title="Fall out of love">
-      <span class="hidden-for-sighted">Fall out of love</span>
+    <span class="icon-control--icon icon-group" title="Leave the group">
+      <span class="hidden-for-sighted"></span>
     </span>
   </span>
-  Хаж ут нихйл тамквюам.
+  Leave the Group
 </div>
 
 ```

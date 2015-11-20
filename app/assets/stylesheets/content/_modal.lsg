@@ -12,37 +12,37 @@
     <ul class="export-options">
       <li>
         <a>
-          <i class="icon-page-atom icon-big"></i>
+          <i class="icon-export-atom icon-big"></i>
           <span class="export-label">ATOM</span>
         </a>
       </li>
        <li>
         <a>
-          <i class="icon-page-xls icon-big"></i>
+          <i class="icon-export-xls icon-big"></i>
           <span class="export-label">XLS</span>
         </a>
       </li>
        <li>
         <a>
-          <i class="icon-page-xls-descr icon-big"></i>
+          <i class="icon-export-xls-descr icon-big"></i>
           <span class="export-label">XLS with description</span>
         </a>
       </li>
        <li>
         <a>
-          <i class="icon-page-pdf icon-big"></i>
+          <i class="icon-export-pdf icon-big"></i>
           <span class="export-label">PDF</span>
         </a>
       </li>
        <li>
         <a>
-          <i class="icon-page-pdf-descr icon-big"></i>
+          <i class="icon-export-pdf-descr icon-big"></i>
          <span class="export-label">PDF with description</span>
         </a>
       </li>
        <li>
         <a>
-          <i class="icon-page-csv icon-big"></i>
+          <i class="icon-export-csv icon-big"></i>
           <span class="export-label">CSV</span>
         </a>
       </li>

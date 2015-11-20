@@ -5,11 +5,11 @@
     <li>
       <a role="menuitem" focus="" href="" ng-click="showColumnsModal($event)"><i class="icon-action-menu icon-columns"></i>{{ I18n.t('js.toolbar.settings.columns') }}</a>
     </li>
-    <li><a href="" ng-click="showSortingModal($event)"><i class="icon-action-menu icon-sort-by2"></i>{{ I18n.t('js.toolbar.settings.sort_by') }}</a></li>
-    <li><a href="" ng-click="showGroupingModal($event)"><i class="icon-action-menu icon-group-by2"></i>{{ I18n.t('js.toolbar.settings.group_by') }}</a></li>
+    <li><a href="" ng-click="showSortingModal($event)"><i class="icon-action-menu icon-sort-by"></i>{{ I18n.t('js.toolbar.settings.sort_by') }}</a></li>
+    <li><a href="" ng-click="showGroupingModal($event)"><i class="icon-action-menu icon-group-by"></i>{{ I18n.t('js.toolbar.settings.group_by') }}</a></li>
     <li>
       <a role="menuitem" role="menuitem" href="" ng-click="toggleDisplaySums($event)">
-        <i ng-if="query.displaySums" class="icon-action-menu icon-yes"></i><i ng-if="!query.displaySums" class="icon-action-menu no-icon"></i>
+        <i ng-if="query.displaySums" class="icon-action-menu icon-checkmark"></i><i ng-if="!query.displaySums" class="icon-action-menu no-icon"></i>
         <accessible-element visible-text="I18n.t('js.toolbar.settings.display_sums')"
                             readable-text="displaySumsLabel">
         </accessible-element>
@@ -19,12 +19,12 @@
     <li><a role="menuitem" href="" ng-click="saveQuery($event)"
            inaccessible-by-tab="saveQueryInvalid()"
            ng-class="{'inactive': saveQueryInvalid()}">
-        <i class="icon-action-menu icon-save1"></i>{{ I18n.t('js.toolbar.settings.save') }}</a>
+        <i class="icon-action-menu icon-save"></i>{{ I18n.t('js.toolbar.settings.save') }}</a>
     </li>
     <li><a role="menuitem" href="" ng-click="showSaveAsModal($event)"
            inaccessible-by-tab="showSaveModalInvalid()"
            ng-class="{'inactive': showSaveModalInvalid()}">
-      <i class="icon-action-menu icon-save1"></i>{{ I18n.t('js.toolbar.settings.save_as') }}</a>
+      <i class="icon-action-menu icon-save"></i>{{ I18n.t('js.toolbar.settings.save_as') }}</a>
     </li>
     <li><a role="menuitem" href="" ng-click="deleteQuery($event)"
            inaccessible-by-tab="deleteQueryInvalid()"

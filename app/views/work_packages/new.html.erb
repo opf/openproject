@@ -27,19 +27,36 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%= link_to h(@board.name), controller: '/boards', action: 'show', project_id: @project, id: @board %> &#187; <%=h @message.subject %></h2>
+<% html_title l(:label_work_package_new) %>
+<%= toolbar title: l(:label_work_package_new) %>
 
-<%= labelled_tabular_form_for @message,
-                              url: topic_path(@message),
-                              method: :put,
+<%= labelled_tabular_form_for work_package,
+                              url: project_work_packages_path(project),
                               html: { multipart: true,
-                                      id: 'message-form',
-                                      class: 'form' } do |f| %>
-  <%= render partial: 'form', locals: { f: f, replying: !@message.parent.nil? } %>
+                                         id: 'work_package-form',
+                                         class: 'new-work_package-form form' } do |f| %>
 
-  <hr class="form--separator">
+  <%= error_messages_for object: work_package %>
 
-  <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
-  <%= preview_link preview_topic_path(@message), 'message-form-preview' %>
+  <%= render partial: 'form', locals: { f: f,
+                                              work_package: work_package,
+                                              project: project,
+                                              priorities: priorities,
+                                              user: user } %>
+
+  <hr class="form--separator -invisible">
+
+  <%= send_notification_option(params['send_notification'] != '0') %>
+
+  <%= f.button l(:button_create), class: "button -highlight -with-icon icon-checkmark" %>
+  <!-- not supported by controller for now -->
+  <%= link_to_work_package_preview(project) %>
+
+  <%= javascript_tag "Form.Element.focus('#{f.object_name}_subject');" %>
 <% end %>
+
 <div id="preview"></div>
+
+<% content_for :header_tags do %>
+  <%= robot_exclusion_tag %>
+<% end %>
