@@ -214,6 +214,19 @@ div
     text-overflow: ellipsis
     white-space: nowrap
     overflow: hidden
+
+    &.message-title
+      padding-top: 12px
+      padding-bottom: 19px
+      white-space: normal
+      overflow: visible
+      float: left
+
+  &.messages-wrapper
+    @include clearfix
+    .toolbar-container
+      float: right
+
   ul
     margin: 0
     text-align: right
@@ -440,7 +453,7 @@ div.issue hr
     margin-bottom: 6px
 
 #content
-  min-height: 250px
+  min-height: 300px
 
   h3
     margin: 12px 0 6px
@@ -556,9 +569,6 @@ th.checkbox img
 
 p.buttons
   margin-left: 10px
-
-div.contextual > a.icon, p.buttons > a, ul.action_menu_main > li
-  padding-right: 10px
 
 strong.related-issues-heading
   display: block

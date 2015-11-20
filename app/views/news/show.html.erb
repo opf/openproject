@@ -40,10 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
   <li class="toolbar-item">
-    <%# hack around the old watchers_link implementation %>
-    <div class="button">
-      <%= watcher_link(@news, User.current) %>
-    </div>
+    <%= watcher_link(@news, User.current) %>
   </li>
   <% if User.current.allowed_to?(:manage_news, @project) %>
     <li class="toolbar-item">
