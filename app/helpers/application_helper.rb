@@ -70,7 +70,7 @@ module ApplicationHelper
     safe_join [name, ' ', content_tag('span', '*', class: 'required')]
   end
 
-  def li_unless_nil(link, options = {}, html_options = {})
+  def li_unless_nil(link, options = {})
     content_tag(:li, link, options) if link
   end
 
