@@ -103,7 +103,9 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   <% end %>
   <div class="generic-table--action-buttons">
-    <%= link_to l(:label_enumeration_new), { action: 'new', type: klass.name , class: 'button -alt-highlight'} do %>
+    <%= link_to({ action: 'new', type: klass.name },
+                title: l(:label_enumeration_new),
+                class: 'button -alt-highlight') do %>
       <i class="button--icon icon-add"></i>
       <span class="button--text"><%= l(:label_enumeration_new) %></span>
     <% end %>
