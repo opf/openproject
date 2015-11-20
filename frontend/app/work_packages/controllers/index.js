@@ -47,12 +47,6 @@ angular.module('openproject.workPackages.controllers')
     require('./details-tab-overview-controller')
   ])
   .constant('ADD_WATCHER_SELECT_INDEX', -1)
-  .controller('DetailsTabWatchersController', [
-    '$scope',
-    'I18n',
-    'WatchersService',
-    'ADD_WATCHER_SELECT_INDEX', require('./details-tab-watchers-controller')
-  ])
   .constant('RELATION_TYPES', {
     relatedTo: 'Relation::Relates',
     duplicates: 'Relation::Duplicates',

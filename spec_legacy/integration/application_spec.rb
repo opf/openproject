@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 
 describe 'Application' do
   include Redmine::I18n
@@ -44,8 +44,8 @@ describe 'Application' do
   end
 
   it 'set localization' do
-    Setting.available_languages = [:de, :en]
-    Setting.default_language = 'en'
+    allow(Setting).to receive(:available_languages).and_return [:de, :en]
+    allow(Setting).to receive(:default_language).and_return 'en'
 
     # a french user
     get '/projects', {},  'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
@@ -62,7 +62,7 @@ describe 'Application' do
   it 'token based access should not start session' do
     # work_packages of a private project
     get '/work_packages/4.atom'
-    assert_response 404
+    assert_response 302
 
     rss_key = User.find(2).rss_key
     get "/work_packages/4.atom?key=#{rss_key}"

@@ -16,7 +16,7 @@ gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlo
 If you have modified the `Gemfile.plugins` file, always repeat the following steps of the OpenProject installation:
 
 ```bash
-[openproject@debian]# cd ~/openproject
+[openproject@debian]# cd ~/openproject-ce
 [openproject@debian]# bundle install
 [openproject@debian]# bower install
 [openproject@debian]# RAILS_ENV="production" bundle exec rake db:migrate db:seed assets:precompile
@@ -24,7 +24,7 @@ If you have modified the `Gemfile.plugins` file, always repeat the following ste
 Restart the OpenProject server afterwards (yes, you can do that without restarting Apache):
 
 ```bash
-[openproject@debian]# touch ~/openproject/tmp/restart.txt
+[openproject@debian]# touch ~/openproject-ce/tmp/restart.txt
 ```
 
 The next web-request to the server will take longer (as the application is restarted). All subsequent request should be as fast as always.

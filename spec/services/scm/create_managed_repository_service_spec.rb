@@ -166,23 +166,59 @@ describe Scm::CreateManagedRepositoryService do
             status: 200,
             body: { url: returned_url, path: root_url }.to_json
           )
-
-        # Avoid setting up a second call to the remote during save
-        # since we only templated the repository, not created one!
-        expect(repository).to receive(:save).and_return(true)
       end
 
-      it 'calls the callback' do
-        expect(Scm::CreateRemoteRepositoryJob)
-          .to receive(:new).and_call_original
+      shared_examples 'calls the callback' do
+        before do
+          # Avoid setting up a second call to the remote during save
+          # since we only templated the repository, not created one!
+          expect(repository).to receive(:save).and_return(true)
+        end
 
-        expect(service.call).to be true
-        expect(repository.root_url).to eq(root_url)
-        expect(repository.url).to eq(returned_url)
+        it do
+          expect(Scm::CreateRemoteRepositoryJob)
+            .to receive(:new).and_call_original
 
-        expect(WebMock)
-          .to have_requested(:post, url)
-          .with(body: hash_including(action: 'create'))
+          expect(service.call).to be true
+          expect(repository.root_url).to eq(root_url)
+          expect(repository.url).to eq(returned_url)
+
+          expect(WebMock)
+            .to have_requested(:post, url)
+            .with(body: hash_including(action: 'create'))
+        end
+      end
+
+      context 'with http' do
+        it_behaves_like 'calls the callback'
+      end
+
+      context 'with https' do
+        let(:url) { 'https://myreposerver.example.com/api/' }
+        let(:config) {
+          {
+            subversion: { manages: url, insecure: insecure }
+          }
+        }
+
+        let(:job) { Scm::CreateRemoteRepositoryJob.new(repository, perform_now: true) }
+
+        context 'with insecure option' do
+          let(:insecure) { true }
+
+          it_behaves_like 'calls the callback'
+          it 'uses the insecure option' do
+            expect(job.send(:configured_verification)).to eq(OpenSSL::SSL::VERIFY_NONE)
+          end
+        end
+
+        context 'without insecure option' do
+          let(:insecure) { false }
+
+          it 'uses the insecure option' do
+            expect(job.send(:configured_verification)).to eq(OpenSSL::SSL::VERIFY_PEER)
+          end
+        end
       end
     end
 
