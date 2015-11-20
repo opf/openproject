@@ -33,5 +33,5 @@ See doc/COPYRIGHT.md for more details.
 <%= labelled_tabular_form_for @config, url: pdf_export_export_card_configurations_path do |f| -%>
   <%= render partial: 'form', locals: { f: f } %>
   <hr class="form--separator">
-  <%= styled_button_tag l(:button_create), class: "-highlight -with-icon icon-yes" %>
+  <%= styled_button_tag l(:button_create), class: "-highlight -with-icon icon-checkmark" %>
 <% end %>
