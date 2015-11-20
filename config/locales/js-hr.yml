@@ -1,0 +1,6 @@
+hr:
+  js:
+    work_packages:
+      properties:
+        storyPoints: Točke scenarija
+        remainingTime: Preostali sati
