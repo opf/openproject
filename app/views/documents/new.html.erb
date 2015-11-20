@@ -34,7 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= labelled_tabular_form_for @document, url: project_documents_path(@project), html: { multipart: true } do |f| -%>
   <%= render :partial => 'documents/form', locals: { f: f } %>
   <%= render :partial => 'attachments/form' %>
-  <%= styled_button_tag l(:button_create), class: "-highlight -with-icon icon-yes" %>
+  <%= styled_button_tag l(:button_create), class: "-highlight -with-icon icon-checkmark" %>
 <% end %>
 
 
