@@ -73,7 +73,6 @@
 <li><span class="icon-export-xls-descr"></span> export-xls-descr</li>
 <li><span class="icon-faq"></span> faq</li>
 <li><span class="icon-filter"></span> filter</li>
-<li><span class="icon-fire"></span> fire</li>
 <li><span class="icon-flag"></span> flag</li>
 <li><span class="icon-folder"></span> folder</li>
 <li><span class="icon-folder-add"></span> folder-add </li>
@@ -135,6 +134,7 @@
 <li><span class="icon-play"></span> play</li>
 <li><span class="icon-plus"></span> plus</li>
 <li><span class="icon-pre"></span> pre</li>
+<li><span class="icon-presentation"></span> presentation</li>
 <li><span class="icon-print"></span> print</li>
 <li><span class="icon-priority"></span> priority</li>
 <li><span class="icon-projects"></span> projects</li>
@@ -171,7 +171,6 @@
 <li><span class="icon-strike-through"></span> strike-through</li>
 <li><span class="icon-status"></span> status</li>
 <li><span class="icon-status-reporting"></span> status-reporting</li>
-<li><span class="icon-table-detail-view"></span> table-detail-view</li>
 <li><span class="icon-text"></span> text</li>
 <li><span class="icon-ticket"></span> ticket</li>
 <li><span class="icon-ticket-checked"></span> ticket-checked</li>
@@ -189,6 +188,7 @@
 <li><span class="icon-unwatched"></span> unwatched</li>
 <li><span class="icon-unit"></span> unit</li>
 <li><span class="icon-unlocked"></span> unlocked</li>
+<li><span class="icon-upload"></span> upload</li>
 <li><span class="icon-user-minus"></span> user-minus</li>
 <li><span class="icon-user-plus"></span> user-plus</li>
 <li><span class="icon-user"></span> user</li>
