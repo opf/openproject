@@ -74,7 +74,7 @@ before_install:
   - git init
   - git remote add openproject https://github.com/opf/openproject.git
   - git fetch --depth=1 openproject
-  - git checkout openproject/dev
+  - git checkout openproject/stable/5
 
   # End of custom plugin instructions.
 
