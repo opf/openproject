@@ -233,6 +233,12 @@ default:
   #     - old_repository: The known path to the old repository (used during relocate, only)
   #
   #   NOTE: Disabling :managed repositories using disabled_types takes precedence over this setting.
+  #
+  # insecure:
+  #   Only applies when the manages: key is set to a URL
+  #   If the given URL uses SSL, certificate checking will be disabled.
+  #   This key is set for a packaged installation by default, since it communicates locally and
+  #   these installations may often include a snakeoil certificate.
   # mode:
   #   The octal file mode to set the repository folder to (defaults to 0700).
   # group:

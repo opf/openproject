@@ -36,6 +36,6 @@
 # Until then, a synchronous process is more failsafe.
 class Scm::DeleteRemoteRepositoryJob < Scm::RemoteRepositoryJob
   def perform
-    send(repository_request.merge(action: :delete))
+    send_request(repository_request.merge(action: :delete))
   end
 end
