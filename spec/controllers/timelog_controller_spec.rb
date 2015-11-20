@@ -70,14 +70,14 @@ describe TimelogController, type: :controller do
         it { expect(response.status).to eq(404) }
       end
 
-      context 'with a custom field' do
+      context 'with a required custom field' do
         let!(:custom_field) do
           FactoryGirl.create :time_entry_custom_field,
                              name: 'supplies',
                              is_required: true
         end
 
-        describe 'which is whitelisted' do
+        describe 'which is given' do
           before do
             params[:time_entry][:custom_field_values] = { custom_field.id.to_s => 'wurst' }
 
@@ -87,7 +87,7 @@ describe TimelogController, type: :controller do
           it_behaves_like 'successful timelog creation'
         end
 
-        describe 'which is not whitelisted' do
+        describe 'which is omitted' do
           render_views
 
           before do
