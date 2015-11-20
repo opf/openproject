@@ -144,7 +144,7 @@ with OpenProject. For more information, see https://github.com/opf/openproject-c
 ```bash
 [openproject@host] cd ~
 [openproject@host] git clone https://github.com/opf/openproject-ce.git --branch stable/5 --depth 1
-[openproject@host] cd openproject
+[openproject@host] cd openproject-ce
 [openproject@host] gem install bundler
 [openproject@host] bundle install --deployment --without postgres sqlite development test therubyracer
 [openproject@host] npm install
@@ -153,7 +153,7 @@ with OpenProject. For more information, see https://github.com/opf/openproject-c
 ## Configure OpenProject
 
 Create and configure the database configuration file in config/database.yml
-(relative to the openproject-directory).
+(relative to the openproject-ce directory).
 
 ```bash
 [openproject@host] cp config/database.yml.example config/database.yml
@@ -222,7 +222,7 @@ prevents you from such errors.
 ## Finish the Installation of OpenProject
 
 ```bash
-[openproject@host] cd ~/openproject
+[openproject@host] cd ~/openproject-ce
 [openproject@host] RAILS_ENV="production" ./bin/rake db:create
 [openproject@host] RAILS_ENV="production" ./bin/rake db:migrate
 [openproject@host] RAILS_ENV="production" ./bin/rake db:seed
@@ -267,7 +267,7 @@ Now, the Passenger gem is installed and integrated into apache.
 
 ```bash
 [root@ubuntu] su openproject --login
-[openproject@ubuntu] cd ~/openproject
+[openproject@ubuntu] cd ~/openproject-ce
 [openproject@ubuntu] gem install passenger
 [openproject@ubuntu] passenger-install-apache2-module
 ```
@@ -314,8 +314,8 @@ SetEnv EXECJS_RUNTIME Disabled
 <VirtualHost *:80>
    ServerName yourdomain.com
    # !!! Be sure to point DocumentRoot to 'public'!
-   DocumentRoot /home/openproject/openproject/public
-   <Directory /home/openproject/openproject/public>
+   DocumentRoot /home/openproject/openproject-ce/public
+   <Directory /home/openproject/openproject-ce/public>
       # This relaxes Apache security settings.
       AllowOverride all
       # MultiViews must be turned off.
@@ -358,7 +358,7 @@ OpenProject sends (some) mails asynchronously by using background jobs. All such
 Now, the crontab file opens in the standard editor. Add the following entry to the file:
 
 ```cron
-*/1 * * * * cd /home/openproject/openproject; /home/openproject/.rvm/gems/ruby-2.1.5/wrappers/rake jobs:workoff
+*/1 * * * * cd /home/openproject/openproject-ce; /home/openproject/.rvm/gems/ruby-2.1.5/wrappers/rake jobs:workoff
 ```
 
 This will start the worker job every minute.
@@ -369,7 +369,7 @@ OpenProject can (by default) browse Subversion and Git repositories, but it does
 
 We do however support an integration with the Apache webserver to create and serve repositories on the fly, including integration into the fine-grained project authorization system of OpenProject.
 
-OpenProject ships with support for so-called *managed* repositories, which can be created and maintained directly within OpenProeject and are linked to a single project.
+OpenProject ships with support for so-called *managed* repositories, which can be created and maintained directly within OpenProject and are linked to a single project.
 
 The complete guide for the integration of Subversion and Git repositories can be found in the [repository integration guide](repository-integration.md).
 
@@ -399,7 +399,7 @@ gem "openproject-meeting", git: "https://github.com/finnlabs/openproject-meeting
 If you have modified the `Gemfile.plugin` file, always repeat the following steps of the OpenProject installation:
 
 ```bash
-[openproject@all] cd ~/openproject
+[openproject@all] cd ~/openproject-ce
 [openproject@all] bundle install
 [openproject@all] npm install
 [openproject@all] RAILS_ENV="production" ./bin/rake db:migrate
@@ -410,7 +410,7 @@ If you have modified the `Gemfile.plugin` file, always repeat the following step
 Restart the OpenProject server afterwards:
 
 ```bash
-[openproject@all] touch ~/openproject/tmp/restart.txt
+[openproject@all] touch ~/openproject-ce/tmp/restart.txt
 ```
 
 The next web-request to the server will take longer (as the application is restarted). All subsequent request should be as fast as always.
@@ -423,14 +423,14 @@ You can find the error logs for apache here:
 <pre>/var/log/apache2/error.log</pre>
 
 The OpenProject logfile can be found here:
-<pre>/home/openproject/openproject/log/production.log</pre>
+<pre>/home/openproject/openproject-ce/log/production.log</pre>
 
 If an error occurs, it should be logged there.
 
 If you need to restart the server (for example after a configuration change), do
 
 ```bash
-[openproject@all] touch ~/openproject/tmp/restart.txt
+[openproject@all] touch ~/openproject-ce/tmp/restart.txt
 ```
 
 ## Frequently Asked Questions (FAQ)
@@ -449,7 +449,7 @@ If you need to restart the server (for example after a configuration change), do
   Things can go wrong on different levels. You can find the apache error logs here:
   <pre>/var/log/apache2/error.log</pre>
   The OpenProject log can be found here:
-  <pre>/home/openproject/openproject/log/production.log</pre>
+  <pre>/home/openproject/openproject-ce/log/production.log</pre>
 
 * **I cannot solve an error, not even with the log files. How do I get help?**
 
