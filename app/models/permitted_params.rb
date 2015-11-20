@@ -303,9 +303,10 @@ class PermittedParams
   end
 
   def time_entry
-    params.fetch(:time_entry, {}).permit(
-      :hours, :comments, :work_package_id, :activity_id, :spent_on,
-      custom_field_values: custom_field_keys)
+    permitted_params = params.fetch(:time_entry, {}).permit(
+      :hours, :comments, :work_package_id, :activity_id, :spent_on)
+
+    permitted_params.merge(custom_field_values(:time_entry))
   end
 
   def news
@@ -643,9 +644,5 @@ class PermittedParams
     attributes.each_pair do |key, attrs|
       permitted_attributes[key] += attrs
     end
-  end
-
-  def custom_field_keys
-    CustomField.pluck(:id).map(&:to_s)
   end
 end
