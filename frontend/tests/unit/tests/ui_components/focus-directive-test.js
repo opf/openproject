@@ -32,7 +32,7 @@ describe('focus Directive', function() {
   var doc, compile, element, rootScope, scope, disabledButton, timeout, body;
 
   var input = '<input type="text" name="testInput" focus id="focusTest"></input>',
-      button = '<button class="button" focus ng-disabled="true"></button>';
+      button = '<button class="button" focus disabled="true"></button>';
   element = angular.element(input);
   disabledButton = angular.element(button);
 

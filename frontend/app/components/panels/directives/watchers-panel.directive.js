@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,54 +24,22 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-/*jshint expr: true*/
+angular
+  .module('openproject.workPackages.controllers')
+  .directive('watchersPanel', watchersPanel);
 
-describe('DetailsTabWatchersController', function() {
-  'use strict';
+function watchersPanel()  {
+  return {
+    restrict: 'E',
+    templateUrl: '/components/panels/directives/watchers-panel.directive.html',
+    scope: {
+      workPackage: '='
+    },
 
-  beforeEach(module('openproject'));
-
-  var $controller, $rootScope;
-  beforeEach(inject(['$controller', '$rootScope', function(ctrl, root) {
-    $controller = ctrl;
-    $rootScope = root;
-  }]));
-
-  var workPackage = {
-    links: {
-      watchers: {
-        url: function() {
-          return '/work_packages/123/watchers';
-        }
-      },
-      availableWatchers: {
-        url: function() {
-          return '/work_packages/123/available_watchers';
-        }
-      }
-    }
+    bindToController: true,
+    controller: 'WatchersPanelController',
+    controllerAs: 'vm'
   };
-
-
-  it('should exist', function() {
-    var locals = {
-          $scope: $rootScope.$new()
-        };
-
-    locals.$scope.workPackage = workPackage;
-    expect($controller('DetailsTabWatchersController', locals)).to.exist;
-  });
-
-  it('should not work without a work workPackage', function() {
-    var locals = {
-      $scope: $rootScope.$new()
-    };
-
-    expect(function() {
-      $controller('DetailsTabWatchersController', locals);
-    }).to.throw;
-  });
-});
-
+}
