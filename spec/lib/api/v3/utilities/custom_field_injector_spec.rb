@@ -63,7 +63,6 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
     before do
       allow(schema).to receive(:assignable_values).with(:version, anything).and_return(versions)
-      allow(schema).to receive(:writable?).and_return(true)
     end
 
     describe 'basic custom field' do

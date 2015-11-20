@@ -705,13 +705,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
-      describe 'duplicate' do
-        it_behaves_like 'action link' do
-          let(:action) { 'duplicate' }
-          let(:permission) { :add_work_packages }
-        end
-      end
-
       describe 'move' do
         it_behaves_like 'action link' do
           let(:action) { 'move' }

@@ -83,10 +83,10 @@ def select_principal(principal)
 end
 
 def select_role(role)
-  if !User.current.impaired?
-    select2(role.name, css: '#s2id_member_role_ids')
-  else
+  if User.current.impaired?
     select_without_select2(role.name, 'form .roles')
+  else
+    select(role.name, from: 'member_role_ids')
   end
 end
 
@@ -123,15 +123,6 @@ Then /^I should not see the principal "(.+)" as a member$/ do |principal_name|
   principal = InstanceFinder.find(Principal, principal_name)
 
   steps %{ Then I should not see "#{principal.name}" within ".generic-table" }
-end
-
-When /^I enter the (principal|role) name "(.+)"$/ do |model, principal_name|
-  model = (model == 'role' ? 'role' : 'user')
-  if !User.current.impaired?
-    enter_name_with_select2(principal_name, "#s2id_member_#{model}_ids")
-  else
-    enter_name_without_select2(principal_name)
-  end
 end
 
 When /^I delete the "([^"]*)" membership$/ do |group_name|

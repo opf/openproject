@@ -30,13 +30,11 @@ module DemoData
     # Careful: The seeding recreates the seeded project before it runs, so any changes
     # on the seeded project will be lost.
     def seed_data!
+      # We are relying on the default_projects_modules setting to set the desired project modules
       puts ' ↳ Creating demo project...'
 
       puts '   -Creating/Resetting Demo project'
       project = reset_demo_project
-
-      puts '   -Setting modules.'
-      set_modules(project)
 
       puts '   -Setting members.'
       set_members(project)
@@ -56,6 +54,10 @@ module DemoData
       end
     end
 
+    def applicable?
+      Project.count == 0
+    end
+
     def project_data_seeders(project)
       seeders = [
         DemoData::CustomFieldSeeder,
@@ -68,21 +70,18 @@ module DemoData
     end
 
     def reset_demo_project
-      if delete_me = Project.find_by(identifier: I18n.t('seeders.demo_data.project.identifier'))
-        delete_me.destroy
-      end
-
-      Project.create!(
-        name:         I18n.t('seeders.demo_data.project.name'),
-        identifier:   I18n.t('seeders.demo_data.project.identifier'),
-        description:  I18n.t('seeders.demo_data.project.description'),
-        types:        Type.all
-      )
+      delete_demo_project
+      create_demo_project
     end
 
-    def set_modules(project)
-      project.enabled_module_names += ['timelines']
-      project.enabled_module_names -= ['repository']
+    def create_demo_project
+      Project.create! project_data
+    end
+
+    def delete_demo_project
+      if delete_me = find_demo_project
+        delete_me.destroy
+      end
     end
 
     def set_members(project)
@@ -128,5 +127,40 @@ module DemoData
         description: I18n.t('seeders.demo_data.board.description')
       )
     end
+
+    module Data
+      module_function
+
+      def project_data
+        {
+          name:         project_name,
+          identifier:   project_identifier,
+          description:  project_description,
+          types:        project_types
+        }
+      end
+
+      def project_name
+        I18n.t('seeders.demo_data.project.name')
+      end
+
+      def project_identifier
+        I18n.t('seeders.demo_data.project.identifier')
+      end
+
+      def project_description
+        I18n.t('seeders.demo_data.project.description')
+      end
+
+      def project_types
+        Type.all
+      end
+
+      def find_demo_project
+        Project.find_by(identifier: project_identifier)
+      end
+    end
+
+    include Data
   end
 end

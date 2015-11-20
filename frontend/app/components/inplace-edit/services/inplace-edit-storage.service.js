@@ -31,15 +31,15 @@ angular
   .factory('inplaceEditStorage', inplaceEditStorage);
 
 function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageService,
-  ActivityService, inplaceEdit, ApiHelper) {
+  ActivityService, inplaceEditForm, ApiHelper, inplaceEditErrors) {
 
   var handleAPIErrors = function (deferred) {
     return function (errors) {
-      EditableFieldsState.errors = {
+      inplaceEditErrors.errors = {
         _common: ApiHelper.getErrorMessages(errors)
       };
 
-      deferred.reject(EditableFieldsState.errors)
+      deferred.reject(inplaceEditErrors.errors)
     }
   };
 
@@ -47,8 +47,8 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
     saveWorkPackage: function () {
       var deferred = $q.defer();
 
-      if (EditableFieldsState.errors) {
-        deferred.reject(EditableFieldsState.errors);
+      if (inplaceEditErrors.errors) {
+        deferred.reject(inplaceEditErrors.errors);
         return deferred.promise;
       }
 
@@ -81,8 +81,11 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
       var deferred = $q.defer();
       WorkPackageService.loadWorkPackageForm(EditableFieldsState.workPackage)
         .then(function(form) {
-          inplaceEdit.form(EditableFieldsState.workPackage.props.id).resource.form = form;
+          var editForm = inplaceEditForm.getForm(EditableFieldsState.workPackage.props.id);
+          editForm.resource.form = form;
           EditableFieldsState.workPackage.form = form;
+
+          editForm.updateFieldValues();
 
           deferred.resolve(form);
       }).catch(handleAPIErrors(deferred));
@@ -102,16 +105,18 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
           deferred.resolve(form);
 
         } else {
-          EditableFieldsState.errors = {};
+          inplaceEditErrors.errors = {};
           _.forEach(form.embedded.validationErrors.props, function(error, field) {
+            var fieldName = field;
+
             if(field === 'startDate' || field === 'dueDate') {
-              EditableFieldsState.errors['date'] = error.message;
-            } else {
-              EditableFieldsState.errors[field] = error.message;
+              fieldName = 'date';
             }
+
+            inplaceEditErrors.errors[fieldName] = error.message;
           });
 
-          deferred.reject(EditableFieldsState.errors);
+          deferred.reject(inplaceEditErrors.errors);
         }
       }).catch(deferred.reject);
 

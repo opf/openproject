@@ -1,0 +1,16 @@
+<div id="detail-panel-watchers">
+  <div class="notification-box -error" ng-show="vm.error">
+    <div class="notification-box--content">
+      <p>{{ ::vm.text.loadingError }}</p>
+    </div>
+  </div>
+  <div ng-show="vm.loading">
+    <p>{{ ::vm.text.loading }}</p>
+  </div>
+  <div ng-hide="vm.loading || vm.error">
+    <div class="work-package--watchers work-package--details--long-field">
+      <work-package-watcher watcher="watcher" ng-repeat="watcher in vm.watching track by watcher.id"></work-package-watcher>
+    </div>
+    <work-package-watchers-lookup watchers="vm.available" ng-show="vm.available.length"></work-package-watchers-lookup>
+  </div>
+</div>

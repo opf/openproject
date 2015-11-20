@@ -1,0 +1,90 @@
+<!--
+  ~ -- copyright
+  ~ OpenProject is a project management system.
+  ~ Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+  ~
+  ~ This program is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU General Public License version 3.
+  ~
+  ~ OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  ~ Copyright (C) 2006-2013 Jean-Philippe Lang
+  ~ Copyright (C) 2010-2013 the ChiliProject Team
+  ~
+  ~ This program is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU General Public License
+  ~ as published by the Free Software Foundation; either version 2
+  ~ of the License, or (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  ~
+  ~ See doc/COPYRIGHT.rdoc for more details.
+  ~ ++
+  -->
+
+<div cg-busy="vm.loaderPromise">
+  <div ng-if="vm.workPackage">
+    <h2>{{ ::I18n.t('js.work_packages.create.header') }}</h2>
+
+    <div class="work-packages--create--title">
+      <work-package-field field-name="'subject'" tabindex="0"></work-package-field>
+    </div>
+
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text">
+          {{ ::I18n.t('js.label_description') }}
+        </h3>
+      </div>
+    </div>
+
+    <div class="single-attribute wiki">
+      <work-package-field field-name="'description'"></work-package-field>
+    </div>
+
+    <div ng-repeat="group in vm.groupedFields"
+         ng-hide="vm.hideEmptyFields && vm.isGroupHideable(vm.groupedFields, group.groupName, vm.workPackage)"
+         class="attributes-group">
+
+      <div class="attributes-group--header">
+        <div class="attributes-group--header-container">
+          <h3 class="attributes-group--header-text"
+              ng-bind="::I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
+        </div>
+        <div class="attributes-group--header-toggle">
+          <panel-expander tabindex="-1" ng-if="vm.showToggleButton() && $first"
+                          collapsed="vm.hideEmptyFields"
+                          expand-text="{{ ::I18n.t('js.label_show_attributes') }}"
+                          collapse-text="{{ ::I18n.t('js.label_hide_attributes') }}">
+          </panel-expander>
+        </div>
+      </div>
+
+      <dl class="attributes-key-value">
+        <dt
+            ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+            ng-if="vm.isSpecified(vm.workPackage, field) && vm.isEditable(vm.workPackage, field)"
+            ng-repeat-start="field in group.attributes" class="attributes-key-value--key">
+          {{vm.getLabel(vm.workPackage, field)}}
+          <span class="required" ng-if="vm.hasNiceStar(vm.workPackage, field)"> *</span>
+        </dt>
+        <dd
+            ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+            ng-if="vm.isSpecified(vm.workPackage, field) && vm.isEditable(vm.workPackage, field)"
+            ng-repeat-end
+            class="attributes-key-value--value-container">
+          <work-package-field field-name="field"></work-package-field>
+        </dd>
+      </dl>
+    </div>
+    <work-package-attachments work-package="vm.workPackage" data-ng-show="!vm.hideEmptyFields"></work-package-attachments>
+  </div>
+</div>
+
+<edit-actions-bar on-cancel="vm.goBack()" on-save="vm.notifyCreation()"> </edit-actions-bar>

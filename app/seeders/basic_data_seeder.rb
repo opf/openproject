@@ -43,7 +43,8 @@ class BasicDataSeeder < Seeder
       BasicData::WorkflowSeeder,
       BasicData::PrioritySeeder,
       BasicData::ProjectStatusSeeder,
-      BasicData::ProjectTypeSeeder
+      BasicData::ProjectTypeSeeder,
+      BasicData::SettingSeeder
     ]
 
     seeders.map(&:new)

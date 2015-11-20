@@ -1,9 +1,10 @@
 <div class="work-packages--show-view" ng-class="{'edit-all-mode': editAll.state}">
   <div class="toolbar-container">
     <div toolbar id="toolbar">
-      <ul id="toolbar-items">
-        <li class="toolbar-item" ng-hide="true">
+      <ul id="toolbar-items" class="toolbar-items">
+        <li class="toolbar-item">
           <wp-create-button project-identifier="projectIdentifier"
+                            ng-hide="editAll.state"
                             state-name="work-packages.new"></wp-create-button>
         </li>
         <li class="toolbar-item">
@@ -16,7 +17,7 @@
           </button>
         </li>
         <li class="toolbar-item" ng-if="displayWatchButton">
-          <work-package-watcher-button work-package="workPackage" disabled="editAll.state"></work-package-watcher-button>
+          <wp-watcher-button work-package="workPackage" disabled="editAll.state"></wp-watcher-button>
         </li>
         <li class="toolbar-item" feature-flag="detailsView">
           <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
@@ -97,7 +98,7 @@
   <back-url></back-url>
 
 
-  <div class="work-packages--split-view" cg-busy="wpPromise">
+  <div class="work-packages--split-view">
     <div class="work-packages--left-panel">
       <div class="work-packages--panel-inner">
         <div class="attributes-group">

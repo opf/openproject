@@ -32,7 +32,7 @@ angular
 
 
 function inplaceEditMultiStorage($rootScope, $q, inplaceEditStorage, EditableFieldsState,
-    NotificationsService) {
+    NotificationsService, inplaceEditErrors) {
 
   $rootScope.$on('inplaceEditMultiStorage.save.workPackage', function (event, promise) {
     promise.catch(function (errors) {
@@ -69,7 +69,7 @@ function inplaceEditMultiStorage($rootScope, $q, inplaceEditStorage, EditableFie
 
       }).finally(function () {
         promises = [];
-        EditableFieldsState.errors = null;
+        inplaceEditErrors.errors = null;
         EditableFieldsState.isBusy = false;
       });
     },

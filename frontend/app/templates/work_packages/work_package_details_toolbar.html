@@ -1,13 +1,13 @@
 <div class="work-packages--details-toolbar" ng-hide="editAll.state && !editAll.allowed">
-  <button class="button" accesskey="3" ng-click="editAll.start()" ng-disabled="!editAll.allowed">
+  <button class="button -highlight" accesskey="3" ng-click="editAll.start()" ng-disabled="!editAll.allowed">
     <i class="button--icon icon-edit"></i>
     <span class="button--text" ng-bind="::I18n.t('js.button_edit')"></span>
   </button>
-  <work-package-watcher-button work-package="workPackage"
+  <wp-watcher-button work-package="workPackage"
                                show-text="true"
                                disabled="editAll.state"
                                ng-if="displayWatchButton">
-  </work-package-watcher-button>
+  </wp-watcher-button>
   <button class="button dropdown-relative"
           ng-disabled="!actionsAvailable"
           has-dropdown-menu

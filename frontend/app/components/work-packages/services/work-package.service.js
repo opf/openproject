@@ -33,7 +33,8 @@ angular
 
 function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResource,
     DEFAULT_FILTER_PARAMS, DEFAULT_PAGINATION_OPTIONS, $rootScope, $window, $q, $cacheFactory,
-    AuthorisationService, EditableFieldsState, WorkPackageFieldService, NotificationsService) {
+    AuthorisationService, EditableFieldsState, WorkPackageFieldService, NotificationsService,
+    inplaceEditErrors) {
 
   var workPackage,
       workPackageCache = $cacheFactory('workPackageCache');
@@ -102,7 +103,7 @@ function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResourc
           form.pendingChanges = changes;
           wp.form = form;
           EditableFieldsState.workPackage = wp;
-          EditableFieldsState.errors = null;
+          inplaceEditErrors.errors = null;
           return wp;
         });
     },
@@ -120,7 +121,7 @@ function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResourc
             wp.schema = result[1];
             workPackage = wp;
             EditableFieldsState.workPackage = wp;
-            EditableFieldsState.errors = null;
+            inplaceEditErrors.errors = null;
             return wp;
           });
       });
@@ -356,7 +357,3 @@ function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResourc
 
   return WorkPackageService;
 }
-WorkPackageService.$inject = ['$http', 'PathHelper', 'WorkPackagesHelper', 'HALAPIResource',
-  'DEFAULT_FILTER_PARAMS', 'DEFAULT_PAGINATION_OPTIONS', '$rootScope', '$window', '$q',
-  '$cacheFactory', 'AuthorisationService', 'EditableFieldsState', 'WorkPackageFieldService',
-  'NotificationsService'];

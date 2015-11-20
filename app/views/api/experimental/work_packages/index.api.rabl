@@ -79,7 +79,7 @@ child @work_packages => :work_packages do
         edit:       -> { edit_work_package_path(wp) },
         log_time:   -> { new_work_package_time_entry_path(wp) },
         watch:      -> { watcher_link(wp, User.current) },
-        duplicate:  -> { new_project_work_package_path({ project_id: wp.project, copy_from: wp }) },
+        duplicate:  -> { new_project_work_packages_path({ project_id: wp.project, copy_from: wp }) },
         move:       -> { new_move_work_packages_path(ids: [wp.id]) },
         copy:       -> { new_move_work_packages_path(ids: [wp.id], copy: true) },
         delete:     -> { work_packages_bulk_path(ids: [wp.id], method: :delete) }
@@ -106,7 +106,7 @@ end
 node(:_links) do
   links = {}
 
-  links[:create] = new_project_work_package_path(@project) if User.current.allowed_to?(:add_work_packages, @project)
+  links[:create] = new_project_work_packages_path(@project) if User.current.allowed_to?(:add_work_packages, @project)
 
   links
 end

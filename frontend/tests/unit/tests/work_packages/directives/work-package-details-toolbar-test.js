@@ -61,7 +61,6 @@ describe('workPackageDetailsToolbar', function() {
     var stub = sinon.stub(I18n, 't');
 
     stub.withArgs('js.button_log_time').returns('Log time');
-    stub.withArgs('js.button_duplicate').returns('Duplicate');
     stub.withArgs('js.button_move').returns('Move');
     stub.withArgs('js.button_delete').returns('Delete');
 
@@ -170,7 +169,6 @@ describe('workPackageDetailsToolbar', function() {
     var listRootSelector = 'ul.dropdown-menu';
     var actions = {
       log_time: 'icon-log_time',
-      duplicate: 'icon-duplicate',
       move: 'icon-move',
       delete: 'icon-delete'
     };

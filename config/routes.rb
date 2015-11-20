@@ -301,20 +301,16 @@ OpenProject::Application.routes.draw do
       resources :calendar, controller: 'calendars', only: [:index]
     end
 
-    # Prevent the /*state route from overriding Rails' new
-    # view which is being used for e.g. duplicating work packages.
-    resources :work_packages, only: [:new]
-
-    resources :work_packages, only: [:create] do
-      get :new_type, on: :collection
+    resources :work_packages, only: [] do
 
       collection do
-        match '/report/:detail' => 'work_packages/reports#report_details', via: :get
-        match '/report' => 'work_packages/reports#report', via: :get
+        get '/report/:detail' => 'work_packages/reports#report_details'
+        get '/report' => 'work_packages/reports#report'
       end
 
       # states managed by client-side routing on work_package#index
       get '(/*state)' => 'work_packages#index', on: :collection, as: ''
+      get '/new' => 'work_packages#index', on: :collection, as: 'new'
     end
 
     resources :activity, :activities, only: :index, controller: 'activities'
@@ -427,12 +423,8 @@ OpenProject::Application.routes.draw do
     get '/bulk' => 'bulk#destroy'
   end
 
-  resources :work_packages, only: [:update, :index] do
-    get :new_type, on: :member
-
+  resources :work_packages, only: [:index] do
     get :column_data, on: :collection # TODO move to API
-
-    resources :relations, controller: 'work_package_relations', only: [:create, :destroy]
 
     # move bulk of wps
     get 'move/new' => 'work_packages/moves#new', on: :collection, as: 'new_move'
@@ -446,19 +438,12 @@ OpenProject::Application.routes.draw do
     end
     resources :time_entries, controller: 'timelog'
 
-    post :preview, on: :collection
-    post :preview, on: :member
-
-    get 'quoted/:id', action: 'quoted', on: :collection
-
     # states managed by client-side routing on work_package#index
     get 'details/*state' => 'work_packages#index', on: :collection, as: :details
 
-    # made explicit to avoid conflict with catch-all client-side route
-    get '/edit' => 'work_packages#edit', on: :member
-
     # states managed by client-side (angular) routing on work_package#show
     get '(/*state)' => 'work_packages#show', on: :member, as: ''
+    get '/edit' => 'work_packages#show', on: :member, as: 'edit'
   end
 
   resources :versions, only: [:show, :edit, :update, :destroy] do
@@ -543,7 +528,6 @@ OpenProject::Application.routes.draw do
     get '/my/page_layout', action: 'page_layout'
     get '/my/password', action: 'password'
     post '/my/change_password', action: 'change_password'
-    match '/my/first_login', action: 'first_login', via: [:get, :put]
     get '/my/page', action: 'page'
     match '/my/account', action: 'account', via: [:get, :patch]
     match '/my/settings', action: 'settings', via: [:get, :patch]

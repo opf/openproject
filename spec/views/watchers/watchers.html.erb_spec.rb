@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'work_packages/show', type: :view do
+describe 'watchers/watchers', type: :view do
   let(:work_package) { FactoryGirl.create(:work_package, description: '') }
   let(:attachment)   {
     FactoryGirl.create(:attached_picture,
@@ -36,15 +36,6 @@ describe 'work_packages/show', type: :view do
                        container: work_package,
                        filename: 'foo.jpg')
   }
-
-  it 'renders correct image paths in journal entries' do
-    work_package.add_journal(work_package.author, 'bar !foo.jpg! bar')
-    work_package.attachments << attachment
-    work_package.save
-    render 'history', work_package: work_package, journals: work_package.journals
-    expect(rendered)
-      .to have_selector "img[src='/attachments/#{attachment.id}/download']"
-  end
 
   context 'watchers list is sorted alphabeticaly' do
     let!(:project) { FactoryGirl.create(:project) }

@@ -85,11 +85,9 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
     }
   };
 }
-inplaceEditorEditPane.$inject = ['EditableFieldsState', 'FocusHelper', '$timeout'];
-
 
 function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
-    EditableFieldsState, inplaceEditStorage, inplaceEditMultiStorage) {
+    EditableFieldsState, inplaceEditStorage, inplaceEditMultiStorage, inplaceEditErrors) {
 
   var vm = this;
   var field = $scope.field;
@@ -113,8 +111,8 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
     }
 
     if (detectedViolations.length) {
-      EditableFieldsState.errors = EditableFieldsState.errors || {};
-      EditableFieldsState.errors[field.name] = detectedViolations.join(' ');
+      inplaceEditErrors.errors = inplaceEditErrors.errors || {};
+      inplaceEditErrors.errors[field.name] = detectedViolations.join(' ');
     }
 
     inplaceEditMultiStorage.save().then(function () {

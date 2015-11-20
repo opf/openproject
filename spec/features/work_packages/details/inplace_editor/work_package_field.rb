@@ -82,7 +82,7 @@ class WorkPackageField
       extend ::Angular::DSL unless singleton_class.included_modules.include?(::Angular::DSL)
       ng_wait
 
-      expect(page).to have_selector('.work-packages--details-content')
+      expect(page).to have_selector('.work-packages--details--subject')
     end
   end
 end

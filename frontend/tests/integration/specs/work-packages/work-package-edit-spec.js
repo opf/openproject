@@ -159,4 +159,11 @@ describe('Work package edit', function() {
       });
     });
   });
+
+  describe('when visiting the work package edit routes', function () {
+    it('should should open the details view in edit mode', function () {
+      browser.get('/work_packages/' + page.wpId + '/edit');
+      expect(page.editableFields.isDisplayed()).to.eventually.be.ok;
+    });
+  })
 });

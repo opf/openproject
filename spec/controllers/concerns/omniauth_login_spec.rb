@@ -73,8 +73,7 @@ describe AccountController, type: :controller do
         end
 
         it 'redirects to the first login page with a back_url' do
-          expect(response).to redirect_to(
-            my_first_login_path(back_url: 'https://example.net/some_back_url'))
+          expect(response).to redirect_to(my_page_path)
         end
       end
 
@@ -167,7 +166,7 @@ describe AccountController, type: :controller do
                                   firstname: 'Foo',
                                   lastname: 'Smith',
                                   mail: 'foo@bar.com' }
-          expect(response).to redirect_to my_first_login_path
+          expect(response).to redirect_to my_page_path
 
           user = User.find_by_login('login@bar.com')
           expect(user).to be_an_instance_of(User)
@@ -382,7 +381,7 @@ describe AccountController, type: :controller do
 
               post :omniauth_login
 
-              expect(response).to redirect_to my_first_login_path
+              expect(response).to redirect_to my_page_path
               # authorization is successful which results in the registration
               # of a new user in this case because we changed the provider
               # and there isn't a user with that identity URL yet ...

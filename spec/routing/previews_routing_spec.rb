@@ -64,15 +64,4 @@ describe 'preview', type: :routing do
                                                   action: 'preview',
                                                   id: '1')
   end
-
-  it 'should connect POST /work_packages/preview to work_packages#preview' do
-    expect(post('/work_packages/preview')).to route_to(controller: 'work_packages',
-                                                       action: 'preview')
-  end
-
-  it 'should connect POST /work_packages/:id/preview to work_packages#preview' do
-    expect(post('/work_packages/1/preview')).to route_to(controller: 'work_packages',
-                                                         action: 'preview',
-                                                         id: '1')
-  end
 end

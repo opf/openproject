@@ -46,10 +46,10 @@ function workPackageField() {
   };
 }
 
-function WorkPackageFieldController($scope, EditableFieldsState, inplaceEdit) {
+function WorkPackageFieldController($scope, EditableFieldsState, inplaceEditForm) {
   var workPackage = EditableFieldsState.workPackage;
   this.state = EditableFieldsState;
-  $scope.field = inplaceEdit.form(workPackage.props.id, workPackage).field(this.fieldName);
+  $scope.field = inplaceEditForm.getForm(workPackage.props.id, workPackage).field(this.fieldName);
 
   var field = $scope.field;
 
@@ -59,5 +59,4 @@ function WorkPackageFieldController($scope, EditableFieldsState, inplaceEdit) {
     this.editTitle = I18n.t('js.inplace.button_edit', { attribute: field.getLabel() });
   }
 }
-WorkPackageFieldController.$inject = ['$scope', 'EditableFieldsState', 'inplaceEdit'];
 

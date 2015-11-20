@@ -137,7 +137,8 @@ describe 'Omniauth authentication', type: :feature do
 
   shared_examples 'omniauth user registration' do
     it 'should register new user' do
-      visit '/auth/developer'
+      visit '/'
+      find_link('Omniauth Developer').click
 
       # login form developer strategy
       fill_in('first_name', with: user.firstname)
@@ -185,9 +186,6 @@ describe 'Omniauth authentication', type: :feature do
       # on register form, we are prompted for a last name
       fill_in('user_lastname', with: user.lastname)
       click_link_or_button 'Submit'
-
-      # now, we see the my/first_login page and just save
-      click_link_or_button 'Save'
 
       expect(current_url).to eql account_lost_password_url
     end

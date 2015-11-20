@@ -37,6 +37,7 @@ $jstoolbar--icon-active-background: #eee
 
 .jstEditor
   padding-left: 0
+  clear: both
 
   textarea, iframe
     margin: 0
@@ -47,15 +48,13 @@ $jstoolbar--icon-active-background: #eee
   cursor: s-resize
 
 .jstElements
-  @include grid-block
-  text-align: center
-  margin-bottom: 0.25rem
+  background: #fff
+  float: right
   line-height: 1.6rem
-  justify-content: flex-end
+  margin-bottom: 0.25rem
+  text-align: right
 
   button
-    @include grid-content
-    flex: 0 1 2rem
     padding: 0.25rem
     margin-left: 0.25rem
     height: 1.625rem
@@ -67,6 +66,7 @@ $jstoolbar--icon-active-background: #eee
     border-radius: 2px
     overflow-y: hidden
     line-height: 1.3rem
+    display: inline-block
 
     &:before
       @include icon-common

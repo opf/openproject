@@ -175,6 +175,7 @@ module API
                                                   customized.assignable_values(:version,
                                                                                current_user)
                                                 },
+                                                writable: true,
                                                 value_representer: Versions::VersionRepresenter,
                                                 link_factory: -> (version) {
                                                   {
@@ -190,6 +191,7 @@ module API
 
           @class.schema_with_allowed_link property_name(custom_field.id),
                                           type: 'User',
+                                          writable: true,
                                           name_source: -> (*) { custom_field.name },
                                           required: custom_field.is_required,
                                           href_callback: -> (*) {
@@ -208,6 +210,7 @@ module API
                                                   custom_field.possible_values
                                                 },
                                                 value_representer: representer,
+                                                writable: true,
                                                 link_factory: -> (value) {
                                                   {
                                                     href: api_v3_paths.string_object(value),

@@ -122,20 +122,6 @@ class MyController < ApplicationController
     write_email_settings(redirect_to: :mail_notifications) if request.patch?
   end
 
-  def first_login
-    if request.get?
-      @user = User.current
-      @back_url = url_for(params[:back_url])
-
-    elsif request.post? || request.put?
-      User.current.pref.attributes = permitted_params.pref || {}
-      User.current.pref.save
-
-      flash[:notice] = l(:notice_account_updated)
-      redirect_back_or_default(controller: '/my', action: 'page')
-    end
-  end
-
   # Create a new feeds key
   def reset_rss_key
     if request.post?
@@ -290,11 +276,10 @@ class MyController < ApplicationController
     if request.patch?
       @user.attributes = permitted_params.user
       @user.pref.attributes = if params[:pref].present?
-        permitted_params.pref
-      else
-        {}
-      end
-      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
+                                permitted_params.pref
+                              else
+                                {}
+                              end
       if @user.save
         @user.pref.save
         flash[:notice] = l(:notice_account_updated)

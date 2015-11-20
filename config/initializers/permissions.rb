@@ -118,7 +118,7 @@ Redmine::AccessControl.map do |map|
                    work_packages: [:index, :all]
 
     wpt.permission :add_work_packages,
-                   issues: [:new, :create, :update_form],
+                   issues: [:new, :create],
                    :'issues/previews' => :create,
                    work_packages: [:new, :new_type, :preview, :create]
 
@@ -127,7 +127,7 @@ Redmine::AccessControl.map do |map|
                    require: :loggedin
 
     wpt.permission :edit_work_packages,
-                   { issues: [:edit, :update, :update_form],
+                   { issues: [:edit, :update],
                      :'work_packages/bulk' => [:edit, :update],
                      work_packages: [:edit, :update, :new_type,
                                      :preview, :quoted],
@@ -270,20 +270,21 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :repository do |repo|
+    repo.permission :browse_repository,
+                    repositories: [:show, :browse, :entry, :annotate,
+                                   :changes, :diff, :stats, :graph]
+
+    repo.permission :commit_access,
+                    {}
+
     repo.permission :manage_repository,
                     { repositories: [:edit, :create, :update, :committers,
                                      :destroy_info, :destroy] },
                     require: :member
 
-    repo.permission :browse_repository,
-                    repositories: [:show, :browse, :entry, :annotate,
-                                   :changes, :diff, :stats, :graph]
-
     repo.permission :view_changesets,
                     repositories: [:show, :revisions, :revision]
 
-    repo.permission :commit_access,
-                    {}
 
     repo.permission :view_commit_author_statistics,
                     {}

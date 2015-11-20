@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($http, PathHelper, FiltersHelper) {
+module.exports = function($http, PathHelper, FiltersHelper, HALAPIResource) {
 
   var ProjectService = {
     getProject: function(projectIdentifier) {
@@ -58,6 +58,10 @@ module.exports = function($http, PathHelper, FiltersHelper) {
           return response.data.projects;
         });
     },
+
+    fetchProjectResource: function (projectIdentifier) {
+      return HALAPIResource.setup('/api/v3/projects/' + projectIdentifier).fetch();
+    }
   };
 
   return ProjectService;

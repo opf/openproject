@@ -141,6 +141,30 @@ describe MyController, type: :controller do
     end
   end
 
+  describe 'settings' do
+    context 'PATCH' do
+      before do
+        as_logged_in_user user do
+          user.pref.self_notified = false
+
+          patch :settings, user: { language: 'en' }
+        end
+      end
+
+      it 'does not alter the email preferences' do
+        expect(assigns(:user).pref.self_notified?).to be_falsey
+      end
+
+      it 'redirects to settings' do
+        expect(response).to redirect_to my_settings_path
+      end
+
+      it 'has a successful flash' do
+        expect(flash[:notice]).to eql I18n.t(:notice_account_updated)
+      end
+    end
+  end
+
   describe 'account with disabled password login' do
     before do
       allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)

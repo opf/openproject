@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="form--field -wide-label"><%= f.check_box :is_in_roadmap %></div>
       <div class="form--field -wide-label"><%= f.select :color_id, options_for_colors(controller.type) %></div>
       <div class="form--field -wide-label"><%= f.check_box :in_aggregation %></div>
-      <div class="form--field -wide-label"><%= f.check_box :is_default %></div>
+      <div class="form--field -wide-label"><%= f.check_box :is_default, label:  t(:label_type_default_new_projects) %></div>
       <div class="form--field -wide-label"><%= f.check_box :is_milestone %></div>
       <% if WorkPackageCustomField.all.any? %>
         <div class="form--field -wide-label">

@@ -58,7 +58,9 @@ angular.module('openproject.workPackages.directives')
     'UserService',
     require('./work-package-column-directive')
   ])
-  .constant('PERMITTED_MORE_MENU_ACTIONS', ['log_time', 'duplicate', 'move',
+  .constant('PERMITTED_MORE_MENU_ACTIONS', [
+    'log_time',
+    'move',
     'delete'
   ])
   .directive('workPackageDetailsToolbar', [
@@ -105,11 +107,6 @@ angular.module('openproject.workPackages.directives')
   .directive('workPackageWatcher', [
     'I18n',
     require('./work-package-watcher-directive')
-  ])
-  .directive('workPackageWatcherButton', [
-    'I18n',
-    'WorkPackageService',
-    require('./work-package-watcher-button-directive')
   ])
   .directive('workPackageWatchersLookup', [
     'I18n',

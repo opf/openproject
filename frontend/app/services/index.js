@@ -53,7 +53,7 @@ angular.module('openproject.services')
     './pagination-service')])
   .service('PriorityService', ['$http', 'PathHelper', require(
     './priority-service')])
-  .service('ProjectService', ['$http', 'PathHelper', 'FiltersHelper', require(
+  .service('ProjectService', ['$http', 'PathHelper', 'FiltersHelper', 'HALAPIResource', require(
     './project-service')])
   .service('QueryService', [
     'Query',
@@ -109,11 +109,5 @@ angular.module('openproject.services')
     'NotificationsService',
     'ApiHelper',
     require('./api-notifications-service.js')
-  ])
-  .service('WatchersService', require('./watchers-service.js'))
-  .service('WatchersService', [
-    '$http',
-    '$q',
-    require('./watchers-service.js')
   ])
   .service('ConversionService', require('./conversion-service.js'));

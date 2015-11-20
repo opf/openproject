@@ -42,7 +42,7 @@ describe 'attachments', type: :feature do
 
     # FIXME rework this spec after implementing fullscreen create view
     xit 'uploading a short text file and viewing it inline' do
-      visit new_project_work_package_path(project)
+      visit new_project_work_packages_path(project)
 
       select project.types.first.name, from: 'work_package_type_id'
       fill_in 'Subject', with: 'attachment test'

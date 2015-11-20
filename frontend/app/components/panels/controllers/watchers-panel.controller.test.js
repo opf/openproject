@@ -26,26 +26,43 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('Inplace edit service', function () {
-  var inplaceEdit,
-    resources = ['some object', 'some other object'],
-    WorkPackageFieldService = {};
+describe('WatchersPanelController', function() {
+  var $controller, $rootScope, locals;
 
-  beforeEach(angular.mock.module('openproject.inplace-edit', function ($provide) {
-    $provide.constant('WorkPackageFieldService', WorkPackageFieldService);
-    WorkPackageFieldService.getValue = sinon.stub()
-  }));
+  var workPackage = {
+    links: {
+      watchers: {
+        url: function() {
+          return '/work_packages/123/watchers';
+        }
+      },
+      availableWatchers: {
+        url: function() {
+          return '/work_packages/123/available_watchers';
+        }
+      }
+    }
+  };
 
-  beforeEach(inject(function(_inplaceEdit_) {
-    inplaceEdit = _inplaceEdit_;
+  beforeEach(angular.mock.module('openproject.workPackages.controllers'));
 
-    inplaceEdit.form(1, resources[0]).field('myField');
-    inplaceEdit.form(2, resources[1]).field('myField');
-    inplaceEdit.form(2, resources[1]).field('myOtherField');
-  }));
+  beforeEach(inject(['$controller', '$rootScope', function(ctrl, root) {
+    $controller = ctrl;
+    $rootScope = root;
 
-  it('should return correct number of fields', function () {
-    expect(inplaceEdit.form(1).length).to.equal(1);
-    expect(inplaceEdit.form(2).length).to.equal(2);
+    locals = {
+      $scope: $rootScope.$new()
+    };
+  }]));
+
+  it('should exist', function() {
+    expect($controller('WatchersPanelController', locals, { workPackage: workPackage })).to.exist;
+  });
+
+  it('should not work without a work workPackage', function() {
+    expect(function() {
+      $controller('WatchersPanelController', locals);
+    }).to.throw;
   });
 });
+

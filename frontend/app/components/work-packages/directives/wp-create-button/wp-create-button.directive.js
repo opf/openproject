@@ -47,22 +47,23 @@ function wpCreateButton() {
   }
 }
 
-function WorkPackageCreateButtonController(AuthorisationService, EditableFieldsState,
-    ProjectService) {
+function WorkPackageCreateButtonController(EditableFieldsState, ProjectService) {
 
   var vm = this,
-      inProjectContext = !!vm.projectIdentifier;
+      inProjectContext = !!vm.projectIdentifier,
+      canCreate= false;
 
   vm.text = I18n.t('js.toolbar.unselected_title');
   vm.isDisabled = function () {
-    return !inProjectContext
-      || EditableFieldsState.editAll.state
-      || (AuthorisationService.cannot('work_package', 'create')
-        && AuthorisationService.cannot('work_package', 'duplicate'));
+    return !inProjectContext || !canCreate || EditableFieldsState.editAll.state || !vm.types;
   };
 
   if (inProjectContext) {
-    ProjectService.getProject(vm.projectIdentifier).then(function(project) {
+    ProjectService.fetchProjectResource(vm.projectIdentifier).then(function(project) {
+      canCreate = !!project.links.createWorkPackage;
+    });
+
+    ProjectService.getProject(vm.projectIdentifier).then(function (project) {
       vm.types = project.embedded.types;
     });
   }

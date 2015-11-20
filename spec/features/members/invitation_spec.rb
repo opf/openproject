@@ -50,7 +50,7 @@ feature 'invite user via email', type: :feature, js: true do
       expect(members_page).to have_selected_new_principal('Invite finkelstein@openproject.com')
 
       click_on 'Add'
-      expect(members_page).to have_added_user 'finkelstein@openproject.com (invited)'
+      expect(members_page).to have_added_user 'finkelstein @openproject.com'
     end
   end
 

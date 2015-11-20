@@ -97,7 +97,7 @@ angular.module('openproject.workPackages')
   ])
   .constant('PERMITTED_CONTEXT_MENU_ACTIONS', [
     'edit', 'watch', 'log_time',
-    'duplicate', 'move', 'copy', 'delete'
+    'move', 'copy', 'delete'
   ])
   .factory('WorkPackageContextMenu', [
     'ngContextMenu',
@@ -111,10 +111,12 @@ angular.module('openproject.workPackages')
   ])
   .controller('WorkPackageContextMenuController', [
     '$scope',
+    '$state',
     'WorkPackagesTableHelper',
     'WorkPackageContextMenuHelper',
     'WorkPackageService',
     'WorkPackagesTableService',
+    'EditableFieldsState',
     'I18n',
     '$window',
     'PERMITTED_CONTEXT_MENU_ACTIONS',

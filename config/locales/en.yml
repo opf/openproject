@@ -272,9 +272,9 @@ en:
         spent_on: "Date"
         type: "Type"
       type:
-        is_in_roadmap: "Work packages displayed in roadmap"
-        in_aggregation: "Work packages displayed in aggregation"
-        is_milestone: "Work packages displayed as milestone"
+        is_in_roadmap: "In roadmap"
+        in_aggregation: "In aggregation"
+        is_milestone: "Is milestone"
         color: "Color"
       user:
         admin: "Administrator"
@@ -1077,6 +1077,7 @@ en:
   label_nothing_display: "Nothing to display"
   label_nobody: "nobody"
   label_none: "none"
+  label_none_parentheses: "(none)"
   label_not_contains: "doesn't contain"
   label_not_equals: "is not"
   label_notify_member_plural: "Email updates"
@@ -1214,6 +1215,7 @@ en:
   label_total: "Total"
   label_type_new: "New type"
   label_type_plural: "Types"
+  label_type_default_new_projects: "Type activated for new projects by default"
   label_ui: "User Interface"
   label_update_work_package_done_ratios: "Update work package done ratios"
   label_updated_time: "Updated %{value} ago"
@@ -1343,6 +1345,7 @@ en:
   noscript_heading: "JavaScript disabled"
   noscript_learn_more: "Learn more"
 
+  notice_accessibility_mode: The accessibility mode can be enabled in your account [settings](url).
   notice_account_activated: "Your account has been activated. You can now log in."
   notice_account_already_activated: The account has already been activated.
   notice_account_invalid_token: Invalid activation token
@@ -1427,10 +1430,10 @@ en:
   permission_add_project: "Create project"
   permission_add_subprojects: "Create subprojects"
   permission_add_work_package_watchers: "Add watchers"
-  permission_browse_repository: "Browse repository"
+  permission_browse_repository: "Read-only access to repository (browse and checkout)"
   permission_change_wiki_parent_page: "Change parent wiki page"
   permission_comment_news: "Comment news"
-  permission_commit_access: "Submit commits"
+  permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Copy projects"
   permission_delete_work_package_watchers: "Delete watchers"
   permission_delete_work_packages: "Delete work packages"
@@ -1476,7 +1479,7 @@ en:
   permission_select_project_modules: "Select project modules"
   permission_manage_types: "Select types"
   permission_view_calendar: "View calendar"
-  permission_view_changesets: "View changesets"
+  permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
   permission_view_work_package_watchers: "View watchers list"
   permission_view_work_packages: "View Work Packages"

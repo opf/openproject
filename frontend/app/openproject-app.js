@@ -120,7 +120,7 @@ angular.module('openproject.workPackages', [
   'ng-context-menu',
   'ngFileUpload'
 ]);
-angular.module('openproject.workPackages.services', []);
+angular.module('openproject.workPackages.services', ['openproject.inplace-edit']);
 angular.module(
   'openproject.workPackages.helpers', [
     'openproject.helpers',

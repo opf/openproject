@@ -105,7 +105,7 @@
     .jstb_ol,
     .jstb_preview,
     .jstb_help
-      display: flex
+      display: inline-block
 
 .inplace-edit--select
   .select2-display-none
@@ -293,12 +293,15 @@ a.inplace-editing--trigger-link,
 .inplace-edit.attribute-description
 
   .inplace-edit--write
-    margin-top: -10px
+    margin-top: -46px
 
     // for non-textile description we need to not overlap the 'Description' header
     // which in textile is shown due to edit buttons on the right side
     &.edit-strategy-textarea
       margin-top: auto
+
+.jstElements
+  margin-bottom: 19px !important
 
 // Explicit styles for input-esque trigger appearance
 .work-packages--activity--add-comment,
@@ -316,9 +319,10 @@ a.inplace-editing--trigger-link,
     font-size: 1rem
 
 // this aligns the title for the WP
-.work-packages--details--title,
-.work-packages--details--description
-  margin-left: -0.375rem
+.work-packages--split-view
+  .work-packages--details--title,
+  .work-packages--details--description
+    margin-left: -0.375rem
 
 .inplace-edit--highlight
   border-color: $inplace-edit--color-highlight !important

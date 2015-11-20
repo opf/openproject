@@ -35,7 +35,10 @@ class AddActivityModule < ActiveRecord::Migration
     end
 
     # add activity module from default settings
-    Setting['default_projects_modules'] = ['activity'] | Setting.default_projects_modules
+    # if the setting already exists
+    if Setting.find_by(name: 'default_projects_modules')
+      Setting['default_projects_modules'] = ['activity'] | Setting.default_projects_modules
+    end
   end
 
   def down
@@ -45,6 +48,9 @@ class AddActivityModule < ActiveRecord::Migration
     end
 
     # remove activity module from default settings
-    Setting['default_projects_modules'] = Setting.default_projects_modules - ['activity']
+    # if the setting already exists
+    if Setting.find_by(name: 'default_projects_modules')
+      Setting['default_projects_modules'] = Setting.default_projects_modules - ['activity']
+    end
   end
 end

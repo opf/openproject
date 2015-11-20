@@ -31,8 +31,6 @@ class WorkPackagesController < ApplicationController
   DEFAULT_SORT_ORDER = ['parent', 'desc']
   EXPORT_FORMATS = %w[atom rss xls csv pdf]
 
-  menu_item :new_work_package, only: [:new, :create]
-
   current_menu_item :index do |controller|
     query = controller.instance_variable_get :"@query"
 
@@ -86,110 +84,12 @@ class WorkPackagesController < ApplicationController
     end
   end
 
-  def new
-    respond_to do |format|
-      format.html do
-        render locals: { work_package: work_package,
-                         project: project,
-                         priorities: priorities,
-                         user: current_user }
-      end
-    end
-  end
-
-  def new_type
-    safe_params = permitted_params.update_work_package(project: project)
-    work_package.update_by(current_user, safe_params)
-
-    respond_to do |format|
-      format.js do
-        render locals: { work_package: work_package,
-                         project: project,
-                         priorities: priorities,
-                         user: current_user }
-      end
-    end
-  end
-
-  def create
-    call_hook(:controller_work_package_new_before_save,  params: params, work_package: work_package)
-
-    JournalManager.send_notification = send_notifications?
-
-    work_package.attach_files(params[:attachments])
-
-    if work_package.save
-      flash[:notice] = I18n.t(:notice_successful_create)
-
-      call_hook(:controller_work_package_new_after_save,  params: params, work_package: work_package)
-
-      redirect_to(work_package_path(work_package))
-    else
-      respond_to do |format|
-        format.html do
-          render action: 'new', locals: { work_package: work_package,
-                                          project: project,
-                                          priorities: priorities,
-                                          user: current_user }
-        end
-      end
-    end
-  end
-
-  def edit
-    locals =   { work_package: work_package,
-                 allowed_statuses: allowed_statuses,
-                 project: project,
-                 priorities: priorities,
-                 time_entry: time_entry,
-                 user: current_user,
-                 back_url: params[:back_url] }
-
-    respond_to do |format|
-      format.html do
-        render :edit, locals: locals
-      end
-      format.js do
-        render partial: 'edit', locals: locals
-      end
-    end
-  end
-
-  def update
-    safe_params = permitted_params.update_work_package(project: project)
-
-    update_service = UpdateWorkPackageService.new(
-      user: current_user,
-      work_package: work_package,
-      permitted_params: safe_params,
-      send_notifications: send_notifications?)
-
-    updated = update_service.update
-
-    render_attachment_warning_if_needed(work_package)
-
-    if updated
-      flash[:notice] = l(:notice_successful_update)
-
-      redirect_back_or_default(work_package_path(work_package), false)
-    else
-      edit
-    end
-  rescue ActiveRecord::StaleObjectError
-    error_message = l(:notice_locking_conflict)
-    render_attachment_warning_if_needed(work_package)
-
-    journals_since = work_package.journals.after(work_package.lock_version)
-    if journals_since.any?
-      changes = journals_since.map { |j| "#{j.user.name} (#{j.created_at.to_s(:short)})" }
-      error_message << ' ' << l(:notice_locking_conflict_additional_information, users: changes.join(', '))
-    end
-
-    error_message << ' ' << l(:notice_locking_conflict_reload_page)
-
-    work_package.errors.add :base, error_message
-
-    edit
+  def journals
+    @journals ||= work_package.journals.changing
+                  .includes(:user)
+                  .order("#{Journal.table_name}.created_at ASC").to_a
+    @journals.reverse! if current_user.wants_comments_in_reverse_order?
+    @journals
   end
 
   def index
@@ -234,145 +134,8 @@ class WorkPackagesController < ApplicationController
     render_404
   end
 
-  def quoted
-    text, author = if params[:journal_id]
-                     journal = work_package.journals.find(params[:journal_id])
-
-                     [journal.notes, journal.user]
-                   else
-
-                     [work_package.description, work_package.author]
-                   end
-
-    work_package.journal_notes = "#{ll(Setting.default_language, :text_user_wrote, author)}\n> "
-
-    text = text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]')
-    work_package.journal_notes << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
-
-    locals = { work_package: work_package,
-               allowed_statuses: allowed_statuses,
-               project: project,
-               priorities: priorities,
-               time_entry: time_entry,
-               user: current_user }
-
-    respond_to do |format|
-      format.js   do
-        render partial: 'edit', locals: locals
-      end
-
-      format.html do
-        render action: 'edit', locals: locals
-      end
-    end
-  end
-
-  def work_package
-    if params[:id]
-      existing_work_package
-    elsif params[:project_id]
-      new_work_package
-    end
-  end
-
-  def existing_work_package
-    @existing_work_package ||= begin
-      wp = WorkPackage.includes(:project).find_by(id: params[:id])
-      wp && wp.visible?(current_user) ? wp : nil
-    end
-  end
-
-  def new_work_package
-    @new_work_package ||= begin
-      project = Project.find_visible(current_user, params[:project_id])
-      return nil unless project
-
-      permitted = if params[:work_package]
-                    permitted_params.new_work_package(project: project)
-                  else
-                    params[:work_package] ||= {}
-                    {}
-                  end
-
-      permitted[:author] = current_user
-
-      wp = project.add_work_package(permitted)
-      wp.copy_from(params[:copy_from], exclude: [:project_id]) if params[:copy_from]
-
-      wp
-    end
-  end
-
   def project
     @project ||= work_package.project
-  end
-
-  def journals
-    @journals ||= work_package.journals.changing
-                  .includes(:user)
-                  .order("#{Journal.table_name}.created_at ASC").to_a
-    @journals.reverse! if current_user.wants_comments_in_reverse_order?
-    @journals
-  end
-
-  def ancestors
-    @ancestors ||= work_package.ancestors.visible.includes(:type,
-                                                           :assigned_to,
-                                                           :status,
-                                                           :priority,
-                                                           :fixed_version,
-                                                           :project)
-  end
-
-  def descendants
-    @descendants ||= work_package.descendants.visible.includes(:type,
-                                                               :assigned_to,
-                                                               :status,
-                                                               :priority,
-                                                               :fixed_version,
-                                                               :project)
-  end
-
-  def changesets
-    @changesets ||= begin
-      changes = work_package.changesets.visible
-                .includes({ repository: { project: :enabled_modules } }, :user)
-
-      if current_user.wants_comments_in_reverse_order?
-        changes.reverse
-      else
-        changes.to_a
-      end
-    end
-  end
-
-  def relations
-    @relations ||= work_package.relations.includes(from: [:status,
-                                                          :priority,
-                                                          :type,
-                                                          { project: :enabled_modules }],
-                                                   to: [:status,
-                                                        :priority,
-                                                        :type,
-                                                        { project: :enabled_modules }])
-                   .select { |r| r.other_work_package(work_package) && r.other_work_package(work_package).visible? }
-  end
-
-  def priorities
-    priorities = IssuePriority.active
-    augment_priorities_with_current_work_package_priority priorities
-
-    priorities
-  end
-
-  def augment_priorities_with_current_work_package_priority(priorities)
-    current_priority = work_package.try :priority
-
-    priorities << current_priority if current_priority && !priorities.include?(current_priority)
-  end
-
-  def allowed_statuses
-    work_package.new_statuses_allowed_to(current_user)
   end
 
   def time_entry
@@ -390,12 +153,25 @@ class WorkPackagesController < ApplicationController
     work_package.add_time_entry(attributes)
   end
 
+  def work_package
+    if params[:id]
+      existing_work_package
+    end
+  end
+
   protected
 
   def load_query
     @query ||= retrieve_query
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def existing_work_package
+    @existing_work_package ||= begin
+      wp = WorkPackage.includes(:project).find_by(id: params[:id])
+      wp && wp.visible?(current_user) ? wp : nil
+    end
   end
 
   def not_found_unless_work_package
@@ -439,9 +215,5 @@ class WorkPackagesController < ApplicationController
                      else
                        []
                     end
-  end
-
-  def parse_preview_data
-    parse_preview_data_helper :work_package, [:journal_notes, :description]
   end
 end

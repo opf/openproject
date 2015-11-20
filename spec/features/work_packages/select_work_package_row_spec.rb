@@ -313,5 +313,22 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
         let(:index) { 1 }
       end
     end
+
+    describe 'opening work package edit mode' do
+      before do
+        select_work_package_row(1, :right)
+        within '.dropdown-menu' do
+          click_on 'Edit'
+        end
+      end
+
+      it do
+        subject = page.find("#inplace-edit--write-value--subject")
+        expect(subject.value).to eq(work_package_3.subject)
+
+        # Cancel edit + move to index
+        find('#work-packages--edit-actions-cancel').click
+      end
+    end
   end
 end

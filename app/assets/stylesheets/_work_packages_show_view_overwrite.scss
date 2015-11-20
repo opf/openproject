@@ -138,7 +138,6 @@ body.controller-work_packages.action-show {
   ul#toolbar-items {
     @include clearfix;
     float: right;
-    margin-top: 10px;
 
     button {
       margin-bottom: 0;
@@ -204,9 +203,9 @@ body.controller-work_packages.action-show {
 
   .subject-header {
     float: left;
-    margin-right: -300px;
-    margin-top: 0px;
-    padding: 10px 300px 0 0;
+    margin-right: -570px;
+    margin-top: 0;
+    padding: 10px 570px 0 0;
     width: 100%;
 
     .subject-header-inner {

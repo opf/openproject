@@ -32,9 +32,7 @@ en:
         name: Demo Forum
         description: This is a demo forum.
       custom_fields:
-        names:
-          - Company
-          - City
+        names: []
       project:
         name: Demo project
         identifier: demo-project

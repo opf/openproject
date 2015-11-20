@@ -31,7 +31,7 @@ angular
   .service('WorkPackageFieldService', WorkPackageFieldService);
 
 function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, HookService,
-  EditableFieldsState ) {
+  inplaceEditErrors) {
 
   function getSchema(workPackage) {
     if (workPackage.form) {
@@ -60,11 +60,10 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
     var isWritable = schema.props[field].writable;
 
     // not writable if no embedded allowed values
-    if (schema.props[field]._links && allowedValuesEmbedded(workPackage, field)) {
-      if (getEmbeddedAllowedValues(workPackage, field).length === 0) {
-        return false;
-      }
+    if (isWritable && schema.props[field]._links && allowedValuesEmbedded(workPackage, field)) {
+      isWritable = getEmbeddedAllowedValues(workPackage, field).length > 0;
     }
+
     return isWritable;
   }
 
@@ -82,10 +81,10 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
   // e.g. when an error should trigger the editing state
   // of an empty field after type change
   function isHideable(workPackage, field) {
-    if (EditableFieldsState.errors && EditableFieldsState.errors[field]) {
+    if (inplaceEditErrors.errors && inplaceEditErrors.errors[field]) {
       return false;
     }
-    return isEmpty(workPackage, field);
+    return isEmpty(workPackage, field) && !isRequired(workPackage, field);
   }
 
   function isMilestone(workPackage) {
@@ -404,12 +403,3 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
 
   return WorkPackageFieldService;
 }
-
-WorkPackageFieldService.$inject = [
-  '$q',
-  '$http',
-  '$filter',
-  'I18n',
-  'WorkPackagesHelper',
-  'HookService',
-  'EditableFieldsState'];

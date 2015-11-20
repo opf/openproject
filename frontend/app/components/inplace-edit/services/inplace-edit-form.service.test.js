@@ -26,24 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages')
-  .controller('WorkPackageListNewStateController', WorkPackageListNewStateController);
+describe('Inplace edit service', function () {
+  var inplaceEditForm,
+    resources = ['some object', 'some other object'],
+    WorkPackageFieldService = {};
 
-function WorkPackageListNewStateController($rootScope, $scope, $state) {
-  var vm = this;
+  beforeEach(angular.mock.module('openproject.inplace-edit', function ($provide) {
+    $provide.constant('WorkPackageFieldService', WorkPackageFieldService);
+    WorkPackageFieldService.getValue = sinon.stub()
+  }));
 
-  vm.goBack = function() {
-    var args = ['^'];
+  beforeEach(inject(function(_inplaceEditForm_) {
+    inplaceEditForm = _inplaceEditForm_;
 
-    if ($rootScope.previousState && $rootScope.previousState.name) {
-      args = [$rootScope.previousState.name, $rootScope.previousState.params];
-    }
+    inplaceEditForm.getForm(1, resources[0]).field('myField');
+    inplaceEditForm.getForm(2, resources[1]).field('myField');
+    inplaceEditForm.getForm(2, resources[1]).field('myOtherField');
+  }));
 
-    vm.loaderPromise = $state.go.apply($state, args);
-  };
-
-  $scope.$on('workPackageUpdatedInEditor', function(e, workPackage) {
-    $state.go('work-packages.list.details.overview', { workPackageId: workPackage.props.id });
+  it('should return correct number of fields', function () {
+    expect(inplaceEditForm.getForm(1).length).to.equal(1);
+    expect(inplaceEditForm.getForm(2).length).to.equal(2);
   });
-}
+});

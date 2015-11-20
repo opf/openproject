@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,47 +26,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackageRelationsController < ApplicationController
-  before_filter :find_work_package, :find_project_from_association, :authorize
+require 'spec_helper'
 
-  def create
-    @relation = @work_package.new_relation.tap do |r|
-      r.to = WorkPackage.visible.find_by(id: params[:relation][:to_id].match(/\d+/).to_s)
-      r.relation_type = params[:relation][:relation_type]
-      r.delay = params[:relation][:delay]
+describe UserInvitation do
+  describe '.placeholder_name' do
+    it 'given an email it uses the local part as first and the domain as the last name' do
+      email = 'xxxhunterxxx@openproject.com'
+      first, last = UserInvitation.placeholder_name email
+
+      expect(first).to eq 'xxxhunterxxx'
+      expect(last).to eq '@openproject.com'
     end
 
-    @relation.save
+    it 'trims names if they are too long (> 30 characters)' do
+      email = 'hallowurstsalatgetraenkebuechse@veryopensuchproject.openproject.com'
+      first, last = UserInvitation.placeholder_name email
 
-    respond_to do |format|
-      format.html do redirect_to work_package_path(@work_package) end
-      format.js do
-        render action: 'create', locals: { work_package: work_package,
-                                           relation: @relation }
-      end
+      expect(first).to eq 'hallowurstsalatgetraenkebue...'
+      expect(last).to eq '@veryopensuchproject.openpro...'
     end
-  end
-
-  def destroy
-    @relation = @work_package.relation(params[:id])
-
-    @relation.destroy
-
-    respond_to do |format|
-      format.html do redirect_to work_package_path(@work_package) end
-      format.js
-    end
-  end
-
-  def work_package
-    @work_package
-  end
-
-  private
-
-  def find_work_package
-    @work_package = @object = WorkPackage.find(params[:work_package_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 end

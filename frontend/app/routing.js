@@ -34,14 +34,24 @@ angular.module('openproject')
   '$urlMatcherFactoryProvider',
   function($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
   // TODO: Preserve #note-4 part of the URL.
-  $urlRouterProvider.when('/work_packages/{id}', function ($match) {
-    if($match.id.length === 0) {
-      return '/work_packages';
+  $urlRouterProvider.when('/work_packages/{id:[0-9]+}', function ($match) {
+    if($match.id.length) {
+      return '/work_packages/' + $match.id + '/activity';
     }
-    return '/work_packages/' + $match.id + '/activity';
+
+    return '/work_packages';
   });
 
   $urlMatcherFactoryProvider.strictMode(false);
+
+  var panels = {
+    get watchers() {
+      return {
+        url: '/watchers',
+        template: '<watchers-panel work-package="workPackage"></watchers-panel>'
+      }
+    }
+  };
 
   $stateProvider
     .state('work-packages', {
@@ -62,6 +72,26 @@ angular.module('openproject')
             }
           };
         }
+      }
+    })
+
+    .state('work-packages.new', {
+      url: '/{projects}/{projectPath}/work_packages/new?type',
+      templateUrl: '/components/routes/partials/work-packages.new.html',
+      controllerAs: 'vm',
+      reloadOnSearch: false
+    })
+
+    .state('work-packages.edit', {
+      url: '/{projects}/{projectPath}/work_packages/{workPackageId}/edit',
+      params: {
+        projectPath: { value: null, squash: true },
+        projects: { value: null, squash: true }
+      },
+
+      onEnter: function ($state, $stateParams, EditableFieldsState) {
+        EditableFieldsState.editAll.start();
+        $state.go('work-packages.list.details.overview', $stateParams);
       }
     })
 
@@ -117,12 +147,7 @@ angular.module('openproject')
       url: '/relations',
       templateUrl: '/templates/work_packages/tabs/relations.html'
     })
-    .state('work-packages.show.watchers', {
-      url: '/watchers',
-      controller: 'DetailsTabWatchersController',
-      templateUrl: '/templates/work_packages/tabs/watchers.html',
-      controllerAs: 'watchers'
-    })
+    .state('work-packages.show.watchers', panels.watchers)
 
     .state('work-packages.list', {
       url: '/{projects}/{projectPath}/work_packages?query_id&query_props',
@@ -151,8 +176,6 @@ angular.module('openproject')
     })
     .state('work-packages.list.new', {
       url: '/create_new?type',
-      controller: 'WorkPackageListNewStateController',
-      controllerAs: 'vm',
       templateUrl: '/components/routes/partials/work-packages.list.new.html',
       reloadOnSearch: false
     })
@@ -185,12 +208,7 @@ angular.module('openproject')
       url: '/relations',
       templateUrl: '/templates/work_packages/tabs/relations.html',
     })
-    .state('work-packages.list.details.watchers', {
-      url: '/watchers',
-      controller: 'DetailsTabWatchersController',
-      templateUrl: '/templates/work_packages/tabs/watchers.html',
-      controllerAs: 'watchers',
-    });
+    .state('work-packages.list.details.watchers', panels.watchers);
 }])
 
 .run([

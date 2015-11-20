@@ -26,7 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, WorkPackagesTableService, I18n, $window, PERMITTED_CONTEXT_MENU_ACTIONS) {
+module.exports = function(
+  $scope,
+  $state,
+  WorkPackagesTableHelper,
+  WorkPackageContextMenuHelper,
+  WorkPackageService,
+  WorkPackagesTableService,
+  EditableFieldsState,
+  I18n,
+  $window,
+  PERMITTED_CONTEXT_MENU_ACTIONS
+) {
 
   $scope.I18n = I18n;
 
@@ -44,10 +55,19 @@ module.exports = function($scope, WorkPackagesTableHelper, WorkPackageContextMen
   };
 
   $scope.triggerContextMenuAction = function(action, link) {
-    if (action === 'delete') {
-      deleteSelectedWorkPackages();
-    } else {
-      $window.location.href = link;
+    switch(action) {
+
+      case 'delete':
+        deleteSelectedWorkPackages();
+        break;
+
+      case 'edit':
+        editSelectedWorkPackages(link);
+        break;
+
+      default:
+        $window.location.href = link;
+        break;
     }
   };
 
@@ -55,6 +75,22 @@ module.exports = function($scope, WorkPackagesTableHelper, WorkPackageContextMen
     var rows = WorkPackagesTableHelper.getSelectedRows($scope.rows);
 
     WorkPackageService.performBulkDelete(getSelectedWorkPackages().map(function(wp) { return wp.id; }), true);
+  }
+
+  function editSelectedWorkPackages(link) {
+    var selected = getSelectedWorkPackages();
+
+    if (selected.length > 1) {
+      $window.location.href = link;
+      return;
+    }
+
+    var params = {
+      workPackageId: selected[0].id
+    };
+
+    EditableFieldsState.editAll.start();
+    $state.transitionTo('work-packages.list.details.overview', params);
   }
 
   function getWorkPackagesFromSelectedRows() {
