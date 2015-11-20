@@ -1,0 +1,111 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+# Travis configuration based on the respective OpenProject core configuration.
+# Everything save for the matrix section and additional `before_install`
+# instructions is copied and pasted from the core.
+
+language: ruby
+
+rvm:
+  - 2.2.3
+
+sudo: false
+
+cache:
+  - bundler: true
+  - directories:
+    - frontend/node_modules
+    - frontend/bower_components
+
+bundler_args: --without development production
+
+branches:
+  only:
+    - master
+    - dev
+    - /^(stable|release)\/.*$/
+
+env:
+  global:
+    - CI=true
+    - RAILS_ENV=test
+    - COVERAGE=true
+
+  matrix:
+    - "TEST_SUITE=plugins:spec      DB=mysql"
+    - "TEST_SUITE=plugins:cucumber  DB=mysql"
+
+before_install:
+  # Custom plugin instructions follow.
+
+  # Move the plugin into a subfolder. The plugin-provided Gemfile.plugins
+  # must refer to this folder.
+  - mkdir -p plugins/this
+  - echo `ls -a | tail -n+3 | grep -v plugins` plugins/this/ | xargs mv
+
+  # Get OpenProject.
+  # Doing the fetch detour as you cannot clone into the current directory.
+  - git init
+  - git remote add openproject https://github.com/opf/openproject.git
+  - git fetch --depth=1 openproject
+  - git checkout openproject/stable/5
+
+  # End of custom plugin instructions.
+
+  - "echo `firefox -v`"
+  - "export DISPLAY=:99.0"
+  - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1920x1080x16"
+  - "echo `xdpyinfo -display :99 | grep 'dimensions' | awk '{ print $2 }'`"
+  - travis_retry npm install
+
+  # We need phantomjs 2.0 to get tests passing
+  - mkdir travis-phantomjs
+  - wget https://s3.amazonaws.com/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -O $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2
+  - tar -xvf $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -C $PWD/travis-phantomjs
+  - export PATH=$PWD/travis-phantomjs:$PATH
+
+before_script:
+  - sh script/ci_setup.sh $DB
+
+script:
+  - sh script/ci_runner.sh $TEST_SUITE $GROUP_SIZE $GROUP
+
+notifications:
+  email: false
+  slack:
+    secure: "a+I0uMgXgrDd3aitr2yhXrh7g/UOUTwoDVElunY7gYdrM+gpZ6RE1AP4/Q++hERBCs7rUBzmb//zxGTcc8Nw4nGqZOmPOMIsAoD49UupGLUzHbxzKlpwdBcwh77fq3rYwkjZjE/H1qiElPT7v6qyWMSdNGlj/bAB74eD7Zl3S5cMRvZ1whbSg2GA2v6ZqtXaKfrSFrPRzsIOBXs99OxWNWAsUGpEwTYac7wb6rdMJkBbzosp4gP99mGvQArEzo0nrIQgRH8W4Q6iLnrpX0g5uKccWl1u/G2bmH8L4F50ce4uuUE+TtHO/nfNFnb2KuDR4QyoccQQbGHXL/jaaAZXG/gzs5Hmru2Thaym43fSwxos80xmZs1vqB/rXE+Rg9qXcCKyyX31zjSI/iW4wS015fz8MKVX6qDg49epaw1ovn0AOYrvTd94GV6RX6eJ3/l+KJJHSKaaLP/713h11LWx/S27tiB40fboXQ68YzIQCuahRUEHUfhU3P10Wf9y2fdDsthtHHSrOJMQ3Ii/Jm3KQm6bE5RWORdHvc/sF2WLfLmJ627j9JhWYYi5mDKJ9AeMWtZNHreU0mM27OUgfhiW11ItKgpwQPEiiicrlYRrMmK+9hc9cym+8tRM+wEth1xhIkfgQFtngONKjv361Wt3JifxM79+bn0IyF72vAVNy8k="
+
+addons:
+  firefox: "38.0esr"
+  postgresql: "9.3"
+
+# Disabling coverage reporting until CodeClimate supports merging results from multiple partial tests
+#   code_climate:
+#       repo_token:
+#         secure: "W/lyd8Ud18GRASuVShsIKa2MRHhxjh8WICMQ4WKr68qt0X0Tlp7Bclv4ReiEgiQeKsIoJJy5FfJfINdAT8A4sy2JbrLeISShcIU7Kqpfh6DSLNoRAuLz5P7EXMNFns1gBKCmrSzcB+9ksuTLyTCKkjUcj1NbJzGqpB4jSTecAdg="
