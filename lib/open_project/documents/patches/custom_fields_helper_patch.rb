@@ -39,7 +39,7 @@ module OpenProject::Documents::Patches
           custom_fields_tabs_without_documents << {
             name: 'DocumentCategoryCustomField',
             partial: 'custom_fields/tab',
-            label: DocumentCategory::OPTION_NAME
+            label: DocumentCategory::OptionName
           }
         end
 

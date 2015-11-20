@@ -33,10 +33,10 @@
 class DocumentCategory < Enumeration
   has_many :documents, foreign_key: 'category_id'
 
-  OPTION_NAME = :enumeration_doc_categories
+  OptionName = :enumeration_doc_categories
 
   def option_name
-    OPTION_NAME
+    OptionName
   end
 
   def objects_count
