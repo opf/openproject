@@ -39,11 +39,12 @@ sudo passwd openproject #(enter desired password)
 
 ```bash
 [root@host] apt-get update -y
-[root@host] apt-get install -y zlib1g-dev build-essential \
-                    libssl-dev libreadline-dev            \
-                    libyaml-dev libgdbm-dev               \
-                    libncurses5-dev automake              \
-                    libtool bison libffi-dev git curl     \
+[root@host] apt-get install -y zlib1g-dev build-essential           \
+                    libssl-dev libreadline-dev                      \
+                    libyaml-dev libgdbm-dev                         \
+                    libncurses5-dev automake                        \
+                    imagemagick libmagickcore-dev libmagickwand-dev \
+                    libtool bison libffi-dev git curl               \
                     libxml2 libxml2-dev libxslt1-dev # nokogiri
 ```
 
@@ -136,13 +137,16 @@ v0.12.7
 
 ## Installation of OpenProject
 
+We will install the OpenProject Community Edition. It contains the recommended set of plugins for use
+with OpenProject. For more information, see https://github.com/opf/openproject-ce.
+
+
 ```bash
 [openproject@host] cd ~
-[openproject@host] git clone https://github.com/opf/openproject.git
+[openproject@host] git clone https://github.com/opf/openproject-ce.git --branch stable/5 --depth 1
 [openproject@host] cd openproject
-[openproject@host] git checkout v5.0.0 # please use actual current stable version v5.0.X
 [openproject@host] gem install bundler
-[openproject@host] bundle install --deployment --without postgres sqlite rmagick development test therubyracer
+[openproject@host] bundle install --deployment --without postgres sqlite development test therubyracer
 [openproject@host] npm install
 ```
 
