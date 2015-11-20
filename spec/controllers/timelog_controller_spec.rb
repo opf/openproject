@@ -69,6 +69,38 @@ describe TimelogController, type: :controller do
 
         it { expect(response.status).to eq(404) }
       end
+
+      context 'with a custom field' do
+        let!(:custom_field) do
+          FactoryGirl.create :time_entry_custom_field,
+                             name: 'supplies',
+                             is_required: true
+        end
+
+        describe 'which is whitelisted' do
+          before do
+            params[:time_entry][:custom_field_values] = { custom_field.id.to_s => 'wurst' }
+
+            post :create, params
+          end
+
+          it_behaves_like 'successful timelog creation'
+        end
+
+        describe 'which is not whitelisted' do
+          render_views
+
+          before do
+            params[:time_entry][:custom_field_values] = { "42" => 'wurst' }
+
+            post :create, params
+          end
+
+          it 'is rejected' do
+            expect(response.body).to include 'supplies can&#39;t be blank'
+          end
+        end
+      end
     end
 
     context 'work_package' do
