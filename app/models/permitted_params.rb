@@ -406,7 +406,7 @@ class PermittedParams
   def custom_field_values(key)
     # a hash of arbitrary values is not supported by strong params
     # thus we do it by hand
-    values = params.require(key)[:custom_field_values] || {}
+    values = params.fetch(key, {})[:custom_field_values] || {}
 
     # only permit values following the schema
     # 'id as string' => 'value as string'
