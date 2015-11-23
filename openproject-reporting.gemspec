@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails', '~> 4.2.4'
 
   s.add_dependency "reporting_engine", ">= 1.1.0"
-  s.add_dependency "openproject-costs", ">= 4.0.0"
+  s.add_dependency "openproject-costs", ">= 5.0.1"
 
   s.add_development_dependency "factory_girl_rails", "~> 4.0"
 end
