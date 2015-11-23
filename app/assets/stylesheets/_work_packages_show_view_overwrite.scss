@@ -97,6 +97,12 @@ body.controller-work_packages.action-show {
     }
   }
 
+  &.edit-all-mode {
+    .work-packages--left-panel {
+      height: calc(100% - 55px);
+    }
+  }
+
   .work-packages--split-view {
     overflow: visible !important;
   }
