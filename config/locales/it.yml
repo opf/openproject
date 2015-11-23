@@ -39,8 +39,8 @@ it:
     models:
       cost_object: Bilancio
       cost_type:
-        one: Tipo di costo
-        other: Tipi di costo
+        one: Cost type
+        other: Cost types
       material_budget_item: Unità
       rate: Tariffa
     errors:
@@ -167,7 +167,7 @@ it:
   text_warning_hidden_elements: "Alcune voci potrebbero essere state escluse dall'aggregazione."
   week: settimana
   x_entries:
-    one: 1 voce
-    other: '%{count} voci'
+    one: 1 entry
+    other: '%{count} entries'
   js:
     text_are_you_sure: Sei sicuro/a?
