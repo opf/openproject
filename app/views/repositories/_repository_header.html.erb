@@ -81,7 +81,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 
-<% if @instructions && @instructions.available? %>
+<% if @instructions %>
   <%= render partial: 'checkout_instructions',
              locals: { repository: @repository, instructions: @instructions } %>
 <% end %>

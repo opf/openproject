@@ -90,6 +90,11 @@ class Scm::CheckoutInstructionsService
     checkout_settings['enabled'].to_i > 0
   end
 
+  def supported_but_not_enabled?
+    repository.supports_checkout_info? && !checkout_enabled?
+  end
+
+
   ##
   # Determines whether permissions for the given repository
   # are available.
