@@ -160,7 +160,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     <% end %>
   <% else %>
-    <%= no_results_box(action_url: new_project_version_path(@project), display_action: authorize_for('messages', 'new')) %>
+    <%= no_results_box(action_url: new_project_version_path(@project), display_action: authorize_for('versions', 'new')) %>
   <% end %>
 </fieldset>
 
