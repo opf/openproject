@@ -274,7 +274,7 @@ module Migration
     def deserialize_changed_data(journal)
       changed_data = journal['changed_data']
       return Hash.new if changed_data.nil?
-      load_with_sych(changed_data)
+      load_with_syck(changed_data)
     end
 
     def deserialize_journal(journal)
