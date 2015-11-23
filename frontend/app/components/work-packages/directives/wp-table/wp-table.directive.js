@@ -28,9 +28,9 @@
 
 angular
   .module('openproject.workPackages.directives')
-  .directive('workPackagesTable', workPackagesTable);
+  .directive('wpTable', wpTable);
 
-function workPackagesTable(I18n, WorkPackagesTableService, $window, featureFlags, PathHelper){
+function wpTable(I18n, WorkPackagesTableService, $window, featureFlags, PathHelper){
   return {
     restrict: 'E',
     replace: true,
