@@ -83,6 +83,15 @@ LOREM
 
   end
 
+  describe 'new' do
+    before do
+      get :new, project_id: project.id
+    end
+
+    it 'show the new document form' do
+      expect(response).to render_template(partial: 'documents/_form')
+    end
+  end
 
   describe "create" do
 
