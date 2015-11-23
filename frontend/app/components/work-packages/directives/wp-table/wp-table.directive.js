@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,14 +24,17 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, flags, PathHelper){
+angular
+  .module('openproject.workPackages.directives')
+  .directive('workPackagesTable', workPackagesTable);
 
+function workPackagesTable(I18n, WorkPackagesTableService, $window, featureFlags, PathHelper){
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/work_packages/work_packages_table.html',
+    templateUrl: '/components/work-packages/directives/wp-table/wp-table.directive.html',
     scope: {
       projectIdentifier: '=',
       columns: '=',
@@ -45,7 +48,8 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
       groupSums: '=',
       activationCallback: '&'
     },
-    link: function(scope, element, attributes) {
+
+    link: function(scope, element) {
       var activeSelectionBorderIndex;
 
       scope.I18n = I18n;
@@ -94,7 +98,7 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
       });
 
       scope.$watch(function() {
-        return flags.isOn('detailsView');
+        return featureFlags.isOn('detailsView');
       }, function(detailsEnabled) {
         scope.hideWorkPackageDetails = !detailsEnabled;
       });
@@ -164,4 +168,4 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
       };
     }
   };
-};
+}
