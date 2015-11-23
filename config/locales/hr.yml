@@ -39,9 +39,9 @@ hr:
     models:
       cost_object: Budžet
       cost_type:
-        one: Cost type
-        few: Cost types
-        other: Cost types
+        one: Vrsta troška
+        few: Vrsta troškova
+        other: Vrsta troškova
       material_budget_item: Jedinica
       rate: Stopa
     errors:
@@ -168,8 +168,8 @@ hr:
   text_warning_hidden_elements: Pojedine stavke su izuzete iz agregacije.
   week: tjedan
   x_entries:
-    one: 1 entry
-    few: '%{count} entries'
-    other: '%{count} entries'
+    one: 1 unos
+    few: '%{count} unosa'
+    other: '%{count} unosa'
   js:
     text_are_you_sure: Da li ste sigurni?

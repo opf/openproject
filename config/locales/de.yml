@@ -39,8 +39,8 @@ de:
     models:
       cost_object: Budget
       cost_type:
-        one: Cost type
-        other: Cost types
+        one: Kostenart
+        other: Kostenarten
       material_budget_item: Stück
       rate: Satz
     errors:
@@ -167,7 +167,7 @@ de:
   text_warning_hidden_elements: Es wurden möglicherweise nicht alle Einträge berücksichtigt.
   week: Woche
   x_entries:
-    one: 1 entry
-    other: '%{count} entries'
+    one: 1 Eintrag
+    other: '%{count} Einträge'
   js:
     text_are_you_sure: Sind Sie sicher?
