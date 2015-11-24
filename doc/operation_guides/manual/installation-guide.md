@@ -203,7 +203,7 @@ production:                          #main level
 
 Starting with 5.0, OpenProject directly manages your repositories. To
 use this feature you have to configure OpenProject as shown
-[here]:(../../subversion_and_git_integration.md).
+[here](./repository-integration.md).
 
 Add this line into `configuration.yml` file at the end of the file for
 a better performance of OpenProject:
