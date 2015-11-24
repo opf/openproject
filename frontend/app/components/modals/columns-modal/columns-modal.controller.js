@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,11 +24,14 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function($scope, $filter, columnsModal, QueryService, 
-                          WorkPackageService, WorkPackagesTableService, 
-                          $rootScope, $timeout) {
+angular
+  .module('openproject.workPackages.controllers')
+  .controller('ColumnsModalController', ColumnsModalController);
+
+function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageService,
+    WorkPackagesTableService, $rootScope, $timeout) {
 
   this.name    = 'Columns';
   this.closeMe = columnsModal.deactivate;
@@ -114,4 +117,4 @@ module.exports = function($scope, $filter, columnsModal, QueryService,
   $timeout(function () {
     $scope.$broadcast('columnsModalOpened');
   });
-};
+}
