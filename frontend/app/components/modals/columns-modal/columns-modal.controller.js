@@ -33,10 +33,10 @@ angular
 function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageService,
     WorkPackagesTableService, $rootScope, $timeout) {
 
-  this.name    = 'Columns';
-  this.closeMe = columnsModal.deactivate;
-  var vm = {};
-  $scope.vm = vm;
+  var vm = this;
+
+  vm.name    = 'Columns';
+  vm.closeMe = columnsModal.deactivate;
 
   vm.selectedColumns = [];
   vm.oldSelectedColumns = [];

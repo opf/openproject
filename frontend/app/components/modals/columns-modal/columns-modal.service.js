@@ -33,7 +33,7 @@ angular
 function columnsModal(btfModal){
   return btfModal({
     controller: 'ColumnsModalController',
-    controllerAs: 'modal',
+    controllerAs: 'vm',
     templateUrl: '/components/modals/columns-modal/columns-modal.template.html',
     afterFocusOn: '#work-packages-settings-button'
   });

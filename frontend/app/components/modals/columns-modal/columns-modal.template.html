@@ -1,7 +1,7 @@
 <div class="ng-modal-window">
   <div class="ng-modal-inner">
     <div class="modal-header">
-      <i class="icon-close" ng-click="modal.closeMe()" title="{{ ::vm.text.closePopup }}"></i>
+      <i class="icon-close" ng-click="vm.closeMe()" title="{{ ::vm.text.closePopup }}"></i>
     </div>
 
     <h3>{{ ::vm.text.columnsLabel }}</h3>
@@ -37,7 +37,7 @@
       <button class="button -highlight" ng-click="updateSelectedColumns()">
         {{ ::vm.text.applyButton }}
       </button>
-      <button class="button" ng-click="modal.closeMe()">
+      <button class="button" ng-click="vm.closeMe()">
         {{ ::vm.text.cancelButton }}
       </button>
     </div>
