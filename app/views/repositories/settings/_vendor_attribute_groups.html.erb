@@ -1,14 +1,14 @@
 <div class="description attributes-group">
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
-      <h3 class="attributes-group--header-text">
+      <h3 class="attributes-group--header-text"
+          tabindex="0">
+        <%= label_tag :scm_type, l("repositories.#{vendor}.#{type}_title"), class: 'hidden-for-sighted' %>
         <input type="radio"
            value="<%= type %>"
            name="scm_type"
            <%= existing ? 'disabled' : '' %>
-           <%= alone ? 'checked' : '' %>>
-        <%= l("repositories.#{vendor}.#{type}_title") %>
-      </h3>
+           <%= alone ? 'checked' : '' %>><%= l("repositories.#{vendor}.#{type}_title") %></h3>
     </div>
     <% unless repository.new_record? %>
     <div class="attributes-group--header-control">
