@@ -61,9 +61,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
   <% unless User.current.anonymous? %>
     <li class="toolbar-item">
-      <div class="button">
-        <%= watcher_link(@board, User.current) %>
-      </div>
+      <%= watcher_link(@board, User.current) %>
     </li>
   <% end %>
 <% end %>
