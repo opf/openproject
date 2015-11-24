@@ -33,7 +33,7 @@ angular
 function watchersPanel()  {
   return {
     restrict: 'E',
-    templateUrl: '/components/panels/directives/watchers-panel.directive.html',
+    templateUrl: '/components/wp-panels/directives/watchers-panel.directive.html',
     scope: {
       workPackage: '='
     },
