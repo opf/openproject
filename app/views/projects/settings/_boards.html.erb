@@ -114,7 +114,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     <% end %>
   <% else %>
-    <%= no_results_box(action_url: new_project_category_path(@project), display_action: authorize_for('categories', 'new')) %>
+    <%= no_results_box(action_url: new_project_board_path(@project), display_action: authorize_for('boards', 'new')) %>
   <% end %>
 </fieldset>
 

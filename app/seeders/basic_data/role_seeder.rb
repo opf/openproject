@@ -56,12 +56,8 @@ module BasicData
       [non_member, anonymous]
     end
 
-    def project_admin
-     { name: I18n.t(:default_role_project_admin), position: 3, permissions: Role.new.setable_permissions.map(&:name) }
-    end
-
     def member
-     { name: I18n.t(:default_role_member), position: 4, permissions: [
+     { name: I18n.t(:default_role_member), position: 3, permissions: [
           :view_work_packages,
           :export_work_packages,
           :add_work_packages,
@@ -115,7 +111,7 @@ module BasicData
     end
 
     def reader
-      { name: I18n.t(:default_role_reader), position: 5, permissions: [
+      { name: I18n.t(:default_role_reader), position:4, permissions: [
           :view_work_packages,
           :add_work_package_notes,
           :edit_own_work_package_notes,
@@ -135,6 +131,10 @@ module BasicData
           :view_changesets
         ]
       }
+    end
+
+    def project_admin
+     { name: I18n.t(:default_role_project_admin), position: 5, permissions: Role.new.setable_permissions.map(&:name) }
     end
 
     def non_member

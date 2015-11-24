@@ -45,10 +45,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 25f3349ad7a92ac56fb0ea6de6227037d351e37d
+  revision: 5bdea3f0cc4764efe344de7f477d38d7e032070b
   branch: release/5.0
   specs:
-    openproject-translations (5.0.1)
+    openproject-translations (5.0.2)
       crowdin-api (~> 0.4.0)
       mixlib-shellout (~> 2.1.0)
       rails (~> 4.2.3)
@@ -319,7 +319,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
     netrc (0.11.0)
-    nokogiri (1.6.6.2)
+    nokogiri (1.6.6.4)
       mini_portile (~> 0.6.0)
     non-stupid-digest-assets (1.0.4)
     oj (2.11.5)

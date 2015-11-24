@@ -33,26 +33,38 @@ See doc/COPYRIGHT.rdoc for more details.
 %>
 
 <% content_for :action_menu_specific do %>
-  <%= watcher_link(@topic, User.current) %>
-  <%= link_to(l(:button_quote),
-              { action: 'quote', id: @topic },
-              remote: true,
-              method: 'get',
-              class: 'icon icon-quote') if !@topic.locked? && authorize_for('messages', 'reply') %>
-  <%= link_to(l(:button_edit),
-              edit_topic_path(@topic),
-              class: 'icon icon-edit',
-              accesskey: accesskey(:edit)) if @message.editable_by?(User.current) %>
-  <%= link_to(l(:button_delete),
-              topic_path(@topic),
-              method: :delete,
-              data: { confirm: l(:text_are_you_sure) },
-              class: 'icon icon-delete') if @message.destroyable_by?(User.current) %>
+  <li class="toolbar-item">
+    <%= watcher_link(@topic, User.current) %>
+  </li>
+  <li class="toolbar-item">
+    <% if !@topic.locked? && authorize_for('messages', 'reply') %>
+      <%= link_to({ action: 'quote', id: @topic }, remote: true, method: 'get', class: 'button') do %>
+        <i class="button--icon icon-quote"></i>
+        <span class="button--text"><%= l(:button_quote) %></span>
+      <% end %>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <% if @message.editable_by?(User.current) %>
+      <%= link_to(edit_topic_path(@topic), accesskey: accesskey(:edit), class: 'button') do %>
+        <i class="button--icon icon-edit"></i>
+        <span class="button--text"><%= l(:button_edit) %></span>
+      <% end %>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <% if @message.destroyable_by?(User.current) %>
+      <%= link_to(topic_path(@topic), method: :delete, data: { confirm: l(:text_are_you_sure) }, class: 'button') do %>
+        <i class="button--icon icon-delete"></i>
+        <span class="button--text"><%= l(:button_delete) %></span>
+      <% end %>
+    <% end %>
+  </li>
 <% end %>
 
-<div class="top-page">
+<div class="top-page messages-wrapper">
+  <h2 class="message-title" title="<%= h @topic.subject %>"><%= avatar(@topic.author) %><%=h @topic.subject %></h2>
   <%= render partial: 'layouts/action_menu_specific' %>
-  <h2 title="<%= h @topic.subject %>"><%= avatar(@topic.author) %><%=h @topic.subject %></h2>
 </div>
 <div class="message">
   <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
@@ -75,24 +87,24 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= authoring message.created_on, message.author %>
       </h4>
       <div class="message-reply-menu">
-        <%= link_to(icon_wrapper('icon-context icon-quote', l(:button_quote)),
+        <%= link_to(icon_wrapper('icon-quote', l(:button_quote)),
                   { action: 'quote', id: message },
                   remote: true,
                   method: 'get',
                   title: l(:button_quote),
-                  class: 'no-decoration-on-hover',
+                  class: 'button -small',
                   alt: l(:button_quote)) if !@topic.locked? && authorize_for('messages', 'reply') %>
-        <%= link_to(icon_wrapper('icon-context icon-edit', l(:button_edit)),
+        <%= link_to(icon_wrapper('icon-edit', l(:button_edit)),
                   { action: 'edit', id: message },
                   title: l(:button_edit),
-                  class: 'no-decoration-on-hover',
+                  class: 'button -small',
                   alt: l(:button_edit)) if message.editable_by?(User.current) %>
-        <%= link_to(icon_wrapper('icon-context icon-delete', l(:button_delete)),
+        <%= link_to(icon_wrapper('icon-delete', l(:button_delete)),
                   { action: 'destroy', id: message},
                   method: :delete,
                   data: { confirm: l(:text_are_you_sure) },
                   title: l(:button_delete),
-                  class: 'no-decoration-on-hover',
+                  class: 'button -small',
                   alt: l(:button_delete)) if message.destroyable_by?(User.current) %>
       </div>
       <div class="wiki" ng-non-bindable>
@@ -105,10 +117,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% if !@topic.locked? && authorize_for('messages', 'reply') %>
-
-  <p><%= toggle_link l(:button_reply), "reply", focus: 'reply_content' %></p>
+  <div class="form--space">
+    <%= toggle_link l(:button_reply), "reply", {focus: 'reply_content'}, {class: 'button -highlight'} %>
+  </div>
 
   <div id="reply" style="display:none;">
+
+    <hr class="form--separator">
 
     <%= labelled_tabular_form_for @reply,
                                   as: :reply,
