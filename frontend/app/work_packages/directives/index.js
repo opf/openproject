@@ -86,15 +86,6 @@ angular.module('openproject.workPackages.directives')
     'WorkPackageService',
     require('./work-package-total-sums-directive')
   ])
-  .directive('workPackagesTable', [
-    'I18n',
-    'WorkPackagesTableService',
-    '$window',
-    '$timeout',
-    'featureFlags',
-    'PathHelper',
-    require('./work-packages-table-directive')
-  ])
   .directive('workPackageAttachments', [
     'WorkPackageAttachmentsService',
     'NotificationsService',
