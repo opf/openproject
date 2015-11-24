@@ -73,12 +73,10 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
     return _.difference(vm.selectedColumns, vm.oldSelectedColumns);
   }
 
-  function getColumnName(column) {
-    return column.name;
-  }
-
   function getColumnNames(arr) {
-    return _.map(arr, getColumnName);
+    return _.map(arr, function (column) {
+      return column.name;
+    });
   }
 
   vm.updateSelectedColumns = function() {
@@ -108,12 +106,11 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
    * @param selectedColumns Columns currently selected through the multi select box.
    */
   vm.updateUnusedColumns = function(selectedColumns) {
-    var used = _.map(selectedColumns, getColumnName);
-    var isUnused = function(col) {
-      return !_.contains(used, col.name);
-    };
+    var used = getColumnNames(selectedColumns);
 
-    vm.unusedColumns = _.filter(vm.availableColumns, isUnused);
+    vm.unusedColumns = _.filter(vm.availableColumns, function (column) {
+      return !_.contains(used, column.name);
+    });
   };
   
   //hack to prevent dragging of close icons
