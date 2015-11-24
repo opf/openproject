@@ -35,12 +35,22 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
 
   this.name    = 'Columns';
   this.closeMe = columnsModal.deactivate;
-  var vm;
-  $scope.vm = vm = {};
+  var vm = {};
+  $scope.vm = vm;
+
   vm.selectedColumns = [];
   vm.oldSelectedColumns = [];
   vm.availableColumns = [];
   vm.unusedColumns = [];
+
+  vm.text = {
+    closePopup: I18n.t('js.close_popup_title'),
+    columnsLabel: I18n.t('js.label_columns'),
+    selectedColumns: I18n.t('js.description_selected_columns'),
+    multiSelectLabel: I18n.t('js.work_packages.label_column_multiselect'),
+    applyButton: I18n.t('js.modals.button_apply'),
+    cancelButton: I18n.t('js.modals.button_cancel')
+  };
 
   var selectedColumns = QueryService.getSelectedColumns();
 
