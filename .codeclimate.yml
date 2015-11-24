@@ -27,3 +27,4 @@ exclude_paths:
   - .bundle/**/*
   - lib/plugins/rfpdf/**/*
   - spec_legacy/**/*
+  - lib/redcloth3.rb
