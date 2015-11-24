@@ -43,6 +43,20 @@ angular.module('openproject')
         url: '/watchers',
         template: '<watchers-panel work-package="workPackage"></watchers-panel>'
       }
+    },
+
+    get activity() {
+      return {
+        url: '/activity',
+        template: '<activity-panel></activity-panel>'
+      }
+    },
+
+    get activityDetails() {
+      var activity = this.activity;
+      activity.url = '#{activity_no:\d+}';
+
+      return activity;
     }
   };
 
@@ -132,14 +146,8 @@ angular.module('openproject')
         angular.element('body').removeClass('action-show');
       }
     })
-    .state('work-packages.show.activity', {
-      url: '/activity',
-      templateUrl: '/templates/work_packages/tabs/activity.html'
-    })
-    .state('work-packages.show.activity.details', {
-      url: '#{activity_no:[0-9]+}',
-      templateUrl: '/templates/work_packages/tabs/activity.html'
-    })
+    .state('work-packages.show.activity', panels.activity)
+    .state('work-packages.show.activity.details', panels.activityDetails)
     .state('work-packages.show.relations', {
       url: '/relations',
       templateUrl: '/templates/work_packages/tabs/relations.html'
@@ -193,14 +201,8 @@ angular.module('openproject')
       templateUrl: '/templates/work_packages/tabs/overview.html',
       controllerAs: 'vm',
     })
-    .state('work-packages.list.details.activity', {
-      url: '/activity',
-      templateUrl: '/templates/work_packages/tabs/activity.html',
-    })
-    .state('work-packages.list.details.activity.details', {
-      url: '#{activity_no:[0-9]+}',
-      templateUrl: '/templates/work_packages/tabs/activity.html'
-    })
+    .state('work-packages.list.details.activity', panels.activity)
+    .state('work-packages.list.details.activity.details', panels.activityDetails)
     .state('work-packages.list.details.relations', {
       url: '/relations',
       templateUrl: '/templates/work_packages/tabs/relations.html',
