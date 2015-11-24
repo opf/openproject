@@ -81,7 +81,7 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
     return _.map(arr, getColumnName);
   }
 
-  $scope.updateSelectedColumns = function() {
+  vm.updateSelectedColumns = function() {
     QueryService.setSelectedColumns(getColumnNames(vm.selectedColumns));
 
     // Augment work packages with new columns data
@@ -107,7 +107,7 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
    *
    * @param selectedColumns Columns currently selected through the multi select box.
    */
-  $scope.updateUnusedColumns = function(selectedColumns) {
+  vm.updateUnusedColumns = function(selectedColumns) {
     var used = _.map(selectedColumns, getColumnName);
     var isUnused = function(col) {
       return !_.contains(used, col.name);
