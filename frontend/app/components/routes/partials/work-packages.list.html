@@ -107,7 +107,7 @@
      ng-class="{'edit-all-mode': editAll.state}">
   <div class="work-packages--list">
     <div class="work-packages--list-table-area">
-      <work-packages-table ng-if="rows && columns"
+      <wp-table ng-if="rows && columns"
                            project-identifier="projectIdentifier"
                            columns="columns"
                            rows="rows"
@@ -119,7 +119,7 @@
                            total-sums="totalSums"
                            group-sums="groupSums"
                            activation-callback="showWorkPackageDetails(id, force)">
-      </work-packages-table>
+      </wp-table>
     </div>
     <div class="work-packages--list-pagination-area">
       <table-pagination total-entries="totalEntries">
