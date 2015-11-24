@@ -76,14 +76,6 @@ angular.module('openproject.workPackages.controllers')
     'EditableFieldsState',
     require('./work-packages-controller')
   ])
-  .factory('columnsModal', ['btfModal', function(btfModal) {
-    return btfModal({
-      controller: 'ColumnsModalController',
-      controllerAs: 'modal',
-      templateUrl: '/templates/work_packages/modals/columns.html',
-      afterFocusOn: '#work-packages-settings-button'
-    });
-  }])
   .controller('ColumnsModalController', ['$scope',
     '$filter',
     'columnsModal',
