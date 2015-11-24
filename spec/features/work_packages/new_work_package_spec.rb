@@ -53,7 +53,6 @@ describe 'new work package', js: true do
 
   def create_work_package(type)
     work_packages_page.click_toolbar_button 'Work packages'
-    sleep(0.1)
 
     within '#tasksDropdown' do
       click_link type
@@ -61,22 +60,16 @@ describe 'new work package', js: true do
   end
 
   shared_examples 'work package creation workflow' do
+    it 'creates a subsequent work package' do
+      work_packages_page.find_subject_field.set(subject)
+      save_work_package!
 
-    context 'creating subsequent work packages' do
-      before do
-        work_packages_page.find_subject_field.set(subject)
-        save_work_package!
+      subject_field.expect_state_text(subject)
 
-        create_work_package('Bug')
-      end
-
-      it 'should have emtpy field values' do
-        expect(work_packages_page.find_subject_field.value).to be_empty
-      end
-
-      it 'should have the type of the new work package' do
-        expect(find('#inplace-edit--write-value--type option[selected]').text).to eq('Bug')
-      end
+      create_work_package('Bug')
+      expect(page).to have_selector(safeguard_selector, wait: 10)
+      expect(page).to have_selector('#inplace-edit--write-value--type option[selected]',
+                                    text: 'Bug')
     end
 
     context 'with missing values' do
@@ -165,19 +158,21 @@ describe 'new work package', js: true do
   end
 
   context 'split screen' do
+    let(:safeguard_selector) { '.work-packages--details-content.-create-mode' }
     before do
       # Safeguard to ensure the create form to be loaded
-      expect(page).to have_selector('.work-packages--details-content.-create-mode', wait: 10)
+      expect(page).to have_selector(safeguard_selector, wait: 10)
     end
 
     it_behaves_like 'work package creation workflow'
   end
 
   context 'full screen' do
+    let(:safeguard_selector) { '.work-package--new-state' }
     before do
       find('#work-packages-show-view-button').click
       # Safeguard to ensure the create form to be loaded
-      expect(page).to have_selector('.work-package--new-state', wait: 10)
+      expect(page).to have_selector(safeguard_selector, wait: 10)
     end
 
     it_behaves_like 'work package creation workflow'
