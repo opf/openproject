@@ -34,6 +34,7 @@
 #++
 
 require 'open_project/plugins'
+require 'open_project/backlogs/version'
 
 require 'acts_as_silent_list'
 
