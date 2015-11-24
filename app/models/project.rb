@@ -58,14 +58,14 @@ class Project < ActiveRecord::Base
   }, class_name: 'Member'
   # Read only
   has_many :possible_assignees, -> {
-      # Have to reference it again although possible_assignee_members does already specify it
-      # to be able to use the Project.possible_principles_condition there
-      includes(members: :roles)
+    # Have to reference it again although possible_assignee_members does already specify it
+    # to be able to use the Project.possible_principles_condition there
+    includes(members: :roles)
       .references(:roles)
       .merge(Principal.order_by_name)
-    },
-    through: :possible_assignee_members,
-    source: :principal
+  },
+           through: :possible_assignee_members,
+           source: :principal
   has_many :possible_responsible_members, -> {
     includes(:principal, :roles)
       .where(Project.possible_principles_condition)
@@ -73,14 +73,14 @@ class Project < ActiveRecord::Base
   }, class_name: 'Member'
   # Read only
   has_many :possible_responsibles, -> {
-      # Have to reference it again although possible_assignee_members does already specify it
-      # to be able to use the Project.possible_principles_condition there
-      includes(members: :roles)
+    # Have to reference it again although possible_assignee_members does already specify it
+    # to be able to use the Project.possible_principles_condition there
+    includes(members: :roles)
       .references(:roles)
       .merge(Principal.order_by_name)
-    },
-    through: :possible_responsible_members,
-    source: :principal
+  },
+           through: :possible_responsible_members,
+           source: :principal
   has_many :memberships, class_name: 'Member'
   has_many :member_principals, -> {
     includes(:principal)
