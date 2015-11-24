@@ -96,7 +96,7 @@ The following steps have to be performed to initiate the actual installation of 
 
 # Post-Install Configuration
 
-After the installation of the OpenProject package the system has to be configured to use this package and operate the OpenProject application. Therefore the package includes aconfiguration wizard which can be started using the following command.
+After the installation of the OpenProject package the system has to be configured to use this package and operate the OpenProject application. Therefore the package includes a configuration wizard which can be started using the following command.
 
     openproject configure
 
@@ -112,6 +112,10 @@ The openproject package comes with a command line tool to help manage important 
       openproject config:get VAR
       openproject config:set VAR=VALUE
       openproject reconfigure
+
+
+After you have completed the configuration wizard, the OpenProject instance will be started automatically. You can log into the instance initially with the user/password combination _admin/admin_. You will be asked to change this password immediately after the first login.
+
 
 ## Set configuration options
 

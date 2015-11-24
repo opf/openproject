@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,24 +26,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# Provides an asynchronous job to create a managed repository on a remote system
-# using a simple HTTP callback
-# Currently, this is run synchronously due to potential issues
-# with error handling.
-# We envision a repository management wrapper that covers transactional
-# creation and deletion of repositories BOTH on the database and filesystem.
-# Until then, a synchronous process is more failsafe.
-class Scm::CreateRemoteRepositoryJob < Scm::RemoteRepositoryJob
-  def perform
-    response = send_request(repository_request.merge(action: :create))
-    repository.root_url = response['path']
-    repository.url = response['url']
+require 'spec_helper'
 
-    unless repository.save
-      raise OpenProject::Scm::Exceptions::ScmError.new(
-        I18n.t('repositories.errors.remote_save_failed')
-      )
+describe 'Enumerations', type: :feature do
+  let(:admin)  { FactoryGirl.create(:admin) }
+
+  before do
+    login_as(admin)
+    visit enumerations_path
+  end
+
+  it 'contains all defined enumerations' do
+    Enumeration.descendants.each do |enumeration|
+      expect(page).to have_selector('h3', text: I18n.t(enumeration::OptionName))
+      expect(page).to have_link(I18n.t(:label_enumeration_new),
+                                href: new_enumeration_path(type: enumeration.name))
     end
   end
 end

@@ -131,7 +131,11 @@ describe PermittedParams, type: :model do
 
       acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
 
-      acceptable_params_with_data.merge!(custom_field_values: [1,2,3])
+      acceptable_params_with_data.merge!(custom_field_values: {
+        '1' => 'foo',
+        '2' => 'bar',
+        '3' => 'baz'
+      })
 
       params = ActionController::Parameters.new(time_entry: acceptable_params_with_data)
 

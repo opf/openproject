@@ -56,14 +56,16 @@ class Scm::RemoteRepositoryJob
 
   ##
   # Submits the request to the configured managed remote as JSON.
-  def send(request)
+  def send_request(request)
     uri = repository.class.managed_remote
     req = ::Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
     req.body = request.to_json
 
-    response = ::Net::HTTP.start(uri.hostname, uri.port) do |http|
-      http.request(req)
-    end
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = uri.scheme == 'https'
+    http.verify_mode = configured_verification
+    response = http.request(req)
+
     info = try_to_parse_response(response.body)
 
     unless response.is_a? ::Net::HTTPSuccess
@@ -104,5 +106,19 @@ class Scm::RemoteRepositoryJob
 
   def repository
     @repository ||= Repository.find(@repository_id)
+  end
+
+  ##
+  # For packager and snakeoil-ssl certificates, we need to provide the user
+  # with an option to skip SSL certificate verification when communicating
+  # with the remote repository manager.
+  # It may be overridden in the +configuration.yml+.
+  def configured_verification
+    insecure = repository.class.scm_config[:insecure]
+    if insecure
+      OpenSSL::SSL::VERIFY_NONE
+    else
+      OpenSSL::SSL::VERIFY_PEER
+    end
   end
 end
