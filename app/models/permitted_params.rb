@@ -285,7 +285,6 @@ class PermittedParams
                                                 :responsible_id,
                                                 :identifier,
                                                 :project_type_id,
-                                                :parent_id,
                                                 custom_fields: [],
                                                 work_package_custom_field_ids: [],
                                                 type_ids: [],
@@ -294,6 +293,10 @@ class PermittedParams
 
     if instance && (instance.new_record? || current_user.allowed_to?(:select_project_modules, instance))
       whitelist.permit(enabled_module_names: [])
+    end
+
+    if instance && current_user.allowed_to?(:add_subprojects, instance)
+      whitelist.permit(:parent_id)
     end
 
     unless params[:project][:custom_field_values].nil?
