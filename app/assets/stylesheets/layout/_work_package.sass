@@ -31,6 +31,10 @@
 .controller-work_packages.full-create
   @extend %absolute-layout-mode
 
+  .in_modal &
+    #main
+      top: 12px
+
 #content
   // HACK: workaround to ensure correct height applied to child elements.
   // The dom looks like this:
@@ -180,10 +184,6 @@
     .work-packages--attachments
       margin-bottom: 25px
 
-.edit-all-mode
-  .work-packages--attachments
-    margin-bottom: 64px
-
 .work-package--new-state
   margin-bottom: 55px
 
@@ -198,6 +198,9 @@
     width: calc(60% + 7px)
     left: -20px
     padding: 0 20px .5rem
+
+  .in_modal &
+    width: 100%
 
 .edit-all-mode .work-packages--left-panel
   padding-bottom: 50px

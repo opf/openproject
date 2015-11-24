@@ -1019,6 +1019,7 @@ module.exports = function($timeout) {
 
       if (typeof projectID !== "undefined") {
         this.modalHelper.create(projectID);
+        this.modalHelper.modalDiv.addClass('-full');
       }
     }
   };
