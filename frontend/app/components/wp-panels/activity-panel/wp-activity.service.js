@@ -31,11 +31,10 @@ angular
   .factory('wpActivity', wpActivity);
 
 function wpActivity($filter, $q, ConfigurationService){
-  var wpActivity,
-      order = ConfigurationService.commentsSortedInDescendingOrder() ? 'desc' : 'asc',
+  var order = ConfigurationService.commentsSortedInDescendingOrder() ? 'desc' : 'asc',
       activities = [];
 
-  return wpActivity = {
+  return {
     get activities() {
       return activities;
     },
@@ -87,10 +86,6 @@ function wpActivity($filter, $q, ConfigurationService){
 
         get isNextDate() {
           return this.date !== this.dateOfPrevious;
-        },
-
-        get anchor() {
-          return 'note-' + this.number;
         },
 
         get isInitial() {

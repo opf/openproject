@@ -5,10 +5,7 @@
     <li ng-repeat="activity in vm.activities | latestItems : vm.order === 'desc' : 3"
         class="work-package-details-activities-activity"
 
-        ng-init="inf           = vm.info(activity, $index);
-                 currentAnchor = inf.anchor;
-                 activityNo    = inf.number;
-                 isInitial     = in.isInitial;">
+        ng-init="inf = vm.info(activity, $index)">
 
       <activity-entry work-package="vm.workPackage"
                       activity="activity"

@@ -7,11 +7,7 @@
       <li ng-repeat="activity in vm.activities"
           class="work-package-details-activities-activity"
 
-          ng-init="inf           = vm.info(activity, $index);
-                   activityNo    = inf.number;
-                   isInitial     = inf.isInitial;
-                   currentDate   = inf.date;
-                   currentAnchor = inf.anchor">
+          ng-init="inf = vm.info(activity, $index)">
 
         <h3 class="activity-date" ng-if="inf.isNextDate" ng-bind="inf.date"></h3>
 
