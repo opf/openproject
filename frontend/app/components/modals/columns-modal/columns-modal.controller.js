@@ -124,4 +124,8 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
   $timeout(function () {
     $scope.$broadcast('columnsModalOpened');
   });
+
+  $scope.$on('uiSelectSort:change', function(event, args) {
+    vm.selectedColumns = args.array;
+  });
 }
