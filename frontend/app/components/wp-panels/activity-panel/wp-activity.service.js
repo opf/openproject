@@ -55,22 +55,18 @@ function wpActivity($filter, $q, ConfigurationService){
           var linkedRevisions = workPackage.links.revisions;
 
           if (linkedRevisions === undefined) {
-            resolve();
+            return resolve();
           }
 
-          linkedRevisions
-            .fetch()
-            .then(function(data) {
-              resolve(data.embedded.elements)
-            });
+          linkedRevisions.fetch().then(function(data) {
+            resolve(data.embedded.elements)
+          });
         });
       }
 
       $q.all([addDisplayedActivities(), addDisplayedRevisions()]).then(function(aggregated) {
-        activities = $filter('orderBy')(
-          _.flatten(aggregated),
-          'props.createdAt',
-          order === 'desc'
+        wpActivity.activities = $filter('orderBy')(
+          _.flatten(aggregated), 'props.createdAt', order === 'desc'
         );
       });
     },
