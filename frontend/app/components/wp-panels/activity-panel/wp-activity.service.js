@@ -79,10 +79,8 @@ function wpActivity($filter, ConfigurationService){
       }, aggregate);
     },
 
-    isInitialActivity: function(activities, activity, activityNo, activitiesSortedInDescendingOrder) {
-      var type = activity.props._type;
-
-      if (type.indexOf('Activity') !== 0) {
+    isInitialActivity: function(activity, activityNo) {
+      if (activity.props._type.indexOf('Activity') !== 0) {
         return false;
       }
 
@@ -91,10 +89,10 @@ function wpActivity($filter, ConfigurationService){
       }
 
       while (--activityNo > 0) {
-        var index = (activitiesSortedInDescendingOrder ?
-                        activities.length - activityNo : activityNo - 1);
+        var index = (wpActivity.order === 'desc' ?
+                        wpActivity.activities.length - activityNo : activityNo - 1);
 
-        if (activities[index].props._type.indexOf('Activity') === 0) {
+        if (wpActivity.activities[index].props._type.indexOf('Activity') === 0) {
           return false;
         }
       }

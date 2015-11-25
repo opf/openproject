@@ -35,7 +35,6 @@ function ActivityPanelController($scope, wpActivity){
   wpActivity.aggregateActivities($scope.workPackage);
 
   $scope.isInitialActivity = wpActivity.isInitialActivity;
-  $scope.activitiesSortedInDescendingOrder = wpActivity.order === 'desc';
   $scope.activities = wpActivity.activities;
 
   $scope.$on('workPackageRefreshed', function () {
