@@ -31,7 +31,8 @@ module WorkPackage::Validations
   extend ActiveSupport::Concern
 
   included do
-    attr_accessor :skip_fixed_version_validation
+    attr_accessor :skip_fixed_version_validation,
+                  :skip_descendants_validation
 
     validates_presence_of :subject, :priority, :project, :type, :author, :status
 
@@ -61,9 +62,31 @@ module WorkPackage::Validations
 
     validate :validate_category
 
-    validate :validate_children
+    validate :validate_descendants, unless: :skip_descendants_validation
 
     validate :validate_estimated_hours
+
+    scope :eager_load_for_validation, ->() {
+      includes({ project: [:enabled_modules, :work_package_custom_fields, :versions] },
+               { parent: :type },
+               :custom_values,
+               { type: :custom_fields },
+               :priority,
+               :status,
+               :author,
+               :category,
+               :fixed_version)
+    }
+  end
+
+  def valid?(context = nil, skip_descendants_validation: false)
+    self.skip_descendants_validation = skip_descendants_validation
+
+    super_return = super(context)
+
+    self.skip_descendants_validation = false
+
+    super_return
   end
 
   def skip_fixed_version_validation?
@@ -129,13 +152,22 @@ module WorkPackage::Validations
     end
   end
 
-  def validate_children
-    children.select { |c| !c.valid? }.each do |child|
-      child.errors.each do |attribute, message|
-        full_message = child.errors.full_message(attribute, message)
-        errors.add(:base, "#{I18n.t('label_child_element')} ##{child.id}: #{full_message}")
-      end
+  def validate_descendants
+    all_descendants = descendants.eager_load_for_validation
+
+    # As the current state of the work package may differ from the
+    # db. We assign the already instantiated work package with all
+    # it's changes as the parent object to the work package's direct
+    # children. Other descendants should not have altered parents.
+    all_descendants.each do |wp|
+      wp.parent = self if wp.parent_id == id
     end
+
+    invalid_descendants = all_descendants.select { |c|
+      !c.valid?(nil, skip_descendants_validation: true)
+    }
+
+    copy_descendants_errors(invalid_descendants)
   end
 
   def validate_estimated_hours
@@ -156,5 +188,14 @@ module WorkPackage::Validations
 
   def status_transition_exists?
     type.is_valid_transition?(status_id_was, status_id, User.current.roles(project))
+  end
+
+  def copy_descendants_errors(invalid_descendants)
+    invalid_descendants.each do |descendant|
+      descendant.errors.each do |attribute, message|
+        full_message = descendant.errors.full_message(attribute, message)
+        errors.add(:base, "#{I18n.t('label_child_element')} ##{descendant.id}: #{full_message}")
+      end
+    end
   end
 end
