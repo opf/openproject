@@ -113,7 +113,7 @@ class Project < ActiveRecord::Base
   has_one :repository, dependent: :destroy
   has_many :changesets, through: :repository
   has_one :wiki, dependent: :destroy
-  # Custom field for the project work units
+  # Custom field for the project's work_packages
   has_and_belongs_to_many :work_package_custom_fields, -> {
     order("#{CustomField.table_name}.position")
   }, class_name: 'WorkPackageCustomField',
