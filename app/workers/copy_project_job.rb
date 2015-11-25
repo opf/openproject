@@ -40,12 +40,12 @@ class CopyProjectJob
 
   def initialize(user_id:, source_project_id:, target_project_params:,
                  enabled_modules:, associations_to_copy:, send_mails: false)
-   @user_id = user_id
-   @source_project_id = source_project_id
+   @user_id               = user_id
+   @source_project_id     = source_project_id
    @target_project_params = target_project_params
-   @enabled_modules = enabled_modules
-   @associations_to_copy = associations_to_copy
-   @send_mails = send_mails
+   @enabled_modules       = enabled_modules
+   @associations_to_copy  = associations_to_copy
+   @send_mails            = send_mails
   end
 
   def perform
@@ -84,13 +84,13 @@ class CopyProjectJob
                           associations_to_copy,
                           send_mails)
     target_project = nil
-    errors = []
+    errors         = []
 
     UserMailer.with_deliveries(send_mails) do
       parent_id = target_project_params[:parent_id]
-      target_project = Project.new.tap do |p|
-        p.attributes = target_project_params
-        p.enabled_module_names = enabled_modules
+      target_project = Project.new.tap do |project|
+        project.attributes           = target_project_params
+        project.enabled_module_names = enabled_modules
       end
 
       if validate_parent_id(target_project, parent_id) && target_project.save
@@ -110,12 +110,21 @@ class CopyProjectJob
           end
         end
       else
-        errors = target_project.errors.full_messages
+        errors         = target_project.errors.full_messages
         target_project = nil
       end
     end
-  rescue ActiveRecord::RecordNotFound
+  rescue ActiveRecord::RecordNotFound => e
+    logger.error("Entity missing: #{e.message} #{e.backtrace.join("\n")}")
+  rescue StandardError => e
+    logger.error('Encountered an error when trying to copy project '\
+                 "'#{source_project_id}' : #{e.message} #{e.backtrace.join("\n")}")
   ensure
+    unless errors.empty?
+      logger.info('Encountered an errors while trying to copy related objects for '\
+                  "project '#{source_project_id}': #{errors.inspect}")
+    end
+
     return target_project, errors
   end
 
@@ -123,13 +132,21 @@ class CopyProjectJob
   # TODO: move it to Project model in a validation that depends on User.current
   def validate_parent_id(project, parent_id)
     return true if User.current.admin?
+
     if parent_id || project.new_record?
       parent = parent_id.blank? ? nil : Project.find_by(id: parent_id.to_i)
+
       unless project.allowed_parents.include?(parent)
         project.errors.add :parent_id, :invalid
+
         return false
       end
     end
+
     true
+  end
+
+  def logger
+    Delayed::Worker.logger
   end
 end

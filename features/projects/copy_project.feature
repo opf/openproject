@@ -175,9 +175,8 @@ Feature: Project Settings
     And   I go to the page of the planning element "pe2" of the project called "Copied Project"
     Then  I should see "pe2" within "#content"
 
-  @javascript @wip
+  @javascript
   Scenario: Copying a project with a complex issue
-    # FIXME 16364 assignee is not shown on work package views (full and split screen)
     Given the project "project1" has 1 version with:
       | name           | version1   |
       | description    | yeah, boy  |
