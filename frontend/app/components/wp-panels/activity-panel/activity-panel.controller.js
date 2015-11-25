@@ -32,9 +32,9 @@ angular
 
 function ActivityPanelController($scope, wpActivity, PathHelper){
 
-  $scope.isInitialActivity = wpActivity.isInitialActivity;
   $scope.activities = wpActivity.activities;
   $scope.order = wpActivity.order;
+  $scope.info = wpActivity.info;
 
   var projectId = $scope.workPackage.embedded.project.props.id;
   $scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
