@@ -32,10 +32,13 @@ angular
 
 function wpActivity($filter, ConfigurationService){
   var wpActivity,
-      order = ConfigurationService.commentsSortedInDescendingOrder() ? 'desc' : 'asc';
+      order = ConfigurationService.commentsSortedInDescendingOrder() ? 'desc' : 'asc',
+      activities = [];
 
   return wpActivity = {
-    activities: [],
+    get activities() {
+      return activities
+    },
 
     get order() {
       return order;
@@ -47,9 +50,10 @@ function wpActivity($filter, ConfigurationService){
       var add = function (data) {
         aggregated.push(data.embedded.elements);
 
-        wpActivity.activities = $filter('orderBy')(
+        activities.length = 0;
+        activities.push.apply(activities, $filter('orderBy')(
           _.flatten(aggregated), 'props.createdAt', order === 'desc'
-        );
+        ));
       };
 
       workPackage.links.activities.fetch().then(add);
@@ -69,10 +73,9 @@ function wpActivity($filter, ConfigurationService){
       }
 
       while (--activityNo > 0) {
-        var index = (wpActivity.order === 'desc' ?
-                        wpActivity.activities.length - activityNo : activityNo - 1);
+        var index = wpActivity.order === 'desc' ? activities.length - activityNo : activityNo - 1;
 
-        if (wpActivity.activities[index].props._type.indexOf('Activity') === 0) {
+        if (activities[index].props._type.indexOf('Activity') === 0) {
           return false;
         }
       }

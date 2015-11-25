@@ -32,11 +32,11 @@ angular
 
 function ActivityPanelController($scope, wpActivity){
 
-  wpActivity.aggregateActivities($scope.workPackage);
-
   $scope.isInitialActivity = wpActivity.isInitialActivity;
   $scope.activities = wpActivity.activities;
   $scope.order = wpActivity.order;
+
+  wpActivity.aggregateActivities($scope.workPackage);
 
   $scope.$on('workPackageRefreshed', function () {
     wpActivity.aggregateActivities($scope.workPackage);
