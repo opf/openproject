@@ -938,9 +938,14 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def compute_spent_hours(usr = User.current)
+    # The joins(:project) part witin
+    # self_and_descendants.joins(:project).visible(usr) is important! Without
+    # it, the visibility condition references the projects table joined by
+    # TimeEntry.visible. That is both semantically wrong and bad performance
+    # wise.
     spent_time = TimeEntry.visible(usr)
-                 .on_work_packages(self_and_descendants.visible(usr))
-                 .sum(:hours)
+                  .on_work_packages(self_and_descendants.joins(:project).visible(usr))
+                  .sum(:hours)
 
     spent_time || 0.0
   end

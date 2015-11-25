@@ -316,7 +316,12 @@ module API
         end
 
         def activities
-          activities = ::Journal::AggregatedJournal.aggregated_journals(journable: represented)
+          activities = ::Journal::AggregatedJournal.aggregated_journals(journable: represented,
+                                                                        includes: [
+                                                                          :customizable_journals,
+                                                                          :attachable_journals,
+                                                                          :data]
+                                                                       )
           self_link = api_v3_paths.work_package_activities represented.id
           Activities::ActivityCollectionRepresenter.new(activities,
                                                         self_link,
