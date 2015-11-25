@@ -1,20 +1,20 @@
-<work-package-comment work-package="workPackage"
-                      activities="activities"
-                      autocomplete-path="{{ autocompletePath }}">
+<work-package-comment work-package="vm.workPackage"
+                      activities="vm.activities"
+                      autocomplete-path="{{ vm.autocompletePath }}">
   <ul class='work-package-details-activities-list'>
-    <li ng-repeat="activity in activities | latestItems : order === 'desc' : 3"
+    <li ng-repeat="activity in vm.activities | latestItems : vm.order === 'desc' : 3"
         class="work-package-details-activities-activity"
 
-        ng-init="inf           = info(activity, $index);
+        ng-init="inf           = vm.info(activity, $index);
                  currentAnchor = inf.anchor;
                  activityNo    = inf.number;
                  isInitial     = in.isInitial;">
 
-      <activity-entry work-package="workPackage"
+      <activity-entry work-package="vm.workPackage"
                       activity="activity"
                       activity-no="inf.number"
                       is-initial="inf.isInitial"
-                      autocomplete-path="autocompletePath">
+                      autocomplete-path="vm.autocompletePath">
       </activity-entry>
     </li>
   </ul>

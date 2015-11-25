@@ -48,7 +48,7 @@ angular.module('openproject')
     get activity() {
       return {
         url: '/activity',
-        template: '<activity-panel></activity-panel>'
+        template: '<activity-panel work-package="workPackage"></activity-panel>'
       }
     },
 

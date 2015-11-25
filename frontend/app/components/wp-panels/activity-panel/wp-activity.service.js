@@ -105,8 +105,7 @@ function wpActivity($filter, $q, ConfigurationService){
           }
 
           while (--activityNo > 0) {
-            var index =
-                  wpActivity.order === 'desc' ? activities.length - activityNo : activityNo - 1;
+            var index = order === 'desc' ? activities.length - activityNo : activityNo - 1;
 
             if (activities[index].props._type.indexOf('Activity') === 0) {
               return false;

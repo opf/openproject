@@ -32,16 +32,18 @@ angular
 
 function ActivityPanelController($scope, wpActivity, PathHelper){
 
-  $scope.activities = wpActivity.activities;
-  $scope.order = wpActivity.order;
-  $scope.info = wpActivity.info;
+  var vm = this;
 
-  var projectId = $scope.workPackage.embedded.project.props.id;
-  $scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
+  vm.activities = wpActivity.activities;
+  vm.order = wpActivity.order;
+  vm.info = wpActivity.info;
 
-  wpActivity.aggregateActivities($scope.workPackage);
+  var projectId = vm.workPackage.embedded.project.props.id;
+  vm.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
+
+  wpActivity.aggregateActivities(vm.workPackage);
 
   $scope.$on('workPackageRefreshed', function () {
-    wpActivity.aggregateActivities($scope.workPackage);
+    wpActivity.aggregateActivities(vm.workPackage);
   });
 }

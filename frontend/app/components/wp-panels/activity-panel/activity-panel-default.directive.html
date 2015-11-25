@@ -1,13 +1,13 @@
-<work-package-comment work-package="workPackage"
-                      activities="activities"
-                      autocomplete-path="{{ autocompletePath }}">
+<work-package-comment work-package="vm.workPackage"
+                      activities="vm.activities"
+                      autocomplete-path="{{ vm.autocompletePath }}">
 
   <div class="detail-activity">
     <ul class="work-package-details-activities-list">
-      <li ng-repeat="activity in activities"
+      <li ng-repeat="activity in vm.activities"
           class="work-package-details-activities-activity"
 
-          ng-init="inf           = info(activity, $index);
+          ng-init="inf           = vm.info(activity, $index);
                    activityNo    = inf.number;
                    isInitial     = inf.isInitial;
                    currentDate   = inf.date;
@@ -15,11 +15,11 @@
 
         <h3 class="activity-date" ng-if="inf.isNextDate" ng-bind="inf.date"></h3>
 
-          <activity-entry work-package="workPackage"
+          <activity-entry work-package="vm.workPackage"
                           activity="activity"
                           activity-no="inf.number"
                           is-initial="inf.isInitial"
-                          autocomplete-path="autocompletePath">
+                          autocomplete-path="vm.autocompletePath">
           </activity-entry>
       </li>
     </ul>

@@ -40,6 +40,12 @@ function activityPanel(){
       return path + 'activity-panel-' + type + '.directive.html';
     },
 
-    controller: 'ActivityPanelController'
+    scope: {
+      workPackage: '='
+    },
+
+    bindToController: true,
+    controller: 'ActivityPanelController',
+    controllerAs: 'vm'
   };
 }
