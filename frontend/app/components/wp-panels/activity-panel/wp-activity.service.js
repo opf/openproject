@@ -30,7 +30,7 @@ angular
   .module('openproject.workPackages.services')
   .factory('wpActivity', wpActivity);
 
-function wpActivity($filter, ConfigurationService){
+function wpActivity($filter, $q, ConfigurationService){
   var wpActivity,
       order = ConfigurationService.commentsSortedInDescendingOrder() ? 'desc' : 'asc',
       activities = [];
@@ -45,22 +45,24 @@ function wpActivity($filter, ConfigurationService){
     },
 
     aggregateActivities: function(workPackage) {
-      var aggregated = [];
+      var aggregated = [], promises = [];
 
       var add = function (data) {
         aggregated.push(data.embedded.elements);
+      };
 
+      promises.push(workPackage.links.activities.fetch().then(add));
+
+      if(workPackage.links.revisions) {
+        promises.push(workPackage.links.revisions.fetch().then(add));
+      }
+
+      return $q.all(promises).then(function () {
         activities.length = 0;
         activities.push.apply(activities, $filter('orderBy')(
           _.flatten(aggregated), 'props.createdAt', order === 'desc'
         ));
-      };
-
-      workPackage.links.activities.fetch().then(add);
-
-      if(workPackage.links.revisions) {
-        workPackage.links.revisions.fetch().then(add);
-      }
+      });
     },
 
     isInitialActivity: function(activity, activityNo) {
