@@ -30,53 +30,15 @@ angular
   .module('openproject.workPackages.controllers')
   .controller('ActivityPanelController', ActivityPanelController);
 
-function ActivityPanelController($filter, $scope, ConfigurationService, ActivityService){
+function ActivityPanelController($scope, wpActivity){
 
-  $scope.isInitialActivity = ActivityService.isInitialActivity;
-  $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
-  $scope.activities = [];
+  wpActivity.aggregateActivities($scope.workPackage);
 
-  aggregateActivities($scope.workPackage);
+  $scope.isInitialActivity = wpActivity.isInitialActivity;
+  $scope.activitiesSortedInDescendingOrder = wpActivity.order === 'desc';
+  $scope.activities = wpActivity.activities;
 
   $scope.$on('workPackageRefreshed', function () {
-    aggregateActivities($scope.workPackage);
+    wpActivity.aggregateActivities($scope.workPackage);
   });
-
-  function aggregateActivities(workPackage) {
-    var aggregated = [],
-      totalActivities = 0;
-
-    var aggregate = function(success, activity) {
-
-      if (success === true) {
-        aggregated = aggregated.concat(activity);
-      }
-
-      if (++totalActivities === 2) {
-        $scope.activities = $filter('orderBy')(
-          aggregated, 'props.createdAt', $scope.activitiesSortedInDescendingOrder
-        );
-      }
-    };
-
-    addDisplayedActivities(workPackage, aggregate);
-    addDisplayedRevisions(workPackage, aggregate);
-  }
-
-  function addDisplayedActivities(workPackage, aggregate) {
-    var activities = workPackage.embedded.activities.embedded.elements;
-    aggregate(true, activities);
-  }
-
-  function addDisplayedRevisions(workPackage, aggregate) {
-    var linkedRevisions = workPackage.links.revisions;
-
-    if (linkedRevisions === undefined) {
-      return aggregate();
-    }
-
-    linkedRevisions.fetch().then(function(data) {
-      aggregate(true, data.embedded.elements);
-    }, aggregate);
-  }
 }
