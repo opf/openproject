@@ -30,7 +30,7 @@ angular
   .module('openproject.workPackages.services')
   .factory('wpActivity', wpActivity);
 
-function wpActivity($filter, ConfigurationService){
+function wpActivity($filter, $q, ConfigurationService){
   var wpActivity,
       order = ConfigurationService.commentsSortedInDescendingOrder() ? 'desc' : 'asc';
 
@@ -42,41 +42,36 @@ function wpActivity($filter, ConfigurationService){
     },
 
     aggregateActivities: function(workPackage) {
-      var aggregated = [],
-        totalActivities = 0;
-
-      var aggregate = function(success, activity) {
-
-        if (success === true) {
-          aggregated = aggregated.concat(activity);
-        }
-
-        if (++totalActivities === 2) {
-          wpActivity.activities = $filter('orderBy')(
-            aggregated, 'props.createdAt', order === 'desc'
-          );
-        }
-      };
-
-      wpActivity.addDisplayedActivities(workPackage, aggregate);
-      wpActivity.addDisplayedRevisions(workPackage, aggregate);
-    },
-
-    addDisplayedActivities: function(workPackage, aggregate) {
-      var activities = workPackage.embedded.activities.embedded.elements;
-      aggregate(true, activities);
-    },
-
-    addDisplayedRevisions: function(workPackage, aggregate) {
-      var linkedRevisions = workPackage.links.revisions;
-
-      if (linkedRevisions === undefined) {
-        return aggregate();
+      function addDisplayedActivities() {
+        return $q(function(resolve) {
+          var embedded = workPackage.embedded.activities.embedded.elements;
+          resolve(embedded);
+        });
       }
 
-      linkedRevisions.fetch().then(function(data) {
-        aggregate(true, data.embedded.elements);
-      }, aggregate);
+      function addDisplayedRevisions() {
+        return $q(function(resolve) {
+          var linkedRevisions = workPackage.links.revisions;
+
+          if (linkedRevisions === undefined) {
+            resolve();
+          }
+
+          linkedRevisions
+            .fetch()
+            .then(function(data) {
+              resolve(data.embedded.elements)
+            });
+        });
+      }
+
+      $q.all([addDisplayedActivities(), addDisplayedRevisions()]).then(function(aggregated) {
+        activities = $filter('orderBy')(
+          _.flatten(aggregated),
+          'props.createdAt',
+          order === 'desc'
+        );
+      });
     },
 
     isInitialActivity: function(activity, activityNo) {
