@@ -60,22 +60,5 @@
     </div>
   </div>
 
-  <work-package-comment work-package="workPackage"
-                        activities="activities"
-                        autocomplete-path="{{ autocompletePath }}">
-    <ul class='work-package-details-activities-list'>
-      <li ng-repeat="activity in activities | latestItems:activitiesSortedInDescendingOrder:3"
-          class="work-package-details-activities-activity"
-          ng-init="currentAnchor = 'note-' + ($index+1);
-                   activityNo = activities.length - $index;
-                   isInitial = isInitialActivity(activity, activityNo);">
-        <activity-entry work-package="workPackage"
-                        activity="activity"
-                        activity-no="activityNo"
-                        is-initial="isInitial"
-                        autocomplete-path="autocompletePath">
-        </activity-entry>
-      </li>
-    </ul>
-  </work-package-comment>
+  <activity-panel template="overview"></activity-panel>
 </div>
