@@ -48,7 +48,7 @@ module API
 
         link :user do
           {
-            href: api_v3_paths.user(represented.user.id)
+            href: api_v3_paths.user(represented.user_id)
           }
         end
 
