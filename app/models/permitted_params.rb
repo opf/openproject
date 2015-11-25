@@ -50,7 +50,9 @@ class PermittedParams
   end
 
   def self.permit(key, *params)
-    raise(ArgumentError, "no permitted params are configured for #{key}") unless permitted_attributes.has_key?(key)
+    unless permitted_attributes.has_key?(key)
+      raise(ArgumentError, "no permitted params are configured for #{key}")
+    end
 
     permitted_attributes[key].concat(params)
   end
@@ -114,11 +116,13 @@ class PermittedParams
   end
 
   def planning_element_type
-    params.require(:planning_element_type).permit(*self.class.permitted_attributes[:planning_element_type])
+    params.require(:planning_element_type)
+      .permit(*self.class.permitted_attributes[:planning_element_type])
   end
 
   def planning_element_type_move
-    params.require(:planning_element_type).permit(*self.class.permitted_attributes[:move_to])
+    params.require(:planning_element_type)
+      .permit(*self.class.permitted_attributes[:move_to])
   end
 
   def planning_element(args = {})
@@ -149,7 +153,8 @@ class PermittedParams
     # the sort_criteria hash itself (again with content) in the same hash.
     # Here we try to circumvent this
     p = params.require(:query).permit(*self.class.permitted_attributes[:query])
-    p[:sort_criteria] = params.require(:query).permit(sort_criteria: { '0' => [], '1' => [], '2' => [] })
+    p[:sort_criteria] = params.require(:query)
+                        .permit(sort_criteria: { '0' => [], '1' => [], '2' => [] })
     p[:sort_criteria].delete :sort_criteria
     p
   end
@@ -190,7 +195,9 @@ class PermittedParams
     user_create_as_admin(external_authentication, change_password_allowed, [group_ids: []])
   end
 
-  def user_create_as_admin(external_authentication, change_password_allowed, additional_params = [])
+  def user_create_as_admin(external_authentication,
+                           change_password_allowed,
+                           additional_params = [])
     if current_user.admin?
       additional_params << :auth_source_id unless external_authentication
       additional_params << :force_password_change if change_password_allowed
@@ -249,17 +256,6 @@ class PermittedParams
   end
 
   def timeline
-    acceptable_options_params = ["exist", "zoom_factor", "initial_outline_expansion", "timeframe_start",
-    "timeframe_end", "columns", "project_sort", "compare_to_relative", "compare_to_relative_unit",
-    "compare_to_absolute", "vertical_planning_elements", "exclude_own_planning_elements",
-    "planning_element_status", "planning_element_types", "planning_element_responsibles",
-    "planning_element_assignee", "exclude_reporters", "exclude_empty", "project_types",
-    "project_status", "project_responsibles", "parents", "planning_element_time_types",
-    "planning_element_time_absolute_one", "planning_element_time_absolute_two",
-    "planning_element_time_relative_one", "planning_element_time_relative_one_unit",
-    "planning_element_time_relative_two", "planning_element_time_relative_two_unit",
-    "grouping_one_enabled", "grouping_one_selection", "grouping_one_sort", "hide_other_group"]
-
     # Options here will be empty. This is just initializing it.
     whitelist = params.require(:timeline).permit(:name, options: {})
 
@@ -273,9 +269,8 @@ class PermittedParams
   end
 
   def pref
-    params.require(:pref).permit(:hide_mail, :time_zone, :impaired,
-                                 :comments_sorting, :warn_on_leaving_unsaved,
-                                 :theme)
+    params.require(:pref).permit(:hide_mail, :time_zone, :impaired, :theme,
+                                 :comments_sorting, :warn_on_leaving_unsaved)
   end
 
   def project(instance = nil)
@@ -290,8 +285,8 @@ class PermittedParams
                                                 type_ids: [],
                                                 enabled_module_names: [])
 
-
-    if instance && (instance.new_record? || current_user.allowed_to?(:select_project_modules, instance))
+    if instance &&
+       (instance.new_record? || current_user.allowed_to?(:select_project_modules, instance))
       whitelist.permit(enabled_module_names: [])
     end
 
@@ -322,15 +317,15 @@ class PermittedParams
     # now it is less work to do it this way than have the plugin override this
     # method. We hopefully will change this in the future.
     params.fetch(:version, {}).permit(:name,
-                                    :description,
-                                    :effective_date,
-                                    :due_date,
-                                    :start_date,
-                                    :wiki_page_title,
-                                    :status,
-                                    :sharing,
-                                    :custom_field_value,
-                                    version_settings_attributes: [:id, :display, :project_id])
+                                      :description,
+                                      :effective_date,
+                                      :due_date,
+                                      :start_date,
+                                      :wiki_page_title,
+                                      :status,
+                                      :sharing,
+                                      :custom_field_value,
+                                      version_settings_attributes: [:id, :display, :project_id])
   end
 
   def comment
@@ -353,15 +348,15 @@ class PermittedParams
   end
 
   def enumerations
-    acceptable_params = [:active, :is_default, :move_to, :name, :reassign_to_i, :parent_id,
-                         :custom_field_values, :reassign_to_id]
+    acceptable_params = [:active, :is_default, :move_to, :name, :reassign_to_i,
+                         :parent_id, :custom_field_values, :reassign_to_id]
 
     whitelist = ActionController::Parameters.new
 
     # Sometimes we receive one enumeration, sometimes many in params, hence
     # the following branching.
     if params[:enumerations].present?
-      params[:enumerations].each do |enum, value|
+      params[:enumerations].each do |enum, _value|
         enum.tap do
           whitelist[enum] = {}
           acceptable_params.each do |param|
@@ -394,7 +389,9 @@ class PermittedParams
   end
 
   def reporting
-    params.fetch(:reporting, {}).permit(:reporting_to_project_id, :reported_project_status_id, :reported_project_status_comment)
+    params.fetch(:reporting, {}).permit(:reporting_to_project_id,
+                                        :reported_project_status_id,
+                                        :reported_project_status_comment)
   end
 
   def membership
@@ -413,9 +410,7 @@ class PermittedParams
     # 'id as string' => 'value as string'
     values.reject! do |k, v| k.to_i < 1 || !v.is_a?(String) end
 
-    values.empty? ?
-      {} :
-      { 'custom_field_values' => values }
+    values.empty? ? {} : { 'custom_field_values' => values }
   end
 
   def permitted_attributes(key, additions = {})
@@ -634,8 +629,6 @@ class PermittedParams
       params
     end
   end
-
-  private
 
   ## Add attributes as permitted attributes (only to be used by the plugins plugin)
   #

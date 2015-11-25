@@ -109,7 +109,8 @@ module ApplicationHelper
     html_options.symbolize_keys!
     tag(:input, html_options.merge(
                   type: 'image', src: image_path(name),
-                  onclick: (html_options[:onclick] ? "#{html_options[:onclick]}; " : '') + "#{function};"
+                  onclick: (html_options[:onclick] ? "#{html_options[:onclick]}; " : '') +
+                            "#{function};"
     ))
   end
 
@@ -127,7 +128,9 @@ module ApplicationHelper
   end
 
   def format_activity_description(text)
-    html_escape_once(truncate(text.to_s, length: 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, '<br />').html_safe
+    html_escape_once(truncate(text.to_s, length: 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...'))
+      .gsub(/[\r\n]+/, '<br />')
+      .html_safe
   end
 
   def format_version_name(version)
@@ -136,7 +139,8 @@ module ApplicationHelper
 
   def due_date_distance_in_words(date)
     if date
-      l((date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in), distance_of_date_in_words(Date.today, date))
+      label = date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in
+      l(label, distance_of_date_in_words(Date.today, date))
     end
   end
 
@@ -146,8 +150,11 @@ module ApplicationHelper
     content_tag :ul, class: 'pages-hierarchy' do
       pages[node].map { |page|
         content_tag :li do
+          title = if options[:timestamp] && page.updated_on
+                    l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on))
+                  end
           concat link_to(page.pretty_title, project_wiki_path(page.project, page),
-                         title: (options[:timestamp] && page.updated_on ? l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)) : nil))
+                         title: title)
           concat render_page_hierarchy(pages, page.id, options) if pages[page.id]
         end
       }.join.html_safe
@@ -160,8 +167,9 @@ module ApplicationHelper
     error_messages = objects.map { |o| o.errors.full_messages }.flatten
 
     unless error_messages.empty?
-      render partial: 'common/validation_error', locals: { error_messages: error_messages,
-                                                           object_name: options[:object_name].to_s.gsub('_', '') }
+      render partial: 'common/validation_error',
+             locals: { error_messages: error_messages,
+                       object_name: options[:object_name].to_s.gsub('_', '') }
     end
   end
 
@@ -204,11 +212,19 @@ module ApplicationHelper
 
     content_tag :div, html_options do
       if User.current.impaired?
-        concat(content_tag('a', join_flash_messages(message), href: 'javascript:;', class: 'impaired--empty-link'))
-        concat(content_tag(:i, '', class: 'icon-close close-handler', tabindex: '0', role: 'button', aria: { label: ::I18n.t('js.close_popup_title') }))
+        concat(content_tag('a', join_flash_messages(message),
+                           href: 'javascript:;',
+                           class: 'impaired--empty-link'))
+        concat(content_tag(:i, '', class: 'icon-close close-handler',
+                                   tabindex: '0',
+                                   role: 'button',
+                                   aria: { label: ::I18n.t('js.close_popup_title') }))
       else
         concat(join_flash_messages(message))
-        concat(content_tag(:i, '', class: 'icon-close close-handler', tabindex: '0', role: 'button', aria: { label: ::I18n.t('js.close_popup_title') }))
+        concat(content_tag(:i, '', class: 'icon-close close-handler',
+                                   tabindex: '0',
+                                   role: 'button',
+                                   aria: { label: ::I18n.t('js.close_popup_title') }))
       end
     end
   end
@@ -299,10 +315,7 @@ module ApplicationHelper
       id = name.gsub(/[\[\]]+/, '_') + object.id.to_s
 
       object_options = options.inject({}) { |h, (k, v)|
-        h[k] = v.is_a?(Symbol) ?
-                 send(v, object) :
-                 v
-
+        h[k] = v.is_a?(Symbol) ? send(v, object) : v
         h
       }
 
@@ -317,17 +330,24 @@ module ApplicationHelper
   end
 
   def html_hours(text)
-    text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>').html_safe
+    text.gsub(%r{(\d+)\.(\d+)},
+              '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
+      .html_safe
   end
 
   def authoring(created, author, options = {})
-    l(options[:label] || :label_added_time_by, author: link_to_user(author), age: time_tag(created)).html_safe
+    label = options[:label] || :label_added_time_by
+    l(label, author: link_to_user(author), age: time_tag(created)).html_safe
   end
 
   def time_tag(time)
     text = distance_of_time_in_words(Time.now, time)
     if @project and @project.module_enabled?('activity')
-      link_to(text, { controller: '/activities', action: 'index', project_id: @project, from: time.to_date }, title: format_time(time))
+      link_to(text, { controller: '/activities',
+                      action: 'index',
+                      project_id: @project,
+                      from: time.to_date },
+              title: format_time(time))
     else
       datetime = time.acts_like?(:time) ? time.xmlschema : time.iso8601
       content_tag(:time, text, datetime: datetime,
@@ -399,11 +419,15 @@ module ApplicationHelper
       if ancestors.any?
         root = ancestors.shift
         b << link_to_project(root, { jump: current_menu_item }, class: 'root')
+
         if ancestors.size > 2
           b << '&#8230;'
           ancestors = ancestors[-2, 2]
         end
-        b += ancestors.map { |p| link_to_project(p, { jump: current_menu_item }, class: 'ancestor') }
+
+        b += ancestors.map { |p|
+          link_to_project(p, { jump: current_menu_item }, class: 'ancestor')
+        }
       end
       b << h(@project)
       b.join(' &#187; ')
@@ -455,13 +479,23 @@ module ApplicationHelper
              [['(auto)', '']]
            else
              []
-          end
-    auto + valid_languages.map { |lang| [ll(lang.to_s, :general_lang_name), lang.to_s] }.sort { |x, y| x.last <=> y.last }
+           end
+
+    mapped_languages = valid_languages.map { |lang|
+      [ll(lang.to_s, :general_lang_name), lang.to_s]
+    }
+
+    auto + mapped_languages.sort { |x, y| x.last <=> y.last }
   end
 
   def all_lang_options_for_select(blank = true)
-    (blank ? [['(auto)', '']] : []) +
-      all_languages.map { |lang| [ll(lang.to_s, :general_lang_name), lang.to_s] }.sort { |x, y| x.last <=> y.last }
+    initial_lang_options = blank ? [['(auto)', '']] : []
+
+    mapped_languages = all_languages.map { |lang|
+      [ll(lang.to_s, :general_lang_name), lang.to_s]
+    }
+
+    initial_lang_options + mapped_languages.sort { |x, y| x.last <=> y.last }
   end
 
   def labelled_tabular_form_for(record, options = {}, &block)
@@ -511,10 +545,11 @@ module ApplicationHelper
     legend = options[:legend] || ''
 
     content_tag :span do
-      content_tag :span, class: 'progress-bar', style: "width: #{width}" do
-        content_tag(:span, '', class: 'inner-progress closed', style: "width: #{closed}%") +
-          content_tag(:span, '', class: 'inner-progress done',   style: "width: #{done}%")
-      end.<<(content_tag :span, "#{legend}% #{l(:total_progress)}", class: 'progress-bar-legend')
+      concat content_tag :span, class: 'progress-bar', style: "width: #{width}" do
+        concat content_tag(:span, '', class: 'inner-progress closed', style: "width: #{closed}%")
+        concat content_tag(:span, '', class: 'inner-progress done',   style: "width: #{done}%")
+      end
+      concat content_tag(:span, "#{legend}% #{l(:total_progress)}", class: 'progress-bar-legend')
     end
   end
 
@@ -671,7 +706,8 @@ module ApplicationHelper
   end
 
   def icon_wrapper(icon_class, label)
-    content =  content_tag(:span, '', class: icon_class)
+    content  = content_tag(:span, '', class: icon_class)
     content += content_tag(:span, label, class: 'hidden-for-sighted')
+    content
   end
 end
