@@ -57,7 +57,7 @@ function wpActivity($filter, $q, ConfigurationService){
         promises.push(workPackage.links.revisions.fetch().then(add));
       }
 
-      return $q.all(promises).then(function () {
+      return $q.all(promises).then(function() {
         activities.length = 0;
         activities.push.apply(activities, $filter('orderBy')(
           _.flatten(aggregated), 'props.createdAt', order === 'desc'

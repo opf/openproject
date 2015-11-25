@@ -82,10 +82,6 @@ function WorkPackageDetailsController($scope, $state, latestTab, workPackage, I1
     $scope.displayWatchButton = workPackage.links.hasOwnProperty('unwatch') ||
                                 workPackage.links.hasOwnProperty('watch');
 
-    // autocomplete path
-    var projectId = workPackage.embedded.project.props.id;
-    $scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
-
     // watchers
     if(workPackage.links.watchers) {
       $scope.watchers = workPackage.embedded.watchers.embedded.elements;
