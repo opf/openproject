@@ -295,6 +295,10 @@ class PermittedParams
       whitelist.permit(enabled_module_names: [])
     end
 
+    if instance && current_user.allowed_to?(:add_subprojects, instance)
+      whitelist.permit(:parent_id)
+    end
+
     unless params[:project][:custom_field_values].nil?
       whitelist[:custom_field_values] = params[:project][:custom_field_values]
     end
