@@ -38,6 +38,10 @@ function ActivityPanelController($filter, $scope, ConfigurationService, Activity
 
   aggregateActivities($scope.workPackage);
 
+  $scope.$on('workPackageRefreshed', function () {
+    aggregateActivities($scope.workPackage);
+  });
+
   function aggregateActivities(workPackage) {
     var aggregated = [],
       totalActivities = 0;
