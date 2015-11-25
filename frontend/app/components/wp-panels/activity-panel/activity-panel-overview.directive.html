@@ -2,15 +2,18 @@
                       activities="activities"
                       autocomplete-path="{{ autocompletePath }}">
   <ul class='work-package-details-activities-list'>
-    <li ng-repeat="activity in activities | latestItems:(order === 'desc'):3"
+    <li ng-repeat="activity in activities | latestItems : order === 'desc' : 3"
         class="work-package-details-activities-activity"
-        ng-init="currentAnchor = 'note-' + ($index+1);
-                   activityNo = activities.length - $index;
-                   isInitial = isInitialActivity(activity, activityNo);">
+
+        ng-init="inf           = info(activity, $index);
+                 currentAnchor = inf.anchor;
+                 activityNo    = inf.number;
+                 isInitial     = in.isInitial;">
+
       <activity-entry work-package="workPackage"
                       activity="activity"
-                      activity-no="activityNo"
-                      is-initial="isInitial"
+                      activity-no="inf.number"
+                      is-initial="inf.isInitial"
                       autocomplete-path="autocompletePath">
       </activity-entry>
     </li>

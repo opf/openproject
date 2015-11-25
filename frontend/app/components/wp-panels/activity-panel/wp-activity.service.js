@@ -37,14 +37,14 @@ function wpActivity($filter, $q, ConfigurationService){
 
   return wpActivity = {
     get activities() {
-      return activities
+      return activities;
     },
 
     get order() {
       return order;
     },
 
-    aggregateActivities: function(workPackage) {
+    aggregateActivities: function (workPackage) {
       var aggregated = [], promises = [];
 
       var add = function (data) {
@@ -53,11 +53,11 @@ function wpActivity($filter, $q, ConfigurationService){
 
       promises.push(workPackage.links.activities.fetch().then(add));
 
-      if(workPackage.links.revisions) {
+      if (workPackage.links.revisions) {
         promises.push(workPackage.links.revisions.fetch().then(add));
       }
 
-      return $q.all(promises).then(function() {
+      return $q.all(promises).then(function () {
         activities.length = 0;
         activities.push.apply(activities, $filter('orderBy')(
           _.flatten(aggregated), 'props.createdAt', order === 'desc'
@@ -65,24 +65,57 @@ function wpActivity($filter, $q, ConfigurationService){
       });
     },
 
-    isInitialActivity: function(activity, activityNo) {
-      if (activity.props._type.indexOf('Activity') !== 0) {
-        return false;
-      }
+    info: function (activity, index) {
+      var activityDate = function (activity) {
+        return $filter('date')(activity.props.createdAt, 'longDate')
+      };
 
-      if (activityNo === 1) {
-        return true;
-      }
+      return {
+        get number() {
+          return order === 'desc' && activities.length - index || index + 1;
+        },
 
-      while (--activityNo > 0) {
-        var index = wpActivity.order === 'desc' ? activities.length - activityNo : activityNo - 1;
+        get date() {
+          return activityDate(activity);
+        },
 
-        if (activities[index].props._type.indexOf('Activity') === 0) {
-          return false;
+        get dateOfPrevious() {
+          if (index > 0) {
+            return activityDate(activities[index - 1])
+          }
+        },
+
+        get isNextDate() {
+          return this.date !== this.dateOfPrevious;
+        },
+
+        get anchor() {
+          return 'note-' + this.number;
+        },
+
+        get isInitial() {
+          var activityNo = this.number;
+
+          if (activity.props._type.indexOf('Activity') !== 0) {
+            return false;
+          }
+
+          if (activityNo === 1) {
+            return true;
+          }
+
+          while (--activityNo > 0) {
+            var index =
+                  wpActivity.order === 'desc' ? activities.length - activityNo : activityNo - 1;
+
+            if (activities[index].props._type.indexOf('Activity') === 0) {
+              return false;
+            }
+          }
+
+          return true;
         }
-      }
-
-      return true;
+      };
     }
   };
 }
