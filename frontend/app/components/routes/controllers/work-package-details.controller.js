@@ -31,8 +31,8 @@ angular
   .controller('WorkPackageDetailsController', WorkPackageDetailsController);
 
 function WorkPackageDetailsController($scope, $state, latestTab, workPackage, I18n, RELATION_TYPES,
-    RELATION_IDENTIFIERS, $q, $rootScope, $filter, WorkPackagesHelper, PathHelper, UsersHelper,
-    ConfigurationService, WorkPackageService, ActivityService, CommonRelationsHandler,
+    RELATION_IDENTIFIERS, $q, $rootScope, WorkPackagesHelper, PathHelper, UsersHelper,
+    WorkPackageService, CommonRelationsHandler,
     ChildrenRelationsHandler, ParentRelationsHandler, NotificationsService) {
 
   $scope.$on('$stateChangeSuccess', function(event, toState){
@@ -86,11 +86,6 @@ function WorkPackageDetailsController($scope, $state, latestTab, workPackage, I1
     var projectId = workPackage.embedded.project.props.id;
     $scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
 
-    // activities and latest activities
-    $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
-    $scope.activities = [];
-    aggregateActivities($scope.workPackage);
-
     // watchers
     if(workPackage.links.watchers) {
       $scope.watchers = workPackage.embedded.watchers.embedded.elements;
@@ -143,52 +138,6 @@ function WorkPackageDetailsController($scope, $state, latestTab, workPackage, I1
     return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
   };
 
-  $scope.isInitialActivity = ActivityService.isInitialActivity;
-
-  function aggregateActivities(workPackage) {
-    // Do not yet add any intermittent result to the scope,
-    // as we will get an inconsistent activity view
-    // As we may not what activities will be added at a given time,
-    // let them be aggregated asynchronously.
-    var aggregated = [],
-      totalActivities = 0;
-
-    var aggregate = function(success, activity) {
-
-      if (success === true) {
-        aggregated = aggregated.concat(activity);
-      }
-
-      if (++totalActivities === 2) {
-        $scope.activities = $filter('orderBy')(aggregated,
-          'props.createdAt',
-          $scope.activitiesSortedInDescendingOrder
-        );
-      }
-    };
-
-    addDisplayedActivities(workPackage, aggregate);
-    addDisplayedRevisions(workPackage, aggregate);
-  }
-
-  function addDisplayedActivities(workPackage, aggregate) {
-    var activities = workPackage.embedded.activities.embedded.elements;
-    aggregate(true, activities);
-  }
-
-  function addDisplayedRevisions(workPackage, aggregate) {
-    var linkedRevisions = workPackage.links.revisions;
-
-    if (linkedRevisions === undefined) {
-      return aggregate();
-    }
-
-    linkedRevisions
-      .fetch()
-      .then(function(data) {
-        aggregate(true, data.embedded.elements);
-      }, aggregate);
-  }
 
   // toggles
 
