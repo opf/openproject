@@ -33,7 +33,8 @@ angular
 function activityPanel(){
   return {
     restrict: 'E',
+    templateUrl: '/components/wp-panels/activity-panel/activity-panel.directive.html',
 
-    templateUrl: '/components/wp-panels/activity-panel/activity-panel.directive.html'
+    controller: 'ActivityPanelController'
   };
 }

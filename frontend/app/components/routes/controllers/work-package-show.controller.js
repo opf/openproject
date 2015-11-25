@@ -31,8 +31,8 @@ angular
   .controller('WorkPackageShowController', WorkPackageShowController);
 
 function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPackage, I18n,
-    RELATION_TYPES, RELATION_IDENTIFIERS, $filter, $q, WorkPackagesHelper, PathHelper, UsersHelper,
-    ConfigurationService, WorkPackageService, ActivityService, CommonRelationsHandler,
+    RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper,
+    WorkPackageService, CommonRelationsHandler,
     ChildrenRelationsHandler, ParentRelationsHandler, WorkPackagesOverviewService,
     WorkPackageFieldService, EditableFieldsState, WorkPackagesDisplayHelper, NotificationsService,
     WorkPackageAuthorization, PERMITTED_MORE_MENU_ACTIONS, HookService, $window,
@@ -145,50 +145,6 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
   $scope.outputMessage = outputMessage; // expose to child controllers
   $scope.outputError = outputError; // expose to child controllers
 
-  function aggregateActivities(workPackage) {
-    // Do not yet add any intermittent result to the scope,
-    // as we will get an inconsistent activity view
-    // As we may not what activities will be added at a given time,
-    // let them be aggregated asynchronously.
-    var aggregated = [],
-      totalActivities = 0;
-
-    var aggregate = function(success, activity) {
-
-      if (success === true) {
-        aggregated = aggregated.concat(activity);
-      }
-
-      if (++totalActivities === 2) {
-        $scope.activities = $filter('orderBy')(aggregated,
-          'props.createdAt',
-          $scope.activitiesSortedInDescendingOrder
-        );
-      }
-    };
-
-    addDisplayedActivities(workPackage, aggregate);
-    addDisplayedRevisions(workPackage, aggregate);
-  }
-
-  function addDisplayedActivities(workPackage, aggregate) {
-    var activities = workPackage.embedded.activities.embedded.elements;
-    aggregate(true, activities);
-  }
-
-  function addDisplayedRevisions(workPackage, aggregate) {
-    var linkedRevisions = workPackage.links.revisions;
-
-    if (linkedRevisions === undefined) {
-      return aggregate();
-    }
-
-    linkedRevisions
-      .fetch()
-      .then(function(data) {
-        aggregate(true, data.embedded.elements);
-      }, aggregate);
-  }
 
   function setWorkPackageScopeProperties(workPackage){
     $scope.workPackage = workPackage;
@@ -200,10 +156,6 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
     var projectId = workPackage.embedded.project.props.id;
     $scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
 
-    // activities and latest activities
-    $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
-    $scope.activities = [];
-    aggregateActivities($scope.workPackage);
 
     // watchers
     if(workPackage.links.watchers) {
@@ -263,8 +215,6 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
   $scope.canViewWorkPackageWatchers = function() {
     return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
   };
-
-  $scope.isInitialActivity = ActivityService.isInitialActivity;
 
   // toggles
 
