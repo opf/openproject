@@ -30,7 +30,7 @@ angular
   .module('openproject.workPackages.services')
   .factory('wpActivity', wpActivity);
 
-function wpActivity($filter, $q, ConfigurationService){
+function wpActivity($filter, ConfigurationService){
   var wpActivity,
       order = ConfigurationService.commentsSortedInDescendingOrder() ? 'desc' : 'asc';
 
@@ -42,33 +42,21 @@ function wpActivity($filter, $q, ConfigurationService){
     },
 
     aggregateActivities: function(workPackage) {
-      function addDisplayedActivities() {
-        return $q(function(resolve) {
-          workPackage.links.activities.fetch().then(function(data) {
-            resolve(data.embedded.elements);
-          });
-        });
-      }
+      var aggregated = [];
 
-      function addDisplayedRevisions() {
-        return $q(function(resolve) {
-          var linkedRevisions = workPackage.links.revisions;
+      var add = function (data) {
+        aggregated.push(data.embedded.elements);
 
-          if (linkedRevisions === undefined) {
-            return resolve();
-          }
-
-          linkedRevisions.fetch().then(function(data) {
-            resolve(data.embedded.elements)
-          });
-        });
-      }
-
-      $q.all([addDisplayedActivities(), addDisplayedRevisions()]).then(function(aggregated) {
         wpActivity.activities = $filter('orderBy')(
           _.flatten(aggregated), 'props.createdAt', order === 'desc'
         );
-      });
+      };
+
+      workPackage.links.activities.fetch().then(add);
+
+      if(workPackage.links.revisions) {
+        workPackage.links.revisions.fetch().then(add);
+      }
     },
 
     isInitialActivity: function(activity, activityNo) {
