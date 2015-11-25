@@ -44,8 +44,9 @@ function wpActivity($filter, $q, ConfigurationService){
     aggregateActivities: function(workPackage) {
       function addDisplayedActivities() {
         return $q(function(resolve) {
-          var embedded = workPackage.embedded.activities.embedded.elements;
-          resolve(embedded);
+          workPackage.links.activities.fetch().then(function(data) {
+            resolve(data.embedded.elements);
+          });
         });
       }
 
