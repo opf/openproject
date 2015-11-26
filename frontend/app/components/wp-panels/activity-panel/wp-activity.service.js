@@ -89,7 +89,7 @@ function wpActivity($filter, $q, ConfigurationService){
         },
 
         get isInitial() {
-          var activityNo = this.number;
+          var activityNo = this.number();
 
           if (activity.props._type.indexOf('Activity') !== 0) {
             return false;
