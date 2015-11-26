@@ -163,11 +163,7 @@ module WorkPackage::Validations
       wp.parent = self if wp.parent_id == id
     end
 
-    invalid_descendants = all_descendants.select { |c|
-      !c.valid?(nil, skip_descendants_validation: true)
-    }
-
-    copy_descendants_errors(invalid_descendants)
+    copy_descendants_errors(all_descendants)
   end
 
   def validate_estimated_hours
@@ -190,8 +186,10 @@ module WorkPackage::Validations
     type.is_valid_transition?(status_id_was, status_id, User.current.roles(project))
   end
 
-  def copy_descendants_errors(invalid_descendants)
-    invalid_descendants.each do |descendant|
+  def copy_descendants_errors(all_descendants)
+    all_descendants.each do |descendant|
+      descendant.valid?(nil, skip_descendants_validation: true)
+
       descendant.errors.each do |attribute, message|
         full_message = descendant.errors.full_message(attribute, message)
         errors.add(:base, "#{I18n.t('label_child_element')} ##{descendant.id}: #{full_message}")
