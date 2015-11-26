@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,27 +24,17 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-angular.module('openproject.workPackages.helpers')
-  .factory('ApiHelper', ['NotificationsService', require('./api-helper')])
-  .factory('FiltersHelper', ['I18n', require('./filters-helper')])
-  .constant('ACTIVE_USER_STATUSES', ['active', 'registered'])
-  .factory('UsersHelper', ['ACTIVE_USER_STATUSES', require('./users-helper')])
-  .constant('PERMITTED_BULK_ACTIONS', ['edit', 'watch', 'move', 'copy',
-    'delete'
-  ])
-  .service('WorkPackageContextMenuHelper', ['PERMITTED_BULK_ACTIONS',
-    'WorkPackagesTableService', 'UrlParamsHelper', require(
-      './work-package-context-menu-helper')
-  ])
-  .factory('WorkPackagesHelper', ['TimezoneService', 'currencyFilter',
-    'CustomFieldHelper', require('./work-packages-helper')
-  ])
-  .factory('WorkPackagesDisplayHelper', [
-    'WorkPackageFieldService',
-    '$window',
-    '$timeout',
-    require(
-    './work-package-display-helper')
-  ]);
+angular
+  .module('openproject.workPackages.controllers')
+  .factory('columnsModal', columnsModal);
+
+function columnsModal(btfModal){
+  return btfModal({
+    controller: 'ColumnsModalController',
+    controllerAs: 'vm',
+    templateUrl: '/components/modals/columns-modal/columns-modal.template.html',
+    afterFocusOn: '#work-packages-settings-button'
+  });
+}

@@ -131,3 +131,18 @@ a.button
 
   &:before
     @extend .icon-pulldown-arrow1:before
+
+// hack around the old watchers_link implementation
+a.watcher_link
+  color: $button--font-color
+  text-decoration: none
+
+  &:before
+    margin-right: $button--text-icon-spacing
+
+// hack around the old markup (icon class applied on <a>)
+// which is used for toolbar-items to add space after icons inside buttons
+.toolbar-item
+  .button[class*='icon-']
+    &:before
+      margin-right: $button--text-icon-spacing
