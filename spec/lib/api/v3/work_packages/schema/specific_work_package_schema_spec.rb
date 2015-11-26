@@ -127,7 +127,11 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   end
 
   describe '#assignable_types' do
-    let(:result) { double }
+    let(:result) {
+      result = double
+      allow(result).to receive(:includes).and_return(result)
+      result
+    }
 
     it 'calls through to the project' do
       expect(project).to receive(:types).and_return(result)
