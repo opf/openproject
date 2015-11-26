@@ -32,7 +32,7 @@ See doc/COPYRIGHT.md for more details.
   </div>
 
   <div class="form--field">
-    <label class="form--label"><%= Meeting.human_attribute_name(:start_date) %></label>
+    <label class="form--label -required"><%= Meeting.human_attribute_name(:start_date) %></label>
 
     <div class="form--field-container">
       <%= f.text_field :start_date,
@@ -50,7 +50,7 @@ See doc/COPYRIGHT.md for more details.
   </div>
 
   <div class="form--field">
-    <label class="form--label"><%= Meeting.human_attribute_name(:duration) %></label>
+    <label class="form--label -required"><%= Meeting.human_attribute_name(:duration) %></label>
 
     <div class="form--field-container">
       <%= f.number_field :duration,
