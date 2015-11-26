@@ -31,7 +31,7 @@ angular
   .filter('latestItems', latestItems);
 
 function latestItems() {
-  return function(items, reverse, visible) {
+  return function(items, visible, reverse) {
     return reverse ? items.slice(-visible).reverse() : items.slice(0,visible);
   };
 }

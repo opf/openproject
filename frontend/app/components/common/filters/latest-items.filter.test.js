@@ -42,11 +42,11 @@ describe('Latest items filter', function() {
     }));
 
     it('should return the first 3 items', inject(function($filter) {
-      expect($filter('latestItems')(items, true, 3)).to.eql([9,8,7]);
+      expect($filter('latestItems')(items, 3, true)).to.eql([9,8,7]);
     }));
 
     it('should return the last 3 items reversed', inject(function($filter) {
-      expect($filter('latestItems')(items, false, 3)).to.eql([1,2,3]);
+      expect($filter('latestItems')(items, 3)).to.eql([1,2,3]);
     }));
 
   });
