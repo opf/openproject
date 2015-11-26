@@ -49,9 +49,9 @@ describe 'activity comments', js: true, selenium: true do
 
       it 'saves both fields from comment submit' do
         expect(UpdateWorkPackageService).to receive(:new).twice.and_call_original
-        field.input_element.click
+        field.input_element.set 'some ingenious comment.'
         field.submit_by_click
-        expect(page).to have_selector('.user-comment .message', text: 'comment with description')
+        expect(page).to have_selector('.user-comment .message', text: 'some ingenious comment.')
         description.expect_state_text('description goes here')
       end
     end
@@ -91,8 +91,8 @@ describe 'activity comments', js: true, selenium: true do
           field.input_element.set 'this is my first comment!1'
           field.submit_by_click
 
-          expect(page).to have_selector('.user-comment .message', count: 2)
-          expect(page).to have_selector('.user-comment .message',
+          expect(page).to have_selector('.user-comment > .message', count: 2)
+          expect(page).to have_selector('.user-comment > .message',
                                         text: 'this is my first comment!1')
 
           expect(field.editing?).to be false
@@ -102,8 +102,8 @@ describe 'activity comments', js: true, selenium: true do
           field.input_element.set 'this is my second comment!1'
           field.submit_by_click
 
-          expect(page).to have_selector('.user-comment .message', count: 3)
-          expect(page).to have_selector('.user-comment .message',
+          expect(page).to have_selector('.user-comment > .message', count: 3)
+          expect(page).to have_selector('.user-comment > .message',
                                         text: 'this is my second comment!1')
         end
       end
@@ -147,8 +147,8 @@ describe 'activity comments', js: true, selenium: true do
           field.input_element.set(quote)
           field.submit_by_click
 
-          expect(page).to have_selector('.user-comment .message', count: 2)
-          expect(page).to have_selector('.user-comment .message blockquote')
+          expect(page).to have_selector('.user-comment > .message', count: 2)
+          expect(page).to have_selector('.user-comment > .message blockquote')
         end
       end
     end
