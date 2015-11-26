@@ -37,7 +37,7 @@ The following is an excerpt of the configuration and contains all required infor
 	#     - identifier: The repository identifier name
 	#     - vendor: The SCM vendor of the repository to create
 	#     - project: identifier, name and ID of the associated project
-	#     - old_repository: The known path to the old repository (used during relocate, only)
+	#     - old_identifier: The identifier to the old repository (used only during relocate)
 	#
 	#   NOTE: Disabling :managed repositories using disabled_types takes precedence over this setting.
 	#

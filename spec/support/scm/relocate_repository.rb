@@ -61,7 +61,7 @@ shared_examples_for 'repository can be relocated' do |vendor|
     end
 
     it 'sends a relocation request when project identifier is updated' do
-      current_path = repository.root_url
+      old_identifier = 'bar'
 
       # Rename the project
       project.identifier = 'somenewidentifier'
@@ -69,7 +69,7 @@ shared_examples_for 'repository can be relocated' do |vendor|
 
       expect(WebMock)
         .to have_requested(:post, url)
-        .with(body: hash_including(old_repository: current_path,
+        .with(body: hash_including(old_identifier: old_identifier,
                                    action: 'relocate'))
     end
   end
