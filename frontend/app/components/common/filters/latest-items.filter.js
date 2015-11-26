@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,10 +24,14 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function() {
+angular
+  .module('openproject.workPackages.filters')
+  .filter('latestItems', latestItems);
+
+function latestItems() {
   return function(items, reverse, visible) {
     return reverse ? items.slice(-visible).reverse() : items.slice(0,visible);
   };
-};
+}
