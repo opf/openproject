@@ -30,16 +30,13 @@ angular
   .module('openproject.workPackages.controllers')
   .controller('ActivityPanelController', ActivityPanelController);
 
-function ActivityPanelController($scope, wpActivity, PathHelper){
+function ActivityPanelController($scope, wpActivity){
 
   var vm = this;
 
   vm.activities = wpActivity.activities;
   vm.reverse = wpActivity.order === 'asc';
   vm.info = wpActivity.info;
-
-  var projectId = vm.workPackage.embedded.project.props.id;
-  vm.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
 
   wpActivity.aggregateActivities(vm.workPackage);
 

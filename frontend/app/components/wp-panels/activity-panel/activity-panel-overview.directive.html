@@ -1,6 +1,6 @@
 <work-package-comment work-package="vm.workPackage"
-                      activities="vm.activities"
-                      autocomplete-path="{{ vm.autocompletePath }}">
+                      activities="vm.activities">
+  
   <ul class='work-package-details-activities-list'>
     <li ng-repeat="activity in vm.activities | latestItems : 3 : vm.reverse "
         class="work-package-details-activities-activity"
@@ -10,8 +10,7 @@
       <activity-entry work-package="vm.workPackage"
                       activity="activity"
                       activity-no="inf.number(vm.reverse)"
-                      is-initial="inf.isInitial"
-                      autocomplete-path="vm.autocompletePath">
+                      is-initial="inf.isInitial">
       </activity-entry>
     </li>
   </ul>

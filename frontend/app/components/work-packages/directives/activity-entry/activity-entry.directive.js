@@ -30,7 +30,7 @@ angular
   .module('openproject.workPackages.activities')
   .directive('activityEntry', activityEntry);
 
-function activityEntry() {
+function activityEntry(PathHelper) {
   return {
     restrict: 'E',
     replace: true,
@@ -42,11 +42,13 @@ function activityEntry() {
       activity: '=',
       activityNo: '=',
       isInitial: '=',
-      inputElementId: '=',
-      autocompletePath: '='
+      inputElementId: '='
     },
 
     link: function(scope) {
+      var projectId = scope.workPackage.embedded.project.props.id;
+      scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
+
       scope.activityType = scope.activity.props._type;
       scope.activityLabel = I18n.t('js.label_activity_no', { activityNo: scope.activityNo });
     }
