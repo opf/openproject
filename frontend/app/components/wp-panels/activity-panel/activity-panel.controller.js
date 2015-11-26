@@ -35,7 +35,7 @@ function ActivityPanelController($scope, wpActivity, PathHelper){
   var vm = this;
 
   vm.activities = wpActivity.activities;
-  vm.order = wpActivity.order;
+  vm.reverse = wpActivity.order === 'asc';
   vm.info = wpActivity.info;
 
   var projectId = vm.workPackage.embedded.project.props.id;

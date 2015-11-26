@@ -27,10 +27,7 @@
 //++
 
 module.exports = function() {
-  return function(items, isDescending, visible) {
-
-    // We want to enforce descending order here, and when the setting
-    // is already descending, we no longer have to do that ourselves.
-    return isDescending ? items.slice(0,visible) : items.slice(-visible).reverse();
+  return function(items, reverse, visible) {
+    return reverse ? items.slice(-visible).reverse() : items.slice(0,visible);
   };
 };
