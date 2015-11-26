@@ -87,6 +87,7 @@ en:
     label_deactivate: "Deactivate"
     label_descending: "Descending"
     label_description: "Description"
+    label_cancel_comment: "Cancel comment"
     label_closed_work_packages: "closed"
     label_collapse: "Collapse"
     label_collapsed: "collapsed"

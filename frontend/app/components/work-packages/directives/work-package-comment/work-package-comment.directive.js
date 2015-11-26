@@ -43,9 +43,10 @@ function workPackageComment($rootScope, $timeout, $location, EditableFieldsState
     ctrl.state = EditableFieldsState;
     ctrl.field = 'activity-comment';
 
-    ctrl.editTitle = I18n.t('js.label_add_comment');
+    ctrl.editTitle = I18n.t('js.label_add_comment_title');
+    ctrl.saveTitle = I18n.t('js.label_add_comment');
+    ctrl.cancelTitle = I18n.t('js.label_cancel_comment');
     ctrl.placeholder = I18n.t('js.label_add_comment_title');
-    ctrl.title = I18n.t('js.label_add_comment_title');
 
     ctrl.state.isBusy = false;
     ctrl.isEditing = ctrl.state.forcedEditState;
