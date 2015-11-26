@@ -1,5 +1,4 @@
-//-- copyright
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -25,13 +24,19 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function(I18n) {
+angular
+  .module('openproject.workPackages.activities')
+  .directive('activityEntry', activityEntry);
+
+function activityEntry() {
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/work_packages/activities/_entry.html',
+    templateUrl: '/components/work-packages/directives/activity-entry/' +
+        'activity-entry.directive.html',
+
     scope: {
       workPackage: '=',
       activity: '=',
@@ -40,9 +45,10 @@ module.exports = function(I18n) {
       inputElementId: '=',
       autocompletePath: '='
     },
+
     link: function(scope) {
       scope.activityType = scope.activity.props._type;
       scope.activityLabel = I18n.t('js.label_activity_no', { activityNo: scope.activityNo });
     }
   };
-};
+}

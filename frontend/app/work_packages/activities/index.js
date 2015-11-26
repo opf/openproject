@@ -27,10 +27,6 @@
 //++
 
 angular.module('openproject.workPackages.activities')
-  .directive('activityEntry', [
-    'I18n',
-    require('./activity-entry-directive')
-  ])
   .directive('userActivity', [
     '$uiViewScroll',
     '$timeout',
