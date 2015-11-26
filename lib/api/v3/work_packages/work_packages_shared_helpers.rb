@@ -49,7 +49,9 @@ module API
             # In Pass 2 the representer is created with the new type info and will be able
             # to also parse custom fields successfully
             merge_hash_into_work_package!(request_body, work_package)
-            merge_hash_into_work_package!(request_body, work_package)
+            if work_package.type_id_changed?
+              merge_hash_into_work_package!(request_body, work_package)
+            end
           end
         end
 
