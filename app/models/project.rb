@@ -595,6 +595,19 @@ class Project < ActiveRecord::Base
     end
   end
 
+  # Returns all versions a work package can be assigned to.  Opposed to
+  # #shared_versions this returns an array of Versions, not a scope.
+  #
+  # The main benefit is in scenarios where work packages' projects are eager
+  # loaded.  Because eager loading the project e.g. via
+  # WorkPackage.includes(:project).where(type: 5) will assign the same instance
+  # (same object_id) for every work package having the same project this will
+  # reduce the number of db queries when performing operations including the
+  # project's versions.
+  def assignable_versions
+    @all_shared_versions ||= shared_versions.open.to_a
+  end
+
   # Returns a hash of project users grouped by role
   def users_by_role
     members.includes(:user, :roles).inject({}) do |h, m|

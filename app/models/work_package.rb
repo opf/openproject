@@ -399,7 +399,10 @@ class WorkPackage < ActiveRecord::Base
   #   * the version it was already assigned to
   #     (to make sure, that you can still update closed tickets)
   def assignable_versions
-    @assignable_versions ||= (project.shared_versions.open + [(fixed_version_id_changed? ? Version.find_by(id: fixed_version_id_was) : fixed_version)]).compact.uniq.sort
+    @assignable_versions ||= begin
+      current_version = fixed_version_id_changed? ? Version.find_by(id: fixed_version_id_was) : fixed_version
+      (project.assignable_versions + [current_version]).compact.uniq.sort
+    end
   end
 
   def kind

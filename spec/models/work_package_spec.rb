@@ -224,17 +224,11 @@ describe WorkPackage, type: :model do
   end
 
   describe '#assignable_versions' do
+    let(:stub_version2) { FactoryGirl.build_stubbed(:version) }
     def stub_shared_versions(v = nil)
       versions = v ? [v] : []
 
-      # open seems to be defined on the array's singleton class
-      # as such it seems not possible to stub it
-      # achieving the same here
-      versions.define_singleton_method :open do
-        self
-      end
-
-      allow(stub_work_package.project).to receive(:shared_versions).and_return(versions)
+      allow(stub_work_package.project).to receive(:assignable_versions).and_return(versions)
     end
 
     it "should return all the project's shared versions" do
@@ -243,11 +237,24 @@ describe WorkPackage, type: :model do
       expect(stub_work_package.assignable_versions).to eq([stub_version])
     end
 
-    it 'should return the current fixed_version' do
+    it 'should return the former fixed_version if the version changed' do
       stub_shared_versions
 
-      allow(stub_work_package).to receive(:fixed_version_id_was).and_return(5)
-      allow(Version).to receive(:find_by).with(id: 5).and_return(stub_version)
+      stub_work_package.fixed_version = stub_version2
+
+      allow(stub_work_package).to receive(:fixed_version_id_changed?).and_return true
+      allow(stub_work_package).to receive(:fixed_version_id_was).and_return(stub_version.id)
+      allow(Version).to receive(:find_by).with(id: stub_version.id).and_return(stub_version)
+
+      expect(stub_work_package.assignable_versions).to eq([stub_version])
+    end
+
+    it 'should return the current fixed_version if the versiondid not change' do
+      stub_shared_versions
+
+      stub_work_package.fixed_version = stub_version
+
+      allow(stub_work_package).to receive(:fixed_version_id_changed?).and_return false
 
       expect(stub_work_package.assignable_versions).to eq([stub_version])
     end
@@ -700,6 +707,9 @@ describe WorkPackage, type: :model do
     }
 
     before do
+      version_1
+      version_2
+      project.reload
       work_package_1
       work_package_2
     end
