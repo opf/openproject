@@ -44,6 +44,8 @@ function ActivityPanelController($scope, wpActivity, PathHelper){
   wpActivity.aggregateActivities(vm.workPackage);
 
   $scope.$on('workPackageRefreshed', function () {
-    wpActivity.aggregateActivities(vm.workPackage);
+    $scope.$applyAsync(function () {
+      wpActivity.aggregateActivities(vm.workPackage);
+    });
   });
 }
