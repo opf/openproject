@@ -70,8 +70,8 @@ function wpActivity($filter, $q, ConfigurationService){
       };
 
       return {
-        get number() {
-          return order === 'desc' && activities.length - index || index + 1;
+        number: function(reversed) {
+          return reversed && activities.length - index || index + 1;
         },
 
         get date() {
