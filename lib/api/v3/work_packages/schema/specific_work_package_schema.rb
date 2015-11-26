@@ -49,7 +49,9 @@ module API
             when :status
               assignable_statuses_for(current_user)
             when :type
-              project.try(:types)
+              if project.respond_to?(:types)
+                project.types.includes(:color)
+              end
             when :version
               @work_package.try(:assignable_versions)
             when :priority
