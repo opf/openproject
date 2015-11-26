@@ -183,7 +183,7 @@ module WorkPackage::Validations
   end
 
   def status_exists?
-    status_id && Status.find_by(id: status_id)
+    status_id && Status.where(id: status_id).exists?
   end
 
   def status_transition_exists?
