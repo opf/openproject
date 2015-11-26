@@ -63,9 +63,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
                                                   greater_than_or_equal_to: 0,
                                                   if: lambda { |i| i.project && i.project.module_enabled?('backlogs') }
 
-      validates_each :parent_id do |record, attr, value|
-        validate_parent_work_package_relation(record, attr, value)
-      end
+      validate :validate_parent_work_package_relation
 
       include OpenProject::Backlogs::List
     end
@@ -90,22 +88,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     def place_child_update_semaphore
       @child_updates = false
-    end
-
-    private
-
-    def validate_parent_work_package_relation(work_package, parent_attr, value)
-      parent = WorkPackage.find_by(id: value)
-      if parent && parent_work_package_relationship_spanning_projects?(parent, work_package)
-        work_package.errors.add(parent_attr,
-                                :parent_child_relationship_across_projects,
-                                work_package_name: work_package.subject,
-                                parent_name: parent.subject)
-      end
-    end
-
-    def parent_work_package_relationship_spanning_projects?(parent, child)
-      child.is_task? && parent.in_backlogs_type? && parent.project_id != child.project_id
     end
   end
 
@@ -262,6 +244,19 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
           WorkPackage.place_child_update_semaphore
         end
       end
+    end
+
+    def validate_parent_work_package_relation
+      if parent && parent_work_package_relationship_spanning_projects?(parent, self)
+        errors.add(:parent,
+                   :parent_child_relationship_across_projects,
+                   work_package_name: subject,
+                   parent_name: parent.subject)
+      end
+    end
+
+    def parent_work_package_relationship_spanning_projects?(parent, child)
+      child.is_task? && parent.in_backlogs_type? && parent.project_id != child.project_id
     end
   end
 end
