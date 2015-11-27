@@ -1,40 +1,60 @@
 require 'spec_helper'
 
 require 'features/work_packages/work_packages_page'
+require 'features/work_packages/details/inplace_editor/work_package_field'
 
 describe 'Activity tab', js: true, selenium: true do
+  def alter_work_package_at(work_package, attributes:, at:, user: User.current)
+    work_package.update_attributes(attributes.merge({ updated_at: at }))
+
+    note_journal = work_package.journals.last
+    note_journal.update_attributes(created_at: at, user: attributes[:user])
+  end
+
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }
   let!(:work_package) {
-    FactoryGirl.create(:work_package,
-                       project: project,
-                       created_at: '2015-11-20 12:00 +0100',
-                       subject: initial_subject,
-                       journal_notes: initial_comment)
+    work_package = FactoryGirl.create(:work_package,
+                                      project: project,
+                                      created_at: 5.days.ago.to_date.to_s(:db),
+                                      subject: initial_subject,
+                                      journal_notes: initial_comment)
+
+    note_journal = work_package.journals.last
+    note_journal.update_attributes(created_at: 5.days.ago.to_date.to_s)
+
+    work_package
   }
 
   let(:initial_subject) { 'My Subject' }
   let(:initial_comment) { 'First comment on this wp.' }
   let(:comments_in_reverse) { false }
 
+  let(:initial_note) {
+    work_package.journals[0]
+  }
+
   let!(:note_1) {
-    FactoryGirl.create :work_package_journal,
-                       journable_id: work_package.id,
-                       created_at: 3.days.ago.to_date.to_s(:db),
-                       notes: 'Updated the subject and description',
-                       version: 2,
-                       user: user,
-                       data: FactoryGirl.build(:journal_work_package_journal,
-                                               subject: 'New subject',
-                                               description: 'Some not so long description.')
+    attributes = { subject: 'New subject',
+                   description: 'Some not so long description.',
+                   journal_notes: 'Updated the subject and description' }
+
+    alter_work_package_at(work_package,
+                          attributes: attributes,
+                          at: 3.days.ago.to_date.to_s(:db),
+                          user: user)
+
+    work_package.journals.last
   }
 
   let!(:note_2) {
-    FactoryGirl.create :work_package_journal,
-                       journable_id: work_package.id,
-                       created_at: 1.days.ago.to_date.to_s(:db),
-                       version: 3,
-                       notes: 'Another comment by a different user',
-                       user: FactoryGirl.create(:admin)
+    attributes = { journal_notes: 'Another comment by a different user' }
+
+    alter_work_package_at(work_package,
+                          attributes: attributes,
+                          at: 1.days.ago.to_date.to_s(:db),
+                          user: FactoryGirl.create(:admin))
+
+    work_package.journals.last
   }
 
   before do
@@ -45,18 +65,18 @@ describe 'Activity tab', js: true, selenium: true do
 
   shared_examples 'shows activities in order' do
     let(:journals) {
-      journals = [note_1, note_2]
-      journals.reverse! if comments_in_reverse
+      journals = [initial_note, note_1, note_2]
 
       journals
     }
 
     it 'shows activities in ascending order' do
-      expect(page).to have_selector('.user-comment > .message', count: 3)
-      expect(page).to have_selector('.activity-date', text: 'November 25, 2015')
-      expect(page).to have_selector('.activity-date', text: 'November 26, 2015')
-
       journals.each_with_index do |journal, idx|
+        date_selector = ".work-package-details-activities-activity:nth-of-type(#{idx + 1}) " +
+                        '.activity-date'
+        expect(page).to have_selector(date_selector,
+                                      text: journal.created_at.to_date.to_s(:long))
+
         activity = page.find("#activity-#{idx + 1}")
         expect(activity).to have_selector('.user', text: journal.user.name)
         expect(activity).to have_selector('.user-comment > .message', text: journal.notes)
@@ -80,7 +100,16 @@ describe 'Activity tab', js: true, selenium: true do
     end
 
     context 'with permission' do
-      let(:user) { FactoryGirl.create(:admin) }
+      let(:role) {
+        FactoryGirl.create(:role, permissions: [:view_work_packages,
+                                                :add_work_package_notes])
+      }
+      let(:user) {
+        FactoryGirl.create(:user,
+                           member_in_project: project,
+                           member_through_role: role)
+      }
+
       context 'with ascending comments' do
         let(:comments_in_reverse) { false }
         it_behaves_like 'shows activities in order'
@@ -96,7 +125,10 @@ describe 'Activity tab', js: true, selenium: true do
         page.find('#activity-1 .work-package-details-activities-activity-contents').hover
 
         # Quote this comment
-        page.find('.comments-icons .icon-quote', visible: false).click
+        page.find('#activity-1 .comments-icons .icon-quote', visible: false).click
+
+        field = WorkPackageField.new(page, 'activity', '.work-packages--activity--add-comment')
+
         expect(field.editing?).to be true
 
         # Add our comment
@@ -111,12 +143,18 @@ describe 'Activity tab', js: true, selenium: true do
       end
     end
 
-
     context 'with no permission' do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:role) {
+        FactoryGirl.create(:role, permissions: [:view_work_packages])
+      }
+      let(:user) {
+        FactoryGirl.create(:user,
+                           member_in_project: project,
+                           member_through_role: role)
+      }
 
       it 'shows the activities, but does not allow commenting' do
-        expect(body).not_to have_selector('.work-packages--activity--add-comment')
+        expect(page).not_to have_selector('.work-packages--activity--add-comment', visible: true)
       end
     end
   end
