@@ -22,6 +22,7 @@
 <li><span class="icon-arrow-right5"></span> arrow-right5</li>
 <li><span class="icon-arrow-up1"></span> arrow-up1</li>
 <li><span class="icon-arrow-up2"></span> arrow-up2</li>
+<li><span class="icon-assigned-to-me"></span> assigned-to-me</li>
 <li><span class="icon-attachment"></span> attachment</li>
 <li><span class="icon-attention"></span> attention</li>
 <li><span class="icon-backlogs"></span> backlogs</li>
@@ -95,9 +96,6 @@
 <li><span class="icon-image2"></span> image2</li>
 <li><span class="icon-info1"></span> info1</li>
 <li><span class="icon-info2"></span> info2</li>
-<li><span class="icon-issue-assigned-to-me"></span> issue-assigned-to-me</li>
-<li><span class="icon-issue-reported-by-me"></span> issue-reported-by-me</li>
-<li><span class="icon-issue-watched"></span> issue-watched</li>
 <li><span class="icon-italic"></span> italic</li>
 <li><span class="icon-key"></span> key</li>
 <li><span class="icon-link"></span> link</li>
@@ -135,6 +133,7 @@
 <li><span class="icon-plus"></span> plus</li>
 <li><span class="icon-pre"></span> pre</li>
 <li><span class="icon-presentation"></span> presentation</li>
+<li><span class="icon-preview"></span> preview</li>
 <li><span class="icon-print"></span> print</li>
 <li><span class="icon-priority"></span> priority</li>
 <li><span class="icon-projects"></span> projects</li>
@@ -148,6 +147,7 @@
 <li><span class="icon-reminder"></span> reminder</li>
 <li><span class="icon-remove"></span> remove</li>
 <li><span class="icon-rename"></span> rename</li>
+<li><span class="icon-reported-by-me"></span> reported-by-me</li>
 <li><span class="icon-roadmap"></span> roadmap</li>
 <li><span class="icon-rss"></span> rss</li>
 <li><span class="icon-rubber"></span> rubber</li>
@@ -178,7 +178,6 @@
 <li><span class="icon-ticket-edit"></span> ticket-edit</li>
 <li><span class="icon-ticket-minus"></span> ticket-minus</li>
 <li><span class="icon-ticket-note"></span> ticket-note</li>
-<li><span class="icon-ticket2"></span> ticket2</li>
 <li><span class="icon-time"></span> time</li>
 <li><span class="icon-toggle"></span> toggle</li>
 <li><span class="icon-types"></span> types</li>

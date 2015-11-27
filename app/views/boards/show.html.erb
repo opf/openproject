@@ -136,7 +136,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <tbody>
             <tr ng-repeat="message in messages">
               <td class="subject">
-                <icon-wrapper ng-if="message.isSticky == true" icon-name="book2" icon-title="{{I18n.t('js.label_board_sticky')}}"></icon-wrapper>
+                <icon-wrapper ng-if="message.isSticky == true" icon-name="wiki" icon-title="{{I18n.t('js.label_board_sticky')}}"></icon-wrapper>
                 <icon-wrapper ng-if="message.isLocked == true" icon-name="locked" icon-title="{{I18n.t('js.label_board_locked')}}"></icon-wrapper>
                 <a ng-href="{{PathHelper.messagePath(message.id)}}">{{message.subject}}</a>
               </td>

@@ -245,11 +245,11 @@ fieldset.form--fieldset
     padding:   0.625rem 0.25rem 0 0.25rem
 
     .form--fieldset.-collapsible > &
-      content: "\e0cc"
+      @extend .icon-arrow-up1:before
 
     .form--fieldset.-collapsible.-collapsed > &,
     .form--fieldset.-collapsible.collapsed  > &
-      content: "\e0cb"
+      @extend .icon-arrow-down1:before
 
 .form--fieldset-control
   float:          right
