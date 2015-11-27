@@ -168,5 +168,7 @@ module OpenProject
     config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
 
     OpenProject::Configuration.configure_cache(config)
+
+    config.active_job.queue_adapter = :delayed_job
   end
 end

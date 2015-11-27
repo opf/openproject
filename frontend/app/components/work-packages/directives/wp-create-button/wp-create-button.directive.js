@@ -47,7 +47,7 @@ function wpCreateButton() {
   }
 }
 
-function WorkPackageCreateButtonController(EditableFieldsState, ProjectService) {
+function WorkPackageCreateButtonController($state, ProjectService) {
 
   var vm = this,
       inProjectContext = !!vm.projectIdentifier,
@@ -55,7 +55,7 @@ function WorkPackageCreateButtonController(EditableFieldsState, ProjectService) 
 
   vm.text = I18n.t('js.toolbar.unselected_title');
   vm.isDisabled = function () {
-    return !inProjectContext || !canCreate || EditableFieldsState.editAll.state || !vm.types;
+    return !inProjectContext || !canCreate || $state.is('work-packages.list.new') || !vm.types;
   };
 
   if (inProjectContext) {

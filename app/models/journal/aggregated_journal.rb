@@ -67,7 +67,7 @@ class Journal::AggregatedJournal
     #
     # The +until_version+ parameter can be used in conjunction with the +journable+ parameter
     # to see the aggregated journals as if no versions were known after the specified version.
-    def aggregated_journals(journable: nil, until_version: nil)
+    def aggregated_journals(journable: nil, until_version: nil, includes: [])
       raw_journals = query_aggregated_journals(journable: journable, until_version: until_version)
       predecessors = {}
       raw_journals.each do |journal|
@@ -75,10 +75,16 @@ class Journal::AggregatedJournal
         predecessors[journable_key] = [nil] unless predecessors[journable_key]
         predecessors[journable_key] << journal
       end
-      raw_journals.map { |journal|
+
+      aggregated_journals = raw_journals.map { |journal|
         journable_key = [journal.journable_type, journal.journable_id]
+
         Journal::AggregatedJournal.new(journal, predecessor: predecessors[journable_key].shift)
       }
+
+      preload_associations(journable, aggregated_journals, includes)
+
+      aggregated_journals
     end
 
     def query_aggregated_journals(journable: nil, until_version: nil, journal_id: nil)
@@ -280,6 +286,48 @@ class Journal::AggregatedJournal
 
       "(#{difference} > #{threshold})"
     end
+
+    def preload_associations(journable, aggregated_journals, includes)
+      return unless includes.length > 1
+
+      journal_ids = aggregated_journals.map(&:id)
+
+      customizable_journals = if includes.include?(:customizable_journals)
+                                Journal::CustomizableJournal
+                                .where(journal_id: journal_ids)
+                                .all
+                                .group_by(&:journal_id)
+                              end
+
+      attachable_journals = if includes.include?(:customizable_journals)
+                              Journal::AttachableJournal
+                              .where(journal_id: journal_ids)
+                              .all
+                              .group_by(&:journal_id)
+                            end
+
+      data = if includes.include?(:data)
+               "Journal::#{journable.class}Journal".constantize
+               .where(journal_id: journal_ids)
+               .all
+               .group_by(&:journal_id)
+             end
+
+      aggregated_journals.each { |journal|
+        if includes.include?(:customizable_journals)
+          journal.set_preloaded_customizable_journals customizable_journals[journal.id]
+        end
+        if includes.include?(:attachable_journals)
+          journal.set_preloaded_attachable_journals attachable_journals[journal.id]
+        end
+        if includes.include?(:data)
+          journal.set_preloaded_data data[journal.id].first
+        end
+        if journable
+          journal.set_preloaded_journable journable
+        end
+      }
+    end
   end
 
   include JournalChanges
@@ -295,6 +343,7 @@ class Journal::AggregatedJournal
   delegate :journable_type,
            :journable_id,
            :journable,
+           :journable=,
            :user_id,
            :user,
            :notes,
@@ -305,10 +354,14 @@ class Journal::AggregatedJournal
            :version,
            :attributes,
            :attachable_journals,
+           :attachable_journals=,
            :customizable_journals,
+           :customizable_journals=,
            :editable_by?,
            :notes_id,
            :notes_version,
+           :data,
+           :data=,
            to: :journal
 
   # Initializes a new AggregatedJournal. Allows to explicitly set a predecessor, if it is already
@@ -361,12 +414,27 @@ class Journal::AggregatedJournal
     @successor
   end
 
-  def initial?
-    predecessor.nil?
+  def set_preloaded_customizable_journals(loaded_journals)
+    self.customizable_journals = loaded_journals if loaded_journals
+    customizable_journals.proxy_association.loaded!
   end
 
-  def data
-    @data ||= "Journal::#{journable_type}Journal".constantize.find_by(journal_id: id)
+  def set_preloaded_attachable_journals(loaded_journals)
+    self.attachable_journals = loaded_journals if loaded_journals
+    attachable_journals.proxy_association.loaded!
+  end
+
+  def set_preloaded_data(loaded_data)
+    self.data = loaded_data
+  end
+
+  def set_preloaded_journable(loaded_journable)
+    self.journable = loaded_journable
+    journal.association(:journable).loaded!
+  end
+
+  def initial?
+    predecessor.nil?
   end
 
   private

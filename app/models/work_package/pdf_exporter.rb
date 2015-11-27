@@ -36,8 +36,7 @@ module WorkPackage::PdfExporter
 
   # Returns a PDF string of a list of work_packages
   def pdf(work_packages, project, query, results, options = {})
-    if  current_language.to_s.downcase == 'ko' || current_language.to_s.downcase == 'ja' || current_language.to_s.downcase == 'zh' || current_language.to_s.downcase == 'zh-tw' ||
-        current_language.to_s.downcase == 'th'
+    if ['ko', 'ja', 'zh', 'zh-tw', 'th'].include?(current_language.to_s.downcase)
       pdf = IFPDF.new(current_language)
     else
       pdf = ITCPDF.new(current_language)
@@ -62,7 +61,13 @@ module WorkPackage::PdfExporter
     col_width = []
     unless query.columns.empty?
       col_width = query.columns.map { |c|
-        (c.name == :subject || (c.is_a?(QueryCustomFieldColumn) && ['string', 'text'].include?(c.custom_field.field_format))) ? 4.0 : 1.0
+        if c.name == :subject ||
+           (c.is_a?(QueryCustomFieldColumn) &&
+            ['string', 'text'].include?(c.custom_field.field_format))
+          4.0
+        else
+          1.0
+        end
       }
       ratio = table_width / col_width.reduce(:+)
       col_width = col_width.map { |w| w * ratio }
@@ -88,9 +93,14 @@ module WorkPackage::PdfExporter
     work_packages.each do |work_package|
       if query.grouped? && (group = query.group_by_column.value(work_package)) != previous_group
         pdf.SetFontStyle('B', 9)
-        pdf.RDMCell(277, row_height,
-                    (group.blank? ? 'None' : group.to_s) + " (#{results.work_package_count_for(group)})",
-                    1, 1, 'L')
+        pdf.RDMCell(
+          277,
+          row_height,
+          (group.blank? ? 'None' : group.to_s) + " (#{results.work_package_count_for(group)})",
+          1,
+          1,
+          'L'
+        )
         pdf.SetFontStyle('', 8)
         previous_group = group
       end
@@ -98,7 +108,9 @@ module WorkPackage::PdfExporter
       # fetch all the row values
       col_values = query.columns.map { |column|
         s = if column.is_a?(QueryCustomFieldColumn)
-              cv = work_package.custom_values.detect { |v| v.custom_field_id == column.custom_field.id }
+              cv = work_package.custom_values.detect { |v|
+                v.custom_field_id == column.custom_field.id
+              }
               show_value(cv)
             else
               value = work_package.send(column.name)
@@ -166,8 +178,7 @@ module WorkPackage::PdfExporter
 
   # Returns a PDF string of a single work_package
   def work_package_to_pdf(work_package)
-    if  current_language.to_s.downcase == 'ko' || current_language.to_s.downcase == 'ja' || current_language.to_s.downcase == 'zh' || current_language.to_s.downcase == 'zh-tw' ||
-        current_language.to_s.downcase == 'th'
+    if ['ko', 'ja', 'zh', 'zh-tw', 'th'].include?(current_language.to_s.downcase)
       pdf = IFPDF.new(current_language)
     else
       pdf = ITCPDF.new(current_language)
@@ -178,7 +189,11 @@ module WorkPackage::PdfExporter
     pdf.AddPage
 
     pdf.SetFontStyle('B', 11)
-    pdf.RDMMultiCell(190, 5, "#{work_package.project} - #{work_package.type} # #{work_package.id}: #{work_package.subject}")
+    pdf.RDMMultiCell(
+      190,
+      5,
+      "#{work_package.project} - #{work_package.type} # #{work_package.id}: #{work_package.subject}"
+    )
     pdf.Ln
 
     y0 = pdf.GetY
@@ -223,7 +238,7 @@ module WorkPackage::PdfExporter
     pdf.RDMCell(60, 5, format_date(work_package.due_date), 'RB')
     pdf.Ln
 
-    for custom_value in work_package.custom_field_values
+    work_package.custom_field_values.each do |custom_value|
       pdf.SetFontStyle('B', 9)
       pdf.RDMCell(35, 5, custom_value.custom_field.name + ':', 'L')
       pdf.SetFontStyle('', 9)
@@ -239,11 +254,13 @@ module WorkPackage::PdfExporter
     pdf.Line(pdf.GetX, pdf.GetY, pdf.GetX + 190, pdf.GetY)
     pdf.Ln
 
-    if work_package.changesets.any? && User.current.allowed_to?(:view_changesets, work_package.project)
+    if work_package.changesets.any? &&
+       User.current.allowed_to?(:view_changesets, work_package.project)
       pdf.SetFontStyle('B', 9)
       pdf.RDMCell(190, 5, l(:label_associated_revisions), 'B')
       pdf.Ln
-      for changeset in work_package.changesets
+
+      work_package.changesets.each do |changeset|
         pdf.SetFontStyle('B', 8)
         pdf.RDMCell(190, 5, format_time(changeset.committed_on) + ' - ' + changeset.author.to_s)
         pdf.Ln
@@ -258,14 +275,21 @@ module WorkPackage::PdfExporter
     pdf.SetFontStyle('B', 9)
     pdf.RDMCell(190, 5, l(:label_history), 'B')
     pdf.Ln
-    for journal in work_package.journals.includes(:user).order("#{Journal.table_name}.created_at ASC")
+    journals = work_package.journals.includes(:user).order("#{Journal.table_name}.created_at ASC")
+    journals.each do |journal|
       next if journal.initial?
+
       pdf.SetFontStyle('B', 8)
       pdf.RDMCell(190, 5, format_time(journal.created_at) + ' - ' + journal.user.name)
       pdf.Ln
       pdf.SetFontStyle('I', 8)
-      for detail in journal.details
-        pdf.RDMMultiCell(190, 5, '- ' + journal.render_detail(detail, no_html: true, only_path: false))
+
+      journal.details.each do |detail|
+        pdf.RDMMultiCell(
+          190,
+          5,
+          '- ' + journal.render_detail(detail, no_html: true, only_path: false)
+        )
         pdf.Ln
       end
       if journal.notes?
@@ -280,7 +304,8 @@ module WorkPackage::PdfExporter
       pdf.SetFontStyle('B', 9)
       pdf.RDMCell(190, 5, l(:label_attachment_plural), 'B')
       pdf.Ln
-      for attachment in work_package.attachments
+
+      work_package.attachments.each do |attachment|
         pdf.SetFontStyle('', 8)
         pdf.RDMCell(80, 5, attachment.filename)
         pdf.RDMCell(20, 5, number_to_human_size(attachment.filesize), 0, 0, 'R')
@@ -289,6 +314,7 @@ module WorkPackage::PdfExporter
         pdf.Ln
       end
     end
+
     pdf.Output
   end
 
@@ -418,7 +444,9 @@ module WorkPackage::PdfExporter
         # 0x5c char handling
         txtar = txt.split('\\')
         txtar << '' if txt[-1] == ?\\
-        txtar.map { |x| x.encode(l(:general_pdf_encoding), 'UTF-8') }.join('\\').gsub(/\\/, '\\\\\\\\')
+        txtar.map { |x|
+          x.encode(l(:general_pdf_encoding), 'UTF-8')
+        }.join('\\').gsub(/\\/, '\\\\\\\\')
       rescue
         txt
       end || ''

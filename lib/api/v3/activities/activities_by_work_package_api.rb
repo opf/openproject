@@ -48,7 +48,12 @@ module API
           end
 
           get do
-            @activities = ::Journal::AggregatedJournal.aggregated_journals(journable: @work_package)
+            @activities = ::Journal::AggregatedJournal.aggregated_journals(journable: @work_package,
+                                                                           includes: [
+                                                                             :customizable_journals,
+                                                                             :attachable_journals,
+                                                                             :data]
+                                                                          )
             self_link = api_v3_paths.work_package_activities @work_package.id
             Activities::ActivityCollectionRepresenter.new(@activities,
                                                           self_link,

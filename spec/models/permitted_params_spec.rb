@@ -85,28 +85,28 @@ describe PermittedParams, type: :model do
 
   describe '#timeline' do
     it 'should permit all acceptable options params and one name params' do
-      acceptable_options_params = ["exist", "zoom_factor", "initial_outline_expansion", "timeframe_start",
-        "timeframe_end", "columns", "project_sort", "compare_to_relative", "compare_to_relative_unit",
-        "compare_to_absolute", "vertical_planning_elements", "exclude_own_planning_elements",
-        "planning_element_status", "planning_element_types", "planning_element_responsibles",
-        "planning_element_assignee", "exclude_reporters", "exclude_empty", "project_types",
-        "project_status", "project_responsibles", "parents", "planning_element_time_types",
-        "planning_element_time_absolute_one", "planning_element_time_absolute_two",
-        "planning_element_time_relative_one", "planning_element_time_relative_one_unit",
-        "planning_element_time_relative_two", "planning_element_time_relative_two_unit",
-        "grouping_one_enabled", "grouping_one_selection", "grouping_one_sort", "hide_other_group"]
+      acceptable_options_params = ['exist', 'zoom_factor', 'initial_outline_expansion', 'timeframe_start',
+                                   'timeframe_end', 'columns', 'project_sort', 'compare_to_relative', 'compare_to_relative_unit',
+                                   'compare_to_absolute', 'vertical_planning_elements', 'exclude_own_planning_elements',
+                                   'planning_element_status', 'planning_element_types', 'planning_element_responsibles',
+                                   'planning_element_assignee', 'exclude_reporters', 'exclude_empty', 'project_types',
+                                   'project_status', 'project_responsibles', 'parents', 'planning_element_time_types',
+                                   'planning_element_time_absolute_one', 'planning_element_time_absolute_two',
+                                   'planning_element_time_relative_one', 'planning_element_time_relative_one_unit',
+                                   'planning_element_time_relative_two', 'planning_element_time_relative_two_unit',
+                                   'grouping_one_enabled', 'grouping_one_selection', 'grouping_one_sort', 'hide_other_group']
 
-      acceptable_options_params_with_data = HashWithIndifferentAccess[acceptable_options_params.map {|x| [x, 'value']}]
+      acceptable_options_params_with_data = HashWithIndifferentAccess[acceptable_options_params.map { |x| [x, 'value'] }]
 
-      params = ActionController::Parameters.new(timeline: {'name' => 'my name', 'options' => acceptable_options_params_with_data})
+      params = ActionController::Parameters.new(timeline: { 'name' => 'my name', 'options' => acceptable_options_params_with_data })
 
-      expect(PermittedParams.new(params, user).timeline).to eq({'name' => 'my name', 'options' => acceptable_options_params_with_data})
+      expect(PermittedParams.new(params, user).timeline).to eq({ 'name' => 'my name', 'options' => acceptable_options_params_with_data })
     end
 
     it 'should accept with no options' do
-      params = ActionController::Parameters.new(timeline: {'name' => 'my name'})
+      params = ActionController::Parameters.new(timeline: { 'name' => 'my name' })
 
-      expect(PermittedParams.new(params, user).timeline).to eq({'name' => 'my name'})
+      expect(PermittedParams.new(params, user).timeline).to eq({ 'name' => 'my name' })
     end
   end
 
@@ -116,7 +116,7 @@ describe PermittedParams, type: :model do
                            :comments_sorting, :warn_on_leaving_unsaved,
                            :theme]
 
-      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map { |x| [x, 'value'] }]
 
       params = ActionController::Parameters.new(pref: acceptable_params_with_data)
 
@@ -127,15 +127,15 @@ describe PermittedParams, type: :model do
   describe '#time_entry' do
     it 'should permit its whitelisted params' do
       acceptable_params = [:hours, :comments, :work_package_id,
-                            :activity_id, :spent_on]
+                           :activity_id, :spent_on]
 
-      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map { |x| [x, 'value'] }]
 
       acceptable_params_with_data.merge!(custom_field_values: {
-        '1' => 'foo',
-        '2' => 'bar',
-        '3' => 'baz'
-      })
+                                           '1' => 'foo',
+                                           '2' => 'bar',
+                                           '3' => 'baz'
+                                         })
 
       params = ActionController::Parameters.new(time_entry: acceptable_params_with_data)
 
@@ -153,7 +153,7 @@ describe PermittedParams, type: :model do
     it 'should permit its whitelisted params' do
       acceptable_params = [:title, :summary, :description]
 
-      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map { |x| [x, 'value'] }]
 
       params = ActionController::Parameters.new(news: acceptable_params_with_data)
 
@@ -165,7 +165,7 @@ describe PermittedParams, type: :model do
     it 'should permit its whitelisted params' do
       acceptable_params = [:commented, :author, :comments]
 
-      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map { |x| [x, 'value'] }]
 
       params = ActionController::Parameters.new(comment: acceptable_params_with_data)
 
@@ -177,7 +177,7 @@ describe PermittedParams, type: :model do
     it 'should permit its whitelisted params' do
       acceptable_params = [:watchable, :user, :user_id]
 
-      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map { |x| [x, 'value'] }]
 
       params = ActionController::Parameters.new(watcher: acceptable_params_with_data)
 
@@ -189,7 +189,7 @@ describe PermittedParams, type: :model do
     it 'should permit its whitelisted params' do
       acceptable_params = [:content, :subject]
 
-      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map { |x| [x, 'value'] }]
 
       params = ActionController::Parameters.new(reply: acceptable_params_with_data)
 
@@ -201,7 +201,7 @@ describe PermittedParams, type: :model do
     it 'should permit its whitelisted params' do
       acceptable_params = [:start_page]
 
-      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map { |x| [x, 'value'] }]
 
       params = ActionController::Parameters.new(wiki: acceptable_params_with_data)
 
@@ -213,7 +213,7 @@ describe PermittedParams, type: :model do
     it 'should permit its whitelisted params' do
       acceptable_params = [:reporting_to_project_id, :reported_project_status_id, :reported_project_status_comment]
 
-      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map { |x| [x, 'value'] }]
 
       params = ActionController::Parameters.new(reporting: acceptable_params_with_data)
 
@@ -228,7 +228,7 @@ describe PermittedParams, type: :model do
 
   describe '#membership' do
     it 'should permit its whitelisted params' do
-      acceptable_params_with_data = HashWithIndifferentAccess[project_id: '1', role_ids: [1,2,4]]
+      acceptable_params_with_data = HashWithIndifferentAccess[project_id: '1', role_ids: [1, 2, 4]]
 
       params = ActionController::Parameters.new(membership: acceptable_params_with_data)
 
@@ -240,7 +240,7 @@ describe PermittedParams, type: :model do
     it 'should permit its whitelisted params' do
       acceptable_params = [:name, :assigned_to_id]
 
-      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map { |x| [x, 'value'] }]
 
       params = ActionController::Parameters.new(category: acceptable_params_with_data)
 
@@ -254,11 +254,11 @@ describe PermittedParams, type: :model do
                            :start_date, :wiki_page_title, :status, :sharing,
                            :custom_field_value]
 
-      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+      acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map { |x| [x, 'value'] }]
 
-      acceptable_params_with_data.merge!(version_settings_attributes: {id: '1',
-                                                                       display: '2',
-                                                                       project_id: '3'})
+      acceptable_params_with_data.merge!(version_settings_attributes: { id: '1',
+                                                                        display: '2',
+                                                                        project_id: '3' })
 
       params = ActionController::Parameters.new(version: acceptable_params_with_data)
 
@@ -276,7 +276,7 @@ describe PermittedParams, type: :model do
       it 'should permit its whitelisted params' do
         acceptable_params = [:subject, :content, :board_id]
 
-        acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+        acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map { |x| [x, 'value'] }]
 
         # Sticky and evil should not make it.
         params = ActionController::Parameters.new(message: acceptable_params_with_data.merge(evil: true, sticky: true))
@@ -297,7 +297,7 @@ describe PermittedParams, type: :model do
 
         acceptable_params = [:locked, :sticky]
 
-        acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
+        acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map { |x| [x, 'value'] }]
 
         params = ActionController::Parameters.new(message: acceptable_params_with_data)
 
@@ -309,7 +309,7 @@ describe PermittedParams, type: :model do
   describe '#attachments' do
     it 'should permit its whitelisted params' do
       acceptable_params_with_data = HashWithIndifferentAccess[file: 'myfile',
-                                     description: 'mydescription']
+                                                              description: 'mydescription']
 
       params = ActionController::Parameters.new(attachments: acceptable_params_with_data)
 
@@ -950,20 +950,20 @@ describe PermittedParams, type: :model do
   end
 
   shared_examples_for 'allows enumeration move params' do
-    let(:hash) { {"2" =>{ 'move_to' => 'lower' }} }
+    let(:hash) { { '2' => { 'move_to' => 'lower' } } }
 
     it_behaves_like 'allows params'
   end
 
   shared_examples_for 'allows move params' do
-    let(:hash) { { 'move_to' => 'lower' }}
+    let(:hash) { { 'move_to' => 'lower' } }
 
     it_behaves_like 'allows params'
   end
 
   shared_examples_for 'allows custom fields' do
     describe 'valid custom fields' do
-      let(:hash) { {"1" => { 'custom_field_values' => { '1' => '5' } } }}
+      let(:hash) { { '1' => { 'custom_field_values' => { '1' => '5' } } } }
 
       it_behaves_like 'allows params'
     end
@@ -1011,25 +1011,25 @@ describe PermittedParams, type: :model do
     let (:attribute) { :enumerations }
 
     describe 'name' do
-      let(:hash) { {"1" => { 'name' => 'blubs' } }}
+      let(:hash) { { '1' => { 'name' => 'blubs' } } }
 
       it_behaves_like 'allows params'
     end
 
     describe 'active' do
-      let(:hash) { {"1" => { 'active' => 'true' } }}
+      let(:hash) { { '1' => { 'active' => 'true' } } }
 
       it_behaves_like 'allows params'
     end
 
     describe 'is_default' do
-      let(:hash) { {"1" => { 'is_default' => 'true' } }}
+      let(:hash) { { '1' => { 'is_default' => 'true' } } }
 
       it_behaves_like 'allows params'
     end
 
     describe 'reassign_to_id' do
-      let(:hash) { {"1" => { 'reassign_to_id' => '1' } }}
+      let(:hash) { { '1' => { 'reassign_to_id' => '1' } } }
 
       it_behaves_like 'allows params'
     end

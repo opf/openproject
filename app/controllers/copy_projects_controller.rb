@@ -41,9 +41,10 @@ class CopyProjectsController < ApplicationController
     @copy_project.attributes = permitted_params.project
     if @copy_project.valid?
       modules = permitted_params.project[:enabled_module_names] || params[:enabled_modules]
+
       copy_project_job = CopyProjectJob.new(user_id: User.current.id,
                                             source_project_id: @project.id,
-                                            target_project_params: permitted_params.project,
+                                            target_project_params: permitted_params.project.to_hash,
                                             enabled_modules: modules,
                                             associations_to_copy: params[:only],
                                             send_mails: params[:notifications] == '1')

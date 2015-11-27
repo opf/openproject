@@ -610,6 +610,16 @@ input[readonly].-clickable
   > .form-label
     line-height: 2rem
 
+    &.-required,
+    .form--field.-required > &
+      &::after
+        @include default-transition
+        content:  '*'
+        color:    $primary-color-dark
+        padding:  0 0.325rem
+      &:hover::after
+        color:    $primary-color
+
     > a
       display: block
       min-width: 1.5rem

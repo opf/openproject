@@ -5,6 +5,7 @@ use warnings FATAL => 'all', NONFATAL => 'redefine';
 
 use File::Path qw(rmtree);
 use File::Spec ();
+use File::Copy qw(move);
 
 use Apache2::Module;
 use Apache2::Module;
@@ -17,7 +18,7 @@ use Apache2::RequestIO qw();
 use Apache2::Const -compile => qw(FORBIDDEN OK OR_AUTHCFG TAKE1 HTTP_UNPROCESSABLE_ENTITY HTTP_BAD_REQUEST OK);
 use APR::Table ();
 
-use JSON::PP;
+use JSON;
 use Carp;
 
 
@@ -46,7 +47,7 @@ sub AccessSecret {
 ##
 # Creates an actual repository on disk for Subversion and Git.
 sub create_repository {
-  my ($r, $vendor, $repository) = @_;
+  my ($r, $vendor, $repository, $repository_root, $request) = @_;
 
   my $command = {
     git => "git init $repository --shared --bare",
@@ -60,8 +61,20 @@ sub create_repository {
 ##
 # Removes the repository with a given identifier on disk.
 sub delete_repository {
-  my ($r, $vendor, $repository) = @_;
+  my ($r, $vendor, $repository, $repository_root, $request) = @_;
   rmtree($repository) if -d $repository;
+}
+
+sub relocate_repository {
+  my ($r, $vendor, $repository, $repository_root, $request) = @_;
+
+  # Determine validity of the old repository identifier as a dir name
+  my $old_identifier = $request->{old_identifier};
+  die ("Old repository identifier is empty") unless (length($old_identifier) > 0);
+  die ("Old repository identifier is an invalid filename") if ($old_identifier =~ m{[\\/:*?"<>|]});
+
+  my $old_repository = File::Spec->catdir($repository_root, $old_identifier);
+  move($old_repository, $repository) if -d $old_repository;
 }
 
 ##
@@ -86,7 +99,7 @@ sub parse_request {
 sub make_error {
     my ($r, $type, $msg) = @_;
     my $response = {
-      success => JSON::PP::false,
+      success => JSON::false,
       message => $msg
     };
 
@@ -98,7 +111,7 @@ sub make_error {
 # Actual incoming request handler, that receives the JSON request
 # and determines the necessary local action from the request.
 sub _handle_request {
-    my $r = shift;
+  my $r = shift;
 
   # Parse JSON request
   my $request = parse_request($r);
@@ -143,15 +156,16 @@ sub _handle_request {
   my $target = File::Spec->catdir($repository_root, $repository_identifier);
   my %actions = (
     'create' => \&create_repository,
+    'relocate' => \&relocate_repository,
     'delete' => \&delete_repository
     );
 
   my $action = $actions{$request->{action}};
   die "Unknown action.\n"  unless defined($action);
-  $action->($r, $vendor, $target);
+  $action->($r, $vendor, $target, $repository_root, $request);
 
   return {
-    success => JSON::PP::true,
+    success => JSON::true,
     message => "The action has completed sucessfully.",
     repository => $target,
     path => $target,

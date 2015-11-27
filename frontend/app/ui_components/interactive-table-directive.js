@@ -91,7 +91,7 @@ module.exports = function($timeout, $window){
           var width = spacer.width();
 
           if (width !== 0) {
-            angular.element(this).css('width', width + 'px');
+            angular.element(this).css('width', width + 'px').parent().css('width', width + 'px');
           }
         });
       }

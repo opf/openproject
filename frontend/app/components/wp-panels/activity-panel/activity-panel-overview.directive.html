@@ -1,0 +1,17 @@
+<work-package-comment work-package="vm.workPackage"
+                      activities="vm.activities">
+  
+  <ul class='work-package-details-activities-list'>
+    <li ng-repeat="activity in vm.activities | latestItems : 3 : vm.reverse "
+        class="work-package-details-activities-activity"
+
+        ng-init="inf = vm.info(activity, $index)">
+
+      <activity-entry work-package="vm.workPackage"
+                      activity="activity"
+                      activity-no="inf.number(true)"
+                      is-initial="inf.isInitial(true)">
+      </activity-entry>
+    </li>
+  </ul>
+</work-package-comment>

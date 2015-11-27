@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,20 +24,33 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function($scope, $filter, columnsModal, QueryService, 
-                          WorkPackageService, WorkPackagesTableService, 
-                          $rootScope, $timeout) {
+angular
+  .module('openproject.workPackages.controllers')
+  .controller('ColumnsModalController', ColumnsModalController);
 
-  this.name    = 'Columns';
-  this.closeMe = columnsModal.deactivate;
-  var vm;
-  $scope.vm = vm = {};
+function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageService,
+    WorkPackagesTableService, $rootScope, $timeout) {
+
+  var vm = this;
+
+  vm.name    = 'Columns';
+  vm.closeMe = columnsModal.deactivate;
+
   vm.selectedColumns = [];
   vm.oldSelectedColumns = [];
   vm.availableColumns = [];
   vm.unusedColumns = [];
+
+  vm.text = {
+    closePopup: I18n.t('js.close_popup_title'),
+    columnsLabel: I18n.t('js.label_columns'),
+    selectedColumns: I18n.t('js.description_selected_columns'),
+    multiSelectLabel: I18n.t('js.work_packages.label_column_multiselect'),
+    applyButton: I18n.t('js.modals.button_apply'),
+    cancelButton: I18n.t('js.modals.button_cancel')
+  };
 
   var selectedColumns = QueryService.getSelectedColumns();
 
@@ -60,15 +73,13 @@ module.exports = function($scope, $filter, columnsModal, QueryService,
     return _.difference(vm.selectedColumns, vm.oldSelectedColumns);
   }
 
-  function getColumnName(column) {
-    return column.name;
-  }
-
   function getColumnNames(arr) {
-    return _.map(arr, getColumnName);
+    return _.map(arr, function (column) {
+      return column.name;
+    });
   }
 
-  $scope.updateSelectedColumns = function() {
+  vm.updateSelectedColumns = function() {
     QueryService.setSelectedColumns(getColumnNames(vm.selectedColumns));
 
     // Augment work packages with new columns data
@@ -94,13 +105,12 @@ module.exports = function($scope, $filter, columnsModal, QueryService,
    *
    * @param selectedColumns Columns currently selected through the multi select box.
    */
-  $scope.updateUnusedColumns = function(selectedColumns) {
-    var used = _.map(selectedColumns, getColumnName);
-    var isUnused = function(col) {
-      return !_.contains(used, col.name);
-    };
+  vm.updateUnusedColumns = function(selectedColumns) {
+    var used = getColumnNames(selectedColumns);
 
-    vm.unusedColumns = _.filter(vm.availableColumns, isUnused);
+    vm.unusedColumns = _.filter(vm.availableColumns, function (column) {
+      return !_.contains(used, column.name);
+    });
   };
   
   //hack to prevent dragging of close icons
@@ -114,4 +124,8 @@ module.exports = function($scope, $filter, columnsModal, QueryService,
   $timeout(function () {
     $scope.$broadcast('columnsModalOpened');
   });
-};
+
+  $scope.$on('uiSelectSort:change', function(event, args) {
+    vm.selectedColumns = args.array;
+  });
+}

@@ -58,14 +58,14 @@ class Project < ActiveRecord::Base
   }, class_name: 'Member'
   # Read only
   has_many :possible_assignees, -> {
-      # Have to reference it again although possible_assignee_members does already specify it
-      # to be able to use the Project.possible_principles_condition there
-      includes(members: :roles)
+    # Have to reference it again although possible_assignee_members does already specify it
+    # to be able to use the Project.possible_principles_condition there
+    includes(members: :roles)
       .references(:roles)
       .merge(Principal.order_by_name)
-    },
-    through: :possible_assignee_members,
-    source: :principal
+  },
+           through: :possible_assignee_members,
+           source: :principal
   has_many :possible_responsible_members, -> {
     includes(:principal, :roles)
       .where(Project.possible_principles_condition)
@@ -73,14 +73,14 @@ class Project < ActiveRecord::Base
   }, class_name: 'Member'
   # Read only
   has_many :possible_responsibles, -> {
-      # Have to reference it again although possible_assignee_members does already specify it
-      # to be able to use the Project.possible_principles_condition there
-      includes(members: :roles)
+    # Have to reference it again although possible_assignee_members does already specify it
+    # to be able to use the Project.possible_principles_condition there
+    includes(members: :roles)
       .references(:roles)
       .merge(Principal.order_by_name)
-    },
-    through: :possible_responsible_members,
-    source: :principal
+  },
+           through: :possible_responsible_members,
+           source: :principal
   has_many :memberships, class_name: 'Member'
   has_many :member_principals, -> {
     includes(:principal)
@@ -113,7 +113,7 @@ class Project < ActiveRecord::Base
   has_one :repository, dependent: :destroy
   has_many :changesets, through: :repository
   has_one :wiki, dependent: :destroy
-  # Custom field for the project work units
+  # Custom field for the project's work_packages
   has_and_belongs_to_many :work_package_custom_fields, -> {
     order("#{CustomField.table_name}.position")
   }, class_name: 'WorkPackageCustomField',
@@ -593,6 +593,19 @@ class Project < ActiveRecord::Base
                                           '))')
       .references(:projects)
     end
+  end
+
+  # Returns all versions a work package can be assigned to.  Opposed to
+  # #shared_versions this returns an array of Versions, not a scope.
+  #
+  # The main benefit is in scenarios where work packages' projects are eager
+  # loaded.  Because eager loading the project e.g. via
+  # WorkPackage.includes(:project).where(type: 5) will assign the same instance
+  # (same object_id) for every work package having the same project this will
+  # reduce the number of db queries when performing operations including the
+  # project's versions.
+  def assignable_versions
+    @all_shared_versions ||= shared_versions.open.to_a
   end
 
   # Returns a hash of project users grouped by role

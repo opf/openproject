@@ -54,6 +54,13 @@ class TimeEntry < ActiveRecord::Base
   validate :validate_consistency_of_work_package_id
 
   scope :visible, -> (*args) {
+    # TODO: check whether the visibility should also be influenced by the work
+    # package the time entry is assigned to.  Currently a work package can
+    # switch projects. But as the time entry is still part of it's original
+    # project, it is unclear, whether the time entry is actually visible if the
+    # user lacks the view_work_packages permission in the moved to project.
+    #
+    # See WorkPackage#compute_spent_hours for an implementation of it.
     includes(:project)
       .merge(Project.allowed_to(args.first || User.current, :view_time_entries))
   }
