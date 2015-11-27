@@ -31,7 +31,8 @@ angular
   .factory('wpActivity', wpActivity);
 
 function wpActivity($filter, $q, ConfigurationService){
-  var order = ConfigurationService.commentsSortedInDescendingOrder() ? 'desc' : 'asc',
+  var reverse = ConfigurationService.commentsSortedInDescendingOrder(),
+      order = reverse ? 'desc' : 'asc',
       activities = [];
 
   return {
@@ -41,6 +42,10 @@ function wpActivity($filter, $q, ConfigurationService){
 
     get order() {
       return order;
+    },
+
+    get isReversed() {
+      return reverse;
     },
 
     aggregateActivities: function (workPackage) {
@@ -59,7 +64,7 @@ function wpActivity($filter, $q, ConfigurationService){
       return $q.all(promises).then(function () {
         activities.length = 0;
         activities.push.apply(activities, $filter('orderBy')(
-          _.flatten(aggregated), 'props.createdAt', order === 'desc'
+          _.flatten(aggregated), 'props.createdAt', reverse
         ));
       });
     },
@@ -69,9 +74,13 @@ function wpActivity($filter, $q, ConfigurationService){
         return $filter('date')(activity.props.createdAt, 'longDate')
       };
 
+      var orderedIndex = function(idx, forceReverse) {
+        return (forceReverse || reverse) && activities.length - idx || idx + 1;
+      };
+
       return {
-        number: function(reversed) {
-          return reversed && activities.length - index || index + 1;
+        number: function(forceReverse) {
+          return orderedIndex(index, forceReverse);
         },
 
         get date() {
@@ -88,8 +97,8 @@ function wpActivity($filter, $q, ConfigurationService){
           return this.date !== this.dateOfPrevious;
         },
 
-        get isInitial() {
-          var activityNo = this.number();
+        isInitial: function(forceReverse) {
+          var activityNo = this.number(forceReverse);
 
           if (activity.props._type.indexOf('Activity') !== 0) {
             return false;
@@ -100,9 +109,8 @@ function wpActivity($filter, $q, ConfigurationService){
           }
 
           while (--activityNo > 0) {
-            var index = order === 'desc' ? activities.length - activityNo : activityNo - 1;
-
-            if (activities[index].props._type.indexOf('Activity') === 0) {
+            var idx = orderedIndex(activityNo, forceReverse) - 1;
+            if (activities[idx].props._type.indexOf('Activity') === 0) {
               return false;
             }
           }
