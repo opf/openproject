@@ -18,7 +18,7 @@ use Apache2::RequestIO qw();
 use Apache2::Const -compile => qw(FORBIDDEN OK OR_AUTHCFG TAKE1 HTTP_UNPROCESSABLE_ENTITY HTTP_BAD_REQUEST OK);
 use APR::Table ();
 
-use JSON::PP;
+use JSON;
 use Carp;
 
 
@@ -99,7 +99,7 @@ sub parse_request {
 sub make_error {
     my ($r, $type, $msg) = @_;
     my $response = {
-      success => JSON::PP::false,
+      success => JSON::false,
       message => $msg
     };
 
@@ -165,7 +165,7 @@ sub _handle_request {
   $action->($r, $vendor, $target, $repository_root, $request);
 
   return {
-    success => JSON::PP::true,
+    success => JSON::true,
     message => "The action has completed sucessfully.",
     repository => $target,
     path => $target,
