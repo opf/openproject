@@ -88,6 +88,14 @@ class WorkPackagesPage
     find(".advanced-filters--filters #filter_#{filter_name}")
   end
 
+  def find_subject_field(text = nil)
+    if text
+      find('#work-package-subject input', text: text)
+    else
+      find('#work-package-subject input')
+    end
+  end
+
   private
 
   def index_path(work_package = nil)
