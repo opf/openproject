@@ -745,12 +745,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'activities' do
-        it 'is returned as Collection resource' do
-          is_expected.to be_json_eql('Collection'.to_json).at_path('_embedded/activities/_type')
-        end
-
-        it 'is empty' do
-          is_expected.to be_json_eql(0).at_path('_embedded/activities/total')
+        it 'is not embedded' do
+          is_expected.not_to have_json_path('_embedded/activities')
         end
       end
 

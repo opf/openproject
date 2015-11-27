@@ -27,19 +27,25 @@
 // ++
 
 angular
-  .module('openproject.workPackages.controllers')
-  .directive('watchersPanel', watchersPanel);
+  .module('openproject.workPackages.directives')
+  .directive('activityPanel', activityPanel);
 
-function watchersPanel()  {
+function activityPanel(){
   return {
     restrict: 'E',
-    templateUrl: '/components/panels/directives/watchers-panel.directive.html',
+    templateUrl: function (element, attrs) {
+      var path = '/components/wp-panels/activity-panel/',
+          type = attrs.template || 'default';
+      
+      return path + 'activity-panel-' + type + '.directive.html';
+    },
+
     scope: {
       workPackage: '='
     },
 
     bindToController: true,
-    controller: 'WatchersPanelController',
+    controller: 'ActivityPanelController',
     controllerAs: 'vm'
   };
 }

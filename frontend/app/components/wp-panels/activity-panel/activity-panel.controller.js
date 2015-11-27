@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,33 +24,25 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-exports.config = {
+angular
+  .module('openproject.workPackages.controllers')
+  .controller('ActivityPanelController', ActivityPanelController);
 
-  framework: 'mocha',
+function ActivityPanelController($scope, wpActivity){
 
-  // Capabilities to be passed to the webdriver instance.
-  capabilities: {
-    'browserName': 'firefox'
-  },
+  var vm = this;
 
-  directConnect: true,
+  vm.activities = wpActivity.activities;
+  vm.reverse = wpActivity.order === 'asc';
+  vm.info = wpActivity.info;
 
-  specs: [
-    'specs/**/*spec.js'
-  ],
+  wpActivity.aggregateActivities(vm.workPackage);
 
-  allScriptsTimeout: 500000,
-
-  mochaOpts: {
-    timeout:  500000,
-    reporter: 'mocha-jenkins-reporter'
-  },
-
-  baseUrl: 'http://localhost:8080',
-
-  onPrepare: function() {
-    browser.driver.manage().window().maximize();
-  }
-};
+  $scope.$on('workPackageRefreshed', function () {
+    $scope.$applyAsync(function () {
+      wpActivity.aggregateActivities(vm.workPackage);
+    });
+  });
+}
