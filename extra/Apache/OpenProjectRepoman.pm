@@ -70,8 +70,8 @@ sub relocate_repository {
 
   # Determine validity of the old repository identifier as a dir name
   my $old_identifier = $request->{old_identifier};
-  die "Old repository identifier is empty") unless (length($old_identifier) > 0);
-  die "Old repository identifier is an invalid filename") if ($old_identifier =~ m{[\\/:*?"<>|]});
+  die ("Old repository identifier is empty") unless (length($old_identifier) > 0);
+  die ("Old repository identifier is an invalid filename") if ($old_identifier =~ m{[\\/:*?"<>|]});
 
   my $old_repository = File::Spec->catdir($repository_root, $old_identifier);
   move($old_repository, $repository) if -d $old_repository;
