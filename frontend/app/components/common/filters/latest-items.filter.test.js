@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,33 +24,30 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-exports.config = {
+describe('Latest items filter', function() {
 
-  framework: 'mocha',
+  beforeEach(angular.mock.module('openproject.workPackages.filters'));
 
-  // Capabilities to be passed to the webdriver instance.
-  capabilities: {
-    'browserName': 'firefox'
-  },
+  describe('latestItems', function() {
+    var items;
 
-  directConnect: true,
+    beforeEach(function(){
+      items = [1,2,3,4,5,6,7,8,9];
+    });
 
-  specs: [
-    'specs/**/*spec.js'
-  ],
+    it('should be defined', inject(function($filter) {
+      expect($filter('latestItems')).not.to.equal(null);
+    }));
 
-  allScriptsTimeout: 500000,
+    it('should return the first 3 items', inject(function($filter) {
+      expect($filter('latestItems')(items, 3, true)).to.eql([9,8,7]);
+    }));
 
-  mochaOpts: {
-    timeout:  500000,
-    reporter: 'mocha-jenkins-reporter'
-  },
+    it('should return the last 3 items reversed', inject(function($filter) {
+      expect($filter('latestItems')(items, 3)).to.eql([1,2,3]);
+    }));
 
-  baseUrl: 'http://localhost:8080',
-
-  onPrepare: function() {
-    browser.driver.manage().window().maximize();
-  }
-};
+  });
+});

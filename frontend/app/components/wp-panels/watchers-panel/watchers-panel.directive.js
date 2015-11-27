@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,32 +24,22 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-/*jshint expr: true*/
+angular
+  .module('openproject.workPackages.controllers')
+  .directive('watchersPanel', watchersPanel);
 
-describe('Latest items filter', function() {
+function watchersPanel()  {
+  return {
+    restrict: 'E',
+    templateUrl: '/components/wp-panels/directives/watchers-panel.directive.html',
+    scope: {
+      workPackage: '='
+    },
 
-  beforeEach(module('openproject.workPackages.filters'));
-
-  describe('latestItems', function() {
-    var items;
-
-    beforeEach(function(){
-      items = [1,2,3,4,5,6,7,8,9];
-    });
-
-    it('should be defined', inject(function($filter) {
-      expect($filter('latestItems')).not.to.equal(null);
-    }));
-
-    it('should return the first 3 items', inject(function($filter) {
-      expect($filter('latestItems')(items, false, 3)).to.eql([9,8,7]);
-    }));
-
-    it('should return the last 3 items reversed', inject(function($filter) {
-      expect($filter('latestItems')(items, true, 3)).to.eql([1,2,3]);
-    }));
-
-  });
-});
+    bindToController: true,
+    controller: 'WatchersPanelController',
+    controllerAs: 'vm'
+  };
+}

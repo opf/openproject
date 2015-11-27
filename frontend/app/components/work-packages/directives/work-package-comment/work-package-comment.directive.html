@@ -35,11 +35,14 @@
               <div class="inplace-edit--controls" ng-hide="fieldController.state.isBusy || !fieldController.isActive()">
                 <accessible-by-keyboard execute="fieldController.submit()"
                                         ng-disabled="fieldController.isEmpty()"
+                                        link-title="{{ fieldController.saveTitle }}"
                                         class="inplace-edit--control inplace-edit--control--save">
                   <icon-wrapper icon-name="yes" icon-title="{{ fieldController.saveTitle }}">
                   </icon-wrapper>
                 </accessible-by-keyboard>
-                <accessible-by-keyboard execute="fieldController.discardEditing()" class="inplace-edit--control inplace-edit--control--cancel">
+                <accessible-by-keyboard execute="fieldController.discardEditing()"
+                                        link-title="{{ fieldController.cancelTitle }}"
+                                        class="inplace-edit--control inplace-edit--control--cancel">
                   <icon-wrapper icon-name="close" icon-title="{{ fieldController.cancelTitle }}">
                   </icon-wrapper>
                 </accessible-by-keyboard>
