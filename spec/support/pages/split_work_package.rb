@@ -50,14 +50,18 @@ module Pages
       expect(current_path).to eql path
     end
 
+    def visit_tab!(tab)
+      visit path(tab)
+    end
+
     private
 
     def details_container
       find('.work-packages--details')
     end
 
-    def path
-      state = "#{work_package.id}/overview"
+    def path(tab='overview')
+      state = "#{work_package.id}/#{tab}"
 
       if project
         project_work_packages_path(project, "details/#{state}")
