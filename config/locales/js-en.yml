@@ -83,6 +83,7 @@ en:
     label_author: "Author: %{user}"
     label_board_locked: "Locked"
     label_board_sticky: "Sticky"
+    label_create_work_package: "Create new work package"
     label_date: "Date"
     label_deactivate: "Deactivate"
     label_descending: "Descending"
