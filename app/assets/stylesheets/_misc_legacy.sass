@@ -33,6 +33,8 @@
 // placed elsewhere. Pleade DO NOT add to this file. Instead MOVE, refactor or
 // REMOVE with ruthlessness.
 
+$version-summary-width: 380px
+
 #watchers
   ul
     margin: 0
@@ -192,9 +194,11 @@ div
         font-size: 120%
       h2
         font-size: 110%
+    .generic-table--no-results-container
+      max-width: calc(100% - #{$version-summary-width})
   &#version-summary
     float: right
-    width: 380px
+    width: $version-summary-width
     margin-left: 16px
     margin-bottom: 16px
     background-color: #fff
