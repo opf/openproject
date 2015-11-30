@@ -34,7 +34,7 @@ function activityEntry(PathHelper) {
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/components/work-packages/activity/activity-entry.directive.html',
+    templateUrl: '/components/wp-activity/activity-entry.directive.html',
 
     scope: {
       workPackage: '=',
