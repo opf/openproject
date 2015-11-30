@@ -10,4 +10,7 @@
         ng-click="showWorkPackageShowView()"
         ng-class="{ '-active': isShowViewActive() }">
   <i class="icon-view-fullscreen button--icon"></i>
+  <span class="hidden-for-sighted">
+    {{ label }}
+  </span>
 </button>
