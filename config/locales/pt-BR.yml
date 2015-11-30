@@ -39,8 +39,8 @@ pt-BR:
     models:
       cost_object: Orçamento
       cost_type:
-        one: Cost type
-        other: Cost types
+        one: Tipo de custo
+        other: Tipos de custo
       material_budget_item: Unidade
       rate: Taxa
     errors:
@@ -167,7 +167,7 @@ pt-BR:
   text_warning_hidden_elements: Algumas entradas podem ter sido excluídas da agregação.
   week: semana
   x_entries:
-    one: 1 entry
-    other: '%{count} entries'
+    one: 1 entrada
+    other: '%{count} entradas'
   js:
     text_are_you_sure: Você tem certeza?
