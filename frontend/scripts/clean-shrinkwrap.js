@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 //-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -25,8 +27,6 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-
-#!/usr/bin/env node
 
 /**
  * this script is just a temporary solution to deal with the issue of npm outputting the npm
