@@ -26,20 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.controllers')
-  .directive('watchersPanel', watchersPanel);
+describe('Watchers panel directive', function () {
+  var $compile, $rootScope, element;
 
-function watchersPanel()  {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-panels/watchers-panel/watchers-panel.directive.html',
-    scope: {
-      workPackage: '='
-    },
+  beforeEach(angular.mock.module('openproject.workPackages.controllers', function ($controllerProvider) {
+    $controllerProvider.register('WatchersPanelController', function () {});
+  }));
 
-    bindToController: true,
-    controller: 'WatchersPanelController',
-    controllerAs: 'vm'
-  };
-}
+  beforeEach(angular.mock.module('openproject.templates'));
+
+  beforeEach(inject(function (_$compile_, _$rootScope_) {
+    $compile = _$compile_;
+    $rootScope = _$rootScope_;
+
+    element = $compile('<watchers-panel work-package="workPackage"></watchers-panel>')($rootScope);
+    $rootScope.$digest();
+  }));
+
+  it('should should be rendered correctly', function () {
+    expect(element.html()).to.contain('detail-panel-watchers');
+  });
+});
