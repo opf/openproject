@@ -436,7 +436,7 @@ en:
         page_settings: "Rename query ..."
         delete: "Delete"
       filter: "Filter"
-      unselected_title: "Work packages"
+      unselected_title: "Work package"
     modals:
       label_settings: "Rename query"
       label_name: "Name"
