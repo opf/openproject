@@ -582,7 +582,7 @@ JJ Abrams</textarea>
         end
       end
 
-      context 'with ActiveModel and withouth specified label' do
+      context 'with ActiveModel and without specified label' do
         let(:resource) {
           FactoryGirl.build_stubbed(:user,
                                     firstname:  'JJ',
@@ -594,6 +594,18 @@ JJ Abrams</textarea>
 
         it 'uses the human attibute name' do
           expected_label_like(User.human_attribute_name(:name))
+        end
+
+        context 'with erroneous field' do
+          before do
+            resource.errors.add(:name, :invalid)
+          end
+
+          it 'shows an appropriate error label' do
+            expect(output).to have_selector 'label.-error',
+                                            count: 1,
+                                            text: User.human_attribute_name(:name)
+          end
         end
       end
 

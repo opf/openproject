@@ -342,6 +342,17 @@ fieldset.form--fieldset
     @include grid-size(shrink)
     max-width: none
 
+  &.-error
+    @extend .icon-error
+    color: $content-form-danger-zone-bg-color
+    font-weight: bold
+    &::before
+      @include icon-common
+      display: inline-block
+      line-height:  $base-line-height
+      padding-right: 0.325rem
+
+
   &.-required,
   .form--field.-required > &
     &::after

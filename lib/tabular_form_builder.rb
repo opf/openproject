@@ -198,9 +198,10 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
     id = element_id(translation_form) if translation_form
 
-    # FIXME: reenable the error handling
-    label_options[:class] << 'error' if false && @object && @object.respond_to?(:errors) && @object.errors[field] # FIXME
     label_options[:class] << 'form--label'
+
+    has_errors = @object.try(:errors) && @object.errors.include?(field)
+    label_options[:class] << ' -error' if has_errors
     label_options[:class] << ' -required' if options.delete(:required)
     label_options[:for] = if options[:for]
                             options[:for]
