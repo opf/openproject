@@ -32,29 +32,14 @@ class AttachmentsController < ApplicationController
   before_filter :file_readable, :read_authorize, except: :destroy
   before_filter :delete_authorize, only: :destroy
 
-  def show
-    if @attachment.is_diff?
-      @diff = File.new(@attachment.diskfile, 'rb').read
-      render action: 'diff'
-    elsif @attachment.is_text? && @attachment.filesize <= Setting.file_max_size_displayed.to_i.kilobyte
-      @content = File.new(@attachment.diskfile, 'rb').read
-      render action: 'file'
-    else
-      redirect_to link_to_attachment(@attachment)
-    end
-  end
-
   def download
-    if @attachment.container.is_a?(Version) || @attachment.container.is_a?(Project)
-      @attachment.increment_download
+    url = @attachment.external_url
+
+    if url
+      redirect_to url.to_s
+    else
+      serve_attachment @attachment
     end
-
-    # browsers should not try to guess the content-type
-    response.headers['X-Content-Type-Options'] = 'nosniff'
-
-    send_file @attachment.diskfile, filename: filename_for_content_disposition(@attachment.filename),
-                                    type: @attachment.content_type,
-                                    disposition: @attachment.content_disposition
   end
 
   def destroy
@@ -68,16 +53,6 @@ class AttachmentsController < ApplicationController
   end
 
   private
-
-  def link_to_attachment(attachment)
-    url = URI.parse attachment.file.download_url
-
-    if url.host # check if URL or file path
-      url.to_s
-    else
-      download_attachment_url filename: attachment.filename, id: attachment.id
-    end
-  end
 
   def find_project
     @attachment = Attachment.find(params[:id])
@@ -103,5 +78,18 @@ class AttachmentsController < ApplicationController
 
   def destroy_response_url(container)
     url_for(container.is_a?(WikiPage) ? [@project, container.wiki] : container)
+  end
+
+  def serve_attachment(attachment)
+    if attachment.container.is_a?(Version) || attachment.container.is_a?(Project)
+      attachment.increment_download
+    end
+
+    # browsers should not try to guess the content-type
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+
+    send_file attachment.diskfile, filename: filename_for_content_disposition(attachment.filename),
+                                   type: attachment.content_type,
+                                   disposition: attachment.content_disposition
   end
 end

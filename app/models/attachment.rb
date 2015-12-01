@@ -55,6 +55,19 @@ class Attachment < ActiveRecord::Base
     end
   end
 
+  ##
+  # Returns an URL if the attachment is stored in an external (fog) attachment storage
+  # or nil otherwise.
+  def external_url
+    url = URI.parse file.download_url # returns a path if local
+
+    url if url.host
+  end
+
+  def external_storage?
+    !external_url.nil?
+  end
+
   def increment_download
     increment!(:downloads)
   end

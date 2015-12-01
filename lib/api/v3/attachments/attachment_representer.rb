@@ -46,7 +46,7 @@ module API
 
         link :downloadLocation do
           {
-            href: api_v3_paths.attachment_download(represented.id)
+            href: api_v3_paths.attachment_download(represented.id, represented.filename)
           }
         end
 
