@@ -1,0 +1,12 @@
+<label for="work-packages-show-view-button"
+       ng-attr-accesskey="{{ isShowViewActive() ? undefined : '9' }}"
+       class="hidden-for-sighted">
+  {{ getActivationActionLabel(!isShowViewActive()) + ' ' + I18n.t('js.button_show_view') }}
+</label>
+<button id="work-packages-show-view-button"
+        class="button"
+        title="{{ getActivationActionLabel(!isShowViewActive()) + ' ' + I18n.t('js.button_show_view') }}"
+        ng-click="showWorkPackageShowView()"
+        ng-class="{ '-active': isShowViewActive() }">
+  <i class="icon-fullscreen-view button--icon"></i>
+</button>
