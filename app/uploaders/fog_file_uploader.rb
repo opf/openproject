@@ -48,4 +48,17 @@ class FogFileUploader < CarrierWave::Uploader::Base
   def download_url
     remote_file.url
   end
+
+  ##
+  # Checks if this file exists and is readable in the remote storage.
+  #
+  # In the current version of carrierwave the call to #exists?
+  # throws an error if the file does not exist:
+  #
+  #   Excon::Errors::Forbidden: Expected(200) <=> Actual(403 Forbidden)
+  def readable?
+    remote_file.exists?
+  rescue Excon::Errors::Forbidden
+    false
+  end
 end

@@ -102,7 +102,7 @@ class Attachment < ActiveRecord::Base
 
   # Returns true if the file is readable
   def readable?
-    File.readable? file.local_file
+    file.readable?
   end
 
   # Bulk attaches a set of files to an object
