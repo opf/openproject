@@ -50,10 +50,6 @@ module.exports = function($scope, $state, $stateParams, QueryService, PathHelper
     return $state.is('work-packages.list');
   };
 
-  $scope.isShowViewActive = function() {
-    return $state.includes('work-packages.show');
-  };
-
   $scope.getToggleActionLabel = function(active) {
     return (active) ? I18n.t('js.label_deactivate') : I18n.t('js.label_activate');
   };
