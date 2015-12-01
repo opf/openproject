@@ -86,15 +86,6 @@ angular.module('openproject.workPackages')
     'NotificationsService',
     require('./settings-dropdown-menu-controller')
   ])
-  .factory('TasksDropdownMenu', [
-    'ngContextMenu',
-    function(ngContextMenu) {
-      return ngContextMenu({
-        templateUrl: '/templates/work_packages/menus/tasks_dropdown_menu.html',
-        container: '.wp-create-button'
-      });
-    }
-  ])
   .constant('PERMITTED_CONTEXT_MENU_ACTIONS', [
     'edit', 'watch', 'log_time',
     'move', 'copy', 'delete'
