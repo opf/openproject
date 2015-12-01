@@ -52,8 +52,16 @@ function WorkPackageCreateButtonController($state, ProjectService) {
       canCreate= false;
 
   vm.text = I18n.t('js.toolbar.unselected_title');
+
   vm.isDisabled = function () {
     return !inProjectContext || !canCreate || $state.includes('**.new') || !vm.types;
+  };
+
+  vm.createWorkPackage = function (type) {
+    $state.go(vm.stateName, {
+      projectPath: vm.projectIdentifier,
+      type: type
+    })
   };
 
   if (inProjectContext) {
