@@ -33,8 +33,7 @@ angular
 function wpCreateButton() {
   return {
     restrict: 'E',
-    templateUrl: '/components/work-packages/directives/wp-create-button/' +
-      'wp-create-button.directive.html',
+    templateUrl: '/components/wp-buttons/create-button/create-button.directive.html',
 
     scope: {
       projectIdentifier: '=',
@@ -48,7 +47,6 @@ function wpCreateButton() {
 }
 
 function WorkPackageCreateButtonController($state, ProjectService) {
-
   var vm = this,
       inProjectContext = !!vm.projectIdentifier,
       canCreate= false;
