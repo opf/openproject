@@ -49,7 +49,7 @@ module API
           end
 
           def self.attachment_download(id)
-            download_attachment_path(id)
+            attachment_path(id)
           end
 
           def self.attachments_by_work_package(id)
