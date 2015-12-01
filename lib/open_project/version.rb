@@ -28,6 +28,7 @@
 #++
 
 require 'rexml/document'
+require 'open3'
 
 module OpenProject
   module VERSION #:nodoc:
@@ -52,7 +53,7 @@ module OpenProject
     end
 
     def self.revision
-      revision = `git rev-parse HEAD`
+      revision, = Open3.capture3('git', 'rev-parse', 'HEAD')
       if revision.present?
         revision.strip[0..8]
       end
