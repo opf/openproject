@@ -28,12 +28,12 @@
 
 angular
   .module('openproject.workPackages.services')
-  .factory('loadIndicator', loadIndicator);
+  .factory('loadingIndicator', loadingIndicator);
 
-function loadIndicator() {
+function loadingIndicator() {
   var config = {};
 
-  return loadIndicator = {
+  return {
     get config() {
       return config;
     },

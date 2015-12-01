@@ -34,10 +34,10 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
   WorkPackagesTableService, WorkPackageService, ProjectService, QueryService,
   PaginationService, AuthorisationService, UrlParamsHelper, Query,
   OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService, EditableFieldsState,
-  loadIndicator) {
+  loadingIndicator) {
 
   $scope.projectIdentifier = $stateParams.projectPath || null;
-  $scope.loadIndicator = loadIndicator;
+  $scope.loadingIndicator = loadingIndicator;
 
   // Setup
   function initialSetup() {
@@ -77,7 +77,7 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
       }
     );
 
-    loadIndicator.on(promise);
+    loadingIndicator.on(promise);
   }
 
   function fetchWorkPackagesFromUrlParams(queryParams) {
@@ -219,7 +219,7 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
     // Clear unsaved changes to current query
     clearUrlQueryParams();
 
-    loadIndicator.on($state.go('work-packages.list', { 'query_id': queryId }));
+    loadingIndicator.on($state.go('work-packages.list', { 'query_id': queryId }));
   };
 
   function updateResults() {
@@ -280,7 +280,7 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
       'query_props': $location.search()['query_props']
     });
 
-    loadIndicator.on(promise);
+    loadingIndicator.on(promise);
   };
 
   $scope.openOverviewTab = function() {
@@ -289,7 +289,7 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
       'query_props': $location.search()['query_props']
     });
 
-    loadIndicator.on(promise);
+    loadingIndicator.on(promise);
   };
 
   $scope.closeDetailsView = function() {
@@ -305,7 +305,7 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
         'query_props': $location.search()['query_props']
       });
 
-      loadIndicator.on(promise);
+      loadingIndicator.on(promise);
     }
   };
 
