@@ -77,7 +77,7 @@ Feature: Updating work packages
   Scenario: Updating the work package and seeing the results on the show page
     When I go to the edit page of the work package called "wp1"
     And I click the edit work package button
-    And I click on "Show all"
+    And I click on "Show all attributes"
     And I fill in the following:
       | Type           | Phase2      |
     # This is to be removed once the bug
@@ -130,7 +130,7 @@ Feature: Updating work packages
       | child |
     When I go to the edit page of the work package "parent"
     And I click the edit work package button
-    And I click on "Show all"
+    And I click on "Show all attributes"
     Then the work package should be shown with the following values:
       | Priority       | prio2                   |
       | Date           | 10/01/2015 - 10/30/2015 |
