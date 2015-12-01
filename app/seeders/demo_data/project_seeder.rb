@@ -112,8 +112,8 @@ module DemoData
       version_data.each do |attributes|
         project.versions << Version.create!(
           name:    attributes[:name],
-          status:  I18n.t(attributes[:status]),
-          sharing: I18n.t(attributes[:sharing])
+          status:  attributes[:status],
+          sharing: attributes[:sharing]
         )
       end
     end
