@@ -274,6 +274,8 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
     return selected || $scope.rows.first().object.id;
   }
 
+  $scope.nextAvailableWorkPackage = nextAvailableWorkPackage;
+
   $scope.openLatestTab = function() {
     var promise = $state.go(latestTab.getStateName(), {
       workPackageId: nextAvailableWorkPackage(),
@@ -306,28 +308,6 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
       });
 
       loadingIndicator.on(promise);
-    }
-  };
-
-  $scope.showWorkPackageShowView = function() {
-    if (EditableFieldsState.editAll.state && $state.params.type) {
-      $state.go('work-packages.new', $state.params);
-
-    } else {
-      var id = $state.params.workPackageId
-          || $scope.preselectedWorkPackageId || nextAvailableWorkPackage(),
-
-      // Have to use $location.search() here as $state.params
-      // isn't filled unless the url is queried for by the
-      // browser. This seems to be caused by #maintainUrlQueryState
-      // where we set the search via $location.search.
-        queryProps = $location.search()['query_props'];
-
-      $state.go('work-packages.show.activity', {
-        projectPath: $scope.projectIdentifier || '',
-        workPackageId: id,
-        'query_props': queryProps
-      });
     }
   };
 

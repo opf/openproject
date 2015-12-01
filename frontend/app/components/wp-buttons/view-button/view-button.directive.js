@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,38 +24,46 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function($scope, $state, $stateParams, QueryService, PathHelper, $rootScope,
-    EditableFieldsState) {
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpViewButton', wpViewButton);
 
-  // Setup
-  $scope.$state = $state;
-  $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
+function wpViewButton() {
+  return {
+    restrict: 'E',
+    templateUrl: '/components/wp-buttons/view-button/view-button.directive.html',
 
-  $scope.query_id = $stateParams.query_id;
+    controller: WorkPackageViewButtonController
+  };
+}
 
-  $scope.$watch(QueryService.getAvailableGroupedQueries, function(availableQueries) {
-    if (availableQueries) {
-      $scope.groups = [{ name: I18n.t('js.label_global_queries'), models: availableQueries['queries']},
-                       { name: I18n.t('js.label_custom_queries'), models: availableQueries['user_queries']}];
+function WorkPackageViewButtonController($scope, $state, $location) {
+  $scope.isShowViewActive = function() {
+    return $state.includes('work-packages.show');
+  };
+
+  $scope.label = $scope.getActivationActionLabel(!$scope.isShowViewActive())
+      + I18n.t('js.button_show_view');
+
+  if ($scope.isShowViewActive()) {
+    $scope.accessKey = 9;
+  }
+
+  $scope.showWorkPackageShowView = function() {
+    if ($state.is('work-packages.list.new') && $state.params.type) {
+      $state.go('work-packages.new', $state.params);
+
+    } else {
+      var id = $state.params.workPackageId || $scope.preselectedWorkPackageId ||
+          $scope.nextAvailableWorkPackage(), queryProps = $location.search()['query_props'];
+
+      $state.go('work-packages.show.activity', {
+        projectPath: $scope.projectIdentifier || '',
+        workPackageId: id,
+        'query_props': queryProps
+      });
     }
-  });
-
-  $scope.isDetailsViewActive = function() {
-    return $state.includes('work-packages.list.details') || EditableFieldsState.editAll.state;
   };
-
-  $scope.isListViewActive = function() {
-    return $state.is('work-packages.list');
-  };
-
-  $scope.getToggleActionLabel = function(active) {
-    return (active) ? I18n.t('js.label_deactivate') : I18n.t('js.label_activate');
-  };
-
-  $scope.getActivationActionLabel = function(activate) {
-    return (activate) ? I18n.t('js.label_activate') + ' ' : '';
-  };
-  $rootScope.$broadcast('openproject.layout.activateMenuItem');
-};
+}
