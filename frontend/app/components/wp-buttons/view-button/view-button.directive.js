@@ -39,10 +39,17 @@ function wpViewButton() {
   };
 }
 
-function WorkPackageViewButtonController($scope, $state) {
+function WorkPackageViewButtonController($scope, $state, $location) {
   $scope.isShowViewActive = function() {
     return $state.includes('work-packages.show');
   };
+
+  $scope.label = $scope.getActivationActionLabel(!$scope.isShowViewActive())
+    + ' ' + I18n.t('js.button_show_view');
+
+  if ($scope.isShowViewActive()) {
+    $scope.accessKey = 9;
+  }
 
   $scope.showWorkPackageShowView = function() {
     if ($state.is('work-packages.list.new') && $state.params.type) {
