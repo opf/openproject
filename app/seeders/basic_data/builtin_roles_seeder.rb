@@ -41,8 +41,8 @@ module BasicData
 
     def data
       [
-        {name: 'Non member', position: 0, builtin: Role::BUILTIN_NON_MEMBER },
-        {name: 'Anonymous',  position: 1, builtin: Role::BUILTIN_ANONYMOUS  }
+        { name: I18n.t(:default_role_non_member), position: 0, builtin: Role::BUILTIN_NON_MEMBER },
+        { name: I18n.t(:default_role_anonymous),  position: 1, builtin: Role::BUILTIN_ANONYMOUS  }
       ]
     end
   end
