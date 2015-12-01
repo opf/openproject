@@ -39,7 +39,7 @@ function wpViewButton() {
   };
 }
 
-function WorkPackageViewButtonController($scope, $state, $location) {
+function WorkPackageViewButtonController($scope, $state, $location, loadingIndicator) {
   $scope.isShowViewActive = function() {
     return $state.includes('work-packages.show');
   };
@@ -52,18 +52,22 @@ function WorkPackageViewButtonController($scope, $state, $location) {
   }
 
   $scope.showWorkPackageShowView = function() {
+    var promise;
+
     if ($state.is('work-packages.list.new') && $state.params.type) {
-      $state.go('work-packages.new', $state.params);
+      promise = $state.go('work-packages.new', $state.params);
 
     } else {
       var id = $state.params.workPackageId || $scope.preselectedWorkPackageId ||
           $scope.nextAvailableWorkPackage(), queryProps = $location.search()['query_props'];
 
-      $state.go('work-packages.show.activity', {
+      promise = $state.go('work-packages.show.activity', {
         projectPath: $scope.projectIdentifier || '',
         workPackageId: id,
         'query_props': queryProps
       });
     }
+
+    loadingIndicator.on(promise);
   };
 }
