@@ -39,13 +39,13 @@ function wpViewButton() {
   };
 }
 
-function WorkPackageViewButtonController($scope, $state, EditableFieldsState) {
+function WorkPackageViewButtonController($scope, $state) {
   $scope.isShowViewActive = function() {
     return $state.includes('work-packages.show');
   };
 
   $scope.showWorkPackageShowView = function() {
-    if (EditableFieldsState.editAll.state && $state.params.type) {
+    if ($state.is('work-packages.list.new') && $state.params.type) {
       $state.go('work-packages.new', $state.params);
 
     } else {
