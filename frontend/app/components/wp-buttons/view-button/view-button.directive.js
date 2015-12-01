@@ -45,7 +45,7 @@ function WorkPackageViewButtonController($scope, $state, $location) {
   };
 
   $scope.label = $scope.getActivationActionLabel(!$scope.isShowViewActive())
-    + ' ' + I18n.t('js.button_show_view');
+      + I18n.t('js.button_show_view');
 
   if ($scope.isShowViewActive()) {
     $scope.accessKey = 9;
