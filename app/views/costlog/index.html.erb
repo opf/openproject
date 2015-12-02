@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <%= toolbar title: WorkPackage.human_attribute_name(:spent_costs) do %>
   <% if authorize_for(:costlog, :new) %>
     <%= link_to({:controller => '/costlog', :action => 'new', :work_package_id => @work_package }, class: 'button') do %>
-      <i class="button--icon icon-unit"></i> <%= l(:button_log_costs) %>
+      <i class="button--icon icon-projects"></i> <%= l(:button_log_costs) %>
     <% end %>
   <% end %>
 <% end %>
