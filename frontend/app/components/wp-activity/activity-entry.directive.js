@@ -27,19 +27,29 @@
 // ++
 
 angular
-  .module('openproject.workPackages.controllers')
-  .directive('watchersPanel', watchersPanel);
+  .module('openproject.workPackages.activities')
+  .directive('activityEntry', activityEntry);
 
-function watchersPanel()  {
+function activityEntry(PathHelper) {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-panels/watchers-panel/watchers-panel.directive.html',
+    replace: true,
+    templateUrl: '/components/wp-activity/activity-entry.directive.html',
+
     scope: {
-      workPackage: '='
+      workPackage: '=',
+      activity: '=',
+      activityNo: '=',
+      isInitial: '=',
+      inputElementId: '='
     },
 
-    bindToController: true,
-    controller: 'WatchersPanelController',
-    controllerAs: 'vm'
+    link: function(scope) {
+      var projectId = scope.workPackage.embedded.project.props.id;
+      scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
+
+      scope.activityType = scope.activity.props._type;
+      scope.activityLabel = I18n.t('js.label_activity_no', { activityNo: scope.activityNo });
+    }
   };
 }

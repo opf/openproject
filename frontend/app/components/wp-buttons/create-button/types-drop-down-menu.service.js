@@ -27,19 +27,13 @@
 // ++
 
 angular
-  .module('openproject.workPackages.controllers')
-  .directive('watchersPanel', watchersPanel);
+  .module('openproject.workPackages')
+  .factory('typesDropDownMenu', typesDropDownMenu);
 
-function watchersPanel()  {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-panels/watchers-panel/watchers-panel.directive.html',
-    scope: {
-      workPackage: '='
-    },
 
-    bindToController: true,
-    controller: 'WatchersPanelController',
-    controllerAs: 'vm'
-  };
+function typesDropDownMenu(ngContextMenu) {
+  return ngContextMenu({
+    templateUrl: '/components/wp-buttons/create-button/types-drop-down-menu.template.html',
+    container: '.wp-create-button'
+  });
 }

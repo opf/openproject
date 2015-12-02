@@ -27,19 +27,50 @@
 // ++
 
 angular
-  .module('openproject.workPackages.controllers')
-  .directive('watchersPanel', watchersPanel);
+  .module('openproject.workPackages')
+  .directive('wpCreateButton', wpCreateButton);
 
-function watchersPanel()  {
+function wpCreateButton() {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-panels/watchers-panel/watchers-panel.directive.html',
+    templateUrl: '/components/wp-buttons/create-button/create-button.directive.html',
+
     scope: {
-      workPackage: '='
+      projectIdentifier: '=',
+      stateName: '@'
     },
 
     bindToController: true,
-    controller: 'WatchersPanelController',
-    controllerAs: 'vm'
+    controllerAs: 'vm',
+    controller: WorkPackageCreateButtonController
+  }
+}
+
+function WorkPackageCreateButtonController($state, ProjectService) {
+  var vm = this,
+      inProjectContext = !!vm.projectIdentifier,
+      canCreate= false;
+
+  vm.text = I18n.t('js.toolbar.unselected_title');
+
+  vm.isDisabled = function () {
+    return !inProjectContext || !canCreate || $state.includes('**.new') || !vm.types;
   };
+
+  vm.createWorkPackage = function (type) {
+    $state.go(vm.stateName, {
+      projectPath: vm.projectIdentifier,
+      type: type
+    })
+  };
+
+  if (inProjectContext) {
+    ProjectService.fetchProjectResource(vm.projectIdentifier).then(function(project) {
+      canCreate = !!project.links.createWorkPackage;
+    });
+
+    ProjectService.getProject(vm.projectIdentifier).then(function (project) {
+      vm.types = project.embedded.types;
+    });
+  }
 }

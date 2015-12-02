@@ -27,29 +27,43 @@
 // ++
 
 angular
-  .module('openproject.workPackages.activities')
-  .directive('activityEntry', activityEntry);
+  .module('openproject.workPackages.directives')
+  .directive('wpViewButton', wpViewButton);
 
-function activityEntry(PathHelper) {
+function wpViewButton() {
   return {
     restrict: 'E',
-    replace: true,
-    templateUrl: '/components/work-packages/activity/activity-entry.directive.html',
+    templateUrl: '/components/wp-buttons/view-button/view-button.directive.html',
 
-    scope: {
-      workPackage: '=',
-      activity: '=',
-      activityNo: '=',
-      isInitial: '=',
-      inputElementId: '='
-    },
+    controller: WorkPackageViewButtonController
+  };
+}
 
-    link: function(scope) {
-      var projectId = scope.workPackage.embedded.project.props.id;
-      scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
+function WorkPackageViewButtonController($scope, $state, $location) {
+  $scope.isShowViewActive = function() {
+    return $state.includes('work-packages.show');
+  };
 
-      scope.activityType = scope.activity.props._type;
-      scope.activityLabel = I18n.t('js.label_activity_no', { activityNo: scope.activityNo });
+  $scope.label = $scope.getActivationActionLabel(!$scope.isShowViewActive())
+      + I18n.t('js.button_show_view');
+
+  if ($scope.isShowViewActive()) {
+    $scope.accessKey = 9;
+  }
+
+  $scope.showWorkPackageShowView = function() {
+    if ($state.is('work-packages.list.new') && $state.params.type) {
+      $state.go('work-packages.new', $state.params);
+
+    } else {
+      var id = $state.params.workPackageId || $scope.preselectedWorkPackageId ||
+          $scope.nextAvailableWorkPackage(), queryProps = $location.search()['query_props'];
+
+      $state.go('work-packages.show.activity', {
+        projectPath: $scope.projectIdentifier || '',
+        workPackageId: id,
+        'query_props': queryProps
+      });
     }
   };
 }

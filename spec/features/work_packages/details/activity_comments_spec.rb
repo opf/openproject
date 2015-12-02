@@ -134,7 +134,7 @@ describe 'activity comments', js: true, selenium: true do
                                         text: initial_comment)
 
           # Hover comment
-          page.find('.work-package-details-activities-activity-contents').hover
+          page.find('.user-comment > .message').hover
 
           # Quote this comment
           page.find('.comments-icons .icon-quote', visible: false).click

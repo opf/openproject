@@ -321,7 +321,9 @@ module NavigationHelpers
       project_identifier = project.identifier.gsub(' ', '%20')
       timeline = project.timelines.detect { |t| t.name == timeline_name }
 
-      timeline_id = timeline ? "/#{timeline.id}" : ''
+      timeline_id = timeline ?
+                      "/#{timeline.id}" :
+                      ''
 
       "/projects/#{project_identifier}/timelines#{timeline_id}"
 

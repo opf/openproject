@@ -60,18 +60,7 @@
             </button>
           </li>
           <li>
-            <label for="work-packages-show-view-button"
-                   ng-attr-accesskey="{{ isShowViewActive() ? undefined : '9' }}"
-                   class="hidden-for-sighted">
-              {{ getActivationActionLabel(!isShowViewActive()) + ' ' + I18n.t('js.button_show_view') }}
-            </label>
-            <button id="work-packages-show-view-button"
-                    class="button"
-                    title="{{ getActivationActionLabel(!isShowViewActive()) + ' ' + I18n.t('js.button_show_view') }}"
-                    ng-click="showWorkPackageShowView()"
-                    ng-class="{ '-active': isShowViewActive() }">
-              <i class="icon-fullscreen-view button--icon"></i>
-            </button>
+            <wp-view-button></wp-view-button>
           </li>
         </ul>
       </li>
@@ -102,8 +91,7 @@
 
 <back-url></back-url>
 
-
-<div class="work-packages--split-view" cg-busy="[settingUpPage,refreshWorkPackages]"
+<div class="work-packages--split-view" cg-busy="loadingIndicator.config"
      ng-class="{'edit-all-mode': editAll.state}">
   <div class="work-packages--list">
     <div class="work-packages--list-table-area">

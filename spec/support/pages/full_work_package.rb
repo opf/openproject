@@ -62,14 +62,18 @@ module Pages
       end
     end
 
+    def visit_tab!(tab)
+      visit path(tab)
+    end
+
     private
 
     def container
       find('.work-packages--show-view')
     end
 
-    def path
-      work_package_path(work_package.id, 'activity')
+    def path(tab='activity')
+      work_package_path(work_package.id, tab)
     end
   end
 end

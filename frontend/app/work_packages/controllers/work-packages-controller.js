@@ -50,16 +50,12 @@ module.exports = function($scope, $state, $stateParams, QueryService, PathHelper
     return $state.is('work-packages.list');
   };
 
-  $scope.isShowViewActive = function() {
-    return $state.includes('work-packages.show');
-  };
-
   $scope.getToggleActionLabel = function(active) {
     return (active) ? I18n.t('js.label_deactivate') : I18n.t('js.label_activate');
   };
 
   $scope.getActivationActionLabel = function(activate) {
-    return (activate) ? I18n.t('js.label_activate') : '';
+    return (activate) ? I18n.t('js.label_activate') + ' ' : '';
   };
   $rootScope.$broadcast('openproject.layout.activateMenuItem');
 };

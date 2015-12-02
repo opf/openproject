@@ -132,7 +132,7 @@ describe 'new work package', js: true do
 
         it do
           within '.panel-toggler' do
-            click_on 'Show all'
+            click_on 'Show all attributes'
           end
 
           ids = custom_fields.map(&:id)

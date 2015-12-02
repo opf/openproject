@@ -8,7 +8,6 @@ use File::Spec ();
 use File::Copy qw(move);
 
 use Apache2::Module;
-use Apache2::Module;
 use Apache2::Access;
 use Apache2::ServerRec qw();
 use Apache2::Response ();
