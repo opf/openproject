@@ -545,11 +545,11 @@ module ApplicationHelper
     legend = options[:legend] || ''
 
     content_tag :span do
-      concat content_tag :span, class: 'progress-bar', style: "width: #{width}" do
+      progress = content_tag :span, class: 'progress-bar', style: "width: #{width}" do
         concat content_tag(:span, '', class: 'inner-progress closed', style: "width: #{closed}%")
         concat content_tag(:span, '', class: 'inner-progress done',   style: "width: #{done}%")
       end
-      concat content_tag(:span, "#{legend}% #{l(:total_progress)}", class: 'progress-bar-legend')
+      progress + content_tag(:span, "#{legend}% #{l(:total_progress)}", class: 'progress-bar-legend')
     end
   end
 
