@@ -100,7 +100,7 @@ describe AttachmentsController, type: :controller do
     end
   end
 
-  describe '#show' do
+  describe '#download' do
     let(:file) { FileHelpers.mock_uploaded_file name: 'foobar.txt' }
     let(:work_package) { FactoryGirl.create :work_package, project: project }
     let(:uploader) { nil }
@@ -127,18 +127,22 @@ describe AttachmentsController, type: :controller do
     end
 
     before do
-      expect(Attachment).to receive(:find).with(attachment.id.to_s).and_return(attachment)
+      allow(Attachment).to receive(:find).with(attachment.id.to_s).and_return(attachment)
     end
 
     subject {
-      get :show, id: attachment.id
+      get :download, id: attachment.id
     }
 
     context 'with a local file' do
       let(:uploader) { LocalFileUploader }
       let(:url) { "http://test.host/attachments/#{attachment.id}/download/#{attachment.filename}" }
+      let(:headers) { subject.headers }
 
-      expect_it { to redirect_to(url) }
+      it 'serves the file' do
+        expect(subject.status).to eq 200
+        expect(headers['Content-Disposition']).to eq 'attachment; filename="foobar.txt"'
+      end
     end
 
     context 'with a remote file' do

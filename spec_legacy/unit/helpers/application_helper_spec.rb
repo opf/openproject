@@ -128,12 +128,12 @@ RAW
 
   it 'should attached images' do
     to_test = {
-      'Inline image: !logo.gif!' => "Inline image: <img src=\"/attachments/#{@attachment.id}/download\" title=\"This is a logo\" alt=\"This is a logo\" />",
-      'Inline image: !logo.GIF!' => "Inline image: <img src=\"/attachments/#{@attachment.id}/download\" title=\"This is a logo\" alt=\"This is a logo\" />",
+      'Inline image: !logo.gif!' => "Inline image: <img src=\"/attachments/#{@attachment.id}\" title=\"This is a logo\" alt=\"This is a logo\" />",
+      'Inline image: !logo.GIF!' => "Inline image: <img src=\"/attachments/#{@attachment.id}\" title=\"This is a logo\" alt=\"This is a logo\" />",
       'No match: !ogo.gif!' => 'No match: <img src="ogo.gif" alt="" />',
       'No match: !ogo.GIF!' => 'No match: <img src="ogo.GIF" alt="" />',
       # link image
-      '!logo.gif!:http://foo.bar/' => "<a href=\"http://foo.bar/\"><img src=\"/attachments/#{@attachment.id}/download\" title=\"This is a logo\" alt=\"This is a logo\" /></a>",
+      '!logo.gif!:http://foo.bar/' => "<a href=\"http://foo.bar/\"><img src=\"/attachments/#{@attachment.id}\" title=\"This is a logo\" alt=\"This is a logo\" /></a>",
     }
     to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text, attachments: [@attachment]) }
   end

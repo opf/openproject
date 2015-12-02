@@ -43,6 +43,10 @@ module FileUploader
     self.class.cache_dir
   end
 
+  def readable?
+    File.readable? local_file
+  end
+
   module ClassMethods
     def cache_dir
       @cache_dir ||= begin
