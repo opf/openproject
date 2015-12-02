@@ -21,10 +21,10 @@ class Widget::Controls::SaveAs < Widget::Controls
   def render
     if @subject.new_record?
       link_name = l(:button_save)
-      icon = 'icon-save1'
+      icon = 'icon-save'
     else
       link_name = l(:button_save_as)
-      icon = 'icon-save1'
+      icon = 'icon-save'
     end
     button = link_to(link_name, '#', id: 'query-icon-save-as', class: "button icon-context #{icon}")
     write(button + render_popup)
@@ -61,7 +61,7 @@ class Widget::Controls::SaveAs < Widget::Controls
     save = link_to(l(:button_save),
                    '#',
                    id: 'query-icon-save-button',
-                   class: 'button -highlight icon-context icon-save1',
+                   class: 'button -highlight icon-context icon-save',
                    :"data-target" => url_for(action: 'create', set_filter: '1'))
 
     cancel = link_to(l(:button_cancel),
