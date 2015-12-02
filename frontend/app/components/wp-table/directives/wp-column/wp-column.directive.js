@@ -62,9 +62,9 @@ function WorkPackageColumnController($scope, PathHelper, WorkPackagesHelper) {
 
     if (vm.column.custom_field) {
       return customValueAvailable();
-    } else {
-      return vm.workPackage.hasOwnProperty(vm.column.name);
     }
+
+    return vm.workPackage.hasOwnProperty(vm.column.name);
   }
 
   function customValueAvailable() {
@@ -87,19 +87,21 @@ function WorkPackageColumnController($scope, PathHelper, WorkPackagesHelper) {
   }
 
   function getFormattedColumnValue() {
-    if (vm.column.custom_field) {
-      var custom_field = vm.column.custom_field;
+    var custom_field = vm.column.custom_field;
+
+    if (custom_field) {
       return WorkPackagesHelper.getFormattedCustomValue(vm.workPackage, custom_field);
+
     } else {
       return WorkPackagesHelper.getFormattedColumnData(vm.workPackage, vm.column);
     }
   }
 
   function setDisplayText(value) {
-    if (typeof value == 'number' || value){
+    vm.displayText = vm.displayEmpty || '';
+
+    if (typeof value === 'number' || value){
       vm.displayText = value;
-    } else {
-      vm.displayText = vm.displayEmpty || '';
     }
   }
 
@@ -114,7 +116,8 @@ function WorkPackageColumnController($scope, PathHelper, WorkPackagesHelper) {
       var projectId = vm.projectIdentifier || '';
 
       vm.displayType = 'ref';
-      vm.stateRef = "work-packages.show.activity({projectPath: '" + projectId + "', workPackageId: " + id + "})";
+      vm.stateRef = "work-packages.show.activity({projectPath: '" + projectId +
+            "', workPackageId: " + id + "})";
 
     } else {
       vm.displayType = 'link';
@@ -123,20 +126,26 @@ function WorkPackageColumnController($scope, PathHelper, WorkPackagesHelper) {
   }
 
   function getLinkFor(id, linkMeta){
-    switch (linkMeta.model_type) {
-      case 'user':
+    var types = {
+      get user() {
         if (vm.workPackage[vm.column.name] && vm.workPackage[vm.column.name].type == 'Group') {
           vm.displayType = 'text';
+
           return '';
-        } else {
-          return PathHelper.staticUserPath(id);
         }
-      case 'version':
+
+        return PathHelper.staticUserPath(id);
+      },
+
+      get version() {
         return PathHelper.staticVersionPath(id);
-      case 'project':
+      },
+
+      get project() {
         return PathHelper.staticProjectPath(id);
-      default:
-        return '';
-    }
+      }
+    };
+
+    return types[linkMeta.model_type] || '';
   }
 }
