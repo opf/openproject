@@ -496,14 +496,14 @@ OpenProject::Application.routes.draw do
     post :preview, on: :collection
   end
 
-  resources :attachments, only: [:show, :destroy], format: false do
+  resources :attachments, only: [:destroy], format: false do
     member do
-      scope via: :get,  constraints: { id: /\d+/, filename: /[^\/]*/ } do
-        match 'download(/:filename)' => 'attachments#download', as: 'download'
-        match ':filename' => 'attachments#show'
+      scope via: :get, constraints: { id: /\d+/, filename: /[^\/]*/ } do
+        match '(/:filename)' => 'attachments#download', as: 'download'
       end
     end
   end
+
   # redirect for backwards compatibility
   scope constraints: { id: /\d+/, filename: /[^\/]*/ } do
     get '/attachments/download/:id/:filename' => redirect("#{rails_relative_url_root}/attachments/%{id}/download/%{filename}"), format: false

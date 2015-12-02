@@ -71,26 +71,16 @@ describe 'routing', type: :routing do
   context 'attachments' do
     it {
       is_expected.to route(:get, '/attachments/1').to(controller: 'attachments',
-                                                      action: 'show',
+                                                      action: 'download',
                                                       id: '1')
     }
     it {
       is_expected.to route(:get, '/attachments/1/filename.ext').to(controller: 'attachments',
-                                                                   action: 'show',
+                                                                   action: 'download',
                                                                    id: '1',
                                                                    filename: 'filename.ext')
     }
-    it {
-      is_expected.to route(:get, '/attachments/1/download').to(controller: 'attachments',
-                                                               action: 'download',
-                                                               id: '1')
-    }
-    it {
-      is_expected.to route(:get, '/attachments/1/download/filename.ext').to(controller: 'attachments',
-                                                                            action: 'download',
-                                                                            id: '1',
-                                                                            filename: 'filename.ext')
-    }
+
     it 'should redirect /atttachments/download/1 to /attachments/1/download' do
       get '/attachments/download/1'
       assert_redirected_to '/attachments/1/download'
