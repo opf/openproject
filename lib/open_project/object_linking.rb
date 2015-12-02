@@ -67,12 +67,11 @@ module OpenProject
     # * :download - Force download (default: false)
     def link_to_attachment(attachment, options = {})
       text = options.delete(:text) || attachment.filename
-      action = options.delete(:download) ? 'download' : 'show'
       only_path = options.delete(:only_path) { true }
 
       link_to h(text),
               { controller: '/attachments',
-                action: action,
+                action: 'download',
                 id: attachment,
                 filename: attachment.filename,
                 host: Setting.host_name,
