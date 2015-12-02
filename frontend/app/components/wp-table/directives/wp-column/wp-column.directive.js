@@ -43,31 +43,35 @@ function wpColumn(){
       displayType: '@',
       displayEmpty: '@'
     },
-    
-    controller: WorkPackageColumnController
+
+    bindToController: true,
+    controller: WorkPackageColumnController,
+    controllerAs: 'vm'
   };
 }
 
 function WorkPackageColumnController($scope, PathHelper, WorkPackagesHelper) {
-  $scope.displayType = $scope.displayType || 'text';
+  var vm = this;
+  
+  vm.displayType = vm.displayType || 'text';
 
   $scope.$watch(dataAvailable, setColumnData);
 
   function dataAvailable() {
-    if (!$scope.workPackage) return false;
+    if (!vm.workPackage) return false;
 
-    if ($scope.column.custom_field) {
+    if (vm.column.custom_field) {
       return customValueAvailable();
     } else {
-      return $scope.workPackage.hasOwnProperty($scope.column.name);
+      return vm.workPackage.hasOwnProperty(vm.column.name);
     }
   }
 
   function customValueAvailable() {
-    var customFieldId = $scope.column.custom_field.id;
+    var customFieldId = vm.column.custom_field.id;
 
-    return $scope.workPackage.custom_values &&
-      $scope.workPackage.custom_values.filter(function(customValue){
+    return vm.workPackage.custom_values &&
+      vm.workPackage.custom_values.filter(function(customValue){
         return customValue && customValue.custom_field_id === customFieldId;
       }).length;
   }
@@ -75,54 +79,54 @@ function WorkPackageColumnController($scope, PathHelper, WorkPackagesHelper) {
   function setColumnData() {
     setDisplayText(getFormattedColumnValue());
 
-    if ($scope.column.meta_data.link.display) {
-      displayDataAsLink(WorkPackagesHelper.getColumnDataId($scope.workPackage, $scope.column));
+    if (vm.column.meta_data.link.display) {
+      displayDataAsLink(WorkPackagesHelper.getColumnDataId(vm.workPackage, vm.column));
     } else {
       setCustomDisplayType();
     }
   }
 
   function getFormattedColumnValue() {
-    if ($scope.column.custom_field) {
-      var custom_field = $scope.column.custom_field;
-      return WorkPackagesHelper.getFormattedCustomValue($scope.workPackage, custom_field);
+    if (vm.column.custom_field) {
+      var custom_field = vm.column.custom_field;
+      return WorkPackagesHelper.getFormattedCustomValue(vm.workPackage, custom_field);
     } else {
-      return WorkPackagesHelper.getFormattedColumnData($scope.workPackage, $scope.column);
+      return WorkPackagesHelper.getFormattedColumnData(vm.workPackage, vm.column);
     }
   }
 
   function setDisplayText(value) {
     if (typeof value == 'number' || value){
-      $scope.displayText = value;
+      vm.displayText = value;
     } else {
-      $scope.displayText = $scope.displayEmpty || '';
+      vm.displayText = vm.displayEmpty || '';
     }
   }
 
   function setCustomDisplayType() {
-    if ($scope.column.name === 'done_ratio') $scope.displayType = 'progress_bar';
+    if (vm.column.name === 'done_ratio') vm.displayType = 'progress_bar';
   }
 
   function displayDataAsLink(id) {
-    var linkMeta = $scope.column.meta_data.link;
+    var linkMeta = vm.column.meta_data.link;
 
     if (linkMeta.model_type === 'work_package') {
-      var projectId = $scope.projectIdentifier || '';
+      var projectId = vm.projectIdentifier || '';
 
-      $scope.displayType = 'ref';
-      $scope.stateRef = "work-packages.show.activity({projectPath: '" + projectId + "', workPackageId: " + id + "})";
+      vm.displayType = 'ref';
+      vm.stateRef = "work-packages.show.activity({projectPath: '" + projectId + "', workPackageId: " + id + "})";
 
     } else {
-      $scope.displayType = 'link';
-      $scope.url = getLinkFor(id, linkMeta);
+      vm.displayType = 'link';
+      vm.url = getLinkFor(id, linkMeta);
     }
   }
 
   function getLinkFor(id, linkMeta){
     switch (linkMeta.model_type) {
       case 'user':
-        if ($scope.workPackage[$scope.column.name] && $scope.workPackage[$scope.column.name].type == 'Group') {
-          $scope.displayType = 'text';
+        if (vm.workPackage[vm.column.name] && vm.workPackage[vm.column.name].type == 'Group') {
+          vm.displayType = 'text';
           return '';
         } else {
           return PathHelper.staticUserPath(id);
