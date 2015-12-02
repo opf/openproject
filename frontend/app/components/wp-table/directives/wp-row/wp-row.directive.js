@@ -27,8 +27,8 @@
 // ++
 
 angular
-  .module('openproject.wokrPackages.directives')
-  .directives('wpRow', wpRow);
+  .module('openproject.workPackages.directives')
+  .directive('wpRow', wpRow);
 
 
 function wpRow(WorkPackagesTableService){

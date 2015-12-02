@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,15 +24,19 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function() {
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpGroupHeader', wpGroupHeader);
 
+function wpGroupHeader() {
   return {
     restrict: 'A',
-    compile: function(tElement) {
+
+    compile: function() {
       return {
-        pre: function(scope, iElement, iAttrs, controller) {
+        pre: function(scope) {
           scope.currentGroup = scope.row.groupName;
 
           pushGroup(scope.currentGroup);
@@ -50,4 +54,4 @@ module.exports = function() {
       };
     }
   };
-};
+}

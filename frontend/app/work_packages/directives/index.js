@@ -76,8 +76,6 @@ angular.module('openproject.workPackages.directives')
   ])
   .directive('workPackageDynamicAttribute', ['$compile', require(
     './work-package-dynamic-attribute-directive')])
-  .directive('workPackageGroupHeader', require(
-    './work-package-group-header-directive'))
   .directive('workPackageGroupSums', require(
     './work-package-group-sums-directive'))
   .directive('workPackageTotalSums', [
