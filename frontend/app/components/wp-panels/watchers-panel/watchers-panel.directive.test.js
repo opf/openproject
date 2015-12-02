@@ -26,45 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages')
-  .directive('wpCreateButton', wpCreateButton);
+describe('Watchers panel directive', function () {
+  var $compile, $rootScope, element;
 
-function wpCreateButton() {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/work-packages/directives/wp-create-button/' +
-      'wp-create-button.directive.html',
+  beforeEach(angular.mock.module('openproject.workPackages.controllers', function ($controllerProvider) {
+    $controllerProvider.register('WatchersPanelController', function () {});
+  }));
 
-    scope: {
-      projectIdentifier: '=',
-      stateName: '@'
-    },
+  beforeEach(angular.mock.module('openproject.templates'));
 
-    bindToController: true,
-    controllerAs: 'vm',
-    controller: WorkPackageCreateButtonController
-  }
-}
+  beforeEach(inject(function (_$compile_, _$rootScope_) {
+    $compile = _$compile_;
+    $rootScope = _$rootScope_;
 
-function WorkPackageCreateButtonController($state, ProjectService) {
+    element = $compile('<watchers-panel work-package="workPackage"></watchers-panel>')($rootScope);
+    $rootScope.$digest();
+  }));
 
-  var vm = this,
-      inProjectContext = !!vm.projectIdentifier,
-      canCreate= false;
-
-  vm.text = I18n.t('js.toolbar.unselected_title');
-  vm.isDisabled = function () {
-    return !inProjectContext || !canCreate || $state.is('work-packages.list.new') || !vm.types;
-  };
-
-  if (inProjectContext) {
-    ProjectService.fetchProjectResource(vm.projectIdentifier).then(function(project) {
-      canCreate = !!project.links.createWorkPackage;
-    });
-
-    ProjectService.getProject(vm.projectIdentifier).then(function (project) {
-      vm.types = project.embedded.types;
-    });
-  }
-}
+  it('should should be rendered correctly', function () {
+    expect(element.html()).to.contain('detail-panel-watchers');
+  });
+});

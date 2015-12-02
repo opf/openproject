@@ -27,29 +27,42 @@
 // ++
 
 angular
-  .module('openproject.workPackages.activities')
-  .directive('activityEntry', activityEntry);
+  .module('openproject.workPackages')
+  .directive('wpCreateButton', wpCreateButton);
 
-function activityEntry(PathHelper) {
+function wpCreateButton() {
   return {
     restrict: 'E',
-    replace: true,
-    templateUrl: '/components/work-packages/activity/activity-entry.directive.html',
+    templateUrl: '/components/wp-buttons/create-button/create-button.directive.html',
 
     scope: {
-      workPackage: '=',
-      activity: '=',
-      activityNo: '=',
-      isInitial: '=',
-      inputElementId: '='
+      projectIdentifier: '=',
+      stateName: '@'
     },
 
-    link: function(scope) {
-      var projectId = scope.workPackage.embedded.project.props.id;
-      scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
+    bindToController: true,
+    controllerAs: 'vm',
+    controller: WorkPackageCreateButtonController
+  }
+}
 
-      scope.activityType = scope.activity.props._type;
-      scope.activityLabel = I18n.t('js.label_activity_no', { activityNo: scope.activityNo });
-    }
+function WorkPackageCreateButtonController($state, ProjectService) {
+  var vm = this,
+      inProjectContext = !!vm.projectIdentifier,
+      canCreate= false;
+
+  vm.text = I18n.t('js.toolbar.unselected_title');
+  vm.isDisabled = function () {
+    return !inProjectContext || !canCreate || $state.is('work-packages.list.new') || !vm.types;
   };
+
+  if (inProjectContext) {
+    ProjectService.fetchProjectResource(vm.projectIdentifier).then(function(project) {
+      canCreate = !!project.links.createWorkPackage;
+    });
+
+    ProjectService.getProject(vm.projectIdentifier).then(function (project) {
+      vm.types = project.embedded.types;
+    });
+  }
 }

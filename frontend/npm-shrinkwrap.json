@@ -1219,7 +1219,82 @@
       "version": "0.5.1"
     },
     "lodash": {
-      "version": "2.4.1"
+      "version": "2.4.2"
+    },
+    "ng-annotate-loader": {
+      "version": "0.0.10",
+      "dependencies": {
+        "ng-annotate": {
+          "version": "1.0.2",
+          "dependencies": {
+            "acorn": {
+              "version": "2.1.0"
+            },
+            "alter": {
+              "version": "0.2.0"
+            },
+            "convert-source-map": {
+              "version": "1.0.0"
+            },
+            "optimist": {
+              "version": "0.6.1",
+              "dependencies": {
+                "wordwrap": {
+                  "version": "0.0.3"
+                },
+                "minimist": {
+                  "version": "0.0.10"
+                }
+              }
+            },
+            "ordered-ast-traverse": {
+              "version": "1.1.1",
+              "dependencies": {
+                "ordered-esprima-props": {
+                  "version": "1.1.0"
+                }
+              }
+            },
+            "simple-fmt": {
+              "version": "0.1.0"
+            },
+            "simple-is": {
+              "version": "0.2.0"
+            },
+            "stable": {
+              "version": "0.1.5"
+            },
+            "stringmap": {
+              "version": "0.2.2"
+            },
+            "stringset": {
+              "version": "0.2.1"
+            },
+            "tryor": {
+              "version": "0.1.2"
+            }
+          }
+        },
+        "source-map": {
+          "version": "0.4.2",
+          "dependencies": {
+            "amdefine": {
+              "version": "1.0.0"
+            }
+          }
+        },
+        "loader-utils": {
+          "version": "0.2.12",
+          "dependencies": {
+            "big.js": {
+              "version": "3.1.3"
+            },
+            "json5": {
+              "version": "0.4.0"
+            }
+          }
+        }
+      }
     },
     "ngtemplate-loader": {
       "version": "0.1.3",
@@ -1681,14 +1756,6 @@
                           "version": "2.0.1"
                         }
                       }
-                    }
-                  }
-                },
-                "fsevents": {
-                  "version": "0.3.6",
-                  "dependencies": {
-                    "nan": {
-                      "version": "1.8.4"
                     }
                   }
                 }

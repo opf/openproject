@@ -26,48 +26,37 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
+require 'spec_helper'
 
-module Pages
-  class SplitWorkPackage < Page
+describe 'Toggle watching', type: :feature, js: true do
+  let(:project) { FactoryGirl.create(:project) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_messages, :view_wiki_pages]) }
+  let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+  let(:news) { FactoryGirl.create(:news, project: project) }
+  let(:board) { FactoryGirl.create(:board, project: project) }
+  let(:message) { FactoryGirl.create(:message, board: board) }
+  let(:wiki) { project.wiki }
+  let(:wiki_page) { FactoryGirl.create(:wiki_page_with_content, wiki: wiki) }
 
-    attr_reader :work_package,
-                :project
+  before do
+    allow(User).to receive(:current).and_return user
+  end
 
-    def initialize(work_package, project = nil)
-      @work_package = work_package
-      @project = project
-    end
+  it 'can toggle watch and unwatch' do
+    # Work packages have a different toggle and are hence not considered here
+    [news_path(news),
+     project_board_path(project, board),
+     topic_path(message),
+     project_wiki_path(project, wiki_page)].each do |path|
+       visit path
 
-    def expect_subject
-      within(details_container) do
-        expect(page).to have_content(work_package.subject)
-      end
-    end
+       click_link(I18n.t('button_watch'))
 
-    def expect_current_path
-      current_path = URI.parse(current_url).path
-      expect(current_path).to eql path
-    end
+       expect(page).to have_link(I18n.t('button_unwatch'))
 
-    def visit_tab!(tab)
-      visit path(tab)
-    end
+       click_link(I18n.t('button_unwatch'))
 
-    private
-
-    def details_container
-      find('.work-packages--details')
-    end
-
-    def path(tab='overview')
-      state = "#{work_package.id}/#{tab}"
-
-      if project
-        project_work_packages_path(project, "details/#{state}")
-      else
-        details_work_packages_path(state)
-      end
-    end
+       expect(page).to have_link(I18n.t('button_watch'))
+     end
   end
 end

@@ -27,19 +27,19 @@
 // ++
 
 angular
-  .module('openproject.workPackages.controllers')
-  .directive('watchersPanel', watchersPanel);
+  .module('openproject.workPackages.services')
+  .factory('loadingIndicator', loadingIndicator);
 
-function watchersPanel()  {
+function loadingIndicator() {
+  var config = {};
+
   return {
-    restrict: 'E',
-    templateUrl: '/components/wp-panels/watchers-panel/watchers-panel.directive.html',
-    scope: {
-      workPackage: '='
+    get config() {
+      return config;
     },
 
-    bindToController: true,
-    controller: 'WatchersPanelController',
-    controllerAs: 'vm'
+    on: function (promise) {
+      config.promise = promise;
+    }
   };
 }

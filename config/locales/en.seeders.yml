@@ -39,26 +39,26 @@ en:
         description: 'This is a description for your project. You can edit the description in the Project settings -> Description'
         versions:
           - name: '1.0'
-            sharing: :label_none
-            status: :version_status_open
+            sharing: 'none'
+            status: 'open'
           - name: '1.1'
-            sharing: :label_none
-            status: :version_status_open
+            sharing: 'none'
+            status: 'open'
           - name: '2.0'
-            sharing: :label_none
-            status: :version_status_open
+            sharing: 'none'
+            status: 'open'
           - name: Product Backlog
-            sharing: :label_none
-            status: :version_status_open
+            sharing: 'none'
+            status: 'open'
           - name: Sprint 1
-            sharing: :label_none
-            status: :version_status_open
+            sharing: 'none'
+            status: 'open'
           - name: Sprint 2
-            sharing: :label_none
-            status: :version_status_open
+            sharing: 'none'
+            status: 'open'
           - name: Wish List
-            sharing: :label_none
-            status: :version_status_open
+            sharing: 'none'
+            status: 'open'
 
       timeline:
         name: Timeline

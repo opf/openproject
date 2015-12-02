@@ -31,11 +31,13 @@ angular
   .controller('WorkPackagesListController', WorkPackagesListController);
 
 function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $location, latestTab,
-  I18n, WorkPackagesTableService, WorkPackageService, ProjectService, QueryService,
+  WorkPackagesTableService, WorkPackageService, ProjectService, QueryService,
   PaginationService, AuthorisationService, UrlParamsHelper, Query,
-  OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService, EditableFieldsState) {
+  OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService, EditableFieldsState,
+  loadingIndicator) {
 
   $scope.projectIdentifier = $stateParams.projectPath || null;
+  $scope.loadingIndicator = loadingIndicator;
 
   // Setup
   function initialSetup() {
@@ -65,15 +67,17 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
       fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier);
     }
 
-    $scope.settingUpPage = fetchWorkPackages // put promise in scope for cg-busy
-      .then(function(json) {
-        return setupPage(json, !!queryParams);
-      })
-      .then(function() {
+    var promise = fetchWorkPackages.then(function(json) {
+      return setupPage(json, !!queryParams);
+
+    }).then(function() {
         fetchAvailableColumns();
         fetchProjectQueries();
         QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
-      });
+      }
+    );
+
+    loadingIndicator.on(promise);
   }
 
   function fetchWorkPackagesFromUrlParams(queryParams) {
@@ -215,8 +219,7 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
     // Clear unsaved changes to current query
     clearUrlQueryParams();
 
-    // Load new query
-    $scope.settingUpPage = $state.go('work-packages.list', { 'query_id': queryId });
+    loadingIndicator.on($state.go('work-packages.list', { 'query_id': queryId }));
   };
 
   function updateResults() {
@@ -271,22 +274,24 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
     return selected || $scope.rows.first().object.id;
   }
 
+  $scope.nextAvailableWorkPackage = nextAvailableWorkPackage;
+
   $scope.openLatestTab = function() {
-    $scope.settingUpPage = $state.go(
-      latestTab.getStateName(),
-      {
-        workPackageId: nextAvailableWorkPackage(),
-        'query_props': $location.search()['query_props']
-      });
+    var promise = $state.go(latestTab.getStateName(), {
+      workPackageId: nextAvailableWorkPackage(),
+      'query_props': $location.search()['query_props']
+    });
+
+    loadingIndicator.on(promise);
   };
 
   $scope.openOverviewTab = function() {
-    $scope.settingUpPage = $state.go(
-      'work-packages.list.details.overview',
-      {
-        workPackageId: nextAvailableWorkPackage(),
-        'query_props': $location.search()['query_props']
-      });
+    var promise = $state.go('work-packages.list.details.overview', {
+      workPackageId: nextAvailableWorkPackage(),
+      'query_props': $location.search()['query_props']
+    });
+
+    loadingIndicator.on(promise);
   };
 
   $scope.closeDetailsView = function() {
@@ -297,32 +302,12 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
 
   $scope.showWorkPackageDetails = function(id, force) {
     if (force || $state.current.url != "") {
-      $scope.settingUpPage = $state.go(
-        latestTab.getStateName(),
-        { workPackageId: id, 'query_props': $location.search()['query_props'] }
-      );
-    }
-  };
-
-  $scope.showWorkPackageShowView = function() {
-    if (EditableFieldsState.editAll.state && $state.params.type) {
-      $state.go('work-packages.new', $state.params);
-
-    } else {
-      var id = $state.params.workPackageId
-          || $scope.preselectedWorkPackageId || nextAvailableWorkPackage(),
-
-      // Have to use $location.search() here as $state.params
-      // isn't filled unless the url is queried for by the
-      // browser. This seems to be caused by #maintainUrlQueryState
-      // where we set the search via $location.search.
-        queryProps = $location.search()['query_props'];
-
-      $state.go('work-packages.show.activity', {
-        projectPath: $scope.projectIdentifier || '',
+      var promise = $state.go(latestTab.getStateName(), {
         workPackageId: id,
-        'query_props': queryProps
+        'query_props': $location.search()['query_props']
       });
+
+      loadingIndicator.on(promise);
     }
   };
 
