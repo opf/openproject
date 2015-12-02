@@ -3,5 +3,5 @@
 <% end %>
 <% if User.current.allowed_to? :export_issues, @project, :global => @project.nil? %>
   <%= link_to(l(:export_to_excel), { :controller => "cost_reports" , :action => :index,
-                :format => 'xls', :project_id => @project }, :class => "icon icon-file-excel") %>
+                :format => 'xls', :project_id => @project }, :class => "icon icon-export-xls-descr") %>
 <% end %>
