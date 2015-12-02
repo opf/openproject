@@ -81,10 +81,6 @@ class WatchersController < ApplicationController
   private
 
   def find_watched_by_object
-    # Necessary check, otherwise anything can be constantized.
-    # The search types are plural, hence the `+ s`.
-    return false unless Redmine::Search.available_search_types.include?(params[:object_type] + 's')
-
     klass = params[:object_type].singularize.camelcase.constantize
 
     return false unless klass.respond_to?('watched_by') and
