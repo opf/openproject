@@ -74,8 +74,10 @@ describe 'Activity tab', js: true, selenium: true do
       journals.each_with_index do |journal, idx|
         date_selector = ".work-package-details-activities-activity:nth-of-type(#{idx + 1}) " +
                         '.activity-date'
+        # .squish is required in order to match the date without double spaces
+        # on the first 9 days of the month
         expect(page).to have_selector(date_selector,
-                                      text: journal.created_at.to_date.to_s(:long))
+                                      text: journal.created_at.to_date.to_s(:long).squish)
 
         activity = page.find("#activity-#{idx + 1}")
         expect(activity).to have_selector('.user', text: journal.user.name)
