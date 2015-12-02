@@ -225,9 +225,11 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
   function updateResults() {
     $scope.$broadcast('openproject.workPackages.updateResults');
 
-    WorkPackageService.getWorkPackages($scope.projectIdentifier,
+    var promise = WorkPackageService.getWorkPackages($scope.projectIdentifier,
       $scope.query, PaginationService.getPaginationOptions())
       .then(setupWorkPackagesTable);
+
+    loadingIndicator.on(promise);
   }
 
   // More
