@@ -69,7 +69,7 @@
             </div>
 
             <div>
-              <span work-package-column
+              <span wp-column
                     work-package="row.object"
                     column="groupByColumn"
                     display-type="{{ groupByColumn.name }}"
@@ -114,7 +114,7 @@
           </td>
 
           <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || I18n.locale}}" ng-class="column.name == 'id' && '-short'">
-            <span work-package-column
+            <span wp-column
                   work-package="row.object"
                   column="column"
                   display-type="{{column.meta_data.data_type}}"
@@ -141,7 +141,7 @@
             ]">
             <td colspan="{{1  - (!!hideWorkPackageDetails * 1)}}">
               {{ I18n.t('js.label_sum_for') }}
-              <span work-package-column
+              <span wp-column
                     work-package="row.object"
                     column="groupByColumn"
                     display-empty="-"/>

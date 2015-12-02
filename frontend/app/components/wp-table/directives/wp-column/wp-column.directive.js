@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,13 +24,18 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-// TODO move to UI components
-module.exports = function(PathHelper, WorkPackagesHelper, UserService){
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpColumn', wpColumn);
+
+function wpColumn(PathHelper, WorkPackagesHelper){
   return {
     restrict: 'EA',
+    templateUrl: '/templates/work_packages/work_package_column.html',
     replace: true,
+
     scope: {
       workPackage: '=',
       projectIdentifier: '=',
@@ -38,14 +43,11 @@ module.exports = function(PathHelper, WorkPackagesHelper, UserService){
       displayType: '@',
       displayEmpty: '@'
     },
-    templateUrl: '/templates/work_packages/work_package_column.html',
-    link: function(scope, element, attributes) {
+
+    link: function(scope) {
       scope.displayType = scope.displayType || 'text';
 
-      // Set text to be displayed
       scope.$watch(dataAvailable, setColumnData);
-
-      // Check if the data is available on the work package
 
       function dataAvailable() {
         if (!scope.workPackage) return false;
@@ -147,4 +149,4 @@ module.exports = function(PathHelper, WorkPackagesHelper, UserService){
 
     }
   };
-};
+}

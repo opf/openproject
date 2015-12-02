@@ -54,10 +54,6 @@ angular.module('openproject.workPackages.directives')
   .directive('sortHeader', [
     'I18n', require('./sort-header-directive')
   ])
-  .directive('workPackageColumn', ['PathHelper', 'WorkPackagesHelper',
-    'UserService',
-    require('./work-package-column-directive')
-  ])
   .constant('PERMITTED_MORE_MENU_ACTIONS', [
     'log_time',
     'move',
