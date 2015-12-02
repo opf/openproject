@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,17 +24,23 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function(I18n, PaginationService) {
+angular
+  .module('openproject.workPackages.directives')
+  .directive('tablePagination', tablePagination);
+
+function tablePagination(PaginationService) {
   return {
     restrict: 'EA',
-    templateUrl: '/templates/components/table_pagination.html',
+    templateUrl: '/components/wp-table/directives/table-pagination/table-pagination.directive.html',
+
     scope: {
       totalEntries: '=',
       updateResults: '&'
     },
-    link: function(scope, element, attributes) {
+
+    link: function(scope) {
       scope.I18n = I18n;
       scope.paginationOptions = PaginationService.getPaginationOptions();
 
@@ -108,4 +114,4 @@ module.exports = function(I18n, PaginationService) {
 
     }
   };
-};
+}
