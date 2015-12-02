@@ -100,7 +100,7 @@ describe UserMailer, type: :mailer do
       end
       # link to an attachment
       assert_select 'a[href=?]',
-                    "https://mydomain.foo/attachments/#{attachment.id}/download",
+                    "https://mydomain.foo/attachments/#{attachment.id}/#{attachment.filename}",
                     text: "#{attachment.filename}"
     end
   end
@@ -143,7 +143,7 @@ describe UserMailer, type: :mailer do
       end
       # link to an attachment
       assert_select 'a[href=?]',
-                    "http://mydomain.foo/rdm/attachments/#{attachment.id}/download",
+                    "http://mydomain.foo/rdm/attachments/#{attachment.id}/#{attachment.filename}",
                     text: "#{attachment.filename}"
     end
   end
@@ -190,7 +190,7 @@ describe UserMailer, type: :mailer do
         end
         # link to an attachment
         assert_select 'a[href=?]',
-                      "http://mydomain.foo/rdm/attachments/#{attachment.id}/download",
+                      "http://mydomain.foo/rdm/attachments/#{attachment.id}/#{attachment.filename}",
                       text: "#{attachment.filename}"
       end
     ensure
