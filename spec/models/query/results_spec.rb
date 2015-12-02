@@ -178,5 +178,21 @@ describe ::Query::Results, type: :model do
         end
       end
     end
+
+    context 'when grouping by responsible' do
+      before do
+        allow(User).to receive(:current).and_return(user_1)
+
+        wp_p1[0].update_attribute(:responsible, user_1)
+        wp_p1[1].update_attribute(:responsible, user_2)
+
+        query.project = project_1
+        query.group_by = 'responsible'
+      end
+
+      it 'outputs the work package count in the schema { <User> => count }' do
+        expect(query_results.work_package_count_by_group).to eql(user_1 => 1, user_2 => 1, nil => 1)
+      end
+    end
   end
 end
