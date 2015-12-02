@@ -451,6 +451,15 @@ class WorkPackage < ActiveRecord::Base
     type && type.is_milestone?
   end
 
+  # Overwriting awesome nested set here as it considers unpersisted work
+  # packages to not be leaves.
+  # https://github.com/collectiveidea/awesome_nested_set/blob/master/lib/awesome_nested_set/model.rb#L135
+  # The OP workflow however requires to first create a WP before children can
+  # be assigned to it. Unpersisted WPs are hence always leaves.
+  def leaf?
+    new_record? || super
+  end
+
   # Returns an array of status that user is able to apply
   def new_statuses_allowed_to(user, include_default = false)
     return [] if status.nil?

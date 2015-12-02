@@ -68,12 +68,22 @@ describe WorkPackage, type: :model do
     end
   end
 
+  describe 'instantiating a new instance' do
+    it 'is considered a leaf' do
+      expect(instance).to be_leaf
+    end
+  end
+
   describe 'creating a new instance without a parent' do
     before do
       instance.save!
     end
 
     it_should_behave_like 'root'
+
+    it 'is considered a leaf' do
+      expect(instance).to be_leaf
+    end
   end
 
   describe 'creating a new instance with a parent' do
@@ -85,6 +95,14 @@ describe WorkPackage, type: :model do
     end
 
     it_should_behave_like 'first child'
+
+    it 'is considered a leaf' do
+      expect(instance).to be_leaf
+    end
+
+    it 'the parent is not considered a leaf' do
+      expect(parent.reload).to_not be_leaf
+    end
   end
 
   describe 'an existant instance receives a parent' do
