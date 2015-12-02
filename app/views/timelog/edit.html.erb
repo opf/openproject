@@ -40,12 +40,12 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 
   <div class="form--field -required">
-    <%= f.text_field :spent_on, size: 10 %>
+    <%= f.text_field :spent_on, size: 10, required: true %>
     <%= calendar_for('time_entry_spent_on') %>
   </div>
 
   <div class="form--field -required">
-    <%= f.text_field :hours, size: 6 %>
+    <%= f.text_field :hours, size: 6, required: true %>
   </div>
 
   <div class="form--field">
@@ -54,7 +54,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div class="form--field -required">
     <%= f.select :activity_id,
-                 activity_collection_for_select_options(@time_entry) %>
+                 activity_collection_for_select_options(@time_entry),
+                 required: true %>
   </div>
 
   <%= render partial: "customizable/form",
