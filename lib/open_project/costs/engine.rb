@@ -18,6 +18,7 @@
 #++
 
 require 'open_project/plugins'
+require 'open_project/costs/version'
 
 module OpenProject::Costs
   class Engine < ::Rails::Engine
@@ -27,7 +28,7 @@ module OpenProject::Costs
 
     register 'openproject-costs',
              author_url: 'http://finn.de',
-             requires_openproject: '>= 4.0.0',
+             requires_openproject: "= #{OpenProject::Costs::VERSION}",
              settings: {
                default: { 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' },
                partial: 'settings/openproject_costs'
