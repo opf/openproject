@@ -58,7 +58,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         <%= f.select :cost_type_id, cost_types_collection_for_select_options, :required => true %></p>
       </div>
       <div class="form--field">
-        <%= f.label :units %>
+        <%= f.label :units, class: "form--label -required" %>
         <% suffix = @cost_entry.cost_type.nil? ? '' : (@cost_entry.units == 1 ? @cost_entry.cost_type.unit : @cost_entry.cost_type.unit_plural) %>
         <span class="form--field-container">
           <%= f.text_field :units, size: 6, required: true, no_label: true %>

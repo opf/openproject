@@ -18,6 +18,7 @@
 #++
 
 require 'open_project/plugins'
+require 'open_project/costs/version'
 
 module OpenProject::Costs
   class Engine < ::Rails::Engine
@@ -27,7 +28,7 @@ module OpenProject::Costs
 
     register 'openproject-costs',
              author_url: 'http://finn.de',
-             requires_openproject: '>= 4.0.0',
+             requires_openproject: "= #{OpenProject::Costs::VERSION}",
              settings: {
                default: { 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' },
                partial: 'settings/openproject_costs'
@@ -216,7 +217,8 @@ module OpenProject::Costs
                current_user_allowed_to(:view_time_entries, context: represented.project) ||
                  (current_user_allowed_to(:view_own_time_entries, context: represented.project) &&
                      represented.project.costs_enabled?)
-             }
+             },
+             required: false
 
       # N.B. in the long term we should have a type like "Currency", but that requires a proper
       # format and not a string like "10 EUR"
