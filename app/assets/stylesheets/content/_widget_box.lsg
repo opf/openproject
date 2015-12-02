@@ -5,7 +5,7 @@
   <section class="widget-boxes">
     <div class="widget-box">
       <h3 class="widget-box--header">
-        <span class="icon-context icon-home1"></span>
+        <span class="icon-context icon-home"></span>
         <span class="widget-box--header-title">Widget Box</span>
       </h3>
       <p class="widget-box--additional-info">This widget box can be used to display content belonging to one subject.</p>
@@ -21,7 +21,7 @@
 
     <div class="widget-box">
       <h3 class="widget-box--header">
-        <span class="icon-context icon-home2"></span>
+        <span class="icon-context icon-home"></span>
         <span class="widget-box--header-title">Widget Box 2</span>
       </h3>
       <ul class="widget-box--enumeration">

@@ -191,7 +191,7 @@
             </option>
           </select>
           <a href="" class="form-label no-decoration-on-hover -transparent" tabindex="0">
-            <span class="icon-context icon-button icon-minus2 icon4" title="Disable multiselect" icon-name="minus2" icon-title="Disable multiselect" ng-if="isMultiselect" css-class="icon4">
+            <span class="icon-context icon-button icon-minus1 icon4" title="Disable multiselect" icon-name="minus2" icon-title="Disable multiselect" ng-if="isMultiselect" css-class="icon4">
               <span class="hidden-for-sighted ng-binding">Disable multiselect</span>
             </span>
           </a>
