@@ -27,5 +27,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <%= render :partial => 'form', :locals => { :f => f , :role => @role, :member_permissions => (@role.is_a?(GlobalRole) ? nil : @permissions),
 :global_permissions => (@role.is_a?(GlobalRole) ? @permissions : nil)} %>
 <br/>
-<%= styled_button_tag l(:button_save), class: '-with-icon icon-yes' %>
+<%= styled_button_tag l(:button_save), class: '-with-icon icon-checkmark' %>
 <% end %>
