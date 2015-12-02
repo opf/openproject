@@ -80,8 +80,6 @@ angular.module('openproject.workPackages.directives')
     './work-package-group-header-directive'))
   .directive('workPackageGroupSums', require(
     './work-package-group-sums-directive'))
-  .directive('workPackageRow', ['I18n', 'WorkPackagesTableService', require(
-    './work-package-row-directive')])
   .directive('workPackageTotalSums', [
     'WorkPackageService',
     require('./work-package-total-sums-directive')
