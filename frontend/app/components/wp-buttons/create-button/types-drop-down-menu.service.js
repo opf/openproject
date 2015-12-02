@@ -28,49 +28,12 @@
 
 angular
   .module('openproject.workPackages')
-  .directive('wpCreateButton', wpCreateButton);
+  .factory('typesDropDownMenu', typesDropDownMenu);
 
-function wpCreateButton() {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-buttons/create-button/create-button.directive.html',
 
-    scope: {
-      projectIdentifier: '=',
-      stateName: '@'
-    },
-
-    bindToController: true,
-    controllerAs: 'vm',
-    controller: WorkPackageCreateButtonController
-  }
-}
-
-function WorkPackageCreateButtonController($state, ProjectService) {
-  var vm = this,
-      inProjectContext = !!vm.projectIdentifier,
-      canCreate= false;
-
-  vm.text = I18n.t('js.toolbar.unselected_title');
-
-  vm.isDisabled = function () {
-    return !inProjectContext || !canCreate || $state.includes('**.new') || !vm.types;
-  };
-
-  vm.createWorkPackage = function (type) {
-    $state.go(vm.stateName, {
-      projectPath: vm.projectIdentifier,
-      type: type
-    })
-  };
-
-  if (inProjectContext) {
-    ProjectService.fetchProjectResource(vm.projectIdentifier).then(function(project) {
-      canCreate = !!project.links.createWorkPackage;
-    });
-
-    ProjectService.getProject(vm.projectIdentifier).then(function (project) {
-      vm.types = project.embedded.types;
-    });
-  }
+function typesDropDownMenu(ngContextMenu) {
+  return ngContextMenu({
+    templateUrl: '/components/wp-buttons/create-button/types-drop-down-menu.template.html',
+    container: '.wp-create-button'
+  });
 }
