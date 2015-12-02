@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,14 +24,28 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function(WorkPackageService) {
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpTotalSums', wpTotalSums);
 
+function wpTotalSums(WorkPackageService) {
   return {
     restrict: 'A',
     scope: true,
+
     link: function(scope) {
+      if (!totalSumsFetched()) fetchTotalSums();
+
+      scope.$watch(columnNames, function(columnNames, formerNames) {
+        if (!angular.equals(columnNames, formerNames) && !totalSumsFetched()) {
+          fetchTotalSums();
+          scope.$emit('queryStateChange');
+        }
+      }, true);
+
+
       function fetchTotalSums() {
         scope.fetchTotalSums = WorkPackageService.getWorkPackagesSums(scope.projectIdentifier, scope.query, scope.columns)
           .then(function(data){
@@ -49,20 +63,11 @@ module.exports = function(WorkPackageService) {
         });
       }
 
-      if (!totalSumsFetched()) fetchTotalSums();
-
       function columnNames() {
         return scope.columns.map(function(column) {
           return column.name;
         });
       }
-
-      scope.$watch(columnNames, function(columnNames, formerNames) {
-        if (!angular.equals(columnNames, formerNames) && !totalSumsFetched()) {
-          fetchTotalSums();
-          scope.$emit('queryStateChange');
-        }
-      }, true);
     }
   };
-};
+}

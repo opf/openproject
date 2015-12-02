@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,16 +24,14 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
-
-/*jshint expr: true*/
+// ++
 
 describe('workPackageColumn Directive', function() {
     var compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
-    beforeEach(module('openproject.templates', 'openproject.api', 'openproject.services'));
-    beforeEach(module('openproject.templates', function($provide) {
+    beforeEach(angular.mock.module('openproject.templates', 'openproject.api', 'openproject.services'));
+    beforeEach(angular.mock.module('openproject.templates', function($provide) {
       var configurationService = {};
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -42,7 +40,7 @@ describe('workPackageColumn Directive', function() {
     }));
     beforeEach(inject(function($rootScope, $compile) {
       var html;
-      html = '<span work-package-column work-package="workPackage" column="column" display-type="displayType" display-empty="-"></span>';
+      html = '<span wp-column work-package="workPackage" column="column" display-type="displayType" display-empty="-"></span>';
 
       element = angular.element(html);
       rootScope = $rootScope;

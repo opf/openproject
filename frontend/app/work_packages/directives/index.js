@@ -54,10 +54,6 @@ angular.module('openproject.workPackages.directives')
   .directive('sortHeader', [
     'I18n', require('./sort-header-directive')
   ])
-  .directive('workPackageColumn', ['PathHelper', 'WorkPackagesHelper',
-    'UserService',
-    require('./work-package-column-directive')
-  ])
   .constant('PERMITTED_MORE_MENU_ACTIONS', [
     'log_time',
     'move',
@@ -76,16 +72,6 @@ angular.module('openproject.workPackages.directives')
   ])
   .directive('workPackageDynamicAttribute', ['$compile', require(
     './work-package-dynamic-attribute-directive')])
-  .directive('workPackageGroupHeader', require(
-    './work-package-group-header-directive'))
-  .directive('workPackageGroupSums', require(
-    './work-package-group-sums-directive'))
-  .directive('workPackageRow', ['I18n', 'WorkPackagesTableService', require(
-    './work-package-row-directive')])
-  .directive('workPackageTotalSums', [
-    'WorkPackageService',
-    require('./work-package-total-sums-directive')
-  ])
   .directive('workPackageAttachments', [
     'WorkPackageAttachmentsService',
     'NotificationsService',

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,10 +24,14 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function(I18n, WorkPackagesTableService){
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpRow', wpRow);
 
+
+function wpRow(WorkPackagesTableService){
   function setCheckboxTitle(scope) {
     var checkboxTitleLocale = I18n.t('js.description_select_work_package');
     scope.checkboxTitle = checkboxTitleLocale + '#' + scope.workPackage.id;
@@ -40,9 +44,11 @@ module.exports = function(I18n, WorkPackagesTableService){
 
   return {
     restrict: 'A',
+
     link: function(scope) {
       scope.workPackage = scope.row.object;
       setCheckboxTitle(scope);
+
       if (scope.row.parent) setHiddenWorkPackageLabel(scope);
 
       scope.$watch('row.checked', function(checked, formerState) {
@@ -52,4 +58,4 @@ module.exports = function(I18n, WorkPackagesTableService){
       });
     }
   };
-};
+}

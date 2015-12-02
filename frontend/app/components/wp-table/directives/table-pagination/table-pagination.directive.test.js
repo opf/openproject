@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,24 +24,23 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
-
-/*jshint expr: true*/
+// ++
 
 describe('tablePagination Directive', function () {
   var compile, element, rootScope, scope;
 
-  beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.services'));
-  beforeEach(module('openproject.templates'));
+  beforeEach(angular.mock.module('openproject.workPackages.directives', 'openproject.services'));
+  beforeEach(angular.mock.module('openproject.templates'));
 
-  beforeEach(inject(function ($rootScope, $compile, _I18n_) {
-    var html, I18n, t;
-    html = '<table-pagination total-entries="tableEntries" icon-name="totalResults" update-results="noteUpdateResultsCalled()"></table-pagination>';
+  beforeEach(inject(function ($rootScope, $compile) {
+    var html;
+
+    html = '<table-pagination total-entries="tableEntries" icon-name="totalResults"' +
+      ' update-results="noteUpdateResultsCalled()"></table-pagination>';
 
     element = angular.element(html);
     rootScope = $rootScope;
     scope = $rootScope.$new();
-    I18n = _I18n_;
 
     scope.noteUpdateResultsCalled = function() {
       scope.updateResultsCalled = true;

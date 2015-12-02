@@ -30,11 +30,11 @@ angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
 
-function wpTable(I18n, WorkPackagesTableService, $window, featureFlags, PathHelper){
+function wpTable(WorkPackagesTableService, $window, featureFlags, PathHelper){
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/components/work-packages/directives/wp-table/wp-table.directive.html',
+    templateUrl: '/components/wp-table/directives/wp-table/wp-table.directive.html',
     scope: {
       projectIdentifier: '=',
       columns: '=',
