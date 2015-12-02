@@ -38,9 +38,11 @@ describe('workPackageColumn Directive', function() {
 
       $provide.constant('ConfigurationService', configurationService);
     }));
+
     beforeEach(inject(function($rootScope, $compile) {
       var html;
-      html = '<span wp-column work-package="workPackage" column="column" display-type="displayType" display-empty="-"></span>';
+      html = '<wp-column work-package="workPackage" column="column" display-type="displayType"' +
+            'display-empty="-"></wp-column>';
 
       element = angular.element(html);
       rootScope = $rootScope;

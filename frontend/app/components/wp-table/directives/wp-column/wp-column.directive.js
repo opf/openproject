@@ -32,8 +32,8 @@ angular
 
 function wpColumn(PathHelper, WorkPackagesHelper){
   return {
-    restrict: 'EA',
-    templateUrl: '/components/wp-table/wp-column/wp-column.directive.html',
+    restrict: 'E',
+    templateUrl: '/components/wp-table/directives/wp-column/wp-column.directive.html',
     replace: true,
 
     scope: {
