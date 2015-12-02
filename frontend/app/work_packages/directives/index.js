@@ -76,10 +76,6 @@ angular.module('openproject.workPackages.directives')
   ])
   .directive('workPackageDynamicAttribute', ['$compile', require(
     './work-package-dynamic-attribute-directive')])
-  .directive('workPackageTotalSums', [
-    'WorkPackageService',
-    require('./work-package-total-sums-directive')
-  ])
   .directive('workPackageAttachments', [
     'WorkPackageAttachmentsService',
     'NotificationsService',
