@@ -25,6 +25,6 @@
 
 module OpenProject
   module PdfExport
-    VERSION = "5.0.5"
+    VERSION = "5.0.6"
   end
 end
