@@ -40,7 +40,8 @@ function WorkPackageNewController($scope,
                                   WorkPackageService,
                                   EditableFieldsState,
                                   WorkPackagesDisplayHelper,
-                                  NotificationsService) {
+                                  NotificationsService,
+                                  loadingIndicator) {
 
   var vm = this;
 
@@ -122,6 +123,8 @@ function WorkPackageNewController($scope,
         });
       });
     });
+
+    loadingIndicator.on(vm.loaderPromise);
 
     $scope.$on('workPackageUpdatedInEditor', function(e, workPackage) {
       $state.go(vm.successState, { workPackageId: workPackage.props.id });
