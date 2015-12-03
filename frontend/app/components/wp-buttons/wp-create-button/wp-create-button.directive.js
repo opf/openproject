@@ -33,7 +33,7 @@ angular
 function wpCreateButton() {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-buttons/create-button/create-button.directive.html',
+    templateUrl: '/components/wp-buttons/wp-create-button/wp-create-button.directive.html',
 
     scope: {
       projectIdentifier: '=',
