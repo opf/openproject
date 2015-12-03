@@ -33,7 +33,7 @@ angular
 function wpViewButton() {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-buttons/view-button/view-button.directive.html',
+    templateUrl: '/components/wp-buttons/wp-view-button/wp-view-button.directive.html',
 
     controller: WorkPackageViewButtonController
   };

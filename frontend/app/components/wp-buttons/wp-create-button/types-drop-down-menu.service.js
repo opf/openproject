@@ -33,7 +33,7 @@ angular
 
 function typesDropDownMenu(ngContextMenu) {
   return ngContextMenu({
-    templateUrl: '/components/wp-buttons/create-button/types-drop-down-menu.template.html',
+    templateUrl: '/components/wp-buttons/wp-create-button/types-drop-down-menu.template.html',
     container: '.wp-create-button'
   });
 }
