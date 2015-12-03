@@ -19,6 +19,10 @@
 
 module OpenProject
   module Costs
+<<<<<<< HEAD
     VERSION = "5.1.0"
+=======
+    VERSION = "5.0.6"
+>>>>>>> release/5.0
   end
 end
