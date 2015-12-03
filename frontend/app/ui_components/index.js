@@ -111,4 +111,7 @@ angular.module('openproject.uiComponents')
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))
   .directive('highlightCol', [require('./highlight-col-directive')])
   .directive('confirmPopup', ['$window', require('./confirm-popup-directive')])
-  .directive('clickOnKeypress', [require('./click-on-keypress-directive')]);
+  .directive('clickOnKeypress', [require('./click-on-keypress-directive')])
+  .directive('floatValue', ['$filter', require('./float-directive')])
+  .filter('external2internalFloat', ['$locale', require('./external-2-internal-float-filter')])
+  .filter('internal2externalFloat', ['$locale', require('./internal-2-external-float-filter')]);

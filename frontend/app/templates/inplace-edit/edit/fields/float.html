@@ -7,10 +7,10 @@
   <input class="focus-input inplace-edit--text-field"
          id="inplace-edit--write-value--{{::field.name}}"
          name="value"
-         type="number"
-         step="0.01"
+         type="text"
          ng-disabled="fieldController.state.isBusy"
          ng-required="fieldController.isRequired"
          title="{{ fieldController.editTitle }}"
-         ng-model="field.value" />
+         ng-model="field.value"
+         float-value />
 </div>
