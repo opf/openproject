@@ -30,10 +30,10 @@ angular
   .module('openproject.workPackages.directives')
   .directive('wpColumn', wpColumn);
 
-function wpColumn(PathHelper, WorkPackagesHelper){
+function wpColumn(){
   return {
-    restrict: 'EA',
-    templateUrl: '/templates/work_packages/work_package_column.html',
+    restrict: 'E',
+    templateUrl: '/components/wp-table/directives/wp-column/wp-column.directive.html',
     replace: true,
 
     scope: {
@@ -44,109 +44,108 @@ function wpColumn(PathHelper, WorkPackagesHelper){
       displayEmpty: '@'
     },
 
-    link: function(scope) {
-      scope.displayType = scope.displayType || 'text';
-
-      scope.$watch(dataAvailable, setColumnData);
-
-      function dataAvailable() {
-        if (!scope.workPackage) return false;
-
-        if (scope.column.custom_field) {
-          return customValueAvailable();
-        } else {
-          return scope.workPackage.hasOwnProperty(scope.column.name);
-        }
-      }
-
-      function customValueAvailable() {
-        var customFieldId = scope.column.custom_field.id;
-
-        return scope.workPackage.custom_values &&
-          scope.workPackage.custom_values.filter(function(customValue){
-            return customValue && customValue.custom_field_id === customFieldId;
-          }).length;
-      }
-
-      // Write column data to the scope
-
-      function setColumnData() {
-        setDisplayText(getFormattedColumnValue());
-
-        if (scope.column.meta_data.link.display) {
-          displayDataAsLink(WorkPackagesHelper.getColumnDataId(scope.workPackage, scope.column));
-        } else {
-          setCustomDisplayType();
-        }
-      }
-
-      function getFormattedColumnValue() {
-        // retrieve column value from work package
-        if (scope.column.custom_field) {
-          var custom_field = scope.column.custom_field;
-          return WorkPackagesHelper.getFormattedCustomValue(scope.workPackage, custom_field);
-        } else {
-          return WorkPackagesHelper.getFormattedColumnData(scope.workPackage, scope.column);
-        }
-      }
-
-      /**
-       * @name setDisplayText
-       * @function
-       *
-       * @description
-       * Sets scope.displayText to the passed value or applies a default
-       *
-       * @param {String|Number} value The value for scope.displayText
-       *
-       * @returns null
-       */
-      function setDisplayText(value) {
-        if (typeof value == 'number' || value){
-          scope.displayText = value;
-        } else {
-          scope.displayText = scope.displayEmpty || '';
-        }
-      }
-
-      function setCustomDisplayType() {
-        if (scope.column.name === 'done_ratio') scope.displayType = 'progress_bar';
-        // ...
-      }
-
-      function displayDataAsLink(id) {
-        // Example of how we can look to the provided meta data to format the column
-        // This relies on the meta being sent from the server
-        var linkMeta = scope.column.meta_data.link;
-        if (linkMeta.model_type === 'work_package') {
-          var projectId = scope.projectIdentifier || '';
-          scope.displayType = 'ref';
-          scope.stateRef = "work-packages.show.activity({projectPath: '" + projectId + "', workPackageId: " + id + "})";
-        } else {
-          scope.displayType = 'link';
-          scope.url = getLinkFor(id, linkMeta);
-        }
-      }
-
-      function getLinkFor(id, linkMeta){
-        switch (linkMeta.model_type) {
-          case 'user':
-            if (scope.workPackage[scope.column.name] && scope.workPackage[scope.column.name].type == 'Group') {
-              // if it's a group, we have nothing to link to
-              scope.displayType = 'text';
-              return '';
-            } else {
-              return PathHelper.staticUserPath(id);
-            }
-          case 'version':
-            return PathHelper.staticVersionPath(id);
-          case 'project':
-            return PathHelper.staticProjectPath(id);
-          default:
-            return '';
-        }
-      }
-
-    }
+    bindToController: true,
+    controller: WorkPackageColumnController,
+    controllerAs: 'vm'
   };
+}
+
+function WorkPackageColumnController($scope, PathHelper, WorkPackagesHelper) {
+  var vm = this;
+  
+  vm.displayType = vm.displayType || 'text';
+
+  $scope.$watch(dataAvailable, setColumnData);
+
+  function dataAvailable() {
+    if (!vm.workPackage) return false;
+
+    if (vm.column.custom_field) {
+      return customValueAvailable();
+    }
+
+    return vm.workPackage.hasOwnProperty(vm.column.name);
+  }
+
+  function customValueAvailable() {
+    var customFieldId = vm.column.custom_field.id;
+
+    return vm.workPackage.custom_values &&
+      vm.workPackage.custom_values.filter(function(customValue){
+        return customValue && customValue.custom_field_id === customFieldId;
+      }).length;
+  }
+
+  function setColumnData() {
+    setDisplayText(getFormattedColumnValue());
+
+    if (vm.column.meta_data.link.display) {
+      displayDataAsLink(WorkPackagesHelper.getColumnDataId(vm.workPackage, vm.column));
+    } else {
+      setCustomDisplayType();
+    }
+  }
+
+  function getFormattedColumnValue() {
+    var custom_field = vm.column.custom_field;
+
+    if (custom_field) {
+      return WorkPackagesHelper.getFormattedCustomValue(vm.workPackage, custom_field);
+
+    } else {
+      return WorkPackagesHelper.getFormattedColumnData(vm.workPackage, vm.column);
+    }
+  }
+
+  function setDisplayText(value) {
+    vm.displayText = vm.displayEmpty || '';
+
+    if (typeof value === 'number' || value){
+      vm.displayText = value;
+    }
+  }
+
+  function setCustomDisplayType() {
+    if (vm.column.name === 'done_ratio') vm.displayType = 'progress_bar';
+  }
+
+  function displayDataAsLink(id) {
+    var linkMeta = vm.column.meta_data.link;
+
+    if (linkMeta.model_type === 'work_package') {
+      var projectId = vm.projectIdentifier || '';
+
+      vm.displayType = 'ref';
+      vm.stateRef = "work-packages.show.activity({projectPath: '" + projectId +
+            "', workPackageId: " + id + "})";
+
+    } else {
+      vm.displayType = 'link';
+      vm.url = getLinkFor(id, linkMeta);
+    }
+  }
+
+  function getLinkFor(id, linkMeta){
+    var types = {
+      get user() {
+        if (vm.workPackage[vm.column.name] && vm.workPackage[vm.column.name].type == 'Group') {
+          vm.displayType = 'text';
+
+          return '';
+        }
+
+        return PathHelper.staticUserPath(id);
+      },
+
+      get version() {
+        return PathHelper.staticVersionPath(id);
+      },
+
+      get project() {
+        return PathHelper.staticProjectPath(id);
+      }
+    };
+
+    return types[linkMeta.model_type] || '';
+  }
 }

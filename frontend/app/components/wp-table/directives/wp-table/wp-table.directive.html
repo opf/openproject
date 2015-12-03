@@ -69,12 +69,11 @@
             </div>
 
             <div>
-              <span wp-column
-                    work-package="row.object"
-                    column="groupByColumn"
-                    display-type="{{ groupByColumn.name }}"
-                    display-empty="-">
-              </span>
+              <wp-column work-package="row.object"
+                         column="groupByColumn"
+                         display-type="{{ groupByColumn.name }}"
+                         display-empty="-">
+              </wp-column>
 
               <span class="count">
                 ({{ countByGroup[row.groupName] }})
@@ -114,12 +113,12 @@
           </td>
 
           <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || I18n.locale}}" ng-class="column.name == 'id' && '-short'">
-            <span wp-column
-                  work-package="row.object"
-                  column="column"
-                  display-type="{{column.meta_data.data_type}}"
-                  project-identifier="projectIdentifier"
-                  ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']"/>
+            <wp-column work-package="row.object"
+                       column="column"
+                       display-type="{{column.meta_data.data_type}}"
+                       project-identifier="projectIdentifier"
+                       ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']">
+            </wp-column>
           </td>
         </tr>
 
@@ -141,10 +140,10 @@
             ]">
             <td colspan="{{1  - (!!hideWorkPackageDetails * 1)}}">
               {{ I18n.t('js.label_sum_for') }}
-              <span wp-column
-                    work-package="row.object"
-                    column="groupByColumn"
-                    display-empty="-"/>
+              <wp-column work-package="row.object"
+                         column="groupByColumn"
+                         display-empty="-">
+              </wp-column>
             </td>
             <td ng-repeat="column in columns">
               {{ column.group_sums[row.groupName] }}
