@@ -265,8 +265,13 @@ describe Impediment, type: :model do
 
         describe 'WITH the story having another version' do
           before(:each) do
-            @story.fixed_version = FactoryGirl.create(:version, project: project, name: 'another version')
-            @story.save
+            other_version = FactoryGirl.create(:version, project: project, name: 'another version')
+            # the assignable versions are cached for performance, we thus have to
+            # throw away the cache
+            @story.project = Project.find_by_id(project.id)
+
+            @story.fixed_version = other_version
+            @story.save!
             @blocks = @story.id.to_s
             @saved = @impediment.update_with_relationships({ blocks_ids: @blocks,
                                                              status_id: status1.id.to_s })
