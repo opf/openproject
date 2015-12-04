@@ -31,7 +31,7 @@ module.exports = function($scope, $state, $stateParams, QueryService, PathHelper
 
   // Setup
   $scope.$state = $state;
-  $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
+  $scope.selectedTitle = I18n.t('js.label_work_package_plural');
 
   $scope.query_id = $stateParams.query_id;
 

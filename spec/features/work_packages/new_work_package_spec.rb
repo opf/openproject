@@ -52,7 +52,7 @@ describe 'new work package', js: true do
   end
 
   def create_work_package(type)
-    work_packages_page.click_toolbar_button 'Work packages'
+    work_packages_page.click_toolbar_button 'Work package'
 
     within '#tasksDropdown' do
       click_link type
@@ -132,7 +132,7 @@ describe 'new work package', js: true do
 
         it do
           within '.panel-toggler' do
-            click_on 'Show all attributes'
+            find('a', text: 'Show all attributes').click
           end
 
           ids = custom_fields.map(&:id)
