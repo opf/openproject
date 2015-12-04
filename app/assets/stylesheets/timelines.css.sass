@@ -109,6 +109,14 @@ select
     margin-left: 6px
     input[type='range']
       padding: 3px
+
+      &:focus
+        outline-color: #000
+        outline-style: dotted
+        outline-width: 1px
+
+        // Default styles for chrome
+        outline: -webkit-focus-ring-color auto 5px
     a
       margin-top: 10px
       display: inline-block
@@ -233,6 +241,8 @@ a.tl-discreet-link:hover, input.icon:hover
     overflow: hidden
     text-overflow: ellipsis
     display: inline-block
+    padding: 3px
+
   table
     th.tl-first-column, td.tl-first-column
       text-align: left
