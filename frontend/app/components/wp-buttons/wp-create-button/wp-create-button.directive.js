@@ -58,13 +58,6 @@ function WorkPackageCreateButtonController($state, ProjectService) {
     return !inProjectContext || !canCreate || $state.includes('**.new') || !vm.types;
   };
 
-  vm.createWorkPackage = function (type) {
-    $state.go(vm.stateName, {
-      projectPath: vm.projectIdentifier,
-      type: type
-    })
-  };
-
   if (inProjectContext) {
     ProjectService.fetchProjectResource(vm.projectIdentifier).then(function(project) {
       canCreate = !!project.links.createWorkPackage;
