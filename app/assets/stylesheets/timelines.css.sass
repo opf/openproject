@@ -215,23 +215,10 @@ a.tl-discreet-link:hover, input.icon:hover
   position: relative
   left: -16px
 
-#content table td
-  &.tl-indent-0
-    padding-left: 16px
-  &.tl-indent-1
-    padding-left: 28px
-  &.tl-indent-2
-    padding-left: 40px
-  &.tl-indent-3
-    padding-left: 52px
-  &.tl-indent-4
-    padding-left: 64px
-  &.tl-indent-5
-    padding-left: 76px
-  &.tl-indent-6
-    padding-left: 88px
-  &.tl-indent-7
-    padding-left: 100px
+#content table
+  @for $i from 0 through 7
+    td.tl-indent-#{$i}
+      padding-left: calc(20px + (12px * #{$i}))
 
 .tl-left-main
   border-right: 1px solid black
