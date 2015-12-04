@@ -26,149 +26,152 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <% if @project.shared_versions.any? %>
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table interactive-table role="grid" class="generic-table">
-        <colgroup>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <col>
-        </colgroup>
-        <thead>
-          <tr>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%= Version.model_name.human %>
-                  </span>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend">
+      <%= l(:label_available_project_versions) %>
+    </legend>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table interactive-table role="grid" class="generic-table">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Version.model_name.human %>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </th>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%= Version.human_attribute_name(:start_date) %>
-                  </span>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Version.human_attribute_name(:start_date) %>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </th>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%= Version.human_attribute_name(:effective_date) %>
-                  </span>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Version.human_attribute_name(:effective_date) %>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </th>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%= Version.human_attribute_name(:description) %>
-                  </span>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Version.human_attribute_name(:description) %>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </th>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%= Version.human_attribute_name(:status) %>
-                  </span>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Version.human_attribute_name(:status) %>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </th>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%= Version.human_attribute_name(:sharing) %>
-                  </span>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Version.human_attribute_name(:sharing) %>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </th>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%= WikiPage.model_name.human %>
-                  </span>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= WikiPage.model_name.human %>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% for version in @project.shared_versions.sort %>
-            <tr class="version <%= 'shared' if version.project != @project %>">
-            <td class="name <%=h version.status %><% ' icon-context icon-link' if version.project != @project%>"><%= link_to_version version %></td>
-            <td class="date"><%= format_date(version.start_date) %></td>
-            <td class="date"><%= format_date(version.effective_date) %></td>
-            <td class="description"><%=h version.description %></td>
-            <td class="status"><%= l("version_status_#{version.status}") %></td>
-            <td class="sharing"><%=h format_version_sharing(version.sharing) %></td>
-            <td><%= link_to_if_authorized(h(version.wiki_page_title),
-                                          { :controller => '/wiki',
-                                            :action => 'show',
-                                            :project_id => version.project,
-                                            :id => Wiki.titleize(version.wiki_page_title) }) || h(version.wiki_page_title) unless version.wiki_page_title.blank? || version.project.wiki.nil? %></td>
-            <td class="buttons" style="text-align:left">
-                <% if version.project == @project %>
-                  <%= link_to_if_authorized l(:button_edit),
-                                            { :controller => '/versions', :action => 'edit', :id => version },
-                                            :class => 'icon icon-edit' %>
-                  <%= link_to_if_authorized l(:button_delete),
-                                            { :controller => '/versions', :action => 'destroy', :id => version },
-                                            :confirm => l(:text_are_you_sure),
-                                            :method => :delete,
-                                            :class => 'icon icon-delete' %>
-                <% elsif @project.enabled_modules.collect(&:name).include?("backlogs") %>
-                  <%= link_to_if_authorized l(:button_edit),
-                                            { :controller => '/versions', :action => 'edit', :id => version, :project_id => @project.id },
-                                            :class => 'icon icon-edit' %>
-                <% end %>
-              </td>
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for version in @project.shared_versions.sort %>
+              <tr class="version <%= 'shared' if version.project != @project %>">
+                <td class="name <%=h version.status %><% ' icon-context icon-link' if version.project != @project %>">
+                  <%= link_to_version version %>
+                </td>
+                <td class="date"><%= format_date(version.start_date) %></td>
+                <td class="date"><%= format_date(version.effective_date) %></td>
+                <td class="description"><%=h version.description %></td>
+                <td class="status"><%= l("version_status_#{version.status}") %></td>
+                <td class="sharing"><%=h format_version_sharing(version.sharing) %></td>
+                <td>
+                  <%= link_to_if_authorized( h(version.wiki_page_title),
+                                             { controller: '/wiki',
+                                               action: 'show',
+                                               project_id: version.project,
+                                               id: Wiki.titleize(version.wiki_page_title) }) ||
+                      h(version.wiki_page_title) unless version.wiki_page_title.blank? || version.project.wiki.nil? %>
+                </td>
+                <td class="buttons">
+                  <% if version.project == @project %>
+                    <%= link_to_if_authorized l(:button_edit),
+                                              { controller: '/versions', action: 'edit', id: version },
+                                              class: 'icon icon-edit' %>
+                    <%= link_to_if_authorized l(:button_delete),
+                                              { controller: '/versions', action: 'destroy', id: version },
+                                              data: { confirm: l(:text_are_you_sure) },
+                                              method: :delete,
+                                              class: 'icon icon-delete' %>
+                  <% elsif @project.enabled_modules.collect(&:name).include?("backlogs") %>
+                                    <%= link_to_if_authorized l(:button_edit),
+                                                              { :controller => '/versions', :action => 'edit', :id => version, :project_id => @project.id },
+                                                              :class => 'icon icon-edit' %>
+                  <% end %>
+                </td>
               </tr>
-          <% end %>
-        </tbody>
-      </table>
-      <div class="generic-table--header-background"></div>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="generic-table--header-background"></div>
+      </div>
     </div>
-  </div>
-  <div class="generic-table--action-buttons">
-        <%= link_to_if_authorized({:controller => '/versions', :action => 'new', :project_id => @project}, class: 'button -alt-highlight') do %>
+    <% if @project.versions.any? %>
+      <div class="generic-table--action-buttons">
+        <%= link_to_if_authorized({ controller: '/versions', action: 'new', project_id: @project },
+                              class: 'button -alt-highlight') do %>
           <i class="button--icon icon-add"></i>
           <span class="button--text"><%= l(:label_version_new) %></span>
         <% end %>
-  </div>
-<% else %>
-  <div class="generic-table--container">
-    <div class="generic-table--no-results-container">
-      <h2 class="generic-table--no-results-title">
-        <i class="icon-info"></i>
-        <%= l(:label_nothing_display) %>
-      </h2>
-      <div class="generic-table--no-results-description">
-        <p class="nodata"><%= l(:label_no_data) %></p>
       </div>
-    </div>
+    <% end %>
+  <% else %>
+    <%= no_results_box(action_url: new_project_version_path(@project), display_action: authorize_for('versions', 'new')) %>
+  <% end %>
+</fieldset>
+
+<% if @project.versions.any? %>
+  <div class="contextual">
+      <%= link_to l(:label_close_versions),
+                  close_completed_project_versions_path(@project),
+                  method: :put %>
   </div>
 <% end %>
-
-<div class="contextual">
-<% if @project.versions.any? %>
-  <%= link_to l(:label_close_versions), close_completed_project_versions_path(@project), :method => :put %>
-<% end %>
-</div>
-
