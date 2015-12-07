@@ -108,6 +108,16 @@ function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResourc
         });
     },
 
+    initializeWorkPackageFromCopy: function(workPackage) {
+      var projectIdentifier = workPackage.embedded.project.props.identifier;
+      var initialData = _.clone(workPackage.form.embedded.payload.props);
+
+      initialData._links = _.clone(workPackage.form.embedded.payload.links);
+      delete initialData.lockVersion;
+
+      return WorkPackageService.initializeWorkPackage(projectIdentifier, initialData);
+    },
+
     getWorkPackage: function(id) {
       var path = PathHelper.apiV3WorkPackagePath(id),
           resource = HALAPIResource.setup(path);
