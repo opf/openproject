@@ -66,10 +66,6 @@ function wpTable(WorkPackagesTableService, $window, featureFlags, PathHelper){
       scope.grouped = scope.groupByColumn !== undefined;
       scope.groupExpanded = {};
 
-      scope.$watch('workPackagesTableData.allRowsChecked', function(checked) {
-        scope.toggleRowsLabel = checked ? I18n.t('js.button_uncheck_all') : I18n.t('js.button_check_all');
-      });
-
       scope.$watchCollection('columns', function() {
         // force Browser rerender
         element.hide().show(0);
@@ -182,4 +178,9 @@ function WorkPackagesTableController($scope) {
     noResults: I18n.t('js.work_packages.no_results.title'),
     noResultsDescription: I18n.t('js.work_packages.no_results.description_html')
   };
+
+  $scope.$watch('workPackagesTableData.allRowsChecked', function(checked) {
+    $scope.text.toggleRows =
+        checked ? I18n.t('js.button_uncheck_all') : I18n.t('js.button_check_all');
+  });
 }
