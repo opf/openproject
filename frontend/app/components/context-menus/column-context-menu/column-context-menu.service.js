@@ -28,12 +28,13 @@
 
 angular
   .module('openproject.workPackages')
-  .factory('typesDropDownMenu', typesDropDownMenu);
+  .factory('columnContextMenu', columnContextMenu);
 
-
-function typesDropDownMenu(ngContextMenu) {
+function columnContextMenu(ngContextMenu) {
   return ngContextMenu({
-    templateUrl: '/components/wp-buttons/wp-create-button/types-drop-down-menu.template.html',
-    container: '.wp-create-button'
+    controller: 'ColumnContextMenuController',
+    controllerAs: 'contextMenu',
+    templateUrl: '/components/context-menus/column-context-menu/column-context-menu.template.html',
+    container: '.work-packages--list-table-area'
   });
 }
