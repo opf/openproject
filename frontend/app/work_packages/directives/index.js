@@ -51,9 +51,6 @@ angular.module('openproject.workPackages.directives')
     'ADD_FILTER_SELECT_INDEX', require('./query-filters-directive')
   ])
   .directive('queryForm', require('./query-form-directive'))
-  .directive('sortHeader', [
-    'I18n', require('./sort-header-directive')
-  ])
   .constant('PERMITTED_MORE_MENU_ACTIONS', [
     'log_time',
     'move',

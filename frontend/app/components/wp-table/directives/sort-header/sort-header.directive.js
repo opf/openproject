@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,13 +24,17 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function(I18n){
+angular
+  .module('openproject.workPackages.directives')
+  .directive('sortHeader', sortHeader);
 
+function sortHeader(){
   return {
     restrict: 'A',
-    templateUrl: '/templates/work_packages/sort_header.html',
+    templateUrl: '/components/wp-table/directives/sort-header/sort-header.directive.html',
+
     scope: {
       query: '=',
       headerName: '=',
@@ -38,6 +42,7 @@ module.exports = function(I18n){
       sortable: '=',
       locale: '='
     },
+
     link: function(scope, element) {
       scope.$watch('query.sortation.sortElements', function(sortElements){
         var latestSortElement = sortElements[0];
@@ -51,6 +56,8 @@ module.exports = function(I18n){
         setFullTitle();
       }, true);
 
+      scope.$watch('currentSortDirection', setActiveColumnClass);
+
       function setFullTitle() {
         if(!scope.sortable) scope.fullTitle = '';
 
@@ -62,13 +69,9 @@ module.exports = function(I18n){
         }
       }
 
-      // active-column class setting
-
       function setActiveColumnClass() {
         element.toggleClass('active-column', !!scope.currentSortDirection);
       }
-      scope.$watch('currentSortDirection', setActiveColumnClass);
-
     }
   };
-};
+}
