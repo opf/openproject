@@ -24,8 +24,8 @@ class Widget::Filters::RemoveButton < Widget::Filters::Base
   def render
     hidden_field = tag :input, id: "rm_#{filter_class.underscore_name}",
                                name: 'fields[]', type: 'hidden', value: ''
-    button = content_tag(:a, href: "#") do
-      icon_wrapper('icon-context advanced-filters--remove-filter-icon filter_rem', l(:description_remove_filter))
+    button = content_tag(:a, href: "#", class: "filter_rem") do
+      icon_wrapper('icon-context advanced-filters--remove-filter-icon', l(:description_remove_filter))
     end
 
     write(content_tag(:div, hidden_field + button, id: "rm_box_#{filter_class.underscore_name}",
