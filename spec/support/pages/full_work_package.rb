@@ -29,7 +29,7 @@
 require 'support/pages/page'
 
 module Pages
-  class FullWorkPackage < Page
+  class FullWorkPackage < Pages::AbstractWorkPackage
     attr_reader :work_package
 
     def initialize(work_package)
@@ -77,8 +77,10 @@ module Pages
     end
 
     def visit_copy!
-      visit work_package_path(work_package) + '/copy'
-      FullWorkPackageCreate.new(work_package)
+      page = FullWorkPackageCreate.new(work_package)
+      page.visit!
+
+      page
     end
 
     private

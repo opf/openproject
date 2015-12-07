@@ -121,4 +121,36 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
     work_package_page.expect_activity user, number: 1
     work_package_page.expect_current_path
   end
+
+  scenario 'on split screen page' do
+    original_work_package_page = Pages::SplitWorkPackage.new(original_work_package, project)
+    to_copy_work_package_page = original_work_package_page.visit_copy!
+
+    to_copy_work_package_page.expect_current_path
+    to_copy_work_package_page.expect_fully_loaded
+
+    to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
+    to_copy_work_package_page.save!
+
+    expect(page).to have_selector('.notification-box--content',
+                                  text: I18n.t('js.notice_successful_create'))
+
+    copied_work_package = WorkPackage.order(created_at: 'desc').first
+
+    expect(copied_work_package).to_not eql original_work_package
+
+    work_package_page = Pages::SplitWorkPackage.new(copied_work_package, project)
+
+    work_package_page.ensure_page_loaded
+    work_package_page.expect_attributes Subject: original_work_package.subject,
+                                        Description: 'Copied WP Description',
+                                        Version: original_work_package.fixed_version,
+                                        Priority: original_work_package.priority,
+                                        Assignee: original_work_package.assigned_to,
+                                        Responsible: original_work_package.responsible,
+                                        Author: user
+
+    work_package_page.expect_activity user, number: 1
+    work_package_page.expect_current_path
+  end
 end

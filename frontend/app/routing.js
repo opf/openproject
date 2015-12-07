@@ -189,6 +189,11 @@ angular.module('openproject')
       templateUrl: '/components/routes/partials/work-packages.list.new.html',
       reloadOnSearch: false
     })
+    .state('work-packages.list.copy', {
+      url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
+      templateUrl: '/components/routes/partials/work-packages.list.new.html',
+      reloadOnSearch: false
+    })
     .state('work-packages.list.details', {
       url: '/details/{workPackageId:[0-9]+}',
       templateUrl: '/components/routes/partials/work-packages.list.details.html',

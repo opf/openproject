@@ -29,35 +29,47 @@
 require 'support/pages/page'
 
 module Pages
-  class SplitWorkPackage < Pages::AbstractWorkPackage
-    attr_reader :project
+  class AbstractWorkPackage < Page
+    attr_reader :work_package
 
-    def initialize(work_package, project = nil)
+    def initialize(work_package)
       @work_package = work_package
-      @project = project
     end
 
-    def visit_copy!
-      page = SplitWorkPackageCreate.new(project || work_package.project, work_package)
-      page.visit!
-
-      page
-    end
-
-    private
-
-    def details_container
-      find('.work-packages--details')
-    end
-
-    def path(tab='overview')
-      state = "#{work_package.id}/#{tab}"
-
-      if project
-        project_work_packages_path(project, "details/#{state}")
-      else
-        details_work_packages_path(state)
+    def expect_subject
+      within(container) do
+        expect(page).to have_content(work_package.subject)
       end
+    end
+
+    def ensure_page_loaded
+      expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
+                                    text: work_package.journals.last.user.name)
+    end
+
+    def expect_attributes(attribute_expectations)
+      attribute_expectations.each do |label_name, value|
+        label = label_name.to_s
+
+        if label == 'Subject'
+          expect(page).to have_selector('.attribute-subject', text: value)
+        elsif label == 'Description'
+          expect(page).to have_selector('.attribute-description', text: value)
+        else
+          expect(page).to have_selector('.attributes-key-value--key', text: label)
+
+          dl_element = page.find('.attributes-key-value--key', text: label).parent
+
+          expect(dl_element).to have_selector('.attributes-key-value--value-container', text: value)
+        end
+      end
+    end
+
+    def expect_activity(user, number: nil)
+      container = '#work-package-activites-container'
+      container += " #activity-#{number}" if number
+
+      expect(page).to have_selector(container + ' .user', text: user.name)
     end
   end
 end
