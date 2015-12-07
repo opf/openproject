@@ -58,7 +58,9 @@ describe('columnContextMenu', function() {
     $rootScope = _$rootScope_;
     ngContextMenu = _ngContextMenu_;
 
-    var template = $templateCache.get('/components/wp-table/services/column-context-menu.service.html');
+    var template = $templateCache.get(
+      '/components/context-menus/column-context-menu/column-context-menu.template.html');
+
     $templateCache.put('column_context_menu.html', [200, template, {}]);
 
     contextMenu = ngContextMenu({
