@@ -63,9 +63,9 @@
                 expand: !groupExpanded[currentGroup],
                 collapse: groupExpanded[currentGroup]
               }">
-                {{ groupExpanded[currentGroup] && I18n.t('js.label_collapse') || I18n.t('js.label_expand') }}
+                {{ groupExpanded[currentGroup] && text.collapse || text.expand }}
               </span>
-              <span class="hidden-for-sighted collapse">{{ I18n.t('js.label_collapse') }}</span>
+              <span class="hidden-for-sighted collapse">{{ text.collapse }}</span>
             </div>
 
             <div>
@@ -139,7 +139,7 @@
               'work_package'
             ]">
             <td colspan="{{1  - (!!hideWorkPackageDetails * 1)}}">
-              {{ I18n.t('js.label_sum_for') }}
+              {{ text.sumFor }}
               <wp-column work-package="row.object"
                          column="groupByColumn"
                          display-empty="-">
@@ -160,7 +160,7 @@
             class="sum group all issue work_package">
           <td colspan="{{1  - (!!hideWorkPackageDetails * 1)}}">
             <div class="generic-table--footer-outer">
-              {{ I18n.t('js.label_sum_for') }} {{ I18n.t('js.label_all_work_packages') }}
+              {{ text.sumFor }} {{ text.allWorkPackages }}
             </div>
           </td>
           <td ng-repeat="column in columns">
@@ -178,9 +178,9 @@
   <div class="generic-table--no-results-container" ng-if="!rows.length">
     <i class="icon-info1"></i>
     <h2 class="generic-table--no-results-title">
-      {{ I18n.t('js.work_packages.no_results.title') }}
+      {{ text.noResults }}
     </h2>
     <div class="generic-table--no-results-description"
-      ng-bind-html="I18n.t('js.work_packages.no_results.description_html')"></div>
+      ng-bind-html="text.noResultsDescription"></div>
   </div>
 </div>

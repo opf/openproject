@@ -54,7 +54,6 @@ function wpTable(WorkPackagesTableService, $window, featureFlags, PathHelper){
     link: function(scope, element) {
       var activeSelectionBorderIndex;
 
-      scope.I18n = I18n;
       scope.workPackagesTableData = WorkPackagesTableService.getWorkPackagesTableData();
       scope.workPackagePath = PathHelper.staticWorkPackagePath;
 
@@ -176,6 +175,11 @@ function WorkPackagesTableController($scope) {
   $scope.locale = I18n.locale;
 
   $scope.text = {
-
+    collapse: I18n.t('js.label_collapse'),
+    expand: I18n.t('js.label_expand'),
+    sumFor: I18n.t('js.label_sum_for'),
+    allWorkPackages: I18n.t('js.label_all_work_packages'),
+    noResults: I18n.t('js.work_packages.no_results.title'),
+    noResultsDescription: I18n.t('js.work_packages.no_results.description_html')
   };
 }
