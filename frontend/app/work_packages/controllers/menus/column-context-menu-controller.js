@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, ColumnContextMenu, I18n, QueryService, WorkPackagesTableHelper, WorkPackagesTableService, columnsModal) {
+module.exports = function($scope, columnContextMenu, I18n, QueryService, WorkPackagesTableHelper, WorkPackagesTableService, columnsModal) {
 
     $scope.I18n = I18n;
 
@@ -64,7 +64,7 @@ module.exports = function($scope, ColumnContextMenu, I18n, QueryService, WorkPac
     };
 
     $scope.hideColumn = function(columnName) {
-      ColumnContextMenu.close();
+      columnContextMenu.close();
       QueryService.hideColumns(new Array(columnName));
       QueryService.getQuery().dirty = true;
     };

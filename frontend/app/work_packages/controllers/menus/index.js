@@ -28,20 +28,9 @@
 
 
 angular.module('openproject.workPackages')
-  .factory('ColumnContextMenu', [
-    'ngContextMenu',
-    function(ngContextMenu) {
-      return ngContextMenu({
-        controller: 'ColumnContextMenuController',
-        controllerAs: 'contextMenu',
-        templateUrl: '/templates/work_packages/menus/column_context_menu.html',
-        container: '.work-packages--list-table-area'
-      });
-    }
-  ])
   .controller('ColumnContextMenuController', [
     '$scope',
-    'ColumnContextMenu',
+    'columnContextMenu',
     'I18n',
     'QueryService',
     'WorkPackagesTableHelper',
