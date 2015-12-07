@@ -28,16 +28,6 @@
 
 
 angular.module('openproject.workPackages')
-  .controller('ColumnContextMenuController', [
-    '$scope',
-    'columnContextMenu',
-    'I18n',
-    'QueryService',
-    'WorkPackagesTableHelper',
-    'WorkPackagesTableService',
-    'columnsModal',
-    require('./column-context-menu-controller')
-  ])
   .factory('ShowMoreDropdownMenu', [
     'ngContextMenu',
     function(ngContextMenu) {
