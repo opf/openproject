@@ -43,7 +43,7 @@ class WorkPackageField
   end
 
   def submit_by_click
-    @element.find('.inplace-edit--control--save a', wait: 5).click
+    @element.find('.inplace-edit--control--save > a', wait: 5).click
   end
 
   def submit_by_enter

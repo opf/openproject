@@ -37,8 +37,8 @@ describe 'subject inplace editor', js: true, selenium: true do
   before do
     login_as(user)
     work_packages_page.visit_index(work_package)
-    within '.work-packages--details-content' do
-      click_on 'Show all attributes'
+    within '.panel-toggler' do
+      find('a', text: 'Show all attributes').click
     end
     field.activate_edition
   end

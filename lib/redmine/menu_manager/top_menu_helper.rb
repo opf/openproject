@@ -56,7 +56,8 @@ module Redmine::MenuManager::TopMenuHelper
                               action: 'index' },
                             title: l(:label_project_plural),
                             accesskey: OpenProject::AccessKeys.key_for(:project_search),
-                            class: 'icon5 icon-projects'
+                            class: 'icon5 icon-projects',
+                            aria: { haspopup: 'true' }
 
     if User.current.impaired?
       result =  content_tag :li do
@@ -132,7 +133,7 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_user_drop_down(items)
-    render_drop_down_menu_node link_to_user(User.current, title: User.current.to_s),
+    render_drop_down_menu_node link_to_user(User.current, title: User.current.to_s, aria: { haspopup: 'true' }),
                                items,
                                class: 'drop-down last-child'
   end
@@ -149,7 +150,7 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_module_top_menu_node(items = more_top_menu_items)
-    render_drop_down_menu_node link_to(l(:label_modules), '#', title: l(:label_modules), class: 'icon5 icon-modules'),
+    render_drop_down_menu_node link_to(l(:label_modules), '#', title: l(:label_modules), class: 'icon5 icon-modules', aria: { haspopup: 'true' }),
                                items,
                                id: 'more-menu'
   end
