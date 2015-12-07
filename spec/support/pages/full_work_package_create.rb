@@ -26,61 +26,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'support/pages/page'
+
 module Pages
-  class Page
-    include Capybara::DSL
-    include RSpec::Matchers
-    include OpenProject::StaticRouting::UrlHelpers
+  class FullWorkPackageCreate < Page
+    attr_reader :work_package
 
-    def current_page?
-      URI.parse(current_url).path == path
+    def initialize(work_package = nil)
+      # in case of copy, the original work package can be provided
+      @work_package = work_package
     end
 
-    def visit!
-      raise 'No path defined' unless path
-
-      visit path
-
-      self
+    def expect_fully_loaded
+      expect(page).to have_field(I18n.t('js.work_packages.properties.subject'))
     end
 
-    def accept_alert_dialog!
-      alert_dialog.accept if selenium_driver?
-    end
-
-    def dismiss_alert_dialog!
-      alert_dialog.dismiss if selenium_driver?
-    end
-
-    def alert_dialog
-      page.driver.browser.switch_to.alert
-    end
-
-    def has_alert_dialog?
-      if selenium_driver?
-        begin
-          page.driver.browser.switch_to.alert
-        rescue Selenium::WebDriver::Error::NoAlertPresentError
-          false
-        end
+    def update_attributes(attribute_map)
+      # Only designed for text fields for now
+      attribute_map.each do |label, value|
+        fill_in(label, with: value)
       end
     end
 
-    def selenium_driver?
-      Capybara.current_driver.to_s.include?('selenium')
+    def save!
+      click_button I18n.t('js.button_save')
     end
 
-    def set_items_per_page!(n)
-      Setting.per_page_options = "#{n}, 50, 100"
-    end
+    private
 
-    def expect_current_path
-      current_path = URI.parse(current_url).path
-      expect(current_path).to eql path
+    def container
+      find('.work-packages--show-view')
     end
 
     def path
-      nil
+      work_package_path(work_package) + '/copy' if work_package
     end
   end
 end
