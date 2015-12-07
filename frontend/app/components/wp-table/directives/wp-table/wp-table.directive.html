@@ -26,7 +26,7 @@
                           position-relative-to=".generic-table--sort-header-outer"
                           target="ColumnContextMenu"
                           locals="columns, column"
-                          locale="column.custom_field && columns.custom_field.name_locale || I18n.locale"
+                          locale="column.custom_field && columns.custom_field.name_locale || locale"
                           header-name="column.name"
                           header-title="column.title"
                           sortable="column.sortable"
@@ -112,7 +112,7 @@
                                  model="row.checked"/>
           </td>
 
-          <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || I18n.locale}}" ng-class="column.name == 'id' && '-short'">
+          <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || locale}}" ng-class="column.name == 'id' && '-short'">
             <wp-column work-package="row.object"
                        column="column"
                        display-type="{{column.meta_data.data_type}}"

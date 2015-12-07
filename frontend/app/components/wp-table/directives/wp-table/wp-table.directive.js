@@ -49,6 +49,8 @@ function wpTable(WorkPackagesTableService, $window, featureFlags, PathHelper){
       activationCallback: '&'
     },
 
+    controller: WorkPackagesTableController,
+
     link: function(scope, element) {
       var activeSelectionBorderIndex;
 
@@ -167,5 +169,13 @@ function wpTable(WorkPackagesTableService, $window, featureFlags, PathHelper){
         scope.activationCallback({ id: row.object.id, force: true });
       };
     }
+  };
+}
+
+function WorkPackagesTableController($scope) {
+  $scope.locale = I18n.locale;
+
+  $scope.text = {
+
   };
 }
