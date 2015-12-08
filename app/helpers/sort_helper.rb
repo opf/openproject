@@ -317,14 +317,4 @@ module SortHelper
       l(:label_sort_by, "\"#{caption}\"") unless options[:title]
     end
   end
-
-  # Returns a table header tag similar to +sort_header_tag+, but
-  # according to the LSG table component.
-  def sort_header_tag_with_lsg(column, options = {})
-    caption = options.delete(:caption) || column.to_s.humanize
-    default_order = options.delete(:default_order) || 'asc'
-    lang = options.delete(:lang) || nil
-
-    sort_link(column, caption, default_order, lang: lang)
-  end
 end
