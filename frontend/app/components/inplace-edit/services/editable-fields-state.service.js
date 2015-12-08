@@ -76,10 +76,6 @@ function EditableFieldsState($rootScope, $window, inplaceEditErrors, inplaceEdit
 
       stop: function () {
         return this.state = false;
-      },
-
-      toggleState: function () {
-        return this.state = !this.state;
       }
     }
   };

@@ -61,10 +61,6 @@ describe('EditableFieldsState service', function () {
       eAll = EditableFieldsState.editAll;
     });
 
-    it('toggle state switches its current state', function () {
-      expect(EditableFieldsState.state === eAll.toggleState()).to.be.false;
-    });
-
     it('turns on editing on start', function () {
       expect(eAll.start()).to.be.true;
     });
