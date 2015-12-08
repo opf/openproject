@@ -113,7 +113,7 @@ To resolve these cases, you can either:
         next
       end
 
-      checkout_data[vendor] = { 'enabled' => 1, 'url' => base_url }
+      checkout_data[vendor] = { 'enabled' => 1, 'base_url' => base_url }
     end
     Setting.repository_checkout_data = checkout_data
   end

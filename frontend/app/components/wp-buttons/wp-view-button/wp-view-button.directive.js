@@ -27,13 +27,43 @@
 // ++
 
 angular
-  .module('openproject.workPackages')
-  .factory('typesDropDownMenu', typesDropDownMenu);
+  .module('openproject.workPackages.directives')
+  .directive('wpViewButton', wpViewButton);
 
+function wpViewButton() {
+  return {
+    restrict: 'E',
+    templateUrl: '/components/wp-buttons/wp-view-button/wp-view-button.directive.html',
 
-function typesDropDownMenu(ngContextMenu) {
-  return ngContextMenu({
-    templateUrl: '/components/wp-buttons/create-button/types-drop-down-menu.template.html',
-    container: '.wp-create-button'
-  });
+    controller: WorkPackageViewButtonController
+  };
+}
+
+function WorkPackageViewButtonController($scope, $state, $location) {
+  $scope.isShowViewActive = function() {
+    return $state.includes('work-packages.show');
+  };
+
+  $scope.label = $scope.getActivationActionLabel(!$scope.isShowViewActive())
+      + I18n.t('js.button_show_view');
+
+  if ($scope.isShowViewActive()) {
+    $scope.accessKey = 9;
+  }
+
+  $scope.showWorkPackageShowView = function() {
+    if ($state.is('work-packages.list.new') && $state.params.type) {
+      $state.go('work-packages.new', $state.params);
+
+    } else {
+      var id = $state.params.workPackageId || $scope.preselectedWorkPackageId ||
+          $scope.nextAvailableWorkPackage(), queryProps = $location.search()['query_props'];
+
+      $state.go('work-packages.show.activity', {
+        projectPath: $scope.projectIdentifier || '',
+        workPackageId: id,
+        'query_props': queryProps
+      });
+    }
+  };
 }

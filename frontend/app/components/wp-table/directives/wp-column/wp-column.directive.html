@@ -1,0 +1,11 @@
+<span ng-switch="vm.displayType">
+  <progress-bar ng-switch-when="progress_bar"
+                progress="vm.displayText"
+                width="80px">
+  </progress-bar>
+
+  <a ng-switch-when="link" href="{{ vm.url }}" title="{{ vm.displayText }}">{{ vm.displayText }}</a>
+  <a ng-switch-when="ref" ui-sref="{{ vm.stateRef }}" title="{{ vm.displayText }}">{{ vm.displayText }}</a>
+
+  <span ng-switch-default title="{{ vm.displayText }}">{{ vm.displayText }}</span>
+</span>

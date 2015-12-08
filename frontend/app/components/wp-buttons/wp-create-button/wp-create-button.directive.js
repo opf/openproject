@@ -27,43 +27,51 @@
 // ++
 
 angular
-  .module('openproject.workPackages.directives')
-  .directive('wpViewButton', wpViewButton);
+  .module('openproject.workPackages')
+  .directive('wpCreateButton', wpCreateButton);
 
-function wpViewButton() {
+function wpCreateButton() {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-buttons/view-button/view-button.directive.html',
+    templateUrl: '/components/wp-buttons/wp-create-button/wp-create-button.directive.html',
 
-    controller: WorkPackageViewButtonController
-  };
+    scope: {
+      projectIdentifier: '=',
+      stateName: '@'
+    },
+
+    bindToController: true,
+    controllerAs: 'vm',
+    controller: WorkPackageCreateButtonController
+  }
 }
 
-function WorkPackageViewButtonController($scope, $state, $location) {
-  $scope.isShowViewActive = function() {
-    return $state.includes('work-packages.show');
+function WorkPackageCreateButtonController($state, ProjectService) {
+  var vm = this,
+      inProjectContext = !!vm.projectIdentifier,
+      canCreate= false;
+
+  vm.text = I18n.t('js.label_work_package');
+  vm.createLabel = I18n.t('js.label_create_work_package');
+
+  vm.isDisabled = function () {
+    return !inProjectContext || !canCreate || $state.includes('**.new') || !vm.types;
   };
 
-  $scope.label = $scope.getActivationActionLabel(!$scope.isShowViewActive())
-      + I18n.t('js.button_show_view');
+  vm.createWorkPackage = function (type) {
+    $state.go(vm.stateName, {
+      projectPath: vm.projectIdentifier,
+      type: type
+    })
+  };
 
-  if ($scope.isShowViewActive()) {
-    $scope.accessKey = 9;
+  if (inProjectContext) {
+    ProjectService.fetchProjectResource(vm.projectIdentifier).then(function(project) {
+      canCreate = !!project.links.createWorkPackage;
+    });
+
+    ProjectService.getProject(vm.projectIdentifier).then(function (project) {
+      vm.types = project.embedded.types;
+    });
   }
-
-  $scope.showWorkPackageShowView = function() {
-    if ($state.is('work-packages.list.new') && $state.params.type) {
-      $state.go('work-packages.new', $state.params);
-
-    } else {
-      var id = $state.params.workPackageId || $scope.preselectedWorkPackageId ||
-          $scope.nextAvailableWorkPackage(), queryProps = $location.search()['query_props'];
-
-      $state.go('work-packages.show.activity', {
-        projectPath: $scope.projectIdentifier || '',
-        workPackageId: id,
-        'query_props': queryProps
-      });
-    }
-  };
 }

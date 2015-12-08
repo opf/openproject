@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,15 +24,13 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
-
-/*jshint expr: true*/
+// ++
 
 describe('columnContextMenu', function() {
   var container, contextMenu, $rootScope, scope, stateParams, ngContextMenu;
   stateParams = {};
 
-  beforeEach(module('ng-context-menu',
+  beforeEach(angular.mock.module('ng-context-menu',
                     'openproject.workPackages',
                     'openproject.workPackages.controllers',
                     'openproject.models',
@@ -41,7 +39,7 @@ describe('columnContextMenu', function() {
                     'openproject.services',
                     'openproject.templates'));
 
-  beforeEach(module('openproject.templates', function($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function($provide) {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -60,7 +58,9 @@ describe('columnContextMenu', function() {
     $rootScope = _$rootScope_;
     ngContextMenu = _ngContextMenu_;
 
-    var template = $templateCache.get('/templates/work_packages/menus/column_context_menu.html');
+    var template = $templateCache.get(
+      '/components/context-menus/column-context-menu/column-context-menu.template.html');
+
     $templateCache.put('column_context_menu.html', [200, template, {}]);
 
     contextMenu = ngContextMenu({
@@ -74,12 +74,11 @@ describe('columnContextMenu', function() {
   }));
 
   describe('when the context menu handler of a column is clicked', function() {
-    var I18n, QueryService;
+    var QueryService;
     var column        = { name: 'status', title: 'Status' },
         anotherColumn = { name: 'subject', title: 'Subject' },
         columns       = [column, anotherColumn],
         query         = Factory.build('Query', { columns: columns });
-    var directiveScope;
 
     beforeEach(inject(function(_QueryService_) {
       QueryService = _QueryService_;

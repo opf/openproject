@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,53 +24,20 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-angular
-  .module('openproject.workPackages')
-  .directive('wpCreateButton', wpCreateButton);
-
-function wpCreateButton() {
+module.exports = function($filter) {
   return {
-    restrict: 'E',
-    templateUrl: '/components/wp-buttons/create-button/create-button.directive.html',
+    restrict:'A',
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModelController) {
+      ngModelController.$parsers.push(function(data) {
+        return $filter('external2internalFloat')(data);
+      });
 
-    scope: {
-      projectIdentifier: '=',
-      stateName: '@'
-    },
-
-    bindToController: true,
-    controllerAs: 'vm',
-    controller: WorkPackageCreateButtonController
-  }
-}
-
-function WorkPackageCreateButtonController($state, ProjectService) {
-  var vm = this,
-      inProjectContext = !!vm.projectIdentifier,
-      canCreate= false;
-
-  vm.text = I18n.t('js.toolbar.unselected_title');
-
-  vm.isDisabled = function () {
-    return !inProjectContext || !canCreate || $state.includes('**.new') || !vm.types;
+      ngModelController.$formatters.push(function(data) {
+        return $filter('internal2externalFloat')(data);
+      });
+    }
   };
-
-  vm.createWorkPackage = function (type) {
-    $state.go(vm.stateName, {
-      projectPath: vm.projectIdentifier,
-      type: type
-    })
-  };
-
-  if (inProjectContext) {
-    ProjectService.fetchProjectResource(vm.projectIdentifier).then(function(project) {
-      canCreate = !!project.links.createWorkPackage;
-    });
-
-    ProjectService.getProject(vm.projectIdentifier).then(function (project) {
-      vm.types = project.embedded.types;
-    });
-  }
-}
+};

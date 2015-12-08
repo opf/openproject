@@ -172,7 +172,7 @@ jsToolBar.prototype = {
   button: function(toolName) {
     var tool = this.elements[toolName];
     if (typeof tool.fn[this.mode] != 'function') return null;
-    var b = new jsButton(tool.title, tool.fn[this.mode], this, 'jstb_'+toolName);
+    var b = new jsButton(tool.title, tool.fn[this.mode], this, 'icon-small jstb_'+toolName);
     if (tool.icon != undefined) b.icon = tool.icon;
     return b;
   },

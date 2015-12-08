@@ -132,7 +132,7 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_user_drop_down(items)
-    render_drop_down_menu_node link_to_user(User.current, title: User.current.to_s),
+    render_drop_down_menu_node link_to_user(User.current, title: User.current.to_s, aria: { haspopup: 'true' }),
                                items,
                                class: 'drop-down last-child'
   end

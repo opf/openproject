@@ -91,10 +91,11 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
 
   var vm = this;
   var field = $scope.field;
+  var fieldLabel = field.getLabel();
   var wpStore = inplaceEditMultiStorage.stores.workPackage;
 
-  this.saveTitle = I18n.t('js.inplace.button_save', { attribute: field.name });
-  this.cancelTitle = I18n.t('js.inplace.button_cancel', { attribute: field.name });
+  this.saveTitle = I18n.t('js.inplace.button_save', { attribute: fieldLabel });
+  this.cancelTitle = I18n.t('js.inplace.button_cancel', { attribute: fieldLabel });
 
   this.submit = function() {
     var detectedViolations = [];

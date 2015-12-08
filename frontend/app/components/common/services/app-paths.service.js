@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,38 +24,32 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function($scope, $state, $stateParams, QueryService, PathHelper, $rootScope,
-    EditableFieldsState) {
+/**
+ * Replaces the PathHelper service in its function, providing a way to generate safe paths
+ * without having to store them directly in a service.
+ */
 
-  // Setup
-  $scope.$state = $state;
-  $scope.selectedTitle = I18n.t('js.label_work_package_plural');
+angular
+  .module('openproject.workPackages.services')
+  .factory('appPaths', appPaths);
 
-  $scope.query_id = $stateParams.query_id;
+function appPaths($document) {
+  var paths = {
+    appBasePath: $document.find('meta[name=app_base_path]').attr('content'),
+    apiExperimental: '/api/experimental',
+    apiV2: '/api/v2',
+    apiV3: '/api/v3'
+  };
 
-  $scope.$watch(QueryService.getAvailableGroupedQueries, function(availableQueries) {
-    if (availableQueries) {
-      $scope.groups = [{ name: I18n.t('js.label_global_queries'), models: availableQueries['queries']},
-                       { name: I18n.t('js.label_custom_queries'), models: availableQueries['user_queries']}];
+  return {
+    get appBasePath() {
+      return paths.appBasePath;
+    },
+
+    path: function (path) {
+      return paths.appBasePath + path;
     }
-  });
-
-  $scope.isDetailsViewActive = function() {
-    return $state.includes('work-packages.list.details') || EditableFieldsState.editAll.state;
   };
-
-  $scope.isListViewActive = function() {
-    return $state.is('work-packages.list');
-  };
-
-  $scope.getToggleActionLabel = function(active) {
-    return (active) ? I18n.t('js.label_deactivate') : I18n.t('js.label_activate');
-  };
-
-  $scope.getActivationActionLabel = function(activate) {
-    return (activate) ? I18n.t('js.label_activate') + ' ' : '';
-  };
-  $rootScope.$broadcast('openproject.layout.activateMenuItem');
-};
+}

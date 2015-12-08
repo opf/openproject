@@ -43,6 +43,11 @@
       this.setupDropdownHoverAndClick();
       this.registerEventHandlers();
       this.closeOnBodyClick();
+      this.accessibility();
+    },
+
+    accessibility: function () {
+      $(".drop-down > ul").attr("aria-expanded","false");
     },
 
     toggleClick: function (dropdown) {
@@ -183,13 +188,13 @@
     slideDown: function (dropdown) {
       var toDrop = dropdown.find("> ul");
       dropdown.addClass("open");
-      toDrop.slideDown(animationRate);
+      toDrop.slideDown(animationRate).attr("aria-expanded","true");
     },
 
     slideUp: function (dropdown) {
       var toDrop = $(dropdown).find("> ul");
       dropdown.removeClass("open");
-      toDrop.slideUp(animationRate);
+      toDrop.slideUp(animationRate).attr("aria-expanded","false");
     },
 
     // If there is ANY input, it will have precedence over links,

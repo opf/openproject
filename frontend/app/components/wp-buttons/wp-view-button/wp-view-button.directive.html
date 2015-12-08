@@ -9,5 +9,8 @@
         title="{{ label }}"
         ng-click="showWorkPackageShowView()"
         ng-class="{ '-active': isShowViewActive() }">
-  <i class="icon-fullscreen-view button--icon"></i>
+  <i class="icon-view-fullscreen button--icon"></i>
+  <span class="hidden-for-sighted">
+    {{ label }}
+  </span>
 </button>

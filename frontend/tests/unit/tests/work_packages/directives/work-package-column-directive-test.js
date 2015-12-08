@@ -40,6 +40,7 @@ describe('workPackageColumn Directive', function() {
 
       $provide.constant('ConfigurationService', configurationService);
     }));
+
     beforeEach(inject(function($rootScope, $compile) {
       var html;
       html = '<span work-package-column work-package="workPackage" column="column" display-type="displayType" display-empty="-"></span>';

@@ -67,7 +67,8 @@
   display: table
 
 .toolbar-items
-  > li,
+  > li
+  .toolbar-item,
   .toolbar-button-group > li
     float: left
     &.toolbar-item
@@ -161,17 +162,10 @@
   padding: 0
 
   .select2-choice
-    height: 40px
     min-width: 150px
-
-    .select2-chosen
-      line-height: 40px
 
   .select2-arrow
     border-color: $toolbar-item--border-color
-
-  .select2-chosen
-    line-height: 40px
 
 .toolbar-input-group
   display: flex

@@ -33,7 +33,7 @@ angular
 function wpWatcherButton() {
   return {
     replace: true,
-    templateUrl: '/components/wp-buttons/watcher-button/watcher-button.directive.html',
+    templateUrl: '/components/wp-buttons/wp-watcher-button/wp-watcher-button.directive.html',
 
     scope: {
       workPackage: '=',

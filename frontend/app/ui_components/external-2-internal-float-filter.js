@@ -26,36 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, $state, $stateParams, QueryService, PathHelper, $rootScope,
-    EditableFieldsState) {
+module.exports = function($locale) {
+	return function(input) {
+    var decimalSep = $locale.NUMBER_FORMATS.DECIMAL_SEP;
+    var groupSep = $locale.NUMBER_FORMATS.GROUP_SEP;
 
-  // Setup
-  $scope.$state = $state;
-  $scope.selectedTitle = I18n.t('js.label_work_package_plural');
+    var ret = (input) ? input.toString()
+                             .trim()
+                             .replace(groupSep, '')
+                             .replace(decimalSep, '.')
+                      :
+                        null;
 
-  $scope.query_id = $stateParams.query_id;
-
-  $scope.$watch(QueryService.getAvailableGroupedQueries, function(availableQueries) {
-    if (availableQueries) {
-      $scope.groups = [{ name: I18n.t('js.label_global_queries'), models: availableQueries['queries']},
-                       { name: I18n.t('js.label_custom_queries'), models: availableQueries['user_queries']}];
-    }
-  });
-
-  $scope.isDetailsViewActive = function() {
-    return $state.includes('work-packages.list.details') || EditableFieldsState.editAll.state;
-  };
-
-  $scope.isListViewActive = function() {
-    return $state.is('work-packages.list');
-  };
-
-  $scope.getToggleActionLabel = function(active) {
-    return (active) ? I18n.t('js.label_deactivate') : I18n.t('js.label_activate');
-  };
-
-  $scope.getActivationActionLabel = function(activate) {
-    return (activate) ? I18n.t('js.label_activate') + ' ' : '';
-  };
-  $rootScope.$broadcast('openproject.layout.activateMenuItem');
+    return parseFloat(ret, 10);
+	};
 };

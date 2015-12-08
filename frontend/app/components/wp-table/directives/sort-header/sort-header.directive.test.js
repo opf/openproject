@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,7 +24,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
 /*jshint expr: true*/
 
@@ -32,20 +32,17 @@ describe('sortHeader Directive', function() {
     var compile, element1, element2, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
-    beforeEach(module('openproject.templates', 'openproject.models'));
+    beforeEach(angular.mock.module('openproject.templates', 'openproject.models'));
 
     beforeEach(inject(function($rootScope, $compile) {
-      var header1Html;
-      header1Html = '<th sort-header sortable="true" query="query" header-name="headerName1" header-title="headerTitle1"></th>';
-      var header2Html;
-      header2Html = '<th sort-header sortable="true" query="query" header-name="headerName2" header-title="headerTitle2"></th>';
+      var header1Html = '<th sort-header sortable="true" query="query" header-name="headerName1" header-title="headerTitle1"></th>';
+      var header2Html = '<th sort-header sortable="true" query="query" header-name="headerName2" header-title="headerTitle2"></th>';
 
       element1 = angular.element(header1Html);
       element2 = angular.element(header2Html);
       rootScope = $rootScope;
       scope = $rootScope.$new();
 
-      // Mock hasDropdownManu controller
       var dropdownMenuController = function() {
         this.open = function() {
           return true;
