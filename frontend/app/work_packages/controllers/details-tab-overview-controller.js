@@ -33,10 +33,8 @@ module.exports = function(
            EditableFieldsState,
            WorkPackageDisplayHelper,
            NotificationsService,
-           I18n,
            WorkPackageAttachmentsService
            ) {
-  'use strict';
   var vm = this;
 
   vm.groupedFields = [];
@@ -57,7 +55,6 @@ module.exports = function(
   });
 
   function activate() {
-    EditableFieldsState.forcedEditState = false;
     $scope.$watch('workPackage.schema', function(schema) {
       if (schema) {
         WorkPackageDisplayHelper.setFocus();

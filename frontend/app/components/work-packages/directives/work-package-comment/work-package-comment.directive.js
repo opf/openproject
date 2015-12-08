@@ -30,8 +30,8 @@ angular
   .module('openproject.workPackages.directives')
   .directive('workPackageComment', workPackageComment);
 
-function workPackageComment($rootScope, $timeout, $location, EditableFieldsState, FocusHelper, I18n,
-  inplaceEditMultiStorage, ConfigurationService, AutoCompleteHelper, NotificationsService) {
+function workPackageComment($timeout, $location, EditableFieldsState, FocusHelper,
+  inplaceEditMultiStorage, ConfigurationService, AutoCompleteHelper, inplaceEditAll) {
 
   function commentFieldDirectiveController($scope, $element) {
     var field = {},
@@ -49,7 +49,7 @@ function workPackageComment($rootScope, $timeout, $location, EditableFieldsState
     ctrl.placeholder = I18n.t('js.label_add_comment_title');
 
     ctrl.state.isBusy = false;
-    ctrl.isEditing = ctrl.state.forcedEditState;
+    ctrl.isEditing = inplaceEditAll.state;
     ctrl.isRequired = true;
     ctrl.canAddComment = !!ctrl.workPackage.links.addComment;
 
@@ -113,7 +113,7 @@ function workPackageComment($rootScope, $timeout, $location, EditableFieldsState
     };
 
     ctrl.isActive = function() {
-      if (EditableFieldsState.forcedEditState) {
+      if (inplaceEditAll.state) {
         return false;
       }
       return ctrl.field === EditableFieldsState.currentField;
@@ -124,7 +124,7 @@ function workPackageComment($rootScope, $timeout, $location, EditableFieldsState
       EditableFieldsState.currentField = ctrl.field;
     };
 
-    if (!EditableFieldsState.forcedEditState) {
+    if (!inplaceEditAll.state) {
       $element.bind('keydown keypress', function(e) {
         if (e.keyCode === 27) {
           $scope.$apply(function() {

@@ -52,8 +52,8 @@ function inplaceEditorDropDown(EditableFieldsState, FocusHelper, inplaceEditAll)
       scope.customEditorController.updateAllowedValues(field.name).then(function() {
         EditableFieldsState.isBusy = false;
 
-        if (!EditableFieldsState.forcedEditState) {
-          inplaceEditAll.state || FocusHelper.focusUiSelect(element);
+        if (!inplaceEditAll.state) {
+          FocusHelper.focusUiSelect(element);
         }
       });
     }

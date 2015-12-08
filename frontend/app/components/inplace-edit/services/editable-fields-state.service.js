@@ -38,24 +38,23 @@ function EditableFieldsState(inplaceEditErrors, inplaceEditAll) {
     errors: inplaceEditErrors.errors,
     isBusy: false,
     currentField: null,
-    forcedEditState: false,
     focusField: 'subject',
 
     isFocusField: function (field) {
-      return this.focusField === field;
+      return EditableFieldsState.focusField === field;
     },
 
     isActiveField: function (field) {
-      return !(this.forcedEditState || inplaceEditAll.state) && this.currentField === field;
+      return !inplaceEditAll.state && EditableFieldsState.currentField === field;
     },
 
     getPendingFormChanges: function () {
-      var form = this.workPackage.form;
+      var form = EditableFieldsState.workPackage.form;
       return form.pendingChanges = form.pendingChanges || angular.copy(form.embedded.payload.props);
     },
 
     discard: function (fieldName) {
-      delete this.getPendingFormChanges()[fieldName];
+      delete EditableFieldsState.getPendingFormChanges()[fieldName];
 
       if (inplaceEditErrors.errors && inplaceEditErrors.hasOwnProperty(fieldName)) {
         delete inplaceEditErrors.errors[fieldName];

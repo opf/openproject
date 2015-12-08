@@ -59,9 +59,9 @@ function inplaceEditorEditPane($timeout, EditableFieldsState, FocusHelper, inpla
         });
       };
 
-      if (!EditableFieldsState.forcedEditState) {
+      if (!inplaceEditAll.state) {
         element.bind('keydown keypress', function(e) {
-          if (e.keyCode === 27 && !inplaceEditAll.state) {
+          if (e.keyCode === 27) {
             scope.$apply(function() {
               scope.editPaneController.discardEditing();
             });
@@ -70,7 +70,7 @@ function inplaceEditorEditPane($timeout, EditableFieldsState, FocusHelper, inpla
       }
 
       scope.$watch('fieldController.isEditing', function(isEditing) {
-        if (isEditing && !inplaceEditAll.state && !EditableFieldsState.forcedEditState) {
+        if (isEditing && !inplaceEditAll.state) {
           scope.focusInput();
 
         } else if (inplaceEditAll.state && EditableFieldsState.isFocusField(field.name)) {
