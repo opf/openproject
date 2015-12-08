@@ -3,7 +3,9 @@
 
   <ul class="dropdown-menu">
     <li ng-repeat="type in vm.types">
-      <a href="" role="menuitem" focus="{{ !$index }}" ng-click="vm.createWorkPackage(type.id)">
+      <a ui-sref="{{ vm.stateName }}({ projectPath: vm.projectIdentifier, type: type.id })"
+         role="menuitem" focus="{{ !$index }}">
+
         {{ type.name }}
       </a>
     </li>
