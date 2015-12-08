@@ -31,6 +31,7 @@ a:focus,
 input:focus,
 select:focus,
 textarea:focus,
-button:focus {
+button:focus,
+*:focus {
   outline: 3px solid darkblue;
 }
