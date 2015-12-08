@@ -1,0 +1,49 @@
+# Generic lists
+
+```
+<ul class="generic-list">
+  <li class="work-package-edit">
+    <div class="title">
+      <span class="icon-context icon-work_package-edit"></span>
+      <span class="hidden-for-sighted">Edit work package</span>
+      <span class="time">16:00</span>
+      <a href="#">Phase #15: Go-Live (To be scheduled)</a>
+    </div>
+    <div class="description">Lorem ipsum</div>
+    <div class="author">
+      <img class="avatar-mini" src="/assets/default-avatar.png" />
+      Anonymus
+    </div>
+  </li>
+  <li class="news me">
+    <div class="title">
+      <span class="icon-context icon-news"></span>
+      <span class="hidden-for-sighted">News</span>
+      <span class="time">09:10</span>
+      <a href="#">Lorem ipsum dolor</a>
+    </div>
+    <div class="description"></div>
+    <div class="author">
+      <img src="http://gravatar.com/avatar/cb4f282fed12016bd18a879c1f27ff97" class="avatar-mini" />
+      <a href="#">Reinhold Weber</a>
+    </div>
+  </li>
+  <li class="message me">
+    <div class="title">
+      <span class="icon-context icon-message"></span>
+      <span class="hidden-for-sighted">Edit message</span>
+      <span class="time">20:24</span>
+      <a href="#">Demo Forum: RE: Hello world!</a>
+    </div>
+    <div class="description">
+      Reinhold Weber wrote:<br>
+      > Lorem ipsum dolor sit amet
+    </div>
+    <div class="author">
+      <img src="http://gravatar.com/avatar/cb4f282fed12016bd18a879c1f27ff97" class="avatar-mini" />
+      <a href="#">Reinhold Weber</a>
+    </div>
+  </li>
+</ul>
+
+```
