@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,33 +24,34 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function() {
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpGroupHeader', wpGroupHeader);
 
+function wpGroupHeader() {
   return {
     restrict: 'A',
-    scope: true,
-    compile: function(tElement) {
+
+    compile: function() {
       return {
-        pre: function(scope, iElement, iAttrs, controller) {
+        pre: function(scope) {
           scope.currentGroup = scope.row.groupName;
 
-          function setSums() {
-            if(scope.groupSums == null) return;
-            scope.sums = scope.groupSums.map(function(groupSum){
-              return groupSum[scope.currentGroup];
-            });
-          }
+          pushGroup(scope.currentGroup);
 
-          scope.$watch('groupSums.length', function(newVal, oldVal) {
-            if(newVal != oldVal) {
-              // map columns to sums if the column data is a number
-              setSums();
+          scope.toggleCurrentGroup = function() {
+            scope.groupExpanded[scope.currentGroup] = !scope.groupExpanded[scope.currentGroup];
+          };
+
+          function pushGroup(group) {
+            if (scope.groupExpanded[group] === undefined) {
+              scope.groupExpanded[group] = true;
             }
-          });
+          }
         }
       };
     }
   };
-};
+}

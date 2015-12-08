@@ -41,7 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= call_hook(:view_journals_notes_form_after_notes, { journal: @journal}) %>
 
   <p>
-    <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
+    <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
     <%= link_to_remote l(:label_preview),
                        { url: preview_journal_path(@journal),
                          method: 'get',

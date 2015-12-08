@@ -36,10 +36,10 @@ See doc/COPYRIGHT.rdoc for more details.
     </h3>
 
     <p class="danger-zone--warning">
-      <span class="icon icon-attention2"></span>
+      <span class="icon icon-error"></span>
       <span><%= l('project.identifier.warning_one').html_safe %></span>
       <br>
-      <span class="icon icon-attention2"></span>
+      <span class="icon icon-error"></span>
       <span><%= l('project.identifier.warning_two').html_safe %></span>
     </p>
 
@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="danger-zone--verification">
       <%= f.text_field :identifier %>
       <span>
-        <%= f.submit l(:button_update), class: 'button -highlight -with-icon icon-yes' %>
+        <%= f.submit l(:button_update), class: 'button -highlight -with-icon icon-checkmark' %>
       </span>
       <span>
         <%= link_to settings_project_path(@project), class: 'button' do %>

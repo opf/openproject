@@ -56,7 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <th></th>
           <% for new_status in @statuses %>
             <th>
-              <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:label_check_uncheck_all_in_column)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
+              <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:label_check_uncheck_all_in_column)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
                                class: 'no-decoration-on-hover',
                                title: "#{l(:label_check_uncheck_all_in_column)}",
                                alt: "#{l(:label_check_uncheck_all_in_column)}") %>
@@ -76,7 +76,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <% for old_status in @statuses %>
           <tr>
             <td class="workflow-table--current-status">
-              <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:label_check_uncheck_all_in_row)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.id}')",
+              <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:label_check_uncheck_all_in_row)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.id}')",
                                          class: 'no-decoration-on-hover',
                                          title: "#{l(:label_check_uncheck_all_in_row)}",
                                          alt: "#{l(:label_check_uncheck_all_in_row)}") %>

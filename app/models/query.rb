@@ -95,7 +95,7 @@ class Query < ActiveRecord::Base
                     sortable: ["#{User.table_name}.lastname",
                                "#{User.table_name}.firstname",
                                "#{WorkPackage.table_name}.responsible_id"],
-                    groupable: "#{WorkPackage.table_name}.responsible_id",
+                    groupable: true,
                     join: 'LEFT OUTER JOIN users as responsible ON ' +
                           "(#{WorkPackage.table_name}.responsible_id = responsible.id)"),
     QueryColumn.new(:updated_at,

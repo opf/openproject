@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% else %>
   <div id="roadmap">
     <% @versions.each do |version| %>
-      <h3 class="version icon-context icon-version">
+      <h3 class="version icon-context icon-modules">
         <%= link_to_version version, name: h(version.name) %>
       </h3>
       <%= render partial: 'versions/overview', locals: {version: version} %>

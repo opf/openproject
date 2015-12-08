@@ -212,18 +212,18 @@ tr.dir
       @include icon-common
       cursor: pointer
       &:before
-        content: "\e089"
+        @extend .icon-plus:before
         margin-left: 5px
         padding: 0
   &.loading
     span.dir-expander:before
-      content: "\e07a"
+      @extend .icon-loading1:before
   &.collapsed
     span.dir-expander:before
-      content: "\e089"
+      @extend .icon-plus:before
   &.open
     span.dir-expander:before
-      content: "\e082"
+      @extend .icon-minus1:before
 
 tr
   &.entry

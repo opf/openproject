@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,7 +24,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
 /*jshint expr: true*/
 
@@ -34,7 +34,7 @@ describe('workPackageGroupSums Directive', function() {
     beforeEach(angular.mock.module('openproject.workPackages.directives',
                                    'openproject.models',
                                    'openproject.services'));
-    beforeEach(module('openproject.api', 'openproject.templates', function($provide) {
+    beforeEach(angular.mock.module('openproject.api', 'openproject.templates', function($provide) {
       var configurationService = {};
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -44,7 +44,7 @@ describe('workPackageGroupSums Directive', function() {
 
     beforeEach(inject(function($rootScope, $compile) {
       var html;
-      html = '<tr work-package-group-sums><td ng-repeat="sum in sums">{{ sum }}</td></tr>';
+      html = '<tr wp-group-sums><td ng-repeat="sum in sums">{{ sum }}</td></tr>';
 
       element = angular.element(html);
       rootScope = $rootScope;

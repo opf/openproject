@@ -29,7 +29,7 @@
 
 module BreadcrumbHelper
   def full_breadcrumb
-    breadcrumb_list(link_to(icon_wrapper('icon2 icon-home2', I18n.t(:label_home)), home_path),
+    breadcrumb_list(link_to(icon_wrapper('icon2 icon-home', I18n.t(:label_home)), home_path),
                     link_to_project_ancestors(@project),
                     *breadcrumb_paths)
   end

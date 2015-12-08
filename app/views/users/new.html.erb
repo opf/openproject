@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render partial: 'simple_form', locals: { f: f, auth_sources: @auth_sources, user: @user } %>
 
   <p>
-    <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-yes' %>
-    <%= styled_button_tag l(:button_create_and_continue), name: 'continue', class: '-highlight -with-icon icon-yes' %>
+    <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+    <%= styled_button_tag l(:button_create_and_continue), name: 'continue', class: '-highlight -with-icon icon-checkmark' %>
   </p>
 <% end %>

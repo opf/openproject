@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,13 +24,18 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-// TODO move to UI components
-module.exports = function(PathHelper, WorkPackagesHelper, UserService){
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpColumn', wpColumn);
+
+function wpColumn(){
   return {
-    restrict: 'EA',
+    restrict: 'E',
+    templateUrl: '/components/wp-table/directives/wp-column/wp-column.directive.html',
     replace: true,
+
     scope: {
       workPackage: '=',
       projectIdentifier: '=',
@@ -38,17 +43,19 @@ module.exports = function(PathHelper, WorkPackagesHelper, UserService){
       displayType: '@',
       displayEmpty: '@'
     },
-    templateUrl: '/templates/work_packages/work_package_column.html',
-    link: function(scope, element, attributes) {
-      scope.displayType = scope.displayType || 'text';
 
-      // Set text to be displayed
-      scope.$watch(dataAvailable, setColumnData);
+    bindToController: true,
+    controller: WorkPackageColumnController,
+    controllerAs: 'vm'
+  };
+}
 
-      // Check if the data is available on the work package
+function WorkPackageColumnController($scope, PathHelper, WorkPackagesHelper) {
+  var vm = this;
+  
+  vm.displayType = vm.displayType || 'text';
 
-      function dataAvailable() {
-        if (!scope.workPackage) return false;
+  $scope.$watch(dataAvailable, setColumnData);
 
   function dataAvailable() {
     if (!vm.workPackage) return false;
@@ -139,6 +146,6 @@ module.exports = function(PathHelper, WorkPackagesHelper, UserService){
       }
     };
 
-    }
-  };
-};
+    return types[linkMeta.model_type] || '';
+  }
+}

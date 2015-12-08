@@ -100,7 +100,7 @@ $toggler-width: 40px
 
         .open .toggler
           .icon-toggler:before
-            content: "\e0cc"
+            @extend .icon-arrow-up1:before
 
 
         // padding for placeholder for highlighted left-item-border
@@ -192,7 +192,7 @@ $toggler-width: 40px
         height: 100%
         padding: 0 10px 0 0
         &:before
-          content: "\e00a"
+          @extend .icon-duplicate:before
     a.navigation-toggler
       @include default-transition
       position: relative

@@ -19,8 +19,8 @@ targets:
     dependencies:
       - epel-release
   sles-11:
-    build_dependencies:
-      - ImageMagick-devel
+    env:
+      - EMBED_IMAGEMAGICK=true
   sles-12:
     build_dependencies:
       - ImageMagick-devel

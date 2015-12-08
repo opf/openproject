@@ -29,5 +29,5 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for @group, url: group_path(@group), html: {method: :put}, as: :group do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
-  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

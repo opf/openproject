@@ -96,8 +96,6 @@ angular.module('openproject.uiComponents')
   .directive('slideToggle', [require('./slide-toggle')])
   .directive('sortLink', ['I18n', 'SortService', require(
     './sort-link-directive')])
-  .directive('tablePagination', ['I18n', 'PaginationService', require(
-    './table-pagination-directive')])
   .directive('toggledMultiselect', ['I18n', require(
     './toggled-multiselect-directive')])
   .directive('toolbar', require('./toolbar-directive'))
