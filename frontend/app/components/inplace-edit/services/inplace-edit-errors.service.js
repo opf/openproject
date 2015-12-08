@@ -31,8 +31,16 @@ angular
   .module('openproject.workPackages.services')
   .factory('inplaceEditErrors', inplaceEditErrors);
 
-function inplaceEditErrors() {
-  return {
-    errors: null
+function inplaceEditErrors(ApiHelper) {
+  var inplaceEditErrors;
+
+  return inplaceEditErrors = {
+    errors: null,
+
+    apiErrors: function (errors) {
+      return inplaceEditErrors.errors = {
+        _common: ApiHelper.getErrorMessages(errors)
+      };
+    }
   };
 }
