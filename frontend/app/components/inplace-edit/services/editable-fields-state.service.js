@@ -60,14 +60,14 @@ function EditableFieldsState($rootScope, $window, inplaceEditErrors, inplaceEdit
       }
     },
 
+    get canEdit() {
+      return EditableFieldsState.workPackage && !!EditableFieldsState.workPackage.links.update;
+    },
+
     editAll: {
       cancel: function () {
         inplaceEditForm.deleteNewForm();
         this.stop();
-      },
-
-      get allowed() {
-        return EditableFieldsState.workPackage && !!EditableFieldsState.workPackage.links.update;
       },
 
       start: function () {

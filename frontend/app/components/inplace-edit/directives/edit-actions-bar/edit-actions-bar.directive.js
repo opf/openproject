@@ -50,7 +50,7 @@ function editActionsBar() {
 
       angular.extend(vm, {
         visible: function () {
-          return EditableFieldsState.editAll.state && EditableFieldsState.editAll.allowed;
+          return EditableFieldsState.editAll.state && EditableFieldsState.canEdit;
         },
 
         save: function () {

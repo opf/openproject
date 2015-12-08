@@ -80,6 +80,7 @@ module.exports = function(
 
     controller: ['$scope', 'EditableFieldsState', function ($scope, EditableFieldsState) {
       $scope.editAll = EditableFieldsState.editAll;
+      $scope.canEdit = EditableFieldsState.canEdit;
     }],
 
     link: function(scope) {

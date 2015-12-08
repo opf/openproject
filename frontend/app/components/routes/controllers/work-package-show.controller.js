@@ -39,6 +39,7 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
     WorkPackageAttachmentsService, AuthorisationService) {
 
   $scope.editAll = EditableFieldsState.editAll;
+  $scope.canEdit = EditableFieldsState.canEdit;
 
   $scope.$on('$stateChangeSuccess', function(event, toState){
     latestTab.registerState(toState.name);

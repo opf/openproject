@@ -34,6 +34,7 @@ describe('EditableFieldsState service', function () {
 
   beforeEach(inject(function (_EditableFieldsState_) {
     EditableFieldsState = _EditableFieldsState_;
+    EditableFieldsState.workPackage = { links: {} };
   }));
 
   describe('is active field method', function () {
@@ -53,11 +54,19 @@ describe('EditableFieldsState service', function () {
       EditableFieldsState.forcedEditState = true;
       expect(EditableFieldsState.isActiveField(field)).to.be.false;
     });
+
+    it('editing is allowed if the WP update action is defined', function () {
+      EditableFieldsState.workPackage.links.update = 'something';
+      expect(EditableFieldsState.canEdit).to.be.true;
+    });
+
+    it('editing is not allowed if th WP update action does not exist', function () {
+      expect(EditableFieldsState.canEdit).to.be.false;
+    });
   });
 
   describe('edit all', function () {
     beforeEach(function () {
-      EditableFieldsState.workPackage = { links: {} };
       eAll = EditableFieldsState.editAll;
     });
 
@@ -71,15 +80,6 @@ describe('EditableFieldsState service', function () {
 
     it('matches its focused field', function () {
       expect(EditableFieldsState.isFocusField(EditableFieldsState.focusField)).to.be.true;
-    });
-
-    it('is allowed if the WP update action is defined', function () {
-      EditableFieldsState.workPackage.links.update = 'something';
-      expect(eAll.allowed).to.be.true;
-    });
-
-    it('is not allowed if th WP update action does not exist', function () {
-      expect(eAll.allowed).to.be.false;
     });
   });
 });
