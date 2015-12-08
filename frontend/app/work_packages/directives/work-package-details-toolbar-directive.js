@@ -78,8 +78,9 @@ module.exports = function(
       workPackage: '='
     },
 
-    controller: ['$scope', 'EditableFieldsState', function ($scope, EditableFieldsState) {
-      $scope.editAll = EditableFieldsState.editAll;
+    controller: ['$scope', 'EditableFieldsState', function ($scope, EditableFieldsState,
+                                                            inplaceEditAll) {
+      $scope.editAll = inplaceEditAll;
       $scope.canEdit = EditableFieldsState.canEdit;
     }],
 
@@ -109,7 +110,7 @@ module.exports = function(
         var workPackageDeletionId = scope.workPackage.props.id;
         var promise = WorkPackageService.performBulkDelete([workPackageDeletionId], true);
 
-        promise.success(function(data, status) {
+        promise.success(function() {
           WorkPackageService.cache().remove('preselectedWorkPackageId');
           $state.go('work-packages.list');
         });

@@ -38,9 +38,9 @@ function WorkPackageNewController($scope,
                                   WorkPackagesOverviewService,
                                   WorkPackageFieldService,
                                   WorkPackageService,
-                                  EditableFieldsState,
                                   WorkPackagesDisplayHelper,
                                   NotificationsService,
+                                  inplaceEditAll,
                                   loadingIndicator) {
 
   var vm = this;
@@ -109,8 +109,7 @@ function WorkPackageNewController($scope,
   prepareInitialData().then(activate);
 
   function prepareInitialData() {
-    EditableFieldsState.forcedEditState = true;
-    EditableFieldsState.editAll.state = true;
+    inplaceEditAll.start();
 
     if ($stateParams.copiedFromWorkPackageId) {
       vm.loaderPromise = WorkPackageService.getWorkPackage($stateParams.copiedFromWorkPackageId)
@@ -139,7 +138,7 @@ function WorkPackageNewController($scope,
     });
 
     $scope.$on('$stateChangeStart', function () {
-      EditableFieldsState.editAll.stop();
+      inplaceEditAll.stop();
     });
 
     return vm.loaderPromise;

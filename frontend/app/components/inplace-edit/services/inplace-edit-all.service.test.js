@@ -26,44 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.services')
-  .factory('EditableFieldsState', EditableFieldsState);
+describe('inplaceEditAll service', function () {
+  var inplaceEditAll;
 
-function EditableFieldsState(inplaceEditErrors, inplaceEditAll) {
-  var EditableFieldsState;
+  beforeEach(angular.mock.module('openproject', 'openproject.workPackages.services'));
 
-  return EditableFieldsState = {
-    workPackage: null,
-    errors: inplaceEditErrors.errors,
-    isBusy: false,
-    currentField: null,
-    forcedEditState: false,
-    focusField: 'subject',
+  beforeEach(angular.mock.inject(function (_inplaceEditAll_) {
+    inplaceEditAll = _inplaceEditAll_;
+  }));
 
-    isFocusField: function (field) {
-      return this.focusField === field;
-    },
+  it('turns on editing on start', function () {
+    expect(inplaceEditAll.start()).to.be.true;
+  });
 
-    isActiveField: function (field) {
-      return !(this.forcedEditState || inplaceEditAll.state) && this.currentField === field;
-    },
-
-    getPendingFormChanges: function () {
-      var form = this.workPackage.form;
-      return form.pendingChanges = form.pendingChanges || angular.copy(form.embedded.payload.props);
-    },
-
-    discard: function (fieldName) {
-      delete this.getPendingFormChanges()[fieldName];
-
-      if (inplaceEditErrors.errors && inplaceEditErrors.hasOwnProperty(fieldName)) {
-        delete inplaceEditErrors.errors[fieldName];
-      }
-    },
-
-    get canEdit() {
-      return EditableFieldsState.workPackage && !!EditableFieldsState.workPackage.links.update;
-    }
-  };
-}
+  it('turns off editing on stop', function () {
+    expect(inplaceEditAll.stop()).to.be.false;
+  });
+});

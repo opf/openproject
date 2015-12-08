@@ -30,7 +30,7 @@ angular
   .module('openproject.inplace-edit')
   .directive('inplaceEditorDate', inplaceEditorDate);
 
-function inplaceEditorDate(EditableFieldsState, TimezoneService, $timeout, Datepicker) {
+function inplaceEditorDate($timeout, inplaceEditAll, TimezoneService, Datepicker) {
   var parseISODate = TimezoneService.parseISODate,
     customDateFormat = 'YYYY-MM-DD',
     customFormattedDate = function(date) {
@@ -83,7 +83,7 @@ function inplaceEditorDate(EditableFieldsState, TimezoneService, $timeout, Datep
       };
 
       $timeout(function() {
-        EditableFieldsState.editAll.state || datepicker.focus();
+        inplaceEditAll.state || datepicker.focus();
       });
 
       angular.element('.work-packages--details-content').on('click', function(e) {
@@ -97,4 +97,3 @@ function inplaceEditorDate(EditableFieldsState, TimezoneService, $timeout, Datep
     }
   };
 }
-inplaceEditorDate.$inject = ['EditableFieldsState', 'TimezoneService', '$timeout', 'Datepicker'];

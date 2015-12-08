@@ -27,7 +27,7 @@
 //++
 
 module.exports = function($scope, $state, $stateParams, QueryService, PathHelper, $rootScope,
-    EditableFieldsState) {
+    inplaceEditAll) {
 
   // Setup
   $scope.$state = $state;
@@ -43,7 +43,7 @@ module.exports = function($scope, $state, $stateParams, QueryService, PathHelper
   });
 
   $scope.isDetailsViewActive = function() {
-    return $state.includes('work-packages.list.details') || EditableFieldsState.editAll.state;
+    return $state.includes('work-packages.list.details') || inplaceEditAll.state;
   };
 
   $scope.isListViewActive = function() {

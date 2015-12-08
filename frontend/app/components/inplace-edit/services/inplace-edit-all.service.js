@@ -30,6 +30,35 @@ angular
   .module('openproject.workPackages.services')
   .factory('inplaceEditAll', inplaceEditAll);
 
-function inplaceEditAll() {
+function inplaceEditAll($rootScope, $window, inplaceEditForm) {
+  var inplaceEditAll;
 
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+    if (inplaceEditAll.state && fromParams.workPackageId
+        && toParams.workPackageId !== fromParams.workPackageId) {
+
+      if (!$window.confirm(I18n.t('js.text_are_you_sure'))) {
+        return event.preventDefault();
+      }
+
+      inplaceEditAll.cancel();
+    }
+  });
+
+  return inplaceEditAll = {
+    state: false,
+
+    cancel: function () {
+      inplaceEditForm.deleteNewForm();
+      this.stop();
+    },
+
+    start: function () {
+      return this.state = true;
+    },
+
+    stop: function () {
+      return this.state = false;
+    }
+  };
 }

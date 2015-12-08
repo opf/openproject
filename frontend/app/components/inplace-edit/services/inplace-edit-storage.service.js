@@ -31,7 +31,7 @@ angular
   .factory('inplaceEditStorage', inplaceEditStorage);
 
 function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageService,
-  ActivityService, inplaceEditForm, inplaceEditErrors) {
+  ActivityService, inplaceEditForm, inplaceEditErrors, inplaceEditAll) {
 
   var handleApiErrors = function (deferred) {
     return function (errors) {
@@ -58,7 +58,7 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
               $rootScope.$broadcast('workPackageUpdatedInEditor', updatedWorkPackage);
               $rootScope.$broadcast('uploadPendingAttachments', updatedWorkPackage);
 
-              EditableFieldsState.editAll.cancel();
+              inplaceEditAll.cancel();
 
               deferred.resolve(updatedWorkPackage);
             })

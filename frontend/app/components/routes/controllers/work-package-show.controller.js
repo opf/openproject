@@ -36,9 +36,9 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
     ChildrenRelationsHandler, ParentRelationsHandler, WorkPackagesOverviewService,
     WorkPackageFieldService, EditableFieldsState, WorkPackagesDisplayHelper, NotificationsService,
     WorkPackageAuthorization, PERMITTED_MORE_MENU_ACTIONS, HookService, $window,
-    WorkPackageAttachmentsService, AuthorisationService) {
+    WorkPackageAttachmentsService, AuthorisationService, inplaceEditAll) {
 
-  $scope.editAll = EditableFieldsState.editAll;
+  $scope.editAll = inplaceEditAll;
   $scope.canEdit = EditableFieldsState.canEdit;
 
   $scope.$on('$stateChangeSuccess', function(event, toState){

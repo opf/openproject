@@ -33,8 +33,8 @@ angular
 function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $location, latestTab,
   WorkPackagesTableService, WorkPackageService, ProjectService, QueryService,
   PaginationService, AuthorisationService, UrlParamsHelper, Query,
-  OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService, EditableFieldsState,
-  loadingIndicator) {
+  OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService,
+  loadingIndicator, inplaceEditAll) {
 
   $scope.projectIdentifier = $stateParams.projectPath || null;
   $scope.loadingIndicator = loadingIndicator;
@@ -154,7 +154,7 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
     $scope.maintainBackUrl();
   }
 
-  function afterQuerySetupCallback(query) {
+  function afterQuerySetupCallback() {
     setupFiltersVisibility();
   }
 
@@ -243,22 +243,22 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
 
   initialSetup();
 
-  $scope.editAll = EditableFieldsState.editAll;
+  $scope.editAll = inplaceEditAll;
 
   $scope.$watch(QueryService.getQueryName, function(queryName){
     $scope.selectedTitle = queryName || I18n.t('js.label_work_package_plural');
   });
 
-  $rootScope.$on('queryStateChange', function(event, message) {
+  $rootScope.$on('queryStateChange', function() {
     $scope.maintainUrlQueryState();
     $scope.maintainBackUrl();
   });
 
-  $rootScope.$on('workPackagesRefreshRequired', function(event, message) {
+  $rootScope.$on('workPackagesRefreshRequired', function() {
     updateResults();
   });
 
-  $rootScope.$on('queryClearRequired', function(event, message) {
+  $rootScope.$on('queryClearRequired', function() {
     $location.search('query_props', null);
     if($location.search().query_id) {
       $location.search('query_id', null);
@@ -267,7 +267,7 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
     }
   });
 
-  $rootScope.$on('workPackgeLoaded', function(event, message) {
+  $rootScope.$on('workPackgeLoaded', function() {
     $scope.maintainBackUrl();
   });
 
