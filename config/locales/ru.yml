@@ -25,7 +25,3 @@ ru:
   units: Модули
   validation_failure_date: не является допустимой датой
   validation_failure_integer: не является допустимым целым числом
-  js:
-    reporting_engine:
-      label_remove: Удалить
-      label_response_error: Произошла ошибка при обработке запроса.

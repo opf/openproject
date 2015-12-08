@@ -1,0 +1,6 @@
+{
+  "name": "reporting_engine",
+  "version": "0.1.0",
+  "main": "frontend/app/reporting_engine-app.js",
+  "dependencies": {}
+}

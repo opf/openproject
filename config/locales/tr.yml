@@ -25,7 +25,3 @@ tr:
   units: Birimler
   validation_failure_date: geçerli bir tarih değil
   validation_failure_integer: geçerli bir tamsayı değil
-  js:
-    reporting_engine:
-      label_remove: Sil
-      label_response_error: Sorgu işleme sırasında bir hata oluştu.

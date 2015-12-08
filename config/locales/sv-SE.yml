@@ -25,7 +25,3 @@ sv:
   units: Enheter
   validation_failure_date: inte är ett giltigt datum
   validation_failure_integer: är inte ett giltigt heltal
-  js:
-    reporting_engine:
-      label_remove: Ta bort
-      label_response_error: Det uppstod ett fel när frågan hanterades.

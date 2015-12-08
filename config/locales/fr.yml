@@ -26,7 +26,3 @@ fr:
   units: Unités
   validation_failure_date: "n'est pas une date valide"
   validation_failure_integer: "n'est pas un nombre entier valide"
-  js:
-    reporting_engine:
-      label_remove: Supprimer
-      label_response_error: "Une erreur s'est produite lors du traitement de la requête."

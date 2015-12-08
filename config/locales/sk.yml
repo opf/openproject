@@ -25,7 +25,3 @@ sk:
   units: Jednotky
   validation_failure_date: nie je platný dátum
   validation_failure_integer: nie je platné celé číslo
-  js:
-    reporting_engine:
-      label_remove: Odstrániť
-      label_response_error: Počas spracovania dotazu sa vyskytla chyba.
