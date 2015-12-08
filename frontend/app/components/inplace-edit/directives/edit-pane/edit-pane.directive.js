@@ -85,7 +85,8 @@ function inplaceEditorEditPane($timeout, EditableFieldsState, FocusHelper, inpla
 }
 
 function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
-    EditableFieldsState, inplaceEditStorage, inplaceEditMultiStorage, inplaceEditErrors) {
+    EditableFieldsState, inplaceEditStorage, inplaceEditMultiStorage, inplaceEditErrors,
+    inplaceEditAll) {
 
   var vm = this;
   var field = $scope.field;
