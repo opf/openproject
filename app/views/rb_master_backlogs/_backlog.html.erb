@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= render_backlog_menu backlog %>
     <%= render :partial => "rb_sprints/sprint", :object => backlog.sprint %>
     <div class="velocity"> </div>
-    <div class="toggler<%= ' closed' if folded %>"> </div>
+    <div class="toggler<%= ' closed' if folded %> icon-small"> </div>
   </div>
   <ul class="stories<%= ' closed' if folded %>">
     <% reset_cycle 'stories' %>
