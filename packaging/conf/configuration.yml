@@ -38,18 +38,20 @@ default:
   smtp_password: <%= ENV['SMTP_PASSWORD'] %>
   smtp_enable_starttls_auto: <%= ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO') { "false" } %>
   attachments_storage_path: <%= ENV.fetch('ATTACHMENTS_STORAGE_PATH') { "/var/db/_APP_NAME_/files" } %>
-<% if (ENV['GIT_REPOSITORIES'] || ENV['SVN_REPOSITORIES']).present? %>
+<% git_configured = ENV['GIT_REPOSITORIES'].present? %>
+<% svn_configured = ENV['SVN_REPOSITORIES'].present? %>
+<% if git_configured || svn_configured %>
   scm:
-  <% if ENV['GIT_REPOSITORIES'].present? %>
+  <% if git_configured %>
     git:
       manages: <%= ENV['GIT_REPOSITORIES'] %>
       mode: 0770
       group: <%= ENV['SERVER_GROUP'] %>
   <% end %>
-  <% if ENV['SVN_REPOSITORIES'].present? %>
+  <% if svn_configured %>
     subversion:
       # SVN uses Apache repository wrapper due to permission errors in multi-user operation
-      manages: http://127.0.0.1/repoman_svn
+      manages: <%= ENV['SVN_REPOMAN_URL'] %>
       # Do noot verify SSL certificates when SERVER_PROTOCOL is 'https'.
       # As we currently only support local repoman installations with packager,
       # this option is set to true by default.
