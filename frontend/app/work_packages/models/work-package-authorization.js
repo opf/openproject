@@ -26,25 +26,63 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
+module.exports = function(ProjectService, $state, PathHelper) {
 
   var WorkPackageAuthorization = function (workPackage) {
     this.workPackage = workPackage;
+
+    if (angular.isDefined(this.workPackage.embedded.project)) {
+      this.project = workPackage.embedded.project;
+    }
+    else {
+      this.project = ProjectService.getWorkPackageProject(this.workPackage).then(function(project) {
+        return project;
+      });
+    }
+
+    this.allActions = {
+                        workPackage: this.workPackage.links,
+                        project: this.project.links
+                      };
   };
 
   WorkPackageAuthorization.prototype = {
-    permittedActions: function(allowedActions) {
-      var permittedActions = {};
-      var workPackageActions = Object.keys(this.workPackage.links);
-      var validActions = allowedActions.filter(function(action) {
-        return workPackageActions.indexOf(action) >= 0;
+    copyLink: function() {
+      if ($state.current.name.indexOf('work-packages.show') === 0){
+        return PathHelper.workPackageCopyPath(this.workPackage.props.id);
+      }
+      else if ($state.current.name.indexOf('work-packages.list.details') === 0) {
+        return PathHelper.workPackageDetailsCopyPath(this.project.props.identifier,
+                                                     this.workPackage.props.id);
+      }
+    },
+    linkForAction: function(action) {
+      if (action.key === 'copy') {
+        action.link = this.copyLink();
+      }
+      else {
+        action.link = this.allActions[action.resource][action.link].href;
+      }
+
+      return action;
+    },
+    isPermitted: function(action) {
+      return this.allActions[action.resource] !== undefined &&
+        this.allActions[action.resource][action.link] !== undefined;
+    },
+    permittedActionKeys: function(allowedActions) {
+      var validActions = _.filter(allowedActions, this.isPermitted, this);
+
+      return _.map(validActions, function(action) {
+        return action.key;
       });
+    },
+    permittedActionsWithLinks: function(allowedActions) {
+      var validActions = _.filter(_.cloneDeep(allowedActions), this.isPermitted, this);
 
-      angular.forEach(validActions, function(action) {
-        this.links[action] = this.workPackage.links[action].href;
-      }, { links: permittedActions, workPackage: this.workPackage });
+      var allowed = _.map(validActions, this.linkForAction, this);
 
-      return permittedActions;
+      return allowed;
     }
   };
 

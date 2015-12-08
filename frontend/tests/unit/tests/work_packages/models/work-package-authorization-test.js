@@ -31,40 +31,58 @@
 describe('WorkPackageAuthorization', function() {
   var WorkPackageAuthorization;
   var authorization;
+  var workPackage = {
+    links: {
+      delete: { href: 'deleteMeLink' },
+      update: { href: 'updateMeLink' },
+      log_time: { href: 'log_timeMeLink' },
+    },
+    props: {
+      id: 5
+    },
+    embedded: {
+      project: {
+        links: {
+          createWorkPackage: { href: 'createWorkPackgeLink' }
+        }
+      }
+    }
+  };
 
-  beforeEach(module('openproject.workPackages.models'));
+  beforeEach(module('openproject.workPackages.models',
+                    'openproject.services',
+                    'openproject.api',
+                    function($provide){
+    var state = { go: function() { return false; },
+                  current: { name: 'work-packages.show' }};
+    $provide.value('$state', state);
+
+  }));
 
   beforeEach(inject(function(_WorkPackageAuthorization_) {
     WorkPackageAuthorization = _WorkPackageAuthorization_;
   }));
 
   beforeEach(function() {
-    var workPackage = {
-      links: {
-        delete: { href: 'deleteMeLink' },
-        update: { href: 'updateMeLink' },
-        log_time: { href: 'log_timeMeLink' },
-      }
-    };
-
     authorization = new WorkPackageAuthorization(workPackage);
   });
 
   describe('permittedActions', function() {
     describe('no allowed action passed', function() {
       it('returns empty set of permitted actions', function() {
-        var permittedActions = authorization.permittedActions([]);
+        var permittedActions = authorization.permittedActionsWithLinks([]);
 
         expect(permittedActions).to.be.empty;
       });
     });
 
     describe('allowed action passed', function() {
-      var allowedActions = ['delete', 'log_time'];
+      var allowedActions = [{ key: 'delete', resource: 'workPackage', link: 'delete' } ,
+                            { key: 'log_time', resource: 'workPackage', link: 'log_time' }];
       var permittedActions;
 
       before(function() {
-        permittedActions = authorization.permittedActions(allowedActions);
+        permittedActions = authorization.permittedActionsWithLinks(allowedActions);
       });
 
       it('returns a non empty list', function() {
@@ -72,12 +90,35 @@ describe('WorkPackageAuthorization', function() {
       });
 
       it('returns an object with permitted actions', function() {
-        expect(Object.keys(permittedActions)).to.eql(allowedActions);
+        expect(Object.keys(permittedActions)).to.eql(Object.keys(permittedActions));
       });
 
       it('returns an object with links to permitted actions', function() {
-        angular.forEach(permittedActions, function(value, key) {
-          expect(value).to.eql(key + 'MeLink');
+        angular.forEach(permittedActions, function(value) {
+          expect(value.link).to.eql(value.key + 'MeLink');
+        });
+      });
+    });
+
+    describe('allowed action copy passed', function() {
+      var allowedActions = [{ key: 'copy', resource: 'project', link: 'createWorkPackage' }];
+      var permittedActions;
+
+      before(function() {
+        permittedActions = authorization.permittedActionsWithLinks(allowedActions);
+      });
+
+      it('returns a non empty list', function() {
+        expect(permittedActions).not.to.be.empty;
+      });
+
+      it('returns an object with permitted actions', function() {
+        expect(Object.keys(permittedActions)).to.eql(Object.keys(permittedActions));
+      });
+
+      it('returns an object with links to permitted actions', function() {
+        angular.forEach(permittedActions, function(value) {
+          expect(value.link).to.eql('/work_packages/5/copy');
         });
       });
     });

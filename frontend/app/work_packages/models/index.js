@@ -27,6 +27,6 @@
 //++
 
 angular.module('openproject.workPackages.models')
-  .factory('WorkPackageAuthorization', require('./work-package-authorization'))
-  .factory('Datepicker', ['TimezoneService', 'ConfigurationService', 
+  .factory('WorkPackageAuthorization', ['ProjectService', '$state', 'PathHelper', require('./work-package-authorization')])
+  .factory('Datepicker', ['TimezoneService', 'ConfigurationService',
                           '$timeout', require('./datepicker.js')]);

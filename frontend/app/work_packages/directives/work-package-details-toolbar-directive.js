@@ -37,34 +37,35 @@ module.exports = function(
     WorkPackageAuthorization) {
 
   function getPermittedActions(authorization, permittedMoreMenuActions) {
-    var permittedActions = authorization.permittedActions(permittedMoreMenuActions);
+    var permittedActions = authorization.permittedActionsWithLinks(permittedMoreMenuActions);
     var augmentedActions = { };
 
-    angular.forEach(permittedActions, function(value, key) {
-      var css = ["icon-" + key];
+    angular.forEach(permittedActions, function(permission) {
+      var css = ["icon-" + permission.key];
 
-      this[key] = { link: value, css: css };
+      this[permission.key] = { link: permission.link, css: css };
     }, augmentedActions);
 
     return augmentedActions;
   }
 
   function getPermittedPluginActions(authorization) {
-    var pluginActions = HookService.call('workPackageDetailsMoreMenu').reduce(function(previousValue, currentValue) {
-                          return angular.extend(previousValue, currentValue);
-                        }, { });
+    var pluginActions = [];
+    angular.forEach(HookService.call('workPackageDetailsMoreMenu'), function(action) {
+      pluginActions = pluginActions.concat(action);
+    });
 
-    var permittedPluginActions = authorization.permittedActions(Object.keys(pluginActions));
+    var permittedPluginActions = authorization.permittedActionsWithLinks(pluginActions);
     var augmentedPluginActions = { };
 
-    angular.forEach(permittedPluginActions, function(value, key) {
-      var css = [].concat(pluginActions[key]);
+    angular.forEach(permittedPluginActions, function(action) {
+      var css = [].concat(action.css);
 
-      if (css.length == 0) {
-        css = ["icon-" + key];
+      if (css.length === 0) {
+        css = ["icon-" + action.key];
       }
 
-      this[key] = { link: value, css: css };
+      this[action.key] = { link: action.link, css: css };
     }, augmentedPluginActions);
 
     return augmentedPluginActions;

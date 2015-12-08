@@ -85,8 +85,14 @@ describe('workPackageDetailsToolbar', function() {
   });
 
   var pluginActions = {
-    plugin_action_1: { plugin_action_1: ['plugin_action_1_css_1', 'plugin_action_1_css_2'] },
-    plugin_action_2: { plugin_action_2: ['plugin_action_2_css_1'] }
+    plugin_action_1: { key: 'plugin_action_1',
+                       resource: 'workPackage',
+                       link: 'plugin_action_1',
+                       css: ['plugin_action_1_css_1', 'plugin_action_1_css_2'] },
+    plugin_action_2: { key: 'plugin_action_2',
+                       resource: 'workPackage',
+                       link: 'plugin_action_2',
+                       css: ['plugin_action_2_css_1'] }
   };
 
   beforeEach(function() {
@@ -98,6 +104,13 @@ describe('workPackageDetailsToolbar', function() {
         delete: { href: 'deleteMeLink' },
         plugin_action_1: { href: 'plugin_actionMeLink' },
         plugin_action_2: { href: 'plugin_actionMeLink' }
+      },
+      embedded: {
+        project: {
+          links: {
+            createWorkPackage: { href: 'createWorkPackageLink' }
+          }
+        }
       }
     };
 
