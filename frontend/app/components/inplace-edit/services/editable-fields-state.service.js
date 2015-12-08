@@ -37,6 +37,11 @@ function EditableFieldsState($rootScope, $window, inplaceEditErrors, inplaceEdit
     isBusy: false,
     currentField: null,
     forcedEditState: false,
+    focusField: 'subject',
+
+    isFocusField: function (field) {
+      return this.focusField === field;
+    },
 
     isActiveField: function (field) {
       return !(this.forcedEditState || this.editAll.state) && this.currentField === field;
@@ -56,8 +61,6 @@ function EditableFieldsState($rootScope, $window, inplaceEditErrors, inplaceEdit
     },
 
     editAll: {
-      focusField: 'subject',
-
       cancel: function () {
         inplaceEditForm.deleteNewForm();
         this.stop();
@@ -77,10 +80,6 @@ function EditableFieldsState($rootScope, $window, inplaceEditErrors, inplaceEdit
 
       toggleState: function () {
         return this.state = !this.state;
-      },
-
-      isFocusField: function (field) {
-        return this.focusField === field;
       }
     }
   };

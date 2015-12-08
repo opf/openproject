@@ -74,7 +74,7 @@ describe('EditableFieldsState service', function () {
     });
 
     it('matches its focused field', function () {
-      expect(eAll.isFocusField(eAll.focusField)).to.be.true;
+      expect(EditableFieldsState.isFocusField(EditableFieldsState.focusField)).to.be.true;
     });
 
     it('is allowed if the WP update action is defined', function () {

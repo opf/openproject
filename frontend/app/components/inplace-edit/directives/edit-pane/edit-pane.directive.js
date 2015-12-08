@@ -75,7 +75,7 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
         if (isEditing && !efs.editAll.state && !efs.forcedEditState) {
           scope.focusInput();
 
-        } else if (efs.editAll.state && efs.editAll.isFocusField(field.name)) {
+        } else if (efs.editAll.state && efs.isFocusField(field.name)) {
           $timeout(function () {
             var focusElement = element.find('.focus-input');
             focusElement.length && focusElement.focus()[0].select();
