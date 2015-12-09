@@ -29,34 +29,24 @@
 require 'support/pages/page'
 
 module Pages
-  class SplitWorkPackage < Page
-
-    attr_reader :work_package,
-                :project
+  class SplitWorkPackage < Pages::AbstractWorkPackage
+    attr_reader :project
 
     def initialize(work_package, project = nil)
       @work_package = work_package
       @project = project
     end
 
-    def expect_subject
-      within(details_container) do
-        expect(page).to have_content(work_package.subject)
-      end
-    end
+    def visit_copy!
+      page = SplitWorkPackageCreate.new(project || work_package.project, work_package)
+      page.visit!
 
-    def expect_current_path
-      current_path = URI.parse(current_url).path
-      expect(current_path).to eql path
-    end
-
-    def visit_tab!(tab)
-      visit path(tab)
+      page
     end
 
     private
 
-    def details_container
+    def container
       find('.work-packages--details')
     end
 

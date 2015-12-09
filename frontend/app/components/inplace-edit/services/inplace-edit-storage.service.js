@@ -31,15 +31,11 @@ angular
   .factory('inplaceEditStorage', inplaceEditStorage);
 
 function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageService,
-  ActivityService, inplaceEditForm, ApiHelper, inplaceEditErrors) {
+  ActivityService, inplaceEditForm, inplaceEditErrors) {
 
-  var handleAPIErrors = function (deferred) {
+  var handleApiErrors = function (deferred) {
     return function (errors) {
-      inplaceEditErrors.errors = {
-        _common: ApiHelper.getErrorMessages(errors)
-      };
-
-      deferred.reject(inplaceEditErrors.errors)
+      deferred.reject(inplaceEditErrors.apiErrors(errors))
     }
   };
 
@@ -66,7 +62,7 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
 
               deferred.resolve(updatedWorkPackage);
             })
-            .catch(handleAPIErrors(deferred));
+            .catch(handleApiErrors(deferred));
         })
         .catch(deferred.reject);
 
@@ -88,7 +84,7 @@ function inplaceEditStorage($q, $rootScope, EditableFieldsState, WorkPackageServ
           editForm.updateFieldValues();
 
           deferred.resolve(form);
-      }).catch(handleAPIErrors(deferred));
+      }).catch(handleApiErrors(deferred));
 
       return deferred.promise;
     },

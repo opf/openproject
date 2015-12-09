@@ -351,25 +351,25 @@ module ApplicationHelper
 
     content_tag(:span,
                 link_to(content_tag(:span, '',
-                                    class: 'icon-context icon-sort-up',
+                                    class: 'icon-context icon-sort-up icon-small',
                                     title: l(:label_sort_highest)),
                         url.merge("#{name}[move_to]" => 'highest'),
                         method: method,
                         title: l(:label_sort_highest)) +
                 link_to(content_tag(:span, '',
-                                    class: 'icon-context icon-arrow-right6-1',
+                                    class: 'icon-context icon-arrow-up2 icon-small',
                                     title: l(:label_sort_higher)),
                         url.merge("#{name}[move_to]" => 'higher'),
                         method: method,
                         title: l(:label_sort_higher)) +
                 link_to(content_tag(:span, '',
-                                    class: 'icon-context icon-arrow-right6-3',
+                                    class: 'icon-context icon-arrow-down2 icon-small',
                                     title: l(:label_sort_lower)),
                         url.merge("#{name}[move_to]" => 'lower'),
                         method: method,
                         title: l(:label_sort_lower)) +
                 link_to(content_tag(:span, '',
-                                    class: 'icon-context icon-sort-down',
+                                    class: 'icon-context icon-sort-down icon-small',
                                     title: l(:label_sort_lowest)),
                         url.merge("#{name}[move_to]" => 'lowest'),
                         method: method,
@@ -520,7 +520,7 @@ module ApplicationHelper
 
   def checked_image(checked = true)
     if checked
-      icon_wrapper('icon-context icon-yes', l(:label_checked))
+      icon_wrapper('icon-context icon-checkmark', l(:label_checked))
     end
   end
 

@@ -35,7 +35,7 @@ module PreviewsHelper
       'has-preview' => '',
       # NOTE:   legacy JS relies on preview class
       # FIXME:  fix preview icon naming
-      class: 'button preview -with-icon icon-issue-watched'
+      class: 'button preview -with-icon icon-preview'
     }.merge(options)
 
     link_to path, options do

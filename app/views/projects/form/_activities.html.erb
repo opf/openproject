@@ -97,6 +97,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 <td><%= checked_image !enumeration.project %></td>
                 <% enumeration.custom_field_values.each do |value| %>
                   <td>
+                    <%= hidden_custom_field_label_tag "enumerations[#{enumeration.id}]", value %>
                     <%= custom_field_tag "enumerations[#{enumeration.id}]", value %>
                   </td>
                 <% end %>
@@ -109,7 +110,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
   <% if withControlls == true %>
     <div class="generic-table--action-buttons">
-      <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
+      <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
     </div>
   <% end %>
 </fieldset>

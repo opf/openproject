@@ -142,6 +142,9 @@ en:
       no_results_title_text: There are currently no workflows.
 
   work_packages:
+    move:
+      unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
+
     list_simple:
       assigned:
         no_results_title_text: There are currently no work packages assigned to me.

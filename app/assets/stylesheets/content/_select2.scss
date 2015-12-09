@@ -207,7 +207,7 @@ $se2-width: 100%;
 .select2-drop {
   .select2-search {
     &:before {
-      content: "\e0a1";
+      @extend .icon-search:before;
       font-family: "openproject-icon-font";
       color: #E0E0E0;
       position: absolute;

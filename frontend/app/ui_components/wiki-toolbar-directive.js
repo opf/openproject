@@ -31,7 +31,7 @@ module.exports = function() {
                           '&quot;resizable=yes, location=no, width=600, height=640, ' +
                           'menubar=no, status=no, scrollbars=yes&quot;); return false;',
       HELP_LINK_HTML = jQuery('<button title="' + I18n.t('js.inplace.link_formatting_help') + '"' +
-                              ' class="jstb_help icon icon-help" ' +
+                              ' class="jstb_help icon icon-help1 icon-small" ' +
                               ' type="button" ' +
                               'onclick="' + HELP_LINK_ONCLICK + '">' +
                               '<span class="hidden-for-sighted">' +
@@ -41,7 +41,7 @@ module.exports = function() {
       PREVIEW_DISABLE_TEXT = I18n.t('js.inplace.btn_preview_disable'),
       PREVIEW_BUTTON_CLASS = 'jstb_preview',
       PREVIEW_BUTTON_ATTRIBUTES = {
-        'class': PREVIEW_BUTTON_CLASS + ' icon-issue-watched',
+        'class': PREVIEW_BUTTON_CLASS + ' icon-preview icon-small',
         type: 'button',
         title: PREVIEW_ENABLE_TEXT,
         text: ''
@@ -60,7 +60,7 @@ module.exports = function() {
         scope.previewToggle();
 
         var title = scope.isPreview ? PREVIEW_DISABLE_TEXT : PREVIEW_ENABLE_TEXT;
-        var toggledClasses = 'icon-issue-watched icon-ticket-edit -active';
+        var toggledClasses = 'icon-preview icon-ticket-edit -active';
 
         element.closest('.inplace-edit--write-value')
                .find('.' + PREVIEW_BUTTON_CLASS).attr('title', title)

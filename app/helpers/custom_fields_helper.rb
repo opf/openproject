@@ -91,6 +91,14 @@ module CustomFieldsHelper
                 lang: custom_value.custom_field.name_locale
   end
 
+  def hidden_custom_field_label_tag(name, custom_value)
+    content_tag 'label', h(custom_value.custom_field.name) +
+      (custom_value.custom_field.is_required? ? content_tag('span', ' *', class: 'required') : ''),
+                for: "#{name}_custom_field_values_#{custom_value.custom_field.id}",
+                class: "hidden-for-sighted",
+                lang: custom_value.custom_field.name_locale
+  end
+
   def blank_custom_field_label_tag(name, custom_field)
     content_tag 'label', h(custom_field.name) +
       (custom_field.is_required? ? content_tag('span', ' *', class: 'required') : ''),

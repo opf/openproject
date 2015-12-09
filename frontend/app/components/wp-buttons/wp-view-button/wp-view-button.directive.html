@@ -1,0 +1,16 @@
+<label for="work-packages-show-view-button"
+       ng-attr-accesskey="{{ accessKey }}"
+       class="hidden-for-sighted">
+
+  {{ label }}
+</label>
+<button id="work-packages-show-view-button"
+        class="button"
+        title="{{ label }}"
+        ng-click="showWorkPackageShowView()"
+        ng-class="{ '-active': isShowViewActive() }">
+  <i class="icon-view-fullscreen button--icon"></i>
+  <span class="hidden-for-sighted">
+    {{ label }}
+  </span>
+</button>

@@ -1,0 +1,13 @@
+<div class="dropdown action-menu dropdown-relative dropdown-anchor-right dropdownToolbar"
+     id="tasksDropdown" role="menu">
+
+  <ul class="dropdown-menu">
+    <li ng-repeat="type in vm.types">
+      <a ui-sref="{{ vm.stateName }}({ projectPath: vm.projectIdentifier, type: type.id })"
+         role="menuitem" focus="{{ !$index }}">
+
+        {{ type.name }}
+      </a>
+    </li>
+  </ul>
+</div>

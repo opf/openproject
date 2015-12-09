@@ -96,8 +96,6 @@ angular.module('openproject.uiComponents')
   .directive('slideToggle', [require('./slide-toggle')])
   .directive('sortLink', ['I18n', 'SortService', require(
     './sort-link-directive')])
-  .directive('tablePagination', ['I18n', 'PaginationService', require(
-    './table-pagination-directive')])
   .directive('toggledMultiselect', ['I18n', require(
     './toggled-multiselect-directive')])
   .directive('toolbar', require('./toolbar-directive'))
@@ -113,4 +111,7 @@ angular.module('openproject.uiComponents')
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))
   .directive('highlightCol', [require('./highlight-col-directive')])
   .directive('confirmPopup', ['$window', require('./confirm-popup-directive')])
-  .directive('clickOnKeypress', [require('./click-on-keypress-directive')]);
+  .directive('clickOnKeypress', [require('./click-on-keypress-directive')])
+  .directive('floatValue', ['$filter', require('./float-directive')])
+  .filter('external2internalFloat', ['$locale', require('./external-2-internal-float-filter')])
+  .filter('internal2externalFloat', ['$locale', require('./internal-2-external-float-filter')]);

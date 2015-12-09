@@ -52,6 +52,10 @@ module.exports = function($http, PathHelper, FiltersHelper, HALAPIResource) {
       return ProjectService.doQuery(url);
     },
 
+    getWorkPackageProject: function(workPackage) {
+      return ProjectService.doQuery(workPackage.links.project.props.href);
+    },
+
     doQuery: function(url, params) {
       return $http.get(url, { params: params })
         .then(function(response){

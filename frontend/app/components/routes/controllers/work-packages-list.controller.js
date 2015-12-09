@@ -225,9 +225,11 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
   function updateResults() {
     $scope.$broadcast('openproject.workPackages.updateResults');
 
-    WorkPackageService.getWorkPackages($scope.projectIdentifier,
+    var promise = WorkPackageService.getWorkPackages($scope.projectIdentifier,
       $scope.query, PaginationService.getPaginationOptions())
       .then(setupWorkPackagesTable);
+
+    loadingIndicator.on(promise);
   }
 
   // More
@@ -244,7 +246,7 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
   $scope.editAll = EditableFieldsState.editAll;
 
   $scope.$watch(QueryService.getQueryName, function(queryName){
-    $scope.selectedTitle = queryName || I18n.t('js.toolbar.unselected_title');
+    $scope.selectedTitle = queryName || I18n.t('js.label_work_package_plural');
   });
 
   $rootScope.$on('queryStateChange', function(event, message) {

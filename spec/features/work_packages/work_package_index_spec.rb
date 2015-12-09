@@ -44,7 +44,7 @@ RSpec.feature 'Work package index view' do
     end
 
     within('#main-menu') do
-      click_link 'Work packages'
+      click_link 'Work package'
     end
 
     expect(current_path).to eql("/projects/#{project.identifier}/work_packages")

@@ -29,7 +29,7 @@
 require 'support/pages/page'
 
 module Pages
-  class FullWorkPackage < Page
+  class FullWorkPackage < Pages::AbstractWorkPackage
     attr_reader :work_package
 
     def initialize(work_package)
@@ -42,11 +42,6 @@ module Pages
       end
     end
 
-    def expect_current_path
-      current_path = URI.parse(current_url).path
-      expect(current_path).to eql path
-    end
-
     def ensure_page_loaded
       expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
                                     text: work_package.journals.last.user.name)
@@ -54,16 +49,34 @@ module Pages
 
     def expect_attributes(attribute_expectations)
       attribute_expectations.each do |label_name, value|
-        expect(page).to have_selector('.attributes-key-value--key', text: label_name.to_s)
+        label = label_name.to_s
 
-        dl_element = page.find('.attributes-key-value--key', text: label_name.to_s).parent
+        if label == 'Subject'
+          expect(page).to have_selector('.attribute-subject', text: value)
+        elsif label == 'Description'
+          expect(page).to have_selector('.attribute-description', text: value)
+        else
+          expect(page).to have_selector('.attributes-key-value--key', text: label)
 
-        expect(dl_element).to have_selector('.attributes-key-value--value-container', text: value)
+          dl_element = page.find('.attributes-key-value--key', text: label).parent
+
+          expect(dl_element).to have_selector('.attributes-key-value--value-container', text: value)
+        end
       end
     end
 
-    def visit_tab!(tab)
-      visit path(tab)
+    def expect_activity(user, number: nil)
+      container = '#work-package-activites-container'
+      container += " #activity-#{number}" if number
+
+      expect(page).to have_selector(container + ' .user', text: user.name)
+    end
+
+    def visit_copy!
+      page = FullWorkPackageCreate.new(work_package)
+      page.visit!
+
+      page
     end
 
     private

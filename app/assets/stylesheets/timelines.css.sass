@@ -25,17 +25,17 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
+
 @import open_project_global/variables
+
 /* ╭───────────────────────────────────────────────────────────────────╮ *
  * │ General and initialization                                        │ *
- * ╰───────────────────────────────────────────────────────────────────╯
-
+ * ╰───────────────────────────────────────────────────────────────────╯ */
 .select2-choices
   width: 500px
 
 li.select2-result.select2-visible-selected-parent
   display: list-item
-
 
 // bring back the arrows in selects in IE
 select
@@ -46,7 +46,7 @@ select
 
 .timeline
   clear: right
-  /* we only want to clear the 'float: right' of the .tl-toolbar
+  // we only want to clear the 'float: right' of the .tl-toolbar
   overflow: auto
   border: 1px solid black
   svg
@@ -71,7 +71,7 @@ select
 
 /* ╭───────────────────────────────────────────────────────────────────╮ *
  * │ Timeline forms.                                                   │ *
- * ╰───────────────────────────────────────────────────────────────────╯
+ * ╰───────────────────────────────────────────────────────────────────╯ */
 
 #specialForm
   display: block
@@ -100,7 +100,7 @@ select
 
 /* ╭───────────────────────────────────────────────────────────────────╮ *
  * │ Timeline toolbar & icons.                                         │ *
- * ╰───────────────────────────────────────────────────────────────────╯
+ * ╰───────────────────────────────────────────────────────────────────╯ */
 
 .tl-toolbar
   float: right
@@ -109,12 +109,20 @@ select
     margin-left: 6px
     input[type='range']
       padding: 3px
+
+      &:focus
+        outline-color: #000
+        outline-style: dotted
+        outline-width: 1px
+
+        // Default styles for chrome
+        outline: -webkit-focus-ring-color auto 5px
     a
       margin-top: 10px
       display: inline-block
 
 /* IE9 interprets this as baseline from inherited css, although it must
- *not be applied in anything that is not display:table-cell
+ *not be applied in anything that is not display:table-cell */
 
 .tl-toolbar-container *
   vertical-align: bottom
@@ -131,7 +139,7 @@ select
  * │ I don't like the #content either, but ChiliProject decided it     │ *
  * │ would be a great idea to define a high-specificity rule for table │ *
  * │ headers.                                                          │ *
- * ╰───────────────────────────────────────────────────────────────────╯
+ * ╰───────────────────────────────────────────────────────────────────╯ */
 
 a.tl-discreet-link, input.tl-discreet-link
   color: $body-font-color
@@ -201,8 +209,6 @@ a.tl-discreet-link:hover, input.icon:hover
 .tl-preponed
   color: green
 
-
-
 .tl-expanded > a, .tl-collapsed > a
   display: block
   height: 16px
@@ -215,23 +221,10 @@ a.tl-discreet-link:hover, input.icon:hover
   position: relative
   left: -16px
 
-#content table td
-  &.tl-indent-0
-    padding-left: 16px
-  &.tl-indent-1
-    padding-left: 28px
-  &.tl-indent-2
-    padding-left: 40px
-  &.tl-indent-3
-    padding-left: 52px
-  &.tl-indent-4
-    padding-left: 64px
-  &.tl-indent-5
-    padding-left: 76px
-  &.tl-indent-6
-    padding-left: 88px
-  &.tl-indent-7
-    padding-left: 100px
+#content table
+  @for $i from 0 through 7
+    td.tl-indent-#{$i}
+      padding-left: calc(20px + (12px * #{$i}))
 
 .tl-left-main
   border-right: 1px solid black
@@ -248,6 +241,8 @@ a.tl-discreet-link:hover, input.icon:hover
     overflow: hidden
     text-overflow: ellipsis
     display: inline-block
+    padding: 3px
+
   table
     th.tl-first-column, td.tl-first-column
       text-align: left
@@ -256,6 +251,10 @@ a.tl-discreet-link:hover, input.icon:hover
     padding-top: 0
     padding-bottom: 1px
     vertical-align: middle
+
+    [class^="icon"]
+      vertical-align: middle
+
   table
     tr
       &.tl-project-row td
@@ -275,7 +274,7 @@ a.tl-discreet-link:hover, input.icon:hover
       font-size: 125%
       line-height: 20px
       color: #000000
-      /* #e20074; <-- magenta
+      // #e20074; <-- magenta
       font-weight: bold
       background-color: #dddddd
       border-bottom: 1px solid black
@@ -291,7 +290,7 @@ a
 
 /* ╭───────────────────────────────────────────────────────────────────╮ *
  * │ Div floating layout                                               │ *
- * ╰───────────────────────────────────────────────────────────────────╯
+ * ╰───────────────────────────────────────────────────────────────────╯ */
 
 .tl-left
   float: left
@@ -300,15 +299,18 @@ a
   float: right
 
 .tl-decoration
-  /* height: 48px;
+  // height: 48px;
 
 .tl-chart
   overflow-y: hidden
   overflow-x: scroll
 
+  &:focus
+    margin: 3px
+
 /* ╭───────────────────────────────────────────────────────────────────╮ *
  * │ Tooltip                                                           │ *
- * ╰───────────────────────────────────────────────────────────────────╯
+ * ╰───────────────────────────────────────────────────────────────────╯ */
 
 .tl-tooltip
   display: none
@@ -364,7 +366,7 @@ a
 
 /* ╭───────────────────────────────────────────────────────────────────╮ *
  * │ Printing                                                          │ *
- * ╰───────────────────────────────────────────────────────────────────╯
+ * ╰───────────────────────────────────────────────────────────────────╯ */
 
 @media print
   .tl-historical
@@ -385,9 +387,9 @@ a
     h2
       border: none
     .tl-left
-      /*width: 100%;
+      // width: 100%;
       table
-        /*width: 100%;
+        // width: 100%;
         border-left: 0
         border-right: 0
     .timeline
@@ -398,7 +400,7 @@ a
         border-bottom: 1px solid black
     .tl-project-row .tl-responsible
       font-weight: bold
-  /* #content .timeline table th
+  // #content .timeline table th
   .tl-invisible
     display: none
   #content

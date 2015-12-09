@@ -43,14 +43,14 @@ a
     background-repeat: no-repeat
     &.asc:after
       @include icon-common
-      content: "\e0dd"
+      @extend .icon-sort-ascending:before
       margin-left: 5px
       font-size: 1.2em
       vertical-align: text-bottom
 
     &.desc:after
       @include icon-common
-      content: "\e0de"
+      @extend .icon-sort-descending:before
       margin-left: 5px
       font-size: 1.2em
       vertical-align: text-bottom

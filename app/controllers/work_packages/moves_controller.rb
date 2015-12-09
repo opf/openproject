@@ -99,6 +99,15 @@ class WorkPackages::MovesController < ApplicationController
 
   private
 
+  # Check if project is unique before bulk operations
+  def check_project_uniqueness
+    unless @project
+      # TODO: let users bulk move/copy work packages from different projects
+      render_error I18n.t('work_packages.move.unsupported_for_multiple_projects')
+      return false
+    end
+  end
+
   def prepare_for_work_package_move
     @work_packages = @work_packages.sort
     @copy = params.has_key? :copy
