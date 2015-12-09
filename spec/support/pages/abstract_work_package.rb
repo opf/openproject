@@ -29,11 +29,15 @@
 require 'support/pages/page'
 
 module Pages
-  class FullWorkPackage < Pages::AbstractWorkPackage
+  class AbstractWorkPackage < Page
     attr_reader :work_package
 
     def initialize(work_package)
       @work_package = work_package
+    end
+
+    def visit_tab!(tab)
+      visit path(tab)
     end
 
     def expect_subject
@@ -70,23 +74,6 @@ module Pages
       container += " #activity-#{number}" if number
 
       expect(page).to have_selector(container + ' .user', text: user.name)
-    end
-
-    def visit_copy!
-      page = FullWorkPackageCreate.new(work_package)
-      page.visit!
-
-      page
-    end
-
-    private
-
-    def container
-      find('.work-packages--show-view')
-    end
-
-    def path(tab='activity')
-      work_package_path(work_package.id, tab)
     end
   end
 end

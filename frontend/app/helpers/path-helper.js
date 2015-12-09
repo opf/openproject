@@ -105,6 +105,12 @@ module.exports = function() {
     workPackageDuplicatePath: function(projectId, workPackageId) {
       return '/projects/' + projectId + '/work_packages/new?copy_from=' + workPackageId;
     },
+    workPackageCopyPath: function(workPackageId) {
+      return '/work_packages/' + workPackageId + '/copy';
+    },
+    workPackageDetailsCopyPath: function(projectId, workPackageId) {
+      return '/projects/' + projectId + '/work_packages/details/' + workPackageId + '/copy';
+    },
     workPackageMovePath: function(id) {
       return PathHelper.workPackagePath(id) + '/move/new';
     },

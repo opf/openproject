@@ -104,8 +104,22 @@ function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResourc
           wp.form = form;
           EditableFieldsState.workPackage = wp;
           inplaceEditErrors.errors = null;
+
+          wp.props = _.clone(form.embedded.payload.props);
+          wp.links = _.extend(wp.links, _.clone(form.embedded.payload.links));
+
           return wp;
         });
+    },
+
+    initializeWorkPackageFromCopy: function(workPackage) {
+      var projectIdentifier = workPackage.embedded.project.props.identifier;
+      var initialData = _.clone(workPackage.form.embedded.payload.props);
+
+      initialData._links = _.clone(workPackage.form.embedded.payload.links);
+      delete initialData.lockVersion;
+
+      return WorkPackageService.initializeWorkPackage(projectIdentifier, initialData);
     },
 
     getWorkPackage: function(id) {
