@@ -106,7 +106,7 @@ function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResourc
           inplaceEditErrors.errors = null;
 
           wp.props = _.clone(form.embedded.payload.props);
-          wp.links = _.extend(wp.links, _.clone(workPackage.form.embedded.payload.links));
+          wp.links = _.extend(wp.links, _.clone(form.embedded.payload.links));
 
           return wp;
         });
