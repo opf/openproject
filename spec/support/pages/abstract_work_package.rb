@@ -36,6 +36,10 @@ module Pages
       @work_package = work_package
     end
 
+    def visit_tab!(tab)
+      visit path(tab)
+    end
+
     def expect_subject
       within(container) do
         expect(page).to have_content(work_package.subject)

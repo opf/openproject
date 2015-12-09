@@ -72,10 +72,6 @@ module Pages
       expect(page).to have_selector(container + ' .user', text: user.name)
     end
 
-    def visit_tab!(tab)
-      visit path(tab)
-    end
-
     def visit_copy!
       page = FullWorkPackageCreate.new(work_package)
       page.visit!
