@@ -78,11 +78,10 @@ module.exports = function(
       workPackage: '='
     },
 
-    controller: ['$scope', 'EditableFieldsState', function ($scope, EditableFieldsState,
-                                                            inplaceEditAll) {
+    controller: function ($scope, EditableFieldsState, inplaceEditAll) {
       $scope.editAll = inplaceEditAll;
       $scope.canEdit = EditableFieldsState.canEdit;
-    }],
+    },
 
     link: function(scope) {
       var authorization = new WorkPackageAuthorization(scope.workPackage);
