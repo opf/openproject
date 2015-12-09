@@ -46,7 +46,7 @@ module Pages
 
     private
 
-    def details_container
+    def container
       find('.work-packages--details')
     end
 
