@@ -128,8 +128,8 @@ Then /^the work package should be shown with the following values:$/ do |table|
   }
 
   table_attributes.each do |key, value|
-    label = find('dt.attributes-key-value--key', text: key)
-    should have_css("dd.#{label[:class].split(' ').last}", text: value)
+    label = find('div.attributes-key-value--key', text: key)
+    should have_css("div.#{label[:class].split(' ').last}", text: value)
   end
 
   if table.rows_hash['Subject']

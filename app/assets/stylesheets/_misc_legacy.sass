@@ -124,44 +124,23 @@ div
     p
       margin-top: 0
       margin-bottom: 1em
-  &#activity dl
-    margin-left: 2em
-
-#search-results
-  margin-left: 2em
-
-div#activity dd, #search-results dd
-  margin-bottom: 1em
-  padding-left: 18px
-  font-size: 0.9em
-
-div#activity
-  dt
-    &.me .time
-      border-bottom: 1px solid #999
-    .time
-      color: #777
-      font-size: 80%
-  dd .description
-    font-style: italic
-
-#search-results dd .description
-  font-style: italic
 
 div#activity span.project:after, #search-results span.project:after
   content: " -"
 
-div#activity dd span.description
-  display: block
-  color: #808080
+#search-results
+  margin-left: 2em
 
-#search-results dd
-  span.description
-    display: block
-    color: #808080
-  margin-bottom: 1em
-  padding-left: 20px
-  margin-left: 0
+  dd
+    margin-bottom: 1em
+    padding-left: 30px
+    margin-left: 0
+    font-size: 0.9em
+
+    span.description
+      display: block
+      color: #808080
+      font-style: italic
 
 div#search-results-counts
   float: right
@@ -324,9 +303,6 @@ input#user_search
   padding-bottom: 0.5em
   &.attributes .label
     font-weight: bold
-
-#activity dt
-  clear: left
 
 .journal-link
   float: right
