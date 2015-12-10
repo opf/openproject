@@ -88,6 +88,31 @@ describe CategoriesController, type: :controller do
   end
 
   describe '#edit' do
+    let(:category) {
+      FactoryGirl.create(:category,
+                         project: project)
+    }
+
+    subject { response }
+    before do
+      get :edit,
+           id: category_id
+    end
+
+
+    context 'valid category' do
+      let(:category_id) { category.id }
+      it { is_expected.to be_success }
+      it { is_expected.to render_template('edit') }
+    end
+
+    context 'invalid category' do
+      let(:category_id) { 404 }
+      it { is_expected.to be_not_found }
+    end
+  end
+
+  describe '#update' do
     let(:name) { 'Testing' }
 
     context 'valid category' do
