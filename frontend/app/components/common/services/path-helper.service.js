@@ -60,9 +60,6 @@ function PathHelper() {
     boardPath: function(projectIdentifier, boardIdentifier) {
       return PathHelper.boardsPath(projectIdentifier) + '/' + boardIdentifier;
     },
-    messagesPath: function(boardIdentifier) {
-      return PathHelper.boardsPath() + '/' + boardIdentifier + '/topics';
-    },
     messagePath: function(messageIdentifier) {
       return PathHelper.staticBase + '/topics/' + messageIdentifier;
     },
@@ -74,9 +71,6 @@ function PathHelper() {
     },
     projectWorkPackagesPath: function(projectId) {
       return PathHelper.projectPath(projectId) + PathHelper.workPackagesPath();
-    },
-    projectWorkPackagesFormPath: function(projectId) {
-      return PathHelper.projectWorkPackagesPath(projectId) + '/form';
     },
     queryPath: function(queryIdentifier) {
       return '/queries/' + queryIdentifier;
@@ -95,9 +89,6 @@ function PathHelper() {
     timeEntryPath: function(timeEntryIdentifier) {
       return PathHelper.staticBase + '/time_entries/' + timeEntryIdentifier;
     },
-    timeEntryNewPath: function(workPackageId) {
-      return PathHelper.timeEntriesPath(null, workPackageId) + '/new';
-    },
     timeEntryEditPath: function(timeEntryIdentifier) {
       return PathHelper.timeEntryPath(timeEntryIdentifier) + '/edit';
     },
@@ -107,17 +98,11 @@ function PathHelper() {
     workPackagePath: function(id) {
       return PathHelper.staticBase + '/work_packages/' + id;
     },
-    workPackageDuplicatePath: function(projectId, workPackageId) {
-      return '/projects/' + projectId + '/work_packages/new?copy_from=' + workPackageId;
-    },
     workPackageCopyPath: function(workPackageId) {
       return '/work_packages/' + workPackageId + '/copy';
     },
     workPackageDetailsCopyPath: function(projectId, workPackageId) {
       return '/projects/' + projectId + '/work_packages/details/' + workPackageId + '/copy';
-    },
-    workPackageMovePath: function(id) {
-      return PathHelper.workPackagePath(id) + '/move/new';
     },
     workPackageDeletePath: function(ids) {
       return PathHelper.workPackagesBulkDeletePath() + '?ids=' + (Array.isArray(ids) ? ids.join() : ids);
@@ -283,9 +268,6 @@ function PathHelper() {
     },
     staticWorkPackagePath: function(workPackageId) {
       return PathHelper.workPackagePath(workPackageId);
-    },
-    staticEditWorkPackagePath: function(workPackageId){
-      return PathHelper.staticWorkPackagePath(workPackageId) + '/edit';
     },
     staticProjectPath: function(projectIdentifier) {
       return PathHelper.staticBase + PathHelper.projectPath(projectIdentifier);
