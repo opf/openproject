@@ -41,7 +41,7 @@ module Redmine
                                     type: 'button',
                                     class: 'jstb_help',
                                     onclick: open_help,
-                                    'aria-label': l(:setting_text_formatting),
+                                    :'aria-label' => l(:setting_text_formatting),
                                     title: l(:setting_text_formatting)
 
           javascript_tag(<<-EOF)
