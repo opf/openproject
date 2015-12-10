@@ -196,11 +196,11 @@
       </h3>
     </div>
   </div>
-  <dl class="attributes-key-value">
-    <dt class="attributes-key-value--key">
+  <div class="attributes-key-value">
+    <div class="attributes-key-value--key">
       Status
-    </dt>
-    <dd class="attributes-key-value--value-container">
+    </div>
+    <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -status">
         <div class="inplace-edit type-select2 attribute-status.name">
           <accessible-by-keyboard execute="startEditing()"
@@ -228,8 +228,8 @@
           </accessible-by-keyboard>
         </div>
       </div>
-    </dd>
-  </dl>
+    </div>
+  </div>
 </div>
 ```
 
@@ -246,9 +246,9 @@
     </div>
   </div>
 
-  <dl class="attributes-key-value">
-    <dt class="attributes-key-value--key ">Status</dt>
-    <dd class="attributes-key-value--value-container" >
+  <div class="attributes-key-value">
+    <div class="attributes-key-value--key ">Status</div>
+    <div class="attributes-key-value--value-container" >
       <div class="attributes-key-value--value -status">
         <div inplace-edit="">
           <div class="inplace-edit type-select2 attribute-status.name" aria-busy="false" aria-disabled="false">
@@ -301,8 +301,8 @@
           </div>
         </div>
       </div>
-    </dd>
-  </dl>
+    </div>
+  </div>
 </div>
 
 <div style="height: 50px;">

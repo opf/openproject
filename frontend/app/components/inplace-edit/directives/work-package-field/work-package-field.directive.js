@@ -46,7 +46,7 @@ function workPackageField() {
   };
 }
 
-function WorkPackageFieldController($scope, EditableFieldsState, inplaceEditForm) {
+function WorkPackageFieldController($scope, EditableFieldsState, inplaceEditForm, inplaceEditAll) {
   var workPackage = EditableFieldsState.workPackage;
   this.state = EditableFieldsState;
   $scope.field = inplaceEditForm.getForm(workPackage.props.id, workPackage).field(this.fieldName);
@@ -55,7 +55,7 @@ function WorkPackageFieldController($scope, EditableFieldsState, inplaceEditForm
 
   if (field.isEditable()) {
     this.state.isBusy = false;
-    this.isEditing = this.state.forcedEditState;
+    this.isEditing = inplaceEditAll.state;
     this.editTitle = I18n.t('js.inplace.button_edit', { attribute: field.getLabel() });
   }
 }

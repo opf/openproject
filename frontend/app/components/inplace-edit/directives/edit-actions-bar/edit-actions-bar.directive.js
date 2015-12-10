@@ -45,12 +45,13 @@ function editActionsBar() {
     bindToController: true,
     controllerAs: 'vm',
 
-    controller:  function ($scope, I18n, EditableFieldsState, inplaceEditMultiStorage) {
+    controller:  function ($scope, I18n, EditableFieldsState, inplaceEditMultiStorage,
+                           inplaceEditAll) {
       var vm = this;
 
       angular.extend(vm, {
         visible: function () {
-          return EditableFieldsState.editAll.state && EditableFieldsState.editAll.allowed;
+          return inplaceEditAll.state && EditableFieldsState.canEdit;
         },
 
         save: function () {
@@ -59,7 +60,7 @@ function editActionsBar() {
 
         cancel: function () {
           vm.onCancel();
-          EditableFieldsState.editAll.cancel();
+          inplaceEditAll.cancel();
         },
 
         text: {

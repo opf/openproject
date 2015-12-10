@@ -86,7 +86,7 @@ angular.module('openproject.workPackages')
     'WorkPackageContextMenuHelper',
     'WorkPackageService',
     'WorkPackagesTableService',
-    'EditableFieldsState',
+    'inplaceEditAll',
     'I18n',
     '$window',
     'PERMITTED_CONTEXT_MENU_ACTIONS',

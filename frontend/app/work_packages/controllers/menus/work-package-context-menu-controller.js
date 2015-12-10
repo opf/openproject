@@ -33,7 +33,7 @@ module.exports = function(
   WorkPackageContextMenuHelper,
   WorkPackageService,
   WorkPackagesTableService,
-  EditableFieldsState,
+  inplaceEditAll,
   I18n,
   $window,
   PERMITTED_CONTEXT_MENU_ACTIONS
@@ -89,7 +89,7 @@ module.exports = function(
       workPackageId: selected[0].id
     };
 
-    EditableFieldsState.editAll.start();
+    inplaceEditAll.start();
     $state.transitionTo('work-packages.list.details.overview', params);
   }
 

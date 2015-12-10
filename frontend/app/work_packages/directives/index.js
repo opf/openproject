@@ -52,9 +52,10 @@ angular.module('openproject.workPackages.directives')
   ])
   .directive('queryForm', require('./query-form-directive'))
   .constant('PERMITTED_MORE_MENU_ACTIONS', [
-    'log_time',
-    'move',
-    'delete'
+    { key: 'log_time', link: 'log_time', resource: 'workPackage' },
+    { key: 'move', link: 'move', resource: 'workPackage' },
+    { key: 'delete', link: 'delete', resource: 'workPackage' },
+    { key: 'copy', link: 'createWorkPackage', resource: 'project' }
   ])
   .directive('workPackageDetailsToolbar', [
     'PERMITTED_MORE_MENU_ACTIONS',

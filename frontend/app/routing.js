@@ -89,6 +89,11 @@ angular.module('openproject')
       reloadOnSearch: false
     })
 
+    .state('work-packages.copy', {
+      url: '/work_packages/{copiedFromWorkPackageId:[0-9]+}/copy',
+      templateUrl: '/components/routes/partials/work-packages.new.html'
+    })
+
     .state('work-packages.edit', {
       url: '/{projects}/{projectPath}/work_packages/{workPackageId}/edit',
       params: {
@@ -96,8 +101,8 @@ angular.module('openproject')
         projects: { value: null, squash: true }
       },
 
-      onEnter: function ($state, $stateParams, EditableFieldsState) {
-        EditableFieldsState.editAll.start();
+      onEnter: function ($state, $stateParams, inplaceEditAll) {
+        inplaceEditAll.start();
         $state.go('work-packages.list.details.overview', $stateParams);
       }
     })
@@ -181,6 +186,11 @@ angular.module('openproject')
     })
     .state('work-packages.list.new', {
       url: '/create_new?type',
+      templateUrl: '/components/routes/partials/work-packages.list.new.html',
+      reloadOnSearch: false
+    })
+    .state('work-packages.list.copy', {
+      url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
       templateUrl: '/components/routes/partials/work-packages.list.new.html',
       reloadOnSearch: false
     })

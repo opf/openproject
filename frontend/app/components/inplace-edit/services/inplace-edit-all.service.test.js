@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,9 +24,22 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-angular.module('openproject.workPackages.models')
-  .factory('WorkPackageAuthorization', ['ProjectService', '$state', 'PathHelper', require('./work-package-authorization')])
-  .factory('Datepicker', ['TimezoneService', 'ConfigurationService',
-                          '$timeout', require('./datepicker.js')]);
+describe('inplaceEditAll service', function () {
+  var inplaceEditAll;
+
+  beforeEach(angular.mock.module('openproject', 'openproject.workPackages.services'));
+
+  beforeEach(angular.mock.inject(function (_inplaceEditAll_) {
+    inplaceEditAll = _inplaceEditAll_;
+  }));
+
+  it('turns on editing on start', function () {
+    expect(inplaceEditAll.start()).to.be.true;
+  });
+
+  it('turns off editing on stop', function () {
+    expect(inplaceEditAll.stop()).to.be.false;
+  });
+});

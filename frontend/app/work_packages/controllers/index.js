@@ -42,7 +42,6 @@ angular.module('openproject.workPackages.controllers')
     'EditableFieldsState',
     'WorkPackagesDisplayHelper',
     'NotificationsService',
-    'I18n',
     'WorkPackageAttachmentsService',
     require('./details-tab-overview-controller')
   ])

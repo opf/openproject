@@ -11,7 +11,7 @@
           <button class="button edit-all-button"
                   ng-hide="editAll.state"
                   ng-click="editAll.start()"
-                  ng-disabled="!editAll.allowed"
+                  ng-disabled="!canEdit"
                   title="{{I18n.t('js.button_edit')}}">
             <i class="button--icon icon-edit"></i>
           </button>
@@ -124,22 +124,22 @@
             </div>
           </div>
 
-          <dl class="attributes-key-value">
-            <dt
+          <div class="attributes-key-value">
+            <div
                 ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
                 ng-if="vm.isSpecified(vm.workPackage, field)"
                 ng-repeat-start="field in group.attributes" class="attributes-key-value--key">
                 {{vm.getLabel(vm.workPackage, field)}}
                 <span class="required" ng-if="vm.hasNiceStar(vm.workPackage, field)"> *</span>
-            </dt>
-            <dd
+            </div>
+            <div
                 ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
                 ng-if="vm.isSpecified(vm.workPackage, field)"
                 ng-repeat-end
                 class="attributes-key-value--value-container">
               <work-package-field field-name="field"></work-package-field>
-            </dd>
-          </dl>
+            </div>
+          </div>
         </div>
 
         <work-package-attachments edit data-ng-show="!vm.hideEmptyFields || vm.filesExist" work-package="vm.workPackage"></work-package-attachments>
