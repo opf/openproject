@@ -122,6 +122,17 @@ function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResourc
       return WorkPackageService.initializeWorkPackage(projectIdentifier, initialData);
     },
 
+    initializeWorkPackageWithParent: function(parentWorkPackage) {
+      var projectIdentifier = parentWorkPackage.embedded.project.props.identifier;
+
+      var initialData = {
+        parentId: String(parentWorkPackage.props.id)
+      };
+
+      return WorkPackageService.initializeWorkPackage(projectIdentifier, initialData);
+    },
+
+
     getWorkPackage: function(id) {
       var path = PathHelper.apiV3WorkPackagePath(id),
           resource = HALAPIResource.setup(path);

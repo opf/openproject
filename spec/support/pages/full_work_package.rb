@@ -72,8 +72,29 @@ module Pages
       expect(page).to have_selector(container + ' .user', text: user.name)
     end
 
+    def expect_parent(parent = nil)
+      parent ||= work_package.parent
+
+      expect(parent).to_not be_nil
+
+      visit_tab!('relations')
+
+      expect(page).to have_selector(".relation[title=#{I18n.t('js.relation_labels.parent')}] a",
+                                    text: "##{parent.id} #{parent.subject}")
+    end
+
+    def add_child
+      visit_tab!('relations')
+
+      page.find('.relation a', text: I18n.t('js.relation_labels.children')).click
+
+      click_button I18n.t('js.relation_buttons.add_child')
+
+      Pages::FullWorkPackageCreate.new(parent_work_package: work_package)
+    end
+
     def visit_copy!
-      page = FullWorkPackageCreate.new(work_package)
+      page = FullWorkPackageCreate.new(original_work_package: work_package)
       page.visit!
 
       page
@@ -85,7 +106,7 @@ module Pages
       find('.work-packages--show-view')
     end
 
-    def path(tab='activity')
+    def path(tab = 'activity')
       work_package_path(work_package.id, tab)
     end
   end
