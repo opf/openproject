@@ -75,5 +75,39 @@ module Pages
 
       expect(page).to have_selector(container + ' .user', text: user.name)
     end
+
+    def expect_parent(parent = nil)
+      parent ||= work_package.parent
+
+      expect(parent).to_not be_nil
+
+      visit_tab!('relations')
+
+      expect(page).to have_selector(".relation[title=#{I18n.t('js.relation_labels.parent')}] a",
+                                    text: "##{parent.id} #{parent.subject}")
+    end
+
+    def add_child
+      visit_tab!('relations')
+
+      page.find('.relation a', text: I18n.t('js.relation_labels.children')).click
+
+      click_button I18n.t('js.relation_buttons.add_child')
+
+      create_page(parent_work_package: work_package)
+    end
+
+    def visit_copy!
+      page = create_page(original_work_package: work_package)
+      page.visit!
+
+      page
+    end
+
+    private
+
+    def create_page(_args)
+      raise NotImplementedError
+    end
   end
 end

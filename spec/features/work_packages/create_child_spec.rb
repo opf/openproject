@@ -105,8 +105,8 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
 
     child_work_package_page = original_work_package_page.add_child
 
-    child_work_package_page.expect_current_path
     child_work_package_page.expect_heading
+    child_work_package_page.expect_current_path
 
     child_work_package_page.update_attributes Subject: 'Child work package'
 
@@ -121,6 +121,35 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
 
     child_work_package_page = Pages::FullWorkPackage.new(child_work_package)
 
+    child_work_package_page.ensure_page_loaded
+    child_work_package_page.expect_subject
+    child_work_package_page.expect_current_path
+
+    child_work_package_page.expect_parent(original_work_package)
+  end
+
+  scenario 'on split screen page' do
+    original_work_package_page = Pages::SplitWorkPackage.new(original_work_package, project)
+
+    child_work_package_page = original_work_package_page.add_child
+
+    child_work_package_page.expect_heading
+    child_work_package_page.expect_current_path
+
+    child_work_package_page.update_attributes Subject: 'Child work package'
+
+    child_work_package_page.save!
+
+    expect(page).to have_selector('.notification-box--content',
+                                  text: I18n.t('js.notice_successful_create'))
+
+    child_work_package = WorkPackage.order(created_at: 'desc').first
+
+    expect(child_work_package).to_not eql original_work_package
+
+    child_work_package_page = Pages::SplitWorkPackage.new(child_work_package, project)
+
+    child_work_package_page.ensure_page_loaded
     child_work_package_page.expect_subject
     child_work_package_page.expect_current_path
 

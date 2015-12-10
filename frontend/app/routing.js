@@ -185,7 +185,7 @@ angular.module('openproject')
       }
     })
     .state('work-packages.list.new', {
-      url: '/create_new?type',
+      url: '/create_new?type&parent_id',
       templateUrl: '/components/routes/partials/work-packages.list.new.html',
       reloadOnSearch: false
     })

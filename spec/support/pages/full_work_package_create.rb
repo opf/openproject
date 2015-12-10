@@ -29,41 +29,7 @@
 require 'support/pages/page'
 
 module Pages
-  class FullWorkPackageCreate < Page
-    attr_reader :original_work_package,
-                :parent_work_package
-
-    def initialize(original_work_package: nil, parent_work_package: nil)
-      # in case of copy, the original work package can be provided
-      @original_work_package = original_work_package
-      @parent_work_package = parent_work_package
-    end
-
-    def expect_fully_loaded
-      expect(page).to have_field(I18n.t('js.work_packages.properties.subject'))
-    end
-
-    def expect_heading
-      if parent_work_package
-        expect(page).to have_selector('h2', text: I18n.t('js.work_packages.create.header_with_parent',
-                                                         type: parent_work_package.type,
-                                                         id: parent_work_package.id))
-      else
-        expect(page).to have_selector('h2', text: I18n.t('js.work_packages.create.header'))
-      end
-    end
-
-    def update_attributes(attribute_map)
-      # Only designed for text fields for now
-      attribute_map.each do |label, value|
-        fill_in(label, with: value)
-      end
-    end
-
-    def save!
-      click_button I18n.t('js.button_save')
-    end
-
+  class FullWorkPackageCreate < AbstractWorkPackageCreate
     private
 
     def container
@@ -72,9 +38,10 @@ module Pages
 
     def path
       if original_work_package
-        work_package_path(work_package) + '/copy'
+        work_package_path(original_work_package) + '/copy'
       elsif parent_work_package
-        new_project_work_packages_path(parent_work_package.project.identifier)
+        new_project_work_packages_path(parent_work_package.project.identifier,
+                                       parent_id: parent_work_package.id)
       end
     end
   end

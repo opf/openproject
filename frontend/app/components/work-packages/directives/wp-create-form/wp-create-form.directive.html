@@ -1,6 +1,6 @@
 <div cg-busy="vm.loaderPromise" class="work-packages--details-content -create-mode">
   <div ng-if="vm.workPackage">
-    <h2>{{ ::I18n.t('js.work_packages.create.header') }}</h2>
+    <h2>{{ vm.getHeading() }}</h2>
 
     <div class="work-packages--create--title">
       <work-package-field field-name="'subject'" tabindex="0"></work-package-field>
