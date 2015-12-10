@@ -114,6 +114,11 @@ module API
           schema :project,
                  type: 'Project'
 
+          schema :parent_id,
+                 type: 'Integer',
+                 required: false,
+                 writable: true
+
           schema_with_allowed_link :assignee,
                                    type: 'User',
                                    required: false,

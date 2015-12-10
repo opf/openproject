@@ -370,6 +370,16 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe 'parentId' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'parentId' }
+        let(:type) { 'Integer' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.parent') }
+        let(:required) { false }
+        let(:writable) { true }
+      end
+    end
+
     describe 'type' do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'type' }
