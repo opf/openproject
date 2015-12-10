@@ -44,5 +44,6 @@ angular.module('openproject.viewModels')
     'CommonRelationsHandler',
     'WorkPackageService',
     'ApiNotificationsService',
+    'PathHelper',
     require('./parent-relations-handler')
   ]);

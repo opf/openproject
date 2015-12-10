@@ -26,14 +26,35 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(CommonRelationsHandler, WorkPackageService, ApiNotificationsService) {
+module.exports = function(
+    CommonRelationsHandler,
+    WorkPackageService,
+    ApiNotificationsService,
+    PathHelper) {
   function ParentRelationsHandler(workPackage, parents, relationsId) {
+    function params(lockVersion, id) {
+      var parentPath = null;
+
+      if (id) {
+        parentPath = PathHelper.apiV3WorkPackagePath(id);
+      }
+
+      return {
+        lockVersion: lockVersion,
+        _links: {
+          parent: {
+            href: parentPath
+          }
+        }
+      };
+    }
+
       var relations = parents.filter(function(parent) {
             return parent.props.id !== workPackage.props.id;
           }),
           handler = new CommonRelationsHandler(workPackage, relations, relationsId);
 
-      handler.type = "parent";
+      handler.type = 'parent';
       handler.addRelation = undefined;
       handler.isSingletonRelation = true;
       handler.relationsId = relationsId;
@@ -42,12 +63,10 @@ module.exports = function(CommonRelationsHandler, WorkPackageService, ApiNotific
       handler.canDeleteRelation = function() { return !!this.workPackage.links.changeParent; };
       handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch(); };
       handler.addRelation = function(scope) {
-        var params = {
-          lockVersion: scope.workPackage.props.lockVersion,
-          parentId: scope.relationToAddId
-        };
+        var payload = params(scope.workPackage.props.lockVersion,
+                             scope.relationToAddId);
 
-        WorkPackageService.updateWithPayload(this.workPackage, params).then(function() {
+        WorkPackageService.updateWithPayload(this.workPackage, payload).then(function() {
             scope.relationToAddId = '';
             scope.updateFocus(-1);
             scope.$emit('workPackageRefreshRequired');
@@ -58,12 +77,9 @@ module.exports = function(CommonRelationsHandler, WorkPackageService, ApiNotific
       handler.removeRelation = function(scope) {
           var index = this.relations.indexOf(scope.relation);
           var handler = this;
-          var params = {
-            lockVersion: scope.workPackage.props.lockVersion,
-            parentId: null
-          };
+          var payload = params(scope.workPackage.props.lockVersion);
 
-          WorkPackageService.updateWithPayload(scope.workPackage, params).then(function(response){
+          WorkPackageService.updateWithPayload(scope.workPackage, payload).then(function(response){
               handler.relations.splice(index, 1);
               scope.workPackage.props.lockVersion = response.props.lockVersion;
               scope.updateFocus(index);
