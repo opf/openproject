@@ -11,7 +11,7 @@
           <button class="button edit-all-button"
                   ng-hide="editAll.state"
                   ng-click="editAll.start()"
-                  ng-disabled="!editAll.allowed"
+                  ng-disabled="!canEdit"
                   title="{{I18n.t('js.button_edit')}}">
             <i class="button--icon icon-edit"></i>
           </button>

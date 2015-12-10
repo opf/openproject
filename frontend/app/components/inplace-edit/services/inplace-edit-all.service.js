@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,39 +24,41 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
 angular
-  .module('openproject.inplace-edit')
-  .directive('workPackageField', workPackageField);
+  .module('openproject.workPackages.services')
+  .factory('inplaceEditAll', inplaceEditAll);
 
-function workPackageField() {
-  return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: '/components/inplace-edit/directives/work-package-field/' +
-      'work-package-field.directive.html',
-    scope: {
-      fieldName: '='
+function inplaceEditAll($rootScope, $window, inplaceEditForm) {
+  var inplaceEditAll;
+
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+    if (inplaceEditAll.state && fromParams.workPackageId
+        && toParams.workPackageId !== fromParams.workPackageId) {
+
+      if (!$window.confirm(I18n.t('js.text_are_you_sure'))) {
+        return event.preventDefault();
+      }
+
+      inplaceEditAll.cancel();
+    }
+  });
+
+  return inplaceEditAll = {
+    state: false,
+
+    cancel: function () {
+      inplaceEditForm.deleteNewForm();
+      this.stop();
     },
 
-    bindToController: true,
-    controller: WorkPackageFieldController,
-    controllerAs: 'fieldController'
+    start: function () {
+      return this.state = true;
+    },
+
+    stop: function () {
+      return this.state = false;
+    }
   };
 }
-
-function WorkPackageFieldController($scope, EditableFieldsState, inplaceEditForm, inplaceEditAll) {
-  var workPackage = EditableFieldsState.workPackage;
-  this.state = EditableFieldsState;
-  $scope.field = inplaceEditForm.getForm(workPackage.props.id, workPackage).field(this.fieldName);
-
-  var field = $scope.field;
-
-  if (field.isEditable()) {
-    this.state.isBusy = false;
-    this.isEditing = inplaceEditAll.state;
-    this.editTitle = I18n.t('js.inplace.button_edit', { attribute: field.getLabel() });
-  }
-}
-

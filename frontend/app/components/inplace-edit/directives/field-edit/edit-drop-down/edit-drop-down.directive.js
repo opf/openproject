@@ -30,7 +30,7 @@ angular
   .module('openproject.inplace-edit')
   .directive('inplaceEditorDropDown', inplaceEditorDropDown);
 
-function inplaceEditorDropDown(EditableFieldsState, FocusHelper) {
+function inplaceEditorDropDown(EditableFieldsState, FocusHelper, inplaceEditAll) {
   return {
     restrict: 'E',
     transclude: true,
@@ -42,26 +42,25 @@ function inplaceEditorDropDown(EditableFieldsState, FocusHelper) {
     controller: InplaceEditorDropDownController,
     controllerAs: 'customEditorController',
 
-    link: function(scope, element, attrs, fieldController) {
+    link: function(scope, element) {
       var field = scope.field;
 
-      fieldController.state.isBusy = true;
+      EditableFieldsState.isBusy = true;
 
       scope.emptyField = !scope.field.isRequired();
 
       scope.customEditorController.updateAllowedValues(field.name).then(function() {
-        fieldController.state.isBusy = false;
+        EditableFieldsState.isBusy = false;
 
-        if (!EditableFieldsState.forcedEditState) {
-          EditableFieldsState.editAll.state || FocusHelper.focusUiSelect(element);
+        if (!inplaceEditAll.state) {
+          FocusHelper.focusUiSelect(element);
         }
       });
     }
   };
 }
-inplaceEditorDropDown.$inject = ['EditableFieldsState', 'FocusHelper'];
 
-function InplaceEditorDropDownController($q, $scope, I18n, WorkPackageFieldConfigurationService) {
+function InplaceEditorDropDownController($q, $scope, WorkPackageFieldConfigurationService) {
 
   var customEditorController = this;
 
@@ -136,5 +135,3 @@ function InplaceEditorDropDownController($q, $scope, I18n, WorkPackageFieldConfi
     $scope.field.value.props.hrefTracker = String($scope.field.value.props.href);
   };
 }
-InplaceEditorDropDownController.$inject = ['$q', '$scope', 'I18n',
-  'WorkPackageFieldConfigurationService'];

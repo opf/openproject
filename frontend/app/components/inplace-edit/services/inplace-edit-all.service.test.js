@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,39 +24,22 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-angular
-  .module('openproject.inplace-edit')
-  .directive('workPackageField', workPackageField);
+describe('inplaceEditAll service', function () {
+  var inplaceEditAll;
 
-function workPackageField() {
-  return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: '/components/inplace-edit/directives/work-package-field/' +
-      'work-package-field.directive.html',
-    scope: {
-      fieldName: '='
-    },
+  beforeEach(angular.mock.module('openproject', 'openproject.workPackages.services'));
 
-    bindToController: true,
-    controller: WorkPackageFieldController,
-    controllerAs: 'fieldController'
-  };
-}
+  beforeEach(angular.mock.inject(function (_inplaceEditAll_) {
+    inplaceEditAll = _inplaceEditAll_;
+  }));
 
-function WorkPackageFieldController($scope, EditableFieldsState, inplaceEditForm, inplaceEditAll) {
-  var workPackage = EditableFieldsState.workPackage;
-  this.state = EditableFieldsState;
-  $scope.field = inplaceEditForm.getForm(workPackage.props.id, workPackage).field(this.fieldName);
+  it('turns on editing on start', function () {
+    expect(inplaceEditAll.start()).to.be.true;
+  });
 
-  var field = $scope.field;
-
-  if (field.isEditable()) {
-    this.state.isBusy = false;
-    this.isEditing = inplaceEditAll.state;
-    this.editTitle = I18n.t('js.inplace.button_edit', { attribute: field.getLabel() });
-  }
-}
-
+  it('turns off editing on stop', function () {
+    expect(inplaceEditAll.stop()).to.be.false;
+  });
+});

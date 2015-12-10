@@ -101,8 +101,8 @@ angular.module('openproject')
         projects: { value: null, squash: true }
       },
 
-      onEnter: function ($state, $stateParams, EditableFieldsState) {
-        EditableFieldsState.editAll.start();
+      onEnter: function ($state, $stateParams, inplaceEditAll) {
+        inplaceEditAll.start();
         $state.go('work-packages.list.details.overview', $stateParams);
       }
     })
