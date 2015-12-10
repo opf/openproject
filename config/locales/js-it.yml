@@ -1,5 +1,5 @@
 it:
   js:
     reporting_engine:
-      label_remove: Cancella
-      label_response_error: "C'era un errore di gestione query."
+      label_remove: Delete
+      label_response_error: There was an error handling the query.

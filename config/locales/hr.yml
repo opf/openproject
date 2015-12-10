@@ -25,7 +25,3 @@ hr:
   units: Jedinice
   validation_failure_date: nije valjan datum
   validation_failure_integer: nije valjan cijeli broj
-  js:
-    reporting_engine:
-      label_remove: Izbriši
-      label_response_error: Dogodila se pogreška prilikom obrade upita.

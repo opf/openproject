@@ -25,7 +25,3 @@ pt-BR:
   units: Unidades
   validation_failure_date: não é uma data válida
   validation_failure_integer: não é um valor inteiro válido
-  js:
-    reporting_engine:
-      label_remove: Excluir
-      label_response_error: Ocorreu um erro na manipulação da consulta.

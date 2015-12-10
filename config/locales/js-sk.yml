@@ -1,5 +1,5 @@
 sk:
   js:
     reporting_engine:
-      label_remove: Odstrániť
-      label_response_error: Počas spracovania dotazu sa vyskytla chyba.
+      label_remove: Delete
+      label_response_error: There was an error handling the query.
