@@ -26,30 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-/**
- * Replaces the PathHelper service in its function, providing a way to generate safe paths
- * without having to store them directly in a service.
- */
+describe('apiPaths', function() {
+  var $document, apiPaths;
 
-angular
-  .module('openproject.workPackages.services')
-  .factory('appPaths', appPaths);
+  beforeEach(angular.mock.module('openproject.workPackages.services'));
+  beforeEach(angular.mock.inject(function (_$document_) {
+    $document = _$document_;
+    sinon.stub($document, 'find').returns({ attr: function () { return 'my_path' } });
+  }));
 
-function appPaths($document) {
-  var paths = {
-    appBasePath: $document.find('meta[name=app_base_path]').attr('content'),
-    apiExperimental: '/api/experimental',
-    apiV2: '/api/v2',
-    apiV3: '/api/v3'
-  };
+  beforeEach(angular.mock.inject(function(_$document_, _apiPaths_) {
+    apiPaths = _apiPaths_;
+  }));
 
-  return {
-    get appBasePath() {
-      return paths.appBasePath;
-    },
+  afterEach(function () {
+    $document.find.restore();
+  });
 
-    path: function (path) {
-      return paths.appBasePath + path;
-    }
-  };
-}
+  it("should return the 'app_base_path' meta tag value", function () {
+    expect(apiPaths.appBasePath).to.eq('my_path');
+  });
+});
