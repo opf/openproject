@@ -27,24 +27,24 @@
 //++
 
 module.exports = function() {
+  var help_link_title = I18n.t('js.inplace.link_formatting_help');
   var HELP_LINK_ONCLICK = 'window.open(&quot;' + window.appBasePath + '/help/wiki_syntax&quot;, &quot;&quot;, ' +
                           '&quot;resizable=yes, location=no, width=600, height=640, ' +
                           'menubar=no, status=no, scrollbars=yes&quot;); return false;',
-      HELP_LINK_HTML = jQuery('<button title="' + I18n.t('js.inplace.link_formatting_help') + '"' +
-                              ' class="jstb_help icon icon-help1 icon-small" ' +
+      HELP_LINK_HTML = jQuery('<button title="' + help_link_title + '"' +
+                              ' class="jstb_help" ' +
                               ' type="button" ' +
-                              'onclick="' + HELP_LINK_ONCLICK + '">' +
-                              '<span class="hidden-for-sighted">' +
-                              I18n.t('js.inplace.link_formatting_help') +
-                              '</span></button>')[0],
+                              ' aria-label="' + help_link_title + '"' +
+                              'onclick="' + HELP_LINK_ONCLICK + '"></button>')[0],
       PREVIEW_ENABLE_TEXT = I18n.t('js.inplace.btn_preview_enable'),
       PREVIEW_DISABLE_TEXT = I18n.t('js.inplace.btn_preview_disable'),
       PREVIEW_BUTTON_CLASS = 'jstb_preview',
       PREVIEW_BUTTON_ATTRIBUTES = {
         'class': PREVIEW_BUTTON_CLASS + ' icon-preview icon-small',
-        type: 'button',
-        title: PREVIEW_ENABLE_TEXT,
-        text: ''
+        'type': 'button',
+        'title': PREVIEW_ENABLE_TEXT,
+        'aria-label': PREVIEW_ENABLE_TEXT,
+        'text': ''
       };
 
   function link(scope, element) {
@@ -64,6 +64,7 @@ module.exports = function() {
 
         element.closest('.inplace-edit--write-value')
                .find('.' + PREVIEW_BUTTON_CLASS).attr('title', title)
+                                                .attr('aria-label', title)
                                                 .toggleClass(toggledClasses);
       });
     };
