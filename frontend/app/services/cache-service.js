@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(HALAPIResource,
+module.exports = function(hyperagentResource,
                           $http,
                           $q,
                           CacheFactory) {
