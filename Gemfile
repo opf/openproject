@@ -233,9 +233,12 @@ group :opf_plugins do
   gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'release/5.0'
 end
 
-gem 'passenger'
+# TODO: Make this group :optional when bundler v10.x
+# is matured enough that we can use this everywhere
+# http://bundler.io/blog/2015/06/24/version-1-10-released.html
+group :docker do
+  gem 'passenger'
 
-group :production do
   # Used to easily precompile assets
   gem 'sqlite3', require: false
   gem 'rails_12factor', require: !!ENV['HEROKU']
