@@ -31,7 +31,7 @@ angular
   .module('openproject.services')
   .factory('WorkPackageService', WorkPackageService);
 
-function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResource,
+function WorkPackageService($http, PathHelper, WorkPackagesHelper, hyperagentResource,
     DEFAULT_FILTER_PARAMS, DEFAULT_PAGINATION_OPTIONS, $rootScope, $window, $q, $cacheFactory,
     AuthorisationService, EditableFieldsState, WorkPackageFieldService, NotificationsService,
     inplaceEditErrors) {
@@ -80,10 +80,10 @@ function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResourc
         embedded: {},
         props: {},
         links: {
-          update: HALAPIResource
+          update: hyperagentResource
             .setup(PathHelper
               .apiV3WorkPackageFormPath(projectIdentifier)),
-          updateImmediately: HALAPIResource.setup(
+          updateImmediately: hyperagentResource.setup(
             PathHelper.apiv3ProjectWorkPackagesPath(projectIdentifier),
             { method: 'post' }
           )
@@ -124,7 +124,7 @@ function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResourc
 
     getWorkPackage: function(id) {
       var path = PathHelper.apiV3WorkPackagePath(id),
-          resource = HALAPIResource.setup(path);
+          resource = hyperagentResource.setup(path);
 
       return resource.fetch().then(function (wp) {
         return $q.all([

@@ -92,8 +92,8 @@ describe('WorkPackageService', function() {
       };
     }));
 
-    beforeEach(inject(function(HALAPIResource) {
-      setupFunction = sinon.stub(HALAPIResource, 'setup').returns(apiResource);
+    beforeEach(inject(function(hyperagentResource) {
+      setupFunction = sinon.stub(hyperagentResource, 'setup').returns(apiResource);
     }));
 
     beforeEach(inject(function() {

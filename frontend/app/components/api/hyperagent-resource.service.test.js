@@ -26,39 +26,38 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-/* globals Hyperagent */
-require('hyperagent');
+describe('hyperagentResource', function() {
 
-angular
-  .module('openproject.api')
-  .run(run)
-  .factory('HALAPIResource', HALAPIResource);
+  var hyperagentResource;
+  beforeEach(angular.mock.module('openproject.api'));
 
-function run($http, $q) {
-  Hyperagent.configure('ajax', function(settings) {
-    settings.transformResponse = function (data) { return data; };
+  beforeEach(inject(function(_hyperagentResource_) {
+    hyperagentResource = _hyperagentResource_;
+  }));
 
-    return $http(settings).then(
-      function (response) { settings.success(response.data); },
-      settings.error
-    );
+  describe('setup', function() {
+    var apiResource, resourceFunction;
+    var workPackageUri = 'api/v3/work_packages/1';
+
+    beforeEach(inject(function($q) {
+      apiResource = {
+        fetch: $q.when(function() { return { id: workPackageId }; })
+      };
+    }));
+
+    beforeEach(inject(function(hyperagentResource) {
+      resourceFunction = sinon.stub(Hyperagent, 'Resource').returns(apiResource);
+      hyperagentResource.setup(workPackageUri);
+    }));
+
+    afterEach(function() {
+      resourceFunction.restore();
+    });
+
+   it('makes an api setup call', function() {
+     expect(resourceFunction).to.have.been.calledWith({
+       url: workPackageUri
+     });
+   });
   });
-  Hyperagent.configure('defer', $q.defer);
-  Hyperagent.configure('_', _);
-}
-
-function HALAPIResource () {
-  return {
-    setup: function(uri, params) {
-      params = params || {};
-      var resource = new Hyperagent.Resource(_.extend({ url: uri }, params));
-
-      if (params.method) {
-        resource.props.href = uri;
-        resource.props.method = params.method;
-      }
-
-      return resource;
-    }
-  };
-}
+});

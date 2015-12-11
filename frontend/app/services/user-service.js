@@ -27,7 +27,7 @@
 //++
 
 module.exports = function(
-  HALAPIResource,
+  hyperagentResource,
   $http,
   PathHelper,
   CacheService) {
@@ -36,7 +36,7 @@ module.exports = function(
   var UserService = {
     getUser: function(id) {
       var path = PathHelper.apiV3UserPath(id),
-        resource = HALAPIResource.setup(path);
+        resource = hyperagentResource.setup(path);
 
       return UserService.getUserByResource(resource);
     },
