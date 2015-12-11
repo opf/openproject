@@ -251,8 +251,7 @@ describe PermittedParams, type: :model do
   describe '#version' do
     it 'should permit its whitelisted params' do
       acceptable_params = [:name, :description, :effective_date, :due_date,
-                           :start_date, :wiki_page_title, :status, :sharing,
-                           :custom_field_value]
+                           :start_date, :wiki_page_title, :status, :sharing]
 
       acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map {|x| [x, 'value']}]
 
@@ -268,6 +267,14 @@ describe PermittedParams, type: :model do
     it 'allows an empty params hash' do
       params = ActionController::Parameters.new
       expect(PermittedParams.new(params, user).time_entry).to eq({})
+    end
+
+    it 'should permit custom field values' do
+      hash = { 'custom_field_values' => { '1' => '5' } }
+
+      params = ActionController::Parameters.new(version: hash)
+
+      expect(PermittedParams.new(params, user).version).to eq(hash)
     end
   end
 
