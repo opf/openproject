@@ -81,11 +81,9 @@ jsButton.prototype.draw = function() {
 
   var button = document.createElement('button');
   button.setAttribute('type','button');
+  button.setAttribute('aria-label', this.title);
   if (this.className) button.className = this.className;
   button.title = this.title;
-  var span = document.createElement('span');
-  span.appendChild(document.createTextNode(this.title));
-  button.appendChild(span);
 
   if (this.icon != undefined) {
     button.style.backgroundImage = 'url('+this.icon+')';

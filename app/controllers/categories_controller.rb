@@ -65,10 +65,6 @@ class CategoriesController < ApplicationController
     end
   end
 
-  def edit
-    @category.attributes = permitted_params.category
-  end
-
   def update
     @category.attributes = permitted_params.category
     if @category.save

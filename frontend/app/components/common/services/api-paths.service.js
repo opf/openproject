@@ -33,9 +33,9 @@
 
 angular
   .module('openproject.workPackages.services')
-  .factory('appPaths', appPaths);
+  .factory('apiPaths', apiPaths);
 
-function appPaths($document) {
+function apiPaths($document) {
   var paths = {
     appBasePath: $document.find('meta[name=app_base_path]').attr('content'),
     apiExperimental: '/api/experimental',
