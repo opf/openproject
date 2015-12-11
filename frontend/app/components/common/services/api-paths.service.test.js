@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,26 +24,26 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
-describe('PathHelper', function() {
-  var PathHelper;
+// ++
 
-  beforeEach(module('openproject.helpers'));
-  beforeEach(inject(function(_PathHelper_) {
-    PathHelper = _PathHelper_;
+describe('apiPaths', function() {
+  var $document, apiPaths;
+
+  beforeEach(angular.mock.module('openproject.workPackages.services'));
+  beforeEach(angular.mock.inject(function (_$document_) {
+    $document = _$document_;
+    sinon.stub($document, 'find').returns({ attr: function () { return 'my_path' } });
   }));
 
-  context('apiV3', function() {
-    var projectIdentifier = 'majora';
+  beforeEach(angular.mock.inject(function(_$document_, _apiPaths_) {
+    apiPaths = _apiPaths_;
+  }));
 
-    it('should provide the project\'s path', function() {
-      expect(PathHelper.apiV3ProjectsPath(projectIdentifier)).to.equal('/api/v3/projects/majora');
-    });
+  afterEach(function () {
+    $document.find.restore();
+  });
 
-    it('should provide a path to the project\'s categories', function() {
-      expect(
-        PathHelper.apiV3ProjectCategoriesPath(projectIdentifier)
-      ).to.equal('/api/v3/projects/majora/categories');
-    });
+  it("should return the 'app_base_path' meta tag value", function () {
+    expect(apiPaths.appBasePath).to.eq('my_path');
   });
 });

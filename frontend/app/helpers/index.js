@@ -31,7 +31,6 @@ angular.module('openproject.helpers')
   .service('AutoCompleteHelper', ['$http', 'PathHelper', require('./auto-complete-helper')])
   .service('CustomFieldHelper', ['CUSTOM_FIELD_PREFIX', 'I18n', require(
     './custom-field-helper')])
-  .service('PathHelper', require('./path-helper'))
   .factory('SvgHelper', require('./svg-helper'))
   .service('UrlParamsHelper', ['I18n', 'PaginationService', 'PathHelper',
     require('./url-params-helper')])

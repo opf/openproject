@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,11 +24,16 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-// TODO forward rails routes
-module.exports = function() {
-  var PathHelper = {
+angular
+  .module('openproject.helpers')
+  .factory('PathHelper', PathHelper);
+
+function PathHelper() {
+  var PathHelper;
+
+  return PathHelper = {
     apiV2: '/api/v2',
     apiExperimental: '/api/experimental',
     apiV3: '/api/v3',
@@ -55,9 +60,6 @@ module.exports = function() {
     boardPath: function(projectIdentifier, boardIdentifier) {
       return PathHelper.boardsPath(projectIdentifier) + '/' + boardIdentifier;
     },
-    messagesPath: function(boardIdentifier) {
-      return PathHelper.boardsPath() + '/' + boardIdentifier + '/topics';
-    },
     messagePath: function(messageIdentifier) {
       return PathHelper.staticBase + '/topics/' + messageIdentifier;
     },
@@ -69,9 +71,6 @@ module.exports = function() {
     },
     projectWorkPackagesPath: function(projectId) {
       return PathHelper.projectPath(projectId) + PathHelper.workPackagesPath();
-    },
-    projectWorkPackagesFormPath: function(projectId) {
-      return PathHelper.projectWorkPackagesPath(projectId) + '/form';
     },
     queryPath: function(queryIdentifier) {
       return '/queries/' + queryIdentifier;
@@ -90,9 +89,6 @@ module.exports = function() {
     timeEntryPath: function(timeEntryIdentifier) {
       return PathHelper.staticBase + '/time_entries/' + timeEntryIdentifier;
     },
-    timeEntryNewPath: function(workPackageId) {
-      return PathHelper.timeEntriesPath(null, workPackageId) + '/new';
-    },
     timeEntryEditPath: function(timeEntryIdentifier) {
       return PathHelper.timeEntryPath(timeEntryIdentifier) + '/edit';
     },
@@ -102,17 +98,11 @@ module.exports = function() {
     workPackagePath: function(id) {
       return PathHelper.staticBase + '/work_packages/' + id;
     },
-    workPackageDuplicatePath: function(projectId, workPackageId) {
-      return '/projects/' + projectId + '/work_packages/new?copy_from=' + workPackageId;
-    },
     workPackageCopyPath: function(workPackageId) {
       return '/work_packages/' + workPackageId + '/copy';
     },
     workPackageDetailsCopyPath: function(projectId, workPackageId) {
       return '/projects/' + projectId + '/work_packages/details/' + workPackageId + '/copy';
-    },
-    workPackageMovePath: function(id) {
-      return PathHelper.workPackagePath(id) + '/move/new';
     },
     workPackageDeletePath: function(ids) {
       return PathHelper.workPackagesBulkDeletePath() + '?ids=' + (Array.isArray(ids) ? ids.join() : ids);
@@ -279,9 +269,6 @@ module.exports = function() {
     staticWorkPackagePath: function(workPackageId) {
       return PathHelper.workPackagePath(workPackageId);
     },
-    staticEditWorkPackagePath: function(workPackageId){
-      return PathHelper.staticWorkPackagePath(workPackageId) + '/edit';
-    },
     staticProjectPath: function(projectIdentifier) {
       return PathHelper.staticBase + PathHelper.projectPath(projectIdentifier);
     },
@@ -319,6 +306,4 @@ module.exports = function() {
       return PathHelper.staticBase + '/help/keyboard_shortcuts';
     }
   };
-
-  return PathHelper;
-};
+}
