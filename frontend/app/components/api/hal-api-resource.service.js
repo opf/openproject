@@ -29,7 +29,8 @@
 /* globals Hyperagent */
 require('hyperagent');
 
-angular.module('openproject.api')
+angular
+  .module('openproject.api')
   .run(run)
   .factory('HALAPIResource', HALAPIResource);
 
@@ -45,20 +46,19 @@ function run($http, $q) {
   Hyperagent.configure('defer', $q.defer);
   Hyperagent.configure('_', _);
 }
-run.$inject = ['$http', '$q'];
 
 function HALAPIResource () {
   return {
     setup: function(uri, params) {
       params = params || {};
-      var link = new Hyperagent.Resource(_.extend({ url: uri }, params));
+      var resource = new Hyperagent.Resource(_.extend({ url: uri }, params));
 
       if (params.method) {
-        link.props.href = uri;
-        link.props.method = params.method;
+        resource.props.href = uri;
+        resource.props.method = params.method;
       }
 
-      return link;
+      return resource;
     }
   };
 }
