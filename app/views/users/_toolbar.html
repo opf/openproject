@@ -35,15 +35,15 @@ See doc/COPYRIGHT.rdoc for more details.
       <% end %>
     </li>
     <% unless current_user.id == @user.id %>
-      <%= form_for @user, :url => {:action => :change_status},
+      <%= form_for @user, html: { class: 'toolbar-item' }, :url => {:action => :change_status},
                 :method => :post do %>
-        <li class="toolbar-item">
+        <li>
           <%= change_user_status_buttons(@user) %>
         </li>
       <% end %>
     <% end %>
     <% if Setting.users_deletable_by_admins? %>
-      <li class="toolbar-items">
+      <li class="toolbar-item">
         <%= link_to deletion_info_user_path(@user), class: 'button' do %>
           <i class="button--icon icon-delete"></i>
           <span class="button--text"><%= l(:button_delete) %></span>
