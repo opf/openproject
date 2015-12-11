@@ -46,4 +46,8 @@ describe('apiPaths', function() {
   it("should return the 'app_base_path' meta tag value", function () {
     expect(apiPaths.appBasePath).to.eq('my_path');
   });
+
+  it('returns the apiV3 paths with the correct prefixes', function () {
+    expect(apiPaths.v3('some_path')).to.eq(apiPaths.appBasePath + '/api/v3/some_path');
+  });
 });
