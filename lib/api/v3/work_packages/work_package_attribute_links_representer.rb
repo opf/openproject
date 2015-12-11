@@ -93,6 +93,9 @@ module API
         linked_property :version,
                         association: :fixed_version_id
         linked_property :priority
+        linked_property :parent,
+                        path: :work_package,
+                        namespace: :work_packages
       end
     end
   end

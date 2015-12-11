@@ -204,6 +204,17 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:link) { "/api/v3/priorities/#{priority.id}" }
         end
       end
+
+      describe 'parent' do
+        let(:parent) { FactoryGirl.build_stubbed(:work_package) }
+
+        before do work_package.parent = parent end
+
+        it_behaves_like 'linked property' do
+          let(:property) { 'parent' }
+          let(:link) { "/api/v3/work_packages/#{parent.id}" }
+        end
+      end
     end
 
     describe 'custom fields' do

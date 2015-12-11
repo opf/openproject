@@ -29,38 +29,26 @@
 require 'support/pages/page'
 
 module Pages
-  class SplitWorkPackageCreate < Page
-    attr_reader :work_package,
-                :project
+  class SplitWorkPackageCreate < AbstractWorkPackageCreate
+    attr_reader :project
 
-    def initialize(project, work_package = nil)
-      # in case of copy, the original work package can be provided
-      @work_package = work_package
+    def initialize(project:, original_work_package: nil, parent_work_package: nil)
       @project = project
-    end
 
-    def expect_fully_loaded
-      expect(page).to have_field(I18n.t('js.work_packages.properties.subject'))
-    end
-
-    def update_attributes(attribute_map)
-      # Only designed for text fields for now
-      attribute_map.each do |label, value|
-        fill_in(label, with: value)
-      end
-    end
-
-    def save!
-      click_button I18n.t('js.button_save')
+      super(original_work_package: original_work_package,
+            parent_work_package: parent_work_package)
     end
 
     private
 
     def path
-      if work_package
-        project_work_packages_path(project) + "/details/#{work_package.id}/copy"
+      if original_work_package
+        project_work_packages_path(project) + "/details/#{original_work_package.id}/copy"
       else
-        project_work_packages_path(project) + '/create_new'
+        path = project_work_packages_path(project) + '/create_new'
+        path += "?parent_id=#{parent_work_package.id}" if parent_work_package
+
+        path
       end
     end
   end

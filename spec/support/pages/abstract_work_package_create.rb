@@ -29,33 +29,39 @@
 require 'support/pages/page'
 
 module Pages
-  class SplitWorkPackage < Pages::AbstractWorkPackage
-    attr_reader :project
+  class AbstractWorkPackageCreate < Page
+    attr_reader :original_work_package,
+                :parent_work_package
 
-    def initialize(work_package, project = nil)
-      super work_package
-      @project = project
+    def initialize(original_work_package: nil, parent_work_package: nil)
+      # in case of copy, the original work package can be provided
+      @original_work_package = original_work_package
+      @parent_work_package = parent_work_package
     end
 
-    private
-
-    def container
-      find('.work-packages--details')
-    end
-
-    def path(tab = 'overview')
-      state = "#{work_package.id}/#{tab}"
-
-      if project
-        project_work_packages_path(project, "details/#{state}")
+    def expect_heading
+      if parent_work_package
+        expect(page).to have_selector('h2', text: I18n.t('js.work_packages.create.header_with_parent',
+                                                         type: parent_work_package.type,
+                                                         id: parent_work_package.id))
       else
-        details_work_packages_path(state)
+        expect(page).to have_selector('h2', text: I18n.t('js.work_packages.create.header'))
       end
     end
 
-    def create_page(args)
-      args.merge!(project: project || work_package.project)
-      SplitWorkPackageCreate.new(args)
+    def update_attributes(attribute_map)
+      # Only designed for text fields for now
+      attribute_map.each do |label, value|
+        fill_in(label, with: value)
+      end
+    end
+
+    def expect_fully_loaded
+      expect(page).to have_field(I18n.t('js.work_packages.properties.subject'))
+    end
+
+    def save!
+      click_button I18n.t('js.button_save')
     end
   end
 end
