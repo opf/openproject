@@ -75,8 +75,11 @@ module Pages
     end
 
     def expect_current_path
-      current_path = URI.parse(current_url).path
-      expect(current_path).to eql path
+      uri = URI.parse(current_url)
+      expected_path = uri.path
+      expected_path += '?' + uri.query if uri.query
+
+      expect(expected_path).to eql path
     end
 
     def path

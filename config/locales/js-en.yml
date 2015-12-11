@@ -365,6 +365,7 @@ en:
       message_successful_bulk_delete: Successfully deleted work packages.
       create:
         header: 'New Work Package'
+        header_with_parent: 'New work package (Child of %{type} #%{id})'
       no_results:
         title: No work packages to display
         description_html: |

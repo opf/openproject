@@ -29,29 +29,7 @@
 require 'support/pages/page'
 
 module Pages
-  class FullWorkPackageCreate < Page
-    attr_reader :work_package
-
-    def initialize(work_package = nil)
-      # in case of copy, the original work package can be provided
-      @work_package = work_package
-    end
-
-    def expect_fully_loaded
-      expect(page).to have_field(I18n.t('js.work_packages.properties.subject'))
-    end
-
-    def update_attributes(attribute_map)
-      # Only designed for text fields for now
-      attribute_map.each do |label, value|
-        fill_in(label, with: value)
-      end
-    end
-
-    def save!
-      click_button I18n.t('js.button_save')
-    end
-
+  class FullWorkPackageCreate < AbstractWorkPackageCreate
     private
 
     def container
@@ -59,7 +37,12 @@ module Pages
     end
 
     def path
-      work_package_path(work_package) + '/copy' if work_package
+      if original_work_package
+        work_package_path(original_work_package) + '/copy'
+      elsif parent_work_package
+        new_project_work_packages_path(parent_work_package.project.identifier,
+                                       parent_id: parent_work_package.id)
+      end
     end
   end
 end

@@ -100,7 +100,6 @@ function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResourc
 
       return wp.links.update.fetch(options)
         .then(function(form) {
-          form.pendingChanges = changes;
           wp.form = form;
           EditableFieldsState.workPackage = wp;
           inplaceEditErrors.errors = null;
@@ -121,6 +120,21 @@ function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResourc
 
       return WorkPackageService.initializeWorkPackage(projectIdentifier, initialData);
     },
+
+    initializeWorkPackageWithParent: function(parentWorkPackage) {
+      var projectIdentifier = parentWorkPackage.embedded.project.props.identifier;
+
+      var initialData = {
+        _links: {
+          parent: {
+            href: PathHelper.apiV3WorkPackagePath(parentWorkPackage.props.id)
+          }
+        }
+      };
+
+      return WorkPackageService.initializeWorkPackage(projectIdentifier, initialData);
+    },
+
 
     getWorkPackage: function(id) {
       var path = PathHelper.apiV3WorkPackagePath(id),
