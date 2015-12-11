@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,26 +24,44 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-describe('appPaths', function() {
-  var $document, appPaths;
+.generic-list
+  margin: 0
+  padding: 0
 
-  beforeEach(angular.mock.module('openproject.workPackages.services'));
-  beforeEach(angular.mock.inject(function (_$document_) {
-    $document = _$document_;
-    sinon.stub($document, 'find').returns({ attr: function () { return 'my_path' } });
-  }));
+  li
+    list-style: none
+    margin-bottom: 24px
 
-  beforeEach(angular.mock.inject(function(_$document_, _appPaths_) {
-    appPaths = _appPaths_;
-  }));
+  .title
+    font-weight: bold
 
-  afterEach(function () {
-    $document.find.restore();
-  });
+    .icon-context:before
+      vertical-align: -2px
 
-  it("should return the 'app_base_path' meta tag value", function () {
-    expect(appPaths.appBasePath).to.eq('my_path');
-  });
-});
+  .me
+    .time
+      border-bottom: 1px solid $gray-dark
+
+  .time,
+  .description
+    color: $gray-dark
+
+  .time,
+  .description,
+  .author
+    font-size: 0.9em
+
+  .description,
+  .author
+    padding-left: 30px
+
+  .description
+    font-style: italic
+
+  .author
+    margin-bottom: 1em
+
+  .avatar-mini
+    margin: 0 10px 0 0

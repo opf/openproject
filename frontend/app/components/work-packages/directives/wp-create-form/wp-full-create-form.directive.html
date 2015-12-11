@@ -30,7 +30,7 @@
 
 <div cg-busy="vm.loaderPromise">
   <div ng-if="vm.workPackage">
-    <h2>{{ ::I18n.t('js.work_packages.create.header') }}</h2>
+    <h2>{{ vm.getHeading() }}</h2>
 
     <div class="work-packages--create--title">
       <work-package-field field-name="'subject'" tabindex="0"></work-package-field>
@@ -66,22 +66,22 @@
         </div>
       </div>
 
-      <dl class="attributes-key-value">
-        <dt
+      <div class="attributes-key-value">
+        <div
             ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
             ng-if="vm.isSpecified(vm.workPackage, field) && vm.isEditable(vm.workPackage, field)"
             ng-repeat-start="field in group.attributes" class="attributes-key-value--key">
           {{vm.getLabel(vm.workPackage, field)}}
           <span class="required" ng-if="vm.hasNiceStar(vm.workPackage, field)"> *</span>
-        </dt>
-        <dd
+        </div>
+        <div
             ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
             ng-if="vm.isSpecified(vm.workPackage, field) && vm.isEditable(vm.workPackage, field)"
             ng-repeat-end
             class="attributes-key-value--value-container">
           <work-package-field field-name="field"></work-package-field>
-        </dd>
-      </dl>
+        </div>
+      </div>
     </div>
     <work-package-attachments work-package="vm.workPackage" data-ng-show="!vm.hideEmptyFields"></work-package-attachments>
   </div>

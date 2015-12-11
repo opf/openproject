@@ -182,7 +182,7 @@ module API
         link :addChild do
           {
             href: new_project_work_packages_path(represented.project,
-                                                work_package: { parent_id: represented }),
+                                                 parent_id: represented),
             type: 'text/html',
             title: "Add child of #{represented.subject}"
           } if current_user_allowed_to(:add_work_packages, context: represented.project)

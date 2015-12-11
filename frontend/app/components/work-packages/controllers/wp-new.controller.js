@@ -38,9 +38,9 @@ function WorkPackageNewController($scope,
                                   WorkPackagesOverviewService,
                                   WorkPackageFieldService,
                                   WorkPackageService,
-                                  EditableFieldsState,
                                   WorkPackagesDisplayHelper,
                                   NotificationsService,
+                                  inplaceEditAll,
                                   loadingIndicator) {
 
   var vm = this;
@@ -63,6 +63,17 @@ function WorkPackageNewController($scope,
   vm.notifyCreation = function() {
     NotificationsService.addSuccess(I18n.t('js.notice_successful_create'));
   };
+  vm.getHeading = function() {
+    if (vm.parentWorkPackage !== undefined) {
+      return I18n.t('js.work_packages.create.header_with_parent',
+                    { type: vm.parentWorkPackage.embedded.type.props.name,
+                      id: vm.parentWorkPackage.props.id });
+    }
+    else {
+       return I18n.t('js.work_packages.create.header');
+    }
+  };
+
   vm.goBack = function() {
     var args = ['^'],
         prevState = $rootScope.previousState;
@@ -109,10 +120,16 @@ function WorkPackageNewController($scope,
   prepareInitialData().then(activate);
 
   function prepareInitialData() {
-    EditableFieldsState.forcedEditState = true;
-    EditableFieldsState.editAll.state = true;
+    inplaceEditAll.start();
 
-    if ($stateParams.copiedFromWorkPackageId) {
+    if ($stateParams.parent_id) {
+      vm.loaderPromise = WorkPackageService.getWorkPackage($stateParams.parent_id)
+        .then(function(workPackage) {
+          vm.parentWorkPackage = workPackage;
+          return WorkPackageService.initializeWorkPackageWithParent(workPackage);
+        });
+    }
+    else if ($stateParams.copiedFromWorkPackageId) {
       vm.loaderPromise = WorkPackageService.getWorkPackage($stateParams.copiedFromWorkPackageId)
         .then(function(workPackage) {
           return WorkPackageService.initializeWorkPackageFromCopy(workPackage);
@@ -139,7 +156,7 @@ function WorkPackageNewController($scope,
     });
 
     $scope.$on('$stateChangeStart', function () {
-      EditableFieldsState.editAll.stop();
+      inplaceEditAll.stop();
     });
 
     return vm.loaderPromise;

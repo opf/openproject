@@ -114,6 +114,21 @@ module API
           schema :project,
                  type: 'Project'
 
+          schema :parent_id,
+                 type: 'Integer',
+                 required: false,
+                 writable: true
+
+          # TODO:
+          # * remove parent_id above in favor of only having :parent
+          # * create an available_work_package_parent resource
+          # * turn :parent into a schema_with_allowed_link
+
+          schema :parent,
+                 type: 'WorkPackage',
+                 required: false,
+                 writable: true
+
           schema_with_allowed_link :assignee,
                                    type: 'User',
                                    required: false,

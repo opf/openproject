@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,78 +24,45 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
 angular
   .module('openproject.workPackages.services')
   .factory('EditableFieldsState', EditableFieldsState);
 
-function EditableFieldsState($rootScope, $window, inplaceEditErrors, inplaceEditForm) {
-  var EditableFieldsState = {
+function EditableFieldsState(inplaceEditErrors, inplaceEditAll) {
+  var EditableFieldsState;
+
+  return EditableFieldsState = {
     workPackage: null,
     errors: inplaceEditErrors.errors,
     isBusy: false,
     currentField: null,
-    forcedEditState: false,
+    focusField: 'subject',
+
+    isFocusField: function (field) {
+      return EditableFieldsState.focusField === field;
+    },
 
     isActiveField: function (field) {
-      return !(this.forcedEditState || this.editAll.state) && this.currentField === field;
+      return !inplaceEditAll.state && EditableFieldsState.currentField === field;
     },
 
     getPendingFormChanges: function () {
-      var form = this.workPackage.form;
+      var form = EditableFieldsState.workPackage.form;
       return form.pendingChanges = form.pendingChanges || angular.copy(form.embedded.payload.props);
     },
 
     discard: function (fieldName) {
-      delete this.getPendingFormChanges()[fieldName];
+      delete EditableFieldsState.getPendingFormChanges()[fieldName];
 
       if (inplaceEditErrors.errors && inplaceEditErrors.hasOwnProperty(fieldName)) {
         delete inplaceEditErrors.errors[fieldName];
       }
     },
 
-    editAll: {
-      focusField: 'subject',
-
-      cancel: function () {
-        inplaceEditForm.deleteNewForm();
-        this.stop();
-      },
-
-      get allowed() {
-        return EditableFieldsState.workPackage && !!EditableFieldsState.workPackage.links.update;
-      },
-
-      start: function () {
-        return this.state = true;
-      },
-
-      stop: function () {
-        return this.state = false;
-      },
-
-      toggleState: function () {
-        return this.state = !this.state;
-      },
-
-      isFocusField: function (field) {
-        return this.focusField === field;
-      }
+    get canEdit() {
+      return EditableFieldsState.workPackage && !!EditableFieldsState.workPackage.links.update;
     }
   };
-
-  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-    if (EditableFieldsState.editAll.state && fromParams.workPackageId
-      && toParams.workPackageId !== fromParams.workPackageId) {
-
-      if (!$window.confirm(I18n.t('js.text_are_you_sure'))) {
-        return event.preventDefault();
-      }
-
-      EditableFieldsState.editAll.cancel();
-    }
-  });
-
-  return EditableFieldsState;
 }

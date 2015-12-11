@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,39 +24,27 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-angular
-  .module('openproject.inplace-edit')
-  .directive('workPackageField', workPackageField);
+describe('PathHelper', function() {
+  var PathHelper;
 
-function workPackageField() {
-  return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: '/components/inplace-edit/directives/work-package-field/' +
-      'work-package-field.directive.html',
-    scope: {
-      fieldName: '='
-    },
+  beforeEach(angular.mock.module('openproject.helpers'));
+  beforeEach(inject(function(_PathHelper_) {
+    PathHelper = _PathHelper_;
+  }));
 
-    bindToController: true,
-    controller: WorkPackageFieldController,
-    controllerAs: 'fieldController'
-  };
-}
+  context('apiV3', function() {
+    var projectIdentifier = 'majora';
 
-function WorkPackageFieldController($scope, EditableFieldsState, inplaceEditForm, inplaceEditAll) {
-  var workPackage = EditableFieldsState.workPackage;
-  this.state = EditableFieldsState;
-  $scope.field = inplaceEditForm.getForm(workPackage.props.id, workPackage).field(this.fieldName);
+    it('should provide the project\'s path', function() {
+      expect(PathHelper.apiV3ProjectsPath(projectIdentifier)).to.equal('/api/v3/projects/majora');
+    });
 
-  var field = $scope.field;
-
-  if (field.isEditable()) {
-    this.state.isBusy = false;
-    this.isEditing = inplaceEditAll.state;
-    this.editTitle = I18n.t('js.inplace.button_edit', { attribute: field.getLabel() });
-  }
-}
-
+    it('should provide a path to the project\'s categories', function() {
+      expect(
+        PathHelper.apiV3ProjectCategoriesPath(projectIdentifier)
+      ).to.equal('/api/v3/projects/majora/categories');
+    });
+  });
+});

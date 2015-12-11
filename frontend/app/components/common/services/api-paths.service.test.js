@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,39 +24,26 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-angular
-  .module('openproject.inplace-edit')
-  .directive('workPackageField', workPackageField);
+describe('apiPaths', function() {
+  var $document, apiPaths;
 
-function workPackageField() {
-  return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: '/components/inplace-edit/directives/work-package-field/' +
-      'work-package-field.directive.html',
-    scope: {
-      fieldName: '='
-    },
+  beforeEach(angular.mock.module('openproject.workPackages.services'));
+  beforeEach(angular.mock.inject(function (_$document_) {
+    $document = _$document_;
+    sinon.stub($document, 'find').returns({ attr: function () { return 'my_path' } });
+  }));
 
-    bindToController: true,
-    controller: WorkPackageFieldController,
-    controllerAs: 'fieldController'
-  };
-}
+  beforeEach(angular.mock.inject(function(_$document_, _apiPaths_) {
+    apiPaths = _apiPaths_;
+  }));
 
-function WorkPackageFieldController($scope, EditableFieldsState, inplaceEditForm, inplaceEditAll) {
-  var workPackage = EditableFieldsState.workPackage;
-  this.state = EditableFieldsState;
-  $scope.field = inplaceEditForm.getForm(workPackage.props.id, workPackage).field(this.fieldName);
+  afterEach(function () {
+    $document.find.restore();
+  });
 
-  var field = $scope.field;
-
-  if (field.isEditable()) {
-    this.state.isBusy = false;
-    this.isEditing = inplaceEditAll.state;
-    this.editTitle = I18n.t('js.inplace.button_edit', { attribute: field.getLabel() });
-  }
-}
-
+  it("should return the 'app_base_path' meta tag value", function () {
+    expect(apiPaths.appBasePath).to.eq('my_path');
+  });
+});

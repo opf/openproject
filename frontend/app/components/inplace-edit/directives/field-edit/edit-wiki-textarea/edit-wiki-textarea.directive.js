@@ -44,8 +44,10 @@ function inplaceEditorWikiTextarea(AutoCompleteHelper, $timeout) {
     link: function(scope, element) {
       $timeout(function() {
         AutoCompleteHelper.enableTextareaAutoCompletion(element.find('textarea'));
-        // set as dirty for the script to show a confirm on leaving the page
-        element.find('textarea').data('changed', true);
+      });
+
+      var textarea = element.find('textarea').on('change', function () {
+        textarea.data('changed', true);
       });
 
       // Listen to elastic textara expansion to always make the bottom
@@ -72,8 +74,6 @@ function inplaceEditorWikiTextarea(AutoCompleteHelper, $timeout) {
     }
   };
 }
-inplaceEditorWikiTextarea.$inject = ['AutoCompleteHelper', '$timeout'];
-
 
 function InplaceEditorWikiTextareaController($scope, $sce, TextileService, EditableFieldsState) {
   var field = $scope.field;
@@ -103,5 +103,3 @@ function InplaceEditorWikiTextareaController($scope, $sce, TextileService, Edita
       }));
   };
 }
-InplaceEditorWikiTextareaController.$inject = ['$scope', '$sce', 'TextileService',
-  'EditableFieldsState'];

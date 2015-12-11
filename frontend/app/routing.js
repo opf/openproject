@@ -83,7 +83,7 @@ angular.module('openproject')
     })
 
     .state('work-packages.new', {
-      url: '/{projects}/{projectPath}/work_packages/new?type',
+      url: '/{projects}/{projectPath}/work_packages/new?type&parent_id',
       templateUrl: '/components/routes/partials/work-packages.new.html',
       controllerAs: 'vm',
       reloadOnSearch: false
@@ -101,8 +101,8 @@ angular.module('openproject')
         projects: { value: null, squash: true }
       },
 
-      onEnter: function ($state, $stateParams, EditableFieldsState) {
-        EditableFieldsState.editAll.start();
+      onEnter: function ($state, $stateParams, inplaceEditAll) {
+        inplaceEditAll.start();
         $state.go('work-packages.list.details.overview', $stateParams);
       }
     })
@@ -185,7 +185,7 @@ angular.module('openproject')
       }
     })
     .state('work-packages.list.new', {
-      url: '/create_new?type',
+      url: '/create_new?type&parent_id',
       templateUrl: '/components/routes/partials/work-packages.list.new.html',
       reloadOnSearch: false
     })

@@ -37,11 +37,13 @@ angular.module('openproject.viewModels')
     'CommonRelationsHandler',
     'WorkPackageService',
     'ApiNotificationsService',
+    '$state',
     require('./children-relations-handler')
   ])
   .factory('ParentRelationsHandler', [
     'CommonRelationsHandler',
     'WorkPackageService',
     'ApiNotificationsService',
+    'PathHelper',
     require('./parent-relations-handler')
   ]);

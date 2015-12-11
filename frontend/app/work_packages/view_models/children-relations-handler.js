@@ -29,7 +29,8 @@
 module.exports = function(
     CommonRelationsHandler,
     WorkPackageService,
-    ApiNotificationsService
+    ApiNotificationsService,
+    $state
   ) {
   function ChildrenRelationsHandler(workPackage, children) {
       var handler = new CommonRelationsHandler(workPackage, children, undefined);
@@ -42,7 +43,14 @@ module.exports = function(
         return !!this.workPackage.links.update;
       };
       handler.addRelation = function() {
-        window.location = this.workPackage.links.addChild.href;
+        var params = { parent_id: this.workPackage.props.id,
+                       projectPath: this.workPackage.embedded.project.props.identifier };
+        if ($state.includes('work-packages.show')) {
+          $state.go('work-packages.new', params);
+        }
+        else {
+          $state.go('work-packages.list.new', params);
+        }
       };
       handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch(); };
       handler.removeRelation = function(scope) {

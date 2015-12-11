@@ -26,30 +26,39 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-/**
- * Replaces the PathHelper service in its function, providing a way to generate safe paths
- * without having to store them directly in a service.
- */
-
 angular
   .module('openproject.workPackages.services')
-  .factory('appPaths', appPaths);
+  .factory('inplaceEditAll', inplaceEditAll);
 
-function appPaths($document) {
-  var paths = {
-    appBasePath: $document.find('meta[name=app_base_path]').attr('content'),
-    apiExperimental: '/api/experimental',
-    apiV2: '/api/v2',
-    apiV3: '/api/v3'
-  };
+function inplaceEditAll($rootScope, $window, inplaceEditForm) {
+  var inplaceEditAll;
 
-  return {
-    get appBasePath() {
-      return paths.appBasePath;
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+    if (inplaceEditAll.state && fromParams.workPackageId
+        && toParams.workPackageId !== fromParams.workPackageId) {
+
+      if (!$window.confirm(I18n.t('js.text_are_you_sure'))) {
+        return event.preventDefault();
+      }
+
+      inplaceEditAll.cancel();
+    }
+  });
+
+  return inplaceEditAll = {
+    state: false,
+
+    cancel: function () {
+      inplaceEditForm.deleteNewForm();
+      this.stop();
     },
 
-    path: function (path) {
-      return paths.appBasePath + path;
+    start: function () {
+      return this.state = true;
+    },
+
+    stop: function () {
+      return this.state = false;
     }
   };
 }

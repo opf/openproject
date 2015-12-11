@@ -30,8 +30,8 @@ angular
   .module('openproject.inplace-edit')
   .directive('inplaceEditorDateRange', inplaceEditorDateRange);
 
-function inplaceEditorDateRange(TimezoneService, I18n, $timeout, WorkPackageFieldService,
-    EditableFieldsState, Datepicker) {
+function inplaceEditorDateRange($timeout, TimezoneService, WorkPackageFieldService,
+    EditableFieldsState, Datepicker, inplaceEditAll) {
 
   return {
     restrict: 'E',
@@ -117,7 +117,7 @@ function inplaceEditorDateRange(TimezoneService, I18n, $timeout, WorkPackageFiel
       };
 
       $timeout(function() {
-        EditableFieldsState.editAll.state || startDatepicker.focus();
+        inplaceEditAll.state || startDatepicker.focus();
       });
 
       startDatepicker.textbox.on('click focusin', function() {
@@ -156,5 +156,3 @@ function inplaceEditorDateRange(TimezoneService, I18n, $timeout, WorkPackageFiel
     }
   };
 }
-inplaceEditorDateRange.$inject = ['TimezoneService', 'I18n', '$timeout', 'WorkPackageFieldService',
-  'EditableFieldsState', 'Datepicker'];

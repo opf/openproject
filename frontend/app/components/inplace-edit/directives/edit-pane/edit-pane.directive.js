@@ -30,7 +30,7 @@ angular
   .module('openproject.inplace-edit')
   .directive('inplaceEditorEditPane', inplaceEditorEditPane);
 
-function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
+function inplaceEditorEditPane($timeout, EditableFieldsState, FocusHelper, inplaceEditAll) {
   return {
     transclude: true,
     require: '^workPackageField',
@@ -59,9 +59,9 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
         });
       };
 
-      if (!EditableFieldsState.forcedEditState) {
+      if (!inplaceEditAll.state) {
         element.bind('keydown keypress', function(e) {
-          if (e.keyCode === 27 && !EditableFieldsState.editAll.state) {
+          if (e.keyCode === 27) {
             scope.$apply(function() {
               scope.editPaneController.discardEditing();
             });
@@ -70,12 +70,10 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
       }
 
       scope.$watch('fieldController.isEditing', function(isEditing) {
-        var efs = EditableFieldsState;
-
-        if (isEditing && !efs.editAll.state && !efs.forcedEditState) {
+        if (isEditing && !inplaceEditAll.state) {
           scope.focusInput();
 
-        } else if (efs.editAll.state && efs.editAll.isFocusField(field.name)) {
+        } else if (inplaceEditAll.state && EditableFieldsState.isFocusField(field.name)) {
           $timeout(function () {
             var focusElement = element.find('.focus-input');
             focusElement.length && focusElement.focus()[0].select();
@@ -87,7 +85,8 @@ function inplaceEditorEditPane(EditableFieldsState, FocusHelper, $timeout) {
 }
 
 function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
-    EditableFieldsState, inplaceEditStorage, inplaceEditMultiStorage, inplaceEditErrors) {
+    EditableFieldsState, inplaceEditStorage, inplaceEditMultiStorage, inplaceEditErrors,
+    inplaceEditAll) {
 
   var vm = this;
   var field = $scope.field;
@@ -145,7 +144,9 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
     return field.isRequired();
   };
 
-  $scope.$watch('editableFieldsState.editAll.state', function(state) {
+  $scope.inplaceEditAll = inplaceEditAll;
+
+  $scope.$watch('inplaceEditAll.state', function(state) {
     $scope.fieldController.isEditing = state;
     $scope.fieldController.lockFocus = true;
   });

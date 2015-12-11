@@ -51,8 +51,10 @@ function WorkPackageCreateButtonController($state, ProjectService) {
       inProjectContext = !!vm.projectIdentifier,
       canCreate= false;
 
-  vm.text = I18n.t('js.label_work_package');
-  vm.createLabel = I18n.t('js.label_create_work_package');
+  vm.text = {
+    button: I18n.t('js.label_work_package'),
+    create: I18n.t('js.label_create_work_package')
+  };
 
   vm.isDisabled = function () {
     return !inProjectContext || !canCreate || $state.includes('**.new') || !vm.types;

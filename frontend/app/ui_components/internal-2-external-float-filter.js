@@ -28,6 +28,11 @@
 
 module.exports = function($locale) {
 	return function(input) {
-    return input.toLocaleString($locale.id, { useGrouping: false, maximumFractionDigits: 20 });
+    if (input === null) {
+      return '';
+    }
+    else {
+      return input.toLocaleString($locale.id, { useGrouping: false, maximumFractionDigits: 20 });
+    }
 	};
 };

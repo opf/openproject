@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,26 +24,22 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
-describe('PathHelper', function() {
-  var PathHelper;
+// ++
 
-  beforeEach(module('openproject.helpers'));
-  beforeEach(inject(function(_PathHelper_) {
-    PathHelper = _PathHelper_;
+describe('inplaceEditAll service', function () {
+  var inplaceEditAll;
+
+  beforeEach(angular.mock.module('openproject', 'openproject.workPackages.services'));
+
+  beforeEach(angular.mock.inject(function (_inplaceEditAll_) {
+    inplaceEditAll = _inplaceEditAll_;
   }));
 
-  context('apiV3', function() {
-    var projectIdentifier = 'majora';
+  it('turns on editing on start', function () {
+    expect(inplaceEditAll.start()).to.be.true;
+  });
 
-    it('should provide the project\'s path', function() {
-      expect(PathHelper.apiV3ProjectsPath(projectIdentifier)).to.equal('/api/v3/projects/majora');
-    });
-
-    it('should provide a path to the project\'s categories', function() {
-      expect(
-        PathHelper.apiV3ProjectCategoriesPath(projectIdentifier)
-      ).to.equal('/api/v3/projects/majora/categories');
-    });
+  it('turns off editing on stop', function () {
+    expect(inplaceEditAll.stop()).to.be.false;
   });
 });

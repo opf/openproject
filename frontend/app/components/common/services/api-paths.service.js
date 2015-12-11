@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,39 +24,32 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
+
+/**
+ * Replaces the PathHelper service in its function, providing a way to generate safe paths
+ * without having to store them directly in a service.
+ */
 
 angular
-  .module('openproject.inplace-edit')
-  .directive('workPackageField', workPackageField);
+  .module('openproject.workPackages.services')
+  .factory('apiPaths', apiPaths);
 
-function workPackageField() {
+function apiPaths($document) {
+  var paths = {
+    appBasePath: $document.find('meta[name=app_base_path]').attr('content'),
+    apiExperimental: '/api/experimental',
+    apiV2: '/api/v2',
+    apiV3: '/api/v3'
+  };
+
   return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: '/components/inplace-edit/directives/work-package-field/' +
-      'work-package-field.directive.html',
-    scope: {
-      fieldName: '='
+    get appBasePath() {
+      return paths.appBasePath;
     },
 
-    bindToController: true,
-    controller: WorkPackageFieldController,
-    controllerAs: 'fieldController'
+    path: function (path) {
+      return paths.appBasePath + path;
+    }
   };
 }
-
-function WorkPackageFieldController($scope, EditableFieldsState, inplaceEditForm, inplaceEditAll) {
-  var workPackage = EditableFieldsState.workPackage;
-  this.state = EditableFieldsState;
-  $scope.field = inplaceEditForm.getForm(workPackage.props.id, workPackage).field(this.fieldName);
-
-  var field = $scope.field;
-
-  if (field.isEditable()) {
-    this.state.isBusy = false;
-    this.isEditing = inplaceEditAll.state;
-    this.editTitle = I18n.t('js.inplace.button_edit', { attribute: field.getLabel() });
-  }
-}
-
