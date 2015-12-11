@@ -36,20 +36,24 @@ angular
   .factory('apiPaths', apiPaths);
 
 function apiPaths($document) {
-  var paths = {
+  var apiPaths, paths = {
     appBasePath: $document.find('meta[name=app_base_path]').attr('content'),
-    apiExperimental: '/api/experimental',
-    apiV2: '/api/v2',
-    apiV3: '/api/v3'
+    apiExperimental: '/api/experimental/',
+    apiV2: '/api/v2/',
+    apiV3: '/api/v3/'
   };
 
-  return {
+  return apiPaths = {
     get appBasePath() {
       return paths.appBasePath;
     },
 
     path: function (path) {
       return paths.appBasePath + path;
+    },
+
+    v3: function (path) {
+      return apiPaths.path(paths.apiV3) + path;
     }
   };
 }
