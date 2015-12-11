@@ -31,7 +31,7 @@ class Widget::Settings::Fieldset < Widget::Base
     hash = self.hash
     write(content_tag(:fieldset,
                       id: @id,
-                      class: 'form--fieldset -collapsible -collapsed') do
+                      class: 'form--fieldset -collapsible') do
             html = content_tag(:legend,
                                show_at_id: hash.to_s,
                                icon: "#{@type}-legend-icon",
