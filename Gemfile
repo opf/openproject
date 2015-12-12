@@ -233,6 +233,19 @@ group :opf_plugins do
   gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'release/5.0'
 end
 
+# TODO: Make this group :optional when bundler v10.x
+# is matured enough that we can use this everywhere
+# http://bundler.io/blog/2015/06/24/version-1-10-released.html
+group :docker do
+  gem 'passenger'
+
+  # Used to easily precompile assets
+  gem 'sqlite3', require: false
+  gem 'rails_12factor', require: !!ENV['HEROKU']
+  gem 'health_check', require: !!ENV['HEROKU']
+  gem 'newrelic_rpm', require: !!ENV['HEROKU']
+end
+
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
 Dir.glob File.expand_path('../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfile}', __FILE__) do |file|
   next unless File.readable?(file)

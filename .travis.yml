@@ -39,7 +39,7 @@ cache:
     - frontend/node_modules
     - frontend/bower_components
 
-bundler_args: --without development production
+bundler_args: --without development production docker
 
 branches:
   only:
