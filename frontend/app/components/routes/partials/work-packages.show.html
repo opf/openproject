@@ -22,20 +22,7 @@
         <li class="toolbar-item" feature-flag="detailsView">
           <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
             <li>
-              <label for="work-packages-list-view-button"
-                     ng-attr-accesskey="{{ isListViewActive() ? undefined : '8' }}"
-                     class="hidden-for-sighted">
-                {{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}
-              </label>
-              <button id="work-packages-list-view-button"
-                      ng-disabled="editAll.state"
-                      class="button"
-                      title="{{ getActivationActionLabel(!isListViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
-                      ng-click="closeShowView()"
-                      ng-class="{ '-active': isListViewActive() }">
-                <i class="icon-view-list button--icon"></i>
-                <span class="hidden-for-sighted">{{ getActivationActionLabel(!isListViewActive()) + ' ' + I18n.t('js.button_list_view') }}</span>
-              </button>
+              <wp-list-view-button></wp-list-view-button>
             </li>
             <li feature-flag="detailsView">
               <label for="work-packages-details-view-button"

@@ -1,0 +1,14 @@
+<label for="work-packages-list-view-button"
+       ng-attr-accesskey="{{ isActive() ? undefined : '8' }}"
+       class="hidden-for-sighted">
+  {{ getActivationActionLabel(!isActive()) + ' ' + I18n.t('js.button_list_view') }}
+</label>
+<button id="work-packages-list-view-button"
+        ng-disabled="editAll.state"
+        class="button"
+        title="{{ getActivationActionLabel(!isActive()) + ' ' + I18n.t('js.button_list_view') }}"
+        ng-click="openListView()"
+        ng-class="{ '-active': isActive() }">
+  <i class="icon-view-list button--icon"></i>
+  <span class="hidden-for-sighted">{{ getActivationActionLabel(!isActive()) + ' ' + I18n.t('js.button_list_view') }}</span>
+</button>
