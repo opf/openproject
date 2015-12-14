@@ -1,15 +1,15 @@
 <label for="work-packages-list-view-button"
-       ng-attr-accesskey="{{ isActive() ? undefined : '8' }}"
+       ng-attr-accesskey="{{ vm.isActive() ? undefined : '8' }}"
        class="hidden-for-sighted">
 
-  {{ text.label }}
+  {{ vm.text.label }}
 </label>
 <button id="work-packages-list-view-button"
-        ng-disabled="isDisabled()"
+        ng-disabled="vm.isDisabled()"
         class="button"
-        title="{{ text.label }}"
-        ng-click="openListView()"
-        ng-class="{ '-active': isActive() }">
+        title="{{ vm.text.label }}"
+        ng-click="vm.openListView()"
+        ng-class="{ '-active': vm.isActive() }">
   <i class="icon-view-list button--icon"></i>
-  <span class="hidden-for-sighted">{{ text.label }}</span>
+  <span class="hidden-for-sighted">{{ vm.text.label }}</span>
 </button>

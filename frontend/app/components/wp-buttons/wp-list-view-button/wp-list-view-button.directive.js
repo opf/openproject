@@ -35,33 +35,42 @@ function wpListViewButton() {
     restrict: 'E',
     templateUrl: '/components/wp-buttons/wp-list-view-button/wp-list-view-button.directive.html',
 
-    scope: {},
+    scope: {
+      projectIdentifier: '='
+    },
 
-    controller: WorkPackageListViewButtonController
+    bindToController: true,
+    controller: WorkPackageListViewButtonController,
+    controllerAs: 'vm'
   };
 }
 
-function WorkPackageListViewButtonController($scope, $state, inplaceEditAll) {
-  $scope.isActive = function () {
-    return $state.is('work-packages.list');
-  };
+function WorkPackageListViewButtonController($state, inplaceEditAll) {
+  var vm = this;
 
-  $scope.openListView = function () {
-    $state.go('work-packages.list', {
-      projectPath: $scope.projectIdentifier,
-      query_props: $state.params['query_props']
-    });
-  };
+  angular.extend(vm, {
+    isActive: function () {
+      return $state.is('work-packages.list');
+    },
 
-  $scope.isDisabled = function () {
-    return inplaceEditAll.state;
-  };
+    openListView: function () {
+      var params = {
+        projectPath: vm.projectIdentifier
+      };
 
-  $scope.text = {
-    get label() {
-      var activate = !$scope.isActive() ? I18n.t('js.label_activate') + ' ' : '';
-      return activate + I18n.t('js.button_list_view');
+      angular.extend(params, $state.params);
+      $state.go('work-packages.list', params);
+    },
+
+    isDisabled: function () {
+      return inplaceEditAll.state;
+    },
+
+    text: {
+      get label() {
+        var activate = !vm.isActive() ? I18n.t('js.label_activate') + ' ' : '';
+        return activate + I18n.t('js.button_list_view');
+      }
     }
-  };
-
+  });
 }
