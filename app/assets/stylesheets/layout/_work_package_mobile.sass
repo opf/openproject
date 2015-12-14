@@ -27,7 +27,7 @@
 //++
 
 @media only screen and (max-width: 480px)
-  body.controller-work_packages.action-show
+  body.controller-work_packages
     .toolbar-container
       min-height: 0
 
@@ -110,8 +110,8 @@
 
     .work-packages--left-panel
       .work-packages--edit-actions
-        width: calc(100vw + 20px)
         bottom: -20px
+        width: calc(100vw + 20px)
 
     // Stretch description to fullwidth
     .inplace-edit--icon-wrapper
@@ -119,3 +119,12 @@
 
     .work-package-details-activities-messages
       font-size: 0.9rem
+
+    .work-package--new-state
+      margin-bottom: 0
+      overflow: visible
+      padding-right: 0
+
+      .work-packages--edit-actions
+        bottom: 0px !important
+        width: calc(100vw + 20px) !important
