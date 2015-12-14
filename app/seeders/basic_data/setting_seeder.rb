@@ -54,8 +54,10 @@ module BasicData
       # deviate from the defaults specified in settings.yml here
       # to set a default role. The role cannot be specified in the settings.yml as
       # that would mean to know the ID upfront.
-      default_role_id = Role.find_by(name: I18n.t(:default_role_project_admin)).id
-      settings['new_project_user_role_id'] = default_role_id
+      if settings_in_db.include?('new_project_user_role_id')
+        default_role_id = Role.find_by(name: I18n.t(:default_role_project_admin)).try(:id)
+        settings['new_project_user_role_id'] = default_role_id if default_role_id
+      end
 
       settings
     end
@@ -63,7 +65,7 @@ module BasicData
     private
 
     def settings_in_db
-      Setting.all.pluck(:name)
+      @settings_in_db ||= Setting.all.pluck(:name)
     end
 
     def settings_not_in_db
