@@ -57,9 +57,9 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
       plus = content_tag :a, href: 'javascript:', class: 'form-label filter_multi-select -transparent',
                              :"data-filter-name" => filter_class.underscore_name,
                              title: l(:description_multi_select) do
-        image_tag 'bullet_toggle_plus.png',
-                  alt: l(:toggle_multiselect),
-                  style: 'vertical-align: bottom;'
+              content_tag :span, '', class: 'icon-context icon-button icon-add icon4', title: l(:label_enable_multi_select) do
+                content_tag :span, l(:label_enable_multi_select), class: 'hidden-for-sighted'
+              end
       end
 
       content_tag(:span, class: 'inline-label') do
