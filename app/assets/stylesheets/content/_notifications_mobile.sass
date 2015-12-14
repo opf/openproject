@@ -27,35 +27,10 @@
 //++
 
 @media only screen and (max-width: 480px)
-  body.controller-account
-    #login-form,
-    #content .login-auth-providers,
-    .login_notice_div
-      width: 100%
-
-    #content .login-auth-providers
-      margin-top: 114px
-
-      h3:before
-        top: -14px
-
-    #login-form
-      .form--field-container
-        @include grid-content(12)
-        padding: 0
-
-      .login-options-container
-        position: relative
-
-        .login-links
-          float: none
-          position: absolute
-          text-align: center
-          top: 70px
-          width: 100%
-
-          a
-            display: block
-
-      .button
-        width: 100%
+  .notification-box--wrapper,
+  .flash,
+  #errorExplanation
+    left: 20px !important
+    margin: 0 !important
+    right: 20px !important
+    width: calc(100% - 40px) !important

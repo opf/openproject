@@ -27,47 +27,20 @@
 //++
 
 @media only screen and (max-width: 480px)
-  html
-    min-width: 0
-
   body.controller-work_packages.action-show
-    overflow: auto
-    overflow-y: scroll /* has to be scroll, not auto */
-    -webkit-overflow-scrolling: touch
-
-    #main,
-    #content
-      position: relative
-      top: 0
-
-    #header
-      min-width: 0
-
-    #wrapper
-      background: #fff
-
-    #content
-      height: 100%
-      margin: 0
-      padding: 20px
-      width: 100%
-
-    #main-menu,
-    #breadcrumb,
-    #toolbar-items
-      display: none
-
-    #top-menu
-      position: relative
-
-      #top-menu-items
-        display: none
-
     .toolbar-container
       min-height: 0
 
     .work-packages--show-view
       padding: 0
+
+      #toolbar-items
+        float: none
+        margin-bottom: 20px
+
+      #work-packages-view-mode-selection,
+      #action-show-more-dropdown-menu
+        display: none
 
       .work-packages--split-view
         display: block
@@ -78,7 +51,6 @@
         top: 0
 
         .tabrow
-          display: block
           height: auto
           margin: 0.75rem 0 2.5rem 0
 
@@ -87,9 +59,10 @@
 
           li
             border-top: 2px solid $gray
+            font-size: 0.75rem
             margin: 0
             padding: 8px 0
-            font-size: 0.75rem
+            width: 33.33%
 
             &.selected
               border-bottom: 2px solid $content-link-color
@@ -104,31 +77,41 @@
         border: none
         margin: 0
         min-width: 0
-        padding: 0
+        overflow: visible
         width: 100%
+
+        // Fix for iOS: Otherwise the edit actions toolbar is misplaced
+        padding: 0 0 50px 0
 
         .work-packages--panel-inner
           padding: 0
 
-    .attributes-key-value
-      display: block
+      &.edit-all-mode
+        .work-packages--right-panel
+          display: none
 
     .attributes-key-value--key,
     .attributes-key-value--value-container
-      max-width: none
+      @include grid-size(6)
+      font-size: 1rem
+      margin-bottom: 20px
 
       .inplace-edit--read-value
         padding: 0
 
-    .attributes-key-value--key
-      margin: 0
-      padding: 0
+      .inplace-editing--container
+        border: none
 
-    .attributes-key-value--value-container
-      margin-bottom: 20px
+    .attributes-key-value--key
+      padding: 0 !important
 
     div[class*='work-packages--details--']
       width: 100%
+
+    .work-packages--left-panel
+      .work-packages--edit-actions
+        width: calc(100vw + 20px)
+        bottom: -20px
 
     // Stretch description to fullwidth
     .inplace-edit--icon-wrapper
@@ -136,9 +119,3 @@
 
     .work-package-details-activities-messages
       font-size: 0.9rem
-
-    .notification-box--wrapper
-      left: 20px
-      margin: 0
-      right: 20px
-      width: calc(100% - 40px)

@@ -27,35 +27,38 @@
 //++
 
 @media only screen and (max-width: 480px)
-  body.controller-account
-    #login-form,
-    #content .login-auth-providers,
-    .login_notice_div
-      width: 100%
+  html
+    min-width: 0 !important
 
-    #content .login-auth-providers
-      margin-top: 114px
+  body
+    overflow: auto !important
+    overflow-y: scroll /* has to be scroll, not auto */
+    -webkit-overflow-scrolling: touch
 
-      h3:before
-        top: -14px
+  #main,
+  #content
+    padding-bottom: 0 !important
+    position: relative !important
+    top: 0 !important
 
-    #login-form
-      .form--field-container
-        @include grid-content(12)
-        padding: 0
+  #header
+    min-width: 0 !important
 
-      .login-options-container
-        position: relative
+  #wrapper
+    background: #fff !important
 
-        .login-links
-          float: none
-          position: absolute
-          text-align: center
-          top: 70px
-          width: 100%
+  #content
+    height: 100% !important
+    margin: 0 !important
+    padding: 20px !important
+    width: 100% !important
 
-          a
-            display: block
+  #main-menu,
+  #breadcrumb
+    display: none !important
 
-      .button
-        width: 100%
+  #top-menu
+    position: relative !important
+
+    #top-menu-items
+      display: none !important
