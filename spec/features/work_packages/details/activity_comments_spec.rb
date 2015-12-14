@@ -137,7 +137,7 @@ describe 'activity comments', js: true, selenium: true do
           page.find('.user-comment > .message').hover
 
           # Quote this comment
-          page.find('.comments-icons .icon-quote', visible: false).click
+          page.find('.comments-icons .icon-quote').click
           expect(field.editing?).to be true
 
           # Add our comment
