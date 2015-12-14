@@ -35,11 +35,13 @@ function wpListViewButton() {
     restrict: 'E',
     templateUrl: '/components/wp-buttons/wp-list-view-button/wp-list-view-button.directive.html',
 
+    scope: {},
+
     controller: WorkPackageListViewButtonController
   };
 }
 
-function WorkPackageListViewButtonController($scope, $state) {
+function WorkPackageListViewButtonController($scope, $state, inplaceEditAll) {
   $scope.isActive = function () {
     return $state.is('work-packages.list');
   };
@@ -49,6 +51,17 @@ function WorkPackageListViewButtonController($scope, $state) {
       projectPath: $scope.projectIdentifier,
       query_props: $state.params['query_props']
     });
+  };
+
+  $scope.isDisabled = function () {
+    return inplaceEditAll.state;
+  };
+
+  $scope.text = {
+    get label() {
+      var activate = !$scope.isActive() ? I18n.t('js.label_activate') + ' ' : '';
+      return activate + I18n.t('js.button_list_view');
+    }
   };
 
 }
