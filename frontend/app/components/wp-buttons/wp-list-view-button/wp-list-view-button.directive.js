@@ -66,6 +66,10 @@ function WorkPackageListViewButtonController($state, inplaceEditAll) {
       return inplaceEditAll.state;
     },
 
+    getAccessKey: function () {
+      if (vm.isActive()) return 8;
+    },
+
     text: {
       get label() {
         var activate = !vm.isActive() ? I18n.t('js.label_activate') + ' ' : '';
