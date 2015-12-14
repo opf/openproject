@@ -1,0 +1,7 @@
+.git
+.bundle
+.env*
+tmp
+frontend/node_modules
+# travis
+vendor/bundle
