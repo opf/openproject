@@ -40,9 +40,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <div id="top" class="widget-boxes">
     <%= render partial: 'block_container', locals: { edit: false, blocks: @blocks['top'] } %>
   </div>
-  <div class="grid-block">
+  <div class="grid-block widget-boxes">
   <% %w(left right).each do |position| %>
-    <div id="<%= position %>" class="widget-boxes medium-12">
+    <div id="<%= position %>" class="medium-12">
       <%= render partial: 'block_container', locals: { edit: false, blocks: @blocks[position] } %>
     </div>
   <% end %>
