@@ -325,16 +325,19 @@ class PermittedParams
     # `version_settings_attributes` is from a plugin. Unfortunately as it stands
     # now it is less work to do it this way than have the plugin override this
     # method. We hopefully will change this in the future.
-    params.fetch(:version, {}).permit(:name,
-                                    :description,
-                                    :effective_date,
-                                    :due_date,
-                                    :start_date,
-                                    :wiki_page_title,
-                                    :status,
-                                    :sharing,
-                                    :custom_field_value,
-                                    version_settings_attributes: [:id, :display, :project_id])
+    permitted_params = params.fetch(:version, {}).permit(:name,
+                                                         :description,
+                                                         :effective_date,
+                                                         :due_date,
+                                                         :start_date,
+                                                         :wiki_page_title,
+                                                         :status,
+                                                         :sharing,
+                                                         version_settings_attributes: [:id,
+                                                                                       :display,
+                                                                                       :project_id])
+
+    permitted_params.merge(custom_field_values(:version, required: false))
   end
 
   def comment
