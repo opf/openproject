@@ -40,7 +40,8 @@ RUN mv /tmp/npm/frontend /usr/src/app/
 # Finally, copy over the whole thing
 USER root
 COPY . /usr/src/app
-RUN cp docker/Procfile . && cp docker/docker-initializer.rb config/initializers/docker-initializer.rb
+RUN cp docker/Procfile .
+RUN sed -i "s|Rails.groups(:opf_plugins)|Rails.groups(:opf_plugins, :docker)|" config/application.rb
 RUN chown -R app:app /usr/src/app
 
 USER app
