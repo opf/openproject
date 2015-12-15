@@ -27,7 +27,7 @@
 // ++
 
 angular
-  .module('openproject.workPackages.directives')
+  .module('openproject.wpButtons')
   .directive('wpListViewButton', wpListViewButton);
 
 function wpListViewButton() {
@@ -67,7 +67,7 @@ function WorkPackageListViewButtonController($state, inplaceEditAll) {
     },
 
     getAccessKey: function () {
-      if (vm.isActive()) return 8;
+      if (!vm.isActive()) return 8;
     },
 
     text: {
