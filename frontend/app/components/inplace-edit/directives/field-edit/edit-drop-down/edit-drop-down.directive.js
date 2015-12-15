@@ -53,7 +53,7 @@ function inplaceEditorDropDown(EditableFieldsState, FocusHelper, inplaceEditAll)
         EditableFieldsState.isBusy = false;
 
         if (!inplaceEditAll.state) {
-          FocusHelper.focusUiSelect(element);
+          FocusHelper.focusElement(element);
         }
       });
     }

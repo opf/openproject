@@ -40,17 +40,18 @@ function inplaceDisplayVersion() {
 
     controller: InplaceDisplayVersionController,
     controllerAs: 'customEditorController'
-
   };
 }
 
 function InplaceDisplayVersionController($scope, PathHelper) {
   var field = $scope.field;
 
-  this.versionLink = field.text && PathHelper.staticVersionPath(field.text.props.id);
   this.isVersionLinkViewable = function() {
     var version = field.text;
     return version.links.definingProject && version.links.definingProject.href;
-  }
+  };
+  this.getVersionLink = function() {
+    return field.text && PathHelper.staticVersionPath(field.text.props.id);
+  };
 }
 InplaceDisplayVersionController.$inject = ['$scope', 'PathHelper'];
