@@ -40,7 +40,7 @@ RUN mv /tmp/npm/frontend /usr/src/app/
 # Finally, copy over the whole thing
 USER root
 COPY . /usr/src/app
-RUN cp docker/Procfile .
+RUN cp docker/Procfile . && cp docker/docker-initializer.rb config/initializers/docker-initializer.rb
 RUN chown -R app:app /usr/src/app
 
 USER app

@@ -27,13 +27,14 @@
 //++
 
 module.exports = function($http, PathHelper) {
-  var getAtWhoParameters = function(url) {
+  var getAtWhoParameters = function(url, textarea) {
     return {
       at: '#',
       start_with_space: false,
       search_key: 'id_subject',
       tpl: '<li data-value="${atwho-at}${id}">${to_s}</li>',
       limit: 10,
+      textarea: textarea,
       callbacks: {
         remote_filter: function(query, callback) {
           if (query.length > 0) {
@@ -43,7 +44,15 @@ module.exports = function($http, PathHelper) {
                 for (var i = data.length - 1; i >= 0; i--) {
                   data[i]['id_subject'] = data[i]['id'].toString() + ' ' + data[i]['subject'];
                 }
-                callback(data);
+
+                if (angular.element(textarea).is(':visible')) {
+                  callback(data);
+                }
+                else {
+                  // discard the results if the textarea is no longer visible,
+                  // i.e. nobody cares for the results
+                  callback([]);
+                }
               });
           }
         },
@@ -60,7 +69,7 @@ module.exports = function($http, PathHelper) {
         var url = PathHelper.workPackageJsonAutoCompletePath();
 
         if (url !== undefined && url.length > 0) {
-          angular.element(textarea).atwho(getAtWhoParameters(url));
+          angular.element(textarea).atwho(getAtWhoParameters(url, textarea));
         }
       });
     }
