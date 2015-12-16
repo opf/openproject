@@ -48,9 +48,8 @@ shared_context 'work package table helpers' do
     # Ensure the modal is opened before calling the non waiting 'all' function.
     find('.ng-modal-window', text: 'Sorting')
 
-    within '#modal-sorting' do
-      first_sort_criteria = first('.select2-container')
-      ui_select_choose(first_sort_criteria, column_name)
+    within '#modal-sorting .form--row:first-of-type' do
+      select column_name, from: I18n.t('js.filter.sorting.criteria.one')
 
       order_name = order == :desc ? 'Descending' : 'Ascending'
       choose(order_name)

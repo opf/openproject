@@ -52,7 +52,7 @@ describe('OpenProject', function() {
     browser.driver.switchTo().activeElement().getAttribute('id');
     browser.driver.switchTo().activeElement().getAttribute('id').then(function (elementId) {
       browser.waitForAngular();
-      expect(element(by.css('.ng-modal-window .form--row:first-child input.ui-select-focusser')).getAttribute('id'))
+      expect(element(by.css('.ng-modal-window #modal-sorting-attribute-0')).getAttribute('id'))
         .to.eventually.equal(elementId);
     });
   });
