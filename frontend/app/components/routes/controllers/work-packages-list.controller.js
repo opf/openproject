@@ -296,12 +296,6 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
     loadingIndicator.on(promise);
   };
 
-  $scope.closeDetailsView = function() {
-    var queryProps = $state.params['query_props'];
-
-    $state.go('work-packages.list', { 'query_props': queryProps});
-  };
-
   $scope.showWorkPackageDetails = function(id, force) {
     if (force || $state.current.url != "") {
       var promise = $state.go(latestTab.getStateName(), {

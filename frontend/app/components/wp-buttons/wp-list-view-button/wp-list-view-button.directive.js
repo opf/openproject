@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,34 +24,57 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function($scope, $state, $stateParams, QueryService, PathHelper, $rootScope,
-    inplaceEditAll) {
+angular
+  .module('openproject.wpButtons')
+  .directive('wpListViewButton', wpListViewButton);
 
-  // Setup
-  $scope.$state = $state;
-  $scope.selectedTitle = I18n.t('js.label_work_package_plural');
+function wpListViewButton() {
+  return {
+    restrict: 'E',
+    templateUrl: '/components/wp-buttons/wp-list-view-button/wp-list-view-button.directive.html',
 
-  $scope.query_id = $stateParams.query_id;
+    scope: {
+      projectIdentifier: '='
+    },
 
-  $scope.$watch(QueryService.getAvailableGroupedQueries, function(availableQueries) {
-    if (availableQueries) {
-      $scope.groups = [{ name: I18n.t('js.label_global_queries'), models: availableQueries['queries']},
-                       { name: I18n.t('js.label_custom_queries'), models: availableQueries['user_queries']}];
+    bindToController: true,
+    controller: WorkPackageListViewButtonController,
+    controllerAs: 'vm'
+  };
+}
+
+function WorkPackageListViewButtonController($state, inplaceEditAll) {
+  var vm = this;
+
+  angular.extend(vm, {
+    isActive: function () {
+      return $state.is('work-packages.list');
+    },
+
+    openListView: function () {
+      var params = {
+        projectPath: vm.projectIdentifier
+      };
+
+      angular.extend(params, $state.params);
+      $state.go('work-packages.list', params);
+    },
+
+    isDisabled: function () {
+      return inplaceEditAll.state;
+    },
+
+    getAccessKey: function () {
+      if (!vm.isActive()) return 8;
+    },
+
+    text: {
+      get label() {
+        var activate = !vm.isActive() ? I18n.t('js.label_activate') + ' ' : '';
+        return activate + I18n.t('js.button_list_view');
+      }
     }
   });
-
-  $scope.isDetailsViewActive = function() {
-    return $state.includes('work-packages.list.details') || inplaceEditAll.state;
-  };
-
-  $scope.getToggleActionLabel = function(active) {
-    return (active) ? I18n.t('js.label_deactivate') : I18n.t('js.label_activate');
-  };
-
-  $scope.getActivationActionLabel = function(activate) {
-    return (activate) ? I18n.t('js.label_activate') + ' ' : '';
-  };
-  $rootScope.$broadcast('openproject.layout.activateMenuItem');
-};
+}
