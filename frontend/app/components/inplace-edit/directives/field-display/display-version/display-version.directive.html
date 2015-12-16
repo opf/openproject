@@ -3,7 +3,7 @@
       {{field.placeholder}}
     </span>
     <span ng-if="field.text && customEditorController.isVersionLinkViewable()">
-      <a ng-href="{{ customEditorController.versionLink }}">
+      <a ng-href="{{ customEditorController.getVersionLink() }}">
         {{field.text.props.name}}
       </a>
     </span>

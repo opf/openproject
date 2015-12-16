@@ -87,13 +87,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <h4><%=l(:label_visible_elements) %></h4>
-<div id='visible-grid' class="my-page--container">
-  <div id="top" class="dragula-container widget-boxes grid-content block-receiver">
+<div id='visible-grid' class="my-page--container widget-boxes">
+  <div id="top" class="dragula-container grid-content block-receiver">
     <%= render partial: 'block_container', locals: { edit: true, blocks: @blocks['top'] } %>
   </div>
   <div class="grid-block">
     <% %w(left right).each do |position| %>
-        <div id="<%= position %>" class="dragula-container widget-boxes grid-content block-receiver">
+        <div id="<%= position %>" class="dragula-container grid-content block-receiver">
           <%= render partial: 'block_container', locals: { edit: true, blocks: @blocks[position] } %>
         </div>
     <% end %>

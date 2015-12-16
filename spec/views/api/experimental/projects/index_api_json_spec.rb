@@ -57,8 +57,6 @@ describe 'api/experimental/projects/index.api.rabl', type: :view do
 
     it { is_expected.to have_json_type(Object).at_path('projects/1')  }
     it { is_expected.to have_json_path('projects/1/name')             }
-    it { is_expected.to have_json_path('projects/1/embedded/possible_responsibles') }
-    it { is_expected.to have_json_path('projects/1/embedded/possible_assignees')    }
     it { is_expected.to have_json_path('projects/1/embedded/types')   }
   end
 end
