@@ -61,6 +61,8 @@
     "polyfill-function-prototype-bind": "0.0.1",
     "shelljs": "^0.3.0",
     "style-loader": "^0.8.2",
+    "ts-loader": "^0.7.2",
+    "typescript": "^1.7.3",
     "url-loader": "^0.5.5",
     "webpack": "^1.7.3",
     "yaml-loader": "^0.1.0"
