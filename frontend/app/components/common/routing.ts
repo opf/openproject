@@ -28,7 +28,7 @@
 
 angular
   .module('openproject')
-  .config(function ($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
+  .config(($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) => {
     $urlRouterProvider.when('/work_packages/', '/work_packages');
     $urlMatcherFactoryProvider.strictMode(false);
 
@@ -62,14 +62,14 @@ angular
         templateUrl: '/templates/work_packages.html',
         controller: 'WorkPackagesController',
         resolve: {
-          latestTab: function ($state) {
+          latestTab: ($state) => {
             var stateName = 'work-packages.list.details.overview'; // the default tab
 
             return {
-              getStateName: function () {
+              getStateName: () => {
                 return stateName;
               },
-              registerState: function () {
+              registerState: () => {
                 stateName = $state.current.name;
               }
             };
@@ -96,7 +96,7 @@ angular
           projects: {value: null, squash: true}
         },
 
-        onEnter: function ($state, $stateParams, inplaceEditAll) {
+        onEnter: ($state, $stateParams, inplaceEditAll) => {
           inplaceEditAll.start();
           $state.go('work-packages.list.details.overview', $stateParams);
         }
@@ -108,18 +108,18 @@ angular
         controller: 'WorkPackageShowController',
         controllerAs: 'vm',
         resolve: {
-          workPackage: function (WorkPackageService, $stateParams) {
+          workPackage: (WorkPackageService, $stateParams) => {
             return WorkPackageService.getWorkPackage($stateParams.workPackageId);
           },
           // TODO hack, get rid of latestTab in ShowController
-          latestTab: function ($state) {
+          latestTab: ($state) => {
             var stateName = 'work-package.overview'; // the default tab
 
             return {
-              getStateName: function () {
+              getStateName: () => {
                 return stateName;
               },
-              registerState: function () {
+              registerState: () => {
                 stateName = $state.current.name;
               }
             };
@@ -132,17 +132,17 @@ angular
         // and this should not be applied to the other states, we need to remove
         // the trigger used in the CSS. The correct fix would be to alter the
         // CSS.
-        onEnter: function ($state, $timeout) {
+        onEnter: ($state, $timeout) => {
           angular.element('body').addClass('action-show');
 
-          $timeout(function () {
+          $timeout(() => {
             if ($state.is('work-packages.show')) {
               $state.go('work-packages.show.activity');
             }
           });
         },
 
-        onExit: function () {
+        onExit: () => {
           angular.element('body').removeClass('action-show');
         }
       })
@@ -172,10 +172,10 @@ angular
         // heigt of footer, ...), and this should not be applied to the other
         // states, we need to remove the trigger used in the CSS The correct fix
         // would be to alter the CSS.
-        onEnter: function () {
+        onEnter: () => {
           angular.element('body').addClass('action-index');
         },
-        onExit: function () {
+        onExit: () => {
           angular.element('body').removeClass('action-index');
         }
       })
@@ -195,7 +195,7 @@ angular
         controller: 'WorkPackageDetailsController',
         reloadOnSearch: false,
         resolve: {
-          workPackage: function (WorkPackageService, $stateParams) {
+          workPackage: (WorkPackageService, $stateParams) => {
             return WorkPackageService.getWorkPackage($stateParams.workPackageId);
           }
         }
@@ -215,12 +215,12 @@ angular
       .state('work-packages.list.details.watchers', panels.watchers);
   })
 
-  .run(function ($location, $rootElement, $browser, $rootScope, $state, $window) {
+  .run(($location, $rootElement, $browser, $rootScope, $state, $window) => {
     // Our application is still a hybrid one, meaning most routes are still
     // handled by Rails. As such, we disable the default link-hijacking that
     // Angular's HTML5-mode turns on.
     $rootElement.off('click');
-    $rootElement.on('click', 'a[data-ui-route]', function (event) {
+    $rootElement.on('click', 'a[data-ui-route]', (event) => {
       if (!jQuery('body').has('div[ui-view]').length) {
         return;
       }
@@ -247,7 +247,7 @@ angular
       }
     });
 
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+    $rootScope.$on('$stateChangeStart', (event, toState, toParams) => {
       if (!toParams.projects && toParams.projectPath) {
         toParams.projects = 'projects';
         $state.go(toState, toParams);
