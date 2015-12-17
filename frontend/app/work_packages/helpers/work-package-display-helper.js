@@ -52,7 +52,11 @@ module.exports = function(WorkPackageFieldService, $window, $timeout) {
       isGroupEmpty = function (groupedFields, groupName) {
         var group = _.find(groupedFields, {groupName: groupName});
 
-        return group.attributes.length === 0
+        return group.attributes.length === 0;
+      },
+      shouldHideGroup = function(hideEmptyActive, groupedFields, groupName, workPackage, cb) {
+        return hideEmptyActive && isGroupHideable(groupedFields, groupName, workPackage, cb) ||
+          !hideEmptyActive && isGroupEmpty(groupedFields, groupName);
       },
       isFieldHideable = function (workPackage, field) {
         if (!workPackage) {
@@ -122,6 +126,7 @@ module.exports = function(WorkPackageFieldService, $window, $timeout) {
   return {
     isGroupHideable: isGroupHideable,
     isGroupEmpty: isGroupEmpty,
+    shouldHideGroup: shouldHideGroup,
     isFieldHideable: isFieldHideable,
     isFieldHideableOnCreate: isFieldHideableOnCreate,
     isSpecified: isSpecified,
