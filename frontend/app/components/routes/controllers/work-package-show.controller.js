@@ -263,6 +263,7 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
   vm.workPackage = $scope.workPackage;
 
   vm.isGroupHideable = WorkPackagesDisplayHelper.isGroupHideable;
+  vm.isGroupEmpty = WorkPackagesDisplayHelper.isGroupEmpty;
   vm.isFieldHideable = WorkPackagesDisplayHelper.isFieldHideable;
   vm.getLabel = WorkPackagesDisplayHelper.getLabel;
   vm.isSpecified = WorkPackagesDisplayHelper.isSpecified;

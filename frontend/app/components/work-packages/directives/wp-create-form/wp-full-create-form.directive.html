@@ -49,7 +49,7 @@
     </div>
 
     <div ng-repeat="group in vm.groupedFields"
-         ng-hide="vm.hideEmptyFields && vm.isGroupHideable(vm.groupedFields, group.groupName, vm.workPackage)"
+         ng-hide="vm.hideEmptyFields && vm.isGroupHideable(vm.groupedFields, group.groupName, vm.workPackage) || !vm.hideEmptyFields && vm.isGroupEmpty(vm.groupedFields, group.groupName)"
          class="attributes-group">
 
       <div class="attributes-group--header">

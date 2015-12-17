@@ -42,6 +42,7 @@ module.exports = function(
   vm.workPackage = $scope.workPackage;
 
   vm.isGroupHideable = WorkPackageDisplayHelper.isGroupHideable;
+  vm.isGroupEmpty = WorkPackageDisplayHelper.isGroupEmpty;
   vm.isFieldHideable = WorkPackageDisplayHelper.isFieldHideable;
   vm.getLabel = WorkPackageDisplayHelper.getLabel;
   vm.isSpecified = WorkPackageDisplayHelper.isSpecified;

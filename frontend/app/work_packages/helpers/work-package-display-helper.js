@@ -45,9 +45,14 @@ module.exports = function(WorkPackageFieldService, $window, $timeout) {
         }
         var group = _.find(groupedFields, {groupName: groupName});
         var isHideable = typeof cb === 'undefined' ? isFieldHideable : cb;
-        return _.every(group.attributes, function(field) {
+        return group.attributes.length === 0 || _.every(group.attributes, function(field) {
           return isHideable(workPackage, field);
         });
+      },
+      isGroupEmpty = function (groupedFields, groupName) {
+        var group = _.find(groupedFields, {groupName: groupName});
+
+        return group.attributes.length === 0
       },
       isFieldHideable = function (workPackage, field) {
         if (!workPackage) {
@@ -116,6 +121,7 @@ module.exports = function(WorkPackageFieldService, $window, $timeout) {
 
   return {
     isGroupHideable: isGroupHideable,
+    isGroupEmpty: isGroupEmpty,
     isFieldHideable: isFieldHideable,
     isFieldHideableOnCreate: isFieldHideableOnCreate,
     isSpecified: isSpecified,
