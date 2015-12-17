@@ -28,6 +28,11 @@
 
 @include breakpoint(small down)
   body.controller-work_packages
+
+    &.action-show #content
+      margin: 110px 0 0 0 !important
+      overflow: visible
+
     .toolbar-container
       min-height: 0
 
@@ -35,12 +40,33 @@
       padding: 0
 
       #toolbar-items
-        float: none
         margin-bottom: 20px
+        display: flex
+        position: fixed
+        top: 55px
+        padding: 15px 0 20px 0
+        left: 15px
+        right: 15px
+        z-index: 100
+        background: #fff
 
-      #work-packages-view-mode-selection,
-      #action-show-more-dropdown-menu
-        display: none
+        > li
+          -webkit-flex: 1 0 0
+          flex: 1 0 0
+
+          &:first-child
+            -webkit-flex: 2 0 0
+            flex: 2 0 0
+
+          button
+            width: 100%
+
+        .wp-create-button
+          .dropdown
+            left: 0 !important
+
+          .dropdown-menu
+            width: calc(100vw - 40px)
 
       .work-packages--split-view
         display: block
@@ -68,7 +94,6 @@
               border-bottom: 2px solid $content-link-color
 
       .subject-header
-        float: none
         margin: 0
         padding: 0
 

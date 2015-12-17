@@ -26,7 +26,7 @@
           <span class="badge -secondary">{{ getFilterCount() }}</span>
         </button>
       </li>
-      <li class="toolbar-item" feature-flag="detailsView">
+      <li class="toolbar-item show-for-small" feature-flag="detailsView">
         <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
           <li>
             <wp-list-view-button project-identifier="projectIdentifier"></wp-list-view-button>
@@ -53,7 +53,7 @@
           </li>
         </ul>
       </li>
-      <li class="toolbar-item">
+      <li class="toolbar-item show-for-small">
         <label for="work-packages-settings-button" class="hidden-for-sighted">
           {{ I18n.t('js.button_settings') }}
         </label>
