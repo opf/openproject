@@ -215,7 +215,7 @@ angular
       .state('work-packages.list.details.watchers', panels.watchers);
   })
 
-  .run(function ($location, $rootElement, $browser, $rootScope, $state) {
+  .run(function ($location, $rootElement, $browser, $rootScope, $state, $window) {
     // Our application is still a hybrid one, meaning most routes are still
     // handled by Rails. As such, we disable the default link-hijacking that
     // Angular's HTML5-mode turns on.
@@ -242,8 +242,7 @@ angular
           $location.$$parse(rewrittenUrl);
           $rootScope.$apply();
           // hack to work around FF6 bug 684208 when scenario runner clicks on links
-          //noinspection TypeScriptUnresolvedVariable
-          window.angular['ff-684208-preventDefault'] = true;
+          $window.angular['ff-684208-preventDefault'] = true;
         }
       }
     });
