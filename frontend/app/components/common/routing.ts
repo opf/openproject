@@ -67,6 +67,13 @@ angular
         activity.url = '#{activity_no:\d+}';
 
         return activity;
+      },
+
+      get relations() {
+        return {
+          url: '/relations',
+          templateUrl: '/templates/work_packages/tabs/relations.html'
+        };
       }
     };
 
@@ -95,7 +102,6 @@ angular
       .state('work-packages.new', {
         url: '/{projects}/{projectPath}/work_packages/new?type&parent_id',
         templateUrl: '/components/routes/partials/work-packages.new.html',
-        controllerAs: 'vm',
         reloadOnSearch: false
       })
 
@@ -163,10 +169,7 @@ angular
       })
       .state('work-packages.show.activity', panels.activity)
       .state('work-packages.show.activity.details', panels.activityDetails)
-      .state('work-packages.show.relations', {
-        url: '/relations',
-        templateUrl: '/templates/work_packages/tabs/relations.html'
-      })
+      .state('work-packages.show.relations', panels.relations)
       .state('work-packages.show.watchers', panels.watchers)
 
       .state('work-packages.list', {
@@ -217,16 +220,13 @@ angular
       })
       .state('work-packages.list.details.overview', {
         url: '/overview',
-        controller: 'DetailsTabOverviewController',
         templateUrl: '/templates/work_packages/tabs/overview.html',
+        controller: 'DetailsTabOverviewController',
         controllerAs: 'vm',
       })
       .state('work-packages.list.details.activity', panels.activity)
       .state('work-packages.list.details.activity.details', panels.activityDetails)
-      .state('work-packages.list.details.relations', {
-        url: '/relations',
-        templateUrl: '/templates/work_packages/tabs/relations.html',
-      })
+      .state('work-packages.list.details.relations', panels.relations)
       .state('work-packages.list.details.watchers', panels.watchers);
   })
 
