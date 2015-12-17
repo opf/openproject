@@ -239,10 +239,9 @@ angular
     // Angular's HTML5-mode turns on.
     $rootElement.off('click');
     $rootElement.on('click', 'a[data-ui-route]', (event) => {
-      if (!jQuery('body').has('div[ui-view]').length) {
-        return;
-      }
-      if (event.ctrlKey || event.metaKey || event.which === 2) {
+      if (!jQuery('body').has('div[ui-view]').length || event.ctrlKey || event.metaKey
+          || event.which === 2) {
+
         return;
       }
 
@@ -251,10 +250,9 @@ angular
       var absHref = elm.prop('href');
       var rewrittenUrl = $location.$$rewrite(absHref);
 
-      if (absHref && !elm.attr('target') &&
-        rewrittenUrl && !event.isDefaultPrevented()) {
-
+      if (absHref && !elm.attr('target') && rewrittenUrl && !event.isDefaultPrevented()) {
         event.preventDefault();
+
         if (rewrittenUrl !== $browser.url()) {
           // update location manually
           $location.$$parse(rewrittenUrl);
