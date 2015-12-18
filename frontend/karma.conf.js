@@ -106,7 +106,13 @@ module.exports = function(config) {
         concatenateOutput: false
       },
       typings: [
-        'typings/tsd.d.ts'
+        'typings/tsd.d.ts',
+        'typings/angularjs/angular.d.ts',
+        'typings/sinon/sinon.d.ts',
+        'typings/jquery/jquery.d.ts',
+        'typings/mocha/mocha.d.ts',
+        'typings/chai/chai.d.ts',
+        'typings/angularjs/angular-mocks.d.ts'
       ],
       transformPath: function(path) {
         return path.replace(/\.ts$/, '.js');

@@ -26,8 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+var expect = chai.expect;
+
 describe('Routing', function () {
-  var $rootScope, $state, mockState = { go: function () {} };
+  var $rootScope, $state, mockState = {
+    go: function () {
+    }
+  };
 
   beforeEach(angular.mock.module('openproject', function ($provide) {
     $provide.value('$state', mockState);
@@ -39,14 +44,14 @@ describe('Routing', function () {
 
   describe('when the project id is set', function () {
     var toState, toParams,
-        spy = sinon.spy(mockState, 'go'),
-        broadcast = function () {
-          $rootScope.$broadcast('$stateChangeStart', toState, toParams);
-        };
+      spy = sinon.spy(mockState, 'go'),
+      broadcast = function () {
+        $rootScope.$broadcast('$stateChangeStart', toState, toParams);
+      };
 
     beforeEach(function () {
-      toState = { name: 'work-packages.list' };
-      toParams = { projectPath: 'my_project', projects: null };
+      toState = {name: 'work-packages.list'};
+      toParams = {projectPath: 'my_project', projects: null};
     });
 
     it('sets the projects path segment to "projects" ', function () {
