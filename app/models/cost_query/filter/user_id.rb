@@ -23,10 +23,16 @@ class CostQuery::Filter::UserId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    users = Project.visible.collect(&:users).flatten.uniq.sort
+    # All users which are members in projects the user can see.
+    # Excludes the anonymous user
+    users = User.joins(members: :project)
+                .merge(Project.visible)
+                .where.not(id: User.anonymous)
+                .order_by_name
+                .select(User::USER_FORMATS_STRUCTURE[Setting.user_format].map(&:to_s) << :id)
+                .distinct
+
     values = users.map { |u| [u.name, u.id] }
-    values.delete_if { |u| (u.first.include? 'OpenProject Admin') || (u.first.include? 'Anonymous') }
-    values.sort!
     values.unshift ["<< #{::I18n.t(:label_me)} >>", User.current.id.to_s] if User.current.logged?
     values
   end
