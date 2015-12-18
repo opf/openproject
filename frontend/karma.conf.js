@@ -73,7 +73,8 @@ module.exports = function(config) {
       'tests/unit/tests/**/*test.js',
       'tests/unit/tests/legacy-tests.js',
 
-      'app/components/**/*.test.js'
+      'app/components/**/*.test.js',
+      'app/components/**/*.test.ts'
     ],
 
 
@@ -88,10 +89,28 @@ module.exports = function(config) {
     preprocessors: {
       '/templates/**/*.html': ['ng-html2js'],
       '../app/assets/javascripts/*.js': ['coverage'],
-      'app/**/*.js': ['webpack'] // coverage disabled
+      'app/**/*.js': ['webpack'],
+      'app/components/**/*.test.ts': ['typescript']
     },
     ngHtml2JsPreprocessor: {
       module: 'openproject.templates'
+    },
+    typescriptPreprocessor: {
+      options: {
+        sourceMap: false,
+        target: 'ES5',
+        module: 'amd',
+        noImplicitAny: false,
+        noResolve: true,
+        removeComments: true,
+        concatenateOutput: false
+      },
+      typings: [
+        'typings/tsd.d.ts'
+      ],
+      transformPath: function(path) {
+        return path.replace(/\.ts$/, '.js');
+      }
     },
 
 
