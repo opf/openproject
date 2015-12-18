@@ -29,7 +29,7 @@
 describe('Routing', function () {
   var $rootScope, $state, mockState = { go: function () {} };
 
-  beforeEach(module('openproject', function ($provide) {
+  beforeEach(angular.mock.module('openproject', function ($provide) {
     $provide.value('$state', mockState);
   }));
 

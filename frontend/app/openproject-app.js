@@ -296,7 +296,6 @@ require('./helpers');
 require('./layout');
 require('./messages');
 require('./models');
-require('./routing');
 require('./services');
 require('./time_entries');
 require('./timelines');
@@ -308,5 +307,5 @@ requireTemplate.keys().forEach(requireTemplate);
 
 require('!ngtemplate?module=openproject.templates!html!angular-busy/angular-busy.html');
 
-var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|html)$/);
+var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|ts|html)$/);
 requireComponent.keys().forEach(requireComponent);
