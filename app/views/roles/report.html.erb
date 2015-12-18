@@ -32,10 +32,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <% perms_by_module = @permissions.group_by {|p| p.project_module.to_s} %>
   <% perms_by_module.keys.sort.each do |mod| %>
-    <% module_name = mod.blank? ? "form--" + l(:label_general) : "form--" + l_or_humanize(mod, prefix: 'project_module_').gsub(' ','_') %>
+    <% module_name = mod.blank? ? "form--" + I18n.t('attributes.project') : "form--" + l_or_humanize(mod, prefix: 'project_module_').gsub(' ','_') %>
     <fieldset class="form--fieldset -collapsible" id= "<%= module_name %>">
       <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
-        <%= mod.blank? ? l(:label_general) : l_or_humanize(mod, prefix: 'project_module_') %>
+        <%= mod.blank? ? I18n.t('attributes.project') : l_or_humanize(mod, prefix: 'project_module_') %>
       </legend>
       <div class="form--fieldset-control">
         <span class="form--fieldset-control-container">
