@@ -198,7 +198,7 @@ function trim(s) {
 function ts_resortTable(lnk, clid) {
 	var td, column, t, first, itm, i, j, k, numeric_flag, all_sort_links, ci, firstRow, newRows, sortfn;
 	td = lnk.parentNode;
-	column = clid || td.cellIndex;
+	column = (clid === undefined ? td.cellIndex : clid);
 	t = getParent(td, 'TABLE');
 
 	// Do not sort single a row
