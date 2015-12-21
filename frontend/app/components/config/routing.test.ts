@@ -26,35 +26,39 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('Routing', function () {
-  var $rootScope, $state, mockState = { go: function () {} };
+var expect = chai.expect;
 
-  beforeEach(angular.mock.module('openproject', function ($provide) {
+describe('Routing', () => {
+  var $rootScope, $state, mockState = {
+    go: () => {}
+  };
+
+  beforeEach(angular.mock.module('openproject', ($provide) => {
     $provide.value('$state', mockState);
   }));
 
-  beforeEach(inject(function (_$rootScope_) {
+  beforeEach(inject((_$rootScope_) => {
     $rootScope = _$rootScope_;
   }));
 
-  describe('when the project id is set', function () {
+  describe('when the project id is set', () => {
     var toState, toParams,
-        spy = sinon.spy(mockState, 'go'),
-        broadcast = function () {
-          $rootScope.$broadcast('$stateChangeStart', toState, toParams);
-        };
+      spy = sinon.spy(mockState, 'go'),
+      broadcast = () => {
+        $rootScope.$broadcast('$stateChangeStart', toState, toParams);
+      };
 
-    beforeEach(function () {
-      toState = { name: 'work-packages.list' };
-      toParams = { projectPath: 'my_project', projects: null };
+    beforeEach(() => {
+      toState = {name: 'work-packages.list'};
+      toParams = {projectPath: 'my_project', projects: null};
     });
 
-    it('sets the projects path segment to "projects" ', function () {
+    it('sets the projects path segment to "projects" ', () => {
       broadcast();
       expect(toParams.projects).to.equal('projects');
     });
 
-    it('routes to the given state', function () {
+    it('routes to the given state', () => {
       broadcast();
       expect(spy.withArgs(toState, toParams).called).to.be.true;
     });
