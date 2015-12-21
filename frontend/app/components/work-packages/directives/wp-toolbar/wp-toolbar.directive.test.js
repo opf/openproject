@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,19 +24,17 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
-
-/*jshint expr: true*/
+// ++
 
 describe('toolbar Directive', function() {
   var compile, element, rootScope, scope;
 
   beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(module('openproject.templates'));
+  beforeEach(angular.mock.module('openproject.templates'));
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(angular.mock.inject(function($rootScope, $compile) {
     var html;
-    html = '<div toolbar></div>';
+    html = '<div wp-toolbar></div>';
 
     element = angular.element(html);
     rootScope = $rootScope;
