@@ -102,7 +102,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
               <% end %>
             </td>
             <%= content_tag :td, cost_type.is_default? ? icon_wrapper('icon icon-checkmark', I18n.t(:general_text_Yes)) : "" %>
-            <td>
+            <td class="buttons">
               <%= form_for cost_type, url:    cost_type_path(cost_type),
                                       method: :delete,
                                       html:   { id:    "delete_cost_type_#{cost_type.id}",

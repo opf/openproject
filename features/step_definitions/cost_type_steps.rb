@@ -80,7 +80,7 @@ Then(/^the cost type "(.*?)" should be listed as deleted on the index page$/) do
 
   click_link(I18n.t(:button_apply))
 
-  within '.deleted_cost_types' do
+  within '.locked_cost_types' do
     should have_text(name)
   end
 end

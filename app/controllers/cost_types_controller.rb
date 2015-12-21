@@ -94,7 +94,7 @@ class CostTypesController < ApplicationController
     @cost_type.default = false
 
     if @cost_type.save
-      flash[:notice] = l(:notice_successful_delete)
+      flash[:notice] = l(:notice_successful_lock)
 
       redirect_back_or_default(action: 'index')
     end
