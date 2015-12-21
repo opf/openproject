@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,21 +24,26 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function($scope, $state, $stateParams, QueryService, PathHelper, $rootScope,
+angular
+  .module('openproject.workPackages.controllers')
+  .controller('WorkPackagesController', WorkPackagesController);
+
+function WorkPackagesController($scope, $state, $stateParams, QueryService, $rootScope,
     inplaceEditAll) {
 
   // Setup
   $scope.$state = $state;
   $scope.selectedTitle = I18n.t('js.label_work_package_plural');
-
   $scope.query_id = $stateParams.query_id;
 
   $scope.$watch(QueryService.getAvailableGroupedQueries, function(availableQueries) {
     if (availableQueries) {
-      $scope.groups = [{ name: I18n.t('js.label_global_queries'), models: availableQueries['queries']},
-                       { name: I18n.t('js.label_custom_queries'), models: availableQueries['user_queries']}];
+      $scope.groups = [
+        { name: I18n.t('js.label_global_queries'), models: availableQueries['queries']},
+        { name: I18n.t('js.label_custom_queries'), models: availableQueries['user_queries']}
+      ];
     }
   });
 
@@ -54,4 +59,4 @@ module.exports = function($scope, $state, $stateParams, QueryService, PathHelper
     return (activate) ? I18n.t('js.label_activate') + ' ' : '';
   };
   $rootScope.$broadcast('openproject.layout.activateMenuItem');
-};
+}

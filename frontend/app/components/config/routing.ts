@@ -81,7 +81,7 @@ angular
       .state('work-packages', {
         url: '',
         abstract: true,
-        templateUrl: '/templates/work_packages.html',
+        templateUrl: '/components/routes/partials/work-packages.html',
         controller: 'WorkPackagesController',
         resolve: {
           latestTab: ($state) => {
