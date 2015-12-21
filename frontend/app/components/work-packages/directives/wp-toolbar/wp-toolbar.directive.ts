@@ -30,11 +30,12 @@ angular
   .module('openproject.uiComponents')
   .directive('wpToolbar', wpToolbar);
 
-function wpToolbar() {
+function wpToolbar(): ng.IDirective {
   return {
     restrict: 'A',
 
-    link: function(scope, element, attributes) {
+    link: function(scope: ng.IScope, element: ng.IAugmentedJQuery) {
+
     }
   };
 }

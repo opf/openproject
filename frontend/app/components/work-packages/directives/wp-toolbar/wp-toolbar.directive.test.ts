@@ -26,13 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('toolbar Directive', function() {
+var expect = chai.expect;
+
+describe('toolbar Directive', () => {
   var compile, element, rootScope, scope;
 
   beforeEach(angular.mock.module('openproject.uiComponents'));
   beforeEach(angular.mock.module('openproject.templates'));
 
-  beforeEach(angular.mock.inject(function($rootScope, $compile) {
+  beforeEach(angular.mock.inject(($rootScope, $compile) => {
     var html;
     html = '<div wp-toolbar></div>';
 
@@ -41,22 +43,20 @@ describe('toolbar Directive', function() {
     scope = $rootScope.$new();
     scope.doNotShow = true;
 
-    compile = function() {
+    compile = () => {
       $compile(element)(scope);
       scope.$digest();
     };
   }));
 
-  describe('element', function() {
-    beforeEach(function() {
-      compile();
-    });
+  describe('element', () => {
+    beforeEach(() => compile());
 
-    it('should preserve its div', function() {
+    it('should preserve its div', () => {
       expect(element.prop('tagName')).to.equal('DIV');
     });
 
-    it('should be in a collapsed state', function() {
+    it('should be in a collapsed state', () => {
       expect(element.is(":visible")).to.be.false;
     });
   });
