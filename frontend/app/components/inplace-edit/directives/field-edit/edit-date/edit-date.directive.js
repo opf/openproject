@@ -30,7 +30,7 @@ angular
   .module('openproject.inplace-edit')
   .directive('inplaceEditorDate', inplaceEditorDate);
 
-function inplaceEditorDate($timeout, inplaceEditAll, TimezoneService, Datepicker) {
+function inplaceEditorDate($timeout, $window, inplaceEditAll, TimezoneService, Datepicker) {
   var parseISODate = TimezoneService.parseISODate,
     customDateFormat = 'YYYY-MM-DD',
     customFormattedDate = function(date) {
@@ -93,6 +93,11 @@ function inplaceEditorDate($timeout, inplaceEditAll, TimezoneService, Datepicker
           target.parents('.ui-datepicker-header').length <= 0) {
           datepicker.hide();
         }
+      });
+
+      datepicker.setState($window.innerWidth > 680);
+      angular.element($window).on('resize', function () {
+        datepicker.setState($window.innerWidth > 680);
       });
     }
   };

@@ -153,6 +153,11 @@ function inplaceEditorDateRange($timeout, TimezoneService, WorkPackageFieldServi
           endDatepicker.hide();
         }
       });
+
+      datepicker.setState($window.innerWidth > 680);
+      angular.element($window).on('resize', function () {
+        datepicker.setState($window.innerWidth > 680);
+      });
     }
   };
 }
