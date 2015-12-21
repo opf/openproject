@@ -81,7 +81,7 @@ angular
       .state('work-packages', {
         url: '',
         abstract: true,
-        templateUrl: '/components/routes/partials/work-packages.html',
+        templateUrl: '/components/routing/views/work-packages.html',
         controller: 'WorkPackagesController',
         resolve: {
           latestTab: ($state) => {
@@ -101,13 +101,13 @@ angular
 
       .state('work-packages.new', {
         url: '/{projects}/{projectPath}/work_packages/new?type&parent_id',
-        templateUrl: '/components/routes/partials/work-packages.new.html',
+        templateUrl: '/components/routing/views/work-packages.new.html',
         reloadOnSearch: false
       })
 
       .state('work-packages.copy', {
         url: '/work_packages/{copiedFromWorkPackageId:[0-9]+}/copy',
-        templateUrl: '/components/routes/partials/work-packages.new.html'
+        templateUrl: '/components/routing/views/work-packages.new.html'
       })
 
       .state('work-packages.edit', {
@@ -125,7 +125,7 @@ angular
 
       .state('work-packages.show', {
         url: '/work_packages/{workPackageId:[0-9]+}?query_props',
-        templateUrl: '/components/routes/partials/work-packages.show.html',
+        templateUrl: '/components/routing/views/work-packages.show.html',
         controller: 'WorkPackageShowController',
         controllerAs: 'vm',
         resolve: {
@@ -175,7 +175,7 @@ angular
       .state('work-packages.list', {
         url: '/{projects}/{projectPath}/work_packages?query_id&query_props',
         controller: 'WorkPackagesListController',
-        templateUrl: '/components/routes/partials/work-packages.list.html',
+        templateUrl: '/components/routing/views/work-packages.list.html',
         params: {
           // value: null makes the parameter optional
           // squash: true avoids duplicate slashes when the paramter is not provided
@@ -199,17 +199,17 @@ angular
       })
       .state('work-packages.list.new', {
         url: '/create_new?type&parent_id',
-        templateUrl: '/components/routes/partials/work-packages.list.new.html',
+        templateUrl: '/components/routing/views/work-packages.list.new.html',
         reloadOnSearch: false
       })
       .state('work-packages.list.copy', {
         url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
-        templateUrl: '/components/routes/partials/work-packages.list.new.html',
+        templateUrl: '/components/routing/views/work-packages.list.new.html',
         reloadOnSearch: false
       })
       .state('work-packages.list.details', {
         url: '/details/{workPackageId:[0-9]+}',
-        templateUrl: '/components/routes/partials/work-packages.list.details.html',
+        templateUrl: '/components/routing/views/work-packages.list.details.html',
         controller: 'WorkPackageDetailsController',
         reloadOnSearch: false,
         resolve: {
