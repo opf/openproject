@@ -19,7 +19,7 @@
         <li class="toolbar-item" ng-if="displayWatchButton">
           <wp-watcher-button work-package="workPackage" disabled="editAll.state"></wp-watcher-button>
         </li>
-        <li class="toolbar-item hide-for-mobile" feature-flag="detailsView">
+        <li class="toolbar-item hidden-for-mobile" feature-flag="detailsView">
           <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
             <li>
               <wp-list-view-button project-identifier="projectIdentifier"></wp-list-view-button>
@@ -46,7 +46,7 @@
             </li>
           </ul>
         </li>
-        <li class="toolbar-item action_menu_main hide-for-mobile" id="action-show-more-dropdown-menu">
+        <li class="toolbar-item action_menu_main hidden-for-mobile" id="action-show-more-dropdown-menu">
           <button class="button dropdown-relative"
                   ng-disabled="!actionsAvailable || editAll.state"
                   has-dropdown-menu

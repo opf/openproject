@@ -29,3 +29,55 @@
 @include breakpoint(680px down)
   #logo
     background-color: transparent
+
+  #top-menu
+    position: relative !important
+
+    #nav-login-content
+      float: none
+      padding: 15px 20px
+      width: 100%
+
+      .grid-block
+        display: block
+
+        .form--field
+          padding-right: 0
+
+      .login-auth-providers
+        width: 100% !important
+        white-space: normal
+
+      h3.login-auth-providers-title:before
+        border: none !important
+
+      .button
+        margin-right: 0
+
+  #account-nav-right
+    > li
+      display: none
+
+      &.drop-down
+        display: block
+
+        > a
+          display: block
+          padding: 0
+          position: relative
+          text-indent: -10000px
+          width: 54px
+
+          &:after
+            display: block
+            position: absolute
+            right: 20px
+            text-indent: 0
+            top: 22px
+            z-index: 1000
+
+          + ul
+            width: 100vw
+
+            li
+              max-width: none
