@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,27 +24,27 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
-
-/*jshint expr: true*/
+// ++
 
 describe('WorkPackagesController', function() {
   var scope, win, ctrl, testParams, buildController, stateParams = {};
 
-  beforeEach(module('openproject.workPackages.controllers', 'openproject.api', 'openproject.layout','openproject.services'));
-  beforeEach(module('openproject.templates', function($provide) {
-    var configurationService = {};
+  beforeEach(angular.mock.module('openproject.workPackages.controllers', 'openproject.api',
+      'openproject.layout','openproject.services'));
 
+  beforeEach(angular.mock.module('openproject.templates', function($provide) {
+    var configurationService = {};
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
     $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
   }));
-  beforeEach(inject(function($rootScope, $controller, $timeout) {
+
+  beforeEach(angular.mock.inject(function($rootScope) {
     scope = $rootScope.$new();
   }));
 
-  beforeEach(inject(function($rootScope, $controller) {
+  beforeEach(angular.mock.inject(function($rootScope, $controller) {
     scope = $rootScope.$new();
     win   = {
      location: { pathname: "" }
@@ -61,6 +61,4 @@ describe('WorkPackagesController', function() {
       });
     };
   }));
-
-
 });
