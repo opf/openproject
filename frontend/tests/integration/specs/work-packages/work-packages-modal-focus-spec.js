@@ -52,7 +52,7 @@ describe('OpenProject', function() {
     browser.driver.switchTo().activeElement().getAttribute('id');
     browser.driver.switchTo().activeElement().getAttribute('id').then(function (elementId) {
       browser.waitForAngular();
-      expect(element(by.css('.ng-modal-window .form--row:first-child input.ui-select-focusser')).getAttribute('id'))
+      expect(element(by.css('.ng-modal-window #modal-sorting-attribute-0')).getAttribute('id'))
         .to.eventually.equal(elementId);
     });
   });
@@ -61,7 +61,7 @@ describe('OpenProject', function() {
     element(by.css('#work-packages-settings-button')).click();
     element(by.css('[ng-click="showGroupingModal($event)"]')).click();
     browser.driver.switchTo().activeElement().getAttribute('id').then(function (elementId) {
-      expect(element(by.css('.ng-modal-window .select2-container input.ui-select-focusser')).getAttribute('id'))
+      expect(element(by.css('.ng-modal-window #selected_columns_new')).getAttribute('id'))
         .to.eventually.equal(elementId);
     });
   });
