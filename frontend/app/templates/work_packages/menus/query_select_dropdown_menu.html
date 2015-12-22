@@ -1,5 +1,6 @@
 <div class="dropdown dropdown-relative" id="querySelectDropdown">
   <div class="search-query-wrapper">
+    <label for="title-filter" class="hidden-for-sighted">{{ I18n.t('js.toolbar.search_query_label') }}</label>
     <input type="search" focus=""
            ng-model="filterBy"
            ng-change="filterModels(filterBy)"

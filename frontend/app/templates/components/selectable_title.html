@@ -1,10 +1,13 @@
 <div class="title-container">
   <div class="text">
-    <h2 title="{{ selectedTitle }}">
+    <h2 title="{{ I18n.t('js.toolbar.search_query_title') }}">
       <span has-dropdown-menu target="QuerySelectDropdownMenu"
         locals="selectedTitle,groups,transitionMethod">
         <accessible-by-keyboard>
-          {{ selectedTitle | characters:50 }}<i class="icon-pulldown icon-button icon-small"></i>
+          {{ selectedTitle | characters:50 }}
+          <i class="icon-pulldown icon-button icon-small">
+            <span class="hidden-for-sighted">{{ I18n.t('js.toolbar.search_query_title') }}</span>
+          </i>
         </accessible-by-keyboard>
       </span>
     </h2>
