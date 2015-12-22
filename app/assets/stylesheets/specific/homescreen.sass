@@ -61,3 +61,13 @@
       margin-bottom: 10px
       font-size: 3rem
       color: $homescreen-footer-icon-color
+
+@include breakpoint(680px down)
+  .homescreen--links
+    padding: 20px
+    flex-wrap: wrap
+
+    .homescreen--links--item
+      flex: auto
+      margin: 20px 0
+      width: 50%
