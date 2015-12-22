@@ -51,9 +51,9 @@
                   ng-disabled="!actionsAvailable || editAll.state"
                   has-dropdown-menu
                   target="ShowMoreDropdownMenu"
-                  locals="permittedActions,actionsAvailable,triggerMoreMenuAction">
-            <span class="button--text" ng-bind="::I18n.t('js.button_more')"></span>
-            <i class="button--dropdown-indicator"></i>
+                  locals="permittedActions,actionsAvailable,triggerMoreMenuAction"
+                  title="{{I18n.t('js.button_more')}}">
+            <i class="button--icon icon-show-more"></i>
           </button>
         </li>
       </ul>
