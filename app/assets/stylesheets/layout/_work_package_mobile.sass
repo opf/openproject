@@ -44,28 +44,25 @@
       #toolbar-items
         background: #fff
         display: flex
-        left: 15px
         margin-bottom: 20px
-        right: 15px
-        width: 100%
+        width: calc(100% + 5px)
 
         > li
           -webkit-flex: 1 0 0
           flex: 1 0 0
 
           &:first-child
-            -webkit-flex: 2 0 0
-            flex: 2 0 0
+            -webkit-flex: 3 0 0
+            flex: 3 0 0
 
           button
             width: 100%
 
-        .wp-create-button
-          .dropdown
-            left: 0 !important
+        .wp-create-button .dropdown
+          left: 0 !important
 
-          .dropdown-menu
-            width: calc(100vw - 40px)
+        .action_menu_main .dropdown
+          left: auto !important
 
       .work-packages--split-view
         display: block
