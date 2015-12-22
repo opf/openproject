@@ -27,44 +27,29 @@
 //++
 
 @include breakpoint(680px down)
-  html
-    min-width: 0 !important
+  form
+    .grid-block
+      display: block
 
-  body
-    overflow: auto !important
-    overflow-y: scroll /* has to be scroll, not auto */
-    -webkit-overflow-scrolling: touch
+      .grid-content
+        padding: 0
 
-  #main,
-  #content
-    padding-bottom: 0 !important
-    position: relative !important
-    top: 0 !important
+    .form--label,
+    .form--field-container,
+    .form--select-container,
+    .form--field-instructions
+      @include grid-content(12)
+      margin-left: 0
+      padding: 0
 
-  #main
-    overflow: visible
+  .choice .choice--select
+    width: 100%
 
-  #header
-    min-width: 0 !important
+  .ui-select-dropdown
+    .select2-search
+      &:before
+        top: 8px !important
 
-  #wrapper
-    background: #fff !important
-
-  #content
-    height: 100% !important
-    margin: 0 !important
-    padding: 20px !important
-    width: 100% !important
-
-  #main-menu,
-  #breadcrumb
-    display: none !important
-
-  h2
-    font-size: 1.4rem
-
-  .hidden-for-mobile
-    display: none !important
-
-  .jstElements
-    visibility: hidden !important
+    &.select2-drop.select2-with-searchbox.select2-drop-active
+      margin-top: 0 !important
+      top: 1px !important
