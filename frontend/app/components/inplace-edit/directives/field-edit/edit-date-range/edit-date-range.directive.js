@@ -30,7 +30,7 @@ angular
   .module('openproject.inplace-edit')
   .directive('inplaceEditorDateRange', inplaceEditorDateRange);
 
-function inplaceEditorDateRange($timeout, TimezoneService, WorkPackageFieldService,
+function inplaceEditorDateRange($timeout, $window, TimezoneService, WorkPackageFieldService,
     EditableFieldsState, Datepicker, inplaceEditAll) {
 
   return {
@@ -154,9 +154,12 @@ function inplaceEditorDateRange($timeout, TimezoneService, WorkPackageFieldServi
         }
       });
 
-      datepicker.setState($window.innerWidth > 680);
+      startDatepicker.setState($window.innerWidth > 680);
+      endDatepicker.setState($window.innerWidth > 680);
+
       angular.element($window).on('resize', function () {
-        datepicker.setState($window.innerWidth > 680);
+        startDatepicker.setState($window.innerWidth > 680);
+        endDatepicker.setState($window.innerWidth > 680);
       });
     }
   };
