@@ -176,6 +176,7 @@ angular.module('openproject.templates', []);
 // refactoring
 angular.module('openproject.inplace-edit', []);
 angular.module('openproject.wpButtons', ['ui.router']);
+angular.module('openproject.responsive', []);
 
 // main app
 var openprojectApp = angular.module('openproject', [
@@ -198,7 +199,8 @@ var openprojectApp = angular.module('openproject', [
   'openproject.templates',
   'monospaced.elastic',
   'openproject.inplace-edit',
-  'openproject.wpButtons'
+  'openproject.wpButtons',
+  'openproject.responsive'
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') ||

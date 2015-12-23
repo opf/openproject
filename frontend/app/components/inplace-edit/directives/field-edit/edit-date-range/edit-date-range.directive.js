@@ -30,8 +30,8 @@ angular
   .module('openproject.inplace-edit')
   .directive('inplaceEditorDateRange', inplaceEditorDateRange);
 
-function inplaceEditorDateRange($timeout, $window, TimezoneService, WorkPackageFieldService,
-    EditableFieldsState, Datepicker, inplaceEditAll) {
+function inplaceEditorDateRange($timeout, TimezoneService, WorkPackageFieldService,
+    EditableFieldsState, Datepicker, inplaceEditAll, responsiveView) {
 
   return {
     restrict: 'E',
@@ -40,7 +40,7 @@ function inplaceEditorDateRange($timeout, $window, TimezoneService, WorkPackageF
     templateUrl: '/components/inplace-edit/directives/field-edit/edit-date-range/' +
       'edit-date-range.directive.html',
 
-    controller: function() {},
+    controller: angular.noop,
     controllerAs: 'customEditorController',
 
     link: function(scope, element) {
@@ -154,12 +154,12 @@ function inplaceEditorDateRange($timeout, $window, TimezoneService, WorkPackageF
         }
       });
 
-      startDatepicker.setState($window.innerWidth > 680);
-      endDatepicker.setState($window.innerWidth > 680);
+      startDatepicker.setState(!responsiveView.isSmall());
+      endDatepicker.setState(!responsiveView.isSmall());
 
-      angular.element($window).on('resize', function () {
-        startDatepicker.setState($window.innerWidth > 680);
-        endDatepicker.setState($window.innerWidth > 680);
+      responsiveView.onResize(function () {
+        startDatepicker.setState(!responsiveView.isSmall());
+        endDatepicker.setState(!responsiveView.isSmall());
       });
     }
   };

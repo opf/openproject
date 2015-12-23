@@ -30,7 +30,7 @@ angular
   .module('openproject.inplace-edit')
   .directive('inplaceEditorDate', inplaceEditorDate);
 
-function inplaceEditorDate($timeout, $window, inplaceEditAll, TimezoneService, Datepicker) {
+function inplaceEditorDate($timeout, inplaceEditAll, TimezoneService, Datepicker, responsiveView) {
   var parseISODate = TimezoneService.parseISODate,
     customDateFormat = 'YYYY-MM-DD',
     customFormattedDate = function(date) {
@@ -45,7 +45,7 @@ function inplaceEditorDate($timeout, $window, inplaceEditAll, TimezoneService, D
     templateUrl: '/components/inplace-edit/directives/field-edit/edit-date/' +
       'edit-date.directive.html',
 
-    controller: function() {},
+    controller: angular.noop,
     controllerAs: 'customEditorController',
 
     link: function(scope, element) {
@@ -95,9 +95,9 @@ function inplaceEditorDate($timeout, $window, inplaceEditAll, TimezoneService, D
         }
       });
 
-      datepicker.setState($window.innerWidth > 680);
-      angular.element($window).on('resize', function () {
-        datepicker.setState($window.innerWidth > 680);
+      datepicker.setState(!responsiveView.isSmall());
+      responsiveView.onResize(function () {
+        datepicker.setState(!responsiveView.isSmall());
       });
     }
   };
