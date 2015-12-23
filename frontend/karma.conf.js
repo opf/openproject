@@ -99,20 +99,15 @@ module.exports = function(config) {
       options: {
         sourceMap: false,
         target: 'ES5',
-        module: 'amd',
+        module: 'commonjs',
         noImplicitAny: false,
-        noResolve: true,
+        noResolve: false,
         removeComments: true,
         concatenateOutput: false
       },
       typings: [
         'typings/tsd.d.ts',
-        'typings/angularjs/angular.d.ts',
-        'typings/sinon/sinon.d.ts',
-        'typings/jquery/jquery.d.ts',
-        'typings/mocha/mocha.d.ts',
-        'typings/chai/chai.d.ts',
-        'typings/angularjs/angular-mocks.d.ts'
+        'typings/**/*.d.ts'
       ],
       transformPath: function(path) {
         return path.replace(/\.ts$/, '.js');
