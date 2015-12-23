@@ -102,17 +102,14 @@ module.exports = function(config) {
         target: 'ES5',
         module: 'commonjs',
         noImplicitAny: false,
-        noResolve: false,
+        noResolve: true,
         removeComments: true,
         concatenateOutput: false
       },
       typings: [
         'typings/tsd.d.ts',
         'typings/**/*.d.ts'
-      ],
-      transformPath: function(path) {
-        return path.replace(/\.ts$/, '.js');
-      }
+      ]
     },
 
 
