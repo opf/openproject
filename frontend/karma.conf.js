@@ -74,6 +74,7 @@ module.exports = function(config) {
       'tests/unit/tests/legacy-tests.js',
 
       'app/components/**/*.test.js',
+
       'app/components/**/*.test.ts'
     ],
 
