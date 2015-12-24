@@ -101,13 +101,12 @@ module.exports = function(config) {
         sourceMap: false,
         target: 'ES5',
         module: 'commonjs',
-        noImplicitAny: false,
+        noImplicitAny: true,
         noResolve: true,
         removeComments: true,
         concatenateOutput: false
       },
       typings: [
-        'typings/tsd.d.ts',
         'typings/**/*.d.ts'
       ]
     },

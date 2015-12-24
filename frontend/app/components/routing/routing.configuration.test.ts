@@ -29,22 +29,29 @@
 var expect = chai.expect;
 
 describe('Routing', () => {
-  var $rootScope, $state, mockState = {
+  var $rootScope: ng.IRootScopeService;
+  var $state: ng.ui.IStateService;
+  var mockState = {
     go: () => {}
   };
 
-  beforeEach(angular.mock.module('openproject', ($provide) => {
+  beforeEach(angular.mock.module('openproject', ($provide: ng.auto.IProvideService) => {
     $provide.value('$state', mockState);
   }));
 
-  beforeEach(inject((_$rootScope_) => {
+  beforeEach(angular.mock.inject((_$rootScope_: ng.IRootScopeService) => {
     $rootScope = _$rootScope_;
   }));
 
   describe('when the project id is set', () => {
-    var toState, toParams,
-      spy = sinon.spy(mockState, 'go'),
-      broadcast = () => {
+    interface CustomStateParams extends ng.ui.IStateParamsService {
+      projects: string
+    }
+
+    var toState: Object;
+    var toParams: CustomStateParams;
+    var spy = sinon.spy(mockState, 'go');
+    var broadcast = () => {
         $rootScope.$broadcast('$stateChangeStart', toState, toParams);
       };
 
