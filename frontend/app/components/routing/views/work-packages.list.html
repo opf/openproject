@@ -29,7 +29,8 @@
       <li class="toolbar-item hidden-for-mobile" feature-flag="detailsView">
         <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
           <li>
-            <wp-list-view-button project-identifier="projectIdentifier"></wp-list-view-button>
+            <wp-list-view-button disabled="editAll.state"
+                                 project-identifier="projectIdentifier"></wp-list-view-button>
           </li>
           <li feature-flag="detailsView">
             <label for="work-packages-details-view-button"
