@@ -31,7 +31,7 @@ angular
   .directive('inplaceEditorDateRange', inplaceEditorDateRange);
 
 function inplaceEditorDateRange($timeout, TimezoneService, WorkPackageFieldService,
-    EditableFieldsState, Datepicker, inplaceEditAll) {
+    EditableFieldsState, Datepicker, inplaceEditAll, responsiveView) {
 
   return {
     restrict: 'E',
@@ -40,7 +40,7 @@ function inplaceEditorDateRange($timeout, TimezoneService, WorkPackageFieldServi
     templateUrl: '/components/inplace-edit/directives/field-edit/edit-date-range/' +
       'edit-date-range.directive.html',
 
-    controller: function() {},
+    controller: angular.noop,
     controllerAs: 'customEditorController',
 
     link: function(scope, element) {
@@ -152,6 +152,14 @@ function inplaceEditorDateRange($timeout, TimezoneService, WorkPackageFieldServi
           startDatepicker.hide();
           endDatepicker.hide();
         }
+      });
+
+      startDatepicker.setState(!responsiveView.isSmall());
+      endDatepicker.setState(!responsiveView.isSmall());
+
+      responsiveView.onResize(function () {
+        startDatepicker.setState(!responsiveView.isSmall());
+        endDatepicker.setState(!responsiveView.isSmall());
       });
     }
   };

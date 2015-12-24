@@ -26,48 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.controller-homescreen,
-.controller-homescreen #content
-  background: $widget-box-content-bg-color
-
-.controller-homescreen #breadcrumb
-  display: none
-
-
-.homescreen--links
-  @include widget-box--style
-  display: flex
-  padding: 20px 20%
-  align-items: center
-  justify-content: center
-  background: $homescreen-footer-bg-color
-
-  .icon-context:before
-    padding-right: 0
-
-  .homescreen--links--item
-    flex: 1
-    display: block
-    text-align: center
-    color: $content-icon-link-color
-
-    &:hover,
-    &:hover span
-      text-decoration: none
-      color: $content-icon-link-hover-color
-
-    span
-      display: block
-      margin-bottom: 10px
-      font-size: 3rem
-      color: $homescreen-footer-icon-color
+// Styles taken from jquery-dropdown plugin:
+// https://github.com/plapier/jquery-dropdown
+// (dual MIT/GPL-Licensed)
 
 @include breakpoint(680px down)
-  .homescreen--links
-    padding: 20px
-    flex-wrap: wrap
+  .dropdown .dropdown-menu,
+  .toolbar .legacy-actions-more
+    LI > A,
+    LABEL
+      padding: 8px 13px 8px 10px
 
-    .homescreen--links--item
-      flex: auto
-      margin: 20px 0
-      width: 50%
+  .dropdown .dropdown-menu
+    min-width: 0

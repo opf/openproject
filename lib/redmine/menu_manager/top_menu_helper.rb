@@ -30,7 +30,7 @@ require 'concerns/omniauth_login'
 
 module Redmine::MenuManager::TopMenuHelper
   def render_top_menu_left
-    content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav' do
+    content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav hidden-for-mobile' do
       [render_main_top_menu_nodes,
        render_projects_top_menu_node,
        render_module_top_menu_node].join.html_safe

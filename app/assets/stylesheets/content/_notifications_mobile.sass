@@ -26,11 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-module.exports = function() {
-    return {
-      restrict: 'EA',
-      link: function(scope, element, attributes) {
-      }
-    };
-};
+@include breakpoint(680px down)
+  .notification-box--wrapper,
+  .flash,
+  #errorExplanation
+    left: 20px !important
+    margin: 0 !important
+    right: 20px !important
+    width: calc(100% - 40px) !important
+    top: 22px !important

@@ -120,7 +120,7 @@ $include-css: (
 
 // These are our named breakpoints. You can use them in our breakpoint function like this: @include breakpoint(medium) { // Medium and larger styles }
 $breakpoints: (
-  small: rem-calc(300),
+  small: rem-calc(480),
   medium: rem-calc(640),
   large: rem-calc(1200),
   xlarge: rem-calc(1440),

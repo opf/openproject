@@ -68,9 +68,11 @@ end
 Redmine::MenuManager.map :account_menu do |menu|
   menu.push :administration,
             { controller: '/admin', action: 'projects' },
+            html: { class: 'hidden-for-mobile'},
             if: Proc.new { User.current.admin? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
+            html: { class: 'hidden-for-mobile'},
             if: Proc.new { User.current.logged? }
   menu.push :logout, :signout_path,
             if: Proc.new { User.current.logged? }

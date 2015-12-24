@@ -101,7 +101,7 @@ module.exports = function(config) {
         sourceMap: false,
         target: 'ES5',
         module: 'commonjs',
-        noImplicitAny: true,
+        noImplicitAny: false,
         noResolve: true,
         removeComments: true,
         concatenateOutput: false

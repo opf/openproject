@@ -26,48 +26,50 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.controller-homescreen,
-.controller-homescreen #content
-  background: $widget-box-content-bg-color
-
-.controller-homescreen #breadcrumb
-  display: none
-
-
-.homescreen--links
-  @include widget-box--style
-  display: flex
-  padding: 20px 20%
-  align-items: center
-  justify-content: center
-  background: $homescreen-footer-bg-color
-
-  .icon-context:before
-    padding-right: 0
-
-  .homescreen--links--item
-    flex: 1
-    display: block
-    text-align: center
-    color: $content-icon-link-color
-
-    &:hover,
-    &:hover span
-      text-decoration: none
-      color: $content-icon-link-hover-color
-
-    span
-      display: block
-      margin-bottom: 10px
-      font-size: 3rem
-      color: $homescreen-footer-icon-color
-
 @include breakpoint(680px down)
-  .homescreen--links
-    padding: 20px
-    flex-wrap: wrap
+  body.controller-account
+    #login-form,
+    #content .login-auth-providers,
+    .login_notice_div
+      width: 100%
 
-    .homescreen--links--item
-      flex: auto
-      margin: 20px 0
-      width: 50%
+    #content .login-auth-providers
+      margin-top: 114px
+
+      h3:before
+        top: -14px
+
+    #login-form
+      .form--field-container
+        @include grid-content(12)
+        padding: 0
+
+      .login-options-container
+        position: relative
+
+        .login-links
+          float: none
+          position: absolute
+          text-align: center
+          top: 70px
+          width: 100%
+
+          a
+            display: block
+
+      .button
+        width: 100%
+
+    #new_user
+      .login-auth-providers
+        margin: 60px 0
+
+        h3 span
+          background: transparent
+
+    .form--label,
+    .form--field-container,
+    .form--field-instructions
+      @include grid-content(12)
+      margin-left: 0
+      padding: 0

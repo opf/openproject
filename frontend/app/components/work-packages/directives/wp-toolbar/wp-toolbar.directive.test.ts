@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,50 +24,40 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-.controller-homescreen,
-.controller-homescreen #content
-  background: $widget-box-content-bg-color
+var expect = chai.expect;
 
-.controller-homescreen #breadcrumb
-  display: none
+describe('toolbar Directive', () => {
+  var compile, element, rootScope, scope;
 
+  beforeEach(angular.mock.module('openproject.uiComponents'));
+  beforeEach(angular.mock.module('openproject.templates'));
 
-.homescreen--links
-  @include widget-box--style
-  display: flex
-  padding: 20px 20%
-  align-items: center
-  justify-content: center
-  background: $homescreen-footer-bg-color
+  beforeEach(angular.mock.inject(($rootScope, $compile) => {
+    var html;
+    html = '<div wp-toolbar></div>';
 
-  .icon-context:before
-    padding-right: 0
+    element = angular.element(html);
+    rootScope = $rootScope;
+    scope = $rootScope.$new();
+    scope.doNotShow = true;
 
-  .homescreen--links--item
-    flex: 1
-    display: block
-    text-align: center
-    color: $content-icon-link-color
+    compile = () => {
+      $compile(element)(scope);
+      scope.$digest();
+    };
+  }));
 
-    &:hover,
-    &:hover span
-      text-decoration: none
-      color: $content-icon-link-hover-color
+  describe('element', () => {
+    beforeEach(() => compile());
 
-    span
-      display: block
-      margin-bottom: 10px
-      font-size: 3rem
-      color: $homescreen-footer-icon-color
+    it('should preserve its div', () => {
+      expect(element.prop('tagName')).to.equal('DIV');
+    });
 
-@include breakpoint(680px down)
-  .homescreen--links
-    padding: 20px
-    flex-wrap: wrap
-
-    .homescreen--links--item
-      flex: auto
-      margin: 20px 0
-      width: 50%
+    it('should be in a collapsed state', () => {
+      expect(element.is(":visible")).to.be.false;
+    });
+  });
+});

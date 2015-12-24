@@ -43,6 +43,7 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
     this.datepickerCont = angular.element(datepickerElem);
     this.textbox = angular.element(textboxElem);
     this.editTimerId = 0;
+    this._disabled = false;
     this.initialize();
     this.setDate(this.date);
   }
@@ -126,11 +127,26 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
   };
 
   Datepicker.prototype.show = function() {
-    this.datepickerCont.show();
+    if(!this._disabled) {
+      this.datepickerCont.show();
+    }
   };
 
   Datepicker.prototype.focus = function() {
     this.textbox.click().focus();
+  };
+
+  Datepicker.prototype.disable = function () {
+    this._disabled = true;
+    this.hide();
+  };
+
+  Datepicker.prototype.enable = function () {
+    this.disabled = false;
+  };
+
+  Datepicker.prototype.setState = function (enable) {
+    this[enable ? 'enable' : 'disable']();
   };
 
   Datepicker.prototype.onChange = angular.noop;

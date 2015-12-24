@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,50 +24,23 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-.controller-homescreen,
-.controller-homescreen #content
-  background: $widget-box-content-bg-color
+export class ResponsiveView {
 
-.controller-homescreen #breadcrumb
-  display: none
+  public small: number = 680;
 
+  constructor(public $window: ng.IWindowService) {}
 
-.homescreen--links
-  @include widget-box--style
-  display: flex
-  padding: 20px 20%
-  align-items: center
-  justify-content: center
-  background: $homescreen-footer-bg-color
+  public isSmall(): boolean {
+    return this.$window.innerWidth <= this.small;
+  }
 
-  .icon-context:before
-    padding-right: 0
+  public onResize(callback) {
+    angular.element(this.$window).on('resize', callback);
+  }
+}
 
-  .homescreen--links--item
-    flex: 1
-    display: block
-    text-align: center
-    color: $content-icon-link-color
-
-    &:hover,
-    &:hover span
-      text-decoration: none
-      color: $content-icon-link-hover-color
-
-    span
-      display: block
-      margin-bottom: 10px
-      font-size: 3rem
-      color: $homescreen-footer-icon-color
-
-@include breakpoint(680px down)
-  .homescreen--links
-    padding: 20px
-    flex-wrap: wrap
-
-    .homescreen--links--item
-      flex: auto
-      margin: 20px 0
-      width: 50%
+angular
+  .module('openproject.responsive')
+  .service('responsiveView', ResponsiveView);

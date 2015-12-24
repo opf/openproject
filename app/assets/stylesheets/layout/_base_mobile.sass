@@ -26,48 +26,45 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.controller-homescreen,
-.controller-homescreen #content
-  background: $widget-box-content-bg-color
-
-.controller-homescreen #breadcrumb
-  display: none
-
-
-.homescreen--links
-  @include widget-box--style
-  display: flex
-  padding: 20px 20%
-  align-items: center
-  justify-content: center
-  background: $homescreen-footer-bg-color
-
-  .icon-context:before
-    padding-right: 0
-
-  .homescreen--links--item
-    flex: 1
-    display: block
-    text-align: center
-    color: $content-icon-link-color
-
-    &:hover,
-    &:hover span
-      text-decoration: none
-      color: $content-icon-link-hover-color
-
-    span
-      display: block
-      margin-bottom: 10px
-      font-size: 3rem
-      color: $homescreen-footer-icon-color
-
 @include breakpoint(680px down)
-  .homescreen--links
-    padding: 20px
-    flex-wrap: wrap
+  html
+    min-width: 0 !important
 
-    .homescreen--links--item
-      flex: auto
-      margin: 20px 0
-      width: 50%
+  body
+    overflow: auto !important
+    overflow-y: scroll /* has to be scroll, not auto */
+    -webkit-overflow-scrolling: touch
+
+  #main,
+  #content
+    padding-bottom: 0 !important
+    position: relative !important
+    top: 0 !important
+
+  #main
+    overflow: visible
+
+  #header
+    min-width: 0 !important
+
+  #wrapper
+    background: #fff !important
+
+  #content
+    height: 100% !important
+    margin: 0 !important
+    padding: 20px !important
+    width: 100% !important
+
+  #main-menu,
+  #breadcrumb
+    display: none !important
+
+  h2
+    font-size: 1.4rem
+
+  .hidden-for-mobile
+    display: none !important
+
+  .jstElements
+    display: none

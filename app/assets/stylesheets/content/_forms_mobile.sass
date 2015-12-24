@@ -26,48 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.controller-homescreen,
-.controller-homescreen #content
-  background: $widget-box-content-bg-color
-
-.controller-homescreen #breadcrumb
-  display: none
-
-
-.homescreen--links
-  @include widget-box--style
-  display: flex
-  padding: 20px 20%
-  align-items: center
-  justify-content: center
-  background: $homescreen-footer-bg-color
-
-  .icon-context:before
-    padding-right: 0
-
-  .homescreen--links--item
-    flex: 1
-    display: block
-    text-align: center
-    color: $content-icon-link-color
-
-    &:hover,
-    &:hover span
-      text-decoration: none
-      color: $content-icon-link-hover-color
-
-    span
-      display: block
-      margin-bottom: 10px
-      font-size: 3rem
-      color: $homescreen-footer-icon-color
-
 @include breakpoint(680px down)
-  .homescreen--links
-    padding: 20px
-    flex-wrap: wrap
+  form
+    .grid-block
+      display: block
 
-    .homescreen--links--item
-      flex: auto
-      margin: 20px 0
-      width: 50%
+      .grid-content
+        padding: 0
+
+    .form--label,
+    .form--field-container,
+    .form--select-container,
+    .form--field-instructions
+      @include grid-content(12)
+      margin-left: 0
+      padding: 0
+
+  .choice .choice--select
+    width: 100%
+
+  .ui-select-dropdown
+    .select2-search
+      &:before
+        top: 8px !important
+
+    &.select2-drop.select2-with-searchbox.select2-drop-active
+      margin-top: 0 !important
+      top: 1px !important
