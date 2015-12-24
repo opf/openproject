@@ -4,7 +4,7 @@
     "module": "commonjs",
     "noEmitOnError": false,
     "noImplicitAny": false,
-    "removeComments": false,
+    "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true
   },

@@ -74,6 +74,7 @@ module.exports = function(config) {
       'tests/unit/tests/legacy-tests.js',
 
       'app/components/**/*.test.js',
+
       'app/components/**/*.test.ts'
     ],
 
@@ -99,24 +100,15 @@ module.exports = function(config) {
       options: {
         sourceMap: false,
         target: 'ES5',
-        module: 'amd',
-        noImplicitAny: false,
+        module: 'commonjs',
+        noImplicitAny: true,
         noResolve: true,
         removeComments: true,
         concatenateOutput: false
       },
       typings: [
-        'typings/tsd.d.ts',
-        'typings/angularjs/angular.d.ts',
-        'typings/sinon/sinon.d.ts',
-        'typings/jquery/jquery.d.ts',
-        'typings/mocha/mocha.d.ts',
-        'typings/chai/chai.d.ts',
-        'typings/angularjs/angular-mocks.d.ts'
-      ],
-      transformPath: function(path) {
-        return path.replace(/\.ts$/, '.js');
-      }
+        'typings/**/*.d.ts'
+      ]
     },
 
 

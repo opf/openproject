@@ -26,48 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {ExampleService} from './example.service'
+
 var expect = chai.expect;
 
-describe('Routing', () => {
-  var $rootScope: ng.IRootScopeService;
-  var $state: ng.ui.IStateService;
-  var mockState = {
-    go: () => {}
-  };
-
-  beforeEach(angular.mock.module('openproject', ($provide: ng.auto.IProvideService) => {
-    $provide.value('$state', mockState);
-  }));
-
-  beforeEach(angular.mock.inject((_$rootScope_: ng.IRootScopeService) => {
-    $rootScope = _$rootScope_;
-  }));
-
-  describe('when the project id is set', () => {
-    interface CustomStateParams extends ng.ui.IStateParamsService {
-      projects: string
-    }
-
-    var toState: Object;
-    var toParams: CustomStateParams;
-    var spy = sinon.spy(mockState, 'go');
-    var broadcast = () => {
-        $rootScope.$broadcast('$stateChangeStart', toState, toParams);
-      };
-
-    beforeEach(() => {
-      toState = {name: 'work-packages.list'};
-      toParams = {projectPath: 'my_project', projects: null};
-    });
-
-    it('sets the projects path segment to "projects" ', () => {
-      broadcast();
-      expect(toParams.projects).to.equal('projects');
-    });
-
-    it('routes to the given state', () => {
-      broadcast();
-      expect(spy.withArgs(toState, toParams).called).to.be.true;
-    });
-  });
+describe.only('Example', () => {
+  it('is just an example', () => {
+    expect(true).to.be.true;
+  })
 });
