@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('HALAPIResource', function() {
+describe('hyperagentResource', function() {
 
-  var HALAPIResource;
+  var hyperagentResource;
   beforeEach(angular.mock.module('openproject.api'));
 
-  beforeEach(inject(function(_HALAPIResource_) {
-    HALAPIResource = _HALAPIResource_;
+  beforeEach(inject(function(_hyperagentResource_) {
+    hyperagentResource = _hyperagentResource_;
   }));
 
   describe('setup', function() {
@@ -45,9 +45,9 @@ describe('HALAPIResource', function() {
       };
     }));
 
-    beforeEach(inject(function(HALAPIResource) {
+    beforeEach(inject(function(hyperagentResource) {
       resourceFunction = sinon.stub(Hyperagent, 'Resource').returns(apiResource);
-      HALAPIResource.setup(workPackageUri);
+      hyperagentResource.setup(workPackageUri);
     }));
 
     afterEach(function() {

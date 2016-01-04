@@ -28,14 +28,14 @@
 
 angular.module('openproject.services')
   .service('ActivityService', [
-    'HALAPIResource',
+    'hyperagentResource',
     '$http',
     'I18n',
     'NotificationsService',
     require('./activity-service')
   ])
   .service('CacheService', [
-    'HALAPIResource',
+    'hyperagentResource',
     '$http',
     '$q',
     'CacheFactory',
@@ -53,7 +53,7 @@ angular.module('openproject.services')
     './pagination-service')])
   .service('PriorityService', ['$http', 'PathHelper', require(
     './priority-service')])
-  .service('ProjectService', ['$http', 'PathHelper', 'FiltersHelper', 'HALAPIResource', require(
+  .service('ProjectService', ['$http', 'PathHelper', 'FiltersHelper', 'hyperagentResource', require(
     './project-service')])
   .service('QueryService', [
     'Query',
@@ -86,7 +86,7 @@ angular.module('openproject.services')
     './timezone-service')])
   .service('TypeService', ['$http', 'PathHelper', require('./type-service')])
   .service('UserService', [
-    'HALAPIResource',
+    'hyperagentResource',
     '$http',
     'PathHelper',
     'CacheService',

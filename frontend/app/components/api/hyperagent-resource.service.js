@@ -26,24 +26,40 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('apiPaths', function() {
-  var $document, apiPaths;
+/* globals Hyperagent */
+require('hyperagent');
 
-  beforeEach(angular.mock.module('openproject.workPackages.services'));
-  beforeEach(angular.mock.inject(function (_$document_) {
-    $document = _$document_;
-    sinon.stub($document, 'find').returns({ attr: function () { return 'my_path' } });
-  }));
+angular
+  .module('openproject.api')
+  .run(run)
+  .factory('hyperagentResource', hyperagentResource);
 
-  beforeEach(angular.mock.inject(function(_$document_, _apiPaths_) {
-    apiPaths = _apiPaths_;
-  }));
+function run($http, $q) {
+  Hyperagent.configure('ajax', function(settings) {
+    settings.transformResponse = function (data) { return data; };
 
-  afterEach(function () {
-    $document.find.restore();
+    return $http(settings).then(
+      function (response) { settings.success(response.data); },
+      settings.error
+    );
   });
+  Hyperagent.configure('defer', $q.defer);
+  Hyperagent.configure('_', _);
+}
 
-  it("should return the 'app_base_path' meta tag value", function () {
-    expect(apiPaths.appBasePath).to.eq('my_path');
-  });
-});
+function hyperagentResource () {
+  return {
+    setup: function(uri, params) {
+      params = params || {};
+      var resource = new Hyperagent.Resource(_.extend({ url: uri }, params));
+
+      // TODO: Remove this bad idea
+      if (params.method) {
+        resource.props.href = uri;
+        resource.props.method = params.method;
+      }
+
+      return resource;
+    }
+  };
+}

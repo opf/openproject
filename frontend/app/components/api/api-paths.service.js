@@ -26,39 +26,34 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-/* globals Hyperagent */
-require('hyperagent');
+/**
+ * Replaces the PathHelper service in its function, providing a way to generate safe paths
+ * without having to store them directly in a service.
+ */
 
-angular.module('openproject.api')
-  .run(run)
-  .factory('HALAPIResource', HALAPIResource);
+angular
+  .module('openproject.workPackages.services')
+  .factory('apiPaths', apiPaths);
 
-function run($http, $q) {
-  Hyperagent.configure('ajax', function(settings) {
-    settings.transformResponse = function (data) { return data; };
+function apiPaths($document) {
+  var apiPaths, paths = {
+    appBasePath: $document.find('meta[name=app_base_path]').attr('content'),
+    apiExperimental: '/api/experimental/',
+    apiV2: '/api/v2/',
+    apiV3: '/api/v3/'
+  };
 
-    return $http(settings).then(
-      function (response) { settings.success(response.data); },
-      settings.error
-    );
-  });
-  Hyperagent.configure('defer', $q.defer);
-  Hyperagent.configure('_', _);
-}
-run.$inject = ['$http', '$q'];
+  return apiPaths = {
+    get appBasePath() {
+      return paths.appBasePath;
+    },
 
-function HALAPIResource () {
-  return {
-    setup: function(uri, params) {
-      params = params || {};
-      var link = new Hyperagent.Resource(_.extend({ url: uri }, params));
+    path: function (path) {
+      return paths.appBasePath + path;
+    },
 
-      if (params.method) {
-        link.props.href = uri;
-        link.props.method = params.method;
-      }
-
-      return link;
+    v3: function (path) {
+      return apiPaths.path(paths.apiV3) + path;
     }
   };
 }
