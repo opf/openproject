@@ -44,15 +44,15 @@ describe DocumentsController do
     FactoryGirl.create(:document_category, project: project, name: "Default Category")
   }
 
+  let(:document) {
+    FactoryGirl.create(:document, title: "Sample Document", project: project, category: default_category)
+  }
+
   before do
     allow(User).to receive(:current).and_return admin
   end
 
   describe "index" do
-
-    let(:document) {
-      FactoryGirl.create(:document, title: "Sample Document", project: project, category: default_category)
-    }
 
     before do
       document.update_attributes(description:<<LOREM)
@@ -160,12 +160,34 @@ LOREM
     end
   end
 
+  describe 'show' do
+    before do
+      document
+      get :show, id: document.id
+    end
+
+    it "should delete the document and redirect back to documents-page of the project" do
+      expect(response).to be_success
+      expect(response).to render_template('show')
+    end
+  end
+
+  describe '#add_attachment' do
+    before do
+      document
+      post :add_attachment,
+           id: document.id,
+           attachments: { '1' => { description: "sample file", file: file_attachment } }
+    end
+
+    it "should delete the document and redirect back to documents-page of the project" do
+      expect(response).to be_redirect
+      document.reload
+      expect(document.attachments.length).to eq(1)
+    end
+  end
+
   describe "destroy" do
-
-    let(:document) {
-      FactoryGirl.create(:document, title: "Sample Document", project: project, category: default_category)
-    }
-
     before do
       document
     end
