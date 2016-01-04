@@ -135,7 +135,7 @@ gem 'rack', '~>1.4.7'
 gem 'i18n', '~> 0.6.8'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/pLrh6DUw998
 
-gem 'nokogiri', '~> 1.6.6'
+gem 'nokogiri', '~> 1.6.7'
 
 gem 'carrierwave', '~> 0.10.0'
 gem 'fog', '~> 1.23.0', require: "fog/aws/storage"
