@@ -130,7 +130,7 @@ gem 'cocaine'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'nokogiri', '~> 1.6.6'
+gem 'nokogiri', '~> 1.6.7'
 
 gem 'carrierwave', '~> 0.10.0'
 gem 'fog', '~> 1.23.0', require: 'fog/aws/storage'

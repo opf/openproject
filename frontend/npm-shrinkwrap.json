@@ -1479,6 +1479,51 @@
         }
       }
     },
+    "ts-loader": {
+      "version": "0.7.2",
+      "dependencies": {
+        "arrify": {
+          "version": "1.0.0"
+        },
+        "colors": {
+          "version": "1.1.2"
+        },
+        "enhanced-resolve": {
+          "version": "0.9.1",
+          "dependencies": {
+            "tapable": {
+              "version": "0.1.10"
+            },
+            "memory-fs": {
+              "version": "0.2.0"
+            },
+            "graceful-fs": {
+              "version": "4.1.2"
+            }
+          }
+        },
+        "loader-utils": {
+          "version": "0.2.12",
+          "dependencies": {
+            "big.js": {
+              "version": "3.1.3"
+            },
+            "json5": {
+              "version": "0.4.0"
+            }
+          }
+        },
+        "object-assign": {
+          "version": "2.1.1"
+        },
+        "semver": {
+          "version": "5.1.0"
+        }
+      }
+    },
+    "typescript": {
+      "version": "1.7.3"
+    },
     "url-loader": {
       "version": "0.5.5",
       "dependencies": {

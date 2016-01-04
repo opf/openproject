@@ -68,13 +68,17 @@ See doc/COPYRIGHT.rdoc for more details.
     <% if @projects.any? %>
       <fieldset class="form--fieldset" id="type_project_ids">
         <legend class="form--fieldset-legend"><%= l(:label_project_plural) %></legend>
+        <div class="form--fieldset-control">
+          <span class="form--fieldset-control-container">
+            (<%= check_all_links 'type_project_ids' %>)
+          </span>
+        </div>
         <%= project_nested_ul(@projects) do |p|
           content_tag('label',
             check_box_tag('type[project_ids][]', p.id, controller.type.projects.include?(p), id: nil) +
               ' ' + h(p), class: 'form--label-with-check-box')
         end %>
         <%= hidden_field_tag('type[project_ids][]', '', id: nil) %>
-        <div><%= check_all_links 'type_project_ids' %></div>
       </fieldset>
     <% end %>
   </div>

@@ -39,8 +39,7 @@ module.exports = function() {
           url: href,
           type: 'POST',
           data: angular.element('#' + id.replace(/(-preview)/g, '')).serialize()
-            .replace(
-              '_method=patch&', ''),
+            .replace(/_method=(patch|put)&/, ''),
           success: function(data) {
             angular.element(target).html(data);
             angular.element('html, body').animate({

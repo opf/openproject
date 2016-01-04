@@ -30,6 +30,8 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
   this.name    = 'Sorting';
   this.closeMe = sortingModal.deactivate;
 
+  var blankOption = { id: 'null', label: I18n.t('js.placeholders.default'), other: 'null' };
+
   $scope.availableColumnsData = [];
   $scope.sortElements = [];
   $scope.initSortation = function(){
@@ -47,7 +49,7 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
 
   function fillUpSortElements() {
     while($scope.sortElements.length < 3) {
-      $scope.sortElements.push([{}, $scope.availableDirectionsData[1]]);
+      $scope.sortElements.push([blankOption, $scope.availableDirectionsData[1]]);
     }
   }
 
@@ -56,14 +58,26 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
   function getIdsOfSelectedSortElements() {
     return $scope.sortElements
       .map(function(sortElement) {
-        if (sortElement.length) return sortElement[0].id;
+        if (sortElement.length && sortElement[0]) { return sortElement[0].id; }
       })
       .filter(function(element) { return element; });
   }
-  function getRemainingAvailableColumnsData() {
-    return $scope.availableColumnsData.filter(function(availableColumn) {
-      return getIdsOfSelectedSortElements().indexOf(availableColumn.id) === -1;
+  function getRemainingAvailableColumnsData(selectedElement) {
+    var idsOfSelectedSortElements = getIdsOfSelectedSortElements();
+
+    var availableColumns = $scope.availableColumnsData.filter(function(availableColumn) {
+      return idsOfSelectedSortElements.indexOf(availableColumn.id) === -1;
     });
+
+    if(selectedElement.id !== blankOption.id) {
+      availableColumns.unshift(selectedElement);
+    }
+
+    availableColumns = $filter('orderBy')(availableColumns, 'label');
+
+    availableColumns.unshift(blankOption);
+
+    return availableColumns;
   }
 
   $scope.getRemainingAvailableColumnsData = getRemainingAvailableColumnsData;
@@ -72,7 +86,7 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
   $scope.updateSortation = function(){
     var sortElements = $scope.sortElements
       .filter(function(element){
-        return element.length == 2;
+        return element[0].id !== blankOption.id;
       })
       .map(function(element){
         return { field: element[0].id, direction: element[1].id };
@@ -86,7 +100,6 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
 
   $scope.availableDirectionsData = [{ id: 'desc', label: I18n.t('js.label_descending')}, { id: 'asc', label: I18n.t('js.label_ascending')}];
 
-  var blankOption = { id: null, label: ' ', other: null };
 
   $scope.promise = QueryService.loadAvailableColumns()
     .then(function(available_columns){
@@ -98,7 +111,6 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
         .map(function(column){
           return { id: column.name, label: column.title, other: column.title };
         });
-      $scope.availableColumnsData.unshift(blankOption);
 
       $scope.initSortation();
     });

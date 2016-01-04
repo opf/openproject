@@ -1,6 +1,6 @@
 <div class="work-packages--show-view" ng-class="{'edit-all-mode': editAll.state}">
   <div class="toolbar-container">
-    <div toolbar id="toolbar">
+    <div wp-toolbar id="toolbar">
       <ul id="toolbar-items" class="toolbar-items">
         <li class="toolbar-item">
           <wp-create-button project-identifier="projectIdentifier"
@@ -19,23 +19,10 @@
         <li class="toolbar-item" ng-if="displayWatchButton">
           <wp-watcher-button work-package="workPackage" disabled="editAll.state"></wp-watcher-button>
         </li>
-        <li class="toolbar-item" feature-flag="detailsView">
+        <li class="toolbar-item hidden-for-mobile" feature-flag="detailsView">
           <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
             <li>
-              <label for="work-packages-list-view-button"
-                     ng-attr-accesskey="{{ isListViewActive() ? undefined : '8' }}"
-                     class="hidden-for-sighted">
-                {{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}
-              </label>
-              <button id="work-packages-list-view-button"
-                      ng-disabled="editAll.state"
-                      class="button"
-                      title="{{ getActivationActionLabel(!isListViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
-                      ng-click="closeShowView()"
-                      ng-class="{ '-active': isListViewActive() }">
-                <i class="icon-view-list button--icon"></i>
-                <span class="hidden-for-sighted">{{ getActivationActionLabel(!isListViewActive()) + ' ' + I18n.t('js.button_list_view') }}</span>
-              </button>
+              <wp-list-view-button project-identifier="projectIdentifier"></wp-list-view-button>
             </li>
             <li feature-flag="detailsView">
               <label for="work-packages-details-view-button"
@@ -64,9 +51,9 @@
                   ng-disabled="!actionsAvailable || editAll.state"
                   has-dropdown-menu
                   target="ShowMoreDropdownMenu"
-                  locals="permittedActions,actionsAvailable,triggerMoreMenuAction">
-            <span class="button--text" ng-bind="::I18n.t('js.button_more')"></span>
-            <i class="button--dropdown-indicator"></i>
+                  locals="permittedActions,actionsAvailable,triggerMoreMenuAction"
+                  title="{{I18n.t('js.button_more')}}">
+            <i class="button--icon icon-show-more"></i>
           </button>
         </li>
       </ul>
@@ -108,7 +95,7 @@
           </div>
         </div>
 
-        <div ng-repeat="group in vm.groupedFields" ng-hide="vm.hideEmptyFields && vm.isGroupHideable(vm.groupedFields, group.groupName, vm.workPackage)" class="attributes-group">
+        <div ng-repeat="group in vm.groupedFields" ng-hide="vm.shouldHideGroup(group.groupName)" class="attributes-group">
 
           <div class="attributes-group--header">
             <div class="attributes-group--header-container">
