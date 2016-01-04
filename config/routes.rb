@@ -32,6 +32,10 @@
 OpenProject::Application.routes.draw do
 
   resources :projects do
-    resources :documents, shallow: true
+    resources :documents, shallow: true do
+      member do
+        post 'add_attachment'
+      end
+    end
   end
 end
