@@ -34,5 +34,5 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for @document, url: document_path(@document), method: 'PATCH' do |f| -%>
   <%= render partial: "documents/form", locals: { f: f } %>
-  <%= styled_button_tag l(:button_save), class: "-highlight -with-icon icon-yes" %>
+  <%= styled_button_tag l(:button_save), class: "-highlight -with-icon icon-checkmark" %>
 <% end %>

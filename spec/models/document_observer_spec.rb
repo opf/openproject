@@ -31,17 +31,14 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe DocumentObserver do
-
-
   let(:user)      { FactoryGirl.create(:user, firstname: 'Test', lastname: "User", mail: 'test@test.com') }
   let(:project)   { FactoryGirl.create(:project, name: "TestProject")}
 
   let(:mail)      do
     mock = Object.new
-    allow(mock).to receive(:deliver)
+    allow(mock).to receive(:deliver_now)
     mock
   end
-
 
   it "is triggered, when a document has been created" do
     document = FactoryGirl.build(:document)
@@ -60,6 +57,4 @@ describe DocumentObserver do
 
     document.save
   end
-
-
 end

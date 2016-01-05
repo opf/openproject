@@ -31,13 +31,11 @@
 #++
 
 class DocumentObserver < ActiveRecord::Observer
-
-
   def after_create(document)
     return unless Setting.notified_events.include?('document_added')
 
     document.recipients.each do |user|
-      DocumentsMailer.document_added(user, document).deliver
+      DocumentsMailer.document_added(user, document).deliver_now
     end
   end
 end
