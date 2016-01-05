@@ -31,7 +31,7 @@ describe CostTypesController, type: :controller do
 
       expect(assigns(:cost_type).deleted_at).to be_a Time
       expect(response).to redirect_to cost_types_path
-      expect(flash[:notice]).to eq I18n.t(:notice_successful_delete)
+      expect(flash[:notice]).to eq I18n.t(:notice_successful_lock)
     end
   end
 

@@ -19,5 +19,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ++#%>
 
 <% @rates.each_pair do |project, rates| %>
-  <%= render :partial => 'hourly_rates/list_project', :locals => {:rates => rates, :project => project} %>
+  <%= render :partial => 'hourly_rates/list_project', :locals => { rates: rates, project: project, all_rates: @rates } %>
 <% end %>

@@ -40,7 +40,7 @@ class HourlyRatesController < ApplicationController
       @rates = HourlyRate.where(user_id: @user, project_id: @project)
                .order("#{HourlyRate.table_name}.valid_from desc")
     else
-      @rates = HourlyRate.history_for_user(@user, true)
+      @rates = HourlyRate.history_for_user(@user)
       @rates_default = @rates.delete(nil)
     end
   end

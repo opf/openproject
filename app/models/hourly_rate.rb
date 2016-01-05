@@ -35,20 +35,31 @@ class HourlyRate < Rate
       .first
   end
 
-  def self.history_for_user(usr, check_permissions = true)
-    rates = Hash.new
-    Project.has_module(:costs_module).active.visible.each do |project|
-      next if check_permissions && !User.current.allowed_to?(:view_hourly_rates, project, for_user: usr)
+  def self.history_for_user(usr)
+    projects_with_costs_module = Project.has_module(:costs_module)
+                                        .active
+                                        .visible
+                                        .order(:name)
 
-      rates[project] = HourlyRate
-                       .where(user_id: usr, project_id: project)
-                       .order("#{HourlyRate.table_name}.valid_from desc")
+    permitted_projects = Project.has_module(:costs_module)
+                                .active
+                                .allowed_to(User.current, :view_hourly_rates)
+
+    rates_by_project = HourlyRate.where(user_id: usr, project_id: permitted_projects)
+                                 .includes(:project)
+                                 .order("#{HourlyRate.table_name}.valid_from desc")
+                                 .group_by(&:project)
+
+    rates = {}
+
+    projects_with_costs_module.each do |project|
+      rates[project] = rates_by_project.fetch(project, [])
     end
 
     # FIXME: What permissions to apply here?
     rates[nil] = DefaultHourlyRate
-                 .where(user_id: usr)
-                 .order("#{DefaultHourlyRate.table_name}.valid_from desc")
+                   .where(user_id: usr)
+                   .order("#{DefaultHourlyRate.table_name}.valid_from desc")
 
     rates
   end

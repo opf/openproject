@@ -22,7 +22,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   rates = @rates unless rates
   project = @project unless project
 
-  current_rate = @user.current_rate(project)
+  current_rate = if @all_rates
+                   at_date_in_project_with_ancestors(Date.today, all_rates, project)
+                 else
+                   current_rate = @user.current_rate(project)
+                 end
 %>
 
 <div class="contextual">
@@ -84,7 +88,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
           </tr>
         </thead>
         <tbody id="rates_body">
-        <% current_rate = @user.current_rate(project, false) %>
         <%- rates.each do |rate| -%>
           <tr>
             <td style="padding-right: 1em;"><%= rate.valid_from %></td>
