@@ -121,10 +121,6 @@ module OpenProject
           ((client_version <=> v) >= 0) || (client_version.empty? && options[:unknown])
         end
 
-        def shell_quote(str)
-          Shellwords.escape(str)
-        end
-
         def supports_cat?
           true
         end
@@ -135,7 +131,7 @@ module OpenProject
 
         def target(path = '')
           base = path.match(/\A\//) ? root_url : url
-          shell_quote("#{base}/#{path}".gsub(/[?<>\*]/, ''))
+          "#{base}/#{path}".gsub(/[?<>\*]/, '')
         end
 
         ##

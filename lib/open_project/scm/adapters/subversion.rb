@@ -222,8 +222,8 @@ module OpenProject
         # --non-interactive         avoid prompts
         def build_svn_cmd(args)
           if @login.present?
-            args.push('--username', shell_quote(@login))
-            args.push('--password', shell_quote(@password)) if @password.present?
+            args.push('--username', @login)
+            args.push('--password', @password) if @password.present?
           end
 
           args.push('--no-auth-cache', '--non-interactive')
@@ -299,13 +299,6 @@ module OpenProject
           xml_capture(cmd, force_encoding: true) do |doc|
             doc.xpath('/log/logentry').each &block
           end
-        end
-
-        def target(path = '')
-          base = path.match(/\A\//) ? root_url : url
-          uri = "#{base}/#{path}"
-          URI.escape(URI.escape(uri), '[]')
-          # shell_quote(uri.gsub(/[?<>\*]/, ''))
         end
 
         ##
