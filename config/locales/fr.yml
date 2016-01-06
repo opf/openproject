@@ -107,6 +107,7 @@ fr:
   label_current_default_rate: Taux par défaut actuel
   label_date_on: le
   label_deleted_cost_types: Types de coût effacés
+  label_locked_cost_types: Locked cost types
   label_deliverable: Budget
   label_display_cost_entries: Afficher les coûts unitaires
   label_display_time_entries: Afficher les heures consignées
@@ -141,6 +142,7 @@ fr:
   notice_no_cost_objects_available: Aucun budget disponible.
   notice_something_wrong: "Quelque chose s'est mal passé. Veuillez réessayer."
   notice_successful_restore: Restauration réussie.
+  notice_successful_lock: Locked successfully.
   notice_cost_logged_successfully: Unit cost logged successfully.
   permission_edit_cost_entries: Éditer coûts unitaires réservés
   permission_edit_cost_objects: Éditer les budgets

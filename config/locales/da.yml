@@ -107,6 +107,7 @@ da:
   label_current_default_rate: Nuværende standardsats
   label_date_on: d.
   label_deleted_cost_types: Slettede omkostningstyper
+  label_locked_cost_types: Locked cost types
   label_deliverable: Budget
   label_display_cost_entries: Vis enhedsomkostninger
   label_display_time_entries: Vis indberettede timer
@@ -141,6 +142,7 @@ da:
   notice_no_cost_objects_available: Ingen tilgængelige budgetter.
   notice_something_wrong: Noget gik galt. Forsøg venligst igen.
   notice_successful_restore: Gendannet.
+  notice_successful_lock: Locked successfully.
   notice_cost_logged_successfully: Unit cost logged successfully.
   permission_edit_cost_entries: Redigér reserverede enhedsomkostninger
   permission_edit_cost_objects: Redigér budgetter

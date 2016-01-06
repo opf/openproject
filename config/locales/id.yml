@@ -106,6 +106,7 @@ id:
   label_current_default_rate: Rate saat ini
   label_date_on: pada
   label_deleted_cost_types: Jenis biaya terhapus
+  label_locked_cost_types: Locked cost types
   label_deliverable: Bugdet
   label_display_cost_entries: Tampilkan biaya unit
   label_display_time_entries: Tampilkan jumlah jam
@@ -140,6 +141,7 @@ id:
   notice_no_cost_objects_available: Pilihan budget tidak tersedia.
   notice_something_wrong: Terjadi suatu kesalahan. Silahkan coba lagi.
   notice_successful_restore: Restore berhasil.
+  notice_successful_lock: Locked successfully.
   notice_cost_logged_successfully: Unit cost logged successfully.
   permission_edit_cost_entries: Ubah booked biaya unit
   permission_edit_cost_objects: Edit budget

@@ -40,8 +40,8 @@ hr:
       cost_object: Budžet
       cost_type:
         one: Vrsta troška
-        few: Vrsta troškova
-        other: Vrsta troškova
+        few: Vrste troška
+        other: Vrsta troška
       material_budget_item: Jedinica
       rate: Stopa
     errors:
@@ -108,6 +108,7 @@ hr:
   label_current_default_rate: Trenutno zadana stopa
   label_date_on: na
   label_deleted_cost_types: Izbrisane tipovi troškova
+  label_locked_cost_types: Locked cost types
   label_deliverable: Budžet
   label_display_cost_entries: Prikaži jedinice troškova
   label_display_time_entries: Prikaži prijavljene sate
@@ -142,6 +143,7 @@ hr:
   notice_no_cost_objects_available: Trenutno nema dostupnih proračuna.
   notice_something_wrong: Nešto je pošlo po zlu. Molimo pokušajte ponovno.
   notice_successful_restore: Uspješno vraćanje.
+  notice_successful_lock: Locked successfully.
   notice_cost_logged_successfully: Jedinični trošak uspješno zabilježen.
   permission_edit_cost_entries: Uredite zabilježene jedinične troškove
   permission_edit_cost_objects: Uredi proračune
