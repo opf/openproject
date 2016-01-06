@@ -30,7 +30,8 @@ angular
   .module('openproject.inplace-edit')
   .directive('inplaceEditorDate', inplaceEditorDate);
 
-function inplaceEditorDate($timeout, inplaceEditAll, TimezoneService, Datepicker, responsiveView) {
+function inplaceEditorDate($timeout, inplaceEditAll, TimezoneService,
+  Datepicker, responsiveView, ConfigurationService) {
   var parseISODate = TimezoneService.parseISODate,
     customDateFormat = 'YYYY-MM-DD',
     customFormattedDate = function(date) {
@@ -56,49 +57,58 @@ function inplaceEditorDate($timeout, inplaceEditAll, TimezoneService, Datepicker
         datepickerContainer = element.find('.inplace-edit--date-picker'),
         datepicker;
 
+      /**
+       * The directive may be used with date pickers in accessibility mode,
+       * thus avoid setting it up when it is actually disabled
+       */
+      function includeDatePicker() {
+        datepicker = new Datepicker(datepickerContainer, input, field.value);
+        datepicker.onChange = function(date) {
+          field.value = date;
+        };
+        scope.onEdit = function() {
+          datepicker.onEdit();
+        };
+        datepicker.onDone = function() {
+          form.scope().editPaneController.discardEditing();
+        };
+
+        scope.showDatepicker = function() {
+          datepicker.show();
+        };
+
+        $timeout(function() {
+          inplaceEditAll.state || datepicker.focus();
+        });
+
+        angular.element('.work-packages--details-content').on('click', function(e) {
+          var target = angular.element(e.target);
+          if(!target.is('.inplace-edit--date input') &&
+            target.parents('.inplace-edit--date .hasDatepicker').length <= 0 &&
+            target.parents('.ui-datepicker-header').length <= 0) {
+            datepicker.hide();
+          }
+        });
+
+        datepicker.setState(!responsiveView.isSmall());
+        responsiveView.onResize(function () {
+          datepicker.setState(!responsiveView.isSmall());
+        });
+      }
+
       scope.execute = function() {
         form.scope().editPaneController.submit();
       };
 
       field.value = field.value && customFormattedDate(field.value);
-
-      datepicker = new Datepicker(datepickerContainer, input, field.value);
-      datepicker.onChange = function(date) {
-        field.value = date;
-      };
-      scope.onEdit = function() {
-        datepicker.onEdit();
-      };
-      datepicker.onDone = function() {
-        form.scope().editPaneController.discardEditing();
-      };
-
-      datepicker.textbox.attr({
-        'placeholder': '-',
-        'aria-label': customDateFormat
+      scope.dateLabel = I18n.t('js.label_date_with_format', {
+        date_attribute: field.getLabel(),
+        format: customDateFormat
       });
 
-      scope.showDatepicker = function() {
-        datepicker.show();
-      };
-
-      $timeout(function() {
-        inplaceEditAll.state || datepicker.focus();
-      });
-
-      angular.element('.work-packages--details-content').on('click', function(e) {
-        var target = angular.element(e.target);
-        if(!target.is('.inplace-edit--date input') &&
-          target.parents('.inplace-edit--date .hasDatepicker').length <= 0 &&
-          target.parents('.ui-datepicker-header').length <= 0) {
-          datepicker.hide();
-        }
-      });
-
-      datepicker.setState(!responsiveView.isSmall());
-      responsiveView.onResize(function () {
-        datepicker.setState(!responsiveView.isSmall());
-      });
+      if (!ConfigurationService.accessibilityModeEnabled()) {
+        includeDatePicker();
+      }
     }
   };
 }
