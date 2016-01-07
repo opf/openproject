@@ -176,7 +176,8 @@ gulp.task('tests:typescript', function () {
   return tsproject.src('./tsconfig.test.json', {
     logLevel: 1,
     compilerOptions: {
-      outDir: './tests/unit/tests/typescript'
+      outDir: './tests/unit/tests/typescript',
+      sourceMap: false
     }
   }).pipe(gulp.dest('.'));
 });
