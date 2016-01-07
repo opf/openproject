@@ -39,6 +39,7 @@ var livingstyleguide = require('gulp-livingstyleguide');
 var gulpFilter = require('gulp-filter');
 var replace = require('gulp-replace');
 var tsproject = require('tsproject');
+var karma = require('karma');
 
 var protractor = require('gulp-protractor').protractor,
   webdriverStandalone = require('gulp-protractor').webdriver_standalone,
@@ -172,6 +173,12 @@ gulp.task('watch', function() {
   gulp.watch('../app/assets/stylesheets/**/*.lsg',  ['styleguide']);
 });
 
-gulp.task('tests:typescript', function () {
+gulp.task('typescript-tests', function () {
   return tsproject.src('./tsconfig.test.json').pipe(gulp.dest('.'));
+});
+
+gulp.task('tests:karma', ['typescript-tests'], function () {
+  karma.server.start({
+    configFile: __dirname + '/karma.conf.js'
+  });
 });
