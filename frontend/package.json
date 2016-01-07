@@ -71,7 +71,7 @@
   "scripts": {
     "test": "npm run karma && npm run protractor",
     "karma": "./node_modules/.bin/gulp tests:karma",
-    "protractor": "./node_modules/gulp/bin/gulp.js tests:protractor",
-    "postinstall": "./node_modules/bower/bin/bower install --config.interactive=false"
+    "protractor": "./node_modules/.bin/gulp tests:protractor",
+    "postinstall": "./node_modules/.bin/bower install --config.interactive=false"
   }
 }
