@@ -88,7 +88,8 @@ module.exports = function(config) {
     preprocessors: {
       '/templates/**/*.html': ['ng-html2js'],
       '../app/assets/javascripts/*.js': ['coverage'],
-      'app/**/*.js': ['webpack']
+      'app/**/*.js': ['webpack'],
+      'tests/unit/tests/typescript/**/*.js': ['webpack']
     },
     ngHtml2JsPreprocessor: {
       module: 'openproject.templates'

@@ -61,7 +61,7 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
-gulp.task('webpack', ['tests:typescript'], function() {
+gulp.task('webpack', function() {
   return gulp.src('app/openproject-app.js')
     .pipe(gulpWebpack(config))
     .pipe(gulp.dest('../app/assets/javascripts/bundles'));
@@ -173,11 +173,5 @@ gulp.task('watch', function() {
 });
 
 gulp.task('tests:typescript', function () {
-  return tsproject.src('./tsconfig.test.json', {
-    logLevel: 1,
-    compilerOptions: {
-      outDir: './tests/unit/tests/typescript',
-      sourceMap: false
-    }
-  }).pipe(gulp.dest('.'));
+  return tsproject.src('./tsconfig.test.json').pipe(gulp.dest('.'));
 });

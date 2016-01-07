@@ -4,23 +4,14 @@
     "module": "commonjs",
     "noEmitOnError": false,
     "noImplicitAny": false,
-    "removeComments": true,
     "preserveConstEnums": true,
-    "sourceMap": true
+    "sourceMap": false,
+    "outDir": "./tests/unit/tests/typescript",
+    "outFile": "./tests/unit/tests/typescript/typescript.test.js",
+    "removeComments": true
   },
   "files": [
     "app/components/**/*.test.ts",
     "typings/tsd.d.ts"
-  ],
-  "bundles": {
-    "typescript.test": {
-      "files": [
-        "app/components/**/*.test.ts",
-        "typings/tsd.d.ts"
-      ],
-      "config": {
-        "outDir": "./tests/unit/tests/typescript"
-      }
-    }
-  }
+  ]
 }
