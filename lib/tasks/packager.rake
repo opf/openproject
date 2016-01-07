@@ -38,8 +38,21 @@ namespace :packager do
     end
   end
 
+  ##
+  # Allow scripts to run before environment is loaded
+  task before_postinstall: ['setup:relative_root']
 
-  task postinstall: [:environment, 'setup:relative_root', 'setup:scm'] do
+  #
+  # Allow scripts to run with environment loaded once,
+  # avoids to load the environment multiple times
+  task postinstall: [:environment, 'setup:scm'] do
+
+    # Precompile assets when requested
+    if ENV['REBUILD_ASSETS'] == 'true'
+      Rake::Task['assets:precompile'].invoke
+      FileUtils.chmod_R 'a+r', "#{ENV['APP_HOME']}/public/assets/"
+      shell_setup(['config:set', 'REBUILD_ASSETS="false"'])
+    end
 
     # Persist configuration
     Setting.sys_api_enabled = 1
@@ -66,11 +79,7 @@ namespace :packager do
         new_root = relative_root.chomp('/')
 
         shell_setup(['config:set', "RAILS_RELATIVE_URL_ROOT=#{new_root}"])
-        ENV['RAILS_RELATIVE_URL_ROOT'] = new_root
-
-        # Need to re-compile assets due to changed paths
-        Rake::Task['assets:precompile'].invoke
-        FileUtils.chmod_R 'a+r', "#{ENV['APP_HOME']}/public/assets/"
+        shell_setup(['config:set', 'REBUILD_ASSETS="true"'])
       end
     end
 
