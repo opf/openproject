@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "commonjs",
+    "noEmitOnError": false,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true
+  },
+  "files": [
+    "app/components/**/*.test.ts",
+    "typings/tsd.d.ts"
+  ],
+  "bundles": {
+    "typescript.test": {
+      "files": [
+        "app/components/**/*.test.ts",
+        "typings/tsd.d.ts"
+      ],
+      "config": {
+        "outDir": "./tests/unit/tests/typescript"
+      }
+    }
+  }
+}

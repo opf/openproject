@@ -38,6 +38,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var livingstyleguide = require('gulp-livingstyleguide');
 var gulpFilter = require('gulp-filter');
 var replace = require('gulp-replace');
+var tsproject = require('tsproject');
 
 var protractor = require('gulp-protractor').protractor,
   webdriverStandalone = require('gulp-protractor').webdriver_standalone,
@@ -60,7 +61,7 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
-gulp.task('webpack', function() {
+gulp.task('webpack', ['tests:typescript'], function() {
   return gulp.src('app/openproject-app.js')
     .pipe(gulpWebpack(config))
     .pipe(gulp.dest('../app/assets/javascripts/bundles'));
@@ -169,4 +170,13 @@ gulp.task('watch', function() {
   gulp.watch('../app/assets/stylesheets/**/*.scss', ['sass', 'styleguide']);
   gulp.watch('../app/assets/stylesheets/**/*.sass', ['sass', 'styleguide']);
   gulp.watch('../app/assets/stylesheets/**/*.lsg',  ['styleguide']);
+});
+
+gulp.task('tests:typescript', function () {
+  return tsproject.src('./tsconfig.test.json', {
+    logLevel: 1,
+    compilerOptions: {
+      outDir: './tests/unit/tests/typescript'
+    }
+  }).pipe(gulp.dest('.'));
 });
