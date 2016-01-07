@@ -6,7 +6,7 @@
 ```
 <div class="generic-table--container">
   <div class="generic-table--results-container" style="max-height: 340px;">
-    <table role="grid" class="generic-table" interactive-table>
+    <table class="generic-table" interactive-table>
       <colgroup>
         <col highlight-col>
         <col highlight-col>
@@ -113,7 +113,7 @@
 
 <div class="generic-table--container -with-footer">
   <div class="generic-table--results-container" style="max-height: 340px;">
-    <table role="grid" class="generic-table" interactive-table>
+    <table class="generic-table" interactive-table>
       <colgroup>
         <col highlight-col>
         <col highlight-col>
