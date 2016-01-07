@@ -27,13 +27,13 @@ crons:
   - packaging/cron/openproject-create-svn-repositories
 services:
   - postgres
-installer: https://github.com/pkgr/installer.git
+installer: https://github.com/pkgr/installer.git#v1
 wizards:
-  - https://github.com/pkgr/addon-legacy-installer.git
-  - https://github.com/pkgr/addon-mysql.git
-  - https://github.com/pkgr/addon-apache2.git
-  - https://github.com/pkgr/addon-svn-dav.git
-  - https://github.com/pkgr/addon-smtp.git
-  - https://github.com/pkgr/addon-memcached.git
-  - https://github.com/pkgr/addon-openproject.git
+  - https://github.com/pkgr/addon-legacy-installer.git#v1
+  - https://github.com/pkgr/addon-mysql.git#v1
+  - https://github.com/pkgr/addon-apache2.git#v1
+  - https://github.com/pkgr/addon-svn-dav.git#v1
+  - https://github.com/pkgr/addon-smtp.git#v1
+  - https://github.com/pkgr/addon-memcached.git#v1
+  - https://github.com/pkgr/addon-openproject.git#v1
 buildpack: https://github.com/ddollar/heroku-buildpack-multi.git
