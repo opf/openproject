@@ -195,6 +195,8 @@ gulp.task('watch', function() {
 var tsOutDir = __dirname + '/tests/unit/tests/typescript';
 
 gulp.task('typescript-tests', function () {
+  deleteFolderRecursive(tsOutDir);
+
   return tsproject.src('./tsconfig.test.json', {
     compilerOptions: {
       outDir: tsOutDir
