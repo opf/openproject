@@ -6,8 +6,6 @@
     "noImplicitAny": false,
     "preserveConstEnums": true,
     "sourceMap": false,
-    "outDir": "./tests/unit/tests/typescript",
-    "outFile": "./tests/unit/tests/typescript/typescript.test.js",
     "removeComments": true
   },
   "files": [
