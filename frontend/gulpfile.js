@@ -206,7 +206,12 @@ gulp.task('tests:karma', ['typescript-tests'], function () {
   karma.server.start({
     configFile: __dirname + '/karma.conf.js'
 
-  }, function () {
-    deleteFolderRecursive(tsOutDir)
+  }, function (exitCode) {
+    if(exitCode === 0) {
+      console.log('No error occurred. Temporary test files are deleted.');
+      deleteFolderRecursive(tsOutDir);
+    } else {
+      console.log('An error occurred. Temporary test files can be found in ' + tsOutDir);
+    }
   });
 });
