@@ -1,0 +1,195 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+@include breakpoint(680px down)
+  body.controller-work_packages
+
+    &.action-show #content
+      overflow: visible
+
+    .toolbar-container
+      margin-bottom: 4px
+      min-height: 0
+
+    .work-packages--show-view
+      padding: 0
+
+      #toolbar-items
+        background: #fff
+        display: flex
+        margin-bottom: 20px
+        width: calc(100% + 5px)
+
+        > li
+          -webkit-flex: 1 0 0
+          flex: 1 0 0
+
+          &:first-child
+            -webkit-flex: 3 0 0
+            flex: 3 0 0
+
+          button
+            width: 100%
+
+        .wp-create-button .dropdown
+          left: 0 !important
+
+        .action_menu_main .dropdown
+          left: auto !important
+
+      .work-packages--split-view
+        display: block
+        left: 0
+        padding: 0
+        position: relative
+        right: 0
+        top: 0
+
+        .tabrow
+          height: auto
+          margin: 0.75rem 0 2.5rem 0
+
+          a
+            color: $content-link-color
+
+          li
+            border-top: 2px solid $gray
+            font-size: 0.75rem
+            margin: 0
+            padding: 8px 0
+            width: 33.33%
+
+            &.selected
+              border-bottom: 2px solid $content-link-color
+
+      .subject-header
+        margin: 0
+        padding: 0
+
+      .work-packages--left-panel,
+      .work-packages--right-panel
+        border: none
+        margin: 0
+        min-width: 0
+        overflow: visible
+        width: 100%
+
+        // Fix for iOS: Otherwise the edit actions toolbar is misplaced
+        padding: 0 0 50px 0
+
+        .work-packages--panel-inner
+          padding: 0
+
+      &.edit-all-mode
+        .work-packages--right-panel
+          display: none
+
+    .attributes-key-value--key,
+    .attributes-key-value--value-container
+      @include grid-size(6)
+      font-size: 1rem
+      margin-bottom: 20px
+
+      .inplace-edit--read-value
+        padding: 0
+
+      .inplace-editing--container
+        border: none
+
+    .attributes-key-value--key
+      padding: 0 !important
+
+    .work-packages--panel-inner > .attributes-group:first-child
+      .attributes-group--header
+        border-bottom: none
+        padding-top: 4px
+
+    // Reset margin for mobile, since the wiki toolbar is hidden on mobile
+    .inplace-edit.attribute-description
+      .inplace-edit--write
+        margin-top: 0
+
+    div[class*='work-packages--details--']
+      width: 100%
+
+      .inplace-edit--read-value span
+        overflow: visible
+        white-space: normal
+
+    .work-packages--left-panel
+      .work-packages--edit-actions
+        bottom: -20px
+        width: calc(100vw + 20px)
+
+    // Stretch description to fullwidth
+    .inplace-edit--icon-wrapper
+      display: none
+
+    .work-package-details-activities-messages
+      font-size: 0.9rem
+
+    .work-package--new-state
+      margin-bottom: 0
+      overflow: visible
+      padding-right: 0
+
+      .work-packages--edit-actions
+        bottom: 0px !important
+        width: calc(100vw + 20px) !important
+
+    .detail-panel-description-content .relation h3
+      margin: 0 !important
+      padding: 8px 0 !important
+      font-size: 1rem
+
+    // Work packages list view
+
+    .work-packages--page-container
+      .toolbar
+        padding: 0
+
+        .title-container
+          max-width: 40%
+          overflow: hidden
+
+          span
+            display: block
+
+          a span span
+            overflow: hidden
+            text-overflow: ellipsis
+            white-space: nowrap
+
+      > .work-packages--split-view
+        display: block
+
+    .work-packages--list-table-area
+      position: relative
+
+    .work-packages--list
+      padding-bottom: 55px

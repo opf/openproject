@@ -98,7 +98,6 @@ angular.module('openproject.uiComponents')
     './sort-link-directive')])
   .directive('toggledMultiselect', ['I18n', require(
     './toggled-multiselect-directive')])
-  .directive('toolbar', require('./toolbar-directive'))
   .constant('ESC_KEY', 27)
   .directive('userField', ['PathHelper', require('./user-field-directive')])
   .directive('wikiToolbar', [require('./wiki-toolbar-directive')])

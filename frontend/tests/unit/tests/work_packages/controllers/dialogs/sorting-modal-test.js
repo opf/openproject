@@ -76,15 +76,11 @@ describe('sortingModal', function() {
       buildController();
     });
 
-    it('formats the columns for select2', function() {
-      var columnData = scope.availableColumnsData[1];
+    it('formats the columns for select', function() {
+      var columnData = scope.availableColumnsData[0];
 
       expect(columnData).to.have.property('id', 'parent');
       expect(columnData).to.have.property('label', 'Parent');
-    });
-
-    it('includes a blank option as the first option', function() {
-      expect(scope.availableColumnsData[0]).to.deep.equal({ id: null, label: ' ', other: null });
     });
   });
 

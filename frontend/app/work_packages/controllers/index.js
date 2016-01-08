@@ -65,16 +65,6 @@ angular.module('openproject.workPackages.controllers')
     precedes: 'precedes',
     follows: 'follows'
   })
-  .controller('WorkPackagesController', [
-    '$scope',
-    '$state',
-    '$stateParams',
-    'QueryService',
-    'PathHelper',
-    '$rootScope',
-    'EditableFieldsState',
-    require('./work-packages-controller')
-  ])
   .factory('exportModal', ['btfModal', function(btfModal) {
     return btfModal({
       controller: 'ExportModalController',

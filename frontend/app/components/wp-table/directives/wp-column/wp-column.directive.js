@@ -80,7 +80,10 @@ function WorkPackageColumnController($scope, PathHelper, WorkPackagesHelper) {
     setDisplayText(getFormattedColumnValue());
 
     if (vm.column.meta_data.link.display) {
-      displayDataAsLink(WorkPackagesHelper.getColumnDataId(vm.workPackage, vm.column));
+      var id = WorkPackagesHelper.getColumnDataId(vm.workPackage, vm.column)
+      if (id) {
+        displayDataAsLink(id);
+      }
     } else {
       setCustomDisplayType();
     }

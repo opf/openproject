@@ -26,37 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('Routing', function () {
-  var $rootScope, $state, mockState = { go: function () {} };
+angular
+  .module('openproject.uiComponents')
+  .directive('wpToolbar', wpToolbar);
 
-  beforeEach(module('openproject', function ($provide) {
-    $provide.value('$state', mockState);
-  }));
+function wpToolbar(): ng.IDirective {
+  return {
+    restrict: 'A',
 
-  beforeEach(inject(function (_$rootScope_) {
-    $rootScope = _$rootScope_;
-  }));
+    link: function(scope: ng.IScope, element: ng.IAugmentedJQuery) {
 
-  describe('when the project id is set', function () {
-    var toState, toParams,
-        spy = sinon.spy(mockState, 'go'),
-        broadcast = function () {
-          $rootScope.$broadcast('$stateChangeStart', toState, toParams);
-        };
-
-    beforeEach(function () {
-      toState = { name: 'work-packages.list' };
-      toParams = { projectPath: 'my_project', projects: null };
-    });
-
-    it('sets the projects path segment to "projects" ', function () {
-      broadcast();
-      expect(toParams.projects).to.equal('projects');
-    });
-
-    it('routes to the given state', function () {
-      broadcast();
-      expect(spy.withArgs(toState, toParams).called).to.be.true;
-    });
-  });
-});
+    }
+  };
+}

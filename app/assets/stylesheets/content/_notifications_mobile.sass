@@ -26,32 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, $state, $stateParams, QueryService, PathHelper, $rootScope,
-    inplaceEditAll) {
-
-  // Setup
-  $scope.$state = $state;
-  $scope.selectedTitle = I18n.t('js.label_work_package_plural');
-
-  $scope.query_id = $stateParams.query_id;
-
-  $scope.$watch(QueryService.getAvailableGroupedQueries, function(availableQueries) {
-    if (availableQueries) {
-      $scope.groups = [{ name: I18n.t('js.label_global_queries'), models: availableQueries['queries']},
-                       { name: I18n.t('js.label_custom_queries'), models: availableQueries['user_queries']}];
-    }
-  });
-
-  $scope.isDetailsViewActive = function() {
-    return $state.includes('work-packages.list.details') || inplaceEditAll.state;
-  };
-
-  $scope.getToggleActionLabel = function(active) {
-    return (active) ? I18n.t('js.label_deactivate') : I18n.t('js.label_activate');
-  };
-
-  $scope.getActivationActionLabel = function(activate) {
-    return (activate) ? I18n.t('js.label_activate') + ' ' : '';
-  };
-  $rootScope.$broadcast('openproject.layout.activateMenuItem');
-};
+@include breakpoint(680px down)
+  .notification-box--wrapper,
+  .flash,
+  #errorExplanation
+    left: 20px !important
+    margin: 0 !important
+    right: 20px !important
+    width: calc(100% - 40px) !important
+    top: 22px !important

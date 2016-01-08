@@ -36,6 +36,9 @@ module.exports = function() {
       groups: '=',
       transitionMethod: '='
     },
-    templateUrl: '/templates/components/selectable_title.html'
+    templateUrl: '/templates/components/selectable_title.html',
+    link: function(scope) {
+      scope.I18n = I18n;
+    }
   };
 };

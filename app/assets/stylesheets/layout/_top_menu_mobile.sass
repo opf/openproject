@@ -26,40 +26,62 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+@include breakpoint(680px down)
+  #logo
+    background-color: transparent
 
-describe('toolbar Directive', function() {
-  var compile, element, rootScope, scope;
+  #top-menu
+    position: relative !important
 
-  beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(module('openproject.templates'));
+    #nav-login-content
+      float: none
+      padding: 15px 20px
+      width: 100%
 
-  beforeEach(inject(function($rootScope, $compile) {
-    var html;
-    html = '<div toolbar></div>';
+      .grid-block
+        display: block
 
-    element = angular.element(html);
-    rootScope = $rootScope;
-    scope = $rootScope.$new();
-    scope.doNotShow = true;
+        .form--field
+          padding-right: 0
 
-    compile = function() {
-      $compile(element)(scope);
-      scope.$digest();
-    };
-  }));
+      .login-auth-providers
+        width: 100% !important
+        white-space: normal
 
-  describe('element', function() {
-    beforeEach(function() {
-      compile();
-    });
+      h3.login-auth-providers-title:before
+        border: none !important
 
-    it('should preserve its div', function() {
-      expect(element.prop('tagName')).to.equal('DIV');
-    });
+      .button
+        margin-right: 0
 
-    it('should be in a collapsed state', function() {
-      expect(element.is(":visible")).to.be.false;
-    });
-  });
-});
+  #account-nav-right
+    > li
+      display: none
+
+      &.drop-down
+        display: block
+
+        > a
+          display: block
+          padding: 0
+          position: relative
+          text-indent: -10000px
+          width: 68px
+
+          &:after
+            content: "\e0d0" !important
+            display: block
+            font-size: 1.5rem !important
+            position: absolute
+            right: 20px
+            text-indent: 0
+            top: 16px
+            z-index: 1000
+
+          + ul
+            width: 100vw
+            box-shadow: 1px 1px 4px #cccccc
+            border: solid 1px rgba(0, 0, 0, 0.2)
+
+            li
+              max-width: none

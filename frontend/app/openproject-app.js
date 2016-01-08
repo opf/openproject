@@ -176,6 +176,7 @@ angular.module('openproject.templates', []);
 // refactoring
 angular.module('openproject.inplace-edit', []);
 angular.module('openproject.wpButtons', ['ui.router']);
+angular.module('openproject.responsive', []);
 
 // main app
 var openprojectApp = angular.module('openproject', [
@@ -198,7 +199,8 @@ var openprojectApp = angular.module('openproject', [
   'openproject.templates',
   'monospaced.elastic',
   'openproject.inplace-edit',
-  'openproject.wpButtons'
+  'openproject.wpButtons',
+  'openproject.responsive'
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') ||
@@ -296,7 +298,6 @@ require('./helpers');
 require('./layout');
 require('./messages');
 require('./models');
-require('./routing');
 require('./services');
 require('./time_entries');
 require('./timelines');
@@ -308,5 +309,5 @@ requireTemplate.keys().forEach(requireTemplate);
 
 require('!ngtemplate?module=openproject.templates!html!angular-busy/angular-busy.html');
 
-var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|html)$/);
+var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|ts|html)$/);
 requireComponent.keys().forEach(requireComponent);

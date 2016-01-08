@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,43 +24,40 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-/*jshint expr: true*/
+var expect = chai.expect;
 
-describe('WorkPackagesController', function() {
-  var scope, win, ctrl, testParams, buildController, stateParams = {};
+describe('toolbar Directive', () => {
+  var compile, element, rootScope, scope;
 
-  beforeEach(module('openproject.workPackages.controllers', 'openproject.api', 'openproject.layout','openproject.services'));
-  beforeEach(module('openproject.templates', function($provide) {
-    var configurationService = {};
+  beforeEach(angular.mock.module('openproject.uiComponents'));
+  beforeEach(angular.mock.module('openproject.templates'));
 
-    configurationService.isTimezoneSet = sinon.stub().returns(false);
+  beforeEach(angular.mock.inject(($rootScope, $compile) => {
+    var html;
+    html = '<div wp-toolbar></div>';
 
-    $provide.constant('$stateParams', stateParams);
-    $provide.constant('ConfigurationService', configurationService);
-  }));
-  beforeEach(inject(function($rootScope, $controller, $timeout) {
+    element = angular.element(html);
+    rootScope = $rootScope;
     scope = $rootScope.$new();
-  }));
+    scope.doNotShow = true;
 
-  beforeEach(inject(function($rootScope, $controller) {
-    scope = $rootScope.$new();
-    win   = {
-     location: { pathname: "" }
-    };
-    testParams = { projectIdentifier: 'anything' };
-
-    buildController = function() {
-      ctrl = $controller("WorkPackagesController", {
-        $scope:  scope,
-        $window: win,
-        $state: {},
-        $stateParams: testParams,
-        project: {}
-      });
+    compile = () => {
+      $compile(element)(scope);
+      scope.$digest();
     };
   }));
 
+  describe('element', () => {
+    beforeEach(() => compile());
 
+    it('should preserve its div', () => {
+      expect(element.prop('tagName')).to.equal('DIV');
+    });
+
+    it('should be in a collapsed state', () => {
+      expect(element.is(":visible")).to.be.false;
+    });
+  });
 });
