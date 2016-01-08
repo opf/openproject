@@ -26,23 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-interface LocationService extends angular.ILocationService {
-  $$rewrite(href: string): string;
-  $$parse(url: string): string;
-}
-
-interface BrowserService extends angular.IBrowserService {
-  url(): string;
-}
-
-interface WindowService extends angular.IWindowService {
-  angular: angular.IAngularStatic;
-}
-
 angular
   .module('openproject')
-  .config(($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider,
-           $urlMatcherFactoryProvider: ng.ui.IUrlMatcherFactory) => {
+  .config(($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) => {
 
     $urlRouterProvider.when('/work_packages/', '/work_packages');
     $urlMatcherFactoryProvider.strictMode(false);
@@ -230,10 +216,7 @@ angular
       .state('work-packages.list.details.watchers', panels.watchers);
   })
 
-  .run(($location: LocationService, $rootElement: ng.IRootElementService,
-        $browser: BrowserService, $rootScope: ng.IRootScopeService, $state: ng.ui.IStateService,
-        $window: WindowService) => {
-
+  .run(($location, $rootElement, $browser, $rootScope, $state, $window) => {
     // Our application is still a hybrid one, meaning most routes are still
     // handled by Rails. As such, we disable the default link-hijacking that
     // Angular's HTML5-mode turns on.
