@@ -51,9 +51,14 @@ function WorkPackageNewController($scope,
   vm.loaderPromise = null;
 
   vm.isFieldHideable = WorkPackagesDisplayHelper.isFieldHideableOnCreate;
-  vm.isGroupHideable = function(groups, group, wp) {
-    return WorkPackagesDisplayHelper.isGroupHideable(groups, group, wp, vm.isFieldHideable);
+  vm.shouldHideGroup = function(group) {
+    return WorkPackagesDisplayHelper.shouldHideGroup(vm.hideEmptyFields,
+                                                     vm.groupedFields,
+                                                     group,
+                                                     vm.workPackage,
+                                                     vm.isFieldHideable);
   };
+
   vm.getLabel = WorkPackagesDisplayHelper.getLabel;
   vm.isSpecified = WorkPackagesDisplayHelper.isSpecified;
   vm.isEditable = WorkPackagesDisplayHelper.isEditable;

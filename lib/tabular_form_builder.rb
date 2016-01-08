@@ -282,7 +282,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def add_localization_link
-    @template.content_tag :a, l(:button_add), href: '#', class: 'form--field-extra-actions add_locale'
+    @template.content_tag :a, l(:button_add), href: '#', class: 'form--field-extra-actions add_locale icon icon-add'
   end
 
   def localized_options(options, locale = :en)

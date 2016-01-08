@@ -41,7 +41,12 @@ module.exports = function(
   vm.hideEmptyFields = true;
   vm.workPackage = $scope.workPackage;
 
-  vm.isGroupHideable = WorkPackageDisplayHelper.isGroupHideable;
+  vm.shouldHideGroup = function(group) {
+    return WorkPackageDisplayHelper.shouldHideGroup(vm.hideEmptyFields,
+                                                    vm.groupedFields,
+                                                    group,
+                                                    vm.workPackage);
+  };
   vm.isFieldHideable = WorkPackageDisplayHelper.isFieldHideable;
   vm.getLabel = WorkPackageDisplayHelper.getLabel;
   vm.isSpecified = WorkPackageDisplayHelper.isSpecified;

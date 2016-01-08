@@ -212,4 +212,6 @@
 <li><span class="icon icon-yes"></span> yes</li>
 <li><span class="icon icon-zoom-in"></span> zoom-in</li>
 <li><span class="icon icon-zoom-out"></span> zoom-out</li>
+<li><span class="icon icon-show-more"></span> show-more</li>
+<li><span class="icon icon-hamburger"></span> burger</li>
 </ul>

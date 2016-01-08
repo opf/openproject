@@ -27,7 +27,7 @@
 //++
 
 jQuery(document).ready(function($) {
-  $('body').on('click keydown', '.close-handler', function (e) {
+  $('body').on('click keydown touchend', '.close-handler', function (e) {
     if (e.type == 'click' || e.keyCode == 13) {
       $(this).parent('.flash, .errorExplanation').remove();
     }

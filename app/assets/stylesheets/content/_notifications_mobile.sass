@@ -26,41 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
-
-describe('WorkPackagesController', function() {
-  var scope, win, ctrl, testParams, buildController, stateParams = {};
-
-  beforeEach(module('openproject.workPackages.controllers', 'openproject.api', 'openproject.layout','openproject.services'));
-  beforeEach(module('openproject.templates', function($provide) {
-    var configurationService = {};
-
-    configurationService.isTimezoneSet = sinon.stub().returns(false);
-
-    $provide.constant('$stateParams', stateParams);
-    $provide.constant('ConfigurationService', configurationService);
-  }));
-  beforeEach(inject(function($rootScope, $controller, $timeout) {
-    scope = $rootScope.$new();
-  }));
-
-  beforeEach(inject(function($rootScope, $controller) {
-    scope = $rootScope.$new();
-    win   = {
-     location: { pathname: "" }
-    };
-    testParams = { projectIdentifier: 'anything' };
-
-    buildController = function() {
-      ctrl = $controller("WorkPackagesController", {
-        $scope:  scope,
-        $window: win,
-        $state: {},
-        $stateParams: testParams,
-        project: {}
-      });
-    };
-  }));
-
-
-});
+@include breakpoint(680px down)
+  .notification-box--wrapper,
+  .flash,
+  #errorExplanation
+    left: 20px !important
+    margin: 0 !important
+    right: 20px !important
+    width: calc(100% - 40px) !important
+    top: 22px !important

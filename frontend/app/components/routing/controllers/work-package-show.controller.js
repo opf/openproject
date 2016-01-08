@@ -229,16 +229,6 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
     });
   };
 
-  $scope.closeShowView = function() {
-    var queryProps = $state.params['query_props'];
-
-    $state.go('work-packages.list', {
-      projectPath: $scope.projectIdentifier,
-      workPackageId: $scope.workPackage.props.id,
-      'query_props': queryProps
-    });
-  };
-
   function getFocusAnchorLabel(tab, workPackage) {
     var tabLabel = I18n.t('js.work_packages.tabs.' + tab),
         params = {
@@ -262,7 +252,12 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
   vm.hideEmptyFields = true;
   vm.workPackage = $scope.workPackage;
 
-  vm.isGroupHideable = WorkPackagesDisplayHelper.isGroupHideable;
+  vm.shouldHideGroup = function(group) {
+    return WorkPackagesDisplayHelper.shouldHideGroup(vm.hideEmptyFields,
+                                                     vm.groupedFields,
+                                                     group,
+                                                     vm.workPackage);
+  };
   vm.isFieldHideable = WorkPackagesDisplayHelper.isFieldHideable;
   vm.getLabel = WorkPackagesDisplayHelper.getLabel;
   vm.isSpecified = WorkPackagesDisplayHelper.isSpecified;

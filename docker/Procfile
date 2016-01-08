@@ -1,0 +1,3 @@
+web: ./docker/web
+worker: ./docker/worker
+cron: ./docker/cron

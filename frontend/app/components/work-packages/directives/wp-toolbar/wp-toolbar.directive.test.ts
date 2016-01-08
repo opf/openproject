@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,38 +24,40 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function($scope, $state, $stateParams, QueryService, PathHelper, $rootScope,
-    inplaceEditAll) {
+var expect = chai.expect;
 
-  // Setup
-  $scope.$state = $state;
-  $scope.selectedTitle = I18n.t('js.label_work_package_plural');
+describe('toolbar Directive', () => {
+  var compile, element, rootScope, scope;
 
-  $scope.query_id = $stateParams.query_id;
+  beforeEach(angular.mock.module('openproject.uiComponents'));
+  beforeEach(angular.mock.module('openproject.templates'));
 
-  $scope.$watch(QueryService.getAvailableGroupedQueries, function(availableQueries) {
-    if (availableQueries) {
-      $scope.groups = [{ name: I18n.t('js.label_global_queries'), models: availableQueries['queries']},
-                       { name: I18n.t('js.label_custom_queries'), models: availableQueries['user_queries']}];
-    }
+  beforeEach(angular.mock.inject(($rootScope, $compile) => {
+    var html;
+    html = '<div wp-toolbar></div>';
+
+    element = angular.element(html);
+    rootScope = $rootScope;
+    scope = $rootScope.$new();
+    scope.doNotShow = true;
+
+    compile = () => {
+      $compile(element)(scope);
+      scope.$digest();
+    };
+  }));
+
+  describe('element', () => {
+    beforeEach(() => compile());
+
+    it('should preserve its div', () => {
+      expect(element.prop('tagName')).to.equal('DIV');
+    });
+
+    it('should be in a collapsed state', () => {
+      expect(element.is(":visible")).to.be.false;
+    });
   });
-
-  $scope.isDetailsViewActive = function() {
-    return $state.includes('work-packages.list.details') || inplaceEditAll.state;
-  };
-
-  $scope.isListViewActive = function() {
-    return $state.is('work-packages.list');
-  };
-
-  $scope.getToggleActionLabel = function(active) {
-    return (active) ? I18n.t('js.label_deactivate') : I18n.t('js.label_activate');
-  };
-
-  $scope.getActivationActionLabel = function(activate) {
-    return (activate) ? I18n.t('js.label_activate') + ' ' : '';
-  };
-  $rootScope.$broadcast('openproject.layout.activateMenuItem');
-};
+});

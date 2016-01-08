@@ -40,7 +40,7 @@ function inplaceEditorWikiTextarea(AutoCompleteHelper, $timeout) {
 
     controller: InplaceEditorWikiTextareaController,
     controllerAs: 'customEditorController',
-    
+
     link: function(scope, element) {
       $timeout(function() {
         AutoCompleteHelper.enableTextareaAutoCompletion(element.find('textarea'));
@@ -80,7 +80,6 @@ function InplaceEditorWikiTextareaController($scope, $sce, TextileService, Edita
 
   this.isPreview = false;
   this.previewHtml = '';
-  this.autocompletePath = '/work_packages/auto_complete.json';
 
   this.togglePreview = function() {
     this.isPreview = !this.isPreview;

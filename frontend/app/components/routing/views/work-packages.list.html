@@ -1,5 +1,5 @@
 <div class="toolbar-container">
-  <div toolbar class="toolbar">
+  <div wp-toolbar class="toolbar">
     <selectable-title focus
                       selected-title="selectedTitle"
                       groups="groups"
@@ -11,7 +11,7 @@
         <wp-create-button project-identifier="projectIdentifier"
                           state-name="work-packages.list.new"></wp-create-button>
       </li>
-      <li class="toolbar-item">
+      <li class="toolbar-item hidden-for-mobile">
         <label for="work-packages-filter-toggle-button" class="hidden-for-sighted">
           {{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}
         </label>
@@ -26,23 +26,10 @@
           <span class="badge -secondary">{{ getFilterCount() }}</span>
         </button>
       </li>
-      <li class="toolbar-item" feature-flag="detailsView">
+      <li class="toolbar-item hidden-for-mobile" feature-flag="detailsView">
         <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
           <li>
-            <label for="work-packages-list-view-button"
-                   ng-attr-accesskey="{{ !isDetailsViewActive() ? undefined : '8' }}"
-                   class="hidden-for-sighted">
-              {{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}
-            </label>
-            <button id="work-packages-list-view-button"
-                    ng-disabled="editAll.state"
-                    class="button"
-                    title="{{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
-                    ng-click="closeDetailsView()"
-                    ng-class="{ '-active': !isDetailsViewActive() }">
-              <i class="icon-view-list button--icon"></i>
-              <span class="hidden-for-sighted">{{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}</span>
-            </button>
+            <wp-list-view-button project-identifier="projectIdentifier"></wp-list-view-button>
           </li>
           <li feature-flag="detailsView">
             <label for="work-packages-details-view-button"
@@ -66,7 +53,7 @@
           </li>
         </ul>
       </li>
-      <li class="toolbar-item">
+      <li class="toolbar-item hidden-for-mobile">
         <label for="work-packages-settings-button" class="hidden-for-sighted">
           {{ I18n.t('js.button_settings') }}
         </label>
@@ -77,8 +64,7 @@
                 has-dropdown-menu
                 target="SettingsDropdownMenu"
                 locals="query">
-          <i class="button--icon icon-settings"></i>
-          <i class="button--dropdown-indicator"></i>
+          <i class="button--icon icon-show-more"></i>
         </button>
       </li>
     </ul>

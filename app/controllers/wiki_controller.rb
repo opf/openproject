@@ -83,7 +83,7 @@ class WikiController < ApplicationController
 
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
-    @related_page = WikiPage.find_by(wiki_id: @wiki.id, title: params[:id])
+    @related_page = WikiPage.find_by(wiki_id: @wiki.id, title: wiki_page_title)
 
     load_pages_for_index
     @pages_by_parent_id = @pages.group_by(&:parent_id)
@@ -134,8 +134,7 @@ class WikiController < ApplicationController
     # THIS HACK NEEDS TO BE REPLACED BY AN ENGINEERS SOLUTION!
     @no_clearfix = true
 
-    page_title = params[:id]
-    @page = @wiki.find_or_new_page(page_title)
+    @page = @wiki.find_or_new_page(wiki_page_title)
     if @page.new_record?
       if User.current.allowed_to?(:edit_wiki_pages, @project) && editable?
         edit
@@ -166,7 +165,7 @@ class WikiController < ApplicationController
 
   # edit an existing page or a new one
   def edit
-    @page = @wiki.find_or_new_page(params[:id])
+    @page = @wiki.find_or_new_page(wiki_page_title)
     return render_403 unless editable?
     @page.content = WikiContent.new(page: @page) if @page.new_record?
 
@@ -182,7 +181,7 @@ class WikiController < ApplicationController
   verify method: :put, only: :update, render: { nothing: true, status: :method_not_allowed }
   # Creates a new page or updates an existing one
   def update
-    @page = @wiki.find_or_new_page(params[:id])
+    @page = @wiki.find_or_new_page(wiki_page_title)
     return render_403 unless editable?
     @page.content = WikiContent.new(page: @page) if @page.new_record?
 
@@ -346,7 +345,7 @@ class WikiController < ApplicationController
   protected
 
   def parse_preview_data
-    page = @wiki.find_page(params[:id])
+    page = @wiki.find_page(wiki_page_title)
     # page is nil when previewing a new page
     return render_403 unless page.nil? || editable?(page)
 
@@ -360,6 +359,11 @@ class WikiController < ApplicationController
 
   private
 
+  def wiki_page_title
+    title = params[:id]
+    CGI.unescape(title) if title.present?
+  end
+
   def find_wiki
     @project = Project.find(params[:project_id])
     @wiki = @project.wiki
@@ -370,7 +374,7 @@ class WikiController < ApplicationController
 
   # Finds the requested page and returns a 404 error if it doesn't exist
   def find_existing_page
-    @page = @wiki.find_page(params[:id])
+    @page = @wiki.find_page(wiki_page_title)
     render_404 if @page.nil?
   end
 
