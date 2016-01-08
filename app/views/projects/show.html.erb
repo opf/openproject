@@ -49,7 +49,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </ul>
 
 <div class="grid-block medium-up-2 project-overview">
-  <div class="grid-content widget-boxes">
+  <div class="grid-content widget-boxes medium-6">
     <% if User.current.allowed_to?(:view_work_packages, @project) %>
       <div class="issues widget-box">
         <h3 class="widget-box--header">
@@ -76,7 +76,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= call_hook(:view_projects_show_left, project: @project) %>
   </div>
 
-  <div class="grid-content widget-boxes">
+  <div class="grid-content widget-boxes medium-6">
     <%= render partial: 'members_box' %>
 
     <% if @news.any? && authorize_for('news', 'index') %>
