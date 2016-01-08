@@ -31,7 +31,7 @@ angular
   .directive('inplaceEditorDateRange', inplaceEditorDateRange);
 
 function inplaceEditorDateRange($timeout, TimezoneService, WorkPackageFieldService,
-    EditableFieldsState, Datepicker, inplaceEditAll, responsiveView) {
+    EditableFieldsState, Datepicker, inplaceEditAll, responsiveView, ConfigurationService) {
 
   return {
     restrict: 'E',
@@ -56,12 +56,113 @@ function inplaceEditorDateRange($timeout, TimezoneService, WorkPackageFieldServi
         });
       }
 
+      function getDateLabel(labelName) {
+        return I18n.t('js.label_date_with_format', {
+          date_attribute: WorkPackageFieldService.getLabel(
+            EditableFieldsState.workPackage,
+            labelName
+          ),
+          format: customDateFormat
+        });
+      }
+
+      /**
+       * The directive may be used with date pickers in accessibility mode,
+       * thus avoid setting it up when it is actually disabled
+       */
+      function includeDatePicker() {
+
+        startDatepicker = new Datepicker(divStart, inputStart, scope.startDate);
+        endDatepicker = new Datepicker(divEnd, inputEnd, scope.endDate);
+        startDatepicker.onChange = function(date) {
+          scope.startDate = field.value.startDate = date;
+          if (startDatepicker.prevDate.isAfter(endDatepicker.prevDate)) {
+            scope.startDateIsChanged = true;
+            scope.endDate = field.value.dueDate = scope.startDate;
+            endDatepicker.setDate(scope.endDate);
+          }
+        };
+        scope.onStartEdit = function() {
+          scope.startDateIsChanged = scope.endDateIsChanged = false;
+          startDatepicker.onEdit();
+        };
+        endDatepicker.onChange = function(date) {
+          scope.endDate = field.value.dueDate = date;
+          if (endDatepicker.prevDate.isBefore(startDatepicker.prevDate)) {
+            scope.endDateIsChanged = true;
+            scope.startDate = field.value.startDate = scope.endDate;
+            startDatepicker.setDate(scope.startDate);
+          }
+        };
+        scope.onEndEdit = function() {
+          scope.startDateIsChanged = scope.endDateIsChanged = false;
+          endDatepicker.onEdit();
+        };
+
+        startDatepicker.onDone = endDatepicker.onDone = function() {
+          $timeout(function() {
+            form.scope().editPaneController.discardEditing();
+          });
+        };
+
+        startDatepicker.textbox.on('click focusin', function() {
+          if (scope.hideDatePicker) {
+            return;
+          }
+
+          if (divStart.is(':hidden') || divEnd.is(':visible')) {
+            endDatepicker.hide();
+            startDatepicker.show();
+          }
+          scope.startDateIsChanged = scope.endDateIsChanged = false;
+        });
+
+        endDatepicker.textbox.on('click focusin', function() {
+          if (scope.hideDatePicker) {
+            return;
+          }
+
+          if (divEnd.is(':hidden') || divStart.is(':visible')) {
+            endDatepicker.show();
+            startDatepicker.hide();
+          }
+          scope.startDateIsChanged = scope.endDateIsChanged = false;
+        });
+
+        angular.element('.work-packages--details-content').on('click', function(e) {
+          var target = angular.element(e.target);
+          if (!target.is('.inplace-edit--date-range input') &&
+            target.parents('.hasDatepicker').length <= 0 &&
+            target.parents('.ui-datepicker-header').length <= 0) {
+            startDatepicker.hide();
+            endDatepicker.hide();
+          }
+        });
+
+        startDatepicker.setState(!responsiveView.isSmall());
+        endDatepicker.setState(!responsiveView.isSmall());
+
+        responsiveView.onResize(function () {
+          startDatepicker.setState(!responsiveView.isSmall());
+          endDatepicker.setState(!responsiveView.isSmall());
+        });
+
+        $timeout(function() {
+          inplaceEditAll.state || startDatepicker.focus();
+        });
+      }
+
+
       scope.startDate = field.value.startDate;
       scope.endDate = field.value.dueDate;
 
-      // TODO: make this work package agnostic
-      scope.startDateLabel = I18n.t('js.work_packages.properties.startDate');
-      scope.endDateLabel = I18n.t('js.work_packages.properties.dueDate');
+      scope.dateFormat = customDateFormat;
+
+      scope.startDateLabel = getDateLabel('startDate');
+      scope.endDateLabel = getDateLabel('dueDate');
+
+      scope.startDateTitle = getTitle('startDate');
+      scope.endDateTitle = getTitle('dueDate');
 
       var form = element.parents('.inplace-edit--form'),
         inputStart = element.find('.inplace-edit--date-range-start-date'),
@@ -83,84 +184,19 @@ function inplaceEditorDateRange($timeout, TimezoneService, WorkPackageFieldServi
         form.scope().editPaneController.submit();
       };
 
-      startDatepicker = new Datepicker(divStart, inputStart, scope.startDate);
-      endDatepicker = new Datepicker(divEnd, inputEnd, scope.endDate);
-      startDatepicker.onChange = function(date) {
-        scope.startDate = field.value.startDate = date;
-        if (startDatepicker.prevDate.isAfter(endDatepicker.prevDate)) {
-          scope.startDateIsChanged = true;
-          scope.endDate = field.value.dueDate = scope.startDate;
-          endDatepicker.setDate(scope.endDate);
-        }
-      };
-      scope.onStartEdit = function() {
-        scope.startDateIsChanged = scope.endDateIsChanged = false;
-        startDatepicker.onEdit();
-      };
-      endDatepicker.onChange = function(date) {
-        scope.endDate = field.value.dueDate = date;
-        if (endDatepicker.prevDate.isBefore(startDatepicker.prevDate)) {
-          scope.endDateIsChanged = true;
-          scope.startDate = field.value.startDate = scope.endDate;
-          startDatepicker.setDate(scope.startDate);
-        }
-      };
-      scope.onEndEdit = function() {
-        scope.startDateIsChanged = scope.endDateIsChanged = false;
-        endDatepicker.onEdit();
-      };
+      if (ConfigurationService.accessibilityModeEnabled()) {
+        scope.onStartEdit = function() {
+          field.value.startDate = scope.startDate;
+        };
 
-      startDatepicker.onDone = endDatepicker.onDone = function() {
-        $timeout(function() {
-          form.scope().editPaneController.discardEditing();
-        });
-      };
+        scope.onEndEdit = function() {
+          field.value.dueDate = scope.endDate;
+        };
 
-      $timeout(function() {
-        inplaceEditAll.state || startDatepicker.focus();
-      });
+      } else {
+        includeDatePicker();
+      }
 
-      startDatepicker.textbox.on('click focusin', function() {
-        if (divStart.is(':hidden') || divEnd.is(':visible')) {
-          endDatepicker.hide();
-          startDatepicker.show();
-        }
-        scope.startDateIsChanged = scope.endDateIsChanged = false;
-      }).attr({
-        'placeholder': customDateFormat,
-        'aria-label': customDateFormat,
-        'title': getTitle('startDate')
-      });
-
-      endDatepicker.textbox.on('click focusin', function() {
-        if (divEnd.is(':hidden') || divStart.is(':visible')) {
-          endDatepicker.show();
-          startDatepicker.hide();
-        }
-        scope.startDateIsChanged = scope.endDateIsChanged = false;
-      }).attr({
-        'placeholder': customDateFormat,
-        'aria-label': customDateFormat,
-        'title': getTitle('dueDate')
-      });
-
-      angular.element('.work-packages--details-content').on('click', function(e) {
-        var target = angular.element(e.target);
-        if (!target.is('.inplace-edit--date-range input') &&
-          target.parents('.hasDatepicker').length <= 0 &&
-          target.parents('.ui-datepicker-header').length <= 0) {
-          startDatepicker.hide();
-          endDatepicker.hide();
-        }
-      });
-
-      startDatepicker.setState(!responsiveView.isSmall());
-      endDatepicker.setState(!responsiveView.isSmall());
-
-      responsiveView.onResize(function () {
-        startDatepicker.setState(!responsiveView.isSmall());
-        endDatepicker.setState(!responsiveView.isSmall());
-      });
     }
   };
 }

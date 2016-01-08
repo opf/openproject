@@ -33,12 +33,57 @@ var expect = require('../../../spec_helper.js').expect,
     datepicker = detailsPaneHelper.datepicker,
     elements = detailsPaneHelper.elements;
 
-describe('details pane', function() {
+describe.only('details pane', function() {
   var dateRangePicker;
 
   var normalizeString = function(string) {
     return string.replace(/\r?\n|\r/g, "").replace(/  /g, " ")
   };
+
+  describe('when accessibility mode is enabled', function () {
+    var startDate, endDate,
+      startDateDatepicker, endDateDatepicker;
+
+    before(function () {
+      browser.addMockModule('openproject.config', function () {
+        angular.module('openproject.config', []).value('ConfigurationService', {
+          accessibilityModeEnabled: function () {
+            return true;
+          },
+
+          timeFormatPresent: angular.noop,
+          dateFormatPresent: angular.noop,
+          dateFormat: angular.noop,
+          startOfWeekPresent: angular.noop
+        });
+      });
+    });
+
+    after(function () {
+      browser.removeMockModule('openproject.config');
+    });
+
+    beforeEach(function() {
+      detailsPaneHelper.loadPane(819, 'activity');
+      dateRangePicker = $('.inplace-edit.attribute-date');
+      dateRangePicker.$('.inplace-edit--read-value').click();
+
+      startDate = dateRangePicker.$('.inplace-edit--date-range-start-date');
+      endDate = dateRangePicker.$('.inplace-edit--date-range-end-date');
+      startDateDatepicker = dateRangePicker.$('.inplace-edit--date-range-start-date-picker');
+      endDateDatepicker = dateRangePicker.$('.inplace-edit--date-range-end-date-picker');
+    });
+
+    it('startDatePicker should not appear as a calendar', function () {
+      startDate.click();
+      expect(startDateDatepicker.isDisplayed()).to.eventually.be.false;
+    });
+
+    it('endDatePicker should not appear as a calendar', function () {
+      endDate.click();
+      expect(endDateDatepicker.isDisplayed()).to.eventually.be.false;
+    });
+  });
 
   describe('date range picker', function() {
     beforeEach(function() {
