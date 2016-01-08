@@ -16,8 +16,7 @@ module ToolbarHelper
 
   def dom_title(title)
     content_tag :div, class: 'title-container' do
-      title_attribute = decode title
-      content_tag(:h2, title.html_safe, title: title_attribute)
+      content_tag(:h2, title, title: title)
     end
   end
 
