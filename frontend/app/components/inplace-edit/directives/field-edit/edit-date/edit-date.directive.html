@@ -8,6 +8,8 @@
          ng-change="onEdit()"
          ng-click="showDatepicker()"
          title="{{ fieldController.editTitle }}"
+         placeholder="-"
+         aria-label="{{::dateLabel}}"
          class="inplace-edit--date"
          id="inplace-edit--write-value--{{::field.name}}"
          type="text" />
