@@ -91,6 +91,26 @@ module RepositoriesHelper
     render_changes_tree(tree[:s])
   end
 
+  # This calculates whether a folder was added, deleted or modified. It is based on the assumption that
+  # a folder was added/deleted when all content was added/deleted since the folder changes were not tracked.
+  def calculate_folder_action(tree)
+    folderAction = ''
+    unified_actions_in_same_iteration = true
+    tree.keys.sort.each do |changedFile|
+      if c = tree[changedFile][:c]
+        if c.action == 'A' && unified_actions_in_same_iteration && folderAction != 'D'
+          folderAction = 'A'
+        elsif c.action == 'D' && unified_actions_in_same_iteration && folderAction != 'A'
+          folderAction = 'D'
+        else
+          folderAction = ''
+          unified_actions_in_same_iteration = false
+        end
+      end
+    end
+    return folderAction
+  end
+
   def render_changes_tree(tree)
     return '' if tree.nil?
 
@@ -108,7 +128,17 @@ module RepositoriesHelper
                        project_id: @project,
                        path: path_param,
                        rev: @changeset.identifier)
-        output << "<li class='#{style} icon icon-folder-open'>#{text}</li>"
+
+        folderAction = calculate_folder_action(s)
+        case folderAction
+        when 'A'
+          output << "<li class='#{style} icon icon-folder-add'>#{text}</li>"
+        when 'D'
+          output << "<li class='#{style} icon icon-folder-remove'>#{text}</li>"
+        else
+          output << "<li class='#{style} icon icon-folder-open'>#{text}</li>"
+        end
+
         output << render_changes_tree(s)
       elsif c = tree[file][:c]
         style << " change-#{c.action}"
