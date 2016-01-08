@@ -115,7 +115,7 @@ class WikiMenuItemsController < ApplicationController
   end
 
   def get_data_from_params(params)
-    @page_title = params[:id]
+    @page_title = CGI.unescape(params[:id])
     wiki_id = @project.wiki.id
 
     @page = WikiPage.find_by(title: @page_title, wiki_id: wiki_id)
