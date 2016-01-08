@@ -34,7 +34,7 @@ function wpCreateForm() {
   return {
     restrict: 'E',
     templateUrl: function (element, attrs) {
-      var directory = '/components/work-packages/directives/wp-create-form/',
+      var directory = '/components/work-packages/wp-create-form/',
           template = 'wp-create-form.directive.html';
 
       if (attrs.formTemplate === 'full-create') {
