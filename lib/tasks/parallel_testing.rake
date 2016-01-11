@@ -122,7 +122,7 @@ namespace :parallel do
     cucumber_options = "-o ' -p rerun #{support_files}'"
 
     cmd  = "bundle exec parallel_test --type cucumber #{cucumber_options} #{group_options} features"
-    cmd += ' || bundle exec cucumber -p rerun'
+    cmd += " || bundle exec cucumber -p rerun #{support_files}"
 
     if File.exist? 'tmp/cucumber-rerun.txt'
       sh 'rm tmp/cucumber-rerun.txt'
