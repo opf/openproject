@@ -172,8 +172,11 @@ When /^I click the unwatch work package button$/ do
 end
 
 When /^I fill in a comment with "(.+?)"$/ do |comment|
+  # Using the "I click on "..." step does not work for some reason
+
+  find('.work-packages--activity--add-comment .inplace-editing--trigger-link').click
+
   steps %{
-    And I click on "Click to add a comment"
     Then I fill in "value" with "#{comment}" within ".work-packages--activity--add-comment"
   }
 end
