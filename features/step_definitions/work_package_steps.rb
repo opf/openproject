@@ -200,3 +200,7 @@ When /^I preview the "(.+?)" and see "(.+?)"$/ do |field_name, text|
     And I should see "#{text}" within ".work-packages--details--#{field_name} .-preview"
   }
 end
+
+When /^I click to see all work package attributes$/ do
+  find('a', text: I18n.t('js.label_show_attributes')).click
+end
