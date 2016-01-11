@@ -73,9 +73,7 @@ module.exports = function(config) {
       'tests/unit/tests/**/*test.js',
       'tests/unit/tests/legacy-tests.js',
 
-      'app/components/**/*.test.js',
-
-      'app/components/**/*.test.ts'
+      'app/components/**/*.test.js'
     ],
 
 
@@ -91,26 +89,11 @@ module.exports = function(config) {
       '/templates/**/*.html': ['ng-html2js'],
       '../app/assets/javascripts/*.js': ['coverage'],
       'app/**/*.js': ['webpack'],
-      'app/components/**/*.test.ts': ['typescript']
+      'tests/unit/tests/typescript/**/*.js': ['webpack']
     },
     ngHtml2JsPreprocessor: {
       module: 'openproject.templates'
     },
-    typescriptPreprocessor: {
-      options: {
-        sourceMap: false,
-        target: 'ES5',
-        module: 'commonjs',
-        noImplicitAny: false,
-        noResolve: true,
-        removeComments: true,
-        concatenateOutput: false
-      },
-      typings: [
-        'typings/**/*.d.ts'
-      ]
-    },
-
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -137,12 +120,12 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: ['PhantomJS', 'Firefox'],
 
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
+    singleRun: true,
 
 
 

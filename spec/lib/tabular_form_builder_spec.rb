@@ -93,7 +93,7 @@ describe TabularFormBuilder do
 
       it 'should have a link to add a locale' do
         expect(output).to be_html_eql(%{
-          <a class="form--field-extra-actions add_locale" href="#">Add</a>
+          <a class="form--field-extra-actions add_locale icon icon-add" href="#">Add</a>
         }).at_path('body > a')
       end
     end

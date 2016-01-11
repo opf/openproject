@@ -38,6 +38,9 @@ var autoprefixer = require('gulp-autoprefixer');
 var livingstyleguide = require('gulp-livingstyleguide');
 var gulpFilter = require('gulp-filter');
 var replace = require('gulp-replace');
+var tsproject = require('tsproject');
+var karma = require('karma');
+var fs = require('fs');
 
 var protractor = require('gulp-protractor').protractor,
   webdriverStandalone = require('gulp-protractor').webdriver_standalone,
@@ -52,6 +55,23 @@ var paths = {
   ],
   fonts: '../app/assets/fonts/**/*',
   styleguide: '../app/assets/stylesheets/styleguide.html.lsg'
+};
+
+var deleteFolderRecursive = function(path) {
+  if( fs.existsSync(path) ) {
+    fs.readdirSync(path).forEach(function(file){
+      var curPath = path + "/" + file;
+
+      if(fs.lstatSync(curPath).isDirectory()) {
+        deleteFolderRecursive(curPath);
+
+      } else {
+        fs.unlinkSync(curPath);
+      }
+    });
+
+    fs.rmdirSync(path);
+  }
 };
 
 gulp.task('lint', function() {
@@ -169,4 +189,31 @@ gulp.task('watch', function() {
   gulp.watch('../app/assets/stylesheets/**/*.scss', ['sass', 'styleguide']);
   gulp.watch('../app/assets/stylesheets/**/*.sass', ['sass', 'styleguide']);
   gulp.watch('../app/assets/stylesheets/**/*.lsg',  ['styleguide']);
+});
+
+
+var tsOutDir = __dirname + '/tests/unit/tests/typescript';
+
+gulp.task('typescript-tests', function () {
+  deleteFolderRecursive(tsOutDir);
+
+  return tsproject.src('./tsconfig.test.json', {
+    compilerOptions: {
+      outDir: tsOutDir
+    }
+  }).pipe(gulp.dest('.'));
+});
+
+gulp.task('tests:karma', ['typescript-tests'], function () {
+  karma.server.start({
+    configFile: __dirname + '/karma.conf.js'
+
+  }, function (exitCode) {
+    if(exitCode === 0) {
+      console.log('No error occurred. Temporary test files are deleted.');
+      deleteFolderRecursive(tsOutDir);
+    } else {
+      console.log('An error occurred. Temporary test files can be found in ' + tsOutDir);
+    }
+  });
 });
