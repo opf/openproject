@@ -16,7 +16,7 @@ module ToolbarHelper
 
   def dom_title(title)
     content_tag :div, class: 'title-container' do
-      content_tag(:h2, title, title: title)
+      content_tag(:h2, title)
     end
   end
 
@@ -25,9 +25,5 @@ module ToolbarHelper
     content_tag :ul, class: 'toolbar-items' do
       yield
     end
-  end
-
-  def decode(string)
-    raw(strip_tags(string)).strip
   end
 end
