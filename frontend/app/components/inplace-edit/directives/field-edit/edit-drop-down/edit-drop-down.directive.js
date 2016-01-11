@@ -56,6 +56,12 @@ function inplaceEditorDropDown(EditableFieldsState, FocusHelper, inplaceEditAll)
           FocusHelper.focusElement(element);
         }
       });
+
+      scope.$watch('field.value.props', function(value) {
+        if (value === undefined) {
+          scope.field.value = scope.customEditorController.emptyOption;
+        }
+      });
     }
   };
 }
@@ -88,6 +94,11 @@ function InplaceEditorDropDownController($q, $scope, WorkPackageFieldConfigurati
     return options;
   }
 
+  this.hasNullOption = function() {
+    return !$scope.field.isRequired() ||
+      $scope.field.value.href === customEditorController.emptyOption.href;
+  };
+
   this.updateAllowedValues = function(field) {
 
     return $q(function(resolve) {
@@ -109,29 +120,10 @@ function InplaceEditorDropDownController($q, $scope, WorkPackageFieldConfigurati
             $scope.field.value = customEditorController.emptyOption;
           }
 
-          if (nullUsed || !$scope.field.isRequired()) {
-            var arrayWithEmptyOption = [customEditorController.emptyOption];
-            options = arrayWithEmptyOption.concat(options);
-          }
-
-          addHrefTracker(options);
-
           customEditorController.allowedValues = options;
 
           resolve();
         });
     });
-  };
-
-  // We have to maintain a separate property just to track the object by
-  // in the template. This is due to angular aparently not being able to
-  // track correclty with a field having null as it's value. It does work for
-  // 'null' (String) however.
-  var addHrefTracker = function(values) {
-    _.forEach(values, function(value) {
-      value.hrefTracker = String(value.href);
-    });
-
-    $scope.field.value.props.hrefTracker = String($scope.field.value.props.href);
   };
 }
