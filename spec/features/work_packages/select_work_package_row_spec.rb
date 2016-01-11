@@ -50,7 +50,16 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
   end
 
   describe 'Work package row selection', js: true do
+
+    ##
+    # Firefox driver will not reliably click with modifiers while the split screen is loading
+    # due to the rows not being in the viewport layer.
+    def ensure_not_busy!
+      expect(page).not_to have_selector(".cg-busy-backdrop", visible: true, wait: 10)
+    end
+
     def select_work_package_row(number, mouse_button_behavior = :left)
+      ensure_not_busy!
       element = find(".work-package-table--container tr:nth-of-type(#{number}).issue td.id")
       case mouse_button_behavior
       when :double
@@ -63,6 +72,7 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     end
 
     def select_work_package_row_with_shift(number)
+      ensure_not_busy!
       element = find(".work-package-table--container tr:nth-of-type(#{number}).issue td.id")
 
       page.driver.browser.action.key_down(:shift)
@@ -72,6 +82,7 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     end
 
     def select_work_package_row_with_ctrl(number)
+      ensure_not_busy!
       element = find(".work-package-table--container tr:nth-of-type(#{number}).issue td.id")
 
       page.driver.browser.action.key_down(:control)
