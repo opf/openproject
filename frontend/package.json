@@ -39,7 +39,7 @@
     "sinon": "~1.9.1",
     "sinon-chai": "~2.5.0",
     "sorted-object": "^1.0.0",
-    "tsproject": "^1.0.5",
+    "tsproject": "^1.1.0-rc.2",
     "webpack-dev-server": "^1.6.5"
   },
   "dependencies": {
@@ -63,7 +63,7 @@
     "shelljs": "^0.3.0",
     "style-loader": "^0.8.2",
     "ts-loader": "^0.7.2",
-    "typescript": "^1.6.2",
+    "typescript": "^1.7.5",
     "url-loader": "^0.5.5",
     "webpack": "^1.7.3",
     "yaml-loader": "^0.1.0"
