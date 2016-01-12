@@ -43,7 +43,7 @@ See doc/COPYRIGHT.md for more details.
             required: true,
             size:     10,
             no_label: true %>
-      <%= calendar_for('meeting_start_date') %>
+      <%= calendar_for('meeting-form-start-date') %>
       <label for="meeting-form-start-time" class="hidden-for-sighted">
         <%= Meeting.human_attribute_name(:start_time_hour) %>
         <%= l(:label_time_zone) %>
