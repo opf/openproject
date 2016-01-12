@@ -110,4 +110,21 @@ describe ToolbarHelper, type: :helper do
       }
     end
   end
+  describe '.breadcrumb_toolbar' do
+    it 'should escape properly' do
+      result = breadcrumb_toolbar '</h2><script>alert("foobar!");</script>',
+                                  link_to('foobar', user_path('1234'))
+
+      expect(result).to be_html_eql %{
+        <div class="toolbar-container">
+          <div class="toolbar">
+            <div class="title-container">
+              <h2>&lt;/h2&gt;&lt;script&gt;alert(&quot;foobar!&quot;);&lt;/script&gt; &raquo; <a href="/users/1234">foobar</a></h2>
+            </div>
+            <ul class="toolbar-items"></ul>
+          </div>
+        </div>
+      }
+    end
+  end
 end
