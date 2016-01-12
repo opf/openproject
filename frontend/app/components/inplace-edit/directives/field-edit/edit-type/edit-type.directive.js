@@ -41,7 +41,7 @@ function inplaceEditorType() {
 
     link: function(scope) {
       scope.$watch('field.value.props', function(newValue, oldValue) {
-        if (newValue.hrefTracker !== oldValue.hrefTracker) {
+        if (newValue.href !== oldValue.href) {
           scope.$emit('form.updateRequired');
         }
       });
