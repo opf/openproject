@@ -252,17 +252,6 @@ function WorkPackagesListController($scope,
       });
     }
   };
-
-  $scope.getFilterCount = function () {
-    if ($scope.query) {
-      var filters = $scope.query.filters;
-      return _.size(_.where(filters, function (filter) {
-        return !filter.deactivated;
-      }));
-    } else {
-      return 0;
-    }
-  };
 }
 
 angular

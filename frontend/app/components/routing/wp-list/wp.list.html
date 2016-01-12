@@ -12,19 +12,9 @@
                           state-name="work-packages.list.new"></wp-create-button>
       </li>
       <li class="toolbar-item hidden-for-mobile">
-        <label for="work-packages-filter-toggle-button" class="hidden-for-sighted">
-          {{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}
-        </label>
-        <button id="work-packages-filter-toggle-button"
-                ng-disabled="editAll.state"
-                class="button"
-                title="{{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}"
-                ng-click="toggleShowFilterOptions()"
-                ng-class="{ '-active': showFiltersOptions }">
-          <i class="icon-filter button--icon"></i>
-          <span class="button--text" ng-bind="::I18n.t('js.toolbar.filter')"></span>
-          <span class="badge -secondary">{{ getFilterCount() }}</span>
-        </button>
+        <wp-filter-button
+            filters="query.filters"
+            disabled="editAll.state"></wp-filter-button>
       </li>
       <li class="toolbar-item hidden-for-mobile">
         <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
