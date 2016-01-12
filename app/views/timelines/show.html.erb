@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title "#{l('timelines.project_menu.timelines')}: #{h @timeline.name}" %>
-<%= toolbar title: h(@timeline.name) do %>
+<%= toolbar title: @timeline.name do %>
   <% if timeline_action_authorized?(:new) %>
     <li class="toolbar-item">
       <%= new_timeline_link @project do %>

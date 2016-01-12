@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title l(:label_administration), "#{l(:label_edit)} #{Role.model_name.human} #{h @role.name}" %>
 
-<%= toolbar title: "#{link_to(l(:label_role_plural), roles_path)} &raquo; #{@role.name}" %>
+<%= toolbar title: "#{link_to(l(:label_role_plural), roles_path)} &raquo; #{@role.name}".html_safe %>
 
 
 <%= labelled_tabular_form_for @role, html: { id: 'role_form' }, as: :role do |f| %>

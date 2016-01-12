@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: "#{avatar(@news.author)}  #{h @news.title}" do %>
+<%= toolbar title: "#{avatar(@news.author)}  #{h @news.title}".html_safe do %>
   <% if User.current.allowed_to?(:manage_news, @project) %>
     <li class="toolbar-item">
       <%= link_to(edit_news_path(@news),
