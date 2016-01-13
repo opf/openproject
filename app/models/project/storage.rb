@@ -89,9 +89,9 @@ module Project::Storage
       <<-SQL
       SELECT wiki.project_id, SUM(wiki_attached.filesize) AS filesize
       FROM #{Wiki.table_name} wiki
-      LEFT JOIN #{WikiPage.table_name} pages
+      JOIN #{WikiPage.table_name} pages
         ON pages.wiki_id = wiki.id
-      LEFT JOIN #{Attachment.table_name} wiki_attached
+      JOIN #{Attachment.table_name} wiki_attached
         ON (wiki_attached.container_id = pages.id AND wiki_attached.container_type = 'WikiPage')
       GROUP BY wiki.project_id
       SQL
@@ -101,7 +101,7 @@ module Project::Storage
       <<-SQL
       SELECT wp.project_id, SUM(wp_attached.filesize) AS filesize
       FROM #{WorkPackage.table_name} wp
-      LEFT JOIN #{Attachment.table_name} wp_attached
+      JOIN #{Attachment.table_name} wp_attached
         ON (wp_attached.container_id = wp.id AND wp_attached.container_type = 'WorkPackage')
       GROUP BY wp.project_id
       SQL

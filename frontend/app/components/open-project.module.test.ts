@@ -26,25 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.inplace-edit')
-  .directive('inplaceEditorType', inplaceEditorType);
+import {opDirective} from './open-project.module';
 
-function inplaceEditorType() {
-  return {
-    restrict: 'E',
-    transclude: true,
-    replace: true,
-    require: '^workPackageField',
-    templateUrl: '/components/inplace-edit/directives/field-edit/edit-type/' +
-      'edit-type.directive.html',
-
-    link: function(scope) {
-      scope.$watch('field.value.props', function(newValue, oldValue) {
-        if (newValue.href !== oldValue.href) {
-          scope.$emit('form.updateRequired');
+describe('OpenProject module', () => {
+  describe('opDirective function', () => {
+    it('should deeply merge the given configuration parameters', () => {
+      var directive:ng.IDirective = {
+        scope: {
+          someValue: '='
         }
-      });
-    }
-  };
-}
+      };
+      var config:ng.IDirective = {
+        scope: {
+          someOtherValue: '='
+        }
+      };
+      var merged = opDirective(directive, config);
+
+      expect(merged.scope.someValue).to.eq(merged.scope.someOtherValue);
+    });
+  });
+});

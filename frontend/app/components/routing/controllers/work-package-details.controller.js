@@ -39,9 +39,10 @@ function WorkPackageDetailsController($scope, $state, latestTab, workPackage, I1
     latestTab.registerState(toState.name);
   });
 
-  $rootScope.$on('workPackageRefreshRequired', function(e) {
+  var refreshRequiredFunction = $rootScope.$on('workPackageRefreshRequired', function() {
     refreshWorkPackage();
   });
+  $scope.$on('$destroy', refreshRequiredFunction);
 
   // initialization
   setWorkPackageScopeProperties(workPackage);

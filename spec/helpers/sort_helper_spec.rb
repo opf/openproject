@@ -54,7 +54,8 @@ describe SortHelper, type: :helper do
           <div class="generic-table--sort-header-outer">
             <div class="generic-table--sort-header">
               <span>
-                <a href="/work_packages?sort=sort_criteria_params">Id</a>
+                <a href="/work_packages?sort=sort_criteria_params"
+                   title="Sort by &quot;Id&quot;">Id</a>
               </span>
             </div>
           </div>
@@ -71,7 +72,8 @@ describe SortHelper, type: :helper do
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span class="sort asc">
-                  <a href="/work_packages?sort=sort_criteria_params">Id</a>
+                  <a href="/work_packages?sort=sort_criteria_params"
+                     title="Ascending sorted by &quot;Id&quot;">Id</a>
                 </span>
               </div>
             </div>
@@ -90,7 +92,8 @@ describe SortHelper, type: :helper do
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span class="sort desc">
-                  <a href="/work_packages?sort=sort_criteria_params">Id</a>
+                  <a href="/work_packages?sort=sort_criteria_params"
+                     title="Descending sorted by &quot;Id&quot;">Id</a>
                 </span>
               </div>
             </div>

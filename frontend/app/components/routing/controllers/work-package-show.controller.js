@@ -47,9 +47,10 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
 
   // Listen to the event globally, as listeners are not necessarily
   // in the child scope
-  $rootScope.$on('workPackageRefreshRequired', function() {
+  var refreshRequiredFunction = $rootScope.$on('workPackageRefreshRequired', function() {
     refreshWorkPackage();
   });
+  $scope.$on('$destroy', refreshRequiredFunction);
 
   AuthorisationService.initModelAuth('work_package', workPackage.links);
 
@@ -299,7 +300,7 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
       });
     });
     $scope.$on('workPackageUpdatedInEditor', function() {
-      NotificationsService.addSuccess(I18n.t('js.label_successful_update'));
+      NotificationsService.addSuccess(I18n.t('js.notice_successful_update'));
     });
   }
 }

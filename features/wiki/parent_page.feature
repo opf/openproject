@@ -40,7 +40,7 @@ Feature: Parent wiki page
   @javascript
   Scenario: Changing parent page for wiki page
     When I go to the wiki page "Test page" for the project called "Test"
-    And I click on "More functions"
+    And I click on "More"
     And I follow "Change parent page"
     When I select "Parent page" from "Parent page"
     And I press "Save"
@@ -48,7 +48,7 @@ Feature: Parent wiki page
     And the breadcrumbs should have the element "Parent page"
     # no check removing the parent
     When I go to the wiki page "Test page" for the project called "Test"
-    And I click on "More functions"
+    And I click on "More"
     And I follow "Change parent page"
     And I select "" from "Parent page"
     And I press "Save"

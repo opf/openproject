@@ -65,7 +65,7 @@ Feature: Adding and Editing Wiki Tabs
     Given I am already admin
     Given the wiki page "Wookietest" of the project "Wookies" has 3 versions
       And I go to the wiki page "wookietest" for the project called "Wookies"
-      And I follow "More functions" within "#content"
+      And I follow "More" within "#content"
      When I click "History"
      Then I should see "History" within "#content"
      When I press "View differences"

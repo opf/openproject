@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: h(@version.name) do %>
+<%= toolbar title: @version.name do %>
  <% if authorize_for(:versions, :edit) %>
     <li class="toolbar-item">
       <%= link_to(edit_version_path(@version), class: 'button') do %>

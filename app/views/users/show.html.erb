@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= call_hook :users_show_head %>
 <% end %>
 
-<%= toolbar title: "#{avatar @user} #{h(@user.name)}" do %>
+<%= toolbar title: "#{avatar @user} #{h(@user.name)}".html_safe do %>
   <% if User.current.admin? %>
     <li class="toolbar-item">
       <%= link_to edit_user_path(@user), class: 'button', accesskey: accesskey(:edit) do %>

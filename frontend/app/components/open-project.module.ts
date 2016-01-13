@@ -26,25 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.inplace-edit')
-  .directive('inplaceEditorType', inplaceEditorType);
-
-function inplaceEditorType() {
-  return {
-    restrict: 'E',
-    transclude: true,
-    replace: true,
-    require: '^workPackageField',
-    templateUrl: '/components/inplace-edit/directives/field-edit/edit-type/' +
-      'edit-type.directive.html',
-
-    link: function(scope) {
-      scope.$watch('field.value.props', function(newValue, oldValue) {
-        if (newValue.href !== oldValue.href) {
-          scope.$emit('form.updateRequired');
-        }
-      });
-    }
-  };
+export function opDirective(directive:ng.IDirective = {}, config:ng.IDirective = {}):ng.IDirective {
+  // TODO: Replace '_.merge' with AngularJS v1.4 'angular.merge' method
+  return _.merge(directive, config);
 }
