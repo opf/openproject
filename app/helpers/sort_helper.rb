@@ -275,7 +275,7 @@ module SortHelper
     options[:title] = sort_header_title(column, options)
 
     within_sort_header_tag_hierarchy(options, sort_class(column)) do
-      sort_link(column, caption, default_order, lang: lang)
+      sort_link(column, caption, default_order, lang: lang, title: options[:title])
     end
   end
 

@@ -49,7 +49,7 @@ Feature: Wiki menu items
   @javascript
   Scenario: Adding a main menu entry without index and toc links
     When I go to the wiki page "AwesomePage" for the project called "Awesome Project"
-    And I click on "More functions"
+    And I click on "More"
     And I click on "Configure menu item"
     And I fill in "Avocado Wuaärst" for "menu_items_wiki_menu_item_name"
     And I choose "Show as menu item in project navigation"
@@ -59,7 +59,7 @@ Feature: Wiki menu items
   @javascript @selenium
   Scenario: Adding a main menu entry with index and toc links
     When I go to the wiki page "AwesomePage" for the project called "Awesome Project"
-    And I click on "More functions"
+    And I click on "More"
     And I click on "Configure menu item"
     And I fill in "Avocado Wuaärst" for "menu_items_wiki_menu_item_name"
     And I choose "Show as menu item in project navigation"
@@ -76,7 +76,7 @@ Feature: Wiki menu items
     When I go to the wiki page "Wiki" for the project called "Awesome Project"
     Then I should see "Table of Contents" within "#main-menu"
     Then I should see "Create new child page" within "#main-menu"
-    When I click on "More functions"
+    When I click on "More"
     And I click on "Configure menu item"
     And I fill in "Wikikiki" for "menu_items_wiki_menu_item_name"
     And I uncheck "Show submenu item 'Table of Contents'"
@@ -92,7 +92,7 @@ Feature: Wiki menu items
     When I go to the wiki page "Wiki" for the project called "Awesome Project"
     Then I should see "Table of Contents" within "#main-menu"
     Then I should see "Create new child page" within "#main-menu"
-    When I click on "More functions"
+    When I click on "More"
     And I click on "Configure menu item"
     And I press "Save"
     Then I should not see "Successful update."
@@ -106,7 +106,7 @@ Feature: Wiki menu items
       | title | AwesomePage |
       | name | RichtigGeil |
     When I go to the wiki page "Wiki" for the project called "Awesome Project"
-    When I click on "More functions"
+    When I click on "More"
     And I click on "Configure menu item"
     And I choose "Show as submenu item of"
     When I select "SelectMe" from "parent_wiki_menu_item"
@@ -121,7 +121,7 @@ Feature: Wiki menu items
       | title | DontKillMe |
       | name | DontKillMe  |
     When I go to the wiki page "Wiki" for the project called "Awesome Project"
-    When I click on "More functions"
+    When I click on "More"
     And I click on "Configure menu item"
     And I choose "Do not show this wikipage in project navigation"
     And I press "Save"
@@ -134,7 +134,7 @@ Feature: Wiki menu items
       | name  | AwesomePage |
     And the wiki menu item of the wiki page "Wiki" of project "Awesome Project" has been deleted
     When I go to the wiki page "AwesomePage" for the project called "Awesome Project"
-    And I click on "More functions"
+    And I click on "More"
     And I click on "Configure menu item"
     And I choose "Do not show this wikipage in project navigation"
     And I press "Save"
