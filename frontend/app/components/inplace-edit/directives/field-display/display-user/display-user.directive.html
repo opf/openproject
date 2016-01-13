@@ -8,7 +8,8 @@
     <span class="user-avatar--user">
       <a ng-if="!user.isGroup"
          ng-href="{{user.href}}"
-         class="user-field-user-link">
+         class="user-field-user-link"
+         aria-label="{{field.getKeyValue()}}">
         {{user.name}}
       </a>
       <span ng-if="user.isGroup"

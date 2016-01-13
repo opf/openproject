@@ -360,6 +360,8 @@ en:
       description_options_show: "Show options"
       error: "An error has occured."
       error_update_failed: "The work package could not be updated."
+      edit_attribute: "%{attribute} - Edit"
+      key_value: "%{key}: %{value}"
       label_enable_multi_select: "Enable multiselect"
       label_disable_multi_select: "Disable multiselect"
       label_filter_add: "Add filter"
@@ -367,6 +369,7 @@ en:
       label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
+      no_value: "No value"
       create:
         header: 'New Work Package'
         header_with_parent: 'New work package (Child of %{type} #%{id})'

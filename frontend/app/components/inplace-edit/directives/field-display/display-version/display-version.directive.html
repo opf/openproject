@@ -1,13 +1,18 @@
 <div class="version-wrapper">
-    <span ng-if="!field.text">
+    <span ng-if="!field.text"
+          aria-label="{{ field.getKeyValue() }}"
+          tabindex="0">
       {{field.placeholder}}
     </span>
     <span ng-if="field.text && customEditorController.isVersionLinkViewable()">
-      <a ng-href="{{ customEditorController.getVersionLink() }}">
+      <a ng-href="{{ customEditorController.getVersionLink() }}"
+         aria-label="{{ field.getKeyValue() }}">
         {{field.text.props.name}}
       </a>
     </span>
-    <span ng-if="field.text && !customEditorController.isVersionLinkViewable()">
+    <span ng-if="field.text && !customEditorController.isVersionLinkViewable()"
+          aria-label="{{ field.getKeyValue() }}"
+          tabindex="0">
       {{field.text.props.name}}
     </span>
 </div>

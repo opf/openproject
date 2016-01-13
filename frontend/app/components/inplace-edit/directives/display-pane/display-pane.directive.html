@@ -5,6 +5,7 @@
         span-class="inplace-editing--container"
         link-class="inplace-editing--trigger-link"
         link-title="{{ fieldController.editTitle }}"
+        aria-label="{{ displayPaneController.getAriaLabel() }}"
         execute="displayPaneController.startEditing()">
         <span
             class="inplace-edit--read-value"
