@@ -47,9 +47,10 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
 
   // Listen to the event globally, as listeners are not necessarily
   // in the child scope
-  $rootScope.$on('workPackageRefreshRequired', function() {
+  var refreshRequiredFunction = $rootScope.$on('workPackageRefreshRequired', function() {
     refreshWorkPackage();
   });
+  $scope.$on('$destroy', refreshRequiredFunction);
 
   AuthorisationService.initModelAuth('work_package', workPackage.links);
 
