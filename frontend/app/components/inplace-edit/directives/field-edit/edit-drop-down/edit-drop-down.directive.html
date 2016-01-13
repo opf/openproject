@@ -11,6 +11,6 @@
       class="focus-input inplace-edit-select form--select"
       id="inplace-edit--write-value--{{::field.name}}"
       ng-options="option.name group by option.group for option in customEditorController.allowedValues track by option.href">
-    <option value="" ng-show="customEditorController.hasNullOption()">{{field.placeholder}}</option>
+    <option value="" ng-if="customEditorController.hasNullOption()">{{field.placeholder}}</option>
   </select>
 </div>
