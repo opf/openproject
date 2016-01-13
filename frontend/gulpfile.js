@@ -215,5 +215,7 @@ gulp.task('tests:karma', ['typescript-tests'], function () {
     } else {
       console.log('An error occurred. Temporary test files can be found in ' + tsOutDir);
     }
+
+    process.exit(exitCode);
   });
 });
