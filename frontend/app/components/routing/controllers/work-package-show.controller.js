@@ -299,7 +299,7 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
       });
     });
     $scope.$on('workPackageUpdatedInEditor', function() {
-      NotificationsService.addSuccess(I18n.t('js.label_successful_update'));
+      NotificationsService.addSuccess(I18n.t('js.notice_successful_update'));
     });
   }
 }
