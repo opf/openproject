@@ -30,7 +30,7 @@ end%>
 <% available_additional_global_roles(global_roles, user).each do |role| %>
   <%= render :partial => 'users/available_global_role', :locals => {:role => role} %>
 <% end %>
-<p><br/><%= styled_button_tag l(:button_add), class: '-with-icon icon-yes' %></p>
+<p><br/><%= styled_button_tag l(:button_add), class: '-with-icon icon-checkmark' %></p>
 <% end %>
 </span>
 <span id="no_additional_principal_roles" style="display:none">
