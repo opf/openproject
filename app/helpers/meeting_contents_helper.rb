@@ -119,7 +119,7 @@ module MeetingContentsHelper
                             { controller: '/' + content_type.pluralize,
                               action: 'notify', meeting_id: meeting },
                             method: :put,
-                            class: 'button icon-context icon-mail'
+                            class: 'button icon-context icon-mail1'
     end
   end
 end

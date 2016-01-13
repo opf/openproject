@@ -50,7 +50,7 @@ module OpenProject::Meeting
            caption: :project_module_meetings,
            param: :project_id,
            after: :wiki,
-           html: { class: 'icon2 icon-quote' }
+           html: { class: 'icon2 icon-meetings' }
 
       ActiveSupport::Inflector.inflections do |inflect|
         inflect.uncountable 'meeting_minutes'
