@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= toolbar(title: "#{link_to l(:label_user_plural), users_path} &raquo; #{@user.new_record? ? l(:label_user_new) : h(@user.name)}") do %>
+<%= breadcrumb_toolbar(link_to(l(:label_user_plural), users_path), @user.new_record? ? l(:label_user_new) : @user.name) do %>
   <% unless @user.new_record? %>
     <li class="toolbar-item">
       <%= link_to user_path(@user), class: 'button' do %>

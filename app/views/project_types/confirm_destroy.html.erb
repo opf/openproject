@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: h(@project_type.name) %>
+<%= toolbar title: @project_type.name %>
 <%= labelled_tabular_form_for(@project_type,
             url: project_type_path(@project_type),
             html: {method: 'delete'}) do |f| %>
