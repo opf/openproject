@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= stylesheet_link_tag 'backlogs/taskboard.css' %>
 <% end %>
 
-<%= toolbar title: h(@sprint.name) do %>
+<%= toolbar title: @sprint.name do %>
   <% if @sprint.has_burndown? %>
     <li class="toolbar-item toolbar-input-group" id="col_width">
       <div>
