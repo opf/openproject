@@ -21,7 +21,8 @@ See doc/COPYRIGHT.md for more details.
 
 <% html_title "#{l(:label_history)}: #{@meeting.title}" %>
 
-<%= toolbar title: "#{l(:"label_#{@content_type}")}: #{link_to @meeting, @meeting}" %>
+<%= toolbar title: l(:"label_#{@content_type}"),
+            link_to: link_to(@meeting, @meeting) %>
 
 <h3><%= l(:label_history) %></h3>
 
