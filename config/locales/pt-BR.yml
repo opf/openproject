@@ -107,7 +107,7 @@ pt-BR:
   label_current_default_rate: Atual taxa padrão
   label_date_on: em
   label_deleted_cost_types: Tipos de custos excluídos
-  label_locked_cost_types: Locked cost types
+  label_locked_cost_types: Tipos de custos bloqueados
   label_deliverable: Orçamento
   label_display_cost_entries: Exibir os custos unitários
   label_display_time_entries: Exibir horas informadas
@@ -142,7 +142,7 @@ pt-BR:
   notice_no_cost_objects_available: Não há orçamentos disponíveis.
   notice_something_wrong: Algo deu errado. Por favor, tente novamente.
   notice_successful_restore: Restauração bem-sucedida.
-  notice_successful_lock: Locked successfully.
+  notice_successful_lock: Bloqueado com êxito.
   notice_cost_logged_successfully: Custo unitário registrado com êxito.
   permission_edit_cost_entries: Editar custos unitários reservados
   permission_edit_cost_objects: Editar os orçamentos
