@@ -152,7 +152,7 @@ function workPackageComment($timeout, $location, EditableFieldsState, FocusHelpe
     restrict: 'E',
     replace: true,
     transclude: true,
-    templateUrl: '/components/work-packages/directives/work-package-comment/' +
+    templateUrl: '/components/work-packages/work-package-comment/' +
       'work-package-comment.directive.html',
     scope: {
       workPackage: '=',

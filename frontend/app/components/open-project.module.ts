@@ -26,39 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages')
-  .directive('wpCreateForm', wpCreateForm);
-
-function wpCreateForm() {
-  return {
-    restrict: 'E',
-    templateUrl: function (element, attrs) {
-      var directory = '/components/work-packages/directives/wp-create-form/',
-          template = 'wp-create-form.directive.html';
-
-      if (attrs.formTemplate === 'full-create') {
-        template = 'wp-full-create-form.directive.html';
-      }
-
-      return directory + template;
-    },
-
-    scope: {
-      workPackage: '=?',
-      successState: '@'
-    },
-
-    controller: 'WorkPackageNewController',
-    controllerAs: 'vm',
-    bindToController: true,
-
-    link: function (scope) {
-      var body = angular.element('body').addClass('full-create');
-
-      scope.$on('$stateChangeStart', function () {
-        body.removeClass('full-create');
-      })
-    }
-  };
+export function opDirective(directive:ng.IDirective = {}, config:ng.IDirective = {}):ng.IDirective {
+  // TODO: Replace '_.merge' with AngularJS v1.4 'angular.merge' method
+  return _.merge(directive, config);
 }
