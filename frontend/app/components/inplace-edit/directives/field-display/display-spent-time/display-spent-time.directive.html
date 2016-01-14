@@ -1,7 +1,6 @@
 <div class="spent-time-wrapper">
   <span ng-if="field.isEmpty()"
-        aria-label="{{ field.getKeyValue() }}"
-        tabindex="0">
+        work-package-accessible-attribute="field">
     {{ field.placeholder }}
   </span>
   <span ng-if="!field.isEmpty()">
@@ -12,8 +11,7 @@
       </a>
     </span>
     <span ng-if="!customEditorController.isLinkViewable()"
-          aria-label="{{ field.getKeyValue() }}"
-          tabindex="0">
+          work-package-accessible-attribute="field">
       {{ field.text }}
     </span>
   </span>

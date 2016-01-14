@@ -1,12 +1,6 @@
-<span ng-if="field.isEmpty() && !field.isEditable()"
+<span ng-if="field.isEmpty()"
       ng-bind="field.placeholder"
-      aria-label="{{field.getKeyValue()}}"
-      tabindex="0"></span>
-<span ng-if="!field.isEmpty() && !field.isEditable()"
+      work-package-accessible-attribute="field"></span>
+<span ng-if="!field.isEmpty()"
       ng-bind="field.text"
-      aria-label="{{field.getKeyValue()}}"
-      tabindex="0"></span>
-<span ng-if="field.isEmpty() && field.isEditable()"
-      ng-bind="field.placeholder"></span>
-<span ng-if="!field.isEmpty() && field.isEditable()"
-      ng-bind="field.text"></span>
+      work-package-accessible-attribute="field"></span>

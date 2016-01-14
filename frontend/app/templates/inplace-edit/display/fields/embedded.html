@@ -1,6 +1,2 @@
-<span ng-if="field.isEditable()"
-      ng-bind="field.text.props.name || field.text.props.value || field.placeholder"></span>
-<span ng-if="!field.isEditable()"
-      tabindex="0"
-      aria-label="{{ field.getAriaLabel() }}"
+<span work-package-accessible-attribute="field"
       ng-bind="field.text.props.name || field.text.props.value || field.placeholder"></span>

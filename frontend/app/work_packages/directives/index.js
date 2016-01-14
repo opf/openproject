@@ -87,4 +87,7 @@ angular.module('openproject.workPackages.directives')
     'I18n',
     'FocusHelper',
     require('./work-package-watchers-lookup-directive.js')
+  ])
+  .directive('workPackageAccessibleAttribute', [
+    require('./work-package-accessible-attribute-directive.js')
   ]);

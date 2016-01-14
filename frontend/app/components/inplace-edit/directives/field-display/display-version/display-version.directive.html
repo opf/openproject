@@ -1,7 +1,6 @@
 <div class="version-wrapper">
     <span ng-if="!field.text"
-          aria-label="{{ field.getKeyValue() }}"
-          tabindex="0">
+          work-package-accessible-attribute="field">
       {{field.placeholder}}
     </span>
     <span ng-if="field.text && customEditorController.isVersionLinkViewable()">
@@ -11,8 +10,7 @@
       </a>
     </span>
     <span ng-if="field.text && !customEditorController.isVersionLinkViewable()"
-          aria-label="{{ field.getKeyValue() }}"
-          tabindex="0">
+          work-package-accessible-attribute="field">
       {{field.text.props.name}}
     </span>
 </div>
