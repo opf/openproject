@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
+function workPackageAccessibleAttribute() {
   return {
     restrict: 'A',
     scope: {
@@ -46,4 +46,8 @@ module.exports = function() {
       });
     }
   };
-};
+}
+
+angular
+  .module('openproject.workPackages.directives')
+  .directive('workPackageAccessibleAttribute', workPackageAccessibleAttribute);

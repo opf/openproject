@@ -26,13 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
-
 describe('workPackageAccessibleAttributeDirective', function() {
   var html = '<div work-package-accessible-attribute="field"></div>';
   var scope, element, $compile;
 
-  beforeEach(module('openproject.workPackages.directives'));
+  beforeEach(angular.mock.module('openproject.workPackages.directives'));
 
   beforeEach(inject(function(_$compile_,
                              $rootScope){
