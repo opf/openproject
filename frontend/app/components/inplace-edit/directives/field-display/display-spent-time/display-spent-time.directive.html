@@ -1,6 +1,6 @@
 <div class="spent-time-wrapper">
   <span ng-if="field.isEmpty()"
-        work-package-accessible-attribute="field">
+        wp-accessible-attribute="field">
     {{ field.placeholder }}
   </span>
   <span ng-if="!field.isEmpty()">
@@ -11,7 +11,7 @@
       </a>
     </span>
     <span ng-if="!customEditorController.isLinkViewable()"
-          work-package-accessible-attribute="field">
+          wp-accessible-attribute="field">
       {{ field.text }}
     </span>
   </span>

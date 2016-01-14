@@ -1,6 +1,6 @@
 <div class="version-wrapper">
     <span ng-if="!field.text"
-          work-package-accessible-attribute="field">
+          wp-accessible-attribute="field">
       {{field.placeholder}}
     </span>
     <span ng-if="field.text && customEditorController.isVersionLinkViewable()">
@@ -10,7 +10,7 @@
       </a>
     </span>
     <span ng-if="field.text && !customEditorController.isVersionLinkViewable()"
-          work-package-accessible-attribute="field">
+          wp-accessible-attribute="field">
       {{field.text.props.name}}
     </span>
 </div>

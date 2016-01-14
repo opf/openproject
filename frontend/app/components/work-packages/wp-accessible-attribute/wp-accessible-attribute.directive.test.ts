@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-describe('workPackageAccessibleAttributeDirective', function() {
-  var html = '<div work-package-accessible-attribute="field"></div>';
+describe('wpAccessibleAttributeDirective', function() {
+  var html = '<div wp-accessible-attribute="field"></div>';
   var scope, element, $compile;
 
   beforeEach(angular.mock.module('openproject.workPackages.directives'));
