@@ -278,15 +278,6 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
 
   $scope.nextAvailableWorkPackage = nextAvailableWorkPackage;
 
-  $scope.openLatestTab = function() {
-    var promise = $state.go(latestTab.getStateName(), {
-      workPackageId: nextAvailableWorkPackage(),
-      'query_props': $location.search()['query_props']
-    });
-
-    loadingIndicator.on(promise);
-  };
-
   $scope.openOverviewTab = function() {
     var promise = $state.go('work-packages.list.details.overview', {
       workPackageId: nextAvailableWorkPackage(),

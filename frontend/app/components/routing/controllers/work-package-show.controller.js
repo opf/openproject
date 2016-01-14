@@ -220,16 +220,6 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
     hideAllAttributes: true
   };
 
-  $scope.showWorkPackageDetails = function() {
-    var queryProps = $state.params['query_props'];
-
-    $state.go('work-packages.list.details.overview', {
-      projectPath: $scope.projectIdentifier,
-      workPackageId: $scope.workPackage.props.id,
-      'query_props': queryProps
-    });
-  };
-
   function getFocusAnchorLabel(tab, workPackage) {
     var tabLabel = I18n.t('js.work_packages.tabs.' + tab),
         params = {
