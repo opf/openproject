@@ -181,7 +181,6 @@ describe('WorkPackagesListController', function() {
         $stateParams:       params,
         $state:             state,
         $location:          location,
-        latestTab: {}
       });
 
       $timeout.flush();
