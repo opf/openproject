@@ -1,6 +1,11 @@
-<span class="costs costObject" ng-if="costObject">
-  <a  ng-href="{{ linkToCostObject }}" title="{{ costObject.props.subject }}">
-    {{ costObject.props.subject }}
+<span class="costs costObject" ng-if="!field.isEmpty()">
+  <a ng-href="{{ linkToCostObject }}"
+     title="{{ field.text.props.subject }}"
+     aria-label ="{{ field.getKeyValue() }}">
+    {{ field.text.props.subject }}
   </a>
 </span>
-<span ng-if="!costObject">-</span>
+<span ng-if="field.isEmpty()"
+      work-package-accessible-attribute="field">
+  {{field.placeholder}}
+</span>
