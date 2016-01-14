@@ -34,6 +34,8 @@ sv:
   label_meeting_diff: Skillnad
   label_notify: Skicka för granskning
   label_version: Version
+  label_time_zone: Time zone
+  label_start_date: Start date
   notice_successful_notification: Underrättelse skickades
   notice_timezone_missing: 'Ingen tidszon angiven och %{zone} antas. För att välja din tidszon, vänligen klicka här.'
   permission_create_meetings: Skapa möten

@@ -34,6 +34,8 @@ he:
   label_meeting_diff: Diff
   label_notify: שלח לבדיקה
   label_version: גירסה
+  label_time_zone: Time zone
+  label_start_date: Start date
   notice_successful_notification: הודעה נשלחה בהצלחה
   notice_timezone_missing: 'אין איזור זמן מוגדר, ההערכה היא %{zone}. כדי לבחור את איזור הזמן שלך, אנא לחץ כאן.'
   permission_create_meetings: צור פגישות

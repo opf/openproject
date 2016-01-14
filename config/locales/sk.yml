@@ -34,6 +34,8 @@ sk:
   label_meeting_diff: Rozdieľ
   label_notify: Odoslať na revíziu
   label_version: Verzia
+  label_time_zone: Time zone
+  label_start_date: Start date
   notice_successful_notification: Notifikácia úspešne odoslaná
   notice_timezone_missing: 'Časové pásmo nebolo špecificky nastavené, použilo sa teda %{zone}. Ak chcete vybrať iné časové pásmo, kliknite prosím tu.'
   permission_create_meetings: Vytvárať stretnutia

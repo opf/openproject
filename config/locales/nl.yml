@@ -34,6 +34,8 @@ nl:
   label_meeting_diff: Diff
   label_notify: Verzenden voor revisie
   label_version: Versie
+  label_time_zone: Time zone
+  label_start_date: Start date
   notice_successful_notification: Notificatie succesvol verzonden
   notice_timezone_missing: 'Geen tijdzone is ingesteld en %{zone} is aangenomen. Om uw tijdzone te kiezen, klik dan hier.'
   permission_create_meetings: Creëer vergaderingen

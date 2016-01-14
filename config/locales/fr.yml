@@ -34,6 +34,8 @@ fr:
   label_meeting_diff: Différence
   label_notify: Envoyer pour révision
   label_version: Version
+  label_time_zone: Time zone
+  label_start_date: Start date
   notice_successful_notification: Notification envoyée avec succès
   notice_timezone_missing: "Aucun fuseau horaire n'est défini et %{zone} est supposé. Pour choisir votre fuseau horaire, veuillez cliquer ici."
   permission_create_meetings: Créer des réunions

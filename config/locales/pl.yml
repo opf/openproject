@@ -34,6 +34,8 @@ pl:
   label_meeting_diff: Różnice
   label_notify: Wyślij do przeglądu
   label_version: Wersja
+  label_time_zone: Time zone
+  label_start_date: Start date
   notice_successful_notification: Powiadomienia wysłane pomyślnie
   notice_timezone_missing: 'No time zone is set and %{zone} is assumed. To choose your time zone, please click here.'
   permission_create_meetings: Utwórz spotkanie
