@@ -51,7 +51,7 @@ describe('wpAccessibleAttributeDirective', function() {
       };
 
       element = $compile(html)(scope);
-      scope.$digest();
+      scope.$apply();
     });
 
     it('has a tabindex of 0', function() {
@@ -75,7 +75,7 @@ describe('wpAccessibleAttributeDirective', function() {
       };
 
       element = $compile(html)(scope);
-      scope.$digest();
+      scope.$apply();
     });
 
     it('has no tabindex', function() {
