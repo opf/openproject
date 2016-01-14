@@ -175,7 +175,7 @@ angular.module('openproject.templates', []);
 
 // refactoring
 angular.module('openproject.inplace-edit', []);
-angular.module('openproject.wpButtons', ['ui.router']);
+angular.module('openproject.wpButtons', ['ui.router', 'openproject.services']);
 angular.module('openproject.responsive', []);
 
 // main app

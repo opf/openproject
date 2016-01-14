@@ -1,0 +1,15 @@
+<label for="{{ ::vm.buttonId }}"
+       ng-attr-accesskey="{{ ::vm.activeAccessKey }}"
+       class="hidden-for-sighted">
+
+  {{ vm.label }}
+</label>
+<button id="{{ ::vm.buttonId }}"
+        class="button"
+        title="{{ vm.label }}"
+        ng-click="vm.performAction()"
+        ng-disabled="vm.disabled"
+        ng-class="{ '-active': vm.isActive() }">
+  <i class="{{ ::vm.iconClass }} button--icon"></i>
+  <span class="hidden-for-sighted">{{ vm.label }}</span>
+</button>
