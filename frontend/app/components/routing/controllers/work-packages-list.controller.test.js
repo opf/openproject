@@ -37,7 +37,7 @@ describe('WorkPackagesListController', function() {
 
   beforeEach(angular.mock.module('openproject.api', 'openproject.workPackages.controllers',
     'openproject.workPackages.services', 'ng-context-menu', 'btford.modal', 'openproject.layout',
-    'openproject.services'));
+    'openproject.services', 'openproject.wpButtons'));
 
   beforeEach(angular.mock.module('openproject.templates', function($provide) {
     var configurationService = {};
@@ -260,7 +260,7 @@ describe('WorkPackagesListController', function() {
         params: {
           query_id: testQueries['2'].id
         },
-        href: function() { return ''; },
+        href: function() { return ''; }
       };
       var testLocation = {
         search: function() {
