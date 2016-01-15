@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+
 
 describe('Work packages helper', function() {
   var WorkPackagesHelper;

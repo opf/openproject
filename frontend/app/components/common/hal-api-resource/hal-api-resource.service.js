@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-/* globals Hyperagent */
+
 require('hyperagent');
 
 angular.module('openproject.api')

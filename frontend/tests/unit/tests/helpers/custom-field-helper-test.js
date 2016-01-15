@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+
 
 describe('Custom field helper', function() {
   var CustomFieldHelper;

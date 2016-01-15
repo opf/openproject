@@ -244,7 +244,7 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
             default:
               return this.die(I18n.t('js.timelines.errors.report_comparison'));
           }
-          break; // to please jslint
+          break;
         case 'absolute':
           value = this.options.compare_to_absolute;
           break;

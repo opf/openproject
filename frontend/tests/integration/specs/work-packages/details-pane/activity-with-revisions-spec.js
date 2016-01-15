@@ -30,7 +30,7 @@ var expect = require('../../../spec_helper.js').expect,
   detailsPaneHelper = require('./details-pane-helper.js'),
   elements = detailsPaneHelper.elements;
 
-/*jshint expr: true*/
+
 
 describe('OpenProject', function() {
   describe('activity pane with revisions', function() {

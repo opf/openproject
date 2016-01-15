@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+
 
 describe('WorkPackageContextMenuHelper', function() {
   var PERMITTED_CONTEXT_MENU_ACTIONS = ['edit', 'log_time', 'update', 'move'];

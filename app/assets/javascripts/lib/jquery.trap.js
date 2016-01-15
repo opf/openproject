@@ -22,7 +22,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 IS" AND ANY EXPRESS OR IMPLIED WARRANTIES ARE DISCLAIMED.
 */
 
-/*jshint boss: true, bitwise: true, curly: true, expr: true, newcap: true, noarg: true, nonew: true, latedef: true, regexdash: true */
+
 
     var DATA_ISTRAPPING_KEY = "trap.isTrapping";
 
