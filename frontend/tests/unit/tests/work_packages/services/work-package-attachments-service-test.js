@@ -25,8 +25,8 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-/* jshint expr: true */
-/* globals WebKitBlobBuilder */
+
+
 
 describe('workPackageAttachmentsService', function() {
   'use strict';

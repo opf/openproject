@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+
 
 describe('Timeline table helper', function() {
   var TimelineTableHelper, TreeNode;

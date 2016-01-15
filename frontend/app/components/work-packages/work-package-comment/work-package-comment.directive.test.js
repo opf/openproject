@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-/*jshint expr: true*/
+
 
 describe('workPackageCommentDirectiveTest', function() {
   var I18n, ActivityService, compile, scope, element, stateParams, q, commentCreation;

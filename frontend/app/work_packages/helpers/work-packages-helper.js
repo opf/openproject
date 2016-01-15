@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/* jshint camelcase: false */
+
 
 module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
 

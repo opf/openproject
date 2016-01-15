@@ -37,22 +37,6 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-// stricter than default
-/*jshint undef:true,
-         eqeqeq:true,
-         forin:true,
-         immed:true,
-         latedef:true,
-         trailing: true
-*/
-
-// looser than default
-/*jshint eqnull:true */
-
-// environment and other global vars
-/*jshint browser:true, devel:true*/
-/*global angular:false, Timeline:true*/
-
 module.exports = function() {
 
   var CustomField = {

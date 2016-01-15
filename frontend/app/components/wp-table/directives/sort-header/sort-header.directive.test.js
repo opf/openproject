@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-/*jshint expr: true*/
+
 
 describe('sortHeader Directive', function() {
     var compile, element1, element2, rootScope, scope;

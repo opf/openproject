@@ -28,7 +28,6 @@
 
 var path = require('path');
 var gulp = require('gulp');
-var jshint = require('gulp-jshint');
 var gulpWebpack = require('gulp-webpack');
 var webpack = require('webpack');
 var config = require('./webpack.config.js');
@@ -73,12 +72,6 @@ var deleteFolderRecursive = function(path) {
     fs.rmdirSync(path);
   }
 };
-
-gulp.task('lint', function() {
-  return gulp.src(paths.scripts)
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('jshint-stylish'));
-});
 
 gulp.task('webpack', function() {
   return gulp.src('app/openproject-app.js')

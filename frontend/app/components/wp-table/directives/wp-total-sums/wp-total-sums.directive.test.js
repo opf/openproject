@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-/*jshint expr: true*/
+
 
 describe('workPackageTotalSums Directive', function() {
     var compile, element, rootScope, scope, stateParams = {};
