@@ -32,24 +32,11 @@
             <wp-list-view-button project-identifier="projectIdentifier"></wp-list-view-button>
           </li>
           <li feature-flag="detailsView">
-            <label for="work-packages-details-view-button"
-                   ng-attr-accesskey="{{ isDetailsViewActive() ? undefined : '8' }}"
-                   class="hidden-for-sighted">
-              {{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}
-            </label>
-            <button class="hide"
-                    ng-click="openOverviewTab()"></button>
-            <button id="work-packages-details-view-button"
-                    class="button"
-                    title="{{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}"
-                    ng-class="{ '-active': isDetailsViewActive() }"
-                    ng-click="openLatestTab()">
-              <i class="icon-view-split button--icon"></i>
-              <span class="hidden-for-sighted">{{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}</span>
-            </button>
+            <wp-details-view-button
+                next-wp-func="nextAvailableWorkPackage"></wp-details-view-button>
           </li>
           <li>
-            <wp-view-button></wp-view-button>
+            <wp-view-button next-wp-func="nextAvailableWorkPackage"></wp-view-button>
           </li>
         </ul>
       </li>

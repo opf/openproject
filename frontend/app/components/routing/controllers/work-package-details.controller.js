@@ -30,14 +30,10 @@ angular
   .module('openproject.workPackages.controllers')
   .controller('WorkPackageDetailsController', WorkPackageDetailsController);
 
-function WorkPackageDetailsController($scope, $state, latestTab, workPackage, I18n, RELATION_TYPES,
+function WorkPackageDetailsController($scope, $state, workPackage, I18n, RELATION_TYPES,
     RELATION_IDENTIFIERS, $q, $rootScope, WorkPackagesHelper, PathHelper, UsersHelper,
     WorkPackageService, CommonRelationsHandler,
     ChildrenRelationsHandler, ParentRelationsHandler, NotificationsService) {
-
-  $scope.$on('$stateChangeSuccess', function(event, toState){
-    latestTab.registerState(toState.name);
-  });
 
   var refreshRequiredFunction = $rootScope.$on('workPackageRefreshRequired', function() {
     refreshWorkPackage();

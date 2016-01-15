@@ -82,21 +82,7 @@ angular
         url: '',
         abstract: true,
         templateUrl: '/components/routing/views/work-packages.html',
-        controller: 'WorkPackagesController',
-        resolve: {
-          latestTab: ($state) => {
-            var stateName = 'work-packages.list.details.overview'; // the default tab
-
-            return {
-              getStateName: () => {
-                return stateName;
-              },
-              registerState: () => {
-                stateName = $state.current.name;
-              }
-            };
-          }
-        }
+        controller: 'WorkPackagesController'
       })
 
       .state('work-packages.new', {
@@ -131,19 +117,6 @@ angular
         resolve: {
           workPackage: (WorkPackageService, $stateParams) => {
             return WorkPackageService.getWorkPackage($stateParams.workPackageId);
-          },
-          // TODO hack, get rid of latestTab in ShowController
-          latestTab: ($state) => {
-            var stateName = 'work-package.overview'; // the default tab
-
-            return {
-              getStateName: () => {
-                return stateName;
-              },
-              registerState: () => {
-                stateName = $state.current.name;
-              }
-            };
           }
         },
         // HACK

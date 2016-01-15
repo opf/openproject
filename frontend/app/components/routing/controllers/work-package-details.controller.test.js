@@ -135,7 +135,6 @@ describe('WorkPackageDetailsController', function() {
         $scope:  scope,
         $stateParams: { workPackageId: workPackageId },
         $state: testState,
-        latestTab: {},
         I18n: I18n,
         ConfigurationService: {
           commentsSortedInDescendingOrder: function() {
