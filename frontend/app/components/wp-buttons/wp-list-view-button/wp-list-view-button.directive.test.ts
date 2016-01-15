@@ -26,55 +26,51 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.wpButtons')
-  .directive('wpListViewButton', wpListViewButton);
+import {WorkPackageListViewButtonController} from './wp-list-view-button.directive';
 
-function wpListViewButton() {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-buttons/wp-list-view-button/wp-list-view-button.directive.html',
+var expect = chai.expect;
 
-    scope: {
-      projectIdentifier: '='
-    },
+describe('wpListViewButton directive', () => {
+  var $state, scope;
+  var controller:WorkPackageListViewButtonController;
 
-    bindToController: true,
-    controller: WorkPackageListViewButtonController,
-    controllerAs: 'vm'
-  };
-}
+  beforeEach(angular.mock.module(
+    'openproject.wpButtons', 'openproject.templates', 'openproject.config'
+  ));
 
-function WorkPackageListViewButtonController($state, inplaceEditAll) {
-  var vm = this;
+  beforeEach(angular.mock.inject(($compile, $rootScope, _$state_) => {
+    var html = '<wp-list-view-button disabled="disabled"' +
+          ' projectIdentifier="projectIdentifier"></wp-list-view-button>';
 
-  angular.extend(vm, {
-    isActive: function () {
-      return $state.is('work-packages.list');
-    },
+    var element = angular.element(html);
 
-    openListView: function () {
+    $state = _$state_;
+
+    scope = $rootScope.$new();
+
+    $compile(element)(scope);
+    scope.$digest();
+
+    controller = element.controller('wpListViewButton');
+  }));
+
+  describe('when using openListView()', () => {
+    var go;
+    beforeEach(() => {
+      go = sinon.stub($state, 'go');
+      controller.openListView();
+    });
+
+    it("should redirect user to 'work-packages.list'", () => {
       var params = {
-        projectPath: vm.projectIdentifier
+        projectIdentifier: controller.projectIdentifier
       };
 
-      angular.extend(params, $state.params);
-      $state.go('work-packages.list', params);
-    },
+      $state.params = {
+        projectIdentifier: 'some-overwritten-value'
+      };
 
-    isDisabled: function () {
-      return inplaceEditAll.state;
-    },
-
-    getAccessKey: function () {
-      if (!vm.isActive()) return 8;
-    },
-
-    text: {
-      get label() {
-        var activate = !vm.isActive() ? I18n.t('js.label_activate') + ' ' : '';
-        return activate + I18n.t('js.button_list_view');
-      }
-    }
+      expect(go.withArgs('work-packages.list', params).calledOnce).to.be.true;
+    });
   });
-}
+});
