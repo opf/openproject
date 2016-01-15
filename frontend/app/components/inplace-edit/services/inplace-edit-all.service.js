@@ -32,10 +32,11 @@ angular
 
 function inplaceEditAll($rootScope, $window, inplaceEditForm) {
   var inplaceEditAll;
+  var state = false;
 
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
     if (inplaceEditAll.state && fromParams.workPackageId
-        && toParams.workPackageId !== fromParams.workPackageId) {
+      && toParams.workPackageId !== fromParams.workPackageId) {
 
       if (!$window.confirm(I18n.t('js.text_are_you_sure'))) {
         return event.preventDefault();
@@ -46,7 +47,9 @@ function inplaceEditAll($rootScope, $window, inplaceEditForm) {
   });
 
   return inplaceEditAll = {
-    state: false,
+    get state() {
+      return state;
+    },
 
     cancel: function () {
       inplaceEditForm.deleteNewForm();
@@ -54,11 +57,11 @@ function inplaceEditAll($rootScope, $window, inplaceEditForm) {
     },
 
     start: function () {
-      return this.state = true;
+      return state = true;
     },
 
     stop: function () {
-      return this.state = false;
+      return state = false;
     }
   };
 }
