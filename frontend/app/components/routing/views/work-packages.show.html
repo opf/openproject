@@ -101,7 +101,9 @@
             <div
                 ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
                 ng-if="vm.isSpecified(vm.workPackage, field)"
-                ng-repeat-start="field in group.attributes" class="attributes-key-value--key">
+                ng-repeat-start="field in group.attributes"
+                class="attributes-key-value--key"
+                id="attributes-key-value--key-{{field}}">
                 {{vm.getLabel(vm.workPackage, field)}}
                 <span class="required" ng-if="vm.hasNiceStar(vm.workPackage, field)"> *</span>
             </div>

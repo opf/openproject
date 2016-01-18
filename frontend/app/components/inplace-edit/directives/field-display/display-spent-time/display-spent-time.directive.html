@@ -1,12 +1,17 @@
 <div class="spent-time-wrapper">
-  <span ng-if="field.isEmpty()">{{ field.placeholder }}</span>
+  <span ng-if="field.isEmpty()"
+        wp-accessible-attribute="field">
+    {{ field.placeholder }}
+  </span>
   <span ng-if="!field.isEmpty()">
     <span ng-if="customEditorController.isLinkViewable()">
-      <a href="{{ customEditorController.getPath() }}">
+      <a ng-href="{{ customEditorController.getPath() }}"
+         aria-label="{{ field.getKeyValue() }}">
           {{ field.text }}
       </a>
     </span>
-    <span ng-if="!customEditorController.isLinkViewable()">
+    <span ng-if="!customEditorController.isLinkViewable()"
+          wp-accessible-attribute="field">
       {{ field.text }}
     </span>
   </span>

@@ -26,17 +26,28 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
+function wpAccessibleAttribute() {
   return {
-    restrict: 'E',
-    transclude: true,
+    restrict: 'A',
     scope: {
-      execute: '&',
-      linkClass: '@',
-      linkTitle: '@',
-      spanClass: '@',
-      ariaLabel: '@'
+      field: '=wpAccessibleAttribute'
     },
-    templateUrl: '/templates/components/accessible_by_keyboard.html'
+
+    link: function(scope, element) {
+      scope.$watch('field', function(field) {
+        if (!field.isEditable()) {
+          angular.element(element).attr('aria-label', field.getKeyValue())
+                                  .attr('tabindex', 0);
+        }
+        else {
+          angular.element(element).removeAttr('aria-label')
+                                  .removeAttr('tabindex');
+        }
+      });
+    }
   };
-};
+}
+
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpAccessibleAttribute', wpAccessibleAttribute);

@@ -84,6 +84,10 @@ inplaceEditorDisplayPane.$inject = ['EditableFieldsState', '$timeout'];
 function InplaceEditorDisplayPaneController($scope, HookService) {
   var field = $scope.field;
 
+  this.getAriaLabel = function() {
+    return I18n.t('js.work_packages.edit_attribute', { attribute: field.getKeyValue() });
+  };
+
   this.placeholder = field.placeholder;
 
   this.startEditing = function() {
