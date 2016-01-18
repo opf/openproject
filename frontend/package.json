@@ -31,7 +31,7 @@
     "mocha": "^2.3.4",
     "mocha-jenkins-reporter": "^0.1.2",
     "phantomjs": "~1.9.2",
-    "protractor": "^2.4.0",
+    "protractor": "^3.0.0",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0",
     "sorted-object": "^1.0.0",
