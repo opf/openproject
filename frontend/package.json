@@ -10,7 +10,7 @@
     "gulp": "^3.8.11",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-filter": "^3.0.1",
-    "gulp-livingstyleguide": "0.1.5",
+    "gulp-livingstyleguide": "^0.1.6",
     "gulp-protractor": "1.0.0",
     "gulp-replace": "^0.5.3",
     "gulp-ruby-sass": "^0.7.1",
