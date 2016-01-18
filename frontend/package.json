@@ -15,7 +15,7 @@
     "gulp-replace": "^0.5.3",
     "gulp-ruby-sass": "^2.0.6",
     "gulp-util": "^3.0.4",
-    "gulp-watch": "^1.1.0",
+    "gulp-watch": "^4.3.5",
     "json2htmlcov": "~0.1.1",
     "karma": "^0.13.19",
     "karma-chai": "~0.1.0",
