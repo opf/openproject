@@ -26,11 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
+function wpAccessibleAttribute() {
   return {
     restrict: 'A',
     scope: {
-      field: '=workPackageAccessibleAttribute'
+      field: '=wpAccessibleAttribute'
     },
 
     link: function(scope, element) {
@@ -46,4 +46,8 @@ module.exports = function() {
       });
     }
   };
-};
+}
+
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpAccessibleAttribute', wpAccessibleAttribute);

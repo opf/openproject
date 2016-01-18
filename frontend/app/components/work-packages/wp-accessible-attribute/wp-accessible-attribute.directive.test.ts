@@ -26,13 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
-
-describe('workPackageAccessibleAttributeDirective', function() {
-  var html = '<div work-package-accessible-attribute="field"></div>';
+describe('wpAccessibleAttributeDirective', function() {
+  var html = '<div wp-accessible-attribute="field"></div>';
   var scope, element, $compile;
 
-  beforeEach(module('openproject.workPackages.directives'));
+  beforeEach(angular.mock.module('openproject.workPackages.directives'));
 
   beforeEach(inject(function(_$compile_,
                              $rootScope){
@@ -53,7 +51,7 @@ describe('workPackageAccessibleAttributeDirective', function() {
       };
 
       element = $compile(html)(scope);
-      scope.$digest();
+      scope.$apply();
     });
 
     it('has a tabindex of 0', function() {
@@ -77,7 +75,7 @@ describe('workPackageAccessibleAttributeDirective', function() {
       };
 
       element = $compile(html)(scope);
-      scope.$digest();
+      scope.$apply();
     });
 
     it('has no tabindex', function() {
