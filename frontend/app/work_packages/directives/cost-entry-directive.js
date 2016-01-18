@@ -48,6 +48,8 @@ angular.module('openproject.workPackages.directives')
         setUnitName();
 
         setLink();
+
+        setAriaLabel();
       });
 
       var setUnitName = function() {
@@ -66,6 +68,15 @@ angular.module('openproject.workPackages.directives')
         link += '&project_id=' + $scope.workPackage.embedded.project.props.id;
 
         $scope.summaryLink = link;
+      };
+
+      var setAriaLabel = function() {
+        var key = I18n.t('js.work_packages.properties.spentUnits'),
+            value = $scope.spentUnits + ' ' + $scope.unit;
+
+        $scope.ariaLabel = I18n.t('js.work_packages.key_value',
+            { key: key,
+              value: value });
       };
     }
   };
