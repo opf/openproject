@@ -5467,11 +5467,6 @@
       "from": "ripemd160@0.2.0",
       "resolved": "https://registry.npmjs.org/ripemd160/-/ripemd160-0.2.0.tgz"
     },
-    "rndm": {
-      "version": "1.1.1",
-      "from": "rndm@>=1.1.0 <1.2.0",
-      "resolved": "https://registry.npmjs.org/rndm/-/rndm-1.1.1.tgz"
-    },
     "samsam": {
       "version": "1.1.3",
       "from": "samsam@>=1.1.0 <1.2.0",
@@ -5486,11 +5481,6 @@
       "version": "0.6.1",
       "from": "sax@>=0.6.0 <0.7.0",
       "resolved": "https://registry.npmjs.org/sax/-/sax-0.6.1.tgz"
-    },
-    "scmp": {
-      "version": "1.0.0",
-      "from": "scmp@1.0.0",
-      "resolved": "https://registry.npmjs.org/scmp/-/scmp-1.0.0.tgz"
     },
     "selenium-webdriver": {
       "version": "2.47.0",
@@ -5972,11 +5962,6 @@
       "from": "uid-number@0.0.5",
       "resolved": "https://registry.npmjs.org/uid-number/-/uid-number-0.0.5.tgz"
     },
-    "uid-safe": {
-      "version": "2.0.0",
-      "from": "uid-safe@>=2.0.0 <2.1.0",
-      "resolved": "https://registry.npmjs.org/uid-safe/-/uid-safe-2.0.0.tgz"
-    },
     "ultron": {
       "version": "1.0.2",
       "from": "ultron@>=1.0.0 <1.1.0",
@@ -6367,11 +6352,6 @@
       "version": "0.1.2",
       "from": "yeast@0.1.2",
       "resolved": "https://registry.npmjs.org/yeast/-/yeast-0.1.2.tgz"
-    },
-    "zeparser": {
-      "version": "0.0.5",
-      "from": "zeparser@0.0.5",
-      "resolved": "https://registry.npmjs.org/zeparser/-/zeparser-0.0.5.tgz"
     }
   }
 }
