@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "devDependencies": {
     "body-parser": "^1.2.0",
-    "chai": "~1.9.1",
-    "chai-as-promised": "^4.1.1",
+    "chai": "^3.4.1",
+    "chai-as-promised": "^5.2.0",
     "coffee-script": "^1.9.2",
     "express": "^4.9.7",
     "gulp": "^3.8.11",
