@@ -32,7 +32,7 @@
     "mocha-jenkins-reporter": "^0.1.2",
     "phantomjs": "~1.9.2",
     "protractor": "^2.4.0",
-    "sinon": "~1.9.1",
+    "sinon": "^1.17.2",
     "sinon-chai": "~2.5.0",
     "sorted-object": "^1.0.0",
     "tsproject": "^1.1.0-rc.2",
