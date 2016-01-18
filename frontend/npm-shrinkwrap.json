@@ -189,9 +189,9 @@
       "resolved": "https://registry.npmjs.org/assert-plus/-/assert-plus-0.1.5.tgz"
     },
     "assertion-error": {
-      "version": "1.0.0",
-      "from": "assertion-error@1.0.0",
-      "resolved": "https://registry.npmjs.org/assertion-error/-/assertion-error-1.0.0.tgz"
+      "version": "1.0.1",
+      "from": "assertion-error@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/assertion-error/-/assertion-error-1.0.1.tgz"
     },
     "async": {
       "version": "0.2.10",
@@ -2978,7 +2978,14 @@
     "deep-eql": {
       "version": "0.1.3",
       "from": "deep-eql@0.1.3",
-      "resolved": "https://registry.npmjs.org/deep-eql/-/deep-eql-0.1.3.tgz"
+      "resolved": "https://registry.npmjs.org/deep-eql/-/deep-eql-0.1.3.tgz",
+      "dependencies": {
+        "type-detect": {
+          "version": "0.1.1",
+          "from": "type-detect@0.1.1",
+          "resolved": "https://registry.npmjs.org/type-detect/-/type-detect-0.1.1.tgz"
+        }
+      }
     },
     "deep-is": {
       "version": "0.1.3",
@@ -5916,9 +5923,9 @@
       "resolved": "https://registry.npmjs.org/type-check/-/type-check-0.3.2.tgz"
     },
     "type-detect": {
-      "version": "0.1.1",
-      "from": "type-detect@0.1.1",
-      "resolved": "https://registry.npmjs.org/type-detect/-/type-detect-0.1.1.tgz"
+      "version": "1.0.0",
+      "from": "type-detect@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/type-detect/-/type-detect-1.0.0.tgz"
     },
     "type-is": {
       "version": "1.6.10",
