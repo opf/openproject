@@ -28,7 +28,7 @@
 
 var path = require('path');
 var gulp = require('gulp');
-var gulpWebpack = require('gulp-webpack');
+var gulpWebpack = require('webpack-stream');
 var webpack = require('webpack');
 var config = require('./webpack.config.js');
 var sass = require('gulp-ruby-sass');

@@ -16,7 +16,6 @@
     "gulp-ruby-sass": "^0.7.1",
     "gulp-util": "^3.0.4",
     "gulp-watch": "^1.1.0",
-    "gulp-webpack": "^1.0.0",
     "json2htmlcov": "~0.1.1",
     "karma": "~0.12.3",
     "karma-chai": "~0.1.0",
@@ -37,7 +36,8 @@
     "sinon-chai": "~2.5.0",
     "sorted-object": "^1.0.0",
     "tsproject": "^1.1.0-rc.2",
-    "webpack-dev-server": "^1.6.5"
+    "webpack-dev-server": "^1.6.5",
+    "webpack-stream": "^3.1.0"
   },
   "dependencies": {
     "angular-elastic": "^2.5.0",
