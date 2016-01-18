@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+
 
 describe('authoring Directive', function() {
     var createdOn = moment().utc().subtract('d', 1);

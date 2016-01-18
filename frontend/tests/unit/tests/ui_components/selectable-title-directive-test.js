@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+
 
 describe('selectableTitle Directive', function() {
   var MODEL_SELECTOR = 'div.dropdown-scrollable a';

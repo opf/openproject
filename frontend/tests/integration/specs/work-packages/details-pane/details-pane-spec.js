@@ -29,7 +29,7 @@
 var expect = require('../../../spec_helper.js').expect,
     detailsPaneHelper = require('./details-pane-helper.js');
 
-/*jshint expr: true*/
+
 
 describe('OpenProject', function() {
   describe('pane itself', function() {

@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+
 
 describe('workPackageDetailsToolbar', function() {
   var I18n, HookService, compile, scope, element, stateParams;

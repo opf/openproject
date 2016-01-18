@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+
 
 describe('queryFilters', function() {
   var doc, $httpBackend, $timeout, compile, scope, element,

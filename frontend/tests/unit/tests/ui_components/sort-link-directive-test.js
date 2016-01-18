@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+
 
 describe('sort link Directive', function() {
     var I18n, t, compile, element, scope, sortService;

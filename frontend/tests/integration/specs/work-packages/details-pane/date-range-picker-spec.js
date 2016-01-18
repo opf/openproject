@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/* jshint ignore:start */
+
 
 var expect = require('../../../spec_helper.js').expect,
     detailsPaneHelper = require('./details-pane-helper.js'),
@@ -509,4 +509,4 @@ describe.only('details pane', function() {
     });
   });
 });
-/* jshint ignore:end */
+
