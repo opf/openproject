@@ -198,6 +198,11 @@
       "from": "async-each@0.1.6",
       "resolved": "https://registry.npmjs.org/async-each/-/async-each-0.1.6.tgz"
     },
+    "atoa": {
+      "version": "1.0.0",
+      "from": "atoa@1.0.0",
+      "resolved": "https://registry.npmjs.org/atoa/-/atoa-1.0.0.tgz"
+    },
     "autoprefixer-core": {
       "version": "5.2.1",
       "from": "autoprefixer-core@>=5.0.0 <6.0.0",
@@ -2804,6 +2809,11 @@
       "from": "content-type@>=1.0.1 <1.1.0",
       "resolved": "https://registry.npmjs.org/content-type/-/content-type-1.0.1.tgz"
     },
+    "contra": {
+      "version": "1.9.1",
+      "from": "contra@1.9.1",
+      "resolved": "https://registry.npmjs.org/contra/-/contra-1.9.1.tgz"
+    },
     "cookie": {
       "version": "0.1.3",
       "from": "cookie@0.1.3",
@@ -2828,6 +2838,11 @@
       "version": "3.3.0",
       "from": "crc@3.3.0",
       "resolved": "https://registry.npmjs.org/crc/-/crc-3.3.0.tgz"
+    },
+    "crossvent": {
+      "version": "1.5.4",
+      "from": "crossvent@1.5.4",
+      "resolved": "https://registry.npmjs.org/crossvent/-/crossvent-1.5.4.tgz"
     },
     "crypt": {
       "version": "0.0.1",
@@ -2931,6 +2946,11 @@
       "version": "0.5.3",
       "from": "ctype@0.5.3",
       "resolved": "https://registry.npmjs.org/ctype/-/ctype-0.5.3.tgz"
+    },
+    "custom-event": {
+      "version": "1.0.0",
+      "from": "custom-event@1.0.0",
+      "resolved": "https://registry.npmjs.org/custom-event/-/custom-event-1.0.0.tgz"
     },
     "dargs": {
       "version": "3.0.1",
@@ -3040,40 +3060,9 @@
       "resolved": "https://registry.npmjs.org/domutils/-/domutils-1.5.1.tgz"
     },
     "dragula": {
-      "version": "3.5.2",
-      "from": "dragula@3.5.2",
-      "resolved": "https://registry.npmjs.org/dragula/-/dragula-3.5.2.tgz",
-      "dependencies": {
-        "contra": {
-          "version": "1.9.1",
-          "from": "contra@1.9.1",
-          "resolved": "https://registry.npmjs.org/contra/-/contra-1.9.1.tgz",
-          "dependencies": {
-            "atoa": {
-              "version": "1.0.0",
-              "from": "atoa@1.0.0",
-              "resolved": "https://registry.npmjs.org/atoa/-/atoa-1.0.0.tgz"
-            },
-            "ticky": {
-              "version": "1.0.0",
-              "from": "ticky@1.0.0",
-              "resolved": "https://registry.npmjs.org/ticky/-/ticky-1.0.0.tgz"
-            }
-          }
-        },
-        "crossvent": {
-          "version": "1.5.4",
-          "from": "crossvent@1.5.4",
-          "resolved": "https://registry.npmjs.org/crossvent/-/crossvent-1.5.4.tgz",
-          "dependencies": {
-            "custom-event": {
-              "version": "1.0.0",
-              "from": "custom-event@1.0.0",
-              "resolved": "https://registry.npmjs.org/custom-event/-/custom-event-1.0.0.tgz"
-            }
-          }
-        }
-      }
+      "version": "3.6.3",
+      "from": "dragula@3.6.3",
+      "resolved": "https://registry.npmjs.org/dragula/-/dragula-3.6.3.tgz"
     },
     "duplexer": {
       "version": "0.1.1",
@@ -5861,6 +5850,11 @@
           "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.0.5.tgz"
         }
       }
+    },
+    "ticky": {
+      "version": "1.0.0",
+      "from": "ticky@1.0.0",
+      "resolved": "https://registry.npmjs.org/ticky/-/ticky-1.0.0.tgz"
     },
     "tildify": {
       "version": "1.1.2",
