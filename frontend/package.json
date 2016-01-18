@@ -51,7 +51,7 @@
     "file-loader": "^0.8.1",
     "glob": "^4.5.3",
     "html-loader": "^0.2.3",
-    "json-loader": "^0.5.1",
+    "json-loader": "^0.5.4",
     "lodash": "^2.4.2",
     "ng-annotate-loader": "0.0.10",
     "ngtemplate-loader": "^0.1.2",

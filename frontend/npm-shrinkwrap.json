@@ -4302,9 +4302,9 @@
       }
     },
     "json-loader": {
-      "version": "0.5.1",
-      "from": "json-loader@0.5.1",
-      "resolved": "https://registry.npmjs.org/json-loader/-/json-loader-0.5.1.tgz"
+      "version": "0.5.4",
+      "from": "json-loader@0.5.4",
+      "resolved": "https://registry.npmjs.org/json-loader/-/json-loader-0.5.4.tgz"
     },
     "json-stringify-safe": {
       "version": "5.0.1",
