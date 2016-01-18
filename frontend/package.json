@@ -40,7 +40,6 @@
     "webpack-dev-server": "^1.6.5"
   },
   "dependencies": {
-    "URIjs": "^1.14.1",
     "angular-elastic": "^2.5.0",
     "autoprefixer-loader": "^1.2.0",
     "bower": "^1.4.1",
@@ -62,6 +61,7 @@
     "style-loader": "^0.8.2",
     "ts-loader": "^0.7.2",
     "typescript": "^1.7.5",
+    "urijs": "^1.17.0",
     "url-loader": "^0.5.5",
     "webpack": "^1.12.11",
     "yaml-loader": "^0.1.0"

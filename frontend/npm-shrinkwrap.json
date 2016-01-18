@@ -5983,10 +5983,10 @@
       "from": "unpipe@1.0.0",
       "resolved": "https://registry.npmjs.org/unpipe/-/unpipe-1.0.0.tgz"
     },
-    "URIjs": {
-      "version": "1.16.1",
-      "from": "URIjs@>=1.14.1 <2.0.0",
-      "resolved": "https://registry.npmjs.org/URIjs/-/URIjs-1.16.1.tgz"
+    "urijs": {
+      "version": "1.17.0",
+      "from": "urijs@latest",
+      "resolved": "https://registry.npmjs.org/urijs/-/urijs-1.17.0.tgz"
     },
     "url": {
       "version": "0.10.3",
