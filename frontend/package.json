@@ -33,7 +33,7 @@
     "phantomjs": "~1.9.2",
     "protractor": "^2.4.0",
     "sinon": "^1.17.2",
-    "sinon-chai": "~2.5.0",
+    "sinon-chai": "^2.8.0",
     "sorted-object": "^1.0.0",
     "tsproject": "^1.1.0-rc.2",
     "webpack-dev-server": "^1.6.5",
