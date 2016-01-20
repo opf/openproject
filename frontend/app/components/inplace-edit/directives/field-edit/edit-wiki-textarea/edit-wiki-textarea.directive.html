@@ -4,6 +4,7 @@
     for="inplace-edit--write-value--{{::field.name}}">
       {{::field.getLabel()}}
   </label>
+
   <textarea
           wiki-toolbar
           style="min-height: 114px"
@@ -16,7 +17,9 @@
           ng-disabled="fieldController.state.isBusy"
           ng-required="fieldController.isRequired"
           ng-model="field.value.raw"
-          title="{{ fieldController.editTitle }}">
+          title="{{ fieldController.editTitle }}"
+          work-package-dnd-file-handler
+            dnd-file-handler-wp="{'hello':'world'}">
   </textarea>
   <div class="inplace-edit--preview" ng-if="customEditorController.isPreview && !fieldController.state.isBusy">
       <span ng-bind-html="customEditorController.previewHtml"></span>
