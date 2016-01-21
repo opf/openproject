@@ -599,12 +599,20 @@ JJ Abrams</textarea>
         context 'with erroneous field' do
           before do
             resource.errors.add(:name, :invalid)
+            resource.errors.add(:name, :inclusion)
           end
 
           it 'shows an appropriate error label' do
             expect(output).to have_selector 'label.-error',
                                             count: 1,
-                                            text: User.human_attribute_name(:name)
+                                            text: 'Name'
+          end
+
+          it 'contains a specific error as a hidden sub-label' do
+            expect(output).to have_selector 'label.-error span',
+                                            count: 1,
+                                            text: 'This field is invalid: Name is invalid. ' \
+                                                  'Name is not set to one of the allowed values.'
           end
         end
       end

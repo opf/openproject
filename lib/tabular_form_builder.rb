@@ -200,8 +200,15 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
     label_options[:class] << 'form--label'
 
-    has_errors = @object.try(:errors) && @object.errors.include?(field)
-    label_options[:class] << ' -error' if has_errors
+
+    content = h(text)
+    if @object.try(:errors) && @object.errors.include?(field)
+      label_options[:class] << ' -error'
+      error_label = I18n.t('errors.field_erroneous_label',
+                           full_errors: @object.errors.full_messages_for(field).join(' '))
+       content << content_tag('span', error_label, class: 'hidden-for-sighted')
+    end
+
     label_options[:class] << ' -required' if options.delete(:required)
     label_options[:for] = if options[:for]
                             options[:for]
@@ -211,7 +218,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     label_options[:lang] = options[:lang]
     label_options.reject! do |_k, v| v.nil? end
 
-    @template.label(@object_name, field, h(text), label_options)
+    @template.label(@object_name, field, content, label_options)
   end
 
   def element_id(translation_form)
