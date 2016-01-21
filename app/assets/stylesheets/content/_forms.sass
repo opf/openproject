@@ -351,21 +351,14 @@ fieldset.form--fieldset
       display: inline-block
       line-height:  $base-line-height
       padding-right: 0.325rem
-    &.-required,
-    .form--field.-required > &
-      &::after
-        color: $content-form-error-color
 
+.form--label-required
+  @include default-transition
+  color:   $primary-color-dark
+  padding: 0 0.325rem
 
-  &.-required,
-  .form--field.-required > &
-    &::after
-      @include default-transition
-      content:  '*'
-      color:    $primary-color-dark
-      padding:  0 0.325rem
-    &:hover::after
-      color:    $primary-color
+  .form--label.-error &
+    color: $content-form-error-color
 
 .form--field-container
   @include grid-content(10)

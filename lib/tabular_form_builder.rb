@@ -206,10 +206,21 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       label_options[:class] << ' -error'
       error_label = I18n.t('errors.field_erroneous_label',
                            full_errors: @object.errors.full_messages_for(field).join(' '))
-       content << content_tag('span', error_label, class: 'hidden-for-sighted')
+       content << content_tag('p', error_label, class: 'hidden-for-sighted')
     end
 
-    label_options[:class] << ' -required' if options.delete(:required)
+    if options.delete(:required)
+      label_options[:class] << ' -required'
+      content << content_tag('span',
+                             '*',
+                             class: 'form--label-required',
+                             'aria-hidden': true)
+
+      content << content_tag('p',
+                             I18n.t(:label_field_is_required),
+                             class: 'hidden-for-sighted')
+    end
+
     label_options[:for] = if options[:for]
                             options[:for]
                           elsif options[:multi_locale] && id
