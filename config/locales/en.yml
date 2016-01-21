@@ -453,6 +453,7 @@ en:
 
   errors:
     header_invalid_fields: "There were problems with the following fields:"
+    field_erroneous_label: "This field is invalid: %{full_errors}\nPlease enter a valid value."
 
   activity:
     created: "Created: %{title}"
@@ -962,6 +963,7 @@ en:
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_feeds_access_key_type: "RSS"
+  label_field_is_required: 'This field is required.'
   label_file_added: "File added"
   label_file_plural: "Files"
   label_filter_add: "Add filter"

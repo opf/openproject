@@ -550,6 +550,19 @@ JJ Abrams</textarea>
         }).at_path('label')
       end
 
+      def expected_required_label_like(expected_title, expected_classes = 'form--label')
+        expect(output).to be_html_eql(%{
+          <label class="#{expected_classes}"
+                 for="user_name"
+                 title="#{expected_title}">
+            #{expected_title}
+            <span class="form--label-required" aria-hidden="true">*</span>
+            <p class="hidden-for-sighted">This field is required.</span>
+          </label>
+        }).at_path('label')
+      end
+
+
       context 'with a label specified as string' do
         let(:text) { 'My own label' }
 
@@ -582,7 +595,7 @@ JJ Abrams</textarea>
         end
       end
 
-      context 'with ActiveModel and withouth specified label' do
+      context 'with ActiveModel and without specified label' do
         let(:resource) {
           FactoryGirl.build_stubbed(:user,
                                     firstname:  'JJ',
@@ -595,6 +608,26 @@ JJ Abrams</textarea>
         it 'uses the human attibute name' do
           expected_label_like(User.human_attribute_name(:name))
         end
+
+        context 'with erroneous field' do
+          before do
+            resource.errors.add(:name, :invalid)
+            resource.errors.add(:name, :inclusion)
+          end
+
+          it 'shows an appropriate error label' do
+            expect(output).to have_selector 'label.-error',
+                                            count: 1,
+                                            text: 'Name'
+          end
+
+          it 'contains a specific error as a hidden sub-label' do
+            expect(output).to have_selector 'label.-error p',
+                                            count: 1,
+                                            text: 'This field is invalid: Name is invalid. ' \
+                                                  'Name is not set to one of the allowed values.'
+          end
+        end
       end
 
       context 'when required, with a label specified as symbol' do
@@ -606,7 +639,7 @@ JJ Abrams</textarea>
         end
 
         it 'uses the label' do
-          expected_label_like(I18n.t(:name), 'form--label -required')
+          expected_required_label_like(I18n.t(:name), 'form--label -required')
         end
       end
     end

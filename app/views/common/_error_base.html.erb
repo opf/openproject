@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="errorExplanation" id="errorExplanation" role="alert">
+<div class="errorExplanation" id="errorExplanation" tabindex="0" role="alert">
   <% if content_for?(:error_details) %>
     <h2><%= error_message %></h2>
     <%= content_for :error_details %>

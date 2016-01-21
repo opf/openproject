@@ -198,10 +198,29 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
     id = element_id(translation_form) if translation_form
 
-    # FIXME: reenable the error handling
-    label_options[:class] << 'error' if false && @object && @object.respond_to?(:errors) && @object.errors[field] # FIXME
     label_options[:class] << 'form--label'
-    label_options[:class] << ' -required' if options.delete(:required)
+
+
+    content = h(text)
+    if @object.try(:errors) && @object.errors.include?(field)
+      label_options[:class] << ' -error'
+      error_label = I18n.t('errors.field_erroneous_label',
+                           full_errors: @object.errors.full_messages_for(field).join(' '))
+       content << content_tag('p', error_label, class: 'hidden-for-sighted')
+    end
+
+    if options.delete(:required)
+      label_options[:class] << ' -required'
+      content << content_tag('span',
+                             '*',
+                             class: 'form--label-required',
+                             'aria-hidden': true)
+
+      content << content_tag('p',
+                             I18n.t(:label_field_is_required),
+                             class: 'hidden-for-sighted')
+    end
+
     label_options[:for] = if options[:for]
                             options[:for]
                           elsif options[:multi_locale] && id
@@ -210,7 +229,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     label_options[:lang] = options[:lang]
     label_options.reject! do |_k, v| v.nil? end
 
-    @template.label(@object_name, field, h(text), label_options)
+    @template.label(@object_name, field, content, label_options)
   end
 
   def element_id(translation_form)
