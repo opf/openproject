@@ -18,24 +18,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 ++#%>
 
-<%= render :partial => 'shared/costs_header' %>
+<%= render partial: 'shared/costs_header' %>
 <h2><%= l(:label_log_costs) %></h2>
 
 <% url = @cost_entry.new_record? ?
-          { :action => 'create', :project_id => @project.id } :
-          { :action => 'update', :id => @cost_entry } %>
+          { action: 'create', project_id: @project.id } :
+          { action: 'update', id: @cost_entry } %>
 
 <% method = @cost_entry.new_record? ?
             :post :
             :put %>
 
-<%= labelled_tabular_form_for @cost_entry, :url => url, :html => { :method => method } do |f| %>
+<%= labelled_tabular_form_for @cost_entry, url: url, html: { method: method } do |f| %>
     <%= error_messages_for 'cost_entry' %>
     <%= back_url_hidden_field_tag %>
 
     <div class="box">
       <div class="form--field">
-        <%= f.text_field :work_package_id, :size => 6, :required => true %>
+        <%= f.text_field :work_package_id, size: 6, required: true %>
 
         <% if @cost_entry.work_package %>
           <div class="form--field-instructions">
@@ -44,35 +44,32 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         <% end %>
       </div>
       <div class="form--field">
-        <%= f.text_field :spent_on, :size => 10, :required => true %>
+        <%= f.text_field :spent_on, size: 10, required: true %>
         <%= calendar_for('cost_entry_spent_on') %>
       </div>
       <% if User.current.allowed_to? :log_costs, @project %>
         <div class="form--field">
-          <%= f.select :user_id, user_collection_for_select_options, :required => true %>
+          <%= f.select :user_id, user_collection_for_select_options, required: true %>
         </div>
       <% else %>
-        <%= f.hidden_field :user_id, :value => User.current.id %>
+        <%= f.hidden_field :user_id, value: User.current.id %>
       <% end %>
       <div class="form--field">
-        <%= f.select :cost_type_id, cost_types_collection_for_select_options, :required => true %></p>
+        <%= f.select :cost_type_id, cost_types_collection_for_select_options, required: true %></p>
       </div>
       <div class="form--field">
-        <%= f.label :units, class: "form--label -required" %>
-        <% suffix = @cost_entry.cost_type.nil? ? '' : (@cost_entry.units == 1 ? @cost_entry.cost_type.unit : @cost_entry.cost_type.unit_plural) %>
-        <span class="form--field-container">
-          <%= f.text_field :units, size: 6, required: true, no_label: true %>
-          <% if @cost_entry.cost_type %>
-            <span class="form--field-affix" id="cost_entry_unit_name">
-              <%= h(@cost_entry.units == 1 ? @cost_entry.cost_type.unit : @cost_entry.cost_type.unit_plural) %>
-            </span>
+        <% if @cost_entry.cost_type.nil? %>
+            <%= f.text_field :units, size: 6, required: true %>
+        <% else %>
+          <% suffix = @cost_entry.units == 1 ? @cost_entry.cost_type.unit : @cost_entry.cost_type.unit_plural %>
+        <%= f.text_field :units,
+                         size: 6,
+                         required: true,
+                         suffix: h(suffix) %>
           <% end %>
-        </span>
-
-
-          <%= observe_field( "cost_entry_cost_type_id", :url => {:controller => :cost_objects, :action => :update_material_budget_item, :project_id => @cost_entry.project}, :with => "'cost_type_id=' + encodeURIComponent(value) + '&units=' + encodeURIComponent(document.getElementById('cost_entry_units').value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_entry_spent_on').value) + '&element_id=cost_entry'") %>
-          <%= observe_field( "cost_entry_units", :frequency => 1, :url => {:controller => :cost_objects, :action => :update_material_budget_item, :project_id => @cost_entry.project}, :with => "'cost_type_id=' + encodeURIComponent(document.getElementById('cost_entry_cost_type_id').value) + '&units=' + encodeURIComponent(value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_entry_spent_on').value) + '&element_id=cost_entry'") %>
-          <%= observe_field( "cost_entry_spent_on", :frequency => 1, :url => {:controller => :cost_objects, :action => :update_material_budget_item, :project_id => @cost_entry.project}, :with => "'cost_type_id=' + encodeURIComponent(document.getElementById('cost_entry_cost_type_id').value) + '&units=' + encodeURIComponent(document.getElementById('cost_entry_units').value) + '&fixed_date=' + encodeURIComponent(value) + '&element_id=cost_entry'") %>
+          <%= observe_field( "cost_entry_cost_type_id", url: {controller: :cost_objects, action: :update_material_budget_item, project_id: @cost_entry.project}, with: "'cost_type_id=' + encodeURIComponent(value) + '&units=' + encodeURIComponent(document.getElementById('cost_entry_units').value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_entry_spent_on').value) + '&element_id=cost_entry'") %>
+          <%= observe_field( "cost_entry_units", frequency: 1, url: {controller: :cost_objects, action: :update_material_budget_item, project_id: @cost_entry.project}, with: "'cost_type_id=' + encodeURIComponent(document.getElementById('cost_entry_cost_type_id').value) + '&units=' + encodeURIComponent(value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_entry_spent_on').value) + '&element_id=cost_entry'") %>
+          <%= observe_field( "cost_entry_spent_on", frequency: 1, url: {controller: :cost_objects, action: :update_material_budget_item, project_id: @cost_entry.project}, with: "'cost_type_id=' + encodeURIComponent(document.getElementById('cost_entry_cost_type_id').value) + '&units=' + encodeURIComponent(document.getElementById('cost_entry_units').value) + '&fixed_date=' + encodeURIComponent(value) + '&element_id=cost_entry'") %>
       </div>
 
       <div class="form--field">
@@ -88,7 +85,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
             end %>
           <% else %>
             <span id="cost_entry_costs_editor" class="form--text-field-container">
-              <input class="currency form--text-field" value="<%= number_to_currency(@cost_entry.overridden_costs, :unit => "").strip if @cost_entry.overridden_costs %>" size="7" name="cost_entry[overridden_costs]" id="cost_entry_costs_edit"/> <%= Setting.plugin_openproject_costs['costs_currency'] %>
+              <input class="currency form--text-field" value="<%= number_to_currency(@cost_entry.overridden_costs, unit: "").strip if @cost_entry.overridden_costs %>" size="7" name="cost_entry[overridden_costs]" id="cost_entry_costs_edit"/> <%= Setting.plugin_openproject_costs['costs_currency'] %>
             </span>
             <br /><em><%= l(:help_override_rate) %></em>
           <% end %>
