@@ -26,42 +26,38 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.services')
-  .factory('inplaceEditAll', inplaceEditAll);
+export class KeepTabService {
+  protected showTab:string = 'work-packages.show.activity';
+  protected detailsTab:string = 'work-packages.list.details.overview';
 
-function inplaceEditAll($rootScope, $window, inplaceEditForm) {
-  var inplaceEditAll;
-  var state = false;
+  constructor(public $state:ng.ui.IStateService, $rootScope:ng.IRootScopeService) {
+    'ngInject';
 
-  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-    if (inplaceEditAll.state && fromParams.workPackageId
-      && toParams.workPackageId !== fromParams.workPackageId) {
+    this.updateTabs();
 
-      if (!$window.confirm(I18n.t('js.text_are_you_sure'))) {
-        return event.preventDefault();
-      }
+    $rootScope.$on('$stateChangeSuccess', () => {
+      this.updateTabs();
+    });
+  }
 
-      inplaceEditAll.cancel();
-    }
-  });
+  public get currentShowTab():string {
+    return this.showTab;
+  }
 
-  return inplaceEditAll = {
-    get state() {
-      return state;
-    },
+  public get currentDetailsTab():string {
+    return this.detailsTab;
+  }
 
-    cancel: function () {
-      inplaceEditForm.deleteNewForm();
-      this.stop();
-    },
+  protected updateTab(stateName:string, tabName:string) {
+    this[tabName] = this.$state.includes(stateName) ? this.$state.current.name : this[tabName];
+  }
 
-    start: function () {
-      return state = true;
-    },
-
-    stop: function () {
-      return state = false;
-    }
-  };
+  protected updateTabs() {
+    this.updateTab('work-packages.show.*', 'showTab');
+    this.updateTab('work-packages.list.details.*', 'detailsTab');
+  }
 }
+
+angular
+  .module('openproject.wpButtons')
+  .service('keepTab', KeepTabService);

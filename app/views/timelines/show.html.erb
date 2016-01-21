@@ -69,16 +69,20 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div id="timeline">
   <%= form_tag '', {id: "specialForm", 'ng-controller' => 'TimelineSelectionController'} do %>
-    <span class="inline-label">
-      <%= label_tag 'timeline_select', l("timelines.timeline"), class: "form-label -transparent" %>
-      <ui-select ng-model="vm.currentTimeline" theme="select2"
-        on-select="vm.switchTimeline()">
-        <ui-select-match>{{$select.selected.name}}</ui-select-match>
-        <ui-select-choices repeat="timeline in vm.timelines | filter: { name: $select.search } track by timeline.id">
-          <div ng-bind-html="timeline.name | highlight: $select.search"></div>
-        </ui-select-choices>
-      </ui-select>
-    </span>
+    <div class="form--field">
+      <%= label_tag 'timeline_select', l("timelines.timeline"), class: "form--label -transparent" %>
+      <div class="form--field-container">
+        <div class="form--select-container">
+          <select
+              ng-model="vm.currentTimeline"
+              ng-change="vm.switchTimeline()"
+              id="timeline_select"
+              class="form--select"
+              ng-options="timeline.name for timeline in vm.timelines | filter: { name: $select.search } track by timeline.id">
+          </select>
+        </div>
+      </div>
+    </div>
   <% end %>
 
   <% push_visible_timelines @visible_timelines %>

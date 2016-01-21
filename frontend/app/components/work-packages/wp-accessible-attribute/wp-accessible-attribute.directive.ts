@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,44 +24,30 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-angular
-  .module('openproject.workPackages.services')
-  .factory('inplaceEditAll', inplaceEditAll);
-
-function inplaceEditAll($rootScope, $window, inplaceEditForm) {
-  var inplaceEditAll;
-  var state = false;
-
-  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-    if (inplaceEditAll.state && fromParams.workPackageId
-      && toParams.workPackageId !== fromParams.workPackageId) {
-
-      if (!$window.confirm(I18n.t('js.text_are_you_sure'))) {
-        return event.preventDefault();
-      }
-
-      inplaceEditAll.cancel();
-    }
-  });
-
-  return inplaceEditAll = {
-    get state() {
-      return state;
+function wpAccessibleAttribute() {
+  return {
+    restrict: 'A',
+    scope: {
+      field: '=wpAccessibleAttribute'
     },
 
-    cancel: function () {
-      inplaceEditForm.deleteNewForm();
-      this.stop();
-    },
-
-    start: function () {
-      return state = true;
-    },
-
-    stop: function () {
-      return state = false;
+    link: function(scope, element) {
+      scope.$watch('field', function(field) {
+        if (!field.isEditable()) {
+          angular.element(element).attr('aria-label', field.getKeyValue())
+                                  .attr('tabindex', 0);
+        }
+        else {
+          angular.element(element).removeAttr('aria-label')
+                                  .removeAttr('tabindex');
+        }
+      });
     }
   };
 }
+
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpAccessibleAttribute', wpAccessibleAttribute);

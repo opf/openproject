@@ -26,42 +26,45 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.services')
-  .factory('inplaceEditAll', inplaceEditAll);
+import {WorkPackageDetailsViewButtonController} from './wp-details-view-button.directive';
+import {KeepTabService} from "../keep-tab/keep-tab.service";
 
-function inplaceEditAll($rootScope, $window, inplaceEditForm) {
-  var inplaceEditAll;
-  var state = false;
+var expect = chai.expect;
 
-  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-    if (inplaceEditAll.state && fromParams.workPackageId
-      && toParams.workPackageId !== fromParams.workPackageId) {
+describe('wpListViewButton directive', () => {
+  var $state, scope;
+  var keepTab:KeepTabService;
+  var controller:WorkPackageDetailsViewButtonController;
 
-      if (!$window.confirm(I18n.t('js.text_are_you_sure'))) {
-        return event.preventDefault();
-      }
+  beforeEach(angular.mock.module('openproject.wpButtons', 'openproject.templates',
+    'openproject.config'));
 
-      inplaceEditAll.cancel();
-    }
+  beforeEach(angular.mock.inject(($compile, $rootScope, _$state_, _keepTab_) => {
+    var html = '<wp-details-view-button></wp-details-view-button>';
+
+    var element = angular.element(html);
+
+    $state = _$state_;
+    keepTab = _keepTab_;
+
+    scope = $rootScope.$new();
+
+    $compile(element)(scope);
+    scope.$digest();
+
+    controller = element.controller('wpDetailsViewButton');
+  }));
+
+  describe('when using openDetailsView()', () => {
+    var go;
+
+    beforeEach(() => {
+      go = sinon.stub($state, 'go');
+      controller.openDetailsView();
+    });
+
+    it("should redirect user to 'work-packages.list'", () => {
+      expect(go.withArgs(keepTab.currentDetailsTab).calledOnce).to.be.true;
+    });
   });
-
-  return inplaceEditAll = {
-    get state() {
-      return state;
-    },
-
-    cancel: function () {
-      inplaceEditForm.deleteNewForm();
-      this.stop();
-    },
-
-    start: function () {
-      return state = true;
-    },
-
-    stop: function () {
-      return state = false;
-    }
-  };
-}
+});

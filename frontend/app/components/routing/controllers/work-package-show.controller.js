@@ -30,7 +30,7 @@ angular
   .module('openproject.workPackages.controllers')
   .controller('WorkPackageShowController', WorkPackageShowController);
 
-function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPackage, I18n,
+function WorkPackageShowController($scope, $rootScope, $state, workPackage, I18n,
     RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper,
     WorkPackageService, CommonRelationsHandler,
     ChildrenRelationsHandler, ParentRelationsHandler, WorkPackagesOverviewService,
@@ -40,10 +40,6 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
 
   $scope.editAll = inplaceEditAll;
   $scope.canEdit = EditableFieldsState.canEdit;
-
-  $scope.$on('$stateChangeSuccess', function(event, toState){
-    latestTab.registerState(toState.name);
-  });
 
   // Listen to the event globally, as listeners are not necessarily
   // in the child scope
@@ -218,16 +214,6 @@ function WorkPackageShowController($scope, $rootScope, $state, latestTab, workPa
   $scope.toggleStates = {
     hideFullDescription: true,
     hideAllAttributes: true
-  };
-
-  $scope.showWorkPackageDetails = function() {
-    var queryProps = $state.params['query_props'];
-
-    $state.go('work-packages.list.details.overview', {
-      projectPath: $scope.projectIdentifier,
-      workPackageId: $scope.workPackage.props.id,
-      'query_props': queryProps
-    });
   };
 
   function getFocusAnchorLabel(tab, workPackage) {

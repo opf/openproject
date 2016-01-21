@@ -51,7 +51,7 @@ describe('EditableFieldsState service', function () {
     });
 
     it('returns false if editAll.state is set', function () {
-      inplaceEditAll.state = true;
+      inplaceEditAll.start();
       expect(EditableFieldsState.isActiveField(field)).to.be.false;
     });
 

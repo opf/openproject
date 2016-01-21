@@ -41,7 +41,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @condition = options[:if]
     @param = options[:param] || :id
     @caption = options[:caption]
-    @html_options = options[:html] || {}
+    @html_options = options[:html].nil? ? {} : options[:html].dup
     # Adds a unique class to each menu item based on its name
     @html_options[:class] = [
       @html_options[:class], "#{@name.to_s.dasherize}-menu-item", 'ellipsis'

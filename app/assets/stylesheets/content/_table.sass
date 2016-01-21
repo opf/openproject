@@ -105,6 +105,12 @@ table.generic-table
       &.-short
         min-width: 0
 
+      .-required:after
+        @include default-transition
+        content:  '*'
+        color:    $primary-color-dark
+        padding:  0 0.2rem
+
     .sort
       &.asc:after
         @include icon-common
