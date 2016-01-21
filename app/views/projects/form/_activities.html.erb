@@ -74,7 +74,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 <th>
                   <div class="generic-table--sort-header-outer">
                     <div class="generic-table--sort-header">
-                      <span>
+                      <span <% if value.is_required? %> class="-required" <%end%>>
                         <%= h value.name %>
                       </span>
                     </div>
