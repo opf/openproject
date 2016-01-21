@@ -34,7 +34,7 @@ function wpTable(WorkPackagesTableService, $window, featureFlags, PathHelper){
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/components/wp-table/directives/wp-table/wp-table.directive.html',
+    templateUrl: '/components/wp-table/wp-table-directive/wp-table.directive.html',
     scope: {
       projectIdentifier: '=',
       columns: '=',

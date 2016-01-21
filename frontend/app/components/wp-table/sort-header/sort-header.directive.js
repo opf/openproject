@@ -33,7 +33,7 @@ angular
 function sortHeader(){
   return {
     restrict: 'A',
-    templateUrl: '/components/wp-table/directives/sort-header/sort-header.directive.html',
+    templateUrl: '/components/wp-table/sort-header/sort-header.directive.html',
 
     scope: {
       query: '=',
