@@ -39,5 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= f.text_field :lastname, label: Group.human_attribute_name(:name), required: true %>
   </div>
 
-  <%= render partial: 'customizable/form', locals: { form: f } %>
+  <%= render partial: 'customizable/form', locals: { form: f,
+                                                     all_fields: true,
+                                                     only_required: false } %>
 </section>
