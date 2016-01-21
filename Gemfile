@@ -160,7 +160,7 @@ group :test do
   gem 'capybara-screenshot', '~> 1.0.4'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
   gem 'capybara-ng', '~> 0.2.1'
-  gem 'selenium-webdriver', '~> 2.47.1'
+  gem 'selenium-webdriver', '~> 2.48.1'
   gem 'poltergeist'
   gem 'timecop', '~> 0.7.1'
   gem 'webmock', '~> 1.21.0', require: false
