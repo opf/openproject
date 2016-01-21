@@ -33,7 +33,7 @@ angular
 function tablePagination(PaginationService) {
   return {
     restrict: 'EA',
-    templateUrl: '/components/wp-table/directives/table-pagination/table-pagination.directive.html',
+    templateUrl: '/components/wp-table/table-pagination/table-pagination.directive.html',
 
     scope: {
       totalEntries: '=',

@@ -33,7 +33,7 @@ angular
 function wpColumn(){
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-table/directives/wp-column/wp-column.directive.html',
+    templateUrl: '/components/wp-table/wp-column/wp-column.directive.html',
     replace: true,
 
     scope: {
