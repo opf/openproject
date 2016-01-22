@@ -57,6 +57,7 @@ module OpenProject
       # url-path prefix
       'rails_relative_url_root' => '',
       'rails_force_ssl' => false,
+      'rails_asset_host' => nil,
 
       # email configuration
       'email_delivery_method' => nil,

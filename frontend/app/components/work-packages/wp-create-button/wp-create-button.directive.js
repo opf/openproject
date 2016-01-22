@@ -28,37 +28,45 @@
 
 angular
   .module('openproject.workPackages')
-  .directive('wpCreateForm', wpCreateForm);
+  .directive('wpCreateButton', wpCreateButton);
 
-function wpCreateForm() {
+function wpCreateButton() {
   return {
     restrict: 'E',
-    templateUrl: function (element, attrs) {
-      var directory = '/components/work-packages/directives/wp-create-form/',
-          template = 'wp-create-form.directive.html';
-
-      if (attrs.formTemplate === 'full-create') {
-        template = 'wp-full-create-form.directive.html';
-      }
-
-      return directory + template;
-    },
+    templateUrl: '/components/work-packages/wp-create-button/wp-create-button.directive.html',
 
     scope: {
-      workPackage: '=?',
-      successState: '@'
+      projectIdentifier: '=',
+      stateName: '@'
     },
 
-    controller: 'WorkPackageNewController',
-    controllerAs: 'vm',
     bindToController: true,
+    controllerAs: 'vm',
+    controller: WorkPackageCreateButtonController
+  }
+}
 
-    link: function (scope) {
-      var body = angular.element('body').addClass('full-create');
+function WorkPackageCreateButtonController($state, ProjectService) {
+  var vm = this,
+      inProjectContext = !!vm.projectIdentifier,
+      canCreate= false;
 
-      scope.$on('$stateChangeStart', function () {
-        body.removeClass('full-create');
-      })
-    }
+  vm.text = {
+    button: I18n.t('js.label_work_package'),
+    create: I18n.t('js.label_create_work_package')
   };
+
+  vm.isDisabled = function () {
+    return !inProjectContext || !canCreate || $state.includes('**.new') || !vm.types;
+  };
+
+  if (inProjectContext) {
+    ProjectService.fetchProjectResource(vm.projectIdentifier).then(function(project) {
+      canCreate = !!project.links.createWorkPackage;
+    });
+
+    ProjectService.getProject(vm.projectIdentifier).then(function (project) {
+      vm.types = project.embedded.types;
+    });
+  }
 }

@@ -26,47 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import LoDashStatic = _.LoDashStatic;
+
+function lodash():LoDashStatic {
+  return _;
+}
+
 angular
-  .module('openproject.workPackages')
-  .directive('wpCreateButton', wpCreateButton);
-
-function wpCreateButton() {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-buttons/wp-create-button/wp-create-button.directive.html',
-
-    scope: {
-      projectIdentifier: '=',
-      stateName: '@'
-    },
-
-    bindToController: true,
-    controllerAs: 'vm',
-    controller: WorkPackageCreateButtonController
-  }
-}
-
-function WorkPackageCreateButtonController($state, ProjectService) {
-  var vm = this,
-      inProjectContext = !!vm.projectIdentifier,
-      canCreate= false;
-
-  vm.text = {
-    button: I18n.t('js.label_work_package'),
-    create: I18n.t('js.label_create_work_package')
-  };
-
-  vm.isDisabled = function () {
-    return !inProjectContext || !canCreate || $state.includes('**.new') || !vm.types;
-  };
-
-  if (inProjectContext) {
-    ProjectService.fetchProjectResource(vm.projectIdentifier).then(function(project) {
-      canCreate = !!project.links.createWorkPackage;
-    });
-
-    ProjectService.getProject(vm.projectIdentifier).then(function (project) {
-      vm.types = project.embedded.types;
-    });
-  }
-}
+  .module('openproject.services')
+  .factory('_', lodash);

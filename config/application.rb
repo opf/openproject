@@ -170,5 +170,7 @@ module OpenProject
     OpenProject::Configuration.configure_cache(config)
 
     config.active_job.queue_adapter = :delayed_job
+
+    config.action_controller.asset_host = OpenProject::Configuration['rails_asset_host']
   end
 end
