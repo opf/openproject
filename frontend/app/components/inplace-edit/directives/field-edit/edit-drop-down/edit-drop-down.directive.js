@@ -96,7 +96,7 @@ function InplaceEditorDropDownController($q, $scope, WorkPackageFieldConfigurati
 
   this.hasNullOption = function() {
     return !$scope.field.isRequired() ||
-      $scope.field.value.href === customEditorController.emptyOption.href;
+      $scope.field.value.props.href === customEditorController.emptyOption.props.href;
   };
 
   this.updateAllowedValues = function(field) {
@@ -114,9 +114,8 @@ function InplaceEditorDropDownController($q, $scope, WorkPackageFieldConfigurati
 
           options = extractOptions(values);
 
-          var nullUsed = false;
-          if ($scope.field.value === null) {
-            nullUsed = true;
+          if ($scope.field.value === null ||
+              _.find(options, { props: { href: $scope.field.value.href } }) === undefined) {
             $scope.field.value = customEditorController.emptyOption;
           }
 
