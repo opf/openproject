@@ -57,7 +57,7 @@ function inplaceEditorDropDown(EditableFieldsState, FocusHelper, inplaceEditAll)
         }
       });
 
-      scope.$watch('field.value.props', function(value) {
+      scope.$watch('field.value', function(value) {
         if (value === undefined) {
           scope.field.value = scope.customEditorController.emptyOption;
         }
@@ -86,7 +86,8 @@ function InplaceEditorDropDownController($q, $scope, WorkPackageFieldConfigurati
         return _.extend({}, item._links.self, {
           name: item._links.self.title || item.value,
           group: WorkPackageFieldConfigurationService
-                   .getDropDownOptionGroup($scope.field.name, item)
+                   .getDropDownOptionGroup($scope.field.name, item),
+          props: { href: item._links.self.href }
         });
       });
     }
@@ -96,7 +97,7 @@ function InplaceEditorDropDownController($q, $scope, WorkPackageFieldConfigurati
 
   this.hasNullOption = function() {
     return !$scope.field.isRequired() ||
-      $scope.field.value.props.href === customEditorController.emptyOption.props.href;
+      $scope.field.value.href === customEditorController.emptyOption.href;
   };
 
   this.updateAllowedValues = function(field) {
@@ -115,7 +116,7 @@ function InplaceEditorDropDownController($q, $scope, WorkPackageFieldConfigurati
           options = extractOptions(values);
 
           if ($scope.field.value === null ||
-              _.find(options, { props: { href: $scope.field.value.href } }) === undefined) {
+              _.find(options, { href: $scope.field.value.href }) === undefined) {
             $scope.field.value = customEditorController.emptyOption;
           }
 

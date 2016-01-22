@@ -148,7 +148,7 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
     return $http.get(href).then(function(r) {
       var options = [];
       options = _.map(r.data._embedded.elements, function(item) {
-        return _.extend({}, item._links.self, { name: item.name });
+        return _.extend({}, item._links.self, { name: item.name, props: { href: item._links.self.href } });
       });
       return options;
     });
