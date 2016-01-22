@@ -45,8 +45,8 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 372aa3881b41bece7f06dc3b9409aa0c63c5d625
-  branch: release/5.0
+  revision: c8772c56c2f28b0fe7d489b0f49147cf8caadaad
+  branch: stable/5
   specs:
     openproject-translations (5.0.10)
       crowdin-api (~> 0.4.0)
@@ -662,4 +662,4 @@ DEPENDENCIES
   will_paginate (~> 3.0)
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
