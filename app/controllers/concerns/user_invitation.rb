@@ -27,7 +27,17 @@
 #++
 
 module UserInvitation
-  EVENT_NAME = 'user_invited'
+  module Events
+    class << self
+      def user_invited
+        'user_invited'
+      end
+
+      def user_reinvited
+        'user_reinvited'
+      end
+    end
+  end
 
   module_function
 
@@ -62,6 +72,22 @@ module UserInvitation
   end
 
   ##
+  # Sends a new invitation to the user with a new token.
+  #
+  # @param user_id [Integer] ID of the user to be re-invited.
+  # @return [Token] The new token used for the invitation.
+  def reinvite_user(user_id)
+    token = Token.find_by user_id: user_id, action: token_action
+
+    token.destroy! if token
+    new_token = Token.create! user_id: user_id, action: token_action
+
+    OpenProject::Notifications.send(Events.user_reinvited, new_token)
+
+    new_token
+  end
+
+  ##
   # Creates a placeholder name for the user based on their email address.
   # For the unlikely case that the local or domain part of the email address
   # are longer than 30 characters they will be trimmed to 27 characters and an
@@ -91,7 +117,7 @@ module UserInvitation
     user, token = user_invitation user
 
     if token
-      OpenProject::Notifications.send(EVENT_NAME, token)
+      OpenProject::Notifications.send(Events.user_invited, token)
 
       user
     end
