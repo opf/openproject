@@ -557,7 +557,6 @@ JJ Abrams</textarea>
                  title="#{expected_title}">
             #{expected_title}
             <span class="form--label-required" aria-hidden="true">*</span>
-            <p class="hidden-for-sighted">This field is required.</span>
           </label>
         }).at_path('label')
       end

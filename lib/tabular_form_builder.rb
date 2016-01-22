@@ -40,6 +40,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
         localize_field(field, options, __method__)
       else
         options[:class] = Array(options[:class]) + [field_css_class(selector)]
+        merge_required_attributes(options[:required], options)
 
         input_options, label_options = extract_from options
 
@@ -72,10 +73,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   def select(field, choices, options = {}, html_options = {})
     html_options[:class] = Array(html_options[:class]) + %w(form--select)
 
-    if options[:required]
-      html_options[:required] = true
-    end
-
+    merge_required_attributes(options[:required], html_options)
     label_for_field(field, options) + container_wrap_field(super, 'select', options)
   end
 
@@ -126,6 +124,12 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     ret.concat content_tag(:span, suffix.html_safe, class: 'form--field-affix') if suffix
 
     field_container_wrap_field(ret, options)
+  end
+
+  def merge_required_attributes(required, options=nil)
+    if required
+      options.merge!({ required: true, 'aria-required': 'required' })
+    end
   end
 
   def field_container_wrap_field(field_html, options = {})
@@ -183,19 +187,8 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     options = options.dup
     return ''.html_safe if options.delete(:no_label)
 
-    text = if options[:label].is_a?(Symbol)
-             l(options[:label])
-           elsif options[:label]
-             options[:label]
-           elsif @object.is_a?(ActiveRecord::Base)
-             @object.class.human_attribute_name(field)
-           else
-             l(field)
-           end
-
-    label_options = { class: '',
-                      title: text }
-
+    text = get_localized_field(field, options[:label])
+    label_options = { class: '', title: text }
     id = element_id(translation_form) if translation_form
 
     label_options[:class] << 'form--label'
@@ -215,10 +208,6 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                              '*',
                              class: 'form--label-required',
                              'aria-hidden': true)
-
-      content << content_tag('p',
-                             I18n.t(:label_field_is_required),
-                             class: 'hidden-for-sighted')
     end
 
     label_options[:for] = if options[:for]
@@ -230,6 +219,18 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     label_options.reject! do |_k, v| v.nil? end
 
     @template.label(@object_name, field, content, label_options)
+  end
+
+  def get_localized_field(field, label)
+    if label.is_a?(Symbol)
+      l(label)
+    elsif label
+      label
+    elsif @object.is_a?(ActiveRecord::Base)
+      @object.class.human_attribute_name(field)
+    else
+      l(field)
+    end
   end
 
   def element_id(translation_form)
