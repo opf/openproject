@@ -29,7 +29,7 @@
 // As the settings are transported from ruby code (gon)
 // we can not enforce camel case here.
 
-/* jshint camelcase: false */
+
 
 module.exports = function(PathHelper, $q, $http) {
 

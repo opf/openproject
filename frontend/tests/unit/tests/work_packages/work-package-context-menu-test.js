@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+
 
 describe('workPackageContextMenu', function() {
   var container, contextMenu, $rootScope, stateParams, ngContextMenu;

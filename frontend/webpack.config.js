@@ -143,7 +143,7 @@ module.exports = {
     new ExtractTextPlugin('openproject-[name].css'),
     new webpack.ProvidePlugin({
       '_':            'lodash',
-      'URI':          'URIjs',
+      'URI':          'urijs',
       'URITemplate':  'URIjs/src/URITemplate'
     }),
     new webpack.ResolverPlugin([

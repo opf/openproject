@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+
 
 describe('focus Directive', function() {
   var doc, compile, element, rootScope, scope, disabledButton, timeout, body;

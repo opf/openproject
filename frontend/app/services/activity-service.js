@@ -25,7 +25,7 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-/* globals URI */
+
 
 module.exports = function(
   HALAPIResource,

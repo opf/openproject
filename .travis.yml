@@ -95,6 +95,7 @@ before_install:
 
 before_script:
   - sh script/ci_setup.sh $DB
+  - nvm install 4 && nvm use 4
 
 script:
   - sh script/ci_runner.sh $TEST_SUITE $GROUP_SIZE $GROUP

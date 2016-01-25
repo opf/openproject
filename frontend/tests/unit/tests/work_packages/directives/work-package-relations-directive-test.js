@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+
 
 describe('Work Package Relations Directive', function() {
   var I18n, PathHelper, WorkPackagesHelper, Ajax, compile, element, scope, ChildrenRelationsHandler, stateParams = {};

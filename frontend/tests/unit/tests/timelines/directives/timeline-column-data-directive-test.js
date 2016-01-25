@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+
 
 describe('timelineColumnData Directive', function() {
   var compile, element, rootScope, scope, type;
