@@ -9,11 +9,13 @@
       <a ng-if="!user.isGroup"
          ng-href="{{user.href}}"
          class="user-field-user-link"
-         aria-label="{{field.getKeyValue()}}">
+         aria-label="{{field.getKeyValue()}}"
+         title="{{ user.name }}">
         {{user.name}}
       </a>
       <span ng-if="user.isGroup"
-            class="user-field-user-link">
+            class="user-field-user-link"
+            title="{{ user.name }}">
         {{user.name}}
       </span>
     </span>
@@ -22,7 +24,8 @@
       {{ field.placeholder }}
     </span>
     <span class="user-avatar--role"
-          ng-if="user.role">
+          ng-if="user.role"
+          title="{{ user.role }}">
       {{user.role}}
     </span>
   </span>
