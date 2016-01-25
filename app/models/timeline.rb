@@ -288,7 +288,7 @@ class Timeline < ActiveRecord::Base
   end
 
   def get_custom_fields
-    project.all_work_package_custom_fields
+    project.all_work_package_custom_fields.sort_by{ |n| n[:name].downcase }
   end
 
   def selected_planning_element_assignee
