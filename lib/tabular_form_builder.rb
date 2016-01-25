@@ -207,7 +207,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       content << content_tag('span',
                              '*',
                              class: 'form--label-required',
-                             'aria-hidden': true)
+                             :'aria-hidden' => true)
     end
 
     label_options[:for] = if options[:for]
