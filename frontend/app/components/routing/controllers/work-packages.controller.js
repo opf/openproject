@@ -30,8 +30,7 @@ angular
   .module('openproject.workPackages.controllers')
   .controller('WorkPackagesController', WorkPackagesController);
 
-function WorkPackagesController($scope, $state, $stateParams, QueryService, $rootScope,
-    inplaceEditAll) {
+function WorkPackagesController($scope, $state, $stateParams, QueryService, $rootScope) {
 
   // Setup
   $scope.$state = $state;
@@ -47,16 +46,9 @@ function WorkPackagesController($scope, $state, $stateParams, QueryService, $roo
     }
   });
 
-  $scope.isDetailsViewActive = function() {
-    return $state.includes('work-packages.list.details') || inplaceEditAll.state;
-  };
-
   $scope.getToggleActionLabel = function(active) {
     return (active) ? I18n.t('js.label_deactivate') : I18n.t('js.label_activate');
   };
 
-  $scope.getActivationActionLabel = function(activate) {
-    return (activate) ? I18n.t('js.label_activate') + ' ' : '';
-  };
   $rootScope.$broadcast('openproject.layout.activateMenuItem');
 }
