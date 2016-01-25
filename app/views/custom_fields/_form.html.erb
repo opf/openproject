@@ -100,14 +100,22 @@ See doc/COPYRIGHT.rdoc for more details.
      when "WorkPackageCustomField" %>
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%=l(:label_type_plural)%></legend>
-      <% for type in @types %>
-        <%= check_box_tag "custom_field[type_ids][]", type.id, (@custom_field.types.include? type),
-              id: "custom_field_type_ids_#{type.id}",
-              class: 'form--checkbox' %>
-        <%= content_tag :label, (type.is_standard) ? l(:label_custom_field_default_type) : h(type),
-              class: "no-css",
-              for: "custom_field_type_ids_#{type.id}" %>
-      <% end %>
+      <div class="form--field">
+        <div class="form--field-container">
+          <% for type in @types %>
+            <%= content_tag :label, '',
+                  class: "form--label-with-check-box",
+                  for: "custom_field_type_ids_#{type.id}" do %>
+              <div class="form--check-box-container">
+                <%= check_box_tag "custom_field[type_ids][]", type.id, (@custom_field.types.include? type),
+                      id: "custom_field_type_ids_#{type.id}",
+                      class: 'form--check-box' %>
+              </div>
+              <%= (type.is_standard) ? l(:label_custom_field_default_type) : h(type) %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
       <%= hidden_field_tag "custom_field[type_ids][]", '' %>
     </fieldset>
     &nbsp;
