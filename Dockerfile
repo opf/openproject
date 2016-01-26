@@ -1,7 +1,7 @@
 FROM ruby:2.1
 
 ENV NODE_VERSION="0.12.7"
-ENV BUNDLER_VERSION="1.10.6"
+ENV BUNDLER_VERSION="1.11.2"
 
 # install node + npm
 RUN curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xzf - -C /usr/local --strip-components=1
