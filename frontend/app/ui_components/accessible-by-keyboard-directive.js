@@ -34,7 +34,8 @@ module.exports = function() {
       execute: '&',
       linkClass: '@',
       linkTitle: '@',
-      spanClass: '@'
+      spanClass: '@',
+      ariaLabel: '@'
     },
     templateUrl: '/templates/components/accessible_by_keyboard.html'
   };

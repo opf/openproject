@@ -342,15 +342,23 @@ fieldset.form--fieldset
     @include grid-size(shrink)
     max-width: none
 
-  &.-required,
-  .form--field.-required > &
-    &::after
-      @include default-transition
-      content:  '*'
-      color:    $primary-color-dark
-      padding:  0 0.325rem
-    &:hover::after
-      color:    $primary-color
+  &.-error
+    @extend .icon-error
+    color: $content-form-error-color
+    font-weight: bold
+    &::before
+      @include icon-common
+      display: inline-block
+      line-height:  $base-line-height
+      padding-right: 0.325rem
+
+.form--label-required
+  @include default-transition
+  color:   $primary-color-dark
+  padding: 0 0.325rem
+
+  .form--label.-error &
+    color: $content-form-error-color
 
 .form--field-container
   @include grid-content(10)

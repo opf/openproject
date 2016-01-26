@@ -30,11 +30,11 @@ angular
   .module('openproject.workPackages.controllers')
   .controller('WorkPackagesListController', WorkPackagesListController);
 
-function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $location, latestTab,
+function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $location,
   WorkPackagesTableService, WorkPackageService, ProjectService, QueryService,
   PaginationService, AuthorisationService, UrlParamsHelper, Query,
   OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService,
-  loadingIndicator, inplaceEditAll) {
+  loadingIndicator, inplaceEditAll, keepTab) {
 
   $scope.projectIdentifier = $stateParams.projectPath || null;
   $scope.loadingIndicator = loadingIndicator;
@@ -278,29 +278,11 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
 
   $scope.nextAvailableWorkPackage = nextAvailableWorkPackage;
 
-  $scope.openLatestTab = function() {
-    var promise = $state.go(latestTab.getStateName(), {
-      workPackageId: nextAvailableWorkPackage(),
-      'query_props': $location.search()['query_props']
-    });
-
-    loadingIndicator.on(promise);
-  };
-
-  $scope.openOverviewTab = function() {
-    var promise = $state.go('work-packages.list.details.overview', {
-      workPackageId: nextAvailableWorkPackage(),
-      'query_props': $location.search()['query_props']
-    });
-
-    loadingIndicator.on(promise);
-  };
-
   $scope.showWorkPackageDetails = function(id, force) {
     if (force || $state.current.url != "") {
-      var promise = $state.go(latestTab.getStateName(), {
+      var promise = $state.go(keepTab.currentDetailsTab, {
         workPackageId: id,
-        'query_props': $location.search()['query_props']
+        query_props: $state.params.query_props
       });
 
       loadingIndicator.on(promise);

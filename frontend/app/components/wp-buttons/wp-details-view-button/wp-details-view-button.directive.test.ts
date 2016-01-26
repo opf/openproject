@@ -26,55 +26,45 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.wpButtons')
-  .directive('wpListViewButton', wpListViewButton);
+import {WorkPackageDetailsViewButtonController} from './wp-details-view-button.directive';
+import {KeepTabService} from "../keep-tab/keep-tab.service";
 
-function wpListViewButton() {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-buttons/wp-list-view-button/wp-list-view-button.directive.html',
+var expect = chai.expect;
 
-    scope: {
-      projectIdentifier: '='
-    },
+describe('wpListViewButton directive', () => {
+  var $state, scope;
+  var keepTab:KeepTabService;
+  var controller:WorkPackageDetailsViewButtonController;
 
-    bindToController: true,
-    controller: WorkPackageListViewButtonController,
-    controllerAs: 'vm'
-  };
-}
+  beforeEach(angular.mock.module('openproject.wpButtons', 'openproject.templates',
+    'openproject.config'));
 
-function WorkPackageListViewButtonController($state, inplaceEditAll) {
-  var vm = this;
+  beforeEach(angular.mock.inject(($compile, $rootScope, _$state_, _keepTab_) => {
+    var html = '<wp-details-view-button></wp-details-view-button>';
 
-  angular.extend(vm, {
-    isActive: function () {
-      return $state.is('work-packages.list');
-    },
+    var element = angular.element(html);
 
-    openListView: function () {
-      var params = {
-        projectPath: vm.projectIdentifier
-      };
+    $state = _$state_;
+    keepTab = _keepTab_;
 
-      angular.extend(params, $state.params);
-      $state.go('work-packages.list', params);
-    },
+    scope = $rootScope.$new();
 
-    isDisabled: function () {
-      return inplaceEditAll.state;
-    },
+    $compile(element)(scope);
+    scope.$digest();
 
-    getAccessKey: function () {
-      if (!vm.isActive()) return 8;
-    },
+    controller = element.controller('wpDetailsViewButton');
+  }));
 
-    text: {
-      get label() {
-        var activate = !vm.isActive() ? I18n.t('js.label_activate') + ' ' : '';
-        return activate + I18n.t('js.button_list_view');
-      }
-    }
+  describe('when using openDetailsView()', () => {
+    var go;
+
+    beforeEach(() => {
+      go = sinon.stub($state, 'go');
+      controller.openDetailsView();
+    });
+
+    it("should redirect user to 'work-packages.list'", () => {
+      expect(go.withArgs(keepTab.currentDetailsTab).calledOnce).to.be.true;
+    });
   });
-}
+});

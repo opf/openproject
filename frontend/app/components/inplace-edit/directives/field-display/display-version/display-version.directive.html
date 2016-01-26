@@ -1,13 +1,16 @@
 <div class="version-wrapper">
-    <span ng-if="!field.text">
+    <span ng-if="!field.text"
+          wp-accessible-attribute="field">
       {{field.placeholder}}
     </span>
     <span ng-if="field.text && customEditorController.isVersionLinkViewable()">
-      <a ng-href="{{ customEditorController.getVersionLink() }}">
+      <a ng-href="{{ customEditorController.getVersionLink() }}"
+         aria-label="{{ field.getKeyValue() }}">
         {{field.text.props.name}}
       </a>
     </span>
-    <span ng-if="field.text && !customEditorController.isVersionLinkViewable()">
+    <span ng-if="field.text && !customEditorController.isVersionLinkViewable()"
+          wp-accessible-attribute="field">
       {{field.text.props.name}}
     </span>
 </div>

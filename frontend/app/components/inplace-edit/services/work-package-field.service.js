@@ -148,7 +148,7 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
     return $http.get(href).then(function(r) {
       var options = [];
       options = _.map(r.data._embedded.elements, function(item) {
-        return _.extend({}, item._links.self, { name: item.name });
+        return _.extend({}, item._links.self, { name: item.name, props: { href: item._links.self.href } });
       });
       return options;
     });
@@ -187,6 +187,35 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
       return I18n.t('js.work_packages.properties.date');
     }
     return schema.props[field].name;
+  }
+
+  function getKeyValue(workPackage, field) {
+    var label = getLabel(workPackage, field);
+    var value = WorkPackageFieldService.format(workPackage, field);
+
+    if (value === null) {
+      value = I18n.t('js.work_packages.no_value');
+    }
+    else if (value && value.raw) {
+      var shortened = value.raw.length > 20;
+
+      value = $filter('limitTo')(value.raw, 20);
+      if (shortened) {
+        value += '...';
+      }
+    }
+    else if(value && value.props && value.props.name) {
+      value = value.props.name;
+    }
+    else if(value && value.props && value.props.subject) {
+      value = value.props.subject;
+    }
+    else if(field === 'date' && !isMilestone(workPackage)) {
+      value = (value.startDate || I18n.t('js.label_no_start_date')) + ' - ' +
+        (value.dueDate || I18n.t('js.label_no_due_date'));
+    }
+
+    return I18n.t('js.work_packages.key_value', { key: label, value: value });
   }
 
   function isEmpty(workPackage, field) {
@@ -394,6 +423,7 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
     isSavedAsLink: isSavedAsLink,
     getValue: getValue,
     getLabel: getLabel,
+    getKeyValue: getKeyValue,
     getAllowedValues: getAllowedValues,
     allowedValuesEmbedded: allowedValuesEmbedded,
     format: format,

@@ -26,12 +26,28 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/***** Form error messages ***
+function wpAccessibleAttribute() {
+  return {
+    restrict: 'A',
+    scope: {
+      field: '=wpAccessibleAttribute'
+    },
 
-span.errorSpan
-  font-weight: bold
-  width: 100%
+    link: function(scope, element) {
+      scope.$watch('field', function(field) {
+        if (!field.isEditable()) {
+          angular.element(element).attr('aria-label', field.getKeyValue())
+                                  .attr('tabindex', 0);
+        }
+        else {
+          angular.element(element).removeAttr('aria-label')
+                                  .removeAttr('tabindex');
+        }
+      });
+    }
+  };
+}
 
-  textarea, select, input
-    &, &:hover, &:focus
-      border: 2px solid $content-form-error-color
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpAccessibleAttribute', wpAccessibleAttribute);

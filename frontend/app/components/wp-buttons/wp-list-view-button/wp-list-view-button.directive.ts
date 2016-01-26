@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,14 +24,53 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-/***** Form error messages ***
+import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
 
-span.errorSpan
-  font-weight: bold
-  width: 100%
+export class WorkPackageListViewButtonController extends WorkPackageNavigationButtonController {
+  public projectIdentifier:number;
 
-  textarea, select, input
-    &, &:hover, &:focus
-      border: 2px solid $content-form-error-color
+  public accessKey:number = 8;
+  public activeState:string = 'work-packages.list';
+  public labelKey:string = 'js.button_list_view';
+  public buttonId:string = 'work-packages-list-view-button';
+  public iconClass:string = 'icon-view-list';
+
+  constructor(public $state:ng.ui.IStateService, public I18n) {
+    'ngInject';
+
+    super($state, I18n);
+  }
+
+  public isActive() {
+    return this.$state.is(this.activeState);
+  }
+
+  public performAction() {
+    this.openListView();
+  }
+
+  public openListView() {
+    var params = {
+      projectPath: this.projectIdentifier
+    };
+
+    angular.extend(params, this.$state.params);
+    this.$state.go(this.activeState, params);
+  }
+}
+
+function wpListViewButton(): ng.IDirective {
+  return wpButtonDirective({
+    scope: {
+      projectIdentifier: '='
+    },
+
+    controller: WorkPackageListViewButtonController,
+  });
+}
+
+angular
+  .module('openproject.wpButtons')
+  .directive('wpListViewButton', wpListViewButton);
