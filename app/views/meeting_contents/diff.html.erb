@@ -21,7 +21,7 @@ See doc/COPYRIGHT.md for more details.
 
 <% html_title "#{l(:label_meeting_diff)}: #{@meeting.title}" %>
 <%= toolbar title: l(:"label_#{@content_type}"),
-            link_to: link_to(@meeting, @meeting) %>
+            link_to: link_to(@meeting, @meeting) do %>
   <% if authorize_for(@content_type.pluralize, :history) %>
     <li class="toolbar-item">
       <%= link_to({controller: "/#{@content_type.pluralize}", action: 'history', meeting_id: @meeting }, class: 'button') do %>
