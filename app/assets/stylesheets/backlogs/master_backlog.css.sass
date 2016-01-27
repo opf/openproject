@@ -79,27 +79,30 @@
     overflow: visible
     position: absolute
     top: 0
-    left: 0
-    width: 29px
-    &.hover, &:hover
-      width: 30px
-      z-index: 1000
-    .ui-icon
+    right: 0
+    width: 30px
+    .icon-context
       position: absolute
       top: 7px
-      left: 7px
+      left: 12px
+      &:before
+        content: "\e08a"
+      &.open
+        &:before
+          content: "\e089"
+        &+ .items
+          display: block
     .items
       display: none
-    &.hover .items, &:hover .items
       background-color: #EEEEEE
       border: 1px solid #E4E4E4
-      display: block
       position: absolute
       top: 30px
-      left: 0
+      right: -2px
       list-style: none
       margin: 0
       padding: 0
+      z-index: 1000
     .item
       display: block
       width: 160px
@@ -138,16 +141,20 @@
           line-height: 31px
           padding: 0
           position: absolute
-          right: 0
+          left: 0
           top: 0
           width: 23px
           cursor: pointer
           &:before
-            content: "\e08a"
-            margin-left: 7px
+            content: "\e00c"
+            position: absolute
+            left: 6px
+            top: 10px
           &.closed:before
-            content: "\e089"
-            margin-left: 7px
+            content: "\e00b"
+            position: absolute
+            left: 6px
+            top: 10px
           &:hover
             cursor: pointer
             background-color: #D8D8D8

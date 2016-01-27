@@ -39,7 +39,7 @@ module RbMasterBacklogsHelper
   def render_backlog_menu(backlog)
     content_tag(:div, class: 'menu') do
       [
-        content_tag(:div, '', class: 'ui-icon ui-icon-carat-1-s'),
+        content_tag(:div, '', class: "icon-context icon-small", onClick: "if(this.classList.contains('open')) this.classList.remove('open'); else this.classList.add('open');"),
         content_tag(:ul, class: 'items') do
           backlog_menu_items_for(backlog).map { |item|
             content_tag(:li, item, class: 'item')
