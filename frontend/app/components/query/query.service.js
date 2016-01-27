@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED_COLUMNS) {
+function QueryConstructorService(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED_COLUMNS) {
 
   var Query = function (queryData, options) {
     angular.extend(this, queryData, options);
@@ -362,9 +362,12 @@ module.exports = function(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED
 
     hasName: function() {
       return !!this.name && !this.isDefault();
-    },
-
+    }
   };
 
   return Query;
-};
+}
+
+angular
+  .module('openproject.models')
+  .factory('Query', QueryConstructorService);
