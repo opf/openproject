@@ -34,7 +34,9 @@ function workPackageComment($timeout, $location, EditableFieldsState, FocusHelpe
   inplaceEditMultiStorage, ConfigurationService, AutoCompleteHelper, inplaceEditAll) {
 
   function commentFieldDirectiveController($scope, $element) {
-    var field = {},
+    var field = {
+          name: 'activity'
+        },
         commentStore = inplaceEditMultiStorage.stores.comment;
 
     $scope.field = field;
