@@ -30,16 +30,14 @@ The installation procedure assumes the following prerequisites:
 
 * A server running one of the following Linux distributions (**64bit variant only**):
 
-  | Distribution (64bit only)     | 
-  | :------------------------------ |
-  | Ubuntu 14.04 Trusty             |
-  | Debian 8 Jessie                 |
-  | Debian 7 Wheezy                 |
-  | CentOS/RHEL 7.x                 |
-  | CentOS/RHEL 6.x                 |
-  | Fedora 20                       |
-  | Suse Linux Enterprise Server 12 |
-  | Suse Linux Enterprise Server 11 |
+  * Ubuntu 14.04 Trusty
+  * Debian 8 Jessie
+  * Debian 7 Wheezy
+  * CentOS/RHEL 7.x
+  * CentOS/RHEL 6.x
+  * Fedora 20
+  * Suse Linux Enterprise Server 12
+  * Suse Linux Enterprise Server 11
 
 * A mail server that is accessible via SMTP that can be used for sending
   notification emails. OpenProject supports authentication, yet does not
