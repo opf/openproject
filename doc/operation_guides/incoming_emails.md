@@ -88,7 +88,7 @@ Other available keys for the email are:
 |Key|Description|Example|
 |---|---|---|
 | Project | sets the project. Use the project identifier | Project:test\_project |
-| Assigne | sets the assignee. Use the email or login of the user | Assignee:test.nutzer@example.org |
+| Assignee | sets the assignee. Use the email or login of the user | Assignee:test.nutzer@example.org |
 | Type | sets the type | type:Milestone |
 | Version | sets the version | version:v4.1.0 |
 | Start date | sets the start date | start date:2015-02-28 |
