@@ -659,11 +659,15 @@ input[readonly].-clickable
   display:     block
   clear:       both
   line-height: $base-line-height
+  padding:  0 2rem 0 0
 
   & > .form--check-box-container
     display:  block
     float:    left
-    padding:  0.125rem 0.5rem 0 0
+    padding-right: 0.5rem
+
+    input[type="checkbox"]
+      vertical-align: middle
 
 .form--field-affix
   flex:           0 0 auto

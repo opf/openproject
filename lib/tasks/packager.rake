@@ -87,25 +87,28 @@ namespace :packager do
       svn_path = ENV['SVN_REPOSITORIES'] || ''
       git_path = ENV['GIT_REPOSITORIES'] || ''
 
-      base_url = URI::HTTP.build(protocol: ENV['SERVER_PROTOCOL'], host: ENV['SERVER_HOSTNAME'])
-      prefix = ENV['SERVER_PATH_PREFIX']
+      # SCM configuration may have been skipped
+      if svn_path.present? || git_path.present?
+        base_url = URI::HTTP.build(protocol: ENV['SERVER_PROTOCOL'], host: ENV['SERVER_HOSTNAME'])
+        prefix = ENV['SERVER_PATH_PREFIX']
 
-      checkout_data = Setting.repository_checkout_data
-      if svn_path.present?
-        # migrate previous repositories with reposman to managed
-        Rake::Task['scm:migrate:managed'].invoke("file://#{svn_path}")
-        checkout_data['subversion'] = { 'enabled' => 1, 'base_url' => URI.join(base_url, prefix, 'svn') }
+        checkout_data = Setting.repository_checkout_data
+        if svn_path.present?
+          # migrate previous repositories with reposman to managed
+          Rake::Task['scm:migrate:managed'].invoke("file://#{svn_path}")
+          checkout_data['subversion'] = { 'enabled' => 1, 'base_url' => URI.join(base_url, prefix, 'svn') }
+        end
+
+        if git_path.present?
+          checkout_data['git'] = { 'enabled' => 1, 'base_url' => URI.join(base_url, prefix, 'git') }
+        end
+
+        Setting.repository_checkout_data = checkout_data
+
+        # Output any remnants of existing repositories in the currently
+        # configured paths of Git and Subversion.
+        Rake::Task['scm:find_unassociated'].invoke
       end
-
-      if git_path.present?
-        checkout_data['git'] = { 'enabled' => 1, 'base_url' => URI.join(base_url, prefix, 'git') }
-      end
-
-      Setting.repository_checkout_data = checkout_data
-
-      # Output any remnants of existing repositories in the currently
-      # configured paths of Git and Subversion.
-      Rake::Task['scm:find_unassociated'].invoke
     end
   end
 end
