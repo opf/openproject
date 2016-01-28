@@ -46,7 +46,27 @@ module API
             raise ::API::Errors::InvalidQuery.new(error.message)
           end
 
-          collection_representer(query.results.sorted_work_packages,
+          # Eager load elements used in the representer later to avoid n+1 queries triggered
+          # from each representer.
+          work_packages = query.results
+                          .sorted_work_packages
+                          .include_spent_hours(current_user)
+                          .preload({ children: { project: :enabled_modules } },
+                                   { parent: { project: :enabled_modules } },
+                                   { project: :enabled_modules },
+                                   :status,
+                                   :priority,
+                                   :type,
+                                   :fixed_version,
+                                   { custom_values: :custom_field },
+                                   :author,
+                                   :assigned_to,
+                                   :responsible,
+                                   :watcher_users,
+                                   :category,
+                                   :attachments)
+
+          collection_representer(work_packages,
                                  project: project,
                                  query_params: query_params,
                                  groups: groups,
