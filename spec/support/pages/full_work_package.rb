@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
+require 'support/pages/abstract_work_package'
 
 module Pages
   class FullWorkPackage < Pages::AbstractWorkPackage

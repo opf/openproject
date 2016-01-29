@@ -27,6 +27,7 @@
 #++
 
 require 'support/pages/page'
+require 'features/work_packages/details/inplace_editor/work_package_field'
 
 module Pages
   class AbstractWorkPackage < Page
@@ -87,6 +88,30 @@ module Pages
                                     text: "##{parent.id} #{parent.subject}")
     end
 
+    def update_attributes(key_value_map)
+      set_attributes(key_value_map).last.submit_by_click
+    end
+
+    def set_attributes(key_value_map)
+      key_value_map.map do |key, value|
+        field = WorkPackageField.new(page, key)
+        field.activate_edition
+
+        input = field.input_element
+
+        case input.tag_name
+        when 'select'
+          input.select value
+        when 'input', 'textarea'
+          input.set value
+        else
+          raise 'Attribute is not supported as of now.'
+        end
+
+        field
+      end
+    end
+
     def add_child
       visit_tab!('relations')
 
@@ -102,6 +127,20 @@ module Pages
       page.visit!
 
       page
+    end
+
+    def view_all_attributes
+      # click_link does not work for reasons(TM)
+
+      page.find('a', text: I18n.t('js.label_show_attributes')).click
+    end
+
+    def trigger_edit_mode
+      page.click_button(I18n.t('js.button_edit'))
+    end
+
+    def save!
+      page.click_button(I18n.t('js.button_save'))
     end
 
     private

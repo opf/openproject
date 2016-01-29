@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,36 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/abstract_work_package'
-
-module Pages
-  class SplitWorkPackage < Pages::AbstractWorkPackage
-    attr_reader :project
-
-    def initialize(work_package, project = nil)
-      super work_package
-      @project = project
-    end
-
-    private
-
-    def container
-      find('.work-packages--details')
-    end
-
-    def path(tab = 'overview')
-      state = "#{work_package.id}/#{tab}"
-
-      if project
-        project_work_packages_path(project, "details/#{state}")
-      else
-        details_work_packages_path(state)
-      end
-    end
-
-    def create_page(args)
-      args.merge!(project: project || work_package.project)
-      SplitWorkPackageCreate.new(args)
-    end
+class IndexMemberRolesInheritedFrom < ActiveRecord::Migration
+  def change
+    # The index is required for member/member_role deletion when a user
+    # leaves a group.
+    add_index :member_roles, :inherited_from
   end
 end
