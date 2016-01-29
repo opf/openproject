@@ -59,6 +59,28 @@ module OpenProject
       end
     end
 
+    def self.product_version
+      defined?(@product_version) || @product_version = begin
+        path = Rails.root.join('config', 'PRODUCT_VERSION')
+        if File.exists? path
+          File.read(path)
+        end
+      rescue => e
+        Rails.logger.warn("Tried to parse PRODUCT_VERSION, but failed with #{e.message}.")
+        nil
+      end
+
+      @product_version
+    end
+
+    ##
+    # Get information on when this version was created / updated from either
+    # 1. A RELEASE_DATE file
+    # 2. From the git revision
+    def self.updated_on
+      release_date_from_file || release_date_from_git
+    end
+
     REVISION = self.revision
     ARRAY = [MAJOR, MINOR, PATCH, REVISION].compact
     STRING = ARRAY.join('.')
@@ -67,6 +89,34 @@ module OpenProject
     def self.to_s; STRING end
     def self.to_semver
       [MAJOR, MINOR, PATCH].join('.') + special
+    end
+
+    private
+
+    def self.release_date_from_file
+      defined?(@file_date) || @file_date = begin
+        path = Rails.root.join('config', 'RELEASE_DATE')
+        if File.exists? path
+          s = File.read(path)
+          Date.parse(s)
+        end
+      rescue => e
+        Rails.logger.warn("Tried to parse RELEASE_DATE, but failed with #{e.message}.")
+        nil
+      end
+
+      @file_date
+    end
+
+    def self.release_date_from_git
+      defined?(@git_date) || @git_date = begin
+        date, = Open3.capture3('git', 'log', '-1', '--format=%cd', '--date=short')
+        Date.parse(date) if date
+      rescue
+        nil
+      end
+
+      @git_date
     end
   end
 end
