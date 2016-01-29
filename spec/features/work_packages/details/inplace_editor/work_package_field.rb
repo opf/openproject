@@ -8,7 +8,11 @@ class WorkPackageField
     @property_name = property_name
 
     if selector.nil?
-      @selector = ".work-package-field.work-packages--details--#{@property_name}"
+      if property_name == :'start-date' || property_name == :'end-date'
+        @selector = '.work-package-field.work-packages--details--date'
+      else
+        @selector = ".work-package-field.work-packages--details--#{@property_name}"
+      end
     else
       @selector = selector
     end
@@ -35,11 +39,16 @@ class WorkPackageField
   end
 
   def activate_edition
-    trigger_link.click
+    tag = element.find("#{trigger_link_selector}, #{input_selector}")
+
+    if tag.tag_name == 'a'
+      tag.click
+    end
+    # else do nothing as the element is already in edit mode
   end
 
   def input_element
-    @element.find('.focus-input')
+    @element.find input_selector
   end
 
   def submit_by_click
@@ -84,5 +93,14 @@ class WorkPackageField
 
       expect(page).to have_selector('.work-packages--details--subject')
     end
+  end
+
+  private
+
+  def input_selector
+    selector = { :'start-date' => 'date-start',
+                 :'end-date' => 'date-end' }[@property_name] || @property_name
+
+    "#inplace-edit--write-value--#{selector}"
   end
 end

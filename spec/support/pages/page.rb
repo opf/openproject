@@ -82,6 +82,10 @@ module Pages
       expect(expected_path).to eql path
     end
 
+    def expect_notification(type: :success, message:)
+      expect(page).to have_selector(".notification-box.-#{type}", text: message)
+    end
+
     def path
       nil
     end
