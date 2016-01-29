@@ -57,6 +57,8 @@ module OpenProject
       if revision.present?
         revision.strip[0..8]
       end
+    rescue
+      nil
     end
 
     REVISION = self.revision
