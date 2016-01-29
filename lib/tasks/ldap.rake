@@ -27,8 +27,45 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-desc 'Creates a dummy LDAP auth source for logging in any user using the password "dummy".'
 namespace :ldap do
+
+  desc 'Register a LDAP auth source for the given LDAP URL and attribute mapping: ' \
+       'rake ldap:register["url=<URL>, name=<Name>, onthefly=<true,false>, map_{login,firstname,lastname,mail}=attribute"]'
+  task register: :environment do
+
+    # Rake croaks when using commas in default args without properly escaping
+    args = {}
+    ARGV.drop(1).each do |arg|
+      key, val = arg.split(/\s*=\s*/, 2)
+      args[key.to_sym] = val
+    end
+
+    url = URI.parse(args[:url])
+    unless %w(ldap ldaps).include?(url.scheme)
+      raise "Expected #{args[:url]} to be a valid ldap(s) URI."
+    end
+
+    source = LdapAuthSource.new name: args[:name],
+                                host: url.host,
+                                port: url.port,
+                                tls: url.scheme == 'ldaps',
+                                account: url.user,
+                                account_password: url.password,
+                                base_dn: url.dn,
+                                onthefly_register: !!args[:onthefly],
+                                attr_login: args[:map_login],
+                                attr_firstname: args[:map_firstname],
+                                attr_lastname: args[:map_lastname],
+                                attr_mail: args[:map_mail]
+
+    if source.save
+      puts "Saved new LDAP auth source #{args[:name]}."
+    else
+      raise "Failed to save auth source: #{source.errors.full_messages.join("\n")}"
+    end
+  end
+
+  desc 'Creates a dummy LDAP auth source for logging in any user using the password "dummy".'
   task create_dummy: :environment do
     source_name = 'DerpLAP'
     otf_reg = ARGV.include?('onthefly_register')
@@ -51,6 +88,7 @@ namespace :ldap do
     puts "      in the 'LDAP Authentication' view will result in an error. Bummer!"
   end
 
+  desc 'Delete all Dummy auth sources'
   task delete_dummies: :environment do
     DummyAuthSource.destroy_all
 
