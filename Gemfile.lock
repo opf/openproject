@@ -53,7 +53,7 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 31b8f63bc1a492481c525149996f6bfa2da25b3f
+  revision: f2f1306140b6d66d795853487ab89cf8c7149404
   branch: release/4.2
   specs:
     openproject-translations (4.2.10)
@@ -594,4 +594,4 @@ DEPENDENCIES
   will_paginate (~> 3.0)
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
