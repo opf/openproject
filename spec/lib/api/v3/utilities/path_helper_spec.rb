@@ -44,6 +44,10 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  before(:each) do
+    RequestStore.store[:cached_root_path] = nil
+  end
+
   shared_examples_for 'api v3 path' do |url|
     it_behaves_like 'path', "/api/v3#{url}"
   end
