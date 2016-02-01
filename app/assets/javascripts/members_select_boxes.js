@@ -55,20 +55,21 @@ jQuery(document).ready(function($) {
     };
 
     $("#members_add_form select.select2-select").each(function (ix, elem){
-      if ($(elem).hasClass("remote") || $(elem).attr("data-ajaxURL") !== undefined) {
+      var target = $(elem);
+      if (target.hasClass("remote") || target.attr("data-ajaxURL") !== undefined) {
         // remote loading
-        if (!$.isEmptyObject(elem.siblings('div.select2-select.select2-container'))) {
+        if (!$.isEmptyObject(target.siblings('div.select2-select.select2-container'))) {
           setTimeout (function () {
             var attributes, allowed, currentName, fakeInput;
             attributes = {};
             allowed = ["title", "placeholder"];
 
-            for(var i = 0; i < $(elem).get(0).attributes.length; i++) {
-              currentName = $(elem).get(0).attributes[i].name;
+            for(var i = 0; i < target.get(0).attributes.length; i++) {
+              currentName = target.get(0).attributes[i].name;
               if(currentName.indexOf("data-") === 0 || $.inArray(currentName, allowed)); //only ones starting with data-
-              attributes[currentName] = $(elem).attr(currentName);
+              attributes[currentName] = target.attr(currentName);
             }
-            fakeInput = $(elem).after("<input type='hidden'></input>").siblings(":input:first");
+            fakeInput = target.after("<input type='hidden'></input>").siblings(":input:first");
             fakeInput.attr(attributes);
 
             $(fakeInput).select2({
@@ -93,12 +94,12 @@ jQuery(document).ready(function($) {
               formatResult: formatItems,
               formatSelection: formatItemSelection
             });
-            $(elem).remove();
+            target.remove();
           }, 0);
         }
       } else {
         // no remote loading!
-        $(elem).select2();
+        target.select2();
       }
     });
   };
