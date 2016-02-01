@@ -104,9 +104,6 @@ function PathHelper() {
     workPackageDetailsCopyPath: function(projectId, workPackageId) {
       return '/projects/' + projectId + '/work_packages/details/' + workPackageId + '/copy';
     },
-    workPackageDeletePath: function(ids) {
-      return PathHelper.workPackagesBulkDeletePath() + '?ids=' + (Array.isArray(ids) ? ids.join() : ids);
-    },
     usersPath: function() {
       return PathHelper.staticBase + '/users';
     },

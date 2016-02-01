@@ -31,7 +31,7 @@ angular
   .module('openproject.services')
   .factory('WorkPackageService', WorkPackageService);
 
-function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResource,
+function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelper, HALAPIResource,
     DEFAULT_FILTER_PARAMS, DEFAULT_PAGINATION_OPTIONS, $rootScope, $window, $q, $cacheFactory,
     AuthorisationService, EditableFieldsState, WorkPackageFieldService, NotificationsService,
     inplaceEditErrors) {
@@ -353,7 +353,8 @@ function WorkPackageService($http, PathHelper, WorkPackagesHelper, HALAPIResourc
               .error(function(data, status) {
                 // FIXME catch this kind of failover in angular instead of redirecting
                 // to a rails-based legacy view
-                window.location = PathHelper.workPackageDeletePath(ids);
+                params = UrlParamsHelper.buildQueryString(params);
+                window.location = PathHelper.workPackagesBulkDeletePath() + '?' + params;
 
                 // TODO wire up to API and processs API response
                 // NotificationsService.addError(
