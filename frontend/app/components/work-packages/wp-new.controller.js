@@ -154,7 +154,7 @@ function WorkPackageNewController($scope,
                                                                    vm.initialData);
     }
 
-    loadingIndicator.on(vm.loaderPromise);
+    loadingIndicator.mainPage =vm.loaderPromise;
 
     $scope.$on('workPackageUpdatedInEditor', function(e, workPackage) {
       $state.go(vm.successState, { workPackageId: workPackage.props.id });
