@@ -32,6 +32,9 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= setting_text_area :mail_handler_body_delimiters, rows: 5 %>
       <div class="form--field-instructions"><%= l(:text_line_separated) %></div>
     </div>
+    <div class="form--field">
+      <%= setting_text_field :mail_handler_body_delimiter_regex %>
+      <div class="form--field-instructions"><%= l(:text_regexp_multiline) %></div>
   </section>
   <section class="form--section">
     <div class="form--field"><%= setting_check_box :mail_handler_api_enabled,

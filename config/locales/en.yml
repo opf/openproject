@@ -1675,6 +1675,7 @@ en:
   setting_mail_handler_api_description: "The email web handler enables OpenProject to receive emails containing specific commands as an instrumentation mechanism (e.g., to create and update work packages)."
   setting_mail_handler_api_key: "API key"
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
+  setting_mail_handler_body_delimiter_regex: "Truncate emails matching this regex"
   setting_new_project_user_role_id: "Role given to a non-admin user who creates a project"
   setting_password_active_rules: "Active character classes"
   setting_password_count_former_banned: "Number of most recently used passwords banned for reuse"
@@ -1789,6 +1790,7 @@ en:
   text_project_identifier_info: "Only lower case letters (a-z), numbers, dashes and underscores are allowed, must start with a lower case letter."
   text_reassign: "Reassign to work package:"
   text_regexp_info: "eg. ^[A-Z0-9]+$"
+  text_regexp_multiline: 'The regex is applied in a multi-line mode. e.g., ^---\s+'
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
   text_select_mail_notifications: "Select actions for which email notifications should be sent."
   text_status_changed_by_changeset: "Applied in changeset %{value}."
