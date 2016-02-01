@@ -239,7 +239,10 @@ module API
 
         links :children do
           visible_children.map do |child|
-            { href: "#{root_path}api/v3/work_packages/#{child.id}", title: child.subject }
+            {
+              href: api_v3_paths.work_package(child.id),
+              title: child.subject
+            }
           end unless visible_children.empty?
         end
 
