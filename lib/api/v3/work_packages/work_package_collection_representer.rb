@@ -57,6 +57,24 @@ module API
                 current_user: current_user)
         end
 
+        collection :elements,
+                   getter: -> (*) {
+                     generated_classes = ::Hash.new do |hash, work_package|
+                       hit = hash.values.find { |klass|
+                         klass.customizable.type_id == work_package.type_id &&
+                         klass.customizable.project_id == work_package.project_id
+                       }
+
+                       hash[work_package] = hit || element_decorator.create_class(work_package)
+                     end
+
+                     represented.map { |model|
+                       generated_classes[model].new(model, current_user: current_user)
+                     }
+                   },
+                   exec_context: :decorator,
+                   embedded: true
+
         property :groups,
                  exec_context: :decorator,
                  getter: -> (*) {
