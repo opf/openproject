@@ -32,7 +32,7 @@ describe Token do
   fixtures :all
 
   it 'should create' do
-    token = Token.new
+    token = Token.new user: User.find(1), action: 'foobar'
     token.save
     assert_equal 40, token.value.length
     assert !token.expired?
