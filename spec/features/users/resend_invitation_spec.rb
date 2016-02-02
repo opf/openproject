@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,24 +25,35 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
 
-describe Token do
-  fixtures :all
+require 'spec_helper'
 
-  it 'should create' do
-    token = Token.new user: User.find(1), action: 'foobar'
-    token.save
-    assert_equal 40, token.value.length
-    assert !token.expired?
+feature 'resend invitation', type: :feature do
+  let(:current_user) { FactoryGirl.create :admin }
+  let(:user) { FactoryGirl.create :invited_user, mail: 'holly@openproject.com' }
+
+  before do
+    allow(User).to receive(:current).and_return current_user
+
+    visit edit_user_path(user)
   end
 
-  it 'should create_should_remove_existing_tokens' do
-    user = User.find(1)
-    t1 = Token.create(user: user, action: 'autologin')
-    t2 = Token.create(user: user, action: 'autologin')
-    refute_equal t1.value, t2.value
-    assert !Token.exists?(t1.id)
-    assert Token.exists?(t2.id)
+  scenario 'admin resends the invitation' do
+    click_on 'Resend invitation'
+
+    expect(page).to have_text 'Another invitation has been sent to holly@openproject.com.'
+  end
+
+  context 'with some error occuring' do
+    before do
+      allow(UserInvitation).to receive(:token_action).and_return(nil)
+    end
+
+    scenario 'resending fails' do
+      click_on 'Resend invitation'
+
+      expect(page).to have_text 'An error occurred'
+      expect(page).to have_text 'You are here: HomeAdministrationUsers'
+    end
   end
 end

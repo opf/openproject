@@ -473,6 +473,7 @@ OpenProject::Application.routes.draw do
       post :change_status
       post :edit_membership
       post :destroy_membership
+      post :resend_invitation
       get :deletion_info
     end
   end

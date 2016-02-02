@@ -82,6 +82,10 @@ FactoryGirl.define do
       password_confirmation 'adminADMIN!'
       status User::STATUSES[:locked]
     end
+
+    factory :invited_user do
+      status User::STATUSES[:invited]
+    end
   end
   factory :anonymous, class: AnonymousUser do
     status User::STATUSES[:builtin]
