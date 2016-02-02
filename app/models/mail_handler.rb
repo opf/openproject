@@ -41,12 +41,18 @@ class MailHandler < ActionMailer::Base
     @@handler_options = options.dup
 
     @@handler_options[:issue] ||= {}
-    @@handler_options[:allow_override] = @@handler_options[:allow_override].split(',').map(&:strip) if @@handler_options[:allow_override].is_a?(String)
-    @@handler_options[:allow_override] ||= []
+
+    @@handler_options[:allow_override] =
+      if @@handler_options[:allow_override].is_a?(String)
+        @@handler_options[:allow_override].split(',').map(&:strip)
+      else
+        @@handler_options[:allow_override] || []
+      end.map(&:to_sym).to_set
+
     # Project needs to be overridable if not specified
-    @@handler_options[:allow_override] << 'project' unless @@handler_options[:issue].has_key?(:project)
+    @@handler_options[:allow_override] << :project unless @@handler_options[:issue].has_key?(:project)
     # Status overridable by default
-    @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)
+    @@handler_options[:allow_override] << :status unless @@handler_options[:issue].has_key?(:status)
 
     @@handler_options[:no_permission_check] = @@handler_options[:no_permission_check].to_s == '1'
 
@@ -264,8 +270,6 @@ class MailHandler < ActionMailer::Base
   end
 
   def get_keyword(attr, options = {})
-    attr = attr.to_s
-
     @keywords ||= {}
     if @keywords.has_key?(attr)
       @keywords[attr]
@@ -274,8 +278,9 @@ class MailHandler < ActionMailer::Base
         if (options[:override] || @@handler_options[:allow_override].include?(attr)) &&
            (v = extract_keyword!(plain_text_body, attr, options[:format]))
           v
-        elsif !@@handler_options[:issue][attr.to_sym].blank?
-          @@handler_options[:issue][attr.to_sym]
+        else
+          # Return either default or nil
+          @@handler_options[:issue][attr]
         end
       end
     end
@@ -285,8 +290,8 @@ class MailHandler < ActionMailer::Base
   # Returns nil if no matching keyword found
   def extract_keyword!(text, attr, format = nil)
     keys = [attr.to_s.humanize]
-    keys << all_attribute_translations(user.language)[attr.to_sym] if user && user.language.present?
-    keys << all_attribute_translations(Setting.default_language)[attr.to_sym] if Setting.default_language.present?
+    keys << all_attribute_translations(user.language)[attr] if user && user.language.present?
+    keys << all_attribute_translations(Setting.default_language)[attr] if Setting.default_language.present?
 
     keys.reject!(&:blank?)
     keys.map! do |k| Regexp.escape(k) end
