@@ -29,6 +29,9 @@
 
 class Token < ActiveRecord::Base
   belongs_to :user
+
+  validates :user, presence: true
+  validates :action, presence: true
   validates_uniqueness_of :value
 
   before_create :delete_previous_tokens

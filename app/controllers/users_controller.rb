@@ -269,9 +269,14 @@ class UsersController < ApplicationController
   end
 
   def resend_invitation
-    UserInvitation.reinvite_user @user.id
+    token = UserInvitation.reinvite_user @user.id
 
-    flash[:notice] = I18n.t(:notice_user_invitation_resent, email: @user.mail)
+    if token.persisted?
+      flash[:notice] = I18n.t(:notice_user_invitation_resent, email: @user.mail)
+    else
+      logger.error "could not re-invite #{@user.mail}: #{token.errors.full_messages.join(' ')}"
+      flash[:error] = I18n.t(:notice_internal_server_error, app_title: Setting.app_title)
+    end
 
     redirect_to edit_user_path(@user)
   end
