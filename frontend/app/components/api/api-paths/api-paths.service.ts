@@ -26,24 +26,48 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('apiPaths', function() {
-  var $document, apiPaths;
+/**
+ * Replaces the PathHelper service in its function, providing a way to generate safe paths
+ * without having to store them directly in a service.
+ */
 
-  beforeEach(angular.mock.module('openproject.workPackages.services'));
-  beforeEach(angular.mock.inject(function (_$document_) {
-    $document = _$document_;
-    sinon.stub($document, 'find').returns({ attr: function () { return 'my_path' } });
-  }));
+export class ApiPathsService {
+  protected paths:{[name:string]:string};
+  protected basePath:string;
 
-  beforeEach(angular.mock.inject(function(_$document_, _apiPaths_) {
-    apiPaths = _apiPaths_;
-  }));
+  public get appBasePath():string {
+    if (this.basePath === '') return this.basePath;
 
-  afterEach(function () {
-    $document.find.restore();
-  });
+    return this.basePath =
+      (this.basePath || this.$document.find('meta[name=app_base_path]').attr('content') || '')
+        .replace(/\/$/, '');
+  }
 
-  it("should return the 'app_base_path' meta tag value", function () {
-    expect(apiPaths.appBasePath).to.eq('my_path');
-  });
-});
+  constructor(protected $document) {
+    this.paths = {
+      v3: 'api/v3/',
+      v2: 'api/v2/',
+      experimental: 'api/experimental/'
+    };
+  }
+
+  public path(name:string):string {
+    return this.appBasePath + '/' + this.paths[name];
+  }
+
+  public get v3():string {
+    return this.path('v3');
+  }
+
+  public get v2():string {
+    return this.path('v2');
+  }
+
+  public get experimental():string {
+    return this.path('experimental');
+  }
+}
+
+angular
+  .module('openproject.api')
+  .service('apiPaths', ApiPathsService);
