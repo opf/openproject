@@ -31,78 +31,75 @@ angular
   .factory('PathHelper', PathHelper);
 
 function PathHelper() {
-  var PathHelper;
+  var PathHelper,
+      appBasePath = window.appBasePath ? window.appBasePath : '';
 
   return PathHelper = {
-    apiV2: '/api/v2',
-    apiExperimental: '/api/experimental',
-    apiV3: '/api/v3',
-
-    appBasePath:  window.appBasePath ? window.appBasePath : '',
     staticBase:   appBasePath,
 
-    activityFromPath: function(projectIdentifier, from) {
-      var link = '/activity';
+    apiV2: appBasePath + '/api/v2',
+    apiExperimental: appBasePath + '/api/experimental',
+    apiV3: appBasePath + '/api/v3',
 
-      if (projectIdentifier) {
-        link = PathHelper.staticBase + PathHelper.projectPath(projectIdentifier) + link;
-      }
-
-      if (from) {
-        link += '?from=' + from;
-      }
-
-      return link;
-    },
-    boardsPath: function(projectIdentifier) {
-      return PathHelper.projectPath(projectIdentifier) + '/boards';
+    activityPath: function() {
+      return PathHelper.staticBase + '/activity';
     },
     boardPath: function(projectIdentifier, boardIdentifier) {
-      return PathHelper.boardsPath(projectIdentifier) + '/' + boardIdentifier;
+      return PathHelper.projectBoardsPath(projectIdentifier) + '/' + boardIdentifier;
+    },
+    keyboardShortcutsHelpPath: function() {
+      return PathHelper.staticBase + '/help/keyboard_shortcuts';
     },
     messagePath: function(messageIdentifier) {
       return PathHelper.staticBase + '/topics/' + messageIdentifier;
     },
+    myPagePath: function() {
+      return PathHelper.staticBase + '/my/page';
+    },
     projectsPath: function() {
-      return '/projects';
+      return PathHelper.staticBase + '/projects';
     },
     projectPath: function(projectIdentifier) {
       return PathHelper.projectsPath() + '/' + projectIdentifier;
     },
+    projectActivityPath: function(projectIdentifier) {
+      return PathHelper.projectPath(projectIdentifier) + '/activity';
+    },
+    projectBoardsPath: function(projectIdentifier) {
+      return PathHelper.projectPath(projectIdentifier) + '/boards';
+    },
+    projectCalendarPath: function(projectId) {
+      return PathHelper.projectPath(projectId) + '/work_packages/calendar';
+    },
+    projectNewsPath: function(projectId) {
+      return PathHelper.projectPath(projectId) + '/news';
+    },
+    projectTimelinesPath: function(projectId) {
+      return PathHelper.projectPath(projectId) + '/timelines';
+    },
+    projectTimeEntriesPath: function(projectIdentifier) {
+      return PathHelper.projectPath(projectIdentifier) + '/time_entries';
+    },
+    projectWikiPath: function(projectId) {
+      return PathHelper.projectPath(projectId) + '/wiki';
+    },
     projectWorkPackagesPath: function(projectId) {
-      return PathHelper.projectPath(projectId) + PathHelper.workPackagesPath();
+      return PathHelper.projectPath(projectId) + '/work_packages';
+    },
+    projectWorkPackageNewPath: function(projectId) {
+      return PathHelper.projectWorkPackagesPath(projectId) + '/new';
     },
     queryPath: function(queryIdentifier) {
-      return '/queries/' + queryIdentifier;
+      return PathHelper.staticBase + '/queries/' + queryIdentifier;
     },
-    timeEntriesPath: function(projectIdentifier, workPackageIdentifier) {
-      var path = '/time_entries';
-
-      if (workPackageIdentifier) {
-        return PathHelper.workPackagePath(workPackageIdentifier) + path;
-      } else if (projectIdentifier) {
-        return PathHelper.projectPath(projectIdentifier) + path;
-      }
-
-      return path;
+    timeEntriesPath: function(workPackageId) {
+      return PathHelper.workPackagePath(workPackageId) + '/time_entries';
     },
     timeEntryPath: function(timeEntryIdentifier) {
       return PathHelper.staticBase + '/time_entries/' + timeEntryIdentifier;
     },
     timeEntryEditPath: function(timeEntryIdentifier) {
       return PathHelper.timeEntryPath(timeEntryIdentifier) + '/edit';
-    },
-    workPackagesPath: function() {
-      return '/work_packages';
-    },
-    workPackagePath: function(id) {
-      return PathHelper.staticBase + '/work_packages/' + id;
-    },
-    workPackageCopyPath: function(workPackageId) {
-      return PathHelper.staticBase + '/work_packages/' + workPackageId + '/copy';
-    },
-    workPackageDetailsCopyPath: function(projectId, workPackageId) {
-      return PathHelper.staticBase + '/projects/' + projectId + '/work_packages/details/' + workPackageId + '/copy';
     },
     usersPath: function() {
       return PathHelper.staticBase + '/users';
@@ -111,25 +108,30 @@ function PathHelper() {
       return PathHelper.usersPath() + '/' + id;
     },
     versionsPath: function() {
-      return '/versions';
+      return PathHelper.staticBase + '/versions';
     },
     versionPath: function(versionId) {
       return PathHelper.versionsPath() + '/' + versionId;
     },
-    subProjectsPath: function() {
-      return '/sub_projects';
+    workPackagesPath: function() {
+      return PathHelper.staticBase + '/work_packages';
+    },
+    workPackagePath: function(id) {
+      return PathHelper.staticBase + '/work_packages/' + id;
+    },
+    workPackageCopyPath: function(workPackageId) {
+      return PathHelper.workPackagePath(workPackageId) + '/copy';
+    },
+    workPackageDetailsCopyPath: function(projectIdentifier, workPackageId) {
+      return PathHelper.projectWorkPackagesPath(projectIdentifier) + '/details/' + workPackageId + '/copy';
     },
     workPackagesBulkDeletePath: function() {
       return PathHelper.workPackagesPath() + '/bulk';
     },
-    workPackageJsonAutoCompletePath: function() {
-      return '/work_packages/auto_complete.json';
-    },
-    workPackageNewWithParameterPath: function(projectId, parameters) {
-      var path = '/projects/' + projectId + '/work_packages/new?';
-
-      for (var parameter in parameters) {
-        path += 'work_package[' + parameter + ']=' + parameters[parameter] + ';';
+    workPackageJsonAutoCompletePath: function(projectId) {
+      var path = PathHelper.workPackagesPath() + '/auto_complete.json';
+      if (projectId) {
+        path += '?project_id=' + projectId
       }
 
       return path;
@@ -158,34 +160,34 @@ function PathHelper() {
       return PathHelper.apiProjectPath(projectIdentifier) + '/queries/grouped';
     },
     apiProjectPath: function(projectIdentifier) {
-      return PathHelper.apiExperimental + PathHelper.projectPath(projectIdentifier);
+      return PathHelper.apiExperimental + '/projects/' + projectIdentifier;
     },
     apiProjectQueriesPath: function(projectIdentifier) {
       return PathHelper.apiProjectPath(projectIdentifier) + '/queries';
     },
     apiProjectQueryPath: function(projectIdentifier, queryIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.queryPath(queryIdentifier);
+      return PathHelper.apiProjectPath(projectIdentifier) + '/queries/' + queryIdentifier;
     },
     apiProjectsPath: function(){
-      return PathHelper.apiExperimental + PathHelper.projectsPath();
+      return PathHelper.apiExperimental + '/projects';
     },
     apiProjectSubProjectsPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.subProjectsPath();
+      return PathHelper.apiProjectPath(projectIdentifier) + '/sub_projects';
     },
     apiProjectUsersPath: function(projectIdentifier) {
       return PathHelper.apiProjectPath(projectIdentifier) + '/users';
     },
     apiVersionsPath: function(projectIdentifier) {
-      return PathHelper.apiExperimental + PathHelper.versionsPath();
+      return PathHelper.apiExperimental + '/versions';
     },
     apiProjectVersionsPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.versionsPath();
+      return PathHelper.apiProjectPath(projectIdentifier) + '/versions';
     },
     apiProjectWorkPackagesPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.workPackagesPath();
+      return PathHelper.apiProjectPath(projectIdentifier) + '/work_packages';
     },
     apiProjectWorkPackagesSumsPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.workPackagesPath() + '/column_sums';
+      return PathHelper.apiProjectWorkPackagesPath(projectIdentifier) + '/column_sums';
     },
     apiQueriesPath: function() {
       return PathHelper.apiExperimental + '/queries';
@@ -211,11 +213,8 @@ function PathHelper() {
     },
 
     // API V3
-    apiV3BasePath: function() {
-      return PathHelper.staticBase + PathHelper.apiV3;
-    },
     apiConfigurationPath: function() {
-      return PathHelper.apiV3BasePath() + '/configuration';
+      return PathHelper.apiV3 + '/configuration';
     },
     apiQueryStarPath: function(queryId) {
       return PathHelper.apiV3QueryPath(queryId) + '/star';
@@ -224,83 +223,41 @@ function PathHelper() {
       return PathHelper.apiV3QueryPath(queryId) + '/unstar';
     },
     apiV3QueryPath: function(queryId) {
-      return PathHelper.apiV3BasePath() + PathHelper.queryPath(queryId);
+      return PathHelper.apiV3 + '/queries/' + queryId;
     },
     apiV3WorkPackagePath: function(workPackageId) {
-      return PathHelper.apiV3BasePath() + '/work_packages/' + workPackageId;
+      return PathHelper.apiV3 + '/work_packages/' + workPackageId;
     },
     apiV3WorkPackageFormPath: function(projectIdentifier) {
       return PathHelper.apiv3ProjectWorkPackagesPath(projectIdentifier) + '/form';
     },
     apiPrioritiesPath: function() {
-      return PathHelper.apiV3BasePath() + '/priorities';
+      return PathHelper.apiV3 + '/priorities';
     },
-    apiV3ProjectsPath: function(projectIdentifier) {
-      return PathHelper.apiV3BasePath() + PathHelper.projectsPath() + '/' + projectIdentifier;
+    apiV3ProjectPath: function(projectIdentifier) {
+      return PathHelper.apiV3 + '/projects/' + projectIdentifier;
     },
     apiv3ProjectWorkPackagesPath: function(projectIdentifier) {
-      return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/work_packages';
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + '/work_packages';
     },
     apiV3ProjectCategoriesPath: function(projectIdentifier) {
-      return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/categories';
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + '/categories';
     },
     apiV3TypePath: function(typeId) {
-      return PathHelper.apiV3BasePath() + '/types/' + typeId;
+      return PathHelper.apiV3 + '/types/' + typeId;
     },
     apiV3UserPath: function(userId) {
-      return PathHelper.apiV3BasePath() + '/users/' + userId;
+      return PathHelper.apiV3 + '/users/' + userId;
     },
     apiStatusesPath: function() {
-      return PathHelper.apiV3BasePath() + '/statuses';
+      return PathHelper.apiV3 + '/statuses';
     },
     apiProjectWorkPackageTypesPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/types';
     },
     apiWorkPackageTypesPath: function() {
-      return PathHelper.apiV3BasePath() + '/types';
+      return PathHelper.apiV3 + '/types';
     },
-    // Static
-    staticUserPath: function(userId) {
-      return PathHelper.userPath(userId);
-    },
-    staticWorkPackagePath: function(workPackageId) {
-      return PathHelper.workPackagePath(workPackageId);
-    },
-    staticProjectPath: function(projectIdentifier) {
-      return PathHelper.staticBase + PathHelper.projectPath(projectIdentifier);
-    },
-    staticVersionPath: function(versionId) {
-      return PathHelper.staticBase + PathHelper.versionPath(versionId);
-    },
-    staticProjectWorkPackagesPath: function(projectId) {
-      return PathHelper.staticBase + PathHelper.projectWorkPackagesPath(projectId);
-    },
-    staticWorkPackagesPath: function() {
-      return PathHelper.staticBase + PathHelper.workPackagesPath();
-    },
-    staticWorkPackageNewWithParametersPath: function(projectId, parameters) {
-      return PathHelper.staticBase + PathHelper.workPackageNewWithParameterPath(projectId, parameters);
-    },
-    staticWorkPackagesAutocompletePath: function(projectId) {
-      return PathHelper.staticBase + '/work_packages/auto_complete.json?project_id=' + projectId;
-    },
-    staticProjectWikiPath: function(projectId) {
-      return PathHelper.staticProjectPath(projectId) + '/wiki';
-    },
-    staticProjectCalendarPath: function(projectId) {
-      return PathHelper.staticProjectPath(projectId) + '/work_packages/calendar';
-    },
-    staticProjectNewsPath: function(projectId) {
-      return PathHelper.staticProjectPath(projectId) + '/news';
-    },
-    staticProjectTimelinesPath: function(projectId) {
-      return PathHelper.staticProjectPath(projectId) + '/timelines';
-    },
-    staticMyPagePath: function() {
-      return PathHelper.staticBase + '/my/page';
-    },
-    staticKeyboardShortcutsHelpPath: function() {
-      return PathHelper.staticBase + '/help/keyboard_shortcuts';
-    }
+
   };
 }
