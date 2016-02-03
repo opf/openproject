@@ -415,7 +415,7 @@ module.exports = function(PathHelper) {
       return this.getParent();
     },
     getUrl: function() {
-      var url = PathHelper.staticProjectPath(this.identifier);
+      var url = PathHelper.projectPath(this.identifier);
 
       url += "/timelines";
 

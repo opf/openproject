@@ -38,7 +38,7 @@ describe('PathHelper', function() {
     var projectIdentifier = 'majora';
 
     it('should provide the project\'s path', function() {
-      expect(PathHelper.apiV3ProjectsPath(projectIdentifier)).to.equal('/api/v3/projects/majora');
+      expect(PathHelper.apiV3ProjectPath(projectIdentifier)).to.equal('/api/v3/projects/majora');
     });
 
     it('should provide a path to the project\'s categories', function() {
