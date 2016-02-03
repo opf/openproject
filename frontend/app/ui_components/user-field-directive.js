@@ -39,7 +39,7 @@ module.exports = function(PathHelper) {
         }
       });
 
-      scope.userPath = PathHelper.staticUserPath;
+      scope.userPath = PathHelper.userPath;
     }
   };
 };

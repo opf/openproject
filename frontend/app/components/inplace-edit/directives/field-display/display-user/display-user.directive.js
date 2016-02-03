@@ -66,7 +66,7 @@ function InplaceDisplayUserController($scope, PathHelper) {
   var getHref = function(user) {
     var id = user.props.id;
 
-    return PathHelper.staticUserPath(id);
+    return PathHelper.userPath(id);
   };
 
   var getAvatar = function(user) {

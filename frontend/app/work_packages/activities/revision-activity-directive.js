@@ -47,7 +47,7 @@ module.exports = function($compile,
       if (scope.activity.links.author === undefined) {
         scope.userName = scope.activity.props.authorName;
       } else {
-        scope.userPath = PathHelper.staticUserPath;
+        scope.userPath = PathHelper.userPath;
         scope.activity.links.author.fetch().then(function(user) {
           scope.userId = user.props.id;
           scope.userName = user.props.name;
