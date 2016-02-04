@@ -48,6 +48,15 @@ module API
           end
         end
 
+        def initialize(model, current_user:, embed_links: false)
+          # Define all accessors on the customizable as they
+          # will be used afterwards anyway. Otherwise, we will have to
+          # go through method_missing which will take more time.
+          model.define_all_custom_field_accessors
+
+          super
+        end
+
         self_link title_getter: -> (*) { represented.subject }
 
         link :update do
