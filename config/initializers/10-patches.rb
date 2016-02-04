@@ -58,11 +58,12 @@ module ActiveModel
     # dependent on specific errors (which we use in the APIv3).
     # We therefore add a second information store containing pairs of [symbol, translated_message].
     def add_with_storing_error_symbols(attribute, message = :invalid, options = {})
+      error_symbol = options.fetch(:error_symbol) { message }
       add_without_storing_error_symbols(attribute, message, options)
 
       if store_new_symbols?
-        if message.is_a?(Symbol)
-          symbol = message
+        if error_symbol.is_a?(Symbol)
+          symbol = error_symbol
           partial_message = normalize_message(attribute, message, options)
           full_message = full_message(attribute, partial_message)
         else
