@@ -323,6 +323,12 @@ SetEnv EXECJS_RUNTIME Disabled
       # Uncomment this if you're on Apache >= 2.4:
       Require all granted
    </Directory>
+
+   # Request browser to cache assets
+   <Location /assets/>
+     ExpiresActive On ExpiresDefault "access plus 1 year"
+   </Location>
+
 </VirtualHost>
 ```
 

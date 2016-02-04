@@ -46,4 +46,24 @@ describe UserInvitation do
       expect(last).to eq '@veryopensuchproject.openpro...'
     end
   end
+
+  describe '.reinvite_user' do
+    let(:user) { FactoryGirl.create :invited_user }
+    let!(:token) { FactoryGirl.create :token, user: user, action: UserInvitation.token_action }
+
+    it 'notifies listeners of the re-invite' do
+      expect(OpenProject::Notifications).to receive(:send) do |event, new_token|
+        expect(event).to eq 'user_reinvited'
+      end
+
+      UserInvitation.reinvite_user user.id
+    end
+
+    it 'creates a new token' do
+      new_token = UserInvitation.reinvite_user user.id
+
+      expect(new_token.value).not_to eq token.value
+      expect(Token.exists?(token.id)).to eq false
+    end
+  end
 end

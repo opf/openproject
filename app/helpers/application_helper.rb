@@ -238,27 +238,29 @@ module ApplicationHelper
     end
   end
 
-  def project_tree_options_for_select(projects, options = {}, &_block)
-    Project.project_level_list(projects).map { |element|
+  def project_tree_options_for_select(projects, selected: nil, disabled: {}, &_block)
+    options = ''.html_safe
+    Project.project_level_list(projects).each do |element|
+      identifier = element[:project].id
       tag_options = {
-        value: h(element[:project].id),
+        value: h(identifier),
         title: h(element[:project].name),
       }
 
-      if options[:selected] == element[:project] ||
-         (options[:selected].respond_to?(:include?) &&
-          options[:selected].include?(element[:project]))
-
-        tag_options[:selected] = 'selected'
+      if !selected.nil? && selected.id == identifier
+        tag_options[:selected] = true
       end
 
-      level_prefix = ''
-      level_prefix = ('&nbsp;' * 3 * element[:level] + '&#187; ').html_safe if element[:level] > 0
+      tag_options[:disabled] = true if disabled.include? identifier
 
-      tag_options.merge!(yield(element[:project])) if block_given?
+      content = ''.html_safe
+      content << ('&nbsp;' * 3 * element[:level] + '&#187; ').html_safe if element[:level] > 0
+      content << element[:project].name
 
-      content_tag('option', level_prefix + h(element[:project].name), tag_options)
-    }.join('').html_safe
+      options << content_tag('option', content, tag_options)
+    end
+
+    options
   end
 
   # Yields the given block for each project with its level in the tree

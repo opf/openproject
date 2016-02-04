@@ -39,7 +39,8 @@ class UsersController < ApplicationController
                                    :edit_membership,
                                    :destroy_membership,
                                    :destroy,
-                                   :deletion_info]
+                                   :deletion_info,
+                                   :resend_invitation]
   # should also contain destroy but post data can not be redirected
   before_filter :require_login, only: [:deletion_info]
   before_filter :authorize_for_user, only: [:destroy]
@@ -274,6 +275,19 @@ class UsersController < ApplicationController
         end
       end
     end
+  end
+
+  def resend_invitation
+    token = UserInvitation.reinvite_user @user.id
+
+    if token.persisted?
+      flash[:notice] = I18n.t(:notice_user_invitation_resent, email: @user.mail)
+    else
+      logger.error "could not re-invite #{@user.mail}: #{token.errors.full_messages.join(' ')}"
+      flash[:error] = I18n.t(:notice_internal_server_error, app_title: Setting.app_title)
+    end
+
+    redirect_to edit_user_path(@user)
   end
 
   def destroy
