@@ -68,11 +68,6 @@ This is in principle a very good concept to delegate responsibility of inference
 
 ## Using hyperagent.js
 
-**Deprecation Notice:**
-Please consider using `angular-hypermedia`, as it is a better suited solution than `hyperagent`.
-[Using angular-hypermedia](#angular-hypermedia).
-
-
 For all practical purposes, the OpenProject frontend uses a fork of [`hyperagent.js`](https://github.com/weluse/hyperagent) (actually [this one is used](https://github.com/manwithtwowatches/hyperagent)).
 
 `hyperagent.js` aims to provide an interface to a structed JSON response, providing a resource object automatically. While this is a nice goal, the current implementation used is not complete.
@@ -94,11 +89,3 @@ var addAttachmentPath = workPackage._links.addAttachment.href;
 One of the minor drawbacks of `hyperagent.js` is that it (_read_: the fork used) only supports `GET` requests at the moment and one has to awkwardly inject the `method` desired into the `options` of the AJAX call made (see also the `setup` method of `hal-api-resource.js`, as well as an example in `loadWorkPackageForm` in `./frontend/app/services/work-package-service.js`).
 
 __Note__: The long term goal should be to leverage `angular.$http` and make the calls accordingly. One of the short term goals should be to remove duplication introduced when building requests via the `HALAPIResource`.
-
-
-## Using angular-hypermedia<a name="angular-hypermedia"></a>
-
-Please read the documentation for usage details [`angular-hypermedia`](https://github.com/jcassee/angular-hypermediahttps://github.com/jcassee/angular-hypermedia).
-
-**TODO**
-_Add usage example for `angular-hypermedia`_
