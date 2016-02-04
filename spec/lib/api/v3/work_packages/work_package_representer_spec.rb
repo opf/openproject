@@ -591,7 +591,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       context 'when the user has the permission to add work packages' do
         it 'should have a link to add child' do
-          expect(subject).to be_json_eql(new_project_work_packages_path(project, parent_id: work_package.id).to_json)
+          expect(subject).to be_json_eql("/api/v3/projects/#{project.identifier}/work_packages".to_json)
             .at_path('_links/addChild/href')
         end
       end
