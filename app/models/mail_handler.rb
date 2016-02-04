@@ -413,6 +413,13 @@ class MailHandler < ActionMailer::Base
       regex = Regexp.new("^[> ]*(#{delimiters.join('|')})\s*[\r\n].*", Regexp::MULTILINE)
       body = body.gsub(regex, '')
     end
+
+    regex_delimiter = Setting.mail_handler_body_delimiter_regex
+    if regex_delimiter.present?
+      regex = Regexp.new(regex_delimiter, Regexp::MULTILINE)
+      body = body.gsub(regex, '')
+    end
+
     body.strip
   end
 
