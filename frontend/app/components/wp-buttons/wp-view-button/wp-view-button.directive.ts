@@ -61,8 +61,7 @@ export class WorkPackageViewButtonController extends WorkPackageNavigationButton
       angular.extend(params, this.$state.params);
     }
 
-    var promise = this.$state.go.apply(this.$state, args);
-    this.loadingIndicator.on(promise);
+    this.loadingIndicator.mainPage = this.$state.go.apply(this.$state, args);
   }
 }
 
