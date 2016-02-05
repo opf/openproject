@@ -84,14 +84,14 @@ function WorkPackageDetailsController($scope, $state, workPackage, I18n, RELATIO
       $scope.watchers = workPackage.embedded.watchers.embedded.elements;
     }
 
-    $scope.showStaticPagePath = PathHelper.staticWorkPackagePath($scope.workPackage.props.id);
+    $scope.showStaticPagePath = PathHelper.workPackagePath($scope.workPackage.props.id);
 
     // Type
     $scope.type = workPackage.embedded.type;
 
     // Author
     $scope.author = workPackage.embedded.author;
-    $scope.authorPath = PathHelper.staticUserPath($scope.author.props.id);
+    $scope.authorPath = PathHelper.userPath($scope.author.props.id);
     $scope.authorActive = UsersHelper.isActive($scope.author);
 
     // Attachments

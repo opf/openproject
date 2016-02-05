@@ -40,11 +40,21 @@ module.exports = function(I18n, PathHelper, TimezoneService) {
       var timeago = createdOn.fromNow();
       var time = createdOn.format('LLL');
 
+      function activityFromPath(project, from) {
+        var path = PathHelper.projectActivityPath(project);
+
+        if (from) {
+          path += '?from=' + from;
+        }
+
+        return path;
+      }
+
       scope.I18n = I18n;
       scope.authorLink = '<a href="'+ PathHelper.userPath(scope.author.id) + '">' + scope.author.name + '</a>';
 
       if (scope.activity) {
-        scope.timestamp = '<a title="' + time + '" href="' + PathHelper.activityFromPath(scope.project, createdOn.format('YYYY-MM-DD')) + '">' + timeago + '</a>';
+        scope.timestamp = '<a title="' + time + '" href="' + activityFromPath(scope.project, createdOn.format('YYYY-MM-DD')) + '">' + timeago + '</a>';
       } else {
         scope.timestamp = '<span class="timestamp" title="' + time + '">' + timeago + '</span>';
       }

@@ -35,6 +35,14 @@ module.exports = function($scope, $http, PathHelper, SortService, PaginationServ
   SortService.setColumn(gon.sort_column);
   SortService.setDirection(gon.sort_direction);
 
+  function timeEntriesPath(projectId, workPackageId) {
+    if (workPackageIdentifier) {
+      return PathHelper.timeEntriesPath(workPackageId);
+    } else if (projectIdentifier) {
+      return PathHelper.projectTimeEntriesPath(projectIdentifier);
+    }
+  }
+
   $scope.loadTimeEntries = function() {
     $scope.isLoading = true;
 

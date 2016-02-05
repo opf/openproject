@@ -149,9 +149,9 @@ module.exports = function(I18n, PaginationService, PathHelper) {
       var relativeUrl;
 
       if (query.project_id) {
-        relativeUrl = PathHelper.staticProjectWorkPackagesPath(query.project_id);
+        relativeUrl = PathHelper.projectWorkPackagesPath(query.project_id);
       } else {
-        relativeUrl = PathHelper.staticWorkPackagesPath();
+        relativeUrl = PathHelper.workPackagesPath();
       }
 
       return query.exportFormats.map(function(format){
