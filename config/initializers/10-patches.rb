@@ -71,7 +71,7 @@ module ActiveModel
           full_message = message
         end
 
-        writable_symbols_and_messages_for(attribute) << [symbol, full_message]
+        writable_symbols_and_messages_for(attribute) << [symbol, full_message, partial_message]
       end
     end
 
@@ -143,8 +143,8 @@ class Reform::Contract::Errors
     @store_new_symbols = true
 
     errors.keys.each do |attribute|
-      errors.symbols_and_messages_for(attribute).each do |symbol, message|
-        writable_symbols_and_messages_for(attribute) << [symbol, message]
+      errors.symbols_and_messages_for(attribute).each do |symbol, full_message, partial_message|
+        writable_symbols_and_messages_for(attribute) << [symbol, full_message, partial_message]
       end
     end
   end
