@@ -73,16 +73,7 @@ Examples:
 END_DESC
 
     task read: :environment do
-      options = { issue: {} }
-      default_fields = (ENV['default_fields'] || '').split
-      default_fields |= %w[project status type category priority fixed_version]
-      default_fields.each do |field| options[:issue][field] = ENV[field] if ENV[field] end
-
-      options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
-      options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
-      options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
-
-      MailHandler.receive(STDIN.read, options)
+      MailHandler.receive(STDIN.read, options_from_env)
     end
 
     desc <<-END_DESC
@@ -156,16 +147,7 @@ END_DESC
                        move_on_success: ENV['move_on_success'],
                        move_on_failure: ENV['move_on_failure'] }
 
-      options = { issue: {} }
-      default_fields = (ENV['default_fields'] || '').split
-      default_fields |= %w[project status type category priority fixed_version]
-      default_fields.each do |field| options[:issue][field] = ENV[field] if ENV[field] end
-
-      options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
-      options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
-      options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
-
-      Redmine::IMAP.check(imap_options, options)
+      Redmine::IMAP.check(imap_options, options_from_env)
     end
 
     desc <<-END_DESC
@@ -192,16 +174,7 @@ END_DESC
                        password: ENV['password'],
                        delete_unprocessed: ENV['delete_unprocessed'] }
 
-      options = { issue: {} }
-      default_fields = (ENV['default_fields'] || '').split
-      default_fields |= %w[project status type category priority fixed_version]
-      default_fields.each do |field| options[:issue][field] = ENV[field] if ENV[field] end
-
-      options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
-      options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
-      options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
-
-      Redmine::POP3.check(pop_options, options)
+      Redmine::POP3.check(pop_options, options_from_env)
     end
 
     desc 'Send a test email to the user with the provided login name'
@@ -223,6 +196,20 @@ END_DESC
         puts I18n.t(:notice_email_sent, value: user.mail)
       rescue => e
         abort I18n.t(:notice_email_error, e.message)
+      end
+    end
+
+    private
+
+    def options_from_env
+      { issue: {} }.tap do |options|
+        default_fields = (ENV['default_fields'] || '').split
+        default_fields |= %w[project status type category priority assigned_to fixed_version]
+        default_fields.each do |field| options[:issue][field.to_sym] = ENV[field] if ENV[field] end
+
+        options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
+        options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
+        options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
       end
     end
   end

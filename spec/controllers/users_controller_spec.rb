@@ -125,6 +125,48 @@ describe UsersController, type: :controller do
     end
   end
 
+  describe 'POST resend_invitation' do
+    let(:invited_user) { FactoryGirl.create :invited_user }
+
+    context 'without admin rights' do
+      let(:normal_user) { FactoryGirl.create :user }
+
+      before do
+        as_logged_in_user normal_user do
+          post :resend_invitation, id: invited_user.id
+        end
+      end
+
+      it 'returns 403 forbidden' do
+        expect(response.status).to eq 403
+      end
+    end
+
+    context 'with admin rights' do
+      let(:admin_user) { FactoryGirl.create :admin }
+
+      before do
+        expect(ActionMailer::Base.deliveries).to be_empty
+
+        as_logged_in_user admin_user do
+          post :resend_invitation, id: invited_user.id
+        end
+      end
+
+      it 'redirects back to the edit user page' do
+        expect(response).to redirect_to edit_user_path(invited_user)
+      end
+
+      it 'sends another activation email' do
+        mail = ActionMailer::Base.deliveries.first.body.parts.first.body.to_s
+        token = Token.find_by user_id: invited_user.id, action: UserInvitation.token_action
+
+        expect(mail).to include 'activate your account'
+        expect(mail).to include token.value
+      end
+    end
+  end
+
   describe 'POST destroy' do
     describe "WHEN the current user is the requested one
               WHEN the setting users_deletable_by_self is set to true" do

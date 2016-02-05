@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,27 +24,21 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-.news
-  margin-bottom: 3rem
+import {LoadingIndicator} from "./loading-indicator.service";
 
-  &.box > p
-    margin-top: -15px
 
-  .timestamp
-    border-bottom: 1px dotted
-    cursor: help
+describe('loadingIndicator service', () => {
+  var loadingIndicator:LoadingIndicator;
 
-  .additional-information
-    font-size: 11px
+  beforeEach(angular.mock.module('openproject.workPackages.services'));
 
-  .news--comment
-    font-size: 11px
+  beforeEach(angular.mock.inject((_loadingIndicator_) => {
+    loadingIndicator = _loadingIndicator_;
+  }));
 
-.summary
-  font-style: italic
-  font-size: 1rem
-
-p.author
-  font-style: italic
+  it('should exist', () => {
+    expect(loadingIndicator).to.exist;
+  });
+});

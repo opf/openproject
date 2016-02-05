@@ -99,13 +99,10 @@ function PathHelper() {
       return PathHelper.staticBase + '/work_packages/' + id;
     },
     workPackageCopyPath: function(workPackageId) {
-      return '/work_packages/' + workPackageId + '/copy';
+      return PathHelper.staticBase + '/work_packages/' + workPackageId + '/copy';
     },
     workPackageDetailsCopyPath: function(projectId, workPackageId) {
-      return '/projects/' + projectId + '/work_packages/details/' + workPackageId + '/copy';
-    },
-    workPackageDeletePath: function(ids) {
-      return PathHelper.workPackagesBulkDeletePath() + '?ids=' + (Array.isArray(ids) ? ids.join() : ids);
+      return PathHelper.staticBase + '/projects/' + projectId + '/work_packages/details/' + workPackageId + '/copy';
     },
     usersPath: function() {
       return PathHelper.staticBase + '/users';

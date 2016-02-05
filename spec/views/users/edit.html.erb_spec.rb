@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'users/edit', type: :view do
-  let(:current_user) { FactoryGirl.build :admin }
+  let(:admin) { FactoryGirl.build :admin }
 
   context 'authentication provider' do
     let(:user)  {
@@ -41,7 +41,7 @@ describe 'users/edit', type: :view do
       assign(:user, user)
       assign(:auth_sources, [])
 
-      allow(view).to receive(:current_user).and_return(current_user)
+      allow(view).to receive(:current_user).and_return(admin)
     end
 
     it 'shows the authentication provider' do
@@ -58,6 +58,55 @@ describe 'users/edit', type: :view do
     end
   end
 
+  context 'with an invited user' do
+    let(:user) { FactoryGirl.create :invited_user }
+
+    before do
+      assign(:user, user)
+      assign(:auth_sources, [])
+    end
+
+    context 'for an admin' do
+      before do
+        allow(view).to receive(:current_user).and_return(admin)
+        render
+      end
+
+      it 'renders the resend invitation button' do
+        expect(rendered).to include I18n.t(:label_resend_invitation)
+      end
+    end
+
+    context 'for a non-admin' do
+      let(:non_admin) { FactoryGirl.create :user }
+
+      before do
+        allow(view).to receive(:current_user).and_return(non_admin)
+        render
+      end
+
+      it 'does not render the resend invitation button' do
+        expect(rendered).not_to include I18n.t(:label_resend_invitation)
+      end
+    end
+  end
+
+  context 'with a normal (not invited) user' do
+    let(:user) { FactoryGirl.create :user }
+
+    before do
+      assign(:user, user)
+      assign(:auth_sources, [])
+
+      allow(view).to receive(:current_user).and_return(admin)
+      render
+    end
+
+    it 'does not render the resend invitation button' do
+      expect(rendered).not_to include I18n.t(:label_resend_invitation)
+    end
+  end
+
   context 'with password-based login' do
     let(:user) { FactoryGirl.build :user, id: 42 }
 
@@ -65,7 +114,7 @@ describe 'users/edit', type: :view do
       assign :user, user
       assign :auth_sources, []
 
-      allow(view).to receive(:current_user).and_return(current_user)
+      allow(view).to receive(:current_user).and_return(admin)
     end
 
     context 'with password login disabled' do
@@ -132,7 +181,7 @@ describe 'users/edit', type: :view do
           within '#password_fields' do
             expect(rendered).to have_text('Password')
             expect(rendered).to have_text('Confirmation')
-          end  
+          end
         end
       end
 
@@ -143,11 +192,11 @@ describe 'users/edit', type: :view do
 
         it "doesn't show the password and password confirmation fields" do
           render
-          
+
           within '#password_fields' do
             expect(rendered).not_to have_text('Password')
             expect(rendered).not_to have_text('Password confirmation')
-          end  
+          end
         end
       end
     end

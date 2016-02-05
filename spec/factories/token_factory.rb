@@ -31,6 +31,7 @@ require 'securerandom'
 FactoryGirl.define do
   factory :token do
     user
+    action 'invite'
     value do SecureRandom.hex(16) end
 
     factory :api_key do

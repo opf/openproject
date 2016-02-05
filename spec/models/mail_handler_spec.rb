@@ -74,6 +74,24 @@ describe MailHandler, type: :model do
     }.to change(User, :count).by(1)
   end
 
+  describe '#cleanup_body' do
+    let(:input) { "Subject:foo\nDescription:bar\n" \
+                  ">>> myserver.example.org 2016-01-27 15:56 >>>\n... (Email-Body) ..." }
+    let(:handler) { MailHandler.send :new }
+
+    context 'with regex delimiter' do
+      before do
+        allow(Setting).to receive(:mail_handler_body_delimiter_regex).and_return('>>>.+?>>>.*')
+        allow(handler).to receive(:plain_text_body).and_return(input)
+        expect(handler).to receive(:cleaned_up_text_body).and_call_original
+      end
+
+      it 'removes the irrelevant lines' do
+        expect(handler.send(:cleaned_up_text_body)).to eq("Subject:foo\nDescription:bar")
+      end
+    end
+  end
+
   private
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'

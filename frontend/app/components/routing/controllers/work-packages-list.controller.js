@@ -67,7 +67,7 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
       fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier);
     }
 
-    var promise = fetchWorkPackages.then(function(json) {
+    loadingIndicator.mainPage = fetchWorkPackages.then(function(json) {
       return setupPage(json, !!queryParams);
 
     }).then(function() {
@@ -76,8 +76,6 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
         QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
       }
     );
-
-    loadingIndicator.on(promise);
   }
 
   function fetchWorkPackagesFromUrlParams(queryParams) {
@@ -218,18 +216,15 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
   $scope.loadQuery = function(queryId) {
     // Clear unsaved changes to current query
     clearUrlQueryParams();
-
-    loadingIndicator.on($state.go('work-packages.list', { 'query_id': queryId }));
+    loadingIndicator.mainPage = $state.go('work-packages.list', { 'query_id': queryId });
   };
 
   function updateResults() {
     $scope.$broadcast('openproject.workPackages.updateResults');
 
-    var promise = WorkPackageService.getWorkPackages($scope.projectIdentifier,
+    loadingIndicator.mainPage = WorkPackageService.getWorkPackages($scope.projectIdentifier,
       $scope.query, PaginationService.getPaginationOptions())
       .then(setupWorkPackagesTable);
-
-    loadingIndicator.on(promise);
   }
 
   // More
@@ -280,12 +275,10 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
 
   $scope.showWorkPackageDetails = function(id, force) {
     if (force || $state.current.url != "") {
-      var promise = $state.go(keepTab.currentDetailsTab, {
+      loadingIndicator.mainPage = $state.go(keepTab.currentDetailsTab, {
         workPackageId: id,
         query_props: $state.params.query_props
       });
-
-      loadingIndicator.on(promise);
     }
   };
 

@@ -45,7 +45,6 @@ function run($http, $q) {
   Hyperagent.configure('defer', $q.defer);
   Hyperagent.configure('_', _);
 }
-run.$inject = ['$http', '$q'];
 
 function HALAPIResource () {
   return {
