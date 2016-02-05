@@ -25,6 +25,12 @@ module API
     module Budgets
       class BudgetRepresenter < ::API::Decorators::Single
         self_link title_getter: -> (*) { represented.subject }
+        link :staticPath do
+          {
+              href: cost_object_path(represented.id)
+          }
+        end
+
         property :id, render_nil: true
         property :subject, render_nil: true
 
