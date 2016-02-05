@@ -162,7 +162,17 @@ As a reference, the following Node.js and NPM versions have been installed on ou
 
 ## The Upgrade
 
-Now that the sources and dependencies are in place, you can migrate the Database and do the upgrade:
+Now that the sources and dependencies are in place, you can migrate the Database and do the upgrade.
+
+Before actually migrating the database, please remove all temporary files from the previous installation (caches, sessions) by running the following command.
+
+```bash
+[openproject@debian]# cd /home/openproject/openproject
+[openproject@debian]# RAILS_ENV="production" bundle exec rake tmp:clear
+```
+
+If you do not clear the temporary files, you may encounter an error of the form `NoMethodError: undefined method `map' for #<String ..>` in the `config/initializers/30-patches.rb` files.
+The actual upgrade commands are as follows:
 
 ```bash
 [openproject@debian]# cd /home/openproject/openproject
