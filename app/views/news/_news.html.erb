@@ -28,12 +28,12 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <div class="news">
   <%= link_to_project(news.project) + ': ' unless @project %>
-  <h4 class='overview'><%= link_to h(news.title), news_path(news) %></h4>
+  <h3 class='overview'><%= link_to h(news.title), news_path(news) %></h3>
   <p class="author additional-information"><%= authoring news.created_on, news.author %></p>
-  <div>
-    <%= "(#{l(:label_x_comments, count: news.comments_count)})" if news.comments_count > 0 %>
+  <div class="news--comment">
     <% unless news.summary.blank? %>
       <div class="summary"><%=h news.summary %></div>
     <% end %>
+    <%= "(#{l(:label_x_comments, count: news.comments_count)})" if news.comments_count > 0 %>
   </div>
 </div>

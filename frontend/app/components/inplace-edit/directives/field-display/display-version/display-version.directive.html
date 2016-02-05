@@ -5,12 +5,14 @@
     </span>
     <span ng-if="field.text && customEditorController.isVersionLinkViewable()">
       <a ng-href="{{ customEditorController.getVersionLink() }}"
-         aria-label="{{ field.getKeyValue() }}">
+         aria-label="{{ field.getKeyValue() }}"
+         title="{{ field.text.props.name }}">
         {{field.text.props.name}}
       </a>
     </span>
     <span ng-if="field.text && !customEditorController.isVersionLinkViewable()"
-          wp-accessible-attribute="field">
+          wp-accessible-attribute="field"
+          title="{{ field.text.props.name }}">
       {{field.text.props.name}}
     </span>
 </div>
