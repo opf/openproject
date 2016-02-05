@@ -133,10 +133,10 @@ module Redmine
               # This is important e.g. in the API v3 where the error messages are
               # post processed.
               name = cv.custom_field.accessor_name.to_sym
-              cv.errors.symbols_and_messages_for(attribute).each do |symbol, message|
+              cv.errors.symbols_and_messages_for(attribute).each do |symbol, _, partial_message|
                 # Use the generated message by the custom field
                 # as it may contain specific parameters (e.g., :too_long requires :count)
-                errors.add(name, message, error_symbol: symbol)
+                errors.add(name, partial_message, error_symbol: symbol)
               end
             end
           end
