@@ -69,3 +69,5 @@ require('angular-sanitize');
 
 require('angular-ui-select/dist/select');
 require('angular-ui-select/dist/select.css');
+
+require('restangular');

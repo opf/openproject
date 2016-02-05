@@ -169,7 +169,7 @@ angular.module('openproject.layout', [
 ]);
 angular.module('openproject.layout.controllers', []);
 
-angular.module('openproject.api', []);
+angular.module('openproject.api', ['restangular']);
 
 angular.module('openproject.templates', []);
 
