@@ -129,6 +129,7 @@ module.exports = {
       'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
       'mousetrap': 'mousetrap/mousetrap.js',
       'hyperagent': 'hyperagent/dist/hyperagent',
+      'angular-xeditable': 'angular-xeditable/dist/js/xeditable.min',
       'openproject-ui_components':
         'openproject-ui_components/app/assets/javascripts/angular/ui-components-app',
       'ngFileUpload': 'ng-file-upload/ng-file-upload'
