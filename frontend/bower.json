@@ -31,7 +31,8 @@
     "angular-ui-select": "~0.13.2",
     "mousetrap": "~1.4.6",
     "ng-file-upload": "~5.0.9",
-    "restangular": "~1.5.1"
+    "restangular": "~1.5.1",
+    "angular-xeditable": "~0.1.9"
   },
   "devDependencies": {
     "mocha": "~1.14.0",
