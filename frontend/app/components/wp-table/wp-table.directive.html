@@ -114,12 +114,12 @@
           </td>
 
           <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || locale}}" ng-class="column.name == 'id' && '-short'">
-            <wp-column work-package="row.object"
+            <wp-td work-package="row.object"
                        column="column"
                        display-type="{{column.meta_data.data_type}}"
                        project-identifier="projectIdentifier"
                        ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']">
-            </wp-column>
+            </wp-td>
           </td>
         </tr>
 

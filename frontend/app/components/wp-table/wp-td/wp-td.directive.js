@@ -28,12 +28,12 @@
 
 angular
   .module('openproject.workPackages.directives')
-  .directive('wpColumn', wpColumn);
+  .directive('wpTd', wpTd);
 
-function wpColumn(){
+function wpTd(){
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-table/wp-column/wp-column.directive.html',
+    templateUrl: '/components/wp-table/wp-td/wp-td.directive.html',
     replace: true,
 
     scope: {
@@ -45,12 +45,12 @@ function wpColumn(){
     },
 
     bindToController: true,
-    controller: WorkPackageColumnController,
+    controller: WorkPackageTdController,
     controllerAs: 'vm'
   };
 }
 
-function WorkPackageColumnController($scope, PathHelper, WorkPackagesHelper) {
+function WorkPackageTdController($scope, PathHelper, WorkPackagesHelper) {
   var vm = this;
   
   vm.displayType = vm.displayType || 'text';
