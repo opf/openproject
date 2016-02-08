@@ -26,6 +26,38 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-worker_processes Integer(ENV['WEB_CONCURRENCY'] || 1)
+worker_processes Integer(ENV['WEB_CONCURRENCY'] || 2)
 timeout Integer(ENV['WEB_TIMEOUT'] || 15)
-preload_app false
+preload_app true
+
+# Preloading the unicorn server to have all workers spawn the application
+# automatically.
+#
+# Borrows heavily from https://www.digitalocean.com/community/tutorials/how-to-optimize-unicorn-workers-in-a-ruby-on-rails-app
+#
+# This method requires ActiveRecord to close and re-establish its connection in the slaves,
+# because the connection is not properly shared with them.
+#
+# If you use any other service, you'll need to add them to these _fork blocks to close
+# and reopen sockets when forking.
+# (except Dalli/Memcache store, which detects  automatically)
+before_fork do |_server, _worker|
+  Signal.trap 'TERM' do
+    puts 'Unicorn master intercepted SIGTERM. Re-Sending as SIGQUIT for slaves.'
+    Process.kill 'QUIT', Process.pid
+  end
+
+  if defined?(ActiveRecord::Base)
+    ActiveRecord::Base.connection.disconnect!
+  end
+end
+
+after_fork do |_server, _worker|
+  Signal.trap 'TERM' do
+    puts 'Waiting for SIGQUIT from Unicorn master.'
+  end
+
+  if defined?(ActiveRecord::Base)
+    ActiveRecord::Base.establish_connection
+  end
+end
