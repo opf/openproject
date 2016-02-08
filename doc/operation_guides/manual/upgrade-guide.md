@@ -9,6 +9,10 @@ If you haven't configured serving repositories through Apache before, you'll fin
 For the other steps necessary to upgrade to OpenProject 5.0 please look
 at the sections below and exchange `v4.1.0` with `v5.0.0`.
 
+## Changed Rails Path
+
+OpenProject 5.0 employs Rails 4.2.x, which contains a number of changes regarding paths. Foremost, files previously located in the `scripts` directory now reside in `bin` (e.g., `delayed_job`).
+
 ## Upgrading to Managed Repositories
 
 You can create repositories explicitly on the filesystem using managed repositories.
