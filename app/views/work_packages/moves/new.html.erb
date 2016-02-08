@@ -35,6 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </ul>
 <%= styled_form_tag({action: 'create'}, id: 'move_form', class: '-wide-labels') do %>
   <%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
+  <%= back_url_hidden_field_tag %>
   <section class="form--section">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= l(:label_change_properties) %></legend>

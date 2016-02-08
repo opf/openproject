@@ -78,7 +78,7 @@ class WorkPackages::MovesController < ApplicationController
         redirect_to project_work_packages_path(@target_project || @project)
       end
     else
-      redirect_to project_work_packages_path(@project)
+      redirect_back_or_default(project_work_packages_path(@project))
     end
   end
 
