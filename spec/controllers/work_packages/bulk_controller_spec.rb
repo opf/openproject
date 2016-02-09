@@ -38,10 +38,11 @@ describe WorkPackages::BulkController, type: :controller do
                        is_for_all: true)
   }
   let(:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
+  let(:custom_field_user) { FactoryGirl.create(:user_issue_custom_field) }
   let(:status) { FactoryGirl.create(:status) }
   let(:type) {
     FactoryGirl.create(:type_standard,
-                       custom_fields: [custom_field_1, custom_field_2])
+                       custom_fields: [custom_field_1, custom_field_2, custom_field_user])
   }
   let(:project_1) {
     FactoryGirl.create(:project,
@@ -145,6 +146,10 @@ describe WorkPackages::BulkController, type: :controller do
 
           describe '#project' do
             it { assert_select 'select', attributes: { name: "work_package[custom_field_values][#{custom_field_2.id}]" } }
+          end
+
+          describe '#user' do
+            it { assert_select 'select', attributes: { name: "work_package[custom_field_values][#{custom_field_user.id}]" } }
           end
         end
       end

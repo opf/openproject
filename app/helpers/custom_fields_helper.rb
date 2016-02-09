@@ -111,7 +111,7 @@ module CustomFieldsHelper
     custom_field_label_tag(name, custom_value) + custom_field_tag(name, custom_value)
   end
 
-  def custom_field_tag_for_bulk_edit(name, custom_field)
+  def custom_field_tag_for_bulk_edit(name, custom_field, project=nil)
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
     field_format = Redmine::CustomFieldFormat.find_by_name(custom_field.field_format)
@@ -126,7 +126,7 @@ module CustomFieldsHelper
                                                         [l(:general_text_yes), '1'],
                                                         [l(:general_text_no), '0']]), id: field_id)
     when 'list'
-      styled_select_tag(field_name, options_for_select([[l(:label_no_change_option), '']] + custom_field.possible_values_options), id: field_id)
+      styled_select_tag(field_name, options_for_select([[l(:label_no_change_option), '']] + custom_field.possible_values_options(project)), id: field_id)
     else
       styled_text_field_tag(field_name, '', id: field_id)
     end
