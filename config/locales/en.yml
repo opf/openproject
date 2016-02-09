@@ -552,6 +552,7 @@ en:
   button_reset: "Reset"
   button_rollback: "Rollback to this version"
   button_save: "Save"
+  button_save_back: "Save and back"
   button_show: "Show"
   button_sort: "Sort"
   button_submit: "Submit"
