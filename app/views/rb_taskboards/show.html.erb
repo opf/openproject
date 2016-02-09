@@ -40,13 +40,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <%= toolbar title: @sprint.name do %>
+  <li class="toolbar-item toolbar-input-group" id="col_width">
+    <div>
+      <label for="col_width_input"><%= l('backlogs.column_width') %></label>
+    </div>
+    <input type="text" id="col_width_input">
+  </li>
   <% if @sprint.has_burndown? %>
-    <li class="toolbar-item toolbar-input-group" id="col_width">
-      <div>
-        <label for="col_width_input"><%= l('backlogs.column_width') %></label>
-      </div>
-      <input type="text" id="col_width_input">
-    </li>
     <li class="toolbar-item">
       <%= show_burndown_link(@sprint) %>
     </li>
