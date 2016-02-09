@@ -42,6 +42,7 @@ function inplaceEditorEditPane($timeout, EditableFieldsState, FocusHelper, inpla
     link: function(scope, element, attrs, fieldController) {
       var field = scope.field;
 
+      scope.fieldSchema = field.getFieldSchema();
       scope.fieldController = fieldController;
       scope.editableFieldsState = EditableFieldsState;
 
@@ -103,9 +104,8 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
       Object.keys(vm.editForm.$error).forEach(function(error) {
 
         if (vm.editForm.$error[error]) {
-          detectedViolations.push(I18n.t('js.inplace.errors.' + error, {
-            field: field.getLabel()
-          }));
+          var localizationArgs = _.extend({ field: field.getLabel() }, field.getFieldSchema());
+          detectedViolations.push(I18n.t('js.inplace.errors.' + error, localizationArgs));
         }
       });
     }
