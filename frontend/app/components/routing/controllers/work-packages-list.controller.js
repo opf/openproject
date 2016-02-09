@@ -216,7 +216,9 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
   $scope.loadQuery = function(queryId) {
     // Clear unsaved changes to current query
     clearUrlQueryParams();
-    loadingIndicator.mainPage = $state.go('work-packages.list', { 'query_id': queryId });
+    loadingIndicator.mainPage = $state.go('work-packages.list',
+                                          { 'query_id': queryId },
+                                          { reload: true });
   };
 
   function updateResults() {
