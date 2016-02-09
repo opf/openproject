@@ -182,7 +182,11 @@ class WikiController < ApplicationController
   # Creates a new page or updates an existing one
   def update
     @page = @wiki.find_or_new_page(wiki_page_title)
-    return render_403 unless editable?
+    unless editable?
+      flash[:error] = l(:error_unable_update_wiki)
+      return render_403
+    end
+
     @page.content = WikiContent.new(page: @page) if @page.new_record?
 
     @content = @page.content_for_version(params[:version])
@@ -205,6 +209,7 @@ class WikiController < ApplicationController
       attachments = Attachment.attach_files(@page, params[:attachments])
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save,  params: params, page: @page)
+      flash[:notice] = l(:notice_successful_update)
       redirect_to_show
     else
       render action: 'edit'
@@ -278,7 +283,10 @@ class WikiController < ApplicationController
   # Removes a wiki page and its history
   # Children can be either set as root pages, removed or reassigned to another parent page
   def destroy
-    return render_403 unless editable?
+    unless editable?
+      flash[:error] = l(:error_unable_delete_wiki)
+      return render_403
+    end
 
     @descendants_count = @page.descendants.size
     if @descendants_count > 0
@@ -303,8 +311,10 @@ class WikiController < ApplicationController
     @page.destroy
 
     if page = @wiki.find_page(@wiki.start_page) || @wiki.pages.first
+      flash[:notice] = l(:notice_successful_delete)
       redirect_to action: 'index', project_id: @project, id: page
     else
+      flash[:notice] = l(:notice_successful_delete)
       redirect_to project_path(@project)
     end
   end

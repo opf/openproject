@@ -111,6 +111,7 @@ class GroupsController < ApplicationController
     @group.destroy
 
     respond_to do |format|
+      flash[:notice] = l(:notice_successful_delete)
       format.html do redirect_to(groups_url) end
       format.xml  do head :ok end
     end
