@@ -98,7 +98,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="form--field">
               <%= blank_custom_field_label_tag('work_package', custom_field) %>
               <div class="form--field-container">
-                <%= custom_field_tag_for_bulk_edit('work_package', custom_field) %>
+                <%= custom_field_tag_for_bulk_edit('work_package', custom_field, @project) %>
               </div>
             </div>
           <% end %>

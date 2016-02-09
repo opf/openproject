@@ -120,7 +120,7 @@ function PathHelper() {
       return '/sub_projects';
     },
     workPackagesBulkDeletePath: function() {
-      return PathHelper.workPackagesPath() + '/bulk';
+      return PathHelper.staticBase + PathHelper.workPackagesPath() + '/bulk';
     },
     workPackageJsonAutoCompletePath: function() {
       return '/work_packages/auto_complete.json';
