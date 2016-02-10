@@ -51,7 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="form--field -required">
         <%= styled_label_tag 'password-pulldown', User.human_attribute_name(:password) %>
         <div class="form--field-container">
-          <%= styled_password_field_tag 'password', nil, id: 'password-pulldown', tabindex: 2 %>
+          <%= styled_password_field_tag 'password', nil, id: 'password-pulldown', tabindex: 1 %>
         </div>
         <div class="form--field-extra-actions">
           <% if Setting.lost_password? %>
@@ -70,7 +70,7 @@ See doc/COPYRIGHT.rdoc for more details.
           &nbsp;
         </label>
         <input type="submit" name="login" id="login-pulldown"
-          value="<%=l(:button_login)%>" class="button -highlight" tabindex="3" />
+          value="<%=l(:button_login)%>" class="button -highlight" tabindex="1" />
       </div>
     </div>
 
