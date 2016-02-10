@@ -227,7 +227,10 @@ class ProjectsController < ApplicationController
     OpenProject::Notifications.send('project_deletion_imminent', project: @project_to_destroy)
     @project_to_destroy.destroy
     respond_to do |format|
-      format.html do redirect_to controller: '/admin', action: 'projects' end
+      format.html do
+        flash[:notice] = l(:notice_successful_delete)
+        redirect_to controller: '/admin', action: 'projects'
+      end
     end
 
     hide_project_in_layout

@@ -95,6 +95,7 @@ class NewsController < ApplicationController
 
   def destroy
     @news.destroy
+    flash[:notice] = l(:notice_successful_delete)
     redirect_to action: 'index', project_id: @project
   end
 
