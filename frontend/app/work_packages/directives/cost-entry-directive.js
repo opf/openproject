@@ -62,7 +62,7 @@ angular.module('openproject.workPackages.directives')
       };
 
       var setLink = function() {
-        var link = PathHelper.staticWorkPackagePath($scope.workPackage.props.id);
+        var link = PathHelper.workPackagePath($scope.workPackage.props.id);
 
         link += '/cost_entries?cost_type_id=' + $scope.costType.props.id;
         link += '&project_id=' + $scope.workPackage.embedded.project.props.id;
