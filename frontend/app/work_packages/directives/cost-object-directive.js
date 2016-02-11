@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('costObject', ['$timeout', function($timeout) {
+.directive('costObject', ['$timeout', 'PathHelper', function($timeout, Pathhelper) {
   return {
     restrict: 'E',
     require: '^workPackageField',
@@ -40,7 +40,7 @@ angular.module('openproject.workPackages.directives')
         scope.workPackage = workPackage;
         scope.costObject = scope.workPackage.embedded.costObject;
         if (scope.costObject) {
-          scope.linkToCostObject = '/cost_objects/' + scope.costObject.props.id;
+          scope.linkToCostObject = scope.costObject.links.staticPath.href;
         }
         $timeout(function() {
           element.find('a').on('click', function(e) {
