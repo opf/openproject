@@ -32,8 +32,8 @@ module.exports = function(I18n, PathHelper, WorkPackagesHelper) {
     restrict: 'A',
     link: function(scope) {
       scope.I18n = I18n;
-      scope.workPackagePath = PathHelper.staticWorkPackagePath;
-      scope.userPath = PathHelper.staticUserPath;
+      scope.workPackagePath = PathHelper.workPackagePath;
+      scope.userPath = PathHelper.userPath;
 
       scope.handler.getRelatedWorkPackage(scope.workPackage, scope.relation).then(function(relatedWorkPackage){
         scope.relatedWorkPackage = relatedWorkPackage;

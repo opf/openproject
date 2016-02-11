@@ -51,7 +51,7 @@ function InplaceDisplayVersionController($scope, PathHelper) {
     return version.links.definingProject && version.links.definingProject.href;
   };
   this.getVersionLink = function() {
-    return field.text && PathHelper.staticVersionPath(field.text.props.id);
+    return field.text && PathHelper.versionPath(field.text.props.id);
   };
 }
 InplaceDisplayVersionController.$inject = ['$scope', 'PathHelper'];

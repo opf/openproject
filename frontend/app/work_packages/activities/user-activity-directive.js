@@ -69,7 +69,7 @@ module.exports = function($uiViewScroll,
       });
 
       scope.I18n = I18n;
-      scope.userPath = PathHelper.staticUserPath;
+      scope.userPath = PathHelper.userPath;
       scope.inEdit = false;
       scope.inPreview = false;
       scope.userCanEdit = !!scope.activity.links.update;

@@ -55,7 +55,7 @@ function wpTable(WorkPackagesTableService, $window, featureFlags, PathHelper){
       var activeSelectionBorderIndex;
 
       scope.workPackagesTableData = WorkPackagesTableService.getWorkPackagesTableData();
-      scope.workPackagePath = PathHelper.staticWorkPackagePath;
+      scope.workPackagePath = PathHelper.workPackagePath;
 
       var topMenuHeight = angular.element('#top-menu').prop('offsetHeight') || 0;
       scope.adaptVerticalPosition = function(event) {

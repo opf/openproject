@@ -137,15 +137,15 @@ function WorkPackageColumnController($scope, PathHelper, WorkPackagesHelper) {
           return '';
         }
 
-        return PathHelper.staticUserPath(id);
+        return PathHelper.userPath(id);
       },
 
       get version() {
-        return PathHelper.staticVersionPath(id);
+        return PathHelper.versionPath(id);
       },
 
       get project() {
-        return PathHelper.staticProjectPath(id);
+        return PathHelper.projectPath(id);
       }
     };
 
