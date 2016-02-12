@@ -28,11 +28,11 @@ describe ::API::V3::Budgets::BudgetRepresenter do
                       updated_on: Date.today)
   }
   let(:budget) {
-    FactoryGirl.build(:cost_object,
-                      author: user,
-                      project: project,
-                      created_on: 1.day.ago,
-                      updated_on: Date.today)
+    FactoryGirl.create(:cost_object,
+                       author: user,
+                       project: project,
+                       created_on: 1.day.ago,
+                       updated_on: Date.today)
   }
 
   let(:representer)  { described_class.new(budget, current_user: user) }
