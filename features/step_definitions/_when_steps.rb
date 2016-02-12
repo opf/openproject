@@ -170,7 +170,7 @@ end
 
 When /^I open the "(.+?)" backlogs(?: )?menu/ do |backlog_name|
   sprint = Sprint.find_by(name: backlog_name)
-  step %{I hover over "#backlog_#{sprint.id} .menu"}
+  find(:css, "#backlog_#{sprint.id} .menu > div").click
 end
 
 When /^I close the "(.+?)" backlogs(?: )?menu/ do |backlog_name|
