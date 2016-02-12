@@ -286,6 +286,14 @@ module OpenProject::Costs
       # TODO: this recreates the original behaviour
       # however, it might not be desirable to allow assigning of cost_object regardless of the permissions
       PermittedParams.permit(:new_work_package, :cost_object_id)
+
+      require 'api/v3/work_packages/work_package_representer'
+
+      API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load += [{ time_entries: [:project,
+                                                                                       :user] },
+                                                                      { cost_entries: [:project,
+                                                                                       :user] },
+                                                                      :cost_object]
     end
 
     config.to_prepare do |_app|

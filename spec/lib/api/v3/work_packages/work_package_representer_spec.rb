@@ -243,4 +243,24 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.not_to have_json_path('_links/log_costs') }
     end
   end
+
+  describe '.to_eager_load' do
+    it 'includes cost entries with dependencies' do
+      expect(described_class.to_eager_load.any? { |el|
+        el.is_a?(Hash) && el[:cost_entries] == [:project, :user]
+      }).to be_truthy
+    end
+
+    it 'includes time entries with dependencies' do
+      expect(described_class.to_eager_load.any? { |el|
+        el.is_a?(Hash) && el[:time_entries] == [:project, :user]
+      }).to be_truthy
+    end
+
+    it 'includes the cost objects' do
+      expect(described_class.to_eager_load.any? { |el|
+        el == :cost_object
+      }).to be_truthy
+    end
+  end
 end
