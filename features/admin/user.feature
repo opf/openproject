@@ -104,6 +104,7 @@ Feature: User
       | alpha |
       | beta  |
       | gamma |
+    And I wait for the AJAX requests to finish
     And I go to the memberships tab of the edit page for the user peter
     Then I should see membership to the project "project1" with the roles:
       | alpha |

@@ -52,15 +52,6 @@ When /^I click(?:| on) the div "([^"]*)"$/ do |name|
   find("##{name}").click
 end
 
-When /^(?:|I )jump to [Pp]roject "([^\"]*)"$/ do |project|
-  click_link('Projects')
-  # supports both variants of finding: by class and by id
-  # id is older and can be dropped later
-  project_div = find(:css, '.project-search-results', text: project) || find(:css, '#project-search-results', text: project)
-
-  page.execute_script("window.location = jQuery(\"##{project_div[:id]} div[title='#{project}']\").parent().data('select2Data').project.url;")
-end
-
 Then /^"([^"]*)" should be selected for "([^"]*)"$/ do |value, select_id|
   # that makes capybara wait for the ajax request
   find(:xpath, '//body')
