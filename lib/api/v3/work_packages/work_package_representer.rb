@@ -358,6 +358,21 @@ module API
         def visible_children
           @visible_children ||= represented.children.select(&:visible?)
         end
+
+        self.to_eager_load = [{ children: { project: :enabled_modules } },
+                              { parent: { project: :enabled_modules } },
+                              { project: :enabled_modules },
+                              :status,
+                              :priority,
+                              :type,
+                              :fixed_version,
+                              { custom_values: :custom_field },
+                              :author,
+                              :assigned_to,
+                              :responsible,
+                              :watcher_users,
+                              :category,
+                              :attachments]
       end
     end
   end
