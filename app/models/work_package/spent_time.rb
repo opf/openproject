@@ -93,28 +93,30 @@ class WorkPackage::SpentTime
     select
       .join(descendants_projects)
       .on(descendants_projects[:id].eq(wp_descendants[:project_id]))
-      .where(arel_allowed_to(user,
-                             :view_work_packages,
-                             'descendants_projects'))
+      .where(allowed_to_view_work_packages('descendants_projects'))
   end
 
   def check_time_entry_visibility(select)
     select
       .join(time_entry_projects, Arel::Nodes::OuterJoin)
       .on(time_entry_projects[:id].eq(time_entries_table[:project_id]))
-      .where(arel_allowed_to(user,
-                             :view_time_entries,
-                             'time_entry_projects'))
+      .where(allowed_to_view_time_entries('time_entry_projects'))
   end
 
   def group_by_wp_id(select)
     select.group(wp_target[:id])
   end
 
-  def arel_allowed_to(user, permission, table_alias)
+  def allowed_to_view_work_packages(table_alias)
     allowed_to = Project.allowed_to_condition(user,
-                                              permission,
+                                              :view_work_packages,
                                               project_alias: table_alias)
+
+    Arel::Nodes::SqlLiteral.new(allowed_to)
+  end
+
+  def allowed_to_view_time_entries(table_alias)
+    allowed_to = TimeEntry.visible_condition(user, table_alias: table_alias)
 
     Arel::Nodes::SqlLiteral.new(allowed_to)
   end
