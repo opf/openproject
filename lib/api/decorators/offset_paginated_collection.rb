@@ -49,7 +49,7 @@ module API
         # see https://github.com/mislav/will_paginate/issues/449
         page_models = models.page(@page).per_page(@per_page).to_a
         full_self_link = make_page_link(page: @page, page_size: @per_page)
-        super(page_models, models.except(:select).count, full_self_link, current_user: current_user)
+        super(page_models, models.count, full_self_link, current_user: current_user)
       end
 
       link :jumpTo do
