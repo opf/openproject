@@ -102,7 +102,7 @@ declare namespace op {
   }
 
   interface I18n {
-    t(translateId:string):string;
+    t(translateId:string, options?):string;
   }
 
   /**
