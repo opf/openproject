@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-/*jshint expr: true*/
-
 describe('WorkPackagesListController', function() {
   var scope, ctrl, win, testProjectService, testWorkPackageService, testQueryService,
       testPaginationService, testAuthorisationService;
@@ -91,7 +89,7 @@ describe('WorkPackagesListController', function() {
         columns: ['type'],
         getSortation: function() { return null; },
         isNew: function() { return false; }
-      },
+      }
     };
 
     testProjectService = {

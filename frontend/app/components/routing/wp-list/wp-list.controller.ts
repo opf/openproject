@@ -26,17 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.controllers')
-  .controller('WorkPackagesListController', WorkPackagesListController);
-
 function WorkPackagesListController($scope,
                                     $rootScope,
                                     $state,
                                     $location,
                                     WorkPackagesTableService,
                                     WorkPackageService,
-                                    apiWorkPackages,
                                     ProjectService,
                                     QueryService,
                                     PaginationService,
@@ -47,7 +42,8 @@ function WorkPackagesListController($scope,
                                     NotificationsService,
                                     loadingIndicator,
                                     inplaceEditAll,
-                                    keepTab) {
+                                    keepTab,
+                                    I18n) {
 
   $scope.projectIdentifier = $state.params.projectPath || null;
   $scope.loadingIndicator = loadingIndicator;
@@ -288,3 +284,7 @@ function WorkPackagesListController($scope,
     }
   };
 }
+
+angular
+  .module('openproject.workPackages.controllers')
+  .controller('WorkPackagesListController', WorkPackagesListController);
