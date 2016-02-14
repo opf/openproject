@@ -28,20 +28,25 @@
 
 import {ApiPathsService} from "../api-paths/api-paths.service";
 
+function apiV3Service(apiPaths:ApiPathsService,
+                      Restangular:restangular.IService,
+                      HalTransformedElement) {
 
-function apiV3Service(apiPaths:ApiPathsService, Restangular:restangular.IService) {
   return Restangular.withConfig((RestangularConfigurer) => {
     RestangularConfigurer.setBaseUrl(apiPaths.v3);
-    RestangularConfigurer.setDefaultHeaders({'Content-Type': 'application/json+hal'});
-    RestangularConfigurer.setResponseInterceptor(function(data, operation) {
-      if (operation == 'getList') {
-        var resp =  data._embedded.elements;
-        resp._links = data._links;
+    RestangularConfigurer.addResponseInterceptor((data:op.ApiResult, operation:string) => {
+      //TODO: implement handling for non-collection results
+      if (operation === 'getList' && data._type === 'Collection') {
+        var resp = data._embedded.elements;
+
+        delete data._embedded;
+        angular.extend(resp, data);
+        angular.forEach(resp, element => new HalTransformedElement(element));
 
         return resp
       }
 
-      return data;
+      return new HalTransformedElement(data);
     });
 
     RestangularConfigurer.setRestangularFields({
