@@ -1,0 +1,34 @@
+<div class="ng-modal-window">
+    <div class="ng-modal-inner">
+        <div class="modal-header">
+            <i class="icon-close" ng-click="vm.closeMe()" title="{{ ::vm.text.closePopup }}"></i>
+        </div>
+
+        <h3>{{ ::vm.text.modalTitle }}</h3>
+
+        <form class="form">
+            <section class="form--section">
+
+                <div class="form--field">
+                    <label class="form--label" title="title">{{::vm.text.insertAs}}:</label>
+                    <span class="form--field-container">
+                       <div class="large-6 columns">
+                           <input type="radio" value="inline" ng-model="vm.userInput.insertMode">
+                           {{::vm.text.insertAsInlineImage}}
+                       </div>
+                       <div class="large-6 columns">
+                          <input type="radio" value="{{vm.options.insertAsAlternative}}" ng-model="vm.userInput.insertMode">
+                           {{::vm.text.insertAsAlternative}}
+                       </div>
+                      </span>
+                </div>
+            </section>
+
+            <div class="row">
+                <button class="button -highlight" ng-click="vm.ok()">
+                    {{ ::vm.text.applyButton }}
+                </button>
+            </div>
+        </form>
+
+    </div>

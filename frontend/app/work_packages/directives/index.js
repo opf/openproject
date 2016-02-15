@@ -27,6 +27,23 @@
 //++
 
 angular.module('openproject.workPackages.directives')
+  .directive('workPackageDndFileHandler', [
+    '$rootScope',
+    '$q',
+    '$stateParams',
+    'ConfigurationService',
+    'NotificationsService',
+    'WorkPackageAttachmentsService',
+    'WorkPackageService',require('./work-package-dnd-file-handler-directive')])
+  /*.directive('workPackageDndFileHandler', [
+    '$rootScope',
+    '$q',
+    '$stateParams',
+    'ConfigurationService',
+    'attachmentsSimpleModal',
+    'NotificationsService',
+    'WorkPackageAttachmentsService',
+    'WorkPackageService',require('./work-package-dnd-file-handler-directive.experimental')])*/
   .directive('langAttribute', require('./lang-attribute-directive'))
   .directive('queryColumns', [
     'WorkPackagesTableHelper',
