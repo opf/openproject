@@ -85,6 +85,7 @@ function halTransformedElementService(Restangular:restangular.IService) {
      * Links are methods that return a promise.
      * Collections can be requested by `link[linkName].all()`.
      */
+    //TODO: Implement handling for link arrays (see schema.priority._links.allowedValues)
     protected transformLinks() {
       return this.transformHalProperty('_links', (links, link, linkName) => {
         var method = (method:string, multiplier?:string = 'oneUrl') => {
@@ -101,9 +102,6 @@ function halTransformedElementService(Restangular:restangular.IService) {
         else {
           links[linkName] = method(link.method);
         }
-
-        // Add a _source property so the information of the source is accessible
-        Object.defineProperty(links[linkName], '_source', {value: link});
       });
     }
 
@@ -112,10 +110,10 @@ function halTransformedElementService(Restangular:restangular.IService) {
      * if they have links or embedded resources.
      */
     protected transformEmbedded() {
-      return this.transformHalProperty('_embedded', (all, embedded, name) => {
-        angular.forEach(embedded, element => element && this.restangularize(element));
-        all[name] = this.restangularize(embedded);
-      })
+      return this.transformHalProperty('_embedded', (embedded, element, name) => {
+        angular.forEach(element, child => child && this.restangularize(child));
+        embedded[name] = new HalTransformedElement(element);
+      });
     }
 
     protected restangularize(element) {
@@ -128,17 +126,26 @@ function halTransformedElementService(Restangular:restangular.IService) {
 
     /**
      *
-     * @param name
+     * @param propertyName
      * @param callback
      * @returns {{}}
      */
-    protected transformHalProperty(name:string, callback:Function) {
+    protected transformHalProperty(propertyName:string, callback:(props, prop, name) => any) {
       var properties = {};
-      var _properties = this.element[name];
-      delete this.element[name];
+      var _properties = this.element[propertyName];
+
+      delete this.element[propertyName];
 
       angular.forEach(_properties, (property, name) => {
         callback(properties, property, name);
+      });
+
+      // Add a _source property so the information of the source is accessible
+      angular.forEach(properties, (property, name) => {
+        if (_properties[name]) {
+          Object.defineProperty(
+            properties[name], '_source', {value: angular.copy(_properties[name])});
+        }
       });
 
       return properties;
