@@ -89,7 +89,14 @@ class ApplicationController < ActionController::Base
     # is raised here, but is denied by disable_api.
     #
     # See http://stackoverflow.com/a/15350123 for more information on login CSRF.
-    render_error status: 422, message: 'Invalid form authenticity token.' unless api_request?
+    unless api_request?
+
+      # Check whether user have cookies enabled, otherwise they'll only be
+      # greeted with the CSRF error upon login.
+      message = I18n.t(:error_token_authenticity)
+      message << ' ' + I18n.t(:error_cookie_missing) if openproject_cookie_missing?
+      render_error status: 422, message: message
+    end
   end
 
   rescue_from ActionController::ParameterMissing do |exception|
@@ -192,6 +199,13 @@ class ApplicationController < ActionController::Base
     return true if User.current.logged?
     require_login if Setting.login_required?
   end
+
+  # Checks if the session cookie is missing.
+  # This is useful only on a second request
+  def openproject_cookie_missing?
+    request.cookies[OpenProject::Configuration['session_cookie_name']].nil?
+  end
+  helper_method :openproject_cookie_missing?
 
   def log_requesting_user
     return unless Setting.log_requesting_user?
