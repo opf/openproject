@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,33 +24,21 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {ApiPathsService} from "../api-paths/api-paths.service";
+export class ApiMetaDataService {
 
-function apiV3Service(apiPaths:ApiPathsService,
-                      Restangular:restangular.IService,
-                      HalTransformedElement) {
+  constructor(protected apiExperimental:restangular.IService) {
 
-  return Restangular.withConfig((RestangularConfigurer) => {
-    RestangularConfigurer.setBaseUrl(apiPaths.v3);
-    RestangularConfigurer.addResponseInterceptor((data:op.ApiResult, operation:string) => {
-      //TODO: implement handling for non-collection results
-      if (operation === 'getList' && data._type === 'Collection') {
-        var resp = data._embedded.elements;
+  }
 
-        delete data._embedded;
-        angular.extend(resp, data);
-        angular.forEach(resp, element => new HalTransformedElement(element));
-
-        return resp
-      }
-
-      return new HalTransformedElement(data);
+  public getWorkPackagesListMetaData() {
+    return this.apiExperimental.one('work_packages').get().then((result: api.ex.WorkPackagesMeta) => {
+      return result.meta;
     });
-  });
+  }
 }
 
 angular
   .module('openproject.api')
-  .factory('apiV3', apiV3Service);
+  .service('apiMetaData', ApiMetaDataService);

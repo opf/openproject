@@ -26,31 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ApiPathsService} from "../api-paths/api-paths.service";
+export class WorkPackageEditFormController {
+  public workPackage:op.WorkPackage;
 
-function apiV3Service(apiPaths:ApiPathsService,
-                      Restangular:restangular.IService,
-                      HalTransformedElement) {
+  protected schema:ng.IPromise;
 
-  return Restangular.withConfig((RestangularConfigurer) => {
-    RestangularConfigurer.setBaseUrl(apiPaths.v3);
-    RestangularConfigurer.addResponseInterceptor((data:op.ApiResult, operation:string) => {
-      //TODO: implement handling for non-collection results
-      if (operation === 'getList' && data._type === 'Collection') {
-        var resp = data._embedded.elements;
+  public loadSchema() {
+    //TODO: See `api-work-packages.config.ts`. The schema, if set, should be returned by `getSchema`
+    return this.schema = this.schema || this.workPackage.getSchema();
+  }
 
-        delete data._embedded;
-        angular.extend(resp, data);
-        angular.forEach(resp, element => new HalTransformedElement(element));
-
-        return resp
-      }
-
-      return new HalTransformedElement(data);
-    });
-  });
+  public updateWorkPackage() {
+    this.workPackage.save();
+  }
 }
 
+function wpEditForm() {
+  return {
+    restrict: 'A',
+
+    scope: {
+      workPackage: '=wpEditForm'
+    },
+
+    controller: WorkPackageEditFormController,
+    controllerAs: 'vm',
+    bindToController: true
+  };
+}
+
+//TODO: Use 'openproject.wpEdit' module
 angular
-  .module('openproject.api')
-  .factory('apiV3', apiV3Service);
+  .module('openproject')
+  .directive('wpEditForm', wpEditForm);

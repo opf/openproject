@@ -32,6 +32,7 @@ function WorkPackagesListController($scope,
                                     $location,
                                     WorkPackagesTableService,
                                     WorkPackageService,
+                                    apiWorkPackages,
                                     ProjectService,
                                     QueryService,
                                     PaginationService,
@@ -47,6 +48,16 @@ function WorkPackagesListController($scope,
 
   $scope.projectIdentifier = $state.params.projectPath || null;
   $scope.loadingIndicator = loadingIndicator;
+
+  //TODO: Move this somewhere else
+  var propertyMap = {
+    assigned_to: 'assignee',
+    updated_at: 'updatedAt'
+  };
+  var mapColumns = columns => columns.forEach(column => {
+    //noinspection TypeScriptUnresolvedVariable
+    column.name = propertyMap[column.name] || column.name;
+  });
 
   // Setup
   function initialSetup() {
@@ -99,7 +110,14 @@ function WorkPackagesListController($scope,
     }
 
     loadingIndicator.mainPage = fetchWorkPackages.then(function(json) {
-      setupPage(json, !!queryParams);
+      mapColumns(json.meta.columns);
+
+      console.log('meta columns', json.meta.columns);
+
+      apiWorkPackages.list(json.meta.columns).then(function(workPackages) {
+        json.work_packages = workPackages;
+        setupPage(json, !!queryParams);
+      });
 
       QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function(data){
         $scope.availableUnusedColumns = data;
@@ -181,6 +199,9 @@ function WorkPackagesListController($scope,
 
     // yield updatable data to scope
     $scope.columns = $scope.query.columns;
+
+    console.log('wp list scope columns', $scope.columns);
+
     $scope.rows = WorkPackagesTableService.getRows();
     $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
     $scope.workPackageCountByGroup = meta.work_package_count_by_group;
@@ -220,7 +241,12 @@ function WorkPackagesListController($scope,
 
     loadingIndicator.mainPage = WorkPackageService.getWorkPackages($scope.projectIdentifier,
       $scope.query, PaginationService.getPaginationOptions())
-      .then(setupWorkPackagesTable);
+      .then(function (json) {
+        apiWorkPackages.list().then(function (workPackages) {
+          json.work_packages = workPackages;
+          setupWorkPackagesTable(json);
+        })
+      });
   }
 
   // Go

@@ -34,7 +34,6 @@ function wpTd(){
   return {
     restrict: 'E',
     templateUrl: '/components/wp-table/wp-td/wp-td.directive.html',
-    replace: true,
 
     scope: {
       workPackage: '=',
@@ -56,6 +55,7 @@ function WorkPackageTdController($scope, PathHelper, WorkPackagesHelper) {
   vm.displayType = vm.displayType || 'text';
 
   $scope.$watch(dataAvailable, setColumnData);
+  $scope.$watch('vm.workPackage', setColumnData, true);
 
   function dataAvailable() {
     if (!vm.workPackage) return false;
