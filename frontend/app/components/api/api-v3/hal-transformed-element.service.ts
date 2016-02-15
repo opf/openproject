@@ -108,22 +108,21 @@ function halTransformedElementService(Restangular:restangular.IService) {
     }
 
     /**
-     * Transform embedded properties to actual HAL resources.
+     * Transform embedded properties and their children to actual HAL resources,
+     * if they have links or embedded resources.
      */
-    //TODO: make restangularizeElement work correctly
     protected transformEmbedded() {
       return this.transformHalProperty('_embedded', (all, embedded, name) => {
-        angular.forEach(embedded, element => {
-          if (element && (element._links || element._embedded)) {
-            this.restangularize(element);
-          }
-        });
-
+        angular.forEach(embedded, element => element && this.restangularize(element));
         all[name] = this.restangularize(embedded);
       })
     }
 
     protected restangularize(element) {
+      if (!(element._links || element._embedded)) {
+        return element;
+      }
+
       return new HalTransformedElement(Restangular.restangularizeElement(null, element, ''));
     }
 
