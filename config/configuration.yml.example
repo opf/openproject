@@ -194,6 +194,9 @@ default:
   # autologin_cookie_path:
   # autologin_cookie_secure:
 
+  # Configuration of the session cookie
+  # session_cookie_name: the name of the OpenProject cookie (default: _open_project_session)
+
   # disable browser cache for security reasons
   # see: https://websecuritytool.codeplex.com/wikipage?title=Checks#http-cache-control-header-no-store
   # disable_browser_cache: true

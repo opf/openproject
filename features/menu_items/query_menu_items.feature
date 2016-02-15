@@ -54,17 +54,6 @@ Feature: Query menu items
     And I am already logged in as "bob"
 
   @javascript @selenium
-  Scenario: Create a query menu item
-    When I go to the applied query "Bugs" on the work packages index page of the project "Awesome Project"
-    And the work package table has finished loading
-    And I click on "Settings"
-    And I click on "Share ..."
-    And I check "Show page in menu"
-    And I click "Save"
-    And I click "Work packages" within "#main-menu"
-   Then I should see "Bugs" within "#main-menu"
-
-  @javascript @selenium
   Scenario: Delete a query menu item
     Given the user "bob" has the following query menu items in the project "Awesome Project":
       | name       | title      | navigatable |
