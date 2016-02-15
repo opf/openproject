@@ -288,5 +288,15 @@ function WorkPackageShowController($scope, $rootScope, $state, workPackage, I18n
     $scope.$on('workPackageUpdatedInEditor', function() {
       NotificationsService.addSuccess(I18n.t('js.notice_successful_update'));
     });
+
+    // feels kind of hacky, could need some rethinking about communication between
+    // dndMarkupHandler and other controllers / directives
+    $scope.$on('dndMarkupHandlerDirectiveUpload', showAttachmentsSection);
+    $scope.$on('dndMarkupHandlerAddUploads', showAttachmentsSection);
+
+    function showAttachmentsSection(){
+      refreshWorkPackage();
+      vm.filesExist = true;
+    }
   }
 }

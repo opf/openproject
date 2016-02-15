@@ -160,6 +160,12 @@ function WorkPackageNewController($scope,
       $state.go(vm.successState, { workPackageId: workPackage.props.id });
     });
 
+    $scope.$on('dndMarkupHandlerAddUploads', showAttachmentsSection);
+
+    function showAttachmentsSection(){
+      vm.hideEmptyFields = false;
+    }
+
     $scope.$on('$stateChangeStart', function () {
       inplaceEditAll.stop();
     });

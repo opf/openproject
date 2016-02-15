@@ -28,6 +28,7 @@
 
 module.exports = function(
   workPackageAttachmentsService,
+  DndMarkupHandlerService,
   NotificationsService,
   I18n,
   ConfigurationService,
@@ -97,7 +98,32 @@ module.exports = function(
       return currentlyFocusing === attachment;
     };
 
-    scope.$on('uploadPendingAttachments', upload);
+    scope.$on('uploadPendingAttachments', function(ev,wp){
+      DndMarkupHandlerService.uploadQueue = scope.files;
+      upload(ev,wp);
+    });
+
+    /**
+     * If a file was uploaded via the dndFileHandlerDirective
+     * refresh the attachment list
+     */
+    scope.$on("dndMarkupHandlerDirectiveUpload",function(){
+      loadAttachments();
+    });
+
+    /**
+     * If a files were dropped via the dndFileHandlerDirective
+     * add them to the upload queue
+     */
+    scope.$on("dndMarkupHandlerAddUploads",function(evt,files){
+      if(angular.isDefined(files)){
+        _.each(files,function(file){
+          scope.files.push(file);
+        });
+      }
+    });
+
+
 
     scope.filterFiles = function(files) {
       // Directories cannot be uploaded and as such, should not become files in
