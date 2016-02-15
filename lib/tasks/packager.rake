@@ -89,7 +89,7 @@ namespace :packager do
 
       # SCM configuration may have been skipped
       if svn_path.present? || git_path.present?
-        base_url = URI::HTTP.build(protocol: ENV['SERVER_PROTOCOL'], host: ENV['SERVER_HOSTNAME'])
+        base_url = URI::Generic.build(scheme: ENV['SERVER_PROTOCOL'], host: ENV['SERVER_HOSTNAME'])
         prefix = ENV['SERVER_PATH_PREFIX']
 
         checkout_data = Setting.repository_checkout_data

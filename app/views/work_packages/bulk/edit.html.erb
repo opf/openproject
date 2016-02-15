@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= styled_form_tag(url_for(controller: '/work_packages/bulk', action: :update),
              method: :put, class: '-wide-labels') do %>
   <%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
+  <%= back_url_hidden_field_tag %>
   <section class="form--section">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= l(:label_change_properties) %></legend>
@@ -97,7 +98,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="form--field">
               <%= blank_custom_field_label_tag('work_package', custom_field) %>
               <div class="form--field-container">
-                <%= custom_field_tag_for_bulk_edit('work_package', custom_field) %>
+                <%= custom_field_tag_for_bulk_edit('work_package', custom_field, @project) %>
               </div>
             </div>
           <% end %>

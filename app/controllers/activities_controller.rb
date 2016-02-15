@@ -39,7 +39,7 @@ class ActivitiesController < ApplicationController
       begin; @date_to = params[:from].to_date + 1; rescue; end
     end
 
-    @date_to ||= Date.today + 1
+    @date_to ||= User.current.today + 1
     @date_from = @date_to - @days
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects] == '1')
     @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
@@ -56,7 +56,7 @@ class ActivitiesController < ApplicationController
     if events.empty? || stale?(etag: [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, User.current, current_language])
       respond_to do |format|
         format.html do
-          @events_by_day = events.group_by { |e| e.event_datetime.to_date }
+          @events_by_day = events.group_by { |e| e.event_datetime.in_time_zone(User.current.time_zone).to_date }
           render layout: false if request.xhr?
         end
         format.atom do

@@ -89,10 +89,6 @@ module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
     }).indexOf(scope.selectedId);
   }
 
-  function performSelect() {
-    scope.transitionMethod(scope.selectedId);
-  }
-
   function nextNonEmptyGroup(groups, currentGroupIndex) {
     currentGroupIndex = (currentGroupIndex === undefined) ? -1 : currentGroupIndex;
     while (currentGroupIndex < groups.length - 1) {
@@ -184,7 +180,7 @@ module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
   scope.handleSelection = function(event) {
     switch(event.which) {
       case KEY_CODES.enter:
-        performSelect();
+        scope.switchToSelectedQuery(scope.selectedId);
         preventDefault(event);
         break;
       case KEY_CODES.down:
@@ -199,6 +195,10 @@ module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
         break;
     }
   };
+
+  scope.switchToSelectedQuery = function(queryId) {
+    scope.transitionMethod(queryId);
+  }
 
   scope.reload = function(modelId, newTitle) {
     scope.selectedTitle = newTitle;

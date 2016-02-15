@@ -118,13 +118,10 @@ class CustomField < ActiveRecord::Base
   def possible_values_options(obj = nil)
     case field_format
     when 'user', 'version'
-      if obj.respond_to?(:project) && obj.project
-        case field_format
-        when 'user'
-          obj.project.users.sort.map { |u| [u.to_s, u.id.to_s] }
-        when 'version'
-          obj.project.versions.sort.map { |u| [u.to_s, u.id.to_s] }
-        end
+      if obj.is_a?(Project)
+        possible_values_options_in_project(obj)
+      elsif obj.try(:project)
+        possible_values_options_in_project(obj.project)
       else
         []
       end
@@ -132,6 +129,17 @@ class CustomField < ActiveRecord::Base
       locale = obj if obj.is_a?(String) || obj.is_a?(Symbol)
       attribute = possible_values(locale: locale)
       attribute
+    end
+  end
+
+  def possible_values_options_in_project(project)
+    case field_format
+    when 'user'
+      project.users.sort.map { |u| [u.to_s, u.id.to_s] }
+    when 'version'
+      project.versions.sort.map { |u| [u.to_s, u.id.to_s] }
+    else
+      []
     end
   end
 

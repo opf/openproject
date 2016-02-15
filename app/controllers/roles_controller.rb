@@ -89,6 +89,7 @@ class RolesController < ApplicationController
   def destroy
     @role = Role.find(params[:id])
     @role.destroy
+    flash[:notice] = l(:notice_successful_delete)
     redirect_to action: 'index'
     notify_changed_roles(:removed, @role)
   rescue
