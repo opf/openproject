@@ -93,10 +93,8 @@ class ApplicationController < ActionController::Base
 
       # Check whether user have cookies enabled, otherwise they'll only be
       # greeted with the CSRF error upon login.
-      cookie_missing = request.cookies['_open_project_session'].nil?
-
       message = I18n.t(:error_token_authenticity)
-      message << ' ' + I18n.t(:error_cookie_missing) if cookie_missing
+      message << ' ' + I18n.t(:error_cookie_missing) if openproject_cookie_missing?
       render_error status: 422, message: message
     end
   end
@@ -201,6 +199,13 @@ class ApplicationController < ActionController::Base
     return true if User.current.logged?
     require_login if Setting.login_required?
   end
+
+  # Checks if the session cookie is missing.
+  # This is useful only on a second request
+  def openproject_cookie_missing?
+    request.cookies[OpenProject::Configuration['session_cookie_name']].nil?
+  end
+  helper_method :openproject_cookie_missing?
 
   def log_requesting_user
     return unless Setting.log_requesting_user?
