@@ -32,6 +32,7 @@ function WorkPackagesListController($scope,
                                     $location,
                                     WorkPackagesTableService,
                                     WorkPackageService,
+                                    apiWorkPackages,
                                     ProjectService,
                                     QueryService,
                                     PaginationService,
@@ -47,6 +48,16 @@ function WorkPackagesListController($scope,
 
   $scope.projectIdentifier = $state.params.projectPath || null;
   $scope.loadingIndicator = loadingIndicator;
+
+  //TODO: Move this somewhere else
+  var propertyMap = {
+    assigned_to: 'assignee',
+    updated_at: 'updatedAt'
+  };
+  var mapColumns = columns => columns.forEach(column => {
+    //noinspection TypeScriptUnresolvedVariable
+    column.name = propertyMap[column.name] || column.name;
+  });
 
   // Setup
   function initialSetup() {
@@ -98,8 +109,14 @@ function WorkPackagesListController($scope,
       fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier);
     }
 
-    loadingIndicator.mainPage = fetchWorkPackages.then(function(json) {
-      setupPage(json, !!queryParams);
+    //TODO: Move this call and everything that belongs to it to the meta service
+    loadingIndicator.mainPage = fetchWorkPackages.then(function(json:api.ex.WorkPackagesMeta) {
+      mapColumns(json.meta.columns);
+
+      apiWorkPackages.list(json.meta.columns).then(function(workPackages) {
+        json.work_packages = workPackages;
+        setupPage(json, !!queryParams);
+      });
 
       QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function(data){
         $scope.availableUnusedColumns = data;
@@ -218,9 +235,15 @@ function WorkPackagesListController($scope,
   function updateResults() {
     $scope.$broadcast('openproject.workPackages.updateResults');
 
+    //TODO: Move this to the WP meta service (see TODO above)
     loadingIndicator.mainPage = WorkPackageService.getWorkPackages($scope.projectIdentifier,
       $scope.query, PaginationService.getPaginationOptions())
-      .then(setupWorkPackagesTable);
+      .then(function (json:api.ex.WorkPackagesMeta) {
+        apiWorkPackages.list().then(function (workPackages) {
+          json.work_packages = workPackages;
+          setupWorkPackagesTable(json);
+        })
+      });
   }
 
   // Go
