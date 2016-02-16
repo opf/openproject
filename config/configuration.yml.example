@@ -253,7 +253,8 @@ default:
   # disabled_types:
   #   Disable specific repository types for this particular vendor. This allows
   #   to restrict the available choices a project administrator has for creating repositories
-  #   See the example below for available types.
+  #   May be set as a YAML list of types or several types, separated by comma.
+  #    See the example below for available types.
   #
   #   Available types for git:
   #     - :local (Local repositories, registered using a local path)

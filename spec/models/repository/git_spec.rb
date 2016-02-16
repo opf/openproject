@@ -96,6 +96,16 @@ describe Repository::Git, type: :model do
         end
       end
 
+      context 'with string disabled types' do
+        let(:config) { { disabled_types: 'managed,local' } }
+
+        it 'is no longer manageable' do
+          expect(instance.class.available_types).to eq([])
+          expect(instance.class.disabled_types).to eq([:managed, :local])
+          expect(instance.manageable?).to be false
+        end
+      end
+
       context 'and associated project' do
         before do
           instance.project = project
