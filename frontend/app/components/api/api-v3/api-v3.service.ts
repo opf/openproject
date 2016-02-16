@@ -48,10 +48,6 @@ function apiV3Service(apiPaths:ApiPathsService,
 
       return new HalTransformedElement(data);
     });
-
-    RestangularConfigurer.setRestangularFields({
-      selfLink: 'self.link'
-    });
   });
 }
 

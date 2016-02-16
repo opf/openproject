@@ -27,6 +27,7 @@
 //++
 
 //TODO: Implement tests
+import HalTransformedElement = op.HalTransformedElement;
 function halTransformedElementService(Restangular:restangular.IService) {
   return class HalTransformedElement {
     constructor(protected element) {
@@ -36,6 +37,7 @@ function halTransformedElementService(Restangular:restangular.IService) {
     protected transform() {
       if (!this.element._links && !this.element._embedded) return this.element;
 
+      var linkedProps = [];
       /**
        * The properties added by the transformation should not be enumerable, so that
        * Restangular's `.plain()` returns only the relevant properties.
@@ -59,7 +61,8 @@ function halTransformedElementService(Restangular:restangular.IService) {
           value: (propertyName:string) => {
             //TODO: return null or empty promise if link does not exist - or throw an exception
             return !!this.element.links[propertyName] && this.element.links[propertyName]().then(value => {
-                return this.element[propertyName] = value.plain();
+                linkedProps.push(propertyName);
+                return this.element[propertyName] = value;
               });
           }
         },
@@ -72,6 +75,40 @@ function halTransformedElementService(Restangular:restangular.IService) {
         linkedProps: {
           value: (propertyNames:string[]) => {
             propertyNames.forEach(this.element.linkedProp);
+          }
+        },
+
+        /**
+         * Write the linked property's value back to the original _links attribute.
+         * This is useful, if you want to save the resource.
+         * @method
+         */
+        //TODO: Handle _embedded properties (it it makes any sense - probably not).
+        //TODO: Maybe delete the linked property, as it has no use.
+        data: {
+          value: () => {
+            var plain = this.element.plain();
+            plain._links = {};
+
+
+            angular.forEach(this.element.links, (link, name) => {
+              var property = this.element[name];
+              var source = link._source;
+
+              if (linkedProps.indexOf(name) !== -1) {
+                if (property._links) {
+                  property = new HalTransformedElement(property);
+                }
+
+                if (property.links.self) {
+                  source = property.links.self._source;
+                }
+              }
+
+              plain._links[name] = source;
+            });
+
+            return plain;
           }
         }
       });
