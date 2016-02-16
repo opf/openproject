@@ -74,6 +74,14 @@ module OpenProject
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
+    # Use Rack::Deflater to gzip/deflate all the responses if the
+    # HTTP_ACCEPT_ENCODING header is set appropriately. As Rack::ETag as
+    # Rack::Deflater adds a timestamp to the content which would result in a
+    # different ETag on every request, Rack::Deflater has to be in the chain of
+    # middlewares after Rack::ETag.  #insert_before is used because on
+    # responses, the middleware stack is processed from top to bottom.
+    config.middleware.insert_before 'Rack::ETag', 'Rack::Deflater'
+
     config.middleware.swap ActionDispatch::ParamsParser,
                            'ParamsParserWithExclusion',
                            exclude: -> (env) {
