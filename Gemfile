@@ -246,8 +246,10 @@ group :docker do
   gem 'newrelic_rpm', require: !!ENV['HEROKU']
 end
 
-# Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
-Dir.glob File.expand_path('../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfile}', __FILE__) do |file|
+# Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
+gemfiles = Dir.glob File.expand_path('../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfile}', __FILE__)
+gemfiles << ENV['CUSTOM_PLUGIN_GEMFILE'] unless ENV['CUSTOM_PLUGIN_GEMFILE'].nil?
+gemfiles.each do |file|
   next unless File.readable?(file)
   eval_gemfile(file)
 end
