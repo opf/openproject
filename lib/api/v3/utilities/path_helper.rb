@@ -36,6 +36,13 @@ module API
         class ApiV3Path
           extend API::Utilities::UrlHelper
 
+          # Determining the root_path on every url we want to render is
+          # expensive. As the root_path will not change within a
+          # request, we can cache the first response on each request.
+          def self.root_path
+            RequestStore.store[:cached_root_path] ||= super
+          end
+
           def self.root
             "#{root_path}api/v3"
           end

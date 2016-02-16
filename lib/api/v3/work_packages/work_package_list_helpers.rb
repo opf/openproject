@@ -33,7 +33,7 @@ module API
         extend Grape::API::Helpers
 
         def work_packages_by_params(project: nil)
-          query = Query.new(name: '_', project: project)
+          query = Query.new(name: '_', project: project, column_names: [])
           query_params = {}
 
           begin
@@ -46,7 +46,11 @@ module API
             raise ::API::Errors::InvalidQuery.new(error.message)
           end
 
-          collection_representer(query.results.sorted_work_packages,
+          work_packages = query
+                          .results
+                          .sorted_work_packages
+
+          collection_representer(work_packages,
                                  project: project,
                                  query_params: query_params,
                                  groups: groups,
