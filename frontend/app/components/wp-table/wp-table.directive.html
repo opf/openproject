@@ -93,7 +93,6 @@
             target="WorkPackageContextMenu"
             locals="rows,row"
             after-focus-on=".id a"
-            single-click="selectWorkPackage(row, $event)"
             ng-dblclick="showWorkPackageDetails(row)"
             ng-class="[
               'issue',
@@ -103,7 +102,9 @@
               row.level > 0 && 'child idnt' || '',
               row.level > 0 && ('idnt-' + row.level) || ''
             ]"
-            ng-show="!groupByColumn || groupExpanded[row.groupName]">
+            ng-show="!groupByColumn || groupExpanded[row.groupName]"
+
+            wp-edit-form="row.object">
 
           <td class="checkbox -short hide-when-print">
             <accessible-checkbox name="ids[]"
@@ -113,7 +114,11 @@
                                  model="row.checked"/>
           </td>
 
-          <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || locale}}" ng-class="column.name == 'id' && '-short'">
+          <td ng-repeat="column in columns"
+              class="{{column.name}}"
+              lang="{{column.custom_field && column.custom_field.name_locale || locale}}"
+              wp-edit-field="column.name"
+              ng-class="column.name == 'id' && '-short'">
             <wp-td work-package="row.object"
                        column="column"
                        display-type="{{column.meta_data.data_type}}"

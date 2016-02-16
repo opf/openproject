@@ -1,0 +1,23 @@
+<div ng-click="vm.activate()">
+  <form ng-show="vm.active"
+        ng-if="vm.workPackage"
+        ng-submit="vm.submit()"
+        ng-switch="vm.field.type">
+
+    <div ng-switch-when="text">
+      <!--TODO: Add schema properties (like maxLen, minLen, required) -->
+      <input type="text"
+             ng-model="vm.workPackage[vm.fieldName]"
+             ng-blur="vm.deactivate()">
+    </div>
+
+    <div ng-switch-when="select">
+      <select ng-model="vm.workPackage[vm.fieldName]"
+              ng-options="value as value.name for value in vm.field.allowedValues track by value.id"
+              ng-change="vm.submit()"
+              ng-blur="vm.deactivate()"></select>
+    </div>
+  </form>
+
+  <ng-transclude ng-hide="vm.active"></ng-transclude>
+</div>
