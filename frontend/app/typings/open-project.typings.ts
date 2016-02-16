@@ -28,65 +28,151 @@
 
 
 /**
- * API V3 Interfaces
+ * API interfaces
  *
  * @see {@link http://opf.github.io/apiv3-doc/|Api V3 documentation}
  */
+declare var api;
 
-declare var Api;
+declare namespace api {
 
-declare namespace Api {
-  interface Collection {
-    total:number;
-    pageSize:number;
-    count:number;
-    offset:number;
-    groups:any;
-    totalSums:any;
+  /**
+   * API v3
+   */
+  namespace v3 {
+    interface Result {
+      _links;
+      _embedded;
+      _type:string;
+    }
+
+    interface Collection extends Result {
+      total:number;
+      pageSize:number;
+      count:number;
+      offset:number;
+      groups:any;
+      totalSums:any;
+    }
+
+    interface Duration extends String {
+    }
+
+    interface Formattable {
+      format:string;
+      raw:string;
+      html:string;
+    }
+
+    interface WorkPackage {
+      id:number;
+      lockVersion:number;
+      subject:string;
+      type:string;
+      description:Formattable;
+      parentId:number;
+      startDate:Date;
+      dueDate:Date;
+      estimatedTime:Duration;
+      spentTime:Duration;
+      percentageDone:number;
+      createdAt:Date;
+      updatedAt:Date;
+    }
+
+    interface Project {
+
+    }
+
+    interface Query {
+
+    }
   }
 
-  interface Duration extends String {
-  }
+  /**
+   * Experimental API
+   */
+  namespace ex {
+    interface ColumnMeta {
+      data_type:string;
+      link:{
+        display:boolean;
+        model_type:string;
+      };
+    }
 
-  interface Formattable {
-    format:string;
-    raw:string;
-    html:string;
-  }
+    interface Column {
+      name:string;
+      title:string;
+      custom_field:boolean;
+      sortable:boolean;
+      goupable:boolean;
+      meta_data:ColumnMeta;
+    }
 
-  interface WorkPackage {
-    id:number;
-    lockVersion:number;
-    subject:string;
-    type:string;
-    description:Formattable;
-    parentId:number;
-    startDate:Date;
-    dueDate:Date;
-    estimatedTime:Duration;
-    spentTime:Duration;
-    percentageDone:number;
-    createdAt:Date;
-    updatedAt:Date;
-  }
+    interface Query {
+      _links:any;
+      id:number;
+      column_names;
+      display_sums:boolean;
+      filters;
+      group_by:string;
+      is_public:boolean;
+      name:string;
+      project_id;
+      sort_criteria;
+      starred:boolean;
+      user_id:number;
+    }
 
-  interface Project {
+    interface Meta {
+      _links;
+      columns:Column[];
+      export_formats;
+      group_sums;
+      groupable_columns:Column[];
+      per_page_options:number[];
+      query:Query;
+      sums:any[]; // TODO: Add correct type
+      total_entries:number;
+      work_package_count_by_group;
+      page:number;
+      per_page:number;
+    }
 
-  }
+    interface WorkPackagesMeta {
+      meta:Meta;
+      work_packages;
+    }
 
-  interface Query {
+    interface ColumnsMeta {
+      group_sums;
+      total_sums;
+    }
 
+    interface JsonQueryParams {
+      c?; //columns
+      s?; //displaySums
+      p?; //projectId
+      g?:string; //groupBy
+      f?; //filters
+      t?; //sortCriteria
+      pa?:number; //page
+      pp?:number; //perPage
+    }
   }
 }
 
 /**
  * OpenProject interfaces
- *
  */
 
 declare var op;
 
 declare namespace op {
+  /**
+   * General components
+   */
   interface Query {
     id?:number;
     columns?:any;
@@ -106,11 +192,43 @@ declare namespace op {
   }
 
   /**
-   * OpenProject API results - restangular
-   *
+   * wpEdit module
    */
+  //TODO: Add
+  interface FieldSchema {
+    type:string;
+  }
 
-  interface WorkPacakge extends Api.WorkPackage, restangular.IResponse {
+  interface EditField {
+    type:string;
+    value:any;
+    resource:HalTransformedElement;
+    schema:FieldSchema;
+  }
 
+  /**
+   * OpenProject API results with Restangular
+   */
+  interface HalTransformedElement extends api.v3.Result, restangular.IElement {
+    _source: any;
+    links:{[name:string]: (params?) => ng.IPromise};
+    embedded;
+    linkedProp(linkName:string);
+    linkedProps(linkNames:string[]);
+    data();
+  }
+
+  interface WorkPackageLinks {
+    schema;
+  }
+
+  interface WorkPackage extends
+    api.v3.WorkPackage, HalTransformedElement,WorkPackageLinks {
+
+    getForm();
+    getSchema();
+
+    update();
+    links: WorkPackageLinks
   }
 }
