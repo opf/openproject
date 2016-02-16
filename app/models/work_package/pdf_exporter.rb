@@ -76,10 +76,22 @@ module WorkPackage::PdfExporter
     # headers
     pdf.SetFontStyle('B', 8)
     pdf.SetFillColor(230, 230, 230)
-    query.columns.each_with_index do |column, i|
-      pdf.RDMCell(col_width[i], row_height, column.caption, 1, 0, 'L', 1)
-    end
-    pdf.Ln
+
+    # render it off-page to find the max height used
+    base_x = pdf.GetX
+    base_y = pdf.GetY
+    pdf.SetY(2 * page_height)
+    max_height = pdf_write_cells(pdf, query.columns.map(&:caption), col_width, row_height)
+    pdf.SetXY(base_x, base_y)
+
+    pdf.RDMCell table_width, max_height, '', 1, 1, 'L', 1
+
+    pdf.SetXY(base_x, base_y)
+
+    pdf_write_cells(pdf, query.columns.map(&:caption), col_width, row_height)
+    pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_width)
+
+    pdf.SetY(base_y + max_height)
 
     # rows
     pdf.SetFontStyle('', 8)
