@@ -92,6 +92,11 @@ FactoryGirl.define do
         field_format 'text'
         sequence(:name) { |n| "TextWorkPackageCustomField #{n}" }
       end
+
+      factory :integer_issue_custom_field do
+        field_format 'int'
+        sequence(:name) { |n| "IntegerWorkPackageCustomField #{n}" }
+      end
     end
 
     factory :time_entry_custom_field, class: TimeEntryCustomField do

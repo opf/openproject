@@ -8,6 +8,8 @@
          id="inplace-edit--write-value--{{::field.name}}"
          name="value"
          type="number"
+         ng-minlength="{{ fieldSchema.minLength }}"
+         ng-maxlength="{{ fieldSchema.maxLength }}"
          ng-disabled="fieldController.state.isBusy"
          ng-required="fieldController.isRequired"
          title="{{ fieldController.editTitle }}"

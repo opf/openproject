@@ -41,6 +41,11 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
     }
   }
 
+  function getFieldSchema(workPackage, field) {
+    var schema = getSchema(workPackage);
+    return schema.props[field];
+  }
+
   function isEditable(workPackage, field) {
     // no form - no editing
     if (!workPackage.form) {
@@ -413,6 +418,7 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
 
   var WorkPackageFieldService = {
     getSchema: getSchema,
+    getFieldSchema: getFieldSchema,
     isEditable: isEditable,
     isRequired: isRequired,
     isSpecified: isSpecified,
