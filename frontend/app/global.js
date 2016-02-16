@@ -70,7 +70,4 @@ require('angular-sanitize');
 require('angular-ui-select/dist/select');
 require('angular-ui-select/dist/select.css');
 
-require('angular-hypermedia');
-require('linkheader-parser');
-require('mediatype-parser');
-require('expose?UriTemplate!uri-templates');
+require('restangular');

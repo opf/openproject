@@ -7,3 +7,6 @@
 /// <reference path="chai/chai.d.ts" />
 /// <reference path="angularjs/angular-mocks.d.ts" />
 /// <reference path="lodash/lodash.d.ts" />
+/// <reference path="restangular/restangular.d.ts" />
+/// <reference path="moment/moment-node.d.ts" />
+/// <reference path="moment/moment.d.ts" />

@@ -58,4 +58,4 @@ Feature: Deleting work packages
     And I submit the form by the "Delete" button
     Then I should be on the work packages index page of the project called "ecookbook"
     # When I go to the page of the work package "wp2"
-    # Then I should see "10.00 hours" within ".work-package-field work-packages--details--spentTime"
+    # Then I should see "10.00 hours" within ".wp-field work-packages--details--spentTime"

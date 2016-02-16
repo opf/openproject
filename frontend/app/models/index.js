@@ -34,10 +34,5 @@ angular.module('openproject.models')
   .factory('Filter', ['OPERATORS_NOT_REQUIRING_VALUES',
     'SELECTABLE_FILTER_TYPES', require('./filter')
   ])
-  .factory('Query', ['Filter',
-    'Sortation',
-    'UrlParamsHelper',
-    'INITIALLY_SELECTED_COLUMNS', require('./query')
-  ])
   .factory('Sortation', ['DEFAULT_SORT_CRITERIA', 'MAX_SORT_ELEMENTS', require(
     './sortation')]);

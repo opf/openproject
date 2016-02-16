@@ -1,0 +1,153 @@
+<div class="work-packages--show-view" ng-class="{'edit-all-mode': editAll.state}">
+  <div class="toolbar-container">
+    <div wp-toolbar id="toolbar">
+      <ul id="toolbar-items" class="toolbar-items">
+        <li class="toolbar-item">
+          <wp-create-button project-identifier="projectIdentifier"
+                            ng-hide="editAll.state"
+                            state-name="work-packages.new"></wp-create-button>
+        </li>
+        <li class="toolbar-item">
+          <button class="button edit-all-button"
+                  ng-hide="editAll.state"
+                  ng-click="editAll.start()"
+                  ng-disabled="!canEdit"
+                  title="{{I18n.t('js.button_edit')}}">
+            <i class="button--icon icon-edit"></i>
+          </button>
+        </li>
+        <li class="toolbar-item" ng-if="displayWatchButton">
+          <wp-watcher-button work-package="workPackage" disabled="editAll.state"></wp-watcher-button>
+        </li>
+        <li class="toolbar-item hidden-for-mobile" feature-flag="detailsView">
+          <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
+            <li>
+              <wp-list-view-button disabled="editAll.state"
+                                   project-identifier="projectIdentifier"></wp-list-view-button>
+            </li>
+            <li feature-flag="detailsView">
+              <wp-details-view-button project-identifier="projectIdentifier"></wp-details-view-button>
+            </li>
+            <li>
+              <wp-view-button work-package-id="preselectedWorkPackageId"></wp-view-button>
+            </li>
+          </ul>
+        </li>
+        <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
+          <button class="button dropdown-relative"
+                  ng-disabled="!actionsAvailable || editAll.state"
+                  has-dropdown-menu
+                  target="ShowMoreDropdownMenu"
+                  locals="permittedActions,actionsAvailable,triggerMoreMenuAction"
+                  title="{{I18n.t('js.button_more')}}">
+            <i class="button--icon icon-show-more"></i>
+          </button>
+        </li>
+      </ul>
+      <ul class="subject-header">
+        <li class="subject-header-inner">
+          <div class="inline-edit">
+            <wp-field field-name="'subject'"></wp-field>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="work-packages--filters-optional-container" ng-show="showFiltersOptions">
+    <div query-form id="query_form_content" class="hide-when-print">
+      <query-filters></query-filters>
+    </div>
+  </div>
+
+  <back-url></back-url>
+
+
+  <div class="work-packages--split-view">
+    <div class="work-packages--left-panel">
+      <div class="work-packages--panel-inner">
+        <div class="attributes-group">
+
+          <div class="attributes-group--header">
+            <div class="attributes-group--header-container">
+              <h3 class="attributes-group--header-text">
+                <!-- {{ I18n.t('js.label_description') }} -->
+                {{type.props.name}} #{{workPackage.props.id}}
+              </h3>
+            </div>
+          </div>
+
+          <div class="single-attribute wiki">
+            <wp-field field-name="'description'"></wp-field>
+          </div>
+        </div>
+
+        <div ng-repeat="group in vm.groupedFields" ng-hide="vm.shouldHideGroup(group.groupName)" class="attributes-group">
+
+          <div class="attributes-group--header">
+            <div class="attributes-group--header-container">
+              <h3 class="attributes-group--header-text"
+                ng-bind="I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
+            </div>
+            <div class="attributes-group--header-toggle">
+              <panel-expander tabindex="-1" ng-if="vm.showToggleButton() && $first"
+                collapsed="vm.hideEmptyFields"
+                expand-text="{{ I18n.t('js.label_show_attributes') }}"
+                collapse-text="{{ I18n.t('js.label_hide_attributes') }}">
+              </panel-expander>
+            </div>
+          </div>
+
+          <div class="attributes-key-value">
+            <div
+                ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+                ng-if="vm.isSpecified(vm.workPackage, field)"
+                ng-repeat-start="field in group.attributes"
+                class="attributes-key-value--key"
+                id="attributes-key-value--key-{{field}}">
+                {{vm.getLabel(vm.workPackage, field)}}
+                <span class="required" ng-if="vm.hasNiceStar(vm.workPackage, field)"> *</span>
+            </div>
+            <div
+                ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+                ng-if="vm.isSpecified(vm.workPackage, field)"
+                ng-repeat-end
+                class="attributes-key-value--value-container">
+              <wp-field field-name="field"></wp-field>
+            </div>
+          </div>
+        </div>
+
+        <work-package-attachments edit data-ng-show="!vm.hideEmptyFields || vm.filesExist" work-package="vm.workPackage"></work-package-attachments>
+
+
+        <edit-actions-bar></edit-actions-bar>
+      </div>
+    </div>
+    <div class="work-packages--right-panel">
+      <div class="work-packages--panel-inner">
+        <div id="tabs">
+          <ul class="tabrow">
+            <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+            properly. Thus, don't remove the hrefs or the empty URLs! -->
+            <li ui-sref="work-packages.show.activity({})"
+                ui-sref-active="selected">
+              <a href="" ng-bind="I18n.t('js.work_packages.tabs.activity')"/>
+            </li>
+            <li ui-sref="work-packages.show.relations({})"
+                ui-sref-active="selected">
+              <a href="" ng-bind="I18n.t('js.work_packages.tabs.relations')"/>
+            </li>
+            <li ng-if="canViewWorkPackageWatchers()"
+                ui-sref="work-packages.show.watchers({})"
+                ui-sref-active="selected">
+              <a href="" ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
+            </li>
+          </ul>
+        </div>
+        <div class="tabcontent" ui-view>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
