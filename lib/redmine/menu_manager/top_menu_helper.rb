@@ -125,7 +125,7 @@ module Redmine::MenuManager::TopMenuHelper
 
   def render_direct_login
     login = Redmine::MenuManager::MenuItem.new :login,
-                                               '/login',
+                                               signin_path,
                                                caption: I18n.t(:label_login),
                                                html: { class: 'login' }
 
