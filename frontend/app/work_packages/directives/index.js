@@ -72,6 +72,7 @@ angular.module('openproject.workPackages.directives')
     './work-package-dynamic-attribute-directive')])
   .directive('workPackageAttachments', [
     'WorkPackageAttachmentsService',
+    'DndMarkupHandlerService',
     'NotificationsService',
     'I18n',
     'ConfigurationService',
