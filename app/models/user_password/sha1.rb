@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,28 +27,44 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :user_password, class: UserPassword.active_type do
-    association :user
-    plain_password 'adminADMIN!'
+##
+# LEGACY password hashing method using salted SHA-1
+# This is only included for testing hashed passwords and will raise when trying
+# to save new passwords with that strategy.
+class UserPassword::SHA1 < UserPassword
+  protected
 
-    factory :old_user_password do
-      created_at 1.year.ago
-      updated_at 1.year.ago
-    end
+  ##
+  # Determines whether the hashed value of +plain+ matches the stored password hash.
+  def hash_matches?(plain)
+    test_hash = derive_password!(plain)
+    secure_equals?(test_hash, hashed_password)
   end
 
-  factory :legacy_sha1_password, class: UserPassword::SHA1 do
-    association :user
-    type 'UserPassword::SHA1'
-    plain_password 'mylegacypassword!'
+  # constant-time comparison algorithm to prevent timing attacks
+  def secure_equals?(a, b)
+    return false if a.blank? || b.blank? || a.bytesize != b.bytesize
+    l = a.unpack "C#{a.bytesize}"
 
-    # Avoid going through the after_save hook
-    # As it's no longer possible for Sha1 passwords
-    after(:build) do |obj|
-      obj.salt = SecureRandom.hex(16)
-      obj.hashed_password = obj.send(:derive_password!, obj.plain_password)
-      obj.plain_password = nil
-    end
+    res = 0
+    b.each_byte do |byte| res |= byte ^ l.shift end
+    res == 0
+  end
+
+  ##
+  # Override the base method to disallow new passwords being generated this way.
+  def salt_and_hash_password!
+    raise ArgumentError, 'Do not use UserPassword::SHA1 for new passwords!'
+  end
+
+  ##
+  # Hash a plaintext password with a given salt
+  # The hashed password has following form: SHA1(salt + SHA1(password))
+  def derive_password!(input)
+    hashfn("#{salt}#{hashfn(input)}")
+  end
+
+  def hashfn(input)
+    Digest::SHA1.hexdigest(input)
   end
 end
