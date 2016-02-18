@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,29 +27,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-worker_processes Integer(ENV['WEB_CONCURRENCY'] || 2)
-timeout Integer(ENV['WEB_TIMEOUT'] || 15)
-preload_app true
+# This patch is needed for eager loading spent hours for a bunch of work
+# packages. The WorkPackage.include_spent_hours(user) method adds an additional
+# attribute to the result set. As such 'virtual' attributes are not added to
+# the model on instantiation (see: https://github.com/rails/rails/issues/15185)
+# this patch has been added which is based on
+# https://github.com/rails/rails/issues/15185#issuecomment-142230234
 
-# Preloading the unicorn server to have all workers spawn the application
-# automatically.
-#
-# Borrows heavily from https://www.digitalocean.com/community/tutorials/how-to-optimize-unicorn-workers-in-a-ruby-on-rails-app
-#
-# This method requires ActiveRecord to close and re-establish its connection in the slaves,
-# because the connection is not properly shared with them.
-#
-# If you use any other service, you'll need to add them to these _fork blocks to close
-# and reopen sockets when forking.
-# (except Dalli/Memcache store, which detects  automatically)
-before_fork do |_server, _worker|
-  if defined?(ActiveRecord::Base)
-    ActiveRecord::Base.connection.disconnect!
-  end
-end
+require 'active_record'
 
-after_fork do |_server, _worker|
-  if defined?(ActiveRecord::Base)
-    ActiveRecord::Base.establish_connection
+module ActiveRecord
+  module Associations
+    class JoinDependency
+      JoinBase && class JoinPart
+        def instantiate_with_hours(row, aliases)
+          if base_klass == WorkPackage && row.has_key?('hours')
+            aliases_with_hours = aliases + [['hours', 'hours']]
+
+            instantiate_without_hours(row, aliases_with_hours)
+          else
+            instantiate_without_hours(row, aliases)
+          end
+        end; alias_method_chain :instantiate, :hours
+      end
+    end
   end
 end

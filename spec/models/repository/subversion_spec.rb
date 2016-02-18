@@ -72,6 +72,16 @@ describe Repository::Subversion, type: :model do
         expect(instance.class.available_types).to be_empty
       end
     end
+
+    context 'with string disabled types' do
+      let(:config) { { disabled_types: 'managed,unknowntype' } }
+
+      it 'is no longer manageable' do
+        expect(instance.class.available_types).to eq([:existing])
+        expect(instance.class.disabled_types).to eq([:managed, :unknowntype])
+        expect(instance.manageable?).to be false
+      end
+    end
   end
 
   describe 'managed Subversion' do

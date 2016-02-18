@@ -106,8 +106,8 @@ gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.g
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
-  # see https://github.com/mperham/dalli
-  gem 'dalli', '~> 2.7.2'
+  # see https://github.clientom/mperham/dalli
+  gem 'dalli', '~> 2.7.6'
 end
 
 gem 'sprockets',        '~> 2.12.3'

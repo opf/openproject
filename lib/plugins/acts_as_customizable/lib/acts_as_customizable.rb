@@ -161,6 +161,12 @@ module Redmine
           super
         end
 
+        def define_all_custom_field_accessors
+          available_custom_fields.each do |custom_field|
+            add_custom_field_accessors custom_field
+          end
+        end
+
         private
 
         def for_custom_field_accessor(method_symbol)

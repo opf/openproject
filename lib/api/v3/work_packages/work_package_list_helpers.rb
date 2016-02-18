@@ -46,7 +46,11 @@ module API
             raise ::API::Errors::InvalidQuery.new(error.message)
           end
 
-          collection_representer(query.results.sorted_work_packages,
+          work_packages = query
+                          .results
+                          .sorted_work_packages
+
+          collection_representer(work_packages,
                                  project: project,
                                  query_params: query_params,
                                  groups: groups,

@@ -78,13 +78,15 @@ class ::Query::Results
   end
 
   def work_packages
-    @work_packages ||= WorkPackage
-                       .where(::Query.merge_conditions(query.statement, options[:conditions]))
-                       .includes([:status, :project] + (options[:include] || []).uniq)
-                       .includes(includes_for_columns(query.involved_columns))
-                       .joins((query.group_by_column ? query.group_by_column.join : nil))
-                       .order(order_option)
-                       .references(:projects)
+    includes = ([:status, :project] +
+      includes_for_columns(query.involved_columns) + (options[:include] || [])).uniq
+
+    WorkPackage
+      .where(::Query.merge_conditions(query.statement, options[:conditions]))
+      .includes(includes)
+      .joins((query.group_by_column ? query.group_by_column.join : nil))
+      .order(order_option)
+      .references(:projects)
   end
 
   # Same as :work_packages, but returns a result sorted by the sort_criteria defined in the query.
@@ -92,7 +94,7 @@ class ::Query::Results
   # If there is a reason: This is a somewhat DRY way of using the sort criteria.
   # If there is no reason: The :work_package method can die over time and be replaced by this one.
   def sorted_work_packages
-    @sorted_work_packages ||= work_packages.order(query.sort_criteria_sql)
+    work_packages.order(query.sort_criteria_sql)
   end
 
   def versions

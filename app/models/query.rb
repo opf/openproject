@@ -49,8 +49,6 @@ class Query < ActiveRecord::Base
 
   validate :validate_work_package_filters
 
-  after_initialize :remember_project_scope
-
   # WARNING: sortable should not contain a column called id (except for the
   # work_packages.id column). Otherwise naming collisions can happen when AR
   # optimizes a query into two separate DB queries (e.g. when joining tables).
@@ -143,11 +141,6 @@ class Query < ActiveRecord::Base
     self.filters = [Queries::WorkPackages::Filter.new('status_id', operator: 'o', values: [''])] if filters.blank?
   end
 
-  # Store the fact that project is nil (used in #editable_by?)
-  def remember_project_scope
-    @is_for_all = project.nil?
-  end
-
   def validate_work_package_filters
     filters.each do |filter|
       unless filter.valid?
@@ -170,7 +163,7 @@ class Query < ActiveRecord::Base
     # Admin can edit them all and regular users can edit their private queries
     return true if user.admin? || (!is_public && user_id == user.id)
     # Members can not edit public queries that are for all project (only admin is allowed to)
-    is_public && !@is_for_all && user.allowed_to?(:manage_public_queries, project)
+    is_public && !for_all? && user.allowed_to?(:manage_public_queries, project)
   end
 
   def add_filter(field, operator, values)
@@ -626,5 +619,9 @@ class Query < ActiveRecord::Base
 
   def connection
     self.class.connection
+  end
+
+  def for_all?
+    @for_all ||= project.nil?
   end
 end

@@ -26,29 +26,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-worker_processes Integer(ENV['WEB_CONCURRENCY'] || 2)
-timeout Integer(ENV['WEB_TIMEOUT'] || 15)
-preload_app true
+require 'spec_helper'
 
-# Preloading the unicorn server to have all workers spawn the application
-# automatically.
-#
-# Borrows heavily from https://www.digitalocean.com/community/tutorials/how-to-optimize-unicorn-workers-in-a-ruby-on-rails-app
-#
-# This method requires ActiveRecord to close and re-establish its connection in the slaves,
-# because the connection is not properly shared with them.
-#
-# If you use any other service, you'll need to add them to these _fork blocks to close
-# and reopen sockets when forking.
-# (except Dalli/Memcache store, which detects  automatically)
-before_fork do |_server, _worker|
-  if defined?(ActiveRecord::Base)
-    ActiveRecord::Base.connection.disconnect!
-  end
-end
+describe Rack::Deflater, type: :request do
+  include API::V3::Utilities::PathHelper
 
-after_fork do |_server, _worker|
-  if defined?(ActiveRecord::Base)
-    ActiveRecord::Base.establish_connection
+  let(:text) { 'text' }
+
+  it 'produces an identical eTag whether content is deflated or not' do
+    # Using the api_v3_paths.configuaration because of the endpoint's simplicity.
+    # It could be any endpoint really.
+    get api_v3_paths.configuration
+
+    expect(response.headers['Content-Encoding']).to be_nil
+
+    etag = response.headers['Etag']
+    content_length = response.headers['Content-Length'].to_i
+
+    get api_v3_paths.configuration,
+        {},
+        'HTTP_ACCEPT_ENCODING' => 'gzip'
+
+    expect(response.headers['Etag']).to eql etag
+    expect(response.headers['Content-Length'].to_i).to_not eql content_length
+    expect(response.headers['Content-Encoding']).to eql 'gzip'
   end
 end
