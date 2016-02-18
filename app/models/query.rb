@@ -135,7 +135,6 @@ class Query < ActiveRecord::Base
   def initialize(attributes = nil, options = {})
     super
     add_default_filter if options[:initialize_with_default_filter]
-    self.column_names ||= Setting.work_package_list_default_columns
   end
 
   def add_default_filter
@@ -262,7 +261,7 @@ class Query < ActiveRecord::Base
     if has_default_columns?
       available_columns.select do |c|
         # Adds the project column by default for cross-project lists
-        (c.name == :project && project.nil?)
+        Setting.work_package_list_default_columns.include?(c.name.to_s) || (c.name == :project && project.nil?)
       end
     else
       # preserve the column_names order
@@ -275,6 +274,10 @@ class Query < ActiveRecord::Base
       names = names.inject([]) { |out, e| out += e.to_s.split(',') }
       names = names.select { |n| n.is_a?(Symbol) || !n.blank? }
       names = names.map { |n| n.is_a?(Symbol) ? n : n.to_sym }
+      # Set column_names to nil if default columns
+      if names.map(&:to_s) == Setting.work_package_list_default_columns
+        names = nil
+      end
     end
     write_attribute(:column_names, names)
   end
