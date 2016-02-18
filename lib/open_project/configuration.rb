@@ -80,7 +80,9 @@ module OpenProject
 
       'disabled_modules' => [], # allow to disable default modules
       'hidden_menu_items' => {},
-      'blacklisted_routes' => []
+      'blacklisted_routes' => [],
+
+      'apiv2_enable_basic_auth' => true,
     }
 
     @config = nil

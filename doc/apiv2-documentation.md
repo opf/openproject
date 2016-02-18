@@ -9,6 +9,8 @@ __Be aware:__ The API v2 is marked as deprecated. Please read this [news article
 The API supports both *basic auth* and authentication via an *API access key*. The latter is transmitted either as one of the parameters, named `key`, for a request or in the request header `X-OpenProject-API-Key`.
 You can find a user's API key on their account page (/my/account).
 
+Authentication by basic auth is enabled by default, but can be disabled in the configuration (Set apiv2_enable_basic_auth to false)
+
 Example request:
 
 _GET_ `/api/v2/projects.xml?key=gh3g4h124grr871r8g`
