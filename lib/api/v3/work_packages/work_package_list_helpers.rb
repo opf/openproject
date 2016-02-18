@@ -33,7 +33,7 @@ module API
         extend Grape::API::Helpers
 
         def work_packages_by_params(project: nil)
-          query = Query.new(name: '_', project: project, column_names: [])
+          query = Query.new(name: '_', project: project)
           query_params = {}
 
           begin
