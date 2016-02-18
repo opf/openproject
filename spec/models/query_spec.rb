@@ -31,24 +31,6 @@ require 'spec_helper'
 describe Query, type: :model do
   let(:query) { FactoryGirl.build(:query) }
 
-  describe '#column_names' do
-    it 'is set to whatever the settings say on initialization' do
-      allow(Setting)
-        .to receive(:work_package_list_default_columns)
-        .and_return(['id', 'subject'])
-
-      new_query = Query.new
-
-      expect(new_query.column_names).to eql([:id, :subject])
-    end
-
-    it 'is set to whatever is provided on initialization' do
-      new_query = Query.new(column_names: [])
-
-      expect(new_query.column_names).to eql([])
-    end
-  end
-
   describe 'available_columns' do
     context 'with work_package_done_ratio NOT disabled' do
       it 'should include the done_ratio column' do
