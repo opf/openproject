@@ -99,7 +99,7 @@ module Redmine
         text.gsub!(MACROS_RE) do
           esc = $1
           all = $2
-          macro = $3.downcase
+          macro = $3
           args = ($5 || '').split(',').each(&:strip!)
           if esc.nil?
             begin
