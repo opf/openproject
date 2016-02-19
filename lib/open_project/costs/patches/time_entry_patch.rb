@@ -28,17 +28,20 @@ module OpenProject::Costs::Patches::TimeEntryPatch
     base.class_eval do
       belongs_to :rate, -> { where(type: ['HourlyRate', 'DefaultHourlyRate']) }, class_name: 'Rate'
 
-      scope :visible, lambda { |*args|
-        where(TimeEntry.visible_condition(args[0] || User.current, args[1]))
-          .includes(:project, :user)
-          .references(:project)
-      }
-
       before_save :update_costs
 
-      def self.visible_condition(user, project)
-        %{ (#{Project.allowed_to_condition(user, :view_time_entries, project: project)} OR
-             (#{Project.allowed_to_condition(user, :view_own_time_entries, project: project)} AND #{TimeEntry.table_name}.user_id = #{user.id})) }
+      def self.visible_condition(user, table_alias: nil, project: nil)
+        options = {}
+        options[:project_alias] = table_alias if table_alias
+        options[:project] = project if project
+
+        %{ (#{Project.allowed_to_condition(user,
+                                           :view_time_entries,
+                                           options)} OR
+             (#{Project.allowed_to_condition(user,
+                                             :view_own_time_entries,
+                                             options)} AND
+              #{TimeEntry.table_name}.user_id = #{user.id})) }
       end
 
       scope :visible_costs, lambda{|*args|
@@ -47,7 +50,7 @@ module OpenProject::Costs::Patches::TimeEntryPatch
 
         view_hourly_rates = %{ (#{Project.allowed_to_condition(user, :view_hourly_rates, project: project)} OR
                                 (#{Project.allowed_to_condition(user, :view_own_hourly_rate, project: project)} AND #{TimeEntry.table_name}.user_id = #{user.id})) }
-        view_time_entries = TimeEntry.visible_condition(user, project)
+        view_time_entries = TimeEntry.visible_condition(user, project: project)
 
         includes(:project, :user)
           .where([view_time_entries, view_hourly_rates].join(' AND '))
@@ -126,7 +129,8 @@ module OpenProject::Costs::Patches::TimeEntryPatch
     end
 
     def visible_by?(usr)
-      usr.allowed_to?(:view_time_entries, project)
+      usr.allowed_to?(:view_time_entries, project) ||
+        (user_id == usr.id && usr.allowed_to?(:view_own_time_entries, project))
     end
 
     def costs_visible_by?(usr)

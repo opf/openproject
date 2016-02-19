@@ -295,6 +295,54 @@ describe TimeEntry, type: :model do
     end
   end
 
+  describe 'visible_by?' do
+    context 'when not having the necessary permissions' do
+      before do
+        is_member(project, user, [])
+      end
+
+      it 'is visible' do
+        expect(time_entry.visible_by?(user)).to be_falsey
+      end
+    end
+
+    context 'when having the view_time_entries permission' do
+      before do
+        is_member(project, user, [:view_time_entries])
+      end
+
+      it 'is visible' do
+        expect(time_entry.visible_by?(user)).to be_truthy
+      end
+    end
+
+    context 'when having the view_own_time_entries permission ' +
+      'and being the owner of the time entry' do
+      before do
+        is_member(project, user, [:view_own_time_entries])
+
+        time_entry.user = user
+      end
+
+      it 'is visible' do
+        expect(time_entry.visible_by?(user)).to be_truthy
+      end
+    end
+
+    context 'when having the view_own_time_entries permission ' +
+      'and not being the owner of the time entry' do
+      before do
+        is_member(project, user, [:view_own_time_entries])
+
+        time_entry.user = FactoryGirl.build :user
+      end
+
+      it 'is visible' do
+        expect(time_entry.visible_by?(user)).to be_falsey
+      end
+    end
+  end
+
   describe 'class' do
     describe '#visible' do
       describe "WHEN having the view_time_entries permission
