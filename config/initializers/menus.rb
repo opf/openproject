@@ -170,7 +170,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :plugins,
             { controller: '/admin', action: 'plugins' },
             last: true,
-            html: { class: 'icon2 icon-status' }
+            html: { class: 'icon2 icon-plugins' }
 
   menu.push :info,
             { controller: '/admin', action: 'info' },
@@ -186,7 +186,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :project_types,
             { controller: '/project_types', action: 'index' },
             caption:    :'timelines.admin_menu.project_types',
-            html: { class: 'icon2 icon-types' }
+            html: { class: 'icon2 icon-project-types' }
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
