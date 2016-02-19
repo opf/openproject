@@ -133,6 +133,7 @@ class MessagesController < ApplicationController
   def destroy
     (render_403; return false) unless @message.destroyable_by?(User.current)
     @message.destroy
+    flash[:notice] = l(:notice_successful_delete)
     redirect_to @message.parent.nil? ?
       { controller: '/boards', action: 'show', project_id: @project, id: @board } :
       { action: 'show', id: @message.parent, r: @message }
