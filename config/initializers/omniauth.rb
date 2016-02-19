@@ -28,6 +28,9 @@
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   unless Rails.env.production?
-    provider :developer, fields: [:first_name, :last_name, :email]
+    relative_root = OpenProject::Configuration.rails_relative_url_root
+    provider :developer,
+             callback_path: "#{relative_root}/auth/developer/callback",
+             fields: [:first_name, :last_name, :email]
   end
 end
