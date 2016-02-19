@@ -95,9 +95,9 @@ use [rbenv](http://rbenv.org/).
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 2.1.7
+[openproject@host] rbenv install 2.3.0
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 2.1.7
+[openproject@host] rbenv global 2.3.0
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
