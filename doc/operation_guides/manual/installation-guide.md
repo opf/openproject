@@ -241,7 +241,7 @@ You need to generate a secret key base for the production environment with `./bi
 In this installation guide, we will use the local `.profile` of the OpenProject user. You may alternatively put set the environment variable in `/etc/environment` or pass it to the server upon start manually.
 
 ```bash
-[openproject@host] echo "export SECRET_KEY_BASE="`./bin/rake secret`" >> ~/.profile
+[openproject@host] echo "export SECRET_KEY_BASE=$(./bin/rake secret)" >> ~/.profile
 [openproject@host] source ~/.profile
 ```
 
