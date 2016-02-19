@@ -180,6 +180,13 @@
     position: relative
     top: 0
 
+// When user is not allowed to edit the field
+span:not(.inplace-editing--container)
+  .inplace-edit--read-value span
+    width: 100%
+    .macro-unavailable.permanent
+      width: 50%
+
 .inplace-edit--preview
   border: 1px solid $inplace-edit--border-color
   padding: 0.375rem
