@@ -38,7 +38,7 @@ gem 'coderay', '~> 1.1.0'
 gem 'rubytree', '~> 0.8.3'
 gem 'rdoc', '>= 2.4.2'
 gem 'globalize', '~> 5.0.1'
-gem 'omniauth'
+gem 'omniauth', github: 'oliverguenther/omniauth'
 gem 'request_store', '~> 1.1.0'
 gem 'gravatar_image_tag', '~> 1.2.0'
 
