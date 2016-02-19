@@ -27,22 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module WorkPackage::PdfExporter
-  # Returns a PDF string of a list of work_packages
-  def pdf(work_packages, project, query, results, options = {})
-    ::WorkPackage::PdfExport::WorkPackageListToPdf
-      .new(work_packages,
-           project,
-           query,
-           results,
-           options)
-      .to_pdf
-  end
-
-  # Returns a PDF string of a single work_package
-  def work_package_to_pdf(work_package)
-    ::WorkPackage::PdfExport::WorkPackageToPdf
-      .new(work_package)
-      .to_pdf
+module WorkPackage::PdfExport::ToPdfHelper
+  def get_pdf(language)
+    if ['ko', 'ja', 'zh', 'zh-tw', 'th'].include? language.to_s.downcase
+      IFPDF.new(current_language)
+    else
+      ITCPDF.new(current_language)
+    end
   end
 end

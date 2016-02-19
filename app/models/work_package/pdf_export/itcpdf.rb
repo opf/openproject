@@ -27,22 +27,56 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module WorkPackage::PdfExporter
-  # Returns a PDF string of a list of work_packages
-  def pdf(work_packages, project, query, results, options = {})
-    ::WorkPackage::PdfExport::WorkPackageListToPdf
-      .new(work_packages,
-           project,
-           query,
-           results,
-           options)
-      .to_pdf
+require 'tcpdf'
+
+class WorkPackage::PdfExport::ITCPDF < TCPDF
+  include Redmine::I18n
+  attr_accessor :footer_date
+
+  def initialize(lang)
+    super()
+    set_language_if_valid lang
+    @font_for_content = 'FreeSans'
+    @font_for_footer  = 'FreeSans'
+    SetCreator(OpenProject::Info.app_name)
+    SetFont(@font_for_content)
   end
 
-  # Returns a PDF string of a single work_package
-  def work_package_to_pdf(work_package)
-    ::WorkPackage::PdfExport::WorkPackageToPdf
-      .new(work_package)
-      .to_pdf
+  def SetFontStyle(style, size)
+    SetFont(@font_for_content, style, size)
+  end
+
+  def SetTitle(txt)
+    txt = begin
+      utf16txt = txt.to_s.encode('UTF-16BE', 'UTF-8')
+      hextxt = '<FEFF'  # FEFF is BOM
+      hextxt << utf16txt.unpack('C*').map { |x| sprintf('%02X', x) }.join
+      hextxt << '>'
+    rescue
+      txt
+    end || ''
+    super(txt)
+  end
+
+  def textstring(s)
+    # Format a text string
+    if s =~ /\A</  # This means the string is hex-dumped.
+      return s
+    else
+      return '(' + escape(s) + ')'
+    end
+  end
+
+  alias RDMCell Cell
+  alias RDMMultiCell MultiCell
+
+  def Footer
+    SetFont(@font_for_footer, 'I', 8)
+    SetY(-15)
+    SetX(15)
+    RDMCell(0, 5, @footer_date, 0, 0, 'L')
+    SetY(-15)
+    SetX(-30)
+    RDMCell(0, 5, PageNo().to_s + '/{nb}', 0, 0, 'C')
   end
 end
