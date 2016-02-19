@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+$toolbar-width: 300px
+
 div.wiki
   font-size: $wiki-default-font-size
   $wiki-max-heading-font-size: 24px
@@ -172,3 +174,4 @@ blockquote
 
 .toolbar-container + .wiki-content
   margin-top: -64px
+  width: calc(100% - #{$toolbar-width})
