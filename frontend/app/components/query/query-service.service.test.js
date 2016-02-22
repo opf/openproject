@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,9 +24,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
-
-/*jshint expr: true*/
+// ++
 
 describe('QueryService', function() {
 
@@ -34,12 +32,12 @@ describe('QueryService', function() {
   var QueryService, PathHelper, query, queryData, stateParams = {}, $rootScope,
     $httpBackend;
 
-  beforeEach(module('openproject.layout',
+  beforeEach(angular.mock.module('openproject.layout',
                     'openproject.models',
                     'openproject.api',
                     'openproject.services'));
 
-  beforeEach(module('openproject.templates', function($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function($provide) {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -48,7 +46,7 @@ describe('QueryService', function() {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(inject(function(_QueryService_, _$rootScope_, _$httpBackend_, _PathHelper_) {
+  beforeEach(angular.mock.inject(function(_QueryService_, _$rootScope_, _$httpBackend_, _PathHelper_) {
     QueryService = _QueryService_;
     $rootScope = _$rootScope_;
     PathHelper = _PathHelper_;

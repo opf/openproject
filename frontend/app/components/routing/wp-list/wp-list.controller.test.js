@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-/*jshint expr: true*/
-
 describe('WorkPackagesListController', function() {
   var scope, ctrl, win, testProjectService, testWorkPackageService, testQueryService,
       testPaginationService, testAuthorisationService;
@@ -91,7 +89,7 @@ describe('WorkPackagesListController', function() {
         columns: ['type'],
         getSortation: function() { return null; },
         isNew: function() { return false; }
-      },
+      }
     };
 
     testProjectService = {
@@ -194,7 +192,7 @@ describe('WorkPackagesListController', function() {
     beforeEach(function(){
       testParams = { projectPath: '/projects/my-project' };
       testState = {
-        params: {},
+        params: testParams,
         href: function() { return ''; }
       };
       testLocation = {
@@ -293,15 +291,15 @@ describe('WorkPackagesListController', function() {
     var testParams, testState, testLocation;
 
     beforeEach(function() {
+      testParams = { projectPath: 'my-project' };
       testState = {
         href: function() { return '' },
-        params: {}
+        params: testParams
       };
       testLocation = {
         search: function() { return {} },
         url: angular.identity
       };
-      testParams = { projectPath: 'my-project' };
       buildController(testParams, testState, testLocation);
     });
 

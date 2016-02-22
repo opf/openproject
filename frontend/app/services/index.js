@@ -55,29 +55,6 @@ angular.module('openproject.services')
     './priority-service')])
   .service('ProjectService', ['$http', 'PathHelper', 'FiltersHelper', 'HALAPIResource', require(
     './project-service')])
-  .service('QueryService', [
-    'Query',
-    'Sortation',
-    '$http',
-    'PathHelper',
-    '$q',
-    'AVAILABLE_WORK_PACKAGE_FILTERS',
-    'StatusService',
-    'TypeService',
-    'PriorityService',
-    'UserService',
-    'VersionService',
-    'CategoryService',
-    'RoleService',
-    'GroupService',
-    'ProjectService',
-    'WorkPackagesTableHelper',
-    'I18n',
-    'queryMenuItemFactory',
-    '$rootScope',
-    'QUERY_MENU_ITEM_TYPE',
-    require('./query-service')
-  ])
   .service('RoleService', ['$http', 'PathHelper', require('./role-service')])
   .service('SortService', require('./sort-service'))
   .service('StatusService', ['$http', 'PathHelper', require('./status-service')])

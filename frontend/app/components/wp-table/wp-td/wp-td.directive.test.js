@@ -41,8 +41,8 @@ describe('workPackageColumn Directive', function() {
 
     beforeEach(inject(function($rootScope, $compile) {
       var html;
-      html = '<wp-column work-package="workPackage" column="column" display-type="displayType"' +
-            'display-empty="-"></wp-column>';
+      html = '<wp-td work-package="workPackage" column="column" display-type="displayType"' +
+            'display-empty="-"></wp-td>';
 
       element = angular.element(html);
       rootScope = $rootScope;
@@ -77,10 +77,6 @@ describe('workPackageColumn Directive', function() {
           scope.displayType = 'text';
 
           compile();
-        });
-
-        it('should render a span', function() {
-          expect(element.prop('tagName')).to.equal('SPAN');
         });
 
         it('should contain the object title', function() {

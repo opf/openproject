@@ -26,17 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.controllers')
-  .controller('WorkPackagesListController', WorkPackagesListController);
+function WorkPackagesListController($scope,
+                                    $rootScope,
+                                    $state,
+                                    $location,
+                                    WorkPackagesTableService,
+                                    WorkPackageService,
+                                    ProjectService,
+                                    QueryService,
+                                    PaginationService,
+                                    AuthorisationService,
+                                    UrlParamsHelper,
+                                    Query,
+                                    OPERATORS_AND_LABELS_BY_FILTER_TYPE,
+                                    NotificationsService,
+                                    loadingIndicator,
+                                    inplaceEditAll,
+                                    keepTab,
+                                    I18n) {
 
-function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $location,
-  WorkPackagesTableService, WorkPackageService, ProjectService, QueryService,
-  PaginationService, AuthorisationService, UrlParamsHelper, Query,
-  OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService,
-  loadingIndicator, inplaceEditAll, keepTab) {
-
-  $scope.projectIdentifier = $stateParams.projectPath || null;
+  $scope.projectIdentifier = $state.params.projectPath || null;
   $scope.loadingIndicator = loadingIndicator;
 
   // Setup
@@ -50,12 +59,34 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
       setupFiltersVisibility();
     };
 
-    var queryParams = $location.search().query_props;
-
+    var queryParams = $state.params.query_props;
     var fetchWorkPackages;
+
     if(queryParams) {
-      // Attempt to build up query from URL params
-      fetchWorkPackages = fetchWorkPackagesFromUrlParams(queryParams);
+      try {
+        var queryData = UrlParamsHelper.decodeQueryFromJsonParams($state.params.query_id, queryParams);
+        var queryFromParams = new Query(queryData, { rawFilters: true });
+
+        // Set pagination options if present
+        if(!!queryFromParams.page) {
+          PaginationService.setPage(queryFromParams.page);
+        }
+        if(!!queryFromParams.perPage) {
+          PaginationService.setPerPage(queryFromParams.perPage);
+        }
+
+        fetchWorkPackages = WorkPackageService.getWorkPackages(
+          $scope.projectIdentifier, queryFromParams, PaginationService.getPaginationOptions());
+
+      } catch(e) {
+        NotificationsService.addError(
+          I18n.t('js.work_packages.query.errors.unretrievable_query')
+        );
+        clearUrlQueryParams();
+
+        fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier);
+      }
+
     } else if($state.params.query_id) {
       // Load the query by id if present
       fetchWorkPackages = WorkPackageService.getWorkPackagesByQueryId(
@@ -68,40 +99,21 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
     }
 
     loadingIndicator.mainPage = fetchWorkPackages.then(function(json) {
-      return setupPage(json, !!queryParams);
+      setupPage(json, !!queryParams);
 
-    }).then(function() {
-        fetchAvailableColumns();
-        fetchProjectQueries();
-        QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
-      }
-    );
-  }
+      QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function(data){
+        $scope.availableUnusedColumns = data;
+      });
 
-  function fetchWorkPackagesFromUrlParams(queryParams) {
-    try {
-      var queryData = UrlParamsHelper.decodeQueryFromJsonParams($state.params.query_id, queryParams);
-      var queryFromParams = new Query(queryData, { rawFilters: true });
-
-      // Set pagination options if present
-      if(!!queryFromParams.page) {
-        PaginationService.setPage(queryFromParams.page);
-      }
-      if(!!queryFromParams.perPage) {
-        PaginationService.setPerPage(queryFromParams.perPage);
+      if ($scope.projectIdentifier) {
+        ProjectService.getProject($scope.projectIdentifier).then(function(project) {
+          $scope.project = project;
+          $scope.projects = [ project ];
+        });
       }
 
-      return WorkPackageService.getWorkPackages(
-        $scope.projectIdentifier, queryFromParams, PaginationService.getPaginationOptions());
-
-    } catch(e) {
-      NotificationsService.addError(
-          I18n.t('js.work_packages.query.errors.unretrievable_query')
-      );
-      clearUrlQueryParams();
-
-      return WorkPackageService.getWorkPackages($scope.projectIdentifier);
-    }
+      QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
+    });
   }
 
   function clearUrlQueryParams() {
@@ -109,29 +121,11 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
     $location.search('query_id', null);
   }
 
-  function fetchProjectQueries() {
-    if ($scope.projectIdentifier) {
-      ProjectService.getProject($scope.projectIdentifier)
-        .then(function(project) {
-          $scope.project = project;
-          $scope.projects = [ project ];
-        });
-    }
-  }
-
   function setupPage(json, queryParamsPresent) {
-    initQuery(json.meta, queryParamsPresent);
-    setupWorkPackagesTable(json);
-
-    if (json.work_packages.length) {
-      WorkPackageService.cache().put('preselectedWorkPackageId', json.work_packages[0].id);
-    }
-  }
-
-  function initQuery(metaData, queryParamsPresent) {
-    var queryData = metaData.query,
-        columnData = metaData.columns;
-
+    // Init query
+    var metaData = json.meta;
+    var queryData = metaData.query;
+    var columnData = metaData.columns;
     var cachedQuery = QueryService.getQuery();
     var urlQueryId = $state.params.query_id;
 
@@ -150,6 +144,13 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
     }
 
     $scope.maintainBackUrl();
+
+    // setup table
+    setupWorkPackagesTable(json);
+
+    if (json.work_packages.length) {
+      WorkPackageService.cache().put('preselectedWorkPackageId', json.work_packages[0].id);
+    }
   }
 
   function afterQuerySetupCallback() {
@@ -194,13 +195,6 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
     $scope.showFiltersOptions = WorkPackagesTableService.getShowFilterOptions();
   }
 
-  function fetchAvailableColumns() {
-    return QueryService.loadAvailableUnusedColumns($scope.projectIdentifier)
-      .then(function(data){
-        $scope.availableUnusedColumns = data;
-      });
-  }
-
   $scope.maintainBackUrl = function() {
     $scope.backUrl = $location.url();
   };
@@ -229,13 +223,6 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
       .then(setupWorkPackagesTable);
   }
 
-  // More
-
-  function serviceErrorHandler(data) {
-    // TODO RS: This is where we'd want to put an error message on the dom
-    $scope.isLoading = false;
-  }
-
   // Go
 
   initialSetup();
@@ -257,8 +244,10 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
 
   $rootScope.$on('queryClearRequired', function() {
     $location.search('query_props', null);
+
     if($location.search().query_id) {
       $location.search('query_id', null);
+
     } else {
       initialSetup();
     }
@@ -295,3 +284,7 @@ function WorkPackagesListController($scope, $rootScope, $state, $stateParams, $l
     }
   };
 }
+
+angular
+  .module('openproject.workPackages.controllers')
+  .controller('WorkPackagesListController', WorkPackagesListController);

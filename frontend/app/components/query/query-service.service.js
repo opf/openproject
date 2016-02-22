@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,32 +24,27 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-/* jshint camelcase: false */
-
-module.exports = function(
-    Query,
-    Sortation,
-    $http,
-    PathHelper,
-    $q,
-    AVAILABLE_WORK_PACKAGE_FILTERS,
-    StatusService,
-    TypeService,
-    PriorityService,
-    UserService,
-    VersionService,
-    CategoryService,
-    RoleService,
-    GroupService,
-    ProjectService,
-    WorkPackagesTableHelper,
-    I18n,
-    queryMenuItemFactory,
-    $rootScope,
-    QUERY_MENU_ITEM_TYPE
-  ) {
+function QueryService(Query,
+                      $http,
+                      PathHelper,
+                      $q,
+                      AVAILABLE_WORK_PACKAGE_FILTERS,
+                      StatusService,
+                      TypeService,
+                      PriorityService,
+                      UserService,
+                      VersionService,
+                      CategoryService,
+                      RoleService,
+                      GroupService,
+                      ProjectService,
+                      WorkPackagesTableHelper,
+                      I18n,
+                      queryMenuItemFactory,
+                      $rootScope,
+                      QUERY_MENU_ITEM_TYPE) {
 
   var query;
 
@@ -147,10 +142,6 @@ module.exports = function(
 
     getTotalEntries: function() {
       return totalEntries;
-    },
-
-    getAvailableUnusedColumns: function() {
-      return availableUnusedColumns;
     },
 
     hideColumns: function(columnNames) {
@@ -500,4 +491,8 @@ module.exports = function(
   };
 
   return QueryService;
-};
+}
+
+angular
+  .module('openproject.services')
+  .factory('QueryService', QueryService);
