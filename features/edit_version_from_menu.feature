@@ -64,7 +64,7 @@ Feature: Version Settings
    Given I am on the master backlog
 
     When I open the "Sprint 001" backlogs menu
-    When I click on "Properties"
+    And I follow "Properties" of the "Sprint 001" backlogs menu
 
    Then I should be on the edit page of the version "Sprint 001"
 
