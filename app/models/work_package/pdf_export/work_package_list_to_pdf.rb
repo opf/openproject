@@ -32,7 +32,7 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
   include CustomFieldsHelper
-  include ToPdfHelper
+  include WorkPackage::PdfExport::ToPdfHelper
 
   attr_accessor :work_packages,
                 :pdf,
