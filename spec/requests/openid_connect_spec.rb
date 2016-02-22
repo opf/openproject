@@ -130,7 +130,7 @@ describe 'OpenID Connect' do
       redirect_from_provider
 
       expect(response.status).to be 302
-      expect(response.location).to match /my\/first_login$/
+      expect(response.location).to match /my\/page$/
 
       # after_login requires the optional third context parameter
       # remove this guard once we are on v4.1
