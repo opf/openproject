@@ -85,12 +85,16 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
     # headers
     pdf.SetFontStyle('B', 8)
     pdf.SetFillColor(230, 230, 230)
+
+    base_x = pdf.get_x
+    base_y = pdf.get_y
+
     column_contents = query.columns.map(&:caption)
 
     max_height = calculate_max_height(column_contents, col_width)
 
     pdf.RDMCell Page.table_width, max_height, '', 1, 1, 'L', 1
-    pdf.SetXY(base_x, base_y)
+    pdf.set_y(base_y)
 
     write_cells(column_contents, col_width, Page.row_height)
     draw_borders(base_x, base_y, base_y + max_height, col_width)
@@ -131,7 +135,7 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
         s.to_s
       }
 
-      max_height = calculate_max_height(column_contents, col_width)
+      max_height = calculate_max_height(col_values, col_width)
       description_height = if options[:show_descriptions]
                              calculate_max_height([work_package.description.to_s],
                                                   [Page.table_width / 2])
@@ -140,12 +144,13 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
                            end
 
       # make new page if it doesn't fit on the current one
-      space_left = Page.height - base_y - Page.bottom_margin
+      space_left = Page.height - pdf.get_y - Page.bottom_margin
       if max_height + description_height > space_left
         pdf.AddPage('L')
-        base_x = pdf.GetX
-        base_y = pdf.GetY
       end
+
+      base_x = pdf.GetX
+      base_y = pdf.GetY
 
       # write the cells on page
       write_cells(col_values, col_width, Page.row_height)
