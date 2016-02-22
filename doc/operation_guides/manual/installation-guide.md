@@ -85,7 +85,8 @@ mysql> QUIT
 ## Installation of Ruby
 
 The are several possibilities to install Ruby on your machine. We will
-use [rbenv](http://rbenv.org/).
+use [rbenv](http://rbenv.org/). Please be aware that the actual installation of a specific Ruby version takes some
+time to finsih.
 
 ```bash
 [root@host] su openproject --login
@@ -95,16 +96,16 @@ use [rbenv](http://rbenv.org/).
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 2.1.7
+[openproject@host] rbenv install 2.3.0
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 2.1.7
+[openproject@host] rbenv global 2.3.0
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 2.1.7p400 (2015-08-18 revision 51632) [x86_64-linux]
+ruby 2.3.0p0 (2015-12-25 revision 53290) [x86_64-linux]
 ```
 
 ## Installation of Node
@@ -241,7 +242,7 @@ You need to generate a secret key base for the production environment with `./bi
 In this installation guide, we will use the local `.profile` of the OpenProject user. You may alternatively put set the environment variable in `/etc/environment` or pass it to the server upon start manually.
 
 ```bash
-[openproject@host] echo "export SECRET_KEY_BASE="`./bin/rake secret`" >> ~/.profile
+[openproject@host] echo "export SECRET_KEY_BASE=$(./bin/rake secret)" >> ~/.profile
 [openproject@host] source ~/.profile
 ```
 
@@ -271,6 +272,8 @@ Now, the Passenger gem is installed and integrated into apache.
 [openproject@ubuntu] gem install passenger
 [openproject@ubuntu] passenger-install-apache2-module
 ```
+
+If you are running on a Virtual Private Server, you need to make sure you have atleast 1024mb of RAM before running the `passenger-install-apache2-module`.
 
 Follow the instructions passenger provides.
 The passenger installer will ask you the question in "Which languages are you

@@ -52,48 +52,44 @@ module Redmine::MenuManager::TopMenuHelper
     return '' if User.current.anonymous? and User.current.number_of_known_projects.zero?
 
     link_to_all_projects = link_to l(:label_project_plural),
-                            { controller: '/projects',
-                              action: 'index' },
+                            { controller: '/projects', action: 'index' },
                             title: l(:label_project_plural),
                             accesskey: OpenProject::AccessKeys.key_for(:project_search),
                             class: 'icon5 icon-projects',
                             aria: { haspopup: 'true' }
 
+    result = ''.html_safe
     if User.current.impaired?
-      result =  content_tag :li do
-                  link_to_all_projects
-                end
+      result << content_tag(:li, link_to_all_projects)
 
       if User.current.allowed_to?(:add_project, nil, global: true)
-        result +=   content_tag :li do
-                      link_to l(:label_project_new), new_project_path,
-                        class: 'icon4 icon-add',
-                        # For the moment we actually don't have a key for new project.
-                        # Need to decide on one.
-                        accesskey: OpenProject::AccessKeys.key_for(:new_project)
-                    end
+        result << content_tag(:li) do
+                    link_to l(:label_project_new), new_project_path,
+                      class: 'icon4 icon-add',
+                      # For the moment we actually don't have a key for new project.
+                      # Need to decide on one.
+                      accesskey: OpenProject::AccessKeys.key_for(:new_project)
+                  end
       end
-
+      result
     else
       render_drop_down_menu_node link_to_all_projects do
         content_tag :ul, style: 'display:none', class: 'drop-down--projects' do
-          ret = ''
           if User.current.allowed_to?(:add_project, nil, global: true)
-            ret +=  content_tag :li do
-                      link_to l(:label_project_new), new_project_path, class: 'icon4 icon-add'
-                    end
+            result << content_tag(:li) do
+                        link_to l(:label_project_new), new_project_path, class: 'icon4 icon-add'
+                      end
           end
-          ret += content_tag :li do
-            link_to l(:label_project_view_all), { controller: '/projects',
-                                                  action: 'index' },
+          result << content_tag(:li) do
+            link_to l(:label_project_view_all),
+                    { controller: '/projects', action: 'index' },
                     class: 'icon4 icon-show-all-projects'
           end
 
-          ret += content_tag :li, id: 'project-search-container' do
+          result << content_tag(:li, id: 'project-search-container') do
             hidden_field_tag('', '', class: 'select2-select')
           end
-
-          ret.html_safe
+          result
         end
       end
     end

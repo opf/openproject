@@ -99,13 +99,13 @@ module Redmine
         text.gsub!(MACROS_RE) do
           esc = $1
           all = $2
-          macro = $3.downcase
+          macro = $3
           args = ($5 || '').split(',').each(&:strip!)
           if esc.nil?
             begin
               macros_runner.call(macro, args)
             rescue => e
-              "<span class=\"flash error permanent\">\
+              "<span class=\"flash error macro-unavailable permanent\">\
               #{::I18n.t(:macro_execution_error, macro_name: macro)} (#{e})\
               </span>".squish
             rescue NotImplementedError
