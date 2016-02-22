@@ -31,7 +31,6 @@ require 'rfpdf/fpdf'
 
 class WorkPackage::PdfExport::IFPDF < FPDF
   include Redmine::I18n
-  include Helpers
   attr_accessor :footer_date
 
   def initialize(lang)
