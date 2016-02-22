@@ -27,12 +27,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'work_package/pdf_export/ifpdf'
+require 'work_package/pdf_export/itcpdf'
+
 module WorkPackage::PdfExport::ToPdfHelper
   def get_pdf(language)
     if ['ko', 'ja', 'zh', 'zh-tw', 'th'].include? language.to_s.downcase
-      IFPDF.new(current_language)
+      ::WorkPackage::PdfExport::IFPDF.new(current_language)
     else
-      ITCPDF.new(current_language)
+      ::WorkPackage::PdfExport::ITCPDF.new(current_language)
     end
   end
 end
