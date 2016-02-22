@@ -80,7 +80,9 @@ module OpenProject
 
       'disabled_modules' => [], # allow to disable default modules
       'hidden_menu_items' => {},
-      'blacklisted_routes' => []
+      'blacklisted_routes' => [],
+
+      'apiv2_enable_basic_auth' => true,
     }
 
     @config = nil
@@ -318,6 +320,11 @@ module OpenProject
             define_method setting do
               self[setting]
             end
+
+            define_method "#{setting}?" do
+              ['true', true, '1'].include? self[setting]
+            end
+
           end unless respond_to? setting
         end
       end
