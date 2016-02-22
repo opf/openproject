@@ -127,13 +127,3 @@ Feature: Cost Reporting Linkage
     # 10 EUR x 5 (words)
     And I should not see "50.00"
     And I should not see "150.00"
-
-  @javascript
-  Scenario: Jump to project from the cost report jumps to the cost report of the selected project
-    Given there is a standard cost control project named "First Project"
-    And there is a standard cost control project named "Second Project"
-    And I am already logged in as "controller"
-    And I am on the Cost Reports page for the project called "First Project"
-    When I jump to project "Second Project"
-
-    Then I should be on the cost reports page of the project called "Second Project"
