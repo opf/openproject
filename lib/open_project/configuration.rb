@@ -115,9 +115,10 @@ module OpenProject
 
       # Replace config values for which an environment variable with the same key in upper case
       # exists
-      def override_config!(config, source = ENV)
+      def override_config!(config, source = default_override_source)
         config.each do |key, value|
-          config[key] = source.fetch(key.upcase, value)
+          override = source.fetch(key.upcase, value)
+          config[key] = extract_value(key, override)
         end
 
         config.deep_merge! merge_config(config, source)
@@ -129,7 +130,7 @@ module OpenProject
         source.select { |k, _| k =~ /^#{prefix}/i }.each do |k, value|
           path = self.path prefix, k
 
-          path_config = path_to_hash(*path, value)
+          path_config = path_to_hash(*path, extract_value(k, value))
 
           new_config.deep_merge! path_config
         end
@@ -221,6 +222,29 @@ module OpenProject
       end
 
       private
+
+      ##
+      # The default source for overriding configuration values
+      # is ENV, but may be changed for testing purposes
+      def default_override_source
+        ENV
+      end
+
+      ##
+      # Extract the configuration value from the given input
+      # using YAML.
+      def extract_value(key, value)
+
+        # Internal overrides may be nil or non-strings
+        # so we only try string values.
+        if value.is_a?(String)
+          YAML.load(value)
+        else
+          value
+        end
+      rescue => e
+        raise ArgumentError, "Configuration value for '#{key}' is invalid: #{e.message}"
+      end
 
       def load_config_from_file(filename, env, config)
         if File.file?(filename)

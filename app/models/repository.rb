@@ -109,13 +109,7 @@ class Repository < ActiveRecord::Base
   # Retrieves the :disabled_types setting from `configuration.yml
   # To avoid wrong set operations for string-based configuration, force them to symbols.
   def self.disabled_types
-    disabled = scm_config[:disabled_types]
-
-    if disabled.is_a?(String)
-      disabled.split(',')
-    else
-      (disabled || [])
-    end.map(&:to_sym)
+    (scm_config[:disabled_types] || []).map(&:to_sym)
   end
 
   def vendor
