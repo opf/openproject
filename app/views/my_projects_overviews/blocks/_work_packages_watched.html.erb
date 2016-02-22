@@ -24,7 +24,7 @@ See doc/COPYRIGHT.md for more details.
 <% end %>
 
 <h3 class="widget-box--header">
-  <span class="icon-context icon-issue-watched"></span>
+  <span class="icon-context icon-watched"></span>
   <span class="widget-box--header-title"><%=l(:label_work_package_view_all_watched)%> (<%= WorkPackage.where(project_id: @project.id).visible.watched_by(@user.id).count %>)</span>
 </h3>
 
