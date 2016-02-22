@@ -69,7 +69,7 @@ describe('Inplace editor drop-down directive', function() {
     var workPackageFieldController = {
       state: { isBusy: false }
     };
-    element.data('$workPackageFieldController', workPackageFieldController);
+    element.data('$wpFieldController', workPackageFieldController);
 
     workPackageFieldConfigurationService.getDropdownSortingStrategy = sinon.stub().returns(null);
   }));
