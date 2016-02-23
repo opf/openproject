@@ -136,7 +136,7 @@ function halTransformedElementService(Restangular:restangular.IService) {
 
         if (!link.method) {
           links[linkName] = method('get');
-          links[linkName].all = method('getList', 'allUrl');
+          links[linkName].list = method('getList', 'allUrl');
         }
         else {
           links[linkName] = method(link.method);
