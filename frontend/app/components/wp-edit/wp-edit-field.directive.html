@@ -5,14 +5,15 @@
         ng-switch="vm.field.type">
 
     <div ng-switch-when="text">
-      <!--TODO: Add schema properties (like maxLen, minLen, required) -->
       <input type="text"
+             wp-edit-field-requirements="vm.field.schema"
              ng-model="vm.workPackage[vm.fieldName]"
              ng-blur="vm.deactivate()">
     </div>
 
     <div ng-switch-when="select">
       <select ng-model="vm.workPackage[vm.fieldName]"
+              wp-edit-field-requirements="vm.field.schema"
               ng-options="value as value.name for value in vm.field.options track by value.id"
               ng-change="vm.submit()"
               ng-blur="vm.deactivate()"></select>
