@@ -194,22 +194,20 @@ declare namespace op {
   /**
    * wpEdit module
    */
-  //TODO: Add
-  interface FieldSchema {
-    type:string;
-  }
-
   interface EditField {
     type:string;
     value:any;
-    resource:HalTransformedElement;
+    resource:HalTransformed;
     schema:FieldSchema;
   }
 
   /**
    * OpenProject API results with Restangular
    */
-  interface HalTransformedElement extends api.v3.Result, restangular.IElement {
+  interface ApiResult extends api.v3.Result, restangular.IElement {
+  }
+
+  interface HalTransformed extends ApiResult {
     _source: any;
     links:{[name:string]: (params?) => ng.IPromise};
     embedded;
@@ -218,12 +216,17 @@ declare namespace op {
     data();
   }
 
+  interface FieldSchema {
+    type:string;
+    writable:boolean;
+  }
+
   interface WorkPackageLinks {
-    schema;
+    schema:FieldSchema;
   }
 
   interface WorkPackage extends
-    api.v3.WorkPackage, HalTransformedElement,WorkPackageLinks {
+    api.v3.WorkPackage, HalTransformed, WorkPackageLinks {
 
     getForm();
     getSchema();
