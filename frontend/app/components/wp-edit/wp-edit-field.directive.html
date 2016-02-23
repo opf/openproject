@@ -13,7 +13,7 @@
 
     <div ng-switch-when="select">
       <select ng-model="vm.workPackage[vm.fieldName]"
-              ng-options="value as value.name for value in vm.field.allowedValues track by value.id"
+              ng-options="value as value.name for value in vm.field.options track by value.id"
               ng-change="vm.submit()"
               ng-blur="vm.deactivate()"></select>
     </div>

@@ -40,7 +40,7 @@ class Field implements op.EditField{
     return this.constructor.type;
   }
 
-  constructor(public resource:op.HalTransformedElement,
+  constructor(public resource:op.HalTransformed,
               public name:string,
               public schema) {
   }
@@ -53,12 +53,11 @@ class TextField extends Field {
 class SelectField extends Field {
   public static type:string = 'select';
 
-  //TODO: Use allowedValue type instead of any
-  public allowedValues:any[];
+  public options:any[];
 
   constructor(workPackage, fieldName, schema) {
     super(workPackage, fieldName, schema);
-    this.allowedValues = this.schema.embedded.allowedValues.map(value => value.data());
+    this.options = this.schema.embedded.allowedValues.map(value => value.data());
   }
 }
 
@@ -142,5 +141,6 @@ export class FieldFactory {
   }
 }
 
+//TODO: See above. This is a job for a provider.
 FieldFactory.register(TextField);
 FieldFactory.register(SelectField);
