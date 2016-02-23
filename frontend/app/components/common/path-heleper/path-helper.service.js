@@ -253,7 +253,7 @@ function PathHelper() {
       return PathHelper.apiV3 + '/statuses';
     },
     apiProjectWorkPackageTypesPath: function(projectIdentifier) {
-      return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/types';
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + '/types';
     },
     apiWorkPackageTypesPath: function() {
       return PathHelper.apiV3 + '/types';
