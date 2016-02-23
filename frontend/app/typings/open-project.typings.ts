@@ -211,8 +211,8 @@ declare namespace op {
     _source: any;
     links:{[name:string]: (params?) => ng.IPromise};
     embedded;
-    linkedProp(linkName:string);
-    linkedProps(linkNames:string[]);
+    setProperty(linkName:string);
+    setProperties(linkNames:string[]);
     data();
   }
 

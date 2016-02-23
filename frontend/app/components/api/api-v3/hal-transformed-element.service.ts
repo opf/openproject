@@ -27,7 +27,6 @@
 //++
 
 //TODO: Implement tests
-import HalTransformedElement = op.HalTransformedElement;
 function halTransformedElementService(Restangular:restangular.IService) {
   return class HalTransformedElement {
     constructor(protected element) {
@@ -37,44 +36,47 @@ function halTransformedElementService(Restangular:restangular.IService) {
     protected transform() {
       if (!this.element._links && !this.element._embedded) return this.element;
 
-      var linkedProps = [];
+      const propertiesSet = [];
       /**
        * The properties added by the transformation should not be enumerable, so that
        * Restangular's `.plain()` returns only the relevant properties.
        */
       Object.defineProperties(this.element, {
         /**
-         *
+         * Linked resources of the element.
          */
         links: {value: this.transformLinks()},
 
         /**
-         *
+         * Embedded resources of the element
          */
         embedded: {value: this.transformEmbedded()},
 
         /**
-         * Gets a linked resource and sets its plain value as the element's property.
+         * Gets a linked or embedded resource and sets its plain value as a property of the
+         * element.
+         * Request the linked resource, if it's not embedded.
          * @method
          */
-        linkedProp: {
+        //TODO: Add embedded resource handling (see description).
+        //TODO: Always return a promise.
+        setProperty: {
           value: (propertyName:string) => {
-            //TODO: return null or empty promise if link does not exist - or throw an exception
             return !!this.element.links[propertyName] && this.element.links[propertyName]().then(value => {
-                linkedProps.push(propertyName);
+                propertiesSet.push(propertyName);
                 return this.element[propertyName] = value;
               });
           }
         },
 
         /**
-         * Set linked and embedded plain resource results as properties of the element.
+         * Set linked or embedded resources as properties of the element.
          * @method
          */
-        //TODO: maybe return an array of promises with $q.all
-        linkedProps: {
+        //TODO: Return a promise based on $q.all
+        setProperties: {
           value: (propertyNames:string[]) => {
-            propertyNames.forEach(this.element.linkedProp);
+            propertyNames.forEach(this.element.setProperty);
           }
         },
 
@@ -95,7 +97,7 @@ function halTransformedElementService(Restangular:restangular.IService) {
               var property = this.element[name];
               var source = link._source;
 
-              if (linkedProps.indexOf(name) !== -1) {
+              if (propertiesSet.indexOf(name) !== -1) {
                 if (property._links) {
                   property = new HalTransformedElement(property);
                 }

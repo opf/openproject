@@ -47,7 +47,7 @@ export class ApiWorkPackagesService {
 
     return this.WorkPackages.getList().then(wpCollection => {
       wpCollection.forEach(workPackage => {
-        workPackage.linkedProps(columnNames);
+        workPackage.setProperties(columnNames);
       });
 
       return wpCollection;
