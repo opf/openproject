@@ -49,16 +49,8 @@ export class ApiWorkPackagesService {
   public list(offset:number, pageSize:number, query:api.ex.Query, columns:api.ex.Column[]) {
     const columns = this.mapColumns(columns);
     const columnNames = columns.map(column => column.name);
-    const params = {
-      offset: offset,
-      pageSize: pageSize,
-      filters: [query.filters],
-      groupBy: query.group_by,
-      sortBy: query.sort_criteria,
-      showSums: query.display_sums
-    };
 
-    return this.WorkPackages.getList(params).then(wpCollection => {
+    return this.WorkPackages.getList(this.queryAsV3Params(offset, pageSize, query)).then(wpCollection => {
       wpCollection.forEach(workPackage => {
         workPackage.setProperties(columnNames);
       });
@@ -70,6 +62,25 @@ export class ApiWorkPackagesService {
   protected mapColumns(columns:api.ex.Column[] = []) {
     columns.forEach(column => column.name = this.propertyMap[column.name] || column.name);
     return columns;
+  }
+
+  protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {
+    const params = {
+      offset: offset,
+      pageSize: pageSize,
+      filters: [query.filters],
+      sortBy: query.sort_criteria,
+    };
+
+    if (query.group_by) {
+      params['groupBy'] = query.group_by;
+    }
+
+    if (query.display_sums) {
+      params['showSums'] = query.display_sums;
+    }
+
+    return params;
   }
 }
 
