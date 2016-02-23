@@ -46,66 +46,25 @@ module Api
                                         :column_sums]
 
       def index
-        @work_packages = current_work_packages
-
-        columns = @query.involved_columns + [:id]
-
-        @column_names, @custom_field_column_ids = separate_columns_by_custom_fields(columns)
-
-        setup_context_menu_actions
-
-        @work_packages = ::API::Experimental::WorkPackageDecorator.decorate(@work_packages)
-      end
-
-      def column_data
-        column_names = valid_columns(params[:column_names] || [])
-        raise 'API Error: No column names' if column_names.empty?
-        raise 'API Error: No IDs' unless params[:ids]
-        ids = params[:ids].map(&:to_i)
-
-        work_packages = work_packages_of_ids(ids, column_names)
-        work_packages = ::API::Experimental::WorkPackageDecorator.decorate(work_packages)
-
-        @columns_data = fetch_columns_data(column_names, work_packages)
-        @columns_meta = {
-          total_sums: columns_total_sums(column_names, work_packages),
-          group_sums: columns_group_sums(column_names, work_packages, params[:group_by])
+        @display_meta = true
+        @work_packages_meta_data = {
+          query:                        query_as_json(@query, User.current),
+          columns:                      get_columns_for_json(@query.columns),
+          groupable_columns:            get_columns_for_json(@query.groupable_columns),
+          page:                         page_param,
+          per_page:                     per_page_param,
+          per_page_options:             Setting.per_page_options_array,
+          export_formats:               export_formats,
+          _links:                       work_packages_links
         }
       end
 
-      def column_sums
-        column_names = valid_columns(params[:column_names] || [])
-        raise 'API Error' if column_names.empty?
-
-        work_packages = work_packages_of_query(@query, column_names)
-        work_packages = ::API::Experimental::WorkPackageDecorator.decorate(work_packages)
-        @column_sums = columns_total_sums(column_names, work_packages)
-      end
-
       private
-
-      def setup_context_menu_actions
-        @can = WorkPackagePolicy.new(User.current)
-      end
 
       def load_query
         @query ||= init_query
       rescue ActiveRecord::RecordNotFound
         render_404
-      end
-
-      def current_work_packages
-        initialize_sort
-
-        results = @query.results order: sort_clause
-
-        work_packages = results.work_packages
-                        .page(page_param)
-                        .per_page(per_page_param)
-                        .changed_since(@since)
-        set_work_packages_meta_data(@query, results, work_packages)
-
-        work_packages
       end
 
       def initialize_sort
@@ -115,37 +74,6 @@ module Api
         sort_clear
         sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
         sort_update(@query.sortable_columns)
-      end
-
-      def work_packages_of_ids(ids, column_names)
-        scope = WorkPackage.visible.includes(includes_for_columns(column_names))
-
-        Array.wrap(scope.find(*ids)).sort_by { |wp| ids.index wp.id }
-      end
-
-      def work_packages_of_query(query, column_names)
-        # Note: Do not apply pagination. Used to obtain total query meta data.
-        results = query.results include: includes_for_columns(column_names)
-
-        results.work_packages
-      end
-
-      def set_work_packages_meta_data(query, results, work_packages)
-        @display_meta = true
-        @work_packages_meta_data = {
-          query:                        query_as_json(query, User.current),
-          columns:                      get_columns_for_json(query.columns),
-          groupable_columns:            get_columns_for_json(query.groupable_columns),
-          work_package_count_by_group:  results.work_package_count_by_group,
-          sums:                         query.columns.map { |column| results.total_sum_of(column) },
-          group_sums:                   query.group_by_column && query.columns.map { |column| results.grouped_sums(column) },
-          page:                         page_param,
-          per_page:                     per_page_param,
-          per_page_options:             Setting.per_page_options_array,
-          total_entries:                work_packages.total_entries,
-          export_formats:               export_formats,
-          _links:                       work_packages_links
-        }
       end
 
       def work_packages_links

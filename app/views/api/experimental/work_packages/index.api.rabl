@@ -28,68 +28,6 @@
 
 object false
 
-child @work_packages => :work_packages do
-  @column_names.each do |column_name|
-    node(column_name, :if => lambda{ |wp| wp.respond_to?(column_name) }) do |wp|
-      case wp.send(column_name)
-      when Category
-        wp.send(column_name).as_json(only: [:id, :name])
-      when Project
-        wp.send(column_name).as_json(only: [:id, :name, :identifier])
-      when IssuePriority
-        wp.send(column_name).as_json(only: [:id, :name])
-      when Status
-        wp.send(column_name).as_json(only: [:id, :name])
-      when User, Group
-        wp.send(column_name).as_json(only: [:id, :firstname, :type], methods: :name)
-      when Version
-        wp.send(column_name).as_json(only: [:id, :name])
-      when WorkPackage
-        wp.send(column_name).as_json(only: [:id, :subject])
-      else
-        wp.send(column_name)
-      end
-    end
-  end
-
-  node(:custom_values) do |wp|
-    wp.custom_values_display_data @custom_field_column_ids
-  end
-
-  # add parent id by default to make hierarchies transparent
-  node :parent_id do |wp|
-    wp.parent_id
-  end
-
-  node :updated_at do |wp|
-    wp.updated_at.utc.iso8601
-  end
-
-  node :created_at do |wp|
-    wp.created_at.utc.iso8601
-  end
-
-  node :_actions do |wp|
-    @can.actions(wp)
-  end
-
-  node :_links do |wp|
-    if wp.persisted?
-      links = {
-        edit:       -> { edit_work_package_path(wp) },
-        log_time:   -> { new_work_package_time_entry_path(wp) },
-        watch:      -> { watcher_link(wp, User.current) },
-        duplicate:  -> { new_project_work_packages_path({ project_id: wp.project, copy_from: wp }) },
-        move:       -> { new_move_work_packages_path(ids: [wp.id]) },
-        copy:       -> { new_move_work_packages_path(ids: [wp.id], copy: true) },
-        delete:     -> { work_packages_bulk_path(ids: [wp.id], method: :delete) }
-      }.select { |action, link| @can.allowed?(wp, action) }
-
-      links = links.update(links) { |key, old_val, new_val| new_val.() }
-    end
-  end
-end
-
 if @display_meta
   node(:meta) { @work_packages_meta_data }
 end
