@@ -49,16 +49,6 @@ function WorkPackagesListController($scope,
   $scope.projectIdentifier = $state.params.projectPath || null;
   $scope.loadingIndicator = loadingIndicator;
 
-  //TODO: Move this somewhere else
-  var propertyMap = {
-    assigned_to: 'assignee',
-    updated_at: 'updatedAt'
-  };
-  var mapColumns = columns => columns.forEach(column => {
-    //noinspection TypeScriptUnresolvedVariable
-    column.name = propertyMap[column.name] || column.name;
-  });
-
   // Setup
   function initialSetup() {
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
@@ -111,11 +101,11 @@ function WorkPackagesListController($scope,
 
     //TODO: Move this call and everything that belongs to it to the meta service
     loadingIndicator.mainPage = fetchWorkPackages.then(function(json:api.ex.WorkPackagesMeta) {
-      mapColumns(json.meta.columns);
-
-      apiWorkPackages.list(json.meta.columns).then(function(workPackages) {
-        json.work_packages = workPackages;
-        setupPage(json, !!queryParams);
+      apiWorkPackages
+        .list(json.meta.page, json.meta.per_page, json.meta.query, json.meta.columns)
+        .then((workPackages) => {
+          json.work_packages = workPackages;
+          setupPage(json, !!queryParams);
       });
 
       QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function(data){
@@ -239,10 +229,12 @@ function WorkPackagesListController($scope,
     loadingIndicator.mainPage = WorkPackageService.getWorkPackages($scope.projectIdentifier,
       $scope.query, PaginationService.getPaginationOptions())
       .then(function (json:api.ex.WorkPackagesMeta) {
-        apiWorkPackages.list().then(function (workPackages) {
-          json.work_packages = workPackages;
-          setupWorkPackagesTable(json);
-        })
+        apiWorkPackages
+          .list(json.meta.page, json.meta.per_page, json.meta.query, json.meta.columns)
+          .then((workPackages) => {
+            json.work_packages = workPackages;
+            setupWorkPackagesTable(json);
+        });
       });
   }
 

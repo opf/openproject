@@ -31,6 +31,11 @@ import {ApiMetaDataService} from "../api-meta-data/api-meta-data.service";
 export class ApiWorkPackagesService {
   protected WorkPackages;
 
+  //TODO: Add missing properties.
+  protected propertyMap = {
+    assigned_to: 'assignee',
+    updated_at: 'updatedAt'
+  };
 
   constructor (protected DEFAULT_PAGINATION_OPTIONS,
                protected $stateParams,
@@ -41,17 +46,30 @@ export class ApiWorkPackagesService {
     this.WorkPackages = apiV3.service('work_packages');
   }
 
-  //TODO: Add query filters etc.
-  public list(columns:api.ex.Column[] = []) {
-    var columnNames = columns.map(column => column.name);
+  public list(offset:number, pageSize:number, query:api.ex.Query, columns:api.ex.Column[]) {
+    const columns = this.mapColumns(columns);
+    const columnNames = columns.map(column => column.name);
+    const params = {
+      offset: offset,
+      pageSize: pageSize,
+      filters: [query.filters],
+      groupBy: query.group_by,
+      sortBy: query.sort_criteria,
+      showSums: query.display_sums
+    };
 
-    return this.WorkPackages.getList().then(wpCollection => {
+    return this.WorkPackages.getList(params).then(wpCollection => {
       wpCollection.forEach(workPackage => {
         workPackage.setProperties(columnNames);
       });
 
       return wpCollection;
     });
+  }
+
+  protected mapColumns(columns:api.ex.Column[] = []) {
+    columns.forEach(column => column.name = this.propertyMap[column.name] || column.name);
+    return columns;
   }
 }
 
