@@ -192,16 +192,6 @@ declare namespace op {
   }
 
   /**
-   * wpEdit module
-   */
-  interface EditField {
-    type:string;
-    value:any;
-    resource:HalTransformed;
-    schema:FieldSchema;
-  }
-
-  /**
    * OpenProject API results with Restangular
    */
   interface ApiResult extends api.v3.Result, restangular.IElement {

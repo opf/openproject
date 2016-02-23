@@ -26,17 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {FieldFactory} from "./wp-edit-field.module";
 import {WorkPackageEditFormController} from "./wp-edit-form.directive";
+import {WorkPackageEditFieldService} from "./wp-edit-field.service";
+import {Field} from "./wp-edit-field.module";
 
 
 export class WorkPackageEditFieldController {
   public formCtrl: WorkPackageEditFormController;
   public fieldName:string;
-  public field:op.EditField;
+  public field:Field;
 
   protected _workPackage:op.WorkPackage;
   protected _active:boolean = false;
+
+  constructor(protected wpEditField:WorkPackageEditFieldService) {
+  }
 
   public get workPackage() {
     return this.formCtrl.workPackage;
@@ -63,7 +67,7 @@ export class WorkPackageEditFieldController {
 
   protected setupField():ng.IPromise {
     return this.formCtrl.loadSchema().then(schema =>  {
-      this.field = FieldFactory.create(
+      this.field = this.wpEditField.getField(
         this.workPackage, this.fieldName, schema[this.fieldName]);
     });
   }

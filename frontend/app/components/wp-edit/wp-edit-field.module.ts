@@ -25,10 +25,10 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-//TODO: Add tests for all child classes
-//TODO: Add type definitions for the respective field schemas
-class Field implements op.EditField{
+
+export class Field {
   public static type:string;
+  public static $injector:ng.auto.IInjectorService;
 
   protected constructor: typeof Field;
 
@@ -40,66 +40,24 @@ class Field implements op.EditField{
     return this.constructor.type;
   }
 
+  protected get $injector():ng.auto.IInjectorService {
+    return this.constructor.$injector;
+  }
+
   constructor(public resource:op.HalTransformed,
               public name:string,
               public schema) {
   }
 }
 
-class TextField extends Field {
-  public static type:string = 'text';
-}
-
-class SelectField extends Field {
-  public static type:string = 'select';
-
-  public options:any[];
-
-  constructor(workPackage, fieldName, schema) {
-    super(workPackage, fieldName, schema);
-    this.options = this.schema.embedded.allowedValues.map(value => value.data());
-  }
-}
-
-//TODO: Implement
-class DateField extends Field {}
-
-//TODO: Implement
-class DateRangeField extends Field {}
-
-//TODO: Implement
-class IntegerField extends Field {}
-
-//TODO: Implement
-class FloatField extends Field {}
-
-//TODO: Implement
-class BooleanField extends Field {}
-
-//TODO: Implement
-class DurationField extends Field {}
-
-//TODO: Implement
-class TextareaField extends Field {}
-
-//TODO: See file wp-field.service.js:getInplaceEditStrategy for more eventual classes
-
-//TODO: Add tests
 export class FieldFactory {
-  //TODO: Make the default type configurable
-  protected static defaultType:string = 'text';
+  public static defaultType:string;
 
-  //TODO: Make the type mapping configurable
-  protected static types = {
-    String: 'text',
-    Priority: 'select',
-    Status: 'select',
-    Type: 'select'
-  };
+  protected static fields = {};
 
   /**
    * A map of field constructor objects.
-   * @type {{}} TODO: Add type description
+   * @type {{}}
    */
   protected static classes: {[type:string]: typeof Field} = {};
 
@@ -108,8 +66,10 @@ export class FieldFactory {
    * The static type property of the class indicates for which field type it
    * will be used.
    * @param fieldClass
+   * @param fields
    */
-  public static register(fieldClass: typeof Field) {
+  public static register(fieldClass: typeof Field, fields:string[] = []) {
+    fields.forEach(field => FieldFactory.fields[field] = fieldClass.type);
     FieldFactory.classes[fieldClass.type] = fieldClass;
   }
 
@@ -121,7 +81,9 @@ export class FieldFactory {
    * @param schema
    * @returns {Field}
    */
-  public static create(workPackage:op.WorkPackage, fieldName:string, schema:op.FieldSchema):Field {
+  public static create(workPackage:op.WorkPackage,
+                       fieldName:string,
+                       schema:op.FieldSchema):Field {
     let type = FieldFactory.getType(schema.type);
     let fieldClass = FieldFactory.classes[type];
 
@@ -134,13 +96,9 @@ export class FieldFactory {
    * @returns {string}
    */
   protected static getType(type:string):string {
-    let types = FieldFactory.types;
+    let fields = FieldFactory.fields;
     let defaultType = FieldFactory.defaultType;
 
-    return types[type] || defaultType;
+    return fields[type] || defaultType;
   }
 }
-
-//TODO: See above. This is a job for a provider.
-FieldFactory.register(TextField);
-FieldFactory.register(SelectField);
