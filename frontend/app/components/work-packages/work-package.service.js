@@ -228,11 +228,11 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
           var columnsMeta = data.columns_meta;
 
           angular.forEach(columns, function(column, i){
-            column.total_sum = columnsMeta.total_sums[i];
-            if (columnsMeta.group_sums) column.group_sums = columnsMeta.group_sums[i];
+            //column.total_sum = columnsMeta.total_sums[i];
+            //if (columnsMeta.group_sums) column.group_sums = columnsMeta.group_sums[i];
 
             angular.forEach(workPackages, function(workPackage, j) {
-              WorkPackagesHelper.augmentWorkPackageWithData(workPackage, column.name, !!column.custom_field, columnsData[i][j]);
+              WorkPackagesHelper.augmentWorkPackageWithData(workPackage, column.name, !!column.custom_field);
             });
           });
 
