@@ -36,7 +36,7 @@ export class ApiWorkPackagesService {
                protected $stateParams,
                protected $q:ng.IQService,
                protected apiV3:restangular.IService,
-               protected apiParamMapping:ApiParamMappingService) {
+               protected apiMetaData:ApiMetaDataService) {
 
     this.WorkPackages = apiV3.service('work_packages');
   }

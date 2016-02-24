@@ -29,16 +29,21 @@
 export class ApiParamMappingService {
 
   //TODO: Add missing properties.
-  protected propertyMap = {
+  protected static propertyMap = {
     assigned_to: 'assignee',
     updated_at: 'updatedAt'
   };
 
-  public transformV3(columns: any[]) {
-    return columns.map(column => column.name = this.propertyMap[column.name] || column.name);
+  public static columnListToV3(columns: any[]) {
+    columns.forEach(column => column.name = ApiParamMappingService.columnToV3(column));
+    return columns;
+  }
+
+  public static columnToV3(column: any) {
+    return ApiParamMappingService.propertyMap[column.name] || column.name;
   }
 }
 
 angular
   .module('openproject.api')
-  .service('apiParamMapping', ApiParamMappingService);
+  .service('ApiParamMappingService', ApiParamMappingService);

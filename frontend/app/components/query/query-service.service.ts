@@ -27,11 +27,11 @@
 // ++
 
 function QueryService(Query,
+                      ApiParamMappingService,
                       $http,
                       PathHelper,
                       $q,
                       AVAILABLE_WORK_PACKAGE_FILTERS,
-                      ApiParamMappingService,
                       StatusService,
                       TypeService,
                       PriorityService,
@@ -199,7 +199,7 @@ function QueryService(Query,
       var url = projectIdentifier ? PathHelper.apiProjectAvailableColumnsPath(projectIdentifier) : PathHelper.apiAvailableColumnsPath();
 
       return QueryService.doGet(url, function(response){
-        availableColumns = response.data.available_columns;
+        availableColumns = ApiParamMappingService.constructor.columnListToV3(response.data.available_columns);
         return availableColumns;
       });
     },
