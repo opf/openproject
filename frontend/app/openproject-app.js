@@ -75,6 +75,7 @@ angular.module(
     'openproject.helpers',
     'openproject.workPackages.config',
     'openproject.workPackages.helpers',
+    'openproject.api',
     'angular-cache'
   ]);
 angular.module('openproject.helpers', ['openproject.services']);

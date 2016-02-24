@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,50 +24,21 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {ApiMetaDataService} from "../api-meta-data/api-meta-data.service";
-import {ApiParamMappingService} from "../api-experimental/api-param-mapping.service";
+export class ApiParamMappingService {
 
-export class ApiWorkPackagesService {
-  protected WorkPackages;
+  //TODO: Add missing properties.
+  protected propertyMap = {
+    assigned_to: 'assignee',
+    updated_at: 'updatedAt'
+  };
 
-  constructor (protected DEFAULT_PAGINATION_OPTIONS,
-               protected $stateParams,
-               protected $q:ng.IQService,
-               protected apiV3:restangular.IService,
-               protected apiParamMapping:ApiParamMappingService) {
-
-    this.WorkPackages = apiV3.service('work_packages');
-  }
-
-  public list(offset:number, pageSize:number, query:api.ex.Query) {
-    return this.WorkPackages.getList(this.queryAsV3Params(offset, pageSize, query)).then(wpCollection => {
-      return wpCollection;
-    });
-  }
-
-  protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {
-    const params = {
-      offset: offset,
-      pageSize: pageSize,
-      filters: [query.filters],
-      sortBy: query.sort_criteria,
-    };
-
-    if (query.group_by) {
-      params['groupBy'] = query.group_by;
-    }
-
-    if (query.display_sums) {
-      params['showSums'] = query.display_sums;
-    }
-
-    return params;
+  public transformV3(columns: any[]) {
+    return columns.map(column => column.name = this.propertyMap[column.name] || column.name);
   }
 }
 
-
 angular
   .module('openproject.api')
-  .service('apiWorkPackages', ApiWorkPackagesService);
+  .service('apiParamMapping', ApiParamMappingService);

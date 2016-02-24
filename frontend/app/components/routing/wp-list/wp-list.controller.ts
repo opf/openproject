@@ -106,11 +106,14 @@ function WorkPackagesListController($scope,
         .then((workPackageCollection) => {
           mergeApiResponses(json, workPackageCollection.getElements());
           setupPage(json, !!queryParams);
+
+          QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function(data){
+            $scope.availableUnusedColumns = data;
+          });
+
+          QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
       });
 
-      QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function(data){
-        $scope.availableUnusedColumns = data;
-      });
 
       if ($scope.projectIdentifier) {
         ProjectService.getProject($scope.projectIdentifier).then(function(project) {
@@ -119,7 +122,6 @@ function WorkPackagesListController($scope,
         });
       }
 
-      QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
     });
   }
 
