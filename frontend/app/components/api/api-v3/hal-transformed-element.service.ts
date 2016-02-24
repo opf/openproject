@@ -27,7 +27,7 @@
 //++
 
 //TODO: Implement tests
-function halTransformedElementService(Restangular:restangular.IService) {
+function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQService) {
   return class HalTransformedElement {
     constructor(protected element) {
       return this.transform();
@@ -130,7 +130,12 @@ function halTransformedElementService(Restangular:restangular.IService) {
         var method = (method:string, multiplier?:string = 'oneUrl') => {
           return (...params) => {
             if (method === 'post') params.unshift('');
-            return this.element[multiplier](linkName, link.href)[method].apply(this.element, params);
+            if (link.href !== null) {
+              return this.element[multiplier](linkName, link.href)[method].apply(this.element, params);
+            }
+            else {
+              return this.emptyObjectPromise();
+            }
           }
         };
 
@@ -188,6 +193,12 @@ function halTransformedElementService(Restangular:restangular.IService) {
       });
 
       return properties;
+    }
+
+    protected emptyObjectPromise() {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     }
   };
 }
