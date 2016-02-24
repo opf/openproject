@@ -96,7 +96,7 @@ end
 
 node(:_bulk_links) do
   links = {
-    edit: edit_work_packages_bulk_path,
+    update: edit_work_packages_bulk_path,
     move: new_move_work_packages_path,
     copy: new_move_work_packages_path(copy: true),
     delete: work_packages_bulk_path(_method: :delete)

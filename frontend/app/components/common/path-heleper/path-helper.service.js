@@ -128,6 +128,14 @@ function PathHelper() {
     workPackagesBulkDeletePath: function() {
       return PathHelper.staticBase + PathHelper.workPackagesPath() + '/bulk';
     },
+    workPackagesBulkEditPath: function(workPackageIds) {
+      var query = _.reduce(workPackageIds, function(idsString, id) {
+        idsString += 'id[]=' + id + '&';
+        return idsString;
+      }, '').slice(0, -1);
+
+      return PathHelper.workPackagesBulkDeletePath + '/edit?' + query;
+    },
     workPackageJsonAutoCompletePath: function(projectId) {
       var path = PathHelper.workPackagesPath() + '/auto_complete.json';
       if (projectId) {

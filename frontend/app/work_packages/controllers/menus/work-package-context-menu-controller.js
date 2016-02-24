@@ -72,9 +72,9 @@ module.exports = function(
   };
 
   function deleteSelectedWorkPackages() {
-    var rows = WorkPackagesTableHelper.getSelectedRows($scope.rows);
+    var ids = getSelectedWorkPackages().map(function(wp) { return wp.id; });
 
-    WorkPackageService.performBulkDelete(getSelectedWorkPackages().map(function(wp) { return wp.id; }), true);
+    WorkPackageService.performBulkDelete(ids, true);
   }
 
   function editSelectedWorkPackages(link) {
@@ -90,7 +90,7 @@ module.exports = function(
     };
 
     inplaceEditAll.start();
-    $state.transitionTo('work-packages.list.details.overview', params);
+    $state.transitionTo('work-packages.show', params);
   }
 
   function getWorkPackagesFromSelectedRows() {

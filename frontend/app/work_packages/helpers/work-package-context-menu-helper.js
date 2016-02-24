@@ -27,32 +27,41 @@
 //++
 
 module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, UrlParamsHelper) {
-  function getPermittedActionLinks(workPackage, permittedActionConstansts) {
-    var linksToPermittedActions = {};
-    var permittedActions = getIntersection([workPackage._actions, permittedActionConstansts]);
+  function getPermittedActionLinks(workPackage, permittedActionConstants) {
+    var singularPermittedActions = [];
 
-    angular.forEach(permittedActions, function(permittedAction) {
-      linksToPermittedActions[permittedAction] = workPackage._links[permittedAction];
+    var allowedActions = getAllowedActions(workPackage.links, permittedActionConstants);
+
+    angular.forEach(allowedActions, function(allowedAction) {
+      singularPermittedActions.push({
+                                      icon: allowedAction.icon,
+                                      link: workPackage
+                                              .links[allowedAction.link]
+                                              ._source
+                                              .href
+                                    });
     });
 
-    return linksToPermittedActions;
+    return singularPermittedActions;
   }
 
   function getIntersectOfPermittedActions(workPackages) {
-    var linksToPermittedActions = {};
-    var permittedActions = getIntersection(
-      workPackages
-        .map(function(workPackage) {
-          return workPackage._actions;
-        })
-        .concat(new Array(PERMITTED_BULK_ACTIONS))
-    );
+    var bulkPermittedActions = [];
 
+    var permittedActions = _.filter(PERMITTED_BULK_ACTIONS, function(action) {
+      return _.every(workPackages, function(workPackage) {
+        return getAllowedActions(workPackage.links, [action]).length === 1;
+      });
+    });
     angular.forEach(permittedActions, function(permittedAction) {
-      linksToPermittedActions[permittedAction] = getBulkActionLink(permittedAction, workPackages);
+      bulkPermittedActions.push({
+                                  icon: permittedAction.icon,
+                                  link: getBulkActionLink(permittedAction,
+                                                             workPackages)
+                                });
     });
 
-    return linksToPermittedActions;
+    return bulkPermittedActions;
   }
 
   function getBulkActionLink(action, workPackages) {
@@ -65,22 +74,23 @@ module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, UrlP
     };
     var serializedIdParams = UrlParamsHelper.buildQueryString(workPackageIdParams);
 
-    var linkAndQueryString = bulkLinks[action].split('?');
+    var linkAndQueryString = bulkLinks[action.link].split('?');
     var link = linkAndQueryString.shift();
     var queryParts = linkAndQueryString.concat(new Array(serializedIdParams));
 
     return link + '?' + queryParts.join('&');
   }
 
-  // TODO move to a global tools helper
-  function getIntersection(arrays) {
-    var candidates = arrays.shift();
+  function getAllowedActions(links, actions) {
+    var allowedActions = [];
 
-    return candidates.filter(function(element) {
-      return arrays.every(function(array) {
-        return array.indexOf(element) !== -1;
-      });
+    angular.forEach(actions, function(action) {
+      if (links.hasOwnProperty(action.link)) {
+        allowedActions.push(action);
+      }
     });
+
+    return allowedActions;
   }
 
   var WorkPackageContextMenuHelper = {

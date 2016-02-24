@@ -7,11 +7,11 @@
         <span ng-bind="I18n.t('js.button_open_details')"/>
       </a>
     </li>
-    <li ng-repeat="(action, link) in permittedActions"
-        class="{{action}}">
-      <a role="menuitem" focus="$index == 0 && !isDetailsViewLinkPresent()" href="" ng-click="triggerContextMenuAction(action, link)">
-        <i ng-class="['icon-action-menu', 'icon-' + action]"></i>
-        <span ng-bind="I18n.t('js.button_' + action)"/>
+    <li ng-repeat="action in permittedActions"
+        class="{{action.icon}}">
+      <a role="menuitem" focus="$index == 0 && !isDetailsViewLinkPresent()" href="" ng-click="triggerContextMenuAction(action.icon, action.link)">
+        <i ng-class="['icon-action-menu', 'icon-' + action.icon]"></i>
+        <span ng-bind="I18n.t('js.button_' + action.icon)"/>
       </a>
     </li>
   </ul>
