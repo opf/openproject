@@ -104,7 +104,7 @@ function WorkPackagesListController($scope,
       apiWorkPackages
         .list(json.meta.page, json.meta.per_page, json.meta.query)
         .then((workPackageCollection) => {
-          json.work_packages = workPackageCollection.getElements();
+          mergeApiResponses(json, workPackageCollection.getElements());
           setupPage(json, !!queryParams);
       });
 
@@ -231,11 +231,22 @@ function WorkPackagesListController($scope,
       .then(function (json:api.ex.WorkPackagesMeta) {
         apiWorkPackages
           .list(json.meta.page, json.meta.per_page, json.meta.query, json.meta.columns)
-          .then((workPackageCollection) => {
-            json.work_packages = workPackageCollection.getElements();
+          .then((workPackages) => {
+            // Copy V3 group/sum response into experimental format
+            mergeApiResponses(json, workPackageCollection.getElements());
             setupWorkPackagesTable(json);
         });
       });
+  }
+
+  function mergeApiResponses(exJson, workPackages) {
+    exJson.work_packages = workPackages;
+
+    if (workPackages.totalSums) {
+      exJson.meta.sums = exJson.meta.columns.map(column => workPackages.totalSums[column.name]);
+    } else {
+      exJson.meta.sums = new Array(exJson.meta.columns.length);
+    }
   }
 
   // Go
