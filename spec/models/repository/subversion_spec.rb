@@ -74,7 +74,13 @@ describe Repository::Subversion, type: :model do
     end
 
     context 'with string disabled types' do
-      let(:config) { { disabled_types: 'managed,unknowntype' } }
+      before do
+        allow(OpenProject::Configuration).to receive(:default_override_source)
+          .and_return('OPENPROJECT_SCM_SUBVERSION_DISABLED__TYPES' => '[managed,unknowntype]')
+
+        OpenProject::Configuration.load
+        allow(instance.class).to receive(:scm_config).and_call_original
+      end
 
       it 'is no longer manageable' do
         expect(instance.class.available_types).to eq([:existing])

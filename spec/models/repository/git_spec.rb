@@ -97,7 +97,13 @@ describe Repository::Git, type: :model do
       end
 
       context 'with string disabled types' do
-        let(:config) { { disabled_types: 'managed,local' } }
+        before do
+          allow(OpenProject::Configuration).to receive(:default_override_source)
+            .and_return('OPENPROJECT_SCM_GIT_DISABLED__TYPES' => '[managed,local]')
+
+          OpenProject::Configuration.load
+          allow(adapter.class).to receive(:config).and_call_original
+        end
 
         it 'is no longer manageable' do
           expect(instance.class.available_types).to eq([])

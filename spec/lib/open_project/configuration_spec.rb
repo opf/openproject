@@ -92,10 +92,17 @@ describe OpenProject::Configuration do
     let(:config) {
       {
         'somesetting' => 'foo',
+        'some_list_entry' => nil,
         'nested' => {
           'key' => 'value',
+          'hash' => 'somethingelse',
           'deeply_nested' => {
             'key' => nil
+          }
+        },
+        'foo' => {
+          'bar' => {
+            'hash_with_symbols': 1234
           }
         }
       }
@@ -104,8 +111,11 @@ describe OpenProject::Configuration do
     let(:env_vars) {
       {
         'SOMESETTING' => 'bar',
+        'OPTEST_SOME__LIST__ENTRY' => '[foo, bar , xyz, whut wat]',
         'OPTEST_NESTED_KEY' => 'baz',
-        'OPTEST_NESTED_DEEPLY__NESTED_KEY' => '42'
+        'OPTEST_NESTED_DEEPLY__NESTED_KEY' => '42',
+        'OPTEST_NESTED_HASH' => '{ foo: bar, xyz: bla }',
+        'OPTEST_FOO_BAR_HASH__WITH__SYMBOLS' => '{ foo: !ruby/symbol foobar }'
       }
     }
 
@@ -124,7 +134,20 @@ describe OpenProject::Configuration do
     end
 
     it 'should override values nested several levels deep' do
-      expect(config['nested']['deeply_nested']['key']).to eq('42')
+      expect(config['nested']['deeply_nested']['key']).to eq(42)
+    end
+
+    it 'should parse simple comma-separated lists' do
+      expect(config['some_list_entry']).to eq(['foo', 'bar', 'xyz', 'whut wat'])
+    end
+
+    it 'should parse simple hashes' do
+      expect(config['nested']['hash']).to eq('foo' => 'bar', 'xyz' => 'bla')
+    end
+
+    it 'should parse hashes with symbols and non-string values' do
+      expect(config['foo']['bar']['hash_with_symbols']).to eq('foo' => :foobar)
+      expect(config['foo']['bar']['hash_with_symbols'][:foo]).to eq(:foobar)
     end
   end
 
