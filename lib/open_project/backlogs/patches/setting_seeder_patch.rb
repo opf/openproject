@@ -63,7 +63,7 @@ module OpenProject::Backlogs::Patches::SettingSeederPatch
 
     def backlogs_configured?
       setting = Hash(Setting[backlogs_setting_name])
-      setting['story_types'].present? && settings['task_type'].present?
+      setting['story_types'].present? && setting['task_type'].present?
     end
 
     def backlogs_setting_name
