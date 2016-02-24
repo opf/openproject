@@ -59,9 +59,9 @@ en:
     button_uncheck_all: "Uncheck all"
     button_update: "Update"
     description_available_columns: "Available Columns"
-    description_select_work_package: "Select work package"
+    description_select_work_package: "Select work package #%{id}"
     description_selected_columns: "Selected Columns"
-    description_subwork_package: "Sub work package of"
+    description_subwork_package: "Child of work package #%{id}"
     filter:
       noneElement: "(none)"
       sorting:
