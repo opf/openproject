@@ -165,8 +165,13 @@ describe RepositoriesController, type: :controller do
   end
 
   describe 'with filesystem repository' do
-    with_filesystem_repository('subversion', 'svn') do |repo_dir|
-      let(:url) { "file://#{repo_dir}" }
+    with_subversion_repository do |repo_dir|
+      let(:root_url) { repo_dir }
+      let(:url) { "file://#{root_url}" }
+
+      let(:repository) {
+        FactoryGirl.create(:repository_subversion, project: project, url: url, root_url: url)
+      }
 
       describe 'commits per author graph' do
         before do
@@ -193,6 +198,31 @@ describe RepositoriesController, type: :controller do
 
           it 'should return 403' do
             expect(response.code).to eq('403')
+          end
+        end
+      end
+
+      describe 'committers' do
+        let(:role) { FactoryGirl.create(:role, permissions: [:manage_repository]) }
+        describe '#get' do
+          before do
+            get :committers
+          end
+
+          it 'should be successful' do
+            expect(response).to be_success
+            expect(response).to render_template 'repositories/committers'
+          end
+        end
+        describe '#post' do
+          before do
+            repository.fetch_changesets
+            post :committers, committers: {'0' => ['oliver', user.id] }, "commit"=>"Update"
+          end
+
+          it 'should be successful' do
+            expect(response).to be_redirect
+            expect(repository.committers).to include(['oliver', user.id])
           end
         end
       end
