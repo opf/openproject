@@ -69,14 +69,14 @@ module OmniAuth
     end
 
     def path_for_provider(name)
-      "#{path_prefix}/#{name}"
+      "#{script_name}#{path_prefix}/#{name}"
     end
 
     ##
     # Returns true if the current path could be an authentication request,
     # false otherwise (e.g. for resources).
     def possible_auth_path?
-      current_path =~ /\A#{path_prefix}/
+      current_path =~ /\A#{script_name}#{path_prefix}/
     end
 
     def providers
