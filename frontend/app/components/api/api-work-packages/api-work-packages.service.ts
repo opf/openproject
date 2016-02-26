@@ -46,23 +46,12 @@ export class ApiWorkPackagesService {
     this.WorkPackages = apiV3.service('work_packages');
   }
 
-  public list(offset:number, pageSize:number, query:api.ex.Query, columns:api.ex.Column[]) {
-    const columns = this.mapColumns(columns);
-    const columnNames = columns.map(column => column.name);
-
+  public list(offset:number, pageSize:number, query:api.ex.Query) {
     return this.WorkPackages.getList(this.queryAsV3Params(offset, pageSize, query)).then(wpCollection => {
-      wpCollection.forEach(workPackage => {
-        workPackage.setProperties(columnNames);
-      });
-
       return wpCollection;
     });
   }
 
-  protected mapColumns(columns:api.ex.Column[] = []) {
-    columns.forEach(column => column.name = this.propertyMap[column.name] || column.name);
-    return columns;
-  }
 
   protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {
     const params = {

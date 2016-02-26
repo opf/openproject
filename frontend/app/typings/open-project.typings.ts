@@ -202,8 +202,6 @@ declare namespace op {
     _source: any;
     links:{[name:string]: (params?) => ng.IPromise};
     embedded;
-    setProperty(linkName:string);
-    setProperties(linkNames:string[]);
     data();
     halTransformed:boolean;
   }

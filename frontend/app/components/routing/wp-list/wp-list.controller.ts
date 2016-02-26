@@ -102,7 +102,7 @@ function WorkPackagesListController($scope,
     //TODO: Move this call and everything that belongs to it to the meta service
     loadingIndicator.mainPage = fetchWorkPackages.then(function(json:api.ex.WorkPackagesMeta) {
       apiWorkPackages
-        .list(json.meta.page, json.meta.per_page, json.meta.query, json.meta.columns)
+        .list(json.meta.page, json.meta.per_page, json.meta.query)
         .then((workPackages) => {
           json.work_packages = workPackages;
           setupPage(json, !!queryParams);

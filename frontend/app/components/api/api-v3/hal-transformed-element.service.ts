@@ -56,34 +56,6 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
         embedded: {value: this.transformEmbedded()},
 
         /**
-         * Gets a linked or embedded resource and sets its plain value as a property of the
-         * element.
-         * Request the linked resource, if it's not embedded.
-         * @method
-         */
-        //TODO: Add embedded resource handling (see description).
-        //TODO: Always return a promise.
-        setProperty: {
-          value: (propertyName:string) => {
-            return !!this.element.links[propertyName] && this.element.links[propertyName]().then(value => {
-                propertiesSet.push(propertyName);
-                return this.element[propertyName] = value;
-              });
-          }
-        },
-
-        /**
-         * Set linked or embedded resources as properties of the element.
-         * @method
-         */
-        //TODO: Return a promise based on $q.all
-        setProperties: {
-          value: (propertyNames:string[]) => {
-            propertyNames.forEach(this.element.setProperty);
-          }
-        },
-
-        /**
          * Write the linked property's value back to the original _links attribute.
          * This is useful, if you want to save the resource.
          * @method
