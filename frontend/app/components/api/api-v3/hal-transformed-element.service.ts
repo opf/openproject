@@ -89,7 +89,7 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
 
       angular.forEach(this.element.$links, (link, linkName) => {
         const property = {};
-        angular.extend(property, link._source);
+        angular.extend(property, link);
         this.element[linkName] = property;
       });
 
@@ -105,7 +105,7 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
     //TODO: Implement handling for link arrays (see schema.priority._links.allowedValues)
     protected transformLinks() {
       return this.transformHalProperty('_links', (links, link, linkName) => {
-        var method = (method:string, multiplier:string) => {
+        const method = (method:string, multiplier:string) => {
           return (...params) => {
             if (method === 'post') {
               params.unshift('');
@@ -138,6 +138,8 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
         else {
           links[linkName] = method(link.method, 'oneUrl');
         }
+
+        angular.extend(links[linkName], link);
       });
     }
 
@@ -159,21 +161,12 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
      * @returns {{}}
      */
     protected transformHalProperty(propertyName:string, callback:(props, prop, name) => any) {
-      var properties = {};
-      var _properties = this.element[propertyName];
+      var properties = this.element[propertyName];
 
       delete this.element[propertyName];
 
-      angular.forEach(_properties, (property, name) => {
-        callback(properties, property, name);
-      });
-
-      // Add a _source property so the information of the source is accessible
       angular.forEach(properties, (property, name) => {
-        if (_properties[name]) {
-          Object.defineProperty(
-            properties[name], '_source', {value: angular.copy(_properties[name])});
-        }
+        callback(properties, property, name);
       });
 
       return properties;
