@@ -32,21 +32,30 @@ function apiV3Service(apiPaths:ApiPathsService,
                       Restangular:restangular.IService,
                       HalTransformedElement) {
 
-  return Restangular.withConfig((RestangularConfigurer) => {
+  return Restangular.withConfig(RestangularConfigurer => {
     RestangularConfigurer.setBaseUrl(apiPaths.v3);
-    RestangularConfigurer.addResponseInterceptor((data:op.ApiResult, operation:string) => {
+    RestangularConfigurer.addResponseInterceptor((data, operation, what) => {
+      RestangularConfigurer.addElementTransformer(what, (element) => {
+        const plain = element.plain();
+
+        if (plain.length) {
+          angular.extend(plain, data);
+        }
+
+        return new HalTransformedElement(plain);
+      });
+
       //TODO: implement handling for non-collection results
       if (operation === 'getList' && data._type === 'Collection') {
         var resp = data._embedded.elements;
 
         delete data._embedded;
         angular.extend(resp, data);
-        angular.forEach(resp, element => new HalTransformedElement(element));
 
         return resp
       }
 
-      return new HalTransformedElement(data);
+      return data;
     });
   });
 }

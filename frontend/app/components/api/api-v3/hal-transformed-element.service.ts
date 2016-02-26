@@ -35,25 +35,18 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
     protected transform() {
       if (!this.element._links && !this.element._embedded) return this.element;
 
-      if (!this.element.restangularized) {
-        this.element = Restangular.restangularizeElement(null, this.element, '');
-      }
-
       const propertiesSet = [];
-      /**
-       * The properties added by the transformation should not be enumerable, so that
-       * Restangular's `.plain()` returns only the relevant properties.
-       */
-      Object.defineProperties(this.element, {
+
+      angular.extend(this.element, {
         /**
          * Linked resources of the element.
          */
-        links: {value: this.transformLinks()},
+        links: this.transformLinks(),
 
         /**
          * Embedded resources of the element
          */
-        embedded: {value: this.transformEmbedded()},
+        embedded: this.transformEmbedded(),
 
         /**
          * Write the linked property's value back to the original _links attribute.
@@ -62,44 +55,42 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
          */
         //TODO: Handle _embedded properties (it it makes any sense - probably not).
         //TODO: Maybe delete the linked property, as it has no use.
-        data: {
-          value: () => {
-            var plain = this.element.plain();
-            plain._links = {};
+        data: () => {
+          var plain = this.element.plain();
+          plain._links = {};
 
 
-            angular.forEach(this.element.links, (link, name) => {
-              var property = this.element[name];
-              var source = link._source;
+          angular.forEach(this.element.links, (link, name) => {
+            var property = this.element[name];
+            var source = link._source;
 
-              if (propertiesSet.indexOf(name) !== -1) {
-                if (property._links) {
-                  property = new HalTransformedElement(property);
-                }
-
-                if (property.links.self) {
-                  source = property.links.self._source;
-                }
+            if (propertiesSet.indexOf(name) !== -1) {
+              if (property._links) {
+                property = new HalTransformedElement(property);
               }
 
-              plain._links[name] = source;
-            });
+              if (property.links.self) {
+                source = property.links.self._source;
+              }
+            }
 
-            return plain;
-          }
+            plain._links[name] = source;
+          });
+
+          return plain;
         },
 
         /**
          * Indicate whether the element has been transformed.
          * @boolean
          */
-        halTransformed: {value: true}
+        halTransformed: true
       });
 
       angular.forEach(this.element.links, (link, linkName) => {
         const property = {};
         angular.extend(property, link._source);
-        Object.defineProperty(this.element, linkName, {value: property});
+        this.element[linkName] = property;
       });
 
       return this.element;
@@ -114,16 +105,24 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
     //TODO: Implement handling for link arrays (see schema.priority._links.allowedValues)
     protected transformLinks() {
       return this.transformHalProperty('_links', (links, link, linkName) => {
-        var method = (method:string, multiplier?:string = 'oneUrl') => {
+        var method = (method:string, multiplier:string) => {
           return (...params) => {
-            if (method === 'post') params.unshift('');
+            if (method === 'post') {
+              params.unshift('');
+            }
+
             if (link.href !== null) {
-              return this.element[multiplier](linkName, link.href)[method]
+              return Restangular[multiplier](linkName, link.href)[method]
                 .apply(this.element, params)
                 .then(value => {
                   if (value) {
-                    angular.extend(this.element[linkName], value);
+                    if (value.restangularized) {
+                      value = value.plain();
+                    }
+
+                    angular.extend(this.element[linkName], new HalTransformedElement(value));
                   }
+
                   return value;
                 });
             }
@@ -133,11 +132,11 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
         };
 
         if (!link.method) {
-          links[linkName] = method('get');
+          links[linkName] = method('get', 'oneUrl');
           links[linkName].list = method('getList', 'allUrl');
         }
         else {
-          links[linkName] = method(link.method);
+          links[linkName] = method(link.method, 'oneUrl');
         }
       });
     }

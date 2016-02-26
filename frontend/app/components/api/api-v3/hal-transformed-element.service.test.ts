@@ -97,7 +97,7 @@ describe('HalTransformedElementService', () => {
     });
 
     it('should be restangularized', () => {
-      expect(transformedElement.restangularized).to.be.true;
+      expect(transformedElement.restangularized).to.not.be.ok;
     });
 
     it('should be transformed', () => {
@@ -154,6 +154,40 @@ describe('HalTransformedElementService', () => {
         promise.should.be.fulfilled.then(value => {
           expect(value.hello).to.eq(response.hello);
         })
+      });
+
+      it('should not return a restangularized result', () => {
+        var promise = transformedElement.links.self();
+        $httpBackend.expectGET('/api/v3/hello').respond(200, {hello: 'world'});
+        $httpBackend.flush();
+
+        promise.should.be.fulfilled.then(value => {
+          expect(value.restangularized).to.not.be.ok;
+        });
+      });
+
+      it('should return a transformed result if it is a resource', () => {
+        var promise = transformedElement.links.self();
+        $httpBackend.expectGET('/api/v3/hello').respond(200, {
+          _links: {},
+          hello: 'world'
+        });
+        $httpBackend.flush();
+
+        promise.should.be.fulfilled.then(value => {
+          expect(value.halTransformed).to.be.true;
+          expect(transformedElement.self.halTransformed).to.be.true;
+        });
+      });
+
+      it('should return a plain result if it is not a resource', () => {
+        var promise = transformedElement.links.self();
+        $httpBackend.expectGET('/api/v3/hello').respond(200, {hello: 'world'});
+        $httpBackend.flush();
+
+        promise.should.be.fulfilled.then(value => {
+          expect(value.halTransformed).to.not.be.ok;
+        });
       });
 
       it('should perform a GET request by default', () => {
@@ -222,8 +256,8 @@ describe('HalTransformedElementService', () => {
       transformedElement = new HalTransformedElement(angular.copy(plainElement));
     });
 
-    it('should be restangularized', () => {
-      expect(transformedElement.restangularized).to.be.true;
+    it('should not be restangularized', () => {
+      expect(transformedElement.restangularized).to.not.be.ok;
     });
 
     it('should be transformed', () => {
@@ -250,8 +284,8 @@ describe('HalTransformedElementService', () => {
       var first = transformedElement.embedded.resource.embedded.first;
       var second = transformedElement.embedded.resource.embedded.first.embedded.second;
 
-      expect(first.halTransformed && first.restangularized).to.be.true;
-      expect(second.halTransformed && second.restangularized).to.be.true;
+      expect(first.halTransformed).to.be.true;
+      expect(second.halTransformed).to.be.true;
     });
   });
 
