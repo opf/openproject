@@ -133,9 +133,8 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
             if (link.href !== null) {
               return this.element[multiplier](linkName, link.href)[method].apply(this.element, params);
             }
-            else {
-              return this.emptyObjectPromise();
-            }
+
+            return $q.when({});
           }
         };
 
@@ -193,12 +192,6 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
       });
 
       return properties;
-    }
-
-    protected emptyObjectPromise() {
-      var deferred = $q.defer();
-      deferred.resolve({});
-      return deferred.promise;
     }
   };
 }
