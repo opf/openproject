@@ -102,8 +102,10 @@ module OpenProject
 
             return if doc.at_xpath('/info/entry/repository/uuid')
 
-            raise Exceptions::ScmUnauthorized.new if io_include?(stderr,
-                                                                 'E215004: Authentication failed')
+            stderr.each_line do |l|
+              Rails.logger.error("SVN access error: #{l}") if l =~ /E\d+:/
+              raise Exceptions::ScmUnauthorized.new if l.include?('E215004: Authentication failed')
+            end
           end
 
           raise Exceptions::ScmUnavailable
@@ -224,6 +226,10 @@ module OpenProject
           if @login.present?
             args.push('--username', @login)
             args.push('--password', @password) if @password.present?
+          end
+
+          if self.class.config[:trustedssl]
+            args.push('--trust-server-cert')
           end
 
           args.push('--no-auth-cache', '--non-interactive')
