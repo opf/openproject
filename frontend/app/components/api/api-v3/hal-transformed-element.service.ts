@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-//TODO: Implement tests
 function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQService) {
   return class HalTransformedElement {
     constructor(protected element) {
@@ -35,6 +34,10 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
 
     protected transform() {
       if (!this.element._links && !this.element._embedded) return this.element;
+
+      if (!this.element.restangularized) {
+        this.element = Restangular.restangularizeElement(null, this.element, '');
+      }
 
       const propertiesSet = [];
       /**
@@ -112,7 +115,13 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
 
             return plain;
           }
-        }
+        },
+
+        /**
+         * Indicate whether the element has been transformed.
+         * @boolean
+         */
+        halTransformed: {value: true}
       });
 
       return this.element;

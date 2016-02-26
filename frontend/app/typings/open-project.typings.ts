@@ -198,12 +198,14 @@ declare namespace op {
   }
 
   interface HalTransformed extends ApiResult {
+    new (element:any);
     _source: any;
     links:{[name:string]: (params?) => ng.IPromise};
     embedded;
     setProperty(linkName:string);
     setProperties(linkNames:string[]);
     data();
+    halTransformed:boolean;
   }
 
   interface FieldSchema {
