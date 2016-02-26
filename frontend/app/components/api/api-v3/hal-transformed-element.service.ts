@@ -163,17 +163,9 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
      */
     protected transformEmbedded() {
       return this.transformHalProperty('_embedded', (embedded, element, name) => {
-        angular.forEach(element, child => child && this.restangularize(child));
+        angular.forEach(element, child => child && new HalTransformedElement(element));
         embedded[name] = new HalTransformedElement(element);
       });
-    }
-
-    protected restangularize(element) {
-      if (!(element._links || element._embedded)) {
-        return element;
-      }
-
-      return new HalTransformedElement(Restangular.restangularizeElement(null, element, ''));
     }
 
     /**
