@@ -124,6 +124,12 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
         halTransformed: {value: true}
       });
 
+      angular.forEach(this.element.links, (link, linkName) => {
+        const property = {};
+        angular.extend(property, link._source);
+        Object.defineProperty(this.element, linkName, {value: property});
+      });
+
       return this.element;
     }
 
@@ -140,7 +146,14 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
           return (...params) => {
             if (method === 'post') params.unshift('');
             if (link.href !== null) {
-              return this.element[multiplier](linkName, link.href)[method].apply(this.element, params);
+              return this.element[multiplier](linkName, link.href)[method]
+                .apply(this.element, params)
+                .then(value => {
+                  if (value) {
+                    angular.extend(this.element[linkName], value);
+                  }
+                  return value;
+                });
             }
 
             return $q.when({});

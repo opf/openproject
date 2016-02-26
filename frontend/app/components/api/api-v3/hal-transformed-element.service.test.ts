@@ -144,6 +144,18 @@ describe('HalTransformedElementService', () => {
         expect(transformedElement.links).to.respondTo('delete');
       });
 
+      it('should return the requested value as a promise', () => {
+        var promise = transformedElement.links.get();
+        var response = {hello: 'world'};
+
+        $httpBackend.expectGET('/api/v3/hello').respond(200, response);
+        $httpBackend.flush();
+
+        promise.should.be.fulfilled.then(value => {
+          expect(value.hello).to.eq(response.hello);
+        })
+      });
+
       it('should perform a GET request by default', () => {
         transformedElement.links.get();
         $httpBackend.expectGET('/api/v3/hello').respond(200);
@@ -240,6 +252,61 @@ describe('HalTransformedElementService', () => {
 
       expect(first.halTransformed && first.restangularized).to.be.true;
       expect(second.halTransformed && second.restangularized).to.be.true;
+    });
+  });
+
+  describe('when transforming an object with _links and/or _embedded', () => {
+    var transformedElement;
+
+    beforeEach(() => {
+      const plainElement = {
+        _links: {
+          property: {
+            href: '/api/property',
+            title: 'Property'
+          },
+          embeddedProperty: {
+            href: '/api/embedded-property'
+          },
+          action: {
+            href: '/api/action',
+            method: 'post'
+          }
+        },
+        _embedded: {
+          embeddedProperty: {
+            name: 'name'
+          }
+        }
+      };
+
+      transformedElement = new HalTransformedElement(plainElement);
+    });
+
+    it('should be a property of the element', () => {
+      expect(transformedElement.property).to.exist;
+      expect(transformedElement.embeddedProperty).to.exist;
+      expect(transformedElement.action).to.exist;
+    });
+
+    describe('when using one of the properties', () => {
+      it('should have the same properties as the original', () => {
+        expect(transformedElement.property.href).to.eq('/api/property');
+        expect(transformedElement.property.title).to.eq('Property');
+      });
+
+      it('should update the property when its link is called', () => {
+        let promise = transformedElement.links.property();
+
+        $httpBackend.expectGET('/api/property').respond(200, {
+          name: 'Name'
+        });
+        $httpBackend.flush();
+
+        promise.should.be.fulfilled.then(() => {
+          expect(transformedElement.property.name).to.eq('Name');
+        });
+      });
     });
   });
 });
