@@ -23,6 +23,7 @@
     "json2htmlcov": "~0.1.1",
     "karma": "~0.12.3",
     "karma-chai": "~0.1.0",
+    "karma-chai-as-promised": "^0.1.2",
     "karma-chai-sinon": "~0.1.3",
     "karma-chrome-launcher": "~0.1.3",
     "karma-coverage": "^0.2.3",

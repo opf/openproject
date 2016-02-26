@@ -86,6 +86,9 @@ describe('HalTransformedElementService', () => {
           },
           self: {
             href: '/api/v3/hello',
+          },
+          nullHref: {
+            href: null
           }
         }
       };
@@ -123,6 +126,12 @@ describe('HalTransformedElementService', () => {
         const plainLinks = Object.keys(plainElement._links);
 
         expect(transformedLinks).to.have.members(plainLinks);
+      });
+    });
+
+    describe('when a link has a null href', () => {
+      it('should return a promise with an empty object', () => {
+        expect(transformedElement.links.nullHref()).to.eventually.eql({});
       });
     });
 
