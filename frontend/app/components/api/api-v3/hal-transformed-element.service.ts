@@ -107,27 +107,27 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
       return this.transformHalProperty('_links', (links, link, linkName) => {
         const method = (method:string, multiplier:string) => {
           return (...params) => {
+            if (!link.href) {
+              return $q.when({});
+            }
+
             if (method === 'post') {
               params.unshift('');
             }
 
-            if (link.href !== null) {
-              return Restangular[multiplier](linkName, link.href)[method]
-                .apply(this.element, params)
-                .then(value => {
-                  if (value) {
-                    if (value.restangularized) {
-                      value = value.plain();
-                    }
-
-                    angular.extend(this.element[linkName], new HalTransformedElement(value));
+            return Restangular[multiplier](linkName, link.href)[method]
+              .apply(this.element, params)
+              .then(value => {
+                if (value) {
+                  if (value.restangularized) {
+                    value = value.plain();
                   }
 
-                  return value;
-                });
-            }
+                  angular.extend(this.element[linkName], new HalTransformedElement(value));
+                }
 
-            return $q.when({});
+                return value;
+              });
           }
         };
 
