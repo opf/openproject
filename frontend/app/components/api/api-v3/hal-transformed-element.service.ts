@@ -41,12 +41,12 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
         /**
          * Linked resources of the element.
          */
-        links: this.transformLinks(),
+        $links: this.transformLinks(),
 
         /**
          * Embedded resources of the element
          */
-        embedded: this.transformEmbedded(),
+        $embedded: this.transformEmbedded(),
 
         /**
          * Write the linked property's value back to the original _links attribute.
@@ -55,12 +55,12 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
          */
         //TODO: Handle _embedded properties (it it makes any sense - probably not).
         //TODO: Maybe delete the linked property, as it has no use.
-        data: () => {
+        $data: () => {
           var plain = this.element.plain();
           plain._links = {};
 
 
-          angular.forEach(this.element.links, (link, name) => {
+          angular.forEach(this.element.$links, (link, name) => {
             var property = this.element[name];
             var source = link._source;
 
@@ -69,8 +69,8 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
                 property = new HalTransformedElement(property);
               }
 
-              if (property.links.self) {
-                source = property.links.self._source;
+              if (property.$links.self) {
+                source = property.$links.self._source;
               }
             }
 
@@ -84,10 +84,10 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
          * Indicate whether the element has been transformed.
          * @boolean
          */
-        halTransformed: true
+        $halTransformed: true
       });
 
-      angular.forEach(this.element.links, (link, linkName) => {
+      angular.forEach(this.element.$links, (link, linkName) => {
         const property = {};
         angular.extend(property, link._source);
         this.element[linkName] = property;
