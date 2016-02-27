@@ -103,6 +103,8 @@ GEM
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
     actionpack-action_caching (1.1.1)
       actionpack (>= 4.0.0, < 5.0)
+    actionpack-xml_parser (1.0.2)
+      actionpack (>= 4.0.0, < 5)
     actionview (4.2.5.1)
       activesupport (= 4.2.5.1)
       builder (~> 3.1)
@@ -558,6 +560,7 @@ PLATFORMS
 
 DEPENDENCIES
   actionpack-action_caching
+  actionpack-xml_parser
   activerecord-jdbcmysql-adapter
   activerecord-jdbcpostgresql-adapter
   activerecord-session_store

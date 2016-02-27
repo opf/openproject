@@ -90,6 +90,11 @@ module OpenProject
 
     config.middleware.use Rack::Attack
 
+    ##
+    # Support XML requests as params for APIv2
+    # TODO: Remove this and 'actionpack-xml_parser' dependency when removing V2
+    config.middleware.insert_after 'ParamsParserWithExclusion', ActionDispatch::XmlParamsParser
+
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
     config.autoload_paths << Rails.root.join('lib')
