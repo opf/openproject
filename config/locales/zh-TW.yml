@@ -31,7 +31,7 @@ zh:
   label_meeting_open: 開始
   label_meeting_agenda_close: 定案會議大綱以便開始會議記錄
   label_meeting_date_time: 日期 / 時間
-  label_meeting_diff: Diff
+  label_meeting_diff: 比較
   label_notify: 送出審閱
   label_version: 版本
   label_time_zone: 時區
