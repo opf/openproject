@@ -253,7 +253,12 @@ OpenProject::Application.routes.draw do
     end
     resources :time_entries, controller: 'timelog'
 
-    resources :wiki, except: [:index, :new, :create] do
+    # Match everything to be the ID of the wiki page except the part that
+    # is reserved for the format. This assumes that we have only two formats:
+    # .txt and .html
+    resources :wiki,
+              constraints: { id: /([^\/]+(?=\.txt|\.html)|[^\/]+)/ },
+              except: [:index, :create] do
       collection do
         get :export
         get :date_index

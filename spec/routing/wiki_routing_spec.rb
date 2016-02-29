@@ -30,6 +30,36 @@ require 'spec_helper'
 
 describe WikiController, type: :routing do
   describe 'routing' do
+    it 'should connect GET /projects/:project_id/wiki/:name (without format) to wiki/show' do
+      expect(get('/projects/abc/wiki/blubs')).to route_to(controller: 'wiki',
+                                                          action: 'show',
+                                                          project_id: 'abc',
+                                                          id: 'blubs')
+    end
+
+    it 'should connect GET /projects/:project_id/wiki/:name (with a dot in it) to wiki/show' do
+      expect(get('/projects/abc/wiki/blubs.blubs')).to route_to(controller: 'wiki',
+                                                                action: 'show',
+                                                                project_id: 'abc',
+                                                                id: 'blubs.blubs')
+    end
+
+    it 'should connect GET /projects/:project_id/wiki/:name.txt to wiki/show' do
+      expect(get('/projects/abc/wiki/blubs.txt')).to route_to(controller: 'wiki',
+                                                              action: 'show',
+                                                              project_id: 'abc',
+                                                              id: 'blubs',
+                                                              format: 'txt')
+    end
+
+    it 'should connect GET /projects/:project_id/wiki/:name.html to wiki/show' do
+      expect(get('/projects/abc/wiki/blubs.html')).to route_to(controller: 'wiki',
+                                                               action: 'show',
+                                                               project_id: 'abc',
+                                                               id: 'blubs',
+                                                               format: 'html')
+    end
+
     it 'should connect GET /projects/:project_id/wiki/new to wiki/new' do
       expect(get('/projects/abc/wiki/new')).to route_to(controller: 'wiki',
                                                         action: 'new',
