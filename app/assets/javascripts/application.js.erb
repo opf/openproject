@@ -334,21 +334,6 @@ function observeProjectIdentifier() {
   Event.observe('project_identifier', 'keyup', f);
 }
 
-// Hides types and issues custom fields on the new project form when
-// work_package_tracking module is disabled.
-function observeProjectModules() {
-  var f = function() {
-    if (jQuery('#project_enabled_module_names_work_package_tracking').attr('checked')) {
-      jQuery('#project_types, #project_issue_custom_fields').show();
-    } else {
-      jQuery('#project_types, #project_issue_custom_fields').hide();
-    }
-  };
-
-  jQuery(window).load(f);
-  jQuery('#project_enabled_module_names_work_package_tracking').change(f);
-}
-
 var WarnLeavingUnsaved = function(message) {
   this.message = message;
   var changedForms = false;
