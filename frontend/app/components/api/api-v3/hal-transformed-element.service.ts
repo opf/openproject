@@ -35,9 +35,8 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
     protected transform() {
       if (!this.element._links && !this.element._embedded) return this.element;
 
-      const propertiesSet = [];
-
-      angular.extend(this.element, {
+      const linked = [];
+      const properties = {
         /**
          * Linked resources of the element.
          */
@@ -53,30 +52,21 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
          * This is useful, if you want to save the resource.
          * @method
          */
-        //TODO: Maybe delete the linked property, as it has no use.
-        $data: () => {
-          var plain = this.element.plain();
-          plain._links = {};
+        $plain: () => {
+          const element = angular.copy(this.element);
+          const props = linked.concat(Object.keys(properties));
+          element._links = {};
 
-
-          angular.forEach(this.element.$links, (link, name) => {
-            var property = this.element[name];
-            var source = link._source;
-
-            if (propertiesSet.indexOf(name) !== -1) {
-              if (property._links) {
-                property = new HalTransformedElement(property);
-              }
-
-              if (property.$links.self) {
-                source = property.$links.self._source;
-              }
-            }
-
-            plain._links[name] = source;
+          linked.forEach(linkName => {
+            element._links[linkName] = this.element[linkName];
+            delete element._links[linkName].list;
           });
 
-          return plain;
+          props.forEach(propName => {
+            delete element[propName];
+          });
+
+          return element;
         },
 
         /**
@@ -84,11 +74,15 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
          * @boolean
          */
         $halTransformed: true
-      });
+      };
+
+      angular.extend(this.element, properties);
 
       //TODO: Embedded properties should also be added
       angular.forEach(this.element.$links, (link, linkName) => {
         const property = {};
+        linked.push(linkName);
+
         angular.extend(property, link);
         this.element[linkName] = property;
       });

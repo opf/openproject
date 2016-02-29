@@ -111,6 +111,28 @@ describe('HalTransformedElementService', () => {
       expect(transformedElement.$halTransformed).to.be.true;
     });
 
+    describe('when returning back the plain object', () => {
+      var element;
+      beforeEach(() => {
+        element = transformedElement.$plain();
+      });
+
+      it('should be the same as the source element', () => {
+        expect(element).to.eql(plainElement);
+      });
+
+      it('should not affect the original link object ', () => {
+        expect(transformedElement.$links.get.list).to.exist;
+      });
+
+      describe('when changing the a property of the plain object', () => {
+        it('should not affect the original', () => {
+          element._links.self.href = 'some value';
+          expect(transformedElement.$links.self.href).to.not.eq(element._links.self.href);
+        })
+      });
+    });
+
     describe('when after the links property is generated', () => {
       it('should exist', () => {
         expect(transformedElement.$links).to.exist;
