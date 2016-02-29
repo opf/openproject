@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= li_unless_nil(link_to_if_authorized(l(:button_unlock), {action: 'protect', id: @page, protected: 0}, method: :post, class: 'icon-context icon-unlocked')) if @page.protected? %>
     <% if User.current.allowed_to? :edit_wiki_pages, @project %>
       <% if @page %>
-        <%= content_tag(:li, link_to(l(:create_child_page), wiki_new_child_path(id: @page, project_id: @project), class: 'icon-context icon-duplicate')) %>
+        <%= content_tag(:li, link_to(l(:create_child_page), new_child_project_wiki_path(id: @page, project_id: @project), class: 'icon-context icon-duplicate')) %>
       <% end %>
     <% end %>
     <% if @content.version == @page.content.version %>

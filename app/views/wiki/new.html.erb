@@ -37,7 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 </h2>
 
-<%= labelled_tabular_form_for @content, as: :content, url: wiki_create_path(project_id: @project), html: {method: :post, multipart: true, id: 'wiki_form'} do |f| %>
+<%= labelled_tabular_form_for @content, as: :content, url: create_project_wiki_index_path(project_id: @project), html: {method: :post, multipart: true, id: 'wiki_form'} do |f| %>
 
   <%= error_messages_for 'page' %>
 
@@ -60,7 +60,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <hr class="form--separator">
   <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
-  <%= preview_link preview_wiki_path(@project), 'wiki_form-preview' %>
+  <%= preview_link preview_project_wiki_index_path(@project), 'wiki_form-preview' %>
 
   <%= wikitoolbar_for 'content_text' %>
 <% end %>

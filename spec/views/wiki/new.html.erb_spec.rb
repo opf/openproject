@@ -41,10 +41,12 @@ describe 'wiki/new', type: :view do
     assign(:content, content)
   end
 
-  it 'renders a form which POSTs to wiki_create_path' do
+  it 'renders a form which POSTs to create_project_wiki_index_path' do
     project.identifier = 'my_project'
     render
-    assert_select 'form', action: wiki_create_path(project_id: project), method: 'post'
+    assert_select 'form',
+                  action: create_project_wiki_index_path(project_id: project),
+                  method: 'post'
   end
 
   it 'contains an input element for title' do

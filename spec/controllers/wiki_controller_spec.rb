@@ -435,7 +435,10 @@ describe WikiController, type: :controller do
 
                 expect(response).to be_success
 
-                assert_select "#content a[href='#{wiki_new_child_path(project_id: @project, id: @page_with_content.title)}']", 'Create new child page'
+                path = new_child_project_wiki_path(project_id: @project,
+                                                   id: @page_with_content.title)
+
+                assert_select "#content a[href='#{path}']", 'Create new child page'
               end
             end
 
@@ -445,8 +448,12 @@ describe WikiController, type: :controller do
 
                 expect(response).to be_success
 
-                assert_select "#content a[href='#{wiki_new_child_path(project_id: @project, id: 'i-am-a-ghostpage')}']",
-                              text: 'Create new child page', count: 0
+                path = new_child_project_wiki_path(project_id: @project,
+                                                   id: 'i-am-a-ghostpage')
+
+                assert_select "#content a[href='#{path}']",
+                              text: 'Create new child page',
+                              count: 0
               end
             end
           end
@@ -475,7 +482,10 @@ describe WikiController, type: :controller do
 
               expect(response).to be_success
 
-              assert_select ".menu_root a[href='#{wiki_new_child_path(project_id: @project, id: 'Wiki')}']", 'Create new child page'
+              path = new_child_project_wiki_path(project_id: @project,
+                                                 id: 'Wiki')
+
+              assert_select ".menu_root a[href='#{path}']", 'Create new child page'
             end
           end
 
@@ -501,7 +511,10 @@ describe WikiController, type: :controller do
 
               expect(response).to be_success
 
-              assert_select ".menu_root a[href='#{wiki_new_child_path(project_id: @project, id: 'Wiki')}']", 'Create new child page'
+              path = new_child_project_wiki_path(project_id: @project,
+                                                 id: 'Wiki')
+
+              assert_select ".menu_root a[href='#{path}']", 'Create new child page'
             end
           end
 
