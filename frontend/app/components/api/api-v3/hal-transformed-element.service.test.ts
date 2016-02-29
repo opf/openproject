@@ -49,11 +49,18 @@ describe('HalTransformedElementService', () => {
   });
 
   describe('when transforming an object without _links or _embedded', () => {
-    var elementMock = {};
+    var element;
+
+    beforeEach(() => {
+      element = new HalTransformedElement({});
+    });
 
     it('should return the element as it is', () => {
-      const element = new HalTransformedElement(elementMock);
-      expect(element).to.eq(elementMock);
+      expect(element).to.eq(element);
+    });
+
+    it('should not be halTransformed', () => {
+      expect(element.$halTransformed).to.not.be.ok;
     });
   });
 

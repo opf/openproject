@@ -195,6 +195,7 @@ declare namespace op {
    * OpenProject API results with Restangular
    */
   interface ApiResult extends api.v3.Result, restangular.IElement {
+    restangularized:boolean;
   }
 
   interface HalTransformed extends ApiResult {

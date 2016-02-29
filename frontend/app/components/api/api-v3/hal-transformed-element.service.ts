@@ -53,7 +53,6 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
          * This is useful, if you want to save the resource.
          * @method
          */
-        //TODO: Handle _embedded properties (it it makes any sense - probably not).
         //TODO: Maybe delete the linked property, as it has no use.
         $data: () => {
           var plain = this.element.plain();
@@ -87,6 +86,7 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
         $halTransformed: true
       });
 
+      //TODO: Embedded properties should also be added
       angular.forEach(this.element.$links, (link, linkName) => {
         const property = {};
         angular.extend(property, link);
@@ -117,7 +117,7 @@ function halTransformedElementService(Restangular:restangular.IService, $q:ng.IQ
 
             return Restangular[multiplier](linkName, link.href)[method]
               .apply(this.element, params)
-              .then(value => {
+              .then((value:op.ApiResult) => {
                 if (value) {
                   if (value.restangularized) {
                     value = value.plain();
