@@ -193,9 +193,6 @@ OpenProject::Application.routes.draw do
     get 'changes' => 'journals#index', as: 'changes'
   end
 
-  post 'projects/:id/wiki' => 'wikis#edit'
-  delete 'projects/:id/wiki/destroy' => 'wikis#destroy'
-
   resources :projects, except: [:edit] do
     member do
       # this route let's you access the project specific settings (by tab)
