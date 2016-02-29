@@ -223,7 +223,7 @@ describe 'api/experimental/work_packages/index.api.rabl', type: :view do
       it { is_expected.to have_json_size(4).at_path('_bulk_links') }
 
       specify {
-        expect(parse_json(subject, '_bulk_links/edit')).to match(%r{/work_packages/bulk/edit})
+        expect(parse_json(subject, '_bulk_links/update')).to match(%r{/work_packages/bulk/edit})
       }
 
       specify {
