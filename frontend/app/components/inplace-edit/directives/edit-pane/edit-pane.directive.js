@@ -152,7 +152,7 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
   });
 
   $scope.$on('dndMarkupHandler.save',function(event,content){
-    if(field.name=="description"){
+    if(field.name==="description"){
       EditableFieldsState.currentField = field.name;
       field.value = content.description;
 
