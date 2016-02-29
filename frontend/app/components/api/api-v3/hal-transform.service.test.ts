@@ -28,14 +28,14 @@
 
 const expect = chai.expect;
 
-describe('HalTransformedElementService', () => {
+describe('halTransform service', () => {
   var HalTransformedElement:op.HalTransformed;
   var $httpBackend:ng.IHttpBackendService;
 
   beforeEach(angular.mock.module('openproject.api'));
 
-  beforeEach(angular.mock.inject((_HalTransformedElement_, _$httpBackend_) => {
-    HalTransformedElement = _HalTransformedElement_;
+  beforeEach(angular.mock.inject((halTransform, Restangular, _$httpBackend_) => {
+    HalTransformedElement = halTransform(Restangular);
     $httpBackend = _$httpBackend_;
   }));
 

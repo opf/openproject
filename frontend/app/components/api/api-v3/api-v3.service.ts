@@ -30,34 +30,39 @@ import {ApiPathsService} from "../api-paths/api-paths.service";
 
 function apiV3Service(apiPaths:ApiPathsService,
                       Restangular:restangular.IService,
-                      HalTransformedElement) {
+                      halTransform) {
 
-  return Restangular.withConfig(RestangularConfigurer => {
+  const apiV3 = Restangular.withConfig(RestangularConfigurer => {
     RestangularConfigurer.setBaseUrl(apiPaths.v3);
-    RestangularConfigurer.addResponseInterceptor((data, operation, what) => {
-      RestangularConfigurer.addElementTransformer(what, (element) => {
-        const plain = element.plain();
+  });
 
-        if (plain.length) {
-          angular.extend(plain, data);
-        }
+  const HalTransformedElement = halTransform(apiV3);
 
-        return new HalTransformedElement(plain);
-      });
+  apiV3.addResponseInterceptor((data, operation, what) => {
+    apiV3.addElementTransformer(what, (element) => {
+      const plain = element.plain();
 
-      //TODO: implement handling for non-collection results
-      if (operation === 'getList' && data._type === 'Collection') {
-        var resp = data._embedded.elements;
-
-        delete data._embedded;
-        angular.extend(resp, data);
-
-        return resp
+      if (plain.length) {
+        angular.extend(plain, data);
       }
 
-      return data;
+      return new HalTransformedElement(plain);
     });
+
+    //TODO: implement handling for non-collection results
+    if (operation === 'getList' && data._type === 'Collection') {
+      var resp = data._embedded.elements;
+
+      delete data._embedded;
+      angular.extend(resp, data);
+
+      return resp
+    }
+
+    return data;
   });
+
+  return apiV3;
 }
 
 angular
