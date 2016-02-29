@@ -116,10 +116,9 @@ module OpenProject
       # Replace config values for which an environment variable with the same key in upper case
       # exists
       def override_config!(config, source = default_override_source)
-        config.each do |key, value|
-          override = source.fetch(key.upcase, value)
-          config[key] = extract_value(key, override)
-        end
+        config.keys
+          .select { |key| source.include? key.upcase }
+          .each   { |key| config[key] = extract_value key, source[key.upcase] }
 
         config.deep_merge! merge_config(config, source)
       end
@@ -233,15 +232,13 @@ module OpenProject
       ##
       # Extract the configuration value from the given input
       # using YAML.
+      #
+      # @param key [String] The key of the input within the source hash.
+      # @param value [String] The string from which to extract the actual value.
+      # @return A ruby object (e.g. Integer, Float, String, Hash, Boolean, etc.)
+      # @raise [ArgumentError] If the string could not be parsed.
       def extract_value(key, value)
-
-        # Internal overrides may be nil or non-strings
-        # so we only try string values.
-        if value.is_a?(String)
-          YAML.load(value)
-        else
-          value
-        end
+        YAML.load(value)
       rescue => e
         raise ArgumentError, "Configuration value for '#{key}' is invalid: #{e.message}"
       end
