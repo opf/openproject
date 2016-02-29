@@ -15,7 +15,7 @@
                  class="no-decoration-on-hover"
                  ng-click="setCheckedStateForAllRows(!(rows | allRowsChecked))"
                  title="{{ text.toggleRows }}">
-                
+
                 <icon-wrapper icon-title="{{ text.toggleRows }}"
                               icon-name="checkmark"></icon-wrapper>
               </a>
@@ -92,7 +92,7 @@
             trigger-on-event="contextmenu"
             target="WorkPackageContextMenu"
             locals="rows,row"
-            after-focus-on=".id a"
+            after-focus-on=".id :focusable"
             ng-dblclick="showWorkPackageDetails(row)"
             ng-class="[
               'issue',
