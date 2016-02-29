@@ -77,7 +77,7 @@ function dndMarkupHandler($rootScope,
      * @returns {promise}
      */
     var loadConfig = function(attachments){
-      if(angular.isDefined(attachments)){
+      if(angular.isDefined(attachments) && typeof attachments != null){
         scope.workPackage.attachments = attachments;
       }
       return ConfigurationService.api();
@@ -95,12 +95,12 @@ function dndMarkupHandler($rootScope,
           scope.$broadcast("AllAsyncDataReady");
         });
     }else{
-      loadConfig()
+      loadConfig(null)
         .then(function(config){
           // scope.workPackage.attachments will be undefined
           scope.config.maximumAttachmentFileSize = config.maximumAttachmentFileSize;
           scope.$broadcast("AllAsyncDataReady");
-        })
+        });
     }
 
 
@@ -171,6 +171,7 @@ function dndMarkupHandler($rootScope,
       evt.stopPropagation();
       evt.preventDefault();
 
+
       // Get our View-Mode
       var textarea = $(element).find("textarea");
       scope.viewMode = (textarea.length > 0) ? "EDIT" : "SHOW";
@@ -202,6 +203,7 @@ function dndMarkupHandler($rootScope,
                   WorkPackageAttachmentsService.load(EditableFieldsState.workPackage,true).then(function(updatedAttachments) {
 
                     // update the list of updatedAttachments on the wp-form
+                    // show attachments section if hidden
                     // see work-package-updatedAttachments-directive
                     $rootScope.$broadcast("dndMarkupHandlerDirectiveUpload");
 
@@ -250,9 +252,7 @@ function dndMarkupHandler($rootScope,
           else{
             $rootScope.$broadcast("dndMarkupHandlerAddUploads",evt.dataTransfer.files);
             if(scope.viewMode == "EDIT"){
-              console.log("viewmode = edit");
               for(var i = 0; i <= dropData.filesCount-1; i++){
-                console.log("insert" + dropData.files[i].name);
                 description.insertAttachmentLink(dropData.files[i].name,"ATTACHMENT",true);
               }
               description.save();

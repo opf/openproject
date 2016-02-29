@@ -258,15 +258,9 @@ function DndMarkupHandlerService($location,
     };
 
     this.save = function(){
-      WorkPackageService.updateWithPayload(_workPackage,_tempFieldValue)
-        .then(function(updatedWorkPackage){
-          $rootScope.$broadcast('workPackageUpdatedInEditor', updatedWorkPackage);
-          $rootScope.$broadcast('workPackageRefreshRequired');
-        })
-        .catch(function(ex){
-          // catch fail
-        });
-      EditableFieldsState.isBusy = false;
+      $rootScope.$broadcast("dndMarkupHandler.save",_tempFieldValue);
+      $rootScope.$broadcast('dndMarkupHandlerDirectiveUpload');
+      //EditableFieldsState.isBusy = false;
     };
 
     return this;
@@ -328,7 +322,7 @@ function DndMarkupHandlerService($location,
 
     if(angular.isDefined(attachment)){
       this.fileName = attachment.fileName;
-      this.fileExtension = this.fileName.split(".").pop().toLowerCase();;
+      this.fileExtension = this.fileName.split(".").pop().toLowerCase();
 
       // for better reusability imageFileTypes could be an argument of SingleAttachmentModel instead
       // of getting the array from _config

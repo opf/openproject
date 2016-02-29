@@ -295,7 +295,6 @@ function WorkPackageShowController($scope, $rootScope, $state, workPackage, I18n
     $scope.$on('dndMarkupHandlerAddUploads', showAttachmentsSection);
 
     function showAttachmentsSection(){
-      refreshWorkPackage();
       vm.filesExist = true;
     }
   }

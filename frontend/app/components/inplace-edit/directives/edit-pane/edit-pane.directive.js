@@ -151,6 +151,23 @@ function InplaceEditorEditPaneController($scope, $element, $location, $timeout,
     $scope.fieldController.lockFocus = true;
   });
 
+  $scope.$on('dndMarkupHandler.save',function(event,content){
+    if(field.name=="description"){
+      EditableFieldsState.currentField = field.name;
+      field.value = content.description;
+
+      var pendingChanges = EditableFieldsState.getPendingFormChanges();
+      pendingChanges[field.name] = content.description;
+      vm.markActive();
+
+      inplaceEditMultiStorage.save().then(function () {
+
+      }).catch(function () {
+
+      });
+    }
+  });
+
   $scope.$watch('field.value', function(value) {
     if ($scope.fieldController.isEditing) {
       var pendingChanges = EditableFieldsState.getPendingFormChanges();
