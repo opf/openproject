@@ -334,48 +334,6 @@ function observeProjectIdentifier() {
   Event.observe('project_identifier', 'keyup', f);
 }
 
-function observeParentIssueField(url) {
-  new Ajax.Autocompleter('issue_parent_id',
-                         'parent_issue_candidates',
-                         url,
-                         { minChars: 1,
-                           frequency: 0.5,
-                           paramName: 'q',
-                           updateElement: function(value) {
-                             document.getElementById('issue_parent_id').value = value.id;
-                           },
-                           parameters: 'scope=relatable'
-                           });
-}
-
-function observeWorkPackageParentField(url) {
-  new Ajax.Autocompleter('work_package_parent_id',
-                         'parent_issue_candidates',
-                         url,
-                         { minChars: 1,
-                           frequency: 0.5,
-                           paramName: 'q',
-                           updateElement: function(value) {
-                             document.getElementById('work_package_parent_id').value = value.id;
-                           },
-                           parameters: 'scope=relatable'
-                           });
-}
-
-function observeRelatedIssueField(url) {
-  new Ajax.Autocompleter('relation_to_id',
-                         'related_issue_candidates',
-                         url,
-                         { minChars: 1,
-                           frequency: 0.5,
-                           paramName: 'q',
-                           updateElement: function(value) {
-                             document.getElementById('relation_to_id').value = value.id;
-                           },
-                           parameters: 'scope=relatable'
-                           });
-}
-
 // Hides types and issues custom fields on the new project form when
 // work_package_tracking module is disabled.
 function observeProjectModules() {
