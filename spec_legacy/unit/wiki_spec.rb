@@ -52,20 +52,14 @@ describe Wiki, type: :model do
     wiki = Wiki.find(1)
     page = WikiPage.find(2)
 
-    assert_equal page, wiki.find_page('Another_page')
     assert_equal page, wiki.find_page('Another page')
     assert_equal page, wiki.find_page('ANOTHER page')
 
     page = WikiPage.find(10)
-    assert_equal page, wiki.find_page('Этика_менеджмента')
+    assert_equal page, wiki.find_page('Этика менеджмента')
 
     page = FactoryGirl.create(:wiki_page, wiki: wiki, title: '2009\\02\\09')
     assert_equal page, wiki.find_page('2009\\02\\09')
-  end
-
-  it 'should titleize' do
-    assert_equal 'Page_title_with_CAPITALES', Wiki.titleize('page title with CAPITALES')
-    assert_equal 'テスト', Wiki.titleize('テスト')
   end
 
   context '#sidebar' do

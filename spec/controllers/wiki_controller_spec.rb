@@ -117,7 +117,7 @@ describe WikiController, type: :controller do
                project_id: @project,
                content: { text: 'h1. abc', page: { title: 'abc' } }
 
-          expect(response).to redirect_to action: 'show', project_id: @project, id: 'Abc'
+          expect(response).to redirect_to action: 'show', project_id: @project, id: 'abc'
         end
 
         it 'saves a new WikiPage with proper content' do

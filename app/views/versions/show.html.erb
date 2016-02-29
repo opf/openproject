@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item">
       <%= link_to({controller: '/wiki', action: 'edit',
                    project_id: @version.project,
-                   id: Wiki.titleize(@version.wiki_page_title)},
+                   id: @version.wiki_page_title},
                    class: 'button') do %>
         <i class="button--icon icon-edit"></i>
         <span class="button--text"><%= l(:button_edit_associated_wikipage, page_title: truncate(@version.wiki_page_title, length: 50, separator: ' ')) %></span>

@@ -50,7 +50,6 @@ class WikiPage < ActiveRecord::Base
   attr_accessor :redirect_existing_links
 
   validates_presence_of :title
-  validates_format_of :title, with: /\A[^,\.\/\?\;\|\s]*\z/
   validates_uniqueness_of :title, scope: :wiki_id, case_sensitive: false
   validates_associated :content
 
@@ -94,13 +93,11 @@ class WikiPage < ActiveRecord::Base
   end
 
   def title=(value)
-    value = Wiki.titleize(value)
     @previous_title = read_attribute(:title) if @previous_title.blank?
     write_attribute(:title, value)
   end
 
   def update_redirects
-    self.title = Wiki.titleize(title)
     # Manage redirects if the title has changed
     if !@previous_title.blank? && (@previous_title != title) && !new_record?
       # Update redirects that point to the old title
