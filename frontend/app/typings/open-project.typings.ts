@@ -198,13 +198,13 @@ declare namespace op {
     restangularized:boolean;
   }
 
-  interface HalTransformed extends ApiResult {
-    new (element:any);
-    _source: any;
-    $links:{[name:string]: (params?) => ng.IPromise};
-    $embedded;
-    $data();
-    $halTransformed:boolean;
+  class HalResource {
+    public $links;
+    public $embedded;
+
+    constructor(protected $source:restangular.IElement);
+
+    public $plain();
   }
 
   interface FieldSchema {
@@ -216,8 +216,7 @@ declare namespace op {
     schema:FieldSchema;
   }
 
-  interface WorkPackage extends
-    api.v3.WorkPackage, HalTransformed, WorkPackageLinks {
+  interface WorkPackage extends api.v3.WorkPackage, WorkPackageLinks {
 
     getForm();
     getSchema();

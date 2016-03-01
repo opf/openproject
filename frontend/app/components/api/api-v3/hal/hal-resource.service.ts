@@ -26,70 +26,46 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function halResource(apiV3:restangular.IService, $q:ng.IQService) {
+function halResource(apiV3:restangular.IService, $q:ng.IQService, halTransform) {
   return class HalResource {
-    constructor(protected element) {
-      if (!this.element._links && !this.element._embedded) {
-        return this.element
+    public $links;
+    public $embedded;
+    public $halTransformed: boolean = true;
+
+    constructor(protected $source) {
+      this.$links = this.transformLinks();
+      this.$embedded = this.transformEmbedded();
+
+      if (this.$source.restangularized) {
+        angular.extend(this, this.$source.plain());
       }
 
-      return this.transform();
+      //TODO: Embedded properties should also be added
+      angular.forEach(this.$links, (link, linkName) => {
+        const property = {};
+        angular.extend(property, link);
+        this[linkName] = property;
+      });
     }
 
-    protected transform() {
-      const linked = [];
-      const properties = {
-        /**
-         * Linked resources of the element.
-         */
-        $links: this.transformLinks(),
+    public $plain() {
+      const element = angular.copy(this);
+      const linked = Object.keys(this.$links);
+      const props = linked.concat(Object.keys(this));
+      element._links = {};
 
-        /**
-         * Embedded resources of the element
-         */
-        $embedded: this.transformEmbedded(),
-
-        /**
-         * Write the linked property's value back to the original _links attribute.
-         * This is useful, if you want to save the resource.
-         * @method
-         */
-        $plain: () => {
-          const element = angular.copy(this.element);
-          const props = linked.concat(Object.keys(properties));
-          element._links = {};
-
-          linked.forEach(linkName => {
-            element._links[linkName] = this.element[linkName];
-            delete element._links[linkName].list;
-          });
-
-          props.forEach(propName => {
-            delete element[propName];
-          });
-
-          return element;
-        },
-
-        /**
-         * Indicate whether the element has been transformed.
-         * @boolean
-         */
-        $halTransformed: true
-      };
-
-      angular.extend(this.element, properties);
-
-      //TODO: Embedded properties should also be added
-      angular.forEach(this.element.$links, (link, linkName) => {
-        const property = {};
-        linked.push(linkName);
-
-        angular.extend(property, link);
-        this.element[linkName] = property;
+      linked.forEach(linkName => {
+        element._links[linkName] = this[linkName];
+        delete element._links[linkName].list;
       });
 
-      return this.element;
+      props.forEach(propName => {
+        delete element[propName];
+      });
+
+      angular.extend(element, this.$source);
+
+      return element;
     }
 
     /**
@@ -99,7 +75,7 @@ function halResource(apiV3:restangular.IService, $q:ng.IQService) {
      * Collections can be requested by `link[linkName].all()`.
      */
     //TODO: Implement handling for link arrays (see schema.priority._links.allowedValues)
-    protected transformLinks() {
+    private transformLinks() {
       return this.transformHalProperty('_links', (links, link, linkName) => {
         const method = (method:string, multiplier:string) => {
           return (...params) => {
@@ -112,14 +88,14 @@ function halResource(apiV3:restangular.IService, $q:ng.IQService) {
             }
 
             return apiV3[multiplier](linkName, link.href)[method]
-              .apply(this.element, params)
+              .apply(apiV3, params)
               .then((value:op.ApiResult) => {
                 if (value) {
                   if (value.restangularized) {
                     value = value.plain();
                   }
 
-                  angular.extend(this.element[linkName], new HalResource(value));
+                  angular.extend(this[linkName], halTransform(value));
                 }
 
                 return value;
@@ -143,10 +119,10 @@ function halResource(apiV3:restangular.IService, $q:ng.IQService) {
      * Transform embedded properties and their children to actual HAL resources,
      * if they have links or embedded resources.
      */
-    protected transformEmbedded() {
+    private transformEmbedded() {
       return this.transformHalProperty('_embedded', (embedded, element, name) => {
-        angular.forEach(element, child => child && new HalResource(element));
-        embedded[name] = new HalResource(element);
+        angular.forEach(element, child => child && halTransform(element));
+        embedded[name] = halTransform(element);
       });
     }
 
@@ -156,10 +132,8 @@ function halResource(apiV3:restangular.IService, $q:ng.IQService) {
      * @param callback
      * @returns {{}}
      */
-    protected transformHalProperty(propertyName:string, callback:(props, prop, name) => any) {
-      var properties = this.element[propertyName];
-
-      delete this.element[propertyName];
+    private transformHalProperty(propertyName:string, callback:(props, prop, name) => any) {
+      var properties = angular.copy(this.$source[propertyName]);
 
       angular.forEach(properties, (property, name) => {
         callback(properties, property, name);
