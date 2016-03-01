@@ -44,7 +44,7 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
       switch(typeof(content)) {
         case 'object':
           if (content === null) { return ''; }
-          return content.name || content.subject || '';
+          return content.name || content.subject || content.title || '';
         case 'number':
           return content;
         default:
