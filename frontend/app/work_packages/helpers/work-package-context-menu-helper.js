@@ -30,14 +30,13 @@ module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, UrlP
   function getPermittedActionLinks(workPackage, permittedActionConstants) {
     var singularPermittedActions = [];
 
-    var allowedActions = getAllowedActions(workPackage.links, permittedActionConstants);
+    var allowedActions = getAllowedActions(workPackage.$links, permittedActionConstants);
 
     angular.forEach(allowedActions, function(allowedAction) {
       singularPermittedActions.push({
                                       icon: allowedAction.icon,
                                       link: workPackage
-                                              .links[allowedAction.link]
-                                              ._source
+                                              .$links[allowedAction.link]
                                               .href
                                     });
     });
@@ -50,7 +49,7 @@ module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, UrlP
 
     var permittedActions = _.filter(PERMITTED_BULK_ACTIONS, function(action) {
       return _.every(workPackages, function(workPackage) {
-        return getAllowedActions(workPackage.links, [action]).length === 1;
+        return getAllowedActions(workPackage.$links, [action]).length === 1;
       });
     });
     angular.forEach(permittedActions, function(permittedAction) {
