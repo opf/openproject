@@ -26,20 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-function apiV3Config(apiV3, halTransform) {
-  apiV3.addResponseInterceptor((data, operation, what) => {
-    apiV3.addElementTransformer(what, halTransform);
+describe('CollectionResource', () => {
+  var CollectionResource;
 
-    if (data && operation === 'getList' && data._type === 'Collection') {
-      var resp = [];
-      angular.extend(resp, data);
-      return resp;
-    }
+  beforeEach(angular.mock.module('openproject.api'));
 
-    return data;
+  beforeEach(angular.mock.inject((_CollectionResource_) => {
+    CollectionResource = _CollectionResource_;
+  }));
+
+  describe('getElements', () => {
+    it('returns the embedded elements', () => {
+      var plain = {
+                    $embedded: {
+                      elements: [1,2,3]
+                    }
+                  }
+
+      var resource = new CollectionResource(plain);
+
+      expect(resource.getElements()).to.eql(plain.$embedded.elements);
+    });
   });
-}
-
-angular
-  .module('openproject.api')
-  .run(apiV3Config);
+});

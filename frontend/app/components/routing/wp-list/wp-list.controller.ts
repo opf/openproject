@@ -103,8 +103,8 @@ function WorkPackagesListController($scope,
     loadingIndicator.mainPage = fetchWorkPackages.then(function(json:api.ex.WorkPackagesMeta) {
       apiWorkPackages
         .list(json.meta.page, json.meta.per_page, json.meta.query)
-        .then((workPackages) => {
-          json.work_packages = workPackages;
+        .then((workPackageCollection) => {
+          json.work_packages = workPackageCollection.getElements();
           setupPage(json, !!queryParams);
       });
 
@@ -231,8 +231,8 @@ function WorkPackagesListController($scope,
       .then(function (json:api.ex.WorkPackagesMeta) {
         apiWorkPackages
           .list(json.meta.page, json.meta.per_page, json.meta.query, json.meta.columns)
-          .then((workPackages) => {
-            json.work_packages = workPackages;
+          .then((workPackageCollection) => {
+            json.work_packages = workPackageCollection.getElements();
             setupWorkPackagesTable(json);
         });
       });

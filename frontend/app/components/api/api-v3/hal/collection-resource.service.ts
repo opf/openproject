@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,22 +24,20 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-function apiV3Config(apiV3, halTransform) {
-  apiV3.addResponseInterceptor((data, operation, what) => {
-    apiV3.addElementTransformer(what, halTransform);
-
-    if (data && operation === 'getList' && data._type === 'Collection') {
-      var resp = [];
-      angular.extend(resp, data);
-      return resp;
+function collectionResource(HalResource: typeof op.HalResource, apiV3) {
+  class CollectionResource extends HalResource {
+    // TODO: Check whether this is still required once embedded properties
+    // are available directly as properties on the HalResource
+    getElements() {
+      return this.$embedded.elements;
     }
+  }
 
-    return data;
-  });
+  return CollectionResource;
 }
 
 angular
   .module('openproject.api')
-  .run(apiV3Config);
+  .factory('CollectionResource', collectionResource);
