@@ -34,15 +34,10 @@ describe('halTransform service', () => {
 
   beforeEach(angular.mock.module('openproject.api'));
 
-  beforeEach(angular.mock.inject((halTransform, Restangular, _$httpBackend_) => {
-    HalTransformedElement = halTransform(Restangular);
+  beforeEach(angular.mock.inject((_HalResource_, _$httpBackend_) => {
+    HalTransformedElement = _HalResource_;
     $httpBackend = _$httpBackend_;
   }));
-
-  afterEach(() => {
-    $httpBackend.verifyNoOutstandingExpectation();
-    $httpBackend.verifyNoOutstandingRequest();
-  });
 
   it('should exist', () => {
     expect(HalTransformedElement).to.exist;

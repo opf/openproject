@@ -26,16 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ApiPathsService} from "../api-paths/api-paths.service";
+function apiV3Config(apiV3, HalResource) {
+  apiV3.addResponseInterceptor((data, operation, what) => {
+    apiV3.addElementTransformer(what, (element) => {
+      const plain = element.plain();
 
-function apiV3Service(apiPaths:ApiPathsService,
-                      Restangular:restangular.IService) {
+      if (plain.length && data) {
+        angular.extend(plain, data);
+      }
 
-  return Restangular.withConfig(RestangularConfigurer => {
-    RestangularConfigurer.setBaseUrl(apiPaths.v3);
+      return new HalResource(plain);
+    });
+
+    if (data && operation === 'getList' && data._type === 'Collection') {
+      var resp = data._embedded.elements;
+
+      delete data._embedded;
+      angular.extend(resp, data);
+
+      return resp
+    }
+
+    return data;
   });
 }
-
 angular
   .module('openproject.api')
-  .factory('apiV3', apiV3Service);
+  .run(apiV3Config);
