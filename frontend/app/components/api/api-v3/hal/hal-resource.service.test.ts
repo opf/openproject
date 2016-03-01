@@ -268,11 +268,14 @@ describe('halTransform service', () => {
               first: {
                 _embedded: {
                   second: {
-                    _links: {}
+                    _links: {},
+                    property: 'yet another value'
                   }
-                }
+                },
+                property: 'another value'
+
               }
-            }
+            },
           },
           property: 'value'
         }
@@ -305,12 +308,24 @@ describe('halTransform service', () => {
       expect(transformedElement.$embedded.property.$halTransformed).to.not.be.ok;
     });
 
-    it('should transform all nested resources recursively', () => {
-      var first = transformedElement.$embedded.resource.$embedded.first;
-      var second = transformedElement.$embedded.resource.$embedded.first.$embedded.second;
+    describe('when transforming nested embedded resources', () => {
+      var first;
+      var second;
 
-      expect(first.$halTransformed).to.be.true;
-      expect(second.$halTransformed).to.be.true;
+      beforeEach(() => {
+        first = transformedElement.$embedded.resource.$embedded.first;
+        second = transformedElement.$embedded.resource.$embedded.first.$embedded.second;
+      });
+
+      it('should transform all nested resources recursively', () => {
+        expect(first.$halTransformed).to.be.true;
+        expect(second.$halTransformed).to.be.true;
+      });
+
+      it('should transfer the properties of the nested resources correctly', () => {
+        expect(first.property).to.eq('another value');
+        expect(second.property).to.eq('yet another value');
+      });
     });
   });
 

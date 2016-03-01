@@ -29,7 +29,10 @@
 function wpResource(HalResource: typeof op.HalResource, apiV3) {
   class WorkPackageResource extends HalResource {
     getForm() {
-      return this.$links.update(this)
+      return this.$links.update(this).then(form => {
+        console.log('form', form);
+        return form;
+      });
     }
 
     getSchema() {

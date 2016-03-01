@@ -33,12 +33,13 @@ function halResource(apiV3:restangular.IService, $q:ng.IQService, halTransform) 
     public $halTransformed: boolean = true;
 
     constructor(protected $source) {
+      var source = this.$source.restangularized ? this.$source.plain() : angular.copy(this.$source);
       this.$links = this.transformLinks();
       this.$embedded = this.transformEmbedded();
 
-      if (this.$source.restangularized) {
-        angular.extend(this, this.$source.plain());
-      }
+      delete source._links;
+      delete source._embedded;
+      angular.extend(this, source);
 
       //TODO: Embedded properties should also be added
       angular.forEach(this.$links, (link, linkName) => {
