@@ -329,6 +329,50 @@ describe('halTransform service', () => {
     });
   });
 
+  describe('when transforming an object with an _embedded list with the list element having _links', () => {
+    var plainElement;
+    var transformedElement;
+
+    beforeEach(() => {
+      plainElement = {
+        _type: 'Hello',
+        _embedded: {
+          elements: [
+            { _type: 'ListElement',
+              _links: {}
+            },
+            { _type: 'ListElement',
+              _links: {}
+            }
+          ]
+        }
+      };
+
+      transformedElement = halTransform(angular.copy(plainElement));
+    });
+
+    it('should not be restangularized', () => {
+      expect(transformedElement.restangularized).to.not.be.ok;
+    });
+
+    it('should be transformed', () => {
+      expect(transformedElement.$halTransformed).to.be.true
+    });
+
+    it('should have a new "embedded" property', () => {
+      expect(transformedElement.$embedded);
+    });
+
+    it('should not have the original _embedded property', () => {
+      expect(transformedElement._embedded).to.not.be.ok;
+    });
+
+    it('should transform the list elements', () => {
+      expect(transformedElement.$embedded.elements[0].$halTransformed).to.be.true;
+      expect(transformedElement.$embedded.elements[1].$halTransformed).to.be.true;
+    });
+  });
+
   describe('when transforming an object with _links and/or _embedded', () => {
     var transformedElement;
 

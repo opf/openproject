@@ -119,6 +119,9 @@ function halResource(apiV3:restangular.IService, $q:ng.IQService, halTransform) 
     private transformEmbedded() {
       return this.transformHalProperty('_embedded', (embedded, element, name) => {
         angular.forEach(element, child => child && halTransform(element));
+        if (element.forEach) {
+          element.forEach((arr_element, index) => { element[index] = halTransform(arr_element) });
+        }
         embedded[name] = halTransform(element);
       });
     }
