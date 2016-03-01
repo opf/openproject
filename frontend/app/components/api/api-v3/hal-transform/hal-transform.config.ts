@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-function halTransform(halTransformTypes) {
-  return (element:op.ApiResult) => {
-    const resourceClass = halTransformTypes[element._type] || halTransformTypes.default;
-    return new resourceClass(element);
-  };
+function halTransformConfig(halTransformTypes, HalResource, WorkPackageResource) {
+  angular.extend(halTransformTypes, {
+    'default': HalResource,
+    WorkPackage: WorkPackageResource
+  });
 }
 
 angular
   .module('openproject.api')
-  .factory('halTransform', halTransform);
+  .run(halTransformConfig);

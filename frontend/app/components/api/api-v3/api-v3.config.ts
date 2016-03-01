@@ -35,15 +35,16 @@ function apiV3Config(apiV3, halTransform) {
         angular.extend(plain, data);
       }
 
-      return halTransform.transform(element);
+      return halTransform(element, data);
+    });
+
+    apiV3.addElementTransformer(what, true, element => {
+      return element;
     });
 
     if (data && operation === 'getList' && data._type === 'Collection') {
       var resp = data._embedded.elements;
-
-      delete data._embedded;
       angular.extend(resp, data);
-
       return resp
     }
 
