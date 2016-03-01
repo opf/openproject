@@ -199,6 +199,8 @@ declare namespace op {
   }
 
   class HalResource {
+    protected $source;
+
     public $links;
     public $embedded;
 

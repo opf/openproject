@@ -57,14 +57,10 @@ function halResource(apiV3:restangular.IService, $q:ng.IQService, halTransform) 
 
       linked.forEach(linkName => {
         element._links[linkName] = this[linkName];
+
         delete element._links[linkName].list;
+        delete element[linkName];
       });
-
-      props.forEach(propName => {
-        delete element[propName];
-      });
-
-      angular.extend(element, this.$source);
 
       return element;
     }

@@ -29,10 +29,7 @@
 function wpResource(HalResource: typeof op.HalResource, apiV3) {
   class WorkPackageResource extends HalResource {
     getForm() {
-      return this.$links.update(this).then(form => {
-        console.log('form', form);
-        return form;
-      });
+      return this.$links.update(this);
     }
 
     getSchema() {
@@ -46,7 +43,7 @@ function wpResource(HalResource: typeof op.HalResource, apiV3) {
       delete data.createdAt;
       delete data.updatedAt;
 
-      return apiV3.patch(data);
+      return this.$source.patch(data);
     }
   }
 
