@@ -26,31 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-function apiV3Config(apiV3, halTransform) {
-  apiV3.addResponseInterceptor((data, operation, what) => {
-    apiV3.addElementTransformer(what, element => {
-      const plain = element.plain();
-
-      if (plain.length && data) {
-        angular.extend(plain, data);
-      }
-
-      return halTransform.transform(element);
-    });
-
-    if (data && operation === 'getList' && data._type === 'Collection') {
-      var resp = data._embedded.elements;
-
-      delete data._embedded;
-      angular.extend(resp, data);
-
-      return resp
+function halTransform(HalResource) {
+  return {
+    types: {},
+    transform(element:restangular.IElement) {
+      return new HalResource(element);
     }
-
-    return data;
-  });
+  };
 }
 
 angular
   .module('openproject.api')
-  .run(apiV3Config);
+  .factory('halTransform', halTransform);
