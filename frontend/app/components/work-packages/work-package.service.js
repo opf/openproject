@@ -184,20 +184,6 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
       return WorkPackageService.doQuery(url, params);
     },
 
-    loadWorkPackageColumnsData: function(workPackages, columnNames, group_by) {
-      var url = PathHelper.apiWorkPackagesColumnDataPath();
-
-      var params = {
-        'ids[]': workPackages.map(function(workPackage){
-          return workPackage.id;
-        }),
-        'column_names[]': columnNames,
-        'group_by': group_by
-      };
-
-      return WorkPackageService.doQuery(url, params);
-    },
-
     // Note: Should this be on a project-service?
     getWorkPackagesSums: function(projectIdentifier, query, columns){
       var columnNames = columns.map(function(column){
@@ -215,29 +201,6 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
       });
 
       return WorkPackageService.doQuery(url, params);
-    },
-
-    augmentWorkPackagesWithColumnsData: function(workPackages, columns, group_by) {
-      var columnNames = columns.map(function(column) {
-        return column.name;
-      });
-
-      return WorkPackageService.loadWorkPackageColumnsData(workPackages, columnNames, group_by)
-        .then(function(data){
-          var columnsData = data.columns_data;
-          var columnsMeta = data.columns_meta;
-
-          angular.forEach(columns, function(column, i){
-            //column.total_sum = columnsMeta.total_sums[i];
-            //if (columnsMeta.group_sums) column.group_sums = columnsMeta.group_sums[i];
-
-            angular.forEach(workPackages, function(workPackage, j) {
-              WorkPackagesHelper.augmentWorkPackageWithData(workPackage, column.name, !!column.custom_field);
-            });
-          });
-
-          return workPackages;
-        });
     },
 
     loadWorkPackageForm: function(workPackage) {
