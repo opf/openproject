@@ -233,7 +233,7 @@ function WorkPackagesListController($scope,
       .then(function (json:api.ex.WorkPackagesMeta) {
         apiWorkPackages
           .list(json.meta.page, json.meta.per_page, json.meta.query, json.meta.columns)
-          .then((workPackages) => {
+          .then((workPackageCollection) => {
             // Copy V3 group/sum response into experimental format
             mergeApiResponses(json, workPackageCollection.getElements());
             setupWorkPackagesTable(json);
