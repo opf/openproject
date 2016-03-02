@@ -125,6 +125,12 @@ function halResource(apiV3:restangular.IService, $q:ng.IQService, halTransform) 
         }
 
         embedded[name] = halTransform(element);
+
+        angular.forEach(embedded[name], (property, propertyName) => {
+          if (property) {
+            embedded[name][propertyName] = halTransform(property);
+          }
+        });
       });
     }
 

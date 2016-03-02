@@ -276,6 +276,9 @@ describe('halTransform service', () => {
 
               }
             },
+            propertyResource: {
+              _links: {}
+            }
           },
           property: 'value'
         }
@@ -315,6 +318,10 @@ describe('halTransform service', () => {
       beforeEach(() => {
         first = transformedElement.$embedded.resource.$embedded.first;
         second = transformedElement.$embedded.resource.$embedded.first.$embedded.second;
+      });
+
+      it('should transform properties that are resources', () => {
+        expect(transformedElement.$embedded.resource.propertyResource.$halTransformed).to.be.true;
       });
 
       it('should transform all nested resources recursively', () => {
