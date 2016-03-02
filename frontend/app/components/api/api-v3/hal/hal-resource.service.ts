@@ -71,9 +71,7 @@ function halResource(halTransform, HalLink) {
      */
     //TODO: Implement handling for link arrays (see schema.priority._links.allowedValues)
     private transformLinks() {
-      return this.transformHalProperty('_links', (links, link, linkName) => {
-        links[linkName] = HalLink.fromObject(link);
-      });
+      return this.transformHalProperty('_links', HalLink.fromObject);
     }
 
     /**
@@ -81,16 +79,16 @@ function halResource(halTransform, HalLink) {
      * if they have links or embedded resources.
      */
     private transformEmbedded() {
-      return this.transformHalProperty('_embedded', (embedded, element, name) => {
+      return this.transformHalProperty('_embedded', (element) => {
         angular.forEach(element, (child, name) => {
-          element[name] = child && halTransform(child);
+          if (child) element[name] = halTransform(child);
         });
 
         if (Array.isArray(element)) {
           element.forEach((elem, i) => element[i] = halTransform(elem));
         }
 
-        embedded[name] = halTransform(element);
+        return halTransform(element);
       });
     }
 
@@ -100,11 +98,11 @@ function halResource(halTransform, HalLink) {
      * @param callback
      * @returns {{}}
      */
-    private transformHalProperty(propertyName:string, callback:(props, prop, name) => any) {
+    private transformHalProperty(propertyName:string, callback:(element) => any) {
       var properties = angular.copy(this.$source[propertyName]);
 
       angular.forEach(properties, (property, name) => {
-        callback(properties, property, name);
+        properties[name] = callback(property);
       });
 
       return properties;
