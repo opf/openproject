@@ -27,7 +27,7 @@
 //++
 
 describe('HalLink service', () => {
-  var $httpBackend;
+  var $httpBackend:ng.IHttpBackendService;
   var HalLink;
 
   beforeEach(angular.mock.module('openproject.api'));
@@ -114,6 +114,14 @@ describe('HalLink service', () => {
     it('should perform a GET request by default', () => {
       link.$fetch();
       $httpBackend.expectGET('/api/link').respond(200);
+      $httpBackend.flush();
+    });
+
+    it('should pass parameters as query params to the request', () => {
+      link.$fetch({
+        hello: 'world'
+      });
+      $httpBackend.expectGET('/api/link?hello=world').respond(200);
       $httpBackend.flush();
     });
 
