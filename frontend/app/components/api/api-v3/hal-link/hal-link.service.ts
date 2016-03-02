@@ -44,15 +44,6 @@ function halLinkService(apiV3:restangular.IService, $q:ng.IQService) {
     }
 
     public $fetch(...params) {
-      return this.fetch('oneUrl', this.method, params);
-    }
-
-    //TODO: Detect collections automatically
-    public $fetchCollection(...params) {
-      return this.fetch('allUrl', 'getList', params);
-    }
-
-    private fetch(restangularMethod:string, method:string, params) {
       if (!this.href) {
         return $q.when({});
       }
@@ -62,7 +53,7 @@ function halLinkService(apiV3:restangular.IService, $q:ng.IQService) {
       }
 
       //TODO: Pass a meaningful route param
-      return apiV3[restangularMethod]('route', this.href)[method].apply(apiV3, params);
+      return apiV3.oneUrl('route', this.href)[this.method].apply(apiV3, params);
     }
   };
 }

@@ -26,10 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function collectionResource(HalResource: typeof op.HalResource, apiV3) {
+function collectionResource(HalResource: typeof op.HalResource) {
   class CollectionResource extends HalResource {
-    // TODO: Check whether this is still required once embedded properties
-    // are available directly as properties on the HalResource
     getElements() {
       return this.$embedded.elements;
     }

@@ -30,7 +30,7 @@ function apiV3Config(apiV3, halTransform) {
   apiV3.addResponseInterceptor((data, operation, what) => {
     apiV3.addElementTransformer(what, halTransform);
 
-    if (data && operation === 'getList' && data._type === 'Collection') {
+    if (data && data._type === 'Collection') {
       var resp = [];
       angular.extend(resp, data);
       return resp;

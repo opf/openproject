@@ -140,14 +140,5 @@ describe('HalLink service', () => {
       $httpBackend.expectPATCH('/api/link').respond(200);
       $httpBackend.flush();
     });
-
-    describe('when using $fetchCollection', () => {
-      it('should perform a GET request', () => {
-        link.method = 'post';
-        link.$fetchCollection();
-        $httpBackend.expectGET('/api/link').respond(200);
-        $httpBackend.flush();
-      });
-    });
   });
 });
