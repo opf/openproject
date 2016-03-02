@@ -47,6 +47,7 @@ function WorkPackageNewController($scope,
 
   vm.groupedFields = [];
   vm.hideEmptyFields = true;
+  vm.showAllFields = false;
 
   vm.loaderPromise = null;
 
