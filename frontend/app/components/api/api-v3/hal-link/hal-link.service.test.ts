@@ -140,5 +140,28 @@ describe('HalLink service', () => {
       $httpBackend.expectPATCH('/api/link').respond(200);
       $httpBackend.flush();
     });
+
+
+    describe('when using the function returned by $toFunc', () => {
+      var func;
+
+      beforeEach(() => {
+        func = link.$toFunc();
+      });
+
+      it('should return a function that fetches the data', () => {
+        func();
+
+        $httpBackend.expectGET('/api/link').respond(200);
+        $httpBackend.flush()
+      });
+
+      it('should pass the params to $fetch', () => {
+        var $fetch = sinon.spy(link, '$fetch');
+        func('hello');
+
+        expect($fetch.calledWith('hello')).to.be.true;
+      });
+    });
   });
 });

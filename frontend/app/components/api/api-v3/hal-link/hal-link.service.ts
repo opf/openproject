@@ -53,7 +53,11 @@ function halLinkService(apiV3:restangular.IService, $q:ng.IQService) {
       }
 
       //TODO: Pass a meaningful route param
-      return apiV3.oneUrl('route', this.href)[this.method].apply(apiV3, params);
+      return apiV3.oneUrl('route', this.href)[this.method](...params);
+    }
+
+    public $toFunc() {
+      return (...params) => this.$fetch(...params);
     }
   };
 }
