@@ -113,13 +113,6 @@ describe('halTransform service', () => {
       it.skip('should be the same as the source element', () => {
         expect(element).to.eql(plainElement);
       });
-
-      describe('when changing the a property of the plain object', () => {
-        it('should not affect the original', () => {
-          element._links.self.href = 'some value';
-          expect(transformedElement.$links.self.href).to.not.eq(element._links.self.href);
-        })
-      });
     });
 
     describe('when after the $links property is generated', () => {
