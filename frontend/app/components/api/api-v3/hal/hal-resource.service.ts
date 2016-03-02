@@ -40,13 +40,6 @@ function halResource(halTransform, HalLink) {
       delete source._links;
       delete source._embedded;
       angular.extend(this, source);
-
-      //TODO: Embedded properties should also be added
-      angular.forEach(this.$links, (link, linkName) => {
-        const property = {};
-        angular.extend(property, link);
-        this[linkName] = property;
-      });
     }
 
     public $plain() {
