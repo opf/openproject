@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+$toolbar-width: 400px
+
 div.wiki
   font-size: $wiki-default-font-size
   $wiki-max-heading-font-size: 24px
@@ -172,3 +174,5 @@ blockquote
 
 .toolbar-container + .wiki-content
   margin-top: -64px
+  // Attention: When more buttons are added to the toolbar this might has to be changed
+  width: calc(100% - #{$toolbar-width})

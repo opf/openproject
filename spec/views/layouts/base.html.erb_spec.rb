@@ -87,9 +87,10 @@ describe 'layouts/base', type: :view do
       end
     end
 
-    context 'with omni_auth_direct_login enabled' do
+    context 'with omni_auth_direct_login enabled',
+             with_config: { omniauth_direct_login_provider: 'some_provider' } do
+
       before do
-        expect(Concerns::OmniauthLogin).to receive(:direct_login_provider).and_return('some_provider')
         render
       end
 

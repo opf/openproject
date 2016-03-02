@@ -27,26 +27,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateWorkPackageService
-  attr_reader :user, :project
-
-  def initialize(user:, project:, send_notifications: true)
-    @user = user
-    @project = project
-
-    JournalManager.send_notification = send_notifications
-  end
-
-  def create
-    hash = {
-      project: project,
-      author: user,
-      type: project.types.first
-    }
-    project.add_work_package(hash)
-  end
-
-  def save(work_package)
-    work_package.save
+RSpec.configure do |config|
+  config.before(:each) do |example|
+    if example.metadata[:with_settings]
+      example.metadata[:with_settings].each do |k,v|
+        allow(Setting)
+          .to receive(k)
+          .and_return(v)
+      end
+    end
   end
 end
