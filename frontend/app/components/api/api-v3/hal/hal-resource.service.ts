@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function halResource(apiV3:restangular.IService, $q:ng.IQService, halTransform) {
+function halResource(halTransform, HalLink) {
   return class HalResource {
     public $links;
     public $embedded;
@@ -52,13 +52,11 @@ function halResource(apiV3:restangular.IService, $q:ng.IQService, halTransform) 
     public $plain() {
       const element = angular.copy(this);
       const linked = Object.keys(this.$links);
-      const props = linked.concat(Object.keys(this));
       element._links = {};
 
       linked.forEach(linkName => {
         element._links[linkName] = this[linkName];
 
-        delete element._links[linkName].list;
         delete element[linkName];
       });
 
@@ -74,41 +72,7 @@ function halResource(apiV3:restangular.IService, $q:ng.IQService, halTransform) 
     //TODO: Implement handling for link arrays (see schema.priority._links.allowedValues)
     private transformLinks() {
       return this.transformHalProperty('_links', (links, link, linkName) => {
-        const method = (method:string, multiplier:string) => {
-          return (...params) => {
-            if (!link.href) {
-              return $q.when({});
-            }
-
-            if (method === 'post') {
-              params.unshift('');
-            }
-
-            return apiV3[multiplier](linkName, link.href)[method]
-              .apply(apiV3, params)
-              .then((value:op.ApiResult) => {
-                if (value) {
-                  if (value.restangularized) {
-                    value = value.plain();
-                  }
-
-                  angular.extend(this[linkName], halTransform(value));
-                }
-
-                return value;
-              });
-          }
-        };
-
-        if (!link.method) {
-          links[linkName] = method('get', 'oneUrl');
-          links[linkName].list = method('getList', 'allUrl');
-        }
-        else {
-          links[linkName] = method(link.method, 'oneUrl');
-        }
-
-        angular.extend(links[linkName], link);
+        links[linkName] = HalLink.fromObject(link);
       });
     }
 
