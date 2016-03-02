@@ -169,6 +169,10 @@ declare namespace api {
 
 declare var op;
 
+interface Function {
+  $link?:op.HalLink;
+}
+
 declare namespace op {
   /**
    * General components
@@ -207,6 +211,13 @@ declare namespace op {
     constructor(protected $source:restangular.IElement);
 
     public $plain();
+  }
+
+  class HalLink {
+    public href:string;
+    public title:string;
+    public method:string;
+    public templated:boolean;
   }
 
   interface FieldSchema {

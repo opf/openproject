@@ -150,25 +150,37 @@ describe('HalLink service', () => {
     });
 
 
-    describe('when using the function returned by $toFunc', () => {
+    describe('when using the link function wrapper', () => {
       var func;
+      const runChecks = () => {
+        it('should return a function that fetches the data', () => {
+          func();
 
-      beforeEach(() => {
-        func = link.$toFunc();
+          $httpBackend.expectGET('/api/link').respond(200);
+          $httpBackend.flush()
+        });
+
+        it('should pass the params to $fetch', () => {
+          var $fetch = sinon.spy(link, '$fetch');
+          func('hello');
+
+          expect($fetch.calledWith('hello')).to.be.true;
+        });
+      };
+
+      describe('when using $toFunc', () => {
+        beforeEach(() => {
+          func = link.$toFunc();
+        });
+        runChecks();
       });
 
-      it('should return a function that fetches the data', () => {
-        func();
-
-        $httpBackend.expectGET('/api/link').respond(200);
-        $httpBackend.flush()
-      });
-
-      it('should pass the params to $fetch', () => {
-        var $fetch = sinon.spy(link, '$fetch');
-        func('hello');
-
-        expect($fetch.calledWith('hello')).to.be.true;
+      describe('when using the static factory function', () => {
+        beforeEach(() => {
+          func = HalLink.asFunc(link);
+          link = func.$link;
+        });
+        runChecks();
       });
     });
   });

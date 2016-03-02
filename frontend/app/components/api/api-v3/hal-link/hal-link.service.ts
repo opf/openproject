@@ -32,6 +32,10 @@ function halLinkService(apiV3:restangular.IService, $q:ng.IQService) {
       return new HalLink(link.href, link.title, link.method, link.templated);
     }
 
+    public static asFunc(link) {
+      return HalLink.fromObject(link).$toFunc();
+    }
+
     constructor(public href:string,
                 public title:string,
                 public method:string,
@@ -57,7 +61,10 @@ function halLinkService(apiV3:restangular.IService, $q:ng.IQService) {
     }
 
     public $toFunc() {
-      return (...params) => this.$fetch(...params);
+      const func = (...params) => this.$fetch(...params);
+      func.$link = this;
+
+      return func;
     }
   };
 }
