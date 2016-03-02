@@ -82,19 +82,15 @@ function halResource(halTransform, HalLink) {
      */
     private transformEmbedded() {
       return this.transformHalProperty('_embedded', (embedded, element, name) => {
-        angular.forEach(element, child => child && halTransform(element));
+        angular.forEach(element, (child, name) => {
+          element[name] = child && halTransform(child);
+        });
 
         if (Array.isArray(element)) {
           element.forEach((elem, i) => element[i] = halTransform(elem));
         }
 
         embedded[name] = halTransform(element);
-
-        angular.forEach(embedded[name], (property, propertyName) => {
-          if (property) {
-            embedded[name][propertyName] = halTransform(property);
-          }
-        });
       });
     }
 
