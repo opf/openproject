@@ -175,9 +175,9 @@ user_format:
   default: :firstname_lastname
   format: symbol
 cross_project_work_package_relations:
-  default: 0
+  default: 1
 work_package_group_assignment:
-  default: 0
+  default: 1
 notified_events:
   serialized: true
   default:
