@@ -28,43 +28,27 @@
 
 const expect = chai.expect;
 
-describe('halTransform service', () => {
-  var halTransform;
+describe('HalResource service', () => {
+  var HalResource;
   var $httpBackend:ng.IHttpBackendService;
 
   beforeEach(angular.mock.module('openproject.api'));
 
-  beforeEach(angular.mock.inject((_halTransform_, _$httpBackend_) => {
-    halTransform = _halTransform_;
+  beforeEach(angular.mock.inject((_HalResource_, _$httpBackend_) => {
+    HalResource = _HalResource_;
     $httpBackend = _$httpBackend_;
   }));
 
   it('should exist', () => {
-    expect(halTransform).to.exist;
-  });
-
-  describe('when transforming an object without _links or _embedded', () => {
-    var element;
-
-    beforeEach(() => {
-      element = halTransform({});
-    });
-
-    it('should return the element as it is', () => {
-      expect(element).to.eq(element);
-    });
-
-    it('should not be halTransformed', () => {
-      expect(element.$isHal).to.not.be.ok;
-    });
+    expect(HalResource).to.exist;
   });
 
   describe('when transforming an object with _links', () => {
-    var plainElement;
-    var transformedElement;
+    var plain;
+    var resource;
 
     beforeEach(() => {
-      plainElement = {
+      plain = {
         _type: 'Hello',
         _links: {
           post: {
@@ -93,20 +77,20 @@ describe('halTransform service', () => {
         }
       };
 
-      transformedElement = halTransform(angular.copy(plainElement));
+      resource = new HalResource(angular.copy(plain));
     });
 
     it('should be restangularized', () => {
-      expect(transformedElement.restangularized).to.not.be.ok;
+      expect(resource.restangularized).to.not.be.ok;
     });
 
     it('should be transformed', () => {
-      expect(transformedElement.$isHal).to.be.true;
+      expect(resource.$isHal).to.be.true;
     });
 
     describe('when the self link has a title attribute', () => {
       beforeEach(() => {
-        transformedElement = halTransform({
+        resource = new HalResource({
           _links: {
             self: {
               href: '/api/hello',
@@ -117,12 +101,12 @@ describe('halTransform service', () => {
       });
 
       it('should have a name attribute that is equal to the title of the self link', () => {
-        expect(transformedElement.name).to.eq('some title');
+        expect(resource.name).to.eq('some title');
       });
 
       it('should have a writable name attribute', () => {
-        transformedElement.name = 'some name';
-        expect(transformedElement.name).to.eq('some name');
+        resource.name = 'some name';
+        expect(resource.name).to.eq('some name');
       });
     });
 
@@ -130,36 +114,36 @@ describe('halTransform service', () => {
     describe.skip('when returning back the plain object', () => {
       var element;
       beforeEach(() => {
-        element = transformedElement.$plain();
+        element = resource.$plain();
       });
 
       it('should be the same as the source element', () => {
-        expect(element).to.eql(plainElement);
+        expect(element).to.eql(plain);
       });
     });
 
     describe('when after the $links property is generated', () => {
       it('should exist', () => {
-        expect(transformedElement.$links).to.exist;
+        expect(resource.$links).to.exist;
       });
 
       it('should not have the original `_links` property', () => {
-        expect(transformedElement._links).to.not.exist;
+        expect(resource._links).to.not.exist;
       });
 
       it('should have callable links', () => {
-        expect(transformedElement.$links).to.respondTo('self');
-        expect(transformedElement.$links).to.respondTo('put');
-        expect(transformedElement.$links).to.respondTo('post');
+        expect(resource.$links).to.respondTo('self');
+        expect(resource.$links).to.respondTo('put');
+        expect(resource.$links).to.respondTo('post');
       });
 
       it('should not be restangularized', () => {
-        expect(transformedElement.$links.restangularized).to.not.be.ok;
+        expect(resource.$links.restangularized).to.not.be.ok;
       });
 
       it('should have a links property with the same keys as the original _links', () => {
-        const transformedLinks = Object.keys(transformedElement.$links);
-        const plainLinks = Object.keys(plainElement._links);
+        const transformedLinks = Object.keys(resource.$links);
+        const plainLinks = Object.keys(plain._links);
 
         expect(transformedLinks).to.have.members(plainLinks);
       });
@@ -167,11 +151,11 @@ describe('halTransform service', () => {
   });
 
   describe('when transforming an object with _embedded', () => {
-    var plainElement;
-    var transformedElement;
+    var plain;
+    var resource;
 
     beforeEach(() => {
-      plainElement = {
+      plain = {
         _type: 'Hello',
         _embedded: {
           resource: {
@@ -197,31 +181,31 @@ describe('halTransform service', () => {
         }
       };
 
-      transformedElement = halTransform(angular.copy(plainElement));
+      resource = new HalResource(angular.copy(plain));
     });
 
     it('should not be restangularized', () => {
-      expect(transformedElement.restangularized).to.not.be.ok;
+      expect(resource.restangularized).to.not.be.ok;
     });
 
     it('should be transformed', () => {
-      expect(transformedElement.$isHal).to.be.true
+      expect(resource.$isHal).to.be.true
     });
 
     it('should have a new "embedded" property', () => {
-      expect(transformedElement.$embedded);
+      expect(resource.$embedded);
     });
 
     it('should not have the original _embedded property', () => {
-      expect(transformedElement._embedded).to.not.be.ok;
+      expect(resource._embedded).to.not.be.ok;
     });
 
     it('should transform its resources', () => {
-      expect(transformedElement.$embedded.resource.$isHal).to.be.true;
+      expect(resource.$embedded.resource.$isHal).to.be.true;
     });
 
     it('should not transform its properties', () => {
-      expect(transformedElement.$embedded.property.$isHal).to.not.be.ok;
+      expect(resource.$embedded.property.$isHal).to.not.be.ok;
     });
 
     describe('when transforming nested embedded resources', () => {
@@ -229,12 +213,12 @@ describe('halTransform service', () => {
       var second;
 
       beforeEach(() => {
-        first = transformedElement.$embedded.resource.$embedded.first;
-        second = transformedElement.$embedded.resource.$embedded.first.$embedded.second;
+        first = resource.$embedded.resource.$embedded.first;
+        second = resource.$embedded.resource.$embedded.first.$embedded.second;
       });
 
       it('should transform properties that are resources', () => {
-        expect(transformedElement.$embedded.resource.propertyResource.$isHal).to.be.true;
+        expect(resource.$embedded.resource.propertyResource.$isHal).to.be.true;
       });
 
       it('should transform all nested resources recursively', () => {
@@ -250,11 +234,11 @@ describe('halTransform service', () => {
   });
 
   describe('when transforming an object with an _embedded list with the list element having _links', () => {
-    var plainElement;
-    var transformedElement;
+    var plain;
+    var resource;
 
     beforeEach(() => {
-      plainElement = {
+      plain = {
         _type: 'Hello',
         _embedded: {
           elements: [
@@ -268,36 +252,36 @@ describe('halTransform service', () => {
         }
       };
 
-      transformedElement = halTransform(angular.copy(plainElement));
+      resource = new HalResource(angular.copy(plain));
     });
 
     it('should not be restangularized', () => {
-      expect(transformedElement.restangularized).to.not.be.ok;
+      expect(resource.restangularized).to.not.be.ok;
     });
 
     it('should be transformed', () => {
-      expect(transformedElement.$isHal).to.be.true
+      expect(resource.$isHal).to.be.true
     });
 
     it('should have a new "embedded" property', () => {
-      expect(transformedElement.$embedded);
+      expect(resource.$embedded);
     });
 
     it('should not have the original _embedded property', () => {
-      expect(transformedElement._embedded).to.not.be.ok;
+      expect(resource._embedded).to.not.be.ok;
     });
 
     it('should transform the list elements', () => {
-      expect(transformedElement.$embedded.elements[0].$isHal).to.be.true;
-      expect(transformedElement.$embedded.elements[1].$isHal).to.be.true;
+      expect(resource.$embedded.elements[0].$isHal).to.be.true;
+      expect(resource.$embedded.elements[1].$isHal).to.be.true;
     });
   });
 
   describe('when transforming an object with _links and/or _embedded', () => {
-    var transformedElement;
+    var resource;
 
     beforeEach(() => {
-      const plainElement = {
+      const plain = {
         _links: {
           property: {
             href: '/api/property',
@@ -330,57 +314,55 @@ describe('halTransform service', () => {
         }
       };
 
-      transformedElement = halTransform(plainElement);
+      resource = new HalResource(plain);
     });
 
     it('should be loaded', () => {
-      expect(transformedElement.$loaded).to.be.true;
+      expect(resource.$loaded).to.be.true;
     });
 
     it('should have linked resources as properties', () => {
-      expect(transformedElement.property).to.exist;
+      expect(resource.property).to.exist;
     });
 
     it('should have linked actions as properties', () => {
-      expect(transformedElement.action).to.exist;
+      expect(resource.action).to.exist;
     });
 
     it('should have embedded resources as properties', () => {
-      expect(transformedElement.embedded).to.exist;
+      expect(resource.embedded).to.exist;
     });
 
     it('should have embedded, but not linked, resources as properties', () => {
-      expect(transformedElement.notLinked).to.exist;
+      expect(resource.notLinked).to.exist;
     });
 
     describe('when after generating the properties from the links, each property', () => {
       it('should be a function, if the link method is not "get"', () => {
-        expect(transformedElement).to.respondTo('action');
+        expect(resource).to.respondTo('action');
       });
 
       it('should be a resource, if the link method is "get"', () => {
-        expect(transformedElement.property.$isHal).to.be.true;
+        expect(resource.property.$isHal).to.be.true;
       });
 
       describe('when a property is a resource', () => {
         it('should not be callable', () => {
-          expect(transformedElement).to.not.to.respondTo('property');
+          expect(resource).to.not.to.respondTo('property');
         });
 
         it('should not be loaded initially', () => {
-          expect(transformedElement.property.$loaded).to.be.false;
-          expect(transformedElement.notLinked.$loaded).to.be.true;
+          expect(resource.property.$loaded).to.be.false;
+          expect(resource.notLinked.$loaded).to.be.true;
         });
 
         it('should be loaded, if the resource is embedded', () => {
-          expect(transformedElement.embedded.$loaded).to.be.true;
+          expect(resource.embedded.$loaded).to.be.true;
         });
 
         describe('when loading it', () => {
-          var resource;
-
           beforeEach(() => {
-            resource = transformedElement.property;
+            resource = resource.property;
             resource.$load();
 
             $httpBackend.expectGET('/api/property').respond(200, {
@@ -400,26 +382,6 @@ describe('halTransform service', () => {
           it('should return itself in a promise if already loaded', () => {
             expect(resource.$load()).to.eventually.eql(resource);
           });
-        });
-      });
-    });
-
-    describe.skip('when using one of the properties', () => {
-      it('should have the same properties as the original', () => {
-        expect(transformedElement.property.href).to.eq('/api/property');
-        expect(transformedElement.property.title).to.eq('Property');
-      });
-
-      it('should update the property when its link is called', () => {
-        let promise = transformedElement.$links.property();
-
-        $httpBackend.expectGET('/api/property').respond(200, {
-          name: 'Name'
-        });
-        $httpBackend.flush();
-
-        promise.should.be.fulfilled.then(() => {
-          expect(transformedElement.property.name).to.eq('Name');
         });
       });
     });
