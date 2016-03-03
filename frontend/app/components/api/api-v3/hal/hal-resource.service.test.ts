@@ -55,7 +55,7 @@ describe('halTransform service', () => {
     });
 
     it('should not be halTransformed', () => {
-      expect(element.$halTransformed).to.not.be.ok;
+      expect(element.$isHal).to.not.be.ok;
     });
   });
 
@@ -101,7 +101,7 @@ describe('halTransform service', () => {
     });
 
     it('should be transformed', () => {
-      expect(transformedElement.$halTransformed).to.be.true;
+      expect(transformedElement.$isHal).to.be.true;
     });
 
     describe('when the self link has a title attribute', () => {
@@ -205,7 +205,7 @@ describe('halTransform service', () => {
     });
 
     it('should be transformed', () => {
-      expect(transformedElement.$halTransformed).to.be.true
+      expect(transformedElement.$isHal).to.be.true
     });
 
     it('should have a new "embedded" property', () => {
@@ -217,11 +217,11 @@ describe('halTransform service', () => {
     });
 
     it('should transform its resources', () => {
-      expect(transformedElement.$embedded.resource.$halTransformed).to.be.true;
+      expect(transformedElement.$embedded.resource.$isHal).to.be.true;
     });
 
     it('should not transform its properties', () => {
-      expect(transformedElement.$embedded.property.$halTransformed).to.not.be.ok;
+      expect(transformedElement.$embedded.property.$isHal).to.not.be.ok;
     });
 
     describe('when transforming nested embedded resources', () => {
@@ -234,12 +234,12 @@ describe('halTransform service', () => {
       });
 
       it('should transform properties that are resources', () => {
-        expect(transformedElement.$embedded.resource.propertyResource.$halTransformed).to.be.true;
+        expect(transformedElement.$embedded.resource.propertyResource.$isHal).to.be.true;
       });
 
       it('should transform all nested resources recursively', () => {
-        expect(first.$halTransformed).to.be.true;
-        expect(second.$halTransformed).to.be.true;
+        expect(first.$isHal).to.be.true;
+        expect(second.$isHal).to.be.true;
       });
 
       it('should transfer the properties of the nested resources correctly', () => {
@@ -276,7 +276,7 @@ describe('halTransform service', () => {
     });
 
     it('should be transformed', () => {
-      expect(transformedElement.$halTransformed).to.be.true
+      expect(transformedElement.$isHal).to.be.true
     });
 
     it('should have a new "embedded" property', () => {
@@ -288,8 +288,8 @@ describe('halTransform service', () => {
     });
 
     it('should transform the list elements', () => {
-      expect(transformedElement.$embedded.elements[0].$halTransformed).to.be.true;
-      expect(transformedElement.$embedded.elements[1].$halTransformed).to.be.true;
+      expect(transformedElement.$embedded.elements[0].$isHal).to.be.true;
+      expect(transformedElement.$embedded.elements[1].$isHal).to.be.true;
     });
   });
 
@@ -359,7 +359,7 @@ describe('halTransform service', () => {
       });
 
       it('should be a resource, if the link method is "get"', () => {
-        expect(transformedElement.property.$halTransformed).to.be.true;
+        expect(transformedElement.property.$isHal).to.be.true;
       });
 
       describe('when a property is a resource', () => {

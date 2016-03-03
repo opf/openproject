@@ -30,7 +30,7 @@ function halResource(halTransform, HalLink, $q) {
   return class HalResource {
     public $links;
     public $embedded;
-    public $halTransformed: boolean = true;
+    public $isHal: boolean = true;
 
     private _name:string;
 
