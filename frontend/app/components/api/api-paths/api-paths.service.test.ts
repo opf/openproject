@@ -41,11 +41,15 @@ describe('apiPaths', () => {
 
   describe('when with app_base_path', () => {
     beforeEach(() => {
+      //reset internal caching of the basePath
+      apiPaths.basePath = undefined;
       $document.find('head').append('<meta name="app_base_path" content="my_path" />');
     });
 
     afterEach(() => {
       $document.find('meta').remove();
+      //reset internal caching of the basePath
+      apiPaths.basePath = undefined;
     });
 
     it('should get the app base path from the app_base_path meta tag', () => {

@@ -67,6 +67,7 @@ Feature: Disabled done ratio on the work package index
   @javascript
   Scenario: Author column should be displayed when Author is moved to selected columns
     When I go to the work packages index page of the project "project1"
+    And the work package table has finished loading
     And I choose "Columns" from the toolbar "settings" dropdown
     And I select to see column "Author"
     And I click "Apply"
@@ -75,6 +76,7 @@ Feature: Disabled done ratio on the work package index
   @javascript @wip
   Scenario: Subject column should not be displayed when Subject is moved out of selected columns
     When I go to the work packages index page of the project "project1"
+    And the work package table has finished loading
     And I choose "Columns" from the toolbar "settings" dropdown
     And I select to not see column "Subject"
     Then I should not see "Subject" within ".work-package-table--container table"

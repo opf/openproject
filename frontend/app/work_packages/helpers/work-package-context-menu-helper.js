@@ -93,9 +93,9 @@ module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, UrlP
   }
 
   var WorkPackageContextMenuHelper = {
-    getPermittedActions: function(workPackages, permittedActionConstansts) {
+    getPermittedActions: function(workPackages, permittedActionConstants) {
       if (workPackages.length === 1) {
-        return getPermittedActionLinks(workPackages[0], permittedActionConstansts);
+        return getPermittedActionLinks(workPackages[0], permittedActionConstants);
       } else if (workPackages.length > 1) {
         return getIntersectOfPermittedActions(workPackages);
       }
