@@ -59,8 +59,7 @@ export class ApiWorkPackagesService {
     const params = {
       offset: offset,
       pageSize: pageSize,
-      filters: [v3Filters],
-      sortBy: [query.sort_criteria],
+      filters: [v3Filters]
     };
 
     if (query.group_by) {
@@ -69,6 +68,10 @@ export class ApiWorkPackagesService {
 
     if (query.display_sums) {
       params['showSums'] = query.display_sums;
+    }
+
+    if (query.sort_criteria) {
+      params['sortBy'] = [query.sort_criteria];
     }
 
     return params;

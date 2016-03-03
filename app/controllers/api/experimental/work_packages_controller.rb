@@ -35,6 +35,7 @@ module Api
       include ::Api::Experimental::Concerns::GrapeRouting
       include ::Api::Experimental::Concerns::ColumnData
       include ::Api::Experimental::Concerns::QueryLoading
+      include ::Api::Experimental::Concerns::V3Naming
 
       include PaginationHelper
       include QueriesHelper
@@ -42,7 +43,7 @@ module Api
       include ExtendedHTTP
 
       before_filter :find_optional_project,
-                    :translate_query_params,
+                    :v3_params_as_internal,
                     :load_query
 
       def index
@@ -88,24 +89,7 @@ module Api
 
         json_query[:_links] = allowed_links_on_query(query, user)
 
-        if json_query['column_names']
-          json_query['column_names'] = json_query['column_names'].map { |column|
-            internal_to_external_name(column)
-          }
-        end
-        if json_query['sort_criteria']
-          json_query['sort_criteria'] = json_query['sort_criteria'].map { |criteria|
-            [internal_to_external_name(criteria.first), criteria.last]
-          }
-        end
-
-        json_query['group_by'] = internal_to_external_name(json_query['group_by'])
-
-        json_query['filters'].each do |filter|
-          filter[:name] = internal_to_external_name(filter[:name])
-        end
-
-        json_query
+        json_query_as_v3(json_query)
       end
 
       def export_formats

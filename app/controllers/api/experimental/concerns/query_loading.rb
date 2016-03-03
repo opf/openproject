@@ -47,36 +47,6 @@ module Api::Experimental::Concerns::QueryLoading
     @query
   end
 
-  def external_to_internal_name(string, append_id: true)
-    API::Utilities::PropertyNameConverter.to_ar_name(string, context: WorkPackage.new, refer_to_ids: append_id)
-  end
-
-  def internal_to_external_name(string)
-    API::Utilities::PropertyNameConverter.from_ar_name(string)
-  end
-
-  def translate_query_params
-    params[:c] = (params[:c] || []).map { |column|
-      external_to_internal_name(column, append_id: false)
-    }
-    params[:f] = (params[:f] || []).map { |column|
-      external_to_internal_name(column)
-    }
-    params[:op] = (params[:op] || []).each_with_object({}) { |(column, operator), hash|
-      hash[external_to_internal_name(column)] = operator
-    }
-    params[:v] = (params[:v] || []).each_with_object({}) { |(column, value), hash|
-      hash[external_to_internal_name(column)] = value
-    }
-    params[:sort] = begin
-                      (params[:sort] || '').split(',').map { |sort|
-                        criteria = sort.split(':')
-
-                        "#{external_to_internal_name(criteria.first, append_id: false)}:#{criteria.last}"
-                      }.join(',')
-                    end
-  end
-
   def prepare_query
     # Set the query properties only if a query property string exists in the
     # URL. This assumes that if 'accept_empty_query_fields' or 'is_public'

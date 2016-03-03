@@ -29,7 +29,7 @@
 module Api::Experimental::Concerns::ColumnData
   def get_columns_for_json(columns)
     columns.map do |column|
-      { name: v3_name(column.name),
+      { name: internal_to_v3_name(column.name),
         title: column.caption,
         sortable: column.sortable?,
         groupable: column.groupable?,
@@ -41,10 +41,6 @@ module Api::Experimental::Concerns::ColumnData
   end
 
   private
-
-  def v3_name(string)
-    API::Utilities::PropertyNameConverter.from_ar_name(string)
-  end
 
   def get_column_meta(column)
     # This is where we want to add column specific behaviour to instruct the
