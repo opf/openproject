@@ -49,11 +49,18 @@ export class ApiWorkPackagesService {
   }
 
   protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {
+
+    const v3Filters = _.map(query.filters, (filter) => {
+      const newFilter = {};
+      newFilter[filter.name] = {operator: filter.operator, values: filter.values};
+      return newFilter;
+    });
+
     const params = {
       offset: offset,
       pageSize: pageSize,
-      filters: [query.filters],
-      sortBy: query.sort_criteria,
+      filters: [v3Filters],
+      sortBy: [query.sort_criteria],
     };
 
     if (query.group_by) {
