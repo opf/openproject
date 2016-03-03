@@ -124,6 +124,12 @@ describe('halTransform service', () => {
         expect(transformedElement._links).to.not.exist;
       });
 
+      it('should have callable links', () => {
+        expect(transformedElement.$links).to.respondTo('self');
+        expect(transformedElement.$links).to.respondTo('put');
+        expect(transformedElement.$links).to.respondTo('post');
+      });
+
       it('should not be restangularized', () => {
         expect(transformedElement.$links.restangularized).to.not.be.ok;
       });
