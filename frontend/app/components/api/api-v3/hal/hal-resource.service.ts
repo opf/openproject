@@ -32,8 +32,18 @@ function halResource(halTransform, HalLink, $q) {
     public $embedded;
     public $halTransformed: boolean = true;
 
+    private _name:string;
+
     protected static fromLink(link) {
       return new HalResource({_links: {self: link}}, false);
+    }
+
+    public get name():string {
+      return this._name || this.$links.self.$link.title || '';
+    }
+
+    public set name(name:string) {
+      this._name = name;
     }
 
     constructor(protected $source, public $loaded = true) {

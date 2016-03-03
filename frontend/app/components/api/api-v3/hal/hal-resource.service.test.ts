@@ -88,6 +88,7 @@ describe('halTransform service', () => {
           },
           self: {
             href: '/api/v3/hello',
+            title: 'some title'
           }
         }
       };
@@ -103,14 +104,36 @@ describe('halTransform service', () => {
       expect(transformedElement.$halTransformed).to.be.true;
     });
 
-    describe('when returning back the plain object', () => {
+    describe('when the self link has a title attribute', () => {
+      beforeEach(() => {
+        transformedElement = halTransform({
+          _links: {
+            self: {
+              href: '/api/hello',
+              title: 'some title'
+            }
+          }
+        });
+      });
+
+      it('should have a name attribute that is equal to the title of the self link', () => {
+        expect(transformedElement.name).to.eq('some title');
+      });
+
+      it('should have a writable name attribute', () => {
+        transformedElement.name = 'some name';
+        expect(transformedElement.name).to.eq('some name');
+      });
+    });
+
+    //TODO: Fix
+    describe.skip('when returning back the plain object', () => {
       var element;
       beforeEach(() => {
         element = transformedElement.$plain();
       });
 
-      //TODO: Fix
-      it.skip('should be the same as the source element', () => {
+      it('should be the same as the source element', () => {
         expect(element).to.eql(plainElement);
       });
     });
