@@ -27,19 +27,23 @@
 //++
 
 export class ApiWorkPackagesService {
-  protected WorkPackages;
-
   constructor (protected DEFAULT_PAGINATION_OPTIONS,
                protected $stateParams,
                protected $q:ng.IQService,
-               protected apiV3:restangular.IService,
-               protected apiMetaData:ApiMetaDataService) {
-
-    this.WorkPackages = apiV3.service('work_packages');
+               protected apiV3:restangular.IService) {
   }
 
   public list(offset:number, pageSize:number, query:api.ex.Query) {
-    return this.WorkPackages.getList(this.queryAsV3Params(offset, pageSize, query)).then(wpCollection => {
+    const workPackages;
+
+    if (query.project_id) {
+      workPackages = this.apiV3.service('work_packages', this.apiV3.one('projects', query.project_id));
+    }
+    else {
+      workPackages = this.apiV3.service('work_packages');
+    }
+
+    return workPackages.getList(this.queryAsV3Params(offset, pageSize, query)).then(wpCollection => {
       return wpCollection;
     });
   }
@@ -63,7 +67,6 @@ export class ApiWorkPackagesService {
     return params;
   }
 }
-
 
 angular
   .module('openproject.api')
