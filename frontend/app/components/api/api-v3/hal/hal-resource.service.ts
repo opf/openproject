@@ -99,7 +99,6 @@ function halResource(halTransform, HalLink, $q) {
       return element;
     }
 
-    //TODO: Implement handling for link arrays (see schema.priority._links.allowedValues)
     private transformLinks() {
       return this.transformHalProperty('_links', HalLink.asFunc);
     }

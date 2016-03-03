@@ -38,7 +38,7 @@ class SelectField extends Field {
 
   constructor(workPackage, fieldName, schema) {
     super(workPackage, fieldName, schema);
-    this.options = this.schema.embedded.allowedValues.map(value => value.data());
+    this.options = this.schema.allowedValues;
   }
 }
 
