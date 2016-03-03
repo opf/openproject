@@ -44,7 +44,7 @@ export class Field {
     return this.constructor.$injector;
   }
 
-  constructor(public resource:op.HalTransformed,
+  constructor(public resource:op.HalResource,
               public name:string,
               public schema) {
   }
@@ -55,33 +55,14 @@ export class FieldFactory {
 
   protected static fields = {};
 
-  /**
-   * A map of field constructor objects.
-   * @type {{}}
-   */
   protected static classes: {[type:string]: typeof Field} = {};
 
-  /**
-   * Register a class that will be used for a certain field type.
-   * The static type property of the class indicates for which field type it
-   * will be used.
-   * @param fieldClass
-   * @param fields
-   */
   public static register(fieldClass: typeof Field, fields:string[] = []) {
     fields.forEach(field => FieldFactory.fields[field] = fieldClass.type);
     FieldFactory.classes[fieldClass.type] = fieldClass;
   }
 
-  /**
-   * Return a Field instance.
-   * The class is registered in FieldFactory#register.
-   * @param workPackage
-   * @param fieldName
-   * @param schema
-   * @returns {Field}
-   */
-  public static create(workPackage:op.WorkPackage,
+  public static create(workPackage:op.HalResource,
                        fieldName:string,
                        schema:op.FieldSchema):Field {
     let type = FieldFactory.getType(schema.type);
@@ -90,11 +71,6 @@ export class FieldFactory {
     return new fieldClass(workPackage, fieldName, schema);
   }
 
-  /**
-   * Return the field type or the default type if none is given.
-   * @param type
-   * @returns {string}
-   */
   protected static getType(type:string):string {
     let fields = FieldFactory.fields;
     let defaultType = FieldFactory.defaultType;

@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageEditFormController} from "./wp-edit-form.directive";
+import {WorkPackageEditFormController} from "./../wp-edit-form.directive";
 import {WorkPackageEditFieldService} from "./wp-edit-field.service";
 import {Field} from "./wp-edit-field.module";
 
@@ -36,7 +36,6 @@ export class WorkPackageEditFieldController {
   public fieldName:string;
   public field:Field;
 
-  protected _workPackage:op.WorkPackage;
   protected _active:boolean = false;
 
   constructor(protected wpEditField:WorkPackageEditFieldService) {
@@ -85,7 +84,7 @@ function wpEditFieldLink(scope:ng.IScope,
 function wpEditField() {
   return {
     restrict: 'A',
-    templateUrl: '/components/wp-edit/wp-edit-field.directive.html',
+    templateUrl: '/components/wp-edit/wp-edit-field/wp-edit-field.directive.html',
     transclude: true,
 
     scope: {
