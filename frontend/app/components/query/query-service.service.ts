@@ -27,7 +27,6 @@
 // ++
 
 function QueryService(Query,
-                      ApiParamMappingService,
                       $http,
                       PathHelper,
                       $q,
@@ -198,10 +197,7 @@ function QueryService(Query,
 
       var url = projectIdentifier ? PathHelper.apiProjectAvailableColumnsPath(projectIdentifier) : PathHelper.apiAvailableColumnsPath();
 
-      return QueryService.doGet(url, function(response){
-        availableColumns = ApiParamMappingService.constructor.columnListToV3(response.data.available_columns);
-        return availableColumns;
-      });
+      return QueryService.doGet(url, (response) => response.data.available_columns);
     },
 
     getGroupBy: function() {
