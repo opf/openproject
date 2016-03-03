@@ -89,21 +89,11 @@ function halResource(halTransform, HalLink, $q) {
       return element;
     }
 
-    /**
-     * Transform links
-     *
-     * Links are methods that return a promise.
-     * Collections can be requested by `link[linkName].all()`.
-     */
     //TODO: Implement handling for link arrays (see schema.priority._links.allowedValues)
     private transformLinks() {
       return this.transformHalProperty('_links', HalLink.asFunc);
     }
 
-    /**
-     * Transform embedded properties and their children to actual HAL resources,
-     * if they have links or embedded resources.
-     */
     private transformEmbedded() {
       return this.transformHalProperty('_embedded', (element) => {
         angular.forEach(element, (child, name) => {
@@ -118,12 +108,6 @@ function halResource(halTransform, HalLink, $q) {
       });
     }
 
-    /**
-     *
-     * @param propertyName
-     * @param callback
-     * @returns {{}}
-     */
     private transformHalProperty(propertyName:string, callback:(element) => any) {
       var properties = angular.copy(this.$source[propertyName]);
 
