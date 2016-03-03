@@ -26,9 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {ApiMetaDataService} from "../api-meta-data/api-meta-data.service";
-import {ApiParamMappingService} from "../api-experimental/api-param-mapping.service";
-
 export class ApiWorkPackagesService {
   protected WorkPackages;
 
