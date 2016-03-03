@@ -77,12 +77,11 @@ describe('workPackageContextMenu', function() {
     var I18n;
     var actions = ['edit', 'move'],
         actionLinks = {
-          edit: '/work_packages/123/edit',
+          update: '/work_packages/123/edit',
           move: '/work_packages/move/new?ids%5B%5D=123',
         },
         workPackage = Factory.build('PlanningElement', {
-          _actions: actions,
-          _links: actionLinks
+          $links: actionLinks
         });
     var directListElements;
 
@@ -130,8 +129,7 @@ describe('workPackageContextMenu', function() {
             delete: '/work_packages/bulk',
           },
           workPackage = Factory.build('PlanningElement', {
-            _actions: actions,
-            _links: actionLinks
+            $links: actionLinks
           });
 
       beforeEach(function() {
