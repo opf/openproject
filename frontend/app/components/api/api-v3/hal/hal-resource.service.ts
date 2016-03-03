@@ -26,20 +26,53 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function halResource(halTransform, HalLink) {
+function halResource(halTransform, HalLink, $q) {
   return class HalResource {
     public $links;
     public $embedded;
     public $halTransformed: boolean = true;
 
-    constructor(protected $source) {
-      var source = this.$source.restangularized ? this.$source.plain() : angular.copy(this.$source);
+    protected static fromLink(link) {
+      return new HalResource({_links: {self: link}}, false);
+    }
+
+    constructor(protected $source, public $loaded = true) {
+      var source = $source.restangularized ? $source.plain() : angular.copy($source);
+
       this.$links = this.transformLinks();
       this.$embedded = this.transformEmbedded();
 
       delete source._links;
       delete source._embedded;
       angular.extend(this, source);
+
+      angular.forEach(this.$links, (link, name:string) => {
+        link = link.$link;
+
+        if (link.href && link.method == 'get' && name !== 'self') {
+          this[name] =  HalResource.fromLink(link);
+        }
+        else if (link.method !== 'get') {
+          this[name] = link.$toFunc();
+        }
+      });
+
+      angular.forEach(this.$embedded, (resource, name) => {
+        this[name] = resource;
+      });
+    }
+
+    public $load() {
+      if (!this.$loaded) {
+        this.$loaded = true;
+
+        return this.$links.self().then(resource => {
+          angular.extend(this, resource);
+          return this;
+        });
+      }
+
+      return $q.when(this);
     }
 
     public $plain() {

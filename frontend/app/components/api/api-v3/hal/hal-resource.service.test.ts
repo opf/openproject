@@ -270,8 +270,7 @@ describe('halTransform service', () => {
     });
   });
 
-  //TODO: Implement distinction between linked actions and properties
-  describe.skip('when transforming an object with _links and/or _embedded', () => {
+  describe('when transforming an object with _links and/or _embedded', () => {
     var transformedElement;
 
     beforeEach(() => {
@@ -281,8 +280,8 @@ describe('halTransform service', () => {
             href: '/api/property',
             title: 'Property'
           },
-          embeddedProperty: {
-            href: '/api/embedded-property'
+          embedded: {
+            href: '/api/embedded',
           },
           action: {
             href: '/api/action',
@@ -290,8 +289,20 @@ describe('halTransform service', () => {
           }
         },
         _embedded: {
-          embeddedProperty: {
+          embedded: {
+            _links: {
+              self: {
+                href: '/api/embedded'
+              }
+            },
             name: 'name'
+          },
+          notLinked: {
+            _links: {
+              self: {
+                href: '/api/not-linked'
+              }
+            }
           }
         }
       };
@@ -299,13 +310,78 @@ describe('halTransform service', () => {
       transformedElement = halTransform(plainElement);
     });
 
-    it('should be a property of the element', () => {
+    it('should be loaded', () => {
+      expect(transformedElement.$loaded).to.be.true;
+    });
+
+    it('should have linked resources as properties', () => {
       expect(transformedElement.property).to.exist;
-      expect(transformedElement.embeddedProperty).to.exist;
+    });
+
+    it('should have linked actions as properties', () => {
       expect(transformedElement.action).to.exist;
     });
 
-    describe('when using one of the properties', () => {
+    it('should have embedded resources as properties', () => {
+      expect(transformedElement.embedded).to.exist;
+    });
+
+    it('should have embedded, but not linked, resources as properties', () => {
+      expect(transformedElement.notLinked).to.exist;
+    });
+
+    describe('when after generating the properties from the links, each property', () => {
+      it('should be a function, if the link method is not "get"', () => {
+        expect(transformedElement).to.respondTo('action');
+      });
+
+      it('should be a resource, if the link method is "get"', () => {
+        expect(transformedElement.property.$halTransformed).to.be.true;
+      });
+
+      describe('when a property is a resource', () => {
+        it('should not be callable', () => {
+          expect(transformedElement).to.not.to.respondTo('property');
+        });
+
+        it('should not be loaded initially', () => {
+          expect(transformedElement.property.$loaded).to.be.false;
+          expect(transformedElement.notLinked.$loaded).to.be.true;
+        });
+
+        it('should be loaded, if the resource is embedded', () => {
+          expect(transformedElement.embedded.$loaded).to.be.true;
+        });
+
+        describe('when loading it', () => {
+          var resource;
+
+          beforeEach(() => {
+            resource = transformedElement.property;
+            resource.$load();
+
+            $httpBackend.expectGET('/api/property').respond(200, {
+              name: 'name'
+            });
+            $httpBackend.flush();
+          });
+
+          it('should be loaded', () => {
+            expect(resource.$loaded).to.be.true;
+          });
+
+          it('should be updated', () => {
+            expect(resource.name).to.eq('name');
+          });
+
+          it('should return itself in a promise if already loaded', () => {
+            expect(resource.$load()).to.eventually.eql(resource);
+          });
+        });
+      });
+    });
+
+    describe.skip('when using one of the properties', () => {
       it('should have the same properties as the original', () => {
         expect(transformedElement.property.href).to.eq('/api/property');
         expect(transformedElement.property.title).to.eq('Property');
