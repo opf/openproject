@@ -232,7 +232,7 @@ function WorkPackagesListController($scope,
       $scope.query, PaginationService.getPaginationOptions())
       .then(function (json:api.ex.WorkPackagesMeta) {
         apiWorkPackages
-          .list(json.meta.page, json.meta.per_page, json.meta.query, json.meta.columns)
+          .list(json.meta.page, json.meta.per_page, json.meta.query)
           .then((workPackageCollection) => {
             // Copy V3 group/sum response into experimental format
             mergeApiResponses(json, workPackageCollection.getElements());
