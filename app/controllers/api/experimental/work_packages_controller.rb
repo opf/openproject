@@ -41,9 +41,9 @@ module Api
       include SortHelper
       include ExtendedHTTP
 
-      before_filter :find_optional_project
-      before_filter :load_query, only: [:index,
-                                        :column_sums]
+      before_filter :find_optional_project,
+                    :translate_query_params,
+                    :load_query
 
       def index
         @display_meta = true
@@ -87,6 +87,24 @@ module Api
         json_query = query.as_json(except: :filters, include: :filters, methods: [:starred])
 
         json_query[:_links] = allowed_links_on_query(query, user)
+
+        if json_query['column_names']
+          json_query['column_names'] = json_query['column_names'].map { |column|
+            internal_to_external_name(column)
+          }
+        end
+        if json_query['sort_criteria']
+          json_query['sort_criteria'] = json_query['sort_criteria'].map { |criteria|
+            [internal_to_external_name(criteria.first), criteria.last]
+          }
+        end
+
+        json_query['group_by'] = internal_to_external_name(json_query['group_by'])
+
+        json_query['filters'].each do |filter|
+          filter[:name] = internal_to_external_name(filter[:name])
+        end
+
         json_query
       end
 

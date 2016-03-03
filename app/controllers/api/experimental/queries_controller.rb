@@ -38,6 +38,7 @@ module Api::Experimental
 
     before_filter :find_optional_project
     before_filter :setup_query_for_create, only: [:create]
+    before_filter :translate_query_params, only: [:create, :update]
     before_filter :setup_existing_query, only: [:update, :destroy]
     before_filter :authorize_on_query, only: [:create, :destroy]
     before_filter :authorize_update_on_query, only: [:update]

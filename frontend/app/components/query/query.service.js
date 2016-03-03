@@ -237,7 +237,7 @@ function QueryConstructorService(Filter, Sortation, UrlParamsHelper, INITIALLY_S
      * @returns {undefined}
      */
     setDefaultFilter: function() {
-      var statusOpenFilterData = this.getExtendedFilterData({name: 'status_id', operator: 'o'});
+      var statusOpenFilterData = this.getExtendedFilterData({name: 'status', operator: 'o'});
       this.filters = [new Filter(statusOpenFilterData)];
     },
 
