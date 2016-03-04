@@ -14,14 +14,11 @@ configuration wizard, which will help you get everything up and running quickly.
 * Apache 2 (web server) – this component provides the external interface,
   handles SSL termination (if SSL is used) and distributes/forwards web
 requests to the Unicorn processes.
-
 * MySQL (database management system) – this component is used to store and
   retrieve data.
-
 * Unicorn (application server) – this component hosts the actual application.
   By default, there is two unicorn processes running in parallel on the app
 server machine.
-
 * Ruby 2.1 (MRI) and necessary libraries to run the OpenProject source code.
 
 # Installation
