@@ -249,10 +249,7 @@ function WorkPackagesListController($scope,
     } else {
       exJson.meta.sums = new Array(exJson.meta.columns.length);
     }
-
-    // TODO: no longer use detour over $source once the properties are available
-    // directly on the CollectionResource
-    exJson.meta.total_entries = workPackages.$source.total;
+    exJson.meta.total_entries = workPackages.total;
   }
 
   // Go
