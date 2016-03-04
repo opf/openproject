@@ -127,6 +127,13 @@ function wpTable(WorkPackagesTableService, $window, featureFlags, PathHelper){
         return false;
       }
 
+      scope.countForGroup = function(name) {
+        var group = _.filter(scope.countByGroup, function(group) {
+          return group.value === name;
+        })[0];
+        return group.count;
+      };
+
       scope.selectWorkPackage = function(row, $event) {
         if ($event.target.type != 'checkbox') {
           var currentRowCheckState = row.checked;
