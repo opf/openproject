@@ -30,3 +30,10 @@ See doc/COPYRIGHT.md for more details.
 <div class="overview">
   <%= textilizable @project.description %>
 </div>
+
+<% if current_user.admin? %>
+  <%= link_to settings_project_path(project), class: 'button -highlight' do %>
+    <i class="button--icon icon-edit"></i>
+    <span class="button--text"><%= l(:button_edit) %></span>
+  <% end %>
+<% end %>
