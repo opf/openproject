@@ -70,11 +70,11 @@
             </div>
 
             <div>
-              <wp-column work-package="row.object"
+              <wp-td work-package="row.object"
                          column="groupByColumn"
                          display-type="{{ groupByColumn.name }}"
                          display-empty="-">
-              </wp-column>
+              </wp-td>
 
               <span class="count">
                 ({{ countByGroup[row.groupName] }})
@@ -146,10 +146,10 @@
             ]">
             <td colspan="{{1  - (!!hideWorkPackageDetails * 1)}}">
               {{ text.sumFor }}
-              <wp-column work-package="row.object"
+              <wp-td work-package="row.object"
                          column="groupByColumn"
                          display-empty="-">
-              </wp-column>
+              </wp-td>
             </td>
             <td ng-repeat="column in columns">
               {{ column.group_sums[row.groupName] }}
