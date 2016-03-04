@@ -26,7 +26,6 @@ server machine.
 The installation procedure assumes the following prerequisites:
 
 * A server running one of the following Linux distributions (**64bit variant only**):
-
   * Ubuntu 14.04 Trusty
   * Debian 8 Jessie
   * Debian 7 Wheezy
@@ -39,7 +38,6 @@ The installation procedure assumes the following prerequisites:
 * A mail server that is accessible via SMTP that can be used for sending
   notification emails. OpenProject supports authentication, yet does not
 provide support for SMTP via SSL/TLS.
-
 * If you intend to use SSL for OpenProject: A valid SSL certifificate along
   with the private key file. The key MUST NOT be protected by a passphrase,
 otherwise the Apache server won't be able to read it when it starts.
