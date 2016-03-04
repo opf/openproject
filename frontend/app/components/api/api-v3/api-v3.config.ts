@@ -28,6 +28,8 @@
 
 function apiV3Config(apiV3, halTransform) {
   apiV3.addResponseInterceptor((data, operation, what) => {
+    data.$plain = angular.copy(data);
+
     apiV3.addElementTransformer(what, halTransform);
 
     if (data && data._type === 'Collection') {
