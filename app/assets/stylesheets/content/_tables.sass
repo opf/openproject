@@ -79,9 +79,6 @@ table
         &.-border-right
           border-right: 1px solid $light-gray
 
-        &.-shadow-right
-          box-shadow: 5px 0 10px -5px $light-gray
-
       tr
         border-bottom: none
         &:hover
@@ -126,7 +123,12 @@ table
 
       .-border
         border-bottom: 1px solid $light-gray
-        box-shadow: 0px 5px 10px -5px $light-gray
+
+    col.hover
+      background: none
+
+    .generic-table--sort-header-outer:hover
+      background: none
 
 tr
   &.project
