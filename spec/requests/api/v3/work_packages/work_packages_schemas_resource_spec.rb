@@ -35,10 +35,11 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
 
   let(:project) { FactoryGirl.create(:project) }
   let(:type) { FactoryGirl.create(:type) }
-  let(:schema_path) { api_v3_paths.work_package_schema project.id, type.id }
   let(:current_user) { FactoryGirl.build(:user, member_in_project: project) }
 
   describe 'GET /api/v3/work_packages/schemas/:id' do
+    let(:schema_path) { api_v3_paths.work_package_schema project.id, type.id }
+
     context 'logged in' do
       before do
         allow(User).to receive(:current).and_return(current_user)
@@ -66,6 +67,46 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
       context 'id is missing' do
         it_behaves_like 'not found' do
           let(:schema_path) { '/api/v3/work_packages/schemas/' }
+        end
+      end
+    end
+
+    context 'not logged in' do
+      it 'should act as if the schema does not exist' do
+        get schema_path
+        expect(last_response.status).to eql(404)
+      end
+    end
+  end
+
+  describe 'GET /api/v3/work_packages/schemas/sums' do
+    let(:schema_path) { api_v3_paths.work_package_sums_schema }
+    subject { last_response }
+
+    before do
+      allow(Setting)
+        .to receive(:work_package_list_summable_columns)
+        .and_return(['estimated_hours'])
+    end
+
+    context 'logged in' do
+      before do
+        allow(User).to receive(:current).and_return(current_user)
+        get schema_path
+      end
+
+      context 'valid schema' do
+        it 'should return HTTP 200' do
+          expect(last_response.status).to eql(200)
+        end
+
+        # Further fields are tested in the representer specs
+        it 'should return the schema for estimated_hours' do
+          expected = { 'type': 'Duration',
+                       'name': 'Estimated time',
+                       'required': false,
+                       'writable': false }
+          expect(subject.body).to be_json_eql(expected.to_json).at_path('estimatedTime')
         end
       end
     end

@@ -233,6 +233,10 @@ module API
             "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
           end
 
+          def self.work_package_sums_schema
+            "#{root}/work_packages/schemas/sums"
+          end
+
           def self.work_package_watchers(id)
             "#{work_package(id)}/watchers"
           end
