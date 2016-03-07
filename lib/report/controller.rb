@@ -286,8 +286,8 @@ module Report::Controller
         end
       end
     end
-    groups[:rows].try(:reverse_each) { |r| query.row(r) }
     groups[:columns].try(:reverse_each) { |c| query.column(c) }
+    groups[:rows].try(:reverse_each) { |r| query.row(r) }
     query
   end
 
