@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
     <input id="repository-checkout-url"
            type="text" class="-clickable" size="40"
-           value="<%= @instructions.checkout_url %>"
+           value="<%= @instructions.checkout_url(true) %>"
            onclick="this.focus(); this.select();"
            readonly>
     <button class="toolbar-input--affix toolbar-input-group--affix -append"
