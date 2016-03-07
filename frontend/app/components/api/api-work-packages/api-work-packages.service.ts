@@ -26,39 +26,40 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {ApiMetaDataService} from "../api-meta-data/api-meta-data.service";
-
 export class ApiWorkPackagesService {
-  protected WorkPackages;
-
-  //TODO: Add missing properties.
-  protected propertyMap = {
-    assigned_to: 'assignee',
-    updated_at: 'updatedAt'
-  };
-
   constructor (protected DEFAULT_PAGINATION_OPTIONS,
                protected $stateParams,
                protected $q:ng.IQService,
-               protected apiV3:restangular.IService,
-               protected apiMetaData:ApiMetaDataService) {
-
-    this.WorkPackages = apiV3.service('work_packages');
+               protected apiV3:restangular.IService) {
   }
 
   public list(offset:number, pageSize:number, query:api.ex.Query) {
-    return this.WorkPackages.getList(this.queryAsV3Params(offset, pageSize, query)).then(wpCollection => {
+    const workPackages;
+
+    if (query.project_id) {
+      workPackages = this.apiV3.service('work_packages', this.apiV3.one('projects', query.project_id));
+    }
+    else {
+      workPackages = this.apiV3.service('work_packages');
+    }
+
+    return workPackages.getList(this.queryAsV3Params(offset, pageSize, query)).then(wpCollection => {
       return wpCollection;
     });
   }
 
-
   protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {
+
+    const v3Filters = _.map(query.filters, (filter) => {
+      const newFilter = {};
+      newFilter[filter.name] = {operator: filter.operator, values: filter.values};
+      return newFilter;
+    });
+
     const params = {
       offset: offset,
       pageSize: pageSize,
-      filters: [query.filters],
-      sortBy: query.sort_criteria,
+      filters: [v3Filters]
     };
 
     if (query.group_by) {
@@ -69,10 +70,13 @@ export class ApiWorkPackagesService {
       params['showSums'] = query.display_sums;
     }
 
+    if (query.sort_criteria) {
+      params['sortBy'] = [query.sort_criteria];
+    }
+
     return params;
   }
 }
-
 
 angular
   .module('openproject.api')

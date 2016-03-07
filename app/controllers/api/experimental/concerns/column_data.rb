@@ -29,7 +29,7 @@
 module Api::Experimental::Concerns::ColumnData
   def get_columns_for_json(columns)
     columns.map do |column|
-      { name: column.name,
+      { name: internal_to_v3_name(column.name),
         title: column.caption,
         sortable: column.sortable?,
         groupable: column.groupable?,

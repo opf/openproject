@@ -104,13 +104,16 @@ function WorkPackagesListController($scope,
       apiWorkPackages
         .list(json.meta.page, json.meta.per_page, json.meta.query)
         .then((workPackageCollection) => {
-          json.work_packages = workPackageCollection.getElements();
+          mergeApiResponses(json, workPackageCollection);
           setupPage(json, !!queryParams);
+
+          QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function(data){
+            $scope.availableUnusedColumns = data;
+          });
+
+          QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
       });
 
-      QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function(data){
-        $scope.availableUnusedColumns = data;
-      });
 
       if ($scope.projectIdentifier) {
         ProjectService.getProject($scope.projectIdentifier).then(function(project) {
@@ -119,7 +122,6 @@ function WorkPackagesListController($scope,
         });
       }
 
-      QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
     });
   }
 
@@ -230,12 +232,27 @@ function WorkPackagesListController($scope,
       $scope.query, PaginationService.getPaginationOptions())
       .then(function (json:api.ex.WorkPackagesMeta) {
         apiWorkPackages
-          .list(json.meta.page, json.meta.per_page, json.meta.query, json.meta.columns)
+          .list(json.meta.page, json.meta.per_page, json.meta.query)
           .then((workPackageCollection) => {
-            json.work_packages = workPackageCollection.getElements();
+            // Copy V3 group/sum response into experimental format
+            mergeApiResponses(json, workPackageCollection);
             setupWorkPackagesTable(json);
         });
       });
+  }
+
+  function mergeApiResponses(exJson, workPackages) {
+    exJson.work_packages = workPackages.elements;
+
+    if (workPackages.totalSums) {
+      exJson.meta.sums = exJson.meta.columns.map(column => workPackages.totalSums[column.name]);
+    } else {
+      exJson.meta.sums = new Array(exJson.meta.columns.length);
+    }
+
+    // TODO: no longer use detour over $source once the properties are available
+    // directly on the CollectionResource
+    exJson.meta.total_entries = workPackages.$source.total;
   }
 
   // Go

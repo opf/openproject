@@ -69,10 +69,6 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
       });
     });
 
-  function getNewlyAddedColumns() {
-    return _.difference(vm.selectedColumns, vm.oldSelectedColumns);
-  }
-
   function getColumnNames(arr) {
     return _.map(arr, function (column) {
       return column.name;
@@ -81,17 +77,6 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
 
   vm.updateSelectedColumns = function() {
     QueryService.setSelectedColumns(getColumnNames(vm.selectedColumns));
-
-    // Augment work packages with new columns data
-    var addedColumns        = getNewlyAddedColumns(),
-        currentWorkPackages = WorkPackagesTableService.getRowsData(),
-        groupBy             = WorkPackagesTableService.getGroupBy();
-
-    if(groupBy.length === 0) groupBy = undefined; // don't pass an empty string as groupBy
-
-    if(addedColumns.length) {
-      $rootScope.refreshWorkPackages = WorkPackageService.augmentWorkPackagesWithColumnsData(currentWorkPackages, addedColumns, groupBy);
-    }
 
     columnsModal.deactivate();
   };
@@ -112,12 +97,12 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
       return !_.contains(used, column.name);
     });
   };
-  
+
   //hack to prevent dragging of close icons
   $timeout(function(){
     angular.element('.columns-modal-content .ui-select-match-close')
       .on('dragstart', function(event) {
-        event.preventDefault(); 
+        event.preventDefault();
       });
   });
 

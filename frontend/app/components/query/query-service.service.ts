@@ -197,10 +197,7 @@ function QueryService(Query,
 
       var url = projectIdentifier ? PathHelper.apiProjectAvailableColumnsPath(projectIdentifier) : PathHelper.apiAvailableColumnsPath();
 
-      return QueryService.doGet(url, function(response){
-        availableColumns = response.data.available_columns;
-        return availableColumns;
-      });
+      return QueryService.doGet(url, (response) => response.data.available_columns);
     },
 
     getGroupBy: function() {
