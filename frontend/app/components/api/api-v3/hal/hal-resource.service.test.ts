@@ -233,6 +233,41 @@ describe('HalResource service', () => {
     });
   });
 
+  describe('when transforming an object with a links property that is an array', () => {
+    var resource;
+
+    beforeEach(() => {
+      resource = new HalResource({
+        _links: {
+          values: [
+            {
+              href: '/api/value/1'
+            },
+            {
+              href: '/api/value/2'
+            }
+          ]
+        }
+      });
+    });
+
+    it('should be an array of links in $links', () => {
+      expect(Array.isArray(resource.$links.values)).to.be.true;
+    });
+
+    it('should should be the same amount of items as the original', () => {
+      expect(resource.$links.values.length).to.eq(2);
+    });
+
+    it('should have made each link callable', () => {
+      expect(resource.$links.values[0]).to.not.throw(Error);
+    });
+
+    it('should be an array that is a property of the resource', () => {
+      expect(Array.isArray(resource.values)).to.be.true;
+    });
+  });
+
   describe('when transforming an object with an _embedded list with the list element having _links', () => {
     var plain;
     var resource;

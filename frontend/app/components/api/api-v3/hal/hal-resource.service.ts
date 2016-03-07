@@ -57,6 +57,11 @@ function halResource(halTransform, HalLink, $q) {
       angular.extend(this, source);
 
       angular.forEach(this.$links, (link, name:string) => {
+        if (Array.isArray(link)) {
+          this[name] = link.map(HalResource.fromLink);
+          return;
+        }
+
         link = link.$link;
 
         if (link.href && link.method == 'get' && name !== 'self') {
@@ -100,7 +105,13 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     private transformLinks() {
-      return this.transformHalProperty('_links', HalLink.asFunc);
+      return this.transformHalProperty('_links', (link) => {
+        if (Array.isArray(link)) {
+          return link.map(HalLink.asFunc);
+        }
+
+        return HalLink.asFunc(link);
+      });
     }
 
     private transformEmbedded() {
