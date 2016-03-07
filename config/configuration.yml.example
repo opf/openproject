@@ -274,6 +274,7 @@ default:
   #     manages: /opt/repositories/git
   #   subversion:
   #     client_command: /usr/local/bin/svn
+  #     trustedssl: true
   #     disabled_types:
   #       - :existing
   #     manages: /opt/repositories/svn
