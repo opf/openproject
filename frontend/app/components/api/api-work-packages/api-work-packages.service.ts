@@ -47,9 +47,7 @@ export class ApiWorkPackagesService {
   }
 
   public list(offset:number, pageSize:number, query:api.ex.Query) {
-    return this.WorkPackages.getList(this.queryAsV3Params(offset, pageSize, query)).then(wpCollection => {
-      return wpCollection;
-    });
+    return this.WorkPackages.getList(this.queryAsV3Params(offset, pageSize, query));
   }
 
 
