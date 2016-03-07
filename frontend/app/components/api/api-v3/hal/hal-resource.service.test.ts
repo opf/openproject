@@ -77,7 +77,7 @@ describe('HalResource service', () => {
         }
       };
 
-      resource = new HalResource(angular.copy(plain));
+      resource = new HalResource(plain);
     });
 
     it('should be restangularized', () => {
@@ -181,7 +181,7 @@ describe('HalResource service', () => {
         }
       };
 
-      resource = new HalResource(angular.copy(plain));
+      resource = new HalResource(plain);
     });
 
     it('should not be restangularized', () => {
@@ -252,7 +252,7 @@ describe('HalResource service', () => {
         }
       };
 
-      resource = new HalResource(angular.copy(plain));
+      resource = new HalResource(plain);
     });
 
     it('should not be restangularized', () => {
