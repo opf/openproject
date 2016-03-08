@@ -29,12 +29,17 @@
 export class WorkPackageEditFormController {
   public workPackage;
 
+  constructor(protected NotificationsService) {
+  }
+
   public loadSchema() {
     return this.workPackage.getSchema();
   }
 
   public updateWorkPackage() {
-    this.workPackage.save();
+    this.workPackage.save().catch(error => {
+      this.NotificationsService.addError('There was an error ...');
+    });
   }
 }
 
