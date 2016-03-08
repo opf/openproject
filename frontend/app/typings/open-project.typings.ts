@@ -207,6 +207,8 @@ declare namespace op {
 
     public $links;
     public $embedded;
+    public $isHal;
+    public name:string;
 
     constructor(protected $source:restangular.IElement);
 
@@ -223,6 +225,7 @@ declare namespace op {
   interface FieldSchema {
     type:string;
     writable:boolean;
+    allowedValues;
   }
 
   interface WorkPackageLinks {

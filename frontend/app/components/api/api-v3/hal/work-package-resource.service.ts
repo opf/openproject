@@ -26,14 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function wpResource(HalResource: typeof op.HalResource, apiV3) {
+function wpResource(HalResource: typeof op.HalResource) {
   class WorkPackageResource extends HalResource {
     getForm() {
       return this.$links.update(this);
     }
 
     getSchema() {
-      return this.getForm().then(form => form.$embedded.schema);
+      return this.getForm().then(form => {
+        const schema = form.$embedded.schema;
+
+        angular.forEach(schema, (field, name) => {
+          if (this[name] && field.writable && field.$isHal
+            && Array.isArray(field.allowedValues)) {
+
+            this[name] = _.where(field.allowedValues, {name: this[name].name})[0];
+          }
+        });
+
+        return schema;
+      });
     }
 
     save() {

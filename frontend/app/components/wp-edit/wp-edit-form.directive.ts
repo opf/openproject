@@ -30,7 +30,6 @@ export class WorkPackageEditFormController {
   public workPackage;
 
   public loadSchema() {
-    //TODO: See `api-work-packages.config.ts`. The schema, if set, should be returned by `getSchema`
     return this.workPackage.getSchema();
   }
 
