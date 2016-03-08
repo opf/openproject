@@ -341,7 +341,7 @@ module OpenProject
                               .includes(:status)
                               .references(:statuses)
                               .find_by(id: oid)
-              link = work_package_quick_info(work_package)
+              link = work_package_quick_info(work_package, only_path: only_path)
             end
           elsif sep == '###'
             oid = identifier.to_i
@@ -350,7 +350,7 @@ module OpenProject
                            .references(:statuses)
                            .find_by(id: oid)
             if work_package && obj && !(attr == :description && obj.id == work_package.id)
-              link = work_package_quick_info_with_description(work_package)
+              link = work_package_quick_info_with_description(work_package, only_path: only_path)
             end
           elsif sep == ':'
             # removes the double quotes if any
