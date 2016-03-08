@@ -181,7 +181,7 @@ function WorkPackagesListController($scope,
     WorkPackagesTableService.setBulkLinks(bulkLinks);
 
     // query data
-    QueryService.setTotalEntries(meta.total_entries);
+    QueryService.setTotalEntries(json.resource.total);
 
     // pagination data
     PaginationService.setPerPageOptions(meta.per_page_options);
@@ -192,7 +192,6 @@ function WorkPackagesListController($scope,
     $scope.columns = $scope.query.columns;
     $scope.rows = WorkPackagesTableService.getRows();
     $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
-    $scope.workPackageCountByGroup = meta.groups;
     $scope.totalEntries = QueryService.getTotalEntries();
     $scope.resource = json.resource;
 
@@ -245,8 +244,6 @@ function WorkPackagesListController($scope,
   function mergeApiResponses(exJson, workPackages) {
     exJson.work_packages = workPackages.elements;
     exJson.resource = workPackages;
-    exJson.meta.total_entries = workPackages.total;
-    exJson.meta.groups = workPackages.groups;
   }
 
   // Go

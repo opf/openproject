@@ -40,11 +40,8 @@ function wpTable(WorkPackagesTableService, $window, featureFlags, PathHelper, ap
       columns: '=',
       rows: '=',
       query: '=',
-      countByGroup: '=',
       groupBy: '=',
-      groupByColumn: '=',
       displaySums: '=',
-      groupSums: '=',
       resource: '=',
       activationCallback: '&'
     },
