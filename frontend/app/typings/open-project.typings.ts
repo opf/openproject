@@ -240,4 +240,13 @@ declare namespace op {
     update();
     links: WorkPackageLinks
   }
+
+  interface QueryParams {
+    offset?:number;
+    pageSize?:number;
+    filters?:any[];
+    groupBy?:string;
+    showSums?:boolean;
+    sortBy?:any[];
+  }
 }

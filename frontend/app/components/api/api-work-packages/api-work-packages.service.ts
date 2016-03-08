@@ -54,22 +54,22 @@ export class ApiWorkPackagesService {
       return newFilter;
     });
 
-    const params = {
+    const params:op.QueryParams = {
       offset: offset,
       pageSize: pageSize,
       filters: [v3Filters]
     };
 
     if (query.group_by) {
-      params['groupBy'] = query.group_by;
+      params.groupBy = query.group_by;
     }
 
     if (query.display_sums) {
-      params['showSums'] = query.display_sums;
+      params.showSums = query.display_sums;
     }
 
     if (query.sort_criteria) {
-      params['sortBy'] = [query.sort_criteria];
+      params.sortBy = [query.sort_criteria];
     }
 
     return params;
