@@ -53,8 +53,8 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: a3fe23e2f243e4ad7d8ae34aa738908b4c541011
-  branch: release/5.0
+  revision: 48de77103ac4ce2e20b26e3867c00d7053eb13b9
+  branch: stable/5
   specs:
     openproject-translations (5.0.16)
       crowdin-api (~> 0.4.0)
