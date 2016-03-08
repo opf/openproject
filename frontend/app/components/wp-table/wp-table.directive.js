@@ -30,7 +30,7 @@ angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
 
-function wpTable(WorkPackagesTableService, $window, featureFlags, PathHelper){
+function wpTable(WorkPackagesTableService, $window, featureFlags, PathHelper, apiWorkPackages){
   return {
     restrict: 'E',
     replace: true,
@@ -78,6 +78,50 @@ function wpTable(WorkPackagesTableService, $window, featureFlags, PathHelper){
 
         angular.element($window).trigger('resize');
       });
+
+      scope.sumsLoaded = function() {
+        return scope.displaySums &&
+          scope.resource.sumsSchema &&
+          scope.resource.sumsSchema.$loaded &&
+          scope.resource.totalSums;
+      };
+
+      scope.$watch('resource', function() {
+        if (scope.displaySums) {
+          fetchSumsSchema();
+        }
+      });
+
+      scope.$watch('displaySums', function(sumsToBeDisplayed) {
+        if (sumsToBeDisplayed) {
+          if (!totalSumsFetched()) { fetchTotalSums(); }
+          if (!sumsSchemaFetched()) { fetchSumsSchema(); }
+        }
+      });
+
+      function fetchTotalSums() {
+        apiWorkPackages
+          // TODO: use the correct page offset and per page options
+          .list(1, 1, scope.query)
+          .then(function(workPackageCollection) {
+            angular.extend(scope.resource, workPackageCollection);
+            fetchSumsSchema();
+          });
+      }
+
+      function totalSumsFetched() {
+        return !!scope.resource.totalSums;
+      }
+
+      function sumsSchemaFetched() {
+        return scope.resource.sumsSchema && scope.resource.sumsSchema.$loaded;
+      }
+
+      function fetchSumsSchema() {
+        if (scope.resource.sumsSchema && !scope.resource.sumsSchema.$loaded) {
+          scope.resource.sumsSchema.$load();
+        }
+      }
 
       scope.setCheckedStateForAllRows = function(state) {
         WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, state);

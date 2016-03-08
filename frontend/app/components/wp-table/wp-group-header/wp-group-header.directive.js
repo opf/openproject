@@ -39,6 +39,10 @@ function wpGroupHeader() {
         pre: function(scope) {
           scope.currentGroup = scope.row.groupName;
 
+          scope.currentGroupObject = _.find(scope.resource.groups, function(o) {
+            return o.value === scope.row.groupName;
+          });
+
           pushGroup(scope.currentGroup);
 
           scope.toggleCurrentGroup = function() {

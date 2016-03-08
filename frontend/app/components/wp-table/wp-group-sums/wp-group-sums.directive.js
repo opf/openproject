@@ -35,20 +35,11 @@ function wpGroupSums() {
     restrict: 'A',
     scope: true,
 
-    compile: function() {
-      return {
-        pre: function(scope) {
-          scope.currentGroup = scope.row.groupName;
-
-          scope.$watch('groupSums.length', function(newVal, oldVal) {
-            if(newVal != oldVal && scope.groupSums) {
-              scope.sums = scope.groupSums.map(function(groupSum){
-                return groupSum[scope.currentGroup];
-              });
-            }
-          });
-        }
-      };
+    link: function(scope) {
+      scope.currentGroup = scope.row.groupName;
+      scope.currentGroupObject = _.find(scope.resource.groups, function(o) {
+        return o.value === scope.currentGroup;
+      });
     }
   };
 }

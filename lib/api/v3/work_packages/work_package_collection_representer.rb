@@ -60,7 +60,7 @@ module API
         link :sumsSchema do
           {
             href: api_v3_paths.work_package_sums_schema,
-          } if total_sums || groups && groups.any? { |group| group.has_key?(:sums) }
+          } if total_sums || groups && groups.any?(&:has_sums?)
         end
 
         collection :elements,
@@ -107,6 +107,7 @@ module API
         end
 
         private
+
         attr_reader :groups,
                     :total_sums
       end

@@ -64,8 +64,17 @@ export class ApiWorkPackagesService {
       params.groupBy = query.group_by;
     }
 
+    if (query.groupBy) {
+      params.groupBy = query.groupBy;
+    }
+
+    // TODO: why is it display_sums sometimes and displaySums at other times
     if (query.display_sums) {
       params.showSums = query.display_sums;
+    }
+
+    if (query.displaySums) {
+      params.showSums = query.displaySums;
     }
 
     if (query.sort_criteria) {

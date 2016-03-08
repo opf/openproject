@@ -36,14 +36,8 @@ function wpTd(){
     templateUrl: '/components/wp-table/wp-td/wp-td.directive.html',
 
     scope: {
-      workPackage: '=',
-      projectIdentifier: '=',
-      column: '=',
-      displayType: '@',
-      displayEmpty: '@',
       schema: '=',
       object: '=',
-      resource: '=',
       attribute: '='
     },
 
@@ -56,24 +50,7 @@ function wpTd(){
 function WorkPackageTdController($scope, PathHelper, WorkPackagesHelper) {
   var vm = this;
 
-  if (vm.workPackage) {
-    vm.workPackage.getSchema().then(function(schema) {
-      if (schema[vm.column.name] && vm.column.name === 'percentageDone') {
-        // TODO: Check if we might alter the wp schema
-        vm.displayType = 'Percent';
-      }
-      else if (schema[vm.column.name]) {
-        vm.displayType = schema[vm.column.name].type;
-      }
-      else {
-        vm.displayType = 'String';
-      }
-
-      setText(vm.displayType);
-    });
-  }
-
-  if (vm.schema) {
+  $scope.$watch('vm.schema.$loaded', function() {
     if (!vm.schema[vm.attribute] || !vm.object[vm.attribute] ) { return; }
 
     vm.displayType = vm.schema[vm.attribute].type;
@@ -83,20 +60,5 @@ function WorkPackageTdController($scope, PathHelper, WorkPackagesHelper) {
                 vm.object[vm.attribute];
 
     vm.displayText = WorkPackagesHelper.formatValue(text, vm.displayType);
-  }
-
-  function setText(type) {
-    if (vm.workPackage[vm.column.name] === null || vm.workPackage[vm.column.name] === undefined) {
-      vm.displayText = '';
-    }
-    else if (vm.workPackage[vm.column.name].value !== undefined) {
-      vm.displayText = WorkPackagesHelper.formatValue(vm.workPackage[vm.column.name].value, type);
-    }
-    else if (vm.workPackage[vm.column.name].name !== undefined) {
-      vm.displayText = WorkPackagesHelper.formatValue(vm.workPackage[vm.column.name].name, type);
-    }
-    else {
-      vm.displayText = WorkPackagesHelper.formatValue(vm.workPackage[vm.column.name], type);
-    }
-  }
+  });
 }
