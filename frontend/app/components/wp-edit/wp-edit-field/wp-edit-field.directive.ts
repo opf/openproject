@@ -50,8 +50,7 @@ export class WorkPackageEditFieldController {
   }
 
   public submit() {
-    this.deactivate();
-    this.formCtrl.updateWorkPackage();
+    this.formCtrl.updateWorkPackage().then(this.deactivate);
   }
 
   public activate() {

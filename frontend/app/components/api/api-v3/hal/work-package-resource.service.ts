@@ -26,13 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function wpResource(HalResource: typeof op.HalResource) {
+function wpResource(HalResource: typeof op.HalResource, NotificationsService:any) {
   class WorkPackageResource extends HalResource {
     private form;
 
     getForm() {
       if (!this.form) {
         this.form = this.$links.update(this);
+        this.form.catch(error => {
+          NotificationsService.addError(error.data.message);
+        });
       }
       return this.form;
     }
@@ -63,17 +66,17 @@ function wpResource(HalResource: typeof op.HalResource) {
       delete plain.updatedAt;
 
       return this.getForm().then(form => {
-        var plain_payload = form.embedded.payload.data();
-        var schema = form.embedded.schema;
+        var plain_payload = form.payload.$source;
+        var schema = form.$embedded.schema;
 
-        for (property in data) {
-          if (data[property] && schema[property] && schema[property]['writable'] === true) {
-            plain_payload[property] = data[property];
+        for (property in plain) {
+          if (plain[property] && schema.hasOwnProperty(property) && schema[property] && schema[property]['writable'] === true) {
+            plain_payload[property] = plain[property];
           }
         }
-        for (property in data._links) {
-          if (data._links[property] && schema[property] && schema[property]['writable'] === true) {
-            plain_payload._links[property] = data._links[property];
+        for (property in plain._links) {
+          if (plain._links[property] && schema.hasOwnProperty(property) && schema[property] && schema[property]['writable'] === true) {
+            plain_payload._links[property] = plain._links[property];
           }
         }
 

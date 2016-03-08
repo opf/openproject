@@ -29,7 +29,7 @@
 export class WorkPackageEditFormController {
   public workPackage;
 
-  constructor(protected NotificationsService) {
+  constructor(protected NotificationsService, protected $q) {
   }
 
   public loadSchema() {
@@ -37,9 +37,21 @@ export class WorkPackageEditFormController {
   }
 
   public updateWorkPackage() {
-    this.workPackage.save().catch(error => {
-      this.NotificationsService.addError('There was an error ...');
+    var deferred = this.$q.defer();
+
+    this.workPackage.save()
+    .then(deferred.resolve)
+    .catch(error => {
+      if (error && error.data && error.data.message) {
+        this.NotificationsService.addError(error.data.message);
+      } else {
+        this.NotificationsService.addError("An internal error has occcurred.");
+      }
+
+      return deferred.reject();
     });
+
+    return deferred.promise;
   }
 }
 
