@@ -13,6 +13,12 @@ at the sections below and exchange `v4.1.0` with `v5.0.0`.
 
 OpenProject 5.0 employs Rails 4.2.x, which contains a number of changes regarding paths. Foremost, files previously located in the `scripts` directory now reside in `bin` (e.g., `delayed_job`).
 
+### Secret Token
+
+With an update to Rails 4.1+, you now must generate a secret key base for the production environment with `./bin/rake secret` and make that available through the environment variable `SECRET_KEY_BASE`.
+
+You will likely set the environment variable in `/etc/environment` or use your server's environment mechanism (i.e., `SetEnv` in Apache).
+
 ## Upgrading to Managed Repositories
 
 You can create repositories explicitly on the filesystem using managed repositories.

@@ -32,4 +32,4 @@ See doc/COPYRIGHT.rdoc for more details.
 </h1>
 <em><%= @message.author %></em>
 
-<%= format_text @message.content, only_path: false  %>
+<%= format_text @message.content, object: @message, only_path: false  %>

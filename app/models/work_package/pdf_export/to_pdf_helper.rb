@@ -27,48 +27,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rexml/document'
-require 'open3'
+require 'work_package/pdf_export/ifpdf'
+require 'work_package/pdf_export/itcpdf'
 
-module OpenProject
-  module VERSION #:nodoc:
-    MAJOR = 5
-    MINOR = 0
-    PATCH = 16
-    TINY  = PATCH # Redmine compat
-
-    # Used by semver to define the special version (if any).
-    # A special version "satify but have a lower precedence than the associated
-    # normal version". So 2.0.0RC1 would be part of the 2.0.0 series but
-    # be considered to be an older version.
-    #
-    #   1.4.0 < 2.0.0RC1 < 2.0.0RC2 < 2.0.0 < 2.1.0
-    #
-    # This method may be overridden by third party code to provide vendor or
-    # distribution specific versions. They may or may not follow semver.org:
-    #
-    #   2.0.0debian-2
-    def self.special
-      ''
-    end
-
-    def self.revision
-      revision, = Open3.capture3('git', 'rev-parse', 'HEAD')
-      if revision.present?
-        revision.strip[0..8]
-      end
-    rescue
-      nil
-    end
-
-    REVISION = self.revision
-    ARRAY = [MAJOR, MINOR, PATCH, REVISION].compact
-    STRING = ARRAY.join('.')
-
-    def self.to_a; ARRAY end
-    def self.to_s; STRING end
-    def self.to_semver
-      [MAJOR, MINOR, PATCH].join('.') + special
+module WorkPackage::PdfExport::ToPdfHelper
+  def get_pdf(language)
+    if ['ko', 'ja', 'zh', 'zh-tw', 'th'].include? language.to_s.downcase
+      ::WorkPackage::PdfExport::IFPDF.new(current_language)
+    else
+      ::WorkPackage::PdfExport::ITCPDF.new(current_language)
     end
   end
 end

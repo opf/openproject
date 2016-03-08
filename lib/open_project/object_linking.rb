@@ -116,7 +116,7 @@ module OpenProject
       project_link_name = project.name
 
       if show_icon && User.current.member_of?(project)
-        project_link_name = icon_wrapper('icon-context icon-star1', I18n.t(:description_my_project).html_safe + '&nbsp;'.html_safe) + project_link_name
+        project_link_name = icon_wrapper('icon-context icon-star', I18n.t(:description_my_project).html_safe + '&nbsp;'.html_safe) + project_link_name
       end
 
       if project.active?

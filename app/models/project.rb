@@ -345,17 +345,20 @@ class Project < ActiveRecord::Base
   # * project: limit the condition to project
   # * with_subprojects: limit the condition to project and its subprojects
   # * member: limit the condition to the user projects
+  # * project_alias: the alias to use for the project's table - default: 'projects'
   def self.allowed_to_condition(user, permission, options = {})
-    base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
+    table_alias = options.fetch(:project_alias, Project.table_name)
+
+    base_statement = "#{table_alias}.status=#{Project::STATUS_ACTIVE}"
     if perm = Redmine::AccessControl.permission(permission)
       unless perm.project_module.nil?
         # If the permission belongs to a project module, make sure the module is enabled
-        base_statement << " AND #{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name='#{perm.project_module}')"
+        base_statement << " AND #{table_alias}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name='#{perm.project_module}')"
       end
     end
     if options[:project]
-      project_statement = "#{Project.table_name}.id = #{options[:project].id}"
-      project_statement << " OR (#{Project.table_name}.lft > #{options[:project].lft} AND #{Project.table_name}.rgt < #{options[:project].rgt})" if options[:with_subprojects]
+      project_statement = "#{table_alias}.id = #{options[:project].id}"
+      project_statement << " OR (#{table_alias}.lft > #{options[:project].lft} AND #{table_alias}.rgt < #{options[:project].rgt})" if options[:with_subprojects]
       base_statement = "(#{project_statement}) AND (#{base_statement})"
     end
 
@@ -365,16 +368,16 @@ class Project < ActiveRecord::Base
       statement_by_role = {}
       if user.logged?
         if Role.non_member.allowed_to?(permission) && !options[:member]
-          statement_by_role[Role.non_member] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
+          statement_by_role[Role.non_member] = "#{table_alias}.is_public = #{connection.quoted_true}"
         end
         user.projects_by_role.each do |role, projects|
           if role.allowed_to?(permission)
-            statement_by_role[role] = "#{Project.table_name}.id IN (#{projects.map(&:id).join(',')})"
+            statement_by_role[role] = "#{table_alias}.id IN (#{projects.map(&:id).join(',')})"
           end
         end
       else
         if Role.anonymous.allowed_to?(permission) && !options[:member]
-          statement_by_role[Role.anonymous] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
+          statement_by_role[Role.anonymous] = "#{table_alias}.is_public = #{connection.quoted_true}"
         end
       end
       if statement_by_role.empty?

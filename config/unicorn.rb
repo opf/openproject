@@ -42,21 +42,12 @@ preload_app true
 # and reopen sockets when forking.
 # (except Dalli/Memcache store, which detects  automatically)
 before_fork do |_server, _worker|
-  Signal.trap 'TERM' do
-    puts 'Unicorn master intercepted SIGTERM. Re-Sending as SIGQUIT for slaves.'
-    Process.kill 'QUIT', Process.pid
-  end
-
   if defined?(ActiveRecord::Base)
     ActiveRecord::Base.connection.disconnect!
   end
 end
 
 after_fork do |_server, _worker|
-  Signal.trap 'TERM' do
-    puts 'Waiting for SIGQUIT from Unicorn master.'
-  end
-
   if defined?(ActiveRecord::Base)
     ActiveRecord::Base.establish_connection
   end

@@ -59,11 +59,20 @@ class TimeEntry < ActiveRecord::Base
     # switch projects. But as the time entry is still part of it's original
     # project, it is unclear, whether the time entry is actually visible if the
     # user lacks the view_work_packages permission in the moved to project.
-    #
-    # See WorkPackage#compute_spent_hours for an implementation of it.
     includes(:project)
-      .merge(Project.allowed_to(args.first || User.current, :view_time_entries))
+      .references(:projects)
+      .where(visible_condition(args.first || User.current))
   }
+
+  def self.visible_condition(user, table_alias: nil, project: nil)
+    options = {}
+    options[:project_alias] = table_alias if table_alias
+    options[:project] = project if project
+
+    Project.allowed_to_condition(user,
+                                 :view_time_entries,
+                                 options)
+  end
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 

@@ -29,6 +29,7 @@
 
 class AccountController < ApplicationController
   include CustomFieldsHelper
+  include OmniauthHelper
   include Concerns::OmniauthLogin
   include Concerns::RedirectAfterLogin
 
@@ -45,7 +46,7 @@ class AccountController < ApplicationController
 
     if user.logged?
       redirect_to home_url
-    elsif Concerns::OmniauthLogin.direct_login?
+    elsif omniauth_direct_login?
       direct_login(user)
     elsif request.post?
       authenticate_user
@@ -55,7 +56,7 @@ class AccountController < ApplicationController
   # Log out current user and redirect to welcome page
   def logout
     logout_user
-    if Setting.login_required? && Concerns::OmniauthLogin.direct_login?
+    if Setting.login_required? && omniauth_direct_login?
       flash.now[:notice] = I18n.t :notice_logged_out
       render :exit, locals: { instructions: :after_logout }
     else
@@ -194,7 +195,7 @@ class AccountController < ApplicationController
   end
 
   def activate_user(user)
-    if Concerns::OmniauthLogin.direct_login?
+    if omniauth_direct_login?
       direct_login user
     elsif OpenProject::Configuration.disable_password_login?
       flash[:notice] = I18n.t('account.omniauth_login')
@@ -296,7 +297,7 @@ class AccountController < ApplicationController
         p[:origin] = params[:back_url] if params[:back_url]
       end
 
-      redirect_to Concerns::OmniauthLogin.direct_login_provider_url(ps)
+      redirect_to direct_login_provider_url(ps)
     else
       if Setting.login_required?
         error = user.active? || flash[:error]

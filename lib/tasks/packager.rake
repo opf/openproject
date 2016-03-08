@@ -47,11 +47,13 @@ namespace :packager do
   # avoids to load the environment multiple times
   task postinstall: [:environment, 'setup:scm'] do
 
-    # Precompile assets when requested
+    # We need to precompile assets when either
+    # 1. packager requested it (e.g., due to a server prefix being set)
+    # 2. When a custom Gemfile is added
     if ENV['REBUILD_ASSETS'] == 'true'
       Rake::Task['assets:precompile'].invoke
       FileUtils.chmod_R 'a+r', "#{ENV['APP_HOME']}/public/assets/"
-      shell_setup(['config:set', 'REBUILD_ASSETS="false"'])
+      shell_setup(['config:set', 'REBUILD_ASSETS=""'])
     end
 
     # Persist configuration

@@ -180,6 +180,14 @@
     position: relative
     top: 0
 
+// When user is not allowed to edit the field
+#work-package-description
+  span:not(.inplace-editing--container)
+    .inplace-edit--read-value span
+      width: 100%
+      .macro-unavailable.permanent
+        width: 50%
+
 .inplace-edit--preview
   border: 1px solid $inplace-edit--border-color
   padding: 0.375rem
@@ -338,6 +346,11 @@ a.inplace-editing--trigger-link,
 
 .inplace-edit--highlight
   border-color: $inplace-edit--color-highlight !important
+
+.work-packages--details
+  .inplace-edit--read-value .macro-unavailable.permanent
+    width: 75%
+    margin-left: -10rem
 
 .work-package--details--long-field
   margin-top: 10px

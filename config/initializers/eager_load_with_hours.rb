@@ -27,48 +27,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rexml/document'
-require 'open3'
+# This patch is needed for eager loading spent hours for a bunch of work
+# packages. The WorkPackage.include_spent_hours(user) method adds an additional
+# attribute to the result set. As such 'virtual' attributes are not added to
+# the model on instantiation (see: https://github.com/rails/rails/issues/15185)
+# this patch has been added which is based on
+# https://github.com/rails/rails/issues/15185#issuecomment-142230234
 
-module OpenProject
-  module VERSION #:nodoc:
-    MAJOR = 5
-    MINOR = 0
-    PATCH = 16
-    TINY  = PATCH # Redmine compat
+require 'active_record'
 
-    # Used by semver to define the special version (if any).
-    # A special version "satify but have a lower precedence than the associated
-    # normal version". So 2.0.0RC1 would be part of the 2.0.0 series but
-    # be considered to be an older version.
-    #
-    #   1.4.0 < 2.0.0RC1 < 2.0.0RC2 < 2.0.0 < 2.1.0
-    #
-    # This method may be overridden by third party code to provide vendor or
-    # distribution specific versions. They may or may not follow semver.org:
-    #
-    #   2.0.0debian-2
-    def self.special
-      ''
-    end
+module ActiveRecord
+  module Associations
+    class JoinDependency
+      JoinBase && class JoinPart
+        def instantiate_with_hours(row, aliases)
+          if base_klass == WorkPackage && row.has_key?('hours')
+            aliases_with_hours = aliases + [['hours', 'hours']]
 
-    def self.revision
-      revision, = Open3.capture3('git', 'rev-parse', 'HEAD')
-      if revision.present?
-        revision.strip[0..8]
+            instantiate_without_hours(row, aliases_with_hours)
+          else
+            instantiate_without_hours(row, aliases)
+          end
+        end; alias_method_chain :instantiate, :hours
       end
-    rescue
-      nil
-    end
-
-    REVISION = self.revision
-    ARRAY = [MAJOR, MINOR, PATCH, REVISION].compact
-    STRING = ARRAY.join('.')
-
-    def self.to_a; ARRAY end
-    def self.to_s; STRING end
-    def self.to_semver
-      [MAJOR, MINOR, PATCH].join('.') + special
     end
   end
 end

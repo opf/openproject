@@ -113,6 +113,8 @@ module API
                  if: -> (*) { embed_links && call_or_use(show_if) }
       end
 
+      class_attribute :to_eager_load
+
       def current_user_allowed_to(permission, context:)
         current_user.allowed_to?(permission, context)
       end

@@ -57,6 +57,26 @@ module API
                 current_user: current_user)
         end
 
+        collection :elements,
+                   getter: -> (*) {
+                     work_packages = eager_loaded_work_packages
+
+                     generated_classes = ::Hash.new do |hash, work_package|
+                       hit = hash.values.find { |klass|
+                         klass.customizable.type_id == work_package.type_id &&
+                         klass.customizable.project_id == work_package.project_id
+                       }
+
+                       hash[work_package] = hit || element_decorator.create_class(work_package)
+                     end
+
+                     work_packages.map { |model|
+                       generated_classes[model].new(model, current_user: current_user)
+                     }
+                   },
+                   exec_context: :decorator,
+                   embedded: true
+
         property :groups,
                  exec_context: :decorator,
                  getter: -> (*) {
@@ -70,6 +90,21 @@ module API
                    @total_sums
                  },
                  render_nil: false
+
+        # Eager load elements used in the representer later
+        # to avoid n+1 queries triggered from each representer.
+        def eager_loaded_work_packages
+          ids_in_order = represented.map(&:id)
+
+          work_packages = WorkPackage
+                          .include_spent_hours(current_user)
+                          .preload(element_decorator.to_eager_load)
+                          .where(id: ids_in_order)
+                          .select('work_packages.*')
+                          .to_a
+
+          work_packages.sort_by { |wp| ids_in_order.index(wp.id) }
+        end
       end
     end
   end

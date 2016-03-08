@@ -27,48 +27,56 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rexml/document'
-require 'open3'
+require 'tcpdf'
 
-module OpenProject
-  module VERSION #:nodoc:
-    MAJOR = 5
-    MINOR = 0
-    PATCH = 16
-    TINY  = PATCH # Redmine compat
+class WorkPackage::PdfExport::ITCPDF < TCPDF
+  include Redmine::I18n
+  attr_accessor :footer_date
 
-    # Used by semver to define the special version (if any).
-    # A special version "satify but have a lower precedence than the associated
-    # normal version". So 2.0.0RC1 would be part of the 2.0.0 series but
-    # be considered to be an older version.
-    #
-    #   1.4.0 < 2.0.0RC1 < 2.0.0RC2 < 2.0.0 < 2.1.0
-    #
-    # This method may be overridden by third party code to provide vendor or
-    # distribution specific versions. They may or may not follow semver.org:
-    #
-    #   2.0.0debian-2
-    def self.special
-      ''
-    end
+  def initialize(lang)
+    super()
+    set_language_if_valid lang
+    @font_for_content = 'FreeSans'
+    @font_for_footer  = 'FreeSans'
+    SetCreator(OpenProject::Info.app_name)
+    SetFont(@font_for_content)
+  end
 
-    def self.revision
-      revision, = Open3.capture3('git', 'rev-parse', 'HEAD')
-      if revision.present?
-        revision.strip[0..8]
-      end
+  def SetFontStyle(style, size)
+    SetFont(@font_for_content, style, size)
+  end
+
+  def SetTitle(txt)
+    txt = begin
+      utf16txt = txt.to_s.encode('UTF-16BE', 'UTF-8')
+      hextxt = '<FEFF'  # FEFF is BOM
+      hextxt << utf16txt.unpack('C*').map { |x| sprintf('%02X', x) }.join
+      hextxt << '>'
     rescue
-      nil
-    end
+      txt
+    end || ''
+    super(txt)
+  end
 
-    REVISION = self.revision
-    ARRAY = [MAJOR, MINOR, PATCH, REVISION].compact
-    STRING = ARRAY.join('.')
-
-    def self.to_a; ARRAY end
-    def self.to_s; STRING end
-    def self.to_semver
-      [MAJOR, MINOR, PATCH].join('.') + special
+  def textstring(s)
+    # Format a text string
+    if s =~ /\A</  # This means the string is hex-dumped.
+      return s
+    else
+      return '(' + escape(s) + ')'
     end
+  end
+
+  alias RDMCell Cell
+  alias RDMMultiCell MultiCell
+
+  def Footer
+    SetFont(@font_for_footer, 'I', 8)
+    SetY(-15)
+    SetX(15)
+    RDMCell(0, 5, @footer_date, 0, 0, 'L')
+    SetY(-15)
+    SetX(-30)
+    RDMCell(0, 5, PageNo().to_s + '/{nb}', 0, 0, 'C')
   end
 end

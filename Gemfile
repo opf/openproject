@@ -30,6 +30,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 4.2.5'
 gem 'actionpack-action_caching'
+gem 'actionpack-xml_parser'
 gem 'activerecord-session_store'
 gem 'rails-observers'
 gem 'responders', '~> 2.0'
@@ -38,7 +39,7 @@ gem 'coderay', '~> 1.1.0'
 gem 'rubytree', '~> 0.8.3'
 gem 'rdoc', '>= 2.4.2'
 gem 'globalize', '~> 5.0.1'
-gem 'omniauth'
+gem 'omniauth', github: 'oliverguenther/omniauth'
 gem 'request_store', '~> 1.1.0'
 gem 'gravatar_image_tag', '~> 1.2.0'
 
@@ -106,8 +107,8 @@ gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.g
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
-  # see https://github.com/mperham/dalli
-  gem 'dalli', '~> 2.7.2'
+  # see https://github.clientom/mperham/dalli
+  gem 'dalli', '~> 2.7.6'
 end
 
 gem 'sprockets',        '~> 2.12.3'
@@ -246,8 +247,10 @@ group :docker do
   gem 'newrelic_rpm', require: !!ENV['HEROKU']
 end
 
-# Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
-Dir.glob File.expand_path('../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfile}', __FILE__) do |file|
+# Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
+gemfiles = Dir.glob File.expand_path('../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfile}', __FILE__)
+gemfiles << ENV['CUSTOM_PLUGIN_GEMFILE'] unless ENV['CUSTOM_PLUGIN_GEMFILE'].nil?
+gemfiles.each do |file|
   next unless File.readable?(file)
   eval_gemfile(file)
 end

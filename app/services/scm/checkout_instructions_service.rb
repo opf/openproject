@@ -30,18 +30,21 @@
 ##
 # Implements a repository service for building checkout instructions if supported
 class Scm::CheckoutInstructionsService
-  attr_reader :repository, :user
+  attr_reader :repository, :user, :path
 
-  def initialize(repository, user: User.current)
+  def initialize(repository, path: nil, user: User.current)
     @repository = repository
     @user = user
+    @path = path
   end
 
   ##
   # Retrieve the checkout URL using the repository vendor information
   # It may additionally set a path parameter, if the repository supports subtree checkout
-  def checkout_url(path = nil)
-    repository.scm.checkout_url(repository, checkout_base_url, path)
+  def checkout_url(with_path = false)
+    repository.scm.checkout_url(repository,
+                                checkout_base_url,
+                                with_path ? @path : nil)
   end
 
   ##

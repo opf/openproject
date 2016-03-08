@@ -91,6 +91,12 @@ For the future we plan to add authentication modes based on OAuth2 and OpenID Co
 - `PATCH` - Update a resource
 - `DELETE` - Delete a resource
 
+# Compression
+
+Responses are compressed if requested by the client. Currently [gzip](http://www.gzip.org/) and [deflate](https://tools.ietf.org/html/rfc1951)
+are supported. The client signals the desired compression by setting the [`Accept-Encoding` header](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.3).
+If no `Accept-Encoding` header is send, `Accept-Encoding: identity` is assumed which will result in the API responding uncompressed.
+
 # Group Basic Objects
 
 # Links

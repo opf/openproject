@@ -31,9 +31,13 @@ require 'uri'
 ##
 # Intended to be used by the AccountController to handle omniauth logins
 module Concerns::OmniauthLogin
-  def self.included(base)
+  extend ActiveSupport::Concern
+
+  included do
     # disable CSRF protection since that should be covered by the omniauth strategy
-    base.skip_before_filter :verify_authenticity_token, only: [:omniauth_login]
+    skip_before_filter :verify_authenticity_token, only: [:omniauth_login]
+
+    helper :omniauth
   end
 
   def omniauth_login
@@ -69,26 +73,8 @@ module Concerns::OmniauthLogin
     show_error I18n.t(:error_external_authentication_failed)
   end
 
-  def self.direct_login?
-    direct_login_provider.is_a? String
-  end
-
-  ##
-  # Per default the user may choose the usual password login as well as several omniauth providers
-  # on the login page and in the login drop down menu.
-  #
-  # With his configuration option you can set a specific omniauth provider to be
-  # used for direct login. Meaning that the login provider selection is skipped and
-  # the configured provider is used directly instead.
-  #
-  # If this option is active /login will lead directly to the configured omniauth provider
-  # and so will a click on 'Sign in' (as opposed to opening the drop down menu).
-  def self.direct_login_provider
-    OpenProject::Configuration['omniauth_direct_login_provider']
-  end
-
-  def self.direct_login_provider_url(params = {})
-    url_with_params "/auth/#{direct_login_provider}", params if direct_login?
+  def direct_login_provider_url(params = {})
+    url_for params.merge(controller: '/auth', action: direct_login_provider)
   end
 
   private

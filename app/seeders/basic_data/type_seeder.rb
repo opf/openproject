@@ -50,12 +50,12 @@ module BasicData
 
       [
         { name: I18n.t(:default_type_task),       is_default: true,  color_id: colors[I18n.t(:default_color_grey)],        is_in_roadmap: true,  in_aggregation: false, is_milestone: false,  position: 1 },
-        { name: I18n.t(:default_type_milestone),  is_default: false, color_id: colors[I18n.t(:default_color_green_light)], is_in_roadmap: false, in_aggregation: true, is_milestone: true,    position: 2 },
-        { name: I18n.t(:default_type_phase),      is_default: false, color_id: colors[I18n.t(:default_color_blue_dark)],   is_in_roadmap: false, in_aggregation: true, is_milestone: false,   position: 3 },
-        { name: I18n.t(:default_type_feature),    is_default: false, color_id: colors[I18n.t(:default_color_blue)],        is_in_roadmap: true,  in_aggregation: false, is_milestone: false,  position: 4 },
-        { name: I18n.t(:default_type_epic),       is_default: false, color_id: colors[I18n.t(:default_color_orange)],      is_in_roadmap: true,  in_aggregation: true, is_milestone: false,   position: 5 },
-        { name: I18n.t(:default_type_user_story), is_default: false, color_id: colors[I18n.t(:default_color_grey_dark)],   is_in_roadmap: true,  in_aggregation: false , is_milestone: false, position: 6 },
-        { name: I18n.t(:default_type_bug),        is_default: false, color_id: colors[I18n.t(:default_color_red)],         is_in_roadmap: true,  in_aggregation: false , is_milestone: false, position: 7 }
+        { name: I18n.t(:default_type_milestone),  is_default: true,  color_id: colors[I18n.t(:default_color_green_light)], is_in_roadmap: false, in_aggregation: true, is_milestone: true,    position: 2 },
+        { name: I18n.t(:default_type_phase),      is_default: true,  color_id: colors[I18n.t(:default_color_blue_dark)],   is_in_roadmap: false, in_aggregation: true, is_milestone: false,   position: 3 },
+        { name: I18n.t(:default_type_feature),    is_default: true,  color_id: colors[I18n.t(:default_color_blue)],        is_in_roadmap: true,  in_aggregation: false, is_milestone: false,  position: 4 },
+        { name: I18n.t(:default_type_epic),       is_default: true,  color_id: colors[I18n.t(:default_color_orange)],      is_in_roadmap: true,  in_aggregation: true, is_milestone: false,   position: 5 },
+        { name: I18n.t(:default_type_user_story), is_default: true,  color_id: colors[I18n.t(:default_color_grey_dark)],   is_in_roadmap: true,  in_aggregation: false , is_milestone: false, position: 6 },
+        { name: I18n.t(:default_type_bug),        is_default: true,  color_id: colors[I18n.t(:default_color_red)],         is_in_roadmap: true,  in_aggregation: false , is_milestone: false, position: 7 }
       ]
     end
   end

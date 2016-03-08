@@ -109,7 +109,13 @@ class Repository < ActiveRecord::Base
   # Retrieves the :disabled_types setting from `configuration.yml
   # To avoid wrong set operations for string-based configuration, force them to symbols.
   def self.disabled_types
-    (scm_config[:disabled_types] || []).map(&:to_sym)
+    disabled = scm_config[:disabled_types]
+
+    if disabled.is_a?(String)
+      disabled.split(',')
+    else
+      (disabled || [])
+    end.map(&:to_sym)
   end
 
   def vendor
@@ -234,7 +240,7 @@ class Repository < ActiveRecord::Base
 
   # Returns an array of committers usernames and associated user_id
   def committers
-    @committers ||= Changeset.connection.select_rows("SELECT DISTINCT committer, user_id FROM #{Changeset.table_name} WHERE repository_id = #{id}")
+    @committers ||= Changeset.where(repository_id: id).distinct.pluck(:committer, :user_id)
   end
 
   # Maps committers username to a user ids

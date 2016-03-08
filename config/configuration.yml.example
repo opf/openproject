@@ -253,7 +253,8 @@ default:
   # disabled_types:
   #   Disable specific repository types for this particular vendor. This allows
   #   to restrict the available choices a project administrator has for creating repositories
-  #   See the example below for available types.
+  #   May be set as a YAML list of types or several types, separated by comma.
+  #    See the example below for available types.
   #
   #   Available types for git:
   #     - :local (Local repositories, registered using a local path)
@@ -273,6 +274,7 @@ default:
   #     manages: /opt/repositories/git
   #   subversion:
   #     client_command: /usr/local/bin/svn
+  #     trustedssl: true
   #     disabled_types:
   #       - :existing
   #     manages: /opt/repositories/svn
@@ -322,6 +324,11 @@ default:
   #   global_basic_auth:
   #     user: admin
   #     password: admin
+
+
+  # By default, the legacy APIv2 allows authentication through basic auth.
+  # Uncomment the following line to restrict APIv2 access to API tokens
+  # apiv2_enable_basic_auth: false
 
 # specific configuration options for production environment
 # that overrides the default ones

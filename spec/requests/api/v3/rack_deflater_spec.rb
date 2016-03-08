@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,48 +26,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rexml/document'
-require 'open3'
+require 'spec_helper'
 
-module OpenProject
-  module VERSION #:nodoc:
-    MAJOR = 5
-    MINOR = 0
-    PATCH = 16
-    TINY  = PATCH # Redmine compat
+describe Rack::Deflater, type: :request do
+  include API::V3::Utilities::PathHelper
 
-    # Used by semver to define the special version (if any).
-    # A special version "satify but have a lower precedence than the associated
-    # normal version". So 2.0.0RC1 would be part of the 2.0.0 series but
-    # be considered to be an older version.
-    #
-    #   1.4.0 < 2.0.0RC1 < 2.0.0RC2 < 2.0.0 < 2.1.0
-    #
-    # This method may be overridden by third party code to provide vendor or
-    # distribution specific versions. They may or may not follow semver.org:
-    #
-    #   2.0.0debian-2
-    def self.special
-      ''
-    end
+  let(:text) { 'text' }
 
-    def self.revision
-      revision, = Open3.capture3('git', 'rev-parse', 'HEAD')
-      if revision.present?
-        revision.strip[0..8]
-      end
-    rescue
-      nil
-    end
+  it 'produces an identical eTag whether content is deflated or not' do
+    # Using the api_v3_paths.configuaration because of the endpoint's simplicity.
+    # It could be any endpoint really.
+    get api_v3_paths.configuration
 
-    REVISION = self.revision
-    ARRAY = [MAJOR, MINOR, PATCH, REVISION].compact
-    STRING = ARRAY.join('.')
+    expect(response.headers['Content-Encoding']).to be_nil
 
-    def self.to_a; ARRAY end
-    def self.to_s; STRING end
-    def self.to_semver
-      [MAJOR, MINOR, PATCH].join('.') + special
-    end
+    etag = response.headers['Etag']
+    content_length = response.headers['Content-Length'].to_i
+
+    get api_v3_paths.configuration,
+        {},
+        'HTTP_ACCEPT_ENCODING' => 'gzip'
+
+    expect(response.headers['Etag']).to eql etag
+    expect(response.headers['Content-Length'].to_i).to_not eql content_length
+    expect(response.headers['Content-Encoding']).to eql 'gzip'
   end
 end
