@@ -72,13 +72,14 @@ export class WorkPackageEditFieldController {
   }
 }
 
-function wpEditFieldLink(scope:ng.IScope,
-                         element:ng.IAugmentedJQueryStatic,
-                         attrs:ng.IAttributes,
-                         controllers:
+function wpEditFieldLink(scope, element, attrs, controllers:
                            [WorkPackageEditFormController, WorkPackageEditFieldController]) {
 
   controllers[1].formCtrl = controllers[0];
+
+  element.click(event => {
+    event.stopImmediatePropagation();
+  });
 }
 
 function wpEditField() {
