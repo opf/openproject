@@ -28,15 +28,16 @@
 
 function halResource(halTransform, HalLink, $q) {
   return class HalResource {
+    protected static fromLink(link) {
+      return new HalResource({_links: {self: link}}, false);
+    }
+
     public $links;
     public $embedded;
     public $isHal: boolean = true;
 
     private _name:string;
-
-    protected static fromLink(link) {
-      return new HalResource({_links: {self: link}}, false);
-    }
+    private source:any;
 
     public get name():string {
       return this._name || this.$links.self.$link.title || '';
@@ -47,14 +48,12 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     constructor(protected $source, public $loaded = true) {
-      var source = angular.copy($source.restangularized ? $source.$plain : $source);
+      this.source = angular.copy($source.restangularized ? $source.$plain : $source);
 
       this.$links = this.transformLinks();
       this.$embedded = this.transformEmbedded();
 
-      delete source._links;
-      delete source._embedded;
-      angular.extend(this, source);
+      angular.extend(this, this.source);
 
       angular.forEach(this.$links, (link, name:string) => {
         if (Array.isArray(link)) {
@@ -131,7 +130,8 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     private transformHalProperty(propertyName:string, callback:(element) => any) {
-      var properties = angular.copy(this.$source[propertyName]);
+      var properties = this.source[propertyName];
+      delete this.source[propertyName];
 
       angular.forEach(properties, (property, name) => {
         properties[name] = callback(property);
