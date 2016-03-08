@@ -149,6 +149,12 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
           return value ? TimezoneService.formattedDate(value) : '';
         case 'currency':
           return currencyFilter(value, 'EUR ');
+        case 'Duration':
+          return TimezoneService.formattedDuration(value);
+        case 'DateTime':
+          return TimezoneService.formattedDatetime(value);
+        case 'Date':
+          return TimezoneService.formattedDate(value);
         default:
           return value;
       }
