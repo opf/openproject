@@ -54,17 +54,34 @@ function wpResource(HalResource: typeof op.HalResource) {
     }
 
     save() {
+      // TODO: Do something if the lock version does not match
+      // TODO: iterate only over the changed attributes
+      // TODO: invalidate form after saving
       const plain = this.$plain();
 
-      //TODO: Remove non-writable properties automatically
       delete plain.createdAt;
       delete plain.updatedAt;
 
-      return this.$links.updateImmediately(plain).then(workPackage => {
-        angular.extend(this, workPackage);
-        this.form = null;
+      return this.getForm().then(form => {
+        var plain_payload = form.embedded.payload.data();
+        var schema = form.embedded.schema;
 
-        return this;
+        for (property in data) {
+          if (data[property] && schema[property] && schema[property]['writable'] === true) {
+            plain_payload[property] = data[property];
+          }
+        }
+        for (property in data._links) {
+          if (data._links[property] && schema[property] && schema[property]['writable'] === true) {
+            plain_payload._links[property] = data._links[property];
+          }
+        }
+
+        return this.$links.updateImmediately(plain).then(workPackage => {
+          angular.extend(this, workPackage);
+          this.form = null;
+          return this;
+        });
       });
     }
   }
