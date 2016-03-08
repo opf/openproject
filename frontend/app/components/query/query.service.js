@@ -62,11 +62,11 @@ function QueryConstructorService(Filter, Sortation, UrlParamsHelper, INITIALLY_S
         {
           'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
           'c[]': this.getParamColumns(),
-          'group_by': this.groupBy,
+          'groupBy': this.groupBy,
           'sort': this.getEncodedSortation(),
-          'display_sums': this.displaySums,
+          'displaySums': this.displaySums,
           'name': this.name,
-          'is_public': this.isPublic,
+          'isPublic': this.isPublic,
           'accept_empty_query_fields': this.isDirty(),
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
@@ -78,14 +78,14 @@ function QueryConstructorService(Filter, Sortation, UrlParamsHelper, INITIALLY_S
       return angular.extend.apply(this, [
         {
           'id': this.id,
-          'query_id': this.id,
+          'queryId': this.id,
           'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
           'c[]': this.getParamColumns(),
-          'group_by': this.groupBy,
+          'groupBy': this.groupBy,
           'sort': this.getEncodedSortation(),
-          'display_sums': this.displaySums,
+          'displaySums': this.displaySums,
           'name': this.name,
-          'is_public': this.isPublic,
+          'isPublic': this.isPublic,
           'accept_empty_query_fields': this.isDirty()
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
@@ -158,10 +158,10 @@ function QueryConstructorService(Filter, Sortation, UrlParamsHelper, INITIALLY_S
     setAvailableWorkPackageFilters: function(availableFilters) {
       this.availableWorkPackageFilters = availableFilters;
 
-      if (this.project_id){
-        delete this.availableWorkPackageFilters["project_id"];
+      if (this.projectId){
+        delete this.availableWorkPackageFilters['project'];
       } else {
-        delete this.availableWorkPackageFilters["subproject_id"];
+        delete this.availableWorkPackageFilters['subprojectId'];
       }
       // TODO RS: Need to assertain if there are any sub-projects and remove filter if not.
       // The project will have to be fetched prior to this.
@@ -224,7 +224,7 @@ function QueryConstructorService(Filter, Sortation, UrlParamsHelper, INITIALLY_S
      * @returns {boolean} default
      */
     isGlobal: function() {
-      return !this.project_id;
+      return !this.projectId;
     },
 
     /**

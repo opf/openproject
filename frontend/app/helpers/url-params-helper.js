@@ -148,8 +148,8 @@ module.exports = function(I18n, PaginationService, PathHelper) {
     buildQueryExportOptions: function(query){
       var relativeUrl;
 
-      if (query.project_id) {
-        relativeUrl = PathHelper.projectWorkPackagesPath(query.project_id);
+      if (query.projectId) {
+        relativeUrl = PathHelper.projectWorkPackagesPath(query.projectId);
       } else {
         relativeUrl = PathHelper.workPackagesPath();
       }

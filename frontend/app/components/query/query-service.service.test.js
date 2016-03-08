@@ -57,10 +57,10 @@ describe('QueryService', function() {
 
     beforeEach(function() {
       queryData = {
-        group_by: 'type',
-        display_sums: 1,
+        groupBy: 'type',
+        displaySums: 1,
         filters: {
-          type_id: {
+          type: {
             operator: '~',
             values: ['Bug', 'Feature']
           }
@@ -71,11 +71,11 @@ describe('QueryService', function() {
     });
 
     it('should set query.groupBy', function() {
-      expect(query.groupBy).to.equal(queryData.group_by);
+      expect(query.groupBy).to.equal(queryData.groupBy);
     });
 
     it('should set query.displaySums', function() {
-      expect(query.displaySums).to.equal(queryData.display_sums);
+      expect(query.displaySums).to.equal(queryData.displaySums);
     });
 
     describe('filters', function() {
@@ -92,7 +92,7 @@ describe('QueryService', function() {
     var spy;
     beforeEach(function() {
       spy = sinon.spy($rootScope, '$broadcast');
-      queryData = { name: '_', 'project_id': 1 };
+      queryData = { name: '_', 'projectId': 1 };
       QueryService.initQuery(1, queryData);
       var path = PathHelper.apiProjectQueryPath(1, 1);
       $httpBackend.when('DELETE', new RegExp(path + '*')).respond(200, []);

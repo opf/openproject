@@ -36,8 +36,8 @@ export class ApiWorkPackagesService {
   public list(offset:number, pageSize:number, query:api.ex.Query) {
     var workPackages;
 
-    if (query.project_id) {
-      workPackages = this.apiV3.service('work_packages', this.apiV3.one('projects', query.project_id));
+    if (query.projectId) {
+      workPackages = this.apiV3.service('work_packages', this.apiV3.one('projects', query.projectId));
     }
     else {
       workPackages = this.apiV3.service('work_packages');
@@ -60,25 +60,16 @@ export class ApiWorkPackagesService {
       filters: [v3Filters]
     };
 
-    if (query.group_by) {
-      params.groupBy = query.group_by;
-    }
-
     if (query.groupBy) {
       params.groupBy = query.groupBy;
-    }
-
-    // TODO: why is it display_sums sometimes and displaySums at other times
-    if (query.display_sums) {
-      params.showSums = query.display_sums;
     }
 
     if (query.displaySums) {
       params.showSums = query.displaySums;
     }
 
-    if (query.sort_criteria) {
-      params.sortBy = [query.sort_criteria];
+    if (query.sortCriteria) {
+      params.sortBy = [query.sortCriteria];
     }
 
     return params;
