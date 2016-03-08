@@ -40,7 +40,11 @@ function wpTd(){
       projectIdentifier: '=',
       column: '=',
       displayType: '@',
-      displayEmpty: '@'
+      displayEmpty: '@',
+      schema: '=',
+      object: '=',
+      resource: '=',
+      attribute: '='
     },
 
     bindToController: true,
@@ -51,104 +55,48 @@ function wpTd(){
 
 function WorkPackageTdController($scope, PathHelper, WorkPackagesHelper) {
   var vm = this;
-  
-  vm.displayType = vm.displayType || 'text';
 
-  $scope.$watch(dataAvailable, setColumnData);
-  $scope.$watch('vm.workPackage', setColumnData, true);
-
-  function dataAvailable() {
-    if (!vm.workPackage) return false;
-
-    if (vm.column.custom_field) {
-      return customValueAvailable();
-    }
-
-    return vm.workPackage.hasOwnProperty(vm.column.name);
-  }
-
-  function customValueAvailable() {
-    var customFieldId = vm.column.custom_field.id;
-
-    return vm.workPackage.custom_values &&
-      vm.workPackage.custom_values.filter(function(customValue){
-        return customValue && customValue.custom_field_id === customFieldId;
-      }).length;
-  }
-
-  function setColumnData() {
-    setDisplayText(getFormattedColumnValue());
-
-    if (vm.column.meta_data.link.display) {
-      var id = WorkPackagesHelper.getColumnDataId(vm.workPackage, vm.column)
-      if (id) {
-        displayDataAsLink(id);
+  if (vm.workPackage) {
+    vm.workPackage.getSchema().then(function(schema) {
+      if (schema[vm.column.name] && vm.column.name === 'percentageDone') {
+        // TODO: Check if we might alter the wp schema
+        vm.displayType = 'Percent';
       }
-    } else {
-      setCustomDisplayType();
-    }
-  }
-
-  function getFormattedColumnValue() {
-    var custom_field = vm.column.custom_field;
-
-    if (custom_field) {
-      return WorkPackagesHelper.getFormattedCustomValue(vm.workPackage, custom_field);
-
-    } else {
-      return WorkPackagesHelper.getFormattedColumnData(vm.workPackage, vm.column);
-    }
-  }
-
-  function setDisplayText(value) {
-    vm.displayText = vm.displayEmpty || '';
-
-    if (typeof value === 'number' || value){
-      vm.displayText = value;
-    }
-  }
-
-  function setCustomDisplayType() {
-    if (vm.column.name === 'done_ratio') vm.displayType = 'progress_bar';
-  }
-
-  function displayDataAsLink(id) {
-    var linkMeta = vm.column.meta_data.link;
-
-    if (linkMeta.model_type === 'work_package') {
-      var projectId = vm.projectIdentifier || '';
-
-      vm.displayType = 'ref';
-      vm.stateRef = "work-packages.show.activity({projectPath: '" + projectId +
-            "', workPackageId: " + id + "})";
-
-    } else {
-      vm.displayType = 'link';
-      vm.url = getLinkFor(id, linkMeta);
-    }
-  }
-
-  function getLinkFor(id, linkMeta){
-    var types = {
-      get user() {
-        if (vm.workPackage[vm.column.name] && vm.workPackage[vm.column.name].type == 'Group') {
-          vm.displayType = 'text';
-
-          return '';
-        }
-
-        return PathHelper.userPath(id);
-      },
-
-      get version() {
-        return PathHelper.versionPath(id);
-      },
-
-      get project() {
-        return PathHelper.projectPath(id);
+      else if (schema[vm.column.name]) {
+        vm.displayType = schema[vm.column.name].type;
       }
-    };
+      else {
+        vm.displayType = 'String';
+      }
 
-    return types[linkMeta.model_type] || '';
+      setText(vm.displayType);
+    });
+  }
+
+  if (vm.schema) {
+    if (!vm.schema[vm.attribute] || !vm.object[vm.attribute] ) { return; }
+
+    vm.displayType = vm.schema[vm.attribute].type;
+
+    var text = vm.object[vm.attribute].value ||
+                vm.object[vm.attribute].name ||
+                vm.object[vm.attribute];
+
+    vm.displayText = WorkPackagesHelper.formatValue(text, vm.displayType);
+  }
+
+  function setText(type) {
+    if (vm.workPackage[vm.column.name] === null || vm.workPackage[vm.column.name] === undefined) {
+      vm.displayText = '';
+    }
+    else if (vm.workPackage[vm.column.name].value !== undefined) {
+      vm.displayText = WorkPackagesHelper.formatValue(vm.workPackage[vm.column.name].value, type);
+    }
+    else if (vm.workPackage[vm.column.name].name !== undefined) {
+      vm.displayText = WorkPackagesHelper.formatValue(vm.workPackage[vm.column.name].name, type);
+    }
+    else {
+      vm.displayText = WorkPackagesHelper.formatValue(vm.workPackage[vm.column.name], type);
+    }
   }
 }

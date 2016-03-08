@@ -65,8 +65,6 @@ function WorkPackagesTableService($filter, QueryService, WorkPackagesTableHelper
 
     addColumnMetaData: function(metaData) {
       angular.forEach(workPackagesTableData.columns, function(column, i){
-        column.total_sum = metaData.sums[i];
-
         if (metaData.group_sums) column.group_sums = metaData.group_sums[i];
       });
 

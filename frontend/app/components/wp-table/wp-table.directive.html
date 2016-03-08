@@ -119,11 +119,11 @@
               lang="{{column.custom_field && column.custom_field.name_locale || locale}}"
               wp-edit-field="column.name"
               ng-class="column.name == 'id' && '-short'">
-            <wp-td work-package="row.object"
-                       column="column"
-                       display-type="{{column.meta_data.data_type}}"
-                       project-identifier="projectIdentifier"
-                       ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']">
+            <wp-td attribute="column.name"
+                   schema="row.object.schema"
+                   object="row.object"
+                   ng-if="row.object.schema.$loaded"
+                   ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']">
             </wp-td>
           </td>
         </tr>
@@ -170,9 +170,12 @@
             </div>
           </td>
           <td ng-repeat="column in columns">
-            <div class="generic-table--footer-outer">
-              {{ column.total_sum }}
-            </div>
+            <wp-td class="generic-table--footer-outer"
+                   attribute="column.name"
+                   schema="resource.sumsSchema"
+                   object="resource.totalSums"
+                   ng-if="resource.sumsSchema.$loaded">
+            </wp-td>
           </td>
         </tr>
 

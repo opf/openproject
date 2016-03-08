@@ -30,43 +30,64 @@ angular
   .module('openproject.workPackages.directives')
   .directive('wpTotalSums', wpTotalSums);
 
-function wpTotalSums(WorkPackageService) {
+function wpTotalSums(apiWorkPackages) {
   return {
     restrict: 'A',
     scope: true,
 
     link: function(scope) {
       if (!totalSumsFetched()) fetchTotalSums();
+      if (!sumsSchemaFetched()) fetchSumsSchema();
 
-      scope.$watch(columnNames, function(columnNames, formerNames) {
-        if (!angular.equals(columnNames, formerNames) && !totalSumsFetched()) {
-          fetchTotalSums();
-          scope.$emit('queryStateChange');
-        }
-      }, true);
+      //scope.$watch(columnNames, function(columnNames, formerNames) {
+      //  if (!angular.equals(columnNames, formerNames) && !totalSumsFetched()) {
+      //    fetchTotalSums();
+      //    scope.$emit('queryStateChange');
+      //  }
+      //}, true);
 
+      scope.$watch('resource', function() {
+        fetchSumsSchema();
+      });
 
       function fetchTotalSums() {
-        scope.fetchTotalSums = WorkPackageService.getWorkPackagesSums(scope.projectIdentifier, scope.query, scope.columns)
-          .then(function(data){
-            angular.forEach(scope.columns, function(column, i){
-              column.total_sum = data.column_sums[i];
-            });
+        apiWorkPackages
+          .list(1, 1, scope.query)
+          .then(function(workPackageCollection) {
+            angular.extend(scope.resource, workPackageCollection);
+            fetchSumsSchema();
           });
-
-        return scope.fetchTotalSums;
+//            scope.resource.
+//            angular.forEach(scope.columns, function(column, i) {
+//              column.total_sum = workPackageCollection.totalSums[i];
+//        scope.fetchTotalSums = WorkPackageService.getWorkPackagesSums(scope.projectIdentifier, scope.query, scope.columns)
+//          .then(function(data){
+//            angular.forEach(scope.columns, function(column, i){
+//              column.total_sum = data.column_sums[i];
+//            });
+//          });
+//
+        //return scope.fetchTotalSums;
       }
 
       function totalSumsFetched() {
-        return scope.columns.every(function(column) {
-          return column.hasOwnProperty('total_sum');
-        });
+        return !!scope.resource.totalSums;
       }
 
-      function columnNames() {
-        return scope.columns.map(function(column) {
-          return column.name;
-        });
+      //function columnNames() {
+      //  return scope.columns.map(function(column) {
+      //    return column.name;
+      //  });
+      //}
+
+      function sumsSchemaFetched() {
+        return scope.resource.sumsSchema && scope.resource.sumsSchema.$loaded;
+      }
+
+      function fetchSumsSchema() {
+        if (scope.resource.sumsSchema) {
+          scope.resource.sumsSchema.$load();
+        }
       }
     }
   };

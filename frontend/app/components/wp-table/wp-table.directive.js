@@ -44,8 +44,8 @@ function wpTable(WorkPackagesTableService, $window, featureFlags, PathHelper){
       groupBy: '=',
       groupByColumn: '=',
       displaySums: '=',
-      totalSums: '=',
       groupSums: '=',
+      resource: '=',
       activationCallback: '&'
     },
 

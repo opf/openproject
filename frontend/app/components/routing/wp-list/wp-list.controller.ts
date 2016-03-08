@@ -194,6 +194,7 @@ function WorkPackagesListController($scope,
     $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
     $scope.workPackageCountByGroup = meta.groups;
     $scope.totalEntries = QueryService.getTotalEntries();
+    $scope.resource = json.resource;
 
     // Authorisation
     AuthorisationService.initModelAuth("work_package", meta._links);
@@ -243,12 +244,7 @@ function WorkPackagesListController($scope,
 
   function mergeApiResponses(exJson, workPackages) {
     exJson.work_packages = workPackages.elements;
-
-    if (workPackages.totalSums) {
-      exJson.meta.sums = exJson.meta.columns.map(column => workPackages.totalSums[column.name]);
-    } else {
-      exJson.meta.sums = new Array(exJson.meta.columns.length);
-    }
+    exJson.resource = workPackages;
     exJson.meta.total_entries = workPackages.total;
     exJson.meta.groups = workPackages.groups;
   }
