@@ -40,6 +40,7 @@ describe Scm::CheckoutInstructionsService do
   }
 
   let(:base_url) { 'http://example.org/svn/' }
+  let(:path) { nil }
   let(:text) { 'foo' }
   let(:checkout_hash) {
     {
@@ -51,7 +52,7 @@ describe Scm::CheckoutInstructionsService do
     }
   }
 
-  subject(:service) { Scm::CheckoutInstructionsService.new(repository, user: user) }
+  subject(:service) { Scm::CheckoutInstructionsService.new(repository, user: user, path: path) }
 
   before do
     allow(Setting).to receive(:repository_checkout_data).and_return(checkout_hash)
@@ -64,9 +65,12 @@ describe Scm::CheckoutInstructionsService do
           .to eq(URI("http://example.org/svn/#{project.identifier}"))
       end
 
-      it 'builds a subpath' do
-        expect(service.checkout_url('foo/bar'))
-          .to eq(URI("http://example.org/svn/#{project.identifier}/foo/bar"))
+      context 'with a subpath' do
+        let(:path) { 'foo/bar' }
+        it do
+          expect(service.checkout_url('foo/bar'))
+            .to eq(URI("http://example.org/svn/#{project.identifier}/foo/bar"))
+        end
       end
     end
 
