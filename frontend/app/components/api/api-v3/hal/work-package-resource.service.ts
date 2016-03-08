@@ -28,8 +28,13 @@
 
 function wpResource(HalResource: typeof op.HalResource) {
   class WorkPackageResource extends HalResource {
+    private form;
+
     getForm() {
-      return this.$links.update(this);
+      if (!this.form) {
+        this.form = this.$links.update(this);
+      }
+      return this.form;
     }
 
     getSchema() {
@@ -37,7 +42,7 @@ function wpResource(HalResource: typeof op.HalResource) {
         const schema = form.$embedded.schema;
 
         angular.forEach(schema, (field, name) => {
-          if (this[name] && field.writable && field.$isHal
+          if (this[name] && field && field.writable && field.$isHal
             && Array.isArray(field.allowedValues)) {
 
             this[name] = _.where(field.allowedValues, {name: this[name].name})[0];
@@ -57,6 +62,8 @@ function wpResource(HalResource: typeof op.HalResource) {
 
       return this.$links.updateImmediately(plain).then(workPackage => {
         angular.extend(this, workPackage);
+        this.form = null;
+
         return this;
       });
     }
