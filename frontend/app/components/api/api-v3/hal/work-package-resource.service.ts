@@ -49,13 +49,16 @@ function wpResource(HalResource: typeof op.HalResource) {
     }
 
     save() {
-      var data = this.$plain();
+      const plain = this.$plain();
 
       //TODO: Remove non-writable properties automatically
-      delete data.createdAt;
-      delete data.updatedAt;
+      delete plain.createdAt;
+      delete plain.updatedAt;
 
-      return this.$source.patch(data);
+      return this.$links.updateImmediately(plain).then(workPackage => {
+        angular.extend(this, workPackage);
+        return this;
+      });
     }
   }
 
