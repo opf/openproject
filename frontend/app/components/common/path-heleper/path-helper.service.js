@@ -210,9 +210,6 @@ function PathHelper() {
       // experimantal, TODO: Migrate to V3
       return PathHelper.apiExperimental + '/users';
     },
-    apiWorkPackagesColumnDataPath: function() {
-      return PathHelper.apiWorkPackagesPath() + '/column_data';
-    },
     apiWorkPackagesPath: function() {
       return PathHelper.apiExperimental + '/work_packages';
     },
