@@ -44,6 +44,7 @@ module WorkPackagesHelper
   #   link_to_work_package(package, subject_only: true)      # => This is the subject (as link)
   #   link_to_work_package(package, status: true)            # => #6 New (if #id => true)
   def link_to_work_package(package, options = {})
+    only_path = options.fetch(:only_path) { true }
     if options[:subject_only]
       options.merge!(type: false,
                      subject: true,
@@ -119,20 +120,28 @@ module WorkPackagesHelper
     title = parts[:title].join(' ')
     css_class = parts[:css_class].join(' ')
 
+    # Determine path or url
+    work_package_link =
+      if only_path
+        work_package_path(package)
+      else
+        work_package_url(package)
+      end
+
     text = if options[:all_link]
              link_text = [prefix, link].reject(&:empty?).join(' - ')
              link_text = [link_text, suffix].reject(&:empty?).join(': ')
              link_text = [hidden_link, link_text].reject(&:empty?).join('')
 
              link_to(link_text.html_safe,
-                     work_package_path(package),
+                     work_package_link,
                      title: title,
                      class: css_class)
            else
              link_text = [hidden_link, link].reject(&:empty?).join('')
 
              html_link = link_to(link_text.html_safe,
-                                 work_package_path(package),
+                                 work_package_link,
                                  title: title,
                                  class: css_class)
 
@@ -141,7 +150,7 @@ module WorkPackagesHelper
             end.html_safe
   end
 
-  def work_package_quick_info(work_package)
+  def work_package_quick_info(work_package, only_path: true)
     changed_dates = {}
 
     journals = work_package.journals.where(['created_at >= ?', Date.today.to_time - 7.day])
@@ -159,7 +168,7 @@ module WorkPackagesHelper
       end
     end
 
-    link = link_to_work_package(work_package, status: true)
+    link = link_to_work_package(work_package, status: true, only_path: only_path)
     link += " #{work_package.start_date.nil? ? '[?]' : work_package.start_date.to_s}"
     link += changed_dates['start_date']
     link += " – #{work_package.due_date.nil? ? '[?]' : work_package.due_date.to_s}"
@@ -168,10 +177,10 @@ module WorkPackagesHelper
     link
   end
 
-  def work_package_quick_info_with_description(work_package, lines = 3)
+  def work_package_quick_info_with_description(work_package, lines = 3, only_path: true)
     description = truncated_work_package_description(work_package, lines)
 
-    link = work_package_quick_info(work_package)
+    link = work_package_quick_info(work_package, only_path: only_path)
 
     attributes = info_user_attributes(work_package)
 

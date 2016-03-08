@@ -251,6 +251,33 @@ describe RepositoriesController, type: :controller do
           end
         end
       end
+
+      describe 'checkout path' do
+        render_views
+
+        let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
+        let(:checkout_hash) {
+          {
+            'subversion' => { 'enabled' => '1',
+                              'text' => 'foo',
+                              'base_url' => 'http://localhost'
+            }
+          }
+        }
+
+        before do
+          allow(Setting).to receive(:repository_checkout_data).and_return(checkout_hash)
+          get :show, project_id: project.identifier, path: 'subversion_test'
+        end
+
+        it 'renders an empty warning view' do
+          expected_path = "http://localhost/#{project.identifier}/subversion_test"
+
+          expect(response.code).to eq('200')
+          expect(response).to render_template partial: 'repositories/_checkout_instructions'
+          expect(response.body).to have_selector("#repository-checkout-url[value='#{expected_path}']")
+        end
+      end
     end
   end
 end
