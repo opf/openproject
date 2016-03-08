@@ -53,7 +53,14 @@ function WorkPackageTdController($scope, PathHelper, WorkPackagesHelper) {
   $scope.$watch('vm.schema.$loaded', function() {
     if (!vm.schema[vm.attribute] || !vm.object[vm.attribute] ) { return; }
 
-    vm.displayType = vm.schema[vm.attribute].type;
+    // TODO: alter backend so that percentageDone has the type
+    // 'Percent' already
+    if (vm.attribute === 'percentageDone') {
+      vm.displayType = 'Percent';
+    }
+    else {
+      vm.displayType = vm.schema[vm.attribute].type;
+    }
 
     var text = vm.object[vm.attribute].value ||
                 vm.object[vm.attribute].name ||
