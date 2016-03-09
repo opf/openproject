@@ -95,18 +95,6 @@ module Api
         end
         export_formats
       end
-
-      # TODO RS: Taken from work_packages_controller, not dry - move to application controller.
-      def per_page_param
-        case params[:format]
-        when 'csv', 'pdf'
-          Setting.work_packages_export_limit.to_i
-        when 'atom'
-          Setting.feeds_limit.to_i
-        else
-          super
-        end
-      end
     end
   end
 end
