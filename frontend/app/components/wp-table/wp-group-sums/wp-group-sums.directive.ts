@@ -26,6 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+export class WorkPackageGroupSumsController {
+  constructor(protected $scope) {
+    $scope.currentGroup = $scope.row.groupName;
+    $scope.currentGroupObject = _.find($scope.resource.groups, function(o) {
+      return o.value === $scope.currentGroup;
+    });
+  }
+};
+
+angular
+  .module('openproject.workPackages.controllers')
+  .controller('WorkPackageGroupSumsController', WorkPackageGroupSumsController);
+
 angular
   .module('openproject.workPackages.directives')
   .directive('wpGroupSums', wpGroupSums);
@@ -34,12 +47,6 @@ function wpGroupSums() {
   return {
     restrict: 'A',
     scope: true,
-
-    link: function(scope) {
-      scope.currentGroup = scope.row.groupName;
-      scope.currentGroupObject = _.find(scope.resource.groups, function(o) {
-        return o.value === scope.currentGroup;
-      });
-    }
+    controller: WorkPackageGroupSumsController
   };
 }

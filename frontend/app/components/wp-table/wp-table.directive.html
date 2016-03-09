@@ -156,8 +156,7 @@
 
         <!-- Total sums -->
 
-        <tr wp-total-sums
-            ng-if="sumsLoaded()"
+        <tr ng-if="sumsLoaded()"
             class="sum group all issue work_package">
           <td colspan="{{1  - (!!hideWorkPackageDetails * 1)}}">
             <div class="generic-table--footer-outer">
@@ -176,7 +175,7 @@
       </tfoot>
     </table>
     <div class="generic-table--header-background"></div>
-    <div class="generic-table--footer-background" ng-if="displaySums"></div>
+    <div class="generic-table--footer-background" ng-if="sumsLoaded()"></div>
   </div>
   <div class="generic-table--no-results-container" ng-if="!rows.length">
     <i class="icon-info1"></i>
