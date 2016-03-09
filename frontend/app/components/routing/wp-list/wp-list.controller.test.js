@@ -28,7 +28,7 @@
 
 describe('WorkPackagesListController', function() {
   var scope, ctrl, win, testProjectService, testWorkPackageService, testQueryService,
-      testPaginationService, testAuthorisationService;
+      testPaginationService, testApiWorkPackages, testAuthorisationService;
   var testQueries;
   var buildController;
   var stateParams = {};
@@ -45,7 +45,7 @@ describe('WorkPackagesListController', function() {
     $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
   }));
-  beforeEach(inject(function($rootScope, $controller, $timeout) {
+  beforeEach(inject(function($rootScope, $controller, $timeout, $q) {
     scope = $rootScope.$new();
     win   = {
       location: { pathname: '' }
@@ -117,6 +117,18 @@ describe('WorkPackagesListController', function() {
         }, 10);
       }
     };
+
+    testApiWorkPackages = {
+      list: function() {
+        var deferred = $q.defer();
+        deferred.resolve({
+          "_type": "Collection",
+          "elements": [],
+        });
+        return deferred.promise;
+      }
+    };
+
     testQueryService = {
       getQuery: function () {
         return {
@@ -176,6 +188,7 @@ describe('WorkPackagesListController', function() {
         PaginationService:  testPaginationService,
         ProjectService:     testProjectService,
         WorkPackageService: testWorkPackageService,
+        apiWorkPackages:    testApiWorkPackages,
         $stateParams:       params,
         $state:             state,
         $location:          location,

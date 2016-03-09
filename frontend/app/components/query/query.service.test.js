@@ -159,7 +159,7 @@ describe('Query', function() {
     it('filters for status: open', function() {
       var filter = query.filters[0];
 
-      expect(filter.name).to.equal('status_id');
+      expect(filter.name).to.equal('status');
       expect(filter.operator).to.equal('o');
     });
   });

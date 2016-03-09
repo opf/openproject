@@ -29,9 +29,13 @@
 describe('HalLink service', () => {
   var $httpBackend:ng.IHttpBackendService;
   var HalLink;
+  var apiV3;
 
   beforeEach(angular.mock.module('openproject.api'));
-  beforeEach(angular.mock.inject((_HalLink_, _$httpBackend_) => {
+  beforeEach(angular.mock.module('openproject.services'));
+
+  beforeEach(angular.mock.inject((_apiV3_, _HalLink_, _$httpBackend_) => {
+    apiV3 = _apiV3_;
     HalLink = _HalLink_;
     $httpBackend = _$httpBackend_;
   }));

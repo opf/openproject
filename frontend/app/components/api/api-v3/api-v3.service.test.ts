@@ -30,6 +30,7 @@ describe('apiV3 service', () => {
   var apiV3;
 
   beforeEach(angular.mock.module('openproject.api'));
+  beforeEach(angular.mock.module('openproject.services'));
 
   beforeEach(angular.mock.inject((_apiV3_) => {
     apiV3 = _apiV3_;

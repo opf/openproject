@@ -43,8 +43,7 @@ describe('wpTd Directive', function() {
 
   beforeEach(inject(function($rootScope, $compile) {
     var html;
-    html = '<wp-td work-package="workPackage" column="column" display-type="displayType"' +
-          'display-empty="-"></wp-td>';
+    html = '<wp-td object="workPackage" schema="schema" attribute="attribute"></wp-td>';
 
     element = angular.element(html);
     rootScope = $rootScope;
@@ -66,29 +65,57 @@ describe('wpTd Directive', function() {
         subject: 'Subject1',
         type: { id: 1, name: 'Bug'},
         sheep: 10,
-        custom_values: [ { custom_field_id: 1, field_format: 'string', value: 'asdf1234'} ]
+        customField1: 'asdf1234',
+      };
+      scope.schema =  {
+        "_type": "Schema",
+        "type": {
+          "type": "Type",
+          "name": "Type",
+          "required": true,
+          "writable": true,
+          "_links": {},
+          "_embedded": {}
+        },
+        "subject": {
+          "type": "String",
+          "name": "Subject",
+          "required": true,
+          "writable": true,
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "sheep": {
+          "type": "Integer",
+          "name": "Sheep",
+          "required": true,
+          "writable": true
+        },
+        "sheep": {
+          "type": "Integer",
+          "name": "Sheep",
+          "required": true,
+          "writable": true
+        },
+        "customField1": {
+            "type": "String",
+            "name": "foobar",
+            "required": false,
+            "writable": true
+        }
       };
     });
 
     describe('rendering an object field', function(){
       beforeEach(function(){
-        scope.column = {
-          custom_field: false,
-          groupable: 'type',
-          meta_data: { data_type: 'object', link: { display: false} },
-          name: 'type',
-          sortable: 'types:position',
-          title: 'Type'
-        };
-        scope.displayType = 'text';
-
+        scope.attribute = 'type';
         compile();
       });
 
       it('should contain the object title', function() {
         var content = getInnermostSpan(element);
 
-        expect(content.text()).to.equal('Bug');
+        expect(content.text().trim()).to.equal('Bug');
       });
 
       it('should have the object title as title attribute', function() {
@@ -100,23 +127,14 @@ describe('wpTd Directive', function() {
 
     describe('rendering a text field', function(){
       beforeEach(function(){
-        scope.column = {
-          custom_field: false,
-          groupable: false,
-          meta_data: { data_type: 'string', link: { display: false} },
-          name: 'subject',
-          sortable: 'work_packages.subject',
-          title: 'Subject'
-        };
-        scope.displayType = 'text';
-
+        scope.attribute = 'subject';
         compile();
       });
 
       it('should contain the text', function() {
         var content = getInnermostSpan(element);
 
-        expect(content.text()).to.equal('Subject1');
+        expect(content.text().trim()).to.equal('Subject1');
       });
 
       it('should contain the text as the title', function() {
@@ -128,23 +146,14 @@ describe('wpTd Directive', function() {
 
     describe('rendering a number field', function(){
       beforeEach(function(){
-        scope.column = {
-          custom_field: false,
-          groupable: false,
-          meta_data: { data_type: 'integer', link: { display: false} },
-          name: 'sheep',
-          sortable: 'work_packages.sheep',
-          title: 'Sheep'
-        };
-        scope.displayType = 'number';
-
+        scope.attribute = 'sheep';
         compile();
       });
 
       it('should contain the text', function() {
         var content = getInnermostSpan(element);
 
-        expect(content.text()).to.equal('10');
+        expect(content.text().trim()).to.equal('10');
       });
 
       it('should contain the text as the title', function() {
@@ -156,22 +165,14 @@ describe('wpTd Directive', function() {
 
     describe('rendering a custom string field', function(){
       beforeEach(function(){
-        scope.column = {
-          custom_field: { field_format: 'string', id: 1 },
-          groupable: false,
-          meta_data: { data_type: 'string', link: { display: false} },
-          name: 'a_custom_field',
-          title: 'A Custom Field'
-        };
-        scope.displayType = 'text';
-
+        scope.attribute = 'customField1';
         compile();
       });
 
       it('should contain the text', function() {
         var content = getInnermostSpan(element);
 
-        expect(content.text()).to.equal('asdf1234');
+        expect(content.text().trim()).to.equal('asdf1234');
       });
 
       it('should contain the text as the title', function() {
@@ -183,55 +184,20 @@ describe('wpTd Directive', function() {
 
     describe('rendering missing field', function(){
       beforeEach(function(){
-        scope.column = {
-          custom_field: false,
-          groupable: false,
-          meta_data: { data_type: 'string', link: { display: false} },
-          name: 'non_existant',
-          title: 'Non-existant'
-        };
-        scope.displayType = 'text';
-
+        scope.attribute = 'non-existant-field';
         compile();
       });
 
       it('should contain the display empty text', function() {
         var content = getInnermostSpan(element);
 
-        expect(content.text()).to.equal('-');
+        expect(content.text().trim()).to.equal('');
       });
 
       it('should contain the empty text as the title', function() {
         var tag = getInnermostSpan(element);
 
-        expect(tag.attr('title')).to.equal('-');
-      });
-    });
-
-    describe('rendering missing custom field', function(){
-      beforeEach(function(){
-        scope.column = {
-          custom_field: { field_format: 'string', id: 2 },
-          groupable: false,
-          meta_data: { data_type: 'string', link: { display: false} },
-          name: 'non_existant',
-          title: 'Non-existant'
-        };
-        scope.displayType = 'text';
-
-        compile();
-      });
-
-      it('should contain the display empty text', function() {
-        var content = getInnermostSpan(element);
-
-        expect(content.text()).to.equal('-');
-      });
-
-      it('should contain the empty text as the title', function() {
-        var tag = getInnermostSpan(element);
-
-        expect(tag.attr('title')).to.equal('-');
+        expect(tag.attr('title')).to.equal('');
       });
     });
   });

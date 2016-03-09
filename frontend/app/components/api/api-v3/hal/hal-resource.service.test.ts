@@ -31,10 +31,13 @@ const expect = chai.expect;
 describe('HalResource service', () => {
   var HalResource;
   var $httpBackend:ng.IHttpBackendService;
+  var NotificationsService;
 
   beforeEach(angular.mock.module('openproject.api'));
+  beforeEach(angular.mock.module('openproject.services'));
 
-  beforeEach(angular.mock.inject((_HalResource_, _$httpBackend_) => {
+  beforeEach(angular.mock.inject((_HalResource_, _$httpBackend_, _NotificationsService_) => {
+    NotificationsService = _NotificationsService_;
     HalResource = _HalResource_;
     $httpBackend = _$httpBackend_;
   }));

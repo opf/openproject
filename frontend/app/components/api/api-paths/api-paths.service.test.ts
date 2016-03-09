@@ -34,6 +34,8 @@ describe('apiPaths', () => {
   var $document:ng.IDocumentService;
 
   beforeEach(angular.mock.module('openproject.api'));
+  beforeEach(angular.mock.module('openproject.services'));
+
   beforeEach(angular.mock.inject((_$document_, _apiPaths_) => {
     $document = _$document_;
     apiPaths = _apiPaths_;

@@ -30,6 +30,7 @@ describe('HALAPIResource', function() {
 
   var HALAPIResource;
   beforeEach(angular.mock.module('openproject.api'));
+  beforeEach(angular.mock.module('openproject.services'));
 
   beforeEach(inject(function(_HALAPIResource_) {
     HALAPIResource = _HALAPIResource_;

@@ -30,6 +30,7 @@ describe('CollectionResource', () => {
   var CollectionResource;
 
   beforeEach(angular.mock.module('openproject.api'));
+  beforeEach(angular.mock.module('openproject.services'));
 
   beforeEach(angular.mock.inject((_CollectionResource_) => {
     CollectionResource = _CollectionResource_;

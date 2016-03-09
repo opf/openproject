@@ -61,6 +61,9 @@ describe('workPackageGroupSums Directive', function() {
         scope.row = {
           groupName: "cheese",
         };
+        scope.resource = {
+          "groups": {}
+        };
         scope.updateBackUrl = function(){ return 0; };
       });
 
@@ -74,7 +77,7 @@ describe('workPackageGroupSums Directive', function() {
         });
 
         it('should set the sums when the group sums change', function() {
-          scope.groupSums = [{ ham: 1, cheese: 2, bacon: 3}, { ham: 4, cheese: 5, bacon: 6}];
+          scope.resource.groups = [{ value: 'cheese', count: 2 }, { value: 'ham', count: 123 }];
           scope.$apply();
 
           var td = element.find('td');
