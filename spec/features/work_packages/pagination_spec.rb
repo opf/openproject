@@ -41,7 +41,7 @@ RSpec.feature 'Work package pagination', js: true do
 
     before do
       login_as(admin)
-      Setting.per_page_options = "1, 50, 100"
+      allow(Setting).to receive(:per_page_options).and_return '1, 50, 100'
 
       visit path
       expect(current_path).to eq(expected_path)

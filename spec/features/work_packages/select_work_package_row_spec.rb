@@ -51,7 +51,7 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
 
   describe 'Work package row selection', js: true do
     def select_work_package_row(number, mouse_button_behavior = :left)
-      element = find(".work-package-table--container tr:nth-of-type(#{number}).issue td.id")
+      element = find(".work-package-table--container tr:nth-of-type(#{number}).issue")
       case mouse_button_behavior
       when :double
         element.double_click
@@ -63,7 +63,7 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     end
 
     def select_work_package_row_with_shift(number)
-      element = find(".work-package-table--container tr:nth-of-type(#{number}).issue td.id")
+      element = find(".work-package-table--container tr:nth-of-type(#{number}).issue")
 
       page.driver.browser.action.key_down(:shift)
         .click(element.native)
@@ -72,7 +72,7 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     end
 
     def select_work_package_row_with_ctrl(number)
-      element = find(".work-package-table--container tr:nth-of-type(#{number}).issue td.id")
+      element = find(".work-package-table--container tr:nth-of-type(#{number}).issue")
 
       page.driver.browser.action.key_down(:control)
         .click(element.native)

@@ -40,8 +40,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchema do
 
     it 'returns all custom fields listed as summable' do
       allow(WorkPackageCustomField)
-        .to receive(:summable)
-        .and_return([cf1, cf2, cf3])
+        .to receive_message_chain(:summable, :includes) { [cf1, cf2, cf3] }
 
       expect(subject.available_custom_fields).to match_array [cf1, cf2, cf3]
     end

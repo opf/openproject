@@ -96,12 +96,14 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
       it 'assigns a query which has the default filter arguments set' do
         allow(Query).to receive(:new).and_call_original
         expected_query = Query.new name: '_'
-        expect(Query).to receive(:new).with(anything, initialize_with_default_filter: true)
+        expect(Query)
+          .to receive(:new)
+          .with(anything, initialize_with_default_filter: true)
           .and_return(expected_query)
 
         get 'index', format: 'json'
 
-        #expect(assigns(:query)).to eq expected_query
+        expect(assigns(:query)).to eq expected_query
       end
 
       %w(group_by c fields f sort is_public name display_sums).each do |filter_param|

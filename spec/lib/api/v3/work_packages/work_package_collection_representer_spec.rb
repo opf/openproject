@@ -116,7 +116,11 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     context 'passing groups' do
-      let(:groups) { [{ 'custom': 'object' }] }
+      let(:groups) {
+        group = { 'custom': 'object' }
+        allow(group).to receive(:has_sums?).and_return false
+        [group]
+      }
 
       it 'renders the groups object as json' do
         is_expected.to be_json_eql(groups.to_json).at_path('groups')
@@ -124,7 +128,11 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     context 'passing groups with sums' do
-      let(:groups) { [{ 'sums': {} }] }
+      let(:groups) {
+        group = { 'sums': {} }
+        allow(group).to receive(:has_sums?).and_return true
+        [group]
+      }
 
       it 'renders the groups object as json' do
         is_expected.to be_json_eql(groups.to_json).at_path('groups')
