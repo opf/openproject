@@ -26,13 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function wpResource(HalResource: typeof op.HalResource) {
+function wpResource(HalResource: typeof op.HalResource, NotificationsService:any, $q:ng.IQService) {
   class WorkPackageResource extends HalResource {
     private form;
 
     getForm() {
       if (!this.form) {
         this.form = this.$links.update(this);
+        this.form.catch(error => {
+          NotificationsService.addError(error.data.message);
+        });
       }
       return this.form;
     }
@@ -54,18 +57,44 @@ function wpResource(HalResource: typeof op.HalResource) {
     }
 
     save() {
+      // TODO: Do something if the lock version does not match
+      // TODO: iterate only over the changed attributes
+      // TODO: invalidate form after saving
       const plain = this.$plain();
 
-      //TODO: Remove non-writable properties automatically
       delete plain.createdAt;
       delete plain.updatedAt;
 
-      return this.$links.updateImmediately(plain).then(workPackage => {
-        angular.extend(this, workPackage);
-        this.form = null;
+      var deferred = $q.defer();
+      this.getForm()
+        .catch(deferred.reject)
+        .then(form => {
+        var plain_payload = form.payload.$source;
+        var schema = form.$embedded.schema;
 
-        return this;
+        for (property in plain) {
+          if (plain[property] && schema.hasOwnProperty(property) && schema[property] && schema[property]['writable'] === true) {
+            plain_payload[property] = plain[property];
+          }
+        }
+        for (property in plain._links) {
+          if (plain._links[property] && schema.hasOwnProperty(property) && schema[property] && schema[property]['writable'] === true) {
+            plain_payload._links[property] = plain._links[property];
+          }
+        }
+
+        return this.$links.updateImmediately(plain)
+          .catch(deferred.reject)
+          .then(workPackage => {
+          angular.extend(this, workPackage);
+
+          deferred.resolve(this);
+        }).finally(() => {
+            this.form = null;
+        });
       });
+
+      return deferred.promise;
     }
   }
 
