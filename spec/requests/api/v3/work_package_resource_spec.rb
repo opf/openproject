@@ -93,6 +93,10 @@ h4. things we like
 
   before do
     allow(User).to receive(:current).and_return current_user
+
+    # some way some of these specs rely on this setting being disabled
+    # so we set it excplicitly as a precondition
+    Setting.cross_project_work_package_relations = 0
   end
 
   describe '#get list' do

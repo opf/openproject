@@ -91,7 +91,7 @@ class RepositoriesController < ApplicationController
 
   def committers
     @committers = @repository.committers
-    @users = @project.users
+    @users = @project.users.to_a
     additional_user_ids = @committers.map(&:last).map(&:to_i) - @users.map(&:id)
     @users += User.where(id: additional_user_ids) unless additional_user_ids.empty?
     @users.compact!
@@ -349,12 +349,12 @@ class RepositoriesController < ApplicationController
 
     # Prepare checkout instructions
     # available on all pages (even empty!)
-    @instructions = ::Scm::CheckoutInstructionsService.new(@repository)
+    @path = params[:path] || ''
+    @instructions = ::Scm::CheckoutInstructionsService.new(@repository, path: @path)
 
     # Asserts repository availability, or renders an appropriate error
     @repository.scm.check_availability!
 
-    @path = params[:path] || ''
     @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].to_s.strip
     @rev_to = params[:rev_to]
 

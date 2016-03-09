@@ -51,6 +51,10 @@ function inplaceEditMultiStorage($rootScope, $q, inplaceEditStorage, EditableFie
     save: function () {
       var promises = [];
 
+      if (EditableFieldsState.isBusy) {
+        return $q.reject();
+      }
+
       angular.forEach(_.sortBy(this.stores, 'index'), function (store) {
         if (store.active) {
           promises[store.index] = store.run().then(function () {

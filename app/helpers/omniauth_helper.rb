@@ -27,26 +27,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateWorkPackageService
-  attr_reader :user, :project
-
-  def initialize(user:, project:, send_notifications: true)
-    @user = user
-    @project = project
-
-    JournalManager.send_notification = send_notifications
+module OmniauthHelper
+  def omniauth_direct_login?
+    direct_login_provider.is_a? String
   end
 
-  def create
-    hash = {
-      project: project,
-      author: user,
-      type: project.types.first
-    }
-    project.add_work_package(hash)
-  end
-
-  def save(work_package)
-    work_package.save
+  ##
+  # Per default the user may choose the usual password login as well as several omniauth providers
+  # on the login page and in the login drop down menu.
+  #
+  # With his configuration option you can set a specific omniauth provider to be
+  # used for direct login. Meaning that the login provider selection is skipped and
+  # the configured provider is used directly instead.
+  #
+  # If this option is active /login will lead directly to the configured omniauth provider
+  # and so will a click on 'Sign in' (as opposed to opening the drop down menu).
+  def direct_login_provider
+    OpenProject::Configuration['omniauth_direct_login_provider']
   end
 end

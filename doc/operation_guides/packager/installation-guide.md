@@ -14,14 +14,11 @@ configuration wizard, which will help you get everything up and running quickly.
 * Apache 2 (web server) – this component provides the external interface,
   handles SSL termination (if SSL is used) and distributes/forwards web
 requests to the Unicorn processes.
-
 * MySQL (database management system) – this component is used to store and
   retrieve data.
-
 * Unicorn (application server) – this component hosts the actual application.
   By default, there is two unicorn processes running in parallel on the app
 server machine.
-
 * Ruby 2.1 (MRI) and necessary libraries to run the OpenProject source code.
 
 # Installation
@@ -29,7 +26,6 @@ server machine.
 The installation procedure assumes the following prerequisites:
 
 * A server running one of the following Linux distributions (**64bit variant only**):
-
   * Ubuntu 14.04 Trusty
   * Debian 8 Jessie
   * Debian 7 Wheezy
@@ -42,7 +38,6 @@ The installation procedure assumes the following prerequisites:
 * A mail server that is accessible via SMTP that can be used for sending
   notification emails. OpenProject supports authentication, yet does not
 provide support for SMTP via SSL/TLS.
-
 * If you intend to use SSL for OpenProject: A valid SSL certifificate along
   with the private key file. The key MUST NOT be protected by a passphrase,
 otherwise the Apache server won't be able to read it when it starts.

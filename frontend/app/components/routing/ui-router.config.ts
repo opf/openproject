@@ -96,7 +96,7 @@ angular
       })
 
       .state('work-packages.show', {
-        url: '/work_packages/{workPackageId:[0-9]+}?query_props',
+        url: '/work_packages/{workPackageId:[0-9]+}?query_id&query_props',
         templateUrl: '/components/routing/wp-show/wp.show.html',
         controller: 'WorkPackageShowController',
         controllerAs: 'vm',

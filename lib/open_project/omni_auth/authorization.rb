@@ -103,6 +103,9 @@ module OpenProject
       #
       # @yield [user] Callback called with the successfully logged in user.
       # @yieldparam user [User] User who has been logged in.
+      # @yieldparam auth_hash [AuthHash] auth_hash OmniAuth authentication information
+      #                                  including user info and credentials.
+      # @yieldparam context The context from which the callback is called, e.g. a Controller.                    
       def self.after_login(&block)
         add_after_login_callback AfterLoginBlockCallback.new(&block)
       end

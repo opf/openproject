@@ -32,14 +32,14 @@ See doc/COPYRIGHT.rdoc for more details.
       <colgroup>
         <col>
         <col>
-        <col span="<%= @statuses.length %>" highlight-col>
+        <col span="<%= @statuses.length%>" highlight-col>
       </colgroup>
       <thead>
         <tr>
+          <th class="-short"></th>
           <th></th>
-          <th></th>
-          <th colspan="<%= @statuses.length %>">
-            <div class="generic-table--sort-header-outer">
+          <th colspan="<%= @statuses.length%>">
+            <div class="generic-table--sort-header-outer -border">
               <div class="generic-table--sort-header workflow-table--header">
                 <span>
                   <%=l(:label_new_statuses_allowed)%>
@@ -51,31 +51,29 @@ See doc/COPYRIGHT.rdoc for more details.
             </div>
           </th>
         </tr>
+      </thead>
+      <tbody>
         <tr>
-          <th></th>
-          <th></th>
+          <td class="-no-border -short">
+            <span class="workflow-table--turned-header">
+              <%=l(:label_current_status)%>
+            </span>
+          </td>
+          <td class="-border-right"></td>
           <% for new_status in @statuses %>
-            <th>
+            <td class="workflow-table--current-status">
               <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:label_check_uncheck_all_in_column)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
                                class: 'no-decoration-on-hover',
                                title: "#{l(:label_check_uncheck_all_in_column)}",
                                alt: "#{l(:label_check_uncheck_all_in_column)}") %>
               <%=h new_status.name %>
-            </th>
+            </td>
           <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class='workflow-table--turned-header'>
-          <th rowspan="<%= @statuses.length + 1 %>">
-            <span>
-              <%=l(:label_current_status)%>
-            </span>
-          </th>
         </tr>
         <% for old_status in @statuses %>
           <tr>
-            <td class="workflow-table--current-status">
+            <td class="-no-border -border-right  -short"></td>
+            <td class="workflow-table--current-status -border-right">
               <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:label_check_uncheck_all_in_row)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.id}')",
                                          class: 'no-decoration-on-hover',
                                          title: "#{l(:label_check_uncheck_all_in_row)}",
@@ -92,7 +90,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <% end %>
       </tbody>
     </table>
-    <div class="generic-table--header-background"></div>
+    <div class="generic-table--header-background -no-border"></div>
   </div>
 </div>
 
