@@ -61,6 +61,10 @@ export class WorkPackageEditFieldController {
     });
   }
 
+  public get isEditable:boolean {
+    return this.workPackage.isEditable;
+  }
+
   public deactivate():boolean {
     return this._active = false;
   }

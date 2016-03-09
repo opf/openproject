@@ -75,7 +75,7 @@ function WorkPackagesTableHelper(WorkPackagesHelper) {
 
         rows.push(row);
 
-        if (!workPackage.isLeaf()) ancestors.push(row);
+        if (!workPackage.isLeaf) ancestors.push(row);
       });
 
       return _.sortBy(rows, 'groupIndex');

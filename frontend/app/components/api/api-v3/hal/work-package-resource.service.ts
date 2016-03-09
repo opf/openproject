@@ -97,13 +97,17 @@ function wpResource(HalResource: typeof op.HalResource, NotificationsService:any
       return deferred.promise;
     }
 
-    isLeaf() {
+    public get isLeaf:boolean {
       return !this.children;
     }
 
     isParentOf(otherWorkPackage) {
       return otherWorkPackage.parent.$links.self.$link.href ===
         this.$links.self.$link.href;
+    }
+
+    public get isEditable:boolean {
+      return !!this.$links.update;
     }
   }
 
