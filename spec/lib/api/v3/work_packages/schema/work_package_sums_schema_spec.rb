@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,48 +26,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Decorators
-    class AggregationGroup < Single
-      def initialize(group_key, count, sums: nil)
-        @count = count
-        @sums = sums
+require 'spec_helper'
 
-        @link = ::API::V3::Utilities::ResourceLinkGenerator.make_link(group_key)
+describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchema do
+  let(:current_user) { double('current user') }
 
-        super(group_key, current_user: nil)
-      end
+  subject { described_class.new }
 
-      link :valueLink do
-        {
-          href: @link
-        } if @link
-      end
+  describe '#available_custom_fields' do
+    let(:cf1) { double }
+    let(:cf2) { double }
+    let(:cf3) { double }
 
-      property :value,
-               exec_context: :decorator,
-               getter: -> (*) { represented ? represented.to_s : nil },
-               render_nil: true
+    it 'returns all custom fields listed as summable' do
+      allow(WorkPackageCustomField)
+        .to receive(:summable)
+        .and_return([cf1, cf2, cf3])
 
-      property :count,
-               exec_context: :decorator,
-               getter: -> (*) { count },
-               render_nil: true
-
-      property :sums,
-               exec_context: :decorator,
-               getter: -> (*) { sums },
-               render_nil: false
-
-      def has_sums?
-        sums.present?
-      end
-
-      private
-
-      attr_reader :sums,
-                  :count
-
+      expect(subject.available_custom_fields).to match_array [cf1, cf2, cf3]
     end
   end
 end

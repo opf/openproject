@@ -67,6 +67,10 @@ module.exports = function(ConfigurationService, I18n) {
         d.format(TimezoneService.getTimeFormat());
     },
 
+    formattedDuration: function(durationString) {
+      return Number(moment.duration(durationString).asHours().toFixed(2));
+    },
+
     formattedISODate: function(date) {
       return TimezoneService.parseDate(date).format('YYYY-MM-DD');
     },

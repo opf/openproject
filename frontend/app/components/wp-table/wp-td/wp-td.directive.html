@@ -1,8 +1,11 @@
-<span ng-switch="vm.displayType" wp-field="vm.workPackage" field-name="vm.column.name">
-  <progress-bar ng-switch-when="progress_bar"
+<span ng-switch="vm.displayType" wp-field="vm.workPackage" field-name="vm.attribute">
+  <progress-bar ng-switch-when="Percent"
                 progress="vm.displayText"
                 width="80px">
   </progress-bar>
 
-  <span ng-switch-default title="{{ vm.displayText }}">{{ vm.displayText }}</span>
+  <span ng-switch-default
+    title="{{ vm.displayText }}">
+    {{ vm.displayText }}
+  </span>
 </span>

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,48 +26,46 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Decorators
-    class AggregationGroup < Single
-      def initialize(group_key, count, sums: nil)
-        @count = count
-        @sums = sums
+require 'spec_helper'
 
-        @link = ::API::V3::Utilities::ResourceLinkGenerator.make_link(group_key)
+describe WorkPackageCustomField, type: :model do
+  describe '.summable' do
+    let (:custom_field) {
+      FactoryGirl.create(:work_package_custom_field,
+                         name: 'Database',
+                         field_format: 'list',
+                         possible_values: ['MySQL', 'PostgreSQL', 'Oracle'],
+                         is_required: true)
+    }
 
-        super(group_key, current_user: nil)
+    before do
+      custom_field.save!
+    end
+
+    context 'with a summable field' do
+      before do
+        allow(Setting)
+          .to receive(:work_package_list_summable_columns)
+          .and_return(["cf_#{custom_field.id}"])
       end
 
-      link :valueLink do
-        {
-          href: @link
-        } if @link
+      it 'contains the custom_field' do
+        expect(described_class.summable)
+          .to match_array [custom_field]
+      end
+    end
+
+    context 'without a summable field' do
+      before do
+        allow(Setting)
+          .to receive(:work_package_list_summable_columns)
+          .and_return(['blubs'])
       end
 
-      property :value,
-               exec_context: :decorator,
-               getter: -> (*) { represented ? represented.to_s : nil },
-               render_nil: true
-
-      property :count,
-               exec_context: :decorator,
-               getter: -> (*) { count },
-               render_nil: true
-
-      property :sums,
-               exec_context: :decorator,
-               getter: -> (*) { sums },
-               render_nil: false
-
-      def has_sums?
-        sums.present?
+      it 'does not contain the custom_field' do
+        expect(described_class.summable)
+          .to be_empty
       end
-
-      private
-
-      attr_reader :sums,
-                  :count
-
     end
   end
 end

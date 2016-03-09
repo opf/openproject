@@ -184,25 +184,6 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
       return WorkPackageService.doQuery(url, params);
     },
 
-    // Note: Should this be on a project-service?
-    getWorkPackagesSums: function(projectIdentifier, query, columns){
-      var columnNames = columns.map(function(column){
-        return column.name;
-      });
-
-      if (projectIdentifier){
-        var url = PathHelper.apiProjectWorkPackagesSumsPath(projectIdentifier);
-      } else {
-        var url = PathHelper.apiWorkPackagesSumsPath();
-      }
-
-      var params = angular.extend(query.toParams(), {
-        'column_names[]': columnNames
-      });
-
-      return WorkPackageService.doQuery(url, params);
-    },
-
     loadWorkPackageForm: function(workPackage) {
       if (this.authorizedFor(workPackage, 'update')) {
         var options = { ajax: {

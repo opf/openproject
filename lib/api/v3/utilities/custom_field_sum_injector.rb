@@ -28,47 +28,26 @@
 #++
 
 module API
-  module Decorators
-    class AggregationGroup < Single
-      def initialize(group_key, count, sums: nil)
-        @count = count
-        @sums = sums
+  module V3
+    module Utilities
+      class CustomFieldSumInjector < CustomFieldInjector
+        def inject_schema(custom_field, _options = {})
+          inject_basic_schema(custom_field)
+        end
 
-        @link = ::API::V3::Utilities::ResourceLinkGenerator.make_link(group_key)
-
-        super(group_key, current_user: nil)
+        def inject_basic_schema(custom_field)
+          @class.schema property_name(custom_field.id),
+                        type: TYPE_MAP[custom_field.field_format],
+                        name_source: -> (*) { custom_field.name },
+                        required: false,
+                        writable: false,
+                        show_if: -> (*) {
+                          Setting.work_package_list_summable_columns.any? { |column_name|
+                            /cf_(\d+)/.match(column_name)
+                          }
+                        }
+        end
       end
-
-      link :valueLink do
-        {
-          href: @link
-        } if @link
-      end
-
-      property :value,
-               exec_context: :decorator,
-               getter: -> (*) { represented ? represented.to_s : nil },
-               render_nil: true
-
-      property :count,
-               exec_context: :decorator,
-               getter: -> (*) { count },
-               render_nil: true
-
-      property :sums,
-               exec_context: :decorator,
-               getter: -> (*) { sums },
-               render_nil: false
-
-      def has_sums?
-        sums.present?
-      end
-
-      private
-
-      attr_reader :sums,
-                  :count
-
     end
   end
 end

@@ -43,6 +43,16 @@ class WorkPackageCustomField < CustomField
     end
   }
 
+  def self.summable
+    ids = Setting.work_package_list_summable_columns.map { |column_name|
+      if match = /cf_(\d+)/.match(column_name)
+        match[1]
+      end
+    }.compact
+
+    where(id: ids)
+  end
+
   def type_name
     # TODO
     # this needs to be renamed to label_work_package_plural

@@ -78,9 +78,9 @@ function halResource(halTransform, HalLink, $q) {
 
     public $load() {
       if (!this.$loaded) {
-        this.$loaded = true;
-
         return this.$links.self().then(resource => {
+          this.$loaded = true;
+
           angular.extend(this, resource);
           return this;
         });

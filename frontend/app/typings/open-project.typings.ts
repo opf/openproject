@@ -113,16 +113,16 @@ declare namespace api {
     interface Query {
       _links:any;
       id:number;
-      column_names;
-      display_sums:boolean;
+      columnNames;
+      displaySums:boolean;
       filters;
-      group_by:string;
-      is_public:boolean;
+      groupBy:string;
+      isPublic:boolean;
       name:string;
-      project_id;
-      sort_criteria;
+      projectId:number;
+      sortCriteria;
       starred:boolean;
-      user_id:number;
+      userId:number;
     }
 
     interface Meta {

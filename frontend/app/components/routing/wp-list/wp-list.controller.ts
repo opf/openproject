@@ -181,7 +181,7 @@ function WorkPackagesListController($scope,
     WorkPackagesTableService.setBulkLinks(bulkLinks);
 
     // query data
-    QueryService.setTotalEntries(meta.total_entries);
+    QueryService.setTotalEntries(json.resource.total);
 
     // pagination data
     PaginationService.setPerPageOptions(meta.per_page_options);
@@ -192,8 +192,8 @@ function WorkPackagesListController($scope,
     $scope.columns = $scope.query.columns;
     $scope.rows = WorkPackagesTableService.getRows();
     $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
-    $scope.workPackageCountByGroup = meta.work_package_count_by_group;
     $scope.totalEntries = QueryService.getTotalEntries();
+    $scope.resource = json.resource;
 
     // Authorisation
     AuthorisationService.initModelAuth("work_package", meta._links);
@@ -243,16 +243,7 @@ function WorkPackagesListController($scope,
 
   function mergeApiResponses(exJson, workPackages) {
     exJson.work_packages = workPackages.elements;
-
-    if (workPackages.totalSums) {
-      exJson.meta.sums = exJson.meta.columns.map(column => workPackages.totalSums[column.name]);
-    } else {
-      exJson.meta.sums = new Array(exJson.meta.columns.length);
-    }
-
-    // TODO: no longer use detour over $source once the properties are available
-    // directly on the CollectionResource
-    exJson.meta.total_entries = workPackages.$source.total;
+    exJson.resource = workPackages;
   }
 
   // Go

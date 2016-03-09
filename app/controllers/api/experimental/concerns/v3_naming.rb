@@ -57,18 +57,27 @@ module Api::Experimental::Concerns::V3Naming
                         "#{v3_to_internal_name(criteria.first, append_id: false)}:#{criteria.last}"
                       }.join(',')
                     end if params[:sort]
+    params[:group_by] = params.delete(:groupBy)
+    params[:project_id] = params.delete(:projectId)
+    params[:display_sums] = params.delete(:displaySums)
+    params[:is_public] = params.delete(:isPublic)
+    params[:user_id] = params.delete(:userId)
   end
 
   def json_query_as_v3(json_query)
-    json_query['column_names'] = (json_query['column_names'] || []).map { |column|
+    json_query['columnNames'] = (json_query.delete('column_names') || [] ).map { |column|
       internal_to_v3_name(column)
     }
 
-    json_query['sort_criteria'] = (json_query['sort_criteria'] || []).map { |criteria|
+    json_query['sortCriteria'] = (json_query.delete('sort_criteria') || [] ).map { |criteria|
       [internal_to_v3_name(criteria.first), criteria.last]
     }
 
-    json_query['group_by'] = internal_to_v3_name(json_query['group_by'])
+    json_query['groupBy'] = internal_to_v3_name(json_query.delete('group_by'))
+    json_query['projectId'] = json_query.delete('project_id')
+    json_query['displaySums'] = json_query.delete('display_sums')
+    json_query['isPublic'] = json_query.delete('is_public')
+    json_query['userId'] = json_query.delete('user_id')
 
     json_query['filters'].each do |filter|
       filter[:name] = internal_to_v3_name(filter[:name])
