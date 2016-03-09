@@ -90,7 +90,9 @@ module Api::Experimental::Concerns::QueryLoading
   end
 
   def no_query_params_provided?
-    (params.keys & %w(groupBy c fields f sort isPublic name displaySums)).empty?
+    provided_params = (params.keys & %w(group_by c fields f sort is_public name display_sums))
+
+    provided_params.empty? || provided_params.all? { |param| params[param].nil? }
   end
 
   def allowed_links_on_query(query, user)

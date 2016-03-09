@@ -106,7 +106,7 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
         expect(assigns(:query)).to eq expected_query
       end
 
-      %w(group_by c fields f sort is_public name display_sums).each do |filter_param|
+      %w(groupBy c fields f sort isPublic name displaySums).each do |filter_param|
         it "assigns a query which does not have the default filter arguments set if the #{filter_param} argument is provided" do
           allow(Query).to receive(:new).and_call_original
           expected_query = Query.new
