@@ -68,15 +68,6 @@ module Api
         render_404
       end
 
-      def initialize_sort
-        # The session contains the previous sort criteria.
-        # For the WP#index, this behaviour is not supported by the frontend, therefore
-        # we remove the session stored sort criteria and only take what is provided.
-        sort_clear
-        sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
-        sort_update(@query.sortable_columns)
-      end
-
       def work_packages_links
         links = {}
         links[:create] = api_experimental_work_packages_path(@project) if User.current.allowed_to?(:add_work_packages, @project)
