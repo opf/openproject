@@ -52,7 +52,7 @@ WorkPackageShowPage.prototype = {
     listView: $('#work-packages-list-view-button')
   },
 
-  listViewWorkPackage: $('#work-package-820 .subject a'),
+  listViewWorkPackage: $('#work-package-820'),
 
   get: function() {
     browser.get('/work_packages/' + this.wpId + '/activity');

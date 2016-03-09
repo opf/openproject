@@ -32,7 +32,7 @@ module.exports = function(app) {
   var workPackagesRouter = express.Router();
 
   workPackagesRouter.get('/', function(req, res) {
-    fs.readFile(__dirname + '/work-packages.json', 'utf8', function(err, text) {
+    fs.readFile(__dirname + '/work-packages/experimental-meta.json', 'utf8', function(err, text) {
       res.send(text);
     });
   });
