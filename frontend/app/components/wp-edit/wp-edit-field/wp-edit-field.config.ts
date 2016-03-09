@@ -38,7 +38,15 @@ class SelectField extends Field {
 
   constructor(workPackage, fieldName, schema) {
     super(workPackage, fieldName, schema);
-    this.options = this.schema.allowedValues;
+
+    if (angular.isArray(this.schema.allowedValues)) {
+      this.options = this.schema.allowedValues;
+    }
+    else {
+      this.schema.allowedValues.$load().then((values) => {
+        this.options = values.elements;
+      });
+    }
   }
 }
 
@@ -71,5 +79,5 @@ angular
     wpEditField.defaultType = 'text';
     wpEditField
       .addFieldType(TextField, 'text', ['String'])
-      .addFieldType(SelectField, 'select', ['Priority', 'Status', 'Type']);
+      .addFieldType(SelectField, 'select', ['Priority', 'Status', 'Type', 'User']);
   });
