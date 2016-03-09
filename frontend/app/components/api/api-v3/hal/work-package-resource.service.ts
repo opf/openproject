@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function wpResource(HalResource: typeof op.HalResource, NotificationsService:any) {
+function wpResource(HalResource: typeof op.HalResource, NotificationsService:any, $q:ng.IQService) {
   class WorkPackageResource extends HalResource {
     private form;
 
@@ -65,7 +65,10 @@ function wpResource(HalResource: typeof op.HalResource, NotificationsService:any
       delete plain.createdAt;
       delete plain.updatedAt;
 
-      return this.getForm().then(form => {
+      var deferred = $q.defer();
+      this.getForm()
+        .catch(deferred.reject)
+        .then(form => {
         var plain_payload = form.payload.$source;
         var schema = form.$embedded.schema;
 
@@ -80,12 +83,18 @@ function wpResource(HalResource: typeof op.HalResource, NotificationsService:any
           }
         }
 
-        return this.$links.updateImmediately(plain).then(workPackage => {
+        return this.$links.updateImmediately(plain)
+          .catch(deferred.reject)
+          .then(workPackage => {
           angular.extend(this, workPackage);
-          this.form = null;
-          return this;
+
+          deferred.resolve(this);
+        }).finally(() => {
+            this.form = null;
         });
       });
+
+      return deferred.promise;
     }
   }
 

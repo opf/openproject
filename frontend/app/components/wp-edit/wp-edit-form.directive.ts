@@ -40,7 +40,9 @@ export class WorkPackageEditFormController {
     var deferred = this.$q.defer();
 
     this.workPackage.save()
-    .then(deferred.resolve)
+    .then(() => {
+      deferred.resolve();
+    })
     .catch(error => {
       if (error && error.data && error.data.message) {
         this.NotificationsService.addError(error.data.message);
