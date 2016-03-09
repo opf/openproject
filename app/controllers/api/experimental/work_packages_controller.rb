@@ -29,7 +29,6 @@
 module Api
   module Experimental
     class WorkPackagesController < ApplicationController
-      DEFAULT_SORT_ORDER = ['parent', 'desc']
 
       include ApiController
       include ::Api::Experimental::Concerns::GrapeRouting

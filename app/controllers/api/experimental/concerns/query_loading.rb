@@ -30,6 +30,7 @@
 # Differences being that it's not looking to the session and also existing
 # queries will be augmented with the params data passed with them.
 module Api::Experimental::Concerns::QueryLoading
+  DEFAULT_SORT_ORDER = 'parent:desc'
   private
 
   def init_query
@@ -72,7 +73,7 @@ module Api::Experimental::Concerns::QueryLoading
       end
 
       @query.group_by = params[:group_by]
-      @query.sort_criteria = prepare_sort_criteria if params[:sort]
+      @query.sort_criteria = prepare_sort_criteria
       @query.display_sums = params[:display_sums] if params[:display_sums].present?
       @query.column_names = params[:c] if params[:c]
       @query.column_names = nil if params[:default_columns]
@@ -83,11 +84,13 @@ module Api::Experimental::Concerns::QueryLoading
   def prepare_sort_criteria
     # Note: There was a convention to have sortation strings in the form "type:desc,status:asc".
     # For the sake of not breaking from convention we encoding/decoding the sortation.
-    params[:sort].split(',').map { |p| [p.split(':')[0], p.split(':')[1] || 'asc'] }
+    (params[:sort] || DEFAULT_SORT_ORDER)
+      .split(',')
+      .map { |p| [p.split(':')[0], p.split(':')[1] || 'asc'] }
   end
 
   def no_query_params_provided?
-    (params.keys & %w(group_by c fields f sort is_public name display_sums)).empty?
+    (params.keys & %w(groupBy c fields f sort isPublic name displaySums)).empty?
   end
 
   def allowed_links_on_query(query, user)

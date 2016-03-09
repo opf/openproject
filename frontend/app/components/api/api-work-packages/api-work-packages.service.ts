@@ -68,7 +68,7 @@ export class ApiWorkPackagesService {
       params.showSums = query.displaySums;
     }
 
-    if (query.sortCriteria) {
+    if (query.sortCriteria && query.sortCriteria.length > 0) {
       params.sortBy = [query.sortCriteria];
     }
 
