@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <div class="contextual">
   <% if project && User.current.allowed_to?({:controller => '/hourly_rates', :action => 'edit'}, project) %>
-    <%= link_to l(:button_update), {:controller => '/hourly_rates', :action => 'edit', :project_id => project, :id => @user}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
+    <%= link_to t(:button_update), {:controller => '/hourly_rates', :action => 'edit', :project_id => project, :id => @user}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
   <% end %>
 </div>
 <h3><%=h project.name %><%= (" - " + number_to_currency(current_rate.rate)) if current_rate %></h3>
@@ -40,10 +40,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         <div class="generic-table--no-results-container">
           <h2 class="generic-table--no-results-title">
             <i class="icon-info1"></i>
-            <%= l(:label_nothing_display) %>
+            <%= t(:label_nothing_display) %>
           </h2>
           <div class="generic-table--no-results-description">
-            <p class="nodata"><%= l(:label_no_data) %></p>
+            <p class="nodata"><%= t(:label_no_data) %></p>
           </div>
         </div>
       </div>

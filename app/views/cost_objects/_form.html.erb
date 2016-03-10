@@ -120,7 +120,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     </div>
   </div>
   <div class="generic-table--action-buttons">
-    <%= link_to_function l(:button_add_budget_item), "materialBudgetItemsForm.add()", {class: "button -alt-highlight -with-icon icon-context icon-add"} %>
+    <%= link_to_function t(:button_add_budget_item), "materialBudgetItemsForm.add()", {class: "button -alt-highlight -with-icon icon-context icon-add"} %>
   </div>
 </fieldset>
 
@@ -191,7 +191,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     </div>
   </div>
   <div class="generic-table--action-buttons">
-    <%= link_to_function l(:button_add_budget_item), "laborBudgetItemsForm.add()", {class: "button -alt-highlight -with-icon icon-context icon-add"} %>
+    <%= link_to_function t(:button_add_budget_item), "laborBudgetItemsForm.add()", {class: "button -alt-highlight -with-icon icon-context icon-add"} %>
   </div>
 </fieldset>
 
@@ -200,7 +200,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <div style="clear: both;"> </div>
 
 <% if @cost_object.new_record? %>
-<p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
+<p><label><%=t(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
 <% end %>
 
 <%= wikitoolbar_for 'cost_object_description' %>

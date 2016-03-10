@@ -22,7 +22,7 @@ module CostlogHelper
 
   def render_costlog_breadcrumb
     links = []
-    links << link_to(l(:label_project_all), project_id: nil, work_package_id: nil)
+    links << link_to(t(:label_project_all), project_id: nil, work_package_id: nil)
     links << link_to(h(@project), project_id: @project, work_package_id: nil) if @project
     links << link_to_work_package(@work_package, subject: false) if @work_package
     breadcrumb links
@@ -36,7 +36,7 @@ module CostlogHelper
       cost_types.sort
     end
     collection = []
-    collection << ["--- #{l(:actionview_instancetag_blank_option)} ---", ''] unless cost_types.detect(&:is_default?)
+    collection << ["--- #{t(:actionview_instancetag_blank_option)} ---", ''] unless cost_types.detect(&:is_default?)
     cost_types.each do |t| collection << [t.name, t.id] end
     collection
   end
@@ -65,7 +65,7 @@ module CostlogHelper
     return nil if value.nil? || value == ''
 
     value = value.strip
-    value.gsub!(l(:currency_delimiter), '') if value.include?(l(:currency_delimiter)) && value.include?(l(:currency_separator))
+    value.gsub!(t(:currency_delimiter), '') if value.include?(t(:currency_delimiter)) && value.include?(t(:currency_separator))
     value.gsub(',', '.')
     BigDecimal.new(value)
   end
