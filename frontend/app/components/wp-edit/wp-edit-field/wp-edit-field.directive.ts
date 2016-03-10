@@ -85,7 +85,9 @@ export class WorkPackageEditFieldController {
             'type',
             'status',
             'assignee',
-            'responsible'].indexOf(this.fieldName) !== -1
+            'responsible',
+            'version',
+            'category'].indexOf(this.fieldName) !== -1
   }
 }
 

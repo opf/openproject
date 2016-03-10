@@ -79,5 +79,10 @@ angular
     wpEditField.defaultType = 'text';
     wpEditField
       .addFieldType(TextField, 'text', ['String'])
-      .addFieldType(SelectField, 'select', ['Priority', 'Status', 'Type', 'User']);
+      .addFieldType(SelectField, 'select', ['Priority',
+                                            'Status',
+                                            'Type',
+                                            'User',
+                                            'Version',
+                                            'Category']);
   });
