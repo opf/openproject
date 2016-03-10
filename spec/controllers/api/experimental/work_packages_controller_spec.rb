@@ -146,14 +146,14 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
         end
 
         it 'is visible by the owner' do
-          get 'index', format: 'json', query_id: query_1.id, project_id: project_1.id
+          get 'index', format: 'json', queryId: query_1.id, project_id: project_1.id
           expect(response.response_code).to eql(200)
         end
 
         it 'is not visible by another user' do
           allow(User).to receive(:current).and_return(other_user)
 
-          get 'index', format: 'json', query_id: query_1.id, project_id: project_1.id
+          get 'index', format: 'json', queryId: query_1.id, project_id: project_1.id
           expect(response.response_code).to eql(404)
         end
       end
