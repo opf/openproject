@@ -50,7 +50,7 @@ function wpTd(){
 function WorkPackageTdController($scope, PathHelper, WorkPackagesHelper) {
   var vm = this;
 
-  $scope.$watch('vm.schema.$loaded', function() {
+  function updateAttribute() {
     if (!vm.schema[vm.attribute] || !vm.object[vm.attribute] ) { return; }
 
     // TODO: alter backend so that percentageDone has the type
@@ -67,5 +67,8 @@ function WorkPackageTdController($scope, PathHelper, WorkPackagesHelper) {
                 vm.object[vm.attribute];
 
     vm.displayText = WorkPackagesHelper.formatValue(text, vm.displayType);
-  });
+  }
+
+  $scope.$watch('vm.object.' + vm.attribute, updateAttribute);
+  $scope.$watch('vm.schema.$loaded', updateAttribute);
 }
