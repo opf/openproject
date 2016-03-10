@@ -53,6 +53,13 @@ function halResource(halTransform, HalLink, $q) {
       this.$links = this.transformLinks();
       this.$embedded = this.transformEmbedded();
 
+      // Set .href to the self link href
+      // This is a workaround for tracking by link id's
+      // since, e.g., assignee's ID is not available.
+      if (this.$links && this.$links.self) {
+        this.href = this.$links.self.$link.href;
+      }
+
       angular.extend(this, this.source);
 
       angular.forEach(this.$links, (link, name:string) => {
