@@ -41,10 +41,21 @@ class SelectField extends Field {
     super(workPackage, fieldName, schema);
 
     if (angular.isArray(this.schema.allowedValues)) {
-      this.options = this.schema.allowedValues;
+      this.options = angular.copy(this.schema.allowedValues);
+      this.addEmptyOption();
     } else {
       this.schema.allowedValues.$load().then((values) => {
-        this.options = values.elements;
+        this.options = angular.copy(values.elements);
+        this.addEmptyOption();
+      });
+    }
+  }
+
+  private addEmptyOption() {
+    if (!this.schema.required) {
+      this.options.unshift({
+        href: "null",
+        name: this.placeholder,
       });
     }
   }

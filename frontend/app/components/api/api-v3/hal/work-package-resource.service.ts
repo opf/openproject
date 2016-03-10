@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function wpResource(HalResource: typeof op.HalResource, NotificationsService:any, $q:ng.IQService) {
+function wpResource(HalResource:typeof op.HalResource, NotificationsService:any, $q:ng.IQService) {
   class WorkPackageResource extends HalResource {
     private form;
 
@@ -69,30 +69,37 @@ function wpResource(HalResource: typeof op.HalResource, NotificationsService:any
       this.getForm()
         .catch(deferred.reject)
         .then(form => {
-        var plain_payload = form.payload.$source;
-        var schema = form.$embedded.schema;
+          var plain_payload = form.payload.$source;
+          var schema = form.$embedded.schema;
 
-        for (property in plain) {
-          if (plain[property] && schema.hasOwnProperty(property) && schema[property] && schema[property]['writable'] === true) {
-            plain_payload[property] = plain[property];
-          }
-        }
-        for (property in plain._links) {
-          if (plain._links[property] && schema.hasOwnProperty(property) && schema[property] && schema[property]['writable'] === true) {
-            plain_payload._links[property] = plain._links[property];
-          }
-        }
+          angular.forEach(plain, function (value, key) {
+            if (typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
+              plain_payload[key] = value;
+            }
+          });
 
-        return this.$links.updateImmediately(plain)
-          .catch(deferred.reject)
-          .then(workPackage => {
-          angular.extend(this, workPackage);
+          angular.forEach(plain_payload._links, function (_value, key) {
+            if (_this[key] && typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
 
-          deferred.resolve(this);
-        }).finally(() => {
-            this.form = null;
+              // TODO the track by causes a 'null' href to land here for changed links
+              // which is not accepted by the API.
+              var value = _this[key].href === 'null' ? null : _this[key].href;
+
+              plain_payload._links[key] = {href: value};
+            }
+          });
+
+          return this.$links.updateImmediately(plain_payload)
+            .then(workPackage => {
+              angular.extend(this, workPackage);
+
+              deferred.resolve(this);
+            }).catch((error) => {
+              deferred.reject(error);
+            }).finally(() => {
+              this.form = null;
+            });
         });
-      });
 
       return deferred.promise;
     }

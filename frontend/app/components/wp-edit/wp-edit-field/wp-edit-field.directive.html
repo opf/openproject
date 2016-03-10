@@ -17,7 +17,7 @@
               ng-options="value as value.name for value in vm.field.options track by value.href"
               ng-change="vm.submit()"
               ng-blur="vm.deactivate()">
-        <option value="" ng-if="!vm.field.schema.required">{{vm.field.placeholder}}</option>
+        <option value="" ng-if="false"></option>
       </select>
     </div>
   </form>

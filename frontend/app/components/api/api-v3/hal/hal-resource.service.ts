@@ -102,7 +102,7 @@ function halResource(halTransform, HalLink, $q) {
       element._links = {};
 
       linked.forEach(linkName => {
-        if (this[linkName] && !angular.isFunction(this[linkName])) {
+        if (this[linkName] && element[linkName].$links && !angular.isFunction(this[linkName])) {
           element._links[linkName] = element[linkName].$links.self.$link;
         }
 
