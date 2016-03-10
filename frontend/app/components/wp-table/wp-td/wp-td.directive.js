@@ -47,11 +47,18 @@ function wpTd(){
   };
 }
 
-function WorkPackageTdController($scope, PathHelper, WorkPackagesHelper) {
+function WorkPackageTdController($scope, I18n, PathHelper, WorkPackagesHelper) {
   var vm = this;
 
   function updateAttribute() {
-    if (!vm.schema[vm.attribute] || !vm.object[vm.attribute] ) { return; }
+    if (!vm.schema[vm.attribute]) {
+      return;
+    }
+
+    if (!vm.object[vm.attribute] ) {
+      vm.displayText = I18n.t('js.work_packages.placeholders.default');
+      return;
+    }
 
     // TODO: alter backend so that percentageDone has the type
     // 'Percent' already

@@ -35,14 +35,14 @@ class TextField extends Field {
 
 class SelectField extends Field {
   public options:any[];
+  public placeholder:string = '-';
 
   constructor(workPackage, fieldName, schema) {
     super(workPackage, fieldName, schema);
 
     if (angular.isArray(this.schema.allowedValues)) {
       this.options = this.schema.allowedValues;
-    }
-    else {
+    } else {
       this.schema.allowedValues.$load().then((values) => {
         this.options = values.elements;
       });
