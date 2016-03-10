@@ -10,8 +10,8 @@ RUN curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x6
 # We don't want to pollute any locally-mounted directory
 RUN useradd -d /home/app -m app
 RUN mkdir -p /usr/src/app
-RUN chown -R app /usr/src/app /usr/local/bundle
 RUN gem install bundler --version "${BUNDLER_VERSION}"
+RUN chown -R app:app /usr/src/app /usr/local/bundle
 
 WORKDIR /usr/src/app
 
