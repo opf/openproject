@@ -1,0 +1,26 @@
+<div ng-click="vm.isEditable && vm.activate()" class="wp-edit-field">
+  <form ng-show="vm.active"
+        ng-if="vm.workPackage"
+        ng-submit="vm.submit()"
+        ng-switch="vm.field.type">
+
+    <div ng-switch-when="text">
+      <input type="text"
+             wp-edit-field-requirements="vm.field.schema"
+             ng-model="vm.workPackage[vm.fieldName]"
+             ng-blur="vm.deactivate()">
+    </div>
+
+    <div ng-switch-when="select">
+      <select ng-model="vm.workPackage[vm.fieldName]"
+              wp-edit-field-requirements="vm.field.schema"
+              ng-options="value as value.name for value in vm.field.options track by value.href"
+              ng-change="vm.submit()"
+              ng-blur="vm.deactivate()">
+        <option value="" ng-if="false"></option>
+      </select>
+    </div>
+  </form>
+
+  <ng-transclude ng-hide="vm.active"></ng-transclude>
+</div>

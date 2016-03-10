@@ -52,6 +52,9 @@ describe('workPackageGroupHeader Directive', function() {
       beforeEach(function() {
         scope.row = { groupName: 'llama' };
         scope.groupExpanded = {};
+        scope.resource = {
+          "groups": {}
+        };
       });
 
       describe('group header toggling', function(){

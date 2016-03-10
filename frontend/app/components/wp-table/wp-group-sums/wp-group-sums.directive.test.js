@@ -28,60 +28,45 @@
 
 /*jshint expr: true*/
 
+// as the directive itself is empty, we are testing the controller
+
 describe('workPackageGroupSums Directive', function() {
-    var compile, element, rootScope, scope;
+  beforeEach(angular.mock.module('openproject.workPackages.directives',
+                                 'openproject.workPackages.controllers'));
 
-    beforeEach(angular.mock.module('openproject.workPackages.directives',
-                                   'openproject.models',
-                                   'openproject.services'));
-    beforeEach(angular.mock.module('openproject.api', 'openproject.templates', function($provide) {
-      var configurationService = {};
+  var $controller;
 
-      configurationService.isTimezoneSet = sinon.stub().returns(false);
+  beforeEach(inject(function(_$controller_){
+    $controller = _$controller_;
+  }));
 
-      $provide.constant('ConfigurationService', configurationService);
-    }));
+  describe('currentGroupObject', function() {
+    var $scope, controller;
 
-    beforeEach(inject(function($rootScope, $compile) {
-      var html;
-      html = '<tr wp-group-sums><td ng-repeat="sum in sums">{{ sum }}</td></tr>';
-
-      element = angular.element(html);
-      rootScope = $rootScope;
-      scope = $rootScope.$new();
-
-      compile = function() {
-        $compile(element)(scope);
-        scope.$digest();
+    beforeEach(function() {
+      $scope = {};
+      $scope.row = {
+        groupName: 'cheese',
       };
-    }));
+      $scope.resource = {
+        'groups': [
+          { 'value': 'bread' },
+          { 'value': 'cheese' },
+          { 'value': 'tomato' }
+        ]
+      };
 
-    describe('element', function() {
-      beforeEach(function() {
-        scope.row = {
-          groupName: "cheese",
-        };
-        scope.updateBackUrl = function(){ return 0; };
-      });
+      controller = $controller('WorkPackageGroupSumsController',
+                               { $scope: $scope });
 
-      describe('setting group sums for the column', function(){
-        beforeEach(function(){
-          compile();
-        });
-
-        it('should render a tr', function() {
-          expect(element.prop('tagName')).to.equal('TR');
-        });
-
-        it('should set the sums when the group sums change', function() {
-          scope.groupSums = [{ ham: 1, cheese: 2, bacon: 3}, { ham: 4, cheese: 5, bacon: 6}];
-          scope.$apply();
-
-          var td = element.find('td');
-          expect(td.length).to.equal(2);
-          expect(td.first().text()).to.equal('2');
-          expect(td.first().next().text()).to.equal('5');
-        });
-      });
     });
+
+    it('assigns the group to the scope' , function() {
+      expect(angular.equals($scope.currentGroupObject, { 'value': 'cheese' })).to.be.true;
+    });
+
+    it('assigns the name to the scope' , function() {
+      expect($scope.currentGroup).to.equal('cheese');
+    });
+  });
 });

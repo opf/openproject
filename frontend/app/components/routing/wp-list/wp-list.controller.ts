@@ -32,6 +32,7 @@ function WorkPackagesListController($scope,
                                     $location,
                                     WorkPackagesTableService,
                                     WorkPackageService,
+                                    apiWorkPackages,
                                     ProjectService,
                                     QueryService,
                                     PaginationService,
@@ -98,12 +99,21 @@ function WorkPackagesListController($scope,
       fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier);
     }
 
-    loadingIndicator.mainPage = fetchWorkPackages.then(function(json) {
-      setupPage(json, !!queryParams);
+    //TODO: Move this call and everything that belongs to it to the meta service
+    loadingIndicator.mainPage = fetchWorkPackages.then(function(json:api.ex.WorkPackagesMeta) {
+      apiWorkPackages
+        .list(json.meta.page, json.meta.per_page, json.meta.query)
+        .then((workPackageCollection) => {
+          mergeApiResponses(json, workPackageCollection);
+          setupPage(json, !!queryParams);
 
-      QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function(data){
-        $scope.availableUnusedColumns = data;
+          QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function(data){
+            $scope.availableUnusedColumns = data;
+          });
+
+          QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
       });
+
 
       if ($scope.projectIdentifier) {
         ProjectService.getProject($scope.projectIdentifier).then(function(project) {
@@ -112,7 +122,6 @@ function WorkPackagesListController($scope,
         });
       }
 
-      QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
     });
   }
 
@@ -172,7 +181,7 @@ function WorkPackagesListController($scope,
     WorkPackagesTableService.setBulkLinks(bulkLinks);
 
     // query data
-    QueryService.setTotalEntries(meta.total_entries);
+    QueryService.setTotalEntries(json.resource.total);
 
     // pagination data
     PaginationService.setPerPageOptions(meta.per_page_options);
@@ -183,8 +192,8 @@ function WorkPackagesListController($scope,
     $scope.columns = $scope.query.columns;
     $scope.rows = WorkPackagesTableService.getRows();
     $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
-    $scope.workPackageCountByGroup = meta.work_package_count_by_group;
     $scope.totalEntries = QueryService.getTotalEntries();
+    $scope.resource = json.resource;
 
     // Authorisation
     AuthorisationService.initModelAuth("work_package", meta._links);
@@ -218,9 +227,23 @@ function WorkPackagesListController($scope,
   function updateResults() {
     $scope.$broadcast('openproject.workPackages.updateResults');
 
+    //TODO: Move this to the WP meta service (see TODO above)
     loadingIndicator.mainPage = WorkPackageService.getWorkPackages($scope.projectIdentifier,
       $scope.query, PaginationService.getPaginationOptions())
-      .then(setupWorkPackagesTable);
+      .then(function (json:api.ex.WorkPackagesMeta) {
+        apiWorkPackages
+          .list(json.meta.page, json.meta.per_page, json.meta.query)
+          .then((workPackageCollection) => {
+            // Copy V3 group/sum response into experimental format
+            mergeApiResponses(json, workPackageCollection);
+            setupWorkPackagesTable(json);
+        });
+      });
+  }
+
+  function mergeApiResponses(exJson, workPackages) {
+    exJson.work_packages = workPackages.elements;
+    exJson.resource = workPackages;
   }
 
   // Go

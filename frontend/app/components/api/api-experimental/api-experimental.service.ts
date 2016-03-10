@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,18 +24,17 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function(app) {
-  var fs = require('fs');
-  var express = require('express');
-  var workPackagesRouter = express.Router();
+import {ApiPathsService} from "../api-paths/api-paths.service";
 
-  workPackagesRouter.get('/', function(req, res) {
-    fs.readFile(__dirname + '/work-packages.json', 'utf8', function(err, text) {
-      res.send(text);
-    });
+
+function apiExperimentalService(apiPaths:ApiPathsService, Restangular: restangular.IService) {
+  return Restangular.withConfig((RestangularConfigurer) => {
+    RestangularConfigurer.setBaseUrl(apiPaths.experimental);
   });
+}
 
-  app.use(/\/api\/experimental\/(projects\/.*\/)?work_packages/, workPackagesRouter);
-};
+angular
+  .module('openproject.api')
+  .factory('apiExperimental', apiExperimentalService);

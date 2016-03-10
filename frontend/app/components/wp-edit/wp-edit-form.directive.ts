@@ -26,29 +26,52 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpGroupSums', wpGroupSums);
+export class WorkPackageEditFormController {
+  public workPackage;
 
-function wpGroupSums() {
+  constructor(protected NotificationsService, protected $q) {
+  }
+
+  public loadSchema() {
+    return this.workPackage.getSchema();
+  }
+
+  public updateWorkPackage() {
+    var deferred = this.$q.defer();
+
+    this.workPackage.save()
+    .then(() => {
+      deferred.resolve();
+    })
+    .catch(error => {
+      if (error && error.data && error.data.message) {
+        this.NotificationsService.addError(error.data.message);
+      } else {
+        this.NotificationsService.addError("An internal error has occcurred.");
+      }
+
+      return deferred.reject();
+    });
+
+    return deferred.promise;
+  }
+}
+
+function wpEditForm() {
   return {
     restrict: 'A',
-    scope: true,
 
-    compile: function() {
-      return {
-        pre: function(scope) {
-          scope.currentGroup = scope.row.groupName;
+    scope: {
+      workPackage: '=wpEditForm'
+    },
 
-          scope.$watch('groupSums.length', function(newVal, oldVal) {
-            if(newVal != oldVal && scope.groupSums) {
-              scope.sums = scope.groupSums.map(function(groupSum){
-                return groupSum[scope.currentGroup];
-              });
-            }
-          });
-        }
-      };
-    }
+    controller: WorkPackageEditFormController,
+    controllerAs: 'vm',
+    bindToController: true
   };
 }
+
+//TODO: Use 'openproject.wpEdit' module
+angular
+  .module('openproject')
+  .directive('wpEditForm', wpEditForm);

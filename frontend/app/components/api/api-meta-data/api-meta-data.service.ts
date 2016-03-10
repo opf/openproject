@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,32 +24,18 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-/**
- * Replaces the PathHelper service in its function, providing a way to generate safe paths
- * without having to store them directly in a service.
- */
+//TODO: Finish implementation. See wp-list.controller.js
+export class ApiMetaDataService {
+  constructor(protected apiExperimental:restangular.IService) {
+  }
+
+  public getWorkPackagesListMetaData() {
+    return this.apiExperimental.one('work_packages').get().then(result => result.meta);
+  }
+}
 
 angular
-  .module('openproject.workPackages.services')
-  .factory('apiPaths', apiPaths);
-
-function apiPaths($document) {
-  var paths = {
-    appBasePath: $document.find('meta[name=app_base_path]').attr('content'),
-    apiExperimental: '/api/experimental',
-    apiV2: '/api/v2',
-    apiV3: '/api/v3'
-  };
-
-  return {
-    get appBasePath() {
-      return paths.appBasePath;
-    },
-
-    path: function (path) {
-      return paths.appBasePath + path;
-    }
-  };
-}
+  .module('openproject.api')
+  .service('apiMetaData', ApiMetaDataService);

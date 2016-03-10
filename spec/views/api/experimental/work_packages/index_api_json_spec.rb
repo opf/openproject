@@ -29,22 +29,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/experimental/work_packages/index.api.rabl', type: :view do
-  let(:work_package) do
-    FactoryGirl.build_stubbed(:work_package,
-                              created_at: DateTime.now,
-                              updated_at: DateTime.now)
-  end
-  let(:work_package2) do
-    FactoryGirl.build_stubbed(:work_package,
-                              created_at: DateTime.now,
-                              updated_at: DateTime.now)
-  end
-  let(:work_package3) do
-    FactoryGirl.build_stubbed(:work_package,
-                              created_at: DateTime.now,
-                              updated_at: DateTime.now)
-  end
-
   def self.stub_can(permissions)
     default_permissions = [:edit, :log_time, :move, :copy, :delete, :duplicate]
 
@@ -70,9 +54,6 @@ describe 'api/experimental/work_packages/index.api.rabl', type: :view do
   before do
     params[:format] = 'json'
 
-    packages = ::API::Experimental::WorkPackageDecorator.decorate(Array(work_packages))
-
-    assign(:work_packages, packages)
     assign(:column_names, column_names)
     assign(:custom_field_column_names, custom_field_column_names)
     assign(:can, can)
@@ -84,101 +65,11 @@ describe 'api/experimental/work_packages/index.api.rabl', type: :view do
 
   stub_can({})
 
-  describe 'with no work packages available' do
-    let(:work_packages) { [] }
-    let(:column_names) { [] }
-    let(:custom_field_column_names) { [] }
-
-    it { is_expected.to have_json_path('work_packages') }
-    it { is_expected.to have_json_size(0).at_path('work_packages') }
-  end
-
-  describe 'created/updated at' do
-    let(:wp) do
-      work_package.updated_at += 1.day
-      work_package
-    end
-    let(:work_packages) { ([wp]) }
-    let(:column_names) { [] }
-    let(:custom_field_column_names) { [] }
-
-    it { expect(parse_json(subject)['work_packages'][0]['updated_at']).to eq(wp.updated_at.utc.iso8601) }
-    it { expect(parse_json(subject)['work_packages'][0]['created_at']).to eq(wp.created_at.utc.iso8601) }
-  end
-
-  describe 'with 3 work packages but no columns' do
-    let(:work_packages) do
-      [work_package, work_package2, work_package3]
-    end
-    let(:column_names)       { [] }
-    let(:custom_field_column_names) { [] }
-
-    it { is_expected.to have_json_path('work_packages') }
-    it { is_expected.to have_json_size(3).at_path('work_packages') }
-
-    it { is_expected.to have_json_type(Object).at_path('work_packages/2') }
-  end
-
-  describe 'with 2 work packages and columns' do
-    let(:work_packages) do
-      [work_package, work_package2]
-    end
-    let(:column_names)       { %w(subject description due_date) }
-    let(:custom_field_column_names) { [] }
-
-    it { is_expected.to have_json_path('work_packages') }
-    it { is_expected.to have_json_size(2).at_path('work_packages') }
-
-    it { is_expected.to have_json_type(Object).at_path('work_packages/1') }
-    it { is_expected.to have_json_path('work_packages/1/subject')         }
-    it { is_expected.to have_json_path('work_packages/1/description')     }
-    it { is_expected.to have_json_path('work_packages/1/due_date')        }
-  end
-
-  describe 'with project column' do
-    let(:work_packages) { work_package }
-    let(:column_names) { %w(subject project) }
-    let(:custom_field_column_names) { [] }
-
-    it { is_expected.to have_json_path('work_packages/0/project') }
-    it { is_expected.to have_json_path('work_packages/0/project/identifier') }
-  end
-
   context 'with actions, links based on permissions' do
     let(:work_packages) { work_package }
     let(:column_names) { %w(subject project) }
     let(:custom_field_column_names) { [] }
 
-    context 'with no actions' do
-      it { is_expected.to have_json_path('work_packages/0/_actions') }
-      it { is_expected.to have_json_type(Array).at_path('work_packages/0/_actions') }
-      it { is_expected.to have_json_size(0).at_path('work_packages/0/_actions') }
-
-      it { is_expected.to have_json_path('work_packages/0/_links') }
-      it { is_expected.to have_json_type(Hash).at_path('work_packages/0/_links') }
-      it { is_expected.to have_json_size(0).at_path('work_packages/0/_links') }
-    end
-
-    context 'with some actions' do
-      stub_can(
-        edit:     false,
-        log_time: true,
-        move:     nil,
-        delete:   true
-      )
-
-      it { is_expected.to have_json_path('work_packages/0/_actions') }
-      it { is_expected.to have_json_type(Array).at_path('work_packages/0/_actions') }
-      it { is_expected.to have_json_size(2).at_path('work_packages/0/_actions') }
-
-      it { is_expected.to have_json_path('work_packages/0/_links') }
-      it { is_expected.to have_json_type(Hash).at_path('work_packages/0/_links') }
-      it { is_expected.to have_json_size(2).at_path('work_packages/0/_links') }
-
-      specify {
-        expect(parse_json(subject, 'work_packages/0/_links/log_time')).to match(%r{/work_packages/(\d+)/time_entries/new})
-      }
-    end
 
     context 'with all actions' do
       stub_can(
@@ -190,40 +81,10 @@ describe 'api/experimental/work_packages/index.api.rabl', type: :view do
         duplicate: true
       )
 
-      it { is_expected.to have_json_path('work_packages/0/_actions') }
-      it { is_expected.to have_json_type(Array).at_path('work_packages/0/_actions') }
-      it { is_expected.to have_json_size(6).at_path('work_packages/0/_actions') }
-      it { is_expected.to have_json_path('work_packages/0/_actions/') }
-
-      specify {
-        expect(parse_json(subject, 'work_packages/0/_actions/3')).to match(%r{copy})
-      }
-      specify {
-        expect(parse_json(subject, 'work_packages/0/_actions/5')).to match(%r{duplicate})
-      }
-
-      it { is_expected.to have_json_path('work_packages/0/_links') }
-      it { is_expected.to have_json_type(Hash).at_path('work_packages/0/_links') }
-
-      # FIXME: check missing permission
-      it { is_expected.to have_json_size(6).at_path('work_packages/0/_links') }
-
-      specify {
-        expect(parse_json(subject, 'work_packages/0/_links/copy')).to match(%r{/work_packages/move/new\?copy\=true})
-      }
-
-      specify {
-        expect(parse_json(subject, 'work_packages/0/_links/edit')).to match(%r{/work_packages/(\d+)/edit})
-      }
-
-      specify {
-        expect(parse_json(subject, 'work_packages/0/_links/delete')).to match(%r{/work_packages/bulk\?ids(.+)method\=delete})
-      }
-
       it { is_expected.to have_json_size(4).at_path('_bulk_links') }
 
       specify {
-        expect(parse_json(subject, '_bulk_links/edit')).to match(%r{/work_packages/bulk/edit})
+        expect(parse_json(subject, '_bulk_links/update')).to match(%r{/work_packages/bulk/edit})
       }
 
       specify {

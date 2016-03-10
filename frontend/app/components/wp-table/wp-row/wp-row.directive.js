@@ -33,13 +33,13 @@ angular
 
 function wpRow(WorkPackagesTableService){
   function setCheckboxTitle(scope) {
-    var checkboxTitleLocale = I18n.t('js.description_select_work_package');
-    scope.checkboxTitle = checkboxTitleLocale + '#' + scope.workPackage.id;
+    scope.checkboxTitle = I18n.t('js.description_select_work_package',
+                                 { id: scope.workPackage.id });
   }
 
-  var parentWorkPackageLabel = I18n.t('js.description_subwork_package') + ' ' + I18n.t('js.label_work_package') + ' ';
   function setHiddenWorkPackageLabel(scope) {
-    scope.parentWorkPackageHiddenText = parentWorkPackageLabel + '"' + scope.row.parent.object.subject + '"';
+    scope.parentWorkPackageHiddenText = I18n.t('js.description_subwork_package',
+                                               { id: scope.row.parent.object.id }) ;
   }
 
   return {
@@ -48,6 +48,12 @@ function wpRow(WorkPackagesTableService){
     link: function(scope) {
       scope.workPackage = scope.row.object;
       setCheckboxTitle(scope);
+
+      scope.$watch('row.object.schema.$loaded', function(isLoaded) {
+        if (!isLoaded) {
+          scope.row.object.schema.$load();
+        }
+      });
 
       if (scope.row.parent) setHiddenWorkPackageLabel(scope);
 

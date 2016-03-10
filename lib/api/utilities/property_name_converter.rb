@@ -54,7 +54,8 @@ module API
           created_on: 'createdAt',
           updated_on: 'updatedAt',
           remaining_hours: 'remainingTime',
-          spent_hours: 'spentTime'
+          spent_hours: 'spentTime',
+          subproject: 'subprojectId'
         }
 
         # Converts the attribute name as refered to by ActiveRecord to a corresponding API-conform

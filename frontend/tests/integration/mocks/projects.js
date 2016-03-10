@@ -44,5 +44,10 @@ module.exports = function(app) {
       res.send(text);
     });
   });
+  projectsRouter.get('/:id/work_packages', function(req, res) {
+    fs.readFile(__dirname + '/projects/work-packages-list.json', 'utf8', function(err, text) {
+      res.send(text);
+    });
+  });
   app.use('/api/v3/projects', projectsRouter);
 };

@@ -75,6 +75,7 @@ angular.module(
     'openproject.helpers',
     'openproject.workPackages.config',
     'openproject.workPackages.helpers',
+    'openproject.api',
     'angular-cache'
   ]);
 angular.module('openproject.helpers', ['openproject.services']);
@@ -169,7 +170,7 @@ angular.module('openproject.layout', [
 ]);
 angular.module('openproject.layout.controllers', []);
 
-angular.module('openproject.api', []);
+angular.module('openproject.api', ['restangular']);
 
 angular.module('openproject.templates', []);
 

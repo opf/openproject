@@ -29,11 +29,55 @@
 /*jshint expr: true*/
 
 describe('WorkPackageContextMenuHelper', function() {
-  var PERMITTED_CONTEXT_MENU_ACTIONS = ['edit', 'log_time', 'update', 'move'];
+  var PERMITTED_CONTEXT_MENU_ACTIONS = [
+    {
+      icon: 'edit',
+      link: 'update'
+    },
+    {
+      icon: 'log_time',
+      link: 'logTime'
+    },
+    {
+      icon: 'move',
+      link: 'move'
+    },
+    {
+      icon: 'copy',
+      link: 'copy'
+    },
+    {
+      icon: 'delete',
+      link: 'delete'
+    }];
   var WorkPackageContextMenuHelper;
   var stateParams = {};
 
-  beforeEach(module('openproject.workPackages.helpers', 'openproject.models', 'openproject.api', 'openproject.layout','openproject.services'));
+  var expectPermitted = function(workPackages, expected) {
+    var calculatedPermittedActions = WorkPackageContextMenuHelper.getPermittedActions(
+                                       workPackages,
+                                       PERMITTED_CONTEXT_MENU_ACTIONS);
+
+    expect(_.filter(calculatedPermittedActions,
+                    function(o) { return o.icon === expected.icon; })[0].link)
+      .to.equal(expected.link);
+  };
+
+  var expectNotPermitted = function(workPackages, expected) {
+    var calculatedPermittedActions = WorkPackageContextMenuHelper.getPermittedActions(
+                                       workPackages,
+                                       PERMITTED_CONTEXT_MENU_ACTIONS);
+
+    expect(_.filter(calculatedPermittedActions,
+                    function(o) { return o.icon === expected.icon; }))
+      .to.be.empty;
+  };
+
+  beforeEach(module('openproject.workPackages.helpers',
+                    'openproject.models',
+                    'openproject.api',
+                    'openproject.layout',
+                    'openproject.services'));
 
   beforeEach(module('openproject.templates', function($provide) {
     var configurationService = {};
@@ -49,66 +93,68 @@ describe('WorkPackageContextMenuHelper', function() {
   }));
 
   describe('getPermittedActions', function() {
-
-    var actions = ['edit', 'log_time', 'update', 'move'];
     var actionLinks = {
-      edit: '/work_packages/123/edit',
-      log_time: '/work_packages/123/time_entries/new',
-      move: '/work_packages/move/new?ids%5B%5D=123',
-      delete: '/work_packages/bulk?ids%5B%5D=123&method=delete'
+      update: {
+        href: '/work_packages/123/edit'
+      },
+      move: {
+        href: '/work_packages/move/new?ids%5B%5D=123'
+      }
     };
 
-    var permittedAction = actions[0],
-        notPermittedAction = actions[1];
-
     var workPackage = Factory.build('PlanningElement', {
-      _actions: new Array(permittedAction),
-      _links: actionLinks
+      $links: actionLinks
     });
 
     describe('when an array with a single work package is passed as an argument', function() {
       var workPackages = new Array(workPackage);
 
       it('returns the link of a listed action', function() {
-        var permittedActions = WorkPackageContextMenuHelper.getPermittedActions(workPackages, PERMITTED_CONTEXT_MENU_ACTIONS);
-        expect(permittedActions).to.have.property(permittedAction);
-        expect(permittedActions[permittedAction]).to.equal('/work_packages/123/edit');
+        expectPermitted(workPackages, { icon: 'move',
+                                        link: '/work_packages/move/new?ids%5B%5D=123' });
+      });
+
+      it('returns the link of a listed action that has an alias', function() {
+        expectPermitted(workPackages, { icon: 'edit',
+                                        link: '/work_packages/123/edit' });
       });
 
       it('does not return the link of an action which is not listed', function() {
-        var permittedActions = WorkPackageContextMenuHelper.getPermittedActions(workPackages, PERMITTED_CONTEXT_MENU_ACTIONS);
-        expect(permittedActions).not.to.have.property(notPermittedAction);
+        expectNotPermitted(workPackages, { icon: 'non existent',
+                                           link: 'who cares' });
       });
     });
 
     describe('when more than one work package is passed as an argument', function() {
-      var anotherPermittedAction = actions[3],
-          anotherWorkPackage = Factory.build('PlanningElement', {
-            _actions: [permittedAction, anotherPermittedAction],
-            _links: actionLinks
+      var anotherWorkPackage = Factory.build('PlanningElement', {
+            $links: {
+              update: {
+                href: '/work_packages/234/edit'
+              }
+            }
           });
       var workPackages = [anotherWorkPackage, workPackage];
 
       beforeEach(inject(function(_WorkPackagesTableService_) {
         var WorkPackagesTableService = _WorkPackagesTableService_;
         WorkPackagesTableService.setBulkLinks({
-          edit: '/work_packages/bulk/edit'
+          update: '/work_packages/bulk/edit',
+          move: '/work_packages/bulk/move',
+          delete: '/work_packages/bulk/delete'
         });
       }));
 
-      it('returns the link of an action listed for all work packages', function() {
-        expect(WorkPackageContextMenuHelper.getPermittedActions(workPackages)).to.have.property(permittedAction);
-      });
-
       it('does not return the action if it is not permitted on all work packages', function() {
-        expect(WorkPackageContextMenuHelper.getPermittedActions(workPackages)).not.to.have.property(anotherPermittedAction);
+        expectNotPermitted(workPackages, { icon: 'update',
+                                           link: 'who cares' });
       });
 
       it('links to the bulk action and passes all work package ids', function() {
         var key = encodeURIComponent('ids[]');
         var queryString = key + '=' + anotherWorkPackage.id + '&' + key + '=' + workPackage.id;
 
-        expect(WorkPackageContextMenuHelper.getPermittedActions(workPackages)[permittedAction]).to.equal('/work_packages/bulk/edit?' + queryString);
+        expectPermitted(workPackages, { icon: 'edit',
+                                        link: '/work_packages/bulk/edit?' + queryString });
       });
     });
   });

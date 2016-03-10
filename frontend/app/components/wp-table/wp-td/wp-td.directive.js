@@ -34,14 +34,11 @@ function wpTd(){
   return {
     restrict: 'E',
     templateUrl: '/components/wp-table/wp-td/wp-td.directive.html',
-    replace: true,
 
     scope: {
-      workPackage: '=',
-      projectIdentifier: '=',
-      column: '=',
-      displayType: '@',
-      displayEmpty: '@'
+      schema: '=',
+      object: '=',
+      attribute: '='
     },
 
     bindToController: true,
@@ -50,105 +47,35 @@ function wpTd(){
   };
 }
 
-function WorkPackageTdController($scope, PathHelper, WorkPackagesHelper) {
+function WorkPackageTdController($scope, I18n, PathHelper, WorkPackagesHelper) {
   var vm = this;
-  
-  vm.displayType = vm.displayType || 'text';
 
-  $scope.$watch(dataAvailable, setColumnData);
-
-  function dataAvailable() {
-    if (!vm.workPackage) return false;
-
-    if (vm.column.custom_field) {
-      return customValueAvailable();
+  function updateAttribute() {
+    if (!vm.schema[vm.attribute]) {
+      return;
     }
 
-    return vm.workPackage.hasOwnProperty(vm.column.name);
-  }
-
-  function customValueAvailable() {
-    var customFieldId = vm.column.custom_field.id;
-
-    return vm.workPackage.custom_values &&
-      vm.workPackage.custom_values.filter(function(customValue){
-        return customValue && customValue.custom_field_id === customFieldId;
-      }).length;
-  }
-
-  function setColumnData() {
-    setDisplayText(getFormattedColumnValue());
-
-    if (vm.column.meta_data.link.display) {
-      var id = WorkPackagesHelper.getColumnDataId(vm.workPackage, vm.column)
-      if (id) {
-        displayDataAsLink(id);
-      }
-    } else {
-      setCustomDisplayType();
+    if (!vm.object[vm.attribute] ) {
+      vm.displayText = I18n.t('js.work_packages.placeholders.default');
+      return;
     }
-  }
 
-  function getFormattedColumnValue() {
-    var custom_field = vm.column.custom_field;
-
-    if (custom_field) {
-      return WorkPackagesHelper.getFormattedCustomValue(vm.workPackage, custom_field);
-
-    } else {
-      return WorkPackagesHelper.getFormattedColumnData(vm.workPackage, vm.column);
+    // TODO: alter backend so that percentageDone has the type
+    // 'Percent' already
+    if (vm.attribute === 'percentageDone') {
+      vm.displayType = 'Percent';
     }
-  }
-
-  function setDisplayText(value) {
-    vm.displayText = vm.displayEmpty || '';
-
-    if (typeof value === 'number' || value){
-      vm.displayText = value;
+    else {
+      vm.displayType = vm.schema[vm.attribute].type;
     }
+
+    var text = vm.object[vm.attribute].value ||
+                vm.object[vm.attribute].name ||
+                vm.object[vm.attribute];
+
+    vm.displayText = WorkPackagesHelper.formatValue(text, vm.displayType);
   }
 
-  function setCustomDisplayType() {
-    if (vm.column.name === 'done_ratio') vm.displayType = 'progress_bar';
-  }
-
-  function displayDataAsLink(id) {
-    var linkMeta = vm.column.meta_data.link;
-
-    if (linkMeta.model_type === 'work_package') {
-      var projectId = vm.projectIdentifier || '';
-
-      vm.displayType = 'ref';
-      vm.stateRef = "work-packages.show.activity({projectPath: '" + projectId +
-            "', workPackageId: " + id + "})";
-
-    } else {
-      vm.displayType = 'link';
-      vm.url = getLinkFor(id, linkMeta);
-    }
-  }
-
-  function getLinkFor(id, linkMeta){
-    var types = {
-      get user() {
-        if (vm.workPackage[vm.column.name] && vm.workPackage[vm.column.name].type == 'Group') {
-          vm.displayType = 'text';
-
-          return '';
-        }
-
-        return PathHelper.userPath(id);
-      },
-
-      get version() {
-        return PathHelper.versionPath(id);
-      },
-
-      get project() {
-        return PathHelper.projectPath(id);
-      }
-    };
-
-    return types[linkMeta.model_type] || '';
-  }
+  $scope.$watch('vm.object.' + vm.attribute, updateAttribute);
+  $scope.$watch('vm.schema.$loaded', updateAttribute);
 }

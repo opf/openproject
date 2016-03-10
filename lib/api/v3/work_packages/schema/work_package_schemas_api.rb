@@ -27,7 +27,9 @@
 #++
 
 require 'api/v3/work_packages/schema/typed_work_package_schema'
+require 'api/v3/work_packages/schema/work_package_sums_schema'
 require 'api/v3/work_packages/schema/work_package_schema_representer'
+require 'api/v3/work_packages/schema/work_package_sums_schema_representer'
 
 module API
   module V3
@@ -73,6 +75,18 @@ module API
 
               get do
                 @representer
+              end
+            end
+
+            namespace 'sums' do
+              get do
+                authorize(:view_work_packages, global: true) do
+                  raise404
+                end
+
+                schema = WorkPackageSumsSchema.new
+                @representer = WorkPackageSumsSchemaRepresenter.create(schema,
+                                                                       current_user: current_user)
               end
             end
 

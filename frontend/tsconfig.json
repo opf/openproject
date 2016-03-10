@@ -8,5 +8,8 @@
     "preserveConstEnums": true,
     "sourceMap": true
   },
-  "files": ["typings/tsd.d.ts"]
+  "files": [
+    "app/typings/open-project.typings.ts",
+    "typings/tsd.d.ts"
+  ]
 }

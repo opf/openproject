@@ -107,6 +107,9 @@ module API
           if params[:sortBy]
             query.sort_criteria = parse_sorting_from_json(params[:sortBy])
             query_params[:sortBy] = params[:sortBy]
+          else
+            query.sort_criteria = [['parent', 'desc']]
+            query_params[:sortBy] = 'parent:desc'
           end
         end
 

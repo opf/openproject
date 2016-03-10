@@ -111,10 +111,7 @@ OpenProject::Application.routes.draw do
     end
 
     namespace :experimental do
-      resources :work_packages, only: [:index] do
-        get :column_data, on: :collection
-        get :column_sums, on: :collection
-      end
+      resources :work_packages, only: [:index]
       resources :queries, only: [:create, :update, :destroy] do
         get :available_columns, on: :collection
         get :custom_field_filters, on: :collection

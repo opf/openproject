@@ -66,8 +66,27 @@ angular.module('openproject.workPackages')
     require('./settings-dropdown-menu-controller')
   ])
   .constant('PERMITTED_CONTEXT_MENU_ACTIONS', [
-    'edit', 'watch', 'log_time',
-    'move', 'copy', 'delete'
+    {
+      icon: 'edit',
+      link: 'update'
+    },
+    // TODO: reenable watch
+    {
+      icon: 'log_time',
+      link: 'logTime'
+    },
+    {
+      icon: 'move',
+      link: 'move'
+    },
+    {
+      icon: 'copy',
+      link: 'copy'
+    },
+    {
+      icon: 'delete',
+      link: 'delete'
+    }
   ])
   .factory('WorkPackageContextMenu', [
     'ngContextMenu',

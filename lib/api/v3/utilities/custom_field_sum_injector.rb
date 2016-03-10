@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,40 +27,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class API::Experimental::WorkPackageDecorator < SimpleDelegator
-  def self.decorate(collection)
-    collection.map do |wp|
-      new(wp)
+module API
+  module V3
+    module Utilities
+      class CustomFieldSumInjector < CustomFieldInjector
+        def inject_schema(custom_field, _options = {})
+          inject_basic_schema(custom_field)
+        end
+
+        def inject_basic_schema(custom_field)
+          @class.schema property_name(custom_field.id),
+                        type: TYPE_MAP[custom_field.field_format],
+                        name_source: -> (*) { custom_field.name },
+                        required: false,
+                        writable: false,
+                        show_if: -> (*) {
+                          Setting.work_package_list_summable_columns.any? { |column_name|
+                            /cf_(\d+)/.match(column_name)
+                          }
+                        }
+        end
+      end
     end
-  end
-
-  def custom_values_display_data(field_ids)
-    field_ids = Array(field_ids)
-    field_ids.map do |field_id|
-      value = custom_values.detect { |cv|
-        cv.custom_field_id == field_id.to_i
-      }
-
-      get_cast_custom_value_with_meta(value)
-    end
-  end
-
-  private
-
-  def get_cast_custom_value_with_meta(custom_value)
-    return unless custom_value
-
-    custom_field = custom_value.custom_field
-    value = if custom_field.field_format == 'user'
-              custom_value.typed_value.as_json(methods: :name)
-            else
-              custom_value.typed_value
-            end
-
-    {
-      custom_field_id: custom_field.id,
-      field_format: custom_field.field_format, # TODO just return the cast value
-      value: value
-    }
   end
 end

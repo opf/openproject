@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
+  include API::V3::Utilities::PathHelper
+
   let(:self_base_link) { '/api/v3/example' }
   let(:work_packages) { WorkPackage.all }
   let(:user) { FactoryGirl.build_stubbed(:user) }
@@ -114,10 +116,34 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     context 'passing groups' do
-      let(:groups) { { custom: 'object' } }
+      let(:groups) {
+        group = { 'custom': 'object' }
+        allow(group).to receive(:has_sums?).and_return false
+        [group]
+      }
 
       it 'renders the groups object as json' do
         is_expected.to be_json_eql(groups.to_json).at_path('groups')
+      end
+    end
+
+    context 'passing groups with sums' do
+      let(:groups) {
+        group = { 'sums': {} }
+        allow(group).to receive(:has_sums?).and_return true
+        [group]
+      }
+
+      it 'renders the groups object as json' do
+        is_expected.to be_json_eql(groups.to_json).at_path('groups')
+      end
+
+      it 'has a link to the sums schema' do
+        expected = {
+          href: api_v3_paths.work_package_sums_schema
+        }
+
+        is_expected.to be_json_eql(expected.to_json).at_path('_links/sumsSchema')
       end
     end
 
@@ -126,6 +152,14 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
       it 'renders the groups object as json' do
         is_expected.to be_json_eql(total_sums.to_json).at_path('totalSums')
+      end
+
+      it 'has a link to the sums schema' do
+        expected = {
+          href: api_v3_paths.work_package_sums_schema
+        }
+
+        is_expected.to be_json_eql(expected.to_json).at_path('_links/sumsSchema')
       end
     end
   end

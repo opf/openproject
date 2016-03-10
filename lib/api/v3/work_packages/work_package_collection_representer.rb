@@ -57,6 +57,12 @@ module API
                 current_user: current_user)
         end
 
+        link :sumsSchema do
+          {
+            href: api_v3_paths.work_package_sums_schema,
+          } if total_sums || groups && groups.any?(&:has_sums?)
+        end
+
         collection :elements,
                    getter: -> (*) {
                      work_packages = eager_loaded_work_packages
@@ -79,16 +85,10 @@ module API
 
         property :groups,
                  exec_context: :decorator,
-                 getter: -> (*) {
-                   @groups
-                 },
                  render_nil: false
 
         property :total_sums,
                  exec_context: :decorator,
-                 getter: -> (*) {
-                   @total_sums
-                 },
                  render_nil: false
 
         # Eager load elements used in the representer later
@@ -105,6 +105,11 @@ module API
 
           work_packages.sort_by { |wp| ids_in_order.index(wp.id) }
         end
+
+        private
+
+        attr_reader :groups,
+                    :total_sums
       end
     end
   end

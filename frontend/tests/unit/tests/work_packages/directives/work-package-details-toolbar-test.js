@@ -98,7 +98,7 @@ describe('workPackageDetailsToolbar', function() {
   beforeEach(function() {
     var workPackage = {
       links: {
-        log_time: { href: 'log_timeMeLink' },
+        logTime: { href: 'log_timeMeLink' },
         duplicate: { href: 'duplicateMeLink' },
         move: { href: 'moveMeLink' },
         delete: { href: 'deleteMeLink' },
@@ -181,7 +181,7 @@ describe('workPackageDetailsToolbar', function() {
   describe('Core actions', function() {
     var listRootSelector = 'ul.dropdown-menu';
     var actions = {
-      log_time: 'icon-log_time',
+      logTime: 'icon-log_time',
       move: 'icon-move',
       delete: 'icon-delete'
     };

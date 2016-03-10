@@ -26,24 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('apiPaths', function() {
-  var $document, apiPaths;
-
-  beforeEach(angular.mock.module('openproject.workPackages.services'));
-  beforeEach(angular.mock.inject(function (_$document_) {
-    $document = _$document_;
-    sinon.stub($document, 'find').returns({ attr: function () { return 'my_path' } });
-  }));
-
-  beforeEach(angular.mock.inject(function(_$document_, _apiPaths_) {
-    apiPaths = _apiPaths_;
-  }));
-
-  afterEach(function () {
-    $document.find.restore();
+angular
+  .module('openproject.api')
+  .value('halTransformTypes', {
+    'default': null
   });
-
-  it("should return the 'app_base_path' meta tag value", function () {
-    expect(apiPaths.appBasePath).to.eq('my_path');
-  });
-});

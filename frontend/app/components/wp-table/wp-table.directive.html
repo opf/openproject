@@ -15,7 +15,7 @@
                  class="no-decoration-on-hover"
                  ng-click="setCheckedStateForAllRows(!(rows | allRowsChecked))"
                  title="{{ text.toggleRows }}">
-                
+
                 <icon-wrapper icon-title="{{ text.toggleRows }}"
                               icon-name="checkmark"></icon-wrapper>
               </a>
@@ -70,14 +70,9 @@
             </div>
 
             <div>
-              <wp-column work-package="row.object"
-                         column="groupByColumn"
-                         display-type="{{ groupByColumn.name }}"
-                         display-empty="-">
-              </wp-column>
-
+              {{ currentGroupObject.value }}
               <span class="count">
-                ({{ countByGroup[row.groupName] }})
+                ({{ currentGroupObject.count }})
               </span>
             </div>
 
@@ -92,7 +87,7 @@
             trigger-on-event="contextmenu"
             target="WorkPackageContextMenu"
             locals="rows,row"
-            after-focus-on=".id a"
+            after-focus-on=".id :focusable"
             single-click="selectWorkPackage(row, $event)"
             ng-dblclick="showWorkPackageDetails(row)"
             ng-class="[
@@ -103,7 +98,9 @@
               row.level > 0 && 'child idnt' || '',
               row.level > 0 && ('idnt-' + row.level) || ''
             ]"
-            ng-show="!groupByColumn || groupExpanded[row.groupName]">
+            ng-show="!groupByColumn || groupExpanded[row.groupName]"
+
+            wp-edit-form="row.object">
 
           <td class="checkbox -short hide-when-print">
             <accessible-checkbox name="ids[]"
@@ -113,12 +110,15 @@
                                  model="row.checked"/>
           </td>
 
-          <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || locale}}" ng-class="column.name == 'id' && '-short'">
-            <wp-td work-package="row.object"
-                       column="column"
-                       display-type="{{column.meta_data.data_type}}"
-                       project-identifier="projectIdentifier"
-                       ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']">
+          <td ng-repeat="column in columns"
+              class="{{column.name}}"
+              lang="{{column.custom_field && column.custom_field.name_locale || locale}}"
+              wp-edit-field="column.name"
+              ng-class="column.name == 'id' && '-short'">
+            <wp-td attribute="column.name"
+                   schema="row.object.schema"
+                   object="row.object"
+                   ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']">
             </wp-td>
           </td>
         </tr>
@@ -128,7 +128,7 @@
 
         <tr wp-group-sums
             ng-repeat-end
-            ng-if="displaySums && !!groupByColumn &&
+            ng-if="sumsLoaded() && !!groupByColumn &&
                    ($last || row.groupName !== rows[$index+1].groupName)"
             ng-show="!groupByColumn || groupExpanded[row.groupName]"
             ng-class="[
@@ -141,13 +141,13 @@
             ]">
             <td colspan="{{1  - (!!hideWorkPackageDetails * 1)}}">
               {{ text.sumFor }}
-              <wp-column work-package="row.object"
-                         column="groupByColumn"
-                         display-empty="-">
-              </wp-column>
+              {{ currentGroupObject.value }}
             </td>
             <td ng-repeat="column in columns">
-              {{ column.group_sums[row.groupName] }}
+              <wp-td attribute="column.name"
+                     schema="resource.sumsSchema"
+                     object="currentGroupObject.sums">
+              </wp-td>
             </td>
         </tr>
 
@@ -156,8 +156,7 @@
 
         <!-- Total sums -->
 
-        <tr wp-total-sums
-            ng-if="displaySums"
+        <tr ng-if="sumsLoaded()"
             class="sum group all issue work_package">
           <td colspan="{{1  - (!!hideWorkPackageDetails * 1)}}">
             <div class="generic-table--footer-outer">
@@ -165,16 +164,18 @@
             </div>
           </td>
           <td ng-repeat="column in columns">
-            <div class="generic-table--footer-outer">
-              {{ column.total_sum }}
-            </div>
+            <wp-td class="generic-table--footer-outer"
+                   attribute="column.name"
+                   schema="resource.sumsSchema"
+                   object="resource.totalSums">
+            </wp-td>
           </td>
         </tr>
 
       </tfoot>
     </table>
     <div class="generic-table--header-background"></div>
-    <div class="generic-table--footer-background" ng-if="displaySums"></div>
+    <div class="generic-table--footer-background" ng-if="sumsLoaded()"></div>
   </div>
   <div class="generic-table--no-results-container" ng-if="!rows.length">
     <i class="icon-info1"></i>

@@ -26,48 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpTotalSums', wpTotalSums);
+function halTransform(halTransformTypes) {
+  return (element:op.ApiResult) => {
+    const resourceClass = halTransformTypes[element._type] || halTransformTypes.default;
 
-function wpTotalSums(WorkPackageService) {
-  return {
-    restrict: 'A',
-    scope: true,
-
-    link: function(scope) {
-      if (!totalSumsFetched()) fetchTotalSums();
-
-      scope.$watch(columnNames, function(columnNames, formerNames) {
-        if (!angular.equals(columnNames, formerNames) && !totalSumsFetched()) {
-          fetchTotalSums();
-          scope.$emit('queryStateChange');
-        }
-      }, true);
-
-
-      function fetchTotalSums() {
-        scope.fetchTotalSums = WorkPackageService.getWorkPackagesSums(scope.projectIdentifier, scope.query, scope.columns)
-          .then(function(data){
-            angular.forEach(scope.columns, function(column, i){
-              column.total_sum = data.column_sums[i];
-            });
-          });
-
-        return scope.fetchTotalSums;
-      }
-
-      function totalSumsFetched() {
-        return scope.columns.every(function(column) {
-          return column.hasOwnProperty('total_sum');
-        });
-      }
-
-      function columnNames() {
-        return scope.columns.map(function(column) {
-          return column.name;
-        });
-      }
+    if (element._embedded || element._links) {
+      return new resourceClass(element);
     }
+
+    return element;
   };
 }
+
+angular
+  .module('openproject.api')
+  .factory('halTransform', halTransform);

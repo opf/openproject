@@ -38,8 +38,10 @@ function WorkPackagesTableHelper(WorkPackagesHelper) {
       var rows = [], ancestors = [];
       var currentGroup, allGroups = [];
 
-      angular.forEach(workPackages, function(workPackage, i) {
-        while(ancestors.length > 0 && workPackage.parent_id !== _.last(ancestors).object.id) {
+      angular.forEach(workPackages, function(workPackage) {
+        while(ancestors.length > 0 &&
+            (!workPackage.parent ||
+             !_.last(ancestors).object.isParentOf(workPackage))) {
           // this helper method only reflects hierarchies if nested work packages follow one another
           ancestors.pop();
         }
@@ -73,7 +75,7 @@ function WorkPackagesTableHelper(WorkPackagesHelper) {
 
         rows.push(row);
 
-        if (!workPackage['leaf?']) ancestors.push(row);
+        if (!workPackage.isLeaf) ancestors.push(row);
       });
 
       return _.sortBy(rows, 'groupIndex');

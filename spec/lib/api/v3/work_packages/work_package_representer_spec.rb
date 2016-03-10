@@ -699,9 +699,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:permission) { :delete_work_packages }
       end
 
-      describe 'log_time' do
+      describe 'logTime' do
         it_behaves_like 'action link' do
-          let(:action) { 'log_time' }
+          let(:action) { 'logTime' }
           let(:permission) { :log_time }
         end
       end
@@ -709,6 +709,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'move' do
         it_behaves_like 'action link' do
           let(:action) { 'move' }
+          let(:permission) { :move_work_packages }
+        end
+      end
+
+      describe 'copy' do
+        it_behaves_like 'action link' do
+          let(:action) { 'copy' }
           let(:permission) { :move_work_packages }
         end
       end

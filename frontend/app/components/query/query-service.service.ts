@@ -61,20 +61,20 @@ function QueryService(Query,
       query = new Query({
         id: queryId,
         name: queryData.name,
-        project_id: queryData.project_id,
-        displaySums: queryData.display_sums,
-        groupSums: queryData.group_sums,
+        projectId: queryData.projectId,
+        displaySums: queryData.displaySums,
+        groupSums: queryData.groupSums,
         sums: queryData.sums,
         columns: selectedColumns,
-        groupBy: queryData.group_by,
-        isPublic: queryData.is_public,
+        groupBy: queryData.groupBy,
+        isPublic: queryData.isPublic,
         exportFormats: exportFormats,
         starred: queryData.starred,
         links: queryData._links
       });
-      query.setSortation(queryData.sort_criteria);
+      query.setSortation(queryData.sortCriteria);
 
-      QueryService.getAvailableFilters(query.project_id)
+      QueryService.getAvailableFilters(query.projectId)
         .then(function(availableFilters) {
           query.setAvailableWorkPackageFilters(availableFilters);
           if (query.isDefault()) {
@@ -94,21 +94,21 @@ function QueryService(Query,
     updateQuery: function(values, afterUpdate) {
       var queryData = {
       };
-      if(!!values.display_sums) {
-        queryData.displaySums = values.display_sums;
+      if(!!values.displaySums) {
+        queryData.displaySums = values.displaySums;
       }
       if(!!values.columns) {
         queryData.columns = values.columns;
       }
-      if(!!values.group_by) {
-        queryData.groupBy = values.group_by;
+      if(!!values.groupBy) {
+        queryData.groupBy = values.groupBy;
       }
-      if(!!values.sort_criteria) {
-        queryData.sortCriteria = values.sort_criteria;
+      if(!!values.sortCriteria) {
+        queryData.sortCriteria = values.sortCriteria;
       }
       query.update(queryData);
 
-      QueryService.getAvailableFilters(query.project_id)
+      QueryService.getAvailableFilters(query.projectId)
         .then(function(availableFilters) {
           query.setAvailableWorkPackageFilters(availableFilters);
           if(queryData.filters && queryData.filters.length) {
@@ -197,10 +197,7 @@ function QueryService(Query,
 
       var url = projectIdentifier ? PathHelper.apiProjectAvailableColumnsPath(projectIdentifier) : PathHelper.apiAvailableColumnsPath();
 
-      return QueryService.doGet(url, function(response){
-        availableColumns = response.data.available_columns;
-        return availableColumns;
-      });
+      return QueryService.doGet(url, (response) => response.data.available_columns);
     },
 
     getGroupBy: function() {
@@ -338,11 +335,11 @@ function QueryService(Query,
     // synchronization
 
     saveQuery: function() {
-      var url = query.project_id ? PathHelper.apiProjectQueryPath(query.project_id, query.id) : PathHelper.apiQueryPath(query.id);
+      var url = query.projectId ? PathHelper.apiProjectQueryPath(query.projectId, query.id) : PathHelper.apiQueryPath(query.id);
 
       return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response) {
         query.dirty = false;
-        QueryService.fetchAvailableGroupedQueries(query.project_id);
+        QueryService.fetchAvailableGroupedQueries(query.projectId);
 
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_update') }} );
       });
@@ -350,11 +347,11 @@ function QueryService(Query,
 
     saveQueryAs: function(name) {
       query.setName(name);
-      var url = query.project_id ? PathHelper.apiProjectQueriesPath(query.project_id) : PathHelper.apiQueriesPath();
+      var url = query.projectId ? PathHelper.apiProjectQueriesPath(query.projectId) : PathHelper.apiQueriesPath();
 
       return QueryService.doQuery(url, query.toParams(), 'POST', function(response){
         query.save(response.data.query);
-        QueryService.fetchAvailableGroupedQueries(query.project_id);
+        QueryService.fetchAvailableGroupedQueries(query.projectId);
 
         // The starred-state does not get saved via the API. So we manually
         // set it, if the old query was starred.
@@ -368,13 +365,13 @@ function QueryService(Query,
 
     deleteQuery: function() {
       var url;
-      if(_.isNull(query.project_id)) {
+      if(_.isNull(query.projectId)) {
         url = PathHelper.apiQueryPath(query.id);
       } else {
-        url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
+        url = PathHelper.apiProjectQueryPath(query.projectId, query.id);
       }
       return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response){
-        QueryService.fetchAvailableGroupedQueries(query.project_id);
+        QueryService.fetchAvailableGroupedQueries(query.projectId);
 
         $rootScope.$broadcast('openproject.layout.removeMenuItem', {
           itemType: QUERY_MENU_ITEM_TYPE,
@@ -385,8 +382,8 @@ function QueryService(Query,
     },
 
     getQueryPath: function(query) {
-      if (query.project_id) {
-        return PathHelper.projectWorkPackagesPath(query.project_id) + '?query_id=' + query.id;
+      if (query.projectId) {
+        return PathHelper.projectWorkPackagesPath(query.projectId) + '?query_id=' + query.id;
       } else {
         return PathHelper.workPackagesPath() + '?query_id=' + query.id;
       }

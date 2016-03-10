@@ -86,7 +86,7 @@ module API
           } if current_user_allowed_to(:delete_work_packages, context: represented.project)
         end
 
-        link :log_time do
+        link :logTime do
           {
             href: new_work_package_time_entry_path(represented),
             type: 'text/html',
@@ -99,6 +99,14 @@ module API
             href: new_work_package_move_path(represented),
             type: 'text/html',
             title: "Move #{represented.subject}"
+          } if current_user_allowed_to(:move_work_packages, context: represented.project)
+        end
+
+        link :copy do
+          {
+            href: new_work_package_move_path(represented, copy: true, ids: [represented.id]),
+            type: 'text/html',
+            title: "Copy #{represented.subject}"
           } if current_user_allowed_to(:move_work_packages, context: represented.project)
         end
 
