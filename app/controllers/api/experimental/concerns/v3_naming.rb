@@ -62,6 +62,7 @@ module Api::Experimental::Concerns::V3Naming
     params[:display_sums] = params.delete(:displaySums)
     params[:is_public] = params.delete(:isPublic)
     params[:user_id] = params.delete(:userId)
+    params[:query_id] = params.delete(:queryId)
   end
 
   def json_query_as_v3(json_query)
