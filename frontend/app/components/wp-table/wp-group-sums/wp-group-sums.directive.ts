@@ -29,7 +29,7 @@
 export class WorkPackageGroupSumsController {
   constructor(protected $scope) {
     $scope.currentGroup = $scope.row.groupName;
-    $scope.currentGroupObject = _.find($scope.resource.groups, function(o) {
+    $scope.currentGroupObject = _.find($scope.resource.groups, function(o:any) {
       return o.value === $scope.currentGroup;
     });
   }

@@ -30,18 +30,16 @@ export class Field {
   public static type:string;
   public static $injector:ng.auto.IInjectorService;
 
-  protected constructor: typeof Field;
-
   public get value() {
     return this.resource[this.name];
   }
 
   public get type():string {
-    return this.constructor.type;
+    return (this.constructor as typeof Field).type;
   }
 
   protected get $injector():ng.auto.IInjectorService {
-    return this.constructor.$injector;
+    return (this.constructor as typeof Field).$injector;
   }
 
   constructor(public resource:op.HalResource,

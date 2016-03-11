@@ -48,7 +48,7 @@ export class ApiWorkPackagesService {
 
   protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {
 
-    const v3Filters = _.map(query.filters, (filter) => {
+    const v3Filters = _.map(query.filters, (filter:any) => {
       const newFilter = {};
       newFilter[filter.name] = {operator: filter.operator, values: filter.values};
       return newFilter;

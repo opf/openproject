@@ -61,7 +61,7 @@ export class WorkPackageEditFieldController {
     });
   }
 
-  public get isEditable:boolean {
+  public get isEditable():boolean {
     return this.isSupportedField && this.workPackage.isEditable;
   }
 
@@ -69,7 +69,7 @@ export class WorkPackageEditFieldController {
     return this._active = false;
   }
 
-  protected setupField():ng.IPromise {
+  protected setupField():ng.IPromise<any> {
     return this.formCtrl.loadSchema().then(schema =>  {
       this.field = this.wpEditField.getField(
         this.workPackage, this.fieldName, schema[this.fieldName]);
@@ -79,7 +79,7 @@ export class WorkPackageEditFieldController {
   // This method is temporarily needed to control which fields
   // we support for inline editing. Once all fields are supported,
   // the method is to be removed.
-  private get isSupportedField:boolean {
+  private get isSupportedField():boolean {
     return ['subject',
             'priority',
             'type',

@@ -167,8 +167,6 @@ declare namespace api {
  * OpenProject interfaces
  */
 
-declare var op;
-
 interface Function {
   $link?:op.HalLink;
 }
@@ -192,7 +190,7 @@ declare namespace op {
   }
 
   interface I18n {
-    t(translateId:string):string;
+    t(translateId:string, parameters?:any):string;
   }
 
   /**
@@ -203,14 +201,13 @@ declare namespace op {
   }
 
   class HalResource {
-    protected $source;
-
     public $links;
     public $embedded;
     public $isHal;
     public name:string;
+    public href:string;
 
-    constructor(protected $source:restangular.IElement);
+    constructor($source:restangular.IElement);
 
     public $plain();
   }
