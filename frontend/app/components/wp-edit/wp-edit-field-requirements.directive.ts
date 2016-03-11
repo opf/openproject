@@ -26,8 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-function wpEditFieldRequirementsLink(scope:ng.IScope,
-                         element:ng.IAugmentedJQueryStatic,
+interface wpEditFieldScope extends ng.IScope {
+  schema: any;
+}
+
+function wpEditFieldRequirementsLink(scope:wpEditFieldScope,
+                         element:ng.IAugmentedJQuery,
                          attrs:ng.IAttributes) {
 
   // if we are to add additional html5 constraints on the input

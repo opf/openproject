@@ -79,11 +79,11 @@ function wpResource(HalResource:typeof op.HalResource, NotificationsService:any,
           });
 
           angular.forEach(plain_payload._links, function (_value, key) {
-            if (_this[key] && typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
+            if (this[key] && typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
 
               // TODO the track by causes a 'null' href to land here for changed links
               // which is not accepted by the API.
-              var value = _this[key].href === 'null' ? null : _this[key].href;
+              var value = this[key].href === 'null' ? null : this[key].href;
 
               plain_payload._links[key] = {href: value};
             }
@@ -104,8 +104,8 @@ function wpResource(HalResource:typeof op.HalResource, NotificationsService:any,
       return deferred.promise;
     }
 
-    public get isLeaf:boolean {
-      return !this.children;
+    public get isLeaf():boolean {
+      return !(this as any).children;
     }
 
     isParentOf(otherWorkPackage) {
@@ -113,7 +113,7 @@ function wpResource(HalResource:typeof op.HalResource, NotificationsService:any,
         this.$links.self.$link.href;
     }
 
-    public get isEditable:boolean {
+    public get isEditable():boolean {
       return !!this.$links.update;
     }
   }

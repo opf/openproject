@@ -34,7 +34,8 @@ function halResource(halTransform, HalLink, $q) {
 
     public $links;
     public $embedded;
-    public $isHal: boolean = true;
+    public $isHal:boolean = true;
+    public href:string;
 
     private _name:string;
     private source:any;
@@ -97,7 +98,7 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     public $plain() {
-      const element = angular.copy(this);
+      const element = <any> angular.copy(this);
       const linked = Object.keys(this.$links);
       element._links = {};
 

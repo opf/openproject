@@ -91,8 +91,8 @@ function QueryService(Query,
       return query;
     },
 
-    updateQuery: function(values, afterUpdate) {
-      var queryData = {
+    updateQuery: function(values:any, afterUpdate) {
+      var queryData = <any> {
       };
       if(!!values.displaySums) {
         queryData.displaySums = values.displaySums;
@@ -232,7 +232,7 @@ function QueryService(Query,
     getAvailableFilters: function(projectIdentifier){
       // TODO once this is becoming more single-page-app-like keep the available filters of the query model in sync when the project identifier is changed on the scope but the page isn't reloaded
       var identifier = 'global';
-      var getFilters = QueryService.getCustomFieldFilters;
+      var getFilters = <any> QueryService.getCustomFieldFilters;
       var getFiltersArgs = [];
       if(projectIdentifier){
         identifier = projectIdentifier;
@@ -456,16 +456,15 @@ function QueryService(Query,
       return this.unstarQuery().then(this.starQuery);
     },
 
-    doGet: function(url, success, failure) {
+    doGet: function(url:string, success:any, failure?:any) {
       return QueryService.doQuery(url, null, 'GET', success, failure);
     },
 
-    doPatch: function(url, success, failure) {
+    doPatch: function(url:string, success:any, failure?:any) {
       return QueryService.doQuery(url, null, 'PATCH', success, failure);
     },
 
-    doQuery: function(url, params, method, success, failure) {
-      method = method || 'GET';
+    doQuery: function(url:string, params:any = {}, method:string = 'GET', success?:any, failure?:any) {
       success = success || function(response){
         return response.data;
       };
@@ -479,7 +478,7 @@ function QueryService(Query,
       }).then(success, failure);
     },
 
-    failure: function(msg){
+    failure: function(msg?:string) {
       msg = msg || I18n.t('js.notice_bad_request');
       return function(response){
         return angular.extend(response, { status: { text: msg, isError: true }} );
