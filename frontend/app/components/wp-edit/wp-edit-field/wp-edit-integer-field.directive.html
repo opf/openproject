@@ -1,0 +1,6 @@
+<input type="number"
+       wp-edit-field-requirements="vm.field.schema"
+       ng-minlength="{{ vm.field.schema.minLength }}"
+       ng-maxlength="{{ vm.field.schema.maxLength }}"
+       ng-model="vm.workPackage[vm.fieldName]"
+       ng-blur="vm.deactivate()">

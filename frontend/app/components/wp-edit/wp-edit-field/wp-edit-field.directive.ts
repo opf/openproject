@@ -80,14 +80,18 @@ export class WorkPackageEditFieldController {
   // we support for inline editing. Once all fields are supported,
   // the method is to be removed.
   private get isSupportedField():boolean {
-    return ['subject',
-            'priority',
-            'type',
-            'status',
-            'assignee',
-            'responsible',
-            'version',
-            'category'].indexOf(this.fieldName) !== -1
+    return [
+      'subject',
+      'priority',
+      'type',
+      'status',
+      'assignee',
+      'responsible',
+      'version',
+      'category',
+      'estimatedTime',
+      'remainingTime'
+    ].indexOf(this.fieldName) !== -1
   }
 }
 
