@@ -33,6 +33,14 @@ localeFiles.keys().forEach(function(localeFile) {
   I18n.addTranslations(locale, localeFiles(localeFile)[locale]);
 });
 
+// Register Budget as select inline edit
+angular
+  .module('openproject')
+  .run(['wpEditField', function(wpEditField) {
+    wpEditField.extendFieldType('select', ['Budget']);
+  }]);
+
+
 // main app
 var openprojectCostsApp = angular.module('openproject');
 

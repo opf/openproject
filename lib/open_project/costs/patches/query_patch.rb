@@ -57,7 +57,7 @@ module OpenProject::Costs::Patches::QueryPatch
 
     # Same as typing in the class
     base.class_eval do
-      add_available_column(QueryColumn.new(:cost_object_subject))
+      add_available_column(QueryColumn.new(:cost_object))
 
       add_available_column(CurrencyQueryColumn.new(
                              :material_costs,
