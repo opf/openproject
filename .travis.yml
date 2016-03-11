@@ -54,7 +54,8 @@ env:
     - COVERAGE=true
 
   matrix:
-    - "TEST_SUITE=npm"
+    - "TEST_SUITE=karma"
+    - "TEST_SUITE=protractor"
 
     - "TEST_SUITE=spec_legacy       DB=mysql     GROUP_SIZE=2  GROUP=1"
     - "TEST_SUITE=spec_legacy       DB=mysql     GROUP_SIZE=2  GROUP=2"

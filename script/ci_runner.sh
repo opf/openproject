@@ -59,8 +59,10 @@ else
   GROUPING=''
 fi
 
-if [ $1 = "npm" ]; then
-  run "npm test"
+if [ $1 = "karma" ]; then
+  run "npm run karma"
+elif [ $1 = "protractor" ]; then
+  run "npm run protractor"
 else
   run "bundle exec rake parallel:$1 GROUP_SIZE=$2 GROUP=$3"
 fi
