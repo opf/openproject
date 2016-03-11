@@ -31,7 +31,7 @@ angular.module('openproject.workPackages.directives')
 .directive('costObject', ['$timeout', 'PathHelper', function($timeout, Pathhelper) {
   return {
     restrict: 'E',
-    require: '^workPackageField',
+    require: '^wpField',
     templateUrl: '/templates/plugin-costs/work_packages/cost_object.html',
     link: function(scope, element, attributes, fieldController) {
       scope.$watch(function() {
