@@ -69,7 +69,11 @@ export class FieldFactory {
     return new fieldClass(workPackage, fieldName, schema);
   }
 
-  protected static getType(type:string):string {
+  public static getClassFor(fieldName:string):typeof Field {
+    return this.classes[fieldName];
+  }
+
+  public static getType(type:string):string {
     let fields = FieldFactory.fields;
     let defaultType = FieldFactory.defaultType;
 

@@ -41,11 +41,16 @@ export class WorkPackageEditFieldService {
     return FieldFactory.create(resource, fieldName, schema);
   }
 
-  public addFieldType(fieldClass, displayType:string, fields:string[]) {
+  public addFieldType(fieldClass:typeof Field, displayType:string, fields:string[]) {
     fieldClass.type = displayType;
     fieldClass.$injector = this.$injector;
     FieldFactory.register(fieldClass, fields);
     return this;
+  }
+
+  public extendFieldType(displayType:string, fields:string[]) {
+    var fieldClass = FieldFactory.getClassFor(displayType);
+    return this.addFieldType(fieldClass, displayType, fields);
   }
 }
 
