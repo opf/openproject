@@ -72,13 +72,13 @@ function wpResource(HalResource:typeof op.HalResource, NotificationsService:any,
           var plain_payload = form.payload.$source;
           var schema = form.$embedded.schema;
 
-          angular.forEach(plain, function (value, key) {
+          angular.forEach(plain, (value, key) => {
             if (typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
               plain_payload[key] = value;
             }
           });
 
-          angular.forEach(plain_payload._links, function (_value, key) {
+          angular.forEach(plain_payload._links, (_value, key) => {
             if (this[key] && typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
 
               // TODO the track by causes a 'null' href to land here for changed links
