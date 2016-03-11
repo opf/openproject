@@ -1,6 +1,6 @@
 <select ng-model="vm.workPackage[vm.fieldName]"
         wp-edit-field-requirements="vm.field.schema"
-        ng-options="value as value.name for value in vm.field.options track by value.href"
+        ng-options="value as (value.name || value.value) for value in vm.field.options track by value.href"
         ng-change="vm.submit()"
         ng-blur="vm.deactivate()">
   <option value="" ng-if="false"></option>
