@@ -45,7 +45,7 @@ module OpenProject::Costs
     def cost_entries
       @cost_entries ||= if @work_package.cost_entries.loaded?
                           @work_package.cost_entries.select do |cost_entry|
-                            cost_entry.visible_by?(@user)
+                            cost_entry.costs_visible_by?(@user)
                           end
                         else
                           @work_package.cost_entries.visible(@user, @work_package.project)
