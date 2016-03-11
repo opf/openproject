@@ -56,14 +56,14 @@ class CostTypesController < ApplicationController
     @cost_type.attributes = permitted_params.cost_type
 
     if @cost_type.save
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = t(:notice_successful_update)
       redirect_back_or_default(action: 'index')
     else
       render action: 'edit', layout: !request.xhr?
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
-    flash.now[:error] = l(:notice_locking_conflict)
+    flash.now[:error] = t(:notice_locking_conflict)
   end
 
   def new
@@ -78,7 +78,7 @@ class CostTypesController < ApplicationController
     @cost_type = CostType.new(permitted_params.cost_type)
 
     if @cost_type.save
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = t(:notice_successful_update)
       redirect_back_or_default(action: 'index')
     else
       @cost_type.rates.build(valid_from: Date.today) if @cost_type.rates.empty?
@@ -86,7 +86,7 @@ class CostTypesController < ApplicationController
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
-    flash.now[:error] = l(:notice_locking_conflict)
+    flash.now[:error] = t(:notice_locking_conflict)
   end
 
   def destroy
@@ -94,7 +94,7 @@ class CostTypesController < ApplicationController
     @cost_type.default = false
 
     if @cost_type.save
-      flash[:notice] = l(:notice_successful_lock)
+      flash[:notice] = t(:notice_successful_lock)
 
       redirect_back_or_default(action: 'index')
     end
@@ -105,7 +105,7 @@ class CostTypesController < ApplicationController
     @cost_type.default = false
 
     if @cost_type.save
-      flash[:notice] = l(:notice_successful_restore)
+      flash[:notice] = t(:notice_successful_restore)
 
       redirect_back_or_default(action: 'index')
     end
@@ -122,11 +122,11 @@ class CostTypesController < ApplicationController
 
     rate.rate = clean_currency(params[:rate])
     if rate.save
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = t(:notice_successful_update)
       redirect_to action: 'index'
     else
       # FIXME: Do some real error handling here
-      flash[:error] = l(:notice_something_wrong)
+      flash[:error] = t(:notice_something_wrong)
       redirect_to action: 'index'
     end
   end

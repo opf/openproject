@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ++#%>
 
 <div class="contextual">
-  <%= link_to l(:button_update), edit_hourly_rate_path(@user), :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
+  <%= link_to t(:button_update), edit_hourly_rate_path(@user), :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
 </div>
 <h3><%= User.human_attribute_name(:default_rates) %></h3>
 <% if @rates_default.blank? %>
@@ -27,10 +27,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         <div class="generic-table--no-results-container">
           <h2 class="generic-table--no-results-title">
             <i class="icon-info1"></i>
-            <%= l(:label_nothing_display) %>
+            <%= t(:label_nothing_display) %>
           </h2>
           <div class="generic-table--no-results-description">
-            <p class="nodata"><%= l(:label_no_data) %></p>
+            <p class="nodata"><%= t(:label_no_data) %></p>
           </div>
         </div>
       </div>

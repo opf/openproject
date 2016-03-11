@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <%= toolbar title: WorkPackage.human_attribute_name(:spent_costs) do %>
   <% if authorize_for(:costlog, :new) %>
     <%= link_to({:controller => '/costlog', :action => 'new', :work_package_id => @work_package }, class: 'button') do %>
-      <i class="button--icon icon-projects"></i> <%= l(:button_log_costs) %>
+      <i class="button--icon icon-projects"></i> <%= t(:button_log_costs) %>
     <% end %>
   <% end %>
 <% end %>
@@ -42,7 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <%= pagination_links_full @entries %>
 <% end %>
 
-<% html_title WorkPackage.human_attribute_name(:spent_costs), l(:label_details) %>
+<% html_title WorkPackage.human_attribute_name(:spent_costs), t(:label_details) %>
 
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, {:work_package_id => @work_package, :format => 'atom', :key => User.current.rss_key}, :title => WorkPackage.human_attribute_name(:spent_costs)) %>

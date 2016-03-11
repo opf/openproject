@@ -89,7 +89,7 @@ class HourlyRatesController < ApplicationController
     end
 
     if @user.save
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = t(:notice_successful_update)
       if @project.nil?
         redirect_back_or_default(controller: 'users', action: 'edit', id: @user)
       else
@@ -126,7 +126,7 @@ class HourlyRatesController < ApplicationController
           page.replace_html "rate_for_#{@user.id}", link_to(number_to_currency(rate.rate), action: 'edit', id: @user, project_id: @project)
         end
       else
-        flash[:notice] = l(:notice_successful_update)
+        flash[:notice] = t(:notice_successful_update)
         redirect_to action: 'index'
       end
     end

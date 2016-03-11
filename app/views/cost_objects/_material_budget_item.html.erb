@@ -56,7 +56,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     <%= cost_form.text_field :comments, :index => id_or_index, :size => 40 %>
   </td>
   <td class="currency budget-table--fields">
-    <a href="javascript:;" id="<%= "#{id_prefix}_costs" %>" class="icon-context icon-edit" title="<%= l(:help_click_to_edit) %>">
+    <a href="javascript:;" id="<%= "#{id_prefix}_costs" %>" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
       <%= number_to_currency(material_budget_item.calculated_costs(@cost_object.fixed_date)) %>
     </a>
     <%= update_page_tag do |page|

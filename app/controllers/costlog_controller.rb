@@ -96,7 +96,7 @@ class CostlogController < ApplicationController
 
     elsif @cost_entry.save
 
-      flash[:notice] = l(:notice_cost_logged_successfully)
+      flash[:notice] = t(:notice_cost_logged_successfully)
       redirect_back_or_default action: 'index', project_id: @cost_entry.project
 
     else
@@ -113,7 +113,7 @@ class CostlogController < ApplicationController
 
     elsif @cost_entry.save
 
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = t(:notice_successful_update)
       redirect_back_or_default action: 'index', project_id: @cost_entry.project
 
     else
@@ -126,7 +126,7 @@ class CostlogController < ApplicationController
     render_404 and return unless @cost_entry
     render_403 and return unless @cost_entry.editable_by?(User.current)
     @cost_entry.destroy
-    flash[:notice] = l(:notice_successful_delete)
+    flash[:notice] = t(:notice_successful_delete)
 
     if request.referer =~ /cost_reports/
       redirect_to controller: '/cost_reports', action: :index

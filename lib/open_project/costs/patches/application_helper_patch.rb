@@ -25,7 +25,7 @@ module OpenProject::Costs::Patches::ApplicationHelperPatch
         title = nil
         subject = nil
         if options[:subject] == false
-          subject = "#{l(:label_cost_object)} ##{cost_object.id}"
+          subject = "#{t(:label_cost_object)} ##{cost_object.id}"
           title = truncate(cost_object.subject, length: 60)
         else
           subject = cost_object.subject
