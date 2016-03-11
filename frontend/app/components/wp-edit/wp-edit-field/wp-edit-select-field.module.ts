@@ -32,6 +32,7 @@ import {WorkPackageEditFieldService} from "./wp-edit-field.service";
 export class SelectField extends Field {
   public options:any[];
   public placeholder:string = '-';
+  public template:string = '/components/wp-edit/wp-edit-field/wp-edit-select-field.directive.html'
 
   constructor(workPackage, fieldName, schema) {
     super(workPackage, fieldName, schema);

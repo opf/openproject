@@ -29,4 +29,6 @@
 import {Field} from "./wp-edit-field.module";
 import {WorkPackageEditFieldService} from "./wp-edit-field.service";
 
-export class TextField extends Field { }
+export class TextField extends Field {
+  public template:string = '/components/wp-edit/wp-edit-field/wp-edit-text-field.directive.html'
+}
