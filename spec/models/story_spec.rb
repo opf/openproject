@@ -140,9 +140,12 @@ describe Story, type: :model do
           story1
 
           other_project = FactoryGirl.create(:project)
-          version2.project_id = other_project.id
+          version2.update! project_id: other_project.id
+
           story2.fixed_version_id = version2.id
           story2.project = other_project
+          # reset memoized versions to reflect changes above
+          story2.instance_variable_set('@assignable_versions', nil)
           story2.save!
         end
 
