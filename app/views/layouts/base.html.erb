@@ -140,7 +140,17 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
       <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
     </div>
-    <%= javascript_include_tag 'main_menu_flickering' %>
+    <%# Properly decides main menu expanded state before its drawn. Fixes flickering side menu
+        where menu is first expanded, then being collapsed in angular. %>
+    <%= javascript_tag do %>
+    (function($) {
+      var wrapper = $('#wrapper');
+      if (window.sessionStorage.getItem('openproject:navigation-toggle') === 'collapsed') {
+        $('.can-hide-navigation').addClass('hidden-navigation');
+      }
+      wrapper.show();
+    }(jQuery));
+    <% end %>
     <% if (show_decoration) %>
       <div id="footer">
         <div class="footer-content">
