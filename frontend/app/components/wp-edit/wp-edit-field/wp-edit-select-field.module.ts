@@ -28,42 +28,32 @@
 
 import {Field} from "./wp-edit-field.module";
 import {WorkPackageEditFieldService} from "./wp-edit-field.service";
-import {TextField} from "./wp-edit-text-field.module";
-import {SelectField} from "./wp-edit-select-field.module";
 
-//TODO: Implement
-class DateField extends Field {}
+export class SelectField extends Field {
+  public options:any[];
+  public placeholder:string = '-';
+  public template:string = '/components/wp-edit/wp-edit-field/wp-edit-select-field.directive.html'
 
-//TODO: Implement
-class DateRangeField extends Field {}
+  constructor(workPackage, fieldName, schema) {
+    super(workPackage, fieldName, schema);
 
-//TODO: Implement
-class IntegerField extends Field {}
+    if (angular.isArray(this.schema.allowedValues)) {
+      this.options = angular.copy(this.schema.allowedValues);
+      this.addEmptyOption();
+    } else {
+      this.schema.allowedValues.$load().then((values) => {
+        this.options = angular.copy(values.elements);
+        this.addEmptyOption();
+      });
+    }
+  }
 
-//TODO: Implement
-class FloatField extends Field {}
-
-//TODO: Implement
-class BooleanField extends Field {}
-
-//TODO: Implement
-class DurationField extends Field {}
-
-//TODO: Implement
-class TextareaField extends Field {}
-
-//TODO: See file wp-field.service.js:getInplaceEditStrategy for more eventual classes
-
-angular
-  .module('openproject')
-  .run((wpEditField:WorkPackageEditFieldService) => {
-    wpEditField.defaultType = 'text';
-    wpEditField
-      .addFieldType(TextField, 'text', ['String'])
-      .addFieldType(SelectField, 'select', ['Priority',
-                                            'Status',
-                                            'Type',
-                                            'User',
-                                            'Version',
-                                            'Category']);
-  });
+  private addEmptyOption() {
+    if (!this.schema.required) {
+      this.options.unshift({
+        href: "null",
+        name: this.placeholder,
+      });
+    }
+  }
+}
