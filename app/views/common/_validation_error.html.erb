@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 %>
 
 <% single_content_for :error_details do %>
-  <p><%= l("errors.header_invalid_fields") %></p>
+  <p><%= t("errors.header_invalid_fields") %></p>
   <ul>
     <% error_messages.each do |message| %>
       <li><%= message %></li>
