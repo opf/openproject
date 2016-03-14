@@ -28,8 +28,9 @@
 
 export class WorkPackageEditFormController {
   public workPackage;
+  public fields = {};
 
-  constructor(protected NotificationsService, protected $q) {
+  constructor(protected NotificationsService, protected $q, protected QueryService, protected $timeout) {
   }
 
   public loadSchema() {
@@ -58,11 +59,27 @@ export class WorkPackageEditFormController {
     this.NotificationsService.addError(error.message);
 
     // Process single API errors
-    if (error.details) {
-      return deferred.reject([error]);
-    }
+    this.handleErrorenousColumns(error.details ? [error.details] : error.errors);
+    return deferred.reject();
+  }
 
-    return deferred.reject(error.errors || []);
+  private handleErrorenousColumns(columns:any[]) {
+    var selected = this.QueryService.getSelectedColumnNames();
+    var active = _.find(this.fields, (f:any) => f.active);
+    columns.reverse().map(field => {
+      var name = field.details.attribute;
+
+      if (selected.indexOf(name) === -1) {
+        selected.splice(selected.indexOf(active.fieldName) + 1, 0, name);
+      }
+    });
+
+    this.QueryService.setSelectedColumns(selected);
+    this.$timeout(_ => {
+      angular.forEach(columns, (field) => {
+        this.fields[field.details.attribute].errorenous = true;
+      });
+    });
   }
 }
 
