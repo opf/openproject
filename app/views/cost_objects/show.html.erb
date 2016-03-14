@@ -49,7 +49,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <h3><%=h @cost_object.subject %></h3>
   <p class="author">
     <%= authoring @cost_object.created_on, @cost_object.author %>.
-    <%= t(:label_updated_time, distance_of_time_in_words(Time.now, @cost_object.updated_on)) + '.' if @cost_object.created_on != @cost_object.updated_on %>
+    <%= t(:label_updated_time, value: distance_of_time_in_words(Time.now, @cost_object.updated_on)) + '.' if @cost_object.created_on != @cost_object.updated_on %>
   </p>
 
   <table class="attributes">
