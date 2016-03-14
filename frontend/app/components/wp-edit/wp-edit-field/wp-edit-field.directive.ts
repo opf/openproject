@@ -35,10 +35,11 @@ export class WorkPackageEditFieldController {
   public formCtrl:WorkPackageEditFormController;
   public fieldName:string;
   public field:Field;
+  public errorenous:boolean;
 
   protected _active:boolean = false;
 
-  constructor(protected wpEditField:WorkPackageEditFieldService, protected QueryService) {
+  constructor(protected wpEditField:WorkPackageEditFieldService) {
   }
 
   public get workPackage() {
@@ -51,18 +52,7 @@ export class WorkPackageEditFieldController {
 
   public submit() {
     this.formCtrl.updateWorkPackage()
-      .then(() => this.deactivate())
-      .catch(missingFields => {
-        var selected = this.QueryService.getSelectedColumnNames();
-        missingFields.map(field => {
-          var name = field.details.attribute;
-          if (selected.indexOf(name) === -1) {
-            selected.push(name);
-          }
-        })
-
-        this.QueryService.setSelectedColumns(selected);
-      });
+      .then(() => this.deactivate());
   }
 
   public activate() {
@@ -90,6 +80,7 @@ export class WorkPackageEditFieldController {
 function wpEditFieldLink(scope, element, attrs, controllers:[WorkPackageEditFormController, WorkPackageEditFieldController]) {
 
   controllers[1].formCtrl = controllers[0];
+  controllers[1].formCtrl.fields[scope.vm.fieldName] = scope.vm;
 
   element.click(event => {
     event.stopImmediatePropagation();
