@@ -44,11 +44,6 @@ OpenProject::Application.configure do
   # preloads Rails for running tests, you may have to set it to true.
   config.eager_load = false
 
-  # Disable concurrency to avoid race conditions when lazy-loading classes.
-  # See: https://robots.thoughtbot.com/how-to-fix-circular-dependency-errors-in-rails-integration-tests
-  # TODO: remove on upgrade to Rails 4.2.
-  config.allow_concurrency = false
-
   # Configure static asset server for tests with Cache-Control for performance.
   config.serve_static_files   = true
   config.static_cache_control = 'public, max-age=3600'
