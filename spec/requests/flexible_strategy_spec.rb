@@ -36,11 +36,6 @@ describe OmniAuth::FlexibleStrategy do
     def request_phase
       call_app!
     end
-
-    ## Override dup for testing purposes
-    def dup
-      self
-    end
   end
 
   def env_for(url, opts = {})
@@ -121,9 +116,11 @@ describe OmniAuth::FlexibleStrategy do
 
     context 'with a mapping set' do
       it 'returns an attribute hash' do
-        middleware.call env_for('http://www.example.com/auth/provider_with_mapping')
+        _, env = middleware.call env_for('http://www.example.com/auth/provider_with_mapping')
 
-        attribute_map = middleware.omniauth_hash_to_user_attributes(auth_hash)
+        strategy = env['omniauth.strategy']
+        expect(strategy.name).to eq('provider_with_mapping')
+        attribute_map = strategy.omniauth_hash_to_user_attributes(auth_hash)
         expect(attribute_map).to eq(uid: 'foo', mail: 'foo@example.com')
       end
     end
