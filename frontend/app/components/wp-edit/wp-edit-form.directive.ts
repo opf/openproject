@@ -44,31 +44,29 @@ export class WorkPackageEditFormController {
       .then(() => {
         deferred.resolve();
       })
-      .catch((error) => this.handleSubmissionErrors(error, deferred));
+      .catch((error) => {
+        if (!error.data) {
+          this.NotificationsService.addError("An internal error has occcurred.");
+          return deferred.reject([]);
+        }
+
+        error.data.showErrorNotification();
+        this.handleSubmissionErrors(error.data, deferred)
+      });
 
     return deferred.promise;
   }
 
   private handleSubmissionErrors(error:any, deferred:any) {
-    if (!error.data) {
-      this.NotificationsService.addError("An internal error has occcurred.");
-      return deferred.reject([]);
-    }
-
-    error = error.data;
-    this.NotificationsService.addError(error.message);
-
     // Process single API errors
-    this.handleErrorenousColumns(error.details ? [error.details] : error.errors);
+    this.handleErrorenousColumns(error.getInvolvedColumns());
     return deferred.reject();
   }
 
-  private handleErrorenousColumns(columns:any[]) {
+  private handleErrorenousColumns(columns:string[]) {
     var selected = this.QueryService.getSelectedColumnNames();
     var active = _.find(this.fields, (f:any) => f.active);
-    columns.reverse().map(field => {
-      var name = field.details.attribute;
-
+    columns.reverse().map(name => {
       if (selected.indexOf(name) === -1) {
         selected.splice(selected.indexOf(active.fieldName) + 1, 0, name);
       }
@@ -76,8 +74,8 @@ export class WorkPackageEditFormController {
 
     this.QueryService.setSelectedColumns(selected);
     this.$timeout(_ => {
-      angular.forEach(columns, (field) => {
-        this.fields[field.details.attribute].errorenous = true;
+      angular.forEach(columns, (name) => {
+        this.fields[name].errorenous = true;
       });
     });
   }
