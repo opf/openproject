@@ -42,6 +42,10 @@ function apiV3Config(apiV3, halTransform) {
 
     return data;
   });
+
+  apiV3.setErrorInterceptor(response => {
+    response.data = halTransform(response.data);
+  });
 }
 
 angular
