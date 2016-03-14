@@ -40,20 +40,29 @@ export class WorkPackageEditFormController {
     var deferred = this.$q.defer();
 
     this.workPackage.save()
-    .then(() => {
-      deferred.resolve();
-    })
-    .catch(error => {
-      if (error && error.data && error.data.message) {
-        this.NotificationsService.addError(error.data.message);
-      } else {
-        this.NotificationsService.addError("An internal error has occcurred.");
-      }
-
-      return deferred.reject();
-    });
+      .then(() => {
+        deferred.resolve();
+      })
+      .catch((error) => this.handleSubmissionErrors(error, deferred));
 
     return deferred.promise;
+  }
+
+  private handleSubmissionErrors(error:any, deferred:any) {
+    if (!error.data) {
+      this.NotificationsService.addError("An internal error has occcurred.");
+      return deferred.reject([]);
+    }
+
+    error = error.data;
+    this.NotificationsService.addError(error.message);
+
+    // Process single API errors
+    if (error.details) {
+      return deferred.reject([error]);
+    }
+
+    return deferred.reject(error.errors || []);
   }
 }
 

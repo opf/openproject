@@ -213,6 +213,10 @@ function QueryService(Query,
       return this.getQuery().getSelectedColumns();
     },
 
+    getSelectedColumnNames: function() {
+      return this.getSelectedColumns().map(column => column.name);
+    },
+
     setSelectedColumns: function(selectedColumnNames) {
       query.dirty = true;
       var currentColumns = this.getSelectedColumns();

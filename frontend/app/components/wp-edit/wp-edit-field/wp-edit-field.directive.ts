@@ -32,13 +32,13 @@ import {Field} from "./wp-edit-field.module";
 
 
 export class WorkPackageEditFieldController {
-  public formCtrl: WorkPackageEditFormController;
+  public formCtrl:WorkPackageEditFormController;
   public fieldName:string;
   public field:Field;
 
   protected _active:boolean = false;
 
-  constructor(protected wpEditField:WorkPackageEditFieldService) {
+  constructor(protected wpEditField:WorkPackageEditFieldService, protected QueryService) {
   }
 
   public get workPackage() {
@@ -50,9 +50,19 @@ export class WorkPackageEditFieldController {
   }
 
   public submit() {
-    this.formCtrl.updateWorkPackage().then(() => {
-      this.deactivate();
-    });
+    this.formCtrl.updateWorkPackage()
+      .then(() => this.deactivate())
+      .catch(missingFields => {
+        var selected = this.QueryService.getSelectedColumnNames();
+        missingFields.map(field => {
+          var name = field.details.attribute;
+          if (selected.indexOf(name) === -1) {
+            selected.push(name);
+          }
+        })
+
+        this.QueryService.setSelectedColumns(selected);
+      });
   }
 
   public activate() {
@@ -70,7 +80,7 @@ export class WorkPackageEditFieldController {
   }
 
   protected setupField():ng.IPromise<any> {
-    return this.formCtrl.loadSchema().then(schema =>  {
+    return this.formCtrl.loadSchema().then(schema => {
       this.field = this.wpEditField.getField(
         this.workPackage, this.fieldName, schema[this.fieldName]);
     });
@@ -81,18 +91,17 @@ export class WorkPackageEditFieldController {
   // the method is to be removed.
   private get isSupportedField():boolean {
     return ['subject',
-            'priority',
-            'type',
-            'status',
-            'assignee',
-            'responsible',
-            'version',
-            'category'].indexOf(this.fieldName) !== -1
+        'priority',
+        'type',
+        'status',
+        'assignee',
+        'responsible',
+        'version',
+        'category'].indexOf(this.fieldName) !== -1
   }
 }
 
-function wpEditFieldLink(scope, element, attrs, controllers:
-                           [WorkPackageEditFormController, WorkPackageEditFieldController]) {
+function wpEditFieldLink(scope, element, attrs, controllers:[WorkPackageEditFormController, WorkPackageEditFieldController]) {
 
   controllers[1].formCtrl = controllers[0];
 
