@@ -125,9 +125,8 @@ describe WikiController, type: :controller do
                project_id: @project,
                content: { text: 'h1. abc', page: { title: 'abc' } }
 
-          page = @project.wiki.pages.find_by title: 'Abc'
+          page = @project.wiki.pages.find_by title: 'abc'
           expect(page).not_to be_nil
-          expect(page.title).to eq('Abc')
           expect(page.content.text).to eq('h1. abc')
         end
       end

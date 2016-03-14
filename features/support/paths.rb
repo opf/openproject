@@ -62,10 +62,13 @@ module NavigationHelpers
       end
 
     when /^the [wW]iki [pP]age "([^\"]+)" (?:for|of) the project called "([^\"]+)"$/
+      wiki_page = $1
       project_identifier = $2.gsub("\"", '')
       project = Project.find_by(name: project_identifier)
+
+      wiki_page.gsub!(' ', '%20')
       project_identifier = project.identifier.gsub(' ', '%20')
-      "/projects/#{project_identifier}/wiki/#{$1}"
+      "/projects/#{project_identifier}/wiki/#{wiki_page}"
 
     when /^the lost password page$/
       '/account/lost_password'

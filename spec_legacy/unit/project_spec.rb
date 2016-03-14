@@ -939,9 +939,9 @@ describe Project, type: :model do
         assert !@source_project.wiki.pages.include?(wiki_page)
       end
 
-      parent = @project.wiki.find_page('Parent_page')
-      child1 = @project.wiki.find_page('Child_page_1')
-      child2 = @project.wiki.find_page('Child_page_2')
+      parent = @project.wiki.find_page('Parent page')
+      child1 = @project.wiki.find_page('Child page 1')
+      child2 = @project.wiki.find_page('Child page 2')
       assert_equal parent, child1.parent
       assert_equal parent, child2.parent
     end
