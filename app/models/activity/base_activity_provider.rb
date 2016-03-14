@@ -43,6 +43,7 @@
 ###############################################################################
 class Activity::BaseActivityProvider
   include Redmine::Acts::ActivityProvider
+  include I18n
   include Redmine::I18n
   include OpenProject::StaticRouting
 
