@@ -28,40 +28,7 @@
 
 import {Field} from "./wp-edit-field.module";
 import {WorkPackageEditFieldService} from "./wp-edit-field.service";
-import {TextField} from "./wp-edit-text-field.module";
-import {IntegerField} from "./wp-edit-integer-field.module";
-import {DurationField} from "./wp-edit-duration-field.module";
-import {SelectField} from "./wp-edit-select-field.module";
 
-//TODO: Implement
-class DateField extends Field {}
-
-//TODO: Implement
-class DateRangeField extends Field {}
-
-//TODO: Implement
-class FloatField extends Field {}
-
-//TODO: Implement
-class BooleanField extends Field {}
-
-//TODO: Implement
-class TextareaField extends Field {}
-
-//TODO: See file wp-field.service.js:getInplaceEditStrategy for more eventual classes
-
-angular
-  .module('openproject')
-  .run((wpEditField:WorkPackageEditFieldService) => {
-    wpEditField.defaultType = 'text';
-    wpEditField
-      .addFieldType(TextField, 'text', ['String'])
-      .addFieldType(IntegerField, 'integer', ['Integer'])
-      .addFieldType(DurationField, 'duration', ['Duration'])
-      .addFieldType(SelectField, 'select', ['Priority',
-                                            'Status',
-                                            'Type',
-                                            'User',
-                                            'Version',
-                                            'Category']);
-  });
+export class DurationField extends Field {
+  public template:string = '/components/wp-edit/wp-edit-field/wp-edit-duration-field.directive.html'
+}

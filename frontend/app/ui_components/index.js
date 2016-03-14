@@ -112,5 +112,6 @@ angular.module('openproject.uiComponents')
   .directive('confirmPopup', ['$window', require('./confirm-popup-directive')])
   .directive('clickOnKeypress', [require('./click-on-keypress-directive')])
   .directive('floatValue', ['$filter', require('./float-directive')])
+  .directive('durationValue', ['$filter', 'TimezoneService', require('./duration-directive')])
   .filter('external2internalFloat', ['$locale', require('./external-2-internal-float-filter')])
   .filter('internal2externalFloat', ['$locale', require('./internal-2-external-float-filter')]);
