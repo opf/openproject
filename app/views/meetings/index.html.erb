@@ -31,7 +31,7 @@ See doc/COPYRIGHT.md for more details.
 <% end %>
 
 <% if @meetings_by_start_year_month_date.empty? -%>
-<p class="nodata"><%= l(:label_no_data) %></p>
+  <%= no_results_box %>
 <% else -%>
 <div class="meetings meetings_by_month_year" id="activity">
 <% @meetings_by_start_year_month_date.each do |year,meetings_by_start_month_date| -%>
