@@ -36,6 +36,11 @@ describe OmniAuth::FlexibleStrategy do
     def request_phase
       call_app!
     end
+
+    ## Override dup for testing purposes
+    def dup
+      self
+    end
   end
 
   def env_for(url, opts = {})
