@@ -21,17 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <% cost_types = @cost_types.select(&:deleted_at) -%>
 
 <% if cost_types.empty? %>
-  <div class="generic-table--container">
-    <div class="generic-table--no-results-container">
-      <h2 class="generic-table--no-results-title">
-        <i class="icon-info1"></i>
-        <%= l(:label_nothing_display) %>
-      </h2>
-      <div class="generic-table--no-results-description">
-        <p class="nodata"><%= l(:label_no_data) %></p>
-      </div>
-    </div>
-  </div>
+  <%= no_results_box %>
 <% else %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
