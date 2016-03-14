@@ -23,18 +23,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 end%>
 
 <div class="grid-content" id="available_principal_roles">
-<fieldset><legend><%= Role.model_name.human(:count => 2) %></legend>
-<span id="additional_principal_roles">
-<%= form_for(:principal_roles, :url => principal_roles_path, :method => :post, :remote => :true) do %>
-  <%= hidden_field_tag 'principal_role[principal_id]', user.id %>
-<% available_additional_global_roles(global_roles, user).each do |role| %>
-  <%= render :partial => 'users/available_global_role', :locals => {:role => role} %>
-<% end %>
-<p><br/><%= styled_button_tag l(:button_add), class: '-with-icon icon-checkmark' %></p>
-<% end %>
-</span>
-<span id="no_additional_principal_roles" style="display:none">
-<p id="no_data" class="nodata"><%= l(:label_no_assignable_role) %></p>
-</span>
-</fieldset>
+  <fieldset>
+    <legend><%= Role.model_name.human(:count => 2) %></legend>
+    <% if available_additional_global_roles(global_roles, user).count == 0 %>
+      <span id="no_additional_principal_roles">
+        <%= no_results_box %>
+      </span>
+    <% else %>
+      <span id="additional_principal_roles">
+        <%= form_for(:principal_roles, :url => principal_roles_path, :method => :post, :remote => :true) do %>
+          <%= hidden_field_tag 'principal_role[principal_id]', user.id %>
+          <% available_additional_global_roles(global_roles, user).each do |role| %>
+            <%= render :partial => 'users/available_global_role', :locals => {:role => role} %>
+          <% end %>
+          <p><br/><%= styled_button_tag l(:button_add), class: '-with-icon icon-checkmark' %></p>
+        <% end %>
+      </span>
+    <% end %>
+  </fieldset>
 </div>
