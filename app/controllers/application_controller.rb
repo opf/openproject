@@ -37,6 +37,7 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  include I18n
   include Redmine::I18n
 
   layout 'base'
