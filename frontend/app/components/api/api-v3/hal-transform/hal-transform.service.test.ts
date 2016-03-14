@@ -30,14 +30,12 @@ const expect = chai.expect;
 
 describe('halTransform service', () => {
   var halTransform;
-  var NotificationsService;
 
   beforeEach(angular.mock.module('openproject.api'));
   beforeEach(angular.mock.module('openproject.services'));
 
-  beforeEach(angular.mock.inject((_halTransform_, _NotificationsService_) => {
+  beforeEach(angular.mock.inject((_halTransform_) => {
     halTransform = _halTransform_;
-    NotificationsService = _NotificationsService_;
   }));
 
   it('should exist', () => {

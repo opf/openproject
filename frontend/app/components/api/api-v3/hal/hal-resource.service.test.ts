@@ -83,10 +83,6 @@ describe('HalResource service', () => {
       resource = new HalResource(plain);
     });
 
-    it('should be restangularized', () => {
-      expect(resource.restangularized).to.not.be.ok;
-    });
-
     it('should be transformed', () => {
       expect(resource.$isHal).to.be.true;
     });
