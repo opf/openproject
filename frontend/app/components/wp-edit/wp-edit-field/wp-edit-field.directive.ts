@@ -39,7 +39,7 @@ export class WorkPackageEditFieldController {
 
   protected _active:boolean = false;
 
-  constructor(protected wpEditField:WorkPackageEditFieldService) {
+  constructor(protected wpEditField:WorkPackageEditFieldService, protected $element) {
   }
 
   public get workPackage() {
@@ -67,6 +67,15 @@ export class WorkPackageEditFieldController {
 
   public deactivate():boolean {
     return this._active = false;
+  }
+
+  public setErrorState(error = true) {
+    this.errorenous = error;
+    if (error) {
+      this.$element.addClass('-error');
+    } else {
+      this.$element.removeClass('-error');
+    }
   }
 
   protected setupField():ng.IPromise<any> {
@@ -99,6 +108,13 @@ function wpEditFieldLink(scope, element, attrs, controllers:[WorkPackageEditForm
   element.click(event => {
     event.stopImmediatePropagation();
   });
+
+  // Mark the td field if it is inline-editable
+  if (scope.vm.isEditable) {
+    element.addClass('-editable');
+  }
+
+  element.addClass(scope.vm.fieldName);
 }
 
 function wpEditField() {

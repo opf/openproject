@@ -111,10 +111,10 @@
           </td>
 
           <td ng-repeat="column in columns"
-              class="{{column.name}}"
               lang="{{column.custom_field && column.custom_field.name_locale || locale}}"
               wp-edit-field="column.name"
-              ng-class="column.name == 'id' && '-short'">
+              class="wp-table--cell"
+              ng-class="{ '-short': column.name == 'id' }">
             <wp-td attribute="column.name"
                    schema="row.object.schema"
                    object="row.object"

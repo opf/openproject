@@ -42,3 +42,12 @@
     &:hover
       border-color: lighten($inplace-edit--color--very-dark, 10%)
 
+
+
+.wp-table--cell
+
+  &.-editable .wp-table--cell-span
+    cursor: pointer
+
+  &:not(.-editable) .wp-table--cell-span
+    cursor: not-allowed
