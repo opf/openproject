@@ -323,7 +323,7 @@ describe('HalResource service', () => {
     });
   });
 
-  describe('when transforming an object with _links and/or _embedded', () => {
+  describe('when transforming an object with _links and _embedded', () => {
     var resource;
 
     beforeEach(() => {
@@ -365,6 +365,24 @@ describe('HalResource service', () => {
 
     it('should be loaded', () => {
       expect(resource.$loaded).to.be.true;
+    });
+
+    it('should not be possible to override a link', () => {
+      try {
+        resource.$links.action = 'foo';
+      }
+      catch (Error) {}
+
+      expect(resource.$links.action).to.not.eq('foo');
+    });
+
+    it('should not be possible to override an embedded resource', () => {
+      try {
+        resource.$embedded.embedded = 'foo';
+      }
+      catch (Error) {}
+
+      expect(resource.$embedded.embedded).to.not.eq('foo');
     });
 
     it('should have linked resources as properties', () => {

@@ -36,8 +36,6 @@ const lazy = (obj:any, property:string, callback:Function, setter:boolean = fals
       return value;
     },
     set: void 0,
-
-    enumerable: true
   };
 
   if (setter) {
@@ -163,8 +161,8 @@ function halResource(halTransform, HalLink, $q) {
     private transformHalProperty(propertyName:string, callback:(element:any) => any) {
       var properties = angular.copy(this.$source[propertyName]);
 
-      angular.forEach(properties, (property, name) => {
-        properties[name] = callback(property);
+      angular.forEach(properties, (property, name:string) => {
+        lazy(properties, name, () => callback(property));
       });
 
       return properties;
