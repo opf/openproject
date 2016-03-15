@@ -438,7 +438,7 @@ GEM
     rainbow (2.0.0)
     raindrops (0.13.0)
     rake (11.1.1)
-    rb-readline (0.5.2)
+    rb-readline (0.5.3)
     rdoc (4.2.2)
       json (~> 1.4)
     redcarpet (3.3.4)
