@@ -209,12 +209,7 @@ gem 'reform', '~> 1.2.6', require: false
 
 platforms :mri, :mingw, :x64_mingw do
   group :mysql2 do
-    # Can not be updated beyond this because of:
-    # https://github.com/brianmario/mysql2/issues/675
-    # Please also see
-    # https://github.com/rails/rails/commit/5da5e3772c32593ecf2f27b8865e81dcbe3af692
-    # meaning the limitation will be removed in rails 5.x.x and 4.2.5
-    gem 'mysql2', '~> 0.3.20'
+    gem 'mysql2', '~> 0.4'
   end
 
   group :postgres do
