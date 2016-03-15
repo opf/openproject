@@ -197,7 +197,7 @@ group :development, :test do
   gem 'pry-byebug', platforms: [:mri]
   gem 'pry-doc'
   gem 'parallel_tests', '~> 2.4.1'
-  gem 'rubocop', '~> 0.32'
+  gem 'rubocop'
 end
 
 # API gems
