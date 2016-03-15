@@ -38,5 +38,11 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= role %>: <%= users.sort.collect{ |u| link_to_user u }.join(", ").html_safe %><br />
       <% end %>
     </p>
+    <% if current_user.admin? %>
+      <%= link_to new_user_path, class: 'button -alt-highlight' do %>
+        <i class="button--icon icon-add"></i>
+        <span class="button--text"><%= l('activerecord.models.member') %></span>
+      <% end %>
+    <% end %>
   </div>
 <% end %>
