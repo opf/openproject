@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <div ng-click="vm.isEditable && vm.activate()" class="wp-edit-field"
      ng-class="{ '-error': vm.errorenous, '-active': vm.active }">
   <form ng-if="vm.workPackage && vm.active"
@@ -8,5 +7,5 @@
 
   </form>
 
-  <ng-transclude ng-hide="vm.active"></ng-transclude>
+  <ng-transclude class="-hidden-overflow" ng-hide="vm.active"></ng-transclude>
 </div>

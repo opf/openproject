@@ -51,7 +51,13 @@
     cursor: pointer
 
 .work-package-table--container .generic-table tbody
-  td.-editable
-    padding-top: 0
-    padding-bottom: 0
-    display: table-cell
+  td
+    .wp-edit-field .-hidden-overflow
+      overflow: hidden
+      text-overflow: ellipsis
+    &.-editable
+      padding-top: 0
+      padding-bottom: 0
+      display: table-cell
+      width: auto
+
