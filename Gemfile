@@ -81,7 +81,7 @@ gem 'sys-filesystem', '~> 1.1.4', require: false
 # See: config/initializers/rabl_hack.rb
 gem 'rabl', '0.9.3'
 gem 'multi_json', '~> 1.11.0'
-gem 'oj', '~> 2.11.4'
+gem 'oj', '~> 2.14.6'
 
 gem 'delayed_job_active_record', '~> 4.0.2'
 gem 'daemons'

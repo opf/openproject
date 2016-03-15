@@ -331,7 +331,7 @@ GEM
     nokogiri (1.6.7.1)
       mini_portile2 (~> 2.0.0.rc2)
     non-stupid-digest-assets (1.0.4)
-    oj (2.11.5)
+    oj (2.14.6)
     parallel (1.6.1)
     parallel_tests (2.1.2)
       parallel
@@ -608,7 +608,7 @@ DEPENDENCIES
   newrelic_rpm
   nokogiri (~> 1.6.7)
   non-stupid-digest-assets
-  oj (~> 2.11.4)
+  oj (~> 2.14.6)
   omniauth!
   openproject-translations!
   parallel_tests (~> 2.1.2)
