@@ -134,8 +134,8 @@ gem 'unicorn'
 
 gem 'nokogiri', '~> 1.6.7'
 
-gem 'carrierwave', '~> 0.10.0'
 gem 'fog-aws'
+gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
 
 group :test do
   gem 'rack-test', '~> 0.6.2'

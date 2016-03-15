@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/carrierwaveuploader/carrierwave.git
+  revision: a2c93fe1a9d3a3f60d1662e5ec34fdba7bf2b304
+  specs:
+    carrierwave (0.10.0)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
+
+GIT
   remote: git://github.com/finnlabs/awesome_nested_set.git
   revision: 7bd473e845e2f17f5287e8b7534bd88d4bbbf7d6
   branch: v2.1.6-rails4
@@ -167,11 +176,6 @@ GEM
     capybara-screenshot (1.0.11)
       capybara (>= 1.0, < 3)
       launchy
-    carrierwave (0.10.0)
-      activemodel (>= 3.2.0)
-      activesupport (>= 3.2.0)
-      json (>= 1.7)
-      mime-types (>= 1.16)
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     climate_control (0.0.3)
@@ -582,7 +586,7 @@ DEPENDENCIES
   capybara-ng (~> 0.2.2)
   capybara-screenshot (~> 1.0.11)
   capybara-select2!
-  carrierwave (~> 0.10.0)
+  carrierwave!
   cocaine
   codecov
   coderay (~> 1.1.0)

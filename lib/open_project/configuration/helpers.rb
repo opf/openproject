@@ -74,10 +74,17 @@ module OpenProject
       end
 
       def available_file_uploaders
-        {
-          fog: ::FogFileUploader,
+        uploaders = {
           file: ::LocalFileUploader
         }
+
+        # Do not load Fog uploader unless configured,
+        # it will fail with missing configuration
+        unless OpenProject::Configuration.fog_credentials.empty?
+          uploaders[:fog] = '::FogFileUploader'.constantize
+        end
+
+        uploaders
       end
 
       private
