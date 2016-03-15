@@ -26,28 +26,34 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.wp-edit-field
-  border: 1px solid transparent
+.-editable
+  .wp-edit-field
+    &.-active
+      padding: 0
 
-  &:hover
-    border-color: #eee
+    &.-error
+      background: $nm-color-error-background
+      border-color: $nm-color-error-border
 
-  &.-active:hover
-    border-color: transparent
+      &:hover
+        border-color: lighten($nm-color-error-border, 10%)
 
-  &.-error
-    background: rgb(254, 208, 209)
-    border-color: $inplace-edit--color--very-dark
+    form
+      width: 100%
 
-    &:hover
-      border-color: lighten($inplace-edit--color--very-dark, 10%)
-
-
+  &:hover .wp-edit-field.-error:hover
+    border-color: $nm-color-error-border
 
 .wp-table--cell
-
   &.-editable .wp-table--cell-span
     cursor: pointer
 
   &:not(.-editable) .wp-table--cell-span
     cursor: not-allowed
+
+
+.work-package-table--container .generic-table tbody
+  td.-editable
+    padding-top: 0
+    padding-bottom: 0
+    display: table-cell
