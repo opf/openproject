@@ -302,7 +302,7 @@ GEM
     inflecto (0.0.2)
     interception (0.5)
     ipaddress (0.8.0)
-    iso8601 (0.8.6)
+    iso8601 (0.9.0)
     json (1.8.3)
     json_spec (1.1.4)
       multi_json (~> 1.0)
@@ -484,7 +484,7 @@ GEM
       powerpack (~> 0.1)
       rainbow (>= 1.99.1, < 3.0)
       ruby-progressbar (~> 1.4)
-    ruby-duration (3.2.1)
+    ruby-duration (3.2.3)
       activesupport (>= 3.0.0)
       i18n
       iso8601
