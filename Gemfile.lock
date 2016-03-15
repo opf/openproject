@@ -489,10 +489,10 @@ GEM
       iso8601
     ruby-prof (0.15.8)
     ruby-progressbar (1.7.5)
-    rubytree (0.8.3)
-      json (>= 1.7.5)
-      structured_warnings (>= 0.1.3)
-    rubyzip (1.2.0)
+    rubytree (0.9.7)
+      json (~> 1.8)
+      structured_warnings (~> 0.2)
+    rubyzip (1.1.7)
     safe_yaml (1.0.4)
     sass (3.4.22)
     sass-rails (5.0.3)
@@ -666,7 +666,7 @@ DEPENDENCIES
   ruby-duration (~> 3.2.0)
   ruby-prof
   ruby-progressbar
-  rubytree (~> 0.8.3)
+  rubytree (~> 0.9.7)
   sass (~> 3.4.12)
   sass-rails (~> 5.0.3)
   selenium-webdriver (~> 2.52.0)

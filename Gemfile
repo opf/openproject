@@ -36,7 +36,7 @@ gem 'rails-observers'
 gem 'responders', '~> 2.0'
 
 gem 'coderay', '~> 1.1.0'
-gem 'rubytree', '~> 0.8.3'
+gem 'rubytree', '~> 0.9.7'
 gem 'rdoc', '>= 2.4.2'
 gem 'globalize', '~> 5.0.1'
 gem 'omniauth', github: 'oliverguenther/omniauth'
