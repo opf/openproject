@@ -242,7 +242,7 @@ GEM
     factory_girl_rails (4.6.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
-    faker (1.4.3)
+    faker (1.6.3)
       i18n (~> 0.5)
     ffi (1.9.10)
     fog (1.23.0)
