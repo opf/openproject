@@ -230,7 +230,8 @@ GEM
     disposable (0.0.9)
       representable (~> 2.0)
       uber
-    domain_name (0.5.20160310)
+    domain_name (0.5.20160309)
+    docile (1.1.5)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
     equivalent-xml (0.5.1)
@@ -516,10 +517,11 @@ GEM
     shoulda-context (1.2.1)
     shoulda-matchers (2.8.0)
       activesupport (>= 3.0.0)
-    simplecov (0.8.0.pre)
-      multi_json
-      simplecov-html (~> 0.7.1)
-    simplecov-html (0.7.1)
+    simplecov (0.11.2)
+      docile (~> 1.1.0)
+      json (~> 1.8)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
     slop (3.6.0)
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
@@ -677,7 +679,7 @@ DEPENDENCIES
   selenium-webdriver (~> 2.52.0)
   shoulda-context (~> 1.2)
   shoulda-matchers (~> 2.8)
-  simplecov (= 0.8.0.pre)
+  simplecov
   sprockets (~> 3.5.2)
   sqlite3
   svg-graph!
