@@ -432,7 +432,7 @@ GEM
     raindrops (0.13.0)
     rake (10.5.0)
     rb-readline (0.5.2)
-    rdoc (4.2.0)
+    rdoc (4.2.2)
       json (~> 1.4)
     redcarpet (3.3.4)
     reform (1.2.6)
