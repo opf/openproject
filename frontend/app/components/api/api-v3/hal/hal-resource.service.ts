@@ -51,12 +51,13 @@ function halResource(halTransform, HalLink, $q) {
       return new HalResource({_links: {self: link}}, false);
     }
 
-    public $links;
+    //public $links;
     public $embedded;
     public $isHal:boolean = true;
     public href:string;
 
     private _name:string;
+    private _$links:any;
 
     public get name():string {
       return this._name || this.$links.self.$link.title || '';
@@ -66,10 +67,14 @@ function halResource(halTransform, HalLink, $q) {
       this._name = name;
     }
 
+    public get $links() {
+      this._$links = this._$links || this.transformLinks();
+      return this._$links;
+    }
+
     constructor(public $source, public $loaded = true) {
       this.$source = $source._plain || angular.copy($source);
 
-      this.transformLinks();
       this.transformEmbedded();
       this.proxyProperties();
 
@@ -131,7 +136,7 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     private transformLinks() {
-      this.$links = this.transformHalProperty('_links', link => {
+      return this.transformHalProperty('_links', link => {
         if (Array.isArray(link)) {
           return link.map(HalLink.asFunc);
         }
