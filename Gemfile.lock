@@ -317,7 +317,7 @@ GEM
     kgio (2.9.3)
     launchy (2.4.3)
       addressable (~> 2.3)
-    letter_opener (1.3.0)
+    letter_opener (1.4.1)
       launchy (~> 2.2)
     livingstyleguide (2.0.0.pre.1)
       minisyntax (>= 0.2.5)
