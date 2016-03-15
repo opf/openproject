@@ -171,7 +171,7 @@ group :test do
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
   gem 'simplecov', require: false
-  gem 'shoulda-matchers', '~> 2.8', require: nil
+  gem 'shoulda-matchers', '~> 3.1', require: nil
   gem 'json_spec'
   gem 'activerecord-tableless', '~> 1.0'
   gem 'codecov', require: nil

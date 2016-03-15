@@ -515,8 +515,8 @@ GEM
       rubyzip (~> 1.0)
       websocket (~> 1.0)
     shoulda-context (1.2.1)
-    shoulda-matchers (2.8.0)
-      activesupport (>= 3.0.0)
+    shoulda-matchers (3.1.1)
+      activesupport (>= 4.0.0)
     simplecov (0.11.2)
       docile (~> 1.1.0)
       json (~> 1.8)
@@ -678,7 +678,7 @@ DEPENDENCIES
   sass-rails (~> 5.0.3)
   selenium-webdriver (~> 2.52.0)
   shoulda-context (~> 1.2)
-  shoulda-matchers (~> 2.8)
+  shoulda-matchers (~> 3.1)
   simplecov
   sprockets (~> 3.5.2)
   sqlite3
