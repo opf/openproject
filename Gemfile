@@ -164,7 +164,7 @@ group :test do
   gem 'capybara-ng', '~> 0.2.2'
   gem 'selenium-webdriver', '~> 2.52.0'
   gem 'poltergeist'
-  gem 'timecop', '~> 0.7.1'
+  gem 'timecop', '~> 0.8'
   gem 'webmock', '~> 1.21.0', require: false
 
   gem 'rb-readline', '~> 0.5.1' # ruby on CI needs this
