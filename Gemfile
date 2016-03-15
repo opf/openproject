@@ -118,7 +118,6 @@ gem 'sprockets',        '~> 3.5.2'
 gem 'sass-rails',       '~> 5.0.3'
 gem 'sass',             '~> 3.4.12'
 gem 'autoprefixer-rails'
-gem 'execjs',           '~> 2.4.0'
 gem 'bourbon',          '~> 4.2.0'
 
 gem 'prototype-rails', git: 'https://github.com/rails/prototype-rails.git', branch: '4.2'
