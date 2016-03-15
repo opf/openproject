@@ -141,9 +141,8 @@ GEM
     airbrake-ruby (1.2.0)
     arel (6.0.3)
     ast (2.2.0)
-    autoprefixer-rails (5.1.11)
+    autoprefixer-rails (6.3.3.1)
       execjs
-      json
     awesome_print (1.6.1)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
