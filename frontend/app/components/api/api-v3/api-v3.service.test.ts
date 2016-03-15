@@ -67,5 +67,12 @@ describe('apiV3 service', () => {
       });
       $httpBackend.flush();
     });
+
+    it('should not have a restangularized $source', () => {
+      expect(promise).to.be.eventually.fulfilled.then(resource => {
+        expect(resource.$source.restangularized).to.not.be.ok;
+      });
+      $httpBackend.flush();
+    });
   });
 });

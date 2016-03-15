@@ -48,7 +48,7 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     constructor(protected $source, public $loaded = true) {
-      let source = angular.copy($source.restangularized ? $source.$plain : $source);
+      this.$source = $source.restangularized ? $source.plain() : angular.copy($source);
 
       this.$links = this.transformLinks();
       this.$embedded = this.transformEmbedded();
@@ -60,6 +60,7 @@ function halResource(halTransform, HalLink, $q) {
         this.href = this.$links.self.$link.href;
       }
 
+      let source = this.$source;
       delete source._links;
       delete source._embedded;
       angular.extend(this, source);
