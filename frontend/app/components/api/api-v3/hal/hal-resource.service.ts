@@ -48,7 +48,7 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     constructor(protected $source, public $loaded = true) {
-      this.$source = $source.restangularized ? $source.plain() : angular.copy($source);
+      this.$source = $source._plain || angular.copy($source);
 
       this.$links = this.transformLinks();
       this.$embedded = this.transformEmbedded();

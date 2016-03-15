@@ -29,13 +29,15 @@
 function apiV3Config(apiV3, halTransform) {
   apiV3.addResponseInterceptor((data, operation, what) => {
     apiV3.addElementTransformer(what, halTransform);
+    if (data) {
+      data._plain = angular.copy(data);
 
-    if (data && data._type === 'Collection') {
-      var resp = [];
-      angular.extend(resp, data);
-      return resp;
+      if (data._type === 'Collection') {
+        let resp = [];
+        angular.extend(resp, data);
+        return resp;
+      }
     }
-
     return data;
   });
 

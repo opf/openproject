@@ -46,6 +46,18 @@ describe('HalResource service', () => {
     expect(HalResource).to.exist;
   });
 
+  it('should set its source to _plain if _plain is a property of the source', () => {
+    let source = {
+      _plain: {
+        _links: {},
+        prop: true
+      }
+    };
+    let resource = new HalResource(source);
+
+    expect(resource.prop).to.exist;
+  });
+
   describe('when transforming an object with _links', () => {
     var plain;
     var resource;

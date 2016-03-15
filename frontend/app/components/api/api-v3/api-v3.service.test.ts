@@ -74,5 +74,14 @@ describe('apiV3 service', () => {
       });
       $httpBackend.flush();
     });
+
+    it('should have a _plain property', done => {
+      apiV3.addResponseInterceptor(data => {
+        expect(data._plain).to.exist;
+        done();
+        return data;
+      });
+      $httpBackend.flush();
+    });
   });
 });
