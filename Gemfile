@@ -40,7 +40,7 @@ gem 'rubytree', '~> 0.9.7'
 gem 'rdoc', '>= 2.4.2'
 gem 'globalize', '~> 5.0.1'
 gem 'omniauth', github: 'oliverguenther/omniauth'
-gem 'request_store', '~> 1.1.0'
+gem 'request_store', '~> 1.3.0'
 gem 'gravatar_image_tag', '~> 1.2.0'
 
 gem 'warden', '~> 1.2'
