@@ -301,7 +301,7 @@ GEM
     json_spec (1.1.4)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
-    kgio (2.9.3)
+    kgio (2.10.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     letter_opener (1.4.1)
@@ -421,7 +421,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rainbow (2.1.0)
-    raindrops (0.13.0)
+    raindrops (0.16.0)
     rake (11.1.1)
     rb-readline (0.5.3)
     rdoc (4.2.2)
@@ -536,7 +536,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.2)
     unicode-display_width (1.0.2)
-    unicorn (4.9.0)
+    unicorn (5.0.1)
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
