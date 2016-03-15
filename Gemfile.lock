@@ -378,7 +378,7 @@ GEM
     rack (1.6.4)
     rack-accept (0.4.5)
       rack (>= 0.4)
-    rack-attack (4.2.0)
+    rack-attack (4.4.1)
       rack
     rack-mount (0.8.3)
       rack (>= 1.0.0)
