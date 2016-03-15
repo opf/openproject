@@ -146,7 +146,13 @@ describe 'OpenID Connect' do
       get '/login'
       expect(response.body).not_to match /Google/i
 
-      expect { click_on_signin('google') }.to raise_error(ActionController::RoutingError)
+      routing_error = begin
+        click_on_signin('google')
+      rescue ActionController::RoutingError => e
+        e
+      end
+
+      expect(routing_error.present? || response.status == 404).to be (true)
     end
 
     it 'should make providers that have been configured through settings available without requiring a restart' do
