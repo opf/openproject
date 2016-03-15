@@ -152,10 +152,10 @@ group :test do
   gem 'cucumber-rails', '~> 1.4.2', require: false
   gem 'rack_session_access'
   gem 'database_cleaner', '~> 1.5.1'
-  gem 'rspec', '~> 3.3.0'
+  gem 'rspec', '~> 3.4.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 3.3.0', group: :development
-  gem 'rspec-activemodel-mocks', '~> 1.0.2', git: 'https://github.com/rspec/rspec-activemodel-mocks'
+  gem 'rspec-rails', '~> 3.4.2', group: :development
+  gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', require: false
   gem 'capybara', '~> 2.4.4'
