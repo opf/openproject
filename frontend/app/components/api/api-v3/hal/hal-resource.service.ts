@@ -69,8 +69,9 @@ function halResource(halTransform, HalLink, $q) {
     constructor(public $source, public $loaded = true) {
       this.$source = $source._plain || angular.copy($source);
 
-      this.$links = this.transformLinks();
-      this.$embedded = this.transformEmbedded();
+      this.transformLinks();
+      this.transformEmbedded();
+      this.proxyProperties();
 
       // Set .href to the self link href
       // This is a workaround for tracking by link id's
@@ -78,11 +79,6 @@ function halResource(halTransform, HalLink, $q) {
       if (this.$links && this.$links.self) {
         this.href = this.$links.self.$link.href;
       }
-
-      let source = this.$source;
-      delete source._links;
-      delete source._embedded;
-      angular.extend(this, source);
 
       angular.forEach(this.$links, (link, name:string) => {
         if (Array.isArray(link)) {
@@ -135,7 +131,7 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     private transformLinks() {
-      return this.transformHalProperty('_links', link => {
+      this.$links = this.transformHalProperty('_links', link => {
         if (Array.isArray(link)) {
           return link.map(HalLink.asFunc);
         }
@@ -145,7 +141,7 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     private transformEmbedded() {
-      return this.transformHalProperty('_embedded', element => {
+      this.$embedded = this.transformHalProperty('_embedded', element => {
         angular.forEach(element, (child, name) => {
           if (child) element[name] = halTransform(child);
         });
@@ -166,6 +162,19 @@ function halResource(halTransform, HalLink, $q) {
       });
 
       return properties || {};
+    }
+
+    private proxyProperties() {
+      _.without(Object.keys(this.$source), '_links', '_embedded').forEach(property => {
+        Object.defineProperty(this, property, {
+          get() {
+            return this.$source[property];
+          },
+          set(value) {
+            this.$source[property] = value;
+          }
+        });
+      });
     }
   }
 }

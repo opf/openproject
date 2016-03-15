@@ -58,6 +58,43 @@ describe('HalResource service', () => {
     expect(resource.prop).to.exist;
   });
 
+  describe('when the source has properties', () => {
+    var resource;
+    beforeEach(() => {
+      resource = new HalResource({
+        _links: {},
+        _embedded: {},
+        property: 'foo',
+        obj: {
+          foo: 'bar'
+        }
+      });
+    });
+
+    it('should have the same properties', () => {
+      expect(resource.property).to.exist;
+      expect(resource.obj).to.exist;
+    });
+
+    it('should not have the _links property', () => {
+      expect(resource._links).to.not.exist;
+    });
+
+    it('should not have the _embedded property', () => {
+      expect(resource._embedded).to.not.exist;
+    });
+
+    describe('when a property is changed', () => {
+      beforeEach(() => {
+        resource.property = 'carrot';
+      });
+
+      it('should change the property of the source', () => {
+        expect(resource.$source.property).to.eq('carrot');
+      });
+    });
+  });
+
   describe('when transforming an object with _links', () => {
     var plain;
     var resource;
