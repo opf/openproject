@@ -342,7 +342,7 @@ GEM
       rake (>= 0.8.1)
     pdf-core (0.6.1)
     pg (0.18.4)
-    poltergeist (1.7.0)
+    poltergeist (1.9.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
       multi_json (~> 1.0)
