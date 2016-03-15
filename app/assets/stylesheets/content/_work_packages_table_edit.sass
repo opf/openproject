@@ -45,12 +45,10 @@
     border-color: $nm-color-error-border
 
 .wp-table--cell
-  &.-editable .wp-table--cell-span
+  cursor: not-allowed
+
+  &.-editable
     cursor: pointer
-
-  &:not(.-editable) .wp-table--cell-span
-    cursor: not-allowed
-
 
 .work-package-table--container .generic-table tbody
   td.-editable
