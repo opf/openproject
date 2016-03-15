@@ -114,7 +114,7 @@ group :production do
   gem 'dalli', '~> 2.7.6'
 end
 
-gem 'sprockets',        '~> 2.12.3'
+gem 'sprockets',        '~> 3.5.2'
 gem 'sass-rails',       '~> 5.0.3'
 gem 'sass',             '~> 3.4.12'
 gem 'autoprefixer-rails'
