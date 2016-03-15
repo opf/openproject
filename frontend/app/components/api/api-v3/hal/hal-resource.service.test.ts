@@ -136,6 +136,10 @@ describe('HalResource service', () => {
       expect(resource.$isHal).to.be.true;
     });
 
+    it('should have a href property that is the same as the self href', () => {
+      expect(resource.href).to.eq(resource.$links.self.$link.href);
+    });
+
     it('should return an empty $embedded object', () => {
       expect(resource.$embedded).to.eql({});
     });

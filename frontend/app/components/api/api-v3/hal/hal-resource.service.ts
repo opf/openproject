@@ -52,7 +52,6 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     public $isHal:boolean = true;
-    public href:string;
 
     private _name:string;
     private _$links:any;
@@ -64,6 +63,15 @@ function halResource(halTransform, HalLink, $q) {
 
     public set name(name:string) {
       this._name = name;
+    }
+
+    public get href():string|void {
+      // Set .href to the self link href
+      // This is a workaround for tracking by link id's
+      // since, e.g., assignee's ID is not available.
+      if (this.$links.self) {
+        return this.$links.self.$link.href;
+      }
     }
 
     public get $links() {
@@ -80,13 +88,6 @@ function halResource(halTransform, HalLink, $q) {
       this.$source = $source._plain || angular.copy($source);
 
       this.proxyProperties();
-
-      // Set .href to the self link href
-      // This is a workaround for tracking by link id's
-      // since, e.g., assignee's ID is not available.
-      if (this.$links && this.$links.self) {
-        this.href = this.$links.self.$link.href;
-      }
 
       angular.forEach(this.$links, (link, name:string) => {
         if (Array.isArray(link)) {
