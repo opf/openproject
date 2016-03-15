@@ -165,7 +165,7 @@ function halResource(halTransform, HalLink, $q) {
         lazy(properties, name, () => callback(property));
       });
 
-      return properties;
+      return properties || {};
     }
   }
 }

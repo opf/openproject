@@ -99,6 +99,10 @@ describe('HalResource service', () => {
       expect(resource.$isHal).to.be.true;
     });
 
+    it('should return an empty $embedded object', () => {
+      expect(resource.$embedded).to.eql({});
+    });
+
     describe('when the self link has a title attribute', () => {
       beforeEach(() => {
         resource = new HalResource({
@@ -193,6 +197,10 @@ describe('HalResource service', () => {
       };
 
       resource = new HalResource(plain);
+    });
+
+    it('should return an empty $links object', () => {
+      expect(resource.$links).to.eql({});
     });
 
     it('should not be restangularized', () => {
