@@ -121,8 +121,8 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     public $plain() {
-      const element = <any> angular.copy(this);
-      const linked = Object.keys(this.$links);
+      const element:any = angular.copy(this);
+      const linked :string[] = Object.keys(this.$links);
       element._links = {};
 
       linked.forEach(linkName => {
@@ -137,7 +137,7 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     private transformLinks() {
-      return this.transformHalProperty('_links', (link) => {
+      return this.transformHalProperty('_links', link => {
         if (Array.isArray(link)) {
           return link.map(HalLink.asFunc);
         }
@@ -147,7 +147,7 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     private transformEmbedded() {
-      return this.transformHalProperty('_embedded', (element) => {
+      return this.transformHalProperty('_embedded', element => {
         angular.forEach(element, (child, name) => {
           if (child) element[name] = halTransform(child);
         });
@@ -160,7 +160,7 @@ function halResource(halTransform, HalLink, $q) {
       });
     }
 
-    private transformHalProperty(propertyName:string, callback:(element) => any) {
+    private transformHalProperty(propertyName:string, callback:(element:any) => any) {
       var properties = angular.copy(this.$source[propertyName]);
 
       angular.forEach(properties, (property, name) => {
