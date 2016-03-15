@@ -158,10 +158,10 @@ group :test do
   gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', require: false
-  gem 'capybara', '~> 2.4.4'
-  gem 'capybara-screenshot', '~> 1.0.4'
+  gem 'capybara', '~> 2.6.2'
+  gem 'capybara-screenshot', '~> 1.0.11'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
-  gem 'capybara-ng', '~> 0.2.1'
+  gem 'capybara-ng', '~> 0.2.2'
   gem 'selenium-webdriver', '~> 2.52.0'
   gem 'poltergeist'
   gem 'timecop', '~> 0.7.1'
