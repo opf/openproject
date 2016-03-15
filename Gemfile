@@ -69,7 +69,7 @@ gem 'htmldiff'
 # used for statistics on svn repositories
 gem 'svg-graph', github: 'why-el/svg-graph', branch: 'silence-class-access-warning'
 
-gem 'date_validator', '~> 0.7.1'
+gem 'date_validator', '~> 0.9.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
