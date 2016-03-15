@@ -83,7 +83,7 @@ gem 'rabl', '0.9.3'
 gem 'multi_json', '~> 1.11.0'
 gem 'oj', '~> 2.14.6'
 
-gem 'delayed_job_active_record', '~> 4.0.2'
+gem 'delayed_job_active_record', '~> 4.1.0'
 gem 'daemons'
 
 # include custom rack-protection for now until rkh/rack-protection is fixed and released
