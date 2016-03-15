@@ -341,8 +341,8 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
     netrc (0.11.0)
-    newrelic_rpm (3.14.1.311)
-    nokogiri (1.6.7.1)
+    newrelic_rpm (3.15.0.314)
+    nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     oj (2.14.6)
     parallel (1.6.2)
@@ -350,7 +350,7 @@ GEM
       parallel
     parser (2.3.0.6)
       ast (~> 2.2)
-    passenger (5.0.22)
+    passenger (5.0.26)
       rack
       rake (>= 0.8.1)
     pdf-core (0.6.1)
