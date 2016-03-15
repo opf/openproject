@@ -26,6 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+const lazy = (obj:any, property:string, callback:Function, setter:boolean = false) => {
+  let value;
+  let config = {
+    get() {
+      if (!value) {
+        value = callback();
+      }
+      return value;
+    },
+    set: void 0,
+
+    enumerable: true
+  };
+
+  if (setter) {
+    config.set = val => value = val;
+  }
+
+  Object.defineProperty(obj, property, config);
+};
+
 function halResource(halTransform, HalLink, $q) {
   return class HalResource {
     protected static fromLink(link) {
@@ -47,7 +68,7 @@ function halResource(halTransform, HalLink, $q) {
       this._name = name;
     }
 
-    constructor(protected $source, public $loaded = true) {
+    constructor(public $source, public $loaded = true) {
       this.$source = $source._plain || angular.copy($source);
 
       this.$links = this.transformLinks();
