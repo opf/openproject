@@ -339,7 +339,7 @@ GEM
     multi_test (0.1.2)
     multi_xml (0.5.5)
     mysql2 (0.3.20)
-    net-ldap (0.8.0)
+    net-ldap (0.14.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
@@ -629,7 +629,7 @@ DEPENDENCIES
   livingstyleguide (~> 2.0.0.pre.1)
   multi_json (~> 1.11.0)
   mysql2 (~> 0.3.20)
-  net-ldap (~> 0.8.0)
+  net-ldap (~> 0.14.0)
   newrelic_rpm
   nokogiri (~> 1.6.7)
   oj (~> 2.14.6)
