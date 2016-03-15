@@ -34,5 +34,5 @@
 #
 
 def loading_indicator_saveguard
-  expect(page).not_to have_selector('.cg-busy-default-wrapper')
+  expect(page).to have_no_selector('.cg-busy.ng-hide.ng-hide-animate')
 end

@@ -108,6 +108,11 @@ module Pages
           raise 'Attribute is not supported as of now.'
         end
 
+        # Workaround for fields with datepickers, which
+        # may cover other fields we want to click next
+        if key.to_s =~ /date/i
+          page.find('#work-package-subject').click
+        end
         field
       end
     end
