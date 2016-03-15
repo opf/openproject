@@ -234,7 +234,7 @@ GEM
     docile (1.1.5)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
-    equivalent-xml (0.5.1)
+    equivalent-xml (0.6.0)
       nokogiri (>= 1.4.3)
     erubis (2.7.0)
     eventmachine (1.0.7)
@@ -609,7 +609,7 @@ DEPENDENCIES
   database_cleaner (~> 1.5.1)
   date_validator (~> 0.9.0)
   delayed_job_active_record (~> 4.1.0)
-  equivalent-xml (~> 0.5.1)
+  equivalent-xml (~> 0.6)
   factory_girl (~> 4.5)
   factory_girl_rails (~> 4.6)
   faker

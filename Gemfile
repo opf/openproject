@@ -175,7 +175,7 @@ group :test do
   gem 'json_spec'
   gem 'activerecord-tableless', '~> 1.0'
   gem 'codecov', require: nil
-  gem 'equivalent-xml', '~> 0.5.1'
+  gem 'equivalent-xml', '~> 0.6'
 end
 
 group :ldap do
