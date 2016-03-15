@@ -140,7 +140,7 @@ gem 'fog', '~> 1.23.0', require: 'fog/aws/storage'
 group :test do
   gem 'rack-test', '~> 0.6.2'
   gem 'shoulda-context', '~> 1.2'
-  gem 'launchy', '~> 2.3.0'
+  gem 'launchy'
 
   # Require factory_girl for usage with openproject plugins testing
   # FactoryGirl needs to be available when loading app otherwise factory

@@ -135,7 +135,7 @@ GEM
       tzinfo (~> 1.1)
     acts_as_list (0.7.2)
       activerecord (>= 3.0)
-    addressable (2.3.8)
+    addressable (2.4.0)
     airbrake (5.1.0)
       airbrake-ruby (~> 1.1)
     airbrake-ruby (1.2.0)
@@ -308,7 +308,7 @@ GEM
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
     kgio (2.9.3)
-    launchy (2.3.0)
+    launchy (2.4.3)
       addressable (~> 2.3)
     letter_opener (1.3.0)
       launchy (~> 2.2)
@@ -615,8 +615,8 @@ DEPENDENCIES
   htmldiff
   jruby-openssl
   json_spec
-  launchy (~> 2.3.0)
-  letter_opener
+  launchy
+  letter_opener (~> 1.3.0)
   livingstyleguide (~> 2.0.0.pre.1)
   multi_json (~> 1.11.0)
   mysql2 (~> 0.3.20)
