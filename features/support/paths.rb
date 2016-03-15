@@ -62,9 +62,11 @@ module NavigationHelpers
       end
 
     when /^the [wW]iki [pP]age "([^\"]+)" (?:for|of) the project called "([^\"]+)"$/
-      wiki_page = Wiki.titleize($1)
+      wiki_page = $1
       project_identifier = $2.gsub("\"", '')
       project = Project.find_by(name: project_identifier)
+
+      wiki_page.gsub!(' ', '%20')
       project_identifier = project.identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/wiki/#{wiki_page}"
 
@@ -78,11 +80,10 @@ module NavigationHelpers
       '/users?sort=created_on:desc&status=2'
 
     when /^the edit menu item page of the [wW]iki [pP]age "([^\"]+)" (?:for|of) the project called "([^\"]+)"$/
-      wiki_page = Wiki.titleize($1)
       project_identifier = $2.gsub("\"", '')
       project = Project.find_by(name: project_identifier)
       project_identifier = project.identifier.gsub(' ', '%20')
-      "/projects/#{project_identifier}/wiki/#{wiki_page}/wiki_menu_item/edit"
+      "/projects/#{project_identifier}/wiki/#{$1}/wiki_menu_item/edit"
 
     when /^the [cC]ost [rR]eports page (?:of|for) the project called "([^\"]+)" without filters or groups$/
       project_identifier = Project.find_by(name: $1).identifier.gsub(' ', '%20')

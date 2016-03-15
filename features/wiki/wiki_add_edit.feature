@@ -63,7 +63,7 @@ Feature: Adding and Editing Wiki Tabs
   @javascript
   Scenario: Overview and see the history of a wiki page
     Given I am already admin
-    Given the wiki page "Wookietest" of the project "Wookies" has 3 versions
+    Given the wiki page "wookietest" of the project "Wookies" has 3 versions
       And I go to the wiki page "wookietest" for the project called "Wookies"
       And I follow "More" within "#content"
      When I click "History"

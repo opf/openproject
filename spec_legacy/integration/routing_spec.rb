@@ -833,14 +833,6 @@ describe 'routing', type: :routing do
     end
   end
 
-  context 'wikis (plural, admin setup)' do
-    it {
-      is_expected.to route(:post, '/projects/ladida/wiki').to(controller: 'wikis',
-                                                              action: 'edit',
-                                                              id: 'ladida')
-    }
-  end
-
   context 'administration panel' do
     it { is_expected.to route(:get, '/admin/projects').to(controller: 'admin', action: 'projects') }
   end

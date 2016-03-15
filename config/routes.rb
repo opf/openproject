@@ -176,14 +176,6 @@ OpenProject::Application.routes.draw do
     resources :query_menu_items, except: [:show]
   end
 
-  get 'projects/:project_id/wiki/new' => 'wiki#new', as: 'wiki_new'
-  post 'projects/:project_id/wiki/new' => 'wiki#create', as: 'wiki_create'
-  get 'projects/:project_id/wiki/:id/new' => 'wiki#new_child', as: 'wiki_new_child'
-  get 'projects/:project_id/wiki/:id/toc' => 'wiki#index', as: 'wiki_page_toc'
-  post 'projects/:project_id/wiki/preview' => 'wiki#preview', as: 'preview_wiki'
-  post 'projects/:id/wiki' => 'wikis#edit'
-  delete 'projects/:id/wiki/destroy' => 'wikis#destroy'
-
   # generic route for adding/removing watchers.
   # Models declared as acts_as_watchable will be automatically added to
   # OpenProject::Acts::Watchable::Routes.watched
@@ -253,17 +245,26 @@ OpenProject::Application.routes.draw do
     end
     resources :time_entries, controller: 'timelog'
 
-    resources :wiki, except: [:index, :new, :create] do
+    # Match everything to be the ID of the wiki page except the part that
+    # is reserved for the format. This assumes that we have only two formats:
+    # .txt and .html
+    resources :wiki,
+              constraints: { id: /([^\/]+(?=\.txt|\.html)|[^\/]+)/ },
+              except: [:index, :create] do
       collection do
+        post '/new' => 'wiki#create', as: 'create'
         get :export
         get :date_index
+        post :preview
         get '/index' => 'wiki#index'
       end
 
       member do
+        get '/new' => 'wiki#new_child', as: 'new_child'
         get '/diff/:version/vs/:version_from' => 'wiki#diff', as: 'wiki_diff_compare'
         get '/diff(/:version)' => 'wiki#diff', as: 'wiki_diff'
         get '/annotate/:version' => 'wiki#annotate', as: 'wiki_annotate'
+        get '/toc' => 'wiki#index'
         match :rename, via: [:get, :patch]
         get :parent_page, action: 'edit_parent_page'
         patch :parent_page, action: 'update_parent_page'

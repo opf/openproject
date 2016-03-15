@@ -60,7 +60,7 @@ describe WikiController, type: :controller do
   end
 
   it 'should show page with name' do
-    get :show, project_id: 1, id: 'Another_page'
+    get :show, project_id: 1, id: 'Another page'
     assert_response :success
     assert_template 'show'
     assert_select 'h1', content: /Another page/
@@ -75,7 +75,7 @@ describe WikiController, type: :controller do
     page.content = WikiContent.new(text: 'Side bar content for test_show_with_sidebar')
     page.save!
 
-    get :show, project_id: 1, id: 'Another_page'
+    get :show, project_id: 1, id: 'Another page'
     assert_response :success
     assert_select 'div', attributes: { id: 'sidebar' },
                content: /Side bar content for test_show_with_sidebar/
@@ -99,7 +99,7 @@ describe WikiController, type: :controller do
                  id: 'New page',
                  content: { comments: 'Created the page',
                             text: "h1. New page\n\nThis is a new page" }
-    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'New_page'
+    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'New+page'
     page = wiki.find_page('New page')
     assert !page.new_record?
     refute_nil page.content
@@ -124,7 +124,7 @@ describe WikiController, type: :controller do
   end
 
   it 'should update page' do
-    page = Wiki.find(1).pages.find_by(title: 'Another_page')
+    page = Wiki.find(1).pages.find_by(title: 'Another page')
     page.content.recreate_initial_journal!
 
     session[:user_id] = 2
@@ -132,7 +132,7 @@ describe WikiController, type: :controller do
       assert_no_difference 'WikiContent.count' do
         assert_difference 'Journal.count' do
           put :update, project_id: 1,
-                       id: 'Another_page',
+                       id: 'Another page',
                        content: {
                          comments: 'my comments',
                          text: 'edited',
@@ -141,7 +141,7 @@ describe WikiController, type: :controller do
         end
       end
     end
-    assert_redirected_to '/projects/ecookbook/wiki/Another_page'
+    assert_redirected_to '/projects/ecookbook/wiki/Another+page'
 
     page.reload
     assert_equal 'edited', page.content.text
@@ -155,7 +155,7 @@ describe WikiController, type: :controller do
       assert_no_difference 'WikiContent.count' do
         assert_no_difference 'Journal.count' do
           put :update, project_id: 1,
-                       id: 'Another_page',
+                       id: 'Another page',
                        content: {
                          comments: 'a' * 300,  # failure here, comment is too long
                          text: 'edited',
@@ -182,7 +182,7 @@ describe WikiController, type: :controller do
                                  data: FactoryGirl.build(:journal_wiki_content_journal,
                                                          text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     session[:user_id] = 2
-    c = Wiki.find(1).find_page('Another_page').content
+    c = Wiki.find(1).find_page('Another page').content
     c.text = 'Previous text'
     c.save!
     assert_equal 2, c.version
@@ -191,7 +191,7 @@ describe WikiController, type: :controller do
       assert_no_difference 'WikiContent.count' do
         assert_no_difference 'Journal.count' do
           put :update, project_id: 1,
-                       id: 'Another_page',
+                       id: 'Another page',
                        content: {
                          comments: 'My comments',
                          text: 'Text should not be lost',
@@ -230,7 +230,7 @@ describe WikiController, type: :controller do
                        data: FactoryGirl.build(:journal_wiki_content_journal,
                                                text: "h1. CookBook documentation\nSome updated [[documentation]] here...")
 
-    get :history, project_id: 1, id: 'CookBook_documentation'
+    get :history, project_id: 1, id: 'CookBook documentation'
     assert_response :success
     assert_template 'history'
     refute_nil assigns(:versions)
@@ -243,7 +243,7 @@ describe WikiController, type: :controller do
                        journable_id: 2,
                        data: FactoryGirl.build(:journal_wiki_content_journal,
                                                text: "h1. Another page\n\n\nthis is a link to ticket: #2")
-    get :history, project_id: 1, id: 'Another_page'
+    get :history, project_id: 1, id: 'Another page'
     assert_response :success
     assert_template 'history'
     refute_nil assigns(:versions)
@@ -261,7 +261,7 @@ describe WikiController, type: :controller do
                                     data: FactoryGirl.build(:journal_wiki_content_journal,
                                                             text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
 
-    get :diff, project_id: 1, id: 'CookBook_documentation', version: journal_to.version, version_from: journal_from.version
+    get :diff, project_id: 1, id: 'CookBook documentation', version: journal_to.version, version_from: journal_from.version
     assert_response :success
     assert_template 'diff'
     assert_select 'ins', attributes: { class: 'diffins' },
@@ -278,7 +278,7 @@ describe WikiController, type: :controller do
                                     data: FactoryGirl.build(:journal_wiki_content_journal,
                                                             text: "h1. CookBook documentation\n\n\nSome [[documentation]] here...")
 
-    get :annotate, project_id: 1, id:  'CookBook_documentation', version: journal_to.version
+    get :annotate, project_id: 1, id:  'CookBook documentation', version: journal_to.version
     assert_response :success
     assert_template 'annotate'
     # Line 1
@@ -293,24 +293,24 @@ describe WikiController, type: :controller do
 
   it 'should get rename' do
     session[:user_id] = 2
-    get :rename, project_id: 1, id: 'Another_page'
+    get :rename, project_id: 1, id: 'Another page'
     assert_response :success
     assert_template 'rename'
   end
 
   it 'should get rename child page' do
     session[:user_id] = 2
-    get :rename, project_id: 1, id: 'Child_1'
+    get :rename, project_id: 1, id: 'Child 1'
     assert_response :success
     assert_template 'rename'
   end
 
   it 'should rename with redirect' do
     session[:user_id] = 2
-    patch :rename, project_id: 1, id: 'Another_page',
+    patch :rename, project_id: 1, id: 'Another page',
                    page: { title: 'Another renamed page',
                            redirect_existing_links: 1 }
-    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another_renamed_page'
+    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another+renamed+page'
     # Check redirects
     refute_nil wiki.find_page('Another page')
     assert_nil wiki.find_page('Another page', with_redirect: false)
@@ -318,24 +318,24 @@ describe WikiController, type: :controller do
 
   it 'should rename without redirect' do
     session[:user_id] = 2
-    patch :rename, project_id: 1, id: 'Another_page',
+    patch :rename, project_id: 1, id: 'Another page',
                    page: { title: 'Another renamed page',
                            redirect_existing_links: '0' }
-    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another_renamed_page'
+    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another+renamed+page'
     # Check that there's no redirects
     assert_nil wiki.find_page('Another page')
   end
 
   it 'should destroy child' do
     session[:user_id] = 2
-    delete :destroy, project_id: 1, id: 'Child_1'
+    delete :destroy, project_id: 1, id: 'Child 1'
     assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
   end
 
   it 'should destroy parent' do
     session[:user_id] = 2
     assert_no_difference('WikiPage.count') do
-      delete :destroy, project_id: 1, id: 'Another_page'
+      delete :destroy, project_id: 1, id: 'Another page'
     end
     assert_response :success
     assert_template 'destroy'
@@ -344,7 +344,7 @@ describe WikiController, type: :controller do
   it 'should destroy parent with nullify' do
     session[:user_id] = 2
     assert_difference('WikiPage.count', -1) do
-      delete :destroy, project_id: 1, id: 'Another_page', todo: 'nullify'
+      delete :destroy, project_id: 1, id: 'Another page', todo: 'nullify'
     end
     assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
     assert_nil WikiPage.find_by(id: 2)
@@ -353,7 +353,7 @@ describe WikiController, type: :controller do
   it 'should destroy parent with cascade' do
     session[:user_id] = 2
     assert_difference('WikiPage.count', -3) do
-      delete :destroy, project_id: 1, id: 'Another_page', todo: 'destroy'
+      delete :destroy, project_id: 1, id: 'Another page', todo: 'destroy'
     end
     assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
     assert_nil WikiPage.find_by(id: 2)
@@ -363,7 +363,7 @@ describe WikiController, type: :controller do
   it 'should destroy parent with reassign' do
     session[:user_id] = 2
     assert_difference('WikiPage.count', -1) do
-      delete :destroy, project_id: 1, id: 'Another_page', todo: 'reassign', reassign_to_id: 1
+      delete :destroy, project_id: 1, id: 'Another page', todo: 'reassign', reassign_to_id: 1
     end
     assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
     assert_nil WikiPage.find_by(id: 2)
@@ -380,13 +380,13 @@ describe WikiController, type: :controller do
     assert_equal pages.first.content.updated_on, pages.first.updated_on
 
     assert_select 'ul', attributes: { class: 'pages-hierarchy' },
-                    child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/CookBook_documentation' },
+                    child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/CookBook%20documentation' },
                                                  content: 'CookBook documentation' },
                              child: { tag: 'ul',
                                       child: { tag: 'li',
-                                               child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page_with_an_inline_image' },
+                                               child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page%20with%20an%20inline%20image' },
                                                         content: 'Page with an inline image' } } } },
-                    child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Another_page' },
+                    child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Another%20page' },
                                                  content: 'Another page' } }
   end
 
@@ -406,9 +406,9 @@ describe WikiController, type: :controller do
       it { should_assign_to :pages }
       it { should_respond_with_content_type 'text/html' }
       it 'should export all of the wiki pages to a single html file' do
-        assert_select 'a[name=?]', 'CookBook_documentation'
-        assert_select 'a[name=?]', 'Another_page'
-        assert_select 'a[name=?]', 'Page_with_an_inline_image'
+        assert_select 'a[name=?]', 'CookBook+documentation'
+        assert_select 'a[name=?]', 'Another+page'
+        assert_select 'a[name=?]', 'Page+with+an+inline+image'
       end
     end
 
@@ -443,20 +443,20 @@ describe WikiController, type: :controller do
   end
 
   it 'should protect page' do
-    page = WikiPage.find_by(wiki_id: 1, title: 'Another_page')
+    page = WikiPage.find_by(wiki_id: 1, title: 'Another page')
     assert !page.protected?
     session[:user_id] = 2
     post :protect, project_id: 1, id: page.title, protected: '1'
-    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another_page'
+    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another+page'
     assert page.reload.protected?
   end
 
   it 'should unprotect page' do
-    page = WikiPage.find_by(wiki_id: 1, title: 'CookBook_documentation')
+    page = WikiPage.find_by(wiki_id: 1, title: 'CookBook documentation')
     assert page.protected?
     session[:user_id] = 2
     post :protect, project_id: 1, id: page.title, protected: '0'
-    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'CookBook_documentation'
+    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'CookBook+documentation'
     assert !page.reload.protected?
   end
 
@@ -465,7 +465,7 @@ describe WikiController, type: :controller do
     get :show, project_id: 1
     assert_response :success
     assert_template 'show'
-    assert_select 'a', attributes: { href: '/projects/1/wiki/CookBook_documentation/edit' }
+    assert_select 'a', attributes: { href: '/projects/1/wiki/CookBook+documentation/edit' }
   end
 
   it 'should show page without edit link' do
@@ -473,13 +473,13 @@ describe WikiController, type: :controller do
     get :show, project_id: 1
     assert_response :success
     assert_template 'show'
-    assert_select('a', {attributes: { href: '/projects/1/wiki/CookBook_documentation/edit' }}, false)
+    assert_select('a', {attributes: { href: '/projects/1/wiki/CookBook+documentation/edit' }}, false)
   end
 
   it 'should edit unprotected page' do
     # Non members can edit unprotected wiki pages
     session[:user_id] = 4
-    get :edit, project_id: 1, id: 'Another_page'
+    get :edit, project_id: 1, id: 'Another page'
     assert_response :success
     assert_template 'edit'
   end
@@ -487,19 +487,19 @@ describe WikiController, type: :controller do
   it 'should edit protected page by nonmember' do
     # Non members can't edit protected wiki pages
     session[:user_id] = 4
-    get :edit, project_id: 1, id: 'CookBook_documentation'
+    get :edit, project_id: 1, id: 'CookBook documentation'
     assert_response 403
   end
 
   it 'should edit protected page by member' do
     session[:user_id] = 2
-    get :edit, project_id: 1, id: 'CookBook_documentation'
+    get :edit, project_id: 1, id: 'CookBook documentation'
     assert_response :success
     assert_template 'edit'
   end
 
   it 'should history of non existing page should return 404' do
-    get :history, project_id: 1, id: 'Unknown_page'
+    get :history, project_id: 1, id: 'Unknown page'
     assert_response 404
   end
 end

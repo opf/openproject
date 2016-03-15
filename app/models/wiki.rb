@@ -44,7 +44,6 @@ class Wiki < ActiveRecord::Base
                                 reject_if: proc { |attr| attr['name'].blank? && attr['title'].blank? }
 
   validates_presence_of :start_page
-  validates_format_of :start_page, with: /\A[^,\.\/\?\;\|\:]*\z/
 
   after_create :create_menu_item_for_start_page
 
@@ -62,13 +61,12 @@ class Wiki < ActiveRecord::Base
   # if page doesn't exist, return a new page
   def find_or_new_page(title)
     title = start_page if title.blank?
-    find_page(title) || WikiPage.new(wiki: self, title: Wiki.titleize(title))
+    find_page(title) || WikiPage.new(wiki: self, title: title)
   end
 
   # find the page with the given title
   def find_page(title, options = {})
     title = start_page if title.blank?
-    title = Wiki.titleize(title)
     page = pages.where(['LOWER(title) = LOWER(?)', title]).first
     if !page && !(options[:with_redirect] == false)
       # search for a redirect
@@ -96,15 +94,6 @@ class Wiki < ActiveRecord::Base
         page
       end
     end
-  end
-
-  # turn a string into a valid page title
-  def self.titleize(title)
-    # replace spaces with _ and remove unwanted caracters
-    title = title.gsub(/\s+/, '_').delete(',./?;|:') if title
-    # upcase the first letter
-    title = (title.slice(0..0).upcase + (title.slice(1..-1) || '')) if title
-    title
   end
 
   def create_menu_item_for_start_page

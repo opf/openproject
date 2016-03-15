@@ -272,7 +272,7 @@ end
 
 Then /^(?:|I )should be on (.+)$/ do |page_name|
   current_path = URI.parse(current_url).path
-  current_path.should == path_to(page_name)
+  CGI.unescape(current_path).should == CGI.unescape(path_to(page_name))
 end
 
 Then /^(?:|I )should have the following query string:$/ do |expected_pairs|

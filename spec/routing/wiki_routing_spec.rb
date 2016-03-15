@@ -30,6 +30,36 @@ require 'spec_helper'
 
 describe WikiController, type: :routing do
   describe 'routing' do
+    it 'should connect GET /projects/:project_id/wiki/:name (without format) to wiki/show' do
+      expect(get('/projects/abc/wiki/blubs')).to route_to(controller: 'wiki',
+                                                          action: 'show',
+                                                          project_id: 'abc',
+                                                          id: 'blubs')
+    end
+
+    it 'should connect GET /projects/:project_id/wiki/:name (with a dot in it) to wiki/show' do
+      expect(get('/projects/abc/wiki/blubs.blubs')).to route_to(controller: 'wiki',
+                                                                action: 'show',
+                                                                project_id: 'abc',
+                                                                id: 'blubs.blubs')
+    end
+
+    it 'should connect GET /projects/:project_id/wiki/:name.txt to wiki/show' do
+      expect(get('/projects/abc/wiki/blubs.txt')).to route_to(controller: 'wiki',
+                                                              action: 'show',
+                                                              project_id: 'abc',
+                                                              id: 'blubs',
+                                                              format: 'txt')
+    end
+
+    it 'should connect GET /projects/:project_id/wiki/:name.html to wiki/show' do
+      expect(get('/projects/abc/wiki/blubs.html')).to route_to(controller: 'wiki',
+                                                               action: 'show',
+                                                               project_id: 'abc',
+                                                               id: 'blubs',
+                                                               format: 'html')
+    end
+
     it 'should connect GET /projects/:project_id/wiki/new to wiki/new' do
       expect(get('/projects/abc/wiki/new')).to route_to(controller: 'wiki',
                                                         action: 'new',
@@ -74,6 +104,19 @@ describe WikiController, type: :routing do
           action: 'update_parent_page',
           project_id: 'abc',
           id: 'abc_wiki')
+    end
+
+    it 'should connect GET /projects/:project_id/wiki/:id/toc to wiki#index' do
+      expect(get('/projects/abc/wiki/blubs/toc')).to route_to(controller: 'wiki',
+                                                              action: 'index',
+                                                              project_id: 'abc',
+                                                              id: 'blubs')
+    end
+
+    it 'should connect POST /projects/:project_id/wiki/preview to wiki#preview' do
+      expect(post('/projects/abc/wiki/preview')).to route_to(controller: 'wiki',
+                                                             action: 'preview',
+                                                             project_id: 'abc')
     end
   end
 end

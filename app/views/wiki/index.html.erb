@@ -53,7 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= f.link_to('HTML', url: {action: 'export'}) if User.current.allowed_to?(:export_wiki_pages, @project) %>
   <% end %>
 <% else %>
-  <%= no_results_box(action_url:     wiki_new_path(@project),
+  <%= no_results_box(action_url:     new_project_wiki_path(@project),
                      display_action: authorize_for('wiki', 'new')) %>
 <% end %>
 

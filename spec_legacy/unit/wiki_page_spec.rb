@@ -67,23 +67,23 @@ describe WikiPage, type: :model do
   end
 
   it 'should parent title' do
-    page = WikiPage.find_by(title: 'Another_page')
+    page = WikiPage.find_by(title: 'Another page')
     assert_nil page.parent_title
 
-    page = WikiPage.find_by(title: 'Page_with_an_inline_image')
+    page = WikiPage.find_by(title: 'Page with an inline image')
     assert_equal 'CookBook documentation', page.parent_title
   end
 
   it 'should assign parent' do
-    page = WikiPage.find_by(title: 'Another_page')
+    page = WikiPage.find_by(title: 'Another page')
     page.parent_title = 'CookBook documentation'
     assert page.save
     page.reload
-    assert_equal WikiPage.find_by(title: 'CookBook_documentation'), page.parent
+    assert_equal WikiPage.find_by(title: 'CookBook documentation'), page.parent
   end
 
   it 'should unassign parent' do
-    page = WikiPage.find_by(title: 'Page_with_an_inline_image')
+    page = WikiPage.find_by(title: 'Page with an inline image')
     page.parent_title = ''
     assert page.save
     page.reload
@@ -91,22 +91,18 @@ describe WikiPage, type: :model do
   end
 
   it 'should parent validation' do
-    page = WikiPage.find_by(title: 'CookBook_documentation')
+    page = WikiPage.find_by(title: 'CookBook documentation')
 
-    # A page that doesn't exist
-    page.parent_title = 'Unknown title'
-    assert !page.save
-    assert_includes page.errors[:parent_title], I18n.translate('activerecord.errors.messages.invalid')
     # A child page
-    page.parent_title = 'Page_with_an_inline_image'
+    page.parent_title = 'Page with an inline image'
     assert !page.save
     assert_includes page.errors[:parent_title], I18n.translate('activerecord.errors.messages.circular_dependency')
     # The page itself
-    page.parent_title = 'CookBook_documentation'
+    page.parent_title = 'CookBook documentation'
     assert !page.save
     assert_includes page.errors[:parent_title], I18n.translate('activerecord.errors.messages.circular_dependency')
 
-    page.parent_title = 'Another_page'
+    page.parent_title = 'Another page'
     assert page.save
   end
 

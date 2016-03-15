@@ -70,35 +70,35 @@ describe Redmine::WikiFormatting::Macros, type: :helper do
 
   it 'should macro child pages' do
     expected =  "<p><ul class=\"pages-hierarchy\">" +
-                "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>" +
-                "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>" +
+                "<li><a href=\"/projects/ecookbook/wiki/Child+1\">Child 1</a></li>" +
+                "<li><a href=\"/projects/ecookbook/wiki/Child+2\">Child 2</a></li>" +
                 '</ul></p>'
 
     @project = Project.find(1)
     # child pages of the current wiki page
     assert_equal expected, format_text('{{child_pages}}', object: WikiPage.find(2).content)
     # child pages of another page
-    assert_equal expected, format_text('{{child_pages(Another_page)}}', object: WikiPage.find(1).content)
+    assert_equal expected, format_text('{{child_pages(Another page)}}', object: WikiPage.find(1).content)
 
     @project = Project.find(2)
-    assert_equal expected, format_text('{{child_pages(ecookbook:Another_page)}}', object: WikiPage.find(1).content)
+    assert_equal expected, format_text('{{child_pages(ecookbook:Another page)}}', object: WikiPage.find(1).content)
   end
 
   it 'should macro child pages with option' do
     expected =  "<p><ul class=\"pages-hierarchy\">" +
-                "<li><a href=\"/projects/ecookbook/wiki/Another_page\">Another page</a>" +
+                "<li><a href=\"/projects/ecookbook/wiki/Another+page\">Another page</a>" +
                 "<ul class=\"pages-hierarchy\">" +
-                "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>" +
-                "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>" +
+                "<li><a href=\"/projects/ecookbook/wiki/Child+1\">Child 1</a></li>" +
+                "<li><a href=\"/projects/ecookbook/wiki/Child+2\">Child 2</a></li>" +
                 '</ul></li></ul></p>'
 
     @project = Project.find(1)
     # child pages of the current wiki page
     assert_equal expected, format_text('{{child_pages(parent=1)}}', object: WikiPage.find(2).content)
     # child pages of another page
-    assert_equal expected, format_text('{{child_pages(Another_page, parent=1)}}', object: WikiPage.find(1).content)
+    assert_equal expected, format_text('{{child_pages(Another page, parent=1)}}', object: WikiPage.find(1).content)
 
     @project = Project.find(2)
-    assert_equal expected, format_text('{{child_pages(ecookbook:Another_page, parent=1)}}', object: WikiPage.find(1).content)
+    assert_equal expected, format_text('{{child_pages(ecookbook:Another page, parent=1)}}', object: WikiPage.find(1).content)
   end
 end

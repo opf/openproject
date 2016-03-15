@@ -81,6 +81,8 @@ Capybara.register_driver :selenium do |app|
 
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile['intl.accept_languages'] = 'en,en-us'
+  profile['browser.startup.homepage_override.mstone'] = 'ignore'
+  profile['startup.homepage_welcome_url.additional'] = 'about:blank'
 
   Capybara::Selenium::Driver.new(app, browser: :firefox, profile: profile)
 end
