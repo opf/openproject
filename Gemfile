@@ -147,7 +147,7 @@ group :test do
   # definitions from core are not available in the plugin thus specs break
   gem 'factory_girl', '~> 4.5'
   # require factory_girl_rails for convenience in core development
-  gem 'factory_girl_rails', '~> 4.5', require: false
+  gem 'factory_girl_rails', '~> 4.6', require: false
 
   gem 'cucumber-rails', '~> 1.4.2', require: false
   gem 'rack_session_access'
