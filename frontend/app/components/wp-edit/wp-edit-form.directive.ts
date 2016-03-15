@@ -76,7 +76,7 @@ export class WorkPackageEditFormController {
     this.QueryService.setSelectedColumns(selected);
     this.$timeout(_ => {
       angular.forEach(this.fields, (field) => {
-        field.errorenous = columns.indexOf(field.fieldName) !== -1;
+        field.setErrorState(columns.indexOf(field.fieldName) !== -1);
       });
     });
   }
