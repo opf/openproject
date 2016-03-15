@@ -55,7 +55,7 @@ function errorResource(HalResource:typeof op.HalResource, NotificationsService:a
     }
 
     public getInvolvedColumns():string[] {
-      var columns = this.details ? [this.details] : this.errors;
+      var columns = this.details ? [{ details: this.details }] : this.errors;
       return columns.map(field => field.details.attribute);
     }
   }

@@ -58,6 +58,7 @@ export class WorkPackageEditFormController {
   }
 
   private handleSubmissionErrors(error:any, deferred:any) {
+
     // Process single API errors
     this.handleErrorenousColumns(error.getInvolvedColumns());
     return deferred.reject();
@@ -74,8 +75,8 @@ export class WorkPackageEditFormController {
 
     this.QueryService.setSelectedColumns(selected);
     this.$timeout(_ => {
-      angular.forEach(columns, (name) => {
-        this.fields[name].errorenous = true;
+      angular.forEach(this.fields, (field) => {
+        field.errorenous = columns.indexOf(field.fieldName) !== -1;
       });
     });
   }
