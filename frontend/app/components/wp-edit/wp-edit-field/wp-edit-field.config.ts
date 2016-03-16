@@ -29,6 +29,8 @@
 import {WorkPackageEditFieldService} from "./wp-edit-field.service";
 import {Field} from "./wp-edit-field.module";
 import {TextField} from "./wp-edit-text-field.module";
+import {IntegerField} from "./wp-edit-integer-field.module";
+import {DurationField} from "./wp-edit-duration-field.module";
 import {SelectField} from "./wp-edit-select-field.module";
 import {FloatField} from "./wp-edit-float-field.module";
 import {IntegerField} from "./wp-edit-integer-field.module";
@@ -37,9 +39,6 @@ import {DateField} from "./wp-edit-date-field.module";
 
 //TODO: Implement
 class DateRangeField extends Field {}
-
-//TODO: Implement
-class DurationField extends Field {}
 
 //TODO: Implement
 class TextareaField extends Field {}
@@ -52,6 +51,8 @@ angular
     wpEditField.defaultType = 'text';
     wpEditField
       .addFieldType(TextField, 'text', ['String'])
+      .addFieldType(IntegerField, 'integer', ['Integer'])
+      .addFieldType(DurationField, 'duration', ['Duration'])
       .addFieldType(SelectField, 'select', ['Priority',
                                             'Status',
                                             'Type',
