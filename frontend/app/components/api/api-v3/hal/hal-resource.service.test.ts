@@ -388,6 +388,9 @@ describe('HalResource service', () => {
           action: {
             href: '/api/action',
             method: 'post'
+          },
+          self: {
+            href: '/api/self'
           }
         },
         _embedded: {
@@ -471,6 +474,11 @@ describe('HalResource service', () => {
 
         it('should be loaded, if the resource is embedded', () => {
           expect(resource.embedded.$loaded).to.be.true;
+        });
+
+        it('should update the source when set', () => {
+          resource.property = resource;
+          expect(resource.$source._links.property.href).to.eql('/api/self')
         });
 
         describe('when loading it', () => {

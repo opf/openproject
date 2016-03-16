@@ -35,7 +35,7 @@ const lazy = (obj:any, property:string, callback:Function, setter:boolean = fals
       }
       return value;
     },
-    set: void 0,
+    set: void 0
   };
 
   if (setter) {
@@ -88,22 +88,7 @@ function halResource(halTransform, HalLink, $q) {
       this.$source = $source._plain || angular.copy($source);
 
       this.proxyProperties();
-
-      angular.forEach(this.$links, (link, name:string) => {
-        if (Array.isArray(link)) {
-          this[name] = link.map(HalResource.fromLink);
-          return;
-        }
-
-        link = link.$link;
-
-        if (link.href && link.method == 'get' && name !== 'self') {
-          this[name] =  HalResource.fromLink(link);
-        }
-        else if (link.method !== 'get') {
-          this[name] = link.$toFunc();
-        }
-      });
+      this.setLinksAsProperties();
 
       angular.forEach(this.$embedded, (resource, name) => {
         this[name] = resource;
@@ -183,6 +168,45 @@ function halResource(halTransform, HalLink, $q) {
             this.$source[property] = value;
           }
         });
+      });
+    }
+
+    private setLinksAsProperties() {
+      _.without(Object.keys(this.$links), 'self').forEach(linkName => {
+        var value;
+        const config = {
+          get() {
+            let link = this.$links[linkName].$link || this.$links[linkName];
+
+            if (!value) {
+              if (Array.isArray(link)) {
+                value = link.map(HalResource.fromLink);
+              }
+
+              if (link.href) {
+                if (link.method !== 'get') {
+                  value = HalLink.asFunc(link);
+                }
+                else {
+                  value =  HalResource.fromLink(link);
+                }
+              }
+            }
+
+            return value;
+          },
+
+          set(val) {
+            let link = this.$links[linkName].$link;
+
+            if (link.href && link.method === 'get') {
+              value = val;
+              this.$source._links[linkName] = val.$links.self.$link;
+            }
+          }
+        };
+
+        Object.defineProperty(this, linkName, config);
       });
     }
   }
