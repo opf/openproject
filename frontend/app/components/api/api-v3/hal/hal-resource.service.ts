@@ -27,25 +27,27 @@
 //++
 
 const lazy = (obj:any, property:string, callback:Function, setter:boolean = false) => {
-  let value;
-  let config = {
-    get() {
-      if (!value) {
-        value = callback();
-      }
-      return value;
-    },
-    set: void 0,
+  if (angular.isObject(obj)) {
+    let value;
+    let config = {
+      get() {
+        if (!value) {
+          value = callback();
+        }
+        return value;
+      },
+      set: void 0,
 
-    configurable: true,
-    enumerable: true
-  };
+      configurable: true,
+      enumerable: true
+    };
 
-  if (setter) {
-    config.set = val => value = val;
+    if (setter) {
+      config.set = val => value = val;
+    }
+
+    Object.defineProperty(obj, property, config);
   }
-
-  Object.defineProperty(obj, property, config);
 };
 
 function halResource(halTransform, HalLink, $q) {
@@ -116,8 +118,10 @@ function halResource(halTransform, HalLink, $q) {
             get() {
               if (!value) {
                 let element = source._embedded[propName];
-                angular.forEach(element, (child, name) => {
-                  if (child) element[name] = halTransform(child);
+                angular.forEach(element, (child, name:string) => {
+                  if (child) {
+                    lazy(element, name, () => halTransform(child));
+                  }
                 });
 
                 if (Array.isArray(element)) {
