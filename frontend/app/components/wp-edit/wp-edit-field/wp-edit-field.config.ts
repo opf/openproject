@@ -33,7 +33,6 @@ import {IntegerField} from "./wp-edit-integer-field.module";
 import {DurationField} from "./wp-edit-duration-field.module";
 import {SelectField} from "./wp-edit-select-field.module";
 import {FloatField} from "./wp-edit-float-field.module";
-import {IntegerField} from "./wp-edit-integer-field.module";
 import {BooleanField} from "./wp-edit-boolean-field.module";
 import {DateField} from "./wp-edit-date-field.module";
 
