@@ -65,7 +65,8 @@ $dp-shadow-box-opacity: 1
   width: $table-width/$columns-number
   table-layout: fixed
 
-.ui-datepicker
+.ui-datepicker,
+.work-package-table--container .ui-datepicker
   border: $dp-border
   padding: 0
   background-color: $dp-theme-lines-color2
@@ -138,6 +139,8 @@ $dp-shadow-box-opacity: 1
       padding-top: $dp-week-padding-top
       padding-bottom: $dp-week-padding-bottom
       @include set-table-cells-width($dp-table-width, $dp-number-of-columns)
+      text-align: center
+      font-size: 0.9em
 
       // Cancel out effect of min-width css in generic-table in cases where the
       // date picker is included inside a table.
@@ -161,10 +164,18 @@ $dp-shadow-box-opacity: 1
           border: $dp-border
           border-radius: $dp-cell-corner-radius
 
+        &.ui-state-active
+          border-color: $inplace-edit--selected-date-border-color
+
       // Cancel out effect of min-width css in generic-table in cases where the
       // date picker is included inside a table.
       table.generic-table &
         min-width: 0px
+
+    tbody tr
+      border-bottom: none
+      &:hover
+        background-color: $dp-theme-lines-color1
 
     .ui-datepicker-week-col
       color: $dp-week-text-color
