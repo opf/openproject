@@ -56,7 +56,7 @@ Feature: Show meeting activity
        When I go to the meetings activity page for the project "dingens"
         And I activate activity filter "Meetings"
        When I click "Apply"
-       Then I should see "Meeting: Bobs Meeting (02/10/2011 11:00 AM-01:30 PM)" within "dt.meeting > a"
+       Then I should see "Meeting: Bobs Meeting (02/10/2011 11:00 AM-01:30 PM)" within "li.meeting a"
         And I should see "Agenda: Bobs Meeting" within ".meeting-agenda"
         And I should see "Minutes: Bobs Meeting" within ".meeting-minutes"
 
