@@ -59,10 +59,10 @@ function opDatePickerLink(scope: opDatePickerScope, element: ng.IAugmentedJQuery
     // HACK: we need to bind to 'mousedown' because the wp-edit-field.directive
     // binds to 'click' and stops the event propagation
     onClickCallback = angular.element('body').bind('mousedown', function(e) {
-      var target = angular.element(e.target);
+      let target = angular.element(e.target);
+      let parentSelector = '.ui-datepicker-header, .' + datePickerContainer.attr('class').split(' ').join('.')
       if(!target.is(input) &&
-        target.parents(datePickerContainer.attr('class')).length <= 0 &&
-        target.parents('.ui-datepicker-header').length <= 0) {
+        target.parents(parentSelector).length <= 0) {
 
         hide();
         onDeactivate();
@@ -71,7 +71,7 @@ function opDatePickerLink(scope: opDatePickerScope, element: ng.IAugmentedJQuery
   }
 
   function unregisterClickCallback() {
-    angular.element('body').unbind('click', onClickCallback);
+    angular.element('body').unbind('mousedown', onClickCallback);
   }
 
   function showDatePicker() {
