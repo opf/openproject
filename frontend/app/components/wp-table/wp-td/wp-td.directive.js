@@ -49,6 +49,7 @@ function wpTd(){
 
 function WorkPackageTdController($scope, I18n, PathHelper, WorkPackagesHelper) {
   var vm = this;
+      vm.displayText = I18n.t('js.work_packages.placeholders.default');
 
   function updateAttribute() {
     if (!vm.schema[vm.attribute]) {

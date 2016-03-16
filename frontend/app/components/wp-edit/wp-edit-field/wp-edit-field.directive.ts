@@ -62,7 +62,7 @@ export class WorkPackageEditFieldController {
   }
 
   public get isEditable():boolean {
-    return this.isSupportedField && this.workPackage.isEditable;
+    return this.workPackage.isEditable;
   }
 
   public deactivate():boolean {
@@ -74,20 +74,6 @@ export class WorkPackageEditFieldController {
       this.field = this.wpEditField.getField(
         this.workPackage, this.fieldName, schema[this.fieldName]);
     });
-  }
-
-  // This method is temporarily needed to control which fields
-  // we support for inline editing. Once all fields are supported,
-  // the method is to be removed.
-  private get isSupportedField():boolean {
-    return ['subject',
-            'priority',
-            'type',
-            'status',
-            'assignee',
-            'responsible',
-            'version',
-            'category'].indexOf(this.fieldName) !== -1
   }
 }
 

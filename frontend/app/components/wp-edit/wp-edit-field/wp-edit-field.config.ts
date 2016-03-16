@@ -26,25 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Field} from "./wp-edit-field.module";
 import {WorkPackageEditFieldService} from "./wp-edit-field.service";
+import {Field} from "./wp-edit-field.module";
 import {TextField} from "./wp-edit-text-field.module";
 import {SelectField} from "./wp-edit-select-field.module";
-
-//TODO: Implement
-class DateField extends Field {}
+import {FloatField} from "./wp-edit-float-field.module";
+import {IntegerField} from "./wp-edit-integer-field.module";
+import {BooleanField} from "./wp-edit-boolean-field.module";
+import {DateField} from "./wp-edit-date-field.module";
 
 //TODO: Implement
 class DateRangeField extends Field {}
-
-//TODO: Implement
-class IntegerField extends Field {}
-
-//TODO: Implement
-class FloatField extends Field {}
-
-//TODO: Implement
-class BooleanField extends Field {}
 
 //TODO: Implement
 class DurationField extends Field {}
@@ -65,5 +57,10 @@ angular
                                             'Type',
                                             'User',
                                             'Version',
-                                            'Category']);
+                                            'Category',
+                                            'StringObject'])
+      .addFieldType(FloatField, 'float', ['Float'])
+      .addFieldType(IntegerField, 'integer', ['Integer'])
+      .addFieldType(BooleanField, 'boolean', ['Boolean'])
+      .addFieldType(DateField, 'date', ['Date']);
   });

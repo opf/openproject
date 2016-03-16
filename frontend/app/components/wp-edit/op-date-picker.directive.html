@@ -1,0 +1,7 @@
+<div>
+  <ng-transclude></ng-transclude>
+  <!-- This input is there to be used by the datepicker.
+    That way, we don't force the usage of an input element on directives that transclude us -->
+  <input class="hidden-date-picker-input" type="hidden">
+  <div class="ui-datepicker--container"></div>
+</div>

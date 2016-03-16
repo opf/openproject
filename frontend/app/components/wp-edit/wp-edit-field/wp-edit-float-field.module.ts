@@ -1,4 +1,3 @@
-// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -28,31 +27,6 @@
 
 import {Field} from "./wp-edit-field.module";
 
-export class SelectField extends Field {
-  public options:any[];
-  public placeholder:string = '-';
-  public template:string = '/components/wp-edit/wp-edit-field/wp-edit-select-field.directive.html'
-
-  constructor(workPackage, fieldName, schema) {
-    super(workPackage, fieldName, schema);
-
-    if (angular.isArray(this.schema.allowedValues)) {
-      this.options = angular.copy(this.schema.allowedValues);
-      this.addEmptyOption();
-    } else {
-      this.schema.allowedValues.$load().then((values) => {
-        this.options = angular.copy(values.elements);
-        this.addEmptyOption();
-      });
-    }
-  }
-
-  private addEmptyOption() {
-    if (!this.schema.required) {
-      this.options.unshift({
-        href: "null",
-        name: this.placeholder,
-      });
-    }
-  }
+export class FloatField extends Field {
+  public template:string = '/components/wp-edit/wp-edit-field/wp-edit-float-field.directive.html'
 }

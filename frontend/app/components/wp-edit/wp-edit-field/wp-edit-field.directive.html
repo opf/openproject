@@ -1,6 +1,5 @@
 <div ng-click="vm.isEditable && vm.activate()" class="wp-edit-field">
-  <form ng-show="vm.active"
-        ng-if="vm.workPackage"
+  <form ng-if="vm.workPackage && vm.active"
         ng-submit="vm.submit()">
 
     <ng-include src="vm.field.template"></ng-include>
