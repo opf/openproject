@@ -294,55 +294,19 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
     end
 
-    describe 'version' do
-      let(:id) { 5 }
-      let(:links) {
-        {
-          version: href
-        }
-      }
-
-      before do
-        work_package.fixed_version_id = 1
-      end
-
-      describe 'with a version href' do
-        let(:href) { { href: "/api/v3/versions/#{id}" } }
-
-        it 'sets fixed_version_id to the specified id' do
-          expect(subject.fixed_version_id).to eql(id)
-        end
-      end
-
-      describe 'with a null href' do
-        let(:href) { { href: nil } }
-
-        it 'sets fixed_version_id to nil' do
-          expect(subject.fixed_version_id).to eql(nil)
-        end
-      end
-
-      describe 'with an invalid link' do
-        let(:href) { {} }
-
-        it 'leaves fixed_version_id unchanged' do
-          expect(subject.fixed_version_id).to eql(1)
-        end
-      end
-    end
-
     shared_examples_for 'linked resource' do
-      let(:id) { work_package.send(:"#{attribute_name}_id") + 1 }
+      let(:path) { api_v3_paths.send(attribute_name, id) }
+      let(:association_name) { attribute_name + '_id' }
+      let(:id) { work_package.send(association_name) + 1 }
       let(:links) {
         Hash.new.tap do |h|
           h[attribute_name] = href
         end
       }
-      !let(:old_id) { work_package.send(:"#{attribute_name}_id") }
-      let(:representer_attribute) { subject.send(:"#{attribute_name}_id") }
+      let(:representer_attribute) { subject.send(association_name) }
 
       describe 'with a valid href' do
-        let(:href) { { href: api_v3_paths.send(attribute_name, id) } }
+        let(:href) { { href: path } }
 
         it 'sets attribute to the specified id' do
           expect(representer_attribute).to eql(id)
@@ -359,9 +323,10 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
       describe 'with an invalid link' do
         let(:href) { {} }
+        !let(:old_id) { work_package.send(association_name) }
 
         it 'leaves attribute unchanged' do
-          expect(representer_attribute).to eql(1)
+          expect(representer_attribute).to eql(old_id)
         end
       end
     end
@@ -369,6 +334,73 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     describe 'project' do
       it_behaves_like 'linked resource' do
         let(:attribute_name) { 'project' }
+      end
+    end
+
+    describe 'version' do
+      before do
+        work_package.fixed_version_id = 1
+      end
+
+      it_behaves_like 'linked resource' do
+        let(:attribute_name) { 'version' }
+        let(:association_name) { 'fixed_version_id' }
+      end
+    end
+
+    describe 'type' do
+      it_behaves_like 'linked resource' do
+        let(:attribute_name) { 'type' }
+      end
+    end
+
+    describe 'status' do
+      it_behaves_like 'linked resource' do
+        let(:attribute_name) { 'status' }
+      end
+    end
+
+    describe 'assignee' do
+      before do
+        work_package.assigned_to_id = 1
+      end
+
+      it_behaves_like 'linked resource' do
+        let(:path) { api_v3_paths.user(id) }
+        let(:attribute_name) { 'assignee' }
+        let(:association_name) { 'assigned_to_id' }
+      end
+    end
+
+    describe 'responsible' do
+      before do
+        work_package.responsible_id = 1
+      end
+
+      it_behaves_like 'linked resource' do
+        let(:path) { api_v3_paths.user(id) }
+        let(:attribute_name) { 'responsible' }
+      end
+    end
+
+    describe 'category' do
+      before do
+        work_package.category_id = 1
+      end
+
+      it_behaves_like 'linked resource' do
+        let(:attribute_name) { 'category' }
+      end
+    end
+
+    describe 'parent' do
+      before do
+        work_package.parent_id = 1
+      end
+
+      it_behaves_like 'linked resource' do
+        let(:path) { api_v3_paths.work_package(id) }
+        let(:attribute_name) { 'parent' }
       end
     end
   end
