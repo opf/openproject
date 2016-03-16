@@ -58,6 +58,32 @@ describe('HalResource service', () => {
     expect(resource.prop).to.exist;
   });
 
+  describe('when after generating the lazy object', () => {
+    var resource;
+    var linkFn = sinon.spy();
+
+    beforeEach(() => {
+      resource = new HalResource({
+        _links: {
+          get link() {
+            linkFn();
+            return {};
+          }
+        }
+      });
+    });
+
+    it('should not have touched the source links initially', () => {
+      expect(linkFn.called).to.be.false;
+    });
+
+    it('should use the source link only once when called', () => {
+      resource.$links.link;
+      resource.$links.link;
+      expect(linkFn.calledOnce).to.be.true;
+    });
+  });
+
   describe('when the source has properties', () => {
     var resource;
     beforeEach(() => {

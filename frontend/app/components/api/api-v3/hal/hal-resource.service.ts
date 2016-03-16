@@ -75,8 +75,29 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     public get $links() {
-      this._$links = this._$links || this.transformLinks();
-      return this._$links;
+      if (!this._$links && angular.isObject(this.$source._links)) {
+        let source = this.$source;
+        this._$links = {};
+
+        Object.keys(source._links).forEach(linkName => {
+          var value;
+
+          Object.defineProperty(this._$links, linkName, {
+            get() {
+              if (!value) {
+                let link = source._links[linkName];
+                value = Array.isArray(link) ? link.map(HalLink.asFunc) : HalLink.asFunc(link);
+              }
+
+              return value;
+            },
+
+            enumerable: true
+          });
+        });
+      }
+
+      return this._$links || {};
     }
 
     public get $embedded() {
@@ -85,7 +106,7 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     constructor(public $source, public $loaded = true) {
-      this.$source = $source._plain || angular.copy($source);
+      this.$source = $source._plain || $source;
 
       this.proxyProperties();
       this.setLinksAsProperties();
@@ -122,16 +143,6 @@ function halResource(halTransform, HalLink, $q) {
       });
 
       return element;
-    }
-
-    private transformLinks() {
-      return this.transformHalProperty('_links', link => {
-        if (Array.isArray(link)) {
-          return link.map(HalLink.asFunc);
-        }
-
-        return HalLink.asFunc(link);
-      });
     }
 
     private transformEmbedded() {
