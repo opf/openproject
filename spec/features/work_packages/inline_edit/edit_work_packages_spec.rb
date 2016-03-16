@@ -79,18 +79,17 @@ describe 'Inline editing work packages', js: true do
     expect(work_package.subject).to eq('New subject!')
   end
 
-  it 'allows to edit multiple fields' do
+  it 'allows to subsequently edit multiple fields' do
     subject_field = wp_table.edit_field(work_package, :subject)
     priority_field = wp_table.edit_field(work_package, :priority)
 
-    subject_field.activate!
-    priority_field.activate!
-
-    subject_field.set_value('Other subject')
-    priority_field.set_value(priority2.name)
-
     expect(UpdateWorkPackageService).to receive(:new).and_call_original
-    priority_field.save!
+    subject_field.activate!
+    subject_field.set_value('Other subject!')
+
+    priority_field.activate!
+    priority_field.set_value(priority2.name)
+    priority_field.expect_inactive!
 
     subject_field.expect_text('Other subject!')
     priority_field.expect_text(priority2.name)
@@ -110,9 +109,7 @@ describe 'Inline editing work packages', js: true do
 
     expect(UpdateWorkPackageService).to receive(:new).and_call_original
     subject_field.save!
-    wait_until_requests_completed!
     subject_field.expect_error
-    subject_field.expect_text('-')
 
     work_package.reload
     expect(work_package.subject).to eq('Foobar')

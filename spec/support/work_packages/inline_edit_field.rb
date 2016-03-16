@@ -29,7 +29,7 @@ class InlineEditField
   # For fields of type select, will check for an option with that value.
   def set_value(content)
     if field_type == 'select'
-      input_field.find(:option, content)
+      input_field.find(:option, content).select_option
     else
       input_field.set(content)
     end
@@ -44,7 +44,7 @@ class InlineEditField
   end
 
   def expect_inactive!
-    expect(edit_field).not_to have_selector(field_type)
+    expect(edit_field).to have_no_selector(field_type)
   end
 
   def save!
