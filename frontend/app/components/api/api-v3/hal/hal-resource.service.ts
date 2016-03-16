@@ -26,31 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-const lazy = (obj:any, property:string, callback:Function, setter:boolean = false) => {
-  if (angular.isObject(obj)) {
-    let value;
-    let config = {
-      get() {
-        if (!value) {
-          value = callback();
-        }
-        return value;
-      },
-      set: void 0,
+import {lazy} from './../../../open-project.module';
 
-      configurable: true,
-      enumerable: true
-    };
-
-    if (setter) {
-      config.set = val => value = val;
-    }
-
-    Object.defineProperty(obj, property, config);
-  }
-};
-
-function halResource(halTransform, HalLink, $q) {
+function halResource($q, _, halTransform, HalLink) {
   return class HalResource {
     protected static fromLink(link) {
       return new HalResource({_links: {self: link}}, false);
@@ -71,76 +49,28 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     public get href():string|void {
-      // Set .href to the self link href
-      // This is a workaround for tracking by link id's
-      // since, e.g., assignee's ID is not available.
-      if (this.$links.self) {
-        return this.$links.self.$link.href;
-      }
+      if (this.$links.self) return this.$links.self.$link.href;
     }
 
     public get $links() {
-      if (!this._$links && angular.isObject(this.$source._links)) {
-        let source = this.$source;
-        this._$links = {};
-
-        Object.keys(source._links).forEach(linkName => {
-          var value;
-
-          Object.defineProperty(this._$links, linkName, {
-            get() {
-              if (!value) {
-                let link = source._links[linkName];
-                value = Array.isArray(link) ? link.map(HalLink.asFunc) : HalLink.asFunc(link);
-              }
-
-              return value;
-            },
-
-            enumerable: true,
-            configurable: true
-          });
-        });
-      }
-
-      return this._$links || {};
+      return this.setupProperty('links',
+        link => Array.isArray(link) ? link.map(HalLink.asFunc) : HalLink.asFunc(link));
     }
 
     public get $embedded() {
-      if (!this._$embedded && angular.isObject(this.$source._embedded)) {
-        let source = this.$source;
-        this._$embedded = {};
-
-        Object.keys(source._embedded).forEach(propName => {
-          var value;
-
-          Object.defineProperty(this._$embedded, propName, {
-            get() {
-              if (!value) {
-                let element = source._embedded[propName];
-                angular.forEach(element, (child, name:string) => {
-                  if (child) {
-                    lazy(element, name, () => halTransform(child));
-                  }
-                });
-
-                if (Array.isArray(element)) {
-                  value = element.map(halTransform);
-                }
-
-                value = halTransform(element);
-              }
-
-              return value;
-            },
-
-            enumerable: true,
-            configurable: true
-          });
+      return this.setupProperty('embedded', element => {
+        angular.forEach(element, (child, name:string) => {
+          if (child) {
+            lazy(element, name, () => halTransform(child));
+          }
         });
-      }
 
-      return this._$embedded || {};
+        if (Array.isArray(element)) {
+          return element.map(halTransform);
+        }
+
+        return halTransform(element);
+      });
     }
 
     constructor(public $source, public $loaded = true) {
@@ -165,8 +95,8 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     public $plain() {
-      const element:any = angular.copy(this);
-      const linked :string[] = Object.keys(this.$links);
+      let element:any = angular.copy(this);
+      let linked:string[] = Object.keys(this.$links);
       element._links = {};
 
       linked.forEach(linkName => {
@@ -197,53 +127,55 @@ function halResource(halTransform, HalLink, $q) {
 
     private setLinksAsProperties() {
       _.without(Object.keys(this.$links), 'self').forEach(linkName => {
-        var value;
-        const config = {
-          get() {
+        lazy(this, linkName,
+          () => {
             let link = this.$links[linkName].$link || this.$links[linkName];
 
-            if (!value) {
-              if (Array.isArray(link)) {
-                value = link.map(HalResource.fromLink);
-              }
-
-              if (link.href) {
-                if (link.method !== 'get') {
-                  value = HalLink.asFunc(link);
-                }
-                else {
-                  value =  HalResource.fromLink(link);
-                }
-              }
+            if (Array.isArray(link)) {
+              return link.map(HalResource.fromLink);
             }
 
-            return value;
+            if (link.href) {
+              if (link.method !== 'get') {
+                return HalLink.asFunc(link);
+              }
+              return HalResource.fromLink(link);
+            }
           },
-
-          set(val) {
+          val => {
             let link = this.$links[linkName].$link;
 
             if (link.href && link.method === 'get') {
-              value = val;
-
               if (val && val.$isHal) {
                 this.$source._links[linkName] = val.$links.self.$link;
               }
+
+              return val;
             }
-          },
-
-          configurable: true,
-          enumerable: true
-        };
-
-        Object.defineProperty(this, linkName, config);
+          })
       });
     }
 
     private setEmbeddedAsProperties() {
       Object.keys(this.$embedded).forEach(name => {
-        lazy(this, name, () => this.$embedded[name], true);
+        lazy(this, name, () => this.$embedded[name], val => val);
       });
+    }
+
+    private setupProperty(name:string, callback:(element:any) => any) {
+      let instanceName = '_$' + name;
+      let sourceName = '_' + name;
+      let sourceObj = this.$source[sourceName];
+
+      if (!this[instanceName] && angular.isObject(sourceObj)) {
+        this[instanceName] = {};
+
+        Object.keys(sourceObj).forEach(propName => {
+          lazy(this[instanceName], propName, () => callback(sourceObj[propName]));
+        });
+      }
+
+      return this[instanceName] || {};
     }
   }
 }

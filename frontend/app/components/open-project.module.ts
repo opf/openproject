@@ -30,3 +30,35 @@ export function opDirective(directive:ng.IDirective = {}, config:ng.IDirective =
   // TODO: Replace '_.merge' with AngularJS v1.4 'angular.merge' method
   return _.merge(directive, config);
 }
+
+export function lazy (obj:any,
+                      property:string,
+                      getter:{():any},
+                      setter?:{(value:any):any}) {
+
+  if (angular.isObject(obj)) {
+    let done = false;
+    let value;
+    let config = {
+      get() {
+        if (!done) {
+          value = getter();
+          done = true;
+        }
+        return value;
+      },
+      set: void 0,
+
+      configurable: true,
+      enumerable: true
+    };
+
+    if (setter) {
+      config.set = val => {
+        value = angular.isFunction(setter) ? setter(val) : val;
+      }
+    }
+
+    Object.defineProperty(obj, property, config);
+  }
+}
