@@ -26,7 +26,35 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-export function opDirective(directive:ng.IDirective = {}, config:ng.IDirective = {}):ng.IDirective {
-  // TODO: Replace '_.merge' with AngularJS v1.4 'angular.merge' method
-  return _.merge(directive, config);
+function lazy (obj:any, property:string, getter:{():any}, setter?:{(value:any)}) {
+  if (angular.isObject(obj)) {
+    let done = false;
+    let value;
+    let config = {
+      get() {
+        if (!done) {
+          value = getter();
+          done = true;
+        }
+        return value;
+      },
+      set: void 0,
+
+      configurable: true,
+      enumerable: true
+    };
+
+    if (setter) {
+      config.set = val => {
+        value = setter(val);
+        done = true;
+      };
+    }
+
+    Object.defineProperty(obj, property, config);
+  }
 }
+
+angular
+  .module('openproject.services')
+  .factory('lazy', () => lazy);

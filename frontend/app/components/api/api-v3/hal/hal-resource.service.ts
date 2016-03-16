@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {lazy} from './../../../open-project.module';
-
-function halResource($q, _, halTransform, HalLink) {
+function halResource($q, _, lazy, halTransform, HalLink) {
   return class HalResource {
     protected static fromLink(link) {
       return new HalResource({_links: {self: link}}, false);
