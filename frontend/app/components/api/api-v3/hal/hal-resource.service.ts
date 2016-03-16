@@ -105,7 +105,6 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     public get $embedded() {
-      //this._$embedded = this._$embedded || this.transformEmbedded();
       if (!this._$embedded && angular.isObject(this.$source._embedded)) {
         let source = this.$source;
         this._$embedded = {};
@@ -185,7 +184,9 @@ function halResource(halTransform, HalLink, $q) {
           },
           set(value) {
             this.$source[property] = value;
-          }
+          },
+
+          enumerable: true
         });
       });
     }
@@ -220,7 +221,10 @@ function halResource(halTransform, HalLink, $q) {
 
             if (link.href && link.method === 'get') {
               value = val;
-              this.$source._links[linkName] = val.$links.self.$link;
+
+              if (val && val.$isHal) {
+                this.$source._links[linkName] = val.$links.self.$link;
+              }
             }
           },
 

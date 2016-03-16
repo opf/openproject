@@ -127,6 +127,10 @@ describe('HalResource service', () => {
       expect(resource._embedded).to.not.exist;
     });
 
+    it('should have enumerable properties', () => {
+      expect(resource.propertyIsEnumerable('property')).to.be.true;
+    });
+
     describe('when a property is changed', () => {
       beforeEach(() => {
         resource.property = 'carrot';
