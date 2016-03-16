@@ -44,12 +44,13 @@ module API
           if request_body
             work_package.lock_version = nil if reset_lock_version
             # we need to merge the JSON two times:
-            # In Pass 1 the representer only has custom fields for the current WP type
-            # After Pass 1 the correct type information is merged into the WP
-            # In Pass 2 the representer is created with the new type info and will be able
+            # In Pass 1 the representer only has custom fields for the current WP type/project
+            # After Pass 1 the correct type/project information is merged into the WP
+            # In Pass 2 the representer is created with the new type/project info and will be able
             # to also parse custom fields successfully
             merge_hash_into_work_package!(request_body, work_package)
-            if work_package.type_id_changed?
+
+            if custom_field_context_changed?(work_package)
               merge_hash_into_work_package!(request_body, work_package)
             end
           end
@@ -72,6 +73,11 @@ module API
         end
 
         private
+
+        def custom_field_context_changed?(work_package)
+          work_package.type_id_changed? ||
+            work_package.project_id_changed?
+        end
 
         def only_validation_errors(errors)
           errors.all? { |error| error.code == 422 }

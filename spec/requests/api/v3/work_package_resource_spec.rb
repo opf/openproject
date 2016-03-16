@@ -516,6 +516,8 @@ h4. things we like
 
         context 'valid type changing custom fields' do
           let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
+          let(:custom_field_parameter) { { :"customField#{custom_field.id}" => true } }
+          let(:params) { valid_params.merge(type_parameter).merge(custom_field_parameter) }
 
           before do
             project.types << target_type
@@ -525,8 +527,10 @@ h4. things we like
 
           include_context 'patch request'
 
-          it 'responds with the new custom field added' do
-            expect(subject.body).to have_json_path("customField#{custom_field.id}")
+          it 'responds with the new custom field having the desired value' do
+            expect(subject.body)
+              .to be_json_eql(true.to_json)
+              .at_path("customField#{custom_field.id}")
           end
         end
 
@@ -571,20 +575,41 @@ h4. things we like
           allow(User).to receive(:current).and_return current_user
         end
 
-        include_context 'patch request'
+        context 'is changed' do
+          include_context 'patch request'
 
-        it 'is successful' do
-          expect(response.status).to eq(200)
+          it 'is successful' do
+            expect(response.status).to eq(200)
+          end
+
+          it_behaves_like 'lock version updated'
+
+          it 'responds with the project changed' do
+            href = {
+              href: project_link,
+              title: target_project.name
+            }
+            expect(response.body).to be_json_eql(href.to_json).at_path('_links/project')
+          end
         end
 
-        it_behaves_like 'lock version updated'
+        context 'with a custom field defined on the target project' do
+          let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
+          let(:custom_field_parameter) { { :"customField#{custom_field.id}" => true } }
+          let(:params) { valid_params.merge(project_parameter).merge(custom_field_parameter) }
 
-        it 'responds with the project changed' do
-          href = {
-            href: project_link,
-            title: target_project.name
-          }
-          expect(response.body).to be_json_eql(href.to_json).at_path('_links/project')
+          before do
+            target_project.work_package_custom_fields << custom_field
+            work_package.type.custom_fields << custom_field
+          end
+
+          include_context 'patch request'
+
+          it 'responds with the new custom field having the desired value' do
+            expect(subject.body)
+              .to be_json_eql(true.to_json)
+              .at_path("customField#{custom_field.id}")
+          end
         end
       end
 
