@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
+  include API::V3::Utilities::PathHelper
+
   let(:work_package) do
     FactoryGirl.build(:work_package,
                       start_date: Date.today.to_datetime,
@@ -326,6 +328,47 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         it 'leaves fixed_version_id unchanged' do
           expect(subject.fixed_version_id).to eql(1)
         end
+      end
+    end
+
+    shared_examples_for 'linked resource' do
+      let(:id) { work_package.send(:"#{attribute_name}_id") + 1 }
+      let(:links) {
+        Hash.new.tap do |h|
+          h[attribute_name] = href
+        end
+      }
+      !let(:old_id) { work_package.send(:"#{attribute_name}_id") }
+      let(:representer_attribute) { subject.send(:"#{attribute_name}_id") }
+
+      describe 'with a valid href' do
+        let(:href) { { href: api_v3_paths.send(attribute_name, id) } }
+
+        it 'sets attribute to the specified id' do
+          expect(representer_attribute).to eql(id)
+        end
+      end
+
+      describe 'with a null href' do
+        let(:href) { { href: nil } }
+
+        it 'sets attribute to nil' do
+          expect(representer_attribute).to eql(nil)
+        end
+      end
+
+      describe 'with an invalid link' do
+        let(:href) { {} }
+
+        it 'leaves attribute unchanged' do
+          expect(representer_attribute).to eql(1)
+        end
+      end
+    end
+
+    describe 'project' do
+      it_behaves_like 'linked resource' do
+        let(:attribute_name) { 'project' }
       end
     end
   end
