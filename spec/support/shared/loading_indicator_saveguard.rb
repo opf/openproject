@@ -26,50 +26,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
+# Method to manually wait for an asynchronous request (through jQuery) to complete.
+# This applies to all requests through resources as well.
+#
+# Note: Use this only if there are no other means of detecting the sucessful
+# completion of said request.
+#
 
-module Pages
-  class WorkPackagesTable < Page
-
-    attr_reader :project
-
-    def initialize(project = nil)
-      @project = project
-    end
-
-    def expect_work_package_listed(work_package)
-      within(table_container) do
-        expect(page).to have_content(work_package.subject)
-      end
-    end
-
-    def open_split_view(work_package)
-      split_page = SplitWorkPackage.new(work_package, project)
-
-      loading_indicator_saveguard
-      page.driver.browser.mouse.double_click(row(work_package).native)
-
-      split_page
-    end
-
-    def open_full_screen(work_package)
-      visit row(work_package).find_link(work_package.subject)[:href]
-
-      FullWorkPackage.new(work_package)
-    end
-
-    private
-
-    def path
-      project ? project_work_packages_path(project) : work_packages_path
-    end
-
-    def table_container
-      find('#content .work-package-table--container')
-    end
-
-    def row(work_package)
-      table_container.find("#work-package-#{work_package.id}")
-    end
-  end
+def loading_indicator_saveguard
+  expect(page).to have_no_selector('.cg-busy.ng-hide.ng-hide-animate')
 end
