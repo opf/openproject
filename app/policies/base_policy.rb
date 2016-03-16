@@ -44,6 +44,6 @@ class BasePolicy
   end
 
   def allowed?(object, action)
-    cache[object][action]
+    cache(object)[action]
   end
 end

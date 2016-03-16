@@ -35,21 +35,29 @@
 class WorkPackagePolicy < BasePolicy
   private
 
-  def cache
-    @cache ||= Hash.new do |hash, work_package|
-      # copy checks for the move_work_packages permission. This makes
-      # sense only because the work_packages/moves controller handles
-      # copying multiple work packages.
-      hash[work_package] = {
-        edit: edit_allowed?(work_package),
-        log_time: log_time_allowed?(work_package),
-        move: move_allowed?(work_package),
-        copy: move_allowed?(work_package),
-        duplicate: copy_allowed?(work_package), # duplicating is another form of copying
-        delete: delete_allowed?(work_package),
-        manage_subtasks: manage_subtasks_allowed?(work_package)
-      }
+  def cache(work_package)
+    @cache ||= Hash.new do |wp_hash, wp|
+      wp_hash[wp] = Hash.new do |project_hash, project|
+        project_hash[project] = allowed_hash(wp)
+      end
     end
+
+    @cache[work_package][work_package.project]
+  end
+
+  def allowed_hash(work_package)
+    # copy checks for the move_work_packages permission. This makes
+    # sense only because the work_packages/moves controller handles
+    # copying multiple work packages.
+    {
+      edit: edit_allowed?(work_package),
+      log_time: log_time_allowed?(work_package),
+      move: move_allowed?(work_package),
+      copy: move_allowed?(work_package),
+      duplicate: copy_allowed?(work_package), # duplicating is another form of copying
+      delete: delete_allowed?(work_package),
+      manage_subtasks: manage_subtasks_allowed?(work_package)
+    }
   end
 
   def edit_allowed?(work_package)

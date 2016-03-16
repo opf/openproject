@@ -86,4 +86,31 @@ describe ::API::V3::WorkPackages::UpdateContract do
       it { expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized) }
     end
   end
+
+  describe 'project_id' do
+    let(:target_project) { FactoryGirl.create(:project) }
+    let(:target_permissions) { [:move_work_packages] }
+
+    before do
+      FactoryGirl.create :member,
+                         user: user,
+                         project: target_project,
+                         roles: [FactoryGirl.create(:role, permissions: target_permissions)]
+
+      work_package.project = target_project
+
+      contract.validate
+    end
+
+    context 'if the user has the permissions' do
+      it('is valid') { expect(contract.errors).to be_empty }
+    end
+
+    context 'if the user lacks the permissions' do
+      let(:target_permissions) { [] }
+      it 'is invalid' do
+        expect(contract.errors.symbols_for(:project)).to match_array([:error_unauthorized])
+      end
+    end
+  end
 end

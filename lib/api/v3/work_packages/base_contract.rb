@@ -40,6 +40,7 @@ module API
         attribute :category_id
         attribute :fixed_version_id
         attribute :lock_version
+        attribute :project_id
 
         attribute :parent_id do
           if model.changed.include? 'parent_id'

@@ -41,15 +41,41 @@ module API
 
         validate :user_allowed_to_edit
 
+        validate :user_allowed_to_move
+
         private
 
         def user_allowed_to_edit
-          errors.add :base, :error_unauthorized unless @can.allowed?(model, :edit)
+          with_unchanged_project_id do
+            errors.add :base, :error_unauthorized unless @can.allowed?(model, :edit)
+          end
         end
 
         def user_allowed_to_access
           unless ::WorkPackage.visible(@user).exists?(model.id)
             errors.add :base, :error_not_found
+          end
+        end
+
+        def user_allowed_to_move
+          if model.project_id_changed? &&
+             !@can.allowed?(model, :move)
+
+            errors.add :project, :error_unauthorized
+          end
+        end
+
+        def with_unchanged_project_id
+          if model.project_id_changed?
+            current_project_id = model.project_id
+
+            model.project_id = model.project_id_was
+
+            yield
+
+            model.project_id = current_project_id
+          else
+            yield
           end
         end
       end
