@@ -84,8 +84,12 @@ $toggler-width: 40px
           +toggle-menu-item-background
 
           // left item border hover / selected effect
-          &:hover > a:not(.toggler)
-            +highlight-left-item-border
+          &:hover
+            &> a:not(.toggler)
+              +highlight-left-item-border
+
+            a:not(:only-child):first-of-type
+              border-right: 1px solid $main-menu-selected-font-color
 
           // placeholder for highlighted left-item-border
           a:not(.toggler)
@@ -95,8 +99,13 @@ $toggler-width: 40px
             &.selected
               +highlight-left-item-border
 
+          a:not(:only-child):first-of-type.selected
+            border-right: 1px solid $main-menu-selected-font-color
+
           a:not(:only-child):first-of-type
             @extend .small-10
+            border-right: 1px solid $main-menu-toggler-separator-color
+
 
         .open .toggler
           .icon-toggler:before
