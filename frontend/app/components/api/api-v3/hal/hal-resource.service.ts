@@ -35,7 +35,10 @@ const lazy = (obj:any, property:string, callback:Function, setter:boolean = fals
       }
       return value;
     },
-    set: void 0
+    set: void 0,
+
+    configurable: true,
+    enumerable: true
   };
 
   if (setter) {
@@ -92,7 +95,8 @@ function halResource(halTransform, HalLink, $q) {
               return value;
             },
 
-            enumerable: true
+            enumerable: true,
+            configurable: true
           });
         });
       }
@@ -101,8 +105,39 @@ function halResource(halTransform, HalLink, $q) {
     }
 
     public get $embedded() {
-      this._$embedded = this._$embedded || this.transformEmbedded();
-      return this._$embedded;
+      //this._$embedded = this._$embedded || this.transformEmbedded();
+      if (!this._$embedded && angular.isObject(this.$source._embedded)) {
+        let source = this.$source;
+        this._$embedded = {};
+
+        Object.keys(source._embedded).forEach(propName => {
+          var value;
+
+          Object.defineProperty(this._$embedded, propName, {
+            get() {
+              if (!value) {
+                let element = source._embedded[propName];
+                angular.forEach(element, (child, name) => {
+                  if (child) element[name] = halTransform(child);
+                });
+
+                if (Array.isArray(element)) {
+                  element.forEach((elem, i) => element[i] = halTransform(elem));
+                }
+
+                value = halTransform(element);
+              }
+
+              return value;
+            },
+
+            enumerable: true,
+            configurable: true
+          });
+        });
+      }
+
+      return this._$embedded || {};
     }
 
     constructor(public $source, public $loaded = true) {
@@ -110,10 +145,7 @@ function halResource(halTransform, HalLink, $q) {
 
       this.proxyProperties();
       this.setLinksAsProperties();
-
-      angular.forEach(this.$embedded, (resource, name) => {
-        this[name] = resource;
-      });
+      this.setEmbeddedAsProperties();
     }
 
     public $load() {
@@ -143,30 +175,6 @@ function halResource(halTransform, HalLink, $q) {
       });
 
       return element;
-    }
-
-    private transformEmbedded() {
-      return this.transformHalProperty('_embedded', element => {
-        angular.forEach(element, (child, name) => {
-          if (child) element[name] = halTransform(child);
-        });
-
-        if (Array.isArray(element)) {
-          element.forEach((elem, i) => element[i] = halTransform(elem));
-        }
-
-        return halTransform(element);
-      });
-    }
-
-    private transformHalProperty(propertyName:string, callback:(element:any) => any) {
-      var properties = angular.copy(this.$source[propertyName]);
-
-      angular.forEach(properties, (property, name:string) => {
-        lazy(properties, name, () => callback(property));
-      });
-
-      return properties || {};
     }
 
     private proxyProperties() {
@@ -214,10 +222,19 @@ function halResource(halTransform, HalLink, $q) {
               value = val;
               this.$source._links[linkName] = val.$links.self.$link;
             }
-          }
+          },
+
+          configurable: true,
+          enumerable: true
         };
 
         Object.defineProperty(this, linkName, config);
+      });
+    }
+
+    private setEmbeddedAsProperties() {
+      Object.keys(this.$embedded).forEach(name => {
+        lazy(this, name, () => this.$embedded[name], true);
       });
     }
   }

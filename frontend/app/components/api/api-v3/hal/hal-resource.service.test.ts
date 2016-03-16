@@ -61,12 +61,19 @@ describe('HalResource service', () => {
   describe('when after generating the lazy object', () => {
     var resource;
     var linkFn = sinon.spy();
+    var embeddedFn = sinon.spy();
 
     beforeEach(() => {
       resource = new HalResource({
         _links: {
           get link() {
             linkFn();
+            return {};
+          }
+        },
+        _embedded: {
+          get res() {
+            embeddedFn();
             return {};
           }
         }
@@ -77,10 +84,20 @@ describe('HalResource service', () => {
       expect(linkFn.called).to.be.false;
     });
 
+    it('should not have touched the embedded elements of the source initially', () => {
+      expect(embeddedFn.called).to.be.false;
+    });
+
     it('should use the source link only once when called', () => {
       resource.$links.link;
       resource.$links.link;
       expect(linkFn.calledOnce).to.be.true;
+    });
+
+    it('should use the source embedded only once when called', () => {
+      resource.$embedded.res;
+      resource.$embedded.res;
+      expect(embeddedFn.calledOnce).to.be.true;
     });
   });
 
