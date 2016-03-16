@@ -56,7 +56,7 @@ module API
           post do
             work_package = create_service.create
 
-            write_work_package_attributes work_package
+            write_work_package_attributes work_package, request_body
 
             contract = ::API::V3::WorkPackages::CreateContract.new(work_package, current_user)
             if contract.validate && create_service.save(work_package)

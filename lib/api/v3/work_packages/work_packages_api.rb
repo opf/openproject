@@ -70,7 +70,7 @@ module API
             end
 
             patch do
-              write_work_package_attributes(@work_package, reset_lock_version: true)
+              write_work_package_attributes(@work_package, request_body, reset_lock_version: true)
 
               send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
               update_service = UpdateWorkPackageService.new(

@@ -40,7 +40,7 @@ module API
           payload.from_hash(hash)
         end
 
-        def write_work_package_attributes(work_package, reset_lock_version: false)
+        def write_work_package_attributes(work_package, request_body, reset_lock_version: false)
           if request_body
             work_package.lock_version = nil if reset_lock_version
             # we need to merge the JSON two times:
@@ -56,19 +56,25 @@ module API
         end
 
         def create_work_package_form(work_package, contract_class:, form_class:)
-          write_work_package_attributes(work_package, reset_lock_version: true)
+          write_work_package_attributes(work_package, request_body, reset_lock_version: true)
           contract = contract_class.new(work_package, current_user)
           contract.validate
 
           api_errors = ::API::Errors::ErrorBase.create_errors(contract.errors)
 
           # errors for invalid data (e.g. validation errors) are handled inside the form
-          if api_errors.all? { |error| error.code == 422 }
+          if only_validation_errors(api_errors)
             status 200
             form_class.new(work_package, current_user: current_user, errors: api_errors)
           else
             fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
           end
+        end
+
+        private
+
+        def only_validation_errors(errors)
+          errors.all? { |error| error.code == 422 }
         end
       end
     end
