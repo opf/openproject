@@ -125,7 +125,7 @@ function halResource(halTransform, HalLink, $q) {
                 });
 
                 if (Array.isArray(element)) {
-                  element.forEach((elem, i) => element[i] = halTransform(elem));
+                  value = element.map(halTransform);
                 }
 
                 value = halTransform(element);
