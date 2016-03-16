@@ -27,6 +27,7 @@
 #++
 
 require 'support/pages/page'
+require 'support/work_packages/inline_edit_field'
 
 module Pages
   class WorkPackagesTable < Page
@@ -59,6 +60,14 @@ module Pages
       FullWorkPackage.new(work_package)
     end
 
+    def row(work_package)
+      table_container.find("#work-package-#{work_package.id}")
+    end
+
+    def edit_field(work_package, attribute)
+      InlineEditField.new(work_package, attribute)
+    end
+
     private
 
     def path
@@ -67,10 +76,6 @@ module Pages
 
     def table_container
       find('#content .work-package-table--container')
-    end
-
-    def row(work_package)
-      table_container.find("#work-package-#{work_package.id}")
     end
   end
 end
