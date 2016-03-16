@@ -98,10 +98,6 @@ td.comment input {
   cursor: pointer;
 }
 
-.budget-table--fieldset{
-  margin: 8px 2px;
-}
-
 .cost_entry td{
   vertical-align: top;
   padding: 6px 6px;

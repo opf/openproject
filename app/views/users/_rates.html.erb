@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 ++#%>
 
-<h2><%= l(:caption_rate_history) %></h2>
+<h2><%= t(:caption_rate_history) %></h2>
 <%
   @rates = HourlyRate.history_for_user(@user)
   @rates_default = @rates.delete(nil)

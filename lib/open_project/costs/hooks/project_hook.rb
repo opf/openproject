@@ -31,7 +31,7 @@ class OpenProject::Costs::Hooks::ProjectHook < Redmine::Hook::ViewListener
     project = context[:project]
 
     result += content_tag(:th, User.human_attribute_name(:current_rate)) if user.allowed_to?(:view_hourly_rates, project)
-    result += content_tag(:th, l(:caption_set_rate)) if user.allowed_to?(:edit_hourly_rates, project)
+    result += content_tag(:th, t(:caption_set_rate)) if user.allowed_to?(:edit_hourly_rates, project)
 
     result
   end
