@@ -56,14 +56,16 @@ class WorkPackagePolicy < BasePolicy
       copy: move_allowed?(work_package),
       duplicate: copy_allowed?(work_package), # duplicating is another form of copying
       delete: delete_allowed?(work_package),
-      manage_subtasks: manage_subtasks_allowed?(work_package)
+      manage_subtasks: manage_subtasks_allowed?(work_package),
+      comment: comment_allowed?(work_package)
     }
   end
 
   def edit_allowed?(work_package)
     @edit_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:edit_work_packages, project) ||
-                      user.allowed_to?(:add_work_package_notes, project)
+      hash[project] = work_package.persisted? &&
+                      (user.allowed_to?(:edit_work_packages, project) ||
+                       user.allowed_to?(:add_work_package_notes, project))
     end
 
     @edit_cache[work_package.project]
@@ -119,5 +121,14 @@ class WorkPackagePolicy < BasePolicy
     end
 
     @manage_subtasks_cache[work_package.project]
+  end
+
+  def comment_allowed?(work_package)
+    @comment_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_to?(:add_work_package_notes, work_package.project) ||
+                      edit_allowed?(work_package)
+    end
+
+    @comment_cache[work_package.project]
   end
 end
