@@ -28,8 +28,9 @@
 
 export class WorkPackageEditFormController {
   public workPackage;
+  public fields = {};
 
-  constructor(protected NotificationsService, protected $q) {
+  constructor(protected NotificationsService, protected $q, protected QueryService, protected $timeout) {
   }
 
   public loadSchema() {
@@ -40,20 +41,45 @@ export class WorkPackageEditFormController {
     var deferred = this.$q.defer();
 
     this.workPackage.save()
-    .then(() => {
-      deferred.resolve();
-    })
-    .catch(error => {
-      if (error && error.data && error.data.message) {
-        this.NotificationsService.addError(error.data.message);
-      } else {
-        this.NotificationsService.addError("An internal error has occcurred.");
-      }
+      .then(() => {
+        angular.forEach(this.fields, field => field.setErrorState(false));
+        deferred.resolve();
+      })
+      .catch((error) => {
+        if (!error.data) {
+          this.NotificationsService.addError("An internal error has occcurred.");
+          return deferred.reject([]);
+        }
 
-      return deferred.reject();
-    });
+        error.data.showErrorNotification();
+        this.handleSubmissionErrors(error.data, deferred)
+      });
 
     return deferred.promise;
+  }
+
+  private handleSubmissionErrors(error:any, deferred:any) {
+
+    // Process single API errors
+    this.handleErrorenousColumns(error.getInvolvedColumns());
+    return deferred.reject();
+  }
+
+  private handleErrorenousColumns(columns:string[]) {
+    var selected = this.QueryService.getSelectedColumnNames();
+    var active = _.find(this.fields, (f:any) => f.active);
+    columns.reverse().map(name => {
+      if (selected.indexOf(name) === -1) {
+        selected.splice(selected.indexOf(active.fieldName) + 1, 0, name);
+      }
+    });
+
+    this.QueryService.setSelectedColumns(selected);
+    this.$timeout(_ => {
+      angular.forEach(this.fields, (field) => {
+        field.setErrorState(columns.indexOf(field.fieldName) !== -1);
+      });
+    });
   }
 }
 

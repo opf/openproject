@@ -32,13 +32,14 @@ import {Field} from "./wp-edit-field.module";
 
 
 export class WorkPackageEditFieldController {
-  public formCtrl: WorkPackageEditFormController;
+  public formCtrl:WorkPackageEditFormController;
   public fieldName:string;
   public field:Field;
+  public errorenous:boolean;
 
   protected _active:boolean = false;
 
-  constructor(protected wpEditField:WorkPackageEditFieldService) {
+  constructor(protected wpEditField:WorkPackageEditFieldService, protected $element) {
   }
 
   public get workPackage() {
@@ -50,9 +51,8 @@ export class WorkPackageEditFieldController {
   }
 
   public submit() {
-    this.formCtrl.updateWorkPackage().then(() => {
-      this.deactivate();
-    });
+    this.formCtrl.updateWorkPackage()
+      .then(() => this.deactivate());
   }
 
   public activate() {
@@ -69,22 +69,37 @@ export class WorkPackageEditFieldController {
     return this._active = false;
   }
 
+  public setErrorState(error = true) {
+    this.errorenous = error;
+    this.$element.toggleClass('-error', error)
+  }
+
   protected setupField():ng.IPromise<any> {
-    return this.formCtrl.loadSchema().then(schema =>  {
+    return this.formCtrl.loadSchema().then(schema => {
       this.field = this.wpEditField.getField(
         this.workPackage, this.fieldName, schema[this.fieldName]);
     });
   }
 }
 
-function wpEditFieldLink(scope, element, attrs, controllers:
-                           [WorkPackageEditFormController, WorkPackageEditFieldController]) {
+function wpEditFieldLink(scope, element, attrs, controllers:[WorkPackageEditFormController, WorkPackageEditFieldController]) {
 
   controllers[1].formCtrl = controllers[0];
+  controllers[1].formCtrl.fields[scope.vm.fieldName] = scope.vm;
 
   element.click(event => {
     event.stopImmediatePropagation();
   });
+
+  // Mark the td field if it is inline-editable
+  // We're resolving the non-form schema here since its loaded anyway for the table
+  scope.vm.formCtrl.loadSchema().then(schema => {
+    if (schema[scope.vm.fieldName].writable) {
+      element.addClass('-editable');
+    }
+  })
+
+  element.addClass(scope.vm.fieldName);
 }
 
 function wpEditField() {

@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,17 +24,45 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-function halTransformConfig(halTransformTypes, HalResource, WorkPackageResource, CollectionResource, ErrorResource) {
-  angular.extend(halTransformTypes, {
-    'default': HalResource,
-    WorkPackage: WorkPackageResource,
-    Collection: CollectionResource,
-    Error: ErrorResource
-  });
+function errorResource(HalResource:typeof op.HalResource, NotificationsService:any) {
+  class ErrorResource extends HalResource {
+    public errors:any[];
+    public message:string;
+    public details:any;
+    public errorIdentifier:string;
+
+    public get errorMessages():string[] {
+      if (this.isMultiErrorMessage()) {
+        return this.errors.map(error => error.message);
+      } else {
+        return [this.message];
+      }
+    }
+
+    public isMultiErrorMessage() {
+      return this.errorIdentifier === 'urn:openproject-org:api:v3:errors:MultipleErrors';
+    }
+
+    public showErrorNotification() {
+      var messages = this.errorMessages;
+      if (messages.length > 1) {
+        NotificationsService.addError('', messages);
+      } else {
+        NotificationsService.addError(messages[0]);
+      }
+    }
+
+    public getInvolvedColumns():string[] {
+      var columns = this.details ? [{ details: this.details }] : this.errors;
+      return columns.map(field => field.details.attribute);
+    }
+  }
+
+  return ErrorResource;
 }
 
 angular
   .module('openproject.api')
-  .run(halTransformConfig);
+  .factory('ErrorResource', errorResource);

@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,17 +24,40 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-function halTransformConfig(halTransformTypes, HalResource, WorkPackageResource, CollectionResource, ErrorResource) {
-  angular.extend(halTransformTypes, {
-    'default': HalResource,
-    WorkPackage: WorkPackageResource,
-    Collection: CollectionResource,
-    Error: ErrorResource
-  });
-}
+.-editable
+  .wp-edit-field
+    &.-active
+      padding: 0
 
-angular
-  .module('openproject.api')
-  .run(halTransformConfig);
+    &.-error
+      background: $nm-color-error-background
+      border-color: $nm-color-error-border
+
+      &:hover
+        border-color: lighten($nm-color-error-border, 10%)
+
+    form
+      width: 100%
+
+  &:hover .wp-edit-field.-error:hover
+    border-color: $nm-color-error-border
+
+.wp-table--cell
+  cursor: not-allowed
+
+  &.-editable
+    cursor: pointer
+
+.work-package-table--container .generic-table tbody
+  td
+    .wp-edit-field .-hidden-overflow
+      overflow: hidden
+      text-overflow: ellipsis
+    &.-editable
+      padding-top: 0
+      padding-bottom: 0
+      display: table-cell
+      width: auto
+
