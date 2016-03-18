@@ -66,9 +66,6 @@ export class WorkPackagesListService {
         var queryData = this.UrlParamsHelper.decodeQueryFromJsonParams(queryParams.query_id, queryParams.query_props);
         var queryFromParams = new this.Query(queryData, {rawFilters: true});
 
-        // Update pagination values
-        this.setPagination(queryFromParams);
-
         fetchWorkPackages = this.WorkPackageService.getWorkPackages(
           projectIdentifier, queryFromParams, this.PaginationService.getPaginationOptions());
 
@@ -92,16 +89,6 @@ export class WorkPackagesListService {
     }
 
     return fetchWorkPackages;
-  }
-
-  private setPagination(query) {
-    // Set pagination options if present
-    if (!!query.page) {
-      this.PaginationService.setPage(query.page);
-    }
-    if (!!query.perPage) {
-      this.PaginationService.setPerPage(query.perPage);
-    }
   }
 
   public clearUrlQueryParams() {

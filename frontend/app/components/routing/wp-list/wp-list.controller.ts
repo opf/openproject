@@ -208,9 +208,16 @@ function WorkPackagesListController($scope,
     updateResults();
   });
 
+  $rootScope.$on('workPackagesBackgroundRefreshRequired', function () {
+    updateResults();
+  });
+
   $rootScope.$on('queryClearRequired', _ => wpListService.clearUrlQueryParams);
   $rootScope.$on('workPackgeLoaded', function () {
-    $scope.maintainBackUrl();
+    wpListService.fromQueryInstance($scope.query, $scope.projectIdentifier)
+      .then(function (json:api.ex.WorkPackagesMeta) {
+        setupWorkPackagesTable(json);
+      });
   });
 
   function nextAvailableWorkPackage() {
