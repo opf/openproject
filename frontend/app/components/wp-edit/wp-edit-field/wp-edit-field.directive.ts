@@ -71,11 +71,7 @@ export class WorkPackageEditFieldController {
 
   public setErrorState(error = true) {
     this.errorenous = error;
-    if (error) {
-      this.$element.addClass('-error');
-    } else {
-      this.$element.removeClass('-error');
-    }
+    this.$element.toggleClass('-error', error)
   }
 
   protected setupField():ng.IPromise<any> {
@@ -96,9 +92,12 @@ function wpEditFieldLink(scope, element, attrs, controllers:[WorkPackageEditForm
   });
 
   // Mark the td field if it is inline-editable
-  if (scope.vm.isEditable) {
-    element.addClass('-editable');
-  }
+  // We're resolving the non-form schema here since its loaded anyway for the table
+  scope.vm.formCtrl.loadSchema().then(schema => {
+    if (schema[scope.vm.fieldName].writable) {
+      element.addClass('-editable');
+    }
+  })
 
   element.addClass(scope.vm.fieldName);
 }
