@@ -210,7 +210,17 @@ function WorkPackagesListController($scope,
   $rootScope.$on('workPackagesRefreshInBackground', function () {
     wpListService.fromQueryInstance($scope.query, $scope.projectIdentifier)
       .then(function (json:api.ex.WorkPackagesMeta) {
-        // $scope.workPackagesBackground = json;
+
+        var rowLookup = _.indexBy($scope.rows, row => row.object.id);
+
+        // Merge based on id and lockVersion
+        angular.forEach(json.work_packages, (fresh, i) => {
+          var staleRow = rowLookup[fresh.id];
+          if (staleRow && staleRow.object.lockVersion === fresh.lockVersion) {
+            json.work_packages[i] = staleRow.object;
+          }
+        });
+
         $scope.$broadcast('openproject.workPackages.updateResults');
         $scope.$evalAsync(_ => setupWorkPackagesTable(json));
       });
