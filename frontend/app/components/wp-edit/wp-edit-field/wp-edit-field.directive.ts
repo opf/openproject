@@ -58,6 +58,10 @@ export class WorkPackageEditFieldController {
   }
 
   public activate() {
+    if (this._active) {
+      return;
+    }
+
     this.pristineValue = angular.copy(this.workPackage[this.fieldName]);
     this.setupField().then(() => {
       this._active = this.field.schema.writable;
@@ -96,8 +100,7 @@ function wpEditFieldLink(
   scope,
   element,
   attrs,
-  controllers: [WorkPackageEditFormController, WorkPackageEditFieldController],
-  $timeout) {
+  controllers: [WorkPackageEditFormController, WorkPackageEditFieldController]) {
 
   controllers[1].formCtrl = controllers[0];
   controllers[1].formCtrl.fields[scope.vm.fieldName] = scope.vm;
@@ -117,7 +120,7 @@ function wpEditFieldLink(
   element.addClass(scope.vm.fieldName);
   element.keyup(event => {
     if (event.keyCode === 27) {
-      $timeout(_ => scope.vm.reset());
+      scope.$evalAsync(_ => scope.vm.reset());
     }
   })
 }
