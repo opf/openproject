@@ -33,7 +33,6 @@ function WorkPackagesListController($scope,
                                     WorkPackagesTableService,
                                     WorkPackageService,
                                     wpListService,
-                                    apiWorkPackages,
                                     ProjectService,
                                     QueryService,
                                     PaginationService,
@@ -208,8 +207,13 @@ function WorkPackagesListController($scope,
     updateResults();
   });
 
-  $rootScope.$on('workPackagesBackgroundRefreshRequired', function () {
-    updateResults();
+  $rootScope.$on('workPackagesRefreshInBackground', function () {
+    wpListService.fromQueryInstance($scope.query, $scope.projectIdentifier)
+      .then(function (json:api.ex.WorkPackagesMeta) {
+        // $scope.workPackagesBackground = json;
+        $scope.$broadcast('openproject.workPackages.updateResults');
+        $scope.$evalAsync(_ => setupWorkPackagesTable(json));
+      });
   });
 
   $rootScope.$on('queryClearRequired', _ => wpListService.clearUrlQueryParams);

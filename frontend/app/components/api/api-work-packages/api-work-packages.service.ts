@@ -35,12 +35,13 @@ export class ApiWorkPackagesService {
 
   public list(offset:number, pageSize:number, query:api.ex.Query) {
     var workPackages;
+    var uncachedProvider = this.apiV3.setDefaultHttpFields({cache: false});
 
-    if (query.projectId) {
-      workPackages = this.apiV3.service('work_packages', this.apiV3.one('projects', query.projectId));
+  if (query.projectId) {
+      workPackages = uncachedProvider.service('work_packages', this.apiV3.one('projects', query.projectId));
     }
     else {
-      workPackages = this.apiV3.service('work_packages');
+      workPackages = uncachedProvider.service('work_packages');
     }
 
     return workPackages.getList(this.queryAsV3Params(offset, pageSize, query));
