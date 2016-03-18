@@ -313,21 +313,6 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # RELATIONS
-  def delete_relations(work_package)
-    unless Setting.cross_project_work_package_relations?
-      work_package.relations_from.clear
-      work_package.relations_to.clear
-    end
-  end
-
-  def delete_invalid_relations(_invalid_work_packages)
-    invalid_work_package.each do |work_package|
-      work_package.relations.each do |relation|
-        relation.destroy unless relation.valid?
-      end
-    end
-  end
-
   # Returns true if this work package is blocked by another work package that is still open
   def blocked?
     !relations_to.detect { |ir| ir.relation_type == 'blocks' && !ir.from.closed? }.nil?
@@ -351,6 +336,10 @@ class WorkPackage < ActiveRecord::Base
       work_package: self
     )
     time_entries.build(attributes)
+  end
+
+  def move_time_entries(project)
+    time_entries.update_all(project_id: project)
   end
 
   def all_dependent_packages(except = [])
@@ -422,28 +411,6 @@ class WorkPackage < ActiveRecord::Base
   # Returns true if the work_package is overdue
   def overdue?
     !due_date.nil? && (due_date < Date.today) && !closed?
-  end
-
-  # TODO: move into Business Object and rename to update
-  # update for now is a public method defined by AR
-  def update_by!(user, attributes)
-    attributes = attributes.dup
-    raw_attachments = attributes.delete(:attachments)
-
-    update_by(user, attributes)
-
-    attach_files(raw_attachments)
-
-    save
-  end
-
-  def update_by(user, attributes)
-    add_journal(user, attributes.delete(:notes) || '')
-
-    add_time_entry_for(user, attributes.delete(:time_entry))
-    attributes.delete(:attachments)
-
-    self.attributes = attributes
   end
 
   def is_milestone?

@@ -1123,103 +1123,25 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe '#update_by!' do
-    let(:instance) { FactoryGirl.create(:work_package) }
+  describe '#move_time_entries' do
+    let(:time_entry) do
+      FactoryGirl.build(:time_entry,
+                        work_package: work_package,
+                        project: work_package.project)
+    end
+    let(:target_project) { FactoryGirl.build(:project) }
 
-    it 'should return true' do
-      expect(instance.update_by!(user, {})).to be_truthy
+    before do
+      time_entry.save!
+      target_project.save!
     end
 
-    it 'should set the values' do
-      instance.update_by!(user,  subject: 'New subject')
+    it 'moves the time_entry to the defined project' do
+      work_package.move_time_entries(target_project)
 
-      expect(instance.subject).to eq('New subject')
-    end
+      time_entry.reload
 
-    describe 'creates a journal entry' do
-      it 'with the supplied notes' do
-        instance.update_by!(user, notes: 'blubs')
-        expect(instance.journals.last.notes).to eq('blubs')
-      end
-
-      it 'by the given user' do
-        instance.update_by!(user, notes: 'blubs')
-        expect(instance.journals.last.user).to eq(user)
-      end
-
-      context 'without supplying journal notes' do
-        it 'creates an entry by the given user' do
-          instance.update_by!(user, subject: 'blubs')
-          expect(instance.journals.last.user).to eq(user)
-        end
-
-        it 'has empty journal notes' do
-          instance.update_by!(user, subject: 'blubs')
-          expect(instance.journals.last.notes).to eq('')
-        end
-      end
-    end
-
-    it 'should attach an attachment' do
-      raw_attachments = [double('attachment')]
-      attachment = FactoryGirl.build(:attachment)
-
-      expect(instance).to receive(:attach_files)
-        .with(raw_attachments)
-        .and_return(attachment)
-
-      instance.update_by!(user,  attachments: raw_attachments)
-    end
-
-    it 'should only attach the attachment when saving was successful' do
-      raw_attachments = [double('attachment')]
-
-      expect(Attachment).not_to receive(:attach_files)
-
-      instance.update_by!(user,  subject: '', attachments: raw_attachments)
-    end
-
-    it 'should add a time entry' do
-      activity = FactoryGirl.create(:time_entry_activity)
-
-      instance.update_by!(user,  time_entry: { 'hours' => '5',
-                                               'activity_id' => activity.id.to_s,
-                                               'comments' => 'blubs' })
-
-      expect(instance.time_entries.size).to eq(1)
-
-      entry = instance.time_entries.first
-
-      expect(entry).to be_persisted
-      expect(entry.work_package).to eq(instance)
-      expect(entry.user).to eq(user)
-      expect(entry.project).to eq(instance.project)
-      expect(entry.spent_on).to eq(Date.today)
-    end
-
-    it 'should not persist the time entry if the work package update fails' do
-      activity = FactoryGirl.create(:time_entry_activity)
-
-      instance.update_by!(user,  subject: '',
-                                 time_entry: { 'hours' => '5',
-                                               'activity_id' => activity.id.to_s,
-                                               'comments' => 'blubs' })
-
-      expect(instance.time_entries.size).to eq(1)
-
-      entry = instance.time_entries.first
-
-      expect(entry).not_to be_persisted
-    end
-
-    it 'should not add a time entry if the time entry attributes are empty' do
-      time_attributes = { 'hours' => '',
-                          'activity_id' => '',
-                          'comments' => '' }
-
-      instance.update_by!(user, time_entry: time_attributes)
-
-      expect(instance.time_entries.size).to eq(0)
+      expect(time_entry.project).to eql(target_project)
     end
   end
 
