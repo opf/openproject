@@ -30,7 +30,12 @@ export class WorkPackageEditFormController {
   public workPackage;
   public fields = {};
 
-  constructor(protected NotificationsService, protected $q, protected QueryService, protected $timeout) {
+  constructor(
+    protected NotificationsService,
+    protected $q,
+    protected QueryService,
+    protected $rootScope,
+    protected $timeout) {
   }
 
   public loadSchema() {
