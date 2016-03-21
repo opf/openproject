@@ -239,6 +239,9 @@ GEM
     faker (1.4.3)
       i18n (~> 0.5)
     ffi (1.9.10)
+    ffi-compiler (0.1.3)
+      ffi (>= 1.0.0)
+      rake
     fog (1.23.0)
       fog-brightbox
       fog-core (~> 1.23)
@@ -486,6 +489,9 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (~> 1.1)
+    scrypt (2.0.2)
+      ffi-compiler (>= 0.0.2)
+      rake
     selenium-webdriver (2.47.1)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
@@ -650,6 +656,7 @@ DEPENDENCIES
   rubytree (~> 0.8.3)
   sass (~> 3.4.12)
   sass-rails (~> 5.0.3)
+  scrypt (~> 2.0.0)
   selenium-webdriver (~> 2.47.1)
   shoulda-context (~> 1.2)
   shoulda-matchers (~> 2.8)

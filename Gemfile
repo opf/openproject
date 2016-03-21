@@ -136,6 +136,8 @@ gem 'nokogiri', '~> 1.6.7'
 gem 'carrierwave', '~> 0.10.0'
 gem 'fog', '~> 1.23.0', require: 'fog/aws/storage'
 
+gem 'scrypt', '~> 2.0.0', require: false
+
 group :test do
   gem 'rack-test', '~> 0.6.2'
   gem 'shoulda-context', '~> 1.2'
