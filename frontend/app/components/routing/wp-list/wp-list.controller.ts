@@ -211,7 +211,7 @@ function WorkPackagesListController($scope,
     wpListService.fromQueryInstance($scope.query, $scope.projectIdentifier)
       .then(function (json:api.ex.WorkPackagesMeta) {
 
-        var rowLookup = _.indexBy($scope.rows, row => row.object.id);
+        var rowLookup = _.indexBy($scope.rows, (row:any) => row.object.id);
 
         // Merge based on id and lockVersion
         angular.forEach(json.work_packages, (fresh, i) => {
