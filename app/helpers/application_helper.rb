@@ -33,6 +33,7 @@ require 'cgi'
 module ApplicationHelper
   include OpenProject::TextFormatting
   include OpenProject::ObjectLinking
+  include I18n
   include Redmine::I18n
 
   extend Forwardable

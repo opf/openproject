@@ -927,7 +927,9 @@ var I18nForms = (function ($) {
           new_translation.hide();
           new_translation.find('.destroy_flag').val('1')
                                                .attr('disabled', false);
-          new_translation.find('input, textarea').val('');
+          new_translation.find('input, textarea').val('')
+                                                 .removeAttr('aria-required')
+                                                 .removeAttr('required');
           new_translation.find('.locale_selector').val(locale);
           new_translation.insertAfter(translations.first());
 

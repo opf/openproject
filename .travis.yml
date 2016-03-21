@@ -105,7 +105,7 @@ notifications:
     secure: "a+I0uMgXgrDd3aitr2yhXrh7g/UOUTwoDVElunY7gYdrM+gpZ6RE1AP4/Q++hERBCs7rUBzmb//zxGTcc8Nw4nGqZOmPOMIsAoD49UupGLUzHbxzKlpwdBcwh77fq3rYwkjZjE/H1qiElPT7v6qyWMSdNGlj/bAB74eD7Zl3S5cMRvZ1whbSg2GA2v6ZqtXaKfrSFrPRzsIOBXs99OxWNWAsUGpEwTYac7wb6rdMJkBbzosp4gP99mGvQArEzo0nrIQgRH8W4Q6iLnrpX0g5uKccWl1u/G2bmH8L4F50ce4uuUE+TtHO/nfNFnb2KuDR4QyoccQQbGHXL/jaaAZXG/gzs5Hmru2Thaym43fSwxos80xmZs1vqB/rXE+Rg9qXcCKyyX31zjSI/iW4wS015fz8MKVX6qDg49epaw1ovn0AOYrvTd94GV6RX6eJ3/l+KJJHSKaaLP/713h11LWx/S27tiB40fboXQ68YzIQCuahRUEHUfhU3P10Wf9y2fdDsthtHHSrOJMQ3Ii/Jm3KQm6bE5RWORdHvc/sF2WLfLmJ627j9JhWYYi5mDKJ9AeMWtZNHreU0mM27OUgfhiW11ItKgpwQPEiiicrlYRrMmK+9hc9cym+8tRM+wEth1xhIkfgQFtngONKjv361Wt3JifxM79+bn0IyF72vAVNy8k="
 
 addons:
-  firefox: "38.0esr"
+  firefox: "45.0esr"
   postgresql: "9.3"
 
 # Disabling coverage reporting until CodeClimate supports merging results from multiple partial tests

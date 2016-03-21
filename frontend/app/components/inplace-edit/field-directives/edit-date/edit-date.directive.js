@@ -81,7 +81,7 @@ function inplaceEditorDate($timeout, inplaceEditAll, TimezoneService,
           inplaceEditAll.state || datepicker.focus();
         });
 
-        angular.element('.work-packages--details-content').on('click', function(e) {
+        angular.element('#content').on('click', function(e) {
           var target = angular.element(e.target);
           if(!target.is('.inplace-edit--date input') &&
             target.parents('.inplace-edit--date .hasDatepicker').length <= 0 &&
