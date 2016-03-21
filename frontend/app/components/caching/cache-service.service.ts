@@ -26,10 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(HALAPIResource,
-                          $http,
-                          $q,
-                          CacheFactory) {
+function CacheService($q, CacheFactory) {
 
   // Temporary storage for currently resolving promises
   var _promises = {};
@@ -49,6 +46,12 @@ module.exports = function(HALAPIResource,
     localStorage: function() {
       return CacheService.customCache('openproject-local_storage_cache', {
         storageMode: 'localStorage'
+      });
+    },
+
+    memoryStorage: function() {
+      return CacheService.customCache('openproject-memory_storage_cache', {
+        storageMode: 'memory'
       });
     },
 
@@ -78,33 +81,21 @@ module.exports = function(HALAPIResource,
       disabled = true;
     },
 
-    loadResource: function(resource, force) {
-      var key = resource.props.href,
-        cache = CacheService.temporaryCache(),
-        cachedValue,
-        _fetchResource = function() {
-          var deferred = $q.defer();
-
-          resource.fetch().then(function(data) {
-            cache.put(key, data);
-            deferred.resolve(data);
-          }, function() {
-            deferred.reject();
-            cache.remove(key);
-          });
-
-          return deferred.promise;
-        };
+    cachedPromise: function(promiseFn, key, options) {
+      options = options || {};
+      var cache = options.cache || CacheService.memoryStorage();
+      var force = options.force || false;
+      var deferred = $q.defer();
+      var cachedValue, promise;
 
       // Return early when frontend caching is not desired
       if (cache.disabled) {
-        return _fetchResource();
+        return promiseFn();
       }
 
       // Got the result directly? Great.
       cachedValue = cache.get(key);
       if (cachedValue && !force) {
-        var deferred = $q.defer();
         deferred.resolve(cachedValue);
         return deferred.promise;
       }
@@ -116,11 +107,40 @@ module.exports = function(HALAPIResource,
         return _promises[key];
       }
 
-      var promise = _fetchResource();
-      _promises[key] = promise;
-      return promise;
+      // Call now to retrieve promise
+      promise = promiseFn();
+      promise
+        .then(data => {
+          cache.put(key, data);
+          deferred.resolve(data);
+        })
+        .catch(error => {
+          deferred.reject(error);
+          cache.remove(key);
+        })
+        .finally(_ => delete _promises[key]);
+
+      _promises[key] = deferred.promise;
+      return deferred.promise;
+    },
+
+    loadResource: function(resource, force) {
+      return CacheService.cachedPromise(
+        (_ => resource.fetch()),
+        resource.props.href,
+        {
+          cache: CacheService.temporaryCache(),
+          force: force
+        }
+      );
     }
   };
 
   return CacheService;
 };
+
+
+angular
+  .module('openproject.services')
+  .factory('CacheService', CacheService);
+

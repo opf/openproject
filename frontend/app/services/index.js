@@ -34,13 +34,6 @@ angular.module('openproject.services')
     'NotificationsService',
     require('./activity-service')
   ])
-  .service('CacheService', [
-    'HALAPIResource',
-    '$http',
-    '$q',
-    'CacheFactory',
-    require('./cache-service')
-  ])
   .service('GroupService', ['$http', 'PathHelper', require('./group-service')])
   .service('HookService', require('./hook-service'))
   .service('KeyboardShortcutService', [

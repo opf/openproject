@@ -44,7 +44,12 @@ export class ApiWorkPackagesService {
       workPackages = uncachedProvider.service('work_packages');
     }
 
-    return workPackages.getList(this.queryAsV3Params(offset, pageSize, query));
+    return workPackages.getList(
+      this.queryAsV3Params(offset, pageSize, query),
+      {
+        caching: { enabled : false }
+      }
+    );
   }
 
   private uncachedAPI():restangular.IService {
