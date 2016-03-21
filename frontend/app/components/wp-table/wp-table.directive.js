@@ -30,7 +30,7 @@ angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
 
-function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages, $state){
+function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages, $state, wpSyncEditService){
   return {
     restrict: 'E',
     replace: true,
@@ -188,6 +188,8 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
       };
 
       scope.openWorkPackageInFullView = function(row) {
+        wpSyncEditService.putAsLoaded(row.object);
+        
         clearSelection();
 
         scope.setCheckedStateForAllRows(false);
