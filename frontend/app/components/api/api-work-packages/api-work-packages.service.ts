@@ -35,13 +35,12 @@ export class ApiWorkPackagesService {
 
   public list(offset:number, pageSize:number, query:api.ex.Query) {
     var workPackages;
-    var uncachedProvider:restangular.IService = this.uncachedAPI();
 
     if (query.projectId) {
-      workPackages = uncachedProvider.service('work_packages', this.apiV3.one('projects', query.projectId));
+      workPackages = this.apiV3.service('work_packages', this.apiV3.one('projects', query.projectId));
     }
     else {
-      workPackages = uncachedProvider.service('work_packages');
+      workPackages = this.apiV3.service('work_packages');
     }
 
     return workPackages.getList(
@@ -50,12 +49,6 @@ export class ApiWorkPackagesService {
         caching: { enabled : false }
       }
     );
-  }
-
-  private uncachedAPI():restangular.IService {
-    return this.apiV3.withConfig(function(RestangularConfigurer) {
-      RestangularConfigurer.setDefaultHttpFields({ cache: false });
-    });
   }
 
   protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {
