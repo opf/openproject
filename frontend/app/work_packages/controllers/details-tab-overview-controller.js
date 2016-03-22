@@ -31,6 +31,7 @@ module.exports = function(
            WorkPackagesOverviewService,
            WorkPackageFieldService,
            EditableFieldsState,
+           inplaceEditAll,
            WorkPackageDisplayHelper,
            NotificationsService,
            WorkPackageAttachmentsService
@@ -40,6 +41,16 @@ module.exports = function(
   vm.groupedFields = [];
   vm.hideEmptyFields = true;
   vm.workPackage = $scope.workPackage;
+
+
+  //Show all attributes in Edit-Mode
+  $scope.$watch(function(){
+    return inplaceEditAll.state;
+  },function(newState, oldState){
+    if(newState !== oldState){
+      vm.hideEmptyFields = !newState;
+    }
+  });
 
   vm.shouldHideGroup = function(group) {
     return WorkPackageDisplayHelper.shouldHideGroup(vm.hideEmptyFields,

@@ -54,7 +54,6 @@ Feature: Error messages are displayed
   Scenario: Inserting a too long subject results in an error beeing shown
     When I go to the edit page of the work package called "pe1"
      And I click the edit work package button
-     And I click to see all work package attributes
      And I fill in the following:
        | Subject  | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. mollit anim id est laborum. |
      And I submit the form by the "Save" button

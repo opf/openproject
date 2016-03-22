@@ -92,7 +92,6 @@ Feature: Updating work packages
       | child |
     When I go to the edit page of the work package "parent"
     And I click the edit work package button
-    And I click to see all work package attributes
     Then the work package should be shown with the following values:
       | Priority       | prio2                   |
       | Date           | 10/01/2015 - 10/30/2015 |
