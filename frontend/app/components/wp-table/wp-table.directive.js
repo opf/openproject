@@ -116,7 +116,7 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages)
 
       function fetchSumsSchema() {
         if (scope.resource.sumsSchema && !scope.resource.sumsSchema.$loaded) {
-          scope.resource.sumsSchema.$load(true);
+          scope.resource.sumsSchema.$load();
         }
       }
 

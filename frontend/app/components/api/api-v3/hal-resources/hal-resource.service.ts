@@ -37,6 +37,7 @@ function halResource($q, _, lazy, halTransform, HalLink) {
     private _name:string;
     private _$links:any;
     private _$embedded:any;
+    private _loadingPromise: ng.IPromise<any>;
 
     public get name():string {
       return this._name || this.$links.self.$link.title || '';
@@ -80,16 +81,22 @@ function halResource($q, _, lazy, halTransform, HalLink) {
     }
 
     public $load() {
-      if (!this.$loaded) {
-        return this.$links.self().then(resource => {
-          this.$loaded = true;
-
-          angular.extend(this, resource);
-          return this;
-        });
+      if (this.$loaded) {
+        return $q.when(this);
       }
 
-      return $q.when(this);
+      if (!this.$loaded && this._loadingPromise) {
+        return this._loadingPromise;
+      }
+
+      this._loadingPromise = this.$links.self().then(resource => {
+        this.$loaded = true;
+        angular.extend(this, resource);
+
+        return this;
+      });
+
+      return this._loadingPromise;
     }
 
     public $plain() {
