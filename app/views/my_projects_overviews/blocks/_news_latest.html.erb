@@ -37,6 +37,10 @@ See doc/COPYRIGHT.md for more details.
                   :action => 'index',
                   :project_id => project},
                   :class => 'button -highlight' %>
+      <%= link_to new_project_news_path(@project), class: 'button -alt-highlight' do %>
+          <i class="button--icon icon-add"></i>
+          <span class="button--text"><%= l('activerecord.models.news') %></span>
+        <% end %>
     </p>
   </div>
 <% end %>

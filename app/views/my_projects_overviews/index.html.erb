@@ -25,14 +25,14 @@ See doc/COPYRIGHT.md for more details.
   <%= stylesheet_link_tag "my_project_page/my_projects_overview", :media => 'all' %>
 <% end %>
 
-<% html_title(l(:label_overview)) -%>
+<% html_title(t(:label_overview)) -%>
 
-<%= toolbar title: l(:label_overview) do %>
+<%= toolbar title: t(:label_overview) do %>
   <% if User.current.allowed_to?(:edit_project, project) %>
-    <li class="toolbar-item" title="<%= l(:label_personalize_page) %>">
+    <li class="toolbar-item" title="<%= t(:label_personalize_page) %>">
       <%= link_to my_projects_overview_path(project), class: 'button', accesskey: accesskey(:edit) do %>
         <i class="icon-settings"></i>
-        <span class="hidden-for-sighted"><%= l(:label_personalize_page) %></span>
+        <span class="hidden-for-sighted"><%= t(:label_personalize_page) %></span>
       <% end %>
     </li>
   <% end %>
