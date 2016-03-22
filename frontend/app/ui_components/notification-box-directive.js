@@ -32,9 +32,8 @@ module.exports = function(I18n, $timeout,$state,loadingIndicator) {
     scope.uploadCount = 0;
     scope.show = false;
     scope.I18n = I18n;
-
     scope.currentState = $state.current.name;
-    
+
     scope.canBeHidden = function() {
       return scope.content.uploads.length > 5;
     };
