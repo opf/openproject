@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::CreateNoteContract do
+describe WorkPackages::CreateNoteContract do
   let(:work_package) do
     # As we only want to test the contract, we mock checking whether the work_package is valid
     wp = FactoryGirl.build_stubbed(:work_package)

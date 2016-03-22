@@ -34,7 +34,7 @@ class UpdateWorkPackageService
     attr_accessor :contract
   end
 
-  self.contract = API::V3::WorkPackages::UpdateContract
+  self.contract = WorkPackages::UpdateContract
 
   def initialize(user:, work_package:)
     self.user = user

@@ -28,7 +28,7 @@
 #++
 
 class UpdateChildWorkPackageService < UpdateWorkPackageService
-  self.contract = API::V3::WorkPackages::UpdateContract
+  self.contract = WorkPackages::UpdateContract
 
   private
 

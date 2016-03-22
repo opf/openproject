@@ -39,17 +39,17 @@ describe AddWorkPackageNoteService, type: :model do
 
   describe '.contract' do
     it 'uses the CreateNoteContract contract' do
-      expect(described_class.contract).to eql API::V3::WorkPackages::CreateNoteContract
+      expect(described_class.contract).to eql WorkPackages::CreateNoteContract
     end
   end
 
   describe 'call' do
     let(:mock_contract) do
-      double(API::V3::WorkPackages::CreateNoteContract,
+      double(WorkPackages::CreateNoteContract,
              new: mock_contract_instance)
     end
     let(:mock_contract_instance) do
-      mock_model(API::V3::WorkPackages::CreateNoteContract)
+      mock_model(WorkPackages::CreateNoteContract)
     end
 
     before do

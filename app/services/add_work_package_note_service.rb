@@ -38,7 +38,7 @@ class AddWorkPackageNoteService
     attr_accessor :contract
   end
 
-  self.contract = API::V3::WorkPackages::CreateNoteContract
+  self.contract = WorkPackages::CreateNoteContract
 
   def initialize(user:, work_package:)
     self.user = user

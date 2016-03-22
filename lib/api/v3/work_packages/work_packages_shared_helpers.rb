@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/base_contract'
+require 'work_packages/base_contract'
 require 'api/v3/work_packages/work_package_payload_representer'
 
 module API

@@ -27,30 +27,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      class CreateNoteContract < ::API::Contracts::ModelContract
-        attr_accessor :policy,
-                      :user
+module WorkPackages
+  class CreateNoteContract < ::ModelContract
+    attr_accessor :policy,
+                  :user
 
-        attribute :journal_notes do
-          errors.add(:journal_notes, :error_unauthorized) unless can?(:comment)
-        end
+    attribute :journal_notes do
+      errors.add(:journal_notes, :error_unauthorized) unless can?(:comment)
+    end
 
-        def initialize(work_package, user)
-          super(work_package)
+    def initialize(work_package, user)
+      super(work_package)
 
-          self.user = user
-          self.policy = WorkPackagePolicy.new(user)
-        end
+      self.user = user
+      self.policy = WorkPackagePolicy.new(user)
+    end
 
-        private
+    private
 
-        def can?(permission)
-          policy.allowed?(model, permission)
-        end
-      end
+    def can?(permission)
+      policy.allowed?(model, permission)
     end
   end
 end

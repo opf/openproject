@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,21 +27,53 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/work_packages_shared_helpers'
+module WorkPackages
+  class UpdateContract < BaseContract
+    attribute :lock_version do
+      if model.lock_version.nil? || model.lock_version_changed?
+        errors.add :base, :error_conflict
+      end
+    end
 
-module API
-  module V3
-    module WorkPackages
-      class UpdateFormAPI < ::API::OpenProjectAPI
-        resource :form do
-          helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
+    validate :user_allowed_to_access
 
-          post do
-            create_work_package_form(@work_package,
-                                     contract_class: ::WorkPackages::UpdateContract,
-                                     form_class: UpdateFormRepresenter)
-          end
-        end
+    validate :user_allowed_to_edit
+
+    validate :user_allowed_to_move
+
+    private
+
+    def user_allowed_to_edit
+      with_unchanged_project_id do
+        errors.add :base, :error_unauthorized unless @can.allowed?(model, :edit)
+      end
+    end
+
+    def user_allowed_to_access
+      unless ::WorkPackage.visible(@user).exists?(model.id)
+        errors.add :base, :error_not_found
+      end
+    end
+
+    def user_allowed_to_move
+      if model.project_id_changed? &&
+         !@can.allowed?(model, :move)
+
+        errors.add :project, :error_unauthorized
+      end
+    end
+
+    def with_unchanged_project_id
+      if model.project_id_changed?
+        current_project_id = model.project_id
+
+        model.project_id = model.project_id_was
+
+        yield
+
+        model.project_id = current_project_id
+      else
+        yield
       end
     end
   end

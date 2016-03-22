@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::UpdateContract do
+describe WorkPackages::UpdateContract do
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
   let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }

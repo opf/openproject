@@ -59,17 +59,17 @@ describe UpdateChildWorkPackageService, type: :model do
 
   describe '.contract' do
     it 'uses the UpdateContract contract' do
-      expect(described_class.contract).to eql API::V3::WorkPackages::UpdateContract
+      expect(described_class.contract).to eql WorkPackages::UpdateContract
     end
   end
 
   describe 'call' do
     let(:mock_contract) do
-      double(API::V3::WorkPackages::UpdateContract,
+      double(WorkPackages::UpdateContract,
              new: mock_contract_instance)
     end
     let(:mock_contract_instance) do
-      mock_model(API::V3::WorkPackages::UpdateContract)
+      mock_model(WorkPackages::UpdateContract)
     end
 
     before do
