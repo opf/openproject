@@ -7,8 +7,9 @@
         ng-model="$parent.relationToAddId"
         title="{{ I18n.t('js.field_value_enter_prompt', { field: I18n.t('js.relation_labels.' + handler.relationsId) }) }}"
         required
-        theme="select2">
-        <ui-select-match>{{$select.selected.to_s}}</ui-select-match>
+        theme="select2"
+        tabindex="0">
+        <ui-select-match tabindex="-1">{{$select.selected.to_s}}</ui-select-match>
         <ui-select-choices
           refresh-delay="100"
           refresh="autocompleteWorkPackages($select.search)"
