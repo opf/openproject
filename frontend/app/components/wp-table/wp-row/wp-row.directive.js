@@ -51,7 +51,7 @@ function wpRow(WorkPackagesTableService){
 
       scope.$watch('row.object.schema.$loaded', function(isLoaded) {
         if (!isLoaded) {
-          scope.row.object.schema.$load();
+          scope.row.object.schema.$load(true);
         }
       });
 
