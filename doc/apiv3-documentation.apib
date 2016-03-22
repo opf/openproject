@@ -3484,7 +3484,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | availableWatchers  | All users that can be added to the work package as watchers.                                                                                          | User         |              | READ                  | **Permission** add work package watchers  |
 | category           | The category of the work package                                                                                                                      | Category     |              | READ / WRITE          |                                           |
 | priority           | The priority of the work package                                                                                                                      | Priority     | not null     | READ / WRITE          |                                           |
-| project            | The project to which the work package belongs                                                                                                         | Project      | not null     | READ                  |                                           |
+| project            | The project to which the work package belongs                                                                                                         | Project      | not null     | READ / WRITE          |                                           |
 | responsible        | The person that is responsible for the overall outcome                                                                                                | User         |              | READ / WRITE          |                                           |
 | revisions          | Revisions that are referencing the work package                                                                                                       | Revision     |              | READ                  | **Permission** view changesets            |
 | status             | The current status of the work package                                                                                                                | Status       | not null     | READ / WRITE          |                                           |
@@ -4595,6 +4595,131 @@ Gets a list of users that are able to be watchers of the specified work package.
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified work package does not exist."
             }
+
+## Available Projects [/api/v3/work_packages/{id}/available_projects]
+
++ Model
+    + Body
+
+            {
+              "_links": {
+                "self": {
+                  "href": "/api/v3/work_packages/5/available_projects"
+                }
+              },
+              "_type": "Collection",
+              "total": 2,
+              "count": 2,
+              "_embedded": {
+                "elements": [
+                  {
+                    "_type": "Project",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/projects/6",
+                        "title": "A project"
+                      },
+                      "createWorkPackage": {
+                        "href": "/api/v3/projects/6/work_packages/form",
+                        "method": "post"
+                      },
+                      "createWorkPackageImmediate": {
+                        "href": "/api/v3/projects/6/work_packages",
+                        "method": "post"
+                      },
+                      "categories": {
+                        "href": "/api/v3/projects/6/categories"
+                      },
+                      "versions": {
+                        "href": "/api/v3/projects/6/versions"
+                      }
+                    },
+                    "id": 6,
+                    "identifier": "a_project",
+                    "name": "A project",
+                    "description": "Eveniet molestias omnis quis aut qui eum adipisci. Atque aut aut in exercitationem adipisci amet. Nisi asperiores quia ratione veritatis enim exercitationem magnam. Aut fuga architecto adipisci nihil. Et repellat pariatur. Aliquam et sed perferendis nostrum quaerat. Fugit doloremque voluptatem.",
+                    "createdAt": "2015-07-06T13:28:14+00:00",
+                    "updatedAt": "2015-10-01T09:55:02+00:00",
+                    "type": "Customer Project"
+                  },
+                  {
+                    "_type": "Project",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/projects/14",
+                        "title": "Another project"
+                      },
+                      "createWorkPackage": {
+                        "href": "/api/v3/projects/14/work_packages/form",
+                        "method": "post"
+                      },
+                      "createWorkPackageImmediate": {
+                        "href": "/api/v3/projects/14/work_packages",
+                        "method": "post"
+                      },
+                      "categories": {
+                        "href": "/api/v3/projects/14/categories"
+                      },
+                      "versions": {
+                        "href": "/api/v3/projects/14/versions"
+                      }
+                    },
+                    "id": 14,
+                    "identifier": "another_project",
+                    "name": "Another project",
+                    "description": "",
+                    "createdAt": "2016-02-29T12:50:20+00:00",
+                    "updatedAt": "2016-02-29T12:50:20+00:00",
+                    "type": null
+                  }]
+                }
+              }
+            }
+
+## Available projects [GET]
+
+Gets a list of projects that are available as projects to which the work package can be moved.
+
++ Parameters
+    + id (required, integer, `1`) ... work package id
+
++ Response 200 (application/hal+json)
+
+    [Available Projects][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** edit work package
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
+
+
+
+
 
 ## Revisions [/api/v3/work_packages/{id}/revisions]
 
