@@ -58,7 +58,8 @@ angular
                                             'User',
                                             'Version',
                                             'Category',
-                                            'StringObject'])
+                                            'StringObject',
+                                            'Project'])
       .addFieldType(FloatField, 'float', ['Float'])
       .addFieldType(IntegerField, 'integer', ['Integer'])
       .addFieldType(BooleanField, 'boolean', ['Boolean'])
