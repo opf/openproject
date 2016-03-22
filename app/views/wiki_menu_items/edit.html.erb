@@ -52,15 +52,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= form.radio_button 'setting', :main_item %>
     <%= form.label 'setting_main_item', l(:label_wiki_show_menu_item) %>
   </p>
-  <p class="wiki_menu_item_optional_links">
-    <%= form.check_box 'new_wiki_page' %>
-    <%= form.label 'new_wiki_page', l(:label_wiki_show_new_page_link) %>
-
-    <br>
-
-    <%= form.check_box 'index_page' %>
-    <%= form.label 'index_page', l(:label_wiki_show_index_page_link) %>
-  </p>
   <p>
     <% disabled = @parent_menu_item_options.empty? %>
     <%= form.radio_button 'setting', :sub_item, disabled: disabled %>

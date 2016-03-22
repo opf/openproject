@@ -49,7 +49,6 @@ Feature: Creating a wiki child page
       | title | Wikiparentpage |
     Given I go to the wiki index page of the project called "project1"
       And I click "Wikiparentpage"
-      And I follow "More" within "#content"
       And I click "Create new child page"
       And I fill in "content_page_title" with "Todd's wiki"
       And I press "Save"
@@ -63,7 +62,7 @@ Feature: Creating a wiki child page
     And the project "project1" has 1 wiki menu item with the following:
       | title         | ParentWikiPage |
       | new_wiki_page | true           |
-    When I go to the wiki new child page below the "ParentWikiPage" page of the project called "project1"
+    When I go to the wiki page "ParentWikiPage" of the project called "project1"
     And I click "Create new child page"
     And I fill in "content_page_title" with "Child Page !@#{$%^&*()_},./<>?;':"
     And I click "Save"

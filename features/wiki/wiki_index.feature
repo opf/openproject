@@ -52,7 +52,7 @@ Feature: Viewing the wiki index page
     And the project "project1" has 1 wiki menu item with the following:
       | title      | ParentWikiPage |
       | index_page | true           |
-    When I go to the wiki index page below the "ParentWikiPage" page of the project called "project1"
+    When I go to the wiki page "ParentWikiPage" of the project called "project1"
     Then I should see "Index by title" within "#content"
     And the table of contents wiki menu item inside the "ParentWikiPage" menu item should be selected
 
