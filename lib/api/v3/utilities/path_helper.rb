@@ -75,6 +75,10 @@ module API
             "#{work_package(work_package_id)}/available_watchers"
           end
 
+          def self.available_projects_on_edit(work_package_id)
+            "#{work_package(work_package_id)}/available_projects"
+          end
+
           def self.categories(project_id)
             "#{project(project_id)}/categories"
           end

@@ -102,6 +102,7 @@ module API
             mount ::API::V3::Attachments::AttachmentsByWorkPackageAPI
             mount ::API::V3::Repositories::RevisionsByWorkPackageAPI
             mount ::API::V3::WorkPackages::UpdateFormAPI
+            mount ::API::V3::WorkPackages::AvailableProjectsOnEditAPI
           end
 
           mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI

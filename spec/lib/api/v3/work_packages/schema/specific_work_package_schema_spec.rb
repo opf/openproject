@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
-  let(:project) { FactoryGirl.build(:project) }
-  let(:type) { FactoryGirl.build(:type) }
+  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:type) { FactoryGirl.build_stubbed(:type) }
   let(:work_package) {
-    FactoryGirl.build(:work_package,
-                      project: project,
-                      type: type)
+    FactoryGirl.build_stubbed(:work_package,
+                              project: project,
+                              type: type)
   }
   let(:current_user) { double('current user') }
 
@@ -46,6 +46,10 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
 
   it 'has the type set' do
     expect(subject.type).to eql(type)
+  end
+
+  it 'has an id' do
+    expect(subject.id).to eql(work_package.id)
   end
 
   describe '#assignable_statuses_for' do
