@@ -31,7 +31,6 @@ require 'support/work_packages/inline_edit_field'
 
 module Pages
   class WorkPackagesTable < Page
-
     attr_reader :project
 
     def initialize(project = nil)
@@ -54,7 +53,10 @@ module Pages
     end
 
     def open_full_screen(work_package)
-      visit row(work_package).find_link(work_package.subject)[:href]
+      row(work_package).check(I18n.t('js.description_select_work_package',
+                                     id: work_package.id))
+
+      click_button(I18n.t('js.label_activate') + ' ' + I18n.t('js.button_show_view'))
 
       FullWorkPackage.new(work_package)
     end
