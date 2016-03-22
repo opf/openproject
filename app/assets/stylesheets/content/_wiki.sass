@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$toolbar-width: 400px
-
 div.wiki
   font-size: $wiki-default-font-size
   $wiki-max-heading-font-size: 24px
@@ -163,6 +161,29 @@ h1:hover, h2:hover, h3:hover
     font-weight: bold
     font-size: $wiki-default-font-size
 
+  .wiki-title
+    max-width: 100%
+    overflow: hidden
+    text-overflow: ellipsis
+
+#wiki_form .attributes-group
+  .attributes-group--header-text
+    color: lighten($body-font-color, 10)
+  .form--label
+    display: none
+
+  .form--field-container
+    max-width: 100%
+
+    .form--text-area-container
+      margin-top: -46px
+
+      .jstElements
+        margin-bottom: 18px
+
+#wiki_page_parent_id
+  overflow: auto
+
 blockquote
   font-style: italic
   &.icon:before
@@ -174,5 +195,26 @@ blockquote
 
 .toolbar-container + .wiki-content
   margin-top: -64px
-  // Attention: When more buttons are added to the toolbar this might has to be changed
-  width: calc(100% - #{$toolbar-width})
+
+
+@include breakpoint(680px down)
+  .toolbar-container .toolbar-items
+    background: #fff
+    display: flex
+    margin-bottom: 20px
+    width: calc(100% + 5px)
+
+    > li
+      -webkit-flex: 1 0 0
+      flex: 1 0 0
+
+      &:first-child
+        -webkit-flex: 3 0 0
+        flex: 3 0 0
+
+      .button
+        width: 100%
+        margin-top: 0
+
+  .wiki-title
+    margin-top: 4rem
