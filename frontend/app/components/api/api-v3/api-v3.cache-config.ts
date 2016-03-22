@@ -34,7 +34,7 @@ function apiV3CacheConfig($provide) {
     var wrapper = function() {
       var params = arguments;
       var request = arguments[0];
-      var requestable = _ => $http.apply($http, params);
+      var requestable = () => $http.apply($http, params);
       var useCaching = request.cache || true;
       var cacheOptions;
 
