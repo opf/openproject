@@ -131,7 +131,7 @@ module OpenProject
 
         def target(path = '')
           base = path.match(/\A\//) ? root_url : url
-          "#{base}/#{path}".gsub(/[?<>\*]/, '')
+          "#{base}/#{path}"
         end
 
         ##
