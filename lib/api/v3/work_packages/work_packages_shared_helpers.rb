@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/base_contract'
+require 'work_packages/base_contract'
 require 'api/v3/work_packages/work_package_payload_representer'
 
 module API
@@ -40,35 +40,47 @@ module API
           payload.from_hash(hash)
         end
 
-        def write_work_package_attributes(work_package, reset_lock_version: false)
+        def write_work_package_attributes(work_package, request_body, reset_lock_version: false)
           if request_body
             work_package.lock_version = nil if reset_lock_version
             # we need to merge the JSON two times:
-            # In Pass 1 the representer only has custom fields for the current WP type
-            # After Pass 1 the correct type information is merged into the WP
-            # In Pass 2 the representer is created with the new type info and will be able
+            # In Pass 1 the representer only has custom fields for the current WP type/project
+            # After Pass 1 the correct type/project information is merged into the WP
+            # In Pass 2 the representer is created with the new type/project info and will be able
             # to also parse custom fields successfully
             merge_hash_into_work_package!(request_body, work_package)
-            if work_package.type_id_changed?
+
+            if custom_field_context_changed?(work_package)
               merge_hash_into_work_package!(request_body, work_package)
             end
           end
         end
 
         def create_work_package_form(work_package, contract_class:, form_class:)
-          write_work_package_attributes(work_package, reset_lock_version: true)
+          write_work_package_attributes(work_package, request_body, reset_lock_version: true)
           contract = contract_class.new(work_package, current_user)
           contract.validate
 
           api_errors = ::API::Errors::ErrorBase.create_errors(contract.errors)
 
           # errors for invalid data (e.g. validation errors) are handled inside the form
-          if api_errors.all? { |error| error.code == 422 }
+          if only_validation_errors(api_errors)
             status 200
             form_class.new(work_package, current_user: current_user, errors: api_errors)
           else
             fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
           end
+        end
+
+        private
+
+        def custom_field_context_changed?(work_package)
+          work_package.type_id_changed? ||
+            work_package.project_id_changed?
+        end
+
+        def only_validation_errors(errors)
+          errors.all? { |error| error.code == 422 }
         end
       end
     end

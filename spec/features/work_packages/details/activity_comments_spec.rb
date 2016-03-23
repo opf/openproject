@@ -41,14 +41,12 @@ describe 'activity comments', js: true, selenium: true do
       end
 
       it 'saves both fields from description submit' do
-        expect(UpdateWorkPackageService).to receive(:new).twice.and_call_original
         description.submit_by_click
         expect(page).to have_selector('.user-comment .message', text: 'comment with description')
         description.expect_state_text('description goes here')
       end
 
       it 'saves both fields from comment submit' do
-        expect(UpdateWorkPackageService).to receive(:new).twice.and_call_original
         field.input_element.set 'some ingenious comment.'
         field.submit_by_click
         expect(page).to have_selector('.user-comment .message', text: 'some ingenious comment.')
@@ -73,13 +71,13 @@ describe 'activity comments', js: true, selenium: true do
 
       describe 'submitting comment' do
         it 'does not submit with enter' do
-          expect(UpdateWorkPackageService).not_to receive(:new)
           field.input_element.set 'this is a comment'
           field.submit_by_enter
+
+          expect(page).to_not have_selector('.user-comment .message', text: 'this is a comment')
         end
 
         it 'submits with click' do
-          expect(UpdateWorkPackageService).to receive(:new).and_call_original
           field.input_element.set 'this is a comment!1'
           field.submit_by_click
 
@@ -87,7 +85,6 @@ describe 'activity comments', js: true, selenium: true do
         end
 
         it 'submits comments repeatedly' do
-          expect(UpdateWorkPackageService).to receive(:new).twice.and_call_original
           field.input_element.set 'this is my first comment!1'
           field.submit_by_click
 
@@ -109,15 +106,13 @@ describe 'activity comments', js: true, selenium: true do
       end
 
       describe 'cancel comment' do
-        before do
-          expect(UpdateWorkPackageService).not_to receive(:new)
-        end
-
         it 'cancels with escape' do
           expect(field.editing?).to be true
           field.input_element.set 'this is a comment'
           field.cancel_by_escape
           expect(field.editing?).to be false
+
+          expect(page).to_not have_selector('.user-comment .message', text: 'this is a comment')
         end
 
         it 'cancels with click' do
@@ -125,6 +120,8 @@ describe 'activity comments', js: true, selenium: true do
           field.input_element.set 'this is a comment'
           field.cancel_by_click
           expect(field.editing?).to be false
+
+          expect(page).to_not have_selector('.user-comment .message', text: 'this is a comment')
         end
       end
 

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,24 +27,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# This capsulates permissions a user has for a work package.  It caches based
-# on the work package's project and is thus optimized for the context menu.
-#
-# This is no conern but it was placed here so that it will be removed together
-# with the rest of the experimental API.
+##
+# Create journal for the given user and note.
+# Does not change the work package itself.
 
-class BasePolicy
-  attr_accessor :user
+class AddWorkPackageNoteService
+  attr_accessor :user, :work_package
 
-  def initialize(user)
+  class << self
+    attr_accessor :contract
+  end
+
+  self.contract = WorkPackages::CreateNoteContract
+
+  def initialize(user:, work_package:)
     self.user = user
+    self.work_package = work_package
+
+    self.contract = self.class.contract.new(work_package, user)
   end
 
-  def actions(wp)
-    cache[wp].each_with_object([]) { |(k, v), a| a << k if v }
+  def call(notes, send_notifications: true)
+    JournalManager.with_send_notifications send_notifications do
+      work_package.add_journal(user, notes)
+
+      result, errors = validate_and_save
+
+      ServiceResult.new(result, errors)
+    end
   end
 
-  def allowed?(object, action)
-    cache(object)[action]
+  private
+
+  attr_accessor :contract
+
+  def validate_and_save
+    if !contract.validate
+      return false, contract.errors
+    elsif !work_package.save_journals
+      return false, work_package.errors
+    else
+      return true, work_package.errors
+    end
   end
 end

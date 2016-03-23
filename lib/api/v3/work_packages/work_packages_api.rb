@@ -70,21 +70,22 @@ module API
             end
 
             patch do
-              write_work_package_attributes(@work_package, reset_lock_version: true)
+              write_work_package_attributes(@work_package, request_body, reset_lock_version: true)
 
               send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
-              update_service = UpdateWorkPackageService.new(
-                user: current_user,
-                work_package: @work_package,
-                send_notifications: send_notifications)
 
-              contract = UpdateContract.new(@work_package, current_user)
-              if contract.validate && update_service.save
+              call = UpdateWorkPackageService
+                     .new(
+                       user: current_user,
+                       work_package: @work_package)
+                     .call(send_notifications: send_notifications)
+
+              if call.success?
                 @work_package.reload
 
                 work_package_representer
               else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(contract.errors)
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
               end
             end
 
@@ -101,6 +102,7 @@ module API
             mount ::API::V3::Attachments::AttachmentsByWorkPackageAPI
             mount ::API::V3::Repositories::RevisionsByWorkPackageAPI
             mount ::API::V3::WorkPackages::UpdateFormAPI
+            mount ::API::V3::WorkPackages::AvailableProjectsOnEditAPI
           end
 
           mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI

@@ -74,6 +74,8 @@ describe Journal::AggregatedJournal, type: :model do
 
   before do
     allow(User).to receive(:current).and_return(initial_author)
+    allow(UpdateWorkPackageService).to receive(:contract).and_return(NoopContract)
+    allow(AddWorkPackageNoteService).to receive(:contract).and_return(NoopContract)
     work_package.save!
   end
 
@@ -99,9 +101,13 @@ describe Journal::AggregatedJournal, type: :model do
 
     before do
       changes = { status: FactoryGirl.build(:status) }
-      changes[:notes] = notes if notes
+      changes[:journal_notes] = notes if notes
 
-      expect(work_package.update_by!(new_author, changes)).to be_truthy
+      allow(User).to receive(:current).and_return(new_author)
+
+      UpdateWorkPackageService
+        .new(user: new_author, work_package: work_package)
+        .call(attributes: changes)
     end
 
     context 'by author of last change' do
@@ -140,7 +146,9 @@ describe Journal::AggregatedJournal, type: :model do
           let(:notes) { 'Another comment, unrelated to the first one.' }
 
           before do
-            expect(work_package.update_by!(new_author, notes: notes)).to be_truthy
+            AddWorkPackageNoteService
+              .new(user: new_author, work_package: work_package)
+              .call(notes)
           end
 
           it 'returns two journals' do
@@ -179,7 +187,11 @@ describe Journal::AggregatedJournal, type: :model do
         context 'adding another change without comment' do
           before do
             work_package.reload # need to update the lock_version, avoiding StaleObjectError
-            expect(work_package.update_by!(new_author, subject: 'foo')).to be_truthy
+            changes = { subject: 'foo' }
+
+            UpdateWorkPackageService
+              .new(user: new_author, work_package: work_package)
+              .call(attributes: changes)
           end
 
           it 'returns a single journal' do
@@ -289,7 +301,10 @@ describe Journal::AggregatedJournal, type: :model do
       other_wp.save!
 
       changes = { subject: 'a new subject!' }
-      expect(work_package.update_by!(new_author, changes)).to be_truthy
+
+      UpdateWorkPackageService
+        .new(user: new_author, work_package: work_package)
+        .call(attributes: changes)
     end
 
     it 'only returns the journals for the requested work package' do

@@ -205,13 +205,15 @@ describe WorkPackage, type: :model do
 
       describe 'adding journal with a missing journal and an existing journal' do
         before do
-          work_package.update_by!(current_user, notes: 'note to be deleted')
+          allow(UpdateWorkPackageService).to receive(:contract).and_return(NoopContract)
+          service = UpdateWorkPackageService.new(user: current_user, work_package: work_package)
+          service.call(attributes: { journal_notes: 'note to be deleted' })
           work_package.reload
-          work_package.update_by!(current_user, description: 'description v2')
+          service.call(attributes: { description: 'description v2' })
           work_package.reload
           work_package.journals.find_by(notes: 'note to be deleted').delete
 
-          work_package.update_by!(current_user, description: 'description v4')
+          service.call(attributes: { description: 'description v4' })
         end
 
         it 'should create a journal for the last change' do

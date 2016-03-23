@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,29 +26,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/projects/project_collection_representer'
+
 module API
   module V3
     module WorkPackages
-      class UpdateContract < BaseContract
-        attribute :lock_version do
-          if model.lock_version.nil? || model.lock_version_changed?
-            errors.add :base, :error_conflict
+      class AvailableProjectsOnEditAPI < ::API::OpenProjectAPI
+        resource :available_projects do
+          before do
+            authorize(:edit_work_packages, context: @work_package.project)
           end
-        end
 
-        validate :user_allowed_to_access
-
-        validate :user_allowed_to_edit
-
-        private
-
-        def user_allowed_to_edit
-          errors.add :base, :error_unauthorized unless @can.allowed?(model, :edit)
-        end
-
-        def user_allowed_to_access
-          unless ::WorkPackage.visible(@user).exists?(model.id)
-            errors.add :base, :error_not_found
+          get do
+            available_projects = WorkPackage.allowed_target_projects_on_move(current_user)
+            self_link = api_v3_paths.available_projects_on_edit(@work_package.id)
+            Projects::ProjectCollectionRepresenter.new(available_projects,
+                                                       self_link,
+                                                       current_user: current_user)
           end
         end
       end

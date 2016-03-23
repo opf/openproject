@@ -248,6 +248,18 @@ class JournalManager
     }
   end
 
+  def self.with_send_notifications(send_notifications, &block)
+    old_value = send_notification
+
+    self.send_notification = send_notifications
+
+    result = block.call
+
+    self.send_notification = old_value
+
+    result
+  end
+
   private
 
   def self.journal_class_name(type)

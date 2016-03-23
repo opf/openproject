@@ -209,9 +209,15 @@ describe JournalNotificationMailer do
     let(:journal_2) { work_package.journals[2] }
     let(:journal_3) { work_package.journals[3] }
 
+    def update_by(author, attributes)
+      UpdateWorkPackageService
+        .new(user: author, work_package: work_package)
+        .call(attributes: attributes)
+    end
+
     shared_context 'updated until Journal 1' do
       before do
-        expect(work_package.update_by!(author, { notes: 'a comment' })).to be_truthy
+        expect(update_by(author, journal_notes: 'a comment')).to be_success
       end
     end
 
@@ -220,7 +226,7 @@ describe JournalNotificationMailer do
 
       before do
         work_package.reload
-        expect(work_package.update_by!(author, { subject: 'new subject' })).to be_truthy
+        expect(update_by(author, subject: 'new subject')).to be_success
       end
     end
 
@@ -229,7 +235,7 @@ describe JournalNotificationMailer do
 
       before do
         work_package.reload
-        expect(work_package.update_by!(author, { notes: 'a comment' })).to be_truthy
+        expect(update_by(author, journal_notes: 'a comment')).to be_success
       end
     end
 
@@ -305,9 +311,9 @@ describe JournalNotificationMailer do
         work_package.journals.first.update_attribute(:created_at, (timeout + 5.seconds).ago)
         work_package.reload
 
-        expect(work_package.update_by!(author, { done_ratio: 50 })).to be_truthy
+        expect(update_by(author, done_ratio: 50)).to be_success
         work_package.reload
-        expect(work_package.update_by!(author, { done_ratio: 60 })).to be_truthy
+        expect(update_by(author, done_ratio: 60)).to be_success
         work_package.reload
       end
 

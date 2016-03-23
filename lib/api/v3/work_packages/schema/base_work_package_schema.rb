@@ -47,7 +47,8 @@ module API
               :percentage_done,
               :estimated_time,
               :start_date,
-              :due_date
+              :due_date,
+              :project
             ]
 
             def writable_properties

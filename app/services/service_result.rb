@@ -27,25 +27,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      class CreateContract < BaseContract
-        # These attributes need to be set during creation and cannot be modified via representer.
-        # Hence making them writable here is unproblematic.
-        attribute :project_id
-        attribute :author_id
+class ServiceResult
+  attr_accessor :success, :errors
 
-        validate :user_allowed_to_add
-
-        private
-
-        def user_allowed_to_add
-          unless @user.allowed_to?(:add_work_packages, model.project)
-            errors.add :base, :error_unauthorized
-          end
-        end
-      end
-    end
+  def initialize(success = false,
+                 errors = ActiveModel::Errors.new(self))
+    self.success = success
+    self.errors = errors
   end
+
+  alias success? :success
 end

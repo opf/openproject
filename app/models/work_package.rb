@@ -313,21 +313,6 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # RELATIONS
-  def delete_relations(work_package)
-    unless Setting.cross_project_work_package_relations?
-      work_package.relations_from.clear
-      work_package.relations_to.clear
-    end
-  end
-
-  def delete_invalid_relations(_invalid_work_packages)
-    invalid_work_package.each do |work_package|
-      work_package.relations.each do |relation|
-        relation.destroy unless relation.valid?
-      end
-    end
-  end
-
   # Returns true if this work package is blocked by another work package that is still open
   def blocked?
     !relations_to.detect { |ir| ir.relation_type == 'blocks' && !ir.from.closed? }.nil?
@@ -351,6 +336,10 @@ class WorkPackage < ActiveRecord::Base
       work_package: self
     )
     time_entries.build(attributes)
+  end
+
+  def move_time_entries(project)
+    time_entries.update_all(project_id: project)
   end
 
   def all_dependent_packages(except = [])
@@ -424,28 +413,6 @@ class WorkPackage < ActiveRecord::Base
     !due_date.nil? && (due_date < Date.today) && !closed?
   end
 
-  # TODO: move into Business Object and rename to update
-  # update for now is a public method defined by AR
-  def update_by!(user, attributes)
-    attributes = attributes.dup
-    raw_attachments = attributes.delete(:attachments)
-
-    update_by(user, attributes)
-
-    attach_files(raw_attachments)
-
-    save
-  end
-
-  def update_by(user, attributes)
-    add_journal(user, attributes.delete(:notes) || '')
-
-    add_time_entry_for(user, attributes.delete(:time_entry))
-    attributes.delete(:attachments)
-
-    self.attributes = attributes
-  end
-
   def is_milestone?
     type && type.is_milestone?
   end
@@ -505,63 +472,6 @@ class WorkPackage < ActiveRecord::Base
   def estimated_hours=(h)
     converted_hours = (h.is_a?(String) ? h.to_hours : h)
     write_attribute :estimated_hours, !!converted_hours ? converted_hours : h
-  end
-
-  # Saves an issue, time_entry, attachments, and a journal from the parameters
-  # Returns false if save fails
-  def save_issue_with_child_records(params, existing_time_entry = nil)
-    WorkPackage.transaction do
-      if params[:time_entry] && (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) && User.current.allowed_to?(:log_time, project)
-        @time_entry = existing_time_entry || TimeEntry.new
-        @time_entry.project = project
-        @time_entry.work_package = self
-        @time_entry.user = User.current
-        @time_entry.spent_on = Date.today
-        @time_entry.attributes = params[:time_entry]
-        time_entries << @time_entry
-      end
-
-      if valid?
-        attachments = Attachment.attach_files(self, params[:attachments])
-
-        # TODO: Rename hook
-        Redmine::Hook.call_hook(
-          :controller_issues_edit_before_save,
-          params: params,
-          issue: self,
-          time_entry: @time_entry,
-          journal: current_journal)
-        begin
-          if save
-            # TODO: Rename hook
-            Redmine::Hook.call_hook(
-              :controller_issues_edit_after_save,
-              params: params,
-              issue: self,
-              time_entry: @time_entry,
-              journal: current_journal)
-          else
-            raise ActiveRecord::Rollback
-          end
-        rescue ActiveRecord::StaleObjectError
-          attachments[:files].each(&:destroy)
-          error_message = l(:notice_locking_conflict)
-
-          journals_since = journals.after(lock_version)
-
-          if journals_since.any?
-            changes = journals_since.map { |j| "#{j.user.name} (#{j.created_at.to_s(:short)})" }
-            error_message << ' ' << l(:notice_locking_conflict_additional_information,
-                                      users: changes.join(', '))
-          end
-
-          error_message << ' ' << l(:notice_locking_conflict_reload_page)
-
-          errors.add :base, error_message
-          raise ActiveRecord::Rollback
-        end
-      end
-    end
   end
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

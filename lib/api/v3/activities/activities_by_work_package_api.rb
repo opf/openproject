@@ -35,13 +35,12 @@ module API
         resource :activities do
           helpers do
             def comment_on_work_package(work_package, notify:, comment:)
-              update_service = UpdateWorkPackageService.new(
-                user: current_user,
-                work_package: work_package,
-                send_notifications: notify,
-              )
+              AddWorkPackageNoteService
+                .new(user: current_user,
+                     work_package: work_package)
+                .call(comment,
+                      send_notifications: notify)
 
-              update_service.create_journal(comment)
               journals = ::Journal::AggregatedJournal.aggregated_journals(journable: work_package)
               Activities::ActivityRepresenter.new(journals.last, current_user: current_user)
             end

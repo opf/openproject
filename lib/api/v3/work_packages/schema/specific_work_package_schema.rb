@@ -36,13 +36,10 @@ module API
             @work_package = work_package
           end
 
-          def project
-            @work_package.project
-          end
-
-          def type
-            @work_package.type
-          end
+          delegate :project,
+                   :type,
+                   :id,
+                   to: :@work_package
 
           def assignable_values(property, current_user)
             case property

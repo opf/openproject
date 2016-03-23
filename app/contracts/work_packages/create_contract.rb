@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,24 +27,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# This capsulates permissions a user has for a work package.  It caches based
-# on the work package's project and is thus optimized for the context menu.
-#
-# This is no conern but it was placed here so that it will be removed together
-# with the rest of the experimental API.
+module WorkPackages
+  class CreateContract < BaseContract
+    # These attributes need to be set during creation and cannot be modified via representer.
+    # Hence making them writable here is unproblematic.
+    attribute :project_id
+    attribute :author_id
 
-class BasePolicy
-  attr_accessor :user
+    validate :user_allowed_to_add
 
-  def initialize(user)
-    self.user = user
-  end
+    private
 
-  def actions(wp)
-    cache[wp].each_with_object([]) { |(k, v), a| a << k if v }
-  end
-
-  def allowed?(object, action)
-    cache(object)[action]
+    def user_allowed_to_add
+      unless @user.allowed_to?(:add_work_packages, model.project)
+        errors.add :base, :error_unauthorized
+      end
+    end
   end
 end

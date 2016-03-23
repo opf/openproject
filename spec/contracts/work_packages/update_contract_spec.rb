@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::UpdateContract do
+describe WorkPackages::UpdateContract do
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
   let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
@@ -84,6 +84,33 @@ describe ::API::V3::WorkPackages::UpdateContract do
       let(:permissions) { [:view_work_packages] }
 
       it { expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized) }
+    end
+  end
+
+  describe 'project_id' do
+    let(:target_project) { FactoryGirl.create(:project) }
+    let(:target_permissions) { [:move_work_packages] }
+
+    before do
+      FactoryGirl.create :member,
+                         user: user,
+                         project: target_project,
+                         roles: [FactoryGirl.create(:role, permissions: target_permissions)]
+
+      work_package.project = target_project
+
+      contract.validate
+    end
+
+    context 'if the user has the permissions' do
+      it('is valid') { expect(contract.errors).to be_empty }
+    end
+
+    context 'if the user lacks the permissions' do
+      let(:target_permissions) { [] }
+      it 'is invalid' do
+        expect(contract.errors.symbols_for(:project)).to match_array([:error_unauthorized])
+      end
     end
   end
 end

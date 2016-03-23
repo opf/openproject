@@ -366,7 +366,20 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:type) { 'Project' }
         let(:name) { I18n.t('attributes.project') }
         let(:required) { true }
-        let(:writable) { false }
+        let(:writable) { true }
+      end
+
+      it_behaves_like 'links to allowed values via collection link' do
+        let(:path) { 'project' }
+        let(:href) { "/api/v3/work_packages/#{work_package.id}/available_projects" }
+      end
+
+      context 'when not embedded' do
+        let(:embedded) { false }
+
+        it_behaves_like 'does not link to allowed values' do
+          let(:path) { 'project' }
+        end
       end
     end
 

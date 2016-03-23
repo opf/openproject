@@ -106,6 +106,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/work_packages/42/available_watchers'
   end
 
+  describe '#available_projects' do
+    subject { helper.available_projects_on_edit 42 }
+
+    it_behaves_like 'api v3 path', '/work_packages/42/available_projects'
+  end
+
   describe '#categories' do
     subject { helper.categories 42 }
 

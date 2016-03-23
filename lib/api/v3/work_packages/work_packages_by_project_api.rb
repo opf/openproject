@@ -28,7 +28,7 @@
 
 require 'api/v3/work_packages/work_package_representer'
 require 'api/v3/work_packages/work_packages_shared_helpers'
-require 'api/v3/work_packages/create_contract'
+require 'work_packages/create_contract'
 
 module API
   module V3
@@ -56,9 +56,9 @@ module API
           post do
             work_package = create_service.create
 
-            write_work_package_attributes work_package
+            write_work_package_attributes work_package, request_body
 
-            contract = ::API::V3::WorkPackages::CreateContract.new(work_package, current_user)
+            contract = ::WorkPackages::CreateContract.new(work_package, current_user)
             if contract.validate && create_service.save(work_package)
               work_package.reload
               WorkPackages::WorkPackageRepresenter.create(work_package,

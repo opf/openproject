@@ -111,8 +111,12 @@ module API
           schema :author,
                  type: 'User'
 
-          schema :project,
-                 type: 'Project'
+          schema_with_allowed_link :project,
+                                   type: 'Project',
+                                   required: true,
+                                   href_callback: -> (*) {
+                                     api_v3_paths.available_projects_on_edit(represented.id)
+                                   }
 
           schema :parent_id,
                  type: 'Integer',

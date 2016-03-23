@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,24 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# This capsulates permissions a user has for a work package.  It caches based
-# on the work package's project and is thus optimized for the context menu.
-#
-# This is no conern but it was placed here so that it will be removed together
-# with the rest of the experimental API.
-
-class BasePolicy
-  attr_accessor :user
-
-  def initialize(user)
-    self.user = user
+class NoopContract
+  def initialize(*_)
   end
 
-  def actions(wp)
-    cache[wp].each_with_object([]) { |(k, v), a| a << k if v }
-  end
-
-  def allowed?(object, action)
-    cache(object)[action]
+  def validate
+    true
   end
 end

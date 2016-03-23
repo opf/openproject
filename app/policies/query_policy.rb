@@ -35,19 +35,21 @@
 class QueryPolicy < BasePolicy
   private
 
-  def cache
-    @cache ||= Hash.new do |hash, query|
-      hash[query] = {
-        show: viewable?(query),
-        update: persisted_and_own_or_public?(query),
-        destroy: persisted_and_own_or_public?(query),
-        create: create_allowed?(query),
-        publicize: publicize_allowed?(query),
-        depublicize: depublicize_allowed?(query),
-        star: persisted_and_own_or_public?(query),
-        unstar: persisted_and_own_or_public?(query)
+  def cache(query)
+    @cache ||= Hash.new do |hash, cached_query|
+      hash[cached_query] = {
+        show: viewable?(cached_query),
+        update: persisted_and_own_or_public?(cached_query),
+        destroy: persisted_and_own_or_public?(cached_query),
+        create: create_allowed?(cached_query),
+        publicize: publicize_allowed?(cached_query),
+        depublicize: depublicize_allowed?(cached_query),
+        star: persisted_and_own_or_public?(cached_query),
+        unstar: persisted_and_own_or_public?(cached_query)
       }
     end
+
+    @cache[query]
   end
 
   def persisted_and_own_or_public?(query)

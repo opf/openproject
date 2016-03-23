@@ -37,7 +37,7 @@ module API
 
           post do
             create_work_package_form(@work_package,
-                                     contract_class: UpdateContract,
+                                     contract_class: ::WorkPackages::UpdateContract,
                                      form_class: UpdateFormRepresenter)
           end
         end

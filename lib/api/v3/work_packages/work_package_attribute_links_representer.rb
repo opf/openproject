@@ -96,6 +96,7 @@ module API
         linked_property :parent,
                         path: :work_package,
                         namespace: :work_packages
+        linked_property :project
       end
     end
   end

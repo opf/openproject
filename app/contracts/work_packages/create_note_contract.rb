@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,24 +27,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# This capsulates permissions a user has for a work package.  It caches based
-# on the work package's project and is thus optimized for the context menu.
-#
-# This is no conern but it was placed here so that it will be removed together
-# with the rest of the experimental API.
+module WorkPackages
+  class CreateNoteContract < ::ModelContract
+    attr_accessor :policy,
+                  :user
 
-class BasePolicy
-  attr_accessor :user
+    attribute :journal_notes do
+      errors.add(:journal_notes, :error_unauthorized) unless can?(:comment)
+    end
 
-  def initialize(user)
-    self.user = user
-  end
+    def initialize(work_package, user)
+      super(work_package)
 
-  def actions(wp)
-    cache[wp].each_with_object([]) { |(k, v), a| a << k if v }
-  end
+      self.user = user
+      self.policy = WorkPackagePolicy.new(user)
+    end
 
-  def allowed?(object, action)
-    cache(object)[action]
+    private
+
+    def can?(permission)
+      policy.allowed?(model, permission)
+    end
   end
 end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::Contracts::ModelContract do
+describe ModelContract do
   let(:model) {
     double('The model',
            child_attribute: nil,
@@ -47,7 +47,7 @@ describe ::API::Contracts::ModelContract do
   end
 
   describe 'child' do
-    class ChildContract < ::API::Contracts::ModelContract
+    class ChildContract < ModelContract
       attr_accessor :child_value
 
       attribute :child_attribute
