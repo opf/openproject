@@ -38,7 +38,7 @@ module API
 
           post do
             create_contract = ::WorkPackages::CreateContract
-            create_work_package_form(create_service.create,
+            create_work_package_form(WorkPackage.new(project: @project),
                                      contract_class: create_contract,
                                      form_class: CreateFormRepresenter)
           end

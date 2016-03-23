@@ -42,9 +42,7 @@ module API
             def create_service
               @create_service ||=
                 CreateWorkPackageService.new(
-                  user: current_user,
-                  project: @project,
-                  send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
+                  user: current_user)
             end
           end
 
@@ -54,18 +52,21 @@ module API
           end
 
           post do
-            work_package = create_service.create
+            attributes = write_work_package_attributes(WorkPackage.new, request_body)
+                         .changes.each_with_object({}) { |(k, v), h| h[k] = v.last }
 
-            write_work_package_attributes work_package, request_body
+            attributes[:project_id] = @project.id
 
-            contract = ::WorkPackages::CreateContract.new(work_package, current_user)
-            if contract.validate && create_service.save(work_package)
-              work_package.reload
-              WorkPackages::WorkPackageRepresenter.create(work_package,
+            result = create_service.call(attributes: attributes,
+                                         send_notifications: notify_according_to_params)
+
+            if result.success?
+              work_package = result.result
+              WorkPackages::WorkPackageRepresenter.create(work_package.reload,
                                                           current_user: current_user,
                                                           embed_links: true)
             else
-              fail ::API::Errors::ErrorBase.create_and_merge_errors(contract.errors)
+              fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
             end
           end
 

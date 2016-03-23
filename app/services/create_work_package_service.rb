@@ -28,25 +28,46 @@
 #++
 
 class CreateWorkPackageService
-  attr_reader :user, :project
+  include Concerns::Contracted
 
-  def initialize(user:, project:, send_notifications: true)
+  self.contract = WorkPackages::CreateContract
+
+  attr_reader :user
+
+  def initialize(user:)
     @user = user
-    @project = project
-
-    JournalManager.send_notification = send_notifications
   end
 
-  def create
-    hash = {
-      project: project,
-      author: user,
-      type: project.types.first
-    }
-    project.add_work_package(hash)
+  def call(attributes:, send_notifications: true)
+    User.execute_as user do
+      JournalManager.with_send_notifications send_notifications do
+        create(attributes)
+      end
+    end
   end
 
-  def save(work_package)
-    work_package.save
+  private
+
+  def create(attributes)
+    work_package = WorkPackage.new
+
+    initialize_contract(work_package)
+    assign_defaults(work_package, attributes)
+    assign_provided(work_package, attributes)
+    result, errors = validate_and_save(work_package)
+
+    ServiceResult.new(result, errors, result: work_package)
+  end
+
+  def assign_provided(work_package, attributes)
+    work_package.attributes = attributes
+  end
+
+  def assign_defaults(work_package, attributes)
+    work_package.author = user unless attributes[:author_id]
+  end
+
+  def initialize_contract(work_package)
+    self.contract = self.class.contract.new(work_package, user)
   end
 end

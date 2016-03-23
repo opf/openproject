@@ -48,11 +48,13 @@ module API
             # After Pass 1 the correct type/project information is merged into the WP
             # In Pass 2 the representer is created with the new type/project info and will be able
             # to also parse custom fields successfully
-            merge_hash_into_work_package!(request_body, work_package)
+            work_package = merge_hash_into_work_package!(request_body, work_package)
 
             if custom_field_context_changed?(work_package)
-              merge_hash_into_work_package!(request_body, work_package)
+              work_package = merge_hash_into_work_package!(request_body, work_package)
             end
+
+            work_package
           end
         end
 
@@ -81,6 +83,10 @@ module API
 
         def only_validation_errors(errors)
           errors.all? { |error| error.code == 422 }
+        end
+
+        def notify_according_to_params
+          !(params[:notify] == 'false')
         end
       end
     end

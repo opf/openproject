@@ -82,4 +82,26 @@ describe ServiceResult, type: :model do
       expect(instance.errors).to be_a ActiveModel::Errors
     end
   end
+
+  describe 'result' do
+    let(:result) { double('result') }
+
+    it 'is what the object is initialized with' do
+      instance = ServiceResult.new false, [], result: result
+
+      expect(instance.result).to eql result
+    end
+
+    it 'is what has been provided' do
+      instance.result = result
+
+      expect(instance.result).to eql result
+    end
+
+    it 'is nil by default' do
+      instance = ServiceResult.new
+
+      expect(instance.result).to be_nil
+    end
+  end
 end

@@ -29,45 +29,132 @@
 require 'spec_helper'
 
 describe CreateWorkPackageService do
-  let(:user) { FactoryGirl.build(:user) }
-  let(:work_package) { FactoryGirl.build(:work_package) }
-  let(:project) { FactoryGirl.build(:project_with_types) }
+  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:work_package) { FactoryGirl.build_stubbed(:work_package) }
+  let(:project) { FactoryGirl.build_stubbed(:project_with_types) }
+  let(:instance) { described_class.new(user: user) }
+  let(:errors) { double('errors') }
 
-  before do
-    allow(project).to receive(:add_work_package).and_return(work_package)
-  end
-
-  subject(:service) { CreateWorkPackageService.new(user: user, project: project) }
-
-  describe 'should use meaningful defaults for creation' do
-    it 'should use the project' do
-      expect(project).to receive(:add_work_package).with(hash_including(project: project))
-    end
-
-    it 'should use the user' do
-      expect(project).to receive(:add_work_package).with(hash_including(author: user))
-    end
-
-    it 'should use a type' do
-      expect(project).to receive(:add_work_package).with(hash_including(:type))
-    end
-
-    it 'should have a non-empty type' do
-      expect(project).to receive(:add_work_package).with(hash_excluding(type: nil))
-    end
-
-    after do
-      service.create
+  describe '.contract' do
+    it 'uses the CreateContract contract' do
+      expect(described_class.contract).to eql WorkPackages::CreateContract
     end
   end
 
-  it 'should create an unsaved work_package' do
-    expect(service.create.new_record?).to be_truthy
+  describe '.new' do
+    it 'takes a user which is available as a getter' do
+      expect(instance.user).to eql user
+    end
   end
 
-  it 'should #save records' do
-    wp = service.create
-    service.save(wp)
-    expect(WorkPackage.exists?(wp.id)).to be_truthy
+  describe '#call' do
+    let(:mock_contract) do
+      double(WorkPackages::CreateContract,
+             new: mock_contract_instance)
+    end
+    let(:mock_contract_instance) do
+      mock_model(WorkPackages::CreateContract)
+    end
+    let(:attributes) do
+      { project_id: 1,
+        subject: 'lorem ipsum',
+        status_id: 5 }
+    end
+
+    before do
+      allow(described_class)
+        .to receive(:contract)
+        .and_return(mock_contract)
+
+      allow(WorkPackage)
+        .to receive(:new)
+        .and_return(work_package)
+
+      allow(work_package)
+        .to receive(:save)
+        .and_return true
+      allow(mock_contract_instance)
+        .to receive(:validate)
+        .and_return true
+    end
+
+    context 'if contract validates and the work package saves' do
+      it 'is successful' do
+        expect(instance.call(attributes: {}))
+          .to be_success
+      end
+
+      it 'has no errors' do
+        expect(instance.call(attributes: {}).errors)
+          .to be_empty
+      end
+
+      it 'returns the work package as a result' do
+        result = instance.call(attributes: {}).result
+
+        expect(result).to be_a WorkPackage
+      end
+
+      it 'assigns the attributes provided' do
+        result = instance.call(attributes: attributes).result
+
+        expect(result.project_id).to eql(attributes[:project_id])
+        expect(result.subject).to eql(attributes[:subject])
+      end
+
+      it 'sets the user to be the author' do
+        result = instance.call(attributes: attributes).result
+
+        expect(result.author).to eql(user)
+      end
+
+      it 'sets the type that is provided' do
+        result = instance.call(attributes: { type_id: 1 }).result
+
+        expect(result.type_id).to eql(1)
+      end
+    end
+
+    context 'if contract does not validate' do
+      before do
+        allow(mock_contract_instance)
+          .to receive(:validate)
+          .and_return false
+      end
+
+      it 'is unsuccessful' do
+        expect(instance.call(attributes: {}))
+          .to_not be_success
+      end
+
+      it "returns the contract's errors" do
+        allow(mock_contract_instance)
+          .to receive(:errors)
+          .and_return errors
+
+        expect(instance.call(attributes: {}).errors).to eql errors
+      end
+    end
+
+    context 'if work_package does not save' do
+      before do
+        allow(work_package)
+          .to receive(:save)
+          .and_return false
+      end
+
+      it 'is unsuccessful' do
+        expect(instance.call(attributes: {}))
+          .to_not be_success
+      end
+
+      it "returns the work_package's errors" do
+        allow(work_package)
+          .to receive(:errors)
+          .and_return errors
+
+        expect(instance.call(attributes: {}).errors).to eql errors
+      end
+    end
   end
 end
