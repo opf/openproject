@@ -1,15 +1,14 @@
 <div id="work-package-context-menu" class="action-menu dropdown" role="menu">
   <ul class="dropdown-menu">
-    <li class="open"
-        feature-flag="detailsView">
-      <a role="menuitem" focus="isDetailsViewLinkPresent()" ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})">
+    <li class="open detailsViewMenuItem">
+      <a role="menuitem" focus ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})">
         <i ng-class="['icon-action-menu', 'icon-view-split']"></i>
         <span ng-bind="I18n.t('js.button_open_details')"/>
       </a>
     </li>
     <li ng-repeat="action in permittedActions"
         class="{{action.icon}}">
-      <a role="menuitem" focus="$index == 0 && !isDetailsViewLinkPresent()" href="" ng-click="triggerContextMenuAction(action.icon, action.link)">
+      <a role="menuitem" href="" ng-click="triggerContextMenuAction(action.icon, action.link)">
         <i ng-class="['icon-action-menu', 'icon-' + action.icon]"></i>
         <span ng-bind="I18n.t('js.button_' + action.icon)"/>
       </a>

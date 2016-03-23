@@ -195,7 +195,7 @@ body.controller-work_packages.action-show {
 @media only screen and (max-width: 1280px) {
   .work-packages--details {
     @at-root {
-      li[feature-flag=detailsView] {
+      .detailsViewMenuItem {
         display: block;
       }
     }

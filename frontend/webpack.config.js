@@ -125,7 +125,6 @@ module.exports = {
 
       'angular-ui-date': 'angular-ui-date/src/date',
       'angular-truncate': 'angular-truncate/src/truncate',
-      'angular-feature-flags': 'angular-feature-flags/dist/featureFlags.js',
       'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
       'mousetrap': 'mousetrap/mousetrap.js',
       'hyperagent': 'hyperagent/dist/hyperagent',

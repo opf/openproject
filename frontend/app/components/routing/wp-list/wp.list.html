@@ -26,13 +26,13 @@
           <span class="badge -secondary">{{ getFilterCount() }}</span>
         </button>
       </li>
-      <li class="toolbar-item hidden-for-mobile" feature-flag="detailsView">
+      <li class="toolbar-item hidden-for-mobile">
         <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
           <li>
             <wp-list-view-button disabled="editAll.state"
                                  project-identifier="projectIdentifier"></wp-list-view-button>
           </li>
-          <li feature-flag="detailsView">
+          <li>
             <wp-details-view-button
                 next-wp-func="nextAvailableWorkPackage"></wp-details-view-button>
           </li>
@@ -88,6 +88,5 @@
       </table-pagination>
     </div>
   </div>
-  <div class="work-packages--details" ui-view ng-show="workPackage"
-    feature-flag="detailsView"></div>
+  <div class="work-packages--details" ui-view ng-show="workPackage"></div>
 </div>
