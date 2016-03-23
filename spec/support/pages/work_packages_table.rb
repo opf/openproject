@@ -61,6 +61,10 @@ module Pages
       FullWorkPackage.new(work_package)
     end
 
+    def open_full_screen_by_link(work_package)
+      row(work_package).click_link(work_package.id)
+    end
+
     def row(work_package)
       table_container.find("#work-package-#{work_package.id}")
     end

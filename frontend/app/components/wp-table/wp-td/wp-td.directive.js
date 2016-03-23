@@ -51,6 +51,20 @@ function WorkPackageTdController($scope, I18n, PathHelper, WorkPackagesHelper) {
   var vm = this;
       vm.displayText = I18n.t('js.work_packages.placeholders.default');
 
+  function setDisplayType() {
+    // TODO: alter backend so that percentageDone has the type
+    // 'Percent' already
+    if (vm.attribute === 'percentageDone') {
+      vm.displayType = 'Percent';
+    } else if (vm.attribute === 'id') {
+      // Show a link to the work package for the ID
+      vm.displayType = 'SelfLink';
+      vm.displayLink = PathHelper.workPackagePath(vm.object.id);
+    } else {
+      vm.displayType = vm.schema[vm.attribute].type;
+    }
+  }
+
   function updateAttribute() {
     if (!vm.schema[vm.attribute]) {
       return;
@@ -61,14 +75,7 @@ function WorkPackageTdController($scope, I18n, PathHelper, WorkPackagesHelper) {
       return;
     }
 
-    // TODO: alter backend so that percentageDone has the type
-    // 'Percent' already
-    if (vm.attribute === 'percentageDone') {
-      vm.displayType = 'Percent';
-    }
-    else {
-      vm.displayType = vm.schema[vm.attribute].type;
-    }
+    setDisplayType();
 
     var text = vm.object[vm.attribute].value ||
                 vm.object[vm.attribute].name ||

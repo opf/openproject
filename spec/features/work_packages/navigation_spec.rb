@@ -91,6 +91,16 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     full_work_package.expect_subject
     full_work_package.expect_current_path
 
+    # Back to table
+    global_work_packages.visit!
+    global_work_packages.expect_work_package_listed(work_package)
+
+    # Link to full screen from index
+    global_work_packages.open_full_screen_by_link(work_package)
+
+    full_work_package.expect_subject
+    full_work_package.expect_current_path
+
     # Safeguard: ensure spec to have finished loading everything before proceeding to the next spec
     full_work_package.ensure_page_loaded
   end

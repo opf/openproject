@@ -7,6 +7,10 @@
                 width="80px">
   </progress-bar>
 
+  <span ng-switch-when="SelfLink" title="{{ vm.displayText }}">
+    <a ng-href="{{ vm.displayLink }}">{{ vm.displayText }}</a>
+  </span>
+
   <span ng-switch-default
     title="{{ vm.displayText }}">
     {{ vm.displayText }}
