@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if @editable %>
     <% if User.current.allowed_to? :edit_wiki_pages, @project %>
       <% if @page %>
-        <%= content_tag(:li, link_to(l(:create_child_page), wiki_new_child_path(id: @page, project_id: @project), class: 'button icon-add -alt-highlight'), class: 'toolbar-item') %>
+        <%= content_tag(:li, link_to(l(:create_new_page), wiki_new_child_path(id: @page, project_id: @project), class: 'button icon-add -alt-highlight'), class: 'toolbar-item') %>
       <% end %>
     <% end %>
     <%= li_unless_nil(link_to_if_authorized(l(:button_edit), {action: 'edit', id: @page}, class: 'button icon-edit', accesskey: accesskey(:edit)), class: 'toolbar-item') if @content.version == @page.content.version %>

@@ -49,7 +49,7 @@ Feature: Creating a wiki child page
       | title | Wikiparentpage |
     Given I go to the wiki index page of the project called "project1"
       And I click "Wikiparentpage"
-      And I click "Create new child page"
+      And I click "Create wiki page"
       And I fill in "content_page_title" with "Todd's wiki"
       And I press "Save"
     When I go to the wiki index page of the project called "project1"
@@ -63,7 +63,7 @@ Feature: Creating a wiki child page
       | title         | ParentWikiPage |
       | new_wiki_page | true           |
     When I go to the wiki page "ParentWikiPage" of the project called "project1"
-    And I click "Create new child page"
+    And I click "Create wiki page"
     And I fill in "content_page_title" with "Child Page !@#{$%^&*()_},./<>?;':"
     And I click "Save"
     Then I should see "Successful creation."

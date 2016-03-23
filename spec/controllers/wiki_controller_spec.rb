@@ -408,7 +408,7 @@ describe WikiController, type: :controller do
 
               expect(response).to be_success
 
-              assert_select '#content a', text: 'Create new child page', count: 0
+              assert_select '#content a', text: 'Create wiki page', count: 0
             end
           end
 
@@ -422,7 +422,7 @@ describe WikiController, type: :controller do
 
               expect(response).to be_success
 
-              assert_select '#content a', text: 'Create new child page', count: 0
+              assert_select '#content a', text: 'Create wiki page', count: 0
             end
           end
         end
@@ -435,7 +435,7 @@ describe WikiController, type: :controller do
 
                 expect(response).to be_success
 
-                assert_select "#content a[href='#{wiki_new_child_path(project_id: @project, id: @page_with_content.title)}']", 'Create new child page'
+                assert_select "#content a[href='#{wiki_new_child_path(project_id: @project, id: @page_with_content.title)}']", 'Create wiki page'
               end
             end
 
@@ -446,7 +446,7 @@ describe WikiController, type: :controller do
                 expect(response).to be_success
 
                 assert_select "#content a[href='#{wiki_new_child_path(project_id: @project, id: 'i-am-a-ghostpage')}']",
-                              text: 'Create new child page', count: 0
+                              text: 'Create wiki page', count: 0
               end
             end
           end
@@ -461,21 +461,21 @@ describe WikiController, type: :controller do
 
               expect(response).to be_success
 
-              assert_select '#content a', text: 'Create new child page', count: 0
+              assert_select '#content a', text: 'Create wiki page', count: 0
             end
           end
         end
       end
 
       describe 'new page link' do
-        describe 'on an index page' do
+        describe 'on a show page' do
           describe 'being authorized to edit wiki pages' do
             it 'is visible' do
-              get 'index', project_id: @project.id
+              get 'show', project_id: @project.id
 
               expect(response).to be_success
 
-              assert_select ".toolbar a[href='#{wiki_new_child_path(project_id: @project, id: 'Wiki')}']", 'Create new child page'
+              assert_select ".toolbar-items a[href='#{wiki_new_child_path(project_id: @project, id: 'Wiki')}']", 'Create wiki page'
             end
           end
 
@@ -485,37 +485,11 @@ describe WikiController, type: :controller do
             end
 
             it 'is invisible' do
-              get 'index', project_id: @project.id
+              get 'show', project_id: @project.id
 
               expect(response).to be_success
 
-              assert_select '.toolbar a', text: 'Create new child page', count: 0
-            end
-          end
-        end
-
-        describe 'on a wiki page' do
-          describe 'being authorized to edit wiki pages' do
-            it 'is visible' do
-              get 'show', id: @page_with_content.title, project_id: @project.identifier
-
-              expect(response).to be_success
-
-              assert_select ".toobar a[href='#{wiki_new_child_path(project_id: @project, id: 'Wiki')}']", 'Create new child page'
-            end
-          end
-
-          describe 'being unauthorized to edit wiki pages' do
-            before do
-              allow(User).to receive(:current).and_return @anon
-            end
-
-            it 'is invisible' do
-              get 'show', id: @page_with_content.title, project_id: @project.identifier
-
-              expect(response).to be_success
-
-              assert_select '.toolbar a', text: 'Create new child page', count: 0
+              assert_select '.toolbar-items a', text: 'Create wiki page', count: 0
             end
           end
         end

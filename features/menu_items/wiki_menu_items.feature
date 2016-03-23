@@ -76,8 +76,6 @@ Feature: Wiki menu items
     And I press "Save"
     When I go to the wiki page "Wiki" for the project called "Awesome Project"
     Then I should see "Wikikiki" within "#main-menu"
-    Then I should not see "Table of Contents" within "#main-menu"
-    Then I should not see "Create new child page" within "#main-menu"
 
   @javascript
   Scenario: Do not change existing entry, but saving nonetheless
