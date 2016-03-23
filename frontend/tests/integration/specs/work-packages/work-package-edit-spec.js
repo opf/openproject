@@ -117,7 +117,8 @@ describe('Work package edit', function() {
             url = currentUrl;
           });
 
-          page.listViewWorkPackage.click().then(function () {
+          page.listViewWorkPackage.click();
+          $('#work-package-820 .wp-table--details-link').click().then(function () {
             confirm = browser.switchTo().alert();
           });
         });
