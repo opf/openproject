@@ -865,32 +865,6 @@ class Project < ActiveRecord::Base
     list
   end
 
-  def add_issue(attributes = {})
-    ActiveSupport::Deprecation.warn 'Project.add_issue is deprecated. Use Project.add_work_package instead.'
-    add_work_package attributes
-  end
-
-  def add_work_package(attributes = {})
-    WorkPackage.new do |i|
-      i.project = self
-
-      type    = attributes.delete(:type)
-      type_id = if type && type.respond_to?(:id)
-                  type.id
-                else
-                  attributes.delete(:type_id)
-                end
-
-      i.type = if type_id
-                 project.types.find(type_id)
-               else
-                 project.types.first
-               end
-
-      i.attributes = attributes
-    end
-  end
-
   def allowed_permissions
     @allowed_permissions ||= begin
       names = enabled_modules.loaded? ? enabled_module_names : enabled_modules.pluck(:name)

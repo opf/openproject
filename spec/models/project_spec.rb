@@ -75,59 +75,6 @@ describe Project, type: :model do
     end
   end
 
-  describe 'add_work_package' do
-    let(:project) { FactoryGirl.create(:project_with_types) }
-
-    it 'should return a new work_package' do
-      expect(project.add_work_package).to be_a(WorkPackage)
-    end
-
-    it 'should not be saved' do
-      expect(project.add_work_package).to be_new_record
-    end
-
-    it 'returned work_package should have project set to self' do
-      expect(project.add_work_package.project).to eq(project)
-    end
-
-    it "returned work_package should have type set to project's first type" do
-      expect(project.add_work_package.type).to eq(project.types.first)
-    end
-
-    it 'returned work_package should have type set to provided type' do
-      specific_type = FactoryGirl.build(:type)
-      project.types << specific_type
-
-      expect(project.add_work_package(type: specific_type).type).to eq(specific_type)
-    end
-
-    it "should raise an error if the provided type is not one of the project's types" do
-      # Load project first so that the new type is not automatically included
-      project
-      specific_type = FactoryGirl.create(:type)
-
-      expect { project.add_work_package(type: specific_type) }.to raise_error ActiveRecord::RecordNotFound
-    end
-
-    it 'returned work_package should have type set to provided type_id' do
-      specific_type = FactoryGirl.build(:type)
-      project.types << specific_type
-
-      expect(project.add_work_package(type_id: specific_type.id).type).to eq(specific_type)
-    end
-
-    it 'should set all the other attributes' do
-      attributes = { blubs: double('blubs') }
-
-      new_work_package = FactoryGirl.build_stubbed(:work_package)
-      expect(new_work_package).to receive(:attributes=).with(attributes)
-
-      allow(WorkPackage).to receive(:new).and_yield(new_work_package)
-
-      project.add_work_package(attributes)
-    end
-  end
-
   describe '#find_visible' do
     it 'should find the project by id if the user is project member' do
       become_member_with_permissions(project, user, :view_work_packages)
