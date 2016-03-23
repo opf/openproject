@@ -30,30 +30,37 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <% end %>
 
 <%= styled_form_tag(cost_types_path, { :method => :get, :id => 'query_form' }) do %>
-  <fieldset id="filters">
+  <fieldset id="filters" class="simple-filters--container">
     <legend><%= t(:label_filter_plural) %></legend>
-    <div class="form--field">
-      <%= styled_label_tag :fixed_date, t(:label_fixed_date) %>
-      <%= styled_text_field_tag :fixed_date, @fixed_date %>
-      <%= calendar_for :fixed_date %>
-    </div>
-    <div class="form--field">
-      <%= styled_label_tag :include_deleted, t(:caption_show_locked) %>
-      <%= styled_check_box_tag :include_deleted, "1", @include_deleted, :autocomplete => "off" %>
-    </div>
-  </fieldset>
-<hr class="form--separator">
-<%= link_to_remote t(:button_apply),
+    <ul class="simple-filters--filters">
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :fixed_date, t(:label_fixed_date), class: 'simple-filters--filter-name' %>
+        <div class='simple-filters--filter-value'>
+          <%= styled_text_field_tag :fixed_date, @fixed_date %>
+        </div>
+        <%= calendar_for :fixed_date %>
+      </li>
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :include_deleted, t(:caption_show_locked), class: 'simple-filters--filter-name -small' %>
+        <div class="simple-filters--filter-value">
+          <%= styled_check_box_tag :include_deleted, "1", @include_deleted, :autocomplete => "off" %>
+        </div>
+      </li>
+      <li class="simple-filters--controls">
+        <%= link_to_remote t(:button_apply),
                    { :update => "content",
                      :with => "Form.serialize('query_form')",
                      :method => :get
-                   }, :class => 'button -with-icon icon-checkmark' %>
+                   }, :class => 'button -with-icon -highlight -small icon-checkmark' %>
 
-<%= link_to_remote t(:button_clear),
+        <%= link_to_remote t(:button_clear),
                    { :url => { :clear_filter => true },
                      :method => :get,
                      :update => "content",
-                   }, :class => 'button icon-context icon-undo' %>
+                   }, :class => 'button -with-icon -small icon-context icon-undo' %>
+      </li>
+    </ul>
+  </fieldset>
 <% end %>
 
 <div id="cost_type_flash_notice_outer" style="display:none">
