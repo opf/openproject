@@ -29,7 +29,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<h3><%=l(:label_document_plural)%></h3>
+
+<div class="box-actions">
+  <% if User.current.allowed_to?(:remove_block, nil, global: true) %>
+    <%= link_to_remote '', {
+          confirm: l(:label_confirm_delete),
+          url: { action: "remove_block", block: 'documents' },
+          html: { class: "icon icon-close", title: l(:button_delete) }
+        }
+        %>
+  <% end %>
+</div>
+
+<h3 class="widget-box--header">
+  <span class="icon-context icon-notes"></span>
+  <span class="widget-box--header-title"><%=l(:label_document_plural)%></span>
+</h3>
+
 
 <% if @user.allowed_to?(:view_documents, @project)%>
     <%= render(:partial => 'documents/document',
