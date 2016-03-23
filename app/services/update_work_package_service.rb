@@ -28,11 +28,9 @@
 #++
 
 class UpdateWorkPackageService
-  attr_accessor :user, :work_package
+  include Concerns::Contracted
 
-  class << self
-    attr_accessor :contract
-  end
+  attr_accessor :user, :work_package
 
   self.contract = WorkPackages::UpdateContract
 
@@ -53,13 +51,11 @@ class UpdateWorkPackageService
 
   private
 
-  attr_accessor :contract
-
   def update(attributes)
     set_attributes(attributes)
 
     changed_attributes = work_package.changes.dup
-    save_result, save_errors = validate_and_save
+    save_result, save_errors = validate_and_save(work_package)
 
     if save_result
       cleanup_result, cleanup_errors = cleanup(changed_attributes)
@@ -72,16 +68,6 @@ class UpdateWorkPackageService
 
   def set_attributes(attributes)
     work_package.attributes = attributes
-  end
-
-  def validate_and_save
-    if !contract.validate
-      return false, contract.errors
-    elsif !work_package.save
-      return false, work_package.errors
-    else
-      return true, work_package.errors
-    end
   end
 
   def cleanup(attributes)
