@@ -183,7 +183,7 @@ module WorkPackage::Validations
   end
 
   def status_transition_exists?
-    type.is_valid_transition?(status_id_was, status_id, User.current.roles(project))
+    type.valid_transition?(status_id_was, status_id, User.current.roles(project))
   end
 
   def copy_descendants_errors(all_descendants)
