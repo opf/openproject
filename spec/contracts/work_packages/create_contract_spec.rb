@@ -1,13 +1,20 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# OpenProject Backlogs Plugin
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License version 3.
+# Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+# Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+# Copyright (C)2010-2011 friflaj
+# Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+# Copyright (C)2009-2010 Mark Maglana
+# Copyright (C)2009 Joe Heck, Nate Lowrie
 #
-# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
-# Copyright (C) 2010-2013 the ChiliProject Team
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License version 3.
+#
+# OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+# The copyright follows:
+# Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+# Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -28,25 +35,22 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::UpdateContract do
+describe WorkPackages::CreateContract do
   let(:work_package) do
-    FactoryGirl.create(:work_package,
-                       done_ratio: 50,
-                       estimated_hours: 6.0,
-                       project: project)
+    FactoryGirl.build(:work_package,
+                      project: project)
   end
-  let(:member) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+  let(:member) {
+    FactoryGirl.create(:user,
+                       member_in_project: project,
+                       member_through_role: role)
+  }
   let (:project) { FactoryGirl.create(:project) }
   let(:current_user) { member }
   let(:permissions) {
     [
       :view_work_packages,
-      :view_work_package_watchers,
-      :edit_work_packages,
-      :add_work_package_watchers,
-      :delete_work_package_watchers,
-      :manage_work_package_relations,
-      :add_work_package_notes
+      :add_work_packages
     ]
   }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
@@ -84,29 +88,6 @@ describe ::API::V3::WorkPackages::UpdateContract do
         let(:changed_values) { ['remaining_hours'] }
 
         it('is valid') { expect(contract.errors.empty?).to be true }
-      end
-    end
-
-    context 'is a parent' do
-      before do
-        child
-        work_package.reload
-        contract.validate
-      end
-      let(:child) do
-        FactoryGirl.create(:work_package, parent_id: work_package.id, project: project)
-      end
-
-      context 'has not changed' do
-        it('is valid') { expect(contract.errors.empty?).to be true }
-      end
-
-      context 'has changed' do
-        let(:changed_values) { ['remaining_hours'] }
-
-        it('is invalid') do
-          expect(contract.errors[:error_readonly]).to match_array(changed_values)
-        end
       end
     end
   end
