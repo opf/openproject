@@ -88,6 +88,10 @@ class ::Type < ActiveRecord::Base
     ::Type.where(is_default: true)
   end
 
+  def self.enabled_in(project)
+    ::Type.includes(:projects).where(projects: { id: project })
+  end
+
   def statuses
     return [] if new_record?
     @statuses ||= ::Type.statuses([id])
