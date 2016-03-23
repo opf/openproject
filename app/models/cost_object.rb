@@ -34,7 +34,7 @@ class CostObject < ActiveRecord::Base
   acts_as_journalized
 
   acts_as_event type: 'cost-objects',
-                title: Proc.new { |o| "#{l(:label_cost_object)} ##{o.id}: #{o.subject}" },
+                title: Proc.new { |o| "#{I18n.t(:label_cost_object)} ##{o.id}: #{o.subject}" },
                 url: Proc.new { |o| { controller: 'cost_objects', action: 'show', id: o.id } }
 
   validates_presence_of :subject, :project, :author, :kind, :fixed_date
@@ -116,7 +116,7 @@ class CostObject < ActiveRecord::Base
 
   # Label of the current type for display in GUI.  Virtual accessor that is overriden by subclasses.
   def type_label
-    l(:label_cost_object)
+    I18n.t(:label_cost_object)
   end
 
   # Amount of the budget spent.  Expressed as as a percentage whole number

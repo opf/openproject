@@ -129,7 +129,7 @@ class CostObjectsController < ApplicationController
       Attachment.attach_files(@cost_object, params[:attachments])
       render_attachment_warning_if_needed(@cost_object)
 
-      flash[:notice] = l(:notice_successful_create)
+      flash[:notice] = t(:notice_successful_create)
       redirect_to(params[:continue] ? { action: 'new' } :
                                       { action: 'show', id: @cost_object })
       return
@@ -158,19 +158,19 @@ class CostObjectsController < ApplicationController
       Attachment.attach_files(@cost_object, params[:attachments])
       render_attachment_warning_if_needed(@cost_object)
 
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = t(:notice_successful_update)
       redirect_to(params[:back_to] || { action: 'show', id: @cost_object })
     else
       render action: 'edit'
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
-    flash.now[:error] = l(:notice_locking_conflict)
+    flash.now[:error] = t(:notice_locking_conflict)
   end
 
   def destroy
     @cost_objects.each(&:destroy)
-    flash[:notice] = l(:notice_successful_delete)
+    flash[:notice] = t(:notice_successful_delete)
     redirect_to action: 'index', project_id: @project
   end
 

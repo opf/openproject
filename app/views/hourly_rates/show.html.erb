@@ -20,16 +20,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <%= render :partial => 'shared/costs_header' %>
 
-<% html_title l(:label_administration), l(:caption_rate_history_for, user: @user.name) %>
+<% html_title t(:label_administration), t(:caption_rate_history_for, user: @user.name) %>
 
-<%= toolbar title: l(:caption_rate_history_for, :user => @user.name) %>
+<%= toolbar title: t(:caption_rate_history_for, :user => @user.name) %>
 
 <% if @project %>
-  <% html_title l(:caption_rate_history_for, user: @user.name) %>
+  <% html_title t(:caption_rate_history_for, user: @user.name) %>
 
   <%= render :partial => 'list_project' %>
 <% else %>
-  <% html_title l(:label_administration), l(:caption_rate_history_for, user: @user.name) %>
+  <% html_title t(:label_administration), t(:caption_rate_history_for, user: @user.name) %>
 
   <%= render :partial => 'list_default' %>
   <%= render :partial => 'list' %>

@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       </colgroup>
       <thead>
       <tr>
-        <%= sort_header_tag('spent_on', :caption => l(:label_date), :default_order => 'desc') %>
+        <%= sort_header_tag('spent_on', :caption => t(:label_date), :default_order => 'desc') %>
         <%= sort_header_tag('user', :caption => Member.model_name.human) %>
         <%= sort_header_tag('project', :caption => Project.model_name.human )%>
         <%= sort_header_tag('work_package', :caption => WorkPackage.model_name.human, :default_order => 'desc') %>
@@ -46,8 +46,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
             </div>
           </div>
         </th>
-        <%= sort_header_tag('units', :caption => l(:label_units)) %>
-        <%= sort_header_tag('costs', :caption => l(:label_overall_costs)) %>
+        <%= sort_header_tag('units', :caption => t(:label_units)) %>
+        <%= sort_header_tag('costs', :caption => t(:label_overall_costs)) %>
         <th></th>
       </tr>
       </thead>
@@ -75,13 +75,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
             <%= link_to icon_wrapper('icon-context icon-edit',t(:button_edit)),
                         {:controller => '/costlog', :action => 'edit', :id => entry, :project_id => nil},
                         :class => 'no-decoration-on-hover',
-                        :title => l(:button_edit) %>
+                        :title => t(:button_edit) %>
             <%= link_to icon_wrapper('icon-context icon-delete',t(:button_delete)),
                         {:controller => '/costlog', :action => 'destroy', :id => entry, :project_id => nil},
-                        :confirm => l(:text_are_you_sure),
+                        :confirm => t(:text_are_you_sure),
                         :method => :delete,
                         :class => 'no-decoration-on-hover',
-                        :title => l(:button_delete) %>
+                        :title => t(:button_delete) %>
           <% end -%>
         </td>
       </tr>

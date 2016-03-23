@@ -48,7 +48,7 @@ class VariableCostObject < CostObject
 
   # Label of the current cost_object type for display in GUI.
   def type_label
-    l(:label_variable_cost_object)
+    I18n.t(:label_variable_cost_object)
   end
 
   def material_budget

@@ -33,7 +33,7 @@ class Activity::CostObjectActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_title(event, _activity)
-    "#{l(:label_cost_object)} ##{event['journable_id']}: #{event['cost_object_subject']}"
+    "#{I18n.t(:label_cost_object)} ##{event['journable_id']}: #{event['cost_object_subject']}"
   end
 
   def event_path(event, _activity)

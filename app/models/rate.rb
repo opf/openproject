@@ -32,7 +32,7 @@ class Rate < ActiveRecord::Base
   def self.clean_currency(value)
     if value && value.is_a?(String)
       value = value.strip
-      value.gsub!(l(:currency_delimiter), '') if value.include?(l(:currency_delimiter)) && value.include?(l(:currency_separator))
+      value.gsub!(I18n.t(:currency_delimiter), '') if value.include?(I18n.t(:currency_delimiter)) && value.include?(I18n.t(:currency_separator))
       value.gsub(',', '.')
     else
       value

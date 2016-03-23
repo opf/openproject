@@ -20,13 +20,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <%= render :partial => 'shared/costs_header' %>
 
-<% html_title l(:label_administration), "#{l(:label_edit)} #{l((@project.nil? ? :caption_default_rate_history_for : :caption_rate_history_for), user: ' ')} #{@user.name}" %>
+<% html_title t(:label_administration), "#{t(:label_edit)} #{l((@project.nil? ? :caption_default_rate_history_for : :caption_rate_history_for), user: ' ')} #{@user.name}" %>
 
-<%= toolbar title: (@project.nil? ? l(:caption_default_rate_history_for, :user => @user.name) :  l(:caption_rate_history_for_project, :user => @user.name, :project => @project.name) ) %>
+<%= toolbar title: (@project.nil? ? t(:caption_default_rate_history_for, :user => @user.name) :  t(:caption_rate_history_for_project, :user => @user.name, :project => @project.name) ) %>
 
 <%- default_rate = @user.current_default_rate -%>
 <% if default_rate%>
-<p><strong><%= l(:label_current_default_rate) %>:</strong> <%= number_to_currency(default_rate.rate)%></p>
+<p><strong><%= t(:label_current_default_rate) %>:</strong> <%= number_to_currency(default_rate.rate)%></p>
 <% end %>
 
 <%= javascript_tag do -%>
@@ -81,8 +81,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     </div>
   </div>
   <div class="generic-table--action-buttons">
-    <label class="hidden-for-sighted" for="add_rate_date" %>"><%= l(:description_date_for_new_rate) %></label>
-    <%= link_to_function l(:button_add_rate), "addRate($('add_rate_date'))", {class: "button -alt-highlight -with-icon icon-add"} %>
-    <%= styled_button_tag l(:button_save), class: '-with-icon icon-checkmark' %>
+    <label class="hidden-for-sighted" for="add_rate_date" %>"><%= t(:description_date_for_new_rate) %></label>
+    <%= link_to_function t(:button_add_rate), "addRate($('add_rate_date'))", {class: "button -alt-highlight -with-icon icon-add"} %>
+    <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
   </div>
 <% end %>
