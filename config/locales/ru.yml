@@ -39,7 +39,7 @@ ru:
     models:
       cost_object: Бюджет
       cost_type:
-        one: Cost type
+        one: Тип затрат
         few: Cost types
         other: Cost types
       material_budget_item: Единица
@@ -108,7 +108,7 @@ ru:
   label_current_default_rate: Текущий тариф по умолчанию
   label_date_on: на
   label_deleted_cost_types: Типы удаленных расходов
-  label_locked_cost_types: Locked cost types
+  label_locked_cost_types: Заблокированные типы стоимостей
   label_deliverable: Бюджет
   label_display_cost_entries: Отображать расходы на единицу
   label_display_time_entries: Отображать часы по отчету
@@ -143,8 +143,8 @@ ru:
   notice_no_cost_objects_available: Нет доступных бюджетов.
   notice_something_wrong: Произошла ошибка. Пожалуйста, попробуйте снова.
   notice_successful_restore: Успешное восстановление.
-  notice_successful_lock: Locked successfully.
-  notice_cost_logged_successfully: Unit cost logged successfully.
+  notice_successful_lock: Успешно заблокировано.
+  notice_cost_logged_successfully: 'Стоимость единицы успешно зажурналировано '
   permission_edit_cost_entries: Править зарегестрированные количественные затраты
   permission_edit_cost_objects: Править бюджеты
   permission_edit_own_cost_entries: Править собственные зарегистрированные количественные затраты
@@ -170,7 +170,7 @@ ru:
   text_warning_hidden_elements: Некоторые записи были исключены из агрегирования.
   week: неделя
   x_entries:
-    one: 1 entry
+    one: 1 запись
     few: '%{count} entries'
     other: '%{count} entries'
   js:
