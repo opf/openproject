@@ -183,8 +183,6 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages)
             setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
           } else {
             setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
-
-            scope.activationCallback({ id: row.object.id, force: false });
           }
         }
       };
