@@ -34,8 +34,8 @@ ru:
   label_meeting_diff: Различия
   label_notify: Отправка на рецензию
   label_version: Версия
-  label_time_zone: Time zone
-  label_start_date: Start date
+  label_time_zone: Часовой пояс
+  label_start_date: Дата начала
   notice_successful_notification: Уведомление успешно отправленно
   notice_timezone_missing: 'Не установлен часовой пояс и применена %{zone}. Чтобы выбрать часовой пояс, пожалуйста, нажмите сюда.'
   permission_create_meetings: Создание совещания
