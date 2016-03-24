@@ -93,19 +93,7 @@ function halResource($q, _, lazy, halTransform, HalLink) {
     }
 
     public $plain() {
-      let element:any = angular.copy(this);
-      let linked:string[] = Object.keys(this.$links);
-      element._links = {};
-
-      linked.forEach(linkName => {
-        if (this[linkName] && element[linkName].$links && !angular.isFunction(this[linkName])) {
-          element._links[linkName] = element[linkName].$links.self.$link;
-        }
-
-        delete element[linkName];
-      });
-
-      return element;
+      return angular.copy(this.$source);
     }
 
     private proxyProperties() {
