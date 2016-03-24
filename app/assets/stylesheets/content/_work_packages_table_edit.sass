@@ -44,8 +44,13 @@
   &:hover .wp-edit-field.-error:hover
     border-color: $nm-color-error-border
 
-.wp-table--cell.-editable
-  cursor: text
+.wp-table--cell
+  cursor: not-allowed
+
+  &.id
+    cursor: pointer
+  &.-editable
+    cursor: text
 
 .work-package-table--container .generic-table tbody
   td
