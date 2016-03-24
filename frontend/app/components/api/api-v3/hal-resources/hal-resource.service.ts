@@ -129,14 +129,16 @@ function halResource($q, _, lazy, halTransform, HalLink) {
             }
           },
           val => {
-            let link = this.$links[linkName].$link;
+            if (val && val.$links && val.$links.self) {
+              let link = val.$links.self.$link;
 
-            if (link.href && link.method === 'get') {
-              if (val && val.$isHal) {
-                this.$source._links[linkName] = val.$links.self.$link;
+              if (link && link.href && link.method === 'get') {
+                if (val && val.$isHal) {
+                  this.$source._links[linkName] = val.$links.self.$link;
+                }
+
+                return val;
               }
-
-              return val;
             }
           })
       });
