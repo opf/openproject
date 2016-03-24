@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'work_packages/create_contract'
+
 class CreateWorkPackageService
   include Concerns::Contracted
 

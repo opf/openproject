@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'model_contract'
+
 module WorkPackages
   class BaseContract < ::ModelContract
     attribute :subject
