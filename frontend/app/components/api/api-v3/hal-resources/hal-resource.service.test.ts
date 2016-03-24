@@ -46,6 +46,102 @@ describe('HalResource service', () => {
     expect(HalResource).to.exist;
   });
 
+  it('should set its source to _plain if _plain is a property of the source', () => {
+    let source = {
+      _plain: {
+        _links: {},
+        prop: true
+      }
+    };
+    let resource = new HalResource(source);
+
+    expect(resource.prop).to.exist;
+  });
+
+  describe('when after generating the lazy object', () => {
+    var resource;
+    var linkFn = sinon.spy();
+    var embeddedFn = sinon.spy();
+
+    beforeEach(() => {
+      resource = new HalResource({
+        _links: {
+          get link() {
+            linkFn();
+            return {};
+          }
+        },
+        _embedded: {
+          get res() {
+            embeddedFn();
+            return {};
+          }
+        }
+      });
+    });
+
+    it('should not have touched the source links initially', () => {
+      expect(linkFn.called).to.be.false;
+    });
+
+    it('should not have touched the embedded elements of the source initially', () => {
+      expect(embeddedFn.called).to.be.false;
+    });
+
+    it('should use the source link only once when called', () => {
+      resource.$links.link;
+      resource.$links.link;
+      expect(linkFn.calledOnce).to.be.true;
+    });
+
+    it('should use the source embedded only once when called', () => {
+      resource.$embedded.res;
+      resource.$embedded.res;
+      expect(embeddedFn.calledOnce).to.be.true;
+    });
+  });
+
+  describe('when the source has properties', () => {
+    var resource;
+    beforeEach(() => {
+      resource = new HalResource({
+        _links: {},
+        _embedded: {},
+        property: 'foo',
+        obj: {
+          foo: 'bar'
+        }
+      });
+    });
+
+    it('should have the same properties', () => {
+      expect(resource.property).to.exist;
+      expect(resource.obj).to.exist;
+    });
+
+    it('should not have the _links property', () => {
+      expect(resource._links).to.not.exist;
+    });
+
+    it('should not have the _embedded property', () => {
+      expect(resource._embedded).to.not.exist;
+    });
+
+    it('should have enumerable properties', () => {
+      expect(resource.propertyIsEnumerable('property')).to.be.true;
+    });
+
+    describe('when a property is changed', () => {
+      beforeEach(() => {
+        resource.property = 'carrot';
+      });
+
+      it('should change the property of the source', () => {
+        expect(resource.$source.property).to.eq('carrot');
+      });
+    });
+  });
+
   describe('when transforming an object with _links', () => {
     var plain;
     var resource;
@@ -83,12 +179,16 @@ describe('HalResource service', () => {
       resource = new HalResource(plain);
     });
 
-    it('should be restangularized', () => {
-      expect(resource.restangularized).to.not.be.ok;
-    });
-
     it('should be transformed', () => {
       expect(resource.$isHal).to.be.true;
+    });
+
+    it('should have a href property that is the same as the self href', () => {
+      expect(resource.href).to.eq(resource.$links.self.$link.href);
+    });
+
+    it('should return an empty $embedded object', () => {
+      expect(resource.$embedded).to.eql({});
     });
 
     describe('when the self link has a title attribute', () => {
@@ -185,6 +285,10 @@ describe('HalResource service', () => {
       };
 
       resource = new HalResource(plain);
+    });
+
+    it('should return an empty $links object', () => {
+      expect(resource.$links).to.eql({});
     });
 
     it('should not be restangularized', () => {
@@ -315,7 +419,7 @@ describe('HalResource service', () => {
     });
   });
 
-  describe('when transforming an object with _links and/or _embedded', () => {
+  describe('when transforming an object with _links and _embedded', () => {
     var resource;
 
     beforeEach(() => {
@@ -331,6 +435,9 @@ describe('HalResource service', () => {
           action: {
             href: '/api/action',
             method: 'post'
+          },
+          self: {
+            href: '/api/self'
           }
         },
         _embedded: {
@@ -357,6 +464,24 @@ describe('HalResource service', () => {
 
     it('should be loaded', () => {
       expect(resource.$loaded).to.be.true;
+    });
+
+    it('should not be possible to override a link', () => {
+      try {
+        resource.$links.action = 'foo';
+      }
+      catch (Error) {}
+
+      expect(resource.$links.action).to.not.eq('foo');
+    });
+
+    it('should not be possible to override an embedded resource', () => {
+      try {
+        resource.$embedded.embedded = 'foo';
+      }
+      catch (Error) {}
+
+      expect(resource.$embedded.embedded).to.not.eq('foo');
     });
 
     it('should have linked resources as properties', () => {
@@ -396,6 +521,11 @@ describe('HalResource service', () => {
 
         it('should be loaded, if the resource is embedded', () => {
           expect(resource.embedded.$loaded).to.be.true;
+        });
+
+        it('should update the source when set', () => {
+          resource.property = resource;
+          expect(resource.$source._links.property.href).to.eql('/api/self')
         });
 
         describe('when loading it', () => {

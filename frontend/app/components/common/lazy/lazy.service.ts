@@ -26,26 +26,35 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-function apiV3Config(apiV3, halTransform) {
-  apiV3.addResponseInterceptor((data, operation, what) => {
-    apiV3.addElementTransformer(what, halTransform);
-    if (data) {
-      data._plain = angular.copy(data);
+function lazy (obj:any, property:string, getter:{():any}, setter?:{(value:any)}) {
+  if (angular.isObject(obj)) {
+    let done = false;
+    let value;
+    let config = {
+      get() {
+        if (!done) {
+          value = getter();
+          done = true;
+        }
+        return value;
+      },
+      set: void 0,
 
-      if (data._type === 'Collection') {
-        let resp = [];
-        angular.extend(resp, data);
-        return resp;
-      }
+      configurable: true,
+      enumerable: true
+    };
+
+    if (setter) {
+      config.set = val => {
+        value = setter(val);
+        done = true;
+      };
     }
-    return data;
-  });
 
-  apiV3.setErrorInterceptor(response => {
-    response.data = halTransform(response.data);
-  });
+    Object.defineProperty(obj, property, config);
+  }
 }
 
 angular
-  .module('openproject.api')
-  .run(apiV3Config);
+  .module('openproject.services')
+  .factory('lazy', () => lazy);

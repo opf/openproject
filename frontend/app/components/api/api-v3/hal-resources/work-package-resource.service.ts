@@ -57,9 +57,6 @@ function wpResource(HalResource:typeof op.HalResource, NotificationsService:any,
     }
 
     save() {
-      // TODO: Do something if the lock version does not match
-      // TODO: iterate only over the changed attributes
-      // TODO: invalidate form after saving
       const plain = this.$plain();
 
       delete plain.createdAt;
@@ -69,27 +66,23 @@ function wpResource(HalResource:typeof op.HalResource, NotificationsService:any,
       this.getForm()
         .catch(deferred.reject)
         .then(form => {
-          var plain_payload = form.payload.$source;
+          var plainPayload = form.payload.$plain();
           var schema = form.$embedded.schema;
 
           angular.forEach(plain, (value, key) => {
             if (typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
-              plain_payload[key] = value;
+              plainPayload[key] = value;
             }
           });
 
-          angular.forEach(plain_payload._links, (_value, key) => {
+          angular.forEach(plainPayload._links, (_value, key) => {
             if (this[key] && typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
-
-              // TODO the track by causes a 'null' href to land here for changed links
-              // which is not accepted by the API.
               var value = this[key].href === 'null' ? null : this[key].href;
-
-              plain_payload._links[key] = {href: value};
+              plainPayload._links[key] = {href: value};
             }
           });
 
-          return this.$links.updateImmediately(plain_payload)
+          return this.$links.updateImmediately(plainPayload)
             .then(workPackage => {
               angular.extend(this, workPackage);
 

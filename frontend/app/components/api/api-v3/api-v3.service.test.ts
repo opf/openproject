@@ -27,16 +27,61 @@
 // ++
 
 describe('apiV3 service', () => {
-  var apiV3;
+  var apiV3:restangular.IService;
+  var $httpBackend:ng.IHttpBackendService;
 
   beforeEach(angular.mock.module('openproject.api'));
   beforeEach(angular.mock.module('openproject.services'));
 
-  beforeEach(angular.mock.inject((_apiV3_) => {
+  beforeEach(angular.mock.inject((_apiV3_, _$httpBackend_) => {
     apiV3 = _apiV3_;
+    $httpBackend = _$httpBackend_;
+
+    apiV3.setBaseUrl('/base');
   }));
 
   it('should exist', () => {
     expect(apiV3).to.exist;
+  });
+
+  describe('when after requesting a resource', () => {
+    var promise;
+
+    beforeEach(() => {
+      promise = apiV3.one('resource').get();
+      $httpBackend.expectGET('/base/resource').respond(200, {
+        _links: {}
+      });
+    });
+
+    it('should not be restangularized', () => {
+      expect(promise).to.eventually.be.fulfilled.then(resource => {
+        expect(resource.restangularized).to.not.be.ok;
+      });
+      $httpBackend.flush();
+    });
+
+    it('should be transformed', () => {
+      expect(promise).to.eventually.be.fulfilled.then(resource => {
+        expect(resource.$isHal).to.be.true;
+      });
+      $httpBackend.flush();
+    });
+
+    it('should not have a restangularized $source', () => {
+      expect(promise).to.be.eventually.fulfilled.then(resource => {
+        expect(resource.$source.restangularized).to.not.be.ok;
+      });
+      $httpBackend.flush();
+    });
+
+    it('should have a _plain property', done => {
+      apiV3.addResponseInterceptor(data => {
+        expect(data._plain).to.exist;
+        done();
+        return data;
+      });
+      $httpBackend.flush();
+    });
   });
 });
