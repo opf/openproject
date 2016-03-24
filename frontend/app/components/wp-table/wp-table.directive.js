@@ -30,7 +30,7 @@ angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
 
-function wpTable(WorkPackagesTableService, $window, featureFlags, PathHelper, apiWorkPackages){
+function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages){
   return {
     restrict: 'E',
     replace: true,
@@ -133,12 +133,6 @@ function wpTable(WorkPackagesTableService, $window, featureFlags, PathHelper, ap
 
           scope.groupByColumn = groupableColumns[groupByColumnIndex];
         }
-      });
-
-      scope.$watch(function() {
-        return featureFlags.isOn('detailsView');
-      }, function(detailsEnabled) {
-        scope.hideWorkPackageDetails = !detailsEnabled;
       });
 
       // Thanks to http://stackoverflow.com/a/880518

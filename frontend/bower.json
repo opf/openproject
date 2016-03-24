@@ -16,7 +16,6 @@
     "angular-modal": "finnlabs/angular-modal#d45eb9ceb720b8785613ba89ba0f14f8ab197569",
     "angular-sanitize": "~1.3.14",
     "angular-truncate": "sparkalow/angular-truncate#fdf60fda265042d12e9414b5354b2cc52f1419de",
-    "angular-feature-flags": "mjt01/angular-feature-flags",
     "angular-elastic": "2.5.0",
     "angular-cache": "~4.3.2",
     "jquery-migrate": "~1.2.1",
