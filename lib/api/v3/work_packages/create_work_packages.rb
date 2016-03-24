@@ -61,7 +61,7 @@ module API
         end
 
         def get_create_attributes(request_body)
-          write_work_package_attributes(WorkPackage.new, request_body)
+          write_work_package_attributes(WorkPackage.new, request_body || {})
             .changes.each_with_object({}) { |(k, v), h| h[k] = v.last }
         end
 

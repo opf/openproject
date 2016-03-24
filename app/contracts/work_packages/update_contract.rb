@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'work_packages/base_contract'
+
 module WorkPackages
   class UpdateContract < BaseContract
     attribute :lock_version do
