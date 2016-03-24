@@ -130,8 +130,8 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/configuration'
   end
 
-  describe '#create_work_package_form' do
-    subject { helper.create_work_package_form 42 }
+  describe '#create_project_work_package_form' do
+    subject { helper.create_project_work_package_form 42 }
 
     it_behaves_like 'api v3 path', '/projects/42/work_packages/form'
   end

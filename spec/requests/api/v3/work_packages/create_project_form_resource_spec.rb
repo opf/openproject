@@ -25,41 +25,30 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++
 
-module API
-  module V3
-    module WorkPackages
-      class CreateFormRepresenter < FormRepresenter
-        link :self do
-          {
-            href: api_v3_paths.create_work_package_form(represented.project_id),
-            method: :post
-          }
-        end
+require 'spec_helper'
+require 'rack/test'
 
-        link :validate do
-          {
-            href: api_v3_paths.create_work_package_form(represented.project_id),
-            method: :post
-          }
-        end
+describe ::API::V3::WorkPackages::CreateProjectFormAPI do
+  include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
-        link :previewMarkup do
-          {
-            href: api_v3_paths.render_markup(link: api_v3_paths.project(represented.project_id)),
-            method: :post
-          }
-        end
+  let(:project) { FactoryGirl.create(:project, id: 5) }
+  let(:post_path) { api_v3_paths.create_project_work_package_form(project.id) }
+  let(:user) { FactoryGirl.build(:admin) }
 
-        link :commit do
-          {
-            href: api_v3_paths.work_packages_by_project(represented.project_id),
-            method: :post
-          } if current_user.allowed_to?(:edit_work_packages, represented.project) &&
-               @errors.empty?
-        end
-      end
-    end
+  before do
+    login_as(user)
+    post post_path
+  end
+
+  subject(:response) { last_response }
+
+  it 'should return 200(OK)' do
+    expect(response.status).to eq(200)
+  end
+
+  it 'should be of type form' do
+    expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
   end
 end

@@ -33,14 +33,14 @@ require 'work_packages/create_contract'
 module API
   module V3
     module WorkPackages
-      class CreateFormAPI < ::API::OpenProjectAPI
+      class CreateProjectFormAPI < ::API::OpenProjectAPI
         resource :form do
           helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           post do
             create_work_package_form(WorkPackage.new(project: @project),
                                      contract_class: ::WorkPackages::CreateContract,
-                                     form_class: CreateFormRepresenter)
+                                     form_class: CreateProjectFormRepresenter)
           end
         end
       end

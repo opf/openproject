@@ -91,7 +91,7 @@ module API
             "#{root}/configuration"
           end
 
-          def self.create_work_package_form(project_id)
+          def self.create_project_work_package_form(project_id)
             "#{work_packages_by_project(project_id)}/form"
           end
 

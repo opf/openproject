@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::CreateFormRepresenter do
+describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:errors) { [] }
@@ -52,7 +52,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
     describe '_links' do
       it do
         is_expected.to be_json_eql(
-          api_v3_paths.create_work_package_form(work_package.project_id).to_json)
+          api_v3_paths.create_project_work_package_form(work_package.project_id).to_json)
           .at_path('_links/self/href')
       end
 
@@ -61,7 +61,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
       describe 'validate' do
         it do
           is_expected.to be_json_eql(
-            api_v3_paths.create_work_package_form(work_package.project_id).to_json)
+            api_v3_paths.create_project_work_package_form(work_package.project_id).to_json)
             .at_path('_links/validate/href')
         end
 
