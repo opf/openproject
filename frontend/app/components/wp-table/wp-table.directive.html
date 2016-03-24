@@ -21,7 +21,6 @@
               </a>
             </div>
           </th>
-
           <th sort-header ng-repeat="column in columns"
                           has-dropdown-menu
                           position-relative-to=".generic-table--sort-header-outer"
@@ -107,7 +106,15 @@
                                  checkbox-id="work_package{{row.object.id}}"
                                  checkbox-value="row.object.id"
                                  checkbox-title="{{checkboxTitle}}"
-                                 model="row.checked"/>
+                                 model="row.checked">
+            </accessible-checkbox>
+            <span>
+              <a class="wp-table--details-link"
+                 ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})">
+                <i class="icon icon-view-split"></i>
+                <span ng-bind="I18n.t('js.button_open_details')"/>
+              </a>
+            </span>
           </td>
 
           <td ng-repeat="column in columns"

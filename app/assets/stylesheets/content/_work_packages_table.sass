@@ -26,4 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+// Show details view button when hovering
+.wp-table--details-link
+  display: none
 
+  .issue:hover &
+    display: inline-block
+
+    .icon
+      position: relative
+      left: 0.5rem
+      &:before
+        color: $body-font-color
+        padding: 0 0 0 0.25rem
+
+table.generic-table tbody tr.issue .checkbox
+  overflow: visible
