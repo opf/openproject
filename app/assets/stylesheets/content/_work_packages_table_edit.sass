@@ -63,3 +63,15 @@
       display: table-cell
       width: auto
 
+// Animations on leaving work packages
+.wp--row.ng-leave
+  -webkit-transition: all 1s ease-in-out
+  -moz-transition: all 1s ease-in-out
+  -o-transition: all 1s ease-in-out
+  transition: all 1s ease-in-out
+
+.wp--row.ng-leave-active
+  height: 0
+  line-height: 0
+  opacity: 0
+

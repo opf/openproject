@@ -111,18 +111,18 @@ function wpEditFieldLink(
 
   // Mark the td field if it is inline-editable
   // We're resolving the non-form schema here since its loaded anyway for the table
-  scope.vm.formCtrl.loadSchema().then(schema => {
+  scope.vm.workPackage.schema.$load().then(schema => {
     if (schema[scope.vm.fieldName].writable) {
       element.addClass('-editable');
     }
-  })
+  });
 
   element.addClass(scope.vm.fieldName);
   element.keyup(event => {
     if (event.keyCode === 27) {
       scope.$evalAsync(_ => scope.vm.reset());
     }
-  })
+  });
 }
 
 function wpEditField() {

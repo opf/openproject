@@ -43,7 +43,12 @@ export class ApiWorkPackagesService {
       workPackages = this.apiV3.service('work_packages');
     }
 
-    return workPackages.getList(this.queryAsV3Params(offset, pageSize, query));
+    return workPackages.getList(
+      this.queryAsV3Params(offset, pageSize, query),
+      {
+        caching: { enabled : false }
+      }
+    );
   }
 
   protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {

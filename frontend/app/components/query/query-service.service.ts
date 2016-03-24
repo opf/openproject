@@ -478,7 +478,10 @@ function QueryService(Query,
         method: method,
         url: url,
         params: params,
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        headers: {
+          'caching': { enabled: false },
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
       }).then(success, failure);
     },
 

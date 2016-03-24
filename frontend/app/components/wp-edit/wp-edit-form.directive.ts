@@ -30,7 +30,12 @@ export class WorkPackageEditFormController {
   public workPackage;
   public fields = {};
 
-  constructor(protected NotificationsService, protected $q, protected QueryService, protected $timeout) {
+  constructor(
+    protected NotificationsService,
+    protected $q,
+    protected QueryService,
+    protected $rootScope,
+    protected $timeout) {
   }
 
   public loadSchema() {
@@ -44,6 +49,7 @@ export class WorkPackageEditFormController {
       .then(() => {
         angular.forEach(this.fields, field => field.setErrorState(false));
         deferred.resolve();
+      this.$rootScope.$emit('workPackagesRefreshInBackground');
       })
       .catch((error) => {
         if (!error.data) {

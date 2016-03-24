@@ -33,6 +33,7 @@ function halResource($q, _, lazy, halTransform, HalLink) {
     }
 
     public $isHal:boolean = true;
+    public $self: ng.IPromise<HalResource>;
 
     private _name:string;
     private _$links:any;
@@ -80,17 +81,24 @@ function halResource($q, _, lazy, halTransform, HalLink) {
     }
 
     public $load() {
-      if (!this.$loaded) {
-        return this.$links.self().then(resource => {
-          this.$loaded = true;
-
-          angular.extend(this, resource);
-          return this;
-        });
+      if (this.$loaded) {
+        return $q.when(this);
       }
 
-      return $q.when(this);
+      if (!this.$loaded && this.$self) {
+        return this.$self;
+      }
+
+      this.$self = this.$links.self().then(resource => {
+        this.$loaded = true;
+        angular.extend(this, resource);
+
+        return this;
+      });
+
+      return this.$self;
     }
+
 
     public $plain() {
       return angular.copy(this.$source);

@@ -41,7 +41,7 @@
         <!-- Group headers -->
 
         <tr wp-group-header
-            ng-repeat-start="row in rows"
+            ng-repeat-start="row in rows track by row.object.id"
             ng-if="!!groupByColumn &&
                    ($first || row.groupName !== rows[$index-1].groupName)"
             ng-class="{
@@ -82,6 +82,7 @@
 
         <tr wp-row
             id="work-package-{{ row.object.id }}"
+            class="wp--row"
             has-dropdown-menu
             trigger-on-event="contextmenu"
             target="WorkPackageContextMenu"
