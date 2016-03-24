@@ -213,7 +213,7 @@ module OpenProject::Plugins
           model_name = on.to_s.camelize
           namespace = model_name.pluralize
           Array(writable_for).each do |action|
-            contract_class = "::API::V3::#{namespace}::#{action.to_s.camelize}Contract".constantize
+            contract_class = "::#{namespace}::#{action.to_s.camelize}Contract".constantize
             contract_class.attribute ar_name, &block
           end
 
