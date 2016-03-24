@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,23 +27,38 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/work_packages_shared_helpers'
-require 'create_work_package_service'
-require 'work_packages/create_contract'
-
 module API
   module V3
     module WorkPackages
-      class CreateProjectFormAPI < ::API::OpenProjectAPI
-        resource :form do
-          helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
+      class CreateFormRepresenter < FormRepresenter
+        link :self do
+          {
+            href: api_v3_paths.create_work_package_form,
+            method: :post
+          }
+        end
 
-          post do
-            create_work_package_form(WorkPackage.new(project: @project),
-                                     contract_class: ::WorkPackages::CreateContract,
-                                     form_class: CreateProjectFormRepresenter,
-                                     action: :create)
-          end
+        link :validate do
+          {
+            href: api_v3_paths.create_work_package_form,
+            method: :post
+          }
+        end
+
+        link :previewMarkup do
+          {
+            href: api_v3_paths.render_markup(link: api_v3_paths.project(represented.project_id)),
+            method: :post
+          } if represented.project
+        end
+
+        link :commit do
+          {
+            href: api_v3_paths.work_packages,
+            method: :post
+          } if represented.project &&
+               current_user.allowed_to?(:edit_work_packages, represented.project) &&
+               @errors.empty?
         end
       end
     end

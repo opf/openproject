@@ -659,6 +659,12 @@ class WorkPackage < ActiveRecord::Base
     Project.where(Project.allowed_to_condition(user, :move_work_packages))
   end
 
+  # Returns a scope for the projects
+  # the user is create a work package in
+  def self.allowed_target_projects_on_create(user)
+    Project.where(Project.allowed_to_condition(user, :add_work_packages))
+  end
+
   # Do not redefine alias chain on reload (see #4838)
   alias_method_chain(:attributes=,
                      :type_first) unless method_defined?(:attributes_without_type_first=)

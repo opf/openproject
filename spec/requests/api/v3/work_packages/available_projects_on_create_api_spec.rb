@@ -26,25 +26,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/work_packages_shared_helpers'
-require 'create_work_package_service'
-require 'work_packages/create_contract'
+require 'spec_helper'
+require 'rack/test'
 
-module API
-  module V3
-    module WorkPackages
-      class CreateProjectFormAPI < ::API::OpenProjectAPI
-        resource :form do
-          helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
+describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI, type: :request do
+  include API::V3::Utilities::PathHelper
 
-          post do
-            create_work_package_form(WorkPackage.new(project: @project),
-                                     contract_class: ::WorkPackages::CreateContract,
-                                     form_class: CreateProjectFormRepresenter,
-                                     action: :create)
-          end
-        end
-      end
+  let(:add_role) do
+    FactoryGirl.create(:role, permissions: [:add_work_packages])
+  end
+  let(:project) { FactoryGirl.create(:project) }
+  let(:user) do
+    FactoryGirl.create(:user,
+                       member_in_project: project,
+                       member_through_role: add_role)
+  end
+
+  before do
+    project
+
+    allow(User).to receive(:current).and_return(user)
+    get api_v3_paths.available_projects_on_create
+  end
+
+  context 'w/ the necessary permissions' do
+    it_behaves_like 'API V3 collection response', 1, 1, 'Project'
+
+    it 'has the project for which the add_work_packages permission exists' do
+      expect(response.body).to be_json_eql(project.id).at_path('_embedded/elements/0/id')
     end
+  end
+
+  context 'w/o any add_work_packages permission' do
+    let(:add_role) do
+      FactoryGirl.create(:role, permissions: [])
+    end
+
+    it { expect(response.status).to eq(403) }
   end
 end

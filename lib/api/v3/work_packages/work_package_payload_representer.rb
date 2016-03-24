@@ -67,7 +67,11 @@ module API
                    representer.from_json(value.to_json)
                  }
 
-        property :lock_version
+        property :lock_version,
+                 render_nil: true,
+                 getter: -> (*) {
+                   lock_version.to_i
+                 }
         property :subject, render_nil: true
         property :done_ratio,
                  as: :percentageDone,

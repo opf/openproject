@@ -54,6 +54,7 @@ module API
           def initialize(schema, context)
             @self_link = context.delete(:self_link) || nil
             @show_lock_version = !context.delete(:hide_lock_version)
+            @action = context.delete(:action) || :update
             super(schema, context)
           end
 
@@ -115,7 +116,11 @@ module API
                                    type: 'Project',
                                    required: true,
                                    href_callback: -> (*) {
-                                     api_v3_paths.available_projects_on_edit(represented.id)
+                                     if @action == :create
+                                       api_v3_paths.available_projects_on_create
+                                     else
+                                       api_v3_paths.available_projects_on_edit(represented.id)
+                                     end
                                    }
 
           schema :parent_id,
@@ -137,14 +142,18 @@ module API
                                    type: 'User',
                                    required: false,
                                    href_callback: -> (*) {
-                                     api_v3_paths.available_assignees(represented.project.id)
+                                     if represented.project
+                                       api_v3_paths.available_assignees(represented.project_id)
+                                     end
                                    }
 
           schema_with_allowed_link :responsible,
                                    type: 'User',
                                    required: false,
                                    href_callback: -> (*) {
-                                     api_v3_paths.available_responsibles(represented.project.id)
+                                     if represented.project
+                                       api_v3_paths.available_responsibles(represented.project_id)
+                                     end
                                    }
 
           schema_with_allowed_collection :type,

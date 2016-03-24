@@ -1145,105 +1145,50 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe '#allowed_target_projects_on_move' do
-    let(:project) { FactoryGirl.create :project }
+  describe '.allowed_target_project_on_move' do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:role) { FactoryGirl.create(:role, permissions: [:move_work_packages]) }
+    let(:user) {
+      FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    }
 
-    subject { WorkPackage.allowed_target_projects_on_move(user) }
-
-    before do
-      allow(User).to receive(:current).and_return user
-      project
-    end
-
-    shared_examples_for 'has the permission to see projects' do
-      it 'sees the project' do
-        is_expected.to match_array [project]
-      end
-
-      it 'does not see the archived project' do
-        project.update_attribute(:status, Project::STATUS_ARCHIVED)
-
-        is_expected.to match_array []
-      end
-
-      it 'does not see the project having the work package module disabled' do
-        enabled_modules = project.enabled_module_names.delete(:work_package_tracking)
-        project.enabled_module_names = enabled_modules
-        project.save!
-
-        is_expected.to match_array []
+    context 'when having the move_work_packages permission' do
+      it 'returns the project' do
+        expect(WorkPackage.allowed_target_projects_on_move(user))
+          .to match_array [project]
       end
     end
 
-    shared_examples_for 'lacks the permission to see projects' do
-      it 'does not see the project' do
-        is_expected.to match_array []
+    context 'when lacking the move_work_packages permission' do
+      let(:role) { FactoryGirl.create(:role, permissions: []) }
+
+      it 'does not return the project' do
+        expect(WorkPackage.allowed_target_projects_on_move(user))
+          .to be_empty
+      end
+    end
+  end
+
+  describe '.allowed_target_project_on_create' do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:role) { FactoryGirl.create(:role, permissions: [:add_work_packages]) }
+    let(:user) {
+      FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    }
+
+    context 'when having the add_work_packages permission' do
+      it 'returns the project' do
+        expect(WorkPackage.allowed_target_projects_on_create(user))
+          .to match_array [project]
       end
     end
 
-    context 'admin user' do
-      let(:admin_user) { FactoryGirl.create :admin }
+    context 'when lacking the add_work_packages permission' do
+      let(:role) { FactoryGirl.create(:role, permissions: []) }
 
-      it_behaves_like 'has the permission to see projects' do
-        let(:user) { admin_user }
-      end
-    end
-
-    context 'non admin user' do
-      let(:role) { FactoryGirl.build(:role, permissions: user_in_project_permissions) }
-      let(:user_in_project_permissions) { [:move_work_packages] }
-      let(:user_in_project) {
-        FactoryGirl.build :user,
-                          member_in_project: project,
-                          member_through_role: role
-      }
-
-      it_behaves_like 'has the permission to see projects' do
-        before do
-          user_in_project.save!
-        end
-
-        let(:user) { user_in_project }
-      end
-
-      it_behaves_like 'lacks the permission to see projects' do
-        let(:user_in_project_permissions) { [] }
-
-        before do
-          user_in_project.save!
-        end
-
-        let(:user) { user_in_project }
-      end
-    end
-
-    context 'non member user' do
-      it_behaves_like 'lacks the permission to see projects' do
-        before do
-          project.update_attribute(:is_public, true)
-          FactoryGirl.create(:non_member, permissions: [])
-        end
-
-        let(:user) { FactoryGirl.create(:user) }
-      end
-
-      it_behaves_like 'has the permission to see projects' do
-        before do
-          project.update_attribute(:is_public, true)
-          FactoryGirl.create(:non_member, permissions: [:move_work_packages])
-        end
-
-        let(:user) { FactoryGirl.create(:user) }
-      end
-    end
-
-    context 'anonymous user' do
-      it_behaves_like 'lacks the permission to see projects' do
-        before do
-          project.update_attribute(:is_public, true)
-        end
-
-        let(:user) { FactoryGirl.create(:anonymous) }
+      it 'does not return the project' do
+        expect(WorkPackage.allowed_target_projects_on_create(user))
+          .to be_empty
       end
     end
   end

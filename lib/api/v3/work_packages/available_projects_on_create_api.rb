@@ -26,22 +26,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/work_packages_shared_helpers'
-require 'create_work_package_service'
-require 'work_packages/create_contract'
+require 'api/v3/projects/project_collection_representer'
 
 module API
   module V3
     module WorkPackages
-      class CreateProjectFormAPI < ::API::OpenProjectAPI
-        resource :form do
-          helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
+      class AvailableProjectsOnCreateAPI < ::API::OpenProjectAPI
+        resource :available_projects do
+          before do
+            authorize(:add_work_packages, global: true)
+          end
 
-          post do
-            create_work_package_form(WorkPackage.new(project: @project),
-                                     contract_class: ::WorkPackages::CreateContract,
-                                     form_class: CreateProjectFormRepresenter,
-                                     action: :create)
+          get do
+            available_projects = WorkPackage.allowed_target_projects_on_create(current_user)
+            self_link = api_v3_paths.available_projects_on_create
+            Projects::ProjectCollectionRepresenter.new(available_projects,
+                                                       self_link,
+                                                       current_user: current_user)
           end
         end
       end

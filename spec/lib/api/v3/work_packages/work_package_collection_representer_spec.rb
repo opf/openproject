@@ -72,6 +72,61 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       is_expected.not_to have_json_path('totalSums')
     end
 
+    context 'when the user has the add_work_package permission in any project' do
+      before do
+        allow(user)
+          .to receive(:allowed_to?)
+          .and_return(false)
+
+        allow(user)
+          .to receive(:allowed_to?)
+          .with(:add_work_packages, nil, global: true)
+          .and_return(true)
+      end
+
+      it 'has a link to create work_packages' do
+        is_expected
+          .to be_json_eql(api_v3_paths.create_work_package_form.to_json)
+          .at_path('_links/createWorkPackage/href')
+      end
+
+      it 'declares to use POST to create work_packages' do
+        is_expected
+          .to be_json_eql(:post.to_json)
+          .at_path('_links/createWorkPackage/method')
+      end
+
+      it 'has a link to create work_packages immediately' do
+        is_expected
+          .to be_json_eql(api_v3_paths.work_packages.to_json)
+          .at_path('_links/createWorkPackageImmediate/href')
+      end
+
+      it 'declares to use POST to create work_packages immediately' do
+        is_expected
+          .to be_json_eql(:post.to_json)
+          .at_path('_links/createWorkPackageImmediate/method')
+      end
+    end
+
+    context 'when the user lacks the add_work_package permission' do
+      before do
+        allow(user)
+          .to receive(:allowed_to?)
+          .and_return(false)
+      end
+
+      it 'has no link to create work_packages' do
+        is_expected
+          .to_not have_json_path('_links/createWorkPackage')
+      end
+
+      it 'has no link to create work_packages immediately' do
+        is_expected
+          .to_not have_json_path('_links/createWorkPackageImmediate')
+      end
+    end
+
     context 'limited page size' do
       let(:page_size_parameter) { 2 }
 

@@ -58,7 +58,7 @@ module API
           end
         end
 
-        def create_work_package_form(work_package, contract_class:, form_class:)
+        def create_work_package_form(work_package, contract_class:, form_class:, action: :update)
           write_work_package_attributes(work_package, request_body, reset_lock_version: true)
           contract = contract_class.new(work_package, current_user)
           contract.validate
@@ -68,7 +68,10 @@ module API
           # errors for invalid data (e.g. validation errors) are handled inside the form
           if only_validation_errors(api_errors)
             status 200
-            form_class.new(work_package, current_user: current_user, errors: api_errors)
+            form_class.new(work_package,
+                           current_user: current_user,
+                           errors: api_errors,
+                           action: action)
           else
             fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
           end

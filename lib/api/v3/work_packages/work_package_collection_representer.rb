@@ -63,6 +63,20 @@ module API
           } if total_sums || groups && groups.any?(&:has_sums?)
         end
 
+        link :createWorkPackage do
+          {
+            href: api_v3_paths.create_work_package_form,
+            method: :post
+          } if current_user.allowed_to?(:add_work_packages, nil, global: true)
+        end
+
+        link :createWorkPackageImmediate do
+          {
+            href: api_v3_paths.work_packages,
+            method: :post
+          } if current_user.allowed_to?(:add_work_packages, nil, global: true)
+        end
+
         collection :elements,
                    getter: -> (*) {
                      work_packages = eager_loaded_work_packages

@@ -50,7 +50,7 @@ module API
                getter: -> (*) {
                  id = represented.send(@getter) if represented
 
-                 return nil unless id
+                 return nil if id.nil? || id == 0
 
                  api_v3_paths.send(@path, id)
                },

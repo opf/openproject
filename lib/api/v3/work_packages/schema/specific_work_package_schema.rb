@@ -36,7 +36,8 @@ module API
             @work_package = work_package
           end
 
-          delegate :project,
+          delegate :project_id,
+                   :project,
                    :type,
                    :id,
                    to: :@work_package
@@ -50,11 +51,11 @@ module API
                 project.types.includes(:color)
               end
             when :version
-              @work_package.try(:assignable_versions)
+              @work_package.try(:assignable_versions) if project
             when :priority
               IssuePriority.active
             when :category
-              project.categories
+              project.categories if project.respond_to?(:categories)
             end
           end
 

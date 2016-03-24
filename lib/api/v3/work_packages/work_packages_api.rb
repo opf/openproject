@@ -37,6 +37,11 @@ module API
           helpers ::API::V3::WorkPackages::WorkPackageListHelpers
           helpers ::API::V3::WorkPackages::CreateWorkPackages
 
+          # The enpoint needs to be mounted before the GET :work_packages/:id.
+          # Otherwise, the matcher for the :id also seems to match available_projects.
+          # This is also true when the :id param is declared to be of type: Integer.
+          mount ::API::V3::WorkPackages::AvailableProjectsOnCreateAPI
+
           get do
             authorize(:view_work_packages, global: true)
             work_packages_by_params
@@ -78,13 +83,11 @@ module API
             patch do
               write_work_package_attributes(@work_package, request_body, reset_lock_version: true)
 
-              send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
-
               call = UpdateWorkPackageService
                      .new(
                        user: current_user,
                        work_package: @work_package)
-                     .call(send_notifications: send_notifications)
+                     .call(send_notifications: notify_according_to_params)
 
               if call.success?
                 @work_package.reload
@@ -112,6 +115,7 @@ module API
           end
 
           mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI
+          mount ::API::V3::WorkPackages::CreateFormAPI
         end
       end
     end
