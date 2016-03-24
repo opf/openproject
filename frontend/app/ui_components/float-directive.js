@@ -32,7 +32,9 @@ module.exports = function($filter) {
     require: 'ngModel',
     link: function(scope, element, attrs, ngModelController) {
       ngModelController.$parsers.push(function(data) {
-        return $filter('external2internalFloat')(data);
+        if (data != '') {
+          return $filter('external2internalFloat')(data);
+        }
       });
 
       ngModelController.$formatters.push(function(data) {
