@@ -27,6 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 
 require 'spec_helper'
+require 'contracts/work_packages/shared_base_contract'
 
 describe WorkPackages::UpdateContract do
   let(:project) { FactoryGirl.create(:project, is_public: false) }
@@ -36,6 +37,10 @@ describe WorkPackages::UpdateContract do
   let(:permissions) { [:view_work_packages, :edit_work_packages] }
 
   subject(:contract) { described_class.new(work_package, user) }
+
+  it_behaves_like 'work package contract' do
+    let(:work_package) { FactoryGirl.build_stubbed(:work_package) }
+  end
 
   describe 'lock_version' do
     context 'no lock_version present' do

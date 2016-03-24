@@ -60,9 +60,11 @@ class UpdateWorkPackageService
     if save_result
       cleanup_result, cleanup_errors = cleanup(changed_attributes)
 
-      ServiceResult.new(cleanup_result, cleanup_errors)
+      ServiceResult.new(success: cleanup_result,
+                        errors: cleanup_errors)
     else
-      ServiceResult.new(save_result, save_errors)
+      ServiceResult.new(success: save_result,
+                        errors: save_errors)
     end
   end
 

@@ -34,12 +34,12 @@ describe ServiceResult, type: :model do
 
   describe 'success' do
     it 'is what the service is initialized with' do
-      instance = ServiceResult.new true
+      instance = ServiceResult.new success: true
 
       expect(instance.success).to be_truthy
       expect(instance.success?).to be_truthy
 
-      instance = ServiceResult.new false
+      instance = ServiceResult.new success: false
 
       expect(instance.success).to be_falsey
       expect(instance.success?).to be_falsey
@@ -73,7 +73,7 @@ describe ServiceResult, type: :model do
     end
 
     it 'is what the object is initialized with' do
-      instance = ServiceResult.new false, errors
+      instance = ServiceResult.new errors: errors
 
       expect(instance.errors).to eql errors
     end
@@ -87,7 +87,7 @@ describe ServiceResult, type: :model do
     let(:result) { double('result') }
 
     it 'is what the object is initialized with' do
-      instance = ServiceResult.new false, [], result: result
+      instance = ServiceResult.new result: result
 
       expect(instance.result).to eql result
     end

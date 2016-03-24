@@ -56,7 +56,9 @@ class CreateWorkPackageService
     assign_provided(work_package, attributes)
     result, errors = validate_and_save(work_package)
 
-    ServiceResult.new(result, errors, result: work_package)
+    ServiceResult.new(success: result,
+                      errors: errors,
+                      result: work_package)
   end
 
   def assign_provided(work_package, attributes)

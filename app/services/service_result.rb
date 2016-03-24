@@ -32,8 +32,8 @@ class ServiceResult
                 :errors,
                 :result
 
-  def initialize(success = false,
-                 errors = ActiveModel::Errors.new(self),
+  def initialize(success: false,
+                 errors: ActiveModel::Errors.new(self),
                  result: nil)
     self.success = success
     self.errors = errors

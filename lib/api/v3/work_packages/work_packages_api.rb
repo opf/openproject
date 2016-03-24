@@ -27,6 +27,7 @@
 #++
 
 require 'api/v3/work_packages/work_package_representer'
+require 'api/v3/work_packages/create_work_packages'
 
 module API
   module V3
@@ -34,10 +35,15 @@ module API
       class WorkPackagesAPI < ::API::OpenProjectAPI
         resources :work_packages do
           helpers ::API::V3::WorkPackages::WorkPackageListHelpers
+          helpers ::API::V3::WorkPackages::CreateWorkPackages
 
           get do
             authorize(:view_work_packages, global: true)
             work_packages_by_params
+          end
+
+          post do
+            create_work_packages(request_body, current_user)
           end
 
           params do
