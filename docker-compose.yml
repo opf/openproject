@@ -1,0 +1,23 @@
+db:
+  image: mysql
+  volumes:
+    - ~/.docker-volumes/openproject/db:/var/lib/mysql
+  expose:
+    - "3306"
+  environment:
+    - MYSQL_ALLOW_EMPTY_PASSWORD=true
+
+worker: &ruby
+  build: .
+  dockerfile: Dockerfile.dev
+  volumes:
+    - .:/app
+  links:
+    - db
+  command: "foreman start 'worker=1'"
+
+web:
+  <<: *ruby
+  ports:
+    - "8080:8080"
+  command: "foreman start 'web=1'"

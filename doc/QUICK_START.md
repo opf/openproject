@@ -34,9 +34,43 @@ Detailed installation instructions for different platforms are located on the [O
 
 You can find information on configuring OpenProject in [`config/CONFIGURATION.md`](CONFIGURATION.md).
 
-## Fast install
-
 These are generic (and condensed) installation instructions for the **current dev** branch *without plugins*, and optimised for a development environment. Refer to the OpenProject website for instructions for the **stable** branch, OpenProject configurations with plugins, as well as platform-specific guides.
+
+## Fast install (Docker version)
+
+### Prerequisites
+
+* Git
+* [Docker](http://www.docker.com/)
+* [Docker Compose](https://docs.docker.com/compose/)
+
+To install Docker you can follow the [Install Docker Engine](https://docs.docker.com/engine/installation/) guide.
+
+### Building and Running
+
+1. Build the image and start db:
+
+    % docker-compose build
+    % docker-compose up -d db
+
+2. Copy database configured file to use with docker and setup database:
+
+    % cp config/database.docker.yml config/database.yml
+    % docker-compose run web rake db:create
+    % docker-compose run web rake db:migrate
+    % docker-compose run web rake db:seed
+
+3. Assets:
+
+  Before starting the app we need to install the assets:
+
+    % docker-compose run web bower install --allow-root
+
+4. Start the app:
+
+    % docker-compose up -d web
+
+## Fast install
 
 ### Prerequisites
 
