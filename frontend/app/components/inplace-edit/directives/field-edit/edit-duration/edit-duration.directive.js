@@ -61,7 +61,7 @@ function inplaceEditorDuration() {
       // The indirection fixes it but it might break two-way-binding. If someone where to change
       // field.value from the outside, this would not be reflected by numberValue.
       scope.$watch('numberValue', function(newValue) {
-        if(newValue) {
+        if(!isNaN(newValue)) {
           var minutes = Number(moment.duration(newValue, 'hours').asMinutes().toFixed(2));
 
           field.value = moment.duration(minutes, 'minutes');
