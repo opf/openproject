@@ -32,7 +32,7 @@ module.exports = function($filter, TimezoneService) {
     require: 'ngModel',
     link: function(scope, element, attrs, ngModelController) {
       ngModelController.$parsers.push(function(value) {
-        if (value) {
+        if (!isNaN(value)) {
           var minutes = Number(moment.duration(value, 'hours').asMinutes().toFixed(2));
           return moment.duration(minutes, 'minutes');
         }
