@@ -3932,7 +3932,7 @@ For more details and all possible responses see the general specification of [Fo
                 "message": "The specified work package does not exist."
             }
 
-## Work Packages [/api/v3/work_packages{?offset,pageSize,filters,sortBy,groupBy,showSums}]
+## Work Packages [/api/v3/work_packages{?notify,offset,pageSize,filters,sortBy,groupBy,showSums}]
 
 + Model
     + Body
@@ -4017,6 +4017,104 @@ For more details and all possible responses see the general specification of [Fo
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to see work packages."
             }
+
+## Create Work Package [POST]
+
+When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
+The required fields of a WorkPackage can be found in its schema, which is embedded in the respective form.
+Note that it is only allowed to provide properties or links supporting the write operation.
+
+A project link must be set when creating work packages through this route.
+
++ Parameters
+    + notify = `true` (optional, boolean, `false`) ... Indicates whether change notifications (e.g. via E-Mail) should be sent.
+    Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
+    not just the current user.
+
++ Response 200 (application/hal+json)
+
+    [Work Package][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** add work packages
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to add work packages to this project."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permissions:** view project
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+    * the client tries to write a read-only property
+    * a constraint for a property was violated
+    * a property was provided in an unreadable format
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "The subject might not be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "Subject"
+                    }
+                }
+            }
+
+## Work Package Create Form [/api/v3/work_packages/form]
+
+This endpoint returns a form to allow a guided creation of a new work package.
+The returned form will be pre-filled with default values for every property, if available.
+
+For more details and all possible responses see the general specification of [Forms](#forms).
+A project link must be set when creating work packages through this route.
+
+## Work Package Create Form [POST]
+
++ Response 200 (application/hal+json)
+
+    [Example Form][]
+
 
 ## Work Packages by Project [/api/v3/projects/{id}/work_packages{?offset,pageSize,filters,sortBy,groupBy,showSums,notify}]
 
