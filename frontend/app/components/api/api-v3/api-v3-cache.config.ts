@@ -27,26 +27,23 @@
 // ++
 
 function apiV3CacheConfig($provide) {
-
   // Add caching wrapper around $http using angular-cache
-  $provide.decorator('$http', function($delegate, CacheService) {
+  $provide.decorator('$http', ($delegate:ng.IHttpService, CacheService:op.CacheService) => {
     var $http = $delegate;
     var wrapper = function() {
-      var params = arguments;
-      var request = arguments[0];
-      var requestable = () => $http.apply($http, params);
-      var useCaching = request.cache || true;
-      var cacheOptions;
+      var args = arguments;
+      var request = args[0];
+      var requestable = () => $http.apply($http, args);
+      var useCaching = request.cache;
 
       // Override cache values from headers
       if (request.headers && request.headers.caching) {
-        cacheOptions = request.headers.caching;
+        let cacheOptions = request.headers.caching;
         useCaching = cacheOptions.enabled;
         delete request.headers.caching;
       }
 
-
-      // Do not cache anything but GET coming from Restangualr
+      // Do not cache anything but GET coming from Restangular
       if (!useCaching || (request.method && request.method !== 'GET')) {
         request.cache = false;
         return requestable();
@@ -57,20 +54,16 @@ function apiV3CacheConfig($provide) {
       }
     };
 
-    Object.keys($http).forEach(function(key) {
-      // Decorate all fns with our cached wrapper
-      if (typeof $http[key] === 'function') {
-        wrapper[key] = function() {
-          return $http[key].apply($http, arguments);
-        };
-      } else {
-        wrapper[key] = $http[key];
-      }
+    // Decorate all fns with our cached wrapper
+    Object.keys($http).forEach(key => {
+      let prop = $http[key];
+      let fn = function() { return prop.apply($http, arguments) };
+
+      wrapper[key] = angular.isFunction(prop) ? fn : prop;
     });
 
     return wrapper;
   });
-
 }
 
 angular
