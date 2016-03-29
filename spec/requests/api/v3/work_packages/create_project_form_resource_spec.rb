@@ -25,53 +25,30 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++
 
-require 'work_packages/create_contract'
+require 'spec_helper'
+require 'rack/test'
 
-class CreateWorkPackageService
-  include Concerns::Contracted
+describe ::API::V3::WorkPackages::CreateProjectFormAPI do
+  include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
-  self.contract = WorkPackages::CreateContract
+  let(:project) { FactoryGirl.create(:project, id: 5) }
+  let(:post_path) { api_v3_paths.create_project_work_package_form(project.id) }
+  let(:user) { FactoryGirl.build(:admin) }
 
-  attr_reader :user
-
-  def initialize(user:)
-    @user = user
+  before do
+    login_as(user)
+    post post_path
   end
 
-  def call(attributes:, send_notifications: true)
-    User.execute_as user do
-      JournalManager.with_send_notifications send_notifications do
-        create(attributes)
-      end
-    end
+  subject(:response) { last_response }
+
+  it 'should return 200(OK)' do
+    expect(response.status).to eq(200)
   end
 
-  private
-
-  def create(attributes)
-    work_package = WorkPackage.new
-
-    initialize_contract(work_package)
-    assign_defaults(work_package, attributes)
-    assign_provided(work_package, attributes)
-    result, errors = validate_and_save(work_package)
-
-    ServiceResult.new(success: result,
-                      errors: errors,
-                      result: work_package)
-  end
-
-  def assign_provided(work_package, attributes)
-    work_package.attributes = attributes
-  end
-
-  def assign_defaults(work_package, attributes)
-    work_package.author = user unless attributes[:author_id]
-  end
-
-  def initialize_contract(work_package)
-    self.contract = self.class.contract.new(work_package, user)
+  it 'should be of type form' do
+    expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
   end
 end

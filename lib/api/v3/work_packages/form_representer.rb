@@ -31,8 +31,9 @@ module API
   module V3
     module WorkPackages
       class FormRepresenter < ::API::Decorators::Single
-        def initialize(model, current_user: nil, errors: [])
-          @errors = errors
+        def initialize(model, current_user: nil, errors: [], action: :update)
+          self.errors = errors
+          self.action = action
 
           super(model, current_user: current_user)
         end
@@ -50,16 +51,20 @@ module API
                    schema = Schema::SpecificWorkPackageSchema.new(work_package: represented)
                    Schema::WorkPackageSchemaRepresenter.create(schema,
                                                                form_embedded: true,
-                                                               current_user: current_user)
+                                                               current_user: current_user,
+                                                               action: action)
                  }
         property :validation_errors, embedded: true, exec_context: :decorator
+
+        attr_accessor :action,
+                      :errors
 
         def _type
           'Form'
         end
 
         def validation_errors
-          @errors.group_by(&:property).inject({}) do |hash, (property, errors)|
+          errors.group_by(&:property).inject({}) do |hash, (property, errors)|
             error = ::API::Errors::MultipleErrors.create_if_many(errors)
             hash[property] = ::API::V3::Errors::ErrorRepresenter.new(error)
             hash

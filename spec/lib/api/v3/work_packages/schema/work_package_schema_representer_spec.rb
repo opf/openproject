@@ -41,11 +41,13 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   }
   let(:self_link) { '/a/self/link' }
   let(:embedded) { true }
+  let(:action) { :update }
   let(:representer) {
     described_class.create(schema,
                            form_embedded: embedded,
                            self_link: self_link,
-                           current_user: current_user)
+                           current_user: current_user,
+                           action: action)
   }
 
   before do
@@ -369,9 +371,20 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:writable) { true }
       end
 
-      it_behaves_like 'links to allowed values via collection link' do
-        let(:path) { 'project' }
-        let(:href) { "/api/v3/work_packages/#{work_package.id}/available_projects" }
+      context 'when updating' do
+        it_behaves_like 'links to allowed values via collection link' do
+          let(:path) { 'project' }
+          let(:href) { api_v3_paths.available_projects_on_edit(work_package.id) }
+        end
+      end
+
+      context 'when creating' do
+        let(:action) { :create }
+
+        it_behaves_like 'links to allowed values via collection link' do
+          let(:path) { 'project' }
+          let(:href) { api_v3_paths.available_projects_on_create }
+        end
       end
 
       context 'when not embedded' do
@@ -525,6 +538,16 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
             let(:path) { 'assignee' }
           end
         end
+
+        context 'when not having a project (yet)' do
+          before do
+            work_package.project = nil
+          end
+
+          it_behaves_like 'does not link to allowed values' do
+            let(:path) { 'assignee' }
+          end
+        end
       end
 
       describe 'responsible' do
@@ -543,6 +566,16 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         context 'when not embedded' do
           let(:embedded) { false }
+
+          it_behaves_like 'does not link to allowed values' do
+            let(:path) { 'responsible' }
+          end
+        end
+
+        context 'when not having a project (yet)' do
+          before do
+            work_package.project = nil
+          end
 
           it_behaves_like 'does not link to allowed values' do
             let(:path) { 'responsible' }

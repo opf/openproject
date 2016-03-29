@@ -48,15 +48,17 @@ module API
             # After Pass 1 the correct type/project information is merged into the WP
             # In Pass 2 the representer is created with the new type/project info and will be able
             # to also parse custom fields successfully
-            merge_hash_into_work_package!(request_body, work_package)
+            work_package = merge_hash_into_work_package!(request_body, work_package)
 
             if custom_field_context_changed?(work_package)
-              merge_hash_into_work_package!(request_body, work_package)
+              work_package = merge_hash_into_work_package!(request_body, work_package)
             end
+
+            work_package
           end
         end
 
-        def create_work_package_form(work_package, contract_class:, form_class:)
+        def create_work_package_form(work_package, contract_class:, form_class:, action: :update)
           write_work_package_attributes(work_package, request_body, reset_lock_version: true)
           contract = contract_class.new(work_package, current_user)
           contract.validate
@@ -66,7 +68,10 @@ module API
           # errors for invalid data (e.g. validation errors) are handled inside the form
           if only_validation_errors(api_errors)
             status 200
-            form_class.new(work_package, current_user: current_user, errors: api_errors)
+            form_class.new(work_package,
+                           current_user: current_user,
+                           errors: api_errors,
+                           action: action)
           else
             fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
           end
@@ -81,6 +86,10 @@ module API
 
         def only_validation_errors(errors)
           errors.all? { |error| error.code == 422 }
+        end
+
+        def notify_according_to_params
+          !(params[:notify] == 'false')
         end
       end
     end

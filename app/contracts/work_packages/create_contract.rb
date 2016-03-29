@@ -27,19 +27,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'work_packages/base_contract'
+
 module WorkPackages
   class CreateContract < BaseContract
-    # These attributes need to be set during creation and cannot be modified via representer.
-    # Hence making them writable here is unproblematic.
-    attribute :project_id
-    attribute :author_id
+    attribute :author_id do
+      errors.add :author_id, :invalid if model.author != user
+    end
 
     validate :user_allowed_to_add
 
     private
 
     def user_allowed_to_add
-      unless @user.allowed_to?(:add_work_packages, model.project)
+      if (model.project && !@user.allowed_to?(:add_work_packages, model.project)) ||
+         !@user.allowed_to?(:add_work_packages, nil, global: true)
+
         errors.add :base, :error_unauthorized
       end
     end

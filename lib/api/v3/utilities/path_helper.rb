@@ -79,6 +79,10 @@ module API
             "#{work_package(work_package_id)}/available_projects"
           end
 
+          def self.available_projects_on_create
+            "#{work_packages}/available_projects"
+          end
+
           def self.categories(project_id)
             "#{project(project_id)}/categories"
           end
@@ -91,7 +95,11 @@ module API
             "#{root}/configuration"
           end
 
-          def self.create_work_package_form(project_id)
+          def self.create_work_package_form
+            "#{work_packages}/form"
+          end
+
+          def self.create_project_work_package_form(project_id)
             "#{work_packages_by_project(project_id)}/form"
           end
 

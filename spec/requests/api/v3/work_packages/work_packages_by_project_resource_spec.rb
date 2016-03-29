@@ -240,7 +240,16 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     let(:permissions) { [:add_work_packages, :view_project] }
     let(:status) { FactoryGirl.build(:status, is_default: true) }
     let(:priority) { FactoryGirl.build(:priority, is_default: true) }
-    let(:parameters) { { subject: 'new work packages' } }
+    let(:parameters) do
+      {
+        subject: 'new work packages',
+        _links: {
+          type: {
+            href: api_v3_paths.type(project.types.first.id)
+          }
+        }
+      }
+    end
 
     before do
       status.save!
@@ -307,9 +316,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     context 'empty parameters' do
       let(:parameters) { {} }
 
-      it_behaves_like 'constraint violation' do
-        let(:message) { "Subject can't be blank" }
-      end
+      it_behaves_like 'multiple errors', 422
 
       it 'should not create a work package' do
         expect(WorkPackage.all.count).to eq(0)
@@ -317,7 +324,16 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     end
 
     context 'bogus parameters' do
-      let(:parameters) { { bogus: nil } }
+      let(:parameters) do
+        {
+          bogus: 'bogus',
+          _links: {
+            type: {
+              href: api_v3_paths.type(project.types.first.id)
+            }
+          }
+        }
+      end
 
       it_behaves_like 'constraint violation' do
         let(:message) { "Subject can't be blank" }
@@ -329,7 +345,16 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     end
 
     context 'invalid value' do
-      let(:parameters) { { subject: nil } }
+      let(:parameters) do
+        {
+          subject: nil,
+          _links: {
+            type: {
+              href: api_v3_paths.type(project.types.first.id)
+            }
+          }
+        }
+      end
 
       it_behaves_like 'constraint violation' do
         let(:message) { "Subject can't be blank" }

@@ -29,17 +29,21 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe ::API::V3::WorkPackages::CreateFormAPI do
+describe ::API::V3::WorkPackages::CreateProjectFormAPI do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.create(:project, id: 5) }
-  let(:post_path) { api_v3_paths.create_work_package_form(project.id) }
+  let(:path) { api_v3_paths.create_work_package_form }
+  let(:status) { FactoryGirl.create(:default_status) }
+  let(:priority) { FactoryGirl.create(:default_priority) }
   let(:user) { FactoryGirl.build(:admin) }
+  let(:parameters) { {} }
 
   before do
+    status
+    priority
     login_as(user)
-    post post_path
+    post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
   end
 
   subject(:response) { last_response }
@@ -50,5 +54,51 @@ describe ::API::V3::WorkPackages::CreateFormAPI do
 
   it 'should be of type form' do
     expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
+  end
+
+  it 'has the available_projects link for creation in the schema' do
+    expect(response.body)
+      .to be_json_eql(api_v3_paths.available_projects_on_create.to_json)
+      .at_path('_embedded/schema/project/_links/allowedValues/href')
+  end
+
+  describe 'with empty parameters' do
+    it 'has 3 validation errors' do
+      expect(subject.body).to have_json_size(3).at_path('_embedded/validationErrors')
+    end
+
+    it 'has a validation error on subject' do
+      expect(subject.body).to have_json_path('_embedded/validationErrors/subject')
+    end
+
+    it 'has a validation error on type' do
+      expect(subject.body).to have_json_path('_embedded/validationErrors/type')
+    end
+
+    it 'has a validation error on project' do
+      expect(subject.body).to have_json_path('_embedded/validationErrors/project')
+    end
+  end
+
+  describe 'with all minimum parameters' do
+    let(:project) { FactoryGirl.create(:project_with_types) }
+    let(:type) { project.types.first }
+    let(:parameters) {
+      {
+        _links: {
+          type: {
+            href: "/api/v3/types/#{type.id}"
+          },
+          project: {
+            href: "/api/v3/projects/#{project.id}"
+          }
+        },
+        subject: 'lorem ipsum'
+      }
+    }
+
+    it 'has 0 validation errors' do
+      expect(subject.body).to have_json_size(0).at_path('_embedded/validationErrors')
+    end
   end
 end

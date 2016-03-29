@@ -27,51 +27,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'work_packages/create_contract'
+module API
+  module V3
+    module WorkPackages
+      class CreateProjectFormRepresenter < FormRepresenter
+        link :self do
+          {
+            href: api_v3_paths.create_project_work_package_form(represented.project_id),
+            method: :post
+          }
+        end
 
-class CreateWorkPackageService
-  include Concerns::Contracted
+        link :validate do
+          {
+            href: api_v3_paths.create_project_work_package_form(represented.project_id),
+            method: :post
+          }
+        end
 
-  self.contract = WorkPackages::CreateContract
+        link :previewMarkup do
+          {
+            href: api_v3_paths.render_markup(link: api_v3_paths.project(represented.project_id)),
+            method: :post
+          }
+        end
 
-  attr_reader :user
-
-  def initialize(user:)
-    @user = user
-  end
-
-  def call(attributes:, send_notifications: true)
-    User.execute_as user do
-      JournalManager.with_send_notifications send_notifications do
-        create(attributes)
+        link :commit do
+          {
+            href: api_v3_paths.work_packages_by_project(represented.project_id),
+            method: :post
+          } if current_user.allowed_to?(:edit_work_packages, represented.project) &&
+               @errors.empty?
+        end
       end
     end
-  end
-
-  private
-
-  def create(attributes)
-    work_package = WorkPackage.new
-
-    initialize_contract(work_package)
-    assign_defaults(work_package, attributes)
-    assign_provided(work_package, attributes)
-    result, errors = validate_and_save(work_package)
-
-    ServiceResult.new(success: result,
-                      errors: errors,
-                      result: work_package)
-  end
-
-  def assign_provided(work_package, attributes)
-    work_package.attributes = attributes
-  end
-
-  def assign_defaults(work_package, attributes)
-    work_package.author = user unless attributes[:author_id]
-  end
-
-  def initialize_contract(work_package)
-    self.contract = self.class.contract.new(work_package, user)
   end
 end

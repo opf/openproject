@@ -75,7 +75,8 @@ describe ::API::V3::Projects::ProjectRepresenter do
       describe 'create work packages' do
         context 'user allowed to create work packages' do
           it 'has the correct path for a create form' do
-            is_expected.to be_json_eql(api_v3_paths.create_work_package_form(project.id).to_json)
+            is_expected
+              .to be_json_eql(api_v3_paths.create_project_work_package_form(project.id).to_json)
               .at_path('_links/createWorkPackage/href')
           end
 

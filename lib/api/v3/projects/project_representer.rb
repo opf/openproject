@@ -38,7 +38,7 @@ module API
 
         link :createWorkPackage do
           {
-            href: api_v3_paths.create_work_package_form(represented.id),
+            href: api_v3_paths.create_project_work_package_form(represented.id),
             method: :post
           } if current_user_allowed_to(:add_work_packages, context: represented)
         end

@@ -27,51 +27,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'work_packages/create_contract'
+module Concerns::Contracted
+  extend ActiveSupport::Concern
 
-class CreateWorkPackageService
-  include Concerns::Contracted
+  included do
+    class << self
+      attr_accessor :contract
+    end
 
-  self.contract = WorkPackages::CreateContract
+    private
 
-  attr_reader :user
+    attr_accessor :contract
 
-  def initialize(user:)
-    @user = user
-  end
-
-  def call(attributes:, send_notifications: true)
-    User.execute_as user do
-      JournalManager.with_send_notifications send_notifications do
-        create(attributes)
+    def validate_and_save(object)
+      if !contract.validate
+        return false, contract.errors
+      elsif !object.save
+        return false, object.errors
+      else
+        return true, object.errors
       end
     end
-  end
-
-  private
-
-  def create(attributes)
-    work_package = WorkPackage.new
-
-    initialize_contract(work_package)
-    assign_defaults(work_package, attributes)
-    assign_provided(work_package, attributes)
-    result, errors = validate_and_save(work_package)
-
-    ServiceResult.new(success: result,
-                      errors: errors,
-                      result: work_package)
-  end
-
-  def assign_provided(work_package, attributes)
-    work_package.attributes = attributes
-  end
-
-  def assign_defaults(work_package, attributes)
-    work_package.author = user unless attributes[:author_id]
-  end
-
-  def initialize_contract(work_package)
-    self.contract = self.class.contract.new(work_package, user)
   end
 end

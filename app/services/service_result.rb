@@ -28,12 +28,16 @@
 #++
 
 class ServiceResult
-  attr_accessor :success, :errors
+  attr_accessor :success,
+                :errors,
+                :result
 
-  def initialize(success = false,
-                 errors = ActiveModel::Errors.new(self))
+  def initialize(success: false,
+                 errors: ActiveModel::Errors.new(self),
+                 result: nil)
     self.success = success
     self.errors = errors
+    self.result = result
   end
 
   alias success? :success

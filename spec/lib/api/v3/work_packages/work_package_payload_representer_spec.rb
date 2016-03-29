@@ -40,7 +40,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
   end
   let(:representer) { described_class.create(work_package) }
 
-  before do allow(work_package).to receive(:lock_version).and_return(1) end
+  before do
+    allow(work_package).to receive(:lock_version).and_return(1)
+  end
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -60,6 +62,20 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         it { is_expected.to have_json_type(Integer).at_path('lockVersion') }
 
         it { is_expected.to be_json_eql(work_package.lock_version.to_json).at_path('lockVersion') }
+
+        context 'with a lock version of nil (new work package)' do
+          before do
+            allow(work_package)
+              .to receive(:lock_version)
+              .and_return(nil)
+          end
+
+          it 'has a lockVersion of 0' do
+            is_expected
+              .to be_json_eql(0)
+              .at_path('lockVersion')
+          end
+        end
       end
 
       describe 'estimated hours' do
@@ -142,6 +158,19 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         it { expect(subject).to be_json_eql(link.to_json).at_path(path) }
       end
 
+      shared_examples_for 'linked property with 0 value' do |attribute, association = attribute|
+        context "with a 0 for #{attribute}_id" do
+          before do
+            work_package.send("#{association}_id=", 0)
+          end
+
+          it_behaves_like 'linked property' do
+            let(:property) { attribute }
+            let(:link) { nil }
+          end
+        end
+      end
+
       describe 'status' do
         let(:status) { FactoryGirl.build_stubbed(:status) }
 
@@ -151,6 +180,8 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:property) { 'status' }
           let(:link) { "/api/v3/statuses/#{status.id}" }
         end
+
+        it_behaves_like 'linked property with 0 value', :status
       end
 
       describe 'assignee and responsible' do
@@ -163,6 +194,8 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           it_behaves_like 'linked property' do
             let(:property) { 'assignee' }
           end
+
+          it_behaves_like 'linked property with 0 value', :assignee, :assigned_to
         end
 
         describe 'responsible' do
@@ -171,6 +204,8 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           it_behaves_like 'linked property' do
             let(:property) { 'responsible' }
           end
+
+          it_behaves_like 'linked property with 0 value', :responsible
         end
       end
 
@@ -183,6 +218,8 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:property) { 'version' }
           let(:link) { "/api/v3/versions/#{version.id}" }
         end
+
+        it_behaves_like 'linked property with 0 value', :version, :fixed_version
       end
 
       describe 'category' do
@@ -194,6 +231,8 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:property) { 'category' }
           let(:link) { "/api/v3/categories/#{category.id}" }
         end
+
+        it_behaves_like 'linked property with 0 value', :category
       end
 
       describe 'priority' do
@@ -205,6 +244,8 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:property) { 'priority' }
           let(:link) { "/api/v3/priorities/#{priority.id}" }
         end
+
+        it_behaves_like 'linked property with 0 value', :priority
       end
 
       describe 'parent' do
@@ -216,6 +257,8 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:property) { 'parent' }
           let(:link) { "/api/v3/work_packages/#{parent.id}" }
         end
+
+        it_behaves_like 'linked property with 0 value', :parent
       end
     end
 

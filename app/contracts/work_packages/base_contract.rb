@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'model_contract'
+
 module WorkPackages
   class BaseContract < ::ModelContract
     attribute :subject
@@ -47,12 +49,16 @@ module WorkPackages
     end
 
     attribute :assigned_to_id do
+      next unless model.project
+
       validate_people_visible :assignee,
                               'assigned_to_id',
                               model.project.possible_assignee_members
     end
 
     attribute :responsible_id do
+      next unless model.project
+
       validate_people_visible :responsible,
                               'responsible_id',
                               model.project.possible_responsible_members
@@ -96,6 +102,9 @@ module WorkPackages
     end
 
     private
+
+    attr_reader :user,
+                :can
 
     def validate_people_visible(attribute, id_attribute, list)
       id = model[id_attribute]

@@ -53,7 +53,8 @@ class AddWorkPackageNoteService
 
       result, errors = validate_and_save
 
-      ServiceResult.new(result, errors)
+      ServiceResult.new(success: result,
+                        errors: errors)
     end
   end
 

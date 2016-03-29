@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,51 +26,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'work_packages/create_contract'
+require 'spec_helper'
+require 'rack/test'
 
-class CreateWorkPackageService
-  include Concerns::Contracted
+describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI, type: :request do
+  include API::V3::Utilities::PathHelper
 
-  self.contract = WorkPackages::CreateContract
-
-  attr_reader :user
-
-  def initialize(user:)
-    @user = user
+  let(:add_role) do
+    FactoryGirl.create(:role, permissions: [:add_work_packages])
+  end
+  let(:project) { FactoryGirl.create(:project) }
+  let(:user) do
+    FactoryGirl.create(:user,
+                       member_in_project: project,
+                       member_through_role: add_role)
   end
 
-  def call(attributes:, send_notifications: true)
-    User.execute_as user do
-      JournalManager.with_send_notifications send_notifications do
-        create(attributes)
-      end
+  before do
+    project
+
+    allow(User).to receive(:current).and_return(user)
+    get api_v3_paths.available_projects_on_create
+  end
+
+  context 'w/ the necessary permissions' do
+    it_behaves_like 'API V3 collection response', 1, 1, 'Project'
+
+    it 'has the project for which the add_work_packages permission exists' do
+      expect(response.body).to be_json_eql(project.id).at_path('_embedded/elements/0/id')
     end
   end
 
-  private
+  context 'w/o any add_work_packages permission' do
+    let(:add_role) do
+      FactoryGirl.create(:role, permissions: [])
+    end
 
-  def create(attributes)
-    work_package = WorkPackage.new
-
-    initialize_contract(work_package)
-    assign_defaults(work_package, attributes)
-    assign_provided(work_package, attributes)
-    result, errors = validate_and_save(work_package)
-
-    ServiceResult.new(success: result,
-                      errors: errors,
-                      result: work_package)
-  end
-
-  def assign_provided(work_package, attributes)
-    work_package.attributes = attributes
-  end
-
-  def assign_defaults(work_package, attributes)
-    work_package.author = user unless attributes[:author_id]
-  end
-
-  def initialize_contract(work_package)
-    self.contract = self.class.contract.new(work_package, user)
+    it { expect(response.status).to eq(403) }
   end
 end

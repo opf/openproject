@@ -27,51 +27,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'work_packages/create_contract'
+require 'spec_helper'
 
-class CreateWorkPackageService
-  include Concerns::Contracted
+describe ::Type, type: :model do
+  let(:type) { FactoryGirl.build(:type) }
+  let(:type2) { FactoryGirl.build(:type) }
+  let(:project) { FactoryGirl.build(:project) }
 
-  self.contract = WorkPackages::CreateContract
+  describe '.enabled_in(project)' do
+    before do
+      type.projects << project
+      type.save
 
-  attr_reader :user
-
-  def initialize(user:)
-    @user = user
-  end
-
-  def call(attributes:, send_notifications: true)
-    User.execute_as user do
-      JournalManager.with_send_notifications send_notifications do
-        create(attributes)
-      end
+      type2.save
     end
-  end
 
-  private
-
-  def create(attributes)
-    work_package = WorkPackage.new
-
-    initialize_contract(work_package)
-    assign_defaults(work_package, attributes)
-    assign_provided(work_package, attributes)
-    result, errors = validate_and_save(work_package)
-
-    ServiceResult.new(success: result,
-                      errors: errors,
-                      result: work_package)
-  end
-
-  def assign_provided(work_package, attributes)
-    work_package.attributes = attributes
-  end
-
-  def assign_defaults(work_package, attributes)
-    work_package.author = user unless attributes[:author_id]
-  end
-
-  def initialize_contract(work_package)
-    self.contract = self.class.contract.new(work_package, user)
+    it 'returns the types enabled in the provided project' do
+      expect(Type.enabled_in(project)).to match_array([type])
+    end
   end
 end

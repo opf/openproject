@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,51 +26,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/work_packages/work_packages_shared_helpers'
+require 'create_work_package_service'
 require 'work_packages/create_contract'
 
-class CreateWorkPackageService
-  include Concerns::Contracted
+module API
+  module V3
+    module WorkPackages
+      class CreateProjectFormAPI < ::API::OpenProjectAPI
+        resource :form do
+          helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
-  self.contract = WorkPackages::CreateContract
-
-  attr_reader :user
-
-  def initialize(user:)
-    @user = user
-  end
-
-  def call(attributes:, send_notifications: true)
-    User.execute_as user do
-      JournalManager.with_send_notifications send_notifications do
-        create(attributes)
+          post do
+            work_package = WorkPackage.new(
+              author: current_user,
+              type: @project.types.first,
+              project: @project
+            )
+            create_work_package_form(work_package,
+                                     contract_class: ::WorkPackages::CreateContract,
+                                     form_class: CreateProjectFormRepresenter,
+                                     action: :create)
+          end
+        end
       end
     end
-  end
-
-  private
-
-  def create(attributes)
-    work_package = WorkPackage.new
-
-    initialize_contract(work_package)
-    assign_defaults(work_package, attributes)
-    assign_provided(work_package, attributes)
-    result, errors = validate_and_save(work_package)
-
-    ServiceResult.new(success: result,
-                      errors: errors,
-                      result: work_package)
-  end
-
-  def assign_provided(work_package, attributes)
-    work_package.attributes = attributes
-  end
-
-  def assign_defaults(work_package, attributes)
-    work_package.author = user unless attributes[:author_id]
-  end
-
-  def initialize_contract(work_package)
-    self.contract = self.class.contract.new(work_package, user)
   end
 end

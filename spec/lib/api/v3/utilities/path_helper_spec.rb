@@ -106,10 +106,16 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/work_packages/42/available_watchers'
   end
 
-  describe '#available_projects' do
+  describe '#available_projects_on_edit' do
     subject { helper.available_projects_on_edit 42 }
 
     it_behaves_like 'api v3 path', '/work_packages/42/available_projects'
+  end
+
+  describe '#available_projects_on_create' do
+    subject { helper.available_projects_on_create }
+
+    it_behaves_like 'api v3 path', '/work_packages/available_projects'
   end
 
   describe '#categories' do
@@ -131,7 +137,13 @@ describe ::API::V3::Utilities::PathHelper do
   end
 
   describe '#create_work_package_form' do
-    subject { helper.create_work_package_form 42 }
+    subject { helper.create_work_package_form }
+
+    it_behaves_like 'api v3 path', '/work_packages/form'
+  end
+
+  describe '#create_project_work_package_form' do
+    subject { helper.create_project_work_package_form 42 }
 
     it_behaves_like 'api v3 path', '/projects/42/work_packages/form'
   end

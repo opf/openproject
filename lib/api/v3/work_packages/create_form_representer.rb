@@ -33,14 +33,14 @@ module API
       class CreateFormRepresenter < FormRepresenter
         link :self do
           {
-            href: api_v3_paths.create_work_package_form(represented.project_id),
+            href: api_v3_paths.create_work_package_form,
             method: :post
           }
         end
 
         link :validate do
           {
-            href: api_v3_paths.create_work_package_form(represented.project_id),
+            href: api_v3_paths.create_work_package_form,
             method: :post
           }
         end
@@ -49,14 +49,15 @@ module API
           {
             href: api_v3_paths.render_markup(link: api_v3_paths.project(represented.project_id)),
             method: :post
-          }
+          } if represented.project
         end
 
         link :commit do
           {
-            href: api_v3_paths.work_packages_by_project(represented.project_id),
+            href: api_v3_paths.work_packages,
             method: :post
-          } if current_user.allowed_to?(:edit_work_packages, represented.project) &&
+          } if represented.project &&
+               current_user.allowed_to?(:edit_work_packages, represented.project) &&
                @errors.empty?
         end
       end

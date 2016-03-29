@@ -26,27 +26,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/work_package_representer'
-require 'api/v3/work_packages/work_packages_shared_helpers'
-require 'work_packages/create_contract'
+require 'api/v3/work_packages/work_package_list_helpers'
+require 'api/v3/work_packages/create_work_packages'
 
 module API
   module V3
     module WorkPackages
       class WorkPackagesByProjectAPI < ::API::OpenProjectAPI
         resources :work_packages do
-          helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
+          helpers ::API::V3::WorkPackages::CreateWorkPackages
           helpers ::API::V3::WorkPackages::WorkPackageListHelpers
-
-          helpers do
-            def create_service
-              @create_service ||=
-                CreateWorkPackageService.new(
-                  user: current_user,
-                  project: @project,
-                  send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
-            end
-          end
 
           get do
             authorize(:view_work_packages, context: @project)
@@ -54,23 +43,13 @@ module API
           end
 
           post do
-            work_package = create_service.create
-
-            write_work_package_attributes work_package, request_body
-
-            contract = ::WorkPackages::CreateContract.new(work_package, current_user)
-            if contract.validate && create_service.save(work_package)
-              work_package.reload
-              WorkPackages::WorkPackageRepresenter.create(work_package,
-                                                          current_user: current_user,
-                                                          embed_links: true)
-            else
-              fail ::API::Errors::ErrorBase.create_and_merge_errors(contract.errors)
+            create_work_packages(request_body, current_user) do |attributes|
+              attributes[:project_id] = @project.id
             end
           end
 
           mount ::API::V3::Projects::WorkPackageColumnsAPI
-          mount ::API::V3::WorkPackages::CreateFormAPI
+          mount ::API::V3::WorkPackages::CreateProjectFormAPI
         end
       end
     end

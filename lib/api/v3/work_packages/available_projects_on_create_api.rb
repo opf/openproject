@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,51 +26,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'work_packages/create_contract'
+require 'api/v3/projects/project_collection_representer'
 
-class CreateWorkPackageService
-  include Concerns::Contracted
+module API
+  module V3
+    module WorkPackages
+      class AvailableProjectsOnCreateAPI < ::API::OpenProjectAPI
+        resource :available_projects do
+          before do
+            authorize(:add_work_packages, global: true)
+          end
 
-  self.contract = WorkPackages::CreateContract
-
-  attr_reader :user
-
-  def initialize(user:)
-    @user = user
-  end
-
-  def call(attributes:, send_notifications: true)
-    User.execute_as user do
-      JournalManager.with_send_notifications send_notifications do
-        create(attributes)
+          get do
+            available_projects = WorkPackage.allowed_target_projects_on_create(current_user)
+            self_link = api_v3_paths.available_projects_on_create
+            Projects::ProjectCollectionRepresenter.new(available_projects,
+                                                       self_link,
+                                                       current_user: current_user)
+          end
+        end
       end
     end
-  end
-
-  private
-
-  def create(attributes)
-    work_package = WorkPackage.new
-
-    initialize_contract(work_package)
-    assign_defaults(work_package, attributes)
-    assign_provided(work_package, attributes)
-    result, errors = validate_and_save(work_package)
-
-    ServiceResult.new(success: result,
-                      errors: errors,
-                      result: work_package)
-  end
-
-  def assign_provided(work_package, attributes)
-    work_package.attributes = attributes
-  end
-
-  def assign_defaults(work_package, attributes)
-    work_package.author = user unless attributes[:author_id]
-  end
-
-  def initialize_contract(work_package)
-    self.contract = self.class.contract.new(work_package, user)
   end
 end
