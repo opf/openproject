@@ -1762,6 +1762,7 @@ en:
   text_file_repository_writable: "Attachments directory writable"
   text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
   text_hint_disable_with_0: "Note: Disable with 0"
+  text_hours_between: "Between %{min} and %{max} hours."
   text_work_package_added: "Work package %{id} has been reported by %{author}."
   text_work_package_category_destroy_assignments: "Remove category assignments"
   text_work_package_category_destroy_question: "Some work packages (%{count}) are assigned to this category. What do you want to do?"
