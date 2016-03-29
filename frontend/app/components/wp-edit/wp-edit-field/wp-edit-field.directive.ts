@@ -41,7 +41,11 @@ export class WorkPackageEditFieldController {
 
   protected _active:boolean = false;
 
-  constructor(protected wpEditField:WorkPackageEditFieldService, protected $element) {
+  constructor(
+    protected wpEditField:WorkPackageEditFieldService,
+    protected $element,
+    protected NotificationsService,
+    protected I18n) {
   }
 
   public get workPackage() {
@@ -65,6 +69,15 @@ export class WorkPackageEditFieldController {
     this.pristineValue = angular.copy(this.workPackage[this.fieldName]);
     this.setupField().then(() => {
       this._active = this.field.schema.writable;
+
+      // Display a generic error if the field turns out not to be editable,
+      // despite the field being editable.
+      if (this.isEditable && !this._active) {
+        this.NotificationsService.addError(this.I18n.t(
+          'js.work_packages.error_edit_prohibited',
+          { attribute: this.field.schema.name }
+        ));
+      }
     });
   }
 
