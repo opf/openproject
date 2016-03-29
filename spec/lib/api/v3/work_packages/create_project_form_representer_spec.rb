@@ -56,7 +56,9 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
           .at_path('_links/self/href')
       end
 
-      it { is_expected.to be_json_eql(:post.to_json).at_path('_links/self/method') }
+      it do
+        is_expected.to be_json_eql(:post.to_json).at_path('_links/self/method')
+      end
 
       describe 'validate' do
         it do
@@ -65,7 +67,9 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
             .at_path('_links/validate/href')
         end
 
-        it { is_expected.to be_json_eql(:post.to_json).at_path('_links/validate/method') }
+        it do
+          is_expected.to be_json_eql(:post.to_json).at_path('_links/validate/method')
+        end
       end
 
       describe 'preview markup' do
@@ -76,7 +80,9 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
             .at_path('_links/previewMarkup/href')
         end
 
-        it { is_expected.to be_json_eql(:post.to_json).at_path('_links/previewMarkup/method') }
+        it do
+          is_expected.to be_json_eql(:post.to_json).at_path('_links/previewMarkup/method')
+        end
 
         it 'contains link to work package' do
           expected_preview_link =
@@ -95,13 +101,17 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
               .at_path('_links/commit/href')
           end
 
-          it { is_expected.to be_json_eql(:post.to_json).at_path('_links/commit/method') }
+          it do
+            is_expected.to be_json_eql(:post.to_json).at_path('_links/commit/method')
+          end
         end
 
         context 'invalid work package' do
           let(:errors) { [::API::Errors::Validation.new(:subject, 'it is broken')] }
 
-          it { is_expected.not_to have_json_path('_links/commit/href') }
+          it do
+            is_expected.not_to have_json_path('_links/commit/href')
+          end
         end
 
         context 'user with insufficient permissions' do
@@ -112,7 +122,9 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
                               member_through_role: role)
           }
 
-          it { is_expected.not_to have_json_path('_links/commit/href') }
+          it do
+            is_expected.not_to have_json_path('_links/commit/href')
+          end
         end
       end
     end

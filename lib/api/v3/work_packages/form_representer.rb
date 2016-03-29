@@ -56,8 +56,6 @@ module API
                  }
         property :validation_errors, embedded: true, exec_context: :decorator
 
-        private
-
         attr_accessor :action,
                       :errors
 

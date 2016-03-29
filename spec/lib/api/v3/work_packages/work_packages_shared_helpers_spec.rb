@@ -65,9 +65,11 @@ describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
 
   describe '#create_work_package_form' do
     subject do
-      helper.create_work_package_form(work_package,
-                                      contract_class: ::WorkPackages::CreateContract,
-                                      form_class: ::API::V3::WorkPackages::CreateProjectFormRepresenter)
+      helper.create_work_package_form(
+        work_package,
+        contract_class: ::WorkPackages::CreateContract,
+        form_class: ::API::V3::WorkPackages::CreateProjectFormRepresenter
+      )
     end
 
     context 'valid parameters' do
