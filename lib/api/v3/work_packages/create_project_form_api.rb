@@ -38,7 +38,12 @@ module API
           helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           post do
-            create_work_package_form(WorkPackage.new(project: @project),
+            work_package = WorkPackage.new(
+              author: current_user,
+              type: @project.types.first,
+              project: @project
+            )
+            create_work_package_form(work_package,
                                      contract_class: ::WorkPackages::CreateContract,
                                      form_class: CreateProjectFormRepresenter,
                                      action: :create)
