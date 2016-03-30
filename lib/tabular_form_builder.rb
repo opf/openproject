@@ -128,7 +128,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def merge_required_attributes(required, options=nil)
     if required
-      options.merge!({ required: true, :'aria-required' => 'required' })
+      options.merge!({ required: true, :'aria-required' => 'true' })
     end
   end
 

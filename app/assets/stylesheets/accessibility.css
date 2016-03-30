@@ -35,3 +35,8 @@ button:focus,
 *:focus {
   outline: 3px solid darkblue;
 }
+
+.form--field-container input:out-of-range,
+.form--field-container input:invalid {
+  border: 2px solid #9E2A1C;
+}
