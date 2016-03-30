@@ -571,6 +571,7 @@ div.indent
   select#parent_wiki_menu_item
     margin-left: 7px
     margin-top: -1px
+    line-height: normal
   #item-name
     float: left
     padding-left: 3px
@@ -650,3 +651,8 @@ a.impaired--empty-link,
   .mypage-box
     .box-actions
       margin-top: -60px
+
+// Avoid content cut off in IE
+#new-member-message + div.grid-block
+  div.grid-block
+    overflow: visible

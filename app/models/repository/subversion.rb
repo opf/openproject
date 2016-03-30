@@ -122,6 +122,8 @@ class Repository::Subversion < Repository
         end
       end
     end
+  rescue => e
+    Rails.logger.error("Failed to fetch changesets from repository: #{e.message}")
   end
 
   private

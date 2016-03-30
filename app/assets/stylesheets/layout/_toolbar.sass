@@ -271,3 +271,23 @@
 .toolbar
   *
     outline: none
+
+@include breakpoint(680px down)
+  .toolbar-container .toolbar-items
+    background: #fff
+    display: flex
+    margin-bottom: 20px
+    width: calc(100% + 5px)
+
+    > li
+      -webkit-flex: 1 0 0
+      flex: 1 0 0
+
+      &:first-child
+        -webkit-flex: 3 0 0
+        flex: 3 0 0
+
+      .button
+        width: 100%
+        margin-top: 0
+        white-space: nowrap

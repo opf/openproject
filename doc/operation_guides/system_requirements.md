@@ -44,7 +44,7 @@ for some older browsers.
 
 * [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (Version >= 38 ESR)
 * [Microsoft Internet
-  Explorer](http://windows.microsoft.com/en-us/internet-explorer/download-ie) (Version >= 10)
+  Explorer](http://windows.microsoft.com/en-us/internet-explorer/download-ie) (Version >= 11)
 * [Google Chrome](https://www.google.com/chrome/browser/desktop/)
 
 ## Screen reader support (accessibility)

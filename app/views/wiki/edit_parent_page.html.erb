@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
             "<option value=''></option>".html_safe + wiki_page_options_for_select(@parent_pages,
                                                                                   @page.parent),
             {label: WikiPage.human_attribute_name(:parent_title) },
-            {size: "#{@parent_pages.size + 1}", class: "parent-select"} %>
+            {size: "#{@parent_pages.size + 2}", class: "parent-select"} %>
     </p>
 
     <%= javascript_tag do -%>

@@ -63,35 +63,23 @@ Feature: Wiki menu items
     And I click on "Configure menu item"
     And I fill in "Avocado Wuaärst" for "menu_items_wiki_menu_item_name"
     And I choose "Show as menu item in project navigation"
-    And I check "Show submenu item 'Create new child page'"
-    And I check "Show submenu item 'Table of Contents'"
     And I press "Save"
     When I go to the wiki page "AwesomePage" for the project called "Awesome Project"
     Then I should see "Avocado Wuaärst" within "#main-menu"
-    Then I should see "Table of Contents" within "#main-menu"
-    Then I should see "Create new child page" within "#main-menu"
 
   @javascript @selenium
   Scenario: Change existing entry
     When I go to the wiki page "Wiki" for the project called "Awesome Project"
-    Then I should see "Table of Contents" within "#main-menu"
-    Then I should see "Create new child page" within "#main-menu"
     When I click on "More"
     And I click on "Configure menu item"
     And I fill in "Wikikiki" for "menu_items_wiki_menu_item_name"
-    And I uncheck "Show submenu item 'Table of Contents'"
-    And I uncheck "Show submenu item 'Create new child page'"
     And I press "Save"
     When I go to the wiki page "Wiki" for the project called "Awesome Project"
     Then I should see "Wikikiki" within "#main-menu"
-    Then I should not see "Table of Contents" within "#main-menu"
-    Then I should not see "Create new child page" within "#main-menu"
 
   @javascript
   Scenario: Do not change existing entry, but saving nonetheless
     When I go to the wiki page "Wiki" for the project called "Awesome Project"
-    Then I should see "Table of Contents" within "#main-menu"
-    Then I should see "Create new child page" within "#main-menu"
     When I click on "More"
     And I click on "Configure menu item"
     And I press "Save"

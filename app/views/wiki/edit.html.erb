@@ -30,11 +30,16 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= labelled_tabular_form_for @content, as: :content, url: {action: 'update', id: @page}, html: {method: :put, multipart: true, id: 'wiki_form'} do |f| %>
   <%= f.hidden_field :lock_version %>
   <%= error_messages_for 'content' %>
-  <div class="form--field -required -vertical">
-    <%= f.text_area :text, cols: 100, rows: 25, class: 'wiki-edit', accesskey: accesskey(:edit),
-                  value: format_text(@content, :text, attachments: @content.page.attachments, edit: true),
-                  :'ng-non-bindable' => '' %>
+
+  <div class="attributes-group">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text"><%= WikiPage.human_attribute_name(:text) %></h3>
+       </div>
+     </div>
+    <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %>
   </div>
+
   <div class="form--field">
     <%= f.text_field :comments, size: 120 %>
   </div>
