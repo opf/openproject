@@ -41,6 +41,15 @@ function WorkPackageShowController($scope, $rootScope, $state, workPackage, I18n
   $scope.editAll = inplaceEditAll;
   $scope.canEdit = EditableFieldsState.canEdit;
 
+  //Show all attributes in Edit-Mode
+  $scope.$watch(function(){
+    return inplaceEditAll.state;
+  },function(newState, oldState){
+    if(newState !== oldState){
+      vm.hideEmptyFields = !newState;
+    }
+  });
+
   // Listen to the event globally, as listeners are not necessarily
   // in the child scope
   var refreshRequiredFunction = $rootScope.$on('workPackageRefreshRequired', function() {

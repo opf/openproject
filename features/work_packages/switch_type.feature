@@ -59,7 +59,6 @@ Feature: Switching types of work packages
   Scenario: Switching type should keep the inserted value
     When I go to the edit page of the work package "wp1"
     And I click the edit work package button
-    And I click to see all work package attributes
     And I fill in the following:
       | Responsible | Bob Bobbit |
     And I select "Feature" from "Type"
@@ -82,7 +81,6 @@ Feature: Switching types of work packages
 
     When I go to the edit page of the work package "wp1"
     And I click the edit work package button
-    And I click to see all work package attributes
     And I fill in the following:
       | cfAll | 5 |
     And I select "Feature" from "Type"

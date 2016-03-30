@@ -68,7 +68,6 @@ Feature: Fields editable on work package edit
 
     When I go to the edit page of the work package called "pe1"
     And I click the edit work package button
-    And I click to see all work package attributes
 
     Then I should see the following fields:
       | Type            | Phase            |
@@ -112,7 +111,6 @@ Feature: Fields editable on work package edit
 
     When I go to the edit page of the work package called "pe1"
     And I click the edit work package button
-    And I click to see all work package attributes
 
     Then I should see the following fields:
       | cf1 | 4 |

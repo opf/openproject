@@ -59,6 +59,15 @@ function WorkPackageNewController($scope,
                                                      vm.isFieldHideable);
   };
 
+  //Show all attributes in Edit-Mode
+  $scope.$watch(function(){
+    return inplaceEditAll.state;
+  },function(newState, oldState){
+    if(newState !== oldState){
+      vm.hideEmptyFields = !newState;
+    }
+  });
+
   vm.getLabel = WorkPackagesDisplayHelper.getLabel;
   vm.isSpecified = WorkPackagesDisplayHelper.isSpecified;
   vm.isEditable = WorkPackagesDisplayHelper.isEditable;

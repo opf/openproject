@@ -40,6 +40,7 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackagesOverviewService',
     'WorkPackageFieldService',
     'EditableFieldsState',
+    'inplaceEditAll',
     'WorkPackagesDisplayHelper',
     'NotificationsService',
     'WorkPackageAttachmentsService',
