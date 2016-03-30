@@ -34,7 +34,40 @@ Detailed installation instructions for different platforms are located on the [O
 
 You can find information on configuring OpenProject in [`config/CONFIGURATION.md`](CONFIGURATION.md).
 
-## Fast install
+## Fast install (Docker version)
+
+### Prerequisites
+
+* Git
+* [Docker Engine](https://docs.docker.com/engine/installation/)
+* [Docker Compose](https://docs.docker.com/compose/)
+
+### Building and running
+
+1. Build the image (this will take some time)
+
+        docker-compose build
+
+2. Start and setup the database
+
+        docker-compose up -d db
+        docker-compose run db rake db:create db:migrate db:seed
+
+3. Start the other processes
+
+        docker-compose up
+
+Assets should be automatically recompiled anytime you make a change, and your
+ruby code should also be reloaded when you change a file locally.
+
+You can run arbitrary commands in the context of the application by using
+`docker-compose run`. For instance:
+
+    docker-compose run web rake db:migrate
+    docker-compose run web rails c
+    ...
+
+## Fast install (manual)
 
 These are generic (and condensed) installation instructions for the **current dev** branch *without plugins*, and optimised for a development environment. Refer to the OpenProject website for instructions for the **stable** branch, OpenProject configurations with plugins, as well as platform-specific guides.
 
