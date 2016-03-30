@@ -137,7 +137,7 @@ function CacheService($q, CacheFactory) {
   };
 
   return CacheService;
-};
+}
 
 
 angular

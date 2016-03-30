@@ -144,22 +144,6 @@ declare namespace api {
       meta:Meta;
       work_packages;
     }
-
-    interface ColumnsMeta {
-      group_sums;
-      total_sums;
-    }
-
-    interface JsonQueryParams {
-      c?; //columns
-      s?; //displaySums
-      p?; //projectId
-      g?:string; //groupBy
-      f?; //filters
-      t?; //sortCriteria
-      pa?:number; //page
-      pp?:number; //perPage
-    }
   }
 }
 
@@ -191,6 +175,18 @@ declare namespace op {
 
   interface I18n {
     t(translateId:string, parameters?:any):string;
+  }
+
+  interface CacheService {
+    temporaryCache();
+    localStorage();
+    memoryStorage();
+    customCache(identifier, params);
+    isCacheDisabled();
+    enableCaching();
+    disableCaching();
+    cachedPromise(promiseFn, key, options?);
+    loadResource(resource, force);
   }
 
   /**
