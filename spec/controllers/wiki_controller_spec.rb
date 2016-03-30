@@ -407,7 +407,7 @@ describe WikiController, type: :controller do
 
               expect(response).to be_success
 
-              assert_select '#content a', text: 'Create wiki page', count: 0
+              assert_select '#content a', text: 'Wiki page', count: 0
             end
           end
 
@@ -421,7 +421,7 @@ describe WikiController, type: :controller do
 
               expect(response).to be_success
 
-              assert_select '#content a', text: 'Create wiki page', count: 0
+              assert_select '#content a', text: 'Wiki page', count: 0
             end
           end
         end
@@ -434,7 +434,7 @@ describe WikiController, type: :controller do
 
                 expect(response).to be_success
 
-                assert_select "#content a[href='#{wiki_new_child_path(project_id: @project, id: @page_with_content.title)}']", 'Create wiki page'
+                assert_select "#content a[href='#{wiki_new_child_path(project_id: @project, id: @page_with_content.title)}']", 'Wiki page'
               end
             end
 
@@ -445,7 +445,7 @@ describe WikiController, type: :controller do
                 expect(response).to be_success
 
                 assert_select "#content a[href='#{wiki_new_child_path(project_id: @project, id: 'i-am-a-ghostpage')}']",
-                              text: 'Create wiki page', count: 0
+                              text: 'Wiki page', count: 0
               end
             end
           end
@@ -460,7 +460,7 @@ describe WikiController, type: :controller do
 
               expect(response).to be_success
 
-              assert_select '#content a', text: 'Create wiki page', count: 0
+              assert_select '#content a', text: 'Wiki page', count: 0
             end
           end
         end
@@ -474,7 +474,7 @@ describe WikiController, type: :controller do
 
               expect(response).to be_success
 
-              assert_select ".toolbar-items a[href='#{wiki_new_child_path(project_id: @project, id: 'Wiki')}']", 'Create wiki page'
+              assert_select ".toolbar-items a[href='#{wiki_new_child_path(project_id: @project, id: 'Wiki')}']", 'Wiki page'
             end
           end
 
@@ -488,7 +488,7 @@ describe WikiController, type: :controller do
 
               expect(response).to be_success
 
-              assert_select '.toolbar-items a', text: 'Create wiki page', count: 0
+              assert_select '.toolbar-items a', text: 'Wiki page', count: 0
             end
           end
         end
