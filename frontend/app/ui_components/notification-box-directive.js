@@ -38,6 +38,8 @@ module.exports = function(I18n, $timeout,$state,loadingIndicator) {
       return scope.content.uploads.length > 5;
     };
 
+    scope.displayFullScreenLink = ($state.current.name.indexOf("work-packages.show") == -1 && scope.content.type === "success");
+
     scope.showFullScreen = function(){
       scope.remove();
       loadingIndicator.mainPage = $state.go.apply($state, ["work-packages.show.activity", $state.params]);
