@@ -113,7 +113,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
     end
 
     shared_examples_for 'unsorted column' do
-      let(:sort_text) { I18n.t(:label_open_menu) }
+      let(:sort_text) { I18n.t(:label_open_menu) + " \"#{link_caption}\"" }
 
       it_behaves_like 'sort column'
     end

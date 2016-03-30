@@ -65,7 +65,7 @@ function sortHeader(){
           var sortDirectionText = (scope.currentSortDirection == 'asc') ? I18n.t('js.label_ascending') : I18n.t('js.label_descending');
           scope.fullTitle = sortDirectionText + " " + I18n.t('js.label_sorted_by') + ' \"' + scope.headerTitle + '\"';
         } else {
-          scope.fullTitle = I18n.t('js.label_open_menu');
+          scope.fullTitle = I18n.t('js.label_open_menu') + ' \"' + scope.headerTitle + '\"';
         }
       }
 
