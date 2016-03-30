@@ -11,7 +11,7 @@
 
       <ui-select multiple sortable="true" ng-model="vm.selectedColumns" theme="select2"
                  id="selected_columns" focus-on="columnsModalOpened"
-                 aria-labelledby="column_multiselect_description">
+                 aria-labelledby="column_multiselect_description" title="{{ ::vm.text.columnsLabel }}">
 
         <ui-select-match>{{ $item.title }}</ui-select-match>
 
