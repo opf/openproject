@@ -41,6 +41,10 @@ export class WorkPackageEditFieldController {
 
   protected _active:boolean = false;
 
+  // Since we load the schema asynchronously
+  // all fields are initially viewed as editable until it is loaded
+  protected _editable:boolean = true;
+
   constructor(
     protected wpEditField:WorkPackageEditFieldService,
     protected $element,
@@ -82,7 +86,12 @@ export class WorkPackageEditFieldController {
   }
 
   public get isEditable():boolean {
-    return this.workPackage.isEditable;
+    return this._editable && this.workPackage.isEditable;
+  }
+
+  public set editable(enabled:boolean) {
+    this._editable = enabled;
+    this.$element.toggleClass('-editable', enabled);
   }
 
   public deactivate():boolean {
@@ -93,6 +102,7 @@ export class WorkPackageEditFieldController {
     this.errorenous = error;
     this.$element.toggleClass('-error', error)
   }
+
 
   public reset() {
     this.workPackage[this.fieldName] = this.pristineValue;
@@ -125,9 +135,7 @@ function wpEditFieldLink(
   // Mark the td field if it is inline-editable
   // We're resolving the non-form schema here since its loaded anyway for the table
   scope.vm.workPackage.schema.$load().then(schema => {
-    if (schema[scope.vm.fieldName].writable) {
-      element.addClass('-editable');
-    }
+    scope.vm.editable = schema[scope.vm.fieldName].writable;
   });
 
   element.addClass(scope.vm.fieldName);
