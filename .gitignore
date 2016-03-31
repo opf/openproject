@@ -39,6 +39,7 @@
 /log/*.log
 /npm-debug.log
 /tmp
+*.swp
 
 # Ignore RubyMine files
 /.idea
