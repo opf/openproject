@@ -40,3 +40,9 @@ button:focus,
 .form--field-container input:invalid {
   border: 2px solid #9E2A1C;
 }
+
+h1:hover a.wiki-anchor,
+h2:hover a.wiki-anchor,
+h3:hover a.wiki-anchor {
+  display: none;
+}
