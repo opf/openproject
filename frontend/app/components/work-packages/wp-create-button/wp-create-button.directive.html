@@ -1,7 +1,8 @@
 <div class="wp-create-button">
   <button class="button -alt-highlight add-work-package" has-dropdown-menu
           target="typesDropDownMenu" locals="vm" ng-disabled="vm.isDisabled()"
-          aria-label="{{ ::vm.text.create }}" aria-haspopup="true">
+          aria-label="{{ ::vm.text.create }}" aria-haspopup="true"
+          onclick="setTimeout(function(){ $(document).getElementsByClassName('menu-item')[0].focus(); }, 100);">
 
     <i class="button--icon icon-add"></i>
     <span class="button--text" ng-bind="::vm.text.button" aria-hidden="true"></span>
