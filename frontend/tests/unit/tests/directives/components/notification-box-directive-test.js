@@ -24,17 +24,15 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-/* jshint expr: true */
 //++
 
 describe('NotificationBoxDirective', function() {
-  'use strict';
-  var $compile, $rootScope;
+  var $compile;
+  var $rootScope;
 
-  beforeEach(module('openproject.uiComponents'));
-  beforeEach(module('openproject.templates')); // see karmaConfig
+  beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.templates'));
 
-  beforeEach(inject(function(_$compile_, _$rootScope_) {
+  beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_) {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
   }));
@@ -59,5 +57,4 @@ describe('NotificationBoxDirective', function() {
     $rootScope.$digest();
     expect(element.html()).to.contain('-error');
   });
-
 });
