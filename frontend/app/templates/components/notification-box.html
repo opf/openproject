@@ -1,6 +1,9 @@
 <div class="notification-box{{' -' + content.type}}" tabindex="0" aria-atomic="true">
   <div class="notification-box--content">
-    <p>{{content.message}}</p>
+    <p>
+      <span>{{::content.message}}</span>
+      <a ng-click="showFullScreen()" ng-if="displayFullScreenLink">{{::I18n.t('js.work_packages.message_successful_show_in_fullscreen')}}</a>
+    </p>
     <div data-ng-switch="content.type" data-ng-if="typeable()">
       <div data-ng-switch-when="upload">
         <div data-ng-show="canBeHidden()">
