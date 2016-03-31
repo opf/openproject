@@ -1,10 +1,9 @@
-# Install plugin (Packages)
+# Install Plugins (Packages)
 
 Note: this guide only applies if you've installed OpenProject using our DEB/RPM
 packages.
 
-[A number of
-plugins](https://www.openproject.org/open-source/openproject-plugins/) exist
+[A number of plugins](https://www.openproject.org/open-source/openproject-plugins/) exist
 for use with OpenProject. Most plugins that are maintained by us are shipping
 with OpenProject, however there are several plugins contributed by the
 community.
