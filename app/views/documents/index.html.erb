@@ -47,8 +47,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% @grouped.keys.sort.each do |group| %>
-  <h3><%= group %></h3>
-  <%= render :partial => 'documents/document', :collection => @grouped[group] %>
+  <fieldset class="form--fieldset -collapsible" onClick="toggleFieldset(this);">
+    <legend class="form--fieldset-legend"><%= group %></legend>
+    <div class="form--field document-category-elements">
+      <%= render :partial => 'documents/document', :collection => @grouped[group] %>
+    </div>
+  </fieldset>
 <% end %>
 
 <% content_for :sidebar do %>
