@@ -38,6 +38,7 @@ describe('apiV3 service', () => {
     $httpBackend = _$httpBackend_;
 
     apiV3.setBaseUrl('/base');
+    apiV3.setDefaultHttpFields({cache: false});
   }));
 
   it('should exist', () => {
