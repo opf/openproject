@@ -33,13 +33,13 @@ describe('HalResource service', () => {
   var $httpBackend:ng.IHttpBackendService;
   var NotificationsService;
 
-  beforeEach(angular.mock.module('openproject.api'));
-  beforeEach(angular.mock.module('openproject.services'));
-
-  beforeEach(angular.mock.inject((_HalResource_, _$httpBackend_, _NotificationsService_) => {
+  beforeEach(angular.mock.module('openproject.api', 'openproject.services'));
+  beforeEach(angular.mock.inject((_HalResource_, _$httpBackend_, _NotificationsService_, apiV3) => {
     NotificationsService = _NotificationsService_;
     HalResource = _HalResource_;
     $httpBackend = _$httpBackend_;
+
+    apiV3.setDefaultHttpFields({cache: false});
   }));
 
   it('should exist', () => {
