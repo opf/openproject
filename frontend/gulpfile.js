@@ -207,7 +207,8 @@ gulp.task('typescript-tests', function () {
 gulp.task('tests:karma', ['typescript-tests'], function () {
   karma.server.start(
     {
-      configFile: __dirname + '/karma.conf.js'
+      configFile: __dirname + '/karma.conf.js',
+      singleRun: true
     },
     function (exitCode) {
       if(exitCode === 0) {
