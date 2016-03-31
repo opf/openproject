@@ -31,10 +31,10 @@ See doc/COPYRIGHT.rdoc for more details.
     <%="#{l(:label_user_plural)}/#{l(:label_group_plural)}" %>
   </legend>
   <% if principals.empty? %>
-     <div class="form--field"><%= styled_label_tag l('notice_no_principals_found')%></div>
+     <div class="form--field"><%= styled_label_tag(l('notice_no_principals_found'), l('notice_no_principals_found'), class: "form--label-with-check-box") %></div>
   <% else %>
     <% if principals.size > 20 %>
-      <div class="form--field"><%= styled_label_tag(l('notice_to_many_principals_to_display'))%></div>
+      <div class="form--field"><%= styled_label_tag(l('notice_to_many_principals_to_display'), l('notice_to_many_principals_to_display'), class: "form--label-with-check-box")%></div>
     <% else %>
       <%= principals_check_box_tags 'member[user_ids][]', principals %>
     <% end %>
