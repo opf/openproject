@@ -27,19 +27,11 @@
 // ++
 
 /**
- * @description An object holding promises for page load indication for cg-busy.
+ * An object holding promises for page load indication for cg-busy.
+ *
  * @see https://github.com/cgross/angular-busy/
  */
 
-// TODO: move interface definition to openproject-typings
-export interface LoadingIndicator {
-  [name:string]: ng.IPromise<any>;
-}
-
-function loadingIndicator():LoadingIndicator {
-  return {};
-}
-
 angular
   .module('openproject.workPackages.services')
-  .factory('loadingIndicator', loadingIndicator);
+  .value('loadingIndicator', {});
