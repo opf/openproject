@@ -49,7 +49,7 @@ Feature: Viewing the wiki new child page
       | title         | ParentWikiPage |
       | new_wiki_page | true           |
     When I go to the wiki page "ParentWikiPage" of the project called "project1"
-    Then I should see "Create wiki page" within "#content"
+    Then I should see "Wiki page" within "#content"
 
   Scenario: Visiting the wiki new child page with a related page that has the new child page option disabled on it's menu item should show the page and select no menu item
     Given the project "project1" has 1 wiki page with the following:
@@ -57,7 +57,7 @@ Feature: Viewing the wiki new child page
     And the project "project1" has 1 wiki menu item with the following:
       | title      | ParentWikiPage |
     When I go to the wiki new child page below the "ParentWikiPage" page of the project called "project1"
-    Then I should see "Create wiki page" within "#content"
+    Then I should see "Wiki page" within "#content"
     And there should be no menu item selected
 
   Scenario: Visiting the wiki new child page with an invalid parent page
