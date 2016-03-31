@@ -188,6 +188,8 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
       };
 
       scope.openWorkPackageInFullView = function(row) {
+        console.log("showWPDetail()");
+        console.log(row);
         wpSyncEditService.putAsLoaded(row.object);
         
         clearSelection();
