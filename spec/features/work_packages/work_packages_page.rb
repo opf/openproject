@@ -62,7 +62,12 @@ class WorkPackagesPage
   end
 
   def click_toolbar_button(button)
-    find('.toolbar-container').click_button button
+    close_notifications
+    find('.toolbar-container', wait: 5).click_button button
+  end
+
+  def close_notifications
+    page.all(:css, '.notification-box--close').each(&:click)
   end
 
   def select_query(query)

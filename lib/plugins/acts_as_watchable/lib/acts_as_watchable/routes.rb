@@ -46,13 +46,10 @@ module OpenProject
         end
 
         def self.watchable_object?(object)
-          if Object.const_defined? object.to_s.classify
-            klass = object.to_s.classify.constantize
-
-            klass.included_modules.include? Redmine::Acts::Watchable
-          else
-            false
-          end
+          klass = object.to_s.classify.constantize
+          klass.included_modules.include? Redmine::Acts::Watchable
+        rescue
+          false
         end
       end
     end

@@ -434,7 +434,7 @@ describe WikiController, type: :controller do
 
                 expect(response).to be_success
 
-                assert_select "#content a[href='#{wiki_new_child_path(project_id: @project, id: @page_with_content.title)}']", 'Wiki page'
+                assert_select "#content a[href='#{new_child_project_wiki_path(project_id: @project, id: @page_with_content.title)}']", 'Wiki page'
               end
             end
 
@@ -444,7 +444,7 @@ describe WikiController, type: :controller do
 
                 expect(response).to be_success
 
-                assert_select "#content a[href='#{wiki_new_child_path(project_id: @project, id: 'i-am-a-ghostpage')}']",
+                assert_select "#content a[href='#{new_child_project_wiki_path(project_id: @project, id: 'i-am-a-ghostpage')}']",
                               text: 'Wiki page', count: 0
               end
             end
@@ -474,7 +474,7 @@ describe WikiController, type: :controller do
 
               expect(response).to be_success
 
-              assert_select ".toolbar-items a[href='#{wiki_new_child_path(project_id: @project, id: 'Wiki')}']", 'Wiki page'
+              assert_select ".toolbar-items a[href='#{new_child_project_wiki_path(project_id: @project, id: 'Wiki')}']", 'Wiki page'
             end
           end
 
