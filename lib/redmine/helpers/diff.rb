@@ -67,11 +67,16 @@ module Redmine
             end
           end
           if add_at
-            words[add_at] = '<ins class="diffmod">'.html_safe + words[add_at]
-            words[add_to] = words[add_to] + '</ins>'.html_safe
+            words[add_at] = ('<label class="hidden-for-sighted">' + WorkPackage.human_attribute_name(:begin_insertion) + '</label><ins class="diffmod">').html_safe + words[add_at]
+            words[add_to] = words[add_to] + ('</ins><label class="hidden-for-sighted">' + WorkPackage.human_attribute_name(:end_insertion) + '</label>').html_safe
+
           end
           if del_at
-            words.insert del_at - del_off + dels + words_add, '<del class="diffmod">'.html_safe + deleted + '</del>'.html_safe
+            words.insert del_at - del_off + dels + words_add, ('<label class="hidden-for-sighted">' +
+                                                                WorkPackage.human_attribute_name(:begin_deletion) +
+                                                                '</label><del class="diffmod">').html_safe + deleted +
+                                                                ('</del><label class="hidden-for-sighted">' +
+                                                                WorkPackage.human_attribute_name(:end_deletion) + '</label>').html_safe
             dels += 1
             del_off += words_del
             words_del = 0
