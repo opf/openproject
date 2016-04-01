@@ -86,7 +86,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% content_for :sidebar do %>
   <%= form_tag({}, method: :get) do %>
-    <h3><%= l(:description_filter) %></h3>
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= l(:description_filter) %></legend>
     <p>
       <% @activity.event_types.each do |t| %>
         <%= check_box_tag "show_#{t}", 1, @activity.scope.include?(t) %>
@@ -101,6 +102,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
     <%= hidden_field_tag('apply', true) %>
     <p><%= submit_tag l(:button_apply), class: 'button -small -highlight', name: nil %></p>
+    </fieldset>
   <% end %>
 <% end %>
 
