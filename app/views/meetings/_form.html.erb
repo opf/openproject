@@ -33,7 +33,9 @@ See doc/COPYRIGHT.md for more details.
 
   <div class="form--field">
     <label for="meeting-form-start-date" class="form--label -required">
-      <span aria-hidden="true"><%= Meeting.human_attribute_name(:start_date) %></span>
+      <span aria-hidden="true"><%= Meeting.human_attribute_name(:start_date) %>
+        <span class="form--label-required" aria-hidden="true">*</span>
+      </span>
       <span class="hidden-for-sighted"><%= l(:label_start_date)%></span>
     </label>
 
@@ -61,7 +63,9 @@ See doc/COPYRIGHT.md for more details.
 
   <div class="form--field">
     <label for="meeting-form-duration" class="form--label -required">
-      <%= Meeting.human_attribute_name(:duration) %>
+      <span aria-hidden="true"><%= Meeting.human_attribute_name(:duration) %>
+        <span class="form--label-required" aria-hidden="true">*</span>
+      </span>
       <span class="hidden-for-sighted"><%= l(:text_in_hours)%>  <%=l(:text_hours_between, min: 1, max: 168) %></span>
     </label>
 
