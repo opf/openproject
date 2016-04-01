@@ -27,33 +27,89 @@ See doc/COPYRIGHT.md for more details.
 <h3><%= l(:label_history) %></h3>
 
 <%= form_tag({:action => "diff"}, :method => :get) do %>
-<table class="list">
-<thead><tr>
-    <th>#</th>
-    <th></th>
-    <th></th>
-    <th><%= Meeting.human_attribute_name(:updated_on) %></th>
-    <th><%= Meeting.human_attribute_name(:author) %></th>
-    <th><%= Meeting.human_attribute_name(:comments) %></th>
-</tr></thead>
-<tbody>
-<% show_diff = @content_versions.size > 1 %>
-<% @content_versions.each_with_index do |content_version,index| %>
-<tr class="<%= cycle("odd", "even") %>">
-  <td class="id">
-    <%= content_version.version == @content.version ?
-          link_to(content_version.version, tab_meeting_path(@meeting, :tab => @content_type.sub(/^meeting_/, ''))) :
-          link_to(content_version.version, send(:"#{@content_type}_version_path", @meeting, content_version.version)) %>
-  </td>
-    <td class="checkbox"><%= radio_button_tag('version_to', content_version.version, (index==0), :id => "checkbox-from-#{index}", :onclick => "$('checkbox-to-#{index+1}').checked=true;") if show_diff && (index < @content_versions.size-1) %></td>
-    <td class="checkbox"><%= radio_button_tag('version_from', content_version.version, (index==1), :id => "checkbox-to-#{index}") if show_diff && (index > 0) %></td>
-    <td align="center"><%= format_time(content_version.created_at) %></td>
-    <td><em><%= User.find content_version.user_id %></em></td>
-    <td><%=h content_version.notes %></td>
-</tr>
-<% end %>
-</tbody>
-</table>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table interactive-table class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col>
+        <col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="-short">
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span id="history-version">#</span>
+                <label class="hidden-for-sighted" for="history-version"><%= l(:label_version) %></label>
+              </div>
+            </div>
+          </th>
+          <th class="-short"></th>
+          <th class="-short"></th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Meeting.human_attribute_name(:updated_on) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Meeting.human_attribute_name(:author) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Meeting.human_attribute_name(:comments) %>
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% show_diff = @content_versions.size > 1 %>
+        <% @content_versions.each_with_index do |content_version,index| %>
+          <tr>
+            <td class="id -short">
+              <%= content_version.version == @content.version ?
+                    link_to(content_version.version, tab_meeting_path(@meeting, :tab => @content_type.sub(/^meeting_/, '')), id: "version-#{content_version.version}") :
+                    link_to(content_version.version, send(:"#{@content_type}_version_path", @meeting, content_version.version), id: "version-#{content_version.version}") %>
+            </td>
+              <td class="checkbox -short">
+                <% if show_diff && (index < @content_versions.size-1) %>
+                  <%= radio_button_tag('version_to', content_version.version, (index==0), :id => "checkbox-from-#{index}", :onclick => "$('checkbox-to-#{index+1}').checked=true;") %>
+                  <label class="hidden-for-sighted" for="checkbox-from-<%= index %>"><%= l(:description_compare_from) %> <%= index %></label>
+                <% end %>
+              </td>
+              <td class="checkbox -short">
+                <% if show_diff && (index > 0) %>
+                  <%= radio_button_tag('version_from', content_version.version, (index==1), :id => "checkbox-to-#{index}") %>
+                  <label class="hidden-for-sighted" for="checkbox-to-<%= index %>"><%= l(:description_compare_to) %> <%= index %></label>
+                <% end %>
+              </td>
+              <td id="test"><%= format_time(content_version.created_at) %></td>
+              <td><em><%= User.find content_version.user_id %></em></td>
+              <td><%=h content_version.notes %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <div class="generic-table--header-background"></div>
+  </div>
+</div>
 <%= styled_button_tag l(:label_view_diff), class: '-small -highlight' if show_diff %>
 <%= pagination_links_full @content_versions %>
 <% end %>

@@ -68,9 +68,9 @@ Feature: Create new meetings
         And I click on "New Meeting"
         And I fill in the following:
             | meeting_title           | FSR Sitzung 123 |
-            | meeting_start_date      | 2013-03-28      |
-            | meeting_start_time_hour | 13:30           |
-            | meeting_duration        | 1.5             |
+            | meeting-form-start-date | 2013-03-28      |
+            | meeting-form-start-time | 13:30           |
+            | meeting-form-duration   | 1.5             |
         And I click on "Create"
        Then I should see "Successful creation."
         And I should see "FSR Sitzung 123"
