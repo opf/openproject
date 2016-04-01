@@ -30,6 +30,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= stylesheet_link_tag 'documents/documents.css' %>
+
 <%= toolbar title: l(:label_document_plural) do %>
   <% if authorize_for(:documents, :new) %>
     <li class="toolbar-item">
@@ -51,7 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% content_for :sidebar do %>
   <h3><%= l(:label_sort_by, '') %></h3>
-  <%= form_tag({}, :method => :get) do %>
+  <%= form_tag({}, :method => :get, class: 'sidebar--document-sort') do %>
     <label>
       <%= radio_button_tag 'sort_by', 'category', (@sort_by == 'category'), :onclick => 'this.form.submit();' %>
       <%= Document.human_attribute_name(:category) %>

@@ -30,11 +30,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h3><%=l(:label_document_plural)%></h3>
-
 <% if defined? block_name %>
-  <%= content_for "#{block_name}_remove_block" %>
+  <%= content_for "#{block_name}-remove-block" %>
 <% end %>
+
+<h3 class="widget-box--header">
+  <span class="icon-context icon-notes"></span>
+  <span class="widget-box--header-title"><%=l(:label_document_plural)%></span>
+</h3>
 
 <% project_ids = @user.projects.select {|p| @user.allowed_to?(:view_documents, p)}.collect(&:id) %>
 <%= render(partial: 'documents/document',
