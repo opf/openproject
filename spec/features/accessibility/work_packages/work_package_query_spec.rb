@@ -223,10 +223,10 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     context 'focus' do
       let(:first_link_selector) do
-        'table.keyboard-accessible-list tbody tr:first-child td.id div'
+        'table.keyboard-accessible-list tbody tr:first-child td.id a'
       end
       let(:second_link_selector) do
-        'table.keyboard-accessible-list tbody tr:nth-child(2) td.id div'
+        'table.keyboard-accessible-list tbody tr:nth-child(2) td.id a'
       end
 
       it 'navigates with J' do
@@ -283,14 +283,14 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
     describe 'work package context menu', js: true do
       it_behaves_like 'context menu' do
         let(:target_link) { '#work-package-context-menu li.detailsViewMenuItem a' }
-        let(:source_link) { '.work-package-table--container tr.issue td.id div' }
+        let(:source_link) { '.work-package-table--container tr.issue td.id a' }
         let(:keys) { [:shift, :alt, :f10] }
         let(:sets_focus) { true }
       end
 
       it_behaves_like 'context menu' do
         let(:target_link) { '#work-package-context-menu li.openFullScreenView a' }
-        let(:source_link) { '.work-package-table--container tr.issue td.id div' }
+        let(:source_link) { '.work-package-table--container tr.issue td.id a' }
         let(:keys) { [:shift, :alt, :f10] }
         let(:sets_focus) { false }
       end
