@@ -26,8 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.-editable
+.work-package-table--container table.generic-table tbody td
+  padding-left: 0
+  line-height: 24px
+
+// Styles for inline editable attributes
+.work-package-table--container td.-editable
+  padding-top: 0
+  padding-bottom: 0
+  display: table-cell
+  width: auto
+
   .wp-edit-field
+    padding-left: 0
+
     &.-active
       padding: 0
 
@@ -41,27 +53,38 @@
     form
       width: 100%
 
+    .-hidden-overflow
+      overflow: hidden
+      text-overflow: ellipsis
+
   &:hover .wp-edit-field.-error:hover
     border-color: $nm-color-error-border
 
-.wp-table--cell
+  // Editable fields cursor
+  .wp-table--cell-span
+    padding: 0 25px 0 2px
+    cursor: text
+    border-color: transparent
+    border-style: solid
+    border-radius: 2px
+    border-width: 1px
+    overflow: visible
+    display: inline-block
+    line-height: 1.6
+
+
+    &:hover,
+    &:focus
+      border-color: $inplace-edit--border-color
+
+
+
+// Default cursor on non-editable and id fields
+.wp-table--cell-span
   cursor: not-allowed
 
   &.id
     cursor: pointer
-  &.-editable
-    cursor: text
-
-.work-package-table--container .generic-table tbody
-  td
-    .wp-edit-field .-hidden-overflow
-      overflow: hidden
-      text-overflow: ellipsis
-    &.-editable
-      padding-top: 0
-      padding-bottom: 0
-      display: table-cell
-      width: auto
 
 // Animations on leaving work packages
 .wp--row.ng-leave
