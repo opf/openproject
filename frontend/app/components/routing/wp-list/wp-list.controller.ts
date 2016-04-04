@@ -46,6 +46,7 @@ function WorkPackagesListController($scope,
 
   $scope.projectIdentifier = $state.params.projectPath || null;
   $scope.loadingIndicator = loadingIndicator;
+  $scope.I18n = I18n;
 
   // Setup
   function initialSetup() {
