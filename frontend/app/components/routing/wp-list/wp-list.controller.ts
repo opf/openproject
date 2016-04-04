@@ -241,9 +241,9 @@ function WorkPackagesListController($scope,
 
   $scope.nextAvailableWorkPackage = nextAvailableWorkPackage;
 
-  $scope.showWorkPackageDetails = function (id, force) {
+  $scope.openWorkPackageInFullView = function (id, force) {
     if (force || $state.current.url != "") {
-      loadingIndicator.mainPage = $state.go(keepTab.currentDetailsTab, {
+      loadingIndicator.mainPage = $state.go('work-packages.show', {
         workPackageId: id,
         query_props: $state.params.query_props
       });

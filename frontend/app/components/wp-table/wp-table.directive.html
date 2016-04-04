@@ -89,7 +89,7 @@
             locals="rows,row"
             after-focus-on=".id :focusable"
             single-click="selectWorkPackage(row, $event)"
-            ng-dblclick="showWorkPackageDetails(row)"
+            ng-dblclick="openWorkPackageInFullView(row)"
             ng-class="[
               'issue',
               'hascontextmenu',
