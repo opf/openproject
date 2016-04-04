@@ -58,7 +58,8 @@
     > li
       display: none
 
-      &.drop-down
+      &.drop-down,
+      &:last-child
         display: block
 
         > a
@@ -77,6 +78,7 @@
             text-indent: 0
             top: 16px
             z-index: 1000
+            @include icon-common
 
           + ul
             width: 100vw
