@@ -179,7 +179,7 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages)
           if ($event.shiftKey) {
             clearSelection();
             activeSelectionBorderIndex = WorkPackagesTableService.selectRowRange(scope.rows, row, activeSelectionBorderIndex);
-          } else if($event.ctrlKey){
+          } else if($event.ctrlKey || $event.metaKey){
             setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
           } else {
             setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
