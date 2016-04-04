@@ -32,6 +32,7 @@ describe('WorkPackagesListController', () => {
   var scope;
   var ctrl;
   var win;
+  var wpListServiceMock;
   var testProjectService;
   var testWorkPackageService;
   var testQueryService;
@@ -53,7 +54,7 @@ describe('WorkPackagesListController', () => {
     $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
   }));
-  beforeEach(angular.mock.inject(($rootScope, $controller, $timeout, $q) => {
+  beforeEach(angular.mock.inject(($rootScope, $controller, $timeout, $q, $cacheFactory) => {
     scope = $rootScope.$new();
     win = {
       location: {pathname: ''}
@@ -107,12 +108,16 @@ describe('WorkPackagesListController', () => {
       }
     };
 
+    var wpCache = $cacheFactory('workPackageCache');
     testWorkPackageService = {
       getWorkPackages: () => {
         return $timeout(() => defaultWorkPackagesData, 10);
       },
       getWorkPackagesByQueryId: () => {
         return $timeout(() => workPackagesDataByQueryId, 10);
+      },
+      cache() {
+        return wpCache;
       }
     };
 
@@ -169,6 +174,24 @@ describe('WorkPackagesListController', () => {
       }
     };
 
+    wpListServiceMock = {
+      fromQueryParams() {
+        return $q.when({
+          meta: {
+            query: {},
+            columns: {},
+            export_formats: {}
+          },
+          resource: {
+            total: 10
+          },
+          work_packages: [
+            {}
+          ]
+        });
+      }
+    };
+
     buildController = (params, state, location) => {
       scope.projectIdentifier = 'test';
       ctrl = $controller("WorkPackagesListController", {
@@ -182,6 +205,7 @@ describe('WorkPackagesListController', () => {
         $stateParams: params,
         $state: state,
         $location: location,
+        wpListService: wpListServiceMock
       });
 
       $timeout.flush();
@@ -209,7 +233,6 @@ describe('WorkPackagesListController', () => {
     });
 
     it('should initialise', () => {
-      expect(scope.settingUpPage).to.exist;
       expect(scope.operatorsAndLabelsByFilterType).to.exist;
       expect(scope.disableFilters).to.be.false;
       expect(scope.disableNewWorkPackage).to.be.true;
