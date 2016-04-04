@@ -30,7 +30,7 @@ angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
 
-function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages){
+function wpTable($state, $window, WorkPackagesTableService, PathHelper, apiWorkPackages){
   return {
     restrict: 'E',
     replace: true,
@@ -195,6 +195,10 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages)
         setRowSelectionState(row, true);
 
         scope.activationCallback({ id: row.object.id, force: true });
+      };
+
+      scope.showWorkPackageFullscreen = function (row) {
+        $state.go('work-packages.show', {workPackageId: row.object.id});
       };
     }
   };
