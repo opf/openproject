@@ -29,20 +29,20 @@
             <div class="form--field-container">
               <label class="option-label">
                 <input type="radio"
-                       tabindex="0"
                        ng-model="element[1]"
                        ng-required="element[0].id"
                        ng-disabled="!element[0].id"
-                       ng-value="availableDirectionsData[1]">
+                       ng-value="availableDirectionsData[1]"
+                       name="modal-sorting-attribute-{{$index}}--sort-direction">
                 {{availableDirectionsData[1].label}}
               </label>
               <label class="option-label">
                 <input type="radio"
-                       tabindex="0"
                        ng-model="element[1]"
                        ng-required="element[0].id"
                        ng-disabled="!element[0].id"
-                       ng-value="availableDirectionsData[0]">
+                       ng-value="availableDirectionsData[0]"
+                       name="modal-sorting-attribute-{{$index}}--sort-direction">
                 {{availableDirectionsData[0].label}}
               </label>
             </div>
