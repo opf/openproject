@@ -24,14 +24,9 @@ The OpenProject Documents plug-in requires the [OpenProject Core](https://github
 Installation
 ------------
 
-You need to add a line to the `Gemfile.plugins` of OpenProject, specifying the OpenProject version you are using (whereas 'stable/X.Y' specifies the OpenProject version you are using):
+For OpenProject Documents you need to add the following line to the `Gemfile.plugins` of OpenProject (if you use a different OpenProject version than OpenProject 5, adapt `:branch => "stable/5"` to your OpenProject version):
 
-`gem "openproject-documents", git: "https://github.com/opf/openproject-documents.git", :branch => "stable/X.Y"`
-
-*Example:*
-To install the Documents-plugin for 'OpenProject 4.1', add the following line to the `Gemfile.plugins` of OpenProject:
-
-`gem "openproject-documents", git: "https://github.com/opf/openproject-documents.git", :branch => "stable/4.1"`
+`gem "openproject-documents", git: "https://github.com/opf/openproject-documents.git", :branch => "stable/5"`
 
 Afterwards, run:
 
@@ -72,7 +67,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-documents", git: "https://github.com/opf/openproject-documents.git", :branch => "stable"`
+`gem "openproject-documents", git: "https://github.com/opf/openproject-documents.git", :branch => "stable/5"`
 
 from the file `Gemfile.plugins` and run:
 
@@ -98,7 +93,7 @@ To contribute, you can create pull request on the official repository at
 Licence
 -------
 
-Copyright (C) 2009-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2009-2015 the OpenProject Foundation (OPF)
 Copyright (C) 2006-2013 Jean-Philippe Lang
 Copyright (C) 2010-2013 the ChiliProject Team
 
