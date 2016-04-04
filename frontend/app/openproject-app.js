@@ -63,7 +63,8 @@ require('mousetrap');
 require('ngFileUpload');
 
 // global
-angular.module('openproject.uiComponents', ['ui.select', 'ngSanitize'])
+angular.module('openproject.uiComponents',
+  ['ui.select', 'ui.router', 'ngSanitize', 'openproject.workPackages.services'])
 .run(['$rootScope', function($rootScope){
   $rootScope.I18n = I18n;
 }]);

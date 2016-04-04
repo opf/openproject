@@ -26,12 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-/**
- * An object holding promises for page load indication for cg-busy.
- *
- * @see https://github.com/cgross/angular-busy/
- */
+function wpContextMenuService(ngContextMenu) {
+  return ngContextMenu({
+    controller: 'WorkPackageContextMenuController',
+    controllerAs: 'contextMenu',
+    templateUrl: '/components/context-menus/wp-context-menu/wp-context-menu.service.html'
+  });
+}
 
 angular
-  .module('openproject.workPackages.services')
-  .value('loadingIndicator', {});
+  .module('openproject.workPackages')
+  .factory('WorkPackageContextMenu', wpContextMenuService);

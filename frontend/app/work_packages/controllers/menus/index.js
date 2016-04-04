@@ -88,29 +88,6 @@ angular.module('openproject.workPackages')
       link: 'delete'
     }
   ])
-  .factory('WorkPackageContextMenu', [
-    'ngContextMenu',
-    function(ngContextMenu) {
-      return ngContextMenu({
-        controller: 'WorkPackageContextMenuController',
-        controllerAs: 'contextMenu',
-        templateUrl: '/templates/work_packages/menus/work_package_context_menu.html'
-      });
-    }
-  ])
-  .controller('WorkPackageContextMenuController', [
-    '$scope',
-    '$state',
-    'WorkPackagesTableHelper',
-    'WorkPackageContextMenuHelper',
-    'WorkPackageService',
-    'WorkPackagesTableService',
-    'inplaceEditAll',
-    'I18n',
-    '$window',
-    'PERMITTED_CONTEXT_MENU_ACTIONS',
-    require('./work-package-context-menu-controller')
-  ])
   .factory('DetailsMoreDropdownMenu', [
     'ngContextMenu',
     function(ngContextMenu) {
