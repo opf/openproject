@@ -158,10 +158,15 @@
               </wp-td>
             </td>
         </tr>
+        <!-- Inline create button -->
+        <tr wp-inline-create
+            id="wp-inline-create-button"
+            rows="rows"
+            columns="columns">
+        </tr>
 
       </tbody>
       <tfoot>
-
         <!-- Total sums -->
 
         <tr ng-if="sumsLoaded()"
@@ -179,7 +184,6 @@
             </wp-td>
           </td>
         </tr>
-
       </tfoot>
     </table>
     <div class="generic-table--header-background"></div>

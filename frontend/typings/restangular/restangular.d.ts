@@ -84,6 +84,7 @@ declare module restangular {
     one(route: string, id?: number): IElement;
     one(route: string, id?: string): IElement;
     oneUrl(route: string, url: string): IElement;
+    put(queryParams?: any, headers?: any): IPromise<any>;
     all(route: string): IElement;
     allUrl(route: string, url: string): IElement;
     copy(fromElement: any): IElement;

@@ -373,6 +373,8 @@ en:
       message_successful_bulk_delete: Successfully deleted work packages.
       message_successful_show_in_fullscreen: "Click here to open this work package in fullscreen view"
       no_value: "No value"
+      inline_create:
+       title: 'Click here to add a new work package to this list'
       create:
         header: 'New Work Package'
         header_with_parent: 'New work package (Child of %{type} #%{id})'

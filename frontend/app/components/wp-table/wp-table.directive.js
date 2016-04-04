@@ -42,6 +42,7 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
       query: '=',
       groupBy: '=',
       displaySums: '=',
+      isSmaller: '=',
       resource: '=',
       activationCallback: '&'
     },
@@ -193,9 +194,10 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
         scope.setCheckedStateForAllRows(false);
 
         setRowSelectionState(row, true);
-        
+
         scope.activationCallback({ id: row.object.id, force: true });
       };
+
     }
   };
 }
