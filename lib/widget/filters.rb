@@ -24,6 +24,9 @@ class Widget::Filters < Widget::Base
     add_filter = content_tag :li, id: 'add_filter_block', class: 'advanced-filters--add-filter' do
       add_filter_label = label_tag 'add_filter_select', l(:label_filter_add),
                                    class: 'advanced-filters--add-filter-label'
+      add_filter_label += label_tag 'add_filter_select', I18n.t('js.filter.description.text_open_filter') + ' ' +
+                                   I18n.t('js.filter.description.text_close_filter'),
+                                   class: 'hidden-for-sighted'
 
       add_filter_value = content_tag :div, class: 'advanced-filters--add-filter-value' do
         value = select_tag 'add_filter_select',
