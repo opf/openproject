@@ -128,10 +128,6 @@ function wpEditFieldLink(
   controllers[1].formCtrl = controllers[0];
   controllers[1].formCtrl.fields[scope.vm.fieldName] = scope.vm;
 
-  element.click(event => {
-    event.stopImmediatePropagation();
-  });
-
   // Mark the td field if it is inline-editable
   // We're resolving the non-form schema here since its loaded anyway for the table
   scope.vm.workPackage.schema.$load().then(schema => {
@@ -143,6 +139,14 @@ function wpEditFieldLink(
     if (event.keyCode === 27) {
       scope.$evalAsync(_ => scope.vm.reset());
     }
+  });
+
+  // Find inline edit cells to handle click on
+  element.find('.wp-table--cell-span').click(event => {
+    if (scope.vm.isEditable) {
+      scope.vm.activate();
+    }
+    event.stopImmediatePropagation();
   });
 }
 

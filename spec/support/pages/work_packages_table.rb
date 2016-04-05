@@ -44,17 +44,30 @@ module Pages
     end
 
     def open_split_view(work_package)
+
+      # Hover row to show split screen button
+      row_element = row(work_package)
+      row_element.hover
+
       split_page = SplitWorkPackage.new(work_package, project)
 
-      loading_indicator_saveguard
-      page.driver.browser.mouse.double_click(row(work_package).native)
+      row_element.find('.wp-table--details-link').click
 
       split_page
     end
 
-    def open_full_screen(work_package)
+    def open_full_screen_by_doubleclick(work_package)
+
+      loading_indicator_saveguard
+      page.driver.browser.mouse.double_click(row(work_package).native)
+
+      FullWorkPackage.new(work_package)
+    end
+
+    def open_full_screen_by_button(work_package)
       row(work_package).check(I18n.t('js.description_select_work_package',
                                      id: work_package.id))
+
 
       click_button(I18n.t('js.label_activate') + ' ' + I18n.t('js.button_show_view'))
 

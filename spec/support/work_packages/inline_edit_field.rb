@@ -14,13 +14,13 @@ class InlineEditField
   end
 
   def expect_text(text)
-    expect(page).to have_selector(selector, text: text)
+    expect(page).to have_selector(selector, text: text, wait: 10)
   end
 
   ##
   # Activate the field and check it opened correctly
   def activate!
-    edit_field.click
+    edit_field.find('.wp-table--cell-span').click
     expect_active!
   end
 

@@ -53,9 +53,8 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     split_work_package.expect_subject
     split_work_package.expect_current_path
 
-    # open work package full screen
-
-    full_work_package = global_work_packages.open_full_screen(work_package)
+    # Go to full screen by double click
+    full_work_package = global_work_packages.open_full_screen_by_doubleclick(work_package)
 
     full_work_package.expect_subject
     full_work_package.expect_current_path
@@ -84,9 +83,8 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     split_project_work_package.expect_subject
     split_project_work_package.expect_current_path
 
-    # open work package full screen
-
-    full_work_package = project_work_packages.open_full_screen(work_package)
+    # open work package full screen by button
+    full_work_package = project_work_packages.open_full_screen_by_button(work_package)
 
     full_work_package.expect_subject
     full_work_package.expect_current_path

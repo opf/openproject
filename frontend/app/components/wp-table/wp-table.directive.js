@@ -30,7 +30,7 @@ angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
 
-function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages){
+function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages, $state){
   return {
     restrict: 'E',
     replace: true,
@@ -179,7 +179,7 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages)
           if ($event.shiftKey) {
             clearSelection();
             activeSelectionBorderIndex = WorkPackagesTableService.selectRowRange(scope.rows, row, activeSelectionBorderIndex);
-          } else if($event.ctrlKey){
+          } else if($event.ctrlKey || $event.metaKey){
             setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
           } else {
             setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
@@ -187,13 +187,13 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages)
         }
       };
 
-      scope.showWorkPackageDetails = function(row) {
+      scope.openWorkPackageInFullView = function(row) {
         clearSelection();
 
         scope.setCheckedStateForAllRows(false);
 
         setRowSelectionState(row, true);
-
+        
         scope.activationCallback({ id: row.object.id, force: true });
       };
     }

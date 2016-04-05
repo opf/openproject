@@ -33,6 +33,7 @@ angular
 function wpTd(){
   return {
     restrict: 'E',
+    replace: true,
     templateUrl: '/components/wp-table/wp-td/wp-td.directive.html',
 
     scope: {
