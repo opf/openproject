@@ -30,6 +30,7 @@ import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-bu
 
 export class WorkPackageListViewButtonController extends WorkPackageNavigationButtonController {
   public projectIdentifier:number;
+  public editAll:any;
 
   public accessKey:number = 8;
   public activeState:string = 'work-packages.list';
@@ -45,6 +46,10 @@ export class WorkPackageListViewButtonController extends WorkPackageNavigationBu
 
   public isActive() {
     return this.$state.is(this.activeState);
+  }
+
+  public get disabled() {
+    return !!this.editAll.state;
   }
 
   public performAction() {
@@ -64,7 +69,8 @@ export class WorkPackageListViewButtonController extends WorkPackageNavigationBu
 function wpListViewButton(): ng.IDirective {
   return wpButtonDirective({
     scope: {
-      projectIdentifier: '='
+      projectIdentifier: '=',
+      editAll: '='
     },
 
     controller: WorkPackageListViewButtonController,
