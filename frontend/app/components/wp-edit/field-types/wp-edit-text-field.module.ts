@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Field} from "./wp-edit-field.module";
+import {Field} from "../wp-edit-field/wp-edit-field.module";
 
 export class TextField extends Field {
-  public template:string = '/components/wp-edit/wp-edit-field/wp-edit-text-field.directive.html'
+  public template:string = '/components/wp-edit/field-types/wp-edit-text-field.directive.html'
 }
