@@ -20,8 +20,12 @@
 
       <!-- Operator -->
       <div class="advanced-filters--filter-operator">
+         <label for="operators-{{filter.name}}" class="hidden-for-sighted">
+          {{ localisedFilterName(query.availableWorkPackageFilters[filter.name]) }}
+          {{ I18n.t('js.filter.description.text_open_filter') }}
+        </label>
         <select require
-                focus="$index == focusElementIndex"
+                focus="{{$index == focusElementIndex}}"
                 class="advanced-filters--select"
                 id="operators-{{filter.name}}"
                 name="op[{{filter.name}}]"
@@ -147,10 +151,14 @@
         <i class="icon-add icon4"></i>
         {{ I18n.t('js.work_packages.label_filter_add') }}:
       </label>
+      <label for="add_filter_select" class="hidden-for-sighted">
+        {{ I18n.t('js.filter.description.text_open_filter') }}
+        {{ I18n.t('js.filter.description.text_close_filter') }}
+      </label>
       <div class="advanced-filters--add-filter-value">
         <select class="advanced-filters--select"
           id="add_filter_select"
-          focus="focusElementIndex == -1"
+          focus="{{focusElementIndex == -1}}"
           ng-model="filterToBeAdded"
           ng-options="filterName as localisedFilterName(query.availableWorkPackageFilters[filterName])
             for filterName
