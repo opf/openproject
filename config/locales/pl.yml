@@ -1,7 +1,7 @@
 pl:
   activerecord:
     models:
-      document: Document
+      document: Dokument
   default_doc_category_tech: Dokumentacja techniczna
   default_doc_category_user: Dokumentacja użytkownika
   enumeration_doc_categories: Kategoria dokumentu
