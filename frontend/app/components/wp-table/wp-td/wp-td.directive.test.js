@@ -56,7 +56,7 @@ describe('wpTd Directive', function() {
   }));
 
   var getInnermostSpan = function(start) {
-    return start.find('span :not(:has("*"))').first();
+    return start.find('span').last();
   };
 
   describe('element', function() {
