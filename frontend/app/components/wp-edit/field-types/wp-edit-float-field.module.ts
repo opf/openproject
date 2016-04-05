@@ -1,4 +1,3 @@
-// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -26,8 +25,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Field} from "./wp-edit-field.module";
+import {Field} from "../wp-edit-field/wp-edit-field.module";
 
-export class IntegerField extends Field {
-  public template:string = '/components/wp-edit/wp-edit-field/wp-edit-integer-field.directive.html'
+export class FloatField extends Field {
+  public template:string = '/components/wp-edit/field-types/wp-edit-float-field.directive.html'
 }
