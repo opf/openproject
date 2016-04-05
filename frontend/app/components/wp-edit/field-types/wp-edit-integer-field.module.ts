@@ -26,33 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Field} from "./wp-edit-field.module";
+import {Field} from "../wp-edit-field/wp-edit-field.module";
 
-export class SelectField extends Field {
-  public options:any[];
-  public placeholder:string = '-';
-  public template:string = '/components/wp-edit/wp-edit-field/wp-edit-select-field.directive.html'
-
-  constructor(workPackage, fieldName, schema) {
-    super(workPackage, fieldName, schema);
-
-    if (angular.isArray(this.schema.allowedValues)) {
-      this.options = angular.copy(this.schema.allowedValues);
-      this.addEmptyOption();
-    } else {
-      this.schema.allowedValues.$load().then((values) => {
-        this.options = angular.copy(values.elements);
-        this.addEmptyOption();
-      });
-    }
-  }
-
-  private addEmptyOption() {
-    if (!this.schema.required) {
-      this.options.unshift({
-        href: "null",
-        name: this.placeholder,
-      });
-    }
-  }
+export class IntegerField extends Field {
+  public template:string = '/components/wp-edit/field-types/wp-edit-integer-field.directive.html'
 }
