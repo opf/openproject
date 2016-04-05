@@ -38,17 +38,22 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= render partial: 'versions/overview', locals: {version: version} %>
       <%= render(partial: "wiki/content", locals: {content: version.wiki_page.content}) if version.wiki_page %>
       <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
-        <strong class="related-issues-heading"><%= l(:label_related_work_packages) %></strong>
-        <%= form_tag({}) do -%>
-          <table class="list related-issues">
-            <%- issues.each do |issue| -%>
-              <tr class="hascontextmenu">
-                <td class="checkbox"><%= check_box_tag 'ids[]', issue.id %></td>
-                <td><%= link_to_work_package(issue, project: (@project != issue.project)) %></td>
-              </tr>
-            <%- end -%>
-          </table>
-        <% end %>
+      <form>
+        <fieldset class="form--fieldset -collapsible" onClick="toggleFieldset(this);">
+          <legend class="form--fieldset-legend"><%= l(:label_related_work_packages) %></legend>
+          <div class="form--field">
+            <table class="list">
+              <%- issues.each do |issue| -%>
+                <tr class="hascontextmenu">
+                  <td class="checkbox"><input type="checkbox" name="ids[]" id="id-<%=issue.id%>" value="<%=issue.id%>" checked="checked"></td>
+                  <label class="hidden-for-sighted" for= "id-<%=issue.id%>" ><%= issue %></label>
+                  <td><%= link_to_work_package(issue, project: (@project != issue.project)) %></td>
+                </tr>
+              <%- end -%>
+            </table>
+          </div>
+        </fieldset>
+      </form>
       <% end %>
       <%= call_hook :view_projects_roadmap_version_bottom, version: version %>
     <% end %>
