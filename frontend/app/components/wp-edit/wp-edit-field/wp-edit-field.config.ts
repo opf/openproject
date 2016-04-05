@@ -28,13 +28,13 @@
 
 import {WorkPackageEditFieldService} from "./wp-edit-field.service";
 import {Field} from "./wp-edit-field.module";
-import {TextField} from "./wp-edit-text-field.module";
-import {IntegerField} from "./wp-edit-integer-field.module";
-import {DurationField} from "./wp-edit-duration-field.module";
-import {SelectField} from "./wp-edit-select-field.module";
-import {FloatField} from "./wp-edit-float-field.module";
-import {BooleanField} from "./wp-edit-boolean-field.module";
-import {DateField} from "./wp-edit-date-field.module";
+import {TextField} from "../field-types/wp-edit-text-field.module";
+import {IntegerField} from "../field-types/wp-edit-integer-field.module";
+import {DurationField} from "../field-types/wp-edit-duration-field.module";
+import {SelectField} from "../field-types/wp-edit-select-field.module";
+import {FloatField} from "../field-types/wp-edit-float-field.module";
+import {BooleanField} from "../field-types/wp-edit-boolean-field.module";
+import {DateField} from "../field-types/wp-edit-date-field.module";
 
 //TODO: Implement
 class DateRangeField extends Field {}
