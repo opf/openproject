@@ -146,6 +146,8 @@ angular.module('openproject.wpButtons', ['ui.router', 'openproject.services']);
 angular.module('openproject.responsive', []);
 
 
+export var wpEditModule = angular.module('op.wpEdit', []);
+
 // main app
 export default angular.module('openproject', [
   'ui.date',

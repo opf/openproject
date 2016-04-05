@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {wpEditModule} from '../../../angular-modules';
 import {WorkPackageEditFormController} from "./../wp-edit-form.directive";
 import {WorkPackageEditFieldService} from "./wp-edit-field.service";
 import {Field} from "./wp-edit-field.module";
@@ -169,7 +170,4 @@ function wpEditField() {
   };
 }
 
-//TODO: Use 'openproject.wpEdit' module
-angular
-  .module('openproject')
-  .directive('wpEditField', wpEditField);
+wpEditModule.directive('wpEditField', wpEditField);
