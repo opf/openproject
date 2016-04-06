@@ -26,25 +26,26 @@ describe 'Inline editing work packages', js: true do
                        member_through_role: manager_role
   end
   let(:type) { FactoryGirl.create :type }
-  let(:type2) { FactoryGirl.create :type }
-  let(:project) { FactoryGirl.create(:project, types: [type, type2]) }
+  let(:status1) { FactoryGirl.create :status }
+  let(:status2) { FactoryGirl.create :status }
+
+  let(:project) { FactoryGirl.create(:project, types: [type]) }
   let(:work_package) {
     FactoryGirl.create(:work_package,
                        author: dev,
                        project: project,
                        type: type,
+                       status: status1,
                        subject: 'Foobar')
   }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:fields) { InlineEditField.new(wp_table, work_package) }
 
-  let(:priority2) { FactoryGirl.create :priority }
-  let(:status2) { FactoryGirl.create :status }
   let(:workflow) do
     FactoryGirl.create :workflow,
-                       type_id: type2.id,
-                       old_status: work_package.status,
+                       type_id: type.id,
+                       old_status: status1,
                        new_status: status2,
                        role: manager_role
   end
@@ -54,10 +55,9 @@ describe 'Inline editing work packages', js: true do
   before do
     login_as(manager)
 
-    manager
-    dev
-    priority2
+    work_package
     workflow
+    dev
 
     wp_table.visit!
     wp_table.expect_work_package_listed(work_package)
@@ -81,22 +81,23 @@ describe 'Inline editing work packages', js: true do
 
   it 'allows to subsequently edit multiple fields' do
     subject_field = wp_table.edit_field(work_package, :subject)
-    priority_field = wp_table.edit_field(work_package, :priority)
+    status_field = wp_table.edit_field(work_package, :status)
 
     expect(UpdateWorkPackageService).to receive(:new).and_call_original
     subject_field.activate!
     subject_field.set_value('Other subject!')
 
-    priority_field.activate!
-    priority_field.set_value(priority2.name)
-    priority_field.expect_inactive!
+    status_field.activate!
+    status_field.set_value(status2.name)
+    status_field.expect_inactive!
+    subject_field.expect_inactive!
 
     subject_field.expect_text('Other subject!')
-    priority_field.expect_text(priority2.name)
+    status_field.expect_text(status2.name)
 
     work_package.reload
     expect(work_package.subject).to eq('Other subject!')
-    expect(work_package.priority.id).to eq(priority2.id)
+    expect(work_package.status.id).to eq(status2.id)
   end
 
   it 'provides error handling' do
