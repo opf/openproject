@@ -51,7 +51,8 @@ You can find information on configuring OpenProject in [`config/CONFIGURATION.md
 2. Start and setup the database
 
         docker-compose up -d db
-        docker-compose run db rake db:create db:migrate db:seed
+        cp config/database.docker.yml config/database.yml
+        docker-compose run web rake db:create db:migrate db:seed
 
 3. Start the other processes
 

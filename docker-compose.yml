@@ -14,7 +14,6 @@ worker: &ruby
   links:
     - db
   environment:
-    - "DATABASE_URL=mysql2://root@db/openproject_development?encoding=utf8"
     - "RAILS_CACHE_STORE=file_store"
   command: "./docker/worker"
 
