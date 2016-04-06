@@ -27,7 +27,7 @@
 // ++
 
 angular
-  .module('openproject.workPackages')
+  .module('openproject.wpButtons')
   .directive('wpCreateButton', wpCreateButton);
 
 function wpCreateButton() {

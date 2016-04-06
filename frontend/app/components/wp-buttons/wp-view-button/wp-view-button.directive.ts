@@ -27,7 +27,7 @@
 // ++
 
 import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
-import {KeepTabService} from '../keep-tab/keep-tab.service';
+import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 
 export class WorkPackageViewButtonController extends WorkPackageNavigationButtonController{
   public workPackageId:number;
