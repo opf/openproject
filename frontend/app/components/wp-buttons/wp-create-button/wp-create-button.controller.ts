@@ -26,28 +26,37 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-function WorkPackageCreateButtonController($state, I18n, ProjectService) {
-  var vm = this,
-    inProjectContext = !!vm.projectIdentifier,
-    canCreate= false;
+class WorkPackageCreateButtonController {
+  public projectIdentifier:string;
+  public text:any;
+  public types:any;
 
-  vm.text = {
-    button: I18n.t('js.label_work_package'),
-    create: I18n.t('js.label_create_work_package')
-  };
+  protected canCreate:boolean = false;
 
-  vm.isDisabled = function () {
-    return !inProjectContext || !canCreate || $state.includes('**.new') || !vm.types;
-  };
+  public get inProjectContext() {
+    return !!this.projectIdentifier;
+  }
 
-  if (inProjectContext) {
-    ProjectService.fetchProjectResource(vm.projectIdentifier).then(function(project) {
-      canCreate = !!project.links.createWorkPackage;
-    });
+  constructor(protected $state, protected I18n, protected ProjectService) {
+    this.text = {
+      button: I18n.t('js.label_work_package'),
+      create: I18n.t('js.label_create_work_package')
+    };
 
-    ProjectService.getProject(vm.projectIdentifier).then(function (project) {
-      vm.types = project.embedded.types;
-    });
+    if (this.inProjectContext) {
+      this.ProjectService.fetchProjectResource(this.projectIdentifier).then(project => {
+        this.canCreate = !!project.links.createWorkPackage;
+      });
+
+      this.ProjectService.getProject(this.projectIdentifier).then(project  => {
+        this.types = project.embedded.types;
+      });
+    }
+  }
+
+  public isDisabled() {
+    return !this.inProjectContext || !this.canCreate || this.$state.includes('**.new') ||
+      !this.types;
   }
 }
 
