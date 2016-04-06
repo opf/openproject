@@ -205,9 +205,8 @@ work_package_list_default_columns:
   default:
   - id
   - type
-  - status
-  - priority
   - subject
+  - status
   - assigned_to
   - updated_on
 work_package_list_summable_columns:
