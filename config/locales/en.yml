@@ -1731,7 +1731,7 @@ en:
     session: "Session"
     brute_force_prevention: "Automated user blocking"
 
-  show_hide_project_menu: "Show/Hide project menu"
+  show_hide_project_menu: "Expand/Collapse project menu"
 
   status_active: "active"
   status_invited: invited
