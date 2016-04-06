@@ -1,9 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
-# OpenProject Documents Plugin
-#
-# Former OpenProject Core functionality extracted into a plugin.
-#
-# Copyright (C) 2009-2014 the OpenProject Foundation (OPF)
+# OpenProject is a project management system.
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,26 +27,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-en:
-  activerecord:
-    models:
-      document: "Document"
+module BasicData
+  module Documents
+    class EnumerationsSeeder < Seeder
+      def seed_data!
+        category_names.each do |name|
+          DocumentCategory.create name: name
+        end
+      end
 
-  default_doc_category_tech: "Technical documentation"
-  default_doc_category_user: "User documentation"
+      def category_names
+        category_i18n_keys.map { |key| I18n.t key }
+      end
 
-  enumeration_doc_categories: "Document categories"
-  enumeration:
-    document_category:
-      documentation: Documentation
-      specification: Specification
-      other: Other
-
-  label_document_added: "Document added"
-  label_document_new: "New document"
-  label_document_plural: "Documents"
-  label_documents: "Documents"
-
-  permission_manage_documents: "Manage documents"
-  permission_view_documents: "View documents"
-  project_module_documents: "Documents"
+      def category_i18n_keys
+        ['documentation', 'specification', 'other'].map do |name|
+          ['enumeration', 'document_category', name].join('.')
+        end
+      end
+    end
+  end
+end
