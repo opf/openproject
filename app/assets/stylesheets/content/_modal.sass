@@ -60,6 +60,10 @@ $ng-modal-image-width:   $ng-modal-image-height
     .ng-modal-inner
       top: 0
 
+  &.columns-modal
+    .ng-modal-inner
+      overflow: visible
+
 .ng-modal-inner
   +transition(opacity 0.25s ease)
   background: $ng-modal-background
@@ -68,7 +72,9 @@ $ng-modal-image-width:   $ng-modal-image-height
   position: relative
   width: 95%
   padding: $ng-modal-padding / 2
-  margin-top: .6em
+  margin-top: 5%
+  overflow-y: auto
+  overflow-x: hidden
   //+media($medium-screen)
   //padding: $ng-modal-padding
   //width: 50%
@@ -77,7 +83,6 @@ $ng-modal-image-width:   $ng-modal-image-height
 
   //+media($large-screen)
   width: 40%
-  margin-top: 10em
 
   .modal-header
     padding: 0
