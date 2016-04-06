@@ -59,5 +59,5 @@ export class KeepTabService {
 }
 
 angular
-  .module('openproject.wpButtons')
+  .module('openproject.workPackages.services')
   .service('keepTab', KeepTabService);
