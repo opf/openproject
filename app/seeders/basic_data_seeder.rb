@@ -26,16 +26,9 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-class BasicDataSeeder < Seeder
-  def seed_data!
-    data_seeders.each do |seeder|
-      puts " ↳ #{seeder.class.name.demodulize}"
-      seeder.seed!
-    end
-  end
-
-  def data_seeders
-    seeders = [
+class BasicDataSeeder < CompositeSeeder
+  def data_seeder_classes
+    [
       BasicData::BuiltinRolesSeeder,
       BasicData::RoleSeeder,
       BasicData::ActivitySeeder,
@@ -46,7 +39,9 @@ class BasicDataSeeder < Seeder
       BasicData::ProjectTypeSeeder,
       BasicData::SettingSeeder
     ]
+  end
 
-    seeders.map(&:new)
+  def namespace
+    'BasicData'
   end
 end
