@@ -1,0 +1,20 @@
+FROM ruby:2.1
+
+ENV NODE_VERSION="0.12.7"
+ENV BUNDLER_VERSION="1.11.2"
+
+# install node + npm
+RUN curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xzf - -C /usr/local --strip-components=1
+
+RUN gem install bundler --version "${BUNDLER_VERSION}"
+
+WORKDIR /app
+
+COPY Gemfile /app/
+COPY Gemfile.* /app/
+RUN bundle install --jobs 8 --retry 3
+RUN gem install foreman --no-ri --no-rdoc
+
+RUN npm install -g bower
+
+CMD ["foreman", "start"]
