@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,15 +24,14 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
-
+function hasDropdownMenu($rootScope, $injector, $window, FocusHelper) {
   function getCssPositionProperties(dropdown, trigger) {
     var hOffset = 0,
       vOffset = 0;
     if (dropdown.hasClass('dropdown-anchor-top')) {
-      vOffset = - dropdown.outerHeight() - trigger.outerHeight() + parseInt(trigger.css('margin-top'), 10);
+      vOffset = -dropdown.outerHeight() - trigger.outerHeight() + parseInt(trigger.css('margin-top'), 10);
     }
 
     // Styling logic taken from jQuery-dropdown plugin: https://github.com/plapier/jquery-dropdown
@@ -42,30 +41,32 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
     if (dropdown.hasClass('dropdown-relative')) {
       return {
         left: dropdown.hasClass('dropdown-anchor-right') ?
-          trigger.position().left -
-          (dropdown.outerWidth(true) - trigger.outerWidth(true)) -
-          parseInt(trigger.css('margin-right'), 10) + hOffset :
-          trigger.position().left + parseInt(trigger.css('margin-left'), 10) + hOffset,
+        trigger.position().left -
+        (dropdown.outerWidth(true) - trigger.outerWidth(true)) -
+        parseInt(trigger.css('margin-right'), 10) + hOffset :
+        trigger.position().left + parseInt(trigger.css('margin-left'), 10) + hOffset,
         top: trigger.position().top +
-          trigger.outerHeight(true) -
-          parseInt(trigger.css('margin-top'), 10) + vOffset
+        trigger.outerHeight(true) -
+        parseInt(trigger.css('margin-top'), 10) + vOffset
       };
-    } else {
+    }
+    else {
       return {
         left: dropdown.hasClass('dropdown-anchor-right') ?
-          trigger.offset().left - (dropdown.outerWidth() - trigger.outerWidth()) + hOffset : trigger.offset().left + hOffset,
+        trigger.offset().left - (dropdown.outerWidth() - trigger.outerWidth()) + hOffset : trigger.offset().left + hOffset,
         top: trigger.offset().top + trigger.outerHeight() + vOffset
       };
     }
   }
 
   function getPositionPropertiesOfEvent(event) {
-    var position = { };
+    var position = {};
 
     if (event.pageX && event.pageY) {
       position.top = Math.max(event.pageY, 0);
       position.left = Math.max(event.pageX, 0);
-    } else {
+    }
+    else {
       var bounding = angular.element(event.target)[0].getBoundingClientRect();
 
       position.top = Math.max(bounding.bottom, 0);
@@ -86,20 +87,20 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
 
   return {
     restrict: 'A',
-    controller: [function() {
+    controller: [function () {
       var dropDownMenuOpened = false;
 
-      this.open = function() {
+      this.open = function () {
         dropDownMenuOpened = true;
       };
-      this.close = function() {
+      this.close = function () {
         dropDownMenuOpened = false;
       };
-      this.opened = function() {
+      this.opened = function () {
         return dropDownMenuOpened;
       };
     }],
-    link: function(scope, element, attrs, ctrl) {
+    link: function (scope, element, attrs, ctrl) {
       var contextMenu = $injector.get(attrs.target),
         locals = {},
         pointerPosition,
@@ -111,8 +112,8 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
         triggerOnEvent = (attrs.triggerOnEvent || 'click') + '.dropdown.openproject';
 
       /* contextMenu      is a mandatory attribute and used to bind a specific context
-                          menu to the trigger event
-         triggerOnEvent   allows for binding the event for opening the menu to "click" */
+       menu to the trigger event
+       triggerOnEvent   allows for binding the event for opening the menu to "click" */
 
 
       function toggle(event) {
@@ -129,21 +130,21 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
         pointerCssPosition = getCssPositionPropertiesOfEvent(event);
         $rootScope.$broadcast('openproject.dropdown.closeDropdowns', ignoreFocusOpener);
         // prepare locals, these define properties to be passed on to the context menu scope
-        var localKeys = (attrs.locals || '').split(',').map(function(local) {
+        var localKeys = (attrs.locals || '').split(',').map(function (local) {
           return local.trim();
         });
-        angular.forEach(localKeys, function(key) {
+        angular.forEach(localKeys, function (key) {
           locals[key] = scope[key];
         });
 
         ctrl.open();
 
         contextMenu.open(element, locals)
-          .then(function(element) {
+          .then(function (element) {
             menuElement = element;
             menuElement.trap();
             positionDropdown();
-            menuElement.on('click', function(e) {
+            menuElement.on('click', function (e) {
               // allow inputs to be clickable
               // without closing the dropdown
               if (angular.element(e.target).is(':input')) {
@@ -156,7 +157,7 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
       function close(ignoreFocusOpener) {
         ctrl.close();
         var disableFocus = ignoreFocusOpener;
-        contextMenu.close(disableFocus).then(function() {
+        contextMenu.close(disableFocus).then(function () {
           if (!ignoreFocusOpener) {
             FocusHelper.focusElement(afterFocusOn ? element.find(afterFocusOn) : element);
           }
@@ -176,8 +177,8 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
 
       function adjustPosition($element, pointerPosition) {
         var viewport = {
-          top : win.scrollTop(),
-          left : win.scrollLeft()
+          top: win.scrollTop(),
+          left: win.scrollLeft()
         };
 
         viewport.right = viewport.left + win.width();
@@ -193,10 +194,10 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
         }
       }
 
-      element.bind(triggerOnEvent, function(event) {
+      element.bind(triggerOnEvent, function (event) {
         event.preventDefault();
         event.stopPropagation();
-        scope.$apply(function() {
+        scope.$apply(function () {
           toggle(event);
         });
 
@@ -204,14 +205,14 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
         if (contextMenu.active()) positionDropdown();
       });
 
-      scope.$on('openproject.dropdown.closeDropdowns', function(event, ignoreFocusOpener) {
+      scope.$on('openproject.dropdown.closeDropdowns', function (event, ignoreFocusOpener) {
         if (!ctrl.opened()) {
           return;
         }
         close(ignoreFocusOpener);
       });
 
-      scope.$on('openproject.dropdown.reposition', function() {
+      scope.$on('openproject.dropdown.reposition', function () {
         if (contextMenu.active() && menuElement && ctrl.opened()) {
           positionDropdown();
         }
@@ -220,14 +221,12 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
       var elementKeyUpString = 'keyup.contextmenu.dropdown.openproject';
       element
         .off(elementKeyUpString)
-        .on(elementKeyUpString, function(event) {
-        // Alt + Shift + F10
-        if (event.keyCode === 121 && event.shiftKey && event.altKey) {
-          if (!contextMenu.active()) {
+        .on(elementKeyUpString, function (event) {
+          // Alt + Shift + F10
+          if (event.keyCode === 121 && event.shiftKey && event.altKey && !contextMenu.active()) {
             open(event);
           }
-        }
-      });
+        });
 
 
       // We need the off/on stuff in order to not have a new listener
@@ -241,13 +240,13 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
       var repositioningEventString = 'resize.dropdown.openproject, mousewheel.dropdown.openproject';
       win
         .off(repositioningEventString)
-        .on(repositioningEventString, function() {
+        .on(repositioningEventString, function () {
           $rootScope.$broadcast('openproject.dropdown.reposition');
         });
 
       var keyUpEventString = 'keyup.dropdown.openproject';
       win
-        .off(keyUpEventString).on(keyUpEventString, function(event) {
+        .off(keyUpEventString).on(keyUpEventString, function (event) {
         if (event.keyCode === 27) {
           $rootScope.$broadcast('openproject.dropdown.closeDropdowns');
         }
@@ -268,4 +267,8 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
         .on(triggerOnEvent, handleWindowClickEvent);
     }
   };
-};
+}
+
+angular
+  .module('openproject.uiComponents')
+  .directive('hasDropdownMenu', hasDropdownMenu);
