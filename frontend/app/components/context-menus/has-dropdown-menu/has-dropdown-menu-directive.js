@@ -201,6 +201,8 @@ function hasDropdownMenu($rootScope, $injector, $window, FocusHelper) {
           toggle(event);
         });
 
+        menuElement.find('.menu-item').first().focus();
+
         // set css position parameters after the digest has been completed
         if (contextMenu.active()) positionDropdown();
       });
