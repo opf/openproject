@@ -26,22 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.wpButtons')
-  .directive('wpCreateButton', wpCreateButton);
+function WorkPackageCreateButtonController($state, I18n, ProjectService) {
+  var vm = this,
+    inProjectContext = !!vm.projectIdentifier,
+    canCreate= false;
 
-function wpCreateButton() {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-buttons/wp-create-button/wp-create-button.directive.html',
+  vm.text = {
+    button: I18n.t('js.label_work_package'),
+    create: I18n.t('js.label_create_work_package')
+  };
 
-    scope: {
-      projectIdentifier: '=',
-      stateName: '@'
-    },
+  vm.isDisabled = function () {
+    return !inProjectContext || !canCreate || $state.includes('**.new') || !vm.types;
+  };
 
-    bindToController: true,
-    controllerAs: 'vm',
-    controller: 'WorkPackageCreateButtonController'
+  if (inProjectContext) {
+    ProjectService.fetchProjectResource(vm.projectIdentifier).then(function(project) {
+      canCreate = !!project.links.createWorkPackage;
+    });
+
+    ProjectService.getProject(vm.projectIdentifier).then(function (project) {
+      vm.types = project.embedded.types;
+    });
   }
 }
+
+angular
+  .module('openproject.wpButtons')
+  .controller('WorkPackageCreateButtonController', WorkPackageCreateButtonController);
