@@ -40,11 +40,11 @@ class InlineEditField
   end
 
   def expect_active!
-    expect(edit_field).to have_selector(field_type)
+    expect(edit_field).to have_selector(field_type, wait: 10)
   end
 
   def expect_inactive!
-    expect(edit_field).to have_no_selector(field_type)
+    expect(edit_field).to have_no_selector(field_type, wait: 10)
   end
 
   def save!
