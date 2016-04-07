@@ -7,6 +7,6 @@ pl:
         costObject: Budżet
         overallCosts: Koszt całkowity
         spentUnits: Zużyte jednostki
-    button_log_costs: Zarejestruj koszty jednostkowe
+    button_log_costs: Rejestruj koszty jednostkowe
     label_hour: godzina
     label_hours: godziny
