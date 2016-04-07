@@ -142,9 +142,10 @@ angular.module('openproject.templates', []);
 
 // refactoring
 angular.module('openproject.inplace-edit', []);
-angular.module('openproject.wpButtons', ['ui.router', 'openproject.services']);
 angular.module('openproject.responsive', []);
 
+export var wpButtonsModule =
+  angular.module('openproject.wpButtons', ['ui.router', 'openproject.services']);
 
 // main app
 export default angular.module('openproject', [

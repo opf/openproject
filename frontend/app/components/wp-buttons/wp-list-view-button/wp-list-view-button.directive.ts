@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
 
 export class WorkPackageListViewButtonController extends WorkPackageNavigationButtonController {
@@ -61,7 +62,7 @@ export class WorkPackageListViewButtonController extends WorkPackageNavigationBu
   }
 }
 
-function wpListViewButton(): ng.IDirective {
+function wpListViewButton():ng.IDirective {
   return wpButtonDirective({
     scope: {
       projectIdentifier: '='
@@ -71,6 +72,4 @@ function wpListViewButton(): ng.IDirective {
   });
 }
 
-angular
-  .module('openproject.wpButtons')
-  .directive('wpListViewButton', wpListViewButton);
+wpButtonsModule.directive('wpListViewButton', wpListViewButton);

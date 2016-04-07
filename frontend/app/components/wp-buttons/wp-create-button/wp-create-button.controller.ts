@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {wpButtonsModule} from '../../../angular-modules';
+
 class WorkPackageCreateButtonController {
   public projectIdentifier:string;
   public text:any;
@@ -55,11 +57,8 @@ class WorkPackageCreateButtonController {
   }
 
   public isDisabled() {
-    return !this.inProjectContext || !this.canCreate || this.$state.includes('**.new') ||
-      !this.types;
+    return !this.inProjectContext || !this.canCreate || this.$state.includes('**.new') || !this.types;
   }
 }
 
-angular
-  .module('openproject.wpButtons')
-  .controller('WorkPackageCreateButtonController', WorkPackageCreateButtonController);
+wpButtonsModule.controller('WorkPackageCreateButtonController', WorkPackageCreateButtonController);
