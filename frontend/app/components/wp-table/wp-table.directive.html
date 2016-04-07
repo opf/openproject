@@ -96,7 +96,8 @@
               row.checked && 'context-menu-selection',
               !row.object['leaf?'] && 'parent' || '',
               row.level > 0 && 'child idnt' || '',
-              row.level > 0 && ('idnt-' + row.level) || ''
+              row.level > 0 && ('idnt-' + row.level) || '',
+              row.object.isNew && '-new' || '',
             ]"
             ng-show="!groupByColumn || groupExpanded[row.groupName]"
 
