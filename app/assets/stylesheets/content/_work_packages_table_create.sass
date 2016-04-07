@@ -30,6 +30,10 @@
 #wp-inline-create-button
   border-bottom: none
 
+  a
+    width: 100%
+    display: block
+
 .wp-inline-create--add-link
   font-weight: bold
 
@@ -41,6 +45,14 @@
   &:hover
     text-decoration: none
 
-.wp--row.-new
-  background: #e4f7fb
+.wp--row.-new,
+tr.context-menu-selection.-new
+  background: #BEF3CA
+
+  &:hover
+    background: darken(#BEF3CA, 5%)
+
+  .wp-table--cell-span:hover
+    border-color: #35c53f
+
 
