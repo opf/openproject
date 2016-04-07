@@ -140,6 +140,6 @@ Feature: Show meetings
 
        When I go to the show page for the meeting called "Bobs Meeting"
         And I follow "History" within ".meeting_agenda"
-        And I follow "1" within "table.list"
+        And I follow "1" within "table"
        Then I should see "Agenda" within ".meeting_agenda"
         And I should see "blah" within ".meeting_agenda"
