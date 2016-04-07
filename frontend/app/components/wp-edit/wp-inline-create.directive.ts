@@ -59,7 +59,7 @@ export class WorkPackageInlineCreateController {
         this._allowed = !!project.links.createWorkPackage;
       });
     } else {
-      // TODO enable in global context?
+      // TODO enable in global context
     }
 
     return this._allowed;
@@ -72,19 +72,7 @@ export class WorkPackageInlineCreateController {
     // 3. Activate inline edit for all required fields
     // 4. Focus into first required field
     // 5. When pressing <enter>, start with 1.
-    this.apiWorkPackages.emptyCreateForm(this.projectIdentifier).then(resource => {
-      var payload = resource.payload.$source;
-      console.log(payload);
-
-      // Need to override isEditable
-      payload.isEditable = true;
-
-      var wp = new this.WorkPackageResource(payload, true);
-
-      // Copy resources from form response
-      wp.schema = resource.schema;
-      wp.form = this.$q.when(resource);
-
+    this.WorkPackageResource.fromCreateForm(this.projectIdentifier).then(wp => {
       this.rows.push({ level: 0, ancestors: [], object: wp, parent: undefined });
     });
   }
