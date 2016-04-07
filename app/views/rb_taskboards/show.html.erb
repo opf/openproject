@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render :partial => 'shared/backlogs_header' %>
   <%= stylesheet_link_tag 'backlogs/taskboard.css' %>
 <% end %>
-
+<%= html_title @sprint.name do %>
 <%= toolbar title: @sprint.name do %>
   <li class="toolbar-item toolbar-input-group" id="col_width">
     <div>
