@@ -142,6 +142,13 @@ You may also run cukes within a certain folder:
 
 **Note: `-r features` is required otherwise the step definitions cannot be found.**
 
+You can run cucumber without rake, and with all core and plugin features included
+through:
+
+```
+./bin/cucumber features/my/path/to/cucumber.feature:123
+```
+
 
 #### Shortcuts
 
