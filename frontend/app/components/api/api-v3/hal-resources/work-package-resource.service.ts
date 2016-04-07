@@ -36,7 +36,7 @@ function wpResource(
   class WorkPackageResource extends HalResource {
     private form;
 
-    public static fromCreateForm(projectIdentifier?:string) {
+    public static fromCreateForm(projectIdentifier?:string):ng.IPromise<WorkPackageResource> {
       var deferred = $q.defer();
 
       apiWorkPackages.emptyCreateForm(projectIdentifier)
@@ -55,7 +55,7 @@ function wpResource(
     }
 
     public get isNew():boolean {
-      return this.id === undefined;
+      return (this as any).id === undefined;
     }
 
     public getForm() {
@@ -144,7 +144,7 @@ function wpResource(
       return !!this.$links.update || this.isNew;
     }
 
-    protected saveResource(payload):ng.IPromise {
+    protected saveResource(payload):ng.IPromise<any> {
       if (this.isNew) {
         return apiWorkPackages.wpApiPath().post(payload);
       } else {
