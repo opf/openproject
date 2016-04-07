@@ -37,45 +37,44 @@
   display: table-cell
   width: auto
 
-  .wp-edit-field
-    padding-left: 0
-
-    &.-active
-      padding: 0
-
-    &.-error
-      background: $nm-color-error-background
-      border-color: $nm-color-error-border
-
-      &:hover
-        border-color: lighten($nm-color-error-border, 10%)
-
-    form
-      width: 100%
-
-    .-hidden-overflow
-      overflow: hidden
-      text-overflow: ellipsis
-
   &:hover .wp-edit-field.-error:hover
     border-color: $nm-color-error-border
 
-  // Editable fields cursor
-  .wp-table--cell-span
-    padding: 0 5px 0 5px
-    cursor: text
-    border-color: transparent
-    border-style: solid
-    border-radius: 2px
-    border-width: 1px
-    overflow: visible
-    display: inline-block
-    line-height: 1.6
+.wp-edit-field
+  padding-left: 0
 
+  &.-active
+    padding: 0
 
-    &:hover,
-    &:focus
-      border-color: $inplace-edit--border-color
+  &.-error .wp-table--cell-span
+    background: $nm-color-error-background
+    border-color: $nm-color-error-border
+
+    &:hover
+      border-color: lighten($nm-color-error-border, 10%)
+
+  form
+    width: 100%
+
+  .-hidden-overflow
+    overflow: hidden
+    text-overflow: ellipsis
+
+// Editable fields cursor
+.-editable .wp-table--cell-span
+  padding: 0 5px 0 5px
+  cursor: text
+  border-color: transparent
+  border-style: solid
+  border-radius: 2px
+  border-width: 1px
+  overflow: visible
+  display: inline-block
+  line-height: 1.6
+
+  &:hover,
+  &:focus
+    border-color: $inplace-edit--border-color
 
     .work-package--placeholder
       padding: 0 10px 0 0px
