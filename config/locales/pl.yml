@@ -10,7 +10,7 @@ pl:
         start_time: Czas
     models:
       meeting_agenda: Plan spotkania
-      meeting_minutes: Protokoły ze spotkań
+      meeting_minutes: Protokół ze spotkania
   description_attended: Obecny
   description_invite: Zaproszony
   events:
@@ -26,7 +26,7 @@ pl:
   label_meeting_new: Nowe spotkanie
   label_meeting_edit: Edycja spotkania
   label_meeting_agenda: Plan spotkania
-  label_meeting_minutes: Protokoły ze spotkań
+  label_meeting_minutes: Protokół ze spotkania
   label_meeting_close: Zamknij
   label_meeting_open: Otwórz
   label_meeting_agenda_close: Zamknij agendę aby zacząć protokół ze spotkania
