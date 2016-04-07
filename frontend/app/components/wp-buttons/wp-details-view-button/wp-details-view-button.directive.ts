@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 
@@ -73,6 +74,4 @@ function wpDetailsViewButton() {
   });
 }
 
-angular
-  .module('openproject.wpButtons')
-  .directive('wpDetailsViewButton', wpDetailsViewButton);
+wpButtonsModule.directive('wpDetailsViewButton', wpDetailsViewButton);

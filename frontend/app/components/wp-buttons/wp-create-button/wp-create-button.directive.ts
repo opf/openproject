@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {wpButtonsModule} from '../../../angular-modules';
+
 function wpCreateButton() {
   return {
     restrict: 'E',
@@ -42,6 +44,4 @@ function wpCreateButton() {
   }
 }
 
-angular
-  .module('openproject.wpButtons')
-  .directive('wpCreateButton', wpCreateButton);
+wpButtonsModule.directive('wpCreateButton', wpCreateButton);

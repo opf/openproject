@@ -35,7 +35,6 @@ interface ButtonControllerText {
   buttonText: string;
 }
 
-
 export abstract class WorkPackageButtonController {
   public disabled:boolean;
   public buttonId:string;
@@ -77,6 +76,7 @@ export abstract class WorkPackageButtonController {
   }
 
   public abstract isActive():boolean;
+
   public abstract performAction();
 }
 
