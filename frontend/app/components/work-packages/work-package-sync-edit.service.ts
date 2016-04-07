@@ -30,25 +30,30 @@
 import WorkPackage = op.WorkPackage;
 import IScope = angular.IScope;
 
-export class SyncEditService {
+export class WorkPackageCacheService {
 
-    workPackageSubject = new Rx.BehaviorSubject<WorkPackage>(null);
+    workPackagesSubject = new Rx.ReplaySubject<WorkPackage[]>(1);
 
     constructor(private $rootScope: IScope) {
         "ngInject";
-
     }
 
-    putAsLoaded(wp: WorkPackage) {
-        this.workPackageSubject.onNext(wp);
+    setWorkPackageList(list: WorkPackage[]) {
+        this.workPackagesSubject.onNext(list);
     }
 
-    loadWorkPackage(workPackageId: number) {
-        // TODO   
+    loadWorkPackage(workPackageId: number): Rx.Observable<WorkPackage> {
+        const sub = new Rx.ReplaySubject(0);
+        this.workPackagesSubject.subscribe(value => sub.onNext(value));
+        return sub.flatMap((list: WorkPackage[]) => {
+            return list;
+        }).filter((wp: WorkPackage) => {
+            return wp.id === workPackageId;
+        });
     }
 
 }
 
 angular
-    .module('openproject')
-    .service('wpSyncEditService', SyncEditService);
+        .module('openproject')
+        .service('wpCacheService', WorkPackageCacheService);

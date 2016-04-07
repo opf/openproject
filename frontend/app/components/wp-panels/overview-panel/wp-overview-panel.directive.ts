@@ -26,47 +26,39 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {SyncEditService} from "../../work-packages/work-package-sync-edit.service";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {WorkPackageCacheService} from "../../work-packages/work-package-sync-edit.service";
 import IScope = angular.IScope;
 import WorkPackage = op.WorkPackage;
 
 export class OverviewPanelController {
-  
-  public workPackage: WorkPackage;
 
-  constructor($scope: IScope, private wpSyncEditService: SyncEditService) {
-    
-    var scopedWorkPackageSubject = scopedObservable($scope, wpSyncEditService.workPackageSubject);
-    scopedWorkPackageSubject.subscribe((workPackage: WorkPackage) => {
-      if (workPackage !== null) {
-        this.workPackage = workPackage;
-      } else {
-        wpSyncEditService.loadWorkPackage(123456789);
-      }
-    });
-    
-    
-  }
+    public workPackage: WorkPackage;
+
+    constructor($scope: IScope, $stateParams: any, private wpCacheService: WorkPackageCacheService) {
+        const wpId = parseInt($stateParams.workPackageId);
+        wpCacheService.loadWorkPackage(wpId).subscribe(wp => {
+            this.workPackage = wp;
+        });
+    }
 
 }
 
 function wpOverviewPanel() {
-  return {
-    restrict: 'E',
+    return {
+        restrict: 'E',
 
-    // scope: {
-    //   workPackage: '=wpEditForm'
-    // },
-  
-    templateUrl: "/components/wp-panels/overview-panel/wp-overview-panel.directive.html",
-    controller: OverviewPanelController,
-    controllerAs: '$ctrl',
-    bindToController: true
-  };
+        // scope: {
+        //   workPackage: '=wpEditForm'
+        // },
+
+        templateUrl: "/components/wp-panels/overview-panel/wp-overview-panel.directive.html",
+        controller: OverviewPanelController,
+        controllerAs: '$ctrl',
+        bindToController: true
+    };
 }
 
 //TODO: Use 'openproject.wpEdit' module
 angular
-    .module('openproject')
-    .directive('wpOverviewPanel', wpOverviewPanel);
+        .module('openproject')
+        .directive('wpOverviewPanel', wpOverviewPanel);
