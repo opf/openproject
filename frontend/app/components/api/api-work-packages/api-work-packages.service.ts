@@ -38,11 +38,7 @@ export class ApiWorkPackagesService {
   }
 
   public list(offset:number, pageSize:number, query:api.ex.Query) {
-    var workPackages = this.wpBaseApi;
-
-    if (query.projectId) {
-      workPackages = this.apiV3.service('work_packages', this.apiV3.one('projects', query.projectId));
-    }
+    var workPackages = this.wpApiPath(query.projectId.toString());
 
     return workPackages.getList(
       this.queryAsV3Params(offset, pageSize, query),
@@ -57,8 +53,8 @@ export class ApiWorkPackagesService {
    *
    * @returns An empty work package form resource.
    */
-  public emptyCreateForm():ng.IPromise<op.HalResource> {
-    return this.wpBaseApi.getList('form').post();
+  public emptyCreateForm(projectIdentifier:string):ng.IPromise<op.HalResource> {
+    return this.wpApiPath(projectIdentifier).one('form').customPOST();
   }
 
   protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {
@@ -88,6 +84,14 @@ export class ApiWorkPackagesService {
     }
 
     return params;
+  }
+
+  private wpApiPath(projectIdentifier:string) {
+    if (!!projectIdentifier) {
+      return this.apiV3.service('work_packages', this.apiV3.one('projects', projectIdentifier));
+    } else {
+      return this.apiV3.service('work_packages');
+    }
   }
 }
 

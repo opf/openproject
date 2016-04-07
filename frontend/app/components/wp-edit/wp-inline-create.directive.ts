@@ -85,7 +85,8 @@ export class WorkPackageInlineCreateController {
       wp.schema = resource.schema;
       wp.form = this.$q.when(resource);
 
-      _this.rows.push({ level: 0, ancestors: [], object: wp, parent: undefined });
+      this.rows.push({ level: 0, ancestors: [], object: wp, parent: undefined });
+    });
   }
 }
 
