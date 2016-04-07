@@ -25,12 +25,54 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-class DemoDataSeeder < CompositeSeeder
+class CompositeSeeder < Seeder
+  def seed_data!
+    data_seeders.each do |seeder|
+      puts " ↳ #{seeder.class.name.demodulize}"
+      seeder.seed!
+    end
+
+    return if discovered_seeders.empty?
+
+    puts "   Loading discovered seeders: "
+    discovered_seeders.each do |seeder|
+      puts " ↳ #{seeder.class.name.demodulize}"
+      seeder.seed!
+    end
+  end
+
+  def data_seeders
+    data_seeder_classes.map(&:new)
+  end
+
   def data_seeder_classes
-    [DemoData::ProjectSeeder]
+    raise NotImplementedError, 'has to be implemented by subclasses'
+  end
+
+  def discovered_seeders
+    discovered_seeder_classes.map(&:new)
+  end
+
+  ##
+  # Discovered seeders defined outside of the core (i.e. in plugins).
+  #
+  # Seeders defined in the core have a simple namespace, e.g. 'BasicData'
+  # or 'DemoData'. Plugins must define their seeders in their own namespace,
+  # e.g. 'BasicData::Documents' in order to avoid name conflicts.
+  def discovered_seeder_classes
+    Seeder
+      .subclasses
+      .reject { |cl| cl.namespace_name == namespace }
+      .select { |cl| include_discovered_class? cl }
   end
 
   def namespace
-    'DemoData'
+    raise NotImplementedError, 'has to be implemented by subclasses'
+  end
+
+  ##
+  # Accepts plugin seeders, e.g. 'BasicData::Documents'.
+  def include_discovered_class?(discovered_class)
+    discovered_class.name =~ /^#{namespace}::/
   end
 end

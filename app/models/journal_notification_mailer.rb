@@ -39,6 +39,7 @@ class JournalNotificationMailer
 
     def handle_work_package_journal(journal)
       return nil unless send_notification? journal
+      return nil unless ::UserMailer.perform_deliveries
 
       aggregated = find_aggregated_journal_for(journal)
 

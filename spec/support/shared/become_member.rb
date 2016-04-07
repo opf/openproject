@@ -34,13 +34,14 @@ module BecomeMember
 
   module InstanceMethods
     def become_member_with_permissions(project, user, permissions = [])
-      permissions = Array(permissions)
+      role = FactoryGirl.create :role, permissions: Array(permissions)
 
-      role = FactoryGirl.create(:role, permissions: permissions)
+      add_user_to_project! user: user, project: project, role: role
+    end
 
-      member = FactoryGirl.build(:member, principal: user, project: project)
-      member.roles = [role]
-      member.save!
+    def add_user_to_project!(user:, project:, role: nil, permissions: nil)
+      role ||= FactoryGirl.create :existing_role, permissions: Array(permissions)
+      FactoryGirl.create :member, principal: user, project: project, roles: [role]
     end
   end
 end

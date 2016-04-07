@@ -45,5 +45,16 @@ FactoryGirl.define do
       assignable false
       initialize_with { Role.find_or_create_by(name: name) }
     end
+
+    factory :existing_role do
+      name { 'Role with ' + permissions.map(&:to_s).join('/') }
+      assignable true
+      permissions []
+
+      initialize_with do
+        Role.find_or_create_by(
+          name: name, assignable: assignable, permissions: permissions)
+      end
+    end
   end
 end

@@ -343,12 +343,12 @@ class UserMailer < BaseMailer
   def mail_for_author(author, headers = {}, &block)
     message = mail headers, &block
 
-    remove_self_notifications(message, author)
+    self.class.remove_self_notifications(message, author)
 
     message
   end
 
-  def remove_self_notifications(message, author)
+  def self.remove_self_notifications(message, author)
     if author.pref && author.pref[:no_self_notified]
       message.to = message.to.reject { |address| address == author.mail } if message.to.present?
     end

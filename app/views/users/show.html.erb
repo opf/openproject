@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :header_tags do %>
   <%= call_hook :users_show_head %>
 <% end %>
-
+<% html_title l(:label_administration), l(:label_user_plural) -%>
 <%= toolbar title: "#{avatar @user} #{h(@user.name)}".html_safe do %>
   <% if User.current.admin? %>
     <li class="toolbar-item">

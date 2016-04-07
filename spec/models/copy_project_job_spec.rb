@@ -33,6 +33,11 @@ describe CopyProjectJob, type: :model do
   let(:user) { FactoryGirl.create(:user) }
   let(:role) { FactoryGirl.create(:role, permissions: [:copy_projects]) }
   let(:params) { { name: 'Copy', identifier: 'copy' } }
+  let(:maildouble) { double('Mail::Message', deliver: true) }
+
+  before do
+    allow(maildouble).to receive(:deliver_now).and_return nil
+  end
 
   describe 'copy localizes error message' do
     let(:user_de) { FactoryGirl.create(:admin, language: :de) }
@@ -52,7 +57,7 @@ describe CopyProjectJob, type: :model do
       # (see https://github.com/collectiveidea/delayed_job#rails-3-mailers).
       # Thus, we need to return a message object here, otherwise 'Delayed Job'
       # will complain about an object without a method #deliver.
-      allow(UserMailer).to receive(:copy_project_failed).and_return(double('Mail::Message', deliver: true))
+      allow(UserMailer).to receive(:copy_project_failed).and_return(maildouble)
     end
 
     it 'sets locale correctly' do
@@ -97,7 +102,7 @@ describe CopyProjectJob, type: :model do
       # (see https://github.com/collectiveidea/delayed_job#rails-3-mailers).
       # Thus, we need to return a message object here, otherwise 'Delayed Job'
       # will complain about an object without a method #deliver.
-      allow(UserMailer).to receive(:copy_project_succeeded).and_return(double('Mail::Message', deliver: true))
+      allow(UserMailer).to receive(:copy_project_succeeded).and_return(maildouble)
 
       @copied_project, @errors = copy_job.send(:create_project_copy,
                                                source_project,
@@ -138,7 +143,7 @@ describe CopyProjectJob, type: :model do
       let(:subproject) { FactoryGirl.create(:project, parent: project) }
 
       describe 'invalid parent' do
-        before do expect(UserMailer).to receive(:copy_project_failed).and_return(double('mailer', deliver: true)) end
+        before do expect(UserMailer).to receive(:copy_project_failed).and_return(maildouble) end
 
         include_context 'copy project' do
           let(:project_to_copy) { subproject }
@@ -157,7 +162,7 @@ describe CopyProjectJob, type: :model do
         }
 
         before do
-          expect(UserMailer).to receive(:copy_project_succeeded).and_return(double('mailer', deliver: true))
+          expect(UserMailer).to receive(:copy_project_succeeded).and_return(maildouble)
 
           member_add_subproject
         end

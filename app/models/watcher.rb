@@ -76,6 +76,10 @@ class Watcher < ActiveRecord::Base
         next unless watcher.watchable.respond_to?(:project) && watcher.watchable.project == options[:project]
       end
 
+      if options.has_key?(:project_id)
+        next unless watcher.watchable.respond_to?(:project_id) && watcher.watchable.project_id == options[:project_id]
+      end
+
       if watcher.watchable.respond_to?(:visible?)
         unless watcher.watchable.visible?(user)
           watcher.destroy
