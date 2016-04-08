@@ -102,6 +102,9 @@
 
             wp-edit-form="row.object">
 
+          <td wp-edit-field ng-repeat="field in fields" name="field.name"></td>
+
+
           <td class="checkbox -short hide-when-print">
             <accessible-checkbox name="ids[]"
                                  checkbox-id="work_package{{row.object.id}}"
