@@ -44,6 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% if User.current.impaired? && accessibility_css_enabled? %>
       <%= stylesheet_link_tag 'accessibility' %>
     <% end %>
+
     <%= javascript_include_tag 'application' %>
     <!-- user specific tags -->
     <%= user_specific_javascript_includes %>
@@ -66,8 +67,9 @@ See doc/COPYRIGHT.rdoc for more details.
     </noscript>
     <% main_menu = render_main_menu(@project) %>
     <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
-    <div id="wrapper" class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>"
-  ng-class="{ 'hidden-navigation': !showNavigation }">
+    <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
+    <div id="wrapper" style="<%= initial_menu_styles %>" class="<%= initial_classes %>"
+         ng-class="{ 'hidden-navigation': !showNavigation }">
       <% if show_decoration %>
         <div id="top-menu">
           <div id="header">
@@ -87,7 +89,7 @@ See doc/COPYRIGHT.rdoc for more details.
           </div>
         </div>
       <% end %>
-      <div id="main" class="<%= side_displayed ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>">
+      <div id="main" class="<%= initial_classes %>">
         <% if (side_displayed && show_decoration) %>
           <div id="main-menu" ng-controller="MainMenuController as mainMenu">
             <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
@@ -109,29 +111,46 @@ See doc/COPYRIGHT.rdoc for more details.
           </div>
         <% end %>
         <% if show_decoration %>
-          <div id="breadcrumb" class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>"
-        ng-class="{ 'hidden-navigation': !showNavigation }">
+          <div id="breadcrumb" class="<%= initial_classes %>"
+               ng-class="{ 'hidden-navigation': !showNavigation }">
             <%= you_are_here_info %>
             <%= full_breadcrumb %>
-
             <%= call_hook :view_layouts_base_breadcrumb %>
           </div>
         <% end %>
         <%= render_flash_messages %>
-        <div class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>" id="content"
-      ng-class="{ 'hidden-navigation': !showNavigation }">
+        <notifications></notifications>
+        <div id="content" class="<%= initial_classes %>"
+             ng-class="{ 'hidden-navigation': !showNavigation }">
           <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
-          <notifications></notifications>
-          <!-- Action menu -->
-          <%= render partial: 'layouts/action_menu' %>
-          <%= yield %>
+          <%= content_for :content_body %>
+          <% unless local_assigns[:no_action_menu] %>
+            <!-- Action menu -->
+            <%= render partial: 'layouts/action_menu' %>
+            <%= yield %>
+          <% end %>
           <%= call_hook :view_layouts_base_content %>
-          <div style="clear:both;">&nbsp;</div>
+          <% unless local_assigns[:no_action_menu] %>
+            <div style="clear:both;">&nbsp;</div>
+          <% end %>
         </div>
-        <div style="clear:both;">&nbsp;</div>
+        <% unless local_assigns[:no_action_menu] %>
+          <div style="clear:both;">&nbsp;</div>
+        <% end %>
       </div>
       <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
     </div>
+    <%# Properly decides main menu expanded state before its drawn. Fixes flickering side menu
+        where menu is first expanded, then being collapsed in angular. %>
+    <%= javascript_tag do %>
+    (function($) {
+      var wrapper = $('#wrapper');
+      if (window.sessionStorage.getItem('openproject:navigation-toggle') === 'collapsed') {
+        $('.can-hide-navigation').addClass('hidden-navigation');
+      }
+      wrapper.show();
+    }(jQuery));
+    <% end %>
     <% if (show_decoration) %>
       <div id="footer">
         <div class="footer-content">

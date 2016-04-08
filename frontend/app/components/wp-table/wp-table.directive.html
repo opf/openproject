@@ -96,7 +96,8 @@
               row.checked && 'context-menu-selection',
               !row.object['leaf?'] && 'parent' || '',
               row.level > 0 && 'child idnt' || '',
-              row.level > 0 && ('idnt-' + row.level) || ''
+              row.level > 0 && ('idnt-' + row.level) || '',
+              row.object.isNew && '-new' || '',
             ]"
             ng-show="!groupByColumn || groupExpanded[row.groupName]"
 
@@ -159,20 +160,17 @@
             </td>
         </tr>
 
-        <tr wp-inline-create-row></tr>
-      </tbody>
-      <tfoot>
         <!-- Inline create button -->
         <tr id="wp-inline-create-button">
           <!--  Add 2 to the colspan attr because of the id and the checkbox columns  -->
-          <td colspan="{{ columns.length + 2 }}">
-            <wp-inline-create-button
-                project-identifier="projectIdentifier"
-                rows="rows"
-            ></wp-inline-create-button>
-          </td>
+          <td colspan="{{ columns.length + 2 }}"
+              wp-inline-create-button
+              project-identifier="projectIdentifier"
+              rows="rows"
+          ></td>
         </tr>
-
+      </tbody>
+      <tfoot>
         <!-- Total sums -->
 
         <tr ng-if="sumsLoaded()"
@@ -190,7 +188,6 @@
             </wp-td>
           </td>
         </tr>
-
       </tfoot>
     </table>
     <div class="generic-table--header-background"></div>

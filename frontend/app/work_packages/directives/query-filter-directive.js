@@ -80,8 +80,9 @@ module.exports = function(
 
       scope.$watch('filter', function(filter, oldFilter) {
         var isEmptyText = filter.type === 'text' && filter.textValue === undefined;
+        var isEmptySelect = filter.type === 'list_status' && filter.values && filter.values[0] === 'undefined';
 
-        if (filter !== oldFilter) {
+        if (filter !== oldFilter && !isEmptySelect) {
           if ((isEmptyText || filter.isConfigured())
               && (filterChanged(filter, oldFilter) || valueReset(filter, oldFilter))) {
 

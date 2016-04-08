@@ -25,118 +25,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See doc/COPYRIGHT.rdoc for more details.
 
-++#%><!DOCTYPE html>
-<% show_decoration = params["layout"].nil? %>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= I18n.locale.to_s %>" xml:lang="<%= I18n.locale.to_s %>" class="<%= 'in_modal' unless show_decoration %>">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title><%= html_title %></title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="description" content="<%= OpenProject::Info.app_name %>" />
-    <meta name="keywords" content="issue,bug,type" />
-    <meta name="app_base_path" content="<%= OpenProject::Configuration['rails_relative_url_root'] || '' %>" />
-    <base href="<%= OpenProject::Configuration['rails_relative_url_root'] || '' %>/" />
-    <meta name="current_menu_item" content="<%= current_menu_item %>" />
-    <meta name="accessibility-mode" content="<%= current_user.impaired? %>" />
-    <%= csrf_meta_tags %>
-    <%= favicon_link_tag 'favicon.ico' %>
-    <%= stylesheet_link_tag current_theme.stylesheet_manifest, media: "all" %>
-    <% if User.current.impaired? && accessibility_css_enabled? %>
-      <%= stylesheet_link_tag 'accessibility' %>
-    <% end %>
-    <%= include_gon %>
-    <%= javascript_include_tag 'application' %>
-    <!-- plug-in specific tags -->
-    <%= call_hook :view_work_package_overview_attributes %>
-    <!-- user specific tags -->
-    <%= user_specific_javascript_includes %>
-    <!-- project specific tags -->
-    <%= call_hook :view_layouts_base_html_head %>
-    <!-- page specific tags -->
-    <%= content_for(:header_tags) if content_for?(:header_tags) %>
-  </head>
-  <body class="<%= body_css_classes %>" ng-app="openproject" data-relative_url_root="<%= root_path %>" ng-init="projectIdentifier = '<%= (@project.identifier rescue '') %>'">
-    <noscript>
-      <div class="top-shelf icon icon-warning">
-        <h1><%=l(:noscript_heading)%></h1>
-        <p>
-          <%=l(:noscript_description)%>
-        </p>
-        <h2>
-          <a href="http://www.enable-javascript.com/" target="_blank"><%=l(:noscript_learn_more) %></a>
-        </h2>
-      </div>
-    </noscript>
-    <% main_menu = render_main_menu(@project) %>
-    <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
-    <div id="wrapper" class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>"
-  ng-class="{ 'hidden-navigation': !showNavigation }">
-      <% if show_decoration %>
-        <div id="top-menu">
-          <div id="header">
-            <div id="logo">
-              <%= link_to(I18n.t('label_home'), home_url, class: 'home-link') %>
-            </div>
-            <div id="top-menu-items">
-              <%= render_top_menu_left %>
-              <div class="top-menu-items-right">
-                <%= render partial: 'search/mini_form' %>
-                <h1 class="hidden-for-sighted">
-                  <%= l(:label_top_menu) %>
-                </h1>
-                <%= render_top_menu_right %>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
-      <div id="main" class="<%= side_displayed ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>">
-        <% if (side_displayed && show_decoration) %>
-          <div id="main-menu" ng-controller="MainMenuController as mainMenu">
-            <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
-            <div id="toggle-project-menu"
-          ng-class="{ 'show': !showNavigation }">
-              <a href="javascript:;" title="<%= l(:show_hide_project_menu) %>"
-            ng-click="mainMenu.toggleNavigation()"
-            class="navigation-toggler icon4 icon-double-arrow-left"></a>
-            </div>
-            <div id="menu-sidebar">
-              <%= main_menu %>
-              <%= content_for :main_menu %>
-              <!-- Sidebar -->
-              <div id="sidebar">
-                <%= content_for :sidebar %>
-                <%= call_hook :view_layouts_base_sidebar %>
-              </div>
-            </div>
-          </div>
-        <% end %>
-        <% if show_decoration %>
-          <div id="breadcrumb" class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>"
-        ng-class="{ 'hidden-navigation': !showNavigation }">
-            <%= you_are_here_info %>
-            <%= full_breadcrumb %>
-            <%= call_hook :view_layouts_base_breadcrumb %>
-          </div>
-        <% end %>
-        <%= render_flash_messages %>
-        <notifications></notifications>
-        <div class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>" id="content"
-      ng-class="{ 'hidden-navigation': !showNavigation }">
-          <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
-          <div ui-view></div>
-          <%= call_hook :view_layouts_base_content %>
-        </div>
-      </div>
-      <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
-    </div>
-    <% if (show_decoration) %>
-      <div id="footer">
-        <div class="footer-content">
-          <%= footer_content %>
-        </div>
-      </div>
-    <% end %>
-    <%= call_hook :view_layouts_base_body_bottom %>
-  </body>
-</html>
+++#%>
+
+<%= content_for :header_tags do %>
+  <%= include_gon %>
+  <!-- plug-in specific tags -->
+  <%= call_hook :view_work_package_overview_attributes %>
+<% end -%>
+
+<%= content_for :content_body do %>
+  <div ui-view></div>
+<% end -%>
+
+<%= render template: 'layouts/base', locals: { no_action_menu: true } %>
