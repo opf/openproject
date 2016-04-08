@@ -47,4 +47,44 @@ describe 'adding a new budget', type: :feature, js: true do
     expect(page).to have_content "Successful creation"
     expect(page).to have_content "My subject"
   end
+
+  context 'with cost items' do
+    let(:cost_type) do
+      FactoryGirl.create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
+    end
+
+    let(:new_budget_page) { Pages::NewBudget.new project.identifier }
+
+    before do
+      project.add_member! user, FactoryGirl.create(:role)
+
+      FactoryGirl.create :cost_rate, cost_type: cost_type, rate: 50.0
+      FactoryGirl.create :default_hourly_rate, user: user, rate: 25.0
+    end
+
+    it 'creates the budget including the given cost items' do
+      new_budget_page.visit!
+
+      fill_in 'Subject', with: 'First Aid'
+
+      new_budget_page.add_unit_costs! 3, comment: 'RadAway'
+      new_budget_page.add_unit_costs! 2, comment: 'Rad-X'
+
+      new_budget_page.add_labor_costs! 5, user_name: user.name, comment: 'treatment'
+      new_budget_page.add_labor_costs! 2, user_name: user.name, comment: 'attendance'
+
+      click_on 'Create'
+      expect(page).to have_content('Successful creation')
+
+      new_budget_page.toggle_unit_costs!
+      expect(new_budget_page.unit_costs_at(1)).to have_content '150.00 EUR'
+      expect(new_budget_page.unit_costs_at(2)).to have_content '100.00 EUR'
+      expect(new_budget_page.overall_unit_costs).to have_content '250.00 EUR'
+
+      new_budget_page.toggle_labor_costs!
+      expect(new_budget_page.labor_costs_at(1)).to have_content '125.00 EUR'
+      expect(new_budget_page.labor_costs_at(2)).to have_content '50.00 EUR'
+      expect(new_budget_page.overall_labor_costs).to have_content '175.00 EUR'
+    end
+  end
 end
