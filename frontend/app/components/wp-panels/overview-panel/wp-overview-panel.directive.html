@@ -1,5 +1,4 @@
 
-<!--
 <div wp-edit-form="$ctrl.workPackage">
 
   <div ng-repeat="column in columns"
@@ -20,7 +19,19 @@
 
 </div>
 
--->
 
-{{$ctrl.workPackage.subject}}
+<!--{{$ctrl.workPackage.subject}}-->
+
+
+<wp-edit displayAs="tr"></wp-edit>
+
+<!-- ____________________________________________________________ -->
+
+<tr ng-show="displayAsTr">
+  aaa
+</tr>
+
+<div ng-show="displayAsDiv">
+  aaa
+</div>
 

@@ -37,6 +37,7 @@ export class OverviewPanelController {
     constructor($scope: IScope, $stateParams: any, private wpCacheService: WorkPackageCacheService) {
         const wpId = parseInt($stateParams.workPackageId);
         wpCacheService.loadWorkPackage(wpId).subscribe(wp => {
+            console.log("work package erhalten");
             this.workPackage = wp;
         });
     }

@@ -39,6 +39,7 @@ export class WorkPackageCacheService {
     }
 
     setWorkPackageList(list: WorkPackage[]) {
+        console.log("setWorkPackageList()");
         this.workPackagesSubject.onNext(list);
     }
 
