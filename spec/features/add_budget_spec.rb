@@ -53,6 +53,8 @@ describe 'adding a new budget', type: :feature, js: true do
       FactoryGirl.create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
     end
 
+    let(:new_budget_page) { Pages::NewBudget.new project.identifier }
+
     before do
       project.add_member! user, FactoryGirl.create(:role)
 
@@ -61,53 +63,28 @@ describe 'adding a new budget', type: :feature, js: true do
     end
 
     it 'creates the budget including the given cost items' do
-      visit new_projects_cost_object_path(project)
+      new_budget_page.visit!
 
       fill_in 'Subject', with: 'First Aid'
 
-      mat_id = 'cost_object_new_material_budget_item_attributes'
-      fill_in "#{mat_id}_0_units", with: 3
-      fill_in "#{mat_id}_0_comments", with: 'RadAway'
+      new_budget_page.add_unit_costs! 3, comment: 'RadAway'
+      new_budget_page.add_unit_costs! 2, comment: 'Rad-X'
 
-      within('#material_budget_items_fieldset') do
-        find('a', text: 'Add planned costs').native.send_keys(:return)
-      end
-
-      fill_in "#{mat_id}_1_units", with: 2
-      fill_in "#{mat_id}_1_comments", with: 'Rad-X'
-
-      lab_id = 'cost_object_new_labor_budget_item_attributes'
-      fill_in "#{lab_id}_0_hours", with: 5
-      select user.name, from: "#{lab_id}_0_user_id"
-      fill_in "#{lab_id}_0_comments", with: 'treatment'
-
-      within('#labor_budget_items_fieldset') do
-        find('a', text: 'Add planned costs').native.send_keys(:return)
-      end
-
-      fill_in "#{lab_id}_1_hours", with: 2
-      select user.name, from: "#{lab_id}_1_user_id"
-      fill_in "#{lab_id}_1_comments", with: 'attendance'
+      new_budget_page.add_labor_costs! 5, user_name: user.name, comment: 'treatment'
+      new_budget_page.add_labor_costs! 2, user_name: user.name, comment: 'attendance'
 
       click_on 'Create'
-
-      units = find('fieldset', text: 'UNITS')
-      units.click
-
       expect(page).to have_content('Successful creation')
 
-      div = find('h4', text: 'Planned unit costs').find(:xpath, '..')
-      currency = div.first('tbody td.currency')
-      expect(currency).to have_content('150.00 EUR')
-      expect(div.all('tbody td.currency').last).to have_content('100.00 EUR')
-      expect(div.first('tfoot td.currency')).to have_content('250.00 EUR')
+      new_budget_page.toggle_unit_costs!
+      expect(new_budget_page.unit_costs_at(1)).to have_content '150.00 EUR'
+      expect(new_budget_page.unit_costs_at(2)).to have_content '100.00 EUR'
+      expect(new_budget_page.overall_unit_costs).to have_content '250.00 EUR'
 
-      find('fieldset', text: 'LABOR').click
-
-      labor = find('h4', text: 'Planned labor costs').find(:xpath, '..')
-      expect(labor.first('tbody td.currency')).to have_content('125.00 EUR')
-      expect(labor.all('tbody td.currency').last).to have_content('50.00 EUR')
-      expect(labor.first('tfoot td.currency')).to have_content('175.00 EUR')
+      new_budget_page.toggle_labor_costs!
+      expect(new_budget_page.labor_costs_at(1)).to have_content '125.00 EUR'
+      expect(new_budget_page.labor_costs_at(2)).to have_content '50.00 EUR'
+      expect(new_budget_page.overall_labor_costs).to have_content '175.00 EUR'
     end
   end
 end
