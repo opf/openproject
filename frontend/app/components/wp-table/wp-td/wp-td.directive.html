@@ -12,7 +12,8 @@
   </span>
 
   <span ng-switch-default
-    title="{{ vm.displayText }}">
+    title="{{ vm.displayText }}"
+    ng-class="{ 'work-package--placeholder' : vm.displayText == '-' }">
     {{ vm.displayText }}
   </span>
 </span>
