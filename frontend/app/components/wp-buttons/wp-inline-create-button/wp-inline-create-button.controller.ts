@@ -30,6 +30,34 @@ import {wpButtonsModule} from '../../../angular-modules';
 import WorkPackageCreateButtonController from '../wp-create-button/wp-create-button.controller';
 
 class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonController {
+  public columns:any[];
+  public rows:any[];
+  public hidden:boolean = false;
+
+  constructor(
+    protected $state,
+    protected I18n,
+    protected ProjectService,
+    protected WorkPackageResource,
+    protected apiWorkPackages
+  ) {
+    super($state, I18n, ProjectService);
+  }
+
+  public addWorkPackageRow() {
+    this.WorkPackageResource.fromCreateForm(this.projectIdentifier).then(wp => {
+      this.rows.push({ level: 0, ancestors: [], object: wp, parent: undefined });
+      this.hide()
+    });
+  }
+
+  public hide() {
+    return this.hidden = true;
+  }
+
+  public show() {
+    return this.hidden = false;
+  }
 }
 
 wpButtonsModule.controller(
