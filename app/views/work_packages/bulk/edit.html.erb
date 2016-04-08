@@ -26,6 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
+
+<% html_title l(:label_bulk_edit_selected_work_packages) %>
 <h2><%= l(:label_bulk_edit_selected_work_packages) %></h2>
 <ul><%= @work_packages.collect {|i| content_tag('li', link_to(h("#{i.type} ##{i.id}"), work_package_path(i)) + h(": #{i.subject}")) }.join("\n").html_safe %></ul>
 <%= styled_form_tag(url_for(controller: '/work_packages/bulk', action: :update),

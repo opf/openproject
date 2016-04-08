@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: "#{t(:button_change_parent_page)}: #{@page.title}" %>
 
+<% html_title l('activerecord.models.wiki'), t(:button_change_parent_page) %>
 <%= error_messages_for 'page' %>
 
 <%= labelled_tabular_form_for @page, url: { id: @page, action: 'update_parent_page' } do |f| %>

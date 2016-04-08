@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= toolbar title: "#{l(:button_rename)} #{@original_title}" %>
-
+<% html_title l(:permission_rename_wiki_pages) %>
 <%= error_messages_for 'page' %>
 
 <%= labelled_tabular_form_for @page, url: { id: @page, action: 'rename' }, as: :page do |f| %>

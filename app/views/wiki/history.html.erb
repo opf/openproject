@@ -27,6 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= toolbar title: @page.pretty_title %>
+<% html_title l('activerecord.models.wiki'), l(:label_history) %>
 <h3><%= l(:label_history) %></h3>
 <%= form_tag({action: "diff"}, method: :get) do %>
   <div class="generic-table--container">
