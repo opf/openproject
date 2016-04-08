@@ -26,39 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpButtonsModule} from '../../../angular-modules';
+function wpInlineCreateButton() {
+  return {
+    restrict: 'AE',
+    templateUrl: '/components/wp-buttons/wp-inline-create-button/' +
+    'wp-inline-create-button.directive.html',
 
-export default class WorkPackageCreateButtonController {
-  public projectIdentifier:string;
-  public text:any;
-  public types:any;
+    scope: {
+      projectIdentifier: '=',
+      rows: '='
+    },
 
-  protected canCreate:boolean = false;
-
-  public get inProjectContext() {
-    return !!this.projectIdentifier;
-  }
-
-  constructor(protected $state, protected I18n, protected ProjectService) {
-    this.text = {
-      button: I18n.t('js.label_work_package'),
-      create: I18n.t('js.label_create_work_package')
-    };
-
-    if (this.inProjectContext) {
-      this.ProjectService.fetchProjectResource(this.projectIdentifier).then(project => {
-        this.canCreate = !!project.links.createWorkPackage;
-      });
-
-      this.ProjectService.getProject(this.projectIdentifier).then(project  => {
-        this.types = project.embedded.types;
-      });
-    }
-  }
-
-  public isDisabled() {
-    return !this.inProjectContext || !this.canCreate || this.$state.includes('**.new') || !this.types;
+    bindToController: true,
+    controllerAs: '$ctrl',
+    controller: 'WorkPackageInlineCreateButtonController'
   }
 }
 
-wpButtonsModule.controller('WorkPackageCreateButtonController', WorkPackageCreateButtonController);
+angular
+  .module('openproject.wpButtons')
+  .directive('wpInlineCreateButton', wpInlineCreateButton);
