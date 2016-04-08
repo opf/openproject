@@ -27,38 +27,10 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
+import WorkPackageCreateButtonController from '../wp-create-button/wp-create-button.controller';
 
-export default class WorkPackageCreateButtonController {
-  public projectIdentifier:string;
-  public text:any;
-  public types:any;
-
-  protected canCreate:boolean = false;
-
-  public get inProjectContext() {
-    return !!this.projectIdentifier;
-  }
-
-  constructor(protected $state, protected I18n, protected ProjectService) {
-    this.text = {
-      button: I18n.t('js.label_work_package'),
-      create: I18n.t('js.label_create_work_package')
-    };
-
-    if (this.inProjectContext) {
-      this.ProjectService.fetchProjectResource(this.projectIdentifier).then(project => {
-        this.canCreate = !!project.links.createWorkPackage;
-      });
-
-      this.ProjectService.getProject(this.projectIdentifier).then(project  => {
-        this.types = project.embedded.types;
-      });
-    }
-  }
-
-  public isDisabled() {
-    return !this.inProjectContext || !this.canCreate || this.$state.includes('**.new') || !this.types;
-  }
+class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonController {
 }
 
-wpButtonsModule.controller('WorkPackageCreateButtonController', WorkPackageCreateButtonController);
+wpButtonsModule.controller(
+  'WorkPackageInlineCreateButtonController', WorkPackageInlineCreateButtonController);
