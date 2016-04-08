@@ -26,42 +26,43 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {wpEditModule} from '../../../angular-modules';
+
 import {WorkPackageEditFieldService} from "./wp-edit-field.service";
 import {Field} from "./wp-edit-field.module";
-import {TextField} from "./wp-edit-text-field.module";
-import {IntegerField} from "./wp-edit-integer-field.module";
-import {DurationField} from "./wp-edit-duration-field.module";
-import {SelectField} from "./wp-edit-select-field.module";
-import {FloatField} from "./wp-edit-float-field.module";
-import {BooleanField} from "./wp-edit-boolean-field.module";
-import {DateField} from "./wp-edit-date-field.module";
+import {TextField} from "../field-types/wp-edit-text-field.module";
+import {IntegerField} from "../field-types/wp-edit-integer-field.module";
+import {DurationField} from "../field-types/wp-edit-duration-field.module";
+import {SelectField} from "../field-types/wp-edit-select-field.module";
+import {FloatField} from "../field-types/wp-edit-float-field.module";
+import {BooleanField} from "../field-types/wp-edit-boolean-field.module";
+import {DateField} from "../field-types/wp-edit-date-field.module";
 
 //TODO: Implement
-class DateRangeField extends Field {}
+class DateRangeField extends Field {
+}
 
 //TODO: Implement
-class TextareaField extends Field {}
+class TextareaField extends Field {
+}
 
-//TODO: See file wp-field.service.js:getInplaceEditStrategy for more eventual classes
-
-angular
-  .module('openproject')
-  .run((wpEditField:WorkPackageEditFieldService) => {
-    wpEditField.defaultType = 'text';
-    wpEditField
-      .addFieldType(TextField, 'text', ['String'])
-      .addFieldType(IntegerField, 'integer', ['Integer'])
-      .addFieldType(DurationField, 'duration', ['Duration'])
-      .addFieldType(SelectField, 'select', ['Priority',
-                                            'Status',
-                                            'Type',
-                                            'User',
-                                            'Version',
-                                            'Category',
-                                            'StringObject',
-                                            'Project'])
-      .addFieldType(FloatField, 'float', ['Float'])
-      .addFieldType(IntegerField, 'integer', ['Integer'])
-      .addFieldType(BooleanField, 'boolean', ['Boolean'])
-      .addFieldType(DateField, 'date', ['Date']);
-  });
+wpEditModule.run((wpEditField:WorkPackageEditFieldService) => {
+  wpEditField.defaultType = 'text';
+  wpEditField
+    .addFieldType(TextField, 'text', ['String'])
+    .addFieldType(IntegerField, 'integer', ['Integer'])
+    .addFieldType(DurationField, 'duration', ['Duration'])
+    .addFieldType(SelectField, 'select', [
+      'Priority',
+      'Status',
+      'Type',
+      'User',
+      'Version',
+      'Category',
+      'StringObject',
+      'Project'])
+    .addFieldType(FloatField, 'float', ['Float'])
+    .addFieldType(IntegerField, 'integer', ['Integer'])
+    .addFieldType(BooleanField, 'boolean', ['Boolean'])
+    .addFieldType(DateField, 'date', ['Date']);
+});

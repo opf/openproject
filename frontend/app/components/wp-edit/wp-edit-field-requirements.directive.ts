@@ -26,14 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {wpEditModule} from '../../angular-modules';
+
 interface wpEditFieldScope extends ng.IScope {
   schema: any;
 }
 
-function wpEditFieldRequirementsLink(scope:wpEditFieldScope,
-                         element:ng.IAugmentedJQuery,
-                         attrs:ng.IAttributes) {
-
+function wpEditFieldRequirementsLink(scope:wpEditFieldScope, element:ng.IAugmentedJQuery) {
   // if we are to add additional html5 constraints on the input
   // we can add those here.
   if (scope.schema.required) {
@@ -56,7 +55,4 @@ function wpEditFieldRequirements() {
   };
 }
 
-//TODO: Use 'openproject.wpEdit' module
-angular
-  .module('openproject')
-  .directive('wpEditFieldRequirements', wpEditFieldRequirements);
+wpEditModule.directive('wpEditFieldRequirements', wpEditFieldRequirements);

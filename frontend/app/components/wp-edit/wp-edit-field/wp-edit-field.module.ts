@@ -52,7 +52,6 @@ export class FieldFactory {
   public static defaultType:string;
 
   protected static fields = {};
-
   protected static classes: {[type:string]: typeof Field} = {};
 
   public static register(fieldClass: typeof Field, fields:string[] = []) {

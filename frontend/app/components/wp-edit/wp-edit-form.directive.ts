@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {wpEditModule} from '../../angular-modules';
+
 export class WorkPackageEditFormController {
   public workPackage;
   public fields = {};
@@ -103,7 +105,4 @@ function wpEditForm() {
   };
 }
 
-//TODO: Use 'openproject.wpEdit' module
-angular
-  .module('openproject')
-  .directive('wpEditForm', wpEditForm);
+wpEditModule.directive('wpEditForm', wpEditForm);

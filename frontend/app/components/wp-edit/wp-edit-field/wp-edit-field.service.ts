@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {wpEditModule} from '../../../angular-modules';
 import {FieldFactory} from './wp-edit-field.module';
 import {Field} from "./wp-edit-field.module";
 
@@ -54,7 +55,4 @@ export class WorkPackageEditFieldService {
   }
 }
 
-//TODO: Use 'wpEdit' module
-angular
-  .module('openproject')
-  .service('wpEditField', WorkPackageEditFieldService);
+wpEditModule.service('wpEditField', WorkPackageEditFieldService);
