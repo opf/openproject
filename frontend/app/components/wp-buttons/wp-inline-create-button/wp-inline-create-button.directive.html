@@ -1,0 +1,13 @@
+<div
+    class="wp-inline-create-button"
+    ng-hide="$ctrl.hidden || $ctrl.isDisabled() || !$ctrl.canCreate">
+  <button class="button wp-inline-create--add-link"
+          ng-click="$ctrl.addWorkPackageRow()"
+          ng-disabled="$ctrl.isDisabled()"
+          aria-label="{{ ::$ctrl.text.create }}"
+          aria-haspopup="true">
+
+    <i class="button--icon icon-add"></i>
+    <span class="button--text" ng-bind="::$ctrl.text.button" aria-hidden="true"></span>
+  </button>
+</div>

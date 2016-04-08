@@ -27,55 +27,38 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
-import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
+import WorkPackageCreateButtonController from '../wp-create-button/wp-create-button.controller';
 
-export class WorkPackageListViewButtonController extends WorkPackageNavigationButtonController {
-  public projectIdentifier:number;
-  public editAll:any;
+class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonController {
+  public columns:any[];
+  public rows:any[];
+  public hidden:boolean = false;
 
-  public accessKey:number = 8;
-  public activeState:string = 'work-packages.list';
-  public labelKey:string = 'js.button_list_view';
-  public buttonId:string = 'work-packages-list-view-button';
-  public iconClass:string = 'icon-view-list';
-
-  constructor(public $state:ng.ui.IStateService, public I18n) {
-    'ngInject';
-
-    super($state, I18n);
+  constructor(
+    protected $state,
+    protected I18n,
+    protected ProjectService,
+    protected WorkPackageResource,
+    protected apiWorkPackages
+  ) {
+    super($state, I18n, ProjectService);
   }
 
-  public isActive() {
-    return this.$state.is(this.activeState);
+  public addWorkPackageRow() {
+    this.WorkPackageResource.fromCreateForm(this.projectIdentifier).then(wp => {
+      this.rows.push({ level: 0, ancestors: [], object: wp, parent: undefined });
+      this.hide()
+    });
   }
 
-  public get disabled() {
-    return !!this.editAll.state;
+  public hide() {
+    return this.hidden = true;
   }
 
-  public performAction() {
-    this.openListView();
-  }
-
-  public openListView() {
-    var params = {
-      projectPath: this.projectIdentifier
-    };
-
-    angular.extend(params, this.$state.params);
-    this.$state.go(this.activeState, params);
+  public show() {
+    return this.hidden = false;
   }
 }
 
-function wpListViewButton():ng.IDirective {
-  return wpButtonDirective({
-    scope: {
-      projectIdentifier: '=',
-      editAll: '='
-    },
-
-    controller: WorkPackageListViewButtonController,
-  });
-}
-
-wpButtonsModule.directive('wpListViewButton', wpListViewButton);
+wpButtonsModule.controller(
+  'WorkPackageInlineCreateButtonController', WorkPackageInlineCreateButtonController);

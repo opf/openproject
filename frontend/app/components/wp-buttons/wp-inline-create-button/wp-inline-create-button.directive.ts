@@ -26,56 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpButtonsModule} from '../../../angular-modules';
-import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
+function wpInlineCreateButton() {
+  return {
+    restrict: 'AE',
+    templateUrl: '/components/wp-buttons/wp-inline-create-button/' +
+    'wp-inline-create-button.directive.html',
 
-export class WorkPackageListViewButtonController extends WorkPackageNavigationButtonController {
-  public projectIdentifier:number;
-  public editAll:any;
-
-  public accessKey:number = 8;
-  public activeState:string = 'work-packages.list';
-  public labelKey:string = 'js.button_list_view';
-  public buttonId:string = 'work-packages-list-view-button';
-  public iconClass:string = 'icon-view-list';
-
-  constructor(public $state:ng.ui.IStateService, public I18n) {
-    'ngInject';
-
-    super($state, I18n);
-  }
-
-  public isActive() {
-    return this.$state.is(this.activeState);
-  }
-
-  public get disabled() {
-    return !!this.editAll.state;
-  }
-
-  public performAction() {
-    this.openListView();
-  }
-
-  public openListView() {
-    var params = {
-      projectPath: this.projectIdentifier
-    };
-
-    angular.extend(params, this.$state.params);
-    this.$state.go(this.activeState, params);
-  }
-}
-
-function wpListViewButton():ng.IDirective {
-  return wpButtonDirective({
     scope: {
       projectIdentifier: '=',
-      editAll: '='
+      rows: '=',
+      columns: '='
     },
 
-    controller: WorkPackageListViewButtonController,
-  });
+    bindToController: true,
+    controllerAs: '$ctrl',
+    controller: 'WorkPackageInlineCreateButtonController'
+  }
 }
 
-wpButtonsModule.directive('wpListViewButton', wpListViewButton);
+angular
+  .module('openproject.wpButtons')
+  .directive('wpInlineCreateButton', wpInlineCreateButton);

@@ -83,7 +83,11 @@ declare module restangular {
   interface IService extends ICustom, IProvider {
     one(route: string, id?: number): IElement;
     one(route: string, id?: string): IElement;
+    getList(queryParams?: any, headers?: any): ICollectionPromise<any>;
+    getList<T>(queryParams?: any, headers?: any): ICollectionPromise<T>;
+    put(queryParams?: any, headers?: any): IPromise<any>;
     oneUrl(route: string, url: string): IElement;
+    put(queryParams?: any, headers?: any): IPromise<any>;
     all(route: string): IElement;
     allUrl(route: string, url: string): IElement;
     copy(fromElement: any): IElement;

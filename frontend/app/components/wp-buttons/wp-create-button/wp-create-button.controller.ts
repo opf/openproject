@@ -27,55 +27,38 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
-import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
 
-export class WorkPackageListViewButtonController extends WorkPackageNavigationButtonController {
-  public projectIdentifier:number;
-  public editAll:any;
+export default class WorkPackageCreateButtonController {
+  public projectIdentifier:string;
+  public text:any;
+  public types:any;
 
-  public accessKey:number = 8;
-  public activeState:string = 'work-packages.list';
-  public labelKey:string = 'js.button_list_view';
-  public buttonId:string = 'work-packages-list-view-button';
-  public iconClass:string = 'icon-view-list';
+  protected canCreate:boolean = false;
 
-  constructor(public $state:ng.ui.IStateService, public I18n) {
-    'ngInject';
-
-    super($state, I18n);
+  public get inProjectContext() {
+    return !!this.projectIdentifier;
   }
 
-  public isActive() {
-    return this.$state.is(this.activeState);
-  }
-
-  public get disabled() {
-    return !!this.editAll.state;
-  }
-
-  public performAction() {
-    this.openListView();
-  }
-
-  public openListView() {
-    var params = {
-      projectPath: this.projectIdentifier
+  constructor(protected $state, protected I18n, protected ProjectService) {
+    this.text = {
+      button: I18n.t('js.label_work_package'),
+      create: I18n.t('js.label_create_work_package')
     };
 
-    angular.extend(params, this.$state.params);
-    this.$state.go(this.activeState, params);
+    if (this.inProjectContext) {
+      this.ProjectService.fetchProjectResource(this.projectIdentifier).then(project => {
+        this.canCreate = !!project.links.createWorkPackage;
+      });
+
+      this.ProjectService.getProject(this.projectIdentifier).then(project  => {
+        this.types = project.embedded.types;
+      });
+    }
+  }
+
+  public isDisabled() {
+    return !this.inProjectContext || !this.canCreate || this.$state.includes('**.new') || !this.types;
   }
 }
 
-function wpListViewButton():ng.IDirective {
-  return wpButtonDirective({
-    scope: {
-      projectIdentifier: '=',
-      editAll: '='
-    },
-
-    controller: WorkPackageListViewButtonController,
-  });
-}
-
-wpButtonsModule.directive('wpListViewButton', wpListViewButton);
+wpButtonsModule.controller('WorkPackageCreateButtonController', WorkPackageCreateButtonController);

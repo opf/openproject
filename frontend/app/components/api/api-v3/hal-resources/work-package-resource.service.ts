@@ -26,11 +26,39 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function wpResource(HalResource:typeof op.HalResource, NotificationsService:any, $q:ng.IQService) {
+function wpResource(
+  HalResource:typeof op.HalResource,
+  apiWorkPackages,
+  NotificationsService:any,
+  $q:ng.IQService
+
+) {
   class WorkPackageResource extends HalResource {
     private form;
 
-    getForm() {
+    public static fromCreateForm(projectIdentifier?:string):ng.IPromise<WorkPackageResource> {
+      var deferred = $q.defer();
+
+      apiWorkPackages.emptyCreateForm(projectIdentifier)
+      .then(resource => {
+        var wp = new WorkPackageResource(resource.payload.$source, true);
+
+        // Copy resources from form response
+        wp.schema = resource.schema;
+        wp.form = $q.when(resource);
+
+        deferred.resolve(wp);
+      })
+      .catch(deferred.reject);
+
+      return deferred.promise;
+    }
+
+    public get isNew():boolean {
+      return (this as any).id === undefined;
+    }
+
+    public getForm() {
       if (!this.form) {
         this.form = this.$links.update(this);
         this.form.catch(error => {
@@ -40,7 +68,7 @@ function wpResource(HalResource:typeof op.HalResource, NotificationsService:any,
       return this.form;
     }
 
-    getSchema() {
+    public getSchema() {
       return this.getForm().then(form => {
         const schema = form.$embedded.schema;
 
@@ -56,7 +84,7 @@ function wpResource(HalResource:typeof op.HalResource, NotificationsService:any,
       });
     }
 
-    save() {
+    public save() {
       const plain = this.$plain();
 
       delete plain.createdAt;
@@ -82,7 +110,7 @@ function wpResource(HalResource:typeof op.HalResource, NotificationsService:any,
             }
           });
 
-          return this.$links.updateImmediately(plainPayload)
+          return this.saveResource(plainPayload)
             .then(workPackage => {
               angular.extend(this, workPackage);
 
@@ -90,7 +118,13 @@ function wpResource(HalResource:typeof op.HalResource, NotificationsService:any,
             }).catch((error) => {
               deferred.reject(error);
             }).finally(() => {
-              this.form = null;
+
+              // Restore the form for subsequent saves
+              // e.g., due to changes in lockVersion.
+              // Not needed for inline create.
+              if (!this.isNew) {
+                this.form = null;
+              }
             });
         });
 
@@ -101,13 +135,21 @@ function wpResource(HalResource:typeof op.HalResource, NotificationsService:any,
       return !(this as any).children;
     }
 
-    isParentOf(otherWorkPackage) {
+    public isParentOf(otherWorkPackage) {
       return otherWorkPackage.parent.$links.self.$link.href ===
         this.$links.self.$link.href;
     }
 
     public get isEditable():boolean {
-      return !!this.$links.update;
+      return !!this.$links.update || this.isNew;
+    }
+
+    protected saveResource(payload):ng.IPromise<any> {
+      if (this.isNew) {
+        return apiWorkPackages.wpApiPath().post(payload);
+      } else {
+        return this.$links.updateImmediately(payload);
+      }
     }
   }
 

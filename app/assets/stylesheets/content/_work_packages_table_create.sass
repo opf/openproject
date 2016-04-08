@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,49 +24,35 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-angular
-  .module('openproject.workPackages')
-  .directive('wpCreateButton', wpCreateButton);
 
-function wpCreateButton() {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/work-packages/wp-create-button/wp-create-button.directive.html',
+#wp-inline-create-button
+  border-bottom: none
 
-    scope: {
-      projectIdentifier: '=',
-      stateName: '@'
-    },
+  a
+    width: 100%
+    display: block
 
-    bindToController: true,
-    controllerAs: 'vm',
-    controller: WorkPackageCreateButtonController
-  }
-}
+.wp-inline-create--add-link
+  font-weight: bold
 
-function WorkPackageCreateButtonController($state, ProjectService) {
-  var vm = this,
-      inProjectContext = !!vm.projectIdentifier,
-      canCreate= false;
+  .icon::before
+    padding-left: 7px
+    padding-right: 10px
+    font-size: 11px
 
-  vm.text = {
-    button: I18n.t('js.label_work_package'),
-    create: I18n.t('js.label_create_work_package')
-  };
+  &:hover
+    text-decoration: none
 
-  vm.isDisabled = function () {
-    return !inProjectContext || !canCreate || $state.includes('**.new') || !vm.types;
-  };
+.wp--row.-new,
+tr.context-menu-selection.-new
+  background: #BEF3CA
 
-  if (inProjectContext) {
-    ProjectService.fetchProjectResource(vm.projectIdentifier).then(function(project) {
-      canCreate = !!project.links.createWorkPackage;
-    });
+  &:hover
+    background: darken(#BEF3CA, 5%)
 
-    ProjectService.getProject(vm.projectIdentifier).then(function (project) {
-      vm.types = project.embedded.types;
-    });
-  }
-}
+  .wp-table--cell-span:hover
+    border-color: #35c53f
+
+
