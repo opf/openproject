@@ -34,7 +34,8 @@ function wpInlineCreateButton() {
 
     scope: {
       projectIdentifier: '=',
-      rows: '='
+      rows: '=',
+      columns: '='
     },
 
     bindToController: true,
