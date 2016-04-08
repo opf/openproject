@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe CreateWorkPackageService do
   let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:work_package) { FactoryGirl.build_stubbed(:work_package) }
+  let(:work_package) { FactoryGirl.build_stubbed(:work_package, author: nil) }
   let(:project) { FactoryGirl.build_stubbed(:project_with_types) }
   let(:instance) { described_class.new(user: user) }
   let(:errors) { double('errors') }
@@ -78,40 +78,29 @@ describe CreateWorkPackageService do
         .and_return true
     end
 
+    subject { instance.call(work_package) }
+
     context 'if contract validates and the work package saves' do
       it 'is successful' do
-        expect(instance.call(attributes: {}))
+        expect(subject)
           .to be_success
       end
 
       it 'has no errors' do
-        expect(instance.call(attributes: {}).errors)
+        expect(subject.errors)
           .to be_empty
       end
 
       it 'returns the work package as a result' do
-        result = instance.call(attributes: {}).result
+        result = subject.result
 
         expect(result).to be_a WorkPackage
       end
 
-      it 'assigns the attributes provided' do
-        result = instance.call(attributes: attributes).result
-
-        expect(result.project_id).to eql(attributes[:project_id])
-        expect(result.subject).to eql(attributes[:subject])
-      end
-
       it 'sets the user to be the author' do
-        result = instance.call(attributes: attributes).result
+        result = subject.result
 
         expect(result.author).to eql(user)
-      end
-
-      it 'sets the type that is provided' do
-        result = instance.call(attributes: { type_id: 1 }).result
-
-        expect(result.type_id).to eql(1)
       end
     end
 
@@ -123,7 +112,7 @@ describe CreateWorkPackageService do
       end
 
       it 'is unsuccessful' do
-        expect(instance.call(attributes: {}))
+        expect(subject)
           .to_not be_success
       end
 
@@ -132,7 +121,7 @@ describe CreateWorkPackageService do
           .to receive(:errors)
           .and_return errors
 
-        expect(instance.call(attributes: {}).errors).to eql errors
+        expect(subject.errors).to eql errors
       end
     end
 
@@ -144,7 +133,7 @@ describe CreateWorkPackageService do
       end
 
       it 'is unsuccessful' do
-        expect(instance.call(attributes: {}))
+        expect(subject)
           .to_not be_success
       end
 
@@ -153,7 +142,7 @@ describe CreateWorkPackageService do
           .to receive(:errors)
           .and_return errors
 
-        expect(instance.call(attributes: {}).errors).to eql errors
+        expect(subject.errors).to eql errors
       end
     end
   end
