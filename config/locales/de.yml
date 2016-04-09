@@ -17,7 +17,7 @@ de:
         spent: Gebucht
         status: Status
         subject: Thema
-        type: Kostenart
+        type: Kostentyp
         updated_on: Aktualisiert
       cost_type:
         unit: Einheit
@@ -52,7 +52,7 @@ de:
     budget: Geplante Kosten
     comment: Kommentar
     cost_object: Budget
-    cost_type: Kostenart
+    cost_type: Kostentyp
     costs: Kosten
     current_rate: Aktueller Satz
     hours: Stunden
@@ -60,7 +60,7 @@ de:
     valid_from: Gültig ab
   button_add_budget_item: Budgetposition hinzufügen
   button_add_cost_object: Neues Budget anlegen
-  button_add_cost_type: Kostenart anlegen
+  button_add_cost_type: Kostentyp anlegen
   button_add_rate: Satz hinzufügen
   button_cancel_edit_budget: Budget bearbeiten abbrechen
   button_cancel_edit_costs: Kosten bearbeiten abbrechen
@@ -106,7 +106,7 @@ de:
   label_currency_format: Währungsformat
   label_current_default_rate: Aktueller Standardsatz
   label_date_on: am
-  label_deleted_cost_types: Gelöschte Kostenarten
+  label_deleted_cost_types: Gelöschte Kostentypen
   label_locked_cost_types: Gesperrte Kostentypen
   label_deliverable: Budget
   label_display_cost_entries: Stückkosten anzeigen
