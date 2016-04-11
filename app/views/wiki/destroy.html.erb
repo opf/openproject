@@ -27,6 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= toolbar title: @page.pretty_title %>
+<% html_title l(:button_delete), @page.pretty_title %>
 <%= form_tag({}, method: :delete) do %>
   <div class="box">
     <p><strong><%= l(:text_wiki_page_destroy_question, descendants: @descendants_count) %></strong></p>
