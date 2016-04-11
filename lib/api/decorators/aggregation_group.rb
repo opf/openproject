@@ -64,6 +64,10 @@ module API
         sums.present?
       end
 
+      def model_required?
+        true
+      end
+
       private
 
       attr_reader :sums,
