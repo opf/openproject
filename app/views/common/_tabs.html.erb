@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <ul>
     <% tabs.each do |tab| %>
       <li><%=
-    position_span = you_are_here_info(tab[:name] == selected_tab)
+    position_span = you_are_here_info(tab[:name], tab[:name] != selected_tab)
     caption = case tab[:label]
     when Proc
       tab[:label].call
