@@ -110,12 +110,6 @@ function setCheckboxesBySelector(checked, selector) {
   });
 }
 
-function hideFieldset(el) {
-  var fieldset = Element.up(el, 'fieldset');
-  fieldset.toggleClassName('collapsed');
-  fieldset.down('>div').hide();
-}
-
 var fileFieldCount = 1;
 
 function addFileField() {

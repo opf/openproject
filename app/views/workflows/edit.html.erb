@@ -61,7 +61,6 @@ See doc/COPYRIGHT.rdoc for more details.
     </ul>
   </fieldset>
 <% end %>
-<%# TODO: remove the prototype stuff from the DOM -%>
 <% if @type && @role && @statuses.any? %>
     <%= form_tag({}, id: 'workflow_form' ) do %>
       <%= hidden_field_tag 'type_id', @type.id %>
@@ -78,7 +77,6 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= render partial: 'form',
                      locals: { name: 'author', workflows: @workflows['author'] } %>
         </div>
-      <%= javascript_tag "hideFieldset($('author_workflows'))" unless @workflows['author'].present? %>
       </fieldset>
 
       <fieldset class="form--fieldset -collapsible">
@@ -89,7 +87,6 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= render partial: 'form',
                      locals: { name: 'assignee', workflows: @workflows['assignee'] } %>
         </div>
-        <%= javascript_tag "hideFieldset($('assignee_workflows'))" unless @workflows['assignee'].present? %>
       </fieldset>
       <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
     <% end %>
