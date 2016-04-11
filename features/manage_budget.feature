@@ -42,62 +42,6 @@ Feature: Managing Budgets
     And I am already logged in as "testuser"
 
 @javascript
-  Scenario: Budgets can be updated with new cost items
-    Given there is a budget with the following:
-      | subject | budget1  |
-      | author  | testuser |
-      | project | project1 |
-    And I go to the show page of the budget "budget1"
-    When I click on "Update"
-    And I create a material item in row 1 with the following:
-      | units    | 10                  |
-      | comment  | materialtestcomment |
-    Then the planned material costs in row 1 should be "400.00 EUR"
-    When I create a labor item in row 1 with the following:
-      | hours    | 8                |
-      | comment  | labortestcomment |
-      | user     | Chuck Testa      |
-    Then the planned labor costs in row 1 should be "296.00 EUR"
-    When I click on "Submit"
-    Then I should see "Successful update"
-    And I should be on the show page for the budget "budget1"
-    And the stored planned material costs in row 1 should be "400.00 EUR"
-    And the stored planned labor costs in row 1 should be "296.00 EUR"
-    And the stored total planned material costs should be "400.00 EUR"
-    And the stored total planned labor costs should be "296.00 EUR"
-
-@javascript
-  Scenario: Budgets can be updated updating existing cost items
-    Given there is a budget with the following:
-      | subject | budget1  |
-      | author  | testuser |
-      | project | project1 |
-    And the budget "budget1" has the following material items:
-      | units | comment              | cost_type     |
-      |   10  | materialtestcomment  | cost_type_1   |
-      |    6  | materialtestcomment2 | cost_type_1   |
-    And the budget "budget1" has the following labor items:
-      | hours | comment           | user     |
-      |    8  | labortestcomment  | testuser |
-      |    5  | labortestcomment2 | testuser |
-    And I go to the show page of the budget "budget1"
-    And I click on "Update"
-    And I update the material item in row 1 with the following:
-      | units    | 5                            |
-      | comment  | changed_materialtestcomment  |
-    Then the planned material costs in row 1 should be "200.00 EUR"
-    When I update the labor item in row 1 with the following:
-      | hours    | 10                       |
-      | comment  | changed_labortestcomment |
-      | user     | Chuck Testa              |
-    Then the planned labor costs in row 1 should be "370.00 EUR"
-    When I click on "Submit"
-    Then I should see "Successful update"
-    And I should be on the show page for the budget "budget1"
-    And the stored planned material costs in row 1 should be "200.00 EUR"
-    And the stored planned labor costs in row 1 should be "370.00 EUR"
-
-@javascript
   Scenario: Budgets can be copied
   Given there is a budget with the following:
       | subject | budget1  |
