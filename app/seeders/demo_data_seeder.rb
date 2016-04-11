@@ -25,15 +25,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-class DemoDataSeeder < Seeder
-  def seed_data!
-    data_seeders.each do |seeder|
-      puts " ↳ #{seeder.class.name.demodulize}"
-      seeder.seed!
-    end
+class DemoDataSeeder < CompositeSeeder
+  def data_seeder_classes
+    [DemoData::ProjectSeeder]
   end
 
-  def data_seeders
-    [DemoData::ProjectSeeder.new]
+  def namespace
+    'DemoData'
   end
 end

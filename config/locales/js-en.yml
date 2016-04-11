@@ -63,6 +63,9 @@ en:
     description_selected_columns: "Selected Columns"
     description_subwork_package: "Sub work package of"
     filter:
+      description:
+        text_open_filter: "Open this filter with 'ALT' and arrow keys."
+        text_close_filter: "To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry."
       noneElement: "(none)"
       sorting:
         criteria:
@@ -469,7 +472,7 @@ en:
       button_cancel: "%{attribute}: Cancel"
       button_save_all: "Save"
       button_cancel_all: "Cancel"
-      link_formatting_help: "Text formatting"
+      link_formatting_help: "Text formatting help"
       btn_preview_enable: "Preview"
       btn_preview_disable: "Disable preview"
       null_value_label: "No value"

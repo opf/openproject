@@ -4,8 +4,11 @@
        ng-if="sortable"
        ng-class="[currentSortDirection && 'sort', currentSortDirection]"
        lang-attribute
-       lang="{{locale}}">{{headerTitle}}</a>
+       lang="{{locale}}"
+       id="{{ headerTitle }}"
+       onclick="setTimeout(function(){ $(document).getElementsByClassName('menu-item')[0].focus(); }, 100);">{{headerTitle}}</a>
     <a ng-if="!sortable">{{headerTitle}}</a>
+    <label class="hidden-for-sighted" for="{{ headerTitle }}"> {{ fullTitle }} </label>
     <icon-wrapper css-class="dropdown-indicator icon-small"
                   icon-name="pulldown"
                   title="{{I18n.t('js.label_open_menu')}}"></icon-wrapper>

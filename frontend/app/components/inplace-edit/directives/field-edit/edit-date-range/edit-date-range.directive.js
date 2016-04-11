@@ -129,7 +129,7 @@ function inplaceEditorDateRange($timeout, TimezoneService, WorkPackageFieldServi
           scope.startDateIsChanged = scope.endDateIsChanged = false;
         });
 
-        angular.element('.work-packages--details-content').on('click', function(e) {
+        angular.element('#content').on('click', function(e) {
           var target = angular.element(e.target);
           if (!target.is('.inplace-edit--date-range input') &&
             target.parents('.hasDatepicker').length <= 0 &&

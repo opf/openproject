@@ -44,7 +44,7 @@ class Scm::CheckoutInstructionsService
   def checkout_url(with_path = false)
     repository.scm.checkout_url(repository,
                                 checkout_base_url,
-                                with_path ? @path : nil)
+                                with_path ? URI.escape(@path) : nil)
   end
 
   ##

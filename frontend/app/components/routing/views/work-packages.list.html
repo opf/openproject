@@ -29,7 +29,7 @@
       <li class="toolbar-item hidden-for-mobile" feature-flag="detailsView">
         <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
           <li>
-            <wp-list-view-button disabled="editAll.state"
+            <wp-list-view-button edit-all="editAll"
                                  project-identifier="projectIdentifier"></wp-list-view-button>
           </li>
           <li feature-flag="detailsView">
@@ -51,7 +51,8 @@
                 class="button last work-packages-settings-button"
                 has-dropdown-menu
                 target="SettingsDropdownMenu"
-                locals="query">
+                locals="query"
+                onclick="setTimeout(function(){ $(document).getElementsByClassName('menu-item')[0].focus(); }, 100);">
           <i class="button--icon icon-show-more"></i>
         </button>
       </li>

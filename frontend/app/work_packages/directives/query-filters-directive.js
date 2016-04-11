@@ -43,6 +43,8 @@ module.exports = function($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX
             if (filterName) {
               scope.query.addFilter(filterName);
               scope.filterToBeAdded = undefined;
+              var index = scope.query.getActiveFilters().length;
+              updateFilterFocus(index);
             }
           });
 
@@ -68,7 +70,7 @@ module.exports = function($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX
 
             $timeout(function() {
               scope.$broadcast('updateFocus');
-            });
+            }, 300);
           }
         }
       };

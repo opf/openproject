@@ -28,6 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% disable_accessibility_css! %>
+<% html_title l(:label_register) %>
 <%= toolbar title: l(:label_register) %>
 
 <%= labelled_tabular_form_for(@user, url: url_for(action: 'register')) do |f| %>

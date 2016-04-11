@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+npm install
+cd frontend
+
+exec $(npm bin)/webpack --colors --watch --progress

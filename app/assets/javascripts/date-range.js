@@ -46,8 +46,7 @@
       };
     };
 
-
-    intervalInputs.on('click focus', activateRadiobutton(periodOptionInterval));
-    period.on('click focus', activateRadiobutton(periodOptionList));
+    intervalInputs.on('click', activateRadiobutton(periodOptionInterval));
+    period.on('click', activateRadiobutton(periodOptionList));
   });
 }(jQuery));

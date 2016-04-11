@@ -67,8 +67,9 @@ See doc/COPYRIGHT.rdoc for more details.
         </ul>
         <div>
           <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project}, class: 'button -highlight' %>
-          <% if User.current.allowed_to?(:view_calendar, @project, global: true) %>
-            <%= link_to(l(:label_calendar), {controller: '/work_packages/calendars', action: 'index', project_id: @project}, class: 'button -highlight') %>
+          <%= link_to new_project_work_packages_path(@project), class: 'button -alt-highlight' do %>
+            <i class="button--icon icon-add"></i>
+            <span class="button--text"><%= l('activerecord.models.work_package') %></span>
           <% end %>
         </div>
       </div>
@@ -86,7 +87,13 @@ See doc/COPYRIGHT.rdoc for more details.
           <span class="widget-box--header-title"><%=l(:label_news_latest)%></span>
         </h3>
         <%= render partial: 'news/news', collection: @news %>
-        <div><%= link_to l(:label_news_view_all), {controller: '/news', action: 'index', project_id: @project}, class: 'button -highlight' %></div>
+        <div>
+          <%= link_to l(:label_news_view_all), {controller: '/news', action: 'index', project_id: @project}, class: 'button -highlight' %>
+          <%= link_to new_project_news_path(@project), class: 'button -alt-highlight' do %>
+            <i class="button--icon icon-add"></i>
+            <span class="button--text"><%= l('activerecord.models.news') %></span>
+          <% end %>
+        </div>
       </div>
     <% end %>
     <%= call_hook(:view_projects_show_right, project: @project) %>

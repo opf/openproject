@@ -46,13 +46,14 @@ module Pages
     def open_split_view(work_package)
       split_page = SplitWorkPackage.new(work_package, project)
 
+      loading_indicator_saveguard
       page.driver.browser.mouse.double_click(row(work_package).native)
 
       split_page
     end
 
     def open_full_screen(work_package)
-      row(work_package).find_link(work_package.subject).click
+      visit row(work_package).find_link(work_package.subject)[:href]
 
       FullWorkPackage.new(work_package)
     end

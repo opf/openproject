@@ -8,7 +8,7 @@
         class="button"
         title="{{ vm.label }}"
         ng-click="vm.performAction()"
-        ng-disabled="vm.disabled"
+        ng-disabled="vm.disabled || vm.isActive()"
         ng-class="{ '-active': vm.isActive() }">
   <i class="{{ ::vm.iconClass }} button--icon"></i>
   <span class="hidden-for-sighted">{{ vm.label }}</span>
