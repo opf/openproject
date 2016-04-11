@@ -35,6 +35,7 @@ function wpResource(
 ) {
   class WorkPackageResource extends HalResource {
     private form;
+    public schema;
 
     public static fromCreateForm(projectIdentifier?:string):ng.IPromise<WorkPackageResource> {
       var deferred = $q.defer();
