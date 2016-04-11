@@ -36,6 +36,8 @@
 // Responsible to hide the old selected tab and show the content
 // of the currently selected tab.
 function showTab(name, url) {
+  jQuery('div#content .tabs .a .position-label').hide();
+  jQuery('div#content .tabs #tab-' + name + ' .position-label').show();
   jQuery('div#content .tab-content').hide();
   jQuery('div.tabs a').removeClass('selected');
   jQuery('#tab-content-' + name).show();
