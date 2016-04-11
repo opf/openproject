@@ -59,6 +59,11 @@ function wpResource(
       return (this as any).id === undefined;
     }
 
+    public requiredValueFor(fieldName):boolean {
+      var fieldSchema = this.schema[fieldName];
+      return !this[fieldName] && fieldSchema.writable && fieldSchema.required;
+    }
+
     public getForm() {
       if (!this.form) {
         this.form = this.$links.update(this);

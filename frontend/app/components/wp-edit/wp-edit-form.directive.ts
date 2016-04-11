@@ -38,6 +38,12 @@ export class WorkPackageEditFormController {
     protected $timeout) {
   }
 
+  public isFieldRequired(fieldName) {
+    return _.filter(this.fields, (name, field) => {
+      return !this.workPackage[name] && this.workPackage.requiredValueFor(name);
+    });
+  }
+
   public loadSchema() {
     return this.workPackage.getSchema();
   }

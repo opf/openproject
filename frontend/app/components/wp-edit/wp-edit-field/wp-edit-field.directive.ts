@@ -50,6 +50,7 @@ export class WorkPackageEditFieldController {
     protected $element,
     protected NotificationsService,
     protected I18n) {
+
   }
 
   public get workPackage() {
@@ -71,7 +72,7 @@ export class WorkPackageEditFieldController {
     }
 
     this.pristineValue = angular.copy(this.workPackage[this.fieldName]);
-    this.setupField().then(() => {
+    this.buildEditField().then(() => {
       this._active = this.field.schema.writable;
 
       // Display a generic error if the field turns out not to be editable,
@@ -82,6 +83,20 @@ export class WorkPackageEditFieldController {
           { attribute: this.field.schema.name }
         ));
       }
+    });
+  }
+
+  public initializeField() {
+    // Activate field when creating a work package
+    // and the schema requires this field
+    if (this.workPackage.isNew && this.workPackage.requiredValueFor(this.fieldName)) {
+      this.activate();
+    }
+
+    // Mark the td field if it is inline-editable
+    // We're resolving the non-form schema here since its loaded anyway for the table
+    this.workPackage.schema.$load().then(schema => {
+      this.editable = schema[this.fieldName].writable;
     });
   }
 
@@ -111,12 +126,13 @@ export class WorkPackageEditFieldController {
     this.pristineValue = null;
   }
 
-  protected setupField():ng.IPromise<any> {
+  protected buildEditField():ng.IPromise<any> {
     return this.formCtrl.loadSchema().then(schema => {
       this.field = this.wpEditField.getField(
         this.workPackage, this.fieldName, schema[this.fieldName]);
     });
   }
+
 }
 
 function wpEditFieldLink(
@@ -128,11 +144,7 @@ function wpEditFieldLink(
   controllers[1].formCtrl = controllers[0];
   controllers[1].formCtrl.fields[scope.vm.fieldName] = scope.vm;
 
-  // Mark the td field if it is inline-editable
-  // We're resolving the non-form schema here since its loaded anyway for the table
-  scope.vm.workPackage.schema.$load().then(schema => {
-    scope.vm.editable = schema[scope.vm.fieldName].writable;
-  });
+  scope.vm.initializeField();
 
   element.addClass(scope.vm.fieldName);
   element.keyup(event => {
