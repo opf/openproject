@@ -35,30 +35,39 @@ module Pages
     ##
     # Adds planned unit costs with the default cost type.
     def add_unit_costs!(num_units, comment: nil)
-      edit_unit_costs! unit_rows, units: num_units, comment: comment
+      edit_unit_costs! unit_rows, units: num_units, comment: comment, type: 'new'
       add_unit_costs_row!
     end
 
     ##
     # Adds planned labor costs with the default cost type.
     def add_labor_costs!(num_hours, user_name:, comment: nil)
-      edit_labor_costs! labor_rows, hours: num_hours, user_name: user_name, comment: comment
+      edit_labor_costs!(
+        labor_rows, hours: num_hours, user_name: user_name, comment: comment, type: 'new')
       add_labor_costs_row!
     end
 
     ##
     # Adds planned unit costs with the default cost type.
-    def edit_unit_costs!(id, units:nil, comment: nil)
-      fill_in "#{unit_cost_attr_id}_#{id}_units", with: units if units.present?
-      fill_in "#{unit_cost_attr_id}_#{id}_comments", with: comment if comment.present?
+    #
+    # @param type [String] Either 'existing' (default) or 'new'
+    def edit_unit_costs!(id, units:nil, comment: nil, type: 'existing')
+      prefix = "#{unit_cost_attr_id(type)}_#{id}"
+
+      fill_in "#{prefix}_units", with: units if units.present?
+      fill_in "#{prefix}_comments", with: comment if comment.present?
     end
 
     ##
     # Adds planned labor costs with the default cost type.
-    def edit_labor_costs!(id, hours:nil, user_name:nil, comment: nil)
-      fill_in "#{labor_cost_attr_id}_#{id}_hours", with: hours if hours.present?
-      select user_name, from: "#{labor_cost_attr_id}_#{id}_user_id" if user_name.present?
-      fill_in "#{labor_cost_attr_id}_#{id}_comments", with: comment if comment.present?
+    #
+    # @param type [String] Either 'existing' (default) or 'new'
+    def edit_labor_costs!(id, hours:nil, user_name:nil, comment: nil, type: 'existing')
+      prefix = "#{labor_cost_attr_id(type)}_#{id}"
+
+      fill_in "#{prefix}_hours", with: hours if hours.present?
+      select user_name, from: "#{prefix}_user_id" if user_name.present?
+      fill_in "#{prefix}_comments", with: comment if comment.present?
     end
 
     def add_unit_costs_row!
@@ -111,12 +120,16 @@ module Pages
       find('fieldset', text: 'LABOR').click
     end
 
-    def unit_cost_attr_id
-      'cost_object_new_material_budget_item_attributes'
+    ##
+    # @param type [String] Either 'new' or 'existing'
+    def unit_cost_attr_id(type)
+      "cost_object_#{type}_material_budget_item_attributes"
     end
 
-    def labor_cost_attr_id
-      'cost_object_new_labor_budget_item_attributes'
+    ##
+    # @param type [String] Either 'new' or 'existing'
+    def labor_cost_attr_id(type)
+      "cost_object_#{type}_labor_budget_item_attributes"
     end
 
     def unit_rows

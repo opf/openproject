@@ -41,13 +41,5 @@ module Pages
     def path
       "/cost_objects/#{cost_object_id}"
     end
-
-    def unit_cost_attr_id
-      'cost_object_existing_material_budget_item_attributes'
-    end
-
-    def labor_cost_attr_id
-      'cost_object_existing_labor_budget_item_attributes'
-    end
   end
 end
