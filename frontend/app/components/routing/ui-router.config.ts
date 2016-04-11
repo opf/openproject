@@ -79,7 +79,10 @@ angular
 
       .state('work-packages.copy', {
         url: '/work_packages/{copiedFromWorkPackageId:[0-9]+}/copy',
-        templateUrl: '/components/routing/main/work-packages.new.html'
+        templateUrl: '/components/routing/main/work-packages.new.html',
+        onEnter: () => {
+          document.title = 'Copy Work Package - OpenProject'
+        }
       })
 
       .state('work-packages.edit', {

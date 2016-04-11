@@ -52,6 +52,7 @@ describe 'new work package', js: true do
   end
 
   def create_work_package(type)
+    loading_indicator_saveguard
     work_packages_page.click_toolbar_button 'Work package'
 
     within '#tasksDropdown' do
@@ -142,13 +143,12 @@ describe 'new work package', js: true do
                                       options: %w(- foo bar xyz))
 
           select 'foo', from: "inplace-edit--write-value--customField#{ids.last}"
-
           save_work_package!(false)
           # Its a known bug that custom fields validation errors do not contain their names
           notification.expect_error("can't be blank.")
 
           cf1.set 'Custom field content'
-          save_work_package!(false)
+          save_work_package!(true)
 
           expect(page).to have_selector("#work-package-customField#{ids.first}", 'Custom field content')
           expect(page).to have_selector("#work-package-customField#{ids.last}", 'foo')

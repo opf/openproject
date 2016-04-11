@@ -36,12 +36,14 @@ module API
         include ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
         def create_work_packages(request_body, current_user)
-          attributes = get_create_attributes(request_body)
+          work_package = WorkPackage.new
+          yield(work_package) if block_given?
 
-          yield(attributes) if block_given?
+          work_package = write_work_package_attributes(work_package, request_body || {})
+
 
           result = create_work_package(current_user,
-                                       attributes,
+                                       work_package,
                                        notify_according_to_params)
 
           represent_create_result(result, current_user)
@@ -60,15 +62,10 @@ module API
           end
         end
 
-        def get_create_attributes(request_body)
-          write_work_package_attributes(WorkPackage.new, request_body || {})
-            .changes.each_with_object({}) { |(k, v), h| h[k] = v.last }
-        end
-
-        def create_work_package(current_user, attributes, send_notification)
+        def create_work_package(current_user, work_package, send_notification)
           create_service = CreateWorkPackageService.new(user: current_user)
 
-          create_service.call(attributes: attributes,
+          create_service.call(work_package,
                               send_notifications: send_notification)
         end
       end

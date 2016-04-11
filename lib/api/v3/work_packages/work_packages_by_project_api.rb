@@ -43,8 +43,8 @@ module API
           end
 
           post do
-            create_work_packages(request_body, current_user) do |attributes|
-              attributes[:project_id] = @project.id
+            create_work_packages(request_body, current_user) do |work_package|
+              work_package.project_id = @project.id
             end
           end
 

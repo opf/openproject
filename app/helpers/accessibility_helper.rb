@@ -28,10 +28,14 @@
 #++
 
 module AccessibilityHelper
-  def you_are_here_info(condition = true)
-    condition ?
-      "<span class = 'hidden-for-sighted'>#{l(:description_current_position)}</span>".html_safe :
+  def you_are_here_info(condition = true, disabled = nil)
+    if condition && !disabled
+      "<span style = 'display: block' class = 'position-label hidden-for-sighted'>#{l(:description_current_position)}</span>".html_safe
+    elsif condition && disabled
+      "<span style = 'display: none' class = 'position-label hidden-for-sighted'>#{l(:description_current_position)}</span>".html_safe
+    else
       ''
+    end
   end
 
   def empty_element_tag
