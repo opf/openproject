@@ -126,9 +126,6 @@ module API
 
           schema :spent_time,
                  type: 'Duration',
-                 show_if: -> (_) do
-                   current_user_allowed_to(:view_time_entries, context: represented.project)
-                 end,
                  required: false
 
           schema :percentage_done,

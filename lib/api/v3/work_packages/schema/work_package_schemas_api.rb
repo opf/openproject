@@ -46,6 +46,10 @@ module API
               def raise404
                 raise ::API::Errors::NotFound.new
               end
+
+              def cache_key(project_id, type_id)
+                "api/v3/work_packages/schema/#{project_id}-#{type_id}"
+              end
             end
 
             # The schema identifier is an artificial identifier that is composed of a work packages
@@ -56,25 +60,30 @@ module API
             namespace ':project-:type' do
               before do
                 begin
-                  project = Project.find(params[:project])
-                  type = Type.find(params[:type])
+                  @project = Project.find(params[:project])
+                  @type = Type.find(params[:type])
                 rescue ActiveRecord::RecordNotFound
                   raise404
                 end
 
-                authorize(:view_work_packages, context: project) do
+                authorize(:view_work_packages, context: @project) do
                   raise404
                 end
 
-                schema = TypedWorkPackageSchema.new(project: project, type: type)
-                self_link = api_v3_paths.work_package_schema(project.id, type.id)
-                @representer = WorkPackageSchemaRepresenter.create(schema,
-                                                                   self_link: self_link,
-                                                                   current_user: current_user)
+                # Compare with ETag composed of project and customizations
+                # to avoid evaluating the server request
+                @custom_fields = @project.all_work_package_custom_fields
+                with_etag! "#{@project.id}/#{@custom_fields.count}/#{@custom_fields.to_param}"
               end
 
               get do
-                @representer
+                cache(key: [cache_key(@project.id, @type.id), @custom_fields]) do
+                  schema = TypedWorkPackageSchema.new(project: @project, type: @type)
+                  self_link = api_v3_paths.work_package_schema(@project.id, @type.id)
+                  WorkPackageSchemaRepresenter.create(schema,
+                                                      self_link: self_link,
+                                                      current_user: nil)
+                end
               end
             end
 

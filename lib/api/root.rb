@@ -66,6 +66,7 @@ module API
 
     use OpenProject::Authentication::Manager
 
+    helpers API::Caching::Helpers
     helpers do
       def current_user
         User.current

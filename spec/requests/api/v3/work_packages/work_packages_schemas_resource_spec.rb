@@ -50,6 +50,10 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
         it 'should return HTTP 200' do
           expect(last_response.status).to eql(200)
         end
+
+        it 'should set a weak ETag' do
+          expect(last_response.headers['ETag']).to match(/W\/\"\w+\"/)
+        end
       end
 
       context 'id is too long' do

@@ -280,18 +280,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:required) { false }
         let(:writable) { false }
       end
-
-      context 'not allowed to view time entries' do
-        before do
-          allow(current_user).to receive(:allowed_to?).with(:view_time_entries,
-                                                            work_package.project)
-            .and_return false
-        end
-
-        it 'does not show spentTime' do
-          is_expected.not_to have_json_path('spentTime')
-        end
-      end
     end
 
     describe 'percentageDone' do
