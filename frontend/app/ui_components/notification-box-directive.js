@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n, $timeout,$state,loadingIndicator) {
+module.exports = function(I18n, $timeout,$state,loadingIndicator,ConfigurationService) {
 
   var notificationBoxController = function(scope, element) {
     scope.uploadCount = 0;
@@ -59,13 +59,15 @@ module.exports = function(I18n, $timeout,$state,loadingIndicator) {
       }
     };
 
-    $timeout(function() {
-      if (scope.content.type === 'error') {
-        element.focus();
-      } else {
-        element.find('.notification-box--close').focus();
-      }
-    });
+    if (ConfigurationService.accessibilityModeEnabled()) {
+      $timeout(function() {
+        if (scope.content.type === 'error') {
+          element.focus();
+        } else {
+          element.find('.notification-box--close').focus();
+        }
+      });
+    }
 
     scope.$on('upload.error', function() {
       if (scope.content.type === 'upload') {
