@@ -27,34 +27,30 @@
 // ++
 
 
+import {openprojectModule} from "../../angular-modules";
 import WorkPackage = op.WorkPackage;
 import IScope = angular.IScope;
 
 export class WorkPackageCacheService {
 
-    workPackagesSubject = new Rx.ReplaySubject<WorkPackage[]>(1);
+    private workPackageCache: {[id: number]: WorkPackage} = {};
 
-    constructor(private $rootScope: IScope) {
-        "ngInject";
-    }
+    workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackage}>(1);
 
-    setWorkPackageList(list: WorkPackage[]) {
-        console.log("setWorkPackageList()");
-        this.workPackagesSubject.onNext(list);
+    updateWorkPackageList(list: WorkPackage[]) {
+        console.log("updateWorkPackageList()");
+        for (const wp of list) {
+            this.workPackageCache[wp.id] = wp;
+        }
+        this.workPackagesSubject.onNext(this.workPackageCache);
     }
 
     loadWorkPackage(workPackageId: number): Rx.Observable<WorkPackage> {
-        const sub = new Rx.ReplaySubject(0);
-        this.workPackagesSubject.subscribe(value => sub.onNext(value));
-        return sub.flatMap((list: WorkPackage[]) => {
-            return list;
-        }).filter((wp: WorkPackage) => {
-            return wp.id === workPackageId;
-        });
+        return this.workPackagesSubject
+                .map(cache => cache[workPackageId])
+                .filter(wp => wp !== undefined);
     }
 
 }
 
-angular
-        .module('openproject')
-        .service('wpCacheService', WorkPackageCacheService);
+openprojectModule.service('wpCacheService', WorkPackageCacheService);
