@@ -64,7 +64,7 @@ function WorkPackagesListController($scope,
     loadingIndicator.mainPage = wpListService.fromQueryParams($state.params, $scope.projectIdentifier)
       .then((json:api.ex.WorkPackagesMeta) => {
 
-        wpCacheService.setWorkPackageList(json.work_packages);
+        wpCacheService.updateWorkPackageList(json.work_packages);
 
         setupPage(json, !!$state.params.query_props);
         QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function (data) {
@@ -189,7 +189,7 @@ function WorkPackagesListController($scope,
 
     loadingIndicator.mainPage = wpListService.fromQueryInstance($scope.query, $scope.projectIdentifier)
       .then(function (json:api.ex.WorkPackagesMeta) {
-        wpCacheService.setWorkPackageList(json.work_packages);
+        wpCacheService.updateWorkPackageList(json.work_packages);
         setupWorkPackagesTable(json);
       });
   }

@@ -147,7 +147,7 @@ angular.module('openproject.responsive', []);
 
 
 // main app
-export default angular.module('openproject', [
+export const openprojectModule = angular.module('openproject', [
   'ui.date',
   'ui.router',
   'openproject.config',
@@ -169,3 +169,5 @@ export default angular.module('openproject', [
   'openproject.wpButtons',
   'openproject.responsive'
 ]);
+
+export default openprojectModule;

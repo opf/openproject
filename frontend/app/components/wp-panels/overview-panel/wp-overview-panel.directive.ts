@@ -29,6 +29,8 @@
 import {WorkPackageCacheService} from "../../work-packages/work-package-sync-edit.service";
 import IScope = angular.IScope;
 import WorkPackage = op.WorkPackage;
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {openprojectModule} from "../../../angular-modules";
 
 export class OverviewPanelController {
 
@@ -36,7 +38,7 @@ export class OverviewPanelController {
 
     constructor($scope: IScope, $stateParams: any, private wpCacheService: WorkPackageCacheService) {
         const wpId = parseInt($stateParams.workPackageId);
-        wpCacheService.loadWorkPackage(wpId).subscribe(wp => {
+        scopedObservable($scope, wpCacheService.loadWorkPackage(wpId)).subscribe(wp => {
             console.log("work package erhalten");
             this.workPackage = wp;
         });
@@ -60,6 +62,6 @@ function wpOverviewPanel() {
 }
 
 //TODO: Use 'openproject.wpEdit' module
-angular
-        .module('openproject')
-        .directive('wpOverviewPanel', wpOverviewPanel);
+
+
+openprojectModule.directive('wpOverviewPanel', wpOverviewPanel);
