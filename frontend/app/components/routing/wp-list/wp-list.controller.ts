@@ -146,7 +146,15 @@ function WorkPackagesListController($scope,
 
     // yield updatable data to scope
     $scope.columns = $scope.query.columns;
-    $scope.rows = WorkPackagesTableService.getRows();
+
+    // Merge new row if it exists
+    var newRows = WorkPackagesTableService.getRows();
+    var last = ($scope.rows || []).last();
+
+    if (last && last.object.isNew) {
+      newRows.push(last);
+    }
+    $scope.rows = newRows;
     $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
     $scope.totalEntries = QueryService.getTotalEntries();
     $scope.resource = json.resource;

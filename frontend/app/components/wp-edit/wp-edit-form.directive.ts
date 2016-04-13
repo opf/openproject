@@ -55,7 +55,9 @@ export class WorkPackageEditFormController {
       .then(() => {
         angular.forEach(this.fields, field => field.setErrorState(false));
         deferred.resolve();
-      this.$rootScope.$emit('workPackagesRefreshInBackground');
+
+        this.$rootScope.$emit('workPackageSaved', this.workPackage);
+        this.$rootScope.$emit('workPackagesRefreshInBackground');
       })
       .catch((error) => {
         if (!error.data) {

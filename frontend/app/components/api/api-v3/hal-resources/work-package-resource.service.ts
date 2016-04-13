@@ -47,6 +47,7 @@ function wpResource(
         // Copy resources from form response
         wp.schema = resource.schema;
         wp.form = $q.when(resource);
+        wp.id = 'unsaved:' + Date.now();
 
         deferred.resolve(wp);
       })
@@ -56,7 +57,8 @@ function wpResource(
     }
 
     public get isNew():boolean {
-      return (this as any).id === undefined;
+      var id = Number((this as any).id);
+      return isNaN(id);
     }
 
     public requiredValueFor(fieldName):boolean {

@@ -72,6 +72,7 @@ function WorkPackageTdController($scope, I18n, PathHelper, WorkPackagesHelper) {
     }
 
     if (vm.object.isNew && vm.attribute == 'id') {
+      vm.displayText = 'text';
       vm.displayText = I18n.t('js.work_packages.placeholders.new_label');
       return;
     }
