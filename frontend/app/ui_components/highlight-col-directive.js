@@ -31,7 +31,7 @@ module.exports = function() {
     link: function(scope, element) {
       var thead = element.parent('colgroup').siblings('thead');
 
-      thead.on('hover', 'th', function() {
+      thead.on('mouseenter mouseleave', 'th', function() {
         if (element.index() === jQuery(this).index()) {
           element.toggleClass('hover');
         }
