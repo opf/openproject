@@ -28,6 +28,7 @@
 
 function wpContextMenuController(
   $scope,
+  $rootScope,
   $state,
   WorkPackagesTableHelper,
   WorkPackageContextMenuHelper,
@@ -70,6 +71,16 @@ function wpContextMenuController(
         break;
     }
   };
+
+  $scope.cancelInlineCreate = function(index, row) {
+    $rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
+    emitClosingEvents();
+  }
+
+  function emitClosingEvents() {
+    $scope.$emit('hideAllDropdowns');
+    $scope.$root.$broadcast('openproject.dropdown.closeDropdowns', true);
+  }
 
   function deleteSelectedWorkPackages() {
     var ids = getSelectedWorkPackages().map(function(wp) { return wp.id; });
