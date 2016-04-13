@@ -87,14 +87,14 @@
     cursor: pointer
 
 // Animations on leaving work packages
-.wp--row:not(.-new)
-  .ng-leave
+.wp--row.-animated-leave
+  &.ng-leave
     -webkit-transition: all 1s ease-in-out
     -moz-transition: all 1s ease-in-out
     -o-transition: all 1s ease-in-out
     transition: all 1s ease-in-out
 
-  .ng-leave-active
+  &.ng-leave-active
     height: 0
     line-height: 0
     opacity: 0
