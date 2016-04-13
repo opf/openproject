@@ -252,6 +252,27 @@ describe RepositoriesController, type: :controller do
         end
       end
 
+      describe 'show' do
+        render_views
+
+        let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
+        before do
+          get :show, project_id: project.identifier, path: path
+        end
+
+        shared_examples 'renders the repository' do |active_breadcrumb|
+          it do
+            expect(response).to be_success
+            expect(response.body).to have_selector('.repository-breadcrumbs', text: active_breadcrumb)
+          end
+        end
+
+        context 'with special characters' do
+          let(:path) { 'subversion_test/[folder_with_brackets]' }
+          it_behaves_like 'renders the repository', '[folder_with_brackets]'
+        end
+      end
+
       describe 'checkout path' do
         render_views
 
