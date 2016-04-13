@@ -197,12 +197,11 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
 
         scope.activationCallback({ id: row.object.id, force: true });
       };
-
     }
   };
 }
 
-function WorkPackagesTableController($scope) {
+function WorkPackagesTableController($scope, $rootScope) {
   $scope.locale = I18n.locale;
 
   $scope.text = {
@@ -218,4 +217,8 @@ function WorkPackagesTableController($scope) {
     $scope.text.toggleRows =
         checked ? I18n.t('js.button_uncheck_all') : I18n.t('js.button_check_all');
   });
+
+  $scope.cancelInlineWorkPackage = function (index, row) {
+    $rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
+  }
 }

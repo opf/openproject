@@ -88,8 +88,8 @@
             target="WorkPackageContextMenu"
             locals="rows,row"
             after-focus-on=".id :focusable"
-            single-click="selectWorkPackage(row, $event)"
-            ng-dblclick="openWorkPackageInFullView(row)"
+            single-click="!row.object.isNew && selectWorkPackage(row, $event)"
+            ng-dblclick="!row.object.isNew && openWorkPackageInFullView(row)"
             ng-class="[
               'issue',
               'hascontextmenu',
@@ -98,12 +98,13 @@
               row.level > 0 && 'child idnt' || '',
               row.level > 0 && ('idnt-' + row.level) || '',
               row.object.isNew && '-new' || '',
+              !(row.object.isNew || row.object.inlineCreate) && '-animated' || '',
             ]"
             ng-show="!groupByColumn || groupExpanded[row.groupName]"
 
             wp-edit-form="row.object">
 
-          <td class="checkbox -short hide-when-print">
+          <td ng-if="!row.object.isNew" class="checkbox -short hide-when-print">
             <accessible-checkbox name="ids[]"
                                  checkbox-id="work_package{{row.object.id}}"
                                  checkbox-value="row.object.id"
@@ -115,6 +116,15 @@
                  ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})">
                 <i class="icon icon-view-split"></i>
                 <span ng-bind="I18n.t('js.button_open_details')"/>
+              </a>
+            </span>
+          </td>
+          <td ng-if="row.object.isNew" class="checkbox -short">
+            <span>
+              <a class="wp-table--delete-new-link"
+                 ng-click="cancelInlineWorkPackage($index, row)">
+                <i class="icon icon-delete"></i>
+                <span ng-bind="I18n.t('js.button_cancel')"/>
               </a>
             </span>
           </td>
@@ -159,18 +169,11 @@
               </wp-td>
             </td>
         </tr>
-        <!-- Inline create button -->
-        <tr wp-inline-create
-            id="wp-inline-create-button"
-            rows="rows"
-            columns="columns">
-        </tr>
-
         <tr wp-inline-create-row></tr>
       </tbody>
       <tfoot>
         <!-- Inline create button -->
-        <tr id="wp-inline-create-button">
+        <tr class="wp-inline-create-button-row">
           <!--  Add 2 to the colspan attr because of the id and the checkbox columns  -->
           <td colspan="{{ columns.length + 2 }}">
             <wp-inline-create-button

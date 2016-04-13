@@ -33,21 +33,42 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
   public columns:any[];
   public rows:any[];
   public hidden:boolean = false;
+  private _wp;
 
   constructor(
     protected $state,
+    protected $rootScope,
+    protected $element,
     protected I18n,
     protected ProjectService,
     protected WorkPackageResource,
     protected apiWorkPackages
   ) {
     super($state, I18n, ProjectService);
+
+    $rootScope.$on('workPackageSaved', (_event, savedWp) => {
+      // Add another row
+      if (savedWp === this._wp) {
+        this.addWorkPackageRow();
+      }
+    });
+
+    $rootScope.$on('inlineWorkPackageCreateCancelled', (_event, index, row) => {
+      if (row.object === this._wp) {
+        this.rows.splice(index, 1);
+        this.show();
+      }
+    });
   }
 
   public addWorkPackageRow() {
     this.WorkPackageResource.fromCreateForm(this.projectIdentifier).then(wp => {
+      this._wp = wp;
+      wp.inlineCreated = true;
       this.rows.push({ level: 0, ancestors: [], object: wp, parent: undefined });
-      this.hide()
+      this.hide();
+
+
     });
   }
 
