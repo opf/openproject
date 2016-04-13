@@ -77,6 +77,7 @@ module API
                  )
                  represented.try(attribute).try(:name)
                },
+               writeable: false,
                render_nil: false
     end
   end
