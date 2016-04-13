@@ -46,12 +46,16 @@
   &.-active
     padding: 0
 
-  &.-error .wp-table--cell-span
-    background: $nm-color-error-background
-    border-color: $nm-color-error-border
+  &.-error
+    
+    .wp-table--cell-span,
+    input,
+    select
+      background: $nm-color-error-background
+      border-color: $nm-color-error-border
 
-    &:hover
-      border-color: lighten($nm-color-error-border, 10%)
+      &:hover
+        border-color: lighten($nm-color-error-border, 10%)
 
   form
     width: 100%

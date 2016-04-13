@@ -86,7 +86,7 @@
             has-dropdown-menu
             trigger-on-event="contextmenu"
             target="WorkPackageContextMenu"
-            locals="rows,row"
+            locals="rows,row,$index"
             after-focus-on=".id :focusable"
             single-click="!row.object.isNew && selectWorkPackage(row, $event)"
             ng-dblclick="!row.object.isNew && openWorkPackageInFullView(row)"
@@ -119,9 +119,9 @@
               </a>
             </span>
           </td>
-          <td ng-if="row.object.isNew" class="checkbox -short">
+          <td ng-if="row.object.isNew" class="cancel-inline-create -short">
             <span>
-              <a class="wp-table--delete-new-link"
+              <a class="wp-table--cancel-create-link"
                  ng-click="cancelInlineWorkPackage($index, row)">
                 <i class="icon icon-delete"></i>
                 <span ng-bind="I18n.t('js.button_cancel')"/>
@@ -132,6 +132,8 @@
           <td ng-repeat="column in columns"
               lang="{{column.custom_field && column.custom_field.name_locale || locale}}"
               wp-edit-field="column.name"
+              columns="columns"
+              field-index="$index"
               class="wp-table--cell"
               ng-class="{ '-short': column.name == 'id' }">
             <wp-td attribute="column.name"

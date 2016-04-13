@@ -47,7 +47,7 @@ function wpResource(
         // Copy resources from form response
         wp.schema = resource.schema;
         wp.form = $q.when(resource);
-        wp.id = 'unsaved:' + Date.now();
+        wp.id = 'new-' + Date.now();
 
         deferred.resolve(wp);
       })

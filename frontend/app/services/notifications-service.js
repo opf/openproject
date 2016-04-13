@@ -77,11 +77,19 @@ module.exports = function(I18n, $rootScope) {
     _.remove(currentNotifications, function(element) {
       return element === removedNotification;
     });
+  },
+  clearNotifications = function() {
+    _.remove(currentNotifications);
   };
 
   $rootScope.$on('notification.remove', function(_e, notification) {
     notificationRemoved(notification);
   });
+
+  $rootScope.$on('notifications.clearAll', function() {
+    clearNotifications();
+  });
+
 
   // public
   var add = function(message) {

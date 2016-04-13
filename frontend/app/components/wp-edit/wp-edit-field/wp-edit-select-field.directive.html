@@ -1,8 +1,9 @@
 <select ng-model="vm.workPackage[vm.fieldName]"
+        class="wp-inline-edit--field"
         wp-edit-field-requirements="vm.field.schema"
         ng-options="value as (value.name || value.value) for value in vm.field.options track by value.href"
         ng-change="vm.submit()"
         ng-blur="vm.deactivate()"
-        focus>
+        focus="vm.shouldFocus()">
   <option value="" ng-if="false"></option>
 </select>

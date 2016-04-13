@@ -35,6 +35,7 @@ export class WorkPackageEditFieldController {
   public formCtrl: WorkPackageEditFormController;
   public wpEditForm:ng.IFormController;
   public fieldName:string;
+  public fieldIndex:number;
   public field:Field;
   public errorenous:boolean;
   protected pristineValue:any;
@@ -66,8 +67,9 @@ export class WorkPackageEditFieldController {
       .then(() => this.deactivate());
   }
 
-  public activate() {
+  public activate(forceFocus = true) {
     if (this._active) {
+      this.setFocus(forceFocus);
       return;
     }
 
@@ -83,6 +85,8 @@ export class WorkPackageEditFieldController {
           { attribute: this.field.schema.name }
         ));
       }
+
+      this.setFocus(forceFocus);
     });
   }
 
@@ -91,6 +95,11 @@ export class WorkPackageEditFieldController {
     // and the schema requires this field
     if (this.workPackage.isNew && this.workPackage.requiredValueFor(this.fieldName)) {
       this.activate();
+
+      var activeField = this.formCtrl.firstActiveField;
+      if (!activeField || this.formCtrl.fields[activeField].fieldIndex > this.fieldIndex) {
+        this.formCtrl.firstActiveField = this.fieldName;
+      }
     }
 
     // Mark the td field if it is inline-editable
@@ -107,6 +116,16 @@ export class WorkPackageEditFieldController {
   public set editable(enabled:boolean) {
     this._editable = enabled;
     this.$element.toggleClass('-editable', enabled);
+  }
+
+  public shouldFocus() {
+    return !this.workPackage.isNew || this.formCtrl.firstActiveField === this.fieldName;
+  }
+
+  public setFocus(focus = true) {
+    if (focus) {
+      this.$element.find('.wp-inline-edit--field').focus();
+    }
   }
 
   public deactivate():boolean {
@@ -169,7 +188,9 @@ function wpEditField() {
     transclude: true,
 
     scope: {
-      fieldName: '=wpEditField'
+      fieldName: '=wpEditField',
+      fieldIndex: '=fieldIndex',
+      columns: '=columns'
     },
 
     require: ['^wpEditForm', 'wpEditField'],

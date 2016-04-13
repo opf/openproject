@@ -29,6 +29,7 @@
 export class WorkPackageEditFormController {
   public workPackage;
   public fields = {};
+  public firstActiveField:string;
 
   constructor(
     protected NotificationsService,
@@ -50,6 +51,9 @@ export class WorkPackageEditFormController {
 
   public updateWorkPackage() {
     var deferred = this.$q.defer();
+
+    // Reset old error notifcations
+    this.$rootScope.$emit('notifications.clearAll');
 
     this.workPackage.save()
       .then(() => {
@@ -93,6 +97,10 @@ export class WorkPackageEditFormController {
       angular.forEach(this.fields, (field) => {
         field.setErrorState(columns.indexOf(field.fieldName) !== -1);
       });
+
+      // Activate + Focus on first field
+      this.firstActiveField = columns.first();
+      this.fields[this.firstActiveField].activate(true);
     });
   }
 }
