@@ -106,6 +106,13 @@ module SettingsHelper
       }
   end
 
+  def setting_password(setting, options = {})
+    setting_label(setting, options) +
+      wrap_field_outer(options) {
+        tag(:input, type: "password", name: "settings[#{setting}]", value: Setting.send(setting))
+      }
+  end
+
   def setting_label(setting, options = {})
     label = options[:label]
     return ''.html_safe if label == false

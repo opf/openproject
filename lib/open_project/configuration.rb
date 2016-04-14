@@ -104,10 +104,6 @@ module OpenProject
 
         override_config!(@config)
 
-        if @config['email_delivery_method']
-          configure_action_mailer(@config)
-        end
-
         define_config_methods
 
         @config
@@ -220,6 +216,36 @@ module OpenProject
           || @config['rails_cache_store'].present?
       end
 
+      def migrate_mailer_configuration!
+        Setting.email_delivery_method = @config['email_delivery_method'].to_sym
+
+        ['smtp_', 'sendmail_'].each do |config_type|
+          mail_delivery_config = filter_hash_by_key_prefix(@config, config_type)
+
+          unless mail_delivery_config.empty?
+            mail_delivery_config.symbolize_keys! if mail_delivery_config.respond_to?(:symbolize_keys!)
+            mail_delivery_config.each do |k,v|
+              Setting["#{config_type}#{k}"] = v
+            end
+          end
+        end
+
+        Setting.email_delivery_migrated = 1
+      end
+
+      def reload_mailer_configuration!
+        ActionMailer::Base.perform_deliveries = true
+        ActionMailer::Base.delivery_method = Setting.email_delivery_method
+        if ActionMailer::Base.delivery_method == :smtp
+          %w{address port domain authentication user_name password}.each do |setting|
+            ActionMailer::Base.smtp_settings[setting.to_sym] = Setting["smtp_#{setting}".to_sym]
+          end
+          ActionMailer::Base.smtp_settings[:enable_starttls_auto] = Setting.smtp_enable_starttls_auto?
+        end
+      rescue StandardError => e
+        Rails.logger.warn "Unable to set ActionMailer settings (#{e.message}). Email sending will most likely NOT work."
+      end
+
       private
 
       ##
@@ -264,20 +290,6 @@ module OpenProject
           merged_config.merge!(config[env])
         end
         merged_config
-      end
-
-      def configure_action_mailer(config)
-        ActionMailer::Base.perform_deliveries = true
-        ActionMailer::Base.delivery_method = config['email_delivery_method'].to_sym
-
-        ['smtp_', 'sendmail_'].each do |config_type|
-          mail_delivery_config = filter_hash_by_key_prefix(config, config_type)
-
-          unless mail_delivery_config.empty?
-            mail_delivery_config.symbolize_keys! if mail_delivery_config.respond_to?(:symbolize_keys!)
-            ActionMailer::Base.send("#{config_type + 'settings'}=", mail_delivery_config)
-          end
-        end
       end
 
       # Convert old mail settings

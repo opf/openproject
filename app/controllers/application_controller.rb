@@ -112,7 +112,8 @@ class ApplicationController < ActionController::Base
                 :set_localization,
                 :check_session_lifetime,
                 :stop_if_feeds_disabled,
-                :set_cache_buster
+                :set_cache_buster,
+                :reload_mailer_configuration!
 
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
@@ -133,6 +134,10 @@ class ApplicationController < ActionController::Base
       response.headers['Pragma'] = 'no-cache'
       response.headers['Expires'] = 'Fri, 01 Jan 1990 00:00:00 GMT'
     end
+  end
+
+  def reload_mailer_configuration!
+    OpenProject::Configuration.reload_mailer_configuration!
   end
 
   # The current user is a per-session kind of thing and session stuff is controller responsibility.
