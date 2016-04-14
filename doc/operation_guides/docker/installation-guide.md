@@ -88,6 +88,40 @@ Docker Engine, or via an environment file:
 
 [configuration-doc]: https://github.com/opf/openproject/blob/dev/doc/CONFIGURATION.md
 
+### SMTP configuration
+
+By default, the docker container will try to send emails via the local
+`postfix` daemon. However emails sent this way are more than likely to fail or
+end up in the spam inbox of your users. We recommend using an external SMTP
+server to send your emails.
+
+A good choice is [SendGrid](https://sendgrid.net), which offers a free plan
+with up to 12000 emails per month. Just sign up on the website, and once your
+account is provisioned, generate a new API key and copy it somewhere (it looks
+like `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`).
+You can also just use your SendGrid username and password, but this is less
+secure.
+
+You can then configure OpenProject with the following additonal environment
+variables (with SendGrid, the `SMTP_USER_NAME` is always `apikey`. Just replace
+`SMTP_PASSWORD` with the API key you've generated and you should be good to
+go):
+
+    docker run -d \
+        -e EMAIL_DELIVERY_METHOD=smtp \
+        -e SMTP_ADDRESS=smtp.sendgrid.net \
+        -e SMTP_PORT=587 \
+        -e SMTP_DOMAIN=my.domain.com \
+        -e SMTP_AUTHENTICATION=login \
+        -e SMTP_ENABLE_STARTTLS_AUTO=true \
+        -e SMTP_USER_NAME="apikey" \
+        -e SMTP_PASSWORD="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" \
+        ...
+
+You can adjust those settings for other SMTP providers, such as GMail,
+Mandrill, etc. Please refer to the documentation of the corresponding provider
+to see what values should be used.
+
 ## FAQ
 
 * Can I use SSL?
