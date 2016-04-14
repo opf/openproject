@@ -46,6 +46,14 @@ describe RepositoriesController, type: :routing do
     }
 
     it {
+      expect(get('/projects/testproject/repository/folder%20with%20spaces'))
+        .to route_to(controller: 'repositories',
+                     action: 'show',
+                     project_id: 'testproject',
+                     path: 'folder with spaces')
+    }
+
+    it {
       expect(get('/projects/testproject/repository/revisions/5'))
         .to route_to(controller: 'repositories',
                      action: 'show',
