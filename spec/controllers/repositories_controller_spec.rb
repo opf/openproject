@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -252,24 +253,49 @@ describe RepositoriesController, type: :controller do
         end
       end
 
+      shared_examples 'renders the repository title' do |active_breadcrumb|
+        it do
+          expect(response).to be_success
+          expect(response.body).to have_selector('.repository-breadcrumbs', text: active_breadcrumb)
+        end
+      end
+
       describe 'show' do
         render_views
-
         let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
+
         before do
           get :show, project_id: project.identifier, path: path
         end
 
-        shared_examples 'renders the repository' do |active_breadcrumb|
-          it do
-            expect(response).to be_success
-            expect(response.body).to have_selector('.repository-breadcrumbs', text: active_breadcrumb)
-          end
+        context 'with brackets' do
+          let(:path) { 'subversion_test/[folder_with_brackets]' }
+          it_behaves_like 'renders the repository title', '[folder_with_brackets]'
         end
 
-        context 'with special characters' do
+        context 'with unicode' do
+          let(:path) { 'Föbar/äm/Sägepütz!%5D§' }
+          it_behaves_like 'renders the repository title', 'Sägepütz!%5D§'
+        end
+      end
+
+      describe 'changes' do
+        render_views
+        let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
+
+        before do
+          get :changes, project_id: project.identifier, path: path
+          expect(response).to be_success
+        end
+
+        context 'with brackets' do
           let(:path) { 'subversion_test/[folder_with_brackets]' }
-          it_behaves_like 'renders the repository', '[folder_with_brackets]'
+          it_behaves_like 'renders the repository title', '[folder_with_brackets]'
+        end
+
+        context 'with unicode' do
+          let(:path) { 'Föbar/äm' }
+          it_behaves_like 'renders the repository title', 'äm'
         end
       end
 
