@@ -815,6 +815,8 @@ en:
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       forums: "Forums"
+      blog: "Openproject blog"
+      boards: "Community Forum"
 
   instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
   instructions_after_logout: "You can sign in again by clicking %{signin}."
@@ -2032,6 +2034,11 @@ en:
     apply_filter: Apply preconfigured filter
 
   label_work_package_hierarchy: "Work Package Hierarchy"
+
+  top_menu:
+    additional_resources: "Additional resources"
+    getting_started: "Getting started"
+    help_and_support: "Help and support"
 
   total_progress: "Total progress"
 

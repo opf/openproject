@@ -102,7 +102,8 @@
     position: relative
     top: 0
     z-index: 21
-  li.last-child > ul
+  li.last-child > ul,
+  ul.drop-down--help
     left: auto
     right: 0
 
@@ -142,6 +143,14 @@
     > li
       &:nth-last-child(2)
         margin-bottom: 6px
+
+  .drop-down--help
+    .form--separator
+      margin-bottom: 5px
+    .drop-down--help-headline
+      padding-left: 15px
+      color: $gray-dark
+      text-transform: uppercase
 
   #loggedas
     float: right
