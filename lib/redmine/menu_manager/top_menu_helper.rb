@@ -152,7 +152,54 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_help_top_menu_node(item = help_menu_item)
-    render_menu_node(item)
+    link_to_help_pop_up = link_to '', '',
+                            class: 'icon-help1',
+                            aria: { haspopup: 'true' }
+
+    result = ''.html_safe
+
+    render_drop_down_menu_node link_to_help_pop_up do
+      content_tag :ul, style: 'display:none', class: 'drop-down--help' do
+        result << content_tag(:li) do
+                    content_tag(:span, l('top_menu.help_and_support'), class: 'drop-down--help-headline', title: l('top_menu.help_and_support'))
+                  end
+        result << content_tag(:li) do
+                    link_to l('homescreen.links.user_guides'), 'https://www.openproject.org/help/user-guides', title: l('homescreen.links.user_guides')
+                  end
+        result << content_tag(:li) do
+                    link_to l('homescreen.links.faq'), 'https://www.openproject.org/help/faq', title: l('homescreen.links.faq')
+                  end
+        result << content_tag(:li) do
+                    link_to l('homescreen.links.shortcuts'), '', title: l('homescreen.links.shortcuts'), onClick: 'modalHelperInstance.createModal(\'/help/keyboard_shortcuts\');'
+                  end
+        result << content_tag(:li) do
+                    link_to l('homescreen.links.boards'), 'https://community.openproject.com/projects/openproject/boards', title: l('homescreen.links.boards')
+                  end
+        result << content_tag(:hr, '', class: 'form--separator')
+
+
+        result << content_tag(:li) do
+                    content_tag(:span, l('top_menu.additional_resources'), class: 'drop-down--help-headline', title: l('top_menu.additional_resources'))
+                  end
+        result << content_tag(:li) do
+                    link_to l('homescreen.links.blog'), 'https://www.openproject.org/blog', title: l('homescreen.links.blog')
+                  end
+        result << content_tag(:li) do
+                    link_to l(:label_release_notes), 'https://www.openproject.org/open-source/release-notes/', title: l(:label_release_notes)
+                  end
+        result << content_tag(:li) do
+                    link_to l(:label_report_bug), 'https://community.openproject.org/projects/openproject/work_packages', title: l(:label_report_bug)
+                  end
+        result << content_tag(:li) do
+                    link_to l(:label_add_edit_translations), 'https://crowdin.com/projects/opf', title: l(:label_add_edit_translations)
+                  end
+        result << content_tag(:li) do
+                    link_to l(:label_api_access_key_type), 'https://www.openproject.org/api', title: l(:label_api_access_key_type)
+                  end
+
+        result
+      end
+    end
   end
 
   def render_main_top_menu_nodes(items = main_top_menu_items)
