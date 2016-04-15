@@ -26,8 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@include breakpoint(960px down)
+@include breakpoint(1248px down)
   body.controller-work_packages
+    overflow: auto !important
+    overflow-y: scroll !important
+
+    #main,
+    #content
+      position: relative !important
+
+    #content
+      height: 100% !important
 
     &.action-show #content
       overflow: visible
@@ -38,29 +47,8 @@
 
     .work-packages--show-view
       padding: 0
+      padding-right: 20px
 
-      #toolbar-items
-        background: #fff
-        display: flex
-        margin-bottom: 20px
-        width: calc(100% + 5px)
-
-        > li
-          -webkit-flex: 1 0 0
-          flex: 1 0 0
-
-          &:first-child
-            -webkit-flex: 3 0 0
-            flex: 3 0 0
-
-          button
-            width: 100%
-
-        .wp-create-button .dropdown
-          left: 0 !important
-
-        .action_menu_main .dropdown
-          left: auto !important
 
       .work-packages--split-view
         display: block
@@ -193,3 +181,31 @@
 
     .work-packages--list
       padding-bottom: 55px
+
+@include breakpoint (680px down)
+  body.controller-work_packages.action-show #content
+    .work-packages--show-view
+      padding-right: 0
+
+  #toolbar-items
+    background: #fff
+    display: flex
+    margin-bottom: 20px
+    width: calc(100% + 5px)
+
+    > li
+      -webkit-flex: 1 0 0
+      flex: 1 0 0
+
+      &:first-child
+        -webkit-flex: 3 0 0
+        flex: 3 0 0
+
+      button
+        width: 100%
+
+    .wp-create-button .dropdown
+      left: 0 !important
+
+    .action_menu_main .dropdown
+      left: auto !important
