@@ -31,7 +31,7 @@ interface opDatePickerScope extends ng.IScope {
   onChange:Function
 }
 
-function opDatePickerLink(scope: opDatePickerScope, element: ng.IAugmentedJQuery, attrs, ngModel) {
+function opDatePickerLink(scope:opDatePickerScope, element:ng.IAugmentedJQuery, attrs, ngModel) {
   // we don't want the date picker in the accessibility mode
   if (this.ConfigurationService.accessibilityModeEnabled()) {
     return;
@@ -53,15 +53,17 @@ function opDatePickerLink(scope: opDatePickerScope, element: ng.IAugmentedJQuery
   function hide() {
     datePickerInstance.hide();
     unregisterClickCallback();
-  };
+  }
 
   function registerClickCallback() {
     // HACK: we need to bind to 'mousedown' because the wp-edit-field.directive
     // binds to 'click' and stops the event propagation
-    onClickCallback = angular.element('body').bind('mousedown', function(e) {
+    onClickCallback = angular.element('body').bind('mousedown', e => {
       let target = angular.element(e.target);
-      let parentSelector = '.ui-datepicker-header, .' + datePickerContainer.attr('class').split(' ').join('.')
-      if(!target.is(input) &&
+      let parentSelector =
+        '.ui-datepicker-header, .' + datePickerContainer.attr('class').split(' ').join('.');
+
+      if (!target.is(input) &&
         target.parents(parentSelector).length <= 0) {
 
         hide();
@@ -78,61 +80,69 @@ function opDatePickerLink(scope: opDatePickerScope, element: ng.IAugmentedJQuery
     datePickerInstance = new DatePicker(datePickerContainer, input, ngModel.$viewValue);
     ensureDatePickerVisible();
 
-    datePickerInstance.onChange = function(date) {
+    datePickerInstance.onChange = (date) => {
       ngModel.$setViewValue(date);
       onChange();
     };
 
-    datePickerInstance.onDone = function() {
+    datePickerInstance.onDone = () => {
       onChange();
     };
 
     registerClickCallback();
-  };
+  }
 
   function ensureDatePickerVisible() {
     let visibilityContainer = datePickerContainer.offsetParent();
     let templateContainer = element.children('div');
     // typescript compiler does not like it if we simply use
     // containerBoundaries = visibilityContainer.offset()
-    let containerBoundaries = { top: visibilityContainer.offset().top,
-                                left: visibilityContainer.offset().left,
-                                right: visibilityContainer.offset().left + visibilityContainer.width(),
-                                bottom: visibilityContainer.offset().top + visibilityContainer.height() };
+    let containerBoundaries = {
+      top: visibilityContainer.offset().top,
+      left: visibilityContainer.offset().left,
+      right: visibilityContainer.offset().left + visibilityContainer.width(),
+      bottom: visibilityContainer.offset().top + visibilityContainer.height()
+    };
 
     let positions = [
       {
         check: ((templateContainer.offset().top + templateContainer.height() + datePickerContainer.height() <= containerBoundaries.bottom) &&
-               (templateContainer.offset().left + datePickerContainer.width() <= containerBoundaries.right)),
+        (templateContainer.offset().left + datePickerContainer.width() <= containerBoundaries.right)),
         css: {} //no change
       },
       {
         check: ((templateContainer.offset().top + templateContainer.height() + datePickerContainer.height() <= containerBoundaries.bottom) &&
-               (templateContainer.offset().left + datePickerContainer.width() >= containerBoundaries.right)),
-        css: { marginLeft: templateContainer[0].offsetWidth - datePickerContainer.width() }
+        (templateContainer.offset().left + datePickerContainer.width() >= containerBoundaries.right)),
+        css: {marginLeft: templateContainer[0].offsetWidth - datePickerContainer.width()}
       },
       {
         check: ((templateContainer.offset().top - datePickerContainer.height() >= containerBoundaries.top) &&
-               (templateContainer.offset().left + datePickerContainer.width() <= containerBoundaries.right)),
-        css: { marginTop: -templateContainer[0].offsetHeight - datePickerContainer.height() + 'px' }
+        (templateContainer.offset().left + datePickerContainer.width() <= containerBoundaries.right)),
+        css: {marginTop: -templateContainer[0].offsetHeight - datePickerContainer.height() + 'px'}
       },
       {
         check: ((templateContainer.offset().top - datePickerContainer.height() >= containerBoundaries.top) &&
-               (templateContainer.offset().left + datePickerContainer.width() >= containerBoundaries.right)),
-        css: { marginTop: -templateContainer[0].offsetHeight - datePickerContainer.height() + 'px',
-               marginLeft: templateContainer[0].offsetWidth - datePickerContainer.width() }
+        (templateContainer.offset().left + datePickerContainer.width() >= containerBoundaries.right)),
+        css: {
+          marginTop: -templateContainer[0].offsetHeight - datePickerContainer.height() + 'px',
+          marginLeft: templateContainer[0].offsetWidth - datePickerContainer.width()
+        }
       },
       {
         check: templateContainer.offset().left + templateContainer.width() + datePickerContainer.width() <= containerBoundaries.right,
-        css: { marginTop: -templateContainer[0].offsetHeight/2 - datePickerContainer.height()/2 + 'px',
-               marginLeft: templateContainer[0].offsetWidth }
+        css: {
+          marginTop: -templateContainer[0].offsetHeight / 2 - datePickerContainer.height() / 2 + 'px',
+          marginLeft: templateContainer[0].offsetWidth
+        }
       },
       {
         check: true,
-        css: { marginTop: -templateContainer[0].offsetHeight/2 - datePickerContainer.height()/2 + 'px',
-               marginLeft: -datePickerContainer[0].offsetWidth }
+        css: {
+          marginTop: -templateContainer[0].offsetHeight / 2 - datePickerContainer.height() / 2 + 'px',
+          marginLeft: -datePickerContainer[0].offsetWidth
+        }
       }
-    ]
+    ];
 
     // use _.some to limit the checks to the first truthy position
     _.some(positions, (position) => {
@@ -141,18 +151,20 @@ function opDatePickerLink(scope: opDatePickerScope, element: ng.IAugmentedJQuery
         return true;
       }
     });
-  };
+  }
 }
 
 function opDatePicker(ConfigurationService, Datepicker) {
-  let dependencies = { ConfigurationService: ConfigurationService,
-                       Datepicker: Datepicker };
+  var dependencies = {
+    ConfigurationService: ConfigurationService,
+    Datepicker: Datepicker
+  };
 
   return {
     restrict: 'E',
     transclude: true,
     templateUrl: '/components/wp-edit/op-date-picker.directive.html',
-    //  by curtesy of http://stackoverflow.com/a/33614939/3206935
+    // http://stackoverflow.com/a/33614939/3206935
     link: angular.bind(dependencies, opDatePickerLink),
     require: 'ngModel',
     scope: {
