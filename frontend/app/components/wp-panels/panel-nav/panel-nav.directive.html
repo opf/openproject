@@ -10,6 +10,7 @@
        properly. Thus, don't remove the hrefs or the empty URLs!
       -->
       <a href=""
+         ng-attr-title="{{ (item.route | isState) && item.activeTitle || undefined }}"
          ng-bind="::item.text"></a>
     </li>
   </ul>

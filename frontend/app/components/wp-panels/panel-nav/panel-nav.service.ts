@@ -34,6 +34,7 @@ export interface PanelNavItem {
   route:string;
   text:string;
   show?:boolean;
+  activeTitle?:string;
 }
 
 class PanelNavRoute {
