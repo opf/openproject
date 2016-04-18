@@ -26,7 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function wpResource(HalResource:typeof op.HalResource, NotificationsService:any, $q:ng.IQService) {
+import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
+
+function wpResource(HalResource:typeof op.HalResource,
+                    wpCacheService: WorkPackageCacheService,
+                    NotificationsService:any,
+                    $q:ng.IQService) {
   class WorkPackageResource extends HalResource {
     private form;
 
@@ -85,7 +90,7 @@ function wpResource(HalResource:typeof op.HalResource, NotificationsService:any,
           return this.$links.updateImmediately(plainPayload)
             .then(workPackage => {
               angular.extend(this, workPackage);
-
+              wpCacheService.updateWorkPackageList([this]);
               deferred.resolve(this);
             }).catch((error) => {
               deferred.reject(error);
@@ -94,6 +99,8 @@ function wpResource(HalResource:typeof op.HalResource, NotificationsService:any,
             });
         });
 
+      
+      
       return deferred.promise;
     }
 
