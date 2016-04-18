@@ -127,25 +127,7 @@
     <div class="work-packages--right-panel">
       <div class="work-packages--panel-inner">
       <span class="hidden-for-sighted" tabindex="-1" focus ng-bind="focusAnchorLabel"></span>
-        <div id="tabs">
-          <ul class="tabrow">
-            <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
-            properly. Thus, don't remove the hrefs or the empty URLs! -->
-            <li ui-sref="work-packages.show.activity({})"
-                ui-sref-active="selected">
-              <a href="" ng-bind="I18n.t('js.work_packages.tabs.activity')"/>
-            </li>
-            <li ui-sref="work-packages.show.relations({})"
-                ui-sref-active="selected">
-              <a href="" ng-bind="I18n.t('js.work_packages.tabs.relations')"/>
-            </li>
-            <li ng-if="canViewWorkPackageWatchers()"
-                ui-sref="work-packages.show.watchers({})"
-                ui-sref-active="selected">
-              <a href="" ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
-            </li>
-          </ul>
-        </div>
+        <panel-nav route="show"></panel-nav>
         <div class="tabcontent" ui-view>
         </div>
       </div>

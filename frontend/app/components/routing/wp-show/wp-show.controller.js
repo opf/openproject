@@ -214,6 +214,7 @@ function WorkPackageShowController($scope, $rootScope, $state, workPackage, I18n
                       .then(function() { refreshWorkPackage() }, outputError);
   };
 
+  //TODO: Remove
   $scope.canViewWorkPackageWatchers = function() {
     return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
   };

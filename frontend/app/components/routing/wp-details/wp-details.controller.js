@@ -127,6 +127,7 @@ function WorkPackageDetailsController($scope, $state, workPackage, I18n, RELATIO
     }
   }
 
+  //TODO: Remove
   $scope.canViewWorkPackageWatchers = function() {
     return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
   };
