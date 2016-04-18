@@ -72,7 +72,7 @@ function halResource($q, _, lazy, halTransform, HalLink) {
       });
     }
 
-    constructor(public $source, public $loaded = true) {
+    constructor(public $source:any, public $loaded:boolean = true) {
       this.$source = $source._plain || $source;
 
       this.proxyProperties();

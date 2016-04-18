@@ -35,6 +35,7 @@ export class WorkPackageEditFieldController {
   public formCtrl: WorkPackageEditFormController;
   public wpEditForm:ng.IFormController;
   public fieldName:string;
+  public fieldIndex:number;
   public field:Field;
   public errorenous:boolean;
   protected pristineValue:any;
@@ -50,6 +51,7 @@ export class WorkPackageEditFieldController {
     protected $element,
     protected NotificationsService,
     protected I18n) {
+
   }
 
   public get workPackage() {
@@ -65,13 +67,14 @@ export class WorkPackageEditFieldController {
       .then(() => this.deactivate());
   }
 
-  public activate() {
+  public activate(forceFocus = true) {
     if (this._active) {
+      this.setFocus(forceFocus);
       return;
     }
 
     this.pristineValue = angular.copy(this.workPackage[this.fieldName]);
-    this.setupField().then(() => {
+    this.buildEditField().then(() => {
       this._active = this.field.schema.writable;
 
       // Display a generic error if the field turns out not to be editable,
@@ -82,6 +85,27 @@ export class WorkPackageEditFieldController {
           { attribute: this.field.schema.name }
         ));
       }
+
+      this.setFocus(forceFocus);
+    });
+  }
+
+  public initializeField() {
+    // Activate field when creating a work package
+    // and the schema requires this field
+    if (this.workPackage.isNew && this.workPackage.requiredValueFor(this.fieldName)) {
+      this.activate();
+
+      var activeField = this.formCtrl.firstActiveField;
+      if (!activeField || this.formCtrl.fields[activeField].fieldIndex > this.fieldIndex) {
+        this.formCtrl.firstActiveField = this.fieldName;
+      }
+    }
+
+    // Mark the td field if it is inline-editable
+    // We're resolving the non-form schema here since its loaded anyway for the table
+    this.workPackage.schema.$load().then(schema => {
+      this.editable = schema[this.fieldName].writable;
     });
   }
 
@@ -92,6 +116,16 @@ export class WorkPackageEditFieldController {
   public set editable(enabled:boolean) {
     this._editable = enabled;
     this.$element.toggleClass('-editable', enabled);
+  }
+
+  public shouldFocus() {
+    return !this.workPackage.isNew || this.formCtrl.firstActiveField === this.fieldName;
+  }
+
+  public setFocus(focus = true) {
+    if (focus) {
+      this.$element.find('.wp-inline-edit--field').focus();
+    }
   }
 
   public deactivate():boolean {
@@ -111,12 +145,13 @@ export class WorkPackageEditFieldController {
     this.pristineValue = null;
   }
 
-  protected setupField():ng.IPromise<any> {
+  protected buildEditField():ng.IPromise<any> {
     return this.formCtrl.loadSchema().then(schema => {
       this.field = this.wpEditField.getField(
         this.workPackage, this.fieldName, schema[this.fieldName]);
     });
   }
+
 }
 
 function wpEditFieldLink(
@@ -128,11 +163,7 @@ function wpEditFieldLink(
   controllers[1].formCtrl = controllers[0];
   controllers[1].formCtrl.fields[scope.vm.fieldName] = scope.vm;
 
-  // Mark the td field if it is inline-editable
-  // We're resolving the non-form schema here since its loaded anyway for the table
-  scope.vm.workPackage.schema.$load().then(schema => {
-    scope.vm.editable = schema[scope.vm.fieldName].writable;
-  });
+  scope.vm.initializeField();
 
   element.addClass(scope.vm.fieldName);
   element.keyup(event => {
@@ -157,7 +188,9 @@ function wpEditField() {
     transclude: true,
 
     scope: {
-      fieldName: '=wpEditField'
+      fieldName: '=wpEditField',
+      fieldIndex: '=fieldIndex',
+      columns: '=columns'
     },
 
     require: ['^wpEditForm', 'wpEditField'],

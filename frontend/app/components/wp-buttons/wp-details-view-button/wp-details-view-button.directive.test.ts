@@ -27,7 +27,7 @@
 // ++
 
 import {WorkPackageDetailsViewButtonController} from './wp-details-view-button.directive';
-import {KeepTabService} from "../keep-tab/keep-tab.service";
+import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 
 var expect = chai.expect;
 

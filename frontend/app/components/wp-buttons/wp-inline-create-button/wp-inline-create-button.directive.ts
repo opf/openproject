@@ -26,33 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('Watchers panel directive', function () {
-  var $compile, $rootScope, element;
+function wpInlineCreateButton() {
+  return {
+    restrict: 'AE',
+    templateUrl: '/components/wp-buttons/wp-inline-create-button/' +
+    'wp-inline-create-button.directive.html',
 
+    scope: {
+      projectIdentifier: '=',
+      rows: '=',
+      columns: '='
+    },
 
-  beforeEach(angular.mock.module('openproject.services', function($provide) {
-    var configurationService = {};
+    bindToController: true,
+    controllerAs: '$ctrl',
+    controller: 'WorkPackageInlineCreateButtonController'
+  }
+}
 
-    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
-    $provide.constant('ConfigurationService', configurationService);
-  }));
-  
-
-  beforeEach(angular.mock.module('openproject.workPackages.controllers', function ($controllerProvider) {
-    $controllerProvider.register('WatchersPanelController', function () {});
-  }));
-
-  beforeEach(angular.mock.module('openproject.templates'));
-
-  beforeEach(inject(function (_$compile_, _$rootScope_) {
-    $compile = _$compile_;
-    $rootScope = _$rootScope_;
-
-    element = $compile('<watchers-panel work-package="workPackage"></watchers-panel>')($rootScope);
-    $rootScope.$digest();
-  }));
-
-  it('should should be rendered correctly', function () {
-    expect(element.html()).to.contain('detail-panel-watchers');
-  });
-});
+angular
+  .module('openproject.wpButtons')
+  .directive('wpInlineCreateButton', wpInlineCreateButton);

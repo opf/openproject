@@ -26,33 +26,39 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('Watchers panel directive', function () {
-  var $compile, $rootScope, element;
+import {wpButtonsModule} from '../../../angular-modules';
 
+export default class WorkPackageCreateButtonController {
+  public projectIdentifier:string;
+  public text:any;
+  public types:any;
 
-  beforeEach(angular.mock.module('openproject.services', function($provide) {
-    var configurationService = {};
+  protected canCreate:boolean = false;
 
-    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
-    $provide.constant('ConfigurationService', configurationService);
-  }));
-  
+  public get inProjectContext() {
+    return !!this.projectIdentifier;
+  }
 
-  beforeEach(angular.mock.module('openproject.workPackages.controllers', function ($controllerProvider) {
-    $controllerProvider.register('WatchersPanelController', function () {});
-  }));
+  constructor(protected $state, protected I18n, protected ProjectService) {
+    this.text = {
+      button: I18n.t('js.label_work_package'),
+      create: I18n.t('js.label_create_work_package')
+    };
 
-  beforeEach(angular.mock.module('openproject.templates'));
+    if (this.inProjectContext) {
+      this.ProjectService.fetchProjectResource(this.projectIdentifier).then(project => {
+        this.canCreate = !!project.links.createWorkPackage;
+      });
 
-  beforeEach(inject(function (_$compile_, _$rootScope_) {
-    $compile = _$compile_;
-    $rootScope = _$rootScope_;
+      this.ProjectService.getProject(this.projectIdentifier).then(project  => {
+        this.types = project.embedded.types;
+      });
+    }
+  }
 
-    element = $compile('<watchers-panel work-package="workPackage"></watchers-panel>')($rootScope);
-    $rootScope.$digest();
-  }));
+  public isDisabled() {
+    return !this.inProjectContext || !this.canCreate || this.$state.includes('**.new') || !this.types;
+  }
+}
 
-  it('should should be rendered correctly', function () {
-    expect(element.html()).to.contain('detail-panel-watchers');
-  });
-});
+wpButtonsModule.controller('WorkPackageCreateButtonController', WorkPackageCreateButtonController);

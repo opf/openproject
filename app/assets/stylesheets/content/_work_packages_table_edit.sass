@@ -37,45 +37,48 @@
   display: table-cell
   width: auto
 
-  .wp-edit-field
-    padding-left: 0
+  &:hover .wp-edit-field.-error:hover
+    border-color: $nm-color-error-border
 
-    &.-active
-      padding: 0
+.wp-edit-field
+  padding-left: 0
 
-    &.-error
+  &.-active
+    padding: 0
+
+  &.-error
+    
+    .wp-table--cell-span,
+    input,
+    select
       background: $nm-color-error-background
       border-color: $nm-color-error-border
 
       &:hover
         border-color: lighten($nm-color-error-border, 10%)
 
-    form
-      width: 100%
+  form
+    width: 100%
 
-    .-hidden-overflow
-      overflow: hidden
-      text-overflow: ellipsis
+  .-hidden-overflow
+    overflow: hidden
+    text-overflow: ellipsis
 
-  &:hover .wp-edit-field.-error:hover
-    border-color: $nm-color-error-border
+// Editable fields cursor
+.-editable .wp-table--cell-span
+  padding: 0 5px 0 5px
+  cursor: text
+  border-color: transparent
+  border-style: solid
+  border-radius: 2px
+  border-width: 1px
+  overflow: visible
+  display: inline-block
+  line-height: 1.6
 
-  // Editable fields cursor
-  .wp-table--cell-span
-    padding: 0 5px 0 5px
-    cursor: text
-    border-color: transparent
-    border-style: solid
-    border-radius: 2px
-    border-width: 1px
-    overflow: visible
-    display: inline-block
-    line-height: 1.6
-
-
-    &:hover,
-    &:focus
-      border-color: $inplace-edit--border-color
+  &:hover,
+  &:focus
+    border-color: $inplace-edit--border-color
 
     .work-package--placeholder
       padding: 0 10px 0 0px
@@ -88,14 +91,15 @@
     cursor: pointer
 
 // Animations on leaving work packages
-.wp--row.ng-leave
-  -webkit-transition: all 1s ease-in-out
-  -moz-transition: all 1s ease-in-out
-  -o-transition: all 1s ease-in-out
-  transition: all 1s ease-in-out
+.wp--row.-animated-leave
+  &.ng-leave
+    -webkit-transition: all 1s ease-in-out
+    -moz-transition: all 1s ease-in-out
+    -o-transition: all 1s ease-in-out
+    transition: all 1s ease-in-out
 
-.wp--row.ng-leave-active
-  height: 0
-  line-height: 0
-  opacity: 0
+  &.ng-leave-active
+    height: 0
+    line-height: 0
+    opacity: 0
 

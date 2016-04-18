@@ -26,8 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
-import {KeepTabService} from '../keep-tab/keep-tab.service';
+import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 
 export class WorkPackageDetailsViewButtonController extends WorkPackageNavigationButtonController {
   public projectIdentifier:number;
@@ -73,6 +74,4 @@ function wpDetailsViewButton() {
   });
 }
 
-angular
-  .module('openproject.wpButtons')
-  .directive('wpDetailsViewButton', wpDetailsViewButton);
+wpButtonsModule.directive('wpDetailsViewButton', wpDetailsViewButton);

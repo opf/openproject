@@ -35,11 +35,13 @@ module API
                      path: :"#{property_name}",
                      namespace: path.to_s.pluralize,
                      getter: :"#{property_name}_id",
+                     title_getter: -> (*) { model.send(property_name).name },
                      setter: :"#{getter}=")
         @property_name = property_name
         @path = path
         @namespace = namespace
         @getter = getter
+        @title_getter = title_getter
         @setter = setter
 
         super(model, current_user: nil)
@@ -65,6 +67,18 @@ module API
                  represented.send(@setter, id)
                },
                render_nil: true
+
+      property :title,
+               exec_context: :decorator,
+               getter: -> (*) {
+                 attribute = ::API::Utilities::PropertyNameConverter.to_ar_name(
+                   @property_name,
+                   context: represented
+                 )
+                 represented.try(attribute).try(:name)
+               },
+               writeable: false,
+               render_nil: false
     end
   end
 end

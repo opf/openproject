@@ -31,6 +31,12 @@ describe('NotificationBoxDirective', function() {
   var $rootScope;
 
   beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.templates'));
+  beforeEach(angular.mock.module('openproject.services', function($provide) {
+    var configurationService = {};
+
+    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
+    $provide.constant('ConfigurationService', configurationService);
+  }));
 
   beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_) {
     $compile = _$compile_;

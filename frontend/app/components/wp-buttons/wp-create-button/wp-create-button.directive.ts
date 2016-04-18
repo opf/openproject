@@ -26,14 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages')
-  .directive('wpCreateButton', wpCreateButton);
+import {wpButtonsModule} from '../../../angular-modules';
 
 function wpCreateButton() {
   return {
     restrict: 'E',
-    templateUrl: '/components/work-packages/wp-create-button/wp-create-button.directive.html',
+    templateUrl: '/components/wp-buttons/wp-create-button/wp-create-button.directive.html',
 
     scope: {
       projectIdentifier: '=',
@@ -42,31 +40,8 @@ function wpCreateButton() {
 
     bindToController: true,
     controllerAs: 'vm',
-    controller: WorkPackageCreateButtonController
+    controller: 'WorkPackageCreateButtonController'
   }
 }
 
-function WorkPackageCreateButtonController($state, ProjectService) {
-  var vm = this,
-      inProjectContext = !!vm.projectIdentifier,
-      canCreate= false;
-
-  vm.text = {
-    button: I18n.t('js.label_work_package'),
-    create: I18n.t('js.label_create_work_package')
-  };
-
-  vm.isDisabled = function () {
-    return !inProjectContext || !canCreate || $state.includes('**.new') || !vm.types;
-  };
-
-  if (inProjectContext) {
-    ProjectService.fetchProjectResource(vm.projectIdentifier).then(function(project) {
-      canCreate = !!project.links.createWorkPackage;
-    });
-
-    ProjectService.getProject(vm.projectIdentifier).then(function (project) {
-      vm.types = project.embedded.types;
-    });
-  }
-}
+wpButtonsModule.directive('wpCreateButton', wpCreateButton);

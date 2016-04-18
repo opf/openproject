@@ -86,23 +86,25 @@
             has-dropdown-menu
             trigger-on-event="contextmenu"
             target="WorkPackageContextMenu"
-            locals="rows,row"
+            locals="rows,row,$index"
             after-focus-on=".id :focusable"
-            single-click="selectWorkPackage(row, $event)"
-            ng-dblclick="openWorkPackageInFullView(row)"
+            single-click="!row.object.isNew && selectWorkPackage(row, $event)"
+            ng-dblclick="!row.object.isNew && openWorkPackageInFullView(row)"
             ng-class="[
               'issue',
               'hascontextmenu',
               row.checked && 'context-menu-selection',
               !row.object['leaf?'] && 'parent' || '',
               row.level > 0 && 'child idnt' || '',
-              row.level > 0 && ('idnt-' + row.level) || ''
+              row.level > 0 && ('idnt-' + row.level) || '',
+              row.object.isNew && '-new' || '',
+              !(row.object.isNew || row.object.inlineCreate) && '-animated' || '',
             ]"
             ng-show="!groupByColumn || groupExpanded[row.groupName]"
 
             wp-edit-form="row.object">
 
-          <td class="checkbox -short hide-when-print">
+          <td ng-if="!row.object.isNew" class="checkbox -short hide-when-print">
             <accessible-checkbox name="ids[]"
                                  checkbox-id="work_package{{row.object.id}}"
                                  checkbox-value="row.object.id"
@@ -117,10 +119,21 @@
               </a>
             </span>
           </td>
+          <td ng-if="row.object.isNew" class="cancel-inline-create -short">
+            <span>
+              <a class="wp-table--cancel-create-link"
+                 ng-click="cancelInlineWorkPackage($index, row)">
+                <i class="icon icon-delete"></i>
+                <span ng-bind="I18n.t('js.button_cancel')"/>
+              </a>
+            </span>
+          </td>
 
           <td ng-repeat="column in columns"
               lang="{{column.custom_field && column.custom_field.name_locale || locale}}"
               wp-edit-field="column.name"
+              columns="columns"
+              field-index="$index"
               class="wp-table--cell"
               ng-class="{ '-short': column.name == 'id' }">
             <wp-td attribute="column.name"
@@ -158,9 +171,19 @@
               </wp-td>
             </td>
         </tr>
-
+        <tr wp-inline-create-row></tr>
       </tbody>
       <tfoot>
+        <!-- Inline create button -->
+        <tr class="wp-inline-create-button-row">
+          <!--  Add 2 to the colspan attr because of the id and the checkbox columns  -->
+          <td colspan="{{ columns.length + 2 }}">
+            <wp-inline-create-button
+                project-identifier="projectIdentifier"
+                rows="rows"
+            ></wp-inline-create-button>
+          </td>
+        </tr>
 
         <!-- Total sums -->
 
@@ -179,7 +202,6 @@
             </wp-td>
           </td>
         </tr>
-
       </tfoot>
     </table>
     <div class="generic-table--header-background"></div>

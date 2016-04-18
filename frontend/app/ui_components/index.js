@@ -55,14 +55,6 @@ angular.module('openproject.uiComponents')
   .constant('FOCUSABLE_SELECTOR', 'a, button, :input, [tabindex], select')
   .service('FocusHelper', ['$timeout', 'FOCUSABLE_SELECTOR', require(
     './focus-helper')])
-  .directive('hasDropdownMenu', [
-    '$rootScope',
-    '$injector',
-    '$window',
-    '$parse',
-    'FocusHelper',
-    require('./has-dropdown-menu-directive')
-  ])
   .directive('hasPreview', [
     require('./has-preview-directive')
   ])
@@ -104,7 +96,14 @@ angular.module('openproject.uiComponents')
   .directive('zoomSlider', ['I18n', require('./zoom-slider-directive')])
   .directive('clickNotification', ['$timeout','NotificationsService', require('./click-notification-directive')])
   .directive('notifications', [require('./notifications-directive')])
-  .directive('notificationBox', ['I18n', '$timeout','$state','loadingIndicator', require('./notification-box-directive')])
+  .directive('notificationBox', [
+    'I18n',
+    '$timeout',
+    '$state',
+    'loadingIndicator',
+    'ConfigurationService',
+    require('./notification-box-directive')
+  ])
   .directive('uploadProgress', [require('./upload-progress-directive')])
   .directive('attachmentIcon', [require('./attachment-icon-directive')])
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))

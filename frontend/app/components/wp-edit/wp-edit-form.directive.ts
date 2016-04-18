@@ -29,6 +29,7 @@
 export class WorkPackageEditFormController {
   public workPackage;
   public fields = {};
+  public firstActiveField:string;
 
   constructor(
     protected NotificationsService,
@@ -38,6 +39,12 @@ export class WorkPackageEditFormController {
     protected $timeout) {
   }
 
+  public isFieldRequired(fieldName) {
+    return _.filter((this.fields as any), (name:string, _field) => {
+      return !this.workPackage[name] && this.workPackage.requiredValueFor(name);
+    });
+  }
+
   public loadSchema() {
     return this.workPackage.getSchema();
   }
@@ -45,11 +52,16 @@ export class WorkPackageEditFormController {
   public updateWorkPackage() {
     var deferred = this.$q.defer();
 
+    // Reset old error notifcations
+    this.$rootScope.$emit('notifications.clearAll');
+
     this.workPackage.save()
       .then(() => {
         angular.forEach(this.fields, field => field.setErrorState(false));
         deferred.resolve();
-      this.$rootScope.$emit('workPackagesRefreshInBackground');
+
+        this.$rootScope.$emit('workPackageSaved', this.workPackage);
+        this.$rootScope.$emit('workPackagesRefreshInBackground');
       })
       .catch((error) => {
         if (!error.data) {
@@ -85,6 +97,10 @@ export class WorkPackageEditFormController {
       angular.forEach(this.fields, (field) => {
         field.setErrorState(columns.indexOf(field.fieldName) !== -1);
       });
+
+      // Activate + Focus on first field
+      this.firstActiveField = columns[0];
+      this.fields[this.firstActiveField].activate(true);
     });
   }
 }

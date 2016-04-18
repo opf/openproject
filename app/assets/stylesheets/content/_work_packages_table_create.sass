@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,35 +24,44 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
-
-describe('Watchers panel directive', function () {
-  var $compile, $rootScope, element;
+//++
 
 
-  beforeEach(angular.mock.module('openproject.services', function($provide) {
-    var configurationService = {};
+.wp-inline-create-button-row td
+  padding: 0
 
-    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
-    $provide.constant('ConfigurationService', configurationService);
-  }));
-  
+.wp-inline-create-button
+  border-bottom: none
 
-  beforeEach(angular.mock.module('openproject.workPackages.controllers', function ($controllerProvider) {
-    $controllerProvider.register('WatchersPanelController', function () {});
-  }));
+  a
+    width: 100%
+    padding: 0.5rem 0
+    display: block
+    line-height: 1.6
 
-  beforeEach(angular.mock.module('openproject.templates'));
+    &:hover
+      background: #e4f7fb
+    
 
-  beforeEach(inject(function (_$compile_, _$rootScope_) {
-    $compile = _$compile_;
-    $rootScope = _$rootScope_;
+.wp-inline-create--add-link
+  font-weight: bold
 
-    element = $compile('<watchers-panel work-package="workPackage"></watchers-panel>')($rootScope);
-    $rootScope.$digest();
-  }));
+  .icon::before
+    padding-left: 7px
+    padding-right: 10px
+    font-size: 11px
 
-  it('should should be rendered correctly', function () {
-    expect(element.html()).to.contain('detail-panel-watchers');
-  });
-});
+  &:hover
+    text-decoration: none
+
+.wp--row.-new,
+tr.context-menu-selection.-new
+  background: #BEF3CA
+
+  &:hover
+    background: darken(#BEF3CA, 5%)
+
+  .wp-table--cell-span:hover
+    border-color: #35c53f
+
+

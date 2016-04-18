@@ -26,10 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
-import {KeepTabService} from '../keep-tab/keep-tab.service';
+import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 
-export class WorkPackageViewButtonController extends WorkPackageNavigationButtonController{
+export class WorkPackageViewButtonController extends WorkPackageNavigationButtonController {
   public workPackageId:number;
   public nextWpFunc:Function;
 
@@ -65,7 +66,7 @@ export class WorkPackageViewButtonController extends WorkPackageNavigationButton
   }
 }
 
-function wpViewButton(): ng.IDirective {
+function wpViewButton():ng.IDirective {
   return wpButtonDirective({
     scope: {
       workPackageId: '=?',
@@ -76,6 +77,4 @@ function wpViewButton(): ng.IDirective {
   });
 }
 
-angular
-  .module('openproject.wpButtons')
-  .directive('wpViewButton', wpViewButton);
+wpButtonsModule.directive('wpViewButton', wpViewButton);

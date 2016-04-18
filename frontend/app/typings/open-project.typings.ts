@@ -203,7 +203,7 @@ declare namespace op {
     public name:string;
     public href:string;
 
-    constructor($source:restangular.IElement);
+    constructor($source: restangular.IElement, $loaded: boolean);
 
     public $plain();
   }
