@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {PanelNavItem, PanelNavService} from "./panel-nav-items.service";
+import {PanelNavItem, PanelNavService} from "./panel-nav.service";
 
 class PanelNavController {
   public route:string;

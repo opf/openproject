@@ -26,46 +26,53 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {PanelNavService} from "./panel-nav-items.service";
+export interface PanelNavRoutes {
+  [route: string]: PanelNavRoute;
+}
 
-function panelNavConfig(I18n:op.I18n, panelNavService:PanelNavService) {
-  panelNavService.route('show')
-    .addItem({
-      route: 'work-packages.show.activity',
-      text: I18n.t('js.work_packages.tabs.activity')
-    })
-    .addItem({
-      route: 'work-packages.show.relations',
-      text: I18n.t('js.work_packages.tabs.relations')
-    })
-    .addItem({
-      route: 'work-packages.show.watchers',
-      text: I18n.t('js.work_packages.tabs.watchers'),
-      //TODO: Implement
-      condition: true
-    });
+export interface PanelNavItem {
+  route:string;
+  text:string;
+  show?:boolean;
+}
 
-  panelNavService.route('listDetails')
-    .addItem({
-      route: 'work-packages.list.details.overview',
-      text: I18n.t('js.work_packages.tabs.overview')
-    })
-    .addItem({
-      route: 'work-packages.list.details.activity',
-      text: I18n.t('js.work_packages.tabs.activity')
-    })
-    .addItem({
-      route: 'work-packages.list.details.relations',
-      text: I18n.t('js.work_packages.tabs.relations')
-    })
-    .addItem({
-      route: 'work-packages.list.details.watchers',
-      text: I18n.t('js.work_packages.tabs.watchers'),
-      //TODO: Implement
-      condition: true
-    });
+class PanelNavRoute {
+  private _items:PanelNavItem[] = [];
+
+  public get items():PanelNavItem[] {
+    return this._items;
+  }
+
+  public addItem(item:PanelNavItem):PanelNavRoute {
+    var defaultItem:PanelNavItem = {
+      route: '',
+      text: '',
+      show: true
+    };
+
+    angular.extend(defaultItem, item);
+    this.items.push(defaultItem);
+
+    return this;
+  }
+
+  public getItem(route:string):PanelNavItem {
+    return _.find(this.items, {route: route});
+  }
+}
+
+export class PanelNavService {
+  protected routes:PanelNavRoutes = {};
+
+  public route(route:string):PanelNavRoute {
+    if (!this.routes[route]) {
+      this.routes[route] = new PanelNavRoute();
+    }
+
+    return this.routes[route];
+  }
 }
 
 angular
   .module('openproject')
-  .run(panelNavConfig);
+  .service('panelNavService', PanelNavService);

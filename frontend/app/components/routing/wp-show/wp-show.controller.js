@@ -238,13 +238,7 @@ function WorkPackageShowController($scope,
       }, outputError);
   };
 
-  //TODO: Remove
-  $scope.canViewWorkPackageWatchers = function () {
-    return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
-  };
-
   // toggles
-
   $scope.toggleStates = {
     hideFullDescription: true,
     hideAllAttributes: true

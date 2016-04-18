@@ -1,7 +1,7 @@
 <div id="tabs">
   <ul class="tabrow">
     <li ng-repeat="item in $ctrl.items"
-        ng-if="item.condition"
+        ng-show="item.show"
         ui-sref="{{ item.route }}"
         ui-sref-active="selected">
 

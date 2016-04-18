@@ -26,6 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {PanelNavService} from "../wp-panels/panel-nav/panel-nav.service";
+
+function resolveWp(route:string, watcherItemRoute:string) {
+  return ($stateParams,
+          WorkPackageService,
+          panelNavService:PanelNavService) => {
+
+    const wpId = $stateParams.workPackageId;
+
+    return WorkPackageService.getWorkPackage(wpId).then(wp => {
+      const item = panelNavService.route(route).getItem(watcherItemRoute);
+      item.show = !!wp.embedded.watchers;
+
+      return wp;
+    });
+  }
+}
+
 angular
   .module('openproject')
   .config(($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) => {
@@ -104,9 +122,7 @@ angular
         controller: 'WorkPackageShowController',
         controllerAs: 'vm',
         resolve: {
-          workPackage: (WorkPackageService, $stateParams) => {
-            return WorkPackageService.getWorkPackage($stateParams.workPackageId);
-          }
+          workPackage: resolveWp('show', 'work-packages.show.watchers')
         },
         // HACK
         // This is to avoid problems with the css depending on which page the
@@ -175,9 +191,7 @@ angular
         controller: 'WorkPackageDetailsController',
         reloadOnSearch: false,
         resolve: {
-          workPackage: (WorkPackageService, $stateParams) => {
-            return WorkPackageService.getWorkPackage($stateParams.workPackageId);
-          }
+          workPackage: resolveWp('listDetails', 'work-packages.list.details.watchers')
         }
       })
       .state('work-packages.list.details.overview', {
@@ -193,41 +207,41 @@ angular
   })
 
   .run(($location, $rootElement, $browser, $rootScope, $state, $window) => {
-    // Our application is still a hybrid one, meaning most routes are still
-    // handled by Rails. As such, we disable the default link-hijacking that
-    // Angular's HTML5-mode turns on.
-    $rootElement.off('click');
-    $rootElement.on('click', 'a[data-ui-route]', (event) => {
-      if (!jQuery('body').has('div[ui-view]').length || event.ctrlKey || event.metaKey
+      // Our application is still a hybrid one, meaning most routes are still
+      // handled by Rails. As such, we disable the default link-hijacking that
+      // Angular's HTML5-mode turns on.
+      $rootElement.off('click');
+      $rootElement.on('click', 'a[data-ui-route]', (event) => {
+        if (!jQuery('body').has('div[ui-view]').length || event.ctrlKey || event.metaKey
           || event.which === 2) {
 
-        return;
-      }
-
-      // NOTE: making use of event delegation, thus jQuery-only.
-      var elm = jQuery(event.target);
-      var absHref = elm.prop('href');
-      var rewrittenUrl = $location.$$rewrite(absHref);
-
-      if (absHref && !elm.attr('target') && rewrittenUrl && !event.isDefaultPrevented()) {
-        event.preventDefault();
-
-        if (rewrittenUrl !== $browser.url()) {
-          // update location manually
-          $location.$$parse(rewrittenUrl);
-          $rootScope.$apply();
-
-          // hack to work around FF6 bug 684208 when scenario runner clicks on links
-          $window.angular['ff-684208-preventDefault'] = true;
+          return;
         }
-      }
-    });
 
-    $rootScope.$on('$stateChangeStart', (event, toState, toParams) => {
-      if (!toParams.projects && toParams.projectPath) {
-        toParams.projects = 'projects';
-        $state.go(toState, toParams);
-      }
-    });
+        // NOTE: making use of event delegation, thus jQuery-only.
+        var elm = jQuery(event.target);
+        var absHref = elm.prop('href');
+        var rewrittenUrl = $location.$$rewrite(absHref);
+
+        if (absHref && !elm.attr('target') && rewrittenUrl && !event.isDefaultPrevented()) {
+          event.preventDefault();
+
+          if (rewrittenUrl !== $browser.url()) {
+            // update location manually
+            $location.$$parse(rewrittenUrl);
+            $rootScope.$apply();
+
+            // hack to work around FF6 bug 684208 when scenario runner clicks on links
+            $window.angular['ff-684208-preventDefault'] = true;
+          }
+        }
+      });
+
+      $rootScope.$on('$stateChangeStart', (event, toState, toParams) => {
+        if (!toParams.projects && toParams.projectPath) {
+          toParams.projects = 'projects';
+          $state.go(toState, toParams);
+        }
+      });
     }
   );

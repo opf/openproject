@@ -26,49 +26,44 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-export interface PanelNavRoutes {
-  [route: string]: PanelNavRoute;
-}
+import {PanelNavService} from "./panel-nav.service";
 
-export interface PanelNavItem {
-  route:string;
-  text:string;
-  condition?:boolean;
-}
+function panelNavConfig(I18n:op.I18n, panelNavService:PanelNavService) {
+  panelNavService.route('show')
+    .addItem({
+      route: 'work-packages.show.activity',
+      text: I18n.t('js.work_packages.tabs.activity')
+    })
+    .addItem({
+      route: 'work-packages.show.relations',
+      text: I18n.t('js.work_packages.tabs.relations')
+    })
+    .addItem({
+      route: 'work-packages.show.watchers',
+      text: I18n.t('js.work_packages.tabs.watchers'),
+      show: false
+    });
 
-class PanelNavRoute {
-  private _items:PanelNavItem[] = [];
-
-  public get items():PanelNavItem[] {
-    return this._items;
-  }
-
-  public addItem(item:PanelNavItem):PanelNavRoute {
-    var defaultItem:PanelNavItem = {
-      route: '',
-      text: '',
-      condition: true
-    };
-
-    angular.extend(defaultItem, item);
-    this._items.push(defaultItem);
-
-    return this;
-  }
-}
-
-export class PanelNavService {
-  protected routes:PanelNavRoutes = {};
-
-  public route(route:string):PanelNavRoute {
-    if (!this.routes[route]) {
-      this.routes[route] = new PanelNavRoute();
-    }
-
-    return this.routes[route];
-  }
+  panelNavService.route('listDetails')
+    .addItem({
+      route: 'work-packages.list.details.overview',
+      text: I18n.t('js.work_packages.tabs.overview')
+    })
+    .addItem({
+      route: 'work-packages.list.details.activity',
+      text: I18n.t('js.work_packages.tabs.activity')
+    })
+    .addItem({
+      route: 'work-packages.list.details.relations',
+      text: I18n.t('js.work_packages.tabs.relations')
+    })
+    .addItem({
+      route: 'work-packages.list.details.watchers',
+      text: I18n.t('js.work_packages.tabs.watchers'),
+      show: false
+    });
 }
 
 angular
   .module('openproject')
-  .service('panelNavService', PanelNavService);
+  .run(panelNavConfig);
