@@ -38,7 +38,7 @@ export class ApiWorkPackagesService {
   }
 
   public list(offset:number, pageSize:number, query:api.ex.Query) {
-    var workPackages = this.wpApiPath(query.projectId.toString());
+    var workPackages = this.wpApiPath(query.projectId);
 
     return workPackages.getList(
       this.queryAsV3Params(offset, pageSize, query),
@@ -57,7 +57,7 @@ export class ApiWorkPackagesService {
     return this.wpApiPath(projectIdentifier).one('form').customPOST();
   }
 
-  public wpApiPath(projectIdentifier?: string) {
+  public wpApiPath(projectIdentifier?: any) {
     if (!!projectIdentifier) {
       return this.apiV3.service('work_packages', this.apiV3.one('projects', projectIdentifier));
     } else {

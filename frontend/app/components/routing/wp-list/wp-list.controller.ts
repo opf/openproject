@@ -149,7 +149,7 @@ function WorkPackagesListController($scope,
 
     // Merge new row if it exists
     var newRows = WorkPackagesTableService.getRows();
-    var last = ($scope.rows || []).last();
+    var last = <any> _.last($scope.rows);
 
     if (last && last.object.isNew) {
       newRows.push(last);

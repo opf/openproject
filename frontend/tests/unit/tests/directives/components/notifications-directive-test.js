@@ -34,6 +34,13 @@ describe('NotificationsDirective', function() {
   beforeEach(module('openproject.uiComponents'));
   beforeEach(module('openproject.templates')); // see karmaConfig
 
+  beforeEach(angular.mock.module('openproject.services', function($provide) {
+    var configurationService = {};
+
+    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
+    $provide.constant('ConfigurationService', configurationService);
+  }));
+
   beforeEach(inject(function(_$compile_, _$rootScope_) {
     $compile = _$compile_;
     $rootScope = _$rootScope_;

@@ -29,6 +29,15 @@
 describe('Watchers panel directive', function () {
   var $compile, $rootScope, element;
 
+
+  beforeEach(angular.mock.module('openproject.services', function($provide) {
+    var configurationService = {};
+
+    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
+    $provide.constant('ConfigurationService', configurationService);
+  }));
+  
+
   beforeEach(angular.mock.module('openproject.workPackages.controllers', function ($controllerProvider) {
     $controllerProvider.register('WatchersPanelController', function () {});
   }));
