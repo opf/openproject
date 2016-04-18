@@ -122,7 +122,7 @@ function wpResource(
           return this.saveResource(plainPayload)
             .then(workPackage => {
               angular.extend(this, workPackage);
-
+              wpCacheService.updateWorkPackageList([this]);
               deferred.resolve(this);
             }).catch((error) => {
               deferred.reject(error);

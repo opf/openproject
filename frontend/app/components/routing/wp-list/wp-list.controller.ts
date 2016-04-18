@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageCacheService} from "../../work-packages/work-package-sync-edit.service";
+import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 
 function WorkPackagesListController($scope,
                                     $rootScope,

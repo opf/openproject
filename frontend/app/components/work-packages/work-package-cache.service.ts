@@ -38,7 +38,6 @@ export class WorkPackageCacheService {
     workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackage}>(1);
 
     updateWorkPackageList(list: WorkPackage[]) {
-        console.log("updateWorkPackageList()");
         for (const wp of list) {
             this.workPackageCache[wp.id] = wp;
         }
