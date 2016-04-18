@@ -187,30 +187,32 @@ describe OpenProject::Scm::Adapters::Subversion do
         it 'builds the info object' do
           info = adapter.info
           expect(info.root_url).to eq(url)
-          expect(info.lastrev.identifier).to eq('12')
+          expect(info.lastrev.identifier).to eq('13')
           expect(info.lastrev.author).to eq('oliver')
-          expect(info.lastrev.time).to eq('2015-07-08T13:32:29.228572Z')
+          expect(info.lastrev.time).to eq('2016-04-14T19:23:01.74469Z')
         end
       end
 
       describe '.entries' do
         it 'reads all entries from the current revision' do
           entries = adapter.entries
-          expect(entries.length).to eq(1)
+          expect(entries.length).to eq(2)
 
-          expect(entries[0].name).to eq('subversion_test')
-          expect(entries[0].path).to eq('subversion_test')
+          expect(entries[0].name).to eq('Föbar')
+          expect(entries[0].path).to eq('Föbar')
+          expect(entries[1].name).to eq('subversion_test')
+          expect(entries[1].path).to eq('subversion_test')
         end
 
         it 'contains a reference to the last revision' do
           entries = adapter.entries
-          expect(entries.length).to eq(1)
+          expect(entries.length).to eq(2)
           lastrev = entries[0].lastrev
 
-          expect(lastrev.identifier).to eq('12')
+          expect(lastrev.identifier).to eq('13')
           expect(lastrev.author).to eq('oliver')
           expect(lastrev.message).to eq('')
-          expect(lastrev.time).to eq('2015-07-08T13:32:29.228572Z')
+          expect(lastrev.time).to eq('2016-04-14T19:23:01.74469Z')
         end
 
         it 'reads all entries from the given revision' do
@@ -282,13 +284,13 @@ describe OpenProject::Scm::Adapters::Subversion do
       describe '.revisions' do
         it 'returns all revisions by default' do
           revisions = adapter.revisions
-          expect(revisions.length).to eq(12)
+          expect(revisions.length).to eq(13)
 
           expect(revisions[0].author).to eq('oliver')
-          expect(revisions[0].message).to eq("Propedit\n")
+          expect(revisions[0].message).to eq("UTF-8 Test")
 
           revisions.each_with_index do |rev, i|
-            expect(rev.identifier).to eq((12 - i).to_s)
+            expect(rev.identifier).to eq((13 - i).to_s)
           end
         end
 
