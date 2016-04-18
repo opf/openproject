@@ -36,6 +36,7 @@ function wpResource(
   class WorkPackageResource extends HalResource {
     private form;
     public schema;
+    public id;
 
     public static fromCreateForm(projectIdentifier?:string):ng.IPromise<WorkPackageResource> {
       var deferred = $q.defer();
@@ -57,7 +58,7 @@ function wpResource(
     }
 
     public get isNew():boolean {
-      var id = Number((this as any).id);
+      var id = Number(this.id);
       return isNaN(id);
     }
 

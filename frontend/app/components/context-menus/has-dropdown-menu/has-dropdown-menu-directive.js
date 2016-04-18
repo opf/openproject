@@ -117,7 +117,11 @@ function hasDropdownMenu($rootScope, $injector, $window, FocusHelper) {
 
 
       function toggle(event) {
-        active() ? close() : open(event);
+        if (active()) {
+          close();
+        } else {
+          open(event);
+        }
       }
 
       function active() {
@@ -167,7 +171,7 @@ function hasDropdownMenu($rootScope, $injector, $window, FocusHelper) {
       function positionDropdown() {
         var positionRelativeToElement = positionRelativeTo ?
           element.find(positionRelativeTo) : element;
-        if (attrs.triggerOnEvent == 'contextmenu') {
+        if (attrs.triggerOnEvent === 'contextmenu') {
           menuElement.css(pointerCssPosition);
           adjustPosition(menuElement, pointerPosition);
         } else {

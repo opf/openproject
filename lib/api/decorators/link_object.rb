@@ -72,8 +72,8 @@ module API
                exec_context: :decorator,
                getter: -> (*) {
                  attribute = ::API::Utilities::PropertyNameConverter.to_ar_name(
-                  @property_name,
-                  context: represented
+                   @property_name,
+                   context: represented
                  )
                  represented.try(attribute).try(:name)
                },

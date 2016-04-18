@@ -40,7 +40,7 @@ export class WorkPackageEditFormController {
   }
 
   public isFieldRequired(fieldName) {
-    return _.filter(this.fields, (name, field) => {
+    return _.filter((this.fields as any), (name:string, _field) => {
       return !this.workPackage[name] && this.workPackage.requiredValueFor(name);
     });
   }
@@ -99,7 +99,7 @@ export class WorkPackageEditFormController {
       });
 
       // Activate + Focus on first field
-      this.firstActiveField = columns.first();
+      this.firstActiveField = columns[0];
       this.fields[this.firstActiveField].activate(true);
     });
   }
