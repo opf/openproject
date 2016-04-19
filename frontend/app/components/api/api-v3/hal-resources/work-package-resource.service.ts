@@ -27,48 +27,60 @@
 //++
 
 import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
+import WorkPackage = op.WorkPackage;
 
-function wpResource(HalResource:typeof op.HalResource,
-                    wpCacheService: WorkPackageCacheService,
-                    NotificationsService:any,
-                    $q:ng.IQService) {
-  class WorkPackageResource extends HalResource {
-    private form;
+// function wpResource(HalResource:typeof op.HalResource,
+//                     wpCacheService: WorkPackageCacheService,
+//                     NotificationsService:any,
+//                     $q:ng.IQService) {
 
-    getForm() {
-      if (!this.form) {
-        this.form = this.$links.update(this);
-        this.form.catch(error => {
-          NotificationsService.addError(error.data.message);
-        });
-      }
-      return this.form;
-    }
+export class WorkPackageResource extends op.HalResource {
+  
+  private form;
 
-    getSchema() {
-      return this.getForm().then(form => {
-        const schema = form.$embedded.schema;
+  constructor(private wpCacheService: WorkPackageCacheService,
+              private NotificationsService: any,
+              private $q: ng.IQService) {
+    "ngInject";
 
-        angular.forEach(schema, (field, name) => {
-          if (this[name] && field && field.writable && field.$isHal
-            && Array.isArray(field.allowedValues)) {
+    // RR -> Alex: What should I inject?
+    super(null);
+  }
 
-            this[name] = _.where(field.allowedValues, {name: this[name].name})[0];
-          }
-        });
-
-        return schema;
+  getForm() {
+    if (!this.form) {
+      this.form = this.$links.update(this);
+      this.form.catch(error => {
+        this.NotificationsService.addError(error.data.message);
       });
     }
+    return this.form;
+  }
 
-    save() {
-      const plain = this.$plain();
+  getSchema() {
+    return this.getForm().then(form => {
+      const schema = form.$embedded.schema;
 
-      delete plain.createdAt;
-      delete plain.updatedAt;
+      angular.forEach(schema, (field, name) => {
+        if (this[name] && field && field.writable && field.$isHal
+            && Array.isArray(field.allowedValues)) {
 
-      var deferred = $q.defer();
-      this.getForm()
+          this[name] = _.where(field.allowedValues, {name: this[name].name})[0];
+        }
+      });
+
+      return schema;
+    });
+  }
+
+  save() {
+    const plain = this.$plain();
+
+    delete plain.createdAt;
+    delete plain.updatedAt;
+
+    var deferred = this.$q.defer();
+    this.getForm()
         .catch(deferred.reject)
         .then(form => {
           var plainPayload = form.payload.$plain();
@@ -88,39 +100,38 @@ function wpResource(HalResource:typeof op.HalResource,
           });
 
           return this.$links.updateImmediately(plainPayload)
-            .then(workPackage => {
-              angular.extend(this, workPackage);
-              wpCacheService.updateWorkPackageList([this]);
-              deferred.resolve(this);
-            }).catch((error) => {
-              deferred.reject(error);
-            }).finally(() => {
-              this.form = null;
-            });
+              .then(workPackage => {
+                angular.extend(this, workPackage);
+                this.wpCacheService.updateWorkPackageList([this as any]);
+                deferred.resolve(this);
+              }).catch((error) => {
+                deferred.reject(error);
+              }).finally(() => {
+                this.form = null;
+              });
         });
 
-      
-      
-      return deferred.promise;
-    }
 
-    public get isLeaf():boolean {
-      return !(this as any).children;
-    }
-
-    isParentOf(otherWorkPackage) {
-      return otherWorkPackage.parent.$links.self.$link.href ===
-        this.$links.self.$link.href;
-    }
-
-    public get isEditable():boolean {
-      return !!this.$links.update;
-    }
+    return deferred.promise;
   }
 
-  return WorkPackageResource;
+  public get isLeaf(): boolean {
+    return !(this as any).children;
+  }
+
+  isParentOf(otherWorkPackage) {
+    return otherWorkPackage.parent.$links.self.$link.href ===
+        this.$links.self.$link.href;
+  }
+
+  public get isEditable(): boolean {
+    return !!this.$links.update;
+  }
 }
 
+// return WorkPackageResource;
+// }
+
 angular
-  .module('openproject.api')
-  .factory('WorkPackageResource', wpResource);
+    .module('openproject.api')
+    .service('WorkPackageResource', WorkPackageResource);
