@@ -151,6 +151,15 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
         WorkPackagesTableService.setRowSelection(row, selected);
       }
 
+      function openWhenInSplitView(workPackage) {
+        if ($state.includes('work-packages.list.details')) {
+          $state.transitionTo(
+            'work-packages.list.details.overview',
+            { workPackageId: workPackage.id }
+          );
+        }
+      }
+
       function mulipleRowsChecked(){
         var counter = 0;
         for (var i = 0, l = scope.rows.length; i<l; i++) {
@@ -185,6 +194,8 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
           } else {
             setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
           }
+
+          openWhenInSplitView(row.object);
         }
       };
 
