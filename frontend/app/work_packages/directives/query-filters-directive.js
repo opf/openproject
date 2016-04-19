@@ -42,7 +42,7 @@ module.exports = function($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX
 
           scope.$watch('filterToBeAdded', function(filter) {
             if (filter) {
-              scope.query.addFilter(filter.value);
+              scope.query.addFilter(filter.key);
               scope.filterToBeAdded = undefined;
               var index = scope.query.getActiveFilters().length;
               updateFilterFocus(index);
@@ -66,8 +66,9 @@ module.exports = function($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX
           };
 
           function updateRemainingFilters() {
-            var remainingFilters = _.map(scope.query.getRemainingFilters(), function(filter) {
+            var remainingFilters = _.map(scope.query.getRemainingFilters(), function(filter, key) {
               return {
+                key: key,
                 value: filter.modelName,
                 name: FiltersHelper.localisedFilterName(filter)
               };
