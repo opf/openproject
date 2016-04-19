@@ -166,16 +166,16 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
       it_behaves_like 'sortable column'
     end
 
-    describe 'type column' do
-      let(:link_caption) { 'Type' }
+    describe 'subject column' do
+      let(:link_caption) { 'Subject' }
       let(:column_header_selector) { '.work-package-table--container th:nth-of-type(3)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
     end
 
-    describe 'subject column' do
-      let(:link_caption) { 'Subject' }
+    describe 'type column' do
+      let(:link_caption) { 'Type' }
       let(:column_header_selector) { '.work-package-table--container th:nth-of-type(4)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
