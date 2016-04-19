@@ -38,13 +38,21 @@ module.exports = function($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX
           scope.I18n = I18n;
           scope.localisedFilterName = FiltersHelper.localisedFilterName;
           scope.focusElementIndex;
+          scope.remainingFilterNames = [];
 
-          scope.$watch('filterToBeAdded', function(filterName) {
-            if (filterName) {
-              scope.query.addFilter(filterName);
+          scope.$watch('filterToBeAdded', function(filter) {
+            if (filter) {
+              scope.query.addFilter(filter.value);
               scope.filterToBeAdded = undefined;
               var index = scope.query.getActiveFilters().length;
               updateFilterFocus(index);
+              updateRemainingFilters();
+            }
+          });
+
+          scope.$watch('query.filters.length', function(len) {
+            if (len >= 0) {
+              updateRemainingFilters();
             }
           });
 
@@ -54,7 +62,19 @@ module.exports = function($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX
             scope.query.deactivateFilter(filter);
 
             updateFilterFocus(index);
+            updateRemainingFilters();
           };
+
+          function updateRemainingFilters() {
+            var remainingFilters = _.map(scope.query.getRemainingFilters(), function(filter) {
+              return {
+                value: filter.modelName,
+                name: FiltersHelper.localisedFilterName(filter)
+              };
+            });
+
+            scope.remainingFilterNames = _.sortBy(remainingFilters, 'name');
+          }
 
           function updateFilterFocus(index) {
             var activeFilterCount = scope.query.getActiveFilters().length;

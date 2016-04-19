@@ -160,9 +160,7 @@
           id="add_filter_select"
           focus="{{focusElementIndex == -1}}"
           ng-model="filterToBeAdded"
-          ng-options="filterName as localisedFilterName(query.availableWorkPackageFilters[filterName])
-            for filterName
-            in query.availableWorkPackageFilters | remainingFilterNames:query.filters" />
+          ng-options="filter.name for filter in remainingFilterNames" />
         </select>
         <!-- TODO options | orderObjectBy: 'order' -->
       </div>
