@@ -334,9 +334,9 @@ function QueryConstructorService(Filter, Sortation, UrlParamsHelper, INITIALLY_S
     },
 
     getRemainingFilters: function() {
-      var activeFilters = _.indexBy(this.getActiveFilters(), function(f) { return f.modelName });
-      return _.filter(this.availableWorkPackageFilters, function(filter) {
-        return !activeFilters[filter.modelName];
+      var activeFilters = _.indexBy(this.getActiveFilters(), function(f) { return f.name });
+      return _.pick(this.availableWorkPackageFilters, function(filter, key) {
+        return !activeFilters[key];
       });
     },
 
