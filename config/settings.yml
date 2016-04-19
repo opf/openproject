@@ -204,8 +204,8 @@ work_package_list_default_columns:
   serialized: true
   default:
   - id
-  - type
   - subject
+  - type
   - status
   - assigned_to
   - updated_on
