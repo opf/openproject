@@ -54,9 +54,6 @@ function WorkPackageDetailsController($scope, $state, workPackage, I18n, RELATIO
         $scope.$broadcast('workPackageRefreshed');
       });
   }
-  // Inform parent that work package is loaded so back url can be maintained
-  $scope.$emit('workPackgeLoaded');
-
   function outputMessage(message, isError) {
     if (!!isError) {
       NotificationsService.addError(message);

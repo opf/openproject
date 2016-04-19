@@ -135,9 +135,6 @@ function WorkPackageShowController($scope, $rootScope, $state, workPackage, I18n
       });
   }
 
-  // Inform parent that work package is loaded so back url can be maintained
-  $scope.$emit('workPackgeLoaded');
-
   function outputMessage(message, isError) {
     $scope.$emit('flashMessage', {
       isError: !!isError,
