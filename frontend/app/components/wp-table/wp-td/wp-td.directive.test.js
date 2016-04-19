@@ -60,7 +60,7 @@ describe('wpTd Directive', function() {
   };
 
   describe('element', function() {
-    beforeEach(function() {
+    beforeEach(inject(function($q) {
       scope.workPackage = {
         subject: 'Subject1',
         type: { id: 1, name: 'Bug'},
@@ -68,6 +68,7 @@ describe('wpTd Directive', function() {
         customField1: 'asdf1234',
       };
       scope.schema =  {
+        "$load": function() { return $q.when(true); },
         "_type": "Schema",
         "type": {
           "type": "Type",
@@ -104,7 +105,7 @@ describe('wpTd Directive', function() {
             "writable": true
         }
       };
-    });
+    }));
 
     describe('rendering an object field', function(){
       beforeEach(function(){

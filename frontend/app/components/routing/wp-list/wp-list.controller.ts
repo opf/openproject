@@ -236,12 +236,6 @@ function WorkPackagesListController($scope,
   });
 
   $rootScope.$on('queryClearRequired', _ => wpListService.clearUrlQueryParams);
-  $rootScope.$on('workPackgeLoaded', function () {
-    wpListService.fromQueryInstance($scope.query, $scope.projectIdentifier)
-      .then(function (json:api.ex.WorkPackagesMeta) {
-        setupWorkPackagesTable(json);
-      });
-  });
 
   function nextAvailableWorkPackage() {
     var selected = WorkPackageService.cache().get('preselectedWorkPackageId');

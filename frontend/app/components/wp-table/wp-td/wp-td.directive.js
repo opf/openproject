@@ -67,30 +67,27 @@ function WorkPackageTdController($scope, I18n, PathHelper, WorkPackagesHelper) {
   }
 
   function updateAttribute() {
-    if (!vm.schema[vm.attribute]) {
-      return;
-    }
+    vm.schema.$load().then(function() {
+      if (vm.object.isNew && vm.attribute === 'id') {
+        vm.displayText = 'text';
+        vm.displayText = I18n.t('js.work_packages.placeholders.new_label');
+        return;
+      }
 
-    if (vm.object.isNew && vm.attribute === 'id') {
-      vm.displayText = 'text';
-      vm.displayText = I18n.t('js.work_packages.placeholders.new_label');
-      return;
-    }
+      if (!vm.object[vm.attribute] ) {
+        vm.displayText = I18n.t('js.work_packages.placeholders.default');
+        return;
+      }
 
-    if (!vm.object[vm.attribute] ) {
-      vm.displayText = I18n.t('js.work_packages.placeholders.default');
-      return;
-    }
+      setDisplayType();
 
-    setDisplayType();
+      var text = vm.object[vm.attribute].value ||
+                  vm.object[vm.attribute].name ||
+                  vm.object[vm.attribute];
 
-    var text = vm.object[vm.attribute].value ||
-                vm.object[vm.attribute].name ||
-                vm.object[vm.attribute];
-
-    vm.displayText = WorkPackagesHelper.formatValue(text, vm.displayType);
+      vm.displayText = WorkPackagesHelper.formatValue(text, vm.displayType);
+    });
   }
 
   $scope.$watch('vm.object.' + vm.attribute, updateAttribute);
-  $scope.$watch('vm.schema.$loaded', updateAttribute);
 }
