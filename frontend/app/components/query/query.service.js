@@ -333,6 +333,13 @@ function QueryConstructorService(Filter, Sortation, UrlParamsHelper, INITIALLY_S
       });
     },
 
+    getRemainingFilters: function() {
+      var activeFilters = _.indexBy(this.getActiveFilters(), function(f) { return f.modelName });
+      return _.filter(this.availableWorkPackageFilters, function(filter) {
+        return !activeFilters[filter.modelName];
+      });
+    },
+
     getActiveConfiguredFilters: function() {
       return this.getActiveFilters().filter(function(filter){
         return filter.isConfigured();
