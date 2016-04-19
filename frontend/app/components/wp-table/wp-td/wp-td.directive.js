@@ -70,7 +70,7 @@ function WorkPackageTdController($scope, I18n, PathHelper, WorkPackagesHelper) {
     vm.schema.$load().then(function() {
       if (vm.object.isNew && vm.attribute === 'id') {
         vm.displayText = 'text';
-        vm.displayText = I18n.t('js.work_packages.placeholders.new_label');
+        vm.displayText = '';
         return;
       }
 

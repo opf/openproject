@@ -414,7 +414,6 @@ en:
         version: "Version"
       placeholders:
         default: "-"
-        new_label: '(new)'
         description: "Click to enter description..."
       query:
         column_names: "Columns"
