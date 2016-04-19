@@ -29,26 +29,25 @@
 
 import {openprojectModule} from "../../angular-modules";
 import WorkPackage = op.WorkPackage;
-import IScope = angular.IScope;
 
 export class WorkPackageCacheService {
 
-    private workPackageCache: {[id: number]: WorkPackage} = {};
+  private workPackageCache: {[id: number]: WorkPackage} = {};
 
-    workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackage}>(1);
+  workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackage}>(1);
 
-    updateWorkPackageList(list: WorkPackage[]) {
-        for (const wp of list) {
-            this.workPackageCache[wp.id] = wp;
-        }
-        this.workPackagesSubject.onNext(this.workPackageCache);
+  updateWorkPackageList(list: WorkPackage[]) {
+    for (const wp of list) {
+      this.workPackageCache[wp.id] = wp;
     }
+    this.workPackagesSubject.onNext(this.workPackageCache);
+  }
 
-    loadWorkPackage(workPackageId: number): Rx.Observable<WorkPackage> {
-        return this.workPackagesSubject
-                .map(cache => cache[workPackageId])
-                .filter(wp => wp !== undefined);
-    }
+  loadWorkPackage(workPackageId: number): Rx.Observable<WorkPackage> {
+    return this.workPackagesSubject
+        .map(cache => cache[workPackageId])
+        .filter(wp => wp !== undefined);
+  }
 
 }
 

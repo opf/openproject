@@ -81,26 +81,26 @@ function wpResource(
       return this.getForm().then(form => {
         const schema = form.$embedded.schema;
 
-        angular.forEach(schema, (field, name) => {
-          if (this[name] && field && field.writable && field.$isHal
+      angular.forEach(schema, (field, name) => {
+        if (this[name] && field && field.writable && field.$isHal
             && Array.isArray(field.allowedValues)) {
 
-            this[name] = _.where(field.allowedValues, {name: this[name].name})[0];
-          }
-        });
-
-        return schema;
+          this[name] = _.where(field.allowedValues, {name: this[name].name})[0];
+        }
       });
-    }
+
+      return schema;
+    });
+  }
 
     public save() {
       const plain = this.$plain();
 
-      delete plain.createdAt;
-      delete plain.updatedAt;
+    delete plain.createdAt;
+    delete plain.updatedAt;
 
-      var deferred = $q.defer();
-      this.getForm()
+    var deferred = this.$q.defer();
+    this.getForm()
         .catch(deferred.reject)
         .then(form => {
           var plainPayload = form.payload.$plain();
@@ -140,14 +140,14 @@ function wpResource(
       return deferred.promise;
     }
 
-    public get isLeaf():boolean {
-      return !(this as any).children;
-    }
+  public get isLeaf(): boolean {
+    return !(this as any).children;
+  }
 
     public isParentOf(otherWorkPackage) {
       return otherWorkPackage.parent.$links.self.$link.href ===
         this.$links.self.$link.href;
-    }
+  }
 
     public get isEditable():boolean {
       return !!this.$links.update || this.isNew;
@@ -162,9 +162,9 @@ function wpResource(
     }
   }
 
-  return WorkPackageResource;
-}
+// return WorkPackageResource;
+// }
 
 angular
-  .module('openproject.api')
-  .factory('WorkPackageResource', wpResource);
+    .module('openproject.api')
+    .service('WorkPackageResource', WorkPackageResource);

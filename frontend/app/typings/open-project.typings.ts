@@ -230,7 +230,7 @@ declare namespace op {
     getForm();
     getSchema();
 
-    update();
+    save();
     links: WorkPackageLinks
   }
 
