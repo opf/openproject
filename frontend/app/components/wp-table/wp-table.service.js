@@ -38,6 +38,9 @@ function WorkPackagesTableService($filter, QueryService, WorkPackagesTableHelper
   var bulkLinks = {};
 
   var WorkPackagesTableService = {
+    get filtersVisible() {
+      return workPackagesTableData.showFiltersOptions;
+    },
     setBulkLinks: function(links) {
       bulkLinks = links;
     },
@@ -164,10 +167,6 @@ function WorkPackagesTableService($filter, QueryService, WorkPackagesTableHelper
       }
 
       return activeSelectionBorderIndex;
-    },
-
-    getShowFilterOptions: function() {
-      return workPackagesTableData.showFiltersOptions;
     },
     toggleShowFilterOptions: function() {
       workPackagesTableData.showFiltersOptions = !workPackagesTableData.showFiltersOptions;

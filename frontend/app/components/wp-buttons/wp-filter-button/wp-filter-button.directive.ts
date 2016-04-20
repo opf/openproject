@@ -26,14 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageButtonController, wpButtonDirective} from '../wp-buttons.module';
 
 interface Filter {
-  modelName: string;
-  name: string;
-  operator: string;
-  type: string;
-  values: Object[];
+  modelName:string;
+  name:string;
+  operator:string;
+  type:string;
+  values:Object[];
 }
 
 export class WorkPackageFilterButtonController extends WorkPackageButtonController {
@@ -44,7 +45,7 @@ export class WorkPackageFilterButtonController extends WorkPackageButtonControll
   public buttonId:string = 'work-packages-filter-toggle-button';
   public iconClass:string = 'icon-filter';
 
-  constructor(public I18n, public _) {
+  constructor(public I18n, public _, protected WorkPackagesTableService) {
     'ngInject';
 
     super(I18n);
@@ -55,20 +56,19 @@ export class WorkPackageFilterButtonController extends WorkPackageButtonControll
   }
 
   public get filterCount():number {
-    return this._.size(_.where(this.filters, (filter) => !filter.deactivated ));
+    return this._.size(_.where(this.filters, filter => !filter.deactivated));
   }
 
   public isActive():boolean {
-    // showFiltersOptions
-    return false;
+    return this.WorkPackagesTableService.filtersVisible;
   }
 
   public performAction() {
-    this.showFilters()
+    this.toggleFilters()
   }
 
-  public showFilters() {
-    // toggleShowFilterOptions
+  public toggleFilters() {
+    this.WorkPackagesTableService.toggleShowFilterOptions();
   }
 }
 
@@ -84,6 +84,4 @@ function wpFilterButton():ng.IDirective {
   });
 }
 
-angular
-  .module('openproject.wpButtons')
-  .directive('wpFilterButton', wpFilterButton);
+wpButtonsModule.directive('wpFilterButton', wpFilterButton);

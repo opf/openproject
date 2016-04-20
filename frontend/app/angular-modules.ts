@@ -169,7 +169,7 @@ export default angular.module('openproject', [
   'openproject.templates',
   'monospaced.elastic',
   'openproject.inplace-edit',
-  'openproject.wpButtons',
+  wpButtonsModule.name,
   'openproject.responsive',
   filtersModule.name
 ]);

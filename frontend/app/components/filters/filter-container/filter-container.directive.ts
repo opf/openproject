@@ -28,10 +28,14 @@
 
 import {filtersModule} from '../../../angular-modules';
 
-function filterContainerDirective() {
+function filterContainerDirective(WorkPackagesTableService) {
   return {
     restrict: 'E',
-    templateUrl: '/components/filters/filter-container/filter-container.directive.html'
+    templateUrl: '/components/filters/filter-container/filter-container.directive.html',
+
+    link: (scope) => {
+      scope.table = WorkPackagesTableService;
+    }
   };
 }
 

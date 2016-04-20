@@ -237,18 +237,6 @@ describe('WorkPackagesListController', () => {
       expect(scope.disableFilters).to.be.false;
       expect(scope.disableNewWorkPackage).to.be.true;
       expect(scope.query.id).to.eq(testQueries['1'].id);
-      expect(scope.showFiltersOptions).to.be.false;
-    });
-
-    context('second initialisation', () => {
-      beforeEach(() => {
-        scope.toggleShowFilterOptions();
-        buildController(testParams, testState, testLocation);
-      });
-
-      it('should persist the showFiltersOptions value', () => {
-        expect(scope.showFiltersOptions).to.be.true;
-      });
     });
   });
 
