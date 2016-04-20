@@ -34,15 +34,6 @@ angular.module('openproject.workPackages.directives')
     'WorkPackageService',
     'QueryService', require('./query-columns-directive')
   ])
-  .directive('queryFilter', [
-    'WorkPackageLoadingHelper',
-    'QueryService',
-    'PaginationService',
-    'I18n',
-    'OPERATORS_NOT_REQUIRING_VALUES',
-    '$timeout',
-    '$animate', require('./query-filter-directive')
-  ])
   .directive('queryForm', require('./query-form-directive'))
   .constant('PERMITTED_MORE_MENU_ACTIONS', [
     { key: 'log_time', link: 'logTime', resource: 'workPackage' },
