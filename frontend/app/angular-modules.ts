@@ -144,7 +144,7 @@ angular.module('openproject.templates', []);
 angular.module('openproject.inplace-edit', []);
 angular.module('openproject.responsive', []);
 
-export var filtersModule = angular.module('openproject.filters', []);
+export var filtersModule = angular.module('openproject.filters', ['openproject.services']);
 
 export var wpButtonsModule =
   angular.module('openproject.wpButtons', ['ui.router', 'openproject.services']);

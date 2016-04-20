@@ -26,13 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n) {
+import {filtersModule} from '../../../angular-modules';
+
+function filtersHelperService(I18n) {
   var FiltersHelper = {
 
-    assignAncestorLevels: function(projects){
+    assignAncestorLevels: function (projects) {
       var ancestors = [];
-      angular.forEach(projects, function(project, i){
-        while(ancestors.length > 0 && project.parent_id !== _.last(ancestors).id) {
+      angular.forEach(projects, function (project, i) {
+        while (ancestors.length > 0 && project.parent_id !== _.last(ancestors).id) {
           // this helper method only reflects hierarchies if nested projects follow one another
           ancestors.pop();
         }
@@ -47,20 +49,20 @@ module.exports = function(I18n) {
       return projects;
     },
 
-    indentedName: function(name, level){
+    indentedName: function (name, level) {
       var indentation = '';
-      for(var i = 0; i < level; i++){
+      for (var i = 0; i < level; i++) {
         indentation = indentation + '--';
       }
       return indentation + " " + name;
     },
 
-    localisedFilterName: function(filter){
-      if(filter){
-        if(filter.name){
+    localisedFilterName: function (filter) {
+      if (filter) {
+        if (filter.name) {
           return filter.name;
         }
-        if(filter.locale_name){
+        if (filter.locale_name) {
           return I18n.t('js.filter_labels.' + filter["locale_name"]);
         }
       }
@@ -69,4 +71,6 @@ module.exports = function(I18n) {
   };
 
   return FiltersHelper;
-};
+}
+
+filtersModule.factory('FiltersHelper', filtersHelperService);
