@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,9 +24,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPES) {
+import {filtersModule} from '../../../angular-modules';
+
+function filterModel(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPES) {
   var Filter = function (data) {
     angular.extend(this, data);
 
@@ -44,7 +46,7 @@ module.exports = function(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPE
      * @description Serializes the filter to parameters required by the backend
      * @returns {Object} Request parameters
      */
-    toParams: function() {
+    toParams: function () {
       var params = {};
 
       params['op[' + this.name + ']'] = this.operator;
@@ -53,16 +55,16 @@ module.exports = function(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPE
       return params;
     },
 
-    isSingleInputField: function() {
+    isSingleInputField: function () {
       return SELECTABLE_FILTER_TYPES.indexOf(this.type) === -1;
     },
 
-    parseSingleValue: function(v) {
+    parseSingleValue: function (v) {
       return (this.type == 'integer') ? parseInt(v) : v;
     },
 
-    getValuesAsArray: function() {
-      if(this.isSingleInputField()) {
+    getValuesAsArray: function () {
+      if (this.isSingleInputField()) {
         return [this.textValue];
       } else if (Array.isArray(this.values)) {
         return this.values;
@@ -73,23 +75,23 @@ module.exports = function(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPE
       }
     },
 
-    requiresValues: function() {
+    requiresValues: function () {
       return OPERATORS_NOT_REQUIRING_VALUES.indexOf(this.operator) === -1;
     },
 
-    isConfigured: function() {
+    isConfigured: function () {
       return this.operator && (this.hasValues() || !this.requiresValues());
     },
 
-    pruneValues: function() {
+    pruneValues: function () {
       if (this.values) {
-        this.values = this.values.filter(function(value) {
+        this.values = this.values.filter(function (value) {
           return value !== '';
         });
       }
     },
 
-    hasValues: function() {
+    hasValues: function () {
       if (this.isSingleInputField()) {
         return !!this.textValue;
       } else {
@@ -99,4 +101,6 @@ module.exports = function(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPE
   };
 
   return Filter;
-};
+}
+
+filtersModule.factory('Filter', filterModel);

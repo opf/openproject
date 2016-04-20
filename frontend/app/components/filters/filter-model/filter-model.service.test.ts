@@ -26,56 +26,55 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+import {filtersModule} from '../../../angular-modules';
 
-describe('Filter', function() {
-
+describe('Filter', function () {
   var Filter;
 
-  beforeEach(module('openproject.models'));
-  beforeEach(inject(function(_Filter_) {
+  beforeEach(angular.mock.module(filtersModule.name));
+  beforeEach(angular.mock.inject(function (_Filter_) {
     Filter = _Filter_;
   }));
 
-  it('should exist', function() {
+  it('should exist', function () {
     expect(Filter).to.exist;
   });
 
-  it('should be a constructor function', function() {
+  it('should be a constructor function', function () {
     expect(new Filter()).to.exist;
     expect(new Filter()).to.be.an('object');
   });
 
-  it('should be serializable to params', function() {
+  it('should be serializable to params', function () {
     var filter = Factory.build('Filter');
 
     var params = filter.toParams();
 
     expect(params).to.have.property('op[type_id]')
-                  .and.equal('~');
+      .and.equal('~');
     expect(params).to.have.property('v[type_id][]')
-                  .and.contain('Bug');
+      .and.contain('Bug');
 
   });
 
-  describe('when it is a single input filter', function() {
+  describe('when it is a single input filter', function () {
     var filter, textValue;
 
-    beforeEach(function(){
+    beforeEach(function () {
       filter = Factory.build('Filter', {name: 'subject', values: []});
     });
 
-    describe('and the text value is set', function() {
-      beforeEach(function() {
+    describe('and the text value is set', function () {
+      beforeEach(function () {
         textValue = 'abc';
         filter.textValue = textValue;
       });
 
-      it('is considered to be configured', function() {
+      it('is considered to be configured', function () {
         expect(filter.isConfigured()).to.be.true;
       });
 
-      it('should serialize the text value', function() {
+      it('should serialize the text value', function () {
         expect(filter.getValuesAsArray()).to.eql([textValue]);
       });
     });
