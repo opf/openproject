@@ -26,36 +26,38 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('Query', function() {
+import {filtersModule} from '../../../angular-modules.ts';
 
-  var Query, query;
+describe('Query', function () {
+  var Query;
+  var query:any;
 
-  beforeEach(angular.mock.module('openproject.models'));
-  beforeEach(angular.mock.inject(function(_Query_) {
+  beforeEach(angular.mock.module(filtersModule.name));
+  beforeEach(angular.mock.inject(function (_Query_) {
     Query = _Query_;
   }));
 
-  it('should exist', function() {
+  it('should exist', function () {
     expect(Query).to.exist;
   });
 
-  it('should be a constructor function', function() {
-    var queryData = { id: 1 };
+  it('should be a constructor function', function () {
+    var queryData = {id: 1};
     expect(new Query(queryData)).to.exist;
     expect(new Query(queryData)).to.be.an('object');
   });
 
-  describe('toParams, toUpdateParams', function() {
-    beforeEach(function() {
+  describe('toParams, toUpdateParams', function () {
+    beforeEach(function () {
       query = Factory.build('Query');
     });
 
-    context('query is dirty', function() {
-      beforeEach(function() {
+    context('query is dirty', function () {
+      beforeEach(function () {
         query.id = 1;
         query.dirty = true;
       });
-      it("should contain accept_empty_query_fields as true", function() {
+      it("should contain accept_empty_query_fields as true", function () {
         expect(query.toParams())
           .to.have.property('accept_empty_query_fields')
           .and.equal(true);
@@ -65,12 +67,12 @@ describe('Query', function() {
       });
     });
 
-    context('query is dirty', function() {
-      beforeEach(function() {
+    context('query is dirty', function () {
+      beforeEach(function () {
         query.id = 1;
         query.dirty = false;
       });
-      it("should contain accept_empty_query_fields as true", function() {
+      it("should contain accept_empty_query_fields as true", function () {
         expect(query.toParams())
           .to.have.property('accept_empty_query_fields')
           .and.equal(false);
@@ -81,82 +83,82 @@ describe('Query', function() {
     });
   });
 
-  describe('adding filters', function(){
+  describe('adding filters', function () {
     var filter;
 
-    beforeEach(function(){
+    beforeEach(function () {
       query = Factory.build('Query', {filters: []});
       filter = Factory.build('Filter', {name: 'type_id'});
     });
 
-    it('should augment filters with meta data when set via setFilters', function() {
+    it('should augment filters with meta data when set via setFilters', function () {
       query.setFilters([filter]);
 
       expect(query.filters[0]).to.have.property('type')
-                              .and.equal('list_model');
+        .and.equal('list_model');
 
       expect(query.filters[0]).to.have.property('modelName')
-                              .and.equal('type');
+        .and.equal('type');
     });
 
-    it('should augment filters with meta data when set via addFilter', function() {
+    it('should augment filters with meta data when set via addFilter', function () {
       query.addFilter(filter.name, filter);
 
       expect(query.filters[0]).to.have.property('type')
-                              .and.equal('list_model');
+        .and.equal('list_model');
 
       expect(query.filters[0]).to.have.property('modelName')
-                              .and.equal('type');
+        .and.equal('type');
     });
   });
 
-  describe('hasName', function() {
-    beforeEach(function() {
+  describe('hasName', function () {
+    beforeEach(function () {
       query = Factory.build('Query');
     });
 
-    it('returns false if the query does not have a name', function() {
+    it('returns false if the query does not have a name', function () {
       expect(query.hasName()).to.be.false;
     });
 
-    it('returns false if the query name equals "_"', function() {
+    it('returns false if the query name equals "_"', function () {
       query.name = '_';
       expect(query.hasName()).to.be.false;
     });
 
-    it('returns true if the query name is present and different from "_"', function() {
+    it('returns true if the query name is present and different from "_"', function () {
       query.name = 'abc';
       expect(query.hasName()).to.be.true;
     });
   });
 
-  describe('isDefault', function() {
-    it('returns true if the query name equals "_"', function() {
+  describe('isDefault', function () {
+    it('returns true if the query name equals "_"', function () {
       query.name = '_';
       expect(query.isDefault()).to.be.true;
     });
 
-    it('returns false if the query name is undefined', function() {
+    it('returns false if the query name is undefined', function () {
       query.name = undefined;
       expect(query.isDefault()).to.be.false;
     });
 
-    it('returns false if the query name is any string', function() {
+    it('returns false if the query name is any string', function () {
       query.name = 'so random';
       expect(query.isDefault()).to.be.false;
     });
   });
 
-  describe('setDefaultFilter', function() {
-    beforeEach(function() {
+  describe('setDefaultFilter', function () {
+    beforeEach(function () {
       query.setDefaultFilter();
     });
 
-    it('sets a single filter', function() {
+    it('sets a single filter', function () {
       expect(query.filters.length).to.equal(1);
     });
 
-    it('filters for status: open', function() {
+    it('filters for status: open', function () {
       var filter = query.filters[0];
 
       expect(filter.name).to.equal('status');
