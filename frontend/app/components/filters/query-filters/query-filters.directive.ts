@@ -26,21 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX) {
+import {filtersModule} from '../../../angular-modules';
 
+function queryFiltersDirective($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX) {
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/work_packages/query_filters.html',
-    compile: function(tElement) {
+    templateUrl: '/components/filters/query-filters/query-filters.directive.html',
+
+    compile: function () {
       return {
-        pre: function(scope) {
+        pre: function (scope) {
           scope.I18n = I18n;
           scope.localisedFilterName = FiltersHelper.localisedFilterName;
           scope.focusElementIndex;
           scope.remainingFilterNames = [];
 
-          scope.$watch('filterToBeAdded', function(filter) {
+          scope.$watch('filterToBeAdded', function (filter) {
             if (filter) {
               scope.query.addFilter(filter.key);
               scope.filterToBeAdded = undefined;
@@ -50,13 +52,13 @@ module.exports = function($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX
             }
           });
 
-          scope.$watch('query.filters.length', function(len) {
+          scope.$watch('query.filters.length', function (len) {
             if (len >= 0) {
               updateRemainingFilters();
             }
           });
 
-          scope.deactivateFilter = function(filter) {
+          scope.deactivateFilter = function (filter) {
             var index = scope.query.getActiveFilters().indexOf(filter);
 
             scope.query.deactivateFilter(filter);
@@ -66,7 +68,7 @@ module.exports = function($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX
           };
 
           function updateRemainingFilters() {
-            var remainingFilters = _.map(scope.query.getRemainingFilters(), function(filter, key) {
+            var remainingFilters = _.map(scope.query.getRemainingFilters(), function(filter:any, key) {
               return {
                 key: key,
                 value: filter.modelName,
@@ -89,7 +91,7 @@ module.exports = function($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX
               scope.focusElementIndex = scope.query.filters.indexOf(filter);
             }
 
-            $timeout(function() {
+            $timeout(function () {
               scope.$broadcast('updateFocus');
             }, 300);
           }
@@ -97,4 +99,6 @@ module.exports = function($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX
       };
     }
   };
-};
+}
+
+filtersModule.directive('queryFilters', queryFiltersDirective);

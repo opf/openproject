@@ -43,12 +43,6 @@ angular.module('openproject.workPackages.directives')
     '$timeout',
     '$animate', require('./query-filter-directive')
   ])
-  .directive('queryFilters', [
-    '$timeout',
-    'FiltersHelper',
-    'I18n',
-    'ADD_FILTER_SELECT_INDEX', require('./query-filters-directive')
-  ])
   .directive('queryForm', require('./query-form-directive'))
   .constant('PERMITTED_MORE_MENU_ACTIONS', [
     { key: 'log_time', link: 'logTime', resource: 'workPackage' },

@@ -26,39 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+import {filtersModule} from '../../../angular-modules';
 
-describe('queryFilters', function() {
+describe('queryFilters', function () {
   var doc, $httpBackend, $timeout, compile, scope, element,
-  OPERATORS_AND_LABELS_BY_FILTER_TYPE, OPERATORS_NOT_REQUIRING_VALUES;
+    OPERATORS_AND_LABELS_BY_FILTER_TYPE, OPERATORS_NOT_REQUIRING_VALUES;
   var html = "<query-filters></query-filters>";
 
-  beforeEach(module('ui.router',
-                    'openproject.api',
-                    'openproject.models',
-                    'openproject.layout',
-                    'openproject.workPackages.directives',
-                    'openproject.workPackages.config',
-                    'openproject.workPackages.filters'));
+  beforeEach(angular.mock.module('ui.router',
+    filtersModule.name,
+    'openproject.api',
+    'openproject.models',
+    'openproject.layout',
+    'openproject.workPackages.directives',
+    'openproject.workPackages.config',
+    'openproject.workPackages.filters'));
 
-  beforeEach(module('openproject.templates', function($provide) {
-    var configurationService = {};
-
-    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
-
-    $provide.constant('ConfigurationService', configurationService);
+  beforeEach(angular.mock.module('openproject.templates', function ($provide) {
+    $provide.constant('ConfigurationService', {
+      accessibilityModeEnabled: sinon.stub().returns(false)
+    });
   }));
 
-  beforeEach(inject(function(
-    $rootScope,
-    $compile,
-    $document,
-    _$httpBackend_,
-    _$timeout_,
-    PathHelper,
-    _OPERATORS_AND_LABELS_BY_FILTER_TYPE_,
-    _OPERATORS_NOT_REQUIRING_VALUES_
-  ) {
+  beforeEach(angular.mock.inject(function ($rootScope,
+                                           $compile,
+                                           $document,
+                                           _$httpBackend_,
+                                           _$timeout_,
+                                           PathHelper,
+                                           _OPERATORS_AND_LABELS_BY_FILTER_TYPE_,
+                                           _OPERATORS_NOT_REQUIRING_VALUES_) {
     $httpBackend = _$httpBackend_;
     $timeout = _$timeout_;
     OPERATORS_AND_LABELS_BY_FILTER_TYPE = _OPERATORS_AND_LABELS_BY_FILTER_TYPE_;
@@ -68,7 +65,7 @@ describe('queryFilters', function() {
     scope = $rootScope.$new();
 
 
-    compile = function() {
+    compile = function () {
       element = $compile(html)(scope);
       scope.$digest();
       var body = angular.element(doc.body);
@@ -77,72 +74,76 @@ describe('queryFilters', function() {
     };
 
     var path = PathHelper.apiCustomFieldsPath();
-    var customFieldFilters = { custom_field_filters: {} };
+    var customFieldFilters = {custom_field_filters: {}};
     $httpBackend.when('GET', path).respond(200, customFieldFilters);
   }));
 
-  afterEach(function() {
+  afterEach(function () {
     var body = angular.element(doc.body);
     body.find('#filters').remove();
   });
 
 
-  describe('accessibility', function() {
-    describe('focus', function() {
+  describe('accessibility', function () {
+    describe('focus', function () {
       // I used filters that are not of type 'list_model' or 'list_optional' to
       // prevent additional mocking of WorkPackageLoadingHelper.
-      var filter1 = Factory.build('Filter', { name: 'subject' });
-      var filter2 = Factory.build('Filter', { name: 'start_date' });
-      var filter3 = Factory.build('Filter', { name: 'done_ratio' });
+      var filter1 = Factory.build('Filter', {name: 'subject'});
+      var filter2 = Factory.build('Filter', {name: 'start_date'});
+      var filter3 = Factory.build('Filter', {name: 'done_ratio'});
 
-      var removeFilter = function(filterName) {
+      var removeFilter = function (filterName) {
         var removeLinkElement = angular.element(element).find('#filter_' + filterName +
           ' .advanced-filters--remove-filter a');
-        var enterEvent = jQuery.Event('keyup', { which: 13 });
+        var enterEvent = jQuery.Event('keyup', {which: 13});
 
         angular.element(removeLinkElement[0]).trigger(enterEvent);
 
         $timeout.flush();
       };
 
-      beforeEach(function() {
-        scope.query = Factory.build('Query', { filters: [] });
+      beforeEach(function () {
+        scope.query = Factory.build('Query', {filters: []});
         scope.query.setFilters([filter1, filter2, filter3]);
         scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
         compile();
       });
 
-      describe('operator dropdown preselected value', function() {
-        context('OPERATORS_NOT_REQUIRING_VALUES', function() {
-          context('does intersect with filter\'s operators', function() {
-            beforeEach(function() {
+      describe('operator dropdown preselected value', function () {
+        context('OPERATORS_NOT_REQUIRING_VALUES', function () {
+          context('does intersect with filter\'s operators', function () {
+            beforeEach(function () {
               OPERATORS_AND_LABELS_BY_FILTER_TYPE['some_type'] = [
                 ['!*', 'label_none'], ['*', 'label_all']
               ];
               scope.query.filters.push({
-                isSingleInputField: function() { return true; },
+                isSingleInputField: function () {
+                  return true;
+                },
                 name: 'some_value',
                 type: 'some_type',
                 values: []
               });
               scope.$apply();
             });
-            it('should be undefined', function() {
+            it('should be undefined', function () {
               expect(scope.operator).to.be.undefined;
             });
           });
 
-          context('doesn\'t intersect with filter\'s operators', function() {
-            beforeEach(function() {
+          context('doesn\'t intersect with filter\'s operators', function () {
+            beforeEach(function () {
               scope.query.filters.push({
-                isSingleInputField: function() { return true; },
+                isSingleInputField: function () {
+                  return true;
+                },
                 name: 'some_value',
                 type: 'integer',
                 values: []
               });
               scope.$apply();
             });
-            it('should take the first one', function() {
+            it('should take the first one', function () {
               var operatorValue = element.find('#operators-some_value').val();
               expect(operatorValue).to.eq('=');
               expect(operatorValue).to.eq(OPERATORS_AND_LABELS_BY_FILTER_TYPE['integer'][0][0]);
@@ -151,50 +152,50 @@ describe('queryFilters', function() {
         });
       });
 
-      describe('Remove first filter', function() {
-        beforeEach(function() {
+      describe('Remove first filter', function () {
+        beforeEach(function () {
           removeFilter(filter1.name);
         });
 
-        it('focus is set to second filter', function() {
+        it('focus is set to second filter', function () {
           var el = angular.element(element).find('select#operators-' + filter2.name);
 
           expect(doc.activeElement).to.equal(el[0]);
         });
       });
 
-      describe('Remove second filter', function() {
-        beforeEach(function() {
+      describe('Remove second filter', function () {
+        beforeEach(function () {
           removeFilter(filter2.name);
         });
 
-        it('focus is set to third filter', function() {
+        it('focus is set to third filter', function () {
           var el = angular.element(element).find('select#operators-' + filter3.name);
 
           expect(doc.activeElement).to.equal(el[0]);
         });
       });
 
-      describe('Remove last filter', function() {
-        beforeEach(function() {
+      describe('Remove last filter', function () {
+        beforeEach(function () {
           removeFilter(filter3.name);
         });
 
-        it('focus is set to filter next to last', function() {
+        it('focus is set to filter next to last', function () {
           var el = angular.element(element).find('select#operators-' + filter2.name);
 
           expect(doc.activeElement).to.equal(el[0]);
         });
       });
 
-      describe('Remove all filter', function() {
-        beforeEach(function() {
+      describe('Remove all filter', function () {
+        beforeEach(function () {
           removeFilter(filter1.name);
           removeFilter(filter2.name);
           removeFilter(filter3.name);
         });
 
-        it('focus is set to filter next to last', function() {
+        it('focus is set to filter next to last', function () {
           var el = angular.element(element).find('.advanced-filters--add-filter' +
             ' select#add_filter_select');
 
