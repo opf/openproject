@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,58 +24,53 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-// As the settings are transported from ruby code (gon)
-// we can not enforce camel case here.
+import {configModule} from '../../../angular-modules';
 
-/* jshint camelcase: false */
-
-module.exports = function(PathHelper, $q, $http) {
-
+function ConfigurationService($q, $http, $window, PathHelper, I18n) {
   // fetches configuration from the ApiV3 endpoint
   // TODO: this currently saves the request between page reloads,
   // but could easily be stored in localStorage
-  var cache = false,
-      path = PathHelper.apiConfigurationPath(),
-      fetchSettings = function() {
-        var data = $q.defer();
-        $http.get(path).success(function(settings) {
-          data.resolve(settings);
-        }).error(function(err) {
-          data.reject(err);
-        });
-        return data.promise;
-      },
-      api = function() {
-        var settings = $q.defer();
-        if (cache) {
-          settings.resolve(cache);
-        } else {
-          fetchSettings().then(function(data) {
-            cache = data;
-            settings.resolve(data);
-          });
+  var cache = false;
+  var path = PathHelper.apiConfigurationPath();
+  var fetchSettings = function () {
+    var data = $q.defer();
+    $http.get(path).success(function (settings) {
+      data.resolve(settings);
+    }).error(function (err) {
+      data.reject(err);
+    });
+    return data.promise;
+  };
+  var api = function () {
+    var settings = $q.defer();
+    if (cache) {
+      settings.resolve(cache);
+    } else {
+      fetchSettings().then(function (data) {
+        cache = data;
+        settings.resolve(data);
+      });
+    }
+    return settings.promise;
+  };
+  var initSettings = function () {
+    var settings = {},
+      defaults = {
+        enabled_modules: [],
+        display: [],
+        user_preferences: {
+          impaired: false,
+          time_zone: '',
+          others: {
+            comments_sorting: 'asc'
+          }
         }
-        return settings.promise;
       };
 
-  var initSettings = function() {
-    var settings = {},
-        defaults = {
-          enabled_modules: [],
-          display: [],
-          user_preferences: {
-            impaired: false,
-            time_zone: '',
-            others: {
-              comments_sorting: 'asc'
-            }
-          }
-        };
-
-    if (window.gon !== undefined) {
-      settings = window.gon.settings;
+    if ($window.gon !== undefined) {
+      settings = $window.gon.settings;
     }
 
     return _.merge(defaults, settings);
@@ -84,60 +79,56 @@ module.exports = function(PathHelper, $q, $http) {
   return {
     settings: initSettings(),
     api: api,
-    userPreferencesPresent: function() {
-      return this.settings.hasOwnProperty('user_preferences');
-    },
-    displaySettingPresent: function(setting) {
+    displaySettingPresent: function (setting) {
       return this.settings.display.hasOwnProperty(setting) &&
         this.settings.display[setting] !== false;
     },
-    accessibilityModeEnabled: function() {
+    accessibilityModeEnabled: function () {
       return this.settings.user_preferences.impaired;
     },
-    commentsSortedInDescendingOrder: function() {
+    commentsSortedInDescendingOrder: function () {
       return this.settings.user_preferences.others.comments_sorting === 'desc';
     },
-    isTimezoneSet: function() {
+    isTimezoneSet: function () {
       return this.settings.user_preferences.time_zone !== '';
     },
-    timezone: function() {
+    timezone: function () {
       return this.settings.user_preferences.time_zone;
     },
-    dateFormatPresent: function() {
+    dateFormatPresent: function () {
       return this.displaySettingPresent('date_format') &&
-             this.settings.display.date_format !== '';
+        this.settings.display.date_format !== '';
     },
-    dateFormat: function() {
+    dateFormat: function () {
       return this.settings.display.date_format;
     },
-    timeFormatPresent: function() {
+    timeFormatPresent: function () {
       return this.displaySettingPresent('time_format') &&
-             this.settings.display.time_format !== '';
+        this.settings.display.time_format !== '';
     },
-    timeFormat: function() {
+    timeFormat: function () {
       return this.settings.display.time_format;
     },
-    isModuleEnabled: function(module) {
-      return this.settings.enabled_modules.indexOf(module) >= 0;
-    },
-    startOfWeekPresent: function() {
+    startOfWeekPresent: function () {
       return this.displaySettingPresent('start_of_week') &&
-             this.settings.display.start_of_week !== '';
+        this.settings.display.start_of_week !== '';
     },
-    startOfWeek: function() {
-      if(this.startOfWeekPresent()) {
+    startOfWeek: function () {
+      if (this.startOfWeekPresent()) {
         return this.settings.display.start_of_week;
       }
 
       // This if/else statement is used because
       // jquery regionals have different start day for German locale
-      if(I18n.locale === 'en') {
+      if (I18n.locale === 'en') {
         return 1;
-      } else if(I18n.locale === 'de') {
+      } else if (I18n.locale === 'de') {
         return 0;
       }
 
       return '';
     }
   };
-};
+}
+
+configModule.factory('ConfigurationService', ConfigurationService);

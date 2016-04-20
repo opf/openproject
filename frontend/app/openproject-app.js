@@ -143,14 +143,6 @@ opApp
     }
   ]);
 
-angular.module('openproject.config')
-  .service('ConfigurationService', [
-    'PathHelper',
-    '$q',
-    '$http',
-    require('./config/configuration-service')
-  ]);
-
 require('./helpers');
 require('./layout');
 require('./messages');

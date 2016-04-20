@@ -34,7 +34,7 @@ angular.module('openproject.uiComponents',
   .run(['$rootScope', function($rootScope){
     $rootScope.I18n = I18n;
   }]);
-angular.module('openproject.config', []);
+export var configModule = angular.module('openproject.config', []);
 angular.module(
   'openproject.services', [
     'openproject.uiComponents',
