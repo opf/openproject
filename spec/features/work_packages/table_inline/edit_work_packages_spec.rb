@@ -40,7 +40,6 @@ describe 'Inline editing work packages', js: true do
   }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:fields) { InlineEditField.new(wp_table, work_package) }
 
   let(:workflow) do
     FactoryGirl.create :workflow,

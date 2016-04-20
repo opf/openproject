@@ -43,6 +43,11 @@ module Pages
       end
     end
 
+    def click_inline_create
+      find('.wp-inline-create--add-link').click
+      expect(page).to have_selector('.wp--row.-new')
+    end
+
     def open_split_view(work_package)
 
       # Hover row to show split screen button

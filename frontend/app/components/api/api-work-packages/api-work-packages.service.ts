@@ -57,6 +57,13 @@ export class ApiWorkPackagesService {
     return this.wpApiPath(projectIdentifier).one('form').customPOST();
   }
 
+  /**
+   * Returns a promise to GET `/api/v3/work_packages/available_projects`.
+   */
+  public availableProjects(projectIdentifier?:string):ng.IPromise<op.HalResource> {
+    return this.wpApiPath(projectIdentifier).one('available_projects').get();
+  }
+
   public wpApiPath(projectIdentifier?: any) {
     if (!!projectIdentifier) {
       return this.apiV3.service('work_packages', this.apiV3.one('projects', projectIdentifier));
