@@ -76,7 +76,7 @@ class TypesController < ApplicationController
     params[:type].delete :name if @type.is_standard?
 
     if @type.update_attributes(permitted_params.type)
-      redirect_to types_path, notice: t(:notice_successful_update)
+      redirect_to edit_type_path(id: @type.id), notice: t(:notice_successful_update)
     else
       @projects = Project.all
       render action: 'edit'
