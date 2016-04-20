@@ -61,7 +61,7 @@ module OpenProject
       'rails_asset_host' => nil,
 
       # email configuration
-      'email_delivery_method' => nil,
+      'email_delivery_method' => :sendmail,
       'smtp_address' => nil,
       'smtp_port' => nil,
       'smtp_domain' => nil,  # HELO domain
