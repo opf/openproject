@@ -43,7 +43,6 @@ angular.module('openproject.workPackages.directives')
     '$timeout',
     '$animate', require('./query-filter-directive')
   ])
-  .constant('ADD_FILTER_SELECT_INDEX', -1)
   .directive('queryFilters', [
     '$timeout',
     'FiltersHelper',
