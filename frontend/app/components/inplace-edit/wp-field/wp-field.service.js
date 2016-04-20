@@ -89,7 +89,15 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
     if (inplaceEditErrors.errors && inplaceEditErrors.errors[field]) {
       return false;
     }
-    return isEmpty(workPackage, field) && !isRequired(workPackage, field);
+
+    var attrVisibility = workPackage.embedded.type.props.attributeVisibility;
+
+    var notRequired = !isRequired(workPackage, field);
+    var empty = isEmpty(workPackage, field);
+    var visible = attrVisibility[field] == 'visible';
+    var hidden = attrVisibility[field] == 'hidden';
+
+    return notRequired && !visible && (empty || hidden);
   }
 
   function isMilestone(workPackage) {

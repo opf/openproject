@@ -49,6 +49,15 @@ class ::Type < ActiveRecord::Base
   belongs_to :color, class_name:  'PlanningElementTypeColor',
                      foreign_key: 'color_id'
 
+  serialize :attribute_visibility, Hash
+  validates_each :attribute_visibility do |record, _attr, visibility|
+    visibility.each do |attr_name, value|
+      unless attribute_visibilities.include? value.to_s
+        record.errors.add(:attribute_visibility, "for '#{attr_name}' cannot be '#{value}'")
+      end
+    end
+  end
+
   acts_as_list
 
   validates_presence_of :name
@@ -90,6 +99,21 @@ class ::Type < ActiveRecord::Base
 
   def self.enabled_in(project)
     ::Type.includes(:projects).where(projects: { id: project })
+  end
+
+  ##
+  # The possible visibility values for a work package attribute
+  # as defined by a type are:
+  #
+  #   - default The attribute is displayed in forms if it has a value.
+  #   - visible The attribute is displayed in forms even if empty.
+  #   - hidden  The attribute is hidden in forms even if it has a value.
+  def self.attribute_visibilities
+    ['visible', 'hidden', 'default']
+  end
+
+  def self.default_attribute_visibility
+    'visible'
   end
 
   def statuses

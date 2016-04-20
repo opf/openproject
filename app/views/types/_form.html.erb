@@ -26,6 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<%= javascript_include_tag "type_form.js" %>
+
 <%= error_messages_for 'type' %>
 
 <div class="grid-block">
@@ -61,8 +63,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <% end %>
       <!--[eoform:type]-->
     </section>
-    <%= styled_button_tag l(controller.type.new_record? ? :button_create : :button_save),
-        class: '-highlight -with-icon icon-checkmark' %>
   </div>
   <div class="grid-content medium-6">
     <% if @projects.any? %>
@@ -82,4 +82,80 @@ See doc/COPYRIGHT.rdoc for more details.
       </fieldset>
     <% end %>
   </div>
+</div>
+
+<div class="grid-block">
+  <div class="grid-content medium-6">
+    <fieldset class="form--fieldset -collapsible collapsed" id="type_attribute_visibility">
+      <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><%= I18n.t('label_form_configuration')%></legend>
+      <%
+        attributes = ::TypesHelper.work_package_form_attributes
+      %>
+      <div style="display: none;">
+        <p><%= I18n.t('text_form_configuration') %></p>
+        <table class="attributes-table">
+          <thead>
+            <tr>
+              <td><%= I18n.t('label_attribute') %></td>
+              <td><%= I18n.t('label_default') %></td>
+              <td><%= I18n.t('label_always_visible') %></td>
+            </tr>
+          </thead>
+          <tbody>
+            <% attributes.reject { |_, attr| attr[:required] }.each do |name, attr| %>
+              <tr>
+                <td>
+                  <%
+                    def i18n_key(name)
+                      if name == 'percentage_done'
+                        'done_ratio'
+                      else
+                        name
+                      end
+                    end
+
+                    def translate_attr(name)
+                      if name == 'date'
+                        I18n.t('label_date')
+                      else
+                        key = i18n_key(name)
+                        I18n.t("activerecord.attributes.work_package.#{key}", default: '')
+                          .presence || I18n.t("attributes.#{key}")
+                      end
+                    end
+                  %>
+                  <%= label "type_attribute_visibility_#{name}",
+                            attr[:display_name] || translate_attr(name),
+                            value: "type_attribute_visibility[#{name}]",
+                            class: 'form--label' %>
+                </td>
+                <td>
+                  <input name="<%= "type[attribute_visibility][#{name}]" %>" type="hidden" value="hidden" />
+                  <% active_checked = [nil, 'default', 'visible'].include?(@type.attribute_visibility[name]) %>
+                  <%= check_box_tag "type[attribute_visibility][#{name}]",
+                                    'default',
+                                    active_checked,
+                                    id: "type_attribute_visibility_default_#{name}",
+                                    title: I18n.t('tooltip.attribute_visibility.default') %>
+                </td>
+                <td>
+                  <%= check_box_tag "type[attribute_visibility][#{name}]",
+                                    'visible',
+                                    @type.attribute_visibility[name] == 'visible',
+                                    id: "type_attribute_visibility_visible_#{name}",
+                                    title: I18n.t('tooltip.attribute_visibility.visible'),
+                                    disabled: !active_checked %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </fieldset>
+  </div>
+</div>
+
+<div class="grid-block">
+  <%= styled_button_tag l(controller.type.new_record? ? :button_create : :button_save),
+      class: '-highlight -with-icon icon-checkmark' %>
 </div>

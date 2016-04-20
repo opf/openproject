@@ -58,7 +58,8 @@ module API
                      schema
                    },
                    writeable: false,
-                   if: show_if
+                   if: show_if,
+                   required: required
         end
 
         def schema_with_allowed_link(property,
@@ -85,7 +86,8 @@ module API
 
                      representer
                    },
-                   if: show_if
+                   if: show_if,
+                   required: required
         end
 
         def schema_with_allowed_collection(property,
@@ -117,7 +119,8 @@ module API
 
                      representer
                    },
-                   if: show_if
+                   if: show_if,
+                   required: required
         end
 
         def represented_class
