@@ -403,14 +403,13 @@ describe AccountController, type: :controller do
         end
       end
 
-      context 'with a registered and not activated accout' do
+      context 'with a registered and not activated accout',
+              with_settings: { self_registration: 1 } do
         before do
           user.register
           user.save!
 
-          with_settings(self_registration: '1') do
-            post :omniauth_login
-          end
+          post :omniauth_login
         end
 
         it 'should show an error about a not activated account' do
@@ -422,15 +421,13 @@ describe AccountController, type: :controller do
         end
       end
 
-      context 'with a locked account' do
+      context 'with a locked account',
+              with_settings: { brute_force_block_after_failed_logins: 0 } do
         before do
           user.lock
           user.save!
 
-          # Make sure we don't get a specific message when brute-force protection is enabled
-          with_settings(brute_force_block_after_failed_logins: '0') do
-            post :omniauth_login
-          end
+          post :omniauth_login
         end
 
         it 'should show an error indicating a failed login' do

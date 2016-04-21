@@ -145,11 +145,12 @@ describe RepositoriesController, 'Subversion', type: :controller do
     assert_template 'entry'
   end
 
-  it 'should entry should send if too big' do
-    @repository.fetch_changesets
-    @repository.reload
-    # no files in the test repo is larger than 1KB...
-    with_settings file_max_size_displayed: 0 do
+  context 'small file upload size',
+          with_settings: { file_max_size_displayed: 0 } do
+            
+    it 'should entry should send if too big' do
+      @repository.fetch_changesets
+      @repository.reload
       get :entry, project_id: PRJ_ID, path: 'subversion_test/helloworld.c'
       assert_response :success
       assert_template nil
