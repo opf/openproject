@@ -61,7 +61,7 @@ module OpenProject
       'rails_asset_host' => nil,
 
       # email configuration
-      'email_delivery_method' => :sendmail,
+      'email_delivery_method' => nil,
       'smtp_address' => nil,
       'smtp_port' => nil,
       'smtp_domain' => nil,  # HELO domain
@@ -234,13 +234,17 @@ module OpenProject
       end
 
       def reload_mailer_configuration!
-        ActionMailer::Base.perform_deliveries = true
-        ActionMailer::Base.delivery_method = Setting.email_delivery_method
-        if ActionMailer::Base.delivery_method == :smtp
+        case Setting.email_delivery_method
+        when :smtp
+          ActionMailer::Base.perform_deliveries = true
+          ActionMailer::Base.delivery_method = Setting.email_delivery_method
           %w{address port domain authentication user_name password}.each do |setting|
             ActionMailer::Base.smtp_settings[setting.to_sym] = Setting["smtp_#{setting}".to_sym]
           end
           ActionMailer::Base.smtp_settings[:enable_starttls_auto] = Setting.smtp_enable_starttls_auto?
+        when :sendmail
+          ActionMailer::Base.perform_deliveries = true
+          ActionMailer::Base.delivery_method = Setting.email_delivery_method
         end
       rescue StandardError => e
         Rails.logger.warn "Unable to set ActionMailer settings (#{e.message}). Email sending will most likely NOT work."
