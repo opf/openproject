@@ -232,10 +232,18 @@ module OpenProject
           unless mail_delivery_config.empty?
             mail_delivery_config.symbolize_keys! if mail_delivery_config.respond_to?(:symbolize_keys!)
             mail_delivery_config.each do |k,v|
-              Setting["#{config_type}#{k}"] = v
+              Setting["#{config_type}#{k}"] = case v
+                                              when TrueClass
+                                                1
+                                              when FalseClass
+                                                0
+                                              else
+                                                v
+                                              end
             end
           end
         end
+        true
       end
 
       def reload_mailer_configuration!

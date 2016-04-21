@@ -27,6 +27,7 @@
 #++
 
 require 'support/pages/page'
+require 'support/pages/abstract_work_package_create'
 
 module Pages
   class FullWorkPackageCreate < AbstractWorkPackageCreate
