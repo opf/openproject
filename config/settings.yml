@@ -30,10 +30,8 @@
 # Settings can be defined through the application in Admin -> Settings
 
 email_delivery_method:
-  default: "sendmail"
+  default:
   format: 'symbol'
-email_delivery_migrated:
-  default: 0
 sendmail_location:
   default: "/usr/sbin/sendmail"
 sendmail_arguments:
@@ -54,6 +52,8 @@ smtp_user_name:
   default: ""
 smtp_password:
   default: ""
+smtp_domain:
+  default: "example.com"
 additional_footer_content:
   default: ''
 # The instance name
