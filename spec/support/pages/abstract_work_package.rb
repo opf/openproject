@@ -65,9 +65,15 @@ module Pages
 
           dl_element = page.find('.attributes-key-value--key', text: label).parent
 
-          expect(dl_element).to have_selector('.attributes-key-value--value-container', text: value)
+          unless value.nil?
+            expect(dl_element).to have_selector('.attributes-key-value--value-container', text: value)
+          end
         end
       end
+    end
+
+    def expect_attribute_hidden(label)
+      expect(page).not_to have_selector('.attributes-key-value--key', text: label)
     end
 
     def expect_activity(user, number: nil)
