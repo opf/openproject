@@ -137,6 +137,11 @@ These are generic (and condensed) installation instructions for the **current de
         echo "concurrency: web=1,assets=1,worker=0" >> .foreman
 
    For more information refer to Foreman documentation section on [default options][foreman-defaults].
+   
+  You can access the application with the admin-account having the following credentials:
+
+        Username: admin
+        Password: admin
 
 ## Full Guide
 
