@@ -29,9 +29,6 @@
 var fs = require('fs');
 var globSync = require('glob').sync;
 var bodyParser = require('body-parser');
-var mocks = globSync('./tests/integration/mocks/**/*.js', {
-  cwd: __dirname
-}).map(require);
 
 var express = require('express');
 var railsRoot = __dirname + '/..';
@@ -42,10 +39,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-
-mocks.forEach(function(route) {
-  route(app);
-});
 
 app.use(express.static(appRoot + '/public'));
 app.use('/assets', express.static(railsRoot + '/app/assets/javascripts'));

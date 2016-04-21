@@ -240,7 +240,6 @@ namespace :copyright do
       'frontend/bower_components',
       'frontend/coverage',
       'frontend/node_modules',
-      'frontend/tests/integration/mocks/',
       'frontend/tmp',
       'frontend/vendor'
     ]

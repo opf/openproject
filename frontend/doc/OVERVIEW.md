@@ -50,10 +50,6 @@ This is the general structure (to a depth of 3 folders):
 │       └── css
 ├── scripts
 └── tests
-    ├── integration
-    │   ├── mocks
-    │   ├── pages
-    │   └── specs
     └── unit
         ├── factories
         ├── lib

@@ -10,7 +10,6 @@
     "angular",
     "inject",
     "module",
-    "protractor",
 
     "I18n",
     "Hyperagent",

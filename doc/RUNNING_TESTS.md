@@ -52,40 +52,6 @@ for more options, such as another browser, invoke the karma executable directly:
     ./node_modules/karma/bin/karma start
     ./node_modules/karma/bin/karma start --browsers Chrome,Firefox
 
-### Running end-to-end tests with Protractor
-
-If you want to run all tests with Protractor, you can use `npm run`:
-
-    npm run protractor
-
-This is a wrapper around a [Gulp][gulp] task. You can also:
-
-    gulp tests:protractor
-
-The task takes care of:
-
-  * bundling assets using Webpack.
-  * running an [Express][express] server that serves the frontend application,
-    in addition to mock API endpoints.
-  * running a Selenium Webdriver server.
-
-If you want to follow these steps manually for any reason:
-
-1. Ensure you have the the latest Selenium WebDriver:
-
-        npm install -g protractor
-        webdriver-manager update
-
-2. You can start the frontend application
-
-        gulp express
-
-3. You can then proceed to start both the Selenium server and Protractor:
-
-        webdriver-manager start
-        ./node_modules/protractor/bin/protractor protractor/conf.js
-
-
 ## Rails backend and integration tests
 
 ### RSpec
