@@ -4,7 +4,6 @@ OpenProject::Application.configure do
     # time, so just ignore this block when that happens.
     if Setting.settings_table_exists_yet?
       unless Setting.email_delivery_migrated?
-        Rails.logger.info "Migrating existing email settings to the settings table..."
         OpenProject::Configuration.migrate_mailer_configuration!
       end
 

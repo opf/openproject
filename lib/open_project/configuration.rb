@@ -61,6 +61,7 @@ module OpenProject
       'rails_asset_host' => nil,
 
       # email configuration
+      'email_delivery_configuration' => 'inapp',
       'email_delivery_method' => nil,
       'smtp_address' => nil,
       'smtp_port' => nil,
@@ -217,6 +218,9 @@ module OpenProject
       end
 
       def migrate_mailer_configuration!
+        return true unless @config['email_delivery_method']
+
+        Rails.logger.info "Migrating existing email configuration to the settings table..."
         Setting.email_delivery_method = @config['email_delivery_method'].to_sym
 
         ['smtp_', 'sendmail_'].each do |config_type|
@@ -234,20 +238,43 @@ module OpenProject
       end
 
       def reload_mailer_configuration!
-        case Setting.email_delivery_method
-        when :smtp
-          ActionMailer::Base.perform_deliveries = true
-          ActionMailer::Base.delivery_method = Setting.email_delivery_method
-          %w{address port domain authentication user_name password}.each do |setting|
-            ActionMailer::Base.smtp_settings[setting.to_sym] = Setting["smtp_#{setting}".to_sym]
+        if @config['email_delivery_configuration'] == "legacy"
+          configure_legacy_action_mailer(@config)
+        else
+          case Setting.email_delivery_method
+          when :smtp
+            ActionMailer::Base.perform_deliveries = true
+            ActionMailer::Base.delivery_method = Setting.email_delivery_method
+            %w{address port domain authentication user_name password}.each do |setting|
+              ActionMailer::Base.smtp_settings[setting.to_sym] = Setting["smtp_#{setting}".to_sym]
+            end
+            ActionMailer::Base.smtp_settings[:enable_starttls_auto] = Setting.smtp_enable_starttls_auto?
+          when :sendmail
+            ActionMailer::Base.perform_deliveries = true
+            ActionMailer::Base.delivery_method = Setting.email_delivery_method
           end
-          ActionMailer::Base.smtp_settings[:enable_starttls_auto] = Setting.smtp_enable_starttls_auto?
-        when :sendmail
-          ActionMailer::Base.perform_deliveries = true
-          ActionMailer::Base.delivery_method = Setting.email_delivery_method
         end
       rescue StandardError => e
         Rails.logger.warn "Unable to set ActionMailer settings (#{e.message}). Email sending will most likely NOT work."
+      end
+
+      # This is used to configure email sending from users who prefer to
+      # continue using environment variables of configuration.yml settings. Our
+      # hosted SaaS version requires this.
+      def configure_legacy_action_mailer(config)
+        return true unless config['email_delivery_method']
+
+        ActionMailer::Base.perform_deliveries = true
+        ActionMailer::Base.delivery_method = config['email_delivery_method'].to_sym
+
+        ['smtp_', 'sendmail_'].each do |config_type|
+          mail_delivery_config = filter_hash_by_key_prefix(config, config_type)
+
+          unless mail_delivery_config.empty?
+            mail_delivery_config.symbolize_keys! if mail_delivery_config.respond_to?(:symbolize_keys!)
+            ActionMailer::Base.send("#{config_type + 'settings'}=", mail_delivery_config)
+          end
+        end
       end
 
       private
