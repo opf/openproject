@@ -26,27 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('QueryService', function() {
+import {filtersModule} from '../../../angular-modules';
 
-
+describe('QueryService', function () {
   var QueryService, PathHelper, query, queryData, stateParams = {}, $rootScope,
     $httpBackend;
 
-  beforeEach(angular.mock.module('openproject.layout',
-                    'openproject.models',
-                    'openproject.api',
-                    'openproject.services'));
+  beforeEach(angular.mock.module(
+    filtersModule.name,
+    'openproject.layout',
+    'openproject.models',
+    'openproject.api',
+    'openproject.services'));
 
-  beforeEach(angular.mock.module('openproject.templates', function($provide) {
-    var configurationService = {};
-
-    configurationService.isTimezoneSet = sinon.stub().returns(false);
+  beforeEach(angular.mock.module('openproject.templates', function ($provide) {
+    var configurationService = {
+      isTimezoneSet: sinon.stub().returns(false)
+    };
 
     $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(angular.mock.inject(function(_QueryService_, _$rootScope_, _$httpBackend_, _PathHelper_) {
+  beforeEach(angular.mock.inject(function (_QueryService_, _$rootScope_, _$httpBackend_, _PathHelper_) {
     QueryService = _QueryService_;
     $rootScope = _$rootScope_;
     PathHelper = _PathHelper_;
@@ -55,7 +57,7 @@ describe('QueryService', function() {
 
   describe('query setup', function () {
 
-    beforeEach(function() {
+    beforeEach(function () {
       queryData = {
         groupBy: 'type',
         displaySums: 1,
@@ -70,15 +72,15 @@ describe('QueryService', function() {
       query = QueryService.initQuery(null, queryData);
     });
 
-    it('should set query.groupBy', function() {
+    it('should set query.groupBy', function () {
       expect(query.groupBy).to.equal(queryData.groupBy);
     });
 
-    it('should set query.displaySums', function() {
+    it('should set query.displaySums', function () {
       expect(query.displaySums).to.equal(queryData.displaySums);
     });
 
-    describe('filters', function() {
+    describe('filters', function () {
       // TODO mock promise-returning `getAvailableWorkPackageFilters` method
 
       it('should load the available filters');
@@ -88,11 +90,11 @@ describe('QueryService', function() {
 
   });
 
-  describe('deleteQuery', function() {
+  describe('deleteQuery', function () {
     var spy;
-    beforeEach(function() {
+    beforeEach(function () {
       spy = sinon.spy($rootScope, '$broadcast');
-      queryData = { name: '_', 'projectId': 1 };
+      queryData = {name: '_', 'projectId': 1};
       QueryService.initQuery(1, queryData);
       var path = PathHelper.apiProjectQueryPath(1, 1);
       $httpBackend.when('DELETE', new RegExp(path + '*')).respond(200, []);
@@ -108,61 +110,61 @@ describe('QueryService', function() {
       $httpBackend.flush();
     });
 
-    afterEach(function() {
+    afterEach(function () {
       spy.restore();
     });
 
-    it('should broadcast a query deletion message', function() {
+    it('should broadcast a query deletion message', function () {
       expect($rootScope.$broadcast.calledWith('openproject.layout.removeMenuItem')).to.be.true;
     });
   });
 
-  describe('getQueryName', function() {
+  describe('getQueryName', function () {
     var defaultTitle = 'Work Packages';
 
-    describe('when the query is undefined', function() {
-      it('returns undefined', function() {
+    describe('when the query is undefined', function () {
+      it('returns undefined', function () {
         expect(QueryService.getQueryName()).to.be.undefined;
       });
     });
 
-    describe('when the query name equals "_"', function() {
-      beforeEach(function() {
-        queryData = { name: '_' };
+    describe('when the query name equals "_"', function () {
+      beforeEach(function () {
+        queryData = {name: '_'};
         QueryService.initQuery(null, queryData);
       });
 
-      it('returns undefined', function() {
+      it('returns undefined', function () {
         expect(QueryService.getQueryName()).to.be.undefined;
       });
     });
 
-    describe('when the query has a name', function() {
+    describe('when the query has a name', function () {
       var queryName = 'abc';
 
-      beforeEach(function() {
-        queryData = { name: queryName };
+      beforeEach(function () {
+        queryData = {name: queryName};
         QueryService.initQuery(null, queryData);
       });
 
-      it('returns undefined', function() {
+      it('returns undefined', function () {
         expect(QueryService.getQueryName()).to.equal(queryName);
       });
     });
   });
 
-  describe('loadAvailableGroupedQueries', function() {
+  describe('loadAvailableGroupedQueries', function () {
     var projectIdentifier = 'test_project',
-        $httpBackend,
-        path,
-        groupedQueries;
+      $httpBackend,
+      path,
+      groupedQueries;
 
     function loadAvailableGroupedQueries() {
       QueryService.loadAvailableGroupedQueries(projectIdentifier);
       $httpBackend.flush();
     }
 
-    beforeEach(inject(function(_$httpBackend_, _PathHelper_) {
+    beforeEach(inject(function (_$httpBackend_, _PathHelper_) {
       $httpBackend = _$httpBackend_;
       PathHelper = _PathHelper_;
 
@@ -175,22 +177,22 @@ describe('QueryService', function() {
       $httpBackend.when('GET', path).respond(200, groupedQueries);
     }));
 
-    describe('when called for the first time', function() {
-      it('triggers an http request', function() {
+    describe('when called for the first time', function () {
+      it('triggers an http request', function () {
         $httpBackend.expectGET(path);
 
         loadAvailableGroupedQueries();
       });
 
-      it('stores the grouped queries', function() {
+      it('stores the grouped queries', function () {
         loadAvailableGroupedQueries();
 
         expect(QueryService.getAvailableGroupedQueries()).to.deep.equal(groupedQueries);
       });
     });
 
-    describe('when called for the second time', function() {
-      it('does not do another http call', function() {
+    describe('when called for the second time', function () {
+      it('does not do another http call', function () {
         loadAvailableGroupedQueries();
         QueryService.loadAvailableGroupedQueries(projectIdentifier);
         $rootScope.$apply();

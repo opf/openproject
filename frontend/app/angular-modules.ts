@@ -144,10 +144,14 @@ angular.module('openproject.templates', []);
 angular.module('openproject.inplace-edit', []);
 angular.module('openproject.responsive', []);
 
-export var filtersModule = angular.module('openproject.filters', ['openproject.services']);
+export var filtersModule = angular.module('openproject.filters', [
+  'openproject.services',
+  'openproject.helpers',
+  'openproject.models'
+]);
 
-export var wpButtonsModule =
-  angular.module('openproject.wpButtons', ['ui.router', 'openproject.services']);
+export var wpButtonsModule = angular.module('openproject.wpButtons',
+  ['ui.router', 'openproject.services']);
 
 // main app
 export default angular.module('openproject', [
