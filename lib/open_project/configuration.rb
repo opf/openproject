@@ -218,7 +218,10 @@ module OpenProject
       end
 
       def migrate_mailer_configuration!
-        return true unless @config['email_delivery_method']
+        # do not migrate if no legacy configuration
+        return true if @config['email_delivery_method'].blank?
+        # do not migrate if the setting already exists and is not blank
+        return true if Setting.email_delivery_method.present?
 
         Rails.logger.info "Migrating existing email configuration to the settings table..."
         Setting.email_delivery_method = @config['email_delivery_method'].to_sym
@@ -233,8 +236,6 @@ module OpenProject
             end
           end
         end
-
-        Setting.email_delivery_migrated = 1
       end
 
       def reload_mailer_configuration!
@@ -262,7 +263,7 @@ module OpenProject
       # continue using environment variables of configuration.yml settings. Our
       # hosted SaaS version requires this.
       def configure_legacy_action_mailer(config)
-        return true unless config['email_delivery_method']
+        return true if config['email_delivery_method'].blank?
 
         ActionMailer::Base.perform_deliveries = true
         ActionMailer::Base.delivery_method = config['email_delivery_method'].to_sym

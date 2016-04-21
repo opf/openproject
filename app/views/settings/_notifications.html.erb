@@ -73,6 +73,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <div id="email_delivery_method_smtp" class="email_delivery_method_settings">
         <div class="form--field"><%= setting_text_field :smtp_address %></div>
         <div class="form--field"><%= setting_text_field :smtp_port, size: 6 %></div>
+        <div class="form--field"><%= setting_text_field :smtp_domain %></div>
         <div class="form--field"><%= setting_select(:smtp_authentication, [:plain, :login, :cram_md5]) %></div>
         <div class="form--field"><%= setting_text_field :smtp_user_name %></div>
         <div class="form--field"><%= setting_password :smtp_password %></div>
