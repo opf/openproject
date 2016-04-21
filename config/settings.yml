@@ -88,6 +88,7 @@ self_registration:
   default: '2'
 lost_password:
   default: 1
+  format: int
 password_min_length:
   format: int
   default: 10
