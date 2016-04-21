@@ -34,9 +34,11 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
   public rows:any[];
   public hidden:boolean = false;
   private _wp;
+  private availableProjects = [];
 
   constructor(
     protected $state,
+    protected $scope,
     protected $rootScope,
     protected $element,
     protected I18n,
@@ -53,6 +55,11 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
       }
     });
 
+    this.apiWorkPackages.availableProjects().then(resource => {
+      this.canCreate = (resource && resource.total > 0);
+      this.availableProjects = resource.elements;
+    });
+
     $rootScope.$on('inlineWorkPackageCreateCancelled', (_event, index, row) => {
       if (row.object === this._wp) {
         this.rows.splice(index, 1);
@@ -61,14 +68,16 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
     });
   }
 
+  public isDisabled() {
+    return !this.canCreate || this.$state.includes('**.new');
+  }
+
   public addWorkPackageRow() {
-    this.WorkPackageResource.fromCreateForm(this.projectIdentifier).then(wp => {
+    this.WorkPackageResource.fromCreateForm(this.availableProjects[0].identifier).then(wp => {
       this._wp = wp;
       wp.inlineCreated = true;
-      this.rows.push({ level: 0, ancestors: [], object: wp, parent: undefined });
+      this.rows.push({ level: 0, ancestors: [], object: wp, parent: void 0 });
       this.hide();
-
-
     });
   }
 

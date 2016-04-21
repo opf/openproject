@@ -47,7 +47,7 @@ export default class WorkPackageCreateButtonController {
 
     if (this.inProjectContext) {
       this.ProjectService.fetchProjectResource(this.projectIdentifier).then(project => {
-        this.canCreate = !!project.links.createWorkPackage;
+        this.canCreate = !!project.createWorkPackage;
       });
 
       this.ProjectService.getProject(this.projectIdentifier).then(project  => {

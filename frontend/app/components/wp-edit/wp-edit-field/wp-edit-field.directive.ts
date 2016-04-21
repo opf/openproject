@@ -105,7 +105,8 @@ export class WorkPackageEditFieldController {
     // Mark the td field if it is inline-editable
     // We're resolving the non-form schema here since its loaded anyway for the table
     this.workPackage.schema.$load().then(schema => {
-      this.editable = schema[this.fieldName].writable;
+      var fieldSchema = schema[this.fieldName];
+      this.editable = fieldSchema && fieldSchema.writable;
     });
   }
 
