@@ -194,8 +194,8 @@ describe OpenProject::Configuration do
 
   describe '.migrate_mailer_configuration!' do
     after do
-      # clear cache so that setting values are always taken from the database
-      Rails.cache.clear
+      # reset this setting value
+      Setting[:email_delivery_method] = nil
       # reload configuration to isolate specs
       OpenProject::Configuration.load
     end
