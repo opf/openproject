@@ -254,7 +254,11 @@ describe UsersController, type: :controller do
     end
   end
 
-  describe '#change_status' do
+  describe '#change_status',
+           with_settings: {
+             available_languages: %i(en de),
+             bcc_recipients: 1
+           } do
     describe 'WHEN activating a registered user' do
       let!(:registered_user) do
         FactoryGirl.create(:user, status: User::STATUSES[:registered],
@@ -262,13 +266,10 @@ describe UsersController, type: :controller do
       end
 
       before do
-        with_settings(available_languages: [:en, :de],
-                      bcc_recipients: '1') do
-          as_logged_in_user admin do
-            post :change_status, id: registered_user.id,
-                                 user: { status: User::STATUSES[:active] },
-                                 activate: '1'
-          end
+        as_logged_in_user admin do
+          post :change_status, id: registered_user.id,
+                               user: { status: User::STATUSES[:active] },
+                               activate: '1'
         end
       end
 

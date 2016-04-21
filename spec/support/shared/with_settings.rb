@@ -27,13 +27,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+def aggregate_mocked_settings(example, settings)
+  # We have to manually check parent groups for with_settings:,
+  # since they are being ignored otherwise
+  example.example_group.parents.each do |parent|
+
+    if parent.respond_to?(:metadata) && parent.metadata[:with_settings]
+      settings.reverse_merge!(parent.metadata[:with_settings])
+    end
+  end
+
+  settings
+end
+
 RSpec.configure do |config|
   config.before(:each) do |example|
-    if example.metadata[:with_settings]
-      example.metadata[:with_settings].each do |k,v|
-        allow(Setting)
-          .to receive(k)
-          .and_return(v)
+
+    settings = example.metadata[:with_settings]
+    if settings.present?
+      settings = aggregate_mocked_settings(example, settings)
+
+      settings.each do |k,v|
+        allow(Setting).to receive(k).and_return(v)
       end
     end
   end

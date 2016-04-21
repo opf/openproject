@@ -153,13 +153,6 @@ describe ::API::V3::Users::UserRepresenter do
 
         expect(parse_json(subject, 'avatar')).to be_blank
       end
-
-      it 'should be https if setting set to https' do
-        # have to actually set the setting for the lib to pick up the change
-        with_settings protocol: 'https' do
-          expect(parse_json(subject, 'avatar')).to start_with('https://secure.gravatar.com/avatar')
-        end
-      end
     end
   end
 end
