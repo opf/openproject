@@ -109,6 +109,9 @@ function ConfigurationService($q, $http, $window, PathHelper, I18n) {
     timeFormat: function () {
       return this.settings.display.time_format;
     },
+    isModuleEnabled: function (module) {
+      return this.settings.enabled_modules.indexOf(module) >= 0;
+    },
     startOfWeekPresent: function () {
       return this.displaySettingPresent('start_of_week') &&
         this.settings.display.start_of_week !== '';
