@@ -89,7 +89,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <fieldset class="form--fieldset -collapsible collapsed" id="type_attribute_visibility">
       <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><%= I18n.t('label_form_configuration')%></legend>
       <%
-        attributes = ::TypesHelper.work_package_form_attributes
+        attributes = ::TypesHelper.work_package_form_attributes merge_date: true
       %>
       <div style="display: none;">
         <p><%= I18n.t('text_form_configuration') %></p>
@@ -123,6 +123,39 @@ See doc/COPYRIGHT.rdoc for more details.
                           .presence || I18n.t("attributes.#{key}")
                       end
                     end
+
+                    ##
+                    # There isn't actually a 'date' field for work packages.
+                    # There are two fields: 'start_date' and 'due_date'
+                    # Though they are displayed together in one row, as one 'field'.
+                    # Since the schema doesn't know any field named 'date' we
+                    # derive the visibility for the imaginary 'date' field from
+                    # the actual schema values of 'due_date' and 'start_date'.
+                    #
+                    # 'visible' > 'default' > 'hidden'
+                    # Meaning, for instance, that if at least one field is 'visible'
+                    # both will be shown. Even if the other is 'hidden'.
+                    #
+                    # Note: this is duplicated in wp-field.service.js
+                    def attr_visibility(name)
+                      if name == 'date'
+                        values = ['start_date', 'due_date'].map do |n|
+                          @type.attribute_visibility[n]
+                        end
+
+                        if values.include? 'visible'
+                          'visible'
+                        elsif values.include? 'default'
+                          'default'
+                        elsif values.include? 'hidden'
+                          'hidden'
+                        else
+                          nil
+                        end
+                      else
+                        @type.attribute_visibility[name]
+                      end
+                    end
                   %>
                   <%= label "type_attribute_visibility_#{name}",
                             attr[:display_name] || translate_attr(name),
@@ -131,7 +164,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 </td>
                 <td>
                   <input name="<%= "type[attribute_visibility][#{name}]" %>" type="hidden" value="hidden" />
-                  <% active_checked = [nil, 'default', 'visible'].include?(@type.attribute_visibility[name]) %>
+                  <% active_checked = [nil, 'default', 'visible'].include?(attr_visibility(name)) %>
                   <%= check_box_tag "type[attribute_visibility][#{name}]",
                                     'default',
                                     active_checked,
@@ -141,7 +174,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 <td>
                   <%= check_box_tag "type[attribute_visibility][#{name}]",
                                     'visible',
-                                    @type.attribute_visibility[name] == 'visible',
+                                    attr_visibility(name) == 'visible',
                                     id: "type_attribute_visibility_visible_#{name}",
                                     title: I18n.t('tooltip.attribute_visibility.visible'),
                                     disabled: !active_checked %>

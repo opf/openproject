@@ -59,7 +59,7 @@ module ::TypesHelper
   #   ::TypesHelper.work_package_form_attributes['author'][:required] # => true
   #
   # @return [Hash{String => Hash}] Map from attribute names to options.
-  def work_package_form_attributes
+  def work_package_form_attributes(merge_date: false)
     rattrs = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter.representable_attrs
     definitions = rattrs[:definitions]
     skip = ['_type', 'links', 'parent_id', 'parent']
@@ -68,9 +68,11 @@ module ::TypesHelper
       .map { |key| [key, definitions[key]] }.to_h
 
     # within the form date is shown as a single entry including start and due
-    attributes['date'] = { required: false }
-    attributes.delete 'due_date'
-    attributes.delete 'start_date'
+    if merge_date
+      attributes['date'] = { required: false }
+      attributes.delete 'due_date'
+      attributes.delete 'start_date'
+    end
 
     WorkPackageCustomField.all.each do |field|
       attributes["custom_field_#{field.id}"] = {

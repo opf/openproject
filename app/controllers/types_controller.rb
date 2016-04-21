@@ -49,6 +49,8 @@ class TypesController < ApplicationController
   end
 
   def create
+    expand_date_visibility! params
+
     @type = ::Type.new(permitted_params.type)
     if @type.save
       # workflow copy
@@ -74,6 +76,8 @@ class TypesController < ApplicationController
 
     # forbid renaming if it is a standard type
     params[:type].delete :name if @type.is_standard?
+
+    expand_date_visibility! params
 
     if @type.update_attributes(permitted_params.type)
       redirect_to edit_type_path(id: @type.id), notice: t(:notice_successful_update)
@@ -111,5 +115,24 @@ class TypesController < ApplicationController
       end
     end
     redirect_to action: 'index'
+  end
+
+  private
+
+  ##
+  # There isn't actually a 'date' field for work packages.
+  # There are two fields: 'start_date' and 'due_date'
+  #
+  # This is why we write to both of them the same value as
+  # given through the imaginary 'date' field.
+  def expand_date_visibility!(params)
+    visibility = params[:type] && params[:type][:attribute_visibility]
+    if visibility && visibility.include?('date')
+      value = visibility.delete 'date'
+
+      visibility[:start_date] = value
+      visibility[:due_date] = value
+      visibility
+    end
   end
 end
