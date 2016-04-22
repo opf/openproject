@@ -31,7 +31,7 @@ module.exports = function(I18n, WorkPackagesHelper, $timeout) {
     restrict: 'E',
     replace: true,
     scope: {
-      title: '@',
+      relationType: '@',
       handler: '=',
       btnTitle: '@buttonTitle',
       btnIcon: '@buttonIcon',
@@ -41,6 +41,7 @@ module.exports = function(I18n, WorkPackagesHelper, $timeout) {
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
       scope.focusElementIndex = -2;
+      scope.title = I18n.t('js.relation_labels.' + scope.relationType)
 
       var setExpandState = function() {
         scope.expand = !scope.handler.isEmpty();

@@ -1,6 +1,7 @@
-<div class="relation">
+<div ng-class="['relation', relationType]">
   <h3>
-    <accessible-by-keyboard execute="toggleExpand()">
+    <accessible-by-keyboard execute="toggleExpand()"
+                            link-class="{{ relationType }}-toggle-link">
       <i class="icon-pull-content" ng-class="stateClass"></i> {{ title }}
       <span ng-if="!handler.isSingletonRelation">({{ handler.getCount() }})</span>
     </accessible-by-keyboard>
