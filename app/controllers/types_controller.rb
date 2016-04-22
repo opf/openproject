@@ -139,6 +139,10 @@ class TypesController < ApplicationController
     end
   end
 
+  ##
+  # Syncs visibility settings for custom fields with enabled custom fields
+  # for this type. If a custom field is hidden it is removed from the
+  # custom_field_ids list.
   def extract_custom_field_ids(type_params)
     visibility = type_params[:attribute_visibility]
     enabled = ['default', 'visible']
