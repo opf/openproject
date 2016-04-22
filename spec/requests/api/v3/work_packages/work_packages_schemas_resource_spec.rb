@@ -104,6 +104,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
         it 'should return the schema for estimated_hours' do
           expected = { 'type': 'Duration',
                        'name': 'Estimated time',
+                       'visibility': 'default',
                        'required': false,
                        'writable': false }
           expect(subject.body).to be_json_eql(expected.to_json).at_path('estimatedTime')

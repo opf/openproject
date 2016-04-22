@@ -4,10 +4,6 @@ jQuery(document).ready(function($) {
     var alwaysId = active.attr("id").replace(/_default_/, "_visible_");
     var always = jQuery("#" + alwaysId);
 
-    if (this.checked) {
-      always.attr("disabled", false);
-    } else {
-      always.attr("disabled", true);
-    }
+    always.prop('disabled', !this.checked);
   });
 });

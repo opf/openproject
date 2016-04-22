@@ -71,7 +71,8 @@ Feature: Type Administration
       And I fill in "Updated Phase" for "Name"
       And I press "Save"
      Then I should see a notice flash stating "Successful update."
-      And I should see that "Updated Phase" is not a milestone and shown in aggregation
+     When I go to the global index page of types
+     Then I should see that "Updated Phase" is not a milestone and shown in aggregation
 
   Scenario: The admin may delete a type
      When I go to the global index page of types
