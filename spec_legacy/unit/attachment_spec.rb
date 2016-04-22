@@ -64,20 +64,22 @@ describe Attachment, type: :model do
 
   context 'Attachmnet#attach_files' do
     it 'should add unsaved files to the object as unsaved attachments' do
-      # Max size of 0 to force Attachment creation failures
-      with_settings(attachment_max_size: 0) do
-        @issue = WorkPackage.find(1)
-        response = Attachment.attach_files(
-          @issue,
-          '1' => { 'file' => LegacyFileHelpers.mock_uploaded_file, 'description' => 'test 1' },
-          '2' => { 'file' => LegacyFileHelpers.mock_uploaded_file, 'description' => 'test 2' })
+      # Can't use with_settings: here due to before hook
+      expect(Setting).to receive(:attachment_max_size)
+        .exactly(4).times
+        .and_return(0)
 
-        assert response[:unsaved].present?
-        assert_equal 2, response[:unsaved].length
-        assert response[:unsaved].first.new_record?
-        assert response[:unsaved].second.new_record?
-        assert_equal response[:unsaved], @issue.unsaved_attachments
-      end
+      @issue = WorkPackage.find(1)
+      response = Attachment.attach_files(
+        @issue,
+        '1' => { 'file' => LegacyFileHelpers.mock_uploaded_file, 'description' => 'test 1' },
+        '2' => { 'file' => LegacyFileHelpers.mock_uploaded_file, 'description' => 'test 2' })
+
+      assert response[:unsaved].present?
+      assert_equal 2, response[:unsaved].length
+      assert response[:unsaved].first.new_record?
+      assert response[:unsaved].second.new_record?
+      assert_equal response[:unsaved], @issue.unsaved_attachments
     end
   end
 end

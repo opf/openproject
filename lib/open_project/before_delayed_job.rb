@@ -37,6 +37,7 @@ module OpenProject
     module Overrides
       def perform
         reset_request_store!
+        reload_mailer_configuration!
         super
       end
 
@@ -50,6 +51,14 @@ module OpenProject
       # the concept of a new request.
       def reset_request_store!
         RequestStore.clear!
+      end
+
+      # Reloads the thread local ActionMailer configuration.
+      # Since the email configuration is now done in the web app, we need to
+      # make sure that any changes to the configuration is correctly picked up
+      # by the background jobs at runtime.
+      def reload_mailer_configuration!
+        OpenProject::Configuration.reload_mailer_configuration!
       end
     end
   end

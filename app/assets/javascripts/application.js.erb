@@ -434,12 +434,6 @@ function addClickEventToAllErrorMessages() {
   });
 }
 
-function toggleEmailDecoratorFields() {
-  lang = jQuery("#emails_decorators_switch").val();
-  jQuery(".emails_decorators").hide();
-  jQuery("#emails_decorators_" + lang).show();
-}
-
 $(document).observe('dom:loaded', function() {
   // Set focus on first error message
   var error_focus = $$('a.afocus').first();

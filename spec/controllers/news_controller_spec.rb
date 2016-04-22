@@ -103,10 +103,11 @@ describe NewsController, type: :controller do
   end
 
   describe '#create' do
-    it 'persists a news item and delivers email notifications' do
-      become_member_with_permissions(project, user)
+    context 'with news_added notifications',
+            with_settings: { notified_events: %w(news_added) } do
+      it 'persists a news item and delivers email notifications' do
+        become_member_with_permissions(project, user)
 
-      with_settings notified_events: ['news_added'] do
         post :create, project_id: project.id, news: { title: 'NewsControllerTest',
                                                       description: 'This is the description',
                                                       summary: '' }

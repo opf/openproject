@@ -100,8 +100,9 @@ describe MailHandler, type: :model do
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
-  it 'should add work package with group assignment' do
-    with_settings work_package_group_assignment: '1' do
+  context 'with group assignment set',
+          with_settings: { work_package_group_assignment: 1 } do
+    it 'should add work package with group assignment' do
       work_package = submit_email('ticket_on_given_project.eml') do |email|
         email.gsub!('Assigned to: John Smith', 'Assigned to: B Team')
       end
@@ -169,7 +170,7 @@ describe MailHandler, type: :model do
   it 'should add work package should match assignee on display name' do # added from redmine  - not sure if it is ok here
     user = FactoryGirl.create(:user, firstname: 'Foo', lastname: 'Bar')
     role = FactoryGirl.create(:role, name: 'Superhero')
-    FactoryGirl.create(:member, user: user, project: Project.find(2), role_ids: [role.id] )
+    FactoryGirl.create(:member, user: user, project: Project.find(2), role_ids: [role.id])
     issue = submit_email('ticket_on_given_project.eml') do |email|
       email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar')
     end
@@ -529,8 +530,9 @@ describe MailHandler, type: :model do
     end
   end
 
-  it 'should new user from attributes should respect minimum password length' do
-    with_settings password_min_length: 15 do
+  context 'with min password length',
+          with_settings: { password_min_length: 15 } do
+    it 'should new user from attributes should respect minimum password length' do
       user = MailHandler.new_user_from_attributes('jsmith@example.net')
       assert user.valid?
       assert user.password.length >= 15

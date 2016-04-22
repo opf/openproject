@@ -61,6 +61,7 @@ module OpenProject
       'rails_asset_host' => nil,
 
       # email configuration
+      'email_delivery_configuration' => 'inapp',
       'email_delivery_method' => nil,
       'smtp_address' => nil,
       'smtp_port' => nil,
@@ -104,10 +105,6 @@ module OpenProject
 
         override_config!(@config)
 
-        if @config['email_delivery_method']
-          configure_action_mailer(@config)
-        end
-
         define_config_methods
 
         @config
@@ -118,7 +115,7 @@ module OpenProject
       def override_config!(config, source = default_override_source)
         config.keys
           .select { |key| source.include? key.upcase }
-          .each   { |key| config[key] = extract_value key, source[key.upcase] }
+          .each   do |key| config[key] = extract_value key, source[key.upcase] end
 
         config.deep_merge! merge_config(config, source)
       end
@@ -215,9 +212,79 @@ module OpenProject
         # override if cache store is not set
         # or cache store is :file_store
         # or there is something to overwrite it
-        application_config.cache_store.nil? \
-          || application_config.cache_store == :file_store \
-          || @config['rails_cache_store'].present?
+        application_config.cache_store.nil? ||
+          application_config.cache_store == :file_store ||
+          @config['rails_cache_store'].present?
+      end
+
+      def migrate_mailer_configuration!
+        # do not migrate if no legacy configuration
+        return true if @config['email_delivery_method'].blank?
+        # do not migrate if the setting already exists and is not blank
+        return true if Setting.email_delivery_method.present?
+
+        Rails.logger.info 'Migrating existing email configuration to the settings table...'
+        Setting.email_delivery_method = @config['email_delivery_method'].to_sym
+
+        ['smtp_', 'sendmail_'].each do |config_type|
+          mail_delivery_config = filter_hash_by_key_prefix(@config, config_type)
+
+          unless mail_delivery_config.empty?
+            mail_delivery_config.symbolize_keys! if mail_delivery_config.respond_to?(:symbolize_keys!)
+            mail_delivery_config.each do |k, v|
+              Setting["#{config_type}#{k}"] = case v
+                                              when TrueClass
+                                                1
+                                              when FalseClass
+                                                0
+                                              else
+                                                v
+                                              end
+            end
+          end
+        end
+        true
+      end
+
+      def reload_mailer_configuration!
+        if @config['email_delivery_configuration'] == 'legacy'
+          configure_legacy_action_mailer(@config)
+        else
+          case Setting.email_delivery_method
+          when :smtp
+            ActionMailer::Base.perform_deliveries = true
+            ActionMailer::Base.delivery_method = Setting.email_delivery_method
+            %w{address port domain authentication user_name password}.each do |setting|
+              ActionMailer::Base.smtp_settings[setting.to_sym] = Setting["smtp_#{setting}".to_sym]
+            end
+            ActionMailer::Base.smtp_settings[:enable_starttls_auto] = Setting.smtp_enable_starttls_auto?
+          when :sendmail
+            ActionMailer::Base.perform_deliveries = true
+            ActionMailer::Base.delivery_method = Setting.email_delivery_method
+          end
+        end
+      rescue StandardError => e
+        Rails.logger.warn "Unable to set ActionMailer settings (#{e.message}). " \
+                          'Email sending will most likely NOT work.'
+      end
+
+      # This is used to configure email sending from users who prefer to
+      # continue using environment variables of configuration.yml settings. Our
+      # hosted SaaS version requires this.
+      def configure_legacy_action_mailer(config)
+        return true if config['email_delivery_method'].blank?
+
+        ActionMailer::Base.perform_deliveries = true
+        ActionMailer::Base.delivery_method = config['email_delivery_method'].to_sym
+
+        ['smtp_', 'sendmail_'].each do |config_type|
+          mail_delivery_config = filter_hash_by_key_prefix(config, config_type)
+
+          unless mail_delivery_config.empty?
+            mail_delivery_config.symbolize_keys! if mail_delivery_config.respond_to?(:symbolize_keys!)
+            ActionMailer::Base.send("#{config_type + 'settings'}=", mail_delivery_config)
+          end
+        end
       end
 
       private
@@ -264,20 +331,6 @@ module OpenProject
           merged_config.merge!(config[env])
         end
         merged_config
-      end
-
-      def configure_action_mailer(config)
-        ActionMailer::Base.perform_deliveries = true
-        ActionMailer::Base.delivery_method = config['email_delivery_method'].to_sym
-
-        ['smtp_', 'sendmail_'].each do |config_type|
-          mail_delivery_config = filter_hash_by_key_prefix(config, config_type)
-
-          unless mail_delivery_config.empty?
-            mail_delivery_config.symbolize_keys! if mail_delivery_config.respond_to?(:symbolize_keys!)
-            ActionMailer::Base.send("#{config_type + 'settings'}=", mail_delivery_config)
-          end
-        end
       end
 
       # Convert old mail settings
@@ -345,7 +398,6 @@ module OpenProject
             define_method "#{setting}?" do
               ['true', true, '1'].include? self[setting]
             end
-
           end unless respond_to? setting
         end
       end

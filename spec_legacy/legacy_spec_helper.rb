@@ -47,6 +47,9 @@ require_relative './support/legacy_file_helpers'
 require_relative './support/with_mock_request'
 require_relative './support/legacy_assertions'
 
+# Required shared support helpers from spec/
+Dir[Rails.root.join('spec/support/shared/*.rb')].each { |f| require f }
+
 require 'rspec/rails'
 require 'shoulda/matchers'
 require 'rspec/example_disabler'
@@ -67,7 +70,7 @@ RSpec.configure do |config|
 
   config.include RSpec::Rails::RequestExampleGroup,   file_path: %r(spec_legacy/integration)
   config.include Shoulda::Matchers::ActionController, file_path: %r(spec_legacy/integration)
-  config.extend  Shoulda::Matchers::ActionController, file_path: %r(spec_legacy/integration)
+  config.extend Shoulda::Matchers::ActionController, file_path: %r(spec_legacy/integration)
 
   config.include(Module.new {
     extend ActiveSupport::Concern
@@ -118,6 +121,6 @@ RSpec.configure do |config|
   # colorized rspec output
   config.color = true
 
-  config.example_status_persistence_file_path = "tmp/rspec-legacy-examples.txt"
+  config.example_status_persistence_file_path = 'tmp/rspec-legacy-examples.txt'
   config.run_all_when_everything_filtered = true
 end
