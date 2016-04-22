@@ -56,11 +56,10 @@ describe AvatarHelper, type: :helper do
 
   describe 'avatar' do
     context 'when enabled', with_settings: { gravatar_enabled?: true } do
-
       describe 'ssl dependent on protocol settings' do
         context 'with https protocol', with_settings: { protocol: 'https' } do
           it "should be set to secure if protocol is 'https'" do
-              expect(described_class.secure?).to be true
+            expect(described_class.secure?).to be true
           end
         end
 

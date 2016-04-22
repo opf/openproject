@@ -115,7 +115,7 @@ module OpenProject
       def override_config!(config, source = default_override_source)
         config.keys
           .select { |key| source.include? key.upcase }
-          .each   { |key| config[key] = extract_value key, source[key.upcase] }
+          .each   do |key| config[key] = extract_value key, source[key.upcase] end
 
         config.deep_merge! merge_config(config, source)
       end
@@ -212,9 +212,9 @@ module OpenProject
         # override if cache store is not set
         # or cache store is :file_store
         # or there is something to overwrite it
-        application_config.cache_store.nil? \
-          || application_config.cache_store == :file_store \
-          || @config['rails_cache_store'].present?
+        application_config.cache_store.nil? ||
+          application_config.cache_store == :file_store ||
+          @config['rails_cache_store'].present?
       end
 
       def migrate_mailer_configuration!
@@ -223,7 +223,7 @@ module OpenProject
         # do not migrate if the setting already exists and is not blank
         return true if Setting.email_delivery_method.present?
 
-        Rails.logger.info "Migrating existing email configuration to the settings table..."
+        Rails.logger.info 'Migrating existing email configuration to the settings table...'
         Setting.email_delivery_method = @config['email_delivery_method'].to_sym
 
         ['smtp_', 'sendmail_'].each do |config_type|
@@ -231,7 +231,7 @@ module OpenProject
 
           unless mail_delivery_config.empty?
             mail_delivery_config.symbolize_keys! if mail_delivery_config.respond_to?(:symbolize_keys!)
-            mail_delivery_config.each do |k,v|
+            mail_delivery_config.each do |k, v|
               Setting["#{config_type}#{k}"] = case v
                                               when TrueClass
                                                 1
@@ -247,7 +247,7 @@ module OpenProject
       end
 
       def reload_mailer_configuration!
-        if @config['email_delivery_configuration'] == "legacy"
+        if @config['email_delivery_configuration'] == 'legacy'
           configure_legacy_action_mailer(@config)
         else
           case Setting.email_delivery_method
@@ -264,7 +264,8 @@ module OpenProject
           end
         end
       rescue StandardError => e
-        Rails.logger.warn "Unable to set ActionMailer settings (#{e.message}). Email sending will most likely NOT work."
+        Rails.logger.warn "Unable to set ActionMailer settings (#{e.message}). " \
+                          'Email sending will most likely NOT work.'
       end
 
       # This is used to configure email sending from users who prefer to
@@ -397,7 +398,6 @@ module OpenProject
             define_method "#{setting}?" do
               ['true', true, '1'].include? self[setting]
             end
-
           end unless respond_to? setting
         end
       end

@@ -146,7 +146,7 @@ describe Repository::Subversion, type: :model do
     let(:instance) {
       FactoryGirl.build(:repository_subversion,
                         url: 'https://somewhere.example.org/svn/foo'
-      )
+                       )
     }
 
     it_behaves_like 'is not a countable repository' do

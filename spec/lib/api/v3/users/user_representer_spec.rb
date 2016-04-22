@@ -36,13 +36,13 @@ describe ::API::V3::Users::UserRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { is_expected.to include_json('User'.to_json).at_path('_type') }
+    it do is_expected.to include_json('User'.to_json).at_path('_type') end
 
-    it { is_expected.to have_json_path('id') }
-    it { is_expected.to have_json_path('login') }
-    it { is_expected.to have_json_path('firstName') }
-    it { is_expected.to have_json_path('lastName') }
-    it { is_expected.to have_json_path('name') }
+    it do is_expected.to have_json_path('id') end
+    it do is_expected.to have_json_path('login') end
+    it do is_expected.to have_json_path('firstName') end
+    it do is_expected.to have_json_path('lastName') end
+    it do is_expected.to have_json_path('name') end
 
     describe 'email' do
       context 'user shows his E-Mail address' do

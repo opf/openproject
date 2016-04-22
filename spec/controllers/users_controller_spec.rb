@@ -55,8 +55,8 @@ describe UsersController, type: :controller do
         end
       end
 
-      it { expect(response).to be_success }
-      it { expect(assigns(:user)).to eq(user) }
+      it do expect(response).to be_success end
+      it do expect(assigns(:user)).to eq(user) end
       it { expect(response).to render_template('deletion_info') }
     end
 
@@ -104,8 +104,8 @@ describe UsersController, type: :controller do
         end
       end
 
-      it { expect(response).to be_success }
-      it { expect(assigns(:user)).to eq(user) }
+      it do expect(response).to be_success end
+      it do expect(assigns(:user)).to eq(user) end
       it { expect(response).to render_template('deletion_info') }
     end
 
@@ -181,7 +181,7 @@ describe UsersController, type: :controller do
         end
       end
 
-      it { expect(response).to redirect_to(controller: 'account', action: 'login') }
+      it do expect(response).to redirect_to(controller: 'account', action: 'login') end
       it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
     end
 
@@ -232,7 +232,7 @@ describe UsersController, type: :controller do
         end
       end
 
-      it { expect(response).to redirect_to(controller: 'users', action: 'index') }
+      it do expect(response).to redirect_to(controller: 'users', action: 'index') end
       it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
     end
 

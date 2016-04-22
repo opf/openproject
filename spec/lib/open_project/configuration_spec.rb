@@ -238,18 +238,18 @@ describe OpenProject::Configuration do
 
     it 'migrates the existing configuration to the settings table' do
       OpenProject::Configuration['email_delivery_method'] = :smtp
-      OpenProject::Configuration['smtp_password'] = "p4ssw0rd"
-      OpenProject::Configuration['smtp_address'] = "smtp.example.com"
+      OpenProject::Configuration['smtp_password'] = 'p4ssw0rd'
+      OpenProject::Configuration['smtp_address'] = 'smtp.example.com'
       OpenProject::Configuration['smtp_port'] = 587
-      OpenProject::Configuration['smtp_user_name'] = "username"
+      OpenProject::Configuration['smtp_user_name'] = 'username'
       OpenProject::Configuration['smtp_enable_starttls_auto'] = true
 
       expect(OpenProject::Configuration.migrate_mailer_configuration!).to eq(true)
       expect(Setting.email_delivery_method).to eq(:smtp)
-      expect(Setting.smtp_password).to eq("p4ssw0rd")
-      expect(Setting.smtp_address).to eq("smtp.example.com")
+      expect(Setting.smtp_password).to eq('p4ssw0rd')
+      expect(Setting.smtp_address).to eq('smtp.example.com')
       expect(Setting.smtp_port).to eq(587)
-      expect(Setting.smtp_user_name).to eq("username")
+      expect(Setting.smtp_user_name).to eq('username')
       expect(Setting.smtp_enable_starttls_auto?).to eq(true)
     end
   end
@@ -266,7 +266,7 @@ describe OpenProject::Configuration do
       OpenProject::Configuration.load
     end
 
-    it 'uses the legacy method to configure email settings if email_delivery_configuration is set to legacy' do
+    it 'uses the legacy method to configure email settings' do
       OpenProject::Configuration['email_delivery_configuration'] = 'legacy'
       expect(OpenProject::Configuration).to receive(:configure_legacy_action_mailer)
       OpenProject::Configuration.reload_mailer_configuration!
@@ -274,24 +274,22 @@ describe OpenProject::Configuration do
 
     it 'correctly sets the action mailer configuration based on the settings' do
       Setting.email_delivery_method = :smtp
-      Setting.smtp_password = "p4ssw0rd"
-      Setting.smtp_address = "smtp.example.com"
+      Setting.smtp_password = 'p4ssw0rd'
+      Setting.smtp_address = 'smtp.example.com'
       Setting.smtp_port = 587
-      Setting.smtp_user_name = "username"
+      Setting.smtp_user_name = 'username'
       Setting.smtp_enable_starttls_auto = 1
 
       expect(action_mailer).to receive(:perform_deliveries=).with(true)
       expect(action_mailer).to receive(:delivery_method=).with(:smtp)
       OpenProject::Configuration.reload_mailer_configuration!
-      expect(action_mailer.smtp_settings).to eq({
-        address: "smtp.example.com",
-        port: 587,
-        domain: "example.com",
-        authentication: "plain",
-        user_name: "username",
-        password: "p4ssw0rd",
-        enable_starttls_auto: true
-      })
+      expect(action_mailer.smtp_settings).to eq(address: 'smtp.example.com',
+                                                port: 587,
+                                                domain: 'example.com',
+                                                authentication: 'plain',
+                                                user_name: 'username',
+                                                password: 'p4ssw0rd',
+                                                enable_starttls_auto: true)
     end
   end
 

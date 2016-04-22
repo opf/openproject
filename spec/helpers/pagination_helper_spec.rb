@@ -206,7 +206,7 @@ describe PaginationHelper, type: :helper do
   end
 
   describe '#per_page_param',
-            with_settings: { per_page_options: '1,2,3' } do
+           with_settings: { per_page_options: '1,2,3' } do
     it 'should return per_page if provided and one of the values stored in the settings' do
       per_page = 2
 

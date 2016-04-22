@@ -70,7 +70,7 @@ RSpec.configure do |config|
 
   config.include RSpec::Rails::RequestExampleGroup,   file_path: %r(spec_legacy/integration)
   config.include Shoulda::Matchers::ActionController, file_path: %r(spec_legacy/integration)
-  config.extend  Shoulda::Matchers::ActionController, file_path: %r(spec_legacy/integration)
+  config.extend Shoulda::Matchers::ActionController, file_path: %r(spec_legacy/integration)
 
   config.include(Module.new {
     extend ActiveSupport::Concern
@@ -121,6 +121,6 @@ RSpec.configure do |config|
   # colorized rspec output
   config.color = true
 
-  config.example_status_persistence_file_path = "tmp/rspec-legacy-examples.txt"
+  config.example_status_persistence_file_path = 'tmp/rspec-legacy-examples.txt'
   config.run_all_when_everything_filtered = true
 end

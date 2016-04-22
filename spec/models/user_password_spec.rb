@@ -35,7 +35,6 @@ describe UserPassword, type: :model do
   describe '#expired?' do
     context 'with expiry value set',
             with_settings: { password_days_valid: 30 } do
-
       it 'should be true for an old password when password expiry is activated' do
         expect(old_password.expired?).to be_truthy
       end
@@ -46,8 +45,7 @@ describe UserPassword, type: :model do
     end
 
     context 'with expiry value disabled',
-             with_settings: { password_days_valid: 0 } do
-
+            with_settings: { password_days_valid: 0 } do
       it 'should be false for an old password when password expiry is disabled' do
         expect(old_password.expired?).to be_falsey
       end

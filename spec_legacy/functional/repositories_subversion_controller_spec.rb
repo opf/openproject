@@ -147,7 +147,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
 
   context 'small file upload size',
           with_settings: { file_max_size_displayed: 0 } do
-            
+
     it 'should entry should send if too big' do
       @repository.fetch_changesets
       @repository.reload

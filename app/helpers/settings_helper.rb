@@ -109,7 +109,7 @@ module SettingsHelper
   def setting_password(setting, options = {})
     setting_label(setting, options) +
       wrap_field_outer(options) {
-        tag(:input, type: "password", name: "settings[#{setting}]", value: Setting.send(setting))
+        tag(:input, type: 'password', name: "settings[#{setting}]", value: Setting.send(setting))
       }
   end
 
