@@ -28,18 +28,34 @@
 
 @include breakpoint(1248px down)
   body.controller-work_packages
-    overflow: auto !important
-    overflow-y: scroll !important
 
-    #main,
-    #content
-      position: relative !important
+    &.action-show
+      overflow: auto !important
+      overflow-y: scroll !important
 
-    #content
-      height: 100% !important
+      #main,
+      #content
+        position: relative !important
 
-    &.action-show #content
-      overflow: visible
+      #main
+        padding-bottom: 0
+
+      #content
+        height: 100% !important
+        overflow: visible
+
+      .work-packages--list-table-area
+        position: relative
+
+      .work-packages--list
+        padding-bottom: 55px
+
+      .work-packages--page-container
+        .toolbar  > .work-packages--split-view
+          display: block
+
+      #content
+        overflow: visible
 
     .toolbar-container
       margin-bottom: 4px
@@ -159,7 +175,7 @@
 
     .work-packages--page-container
       .toolbar
-        padding: 0
+        padding-right: 20px
 
         .title-container
           max-width: 40%
@@ -173,21 +189,19 @@
             text-overflow: ellipsis
             white-space: nowrap
 
-      > .work-packages--split-view
-        display: block
 
-    .work-packages--list-table-area
-      position: relative
-
-    .work-packages--list
-      padding-bottom: 55px
 
 @include breakpoint (680px down)
-  body.controller-work_packages.action-show #content
-    .work-packages--show-view
-      padding-right: 0
+  body.controller-work_packages
+    .work-packages--page-container
+      .toolbar
+        padding-right: 0
 
-  #toolbar-items
+    &.action-show #content
+      .work-packages--show-view
+        padding-right: 0
+
+  .toolbar-items
     background: #fff
     display: flex
     margin-bottom: 20px
@@ -209,3 +223,9 @@
 
     .action_menu_main .dropdown
       left: auto !important
+
+  .work-packages--list-table-area
+    position: relative
+
+  .work-packages--list
+    padding-bottom: 55px
