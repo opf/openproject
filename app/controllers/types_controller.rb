@@ -52,6 +52,8 @@ class TypesController < ApplicationController
     expand_date_visibility! params
 
     @type = ::Type.new(permitted_params.type)
+    @type.custom_field_ids = extract_custom_field_ids permitted_params.type
+
     if @type.save
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = ::Type.find_by(id: params[:copy_workflow_from]))
@@ -77,6 +79,7 @@ class TypesController < ApplicationController
     # forbid renaming if it is a standard type
     params[:type].delete :name if @type.is_standard?
 
+    @type.custom_field_ids = extract_custom_field_ids permitted_params.type
     expand_date_visibility! params
 
     if @type.update_attributes(permitted_params.type)
@@ -133,6 +136,19 @@ class TypesController < ApplicationController
       visibility[:start_date] = value
       visibility[:due_date] = value
       visibility
+    end
+  end
+
+  def extract_custom_field_ids(type_params)
+    visibility = type_params[:attribute_visibility]
+    enabled = ['default', 'visible']
+
+    if visibility
+      visibility
+        .select { |key, value| key =~ /custom_field_/ && enabled.include?(value) }
+        .map { |key, _| key.gsub(/^custom_field_/, '').to_i }
+    else
+      []
     end
   end
 end

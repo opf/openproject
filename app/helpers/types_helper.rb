@@ -83,4 +83,73 @@ module ::TypesHelper
 
     attributes
   end
+
+  def attr_i18n_key(name)
+    if name == 'percentage_done'
+      'done_ratio'
+    else
+      name
+    end
+  end
+
+  def attr_translate(name)
+    if name == 'date'
+      I18n.t('label_date')
+    else
+      key = attr_i18n_key(name)
+      I18n.t("activerecord.attributes.work_package.#{key}", default: '')
+        .presence || I18n.t("attributes.#{key}")
+    end
+  end
+
+  ##
+  # There isn't actually a 'date' field for work packages.
+  # There are two fields: 'start_date' and 'due_date'
+  # Though they are displayed together in one row, as one 'field'.
+  # Since the schema doesn't know any field named 'date' we
+  # derive the visibility for the imaginary 'date' field from
+  # the actual schema values of 'due_date' and 'start_date'.
+  #
+  # 'visible' > 'default' > 'hidden'
+  # Meaning, for instance, that if at least one field is 'visible'
+  # both will be shown. Even if the other is 'hidden'.
+  #
+  # Note: this is duplicated in wp-field.service.js
+  #
+  # Also bases visibility of custom fields on `type.custom_field_ids`
+  # if no visibility is defined yet. After the first update
+  # attribute_visibility and custom_field_ids will be kept in sync
+  # by the types controller (see #extract_custom_field_ids).
+  def attr_visibility(name)
+    if name == 'date'
+      values = ['start_date', 'due_date'].map do |n|
+        @type.attribute_visibility[n]
+      end
+
+      if values.include? 'visible'
+        'visible'
+      elsif values.include? 'default'
+        'default'
+      elsif values.include? 'hidden'
+        'hidden'
+      else
+        nil
+      end
+    elsif name =~ /^custom_field_/
+      id = name.split('_').last.to_i
+      value = @type.attribute_visibility[name]
+
+      if value.nil? || value == 'hidden'
+        if @type.custom_field_ids.include?(id)
+          'default'
+        else
+          'hidden'
+        end
+      else
+        value
+      end
+    else
+      @type.attribute_visibility[name]
+    end
+  end
 end
