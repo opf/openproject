@@ -49,7 +49,11 @@ class TypesController < ApplicationController
   end
 
   def create
+    expand_date_visibility! params
+
     @type = ::Type.new(permitted_params.type)
+    @type.custom_field_ids = extract_custom_field_ids permitted_params.type
+
     if @type.save
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = ::Type.find_by(id: params[:copy_workflow_from]))
@@ -75,8 +79,11 @@ class TypesController < ApplicationController
     # forbid renaming if it is a standard type
     params[:type].delete :name if @type.is_standard?
 
+    @type.custom_field_ids = extract_custom_field_ids permitted_params.type
+    expand_date_visibility! params
+
     if @type.update_attributes(permitted_params.type)
-      redirect_to types_path, notice: t(:notice_successful_update)
+      redirect_to edit_type_path(id: @type.id), notice: t(:notice_successful_update)
     else
       @projects = Project.all
       render action: 'edit'
@@ -111,5 +118,37 @@ class TypesController < ApplicationController
       end
     end
     redirect_to action: 'index'
+  end
+
+  private
+
+  ##
+  # There isn't actually a 'date' field for work packages.
+  # There are two fields: 'start_date' and 'due_date'
+  #
+  # This is why we write to both of them the same value as
+  # given through the imaginary 'date' field.
+  def expand_date_visibility!(params)
+    visibility = params[:type] && params[:type][:attribute_visibility]
+    if visibility && visibility.include?('date')
+      value = visibility.delete 'date'
+
+      visibility[:start_date] = value
+      visibility[:due_date] = value
+      visibility
+    end
+  end
+
+  def extract_custom_field_ids(type_params)
+    visibility = type_params[:attribute_visibility]
+    enabled = ['default', 'visible']
+
+    if visibility
+      visibility
+        .select { |key, value| key =~ /custom_field_/ && enabled.include?(value) }
+        .map { |key, _| key.gsub(/^custom_field_/, '').to_i }
+    else
+      []
+    end
   end
 end

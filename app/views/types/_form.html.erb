@@ -26,6 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<%= javascript_include_tag "type_form.js" %>
+
 <%= error_messages_for 'type' %>
 
 <div class="grid-block">
@@ -38,21 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="form--field -wide-label"><%= f.check_box :in_aggregation %></div>
       <div class="form--field -wide-label"><%= f.check_box :is_default, label:  t(:label_type_default_new_projects) %></div>
       <div class="form--field -wide-label"><%= f.check_box :is_milestone %></div>
-      <% if WorkPackageCustomField.all.any? %>
-        <div class="form--field -wide-label">
-          <%= styled_label_tag nil, l(:label_custom_field_plural) %>
-          <div class="form--field-container -vertical">
-            <% WorkPackageCustomField.all.each do |field| %>
-              <label class="form--label-with-check-box">
-                <%= styled_check_box_tag 'type[custom_field_ids][]',field.id,
-                      @type.custom_fields.include?(field) %>
-                <%= field.name %>
-              </label>
-            <% end %>
-          </div>
-        </div>
-        <%= hidden_field_tag 'type[custom_field_ids][]', '' %>
-      <% end %>
+
       <% if controller.type.new_record? && @types.any? %>
         <div class="form--field -wide-label">
           <%= styled_label_tag 'copy_workflow_from', l(:label_copy_workflow_from) %>
@@ -61,8 +49,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <% end %>
       <!--[eoform:type]-->
     </section>
-    <%= styled_button_tag l(controller.type.new_record? ? :button_create : :button_save),
-        class: '-highlight -with-icon icon-checkmark' %>
   </div>
   <div class="grid-content medium-6">
     <% if @projects.any? %>
@@ -82,4 +68,63 @@ See doc/COPYRIGHT.rdoc for more details.
       </fieldset>
     <% end %>
   </div>
+</div>
+
+<div class="grid-block">
+  <div class="grid-content medium-6">
+    <fieldset class="form--fieldset -collapsible collapsed" id="type_attribute_visibility">
+      <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><%= I18n.t('label_form_configuration')%></legend>
+      <div style="display: none;">
+        <p><%= I18n.t('text_form_configuration') %></p>
+        <table class="attributes-table">
+          <thead>
+            <tr>
+              <td><%= I18n.t('label_attribute') %></td>
+              <td><%= I18n.t('label_default') %></td>
+              <td><%= I18n.t('label_always_visible') %></td>
+            </tr>
+          </thead>
+          <tbody>
+            <%
+              attributes = ::TypesHelper
+                .work_package_form_attributes(merge_date: true)
+                .reject { |name, attr| not name =~ /custom_field_/ and attr[:required] }
+            %>
+            <% attributes.each do |name, attr| %>
+              <tr>
+                <td>
+                  <%= label "type_attribute_visibility_#{name}",
+                            attr[:display_name] || attr_translate(name),
+                            value: "type_attribute_visibility[#{name}]",
+                            class: 'form--label' %>
+                </td>
+                <td>
+                  <input name="<%= "type[attribute_visibility][#{name}]" %>" type="hidden" value="hidden" />
+                  <% active_checked = [nil, 'default', 'visible'].include?(attr_visibility(name)) %>
+                  <%= check_box_tag "type[attribute_visibility][#{name}]",
+                                    'default',
+                                    active_checked,
+                                    id: "type_attribute_visibility_default_#{name}",
+                                    title: I18n.t('tooltip.attribute_visibility.default') %>
+                </td>
+                <td>
+                  <%= check_box_tag "type[attribute_visibility][#{name}]",
+                                    'visible',
+                                    attr_visibility(name) == 'visible',
+                                    id: "type_attribute_visibility_visible_#{name}",
+                                    title: I18n.t('tooltip.attribute_visibility.visible'),
+                                    disabled: !active_checked %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </fieldset>
+  </div>
+</div>
+
+<div class="grid-block">
+  <%= styled_button_tag l(controller.type.new_record? ? :button_create : :button_save),
+      class: '-highlight -with-icon icon-checkmark' %>
 </div>

@@ -42,6 +42,7 @@ module API
                      link_factory:,
                      required: true,
                      writable: true,
+                     visibility: nil,
                      current_user: nil)
         @value_representer = value_representer
         @link_factory = link_factory
@@ -50,6 +51,7 @@ module API
               name: name,
               required: required,
               writable: writable,
+              visibility: visibility,
               current_user: current_user)
       end
 

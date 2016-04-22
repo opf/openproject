@@ -612,7 +612,9 @@ class PermittedParams
           :is_default,
           :color_id,
           project_ids: [],
-          custom_field_ids: []],
+          custom_field_ids: [],
+          attribute_visibility:
+            ::TypesHelper.work_package_form_attributes.keys],
         user: [
           :firstname,
           :lastname,

@@ -33,11 +33,15 @@ require 'roar/json/hal'
 module API
   module Decorators
     class PropertySchemaRepresenter < ::API::Decorators::Single
-      def initialize(type:, name:, required: true, writable: true, current_user: nil)
+      def initialize(
+        type:, name:, required: true, writable: true,
+        visibility: nil, current_user: nil
+      )
         @type = type
         @name = name
         @required = required
         @writable = writable
+        @visibility = visibility || 'default'
 
         super(nil, current_user: current_user)
       end
@@ -46,6 +50,7 @@ module API
                     :name,
                     :required,
                     :writable,
+                    :visibility,
                     :min_length,
                     :max_length,
                     :regular_expression
@@ -54,6 +59,7 @@ module API
       property :name, exec_context: :decorator
       property :required, exec_context: :decorator
       property :writable, exec_context: :decorator
+      property :visibility, exec_context: :decorator
       property :min_length, exec_context: :decorator
       property :max_length, exec_context: :decorator
       property :regular_expression, exec_context: :decorator
