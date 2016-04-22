@@ -134,6 +134,7 @@ module OpenProject::Backlogs
 
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
     patch_with_namespace :BasicData, :SettingSeeder
+    patch_with_namespace :DemoData, :ProjectSeeder
 
     extend_api_response(:v3, :work_packages, :work_package) do
       property :story_points,
