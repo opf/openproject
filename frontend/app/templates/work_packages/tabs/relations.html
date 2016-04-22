@@ -1,54 +1,54 @@
 <div class="detail-panel-description">
   <div class="detail-panel-description-content">
-    <work-package-relations title="{{ I18n.t('js.relation_labels.parent') }}"
+    <work-package-relations relation-type="parent"
                          handler="wpParent"
                          button-title="{{ I18n.t('js.relation_buttons.change_parent') }}"
                          button-icon="<i class='icon-hierarchy icon-edit'></i>">
     </work-package-relations>
 
-    <work-package-relations title="{{ I18n.t('js.relation_labels.children') }}"
+    <work-package-relations relation-type="children"
                             handler="wpChildren"
                             button-title="{{ I18n.t('js.relation_buttons.add_child') }}"
                             button-icon="<i class='icon-hierarchy icon-add'></i>">
     </work-package-relations>
 
-    <work-package-relations title="{{ I18n.t('js.relation_labels.relates') }}"
+    <work-package-relations relation-type="relates"
                             handler="relatedTo"
                             button-title="{{ I18n.t('js.relation_buttons.add_related_to') }}"
                             button-icon="<i class='icon-hierarchy icon-add'></i>">
     </work-package-relations>
 
-    <work-package-relations title="{{ I18n.t('js.relation_labels.duplicates') }}"
+    <work-package-relations relation-type="duplicates"
                             handler="duplicates"
                             button-title="{{ I18n.t('js.relation_buttons.add_duplicates') }}"
                             button-icon="<i class='icon-hierarchy icon-add'></i>">
     </work-package-relations>
 
-    <work-package-relations title="{{ I18n.t('js.relation_labels.duplicated') }}"
+    <work-package-relations relation-type="duplicated"
                             handler="duplicated"
                             button-title="{{ I18n.t('js.relation_buttons.add_duplicated_by') }}"
                             button-icon="<i class='icon-hierarchy icon-add'></i>">
     </work-package-relations>
 
-    <work-package-relations title="{{ I18n.t('js.relation_labels.blocks') }}"
+    <work-package-relations relation-type="blocks"
                             handler="blocks"
                             button-title="{{ I18n.t('js.relation_buttons.add_blocks') }}"
                             button-icon="<i class='icon-hierarchy icon-add'></i>">
     </work-package-relations>
 
-    <work-package-relations title="{{ I18n.t('js.relation_labels.blocked') }}"
+    <work-package-relations relation-type="blocked"
                             handler="blocked"
                             button-title="{{ I18n.t('js.relation_buttons.add_blocked_by') }}"
                             button-icon="<i class='icon-hierarchy icon-add'></i>">
     </work-package-relations>
 
-    <work-package-relations title="{{ I18n.t('js.relation_labels.precedes') }}"
+    <work-package-relations relation-type="precedes"
                             handler="precedes"
                             button-title="{{ I18n.t('js.relation_buttons.add_precedes') }}"
                             button-icon="<i class='icon-hierarchy icon-add'></i>">
     </work-package-relations>
 
-    <work-package-relations title="{{ I18n.t('js.relation_labels.follows') }}"
+    <work-package-relations relation-type="follows"
                             handler="follows"
                             button-title="{{ I18n.t('js.relation_buttons.add_follows') }}"
                             button-icon="<i class='icon-hierarchy icon-add'></i>">

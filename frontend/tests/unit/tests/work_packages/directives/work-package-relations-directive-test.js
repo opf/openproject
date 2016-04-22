@@ -78,13 +78,15 @@ describe('Work Package Relations Directive', function() {
     stub.withArgs('js.work_packages.properties.status').returns('Column1');
     stub.withArgs('js.work_packages.properties.assignee').returns('Column2');
     stub.withArgs('js.relations.remove').returns('Remove relation');
+    stub.withArgs('js.relation_labels.parent').returns('Parent');
   }));
 
   afterEach(function() {
     I18n.t.restore();
   });
 
-  var html = "<work-package-relations title='MyRelation' handler='relations' button-title='Add Relation' button-icon='%MyIcon%'></work-package-relations>";
+  var html = "<work-package-relations relation-type='parent' handler='relations' " +
+             "button-title='Add Relation' button-icon='%MyIcon%'></work-package-relations>";
 
   var workPackage1;
   var workPackage2;
@@ -263,7 +265,7 @@ describe('Work Package Relations Directive', function() {
     it('should have a title', function() {
       var title = angular.element(element.find('h3'));
 
-      expect(title.text()).to.include('MyRelation');
+      expect(title.text()).to.include('Parent');
     });
   };
 

@@ -84,7 +84,7 @@ Feature: Fields editable on work package edit
 
     When I click on "Relations"
 
-    Then I should see "parentpe" within ".relation[title='Parent']"
+    Then I should see "parentpe" within ".relation.parent"
 
   @javascript
   Scenario: Going to the page and viewing custom field fields
