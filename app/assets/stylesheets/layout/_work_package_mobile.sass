@@ -26,11 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@include breakpoint(960px down)
+@include breakpoint(1248px down)
   body.controller-work_packages
 
-    &.action-show #content
-      overflow: visible
+    &.action-show
+      overflow: auto !important
+      overflow-y: scroll !important
+
+      #main,
+      #content
+        position: relative !important
+
+      #main
+        padding-bottom: 0
+
+      #content
+        height: 100% !important
+        overflow: visible
+
+      .work-packages--list-table-area
+        position: relative
+
+      .work-packages--list
+        padding-bottom: 55px
+
+      .work-packages--page-container
+        .toolbar  > .work-packages--split-view
+          display: block
+
+      #content
+        overflow: visible
 
     .toolbar-container
       margin-bottom: 4px
@@ -38,29 +63,8 @@
 
     .work-packages--show-view
       padding: 0
+      padding-right: 20px
 
-      #toolbar-items
-        background: #fff
-        display: flex
-        margin-bottom: 20px
-        width: calc(100% + 5px)
-
-        > li
-          -webkit-flex: 1 0 0
-          flex: 1 0 0
-
-          &:first-child
-            -webkit-flex: 3 0 0
-            flex: 3 0 0
-
-          button
-            width: 100%
-
-        .wp-create-button .dropdown
-          left: 0 !important
-
-        .action_menu_main .dropdown
-          left: auto !important
 
       .work-packages--split-view
         display: block
@@ -171,7 +175,7 @@
 
     .work-packages--page-container
       .toolbar
-        padding: 0
+        padding-right: 20px
 
         .title-container
           max-width: 90%
@@ -185,11 +189,43 @@
             text-overflow: ellipsis
             white-space: nowrap
 
-      > .work-packages--split-view
-        display: block
 
-    .work-packages--list-table-area
-      position: relative
 
-    .work-packages--list
-      padding-bottom: 55px
+@include breakpoint (680px down)
+  body.controller-work_packages
+    .work-packages--page-container
+      .toolbar
+        padding-right: 0
+
+    &.action-show #content
+      .work-packages--show-view
+        padding-right: 0
+
+  .toolbar-items
+    background: #fff
+    display: flex
+    margin-bottom: 20px
+    width: calc(100% + 5px)
+
+    > li
+      -webkit-flex: 1 0 0
+      flex: 1 0 0
+
+      &:first-child
+        -webkit-flex: 3 0 0
+        flex: 3 0 0
+
+      button
+        width: 100%
+
+    .wp-create-button .dropdown
+      left: 0 !important
+
+    .action_menu_main .dropdown
+      left: auto !important
+
+  .work-packages--list-table-area
+    position: relative
+
+  .work-packages--list
+    padding-bottom: 55px
