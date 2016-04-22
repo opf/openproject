@@ -42,10 +42,6 @@ var tsproject = require('tsproject');
 var karma = require('karma');
 var fs = require('fs');
 
-var protractor = require('gulp-protractor').protractor,
-  webdriverStandalone = require('gulp-protractor').webdriver_standalone,
-  webdriverUpdate = require('gulp-protractor').webdriver_update;
-
 var server;
 
 var paths = {
@@ -154,28 +150,6 @@ gulp.task('express', function(done) {
       }
     });
   })(port);
-});
-
-gulp.task('webdriver:update', webdriverUpdate);
-gulp.task('webdriver:standalone', ['webdriver:update'], webdriverStandalone);
-
-gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express'], function(done) {
-  var address = server.address().address;
-  if (server.address().family === 'IPv6') {
-    address = '[' + address + ']';
-  }
-  gulp.src('tests/integration/**/*_spec.js')
-    .pipe(protractor({
-      configFile: 'tests/integration/protractor.conf.js',
-      args: ['--baseUrl', 'http://' + address + ':' + server.address().port]
-    }))
-    .on('error', function(e) {
-      throw e;
-    })
-    .on('end', function() {
-      server.close();
-      done();
-    });
 });
 
 gulp.task('default', ['webpack', 'fonts', 'styleguide', 'sass', 'express']);

@@ -4,8 +4,7 @@
   "scripts": {
     "postinstall": "cd frontend && npm install",
     "test": "cd frontend && npm test && cd ..",
-    "karma": "cd frontend && npm run karma && cd ..",
-    "protractor": "cd frontend && npm run protractor && cd .."
+    "karma": "cd frontend && npm run karma && cd .."
   },
   "private": true
 }
