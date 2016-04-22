@@ -266,37 +266,6 @@ describe('WorkPackagesListController', () => {
     });
   });
 
-  describe('getFilterCount', () => {
-    beforeEach(() => {
-      var testState = {
-        params: {
-          query_id: testQueries['2'].id
-        },
-        href: () => ''
-      };
-      var testLocation = {
-        search: () => ({}),
-        url: angular.identity
-      };
-
-      buildController({projectPath: ''}, testState, testLocation);
-    });
-
-    it('returns 0 with no filters', () => {
-      expect(scope.getFilterCount()).to.eq(0);
-    });
-
-    it('returns the filter count with filters', () => {
-      scope.query.filters = [{}, {}];
-      expect(scope.getFilterCount()).to.eq(2);
-    });
-
-    it('returns the filter count with deactivated filters', () => {
-      scope.query.filters = [{}, {deactivated: true}, {deactivated: true}];
-      expect(scope.getFilterCount()).to.eq(1);
-    });
-  });
-
   describe('setting projectIdentifier', () => {
     var testParams;
     var testState;
