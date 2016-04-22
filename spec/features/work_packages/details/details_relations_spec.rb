@@ -30,7 +30,7 @@ describe 'Work package relations tab', js: true, selenium: true do
     let(:work_package) { FactoryGirl.create(:work_package, parent: parent) }
 
     it 'shows the parent relationship expanded' do
-      within ".relation.parent" do
+      within '.relation.parent' do
         expect(page).to have_selector('.content', text: "##{parent.id} #{parent.subject}")
       end
     end
@@ -57,4 +57,3 @@ describe 'Work package relations tab', js: true, selenium: true do
     end
   end
 end
-

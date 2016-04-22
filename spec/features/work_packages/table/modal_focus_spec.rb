@@ -10,8 +10,9 @@ describe 'Modal focus in work package table', js: true do
   before do
     login_as user
 
-    wp_table.visit_tab('relations')
+    wp_table.visit!
     loading_indicator_saveguard
+    find('#work-packages-settings-button').click
   end
 
   describe 'columns' do

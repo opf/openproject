@@ -84,7 +84,7 @@ module Pages
 
       visit_tab!('relations')
 
-      expect(page).to have_selector(".relation[title=#{I18n.t('js.relation_labels.parent')}] a",
+      expect(page).to have_selector('.relation.parent .content',
                                     text: "##{parent.id} #{parent.subject}")
     end
 
