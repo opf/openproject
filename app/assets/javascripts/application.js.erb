@@ -434,20 +434,6 @@ function addClickEventToAllErrorMessages() {
   });
 }
 
-function toggleEmailDecoratorFields() {
-  lang = jQuery("#emails_decorators_switch").val();
-  jQuery(".emails_decorators").hide();
-  jQuery("#emails_decorators_" + lang).show();
-}
-
-function toggleEmailSettingsFields() {
-  jQuery("#email_delivery_method_switch").on("change", function() {
-    delivery_method = jQuery(this).val();
-    jQuery(".email_delivery_method_settings").hide();
-    jQuery("#email_delivery_method_" + delivery_method).show();
-  }).trigger("change");
-}
-
 $(document).observe('dom:loaded', function() {
   // Set focus on first error message
   var error_focus = $$('a.afocus').first();

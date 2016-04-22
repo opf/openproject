@@ -68,7 +68,8 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
       <% end %>
     </fieldset>
-    <fieldset id="mail_configuration" class="form--fieldset"><legend class="form--fieldset-legend"><%=l(:text_setup_mail_configuration)%></legend>
+    <fieldset id="mail_configuration" class="form--fieldset">
+      <legend class="form--fieldset-legend"><%=l(:text_setup_mail_configuration)%></legend>
       <div class="form--field"><%= setting_select(:email_delivery_method, [:smtp, :sendmail], id: "email_delivery_method_switch") %></div>
       <div id="email_delivery_method_smtp" class="email_delivery_method_settings">
         <div class="form--field"><%= setting_text_field :smtp_address %></div>
@@ -84,12 +85,6 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </fieldset>
 
-    <%= javascript_tag do -%>
-      jQuery(document).ready(function () {
-        toggleEmailDecoratorFields();
-        toggleEmailSettingsFields();
-      });
-    <% end -%>
     <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
     <div style="float:none;display:inline-block;font-weight:bold;">
       <%= link_to l(:label_send_test_email), controller: '/admin', action: 'test_email' %>
