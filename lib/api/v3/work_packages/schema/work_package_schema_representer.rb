@@ -49,6 +49,40 @@ module API
             def create(work_package_schema, context)
               create_class(work_package_schema).new(work_package_schema, context)
             end
+
+            def visibility(property)
+              lambda do
+                if type = represented.type
+                  key = property.to_s.gsub /^customField/, "custom_field_"
+
+                  type.attribute_visibility[key]
+                end
+              end
+            end
+
+            # override the various schema methods to include
+            # the same visibility lambda for all properties by default
+
+            def schema(property, *args)
+              opts, _ = args
+              opts[:visibility] = visibility property
+
+              super property, **opts
+            end
+
+            def schema_with_allowed_link(property, *args)
+              opts, _ = args
+              opts[:visibility] = visibility property
+
+              super property, **opts
+            end
+
+            def schema_with_allowed_collection(property, *args)
+              opts, _ = args
+              opts[:visibility] = visibility property
+
+              super property, **opts
+            end
           end
 
           def initialize(schema, context)

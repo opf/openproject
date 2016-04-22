@@ -65,6 +65,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
       it 'is represented' do
         expected = { 'type': 'Duration',
                      'name': 'Estimated time',
+                     'visibility': 'default',
                      'required': false,
                      'writable': false }
         expect(subject).to be_json_eql(expected.to_json).at_path('estimatedTime')
@@ -88,6 +89,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
       it 'is represented' do
         expected = { 'type': 'Integer',
                      'name': custom_field.name,
+                     'visibility': 'default',
                      'required': false,
                      'writable': false }
         expect(subject).to be_json_eql(expected.to_json).at_path("customField#{custom_field.id}")
