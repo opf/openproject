@@ -6,7 +6,7 @@
 
     <h3>{{ ::vm.text.columnsLabel }}</h3>
 
-    <div cg-busy="vm.promise" class="columns-modal-content select2-modal-content">
+    <div cg-busy="vm.promise" class="columns-modal-content select2-modal-content" ng-if="!vm.impaired">
       <label for="selected_columns" class="hidden-for-sighted">{{ ::vm.text.selectedColumns }}</label>
 
       <ui-select multiple sortable="true" ng-model="vm.selectedColumns" theme="select2"
@@ -33,6 +33,18 @@
       </div>
     </div>
 
+    <div cg-busy="vm.promise" class="columns-modal-content select2-modal-content" ng-if="vm.impaired">
+      <label for="selected_columns" class="hidden-for-sighted">{{ ::vm.text.selectedColumns }}</label>
+
+      <div ng-repeat="column in vm.availableColumns | orderBy:'title'">
+        <label class="form--label-with-check-box" for="column-{{column.title}}">
+          <div class="form--check-box-container">
+            <input id="column-{{column.title}}" type="checkbox" title="{{ column.title }}" ng-model="vm.selectedColumnMap[column.name]" ng-change="vm.setSelectedColumn(column)"></input>
+          </div>
+          {{column.title}}
+        </label>
+      </div>
+    </div>
     <div>
       <button class="button -highlight" ng-click="vm.updateSelectedColumns()">
         {{ ::vm.text.applyButton }}
