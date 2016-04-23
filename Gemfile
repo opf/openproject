@@ -182,7 +182,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'letter_opener', '~> 1.3.0'
+  gem 'letter_opener'
   gem 'thin'
   gem 'faker'
   gem 'quiet_assets'
