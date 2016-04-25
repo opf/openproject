@@ -45,14 +45,10 @@ describe('Filter', function () {
 
   it('should be serializable to params', function () {
     var filter = Factory.build('Filter');
-
     var params = filter.toParams();
 
-    expect(params).to.have.property('op[type_id]')
-      .and.equal('~');
-    expect(params).to.have.property('v[type_id][]')
-      .and.contain('Bug');
-
+    expect(params).to.have.property('op[type_id]').and.equal('~');
+    expect(params).to.have.property('v[type_id][]').and.contain('Bug');
   });
 
   describe('when it is a single input filter', function () {
@@ -77,5 +73,4 @@ describe('Filter', function () {
       });
     });
   });
-
 });

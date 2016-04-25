@@ -32,15 +32,11 @@ angular
 
 function WorkPackagesTableService($filter, QueryService, WorkPackagesTableHelper) {
   var workPackagesTableData = {
-    allRowsChecked: false,
-    showFiltersOptions: false
+    allRowsChecked: false
   };
   var bulkLinks = {};
 
   var WorkPackagesTableService = {
-    get filtersVisible() {
-      return workPackagesTableData.showFiltersOptions;
-    },
     setBulkLinks: function(links) {
       bulkLinks = links;
     },
@@ -167,9 +163,6 @@ function WorkPackagesTableService($filter, QueryService, WorkPackagesTableHelper
       }
 
       return activeSelectionBorderIndex;
-    },
-    toggleShowFilterOptions: function() {
-      workPackagesTableData.showFiltersOptions = !workPackagesTableData.showFiltersOptions;
     }
   };
 

@@ -28,6 +28,7 @@
 
 import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageButtonController, wpButtonDirective} from '../wp-buttons.module';
+import WorkPackageFiltersService from "../../filters/wp-filters/wp-filters.service";
 
 interface Filter {
   modelName:string;
@@ -45,7 +46,7 @@ export class WorkPackageFilterButtonController extends WorkPackageButtonControll
   public buttonId:string = 'work-packages-filter-toggle-button';
   public iconClass:string = 'icon-filter';
 
-  constructor(public I18n, public _, protected WorkPackagesTableService) {
+  constructor(public I18n, public _, protected wpFiltersService:WorkPackageFiltersService) {
     'ngInject';
 
     super(I18n);
@@ -60,15 +61,15 @@ export class WorkPackageFilterButtonController extends WorkPackageButtonControll
   }
 
   public isActive():boolean {
-    return this.WorkPackagesTableService.filtersVisible;
+    return this.wpFiltersService.visible;
   }
 
   public performAction() {
-    this.toggleFilters()
+    this.toggleVisibility()
   }
 
-  public toggleFilters() {
-    this.WorkPackagesTableService.toggleShowFilterOptions();
+  public toggleVisibility() {
+    this.wpFiltersService.toggleVisibility();
   }
 }
 

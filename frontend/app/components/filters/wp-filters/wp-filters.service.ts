@@ -28,16 +28,12 @@
 
 import {filtersModule} from '../../../angular-modules';
 
-function filterContainerDirective(wpFiltersService) {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/filters/filter-container/filter-container.directive.html',
+export default class WorkPackageFiltersService {
+  public visible:boolean = false;
 
-    link: (scope) => {
-      scope.wpFilters = wpFiltersService;
-    }
-  };
+  public toggleVisibility() {
+    this.visible = !this.visible;
+  }
 }
 
-filtersModule.directive('filterContainer', filterContainerDirective);
-
+filtersModule.service('wpFiltersService', WorkPackageFiltersService);

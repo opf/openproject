@@ -26,18 +26,37 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {filtersModule} from '../../../angular-modules';
+import WorkPackageFiltersService from "./wp-filters.service";
+const expect = chai.expect;
 
-function filterContainerDirective(wpFiltersService) {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/filters/filter-container/filter-container.directive.html',
+describe('wpFiltersService', () => {
+  var wpFiltersService:WorkPackageFiltersService;
 
-    link: (scope) => {
-      scope.wpFilters = wpFiltersService;
-    }
-  };
-}
+  beforeEach(angular.mock.module('openproject.filters'));
+  beforeEach(angular.mock.inject((_wpFiltersService_) => {
+    wpFiltersService = _wpFiltersService_;
+  }));
 
-filtersModule.directive('filterContainer', filterContainerDirective);
+  it('should exist', () => {
+    expect(wpFiltersService).to.exist;
+  });
 
+  it('should have set its visibility to false', () => {
+    expect(wpFiltersService.visible).to.be.false;
+  });
+
+  describe('when using toggleVisibility', () => {
+    beforeEach(() => {
+      wpFiltersService.toggleVisibility();
+    });
+
+    it('should turn its visibility to true', () => {
+      expect(wpFiltersService.visible).to.be.true;
+    });
+
+    it('should turn off its visibility when used again', () => {
+      wpFiltersService.toggleVisibility();
+      expect(wpFiltersService.visible).to.be.false;
+    });
+  });
+});

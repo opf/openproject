@@ -52,9 +52,6 @@ function WorkPackagesListController($scope,
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.disableFilters = false;
     $scope.disableNewWorkPackage = true;
-    $scope.toggleShowFilterOptions = function () {
-      WorkPackagesTableService.toggleShowFilterOptions();
-    };
 
     loadingIndicator.mainPage = wpListService.fromQueryParams($state.params, $scope.projectIdentifier)
       .then((json:api.ex.WorkPackagesMeta) => {
