@@ -39,7 +39,12 @@
       <div ng-repeat="column in vm.availableColumns | orderBy:'title'">
         <label class="form--label-with-check-box" for="column-{{column.title}}">
           <div class="form--check-box-container">
-            <input id="column-{{column.title}}" type="checkbox" title="{{ column.title }}" ng-model="vm.selectedColumnMap[column.name]" ng-change="vm.setSelectedColumn(column)"></input>
+            <input id="column-{{column.title}}"
+                   type="checkbox"
+                   title="{{ column.title }}"
+                   ng-attr-autofocus="{{ $first || undefined }}"
+                   ng-model="vm.selectedColumnMap[column.name]"
+                   ng-change="vm.setSelectedColumn(column)"/>
           </div>
           {{column.title}}
         </label>
