@@ -26,17 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {filtersModule} from '../../../angular-modules';
-
 describe('queryFilters', function () {
   var doc, $httpBackend, $timeout, compile, scope, element,
     OPERATORS_AND_LABELS_BY_FILTER_TYPE, OPERATORS_NOT_REQUIRING_VALUES;
   var html = "<query-filters></query-filters>";
 
-  beforeEach(angular.mock.module('ui.router',
-    filtersModule.name,
+  beforeEach(angular.mock.module(
+    'ui.router',
+    'openproject.filters',
     'openproject.api',
-    'openproject.models',
     'openproject.layout',
     'openproject.workPackages.directives',
     'openproject.workPackages.config',

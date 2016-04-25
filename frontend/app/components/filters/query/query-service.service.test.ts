@@ -26,16 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {filtersModule} from '../../../angular-modules';
-
 describe('QueryService', function () {
   var QueryService, PathHelper, query, queryData, stateParams = {}, $rootScope,
     $httpBackend;
 
   beforeEach(angular.mock.module(
-    filtersModule.name,
+    'openproject.filters',
     'openproject.layout',
-    'openproject.models',
     'openproject.api',
     'openproject.services'));
 

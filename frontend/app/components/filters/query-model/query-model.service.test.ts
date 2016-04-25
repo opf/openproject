@@ -26,13 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {filtersModule} from '../../../angular-modules';
-
 describe('Query', function () {
   var Query;
   var query:any;
 
-  beforeEach(angular.mock.module(filtersModule.name));
+  beforeEach(angular.mock.module('openproject.filters'));
   beforeEach(angular.mock.inject(function (_Query_) {
     Query = _Query_;
   }));

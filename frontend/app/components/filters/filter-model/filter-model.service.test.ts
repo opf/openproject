@@ -26,12 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {filtersModule} from '../../../angular-modules';
-
 describe('Filter', function () {
   var Filter;
 
-  beforeEach(angular.mock.module(filtersModule.name));
+  beforeEach(angular.mock.module('openproject.filters'));
   beforeEach(angular.mock.inject(function (_Filter_) {
     Filter = _Filter_;
   }));

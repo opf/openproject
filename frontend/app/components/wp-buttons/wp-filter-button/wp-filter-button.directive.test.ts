@@ -35,7 +35,10 @@ describe('wpFilterButton directive', () => {
   var element:ng.IAugmentedJQuery;
   var controller:WorkPackageFilterButtonController;
 
-  beforeEach(angular.mock.module('openproject.wpButtons', 'openproject.templates'));
+  beforeEach(angular.mock.module(
+    'openproject.wpButtons',
+    'openproject.templates'
+  ));
 
   beforeEach(angular.mock.inject(($compile, $rootScope) => {
     var html = '<wp-filter-button filters="filters"></wp-filter-button>';
