@@ -42,7 +42,8 @@ angular.module(
     'openproject.workPackages.config',
     'openproject.workPackages.helpers',
     'openproject.api',
-    'angular-cache'
+    'angular-cache',
+    'openproject.filters'
   ]);
 angular.module('openproject.helpers', ['openproject.services']);
 angular
@@ -144,11 +145,7 @@ angular.module('openproject.templates', []);
 angular.module('openproject.inplace-edit', []);
 angular.module('openproject.responsive', []);
 
-export var filtersModule = angular.module('openproject.filters', [
-  'openproject.services',
-  'openproject.helpers',
-  'openproject.models'
-]);
+export var filtersModule = angular.module('openproject.filters', []);
 
 export var wpButtonsModule = angular.module('openproject.wpButtons',
   ['ui.router', 'openproject.services']);

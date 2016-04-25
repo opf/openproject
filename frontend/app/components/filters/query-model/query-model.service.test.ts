@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {filtersModule} from '../../../angular-modules.ts';
+import {filtersModule} from '../../../angular-modules';
 
 describe('Query', function () {
   var Query;
