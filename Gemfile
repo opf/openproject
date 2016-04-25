@@ -185,7 +185,7 @@ group :development do
   gem 'thin'
   gem 'faker'
   gem 'quiet_assets'
-  gem 'livingstyleguide', '~> 2.0.0.alpha.6'
+  gem 'livingstyleguide', '~> 2.0.0.pre.1'
 end
 
 group :development, :test do
