@@ -30,7 +30,7 @@ import {wpButtonsModule} from '../../../angular-modules';
 import WorkPackageCreateButtonController from '../wp-create-button/wp-create-button.controller';
 
 class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonController {
-  public columns:any[];
+  public query: op.Query;
   public rows:any[];
   public hidden:boolean = false;
   private _wp;
@@ -76,6 +76,9 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
     this.WorkPackageResource.fromCreateForm(this.availableProjects[0].identifier).then(wp => {
       this._wp = wp;
       wp.inlineCreated = true;
+
+      this.query.applyDefaultsFromFilters(this._wp);
+
       this.rows.push({ level: 0, ancestors: [], object: wp, parent: void 0 });
       this.hide();
     });
