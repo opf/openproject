@@ -99,18 +99,15 @@ describe Setting, type: :model do
 
     after do
       Setting.find_by(name: 'notified_events').destroy
-      # have to clear the cache as well
-      # as settings are stored there
-      Rails.cache.clear
     end
   end
 
   describe 'caching' do
-    let(:cache) { ActiveSupport::Cache::MemoryStore.new }
     let(:cache_key) { Setting.send :cache_key }
 
     before do
-      allow(Rails).to receive(:cache).and_return(cache)
+      RequestStore.clear!
+      Rails.cache.clear
     end
 
     context 'cache is empty' do
@@ -119,7 +116,7 @@ describe Setting, type: :model do
           .once
           .and_call_original
 
-        expect(cache).to receive(:fetch).once.and_call_original
+        expect(Rails.cache).to receive(:fetch).once.and_call_original
         expect(RequestStore).to receive(:fetch).exactly(3).times.and_call_original
 
         # Settings are empty by default
@@ -157,7 +154,7 @@ describe Setting, type: :model do
       }
 
       before do
-        cache.write(cache_key, cached_hash)
+        Rails.cache.write(cache_key, cached_hash)
       end
 
       it 'returns the value from the deeper cache' do
@@ -252,9 +249,6 @@ describe Setting, type: :model do
 
     after do
       Setting.destroy_all
-      # have to clear the cache as well
-      # as settings are stored there
-      Rails.cache.clear
     end
   end
 end

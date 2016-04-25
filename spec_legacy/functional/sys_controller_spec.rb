@@ -34,51 +34,52 @@ describe SysController, type: :controller do
   fixtures :all
 
   before do
-    Setting.sys_api_enabled = '1'
     Setting.enabled_scm = %w(subversion git)
   end
 
-  it 'should projects with repository enabled' do
-    get :projects
-    assert_response :success
-    assert_equal 'application/xml', response.content_type
-    assert_select 'projects', children: { count:  Project.active.has_module(:repository).count }
-  end
+  describe 'when enabled',
+           with_settings: { sys_api_enabled?: true } do
 
-  it 'should fetch changesets' do
-    expect_any_instance_of(Repository::Subversion).to receive(:fetch_changesets).and_return(true)
-    get :fetch_changesets
-    assert_response :success
-  end
-
-  it 'should fetch changesets one project' do
-    expect_any_instance_of(Repository::Subversion).to receive(:fetch_changesets).and_return(true)
-    get :fetch_changesets, id: 'ecookbook'
-    assert_response :success
-  end
-
-  it 'should fetch changesets unknown project' do
-    get :fetch_changesets, id: 'unknown'
-    assert_response 404
-  end
-
-  it 'should disabled ws should respond with 403 error' do
-    with_settings sys_api_enabled: '0' do
+    it 'should projects with repository enabled' do
       get :projects
-      assert_response 403
+      assert_response :success
+      assert_equal 'application/xml', response.content_type
+      assert_select 'projects', children: { count:  Project.active.has_module(:repository).count }
     end
-  end
 
-  it 'should api key' do
-    with_settings sys_api_key: 'my_secret_key' do
-      get :projects, key: 'my_secret_key'
+    it 'should fetch changesets' do
+      expect_any_instance_of(Repository::Subversion).to receive(:fetch_changesets).and_return(true)
+      get :fetch_changesets
       assert_response :success
     end
+
+    it 'should fetch changesets one project' do
+      expect_any_instance_of(Repository::Subversion).to receive(:fetch_changesets).and_return(true)
+      get :fetch_changesets, id: 'ecookbook'
+      assert_response :success
+    end
+
+    it 'should fetch changesets unknown project' do
+      get :fetch_changesets, id: 'unknown'
+      assert_response 404
+    end
+
+    describe 'api key', with_settings: { sys_api_key: 'my_secret_key' } do
+      it 'should api key' do
+        get :projects, key: 'my_secret_key'
+        assert_response :success
+      end
+
+      it 'should wrong key should respond with 403 error' do
+        get :projects, key: 'wrong_key'
+        assert_response 403
+      end
+    end
   end
 
-  it 'should wrong key should respond with 403 error' do
-    with_settings sys_api_enabled: 'my_secret_key' do
-      get :projects, key: 'wrong_key'
+  describe 'when disabled', with_settings: { sys_api_enabled?: false } do
+    it 'should disabled ws should respond with 403 error' do
+      get :projects
       assert_response 403
     end
   end

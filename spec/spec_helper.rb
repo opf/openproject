@@ -96,7 +96,6 @@ RSpec.configure do |config|
 
     DatabaseCleaner.start
     ActionMailer::Base.deliveries.clear
-    RequestStore.clear!
   end
 
   config.after(:each) do

@@ -82,10 +82,9 @@ describe User, type: :model do
       @user1 = FactoryGirl.create(:user, mail_notification: nil)
       assert_equal 'only_my_events', @user1.mail_notification
 
-      with_settings default_notification_option: 'all' do
-        @user2 = FactoryGirl.create(:user)
-        assert_equal 'all', @user2.mail_notification
-      end
+      Setting.default_notification_option = 'all'
+      @user2 = FactoryGirl.create(:user)
+      assert_equal 'all', @user2.mail_notification
     end
   end
 

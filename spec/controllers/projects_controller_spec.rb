@@ -44,18 +44,6 @@ describe ProjectsController, type: :controller do
     @params = {}
   end
 
-  def clear_settings_cache
-    Rails.cache.clear
-  end
-
-  # this is the base method for get, post, etc.
-  def process(*args)
-    clear_settings_cache
-    result = super
-    clear_settings_cache
-    result
-  end
-
   describe 'show' do
     render_views
 
