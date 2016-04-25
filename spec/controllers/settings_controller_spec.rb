@@ -40,18 +40,6 @@ describe SettingsController, type: :controller do
   describe 'edit' do
     render_views
 
-    def clear_settings_cache
-      Rails.cache.clear
-    end
-
-    # this is the base method for get, post, etc.
-    def process(*args)
-      clear_settings_cache
-      result = super
-      clear_settings_cache
-      result
-    end
-
     before(:all) do
       @previous_projects_modules = Setting.default_projects_modules
     end
