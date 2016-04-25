@@ -77,7 +77,7 @@ module API
               end
 
               get do
-                cache(key: [cache_key(@project.id, @type.id), @custom_fields]) do
+                cache([cache_key(@project.id, @type.id), @type.updated_at, @custom_fields]) do
                   schema = TypedWorkPackageSchema.new(project: @project, type: @type)
                   self_link = api_v3_paths.work_package_schema(@project.id, @type.id)
                   WorkPackageSchemaRepresenter.create(schema,
