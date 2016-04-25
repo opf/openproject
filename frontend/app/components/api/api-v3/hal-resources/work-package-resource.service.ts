@@ -26,9 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
 function wpResource(
   HalResource:typeof op.HalResource,
   apiWorkPackages,
+  wpCacheService: WorkPackageCacheService,
   NotificationsService:any,
   $q:ng.IQService
 
@@ -99,7 +101,7 @@ function wpResource(
     delete plain.createdAt;
     delete plain.updatedAt;
 
-    var deferred = this.$q.defer();
+    var deferred = $q.defer();
     this.getForm()
         .catch(deferred.reject)
         .then(form => {
