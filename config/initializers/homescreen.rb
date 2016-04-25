@@ -32,7 +32,7 @@ require 'open_project/homescreen'
 OpenProject::Homescreen.manage :blocks do |blocks|
   blocks.push(
     { partial: 'welcome',
-      if: Proc.new { Setting.welcome_on_homescreen? && !Setting.welcome_text.empty? } },
+      if: Proc.new { Setting.welcome_on_homescreen? && Setting.welcome_text.present? } },
     { partial: 'projects' },
     { partial: 'users',
       if: Proc.new { User.current.admin? } },
