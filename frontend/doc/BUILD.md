@@ -37,4 +37,4 @@ On the Rails side, both frameworks are included as gems - see the `./Gemfile` - 
 
 ## Living Styleguide
 
-The styleguide is rendered as part of the Rails stack at `/assets/styleguide.html`. Please see [their GitHub](https://github.com/livingstyleguide/livingstyleguide) for more information.
+The styleguide is rendered as part of the Rails stack at `/styleguide` (`RAILS_ENV=development` only). Please see [their GitHub](https://github.com/livingstyleguide/livingstyleguide) for more information.

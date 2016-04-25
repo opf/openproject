@@ -8,7 +8,7 @@ once webpack has completed.
 
 ## Living Style Guide
 
-The style guide is available as part of the Rails development server at: <http://localhost:5000/assets/styleguide.html>.
+The style guide is available as part of the Rails development server at: <http://localhost:5000/styleguide>.
 
 ## Changing or updating Dependencies
 
