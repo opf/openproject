@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function QueryConstructorService(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED_COLUMNS) {
+function QueryConstructorService(Filter, Sortation, UrlParamsHelper, PathHelper, INITIALLY_SELECTED_COLUMNS) {
 
   var Query = function (queryData, options) {
     angular.extend(this, queryData, options);
@@ -200,6 +200,37 @@ function QueryConstructorService(Filter, Sortation, UrlParamsHelper, INITIALLY_S
 
     setColumns: function(columns) {
       this.columns = columns;
+    },
+
+    applyDefaultsFromFilters: function(workPackage) {
+      angular.forEach(this.filters, function(filter) {
+
+        // Ignore any filters except =
+        if (filter.operator !== '=') {
+          return;
+        }
+
+        // Select the first value
+        var value = filter.values;
+        if (Array.isArray(filter.values)) {
+          value = filter.values[0];
+        }
+
+        // Avoid empty values
+        if (!value) {
+          return;
+        }
+
+        switch(filter.name) {
+          case 'type':
+            workPackage.setAllowedValueFor('type', PathHelper.apiV3TypePath(value));
+            break;
+          case 'assignee':
+            workPackage.setAllowedValueFor('assignee', PathHelper.apiV3UserPath(value));
+            break;
+        }
+
+      });
     },
 
     /**
