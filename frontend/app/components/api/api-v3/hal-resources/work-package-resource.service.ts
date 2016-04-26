@@ -67,7 +67,7 @@ function wpResource(
       return !this[fieldName] && fieldSchema.writable && fieldSchema.required;
     }
 
-    public allowedValuesFor(field):op.HalResource[] {
+    public allowedValuesFor(field):ng.IPromise<op.HalResource[]> {
       var deferred = $q.defer();
       this.getForm().then(form => {
         const allowedValues = form.$embedded.schema[field].allowedValues;
@@ -86,7 +86,7 @@ function wpResource(
 
     public setAllowedValueFor(field, href) {
       this.allowedValuesFor(field).then(allowedValues => {
-        this[field] = _.find(allowedValues, entry => (entry.href === href));
+        this[field] = _.find(allowedValues, (entry:any) => (entry.href === href));
       });
     }
 
