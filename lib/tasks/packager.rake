@@ -52,7 +52,7 @@ namespace :packager do
     # 2. When a custom Gemfile is added
     if ENV['REBUILD_ASSETS'] == 'true'
       Rake::Task['assets:precompile'].invoke
-      FileUtils.chmod_R 'a+r', "#{ENV['APP_HOME']}/public/assets/"
+      FileUtils.chmod_R 'a+rx', "#{ENV['APP_HOME']}/public/assets/"
       shell_setup(['config:set', 'REBUILD_ASSETS=""'])
     end
 
