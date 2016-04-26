@@ -36,7 +36,7 @@ describe 'hourly rates on user edit', type: :feature, js: true do
     end
 
     it 'shows no data message' do
-      expect(page).to have_text 'No data to display'
+      expect(page).to have_text I18n.t('no_results_title_text')
     end
   end
 
@@ -61,7 +61,7 @@ describe 'hourly rates on user edit', type: :feature, js: true do
       # regression test: clicking save used to result in a error
       it 'leads back to the now empty rate overview' do
         expect(page).to have_text /rate history/i
-        expect(page).to have_text 'No data to display'
+        expect(page).to have_text I18n.t('no_results_title_text')
 
         expect(page).not_to have_text 'Current rate'
       end
