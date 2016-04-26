@@ -49,7 +49,6 @@ angular.module('openproject.services')
   .service('ProjectService', [
     '$http',
     'PathHelper',
-    'FiltersHelper',
     'apiV3',
     require('./project-service')
   ])

@@ -26,10 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-function QueryService(Query,
+import {filtersModule} from "../../../angular-modules";
+
+function QueryService($rootScope,
                       $http,
-                      PathHelper,
                       $q,
+                      Query,
+                      PathHelper,
                       AVAILABLE_WORK_PACKAGE_FILTERS,
                       StatusService,
                       TypeService,
@@ -43,8 +46,8 @@ function QueryService(Query,
                       WorkPackagesTableHelper,
                       I18n,
                       queryMenuItemFactory,
-                      $rootScope,
-                      QUERY_MENU_ITEM_TYPE) {
+                      QUERY_MENU_ITEM_TYPE
+) {
 
   var query;
 
@@ -496,6 +499,4 @@ function QueryService(Query,
   return QueryService;
 }
 
-angular
-  .module('openproject.services')
-  .factory('QueryService', QueryService);
+filtersModule.factory('QueryService', QueryService);

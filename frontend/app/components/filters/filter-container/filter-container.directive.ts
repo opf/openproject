@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,8 +24,20 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-angular.module('openproject.models')
-  .factory('Sortation', ['DEFAULT_SORT_CRITERIA', 'MAX_SORT_ELEMENTS', require(
-    './sortation')]);
+import {filtersModule} from '../../../angular-modules';
+
+function filterContainerDirective(wpFiltersService) {
+  return {
+    restrict: 'E',
+    templateUrl: '/components/filters/filter-container/filter-container.directive.html',
+
+    link: (scope) => {
+      scope.wpFilters = wpFiltersService;
+    }
+  };
+}
+
+filtersModule.directive('filterContainer', filterContainerDirective);
+

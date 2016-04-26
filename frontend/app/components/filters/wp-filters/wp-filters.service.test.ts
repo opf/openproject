@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,8 +24,39 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-angular.module('openproject.models')
-  .factory('Sortation', ['DEFAULT_SORT_CRITERIA', 'MAX_SORT_ELEMENTS', require(
-    './sortation')]);
+import WorkPackageFiltersService from "./wp-filters.service";
+const expect = chai.expect;
+
+describe('wpFiltersService', () => {
+  var wpFiltersService:WorkPackageFiltersService;
+
+  beforeEach(angular.mock.module('openproject.filters'));
+  beforeEach(angular.mock.inject((_wpFiltersService_) => {
+    wpFiltersService = _wpFiltersService_;
+  }));
+
+  it('should exist', () => {
+    expect(wpFiltersService).to.exist;
+  });
+
+  it('should have set its visibility to false', () => {
+    expect(wpFiltersService.visible).to.be.false;
+  });
+
+  describe('when using toggleVisibility', () => {
+    beforeEach(() => {
+      wpFiltersService.toggleVisibility();
+    });
+
+    it('should turn its visibility to true', () => {
+      expect(wpFiltersService.visible).to.be.true;
+    });
+
+    it('should turn off its visibility when used again', () => {
+      wpFiltersService.toggleVisibility();
+      expect(wpFiltersService.visible).to.be.false;
+    });
+  });
+});

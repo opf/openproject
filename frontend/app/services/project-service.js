@@ -26,7 +26,35 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($http, PathHelper, FiltersHelper, apiV3) {
+module.exports = function($http, PathHelper, apiV3) {
+  var indentedName = function(name, level) {
+    var indentation = '';
+    
+    for (var i = 0; i < level; i++) {
+      indentation = indentation + '--';
+    }
+    
+    return indentation + " " + name;
+  };
+  var assignAncestorLevels = function(projects) {
+    var ancestors = [];
+    
+    angular.forEach(projects, function (project) {
+      while (ancestors.length > 0 && project.parent_id !== _.last(ancestors).id) {
+        // this helper method only reflects hierarchies if nested projects follow one another
+        ancestors.pop();
+      }
+
+      project['level'] = ancestors.length;
+      project['name'] = indentedName(project['name'], project['level']);
+
+      if (!project['leaf?']) {
+        ancestors.push(project);
+      }
+    });
+    
+    return projects;
+  };
 
   var ProjectService = {
     getProject: function(projectIdentifier) {
@@ -42,7 +70,7 @@ module.exports = function($http, PathHelper, FiltersHelper, apiV3) {
 
       return ProjectService.doQuery(url)
         .then(function(projects){
-          return FiltersHelper.assignAncestorLevels(projects);
+          return assignAncestorLevels(projects);
         });
     },
 

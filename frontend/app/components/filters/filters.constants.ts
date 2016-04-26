@@ -26,6 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.models')
-  .factory('Sortation', ['DEFAULT_SORT_CRITERIA', 'MAX_SORT_ELEMENTS', require(
-    './sortation')]);
+import {filtersModule} from '../../angular-modules';
+
+filtersModule
+  .constant('ADD_FILTER_SELECT_INDEX', -1)
+  .constant('OPERATORS_NOT_REQUIRING_VALUES', ['o', 'c', '!*', '*', 't', 'w'])
+  .constant('SELECTABLE_FILTER_TYPES',
+    ['list', 'list_optional', 'list_status', 'list_subprojects', 'list_model']);
