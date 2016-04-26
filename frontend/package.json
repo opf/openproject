@@ -5,20 +5,7 @@
     "body-parser": "^1.2.0",
     "chai": "~1.9.1",
     "chai-as-promised": "^4.1.1",
-    "coffee-script": "^1.9.2",
     "exec": "0.0.6",
-    "express": "^4.9.7",
-    "gulp": "^3.8.11",
-    "gulp-autoprefixer": "^2.1.0",
-    "gulp-filter": "^2.0.2",
-    "gulp-jshint": "^1.8.5",
-    "gulp-livingstyleguide": "0.1.5",
-    "gulp-replace": "^0.5.3",
-    "gulp-ruby-sass": "^0.7.1",
-    "gulp-util": "^3.0.4",
-    "gulp-watch": "^1.1.0",
-    "gulp-webpack": "^1.0.0",
-    "jshint-stylish": "^1.0.0",
     "json2htmlcov": "~0.1.1",
     "karma": "~0.12.3",
     "karma-chai": "~0.1.0",
@@ -70,7 +57,9 @@
   },
   "scripts": {
     "test": "npm run karma",
-    "karma": "./node_modules/.bin/gulp tests:karma",
-    "postinstall": "./node_modules/.bin/bower install --config.interactive=false"
+    "karma": "./scripts/karma-runner.js",
+    "postinstall": "./node_modules/.bin/bower install --config.interactive=false",
+    "webpack": "./node_modules/.bin/webpack --colors --progress",
+    "webpack-watch": "npm run webpack -- --watch --cache"
   }
 }

@@ -64,7 +64,6 @@
     <div class="styleguide-banner">
       <h1 class="styleguide-banner--text">Living Style Guide</h1>
     </div>
-    <link rel="stylesheet" type="text/css" href="jstoolbar.css">
   </header>
 
   <nav class="styleguide-nav">
