@@ -295,9 +295,5 @@ module OpenProject::Costs
                                                                                        :user] },
                                                                       :cost_object]
     end
-
-    config.to_prepare do |_app|
-      NonStupidDigestAssets.whitelist << /work_packages\/.*\.html/
-    end
   end
 end
