@@ -32,6 +32,8 @@ module API
     module WorkPackages
       module Schema
         class SpecificWorkPackageSchema < BaseWorkPackageSchema
+          attr_reader :work_package
+
           def initialize(work_package:)
             @work_package = work_package
           end
