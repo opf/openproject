@@ -112,7 +112,6 @@ group :production do
 end
 
 gem 'sprockets',        '~> 2.12.3'
-gem 'non-stupid-digest-assets'
 gem 'sass-rails',       '~> 5.0.3'
 gem 'sass',             '~> 3.4.12'
 gem 'autoprefixer-rails'
@@ -186,6 +185,7 @@ group :development do
   gem 'thin'
   gem 'faker'
   gem 'quiet_assets'
+  gem 'livingstyleguide', '~> 2.0.0.pre.1'
 end
 
 group :development, :test do

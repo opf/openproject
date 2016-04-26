@@ -309,6 +309,12 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.3.0)
       launchy (~> 2.2)
+    livingstyleguide (2.0.0.pre.1)
+      minisyntax (>= 0.2.5)
+      redcarpet
+      sass
+      thor
+      tilt
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -316,6 +322,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.99.1)
     mini_portile2 (2.0.0)
+    minisyntax (0.2.5)
     minitest (5.8.0)
     mixlib-shellout (2.1.0)
     multi_json (1.11.3)
@@ -330,7 +337,6 @@ GEM
     newrelic_rpm (3.14.1.311)
     nokogiri (1.6.7.1)
       mini_portile2 (~> 2.0.0.rc2)
-    non-stupid-digest-assets (1.0.4)
     oj (2.14.6)
     parallel (1.6.1)
     parallel_tests (2.1.2)
@@ -420,6 +426,7 @@ GEM
     rb-readline (0.5.2)
     rdoc (4.2.0)
       json (~> 1.4)
+    redcarpet (3.3.4)
     reform (1.2.6)
       activemodel
       disposable (~> 0.0.5)
@@ -479,7 +486,7 @@ GEM
       structured_warnings (>= 0.1.3)
     rubyzip (1.2.0)
     safe_yaml (1.0.4)
-    sass (3.4.13)
+    sass (3.4.22)
     sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
@@ -601,13 +608,13 @@ DEPENDENCIES
   jruby-openssl
   json_spec
   launchy (~> 2.3.0)
-  letter_opener
+  letter_opener (~> 1.3.0)
+  livingstyleguide (~> 2.0.0.pre.1)
   multi_json (~> 1.11.0)
   mysql2 (~> 0.3.20)
   net-ldap (~> 0.8.0)
   newrelic_rpm
   nokogiri (~> 1.6.7)
-  non-stupid-digest-assets
   oj (~> 2.14.6)
   omniauth!
   openproject-translations!

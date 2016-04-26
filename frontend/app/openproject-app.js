@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-var I18n = require('./vendor/i18n');
-
 // standard locales
 I18n.translations.en = require("locales/js-en.yml").en;
 
