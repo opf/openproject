@@ -200,6 +200,8 @@ end
 
 # API gems
 gem 'grape', '~> 0.10.1'
+gem 'grape-cache_control', '~> 1.0.1'
+
 gem 'roar',   '~> 1.0.0'
 gem 'reform', '~> 1.2.6', require: false
 

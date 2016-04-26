@@ -50,6 +50,10 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
         it 'should return HTTP 200' do
           expect(last_response.status).to eql(200)
         end
+
+        it 'should set a weak ETag' do
+          expect(last_response.headers['ETag']).to match(/W\/\"\w+\"/)
+        end
       end
 
       context 'id is too long' do
@@ -75,6 +79,55 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
       it 'should act as if the schema does not exist' do
         get schema_path
         expect(last_response.status).to eql(404)
+      end
+    end
+
+    describe 'schema caching' do
+      # Reproduce the schema cache key.
+      # This is somewhat deeper knowledge, but I can't reliably access
+      # the embedded helper
+      def schema_cache_key
+        [
+          "api/v3/work_packages/schema/#{project.id}-#{type.id}/#{type.updated_at}",
+          project.all_work_package_custom_fields
+        ]
+      end
+
+      let(:cache) { ActiveSupport::Cache::MemoryStore.new }
+      before do
+        allow(Rails).to receive(:cache).and_return(cache)
+        allow(User).to receive(:current).and_return(current_user)
+      end
+
+      it 'should only create the representer once' do
+        expect(::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter)
+          .to receive(:create).once
+          .and_call_original
+
+        expect(Rails.cache.read(schema_cache_key)).to be_nil
+
+        # First request causes schema to be cached
+        get schema_path
+        expect(Rails.cache.read(schema_cache_key)).not_to be_nil
+
+        get schema_path
+        expect(last_response.status).to eql(200)
+      end
+
+      it 'refreshes the cache when the type changes' do
+        expect(::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter)
+          .to receive(:create).twice
+          .and_call_original
+
+        get schema_path
+        expect(Rails.cache.read(schema_cache_key)).not_to be_nil
+
+        expect {
+          type.update_attribute(:updated_at, 1.day.from_now)
+        }.to change { schema_cache_key }
+
+        get schema_path
+        expect(Rails.cache.read(schema_cache_key)).not_to be_nil
       end
     end
   end

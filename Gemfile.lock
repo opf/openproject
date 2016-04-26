@@ -286,6 +286,8 @@ GEM
       rack-accept
       rack-mount
       virtus (>= 1.0.0)
+    grape-cache_control (1.0.1)
+      grape (~> 0.3)
     gravatar_image_tag (1.2.0)
     hashie (3.4.1)
     health_check (1.5.1)
@@ -602,6 +604,7 @@ DEPENDENCIES
   globalize (~> 5.0.1)
   gon (~> 4.0)
   grape (~> 0.10.1)
+  grape-cache_control (~> 1.0.1)
   gravatar_image_tag (~> 1.2.0)
   health_check
   htmldiff
