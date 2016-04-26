@@ -611,7 +611,7 @@ DEPENDENCIES
   jruby-openssl
   json_spec
   launchy (~> 2.3.0)
-  letter_opener (~> 1.3.0)
+  letter_opener
   livingstyleguide (~> 2.0.0.pre.1)
   multi_json (~> 1.11.0)
   mysql2 (~> 0.3.20)

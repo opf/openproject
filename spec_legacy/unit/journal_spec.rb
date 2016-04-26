@@ -28,14 +28,10 @@
 #++
 require 'legacy_spec_helper'
 
-describe Journal, type: :model do
+describe Journal,
+         type: :model,
+         with_settings: { notified_events: %w(work_package_updated) } do
   fixtures :all
-
-  around do |example|
-    with_settings notified_events: %w(work_package_updated) do
-      example.run
-    end
-  end
 
   it 'create should send email notification' do
     issue = WorkPackage.first
