@@ -119,7 +119,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'with no time entry permissions' do
-        it_behaves_like 'spentTime not visible'
+        it_behaves_like 'spentTime visible'
       end
 
       context 'with :view_time_entries permission' do
@@ -144,7 +144,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'with :view_time_entries permission' do
         let(:can_view_time_entries) { true }
-        it_behaves_like 'spentTime visible'
+        it_behaves_like 'spentTime not visible'
       end
 
       context 'with :view_own_time_entries permission' do
@@ -213,7 +213,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     context 'costs enabled' do
       context 'no permissions' do
-        it_behaves_like 'costsByType not visible'
+        it_behaves_like 'costsByType visible'
       end
 
       context 'can only view own cost entries' do
