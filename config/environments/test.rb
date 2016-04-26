@@ -70,9 +70,5 @@ OpenProject::Application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.cache_store = :null_store
-
-  if ENV['TEST_ENV_NUMBER']
-    assets_cache_path = Rails.root.join("tmp/cache/assets/paralleltests#{ENV['TEST_ENV_NUMBER']}")
-    Rails.application.assets.cache = Sprockets::Cache::FileStore.new(assets_cache_path)
-  end
+  assets_cache_path = ActiveSupport::Cache.lookup_store(:memory_store)
 end
