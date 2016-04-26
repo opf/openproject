@@ -28,17 +28,31 @@
 
 import {filtersModule} from '../../../angular-modules';
 
-function queryFiltersDirective($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX) {
+function queryFiltersDirective($timeout, I18n, ADD_FILTER_SELECT_INDEX) {
   return {
     restrict: 'E',
     replace: true,
     templateUrl: '/components/filters/query-filters/query-filters.directive.html',
 
     compile: function () {
+      var localisedFilterName = filter => {
+        if (filter) {
+          if (filter.name) {
+            return filter.name;
+          }
+          
+          if (filter.locale_name) {
+            return I18n.t('js.filter_labels.' + filter["locale_name"]);
+          }
+        }
+        
+        return '';
+      };
+      
       return {
         pre: function (scope) {
           scope.I18n = I18n;
-          scope.localisedFilterName = FiltersHelper.localisedFilterName;
+          scope.localisedFilterName = localisedFilterName;
           scope.focusElementIndex;
           scope.remainingFilterNames = [];
 
@@ -72,7 +86,7 @@ function queryFiltersDirective($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_
               return {
                 key: key,
                 value: filter.modelName,
-                name: FiltersHelper.localisedFilterName(filter)
+                name: localisedFilterName(filter)
               };
             });
 
