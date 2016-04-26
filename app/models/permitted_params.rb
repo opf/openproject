@@ -612,11 +612,11 @@ class PermittedParams
           :is_milestone,
           :is_default,
           :color_id,
-          Proc.new do |args|
+          Proc.new do
             { attribute_visibility: ::TypesHelper.work_package_form_attributes.keys }
           end,
           project_ids: [],
-          custom_field_ids: [],
+          custom_field_ids: []
         ],
         user: [
           :firstname,
