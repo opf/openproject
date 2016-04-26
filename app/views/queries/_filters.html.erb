@@ -30,8 +30,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <script type="text/javascript">
   //<![CDATA[
   function add_filter() {
-      select = $('add_filter_select');
-      field = select.value
+      select = jQuery('#add_filter_select');
+      field = select.value;
       Element.show('tr_' +  field);
       Element.show('filter_spacer');
       check_box = $('cb_' + field);
@@ -89,18 +89,22 @@ See doc/COPYRIGHT.rdoc for more details.
   }
 
   function apply_filters_observer() {
-    $$("#query_form input[type=text]").invoke("observe", "keypress", function(e){
-      if(e.keyCode == Event.KEY_RETURN) {
-        <%= remote_function(url: { set_filter: 1},
-                            update: "content",
-                            before: 'selectAllOptions("selected_columns");',
-                            method: :get,
-                            with: "jQuery('#query_form').serialize()",
-                            complete: "e.stop(); apply_filters_observer()") %>
-      }
+    jQuery('#query_form input[type=text]').each(function(a) {
+      jQuery(a).('keypress', function(e) {
+        if((e.keyCode || e.which) == 13) {
+          selectAllOptions("selected_columns");
+          jQuery.ajax({
+            type: 'GET',
+            url: '<%= url_for(set_filter: 1) %>',
+            data: jQuery('#query_form').serialize()
+          })
+        }
+      });
     });
   }
-  Event.observe(document,"dom:loaded", apply_filters_observer);
+
+  $(apply_filters_observer());
+
   //]]>
 </script>
 <ul class="advanced-filters--filters">

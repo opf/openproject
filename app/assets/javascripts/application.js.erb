@@ -68,14 +68,15 @@
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {
-    jQuery.fn.reverse = Array.prototype.reverse;
+  jQuery.fn.reverse = Array.prototype.reverse;
 } else {
-    jQuery.fn.reverse = Array.prototype._reverse;
+  jQuery.fn.reverse = Array.prototype._reverse;
 }
+
 
 jQuery(document).ready(function ($) {
   //remove modal layout=false if we ctrl-click!
-  $(document.body).on("click", "a", function (e) {
+  jQuery(document.body).on("click", "a", function (e) {
     if (top != self && e.ctrlKey) {
       if (e.target && e.target.href) {
         var url = e.target.href;
@@ -96,14 +97,14 @@ function checkAll(selector, checked) {
 }
 
 function toggleCheckboxesBySelector(selector) {
-  boxes = $$(selector);
+  boxes = $(selector);
   var all_checked = true;
   for (i = 0; i < boxes.length; i++) { if (boxes[i].checked === false) { all_checked = false; } }
   for (i = 0; i < boxes.length; i++) { boxes[i].checked = !all_checked; }
 }
 
 function setCheckboxesBySelector(checked, selector) {
-  var boxes = $$(selector);
+  var boxes = $(selector);
   boxes.each(function(ele) {
     ele.checked = checked;
   });
@@ -123,61 +124,7 @@ function addFileField() {
   var clone = $('attachment_template').cloneNode(true);
   clone.writeAttribute('id', '');
   clone.innerHTML = clone.innerHTML.replace(/\[1\]/g, '['+ fileFieldCount + ']');
-  $('attachments_fields').appendChild(clone);
-}
-
-function promptToRemote(text, param, url) {
-    value = prompt(text + ':', '');
-    if (value) {
-        new Ajax.Request(url + '?' + param + '=' + encodeURIComponent(value), {asynchronous:true, evalScripts:true});
-        return false;
-    }
-}
-
-function collapseScmEntry(id) {
-    var els = document.getElementsByClassName(id, 'browser');
-  for (var i = 0; i < els.length; i++) {
-     if (els[i].hasClassName('open')) {
-         collapseScmEntry(els[i].id);
-     }
-       Element.hide(els[i]);
-    }
-    $(id).removeClassName('open');
-}
-
-function expandScmEntry(id) {
-    var els = document.getElementsByClassName(id, 'browser');
-  for (var i = 0; i < els.length; i++) {
-       Element.show(els[i]);
-       if (els[i].hasClassName('loaded') && !els[i].hasClassName('collapsed')) {
-            expandScmEntry(els[i].id);
-       }
-    }
-    $(id).addClassName('open');
-}
-
-function scmEntryClick(id) {
-    el = $(id);
-    if (el.hasClassName('open')) {
-        collapseScmEntry(id);
-        el.addClassName('collapsed');
-        return false;
-    } else if (el.hasClassName('loaded')) {
-        expandScmEntry(id);
-        el.removeClassName('collapsed');
-        return false;
-    }
-    if (el.hasClassName('loading')) {
-        return false;
-    }
-    el.addClassName('loading');
-    return true;
-}
-
-function scmEntryLoaded(id) {
-    Element.addClassName(id, 'open');
-    Element.addClassName(id, 'loaded');
-    Element.removeClassName(id, 'loading');
+  jQuery('attachments_fields').appendChild(clone);
 }
 
 function randomKey(size) {
@@ -254,23 +201,21 @@ function generateProjectIdentifier() {
 }
 
 function observeProjectName() {
-  var f = function() {
+  jQuery('#project_name').keyup(function() {
     if(!projectIdentifierLocked) {
-      $('project_identifier').setValue(generateProjectIdentifier());
+      jQuery('project_identifier').setValue(generateProjectIdentifier());
     }
-  };
-  Event.observe('project_name', 'keyup', f);
+  });
 }
 
 function observeProjectIdentifier() {
-  var f = function() {
+  jQuery('#project_identifier').keyup(function() {
     if($('project_identifier').getValue() !== '' && $('project_identifier').getValue() != generateProjectIdentifier()) {
       projectIdentifierLocked = true;
     } else {
       projectIdentifierLocked = false;
     }
-  };
-  Event.observe('project_identifier', 'keyup', f);
+  });
 }
 
 var WarnLeavingUnsaved = function(message) {
@@ -312,84 +257,28 @@ var WarnLeavingUnsaved = function(message) {
   this.init();
 };
 
-/*
- * 1 - registers a callback which copies the csrf token into the
- * X-CSRF-Token header with each ajax request.  Necessary to
- * work with rails applications which have fixed
- * CVE-2011-0447
- * 2 - shows and hides ajax indicator
- */
-document.observe("dom:loaded", function() {
-  Ajax.Responders.register({
-    onCreate: function(request){
-      var csrf_meta_tag = $$('meta[name=csrf-token]')[0];
-
-      if (!request.options.requestHeaders) {
-        request.options.requestHeaders = {};
-      }
-
-      if (csrf_meta_tag) {
-        var header = 'X-CSRF-Token',
-        token = csrf_meta_tag.readAttribute('content');
-
-        request.options.requestHeaders[header] = token;
-      }
-
-      request.options.requestHeaders['X-Authentication-Scheme'] = "Session";
-
-      if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
-        Element.show('ajax-indicator');
-      }
-    },
-    onComplete: function(request, result){
-      if ($('ajax-indicator') && Ajax.activeRequestCount === 0) {
-        Element.hide('ajax-indicator');
-      }
-      addClickEventToAllErrorMessages();
-    }
-  });
-});
-
 function hideOnLoad() {
   jQuery('.hol').hide();
 }
 jQuery(hideOnLoad);
 
 function addClickEventToAllErrorMessages() {
-  $$('a.afocus').each(function(a) {
-    $(a).observe('click', function(event) {
-      var field;
-      field = $($(a).readAttribute('href').substr(1));
+  jQuery('a.afocus').each(function() {
+    var target = $(this);
+    target.click(function(evt) {
+      var field = $(target.readAttribute('href').substr(1));
       if (field === null) {
         // Cut off '_id' (necessary for select boxes)
-        field = $($(a).readAttribute('href').substr(1).concat('_id'));
+        field = $(target.readAttribute('href').substr(1).concat('_id'));
       }
       if (field) {
         field.down('input, textarea, select').focus();
       }
-      Event.stop(event);
+      target.unbind(evt);
       return false;
     });
   });
 }
-
-$(document).observe('dom:loaded', function() {
-  // Set focus on first error message
-  var error_focus = $$('a.afocus').first();
-  var input_focus = $$('.autofocus').first();
-  if (error_focus !== undefined) {
-    error_focus.focus();
-  }
-  else if (input_focus !== undefined){
-    input_focus.focus();
-    if (input_focus.tagName === "INPUT") {
-      input_focus.select();
-    }
-  }
-  // Focus on field with error
-  addClickEventToAllErrorMessages();
-});
-
 
 // a few constants for animations speeds, etc.
 var animationRate = 100;
@@ -412,7 +301,7 @@ jQuery.viewportHeight = function() {
 */
 jQuery(document).ready(function($) {
   document.ajaxActive = false;
-  $(document).ajaxSend(function (event, request) {
+  jQuery(document).ajaxSend(function (event, request) {
     document.ajaxActive = true;
     var csrf_meta_tag = $('meta[name=csrf-token]');
 
@@ -426,10 +315,10 @@ jQuery(document).ready(function($) {
     request.setRequestHeader('X-Authentication-Scheme', "Session");
   });
   // ajaxStop gets called when ALL Requests finish, so we won't need a counter as in PT
-  $(document).ajaxStop(function () {
+  jQuery(document).ajaxStop(function () {
     document.ajaxActive = false;
     if ($('#ajax-indicator')) {
-      $('#ajax-indicator').hide();
+      jQuery('#ajax-indicator').hide();
     }
     addClickEventToAllErrorMessages();
   });
@@ -456,7 +345,7 @@ jQuery(document).ready(function($) {
     }
   });
 
-  $('#project-search-container .select2-select').each(function (ix, select) {
+  jQuery('#project-search-container .select2-select').each(function (ix, select) {
     var PROJECT_JUMP_BOX_PAGE_SIZE = 50;
 
     select = $(select);
@@ -525,7 +414,7 @@ jQuery(document).ready(function($) {
       select2.open();
 
       setTimeout(function () {
-        $("#select2-drop-mask").hide();
+        jQuery("#select2-drop-mask").hide();
       }, 50);
 
       // Include input in tab cycle by attaching keydown handlers to previous
@@ -547,8 +436,8 @@ jQuery(document).ready(function($) {
   });
 
   // file table thumbnails
-  $("table a.has-thumb").hover(function() {
-    $(this).removeAttr("title").toggleClass("active");
+  jQuery("table a.has-thumb").hover(function() {
+    jQuery(this).removeAttr("title").toggleClass("active");
 
     // grab the image dimensions to position it properly
     var thumbImg = $(this).find("img");
@@ -557,23 +446,23 @@ jQuery(document).ready(function($) {
     thumbImg.css({top: thumbImgTop, left: thumbImgLeft}).show();
 
   }, function() {
-    $(this).toggleClass("active").find("img").hide();
+    jQuery(this).toggleClass("active").find("img").hide();
   });
 
   // show/hide the files table
-  $(".attachments h4").click(function() {
-    $(this).toggleClass("closed").next().slideToggle(animationRate);
+  jQuery(".attachments h4").click(function() {
+    jQuery(this).toggleClass("closed").next().slideToggle(animationRate);
   });
 
-$(window).resize(function() {
-    // wait 200 milliseconds for no further resize event
-    // then readjust breadcrumb
+  jQuery(window).resize(function() {
+      // wait 200 milliseconds for no further resize event
+      // then readjust breadcrumb
 
-    if(this.resizeTO) clearTimeout(this.resizeTO);
-    this.resizeTO = setTimeout(function() {
-        $(this).trigger('resizeEnd');
-    }, 200);
-});
+      if(this.resizeTO) clearTimeout(this.resizeTO);
+      this.resizeTO = setTimeout(function() {
+          jQuery(this).trigger('resizeEnd');
+      }, 200);
+  });
 
   $.fn.mySlide = function(callback) {
     this.slideToggle(animationRate,callback);
@@ -582,7 +471,7 @@ $(window).resize(function() {
   };
 
   // Do not close the login window when using it
-  $('#nav-login-content').click(function(event){
+  jQuery('#nav-login-content').click(function(event){
     event.stopPropagation();
   });
 
@@ -595,6 +484,21 @@ $(window).resize(function() {
       div.removeClass('hover');
     });
   });
+
+  // Set focus on first error message
+  var error_focus = $('a.afocus').first();
+  var input_focus = $('.autofocus').first();
+  if (error_focus !== undefined) {
+    error_focus.focus();
+  }
+  else if (input_focus !== undefined){
+    input_focus.focus();
+    if (input_focus.tagName === "INPUT") {
+      input_focus.select();
+    }
+  }
+  // Focus on field with error
+  addClickEventToAllErrorMessages();
 
 });
 
@@ -627,17 +531,17 @@ var Administration = (function ($) {
   };
 
   toggle_disabled_state = function (active) {
-    $('#setting_default_language select').attr('disabled', active)
+    jQuery('#setting_default_language select').attr('disabled', active)
                                          .closest('form')
                                          .find('input:submit')
                                          .attr('disabled', active);
   };
 
   init_language_selection_handling = function () {
-    $('#setting_available_languages input:not([checked="checked"])').each(function (index, input) {
+    jQuery('#setting_available_languages input:not([checked="checked"])').each(function (index, input) {
       update_default_language_options($(input));
     });
-    $('#setting_available_languages input').click(function () {
+    jQuery('#setting_available_languages input').click(function () {
       update_default_language_options($(this));
     });
   };
@@ -697,14 +601,14 @@ var I18nForms = (function ($) {
     };
 
     observe_add_locale_link = function (selector) {
-      $(selector).click(function (event) {
+      jQuery(selector).click(function (event) {
         event.preventDefault();
         add_locale_fields($(this).closest('.form--field'));
       });
     };
 
     observe_destroy_locale_links = function (selector) {
-      $(selector).click(function (event) {
+      jQuery(selector).click(function (event) {
         event.preventDefault();
         destroy_locale($(this));
       });
@@ -785,7 +689,7 @@ var I18nForms = (function ($) {
       observe_add_locale_link($('.add_locale'));
       observe_destroy_locale_links($('.destroy_locale'));
 
-      $('form .translation').closest('.form--field').each(function (i, element) {
+      jQuery('form .translation').closest('.form--field').each(function (i, element) {
         element = $(element);
         update_interaction_elements(element);
       });
