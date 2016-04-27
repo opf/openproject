@@ -194,7 +194,8 @@ module API
                                              href: api_v3_paths.type(type.id),
                                              title: type.name
                                            }
-                                         }
+                                         },
+                                         has_default: true
 
           schema_with_allowed_collection :status,
                                          value_representer: Statuses::StatusRepresenter,
