@@ -26,13 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function collectionResource(HalResource: typeof op.HalResource) {
-  class CollectionResource extends HalResource {
-    getElements() {
-      return this.$embedded.elements;
-    }
-  }
+import HalResource from './hal-resource.service';
 
+export default class CollectionResource extends HalResource {
+  public getElements() {
+    return this.$embedded.elements;
+  }
+}
+
+function collectionResource() {
   return CollectionResource;
 }
 
