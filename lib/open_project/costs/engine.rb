@@ -213,11 +213,7 @@ module OpenProject::Costs
       schema :spent_time,
              type: 'Duration',
              writable: false,
-             show_if: -> (*) {
-               current_user_allowed_to(:view_time_entries, context: represented.project) ||
-                 (current_user_allowed_to(:view_own_time_entries, context: represented.project) &&
-                     represented.project.costs_enabled?)
-             },
+             show_if: -> (*) { represented.project && represented.project.costs_enabled? },
              required: false
 
       # N.B. in the long term we should have a type like "Currency", but that requires a proper
@@ -226,18 +222,14 @@ module OpenProject::Costs
              type: 'String',
              required: false,
              writable: false,
-             show_if: -> (*) { represented.project.costs_enabled? }
+             show_if: -> (*) { represented.project && represented.project.costs_enabled? }
 
       schema :costs_by_type,
              type: 'Collection',
              name_source: :spent_units,
              required: false,
-             writable: false,
-             show_if: -> (*) {
-               represented.project.costs_enabled? &&
-                 (current_user_allowed_to(:view_cost_entries, context: represented.project) ||
-                 current_user_allowed_to(:view_own_cost_entries, context: represented.project))
-             }
+             show_if: -> (*) { represented.project && represented.project.costs_enabled? },
+             writable: false
 
       schema_with_allowed_collection :cost_object,
                                      type: 'Budget',
@@ -250,7 +242,7 @@ module OpenProject::Costs
                                        }
                                      },
                                      show_if: -> (*) {
-                                       represented.project.costs_enabled?
+                                       represented.project && represented.project.costs_enabled?
                                      }
     end
 
