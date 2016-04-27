@@ -26,155 +26,168 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function halResource($q, _, lazy, halTransform, HalLink) {
-  return class HalResource {
-    protected static fromLink(link) {
-      return new HalResource({_links: {self: link}}, false);
-    }
+var $q;
+var lazy;
+var halTransform;
+var HalLink;
 
-    public $isHal:boolean = true;
-    public $self: ng.IPromise<HalResource>;
+export class HalResource {
+  protected static fromLink(link) {
+    return new HalResource({_links: {self: link}}, false);
+  }
 
-    private _name:string;
-    private _$links:any;
-    private _$embedded:any;
+  public $isHal:boolean = true;
+  public $self:ng.IPromise<HalResource>;
 
-    public get name():string {
-      return this._name || this.$links.self.$link.title || '';
-    }
+  private _name:string;
+  private _$links:any;
+  private _$embedded:any;
 
-    public set name(name:string) {
-      this._name = name;
-    }
+  public get name():string {
+    return this._name || this.$links.self.$link.title || '';
+  }
 
-    public get href():string|void {
-      if (this.$links.self) return this.$links.self.$link.href;
-    }
+  public set name(name:string) {
+    this._name = name;
+  }
 
-    public get $links() {
-      return this.setupProperty('links',
-        link => Array.isArray(link) ? link.map(HalLink.asFunc) : HalLink.asFunc(link));
-    }
+  public get href():string|void {
+    if (this.$links.self) return this.$links.self.$link.href;
+  }
 
-    public get $embedded() {
-      return this.setupProperty('embedded', element => {
-        angular.forEach(element, (child, name:string) => {
-          if (child) {
-            lazy(element, name, () => halTransform(child));
-          }
-        });
+  public get $links() {
+    return this.setupProperty('links',
+      link => Array.isArray(link) ? link.map(HalLink.asFunc) : HalLink.asFunc(link));
+  }
 
-        if (Array.isArray(element)) {
-          return element.map(halTransform);
+  public get $embedded() {
+    return this.setupProperty('embedded', element => {
+      angular.forEach(element, (child, name:string) => {
+        if (child) {
+          lazy(element, name, () => halTransform(child));
         }
-
-        return halTransform(element);
-      });
-    }
-
-    constructor(public $source:any, public $loaded:boolean = true) {
-      this.$source = $source._plain || $source;
-
-      this.proxyProperties();
-      this.setLinksAsProperties();
-      this.setEmbeddedAsProperties();
-    }
-
-    public $load() {
-      if (this.$loaded) {
-        return $q.when(this);
-      }
-
-      if (!this.$loaded && this.$self) {
-        return this.$self;
-      }
-
-      this.$self = this.$links.self().then(resource => {
-        this.$loaded = true;
-        angular.extend(this, resource);
-
-        return this;
       });
 
+      if (Array.isArray(element)) {
+        return element.map(halTransform);
+      }
+
+      return halTransform(element);
+    });
+  }
+
+  constructor(public $source:any, public $loaded:boolean = true) {
+    this.$source = $source._plain || $source;
+
+    this.proxyProperties();
+    this.setLinksAsProperties();
+    this.setEmbeddedAsProperties();
+  }
+
+  public $load() {
+    if (this.$loaded) {
+      return $q.when(this);
+    }
+
+    if (!this.$loaded && this.$self) {
       return this.$self;
     }
 
+    this.$self = this.$links.self().then(resource => {
+      this.$loaded = true;
+      angular.extend(this, resource);
 
-    public $plain() {
-      return angular.copy(this.$source);
-    }
+      return this;
+    });
 
-    private proxyProperties() {
-      _.without(Object.keys(this.$source), '_links', '_embedded').forEach(property => {
-        Object.defineProperty(this, property, {
-          get() {
-            return this.$source[property];
-          },
-          set(value) {
-            this.$source[property] = value;
-          },
-
-          enumerable: true
-        });
-      });
-    }
-
-    private setLinksAsProperties() {
-      _.without(Object.keys(this.$links), 'self').forEach(linkName => {
-        lazy(this, linkName,
-          () => {
-            let link = this.$links[linkName].$link || this.$links[linkName];
-
-            if (Array.isArray(link)) {
-              return link.map(HalResource.fromLink);
-            }
-
-            if (link.href) {
-              if (link.method !== 'get') {
-                return HalLink.asFunc(link);
-              }
-              return HalResource.fromLink(link);
-            }
-          },
-          val => {
-            if (val && val.$links && val.$links.self) {
-              let link = val.$links.self.$link;
-
-              if (link && link.href && link.method === 'get') {
-                if (val && val.$isHal) {
-                  this.$source._links[linkName] = val.$links.self.$link;
-                }
-              }
-              return val;
-            }
-          })
-      });
-    }
-
-    private setEmbeddedAsProperties() {
-      Object.keys(this.$embedded).forEach(name => {
-        lazy(this, name, () => this.$embedded[name], val => val);
-      });
-    }
-
-    private setupProperty(name:string, callback:(element:any) => any) {
-      let instanceName = '_$' + name;
-      let sourceName = '_' + name;
-      let sourceObj = this.$source[sourceName];
-
-      if (!this[instanceName] && angular.isObject(sourceObj)) {
-        this[instanceName] = {};
-
-        Object.keys(sourceObj).forEach(propName => {
-          lazy(this[instanceName], propName, () => callback(sourceObj[propName]));
-        });
-      }
-
-      return this[instanceName] || {};
-    }
+    return this.$self;
   }
+
+
+  public $plain() {
+    return angular.copy(this.$source);
+  }
+
+  private proxyProperties() {
+    _.without(Object.keys(this.$source), '_links', '_embedded').forEach(property => {
+      Object.defineProperty(this, property, {
+        get() {
+          return this.$source[property];
+        },
+        set(value) {
+          this.$source[property] = value;
+        },
+
+        enumerable: true
+      });
+    });
+  }
+
+  private setLinksAsProperties() {
+    _.without(Object.keys(this.$links), 'self').forEach(linkName => {
+      lazy(this, linkName,
+        () => {
+          let link = this.$links[linkName].$link || this.$links[linkName];
+
+          if (Array.isArray(link)) {
+            return link.map(HalResource.fromLink);
+          }
+
+          if (link.href) {
+            if (link.method !== 'get') {
+              return HalLink.asFunc(link);
+            }
+            return HalResource.fromLink(link);
+          }
+        },
+        val => {
+          if (val && val.$links && val.$links.self) {
+            let link = val.$links.self.$link;
+
+            if (link && link.href && link.method === 'get') {
+              if (val && val.$isHal) {
+                this.$source._links[linkName] = val.$links.self.$link;
+              }
+            }
+
+            return val;
+          }
+        })
+    });
+  }
+
+  private setEmbeddedAsProperties() {
+    Object.keys(this.$embedded).forEach(name => {
+      lazy(this, name, () => this.$embedded[name], val => val);
+    });
+  }
+
+  private setupProperty(name:string, callback:(element:any) => any) {
+    let instanceName = '_$' + name;
+    let sourceName = '_' + name;
+    let sourceObj = this.$source[sourceName];
+
+    if (!this[instanceName] && angular.isObject(sourceObj)) {
+      this[instanceName] = {};
+
+      Object.keys(sourceObj).forEach(propName => {
+        lazy(this[instanceName], propName, () => callback(sourceObj[propName]));
+      });
+    }
+
+    return this[instanceName] || {};
+  }
+}
+
+function halResource(_$q_, _lazy_, _halTransform_, _HalLink_) {
+  $q = _$q_;
+  lazy = _lazy_;
+  halTransform = _halTransform_;
+  HalLink = _HalLink_;
+
+  return HalResource;
 }
 
 angular
   .module('openproject.api')
-  .factory('HalResource', halResource);
+  .factory('HalResource', ['$q', 'lazy', 'halTransform', 'HalLink', halResource]);
