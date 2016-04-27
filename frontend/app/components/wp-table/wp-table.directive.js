@@ -60,9 +60,7 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
         event.pageY -= topMenuHeight;
       };
 
-      // groupings
-      scope.grouped = scope.groupByColumn !== undefined;
-      scope.groupExpanded = {};
+      applyGrouping();
 
       scope.$watchCollection('columns', function() {
         // force Browser rerender
@@ -88,6 +86,8 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
         if (scope.displaySums) {
           fetchSumsSchema();
         }
+
+        applyGrouping();
       });
 
       scope.$watch('displaySums', function(sumsToBeDisplayed) {
@@ -96,6 +96,12 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
           if (!sumsSchemaFetched()) { fetchSumsSchema(); }
         }
       });
+
+      function applyGrouping() {
+        scope.groupByColumn = scope.workPackagesTableData.groupByColumn;
+        scope.grouped = scope.groupByColumn !== undefined;
+        scope.groupExpanded = {};
+      }
 
       function fetchTotalSums() {
         apiWorkPackages
@@ -124,17 +130,6 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
       scope.setCheckedStateForAllRows = function(state) {
         WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, state);
       };
-
-      var groupableColumns = WorkPackagesTableService.getGroupableColumns();
-      scope.$watch('query.groupBy', function(groupBy) {
-        if (scope.columns) {
-          var groupByColumnIndex = groupableColumns.map(function(column){
-            return column.name;
-          }).indexOf(groupBy);
-
-          scope.groupByColumn = groupableColumns[groupByColumnIndex];
-        }
-      });
 
       // Thanks to http://stackoverflow.com/a/880518
       function clearSelection() {
