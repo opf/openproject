@@ -96,13 +96,9 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
     var empty = isEmpty(workPackage, field);
     var visible = attrVisibility == 'visible'; // always show
     var hidden = attrVisibility == 'hidden'; // never show
-    // !hidden && !visible => show if not empty
+    // not hidden and not visible => show if not empty (default)
 
-    if (workPackage.isNew === true) {
-      return notRequired && hidden;
-    } else {
-      return notRequired && !visible && (empty || hidden);
-    }
+    return notRequired && !visible && (empty || hidden);
   }
 
   function getVisibility(workPackage, field) {
