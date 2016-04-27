@@ -1,14 +1,14 @@
 # Developing OpenProject Frontend
 
-## Development server
+To keep watching the files in the frontend and process them on demand, use `npm run webpack`.
+It will keep running a webpack instance with the `--watch` flag set.
 
-To start the development server:
-
-    gulp dev
+Assets will be automatically loaded as part of the asset pipeline of Rails when you reload the server,
+once webpack has completed.
 
 ## Living Style Guide
 
-The style guide is available at: <http://localhost:8080/assets/css/styleguide.html>.
+The style guide is available as part of the Rails development server at: <http://localhost:5000/styleguide>.
 
 ## Changing or updating Dependencies
 

@@ -112,7 +112,6 @@ group :production do
 end
 
 gem 'sprockets',        '~> 2.12.3'
-gem 'non-stupid-digest-assets'
 gem 'sass-rails',       '~> 5.0.3'
 gem 'sass',             '~> 3.4.12'
 gem 'autoprefixer-rails'
@@ -182,10 +181,11 @@ group :ldap do
 end
 
 group :development do
-  gem 'letter_opener', '~> 1.3.0'
+  gem 'letter_opener'
   gem 'thin'
   gem 'faker'
   gem 'quiet_assets'
+  gem 'livingstyleguide', '~> 2.0.0.pre.1'
 end
 
 group :development, :test do
@@ -200,6 +200,8 @@ end
 
 # API gems
 gem 'grape', '~> 0.10.1'
+gem 'grape-cache_control', '~> 1.0.1'
+
 gem 'roar',   '~> 1.0.0'
 gem 'reform', '~> 1.2.6', require: false
 

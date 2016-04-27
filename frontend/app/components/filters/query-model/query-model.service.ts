@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,10 +24,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-function QueryConstructorService(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED_COLUMNS) {
+import {filtersModule} from '../../../angular-modules';
 
+function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITIALLY_SELECTED_COLUMNS) {
   var Query = function (queryData, options) {
     angular.extend(this, queryData, options);
 
@@ -202,6 +203,37 @@ function QueryConstructorService(Filter, Sortation, UrlParamsHelper, INITIALLY_S
       this.columns = columns;
     },
 
+    applyDefaultsFromFilters: function(workPackage) {
+      angular.forEach(this.filters, function(filter) {
+
+        // Ignore any filters except =
+        if (filter.operator !== '=') {
+          return;
+        }
+
+        // Select the first value
+        var value = filter.values;
+        if (Array.isArray(filter.values)) {
+          value = filter.values[0];
+        }
+
+        // Avoid empty values
+        if (!value) {
+          return;
+        }
+
+        switch(filter.name) {
+          case 'type':
+            workPackage.setAllowedValueFor('type', PathHelper.apiV3TypePath(value));
+            break;
+          case 'assignee':
+            workPackage.setAllowedValueFor('assignee', PathHelper.apiV3UserPath(value));
+            break;
+        }
+
+      });
+    },
+
     /**
      * @name isDefault
      * @function
@@ -334,7 +366,7 @@ function QueryConstructorService(Filter, Sortation, UrlParamsHelper, INITIALLY_S
     },
 
     getRemainingFilters: function() {
-      var activeFilters = _.indexBy(this.getActiveFilters(), function(f) { return f.name });
+      var activeFilters = _.indexBy(this.getActiveFilters(), function(f:any) { return f.name });
       return _.pick(this.availableWorkPackageFilters, function(filter, key) {
         return !activeFilters[key];
       });
@@ -375,6 +407,4 @@ function QueryConstructorService(Filter, Sortation, UrlParamsHelper, INITIALLY_S
   return Query;
 }
 
-angular
-  .module('openproject.models')
-  .factory('Query', QueryConstructorService);
+filtersModule.factory('Query', QueryModelService);

@@ -62,7 +62,7 @@ class CompositeSeeder < Seeder
   def discovered_seeder_classes
     Seeder
       .subclasses
-      .reject { |cl| cl.namespace_name == namespace }
+      .reject { |cl| cl.to_s.deconstantize == namespace }
       .select { |cl| include_discovered_class? cl }
   end
 

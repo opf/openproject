@@ -573,4 +573,9 @@ OpenProject::Application.routes.draw do
   get '/robots' => 'homescreen#robots', defaults: { format: :txt }
 
   root to: 'account#login'
+
+  # Development route for styleguide
+  if Rails.env.development?
+    get '/styleguide' => redirect('/assets/styleguide.html')
+  end
 end

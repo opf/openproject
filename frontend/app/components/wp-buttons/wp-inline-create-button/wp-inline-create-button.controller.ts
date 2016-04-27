@@ -30,9 +30,10 @@ import {wpButtonsModule} from '../../../angular-modules';
 import WorkPackageCreateButtonController from '../wp-create-button/wp-create-button.controller';
 
 class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonController {
-  public columns:any[];
+  public query: op.Query;
   public rows:any[];
   public hidden:boolean = false;
+
   private _wp;
   private availableProjects = [];
 
@@ -40,7 +41,6 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
     protected $state,
     protected $scope,
     protected $rootScope,
-    protected $element,
     protected I18n,
     protected ProjectService,
     protected WorkPackageResource,
@@ -48,8 +48,7 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
   ) {
     super($state, I18n, ProjectService);
 
-    $rootScope.$on('workPackageSaved', (_event, savedWp) => {
-      // Add another row
+    $rootScope.$on('workPackageSaved', (event, savedWp) => {
       if (savedWp === this._wp) {
         this.addWorkPackageRow();
       }
@@ -60,7 +59,7 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
       this.availableProjects = resource.elements;
     });
 
-    $rootScope.$on('inlineWorkPackageCreateCancelled', (_event, index, row) => {
+    $rootScope.$on('inlineWorkPackageCreateCancelled', (event, index, row) => {
       if (row.object === this._wp) {
         this.rows.splice(index, 1);
         this.show();
@@ -76,7 +75,10 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
     this.WorkPackageResource.fromCreateForm(this.availableProjects[0].identifier).then(wp => {
       this._wp = wp;
       wp.inlineCreated = true;
-      this.rows.push({ level: 0, ancestors: [], object: wp, parent: void 0 });
+
+      this.query.applyDefaultsFromFilters(this._wp);
+
+      this.rows.push({level: 0, ancestors: [], object: wp, parent: void 0});
       this.hide();
     });
   }

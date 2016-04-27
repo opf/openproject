@@ -89,7 +89,61 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
     if (inplaceEditErrors.errors && inplaceEditErrors.errors[field]) {
       return false;
     }
-    return isEmpty(workPackage, field) && !isRequired(workPackage, field);
+
+    var attrVisibility = getVisibility(workPackage, field);
+
+    var notRequired = !isRequired(workPackage, field);
+    var empty = isEmpty(workPackage, field);
+    var visible = attrVisibility == 'visible'; // always show
+    var hidden = attrVisibility == 'hidden'; // never show
+    // !hidden && !visible => show if not empty
+
+    if (workPackage.isNew === true) {
+      return notRequired && hidden;
+    } else {
+      return notRequired && !visible && (empty || hidden);
+    }
+  }
+
+  function getVisibility(workPackage, field) {
+    if (field == "date") {
+      return getDateVisibility(workPackage);
+    } else {
+      var schema = workPackage.form.embedded.schema;
+      var prop = schema && schema.props && schema.props[field];
+
+      return prop && prop.visibility;
+    }
+  }
+
+  /**
+   * There isn't actually a 'date' field for work packages.
+   * There are two fields: 'start_date' and 'due_date'
+   * Though they are displayed together in one row, as one 'field'.
+   * Since the schema doesn't know any field named 'date' we
+   * derive the visibility for the imaginary 'date' field from
+   * the actual schema values of 'due_date' and 'start_date'.
+   *
+   * 'visible' > 'default' > 'hidden'
+   * Meaning, for instance, that if at least one field is 'visible'
+   * both will be shown. Even if the other is 'hidden'.
+   *
+   * Note: this is duplicated in app/views/types/_form.html.erb
+   */
+  function getDateVisibility(workPackage) {
+    var a = getVisibility(workPackage, "startDate");
+    var b = getVisibility(workPackage, "dueDate");
+    var values = [a, b];
+
+    if (_.contains(values, "visible")) {
+      return "visible";
+    } else if (_.contains(values, "default")) {
+      return "default";
+    } else if (_.contains(values, "hidden")) {
+      return "hidden";
+    } else {
+      return undefined;
+    }
   }
 
   function isMilestone(workPackage) {

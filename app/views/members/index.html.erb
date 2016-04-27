@@ -27,8 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title 'Members' %>
-<%= toolbar title: 'Members' do %>
+<% html_title t(:label_member_plural) %>
+<%= toolbar title: t(:label_member_plural) do %>
     <% if authorize_for(:members, :new) %>
         <a href="<%= new_project_member_path %>" id="add-member-button" title="Add Member" class="button -alt-highlight">
           <i class="button--icon icon-add"></i>

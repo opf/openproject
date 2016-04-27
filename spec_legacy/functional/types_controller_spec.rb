@@ -52,7 +52,14 @@ describe TypesController, type: :controller do
   end
 
   it 'should post create' do
-    post :create, type: { name: 'New type', project_ids: ['1', '', ''], custom_field_ids: ['1', '6', ''] }
+    post :create, type: {
+      name: 'New type',
+      project_ids: ['1', '', ''],
+      attribute_visibility: {
+        custom_field_1: 'default',
+        custom_field_6: 'visible'
+      }
+    }
     assert_redirected_to action: 'index'
     type = ::Type.find_by(name: 'New type')
     assert_equal [1], type.project_ids.sort
@@ -91,14 +98,14 @@ describe TypesController, type: :controller do
   it 'should post update' do
     post :update, id: 1, type: { name: 'Renamed',
                                  project_ids: ['1', '2', ''] }
-    assert_redirected_to action: 'index'
+    assert_redirected_to action: 'edit'
     assert_equal [1, 2], ::Type.find(1).project_ids.sort
   end
 
   it 'should post update without projects' do
     post :update, id: 1, type: { name: 'Renamed',
                                  project_ids: [''] }
-    assert_redirected_to action: 'index'
+    assert_redirected_to action: 'edit'
     assert ::Type.find(1).project_ids.empty?
   end
 

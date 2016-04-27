@@ -207,9 +207,6 @@ StringLiterals:
 VariableInterpolation:
   Enabled: false
 
-TrailingComma:
-  Enabled: false
-
 TrivialAccessors:
   Enabled: false
 

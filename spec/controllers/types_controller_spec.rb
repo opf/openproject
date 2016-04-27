@@ -213,7 +213,7 @@ describe TypesController, type: :controller do
         end
 
         it { expect(response).to be_redirect }
-        it { expect(response).to redirect_to(types_path) }
+        it { expect(response).to redirect_to(edit_type_path(id: type.id)) }
         it 'should be renamed' do
           expect(::Type.find_by(name: 'My type renamed').id).to eq(type.id)
         end
@@ -227,7 +227,7 @@ describe TypesController, type: :controller do
         end
 
         it { expect(response).to be_redirect }
-        it { expect(response).to redirect_to(types_path) }
+        it { expect(response).to redirect_to(edit_type_path(id: type.id)) }
         it 'should have no projects assigned' do
           expect(::Type.find_by(name: 'My type').projects.count).to eq(0)
         end

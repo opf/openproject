@@ -171,6 +171,7 @@ declare namespace op {
     perPage?:number;
 
     toUpdateParams?():any;
+    applyDefaultsFromFilters(workPackage);
   }
 
   interface I18n {

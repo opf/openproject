@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,49 +24,16 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function(I18n) {
-  var FiltersHelper = {
+import {filtersModule} from '../../../angular-modules';
 
-    assignAncestorLevels: function(projects){
-      var ancestors = [];
-      angular.forEach(projects, function(project, i){
-        while(ancestors.length > 0 && project.parent_id !== _.last(ancestors).id) {
-          // this helper method only reflects hierarchies if nested projects follow one another
-          ancestors.pop();
-        }
+export default class WorkPackageFiltersService {
+  public visible:boolean = false;
 
-        project['level'] = ancestors.length;
-        project['name'] = FiltersHelper.indentedName(project['name'], project['level']);
+  public toggleVisibility() {
+    this.visible = !this.visible;
+  }
+}
 
-        if (!project['leaf?']) {
-          ancestors.push(project);
-        }
-      });
-      return projects;
-    },
-
-    indentedName: function(name, level){
-      var indentation = '';
-      for(var i = 0; i < level; i++){
-        indentation = indentation + '--';
-      }
-      return indentation + " " + name;
-    },
-
-    localisedFilterName: function(filter){
-      if(filter){
-        if(filter.name){
-          return filter.name;
-        }
-        if(filter.locale_name){
-          return I18n.t('js.filter_labels.' + filter["locale_name"]);
-        }
-      }
-      return "";
-    },
-  };
-
-  return FiltersHelper;
-};
+filtersModule.service('wpFiltersService', WorkPackageFiltersService);
