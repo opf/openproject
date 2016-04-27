@@ -152,7 +152,7 @@ declare namespace api {
  */
 
 interface Function {
-  $link?:op.HalLink;
+  $link?:any;
 }
 
 declare namespace op {
@@ -195,13 +195,6 @@ declare namespace op {
    */
   interface ApiResult extends api.v3.Result, restangular.IElement {
     restangularized:boolean;
-  }
-
-  class HalLink {
-    public href:string;
-    public title:string;
-    public method:string;
-    public templated:boolean;
   }
 
   interface FieldSchema {
