@@ -44,6 +44,7 @@
             ng-repeat-start="row in rows track by row.object.id+row.groupName"
             ng-if="!!groupByColumn &&
                    ($first || row.groupName !== rows[$index-1].groupName)"
+            ng-show="row.groupName != undefined"
             ng-class="{
               group: true,
               open: groupExpanded[currentGroup],

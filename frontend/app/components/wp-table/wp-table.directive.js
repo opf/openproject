@@ -98,9 +98,11 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
       });
 
       function applyGrouping() {
-        scope.groupByColumn = scope.workPackagesTableData.groupByColumn;
-        scope.grouped = scope.groupByColumn !== undefined;
-        scope.groupExpanded = {};
+        if (scope.groupByColumn != scope.workPackagesTableData.groupByColumn) {
+          scope.groupByColumn = scope.workPackagesTableData.groupByColumn;
+          scope.grouped = scope.groupByColumn !== undefined;
+          scope.groupExpanded = {};
+        }
       }
 
       function fetchTotalSums() {
