@@ -31,7 +31,6 @@ class WorkPackages::BulkController < ApplicationController
   before_filter :find_work_packages
   before_filter :authorize
 
-  include JournalsHelper
   include ProjectsHelper
   include CustomFieldsHelper
   include RelationsHelper
