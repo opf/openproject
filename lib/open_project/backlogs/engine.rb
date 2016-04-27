@@ -177,7 +177,7 @@ module OpenProject::Backlogs
              type: 'Integer',
              required: false,
              show_if: -> (*) {
-               represented.project.backlogs_enabled? &&
+               represented.project && represented.project.backlogs_enabled? &&
                  (!represented.type || represented.type.story?)
              }
 
@@ -185,7 +185,7 @@ module OpenProject::Backlogs
              type: 'Duration',
              name_source: :remaining_hours,
              required: false,
-             show_if: -> (*) { represented.project.backlogs_enabled? }
+             show_if: -> (*) { represented.project && represented.project.backlogs_enabled? }
     end
 
     add_api_attribute on: :work_package, ar_name: :story_points
