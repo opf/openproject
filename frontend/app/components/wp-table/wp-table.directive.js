@@ -52,6 +52,9 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
     link: function(scope, element) {
       var activeSelectionBorderIndex;
 
+      // Total columns = all available columns + id + checkbox
+      scope.numTableColumns = scope.columns.length + 2;
+
       scope.workPackagesTableData = WorkPackagesTableService.getWorkPackagesTableData();
       scope.workPackagePath = PathHelper.workPackagePath;
 
@@ -221,7 +224,7 @@ function WorkPackagesTableController($scope, $rootScope) {
     sumFor: I18n.t('js.label_sum_for'),
     allWorkPackages: I18n.t('js.label_all_work_packages'),
     noResults: I18n.t('js.work_packages.no_results.title'),
-    noResultsDescription: I18n.t('js.work_packages.no_results.description_html')
+    noResultsDescription: I18n.t('js.work_packages.no_results.description')
   };
 
   $scope.$watch('workPackagesTableData.allRowsChecked', function(checked) {

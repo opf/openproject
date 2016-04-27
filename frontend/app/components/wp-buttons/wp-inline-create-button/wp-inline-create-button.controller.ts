@@ -71,8 +71,16 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
     return !this.canCreate || this.$state.includes('**.new');
   }
 
+  public get projectIdentifierForCreate() {
+    if (this.inProjectContext) {
+      return this.projectIdentifier;
+    } else {
+      return this.availableProjects[0].identifier;
+    }
+  }
+
   public addWorkPackageRow() {
-    this.WorkPackageResource.fromCreateForm(this.availableProjects[0].identifier).then(wp => {
+    this.WorkPackageResource.fromCreateForm(this.projectIdentifierForCreate).then(wp => {
       this._wp = wp;
       wp.inlineCreated = true;
 
