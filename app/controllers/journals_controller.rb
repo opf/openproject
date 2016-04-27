@@ -32,7 +32,7 @@ require 'diff'
 class JournalsController < ApplicationController
   before_filter :find_journal, except: [:index]
   before_filter :find_optional_project, only: [:index]
-  before_filter :authorize, only: [:edit, :update, :preview, :diff]
+  before_filter :authorize, only: [:diff]
   accept_key_auth :index
   menu_item :issues
 
@@ -63,32 +63,6 @@ class JournalsController < ApplicationController
     render_404
   end
 
-  def edit
-    (render_403; return false) unless @journal.editable_by?(User.current)
-    respond_to do |format|
-      format.html do
-        # TODO: implement non-JS journal update
-        render nothing: true
-      end
-      format.js
-    end
-  end
-
-  def update
-    @journal.update_attribute(:notes, params[:notes]) if params[:notes]
-    @journal.destroy if @journal.details.empty? && @journal.notes.blank?
-    call_hook(:controller_journals_edit_post,  journal: @journal, params: params)
-    respond_to do |format|
-      format.html do
-        redirect_to controller: "/#{@journal.journable.class.name.pluralize.downcase}",
-                    action: 'show', id: @journal.journable_id
-      end
-      format.js do
-        render action: 'update'
-      end
-    end
-  end
-
   def diff
     journal = Journal::AggregatedJournal.for_journal(@journal)
 
@@ -110,17 +84,6 @@ class JournalsController < ApplicationController
     end
   end
 
-  def preview
-    @journal.notes = params[:notes]
-
-    respond_to do |format|
-      format.any(:html, :js) do
-        render locals: { journal: @journal },
-               layout: false
-      end
-    end
-  end
-
   private
 
   def find_journal
@@ -133,10 +96,6 @@ class JournalsController < ApplicationController
   # Is this a valid field for diff'ing?
   def valid_field?(field)
     field.to_s.strip == 'description'
-  end
-
-  def default_breadcrumb
-    I18n.t(:label_journal_diff)
   end
 
   def valid_diff?
