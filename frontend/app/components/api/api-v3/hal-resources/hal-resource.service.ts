@@ -31,7 +31,7 @@ var lazy;
 var halTransform;
 var HalLink;
 
-export class HalResource {
+export default class HalResource {
   protected static fromLink(link) {
     return new HalResource({_links: {self: link}}, false);
   }
