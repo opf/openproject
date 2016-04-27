@@ -60,7 +60,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= labelled_tabular_form_for @news, html: { id: 'news-form' } do |f| %>
       <%= render partial: 'form', locals: { f: f } %>
       <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-      <%= link_to l(:button_cancel), "#", onclick: 'Element.hide("edit-news"); return false;',
+      <%= link_to l(:button_cancel), "#", onclick: 'jQuery("#edit-news").hide(); return false;',
         class: 'button'%>
       <%= preview_link preview_news_path(@news), 'news-form-preview' %>
     <% end %>
