@@ -99,8 +99,6 @@ angular.module('openproject.uiComponents')
   .directive('notificationBox', [
     'I18n',
     '$timeout',
-    '$state',
-    'loadingIndicator',
     'ConfigurationService',
     require('./notification-box-directive')
   ])

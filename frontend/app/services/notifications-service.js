@@ -79,7 +79,9 @@ module.exports = function(I18n, $rootScope) {
     });
   },
   clearNotifications = function() {
-    _.remove(currentNotifications);
+    currentNotifications.forEach(function(notification) {
+      remove(notification);
+    });
   };
 
   $rootScope.$on('notification.remove', function(_e, notification) {

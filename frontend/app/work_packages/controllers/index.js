@@ -36,7 +36,9 @@ angular.module('openproject.workPackages.controllers')
   .constant('TIME_ENTRY_TYPE', 'time_entry')
   .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
   .controller('DetailsTabOverviewController', [
+    '$state',
     '$scope',
+    'loadingIndicator',
     'WorkPackagesOverviewService',
     'WorkPackageFieldService',
     'EditableFieldsState',

@@ -26,23 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n, $timeout,$state,loadingIndicator,ConfigurationService) {
+module.exports = function(I18n, $timeout, ConfigurationService) {
 
   var notificationBoxController = function(scope, element) {
     scope.uploadCount = 0;
     scope.show = false;
     scope.I18n = I18n;
-    scope.currentState = $state.current.name;
 
     scope.canBeHidden = function() {
       return scope.content.uploads.length > 5;
-    };
-
-    scope.displayFullScreenLink = ($state.current.name.indexOf("work-packages.show") == -1 && scope.content.type === "success");
-
-    scope.showFullScreen = function(){
-      scope.remove();
-      loadingIndicator.mainPage = $state.go.apply($state, ["work-packages.show.activity", $state.params]);
     };
 
     scope.removable = function() {

@@ -27,7 +27,9 @@
 //++
 
 module.exports = function(
+           $state,
            $scope,
+           loadingIndicator,
            WorkPackagesOverviewService,
            WorkPackageFieldService,
            EditableFieldsState,
@@ -98,7 +100,17 @@ module.exports = function(
       });
     });
     $scope.$on('workPackageUpdatedInEditor', function() {
-      NotificationsService.addSuccess(I18n.t('js.notice_successful_update'));
+      NotificationsService.addSuccess({
+        message: I18n.t('js.notice_successful_update'),
+        link: {
+          target: function() {
+            loadingIndicator.mainPage = $state.go.apply($state,
+                                                        ["work-packages.show.activity",
+                                                        $state.params]);
+          },
+          text: I18n.t('js.work_packages.message_successful_show_in_fullscreen')
+        }
+      });
     });
   }
 };
