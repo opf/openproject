@@ -197,18 +197,6 @@ declare namespace op {
     restangularized:boolean;
   }
 
-  class HalResource {
-    public $links;
-    public $embedded;
-    public $isHal;
-    public name:string;
-    public href:string;
-
-    constructor($source: restangular.IElement, $loaded: boolean);
-
-    public $plain();
-  }
-
   class HalLink {
     public href:string;
     public title:string;
@@ -227,7 +215,6 @@ declare namespace op {
   }
 
   interface WorkPackage extends api.v3.WorkPackage, WorkPackageLinks {
-
     getForm();
     getSchema();
 

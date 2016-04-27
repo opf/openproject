@@ -69,7 +69,7 @@ export default class WorkPackageResource extends HalResource {
     return !this[fieldName] && fieldSchema.writable && fieldSchema.required;
   }
 
-  public allowedValuesFor(field):ng.IPromise<op.HalResource[]> {
+  public allowedValuesFor(field):ng.IPromise<HalResource[]> {
     var deferred = $q.defer();
     this.getForm().then(form => {
       const allowedValues = form.$embedded.schema[field].allowedValues;
@@ -149,10 +149,11 @@ export default class WorkPackageResource extends HalResource {
             angular.extend(this, workPackage);
             wpCacheService.updateWorkPackageList([this]);
             deferred.resolve(this);
-          }).catch((error) => {
+          })
+          .catch((error) => {
             deferred.reject(error);
-          }).finally(() => {
-
+          })
+          .finally(() => {
             // Restore the form for subsequent saves
             // e.g., due to changes in lockVersion.
             // Not needed for inline create.
@@ -170,8 +171,7 @@ export default class WorkPackageResource extends HalResource {
   }
 
   public isParentOf(otherWorkPackage) {
-    return otherWorkPackage.parent.$links.self.$link.href ===
-      this.$links.self.$link.href;
+    return otherWorkPackage.parent.$links.self.$link.href === this.$links.self.$link.href;
   }
 
   public get isEditable():boolean {
@@ -181,9 +181,9 @@ export default class WorkPackageResource extends HalResource {
   protected saveResource(payload):ng.IPromise<any> {
     if (this.isNew) {
       return apiWorkPackages.wpApiPath().post(payload);
-    } else {
-      return this.$links.updateImmediately(payload);
     }
+
+    return this.$links.updateImmediately(payload);
   }
 }
 
