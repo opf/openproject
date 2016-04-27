@@ -88,13 +88,15 @@ See doc/COPYRIGHT.rdoc for more details.
             <%
               attributes = ::TypesHelper
                 .work_package_form_attributes(merge_date: true)
-                .reject { |name, attr| not name =~ /custom_field_/ and attr[:required] }
+                .reject { |name, attr|
+                  not name =~ /custom_field_/ and (attr[:required] and not attr[:has_default])
+                }
             %>
             <% attributes.each do |name, attr| %>
               <tr>
                 <td>
                   <%= label "type_attribute_visibility_#{name}",
-                            attr[:display_name] || attr_translate(name),
+                            translated_attribute_name(name, attr),
                             value: "type_attribute_visibility[#{name}]",
                             class: 'form--label' %>
                 </td>

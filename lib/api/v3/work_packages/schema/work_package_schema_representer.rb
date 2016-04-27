@@ -203,7 +203,8 @@ module API
                                              href: api_v3_paths.status(status.id),
                                              title: status.name
                                            }
-                                         }
+                                         },
+                                         has_default: true
 
           schema_with_allowed_collection :category,
                                          value_representer: Categories::CategoryRepresenter,
@@ -232,7 +233,8 @@ module API
                                              href: api_v3_paths.priority(priority.id),
                                              title: priority.name
                                            }
-                                         }
+                                         },
+                                         has_default: true
         end
       end
     end

@@ -69,7 +69,7 @@ module ::TypesHelper
 
     # within the form date is shown as a single entry including start and due
     if merge_date
-      attributes['date'] = { required: false }
+      attributes['date'] = { required: false, has_default: false }
       attributes.delete 'due_date'
       attributes.delete 'start_date'
     end
@@ -77,6 +77,7 @@ module ::TypesHelper
     WorkPackageCustomField.all.each do |field|
       attributes["custom_field_#{field.id}"] = {
         required: field.is_required,
+        has_default: field.default_value,
         display_name: field.name
       }
     end
@@ -99,6 +100,14 @@ module ::TypesHelper
       key = attr_i18n_key(name)
       I18n.t("activerecord.attributes.work_package.#{key}", default: '')
         .presence || I18n.t("attributes.#{key}")
+    end
+  end
+
+  def translated_attribute_name(name, attr)
+    if attr[:name_source]
+      attr[:name_source].call
+    else
+      attr[:display_name] || attr_translate(name)
     end
   end
 

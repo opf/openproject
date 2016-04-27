@@ -32,9 +32,7 @@ module.exports = function(WorkPackageFieldService, $window, $timeout) {
   var unhideableFields = [
     'subject',
     'type',
-    'status',
-    'description',
-    'priority'
+    'description'
   ];
   var firstTimeFocused = false;
   var isGroupHideable = function (groupedFields, groupName, workPackage, cb) {
@@ -76,10 +74,6 @@ module.exports = function(WorkPackageFieldService, $window, $timeout) {
 
         if (_.contains(unhideableFields, field)) {
           return !WorkPackageFieldService.isEditable(workPackage, field);
-        }
-
-        if (WorkPackageFieldService.isRequired(workPackage, field)) {
-          return false;
         }
 
         return WorkPackageFieldService.isHideable(workPackage, field);
