@@ -27,34 +27,34 @@
 //++
 
 import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
-function wpResource(
-  HalResource:typeof op.HalResource,
-  apiWorkPackages,
-  wpCacheService: WorkPackageCacheService,
-  NotificationsService:any,
-  $q:ng.IQService
 
-) {
+function wpResource(HalResource:typeof op.HalResource,
+                    apiWorkPackages,
+                    wpCacheService:WorkPackageCacheService,
+                    NotificationsService:any,
+                    $q:ng.IQService) {
+
   class WorkPackageResource extends HalResource {
-    private form;
     public schema;
     public id;
+
+    private form;
 
     public static fromCreateForm(projectIdentifier?:string):ng.IPromise<WorkPackageResource> {
       var deferred = $q.defer();
 
       apiWorkPackages.emptyCreateForm(projectIdentifier)
-      .then(resource => {
-        var wp = new WorkPackageResource(resource.payload.$source, true);
+        .then(resource => {
+          var wp = new WorkPackageResource(resource.payload.$source, true);
 
-        // Copy resources from form response
-        wp.schema = resource.schema;
-        wp.form = $q.when(resource);
-        wp.id = 'new-' + Date.now();
+          // Copy resources from form response
+          wp.schema = resource.schema;
+          wp.form = $q.when(resource);
+          wp.id = 'new-' + Date.now();
 
-        deferred.resolve(wp);
-      })
-      .catch(deferred.reject);
+          deferred.resolve(wp);
+        })
+        .catch(deferred.reject);
 
       return deferred.promise;
     }
@@ -83,26 +83,26 @@ function wpResource(
       return this.getForm().then(form => {
         const schema = form.$embedded.schema;
 
-      angular.forEach(schema, (field, name) => {
-        if (this[name] && field && field.writable && field.$isHal
+        angular.forEach(schema, (field, name) => {
+          if (this[name] && field && field.writable && field.$isHal
             && Array.isArray(field.allowedValues)) {
 
-          this[name] = _.where(field.allowedValues, {name: this[name].name})[0];
-        }
-      });
+            this[name] = _.where(field.allowedValues, {name: this[name].name})[0];
+          }
+        });
 
-      return schema;
-    });
-  }
+        return schema;
+      });
+    }
 
     public save() {
       const plain = this.$plain();
 
-    delete plain.createdAt;
-    delete plain.updatedAt;
+      delete plain.createdAt;
+      delete plain.updatedAt;
 
-    var deferred = $q.defer();
-    this.getForm()
+      var deferred = $q.defer();
+      this.getForm()
         .catch(deferred.reject)
         .then(form => {
           var plainPayload = form.payload.$plain();
@@ -142,14 +142,14 @@ function wpResource(
       return deferred.promise;
     }
 
-  public get isLeaf(): boolean {
-    return !(this as any).children;
-  }
+    public get isLeaf():boolean {
+      return !(this as any).children;
+    }
 
     public isParentOf(otherWorkPackage) {
       return otherWorkPackage.parent.$links.self.$link.href ===
         this.$links.self.$link.href;
-  }
+    }
 
     public get isEditable():boolean {
       return !!this.$links.update || this.isNew;
@@ -164,9 +164,9 @@ function wpResource(
     }
   }
 
-// return WorkPackageResource;
-// }
+  return WorkPackageResource;
+}
 
 angular
-    .module('openproject.api')
-    .service('WorkPackageResource', WorkPackageResource);
+  .module('openproject.api')
+  .service('WorkPackageResource', wpResource);
