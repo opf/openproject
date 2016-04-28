@@ -237,6 +237,7 @@ module API
                         type: TYPE_MAP[custom_field.field_format],
                         name_source: -> (*) { custom_field.name },
                         required: custom_field.is_required,
+                        has_default: (not custom_field.default_value.nil?),
                         writable: true,
                         min_length: (custom_field.min_length if custom_field.min_length > 0),
                         max_length: (custom_field.max_length if custom_field.max_length > 0),
