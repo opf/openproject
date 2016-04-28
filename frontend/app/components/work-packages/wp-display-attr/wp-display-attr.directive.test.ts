@@ -26,49 +26,51 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('wpTd Directive', function() {
-  var compile, element, rootScope, scope;
+describe('wpDisplayAttr directive', () => {
+  var compile;
+  var element;
+  var rootScope;
+  var scope;
 
   beforeEach(angular.mock.module('openproject.workPackages.directives'));
   beforeEach(angular.mock.module('openproject.templates',
-                                 'openproject.api',
-                                 'openproject.services'));
-  beforeEach(angular.mock.module('openproject.templates', function($provide) {
-    var configurationService = {};
+    'openproject.api',
+    'openproject.services'));
 
-    configurationService.isTimezoneSet = sinon.stub().returns(false);
-
-    $provide.constant('ConfigurationService', configurationService);
+  beforeEach(angular.mock.module('openproject.templates', $provide => {
+    $provide.constant('ConfigurationService', {
+      isTimezoneSet: sinon.stub().returns(false)
+    });
   }));
 
-  beforeEach(inject(function($rootScope, $compile) {
-    var html;
-    html = '<wp-td object="workPackage" schema="schema" attribute="attribute"></wp-td>';
+  beforeEach(angular.mock.inject(($rootScope, $compile) => {
+    var html = `
+      <wp-display-attr object="workPackage" schema="schema" attribute="attribute">
+      </wp-display-attr>
+    `;
 
     element = angular.element(html);
     rootScope = $rootScope;
     scope = $rootScope.$new();
 
-    compile = function() {
+    compile = () => {
       $compile(element)(scope);
       scope.$digest();
     };
   }));
 
-  var getInnermostSpan = function(start) {
-    return start.find('span').last();
-  };
+  var getInnermostSpan = start => start.find('span').last();
 
-  describe('element', function() {
-    beforeEach(inject(function($q) {
+  describe('element', () => {
+    beforeEach(inject(function ($q) {
       scope.workPackage = {
         subject: 'Subject1',
-        type: { id: 1, name: 'Bug'},
+        type: {id: 1, name: 'Bug'},
         sheep: 10,
         customField1: 'asdf1234',
       };
-      scope.schema =  {
-        "$load": function() { return $q.when(true); },
+      scope.schema = {
+        "$load": () => $q.when(true),
         "_type": "Schema",
         "type": {
           "type": "Type",
@@ -99,103 +101,103 @@ describe('wpTd Directive', function() {
           "writable": true
         },
         "customField1": {
-            "type": "String",
-            "name": "foobar",
-            "required": false,
-            "writable": true
+          "type": "String",
+          "name": "foobar",
+          "required": false,
+          "writable": true
         }
       };
     }));
 
-    describe('rendering an object field', function(){
-      beforeEach(function(){
+    describe('rendering an object field', () => {
+      beforeEach(() => {
         scope.attribute = 'type';
         compile();
       });
 
-      it('should contain the object title', function() {
+      it('should contain the object title', () => {
         var content = getInnermostSpan(element);
 
         expect(content.text().trim()).to.equal('Bug');
       });
 
-      it('should have the object title as title attribute', function() {
+      it('should have the object title as title attribute', () => {
         var tag = getInnermostSpan(element);
 
         expect(tag.attr('title')).to.equal('Bug');
       });
     });
 
-    describe('rendering a text field', function(){
-      beforeEach(function(){
+    describe('rendering a text field', () => {
+      beforeEach(() => {
         scope.attribute = 'subject';
         compile();
       });
 
-      it('should contain the text', function() {
+      it('should contain the text', () => {
         var content = getInnermostSpan(element);
 
         expect(content.text().trim()).to.equal('Subject1');
       });
 
-      it('should contain the text as the title', function() {
+      it('should contain the text as the title', () => {
         var tag = getInnermostSpan(element);
 
         expect(tag.attr('title')).to.equal('Subject1');
       });
     });
 
-    describe('rendering a number field', function(){
-      beforeEach(function(){
+    describe('rendering a number field', () => {
+      beforeEach(() => {
         scope.attribute = 'sheep';
         compile();
       });
 
-      it('should contain the text', function() {
+      it('should contain the text', () => {
         var content = getInnermostSpan(element);
 
         expect(content.text().trim()).to.equal('10');
       });
 
-      it('should contain the text as the title', function() {
+      it('should contain the text as the title', () => {
         var tag = getInnermostSpan(element);
 
         expect(tag.attr('title')).to.equal('10');
       });
     });
 
-    describe('rendering a custom string field', function(){
-      beforeEach(function(){
+    describe('rendering a custom string field', () => {
+      beforeEach(() => {
         scope.attribute = 'customField1';
         compile();
       });
 
-      it('should contain the text', function() {
+      it('should contain the text', () => {
         var content = getInnermostSpan(element);
 
         expect(content.text().trim()).to.equal('asdf1234');
       });
 
-      it('should contain the text as the title', function() {
+      it('should contain the text as the title', () => {
         var tag = getInnermostSpan(element);
 
         expect(tag.attr('title')).to.equal('asdf1234');
       });
     });
 
-    describe('rendering missing field', function(){
-      beforeEach(function(){
+    describe('rendering missing field', () => {
+      beforeEach(() => {
         scope.attribute = 'non-existant-field';
         compile();
       });
 
-      it('should contain the display empty text', function() {
+      it('should contain the display empty text', () => {
         var content = getInnermostSpan(element);
 
         expect(content.text().trim()).to.equal('');
       });
 
-      it('should contain the empty text as the title', function() {
+      it('should contain the empty text as the title', () => {
         var tag = getInnermostSpan(element);
 
         expect(tag.attr('title')).to.equal('');

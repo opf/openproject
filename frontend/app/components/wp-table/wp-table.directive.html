@@ -136,11 +136,11 @@
               field-index="$index"
               class="wp-table--cell"
               ng-class="{ '-short': column.name == 'id' }">
-            <wp-td attribute="column.name"
+            <wp-display-attr attribute="column.name"
                    schema="row.object.schema"
                    object="row.object"
                    ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']">
-            </wp-td>
+            </wp-display-attr>
           </td>
         </tr>
 
@@ -165,10 +165,10 @@
               {{ currentGroupObject.value }}
             </td>
             <td ng-repeat="column in columns">
-              <wp-td attribute="column.name"
+              <wp-display-attr attribute="column.name"
                      schema="resource.sumsSchema"
                      object="currentGroupObject.sums">
-              </wp-td>
+              </wp-display-attr>
             </td>
         </tr>
       </tbody>
@@ -195,11 +195,11 @@
             </div>
           </td>
           <td ng-repeat="column in columns">
-            <wp-td class="generic-table--footer-outer"
+            <wp-display-attr class="generic-table--footer-outer"
                    attribute="column.name"
                    schema="resource.sumsSchema"
                    object="resource.totalSums">
-            </wp-td>
+            </wp-display-attr>
           </td>
         </tr>
       </tfoot>

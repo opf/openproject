@@ -26,42 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpTd', wpTd);
-
-function wpTd(){
-  return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: '/components/work-packages/wp-td/wp-td.directive.html',
-
-    scope: {
-      schema: '=',
-      object: '=',
-      attribute: '='
-    },
-
-    bindToController: true,
-    controller: WorkPackageTdController,
-    controllerAs: 'vm'
-  };
-}
-
-function WorkPackageTdController($scope, I18n, PathHelper, WorkPackagesHelper) {
+function WorkPackageDisplayAttributeController($scope, I18n, PathHelper, WorkPackagesHelper) {
   var vm = this;
-      vm.displayText = I18n.t('js.work_packages.placeholders.default');
+  vm.displayText = I18n.t('js.work_packages.placeholders.default');
 
   function setDisplayType() {
     // TODO: alter backend so that percentageDone has the type
     // 'Percent' already
     if (vm.attribute === 'percentageDone') {
       vm.displayType = 'Percent';
-    } else if (vm.attribute === 'id') {
+    }
+    else if (vm.attribute === 'id') {
       // Show a link to the work package for the ID
       vm.displayType = 'SelfLink';
       vm.displayLink = PathHelper.workPackagePath(vm.object.id);
-    } else {
+    }
+    else {
       vm.displayType = vm.schema[vm.attribute].type;
     }
   }
@@ -82,8 +62,8 @@ function WorkPackageTdController($scope, I18n, PathHelper, WorkPackagesHelper) {
       setDisplayType();
 
       var text = vm.object[vm.attribute].value ||
-                  vm.object[vm.attribute].name ||
-                  vm.object[vm.attribute];
+        vm.object[vm.attribute].name ||
+        vm.object[vm.attribute];
 
       vm.displayText = WorkPackagesHelper.formatValue(text, vm.displayType);
     });
@@ -91,3 +71,25 @@ function WorkPackageTdController($scope, I18n, PathHelper, WorkPackagesHelper) {
 
   $scope.$watch('vm.object.' + vm.attribute, updateAttribute);
 }
+
+function wpDisplayAttr(){
+  return {
+    restrict: 'E',
+    replace: true,
+    templateUrl: '/components/work-packages/wp-display-attr/wp-display-attr.directive.html',
+
+    scope: {
+      schema: '=',
+      object: '=',
+      attribute: '='
+    },
+
+    bindToController: true,
+    controller: WorkPackageDisplayAttributeController,
+    controllerAs: 'vm'
+  };
+}
+
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpDisplayAttr', wpDisplayAttr);
