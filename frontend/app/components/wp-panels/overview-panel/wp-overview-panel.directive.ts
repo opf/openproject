@@ -28,15 +28,18 @@
 
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {openprojectModule} from "../../../angular-modules";
-import {WorkPackageCacheService, TemporaryWorkPackage} from "../../work-packages/work-package-cache.service";
 import IScope = angular.IScope;
 import WorkPackage = op.WorkPackage;
+import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
+import WorkPackageResource from "../../api/api-v3/hal-resources/work-package-resource.service";
 
 export class OverviewPanelController {
 
-  public workPackage: TemporaryWorkPackage;
+  public workPackage: WorkPackageResource;
 
   constructor($scope: IScope, $stateParams: any, private wpCacheService: WorkPackageCacheService) {
+
+
     const wpId = parseInt($stateParams.workPackageId);
 
     scopedObservable($scope, wpCacheService.loadWorkPackage(wpId)).subscribe(wp => {
