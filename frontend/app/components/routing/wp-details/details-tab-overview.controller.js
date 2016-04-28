@@ -33,7 +33,7 @@ function DetailsTabOverviewController(
            WorkPackagesOverviewService,
            WorkPackageFieldService,
            inplaceEditAll,
-           WorkPackageDisplayHelper,
+           WorkPackagesDisplayHelper,
            NotificationsService,
            WorkPackageAttachmentsService
            ) {
@@ -54,16 +54,16 @@ function DetailsTabOverviewController(
   });
 
   vm.shouldHideGroup = function(group) {
-    return WorkPackageDisplayHelper.shouldHideGroup(vm.hideEmptyFields,
+    return WorkPackagesDisplayHelper.shouldHideGroup(vm.hideEmptyFields,
                                                     vm.groupedFields,
                                                     group,
                                                     vm.workPackage);
   };
-  vm.isFieldHideable = WorkPackageDisplayHelper.isFieldHideable;
-  vm.getLabel = WorkPackageDisplayHelper.getLabel;
-  vm.isSpecified = WorkPackageDisplayHelper.isSpecified;
-  vm.hasNiceStar = WorkPackageDisplayHelper.hasNiceStar;
-  vm.showToggleButton = WorkPackageDisplayHelper.showToggleButton;
+  vm.isFieldHideable = WorkPackagesDisplayHelper.isFieldHideable;
+  vm.getLabel = WorkPackagesDisplayHelper.getLabel;
+  vm.isSpecified = WorkPackagesDisplayHelper.isSpecified;
+  vm.hasNiceStar = WorkPackagesDisplayHelper.hasNiceStar;
+  vm.showToggleButton = WorkPackagesDisplayHelper.showToggleButton;
   vm.filesExist = false;
   activate();
 
@@ -74,7 +74,7 @@ function DetailsTabOverviewController(
   function activate() {
     $scope.$watch('workPackage.schema', function(schema) {
       if (schema) {
-        WorkPackageDisplayHelper.setFocus();
+        WorkPackagesDisplayHelper.setFocus();
         vm.workPackage = $scope.workPackage;
       }
     });
