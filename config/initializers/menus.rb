@@ -68,11 +68,11 @@ end
 Redmine::MenuManager.map :account_menu do |menu|
   menu.push :administration,
             { controller: '/admin', action: 'projects' },
-            html: { class: 'hidden-for-mobile'},
+            html: { class: 'hidden-for-mobile' },
             if: Proc.new { User.current.admin? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
-            html: { class: 'hidden-for-mobile'},
+            html: { class: 'hidden-for-mobile' },
             if: Proc.new { User.current.logged? }
   menu.push :logout, :signout_path,
             if: Proc.new { User.current.logged? }
@@ -166,6 +166,11 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/ldap_auth_sources', action: 'index' },
             html: { class: 'server_authentication icon2 icon-flag' },
             if: proc { !OpenProject::Configuration.disable_password_login? }
+
+  menu.push :announcements,
+            { controller: '/announcements', action: 'edit' },
+            caption: 'Announcement',
+            html: { class: 'icon2 icon-news' }
 
   menu.push :plugins,
             { controller: '/admin', action: 'plugins' },

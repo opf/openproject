@@ -34,6 +34,8 @@ See doc/COPYRIGHT.rdoc for more details.
   </h2>
 </div>
 
+<%= render partial: 'announcements/show' %>
+
 <% if @homescreen[:blocks].any? %>
   <section class="widget-boxes -flex">
   <% @homescreen[:blocks].each do |block| %>

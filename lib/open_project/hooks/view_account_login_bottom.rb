@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,18 +26,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class HomescreenController < ApplicationController
-  def index
-    @newest_projects = Project.visible.newest.take(3)
-    @newest_users = User.newest.take(3)
-    @news = News.latest(count: 3)
-    @announcement = Announcement.active_and_current
-
-    @homescreen = OpenProject::Homescreen
+module OpenProject
+  module Hooks
+    class ViewAccountLoginBottom < Redmine::Hook::ViewListener
+      render_on :view_account_login_bottom, partial: 'announcements/show'
+    end
   end
-
-  def robots
-    @projects = Project.active.public_projects
-  end
-  caches_action :robots
 end
