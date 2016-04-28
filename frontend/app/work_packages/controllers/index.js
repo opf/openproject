@@ -35,19 +35,6 @@ angular.module('openproject.workPackages.controllers')
   .constant('USER_TYPE', 'user')
   .constant('TIME_ENTRY_TYPE', 'time_entry')
   .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
-  .controller('DetailsTabOverviewController', [
-    '$state',
-    '$scope',
-    'loadingIndicator',
-    'WorkPackagesOverviewService',
-    'WorkPackageFieldService',
-    'EditableFieldsState',
-    'inplaceEditAll',
-    'WorkPackagesDisplayHelper',
-    'NotificationsService',
-    'WorkPackageAttachmentsService',
-    require('./details-tab-overview-controller')
-  ])
   .constant('ADD_WATCHER_SELECT_INDEX', -1)
   .constant('RELATION_TYPES', {
     relatedTo: 'Relation::Relates',
