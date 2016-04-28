@@ -139,7 +139,7 @@ module OpenProject::Backlogs
     extend_api_response(:v3, :work_packages, :work_package) do
       property :story_points,
                render_nil: true,
-               if: -> (*) { backlogs_enabled? && type.story? }
+               if: -> (*) { backlogs_enabled? && type && type.story? }
 
       property :remaining_time,
                exec_context: :decorator,
@@ -154,7 +154,7 @@ module OpenProject::Backlogs
     extend_api_response(:v3, :work_packages, :work_package_payload) do
       property :story_points,
                render_nil: true,
-               if: -> (*) { backlogs_enabled? && type.story? }
+               if: -> (*) { backlogs_enabled? && type && type.story? }
 
       property :remaining_time,
                exec_context: :decorator,
