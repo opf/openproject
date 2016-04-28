@@ -366,7 +366,7 @@ module ApplicationHelper
   end
 
   def to_path_param(path)
-    CGI.escape(path.to_s)
+    path.to_s
   end
 
   def reorder_links(name, url, options = {})

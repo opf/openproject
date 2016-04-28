@@ -44,7 +44,6 @@ function WorkPackagesListController($scope,
                                     OPERATORS_AND_LABELS_BY_FILTER_TYPE,
                                     loadingIndicator,
                                     inplaceEditAll,
-                                    keepTab,
                                     I18n) {
 
   $scope.projectIdentifier = $state.params.projectPath || null;
@@ -56,11 +55,6 @@ function WorkPackagesListController($scope,
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.disableFilters = false;
     $scope.disableNewWorkPackage = true;
-    setupFiltersVisibility();
-    $scope.toggleShowFilterOptions = function () {
-      WorkPackagesTableService.toggleShowFilterOptions();
-      setupFiltersVisibility();
-    };
 
     loadingIndicator.mainPage = wpListService.fromQueryParams($state.params, $scope.projectIdentifier)
       .then((json:api.ex.WorkPackagesMeta) => {
@@ -102,11 +96,11 @@ function WorkPackagesListController($scope,
     if (cachedQuery && urlQueryId && cachedQuery.id == urlQueryId) {
       // Augment current unsaved query with url param data
       var updateData = angular.extend(queryData, {columns: columnData});
-      $scope.query = QueryService.updateQuery(updateData, afterQuerySetupCallback);
+      $scope.query = QueryService.updateQuery(updateData);
     } else {
       // Set up fresh query from retrieved query meta data
-      $scope.query = QueryService.initQuery($state.params.query_id, queryData, columnData,
-        metaData.export_formats, afterQuerySetupCallback);
+      $scope.query = QueryService.initQuery(
+        $state.params.query_id, queryData, columnData, metaData.export_formats);
 
       if (queryParamsPresent) {
         $scope.query.dirty = true;
@@ -121,10 +115,6 @@ function WorkPackagesListController($scope,
     if (json.work_packages.length) {
       WorkPackageService.cache().put('preselectedWorkPackageId', json.work_packages[0].id);
     }
-  }
-
-  function afterQuerySetupCallback() {
-    setupFiltersVisibility();
   }
 
   function setupWorkPackagesTable(json) {
@@ -167,10 +157,6 @@ function WorkPackagesListController($scope,
     // Authorisation
     AuthorisationService.initModelAuth("work_package", meta._links);
     AuthorisationService.initModelAuth("query", meta.query._links);
-  }
-
-  function setupFiltersVisibility() {
-    $scope.showFiltersOptions = WorkPackagesTableService.getShowFilterOptions();
   }
 
   $scope.maintainBackUrl = function () {
@@ -256,17 +242,6 @@ function WorkPackagesListController($scope,
         workPackageId: id,
         query_props: $state.params.query_props
       });
-    }
-  };
-
-  $scope.getFilterCount = function () {
-    if ($scope.query) {
-      var filters = $scope.query.filters;
-      return _.size(_.where(filters, function (filter) {
-        return !filter.deactivated;
-      }));
-    } else {
-      return 0;
     }
   };
 }

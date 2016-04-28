@@ -34,9 +34,7 @@ module.exports = function(WorkPackageFieldService, $window, $timeout) {
     'type',
     'status',
     'description',
-    'priority',
-    'assignee',
-    'percentageDone'
+    'priority'
   ];
   var firstTimeFocused = false;
   var isGroupHideable = function (groupedFields, groupName, workPackage, cb) {

@@ -26,13 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import HalResource from '../api-v3/hal-resources/hal-resource.service';
+
 export class ApiWorkPackagesService {
   protected wpBaseApi;
 
-  constructor (protected DEFAULT_PAGINATION_OPTIONS,
-               protected $stateParams,
-               protected $q:ng.IQService,
-               protected apiV3:restangular.IService) {
+  constructor(protected DEFAULT_PAGINATION_OPTIONS,
+              protected $stateParams,
+              protected $q:ng.IQService,
+              protected apiV3:restangular.IService) {
 
     this.wpBaseApi = apiV3.service('work_packages');
   }
@@ -41,10 +43,7 @@ export class ApiWorkPackagesService {
     var workPackages = this.wpApiPath(query.projectId);
 
     return workPackages.getList(
-      this.queryAsV3Params(offset, pageSize, query),
-      {
-        caching: { enabled : false }
-      }
+      this.queryAsV3Params(offset, pageSize, query), {caching: {enabled: false}}
     );
   }
 
@@ -53,23 +52,25 @@ export class ApiWorkPackagesService {
    *
    * @returns An empty work package form resource.
    */
-  public emptyCreateForm(projectIdentifier?:string):ng.IPromise<op.HalResource> {
+  public emptyCreateForm(projectIdentifier?:string):ng.IPromise<HalResource> {
     return this.wpApiPath(projectIdentifier).one('form').customPOST();
   }
 
   /**
    * Returns a promise to GET `/api/v3/work_packages/available_projects`.
    */
-  public availableProjects(projectIdentifier?:string):ng.IPromise<op.HalResource> {
+  public availableProjects(projectIdentifier?:string):ng.IPromise<HalResource> {
     return this.wpApiPath(projectIdentifier).one('available_projects').get();
   }
 
-  public wpApiPath(projectIdentifier?: any) {
+  public wpApiPath(projectIdentifier?:any) {
+    const args = ['work_packages'];
+
     if (!!projectIdentifier) {
-      return this.apiV3.service('work_packages', this.apiV3.one('projects', projectIdentifier));
-    } else {
-      return this.apiV3.service('work_packages');
+      args.push(this.apiV3.one('projects', projectIdentifier));
     }
+    
+    return this.apiV3.service(...args);
   }
 
   protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {

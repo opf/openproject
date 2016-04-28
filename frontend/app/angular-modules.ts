@@ -42,7 +42,8 @@ angular.module(
     'openproject.workPackages.config',
     'openproject.workPackages.helpers',
     'openproject.api',
-    'angular-cache'
+    'angular-cache',
+    'openproject.filters'
   ]);
 angular.module('openproject.helpers', ['openproject.services']);
 angular
@@ -136,7 +137,7 @@ angular.module('openproject.layout', [
 ]);
 angular.module('openproject.layout.controllers', []);
 
-angular.module('openproject.api', ['restangular', 'openproject.services']);
+angular.module('openproject.api', ['restangular', 'openproject', 'openproject.services']);
 
 angular.module('openproject.templates', []);
 
@@ -144,8 +145,12 @@ angular.module('openproject.templates', []);
 angular.module('openproject.inplace-edit', []);
 angular.module('openproject.responsive', []);
 
-export var wpButtonsModule =
-  angular.module('openproject.wpButtons', ['ui.router', 'openproject.services']);
+export var filtersModule = angular.module('openproject.filters', [
+  'openproject.models'
+]);
+
+export var wpButtonsModule = angular.module('openproject.wpButtons',
+  ['ui.router', 'openproject.services']);
 
 // main app
 export const openprojectModule = angular.module('openproject', [
@@ -167,8 +172,9 @@ export const openprojectModule = angular.module('openproject', [
   'openproject.templates',
   'monospaced.elastic',
   'openproject.inplace-edit',
-  'openproject.wpButtons',
-  'openproject.responsive'
+  wpButtonsModule.name,
+  'openproject.responsive',
+  filtersModule.name
 ]);
 
 export default openprojectModule;

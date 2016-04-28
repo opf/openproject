@@ -27,12 +27,5 @@
 //++
 
 angular.module('openproject.models')
-  .constant('OPERATORS_NOT_REQUIRING_VALUES', ['o', 'c', '!*', '*', 't', 'w'])
-  .constant('SELECTABLE_FILTER_TYPES', ['list', 'list_optional', 'list_status',
-    'list_subprojects', 'list_model'
-  ])
-  .factory('Filter', ['OPERATORS_NOT_REQUIRING_VALUES',
-    'SELECTABLE_FILTER_TYPES', require('./filter')
-  ])
   .factory('Sortation', ['DEFAULT_SORT_CRITERIA', 'MAX_SORT_ELEMENTS', require(
     './sortation')]);

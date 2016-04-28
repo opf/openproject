@@ -215,8 +215,9 @@ class PermittedParams
     end
   end
 
-  def type
-    params.require(:type).permit(*self.class.permitted_attributes[:type])
+  def type(args = {})
+    permitted = permitted_attributes(:type, args)
+    params.require(:type).permit(*permitted)
   end
 
   def type_move
@@ -611,8 +612,12 @@ class PermittedParams
           :is_milestone,
           :is_default,
           :color_id,
+          Proc.new do
+            { attribute_visibility: ::TypesHelper.work_package_form_attributes.keys }
+          end,
           project_ids: [],
-          custom_field_ids: []],
+          custom_field_ids: []
+        ],
         user: [
           :firstname,
           :lastname,

@@ -27,24 +27,23 @@
 //++
 
 import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
+import HalResource from './hal-resource.service';
 
-function wpResource(
-  HalResource:typeof op.HalResource,
-  apiWorkPackages,
-  wpCacheService: WorkPackageCacheService,
-  NotificationsService:any,
-  $q:ng.IQService
+var $q:ng.IQService;
+var apiWorkPackages;
+var wpCacheService:WorkPackageCacheService;
+var NotificationsService:any;
 
-) {
-  class WorkPackageResource extends HalResource {
-    private form;
-    public schema;
-    public id;
+export default class WorkPackageResource extends HalResource {
+  public schema;
+  public id;
 
-    public static fromCreateForm(projectIdentifier?:string):ng.IPromise<WorkPackageResource> {
-      var deferred = $q.defer();
+  private form;
 
-      apiWorkPackages.emptyCreateForm(projectIdentifier)
+  public static fromCreateForm(projectIdentifier?:string):ng.IPromise<WorkPackageResource> {
+    var deferred = $q.defer();
+
+    apiWorkPackages.emptyCreateForm(projectIdentifier)
       .then(resource => {
         var wp = new WorkPackageResource(resource.payload.$source, true);
 
@@ -57,36 +56,59 @@ function wpResource(
       })
       .catch(deferred.reject);
 
-      return deferred.promise;
-    }
+    return deferred.promise;
+  }
 
-    public get isNew():boolean {
-      var id = Number(this.id);
-      return isNaN(id);
-    }
+  public get isNew():boolean {
+    var id = Number(this.id);
+    return isNaN(id);
+  }
 
-    public requiredValueFor(fieldName):boolean {
-      var fieldSchema = this.schema[fieldName];
-      return !this[fieldName] && fieldSchema.writable && fieldSchema.required;
-    }
+  public requiredValueFor(fieldName):boolean {
+    var fieldSchema = this.schema[fieldName];
+    return !this[fieldName] && fieldSchema.writable && fieldSchema.required;
+  }
 
-    public getForm() {
-      if (!this.form) {
-        this.form = this.$links.update(this);
-        this.form.catch(error => {
-          NotificationsService.addError(error.data.message);
+  public allowedValuesFor(field):ng.IPromise<HalResource[]> {
+    var deferred = $q.defer();
+    this.getForm().then(form => {
+      const allowedValues = form.$embedded.schema[field].allowedValues;
+
+      if (Array.isArray(allowedValues)) {
+        deferred.resolve(allowedValues);
+      } else {
+        return allowedValues.$load().then(loadedValues => {
+          deferred.resolve(loadedValues.elements);
         });
       }
-      return this.form;
-    }
+    });
 
-    public getSchema() {
-      return this.getForm().then(form => {
-        const schema = form.$embedded.schema;
+    return deferred.promise;
+  }
+
+  public setAllowedValueFor(field, href) {
+    this.allowedValuesFor(field).then(allowedValues => {
+      this[field] = _.find(allowedValues, (entry:any) => (entry.href === href));
+    });
+  }
+
+  public getForm() {
+    if (!this.form) {
+      this.form = this.$links.update(this);
+      this.form.catch(error => {
+        NotificationsService.addError(error.data.message);
+      });
+    }
+    return this.form;
+  }
+
+  public getSchema() {
+    return this.getForm().then(form => {
+      const schema = form.$embedded.schema;
 
       angular.forEach(schema, (field, name) => {
         if (this[name] && field && field.writable && field.$isHal
-            && Array.isArray(field.allowedValues)) {
+          && Array.isArray(field.allowedValues)) {
 
           this[name] = _.where(field.allowedValues, {name: this[name].name})[0];
         }
@@ -96,78 +118,92 @@ function wpResource(
     });
   }
 
-    public save() {
-      const plain = this.$plain();
+  public save() {
+    const plain = this.$plain();
 
     delete plain.createdAt;
     delete plain.updatedAt;
 
     var deferred = $q.defer();
     this.getForm()
-        .catch(deferred.reject)
-        .then(form => {
-          var plainPayload = form.payload.$plain();
-          var schema = form.$embedded.schema;
+      .catch(deferred.reject)
+      .then(form => {
+        var plainPayload = form.payload.$plain();
+        var schema = form.$embedded.schema;
 
-          angular.forEach(plain, (value, key) => {
-            if (typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
-              plainPayload[key] = value;
-            }
-          });
-
-          angular.forEach(plainPayload._links, (_value, key) => {
-            if (this[key] && typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
-              var value = this[key].href === 'null' ? null : this[key].href;
-              plainPayload._links[key] = {href: value};
-            }
-          });
-
-          return this.saveResource(plainPayload)
-            .then(workPackage => {
-              angular.extend(this, workPackage);
-              wpCacheService.updateWorkPackageList([this]);
-              deferred.resolve(this);
-            }).catch((error) => {
-              deferred.reject(error);
-            }).finally(() => {
-
-              // Restore the form for subsequent saves
-              // e.g., due to changes in lockVersion.
-              // Not needed for inline create.
-              if (!this.isNew) {
-                this.form = null;
-              }
-            });
+        angular.forEach(plain, (value, key) => {
+          if (typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
+            plainPayload[key] = value;
+          }
         });
 
-      return deferred.promise;
-    }
+        angular.forEach(plainPayload._links, (_value, key) => {
+          if (this[key] && typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
+            var value = this[key].href === 'null' ? null : this[key].href;
+            plainPayload._links[key] = {href: value};
+          }
+        });
 
-  public get isLeaf(): boolean {
+        return this.saveResource(plainPayload)
+          .then(workPackage => {
+            angular.extend(this, workPackage);
+            wpCacheService.updateWorkPackageList([this]);
+            deferred.resolve(this);
+          })
+          .catch((error) => {
+            deferred.reject(error);
+          })
+          .finally(() => {
+            // Restore the form for subsequent saves
+            // e.g., due to changes in lockVersion.
+            // Not needed for inline create.
+            if (!this.isNew) {
+              this.form = null;
+            }
+          });
+      });
+
+    return deferred.promise;
+  }
+
+  public get isLeaf():boolean {
     return !(this as any).children;
   }
 
-    public isParentOf(otherWorkPackage) {
-      return otherWorkPackage.parent.$links.self.$link.href ===
-        this.$links.self.$link.href;
+  public isParentOf(otherWorkPackage) {
+    return otherWorkPackage.parent.$links.self.$link.href === this.$links.self.$link.href;
   }
 
-    public get isEditable():boolean {
-      return !!this.$links.update || this.isNew;
-    }
-
-    protected saveResource(payload):ng.IPromise<any> {
-      if (this.isNew) {
-        return apiWorkPackages.wpApiPath().post(payload);
-      } else {
-        return this.$links.updateImmediately(payload);
-      }
-    }
+  public get isEditable():boolean {
+    return !!this.$links.update || this.isNew;
   }
 
-return WorkPackageResource;
+  protected saveResource(payload):ng.IPromise<any> {
+    if (this.isNew) {
+      return apiWorkPackages.wpApiPath().post(payload);
+    }
+
+    return this.$links.updateImmediately(payload);
+  }
+}
+
+function wpResource(_$q_:ng.IQService,
+                    _apiWorkPackages_,
+                    _wpCacheService_:WorkPackageCacheService,
+                    _NotificationsService_:any) {
+  $q = _$q_;
+  apiWorkPackages = _apiWorkPackages_;
+  wpCacheService = _wpCacheService_;
+  NotificationsService = _NotificationsService_;
+
+  return WorkPackageResource;
 }
 
 angular
-    .module('openproject.api')
-    .service('WorkPackageResource', wpResource);
+  .module('openproject.api')
+  .service('WorkPackageResource', [
+    '$q',
+    'apiWorkPackages',
+    'wpCacheService',
+    'NotificationsService',
+    wpResource]);

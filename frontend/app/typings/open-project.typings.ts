@@ -152,7 +152,7 @@ declare namespace api {
  */
 
 interface Function {
-  $link?:op.HalLink;
+  $link?:any;
 }
 
 declare namespace op {
@@ -171,6 +171,7 @@ declare namespace op {
     perPage?:number;
 
     toUpdateParams?():any;
+    applyDefaultsFromFilters(workPackage);
   }
 
   interface I18n {
@@ -196,25 +197,6 @@ declare namespace op {
     restangularized:boolean;
   }
 
-  class HalResource {
-    public $links;
-    public $embedded;
-    public $isHal;
-    public name:string;
-    public href:string;
-
-    constructor($source: restangular.IElement, $loaded: boolean);
-
-    public $plain();
-  }
-
-  class HalLink {
-    public href:string;
-    public title:string;
-    public method:string;
-    public templated:boolean;
-  }
-
   interface FieldSchema {
     type:string;
     writable:boolean;
@@ -226,7 +208,6 @@ declare namespace op {
   }
 
   interface WorkPackage extends api.v3.WorkPackage, WorkPackageLinks {
-
     getForm();
     getSchema();
 

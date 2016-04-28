@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,30 +24,29 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function(
-  WorkPackageLoadingHelper,
-  QueryService,
-  PaginationService,
-  I18n,
-  OPERATORS_NOT_REQUIRING_VALUES,
-  $timeout,
-  $animate
-) {
+import {filtersModule} from '../../../angular-modules';
 
+function queryFilterDirective($timeout,
+                              $animate,
+                              WorkPackageLoadingHelper,
+                              QueryService,
+                              PaginationService,
+                              I18n,
+                              OPERATORS_NOT_REQUIRING_VALUES) {
   var updateResultsJob;
 
   return {
     restrict: 'A',
     scope: true,
-    link: function(scope, element, attributes) {
+    link: function (scope, element) {
       scope.I18n = I18n;
       scope.isLoading = false; // shadow isLoading as its used for a different purpose in this context
 
       scope.filterModelOptions = {
         updateOn: 'default blur',
-        debounce: { 'default': 400, 'blur': 0 }
+        debounce: {'default': 400, 'blur': 0}
       };
 
       $animate.enabled(false, element);
@@ -59,32 +58,32 @@ module.exports = function(
 
           .then(buildOptions)
           .then(addStandardOptions)
-          .then(function(options) {
+          .then(function (options) {
             scope.availableFilterValueOptions = options;
           });
       }
 
       preselectOperator();
 
-      scope.$on('openproject.workPackages.updateResults', function() {
+      scope.$on('openproject.workPackages.updateResults', function () {
         $timeout.cancel(updateResultsJob);
       });
 
       // Filter updates
 
-      scope.$watch('filter.operator', function(operator) {
-        if(operator && scope.filter.requiresValues){
+      scope.$watch('filter.operator', function (operator) {
+        if (operator && scope.filter.requiresValues) {
           scope.showValuesInput = scope.filter.requiresValues();
         }
       });
 
-      scope.$watch('filter', function(filter, oldFilter) {
+      scope.$watch('filter', function (filter, oldFilter) {
         var isEmptyText = filter.type === 'text' && filter.textValue === undefined;
         var isEmptySelect = filter.type === 'list_status' && filter.values && filter.values[0] === 'undefined';
 
         if (filter !== oldFilter && !isEmptySelect) {
           if ((isEmptyText || filter.isConfigured())
-              && (filterChanged(filter, oldFilter) || valueReset(filter, oldFilter))) {
+            && (filterChanged(filter, oldFilter) || valueReset(filter, oldFilter))) {
 
             PaginationService.resetPage();
             scope.$emit('queryStateChange');
@@ -95,7 +94,7 @@ module.exports = function(
       }, true);
 
       function buildOptions(values) {
-        return values.map(function(value) {
+        return values.map(function (value) {
           return [value.name, value.id];
         });
       }
@@ -109,8 +108,7 @@ module.exports = function(
       }
 
       function filterChanged(filter, oldFilter) {
-        return filter.operator !== oldFilter.operator ||
-          !angular.equals(filter.getValuesAsArray(), oldFilter.getValuesAsArray()) ||
+        return filter.operator !== oldFilter.operator || !angular.equals(filter.getValuesAsArray(), oldFilter.getValuesAsArray()) ||
           filter.deactivated !== oldFilter.deactivated;
       }
 
@@ -122,7 +120,7 @@ module.exports = function(
         if (!scope.filter.operator) {
           var operatorArray = _.find(
             scope.operatorsAndLabelsByFilterType[scope.filter.type],
-            function(operator) {
+            function (operator) {
               return OPERATORS_NOT_REQUIRING_VALUES.indexOf(operator[0]) === -1;
             }
           );
@@ -131,4 +129,6 @@ module.exports = function(
       }
     }
   };
-};
+}
+
+filtersModule.directive('queryFilter', queryFilterDirective);

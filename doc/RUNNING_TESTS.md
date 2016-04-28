@@ -225,6 +225,3 @@ on a machine with 8 parallel instances.
 
 * Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
 * Assuming you do not have a version of Internet Explorer already installed on your computer, you can grab a VM with preinstalled IE's directly from Microsoft: http://www.modern.ie/en-us/virtualization-tools#downloads
-
-[gulp]:http://gulpjs.com/
-[express]:http://expressjs.com/
