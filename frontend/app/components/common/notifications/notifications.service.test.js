@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,33 +24,31 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-describe('NotificationsService', function(){
-  'use strict';
+describe('NotificationsService', function () {
   var NotificationsService,
-      $rootScope;
+    $rootScope;
 
-  beforeEach(module('openproject.services'));
-
-  beforeEach(inject(function(_$rootScope_, _NotificationsService_) {
+  beforeEach(angular.mock.module('openproject.services'));
+  beforeEach(angular.mock.inject(function (_$rootScope_, _NotificationsService_) {
     $rootScope = _$rootScope_;
     NotificationsService = _NotificationsService_;
   }));
 
-  it('should be able to create notifications', function() {
+  it('should be able to create notifications', function () {
     var notification = NotificationsService.add('message');
 
-    expect(notification).to.eql({ message: 'message' });
+    expect(notification).to.eql({message: 'message'});
   });
 
-  it('should be able to create warnings', function() {
+  it('should be able to create warnings', function () {
     var notification = NotificationsService.addWarning('warning!');
 
-    expect(notification).to.eql({ message: 'warning!', type: 'warning' });
+    expect(notification).to.eql({message: 'warning!', type: 'warning'});
   });
 
-  it('should be able to create error messages with errors', function() {
+  it('should be able to create error messages with errors', function () {
     var notification = NotificationsService.addError('a super cereal error', ['fooo', 'baarr']);
     expect(notification).to.eql({
       message: 'a super cereal error',
@@ -59,7 +57,7 @@ describe('NotificationsService', function(){
     });
   });
 
-  it('should be able to create error messages with only a message', function() {
+  it('should be able to create error messages with only a message', function () {
     var notification = NotificationsService.addError('a super cereal error');
     expect(notification).to.eql({
       message: 'a super cereal error',
@@ -68,7 +66,7 @@ describe('NotificationsService', function(){
     });
   });
 
-  it('should be able to create upload messages with uploads', function() {
+  it('should be able to create upload messages with uploads', function () {
     var notification = NotificationsService.addWorkPackageUpload('uploading...', [0, 1, 2]);
     expect(notification).to.eql({
       message: 'uploading...',
@@ -77,13 +75,13 @@ describe('NotificationsService', function(){
     });
   });
 
-  it('should throw an Error if trying to create an upload without uploads', function() {
-    expect(function() {
+  it('should throw an Error if trying to create an upload without uploads', function () {
+    expect(function () {
       NotificationsService.addWorkPackageUpload('themUploads');
     }).to.throw(Error);
   });
 
-  it('sends a broadcast on rootScope upon adding', function() {
+  it('sends a broadcast on rootScope upon adding', function () {
     sinon.spy($rootScope, '$broadcast');
 
     NotificationsService.add('very important');
@@ -91,53 +89,53 @@ describe('NotificationsService', function(){
     expect($rootScope.$broadcast).to.have.been.calledWith('notification.add');
   });
 
-  it('sends a broadcast on rootScope upon removal', function() {
+  it('sends a broadcast on rootScope upon removal', function () {
     sinon.spy($rootScope, '$broadcast');
 
-    NotificationsService.remove({ message: 'blubs', type: 'success' });
+    NotificationsService.remove({message: 'blubs', type: 'success'});
 
     expect($rootScope.$broadcast).to.have.been.calledWith('notification.remove');
   });
 
   it('sends a broadcast to remove the first notification upon adding a second success notification',
-     function() {
+    function () {
 
-       sinon.spy($rootScope, '$broadcast');
+      sinon.spy($rootScope, '$broadcast');
 
-       var firstNotification = NotificationsService.add('blubs');
+      var firstNotification = NotificationsService.add('blubs');
 
-       NotificationsService.addSuccess('blubs2');
+      NotificationsService.addSuccess('blubs2');
 
-       expect($rootScope.$broadcast).to.have.been.calledWith('notification.remove',
-                                                             firstNotification);
-  });
+      expect($rootScope.$broadcast).to.have.been.calledWith('notification.remove',
+        firstNotification);
+    });
 
   it('sends a broadcast to remove the first notification upon adding a second error notification',
-     function() {
+    function () {
 
-       sinon.spy($rootScope, '$broadcast');
+      sinon.spy($rootScope, '$broadcast');
 
-       var firstNotification = NotificationsService.add('blubs');
+      var firstNotification = NotificationsService.add('blubs');
 
-       NotificationsService.addError('blubs2');
+      NotificationsService.addError('blubs2');
 
-       expect($rootScope.$broadcast).to.have.been.calledWith('notification.remove',
-                                                             firstNotification);
-  });
+      expect($rootScope.$broadcast).to.have.been.calledWith('notification.remove',
+        firstNotification);
+    });
 
   it('does not send a broadcast upon the second error/success ' +
-     'if the notification has already been removed',
-      function() {
+    'if the notification has already been removed',
+    function () {
 
-        var firstNotification = NotificationsService.add('blubs');
-        $rootScope.$broadcast('notification.remove', firstNotification);
+      var firstNotification = NotificationsService.add('blubs');
+      $rootScope.$broadcast('notification.remove', firstNotification);
 
-        sinon.spy($rootScope, '$broadcast');
+      sinon.spy($rootScope, '$broadcast');
 
-        NotificationsService.addError('blubs2');
+      NotificationsService.addError('blubs2');
 
-        expect($rootScope.$broadcast).not.to.have.been.calledWith('notification.remove',
-                                                                  firstNotification);
+      expect($rootScope.$broadcast).not.to.have.been.calledWith('notification.remove',
+        firstNotification);
 
-  });
+    });
 });
