@@ -34,7 +34,7 @@ function wpTd(){
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/components/wp-table/wp-td/wp-td.directive.html',
+    templateUrl: '/components/work-packages/wp-td/wp-td.directive.html',
 
     scope: {
       schema: '=',
