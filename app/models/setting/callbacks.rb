@@ -38,8 +38,8 @@ class Setting
     # instructs the underlying notifications system to publish all setting events for setting #name
     # based on the new and old setting objects different events can be triggered
     # currently, that's whenever a setting is set regardless whether the value changed
-    def fire_callbacks(name, setting, old_setting)
-      notifier.send(notification_event_for(name), event_payload_for(setting, old_setting))
+    def fire_callbacks(name, new_value, old_value)
+      notifier.send(notification_event_for(name), value: new_value, old_value: old_value)
     end
 
     private
@@ -47,11 +47,6 @@ class Setting
     # encapsulates the event name broadcast to all subscribers
     def notification_event_for(name)
       "setting.#{name}.changed"
-    end
-
-    # encapsulates the payload expected by the notifier
-    def event_payload_for(setting, old_setting)
-      { value: setting.value, old_value: old_setting.value }
     end
 
     # the notifier to delegate to

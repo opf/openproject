@@ -233,15 +233,15 @@ describe UserMailer, type: :mailer do
     assert mail.encoded.include?('href')
   end
 
-  it 'should mail from with phrase' do
-    user  = FactoryGirl.create(:user)
-    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
-    with_settings mail_from: 'Redmine app <redmine@example.net>' do
+  context 'with mail_from set', with_settings: { mail_from: 'Redmine app <redmine@example.net>' } do
+    it 'should mail from with phrase' do
+      user  = FactoryGirl.create(:user)
+      FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
       UserMailer.test_mail(user).deliver_now
+      mail = ActionMailer::Base.deliveries.last
+      refute_nil mail
+      assert_equal 'Redmine app <redmine@example.net>', mail.header['From'].to_s
     end
-    mail = ActionMailer::Base.deliveries.last
-    refute_nil mail
-    assert_equal 'Redmine app <redmine@example.net>', mail.header['From'].to_s
   end
 
   it 'should not send email without recipient' do
@@ -317,22 +317,21 @@ describe UserMailer, type: :mailer do
     end
   end
 
-  context('#issue_add') do
+  context '#issue_add',
+          with_settings: { available_languages: ['en', 'de'], default_language: 'de' } do
     it 'should change mail language depending on recipient language' do
       issue = FactoryGirl.create(:work_package)
       user  = FactoryGirl.create(:user, mail: 'foo@bar.de', language: 'de')
       FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
 
-      with_settings available_languages: ['en', 'de'] do
-        I18n.locale = 'en'
-        assert UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
-        assert_equal 1, ActionMailer::Base.deliveries.size
-        mail = last_email
-        assert_equal ['foo@bar.de'], mail.to
-        assert mail.body.encoded.include?('erstellt')
-        assert !mail.body.encoded.include?('reported')
-        assert_equal :en, I18n.locale
-      end
+      I18n.locale = 'en'
+      assert UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = last_email
+      assert_equal ['foo@bar.de'], mail.to
+      assert mail.body.encoded.include?('erstellt')
+      assert !mail.body.encoded.include?('reported')
+      assert_equal :en, I18n.locale
     end
 
     it 'should falls back to default language if user has no language' do
@@ -343,17 +342,14 @@ describe UserMailer, type: :mailer do
       user  = FactoryGirl.create(:user, mail: 'foo@bar.de', language: '') # (auto)
       FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
 
-      with_settings available_languages: ['en', 'de'],
-                    default_language: 'de' do
-        I18n.locale = 'de'
-        assert UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
-        assert_equal 1, ActionMailer::Base.deliveries.size
-        mail = last_email
-        assert_equal ['foo@bar.de'], mail.to
-        assert !mail.body.encoded.include?('reported')
-        assert mail.body.encoded.include?('erstellt')
-        assert_equal :de, I18n.locale
-      end
+      I18n.locale = 'de'
+      assert UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = last_email
+      assert_equal ['foo@bar.de'], mail.to
+      assert !mail.body.encoded.include?('reported')
+      assert mail.body.encoded.include?('erstellt')
+      assert_equal :de, I18n.locale
     end
   end
 
@@ -427,17 +423,17 @@ describe UserMailer, type: :mailer do
     assert_equal '1 work package(s) due in the next 42 days', mail.subject
   end
 
-  it 'should mailer should not change locale' do
-    with_settings available_languages: ['en', 'de'],
-                  default_language:    'en' do
-      # Set current language to english
-      I18n.locale = :en
-      # Send an email to a german user
-      user = FactoryGirl.create(:user, language: 'de')
-      UserMailer.account_activated(user).deliver_now
-      mail = ActionMailer::Base.deliveries.last
-      assert mail.body.encoded.include?('aktiviert')
-      assert_equal :en, I18n.locale
+  context 'with locale settings',
+          with_settings: { available_languages: ['en', 'de'], default_language: 'de' } do
+    it 'should mailer should not change locale' do
+        # Set current language to english
+        I18n.locale = :en
+        # Send an email to a german user
+        user = FactoryGirl.create(:user, language: 'de')
+        UserMailer.account_activated(user).deliver_now
+        mail = ActionMailer::Base.deliveries.last
+        assert mail.body.encoded.include?('aktiviert')
+        assert_equal :en, I18n.locale
     end
   end
 
@@ -451,20 +447,16 @@ describe UserMailer, type: :mailer do
     assert ActionMailer::Base.perform_deliveries
   end
 
-  context 'layout' do
+  context 'layout',
+          with_settings: {
+            available_languages: [:en, :de],
+            localized_emails_header: 'deutscher header'
+          } do
     it 'should include the emails_header depeding on the locale' do
-      with_settings available_languages: [:en, :de],
-                    emails_header: { 'de' => 'deutscher header',
-                                     'en' => 'english header' } do
-        user = FactoryGirl.create(:user, language: :en)
-        assert UserMailer.test_mail(user).deliver_now
-        mail = ActionMailer::Base.deliveries.last
-        assert mail.body.encoded.include?('english header')
-        user.language = :de
-        assert UserMailer.test_mail(user).deliver_now
-        mail = ActionMailer::Base.deliveries.last
-        assert mail.body.encoded.include?('deutscher header')
-      end
+      user = FactoryGirl.create(:user, language: :de)
+      assert UserMailer.test_mail(user).deliver_now
+      mail = ActionMailer::Base.deliveries.last
+      assert mail.body.encoded.include?('deutscher header')
     end
   end
 

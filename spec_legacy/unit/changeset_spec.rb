@@ -31,26 +31,26 @@ require 'legacy_spec_helper'
 describe Changeset, type: :model do
   fixtures :all
 
+  context 'with notified events',
+          with_settings: { notified_events: %w(work_package_updated) } do
   it 'should ref keywords any' do
-    with_settings notified_events: %w(work_package_updated) do
-      WorkPackage.all.each(&:recreate_initial_journal!)
+    WorkPackage.all.each(&:recreate_initial_journal!)
 
-      Setting.commit_fix_status_id = Status.where(['is_closed = ?', true]).first.id
-      Setting.commit_fix_done_ratio = '90'
-      Setting.commit_ref_keywords = '*'
-      Setting.commit_fix_keywords = 'fixes , closes'
+    Setting.commit_fix_status_id = Status.where(['is_closed = ?', true]).first.id
+    Setting.commit_fix_done_ratio = '90'
+    Setting.commit_ref_keywords = '*'
+    Setting.commit_fix_keywords = 'fixes , closes'
 
-      c = Changeset.new(repository: Project.find(1).repository,
-                        committed_on: Time.now,
-                        comments: 'New commit (#2). Fixes #1')
-      c.scan_comment_for_work_package_ids
+    c = Changeset.new(repository: Project.find(1).repository,
+                      committed_on: Time.now,
+                      comments: 'New commit (#2). Fixes #1')
+    c.scan_comment_for_work_package_ids
 
-      assert_equal [1, 2], c.work_package_ids.sort
-      fixed = WorkPackage.find(1)
-      assert fixed.closed?
-      assert_equal 90, fixed.done_ratio
-      assert_equal 2, ActionMailer::Base.deliveries.size
-    end
+    assert_equal [1, 2], c.work_package_ids.sort
+    fixed = WorkPackage.find(1)
+    assert fixed.closed?
+    assert_equal 90, fixed.done_ratio
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   it 'should ref keywords' do
@@ -235,8 +235,27 @@ describe Changeset, type: :model do
     assert_nil changeset.next
   end
 
-  it 'should comments nil' do
-    with_settings enabled_scm: ['subversion'] do
+  context 'enabled scm',
+          with_settings: { enabled_scm: ['subversion'] } do
+    it 'should comments empty' do
+          proj = Project.find(3)
+          r = FactoryGirl.create(:repository_subversion)
+
+          assert r
+          c = Changeset.new(repository: r,
+                            committed_on: Time.now,
+                            revision: '123',
+                            scmid: '12345',
+                            comments: '')
+          assert(c.save)
+          assert_equal '', c.comments
+          if c.comments.respond_to?(:force_encoding)
+            assert_equal 'UTF-8', c.comments.encoding.to_s
+          end
+        end
+      end
+
+    it 'should comments nil' do
       proj = Project.find(3)
       r = FactoryGirl.create(:repository_subversion,
                              project: proj)
@@ -254,25 +273,6 @@ describe Changeset, type: :model do
       end
     end
   end
-
-  it 'should comments empty' do
-    with_settings enabled_scm: ['subversion'] do
-        proj = Project.find(3)
-        r = FactoryGirl.create(:repository_subversion)
-
-        assert r
-        c = Changeset.new(repository: r,
-                          committed_on: Time.now,
-                          revision: '123',
-                          scmid: '12345',
-                          comments: '')
-        assert(c.save)
-        assert_equal '', c.comments
-        if c.comments.respond_to?(:force_encoding)
-          assert_equal 'UTF-8', c.comments.encoding.to_s
-        end
-      end
-    end
 
   it 'should identifier' do
     c = Changeset.find_by(revision: '1')
