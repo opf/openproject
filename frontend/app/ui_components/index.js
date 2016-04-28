@@ -96,14 +96,6 @@ angular.module('openproject.uiComponents')
   .directive('zoomSlider', ['I18n', require('./zoom-slider-directive')])
   .directive('clickNotification', ['$timeout','NotificationsService', require('./click-notification-directive')])
   .directive('notifications', [require('./notifications-directive')])
-  .directive('notificationBox', [
-    'I18n',
-    '$timeout',
-    '$state',
-    'loadingIndicator',
-    'ConfigurationService',
-    require('./notification-box-directive')
-  ])
   .directive('uploadProgress', [require('./upload-progress-directive')])
   .directive('attachmentIcon', [require('./attachment-icon-directive')])
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,15 +24,16 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function(
+function DetailsTabOverviewController(
+           $state,
            $scope,
+           loadingIndicator,
            WorkPackagesOverviewService,
            WorkPackageFieldService,
-           EditableFieldsState,
            inplaceEditAll,
-           WorkPackageDisplayHelper,
+           WorkPackagesDisplayHelper,
            NotificationsService,
            WorkPackageAttachmentsService
            ) {
@@ -53,16 +54,16 @@ module.exports = function(
   });
 
   vm.shouldHideGroup = function(group) {
-    return WorkPackageDisplayHelper.shouldHideGroup(vm.hideEmptyFields,
+    return WorkPackagesDisplayHelper.shouldHideGroup(vm.hideEmptyFields,
                                                     vm.groupedFields,
                                                     group,
                                                     vm.workPackage);
   };
-  vm.isFieldHideable = WorkPackageDisplayHelper.isFieldHideable;
-  vm.getLabel = WorkPackageDisplayHelper.getLabel;
-  vm.isSpecified = WorkPackageDisplayHelper.isSpecified;
-  vm.hasNiceStar = WorkPackageDisplayHelper.hasNiceStar;
-  vm.showToggleButton = WorkPackageDisplayHelper.showToggleButton;
+  vm.isFieldHideable = WorkPackagesDisplayHelper.isFieldHideable;
+  vm.getLabel = WorkPackagesDisplayHelper.getLabel;
+  vm.isSpecified = WorkPackagesDisplayHelper.isSpecified;
+  vm.hasNiceStar = WorkPackagesDisplayHelper.hasNiceStar;
+  vm.showToggleButton = WorkPackagesDisplayHelper.showToggleButton;
   vm.filesExist = false;
   activate();
 
@@ -73,7 +74,7 @@ module.exports = function(
   function activate() {
     $scope.$watch('workPackage.schema', function(schema) {
       if (schema) {
-        WorkPackageDisplayHelper.setFocus();
+        WorkPackagesDisplayHelper.setFocus();
         vm.workPackage = $scope.workPackage;
       }
     });
@@ -98,7 +99,21 @@ module.exports = function(
       });
     });
     $scope.$on('workPackageUpdatedInEditor', function() {
-      NotificationsService.addSuccess(I18n.t('js.notice_successful_update'));
+      NotificationsService.addSuccess({
+        message: I18n.t('js.notice_successful_update'),
+        link: {
+          target: function() {
+            loadingIndicator.mainPage = $state.go.apply($state,
+                                                        ["work-packages.show.activity",
+                                                        $state.params]);
+          },
+          text: I18n.t('js.work_packages.message_successful_show_in_fullscreen')
+        }
+      });
     });
   }
-};
+}
+
+angular
+  .module('openproject.workPackages.controllers')
+  .controller('DetailsTabOverviewController', DetailsTabOverviewController);

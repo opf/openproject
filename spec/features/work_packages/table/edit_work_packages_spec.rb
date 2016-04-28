@@ -74,6 +74,10 @@ describe 'Inline editing work packages', js: true do
     subject_field.save!
     subject_field.expect_text('New subject!')
 
+    wp_table.expect_notification(
+      message: 'Successful update. Click here to open this work package in fullscreen view.'
+    )
+
     work_package.reload
     expect(work_package.subject).to eq('New subject!')
   end

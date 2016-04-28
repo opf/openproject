@@ -32,10 +32,13 @@ export class WorkPackageEditFormController {
   public firstActiveField:string;
 
   constructor(
+    protected I18n,
     protected NotificationsService,
     protected $q,
     protected QueryService,
+    protected $state,
     protected $rootScope,
+    protected loadingIndicator,
     protected $timeout) {
   }
 
@@ -60,6 +63,7 @@ export class WorkPackageEditFormController {
         angular.forEach(this.fields, field => field.setErrorState(false));
         deferred.resolve();
 
+        this.showSaveNotification();
         this.$rootScope.$emit('workPackageSaved', this.workPackage);
         this.$rootScope.$emit('workPackagesRefreshInBackground');
       })
@@ -74,6 +78,20 @@ export class WorkPackageEditFormController {
       });
 
     return deferred.promise;
+  }
+
+  private showSaveNotification() {
+    var message = 'js.notice_successful_' + (this.workPackage.inlineCreated ? 'create' : 'update');
+    this.NotificationsService.addSuccess({
+      message: this.I18n.t(message),
+      link: {
+        target: _ => {
+          this.loadingIndicator.mainPage = this.$state.go.apply(this.$state,
+            ["work-packages.show.activity", { workPackageId: this.workPackage.id }]);
+        },
+        text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
+      }
+    });
   }
 
   private handleSubmissionErrors(error:any, deferred:any) {

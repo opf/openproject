@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,25 +24,16 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function(I18n, $timeout,$state,loadingIndicator,ConfigurationService) {
-
+function notificationBox($timeout, I18n, ConfigurationService) {
   var notificationBoxController = function(scope, element) {
     scope.uploadCount = 0;
     scope.show = false;
     scope.I18n = I18n;
-    scope.currentState = $state.current.name;
 
     scope.canBeHidden = function() {
       return scope.content.uploads.length > 5;
-    };
-
-    scope.displayFullScreenLink = ($state.current.name.indexOf("work-packages.show") == -1 && scope.content.type === "success");
-
-    scope.showFullScreen = function(){
-      scope.remove();
-      loadingIndicator.mainPage = $state.go.apply($state, ["work-packages.show.activity", $state.params]);
     };
 
     scope.removable = function() {
@@ -83,10 +74,14 @@ module.exports = function(I18n, $timeout,$state,loadingIndicator,ConfigurationSe
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/components/notification-box.html',
+    templateUrl: '/components/common/notification-box/notification-box.directive.html',
     scope: {
       content: '='
     },
     link: notificationBoxController
   };
-};
+}
+
+angular
+  .module('openproject.uiComponents')
+  .directive('notificationBox', notificationBox);
