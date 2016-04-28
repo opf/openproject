@@ -65,7 +65,7 @@ module API
       end
 
       def model_required?
-        true
+        false
       end
 
       private

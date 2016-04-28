@@ -33,29 +33,26 @@ angular
 function wpGroupHeader() {
   return {
     restrict: 'A',
+    link: function(scope) {
 
-    compile: function() {
-      return {
-        pre: function(scope) {
-          scope.currentGroup = scope.row.groupName;
+      scope.currentGroup = scope.row.groupName;
 
-          scope.currentGroupObject = _.find(scope.resource.groups, function(o) {
-            return o.value === scope.row.groupName;
-          });
+      scope.currentGroupObject = _.find(scope.resource.groups, function(o) {
+        var value = o.value == null ? '' : o.value;
+        return value === scope.row.groupName;
+      });
 
-          pushGroup(scope.currentGroup);
+      pushGroup(scope.currentGroup);
 
-          scope.toggleCurrentGroup = function() {
-            scope.groupExpanded[scope.currentGroup] = !scope.groupExpanded[scope.currentGroup];
-          };
-
-          function pushGroup(group) {
-            if (scope.groupExpanded[group] === undefined) {
-              scope.groupExpanded[group] = true;
-            }
-          }
-        }
+      scope.toggleCurrentGroup = function() {
+        scope.groupExpanded[scope.currentGroup] = !scope.groupExpanded[scope.currentGroup];
       };
+
+      function pushGroup(group) {
+        if (scope.groupExpanded[group] === undefined) {
+          scope.groupExpanded[group] = true;
+        }
+      }
     }
   };
 }
