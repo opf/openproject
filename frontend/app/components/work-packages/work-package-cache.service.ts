@@ -30,20 +30,31 @@
 import {openprojectModule} from "../../angular-modules";
 import WorkPackage = op.WorkPackage;
 
+/**
+ * TODO RR
+ * Delete once WorkPackageResource and HalResource are consolidated
+ */
+export interface TemporaryWorkPackage {
+  id: number;
+  schema: {
+    $load: any;
+  };
+}
+
 export class WorkPackageCacheService {
 
-  private workPackageCache: {[id: number]: WorkPackage} = {};
+  private workPackageCache: {[id: number]: TemporaryWorkPackage} = {};
 
-  workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackage}>(1);
+  workPackagesSubject = new Rx.ReplaySubject<{[id: number]: TemporaryWorkPackage}>(1);
 
-  updateWorkPackageList(list: WorkPackage[]) {
+  updateWorkPackageList(list: TemporaryWorkPackage[]) {
     for (const wp of list) {
       this.workPackageCache[wp.id] = wp;
     }
     this.workPackagesSubject.onNext(this.workPackageCache);
   }
 
-  loadWorkPackage(workPackageId: number): Rx.Observable<WorkPackage> {
+  loadWorkPackage(workPackageId: number): Rx.Observable<TemporaryWorkPackage> {
     return this.workPackagesSubject
         .map(cache => cache[workPackageId])
         .filter(wp => wp !== undefined);

@@ -27,6 +27,7 @@
 //++
 
 import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
+
 function wpResource(
   HalResource:typeof op.HalResource,
   apiWorkPackages,
@@ -164,9 +165,9 @@ function wpResource(
     }
   }
 
-// return WorkPackageResource;
-// }
+return WorkPackageResource;
+}
 
 angular
     .module('openproject.api')
-    .service('WorkPackageResource', WorkPackageResource);
+    .service('WorkPackageResource', wpResource);

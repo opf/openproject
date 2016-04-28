@@ -28,37 +28,38 @@
 
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {openprojectModule} from "../../../angular-modules";
+import {WorkPackageCacheService, TemporaryWorkPackage} from "../../work-packages/work-package-cache.service";
 import IScope = angular.IScope;
 import WorkPackage = op.WorkPackage;
-import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 
 export class OverviewPanelController {
 
-    public workPackage: WorkPackage;
+  public workPackage: TemporaryWorkPackage;
 
-    constructor($scope: IScope, $stateParams: any, private wpCacheService: WorkPackageCacheService) {
-        const wpId = parseInt($stateParams.workPackageId);
-        scopedObservable($scope, wpCacheService.loadWorkPackage(wpId)).subscribe(wp => {
-            this.workPackage = wp;
-            (this.workPackage.schema as any).$load();
-        });
-    }
+  constructor($scope: IScope, $stateParams: any, private wpCacheService: WorkPackageCacheService) {
+    const wpId = parseInt($stateParams.workPackageId);
+
+    scopedObservable($scope, wpCacheService.loadWorkPackage(wpId)).subscribe(wp => {
+      this.workPackage = wp;
+      this.workPackage.schema.$load();
+    });
+  }
 
 }
 
 function wpOverviewPanel() {
-    return {
-        restrict: 'E',
+  return {
+    restrict: 'E',
 
-        // scope: {
-        //   workPackage: '=wpEditForm'
-        // },
+    // scope: {
+    //   workPackage: '=wpEditForm'
+    // },
 
-        templateUrl: "/components/wp-panels/overview-panel/wp-overview-panel.directive.html",
-        controller: OverviewPanelController,
-        controllerAs: '$ctrl',
-        bindToController: true
-    };
+    templateUrl: "/components/wp-panels/overview-panel/wp-overview-panel.directive.html",
+    controller: OverviewPanelController,
+    controllerAs: '$ctrl',
+    bindToController: true
+  };
 }
 
 openprojectModule.directive('wpOverviewPanel', wpOverviewPanel);
