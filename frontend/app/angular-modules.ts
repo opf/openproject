@@ -98,24 +98,22 @@ angular.module('openproject.workPackages.filters', [
   'openproject.workPackages.helpers'
 ]);
 angular.module('openproject.workPackages.config', []);
-angular.module(
-  'openproject.workPackages.controllers', [
-    'openproject.models',
-    'openproject.viewModels',
-    'openproject.workPackages.helpers',
-    'openproject.services',
-    'openproject.workPackages.config',
-    'openproject.layout',
-    'btford.modal'
-  ]);
+export const wpControllersModule = angular.module('openproject.workPackages.controllers', [
+  'openproject.models',
+  'openproject.viewModels',
+  'openproject.workPackages.helpers',
+  'openproject.services',
+  'openproject.workPackages.config',
+  'openproject.layout',
+  'btford.modal'
+]);
 angular.module('openproject.workPackages.models', []);
-angular.module(
-  'openproject.workPackages.directives', [
-    'openproject.uiComponents',
-    'openproject.services',
-    'openproject.workPackages.services',
-    'openproject.workPackages.models'
-  ]);
+export const wpDirectivesModule = angular.module('openproject.workPackages.directives', [
+  'openproject.uiComponents',
+  'openproject.services',
+  'openproject.workPackages.services',
+  'openproject.workPackages.models'
+]);
 angular.module('openproject.workPackages.tabs', []);
 angular.module('openproject.workPackages.activities', []);
 

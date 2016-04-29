@@ -34,6 +34,13 @@ angular
     $urlMatcherFactoryProvider.strictMode(false);
 
     var panels = {
+      get overview() {
+        return {
+          url: '/overview',
+          template: '<overview-panel work-package="workPackage"></overview-panel>'
+        };
+      },
+
       get watchers() {
         return {
           url: '/watchers',
@@ -180,12 +187,7 @@ angular
           }
         }
       })
-      .state('work-packages.list.details.overview', {
-        url: '/overview',
-        templateUrl: '/templates/work_packages/tabs/overview.html',
-        controller: 'DetailsTabOverviewController',
-        controllerAs: 'vm',
-      })
+      .state('work-packages.list.details.overview', panels.overview)
       .state('work-packages.list.details.activity', panels.activity)
       .state('work-packages.list.details.activity.details', panels.activityDetails)
       .state('work-packages.list.details.relations', panels.relations)

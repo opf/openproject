@@ -26,79 +26,82 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(
-           $scope,
-           WorkPackagesOverviewService,
-           WorkPackageFieldService,
-           EditableFieldsState,
-           inplaceEditAll,
-           WorkPackageDisplayHelper,
-           NotificationsService,
-           WorkPackageAttachmentsService
-           ) {
+import {wpControllersModule} from "../../../angular-modules";
+
+function OverviewPanelController($scope,
+                                 I18n,
+                                 WorkPackagesOverviewService,
+                                 WorkPackageFieldService,
+                                 inplaceEditAll,
+                                 WorkPackagesDisplayHelper,
+                                 NotificationsService,
+                                 WorkPackageAttachmentsService) {
   var vm = this;
 
   vm.groupedFields = [];
   vm.hideEmptyFields = true;
-  vm.workPackage = $scope.workPackage;
-
+  vm.I18n = I18n;
 
   //Show all attributes in Edit-Mode
-  $scope.$watch(function(){
+  $scope.$watch(function () {
     return inplaceEditAll.state;
-  },function(newState, oldState){
-    if(newState !== oldState){
+  }, function (newState, oldState) {
+    if (newState !== oldState) {
       vm.hideEmptyFields = !newState;
     }
   });
 
-  vm.shouldHideGroup = function(group) {
-    return WorkPackageDisplayHelper.shouldHideGroup(vm.hideEmptyFields,
-                                                    vm.groupedFields,
-                                                    group,
-                                                    vm.workPackage);
+  vm.shouldHideGroup = function (group) {
+    return WorkPackagesDisplayHelper.shouldHideGroup(vm.hideEmptyFields,
+      vm.groupedFields,
+      group,
+      vm.workPackage);
   };
-  vm.isFieldHideable = WorkPackageDisplayHelper.isFieldHideable;
-  vm.getLabel = WorkPackageDisplayHelper.getLabel;
-  vm.isSpecified = WorkPackageDisplayHelper.isSpecified;
-  vm.hasNiceStar = WorkPackageDisplayHelper.hasNiceStar;
-  vm.showToggleButton = WorkPackageDisplayHelper.showToggleButton;
+  vm.isFieldHideable = WorkPackagesDisplayHelper.isFieldHideable;
+  vm.getLabel = WorkPackagesDisplayHelper.getLabel;
+  vm.isSpecified = WorkPackagesDisplayHelper.isSpecified;
+  vm.hasNiceStar = WorkPackagesDisplayHelper.hasNiceStar;
+  vm.showToggleButton = WorkPackagesDisplayHelper.showToggleButton;
   vm.filesExist = false;
   activate();
 
-  WorkPackageAttachmentsService.hasAttachments(vm.workPackage).then(function(bool) {
+  WorkPackageAttachmentsService.hasAttachments(vm.workPackage).then(function (bool) {
     vm.filesExist = bool;
   });
 
   function activate() {
-    $scope.$watch('workPackage.schema', function(schema) {
+    $scope.$watch('workPackage.schema', function (schema) {
       if (schema) {
-        WorkPackageDisplayHelper.setFocus();
+        WorkPackagesDisplayHelper.setFocus();
         vm.workPackage = $scope.workPackage;
       }
     });
     vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
 
-    $scope.$watchCollection('vm.workPackage.form', function() {
+    $scope.$watchCollection('vm.workPackage.form', function () {
       var schema = WorkPackageFieldService.getSchema(vm.workPackage);
-      var otherGroup = _.find(vm.groupedFields, {groupName: 'other'});
+      var otherGroup:any = _.find(vm.groupedFields, {groupName: 'other'});
       otherGroup.attributes = [];
-      _.forEach(schema.props, function(prop, propName) {
+
+      _.forEach(schema.props, function (prop, propName) {
         if (propName.match(/^customField/)) {
           otherGroup.attributes.push(propName);
         }
       });
-      otherGroup.attributes.sort(function(a, b) {
-        var getLabel = function(field) {
-          return vm.getLabel(vm.workPackage, field);
-        };
-        var left = getLabel(a).toLowerCase(),
-            right = getLabel(b).toLowerCase();
+
+      otherGroup.attributes.sort(function (a, b) {
+        var getLabel = field => vm.getLabel(vm.workPackage, field);
+        var left = getLabel(a).toLowerCase();
+        var right = getLabel(b).toLowerCase();
+        
         return left.localeCompare(right);
       });
     });
-    $scope.$on('workPackageUpdatedInEditor', function() {
+    $scope.$on('workPackageUpdatedInEditor', function () {
       NotificationsService.addSuccess(I18n.t('js.notice_successful_update'));
     });
   }
-};
+}
+
+wpControllersModule.controller('OverviewPanelController', OverviewPanelController);
+

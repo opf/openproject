@@ -3,12 +3,12 @@
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
       <h3 class="attributes-group--header-text">
-        {{ type.props.name }} #{{ workPackage.props.id }}
+        {{ vm.workPackage.embedded.type.props.name }} #{{ vm.workPackage.props.id }}
       </h3>
     </div>
     <div class="attributes-group--header-container-right">
-      <span ng-bind="I18n.t('js.label_last_updated_on')"/>
-      <op-date date-value="workPackage.props.updatedAt"></op-date>
+      <span ng-bind="vm.I18n.t('js.label_last_updated_on')"/>
+      <op-date date-value="vm.workPackage.props.updatedAt"></op-date>
     </div>
   </div>
 
@@ -22,13 +22,13 @@
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
       <h3 class="attributes-group--header-text"
-        ng-bind="I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
+        ng-bind="vm.I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
     </div>
     <div class="attributes-group--header-toggle">
       <panel-expander tabindex="-1" ng-if="vm.showToggleButton() && $first"
         collapsed="vm.hideEmptyFields"
-        expand-text="{{ I18n.t('js.label_show_attributes') }}"
-        collapse-text="{{ I18n.t('js.label_hide_attributes') }}">
+        expand-text="{{ vm.I18n.t('js.label_show_attributes') }}"
+        collapse-text="{{ vm.I18n.t('js.label_hide_attributes') }}">
       </panel-expander>
     </div>
   </div>
@@ -56,9 +56,9 @@
 <div class="attributes-group">
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
-      <h3 class="attributes-group--header-text">{{ I18n.t('js.label_latest_activity') }}</h3>
+      <h3 class="attributes-group--header-text">{{ vm.I18n.t('js.label_latest_activity') }}</h3>
     </div>
   </div>
 
-  <activity-panel template="overview" work-package="workPackage"></activity-panel>
+  <activity-panel template="overview" work-package="vm.workPackage"></activity-panel>
 </div>
