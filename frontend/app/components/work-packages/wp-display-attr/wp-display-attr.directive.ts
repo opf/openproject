@@ -26,53 +26,67 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-function WorkPackageDisplayAttributeController($scope, I18n, PathHelper, WorkPackagesHelper) {
-  var vm = this;
-  vm.displayText = I18n.t('js.work_packages.placeholders.default');
+import HalResource from "../../api/api-v3/hal-resources/hal-resource.service";
 
-  function setDisplayType() {
-    // TODO: alter backend so that percentageDone has the type
-    // 'Percent' already
-    if (vm.attribute === 'percentageDone') {
-      vm.displayType = 'Percent';
-    }
-    else if (vm.attribute === 'id') {
-      // Show a link to the work package for the ID
-      vm.displayType = 'SelfLink';
-      vm.displayLink = PathHelper.workPackagePath(vm.object.id);
-    }
-    else {
-      vm.displayType = vm.schema[vm.attribute].type;
-    }
-  }
+export default class WorkPackageDisplayAttributeController {
+  public displayText:string;
+  public displayType:string;
+  public displayLink:string;
+  public attribute:string;
+  public object:any;
+  public schema:HalResource;
 
-  function updateAttribute() {
-    vm.schema.$load().then(function() {
-      if (vm.object.isNew && vm.attribute === 'id') {
-        vm.displayText = 'text';
-        vm.displayText = '';
-        return;
-      }
+  constructor(protected $scope:ng.IScope,
+              protected I18n:op.I18n,
+              protected PathHelper:any,
+              protected WorkPackagesHelper:any) {
+    this.displayText = I18n.t('js.work_packages.placeholders.default');
 
-      if (!vm.object[vm.attribute] ) {
-        vm.displayText = I18n.t('js.work_packages.placeholders.default');
-        return;
-      }
-
-      setDisplayType();
-
-      var text = vm.object[vm.attribute].value ||
-        vm.object[vm.attribute].name ||
-        vm.object[vm.attribute];
-
-      vm.displayText = WorkPackagesHelper.formatValue(text, vm.displayType);
+    $scope.$watch('vm.object.' + this.attribute, () => {
+      this.updateAttribute();
     });
   }
 
-  $scope.$watch('vm.object.' + vm.attribute, updateAttribute);
+  protected setDisplayType() {
+    // TODO: alter backend so that percentageDone has the type 'Percent' already
+    if (this.attribute === 'percentageDone') {
+      this.displayType = 'Percent';
+    }
+    else if (this.attribute === 'id') {
+      // Show a link to the work package for the ID
+      this.displayType = 'SelfLink';
+      this.displayLink = this.PathHelper.workPackagePath(this.object.id);
+    }
+    else {
+      this.displayType = this.schema[this.attribute].type;
+    }
+  }
+
+  protected updateAttribute() {
+    this.schema.$load().then(() => {
+      if (this.object.isNew && this.attribute === 'id') {
+        this.displayText = 'text';
+        this.displayText = '';
+        return;
+      }
+
+      if (!this.object[this.attribute]) {
+        this.displayText = this.I18n.t('js.work_packages.placeholders.default');
+        return;
+      }
+
+      this.setDisplayType();
+
+      var text = this.object[this.attribute].value ||
+        this.object[this.attribute].name ||
+        this.object[this.attribute];
+
+      this.displayText = this.WorkPackagesHelper.formatValue(text, this.displayType);
+    });
+  }
 }
 
-function wpDisplayAttr(){
+function wpDisplayAttr() {
   return {
     restrict: 'E',
     replace: true,
