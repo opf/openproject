@@ -30,7 +30,14 @@ angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
 
-function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages, $state){
+function wpTable(
+  WorkPackagesTableService,
+  WorkPackageService,
+  $window,
+  PathHelper,
+  apiWorkPackages,
+  $state
+){
   return {
     restrict: 'E',
     replace: true,
@@ -173,6 +180,11 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
       }
 
       scope.selectWorkPackage = function(row, $event) {
+        // The current row is the last selected work package
+        // not matter what other rows are (de-)selected below.
+        // Thus save that row for the details view button
+        WorkPackageService.cache().put('preselectedWorkPackageId', row.object.id);
+
         if ($event.target.type != 'checkbox') {
           var currentRowCheckState = row.checked;
           var multipleChecked = mulipleRowsChecked();
