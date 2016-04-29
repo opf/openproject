@@ -3,7 +3,7 @@
 
   <ul class="dropdown-menu">
     <li ng-repeat="type in vm.types">
-      <a ui-sref="{{ vm.stateName }}({ projectPath: vm.projectIdentifier, type: type.id })"
+      <a ui-sref="{{ vm.stateName }}({ projectPath: vm.firstAvailableProject, type: type.id })"
          class="menu-item">
 
         {{ type.name }}
