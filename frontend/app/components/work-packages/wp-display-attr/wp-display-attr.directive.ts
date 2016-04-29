@@ -33,7 +33,7 @@ export default class WorkPackageDisplayAttributeController {
   public displayType:string;
   public displayLink:string;
   public attribute:string;
-  public object:any;
+  public workPackage:any;
   public schema:HalResource;
 
   constructor(protected $scope:ng.IScope,
@@ -42,7 +42,7 @@ export default class WorkPackageDisplayAttributeController {
               protected WorkPackagesHelper:any) {
     this.displayText = I18n.t('js.work_packages.placeholders.default');
 
-    $scope.$watch('vm.object.' + this.attribute, () => {
+    $scope.$watch('$ctrl.workPackage.' + this.attribute, () => {
       this.updateAttribute();
     });
   }
@@ -55,7 +55,7 @@ export default class WorkPackageDisplayAttributeController {
     else if (this.attribute === 'id') {
       // Show a link to the work package for the ID
       this.displayType = 'SelfLink';
-      this.displayLink = this.PathHelper.workPackagePath(this.object.id);
+      this.displayLink = this.PathHelper.workPackagePath(this.workPackage.id);
     }
     else {
       this.displayType = this.schema[this.attribute].type;
@@ -64,22 +64,22 @@ export default class WorkPackageDisplayAttributeController {
 
   protected updateAttribute() {
     this.schema.$load().then(() => {
-      if (this.object.isNew && this.attribute === 'id') {
+      if (this.workPackage.isNew && this.attribute === 'id') {
         this.displayText = 'text';
         this.displayText = '';
         return;
       }
 
-      if (!this.object[this.attribute]) {
+      if (!this.workPackage[this.attribute]) {
         this.displayText = this.I18n.t('js.work_packages.placeholders.default');
         return;
       }
 
       this.setDisplayType();
 
-      var text = this.object[this.attribute].value ||
-        this.object[this.attribute].name ||
-        this.object[this.attribute];
+      var text = this.workPackage[this.attribute].value ||
+        this.workPackage[this.attribute].name ||
+        this.workPackage[this.attribute];
 
       this.displayText = this.WorkPackagesHelper.formatValue(text, this.displayType);
     });
@@ -94,13 +94,13 @@ function wpDisplayAttr() {
 
     scope: {
       schema: '=',
-      object: '=',
+      workPackage: '=',
       attribute: '='
     },
 
     bindToController: true,
     controller: WorkPackageDisplayAttributeController,
-    controllerAs: 'vm'
+    controllerAs: '$ctrl'
   };
 }
 

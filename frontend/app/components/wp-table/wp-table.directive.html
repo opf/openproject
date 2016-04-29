@@ -138,7 +138,7 @@
               ng-class="{ '-short': column.name == 'id' }">
             <wp-display-attr attribute="column.name"
                    schema="row.object.schema"
-                   object="row.object"
+                   work-package="row.object"
                    ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']">
             </wp-display-attr>
           </td>
@@ -167,7 +167,7 @@
             <td ng-repeat="column in columns">
               <wp-display-attr attribute="column.name"
                      schema="resource.sumsSchema"
-                     object="currentGroupObject.sums">
+                     work-package="currentGroupObject.sums">
               </wp-display-attr>
             </td>
         </tr>
@@ -198,7 +198,7 @@
             <wp-display-attr class="generic-table--footer-outer"
                    attribute="column.name"
                    schema="resource.sumsSchema"
-                   object="resource.totalSums">
+                   work-package="resource.totalSums">
             </wp-display-attr>
           </td>
         </tr>
