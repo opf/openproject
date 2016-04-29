@@ -56,6 +56,9 @@ class CreateWorkPackageService
 
     result, errors = validate_and_save(work_package)
 
+    # Update the project
+    work_package.project.touch if result
+
     ServiceResult.new(success: result,
                       errors: errors,
                       result: work_package)
