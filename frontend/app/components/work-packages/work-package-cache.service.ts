@@ -29,21 +29,23 @@
 
 import {openprojectModule} from "../../angular-modules";
 import WorkPackage = op.WorkPackage;
+import WorkPackageResource from "../api/api-v3/hal-resources/work-package-resource.service";
+
 
 export class WorkPackageCacheService {
 
-  private workPackageCache: {[id: number]: WorkPackage} = {};
+  private workPackageCache: {[id: number]: WorkPackageResource} = {};
 
-  workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackage}>(1);
+  workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackageResource}>(1);
 
-  updateWorkPackageList(list: WorkPackage[]) {
+  updateWorkPackageList(list: WorkPackageResource[]) {
     for (const wp of list) {
       this.workPackageCache[wp.id] = wp;
     }
     this.workPackagesSubject.onNext(this.workPackageCache);
   }
 
-  loadWorkPackage(workPackageId: number): Rx.Observable<WorkPackage> {
+  loadWorkPackage(workPackageId: number): Rx.Observable<WorkPackageResource> {
     return this.workPackagesSubject
         .map(cache => cache[workPackageId])
         .filter(wp => wp !== undefined);
