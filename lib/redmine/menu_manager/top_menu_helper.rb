@@ -64,7 +64,7 @@ module Redmine::MenuManager::TopMenuHelper
                end
 
 
-    link_to_all_projects = link_to l(:label_project_plural),
+    link_to_all_projects = link_to content_tag(:span, l(:description_current_position), class: 'hidden-for-sighted') + l(:label_project_plural),
                             { controller: '/projects', action: 'index' },
                             title: l(:label_project_plural),
                             accesskey: OpenProject::AccessKeys.key_for(:project_search),
@@ -73,15 +73,19 @@ module Redmine::MenuManager::TopMenuHelper
 
     result = ''.html_safe
     if User.current.impaired?
-      result << content_tag(:li, link_to_all_projects)
+      result << content_tag(:li) do
+        link_to_all_projects
+      end
 
       if User.current.allowed_to?(:add_project, nil, global: true)
         result << content_tag(:li) do
-                    link_to l(:label_project_new), new_project_path,
+                    (link_to(
+                      content_tag(:span, l(:description_current_position), class: 'hidden-for-sighted') + l(:label_project_new),
+                      new_project_path,
                       class: "icon4 icon-add #{new_project_selected}",
                       # For the moment we actually don't have a key for new project.
                       # Need to decide on one.
-                      accesskey: OpenProject::AccessKeys.key_for(:new_project)
+                      accesskey: OpenProject::AccessKeys.key_for(:new_project)))
                   end
       end
       result
