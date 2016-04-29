@@ -85,7 +85,7 @@ module Redmine::MenuManager::MenuHelper
                   url,
                   param: :project_id,
                   caption: query_menu_item.title,
-                  parent: :work_packages,
+                  Parent: :work_packages,
                   html:    {
                     class: 'icon2 icon-pin query-menu-item',
                     'data-ui-route' => '',
@@ -116,9 +116,14 @@ module Redmine::MenuManager::MenuHelper
                        [items_or_options_with_block, html_options]
                      end
 
-    return '' if items.empty? && !block_given?
+    if items.empty?
+      return '' if !block_given?
+      selected = options.delete(:has_selected_child)
+    else
+      selected = any_item_selected?(items)
+    end
 
-    options.reverse_merge!(class: 'drop-down')
+    options.reverse_merge!(class: "drop-down #{selected ? 'selected' : ''}")
 
     content_tag :li, options do
       label + if block_given?
@@ -131,6 +136,10 @@ module Redmine::MenuManager::MenuHelper
                 end
               end
     end
+  end
+
+  def any_item_selected?(items)
+    items.any? { |item| item.name == current_menu_item }
   end
 
   def render_menu_node(node, project = nil)

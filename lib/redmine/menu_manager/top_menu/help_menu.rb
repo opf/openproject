@@ -29,7 +29,7 @@
 require 'concerns/omniauth_login'
 require 'open_project/static/links'
 
-module Redmine::MenuManager::HelpMenuHelper
+module Redmine::MenuManager::TopMenu::HelpMenu
   def render_help_top_menu_node(item = help_menu_item)
     if OpenProject::Static::Links.help_link_overridden?
       render_menu_node(item)
