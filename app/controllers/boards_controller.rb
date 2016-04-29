@@ -33,6 +33,7 @@ class BoardsController < ApplicationController
                 :authorize
   before_filter :new_board, only: [:new, :create]
   before_filter :find_board_if_available, except: [:index]
+  before_filter(only: [:create, :update, :move, :destroy]) do touch_later @project end
   accept_key_auth :index, :show
 
   include SortHelper

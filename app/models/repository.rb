@@ -293,6 +293,7 @@ class Repository < ActiveRecord::Base
       if project.repository
         begin
           project.repository.fetch_changesets
+          project.touch
         rescue OpenProject::Scm::Exceptions::CommandFailed => e
           logger.error "scm: error during fetching changesets: #{e.message}"
         end

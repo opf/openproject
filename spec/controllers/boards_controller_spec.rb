@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe BoardsController, type: :controller do
   let(:user) { FactoryGirl.build(:user) }
-  let(:project) { FactoryGirl.build(:project) }
+  let(:project) { FactoryGirl.create(:project) }
   let!(:board) {
     FactoryGirl.build(:board,
                       project: project)

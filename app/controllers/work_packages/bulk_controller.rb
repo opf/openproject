@@ -63,6 +63,10 @@ class WorkPackages::BulkController < ApplicationController
         unsaved_work_package_ids << work_package.id
       end
     end
+
+    # Update all affected projects
+    @projects.each do |p| touch_later p end
+
     set_flash_from_bulk_save(@work_packages, unsaved_work_package_ids)
     redirect_back_or_default(controller: '/work_packages', action: :index, project_id: @project)
   end
@@ -83,6 +87,9 @@ class WorkPackages::BulkController < ApplicationController
     else
 
       destroy_work_packages(@work_packages)
+
+      # Update all affected projects
+      @projects.each do |p| touch_later p end
 
       respond_to do |format|
         format.html do

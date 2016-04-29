@@ -71,6 +71,8 @@ class WorkPackages::MovesController < ApplicationController
     end
     set_flash_from_bulk_work_package_save(@work_packages, unsaved_work_package_ids)
 
+    update_projects unless moved_work_packages.empty?
+
     if params[:follow]
       if @work_packages.size == 1 && moved_work_packages.size == 1
         redirect_to work_package_path(moved_work_packages.first)
@@ -98,6 +100,11 @@ class WorkPackages::MovesController < ApplicationController
   end
 
   private
+
+  def update_projects
+    touch_later @project
+    touch_later @target_project
+  end
 
   # Check if project is unique before bulk operations
   def check_project_uniqueness

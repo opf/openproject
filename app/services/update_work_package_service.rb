@@ -61,7 +61,7 @@ class UpdateWorkPackageService
       cleanup_result, cleanup_errors = cleanup(changed_attributes)
 
       # Update the project
-      work_package.project.touch if result
+      work_package.project.touch if save_result
 
       ServiceResult.new(success: cleanup_result,
                         errors: cleanup_errors)

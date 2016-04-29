@@ -29,12 +29,11 @@ class MoveWorkPackageService
 
     modified_work_package = copy_or_move(options[:copy], new_project, new_type, attributes)
 
-    result =
-      if options[:copy]
-        return false unless copy(modified_work_package, attributes, options)
-      else
-        return false unless move(modified_work_package, new_project, options)
-      end
+    if options[:copy]
+      return false unless copy(modified_work_package, attributes, options)
+    else
+      return false unless move(modified_work_package, new_project, options)
+    end
 
     modified_work_package
   end
