@@ -20,7 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <% html_title l(:label_administration), "#{l(:label_edit)} #{Role.model_name.human} #{@role.name}" %>
 
-<%= breadcrumb_toolbar link_to(Role.model_name.human(:count => 2), roles_path), @role.name %>
+<% local_assigns[:additional_breadcrumb] = @role.name %>
+<%= breadcrumb_toolbar @role.name %>
 
 <%= labelled_tabular_form_for @role, :url => { :action => 'update' }, :html => {:id => 'role_form'}, :as => :role do |f| %>
 <%= hidden_field_tag :id, @role.id %>
