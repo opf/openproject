@@ -163,7 +163,8 @@ group :test do
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', require: false
   gem 'capybara', '~> 2.6.2'
-  gem 'capybara-screenshot', '~> 1.0.11'
+  gem 'capybara-screenshot', '~> 1.0.12'
+  gem 'fuubar'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
   gem 'capybara-ng', '~> 0.2.2'
   gem 'selenium-webdriver', '~> 2.52.0'
