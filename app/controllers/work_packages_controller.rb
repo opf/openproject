@@ -123,6 +123,10 @@ class WorkPackagesController < ApplicationController
     render_404
   end
 
+  current_menu_item :index do
+    :work_packages
+  end
+
   protected
 
   def authorize_on_work_package

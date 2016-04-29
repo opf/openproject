@@ -74,6 +74,10 @@ class ProjectsController < ApplicationController
     end
   end
 
+  current_menu_item :index do
+    :projects
+  end
+
   def new
     @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
