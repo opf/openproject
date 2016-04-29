@@ -123,7 +123,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div id="reply" style="display:none;">
 
-    <hr class="form--separator">
+    <hr class="form--separator" />
 
     <%= labelled_tabular_form_for @reply,
                                   as: :reply,
@@ -133,7 +133,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                           class: 'form' } do |f| %>
       <%= render partial: 'form', locals: {f: f, replying: true} %>
 
-      <hr class="form--separator">
+      <hr class="form--separator" />
 
       <%= f.button l(:button_submit), class: 'button -highlight -highlight -with-icon icon-checkmark' %>
       <%= preview_link preview_topic_path(@message), 'message-form-preview' %>
