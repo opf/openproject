@@ -92,6 +92,16 @@ module API
             super(schema, context)
           end
 
+          def cache_key
+            custom_fields = represented.project.all_work_package_custom_fields
+
+            custom_fields_key = ActiveSupport::Cache.expand_cache_key custom_fields
+
+            ["api/v3/work_packages/schema/#{represented.project.id}-#{represented.type.id}",
+             represented.type.updated_at,
+             Digest::SHA2.hexdigest(custom_fields_key)]
+          end
+
           link :self do
             { href: @self_link } if @self_link
           end
