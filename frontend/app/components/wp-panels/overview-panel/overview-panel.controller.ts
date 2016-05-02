@@ -28,78 +28,61 @@
 
 import {wpControllersModule} from "../../../angular-modules";
 
-function OverviewPanelController($scope,
-                                 I18n,
-                                 WorkPackagesOverviewService,
-                                 WorkPackageFieldService,
-                                 inplaceEditAll,
-                                 WorkPackagesDisplayHelper,
-                                 NotificationsService,
-                                 WorkPackageAttachmentsService) {
-  var vm = this;
+export default class OverviewPanelController {
+  public workPackage;
+  public groupedFields:any[] = [];
+  public hideEmptyFields:boolean = true;
+  public filesExist:boolean = false;
 
-  vm.groupedFields = [];
-  vm.hideEmptyFields = true;
-  vm.I18n = I18n;
+  constructor(protected $scope,
+              public WorkPackagesDisplayHelper,
+              protected I18n,
+              protected WorkPackagesOverviewService,
+              protected WorkPackageFieldService,
+              protected inplaceEditAll,
+              protected NotificationsService,
+              protected WorkPackageAttachmentsService) {
+    this.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
 
-  //Show all attributes in Edit-Mode
-  $scope.$watch(function () {
-    return inplaceEditAll.state;
-  }, function (newState, oldState) {
-    if (newState !== oldState) {
-      vm.hideEmptyFields = !newState;
-    }
-  });
+    WorkPackageAttachmentsService.hasAttachments(this.workPackage).then(function (bool) {
+      this.filesExist = bool;
+    });
 
-  vm.shouldHideGroup = function (group) {
-    return WorkPackagesDisplayHelper.shouldHideGroup(vm.hideEmptyFields,
-      vm.groupedFields,
-      group,
-      vm.workPackage);
-  };
-  vm.isFieldHideable = WorkPackagesDisplayHelper.isFieldHideable;
-  vm.getLabel = WorkPackagesDisplayHelper.getLabel;
-  vm.isSpecified = WorkPackagesDisplayHelper.isSpecified;
-  vm.hasNiceStar = WorkPackagesDisplayHelper.hasNiceStar;
-  vm.showToggleButton = WorkPackagesDisplayHelper.showToggleButton;
-  vm.filesExist = false;
-  activate();
-
-  WorkPackageAttachmentsService.hasAttachments(vm.workPackage).then(function (bool) {
-    vm.filesExist = bool;
-  });
-
-  function activate() {
-    $scope.$watch('workPackage.schema', function (schema) {
+    $scope.$watch('vm.workPackage.schema', function (schema) {
       if (schema) {
         WorkPackagesDisplayHelper.setFocus();
-        vm.workPackage = $scope.workPackage;
+        this.workPackage = $scope.workPackage;
       }
     });
-    vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
 
     $scope.$watchCollection('vm.workPackage.form', function () {
-      var schema = WorkPackageFieldService.getSchema(vm.workPackage);
-      var otherGroup:any = _.find(vm.groupedFields, {groupName: 'other'});
+      var schema = WorkPackageFieldService.getSchema(this.workPackage);
+      var otherGroup:any = _.find(this.groupedFields, {groupName: 'other'});
       otherGroup.attributes = [];
 
-      _.forEach(schema.props, function (prop, propName) {
+      schema.props.forEach(function (prop, propName) {
         if (propName.match(/^customField/)) {
           otherGroup.attributes.push(propName);
         }
       });
 
       otherGroup.attributes.sort(function (a, b) {
-        var getLabel = field => vm.getLabel(vm.workPackage, field);
+        var getLabel = field => this.WorkPackagesDisplayHelper.getLabel(this.workPackage, field);
         var left = getLabel(a).toLowerCase();
         var right = getLabel(b).toLowerCase();
-        
+
         return left.localeCompare(right);
       });
     });
+
     $scope.$on('workPackageUpdatedInEditor', function () {
       NotificationsService.addSuccess(I18n.t('js.notice_successful_update'));
     });
+  }
+
+  public shouldHideGroup(group) {
+    return this.WorkPackagesDisplayHelper.shouldHideGroup(
+      this.hideEmptyFields, this.groupedFields, group, this.workPackage);
   }
 }
 
