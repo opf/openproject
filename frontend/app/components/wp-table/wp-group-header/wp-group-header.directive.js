@@ -42,6 +42,10 @@ function wpGroupHeader() {
         return value === scope.row.groupName;
       });
 
+      if (scope.currentGroupObject && scope.currentGroupObject.value === null) {
+        scope.currentGroupObject.value = I18n.t('js.placeholders.default');
+      }
+
       pushGroup(scope.currentGroup);
 
       scope.toggleCurrentGroup = function() {
