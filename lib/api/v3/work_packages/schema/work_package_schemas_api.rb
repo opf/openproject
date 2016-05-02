@@ -47,8 +47,12 @@ module API
                 raise ::API::Errors::NotFound.new
               end
 
-              def cache_key(project_id, type_id)
-                "api/v3/work_packages/schema/#{project_id}-#{type_id}"
+              def cache_key(project, type, custom_fields)
+                custom_fields_key = ActiveSupport::Cache.expand_cache_key custom_fields
+
+                ["api/v3/work_packages/schema/#{project.id}-#{type.id}",
+                 type.updated_at,
+                 Digest::SHA2.hexdigest(custom_fields_key)]
               end
             end
 
@@ -77,7 +81,7 @@ module API
               end
 
               get do
-                cache([cache_key(@project.id, @type.id), @type.updated_at, @custom_fields]) do
+                cache(cache_key(@project, @type, @custom_fields)) do
                   schema = TypedWorkPackageSchema.new(project: @project, type: @type)
                   self_link = api_v3_paths.work_package_schema(@project.id, @type.id)
                   WorkPackageSchemaRepresenter.create(schema,
