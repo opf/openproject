@@ -128,7 +128,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                              { controller: '/wiki',
                                                action: 'show',
                                                project_id: version.project,
-                                               id: Wiki.titleize(version.wiki_page_title) }) ||
+                                               id: version.wiki_page_title }) ||
                       h(version.wiki_page_title) unless version.wiki_page_title.blank? || version.project.wiki.nil? %>
                 </td>
                 <td class="buttons">

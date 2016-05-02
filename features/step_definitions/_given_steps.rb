@@ -280,7 +280,6 @@ Given /^I have guessed an API access key$/ do
 end
 
 Given /^I have set the content for wiki page (.+) to (.+)$/ do |title, content|
-  title = Wiki.titleize(title)
   page = @project.wiki.find_page(title)
   if !page
     page = WikiPage.new(wiki: @project.wiki, title: title)
@@ -293,7 +292,7 @@ Given /^I have set the content for wiki page (.+) to (.+)$/ do |title, content|
 end
 
 Given /^I have made (.+) the template page for sprint notes/ do |title|
-  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge('wiki_template' => Wiki.titleize(title))
+  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge('wiki_template' => title)
 end
 
 Given /^there are no stories in the [pP]roject$/ do
