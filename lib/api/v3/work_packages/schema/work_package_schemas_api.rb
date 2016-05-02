@@ -52,11 +52,11 @@ module API
               end
             end
 
-            # The schema identifier is an artificial identifier that is composed of a work packages
-            # project and its type (separated by a dash)
+            # The schema identifier is an artificial identifier that is composed of a work package's
+            # project and its type (separated by a dash).
             # This allows to have a separate schema URL for each kind of different work packages
             # but with better caching capabilities than simply using the work package id as
-            # identifier for the schema
+            # identifier for the schema.
             namespace ':project-:type' do
               before do
                 begin
