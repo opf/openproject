@@ -35,7 +35,6 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
   public hidden:boolean = false;
 
   private _wp;
-  private availableProjects = [];
 
   constructor(
     protected $state,
@@ -46,7 +45,7 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
     protected WorkPackageResource,
     protected apiWorkPackages
   ) {
-    super($state, I18n, ProjectService);
+    super($state, I18n, ProjectService, apiWorkPackages);
 
     $rootScope.$on('workPackageSaved', (event, savedWp) => {
       if (savedWp === this._wp) {
@@ -59,11 +58,6 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
       this.show();
     });
 
-    this.apiWorkPackages.availableProjects().then(resource => {
-      this.canCreate = (resource && resource.total > 0);
-      this.availableProjects = resource.elements;
-    });
-
     $rootScope.$on('inlineWorkPackageCreateCancelled', (event, index, row) => {
       if (row.object === this._wp) {
         this.rows.splice(index, 1);
@@ -72,28 +66,13 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
     });
   }
 
-  public isDisabled() {
-    return !this.canCreate || this.$state.includes('**.new');
-  }
-
-  public get projectIdentifierForCreate() {
-    if (this.inProjectContext) {
-      return this.projectIdentifier;
-    } else {
-      return this.availableProjects[0].identifier;
-    }
-  }
-
   public addWorkPackageRow() {
-    this.WorkPackageResource.fromCreateForm(this.projectIdentifierForCreate).then(wp => {
-      this._wp = wp;
-      wp.inlineCreated = true;
+    this._wp = this.WorkPackageResource.fromCreateForm(this.form);
+    this._wp.inlineCreated = true;
 
-      this.query.applyDefaultsFromFilters(this._wp);
-
-      this.rows.push({level: 0, ancestors: [], object: wp, parent: void 0});
-      this.hide();
-    });
+    this.query.applyDefaultsFromFilters(this._wp);
+    this.rows.push({level: 0, ancestors: [], object: this._wp, parent: void 0});
+    this.hide();
   }
 
   public hide() {

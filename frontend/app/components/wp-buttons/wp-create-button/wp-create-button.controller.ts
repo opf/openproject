@@ -29,35 +29,68 @@
 import {wpButtonsModule} from '../../../angular-modules';
 
 export default class WorkPackageCreateButtonController {
-  public projectIdentifier:string;
-  public text:any;
-  public types:any;
+  public projectIdentifier: string;
+  public text: any;
+  public types: any;
 
-  protected canCreate:boolean = false;
+  protected canCreate: boolean = false;
+
+  // All available projects outside project context
+  protected availableProjects = [];
+
+  // Template create form
+  protected form: op.HalResource;
 
   public get inProjectContext() {
     return !!this.projectIdentifier;
   }
 
-  constructor(protected $state, protected I18n, protected ProjectService) {
+  constructor(
+    protected $state,
+    protected I18n,
+    protected ProjectService,
+    protected apiWorkPackages
+  ) {
     this.text = {
       button: I18n.t('js.label_work_package'),
       create: I18n.t('js.label_create_work_package')
     };
 
-    if (this.inProjectContext) {
-      this.ProjectService.fetchProjectResource(this.projectIdentifier).then(project => {
-        this.canCreate = !!project.createWorkPackage;
+    this.setupProject().then(identifier => {
+      apiWorkPackages.emptyCreateForm(identifier).then(resource => {
+        this.form = resource;
+        this.types = resource.schema.type.allowedValues;
       });
-
-      this.ProjectService.getProject(this.projectIdentifier).then(project  => {
-        this.types = project.embedded.types;
-      });
-    }
+    });
   }
 
   public isDisabled() {
-    return !this.inProjectContext || !this.canCreate || this.$state.includes('**.new') || !this.types;
+    return!this.canCreate || this.$state.includes('**.new') || !this.types;
+  }
+
+  public get firstAvailableProject() {
+    if (this.inProjectContext) {
+      return this.projectIdentifier;
+    } else {
+      return this.availableProjects[0].identifier;
+    }
+  }
+
+  private setupProject() {
+    if (this.inProjectContext) {
+      return this.ProjectService.fetchProjectResource(this.projectIdentifier).then(project => {
+        this.canCreate = !!project.createWorkPackage;
+        return this.projectIdentifier;
+      });
+    } else {
+      return this.apiWorkPackages.availableProjects().then(resource => {
+        this.canCreate = (resource && resource.total > 0);
+        this.availableProjects = resource.elements;
+        if (this.canCreate) {
+          return this.firstAvailableProject;
+        }
+      });
+    }
   }
 }
 
