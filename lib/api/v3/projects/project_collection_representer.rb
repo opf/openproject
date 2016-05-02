@@ -37,6 +37,8 @@ module API
     module Projects
       class ProjectCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
         element_decorator ::API::V3::Projects::ProjectRepresenter
+
+        self.to_eager_load = ::API::V3::Projects::ProjectRepresenter.to_eager_load
       end
     end
   end
