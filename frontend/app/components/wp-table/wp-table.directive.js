@@ -228,6 +228,7 @@ function WorkPackagesTableController($scope, $rootScope) {
   $scope.locale = I18n.locale;
 
   $scope.text = {
+    cancel: I18n.t('js.button_cancel'),
     collapse: I18n.t('js.label_collapse'),
     expand: I18n.t('js.label_expand'),
     sumFor: I18n.t('js.label_sum_for'),
