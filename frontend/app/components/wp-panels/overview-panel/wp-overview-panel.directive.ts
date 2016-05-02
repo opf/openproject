@@ -39,12 +39,13 @@ export class OverviewPanelController {
 
   constructor($scope: IScope, $stateParams: any, private wpCacheService: WorkPackageCacheService) {
 
-
     const wpId = parseInt($stateParams.workPackageId);
 
     scopedObservable($scope, wpCacheService.loadWorkPackage(wpId)).subscribe(wp => {
       this.workPackage = wp;
-      this.workPackage.schema.$load();
+      this.workPackage.schema.$load().then((schema) => {
+        // TODO use schema
+      });
     });
   }
 
