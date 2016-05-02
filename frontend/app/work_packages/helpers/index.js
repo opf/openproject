@@ -50,7 +50,7 @@ angular.module('openproject.workPackages.helpers')
     }
   ])
   .service('WorkPackageContextMenuHelper', ['PERMITTED_BULK_ACTIONS',
-    'WorkPackagesTableService', 'UrlParamsHelper', require(
+    'WorkPackagesTableService', 'HookService', 'UrlParamsHelper', require(
       './work-package-context-menu-helper')
   ])
   .factory('WorkPackagesHelper', ['TimezoneService', 'currencyFilter',

@@ -26,17 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, UrlParamsHelper) {
+module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, HookService, UrlParamsHelper) {
   function getPermittedActionLinks(workPackage, permittedActionConstants) {
     var singularPermittedActions = [];
 
-    var allowedActions = getAllowedActions(workPackage.$links, permittedActionConstants);
+    var allowedActions = getAllowedActions(workPackage, permittedActionConstants);
 
     angular.forEach(allowedActions, function(allowedAction) {
       singularPermittedActions.push({
                                       icon: allowedAction.icon,
+                                      text: allowedAction.text,
                                       link: workPackage
-                                              .$links[allowedAction.link]
+                                              .$source
+                                              ._links[allowedAction.link]
                                               .href
                                     });
     });
@@ -49,12 +51,13 @@ module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, UrlP
 
     var permittedActions = _.filter(PERMITTED_BULK_ACTIONS, function(action) {
       return _.every(workPackages, function(workPackage) {
-        return getAllowedActions(workPackage.$links, [action]).length === 1;
+        return getAllowedActions(workPackage, [action]).length >= 1;
       });
     });
     angular.forEach(permittedActions, function(permittedAction) {
       bulkPermittedActions.push({
                                   icon: permittedAction.icon,
+                                  text: permittedAction.text,
                                   link: getBulkActionLink(permittedAction,
                                                              workPackages)
                                 });
@@ -80,12 +83,20 @@ module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, UrlP
     return link + '?' + queryParts.join('&');
   }
 
-  function getAllowedActions(links, actions) {
+  function getAllowedActions(workPackage, actions) {
     var allowedActions = [];
 
     angular.forEach(actions, function(action) {
-      if (links.hasOwnProperty(action.link)) {
+      if (workPackage.$links.hasOwnProperty(action.link)) {
+        action.text = I18n.t('js.button_' + action.icon);
         allowedActions.push(action);
+      }
+    });
+
+    angular.forEach(HookService.call('workPackageTableContextMenu'), function(action) {
+      if (workPackage.$links.hasOwnProperty(action.link)) {
+        var index = action.indexBy ? action.indexBy(allowedActions) : allowedActions.length;
+        allowedActions.splice(index, 0, action)
       }
     });
 
