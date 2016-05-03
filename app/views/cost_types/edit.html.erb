@@ -20,7 +20,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <%= render :partial => 'shared/costs_header' %>
 
-<% html_title t(:label_cost_type_specific, id: @cost_type.id, name: @cost_type.name) %>
+<% if(@cost_type.id) %>
+  <% html_title  t(:label_cost_type_specific, id: @cost_type.id, name: @cost_type.name) %>
+  <% local_assigns[:additional_breadcrumb] = @cost_type.name %>
+<% else %>
+  <% html_title l(:label_administration), t(:label_cost_type_plural) %>
+  <% local_assigns[:additional_breadcrumb] = l(:label_new) + ' ' + I18n.t('activerecord.models.cost_type.one') %>
+<% end %>
+
 
 <%= toolbar title: CostType.model_name.human %>
 
