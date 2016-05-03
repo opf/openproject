@@ -47,29 +47,37 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% @grouped.keys.sort.each do |group| %>
-  <h3><%= group %></h3>
-  <%= render :partial => 'documents/document', :collection => @grouped[group] %>
+  <fieldset class="form--fieldset -collapsible" onClick="toggleFieldset(this);">
+    <legend class="form--fieldset-legend"><%= group %></legend>
+    <div class="form--field document-category-elements">
+      <%= render :partial => 'documents/document', :collection => @grouped[group] %>
+    </div>
+  </fieldset>
 <% end %>
 
 <% content_for :sidebar do %>
-  <h3><%= l(:label_sort_by, '') %></h3>
   <%= form_tag({}, :method => :get, class: 'sidebar--document-sort') do %>
-    <label>
-      <%= radio_button_tag 'sort_by', 'category', (@sort_by == 'category'), :onclick => 'this.form.submit();' %>
-      <%= Document.human_attribute_name(:category) %>
-    </label><br />
-    <label>
-      <%= radio_button_tag 'sort_by', 'date', (@sort_by == 'date'), :onclick => 'this.form.submit();' %>
-      <%= l(:label_date) %>
-    </label><br />
-    <label>
-      <%= radio_button_tag 'sort_by', 'title', (@sort_by == 'title'), :onclick => 'this.form.submit();' %>
-      <%= Document.human_attribute_name(:title) %>
-    </label><br />
-    <label>
-      <%= radio_button_tag 'sort_by', 'author', (@sort_by == 'author'), :onclick => 'this.form.submit();' %>
-      <%= Document.human_attribute_name(:author) %>
-    </label>
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= l(:label_sort_by, '') %></legend>
+      <p>
+        <%= radio_button_tag 'sort_by', 'category', (@sort_by == 'category'), :onclick => 'this.form.submit();' %>
+      <label for="sort_by_category">
+        <%= Document.human_attribute_name(:category) %>
+      </label><br />
+        <%= radio_button_tag 'sort_by', 'date', (@sort_by == 'date'), :onclick => 'this.form.submit();' %>
+      <label for="sort_by_date">
+        <%= l(:label_date) %>
+      </label><br />
+        <%= radio_button_tag 'sort_by', 'title', (@sort_by == 'title'), :onclick => 'this.form.submit();' %>
+      <label for="sort_by_title">
+        <%= Document.human_attribute_name(:title) %>
+      </label><br />
+        <%= radio_button_tag 'sort_by', 'author', (@sort_by == 'author'), :onclick => 'this.form.submit();' %>
+      <label for="sort_by_author">
+        <%= Document.human_attribute_name(:author) %>
+      </label>
+      </p>
+    </fieldset>
   <% end %>
 <% end %>
 
