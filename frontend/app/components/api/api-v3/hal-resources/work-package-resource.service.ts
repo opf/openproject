@@ -50,6 +50,9 @@ function wpResource(
         wp.form = $q.when(resource);
         wp.id = 'new-' + Date.now();
 
+        // Set update link to form
+        wp.$links.update = resource.$links.self;
+
         deferred.resolve(wp);
       })
       .catch(deferred.reject);
@@ -123,40 +126,29 @@ function wpResource(
       delete plain.updatedAt;
 
       var deferred = $q.defer();
-      this.getForm()
+
+      // Always resolve form to the latest form
+      // This way, we won't have to actively reset it.
+      this.form = this.$links.update(this.$source);
+
+      this.form
         .catch(deferred.reject)
         .then(form => {
-          var plainPayload = form.payload.$plain();
-          var schema = form.$embedded.schema;
 
-          angular.forEach(plain, (value, key) => {
-            if (typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
-              plainPayload[key] = value;
-            }
-          });
+          // Override the current schema with
+          // the changes from API
+          this.schema = form.$embedded.schema;
 
-          angular.forEach(plainPayload._links, (_value, key) => {
-            if (this[key] && typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
-              var value = this[key].href === 'null' ? null : this[key].href;
-              plainPayload._links[key] = {href: value};
-            }
-          });
+          // Merge attributes from form with resource
+          var payload = this.mergeWithForm(form);
 
-          return this.saveResource(plainPayload)
+          this.saveResource(payload)
             .then(workPackage => {
               angular.extend(this, workPackage);
 
               deferred.resolve(this);
             }).catch((error) => {
               deferred.reject(error);
-            }).finally(() => {
-
-              // Restore the form for subsequent saves
-              // e.g., due to changes in lockVersion.
-              // Not needed for inline create.
-              if (!this.isNew) {
-                this.form = null;
-              }
             });
         });
 
@@ -179,9 +171,33 @@ function wpResource(
     protected saveResource(payload):ng.IPromise<any> {
       if (this.isNew) {
         return apiWorkPackages.wpApiPath().post(payload);
-      } else {
-        return this.$links.updateImmediately(payload);
       }
+
+      return this.$links.updateImmediately(payload);
+    }
+
+    private mergeWithForm(form) {
+      var plainPayload = form.payload.$source;
+      var schema = form.$embedded.schema;
+
+      // Merge embedded properties from form payload
+      // Do not use properties on this, since they may be incomplete
+      // e.g., when switching to a type that requires a custom field.
+      angular.forEach(plainPayload, (_value, key) => {
+        if (typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
+          plainPayload[key] = this[key];
+        }
+      });
+
+      // Merged linked properties from form payload
+      angular.forEach(plainPayload._links, (_value, key) => {
+        if (this[key] && typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
+          var value = this[key].href === 'null' ? null : this[key].href;
+          plainPayload._links[key] = {href: value};
+        }
+      });
+
+      return plainPayload;
     }
   }
 
