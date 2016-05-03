@@ -38,7 +38,9 @@ module API
           end
 
           get do
-            available_projects = WorkPackage.allowed_target_projects_on_create(current_user)
+            available_projects = WorkPackage
+                                 .allowed_target_projects_on_create(current_user)
+                                 .includes(Projects::ProjectCollectionRepresenter.to_eager_load)
             self_link = api_v3_paths.available_projects_on_create
             Projects::ProjectCollectionRepresenter.new(available_projects,
                                                        self_link,

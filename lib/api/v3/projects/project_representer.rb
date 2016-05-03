@@ -78,6 +78,8 @@ module API
         def _type
           'Project'
         end
+
+        self.to_eager_load = [:enabled_modules, :project_type]
       end
     end
   end
