@@ -46,6 +46,7 @@ function wpTable(
     templateUrl: '/components/wp-table/wp-table.directive.html',
     scope: {
       projectIdentifier: '=',
+      allowedTo: '=',
       columns: '=',
       rows: '=',
       query: '=',

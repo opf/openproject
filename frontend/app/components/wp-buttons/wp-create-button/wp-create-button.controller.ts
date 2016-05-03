@@ -33,7 +33,7 @@ export default class WorkPackageCreateButtonController {
   public text:any;
   public types:any;
 
-  protected canCreate:boolean = false;
+  protected allowed:boolean = false;
 
   public get inProjectContext() {
     return !!this.projectIdentifier;
@@ -46,10 +46,6 @@ export default class WorkPackageCreateButtonController {
     };
 
     if (this.inProjectContext) {
-      this.ProjectService.fetchProjectResource(this.projectIdentifier).then(project => {
-        this.canCreate = !!project.createWorkPackage;
-      });
-
       this.ProjectService.getProject(this.projectIdentifier).then(project  => {
         this.types = project.embedded.types;
       });
@@ -57,7 +53,7 @@ export default class WorkPackageCreateButtonController {
   }
 
   public isDisabled() {
-    return !this.inProjectContext || !this.canCreate || this.$state.includes('**.new') || !this.types;
+    return !this.inProjectContext || !this.allowed || this.$state.includes('**.new') || !this.types;
   }
 }
 

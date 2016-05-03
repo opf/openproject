@@ -62,7 +62,6 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
     });
 
     this.apiWorkPackages.availableProjects().then(resource => {
-      this.canCreate = (resource && resource.total > 0);
       this.availableProjects = resource.elements;
     });
 
@@ -76,7 +75,7 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
   }
 
   public isDisabled() {
-    return !this.canCreate || this.$state.includes('**.new');
+    return !this.allowed || this.$state.includes('**.new');
   }
 
   public get projectIdentifierForCreate() {

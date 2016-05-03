@@ -34,6 +34,7 @@ function wpInlineCreateButton() {
 
     scope: {
       projectIdentifier: '=',
+      allowed: '=',
       rows: '=',
       query: '='
     },
