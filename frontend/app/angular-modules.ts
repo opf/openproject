@@ -35,16 +35,15 @@ angular.module('openproject.uiComponents',
     $rootScope.I18n = I18n;
   }]);
 export var configModule = angular.module('openproject.config', []);
-angular.module(
-  'openproject.services', [
-    'openproject.uiComponents',
-    'openproject.helpers',
-    'openproject.workPackages.config',
-    'openproject.workPackages.helpers',
-    'openproject.api',
-    'angular-cache',
-    'openproject.filters'
-  ]);
+export var opServicesModule = angular.module('openproject.services', [
+  'openproject.uiComponents',
+  'openproject.helpers',
+  'openproject.workPackages.config',
+  'openproject.workPackages.helpers',
+  'openproject.api',
+  'angular-cache',
+  'openproject.filters'
+]);
 angular.module('openproject.helpers', ['openproject.services']);
 angular
   .module('openproject.models', [

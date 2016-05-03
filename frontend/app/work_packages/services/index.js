@@ -52,14 +52,4 @@ angular.module('openproject.workPackages.services')
   .service('WorkPackagesOverviewService', [
     'WORK_PACKAGE_ATTRIBUTES',
     require('./work-packages-overview-service')
-  ])
-  .service('WorkPackageAttachmentsService', [
-    'Upload', // 'Upload' is provided by ngFileUpload
-    'PathHelper',
-    'I18n',
-    'NotificationsService',
-    '$q',
-    '$timeout',
-    '$http',
-    require('./work-package-attachments-service')
   ]);

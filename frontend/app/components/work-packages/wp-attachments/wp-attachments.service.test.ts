@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,13 +24,13 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
-/* jshint expr: true */
-/* globals WebKitBlobBuilder */
+// ++
+
+declare const WebKitBlobBuilder:any;
 
 describe('workPackageAttachmentsService', function() {
-  'use strict';
-  var WorkPackageAttachmentsService, $httpBackend;
+  var WorkPackageAttachmentsService;
+  var $httpBackend;
 
   // mock me a work package
   // TODO: remove that hyperagent.js nonsense asap
@@ -61,9 +61,9 @@ describe('workPackageAttachmentsService', function() {
     }
   };
 
-  beforeEach(module('openproject.workPackages'));
+  beforeEach(angular.mock.module('openproject.workPackages'));
 
-  beforeEach(inject(function(_WorkPackageAttachmentsService_, _$httpBackend_){
+  beforeEach(angular.mock.inject(function(_WorkPackageAttachmentsService_, _$httpBackend_){
     WorkPackageAttachmentsService = _WorkPackageAttachmentsService_;
     $httpBackend = _$httpBackend_;
   }));
