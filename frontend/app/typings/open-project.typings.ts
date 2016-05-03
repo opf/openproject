@@ -208,6 +208,11 @@ declare namespace op {
     schema:FieldSchema;
   }
 
+  interface WorkPackageForm {
+    payload: op.HalResource;
+    schema: op.HalResource;
+  }
+
   interface WorkPackage extends api.v3.WorkPackage, WorkPackageLinks {
     getForm();
     getSchema();

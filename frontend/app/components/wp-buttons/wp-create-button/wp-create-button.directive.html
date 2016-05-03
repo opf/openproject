@@ -1,10 +1,9 @@
 <div class="wp-create-button">
-  <button class="button -alt-highlight add-work-package" has-dropdown-menu
-          target="typesDropDownMenu" locals="vm" ng-disabled="vm.isDisabled()"
-          aria-label="{{ ::vm.text.create }}" aria-haspopup="true">
+  <button class="button -alt-highlight add-work-package"
+          ng-disabled="vm.isDisabled()"
+          aria-label="{{ ::vm.text.create }}">
 
     <i class="button--icon icon-add"></i>
     <span class="button--text" ng-bind="::vm.text.button" aria-hidden="true"></span>
-    <i class="button--dropdown-indicator"></i>
   </button>
 </div>

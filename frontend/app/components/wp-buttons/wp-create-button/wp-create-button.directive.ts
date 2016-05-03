@@ -35,7 +35,7 @@ function wpCreateButton() {
 
     scope: {
       projectIdentifier: '=',
-      allowed: '=',
+      resource: '=',
       stateName: '@'
     },
 

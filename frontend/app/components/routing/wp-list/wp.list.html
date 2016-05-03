@@ -10,7 +10,7 @@
     <ul class="toolbar-items">
       <li class="toolbar-item">
         <wp-create-button
-            allowed="allowedTo.createWorkPackage"
+            resource="resource"
             project-identifier="projectIdentifier"
             state-name="work-packages.list.new">
         </wp-create-button>
@@ -70,7 +70,6 @@
     <div class="work-packages--list-table-area">
       <wp-table ng-if="rows && columns"
                 project-identifier="projectIdentifier"
-                allowed-to="allowedTo"
                 columns="columns"
                 rows="rows"
                 query="query"

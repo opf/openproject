@@ -29,31 +29,32 @@
 import {wpButtonsModule} from '../../../angular-modules';
 
 export default class WorkPackageCreateButtonController {
-  public projectIdentifier:string;
-  public text:any;
-  public types:any;
+  public projectIdentifier: string;
+  public text: any;
+  public types: any;
 
-  protected allowed:boolean = false;
+  protected resource;
 
   public get inProjectContext() {
     return !!this.projectIdentifier;
   }
 
-  constructor(protected $state, protected I18n, protected ProjectService) {
+  constructor(
+    protected $state,
+    protected I18n
+  ) {
     this.text = {
       button: I18n.t('js.label_work_package'),
       create: I18n.t('js.label_create_work_package')
     };
+  }
 
-    if (this.inProjectContext) {
-      this.ProjectService.getProject(this.projectIdentifier).then(project  => {
-        this.types = project.embedded.types;
-      });
-    }
+  public get allowed() {
+    return this.resource && !!this.resource.$links.createWorkPackage;
   }
 
   public isDisabled() {
-    return !this.inProjectContext || !this.allowed || this.$state.includes('**.new') || !this.types;
+    return !this.allowed || this.$state.includes('**.new');
   }
 }
 
