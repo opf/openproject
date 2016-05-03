@@ -46,17 +46,13 @@ module API
               def raise404
                 raise ::API::Errors::NotFound.new
               end
-
-              def cache_key(project_id, type_id)
-                "api/v3/work_packages/schema/#{project_id}-#{type_id}"
-              end
             end
 
-            # The schema identifier is an artificial identifier that is composed of a work packages
-            # project and its type (separated by a dash)
+            # The schema identifier is an artificial identifier that is composed of a work package's
+            # project and its type (separated by a dash).
             # This allows to have a separate schema URL for each kind of different work packages
             # but with better caching capabilities than simply using the work package id as
-            # identifier for the schema
+            # identifier for the schema.
             namespace ':project-:type' do
               before do
                 begin
@@ -69,20 +65,19 @@ module API
                 authorize(:view_work_packages, context: @project) do
                   raise404
                 end
-
-                # Compare with ETag composed of project and customizations
-                # to avoid evaluating the server request
-                @custom_fields = @project.all_work_package_custom_fields
-                with_etag! "#{@project.id}/#{@custom_fields.count}/#{@custom_fields.to_param}"
               end
 
               get do
-                cache([cache_key(@project.id, @type.id), @type.updated_at, @custom_fields]) do
-                  schema = TypedWorkPackageSchema.new(project: @project, type: @type)
-                  self_link = api_v3_paths.work_package_schema(@project.id, @type.id)
-                  WorkPackageSchemaRepresenter.create(schema,
-                                                      self_link: self_link,
-                                                      current_user: nil)
+                schema = TypedWorkPackageSchema.new(project: @project, type: @type)
+                self_link = api_v3_paths.work_package_schema(@project.id, @type.id)
+                represented_schema = WorkPackageSchemaRepresenter.create(schema,
+                                                                         self_link: self_link,
+                                                                         current_user: nil)
+
+                with_etag! represented_schema.cache_key
+
+                cache(represented_schema.cache_key) do
+                  represented_schema
                 end
               end
             end
