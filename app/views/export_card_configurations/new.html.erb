@@ -28,7 +28,9 @@ See doc/COPYRIGHT.md for more details.
 
 <%= error_messages_for 'config' %>
 
-<h2><%= link_to t(:label_export_card_configuration_plural), pdf_export_export_card_configurations_path %> &#187; <%= t(:label_export_card_configuration_new) %></h2>
+<% local_assigns[:additional_breadcrumb] = t(:label_export_card_configuration_new) %>
+
+<%= breadcrumb_toolbar t(:label_export_card_configuration_new) %>
 
 <%= labelled_tabular_form_for @config, url: pdf_export_export_card_configurations_path do |f| -%>
   <%= render partial: 'form', locals: { f: f } %>
