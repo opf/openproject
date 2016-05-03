@@ -83,9 +83,10 @@ describe('workPackageContextMenu', () => {
       update: '/work_packages/123/edit',
       move: '/work_packages/move/new?ids%5B%5D=123',
     };
-    var workPackage = Factory.build('PlanningElement', {
-      $links: actionLinks
-    });
+    var workPackage = Factory.build('PlanningElement');
+    workPackage.$source = { _links: actionLinks };
+    workPackage.$links = actionLinks;
+
     var directListElements;
 
     beforeEach(angular.mock.inject((_I18n_) => {
@@ -125,9 +126,9 @@ describe('workPackageContextMenu', () => {
       var actionLinks = {
         'delete': '/work_packages/bulk',
       };
-      var workPackage = Factory.build('PlanningElement', {
-        $links: actionLinks
-      });
+      var workPackage = Factory.build('PlanningElement');
+      workPackage.$source = { _links: actionLinks };
+      workPackage.$links = actionLinks;
 
       beforeEach(() => {
         $rootScope.rows = [];
