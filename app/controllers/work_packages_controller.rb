@@ -64,9 +64,10 @@ class WorkPackagesController < ApplicationController
       end
 
       format.pdf do
-        pdf = WorkPackage::Exporter.work_package_to_pdf(work_package)
+        export = WorkPackage::Exporter.work_package_to_pdf(work_package)
+        path = export.save_tempfile
 
-        send_data(pdf,
+        send_file(path,
                   type: 'application/pdf',
                   filename: "#{project.identifier}-#{work_package.id}.pdf")
       end
@@ -103,13 +104,12 @@ class WorkPackagesController < ApplicationController
       end
 
       format.pdf do
-        serialized_work_packages = WorkPackage::Exporter.pdf(@work_packages,
-                                                             @project,
-                                                             @query,
-                                                             @results,
-                                                             show_descriptions: params[:show_descriptions])
+        export = WorkPackage::Exporter.pdf(
+          @work_packages, @project, @query, @results,
+          show_descriptions: params[:show_descriptions])
 
-        send_data(serialized_work_packages,
+        path = export.save_tempfile
+        send_file(path.to_s,
                   type: 'application/pdf',
                   filename: 'export.pdf')
       end
