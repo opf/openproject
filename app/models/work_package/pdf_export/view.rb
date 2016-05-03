@@ -37,14 +37,18 @@ class WorkPackage::PdfExport::View
   end
 
   def options
-    @options ||= {
+    @options ||= {}
+  end
+
+  def info
+    @info ||= {
       Creator: OpenProject::Info.app_name,
       CreationDate: Time.now
     }
   end
 
   def document
-    @document ||= Prawn::Document.new(options).tap do |document|
+    @document ||= Prawn::Document.new(options.merge(info: info)).tap do |document|
       register_fonts! document
 
       document.set_font document.font('NotoSans')
@@ -90,11 +94,11 @@ class WorkPackage::PdfExport::View
   end
 
   def title=(title)
-    options[:Title] = title
+    info[:Title] = title
   end
 
   def title
-    options[:Title]
+    info[:Title]
   end
 
   def font(name: nil, style: nil, size: nil)
