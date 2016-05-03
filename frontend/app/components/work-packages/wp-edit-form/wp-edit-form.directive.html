@@ -1,0 +1,54 @@
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">
+        {{ $ctrl.workPackage.embedded.type.props.name }} #{{ $ctrl.workPackage.props.id }}
+      </h3>
+    </div>
+
+    <div class="attributes-group--header-container-right">
+      <span ng-bind="$ctrl.I18n.t('js.label_last_updated_on')"/>
+      <op-date date-value="$ctrl.workPackage.props.updatedAt"></op-date>
+    </div>
+  </div>
+
+  <div class="single-attribute wiki">
+    <wp-field field-name="'description'"></wp-field>
+  </div>
+</div>
+
+<div ng-repeat="group in $ctrl.groupedFields" ng-hide="$ctrl.shouldHideGroup(group.groupName)" class="attributes-group">
+
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"
+          ng-bind="$ctrl.I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
+    </div>
+    <div class="attributes-group--header-toggle">
+      <panel-expander tabindex="-1" ng-if="$ctrl.WorkPackagesDisplayHelper.showToggleButton() && $first"
+                      collapsed="$ctrl.hideEmptyFields"
+                      expand-text="{{ $ctrl.I18n.t('js.label_show_attributes') }}"
+                      collapse-text="{{ $ctrl.I18n.t('js.label_hide_attributes') }}">
+      </panel-expander>
+    </div>
+  </div>
+
+  <div class="attributes-key-value">
+    <div
+        ng-hide="$ctrl.hideEmptyFields && $ctrl.WorkPackagesDisplayHelper.isFieldHideable($ctrl.workPackage, field)"
+        ng-if="$ctrl.WorkPackagesDisplayHelper.isSpecified($ctrl.workPackage, field)"
+        ng-repeat-start="field in group.attributes" class="attributes-key-value--key">
+      {{$ctrl.WorkPackagesDisplayHelper.getLabel($ctrl.workPackage, field)}}
+      <span class="required" ng-if="$ctrl.WorkPackagesDisplayHelper.hasNiceStar($ctrl.workPackage, field)"> *</span>
+    </div>
+    <div
+        ng-hide="$ctrl.hideEmptyFields && $ctrl.WorkPackagesDisplayHelper.isFieldHideable($ctrl.workPackage, field)"
+        ng-if="$ctrl.WorkPackagesDisplayHelper.isSpecified($ctrl.workPackage, field)"
+        ng-repeat-end
+        class="attributes-key-value--value-container">
+      <wp-field field-name="field"></wp-field>
+    </div>
+  </div>
+</div>
+
+<work-package-attachments edit work-package="$ctrl.workPackage" data-ng-show="!$ctrl.hideEmptyFields || $ctrl.filesExist"></work-package-attachments>

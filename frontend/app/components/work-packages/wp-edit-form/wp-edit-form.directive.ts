@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,49 +24,50 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {wpControllersModule} from "../../../angular-modules";
+import {opWorkPackagesModule} from "../../../angular-modules";
 
-export default class OverviewPanelController {
+class WorkPackageEditFormController {
   public workPackage;
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
   public filesExist:boolean = false;
-
+  
   constructor(protected $scope,
               public WorkPackagesDisplayHelper,
               protected I18n,
+              protected NotificationsService,
               protected WorkPackagesOverviewService,
               protected WorkPackageFieldService,
               protected inplaceEditAll,
-              protected NotificationsService,
               protected WorkPackageAttachmentsService) {
+
     this.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
 
-    WorkPackageAttachmentsService.hasAttachments(this.workPackage).then(function (bool) {
+    WorkPackageAttachmentsService.hasAttachments(this.workPackage).then(bool => {
       this.filesExist = bool;
     });
 
-    $scope.$watch('vm.workPackage.schema', function (schema) {
+    $scope.$watch('vm.workPackage.schema', schema => {
       if (schema) {
         WorkPackagesDisplayHelper.setFocus();
         this.workPackage = $scope.workPackage;
       }
     });
 
-    $scope.$watchCollection('vm.workPackage.form', function () {
+    $scope.$watchCollection('vm.workPackage.form', () => {
       var schema = WorkPackageFieldService.getSchema(this.workPackage);
       var otherGroup:any = _.find(this.groupedFields, {groupName: 'other'});
       otherGroup.attributes = [];
 
-      schema.props.forEach(function (prop, propName) {
+      angular.forEach(schema.props, (prop, propName) => {
         if (propName.match(/^customField/)) {
           otherGroup.attributes.push(propName);
         }
       });
 
-      otherGroup.attributes.sort(function (a, b) {
+      otherGroup.attributes.sort((a, b) => {
         var getLabel = field => this.WorkPackagesDisplayHelper.getLabel(this.workPackage, field);
         var left = getLabel(a).toLowerCase();
         var right = getLabel(b).toLowerCase();
@@ -74,10 +75,10 @@ export default class OverviewPanelController {
         return left.localeCompare(right);
       });
     });
-
-    $scope.$on('workPackageUpdatedInEditor', function () {
+    
+    $scope.$on('workPackageUpdatedInEditor', () => {
       NotificationsService.addSuccess(I18n.t('js.notice_successful_update'));
-    });
+    }); 
   }
 
   public shouldHideGroup(group) {
@@ -86,5 +87,23 @@ export default class OverviewPanelController {
   }
 }
 
-wpControllersModule.controller('OverviewPanelController', OverviewPanelController);
+function wpEditFormDirective() {
+  return {
+    restrict: 'E',
+    templateUrl: '/components/work-packages/wp-edit-form/wp-edit-form.directive.html',
+
+    scope: {
+      workPackage: '='
+    },
+    
+    bindToController: true,
+    controller: WorkPackageEditFormController,
+    controllerAs: '$ctrl'
+  };
+}
+
+opWorkPackagesModule.directive('wpEditForm', wpEditFormDirective);
+
+
+
 

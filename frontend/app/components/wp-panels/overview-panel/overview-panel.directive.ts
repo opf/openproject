@@ -32,14 +32,6 @@ function overviewPanel(){
   return {
     restrict: 'E',
     templateUrl: '/components/wp-panels/overview-panel/overview-panel.directive.html',
-
-    scope: {
-      workPackage: '='
-    },
-
-    bindToController: true,
-    controller: 'OverviewPanelController',
-    controllerAs: 'vm'
   };
 }
 

@@ -78,7 +78,7 @@ angular.module('openproject.timelines.directives', [
 ]);
 
 // work packages
-angular.module('openproject.workPackages', [
+export const opWorkPackagesModule = angular.module('openproject.workPackages', [
   'openproject.workPackages.activities',
   'openproject.workPackages.controllers',
   'openproject.workPackages.filters',
