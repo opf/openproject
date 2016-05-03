@@ -222,7 +222,6 @@ Then /^the story should have a (.+) of (.+)$/ do |attribute, value|
 end
 
 Then /^the wiki page (.+) should contain (.+)$/ do |title, content|
-  title = Wiki.titleize(title)
   page = @project.wiki.find_page(title)
   page.should_not be_nil
 

@@ -253,20 +253,6 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following impediments:$/ do |proj
   end
 end
 
-Given /^I have selected card label stock (.+)$/ do |stock|
-  settings = Setting.plugin_openproject_backlogs
-  settings['card_spec'] = stock
-  Setting.plugin_openproject_backlogs = settings
-
-  # If this goes wrong, you are probably missing
-  #   openproject_backlogs/config/labels.yml
-  # Run
-  #   rake openproject:backlogs:default_labels
-  # to get the ones, shipped with the plugin or
-  #   rake openproject:backlogs:current_labels
-  # to get current one, downloaded from the internet.
-end
-
 Given /^I have set my API access key$/ do
   Setting[:rest_api_enabled] = 1
   User.current.reload
@@ -280,7 +266,6 @@ Given /^I have guessed an API access key$/ do
 end
 
 Given /^I have set the content for wiki page (.+) to (.+)$/ do |title, content|
-  title = Wiki.titleize(title)
   page = @project.wiki.find_page(title)
   if !page
     page = WikiPage.new(wiki: @project.wiki, title: title)
@@ -293,7 +278,7 @@ Given /^I have set the content for wiki page (.+) to (.+)$/ do |title, content|
 end
 
 Given /^I have made (.+) the template page for sprint notes/ do |title|
-  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge('wiki_template' => Wiki.titleize(title))
+  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge('wiki_template' => title)
 end
 
 Given /^there are no stories in the [pP]roject$/ do

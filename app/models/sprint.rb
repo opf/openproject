@@ -101,7 +101,7 @@ class Sprint < Version
   def wiki_page
     return '' unless project.wiki
 
-    update_attribute(:wiki_page_title, Wiki.titleize(name)) if wiki_page_title.blank?
+    update_attribute(:wiki_page_title, name) if wiki_page_title.blank?
 
     page = project.wiki.find_page(wiki_page_title)
     template = project.wiki.find_page(Setting.plugin_openproject_backlogs['wiki_template'])
