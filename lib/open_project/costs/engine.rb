@@ -246,6 +246,14 @@ module OpenProject::Costs
                                      }
     end
 
+    add_api_representer_cache_key(:v3, :work_packages, :schema, :work_package_schema) do
+      if represented.project.module_enabled?('costs_module')
+        ['costs_enabled']
+      else
+        ['costs_not_enabled']
+      end
+    end
+
     assets %w(costs/costs.css
               costs/costs.js
               work_packages/cost_object.html
