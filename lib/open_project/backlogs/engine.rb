@@ -198,6 +198,14 @@ module OpenProject::Backlogs
       end
     end
 
+    add_api_representer_cache_key(:v3, :work_packages, :schema, :work_package_schema) do
+      if represented.project.module_enabled?('backlogs')
+        ['backlogs_enabled']
+      else
+        ['backlogs_not_enabled']
+      end
+    end
+
     initializer 'backlogs.register_hooks' do
       require 'open_project/backlogs/hooks'
     end
