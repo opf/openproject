@@ -102,9 +102,9 @@ describe('WorkPackageContextMenuHelper', function() {
       }
     };
 
-    var workPackage = Factory.build('PlanningElement', {
-      $links: actionLinks
-    });
+    var workPackage = Factory.build('PlanningElement');
+    workPackage.$source = { _links : actionLinks };
+    workPackage.$links = actionLinks;
 
     describe('when an array with a single work package is passed as an argument', function() {
       var workPackages = new Array(workPackage);
@@ -126,13 +126,15 @@ describe('WorkPackageContextMenuHelper', function() {
     });
 
     describe('when more than one work package is passed as an argument', function() {
-      var anotherWorkPackage = Factory.build('PlanningElement', {
-            $links: {
-              update: {
-                href: '/work_packages/234/edit'
-              }
-            }
-          });
+      var anotherWorkPackage = Factory.build('PlanningElement');
+      anotherWorkPackage.$source = {
+        _links: {
+          update: {
+            href: '/work_packages/234/edit'
+          }
+        }
+      };
+      anotherWorkPackage.$links = { update: '/work_packages/234/edit' };
       var workPackages = [anotherWorkPackage, workPackage];
 
       beforeEach(inject(function(_WorkPackagesTableService_) {

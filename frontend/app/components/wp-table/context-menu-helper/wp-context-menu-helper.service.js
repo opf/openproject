@@ -26,7 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, HookService, UrlParamsHelper) {
+angular
+  .module('openproject.workPackages.helpers')
+  .factory('WorkPackageContextMenuHelper', WorkPackageContextMenuHelper);
+
+function WorkPackageContextMenuHelper(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, HookService, UrlParamsHelper) {
+
   function getPermittedActionLinks(workPackage, permittedActionConstants) {
     var singularPermittedActions = [];
 
@@ -34,13 +39,13 @@ module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, Hook
 
     angular.forEach(allowedActions, function(allowedAction) {
       singularPermittedActions.push({
-                                      icon: allowedAction.icon,
-                                      text: allowedAction.text,
-                                      link: workPackage
-                                              .$source
-                                              ._links[allowedAction.link]
-                                              .href
-                                    });
+        icon: allowedAction.icon,
+        text: allowedAction.text,
+        link: workPackage
+          .$source
+          ._links[allowedAction.link]
+          .href
+      });
     });
 
     return singularPermittedActions;
@@ -56,11 +61,11 @@ module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, Hook
     });
     angular.forEach(permittedActions, function(permittedAction) {
       bulkPermittedActions.push({
-                                  icon: permittedAction.icon,
-                                  text: permittedAction.text,
-                                  link: getBulkActionLink(permittedAction,
-                                                             workPackages)
-                                });
+        icon: permittedAction.icon,
+        text: permittedAction.text,
+        link: getBulkActionLink(permittedAction,
+          workPackages)
+      });
     });
 
     return bulkPermittedActions;
@@ -104,7 +109,7 @@ module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, Hook
   }
 
   var WorkPackageContextMenuHelper = {
-    getPermittedActions: function(workPackages, permittedActionConstants) {
+    getPermittedActions: function (workPackages, permittedActionConstants) {
       if (workPackages.length === 1) {
         return getPermittedActionLinks(workPackages[0], permittedActionConstants);
       } else if (workPackages.length > 1) {
@@ -114,4 +119,4 @@ module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, Hook
   };
 
   return WorkPackageContextMenuHelper;
-};
+}
