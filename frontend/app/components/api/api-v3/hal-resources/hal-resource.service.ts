@@ -50,7 +50,7 @@ export default class HalResource {
   }
 
   protected static getEmptyResource():any {
-    return {_links: {self: null}};
+    return {_links: {self: {}}};
   }
 
   public get name():string {
@@ -86,7 +86,7 @@ export default class HalResource {
     });
   }
 
-  constructor(public $source:any, public $loaded:boolean = true) {
+  constructor(public $source:any = HalResource.getEmptyResource(), public $loaded:boolean = true) {
     this.$source = $source._plain || $source;
 
     this.proxyProperties();

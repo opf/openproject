@@ -46,6 +46,10 @@ describe('HalResource service', () => {
     expect(HalResource).to.exist;
   });
 
+  it('should be instantiable using a default object', () => {
+    expect(new HalResource().href).to.equal(null);
+  });
+
   it('should set its source to _plain if _plain is a property of the source', () => {
     let source = {
       _plain: {
