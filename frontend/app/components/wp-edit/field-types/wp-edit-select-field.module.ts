@@ -37,6 +37,12 @@ export class SelectField extends Field {
   constructor(workPackage, fieldName, schema) {
     super(workPackage, fieldName, schema);
 
+    const I18n = this.$injector.get('I18n');
+    this.text = {
+      requiredPlaceholder: I18n.t('js.placeholders.selection'),
+      placeholder: I18n.t('js.placeholders.default')
+    };
+
     if (angular.isArray(this.schema.allowedValues)) {
       this.options = angular.copy(this.schema.allowedValues);
       this.addEmptyOption();
@@ -46,18 +52,11 @@ export class SelectField extends Field {
         this.addEmptyOption();
       });
     }
-
-    const I18n = this.$injector.get('I18n');
-    this.text = {
-      requiredPlaceholder: I18n.t('js.placeholders.selection'),
-      placeholder: I18n.t('js.placeholders.default')
-    }
   }
 
   private addEmptyOption() {
     if (!this.schema.required) {
       this.options.unshift({
-        href: "null",
         name: this.text.placeholder,
       });
     }

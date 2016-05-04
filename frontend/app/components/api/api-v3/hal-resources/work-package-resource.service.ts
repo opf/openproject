@@ -258,8 +258,8 @@ export class WorkPackageResource extends HalResource {
 
     // Merged linked properties from form payload
     angular.forEach(plainPayload._links, (_value, key) => {
-      if (this[key] && typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
-        var value = this[key].href === 'null' ? null : this[key].href;
+      if (typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
+        var value = this[key] === undefined ? null : this[key].href;
         plainPayload._links[key] = {href: value};
       }
     });
