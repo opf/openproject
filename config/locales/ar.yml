@@ -53,7 +53,7 @@ ar:
           is_not_a_valid_target_for_cost_entries: 'مجموعة العمل #%{id} ليست هدفًا صالحًا لإعادة تعيين إدخالات التكلفة.'
           nullify_is_not_valid_for_cost_entries: لا يمكن تعيين إدخالات التكلفة للمشروع.
   attributes:
-    budget: التكالبف المخطط لها
+    budget: التكاليف المخطط لها
     comment: التعليق
     cost_object: الميزانية
     cost_type: نوع التكلفة
@@ -66,9 +66,9 @@ ar:
   button_add_cost_object: أضِف الميزانية
   button_add_cost_type: أضِف نوع التكلفة
   button_add_rate: أضِف المعدل
-  button_cancel_edit_budget: قُم بإلغاء تحرير الميزانية
-  button_cancel_edit_costs: قُم بإلغاء تحرير التكاليف
-  button_log_costs: سجِّل تكاليف الوحدة
+  button_cancel_edit_budget: قُم بإلغاء تعديل الميزانية
+  button_cancel_edit_costs: قُم بإلغاء تعديل التكاليف
+  button_log_costs: سجل تكاليف الوحدة
   button_log_time: وقت التسجيل
   caption_booked_on_project: حُجِِز على المشروع
   caption_default: الافتراضي
@@ -130,7 +130,7 @@ ar:
   label_work_package_filter_add: أضِف عامل تصفية لمجموعة العمل
   label_kind: النّوع
   label_less_or_equal: '<='
-  label_log_costs: سجِّل تكاليف الوحدة
+  label_log_costs: سجل تكاليف الوحدة
   label_no: لا
   label_option_plural: الخيارات
   label_overall_costs: التكاليف الإجمالية
