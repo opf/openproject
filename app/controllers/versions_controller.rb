@@ -33,6 +33,7 @@ class VersionsController < ApplicationController
   before_filter :find_model_object, except: [:index, :new, :create, :close_completed]
   before_filter :find_project_from_association, except: [:index, :new, :create, :close_completed]
   before_filter :find_project, only: [:index, :new, :create, :close_completed]
+  before_filter(only: [:create, :update, :close_completed, :destroy]) do touch_later @project end
   before_filter :authorize
 
   include VersionsHelper

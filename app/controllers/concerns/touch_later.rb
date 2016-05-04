@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,48 +26,34 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'work_packages/create_contract'
+require 'uri'
 
-class CreateWorkPackageService
-  include Concerns::Contracted
+##
+# :touch given objects *once* after the request has completed.
+module Concerns::TouchLater
+  extend ActiveSupport::Concern
 
-  self.contract = WorkPackages::CreateContract
-
-  attr_reader :user
-
-  def initialize(user:)
-    @user = user
+  included do
+    after_filter :touch_now
   end
 
-  def call(work_package, send_notifications: true)
-    User.execute_as user do
-      JournalManager.with_send_notifications send_notifications do
-        create(work_package)
-      end
-    end
+  def touch_later(object)
+    RequestStore[:touchable_objects] = touchables.merge(object.id => object)
   end
 
   private
 
-  def create(work_package)
-    initialize_contract(work_package)
-    assign_defaults(work_package)
-
-    result, errors = validate_and_save(work_package)
-
-    # Update the project
-    work_package.project.touch if result
-
-    ServiceResult.new(success: result,
-                      errors: errors,
-                      result: work_package)
+  def touch_now
+    touchables.each do |_, object|
+      object.touch
+    end
+  rescue => e
+    Rails.logger.error { "#{object.model_name.human} #{object.id} is untouchable! #{e.message}" }
   end
 
-  def assign_defaults(work_package)
-    work_package.author ||= user
-  end
-
-  def initialize_contract(work_package)
-    self.contract = self.class.contract.new(work_package, user)
+  def touchables
+    RequestStore.fetch(:touchable_objects) do
+      {}
+    end
   end
 end

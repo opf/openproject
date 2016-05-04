@@ -39,6 +39,8 @@ class NewsController < ApplicationController
   before_filter :find_project, only: [:new, :create]
   before_filter :authorize, except: [:index, :preview]
   before_filter :find_optional_project, only: [:index]
+  before_filter(only: [:create, :update, :destroy]) do touch_later @project end
+
   accept_key_auth :index
 
   def index

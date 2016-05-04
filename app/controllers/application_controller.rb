@@ -39,6 +39,7 @@ class ApplicationController < ActionController::Base
 
   include I18n
   include Redmine::I18n
+  include Concerns::TouchLater
 
   layout 'base'
 

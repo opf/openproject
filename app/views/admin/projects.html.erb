@@ -71,6 +71,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <col highlight-col>
           <col highlight-col>
           <col highlight-col>
+          <col highlight-col>
           <col>
         </colgroup>
         <thead>
@@ -78,6 +79,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= sort_header_tag('name', caption: Project.model_name.human) %>
             <%= sort_header_tag('is_public', caption:Project.human_attribute_name(:is_public)) %>
             <%= sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage)) %>
+            <%= sort_header_tag('updated_on', caption: I18n.t('attributes.updated_on')) %>
             <%= sort_header_tag('created_on', caption: Project.human_attribute_name(:created_on)) %>
             <th></th>
           </tr>
@@ -88,6 +90,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <td class="name project--hierarchy"><span class="<%= level > 0 ? 'icon-context icon-arrow-right5 icon-small' : nil %>"><%= link_to project, settings_project_path(project), title: project.short_description %></span></td>
               <td><%= checked_image project.is_public? %></td>
               <td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td>
+              <td><%= format_time(project.updated_on) %></td>
               <td><%= format_date(project.created_on) %></td>
               <td class="buttons">
                 <%= link_to('',

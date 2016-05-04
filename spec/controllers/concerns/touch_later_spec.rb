@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,48 +26,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'work_packages/create_contract'
+require 'spec_helper'
 
-class CreateWorkPackageService
-  include Concerns::Contracted
+describe NewsController, type: :controller do
+  let(:user)    { FactoryGirl.create(:admin) }
+  let(:project) { FactoryGirl.create(:project) }
 
-  self.contract = WorkPackages::CreateContract
-
-  attr_reader :user
-
-  def initialize(user:)
-    @user = user
+  before do
+    allow(User).to receive(:current).and_return user
+    allow(Project).to receive(:find).and_return project
   end
 
-  def call(work_package, send_notifications: true)
-    User.execute_as user do
-      JournalManager.with_send_notifications send_notifications do
-        create(work_package)
-      end
+  describe '#create' do
+    it 'touches project later' do
+      expect(project).to receive(:touch)
+      post :create, project_id: project.id, news: { title: 'Test',
+                                                    description: 'This is the description',
+                                                    summary: '' }
     end
-  end
-
-  private
-
-  def create(work_package)
-    initialize_contract(work_package)
-    assign_defaults(work_package)
-
-    result, errors = validate_and_save(work_package)
-
-    # Update the project
-    work_package.project.touch if result
-
-    ServiceResult.new(success: result,
-                      errors: errors,
-                      result: work_package)
-  end
-
-  def assign_defaults(work_package)
-    work_package.author ||= user
-  end
-
-  def initialize_contract(work_package)
-    self.contract = self.class.contract.new(work_package, user)
   end
 end

@@ -58,6 +58,7 @@ class WikiController < ApplicationController
                                             :list_attachments,
                                             :destroy]
   before_filter :build_wiki_page_and_content, only: [:new, :create]
+  before_filter(only: [:create, :update, :update_parent_page, :destroy]) do touch_later @project end
 
   verify method: :post, only: [:protect], redirect_to: { action: :show }
   verify method: :get,  only: [:new, :new_child], render: { nothing: true, status: :method_not_allowed }

@@ -32,6 +32,7 @@ class MembersController < ApplicationController
   before_filter :find_model_object_and_project, except: [:autocomplete_for_member, :paginate_users]
   before_filter :find_project, only: [:paginate_users]
   before_filter :find_project_by_project_id, only: [:autocomplete_for_member]
+  before_filter(only: [:create, :update, :destroy]) { touch_later @project }
   before_filter :authorize
 
   include Pagination::Controller
