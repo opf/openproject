@@ -134,6 +134,10 @@ function wpResource(
       this.form
         .catch(deferred.reject)
         .then(form => {
+          if (form === undefined) {
+            deferred.reject;
+            return;
+          }
 
           // Override the current schema with
           // the changes from API

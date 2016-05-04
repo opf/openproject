@@ -102,6 +102,8 @@ export class WorkPackageEditFormController {
   }
 
   private handleErrorenousColumns(columns:string[]) {
+    return if (columns.length === 0);
+
     var selected = this.QueryService.getSelectedColumnNames();
     var active = _.find(this.fields, (f:any) => f.active);
     columns.reverse().map(name => {
