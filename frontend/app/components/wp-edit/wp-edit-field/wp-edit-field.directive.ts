@@ -190,8 +190,8 @@ function wpEditField() {
 
     scope: {
       fieldName: '=wpEditField',
-      fieldIndex: '=fieldIndex',
-      columns: '=columns'
+      fieldIndex: '=',
+      columns: '='
     },
 
     require: ['^wpEditForm', 'wpEditField'],

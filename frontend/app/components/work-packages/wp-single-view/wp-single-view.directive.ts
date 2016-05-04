@@ -27,82 +27,87 @@
 // ++
 
 import {opWorkPackagesModule} from "../../../angular-modules";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
 
-class WorkPackageEditFormController {
+export class WorkPackageSingleViewController {
   public workPackage;
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
   public filesExist:boolean = false;
-  
+
   constructor(protected $scope,
-              public WorkPackagesDisplayHelper,
+              protected $stateParams,
+              public wpSingleView,
               protected I18n,
+              protected wpCacheService,
               protected NotificationsService,
               protected WorkPackagesOverviewService,
               protected WorkPackageFieldService,
               protected inplaceEditAll,
               protected WorkPackageAttachmentsService) {
 
-    this.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
+    scopedObservable($scope, wpCacheService.loadWorkPackage($stateParams.workPackageId)).subscribe(wp => {
+      this.workPackage = wp;
+      this.workPackage.schema.$load();
 
-    WorkPackageAttachmentsService.hasAttachments(this.workPackage).then(bool => {
-      this.filesExist = bool;
-    });
+      this.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
 
-    $scope.$watch('vm.workPackage.schema', schema => {
-      if (schema) {
-        WorkPackagesDisplayHelper.setFocus();
-        this.workPackage = $scope.workPackage;
-      }
-    });
+      WorkPackageAttachmentsService.hasAttachments(this.workPackage).then(bool => {
+        this.filesExist = bool;
+      });
 
-    $scope.$watchCollection('vm.workPackage.form', () => {
-      var schema = WorkPackageFieldService.getSchema(this.workPackage);
-      var otherGroup:any = _.find(this.groupedFields, {groupName: 'other'});
-      otherGroup.attributes = [];
-
-      angular.forEach(schema.props, (prop, propName) => {
-        if (propName.match(/^customField/)) {
-          otherGroup.attributes.push(propName);
+      $scope.$watch('$ctrl.workPackage.schema', schema => {
+        if (schema) {
+          this.wpSingleView.setFocus();
         }
       });
 
-      otherGroup.attributes.sort((a, b) => {
-        var getLabel = field => this.WorkPackagesDisplayHelper.getLabel(this.workPackage, field);
-        var left = getLabel(a).toLowerCase();
-        var right = getLabel(b).toLowerCase();
+      $scope.$watchCollection('$ctrl.workPackage.form', () => {
+        var schema = WorkPackageFieldService.getSchema(this.workPackage);
+        var otherGroup:any = _.find(this.groupedFields, {groupName: 'other'});
+        otherGroup.attributes = [];
 
-        return left.localeCompare(right);
+        angular.forEach(schema.props, (prop, propName) => {
+          if (propName.match(/^customField/)) {
+            otherGroup.attributes.push(propName);
+          }
+        });
+
+        otherGroup.attributes.sort((a, b) => {
+          var getLabel = field => this.wpSingleView.getLabel(this.workPackage, field);
+          var left = getLabel(a).toLowerCase();
+          var right = getLabel(b).toLowerCase();
+
+          return left.localeCompare(right);
+        });
       });
     });
-    
+
     $scope.$on('workPackageUpdatedInEditor', () => {
       NotificationsService.addSuccess(I18n.t('js.notice_successful_update'));
     }); 
   }
 
   public shouldHideGroup(group) {
-    return this.WorkPackagesDisplayHelper.shouldHideGroup(
+    return this.wpSingleView.shouldHideGroup(
       this.hideEmptyFields, this.groupedFields, group, this.workPackage);
   }
 }
 
-function wpEditFormDirective() {
+function wpSingleViewDirective() {
   return {
     restrict: 'E',
-    templateUrl: '/components/work-packages/wp-edit-form/wp-edit-form.directive.html',
+    templateUrl: '/components/work-packages/wp-single-view/wp-single-view.directive.html',
 
-    scope: {
-      workPackage: '='
-    },
+    scope: {},
     
     bindToController: true,
-    controller: WorkPackageEditFormController,
+    controller: WorkPackageSingleViewController,
     controllerAs: '$ctrl'
   };
 }
 
-opWorkPackagesModule.directive('wpEditForm', wpEditFormDirective);
+opWorkPackagesModule.directive('wpSingleView', wpSingleViewDirective);
 
 
 

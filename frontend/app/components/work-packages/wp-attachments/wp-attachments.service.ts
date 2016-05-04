@@ -30,7 +30,7 @@ import {opServicesModule} from '../../../angular-modules.ts';
 
 function wpAttachmentsService($q, $timeout, $http, Upload, I18n, NotificationsService) {
   var upload = (workPackage, files) => {
-      var uploadPath = workPackage.links.addAttachment.url();
+      var uploadPath = workPackage.$links.addAttachment.$link.href;
       var uploads = _.map(files, (file:any) => {
         var options = {
           url: uploadPath,
@@ -47,8 +47,8 @@ function wpAttachmentsService($q, $timeout, $http, Upload, I18n, NotificationsSe
 
       // notify the user
       var message = I18n.t('js.label_upload_notification', {
-        id: workPackage.props.id,
-        subject: workPackage.props.subject
+        id: workPackage.id,
+        subject: workPackage.subject
       });
 
       var notification = NotificationsService.addWorkPackageUpload(message, uploads);
@@ -65,7 +65,7 @@ function wpAttachmentsService($q, $timeout, $http, Upload, I18n, NotificationsSe
     },
 
     load = function (workPackage, reload) {
-      var path = workPackage.links.attachments.url(),
+      var path = workPackage.$links.attachments.$link.href,
         attachments = $q.defer();
       $http.get(path, {cache: !reload}).success(function (response) {
         attachments.resolve(response._embedded.elements);
