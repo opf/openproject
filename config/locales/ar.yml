@@ -11,10 +11,10 @@ ar:
   label_click_to_edit: اضغط للتعديل.
   label_closed: مغلق
   label_columns: الأعمدة
-  label_cost_entry_attributes: ميزات مدخل التكلفة
+  label_cost_entry_attributes: ميزات قيد التكلفة
   label_days_ago: خلال الأيام الماضية
-  label_entry: مدخل التكلفة
-  label_filter_text: تصفية للنص
+  label_entry: قيد التكلفة
+  label_filter_text: تصفية النص
   label_filter_value: القيمة
   label_filters: عامل التصفية
   label_greater: '>'
