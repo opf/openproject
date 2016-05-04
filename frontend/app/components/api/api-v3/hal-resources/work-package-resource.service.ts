@@ -70,6 +70,12 @@ export class WorkPackageResource extends HalResource {
 
   public requiredValueFor(fieldName):boolean {
     var fieldSchema = this.schema[fieldName];
+
+    // The field schema may be undefined if a custom field
+    // is used as a column, but not available for this type.
+    if (fieldSchema === undefined) {
+      return false;
+    }
     return !this[fieldName] && fieldSchema.writable && fieldSchema.required;
   }
 

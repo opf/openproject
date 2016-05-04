@@ -6,5 +6,9 @@
         ng-blur="vm.handleUserBlur()"
         focus="vm.shouldFocus()"
         ng-attr-id="{{vm.htmlId}}">
-  <option value="" ng-if="false"></option>
+  <option value=""
+          ng-bind="vm.field.text.requiredPlaceholder"
+          ng-if="vm.field.schema.required"
+          disabled selected>
+  </option>
 </select>

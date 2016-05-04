@@ -32,6 +32,7 @@ export class SelectField extends Field {
   public options:any[];
   public placeholder:string = '-';
   public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html'
+  public text;
 
   constructor(workPackage, fieldName, schema) {
     super(workPackage, fieldName, schema);
@@ -45,13 +46,19 @@ export class SelectField extends Field {
         this.addEmptyOption();
       });
     }
+
+    const I18n = this.$injector.get('I18n');
+    this.text = {
+      requiredPlaceholder: I18n.t('js.placeholders.selection'),
+      placeholder: I18n.t('js.placeholders.default')
+    }
   }
 
   private addEmptyOption() {
     if (!this.schema.required) {
       this.options.unshift({
         href: "null",
-        name: this.placeholder,
+        name: this.text.placeholder,
       });
     }
   }
