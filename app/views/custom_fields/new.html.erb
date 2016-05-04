@@ -30,8 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title l(:label_administration), l(:label_custom_field_new) %>
 <% local_assigns[:additional_breadcrumb] = link_to(l(@custom_field.type_name), custom_fields_path(tab: @custom_field.type)),
                        l(:label_custom_field_new) %>
-<%= breadcrumb_toolbar link_to(l(@custom_field.type_name), custom_fields_path(tab: @custom_field.type)),
-                       l(:label_custom_field_new)
+<%= breadcrumb_toolbar l(:label_custom_field_new)
 %>
 
 <%= labelled_tabular_form_for @custom_field, as: :custom_field,
