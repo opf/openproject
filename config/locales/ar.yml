@@ -5,14 +5,14 @@ ar:
   label_project_details: تفاصيل المشروع
   label_custom_element: أضِف دعابة ...
   info_custom_text: نص مخصص
-  label_confirm_delete: حقاً حذف هذا العنصر؟
+  label_confirm_delete: حقًا تريد حذف هذا العنصر؟
   label_work_packages_reported_by_me: مجموعات العمل التي تم تقديم التقارير عنها بواسطتي
-  label_work_packages_responsible_for: مجموعات العمل التي أنا مسؤول عنها
+  label_work_packages_responsible_for: مجموعات العمل تحت مسؤوليتي
   label_work_packages_assigned_to_me: مجموعات العمل الموكلة لي
-  label_work_packages_watched: مجموعات العمل المرتقبة
+  label_work_packages_watched: مجموعات العمل المراقبة
   label_work_package_tracking: تعقب مجموعة العمل
   label_members: الأعضاء
   label_subprojects: المشاريع الفرعية
   project_page:
-    all: إظهار الكل
+    all: إظهار الجميع
     x_more: '...(%{count} أكثر)'
