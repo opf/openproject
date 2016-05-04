@@ -37,7 +37,7 @@ export class SelectField extends Field {
   constructor(workPackage, fieldName, schema) {
     super(workPackage, fieldName, schema);
 
-    const I18n = this.$injector.get('I18n');
+    const I18n:any = this.$injector.get('I18n');
     this.text = {
       requiredPlaceholder: I18n.t('js.placeholders.selection'),
       placeholder: I18n.t('js.placeholders.default')

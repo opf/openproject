@@ -1,18 +1,6 @@
 require 'spec_helper'
 
 describe 'Inline editing work packages', js: true do
-  let(:dev_role) do
-    FactoryGirl.create :role,
-                       permissions: [:view_work_packages,
-                                     :add_work_packages]
-  end
-  let(:dev) do
-    FactoryGirl.create :user,
-                       firstname: 'Dev',
-                       lastname: 'Guy',
-                       member_in_project: project,
-                       member_through_role: dev_role
-  end
   let(:manager_role) do
     FactoryGirl.create :role,
                        permissions: [:view_work_packages,
@@ -20,9 +8,9 @@ describe 'Inline editing work packages', js: true do
   end
   let(:manager) do
     FactoryGirl.create :user,
-                       firstname: 'Manager',
-                       lastname: 'Guy',
-                       member_in_project: project,
+                       firstname:           'Manager',
+                       lastname:            'Guy',
+                       member_in_project:   project,
                        member_through_role: manager_role
   end
   let(:type) { FactoryGirl.create :type }
@@ -32,10 +20,9 @@ describe 'Inline editing work packages', js: true do
   let(:project) { FactoryGirl.create(:project, types: [type]) }
   let(:work_package) {
     FactoryGirl.create(:work_package,
-                       author: dev,
                        project: project,
-                       type: type,
-                       status: status1,
+                       type:    type,
+                       status:  status1,
                        subject: 'Foobar')
   }
 
@@ -43,79 +30,172 @@ describe 'Inline editing work packages', js: true do
 
   let(:workflow) do
     FactoryGirl.create :workflow,
-                       type_id: type.id,
+                       type_id:    type.id,
                        old_status: status1,
                        new_status: status2,
-                       role: manager_role
+                       role:       manager_role
   end
   let(:version) { FactoryGirl.create :version, project: project }
   let(:category) { FactoryGirl.create :category, project: project }
 
   before do
     login_as(manager)
-
-    work_package
-    workflow
-    dev
-
-    wp_table.visit!
-    wp_table.expect_work_package_listed(work_package)
   end
 
-  it 'allows updating and seeing the results' do
-    subject_field = wp_table.edit_field(work_package, :subject)
-    subject_field.expect_text('Foobar')
+  context 'simple work package' do
+    before do
+      work_package
+      workflow
 
-    subject_field.activate!
+      wp_table.visit!
+      wp_table.expect_work_package_listed(work_package)
+    end
 
-    subject_field.set_value('New subject!')
+    it 'allows updating and seeing the results' do
+      subject_field = wp_table.edit_field(work_package, :subject)
+      subject_field.expect_text('Foobar')
 
-    expect(UpdateWorkPackageService).to receive(:new).and_call_original
-    subject_field.save!
-    subject_field.expect_text('New subject!')
+      subject_field.activate!
 
-    wp_table.expect_notification(
-      message: 'Successful update. Click here to open this work package in fullscreen view.'
-    )
+      subject_field.set_value('New subject!')
 
-    work_package.reload
-    expect(work_package.subject).to eq('New subject!')
+      expect(UpdateWorkPackageService).to receive(:new).and_call_original
+      subject_field.save!
+      subject_field.expect_text('New subject!')
+
+      wp_table.expect_notification(
+        message: 'Successful update. Click here to open this work package in fullscreen view.'
+      )
+
+      work_package.reload
+      expect(work_package.subject).to eq('New subject!')
+    end
+
+    it 'allows to subsequently edit multiple fields' do
+      subject_field = wp_table.edit_field(work_package, :subject)
+      status_field  = wp_table.edit_field(work_package, :status)
+
+      expect(UpdateWorkPackageService).to receive(:new).and_call_original
+      subject_field.activate!
+      subject_field.set_value('Other subject!')
+
+      status_field.activate!
+      status_field.set_value(status2.name)
+      subject_field.expect_inactive!
+      status_field.expect_inactive!
+
+      subject_field.expect_text('Other subject!')
+      status_field.expect_text(status2.name)
+
+      work_package.reload
+      expect(work_package.subject).to eq('Other subject!')
+      expect(work_package.status.id).to eq(status2.id)
+    end
+
+    it 'provides error handling' do
+      subject_field = wp_table.edit_field(work_package, :subject)
+      subject_field.expect_text('Foobar')
+
+      subject_field.activate!
+
+      subject_field.set_value('')
+
+      expect(UpdateWorkPackageService).to receive(:new).and_call_original
+      subject_field.save!
+      subject_field.expect_error
+
+      work_package.reload
+      expect(work_package.subject).to eq('Foobar')
+    end
   end
 
-  it 'allows to subsequently edit multiple fields' do
-    subject_field = wp_table.edit_field(work_package, :subject)
-    status_field = wp_table.edit_field(work_package, :status)
+  context 'custom field' do
+    let(:custom_fields) {
+      fields = [
+        FactoryGirl.create(
+          :work_package_custom_field,
+          field_format:    'list',
+          possible_values: %w(foo bar xyz),
+          is_required:     true,
+          is_for_all:      false
+        ),
+        FactoryGirl.create(
+          :work_package_custom_field,
+          field_format: 'string',
+          is_required:  true,
+          is_for_all:   false
+        )
+      ]
 
-    expect(UpdateWorkPackageService).to receive(:new).and_call_original
-    subject_field.activate!
-    subject_field.set_value('Other subject!')
+      fields
+    }
+    let(:type) { FactoryGirl.create(:type_task, custom_fields: custom_fields) }
+    let(:project) { FactoryGirl.create(:project, types: [type]) }
+    let(:work_package) {
+      FactoryGirl.create(:work_package,
+                         subject: 'Foobar',
+                         status:  status1,
+                         type:    type,
+                         project: project)
+    }
 
-    status_field.activate!
-    status_field.set_value(status2.name)
-    status_field.expect_inactive!
-    subject_field.expect_inactive!
+    before do
+      work_package
+      workflow
 
-    subject_field.expect_text('Other subject!')
-    status_field.expect_text(status2.name)
+      # Require custom fields for this project
+      project.work_package_custom_fields = custom_fields
+      project.save!
 
-    work_package.reload
-    expect(work_package.subject).to eq('Other subject!')
-    expect(work_package.status.id).to eq(status2.id)
-  end
+      wp_table.visit!
+      wp_table.expect_work_package_listed(work_package)
+    end
 
-  it 'provides error handling' do
-    subject_field = wp_table.edit_field(work_package, :subject)
-    subject_field.expect_text('Foobar')
+    it 'opens required custom fields when not set' do
+      subject_field = wp_table.edit_field(work_package, :subject)
+      subject_field.expect_text('Foobar')
 
-    subject_field.activate!
+      subject_field.activate!
+      subject_field.set_value('New subject!')
+      subject_field.save!
 
-    subject_field.set_value('')
+      # Should raise two errors
+      cf_list_name = custom_fields.first.name
+      cf_text_name = custom_fields.last.name
+      wp_table.expect_notification(
+        type: :error,
+        message: "#{cf_list_name} can't be blank. #{cf_text_name} can't be blank."
+      )
 
-    expect(UpdateWorkPackageService).to receive(:new).and_call_original
-    subject_field.save!
-    subject_field.expect_error
+      expect(page).to have_selector('th a', text: cf_list_name.upcase)
+      expect(page).to have_selector('th a', text: cf_text_name.upcase)
+      expect(wp_table.row(work_package)).to have_selector('.wp-edit-field.-error', count: 2)
 
-    work_package.reload
-    expect(work_package.subject).to eq('Foobar')
+      cf_text = wp_table.edit_field(work_package, :customField2)
+      cf_text.activate!
+      cf_text.set_value('my custom text')
+      cf_text.save!
+      cf_text.expect_inactive!
+
+      cf_list = wp_table.edit_field(work_package, :customField1)
+      cf_list.field_type = 'select'
+      expect(cf_list.input_element).to have_selector('option[selected]', text: 'Please select')
+      cf_list.set_value('bar')
+
+      cf_text.expect_inactive!
+      cf_list.expect_inactive!
+
+      wp_table.expect_notification(
+        message: 'Successful update. Click here to open this work package in fullscreen view.'
+      )
+
+      work_package.reload
+      expect(work_package.custom_field_1).to eq('bar')
+      expect(work_package.custom_field_2).to eq('my custom text')
+
+      # Saveguard to let the background update complete
+      wp_table.visit!
+      wp_table.expect_work_package_listed(work_package)
+    end
   end
 end

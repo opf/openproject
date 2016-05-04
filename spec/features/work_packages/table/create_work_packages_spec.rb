@@ -1,16 +1,34 @@
 require 'spec_helper'
 
 describe 'inline create work package', js: true do
-  let(:type) { FactoryGirl.create(:type_with_workflow) }
+  let(:type) { FactoryGirl.create(:type) }
   let(:types) { [type] }
 
-  let(:user) { FactoryGirl.create :admin }
+  let(:role) do
+    FactoryGirl.create :role,
+                       permissions: [:view_work_packages,
+                                     :add_work_packages]
+  end
+  let(:user) do
+    FactoryGirl.create :user,
+                       member_in_project: project,
+                       member_through_role: role
+  end
+  let(:status) { FactoryGirl.create(:default_status) }
+  let(:workflow) do
+    FactoryGirl.create :workflow,
+                       type_id: type.id,
+                       old_status: status,
+                       new_status: FactoryGirl.create(:status),
+                       role: role
+  end
 
   let!(:project) { FactoryGirl.create(:project, is_public: true, types: types) }
   let!(:existing_wp) { FactoryGirl.create(:work_package, project: project) }
   let!(:priority) { FactoryGirl.create :priority, is_default: true }
 
   before do
+    workflow
     login_as user
   end
 

@@ -5,6 +5,7 @@ class WorkPackageField
   attr_reader :element,
               :selector,
               :property_name
+  attr_accessor :field_type
 
   def initialize(context,
                  property_name,

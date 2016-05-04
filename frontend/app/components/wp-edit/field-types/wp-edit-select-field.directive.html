@@ -9,6 +9,7 @@
   <option value=""
           ng-bind="vm.field.text.requiredPlaceholder"
           ng-if="vm.field.schema.required"
-          disabled selected>
+          ng-selected="!vm.workPackage[vm.fieldName]"
+          disabled>
   </option>
 </select>
