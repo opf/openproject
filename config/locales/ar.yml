@@ -27,7 +27,7 @@ ar:
     burndown_graph: الرسم البياني لتقدم العمل
     card_paper_size: حجم الورق لطباعة البطاقة
     chart_options: خيارات الرسم البياني
-    close: مغلق
+    close: أغلِق
     column_width: 'عرض العمود:'
     date: اليوم
     definition_of_done: تعريف ما تم
@@ -36,13 +36,13 @@ ar:
     impediment: عائق
     label_versions_default_fold_state: إظهار الإصدارات مطوية
     work_package_is_closed: مجموعة العمل قد تمت، عندما
-    label_is_done_status: 'وسائل الحالة %{status_name} منجزة'
+    label_is_done_status: 'الحالة %{status_name} تعني أنها منجزة'
     no_burndown_data: 'لا يوجد معلومات متوفرة عن الاستهلاك. من الضروري تحديد تواريخ البدء- والانتهاء في السباق.'
     points: النقاط
     positions_could_not_be_rebuilt: تعذَر إعادة بناء المواقع.
     positions_rebuilt_successfully: تم إعادة بناء المواقع بنجاح.
     properties: الخصائص
-    rebuild: إعادة البناء
+    rebuild: إعِدْ بناء
     rebuild_positions: أعِد بناء المواقع
     remaining_hours: الساعات المتبقية
     remaining_hours_ideal: الساعات المتبقية (المثالية)
@@ -56,16 +56,16 @@ ar:
     x_more: '%{count} أكثر...'
   backlogs_active: نشِط
   backlogs_any: أي
-  backlogs_card_specification: أنواع التسمية لطباعة البطاقة
+  backlogs_card_specification: أنواع الملصقات لطباعة البطاقة
   backlogs_inactive: لا يُظهر المشروع أي نشاط
   backlogs_points_burn_direction: نقاط الاستهلاك الإيجابي/ السلبي
   backlogs_product_backlog: عمل المنتج المتراكم غير المنجز
   backlogs_product_backlog_is_empty: العمل المتراكم غير المنجز للمنتج فارغ
   backlogs_product_backlog_unsized: الجزء الأعلى للعمل المتراكم غير المنجز للمنتج له قصص غير محددة
   backlogs_sizing_inconsistent: تتفاوت أحجام القصة ضد تقديراتها
-  backlogs_sprint_notes_missing: السباقات مغلقة دون أثر رجعي/استعراض الملاحظات
+  backlogs_sprint_notes_missing: سباقات مغلقة دون أثر رجعي/استعراض الملاحظات
   backlogs_sprint_unestimated: سباقات مغلقة أو نشطة مع قصص غير مقدّرة
-  backlogs_sprint_unsized: للمشروع قصص في سباقات مغلقة حديثًا لم يتم تحديد حجمها
+  backlogs_sprint_unsized: للمشروع قصص في سباقات نشطة أو مغلقة حديثًا لم يتم تحديد حجمها
   backlogs_sprints: السباقات
   backlogs_story: القصة
   backlogs_story_type: أنواع القصة
@@ -73,10 +73,10 @@ ar:
   backlogs_task_type: نوع المهمة
   backlogs_velocity_missing: لا يمكن احتساب السرعة في هذا المشروع
   backlogs_velocity_varies: السرعة تتفاوت بشكل ملحوظ على السباقات
-  backlogs_wiki_template: قالب لصفحة ويكي wiki الخاصة بالسباق
-  button_edit_wiki: قم بتعديل صفحة ويكي wiki
-  error_intro_plural: 'بعد وقوع الأخطاء التالية:'
-  error_intro_singular: 'بعد وقوع الخطأ التالي:'
+  backlogs_wiki_template: نموذج لصفحة ويكي wiki الخاصة بالسباق
+  button_edit_wiki: عدّل صفحة ويكي wiki
+  error_intro_plural: 'تم مصادفة الأخطاء التالية:'
+  error_intro_singular: 'تمت مصادفة الخطأ التالي:'
   error_outro: من فضلك صحح الأخطاء في الأعلى قبل التقديم مرة أخرى.
   event_sprint_description: |
     %{summary}: %{url}
@@ -99,8 +99,8 @@ ar:
   label_points_burn_down: الأسفل
   label_points_burn_up: الأعلى
   label_product_backlog: منتج متراكم غير منجز
-  label_select_all: اختر الكل
-  label_sprint_backlog: سباق متراكم غير منتج
+  label_select_all: اختر الجميع
+  label_sprint_backlog: سباق متراكم غير منجز
   label_sprint_cards: بطاقات التصدير
   label_sprint_impediments: عوائق السباق
   label_sprint_name: 'السباق "%{name}"'
@@ -111,8 +111,8 @@ ar:
   label_version_setting: الإصدارات
   label_webcal: تغذية Webcal
   label_wiki: Wiki
-  permission_view_master_backlog: شاهد العمل الرئيسي المتراكم غير المنجز
-  permission_view_taskboards: شاهد لوحات المهمة
+  permission_view_master_backlog: عرض العمل الرئيسي المتراكم غير المنجز
+  permission_view_taskboards: شاهد لوحات المهمات
   permission_update_sprints: قم بتحديث السباقات
   permission_create_stories: قم بإنشاء القصص
   permission_update_stories: قم بتحديث القصص
@@ -127,7 +127,7 @@ ar:
   points_to_resolve: النقاط التي لم يتم حلّها
   project_module_backlogs: الأعمال المتراكمة غير المنجزة
   rb_label_copy_tasks: انسخ مجموعات العمل
-  rb_label_copy_tasks_all: الكل
+  rb_label_copy_tasks_all: الجميع
   rb_label_copy_tasks_none: لا شيء
   rb_label_copy_tasks_open: مفتوح
   rb_label_link_to_original: ضمّن الرابط للقصة الأصلية
