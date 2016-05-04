@@ -26,25 +26,74 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-// import {WorkPackageCacheService} from "./work-package-cache.service";
-// import WorkPackageResource from "../api/api-v3/hal-resources/work-package-resource.service";
-
-// const workPackage1 = new WorkPackageResource();
-// workPackage1.id = 1;
-
-// const workPackage2 = new WorkPackageResource();
-// workPackage2.id = 2;
-
-// const dummyWorkPackages: WorkPackageResource[] = [];
-// const dummyWorkPackages: WorkPackageResource[] = [workPackage1, workPackage2];
+import {WorkPackageCacheService} from "./work-package-cache.service";
+import WorkPackageResource from "../api/api-v3/hal-resources/work-package-resource.service";
 
 
-describe('WorkPackageCacheService', () => {
-  it.only('should process a list of work packages', () => {
-    // const cacheService = new WorkPackageCacheService();
-    // cacheService.updateWorkPackageList(dummyWorkPackages);
+describe.only('WorkPackageCacheService', () => {
 
-    // console.log(cacheService.workPackageCache);
-    // expect(merged.scope.someValue).to.eq(merged.scope.someOtherValue);
+  let wpCacheService: WorkPackageCacheService;
+  let WorkPackageResource: typeof WorkPackageResource;
+  let dummyWorkPackages: WorkPackageResource[] = [];
+
+  beforeEach(angular.mock.module('openproject'));
+
+  beforeEach(angular.mock.inject((_wpCacheService_, _WorkPackageResource_) => {
+    wpCacheService = _wpCacheService_;
+    WorkPackageResource = _WorkPackageResource_;
+
+    // dummy 1
+    const workPackage1 = new _WorkPackageResource_({_links: {self: ""}});
+    workPackage1.id = 1;
+
+    dummyWorkPackages = [workPackage1];
+  }));
+
+  it('should return a work package after the list has been initialized', () => {
+    wpCacheService.updateWorkPackageList(dummyWorkPackages);
+
+    let workPackage: WorkPackageResource;
+    wpCacheService.loadWorkPackage(1).subscribe(wp => {
+      workPackage = wp;
+    });
+    expect(workPackage.id).to.eq(1);
   });
+
+  it('should return a work package once the list gets initialized', () => {
+    let workPackage: WorkPackageResource = null;
+
+    wpCacheService.loadWorkPackage(1).subscribe(wp => {
+      workPackage = wp;
+    });
+
+    expect(workPackage).to.null;
+
+    wpCacheService.updateWorkPackageList(dummyWorkPackages);
+
+    expect(workPackage.id).to.eq(1);
+  });
+
+  it('should return/stream a work package every time it gets updated', () => {
+    let loaded: WorkPackageResource & {dummy: string} = null;
+    wpCacheService.loadWorkPackage(1).subscribe(wp => {
+      loaded = wp;
+    });
+
+    let workPackage: any = new WorkPackageResource({_links: {self: ""}});
+    workPackage.id = 1;
+    workPackage.dummy = "a";
+
+    wpCacheService.updateWorkPackageList([workPackage]);
+    expect(loaded.id).to.eq(1);
+    expect(loaded.dummy).to.eq("a");
+
+    workPackage = new WorkPackageResource({_links: {self: ""}});
+    workPackage.id = 1;
+    workPackage.dummy = "b";
+
+    wpCacheService.updateWorkPackageList([workPackage]);
+    expect(loaded.id).to.eq(1);
+    expect(loaded.dummy).to.eq("b");
+  });
+
 });
