@@ -5,6 +5,11 @@ zh:
   default_doc_category_tech: 技术文档
   default_doc_category_user: 用户文档
   enumeration_doc_categories: 文档类别
+  enumeration:
+    document_category:
+      documentation: Documentation
+      specification: Specification
+      other: Other
   label_document_added: 文档已添加
   label_document_new: 新建文档
   label_document_plural: 文档

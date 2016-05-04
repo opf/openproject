@@ -5,6 +5,11 @@ bg:
   default_doc_category_tech: Техническа документация
   default_doc_category_user: Документация за потребителя
   enumeration_doc_categories: Document categories
+  enumeration:
+    document_category:
+      documentation: Documentation
+      specification: Specification
+      other: Other
   label_document_added: Документът е добавен
   label_document_new: Нов документ
   label_document_plural: Документи

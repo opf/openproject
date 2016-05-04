@@ -5,6 +5,11 @@ ar:
   default_doc_category_tech: التوثيق التقني
   default_doc_category_user: توثيق المستخدم
   enumeration_doc_categories: فئات الوثائق
+  enumeration:
+    document_category:
+      documentation: Documentation
+      specification: Specification
+      other: Other
   label_document_added: تم إضافة وثيقة
   label_document_new: وثيقة جديدة
   label_document_plural: الوثائق

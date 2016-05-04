@@ -5,6 +5,11 @@ es:
   default_doc_category_tech: Documentación técnica
   default_doc_category_user: Documentacion para el usuario
   enumeration_doc_categories: Categorías de documentos
+  enumeration:
+    document_category:
+      documentation: Documentation
+      specification: Specification
+      other: Other
   label_document_added: Documento agregado
   label_document_new: Nuevo documento
   label_document_plural: Documentos

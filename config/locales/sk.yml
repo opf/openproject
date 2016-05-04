@@ -5,6 +5,11 @@ sk:
   default_doc_category_tech: Technická dokumentácia
   default_doc_category_user: Používateľská dokumentácia
   enumeration_doc_categories: Kategórie dokumentu
+  enumeration:
+    document_category:
+      documentation: Documentation
+      specification: Specification
+      other: Other
   label_document_added: Dokument pridaný
   label_document_new: Nový dokument
   label_document_plural: Dokumenty

@@ -5,6 +5,11 @@ da:
   default_doc_category_tech: Teknisk dokumentation
   default_doc_category_user: Brugerdokumentation
   enumeration_doc_categories: Dokumentkategorier
+  enumeration:
+    document_category:
+      documentation: Documentation
+      specification: Specification
+      other: Other
   label_document_added: Dokument tilføjet
   label_document_new: Nyt dokument
   label_document_plural: Dokumenter
