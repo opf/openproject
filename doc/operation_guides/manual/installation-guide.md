@@ -475,7 +475,7 @@ If you need to restart the server (for example after a configuration change), do
   We heard that `bower install` can fail, if your server is behind a firewall which does not allow `git://` URLs. The error looks like this:
 
   ```
-  bower openproject-ui_components#with-bower ECMDERR Failed to execute "git ls-remote --tags --heads git://github.com/opf/openproject-ui_components.git", exit code of #128
+  ECMDERR Failed to execute "git ls-remote --tags --heads git://github.com/finnlabs/angular-modal.git", exit code of #128
 
   Additional error details:
   fatal: unable to connect to github.com:

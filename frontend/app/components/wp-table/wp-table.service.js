@@ -116,8 +116,15 @@ function WorkPackagesTableService($filter, QueryService, WorkPackagesTableHelper
       return workPackagesTableData.groupBy;
     },
 
+    getGroupByColumn: function() {
+      return workPackagesTableData.groupByColumn;
+    },
+
     setGroupBy: function(groupBy) {
+      var groupableColumns = workPackagesTableData.groupableColumns;
+
       workPackagesTableData.groupBy = groupBy;
+      workPackagesTableData.groupByColumn = _.find(groupableColumns, { name: groupBy });
     },
 
     removeRow: function(row) {

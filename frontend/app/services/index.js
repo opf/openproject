@@ -74,11 +74,6 @@ angular.module('openproject.services')
     'fields[]': 'status_id',
     'operators[status_id]': 'o'
   })
-  .service('NotificationsService', [
-    'I18n',
-    '$rootScope',
-    require('./notifications-service.js')
-  ])
   .service('ApiNotificationsService', [
     'NotificationsService',
     'ApiHelper',

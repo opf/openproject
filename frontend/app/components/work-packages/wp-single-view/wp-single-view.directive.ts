@@ -36,6 +36,8 @@ export class WorkPackageSingleViewController {
   public filesExist:boolean = false;
 
   constructor(protected $scope,
+              protected $state,
+              protected loadingIndicator,
               protected $stateParams,
               public wpSingleView,
               protected I18n,
@@ -84,7 +86,16 @@ export class WorkPackageSingleViewController {
     });
 
     $scope.$on('workPackageUpdatedInEditor', () => {
-      NotificationsService.addSuccess(I18n.t('js.notice_successful_update'));
+      NotificationsService.addSuccess({
+        message: I18n.t('js.notice_successful_update'),
+        link: {
+          target: () => {
+            loadingIndicator.mainPage = $state.go(
+              ...["work-packages.show.activity", $state.params]);
+          },
+          text: I18n.t('js.work_packages.message_successful_show_in_fullscreen')
+        }
+      });
     }); 
   }
 

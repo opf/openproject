@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                       class: 'form' } do |f| %>
   <%= render partial: 'messages/form', locals: { f: f } %>
 
-  <hr class="form--separator">
+  <hr class="form--separator" />
 
   <%= f.button l(:button_create), class: 'button -highlight -with-icon icon-checkmark' %>
   <%= preview_link preview_board_topics_path(@board), 'message-form-preview' %>

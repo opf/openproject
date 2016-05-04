@@ -31,16 +31,18 @@ module.exports = function(WorkPackageFieldService, $window, $timeout) {
   // specifies unhideable (during creation)
   var unhideableFields = [
     'subject',
-    'type',
-    'status',
-    'description',
-    'priority'
+    'description'
   ];
   var firstTimeFocused = false;
   var isGroupHideable = function (groupedFields, groupName, workPackage, cb) {
         if (!workPackage) {
           return true;
         }
+
+        if (groupName === 'details') {
+          return false; // never hide details to keep show all button arround
+        }
+
         var group = _.find(groupedFields, {groupName: groupName});
         var isHideable = typeof cb === 'undefined' ? isFieldHideable : cb;
         return group.attributes.length === 0 || _.every(group.attributes, function(field) {
@@ -76,10 +78,6 @@ module.exports = function(WorkPackageFieldService, $window, $timeout) {
 
         if (_.contains(unhideableFields, field)) {
           return !WorkPackageFieldService.isEditable(workPackage, field);
-        }
-
-        if (WorkPackageFieldService.isRequired(workPackage, field)) {
-          return false;
         }
 
         return WorkPackageFieldService.isHideable(workPackage, field);

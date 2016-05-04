@@ -50,37 +50,21 @@ See doc/COPYRIGHT.rdoc for more details.
       <!--[eoform:type]-->
     </section>
   </div>
-  <div class="grid-content medium-6">
-    <% if @projects.any? %>
-      <fieldset class="form--fieldset" id="type_project_ids">
-        <legend class="form--fieldset-legend"><%= l(:label_project_plural) %></legend>
-        <div class="form--fieldset-control">
-          <span class="form--fieldset-control-container">
-            (<%= check_all_links 'type_project_ids' %>)
-          </span>
-        </div>
-        <%= project_nested_ul(@projects) do |p|
-          content_tag('label',
-            check_box_tag('type[project_ids][]', p.id, controller.type.projects.include?(p), id: nil) +
-              ' ' + h(p), class: 'form--label-with-check-box')
-        end %>
-        <%= hidden_field_tag('type[project_ids][]', '', id: nil) %>
-      </fieldset>
-    <% end %>
-  </div>
 </div>
 
 <div class="grid-block">
   <div class="grid-content medium-6">
-    <fieldset class="form--fieldset -collapsible collapsed" id="type_attribute_visibility">
-      <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><%= I18n.t('label_form_configuration')%></legend>
-      <div style="display: none;">
+    <fieldset class="form--fieldset -collapsible" id="type_attribute_visibility">
+      <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
+        <%= I18n.t('label_form_configuration')%>
+      </legend>
+      <div>
         <p><%= I18n.t('text_form_configuration') %></p>
         <table class="attributes-table">
           <thead>
             <tr>
               <td><%= I18n.t('label_attribute') %></td>
-              <td><%= I18n.t('label_default') %></td>
+              <td><%= I18n.t('label_active') %></td>
               <td><%= I18n.t('label_always_visible') %></td>
             </tr>
           </thead>
@@ -88,13 +72,20 @@ See doc/COPYRIGHT.rdoc for more details.
             <%
               attributes = ::TypesHelper
                 .work_package_form_attributes(merge_date: true)
-                .reject { |name, attr| not name =~ /custom_field_/ and attr[:required] }
+                .reject { |name, attr|
+                  # display all custom fields     don't display required fields without a default
+                  not name =~ /custom_field_/ and (attr[:required] and not attr[:has_default])
+                }
+              keys = attributes.keys.sort_by do |name|
+                translated_attribute_name(name, attributes[name])
+              end
             %>
-            <% attributes.each do |name, attr| %>
+            <% keys.each do |name| %>
+            <%   attr = attributes[name] %>
               <tr>
                 <td>
                   <%= label "type_attribute_visibility_#{name}",
-                            attr[:display_name] || attr_translate(name),
+                            translated_attribute_name(name, attr),
                             value: "type_attribute_visibility[#{name}]",
                             class: 'form--label' %>
                 </td>
@@ -121,6 +112,31 @@ See doc/COPYRIGHT.rdoc for more details.
         </table>
       </div>
     </fieldset>
+  </div>
+</div>
+
+<div class="grid-block">
+  <div class="grid-content medium-6">
+    <% if @projects.any? %>
+      <fieldset class="form--fieldset -collapsible" id="type_project_ids">
+        <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
+          <%= l(:label_project_plural) %>
+        </legend>
+        <div>
+          <div class="form--fieldset-control">
+            <span class="form--fieldset-control-container">
+              (<%= check_all_links 'type_project_ids' %>)
+            </span>
+          </div>
+          <%= project_nested_ul(@projects) do |p|
+            content_tag('label',
+              check_box_tag('type[project_ids][]', p.id, controller.type.projects.include?(p), id: nil) +
+                ' ' + h(p), class: 'form--label-with-check-box')
+          end %>
+          <%= hidden_field_tag('type[project_ids][]', '', id: nil) %>
+        </div>
+      </fieldset>
+    <% end %>
   </div>
 </div>
 

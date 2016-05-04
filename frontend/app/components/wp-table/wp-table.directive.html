@@ -1,6 +1,6 @@
 <div class="generic-table--container work-package-table--container"
   ng-class="{ '-with-footer': displaySums }">
-  <div class="generic-table--results-container" ng-if="rows.length">
+  <div class="generic-table--results-container">
     <table interactive-table class="keyboard-accessible-list generic-table">
       <colgroup>
         <col highlight-col />
@@ -37,13 +37,24 @@
       </thead>
 
       <tbody>
+        <!-- Empty row notification -->
+        <tr id="empty-row-notification" ng-if="!rows.length">
+          <td colspan="{{ numTableColumns }}">
+            <span>
+              <i class="icon-info1 icon-context"></i>
+              <strong ng-bind="text.noResults"></strong>
+              <span ng-bind="text.noResultsDescription"></span>
+            </span>
+          </td>
+        </tr>
 
         <!-- Group headers -->
 
         <tr wp-group-header
-            ng-repeat-start="row in rows track by row.object.id"
+            ng-repeat-start="row in rows track by row.object.id+row.groupName"
             ng-if="!!groupByColumn &&
                    ($first || row.groupName !== rows[$index-1].groupName)"
+            ng-show="row.groupName != undefined"
             ng-class="{
               group: true,
               open: groupExpanded[currentGroup],
@@ -51,7 +62,7 @@
               keyboard_hover: true
             }"
             id="group-header-{{ row.groupName }}">
-          <td colspan="{{ columns.length + 2 - (!!hideWorkPackageDetails * 1) }}">
+          <td colspan="{{ numTableColumns }}">
             <div ng-class="[
                     'expander',
                     'icon-context',
@@ -176,7 +187,7 @@
         <!-- Inline create button -->
         <tr class="wp-inline-create-button-row">
           <!--  Add 2 to the colspan attr because of the id and the checkbox columns  -->
-          <td colspan="{{ columns.length + 2 }}">
+          <td colspan="{{ numTableColumns }}">
             <wp-inline-create-button
                 project-identifier="projectIdentifier"
                 query="query"
@@ -206,13 +217,5 @@
     </table>
     <div class="generic-table--header-background"></div>
     <div class="generic-table--footer-background" ng-if="sumsLoaded()"></div>
-  </div>
-  <div class="generic-table--no-results-container" ng-if="!rows.length">
-    <i class="icon-info1"></i>
-    <h2 class="generic-table--no-results-title">
-      {{ text.noResults }}
-    </h2>
-    <div class="generic-table--no-results-description"
-      ng-bind-html="text.noResultsDescription"></div>
   </div>
 </div>

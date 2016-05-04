@@ -80,6 +80,13 @@ describe HomescreenController, type: :controller do
         expect(response).not_to render_template(partial: 'homescreen/blocks/_welcome')
       end
 
+      context 'with enabled announcement' do
+        let!(:announcement) { FactoryGirl.create :active_announcement }
+        it 'renders the announcement' do
+          expect(response).to render_template(partial: 'announcements/_show')
+        end
+      end
+
       context 'with enabled welcome block' do
         before do
           allow(Setting).to receive(:welcome_text).and_return('h1. foobar')

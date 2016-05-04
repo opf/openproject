@@ -49,10 +49,6 @@ angular.module('openproject.workPackages.helpers')
       link: 'delete'
     }
   ])
-  .service('WorkPackageContextMenuHelper', ['PERMITTED_BULK_ACTIONS',
-    'WorkPackagesTableService', 'UrlParamsHelper', require(
-      './work-package-context-menu-helper')
-  ])
   .factory('WorkPackagesHelper', ['TimezoneService', 'currencyFilter',
     'CustomFieldHelper', require('./work-packages-helper')
   ])

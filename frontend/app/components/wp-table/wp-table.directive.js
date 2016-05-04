@@ -30,7 +30,14 @@ angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
 
-function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages, $state){
+function wpTable(
+  WorkPackagesTableService,
+  WorkPackageService,
+  $window,
+  PathHelper,
+  apiWorkPackages,
+  $state
+){
   return {
     restrict: 'E',
     replace: true,
@@ -52,6 +59,9 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
     link: function(scope, element) {
       var activeSelectionBorderIndex;
 
+      // Total columns = all available columns + id + checkbox
+      scope.numTableColumns = scope.columns.length + 2;
+
       scope.workPackagesTableData = WorkPackagesTableService.getWorkPackagesTableData();
       scope.workPackagePath = PathHelper.workPackagePath;
 
@@ -60,9 +70,7 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
         event.pageY -= topMenuHeight;
       };
 
-      // groupings
-      scope.grouped = scope.groupByColumn !== undefined;
-      scope.groupExpanded = {};
+      applyGrouping();
 
       scope.$watchCollection('columns', function() {
         // force Browser rerender
@@ -88,6 +96,8 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
         if (scope.displaySums) {
           fetchSumsSchema();
         }
+
+        applyGrouping();
       });
 
       scope.$watch('displaySums', function(sumsToBeDisplayed) {
@@ -96,6 +106,14 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
           if (!sumsSchemaFetched()) { fetchSumsSchema(); }
         }
       });
+
+      function applyGrouping() {
+        if (scope.groupByColumn != scope.workPackagesTableData.groupByColumn) {
+          scope.groupByColumn = scope.workPackagesTableData.groupByColumn;
+          scope.grouped = scope.groupByColumn !== undefined;
+          scope.groupExpanded = {};
+        }
+      }
 
       function fetchTotalSums() {
         apiWorkPackages
@@ -124,17 +142,6 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
       scope.setCheckedStateForAllRows = function(state) {
         WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, state);
       };
-
-      var groupableColumns = WorkPackagesTableService.getGroupableColumns();
-      scope.$watch('query.groupBy', function(groupBy) {
-        if (scope.columns) {
-          var groupByColumnIndex = groupableColumns.map(function(column){
-            return column.name;
-          }).indexOf(groupBy);
-
-          scope.groupByColumn = groupableColumns[groupByColumnIndex];
-        }
-      });
 
       // Thanks to http://stackoverflow.com/a/880518
       function clearSelection() {
@@ -173,6 +180,11 @@ function wpTable(WorkPackagesTableService, $window, PathHelper, apiWorkPackages,
       }
 
       scope.selectWorkPackage = function(row, $event) {
+        // The current row is the last selected work package
+        // not matter what other rows are (de-)selected below.
+        // Thus save that row for the details view button
+        WorkPackageService.cache().put('preselectedWorkPackageId', row.object.id);
+
         if ($event.target.type != 'checkbox') {
           var currentRowCheckState = row.checked;
           var multipleChecked = mulipleRowsChecked();
@@ -221,7 +233,7 @@ function WorkPackagesTableController($scope, $rootScope) {
     sumFor: I18n.t('js.label_sum_for'),
     allWorkPackages: I18n.t('js.label_all_work_packages'),
     noResults: I18n.t('js.work_packages.no_results.title'),
-    noResultsDescription: I18n.t('js.work_packages.no_results.description_html')
+    noResultsDescription: I18n.t('js.work_packages.no_results.description')
   };
 
   $scope.$watch('workPackagesTableData.allRowsChecked', function(checked) {

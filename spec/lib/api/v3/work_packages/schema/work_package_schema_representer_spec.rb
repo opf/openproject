@@ -580,4 +580,46 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
   end
+
+  describe '#cache_key' do
+    def joined_cache_key
+      representer.cache_key.join('/')
+    end
+
+    before do
+      allow(work_package.project)
+        .to receive(:all_work_package_custom_fields)
+        .and_return []
+
+      original_cache_key
+    end
+
+    let(:original_cache_key) { joined_cache_key }
+
+    it 'changes when the project changes' do
+      work_package.project = FactoryGirl.build_stubbed(:project)
+
+      expect(joined_cache_key).to_not eql(original_cache_key)
+    end
+
+    it 'changes when the type updates' do
+      work_package.type.updated_at += 1.hour
+
+      expect(joined_cache_key).to_not eql(original_cache_key)
+    end
+
+    it 'changes when the type changes' do
+      work_package.type = FactoryGirl.build_stubbed(:type)
+
+      expect(joined_cache_key).to_not eql(original_cache_key)
+    end
+
+    it 'changes when the custom_fields changes' do
+      allow(work_package.project)
+        .to receive(:all_work_package_custom_fields)
+        .and_return [FactoryGirl.build_stubbed(:custom_field)]
+
+      expect(joined_cache_key).to_not eql(original_cache_key)
+    end
+  end
 end

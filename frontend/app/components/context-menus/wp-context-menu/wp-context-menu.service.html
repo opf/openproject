@@ -22,7 +22,7 @@
         class="{{action.icon}}">
       <a role="menuitem" href="" ng-click="triggerContextMenuAction(action.icon, action.link)">
         <i ng-class="['icon-action-menu', 'icon-' + action.icon]"></i>
-        <span ng-bind="I18n.t('js.button_' + action.icon)"/>
+        <span ng-bind="action.text"/>
       </a>
     </li>
   </ul>

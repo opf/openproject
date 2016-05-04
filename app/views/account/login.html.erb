@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div id="login-form" class="form -bordered">
   <h1><%= I18n.t(:label_login) %></h1>
 
-  <hr class="form--separator">
+  <hr class="form--separator" />
   <% unless OpenProject::Configuration.disable_password_login? %>
     <%= render partial: 'password_login_form' %>
   <% end %>
