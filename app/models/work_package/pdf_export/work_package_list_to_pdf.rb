@@ -28,11 +28,7 @@
 #++
 
 class WorkPackage::PdfExport::WorkPackageListToPdf
-  include Redmine::I18n
-  include ActionView::Helpers::TextHelper
-  include ActionView::Helpers::NumberHelper
-  include CustomFieldsHelper
-  include WorkPackage::PdfExport::ToPdfHelper
+  include WorkPackage::PdfExport::Common
 
   attr_accessor :work_packages,
                 :pdf,
@@ -164,7 +160,7 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
     if column.is_a?(QueryCustomFieldColumn)
       custom_field_value column
     else
-      field_value work_package, column
+      field_value work_package, column.name
     end
   end
 
@@ -174,17 +170,5 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
       .detect { |v| v.custom_field_id == column.custom_field.id }
 
     show_value value
-  end
-
-  def field_value(work_package, column)
-    value = work_package.send(column.name)
-
-    if value.is_a? Date
-      format_date value
-    elsif value.is_a? Time
-      format_time value
-    else
-      value.to_s
-    end
   end
 end

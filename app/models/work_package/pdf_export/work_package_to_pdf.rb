@@ -28,11 +28,7 @@
 #++
 
 class WorkPackage::PdfExport::WorkPackageToPdf
-  include Redmine::I18n
-  include ActionView::Helpers::TextHelper
-  include ActionView::Helpers::NumberHelper
-  include CustomFieldsHelper
-  include WorkPackage::PdfExport::ToPdfHelper
+  include WorkPackage::PdfExport::Common
 
   attr_accessor :work_package,
                 :pdf
@@ -72,9 +68,7 @@ class WorkPackage::PdfExport::WorkPackageToPdf
       WorkPackage.human_attribute_name(attribute) + ':',
       label_options)
 
-    value_content = work_package.send(attribute)
-    value_content = format_date value_content if attribute.to_s =~ /_at$/
-
+    value_content = field_value work_package, attribute
     value = pdf.make_cell(value_content.to_s, value_options)
 
     [label, value]
