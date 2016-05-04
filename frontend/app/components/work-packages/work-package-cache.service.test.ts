@@ -26,31 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+// import {WorkPackageCacheService} from "./work-package-cache.service";
+// import WorkPackageResource from "../api/api-v3/hal-resources/work-package-resource.service";
 
-import {openprojectModule} from "../../angular-modules";
-import WorkPackageResource from "../api/api-v3/hal-resources/work-package-resource.service";
-import WorkPackage = op.WorkPackage;
+// const workPackage1 = new WorkPackageResource();
+// workPackage1.id = 1;
+
+// const workPackage2 = new WorkPackageResource();
+// workPackage2.id = 2;
+
+// const dummyWorkPackages: WorkPackageResource[] = [];
+// const dummyWorkPackages: WorkPackageResource[] = [workPackage1, workPackage2];
 
 
-export class WorkPackageCacheService {
+describe('WorkPackageCacheService', () => {
+  it.only('should process a list of work packages', () => {
+    // const cacheService = new WorkPackageCacheService();
+    // cacheService.updateWorkPackageList(dummyWorkPackages);
 
-  private workPackageCache: {[id: number]: WorkPackageResource} = {};
-
-  workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackageResource}>(1);
-
-  updateWorkPackageList(list: WorkPackageResource[]) {
-    for (const wp of list) {
-      this.workPackageCache[wp.id] = wp;
-    }
-    this.workPackagesSubject.onNext(this.workPackageCache);
-  }
-
-  loadWorkPackage(workPackageId: number): Rx.Observable<WorkPackageResource> {
-    return this.workPackagesSubject
-        .map(cache => cache[workPackageId])
-        .filter(wp => wp !== undefined);
-  }
-
-}
-
-openprojectModule.service('wpCacheService', WorkPackageCacheService);
+    // console.log(cacheService.workPackageCache);
+    // expect(merged.scope.someValue).to.eq(merged.scope.someOtherValue);
+  });
+});
