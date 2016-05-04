@@ -65,9 +65,8 @@ class WorkPackagesController < ApplicationController
 
       format.pdf do
         export = WorkPackage::Exporter.work_package_to_pdf(work_package)
-        path = export.save_tempfile
 
-        send_file(path,
+        send_data(export.render,
                   type: 'application/pdf',
                   filename: "#{project.identifier}-#{work_package.id}.pdf")
       end
@@ -108,8 +107,7 @@ class WorkPackagesController < ApplicationController
           @work_packages, @project, @query, @results,
           show_descriptions: params[:show_descriptions])
 
-        path = export.save_tempfile
-        send_file(path.to_s,
+        send_data(export.render,
                   type: 'application/pdf',
                   filename: 'export.pdf')
       end

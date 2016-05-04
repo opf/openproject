@@ -56,16 +56,6 @@ class WorkPackage::PdfExport::View
     end
   end
 
-  def save_tempfile
-    temp = Tempfile.new(title || 'pdfexportview')
-    path = temp.path
-
-    temp.unlink
-    save_as path
-
-    path
-  end
-
   def fallback_fonts
     []
   end
