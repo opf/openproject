@@ -58,6 +58,26 @@ describe('HalResource service', () => {
     expect(resource.prop).to.exist;
   });
 
+  describe('when creating the resource using fromLink', () => {
+    var resource;
+    var link = {
+      href: 'foo'
+    };
+
+    beforeEach(() => {
+      resource = HalResource.fromLink(link);
+    });
+
+    it('should not be loaded', () => {
+      expect(resource.$loaded).to.be.false;
+    });
+
+    it('should have the same self href as the link', () => {
+      expect(resource.href).to.eq(link.href);
+      expect(resource.$links.self.$link.href).to.eq(link.href);
+    });
+  });
+
   describe('when after generating the lazy object', () => {
     var resource;
     var linkFn = sinon.spy();

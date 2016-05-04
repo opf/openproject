@@ -32,16 +32,26 @@ var halTransform;
 var HalLink;
 
 export default class HalResource {
-  protected static fromLink(link) {
-    return new HalResource({_links: {self: link}}, false);
-  }
-
   public $isHal:boolean = true;
-  public $self: ng.IPromise<HalResource>;
+  public $self:ng.IPromise<HalResource>;
 
   private _name:string;
   private _$links:any;
   private _$embedded:any;
+
+  public static fromLink(link) {
+    var resource = HalResource.getEmptyResource();
+    resource._links.self = link;
+    
+    resource = halTransform(resource);
+    resource.$loaded = false;
+
+    return resource;
+  }
+
+  protected static getEmptyResource():any {
+    return {_links: {self: null}};
+  }
 
   public get name():string {
     return this._name || this.$links.self.$link.title || '';
@@ -130,7 +140,7 @@ export default class HalResource {
           let link = this.$links[linkName].$link || this.$links[linkName];
 
           if (Array.isArray(link)) {
-            return link.map(HalResource.fromLink);
+            return link.map(item => HalResource.fromLink(item));
           }
 
           if (link.href) {
@@ -177,7 +187,7 @@ export default class HalResource {
 
     return this[instanceName] || {};
   }
-}
+};
 
 function halResource(_$q_, _lazy_, _halTransform_, _HalLink_) {
   $q = _$q_;
