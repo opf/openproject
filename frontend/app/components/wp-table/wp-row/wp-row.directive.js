@@ -49,12 +49,6 @@ function wpRow(WorkPackagesTableService){
       scope.workPackage = scope.row.object;
       setCheckboxTitle(scope);
 
-      scope.$watch('row.object.schema.$loaded', function(isLoaded) {
-        if (!isLoaded) {
-          scope.row.object.schema.$load();
-        }
-      });
-
       if (scope.row.parent) setHiddenWorkPackageLabel(scope);
 
       scope.$watch('row.checked', function(checked, formerState) {
