@@ -144,9 +144,8 @@ function halResource($q, _, lazy, halTransform, HalLink) {
                 if (val && val.$isHal) {
                   this.$source._links[linkName] = val.$links.self.$link;
                 }
-
-                return val;
               }
+              return val;
             }
           })
       });
