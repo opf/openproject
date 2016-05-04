@@ -32,6 +32,7 @@ class HomescreenController < ApplicationController
     @newest_projects = Project.visible.newest.take(3)
     @newest_users = User.newest.take(3)
     @news = News.latest(count: 3)
+    @announcement = Announcement.active_and_current
 
     @homescreen = OpenProject::Homescreen
   end

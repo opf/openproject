@@ -34,6 +34,7 @@ function WorkPackageNewController($scope,
                                   $rootScope,
                                   $state,
                                   $stateParams,
+                                  I18n,
                                   PathHelper,
                                   WorkPackagesOverviewService,
                                   WorkPackageFieldService,
@@ -75,7 +76,17 @@ function WorkPackageNewController($scope,
   vm.showToggleButton = WorkPackagesDisplayHelper.showToggleButton;
 
   vm.notifyCreation = function() {
-    NotificationsService.addSuccess(I18n.t('js.notice_successful_create'));
+    NotificationsService.addSuccess({
+      message: I18n.t('js.notice_successful_create'),
+      link: {
+        target: function() {
+          loadingIndicator.mainPage = $state.go.apply($state,
+                                                      ["work-packages.show.activity",
+                                                      $state.params]);
+        },
+        text: I18n.t('js.work_packages.message_successful_show_in_fullscreen')
+      }
+    });
   };
   vm.getHeading = function() {
     if (vm.parentWorkPackage !== undefined) {

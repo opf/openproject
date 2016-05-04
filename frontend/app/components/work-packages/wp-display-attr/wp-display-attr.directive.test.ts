@@ -45,7 +45,7 @@ describe('wpDisplayAttr directive', () => {
 
   beforeEach(angular.mock.inject(($rootScope, $compile) => {
     var html = `
-      <wp-display-attr object="workPackage" schema="schema" attribute="attribute">
+      <wp-display-attr work-package="workPackage" schema="schema" attribute="attribute">
       </wp-display-attr>
     `;
 

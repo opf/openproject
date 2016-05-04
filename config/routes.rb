@@ -208,7 +208,6 @@ OpenProject::Application.routes.draw do
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
 
-
       match 'copy_project_from_(:coming_from)' => 'copy_projects#copy_project', via: :get, as: :copy_from,
             constraints: { coming_from: /(admin|settings)/ }
       match 'copy_from_(:coming_from)' => 'copy_projects#copy', via: :post, as: :copy,
@@ -288,7 +287,6 @@ OpenProject::Application.routes.draw do
     end
 
     resources :work_packages, only: [] do
-
       collection do
         get '/report/:detail' => 'work_packages/reports#report_details'
         get '/report' => 'work_packages/reports#report'
@@ -357,6 +355,7 @@ OpenProject::Application.routes.draw do
   scope 'admin' do
     match '/projects' => 'admin#projects', via: :get, as: :admin_projects
 
+    resource :announcements, only: [:edit, :update]
     resources :enumerations
 
     resources :groups do

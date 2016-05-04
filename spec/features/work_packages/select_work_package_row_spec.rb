@@ -333,5 +333,19 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
         find('#work-packages--edit-actions-cancel').click
       end
     end
+
+    describe 'opening last selected work package' do
+      before do
+        select_work_package_row(2)
+        check_row_selection_state(2)
+      end
+
+      it do
+        find('#work-packages-details-view-button').click
+
+        expect(page).to have_selector('#work-package-subject', text: work_package_2.subject)
+        find('#work-packages-list-view-button').click
+      end
+    end
   end
 end

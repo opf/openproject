@@ -225,6 +225,37 @@ module OpenProject::Plugins
           end
         end
       end
+
+      # Register a block to return results when an api representer's cache key is asked for.
+      #
+      # This is important for cache invalidation e.g. when another schema needs
+      # to be returned depending on whether a module is active or not.
+      #
+      # path:          The fully namespaced representer name, excluding 'API' at the
+      #                beginning and 'Representer' at the end.
+      # keys:          The block to be executed when the cache key is queried for. The block's
+      #                results will be appended to the original cache key if a cache key is already
+      #                defined. If no cache key was defined before, the block's result makes up
+      #                the whole cache key.
+      def add_api_representer_cache_key(*path,
+                                        &keys)
+        mod = Module.new
+        mod.send :define_method, :cache_key do
+          if defined?(super)
+            existing = super()
+
+            existing + instance_eval(&keys)
+          else
+            instance_eval(&keys)
+          end
+        end
+
+        config.to_prepare do
+          representer_namespace = path.map { |arg| arg.to_s.camelize }.join('::')
+          representer_class     = "::API::#{representer_namespace}Representer".constantize
+          representer_class.prepend mod
+        end
+      end
     end
   end
 end

@@ -1,0 +1,63 @@
+<div ng-if="$ctrl.workPackage" wp-edit-form="$ctrl.workPackage">
+  <div class="attributes-group">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text">
+          {{ $ctrl.workPackage.type.name }} #{{ $ctrl.workPackage.id }}
+        </h3>
+      </div>
+
+      <div class="attributes-group--header-container-right">
+        <span ng-bind="$ctrl.I18n.t('js.label_last_updated_on')"/>
+        <op-date date-value="$ctrl.workPackage.updatedAt"></op-date>
+      </div>
+    </div>
+
+    <div
+        wp-edit-field="'description'"
+        class="single-attribute wiki">
+      <wp-display-attr
+          schema="$ctrl.workPackage.schema"
+          work-package="$ctrl.workPackage"
+          attribute="'description'">
+      </wp-display-attr>
+    </div>
+  </div>
+
+  <div ng-repeat="group in $ctrl.groupedFields" ng-hide="$ctrl.shouldHideGroup(group.groupName)" class="attributes-group">
+
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text"
+            ng-bind="$ctrl.I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
+      </div>
+      <div class="attributes-group--header-toggle">
+        <panel-expander tabindex="-1" ng-if="$ctrl.wpSingleView.showToggleButton() && $first"
+                        collapsed="$ctrl.hideEmptyFields"
+                        expand-text="{{ $ctrl.I18n.t('js.label_show_attributes') }}"
+                        collapse-text="{{ $ctrl.I18n.t('js.label_hide_attributes') }}">
+        </panel-expander>
+      </div>
+    </div>
+
+    <div class="attributes-key-value">
+      <div
+          ng-hide="$ctrl.hideEmptyFields && $ctrl.wpSingleView.isFieldHideable($ctrl.workPackage, field)"
+          ng-if="$ctrl.wpSingleView.isSpecified($ctrl.workPackage, field)"
+          ng-repeat-start="field in group.attributes" class="attributes-key-value--key">
+        {{$ctrl.wpSingleView.getLabel($ctrl.workPackage, field)}}
+        <span class="required" ng-if="$ctrl.wpSingleView.hasNiceStar($ctrl.workPackage, field)"> *</span>
+      </div>
+      <div
+          ng-hide="$ctrl.hideEmptyFields && $ctrl.wpSingleView.isFieldHideable($ctrl.workPackage, field)"
+          ng-if="$ctrl.wpSingleView.isSpecified($ctrl.workPackage, field)"
+          ng-repeat-end
+          wp-edit-field="field"
+          class="attributes-key-value--value-container">
+        <wp-display-attr schema="$ctrl.workPackage.schema" work-package="$ctrl.workPackage" attribute="field"></wp-display-attr>
+      </div>
+    </div>
+  </div>
+
+  <work-package-attachments edit work-package="$ctrl.workPackage" data-ng-show="!$ctrl.hideEmptyFields || $ctrl.filesExist"></work-package-attachments>
+</div>

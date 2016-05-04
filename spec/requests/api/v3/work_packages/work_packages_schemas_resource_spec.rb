@@ -40,6 +40,18 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
   describe 'GET /api/v3/work_packages/schemas/:id' do
     let(:schema_path) { api_v3_paths.work_package_schema project.id, type.id }
 
+    def cache_key
+      # Compare with ETag composed of project and customizations
+      # to avoid evaluating the server request
+      custom_fields = project.all_work_package_custom_fields
+
+      custom_fields_key = ActiveSupport::Cache.expand_cache_key custom_fields
+
+      ["api/v3/work_packages/schema/#{project.id}-#{type.id}",
+       type.updated_at,
+       Digest::SHA2.hexdigest(custom_fields_key)]
+    end
+
     context 'logged in' do
       before do
         allow(User).to receive(:current).and_return(current_user)
@@ -53,6 +65,20 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
 
         it 'should set a weak ETag' do
           expect(last_response.headers['ETag']).to match(/W\/\"\w+\"/)
+        end
+
+        it 'caches the response' do
+          schema_class = API::V3::WorkPackages::Schema::TypedWorkPackageSchema
+          representer_class = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter
+
+          schema = schema_class.new(project: project,
+                                    type: type)
+          self_link = api_v3_paths.work_package_schema(project.id, type.id)
+          represented_schema = representer_class.create(schema,
+                                                        self_link: self_link,
+                                                        current_user: nil)
+
+          expect(Rails.cache.fetch(represented_schema.cache_key)).to_not be_nil
         end
       end
 
@@ -79,55 +105,6 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
       it 'should act as if the schema does not exist' do
         get schema_path
         expect(last_response.status).to eql(404)
-      end
-    end
-
-    describe 'schema caching' do
-      # Reproduce the schema cache key.
-      # This is somewhat deeper knowledge, but I can't reliably access
-      # the embedded helper
-      def schema_cache_key
-        [
-          "api/v3/work_packages/schema/#{project.id}-#{type.id}/#{type.updated_at}",
-          project.all_work_package_custom_fields
-        ]
-      end
-
-      let(:cache) { ActiveSupport::Cache::MemoryStore.new }
-      before do
-        allow(Rails).to receive(:cache).and_return(cache)
-        allow(User).to receive(:current).and_return(current_user)
-      end
-
-      it 'should only create the representer once' do
-        expect(::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter)
-          .to receive(:create).once
-          .and_call_original
-
-        expect(Rails.cache.read(schema_cache_key)).to be_nil
-
-        # First request causes schema to be cached
-        get schema_path
-        expect(Rails.cache.read(schema_cache_key)).not_to be_nil
-
-        get schema_path
-        expect(last_response.status).to eql(200)
-      end
-
-      it 'refreshes the cache when the type changes' do
-        expect(::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter)
-          .to receive(:create).twice
-          .and_call_original
-
-        get schema_path
-        expect(Rails.cache.read(schema_cache_key)).not_to be_nil
-
-        expect {
-          type.update_attribute(:updated_at, 1.day.from_now)
-        }.to change { schema_cache_key }
-
-        get schema_path
-        expect(Rails.cache.read(schema_cache_key)).not_to be_nil
       end
     end
   end
@@ -159,6 +136,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
                        'name': 'Estimated time',
                        'visibility': 'default',
                        'required': false,
+                       'hasDefault': false,
                        'writable': false }
           expect(subject.body).to be_json_eql(expected.to_json).at_path('estimatedTime')
         end

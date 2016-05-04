@@ -29,6 +29,10 @@ describe 'inline create work package', js: true do
         subject_field.set_value 'Some subject'
         subject_field.save!
 
+        wp_table.expect_notification(
+          message: 'Successful creation. Click here to open this work package in fullscreen view.'
+        )
+
         # Expect new create row to exist
         expect(page).to have_selector('.wp--row', count: 3)
         expect(page).to have_selector('.wp--row.-new')

@@ -26,44 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {openprojectModule} from "../../../angular-modules";
-import IScope = angular.IScope;
-import WorkPackage = op.WorkPackage;
-import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
-import WorkPackageResource from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {wpDirectivesModule} from "../../../angular-modules";
 
-export class OverviewPanelController {
-
-  public workPackage: WorkPackageResource;
-
-  constructor($scope: IScope, $stateParams: any, private wpCacheService: WorkPackageCacheService) {
-
-    const wpId = parseInt($stateParams.workPackageId);
-
-    scopedObservable($scope, wpCacheService.loadWorkPackage(wpId)).subscribe(wp => {
-      this.workPackage = wp;
-      this.workPackage.schema.$load().then((schema) => {
-        // TODO use schema
-      });
-    });
-  }
-
-}
-
-function wpOverviewPanel() {
+function overviewPanel(){
   return {
     restrict: 'E',
-
-    // scope: {
-    //   workPackage: '=wpEditForm'
-    // },
-
-    templateUrl: "/components/wp-panels/overview-panel/wp-overview-panel.directive.html",
-    controller: OverviewPanelController,
-    controllerAs: '$ctrl',
-    bindToController: true
+    templateUrl: '/components/wp-panels/overview-panel/overview-panel.directive.html',
   };
 }
 
-openprojectModule.directive('wpOverviewPanel', wpOverviewPanel);
+wpDirectivesModule.directive('overviewPanel', overviewPanel);

@@ -116,7 +116,7 @@ export class WorkPackageEditFieldController {
 
   public set editable(enabled:boolean) {
     this._editable = enabled;
-    this.$element.toggleClass('-editable', enabled);
+    this.$element.toggleClass('-editable', !!enabled);
   }
 
   public shouldFocus() {
@@ -190,8 +190,8 @@ function wpEditField() {
 
     scope: {
       fieldName: '=wpEditField',
-      fieldIndex: '=fieldIndex',
-      columns: '=columns'
+      fieldIndex: '=',
+      columns: '='
     },
 
     require: ['^wpEditForm', 'wpEditField'],

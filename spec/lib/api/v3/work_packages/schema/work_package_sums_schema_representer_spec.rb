@@ -67,6 +67,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
                      'name': 'Estimated time',
                      'visibility': 'default',
                      'required': false,
+                     'hasDefault': false,
                      'writable': false }
         expect(subject).to be_json_eql(expected.to_json).at_path('estimatedTime')
       end
@@ -91,6 +92,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
                      'name': custom_field.name,
                      'visibility': 'default',
                      'required': false,
+                     'hasDefault': false,
                      'writable': false }
         expect(subject).to be_json_eql(expected.to_json).at_path("customField#{custom_field.id}")
       end

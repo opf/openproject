@@ -158,7 +158,7 @@ module Redmine::MenuManager::TopMenuHelper
 
     result = ''.html_safe
 
-    render_drop_down_menu_node link_to_help_pop_up do
+    render_drop_down_menu_node(link_to_help_pop_up, class: 'drop-down hidden-for-mobile') do
       content_tag :ul, style: 'display:none', class: 'drop-down--help' do
         result << content_tag(:li) do
                     content_tag(:span, l('top_menu.help_and_support'), class: 'drop-down--help-headline', title: l('top_menu.help_and_support'))
@@ -188,7 +188,7 @@ module Redmine::MenuManager::TopMenuHelper
                     link_to l(:label_release_notes), 'https://www.openproject.org/open-source/release-notes/', title: l(:label_release_notes)
                   end
         result << content_tag(:li) do
-                    link_to l(:label_report_bug), 'https://community.openproject.org/projects/openproject/work_packages', title: l(:label_report_bug)
+                    link_to l(:label_report_bug), 'https://www.openproject.org/open-source/report-bug/', title: l(:label_report_bug)
                   end
         result << content_tag(:li) do
                     link_to l(:label_add_edit_translations), 'https://crowdin.com/projects/opf', title: l(:label_add_edit_translations)
