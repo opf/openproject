@@ -156,7 +156,8 @@ function wpResource(
     }
 
     public get isLeaf():boolean {
-      return !(this as any).children;
+      var children = this.$links.children;
+      return !(children && children.length > 0);
     }
 
     public isParentOf(otherWorkPackage) {
