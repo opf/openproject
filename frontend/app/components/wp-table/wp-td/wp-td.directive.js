@@ -74,7 +74,7 @@ function WorkPackageTdController($scope, I18n, PathHelper, WorkPackagesHelper) {
         return;
       }
 
-      if (!vm.object[vm.attribute] ) {
+      if (vm.object[vm.attribute] == null) {
         vm.displayText = I18n.t('js.work_packages.placeholders.default');
         return;
       }
