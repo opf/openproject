@@ -27,8 +27,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module WorkPackage::PdfExport::ToPdfHelper
-  def get_pdf(language)
-    ::WorkPackage::PdfExport::View.new(current_language)
+module WorkPackage::PdfExport::Common
+  include Redmine::I18n
+  include ActionView::Helpers::TextHelper
+  include ActionView::Helpers::NumberHelper
+  include CustomFieldsHelper
+  include WorkPackage::PdfExport::ToPdfHelper
+
+  def field_value(work_package, attribute)
+    value = work_package.send(attribute)
+
+    if value.is_a? Date
+      format_date value
+    elsif value.is_a? Time
+      format_time value
+    else
+      value.to_s
+    end
   end
 end
