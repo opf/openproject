@@ -26,39 +26,35 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {opWorkPackagesModule} from "../../../angular-modules";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import WorkPackageResource from "../../api/api-v3/hal-resources/work-package-resource.service";
 
-import {openprojectModule} from "../../angular-modules";
-import WorkPackageResource from "../api/api-v3/hal-resources/work-package-resource.service";
+export class WorkPackageSubjectController {
 
+  public workPackage: WorkPackageResource;
 
-export class WorkPackageCacheService {
-
-  private workPackageCache: {[id: number]: WorkPackageResource} = {};
-
-  workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackageResource}>(1);
-
-  /*@ngInject*/
-  constructor(private $rootScope) {
+  constructor(protected $scope,
+              protected $stateParams,
+              protected wpCacheService) {
+    scopedObservable($scope, wpCacheService.loadWorkPackage($stateParams.workPackageId))
+        .subscribe((wp: WorkPackageResource) => {
+          this.workPackage = wp;
+          this.workPackage.schema.$load();
+        });
   }
-
-  updateWorkPackage(wp: WorkPackageResource) {
-    this.updateWorkPackageList([wp]);
-    this.$rootScope.$broadcast('workPackageRefreshRequired');
-  }
-
-  updateWorkPackageList(list: WorkPackageResource[]) {
-    for (const wp of list) {
-      this.workPackageCache[wp.id] = wp;
-    }
-    this.workPackagesSubject.onNext(this.workPackageCache);
-  }
-
-  loadWorkPackage(workPackageId: number): Rx.Observable<WorkPackageResource> {
-    return this.workPackagesSubject
-        .map(cache => cache[workPackageId])
-        .filter(wp => wp !== undefined);
-  }
-
 }
 
-openprojectModule.service('wpCacheService', WorkPackageCacheService);
+function wpSubjectDirective() {
+  return {
+    restrict: 'E',
+    templateUrl: '/components/work-packages/wp-subject/wp-subject.directive.html',
+    scope: {},
+    bindToController: true,
+    controller: WorkPackageSubjectController,
+    controllerAs: '$ctrl'
+  };
+}
+
+opWorkPackagesModule.directive('wpSubject', wpSubjectDirective);
+
