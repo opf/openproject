@@ -32,7 +32,7 @@
             ng-bind="$ctrl.I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
       </div>
       <div class="attributes-group--header-toggle">
-        <panel-expander tabindex="-1" ng-if="$ctrl.wpSingleView.showToggleButton() && $first"
+        <panel-expander tabindex="-1" ng-if="$first"
                         collapsed="$ctrl.hideEmptyFields"
                         expand-text="{{ $ctrl.I18n.t('js.label_show_attributes') }}"
                         collapse-text="{{ $ctrl.I18n.t('js.label_hide_attributes') }}">
@@ -42,22 +42,32 @@
 
     <div class="attributes-key-value">
       <div
-          ng-hide="$ctrl.hideEmptyFields && $ctrl.wpSingleView.isFieldHideable($ctrl.workPackage, field)"
-          ng-if="$ctrl.wpSingleView.isSpecified($ctrl.workPackage, field)"
-          ng-repeat-start="field in group.attributes" class="attributes-key-value--key">
-        {{$ctrl.wpSingleView.getLabel($ctrl.workPackage, field)}}
-        <span class="required" ng-if="$ctrl.wpSingleView.hasNiceStar($ctrl.workPackage, field)"> *</span>
+          class="attributes-key-value--key"
+          ng-repeat-start="field in group.attributes"
+          ng-hide="$ctrl.hideEmptyFields && $ctrl.singleViewWp.canHideField(field)"
+          ng-if="$ctrl.singleViewWp.isSpecified(field)">
+
+        {{$ctrl.singleViewWp.getLabel(field)}}
+        <span class="required" ng-if="$ctrl.singleViewWp.hasNiceStar(field)"> *</span>
       </div>
       <div
-          ng-hide="$ctrl.hideEmptyFields && $ctrl.wpSingleView.isFieldHideable($ctrl.workPackage, field)"
-          ng-if="$ctrl.wpSingleView.isSpecified($ctrl.workPackage, field)"
+          ng-hide="$ctrl.hideEmptyFields && $ctrl.singleViewWp.canHideField(field)"
+          ng-if="$ctrl.singleViewWp.isSpecified(field)"
           ng-repeat-end
           wp-edit-field="field"
           class="attributes-key-value--value-container">
-        <wp-display-attr schema="$ctrl.workPackage.schema" work-package="$ctrl.workPackage" attribute="field"></wp-display-attr>
+        <wp-display-attr
+            schema="$ctrl.workPackage.schema"
+            work-package="$ctrl.workPackage"
+            attribute="field">
+        </wp-display-attr>
       </div>
     </div>
   </div>
 
-  <work-package-attachments edit work-package="$ctrl.workPackage" data-ng-show="!$ctrl.hideEmptyFields || $ctrl.filesExist"></work-package-attachments>
+  <work-package-attachments
+      edit
+      work-package="$ctrl.workPackage"
+      data-ng-show="!$ctrl.hideEmptyFields || $ctrl.filesExist">
+  </work-package-attachments>
 </div>

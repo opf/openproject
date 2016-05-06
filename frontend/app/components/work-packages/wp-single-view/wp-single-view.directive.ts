@@ -28,31 +28,38 @@
 
 import {opWorkPackagesModule} from "../../../angular-modules";
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {SingleViewWorkPackage} from "./single-view-wp.service";
 
 export class WorkPackageSingleViewController {
   public workPackage;
+  public singleViewWp;
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
   public filesExist:boolean = false;
 
+  protected firstTimeFocused:boolean = false;
+
   constructor(protected $scope,
+              protected $window,
               protected $state,
+              protected $stateParams,
               protected WORK_PACKAGE_ATTRIBUTES,
               protected loadingIndicator,
-              protected $stateParams,
-              public wpSingleView,
               protected I18n,
               protected wpCacheService,
               protected NotificationsService,
               protected inplaceEditAll,
-              protected WorkPackageAttachmentsService) {
+              protected WorkPackageAttachmentsService,
+              SingleViewWorkPackage:SingleViewWorkPackage) {
 
     this.groupedFields = angular.copy(WORK_PACKAGE_ATTRIBUTES);
 
     scopedObservable($scope, wpCacheService.loadWorkPackage($stateParams.workPackageId)).subscribe(wp => {
       this.workPackage = wp;
+      this.singleViewWp = new SingleViewWorkPackage(wp);
+      
       this.workPackage.schema.$load().then(schema => {
-        this.wpSingleView.setFocus();
+        this.setFocus();
 
         var otherGroup:any = _.find(this.groupedFields, {groupName: 'other'});
         otherGroup.attributes = [];
@@ -63,10 +70,10 @@ export class WorkPackageSingleViewController {
           }
         });
 
-        otherGroup.attributes.sort((a, b) => {
-          var getLabel = field => this.wpSingleView.getLabel(this.workPackage, field);
-          var left = getLabel(a).toLowerCase();
-          var right = getLabel(b).toLowerCase();
+        otherGroup.attributes.sort((leftField, rightField) => {
+          var getLabel = field => this.singleViewWp.getLabel(field);
+          var left = getLabel(leftField).toLowerCase();
+          var right = getLabel(rightField).toLowerCase();
 
           return left.localeCompare(right);
         });
@@ -91,8 +98,15 @@ export class WorkPackageSingleViewController {
   }
 
   public shouldHideGroup(group) {
-    return this.wpSingleView.shouldHideGroup(
-      this.hideEmptyFields, this.groupedFields, group, this.workPackage);
+    return this.singleViewWp.shouldHideGroup(this.hideEmptyFields, this.groupedFields, group);
+  }
+
+  public setFocus() {
+    if (!this.firstTimeFocused) {
+      this.firstTimeFocused = true;
+      angular.element(this.$window).trigger('resize');
+      angular.element('.work-packages--details--subject .focus-input').focus();
+    }
   }
 }
 
