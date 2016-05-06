@@ -279,6 +279,11 @@ module OpenProject::Costs
       ActionView::Helpers::NumberHelper.send(:include, OpenProject::Costs::Patches::NumberHelperPatch)
     end
 
+    initializer 'costs.register_latest_project_activity' do
+      Project.register_latest_project_activity on: ::CostObject,
+                                               attribute: :updated_on
+    end
+
     config.to_prepare do
       # loading the class so that acts_as_journalized gets registered
       VariableCostObject
