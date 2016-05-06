@@ -5,24 +5,30 @@
 
 <ul class="widget-box--arrow-links">
   <li>
-    <a href="https://www.openproject.org/open-source/release-notes/"
+    <a href="https://www.openproject.org/help/user-guides"
        target="_blank"
-       title="<%= l(:label_release_notes) %>">
-      <%= l(:label_release_notes) %>
+       title="<%= l('homescreen.links.user_guides') %>">
+      <%= l('homescreen.links.user_guides') %>
     </a>
   </li>
   <li>
-    <a href="https://community.openproject.org/projects/openproject/roadmap"
+    <a href="https://www.openproject.org/help/faq"
        target="_blank"
-       title="<%= l(:label_development_roadmap) %>">
-      <%= l(:label_development_roadmap) %>
+       title="<%= l('homescreen.links.faq') %>">
+      <%= l('homescreen.links.faq') %>
     </a>
   </li>
   <li>
-    <a href="https://community.openproject.org/projects/openproject/work_packages"
+    <a title="<%= l('homescreen.links.shortcuts') %>"
+       onClick="modalHelperInstance.createModal('/help/keyboard_shortcuts');">
+      <%= l('homescreen.links.shortcuts') %>
+    </a>
+  </li>
+  <li>
+    <a href="https://community.openproject.com/projects/openproject/boards"
        target="_blank"
-       title="<%= l(:label_report_bug) %>">
-      <%= l(:label_report_bug) %>
+       title="<%= l('homescreen.links.boards') %>">
+      <%= l('homescreen.links.boards') %>
     </a>
   </li>
   <li>
@@ -35,15 +41,29 @@
   <li>
     <a href="https://www.openproject.org/blog/"
        target="_blank"
-       title="<%= l(:label_blog) %>">
-      <%= l(:label_blog) %>
+       title="<%= l('homescreen.links.blog') %>">
+      <%= l('homescreen.links.blog') %>
     </a>
   </li>
   <li>
-    <a href="https://www.openproject.org/open-source/plugins/"
+    <a href="https://www.openproject.org/open-source/release-notes/"
        target="_blank"
-       title="<%= l(:label_plugins) %>">
-      <%= l(:label_plugins) %>
+       title="<%= l(:label_release_notes) %>">
+      <%= l(:label_release_notes) %>
+    </a>
+  </li>
+  <li>
+    <a href="https://community.openproject.org/projects/openproject/work_packages"
+       target="_blank"
+       title="<%= l(:label_report_bug) %>">
+      <%= l(:label_report_bug) %>
+    </a>
+  </li>
+  <li>
+    <a href="https://community.openproject.org/projects/openproject/roadmap"
+       target="_blank"
+       title="<%= l(:label_development_roadmap) %>">
+      <%= l(:label_development_roadmap) %>
     </a>
   </li>
   <li>
