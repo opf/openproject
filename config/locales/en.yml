@@ -1765,6 +1765,7 @@ en:
   text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   text_file_repository_writable: "Attachments directory writable"
   text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
+  text_hint_date_format: "Enter a date in the form of YYYY-MM-DD. Other formats may be changed to an unwanted date."
   text_hint_disable_with_0: "Note: Disable with 0"
   text_hours_between: "Between %{min} and %{max} hours."
   text_work_package_added: "Work package %{id} has been reported by %{author}."
