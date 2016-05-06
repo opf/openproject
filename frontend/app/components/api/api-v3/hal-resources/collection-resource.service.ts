@@ -26,16 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function collectionResource(HalResource: typeof op.HalResource) {
-  class CollectionResource extends HalResource {
-    getElements() {
-      return this.$embedded.elements;
-    }
-  }
+import {HalResource} from './hal-resource.service';
+import {opApiModule} from "../../../../angular-modules";
 
+export class CollectionResource extends HalResource {
+  public getElements() {
+    return this.$embedded.elements;
+  }
+}
+
+function collectionResource() {
   return CollectionResource;
 }
 
-angular
-  .module('openproject.api')
-  .factory('CollectionResource', collectionResource);
+opApiModule.factory('CollectionResource', collectionResource);
