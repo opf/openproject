@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {opApiModule} from "../../../../angular-modules";
+
 var $q;
 var lazy;
 var halTransform;
@@ -188,6 +190,4 @@ function halResource(_$q_, _lazy_, _halTransform_, _HalLink_) {
   return HalResource;
 }
 
-angular
-  .module('openproject.api')
-  .factory('HalResource', ['$q', 'lazy', 'halTransform', 'HalLink', halResource]);
+opApiModule.factory('HalResource', ['$q', 'lazy', 'halTransform', 'HalLink', halResource]);

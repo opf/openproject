@@ -26,11 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import HalResource from './hal-resource.service';
+import {HalResource} from './hal-resource.service';
+import {opApiModule} from "../../../../angular-modules";
 
 var NotificationsService:any;
 
-class ErrorResource extends HalResource {
+export class ErrorResource extends HalResource {
   public errors:any[];
   public message:string;
   public details:any;
@@ -70,6 +71,4 @@ function errorResource(_NotificationsService_) {
   return ErrorResource;
 }
 
-angular
-  .module('openproject.api')
-  .factory('ErrorResource', ['NotificationsService', errorResource]);
+opApiModule.factory('ErrorResource', ['NotificationsService', errorResource]);
