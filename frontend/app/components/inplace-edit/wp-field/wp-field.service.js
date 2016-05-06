@@ -355,6 +355,7 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
       case 'User':
       case 'Status':
       case 'Priority':
+      case 'Project':
       case 'Category':
       case 'Version':
         inplaceType = 'drop-down';
