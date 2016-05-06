@@ -28,8 +28,8 @@
 
 
 import {openprojectModule} from "../../angular-modules";
-import WorkPackage = op.WorkPackage;
 import WorkPackageResource from "../api/api-v3/hal-resources/work-package-resource.service";
+import WorkPackage = op.WorkPackage;
 
 
 export class WorkPackageCacheService {
