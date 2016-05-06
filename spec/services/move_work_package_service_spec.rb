@@ -325,6 +325,30 @@ describe MoveWorkPackageService, type: :model do
           it { is_expected.to be_nil }
         end
 
+        context 'required custom field in the target project' do
+          let(:custom_field) {
+            FactoryGirl.create(
+              :work_package_custom_field,
+              field_format:    'text',
+              is_required:     true,
+              is_for_all:      false
+            )
+          }
+          let!(:target_type) { FactoryGirl.create(:type, custom_fields: [custom_field]) }
+          let!(:target_project) {
+            FactoryGirl.create(
+              :project,
+              types: [target_type],
+              work_package_custom_fields: [custom_field]
+            )
+          }
+          it 'does not copy the work package' do
+            mock_allowed_to_move_to_project(target_project)
+            result = instance.call(target_project, target_type, copy: true)
+            expect(result).to be_falsey
+          end
+        end
+
         describe '#attributes' do
           let(:copy) {
             mock_allowed_to_move_to_project(target_project)

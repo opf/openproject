@@ -49,6 +49,9 @@ class MoveWorkPackageService
 
     move_to_type(modified_work_package, new_type)
 
+    # Reset cached custom values after project/type change
+    modified_work_package.reset_custom_values!
+
     bulk_assign_attributes(modified_work_package, attributes)
 
     modified_work_package
@@ -101,7 +104,6 @@ class MoveWorkPackageService
   def move_to_type(work_package, new_type)
     if new_type
       work_package.type = new_type
-      work_package.reset_custom_values!
     end
   end
 
