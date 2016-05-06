@@ -49,7 +49,7 @@ class AdminController < ApplicationController
     # after once sorting the list
     sort_clear
     sort_init 'lft'
-    sort_update %w(lft name is_public created_on required_disk_space)
+    sort_update %w(lft name is_public created_on required_disk_space latest_activity_at)
     @status = params[:status] ? params[:status].to_i : 1
     c = ARCondition.new(@status == 0 ? 'status <> 0' : ['status = ?', @status])
 
@@ -58,7 +58,9 @@ class AdminController < ApplicationController
       c << ['LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?', name, name]
     end
 
-    @projects = Project.with_required_storage
+    @projects = Project
+                .with_required_storage
+                .with_latest_activity
                 .order(sort_clause)
                 .where(c.conditions)
                 .page(page_param)

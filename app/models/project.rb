@@ -33,6 +33,7 @@ class Project < ActiveRecord::Base
 
   include Project::Copy
   include Project::Storage
+  include Project::Activity
 
   # Project statuses
   STATUS_ACTIVE     = 1

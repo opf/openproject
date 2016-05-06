@@ -261,13 +261,14 @@ en:
         roles: "Roles"
       project:
         identifier: "Identifier"
-        work_packages: "Work Packages"
+        latest_activity_at: "Latest activity at"
         parent: "Subproject of"
-        versions: "Versions"
         project_type: "Project type"
+        queries: "Queries"
         responsible: "Responsible"
         types: "Types"
-        queries: "Queries"
+        versions: "Versions"
+        work_packages: "Work Packages"
       query:
         column_names: "Columns"
         group_by: "Group results by"

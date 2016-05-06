@@ -39,3 +39,24 @@ Redmine::Activity.map do |activity|
   activity.register :time_entries, class_name: 'Activity::TimeEntryActivityProvider',
                                    default: false
 end
+
+Project.register_latest_project_activity on: WorkPackage,
+                                         attribute: :updated_at
+
+Project.register_latest_project_activity on: News,
+                                         attribute: :created_on
+
+Project.register_latest_project_activity on: Changeset,
+                                         chain: Repository,
+                                         attribute: :committed_on
+
+Project.register_latest_project_activity on: WikiContent,
+                                         chain: [Wiki, WikiPage],
+                                         attribute: :updated_on
+
+Project.register_latest_project_activity on: Message,
+                                         chain: Board,
+                                         attribute: :updated_on
+
+Project.register_latest_project_activity on: TimeEntry,
+                                         attribute: :updated_on
