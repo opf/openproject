@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= breadcrumb_toolbar link_to(l(:label_group_plural), groups_path), @group.name %>
+<%= breadcrumb_toolbar @group.name %>
 <ul>
   <% @group.users.each do |user| %>
     <li><%=h user %></li>

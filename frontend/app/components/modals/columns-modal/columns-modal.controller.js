@@ -31,7 +31,7 @@ angular
   .controller('ColumnsModalController', ColumnsModalController);
 
 function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageService,
-    WorkPackagesTableService, $rootScope, $timeout) {
+    WorkPackagesTableService, $rootScope, $timeout, ConfigurationService) {
 
   var vm = this;
 
@@ -42,6 +42,10 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
   vm.oldSelectedColumns = [];
   vm.availableColumns = [];
   vm.unusedColumns = [];
+
+  vm.impaired = ConfigurationService.accessibilityModeEnabled();
+
+  vm.selectedColumnMap = {};
 
   vm.text = {
     closePopup: I18n.t('js.close_popup_title'),
@@ -64,6 +68,7 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
       selectedColumns.forEach(function(column) {
         if (_.contains(availableColumnNames, column.name)) {
           vm.selectedColumns.push(column);
+          vm.selectedColumnMap[column.name] = true;
           vm.oldSelectedColumns.push(column);
         }
       });
@@ -96,6 +101,13 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
     vm.unusedColumns = _.filter(vm.availableColumns, function (column) {
       return !_.contains(used, column.name);
     });
+  };
+
+  vm.setSelectedColumn = function(column) {
+    if (vm.selectedColumnMap[column.name])
+      vm.selectedColumns.push(column);
+    else
+      _.remove(vm.selectedColumns, function(c) { c.name === column.name });
   };
 
   //hack to prevent dragging of close icons

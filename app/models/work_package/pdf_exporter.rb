@@ -36,13 +36,13 @@ module WorkPackage::PdfExporter
            query,
            results,
            options)
-      .to_pdf
+      .render!
   end
 
   # Returns a PDF string of a single work_package
   def work_package_to_pdf(work_package)
     ::WorkPackage::PdfExport::WorkPackageToPdf
       .new(work_package)
-      .to_pdf
+      .render!
   end
 end

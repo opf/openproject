@@ -348,6 +348,7 @@ GEM
     passenger (5.0.22)
       rack
       rake (>= 0.8.1)
+    pdf-core (0.6.1)
     pg (0.18.3)
     poltergeist (1.7.0)
       capybara (~> 2.1)
@@ -355,6 +356,11 @@ GEM
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
     powerpack (0.1.1)
+    prawn (2.1.0)
+      pdf-core (~> 0.6.1)
+      ttfunk (~> 1.4.0)
+    prawn-table (0.2.2)
+      prawn (>= 1.3.0, < 3.0.0)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -530,6 +536,7 @@ GEM
     thread_safe (0.3.5)
     tilt (1.4.1)
     timecop (0.7.3)
+    ttfunk (1.4.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     tzinfo-data (1.2015.6)
@@ -625,6 +632,8 @@ DEPENDENCIES
   passenger
   pg (~> 0.18.3)
   poltergeist
+  prawn (~> 2.1)
+  prawn-table (~> 0.2.2)
   prototype-rails!
   prototype_legacy_helper (= 0.0.0)!
   pry-byebug

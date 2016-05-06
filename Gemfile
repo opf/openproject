@@ -104,6 +104,9 @@ gem 'airbrake', '~> 4.1.0', require: false
 
 gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.git', branch: 'master'
 
+gem 'prawn', '~> 2.1'
+gem 'prawn-table', '~> 0.2.2'
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
