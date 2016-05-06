@@ -1,5 +1,6 @@
 <div class="wp-create-button">
   <button class="button -alt-highlight add-work-package"
+          ui-sref="{{ vm.stateName }}({ projectPath: vm.projectIdentifier })"
           ng-disabled="vm.isDisabled()"
           aria-label="{{ ::vm.text.create }}">
 

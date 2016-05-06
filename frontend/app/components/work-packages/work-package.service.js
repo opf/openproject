@@ -45,6 +45,7 @@ function WorkPackageService($http,
                             EditableFieldsState,
                             WorkPackageFieldService,
                             NotificationsService,
+                            ProjectService,
                             inplaceEditErrors) {
 
   var workPackage,
@@ -83,9 +84,24 @@ function WorkPackageService($http,
     }
   }
 
+  function setAvailableProject(projectIdentifier) {
+    if (projectIdentifier) {
+      return ProjectService.getProject(projectIdentifier).then(function(data) {
+        return PathHelper.apiV3ProjectPath(data.id);
+      });
+    }
+
+    availableProjects = HALAPIResource.setup(PathHelper.apiV3AvailableProjectsPath());
+
+    return availableProjects.fetch().then(function(projects) {
+      var first = projects.embedded.elements[0];
+      return first.url();
+    });
+  }
+
   var WorkPackageService = {
     initializeWorkPackage: function (projectIdentifier, initialData) {
-      var changes = _.clone(initialData);
+      var changes = _.clone(initialData) || { _links: {} };
       var wp = {
         isNew: true,
         embedded: {},
@@ -95,24 +111,28 @@ function WorkPackageService($http,
               .setup(PathHelper
                   .apiV3WorkPackageFormPath(projectIdentifier)),
           updateImmediately: HALAPIResource.setup(
-              PathHelper.apiv3ProjectWorkPackagesPath(projectIdentifier),
-              {method: 'post'}
+            PathHelper.apiV3WorkPackagesPath(projectIdentifier),
+            { method: 'post' }
           )
         }
       };
-      var options = {
-        ajax: {
-          method: 'POST',
-          headers: {
-            Accept: 'application/hal+json'
-          },
-          data: JSON.stringify(changes),
-          contentType: 'application/json; charset=utf-8'
-        }
-      };
 
-      return wp.links.update.fetch(options)
-          .then(function (form) {
+      var deferred = $q.defer();
+      setAvailableProject(projectIdentifier).then(function(projectPath) {
+        // Set the project link
+        changes._links.project = { href: projectPath };
+
+        var options = { ajax: {
+            method: 'POST',
+            headers: {
+              Accept: 'application/hal+json'
+            },
+            data: JSON.stringify(changes),
+            contentType: 'application/json; charset=utf-8'
+          }};
+
+        wp.links.update.fetch(options)
+          .then(function(form) {
             wp.form = form;
             EditableFieldsState.workPackage = wp;
             inplaceEditErrors.errors = null;
@@ -120,8 +140,11 @@ function WorkPackageService($http,
             wp.props = _.clone(form.embedded.payload.props);
             wp.links = _.extend(wp.links, _.clone(form.embedded.payload.links));
 
-            return wp;
+            deferred.resolve(wp);
           });
+      });
+
+      return deferred.promise;
     },
 
     initializeWorkPackageFromCopy: function (workPackage) {
