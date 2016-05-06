@@ -55,7 +55,7 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
   var selectedColumns = QueryService.getSelectedColumns();
 
   // Available selectable Columns
-  vm.promise = QueryService.loadAvailableColumns()
+  vm.promise = QueryService.loadAvailableColumns($scope.projectIdentifier)
     .then(function(availableColumns){
       vm.availableColumns = availableColumns; // all existing columns
       vm.unusedColumns = QueryService.selectUnusedColumns(availableColumns); // columns not shown
