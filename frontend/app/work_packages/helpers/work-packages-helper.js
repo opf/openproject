@@ -153,6 +153,8 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
           return TimezoneService.formattedDuration(value);
         case 'DateTime':
           return TimezoneService.formattedDatetime(value);
+        case('Boolean'):
+          return value ? I18n.t('js.general_text_yes') : I18n.t('js.general_text_no');
         case 'Date':
           return TimezoneService.formattedDate(value);
         default:
