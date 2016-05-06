@@ -52,7 +52,7 @@ export class HalResource {
   }
 
   protected static getEmptyResource():any {
-    return {_links: {self: {}}};
+    return {_links: {self: {href: null}}};
   }
 
   public get name():string {
