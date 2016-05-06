@@ -147,7 +147,7 @@ export default class WorkPackageResource extends HalResource {
         this.saveResource(payload)
           .then(workPackage => {
             angular.extend(this, workPackage);
-            wpCacheService.updateWorkPackageList([this]);
+            wpCacheService.updateWorkPackage(this);
             deferred.resolve(this);
           }).catch((error) => {
           deferred.reject(error);

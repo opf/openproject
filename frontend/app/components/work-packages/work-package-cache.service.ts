@@ -37,6 +37,15 @@ export class WorkPackageCacheService {
 
   workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackageResource}>(1);
 
+  /*@ngInject*/
+  constructor(private $rootScope) {
+  }
+
+  updateWorkPackage(wp: WorkPackageResource) {
+    this.updateWorkPackageList([wp]);
+    this.$rootScope.$broadcast('workPackageRefreshRequired');
+  }
+
   updateWorkPackageList(list: WorkPackageResource[]) {
     for (const wp of list) {
       this.workPackageCache[wp.id] = wp;
