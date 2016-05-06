@@ -44,32 +44,20 @@ export class WorkPackageSingleViewController {
               protected wpCacheService,
               protected NotificationsService,
               protected WorkPackagesOverviewService,
-              protected WorkPackageFieldService,
               protected inplaceEditAll,
               protected WorkPackageAttachmentsService) {
 
+    this.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
+
     scopedObservable($scope, wpCacheService.loadWorkPackage($stateParams.workPackageId)).subscribe(wp => {
       this.workPackage = wp;
-      this.workPackage.schema.$load();
+      this.workPackage.schema.$load().then(schema => {
+        this.wpSingleView.setFocus();
 
-      this.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
-
-      WorkPackageAttachmentsService.hasAttachments(this.workPackage).then(bool => {
-        this.filesExist = bool;
-      });
-
-      $scope.$watch('$ctrl.workPackage.schema', schema => {
-        if (schema) {
-          this.wpSingleView.setFocus();
-        }
-      });
-
-      $scope.$watchCollection('$ctrl.workPackage.form', () => {
-        var schema = WorkPackageFieldService.getSchema(this.workPackage);
         var otherGroup:any = _.find(this.groupedFields, {groupName: 'other'});
         otherGroup.attributes = [];
 
-        angular.forEach(schema.props, (prop, propName) => {
+        angular.forEach(schema, (prop, propName) => {
           if (propName.match(/^customField/)) {
             otherGroup.attributes.push(propName);
           }
@@ -83,6 +71,10 @@ export class WorkPackageSingleViewController {
           return left.localeCompare(right);
         });
       });
+
+      WorkPackageAttachmentsService.hasAttachments(this.workPackage).then(bool => {
+        this.filesExist = bool;
+      });
     });
 
     $scope.$on('workPackageUpdatedInEditor', () => {
@@ -90,13 +82,12 @@ export class WorkPackageSingleViewController {
         message: I18n.t('js.notice_successful_update'),
         link: {
           target: () => {
-            loadingIndicator.mainPage = $state.go(
-              ...["work-packages.show.activity", $state.params]);
+            loadingIndicator.mainPage = $state.go('work-packages.show.activity', $state.params);
           },
           text: I18n.t('js.work_packages.message_successful_show_in_fullscreen')
         }
       });
-    }); 
+    });
   }
 
   public shouldHideGroup(group) {
@@ -111,7 +102,7 @@ function wpSingleViewDirective() {
     templateUrl: '/components/work-packages/wp-single-view/wp-single-view.directive.html',
 
     scope: {},
-    
+
     bindToController: true,
     controller: WorkPackageSingleViewController,
     controllerAs: '$ctrl'
