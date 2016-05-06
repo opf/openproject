@@ -73,6 +73,11 @@ module OpenProject::Meeting
       require 'open_project/meeting/hooks'
     end
 
+    initializer 'meeting.register_latest_project_activity' do
+      Project.register_latest_project_activity on: ::Meeting,
+                                               attribute: :updated_at
+    end
+
     config.to_prepare do
       # load classes so that all User.before_destroy filters are loaded
       require_dependency 'meeting'
