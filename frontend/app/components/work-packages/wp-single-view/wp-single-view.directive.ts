@@ -37,17 +37,17 @@ export class WorkPackageSingleViewController {
 
   constructor(protected $scope,
               protected $state,
+              protected WORK_PACKAGE_ATTRIBUTES,
               protected loadingIndicator,
               protected $stateParams,
               public wpSingleView,
               protected I18n,
               protected wpCacheService,
               protected NotificationsService,
-              protected WorkPackagesOverviewService,
               protected inplaceEditAll,
               protected WorkPackageAttachmentsService) {
 
-    this.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
+    this.groupedFields = angular.copy(WORK_PACKAGE_ATTRIBUTES);
 
     scopedObservable($scope, wpCacheService.loadWorkPackage($stateParams.workPackageId)).subscribe(wp => {
       this.workPackage = wp;
