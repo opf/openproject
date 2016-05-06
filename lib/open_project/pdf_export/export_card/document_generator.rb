@@ -46,9 +46,6 @@ module OpenProject::PdfExport::ExportCard
 
       page_layout = :landscape if config.landscape? else :portrait
       page_size = config.page_size or defaults[:page_size]
-      geom = Prawn::Document::PageGeometry::SIZES[page_size]
-      @paper_width = geom[0]
-      @paper_height = geom[1]
 
       @pdf = Prawn::Document.new(
         :page_layout => page_layout,
@@ -57,6 +54,9 @@ module OpenProject::PdfExport::ExportCard
         :top_margin => 0,
         :bottom_margin => 0,
         :page_size => page_size)
+
+      @paper_width = @pdf.bounds.width
+      @paper_height = @pdf.bounds.height
     end
 
     def render
