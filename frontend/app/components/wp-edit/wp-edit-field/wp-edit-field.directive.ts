@@ -90,6 +90,12 @@ export class WorkPackageEditFieldController {
     });
   }
 
+  public activateIfEditable() {
+    if (this.isEditable) {
+      this.activate();
+    }
+  }
+
   public initializeField() {
     // Activate field when creating a work package
     // and the schema requires this field
@@ -171,14 +177,6 @@ function wpEditFieldLink(
     if (event.keyCode === 27) {
       scope.$evalAsync(_ => scope.vm.reset());
     }
-  });
-
-  // Find inline edit cells to handle click on
-  element.find('.wp-table--cell-span').click(event => {
-    if (scope.vm.isEditable) {
-      scope.vm.activate();
-    }
-    event.stopImmediatePropagation();
   });
 }
 

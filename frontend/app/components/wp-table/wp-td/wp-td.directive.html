@@ -1,19 +1,24 @@
-<span class="wp-table--cell-span"
-      ng-switch="vm.displayType"
-      wp-field="vm.workPackage"
-      field-name="vm.attribute">
-  <progress-bar ng-switch-when="Percent"
-                progress="vm.displayText"
-                width="80px">
-  </progress-bar>
+<span>
+  <span class="wp-table--cell-span"
+        ng-switch="vm.displayType"
+        wp-field="vm.workPackage"
+        field-name="vm.attribute"
+        ng-click="vm.activateIfEditable($event)"
+        data-click-on-keypress="[13, 32]"
+        tabindex="0">
+    <progress-bar ng-switch-when="Percent"
+                  progress="vm.displayText"
+                  width="80px">
+    </progress-bar>
 
-  <span ng-switch-when="SelfLink" title="{{ vm.displayText }}">
-    <a ng-href="{{ vm.displayLink }}">{{ vm.displayText }}</a>
-  </span>
+    <span ng-switch-when="SelfLink" title="{{ vm.displayText }}">
+      <a ng-href="{{ vm.displayLink }}">{{ vm.displayText }}</a>
+    </span>
 
-  <span ng-switch-default
-    title="{{ vm.displayText }}"
-    ng-class="{ 'work-package--placeholder' : vm.displayText == '-' }">
-    {{ vm.displayText }}
+    <span ng-switch-default
+      title="{{ vm.displayText }}"
+      ng-class="{ 'work-package--placeholder' : vm.displayText == '-' }">
+      {{ vm.displayText }}
+    </span>
   </span>
 </span>
