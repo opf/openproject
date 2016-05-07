@@ -39,8 +39,8 @@ de:
     models:
       cost_object: Budget
       cost_type:
-        one: Kostenart
-        other: Kostenarten
+        one: Kostentyp
+        other: Kostentypen
       material_budget_item: Stück
       rate: Satz
     errors:
