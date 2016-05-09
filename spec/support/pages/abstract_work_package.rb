@@ -27,7 +27,6 @@
 #++
 
 require 'support/pages/page'
-require 'features/work_packages/details/inplace_editor/work_package_field'
 
 module Pages
   class AbstractWorkPackage < Page
