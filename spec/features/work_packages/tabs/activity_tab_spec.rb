@@ -129,7 +129,9 @@ describe 'Activity tab', js: true, selenium: true do
         # Quote this comment
         page.find('#activity-1 .comments-icons .icon-quote', visible: false).click
 
-        field = WorkPackageField.new(page, 'activity', '.work-packages--activity--add-comment')
+        field = WorkPackageField.new(page,
+                                     'activity',
+                                     selector: '.work-packages--activity--add-comment')
 
         expect(field.editing?).to be true
 
