@@ -26,7 +26,8 @@ describe 'Work package table context menu', js: true do
     # Open detail pane
     goto_context_menu
     menu.choose('Open details view')
-    expect(page).to have_selector('#work-package-subject', text: work_package.subject)
+    split_page = Pages::SplitWorkPackage.new(work_package)
+    split_page.expect_attributes Subject: work_package.subject
 
     # Open full view
     goto_context_menu
