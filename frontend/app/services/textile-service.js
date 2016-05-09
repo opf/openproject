@@ -32,7 +32,9 @@ module.exports = function($http, PathHelper) {
   };
 
   function renderWithWorkPackageContext(workPackageForm, text) {
-    return render(workPackageForm.links.previewMarkup.props.href, text);
+    console.log(workPackageForm);
+    var previewHref = angular.isDefined(workPackageForm._$links) ? workPackageForm._$links.previewMarkup.$link.href : workPackageForm.links.previewMarkup.props.href;
+    return render(previewHref, text);
   }
 
   function render(url, text) {

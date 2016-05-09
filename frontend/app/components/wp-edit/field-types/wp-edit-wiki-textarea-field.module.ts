@@ -37,7 +37,6 @@ export class WikiTextareaField extends Field {
     // Dependencies
     protected $sce: ng.ISCEService = this.$injector.get("$sce");
     protected TextileService:ng.IServiceProvider = this.$injector.get("TextileService");
-    protected element:any;
 
     // wp resource
     protected workPackage:WorkPackageResource;
@@ -49,12 +48,11 @@ export class WikiTextareaField extends Field {
     public previewHtml:string;
 
 
-    constructor(workPackage, fieldName, schema,$element){
-        super(workPackage, fieldName, schema,$element);
+    constructor(workPackage, fieldName, schema){
+        super(workPackage, fieldName, schema);
 
         this.fieldVal = workPackage[fieldName];
         this.workPackage = workPackage;
-        this.element = $element;
     }
 
     public togglePreview(){
