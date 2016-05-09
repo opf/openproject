@@ -68,7 +68,7 @@ export class WorkPackageEditFormController {
         this.$rootScope.$emit('workPackagesRefreshInBackground');
       })
       .catch((error) => {
-        if (!error.data) {
+        if (!(error.data && error.hasOwnProperty('showErrorNotification')) {
           this.NotificationsService.addError("An internal error has occcurred.");
           return deferred.reject([]);
         }
