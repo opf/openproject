@@ -2,7 +2,8 @@ class WorkPackageField
   include Capybara::DSL
   include RSpec::Matchers
 
-  attr_reader :element
+  attr_reader :element,
+              :property_name
 
   def initialize(context, property_name, selector: nil)
     @property_name = property_name
@@ -25,6 +26,44 @@ class WorkPackageField
 
   def expect_state_text(text)
     expect(@element).to have_selector(trigger_link_selector, text: text)
+  end
+
+  def expect_text(text)
+    expect(element).to have_content(text)
+  end
+
+  ##
+  # Activate the field and check it opened correctly
+  def activate!
+    element.find(trigger_link_selector).click
+    expect_active!
+  end
+
+  def expect_active!
+    expect(element).to have_selector(field_type, wait: 10)
+  end
+
+  def expect_inactive!
+    expect(element).to have_no_selector(field_type, wait: 10)
+  end
+
+  def expect_error
+    expect(page).to have_selector("#{field_selector}.-error")
+  end
+
+  def save!
+    input_element.native.send_keys(:return)
+  end
+
+  ##
+  # Set or select the given value.
+  # For fields of type select, will check for an option with that value.
+  def set_value(content)
+    if field_type == 'select'
+      input_element.find(:option, content).select_option
+    else
+      input_element.set(content)
+    end
   end
 
   def trigger_link
@@ -94,7 +133,8 @@ class WorkPackageField
       extend ::Angular::DSL unless singleton_class.included_modules.include?(::Angular::DSL)
       ng_wait
 
-      expect(page).to have_selector('.work-packages--details--title')
+      expect(page).to have_selector('#work-packages-list-view-button.-active,
+        .work-packages--details--title')
     end
   end
 
@@ -102,5 +142,16 @@ class WorkPackageField
 
   def input_selector
     '.wp-inline-edit--field'
+  end
+
+  def field_type
+    @field_type ||= begin
+      case property_name
+      when :assignee, :priority, :status
+        :select
+      else
+        :input
+      end.to_s
+    end
   end
 end

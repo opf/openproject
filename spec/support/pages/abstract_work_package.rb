@@ -59,24 +59,12 @@ module Pages
       attribute_expectations.each do |label_name, value|
         label = label_name.to_s
 
-        if label == 'Subject'
-          expect(page).to have_selector('.attribute-subject', text: value)
-        elsif label == 'Description'
-          expect(page).to have_selector('.attribute-description', text: value)
-        else
-          expect(page).to have_selector('.attributes-key-value--key', text: label)
-
-          dl_element = page.find('.attributes-key-value--key', text: label).parent
-
-          unless value.nil?
-            expect(dl_element).to have_selector('.attributes-key-value--value-container', text: value)
-          end
-        end
+        expect(page).to have_selector(".wp-edit-field.#{label.downcase}", text: value)
       end
     end
 
     def expect_attribute_hidden(label)
-      expect(page).not_to have_selector('.attributes-key-value--key', text: label)
+      expect(page).not_to have_selector(".wp-edit-field.#{label.downcase}")
     end
 
     def expect_activity(user, number: nil)
@@ -106,16 +94,7 @@ module Pages
         field = WorkPackageField.new(page, key)
         field.activate_edition
 
-        input = field.input_element
-
-        case input.tag_name
-        when 'select'
-          input.select value
-        when 'input', 'textarea'
-          input.set value
-        else
-          raise 'Attribute is not supported as of now.'
-        end
+        field.set_value value
 
         # Workaround for fields with datepickers, which
         # may cover other fields we want to click next

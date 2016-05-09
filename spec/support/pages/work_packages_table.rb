@@ -94,13 +94,11 @@ module Pages
         else
           row(work_package)
         end
-      super(attribute, context)
+
+      WorkPackageField.new(context, attribute)
     end
 
     private
-
-    def row_selector(work_package)
-    end
 
     def path
       project ? project_work_packages_path(project) : work_packages_path
