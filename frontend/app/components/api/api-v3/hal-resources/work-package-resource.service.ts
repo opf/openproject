@@ -103,6 +103,27 @@ class WorkPackageResource extends HalResource {
     return this.form;
   }
 
+  public updateForm(payload) {
+    // Always resolve form to the latest form
+    // This way, we won't have to actively reset it.
+    // But store the existing form in case of an error.
+    // Because if we get an error, the object returned is not a form
+    // and thus lacks the links the implementation depends upon.
+    var oldForm = this.form
+    this.form = this.$links.update(payload);
+
+    var deferred = $q.defer();
+
+    this.form
+      .then(deferred.resolve)
+      .catch(error => {
+        this.form = oldForm;
+        deferred.reject(error);
+      });
+
+    return deferred.promise;
+  }
+
   public getSchema() {
     return this.getForm().then(form => {
       const schema = form.$embedded.schema;
@@ -120,19 +141,9 @@ class WorkPackageResource extends HalResource {
   }
 
   public save() {
-    const plain = this.$plain();
-
-    delete plain.createdAt;
-    delete plain.updatedAt;
-
     var deferred = $q.defer();
 
-    // Always resolve form to the latest form
-    // This way, we won't have to actively reset it.
-    this.form = this.$links.update(this.$source);
-
-    this.form
-      .catch(deferred.reject)
+    this.updateForm(this.$source)
       .then(form => {
 
         // Override the current schema with
@@ -148,8 +159,8 @@ class WorkPackageResource extends HalResource {
 
             deferred.resolve(this);
           }).catch((error) => {
-          deferred.reject(error);
-        });
+            deferred.reject(error);
+          });
       });
 
     return deferred.promise;

@@ -61,7 +61,15 @@ export class ErrorResource extends HalResource {
   }
 
   public getInvolvedColumns():string[] {
-    var columns = this.details ? [{details: this.details}] : this.errors;
+    var columns = [];
+
+    if (this.details) {
+      columns = [{ details: this.details }]
+    }
+    else if (this.errors) {
+      columns = this.errors;
+    }
+
     return columns.map(field => field.details.attribute);
   }
 }
