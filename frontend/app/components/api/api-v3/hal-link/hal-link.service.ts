@@ -58,12 +58,18 @@ export default class HalLink {
       params.unshift('');
     }
 
-    return apiV3.oneUrl('route', this.href)[this.method](...params);
+    return this.$toRoute()[this.method](...params);
+  }
+
+  /** Returns the restangular route object */
+  public $toRoute() {
+    return apiV3.oneUrl('route', this.href);
   }
 
   public $toFunc() {
     const func = (...params) => this.$fetch(...params);
     func.$link = this;
+    func.$route = this.$toRoute();
 
     return func;
   }
