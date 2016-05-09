@@ -48,6 +48,16 @@ export class ApiWorkPackagesService {
   }
 
   /**
+   * Loads a WorkPackage.
+   * 
+   * @param id The ID of the WorkPackage.
+   * @returns {IPromise<any>|IPromise<WorkPackageResource>} A promise for the WorkPackage.
+   */
+  public loadWorkPackageById(id: number) {
+    return this.apiV3.one("work_packages", id).get();
+  }
+
+  /**
    * Returns a promise to post `/api/v3/work_packages/form`.
    *
    * @returns An empty work package form resource.
@@ -69,7 +79,7 @@ export class ApiWorkPackagesService {
     if (!!projectIdentifier) {
       args.push(this.apiV3.one('projects', projectIdentifier));
     }
-    
+
     return this.apiV3.service(...args);
   }
 

@@ -29,6 +29,8 @@
 
 import {openprojectModule} from "../../angular-modules";
 import WorkPackageResource from "../api/api-v3/hal-resources/work-package-resource.service";
+import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
+import IScope = angular.IScope;
 
 
 export class WorkPackageCacheService {
@@ -38,11 +40,13 @@ export class WorkPackageCacheService {
   workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackageResource}>(1);
 
   /*@ngInject*/
-  constructor(private $rootScope) {
+  constructor(private $rootScope: IScope, private apiWorkPackages: ApiWorkPackagesService) {
   }
 
   updateWorkPackage(wp: WorkPackageResource) {
     this.updateWorkPackageList([wp]);
+
+    // romanroe: TODO Remove. Only required for 'old' API consumers.
     this.$rootScope.$broadcast('workPackageRefreshRequired');
   }
 
@@ -53,7 +57,13 @@ export class WorkPackageCacheService {
     this.workPackagesSubject.onNext(this.workPackageCache);
   }
 
-  loadWorkPackage(workPackageId: number): Rx.Observable<WorkPackageResource> {
+  loadWorkPackage(workPackageId: number, forceUpdate = false): Rx.Observable<WorkPackageResource> {
+    if (forceUpdate || this.workPackageCache[workPackageId] === undefined) {
+      this.apiWorkPackages.loadWorkPackageById(workPackageId).then(wp => {
+        this.updateWorkPackage(wp);
+      });
+    }
+
     return this.workPackagesSubject
         .map(cache => cache[workPackageId])
         .filter(wp => wp !== undefined);
