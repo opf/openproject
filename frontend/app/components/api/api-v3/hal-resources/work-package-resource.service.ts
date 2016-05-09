@@ -229,6 +229,7 @@ function wpResource(_$q_:ng.IQService,
 opApiModule.factory('WorkPackageResource', [
   '$q',
   'apiWorkPackages',
+  'wpCacheService',
   'NotificationsService',
   wpResource
 ]);
