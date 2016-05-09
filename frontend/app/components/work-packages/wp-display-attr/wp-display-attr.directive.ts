@@ -85,7 +85,7 @@ export default class WorkPackageDisplayAttributeController {
       if(this.workPackage[this.attribute].hasOwnProperty('html')){
         this.isDisplayAsHtml = true;
         if(this.attribute == "description"){
-          text = (this.workPackage[this.attribute].html.length > 0) ? this.I18n.t('js.work_packages.placeholders.description') : this.workPackage[this.attribute].html;
+          text = (this.workPackage[this.attribute].html.length > 0) ? this.workPackage[this.attribute].html : this.I18n.t('js.work_packages.placeholders.description');
         }else{
           text = this.workPackage[this.attribute].html;
         }
