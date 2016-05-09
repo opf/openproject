@@ -42,7 +42,7 @@ function wpTd(){
       attribute: '='
     },
 
-    require: ['^wpEditField'],
+    require: ['^?wpEditField'],
     link: wpTdLink,
 
     bindToController: true,
