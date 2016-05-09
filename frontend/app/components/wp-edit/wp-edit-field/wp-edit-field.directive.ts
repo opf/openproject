@@ -154,8 +154,7 @@ export class WorkPackageEditFieldController {
     return this.formCtrl.loadSchema().then(schema => {
       this.field = this.wpEditField.getField(
         this.workPackage, this.fieldName, schema[this.fieldName]);
-      this.pristineValue = (this.field.type !== 'wiki-textarea') ? angular.copy(this.workPackage[this.fieldName]) : angular.copy(this.workPackage[this.fieldName].raw) ;
-
+        this.pristineValue = angular.copy(this.workPackage[this.fieldName]);
     });
   }
 

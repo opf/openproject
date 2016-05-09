@@ -31,51 +31,53 @@ import WorkPackageResource from "../../api/api-v3/hal-resources/work-package-res
 
 export class WikiTextareaField extends Field {
 
-    // Template
-    public template:string = '/components/wp-edit/field-types/wp-edit-wiki-textarea-field.directive.html';
+  // Template
+  public template: string = '/components/wp-edit/field-types/wp-edit-wiki-textarea-field.directive.html';
 
-    // Dependencies
-    protected $sce: ng.ISCEService = this.$injector.get("$sce");
-    protected TextileService:ng.IServiceProvider = this.$injector.get("TextileService");
+  // Dependencies
+  protected $sce: ng.ISCEService = this.$injector.get("$sce");
+  protected TextileService: ng.IServiceProvider = this.$injector.get("TextileService");
 
-    // wp resource
-    protected workPackage:WorkPackageResource;
+  // wp resource
+  protected workPackage: WorkPackageResource;
 
-    // Values used in template
-    public fieldVal:Object;
-    public isBusy:boolean = false;
-    public isPreview:boolean = false;
-    public previewHtml:string;
+  // Values used in template
+  public fieldVal: Object;
+  public isBusy: boolean = false;
+  public isPreview: boolean = false;
+  public previewHtml: string;
 
 
-    constructor(workPackage, fieldName, schema){
-        super(workPackage, fieldName, schema);
+  constructor(
+    workPackage,
+    fieldName,
+    schema,
+    protected $sce: ng.ISCEService,
+    protected TextileService
+  ) {
+    super(workPackage, fieldName, schema);
 
-        this.fieldVal = workPackage[fieldName];
-        this.workPackage = workPackage;
+    this.fieldVal = workPackage[fieldName];
+    this.workPackage = workPackage;
+  }
+
+  public togglePreview() {
+    this.isPreview = !this.isPreview;
+    this.previewHtml = '';
+
+    if (this.isPreview) {
+      this.isBusy = true;
+      this.workPackage.getForm().then(form => {
+        var previewLink = form.$links.previewMarkup.$route;
+        previewLink
+          .customPOST(this.fieldVal.raw, undefined, undefined, { 'Content-Type': 'text/plain; charset=UTF-8'  })
+          .then(result => {
+          this.previewHtml = this.$sce.trustAsHtml(result);
+          this.isBusy = false;
+        });
+      });
     }
-
-    public togglePreview(){
-        this.isPreview = !this.isPreview;
-        if(this.isPreview){
-            this.isBusy = true;
-            this.workPackage.getForm().then((form)=>{
-                this.TextileService.renderWithWorkPackageContext(form,
-                    this.fieldVal.raw)
-                    .then((r) => {
-                            this.previewHtml = this.$sce.trustAsHtml(r.data);
-                            this.isBusy = false;
-                        },
-                        function(err){
-                            console.log("TextileService error",err)
-                        });
-            },
-                function(err){
-                    console.log("Error while loading wp form",err);
-                });
-        }
-    }
-
+  }
 
 
 }
