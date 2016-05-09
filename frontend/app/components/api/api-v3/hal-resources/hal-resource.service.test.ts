@@ -46,6 +46,10 @@ describe('HalResource service', () => {
     expect(HalResource).to.exist;
   });
 
+  it('should be instantiable using a default object', () => {
+    expect(new HalResource().href).to.equal(null);
+  });
+
   it('should set its source to _plain if _plain is a property of the source', () => {
     let source = {
       _plain: {
@@ -56,6 +60,26 @@ describe('HalResource service', () => {
     let resource = new HalResource(source);
 
     expect(resource.prop).to.exist;
+  });
+
+  describe('when creating the resource using fromLink', () => {
+    var resource;
+    var link = {
+      href: 'foo'
+    };
+
+    beforeEach(() => {
+      resource = HalResource.fromLink(link);
+    });
+
+    it('should not be loaded', () => {
+      expect(resource.$loaded).to.be.false;
+    });
+
+    it('should have the same self href as the link', () => {
+      expect(resource.href).to.eq(link.href);
+      expect(resource.$links.self.$link.href).to.eq(link.href);
+    });
   });
 
   describe('when after generating the lazy object', () => {

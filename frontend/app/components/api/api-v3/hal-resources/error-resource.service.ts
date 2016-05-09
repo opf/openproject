@@ -26,51 +26,57 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function errorResource(HalResource:typeof op.HalResource, NotificationsService:any) {
-  class ErrorResource extends HalResource {
-    public errors:any[];
-    public message:string;
-    public details:any;
-    public errorIdentifier:string;
+import {HalResource} from './hal-resource.service';
+import {opApiModule} from "../../../../angular-modules";
 
-    public get errorMessages():string[] {
-      if (this.isMultiErrorMessage()) {
-        return this.errors.map(error => error.message);
-      } else {
-        return [this.message];
-      }
+var NotificationsService:any;
+
+export class ErrorResource extends HalResource {
+  public errors:any[];
+  public message:string;
+  public details:any;
+  public errorIdentifier:string;
+
+  public get errorMessages():string[] {
+    if (this.isMultiErrorMessage()) {
+      return this.errors.map(error => error.message);
     }
 
-    public isMultiErrorMessage() {
-      return this.errorIdentifier === 'urn:openproject-org:api:v3:errors:MultipleErrors';
+    return [this.message];
+  }
+
+  public isMultiErrorMessage() {
+    return this.errorIdentifier === 'urn:openproject-org:api:v3:errors:MultipleErrors';
+  }
+
+  public showErrorNotification() {
+    var messages = this.errorMessages;
+
+    if (messages.length > 1) {
+      NotificationsService.addError('', messages);
     }
-
-    public showErrorNotification() {
-      var messages = this.errorMessages;
-      if (messages.length > 1) {
-        NotificationsService.addError('', messages);
-      } else {
-        NotificationsService.addError(messages[0]);
-      }
-    }
-
-    public getInvolvedColumns():string[] {
-      var columns = [];
-
-      if (this.details) {
-        columns = [{ details: this.details }]
-      }
-      else if (this.errors) {
-        columns = this.errors;
-      }
-
-      return columns.map(field => field.details.attribute);
+    else {
+      NotificationsService.addError(messages[0]);
     }
   }
 
+  public getInvolvedColumns():string[] {
+    var columns = [];
+
+    if (this.details) {
+      columns = [{ details: this.details }]
+    }
+    else if (this.errors) {
+      columns = this.errors;
+    }
+
+    return columns.map(field => field.details.attribute);
+  }
+}
+
+function errorResource(_NotificationsService_) {
+  NotificationsService = _NotificationsService_;
   return ErrorResource;
 }
 
-angular
-  .module('openproject.api')
-  .factory('ErrorResource', errorResource);
+opApiModule.factory('ErrorResource', ['NotificationsService', errorResource]);
