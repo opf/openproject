@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'features/work_packages/details/inplace_editor/work_package_field'
+require 'support/work_packages/work_package_field'
 require 'features/work_packages/work_packages_page'
 
 describe 'custom field inplace editor', js: true, selenium: true do

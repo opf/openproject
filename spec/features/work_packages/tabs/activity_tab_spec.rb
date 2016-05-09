@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 require 'features/work_packages/work_packages_page'
-require 'features/work_packages/details/inplace_editor/work_package_field'
+require 'support/work_packages/work_package_field'
 
 describe 'Activity tab', js: true, selenium: true do
   def alter_work_package_at(work_package, attributes:, at:, user: User.current)
