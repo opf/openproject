@@ -3,7 +3,8 @@
       vm.errorenous && '-error' || '',
       vm.isEditable && '-editable' || '',
       vm.active && '-active' || '',
-      vm.fieldName
+      vm.fieldName,
+      vm.field.type !== 'wiki-textarea' && '-small'
      ]">
 
   <form ng-if="vm.workPackage && vm.active"
