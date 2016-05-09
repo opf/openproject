@@ -4,7 +4,7 @@
       vm.isEditable && '-editable' || '',
       vm.active && '-active' || '',
       vm.fieldName,
-      vm.field.type !== 'wiki-textarea' && '-small'
+      vm.fieldType === 'wiki-textarea' ? '' : '-small'
      ]">
 
   <form ng-if="vm.workPackage && vm.active"

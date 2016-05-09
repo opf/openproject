@@ -35,6 +35,7 @@ export class WorkPackageEditFieldController {
   public formCtrl: WorkPackageEditFormController;
   public wpEditForm:ng.IFormController;
   public fieldName:string;
+  public fieldType:string;
   public fieldIndex:number;
   public field:Field;
   public errorenous:boolean;
@@ -109,7 +110,9 @@ export class WorkPackageEditFieldController {
     // We're resolving the non-form schema here since its loaded anyway for the table
     this.workPackage.schema.$load().then(schema => {
       var fieldSchema = schema[this.fieldName];
+
       this.editable = fieldSchema && fieldSchema.writable;
+      this.fieldType = fieldSchema && this.wpEditField.fieldType(fieldSchema.type);
     });
   }
 

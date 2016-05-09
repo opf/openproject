@@ -9,7 +9,7 @@
           class="focus-input inplace-edit--textarea -animated"
           id="inplace-edit--write-value--{{::vm.field.name}}"
           name="value"
-          ng-blur="!(vm.field.isPreview) ? vm.submit() : null"
+          ng-blur="vm.field.submitUnlessInPreview(vm)"
           ng-hide="vm.field.isPreview"
           ng-disabled="vm.field.isBusy"
           ng-model="vm.field.fieldVal.raw">  </textarea>

@@ -55,9 +55,8 @@ module.exports = function() {
 
     var previewButtonAttributes = PREVIEW_BUTTON_ATTRIBUTES;
     previewButtonAttributes.click = function() {
+      scope.previewToggle();
       scope.$apply(function() {
-        scope.isPreview = !scope.isPreview;
-        scope.previewToggle();
 
         var title = scope.isPreview ? PREVIEW_DISABLE_TEXT : PREVIEW_ENABLE_TEXT;
         var toggledClasses = 'icon-preview icon-ticket-edit -active';
