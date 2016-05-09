@@ -147,14 +147,6 @@ describe 'routing', type: :routing do
     }
   end
 
-  context 'issues' do
-    # Extra actions
-    it {
-      is_expected.to route(:get, '/issues/changes').to(controller: 'journals',
-                                                       action: 'index')
-    }
-  end
-
   context 'enumerations' do
     context 'within admin' do
       it {

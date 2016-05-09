@@ -14,6 +14,7 @@
   <span ng-switch-default
     title="{{ $ctrl.displayText }}"
     ng-class="{ 'work-package--placeholder' : $ctrl.displayText == '-' }">
-    {{ $ctrl.displayText }}
+    <span ng-if="$ctrl.isDisplayAsHtml" ng-bind-html="$ctrl.displayText"></span>
+    <span ng-if="!$ctrl.isDisplayAsHtml" ng-bind="$ctrl.displayText"></span>
   </span>
 </span>

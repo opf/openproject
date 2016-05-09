@@ -30,6 +30,7 @@ import HalResource from "../../api/api-v3/hal-resources/hal-resource.service";
 
 export default class WorkPackageDisplayAttributeController {
   public displayText:string;
+  public isDisplayAsHtml:boolean = false;
   public displayType:string;
   public displayLink:string;
   public attribute:string;
@@ -80,6 +81,15 @@ export default class WorkPackageDisplayAttributeController {
       var text = this.workPackage[this.attribute].value ||
         this.workPackage[this.attribute].name ||
         this.workPackage[this.attribute];
+
+      if(this.workPackage[this.attribute].hasOwnProperty('html')){
+        this.isDisplayAsHtml = true;
+        if(this.attribute == "description"){
+          text = (this.workPackage[this.attribute].length > 0) ? this.I18n.t('js.work_packages.placeholders.description') :  this.workPackage[this.attribute].html;
+        }else{
+          text = this.workPackage[this.attribute].html;
+        }
+      }
 
       this.displayText = this.WorkPackagesHelper.formatValue(text, this.displayType);
     });

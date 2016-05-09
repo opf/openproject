@@ -46,3 +46,8 @@ h2:hover a.wiki-anchor,
 h3:hover a.wiki-anchor {
   display: none;
 }
+
+.ng-modal-window.columns-modal .ng-modal-inner {
+  overflow: auto;
+  margin-top: 5vh;
+}

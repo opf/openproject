@@ -26,19 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {HalResource} from './hal-resource.service';
+import {opApiModule} from "../../../../angular-modules";
 import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
-import HalResource from './hal-resource.service';
 
-var $q:ng.IQService;
+var $q;
 var apiWorkPackages;
-var wpCacheService:WorkPackageCacheService;
-var NotificationsService:any;
+var wpCacheService;
+var NotificationsService;
 
-export default class WorkPackageResource extends HalResource {
+export class WorkPackageResource extends HalResource {
+  private form;
   public schema;
   public id;
-
-  private form;
 
   public static fromCreateForm(projectIdentifier?:string):ng.IPromise<WorkPackageResource> {
     var deferred = $q.defer();
@@ -105,6 +105,27 @@ export default class WorkPackageResource extends HalResource {
     return this.form;
   }
 
+  public updateForm(payload) {
+    // Always resolve form to the latest form
+    // This way, we won't have to actively reset it.
+    // But store the existing form in case of an error.
+    // Because if we get an error, the object returned is not a form
+    // and thus lacks the links the implementation depends upon.
+    var oldForm = this.form;
+    this.form = this.$links.update(payload);
+
+    var deferred = $q.defer();
+
+    this.form
+      .then(deferred.resolve)
+      .catch(error => {
+        this.form = oldForm;
+        deferred.reject(error);
+      });
+
+    return deferred.promise;
+  }
+
   public getSchema() {
     return this.getForm().then(form => {
       const schema = form.$embedded.schema;
@@ -122,19 +143,9 @@ export default class WorkPackageResource extends HalResource {
   }
 
   public save() {
-    const plain = this.$plain();
-
-    delete plain.createdAt;
-    delete plain.updatedAt;
-
     var deferred = $q.defer();
 
-    // Always resolve form to the latest form
-    // This way, we won't have to actively reset it.
-    this.form = this.$links.update(this.$source);
-
-    this.form
-      .catch(deferred.reject)
+    this.updateForm(this.$source)
       .then(form => {
 
         // Override the current schema with
@@ -158,7 +169,8 @@ export default class WorkPackageResource extends HalResource {
   }
 
   public get isLeaf():boolean {
-    return !(this as any).children;
+    var children = this.$links.children;
+    return !(children && children.length > 0);
   }
 
   public isParentOf(otherWorkPackage) {
@@ -214,11 +226,9 @@ function wpResource(_$q_:ng.IQService,
   return WorkPackageResource;
 }
 
-angular
-  .module('openproject.api')
-  .factory('WorkPackageResource', [
-    '$q',
-    'apiWorkPackages',
-    'wpCacheService',
-    'NotificationsService',
-    wpResource]);
+opApiModule.factory('WorkPackageResource', [
+  '$q',
+  'apiWorkPackages',
+  'NotificationsService',
+  wpResource
+]);

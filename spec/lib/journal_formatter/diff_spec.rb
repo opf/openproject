@@ -47,11 +47,11 @@ describe OpenProject::JournalFormatter::Diff do
   let(:key) { 'description' }
 
   let(:url) {
-    url_helper.journal_diff_path(id: journal.id,
+    url_helper.diff_journal_path(id: journal.id,
                                  field: key.downcase)
   }
   let(:full_url) {
-    url_helper.journal_diff_url(id: journal.id,
+    url_helper.diff_journal_url(id: journal.id,
                                 field: key.downcase,
                                 protocol: Setting.protocol,
                                 host: Setting.host_name)

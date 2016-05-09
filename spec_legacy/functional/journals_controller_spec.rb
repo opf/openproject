@@ -40,54 +40,6 @@ describe JournalsController, type: :controller do
     User.current = nil
   end
 
-  it 'should get edit' do
-    issue = WorkPackage.find(1)
-    journal = FactoryGirl.create :work_package_journal,
-                                 journable_id: issue.id
-    identifier = "journal-#{journal.id}"
-
-    session[:user_id] = 1
-    xhr :get, :edit, id: journal.id
-    assert_response :success
-    assert_select_rjs :insert, :after, "#{identifier}-notes" do |matches|
-      # workaround for assert_select_rjs incompatibility with Rails DOM Testing.
-      rjs_content = Nokogiri::HTML(matches.map(&:to_s).join)
-      refute_empty css_select(rjs_content, "form[id=#{identifier}-form]")
-      refute_empty css_select(rjs_content, 'textarea')
-    end
-  end
-
-  it 'should post edit' do
-    issue = WorkPackage.find(1)
-    journal = FactoryGirl.create :work_package_journal,
-                                 journable_id: issue.id,
-                                 data: FactoryGirl.build(:journal_work_package_journal)
-    identifier = "journal-#{journal.id}-notes"
-
-    session[:user_id] = 1
-    xhr :post, :update, id: journal.id, notes: 'Updated notes'
-    assert_response :success
-    assert_select_rjs :replace, identifier
-    assert_equal 'Updated notes', Journal.find(journal.id).notes
-  end
-
-  it 'should post edit with empty notes' do
-    issue = WorkPackage.find(1)
-    FactoryGirl.create :work_package_journal,
-                       journable_id: issue.id,
-                       data: FactoryGirl.build(:journal_work_package_journal)
-    journal = FactoryGirl.create :work_package_journal,
-                                 journable_id: issue.id,
-                                 data: FactoryGirl.build(:journal_work_package_journal)
-    identifier = "change-#{journal.id}"
-
-    session[:user_id] = 1
-    xhr :post, :update, id: journal.id, notes: ''
-    assert_response :success
-    assert_select_rjs :remove, identifier
-    assert_nil Journal.find_by(id: journal.id)
-  end
-
   it 'should index' do
     get :index, project_id: 1, format: :atom
     assert_response :success
