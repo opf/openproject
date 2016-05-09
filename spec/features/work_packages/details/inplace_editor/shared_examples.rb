@@ -42,7 +42,7 @@ shared_examples 'an auth aware field' do
     }
 
     it 'is not editable' do
-      expect { field.trigger_link }.to raise_error Capybara::ElementNotFound
+      expect(field).not_to be_editable
     end
   end
 end
@@ -105,10 +105,6 @@ shared_examples 'a cancellable field' do
     before do
       field.activate_edition
       field.cancel_by_escape
-    end
-
-    after do
-      field.cancel_by_click
     end
 
     it_behaves_like 'cancelling properly'

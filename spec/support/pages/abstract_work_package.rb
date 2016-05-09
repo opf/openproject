@@ -41,6 +41,10 @@ module Pages
       visit path(tab)
     end
 
+    def edit_field(attribute, context)
+      WorkPackageField.new(context, attribute)
+    end
+
     def expect_subject
       within(container) do
         expect(page).to have_content(work_package.subject)

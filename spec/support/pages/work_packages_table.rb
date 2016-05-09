@@ -88,10 +88,19 @@ module Pages
     end
 
     def edit_field(work_package, attribute)
-      InlineEditField.new(work_package, attribute)
+      context =
+        if work_package.nil?
+          table_container.find('.wp--row.-new')
+        else
+          row(work_package)
+        end
+      super(attribute, context)
     end
 
     private
+
+    def row_selector(work_package)
+    end
 
     def path
       project ? project_work_packages_path(project) : work_packages_path

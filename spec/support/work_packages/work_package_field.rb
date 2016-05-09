@@ -4,14 +4,15 @@ class WorkPackageField
 
   attr_reader :element
 
-  def initialize(page, property_name, selector = nil)
+  def initialize(context, property_name, selector: nil)
     @property_name = property_name
+    @context = context
 
     if selector.nil?
       if property_name == :'start-date' || property_name == :'end-date'
-        @selector = '.work-package-field.work-packages--details--date'
+        @selector = '.wp-edit-field.date'
       else
-        @selector = ".work-package-field.work-packages--details--#{@property_name}"
+        @selector = ".wp-edit-field.#{@property_name}"
       end
     else
       @selector = selector
@@ -19,11 +20,11 @@ class WorkPackageField
 
     ensure_page_loaded
 
-    @element = page.find(field_selector)
+    @element = @context.find(@selector)
   end
 
   def expect_state_text(text)
-    expect(@element).to have_selector('.inplace-edit--read-value', text: text)
+    expect(@element).to have_selector(trigger_link_selector, text: text)
   end
 
   def trigger_link
@@ -31,7 +32,7 @@ class WorkPackageField
   end
 
   def trigger_link_selector
-    'a.inplace-editing--trigger-link'
+    '.wp-table--cell-span'
   end
 
   def field_selector
@@ -41,7 +42,7 @@ class WorkPackageField
   def activate_edition
     tag = element.find("#{trigger_link_selector}, #{input_selector}")
 
-    if tag.tag_name == 'a'
+    if tag.tag_name == 'span'
       tag.click
     end
     # else do nothing as the element is already in edit mode
@@ -52,7 +53,8 @@ class WorkPackageField
   end
 
   def submit_by_click
-    @element.find('.inplace-edit--control--save > a', wait: 5).click
+    ActiveSupport::Deprecation.warn('submit_by_click is no longer available')
+    submit_by_enter
   end
 
   def submit_by_enter
@@ -60,10 +62,8 @@ class WorkPackageField
   end
 
   def cancel_by_click
-    cancel_link_selector = '.inplace-edit--control--cancel a'
-    if @element.has_selector?(cancel_link_selector)
-      @element.find(cancel_link_selector).click
-    end
+    ActiveSupport::Deprecation.warn('cancel_by_click is no longer available')
+    cancel_by_escape
   end
 
   def cancel_by_escape
@@ -71,11 +71,14 @@ class WorkPackageField
   end
 
   def editable?
-    trigger_link.visible? rescue false
+    @element['class'].include? '-editable'
   end
 
   def editing?
-    @element.find('.inplace-edit--write').visible? rescue false
+    @element.find(input_selector)
+    true
+  rescue
+    false
   end
 
   def errors_text
@@ -91,16 +94,13 @@ class WorkPackageField
       extend ::Angular::DSL unless singleton_class.included_modules.include?(::Angular::DSL)
       ng_wait
 
-      expect(page).to have_selector('.work-packages--details--subject')
+      expect(page).to have_selector('.work-packages--details--title')
     end
   end
 
   private
 
   def input_selector
-    selector = { :'start-date' => 'date-start',
-                 :'end-date' => 'date-end' }[@property_name] || @property_name
-
-    "#inplace-edit--write-value--#{selector}"
+    '.wp-inline-edit--field'
   end
 end

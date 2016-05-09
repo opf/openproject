@@ -1,5 +1,14 @@
+
 <div class="wp-edit-field"
      ng-class="{ '-error': vm.errorenous, '-active': vm.active }">
+<div class="wp-edit-field"
+     ng-class="[
+      vm.errorenous && '-error' || '',
+      vm.isEditable && '-editable' || '',
+      vm.active && '-active' || '',
+      vm.fieldName
+     ]">
+
   <form ng-if="vm.workPackage && vm.active"
         name="vm.wpEditForm"
         ng-submit="vm.submit()">
