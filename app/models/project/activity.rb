@@ -27,12 +27,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require Rails.root.join('config/constants/project_activity')
+
 module Project::Activity
   def self.included(base)
     base.send :extend, Scopes
   end
 
   module Scopes
+    def register_latest_project_activity(on:, chain: [], attribute:)
+      Constants::ProjectActivity.register(on: on,
+                                          chain: chain,
+                                          attribute: attribute)
+    end
+
+    def latest_project_activity
+      @latest_project_activity ||=
+        Constants::ProjectActivity.registered.map { |params|
+          build_latest_project_activity_for(on: params[:on],
+                                            chain: params[:chain],
+                                            attribute: params[:attribute])
+        }
+    end
+
     def with_latest_activity
       Project
         .select('projects.*, activity.latest_activity_at')
@@ -51,23 +68,19 @@ module Project::Activity
       latest_project_activity.join(' UNION ALL ')
     end
 
-    def register_latest_project_activity(on:, chain: [], attribute:)
-      @latest_project_activity ||= []
-
-      join_chain = Array(chain).push(on)
+    def build_latest_project_activity_for(on:, chain:, attribute:)
+      join_chain = Array(chain).dup.push(on)
       from = join_chain.first
 
       joins = build_joins_from_chain(join_chain)
 
-      sql = <<-SQL
-              SELECT project_id, MAX(#{on.table_name}.#{attribute}) updated_at
-              FROM #{from.table_name}
-              #{joins.join(' ')}
-              WHERE #{on.table_name}.#{attribute} IS NOT NULL
-              GROUP BY project_id
-            SQL
-
-      @latest_project_activity << sql
+      <<-SQL
+        SELECT project_id, MAX(#{on.table_name}.#{attribute}) updated_at
+        FROM #{from.table_name}
+        #{joins.join(' ')}
+        WHERE #{on.table_name}.#{attribute} IS NOT NULL
+        GROUP BY project_id
+      SQL
     end
 
     def build_joins_from_chain(join_chain)
@@ -91,7 +104,5 @@ module Project::Activity
            #{right.table_name}.#{association.foreign_key}
       SQL
     end
-
-    attr_reader :latest_project_activity
   end
 end
