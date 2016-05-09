@@ -161,8 +161,8 @@ export class HalResource {
                 this.$source._links[linkName] = val.$links.self.$link;
               }
 
-              return val;
             }
+            return val;
           }
         })
     });
