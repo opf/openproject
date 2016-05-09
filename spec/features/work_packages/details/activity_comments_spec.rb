@@ -23,7 +23,7 @@ describe 'activity comments', js: true, selenium: true do
 
   context 'with permission' do
     let(:user) { FactoryGirl.create :admin }
-    let(:field) { WorkPackageField.new page, 'activity', selector }
+    let(:field) { WorkPackageField.new page, 'activity', selector: selector }
 
     before do
       work_packages_page.visit_index(work_package)
