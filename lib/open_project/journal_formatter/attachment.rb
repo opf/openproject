@@ -29,6 +29,7 @@
 class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
   include ApplicationHelper
   include OpenProject::StaticRouting::UrlHelpers
+  include OpenProject::ObjectLinking
 
   def self.default_url_options
     { only_path: true }

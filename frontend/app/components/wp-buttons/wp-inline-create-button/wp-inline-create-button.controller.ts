@@ -41,6 +41,8 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
     protected $state,
     protected $scope,
     protected $rootScope,
+    protected $element,
+    protected FocusHelper,
     protected I18n,
     protected ProjectService,
     protected WorkPackageResource,
@@ -68,6 +70,7 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
       if (row.object === this._wp) {
         this.rows.splice(index, 1);
         this.show();
+        FocusHelper.focusElement(this.$element);
       }
     });
   }

@@ -146,7 +146,10 @@ describe WorkPackage, type: :model do
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:due_date]).to be_present
-        expect(planning_element.errors[:due_date]).to eq(['must be greater than start date.'])
+        error_message = I18n.t(:greater_than_or_equal_to_start_date, scope: [:activerecord,
+                                                                             :errors,
+                                                                             :messages])
+        expect(planning_element.errors[:due_date]).to eq([error_message])
       end
 
       it 'is invalid if planning_element is milestone and due_date is not on start_date' do
@@ -158,7 +161,13 @@ describe WorkPackage, type: :model do
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:due_date]).to be_present
-        expect(planning_element.errors[:due_date]).to eq(['is not on start date, although this is required for milestones.'])
+        error_message = I18n.t(:not_start_date, scope: [:activerecord,
+                                                        :errors,
+                                                        :models,
+                                                        :work_package,
+                                                        :attributes,
+                                                        :due_date])
+        expect(planning_element.errors[:due_date]).to eq([error_message])
       end
     end
 

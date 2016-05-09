@@ -175,6 +175,9 @@ module Redmine::MenuManager::TopMenuHelper
         result << content_tag(:li) do
                     link_to l('homescreen.links.boards'), 'https://community.openproject.com/projects/openproject/boards', title: l('homescreen.links.boards')
                   end
+        result << content_tag(:li) do
+                    link_to l(:label_professional_support), 'https://www.openproject.org/professional-services/', title: l(:label_professional_support)
+                  end
         result << content_tag(:hr, '', class: 'form--separator')
 
 
@@ -191,10 +194,13 @@ module Redmine::MenuManager::TopMenuHelper
                     link_to l(:label_report_bug), 'https://www.openproject.org/open-source/report-bug/', title: l(:label_report_bug)
                   end
         result << content_tag(:li) do
+                    link_to l(:label_development_roadmap), 'https://community.openproject.org/projects/openproject/roadmap', title: l(:label_development_roadmap)
+                  end
+        result << content_tag(:li) do
                     link_to l(:label_add_edit_translations), 'https://crowdin.com/projects/opf', title: l(:label_add_edit_translations)
                   end
         result << content_tag(:li) do
-                    link_to l(:label_api_access_key_type), 'https://www.openproject.org/api', title: l(:label_api_access_key_type)
+                    link_to l(:label_api_documentation), 'https://www.openproject.org/api', title: l(:label_api_documentation)
                   end
 
         result

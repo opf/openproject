@@ -26,11 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import HalResource from './hal-resource.service';
+import {HalResource} from './hal-resource.service';
+import {opApiModule} from "../../../../angular-modules";
 
 var NotificationsService:any;
 
-class ErrorResource extends HalResource {
+export class ErrorResource extends HalResource {
   public errors:any[];
   public message:string;
   public details:any;
@@ -60,7 +61,15 @@ class ErrorResource extends HalResource {
   }
 
   public getInvolvedColumns():string[] {
-    var columns = this.details ? [{details: this.details}] : this.errors;
+    var columns = [];
+
+    if (this.details) {
+      columns = [{ details: this.details }]
+    }
+    else if (this.errors) {
+      columns = this.errors;
+    }
+
     return columns.map(field => field.details.attribute);
   }
 }
@@ -70,6 +79,4 @@ function errorResource(_NotificationsService_) {
   return ErrorResource;
 }
 
-angular
-  .module('openproject.api')
-  .factory('ErrorResource', ['NotificationsService', errorResource]);
+opApiModule.factory('ErrorResource', ['NotificationsService', errorResource]);

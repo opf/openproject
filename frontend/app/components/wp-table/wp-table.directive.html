@@ -132,11 +132,12 @@
           </td>
           <td ng-if="row.object.isNew" class="cancel-inline-create -short">
             <span>
-              <a class="wp-table--cancel-create-link"
-                 ng-click="cancelInlineWorkPackage($index, row)">
-                <i class="icon icon-cancel"></i>
-                <span ng-bind="I18n.t('js.button_cancel')"/>
-              </a>
+              <accessible-by-keyboard
+                          execute="cancelInlineWorkPackage($index, row)"
+                          span-class="icon icon-cancel"
+                          link-title="{{ text.cancel }}"
+                          link-class="wp-table--cancel-create-link">
+              </accessible-by-keyboard>
             </span>
           </td>
 

@@ -163,8 +163,8 @@ OpenProject::Application.routes.draw do
 
   # only providing routes for journals when there are multiple subclasses of journals
   # all subclasses will look for the journals routes
-  resources :journals, only: [:edit, :update] do
-    get :preview, on: :member
+  resources :journals, only: :index do
+    get 'diff/:field', action: :diff, on: :member, as: 'diff'
   end
 
   # REVIEW: review those wiki routes
@@ -187,11 +187,6 @@ OpenProject::Application.routes.draw do
   end
 
   resources :watchers, only: [:destroy]
-
-  # TODO: remove
-  scope 'issues' do
-    get 'changes' => 'journals#index', as: 'changes'
-  end
 
   resources :projects, except: [:edit] do
     member do
@@ -436,9 +431,6 @@ OpenProject::Application.routes.draw do
       get :status_by
     end
   end
-
-  # Misc journal routes. TODO: move into resources
-  match '/journals/:id/diff/:field' => 'journals#diff', via: :get, as: 'journal_diff'
 
   namespace :time_entries do
     resource :report, controller: 'reports',

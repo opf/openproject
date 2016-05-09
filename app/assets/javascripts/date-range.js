@@ -40,13 +40,33 @@
         periodOptionList = $('#period_type_list'),
         periodOptionInterval = $('#period_type_interval');
 
-    var activateRadiobutton = function(radioButton) {
-      return function() {
-        radioButton.attr('checked', true);
+    var disableInputFields = function(radioButton) {
+      return function () {
+        if (radioButton == periodOptionList) {
+          jQuery('#period').attr("tabindex", -1);
+          jQuery('#from').removeAttr("tabindex");
+          jQuery('#to').removeAttr("tabindex");
+        }
+        else {
+          jQuery('#from').attr("tabindex", -1);
+          jQuery('#to').attr("tabindex", -1);
+          jQuery('#period').removeAttr("tabindex");
+        }
       };
     };
 
-    intervalInputs.on('click', activateRadiobutton(periodOptionInterval));
-    period.on('click', activateRadiobutton(periodOptionList));
+    jQuery(document).ready(function() {
+      if (periodOptionInterval.is(':checked')) {
+        jQuery('#period').attr("tabindex", -1);
+      }
+      else {
+        jQuery('#from').attr("tabindex", -1);
+        jQuery('#to').attr("tabindex", -1);
+      }
+    });
+
+    periodOptionList.on('change', disableInputFields(periodOptionInterval));
+    periodOptionInterval.on('change', disableInputFields(periodOptionList));
+
   });
 }(jQuery));

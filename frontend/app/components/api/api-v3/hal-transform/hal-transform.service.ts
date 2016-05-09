@@ -30,11 +30,16 @@ function halTransform(halTransformTypes) {
   return (element:op.ApiResult) => {
     const resourceClass = halTransformTypes[element._type] || halTransformTypes.default;
 
-    if (element._embedded || element._links) {
-      return new resourceClass(element);
+    if (!(element._embedded || element._links)) {
+      return element;
     }
 
-    return element;
+    // Add explicit null self link as per HAL recommendation.
+    if (element._links && element._links.self === undefined) {
+      element._links.self = { href: null };
+    }
+
+    return new resourceClass(element);
   };
 }
 

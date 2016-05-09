@@ -26,12 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {opApiModule} from "../../../../angular-modules";
+
 var $q;
 var lazy;
 var halTransform;
 var HalLink;
 
-export default class HalResource {
+export class HalResource {
   public $isHal:boolean = true;
   public $self:ng.IPromise<HalResource>;
 
@@ -42,7 +44,7 @@ export default class HalResource {
   public static fromLink(link) {
     var resource = HalResource.getEmptyResource();
     resource._links.self = link;
-    
+
     resource = halTransform(resource);
     resource.$loaded = false;
 
@@ -50,7 +52,7 @@ export default class HalResource {
   }
 
   protected static getEmptyResource():any {
-    return {_links: {self: {}}};
+    return {_links: {self: {href: null}}};
   }
 
   public get name():string {
@@ -187,7 +189,7 @@ export default class HalResource {
 
     return this[instanceName] || {};
   }
-};
+}
 
 function halResource(_$q_, _lazy_, _halTransform_, _HalLink_) {
   $q = _$q_;
@@ -198,6 +200,4 @@ function halResource(_$q_, _lazy_, _halTransform_, _HalLink_) {
   return HalResource;
 }
 
-angular
-  .module('openproject.api')
-  .factory('HalResource', ['$q', 'lazy', 'halTransform', 'HalLink', halResource]);
+opApiModule.factory('HalResource', ['$q', 'lazy', 'halTransform', 'HalLink', halResource]);

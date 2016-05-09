@@ -41,6 +41,7 @@ export class WorkPackageEditFieldController {
   protected pristineValue:any;
 
   protected _active:boolean = false;
+  protected _forceFocus:boolean = false;
 
   // Since we load the schema asynchronously
   // all fields are initially viewed as editable until it is loaded
@@ -48,7 +49,10 @@ export class WorkPackageEditFieldController {
 
   constructor(
     protected wpEditField:WorkPackageEditFieldService,
+    protected $scope,
     protected $element,
+    protected $timeout,
+    protected FocusHelper,
     protected NotificationsService,
     protected I18n) {
 
@@ -67,9 +71,9 @@ export class WorkPackageEditFieldController {
       .then(() => this.deactivate());
   }
 
-  public activate(forceFocus = true) {
+  public activate() {
     if (this._active) {
-      this.setFocus(forceFocus);
+      this.focusField();
       return;
     }
 
@@ -86,7 +90,7 @@ export class WorkPackageEditFieldController {
         ));
       }
 
-      this.setFocus(forceFocus);
+      this.focusField();
     });
   }
 
@@ -120,16 +124,17 @@ export class WorkPackageEditFieldController {
   }
 
   public shouldFocus() {
-    return !this.workPackage.isNew || this.formCtrl.firstActiveField === this.fieldName;
+    return this._forceFocus ||
+           !this.workPackage.isNew ||
+           this.formCtrl.firstActiveField === this.fieldName;
   }
 
-  public setFocus(focus = true) {
-    if (focus) {
-      this.$element.find('.wp-inline-edit--field').focus();
-    }
+  public focusField() {
+    this.$timeout(_ => this.$scope.$broadcast('updateFocus'));
   }
 
   public deactivate():boolean {
+    this._forceFocus = false;
     return this._active = false;
   }
 

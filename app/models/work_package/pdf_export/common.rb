@@ -26,24 +26,23 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
-require 'journals_controller'
 
-describe JournalsController, type: :controller do
-  include PrototypeRails::SelectorAssertions
+module WorkPackage::PdfExport::Common
+  include Redmine::I18n
+  include ActionView::Helpers::TextHelper
+  include ActionView::Helpers::NumberHelper
+  include CustomFieldsHelper
+  include WorkPackage::PdfExport::ToPdfHelper
 
-  render_views
+  def field_value(work_package, attribute)
+    value = work_package.send(attribute)
 
-  fixtures :all
-
-  before do
-    User.current = nil
-  end
-
-  it 'should index' do
-    get :index, project_id: 1, format: :atom
-    assert_response :success
-    refute_nil assigns(:journals)
-    assert_equal 'application/atom+xml', response.content_type
+    if value.is_a? Date
+      format_date value
+    elsif value.is_a? Time
+      format_time value
+    else
+      value.to_s
+    end
   end
 end
