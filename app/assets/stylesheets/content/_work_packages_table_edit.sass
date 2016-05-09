@@ -43,11 +43,14 @@
 .wp-edit-field
   padding-left: 0
 
+  // Avoid jumping subject field
+  &:first-of-type
+    padding: 0
   &.-active
     padding: 0
 
   &.-error
-    
+
     .wp-table--cell-span,
     input,
     select
