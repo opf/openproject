@@ -228,7 +228,7 @@ GEM
     equivalent-xml (0.5.1)
       nokogiri (>= 1.4.3)
     erubis (2.7.0)
-    eventmachine (1.0.8)
+    eventmachine (1.0.7)
     excon (0.45.3)
     execjs (2.4.0)
     factory_girl (4.5.0)
