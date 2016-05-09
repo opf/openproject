@@ -105,6 +105,10 @@ function WorkPackageTdController($scope, I18n, PathHelper, WorkPackagesHelper) {
 
       event.stopImmediatePropagation();
     };
+
+    vm.isEditable = function() {
+      return vm.wpEditField && vm.wpEditField._editable;
+    };
   }
 
   $scope.$watch('vm.object.' + vm.attribute, updateAttribute);

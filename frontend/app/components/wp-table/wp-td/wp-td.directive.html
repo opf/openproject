@@ -5,7 +5,7 @@
         field-name="vm.attribute"
         ng-click="vm.activateIfEditable($event)"
         data-click-on-keypress="[13, 32]"
-        tabindex="0">
+        ng-attr-tabindex="{{vm.isEditable() ? '0' : '-1'}}">
     <progress-bar ng-switch-when="Percent"
                   progress="vm.displayText"
                   width="80px">
