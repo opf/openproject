@@ -49,12 +49,6 @@ describe 'subject inplace editor', js: true, selenium: true do
     options = page.all("#{field.field_selector} select option")
     expect(options.map(&:text)).to eq(['-', version3.name, version2.name, version.name])
 
-    optgroups = page.all("#{field.field_selector} select optgroup", visible: false)
-      .map { |el| el[:label] }
-
-    expect(optgroups).to eq(%w(Aunt Child Root))
-
-
     options[1].select_option
     field.submit_by_click
 
