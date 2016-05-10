@@ -155,4 +155,4 @@ function wpAttachmentsDirective(WorkPackageAttachmentsService,
   };
 }
 
-wpDirectivesModule.directive('workPackageAttachments', wpAttachmentsDirective);
+wpDirectivesModule.directive('wpAttachments', wpAttachmentsDirective);

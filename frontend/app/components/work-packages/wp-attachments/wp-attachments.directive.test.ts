@@ -68,8 +68,7 @@ describe('WorkPackageAttachmentsDirective', function() {
       return resolve([]);
     });
 
-    var html = '<work-package-attachments edit work-package="workPackage">' +
-               '</work-package-attachments>';
+    var html = '<wp-attachments edit work-package="workPackage"></wp-attachments>';
 
     element = angular.element(html);
     rootScope = $rootScope;
