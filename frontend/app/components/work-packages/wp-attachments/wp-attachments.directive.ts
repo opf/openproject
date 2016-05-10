@@ -28,7 +28,7 @@
 
 import {wpDirectivesModule} from "../../../angular-modules";
 
-function wpAttachmentsDirective(WorkPackageAttachmentsService,
+function wpAttachmentsDirective(wpAttachments,
                                 NotificationsService,
                                 I18n,
                                 ConfigurationService,
@@ -47,7 +47,7 @@ function wpAttachmentsDirective(WorkPackageAttachmentsService,
           return;
         }
         if (scope.files.length > 0) {
-          WorkPackageAttachmentsService.upload(workPackage, scope.files).then(function () {
+          wpAttachments.upload(workPackage, scope.files).then(function () {
             scope.files = [];
             loadAttachments();
           });
@@ -58,7 +58,7 @@ function wpAttachmentsDirective(WorkPackageAttachmentsService,
           return;
         }
         scope.loading = true;
-        WorkPackageAttachmentsService.load(workPackage, true).then(function (attachments) {
+        wpAttachments.load(workPackage, true).then(function (attachments) {
           scope.attachments = attachments;
         }).finally(function () {
           scope.loading = false;
@@ -74,7 +74,7 @@ function wpAttachmentsDirective(WorkPackageAttachmentsService,
     var currentlyRemoving = [];
     scope.remove = function (file) {
       currentlyRemoving.push(file);
-      WorkPackageAttachmentsService.remove(file).then(function (file) {
+      wpAttachments.remove(file).then(function (file) {
         _.remove(scope.attachments, file);
         _.remove(scope.files, file);
       }).finally(function () {

@@ -28,8 +28,8 @@
 
 declare const WebKitBlobBuilder:any;
 
-describe('workPackageAttachmentsService', () => {
-  var WorkPackageAttachmentsService;
+describe('wpAttachments', () => {
+  var wpAttachments;
   var $httpBackend;
 
   var workPackage = {
@@ -59,8 +59,8 @@ describe('workPackageAttachmentsService', () => {
 
   beforeEach(angular.mock.module('openproject.workPackages'));
 
-  beforeEach(angular.mock.inject((_WorkPackageAttachmentsService_, _$httpBackend_) => {
-    WorkPackageAttachmentsService = _WorkPackageAttachmentsService_;
+  beforeEach(angular.mock.inject((_wpAttachments_, _$httpBackend_) => {
+    wpAttachments = _wpAttachments_;
     $httpBackend = _$httpBackend_;
   }));
 
@@ -79,7 +79,7 @@ describe('workPackageAttachmentsService', () => {
     });
 
     it('should retrieve attachments for a given work pacakge', () => {
-      WorkPackageAttachmentsService.load(workPackage).then(result => {
+      wpAttachments.load(workPackage).then(result => {
         expect(result).to.eql([1,2,3]);
       });
       $httpBackend.flush();
@@ -105,7 +105,7 @@ describe('workPackageAttachmentsService', () => {
 
     it('should create an attachment for a given work package', () => {
       var files = createFiles();
-      WorkPackageAttachmentsService.upload(workPackage, files);
+      wpAttachments.upload(workPackage, files);
       $httpBackend.flush();
     });
   });
@@ -116,7 +116,7 @@ describe('workPackageAttachmentsService', () => {
     });
 
     it('should remove an attachment', () => {
-      WorkPackageAttachmentsService.remove(attachment);
+      wpAttachments.remove(attachment);
       $httpBackend.flush();
     });
   });

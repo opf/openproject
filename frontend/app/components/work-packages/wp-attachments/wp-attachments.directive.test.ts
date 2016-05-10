@@ -38,7 +38,7 @@ describe('WorkPackageAttachmentsDirective', function() {
   beforeEach(angular.mock.module('openproject.templates'));
 
   var loadPromise,
-      workPackageAttachmentsService = {
+      wpAttachments = {
         load: function() {
           return loadPromise;
         },
@@ -52,7 +52,7 @@ describe('WorkPackageAttachmentsDirective', function() {
       };
 
   beforeEach(angular.mock.module('openproject.workPackages.services', function($provide) {
-    $provide.constant('WorkPackageAttachmentsService', workPackageAttachmentsService);
+    $provide.constant('wpAttachments', wpAttachments);
   }));
 
   beforeEach(angular.mock.module('openproject.config', function($provide) {
@@ -113,7 +113,7 @@ describe('WorkPackageAttachmentsDirective', function() {
       //need to have files to be able to trigger uploads
       isolatedScope.files = files;
 
-      var uploadStub = workPackageAttachmentsService.upload = sinon.stub().returns(dumbPromise);
+      var uploadStub = wpAttachments.upload = sinon.stub().returns(dumbPromise);
 
       isolatedScope.uploadFilteredFiles(files, {}, {}, true);
 

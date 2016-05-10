@@ -106,4 +106,4 @@ function wpAttachmentsService($q, $timeout, $http, Upload, I18n, NotificationsSe
   };
 }
 
-wpServicesModule.factory('WorkPackageAttachmentsService', wpAttachmentsService);
+wpServicesModule.factory('wpAttachments', wpAttachmentsService);

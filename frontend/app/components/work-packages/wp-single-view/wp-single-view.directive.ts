@@ -48,7 +48,7 @@ export class WorkPackageSingleViewController {
               protected wpCacheService,
               protected NotificationsService,
               protected inplaceEditAll,
-              protected WorkPackageAttachmentsService,
+              protected wpAttachments,
               protected SingleViewWorkPackage) {
 
     this.groupedFields = angular.copy(WORK_PACKAGE_ATTRIBUTES);
@@ -78,7 +78,7 @@ export class WorkPackageSingleViewController {
         });
       });
 
-      WorkPackageAttachmentsService.hasAttachments(this.workPackage).then(bool => {
+      wpAttachments.hasAttachments(this.workPackage).then(bool => {
         this.filesExist = bool;
       });
     });
