@@ -59,5 +59,5 @@ Feature: Viewing an issue
   @javascript
   Scenario: Calling the issue page and view the issue
     When I go to the page of the issue "issue1"
-    Then I should see "issue1" within "#work-package-subject"
+    Then I should see "issue1" within ".wp-edit-field.subject"
     And  I should see "Bug #1" within ".work-packages--left-panel"

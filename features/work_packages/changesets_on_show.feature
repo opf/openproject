@@ -61,5 +61,5 @@ Feature: A work packages changesets are displayed on the work package show page
         | view_work_packages |
     When I go to the page of the work package "wp1"
     # Safeguard to ensure the page is loaded
-    Then I should see "wp1" within ".work-packages--details--subject"
+    Then I should see "wp1" within ".wp-edit-field.subject"
     Then I should not be presented changesets
