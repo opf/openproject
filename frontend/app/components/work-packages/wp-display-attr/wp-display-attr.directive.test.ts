@@ -41,7 +41,8 @@ describe('wpDisplayAttr directive', () => {
 
   beforeEach(angular.mock.module('openproject.templates', $provide => {
     $provide.constant('ConfigurationService', {
-      isTimezoneSet: sinon.stub().returns(false)
+      isTimezoneSet: sinon.stub().returns(false),
+      accessibilityModeEnabled: sinon.stub().returns(false);
     });
   }));
 

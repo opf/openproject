@@ -173,7 +173,8 @@ function wpEditFieldLink(
   scope,
   element,
   attrs,
-  controllers: [WorkPackageEditFormController, WorkPackageEditFieldController]) {
+  controllers: [WorkPackageEditFormController, WorkPackageEditFieldController],
+  $timeout) {
 
   controllers[1].formCtrl = controllers[0];
   controllers[1].formCtrl.fields[scope.vm.fieldName] = scope.vm;
@@ -183,7 +184,10 @@ function wpEditFieldLink(
   element.addClass(scope.vm.fieldName);
   element.keyup(event => {
     if (event.keyCode === 27) {
-      scope.$evalAsync(_ => scope.vm.reset());
+      scope.$evalAsync(() => {
+        scope.vm.reset();
+        scope.vm.focusField();
+      });
     }
   });
 }

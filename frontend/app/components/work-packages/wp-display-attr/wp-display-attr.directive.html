@@ -5,6 +5,7 @@
         field-name="$ctrl.attribute"
         ng-click="$ctrl.activateIfEditable($event)"
         data-click-on-keypress="[13, 32]"
+        focus
         ng-attr-tabindex="{{$ctrl.isEditable() ? '0' : '-1'}}">
     <progress-bar ng-switch-when="Percent"
                   progress="$ctrl.displayText"
