@@ -11,9 +11,11 @@
     <a ng-href="{{ $ctrl.displayLink }}">{{ $ctrl.displayText }}</a>
   </span>
 
-  <span ng-switch-default
-    title="{{ $ctrl.displayText }}"
-    ng-class="{ 'work-package--placeholder' : $ctrl.displayText == '-' }">
+  <span
+      title="{{ $ctrl.displayText }}"
+      class="cell-span--value"
+      ng-switch-default
+      ng-class="{ 'work-package--placeholder' : $ctrl.displayText == '-' }">
     <span ng-if="$ctrl.isDisplayAsHtml" ng-bind-html="$ctrl.displayText"></span>
     <span ng-if="!$ctrl.isDisplayAsHtml" ng-bind="$ctrl.displayText"></span>
   </span>

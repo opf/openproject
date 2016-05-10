@@ -26,9 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import HalResource from "../../api/api-v3/hal-resources/hal-resource.service";
+import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
+import {wpDirectivesModule} from "../../../angular-modules";
 
-export default class WorkPackageDisplayAttributeController {
+export class WorkPackageDisplayAttributeController {
   public displayText:string;
   public isDisplayAsHtml:boolean = false;
   public displayType:string;
@@ -65,29 +66,29 @@ export default class WorkPackageDisplayAttributeController {
 
   protected updateAttribute() {
     this.schema.$load().then(() => {
+      const wpAttr:any = this.workPackage[this.attribute];
+
       if (this.workPackage.isNew && this.attribute === 'id') {
         this.displayText = 'text';
         this.displayText = '';
         return;
       }
 
-      if (!this.workPackage[this.attribute]) {
+      if (!wpAttr) {
         this.displayText = this.I18n.t('js.work_packages.placeholders.default');
         return;
       }
 
       this.setDisplayType();
 
-      var text = this.workPackage[this.attribute].value ||
-        this.workPackage[this.attribute].name ||
-        this.workPackage[this.attribute];
+      var text = wpAttr.value || wpAttr.name || wpAttr;
 
-      if(this.workPackage[this.attribute].hasOwnProperty('html')){
+      if (wpAttr.hasOwnProperty('html')) {
         this.isDisplayAsHtml = true;
-        if(this.attribute == "description"){
-          text = (this.workPackage[this.attribute].html.length > 0) ? this.workPackage[this.attribute].html : this.I18n.t('js.work_packages.placeholders.description');
-        }else{
-          text = this.workPackage[this.attribute].html;
+        text = wpAttr.html;
+
+        if (this.attribute === 'description' && !(wpAttr.html.length > 0)) {
+          text = this.I18n.t('js.work_packages.placeholders.description');
         }
       }
 
@@ -96,7 +97,7 @@ export default class WorkPackageDisplayAttributeController {
   }
 }
 
-function wpDisplayAttr() {
+function wpDisplayAttrDirective() {
   return {
     restrict: 'E',
     replace: true,
@@ -114,6 +115,4 @@ function wpDisplayAttr() {
   };
 }
 
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpDisplayAttr', wpDisplayAttr);
+wpDirectivesModule.directive('wpDisplayAttr', wpDisplayAttrDirective);

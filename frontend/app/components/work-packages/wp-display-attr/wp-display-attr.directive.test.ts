@@ -32,10 +32,12 @@ describe('wpDisplayAttr directive', () => {
   var rootScope;
   var scope;
 
-  beforeEach(angular.mock.module('openproject.workPackages.directives'));
-  beforeEach(angular.mock.module('openproject.templates',
+  beforeEach(angular.mock.module(
+    'openproject.workPackages.directives',
+    'openproject.templates',
     'openproject.api',
-    'openproject.services'));
+    'openproject.services'
+  ));
 
   beforeEach(angular.mock.module('openproject.templates', $provide => {
     $provide.constant('ConfigurationService', {
@@ -59,10 +61,10 @@ describe('wpDisplayAttr directive', () => {
     };
   }));
 
-  var getInnermostSpan = start => start.find('span').last();
+  var getInnermostSpan = start => start.find('.cell-span--value');
 
   describe('element', () => {
-    beforeEach(inject(function ($q) {
+    beforeEach(angular.mock.inject(($q) => {
       scope.workPackage = {
         subject: 'Subject1',
         type: {id: 1, name: 'Bug'},
