@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,20 +24,54 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function() {
+import {WorkPackageEditFieldController} from "../wp-edit-field/wp-edit-field.directive";
+import {Field} from "../wp-edit-field/wp-edit-field.module";
+
+
+export class WorkPackageFieldControlsController {
+  public fieldCtrl: WorkPackageEditFieldController;
+  public cancelTitle: string;
+  public saveTitle: string;
+
+  constructor() {
+  }
+
+  public get field():Field {
+    return this.fieldCtrl.field;
+  }
+}
+
+function wpEditFieldLink(
+  scope,
+  element,
+  attrs,
+  controllers: [WorkPackageEditFieldController]) {
+
+  scope.vm.fieldCtrl = controllers[0];
+}
+
+
+function wpEditFieldControls() {
   return {
     restrict: 'E',
-    transclude: true,
+    templateUrl: '/components/wp-edit/field-controls/wp-edit-field-controls.directive.html',
+    require: ['^wpEditField'],
+
     scope: {
-      execute: '&',
-      isDisabled: '=?',
-      linkClass: '@',
-      linkTitle: '@',
-      spanClass: '@',
-      ariaLabel: '@'
+      cancelTitle: '@',
+      saveTitle: '@'
     },
-    templateUrl: '/templates/components/accessible_by_keyboard.html'
+
+    link: wpEditFieldLink,
+    controller: WorkPackageFieldControlsController,
+    controllerAs: 'vm',
+    bindToController: true
   };
-};
+}
+
+//TODO: Use 'openproject.wpEdit' module
+angular
+  .module('openproject')
+  .directive('wpEditFieldControls', wpEditFieldControls);

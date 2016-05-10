@@ -1,0 +1,19 @@
+<div class="inplace-edit--dashboard">
+  <div class="inplace-edit--controls"
+       ng-hide="!vm.fieldCtrl.active">
+    <accessible-by-keyboard execute="vm.fieldCtrl.submit()"
+                            ng-disabled="vm.field.isEmpty()"
+                            is-disabled="vm.field.isEmpty()"
+                            link-title="{{ vm.saveTitle }}"
+                            class="inplace-edit--control inplace-edit--control--save">
+      <icon-wrapper icon-name="checkmark" icon-title="{{ vm.saveTitle }}">
+      </icon-wrapper>
+    </accessible-by-keyboard>
+    <accessible-by-keyboard execute="vm.fieldCtrl.reset()"
+                            link-title="{{ vm.cancelTitle }}"
+                            class="inplace-edit--control inplace-edit--control--cancel">
+      <icon-wrapper icon-name="close" icon-title="{{ vm.cancelTitle }}">
+      </icon-wrapper>
+    </accessible-by-keyboard>
+</div>
+</div>
