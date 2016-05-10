@@ -134,7 +134,9 @@ class WorkPackageField
       ng_wait
 
       expect(page).to have_selector('#work-packages-list-view-button.-active,
-        .work-packages--details--title')
+        .work-packages--details--title,
+        .work-package-details-activities-activity-contents,
+        #work-packages--edit-actions-save'.squish)
     end
   end
 

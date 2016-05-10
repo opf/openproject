@@ -59,7 +59,7 @@ module Pages
       attribute_expectations.each do |label_name, value|
         label = label_name.to_s
 
-        expect(page).to have_selector(".wp-edit-field.#{label.downcase}", text: value)
+        expect(page).to have_selector(".wp-edit-field.#{label.camelize(:lower)}", text: value)
       end
     end
 
