@@ -7,9 +7,9 @@ ar:
   enumeration_doc_categories: فئات الوثائق
   enumeration:
     document_category:
-      documentation: Documentation
-      specification: Specification
-      other: Other
+      documentation: التوثيق
+      specification: المواصفة
+      other: أخرى
   label_document_added: تم إضافة وثيقة
   label_document_new: وثيقة جديدة
   label_document_plural: الوثائق
