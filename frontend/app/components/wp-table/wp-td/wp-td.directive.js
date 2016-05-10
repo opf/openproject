@@ -42,10 +42,22 @@ function wpTd(){
       attribute: '='
     },
 
+    require: ['^?wpEditField'],
+    link: wpTdLink,
+
     bindToController: true,
     controller: WorkPackageTdController,
     controllerAs: 'vm'
   };
+}
+
+function wpTdLink(
+  scope,
+  element,
+  attr,
+  controllers) {
+
+  scope.vm.wpEditField = controllers[0];
 }
 
 function WorkPackageTdController($scope, I18n, PathHelper, WorkPackagesHelper) {
@@ -87,6 +99,16 @@ function WorkPackageTdController($scope, I18n, PathHelper, WorkPackagesHelper) {
 
       vm.displayText = WorkPackagesHelper.formatValue(text, vm.displayType);
     });
+
+    vm.activateIfEditable = function(event) {
+      vm.wpEditField.activateIfEditable();
+
+      event.stopImmediatePropagation();
+    };
+
+    vm.isEditable = function() {
+      return vm.wpEditField && vm.wpEditField._editable;
+    };
   }
 
   $scope.$watch('vm.object.' + vm.attribute, updateAttribute);

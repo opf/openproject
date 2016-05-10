@@ -128,7 +128,7 @@ module.exports = function($window, $rootScope, $timeout, PathHelper) {
     focusElements = [];
     domLists = angular.element(accessibleListSelector);
     domLists.find('tbody tr').each(function(index, tr){
-      var firstLink = angular.element(tr).find(':visible:focusable:not(.toggle-all, input)')[0];
+      var firstLink = angular.element(tr).find(':visible:tabbable:not(.toggle-all, input)')[0];
       if ( firstLink !== undefined ) { focusElements.push(firstLink); }
     });
     return focusElements;
@@ -142,7 +142,7 @@ module.exports = function($window, $rootScope, $timeout, PathHelper) {
       angular
         .element(document.activeElement)
         .parents(accessibleRowSelector)
-        .find(':visible:focusable:not(input)')[0]
+        .find(':visible:tabbable:not(input)')[0]
     );
     angular.element(list[(index+offset+list.length) % list.length]).focus();
   }
