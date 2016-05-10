@@ -34,6 +34,7 @@ describe 'custom field inplace editor', js: true, selenium: true do
   end
 
   def expect_update(value, update_args)
+    field.activate_edition
     field.input_element.set value
     field.submit_by_enter
     wp_page.expect_notification(update_args)
