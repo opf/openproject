@@ -27,26 +27,26 @@
 // ++
 
 import {Field} from "../wp-edit-field/wp-edit-field.module";
-import WorkPackageResource from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 
 export class WikiTextareaField extends Field {
 
   // Template
-  public template: string = '/components/wp-edit/field-types/wp-edit-wiki-textarea-field.directive.html';
+  public template:string = '/components/wp-edit/field-types/wp-edit-wiki-textarea-field.directive.html';
 
   // Dependencies
-  protected $sce: ng.ISCEService = this.$injector.get("$sce");
-  protected TextileService: ng.IServiceProvider = this.$injector.get("TextileService");
-  protected $timeout = this.$injector.get("$timeout");
+  protected $sce:ng.ISCEService = <ng.ISCEService> this.$injector.get("$sce");
+  protected TextileService:ng.IServiceProvider = <ng.ISCEProvider> this.$injector.get("TextileService");
+  protected $timeout:ng.ITimeoutService = <ng.ITimeoutService> this.$injector.get("$timeout");
 
   // wp resource
-  protected workPackage: WorkPackageResource;
+  protected workPackage:WorkPackageResource;
 
   // Values used in template
-  public fieldVal: Object;
-  public isBusy: boolean = false;
-  public isPreview: boolean = false;
-  public previewHtml: string;
+  public fieldVal:any;
+  public isBusy:boolean = false;
+  public isPreview:boolean = false;
+  public previewHtml:string;
 
 
   constructor(workPackage, fieldName, schema) {
@@ -73,14 +73,12 @@ export class WikiTextareaField extends Field {
       this.workPackage.getForm().then(form => {
         var previewLink = form.$links.previewMarkup.$route;
         previewLink
-          .customPOST(this.fieldVal.raw, undefined, undefined, { 'Content-Type': 'text/plain; charset=UTF-8'  })
+          .customPOST(this.fieldVal.raw, void 0, void 0, {'Content-Type': 'text/plain; charset=UTF-8'})
           .then(result => {
-          this.previewHtml = this.$sce.trustAsHtml(result);
-          this.isBusy = false;
-        });
+            this.previewHtml = this.$sce.trustAsHtml(result);
+            this.isBusy = false;
+          });
       });
     }
   }
-
-
 }

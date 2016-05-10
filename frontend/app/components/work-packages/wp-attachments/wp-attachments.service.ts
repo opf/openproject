@@ -64,7 +64,7 @@ function wpAttachmentsService($q, $timeout, $http, Upload, I18n, NotificationsSe
       return allUploadsDone.promise;
     },
 
-    load = function (workPackage, reload) {
+    load = function (workPackage, reload:boolean = false) {
       var path = workPackage.$links.attachments.$link.href,
         attachments = $q.defer();
       $http.get(path, {cache: !reload}).success(function (response) {

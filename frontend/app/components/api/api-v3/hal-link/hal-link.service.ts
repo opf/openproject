@@ -29,7 +29,7 @@
 var $q:ng.IQService;
 var apiV3:restangular.IService;
 
-export default class HalLink {
+export class HalLink {
   public static fromObject(link):HalLink {
     return new HalLink(link.href, link.title, link.method, link.templated);
   }
@@ -38,15 +38,10 @@ export default class HalLink {
     return HalLink.fromObject(link).$toFunc();
   }
 
-  constructor(public href:string,
-              public title:string,
-              public method:string,
-              public templated:boolean) {
-
-    this.href = href || null;
-    this.title = title || '';
-    this.method = method || 'get';
-    this.templated = !!templated;
+  constructor(public href:string = null,
+              public title:string = '',
+              public method:string = 'get',
+              public templated:boolean = false) {
   }
 
   public $fetch(...params) {
@@ -67,13 +62,13 @@ export default class HalLink {
   }
 
   public $toFunc() {
-    const func = (...params) => this.$fetch(...params);
+    const func:any = (...params) => this.$fetch(...params);
     func.$link = this;
     func.$route = this.$toRoute();
 
     return func;
   }
-};
+}
 
 function halLink(_$q_:ng.IQService, _apiV3_:restangular.IService) {
   $q = _$q_;

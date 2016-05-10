@@ -128,7 +128,7 @@ export class SingleViewWorkPackage {
 
     var value = this.workPackage[field];
     if (_.isUndefined(value)) {
-      return this.getValue(field, true);
+      return this.getValue(field);
     }
 
     if (value === null) {
@@ -218,7 +218,7 @@ export class SingleViewWorkPackage {
       var allowedValues = this.workPackage.schema.type.$embedded.allowedValues;
       var currentType = this.workPackage.$links.type.$link.href;
 
-      return _.some(allowedValues, allowedValue => {
+      return _.some(allowedValues, (allowedValue:any) => {
         return allowedValue.href === currentType && allowedValue.isMilestone;
       });
     }
@@ -247,7 +247,7 @@ export class SingleViewWorkPackage {
   }
 
   public isGroupHideable(groupedFields, groupName) {
-    var group = _.find(groupedFields, {groupName: groupName});
+    var group:any = _.find(groupedFields, {groupName: groupName});
 
     return group.attributes.length === 0 || _.every(group.attributes, (field) => {
         return this.canHideField(field);
@@ -255,7 +255,7 @@ export class SingleViewWorkPackage {
   }
 
   public isGroupEmpty(groupedFields, groupName) {
-    var group = _.find(groupedFields, {groupName: groupName});
+    var group:any = _.find(groupedFields, {groupName: groupName});
 
     return group.attributes.length === 0;
   }

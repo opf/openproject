@@ -28,7 +28,6 @@
 
 import {opWorkPackagesModule} from "../../../angular-modules";
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {SingleViewWorkPackage} from "./single-view-wp.service";
 
 export class WorkPackageSingleViewController {
   public workPackage;
@@ -50,7 +49,7 @@ export class WorkPackageSingleViewController {
               protected NotificationsService,
               protected inplaceEditAll,
               protected WorkPackageAttachmentsService,
-              SingleViewWorkPackage:SingleViewWorkPackage) {
+              protected SingleViewWorkPackage) {
 
     this.groupedFields = angular.copy(WORK_PACKAGE_ATTRIBUTES);
 

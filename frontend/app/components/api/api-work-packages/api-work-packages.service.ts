@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import HalResource from '../api-v3/hal-resources/hal-resource.service';
+import {HalResource} from '../api-v3/hal-resources/hal-resource.service';
 
 export class ApiWorkPackagesService {
   protected wpBaseApi;
@@ -74,13 +74,13 @@ export class ApiWorkPackagesService {
   }
 
   public wpApiPath(projectIdentifier?:any) {
-    const args = ['work_packages'];
+    var parent;
 
     if (!!projectIdentifier) {
-      args.push(this.apiV3.one('projects', projectIdentifier));
+      parent = this.apiV3.one('projects', projectIdentifier);
     }
 
-    return this.apiV3.service(...args);
+    return this.apiV3.service('work_packages', parent);
   }
 
   protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {

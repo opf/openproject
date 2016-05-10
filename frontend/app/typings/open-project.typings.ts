@@ -153,6 +153,7 @@ declare namespace api {
 
 interface Function {
   $link?:any;
+  $route?:restangular.IService;
 }
 
 declare namespace op {
