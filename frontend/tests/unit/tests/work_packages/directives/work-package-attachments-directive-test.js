@@ -28,7 +28,7 @@
 
 describe('WorkPackageAttachmentsDirective', function() {
   var compile, element, rootScope, scope, isolatedScope,
-      workPackage = {links: {}};
+      workPackage = {$links: {}};
 
   beforeEach(angular.mock.module('openproject.workPackages.directives'));
   beforeEach(module('openproject.templates'));
