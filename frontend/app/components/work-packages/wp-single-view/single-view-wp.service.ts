@@ -97,8 +97,9 @@ export class SingleViewWorkPackage {
       );
     }
     var value = this.format(field);
-    if (!value || !value.html ||
-      field === 'spentTime' && this.workPackage[field] === 'PT0S') {
+    if (!value ||
+        (value.format && !value.html) ||
+        (field === 'spentTime' && this.workPackage[field] === 'PT0S')) {
 
       return true;
     }
