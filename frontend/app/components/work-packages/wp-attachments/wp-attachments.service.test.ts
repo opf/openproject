@@ -28,25 +28,21 @@
 
 declare const WebKitBlobBuilder:any;
 
-describe('workPackageAttachmentsService', function() {
+describe('workPackageAttachmentsService', () => {
   var WorkPackageAttachmentsService;
   var $httpBackend;
 
-  // mock me a work package
-  // TODO: remove that hyperagent.js nonsense asap
   var workPackage = {
-    props: {
-      id: 1
-    },
-    links: {
+    id: 1,
+    $links: {
       attachments: {
-        url: function() {
-          return '/api/v3/work_packages/1/attachments';
+        $link: {
+          href: '/api/v3/work_packages/1/attachments'
         }
       },
       addAttachment: {
-        url: function() {
-          return '/api/v3/work_packages/1/attachments';
+        $link: {
+          href: '/api/v3/work_packages/1/attachments'
         }
       }
     }
@@ -63,18 +59,18 @@ describe('workPackageAttachmentsService', function() {
 
   beforeEach(angular.mock.module('openproject.workPackages'));
 
-  beforeEach(angular.mock.inject(function(_WorkPackageAttachmentsService_, _$httpBackend_){
+  beforeEach(angular.mock.inject((_WorkPackageAttachmentsService_, _$httpBackend_) => {
     WorkPackageAttachmentsService = _WorkPackageAttachmentsService_;
     $httpBackend = _$httpBackend_;
   }));
 
-  afterEach(function() {
+  afterEach(() => {
     $httpBackend.verifyNoOutstandingRequest();
     $httpBackend.verifyNoOutstandingExpectation();
   });
 
-  describe('loading attachments', function() {
-    beforeEach(function() {
+  describe('loading attachments', () => {
+    beforeEach(() => {
       $httpBackend.expectGET('/api/v3/work_packages/1/attachments').respond({
         _embedded: {
           elements: [1,2,3]
@@ -82,16 +78,16 @@ describe('workPackageAttachmentsService', function() {
       });
     });
 
-    it('should retrieve attachments for a given work pacakge', function () {
-      WorkPackageAttachmentsService.load(workPackage).then(function(result) {
+    it('should retrieve attachments for a given work pacakge', () => {
+      WorkPackageAttachmentsService.load(workPackage).then(result => {
         expect(result).to.eql([1,2,3]);
       });
       $httpBackend.flush();
     });
   });
 
-  describe('creating an attachment', function() {
-    beforeEach(function() {
+  describe('creating an attachment', () => {
+    beforeEach(() => {
       $httpBackend.expectPOST('/api/v3/work_packages/1/attachments').respond({});
     });
 
@@ -107,19 +103,19 @@ describe('workPackageAttachmentsService', function() {
       return [blob];
     }
 
-    it('should create an attachment for a given work package', function () {
+    it('should create an attachment for a given work package', () => {
       var files = createFiles();
       WorkPackageAttachmentsService.upload(workPackage, files);
       $httpBackend.flush();
     });
   });
 
-  describe('deleting an attachment', function() {
-    beforeEach(function() {
+  describe('deleting an attachment', () => {
+    beforeEach(() => {
       $httpBackend.expectDELETE('/attachments/1234').respond({});
     });
 
-    it('should remove an attachment', function () {
+    it('should remove an attachment', () => {
       WorkPackageAttachmentsService.remove(attachment);
       $httpBackend.flush();
     });
