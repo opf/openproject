@@ -33,7 +33,9 @@ angular
 function wpTable(
   WorkPackagesTableService,
   WorkPackageService,
+  QueryService,
   $window,
+  $rootScope,
   PathHelper,
   apiWorkPackages,
   $state
@@ -145,8 +147,9 @@ function wpTable(
 
       // Thanks to http://stackoverflow.com/a/880518
       function clearSelection() {
-        if(document.selection && document.selection.empty) {
-          document.selection.empty();
+        var selection = (document as any).selection;
+        if(selection && selection.empty) {
+          selection.empty();
         } else if(window.getSelection) {
           var sel = window.getSelection();
           sel.removeAllRanges();
@@ -220,11 +223,33 @@ function wpTable(
 
         scope.activationCallback({ id: row.object.id, force: true });
       };
+
+      /** Expand current columns with erroneous columns */
+      scope.handleErroneousColumns = function(workPackage, editFields, errorFieldNames)  {
+        if (errorFieldNames.length === 0) { return; }
+
+        var selected = QueryService.getSelectedColumnNames();
+        var active = _.find(editFields, (f:any) => f.active);
+
+        errorFieldNames.reverse().map(name => {
+          if (selected.indexOf(name) === -1) {
+          selected.splice(selected.indexOf(active.fieldName) + 1, 0, name);
+        }
+      });
+
+        QueryService.setSelectedColumns(selected);
+      };
+
+      /** Save callbacks for work package */
+     scope.onWorkPackageSave = function(workPackage, fields) {
+       $rootScope.$emit('workPackageSaved', this.workPackage);
+       $rootScope.$emit('workPackagesRefreshInBackground');
+     } ;
     }
   };
 }
 
-function WorkPackagesTableController($scope, $rootScope) {
+function WorkPackagesTableController($scope, $rootScope, I18n) {
   $scope.locale = I18n.locale;
 
   $scope.text = {
