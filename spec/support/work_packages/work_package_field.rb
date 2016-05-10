@@ -138,8 +138,6 @@ class WorkPackageField
     end
   end
 
-  private
-
   def input_selector
     '.wp-inline-edit--field'
   end
