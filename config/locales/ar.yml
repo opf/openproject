@@ -151,10 +151,10 @@ ar:
   notice_successful_lock: أغلِقت بنجاح.
   notice_cost_logged_successfully: تمّ تسجيل تكلفة الوحدة بنجاح.
   permission_edit_cost_entries: تحرير تكاليف الوحدة المحجوزة
-  permission_edit_cost_objects: تحرير الميزانية
-  permission_edit_own_cost_entries: تحرير تكاليف الوحدة المحجوزة الخاصة
-  permission_edit_hourly_rates: تحرير الأجور الساعيّة
-  permission_edit_own_hourly_rate: تحرير الأجور الساعيّة الخاصة
+  permission_edit_cost_objects: تعديل الميزانيات
+  permission_edit_own_cost_entries: تعديل تكاليف الوحدة المحجوزة الخاصة
+  permission_edit_hourly_rates: تعديل الأجور الساعيّة
+  permission_edit_own_hourly_rate: تعديل الأجور الساعيّة الخاصة
   permission_edit_rates: تعديل الأسعار
   permission_log_costs: حجز تكاليف الوحدة
   permission_log_own_costs: حجز تكاليف الوحدة لنفسه
