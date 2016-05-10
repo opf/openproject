@@ -9,6 +9,7 @@
           class="focus-input wp-inline-edit--field inplace-edit--textarea -animated"
           id="inplace-edit--write-value--{{::vm.field.name}}"
           name="value"
+          focus="vm.shouldFocus()"
           ng-hide="vm.field.isPreview"
           ng-disabled="vm.field.isBusy"
           ng-model="vm.field.fieldVal.raw">  </textarea>
