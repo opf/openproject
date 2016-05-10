@@ -98,7 +98,7 @@
             trigger-on-event="contextmenu"
             target="WorkPackageContextMenu"
             locals="rows,row,$index"
-            after-focus-on=".id :focusable"
+            after-focus-on=".id :tabbable"
             single-click="!row.object.isNew && selectWorkPackage(row, $event)"
             ng-dblclick="!row.object.isNew && openWorkPackageInFullView(row)"
             ng-class="[

@@ -1,22 +1,27 @@
-<span class="wp-table--cell-span"
-      ng-switch="$ctrl.displayType"
-      wp-field="$ctrl.workPackage"
-      field-name="$ctrl.attribute">
-  <progress-bar ng-switch-when="Percent"
-                progress="$ctrl.displayText"
-                width="80px">
-  </progress-bar>
+<span>
+  <span class="wp-table--cell-span"
+        ng-switch="$ctrl.displayType"
+        wp-field="$ctrl.workPackage"
+        field-name="$ctrl.attribute"
+        ng-click="$ctrl.activateIfEditable($event)"
+        data-click-on-keypress="[13, 32]"
+        ng-attr-tabindex="{{$ctrl.isEditable() ? '0' : '-1'}}">
+    <progress-bar ng-switch-when="Percent"
+                  progress="$ctrl.displayText"
+                  width="80px">
+    </progress-bar>
 
-  <span ng-switch-when="SelfLink" title="{{ $ctrl.displayText }}">
-    <a ng-href="{{ $ctrl.displayLink }}">{{ $ctrl.displayText }}</a>
-  </span>
+    <span ng-switch-when="SelfLink" title="{{ $ctrl.displayText }}">
+      <a ng-href="{{ $ctrl.displayLink }}">{{ $ctrl.displayText }}</a>
+    </span>
 
-  <span
-      title="{{ $ctrl.displayText }}"
-      class="cell-span--value"
-      ng-switch-default
-      ng-class="{ 'work-package--placeholder' : $ctrl.displayText == '-' }">
-    <span ng-if="$ctrl.isDisplayAsHtml" ng-bind-html="$ctrl.displayText"></span>
-    <span ng-if="!$ctrl.isDisplayAsHtml" ng-bind="$ctrl.displayText"></span>
-  </span>
+    <span
+        title="{{ $ctrl.displayText }}"
+        class="cell-span--value"
+        ng-switch-default
+        ng-class="{ 'work-package--placeholder' : $ctrl.displayText == '-' }">
+      <span ng-if="$ctrl.isDisplayAsHtml" ng-bind-html="$ctrl.displayText"></span>
+      <span ng-if="!$ctrl.isDisplayAsHtml" ng-bind="$ctrl.displayText"></span>
+    </span>
+</span>
 </span>

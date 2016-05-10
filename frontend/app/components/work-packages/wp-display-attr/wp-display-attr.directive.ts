@@ -28,8 +28,10 @@
 
 import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 import {wpDirectivesModule} from "../../../angular-modules";
+import {WorkPackageEditFieldController} from "../../wp-edit/wp-edit-field/wp-edit-field.directive";
 
 export class WorkPackageDisplayAttributeController {
+  public wpEditField:WorkPackageEditFieldController;
   public displayText:string;
   public isDisplayAsHtml:boolean = false;
   public displayType:string;
@@ -48,6 +50,16 @@ export class WorkPackageDisplayAttributeController {
       this.updateAttribute();
     });
   }
+
+
+  public activateIfEditable(event) {
+    this.wpEditField.activateIfEditable();
+    event.stopImmediatePropagation();
+  }
+
+  public isEditable() {
+    return this.wpEditField && this.wpEditField.isEditable;
+  };
 
   protected setDisplayType() {
     // TODO: alter backend so that percentageDone has the type 'Percent' already
@@ -98,10 +110,22 @@ export class WorkPackageDisplayAttributeController {
 }
 
 function wpDisplayAttrDirective() {
+
+  function wpTdLink(
+    scope,
+    element,
+    attr,
+    controllers) {
+
+    scope.$ctrl.wpEditField = controllers[0];
+  }
+
   return {
     restrict: 'E',
     replace: true,
     templateUrl: '/components/work-packages/wp-display-attr/wp-display-attr.directive.html',
+    require: ['^?wpEditField'],
+    link: wpTdLink,
 
     scope: {
       schema: '=',
