@@ -39,7 +39,7 @@ ar:
   notice_successful_notification: تم إرسال الإشعار بنجاح
   notice_timezone_missing: 'لم يتم تعيين المنطقة الزمنية و%{zone} مُفترض. لاختيار منطقتك الزمنية، من فضلك اضغط هنا.'
   permission_create_meetings: إنشاء الاجتماعات
-  permission_edit_meetings: تحرير الاجتماعات
+  permission_edit_meetings: تعديل الاجتماعات
   permission_delete_meetings: إلغاء الاجتماعات
   permission_view_meetings: عرض الاجتماعات
   permission_create_meeting_agendas: إدارة جداول الأعمال
@@ -49,8 +49,8 @@ ar:
   permission_send_meeting_minutes_notification: أرسِل إشعارًا لمراجعة محضر الجلسة
   project_module_meetings: الاجتماعات
   text_in_hours: في الساعات
-  text_meeting_agenda_for_meeting: 'جدول أعمال اجتماع "%{meeting}"'
+  text_meeting_agenda_for_meeting: 'جدول أعمال للاجتماع "%{meeting}"'
   text_meeting_agenda_open_are_you_sure: سيتم فقدان محتوى محضر الجلسة التي لم يتم حفظها! هل تريد المتابعة؟
-  text_meeting_minutes_for_meeting: 'محضر الجسلة لاجتماع "%{meeting}"'
+  text_meeting_minutes_for_meeting: 'محضر الجسلة للاجتماع "%{meeting}"'
   text_review_meeting_agenda: '%{author} طرح %{link} للمراجعة.'
   text_review_meeting_minutes: '%{author} طرح %{link} للمراجعة.'
