@@ -51,6 +51,7 @@ module BasicData
     def data
       colors = PlanningElementTypeColor.all
       colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
+      visibility = visibility_data
 
       type_table.map do |name, values|
         {
@@ -61,7 +62,7 @@ module BasicData
           is_in_roadmap:        values[3],
           in_aggregation:       values[4],
           is_milestone:         values[5],
-          attribute_visibility: visibility_data[name]
+          attribute_visibility: visibility[name]
         }
       end
     end
