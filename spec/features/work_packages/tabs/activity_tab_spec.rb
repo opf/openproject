@@ -97,6 +97,7 @@ describe 'Activity tab', js: true, selenium: true do
   shared_examples 'activity tab' do
     before do
       work_package_page.visit_tab! 'activity'
+      work_package_page.ensure_page_loaded
       expect(page).to have_selector('.user-comment > .message',
                                     text: initial_comment)
     end
@@ -129,9 +130,10 @@ describe 'Activity tab', js: true, selenium: true do
         # Quote this comment
         page.find('#activity-1 .comments-icons .icon-quote', visible: false).click
 
-        field = WorkPackageField.new(page,
-                                     'activity',
-                                     selector: '.work-packages--activity--add-comment')
+        field = WorkPackageTextAreaField.new work_package_page,
+                                             'comment',
+                                             selector: '.work-packages--activity--add-comment',
+                                             trigger: '.inplace-editing--trigger-container'
 
         expect(field.editing?).to be true
 
