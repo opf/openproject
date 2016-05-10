@@ -1,6 +1,6 @@
 ar:
   error_can_not_delete_export_card_configuration: لا يمكن حذف هذا التنسيق.
-  error_can_not_change_name_of_default_configuration: لا يمكن تغيير اسم التنسيق الافتراضي.
+  error_can_not_change_name_of_default_configuration: لا يمكن تغيير اسم الترتيب الافتراضي.
   label_backlogs_export_card_config_select: قُم باختيار تنسيق بطاقة التصدير
   label_backlogs_export_card_export: التصدير
   label_export_card_configuration_new: تنسيق بطاقة التصدير الجديد
