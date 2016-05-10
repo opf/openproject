@@ -11,6 +11,11 @@
         name="vm.wpEditForm"
         ng-submit="vm.submit()">
 
+    <label for="{{vm.htmlId}}"
+           class="hidden-for-sighted">
+      {{::vm.fieldLabel}}
+    </label>
+
     <ng-include src="vm.field.template"></ng-include>
 
   </form>

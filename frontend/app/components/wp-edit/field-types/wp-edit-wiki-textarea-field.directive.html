@@ -1,18 +1,16 @@
 <div class="textarea-wrapper" ng-class="{'-preview': vm.field.isPreview}">
-  <label
-          for="inplace-edit--write-value--{{::vm.field.name}}" class="hidden-for-sighted">{{::vm.field.getLabel()}}</label>
   <textarea
           wiki-toolbar
           msd-elastic="\n"
           preview-toggle="vm.field.togglePreview()"
           style="min-height: 114px"
           class="focus-input wp-inline-edit--field inplace-edit--textarea -animated"
-          id="inplace-edit--write-value--{{::vm.field.name}}"
           name="value"
           ng-blur="vm.field.submitUnlessInPreview(vm)"
           ng-hide="vm.field.isPreview"
           ng-disabled="vm.field.isBusy"
-          ng-model="vm.field.fieldVal.raw">  </textarea>
+          ng-model="vm.field.fieldVal.raw"
+          ng-attr-id="{{vm.htmlId}}">  </textarea>
     <div class="inplace-edit--preview" ng-show="vm.field.isPreview && !vm.field.isBusy">
         <span ng-bind-html="vm.field.previewHtml"></span>
     </div>

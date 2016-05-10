@@ -1,4 +1,8 @@
 <span>
+  <span class="hidden-for-sighted"
+        ng-attr-id="{{$ctrl.labelId}}">
+    {{::$ctrl.label}} {{::$ctrl.displayText}}
+  </span>
   <span class="wp-table--cell-span"
         ng-switch="$ctrl.displayType"
         wp-field="$ctrl.workPackage"
@@ -6,7 +10,8 @@
         ng-click="$ctrl.activateIfEditable($event)"
         data-click-on-keypress="[13, 32]"
         focus
-        ng-attr-tabindex="{{$ctrl.isEditable() ? '0' : '-1'}}">
+        ng-attr-tabindex="{{$ctrl.isEditable() ? '0' : '-1'}}"
+        aria-labelledby="{{$ctrl.labelId}}">
     <progress-bar ng-switch-when="Percent"
                   progress="$ctrl.displayText"
                   width="80px">

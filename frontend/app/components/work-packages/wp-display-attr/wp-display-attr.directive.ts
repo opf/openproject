@@ -61,6 +61,10 @@ export class WorkPackageDisplayAttributeController {
     return this.wpEditField && this.wpEditField.isEditable;
   };
 
+  public get labelId():string {
+    return 'wp-' + this.workPackage.id + '-display-attr-' + this.attribute + '-aria-label';
+  }
+
   protected setDisplayType() {
     // TODO: alter backend so that percentageDone has the type 'Percent' already
     if (this.attribute === 'percentageDone') {
@@ -130,7 +134,8 @@ function wpDisplayAttrDirective() {
     scope: {
       schema: '=',
       workPackage: '=',
-      attribute: '='
+      attribute: '=',
+      label: '='
     },
 
     bindToController: true,

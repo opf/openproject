@@ -45,9 +45,11 @@
           class="attributes-key-value--key"
           ng-repeat-start="field in group.attributes"
           ng-hide="$ctrl.hideEmptyFields && $ctrl.singleViewWp.canHideField(field)"
-          ng-if="$ctrl.singleViewWp.isSpecified(field)">
+          ng-if="$ctrl.singleViewWp.isSpecified(field)"
+          wp-replacement-label="field">
 
         {{$ctrl.singleViewWp.getLabel(field)}}
+
         <span class="required" ng-if="$ctrl.singleViewWp.hasNiceStar(field)"> *</span>
       </div>
       <div
@@ -55,11 +57,13 @@
           ng-if="$ctrl.singleViewWp.isSpecified(field)"
           ng-repeat-end
           wp-edit-field="field"
+          wp-edit-field-label="$ctrl.singleViewWp.getLabel(field)"
           class="attributes-key-value--value-container">
         <wp-display-attr
             schema="$ctrl.workPackage.schema"
             work-package="$ctrl.workPackage"
-            attribute="field">
+            attribute="field"
+            label="$ctrl.singleViewWp.getLabel(field)">
         </wp-display-attr>
       </div>
     </div>

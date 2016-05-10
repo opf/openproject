@@ -56,7 +56,7 @@ export class WorkPackageSingleViewController {
     scopedObservable($scope, wpCacheService.loadWorkPackage($stateParams.workPackageId)).subscribe(wp => {
       this.workPackage = wp;
       this.singleViewWp = new SingleViewWorkPackage(wp);
-      
+
       this.workPackage.schema.$load().then(schema => {
         this.setFocus();
 
@@ -123,7 +123,3 @@ function wpSingleViewDirective() {
 }
 
 opWorkPackagesModule.directive('wpSingleView', wpSingleViewDirective);
-
-
-
-

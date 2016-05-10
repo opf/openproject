@@ -67,6 +67,13 @@ export class WorkPackageEditFieldController {
     return this._active;
   }
 
+  public get htmlId() {
+    return 'wp-' +
+      this.formCtrl.workPackage.id +
+      '-inline-edit--field-' +
+      this.fieldName;
+  }
+
   public submit() {
     this.formCtrl.updateWorkPackage()
       .then(() => this.deactivate());
@@ -200,6 +207,7 @@ function wpEditField() {
 
     scope: {
       fieldName: '=wpEditField',
+      fieldLabel: '=wpEditFieldLabel',
       fieldIndex: '=',
       columns: '='
     },
