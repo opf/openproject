@@ -121,7 +121,8 @@ export class HalResource {
   }
 
   private proxyProperties() {
-    _.without(Object.keys(this.$source), '_links', '_embedded').forEach(property => {
+    var source = this.$source.restangularized ? this.$source.plain() : this.$source;
+    _.without(Object.keys(source), '_links', '_embedded').forEach(property => {
       Object.defineProperty(this, property, {
         get() {
           return this.$source[property];
