@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opServicesModule} from '../../../angular-modules.ts';
+import {wpServicesModule} from '../../../angular-modules.ts';
 
 function wpAttachmentsService($q, $timeout, $http, Upload, I18n, NotificationsService) {
   var upload = (workPackage, files) => {
@@ -106,4 +106,4 @@ function wpAttachmentsService($q, $timeout, $http, Upload, I18n, NotificationsSe
   };
 }
 
-opServicesModule.factory('WorkPackageAttachmentsService', wpAttachmentsService);
+wpServicesModule.factory('WorkPackageAttachmentsService', wpAttachmentsService);

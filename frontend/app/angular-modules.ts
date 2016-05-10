@@ -87,7 +87,9 @@ export const opWorkPackagesModule = angular.module('openproject.workPackages', [
   'ng-context-menu',
   'ngFileUpload'
 ]);
-angular.module('openproject.workPackages.services', ['openproject.inplace-edit']);
+export const wpServicesModule = angular.module('openproject.workPackages.services', [
+  'openproject.inplace-edit'
+]);
 angular.module(
   'openproject.workPackages.helpers', [
     'openproject.helpers',

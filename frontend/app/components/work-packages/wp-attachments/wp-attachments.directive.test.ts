@@ -27,17 +27,22 @@
 //++
 
 describe('WorkPackageAttachmentsDirective', function() {
-  var compile, element, rootScope, scope, isolatedScope,
-      workPackage = {$links: {}};
+  var compile;
+  var element;
+  var rootScope;
+  var scope;
+  var isolatedScope;
+  var workPackage = {$links: {}};
 
   beforeEach(angular.mock.module('openproject.workPackages.directives'));
-  beforeEach(module('openproject.templates'));
+  beforeEach(angular.mock.module('openproject.templates'));
 
   var loadPromise,
       workPackageAttachmentsService = {
         load: function() {
           return loadPromise;
-        }
+        },
+        upload: angular.noop
       },
       apiPromise,
       configurationService = {
@@ -46,15 +51,15 @@ describe('WorkPackageAttachmentsDirective', function() {
         }
       };
 
-  beforeEach(module('openproject.workPackages.services', function($provide) {
+  beforeEach(angular.mock.module('openproject.workPackages.services', function($provide) {
     $provide.constant('WorkPackageAttachmentsService', workPackageAttachmentsService);
   }));
 
-  beforeEach(module('openproject.config', function($provide) {
+  beforeEach(angular.mock.module('openproject.config', function($provide) {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(inject(function($rootScope, $compile, $q) {
+  beforeEach(angular.mock.inject(function($rootScope, $compile, $q) {
     apiPromise = $q(function(resolve) {
       return resolve('');
     });
