@@ -3,6 +3,7 @@ class WorkPackageField
   include RSpec::Matchers
 
   attr_reader :element,
+              :selector,
               :property_name
 
   def initialize(context, property_name, selector: nil)
