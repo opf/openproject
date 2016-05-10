@@ -27,7 +27,7 @@
 // ++
 
 
-import {openprojectModule} from "../../angular-modules";
+import {opWorkPackagesModule} from "../../angular-modules";
 import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
 import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
 import IScope = angular.IScope;
@@ -71,4 +71,4 @@ export class WorkPackageCacheService {
 
 }
 
-openprojectModule.service('wpCacheService', WorkPackageCacheService);
+opWorkPackagesModule.service('wpCacheService', WorkPackageCacheService);

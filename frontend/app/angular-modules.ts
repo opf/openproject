@@ -136,6 +136,7 @@ angular.module('openproject.layout.controllers', []);
 
 export const opApiModule = angular.module('openproject.api', [
   'restangular',
+  'openproject.workPackages',
   'openproject.services'
 ]);
 
