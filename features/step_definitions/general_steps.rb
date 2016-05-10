@@ -28,7 +28,6 @@
 #++
 
 require 'active_record/fixtures'
-require 'rack_session_access/capybara'
 
 Before do |scenario|
   unless ScenarioDisabler.empty_if_disabled(scenario)
@@ -44,7 +43,9 @@ end
 
 Given /^I am logged in$/ do
   @user = FactoryGirl.create :user
-  page.set_rack_session(user_id: @user.id)
+  Warden.on_next_request do |proxy|
+    proxy.raw_session[:user_id] = @user.id
+  end
 end
 
 When(/^I log out in the background$/) do
@@ -69,14 +70,16 @@ end
 
 Given /^(?:|I )am already [aA]dmin$/ do
   admin = User.find_by(admin: true)
-  # see https://github.com/railsware/rack_session_access
-  page.set_rack_session(user_id: admin.id)
+  Warden.on_next_request do |proxy|
+    proxy.raw_session[:user_id] = admin.id
+  end
 end
 
 Given /^I am already logged in as "(.+?)"$/ do |login|
   user = User.find_by_login(login)
-  # see https://github.com/railsware/rack_session_access
-  page.set_rack_session(user_id: user.id)
+  Warden.on_next_request do |proxy|
+    proxy.raw_session[:user_id] = user.id
+  end
 end
 
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
@@ -84,7 +87,7 @@ Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
 end
 
 Given /^(?:|I )am (not )?impaired$/ do |bool|
-  user = User.find(page.get_rack_session_key('user_id'))
+  user = User.current
   user.impaired = !bool
   user.save
 end
@@ -362,7 +365,9 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following types:$/ do |project_na
 end
 
 When(/^I wait for "(.*?)" minutes$/) do |number_of_minutes|
-  page.set_rack_session(updated_at: Time.now - number_of_minutes.to_i.minutes)
+  Warden.on_next_request do |proxy|
+    proxy.raw_session[:updated_at] = Time.now - number_of_minutes.to_i.minutes
+  end
 end
 
 def get_project(project_name = nil)

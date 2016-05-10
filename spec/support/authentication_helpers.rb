@@ -26,16 +26,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rack_session_access/capybara'
-
 module AuthenticationHelpers
+  include Warden::Test::Helpers
+
   def login_as(user)
     if is_a? RSpec::Rails::FeatureExampleGroup
       # If we want to mock having finished the login process
       # we must set the user_id in rack.session accordingly
       # Otherwise e.g. calls to Warden will behave unexpectantly
       # as they will login AnonymousUser
-      page.set_rack_session(user_id: user.id)
+      Warden.on_next_request do |proxy|
+        proxy.raw_session[:user_id] = user.id
+      end
     end
 
     allow(User).to receive(:current).and_return(user)
