@@ -57,11 +57,6 @@ describe 'subject inplace editor', js: true, selenium: true do
         let(:update_user) { user }
       end
 
-      it 'displays the new value after save' do
-        field.submit_by_click
-        field.expect_state_text('Aloha')
-      end
-
       it 'saves the value on ENTER' do
         field.submit_by_enter
         field.expect_state_text('Aloha')
@@ -73,9 +68,7 @@ describe 'subject inplace editor', js: true, selenium: true do
         work_package.subject = 'Some other subject!'
         work_package.save!
 
-        field.input_element.set 'Aloha'
-        field.submit_by_enter
-        expect(field.editing?).to be true
+        field.activate_edition
 
         notification.expect_error(
           "Couldn't update the resource because of conflicting modifications."
