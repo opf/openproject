@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
 export class WorkPackageEditFormController {
   public workPackage;
   public fields = {};
@@ -68,7 +69,7 @@ export class WorkPackageEditFormController {
         this.$rootScope.$emit('workPackagesRefreshInBackground');
       })
       .catch((error) => {
-        if (!(error.data && error.hasOwnProperty('showErrorNotification')) {
+        if (!(error.data instanceof ErrorResource)) {
           this.NotificationsService.addError("An internal error has occcurred.");
           return deferred.reject([]);
         }
