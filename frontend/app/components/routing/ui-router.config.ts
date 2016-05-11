@@ -37,6 +37,7 @@ angular
       get overview() {
         return {
           url: '/overview',
+          reloadOnSearch: false,
           template: '<overview-panel work-package="workPackage"></overview-panel>'
         };
       },
@@ -44,6 +45,7 @@ angular
       get watchers() {
         return {
           url: '/watchers',
+          reloadOnSearch: false,
           template: '<watchers-panel work-package="workPackage"></watchers-panel>'
         }
       },
@@ -51,6 +53,7 @@ angular
       get activity() {
         return {
           url: '/activity',
+          reloadOnSearch: false,
           template: '<activity-panel work-package="workPackage"></activity-panel>'
         }
       },
@@ -65,6 +68,7 @@ angular
       get relations() {
         return {
           url: '/relations',
+          reloadOnSearch: false,
           templateUrl: '/templates/work_packages/tabs/relations.html'
         };
       }
