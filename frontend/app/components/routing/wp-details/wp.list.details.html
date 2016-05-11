@@ -1,38 +1,40 @@
-<div id="tabs">
-  <ul class="tabrow">
-    <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
-    properly. Thus, don't remove the hrefs or the empty URLs! -->
-    <li ui-sref="work-packages.list.details.overview({})"
-        ui-sref-active="selected">
-      <a href="" ng-bind="I18n.t('js.work_packages.tabs.overview')"/>
-    </li>
-    <li ui-sref="work-packages.list.details.activity({})"
-        ui-sref-active="selected">
-      <a href="" ng-bind="I18n.t('js.work_packages.tabs.activity')"/>
-    </li>
-    <li ui-sref="work-packages.list.details.relations({})"
-        ui-sref-active="selected">
-      <a href="" ng-bind="I18n.t('js.work_packages.tabs.relations')"/>
-    </li>
-    <li ng-if="canViewWorkPackageWatchers()"
-        ui-sref="work-packages.list.details.watchers({})"
-        ui-sref-active="selected">
-      <a href="" ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
-    </li>
-  </ul>
-</div>
+<div wp-edit-form="workPackageResource">
+  <div id="tabs">
+    <ul class="tabrow">
+      <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+      properly. Thus, don't remove the hrefs or the empty URLs! -->
+      <li ui-sref="work-packages.list.details.overview({})"
+          ui-sref-active="selected">
+        <a href="" ng-bind="I18n.t('js.work_packages.tabs.overview')"/>
+      </li>
+      <li ui-sref="work-packages.list.details.activity({})"
+          ui-sref-active="selected">
+        <a href="" ng-bind="I18n.t('js.work_packages.tabs.activity')"/>
+      </li>
+      <li ui-sref="work-packages.list.details.relations({})"
+          ui-sref-active="selected">
+        <a href="" ng-bind="I18n.t('js.work_packages.tabs.relations')"/>
+      </li>
+      <li ng-if="canViewWorkPackageWatchers()"
+          ui-sref="work-packages.list.details.watchers({})"
+          ui-sref-active="selected">
+        <a href="" ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
+      </li>
+    </ul>
+  </div>
 
-<div class="work-packages--details-content">
+  <div class="work-packages--details-content">
   <span class="hidden-for-sighted" tabindex="-1" focus ng-bind="focusAnchorLabel">
   </span>
 
-  <wp-subject></wp-subject>
+    <wp-subject></wp-subject>
 
-  <div class="work-package-details-tab" ui-view></div>
+    <div class="work-package-details-tab" ui-view></div>
 
-</div>
+  </div>
 
-<div class="bottom-toolbar">
-  <work-package-details-toolbar work-package='workPackage'></work-package-details-toolbar>
-  <edit-actions-bar></edit-actions-bar>
+  <div class="bottom-toolbar">
+    <work-package-details-toolbar work-package='workPackage'></work-package-details-toolbar>
+    <edit-actions-bar></edit-actions-bar>
+  </div>
 </div>
