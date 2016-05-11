@@ -68,9 +68,9 @@ export class WorkPackageEditFormController {
 
       angular.forEach(this.fields, (field) => {
         if (state) {
-          field.expandField();
-        } else if(field.active) {
-          field.reset();
+          field.isEditable && field.expandField();
+        } else {
+          field.active && field.reset();
         }
       });
     }
