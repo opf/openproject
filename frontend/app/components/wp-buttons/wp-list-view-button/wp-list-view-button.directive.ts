@@ -28,10 +28,11 @@
 
 import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
+import {WorkPackageEditFormController} from "../../wp-edit/wp-edit-form.directive";
 
 export class WorkPackageListViewButtonController extends WorkPackageNavigationButtonController {
   public projectIdentifier:number;
-  public editAll:any;
+  public formCtrl:WorkPackageEditFormController;
 
   public accessKey:number = 8;
   public activeState:string = 'work-packages.list';
@@ -50,7 +51,7 @@ export class WorkPackageListViewButtonController extends WorkPackageNavigationBu
   }
 
   public get disabled() {
-    return !!this.editAll.state;
+    return this.formCtrl.inEditMode;
   }
 
   public performAction() {
@@ -72,6 +73,10 @@ function wpListViewButton():ng.IDirective {
     scope: {
       projectIdentifier: '=',
       editAll: '='
+    },
+    require: '^wpEditForm',
+    link: function(scope, element, attrs, wpEditForm) {
+      scope.vm.formCtrl = wpEditForm;
     },
 
     controller: WorkPackageListViewButtonController,
