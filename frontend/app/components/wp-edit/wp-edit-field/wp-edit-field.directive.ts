@@ -212,7 +212,8 @@ function wpEditField() {
       fieldName: '=wpEditField',
       fieldLabel: '=wpEditFieldLabel',
       fieldIndex: '=',
-      columns: '='
+      columns: '=',
+      wrapperClasses: '=wpEditFieldWrapperClasses'
     },
 
     require: ['^wpEditForm', 'wpEditField'],

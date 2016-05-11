@@ -1,10 +1,10 @@
-<div class="wp-edit-field"
+<div class="wp-edit-field inplace-edit"
      ng-class="[
       vm.errorenous && '-error' || '',
       vm.isEditable && '-editable' || '',
       vm.active && '-active' || '',
       vm.fieldName,
-      vm.fieldType === 'wiki-textarea' ? '' : '-small'
+      vm.wrapperClasses === undefined ? '-small' : vm.wrapperClasses
      ]">
 
   <form ng-if="vm.workPackage && vm.active"
@@ -20,5 +20,7 @@
 
   </form>
 
-  <ng-transclude class="-hidden-overflow" ng-hide="vm.active"></ng-transclude>
+  <ng-transclude class="-hidden-overflow inplace-edit--read-value"
+                 ng-hide="vm.active">
+  </ng-transclude>
 </div>
