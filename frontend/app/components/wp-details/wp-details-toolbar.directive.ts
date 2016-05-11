@@ -26,15 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(
-    PERMITTED_MORE_MENU_ACTIONS,
-    $state,
-    $window,
-    $location,
-    I18n,
-    HookService,
-    WorkPackageService,
-    WorkPackageAuthorization) {
+
+
+
+import {openprojectModule} from "../../angular-modules";
+function wpDetailsToolbar(
+  PERMITTED_MORE_MENU_ACTIONS,
+  $state,
+  $window,
+  I18n,
+  HookService,
+  WorkPackageService,
+  WorkPackageAuthorization) {
 
   function getPermittedActions(authorization, permittedMoreMenuActions) {
     var permittedActions = authorization.permittedActionsWithLinks(permittedMoreMenuActions);
@@ -73,17 +76,13 @@ module.exports = function(
 
   return {
     restrict: 'E',
-    templateUrl: '/templates/work_packages/work_package_details_toolbar.html',
+    templateUrl: '/components/wp-details/wp-details-toolbar.directive.html',
+    require: '^wpEditForm',
     scope: {
       workPackage: '='
     },
 
-    controller: function ($scope, EditableFieldsState, inplaceEditAll) {
-      $scope.editAll = inplaceEditAll;
-      $scope.canEdit = EditableFieldsState.canEdit;
-    },
-
-    link: function(scope) {
+    link: function(scope, attr, element, wpEditForm) {
       var authorization = new WorkPackageAuthorization(scope.workPackage);
 
       scope.displayWatchButton = scope.workPackage.links.hasOwnProperty('unwatch') ||
@@ -91,7 +90,7 @@ module.exports = function(
 
       scope.I18n = I18n;
       scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
-                                              getPermittedPluginActions(authorization));
+        getPermittedPluginActions(authorization));
       scope.actionsAvailable = Object.keys(scope.permittedActions).length > 0;
 
       scope.triggerMoreMenuAction = function(action, link) {
@@ -105,6 +104,10 @@ module.exports = function(
         }
       };
 
+      scope.canEdit = () => wpEditForm.isEditable;
+      scope.editButtonVisible = () => wpEditForm.isEditable && !wpEditForm.inEditMode;
+      scope.editWorkPackage = () => wpEditForm.toggleEditMode(true);
+
       function deleteSelectedWorkPackage() {
         var workPackageDeletionId = scope.workPackage.props.id;
         var promise = WorkPackageService.performBulkDelete([workPackageDeletionId], true);
@@ -116,4 +119,6 @@ module.exports = function(
       }
     }
   };
-};
+}
+
+openprojectModule.directive('wpDetailsToolbar', wpDetailsToolbar);

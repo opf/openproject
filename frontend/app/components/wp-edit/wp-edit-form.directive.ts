@@ -37,6 +37,9 @@ export class WorkPackageEditFormController {
 
   public lastErrorFields:string[] = [];
 
+  /** Edit all state */
+  protected editAllState:boolean = false;
+
   constructor(
     protected $scope:ng.IScope,
     protected $q,
@@ -57,6 +60,28 @@ export class WorkPackageEditFormController {
   public registerField(field) {
     this.fields[field.fieldName] = field;
     field.setErrorState(this.lastErrorFields.indexOf(field.fieldName) !== -1);
+  }
+
+  public toggleEditMode(state: boolean) {
+    if (this.editAllState !== state) {
+      this.editAllState = state;
+
+      angular.forEach(this.fields, (field) => {
+        if (state) {
+          field.expandField();
+        } else if(field.active) {
+          field.reset();
+        }
+      });
+    }
+  }
+
+  public get inEditMode() {
+    return this.editAllState;
+  }
+
+  public get isEditable() {
+    return this.workPackage.isEditable;
   }
 
   public loadSchema() {

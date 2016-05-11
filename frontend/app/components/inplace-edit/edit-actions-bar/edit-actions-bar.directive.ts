@@ -26,15 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-class EditActionsBarController {
-  public onSave;
-  public onCancel;
-  public text;
+import {WorkPackageEditFormController} from "../../wp-edit/wp-edit-form.directive";
+
+export class EditActionsBarController {
+  public wpEditForm: WorkPackageEditFormController;
+  public text: Object;
 
   constructor(protected EditableFieldsState,
               protected inplaceEditMultiStorage,
               protected inplaceEditAll,
-              I18n:op.I18n) {
+              I18n: op.I18n) {
 
     this.text = {
       save: I18n.t('js.button_save'),
@@ -42,19 +43,21 @@ class EditActionsBarController {
     }
   }
 
-  public visible() {
-    return this.inplaceEditAll.state && this.EditableFieldsState.canEdit;
+  public get visible() {
+    return this.wpEditForm.inEditMode && this.wpEditForm.isEditable;
   }
 
   public save() {
-    this.inplaceEditMultiStorage.save().then(this.onSave);
+    this.wpEditForm.updateWorkPackage();
   }
 
   public cancel() {
-    this.onCancel();
-    this.inplaceEditAll.cancel();
+    this.wpEditForm.toggleEditMode(false);
   }
 }
+
+
+
 
 function editActionsBar() {
   return {
@@ -62,9 +65,9 @@ function editActionsBar() {
     replace: true,
     templateUrl: '/components/inplace-edit/edit-actions-bar/edit-actions-bar.directive.html',
 
-    scope: {
-      onCancel: '&',
-      onSave: '&'
+    require: '^wpEditForm',
+    link: function(scope, element, attrs, wpEditForm) {
+      scope.vm.wpEditForm = wpEditForm;
     },
 
     bindToController: true,

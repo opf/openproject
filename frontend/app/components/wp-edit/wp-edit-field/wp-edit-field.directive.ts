@@ -33,7 +33,7 @@ import {Field} from "./wp-edit-field.module";
 
 export class WorkPackageEditFieldController {
   public formCtrl: WorkPackageEditFormController;
-  public wpEditForm:ng.IFormController;
+  public fieldForm:ng.IFormController;
   public fieldName:string;
   public fieldType:string;
   public fieldIndex:number;
@@ -75,6 +75,10 @@ export class WorkPackageEditFieldController {
   }
 
   public submit() {
+    if (this.inEditMode) {
+      return;
+    }
+
     this.formCtrl.updateWorkPackage()
       .then(() => this.deactivate());
   }
@@ -85,12 +89,10 @@ export class WorkPackageEditFieldController {
       return;
     }
 
-    this.buildEditField().then(() => {
-      this._active = this.field.schema.writable;
-
+    this.expandField().then((active) => {
       // Display a generic error if the field turns out not to be editable,
       // despite the field being editable.
-      if (this.isEditable && !this._active) {
+      if (this.isEditable && !active) {
         this.NotificationsService.addError(this.I18n.t(
           'js.work_packages.error_edit_prohibited',
           { attribute: this.field.schema.name }
@@ -98,6 +100,13 @@ export class WorkPackageEditFieldController {
       }
 
       this.focusField();
+    });
+  }
+
+  public expandField() {
+    return this.buildEditField().then(() => {
+      this._active = this.field.schema.writable;
+      return this._active;
     });
   }
 
@@ -133,6 +142,10 @@ export class WorkPackageEditFieldController {
     return this._editable && this.workPackage.isEditable;
   }
 
+  public get inEditMode():boolean {
+    return this.formCtrl.inEditMode;
+  }
+
   public set editable(enabled:boolean) {
     this._editable = enabled;
     this.$element.toggleClass('-editable', !!enabled);
@@ -149,6 +162,10 @@ export class WorkPackageEditFieldController {
   }
 
   public deactivate():boolean {
+    if (this.inEditMode) {
+      return true;
+    }
+
     this._forceFocus = false;
     return this._active = false;
   }
@@ -161,7 +178,7 @@ export class WorkPackageEditFieldController {
 
   public reset(focus = false) {
     this.workPackage[this.fieldName] = this.pristineValue;
-    this.wpEditForm.$setPristine();
+    this.fieldForm.$setPristine();
     this.deactivate();
     this.pristineValue = null;
 
