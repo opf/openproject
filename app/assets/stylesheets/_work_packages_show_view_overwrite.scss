@@ -226,22 +226,10 @@ body.controller-work_packages.action-show {
 
     li .inline-edit { width: 100%; }
 
-    .work-package-field.work-packages--details--subject {
-      .inplace-edit {
-        .inplace-edit--read {
-          display: block;
-          white-space: nowrap;
-          width: 100%;
-        }
-      }
-    }
-
     .inplace-edit--read-value {
       margin: 0;
       padding-top: 0;
       padding-bottom: 0;
-
-      span { width: 100%; }
     }
 
     .work-packages--details--subject,

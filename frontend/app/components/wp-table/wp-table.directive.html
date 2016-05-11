@@ -146,6 +146,7 @@
           <td ng-repeat="column in columns"
               lang="{{column.custom_field && column.custom_field.name_locale || locale}}"
               wp-edit-field="column.name"
+              wp-edit-field-wrapper-classes="'-small -shrink'"
               columns="columns"
               field-index="$index"
               class="wp-table--cell"
