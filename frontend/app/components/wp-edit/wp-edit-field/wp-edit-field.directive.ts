@@ -159,11 +159,15 @@ export class WorkPackageEditFieldController {
   }
 
 
-  public reset() {
+  public reset(focus = false) {
     this.workPackage[this.fieldName] = this.pristineValue;
     this.wpEditForm.$setPristine();
     this.deactivate();
     this.pristineValue = null;
+
+    if (focus) {
+      this.focusField();
+    }
   }
 
   protected buildEditField():ng.IPromise<any> {
@@ -192,8 +196,7 @@ function wpEditFieldLink(
   element.keyup(event => {
     if (event.keyCode === 27) {
       scope.$evalAsync(() => {
-        scope.vm.reset();
-        scope.vm.focusField();
+        scope.vm.reset(true);
       });
     }
   });

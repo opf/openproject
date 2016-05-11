@@ -40,6 +40,10 @@ export class Field {
     return (this.constructor as typeof Field).type;
   }
 
+  public isEmpty():boolean {
+    return !this.value;
+  }
+
   protected get $injector():ng.auto.IInjectorService {
     return (this.constructor as typeof Field).$injector;
   }

@@ -38,6 +38,7 @@ export class WikiTextareaField extends Field {
   protected $sce:ng.ISCEService = <ng.ISCEService> this.$injector.get("$sce");
   protected TextileService:ng.IServiceProvider = <ng.ISCEProvider> this.$injector.get("TextileService");
   protected $timeout:ng.ITimeoutService = <ng.ITimeoutService> this.$injector.get("$timeout");
+  protected I18n:op.I18n = <op.I18n> this.$injector.get("I18n");
 
   // wp resource
   protected workPackage:WorkPackageResource;
@@ -48,12 +49,22 @@ export class WikiTextareaField extends Field {
   public isPreview:boolean = false;
   public previewHtml:string;
 
+  public text: Object;
+
 
   constructor(workPackage, fieldName, schema) {
     super(workPackage, fieldName, schema);
 
     this.fieldVal = workPackage[fieldName];
     this.workPackage = workPackage;
+    this.text = {
+      saveTitle: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
+      cancelTitle: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name })
+    };
+  }
+
+  public isEmpty(): boolean {
+    return !(this.value.raw && this.value.raw !== '');
   }
 
   public submitUnlessInPreview(form) {

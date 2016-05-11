@@ -6,7 +6,7 @@
           style="min-height: 114px"
           class="focus-input wp-inline-edit--field inplace-edit--textarea -animated"
           name="value"
-          ng-blur="vm.field.submitUnlessInPreview(vm)"
+          focus="vm.shouldFocus()"
           ng-hide="vm.field.isPreview"
           ng-disabled="vm.field.isBusy"
           ng-model="vm.field.fieldVal.raw"
@@ -14,4 +14,7 @@
     <div class="inplace-edit--preview" ng-show="vm.field.isPreview && !vm.field.isBusy">
         <span ng-bind-html="vm.field.previewHtml"></span>
     </div>
+    <wp-edit-field-controls save-title="{{ vm.field.text.saveTitle }}"
+                            cancel-title="{{ vm.field.text.cancelTitle }}">
+    </wp-edit-field-controls>
 </div>

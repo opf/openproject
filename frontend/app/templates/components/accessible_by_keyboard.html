@@ -1,5 +1,6 @@
-<a data-ng-click='execute()'
+<a data-ng-click='isDisabled || execute()'
    class='{{ linkClass }}'
+   ng-disabled="isDisabled || undefined"
    title='{{ linkTitle }}'
    aria-label="{{ ariaLabel }}"
    data-click-on-keypress="[13, 32]">
