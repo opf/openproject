@@ -163,7 +163,7 @@ function opDatePicker(ConfigurationService, Datepicker) {
   return {
     restrict: 'E',
     transclude: true,
-    templateUrl: '/components/wp-edit/op-date-picker.directive.html',
+    templateUrl: '/components/wp-edit/op-date-picker/op-date-picker.directive.html',
     // http://stackoverflow.com/a/33614939/3206935
     link: angular.bind(dependencies, opDatePickerLink),
     require: 'ngModel',
