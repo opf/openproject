@@ -102,7 +102,7 @@ function wpAttachmentsDirective(wpAttachments,
       // Directories cannot be uploaded and as such, should not become files in
       // the sense of this directive.  The files within the direcotories will
       // be taken though.
-      _.remove(files, function (file) {
+      _.remove(files, (file:any) => {
         return file.type === 'directory';
       });
     };
@@ -117,7 +117,7 @@ function wpAttachmentsDirective(wpAttachments,
       if (rejectedFiles.length === 0) {
         return;
       }
-      var errors = _.map(rejectedFiles, function (file) {
+      var errors = _.map(rejectedFiles, (file:any) => {
           return file.name + ' (' + scope.size(file.size) + ')';
         }),
         message = I18n.t('js.label_rejected_files_reason',
