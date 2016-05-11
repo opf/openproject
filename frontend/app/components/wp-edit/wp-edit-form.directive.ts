@@ -27,6 +27,7 @@
 // ++
 
 import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
+
 export class WorkPackageEditFormController {
   public workPackage;
   public errorHandler:Function;
@@ -35,14 +36,14 @@ export class WorkPackageEditFormController {
   public firstActiveField:string;
 
   constructor(
-    protected I18n,
-    protected NotificationsService,
+    protected $scope:ng.IScope,
     protected $q,
-    protected QueryService,
     protected $state,
     protected $rootScope,
-    protected loadingIndicator,
-    protected $timeout) {
+    protected I18n,
+    protected NotificationsService,
+    protected QueryService,
+    protected loadingIndicator) {
   }
 
   public isFieldRequired(fieldName) {
@@ -103,7 +104,7 @@ export class WorkPackageEditFormController {
   }
 
   private handleErroneousAttributes(attributes:string[]) {
-    if (attributes.length === 0) { return; }
+    if (attributes.length === 0) return;
 
     // Allow additional error handling
     this.errorHandler({
@@ -112,8 +113,8 @@ export class WorkPackageEditFormController {
       attributes: attributes
     });
 
-    this.$timeout(() => {
-      angular.forEach(this.fields, (field) => {
+    this.$scope.$evalAsync(() => {
+      angular.forEach(this.fields, field => {
         field.setErrorState(attributes.indexOf(field.fieldName) !== -1);
       });
 
