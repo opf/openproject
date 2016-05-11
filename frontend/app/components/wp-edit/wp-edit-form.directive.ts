@@ -27,20 +27,23 @@
 // ++
 
 import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
+
 export class WorkPackageEditFormController {
   public workPackage;
+  public errorHandler:Function;
+  public successHandler:Function;
   public fields = {};
   public firstActiveField:string;
 
   constructor(
-    protected I18n,
-    protected NotificationsService,
+    protected $scope:ng.IScope,
     protected $q,
-    protected QueryService,
     protected $state,
     protected $rootScope,
-    protected loadingIndicator,
-    protected $timeout) {
+    protected I18n,
+    protected NotificationsService,
+    protected QueryService,
+    protected loadingIndicator) {
   }
 
   public isFieldRequired(fieldName) {
@@ -65,17 +68,15 @@ export class WorkPackageEditFormController {
         deferred.resolve();
 
         this.showSaveNotification();
-        this.$rootScope.$emit('workPackageSaved', this.workPackage);
-        this.$rootScope.$emit('workPackagesRefreshInBackground');
+        this.successHandler({ workPackage: this.workPackage, fields: this.fields });
       })
       .catch((error) => {
         if (!(error.data instanceof ErrorResource)) {
           this.NotificationsService.addError("An internal error has occcurred.");
           return deferred.reject([]);
         }
-
         error.data.showErrorNotification();
-        this.handleSubmissionErrors(error.data, deferred)
+        this.handleSubmissionErrors(error.data, deferred);
       });
 
     return deferred.promise;
@@ -98,30 +99,35 @@ export class WorkPackageEditFormController {
   private handleSubmissionErrors(error:any, deferred:any) {
 
     // Process single API errors
-    this.handleErrorenousColumns(error.getInvolvedColumns());
+    this.handleErroneousAttributes(error.getInvolvedAttributes());
     return deferred.reject();
   }
 
-  private handleErrorenousColumns(columns:string[]) {
-    if (columns.length === 0) { return; }
+  private handleErroneousAttributes(attributes:string[]) {
+    if (attributes.length === 0) return;
 
-    var selected = this.QueryService.getSelectedColumnNames();
-    var active = _.find(this.fields, (f:any) => f.active);
-    columns.reverse().map(name => {
-      if (selected.indexOf(name) === -1) {
-        selected.splice(selected.indexOf(active.fieldName) + 1, 0, name);
-      }
+    // Allow additional error handling
+    this.errorHandler({
+      workPackage: this.workPackage,
+      fields: this.fields,
+      attributes: attributes
     });
 
-    this.QueryService.setSelectedColumns(selected);
-    this.$timeout(_ => {
-      angular.forEach(this.fields, (field) => {
-        field.setErrorState(columns.indexOf(field.fieldName) !== -1);
+    this.$scope.$evalAsync(() => {
+      angular.forEach(this.fields, field => {
+        field.setErrorState(attributes.indexOf(field.fieldName) !== -1);
       });
 
       // Activate + Focus on first field
-      this.firstActiveField = columns[0];
-      this.fields[this.firstActiveField].activate(true);
+      this.firstActiveField = attributes[0];
+
+      // Activate that field
+      // TODO: For inplace-edit, this may be undefined
+      // since it doesn't yet expand erroneous attributes
+      var firstErrorField = this.fields[this.firstActiveField];
+      if (firstErrorField) {
+        firstErrorField.activate(true);
+      }
     });
   }
 }
@@ -131,7 +137,9 @@ function wpEditForm() {
     restrict: 'A',
 
     scope: {
-      workPackage: '=wpEditForm'
+      workPackage: '=wpEditForm',
+      errorHandler: '&wpEditFormOnError',
+      successHandler: '&wpEditFormOnSave'
     },
 
     controller: WorkPackageEditFormController,

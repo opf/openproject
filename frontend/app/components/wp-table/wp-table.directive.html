@@ -113,7 +113,9 @@
             ]"
             ng-show="!groupByColumn || groupExpanded[row.groupName]"
 
-            wp-edit-form="row.object">
+            wp-edit-form="row.object"
+            wp-edit-form-on-error="handleErroneousColumns(workPackage, fields, attributes)"
+            wp-edit-form-on-save="onWorkPackageSave(workPackage, fields)">
 
           <td ng-if="!row.object.isNew" class="checkbox -short hide-when-print">
             <accessible-checkbox name="ids[]"
