@@ -56,5 +56,13 @@
     <work-package-attachments work-package="vm.workPackage" data-ng-show="!vm.hideEmptyFields"></work-package-attachments>
   </div>
 </div>
-
-<edit-actions-bar on-cancel="vm.goBack()" on-save="vm.notifyCreation()"> </edit-actions-bar>
+<div class="work-packages--edit-actions">
+  <button id="work-packages--edit-actions-save" class="button -alt-highlight" accesskey="3" ng-click="vm.notifyCreation()">
+    <i class="button--icon icon-checkmark"></i>
+    <span class="button--text" ng-bind="::I18n.t('js.button_save')"></span>
+  </button>
+  <button id="work-packages--edit-actions-cancel" class="button" accesskey="7" ng-click="vm.goBack()">
+    <i class="button--icon icon-close"></i>
+    <span class="button--text" ng-bind="::I18n.t('js.button_cancel')"></span>
+  </button>
+</div>

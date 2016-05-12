@@ -42,6 +42,7 @@ function WorkPackageNewController($scope,
                                   WorkPackagesDisplayHelper,
                                   NotificationsService,
                                   inplaceEditAll,
+                                  inplaceEditMultiStorage,
                                   loadingIndicator) {
 
   var vm = this;
@@ -76,16 +77,18 @@ function WorkPackageNewController($scope,
   vm.showToggleButton = WorkPackagesDisplayHelper.showToggleButton;
 
   vm.notifyCreation = function() {
-    NotificationsService.addSuccess({
-      message: I18n.t('js.notice_successful_create'),
-      link: {
-        target: function() {
-          loadingIndicator.mainPage = $state.go.apply($state,
-                                                      ["work-packages.show.activity",
-                                                      $state.params]);
-        },
-        text: I18n.t('js.work_packages.message_successful_show_in_fullscreen')
-      }
+    inplaceEditMultiStorage.save().then(function() {
+      NotificationsService.addSuccess({
+        message: I18n.t('js.notice_successful_create'),
+        link: {
+          target: function () {
+            loadingIndicator.mainPage = $state.go.apply($state,
+              ["work-packages.show.activity",
+                $state.params]);
+          },
+          text: I18n.t('js.work_packages.message_successful_show_in_fullscreen')
+        }
+      });
     });
   };
   vm.getHeading = function() {
@@ -100,6 +103,7 @@ function WorkPackageNewController($scope,
   };
 
   vm.goBack = function() {
+    inplaceEditAll.cancel();
     var args = ['^'],
         prevState = $rootScope.previousState;
 
