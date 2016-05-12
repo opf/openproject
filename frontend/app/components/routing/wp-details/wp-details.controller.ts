@@ -60,6 +60,7 @@ function WorkPackageDetailsController($scope,
   scopedObservable($scope, wpCacheService.loadWorkPackage(workPackage.props.id))
     .subscribe((wp: WorkPackageResource) => {
       $scope.workPackageResource = wp;
+      wp.schema.$load();
     });
 
   // initialization

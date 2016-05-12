@@ -40,7 +40,6 @@ export class WorkPackageSubjectController {
     scopedObservable($scope, wpCacheService.loadWorkPackage($stateParams.workPackageId))
         .subscribe((wp: WorkPackageResource) => {
           this.workPackage = wp;
-          this.workPackage.schema.$load();
         });
   }
 }

@@ -74,6 +74,10 @@ export class WorkPackageEditModeStateService {
   
   public register(form: WorkPackageEditFormController) {
     this.form = form;
+
+    if (this._active) {
+      form.toggleEditMode(true);
+    }
   }
 
   public get active() {

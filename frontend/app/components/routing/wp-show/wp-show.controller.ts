@@ -56,6 +56,7 @@ function WorkPackageShowController($scope,
   scopedObservable($scope, wpCacheService.loadWorkPackage(workPackage.props.id))
     .subscribe((wp: WorkPackageResource) => {
       $scope.workPackageResource = wp;
+      wp.schema.$load();
     });
 
   // Listen to the event globally, as listeners are not necessarily
