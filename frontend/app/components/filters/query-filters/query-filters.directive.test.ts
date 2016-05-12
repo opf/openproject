@@ -150,42 +150,6 @@ describe('queryFilters', function () {
         });
       });
 
-      describe('Remove first filter', function () {
-        beforeEach(function () {
-          removeFilter(filter1.name);
-        });
-
-        it('focus is set to second filter', function () {
-          var el = angular.element(element).find('select#operators-' + filter2.name);
-
-          expect(doc.activeElement).to.equal(el[0]);
-        });
-      });
-
-      describe('Remove second filter', function () {
-        beforeEach(function () {
-          removeFilter(filter2.name);
-        });
-
-        it('focus is set to third filter', function () {
-          var el = angular.element(element).find('select#operators-' + filter3.name);
-
-          expect(doc.activeElement).to.equal(el[0]);
-        });
-      });
-
-      describe('Remove last filter', function () {
-        beforeEach(function () {
-          removeFilter(filter3.name);
-        });
-
-        it('focus is set to filter next to last', function () {
-          var el = angular.element(element).find('select#operators-' + filter2.name);
-
-          expect(doc.activeElement).to.equal(el[0]);
-        });
-      });
-
       describe('Remove all filter', function () {
         beforeEach(function () {
           removeFilter(filter1.name);
