@@ -1,9 +1,9 @@
-<div class="work-packages--edit-actions" ng-show="vm.visible">
-  <button id="work-packages--edit-actions-save" class="button -alt-highlight" accesskey="3" ng-click="vm.save()">
+<div class="work-packages--edit-actions" ng-show="vm.wpEditModeState.active">
+  <button id="work-packages--edit-actions-save" class="button -alt-highlight" accesskey="3" ng-click="vm.wpEditModeState.save()">
     <i class="button--icon icon-checkmark"></i>
     <span class="button--text" ng-bind="::vm.text.save"></span>
   </button>
-  <button id="work-packages--edit-actions-cancel" class="button" accesskey="7" ng-click="vm.cancel()">
+  <button id="work-packages--edit-actions-cancel" class="button" accesskey="7" ng-click="vm.wpEditModeState.cancel()">
     <i class="button--icon icon-close"></i>
     <span class="button--text" ng-bind="::vm.text.cancel"></span>
   </button>

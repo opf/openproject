@@ -31,6 +31,7 @@ import {WorkPackageEditFormController} from "./wp-edit-form.directive";
 
 export class WorkPackageEditModeStateService {
   public form: WorkPackageEditFormController;
+  public _active: boolean = false;
 
   constructor(protected $rootScope, protected $window, protected I18n) {
 
@@ -48,19 +49,35 @@ export class WorkPackageEditModeStateService {
   }
 
   public start() {
-    this.form.toggleEditMode(true);
+    if (!this.active) {
+      this.form.toggleEditMode(true);
+      this._active = true;
+    }
   }
 
   public cancel() {
-    this.form.toggleEditMode(false);
+    if (this.active) {
+      this.form.toggleEditMode(false);
+      this._active = false;
+    }
   }
-
+  
+  public save() {
+    if (this.active) {
+      this.form.updateWorkPackage().then(() => {
+        // Doesn't use cancel() since that resets all values
+        this.form.closeAllFields();
+        this._active = false;
+      });
+    }
+  }
+  
   public register(form: WorkPackageEditFormController) {
     this.form = form;
   }
 
   public get active() {
-    return this.form.inEditMode
+    return this._active;
   }
 }
 

@@ -1,5 +1,5 @@
-<div class="work-packages--details-toolbar" ng-hide="!editButtonVisible()">
-  <button class="button -highlight" accesskey="3" ng-click="editWorkPackage()" ng-disabled="!canEdit()">
+<div class="work-packages--details-toolbar" ng-hide="wpEditModeState.active || !wpEditModeState.form.isEditable">
+  <button class="button -highlight" accesskey="3" ng-click="wpEditModeState.start()" ng-disabled="!wpEditModeState.form.isEditable">
     <i class="button--icon icon-edit"></i>
     <span class="button--text" ng-bind="::I18n.t('js.button_edit')"></span>
   </button>

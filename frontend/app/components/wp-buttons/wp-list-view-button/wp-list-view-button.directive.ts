@@ -29,18 +29,21 @@
 import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
 import {WorkPackageEditFormController} from "../../wp-edit/wp-edit-form.directive";
+import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
 
 export class WorkPackageListViewButtonController extends WorkPackageNavigationButtonController {
-  public projectIdentifier:number;
-  public formCtrl:WorkPackageEditFormController;
+  public projectIdentifier: number;
+  public formCtrl: WorkPackageEditFormController;
 
-  public accessKey:number = 8;
-  public activeState:string = 'work-packages.list';
-  public labelKey:string = 'js.button_list_view';
-  public buttonId:string = 'work-packages-list-view-button';
-  public iconClass:string = 'icon-view-list';
+  public accessKey: number = 8;
+  public activeState: string = 'work-packages.list';
+  public labelKey: string = 'js.button_list_view';
+  public buttonId: string = 'work-packages-list-view-button';
+  public iconClass: string = 'icon-view-list';
 
-  constructor(public $state:ng.ui.IStateService, public I18n) {
+  constructor(public $state: ng.ui.IStateService,
+              public wpEditModeState: WorkPackageEditModeStateService,
+              public I18n) {
     'ngInject';
 
     super($state, I18n);
@@ -51,7 +54,7 @@ export class WorkPackageListViewButtonController extends WorkPackageNavigationBu
   }
 
   public get disabled() {
-    return this.formCtrl.inEditMode;
+    return this.wpEditModeState.active;
   }
 
   public performAction() {
@@ -68,15 +71,11 @@ export class WorkPackageListViewButtonController extends WorkPackageNavigationBu
   }
 }
 
-function wpListViewButton():ng.IDirective {
+function wpListViewButton(): ng.IDirective {
   return wpButtonDirective({
     scope: {
       projectIdentifier: '=',
       editAll: '='
-    },
-    require: '^wpEditForm',
-    link: function(scope, element, attrs, wpEditForm) {
-      scope.vm.formCtrl = wpEditForm;
     },
 
     controller: WorkPackageListViewButtonController,

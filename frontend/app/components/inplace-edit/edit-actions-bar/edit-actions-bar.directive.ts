@@ -26,49 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageEditFormController} from "../../wp-edit/wp-edit-form.directive";
+import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
 
 export class EditActionsBarController {
-  public wpEditForm: WorkPackageEditFormController;
   public text: Object;
 
-  constructor(protected EditableFieldsState,
-              protected inplaceEditMultiStorage,
-              protected inplaceEditAll,
-              I18n: op.I18n) {
+  constructor(public wpEditModeState:WorkPackageEditModeStateService, I18n: op.I18n) {
 
     this.text = {
       save: I18n.t('js.button_save'),
       cancel: I18n.t('js.button_cancel')
     }
   }
-
-  public get visible() {
-    return this.wpEditForm.inEditMode && this.wpEditForm.isEditable;
-  }
-
-  public save() {
-    this.wpEditForm.updateWorkPackage();
-  }
-
-  public cancel() {
-    this.wpEditForm.toggleEditMode(false);
-  }
 }
-
-
-
 
 function editActionsBar() {
   return {
     restrict: 'E',
     replace: true,
     templateUrl: '/components/inplace-edit/edit-actions-bar/edit-actions-bar.directive.html',
-
-    require: '^wpEditForm',
-    link: function(scope, element, attrs, wpEditForm) {
-      scope.vm.wpEditForm = wpEditForm;
-    },
 
     bindToController: true,
     controller: EditActionsBarController,

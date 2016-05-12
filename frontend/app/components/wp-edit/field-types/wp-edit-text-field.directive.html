@@ -2,6 +2,6 @@
        class="wp-inline-edit--field"
        wp-edit-field-requirements="vm.field.schema"
        ng-model="vm.workPackage[vm.fieldName]"
-       ng-blur="vm.deactivate()"
+       ng-blur="vm.handleUserBlur()"
        focus="vm.shouldFocus()"
        ng-attr-id="{{vm.htmlId}}" />

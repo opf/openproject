@@ -1,5 +1,5 @@
 <div class="work-packages--show-view"
-     ng-class="{'edit-all-mode': wpEditMode.active}"
+     ng-class="{'edit-all-mode': wpEditModeState.active}"
      wp-edit-form="workPackageResource"
      has-edit-mode="true"
      ng-if="workPackageResource">
@@ -13,7 +13,7 @@
         </li>
         <li class="toolbar-item">
           <button class="button edit-all-button"
-                  ng-hide="wpEditModeState.active"
+                  ng-disabled="wpEditModeState.active"
                   ng-click="wpEditModeState.start()"
                   ng-disabled="!wpEditModeState.form.isEditable"
                   title="{{I18n.t('js.button_edit')}}">

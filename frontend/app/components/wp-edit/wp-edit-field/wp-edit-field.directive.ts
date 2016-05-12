@@ -103,6 +103,10 @@ export class WorkPackageEditFieldController {
     });
   }
 
+  public deactivate() {
+    return this._active = false;
+  }
+
   public expandField() {
     return this.buildEditField().then(() => {
       this._active = this.field.schema.writable;
@@ -161,19 +165,20 @@ export class WorkPackageEditFieldController {
     this.$timeout(_ => this.$scope.$broadcast('updateFocus'));
   }
 
-  public deactivate():boolean {
+  public handleUserBlur():boolean {
     if (this.inEditMode) {
       return true;
     }
 
     this._forceFocus = false;
-    return this._active = false;
+    this.deactivate();
   }
 
   public setErrorState(error = true) {
     this.errorenous = error;
     this.$element.toggleClass('-error', error);
   }
+
 
 
   public reset(focus = false) {
@@ -201,8 +206,7 @@ function wpEditFieldLink(
   scope,
   element,
   attrs,
-  controllers: [WorkPackageEditFormController, WorkPackageEditFieldController],
-  $timeout) {
+  controllers: [WorkPackageEditFormController, WorkPackageEditFieldController]) {
 
   controllers[1].formCtrl = controllers[0];
   controllers[1].formCtrl.registerField(scope.vm);

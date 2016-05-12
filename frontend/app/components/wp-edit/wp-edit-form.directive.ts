@@ -28,38 +28,35 @@
 
 import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
 import {WorkPackageEditModeStateService} from "./wp-edit-mode-state.service";
+import {WorkPackageEditFieldController} from "./wp-edit-field/wp-edit-field.directive";
 
 export class WorkPackageEditFormController {
   public workPackage;
-  public hasEditMode:boolean;
-  public errorHandler:Function;
-  public successHandler:Function;
+  public hasEditMode: boolean;
+  public errorHandler: Function;
+  public successHandler: Function;
   public fields = {};
-  public firstActiveField:string;
 
-  public lastErrorFields:string[] = [];
+  public lastErrorFields: string[] = [];
+  public firstActiveField: string;
 
-  /** Edit all state */
-  protected editAllState:boolean = false;
+  constructor(protected $scope: ng.IScope,
+              protected $q,
+              protected $state,
+              protected $rootScope,
+              protected I18n,
+              protected NotificationsService,
+              protected QueryService,
+              protected wpEditModeState: WorkPackageEditModeStateService,
+              protected loadingIndicator) {
 
-  constructor(
-    protected $scope:ng.IScope,
-    protected $q,
-    protected $state,
-    protected $rootScope,
-    protected I18n,
-    protected NotificationsService,
-    protected QueryService,
-    protected wpEditModeState:WorkPackageEditModeStateService,
-    protected loadingIndicator) {
-
-    if(this.hasEditMode) {
+    if (this.hasEditMode) {
       wpEditModeState.register(this);
     }
   }
 
   public isFieldRequired(fieldName) {
-    return _.filter((this.fields as any), (name:string, _field) => {
+    return _.filter((this.fields as any), (name: string, _field) => {
       return !this.workPackage[name] && this.workPackage.requiredValueFor(name);
     });
   }
@@ -70,9 +67,7 @@ export class WorkPackageEditFormController {
   }
 
   public toggleEditMode(state: boolean) {
-    if (this.editAllState !== state) {
-      this.editAllState = state;
-
+    this.$scope.$evalAsync(() => {
       angular.forEach(this.fields, (field) => {
         if (state) {
           field.isEditable && field.expandField();
@@ -80,11 +75,17 @@ export class WorkPackageEditFormController {
           field.active && field.reset();
         }
       });
-    }
+    });
+  }
+  
+  public closeAllFields() {
+    angular.forEach(this.fields, (field:WorkPackageEditFieldController) => {
+      field.deactivate();
+    })
   }
 
   public get inEditMode() {
-    return this.editAllState;
+    return this.hasEditMode && this.wpEditModeState.active;
   }
 
   public get isEditable() {
@@ -108,7 +109,7 @@ export class WorkPackageEditFormController {
         deferred.resolve();
 
         this.showSaveNotification();
-        this.successHandler({ workPackage: this.workPackage, fields: this.fields });
+        this.successHandler({workPackage: this.workPackage, fields: this.fields});
       })
       .catch((error) => {
         if (!(error.data instanceof ErrorResource)) {
@@ -129,21 +130,21 @@ export class WorkPackageEditFormController {
       link: {
         target: _ => {
           this.loadingIndicator.mainPage = this.$state.go.apply(this.$state,
-            ["work-packages.show.activity", { workPackageId: this.workPackage.id }]);
+            ["work-packages.show.activity", {workPackageId: this.workPackage.id}]);
         },
         text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
       }
     });
   }
 
-  private handleSubmissionErrors(error:any, deferred:any) {
+  private handleSubmissionErrors(error: any, deferred: any) {
 
     // Process single API errors
     this.handleErroneousAttributes(error.getInvolvedAttributes());
     return deferred.reject();
   }
 
-  private handleErroneousAttributes(attributes:string[]) {
+  private handleErroneousAttributes(attributes: string[]) {
     if (attributes.length === 0) return;
 
     // Allow additional error handling

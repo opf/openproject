@@ -3,7 +3,7 @@
         wp-edit-field-requirements="vm.field.schema"
         ng-options="value as (value.name || value.value) for value in vm.field.options track by value.href"
         ng-change="vm.submit()"
-        ng-blur="vm.deactivate()"
+        ng-blur="vm.handleUserBlur()"
         focus="vm.shouldFocus()"
         ng-attr-id="{{vm.htmlId}}">
   <option value="" ng-if="false"></option>

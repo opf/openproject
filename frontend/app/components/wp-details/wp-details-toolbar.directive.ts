@@ -37,7 +37,8 @@ function wpDetailsToolbar(
   I18n,
   HookService,
   WorkPackageService,
-  WorkPackageAuthorization) {
+  WorkPackageAuthorization,
+  wpEditModeState) {
 
   function getPermittedActions(authorization, permittedMoreMenuActions) {
     var permittedActions = authorization.permittedActionsWithLinks(permittedMoreMenuActions);
@@ -77,12 +78,11 @@ function wpDetailsToolbar(
   return {
     restrict: 'E',
     templateUrl: '/components/wp-details/wp-details-toolbar.directive.html',
-    require: '^wpEditForm',
     scope: {
       workPackage: '='
     },
 
-    link: function(scope, attr, element, wpEditForm) {
+    link: function(scope, attr, element) {
       var authorization = new WorkPackageAuthorization(scope.workPackage);
 
       scope.displayWatchButton = scope.workPackage.links.hasOwnProperty('unwatch') ||
@@ -104,9 +104,7 @@ function wpDetailsToolbar(
         }
       };
 
-      scope.canEdit = () => wpEditForm.isEditable;
-      scope.editButtonVisible = () => wpEditForm.isEditable && !wpEditForm.inEditMode;
-      scope.editWorkPackage = () => wpEditForm.toggleEditMode(true);
+      scope.wpEditModeState = wpEditModeState;
 
       function deleteSelectedWorkPackage() {
         var workPackageDeletionId = scope.workPackage.props.id;
