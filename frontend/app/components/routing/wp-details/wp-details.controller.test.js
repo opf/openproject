@@ -122,8 +122,9 @@ describe('WorkPackageDetailsController', function() {
     $provide.constant('$stateParams', stateParams);
   }));
 
-  beforeEach(inject(function($rootScope, $controller, $timeout) {
+  beforeEach(inject(function($rootScope, $controller, $timeout, $httpBackend) {
     var workPackageId = 99;
+    $httpBackend.expectGET('/api/v3/work_packages/99').respond(workPackage);
 
     buildController = function() {
       var testState = {
