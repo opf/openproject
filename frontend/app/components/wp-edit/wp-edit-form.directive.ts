@@ -35,6 +35,8 @@ export class WorkPackageEditFormController {
   public fields = {};
   public firstActiveField:string;
 
+  public lastErrorFields:string[] = [];
+
   constructor(
     protected $scope:ng.IScope,
     protected $q,
@@ -52,6 +54,11 @@ export class WorkPackageEditFormController {
     });
   }
 
+  public registerField(field) {
+    this.fields[field.fieldName] = field;
+    field.setErrorState(this.lastErrorFields.indexOf(field.fieldName) !== -1);
+  }
+
   public loadSchema() {
     return this.workPackage.getSchema();
   }
@@ -61,6 +68,7 @@ export class WorkPackageEditFormController {
 
     // Reset old error notifcations
     this.$rootScope.$emit('notifications.clearAll');
+    this.lastErrorFields = [];
 
     this.workPackage.save()
       .then(() => {
@@ -112,6 +120,9 @@ export class WorkPackageEditFormController {
       fields: this.fields,
       attributes: attributes
     });
+
+    // Save erroneous fields for when new fields appear
+    this.lastErrorFields = attributes;
 
     this.$scope.$evalAsync(() => {
       angular.forEach(this.fields, field => {

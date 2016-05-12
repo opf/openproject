@@ -155,7 +155,7 @@ export class WorkPackageEditFieldController {
 
   public setErrorState(error = true) {
     this.errorenous = error;
-    this.$element.toggleClass('-error', error)
+    this.$element.toggleClass('-error', error);
   }
 
 
@@ -188,7 +188,7 @@ function wpEditFieldLink(
   $timeout) {
 
   controllers[1].formCtrl = controllers[0];
-  controllers[1].formCtrl.fields[scope.vm.fieldName] = scope.vm;
+  controllers[1].formCtrl.registerField(scope.vm);
 
   scope.vm.initializeField();
 

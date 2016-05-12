@@ -157,10 +157,11 @@ export class WorkPackageResource extends HalResource {
         this.saveResource(payload)
           .then(workPackage => {
             angular.extend(this, workPackage);
-            wpCacheService.updateWorkPackage(this);
             deferred.resolve(this);
           }).catch((error) => {
-          deferred.reject(error);
+            deferred.reject(error);
+          }).finally(() => {
+            wpCacheService.updateWorkPackage(this);
         });
       })
       .catch(deferred.reject);
