@@ -51,8 +51,10 @@ export class WorkPackageDisplayAttributeController {
                          I18n.t('js.work_packages.placeholders.default');
     this.displayText = this.placeholder;
 
-    $scope.$watch('$ctrl.workPackage.' + this.attribute, () => {
-      this.updateAttribute();
+    $scope.$watch('$ctrl.workPackage.' + this.attribute, (newValue) => {
+      if (angular.isDefined(newValue)) {
+        this.updateAttribute();
+      }
     });
   }
 
