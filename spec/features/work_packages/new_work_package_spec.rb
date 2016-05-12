@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'features/work_packages/details/inplace_editor/work_package_field'
+require 'support/work_packages/work_package_field'
 require 'features/work_packages/work_packages_page'
 require 'features/page_objects/notification'
 
@@ -28,7 +28,6 @@ describe 'new work package', js: true do
   def disable_leaving_unsaved_warning
     FactoryGirl.create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
   end
-
 
   before do
     status.save!
@@ -101,28 +100,30 @@ describe 'new work package', js: true do
         select 'Bug', from: 'inplace-edit--write-value--type'
 
         save_work_package!
-        expect(page).to have_selector('#work-package-type', text: 'Bug')
+
+        wp_page.expect_attributes subject: subject
+        wp_page.expect_attributes type: 'Bug'
       end
 
       context 'custom fields' do
         let(:custom_fields) {
-          fields = [
-            FactoryGirl.create(
-              :work_package_custom_field,
-              field_format: 'string',
-              is_required: true,
-              is_for_all: true
-            ),
-            FactoryGirl.create(
-              :work_package_custom_field,
-              field_format: 'list',
-              possible_values: %w(foo bar xyz),
-              is_required: false,
-              is_for_all: true
-            )
-          ]
-
-          fields
+          [custom_field1, custom_field2]
+        }
+        let(:custom_field1) {
+          FactoryGirl.create(
+            :work_package_custom_field,
+            field_format: 'string',
+            is_required: true,
+            is_for_all: true
+          )
+        }
+        let(:custom_field2) {
+          FactoryGirl.create(
+            :work_package_custom_field,
+            field_format: 'list',
+            possible_values: %w(foo bar xyz),
+            is_required: false,
+            is_for_all: true)
         }
         let(:type_task) { FactoryGirl.create(:type_task, custom_fields: custom_fields) }
         let(:project) {
@@ -150,8 +151,8 @@ describe 'new work package', js: true do
           cf1.set 'Custom field content'
           save_work_package!(true)
 
-          expect(page).to have_selector("#work-package-customField#{ids.first}", 'Custom field content')
-          expect(page).to have_selector("#work-package-customField#{ids.last}", 'foo')
+          wp_page.expect_attributes "customField#{custom_field1.id}" => 'Custom field content',
+                                    "customField#{custom_field2.id}" => 'foo'
         end
       end
     end
@@ -159,6 +160,8 @@ describe 'new work package', js: true do
 
   context 'split screen' do
     let(:safeguard_selector) { '.work-packages--details-content.-create-mode' }
+    let(:wp_page) { Pages::SplitWorkPackage.new(WorkPackage.new) }
+
     before do
       # Safeguard to ensure the create form to be loaded
       expect(page).to have_selector(safeguard_selector, wait: 10)
@@ -169,6 +172,8 @@ describe 'new work package', js: true do
 
   context 'full screen' do
     let(:safeguard_selector) { '.work-package--new-state' }
+    let(:wp_page) { Pages::FullWorkPackage.new(WorkPackage.new) }
+
     before do
       find('#work-packages-show-view-button').click
       # Safeguard to ensure the create form to be loaded

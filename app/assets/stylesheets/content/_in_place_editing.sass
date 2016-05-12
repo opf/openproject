@@ -32,7 +32,7 @@
   position: absolute
 
 .inplace-edit
-  @extend .form--field.-full-width
+  @include grid-block
 
   .-preview
     button
@@ -81,11 +81,39 @@
       @extend %inline-date-picker-container-position-absolute
       right: 0
 
+  &.-editable.-no-label:not(.-active)
+    margin-left: -0.375rem
+
+  &.-small
+    margin-top: 3px
+    padding-bottom: 0px
+    padding-top: 0px
+
+    .inplace-edit--read-value
+      padding-top: 0
+      padding-bottom: 0
+
+    select, input
+      height: 24px
+      padding-top: 0
+      padding-bottom: 0
+      line-height: normal
+      font-size: 14px
+
+  &.-shrink
+    .inplace-edit--read-value,
+      flex: 0 1 auto
+
+  .textarea-wrapper
+    margin-bottom: 39px
+
+
 #ui-datepicker-div
   z-index: 9999 !important
 
 .inplace-edit--form,
 .user-comment--form
+  @include grid-block
   display: block
   position: relative
 
@@ -154,14 +182,20 @@
     white-space: pre-line
     padding-left: 18px
 
+.wp-edit-field
+  .jstHandle, .jstSpacer
+    display: none
+
+.inplace-edit--write
+  @include grid-block
+
 .inplace-edit--read
   @include grid-block
   overflow: visible
 
 .inplace-edit--read-value,
-.wp-edit-field
   @include grid-block
-  padding: 0.375rem
+
 
   &.-default
     font-style: italic
@@ -178,6 +212,20 @@
   .macro-unavailable.permanent
     position: relative
     top: 0
+
+  span
+    overflow: hidden
+    text-overflow: ellipsis
+
+    p
+      overflow: inherit
+      text-overflow: inherit
+
+.inplace-edit--read-value--container,
+  @include grid-block
+
+.inplace-edit--read-value--value,
+  @include grid-block
 
 // When user is not allowed to edit the field
 #work-package-description
@@ -335,11 +383,9 @@ a.inplace-editing--trigger-link,
   .inplace-editing--trigger-link
     font-size: 1rem
 
-// this aligns the title for the WP
 .work-packages--split-view
   .work-packages--details--title,
   .work-packages--details--description
-    margin-left: -0.375rem
 
     a.inplace-editing--trigger-link
       margin-left: 1px
@@ -350,6 +396,20 @@ a.inplace-editing--trigger-link,
 
 .inplace-edit--highlight
   border-color: $inplace-edit--color-highlight !important
+
+.single-view-wp--date-field
+  float: left
+
+  .wp-inline-edit--field
+    width: 89px
+
+.single-view-wp--date-separator
+  margin: 3px 4px
+  float: left
+
+  &:after
+    display: inline
+    content: '-'
 
 .work-packages--details
   .inplace-edit--read-value .macro-unavailable.permanent
@@ -377,24 +437,3 @@ a.inplace-editing--trigger-link,
       i
         vertical-align: text-top
 
-
-.inplace-edit.-small .inplace-edit--read,
-.inplace-edit.-small .inplace-edit--write,
-.wp-edit-field.-small
-  height: 24px
-  padding-bottom: 0px
-  padding-top: 0px
-
-  .inplace-edit--read-value
-    padding-top: 0
-    padding-bottom: 0
-
-  select, input
-    height: 24px
-    padding-top: 0
-    padding-bottom: 0
-    line-height: normal
-    font-size: 14px
-
-.inplace-edit.-small
-  margin-top: 3px

@@ -43,15 +43,11 @@ module.exports = function(I18n, WorkPackagesHelper, $timeout) {
       scope.focusElementIndex = -2;
       scope.title = I18n.t('js.relation_labels.' + scope.relationType)
 
-      var setExpandState = function() {
-        scope.expand = !scope.handler.isEmpty();
-      };
-
       scope.$watch('handler', function() {
         if (scope.handler) {
           scope.workPackage = scope.handler.workPackage;
 
-          setExpandState();
+          scope.expand = scope.expand || !scope.handler.isEmpty();
           scope.relationsCount = scope.handler.getCount();
 
           if (scope.handler.applyCustomExtensions) {

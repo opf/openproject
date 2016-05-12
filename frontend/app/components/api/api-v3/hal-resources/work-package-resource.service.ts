@@ -28,12 +28,14 @@
 
 import {HalResource} from './hal-resource.service';
 import {opApiModule} from "../../../../angular-modules";
+import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
 
 var $q;
 var apiWorkPackages;
+var wpCacheService;
 var NotificationsService;
 
-class WorkPackageResource extends HalResource {
+export class WorkPackageResource extends HalResource {
   private form;
   public schema;
   public id;
@@ -70,7 +72,7 @@ class WorkPackageResource extends HalResource {
     return !this[fieldName] && fieldSchema.writable && fieldSchema.required;
   }
 
-  public allowedValuesFor(field):ng.IPromise<op.HalResource[]> {
+  public allowedValuesFor(field):ng.IPromise<HalResource[]> {
     var deferred = $q.defer();
     this.getForm().then(form => {
       const allowedValues = form.$embedded.schema[field].allowedValues;
@@ -95,8 +97,7 @@ class WorkPackageResource extends HalResource {
 
   public getForm() {
     if (!this.form) {
-      this.form = this.$links.update(this);
-      this.form.catch(error => {
+      this.updateForm(this.$source).catch(error => {
         NotificationsService.addError(error.data.message);
       });
     }
@@ -109,7 +110,7 @@ class WorkPackageResource extends HalResource {
     // But store the existing form in case of an error.
     // Because if we get an error, the object returned is not a form
     // and thus lacks the links the implementation depends upon.
-    var oldForm = this.form
+    var oldForm = this.form;
     this.form = this.$links.update(payload);
 
     var deferred = $q.defer();
@@ -156,12 +157,13 @@ class WorkPackageResource extends HalResource {
         this.saveResource(payload)
           .then(workPackage => {
             angular.extend(this, workPackage);
-
+            wpCacheService.updateWorkPackage(this);
             deferred.resolve(this);
           }).catch((error) => {
-            deferred.reject(error);
-          });
-      });
+          deferred.reject(error);
+        });
+      })
+      .catch(deferred.reject);
 
     return deferred.promise;
   }
@@ -172,8 +174,7 @@ class WorkPackageResource extends HalResource {
   }
 
   public isParentOf(otherWorkPackage) {
-    return otherWorkPackage.parent.$links.self.$link.href ===
-      this.$links.self.$link.href;
+    return otherWorkPackage.parent.$links.self.$link.href === this.$links.self.$link.href;
   }
 
   public get isEditable():boolean {
@@ -215,18 +216,20 @@ class WorkPackageResource extends HalResource {
 
 function wpResource(_$q_:ng.IQService,
                     _apiWorkPackages_,
+                    _wpCacheService_:WorkPackageCacheService,
                     _NotificationsService_:any) {
   $q = _$q_;
   apiWorkPackages = _apiWorkPackages_;
+  wpCacheService = _wpCacheService_;
   NotificationsService = _NotificationsService_;
 
   return WorkPackageResource;
 }
 
-opApiModule
-  .factory('WorkPackageResource', [
-    '$q',
-    'apiWorkPackages',
-    'NotificationsService',
-    wpResource
-  ]);
+opApiModule.factory('WorkPackageResource', [
+  '$q',
+  'apiWorkPackages',
+  'wpCacheService',
+  'NotificationsService',
+  wpResource
+]);

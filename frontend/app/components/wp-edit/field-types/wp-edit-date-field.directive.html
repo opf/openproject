@@ -1,0 +1,12 @@
+<op-date-picker
+  on-change="vm.submit()"
+  on-deactivate="vm.deactivate()"
+  ng-model="vm.workPackage[vm.fieldName]">
+
+  <input ng-model="vm.workPackage[vm.fieldName]"
+         type="text"
+         class="wp-inline-edit--field"
+         focus="vm.shouldFocus()"
+         ng-attr-id="{{vm.htmlId}}" />
+
+</op-date-picker>

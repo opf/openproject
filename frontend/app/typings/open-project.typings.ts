@@ -152,7 +152,8 @@ declare namespace api {
  */
 
 interface Function {
-  $link?:op.HalLink;
+  $link?:any;
+  $route?:restangular.IService;
 }
 
 declare namespace op {
@@ -197,25 +198,6 @@ declare namespace op {
     restangularized:boolean;
   }
 
-  class HalResource {
-    public $links;
-    public $embedded;
-    public $isHal;
-    public name:string;
-    public href:string;
-
-    constructor($source: restangular.IElement, $loaded: boolean);
-
-    public $plain();
-  }
-
-  class HalLink {
-    public href:string;
-    public title:string;
-    public method:string;
-    public templated:boolean;
-  }
-
   interface FieldSchema {
     type:string;
     writable:boolean;
@@ -227,11 +209,10 @@ declare namespace op {
   }
 
   interface WorkPackage extends api.v3.WorkPackage, WorkPackageLinks {
-
     getForm();
     getSchema();
 
-    update();
+    save();
     links: WorkPackageLinks
   }
 

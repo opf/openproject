@@ -26,17 +26,28 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.controllers')
-  .controller('WorkPackageShowController', WorkPackageShowController);
-
-function WorkPackageShowController($scope, $rootScope, $state, workPackage, I18n,
-    RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper,
-    WorkPackageService, CommonRelationsHandler,
-    ChildrenRelationsHandler, ParentRelationsHandler, WorkPackagesOverviewService,
-    WorkPackageFieldService, EditableFieldsState, WorkPackagesDisplayHelper, NotificationsService,
-    WorkPackageAuthorization, PERMITTED_MORE_MENU_ACTIONS, HookService, $window,
-    WorkPackageAttachmentsService, AuthorisationService, inplaceEditAll) {
+function WorkPackageShowController($scope,
+                                   $rootScope,
+                                   $state,
+                                   $window,
+                                   $q,
+                                   PERMITTED_MORE_MENU_ACTIONS,
+                                   RELATION_TYPES,
+                                   RELATION_IDENTIFIERS,
+                                   workPackage,
+                                   I18n,
+                                   WorkPackagesHelper,
+                                   PathHelper,
+                                   UsersHelper,
+                                   WorkPackageService,
+                                   CommonRelationsHandler,
+                                   ChildrenRelationsHandler,
+                                   ParentRelationsHandler,
+                                   EditableFieldsState,
+                                   WorkPackageAuthorization,
+                                   HookService,
+                                   AuthorisationService,
+                                   inplaceEditAll) {
 
   $scope.editAll = inplaceEditAll;
   $scope.canEdit = EditableFieldsState.canEdit;
@@ -116,7 +127,7 @@ function WorkPackageShowController($scope, $rootScope, $state, workPackage, I18n
   };
   var authorization = new WorkPackageAuthorization($scope.workPackage);
   $scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
-                                           getPermittedPluginActions(authorization));
+    getPermittedPluginActions(authorization));
   $scope.actionsAvailable = Object.keys($scope.permittedActions).length > 0;
 
   // END stuff copied from details toolbar directive...
@@ -154,7 +165,7 @@ function WorkPackageShowController($scope, $rootScope, $state, workPackage, I18n
     $scope.workPackage = workPackage;
     $scope.isWatched = workPackage.links.hasOwnProperty('unwatch');
     $scope.displayWatchButton = workPackage.links.hasOwnProperty('unwatch') ||
-                                workPackage.links.hasOwnProperty('watch');
+      workPackage.links.hasOwnProperty('watch');
 
     // watchers
     if(workPackage.links.watchers) {
@@ -191,8 +202,8 @@ function WorkPackageShowController($scope, $rootScope, $state, workPackage, I18n
         RELATION_TYPES[key])
       ).then(function(relations) {
         var relationsHandler = new CommonRelationsHandler(workPackage,
-                                                          relations,
-                                                          RELATION_IDENTIFIERS[key]);
+          relations,
+          RELATION_IDENTIFIERS[key]);
         $scope[key] = relationsHandler;
       });
     }
@@ -208,7 +219,7 @@ function WorkPackageShowController($scope, $rootScope, $state, workPackage, I18n
     // Toggle early to avoid delay.
     $scope.isWatched = !$scope.isWatched;
     WorkPackageService.toggleWatch($scope.workPackage)
-                      .then(function() { refreshWorkPackage() }, outputError);
+      .then(function() { refreshWorkPackage() }, outputError);
   };
 
   $scope.canViewWorkPackageWatchers = function() {
@@ -224,11 +235,11 @@ function WorkPackageShowController($scope, $rootScope, $state, workPackage, I18n
 
   function getFocusAnchorLabel(tab, workPackage) {
     var tabLabel = I18n.t('js.work_packages.tabs.' + tab),
-        params = {
-          tab: tabLabel,
-          type: workPackage.props.type,
-          subject: workPackage.props.subject
-        };
+      params = {
+        tab: tabLabel,
+        type: workPackage.props.type,
+        subject: workPackage.props.subject
+      };
 
     return I18n.t('js.label_work_package_details_you_are_here', params);
   }
@@ -237,62 +248,8 @@ function WorkPackageShowController($scope, $rootScope, $state, workPackage, I18n
     $state.current.url.replace(/\//, ''),
     $scope.workPackage
   );
-
-  // Stuff copied from DetailsTabOverviewController
-  var vm = this;
-
-  vm.groupedFields = [];
-  vm.hideEmptyFields = true;
-  vm.workPackage = $scope.workPackage;
-
-  vm.shouldHideGroup = function(group) {
-    return WorkPackagesDisplayHelper.shouldHideGroup(vm.hideEmptyFields,
-                                                     vm.groupedFields,
-                                                     group,
-                                                     vm.workPackage);
-  };
-  vm.isFieldHideable = WorkPackagesDisplayHelper.isFieldHideable;
-  vm.getLabel = WorkPackagesDisplayHelper.getLabel;
-  vm.isSpecified = WorkPackagesDisplayHelper.isSpecified;
-  vm.hasNiceStar = WorkPackagesDisplayHelper.hasNiceStar;
-  vm.showToggleButton = WorkPackagesDisplayHelper.showToggleButton;
-  vm.filesExist = false;
-
-  activate();
-
-  WorkPackageAttachmentsService.hasAttachments(vm.workPackage).then(function(bool) {
-    vm.filesExist = bool;
-  });
-
-  function activate() {
-    $scope.$watch('workPackage.schema', function(schema) {
-      if (schema) {
-        WorkPackagesDisplayHelper.setFocus();
-        vm.workPackage = $scope.workPackage;
-      }
-    });
-    vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
-
-    $scope.$watchCollection('vm.workPackage.form', function() {
-      var schema = WorkPackageFieldService.getSchema(vm.workPackage);
-      var otherGroup = _.find(vm.groupedFields, {groupName: 'other'});
-      otherGroup.attributes = [];
-      _.forEach(schema.props, function(prop, propName) {
-        if (propName.match(/^customField/)) {
-          otherGroup.attributes.push(propName);
-        }
-      });
-      otherGroup.attributes.sort(function(a, b) {
-        var getLabel = function(field) {
-          return vm.getLabel(vm.workPackage, field);
-        };
-        var left = getLabel(a).toLowerCase(),
-            right = getLabel(b).toLowerCase();
-        return left.localeCompare(right);
-      });
-    });
-    $scope.$on('workPackageUpdatedInEditor', function() {
-      NotificationsService.addSuccess(I18n.t('js.notice_successful_update'));
-    });
-  }
 }
+
+angular
+  .module('openproject.workPackages.controllers')
+  .controller('WorkPackageShowController', WorkPackageShowController);

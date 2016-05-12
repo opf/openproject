@@ -41,6 +41,10 @@ export class WorkPackageEditFieldService {
     return FieldFactory.create(resource, fieldName, schema);
   }
 
+  public fieldType(name) {
+    return FieldFactory.getType(name);
+  }
+
   public addFieldType(fieldClass:typeof Field, displayType:string, fields:string[]) {
     fieldClass.type = displayType;
     fieldClass.$injector = this.$injector;
