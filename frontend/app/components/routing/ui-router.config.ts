@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
 angular
   .module('openproject')
   .config(($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) => {
@@ -103,8 +104,8 @@ angular
           projects: {value: null, squash: true}
         },
 
-        onEnter: ($state, $stateParams, inplaceEditAll) => {
-          inplaceEditAll.start();
+        onEnter: ($state, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
+          wpEditModeState.start();
           $state.go('work-packages.list.details.overview', $stateParams);
         }
       })
@@ -138,6 +139,14 @@ angular
 
         onExit: () => {
           angular.element('body').removeClass('action-show');
+        }
+      })
+      .state('work-packages.show.edit', {
+        url: '/edit',
+        reloadOnSearch: false,
+        onEnter: ($state, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
+          wpEditModeState.start();
+          $state.go('work-packages.show', $stateParams);
         }
       })
       .state('work-packages.show.activity', panels.activity)

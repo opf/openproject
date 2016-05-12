@@ -48,18 +48,18 @@ export class WorkPackageEditModeStateService {
     });
   }
 
-  public start() {
-    if (!this.active) {
+  public start():boolean {
+    if (!this.active && !!this.form) {
       this.form.toggleEditMode(true);
-      this._active = true;
     }
+    return this._active = true;
   }
 
   public cancel() {
-    if (this.active) {
+    if (this.active && !!this.form) {
       this.form.toggleEditMode(false);
-      this._active = false;
     }
+    return this._active = false;
   }
   
   public save() {
@@ -75,6 +75,8 @@ export class WorkPackageEditModeStateService {
   public register(form: WorkPackageEditFormController) {
     this.form = form;
 
+    // Activate form when it registers after the
+    // edit mode has been requested.
     if (this._active) {
       form.toggleEditMode(true);
     }
