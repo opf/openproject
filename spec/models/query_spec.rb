@@ -40,7 +40,7 @@ describe Query, type: :model do
 
     context 'with work_package_done_ratio disabled' do
       before do
-        allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
+        allow(WorkPackage).to receive(:done_ratio_disabled?).and_return(true)
       end
 
       it 'should NOT include the done_ratio column' do

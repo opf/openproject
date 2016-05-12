@@ -81,6 +81,14 @@ class QueryColumn
     available
   end
 
+  def available
+    if name == :done_ratio
+      !WorkPackage.done_ratio_disabled?
+    else
+      @available
+    end
+  end
+
   def sum_of(work_packages)
     if work_packages.is_a?(Array)
       # TODO: Sums::grouped_sums might call through here without an AR::Relation

@@ -33,4 +33,18 @@ describe ::QueryColumn, type: :model do
   let(:instance) { QueryColumn.new(:query_column) }
 
   it_behaves_like 'query column'
+
+  describe '#available?' do
+    context ':done_ratio column' do
+      let(:instance) { QueryColumn.new(:done_ratio) }
+
+      it 'is not available if the setting disables it' do
+        allow(WorkPackage)
+          .to receive(:done_ratio_disabled?)
+          .and_return(true)
+
+        expect(instance).to_not be_available
+      end
+    end
+  end
 end
