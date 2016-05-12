@@ -33,28 +33,27 @@ import {Field} from "./wp-edit-field.module";
 
 export class WorkPackageEditFieldController {
   public formCtrl: WorkPackageEditFormController;
-  public fieldForm:ng.IFormController;
-  public fieldName:string;
-  public fieldType:string;
-  public fieldIndex:number;
-  public field:Field;
-  public errorenous:boolean;
+  public fieldForm: ng.IFormController;
+  public fieldName: string;
+  public fieldType: string;
+  public fieldIndex: number;
+  public field: Field;
+  public errorenous: boolean;
 
-  protected _active:boolean = false;
-  protected _forceFocus:boolean = false;
+  protected _active: boolean = false;
+  protected _forceFocus: boolean = false;
 
   // Since we load the schema asynchronously
   // all fields are initially viewed as editable until it is loaded
-  protected _editable:boolean = false;
+  protected _editable: boolean = false;
 
-  constructor(
-    protected wpEditField:WorkPackageEditFieldService,
-    protected $scope,
-    protected $element,
-    protected $timeout,
-    protected FocusHelper,
-    protected NotificationsService,
-    protected I18n) {
+  constructor(protected wpEditField: WorkPackageEditFieldService,
+              protected $scope,
+              protected $element,
+              protected $timeout,
+              protected FocusHelper,
+              protected NotificationsService,
+              protected I18n) {
 
   }
 
@@ -94,7 +93,7 @@ export class WorkPackageEditFieldController {
       if (this.isEditable && !active) {
         this.NotificationsService.addError(this.I18n.t(
           'js.work_packages.error_edit_prohibited',
-          { attribute: this.field.schema.name }
+          {attribute: this.field.schema.name}
         ));
       }
 
@@ -111,12 +110,6 @@ export class WorkPackageEditFieldController {
       this._active = this.field.schema.writable;
       return this._active;
     });
-  }
-
-  public activateIfEditable() {
-    if (this.isEditable) {
-      this.activate();
-    }
   }
 
   public initializeField() {
@@ -145,44 +138,49 @@ export class WorkPackageEditFieldController {
     });
   }
 
-  public get isEditable():boolean {
+  public get isEditable(): boolean {
     return this._editable && this.workPackage.isEditable;
   }
 
-  public get inEditMode():boolean {
+  public get inEditMode(): boolean {
     return this.formCtrl.inEditMode;
   }
 
-  public set editable(enabled:boolean) {
+  public set editable(enabled: boolean) {
     this._editable = enabled;
     this.$element.toggleClass('-editable', !!enabled);
   }
 
   public shouldFocus() {
-    return this._forceFocus ||
-           !this.workPackage.isNew ||
-           this.formCtrl.firstActiveField === this.fieldName;
+    return this._forceFocus || !this.workPackage.isNew ||
+      this.formCtrl.firstActiveField === this.fieldName;
   }
 
   public focusField() {
     this.$timeout(_ => this.$scope.$broadcast('updateFocus'));
   }
 
-  public handleUserBlur():boolean {
-    if (this.inEditMode) {
-      return true;
+  public handleUserBlur(): boolean {
+    if (!this.active || this.inEditMode) {
+      return;
     }
 
     this._forceFocus = false;
     this.deactivate();
   }
 
+  public handleUserCancel(focus) {
+    if (!this.active || this.inEditMode) {
+      return;
+    }
+
+    return this.reset(focus);
+  }
+
   public setErrorState(error = true) {
     this.errorenous = error;
     this.$element.toggleClass('-error', error);
   }
-
-
 
   public reset(focus = false) {
     this.workPackage.restoreFromPristine(this.fieldName);
@@ -194,7 +192,7 @@ export class WorkPackageEditFieldController {
     }
   }
 
-  protected buildEditField():ng.IPromise<any> {
+  protected buildEditField(): ng.IPromise<any> {
     return this.formCtrl.loadSchema().then(schema => {
       this.field = this.wpEditField.getField(this.workPackage, this.fieldName, schema[this.fieldName]);
       this.workPackage.storePristine(this.fieldName);
@@ -203,11 +201,10 @@ export class WorkPackageEditFieldController {
 
 }
 
-function wpEditFieldLink(
-  scope,
-  element,
-  attrs,
-  controllers: [WorkPackageEditFormController, WorkPackageEditFieldController]) {
+function wpEditFieldLink(scope,
+                         element,
+                         attrs,
+                         controllers: [WorkPackageEditFormController, WorkPackageEditFieldController]) {
 
   controllers[1].formCtrl = controllers[0];
   controllers[1].formCtrl.registerField(scope.vm);
@@ -218,7 +215,7 @@ function wpEditFieldLink(
   element.keyup(event => {
     if (event.keyCode === 27) {
       scope.$evalAsync(() => {
-        scope.vm.reset(true);
+        scope.vm.handleUserCancel(true);
       });
     }
   });

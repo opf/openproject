@@ -59,7 +59,9 @@ export class WorkPackageDisplayAttributeController {
   }
 
   public activateIfEditable(event) {
-    this.wpEditField.activateIfEditable();
+    if (this.wpEditField.isEditable) {
+      this.wpEditField.activate();
+    }
     event.stopImmediatePropagation();
   }
 
