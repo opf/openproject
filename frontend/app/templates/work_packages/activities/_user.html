@@ -39,35 +39,35 @@
     </div>
   </div>
   <span class="user-comment wiki">
-    <div ng-if="inEdit">
+    <div ng-if="inEdit" class="inplace-edit">
       <div class="user-comment--form inplace-edit--write-value">
         <div class="textarea-wrapper" ng-class="{'-preview': inPreview}">
-            <textarea wiki-toolbar
-                      msd-elastic="\n"
-                      class="edit-comment-text focus-input inplace-edit--textarea"
-                      id="inplace-edit--write-value--activity-comment"
-                      ng-hide="inPreview"
-                      ng-model="activity.editedComment"
-                      preview-toggle="toggleCommentPreview()"
-                      required>
-            </textarea>
-            <div class="inplace-edit--preview" ng-if="inPreview">
-              <span ng-bind-html="previewHtml"></span>
+          <textarea wiki-toolbar
+                    msd-elastic="\n"
+                    class="edit-comment-text focus-input inplace-edit--textarea"
+                    id="inplace-edit--write-value--activity-comment"
+                    ng-hide="inPreview"
+                    ng-model="activity.editedComment"
+                    preview-toggle="toggleCommentPreview()"
+                    required>
+          </textarea>
+          <div class="inplace-edit--preview" ng-if="inPreview">
+            <span ng-bind-html="previewHtml"></span>
+          </div>
+          <div class="inplace-edit--dashboard">
+            <div class="inplace-edit--controls">
+              <accessible-by-keyboard execute="updateComment()"
+                                      ng-disabled="editCommentForm.$invalid"
+                                      class="inplace-edit--control inplace-edit--control--save">
+                <icon-wrapper icon-name="checkmark" icon-title="{{ I18n.t('js.button_save') }}">
+                </icon-wrapper>
+              </accessible-by-keyboard>
+              <accessible-by-keyboard execute="cancelEdit()"
+                                      class="inplace-edit--control inplace-edit--control--cancel">
+                <icon-wrapper icon-name="close" icon-title="{{ I18n.t('js.button_cancel') }}">
+                </icon-wrapper>
+              </accessible-by-keyboard>
             </div>
-        </div>
-        <div class="inplace-edit--dashboard">
-          <div class="inplace-edit--controls">
-            <accessible-by-keyboard execute="updateComment()"
-                                    ng-disabled="editCommentForm.$invalid"
-                                    class="inplace-edit--control inplace-edit--control--save">
-              <icon-wrapper icon-name="checkmark" icon-title="{{ I18n.t('js.button_save') }}">
-              </icon-wrapper>
-            </accessible-by-keyboard>
-            <accessible-by-keyboard execute="cancelEdit()"
-                                    class="inplace-edit--control inplace-edit--control--cancel">
-              <icon-wrapper icon-name="close" icon-title="{{ I18n.t('js.button_cancel') }}">
-              </icon-wrapper>
-            </accessible-by-keyboard>
           </div>
         </div>
       </div>
