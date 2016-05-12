@@ -119,6 +119,23 @@ describe 'activity comments', js: true, selenium: true do
         end
       end
 
+      describe 'preview' do
+        it 'previews the comment' do
+          comment_field.input_element.set '*Highlight*'
+          preview = comment_field.element.find('.jstb_preview')
+
+          # Enable preview
+          preview.click
+          expect(comment_field.element).to have_selector('strong', text: 'Highlight')
+
+          # Disable preview
+          preview.click
+          expect(comment_field.element).to have_no_selector('strong')
+
+          comment_field.save_by_click
+        end
+      end
+
       describe 'quoting' do
         it 'can quote a previous comment' do
           expect(page).to have_selector('.user-comment .message',
