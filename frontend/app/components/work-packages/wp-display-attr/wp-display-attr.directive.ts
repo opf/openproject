@@ -85,7 +85,6 @@ export class WorkPackageDisplayAttributeController {
       const wpAttr:any = this.workPackage[this.attribute];
 
       if (this.workPackage.isNew && this.attribute === 'id') {
-        this.displayText = 'text';
         this.displayText = '';
         return;
       }
