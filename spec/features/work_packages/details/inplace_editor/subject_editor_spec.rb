@@ -47,6 +47,18 @@ describe 'subject inplace editor', js: true, selenium: true do
       expect(field.input_element[:value]).to eq work_package.subject
     end
 
+    it 'displays an error when too long' do
+      too_long = '*' * 256
+      field.set_value too_long
+      field.submit_by_enter
+
+      field.expect_error
+      field.expect_active!
+      expect(field.input_element.value).to eq(too_long)
+
+      notification.expect_error('Subject is too long (maximum is 255 characters)')
+    end
+
     context 'on save' do
       before do
         field.input_element.set 'Aloha'
@@ -59,7 +71,7 @@ describe 'subject inplace editor', js: true, selenium: true do
 
       it 'saves the value on ENTER' do
         field.submit_by_enter
-        field.expect_state_text('Aloha')
+        field.expect_state_text(work_package)
       end
     end
   end
