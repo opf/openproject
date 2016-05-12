@@ -175,7 +175,7 @@ export class WorkPackageEditFormController {
       // since it doesn't yet expand erroneous attributes
       var firstErrorField = this.fields[this.firstActiveField];
       if (firstErrorField) {
-        firstErrorField.handleUserActivate(true);
+        firstErrorField.activate(true);
       }
     });
   }

@@ -51,6 +51,7 @@ export class WorkPackageEditFieldController {
               protected $scope,
               protected $element,
               protected $timeout,
+              protected $q,
               protected FocusHelper,
               protected NotificationsService,
               protected I18n) {
@@ -85,9 +86,16 @@ export class WorkPackageEditFieldController {
     return this._active = false;
   }
 
-  public expandField() {
+  public activate() {
+    if (this._active) {
+      return this.$q.when(true);
+    }
+
     return this.buildEditField().then(() => {
       this._active = this.field.schema.writable;
+      if (this._active) {
+        this.focusField();
+      }
       return this._active;
     });
   }
@@ -96,6 +104,7 @@ export class WorkPackageEditFieldController {
     // Activate field when creating a work package
     // and the schema requires this field
     if (this.workPackage.isNew && this.workPackage.requiredValueFor(this.fieldName)) {
+      this.activate();
 
       var activeField = this.formCtrl.firstActiveField;
       if (!activeField || this.formCtrl.fields[activeField].fieldIndex > this.fieldIndex) {
@@ -113,7 +122,7 @@ export class WorkPackageEditFieldController {
 
       // Activate the field automatically when in editAllMode
       if (this.inEditMode && this.isEditable) {
-        this.expandField();
+        this.activate();
       }
     });
   }
@@ -141,12 +150,7 @@ export class WorkPackageEditFieldController {
   }
 
   public handleUserActivate() {
-    if (this._active) {
-      this.focusField();
-      return;
-    }
-
-    this.expandField().then((active) => {
+    this.activate().then((active) => {
       // Display a generic error if the field turns out not to be editable,
       // despite the field being editable.
       if (this.isEditable && !active) {
@@ -155,8 +159,6 @@ export class WorkPackageEditFieldController {
           {attribute: this.field.schema.name}
         ));
       }
-
-      this.focusField();
     });
   }
 
