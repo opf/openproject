@@ -37,6 +37,8 @@ export class WorkPackageDisplayAttributeController {
   public displayType:string;
   public displayLink:string;
   public attribute:string;
+  public placeholder:string;
+  public placeholderOptional:string;
   public workPackage:any;
   public schema:HalResource;
 
@@ -44,13 +46,15 @@ export class WorkPackageDisplayAttributeController {
               protected I18n:op.I18n,
               protected PathHelper:any,
               protected WorkPackagesHelper:any) {
-    this.displayText = I18n.t('js.work_packages.placeholders.default');
+
+    this.placeholder = this.placeholderOptional ||
+                         I18n.t('js.work_packages.placeholders.default');
+    this.displayText = this.placeholder;
 
     $scope.$watch('$ctrl.workPackage.' + this.attribute, () => {
       this.updateAttribute();
     });
   }
-
 
   public activateIfEditable(event) {
     this.wpEditField.activateIfEditable();
@@ -90,7 +94,7 @@ export class WorkPackageDisplayAttributeController {
       }
 
       if (!wpAttr) {
-        this.displayText = this.I18n.t('js.work_packages.placeholders.default');
+        this.displayText = this.placeholder;
         return;
       }
 
@@ -100,10 +104,12 @@ export class WorkPackageDisplayAttributeController {
 
       if (wpAttr.hasOwnProperty('html')) {
         this.isDisplayAsHtml = true;
-        text = wpAttr.html;
 
-        if (this.attribute === 'description' && !(wpAttr.html.length > 0)) {
-          text = this.I18n.t('js.work_packages.placeholders.description');
+        if (wpAttr.html.length > 0) {
+          text = wpAttr.html;
+        }
+        else {
+          text = this.placeholder;
         }
       }
 
@@ -134,7 +140,8 @@ function wpDisplayAttrDirective() {
       schema: '=',
       workPackage: '=',
       attribute: '=',
-      label: '='
+      label: '=',
+      placeholderOptional: '=placeholder'
     },
 
     bindToController: true,
