@@ -1,4 +1,4 @@
-<div class="textarea-wrapper" ng-class="{'-preview': customEditorController.isPreview}">
+<div class="textarea-wrapper" ng-class="{'-preview': isPreview}">
   <label
     class="hidden-for-sighted"
     for="inplace-edit--write-value--{{::field.name}}">
@@ -10,15 +10,15 @@
           msd-elastic="\n"
           class="focus-input inplace-edit--textarea -animated"
           id="inplace-edit--write-value--{{::field.name}}"
-          ng-hide="customEditorController.isPreview && !fieldController.state.isBusy"
-          preview-toggle="customEditorController.togglePreview()"
+          ng-hide="isPreview && !fieldController.state.isBusy"
+          preview-toggle="customEditorController.togglePreview"
           name="value"
           ng-disabled="fieldController.state.isBusy"
           ng-required="fieldController.isRequired"
           ng-model="field.value.raw"
           title="{{ fieldController.editTitle }}">
   </textarea>
-  <div class="inplace-edit--preview" ng-if="customEditorController.isPreview && !fieldController.state.isBusy">
-      <span ng-bind-html="customEditorController.previewHtml"></span>
+  <div class="inplace-edit--preview" ng-if="isPreview && !fieldController.state.isBusy">
+      <span ng-bind-html="previewHtml"></span>
   </div>
 </div>

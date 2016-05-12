@@ -84,7 +84,7 @@ module.exports = function() {
     transclude: false,
     link: link,
     scope: {
-      previewToggle: '&'
+      previewToggle: '='
     }
   };
 };

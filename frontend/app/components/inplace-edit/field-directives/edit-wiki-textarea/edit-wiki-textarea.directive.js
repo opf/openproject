@@ -33,8 +33,6 @@ angular
 function inplaceEditorWikiTextarea(AutoCompleteHelper, $timeout) {
   return {
     restrict: 'E',
-    transclude: true,
-    replace: true,
     templateUrl: '/components/inplace-edit/field-directives/edit-wiki-textarea/' +
       'edit-wiki-textarea.directive.html',
 
@@ -63,7 +61,7 @@ function inplaceEditorWikiTextarea(AutoCompleteHelper, $timeout) {
         }
 
         $timeout(function() {
-          var controls = element.closest('.inplace-edit--form ')
+          var controls = element.closest('.inplace-edit--form')
             .find('.inplace-edit--controls');
 
           if (!controls.isVisibleWithin(controls.scrollParent())) {
@@ -78,14 +76,14 @@ function inplaceEditorWikiTextarea(AutoCompleteHelper, $timeout) {
 function InplaceEditorWikiTextareaController($scope, $sce, TextileService, EditableFieldsState) {
   var field = $scope.field;
 
-  this.isPreview = false;
-  this.previewHtml = '';
+  $scope.isPreview = false;
+  $scope.previewHtml = '';
 
   this.togglePreview = function() {
-    this.isPreview = !this.isPreview;
-    this.previewHtml = '';
+    $scope.isPreview = !$scope.isPreview;
+    $scope.previewHtml = '';
     // $scope.error = null;
-    if (!this.isPreview) {
+    if (!$scope.isPreview) {
       return;
     }
 
@@ -94,10 +92,10 @@ function InplaceEditorWikiTextareaController($scope, $sce, TextileService, Edita
         field.value.raw)
 
       .then(angular.bind(this, function(r) {
-        this.previewHtml = $sce.trustAsHtml(r.data);
+        $scope.previewHtml = $sce.trustAsHtml(r.data);
         $scope.fieldController.state.isBusy = false;
       }), angular.bind(this, function() {
-        this.isPreview = false;
+        $scope.isPreview = false;
         $scope.fieldController.state.isBusy = false;
       }));
   };
