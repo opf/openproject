@@ -57,6 +57,8 @@ export class WorkPackageSingleViewController {
       this.workPackage = wp;
       this.singleViewWp = new SingleViewWorkPackage(wp);
 
+      this.workPackage.type.$load();
+
       this.workPackage.schema.$load().then(schema => {
         this.setFocus();
 
