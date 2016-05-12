@@ -36,33 +36,33 @@ import {FloatField} from "../field-types/wp-edit-float-field.module";
 import {BooleanField} from "../field-types/wp-edit-boolean-field.module";
 import {DateField} from "../field-types/wp-edit-date-field.module";
 import {WikiTextareaField} from "../field-types/wp-edit-wiki-textarea-field.module";
+import {openprojectModule} from "../../../angular-modules";
 
 //TODO: Implement
-class DateRangeField extends Field {}
-
+class DateRangeField extends Field {
+}
 
 
 //TODO: See file wp-field.service.js:getInplaceEditStrategy for more eventual classes
 
-angular
-    .module('openproject')
-    .run((wpEditField:WorkPackageEditFieldService) => {
-        wpEditField.defaultType = 'text';
-        wpEditField
-            .addFieldType(TextField, 'text', ['String'])
-            .addFieldType(IntegerField, 'integer', ['Integer'])
-            .addFieldType(DurationField, 'duration', ['Duration'])
-            .addFieldType(SelectField, 'select', ['Priority',
-                'Status',
-                'Type',
-                'User',
-                'Version',
-                'Category',
-                'StringObject',
-                'Project'])
-            .addFieldType(FloatField, 'float', ['Float'])
-            .addFieldType(IntegerField, 'integer', ['Integer'])
-            .addFieldType(BooleanField, 'boolean', ['Boolean'])
-            .addFieldType(DateField, 'date', ['Date'])
-            .addFieldType(WikiTextareaField, 'wiki-textarea', ['Formattable']);
-    });
+openprojectModule
+  .run((wpEditField:WorkPackageEditFieldService) => {
+    wpEditField.defaultType = 'text';
+    wpEditField
+      .addFieldType(TextField, 'text', ['String'])
+      .addFieldType(IntegerField, 'integer', ['Integer'])
+      .addFieldType(DurationField, 'duration', ['Duration'])
+      .addFieldType(SelectField, 'select', ['Priority',
+        'Status',
+        'Type',
+        'User',
+        'Version',
+        'Category',
+        'StringObject',
+        'Project'])
+      .addFieldType(FloatField, 'float', ['Float'])
+      .addFieldType(IntegerField, 'integer', ['Integer'])
+      .addFieldType(BooleanField, 'boolean', ['Boolean'])
+      .addFieldType(DateField, 'date', ['Date'])
+      .addFieldType(WikiTextareaField, 'wiki-textarea', ['Formattable']);
+  });
