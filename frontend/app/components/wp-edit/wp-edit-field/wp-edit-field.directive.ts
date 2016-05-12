@@ -39,7 +39,6 @@ export class WorkPackageEditFieldController {
   public fieldIndex:number;
   public field:Field;
   public errorenous:boolean;
-  protected pristineValue:any;
 
   protected _active:boolean = false;
   protected _forceFocus:boolean = false;
@@ -123,8 +122,9 @@ export class WorkPackageEditFieldController {
   public initializeField() {
     // Activate field when creating a work package
     // and the schema requires this field
-    if (this.workPackage.isNew && this.workPackage.requiredValueFor(this.fieldName)) {
-      this.activate();
+    if (this.inEditMode ||
+        this.workPackage.isNew && this.workPackage.requiredValueFor(this.fieldName)) {
+      this.expandField();
 
       var activeField = this.formCtrl.firstActiveField;
       if (!activeField || this.formCtrl.fields[activeField].fieldIndex > this.fieldIndex) {
@@ -182,10 +182,9 @@ export class WorkPackageEditFieldController {
 
 
   public reset(focus = false) {
-    this.workPackage[this.fieldName] = this.pristineValue;
+    this.workPackage.restoreFromPristine(this.fieldName);
     this.fieldForm.$setPristine();
     this.deactivate();
-    this.pristineValue = null;
 
     if (focus) {
       this.focusField();
@@ -194,9 +193,8 @@ export class WorkPackageEditFieldController {
 
   protected buildEditField():ng.IPromise<any> {
     return this.formCtrl.loadSchema().then(schema => {
-      this.field = this.wpEditField.getField(
-        this.workPackage, this.fieldName, schema[this.fieldName]);
-        this.pristineValue = angular.copy(this.workPackage[this.fieldName]);
+      this.field = this.wpEditField.getField(this.workPackage, this.fieldName, schema[this.fieldName]);
+      this.workPackage.storePristine(this.fieldName);
     });
   }
 

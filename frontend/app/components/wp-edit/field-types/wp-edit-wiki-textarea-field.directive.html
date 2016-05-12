@@ -14,7 +14,8 @@
     <div class="inplace-edit--preview" ng-show="vm.field.isPreview && !vm.field.isBusy">
         <span ng-bind-html="vm.field.previewHtml"></span>
     </div>
-    <wp-edit-field-controls save-title="{{ vm.field.text.saveTitle }}"
+    <wp-edit-field-controls ng-show="!vm.inEditMode"
+                            save-title="{{ vm.field.text.saveTitle }}"
                             cancel-title="{{ vm.field.text.cancelTitle }}">
     </wp-edit-field-controls>
 </div>

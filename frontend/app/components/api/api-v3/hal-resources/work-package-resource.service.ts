@@ -39,6 +39,7 @@ export class WorkPackageResource extends HalResource {
   private form;
   public schema;
   public id;
+  public $pristine: { [attribute: string]: any } = {};
 
   public static fromCreateForm(projectIdentifier?:string):ng.IPromise<WorkPackageResource> {
     var deferred = $q.defer();
@@ -167,6 +168,17 @@ export class WorkPackageResource extends HalResource {
       .catch(deferred.reject);
 
     return deferred.promise;
+  }
+
+  public storePristine(attribute) {
+    this.$pristine[attribute] = angular.copy(this[attribute]);
+  }
+
+  public restoreFromPristine(attribute) {
+    if (this.$pristine[attribute]) {
+      this[attribute] = this.$pristine[attribute];
+      delete this.$pristine[attribute];
+    }
   }
 
   public get isLeaf():boolean {
