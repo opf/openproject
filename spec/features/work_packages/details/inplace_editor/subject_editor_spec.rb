@@ -62,18 +62,18 @@ describe 'subject inplace editor', js: true, selenium: true do
         field.expect_state_text('Aloha')
       end
     end
+  end
 
-    context 'conflicting modification' do
-      it 'shows a conflict when modified elsewhere' do
-        work_package.subject = 'Some other subject!'
-        work_package.save!
+  context 'conflicting modification' do
+    it 'shows a conflict when modified elsewhere' do
+      work_package.subject = 'Some other subject!'
+      work_package.save!
 
-        field.activate_edition
+      field.activate_edition
 
-        notification.expect_error(
-          "Couldn't update the resource because of conflicting modifications."
-        )
-      end
+      notification.expect_error(
+        "Couldn't update the resource because of conflicting modifications."
+      )
     end
   end
 end
