@@ -35,6 +35,7 @@ export class WorkPackageSingleViewController {
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
   public filesExist:boolean = false;
+  public text:any;
 
   protected firstTimeFocused:boolean = false;
 
@@ -52,6 +53,10 @@ export class WorkPackageSingleViewController {
               protected SingleViewWorkPackage) {
 
     this.groupedFields = angular.copy(WORK_PACKAGE_ATTRIBUTES);
+    this.text = {
+      noStartDate: I18n.t('js.label_no_start_date'),
+      noDueDate: I18n.t('js.label_no_due_date')
+    };
 
     scopedObservable($scope, wpCacheService.loadWorkPackage($stateParams.workPackageId)).subscribe(wp => {
       this.workPackage = wp;
