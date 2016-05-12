@@ -45,7 +45,7 @@ export class WorkPackageEditFieldController {
 
   // Since we load the schema asynchronously
   // all fields are initially viewed as editable until it is loaded
-  protected _editable:boolean = true;
+  protected _editable:boolean = false;
 
   constructor(
     protected wpEditField:WorkPackageEditFieldService,
@@ -122,9 +122,7 @@ export class WorkPackageEditFieldController {
   public initializeField() {
     // Activate field when creating a work package
     // and the schema requires this field
-    if (this.inEditMode ||
-        this.workPackage.isNew && this.workPackage.requiredValueFor(this.fieldName)) {
-      this.expandField();
+    if (this.workPackage.isNew && this.workPackage.requiredValueFor(this.fieldName)) {
 
       var activeField = this.formCtrl.firstActiveField;
       if (!activeField || this.formCtrl.fields[activeField].fieldIndex > this.fieldIndex) {
@@ -139,6 +137,11 @@ export class WorkPackageEditFieldController {
 
       this.editable = fieldSchema && fieldSchema.writable;
       this.fieldType = fieldSchema && this.wpEditField.fieldType(fieldSchema.type);
+
+      // Activate the field automatically when in editAllMode
+      if (this.inEditMode && this.isEditable) {
+        this.expandField();
+      }
     });
   }
 

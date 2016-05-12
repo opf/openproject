@@ -69,10 +69,15 @@ export class WorkPackageEditFormController {
   public toggleEditMode(state: boolean) {
     this.$scope.$evalAsync(() => {
       angular.forEach(this.fields, (field) => {
-        if (state) {
-          field.isEditable && field.expandField();
-        } else {
-          field.active && field.reset();
+
+        // Setup the field if it is not yet active
+        if (state && field.isEditable && !field.active) {
+          field.initializeField();
+        }
+
+        // Disable the field if is active
+        if (!state && field.active) {
+          field.reset();
         }
       });
     });
