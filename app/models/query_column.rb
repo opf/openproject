@@ -28,7 +28,13 @@
 #++
 
 class QueryColumn
-  attr_accessor :name, :sortable, :groupable, :summable, :join, :default_order
+  attr_accessor :name,
+                :sortable,
+                :groupable,
+                :summable,
+                :available,
+                :join,
+                :default_order
   alias_method :summable?, :summable
   include Redmine::I18n
 
@@ -37,6 +43,7 @@ class QueryColumn
     self.sortable = options[:sortable]
     self.groupable = options[:groupable]
     self.summable = options[:summable]
+    self.available = options.fetch(:available, true)
 
     self.join = options.delete(:join)
 
@@ -68,6 +75,10 @@ class QueryColumn
 
   def value(issue)
     issue.send name
+  end
+
+  def available?
+    available
   end
 
   def sum_of(work_packages)

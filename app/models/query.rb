@@ -230,10 +230,14 @@ class Query < ActiveRecord::Base
                             project.all_work_package_custom_fields :
                             WorkPackageCustomField.all
                           ).map { |cf| ::QueryCustomFieldColumn.new(cf) }
+
     if WorkPackage.done_ratio_disabled?
       @available_columns.select! { |column| column.name != :done_ratio }
     end
-    @available_columns
+
+    # have to use this instead of
+    # #select! as #select! can return nil
+    @available_columns = @available_columns.select(&:available?)
   end
 
   def self.available_columns=(v)
