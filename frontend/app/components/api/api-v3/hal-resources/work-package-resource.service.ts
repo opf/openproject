@@ -158,10 +158,15 @@ export class WorkPackageResource extends HalResource {
         this.saveResource(payload)
           .then(workPackage => {
             angular.extend(this, workPackage);
+
+            // Clear shadow copy
+            this.$pristine = {};
+
             deferred.resolve(this);
           }).catch((error) => {
             deferred.reject(error);
           }).finally(() => {
+            // Update cache
             wpCacheService.updateWorkPackage(this);
         });
       })
@@ -171,14 +176,43 @@ export class WorkPackageResource extends HalResource {
   }
 
   public storePristine(attribute) {
+    if (this.$pristine[attribute] !== undefined) {
+      return;
+    }
+
     this.$pristine[attribute] = angular.copy(this[attribute]);
   }
 
   public restoreFromPristine(attribute) {
     if (this.$pristine[attribute]) {
       this[attribute] = this.$pristine[attribute];
-      delete this.$pristine[attribute];
     }
+  }
+
+  /**
+   * Returns true if any field is in edition in this resource.
+   */
+  public get dirty():boolean {
+    return this.modifiedFields.length > 0;
+  }
+
+  public get modifiedFields():string[] {
+    var modified = [];
+    angular.forEach(this.$pristine, (value, key) => {
+      var equal;
+
+      if (this[key] instanceof HalResource) {
+        equal = _.isEqual(this[key].$source, value.$source);
+      } else {
+        equal = _.isEqual(this[key], value);
+      }
+
+      if (!equal) {
+        modified.push(key);
+      }
+    });
+
+    return modified;
   }
 
   public get isLeaf():boolean {

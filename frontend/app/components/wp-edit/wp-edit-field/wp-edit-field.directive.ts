@@ -81,26 +81,6 @@ export class WorkPackageEditFieldController {
       .then(() => this.deactivate());
   }
 
-  public activate() {
-    if (this._active) {
-      this.focusField();
-      return;
-    }
-
-    this.expandField().then((active) => {
-      // Display a generic error if the field turns out not to be editable,
-      // despite the field being editable.
-      if (this.isEditable && !active) {
-        this.NotificationsService.addError(this.I18n.t(
-          'js.work_packages.error_edit_prohibited',
-          {attribute: this.field.schema.name}
-        ));
-      }
-
-      this.focusField();
-    });
-  }
-
   public deactivate() {
     return this._active = false;
   }
@@ -158,6 +138,26 @@ export class WorkPackageEditFieldController {
 
   public focusField() {
     this.$timeout(_ => this.$scope.$broadcast('updateFocus'));
+  }
+
+  public handleUserActivate() {
+    if (this._active) {
+      this.focusField();
+      return;
+    }
+
+    this.expandField().then((active) => {
+      // Display a generic error if the field turns out not to be editable,
+      // despite the field being editable.
+      if (this.isEditable && !active) {
+        this.NotificationsService.addError(this.I18n.t(
+          'js.work_packages.error_edit_prohibited',
+          {attribute: this.field.schema.name}
+        ));
+      }
+
+      this.focusField();
+    });
   }
 
   public handleUserBlur(): boolean {

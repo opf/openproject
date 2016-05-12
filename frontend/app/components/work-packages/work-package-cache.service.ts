@@ -52,7 +52,12 @@ export class WorkPackageCacheService {
 
   updateWorkPackageList(list: WorkPackageResource[]) {
     for (const wp of list) {
-      this.workPackageCache[wp.id] = wp;
+      var cached = this.workPackageCache[wp.id];
+      if (cached && cached.dirty) {
+        this.workPackageCache[wp.id] = cached;
+      } else {
+        this.workPackageCache[wp.id] = wp;
+      }
     }
     this.workPackagesSubject.onNext(this.workPackageCache);
   }

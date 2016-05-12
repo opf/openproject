@@ -38,7 +38,7 @@ export class WorkPackageReplacementLabelController {
   }
 
   public activate() {
-    this.formCtrl.fields[this.fieldName].activate();
+    this.formCtrl.fields[this.fieldName].handleUserActivate();
   }
 }
 
