@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 function WorkPackageShowController($scope,
                                    $rootScope,
                                    $state,
@@ -43,23 +45,18 @@ function WorkPackageShowController($scope,
                                    CommonRelationsHandler,
                                    ChildrenRelationsHandler,
                                    ParentRelationsHandler,
-                                   EditableFieldsState,
                                    WorkPackageAuthorization,
                                    HookService,
                                    AuthorisationService,
-                                   inplaceEditAll) {
+                                   wpCacheService,
+                                   wpEditModeState) {
 
-  $scope.editAll = inplaceEditAll;
-  $scope.canEdit = EditableFieldsState.canEdit;
+  $scope.wpEditModeState = wpEditModeState;
 
-  //Show all attributes in Edit-Mode
-  $scope.$watch(function(){
-    return inplaceEditAll.state;
-  },function(newState, oldState){
-    if(newState !== oldState){
-      vm.hideEmptyFields = !newState;
-    }
-  });
+  scopedObservable($scope, wpCacheService.loadWorkPackage(workPackage.props.id))
+    .subscribe((wp: WorkPackageResource) => {
+      $scope.workPackageResource = wp;
+    });
 
   // Listen to the event globally, as listeners are not necessarily
   // in the child scope

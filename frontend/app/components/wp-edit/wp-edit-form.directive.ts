@@ -27,9 +27,11 @@
 // ++
 
 import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
+import {WorkPackageEditModeStateService} from "./wp-edit-mode-state.service";
 
 export class WorkPackageEditFormController {
   public workPackage;
+  public hasEditMode:boolean;
   public errorHandler:Function;
   public successHandler:Function;
   public fields = {};
@@ -48,7 +50,12 @@ export class WorkPackageEditFormController {
     protected I18n,
     protected NotificationsService,
     protected QueryService,
+    protected wpEditModeState:WorkPackageEditModeStateService,
     protected loadingIndicator) {
+
+    if(this.hasEditMode) {
+      wpEditModeState.register(this);
+    }
   }
 
   public isFieldRequired(fieldName) {
@@ -174,6 +181,7 @@ function wpEditForm() {
 
     scope: {
       workPackage: '=wpEditForm',
+      hasEditMode: '=hasEditMode',
       errorHandler: '&wpEditFormOnError',
       successHandler: '&wpEditFormOnSave'
     },

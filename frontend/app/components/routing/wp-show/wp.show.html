@@ -1,17 +1,21 @@
-<div class="work-packages--show-view" ng-class="{'edit-all-mode': editAll.state}">
+<div class="work-packages--show-view"
+     ng-class="{'edit-all-mode': wpEditMode.active}"
+     wp-edit-form="workPackageResource"
+     has-edit-mode="true"
+     ng-if="workPackageResource">
   <div class="toolbar-container">
     <div wp-toolbar id="toolbar">
       <ul id="toolbar-items" class="toolbar-items">
         <li class="toolbar-item">
           <wp-create-button project-identifier="projectIdentifier"
-                            ng-hide="editAll.state"
+                            ng-hide="wpEditModeState.active"
                             state-name="work-packages.new"></wp-create-button>
         </li>
         <li class="toolbar-item">
           <button class="button edit-all-button"
-                  ng-hide="editAll.state"
-                  ng-click="editAll.start()"
-                  ng-disabled="!canEdit"
+                  ng-hide="wpEditModeState.active"
+                  ng-click="wpEditModeState.start()"
+                  ng-disabled="!wpEditModeState.form.isEditable"
                   title="{{I18n.t('js.button_edit')}}">
             <i class="button--icon icon-edit"></i>
           </button>
@@ -35,7 +39,7 @@
         </li>
         <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
           <button class="button dropdown-relative"
-                  ng-disabled="!actionsAvailable || editAll.state"
+                  ng-disabled="!actionsAvailable || wpEditModeState.active"
                   has-dropdown-menu
                   target="ShowMoreDropdownMenu"
                   locals="permittedActions,actionsAvailable,triggerMoreMenuAction"
