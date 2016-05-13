@@ -71,7 +71,7 @@ describe 'subject inplace editor', js: true, selenium: true do
 
       it 'saves the value on ENTER' do
         field.submit_by_enter
-        field.expect_state_text(work_package)
+        field.expect_state_text('Aloha')
       end
     end
   end
