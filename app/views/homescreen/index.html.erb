@@ -26,6 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
+
+<% if params[:first_time_user] %>
+  <script type='text/javascript'>
+    jQuery(document).ready(function() {
+       modalHelperInstance.createModal('/common/onboarding');
+   })
+  </script>
+<% end %>
+
 <% breadcrumb_paths(nil) %>
 <div class="widget-boxes--screen-header">
   <h2>
@@ -34,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </h2>
 </div>
 
-<button class="button -highlight" onClick="modalHelperInstance.createModal('/homescreen/onboarding');">Getting started</button>
+<button class="button -highlight" onClick="modalHelperInstance.createModal('/onboarding/index');">Getting started</button>
 
 <%= render partial: 'announcements/show' %>
 

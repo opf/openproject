@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div id="top-menu" class="onboarding--top-menu">
   <%= homescreen_user_avatar %>
-  <h2><%= I18n.t('onboarding.welcome', name: 'Hans Wurst') %></h2>
+  <h2><%= I18n.t('onboarding.welcome', name: current_user.name) %></h2>
 </div>
 
 <div class="onboarding--main">
@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <span><%= I18n.t('onboarding.text_getting_started') %></span>
     </div>
     <div class="onboarding--video">
-      <iframe src="https://player.vimeo.com/video/163426858" width="640" height="323" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      <iframe src="<%= OpenProject::Configuration.onboarding_video_url %>" width="640" height="323" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
     </div>
   </div>
 </div>

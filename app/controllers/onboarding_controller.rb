@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,38 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# Intended to be used by the AccountController to decide where to
-# send the user when they logged in.
-module Concerns::RedirectAfterLogin
-  def redirect_after_login(user)
-    if user.first_login
-      user.update_attribute(:first_login, false)
-
-      welcome_redirect
-    else
-      default_redirect
-    end
-  end
-
-  #    * * *
-
-  def welcome_redirect
-    redirect_to home_url(first_time_user: true)
-  end
-
-  ##
-  # Only the first user as the creator of the OpenProject installation is
-  # supposed to be redirected like this.
-  def redirect_to_welcome_project?(user, _project)
-    User.not_builtin.count == 1 && user.admin?
-  end
-
-  def welcome_project
-    DemoData::ProjectSeeder::Data.find_demo_project
-  end
-
-  def default_redirect
-    redirect_back_or_default controller: '/my', action: 'page'
+class OnboardingController < ApplicationController
+  def index
   end
 end
