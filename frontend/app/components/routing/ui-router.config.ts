@@ -38,7 +38,7 @@ angular
         return {
           url: '/overview',
           reloadOnSearch: false,
-          template: '<overview-panel work-package="workPackage"></overview-panel>'
+          template: '<overview-panel></overview-panel>'
         };
       },
 
@@ -46,7 +46,7 @@ angular
         return {
           url: '/watchers',
           reloadOnSearch: false,
-          template: '<watchers-panel work-package="workPackage"></watchers-panel>'
+          template: '<watchers-panel ng-if="workPackage" work-package="workPackage"></watchers-panel>'
         }
       },
 
@@ -54,7 +54,7 @@ angular
         return {
           url: '/activity',
           reloadOnSearch: false,
-          template: '<activity-panel work-package="workPackage"></activity-panel>'
+          template: '<activity-panel ng-if="workPackage" work-package="workPackage"></activity-panel>'
         }
       },
 
@@ -185,11 +185,6 @@ angular
         templateUrl: '/components/routing/wp-details/wp.list.details.html',
         controller: 'WorkPackageDetailsController',
         reloadOnSearch: false,
-        resolve: {
-          workPackage: (WorkPackageService, $stateParams) => {
-            return WorkPackageService.getWorkPackage($stateParams.workPackageId);
-          }
-        }
       })
       .state('work-packages.list.details.overview', panels.overview)
       .state('work-packages.list.details.activity', panels.activity)

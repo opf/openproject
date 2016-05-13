@@ -30,30 +30,53 @@ angular
   .module('openproject.workPackages.controllers')
   .controller('WorkPackageDetailsController', WorkPackageDetailsController);
 
-function WorkPackageDetailsController($scope, $state, workPackage, I18n, RELATION_TYPES,
-    RELATION_IDENTIFIERS, $q, $rootScope, WorkPackagesHelper, PathHelper, UsersHelper,
-    WorkPackageService, CommonRelationsHandler,
-    ChildrenRelationsHandler, ParentRelationsHandler, NotificationsService) {
+function WorkPackageDetailsController($scope, $state, $stateParams, I18n, RELATION_TYPES,
+                                      RELATION_IDENTIFIERS, $q, $rootScope, WorkPackagesHelper, PathHelper, UsersHelper, WorkPackageService, CommonRelationsHandler,
+                                      ChildrenRelationsHandler, ParentRelationsHandler, NotificationsService) {
 
-  var refreshRequiredFunction = $rootScope.$on('workPackageRefreshRequired', function() {
-    refreshWorkPackage();
-  });
-  $scope.$on('$destroy', refreshRequiredFunction);
+  WorkPackageService.getWorkPackage($stateParams.workPackageId)
+    .then(function (workPackage) {
+      init(workPackage);
+    });
 
-  // initialization
-  setWorkPackageScopeProperties(workPackage);
+  function init(workPackage) {
 
-  $scope.I18n = I18n;
-  WorkPackageService.cache().put('preselectedWorkPackageId', $scope.workPackage.props.id);
-  $scope.maxDescriptionLength = 800;
+    var refreshRequiredFunction = $rootScope.$on('workPackageRefreshRequired', function () {
+      refreshWorkPackage();
+    });
+    $scope.$on('$destroy', refreshRequiredFunction);
+
+    // initialization
+    setWorkPackageScopeProperties(workPackage);
+
+    $scope.I18n = I18n;
+    WorkPackageService.cache().put('preselectedWorkPackageId', $scope.workPackage.props.id);
+    $scope.maxDescriptionLength = 800;
+
+    // expose to child controllers
+    $scope.outputMessage = outputMessage;
+    $scope.outputError = outputError;
+
+    // toggles
+    $scope.toggleStates = {
+      hideFullDescription: true,
+      hideAllAttributes: true
+    };
+
+    $scope.focusAnchorLabel = getFocusAnchorLabel(
+      $state.current.url.replace(/\//, ''),
+      $scope.workPackage
+    );
+  }
 
   function refreshWorkPackage() {
     WorkPackageService.getWorkPackage($scope.workPackage.props.id)
-      .then(function(workPackage) {
+      .then(function (workPackage) {
         setWorkPackageScopeProperties(workPackage);
         $scope.$broadcast('workPackageRefreshed');
       });
   }
+
   function outputMessage(message, isError) {
     if (!!isError) {
       NotificationsService.addError(message);
@@ -67,17 +90,13 @@ function WorkPackageDetailsController($scope, $state, workPackage, I18n, RELATIO
     outputMessage(error.message || I18n.t('js.work_packages.error'), true);
   }
 
-  // expose to child controllers
-  $scope.outputMessage = outputMessage;
-  $scope.outputError = outputError;
-
-  function setWorkPackageScopeProperties(workPackage){
+  function setWorkPackageScopeProperties(workPackage) {
     $scope.workPackage = workPackage;
     $scope.displayWatchButton = workPackage.links.hasOwnProperty('unwatch') ||
-                                workPackage.links.hasOwnProperty('watch');
+      workPackage.links.hasOwnProperty('watch');
 
     // watchers
-    if(workPackage.links.watchers) {
+    if (workPackage.links.watchers) {
       $scope.watchers = workPackage.embedded.watchers.embedded.elements;
     }
 
@@ -95,12 +114,12 @@ function WorkPackageDetailsController($scope, $state, workPackage, I18n, RELATIO
     $scope.attachments = workPackage.embedded.attachments.embedded.elements;
 
     // relations
-    $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parents) {
+    $q.all(WorkPackagesHelper.getParent(workPackage)).then(function (parents) {
       var relationsHandler = new ParentRelationsHandler(workPackage, parents, 'parent');
       $scope.wpParent = relationsHandler;
     });
 
-    $q.all(WorkPackagesHelper.getChildren(workPackage)).then(function(children) {
+    $q.all(WorkPackagesHelper.getChildren(workPackage)).then(function (children) {
       var relationsHandler = new ChildrenRelationsHandler(workPackage, children);
       $scope.wpChildren = relationsHandler;
     });
@@ -109,10 +128,10 @@ function WorkPackageDetailsController($scope, $state, workPackage, I18n, RELATIO
       $q.all(WorkPackagesHelper.getRelationsOfType(
         workPackage,
         RELATION_TYPES[key])
-      ).then(function(relations) {
+      ).then(function (relations) {
         var relationsHandler = new CommonRelationsHandler(workPackage,
-                                                          relations,
-                                                          RELATION_IDENTIFIERS[key]);
+          relations,
+          RELATION_IDENTIFIERS[key]);
         $scope[key] = relationsHandler;
       });
     }
@@ -124,31 +143,21 @@ function WorkPackageDetailsController($scope, $state, workPackage, I18n, RELATIO
     }
   }
 
-  $scope.canViewWorkPackageWatchers = function() {
+  $scope.canViewWorkPackageWatchers = function () {
     return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
   };
 
 
-  // toggles
-
-  $scope.toggleStates = {
-    hideFullDescription: true,
-    hideAllAttributes: true
-  };
-
   function getFocusAnchorLabel(tab, workPackage) {
     var tabLabel = I18n.t('js.work_packages.tabs.' + tab),
-        params = {
-          tab: tabLabel,
-          type: workPackage.props.type,
-          subject: workPackage.props.subject
-        };
+      params = {
+        tab: tabLabel,
+        type: workPackage.props.type,
+        subject: workPackage.props.subject
+      };
 
     return I18n.t('js.label_work_package_details_you_are_here', params);
   }
 
-  $scope.focusAnchorLabel = getFocusAnchorLabel(
-    $state.current.url.replace(/\//, ''),
-    $scope.workPackage
-  );
+
 }

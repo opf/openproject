@@ -14,11 +14,16 @@
         ui-sref-active="selected">
       <a href="" ng-bind="I18n.t('js.work_packages.tabs.relations')"/>
     </li>
-    <li ng-if="canViewWorkPackageWatchers()"
+
+    <li ng-if="!workPackage">
+      <span class="ui-state-disabled" ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
+    </li>
+    <li ng-if="workPackage && canViewWorkPackageWatchers()"
         ui-sref="work-packages.list.details.watchers({})"
         ui-sref-active="selected">
       <a href="" ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
     </li>
+
   </ul>
 </div>
 
@@ -32,7 +37,7 @@
 
 </div>
 
-<div class="bottom-toolbar">
+<div class="bottom-toolbar" ng-if="workPackage">
   <work-package-details-toolbar work-package='workPackage'></work-package-details-toolbar>
   <edit-actions-bar></edit-actions-bar>
 </div>
