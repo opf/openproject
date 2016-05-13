@@ -53,9 +53,10 @@ module Pages
     def ensure_page_loaded
       tries = 0
       begin
-        expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
-                                      text: work_package.journals.last.user.name)
-      rescue ::Selenium::WebDriver::Error::StaleElementReferenceError => e
+        find('.work-package-details-activities-activity-contents .user',
+             text: work_package.journals.last.user.name,
+             wait: 10)
+      rescue => e
         # HACK This error may happen since activities are loaded several times
         # in the old resource, and may cause a reload.
         tries += 1
