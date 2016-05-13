@@ -142,7 +142,7 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
   };
 
   Datepicker.prototype.enable = function () {
-    this.disabled = false;
+    this._disabled = false;
   };
 
   Datepicker.prototype.setState = function (enable) {
