@@ -75,6 +75,7 @@ describe('WorkPackageAttachmentsDirective', function() {
     compile = function() {
       $compile(element)(scope);
       scope.$digest();
+      console.log('ISO SCOPEEEEEE', element.isolateScope());
     };
   }));
 

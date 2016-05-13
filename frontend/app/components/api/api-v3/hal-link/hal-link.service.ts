@@ -26,49 +26,57 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function halLinkService(apiV3:restangular.IService, $q:ng.IQService) {
-  return class HalLink {
-    public static fromObject(link):HalLink {
-      return new HalLink(link.href, link.title, link.method, link.templated);
+var $q:ng.IQService;
+var apiV3:restangular.IService;
+
+export class HalLink {
+  public static fromObject(link):HalLink {
+    return new HalLink(link.href, link.title, link.method, link.templated);
+  }
+
+  public static asFunc(link) {
+    return HalLink.fromObject(link).$toFunc();
+  }
+
+  constructor(public href:string = null,
+              public title:string = '',
+              public method:string = 'get',
+              public templated:boolean = false) {
+  }
+
+  public $fetch(...params) {
+    if (!this.href) {
+      return $q.when({});
     }
 
-    public static asFunc(link) {
-      return HalLink.fromObject(link).$toFunc();
+    if (this.method === 'post') {
+      params.unshift('');
     }
 
-    constructor(public href:string,
-                public title:string,
-                public method:string,
-                public templated:boolean) {
+    return this.$toRoute()[this.method](...params);
+  }
 
-      this.href = href || null;
-      this.title = title || '';
-      this.method = method || 'get';
-      this.templated = !!templated;
-    }
+  /** Returns the restangular route object */
+  public $toRoute() {
+    return apiV3.oneUrl('route', this.href);
+  }
 
-    public $fetch(...params) {
-      if (!this.href) {
-        return $q.when({});
-      }
+  public $toFunc() {
+    const func:any = (...params) => this.$fetch(...params);
+    func.$link = this;
+    func.$route = this.$toRoute();
 
-      if (this.method === 'post') {
-        params.unshift('');
-      }
+    return func;
+  }
+}
 
-      //TODO: Pass a meaningful route param
-      return apiV3.oneUrl('route', this.href)[this.method](...params);
-    }
+function halLink(_$q_:ng.IQService, _apiV3_:restangular.IService) {
+  $q = _$q_;
+  apiV3 = _apiV3_;
 
-    public $toFunc() {
-      const func = (...params) => this.$fetch(...params);
-      func.$link = this;
-
-      return func;
-    }
-  };
+  return HalLink;
 }
 
 angular
   .module('openproject.api')
-  .factory('HalLink', halLinkService);
+  .factory('HalLink', ['$q', 'apiV3', halLink]);

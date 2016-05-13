@@ -35,6 +35,7 @@ export class WorkPackageEditFieldController {
   public formCtrl: WorkPackageEditFormController;
   public wpEditForm:ng.IFormController;
   public fieldName:string;
+  public fieldType:string;
   public fieldIndex:number;
   public field:Field;
   public errorenous:boolean;
@@ -66,6 +67,13 @@ export class WorkPackageEditFieldController {
     return this._active;
   }
 
+  public get htmlId() {
+    return 'wp-' +
+      this.formCtrl.workPackage.id +
+      '-inline-edit--field-' +
+      this.fieldName;
+  }
+
   public submit() {
     this.formCtrl.updateWorkPackage()
       .then(() => this.deactivate());
@@ -77,7 +85,6 @@ export class WorkPackageEditFieldController {
       return;
     }
 
-    this.pristineValue = angular.copy(this.workPackage[this.fieldName]);
     this.buildEditField().then(() => {
       this._active = this.field.schema.writable;
 
@@ -116,7 +123,9 @@ export class WorkPackageEditFieldController {
     // We're resolving the non-form schema here since its loaded anyway for the table
     this.workPackage.schema.$load().then(schema => {
       var fieldSchema = schema[this.fieldName];
+
       this.editable = fieldSchema && fieldSchema.writable;
+      this.fieldType = fieldSchema && this.wpEditField.fieldType(fieldSchema.type);
     });
   }
 
@@ -150,17 +159,22 @@ export class WorkPackageEditFieldController {
   }
 
 
-  public reset() {
+  public reset(focus = false) {
     this.workPackage[this.fieldName] = this.pristineValue;
     this.wpEditForm.$setPristine();
     this.deactivate();
     this.pristineValue = null;
+
+    if (focus) {
+      this.focusField();
+    }
   }
 
   protected buildEditField():ng.IPromise<any> {
     return this.formCtrl.loadSchema().then(schema => {
       this.field = this.wpEditField.getField(
         this.workPackage, this.fieldName, schema[this.fieldName]);
+        this.pristineValue = angular.copy(this.workPackage[this.fieldName]);
     });
   }
 
@@ -170,7 +184,8 @@ function wpEditFieldLink(
   scope,
   element,
   attrs,
-  controllers: [WorkPackageEditFormController, WorkPackageEditFieldController]) {
+  controllers: [WorkPackageEditFormController, WorkPackageEditFieldController],
+  $timeout) {
 
   controllers[1].formCtrl = controllers[0];
   controllers[1].formCtrl.fields[scope.vm.fieldName] = scope.vm;
@@ -180,7 +195,9 @@ function wpEditFieldLink(
   element.addClass(scope.vm.fieldName);
   element.keyup(event => {
     if (event.keyCode === 27) {
-      scope.$evalAsync(_ => scope.vm.reset());
+      scope.$evalAsync(() => {
+        scope.vm.reset(true);
+      });
     }
   });
 }
@@ -193,8 +210,10 @@ function wpEditField() {
 
     scope: {
       fieldName: '=wpEditField',
-      fieldIndex: '=fieldIndex',
-      columns: '=columns'
+      fieldLabel: '=wpEditFieldLabel',
+      fieldIndex: '=',
+      columns: '=',
+      wrapperClasses: '=wpEditFieldWrapperClasses'
     },
 
     require: ['^wpEditForm', 'wpEditField'],

@@ -32,6 +32,7 @@ module.exports = function() {
     transclude: true,
     scope: {
       execute: '&',
+      isDisabled: '=?',
       linkClass: '@',
       linkTitle: '@',
       spanClass: '@',

@@ -113,7 +113,9 @@
             ]"
             ng-show="!groupByColumn || groupExpanded[row.groupName]"
 
-            wp-edit-form="row.object">
+            wp-edit-form="row.object"
+            wp-edit-form-on-error="handleErroneousColumns(workPackage, fields, attributes)"
+            wp-edit-form-on-save="onWorkPackageSave(workPackage, fields)">
 
           <td ng-if="!row.object.isNew" class="checkbox -short hide-when-print">
             <accessible-checkbox name="ids[]"
@@ -144,15 +146,16 @@
           <td ng-repeat="column in columns"
               lang="{{column.custom_field && column.custom_field.name_locale || locale}}"
               wp-edit-field="column.name"
+              wp-edit-field-wrapper-classes="'-small -shrink'"
               columns="columns"
               field-index="$index"
               class="wp-table--cell"
               ng-class="{ '-short': column.name == 'id' }">
-            <wp-td attribute="column.name"
+            <wp-display-attr attribute="column.name"
                    schema="row.object.schema"
-                   object="row.object"
+                   work-package="row.object"
                    ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']">
-            </wp-td>
+            </wp-display-attr>
           </td>
         </tr>
 
@@ -177,10 +180,10 @@
               {{ currentGroupObject.value }}
             </td>
             <td ng-repeat="column in columns">
-              <wp-td attribute="column.name"
+              <wp-display-attr attribute="column.name"
                      schema="resource.sumsSchema"
-                     object="currentGroupObject.sums">
-              </wp-td>
+                     work-package="currentGroupObject.sums">
+              </wp-display-attr>
             </td>
         </tr>
       </tbody>
@@ -207,11 +210,11 @@
             </div>
           </td>
           <td ng-repeat="column in columns">
-            <wp-td class="generic-table--footer-outer"
+            <wp-display-attr class="generic-table--footer-outer"
                    attribute="column.name"
                    schema="resource.sumsSchema"
-                   object="resource.totalSums">
-            </wp-td>
+                   work-package="resource.totalSums">
+            </wp-display-attr>
           </td>
         </tr>
       </tfoot>

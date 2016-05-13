@@ -11,7 +11,7 @@ class InlineEditField
 
     @selector =
       if work_package.nil?
-        ".wp--row.-new .#{attribute}"
+        ".wp--row.-new .wp-table--cell.#{attribute}"
       else
         "#work-package-#{work_package.id} .#{attribute}"
       end

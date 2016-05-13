@@ -34,17 +34,27 @@ angular
     $urlMatcherFactoryProvider.strictMode(false);
 
     var panels = {
+      get overview() {
+        return {
+          url: '/overview',
+          reloadOnSearch: false,
+          template: '<overview-panel></overview-panel>'
+        };
+      },
+
       get watchers() {
         return {
           url: '/watchers',
-          template: '<watchers-panel work-package="workPackage"></watchers-panel>'
+          reloadOnSearch: false,
+          template: '<watchers-panel ng-if="workPackage" work-package="workPackage"></watchers-panel>'
         }
       },
 
       get activity() {
         return {
           url: '/activity',
-          template: '<activity-panel work-package="workPackage"></activity-panel>'
+          reloadOnSearch: false,
+          template: '<activity-panel ng-if="workPackage" work-package="workPackage"></activity-panel>'
         }
       },
 
@@ -58,6 +68,7 @@ angular
       get relations() {
         return {
           url: '/relations',
+          reloadOnSearch: false,
           templateUrl: '/templates/work_packages/tabs/relations.html'
         };
       }
@@ -174,18 +185,8 @@ angular
         templateUrl: '/components/routing/wp-details/wp.list.details.html',
         controller: 'WorkPackageDetailsController',
         reloadOnSearch: false,
-        resolve: {
-          workPackage: (WorkPackageService, $stateParams) => {
-            return WorkPackageService.getWorkPackage($stateParams.workPackageId);
-          }
-        }
       })
-      .state('work-packages.list.details.overview', {
-        url: '/overview',
-        templateUrl: '/templates/work_packages/tabs/overview.html',
-        controller: 'DetailsTabOverviewController',
-        controllerAs: 'vm',
-      })
+      .state('work-packages.list.details.overview', panels.overview)
       .state('work-packages.list.details.activity', panels.activity)
       .state('work-packages.list.details.activity.details', panels.activityDetails)
       .state('work-packages.list.details.relations', panels.relations)
