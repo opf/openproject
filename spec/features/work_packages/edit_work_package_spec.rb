@@ -95,27 +95,10 @@ describe 'edit work package', js: true do
         :work_package_custom_field,
         field_format: 'string',
         is_required:  true,
-        is_for_all:   false
+        is_for_all:   true
       )
     }
-    let(:type2) { FactoryGirl.create(:type, custom_fields: [custom_field]) }
-    let(:project) { FactoryGirl.create(:project, types: [type, type2]) }
-    let(:work_package) {
-      FactoryGirl.create(:work_package,
-                         type:    type,
-                         project: project)
-    }
-
-    before do
-      work_package
-
-      # Require custom fields for this project
-      project.work_package_custom_fields = [custom_field]
-      project.save!
-
-      wp_page.visit!
-      wp_page.ensure_page_loaded
-    end
+    let!(:type2) { FactoryGirl.create(:type, custom_fields: [custom_field]) }
 
     it 'shows the required field when switching' do
       page.click_button(I18n.t('js.button_edit'))
