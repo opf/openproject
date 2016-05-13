@@ -11,7 +11,7 @@
           class="focus-input inplace-edit--textarea -animated"
           id="inplace-edit--write-value--{{::field.name}}"
           ng-hide="isPreview && !fieldController.state.isBusy"
-          preview-toggle="customEditorController.togglePreview"
+          preview-toggle="customEditorController.togglePreview()"
           name="value"
           ng-disabled="fieldController.state.isBusy"
           ng-required="fieldController.isRequired"

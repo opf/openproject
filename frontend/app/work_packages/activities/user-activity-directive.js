@@ -127,18 +127,16 @@ module.exports = function($uiViewScroll,
       };
 
       scope.toggleCommentPreview = function() {
-        scope.inPreview = !scope.inPreview;
+        scope.isPreview = !scope.isPreview;
         scope.previewHtml = '';
-        if (scope.inPreview) {
+        if (scope.isPreview) {
           TextileService.renderWithWorkPackageContext(
             EditableFieldsState.workPackage.form,
             scope.activity.editedComment
           ).then(function(r) {
             scope.previewHtml = $sce.trustAsHtml(r.data);
-
-
           }, function() {
-            this.inPreview = false;
+            scope.isPreview = false;
           });
         }
       };
