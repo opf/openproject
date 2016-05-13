@@ -8,10 +8,11 @@ class WorkPackageField
 
   def initialize(context,
                  property_name,
-                 selector: ".inplace-edit.#{property_name}")
+                 selector: nil)
+
     @property_name = property_name
     @context = context
-    @selector = selector
+    @selector = selector || ".inplace-edit.#{property_name}"
 
     ensure_page_loaded
 
