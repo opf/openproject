@@ -62,7 +62,11 @@ export class WorkPackageSingleViewController {
       this.workPackage = wp;
       this.singleViewWp = new SingleViewWorkPackage(wp);
 
-      this.workPackage.type.$load();
+      this.workPackage.type.$load().then(() => {
+        if (this.workPackage.type.isMilestone) {
+          this.text.noStartDate = '-';
+        }
+      });
 
       this.workPackage.schema.$load().then(schema => {
         this.setFocus();
