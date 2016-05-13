@@ -6,19 +6,12 @@ class WorkPackageField
               :selector,
               :property_name
 
-  def initialize(context, property_name, selector: nil)
+  def initialize(context,
+                 property_name,
+                 selector: ".inplace-edit.#{property_name}")
     @property_name = property_name
     @context = context
-
-    if selector.nil?
-      if property_name == :'start-date' || property_name == :'end-date'
-        @selector = '.wp-edit-field.date'
-      else
-        @selector = ".wp-edit-field.#{@property_name}"
-      end
-    else
-      @selector = selector
-    end
+    @selector = selector
 
     ensure_page_loaded
 
@@ -57,14 +50,18 @@ class WorkPackageField
   end
 
   def save!
-    input_element.native.send_keys(:return)
+    if @property_name.to_s == 'description'
+      submit_by_dashboard
+    else
+      submit_by_enter
+    end
   end
 
   ##
   # Set or select the given value.
   # For fields of type select, will check for an option with that value.
   def set_value(content)
-    if field_type == 'select'
+    if input_element.tag_name == 'select'
       input_element.find(:option, content).select_option
     else
       input_element.set(content)
@@ -76,7 +73,7 @@ class WorkPackageField
   end
 
   def trigger_link_selector
-    '.wp-table--cell-span'
+    '.inplace-edit--read-value--value'
   end
 
   def field_selector
@@ -84,7 +81,7 @@ class WorkPackageField
   end
 
   def activate_edition
-    tag = element.find("#{trigger_link_selector}, #{input_selector}")
+    tag = element.find("#{trigger_link_selector}")
 
     if tag.tag_name == 'span'
       tag.click
@@ -101,8 +98,12 @@ class WorkPackageField
     submit_by_enter
   end
 
+  def submit_by_dashboard
+    @element.find('.inplace-edit--control--save > a', wait: 5).click
+  end
+
   def submit_by_enter
-    input_element.native.send_keys :return
+    input_element.native.send_keys(:return)
   end
 
   def cancel_by_click
@@ -152,7 +153,12 @@ class WorkPackageField
   def field_type
     @field_type ||= begin
       case property_name
-      when :assignee, :priority, :status, :type
+      when :assignee,
+           :responsible,
+           :priority,
+           :status,
+           :type,
+           :category
         :select
       else
         :input

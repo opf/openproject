@@ -86,22 +86,20 @@ module Pages
     end
 
     def update_attributes(key_value_map)
-      set_attributes(key_value_map).last.submit_by_click
+      set_attributes(key_value_map)
     end
 
     def set_attributes(key_value_map)
-      key_value_map.map do |key, value|
+      key_value_map.each_with_index.map do |(key, value), index|
         field = WorkPackageField.new(page, key)
         field.activate_edition
 
         field.set_value value
+        field.save!
 
-        # Workaround for fields with datepickers, which
-        # may cover other fields we want to click next
-        if key.to_s =~ /date/i
-          page.find('#work-package-subject').click
+        unless index == key_value_map.length - 1
+          ensure_no_conflicting_modifications
         end
-        field
       end
     end
 
@@ -140,6 +138,12 @@ module Pages
 
     def create_page(_args)
       raise NotImplementedError
+    end
+
+    def ensure_no_conflicting_modifications
+      expect_notification(message: 'Successful update')
+      dismiss_notification!
+      expect_no_notification(message: 'Successful update')
     end
   end
 end

@@ -59,34 +59,34 @@ describe 'edit work package', js: true do
 
   it 'allows updating and seeing the results' do
     wp_page.view_all_attributes
-    wp_page.update_attributes type: type2.name,
-                              :'start-date' => '2013-03-04',
-                              :'end-date' => '2013-03-20',
+
+    wp_page.update_attributes subject: 'a new subject',
+                              type: type2.name,
+                              startDate: '2013-03-04',
+                              dueDate: '2013-03-20',
                               responsible: manager.name,
                               assignee: manager.name,
                               estimatedTime: '5.00',
+                              priority: priority2.name,
+                              version: version.name,
+                              category: category.name,
                               percentageDone: '30',
+                              status: status2.name,
+                              description: 'a new description'
+
+    wp_page.expect_attributes type: type2.name,
+                              responsible: manager.name,
+                              assignee: manager.name,
+                              startDate: '03/04/2013',
+                              dueDate: '03/20/2013',
+                              estimatedTime: '5',
+                              percentageDone: '30% Total progress',
                               subject: 'a new subject',
                               description: 'a new description',
                               priority: priority2.name,
                               status: status2.name,
                               version: version.name,
                               category: category.name
-
-    wp_page.expect_notification message: I18n.t('js.notice_successful_update')
-
-    wp_page.expect_attributes Type: type2.name,
-                              Responsible: manager.name,
-                              Assignee: manager.name,
-                              Date: '03/04/2013 - 03/20/2013',
-                              'Estimated time' => '5.00',
-                              Progress: '30',
-                              Subject: 'a new subject',
-                              Description: 'a new description',
-                              Priority: priority2.name,
-                              Status: status2.name,
-                              Version: version.name,
-                              Category: category.name
   end
 
   context 'switching to custom field with required CF' do
