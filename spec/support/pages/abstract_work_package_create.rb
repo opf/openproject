@@ -50,9 +50,20 @@ module Pages
     end
 
     def update_attributes(attribute_map)
-      # Only designed for text fields for now
+      # Only designed for text fields and selects for now
       attribute_map.each do |label, value|
-        fill_in(label, with: value)
+        select_attribute(label, value) || fill_in(label, with: value)
+      end
+    end
+
+    def select_attribute(property, value)
+      element = page.first("#work-package-#{property.downcase} select")
+
+      if element
+        element.select(value)
+        element
+      else
+        nil
       end
     end
 

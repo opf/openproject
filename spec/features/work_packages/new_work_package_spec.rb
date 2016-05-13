@@ -54,9 +54,7 @@ describe 'new work package', js: true do
     loading_indicator_saveguard
     work_packages_page.click_toolbar_button 'Work package'
 
-    within '#tasksDropdown' do
-      click_link type
-    end
+    page.find('#work-package-type select').select type
   end
 
   shared_examples 'work package creation workflow' do
