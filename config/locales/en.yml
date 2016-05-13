@@ -1456,7 +1456,7 @@ en:
 
   onboarding:
     text_getting_started: "This video provides you an Overview of OpenProject. It helps you to set up your first project and to start collaborating with your team members."
-    text_show_again: "Later you can reopen this screen from the help menu"
+    text_show_again: "You can restart this video from the help menu"
     welcome: "Hi %{name}, welcome to OpenProject"
 
   permission_add_work_package_notes: "Add notes"

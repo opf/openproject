@@ -191,6 +191,7 @@ var ModalHelper = (function() {
         modalDiv.dialog('close');
 
         this.destroyIframe();
+        body.remove(modalDiv);
 
         jQuery(this).trigger("closed");
       }
@@ -244,7 +245,8 @@ var ModalHelper = (function() {
 
     if (this._firstLoad) {
       //add closer
-      modalDiv.parent().prepend('<div id="ui-dialog-closer" class="icon icon-close" />')
+      modalDiv
+        .parent().prepend('<div id="ui-dialog-closer" class="icon icon-close" />')
         .click(jQuery.proxy(this.close, this));
       jQuery('.ui-dialog-titlebar').hide();
       jQuery('.ui-dialog-buttonpane').hide();

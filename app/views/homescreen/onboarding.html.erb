@@ -39,12 +39,12 @@ See doc/COPYRIGHT.rdoc for more details.
       <span><%= I18n.t('onboarding.text_getting_started') %></span>
     </div>
     <div class="onboarding--video">
-      <iframe src="https://player.vimeo.com/video/163426858" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      <iframe src="https://player.vimeo.com/video/163426858" width="640" height="323" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
     </div>
   </div>
 </div>
 
 <div class="onboarding--footer">
   <em><label><%= I18n.t('onboarding.text_show_again') %></label></em>
-  <%= styled_button_tag l(:label_next), class: '-highlight' %>
+  <button class="button -highlight -large" title=<%= l(:label_next)%>> <%= l(:label_next)%> </button>
 </div>

@@ -29,25 +29,33 @@
 .onboarding--top-menu
   display: flex
   align-items: center
+
+  &#top-menu
+    // To work against the default padding of the modal window
+    left: -1.5rem
+    width: calc(100% + 1.5rem)
+
   .avatar
-    margin-left: 0.5em
+    margin-left: 1.5em
   h2
     color: $header-item-font-color
     padding: 0 0.5em
 
 .onboarding--main
   margin-top: 1em
+  padding-right: 1.5rem
 
   .onboarding--video-block
     display: flex
     justify-content: space-between
+    flex-direction: column
 
     .onboarding--video-text
-      flex-basis: 40%
       line-height: 1.25
 
     .onboarding--video
-      flex-basis: 40%
+      margin: 2em 0
+      align-self: center
 
 .onboarding--footer
   display: flex
