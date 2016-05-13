@@ -47,7 +47,7 @@ describe 'activity comments', js: true, selenium: true do
         comment_field.input_element.set 'some ingenious comment.'
         comment_field.submit_by_click
         expect(page).to have_selector('.user-comment .message', text: 'some ingenious comment.')
-        description.expect_state_text('description goes here')
+        expect(description.input_element.value).to eq('description goes here')
       end
     end
 
@@ -132,7 +132,8 @@ describe 'activity comments', js: true, selenium: true do
           preview.click
           expect(comment_field.element).to have_no_selector('strong')
 
-          comment_field.save_by_click
+          comment_field.submit_by_click
+          expect(page).to have_selector('.user-comment .message', text: 'Highlight')
         end
       end
 
