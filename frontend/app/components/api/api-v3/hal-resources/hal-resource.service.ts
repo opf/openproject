@@ -31,11 +31,11 @@ var lazy;
 var halTransform;
 var HalLink;
 export class HalResource {
-  public $isHal: boolean = true;
-  public $self: ng.IPromise<HalResource>;
-  private _name: string;
-  private _$links: any;
-  private _$embedded: any;
+  public $isHal:boolean = true;
+  public $self:ng.IPromise<HalResource>;
+  private _name:string;
+  private _$links:any;
+  private _$embedded:any;
 
   public static fromLink(link) {
     var resource = HalResource.getEmptyResource();
@@ -45,19 +45,19 @@ export class HalResource {
     return resource;
   }
 
-  protected static getEmptyResource(): any {
+  protected static getEmptyResource():any {
     return {_links: {self: {href: null}}};
   }
 
-  public get name(): string {
+  public get name():string {
     return this._name || this.$links.self.$link.title || '';
   }
 
-  public set name(name: string) {
+  public set name(name:string) {
     this._name = name;
   }
 
-  public get href(): string|void {
+  public get href():string|void {
     if (this.$links.self) return this.$links.self.$link.href;
   }
 
@@ -68,7 +68,7 @@ export class HalResource {
 
   public get $embedded() {
     return this.setupProperty('embedded', element => {
-      angular.forEach(element, (child, name: string) => {
+      angular.forEach(element, (child, name:string) => {
         if (child) {
           lazy(element, name, () => halTransform(child));
         }
@@ -80,7 +80,7 @@ export class HalResource {
     });
   }
 
-  constructor(public $source: any = HalResource.getEmptyResource(), public $loaded: boolean = true) {
+  constructor(public $source:any = HalResource.getEmptyResource(), public $loaded:boolean = true) {
     this.$source = $source._plain || $source;
     this.proxyProperties();
     this.setLinksAsProperties();
@@ -147,7 +147,7 @@ export class HalResource {
     });
   }
 
-  private setupProperty(name: string, callback: (element: any) => any) {
+  private setupProperty(name:string, callback:(element:any) => any) {
     let instanceName = '_$' + name;
     let sourceName = '_' + name;
     let sourceObj = this.$source[sourceName];
@@ -162,11 +162,10 @@ export class HalResource {
 
   private setter(val, linkName) {
     if (val && val.$links && val.$links.self) {
-      let link = val.$links.self.$link;
-      if (link && link.href && link.method === 'get') {
-        if (val && val.$isHal) {
-          this.$source._links[linkName] = val.$links.self.$link;
-        }
+      const link = val.$links.self.$link;
+
+      if (link && val.$isHal && link.href && link.method === 'get') {
+        this.$source._links[linkName] = val.$links.self.$link;
       }
       return val;
     }
