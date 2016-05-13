@@ -113,8 +113,6 @@ describe 'edit work package', js: true do
       project.work_package_custom_fields = [custom_field]
       project.save!
 
-      binding.pry
-
       wp_page.visit!
       wp_page.ensure_page_loaded
     end
@@ -125,9 +123,6 @@ describe 'edit work package', js: true do
 
       type_field.set_value type2.name
       expect(type_field.input_element).to have_selector('option:checked', text: type2.name)
-
-      sleep(5)
-      binding.pry
 
       cf_field = wp_page.edit_field("customField#{custom_field.id}")
       cf_field.expect_active!
