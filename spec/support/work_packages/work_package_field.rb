@@ -82,12 +82,7 @@ class WorkPackageField
   end
 
   def activate_edition
-    tag = element.find("#{trigger_link_selector}")
-
-    if tag.tag_name == 'span'
-      tag.click
-    end
-    # else do nothing as the element is already in edit mode
+    element.find("#{trigger_link_selector}").click
   end
 
   def input_element
