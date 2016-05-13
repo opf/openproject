@@ -191,7 +191,9 @@ var ModalHelper = (function() {
         modalDiv.dialog('close');
 
         this.destroyIframe();
-        body.remove(modalDiv);
+        if(modalDiv.hasClass('-full')) {
+          modalDiv.removeClass('-full');
+        }
 
         jQuery(this).trigger("closed");
       }
@@ -209,7 +211,7 @@ var ModalHelper = (function() {
    * @param url url to load html from.
    * @param callback called when done. called with modal div.
    */
-  ModalHelper.prototype.createModal = function(url, callback) {
+  ModalHelper.prototype.createModal = function(url, cssClasses) {
     if (top != self) {
       window.open(url.replace(/(&)?layout=false/g, ""));
       return;
@@ -254,6 +256,7 @@ var ModalHelper = (function() {
       this._firstLoad = false;
     }
 
+    modalDiv.addClass(cssClasses);
     this.loading();
 
     this.modalIframe.attr("src", url);
