@@ -33,6 +33,7 @@
 
 .inplace-edit
   @include grid-block
+  overflow: visible
 
   .-preview
     button
@@ -106,6 +107,13 @@
 
   .textarea-wrapper
     margin-bottom: 39px
+
+// This is just a neutral element that one can
+// put in so that it does no longer interfere
+// with the flex boxes
+.inplace-edit--block
+  @include grid-block
+  overflow: visible
 
 
 #ui-datepicker-div
