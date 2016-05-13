@@ -78,7 +78,6 @@ function opDatePickerLink(scope:opDatePickerScope, element:ng.IAugmentedJQuery, 
 
   function showDatePicker() {
     datePickerInstance = new DatePicker(datePickerContainer, input, ngModel.$viewValue);
-    ensureDatePickerVisible();
 
     datePickerInstance.onChange = (date) => {
       ngModel.$setViewValue(date);
@@ -90,67 +89,6 @@ function opDatePickerLink(scope:opDatePickerScope, element:ng.IAugmentedJQuery, 
     };
 
     registerClickCallback();
-  }
-
-  function ensureDatePickerVisible() {
-    let visibilityContainer = datePickerContainer.offsetParent();
-    let templateContainer = element.children('div');
-    // typescript compiler does not like it if we simply use
-    // containerBoundaries = visibilityContainer.offset()
-    let containerBoundaries = {
-      top: visibilityContainer.offset().top,
-      left: visibilityContainer.offset().left,
-      right: visibilityContainer.offset().left + visibilityContainer.width(),
-      bottom: visibilityContainer.offset().top + visibilityContainer.height()
-    };
-
-    let positions = [
-      {
-        check: ((templateContainer.offset().top + templateContainer.height() + datePickerContainer.height() <= containerBoundaries.bottom) &&
-        (templateContainer.offset().left + datePickerContainer.width() <= containerBoundaries.right)),
-        css: {} //no change
-      },
-      {
-        check: ((templateContainer.offset().top + templateContainer.height() + datePickerContainer.height() <= containerBoundaries.bottom) &&
-        (templateContainer.offset().left + datePickerContainer.width() >= containerBoundaries.right)),
-        css: {marginLeft: templateContainer[0].offsetWidth - datePickerContainer.width()}
-      },
-      {
-        check: ((templateContainer.offset().top - datePickerContainer.height() >= containerBoundaries.top) &&
-        (templateContainer.offset().left + datePickerContainer.width() <= containerBoundaries.right)),
-        css: {marginTop: -templateContainer[0].offsetHeight - datePickerContainer.height() + 'px'}
-      },
-      {
-        check: ((templateContainer.offset().top - datePickerContainer.height() >= containerBoundaries.top) &&
-        (templateContainer.offset().left + datePickerContainer.width() >= containerBoundaries.right)),
-        css: {
-          marginTop: -templateContainer[0].offsetHeight - datePickerContainer.height() + 'px',
-          marginLeft: templateContainer[0].offsetWidth - datePickerContainer.width()
-        }
-      },
-      {
-        check: templateContainer.offset().left + templateContainer.width() + datePickerContainer.width() <= containerBoundaries.right,
-        css: {
-          marginTop: -templateContainer[0].offsetHeight / 2 - datePickerContainer.height() / 2 + 'px',
-          marginLeft: templateContainer[0].offsetWidth
-        }
-      },
-      {
-        check: true,
-        css: {
-          marginTop: -templateContainer[0].offsetHeight / 2 - datePickerContainer.height() / 2 + 'px',
-          marginLeft: -datePickerContainer[0].offsetWidth
-        }
-      }
-    ];
-
-    // use _.some to limit the checks to the first truthy position
-    _.some(positions, (position) => {
-      if (position.check) {
-        datePickerContainer.css(position.css);
-        return true;
-      }
-    });
   }
 }
 
