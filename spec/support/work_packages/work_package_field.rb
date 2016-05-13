@@ -33,6 +33,10 @@ class WorkPackageField
     expect(element).to have_content(text)
   end
 
+  def expect_value(value)
+    expect(input_element.value).to eq(value)
+  end
+
   ##
   # Activate the field and check it opened correctly
   def activate!
@@ -148,7 +152,7 @@ class WorkPackageField
   def field_type
     @field_type ||= begin
       case property_name
-      when :assignee, :priority, :status
+      when :assignee, :priority, :status, :type
         :select
       else
         :input

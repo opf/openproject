@@ -75,7 +75,7 @@ export class WorkPackageEditFieldController {
 
   public submit() {
     if (this.inEditMode) {
-      return;
+      return this.formCtrl.updateForm();
     }
 
     this.formCtrl.updateWorkPackage()

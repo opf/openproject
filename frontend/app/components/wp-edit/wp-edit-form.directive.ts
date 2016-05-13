@@ -29,6 +29,7 @@
 import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
 import {WorkPackageEditModeStateService} from "./wp-edit-mode-state.service";
 import {WorkPackageEditFieldController} from "./wp-edit-field/wp-edit-field.directive";
+import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 
 export class WorkPackageEditFormController {
   public workPackage;
@@ -48,6 +49,7 @@ export class WorkPackageEditFormController {
               protected NotificationsService,
               protected QueryService,
               protected wpEditModeState: WorkPackageEditModeStateService,
+              protected wpCacheService:WorkPackageCacheService,
               protected loadingIndicator) {
 
     if (this.hasEditMode) {
@@ -99,6 +101,17 @@ export class WorkPackageEditFormController {
 
   public loadSchema() {
     return this.workPackage.getSchema();
+  }
+
+  /**
+   * Update the form and embedded schema.
+   * In edit-all mode, this allows fields to cause changes to the form (e.g., type switch)
+   * without saving the resource.
+   */
+  public updateForm() {
+    this.workPackage.updateForm(this.workPackage.$source).then((form) => {
+      this.wpCacheService.updateWorkPackage(this.workPackage);
+    })
   }
 
   public updateWorkPackage() {

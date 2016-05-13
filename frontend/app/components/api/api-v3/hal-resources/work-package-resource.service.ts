@@ -117,7 +117,12 @@ export class WorkPackageResource extends HalResource {
     var deferred = $q.defer();
 
     this.form
-      .then(deferred.resolve)
+      .then(form => {
+        // Override the current schema with
+        // the changes from API
+        this.schema = form.$embedded.schema;
+        deferred.resolve(form);
+      })
       .catch(error => {
         this.form = oldForm;
         deferred.reject(error);
@@ -147,10 +152,6 @@ export class WorkPackageResource extends HalResource {
 
     this.updateForm(this.$source)
       .then(form => {
-
-        // Override the current schema with
-        // the changes from API
-        this.schema = form.$embedded.schema;
 
         // Merge attributes from form with resource
         var payload = this.mergeWithForm(form);

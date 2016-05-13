@@ -54,13 +54,11 @@ describe 'edit work package', js: true do
     workflow
 
     wp_page.visit!
+    wp_page.ensure_page_loaded
   end
 
   it 'allows updating and seeing the results' do
-    wp_page.ensure_page_loaded
-
     wp_page.view_all_attributes
-
     wp_page.update_attributes type: type2.name,
                               :'start-date' => '2013-03-04',
                               :'end-date' => '2013-03-20',
@@ -89,5 +87,51 @@ describe 'edit work package', js: true do
                               Status: status2.name,
                               Version: version.name,
                               Category: category.name
+  end
+
+  context 'switching to custom field with required CF' do
+    let(:custom_field) {
+      FactoryGirl.create(
+        :work_package_custom_field,
+        field_format: 'string',
+        is_required:  true,
+        is_for_all:   false
+      )
+    }
+    let(:type2) { FactoryGirl.create(:type, custom_fields: [custom_field]) }
+    let(:project) { FactoryGirl.create(:project, types: [type, type2]) }
+    let(:work_package) {
+      FactoryGirl.create(:work_package,
+                         type:    type,
+                         project: project)
+    }
+
+    before do
+      work_package
+
+      # Require custom fields for this project
+      project.work_package_custom_fields = [custom_field]
+      project.save!
+
+      binding.pry
+
+      wp_page.visit!
+      wp_page.ensure_page_loaded
+    end
+
+    it 'shows the required field when switching' do
+      page.click_button(I18n.t('js.button_edit'))
+      type_field = wp_page.edit_field(:type)
+
+      type_field.set_value type2.name
+      expect(type_field.input_element).to have_selector('option:checked', text: type2.name)
+
+      sleep(5)
+      binding.pry
+
+      cf_field = wp_page.edit_field("customField#{custom_field.id}")
+      cf_field.expect_active!
+      cf_field.expect_value('')
+    end
   end
 end
