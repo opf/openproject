@@ -1,0 +1,138 @@
+<div ng-if="$ctrl.workPackage && $ctrl.workPackage.schema">
+  <div class="attributes-group">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text">
+          {{ $ctrl.workPackage.type.name }} #{{ $ctrl.workPackage.id }}
+        </h3>
+      </div>
+
+      <div class="attributes-group--header-container-right">
+        <span ng-bind="$ctrl.I18n.t('js.label_last_updated_on')"/>
+        <op-date date-value="$ctrl.workPackage.updatedAt"></op-date>
+      </div>
+    </div>
+
+    <div
+        wp-edit-field="'description'"
+        wp-edit-field-wrapper-classes="'-no-label'"
+        class="single-attribute wiki">
+      <wp-display-attr
+          schema="$ctrl.workPackage.schema"
+          work-package="$ctrl.workPackage"
+          attribute="'description'"
+          placeholder="$ctrl.I18n.t('js.work_packages.placeholders.description')">
+      </wp-display-attr>
+    </div>
+  </div>
+
+  <div ng-repeat="group in $ctrl.groupedFields" ng-hide="$ctrl.shouldHideGroup(group.groupName)"
+       class="attributes-group">
+
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text"
+            ng-bind="$ctrl.I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
+      </div>
+      <div class="attributes-group--header-toggle">
+        <panel-expander tabindex="-1" ng-if="$first"
+                        collapsed="$ctrl.hideEmptyFields"
+                        expand-text="{{ $ctrl.I18n.t('js.label_show_attributes') }}"
+                        collapse-text="{{ $ctrl.I18n.t('js.label_hide_attributes') }}">
+        </panel-expander>
+      </div>
+    </div>
+
+    <div
+        class="attributes-key-value"
+        ng-repeat="field in group.attributes">
+
+      <!-- TODO: Implement proper condition (not using field.length) -->
+      <div
+          class="attributes-key-value--key"
+          ng-hide="$ctrl.hideEmptyFields && $ctrl.singleViewWp.canHideField(field)"
+          ng-if="field.length > 2 && $ctrl.singleViewWp.isSpecified(field)"
+          wp-replacement-label="field">
+
+        {{$ctrl.singleViewWp.getLabel(field)}}
+
+        <span class="required" ng-if="$ctrl.singleViewWp.hasNiceStar(field)"> *</span>
+      </div>
+      <div
+          ng-hide="$ctrl.hideEmptyFields && $ctrl.singleViewWp.canHideField(field)"
+          ng-if="field.length > 2 && $ctrl.singleViewWp.isSpecified(field)"
+          wp-edit-field="field"
+          wp-edit-field-label="$ctrl.singleViewWp.getLabel(field)"
+          wp-edit-field-wrapper-classes="'-small'"
+          class="attributes-key-value--value-container">
+        <wp-display-attr
+            schema="$ctrl.workPackage.schema"
+            work-package="$ctrl.workPackage"
+            attribute="field"
+            label="$ctrl.singleViewWp.getLabel(field)">
+        </wp-display-attr>
+      </div>
+
+
+      <!-- Date fields -->
+      <div
+          class="attributes-key-value--key"
+          ng-hide="$ctrl.hideEmptyFields && $ctrl.singleViewWp.canHideField('date')"
+          ng-if="field.length === 2 && $ctrl.singleViewWp.isSpecified('date')"
+          wp-replacement-label="'date'">
+
+        {{$ctrl.singleViewWp.getLabel('date')}}
+
+        <span class="required" ng-if="$ctrl.singleViewWp.hasNiceStar('date')"> *</span>
+      </div>
+      <div
+          ng-hide="$ctrl.hideEmptyFields && $ctrl.singleViewWp.canHideField('date')"
+          ng-if="field.length === 2 && $ctrl.singleViewWp.isSpecified('date')"
+          class="attributes-key-value--value-container single-view-wp--dates-field">
+
+        <!-- startDate -->
+        <div
+            class="single-view-wp--date-field"
+            wp-edit-field="field[0]"
+            wp-edit-field-label="$ctrl.singleViewWp.getLabel('date')"
+            wp-edit-field-wrapper-classes="'-small'">
+
+          <wp-display-attr
+              schema="$ctrl.workPackage.schema"
+              work-package="$ctrl.workPackage"
+              attribute="field[0]"
+              placeholder="::$ctrl.text.noStartDate"
+              label="$ctrl.singleViewWp.getLabel('date')">
+          </wp-display-attr>
+        </div>
+
+        <span
+            class="single-view-wp--date-separator"
+            ng-if="!$ctrl.workPackage.type.isMilestone"></span>
+
+        <!-- dueDate -->
+        <div
+            class="single-view-wp--date-field"
+            ng-if="!$ctrl.workPackage.type.isMilestone"
+            wp-edit-field="field[1]"
+            wp-edit-field-label="$ctrl.singleViewWp.getLabel('date')"
+            wp-edit-field-wrapper-classes="'-small'">
+
+          <wp-display-attr
+              schema="$ctrl.workPackage.schema"
+              work-package="$ctrl.workPackage"
+              attribute="field[1]"
+              placeholder="::$ctrl.text.noDueDate"
+              label="$ctrl.singleViewWp.getLabel('date')">
+          </wp-display-attr>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <wp-attachments
+      edit
+      work-package="$ctrl.workPackage"
+      data-ng-show="!$ctrl.hideEmptyFields || $ctrl.filesExist">
+  </wp-attachments>
+</div>

@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+
 export class Field {
   public static type:string;
   public static $injector:ng.auto.IInjectorService;
@@ -38,11 +40,15 @@ export class Field {
     return (this.constructor as typeof Field).type;
   }
 
+  public isEmpty():boolean {
+    return !this.value;
+  }
+
   protected get $injector():ng.auto.IInjectorService {
     return (this.constructor as typeof Field).$injector;
   }
 
-  constructor(public resource:op.HalResource,
+  constructor(public resource:HalResource,
               public name:string,
               public schema) {
   }
@@ -53,14 +59,14 @@ export class FieldFactory {
 
   protected static fields = {};
 
-  protected static classes: {[type:string]: typeof Field} = {};
+  protected static classes:{[type:string]:typeof Field} = {};
 
-  public static register(fieldClass: typeof Field, fields:string[] = []) {
+  public static register(fieldClass:typeof Field, fields:string[] = []) {
     fields.forEach(field => FieldFactory.fields[field] = fieldClass.type);
     FieldFactory.classes[fieldClass.type] = fieldClass;
   }
 
-  public static create(workPackage:op.HalResource,
+  public static create(workPackage:HalResource,
                        fieldName:string,
                        schema:op.FieldSchema):Field {
     let type = FieldFactory.getType(schema.type);

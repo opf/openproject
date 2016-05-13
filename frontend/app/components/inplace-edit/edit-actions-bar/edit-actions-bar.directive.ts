@@ -26,33 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-class EditActionsBarController {
-  public onSave;
-  public onCancel;
-  public text;
+import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
 
-  constructor(protected EditableFieldsState,
-              protected inplaceEditMultiStorage,
-              protected inplaceEditAll,
-              I18n:op.I18n) {
+export class EditActionsBarController {
+  public text: Object;
+
+  constructor(public wpEditModeState:WorkPackageEditModeStateService, I18n: op.I18n) {
 
     this.text = {
       save: I18n.t('js.button_save'),
       cancel: I18n.t('js.button_cancel')
     }
-  }
-
-  public visible() {
-    return this.inplaceEditAll.state && this.EditableFieldsState.canEdit;
-  }
-
-  public save() {
-    this.inplaceEditMultiStorage.save().then(this.onSave);
-  }
-
-  public cancel() {
-    this.onCancel();
-    this.inplaceEditAll.cancel();
   }
 }
 
@@ -61,11 +45,6 @@ function editActionsBar() {
     restrict: 'E',
     replace: true,
     templateUrl: '/components/inplace-edit/edit-actions-bar/edit-actions-bar.directive.html',
-
-    scope: {
-      onCancel: '&',
-      onSave: '&'
-    },
 
     bindToController: true,
     controller: EditActionsBarController,

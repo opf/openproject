@@ -133,7 +133,8 @@ Then /^the work package should be shown with the following values:$/ do |table|
   end
 
   if table.rows_hash['Subject']
-    should have_css('.subject-header', text: table.rows_hash['Subject'])
+    subject_field = find(".work-packages--details--subject input")
+    expect(subject_field.value).to eq(table.rows_hash['Subject'])
   end
 
   if table.rows_hash['Description']
@@ -156,6 +157,12 @@ end
 When /^I click the edit work package button$/ do
   within('#toolbar-items') do
     find('button[title=Edit]').click
+  end
+end
+
+When /^I show all attributes$/ do
+  within '.panel-toggler' do
+    find('a', text: 'Show all attributes').click
   end
 end
 
@@ -184,7 +191,7 @@ end
 When /^I preview the comment to be added and see "(.+?)"$/ do |comment|
   steps %{
     And I click on "Preview" within ".work-packages--activity--add-comment"
-    And I should see "#{comment}" within ".work-packages--activity--add-comment .-preview"
+    And I should see "#{comment}" within ".work-packages--activity--add-comment .inplace-edit--preview"
   }
 end
 

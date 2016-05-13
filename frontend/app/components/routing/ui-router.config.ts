@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
 angular
   .module('openproject')
   .config(($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) => {
@@ -34,9 +35,18 @@ angular
     $urlMatcherFactoryProvider.strictMode(false);
 
     var panels = {
+      get overview() {
+        return {
+          url: '/overview',
+          reloadOnSearch: false,
+          template: '<overview-panel work-package="workPackage"></overview-panel>'
+        };
+      },
+
       get watchers() {
         return {
           url: '/watchers',
+          reloadOnSearch: false,
           template: '<watchers-panel work-package="workPackage"></watchers-panel>'
         }
       },
@@ -44,6 +54,7 @@ angular
       get activity() {
         return {
           url: '/activity',
+          reloadOnSearch: false,
           template: '<activity-panel work-package="workPackage"></activity-panel>'
         }
       },
@@ -58,6 +69,7 @@ angular
       get relations() {
         return {
           url: '/relations',
+          reloadOnSearch: false,
           templateUrl: '/templates/work_packages/tabs/relations.html'
         };
       }
@@ -92,8 +104,8 @@ angular
           projects: {value: null, squash: true}
         },
 
-        onEnter: ($state, $stateParams, inplaceEditAll) => {
-          inplaceEditAll.start();
+        onEnter: ($state, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
+          wpEditModeState.start();
           $state.go('work-packages.list.details.overview', $stateParams);
         }
       })
@@ -127,6 +139,14 @@ angular
 
         onExit: () => {
           angular.element('body').removeClass('action-show');
+        }
+      })
+      .state('work-packages.show.edit', {
+        url: '/edit',
+        reloadOnSearch: false,
+        onEnter: ($state, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
+          wpEditModeState.start();
+          $state.go('work-packages.show', $stateParams);
         }
       })
       .state('work-packages.show.activity', panels.activity)
@@ -180,12 +200,7 @@ angular
           }
         }
       })
-      .state('work-packages.list.details.overview', {
-        url: '/overview',
-        templateUrl: '/templates/work_packages/tabs/overview.html',
-        controller: 'DetailsTabOverviewController',
-        controllerAs: 'vm',
-      })
+      .state('work-packages.list.details.overview', panels.overview)
       .state('work-packages.list.details.activity', panels.activity)
       .state('work-packages.list.details.activity.details', panels.activityDetails)
       .state('work-packages.list.details.relations', panels.relations)

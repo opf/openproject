@@ -37,6 +37,7 @@ describe('workPackageContextMenu', () => {
   var ngContextMenu;
 
   beforeEach(angular.mock.module('ng-context-menu',
+    'openproject',
     'openproject.api',
     'openproject.workPackages',
     'openproject.models',

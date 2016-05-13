@@ -69,19 +69,6 @@ Feature: Fields editable on work package edit
     When I go to the edit page of the work package called "pe1"
     And I click the edit work package button
 
-    Then I should see the following fields:
-      | Type            | Phase            |
-      | Subject         | pe1              |
-      | Description     | pe1 description  |
-      | Priority        | prio1            |
-      | Assignee        | the manager      |
-      | Responsible     | the manager      |
-      | Version         | version1         |
-      | Start date      | 2013-01-01       |
-      | Due date        | 2013-12-31       |
-      | Estimated time  | 5                |
-      | Progress (%)    | 30               |
-
     When I click on "Relations"
 
     Then I should see "parentpe" within ".relation.parent"

@@ -26,30 +26,92 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
+import {WorkPackageEditModeStateService} from "./wp-edit-mode-state.service";
+import {WorkPackageEditFieldController} from "./wp-edit-field/wp-edit-field.directive";
+import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
+
 export class WorkPackageEditFormController {
   public workPackage;
+  public hasEditMode: boolean;
+  public errorHandler: Function;
+  public successHandler: Function;
   public fields = {};
-  public firstActiveField:string;
 
-  constructor(
-    protected I18n,
-    protected NotificationsService,
-    protected $q,
-    protected QueryService,
-    protected $state,
-    protected $rootScope,
-    protected loadingIndicator,
-    protected $timeout) {
+  public lastErrorFields: string[] = [];
+  public firstActiveField: string;
+
+  constructor(protected $scope: ng.IScope,
+              protected $q,
+              protected $state,
+              protected $rootScope,
+              protected I18n,
+              protected NotificationsService,
+              protected QueryService,
+              protected wpEditModeState: WorkPackageEditModeStateService,
+              protected wpCacheService:WorkPackageCacheService,
+              protected loadingIndicator) {
+
+    if (this.hasEditMode) {
+      wpEditModeState.register(this);
+    }
   }
 
   public isFieldRequired(fieldName) {
-    return _.filter((this.fields as any), (name:string, _field) => {
+    return _.filter((this.fields as any), (name: string, _field) => {
       return !this.workPackage[name] && this.workPackage.requiredValueFor(name);
     });
   }
 
+  public registerField(field) {
+    this.fields[field.fieldName] = field;
+    field.setErrorState(this.lastErrorFields.indexOf(field.fieldName) !== -1);
+  }
+
+  public toggleEditMode(state: boolean) {
+    this.$scope.$evalAsync(() => {
+      angular.forEach(this.fields, (field) => {
+
+        // Setup the field if it is not yet active
+        if (state && field.isEditable && !field.active) {
+          field.initializeField();
+        }
+
+        // Disable the field if is active
+        if (!state && field.active) {
+          field.reset();
+        }
+      });
+    });
+  }
+  
+  public closeAllFields() {
+    angular.forEach(this.fields, (field:WorkPackageEditFieldController) => {
+      field.deactivate();
+    })
+  }
+
+  public get inEditMode() {
+    return this.hasEditMode && this.wpEditModeState.active;
+  }
+
+  public get isEditable() {
+    return this.workPackage.isEditable;
+  }
+
   public loadSchema() {
     return this.workPackage.getSchema();
+  }
+
+  /**
+   * Update the form and embedded schema.
+   * In edit-all mode, this allows fields to cause changes to the form (e.g., type switch)
+   * without saving the resource.
+   */
+  public updateForm() {
+    this.workPackage.updateForm(this.workPackage.$source).then((form) => {
+      this.wpCacheService.updateWorkPackage(this.workPackage);
+    })
   }
 
   public updateWorkPackage() {
@@ -57,6 +119,7 @@ export class WorkPackageEditFormController {
 
     // Reset old error notifcations
     this.$rootScope.$emit('notifications.clearAll');
+    this.lastErrorFields = [];
 
     this.workPackage.save()
       .then(() => {
@@ -64,17 +127,15 @@ export class WorkPackageEditFormController {
         deferred.resolve();
 
         this.showSaveNotification();
-        this.$rootScope.$emit('workPackageSaved', this.workPackage);
-        this.$rootScope.$emit('workPackagesRefreshInBackground');
+        this.successHandler({workPackage: this.workPackage, fields: this.fields});
       })
       .catch((error) => {
-        if (!error.data) {
+        if (!(error.data instanceof ErrorResource)) {
           this.NotificationsService.addError("An internal error has occcurred.");
           return deferred.reject([]);
         }
-
         error.data.showErrorNotification();
-        this.handleSubmissionErrors(error.data, deferred)
+        this.handleSubmissionErrors(error.data, deferred);
       });
 
     return deferred.promise;
@@ -87,40 +148,48 @@ export class WorkPackageEditFormController {
       link: {
         target: _ => {
           this.loadingIndicator.mainPage = this.$state.go.apply(this.$state,
-            ["work-packages.show.activity", { workPackageId: this.workPackage.id }]);
+            ["work-packages.show.activity", {workPackageId: this.workPackage.id}]);
         },
         text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
       }
     });
   }
 
-  private handleSubmissionErrors(error:any, deferred:any) {
+  private handleSubmissionErrors(error: any, deferred: any) {
 
     // Process single API errors
-    this.handleErrorenousColumns(error.getInvolvedColumns());
+    this.handleErroneousAttributes(error.getInvolvedAttributes());
     return deferred.reject();
   }
 
-  private handleErrorenousColumns(columns:string[]) {
-    if (columns.length === 0) { return; }
+  private handleErroneousAttributes(attributes: string[]) {
+    if (attributes.length === 0) return;
 
-    var selected = this.QueryService.getSelectedColumnNames();
-    var active = _.find(this.fields, (f:any) => f.active);
-    columns.reverse().map(name => {
-      if (selected.indexOf(name) === -1) {
-        selected.splice(selected.indexOf(active.fieldName) + 1, 0, name);
-      }
+    // Allow additional error handling
+    this.errorHandler({
+      workPackage: this.workPackage,
+      fields: this.fields,
+      attributes: attributes
     });
 
-    this.QueryService.setSelectedColumns(selected);
-    this.$timeout(_ => {
-      angular.forEach(this.fields, (field) => {
-        field.setErrorState(columns.indexOf(field.fieldName) !== -1);
+    // Save erroneous fields for when new fields appear
+    this.lastErrorFields = attributes;
+
+    this.$scope.$evalAsync(() => {
+      angular.forEach(this.fields, field => {
+        field.setErrorState(attributes.indexOf(field.fieldName) !== -1);
       });
 
       // Activate + Focus on first field
-      this.firstActiveField = columns[0];
-      this.fields[this.firstActiveField].activate(true);
+      this.firstActiveField = attributes[0];
+
+      // Activate that field
+      // TODO: For inplace-edit, this may be undefined
+      // since it doesn't yet expand erroneous attributes
+      var firstErrorField = this.fields[this.firstActiveField];
+      if (firstErrorField) {
+        firstErrorField.activate(true);
+      }
     });
   }
 }
@@ -130,7 +199,10 @@ function wpEditForm() {
     restrict: 'A',
 
     scope: {
-      workPackage: '=wpEditForm'
+      workPackage: '=wpEditForm',
+      hasEditMode: '=hasEditMode',
+      errorHandler: '&wpEditFormOnError',
+      successHandler: '&wpEditFormOnSave'
     },
 
     controller: WorkPackageEditFormController,

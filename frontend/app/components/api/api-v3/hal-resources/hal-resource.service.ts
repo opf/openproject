@@ -25,45 +25,39 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-
 import {opApiModule} from "../../../../angular-modules";
-
 var $q;
 var lazy;
 var halTransform;
 var HalLink;
-
 export class HalResource {
-  public $isHal:boolean = true;
-  public $self:ng.IPromise<HalResource>;
-
-  private _name:string;
-  private _$links:any;
-  private _$embedded:any;
+  public $isHal: boolean = true;
+  public $self: ng.IPromise<HalResource>;
+  private _name: string;
+  private _$links: any;
+  private _$embedded: any;
 
   public static fromLink(link) {
     var resource = HalResource.getEmptyResource();
     resource._links.self = link;
-    
     resource = halTransform(resource);
     resource.$loaded = false;
-
     return resource;
   }
 
-  protected static getEmptyResource():any {
+  protected static getEmptyResource(): any {
     return {_links: {self: {href: null}}};
   }
 
-  public get name():string {
+  public get name(): string {
     return this._name || this.$links.self.$link.title || '';
   }
 
-  public set name(name:string) {
+  public set name(name: string) {
     this._name = name;
   }
 
-  public get href():string|void {
+  public get href(): string|void {
     if (this.$links.self) return this.$links.self.$link.href;
   }
 
@@ -74,23 +68,20 @@ export class HalResource {
 
   public get $embedded() {
     return this.setupProperty('embedded', element => {
-      angular.forEach(element, (child, name:string) => {
+      angular.forEach(element, (child, name: string) => {
         if (child) {
           lazy(element, name, () => halTransform(child));
         }
       });
-
       if (Array.isArray(element)) {
         return element.map(halTransform);
       }
-
       return halTransform(element);
     });
   }
 
-  constructor(public $source:any = HalResource.getEmptyResource(), public $loaded:boolean = true) {
+  constructor(public $source: any = HalResource.getEmptyResource(), public $loaded: boolean = true) {
     this.$source = $source._plain || $source;
-
     this.proxyProperties();
     this.setLinksAsProperties();
     this.setEmbeddedAsProperties();
@@ -100,28 +91,24 @@ export class HalResource {
     if (this.$loaded) {
       return $q.when(this);
     }
-
     if (!this.$loaded && this.$self) {
       return this.$self;
     }
-
     this.$self = this.$links.self().then(resource => {
       this.$loaded = true;
       angular.extend(this, resource);
-
       return this;
     });
-
     return this.$self;
   }
-
 
   public $plain() {
     return angular.copy(this.$source);
   }
 
   private proxyProperties() {
-    _.without(Object.keys(this.$source), '_links', '_embedded').forEach(property => {
+    var source = this.$source.restangularized ? this.$source.plain() : this.$source;
+    _.without(Object.keys(source), '_links', '_embedded').forEach(property => {
       Object.defineProperty(this, property, {
         get() {
           return this.$source[property];
@@ -129,7 +116,6 @@ export class HalResource {
         set(value) {
           this.$source[property] = value;
         },
-
         enumerable: true
       });
     });
@@ -140,11 +126,9 @@ export class HalResource {
       lazy(this, linkName,
         () => {
           let link = this.$links[linkName].$link || this.$links[linkName];
-
           if (Array.isArray(link)) {
             return link.map(item => HalResource.fromLink(item));
           }
-
           if (link.href) {
             if (link.method !== 'get') {
               return HalLink.asFunc(link);
@@ -152,52 +136,47 @@ export class HalResource {
             return HalResource.fromLink(link);
           }
         },
-        val => {
-          if (val && val.$links && val.$links.self) {
-            let link = val.$links.self.$link;
-
-            if (link && link.href && link.method === 'get') {
-              if (val && val.$isHal) {
-                this.$source._links[linkName] = val.$links.self.$link;
-              }
-
-              return val;
-            }
-          }
-        })
+        val => this.setter(val, linkName)
+      )
     });
   }
 
   private setEmbeddedAsProperties() {
     Object.keys(this.$embedded).forEach(name => {
-      lazy(this, name, () => this.$embedded[name], val => val);
+      lazy(this, name, () => this.$embedded[name], val => this.setter(val, name));
     });
   }
 
-  private setupProperty(name:string, callback:(element:any) => any) {
+  private setupProperty(name: string, callback: (element: any) => any) {
     let instanceName = '_$' + name;
     let sourceName = '_' + name;
     let sourceObj = this.$source[sourceName];
-
     if (!this[instanceName] && angular.isObject(sourceObj)) {
       this[instanceName] = {};
-
       Object.keys(sourceObj).forEach(propName => {
         lazy(this[instanceName], propName, () => callback(sourceObj[propName]));
       });
     }
-
     return this[instanceName] || {};
   }
-}
 
+  private setter(val, linkName) {
+    if (val && val.$links && val.$links.self) {
+      let link = val.$links.self.$link;
+      if (link && link.href && link.method === 'get') {
+        if (val && val.$isHal) {
+          this.$source._links[linkName] = val.$links.self.$link;
+        }
+      }
+      return val;
+    }
+  }
+}
 function halResource(_$q_, _lazy_, _halTransform_, _HalLink_) {
   $q = _$q_;
   lazy = _lazy_;
   halTransform = _halTransform_;
   HalLink = _HalLink_;
-
   return HalResource;
 }
-
 opApiModule.factory('HalResource', ['$q', 'lazy', 'halTransform', 'HalLink', halResource]);

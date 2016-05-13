@@ -34,7 +34,7 @@ function wpContextMenuController(
   WorkPackageContextMenuHelper,
   WorkPackageService,
   WorkPackagesTableService,
-  inplaceEditAll,
+  wpEditModeState,
   I18n,
   $window,
   PERMITTED_CONTEXT_MENU_ACTIONS
@@ -100,7 +100,7 @@ function wpContextMenuController(
       workPackageId: selected[0].id
     };
 
-    inplaceEditAll.start();
+    wpEditModeState.start();
     $state.transitionTo('work-packages.show', params);
   }
 

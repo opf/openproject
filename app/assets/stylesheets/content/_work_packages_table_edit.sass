@@ -43,11 +43,14 @@
 .wp-edit-field
   padding-left: 0
 
+  // Avoid jumping subject field
+  &:first-of-type
+    padding: 0
   &.-active
     padding: 0
 
   &.-error
-    
+
     .wp-table--cell-span,
     input,
     select
@@ -71,8 +74,6 @@
   border-style: solid
   border-radius: 2px
   border-width: 1px
-  overflow: visible
-  display: inline-block
   line-height: 1.6
 
   &:hover,

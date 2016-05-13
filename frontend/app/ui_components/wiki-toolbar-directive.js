@@ -55,14 +55,13 @@ module.exports = function() {
 
     var previewButtonAttributes = PREVIEW_BUTTON_ATTRIBUTES;
     previewButtonAttributes.click = function() {
+      scope.previewToggle();
       scope.$apply(function() {
-        scope.isPreview = !scope.isPreview;
-        scope.previewToggle();
 
         var title = scope.isPreview ? PREVIEW_DISABLE_TEXT : PREVIEW_ENABLE_TEXT;
         var toggledClasses = 'icon-preview icon-ticket-edit -active';
 
-        element.closest('.inplace-edit--write-value')
+        element.closest('.textarea-wrapper')
                .find('.' + PREVIEW_BUTTON_CLASS).attr('title', title)
                                                 .attr('aria-label', title)
                                                 .toggleClass(toggledClasses);
@@ -70,7 +69,7 @@ module.exports = function() {
     };
 
     element
-      .closest('.inplace-edit--write-value')
+      .closest('.textarea-wrapper')
       .find('.jstb_help')
       .after(jQuery('<button>', previewButtonAttributes));
     // changes are made by jQuery, we trigger input event so that

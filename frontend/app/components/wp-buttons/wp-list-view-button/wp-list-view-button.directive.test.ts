@@ -35,7 +35,7 @@ describe('wpListViewButton directive', () => {
   var controller:WorkPackageListViewButtonController;
 
   beforeEach(angular.mock.module(
-    'openproject.wpButtons', 'openproject.templates', 'openproject.config'
+    'openproject', 'openproject.wpButtons', 'openproject.templates', 'openproject.config'
   ));
 
   beforeEach(angular.mock.inject(($compile, $rootScope, _$state_) => {

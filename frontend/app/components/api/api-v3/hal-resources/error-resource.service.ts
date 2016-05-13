@@ -60,7 +60,7 @@ export class ErrorResource extends HalResource {
     }
   }
 
-  public getInvolvedColumns():string[] {
+  public getInvolvedAttributes():string[] {
     var columns = [];
 
     if (this.details) {

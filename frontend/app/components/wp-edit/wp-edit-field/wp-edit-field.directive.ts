@@ -33,28 +33,28 @@ import {Field} from "./wp-edit-field.module";
 
 export class WorkPackageEditFieldController {
   public formCtrl: WorkPackageEditFormController;
-  public wpEditForm:ng.IFormController;
-  public fieldName:string;
-  public fieldIndex:number;
-  public field:Field;
-  public errorenous:boolean;
-  protected pristineValue:any;
+  public fieldForm: ng.IFormController;
+  public fieldName: string;
+  public fieldType: string;
+  public fieldIndex: number;
+  public field: Field;
+  public errorenous: boolean;
 
-  protected _active:boolean = false;
-  protected _forceFocus:boolean = false;
+  protected _active: boolean = false;
+  protected _forceFocus: boolean = false;
 
   // Since we load the schema asynchronously
   // all fields are initially viewed as editable until it is loaded
-  protected _editable:boolean = true;
+  protected _editable: boolean = false;
 
-  constructor(
-    protected wpEditField:WorkPackageEditFieldService,
-    protected $scope,
-    protected $element,
-    protected $timeout,
-    protected FocusHelper,
-    protected NotificationsService,
-    protected I18n) {
+  constructor(protected wpEditField: WorkPackageEditFieldService,
+              protected $scope,
+              protected $element,
+              protected $timeout,
+              protected $q,
+              protected FocusHelper,
+              protected NotificationsService,
+              protected I18n) {
 
   }
 
@@ -66,38 +66,38 @@ export class WorkPackageEditFieldController {
     return this._active;
   }
 
+  public get htmlId() {
+    return 'wp-' +
+      this.formCtrl.workPackage.id +
+      '-inline-edit--field-' +
+      this.fieldName;
+  }
+
   public submit() {
+    if (this.inEditMode) {
+      return this.formCtrl.updateForm();
+    }
+
     this.formCtrl.updateWorkPackage()
       .then(() => this.deactivate());
   }
 
-  public activate() {
-    if (this._active) {
-      this.focusField();
-      return;
-    }
-
-    this.pristineValue = angular.copy(this.workPackage[this.fieldName]);
-    this.buildEditField().then(() => {
-      this._active = this.field.schema.writable;
-
-      // Display a generic error if the field turns out not to be editable,
-      // despite the field being editable.
-      if (this.isEditable && !this._active) {
-        this.NotificationsService.addError(this.I18n.t(
-          'js.work_packages.error_edit_prohibited',
-          { attribute: this.field.schema.name }
-        ));
-      }
-
-      this.focusField();
-    });
+  public deactivate() {
+    return this._active = false;
   }
 
-  public activateIfEditable() {
-    if (this.isEditable) {
-      this.activate();
+  public activate() {
+    if (this._active) {
+      return this.$q.when(true);
     }
+
+    return this.buildEditField().then(() => {
+      this._active = this.field.schema.writable;
+      if (this._active) {
+        this.focusField();
+      }
+      return this._active;
+    });
   }
 
   public initializeField() {
@@ -116,71 +116,109 @@ export class WorkPackageEditFieldController {
     // We're resolving the non-form schema here since its loaded anyway for the table
     this.workPackage.schema.$load().then(schema => {
       var fieldSchema = schema[this.fieldName];
+
       this.editable = fieldSchema && fieldSchema.writable;
+      this.fieldType = fieldSchema && this.wpEditField.fieldType(fieldSchema.type);
+
+      // Activate the field automatically when in editAllMode
+      if (this.inEditMode && this.isEditable) {
+        this.activate();
+      }
     });
   }
 
-  public get isEditable():boolean {
+  public get isEditable(): boolean {
     return this._editable && this.workPackage.isEditable;
   }
 
-  public set editable(enabled:boolean) {
+  public get inEditMode(): boolean {
+    return this.formCtrl.inEditMode;
+  }
+
+  public set editable(enabled: boolean) {
     this._editable = enabled;
     this.$element.toggleClass('-editable', !!enabled);
   }
 
   public shouldFocus() {
-    return this._forceFocus ||
-           !this.workPackage.isNew ||
-           this.formCtrl.firstActiveField === this.fieldName;
+    return this._forceFocus || !this.workPackage.isNew ||
+      this.formCtrl.firstActiveField === this.fieldName;
   }
 
   public focusField() {
     this.$timeout(_ => this.$scope.$broadcast('updateFocus'));
   }
 
-  public deactivate():boolean {
+  public handleUserActivate() {
+    this.activate().then((active) => {
+      // Display a generic error if the field turns out not to be editable,
+      // despite the field being editable.
+      if (this.isEditable && !active) {
+        this.NotificationsService.addError(this.I18n.t(
+          'js.work_packages.error_edit_prohibited',
+          {attribute: this.field.schema.name}
+        ));
+      }
+    });
+  }
+
+  public handleUserBlur(): boolean {
+    if (!this.active || this.inEditMode) {
+      return;
+    }
+
     this._forceFocus = false;
-    return this._active = false;
+    this.deactivate();
+  }
+
+  public handleUserCancel(focus) {
+    if (!this.active || this.inEditMode) {
+      return;
+    }
+
+    return this.reset(focus);
   }
 
   public setErrorState(error = true) {
     this.errorenous = error;
-    this.$element.toggleClass('-error', error)
+    this.$element.toggleClass('-error', error);
   }
 
-
-  public reset() {
-    this.workPackage[this.fieldName] = this.pristineValue;
-    this.wpEditForm.$setPristine();
+  public reset(focus = false) {
+    this.workPackage.restoreFromPristine(this.fieldName);
+    this.fieldForm.$setPristine();
     this.deactivate();
-    this.pristineValue = null;
+
+    if (focus) {
+      this.focusField();
+    }
   }
 
-  protected buildEditField():ng.IPromise<any> {
+  protected buildEditField(): ng.IPromise<any> {
     return this.formCtrl.loadSchema().then(schema => {
-      this.field = this.wpEditField.getField(
-        this.workPackage, this.fieldName, schema[this.fieldName]);
+      this.field = this.wpEditField.getField(this.workPackage, this.fieldName, schema[this.fieldName]);
+      this.workPackage.storePristine(this.fieldName);
     });
   }
 
 }
 
-function wpEditFieldLink(
-  scope,
-  element,
-  attrs,
-  controllers: [WorkPackageEditFormController, WorkPackageEditFieldController]) {
+function wpEditFieldLink(scope,
+                         element,
+                         attrs,
+                         controllers: [WorkPackageEditFormController, WorkPackageEditFieldController]) {
 
   controllers[1].formCtrl = controllers[0];
-  controllers[1].formCtrl.fields[scope.vm.fieldName] = scope.vm;
+  controllers[1].formCtrl.registerField(scope.vm);
 
   scope.vm.initializeField();
 
   element.addClass(scope.vm.fieldName);
   element.keyup(event => {
     if (event.keyCode === 27) {
-      scope.$evalAsync(_ => scope.vm.reset());
+      scope.$evalAsync(() => {
+        scope.vm.handleUserCancel(true);
+      });
     }
   });
 }
@@ -193,8 +231,10 @@ function wpEditField() {
 
     scope: {
       fieldName: '=wpEditField',
-      fieldIndex: '=fieldIndex',
-      columns: '=columns'
+      fieldLabel: '=wpEditFieldLabel',
+      fieldIndex: '=',
+      columns: '=',
+      wrapperClasses: '=wpEditFieldWrapperClasses'
     },
 
     require: ['^wpEditForm', 'wpEditField'],

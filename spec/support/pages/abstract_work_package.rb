@@ -27,7 +27,6 @@
 #++
 
 require 'support/pages/page'
-require 'features/work_packages/details/inplace_editor/work_package_field'
 
 module Pages
   class AbstractWorkPackage < Page
@@ -41,6 +40,10 @@ module Pages
       visit path(tab)
     end
 
+    def edit_field(attribute, context)
+      WorkPackageField.new(context, attribute)
+    end
+
     def expect_subject
       within(container) do
         expect(page).to have_content(work_package.subject)
@@ -48,32 +51,29 @@ module Pages
     end
 
     def ensure_page_loaded
-      expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
-                                    text: work_package.journals.last.user.name)
+      tries = 0
+      begin
+        find('.work-package-details-activities-activity-contents .user',
+             text: work_package.journals.last.user.name,
+             wait: 10)
+      rescue => e
+        # HACK This error may happen since activities are loaded several times
+        # in the old resource, and may cause a reload.
+        tries += 1
+        retry unless tries > 5
+      end
     end
 
     def expect_attributes(attribute_expectations)
       attribute_expectations.each do |label_name, value|
         label = label_name.to_s
 
-        if label == 'Subject'
-          expect(page).to have_selector('.attribute-subject', text: value)
-        elsif label == 'Description'
-          expect(page).to have_selector('.attribute-description', text: value)
-        else
-          expect(page).to have_selector('.attributes-key-value--key', text: label)
-
-          dl_element = page.find('.attributes-key-value--key', text: label).parent
-
-          unless value.nil?
-            expect(dl_element).to have_selector('.attributes-key-value--value-container', text: value)
-          end
-        end
+        expect(page).to have_selector(".wp-edit-field.#{label.camelize(:lower)}", text: value)
       end
     end
 
     def expect_attribute_hidden(label)
-      expect(page).not_to have_selector('.attributes-key-value--key', text: label)
+      expect(page).not_to have_selector(".wp-edit-field.#{label.downcase}")
     end
 
     def expect_activity(user, number: nil)
@@ -95,31 +95,20 @@ module Pages
     end
 
     def update_attributes(key_value_map)
-      set_attributes(key_value_map).last.submit_by_click
+      set_attributes(key_value_map)
     end
 
     def set_attributes(key_value_map)
-      key_value_map.map do |key, value|
+      key_value_map.each_with_index.map do |(key, value), index|
         field = WorkPackageField.new(page, key)
         field.activate_edition
 
-        input = field.input_element
+        field.set_value value
+        field.save!
 
-        case input.tag_name
-        when 'select'
-          input.select value
-        when 'input', 'textarea'
-          input.set value
-        else
-          raise 'Attribute is not supported as of now.'
+        unless index == key_value_map.length - 1
+          ensure_no_conflicting_modifications
         end
-
-        # Workaround for fields with datepickers, which
-        # may cover other fields we want to click next
-        if key.to_s =~ /date/i
-          page.find('#work-package-subject').click
-        end
-        field
       end
     end
 
@@ -158,6 +147,12 @@ module Pages
 
     def create_page(_args)
       raise NotImplementedError
+    end
+
+    def ensure_no_conflicting_modifications
+      expect_notification(message: 'Successful update')
+      dismiss_notification!
+      expect_no_notification(message: 'Successful update')
     end
   end
 end

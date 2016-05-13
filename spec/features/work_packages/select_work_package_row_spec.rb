@@ -313,7 +313,8 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
       end
 
       it do
-        expect(page).to have_selector('#work-package-subject', text: work_package_3.subject)
+        expect(page).to have_selector('.work-packages--details--subject',
+                                      text: work_package_3.subject)
       end
     end
 
@@ -326,10 +327,13 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
       end
 
       it do
-        subject = page.find("#inplace-edit--write-value--subject")
-        expect(subject.value).to eq(work_package_3.subject)
+        wp_page = Pages::FullWorkPackage.new(work_package_3)
+        subject_field = wp_page.edit_field :subject
 
-        # Cancel edit + move to index
+        subject_field.expect_active!
+        expect(subject_field.input_element.value).to eq(work_package_3.subject)
+
+        # Cancel edit
         find('#work-packages--edit-actions-cancel').click
       end
     end
@@ -343,7 +347,9 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
       it do
         find('#work-packages-details-view-button').click
 
-        expect(page).to have_selector('#work-package-subject', text: work_package_2.subject)
+        split_wp = Pages::SplitWorkPackage.new(work_package_2)
+        split_wp.expect_attributes Subject: work_package_2.subject
+
         find('#work-packages-list-view-button').click
       end
     end

@@ -1,12 +1,26 @@
-<div class="wp-edit-field -small"
-     ng-class="{ '-error': vm.errorenous, '-active': vm.active }">
+<div class="wp-edit-field inplace-edit"
+     ng-class="[
+      vm.errorenous && '-error' || '',
+      vm.isEditable && '-editable' || '',
+      vm.active && '-active' || '',
+      vm.fieldName,
+      vm.wrapperClasses === undefined ? '-small' : vm.wrapperClasses
+     ]">
+
   <form ng-if="vm.workPackage && vm.active"
-        name="vm.wpEditForm"
+        name="vm.fieldForm"
         ng-submit="vm.submit()">
+
+    <label for="{{vm.htmlId}}"
+           class="hidden-for-sighted">
+      {{::vm.fieldLabel}}
+    </label>
 
     <ng-include src="vm.field.template"></ng-include>
 
   </form>
 
-  <ng-transclude class="-hidden-overflow" ng-hide="vm.active"></ng-transclude>
+  <ng-transclude class="-hidden-overflow inplace-edit--read-value"
+                 ng-hide="vm.active">
+  </ng-transclude>
 </div>

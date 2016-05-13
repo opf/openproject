@@ -42,7 +42,7 @@ shared_examples 'an auth aware field' do
     }
 
     it 'is not editable' do
-      expect { field.trigger_link }.to raise_error Capybara::ElementNotFound
+      expect(field).not_to be_editable
     end
   end
 end
@@ -86,9 +86,7 @@ shared_examples 'a cancellable field' do
 
     it 'focuses the trigger link' do
       active_class_name = page.evaluate_script('document.activeElement.className')
-      trigger_link_focused = "a.#{active_class_name}" == field.trigger_link_selector
-
-      expect(trigger_link_focused).to be_truthy
+      expect(active_class_name).to include(field.trigger_link_selector[1..-1])
     end
   end
 
@@ -105,10 +103,6 @@ shared_examples 'a cancellable field' do
     before do
       field.activate_edition
       field.cancel_by_escape
-    end
-
-    after do
-      field.cancel_by_click
     end
 
     it_behaves_like 'cancelling properly'

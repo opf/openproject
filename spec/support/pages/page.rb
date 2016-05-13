@@ -86,6 +86,14 @@ module Pages
       expect(page).to have_selector(".notification-box.-#{type}", text: message)
     end
 
+    def dismiss_notification!
+      page.find('.notification-box--close').click
+    end
+
+    def expect_no_notification(type: :success, message: nil)
+      expect(page).to have_no_selector(".notification-box.-#{type}", text: message)
+    end
+
     def path
       nil
     end

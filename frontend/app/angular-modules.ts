@@ -35,16 +35,15 @@ angular.module('openproject.uiComponents',
     $rootScope.I18n = I18n;
   }]);
 export var configModule = angular.module('openproject.config', []);
-angular.module(
-  'openproject.services', [
-    'openproject.uiComponents',
-    'openproject.helpers',
-    'openproject.workPackages.config',
-    'openproject.workPackages.helpers',
-    'openproject.api',
-    'angular-cache',
-    'openproject.filters'
-  ]);
+export var opServicesModule = angular.module('openproject.services', [
+  'openproject.uiComponents',
+  'openproject.helpers',
+  'openproject.workPackages.config',
+  'openproject.workPackages.helpers',
+  'openproject.api',
+  'angular-cache',
+  'openproject.filters'
+]);
 angular.module('openproject.helpers', ['openproject.services']);
 angular
   .module('openproject.models', [
@@ -78,7 +77,7 @@ angular.module('openproject.timelines.directives', [
 ]);
 
 // work packages
-angular.module('openproject.workPackages', [
+export const opWorkPackagesModule = angular.module('openproject.workPackages', [
   'openproject.workPackages.activities',
   'openproject.workPackages.controllers',
   'openproject.workPackages.filters',
@@ -88,7 +87,9 @@ angular.module('openproject.workPackages', [
   'ng-context-menu',
   'ngFileUpload'
 ]);
-angular.module('openproject.workPackages.services', ['openproject.inplace-edit']);
+export const wpServicesModule = angular.module('openproject.workPackages.services', [
+  'openproject.inplace-edit'
+]);
 angular.module(
   'openproject.workPackages.helpers', [
     'openproject.helpers',
@@ -98,24 +99,22 @@ angular.module('openproject.workPackages.filters', [
   'openproject.workPackages.helpers'
 ]);
 angular.module('openproject.workPackages.config', []);
-angular.module(
-  'openproject.workPackages.controllers', [
-    'openproject.models',
-    'openproject.viewModels',
-    'openproject.workPackages.helpers',
-    'openproject.services',
-    'openproject.workPackages.config',
-    'openproject.layout',
-    'btford.modal'
-  ]);
+export const wpControllersModule = angular.module('openproject.workPackages.controllers', [
+  'openproject.models',
+  'openproject.viewModels',
+  'openproject.workPackages.helpers',
+  'openproject.services',
+  'openproject.workPackages.config',
+  'openproject.layout',
+  'btford.modal'
+]);
 angular.module('openproject.workPackages.models', []);
-angular.module(
-  'openproject.workPackages.directives', [
-    'openproject.uiComponents',
-    'openproject.services',
-    'openproject.workPackages.services',
-    'openproject.workPackages.models'
-  ]);
+export const wpDirectivesModule = angular.module('openproject.workPackages.directives', [
+  'openproject.uiComponents',
+  'openproject.services',
+  'openproject.workPackages.services',
+  'openproject.workPackages.models'
+]);
 angular.module('openproject.workPackages.tabs', []);
 angular.module('openproject.workPackages.activities', []);
 
@@ -139,6 +138,7 @@ angular.module('openproject.layout.controllers', []);
 
 export const opApiModule = angular.module('openproject.api', [
   'restangular',
+  'openproject.workPackages',
   'openproject.services'
 ]);
 
@@ -156,7 +156,7 @@ export var wpButtonsModule = angular.module('openproject.wpButtons',
   ['ui.router', 'openproject.services']);
 
 // main app
-export default angular.module('openproject', [
+export const openprojectModule = angular.module('openproject', [
   'ui.date',
   'ui.router',
   'openproject.config',
@@ -179,3 +179,5 @@ export default angular.module('openproject', [
   'openproject.responsive',
   filtersModule.name
 ]);
+
+export default openprojectModule;

@@ -86,7 +86,7 @@ Feature: Copying a work package
      And I select "project_2" from "Project"
     When I click "Copy and follow"
     Then I should see "Successful creation."
-    Then I should see "issue1" within ".work-packages--details--subject"
+    Then I should see "issue1" within ".wp-edit-field.subject"
      And I should see "project_2" within ".breadcrumb"
 
   @javascript @selenium
@@ -96,7 +96,7 @@ Feature: Copying a work package
      And I select "project_2" from "Project"
     When I click "Move and follow"
     #Then I should see "Successful update."
-    Then I should see "issue1" within ".work-packages--details--subject"
+    Then I should see "issue1" within ".wp-edit-field.subject"
      And I should see "project_2" within ".breadcrumb"
 
 

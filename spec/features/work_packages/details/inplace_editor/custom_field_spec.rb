@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'features/work_packages/details/inplace_editor/work_package_field'
 require 'features/work_packages/work_packages_page'
 
 describe 'custom field inplace editor', js: true, selenium: true do
@@ -17,11 +16,10 @@ describe 'custom field inplace editor', js: true, selenium: true do
                        project: project,
                        custom_values: { custom_field.id => 123 }
   }
-  let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+  let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
 
   let(:property_name) { :customField1 }
-  let(:work_packages_page) { WorkPackagesPage.new(project) }
-  let(:field) { WorkPackageField.new page, property_name }
+  let(:field) { wp_page.edit_field(property_name) }
 
   before do
     login_as(user)
@@ -37,14 +35,21 @@ describe 'custom field inplace editor', js: true, selenium: true do
 
   def expect_update(value, update_args)
     field.input_element.set value
-    field.submit_by_click
+    field.submit_by_enter
     wp_page.expect_notification(update_args)
+  end
+
+  def expect_field_invalid(value)
+    field.input_element.set value
+    field.submit_by_enter
+    expect(field).to have_selector("#{field.input_selector}:invalid")
   end
 
   describe 'integer type' do
     let(:custom_field) {
       FactoryGirl.create(:integer_issue_custom_field, args.merge(name: 'MyNumber'))
     }
+    let(:fieldName) { "customField#{custom_field.id}" }
 
     context 'with length restrictions' do
       let(:args) {
@@ -53,24 +58,22 @@ describe 'custom field inplace editor', js: true, selenium: true do
 
       it 'renders errors for invalid entries' do
         # Invalid input (non-digit)
-        expect_update 'certainly no digit',
-                      type: :error,
-                      message: 'MyNumber is not a valid number'
+        expect_field_invalid 'certainly no digit'
 
         # exceeding max length
         expect_update '123456',
                       type: :error,
-                      message: 'MyNumber cannot contain more than 5 digit(s)'
+                      message: 'MyNumber is too long (maximum is 5 characters).'
 
         # below min length
         expect_update '1',
                       type: :error,
-                      message: 'MyNumber cannot contain less than 2 digit(s)'
+                      message: 'MyNumber is too short (minimum is 2 characters).'
 
         # Correct value
         expect_update '9999',
                       message: I18n.t('js.notice_successful_update')
-        wp_page.expect_attributes MyNumber: '9999'
+        wp_page.expect_attributes fieldName => '9999'
       end
     end
 
@@ -78,20 +81,18 @@ describe 'custom field inplace editor', js: true, selenium: true do
       let(:args) { {} }
       it 'renders errors for invalid entries' do
         # Invalid input (non-digit)
-        expect_update 'certainly no digit',
-                      type: :error,
-                      message: 'MyNumber is not a valid number'
+        expect_field_invalid 'certainly no digit'
 
-        # Invalid input (non-digit)
+        # Valid input
         expect_update '9999999999',
                       message: I18n.t('js.notice_successful_update')
-        wp_page.expect_attributes MyNumber: '9999999999'
+        wp_page.expect_attributes fieldName => '9999999999'
 
         # Remove value
         field.activate_edition
         expect_update '',
                       message: I18n.t('js.notice_successful_update')
-        wp_page.expect_attributes MyNumber: '-'
+        wp_page.expect_attributes fieldName => '-'
       end
     end
 

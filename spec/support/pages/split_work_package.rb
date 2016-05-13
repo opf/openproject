@@ -37,6 +37,10 @@ module Pages
       @project = project
     end
 
+    def edit_field(attribute)
+      super(attribute, container)
+    end
+
     private
 
     def container

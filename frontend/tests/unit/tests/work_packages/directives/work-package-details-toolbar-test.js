@@ -30,11 +30,12 @@
 
 describe('workPackageDetailsToolbar', function() {
   var I18n, HookService, compile, scope, element, stateParams;
-  var html = "<work-package-details-toolbar work-package='workPackage'></work-package-details-toolbar>";
+  var html = "<wp-details-toolbar work-package='workPackage'></wp-details-toolbar>";
   stateParams = {};
 
 
   beforeEach(module('ui.router',
+                    'openproject',
                     'openproject.workPackages.controllers',
                     'openproject.uiComponents',
                     'openproject.workPackages',

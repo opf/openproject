@@ -1,0 +1,21 @@
+<div class="textarea-wrapper" ng-class="{'-preview': vm.field.isPreview}">
+  <textarea
+          wiki-toolbar
+          msd-elastic="\n"
+          preview-toggle="vm.field.togglePreview()"
+          style="min-height: 114px"
+          class="focus-input wp-inline-edit--field inplace-edit--textarea -animated"
+          name="value"
+          focus="vm.shouldFocus()"
+          ng-hide="vm.field.isPreview"
+          ng-disabled="vm.field.isBusy"
+          ng-model="vm.field.fieldVal.raw"
+          ng-attr-id="{{vm.htmlId}}">  </textarea>
+    <div class="inplace-edit--preview" ng-show="vm.field.isPreview && !vm.field.isBusy">
+        <span ng-bind-html="vm.field.previewHtml"></span>
+    </div>
+    <wp-edit-field-controls ng-show="!vm.inEditMode"
+                            save-title="{{ vm.field.text.saveTitle }}"
+                            cancel-title="{{ vm.field.text.cancelTitle }}">
+    </wp-edit-field-controls>
+</div>

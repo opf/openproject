@@ -41,17 +41,6 @@ angular.module('openproject.workPackages.directives')
     { key: 'delete', link: 'delete', resource: 'workPackage' },
     { key: 'copy', link: 'createWorkPackage', resource: 'project' }
   ])
-  .directive('workPackageDetailsToolbar', [
-    'PERMITTED_MORE_MENU_ACTIONS',
-    '$state',
-    '$window',
-    '$location',
-    'I18n',
-    'HookService',
-    'WorkPackageService',
-    'WorkPackageAuthorization',
-    require('./work-package-details-toolbar-directive')
-  ])
   .directive('workPackageDynamicAttribute', ['$compile', require(
     './work-package-dynamic-attribute-directive')])
   .directive('workPackageAttachments', [
