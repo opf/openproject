@@ -26,6 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+#modalDiv.onboarding--modal
+  max-height: 37.5rem !important
+  #modalIframe
+    max-height: 37.5rem
+
 .onboarding--top-menu
   display: flex
   align-items: center
@@ -62,12 +67,12 @@
   align-items: center
   margin-top: 1em
   position: absolute
-  bottom: 0.5em
+  bottom: 1em
   right: 0
 
   .button
     margin-left: 1em
-    margin-bottom: 0
+    margin-bottom: 0rem
 
 // Workaround for a correct header and indentation of content
 // Since there is a hidden element in the DOM which cannot be accessed via CSS, the in_modal class is the first accessible.

@@ -81,7 +81,7 @@ describe AccountController, type: :controller do
                                                                auth_source_id: 66)
         post :login, username: 'foo', password: 'bar'
 
-        expect(response).to redirect_to my_page_path
+        expect(response).to redirect_to home_url
         user = User.find_by_login('foo')
         expect(user).to be_an_instance_of User
         expect(user.auth_source_id).to eq(66)

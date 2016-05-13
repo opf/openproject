@@ -34,7 +34,7 @@ module Concerns::RedirectAfterLogin
     if user.first_login
       user.update_attribute(:first_login, false)
 
-      welcome_redirect
+      welcome_redirect(true)
     else
       default_redirect
     end
@@ -42,8 +42,13 @@ module Concerns::RedirectAfterLogin
 
   #    * * *
 
-  def welcome_redirect
-    redirect_to home_url(first_time_user: true)
+  def welcome_redirect(first_login)
+    if first_login
+      redirect_to home_url(first_time_user: true)
+    else
+      default_redirect
+    end
+
   end
 
   ##

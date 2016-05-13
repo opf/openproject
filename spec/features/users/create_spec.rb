@@ -125,9 +125,8 @@ describe 'create users', type: :feature, selenium: true do
 
           click_button 'Sign in'
 
-          expect(page).to have_text 'My page'
-          expect(page).to have_text 'bobfirst boblast'
-          expect(current_path).to eq '/my/page'
+          expect(page).to have_text 'OpenProject'
+          expect(current_path).to eq '/'
         end
       end
     end

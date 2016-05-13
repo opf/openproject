@@ -191,9 +191,10 @@ var ModalHelper = (function() {
         modalDiv.dialog('close');
 
         this.destroyIframe();
-        if(modalDiv.hasClass('-full')) {
-          modalDiv.removeClass('-full');
-        }
+
+        // Remove custom classes
+        modalDiv.removeClass();
+        modalDiv.addClass('ui-dialog-content ui-widget-content')
 
         jQuery(this).trigger("closed");
       }

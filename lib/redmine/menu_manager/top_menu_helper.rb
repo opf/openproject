@@ -161,6 +161,14 @@ module Redmine::MenuManager::TopMenuHelper
     render_drop_down_menu_node(link_to_help_pop_up, class: 'drop-down hidden-for-mobile') do
       content_tag :ul, style: 'display:none', class: 'drop-down--help' do
         result << content_tag(:li) do
+                    content_tag(:span, l('top_menu.getting_started'), class: 'drop-down--help-headline', title: l('top_menu.getting_started'))
+                  end
+        result << content_tag(:li) do
+                    link_to l(:label_video), '', title: l(:label_video), onClick: 'modalHelperInstance.createModal(\'/onboarding/index\', \'-full onboarding--modal\');'
+                  end
+        result << content_tag(:hr, '', class: 'form--separator')
+
+        result << content_tag(:li) do
                     content_tag(:span, l('top_menu.help_and_support'), class: 'drop-down--help-headline', title: l('top_menu.help_and_support'))
                   end
         result << content_tag(:li) do
