@@ -40,8 +40,8 @@ hr:
       cost_object: Budžet
       cost_type:
         one: Vrsta troška
-        few: Vrsta troškova
-        other: Vrsta troškova
+        few: Vrste troška
+        other: Vrsta troška
       material_budget_item: Jedinica
       rate: Stopa
     errors:
