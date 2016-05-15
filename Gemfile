@@ -151,7 +151,6 @@ group :test do
   gem 'factory_girl_rails', '~> 4.5', require: false
 
   gem 'cucumber-rails', '~> 1.4.2', require: false
-  gem 'rack_session_access'
   gem 'database_cleaner', '~> 1.4.1'
   gem 'rspec', '~> 3.3.0'
   # also add to development group, so "spec" rake task gets loaded

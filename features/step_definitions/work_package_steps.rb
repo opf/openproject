@@ -27,8 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rack_session_access/capybara'
-
 InstanceFinder.register(WorkPackage, Proc.new { |name| WorkPackage.find_by(subject: name) })
 RouteMap.register(WorkPackage, '/work_packages')
 
@@ -53,7 +51,7 @@ end
 
 Given /^user is already watching "(.*?)"$/  do |work_package_subject|
   work_package = WorkPackage.find_by(subject: work_package_subject)
-  user = User.find(page.get_rack_session['user_id'])
+  user = User.current
 
   work_package.add_watcher user
 end
