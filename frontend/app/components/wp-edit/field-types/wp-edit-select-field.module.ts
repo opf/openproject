@@ -32,9 +32,16 @@ export class SelectField extends Field {
   public options:any[];
   public placeholder:string = '-';
   public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html'
+  public text;
 
   constructor(workPackage, fieldName, schema) {
     super(workPackage, fieldName, schema);
+
+    const I18n:any = this.$injector.get('I18n');
+    this.text = {
+      requiredPlaceholder: I18n.t('js.placeholders.selection'),
+      placeholder: I18n.t('js.placeholders.default')
+    };
 
     if (angular.isArray(this.schema.allowedValues)) {
       this.options = angular.copy(this.schema.allowedValues);
@@ -50,8 +57,7 @@ export class SelectField extends Field {
   private addEmptyOption() {
     if (!this.schema.required) {
       this.options.unshift({
-        href: "null",
-        name: this.placeholder,
+        name: this.text.placeholder,
       });
     }
   }

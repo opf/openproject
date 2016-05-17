@@ -1,3 +1,4 @@
+require 'support/work_packages/work_package_field'
 class WorkPackageTextAreaField < WorkPackageField
 
   attr_reader :trigger

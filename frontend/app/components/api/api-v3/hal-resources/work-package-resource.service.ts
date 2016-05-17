@@ -70,6 +70,12 @@ export class WorkPackageResource extends HalResource {
 
   public requiredValueFor(fieldName):boolean {
     var fieldSchema = this.schema[fieldName];
+
+    // The field schema may be undefined if a custom field
+    // is used as a column, but not available for this type.
+    if (fieldSchema === undefined) {
+      return false;
+    }
     return !this[fieldName] && fieldSchema.writable && fieldSchema.required;
   }
 
@@ -137,7 +143,7 @@ export class WorkPackageResource extends HalResource {
 
       angular.forEach(schema, (field, name) => {
         if (this[name] && field && field.writable && field.$isHal
-          && Array.isArray(field.allowedValues)) {
+          && (Array.isArray(field.allowedValues) && field.allowedValues.length > 0)) {
 
           this[name] = _.where(field.allowedValues, {name: this[name].name})[0];
         }
@@ -252,8 +258,8 @@ export class WorkPackageResource extends HalResource {
 
     // Merged linked properties from form payload
     angular.forEach(plainPayload._links, (_value, key) => {
-      if (this[key] && typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
-        var value = this[key].href === 'null' ? null : this[key].href;
+      if (typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
+        var value = this[key] === undefined ? null : this[key].href;
         plainPayload._links[key] = {href: value};
       }
     });
