@@ -25,16 +25,27 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-/* globals URI */
 
 angular
-  .module('openproject.services')
-  .factory('WorkPackageService', WorkPackageService);
+    .module('openproject.services')
+    .factory('WorkPackageService', WorkPackageService);
 
-function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelper, HALAPIResource,
-    DEFAULT_FILTER_PARAMS, DEFAULT_PAGINATION_OPTIONS, $rootScope, $window, $q, $cacheFactory,
-    AuthorisationService, EditableFieldsState, WorkPackageFieldService, NotificationsService,
-    inplaceEditErrors) {
+function WorkPackageService($http,
+                            $rootScope,
+                            $window,
+                            $q,
+                            $cacheFactory,
+                            $state,
+                            PathHelper,
+                            UrlParamsHelper,
+                            HALAPIResource,
+                            DEFAULT_FILTER_PARAMS,
+                            DEFAULT_PAGINATION_OPTIONS,
+                            AuthorisationService,
+                            EditableFieldsState,
+                            WorkPackageFieldService,
+                            NotificationsService,
+                            inplaceEditErrors) {
 
   var workPackage,
       workPackageCache = $cacheFactory('workPackageCache');
@@ -44,10 +55,10 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
       // _links: {}
     };
     if (workPackage.form) {
-      _.forEach(workPackage.form.pendingChanges, function(value, field) {
+      _.forEach(workPackage.form.pendingChanges, function (value, field) {
         if (WorkPackageFieldService.isSpecified(workPackage, field)) {
-          if(field === 'date') {
-            if(WorkPackageFieldService.isMilestone(workPackage)) {
+          if (field === 'date') {
+            if (WorkPackageFieldService.isMilestone(workPackage)) {
               data['startDate'] = data['dueDate'] = value ? value : null;
               return;
             }
@@ -57,7 +68,7 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
           }
           if (WorkPackageFieldService.isSavedAsLink(workPackage, field)) {
             data._links = data._links || {};
-            data._links[field] = value ? value.props : { href: null };
+            data._links[field] = value ? value.props : {href: null};
           } else {
             data[field] = value;
           }
@@ -73,7 +84,7 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
   }
 
   var WorkPackageService = {
-    initializeWorkPackage: function(projectIdentifier, initialData) {
+    initializeWorkPackage: function (projectIdentifier, initialData) {
       var changes = _.clone(initialData);
       var wp = {
         isNew: true,
@@ -81,37 +92,39 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
         props: {},
         links: {
           update: HALAPIResource
-            .setup(PathHelper
-              .apiV3WorkPackageFormPath(projectIdentifier)),
+              .setup(PathHelper
+                  .apiV3WorkPackageFormPath(projectIdentifier)),
           updateImmediately: HALAPIResource.setup(
-            PathHelper.apiv3ProjectWorkPackagesPath(projectIdentifier),
-            { method: 'post' }
+              PathHelper.apiv3ProjectWorkPackagesPath(projectIdentifier),
+              {method: 'post'}
           )
         }
       };
-      var options = { ajax: {
+      var options = {
+        ajax: {
           method: 'POST',
           headers: {
             Accept: 'application/hal+json'
           },
           data: JSON.stringify(changes),
           contentType: 'application/json; charset=utf-8'
-        }};
+        }
+      };
 
       return wp.links.update.fetch(options)
-        .then(function(form) {
-          wp.form = form;
-          EditableFieldsState.workPackage = wp;
-          inplaceEditErrors.errors = null;
+          .then(function (form) {
+            wp.form = form;
+            EditableFieldsState.workPackage = wp;
+            inplaceEditErrors.errors = null;
 
-          wp.props = _.clone(form.embedded.payload.props);
-          wp.links = _.extend(wp.links, _.clone(form.embedded.payload.links));
+            wp.props = _.clone(form.embedded.payload.props);
+            wp.links = _.extend(wp.links, _.clone(form.embedded.payload.links));
 
-          return wp;
-        });
+            return wp;
+          });
     },
 
-    initializeWorkPackageFromCopy: function(workPackage) {
+    initializeWorkPackageFromCopy: function (workPackage) {
       var projectIdentifier = workPackage.embedded.project.props.identifier;
       var initialData = _.clone(workPackage.form.embedded.payload.props);
 
@@ -121,7 +134,7 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
       return WorkPackageService.initializeWorkPackage(projectIdentifier, initialData);
     },
 
-    initializeWorkPackageWithParent: function(parentWorkPackage) {
+    initializeWorkPackageWithParent: function (parentWorkPackage) {
       var projectIdentifier = parentWorkPackage.embedded.project.props.identifier;
 
       var initialData = {
@@ -136,7 +149,7 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
     },
 
 
-    getWorkPackage: function(id) {
+    getWorkPackage: function (id) {
       var path = PathHelper.apiV3WorkPackagePath(id),
           resource = HALAPIResource.setup(path);
 
@@ -144,32 +157,32 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
         return $q.all([
           WorkPackageService.loadWorkPackageForm(wp),
           wp.links.schema.fetch()
-        ]).then(function(result) {
-            wp.form = result[0];
-            wp.schema = result[1];
-            workPackage = wp;
-            EditableFieldsState.workPackage = wp;
-            inplaceEditErrors.errors = null;
-            return wp;
-          });
+        ]).then(function (result) {
+          wp.form = result[0];
+          wp.schema = result[1];
+          workPackage = wp;
+          EditableFieldsState.workPackage = wp;
+          inplaceEditErrors.errors = null;
+          return wp;
+        });
       });
     },
 
-    getWorkPackagesByQueryId: function(projectIdentifier, queryId) {
+    getWorkPackagesByQueryId: function (projectIdentifier, queryId) {
       var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
-      var params = queryId ? { queryId: queryId } : DEFAULT_FILTER_PARAMS;
+      var params = queryId ? {queryId: queryId} : DEFAULT_FILTER_PARAMS;
       return WorkPackageService.doQuery(url, params);
     },
 
-    getWorkPackages: function(projectIdentifier, query, paginationOptions) {
+    getWorkPackages: function (projectIdentifier, query, paginationOptions) {
       var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
       var params = {};
 
-      if(query) {
+      if (query) {
         angular.extend(params, query.toUpdateParams());
       }
 
-      if(paginationOptions) {
+      if (paginationOptions) {
         angular.extend(params, {
           page: paginationOptions.page,
           per_page: paginationOptions.perPage
@@ -184,18 +197,20 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
       return WorkPackageService.doQuery(url, params);
     },
 
-    loadWorkPackageForm: function(workPackage) {
+    loadWorkPackageForm: function (workPackage) {
       if (this.authorizedFor(workPackage, 'update')) {
-        var options = { ajax: {
-          method: 'POST',
-          headers: {
-            Accept: 'application/hal+json'
-          },
-          data: getPendingChanges(workPackage),
-          contentType: 'application/json; charset=utf-8'
-        }, force: true};
+        var options = {
+          ajax: {
+            method: 'POST',
+            headers: {
+              Accept: 'application/hal+json'
+            },
+            data: getPendingChanges(workPackage),
+            contentType: 'application/json; charset=utf-8'
+          }, force: true
+        };
 
-        return workPackage.links.update.fetch(options).then(function(form) {
+        return workPackage.links.update.fetch(options).then(function (form) {
           workPackage.form = form;
           return form;
         });
@@ -204,7 +219,7 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
       return $q.when();
     },
 
-    authorizedFor: function(workPackage, action) {
+    authorizedFor: function (workPackage, action) {
       var modelName = 'work_package' + workPackage.id;
 
       AuthorisationService.initModelAuth(modelName, workPackage.links);
@@ -212,74 +227,80 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
       return AuthorisationService.can(modelName, action);
     },
 
-    updateWithPayload: function(workPackage, payload) {
-      var options = { ajax: {
-        method: 'PATCH',
-        url: workPackage.links.updateImmediately.href,
-        headers: {
-          Accept: 'application/hal+json'
-        },
-        data: JSON.stringify(payload),
-        contentType: 'application/json; charset=utf-8'
-      }, force: true};
+    updateWithPayload: function (workPackage, payload) {
+      var options = {
+        ajax: {
+          method: 'PATCH',
+          url: workPackage.links.updateImmediately.href,
+          headers: {
+            Accept: 'application/hal+json'
+          },
+          data: JSON.stringify(payload),
+          contentType: 'application/json; charset=utf-8'
+        }, force: true
+      };
       return workPackage.links.updateImmediately.fetch(options);
     },
 
-    updateWorkPackage: function(workPackage) {
-      var options = { ajax: {
-        method: workPackage.links.updateImmediately.props.method,
-        url: workPackage.links.updateImmediately.props.href,
-        headers: {
-          Accept: 'application/hal+json'
-        },
-        data: getPendingChanges(workPackage),
-        contentType: 'application/json; charset=utf-8'
-      }, force: true};
+    updateWorkPackage: function (workPackage) {
+      var options = {
+        ajax: {
+          method: workPackage.links.updateImmediately.props.method,
+          url: workPackage.links.updateImmediately.props.href,
+          headers: {
+            Accept: 'application/hal+json'
+          },
+          data: getPendingChanges(workPackage),
+          contentType: 'application/json; charset=utf-8'
+        }, force: true
+      };
       return workPackage.links.updateImmediately.fetch(options);
     },
 
-    addWorkPackageRelation: function(workPackage, toId, relationType) {
-      var options = { ajax: {
-        method: 'POST',
-        data: JSON.stringify({
-          to_id: toId,
-          relation_type: relationType
-        }),
-        contentType: 'application/json; charset=utf-8'
-      } };
-      return workPackage.links.addRelation.fetch(options).then(function(relation) {
+    addWorkPackageRelation: function (workPackage, toId, relationType) {
+      var options = {
+        ajax: {
+          method: 'POST',
+          data: JSON.stringify({
+            to_id: toId,
+            relation_type: relationType
+          }),
+          contentType: 'application/json; charset=utf-8'
+        }
+      };
+      return workPackage.links.addRelation.fetch(options).then(function (relation) {
         return relation;
       });
     },
 
-    removeWorkPackageRelation: function(relation) {
-      var options = { ajax: { method: 'DELETE' } };
-      return relation.links.remove.fetch(options).then(function(response){
+    removeWorkPackageRelation: function (relation) {
+      var options = {ajax: {method: 'DELETE'}};
+      return relation.links.remove.fetch(options).then(function (response) {
         return response;
       });
     },
 
-    doQuery: function(url, params) {
+    doQuery: function (url, params) {
       return $http({
         method: 'GET',
         url: url,
         params: params,
         headers: {
-          'caching': { enabled: false },
+          'caching': {enabled: false},
           'Content-Type': 'application/x-www-form-urlencoded'
         }
-      }).then(function(response){
-                return response.data;
-              },
-              function(failedResponse) {
-                NotificationsService.addError(
-                  I18n.t('js.work_packages.query.errors.unretrievable_query')
-                );
-              }
+      }).then(function (response) {
+            return response.data;
+          },
+          function (failedResponse) {
+            NotificationsService.addError(
+                I18n.t('js.work_packages.query.errors.unretrievable_query')
+            );
+          }
       );
     },
 
-    performBulkDelete: function(ids, defaultHandling) {
+    performBulkDelete: function (ids, defaultHandling) {
       if (defaultHandling && !$window.confirm(I18n.t('js.text_work_packages_destroy_confirmation'))) {
         return;
       }
@@ -287,38 +308,39 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
       var params = {
         'ids[]': ids
       };
-      var promise = $http['delete'](PathHelper.workPackagesBulkDeletePath(), { params: params });
+      var promise = $http['delete'](PathHelper.workPackagesBulkDeletePath(), {params: params});
 
       if (defaultHandling) {
-        promise.success(function(data, status) {
-                // TODO wire up to API and process API response
-                NotificationsService.addSuccess(
+        promise
+            .then(function () {
+              // TODO wire up to API and process API response
+              NotificationsService.addSuccess(
                   I18n.t('js.work_packages.message_successful_bulk_delete')
-                );
-                $rootScope.$emit('workPackagesRefreshRequired');
-              })
-              .error(function(data, status) {
-                // FIXME catch this kind of failover in angular instead of redirecting
-                // to a rails-based legacy view
-                params = UrlParamsHelper.buildQueryString(params);
-                window.location = PathHelper.workPackagesBulkDeletePath() + '?' + params;
+              );
+              $rootScope.$emit('workPackagesRefreshRequired');
 
-                // TODO wire up to API and processs API response
-                // NotificationsService.addError(
-                //   I18n.t('js.work_packages.message_error_during_bulk_delete')
-                // );
-              });
+              if ($state.includes('**.list.details.**')
+                  && ids.indexOf(+$state.params.workPackageId) > -1) {
+                $state.go('work-packages.list', $state.params);
+              }
+            })
+            .catch(function () {
+              // FIXME catch this kind of failover in angular instead of redirecting
+              // to a rails-based legacy view
+              params = UrlParamsHelper.buildQueryString(params);
+              window.location = PathHelper.workPackagesBulkDeletePath() + '?' + params;
+            });
       }
 
       return promise;
     },
 
-    toggleWatch: function(workPackage) {
+    toggleWatch: function (workPackage) {
       var toggleWatchLink = (workPackage.links.watch === undefined) ?
-                             workPackage.links.unwatch : workPackage.links.watch;
-      var fetchOptions = { method: toggleWatchLink.props.method };
+          workPackage.links.unwatch : workPackage.links.watch;
+      var fetchOptions = {method: toggleWatchLink.props.method};
 
-      if(toggleWatchLink.props.payload !== undefined) {
+      if (toggleWatchLink.props.payload !== undefined) {
         fetchOptions.contentType = 'application/json; charset=utf-8';
         fetchOptions.data = JSON.stringify(toggleWatchLink.props.payload);
       }
@@ -326,7 +348,7 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
       return toggleWatchLink.fetch({ajax: fetchOptions});
     },
 
-    cache: function() {
+    cache: function () {
       return workPackageCache;
     }
   };
