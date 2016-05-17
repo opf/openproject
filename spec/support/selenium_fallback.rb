@@ -22,12 +22,12 @@ end
 # RSpec.configure do |config|
 #   config.around(:each, selenium: true) do |example|
 #     Capybara.javascript_driver = :selenium
-#     Capybara.default_wait_time = 5
+#     Capybara.default_max_wait_time = 5
 #
 #     example.run
 #
 #     Capybara.javascript_driver = :poltergeist
-#     Capybara.default_wait_time = 2
+#     Capybara.default_max_wait_time = 2
 #   end
 # end
 

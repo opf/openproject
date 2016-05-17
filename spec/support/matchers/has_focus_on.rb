@@ -36,7 +36,7 @@ module Capybara
       starting_time = Time.now
       return_value = false
 
-      while !return_value && Time.now - starting_time < Capybara.default_wait_time
+      while !return_value && Time.now - starting_time < Capybara.default_max_wait_time
 
         focused_element = driver.browser.switch_to.active_element
 
