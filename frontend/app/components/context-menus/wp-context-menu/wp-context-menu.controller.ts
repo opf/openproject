@@ -26,23 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-function wpContextMenuController(
-  $scope,
-  $rootScope,
-  $state,
-  WorkPackagesTableHelper,
-  WorkPackageContextMenuHelper,
-  WorkPackageService,
-  WorkPackagesTableService,
-  wpEditModeState,
-  I18n,
-  $window,
-  PERMITTED_CONTEXT_MENU_ACTIONS
-) {
+function wpContextMenuController($scope,
+                                 $rootScope,
+                                 $state,
+                                 WorkPackagesTableHelper,
+                                 WorkPackageContextMenuHelper,
+                                 WorkPackageService,
+                                 WorkPackagesTableService,
+                                 wpEditModeState,
+                                 I18n,
+                                 $window,
+                                 PERMITTED_CONTEXT_MENU_ACTIONS) {
 
   $scope.I18n = I18n;
 
-  $scope.$watch('row', function() {
+  $scope.$watch('row', function () {
     if (!$scope.row.checked) {
       WorkPackagesTableService.setCheckedStateForAllRows($scope.rows, false);
     }
@@ -51,12 +49,12 @@ function wpContextMenuController(
     $scope.permittedActions = WorkPackageContextMenuHelper.getPermittedActions(getSelectedWorkPackages(), PERMITTED_CONTEXT_MENU_ACTIONS);
   });
 
-  $scope.isDetailsViewLinkPresent = function() {
+  $scope.isDetailsViewLinkPresent = function () {
     return !!angular.element('#work-package-context-menu li.open').length;
   };
 
-  $scope.triggerContextMenuAction = function(action, link) {
-    switch(action) {
+  $scope.triggerContextMenuAction = function (action, link) {
+    switch (action) {
 
       case 'delete':
         deleteSelectedWorkPackages();
@@ -72,10 +70,10 @@ function wpContextMenuController(
     }
   };
 
-  $scope.cancelInlineCreate = function(index, row) {
+  $scope.cancelInlineCreate = function (index, row) {
     $rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
     emitClosingEvents();
-  }
+  };
 
   function emitClosingEvents() {
     $scope.$emit('hideAllDropdowns');
@@ -83,7 +81,7 @@ function wpContextMenuController(
   }
 
   function deleteSelectedWorkPackages() {
-    var ids = getSelectedWorkPackages().map(function(wp) { return wp.id; });
+    var ids = getSelectedWorkPackages().map(wp => wp.id);
 
     WorkPackageService.performBulkDelete(ids, true);
   }
@@ -116,9 +114,11 @@ function wpContextMenuController(
 
     if (workPackagesfromSelectedRows.length === 0) {
       return [workPackagefromContext];
-    } else if (workPackagesfromSelectedRows.indexOf(workPackagefromContext) === -1) {
+    }
+    else if (workPackagesfromSelectedRows.indexOf(workPackagefromContext) === -1) {
       return [workPackagefromContext].concat(workPackagesfromSelectedRows);
-    } else {
+    }
+    else {
       return workPackagesfromSelectedRows;
     }
   }

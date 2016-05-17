@@ -30,21 +30,26 @@ require 'support/pages/abstract_work_package'
 
 module Pages
   class SplitWorkPackage < Pages::AbstractWorkPackage
-    attr_reader :project
+    attr_reader :project, :selector
 
     def initialize(work_package, project = nil)
       super work_package
       @project = project
+      @selector = '.work-packages--details'
     end
 
     def edit_field(attribute)
       super(attribute, container)
     end
 
+    def closed?
+      expect(page).not_to have_selector(@selector)
+    end
+
     private
 
     def container
-      find('.work-packages--details')
+      find(@selector)
     end
 
     def path(tab = 'overview')

@@ -27,53 +27,54 @@
 // ++
 
 import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
-angular
-  .module('openproject')
+import {openprojectModule} from "../../angular-modules";
+
+const panels = {
+  get overview() {
+    return {
+      url: '/overview',
+      reloadOnSearch: false,
+      template: '<overview-panel work-package="workPackage"></overview-panel>'
+    };
+  },
+
+  get watchers() {
+    return {
+      url: '/watchers',
+      reloadOnSearch: false,
+      template: '<watchers-panel work-package="workPackage"></watchers-panel>'
+    }
+  },
+
+  get activity() {
+    return {
+      url: '/activity',
+      reloadOnSearch: false,
+      template: '<activity-panel work-package="workPackage"></activity-panel>'
+    }
+  },
+
+  get activityDetails() {
+    var activity = this.activity;
+    activity.url = '#{activity_no:\d+}';
+
+    return activity;
+  },
+
+  get relations() {
+    return {
+      url: '/relations',
+      reloadOnSearch: false,
+      templateUrl: '/templates/work_packages/tabs/relations.html'
+    };
+  }
+};
+
+openprojectModule
   .config(($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) => {
 
     $urlRouterProvider.when('/work_packages/', '/work_packages');
     $urlMatcherFactoryProvider.strictMode(false);
-
-    var panels = {
-      get overview() {
-        return {
-          url: '/overview',
-          reloadOnSearch: false,
-          template: '<overview-panel work-package="workPackage"></overview-panel>'
-        };
-      },
-
-      get watchers() {
-        return {
-          url: '/watchers',
-          reloadOnSearch: false,
-          template: '<watchers-panel work-package="workPackage"></watchers-panel>'
-        }
-      },
-
-      get activity() {
-        return {
-          url: '/activity',
-          reloadOnSearch: false,
-          template: '<activity-panel work-package="workPackage"></activity-panel>'
-        }
-      },
-
-      get activityDetails() {
-        var activity = this.activity;
-        activity.url = '#{activity_no:\d+}';
-
-        return activity;
-      },
-
-      get relations() {
-        return {
-          url: '/relations',
-          reloadOnSearch: false,
-          templateUrl: '/templates/work_packages/tabs/relations.html'
-        };
-      }
-    };
 
     $stateProvider
       .state('work-packages', {
@@ -214,7 +215,7 @@ angular
     $rootElement.off('click');
     $rootElement.on('click', 'a[data-ui-route]', (event) => {
       if (!jQuery('body').has('div[ui-view]').length || event.ctrlKey || event.metaKey
-          || event.which === 2) {
+        || event.which === 2) {
 
         return;
       }
@@ -244,5 +245,5 @@ angular
         $state.go(toState, toParams);
       }
     });
-    }
+  }
   );
