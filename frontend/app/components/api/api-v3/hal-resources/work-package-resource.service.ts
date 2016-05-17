@@ -143,7 +143,7 @@ export class WorkPackageResource extends HalResource {
 
       angular.forEach(schema, (field, name) => {
         if (this[name] && field && field.writable && field.$isHal
-          && Array.isArray(field.allowedValues)) {
+          && (Array.isArray(field.allowedValues) && field.allowedValues.length > 0)) {
 
           this[name] = _.where(field.allowedValues, {name: this[name].name})[0];
         }
