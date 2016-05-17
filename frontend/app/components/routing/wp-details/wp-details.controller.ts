@@ -52,13 +52,13 @@ function WorkPackageDetailsController($scope,
 
   // TODO This is an ugly hack since most of this controller relies on the old HALAPIResource.
   // We should move all that to the new WorkPackageResource.
-  scopedObservable($scope, wpCacheService.loadWorkPackage(workPackage.props.id))
+  scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.workPackageId))
     .subscribe((wp: WorkPackageResource) => {
       $scope.workPackageResource = wp;
       wp.schema.$load();
     });
 
-  WorkPackageService.getWorkPackage($stateParams.workPackageId)
+  WorkPackageService.getWorkPackage($state.params.workPackageId)
     .then(function (workPackage) {
       init(workPackage);
     });
