@@ -37,6 +37,7 @@ export class WorkPackageEditFieldController {
   public fieldName: string;
   public fieldType: string;
   public fieldIndex: number;
+  public fieldLabel: string;
   public field: Field;
   public errorenous: boolean;
 
@@ -119,6 +120,7 @@ export class WorkPackageEditFieldController {
 
       this.editable = fieldSchema && fieldSchema.writable;
       this.fieldType = fieldSchema && this.wpEditField.fieldType(fieldSchema.type);
+      this.fieldLabel = this.fieldLabel || fieldSchema.name;
 
       // Activate the field automatically when in editAllMode
       if (this.inEditMode && this.isEditable) {
