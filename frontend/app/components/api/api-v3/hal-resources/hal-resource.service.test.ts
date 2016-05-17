@@ -520,8 +520,31 @@ describe('HalResource service', () => {
       expect(resource.embedded).to.exist;
     });
 
-    it('should have embedded, but not linked, resources as properties', () => {
+    it('should have embedded, but not linked resources as properties', () => {
       expect(resource.notLinked).to.exist;
+    });
+
+    describe('when a resource that is linked and embedded is updated', () => {
+      var embeddedResource;
+      beforeEach(() => {
+        embeddedResource = {
+          $isHal: true,
+          $links: {
+            self: {
+              $link: {
+                method: 'get',
+                href: 'newHref'
+              }
+            }
+          }
+        };
+
+        resource.embedded = embeddedResource;
+      });
+      
+      it('should update the source', () => {
+        expect(resource.$source._links.embedded.href).to.eq('newHref');
+      });
     });
 
     describe('when after generating the properties from the links, each property', () => {
