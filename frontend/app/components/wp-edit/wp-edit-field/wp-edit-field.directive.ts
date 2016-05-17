@@ -242,7 +242,7 @@ function wpEditField() {
 
     scope: {
       fieldName: '=wpEditField',
-      fieldLabel: '=wpEditFieldLabel',
+      fieldLabel: '=?wpEditFieldLabel',
       fieldIndex: '=',
       columns: '=',
       wrapperClasses: '=wpEditFieldWrapperClasses'

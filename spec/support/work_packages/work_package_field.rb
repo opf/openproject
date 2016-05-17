@@ -47,6 +47,10 @@ class WorkPackageField
     expect(element).to have_no_selector(field_type, wait: 10)
   end
 
+  def expect_invalid
+    expect(element).to have_selector("#{input_selector}:invalid")
+  end
+
   def expect_error
     expect(page).to have_selector("#{field_selector}.-error")
   end

@@ -8,6 +8,7 @@
           name="value"
           focus="vm.shouldFocus()"
           ng-hide="vm.field.isPreview"
+          ng-required="vm.field.required"
           ng-disabled="vm.field.isBusy"
           ng-model="vm.field.fieldVal.raw"
           ng-attr-id="{{vm.htmlId}}">  </textarea>

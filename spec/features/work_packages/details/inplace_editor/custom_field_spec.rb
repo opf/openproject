@@ -89,9 +89,7 @@ describe 'custom field inplace editor', js: true, selenium: true do
 
       it 'renders errors for invalid entries' do
         # Invalid input (non-digit)
-        expect_update '',
-                      type: :error,
-                      message: "MyNumber can't be blank"
+        expect_field_invalid ''
       end
     end
   end
