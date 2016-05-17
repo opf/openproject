@@ -436,10 +436,11 @@ class WorkPackage < ActiveRecord::Base
       author == user,
       assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
     )
-    statuses << status unless statuses.empty?
     statuses << Status.default if include_default
-    statuses = statuses.uniq.sort
-    blocked? ? statuses.reject(&:is_closed?) : statuses
+    statuses.reject!(&:is_closed?) if blocked?
+    statuses << status
+
+    statuses.uniq.sort
   end
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

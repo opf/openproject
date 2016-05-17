@@ -28,40 +28,13 @@
 
 require 'spec_helper'
 
-describe WorkPackage, type: :model do
-  let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
-  let(:stub_version) { FactoryGirl.build_stubbed(:version) }
-  let(:stub_project) { FactoryGirl.build_stubbed(:project) }
-  let(:work_package) { FactoryGirl.create(:work_package) }
-  let(:user) { FactoryGirl.create(:user) }
-
-  let(:type) { FactoryGirl.create(:type_standard) }
-  let(:project) { FactoryGirl.create(:project, types: [type]) }
-  let(:status) { FactoryGirl.create(:status) }
-  let(:priority) { FactoryGirl.create(:priority) }
-  let(:work_package) {
-    WorkPackage.new.tap do |w|
-      w.attributes = { project_id: project.id,
-                       type_id: type.id,
-                       author_id: user.id,
-                       status_id: status.id,
-                       priority: priority,
-                       subject: 'test_create',
-                       description: 'WorkPackage#create',
-                       estimated_hours: '1:30' }
-    end
-  }
-  describe '#new_statuses_allowed_to' do
+describe Status, type: :model do
+  describe '#find_new_statuses_allowed_to and #new_statuses_allowed_to' do
     let(:role) { FactoryGirl.create(:role) }
     let(:type) { FactoryGirl.create(:type) }
     let(:user) { FactoryGirl.create(:user) }
-    let(:other_user) { FactoryGirl.create(:user) }
     let(:statuses) { (1..5).map { |_i| FactoryGirl.create(:status) } }
-    let(:priority) { FactoryGirl.create :priority, is_default: true }
     let(:status) { statuses[0] }
-    let(:project) do
-      FactoryGirl.create(:project, types: [type]).tap { |p| p.add_member(user, role).save }
-    end
     let(:workflow_a) {
       FactoryGirl.create(:workflow, role_id: role.id,
                                     type_id: type.id,
@@ -96,8 +69,11 @@ describe WorkPackage, type: :model do
     }
     let(:workflows) { [workflow_a, workflow_b, workflow_c, workflow_d] }
 
-    it 'should respect workflows w/o author and w/o assignee' do
+    before do
       workflows
+    end
+
+    it 'should respect workflows w/o author and w/o assignee' do
       expect(status.new_statuses_allowed_to([role], type, false, false))
         .to match_array([statuses[1]])
       expect(status.find_new_statuses_allowed_to([role], type, false, false))
@@ -105,7 +81,6 @@ describe WorkPackage, type: :model do
     end
 
     it 'should respect workflows w/ author and w/o assignee' do
-      workflows
       expect(status.new_statuses_allowed_to([role], type, true, false))
         .to match_array([statuses[1], statuses[2]])
       expect(status.find_new_statuses_allowed_to([role], type, true, false))
@@ -113,7 +88,6 @@ describe WorkPackage, type: :model do
     end
 
     it 'should respect workflows w/o author and w/ assignee' do
-      workflows
       expect(status.new_statuses_allowed_to([role], type, false, true))
         .to match_array([statuses[1], statuses[3]])
       expect(status.find_new_statuses_allowed_to([role], type, false, true))
@@ -121,57 +95,10 @@ describe WorkPackage, type: :model do
     end
 
     it 'should respect workflows w/ author and w/ assignee' do
-      workflows
       expect(status.new_statuses_allowed_to([role], type, true, true))
         .to match_array([statuses[1], statuses[2], statuses[3], statuses[4]])
       expect(status.find_new_statuses_allowed_to([role], type, true, true))
         .to match_array([statuses[1], statuses[2], statuses[3], statuses[4]])
-    end
-
-    it 'should respect workflows w/o author and w/o assignee on work packages' do
-      workflows
-      work_package = WorkPackage.create(type_id: type.id,
-                                        status: status,
-                                        priority: priority,
-                                        project: project)
-      expect(work_package.new_statuses_allowed_to(user)).to match_array([statuses[0], statuses[1]])
-    end
-
-    it 'should respect workflows w/ author and w/o assignee on work packages' do
-      workflows
-      work_package = WorkPackage.create(type_id: type.id,
-                                        status: status,
-                                        priority: priority,
-                                        project: project,
-                                        author: user)
-      expect(work_package.new_statuses_allowed_to(user))
-        .to match_array([statuses[0], statuses[1], statuses[2]])
-    end
-
-    it 'should respect workflows w/o author and w/ assignee on work packages' do
-      workflows
-      work_package = WorkPackage.create(type_id: type.id,
-                                        status: status,
-                                        subject: 'test',
-                                        priority: priority,
-                                        project: project,
-                                        assigned_to: user,
-                                        author: other_user)
-      expect(work_package.new_statuses_allowed_to(user))
-        .to match_array([statuses[0], statuses[1], statuses[3]])
-    end
-
-    it 'should respect workflows w/ author and w/ assignee on work packages' do
-      workflows
-      work_package = WorkPackage.create(type_id: type.id,
-                                        status: status,
-                                        subject: 'test',
-                                        priority: priority,
-                                        project: project,
-                                        author: user,
-                                        assigned_to: user)
-      expect(work_package.new_statuses_allowed_to(user))
-        .to match_array([statuses[0], statuses[1], statuses[2], statuses[3], statuses[4]])
     end
   end
 end
