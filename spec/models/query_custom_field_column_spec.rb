@@ -29,21 +29,24 @@
 require 'spec_helper'
 require_relative 'shared_query_column_specs'
 
-describe ::QueryColumn, type: :model do
-  let(:instance) { QueryColumn.new(:query_column) }
+describe ::QueryCustomFieldColumn, type: :model do
+  let(:custom_field) {
+    mock_model(CustomField, field_format: 'string',
+                            order_statements: nil)
+  }
+  let(:instance) { described_class.new(custom_field) }
 
   it_behaves_like 'query column'
 
   describe '#available?' do
-    context ':done_ratio column' do
-      let(:instance) { QueryColumn.new(:done_ratio) }
+    context 'for text custom fields' do
+      let(:custom_field) {
+        mock_model(CustomField, field_format: 'text',
+                                order_statements: nil)
+      }
 
-      it 'is not available if the setting disables it' do
-        allow(WorkPackage)
-          .to receive(:done_ratio_disabled?)
-          .and_return(true)
-
-        expect(instance).to_not be_available
+      it 'is false for long text custom fields' do
+        expect(instance.available?).to be_falsey
       end
     end
   end

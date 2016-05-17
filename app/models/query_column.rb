@@ -28,19 +28,30 @@
 #++
 
 class QueryColumn
-  attr_accessor :name, :sortable, :groupable, :summable, :join, :default_order
+  attr_accessor :name,
+                :sortable,
+                :groupable,
+                :summable,
+                :available,
+                :join,
+                :default_order
   alias_method :summable?, :summable
   include Redmine::I18n
 
   def initialize(name, options = {})
     self.name = name
-    self.sortable = options[:sortable]
-    self.groupable = options[:groupable]
-    self.summable = options[:summable]
+
+    %i(sortable
+       groupable
+       summable
+       default_order).each do |attribute|
+      send("#{attribute}=", options[attribute])
+    end
+
+    self.available = options.fetch(:available, true)
 
     self.join = options.delete(:join)
 
-    self.default_order = options[:default_order]
     @caption_key = options[:caption] || name.to_s
   end
 
@@ -68,6 +79,18 @@ class QueryColumn
 
   def value(issue)
     issue.send name
+  end
+
+  def available?
+    available
+  end
+
+  def available
+    if name == :done_ratio
+      !WorkPackage.done_ratio_disabled?
+    else
+      @available
+    end
   end
 
   def sum_of(work_packages)

@@ -226,14 +226,15 @@ class Query < ActiveRecord::Base
   def available_columns
     return @available_columns if @available_columns
     @available_columns = ::Query.available_columns
-    @available_columns += (project ?
-                            project.all_work_package_custom_fields :
+    @available_columns += if project
+                            project.all_work_package_custom_fields
+                          else
                             WorkPackageCustomField.all
-                          ).map { |cf| ::QueryCustomFieldColumn.new(cf) }
-    if WorkPackage.done_ratio_disabled?
-      @available_columns.select! { |column| column.name != :done_ratio }
-    end
-    @available_columns
+                          end.map { |cf| ::QueryCustomFieldColumn.new(cf) }
+
+    # have to use this instead of
+    # #select! as #select! can return nil
+    @available_columns = @available_columns.select(&:available?)
   end
 
   def self.available_columns=(v)
