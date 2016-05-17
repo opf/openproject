@@ -1,4 +1,5 @@
-require 'support/work_packages/work_package_field'
+require_relative './work_package_field'
+
 class WorkPackageTextAreaField < WorkPackageField
 
   attr_reader :trigger
@@ -22,6 +23,10 @@ class WorkPackageTextAreaField < WorkPackageField
     else
       expect(element).to have_selector("#{control_link}[disabled]")
     end
+  end
+
+  def save!
+    submit_by_click
   end
 
   def submit_by_click
