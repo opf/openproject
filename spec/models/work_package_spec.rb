@@ -42,13 +42,13 @@ describe WorkPackage, type: :model do
   let(:work_package) {
     WorkPackage.new.tap do |w|
       w.attributes = { project_id: project.id,
-                             type_id: type.id,
-                             author_id: user.id,
-                             status_id: status.id,
-                             priority: priority,
-                             subject: 'test_create',
-                             description: 'WorkPackage#create',
-                             estimated_hours: '1:30' }
+                       type_id: type.id,
+                       author_id: user.id,
+                       status_id: status.id,
+                       priority: priority,
+                       subject: 'test_create',
+                       description: 'WorkPackage#create',
+                       estimated_hours: '1:30' }
     end
   }
 
@@ -74,11 +74,11 @@ describe WorkPackage, type: :model do
       let(:work_package_minimal) {
         WorkPackage.new.tap do |w|
           w.attributes = { project_id: project.id,
-                                 type_id: type.id,
-                                 author_id: user.id,
-                                 status_id: status.id,
-                                 priority: priority,
-                                 subject: 'test_create' }
+                           type_id: type.id,
+                           author_id: user.id,
+                           status_id: status.id,
+                           priority: priority,
+                           subject: 'test_create' }
         end
       }
 
@@ -1135,112 +1135,6 @@ describe WorkPackage, type: :model do
             expect(instance.errors[:due_date].size).to eq(1)
           end
         end
-      end
-    end
-  end
-
-  describe 'Acts as journalized' do
-    before(:each) do
-      Status.delete_all
-      IssuePriority.delete_all
-
-      @type ||= FactoryGirl.create(:type_feature)
-
-      @status_resolved ||= FactoryGirl.create(:status, name: 'Resolved', is_default: false)
-      @status_open ||= FactoryGirl.create(:status, name: 'Open', is_default: true)
-      @status_rejected ||= FactoryGirl.create(:status, name: 'Rejected', is_default: false)
-
-      role = FactoryGirl.create(:role)
-      FactoryGirl.create(:workflow,
-                         old_status: @status_open,
-                         new_status: @status_resolved,
-                         role: role,
-                         type_id: @type.id)
-      FactoryGirl.create(:workflow,
-                         old_status: @status_resolved,
-                         new_status: @status_rejected,
-                         role: role,
-                         type_id: @type.id)
-
-      @priority_low ||= FactoryGirl.create(:priority_low, is_default: true)
-      @priority_high ||= FactoryGirl.create(:priority_high)
-      @project ||= FactoryGirl.create(:project_with_types)
-
-      @current = FactoryGirl.create(:user, login: 'user1', mail: 'user1@users.com')
-      allow(User).to receive(:current).and_return(@current)
-      @project.add_member!(@current, role)
-
-      @user2 = FactoryGirl.create(:user, login: 'user2', mail: 'user2@users.com')
-
-      @issue ||= FactoryGirl.create(:work_package,
-                                    project: @project,
-                                    status: @status_open,
-                                    type: @type,
-                                    author: @current)
-    end
-
-    describe 'ignore blank to blank transitions' do
-      it 'should not include the "nil to empty string"-transition' do
-        @issue.description = nil
-        @issue.save!
-
-        @issue.description = ''
-        expect(@issue.send(:incremental_journal_changes)).to be_empty
-      end
-    end
-
-    describe 'Acts as journalized recreate initial journal' do
-      it 'should not include certain attributes' do
-        recreated_journal = @issue.recreate_initial_journal!
-
-        expect(recreated_journal.details.include?('rgt')).to eq(false)
-        expect(recreated_journal.details.include?('lft')).to eq(false)
-        expect(recreated_journal.details.include?('lock_version')).to eq(false)
-        expect(recreated_journal.details.include?('updated_at')).to eq(false)
-        expect(recreated_journal.details.include?('updated_on')).to eq(false)
-        expect(recreated_journal.details.include?('id')).to eq(false)
-        expect(recreated_journal.details.include?('type')).to eq(false)
-        expect(recreated_journal.details.include?('root_id')).to eq(false)
-      end
-
-      it 'should not include useless transitions' do
-        recreated_journal = @issue.recreate_initial_journal!
-
-        recreated_journal.details.values.each do |change|
-          expect(change.first).not_to eq(change.last)
-        end
-      end
-
-      it 'should not be different from the initially created journal by aaj' do
-        # Creating four journals total
-        @issue.status = @status_resolved
-        @issue.assigned_to = @user2
-        @issue.save!
-        @issue.reload
-
-        @issue.priority = @priority_high
-        @issue.save!
-        @issue.reload
-
-        @issue.status = @status_rejected
-        @issue.priority = @priority_low
-        @issue.estimated_hours = 3
-        @issue.save!
-
-        initial_journal = @issue.journals.first
-        recreated_journal = @issue.recreate_initial_journal!
-
-        expect(initial_journal).to be_identical(recreated_journal)
-      end
-
-      it 'should not validate with oddly set estimated_hours' do
-        @issue.estimated_hours = 'this should not work'
-        expect(@issue).not_to be_valid
-      end
-
-      it 'should validate with sane estimated_hours' do
-        @issue.estimated_hours = '13h'
-        expect(@issue).to be_valid
       end
     end
   end
