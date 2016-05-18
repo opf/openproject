@@ -81,7 +81,7 @@ describe AccountController, type: :controller do
                                                                auth_source_id: 66)
         post :login, username: 'foo', password: 'bar'
 
-        expect(response).to redirect_to home_url
+        expect(response).to redirect_to home_url(first_time_user: true)
         user = User.find_by_login('foo')
         expect(user).to be_an_instance_of User
         expect(user.auth_source_id).to eq(66)
@@ -318,36 +318,6 @@ describe AccountController, type: :controller do
             user = User.where(login: 'register').last
             expect(user).not_to be_nil
             expect(user.status).to eq(User::STATUSES[:active])
-          end
-        end
-
-        context 'without demo project' do
-          let(:redirect_to_path) { my_page_path }
-
-          it_behaves_like 'automatic self registration succeeds'
-        end
-
-        context 'with demo project' do
-          let!(:project) { FactoryGirl.create :project, identifier: 'demo' }
-
-          before do
-            allow(controller).to receive(:welcome_project).and_return(project)
-          end
-
-          context 'with the user not being admin' do
-            let(:redirect_to_path) { my_page_path }
-
-            it_behaves_like 'automatic self registration succeeds'
-          end
-
-          context 'with the user being admin' do
-            let(:redirect_to_path) { '/projects/demo/work_packages' }
-
-            before do
-              allow_any_instance_of(User).to receive(:admin?).and_return(true)
-            end
-
-            it_behaves_like 'automatic self registration succeeds'
           end
         end
       end

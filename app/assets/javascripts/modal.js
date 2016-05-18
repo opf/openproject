@@ -254,6 +254,13 @@ var ModalHelper = (function() {
       jQuery('.ui-dialog-titlebar').hide();
       jQuery('.ui-dialog-buttonpane').hide();
 
+      // HACK!!!
+      // To allow the next button to close the modal it has to outside its DOM. Once the button has a real functionality this has to be removed!
+      // Other places to be removed in the scope of this hack are marked with #removeHack
+      modalDiv
+        .parent().append('<button class="button -highlight -large -position-absolute" title=' + I18n.t('js.label_next') + '>' + I18n.t('js.label_next') + '</button>')
+        .click(jQuery.proxy(this.close, this));
+
       this._firstLoad = false;
     }
 

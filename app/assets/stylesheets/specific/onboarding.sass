@@ -74,8 +74,17 @@
     margin-left: 1em
     margin-bottom: 0rem
 
+    // #removeHack
+    visibility: hidden
+
 // Workaround for a correct header and indentation of content
 // Since there is a hidden element in the DOM which cannot be accessed via CSS, the in_modal class is the first accessible.
 .in_modal .controller-onboarding
   #content
     padding-left: 1.5rem
+
+// #removeHack
+.-position-absolute
+  position: absolute
+  bottom: 0
+  right: 0

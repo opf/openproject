@@ -84,7 +84,7 @@ describe 'Login', type: :feature do
       end
 
       # on the my page
-      expect(current_path).to eql my_page_path
+      expect(current_path).to eql "/"
     end
   end
 end
