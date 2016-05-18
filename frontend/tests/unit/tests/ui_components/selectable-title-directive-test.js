@@ -109,7 +109,7 @@ describe('selectableTitle Directive', function() {
     });
 
     it('should show a title (tooltip) for the title', function() {
-      var content = element.find('h2').first();
+      var content = element.find('h2 a').first();
       expect(content.attr('title')).to.equal('Title1');
     });
 
