@@ -1,13 +1,4 @@
 GIT
-  remote: git://github.com/carrierwaveuploader/carrierwave.git
-  revision: a2c93fe1a9d3a3f60d1662e5ec34fdba7bf2b304
-  specs:
-    carrierwave (0.10.0)
-      activemodel (>= 4.0.0)
-      activesupport (>= 4.0.0)
-      mime-types (>= 1.16)
-
-GIT
   remote: git://github.com/finnlabs/awesome_nested_set.git
   revision: 7bd473e845e2f17f5287e8b7534bd88d4bbbf7d6
   branch: v2.1.6-rails4
@@ -176,6 +167,12 @@ GEM
     capybara-screenshot (1.0.11)
       capybara (>= 1.0, < 3)
       launchy
+    carrierwave (0.11.2)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+      mime-types (>= 1.16)
+      mimemagic (>= 0.3.0)
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     climate_control (0.0.3)
@@ -231,9 +228,9 @@ GEM
     disposable (0.0.9)
       representable (~> 2.0)
       uber
-    domain_name (0.5.20160309)
     docile (1.1.5)
       unf (>= 0.0.5, < 1.0.0)
+    domain_name (0.5.20160309)
     equalizer (0.0.11)
     equivalent-xml (0.6.0)
       nokogiri (>= 1.4.3)
@@ -322,6 +319,7 @@ GEM
       mime-types (>= 1.16, < 3)
     method_source (0.8.2)
     mime-types (2.99.1)
+    mimemagic (0.3.1)
     mini_portile2 (2.0.0)
     minisyntax (0.2.5)
     minitest (5.8.4)
@@ -586,7 +584,7 @@ DEPENDENCIES
   capybara-ng (~> 0.2.2)
   capybara-screenshot (~> 1.0.11)
   capybara-select2!
-  carrierwave!
+  carrierwave (~> 0.11.2)
   cocaine
   codecov
   coderay (~> 1.1.0)
