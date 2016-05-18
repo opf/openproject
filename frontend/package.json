@@ -57,7 +57,7 @@
     "yaml-loader": "^0.1.0"
   },
   "scripts": {
-    "test": "npm run karma",
+    "test": "npm run webpack && npm run karma",
     "karma": "./scripts/karma-runner.js",
     "postinstall": "./node_modules/.bin/bower install --config.interactive=false",
     "webpack": "./node_modules/.bin/webpack --colors --progress",

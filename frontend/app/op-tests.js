@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 //-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -28,4 +26,5 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-require('../dev_modules/run-karma')();
+var requireComponent = require.context('./components/', true, /^.*\.test\.(js|ts)$/);
+requireComponent.keys().forEach(requireComponent);

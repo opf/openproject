@@ -92,7 +92,8 @@ module.exports = {
 
   entry: _.merge({
     'global': './global.js',
-    'core-app': './openproject-app.js'
+    'core-app': './openproject-app.js',
+    'tests': './op-tests.js'
   }, pluginEntries),
 
   output: {
