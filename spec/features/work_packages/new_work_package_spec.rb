@@ -8,9 +8,9 @@ describe 'new work package', js: true do
   let(:type_task) { FactoryGirl.create(:type_task) }
   let(:type_bug) { FactoryGirl.create(:type_bug) }
   let(:types) { [type_task, type_bug] }
-  let(:status) { FactoryGirl.build(:status, is_default: true) }
-  let(:priority) { FactoryGirl.build(:priority, is_default: true) }
-  let(:project) {
+  let!(:status) { FactoryGirl.create(:status, is_default: true) }
+  let!(:priority) { FactoryGirl.create(:priority, is_default: true) }
+  let!(:project) {
     FactoryGirl.create(:project, types: types)
   }
 
@@ -29,17 +29,6 @@ describe 'new work package', js: true do
     FactoryGirl.create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
   end
 
-  before do
-    status.save!
-    priority.save!
-    disable_leaving_unsaved_warning
-
-    login_as(user)
-
-    work_packages_page.visit_index
-    create_work_package('Task')
-  end
-
   def save_work_package!(expect_success=true)
     within '.work-packages--edit-actions' do
       click_button 'Save'
@@ -52,14 +41,27 @@ describe 'new work package', js: true do
 
   def create_work_package(type)
     loading_indicator_saveguard
-    work_packages_page.click_toolbar_button 'Work package'
 
-    page.find('#work-package-type select').select type
+    button = find('.add-work-package:not([disabled])', text: 'Work package')
+    button.click
+
+    loading_indicator_saveguard
+
+    page.find('#inplace-edit--write-value--type option', text: type).select_option
+  end
+
+  before do
+    disable_leaving_unsaved_warning
+    login_as(user)
   end
 
   shared_examples 'work package creation workflow' do
+    before do
+      create_work_package('Task')
+    end
+
     it 'creates a subsequent work package' do
-      work_packages_page.find_subject_field.set(subject)
+      find('#work-package-subject input').set(subject)
       save_work_package!
 
       subject_field.expect_state_text(subject)
@@ -123,8 +125,8 @@ describe 'new work package', js: true do
             is_required: false,
             is_for_all: true)
         }
-        let!(:type_task) { FactoryGirl.create(:type_task, custom_fields: custom_fields) }
-        let!(:project) {
+        let(:type_task) { FactoryGirl.create(:type_task, custom_fields: custom_fields) }
+        let(:project) {
           FactoryGirl.create(:project,
                              types: types,
                              work_package_custom_fields: custom_fields)
@@ -161,8 +163,8 @@ describe 'new work package', js: true do
     let(:wp_page) { Pages::SplitWorkPackage.new(WorkPackage.new) }
 
     before do
-      # Safeguard to ensure the create form to be loaded
-      expect(page).to have_selector(safeguard_selector, wait: 10)
+      table = Pages::WorkPackagesTable.new(project)
+      table.visit!
     end
 
     it_behaves_like 'work package creation workflow'
@@ -170,12 +172,12 @@ describe 'new work package', js: true do
 
   context 'full screen' do
     let(:safeguard_selector) { '.work-package--new-state' }
-    let(:wp_page) { Pages::FullWorkPackage.new(WorkPackage.new) }
+    let(:existing_wp) { FactoryGirl.create :work_package, type: type_bug, project: project }
+    let(:wp_page) { Pages::FullWorkPackage.new(existing_wp) }
 
     before do
-      find('#work-packages-show-view-button:not([disabled])').click
-      # Safeguard to ensure the create form to be loaded
-      expect(page).to have_selector(safeguard_selector, wait: 10)
+      wp_page.visit!
+      wp_page.ensure_page_loaded
     end
 
     it_behaves_like 'work package creation workflow'
