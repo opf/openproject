@@ -123,8 +123,8 @@ describe 'new work package', js: true do
             is_required: false,
             is_for_all: true)
         }
-        let(:type_task) { FactoryGirl.create(:type_task, custom_fields: custom_fields) }
-        let(:project) {
+        let!(:type_task) { FactoryGirl.create(:type_task, custom_fields: custom_fields) }
+        let!(:project) {
           FactoryGirl.create(:project,
                              types: types,
                              work_package_custom_fields: custom_fields)
@@ -173,7 +173,7 @@ describe 'new work package', js: true do
     let(:wp_page) { Pages::FullWorkPackage.new(WorkPackage.new) }
 
     before do
-      find('#work-packages-show-view-button').click
+      find('#work-packages-show-view-button:not([disabled])').click
       # Safeguard to ensure the create form to be loaded
       expect(page).to have_selector(safeguard_selector, wait: 10)
     end
