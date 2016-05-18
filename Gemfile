@@ -134,8 +134,11 @@ gem 'unicorn'
 
 gem 'nokogiri', '~> 1.6.7'
 
+# carrierwave 0.11.3 should allow to use fog-aws without the rest of the
+# fog dependency chain. We only need aws here, so we can avoid it
+# at the cost of referencing carrierwave#master for now.
 gem 'fog-aws'
-gem 'carrierwave', '~> 0.11.2'
+gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave', branch: 'master'
 
 group :test do
   gem 'rack-test', '~> 0.6.2'

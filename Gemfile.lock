@@ -30,6 +30,16 @@ GIT
     svg-graph (1.0.2)
 
 GIT
+  remote: https://github.com/carrierwaveuploader/carrierwave
+  revision: b31f7ce006bade550be0ad946d0b993b799358e3
+  branch: master
+  specs:
+    carrierwave (0.11.0)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
+
+GIT
   remote: https://github.com/finnlabs/rack-protection.git
   revision: 5a7d1bd2f05ca75faf7909c8cc978732a0080898
   ref: 5a7d1bd
@@ -167,12 +177,6 @@ GEM
     capybara-screenshot (1.0.11)
       capybara (>= 1.0, < 3)
       launchy
-    carrierwave (0.11.2)
-      activemodel (>= 3.2.0)
-      activesupport (>= 3.2.0)
-      json (>= 1.7)
-      mime-types (>= 1.16)
-      mimemagic (>= 0.3.0)
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     climate_control (0.0.3)
@@ -319,7 +323,6 @@ GEM
       mime-types (>= 1.16, < 3)
     method_source (0.8.2)
     mime-types (2.99.1)
-    mimemagic (0.3.1)
     mini_portile2 (2.0.0)
     minisyntax (0.2.5)
     minitest (5.8.4)
@@ -584,7 +587,7 @@ DEPENDENCIES
   capybara-ng (~> 0.2.2)
   capybara-screenshot (~> 1.0.11)
   capybara-select2!
-  carrierwave (~> 0.11.2)
+  carrierwave!
   cocaine
   codecov
   coderay (~> 1.1.0)
