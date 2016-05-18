@@ -42,7 +42,7 @@ describe('wpDisplayAttr directive', () => {
   beforeEach(angular.mock.module('openproject.templates', $provide => {
     $provide.constant('ConfigurationService', {
       isTimezoneSet: sinon.stub().returns(false),
-      accessibilityModeEnabled: sinon.stub().returns(false);
+      accessibilityModeEnabled: sinon.stub().returns(false)
     });
   }));
 
@@ -90,12 +90,6 @@ describe('wpDisplayAttr directive', () => {
           "writable": true,
           "minLength": 1,
           "maxLength": 255
-        },
-        "sheep": {
-          "type": "Integer",
-          "name": "Sheep",
-          "required": true,
-          "writable": true
         },
         "sheep": {
           "type": "Integer",

@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-var expect = chai.expect;
-
 describe('lodash service', () => {
   var lodash;
 

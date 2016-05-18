@@ -32,8 +32,9 @@
  */
 
 export class ApiPathsService {
+  public basePath:string;
+  
   protected paths:{[name:string]:string};
-  protected basePath:string;
 
   public get appBasePath():string {
     if (this.basePath === '') return this.basePath;

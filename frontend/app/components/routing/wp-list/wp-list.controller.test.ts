@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-var expect = chai.expect;
 
 describe('WorkPackagesListController', () => {
   var scope;

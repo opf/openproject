@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-const expect = chai.expect;
 
 describe('halTransform service', () => {
   var halTransform;
