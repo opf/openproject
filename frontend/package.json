@@ -7,7 +7,7 @@
     "chai-as-promised": "^4.1.1",
     "exec": "0.0.6",
     "json2htmlcov": "~0.1.1",
-    "karma": "~0.12.3",
+    "karma": "^0.13.22",
     "karma-chai": "~0.1.0",
     "karma-chai-as-promised": "^0.1.2",
     "karma-chai-sinon": "~0.1.3",
