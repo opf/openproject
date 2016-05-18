@@ -28,10 +28,6 @@
 
 var path = require('path');
 
-var frontendPath = path.resolve(__dirname, '..');
-var tsOutDir = path.resolve(frontendPath, 'tests/unit/tests/typescript');
-
 module.exports = {
-  frontendPath: frontendPath,
-  tsOutDir: tsOutDir
+  frontendPath: path.resolve(__dirname, '..'),
 };
