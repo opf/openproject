@@ -179,6 +179,15 @@ export class WorkPackageEditFieldController {
     return this.reset(focus);
   }
 
+  /**
+   *  Avoid clicks within the form to bubble up to the row handler.
+   *  Otherwise, clicks within wp-edit-fields may cause the split / full view to open.
+   */
+  public haltUserFormClick(event) {
+    event.stopPropagation();
+    return false;
+  }
+
   public setErrorState(error = true) {
     this.errorenous = error;
     this.$element.toggleClass('-error', error);

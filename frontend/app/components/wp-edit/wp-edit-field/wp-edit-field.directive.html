@@ -8,6 +8,8 @@
      ]">
 
   <form ng-if="vm.workPackage && vm.active"
+        ng-click="vm.haltUserFormClick($event)"
+        ng-dblclick="vm.haltUserFormClick($event)"
         name="vm.fieldForm"
         ng-submit="vm.submit()">
 

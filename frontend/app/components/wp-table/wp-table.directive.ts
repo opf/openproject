@@ -163,7 +163,7 @@ function wpTable(
 
       function openWhenInSplitView(workPackage) {
         if ($state.includes('work-packages.list.details')) {
-          $state.transitionTo(
+          $state.go(
             'work-packages.list.details.overview',
             { workPackageId: workPackage.id }
           );
