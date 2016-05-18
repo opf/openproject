@@ -91,11 +91,11 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
   }
 
   private getForm() {
-    if (this.form) {
-      return this.form;
+    if (!this.form) {
+      this.form = this.apiWorkPackages.emptyCreateForm();
     }
 
-    return this.apiWorkPackages.emptyCreateForm();
+    return this.form;
   }
 
 }

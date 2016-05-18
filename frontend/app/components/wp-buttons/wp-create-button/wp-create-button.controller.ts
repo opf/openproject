@@ -33,7 +33,7 @@ export default class WorkPackageCreateButtonController {
   public text: any;
   public types: any;
 
-  protected resource;
+  public allowed;
 
   public get inProjectContext() {
     return !!this.projectIdentifier;
@@ -47,10 +47,6 @@ export default class WorkPackageCreateButtonController {
       button: I18n.t('js.label_work_package'),
       create: I18n.t('js.label_create_work_package')
     };
-  }
-
-  public get allowed() {
-    return this.resource && !!this.resource.$links.createWorkPackage;
   }
 
   public isDisabled() {

@@ -50,7 +50,7 @@ export class WorkPackageResource extends HalResource {
     wp.id = 'new-' + Date.now();
 
     // Set update link to form
-    wp.$links.update = resource.$links.self;
+    wp.$links.update = form.$links.self;
     return wp;
   }
 
