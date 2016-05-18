@@ -39,12 +39,6 @@ describe 'custom field inplace editor', js: true, selenium: true do
     wp_page.expect_notification(update_args)
   end
 
-  def expect_field_invalid(value)
-    field.input_element.set value
-    field.submit_by_enter
-    expect(field).to have_selector("#{field.input_selector}:invalid")
-  end
-
   describe 'integer type' do
     let(:custom_field) {
       FactoryGirl.create(:integer_issue_custom_field, args.merge(name: 'MyNumber'))
@@ -57,9 +51,6 @@ describe 'custom field inplace editor', js: true, selenium: true do
       }
 
       it 'renders errors for invalid entries' do
-        # Invalid input (non-digit)
-        expect_field_invalid 'certainly no digit'
-
         # exceeding max length
         expect_update '123456',
                       type: :error,
@@ -80,9 +71,6 @@ describe 'custom field inplace editor', js: true, selenium: true do
     context 'no restrictions' do
       let(:args) { {} }
       it 'renders errors for invalid entries' do
-        # Invalid input (non-digit)
-        expect_field_invalid 'certainly no digit'
-
         # Valid input
         expect_update '9999999999',
                       message: I18n.t('js.notice_successful_update')
