@@ -153,6 +153,7 @@ class WorkPackageField
       when :assignee,
            :responsible,
            :priority,
+           :project,
            :status,
            :type,
            :category
