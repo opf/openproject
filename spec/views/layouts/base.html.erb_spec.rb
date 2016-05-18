@@ -140,11 +140,11 @@ describe 'layouts/base', type: :view do
     end
 
     it 'renders main favicon' do
-      expect(rendered).to have_selector("link[rel='shortcut icon'][type='image/x-icon'][href='/assets/favicon.ico']", visible: false)
+      expect(rendered).to have_selector("link[type='image/x-icon'][href='/assets/favicon.ico']", visible: false)
     end
 
     it 'renders apple icons' do
-      expect(rendered).to have_selector("link[rel='apple-touch-icon'][type='image/png'][href='/assets/apple-touch-icon-120x120-precomposed.png']", visible: false)
+      expect(rendered).to have_selector("link[type='image/png'][href='/assets/apple-touch-icon-120x120-precomposed.png']", visible: false)
     end
 
     # We perform a get request against the icons to ensure they are there (and
