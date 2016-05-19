@@ -92,7 +92,7 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
 
   private getForm() {
     if (!this.form) {
-      this.form = this.apiWorkPackages.emptyCreateForm();
+      this.form = this.apiWorkPackages.emptyCreateForm(this.projectIdentifier);
     }
 
     return this.form;

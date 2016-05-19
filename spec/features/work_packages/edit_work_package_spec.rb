@@ -151,14 +151,13 @@ describe 'edit work package', js: true do
     wp_page.update_attributes "customField#{cf_all.id}" => 'bird is the word',
                               'type' => type2.name
 
-
     wp_page.expect_attributes "customField#{cf_all.id}" => 'bird is the word',
                               "customField#{cf_tp2.id}" => ''
     wp_page.expect_attribute_hidden "customField#{cf_tp1.id}"
   end
 
   it 'shows an error if a subject is entered which is too long' do
-    too_long = ("Too long. Can you feel it? " * 10).strip
+    too_long = ('Too long. Can you feel it? ' * 10).strip
 
     wp_page.ensure_page_loaded
     wp_page.update_attributes subject: too_long

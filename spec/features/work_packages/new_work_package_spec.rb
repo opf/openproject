@@ -46,8 +46,10 @@ describe 'new work package', js: true do
     button.click
 
     loading_indicator_saveguard
+    find('#work-package-subject input').set(subject)
 
     page.find('#inplace-edit--write-value--type option', text: type).select_option
+    sleep 1
   end
 
   before do
@@ -58,6 +60,7 @@ describe 'new work package', js: true do
   shared_examples 'work package creation workflow' do
     before do
       create_work_package('Task')
+      expect(page).to have_selector(safeguard_selector, wait: 10)
     end
 
     it 'creates a subsequent work package' do
@@ -75,16 +78,13 @@ describe 'new work package', js: true do
     context 'with missing values' do
       it 'shows an error when subject is missing' do
         find('#work-package-description textarea').set(description)
+        find('#work-package-subject input').set('')
         save_work_package!(false)
         notification.expect_error("Subject can't be blank.")
       end
     end
 
     context 'with subject set' do
-      before do
-        find('#work-package-subject input').set(subject)
-      end
-
       it 'creates a basic work package' do
         find('#work-package-description textarea').set(description)
 
