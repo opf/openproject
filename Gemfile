@@ -152,6 +152,7 @@ group :test do
   # require factory_girl_rails for convenience in core development
   gem 'factory_girl_rails', '~> 4.6', require: false
 
+  gem 'cucumber', '~> 1.3.19'
   gem 'cucumber-rails', '~> 1.4.2', require: false
   gem 'rack_session_access'
   gem 'database_cleaner', '~> 1.5.1'

@@ -23,5 +23,6 @@ OpenProject::Application.configure do
     types_checkboxes.js
     work_packages.js
     type_form.js
+    date-en-US.js
   )
 end

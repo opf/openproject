@@ -40,7 +40,7 @@ Given /^the [Uu]ser "([^\"]*)" is a "([^\"]*)" (?:in|of) the [Pp]roject "([^\"]*
   end
 end
 
-Given /^there is a [rR]ole "([^\"]*)"$/ do |name, _table = Cucumber::MultilineArgument::DataTable.from([])|
+Given /^there is a [rR]ole "([^\"]*)"$/ do |name, _table = Cucumber::Ast::Table.new([])|
   FactoryGirl.create(:role, name: name) unless Role.find_by(name: name)
 end
 

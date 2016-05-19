@@ -156,6 +156,8 @@ module TimelinesHelper
     end
   end
 
+  include Gon::GonHelpers
+
   def push_visible_timelines(visible_timelines, target = gon)
     target.timelines = visible_timelines.map { |timeline|
       { id: timeline.id, name: timeline.name, path: project_timeline_path(@project, timeline) }
