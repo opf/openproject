@@ -89,7 +89,11 @@ describe 'custom field inplace editor', js: true, selenium: true do
 
       it 'renders errors for invalid entries' do
         # Invalid input (non-digit)
-        expect_field_invalid ''
+        field.set_value ''
+        field.expect_invalid
+
+        expect(UpdateWorkPackageService).not_to receive(:new)
+        field.save!
       end
     end
   end

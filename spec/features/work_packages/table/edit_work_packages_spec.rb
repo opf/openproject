@@ -99,10 +99,10 @@ describe 'Inline editing work packages', js: true do
       subject_field.activate!
 
       subject_field.set_value('')
+      subject_field.expect_invalid
 
       expect(UpdateWorkPackageService).not_to receive(:new)
       subject_field.save!
-      subject_field.expect_invalid
     end
   end
 
