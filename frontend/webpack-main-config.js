@@ -88,67 +88,69 @@ loaders.push({
 });
 
 
-var webpackConfig = {
-  context: __dirname + '/app',
+function getWebpackMainConfig() {
+  return {
+    context: __dirname + '/app',
 
-  entry: _.merge({
-    'global': './global.js',
-    'core-app': './openproject-app.js'
-  }, pluginEntries),
+    entry: _.merge({
+      'global': './global.js',
+      'core-app': './openproject-app.js'
+    }, pluginEntries),
 
-  output: {
-    filename: 'openproject-[name].js',
-    path: path.join(__dirname, '..', 'app', 'assets', 'javascripts', 'bundles'),
-    publicPath: '/assets/bundles/'
-  },
+    output: {
+      filename: 'openproject-[name].js',
+      path: path.join(__dirname, '..', 'app', 'assets', 'javascripts', 'bundles'),
+      publicPath: '/assets/bundles/'
+    },
 
-  module: {
-    loaders: loaders,
-    // Prevent 'This seems to be a pre-built javascript file.' error due to crossvent dist
-    noParse: /node_modules\/crossvent/,
-  },
+    module: {
+      loaders: loaders,
+      // Prevent 'This seems to be a pre-built javascript file.' error due to crossvent dist
+      noParse: /node_modules\/crossvent/
+    },
 
-  resolve: {
-    root: __dirname,
+    resolve: {
+      root: __dirname,
 
-    extensions: ['', '.webpack.js', '.ts', '.js'],
+      extensions: ['', '.webpack.js', '.ts', '.js'],
 
-    modulesDirectories: [
-      'node_modules',
-      'bower_components',
-      'vendor'
-    ].concat(pathConfig.pluginDirectories),
+      modulesDirectories: [
+        'node_modules',
+        'bower_components',
+        'vendor'
+      ].concat(pathConfig.pluginDirectories),
 
-    fallback: [path.join(__dirname, 'bower_components')],
+      fallback: [path.join(__dirname, 'bower_components')],
 
-    alias: _.merge({
-      'locales': './../../config/locales',
+      alias: _.merge({
+        'locales': './../../config/locales',
 
-      'angular-ui-date': 'angular-ui-date/src/date',
-      'angular-truncate': 'angular-truncate/src/truncate',
-      'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
-      'mousetrap': 'mousetrap/mousetrap.js',
-      'hyperagent': 'hyperagent/dist/hyperagent',
-      'ngFileUpload': 'ng-file-upload/ng-file-upload'
-    }, pluginAliases)
-  },
+        'angular-ui-date': 'angular-ui-date/src/date',
+        'angular-truncate': 'angular-truncate/src/truncate',
+        'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
+        'mousetrap': 'mousetrap/mousetrap.js',
+        'hyperagent': 'hyperagent/dist/hyperagent',
+        'ngFileUpload': 'ng-file-upload/ng-file-upload'
+      }, pluginAliases)
+    },
 
-  resolveLoader: {
-    root: __dirname + '/node_modules'
-  },
+    resolveLoader: {
+      root: __dirname + '/node_modules'
+    },
 
-  plugins: [
-    new ExtractTextPlugin('openproject-[name].css'),
-    new webpack.ProvidePlugin({
-      '_': 'lodash',
-      'URI': 'URIjs',
-      'URITemplate': 'URIjs/src/URITemplate'
-    }),
-    new webpack.ResolverPlugin([
-      new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin(
-          'bower.json', ['main'])
-    ])
-  ]
-};
+    plugins: [
+      new ExtractTextPlugin('openproject-[name].css'),
+      new webpack.ProvidePlugin({
+        '_': 'lodash',
+        'URI': 'URIjs',
+        'URITemplate': 'URIjs/src/URITemplate'
+      }),
+      new webpack.ResolverPlugin([
+        new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin(
+            'bower.json', ['main'])
+      ])
+    ]
+  };
+}
 
-module.exports = webpackConfig;
+module.exports = getWebpackMainConfig;

@@ -27,6 +27,6 @@
 // ++
 
 module.exports = [
-  require('./webpack-main-config'),
-  require('./webpack-test-config')
+  require('./webpack-main-config')(),
+  require('./webpack-test-config')()
 ];
