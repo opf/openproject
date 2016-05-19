@@ -33,24 +33,6 @@ describe 'activity comments', js: true, selenium: true do
       wp_page.ensure_page_loaded
     end
 
-    describe 'submitting with other fields' do
-      let(:description) { WorkPackageTextAreaField.new wp_page, 'description' }
-
-      before do
-        comment_field.activate!
-        comment_field.input_element.set 'comment with description'
-        description.activate!
-        description.input_element.set 'description goes here'
-      end
-
-      it 'saves both fields from comment submit' do
-        comment_field.input_element.set 'some ingenious comment.'
-        comment_field.submit_by_click
-        expect(page).to have_selector('.user-comment .message', text: 'some ingenious comment.')
-        expect(description.input_element.value).to eq('description goes here')
-      end
-    end
-
     context 'in edit state' do
       before do
         comment_field.activate!

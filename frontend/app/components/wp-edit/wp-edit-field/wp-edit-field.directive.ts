@@ -141,8 +141,7 @@ export class WorkPackageEditFieldController {
   }
 
   public shouldFocus() {
-    return this._forceFocus || !this.workPackage.isNew ||
-      this.formCtrl.firstActiveField === this.fieldName;
+    return this._forceFocus || this.formCtrl.firstActiveField === this.fieldName;
   }
 
   public focusField() {

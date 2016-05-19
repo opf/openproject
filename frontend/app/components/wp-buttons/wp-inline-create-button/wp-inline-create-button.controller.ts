@@ -28,6 +28,7 @@
 
 import {wpButtonsModule} from '../../../angular-modules';
 import WorkPackageCreateButtonController from '../wp-create-button/wp-create-button.controller';
+import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 
 class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonController {
   public query: op.Query;
@@ -35,7 +36,7 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
   public hidden:boolean = false;
 
   // Template create form
-  protected form: op.HalResource;
+  protected form: HalResource;
 
   private _wp;
 
