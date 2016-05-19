@@ -44,12 +44,24 @@
   .attributes-key-value--value-container
     @include grid-content(8)
     @include grid-visible-overflow
+    display: flex
     margin-bottom: 0.1875rem
     padding: 0 !important
     align-self: center
 
     &.not-editable
       padding: 6px
+
+    &.-minimal
+      .wp-inline-edit--field
+        width: 90px
+
+  .attributes-key-value--value-separator
+    margin: 3px 4px
+
+    &:after
+      display: inline
+      content: '-'
 
   .attributes-key-value--value
     @include grid-visible-overflow

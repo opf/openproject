@@ -32,7 +32,7 @@ module API
     module WorkPackages
       module Schema
         class UntypedWorkPackageSchema < BaseWorkPackageSchema
-          attr_reader :project, :type
+          attr_reader :project
 
           def initialize(project:)
             @project = project

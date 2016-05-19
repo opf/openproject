@@ -70,6 +70,8 @@ class UpdateWorkPackageService
 
   def set_attributes(attributes)
     work_package.attributes = attributes
+
+    unify_dates if work_package_now_milestone?
   end
 
   def cleanup(attributes)
@@ -114,5 +116,14 @@ class UpdateWorkPackageService
     end
 
     [true, work_package.errors]
+  end
+
+  def unify_dates
+    unified_date = work_package.due_date || work_package.start_date
+    work_package.start_date = work_package.due_date = unified_date
+  end
+
+  def work_package_now_milestone?
+    work_package.type_id_changed? && work_package.milestone?
   end
 end

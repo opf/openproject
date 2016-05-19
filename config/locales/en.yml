@@ -488,6 +488,7 @@ en:
     created_at: "Created on"
     created_on: "Created on"
     custom_values: "Custom fields"
+    date: "Date"
     default_columns: "Default columns"
     description: "Description"
     display_sums: "Display Sums"

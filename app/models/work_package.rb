@@ -413,9 +413,10 @@ class WorkPackage < ActiveRecord::Base
     !due_date.nil? && (due_date < Date.today) && !closed?
   end
 
-  def is_milestone?
+  def milestone?
     type && type.is_milestone?
   end
+  alias_method :is_milestone?, :milestone?
 
   # Overwriting awesome nested set here as it considers unpersisted work
   # packages to not be leaves.

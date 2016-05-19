@@ -180,9 +180,66 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe 'date' do
+      before do
+        allow(schema)
+          .to receive(:writable?)
+          .with(:date)
+          .and_return true
+
+        allow(schema)
+          .to receive(:milestone?)
+          .and_return(true)
+      end
+
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'date' }
+        let(:type) { 'Date' }
+        let(:name) { I18n.t('attributes.date') }
+        let(:required) { false }
+        let(:writable) { true }
+      end
+
+      context 'not writable' do
+        before do
+          allow(schema)
+            .to receive(:writable?)
+            .with(:date)
+            .and_return false
+        end
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'date' }
+          let(:type) { 'Date' }
+          let(:name) { I18n.t('attributes.date') }
+          let(:required) { false }
+          let(:writable) { false }
+        end
+      end
+
+      context 'when the work package is no milestone' do
+        before do
+          allow(schema)
+            .to receive(:milestone?)
+            .and_return(false)
+        end
+
+        it 'has no date attribute' do
+          is_expected.to_not have_json_path('date')
+        end
+      end
+    end
+
     describe 'startDate' do
       before do
-        allow(schema).to receive(:writable?).with(:start_date).and_return true
+        allow(schema)
+          .to receive(:writable?)
+          .with(:start_date)
+          .and_return true
+
+        allow(schema)
+          .to receive(:milestone?)
+          .and_return(false)
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -195,7 +252,10 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'not writable' do
         before do
-          allow(schema).to receive(:writable?).with(:start_date).and_return false
+          allow(schema)
+            .to receive(:writable?)
+            .with(:start_date)
+            .and_return false
         end
 
         it_behaves_like 'has basic schema properties' do
@@ -206,11 +266,30 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:writable) { false }
         end
       end
+
+      context 'when the work package is a milestone' do
+        before do
+          allow(schema)
+            .to receive(:milestone?)
+            .and_return(true)
+        end
+
+        it 'has no date attribute' do
+          is_expected.to_not have_json_path('startDate')
+        end
+      end
     end
 
     describe 'dueDate' do
       before do
-        allow(schema).to receive(:writable?).with(:due_date).and_return true
+        allow(schema)
+          .to receive(:writable?)
+          .with(:due_date)
+          .and_return true
+
+        allow(schema)
+          .to receive(:milestone?)
+          .and_return(false)
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -232,6 +311,18 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:name) { I18n.t('attributes.due_date') }
           let(:required) { false }
           let(:writable) { false }
+        end
+      end
+
+      context 'when the work package is a milestone' do
+        before do
+          allow(schema)
+            .to receive(:milestone?)
+            .and_return(true)
+        end
+
+        it 'has no date attribute' do
+          is_expected.to_not have_json_path('dueDate')
         end
       end
     end

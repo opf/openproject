@@ -52,6 +52,22 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     expect(subject.id).to eql(work_package.id)
   end
 
+  describe '#milestone?' do
+    it "shows the work_package's value" do
+      allow(work_package)
+        .to receive(:milestone?)
+        .and_return(true)
+
+      is_expected.to be_milestone
+
+      allow(work_package)
+        .to receive(:milestone?)
+        .and_return(false)
+
+      is_expected.to_not be_milestone
+    end
+  end
+
   describe '#assignable_statuses_for' do
     let(:status_result) { double('status result') }
 
@@ -237,6 +253,18 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       it 'is writable when the work package is a leaf' do
         allow(work_package).to receive(:leaf?).and_return(true)
         expect(subject.writable?(:due_date)).to be true
+      end
+    end
+
+    context 'date' do
+      it 'is not writable when the work package is a parent' do
+        allow(work_package).to receive(:leaf?).and_return(false)
+        expect(subject.writable?(:date)).to be false
+      end
+
+      it 'is writable when the work package is a leaf' do
+        allow(work_package).to receive(:leaf?).and_return(true)
+        expect(subject.writable?(:date)).to be true
       end
     end
 

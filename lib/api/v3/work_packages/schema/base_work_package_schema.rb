@@ -48,6 +48,7 @@ module API
               :estimated_time,
               :start_date,
               :due_date,
+              :date,
               :project
             ]
 
@@ -83,6 +84,10 @@ module API
             else
               self.class.writable_properties.include? property
             end
+          end
+
+          def milestone?
+            false
           end
 
           private

@@ -100,6 +100,21 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             is_expected.to be_json_eql(nil.to_json).at_path('startDate')
           end
         end
+
+        context 'when the work package has a milestone type' do
+          let(:milestone_type) {
+            FactoryGirl.build_stubbed(:type,
+                                      is_milestone: true)
+          }
+
+          before do
+            work_package.type = milestone_type
+          end
+
+          it 'has no startDate' do
+            is_expected.to_not have_json_path('startDate')
+          end
+        end
       end
 
       describe 'dueDate' do
@@ -113,6 +128,62 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('dueDate')
+          end
+        end
+
+        context 'when the work package has a milestone type' do
+          let(:milestone_type) {
+            FactoryGirl.build_stubbed(:type,
+                                      is_milestone: true)
+          }
+
+          before do
+            work_package.type = milestone_type
+          end
+
+          it 'has no startDate' do
+            is_expected.to_not have_json_path('dueDate')
+          end
+        end
+      end
+
+      describe 'date' do
+        let(:milestone_type) {
+          FactoryGirl.build_stubbed(:type,
+                                    is_milestone: true)
+        }
+
+        before do
+          work_package.type = milestone_type
+        end
+
+        it_behaves_like 'has ISO 8601 date only' do
+          let(:date) { work_package.due_date } # could just as well be start_date
+          let(:json_path) { 'date' }
+        end
+
+        context 'no due date' do
+          before do
+            work_package.due_date = nil
+          end
+
+          it 'renders as null' do
+            is_expected.to be_json_eql(nil.to_json).at_path('date')
+          end
+        end
+
+        context 'when the work package has a non milestone type' do
+          let(:none_milestone_type) {
+            FactoryGirl.build_stubbed(:type,
+                                      is_milestone: false)
+          }
+
+          before do
+            work_package.type = none_milestone_type
+          end
+
+          it 'has no date' do
+            is_expected.to_not have_json_path('date')
           end
         end
       end

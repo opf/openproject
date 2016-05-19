@@ -113,6 +113,12 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'startDate' do
+        before do
+          allow(work_package)
+            .to receive(:milestone?)
+            .and_return(false)
+        end
+
         it_behaves_like 'has ISO 8601 date only' do
           let(:date) { work_package.start_date }
           let(:json_path) { 'startDate' }
@@ -125,9 +131,27 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
             is_expected.to be_json_eql(nil.to_json).at_path('startDate')
           end
         end
+
+        context 'if the work_package is a milestone' do
+          before do
+            allow(work_package)
+              .to receive(:milestone?)
+              .and_return(true)
+          end
+
+          it 'has no date attribute' do
+            is_expected.to_not have_json_path('startDate')
+          end
+        end
       end
 
       describe 'dueDate' do
+        before do
+          allow(work_package)
+            .to receive(:milestone?)
+            .and_return(false)
+        end
+
         it_behaves_like 'has ISO 8601 date only' do
           let(:date) { work_package.due_date }
           let(:json_path) { 'dueDate' }
@@ -138,6 +162,51 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('dueDate')
+          end
+        end
+
+        context 'if the work_package is a milestone' do
+          before do
+            allow(work_package)
+              .to receive(:milestone?)
+              .and_return(true)
+          end
+
+          it 'has no date attribute' do
+            is_expected.to_not have_json_path('dueDate')
+          end
+        end
+      end
+
+      describe 'date' do
+        before do
+          allow(work_package)
+            .to receive(:milestone?)
+            .and_return(true)
+        end
+
+        it_behaves_like 'has ISO 8601 date only' do
+          let(:date) { work_package.due_date }
+          let(:json_path) { 'date' }
+        end
+
+        context 'no due date' do
+          let(:work_package) { FactoryGirl.build(:work_package, due_date: nil) }
+
+          it 'renders as null' do
+            is_expected.to be_json_eql(nil.to_json).at_path('date')
+          end
+        end
+
+        context 'if the work_package is no milestone' do
+          before do
+            allow(work_package)
+              .to receive(:milestone?)
+              .and_return(false)
+          end
+
+          it 'has no date attribute' do
+            is_expected.to_not have_json_path('date')
           end
         end
       end
@@ -334,6 +403,28 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       it_behaves_like 'settable ISO 8601 date only' do
         let(:property) { :dueDate }
         let(:method) { :due_date }
+      end
+    end
+
+    describe 'date' do
+      before do
+        allow(work_package)
+          .to receive(:milestone?)
+          .and_return(true)
+      end
+
+      it_behaves_like 'settable ISO 8601 date only' do
+        let(:property) { :date }
+        let(:method) { :due_date }
+
+        context 'with an ISO formatted date' do
+          let(:dateString) { '2015-01-31' }
+
+          it 'sets the start and the due_date' do
+            expect(subject.start_date).to eql(Date.new(2015, 1, 31))
+            expect(subject.due_date).to eql(Date.new(2015, 1, 31))
+          end
+        end
       end
     end
 

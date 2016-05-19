@@ -269,13 +269,28 @@ module API
                  getter: -> (*) do
                    datetime_formatter.format_date(represented.start_date, allow_nil: true)
                  end,
-                 render_nil: true
+                 render_nil: true,
+                 if: -> (_) {
+                   !represented.is_milestone?
+                 }
         property :due_date,
                  exec_context: :decorator,
                  getter: -> (*) do
                    datetime_formatter.format_date(represented.due_date, allow_nil: true)
                  end,
-                 render_nil: true
+                 render_nil: true,
+                 if: -> (_) {
+                   !represented.is_milestone?
+                 }
+        property :date,
+                 exec_context: :decorator,
+                 getter: -> (*) do
+                   datetime_formatter.format_date(represented.due_date, allow_nil: true)
+                 end,
+                 render_nil: true,
+                 if: -> (_) {
+                   represented.is_milestone?
+                 }
         property :estimated_time,
                  exec_context: :decorator,
                  getter: -> (*) do

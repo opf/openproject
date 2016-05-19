@@ -269,5 +269,18 @@ function WorkPackagesTableController($scope, $rootScope, I18n) {
 
   $scope.cancelInlineWorkPackage = function (index, row) {
     $rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
+  };
+
+  $scope.getTableColumnName = function(workPackage, name) {
+    // poor man's implementation to query for whether this wp is a milestone
+    // It would be way cleaner to ask whether this work package has a type
+    // that is a milestone but that would require us to make another server request.
+    if ((name === 'startDate' && _.isUndefined(this.workPackage.startDate)) ||
+        (name === 'dueDate' && _.isUndefined(this.workPackage.dueDate))) {
+      return 'date';
+    }
+    else {
+      return name;
+    }
   }
 }
