@@ -28,4 +28,4 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-require('../dev_modules/run-karma')();
+require('../modules/run-karma')();

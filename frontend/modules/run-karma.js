@@ -29,7 +29,7 @@
 var path = require('path');
 var Server = require('karma').Server;
 
-var config = require('../dev_modules/config');
+var config = require('./config');
 
 var settings = {
   configFile: path.resolve(config.frontendPath, 'karma.conf.js')
