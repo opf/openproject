@@ -58,9 +58,9 @@ function WorkPackageDetailsController($scope,
       wp.schema.$load();
     });
 
-  WorkPackageService.getWorkPackage($state.params.workPackageId)
+  $scope.initializedWorkPackage = WorkPackageService.getWorkPackage($state.params.workPackageId)
     .then(function (workPackage) {
-      init(workPackage);
+      return init(workPackage);
     });
 
   function init(workPackage) {

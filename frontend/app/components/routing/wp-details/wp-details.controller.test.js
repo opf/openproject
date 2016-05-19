@@ -30,6 +30,7 @@
 
 describe('WorkPackageDetailsController', function() {
   var scope;
+  var promise;
   var buildController, ctrl;
   var stateParams = {};
   var I18n = { t: angular.identity },
@@ -43,6 +44,7 @@ describe('WorkPackageDetailsController', function() {
               status: 'active'
             }
           },
+          id: 99,
           project: {
             props: {
               id: 1
@@ -91,6 +93,9 @@ describe('WorkPackageDetailsController', function() {
           self: { href: "it's a me, it's... you know..." },
           availableWatchers: {
             fetch: function() { return {then: angular.noop}; }
+          },
+          schema: {
+            fetch: function() { return {then: angular.noop}; }
           }
         },
         link: {
@@ -99,11 +104,6 @@ describe('WorkPackageDetailsController', function() {
           }
         }
       };
-
-  function buildWorkPackageWithId(id) {
-    angular.extend(workPackage.props, {id: id});
-    return workPackage;
-  }
 
   beforeEach(angular.mock.module('openproject.api', 'openproject.layout', 'openproject.services',
     'openproject.workPackages.controllers', 'openproject.services'));
@@ -122,19 +122,20 @@ describe('WorkPackageDetailsController', function() {
     $provide.constant('$stateParams', stateParams);
   }));
 
-  beforeEach(inject(function($rootScope, $controller, $timeout, $httpBackend) {
-    var workPackageId = 99;
-    $httpBackend.expectGET('/api/v3/work_packages/99').respond(workPackage);
+  beforeEach(inject(function($rootScope, $controller, $timeout, $httpBackend, WorkPackageService, $q) {
+    $httpBackend.when('GET', '/api/v3/work_packages/99').respond(workPackage);
 
-    buildController = function() {
+    WorkPackageService.getWorkPackage = function() { return $q.when(workPackage) };
+
+    buildController = function(done) {
       var testState = {
+        params: { workPackageId: 99 },
         current: { url: '/activity' }
       };
       scope = $rootScope.$new();
 
       ctrl = $controller("WorkPackageDetailsController", {
         $scope:  scope,
-        $stateParams: { workPackageId: workPackageId },
         $state: testState,
         I18n: I18n,
         ConfigurationService: {
@@ -142,17 +143,19 @@ describe('WorkPackageDetailsController', function() {
             return false;
           }
         },
-        workPackage: buildWorkPackageWithId(workPackageId),
+        workPackage: workPackage,
       });
 
       $timeout.flush();
+
+      promise = scope.initializedWorkPackage;
     };
 
   }));
 
   describe('initialisation', function() {
     it('should initialise', function() {
-      buildController();
+      return buildController();
     });
   });
 
@@ -164,18 +167,22 @@ describe('WorkPackageDetailsController', function() {
       });
 
       it('returns false', function() {
-        expect(scope.canViewWorkPackageWatchers()).to.be.false;
+        expect(promise).to.eventually.be.fulfilled.then(function() {
+          expect(scope.canViewWorkPackageWatchers()).to.be.false;
+        });
       });
     });
 
     describe('when the work package contains the embedded watchers property', function() {
       beforeEach(function() {
         workPackage.embedded.watchers = [];
-        buildController();
+        return buildController();
       });
 
       it('returns true', function() {
-        expect(scope.canViewWorkPackageWatchers()).to.be.true;
+        expect(promise).to.eventually.be.fulfilled.then(function() {
+          expect(scope.canViewWorkPackageWatchers()).to.be.true;
+        });
       });
     });
   });
@@ -183,18 +190,22 @@ describe('WorkPackageDetailsController', function() {
   describe('work package properties', function() {
     describe('relations', function() {
       beforeEach(function() {
-        buildController();
+        return buildController();
       });
 
       it('Relation::Relates', function() {
-        expect(scope.relatedTo).to.be.ok;
+        expect(promise).to.eventually.be.fulfilled.then(function() {
+          expect(scope.relatedTo).to.be.ok;
+        });
       });
     });
   });
 
   describe('showStaticPagePath', function() {
     it('points to old show page', function() {
-      expect(scope.showStaticPagePath).to.eql('/work_packages/99');
+      expect(promise).to.eventually.be.fulfilled.then(function() {
+        expect(scope.showStaticPagePath).to.eql('/work_packages/99');
+      });
     });
   });
 
@@ -205,11 +216,13 @@ describe('WorkPackageDetailsController', function() {
     beforeEach(function() {
       workPackage.embedded.type = type;
 
-      buildController();
+      return buildController();
     });
 
     it('is the embedded type', function() {
-      expect(scope.type).to.eql(type);
+      expect(promise).to.eventually.be.fulfilled.then(function() {
+        expect(scope.type).to.eql(type);
+      });
     });
   });
 });
