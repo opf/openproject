@@ -166,7 +166,7 @@ export class WorkPackageEditFormController {
     if (attributes.length === 0) return;
 
     // Allow additional error handling
-    this.errorHandler({
+    this.firstActiveField = this.errorHandler({
       workPackage: this.workPackage,
       fields: this.fields,
       attributes: attributes
@@ -181,7 +181,9 @@ export class WorkPackageEditFormController {
       });
 
       // Activate + Focus on first field
-      this.firstActiveField = attributes[0];
+      if (!this.firstActiveField) {
+        this.firstActiveField = attributes[0];
+      }
 
       // Activate that field
       // TODO: For inplace-edit, this may be undefined

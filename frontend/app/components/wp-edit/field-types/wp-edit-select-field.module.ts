@@ -46,11 +46,13 @@ export class SelectField extends Field {
     if (angular.isArray(this.schema.allowedValues)) {
       this.options = angular.copy(this.schema.allowedValues);
       this.addEmptyOption();
-    } else {
+    } else if (this.schema.allowedValues) {
       this.schema.allowedValues.$load().then((values) => {
         this.options = angular.copy(values.elements);
         this.addEmptyOption();
       });
+    } else {
+      this.options = [];
     }
   }
 

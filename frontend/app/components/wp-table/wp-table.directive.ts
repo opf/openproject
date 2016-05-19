@@ -238,6 +238,7 @@ function wpTable(
       });
 
         QueryService.setSelectedColumns(selected);
+        return _.find(selected, (column) => errorFieldNames.indexOf(column) !== -1);
       };
 
       /** Save callbacks for work package */

@@ -7,7 +7,7 @@
         ng-switch="$ctrl.displayType"
         ng-click="$ctrl.activateIfEditable($event)"
         data-click-on-keypress="[13, 32]"
-        focus
+        focus="$ctrl.shouldFocus()"
         ng-attr-tabindex="{{$ctrl.isEditable() ? '0' : '-1'}}"
         aria-labelledby="{{$ctrl.labelId}}">
     <progress-bar ng-switch-when="Percent"

@@ -69,6 +69,10 @@ export class WorkPackageDisplayAttributeController {
     return this.wpEditField && this.wpEditField.isEditable;
   };
 
+  public shouldFocus() {
+    return this.wpEditField && this.wpEditField.shouldFocus();
+  }
+
   public get labelId():string {
     return 'wp-' + this.workPackage.id + '-display-attr-' + this.attribute + '-aria-label';
   }

@@ -5,6 +5,7 @@
         ng-change="vm.submit()"
         ng-blur="vm.handleUserBlur()"
         focus="vm.shouldFocus()"
+        focus-priority="vm.shouldFocus()"
         ng-attr-id="{{vm.htmlId}}">
   <option value=""
           ng-bind="vm.field.text.requiredPlaceholder"
