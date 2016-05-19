@@ -59,22 +59,13 @@ module.exports = function (config) {
 
       '../app/assets/javascripts/date-en-US.js',
 
-      '../app/assets/javascripts/bundles/openproject-core-app.js',
-      '../app/assets/javascripts/bundles/openproject-translations.js',
-
-      'bower_components/angular-mocks/angular-mocks.js',
-
-      'tests/unit/tests/timeline_stubs.js',
       'tests/unit/lib/rosie.js',
-      'tests/unit/tests/test-helper.js',
-      'tests/unit/factories/*factory.js',
-
+      'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/jquery-mockjax/jquery.mockjax.js',
-
       'tests/unit/tests/asset_functions.js',
-      'tests/unit/tests/**/*test.js',
-      'tests/unit/tests/legacy-tests.js',
 
+
+      '../app/assets/javascripts/bundles/openproject-core-app.js',
       '../app/assets/javascripts/bundles/openproject-tests.js'
     ],
 

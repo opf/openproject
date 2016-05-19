@@ -28,7 +28,7 @@
 
 /*jshint expr: true*/
 
-var gon = { timeline_options: { } };
+window.gon = { timeline_options: { } };
 
 describe('TimelinesController', function() {
   var ctrl, scope;
@@ -41,8 +41,9 @@ describe('TimelinesController', function() {
 
   beforeEach(inject(function($rootScope, $controller) {
     scope = $rootScope.$new();
+    scope.timelineOptions = timelineOptions;
 
-    gon = { timeline_options: timelineOptions };
+    window.gon = { timeline_options: timelineOptions };
 
     ctrl = $controller("TimelinesController", {
       $scope: scope

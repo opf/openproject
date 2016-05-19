@@ -31,6 +31,7 @@ describe('wpDisplayAttr directive', () => {
   var element;
   var rootScope;
   var scope;
+  var I18n;
 
   beforeEach(angular.mock.module(
     'openproject.workPackages.directives',
@@ -46,11 +47,14 @@ describe('wpDisplayAttr directive', () => {
     });
   }));
 
-  beforeEach(angular.mock.inject(($rootScope, $compile) => {
+  beforeEach(angular.mock.inject(($rootScope, $compile, _I18n_) => {
     var html = `
       <wp-display-attr work-package="workPackage" schema="schema" attribute="attribute">
       </wp-display-attr>
     `;
+
+    I18n = _I18n_;
+    sinon.stub(I18n, 't').returns('');
 
     element = angular.element(html);
     rootScope = $rootScope;
@@ -61,6 +65,10 @@ describe('wpDisplayAttr directive', () => {
       scope.$digest();
     };
   }));
+
+  afterEach(() => {
+    I18n.t.restore();
+  });
 
   var getInnermostSpan = start => start.find('.cell-span--value');
 
@@ -184,7 +192,7 @@ describe('wpDisplayAttr directive', () => {
 
     describe('rendering missing field', () => {
       beforeEach(() => {
-        scope.attribute = 'non-existant-field';
+        scope.attribute = 'non-existent-field';
         compile();
       });
 
