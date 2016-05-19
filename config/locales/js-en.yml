@@ -148,6 +148,7 @@ en:
     label_open_work_packages: "open"
     label_previous: "Previous"
     label_per_page: "Per page:"
+    label_please_wait: "Please wait"
     label_quote_comment: "Quote this comment"
     label_remove_columns: "Remove selected columns"
     label_save_as: "Save as"
