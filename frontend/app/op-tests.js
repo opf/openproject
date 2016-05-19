@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+require('./init-app');
+
 var requireComponent;
 
 require('../tests/unit/tests/timeline_stubs.js');
