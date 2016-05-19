@@ -1,6 +1,6 @@
 @require sass
 
-@css ../stylesheets/default.css.sass
+@sass ../stylesheets/default.css.sass
 @title "Living Style Guide for OpenProject"
 
 @style base-font: Lato
@@ -9,7 +9,7 @@
 
 @default preprocessor: sass
 
-@css
+@sass
   .livingstyleguide--header
     @include grid-content
 
