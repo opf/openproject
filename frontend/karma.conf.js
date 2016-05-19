@@ -51,10 +51,7 @@ module.exports = function (config) {
       '../app/assets/javascripts/bundles/openproject-global.js',
 
       '../app/assets/javascripts/lib/jquery.trap.js',
-      '../app/assets/javascripts/autocompleter.js',
-      '../app/assets/javascripts/members_select_boxes.js',
       '../app/assets/javascripts/openproject.js',
-      '../app/assets/javascripts/timelines_select_boxes.js',
       '../app/assets/javascripts/jstoolbar/jstoolbar.js',
 
       '../app/assets/javascripts/date-en-US.js',
