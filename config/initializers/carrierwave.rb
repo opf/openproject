@@ -26,7 +26,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'fog/aws'
 require 'carrierwave'
+require 'carrierwave/storage/fog'
 
 module CarrierWave
   module Configuration
