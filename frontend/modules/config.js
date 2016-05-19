@@ -29,5 +29,5 @@
 var path = require('path');
 
 module.exports = {
-  frontendPath: path.resolve(__dirname, '..'),
+  frontendPath: path.resolve(__dirname, '..')
 };

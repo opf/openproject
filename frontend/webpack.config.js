@@ -26,7 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+var getWebpackMainConfig = require('./webpack-main-config');
+var getWebpackTestConfig = require('./webpack-test-config');
+
 module.exports = [
-  require('./webpack-main-config')(),
-  require('./webpack-test-config')()
+    getWebpackMainConfig(),
+    getWebpackTestConfig()
 ];

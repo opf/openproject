@@ -90,7 +90,7 @@ loaders.push({
 
 function getWebpackMainConfig() {
   return {
-    context: __dirname + '/app',
+    context: path.join(__dirname, '/app'),
 
     entry: _.merge({
       'global': './global.js',
@@ -135,7 +135,7 @@ function getWebpackMainConfig() {
     },
 
     resolveLoader: {
-      root: __dirname + '/node_modules'
+      root: path.join(__dirname, '/node_modules')
     },
 
     plugins: [

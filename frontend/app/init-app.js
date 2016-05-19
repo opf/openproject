@@ -71,7 +71,7 @@ opApp
       function($locationProvider, $httpProvider) {
         $locationProvider.html5Mode(true);
         $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery(
-            'meta[name=csrf-token]').attr('content'); // TODO find a more elegant way to keep the session alive
+            'meta[name=csrf-token]').attr('content');
         $httpProvider.defaults.headers.common['X-Authentication-Scheme'] = 'Session';
         // prepend a given base path to requests performed via $http
         //

@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+var path = require('path');
 var getWebpackMainConfig = require('./webpack-main-config');
 
 function getWebpackTestConfig() {
@@ -33,7 +34,7 @@ function getWebpackTestConfig() {
 
   webpackConfig.entry = './openproject-tests.js';
   webpackConfig.output = {
-    path: __dirname + '/tests',
+    path: path.join(__dirname, '/tests'),
     filename: 'openproject-test-bundle.js'
   };
 
