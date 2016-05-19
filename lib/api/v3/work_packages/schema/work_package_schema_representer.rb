@@ -205,7 +205,7 @@ module API
                                              title: type.name
                                            }
                                          },
-                                         has_default: true
+                                         has_default: false
 
           schema_with_allowed_collection :status,
                                          value_representer: Statuses::StatusRepresenter,

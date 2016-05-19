@@ -53,7 +53,7 @@ export class WorkPackageViewButtonController extends WorkPackageNavigationButton
   public openWorkPackageShowView() {
     var args = ['work-packages.new', this.$state.params];
 
-    if (!(this.$state.is('work-packages.list.new') && this.$state.params.type)) {
+    if (!this.$state.is('work-packages.list.new')) {
       var params = {
         workPackageId: this.$state.params.workPackageId || this.workPackageId || this.nextWpFunc()
       };

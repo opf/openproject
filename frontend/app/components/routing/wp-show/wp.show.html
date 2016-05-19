@@ -8,6 +8,7 @@
       <ul id="toolbar-items" class="toolbar-items">
         <li class="toolbar-item">
           <wp-create-button project-identifier="projectIdentifier"
+                            allowed="!!workPackageResource.$links.addChild"
                             ng-hide="wpEditModeState.active"
                             state-name="work-packages.new"></wp-create-button>
         </li>

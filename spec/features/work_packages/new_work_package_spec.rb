@@ -8,9 +8,9 @@ describe 'new work package', js: true do
   let(:type_task) { FactoryGirl.create(:type_task) }
   let(:type_bug) { FactoryGirl.create(:type_bug) }
   let(:types) { [type_task, type_bug] }
-  let(:status) { FactoryGirl.build(:status, is_default: true) }
-  let(:priority) { FactoryGirl.build(:priority, is_default: true) }
-  let(:project) {
+  let!(:status) { FactoryGirl.create(:status, is_default: true) }
+  let!(:priority) { FactoryGirl.create(:priority, is_default: true) }
+  let!(:project) {
     FactoryGirl.create(:project, types: types)
   }
 
@@ -29,17 +29,6 @@ describe 'new work package', js: true do
     FactoryGirl.create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
   end
 
-  before do
-    status.save!
-    priority.save!
-    disable_leaving_unsaved_warning
-
-    login_as(user)
-
-    work_packages_page.visit_index
-    create_work_package('Task')
-  end
-
   def save_work_package!(expect_success=true)
     within '.work-packages--edit-actions' do
       click_button 'Save'
@@ -52,16 +41,30 @@ describe 'new work package', js: true do
 
   def create_work_package(type)
     loading_indicator_saveguard
-    work_packages_page.click_toolbar_button 'Work package'
 
-    within '#tasksDropdown' do
-      click_link type
-    end
+    button = find('.add-work-package:not([disabled])', text: 'Work package')
+    button.click
+
+    loading_indicator_saveguard
+    find('#work-package-subject input').set(subject)
+
+    page.find('#inplace-edit--write-value--type option', text: type).select_option
+    sleep 1
+  end
+
+  before do
+    disable_leaving_unsaved_warning
+    login_as(user)
   end
 
   shared_examples 'work package creation workflow' do
+    before do
+      create_work_package('Task')
+      expect(page).to have_selector(safeguard_selector, wait: 10)
+    end
+
     it 'creates a subsequent work package' do
-      work_packages_page.find_subject_field.set(subject)
+      find('#work-package-subject input').set(subject)
       save_work_package!
 
       subject_field.expect_state_text(subject)
@@ -75,16 +78,13 @@ describe 'new work package', js: true do
     context 'with missing values' do
       it 'shows an error when subject is missing' do
         find('#work-package-description textarea').set(description)
+        find('#work-package-subject input').set('')
         save_work_package!(false)
         notification.expect_error("Subject can't be blank.")
       end
     end
 
     context 'with subject set' do
-      before do
-        find('#work-package-subject input').set(subject)
-      end
-
       it 'creates a basic work package' do
         find('#work-package-description textarea').set(description)
 
@@ -163,8 +163,8 @@ describe 'new work package', js: true do
     let(:wp_page) { Pages::SplitWorkPackage.new(WorkPackage.new) }
 
     before do
-      # Safeguard to ensure the create form to be loaded
-      expect(page).to have_selector(safeguard_selector, wait: 10)
+      table = Pages::WorkPackagesTable.new(project)
+      table.visit!
     end
 
     it_behaves_like 'work package creation workflow'
@@ -172,12 +172,12 @@ describe 'new work package', js: true do
 
   context 'full screen' do
     let(:safeguard_selector) { '.work-package--new-state' }
-    let(:wp_page) { Pages::FullWorkPackage.new(WorkPackage.new) }
+    let(:existing_wp) { FactoryGirl.create :work_package, type: type_bug, project: project }
+    let(:wp_page) { Pages::FullWorkPackage.new(existing_wp) }
 
     before do
-      find('#work-packages-show-view-button').click
-      # Safeguard to ensure the create form to be loaded
-      expect(page).to have_selector(safeguard_selector, wait: 10)
+      wp_page.visit!
+      wp_page.ensure_page_loaded
     end
 
     it_behaves_like 'work package creation workflow'

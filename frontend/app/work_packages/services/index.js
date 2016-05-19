@@ -31,6 +31,7 @@ angular.module('openproject.workPackages.services')
     {
       groupName: 'details',
       attributes: [
+        'project',
         'type',
         'status',
         'percentageDone',

@@ -5,7 +5,7 @@
 # cucumber as usual, for instance to call a specific scenario:
 #
 #   ./bin/cucumber `bundle show openproject-reporting`/features/links.feature:23
-FEATURES=`rails runner "
+FEATURES=`bundle exec rails runner "
   support_files = [Rails.root.join('features').to_s] +
     Plugins::LoadPathHelper
       .cucumber_load_paths
@@ -13,5 +13,5 @@ FEATURES=`rails runner "
 
   puts support_files.join(' ')"`
 
-cucumber -r $FEATURES $*
+bundle exec cucumber -r $FEATURES $*
 

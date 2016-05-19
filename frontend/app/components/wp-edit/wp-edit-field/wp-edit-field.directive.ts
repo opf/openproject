@@ -80,17 +80,16 @@ export class WorkPackageEditFieldController {
     }
 
     this.formCtrl.updateWorkPackage()
-      .then(() => this.deactivate());
+      .finally(() => this.deactivate());
   }
 
   public deactivate() {
+    this._forceFocus = false;
     return this._active = false;
   }
 
-  public activate() {
-    if (this._active) {
-      return this.$q.when(true);
-    }
+  public activate(forceFocus = false) {
+    this._forceFocus = forceFocus;
 
     return this.buildEditField().then(() => {
       this._active = this.field.schema.writable;
@@ -143,8 +142,7 @@ export class WorkPackageEditFieldController {
   }
 
   public shouldFocus() {
-    return this._forceFocus || !this.workPackage.isNew ||
-      this.formCtrl.firstActiveField === this.fieldName;
+    return this._forceFocus || this.formCtrl.firstActiveField === this.fieldName;
   }
 
   public focusField() {
@@ -152,7 +150,7 @@ export class WorkPackageEditFieldController {
   }
 
   public handleUserActivate() {
-    this.activate().then((active) => {
+    this.activate(true).then((active) => {
       // Display a generic error if the field turns out not to be editable,
       // despite the field being editable.
       if (this.isEditable && !active) {
@@ -165,20 +163,25 @@ export class WorkPackageEditFieldController {
   }
 
   public handleUserBlur(): boolean {
-    if (!this.active || this.inEditMode) {
+    if (this.inEditMode) {
       return;
     }
 
-    this._forceFocus = false;
     this.deactivate();
+
   }
 
-  public handleUserCancel(focus) {
+  public handleUserCancel() {
     if (!this.active || this.inEditMode) {
       return;
     }
 
-    return this.reset(focus);
+    // Close the field
+    this.reset();
+
+    // Keep focus on read value
+    this._forceFocus = true;
+    this.focusField();
   }
 
   /**
@@ -195,14 +198,10 @@ export class WorkPackageEditFieldController {
     this.$element.toggleClass('-error', error);
   }
 
-  public reset(focus = false) {
+  public reset() {
     this.workPackage.restoreFromPristine(this.fieldName);
     this.fieldForm.$setPristine();
     this.deactivate();
-
-    if (focus) {
-      this.focusField();
-    }
   }
 
   protected buildEditField(): ng.IPromise<any> {

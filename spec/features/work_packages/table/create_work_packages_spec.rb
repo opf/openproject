@@ -47,6 +47,9 @@ describe 'inline create work package', js: true do
         subject_field.set_value 'Some subject'
         subject_field.save!
 
+        # Callback for adjustments
+        callback.call
+
         wp_table.expect_notification(
           message: 'Successful creation. Click here to open this work package in fullscreen view.'
         )
@@ -59,6 +62,9 @@ describe 'inline create work package', js: true do
         subject_field.expect_active!
         subject_field.set_value 'Another subject'
         subject_field.save!
+
+        # Callback for adjustments
+        callback.call
 
         expect(page).to have_selector('.wp--row .subject', text: 'Some subject')
         expect(page).to have_selector('.wp--row .subject', text: 'Another subject')
@@ -92,7 +98,23 @@ describe 'inline create work package', js: true do
       wp_table.visit!
     end
 
-    it_behaves_like 'inline create work package'
+    it_behaves_like 'inline create work package' do
+      let(:callback) {
+        ->() {
+          # Set project
+          project_field = wp_table.edit_field(nil, :project)
+          project_field.expect_active!
+
+          project_field.set_value project.name
+
+          # Set type
+          type_field = wp_table.edit_field(nil, :type)
+          type_field.expect_active!
+
+          type_field.set_value type.name
+        }
+      }
+    end
   end
 
   describe 'project context create' do
@@ -102,6 +124,10 @@ describe 'inline create work package', js: true do
       wp_table.visit!
     end
 
-    it_behaves_like 'inline create work package'
+    it_behaves_like 'inline create work package' do
+      let(:callback) {
+        ->() { }
+      }
+    end
   end
 end

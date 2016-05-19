@@ -76,15 +76,10 @@ end
 
 shared_examples 'a cancellable field' do
   shared_examples 'cancelling properly' do
-    it 'reverts to read state' do
+    it 'reverts to read state and keeps its focus' do
       expect(field).to_not be_editing
-    end
-
-    it 'keeps old content' do
       field.expect_state_text(work_package.send(property_name))
-    end
-
-    it 'focuses the trigger link' do
+      
       active_class_name = page.evaluate_script('document.activeElement.className')
       expect(active_class_name).to include(field.trigger_link_selector[1..-1])
     end

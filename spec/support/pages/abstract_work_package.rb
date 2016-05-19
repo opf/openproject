@@ -100,7 +100,7 @@ module Pages
 
     def set_attributes(key_value_map)
       key_value_map.each_with_index.map do |(key, value), index|
-        field = WorkPackageField.new(page, key)
+        field = work_package_field key
         field.activate_edition
 
         field.set_value value
@@ -109,6 +109,20 @@ module Pages
         unless index == key_value_map.length - 1
           ensure_no_conflicting_modifications
         end
+      end
+    end
+
+    def work_package_field(key)
+      if key =~ /customField(\d+)$/
+        cf = CustomField.find $1
+
+        if cf.field_format == 'text'
+          WorkPackageTextAreaField.new page, key
+        else
+          WorkPackageField.new page, key
+        end
+      else
+        WorkPackageField.new page, key
       end
     end
 
@@ -139,8 +153,32 @@ module Pages
       page.click_button(I18n.t('js.button_edit'))
     end
 
+    def trigger_edit_comment
+      add_comment_container.find('.inplace-editing--trigger-link').click
+    end
+
+    def update_comment(comment)
+      add_comment_container.fill_in 'inplace-edit--write-value--activity', with: comment
+    end
+
+    def preview_comment
+      label = I18n.t('js.inplace.btn_preview_enable')
+      add_comment_container
+        .find(:xpath, "//button[@title='#{label}']")
+        .click
+    end
+
+    def save_comment
+      label = I18n.t('js.label_add_comment')
+      add_comment_container.find(:xpath, "//a[@title='#{label}']").click
+    end
+
     def save!
       page.click_button(I18n.t('js.button_save'))
+    end
+
+    def add_comment_container
+      find('.work-packages--activity--add-comment')
     end
 
     private

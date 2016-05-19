@@ -108,7 +108,8 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
     child_work_package_page.expect_heading
     child_work_package_page.expect_current_path
 
-    child_work_package_page.update_attributes Subject: 'Child work package'
+    child_work_package_page.update_attributes Subject: 'Child work package',
+                                              Type: 'None'
 
     child_work_package_page.save!
 
@@ -136,7 +137,8 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
     child_work_package_page.expect_heading
     child_work_package_page.expect_current_path
 
-    child_work_package_page.update_attributes Subject: 'Child work package'
+    child_work_package_page.update_attributes Subject: 'Child work package',
+                                              Type: 'None'
 
     child_work_package_page.save!
 
