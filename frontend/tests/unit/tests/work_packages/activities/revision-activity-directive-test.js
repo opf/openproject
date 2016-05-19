@@ -33,7 +33,7 @@ describe('revisionActivity Directive', function() {
 
     beforeEach(angular.mock.module('openproject.workPackages.activities'));
     beforeEach(function() {
-      module(
+      angular.mock.module(
         'ng-context-menu',
         'openproject.api',
         'openproject.workPackages',

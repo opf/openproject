@@ -31,13 +31,13 @@
 describe('optionsDropdown Directive', function() {
     var compile, element, rootScope, scope, Query, I18n, AuthorisationService, stateParams = {};
 
-    beforeEach(module('openproject.models',
+    beforeEach(angular.mock.module('openproject.models',
                       'openproject.workPackages',
                       'openproject.api',
                       'openproject.layout',
                       'openproject.services'));
     
-    beforeEach(module('openproject.templates', function($provide) {
+    beforeEach(angular.mock.module('openproject.templates', function($provide) {
       var configurationService = {};
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -47,7 +47,7 @@ describe('optionsDropdown Directive', function() {
       $provide.constant('ConfigurationService', configurationService);
     }));
 
-    beforeEach(module('openproject.templates', function($provide) {
+    beforeEach(angular.mock.module('openproject.templates', function($provide) {
       var state = { go: function() { return false; } };
       $provide.value('$state', state);
     }));

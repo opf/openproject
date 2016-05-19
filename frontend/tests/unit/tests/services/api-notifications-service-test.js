@@ -32,7 +32,7 @@ describe('NotificationsService', function() {
       NotificationsService,
       ApiHelper;
 
-  beforeEach(module('openproject.services'));
+  beforeEach(angular.mock.module('openproject.services'));
 
   beforeEach(inject(function(_ApiNotificationsService_, _NotificationsService_, _ApiHelper_){
     ApiNotificationsService = _ApiNotificationsService_;

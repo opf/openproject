@@ -31,7 +31,7 @@
 describe('VersionService', function() {
 
   var VersionService, $httpBackend;
-  beforeEach(module('openproject.services'));
+  beforeEach(angular.mock.module('openproject.services'));
 
   beforeEach(inject(function(_$httpBackend_, _VersionService_){
     $httpBackend   = _$httpBackend_;

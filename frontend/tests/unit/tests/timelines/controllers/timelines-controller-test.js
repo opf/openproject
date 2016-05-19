@@ -37,7 +37,7 @@ describe('TimelinesController', function() {
     2: { id: 2 }
   };
 
-  beforeEach(module('openproject.timelines.controllers'));
+  beforeEach(angular.mock.module('openproject.timelines.controllers'));
 
   beforeEach(inject(function($rootScope, $controller) {
     scope = $rootScope.$new();

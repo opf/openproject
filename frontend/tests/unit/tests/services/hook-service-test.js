@@ -34,7 +34,7 @@ describe('HookService', function() {
   var callback, invalidCallback;
   var validId = 'myValidCallbacks';
 
-  beforeEach(module('openproject.services'));
+  beforeEach(angular.mock.module('openproject.services'));
 
   beforeEach(inject(function(_HookService_){
     HookService = _HookService_;

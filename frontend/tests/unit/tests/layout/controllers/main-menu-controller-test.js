@@ -31,7 +31,7 @@
 describe('MainMenuController', function() {
   var rootScope, sessionStorage, ctrl;
 
-  beforeEach(module('openproject.layout.controllers'));
+  beforeEach(angular.mock.module('openproject.layout.controllers'));
 
   beforeEach(inject(function($rootScope, $controller) {
     rootScope = $rootScope.$new();

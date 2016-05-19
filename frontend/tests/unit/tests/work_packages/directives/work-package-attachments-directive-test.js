@@ -31,7 +31,7 @@ describe('WorkPackageAttachmentsDirective', function() {
       workPackage = {links: {}};
 
   beforeEach(angular.mock.module('openproject.workPackages.directives'));
-  beforeEach(module('openproject.templates'));
+  beforeEach(angular.mock.module('openproject.templates'));
 
   var loadPromise,
       workPackageAttachmentsService = {
@@ -46,11 +46,11 @@ describe('WorkPackageAttachmentsDirective', function() {
         }
       };
 
-  beforeEach(module('openproject.workPackages.services', function($provide) {
+  beforeEach(angular.mock.module('openproject.workPackages.services', function($provide) {
     $provide.constant('WorkPackageAttachmentsService', workPackageAttachmentsService);
   }));
 
-  beforeEach(module('openproject.config', function($provide) {
+  beforeEach(angular.mock.module('openproject.config', function($provide) {
     $provide.constant('ConfigurationService', configurationService);
   }));
 

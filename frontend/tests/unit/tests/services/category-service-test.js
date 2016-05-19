@@ -34,7 +34,7 @@ describe('CategoryService', function() {
   var projectIdentifier = 'ocarina',
       apiPath = '/api/v3/projects/' + projectIdentifier + '/categories';
 
-  beforeEach(module('openproject.services'));
+  beforeEach(angular.mock.module('openproject.services'));
 
   beforeEach(inject(function(_$httpBackend_, _CategoryService_){
     $httpBackend   = _$httpBackend_;

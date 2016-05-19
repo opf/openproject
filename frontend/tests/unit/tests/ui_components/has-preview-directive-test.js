@@ -32,7 +32,7 @@ describe('hasPreview Directive', function() {
   var compile, element, scope;
 
   beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(module('openproject.templates'));
+  beforeEach(angular.mock.module('openproject.templates'));
 
   beforeEach(inject(function($rootScope, $compile) {
     var html = '<a href="/preview-url" id="text-preview" has-preview>Preview</a>';

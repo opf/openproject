@@ -37,7 +37,7 @@ describe('TimezoneService', function() {
   var isTimezoneSetStub;
   var timezoneStub;
 
-  beforeEach(module('openproject.services', 'openproject.config'));
+  beforeEach(angular.mock.module('openproject.services', 'openproject.config'));
 
   beforeEach(inject(function(_TimezoneService_, _ConfigurationService_){
     TimezoneService = _TimezoneService_;

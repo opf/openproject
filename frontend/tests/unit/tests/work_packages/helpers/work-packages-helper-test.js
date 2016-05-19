@@ -31,8 +31,8 @@
 describe('Work packages helper', function() {
   var WorkPackagesHelper;
 
-  beforeEach(module('openproject.helpers', 'openproject.services'));
-  beforeEach(module('openproject.templates', function($provide) {
+  beforeEach(angular.mock.module('openproject.helpers', 'openproject.services'));
+  beforeEach(angular.mock.module('openproject.templates', function($provide) {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub();

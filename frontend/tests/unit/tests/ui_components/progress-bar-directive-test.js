@@ -32,7 +32,7 @@ describe('progressBar Directive', function() {
     var compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.uiComponents'));
-    beforeEach(module('openproject.templates'));
+    beforeEach(angular.mock.module('openproject.templates'));
 
     beforeEach(inject(function($rootScope, $compile) {
       var html;

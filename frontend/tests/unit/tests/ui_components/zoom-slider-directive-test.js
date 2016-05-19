@@ -32,7 +32,7 @@ describe('zoomSlider Directive', function() {
   var I18n, compile, element, scope;
 
   beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(module('openproject.templates'));
+  beforeEach(angular.mock.module('openproject.templates'));
 
   beforeEach(inject(function($rootScope, $compile, _I18n_) {
     var html = '<zoom-slider scales="scales" selected-scale="scale"></zoom-slider>';

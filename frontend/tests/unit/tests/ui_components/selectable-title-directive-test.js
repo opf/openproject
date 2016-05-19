@@ -31,13 +31,13 @@
 describe('selectableTitle Directive', function() {
   var MODEL_SELECTOR = 'div.dropdown-scrollable a';
   var compile, element, rootScope, scope, $timeout, I18n, t;
-  beforeEach(module(
+  beforeEach(angular.mock.module(
     'openproject.workPackages',
     'openproject.workPackages.controllers',
     'openproject.templates',
     'truncate'));
 
-  beforeEach(module('openproject.uiComponents', function($provide) {
+  beforeEach(angular.mock.module('openproject.uiComponents', function($provide) {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);

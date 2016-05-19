@@ -32,7 +32,7 @@ describe('Timeline', function() {
 
   var model;
 
-  beforeEach(module('openproject.timelines.models', 'openproject.uiComponents'));
+  beforeEach(angular.mock.module('openproject.timelines.models', 'openproject.uiComponents'));
   beforeEach(inject(function(Timeline) {
     model = Timeline;
   }));

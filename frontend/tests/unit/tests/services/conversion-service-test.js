@@ -30,7 +30,7 @@ describe('ConversionService', function() {
   'use strict';
   var ConversionService;
 
-  beforeEach(module('openproject.services'));
+  beforeEach(angular.mock.module('openproject.services'));
 
   beforeEach(inject(function(_ConversionService_){
     ConversionService = _ConversionService_;

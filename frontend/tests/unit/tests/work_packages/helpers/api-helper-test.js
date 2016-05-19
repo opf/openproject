@@ -31,7 +31,7 @@
 describe('API helper', function() {
   var ApiHelper;
 
-  beforeEach(module('openproject.helpers',
+  beforeEach(angular.mock.module('openproject.helpers',
                     'openproject.workPackages.services'));
   beforeEach(inject(function(_ApiHelper_) {
     ApiHelper = _ApiHelper_;
