@@ -52,8 +52,7 @@ require 'shoulda/matchers'
 require 'rspec/example_disabler'
 
 # Required shared support helpers from spec/
-Dir[Rails.root.join('spec/support/shared/*.rb')].each { |f| require f }
-
+Dir[Rails.root.join('spec/support/shared/*.rb')].each do |f| require f end
 
 RSpec.configure do |config|
   config.expect_with :rspec, :minitest
