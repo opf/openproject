@@ -99,13 +99,10 @@ describe 'Inline editing work packages', js: true do
       subject_field.activate!
 
       subject_field.set_value('')
+      subject_field.expect_invalid
 
-      expect(UpdateWorkPackageService).to receive(:new).and_call_original
+      expect(UpdateWorkPackageService).not_to receive(:new)
       subject_field.save!
-      subject_field.expect_error
-
-      work_package.reload
-      expect(work_package.subject).to eq('Foobar')
     end
   end
 
