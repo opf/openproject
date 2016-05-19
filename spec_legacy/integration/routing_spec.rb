@@ -29,6 +29,12 @@
 require 'legacy_spec_helper'
 
 describe 'routing', type: :routing do
+
+  before do
+    # shoulda-matchers 3.1 symbolizes the format, breaking these legacy tests
+    stub_const('Shoulda::Matchers::ActionController::RouteParams::PARAMS_TO_SYMBOLIZE', [])
+  end
+
   context 'activities' do
     it {
       is_expected.to route(:get, '/activity').to(controller: 'activities',
