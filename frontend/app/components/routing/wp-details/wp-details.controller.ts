@@ -34,7 +34,6 @@ angular
 
 function WorkPackageDetailsController($scope,
                                       $state,
-                                      workPackage,
                                       I18n,
                                       RELATION_TYPES,
                                       RELATION_IDENTIFIERS,
@@ -50,25 +49,49 @@ function WorkPackageDetailsController($scope,
                                       NotificationsService,
                                       wpCacheService) {
 
-  var refreshRequiredFunction = $rootScope.$on('workPackageRefreshRequired', function () {
-    refreshWorkPackage();
-  });
-  $scope.$on('$destroy', refreshRequiredFunction);
 
   // TODO This is an ugly hack since most of this controller relies on the old HALAPIResource.
   // We should move all that to the new WorkPackageResource.
-  scopedObservable($scope, wpCacheService.loadWorkPackage(workPackage.props.id))
+  scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.workPackageId))
     .subscribe((wp: WorkPackageResource) => {
       $scope.workPackageResource = wp;
       wp.schema.$load();
     });
 
-  // initialization
-  setWorkPackageScopeProperties(workPackage);
+  $scope.initializedWorkPackage = WorkPackageService.getWorkPackage($state.params.workPackageId)
+    .then(function (workPackage) {
+      return init(workPackage);
+    });
 
-  $scope.I18n = I18n;
-  WorkPackageService.cache().put('preselectedWorkPackageId', $scope.workPackage.props.id);
-  $scope.maxDescriptionLength = 800;
+  function init(workPackage) {
+
+    var refreshRequiredFunction = $rootScope.$on('workPackageRefreshRequired', function () {
+      refreshWorkPackage();
+    });
+    $scope.$on('$destroy', refreshRequiredFunction);
+
+    // initialization
+    setWorkPackageScopeProperties(workPackage);
+
+    $scope.I18n = I18n;
+    WorkPackageService.cache().put('preselectedWorkPackageId', $scope.workPackage.props.id);
+    $scope.maxDescriptionLength = 800;
+
+    // expose to child controllers
+    $scope.outputMessage = outputMessage;
+    $scope.outputError = outputError;
+
+    // toggles
+    $scope.toggleStates = {
+      hideFullDescription: true,
+      hideAllAttributes: true
+    };
+
+    $scope.focusAnchorLabel = getFocusAnchorLabel(
+      $state.current.url.replace(/\//, ''),
+      $scope.workPackage
+    );
+  }
 
   function refreshWorkPackage() {
     WorkPackageService.getWorkPackage($scope.workPackage.props.id)
@@ -90,10 +113,6 @@ function WorkPackageDetailsController($scope,
   function outputError(error) {
     outputMessage(error.message || I18n.t('js.work_packages.error'), true);
   }
-
-  // expose to child controllers
-  $scope.outputMessage = outputMessage;
-  $scope.outputError = outputError;
 
   function setWorkPackageScopeProperties(workPackage) {
     $scope.workPackage = workPackage;
@@ -153,13 +172,6 @@ function WorkPackageDetailsController($scope,
   };
 
 
-  // toggles
-
-  $scope.toggleStates = {
-    hideFullDescription: true,
-    hideAllAttributes: true
-  };
-
   function getFocusAnchorLabel(tab, workPackage) {
     var tabLabel = I18n.t('js.work_packages.tabs.' + tab),
       params = {
@@ -171,8 +183,5 @@ function WorkPackageDetailsController($scope,
     return I18n.t('js.label_work_package_details_you_are_here', params);
   }
 
-  $scope.focusAnchorLabel = getFocusAnchorLabel(
-    $state.current.url.replace(/\//, ''),
-    $scope.workPackage
-  );
+
 }
