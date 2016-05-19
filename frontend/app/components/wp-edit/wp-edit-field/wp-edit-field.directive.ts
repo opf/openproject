@@ -169,7 +169,7 @@ export class WorkPackageEditFieldController {
 
   }
 
-  public handleUserCancel(focus) {
+  public handleUserCancel() {
     if (!this.active || this.inEditMode) {
       return;
     }
