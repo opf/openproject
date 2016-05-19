@@ -27,7 +27,7 @@
 // ++
 
 var path = require('path');
-var Server = require('karma').Server;
+var karma = require('karma');
 
 var config = require('./config');
 
@@ -43,10 +43,8 @@ function runKarma(successCallback, errorCallback) {
     exitCode === 0 ? successCallback() : errorCallback();
     process.exit(exitCode);
   };
-  var server = new Server(settings, callback);
-  server.start();
-
-  return server;
+  
+  karma.server.start(settings, callback);
 }
 
 module.exports = runKarma;
