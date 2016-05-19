@@ -26,7 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-module.exports = [
-  require('./webpack-main-config'),
-  require('./webpack-test-config')
-];
+var webpackConfig = require('./webpack-main-config');
+
+webpackConfig.entry = './openproject-tests.js';
+webpackConfig.output = {
+  path: __dirname + '/tests',
+  filename: 'openproject-test-bundle.js'
+};
+
+module.exports = webpackConfig;

@@ -64,7 +64,7 @@ module.exports = function (config) {
       'bower_components/jquery-mockjax/jquery.mockjax.js',
       'tests/unit/tests/asset_functions.js',
 
-      '../app/assets/javascripts/bundles/openproject-tests.js'
+      'tests/openproject-test-bundle.js'
     ],
 
 
