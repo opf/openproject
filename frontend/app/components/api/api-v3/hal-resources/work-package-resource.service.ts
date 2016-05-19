@@ -244,7 +244,7 @@ export class WorkPackageResource extends HalResource {
   }
 
   private mergeWithForm(form) {
-    var plainPayload = form.payload.$source;
+    var plainPayload = form.payload.$plain();
     var schema = form.$embedded.schema;
 
     // Merge embedded properties from form payload
