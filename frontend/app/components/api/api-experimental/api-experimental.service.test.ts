@@ -26,11 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {opApiModule, opServicesModule} from "../../../angular-modules";
+
 describe('apiExperimental service', () => {
   var apiExperimental;
 
-  beforeEach(angular.mock.module('openproject.api'));
-  beforeEach(angular.mock.module('openproject.services'));
+  beforeEach(angular.mock.module(opApiModule.name));
+  beforeEach(angular.mock.module(opServicesModule.name));
 
   beforeEach(angular.mock.inject((_apiExperimental_) => {
     apiExperimental = _apiExperimental_;
