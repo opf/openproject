@@ -6,7 +6,7 @@
 
     <h3>{{ ::vm.text.columnsLabel }}</h3>
 
-    <div cg-busy="vm.promise" class="columns-modal-content select2-modal-content" ng-if="!vm.impaired">
+    <div cg-busy="{promise: vm.promise, message: I18n.t('js.label_please_wait')}" class="columns-modal-content select2-modal-content" ng-if="!vm.impaired">
       <label for="selected_columns" class="hidden-for-sighted">{{ ::vm.text.selectedColumns }}</label>
 
       <ui-select multiple sortable="true" ng-model="vm.selectedColumns" theme="select2"
@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <div cg-busy="vm.promise" class="columns-modal-content select2-modal-content" ng-if="vm.impaired">
+    <div cg-busy="{promise: vm.promise, message: I18n.t('js.label_please_wait')}" class="columns-modal-content select2-modal-content" ng-if="vm.impaired">
       <label for="selected_columns" class="hidden-for-sighted">{{ ::vm.text.selectedColumns }}</label>
 
       <div ng-repeat="column in vm.availableColumns | orderBy:'title'">

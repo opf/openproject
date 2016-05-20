@@ -1,4 +1,4 @@
-<div cg-busy="vm.loaderPromise">
+<div cg-busy="{promise: vm.loaderPromise, message: I18n.t('js.label_please_wait')}">
   <div ng-if="vm.workPackage">
     <h2>{{ vm.getHeading() }}</h2>
 
