@@ -139,6 +139,10 @@
     > ul
       padding: 6px 0
 
+    &.-hide-icon
+      > a:after
+        display: none
+
   .drop-down--projects
     > li
       &:nth-last-child(2)
@@ -287,6 +291,16 @@ input.top-menu-search--input
       padding: 0 9px 0
     > ul > li
       max-width: 350px
+
+#account-nav-right
+  .drop-down.last-child
+    .avatar
+      // To accommodate the padding of the help icon which exisits because of the circle
+      margin-top: -5px
+  .icon-help1:before
+    padding-right: 0
+  .icon-user
+    font-size: 18px
 
 // Temporary overwrite searchfield styles for mobile view
 // until we have a full responsive layout
