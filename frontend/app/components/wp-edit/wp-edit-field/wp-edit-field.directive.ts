@@ -29,6 +29,9 @@
 import {WorkPackageEditFormController} from "./../wp-edit-form.directive";
 import {WorkPackageEditFieldService} from "./wp-edit-field.service";
 import {Field} from "./wp-edit-field.module";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 
 
 export class WorkPackageEditFieldController {
@@ -55,8 +58,8 @@ export class WorkPackageEditFieldController {
               protected $q,
               protected FocusHelper,
               protected NotificationsService,
+              protected wpCacheService: WorkPackageCacheService,
               protected I18n) {
-
   }
 
   public get workPackage() {
@@ -119,11 +122,14 @@ export class WorkPackageEditFieldController {
 
       this.editable = fieldSchema && fieldSchema.writable;
       this.fieldType = fieldSchema && this.wpEditField.fieldType(fieldSchema.type);
-      this.fieldLabel = this.fieldLabel || fieldSchema.name;
 
-      // Activate the field automatically when in editAllMode
-      if (this.inEditMode && this.isEditable) {
-        this.activate();
+      if (fieldSchema) {
+        this.fieldLabel = this.fieldLabel || fieldSchema.name;
+
+        // Activate the field automatically when in editAllMode
+        if (this.inEditMode && this.isEditable) {
+          this.activate();
+        }
       }
     });
   }
@@ -204,6 +210,13 @@ export class WorkPackageEditFieldController {
     this.deactivate();
   }
 
+  public watchForChanges() {
+    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(this.formCtrl.workPackage.id))
+      .subscribe(() => {
+        this.initializeField();
+      });
+  }
+
   protected buildEditField(): ng.IPromise<any> {
     return this.formCtrl.loadSchema().then(schema => {
       this.field = this.wpEditField.getField(this.workPackage, this.fieldName, schema[this.fieldName]);
@@ -221,7 +234,7 @@ function wpEditFieldLink(scope,
   controllers[1].formCtrl = controllers[0];
   controllers[1].formCtrl.registerField(scope.vm);
 
-  scope.vm.initializeField();
+  scope.vm.watchForChanges();
 
   element.addClass(scope.vm.fieldName);
   element.keyup(event => {
