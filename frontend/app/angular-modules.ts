@@ -166,6 +166,8 @@ export const openprojectModule = angular.module('openproject', [
   'openproject.messages',
   'openproject.timeEntries',
   'ngAnimate',
+  'foundation',
+  'foundation.modal',
   'ngAria',
   'ngSanitize',
   'truncate',
