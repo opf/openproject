@@ -54,6 +54,7 @@ export class WorkPackageEditFieldController {
               protected $timeout,
               protected $q,
               protected FocusHelper,
+              protected AutoCompleteHelper,
               protected NotificationsService,
               protected I18n) {
 
@@ -94,6 +95,10 @@ export class WorkPackageEditFieldController {
     return this.buildEditField().then(() => {
       this._active = this.field.schema.writable;
       if (this._active) {
+        this.$timeout(() => {
+          this.AutoCompleteHelper.enableTextareaAutoCompletion(this.$element.find('textarea'));
+        },0,false);
+
         this.focusField();
       }
       return this._active;
