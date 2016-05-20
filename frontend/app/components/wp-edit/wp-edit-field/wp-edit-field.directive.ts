@@ -60,6 +60,7 @@ export class WorkPackageEditFieldController {
               protected NotificationsService,
               protected wpCacheService: WorkPackageCacheService,
               protected I18n) {
+
   }
 
   public get workPackage() {
@@ -103,10 +104,10 @@ export class WorkPackageEditFieldController {
     });
   }
 
-  public initializeField() {
+  public initializeField(wp) {
     // Activate field when creating a work package
     // and the schema requires this field
-    if (this.workPackage.isNew && this.workPackage.requiredValueFor(this.fieldName)) {
+    if (wp.isNew && this.workPackage.requiredValueFor(this.fieldName)) {
       this.activate();
 
       var activeField = this.formCtrl.firstActiveField;
@@ -117,7 +118,7 @@ export class WorkPackageEditFieldController {
 
     // Mark the td field if it is inline-editable
     // We're resolving the non-form schema here since its loaded anyway for the table
-    this.workPackage.schema.$load().then(schema => {
+    wp.schema.$load().then(schema => {
       var fieldSchema = schema[this.fieldName];
 
       this.editable = fieldSchema && fieldSchema.writable;
@@ -210,13 +211,6 @@ export class WorkPackageEditFieldController {
     this.deactivate();
   }
 
-  public watchForChanges() {
-    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(this.formCtrl.workPackage.id))
-      .subscribe(() => {
-        this.initializeField();
-      });
-  }
-
   protected buildEditField(): ng.IPromise<any> {
     return this.formCtrl.loadSchema().then(schema => {
       this.field = this.wpEditField.getField(this.workPackage, this.fieldName, schema[this.fieldName]);
@@ -231,10 +225,17 @@ function wpEditFieldLink(scope,
                          attrs,
                          controllers: [WorkPackageEditFormController, WorkPackageEditFieldController]) {
 
-  controllers[1].formCtrl = controllers[0];
-  controllers[1].formCtrl.registerField(scope.vm);
+  var formCtrl = controllers[0];
+  controllers[1].formCtrl = formCtrl;
 
-  scope.vm.watchForChanges();
+  formCtrl.registerField(scope.vm);
+  formCtrl.onWorkPackageUpdated('wp-edit-field-' + scope.vm.fieldName, (wp) => {
+    scope.vm.initializeField(wp);
+  });
+
+  if (scope.vm.workPackage) {
+    scope.vm.initializeField(scope.vm.workPackage);
+  }
 
   element.addClass(scope.vm.fieldName);
   element.keyup(event => {

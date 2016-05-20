@@ -42,7 +42,6 @@ export class WorkPackageDisplayAttributeController {
   public placeholder:string;
   public placeholderOptional:string;
   public workPackage:any;
-  public schema:HalResource;
 
   constructor(protected $scope:ng.IScope,
               protected I18n:op.I18n,
@@ -54,11 +53,10 @@ export class WorkPackageDisplayAttributeController {
                          I18n.t('js.work_packages.placeholders.default');
     this.displayText = this.placeholder;
 
-    scopedObservable(this.$scope, wpCacheService.loadWorkPackage(this.workPackage.id))
-      .subscribe((wp: WorkPackageResource) => {
-        this.workPackage = wp;
-        this.updateAttribute();
-      });
+    // Update the attribute initially
+    if (this.workPackage) {
+      this.updateAttribute(this.workPackage);
+    }
   }
 
   public activateIfEditable(event) {
@@ -103,12 +101,16 @@ export class WorkPackageDisplayAttributeController {
       this.displayType = 'Text';
     }
     else {
-      this.displayType = this.schema[this.attribute].type;
+      this.displayType = this.workPackage.schema[this.attribute].type;
     }
   }
 
-  protected updateAttribute() {
-    this.schema.$load().then(() => {
+  protected updateAttribute(wp) {
+    this.workPackage = wp;
+
+    wp.schema.$load().then(() => {
+      const wpAttr:any = wp[this.attribute];
+
       if (this.workPackage.isNew && this.attribute === 'id') {
         this.displayText = '';
         return;
@@ -117,7 +119,9 @@ export class WorkPackageDisplayAttributeController {
       this.setDisplayType();
 
       var text = this.WorkPackagesHelper.formatValue(this.getValue(), this.displayType);
-      this.displayText = text || this.placeholder;
+
+      this.$scope.$evalAsync(() =>  {
+        this.displayText = text || this.placeHolder;
     });
   }
 
@@ -146,13 +150,19 @@ function wpDisplayAttrDirective() {
     controllers) {
 
     scope.$ctrl.wpEditField = controllers[0];
+
+    // Listen for changes to the work package on the form ctrl
+    var formCtrl = controllers[1];
+    formCtrl.onWorkPackageUpdated('wp-display-attr-' + scope.$ctrl.attribute, (wp) => {
+      scope.$evalAsync(() => scope.$ctrl.updateAttribute(wp));
+    });
   }
 
   return {
     restrict: 'E',
     replace: true,
     templateUrl: '/components/work-packages/wp-display-attr/wp-display-attr.directive.html',
-    require: ['^?wpEditField'],
+    require: ['^?wpEditField', '^?wpEditForm'],
     link: wpTdLink,
 
     scope: {
