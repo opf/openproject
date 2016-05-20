@@ -79,7 +79,7 @@ body.controller-work_packages.action-show {
     padding-left: 0.375rem;
 
     .work-packages--panel-inner {
-      padding: 2px 20px 20px 0px;
+      padding: 5px 20px 20px 0px;
 
       // These styles were taken over from the details tab styling.
       // Thus the header and the details tab can be aligned on the same line.
@@ -213,9 +213,9 @@ body.controller-work_packages.action-show {
 
   .subject-header {
     float: left;
-    margin-right: -570px;
+    margin-right: -470px;
     margin-top: 0;
-    padding: 10px 570px 0 0;
+    padding: 10px 470px 0 0;
     width: 100%;
 
     .subject-header-inner {
