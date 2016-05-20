@@ -29,6 +29,9 @@
 import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 import {wpDirectivesModule} from "../../../angular-modules";
 import {WorkPackageEditFieldController} from "../../wp-edit/wp-edit-field/wp-edit-field.directive";
+import {WorkPackageCacheService} from "../work-package-cache.service";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 
 export class WorkPackageDisplayAttributeController {
   public wpEditField:WorkPackageEditFieldController;
@@ -43,6 +46,7 @@ export class WorkPackageDisplayAttributeController {
 
   constructor(protected $scope:ng.IScope,
               protected I18n:op.I18n,
+              protected wpCacheService:WorkPackageCacheService,
               protected PathHelper:any,
               protected WorkPackagesHelper:any) {
 
@@ -50,11 +54,11 @@ export class WorkPackageDisplayAttributeController {
                          I18n.t('js.work_packages.placeholders.default');
     this.displayText = this.placeholder;
 
-    $scope.$watch('$ctrl.workPackage.' + this.attribute, (newValue, oldValue) => {
-      if (angular.isDefined(newValue) || newValue !== oldValue) {
+    scopedObservable(this.$scope, wpCacheService.loadWorkPackage(this.workPackage.id))
+      .subscribe((wp: WorkPackageResource) => {
+        this.workPackage = wp;
         this.updateAttribute();
-      }
-    });
+      });
   }
 
   public activateIfEditable(event) {

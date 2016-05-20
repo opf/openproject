@@ -119,6 +119,7 @@ export class WorkPackageResource extends HalResource {
         // the changes from API
         this.schema = form.$embedded.schema;
         deferred.resolve(form);
+        wpCacheService.updateWorkPackage(this);
       })
       .catch(error => {
         this.form = oldForm;
