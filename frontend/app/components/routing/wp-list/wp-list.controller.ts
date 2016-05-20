@@ -128,7 +128,7 @@ function WorkPackagesListController($scope,
     WorkPackagesTableService.setColumns($scope.query.columns);
     WorkPackagesTableService.addColumnMetaData(meta);
     WorkPackagesTableService.setGroupBy($scope.query.groupBy);
-    WorkPackagesTableService.buildRows(workPackages, $scope.query.groupBy);
+    WorkPackagesTableService.buildRows(workPackages, $scope.query.groupBy, $state.params.workPackageId);
     WorkPackagesTableService.setBulkLinks(bulkLinks);
 
     // query data

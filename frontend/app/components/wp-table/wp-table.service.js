@@ -82,8 +82,8 @@ function WorkPackagesTableService($filter, QueryService, WorkPackagesTableHelper
       }).indexOf(column.name) !== -1;
     },
 
-    buildRows: function(workPackages, groupBy) {
-      this.setRows(WorkPackagesTableHelper.buildRows(workPackages, groupBy));
+    buildRows: function(workPackages, groupBy, splitViewWorkPackageId) {
+      this.setRows(WorkPackagesTableHelper.buildRows(workPackages, groupBy, splitViewWorkPackageId));
     },
 
     setRows: function(rows) {
