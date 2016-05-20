@@ -45,12 +45,10 @@ module OpenProject
       # it prepends the theme path to any image path the theme overrides/overwrites
       # it doesn't do it for the default theme, though
       #
-      # NOTE: it takes an optional options hash since Rails 4
-      #
       # ALSO NOTE: most image helpers (like favicon_link_tag) delegate to this method
       # this hopefully makes it a good point to patch the theme behaviour for images
-      def image_path(source) # , options = {}
-        super current_theme.path_to_image(source) # , options
+      def image_path(source, options = {})
+        super current_theme.path_to_image(source), options
       end
       alias_method :path_to_image, :image_path # aliased to avoid conflicts with an image_path named route
     end

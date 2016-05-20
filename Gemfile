@@ -36,11 +36,11 @@ gem 'rails-observers'
 gem 'responders', '~> 2.0'
 
 gem 'coderay', '~> 1.1.0'
-gem 'rubytree', '~> 0.8.3'
+gem 'rubytree', '~> 0.9.7'
 gem 'rdoc', '>= 2.4.2'
 gem 'globalize', '~> 5.0.1'
 gem 'omniauth', github: 'oliverguenther/omniauth'
-gem 'request_store', '~> 1.1.0'
+gem 'request_store', '~> 1.3.0'
 gem 'gravatar_image_tag', '~> 1.2.0'
 
 gem 'warden', '~> 1.2'
@@ -48,7 +48,7 @@ gem 'warden-basic_auth', '~> 0.2.1'
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
 gem 'rails_autolink', '~> 1.1.6'
-gem 'will_paginate', '~> 3.0'
+gem 'will_paginate', '~> 3.1'
 gem 'acts_as_list', '~> 0.7.2'
 
 gem 'friendly_id', '~> 5.1.0'
@@ -69,7 +69,7 @@ gem 'htmldiff'
 # used for statistics on svn repositories
 gem 'svg-graph', github: 'why-el/svg-graph', branch: 'silence-class-access-warning'
 
-gem 'date_validator', '~> 0.7.1'
+gem 'date_validator', '~> 0.9.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
@@ -83,7 +83,7 @@ gem 'rabl', '0.9.3'
 gem 'multi_json', '~> 1.11.0'
 gem 'oj', '~> 2.14.6'
 
-gem 'delayed_job_active_record', '~> 4.0.2'
+gem 'delayed_job_active_record', '~> 4.1.0'
 gem 'daemons'
 
 # include custom rack-protection for now until rkh/rack-protection is fixed and released
@@ -100,7 +100,7 @@ gem 'gon', '~> 4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
-gem 'airbrake', '~> 4.1.0', require: false
+gem 'airbrake', '~> 5.1.0', require: false
 
 gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.git', branch: 'master'
 
@@ -114,12 +114,11 @@ group :production do
   gem 'dalli', '~> 2.7.6'
 end
 
-gem 'sprockets',        '~> 2.12.3'
-gem 'sass-rails',       '~> 5.0.3'
-gem 'sass',             '~> 3.4.12'
+gem 'sprockets', '~> 3.5.2'
+gem 'sass-rails', '~> 5.0.3'
+gem 'sass', '~> 3.4.12'
 gem 'autoprefixer-rails'
-gem 'execjs',           '~> 2.4.0'
-gem 'bourbon',          '~> 4.2.0'
+gem 'bourbon', '~> 4.2.0'
 
 gem 'prototype-rails', git: 'https://github.com/rails/prototype-rails.git', branch: '4.2'
 # remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
@@ -135,52 +134,56 @@ gem 'unicorn'
 
 gem 'nokogiri', '~> 1.6.7'
 
-gem 'carrierwave', '~> 0.10.0'
-gem 'fog', '~> 1.23.0', require: 'fog/aws/storage'
+# carrierwave 0.11.3 should allow to use fog-aws without the rest of the
+# fog dependency chain. We only need aws here, so we can avoid it
+# at the cost of referencing carrierwave#master for now.
+gem 'fog-aws'
+gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave', branch: 'master'
 
 group :test do
   gem 'rack-test', '~> 0.6.2'
   gem 'shoulda-context', '~> 1.2'
-  gem 'launchy', '~> 2.3.0'
+  gem 'launchy'
 
   # Require factory_girl for usage with openproject plugins testing
   # FactoryGirl needs to be available when loading app otherwise factory
   # definitions from core are not available in the plugin thus specs break
   gem 'factory_girl', '~> 4.5'
   # require factory_girl_rails for convenience in core development
-  gem 'factory_girl_rails', '~> 4.5', require: false
+  gem 'factory_girl_rails', '~> 4.6', require: false
 
+  gem 'cucumber', '~> 1.3.19'
   gem 'cucumber-rails', '~> 1.4.2', require: false
   gem 'rack_session_access'
-  gem 'database_cleaner', '~> 1.4.1'
-  gem 'rspec', '~> 3.3.0'
+  gem 'database_cleaner', '~> 1.5.1'
+  gem 'rspec', '~> 3.4.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 3.3.0', group: :development
-  gem 'rspec-activemodel-mocks', '~> 1.0.2', git: 'https://github.com/rspec/rspec-activemodel-mocks'
+  gem 'rspec-rails', '~> 3.4.2', group: :development
+  gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', require: false
-  gem 'capybara', '~> 2.4.4'
-  gem 'capybara-screenshot', '~> 1.0.4'
+  gem 'capybara', '~> 2.6.2'
+  gem 'capybara-screenshot', '~> 1.0.11'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
-  gem 'capybara-ng', '~> 0.2.1'
+  gem 'capybara-ng', '~> 0.2.2'
   gem 'selenium-webdriver', '~> 2.52.0'
   gem 'poltergeist'
-  gem 'timecop', '~> 0.7.1'
-  gem 'webmock', '~> 1.21.0', require: false
+  gem 'timecop', '~> 0.8'
+  gem 'webmock', '~> 1.24.2', require: false
 
   gem 'rb-readline', '~> 0.5.1' # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
-  gem 'simplecov', '0.8.0.pre', require: false
-  gem 'shoulda-matchers', '~> 2.8', require: nil
+  gem 'simplecov', require: false
+  gem 'shoulda-matchers', '~> 3.1', require: nil
   gem 'json_spec'
   gem 'activerecord-tableless', '~> 1.0'
   gem 'codecov', require: nil
-  gem 'equivalent-xml', '~> 0.5.1'
+  gem 'equivalent-xml', '~> 0.6'
 end
 
 group :ldap do
-  gem 'net-ldap', '~> 0.8.0'
+  gem 'net-ldap', '~> 0.14.0'
 end
 
 group :development do
@@ -197,8 +200,8 @@ group :development, :test do
   gem 'pry-rescue'
   gem 'pry-byebug', platforms: [:mri]
   gem 'pry-doc'
-  gem 'parallel_tests', '~> 2.1.2'
-  gem 'rubocop', '~> 0.32'
+  gem 'parallel_tests', '~> 2.4.1'
+  gem 'rubocop'
 end
 
 # API gems
@@ -210,16 +213,11 @@ gem 'reform', '~> 1.2.6', require: false
 
 platforms :mri, :mingw, :x64_mingw do
   group :mysql2 do
-    # Can not be updated beyond this because of:
-    # https://github.com/brianmario/mysql2/issues/675
-    # Please also see
-    # https://github.com/rails/rails/commit/5da5e3772c32593ecf2f27b8865e81dcbe3af692
-    # meaning the limitation will be removed in rails 5.x.x and 4.2.5
-    gem 'mysql2', '~> 0.3.20'
+    gem 'mysql2', '~> 0.4'
   end
 
   group :postgres do
-    gem 'pg', '~> 0.18.3'
+    gem 'pg', '~> 0.18.4'
   end
 end
 

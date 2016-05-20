@@ -83,30 +83,6 @@ OpenProject::Application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
-  # Precompile additional assets.
-  # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-  config.assets.precompile += %w( default.css
-                                  accessibility.css accessibility.js
-                                  admin_users.js
-                                  autocompleter.js
-                                  calendar/lang/*.js
-                                  contextual_fieldset.js
-                                  copy_issue_actions.js
-                                  date-de-DE.js date-en-US.js
-                                  jstoolbar/lang/*.js
-                                  members_form.js
-                                  members_select_boxes.js
-                                  new_user.js
-                                  project/responsible_attribute.js
-                                  repository_navigation.js
-                                  select_list_move.js
-                                  timelines.css
-                                  timelines_modal.js
-                                  timelines_select_boxes.js
-                                  types_checkboxes.js
-                                  work_packages.js
-                              )
-
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false

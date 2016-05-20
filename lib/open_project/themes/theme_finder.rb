@@ -65,7 +65,7 @@ module OpenProject
           # we need to wrap the call to #stylesheet_manifest in a Proc,
           # because when this code is executed the theme instance (theme) hasn't had
           # a chance to override the method yet
-          Rails.application.config.assets.precompile << -> (path) {
+          Rails.application.config.assets.precompile << -> (path, *_args) {
             return if theme.abstract?
 
             theme.stylesheet_manifest == path

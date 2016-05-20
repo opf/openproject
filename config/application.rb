@@ -127,22 +127,6 @@ module OpenProject
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = 'utf-8'
 
-    # Whitelist assets to be precompiled.
-    #
-    # This is a workaround for an issue where the precompilation process will
-    # fail on extensionless files (README, LICENSE, etc.)
-    # See: https://github.com/sstephenson/sprockets/issues/347
-    precompile_whitelist = %w(
-      .html .erb .haml
-      .png  .jpg .gif .jpeg .ico
-      .eot  .otf .svc .woff .ttf
-      .svg
-    )
-    config.assets.precompile.shift
-    config.assets.precompile.unshift -> (path) {
-      (extension = File.extname(path)).present? and extension.in?(precompile_whitelist)
-    }
-
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
 

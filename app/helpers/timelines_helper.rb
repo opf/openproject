@@ -156,8 +156,6 @@ module TimelinesHelper
     end
   end
 
-  # Push timeline data to view as JSON via gon
-
   include Gon::GonHelpers
 
   def push_visible_timelines(visible_timelines, target = gon)
