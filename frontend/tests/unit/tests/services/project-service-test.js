@@ -31,7 +31,7 @@
 describe('ProjectService', function() {
 
   var $httpBackend, ProjectService;
-  beforeEach(module('openproject.api', 'openproject.services', 'openproject.models'));
+  beforeEach(angular.mock.module('openproject.api', 'openproject.services', 'openproject.models'));
 
   beforeEach(inject(function(_$httpBackend_, _ProjectService_) {
     $httpBackend   = _$httpBackend_;

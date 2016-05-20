@@ -54,7 +54,7 @@ describe('Planning Element', function(){
     });
   });
 
-  beforeEach(module('openproject.helpers', 'openproject.timelines.models', 'openproject.uiComponents'));
+  beforeEach(angular.mock.module('openproject.helpers', 'openproject.timelines.models', 'openproject.uiComponents'));
   beforeEach(inject(function(_PlanningElement_, _Timeline_, _PathHelper_) {
     PlanningElement = _PlanningElement_;
     Timeline        = _Timeline_;

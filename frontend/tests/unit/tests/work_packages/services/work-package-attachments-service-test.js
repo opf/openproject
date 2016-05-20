@@ -61,7 +61,7 @@ describe('workPackageAttachmentsService', function() {
     }
   };
 
-  beforeEach(module('openproject.workPackages'));
+  beforeEach(angular.mock.module('openproject.workPackages'));
 
   beforeEach(inject(function(_WorkPackageAttachmentsService_, _$httpBackend_){
     WorkPackageAttachmentsService = _WorkPackageAttachmentsService_;

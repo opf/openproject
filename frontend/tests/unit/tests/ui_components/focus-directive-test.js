@@ -37,9 +37,9 @@ describe('focus Directive', function() {
   disabledButton = angular.element(button);
 
   beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(module('openproject.templates'));
+  beforeEach(angular.mock.module('openproject.templates'));
 
-  beforeEach(module('openproject.uiComponents', function($provide) {
+  beforeEach(angular.mock.module('openproject.uiComponents', function($provide) {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);

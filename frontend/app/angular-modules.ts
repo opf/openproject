@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-declare var I18n:op.I18n;
+declare const I18n:op.I18n;
 
 // global
 angular.module('openproject.uiComponents',
@@ -34,8 +34,8 @@ angular.module('openproject.uiComponents',
   .run(['$rootScope', function($rootScope){
     $rootScope.I18n = I18n;
   }]);
-export var configModule = angular.module('openproject.config', []);
-export var opServicesModule = angular.module('openproject.services', [
+export const configModule = angular.module('openproject.config', []);
+export const opServicesModule = angular.module('openproject.services', [
   'openproject.uiComponents',
   'openproject.helpers',
   'openproject.workPackages.config',
@@ -148,11 +148,11 @@ angular.module('openproject.templates', []);
 angular.module('openproject.inplace-edit', []);
 angular.module('openproject.responsive', []);
 
-export var filtersModule = angular.module('openproject.filters', [
+export const filtersModule = angular.module('openproject.filters', [
   'openproject.models'
 ]);
 
-export var wpButtonsModule = angular.module('openproject.wpButtons',
+export const wpButtonsModule = angular.module('openproject.wpButtons',
   ['ui.router', 'openproject.services']);
 
 // main app

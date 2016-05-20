@@ -32,7 +32,7 @@ describe('WorkPackagesOverviewService', function() {
 
   var Service;
 
-  beforeEach(module('openproject.services'));
+  beforeEach(angular.mock.module('openproject.services'));
 
   beforeEach(inject(function(_WorkPackagesOverviewService_){
     Service = _WorkPackagesOverviewService_;

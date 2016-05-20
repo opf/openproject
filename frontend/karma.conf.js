@@ -29,7 +29,7 @@
 // Karma configuration
 // Generated on Sun Apr 06 2014 00:15:29 GMT+0200 (CEST)
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -48,48 +48,32 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'app/global.js',
-      'app/openproject-app.js',
-      "bower_components/angular-mocks/angular-mocks.js",
+      '../app/assets/javascripts/bundles/openproject-global.js',
 
-      "../app/assets/javascripts/lib/jquery.trap.js",
-
-      '../app/assets/javascripts/autocompleter.js',
-      '../app/assets/javascripts/members_select_boxes.js',
+      '../app/assets/javascripts/lib/jquery.trap.js',
       '../app/assets/javascripts/openproject.js',
-      '../app/assets/javascripts/timelines_select_boxes.js',
       '../app/assets/javascripts/jstoolbar/jstoolbar.js',
 
       '../app/assets/javascripts/date-en-US.js',
 
-      'tests/unit/tests/timeline_stubs.js',
       'tests/unit/lib/rosie.js',
-      'tests/unit/tests/test-helper.js',
-      'tests/unit/factories/*factory.js',
-
+      'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/jquery-mockjax/jquery.mockjax.js',
-
       'tests/unit/tests/asset_functions.js',
-      'tests/unit/tests/**/*test.js',
-      'tests/unit/tests/legacy-tests.js',
 
-      'app/components/**/*.test.js'
+      'tests/openproject-test-bundle.js'
     ],
 
 
     // list of files to exclude
-    exclude: [
-
-    ],
+    exclude: [],
 
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       '/templates/**/*.html': ['ng-html2js'],
-      '../app/assets/javascripts/*.js': ['coverage'],
-      'app/**/*.js': ['webpack'],
-      'tests/unit/tests/typescript/**/*.js': ['webpack']
+      '../app/assets/javascripts/*.js': ['coverage']
     },
     ngHtml2JsPreprocessor: {
       module: 'openproject.templates'
@@ -128,22 +112,15 @@ module.exports = function(config) {
     singleRun: true,
 
 
-
     junitReporter: {
       outputFile: 'tests/unit/reports/test-results.xml'
     },
 
     coverageReporter: {
       reporters: [
-        { type: 'html', dir:'coverage/' },
-        { type: 'cobertura' }
+        {type: 'html', dir: 'coverage/'},
+        {type: 'cobertura'}
       ]
-    },
-
-    webpack: require('./webpack.config.js'),
-
-    webpackServer: {
-      noInfo: true
     }
   });
 };

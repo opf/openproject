@@ -26,37 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-describe('ConversionService', function() {
-  'use strict';
-  var ConversionService;
+require('./init-app');
 
-  beforeEach(angular.mock.module('openproject.services'));
+var requireComponent;
 
-  beforeEach(inject(function(_ConversionService_){
-    ConversionService = _ConversionService_;
-  }));
+require('../tests/unit/tests/timeline_stubs.js');
+require('../tests/unit/tests/test-helper.js');
 
-  it('be able to turn bytes into KiloBytes', function() {
-    var kiloBytes = ConversionService.kilobytes(1000);
-    expect(kiloBytes).to.eql(1);
-  });
+requireComponent = require.context('../tests/unit/factories/');
+requireComponent.keys().forEach(requireComponent);
 
-  it('be able to turn bytes into MegaBytes', function() {
-    var megabytes = ConversionService.megabytes(1000000);
-    expect(megabytes).to.eql(1);
-  });
+requireComponent = require.context('../tests/unit/tests/', true, /test\.js$/);
+requireComponent.keys().forEach(requireComponent);
 
-  it('should dynamically convert bytes into Mega- and Kilobytes', function() {
-    var result = ConversionService.fileSize(1000000);
-    expect(result).to.eql('1MB');
+require('../tests/unit/tests/legacy-tests.js');
 
-    result = ConversionService.fileSize(1000);
-    expect(result).to.eql('1kB');
-
-    result = ConversionService.fileSize(1234);
-    expect(result).to.eql('1.2kB');
-
-    result = ConversionService.fileSize(1874234);
-    expect(result).to.eql('1.9MB');
-  });
-});
+requireComponent = require.context('./components/', true, /^.*\.test\.(js|ts)$/);
+requireComponent.keys().forEach(requireComponent);

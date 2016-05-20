@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,39 +24,10 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-describe('ConversionService', function() {
-  'use strict';
-  var ConversionService;
+var path = require('path');
 
-  beforeEach(angular.mock.module('openproject.services'));
-
-  beforeEach(inject(function(_ConversionService_){
-    ConversionService = _ConversionService_;
-  }));
-
-  it('be able to turn bytes into KiloBytes', function() {
-    var kiloBytes = ConversionService.kilobytes(1000);
-    expect(kiloBytes).to.eql(1);
-  });
-
-  it('be able to turn bytes into MegaBytes', function() {
-    var megabytes = ConversionService.megabytes(1000000);
-    expect(megabytes).to.eql(1);
-  });
-
-  it('should dynamically convert bytes into Mega- and Kilobytes', function() {
-    var result = ConversionService.fileSize(1000000);
-    expect(result).to.eql('1MB');
-
-    result = ConversionService.fileSize(1000);
-    expect(result).to.eql('1kB');
-
-    result = ConversionService.fileSize(1234);
-    expect(result).to.eql('1.2kB');
-
-    result = ConversionService.fileSize(1874234);
-    expect(result).to.eql('1.9MB');
-  });
-});
+module.exports = {
+  frontendPath: path.resolve(__dirname, '..')
+};

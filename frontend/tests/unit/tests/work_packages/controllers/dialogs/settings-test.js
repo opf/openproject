@@ -32,7 +32,7 @@ describe('SettingsModalController', function() {
   var scope, $q, defer, settingsModal, QueryService, NotificationsService;
   var ctrl, buildController;
 
-  beforeEach(module('openproject.workPackages.controllers'));
+  beforeEach(angular.mock.module('openproject.workPackages.controllers'));
   beforeEach(inject(function($rootScope, $controller, _$q_) {
     scope = $rootScope.$new();
     $q    = _$q_;

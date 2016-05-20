@@ -39,7 +39,7 @@ describe('sortingModal', function() {
     { name: 'cake', title: 'Cake', sortable: true }
   ];
 
-  beforeEach(module('openproject.workPackages.controllers',
+  beforeEach(angular.mock.module('openproject.workPackages.controllers',
                     'openproject.services',
                     'openproject.models'));
 

@@ -28,7 +28,7 @@
 
 /*jshint expr: true*/
 
-var gon = { timeline_options: { } };
+window.gon = { timeline_options: { } };
 
 describe('TimelinesController', function() {
   var ctrl, scope;
@@ -37,12 +37,13 @@ describe('TimelinesController', function() {
     2: { id: 2 }
   };
 
-  beforeEach(module('openproject.timelines.controllers'));
+  beforeEach(angular.mock.module('openproject.timelines.controllers'));
 
   beforeEach(inject(function($rootScope, $controller) {
     scope = $rootScope.$new();
+    scope.timelineOptions = timelineOptions;
 
-    gon = { timeline_options: timelineOptions };
+    window.gon = { timeline_options: timelineOptions };
 
     ctrl = $controller("TimelinesController", {
       $scope: scope

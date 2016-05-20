@@ -33,7 +33,7 @@ describe('userActivity Directive', function() {
 
     beforeEach(angular.mock.module('openproject.workPackages.activities'));
     beforeEach(function() {
-      module(
+      angular.mock.module(
         'ng-context-menu',
         'openproject.api',
         'openproject.workPackages',
@@ -42,7 +42,7 @@ describe('userActivity Directive', function() {
         'openproject.config',
         'openproject.templates'
       );
-      module(function ($provide) {
+      angular.mock.module(function ($provide) {
         $provide.value('$uiViewScroll', angular.noop);
       });
     });

@@ -31,7 +31,7 @@
 describe('Custom field helper', function() {
   var CustomFieldHelper;
 
-  beforeEach(module('openproject.helpers'));
+  beforeEach(angular.mock.module('openproject.helpers'));
   beforeEach(inject(function(_CustomFieldHelper_) {
     CustomFieldHelper = _CustomFieldHelper_;
   }));

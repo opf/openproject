@@ -32,7 +32,7 @@ describe('User', function() {
 
   var model;
 
-  beforeEach(module('openproject.timelines.models'));
+  beforeEach(angular.mock.module('openproject.timelines.models'));
   beforeEach(inject(function(User) {
     model = User;
   }));

@@ -26,11 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {LoadingIndicator} from "./loading-indicator.service";
-
 
 describe('loadingIndicator service', () => {
-  var loadingIndicator:LoadingIndicator;
+  var loadingIndicator;
 
   beforeEach(angular.mock.module('openproject.workPackages.services'));
 

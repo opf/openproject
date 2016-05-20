@@ -45,7 +45,7 @@ describe('Project', function(){
 
   });
 
-  beforeEach(module('openproject.timelines.models', 'openproject.uiComponents'));
+  beforeEach(angular.mock.module('openproject.timelines.models', 'openproject.uiComponents'));
   beforeEach(inject(function(_Project_, _PlanningElement_, _Timeline_) {
     Project         = _Project_;
     PlanningElement = _PlanningElement_;
@@ -380,7 +380,7 @@ describe('Project', function(){
 describe('Helper Functions', function () {
   var Timeline;
 
-  beforeEach(module('openproject.timelines.models'));
+  beforeEach(angular.mock.module('openproject.timelines.models'));
   beforeEach(inject(function(_Timeline_) {
     Timeline = _Timeline_;
   }));

@@ -33,7 +33,7 @@ import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-reso
 describe('WorkPackageCacheService', () => {
 
   let wpCacheService: WorkPackageCacheService;
-  let WorkPackageResource: typeof WorkPackageResource;
+  let WorkPackageResource;
   let dummyWorkPackages: WorkPackageResource[] = [];
 
   beforeEach(angular.mock.module('openproject'));
@@ -75,7 +75,7 @@ describe('WorkPackageCacheService', () => {
 
   it('should return/stream a work package every time it gets updated', () => {
     let loaded: WorkPackageResource & {dummy: string} = null;
-    wpCacheService.loadWorkPackage(1).subscribe(wp => {
+    wpCacheService.loadWorkPackage(1).subscribe((wp: any) => {
       loaded = wp;
     });
 

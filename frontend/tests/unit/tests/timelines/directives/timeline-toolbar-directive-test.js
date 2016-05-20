@@ -32,7 +32,7 @@ describe('timelineToolbar Directive', function() {
   var compile, element, scope;
 
   beforeEach(angular.mock.module('openproject.timelines.directives'));
-  beforeEach(module('openproject.templates'));
+  beforeEach(angular.mock.module('openproject.templates'));
 
   beforeEach(inject(function($rootScope, $compile) {
     var html = '<timeline-toolbar timeline="timeline"></timeline-toolbar>';

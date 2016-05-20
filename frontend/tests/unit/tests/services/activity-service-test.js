@@ -35,7 +35,7 @@ describe('ActivityService', function() {
       ConfigurationService,
       accessibilityModeEnabled;
 
-  beforeEach(module('openproject.api', 'openproject.services', 'openproject.config',
+  beforeEach(angular.mock.module('openproject.api', 'openproject.services', 'openproject.config',
     'openproject.models'));
 
   beforeEach(inject(function(_$httpBackend_, _ActivityService_,  _ConfigurationService_) {

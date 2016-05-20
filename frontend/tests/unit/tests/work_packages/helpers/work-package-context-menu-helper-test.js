@@ -73,13 +73,13 @@ describe('WorkPackageContextMenuHelper', function() {
       .to.be.empty;
   };
 
-  beforeEach(module('openproject.workPackages.helpers',
+  beforeEach(angular.mock.module('openproject.workPackages.helpers',
                     'openproject.models',
                     'openproject.api',
                     'openproject.layout',
                     'openproject.services'));
 
-  beforeEach(module('openproject.templates', function($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function($provide) {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);

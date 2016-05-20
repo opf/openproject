@@ -34,7 +34,7 @@ describe('workPackageDetailsToolbar', function() {
   stateParams = {};
 
 
-  beforeEach(module('ui.router',
+  beforeEach(angular.mock.module('ui.router',
                     'openproject',
                     'openproject.workPackages.controllers',
                     'openproject.uiComponents',
@@ -47,7 +47,7 @@ describe('workPackageDetailsToolbar', function() {
                     'openproject.templates'
                     ));
 
-  beforeEach(module('openproject.templates', function($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function($provide) {
     var configurationService = {};
 
     configurationService.accessibilityModeEnabled = sinon.stub().returns(false);

@@ -34,12 +34,12 @@ describe('Inplace editor drop-down directive', function() {
 
   beforeEach(angular.mock.module('openproject.config', 'openproject.inplace-edit'));
 
-  beforeEach(module('openproject.services', function($provide) {
+  beforeEach(angular.mock.module('openproject.services', function($provide) {
     $provide.constant('WorkPackageService', {});
     $provide.constant('WorkPackageFieldConfigurationService', workPackageFieldConfigurationService);
   }));
 
-  beforeEach(module('openproject.templates'));
+  beforeEach(angular.mock.module('openproject.templates'));
 
   beforeEach(inject(function($rootScope, $compile, $q) {
     angularCompile = $compile;

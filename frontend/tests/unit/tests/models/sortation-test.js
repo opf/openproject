@@ -32,7 +32,7 @@ describe('Sortation', function() {
 
   var Sortation;
 
-  beforeEach(module('openproject.models'));
+  beforeEach(angular.mock.module('openproject.models'));
   beforeEach(inject(function(_Sortation_) {
     Sortation = _Sortation_;
   }));

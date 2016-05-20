@@ -40,7 +40,7 @@ describe('Work Package Relations Directive', function() {
                                  'openproject.viewModels',
                                  'ngSanitize'));
 
-  beforeEach(module('openproject.templates', function($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function($provide) {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);

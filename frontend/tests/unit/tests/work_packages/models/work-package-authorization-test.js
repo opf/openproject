@@ -49,7 +49,7 @@ describe('WorkPackageAuthorization', function() {
     }
   };
 
-  beforeEach(module('openproject.workPackages.models',
+  beforeEach(angular.mock.module('openproject.workPackages.models',
                     'openproject.services',
                     'openproject.api',
                     function($provide){

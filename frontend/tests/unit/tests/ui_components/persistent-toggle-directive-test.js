@@ -32,9 +32,9 @@ describe('persistentToggle Directive', function() {
   var compile, element, scope, CacheService;
   var mockStorage = {};
 
-  beforeEach(module('openproject.api'));
+  beforeEach(angular.mock.module('openproject.api'));
   beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.services'));
-  beforeEach(module('openproject.templates'));
+  beforeEach(angular.mock.module('openproject.templates'));
 
   beforeEach(inject(function($rootScope, $compile, _CacheService_) {
     var html = '<persistent-toggle identifier="test.foobar">' +

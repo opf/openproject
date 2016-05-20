@@ -31,7 +31,7 @@
 describe('MessagesController', function() {
   var scope, buildController, ctrl, testPaginationService;
 
-  beforeEach(module('openproject.messages.controllers', 'openproject.api', 'openproject.services'));
+  beforeEach(angular.mock.module('openproject.messages.controllers', 'openproject.api', 'openproject.services'));
 
   beforeEach(inject(function($rootScope, $controller) {
     scope = $rootScope.$new();

@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-var expect = chai.expect;
 
 describe('toolbar Directive', () => {
   var compile, element, rootScope, scope;

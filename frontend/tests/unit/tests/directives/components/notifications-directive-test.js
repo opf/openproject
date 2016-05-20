@@ -31,8 +31,8 @@ describe('NotificationsDirective', function() {
   'use strict';
   var $compile, $rootScope;
 
-  beforeEach(module('openproject.uiComponents'));
-  beforeEach(module('openproject.templates')); // see karmaConfig
+  beforeEach(angular.mock.module('openproject.uiComponents'));
+  beforeEach(angular.mock.module('openproject.templates')); // see karmaConfig
 
   beforeEach(angular.mock.module('openproject.services', function($provide) {
     var configurationService = {};

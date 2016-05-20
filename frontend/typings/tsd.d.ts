@@ -5,6 +5,7 @@
 /// <reference path="mocha/mocha.d.ts" />
 /// <reference path="assertion-error/assertion-error.d.ts" />
 /// <reference path="chai/chai.d.ts" />
+/// <reference path="chai-as-promised/chai-as-promised.d.ts" />
 /// <reference path="angularjs/angular-mocks.d.ts" />
 /// <reference path="lodash/lodash.d.ts" />
 /// <reference path="restangular/restangular.d.ts" />

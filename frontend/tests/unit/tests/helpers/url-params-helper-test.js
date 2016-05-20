@@ -31,7 +31,7 @@
 describe('UrlParamsHelper', function() {
   var UrlParamsHelper, Query, PathHelper;
 
-  beforeEach(module('openproject.helpers', 'openproject.models'));
+  beforeEach(angular.mock.module('openproject.helpers', 'openproject.models'));
   beforeEach(inject(function(_UrlParamsHelper_, _Query_, _PathHelper_) {
     UrlParamsHelper = _UrlParamsHelper_;
     Query = _Query_;

@@ -33,7 +33,7 @@ describe('ParentRelationsHandler', function() {
       relationsHandler,
       workPackage;
 
-  beforeEach(module('openproject'));
+  beforeEach(angular.mock.module('openproject'));
 
   beforeEach(inject(function($injector) {
     ParentRelationsHandler = $injector.get('ParentRelationsHandler');
