@@ -76,6 +76,10 @@ require('restangular');
 
 require('rxjs');
 
+require('foundation-apps/dist/css/foundation-apps.css');
+require('foundation-apps/dist/js/foundation-apps.js');
+require('foundation-apps/dist/js/foundation-apps-templates.js');
+
 // 'includes' is not a function in older versions of lodash, so we need to substitute
 // due to the update related to https://github.com/mgonto/restangular/issues/1314
 _.includes = _.includes || _.include || _.contains;
