@@ -36,6 +36,10 @@ module Pages
     def initialize(project = nil)
       @project = project
     end
+    
+    def visit_query(query)
+      visit "#{path}?query_id=#{query.id}"
+    end
 
     def expect_work_package_listed(work_package)
       within(table_container) do

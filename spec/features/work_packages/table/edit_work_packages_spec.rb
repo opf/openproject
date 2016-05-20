@@ -160,7 +160,7 @@ describe 'Inline editing work packages', js: true do
       cf_list_name = custom_fields.first.name
       cf_text_name = custom_fields.last.name
       wp_table.expect_notification(
-        type: :error,
+        type:    :error,
         message: "#{cf_list_name} can't be blank. #{cf_text_name} can't be blank."
       )
 
@@ -174,7 +174,7 @@ describe 'Inline editing work packages', js: true do
       cf_text.save!
       cf_text.expect_inactive!
 
-      cf_list = wp_table.edit_field(work_package, :customField1)
+      cf_list            = wp_table.edit_field(work_package, :customField1)
       cf_list.field_type = 'select'
       expect(cf_list.input_element).to have_selector('option[selected]', text: 'Please select')
       cf_list.set_value('bar')

@@ -2,8 +2,7 @@ class WorkPackageField
   include Capybara::DSL
   include RSpec::Matchers
 
-  attr_reader :element,
-              :selector,
+  attr_reader :selector,
               :property_name
   attr_accessor :field_type
 
@@ -17,11 +16,10 @@ class WorkPackageField
 
     ensure_page_loaded
 
-    @element = @context.find(@selector)
   end
 
   def expect_state_text(text)
-    expect(@element).to have_selector(trigger_link_selector, text: text)
+    expect(element).to have_selector(trigger_link_selector, text: text)
   end
 
   def expect_text(text)
@@ -30,6 +28,10 @@ class WorkPackageField
 
   def expect_value(value)
     expect(input_element.value).to eq(value)
+  end
+
+  def element
+    @context.find(@selector)
   end
 
   ##
@@ -75,7 +77,7 @@ class WorkPackageField
   end
 
   def trigger_link
-    @element.find trigger_link_selector
+    element.find trigger_link_selector
   end
 
   def trigger_link_selector
@@ -91,7 +93,7 @@ class WorkPackageField
   end
 
   def input_element
-    @element.find input_selector
+    element.find input_selector
   end
 
   def submit_by_click
@@ -100,7 +102,7 @@ class WorkPackageField
   end
 
   def submit_by_dashboard
-    @element.find('.inplace-edit--control--save > a', wait: 5).click
+    element.find('.inplace-edit--control--save > a', wait: 5).click
   end
 
   def submit_by_enter
@@ -117,22 +119,22 @@ class WorkPackageField
   end
 
   def editable?
-    @element['class'].include? '-editable'
+    element['class'].include? '-editable'
   end
 
   def editing?
-    @element.find(input_selector)
+    element.find(input_selector)
     true
   rescue
     false
   end
 
   def errors_text
-    @element.find('.inplace-edit--errors--text').text
+    element.find('.inplace-edit--errors--text').text
   end
 
   def errors_element
-    @element.find('.inplace-edit--errors')
+    element.find('.inplace-edit--errors')
   end
 
   def ensure_page_loaded
