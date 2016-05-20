@@ -120,8 +120,12 @@ export class WorkPackageDisplayAttributeController {
 
       var text = this.WorkPackagesHelper.formatValue(this.getValue(), this.displayType);
 
-      this.$scope.$evalAsync(() =>  {
-        this.displayText = text || this.placeHolder;
+      text = this.WorkPackagesHelper.formatValue(text, this.displayType);
+      if (this.displayText !== text) {
+        this.$scope.$evalAsync(() => {
+          this.displayText = text || this.placeholder;
+        });
+      }
     });
   }
 
