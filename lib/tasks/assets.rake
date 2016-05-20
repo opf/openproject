@@ -45,7 +45,7 @@ namespace :assets do
   desc 'Compile assets with webpack'
   task :webpack do
     Dir.chdir Rails.root.join('frontend') do
-      sh '$(npm bin)/webpack --config webpack.config.js'
+      sh '$(npm bin)/webpack --config webpack.production.config.js'
     end
   end
 
