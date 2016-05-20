@@ -71,6 +71,7 @@ describe('wpDisplayAttr directive', () => {
         type: {id: 1, name: 'Bug'},
         sheep: 10,
         customField1: 'asdf1234',
+        emptyField: null
       };
       scope.schema = {
         "$load": () => $q.when(true),
@@ -106,6 +107,12 @@ describe('wpDisplayAttr directive', () => {
         "customField1": {
           "type": "String",
           "name": "foobar",
+          "required": false,
+          "writable": true
+        }
+        "emptyField": {
+          "type": "String",
+          "name": "empty field",
           "required": false,
           "writable": true
         }
@@ -204,6 +211,17 @@ describe('wpDisplayAttr directive', () => {
         var tag = getInnermostSpan(element);
 
         expect(tag.attr('title')).to.equal('');
+      });
+    });
+
+    describe('rendering an empty field', () => {
+      beforeEach(() => {
+        scope.attribute = 'emptyField';
+        compile();
+      });
+
+      it('should adorne the element with the -placeholder class', () => {
+        expect(element.find('.inplace-edit--read-value--value.-placeholder').length).to.eql(1);
       });
     });
   });

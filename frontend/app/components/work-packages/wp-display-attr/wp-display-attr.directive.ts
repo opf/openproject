@@ -33,7 +33,6 @@ import {WorkPackageEditFieldController} from "../../wp-edit/wp-edit-field/wp-edi
 export class WorkPackageDisplayAttributeController {
   public wpEditField:WorkPackageEditFieldController;
   public displayText:string;
-  public isDisplayAsHtml:boolean = false;
   public displayType:string;
   public displayLink:string;
   public attribute:string;
@@ -77,6 +76,14 @@ export class WorkPackageDisplayAttributeController {
     return 'wp-' + this.workPackage.id + '-display-attr-' + this.attribute + '-aria-label';
   }
 
+  public get isEmpty(): boolean {
+    return !this.getValue();
+  }
+
+  public get isDisplayAsHtml(): boolean {
+    return this.workPackage[this.attribute] && this.workPackage[this.attribute].hasOwnProperty('html');
+  }
+
   protected setDisplayType() {
     // TODO: alter backend so that percentageDone has the type 'Percent' already
     if (this.attribute === 'percentageDone') {
@@ -87,6 +94,9 @@ export class WorkPackageDisplayAttributeController {
       this.displayType = 'SelfLink';
       this.displayLink = this.PathHelper.workPackagePath(this.workPackage.id);
     }
+    else if (!this.schema[this.attribute]) {
+      this.displayType = 'Text';
+    }
     else {
       this.displayType = this.schema[this.attribute].type;
     }
@@ -94,35 +104,33 @@ export class WorkPackageDisplayAttributeController {
 
   protected updateAttribute() {
     this.schema.$load().then(() => {
-      const wpAttr:any = this.workPackage[this.attribute];
-
       if (this.workPackage.isNew && this.attribute === 'id') {
         this.displayText = '';
         return;
       }
 
-      if (!wpAttr) {
-        this.displayText = this.placeholder;
-        return;
-      }
-
       this.setDisplayType();
 
-      var text = wpAttr.value || wpAttr.name || wpAttr;
-
-      if (wpAttr.hasOwnProperty('html')) {
-        this.isDisplayAsHtml = true;
-
-        if (wpAttr.html.length > 0) {
-          text = wpAttr.html;
-        }
-        else {
-          text = this.placeholder;
-        }
-      }
+      var text = this.getValue() || this.placeholder;
 
       this.displayText = this.WorkPackagesHelper.formatValue(text, this.displayType);
     });
+  }
+
+  protected getValue() {
+    const wpAttr:any = this.workPackage[this.attribute];
+
+    if (!wpAttr) {
+      return null;
+    }
+
+    var value = wpAttr.value || wpAttr.name || wpAttr;
+
+    if (wpAttr.hasOwnProperty('html')) {
+      value = wpAttr.html;
+    }
+
+    return value;
   }
 }
 
