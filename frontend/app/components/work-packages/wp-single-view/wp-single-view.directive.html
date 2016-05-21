@@ -48,7 +48,7 @@
         ng-repeat="field in group.attributes">
       <div
           class="attributes-key-value--key"
-          ng-hide="$ctrl.hideEmptyFields && $ctrl.singleViewWp.canHideField(field)"
+          ng-hide="$ctrl.shouldHideField(field)"
           ng-if="$ctrl.singleViewWp.isSingleField(field) && $ctrl.singleViewWp.isSpecified(field)"
           wp-replacement-label="field">
 

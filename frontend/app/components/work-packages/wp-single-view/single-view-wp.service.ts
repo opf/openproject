@@ -29,13 +29,13 @@
 
 import {opServicesModule} from "../../../angular-modules";
 
-var $filter:ng.IFilterService;
-var I18n:op.I18n;
-var TimezoneService:any;
-var currencyFilter:any;
+var $filter: ng.IFilterService;
+var I18n: op.I18n;
+var TimezoneService: any;
+var currencyFilter: any;
 
 export class SingleViewWorkPackage {
-  constructor(protected workPackage:any) {
+  constructor(protected workPackage: any) {
   }
 
   public isSingleField(field) {
@@ -76,8 +76,8 @@ export class SingleViewWorkPackage {
   public isEmpty(field) {
     var value = this.format(field);
     if (!value ||
-        (value.format && !value.html) ||
-        (field === 'spentTime' && this.workPackage[field] === 'PT0S')) {
+      (value.format && !value.html) ||
+      (field === 'spentTime' && this.workPackage[field] === 'PT0S')) {
 
       return true;
     }
@@ -177,7 +177,7 @@ export class SingleViewWorkPackage {
       var allowedValues = this.workPackage.schema.type.allowedValues;
       var currentType = this.workPackage.$links.type.$link.href;
 
-      return _.some(allowedValues, (allowedValue:any) => {
+      return _.some(allowedValues, (allowedValue: any) => {
         return allowedValue.href === currentType && allowedValue.isMilestone;
       });
     }
@@ -206,7 +206,7 @@ export class SingleViewWorkPackage {
   }
 
   public isGroupHideable(groupedFields, groupName) {
-    var group:any = _.find(groupedFields, {groupName: groupName});
+    var group: any = _.find(groupedFields, {groupName: groupName});
 
     return group.attributes.length === 0 || _.every(group.attributes, (field) => {
         return this.canHideField(field);
@@ -214,7 +214,7 @@ export class SingleViewWorkPackage {
   }
 
   public isGroupEmpty(groupedFields, groupName) {
-    var group:any = _.find(groupedFields, {groupName: groupName});
+    var group: any = _.find(groupedFields, {groupName: groupName});
 
     return group.attributes.length === 0;
   }
@@ -222,6 +222,12 @@ export class SingleViewWorkPackage {
   public shouldHideGroup(hideEmptyActive, groupedFields, groupName) {
     return hideEmptyActive && this.isGroupHideable(groupedFields, groupName) ||
       !hideEmptyActive && this.isGroupEmpty(groupedFields, groupName);
+  }
+
+  public shouldHideField(field, hideEmptyFields) {
+    var hidden = this.getVisibility(field) === 'hidden';
+
+    return this.canHideField(field) && (hideEmptyFields || hidden);
   }
 
   protected formatValue(value, dataType) {

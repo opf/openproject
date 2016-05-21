@@ -107,6 +107,10 @@ export class WorkPackageSingleViewController {
     return this.singleViewWp.shouldHideGroup(this.hideEmptyFields, this.groupedFields, group);
   }
 
+  public shouldHideField(field) {
+    return this.singleViewWp.shouldHideField(field, this.hideEmptyFields);
+  };
+
   public setFocus() {
     if (!this.firstTimeFocused) {
       this.firstTimeFocused = true;

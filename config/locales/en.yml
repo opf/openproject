@@ -1779,8 +1779,10 @@ en:
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
   text_assign_to_project: "Assign to the project"
   text_form_configuration: >
-    You can customize which attributes will be displayed by default
-    in forms for work packages of this type.
+    You can customize which attributes will be displayed
+    in forms for work packages of this type. 'Active' fields will be shown in
+    the collapsed work package view if they have a value,
+    fields that are 'Always displayed' even if they don't.
     Fields that are required but don't have a default value cannot be customized.
     They will always be shown.
   text_caracters_maximum: "%{count} characters maximum."

@@ -38,14 +38,14 @@
 
       <div class="attributes-key-value">
         <div
-            ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+            ng-hide="vm.shouldHideField(field)"
             ng-if="vm.isSpecified(vm.workPackage, field) && vm.isEditable(vm.workPackage, field)"
             ng-repeat-start="field in group.attributes" class="attributes-key-value--key">
           {{vm.getLabel(vm.workPackage, field)}}
           <span class="required" ng-if="vm.hasNiceStar(vm.workPackage, field)"> *</span>
         </div>
         <div
-            ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+            ng-hide="vm.shouldHideField(field)"
             ng-if="vm.isSpecified(vm.workPackage, field) && vm.isEditable(vm.workPackage, field)"
             ng-repeat-end
             class="attributes-key-value--value-container">

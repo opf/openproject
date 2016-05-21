@@ -82,6 +82,16 @@ module.exports = function(WorkPackageFieldService, $window, $timeout) {
 
         return WorkPackageFieldService.isHideable(workPackage, field);
       },
+      shouldHideField = function(workPackage, field, hideEmptyFields) {
+        var hidden = WorkPackageFieldService.getVisibility(workPackage, field) === 'hidden';
+
+        return isFieldHideable(workPackage, field) && (hideEmptyFields || hidden);
+      },
+      shouldHideFieldOnCreate = function(workPackage, field, hideEmptyFields) {
+        var hidden = WorkPackageFieldService.getVisibility(workPackage, field) === 'hidden';
+
+        return isFieldHideableOnCreate(workPackage, field) && (hideEmptyFields || hidden);
+      },
       isSpecified = function (workPackage, field) {
         if (!workPackage) {
           return false;
@@ -125,6 +135,8 @@ module.exports = function(WorkPackageFieldService, $window, $timeout) {
     shouldHideGroup: shouldHideGroup,
     isFieldHideable: isFieldHideable,
     isFieldHideableOnCreate: isFieldHideableOnCreate,
+    shouldHideField: shouldHideField,
+    shouldHideFieldOnCreate: shouldHideFieldOnCreate,
     isSpecified: isSpecified,
     isEditable: isEditable,
     hasNiceStar: hasNiceStar,
