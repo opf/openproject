@@ -67,7 +67,10 @@ OpenProject::Application.configure do
   config.active_support.deprecation = :stderr
 
   # Disable asset digests
+  config.assets.compile = true
+  config.assets.compress = false
   config.assets.digest = false
+  config.assets.debug = false
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
