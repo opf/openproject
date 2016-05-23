@@ -30,7 +30,7 @@ function apiV3Config(apiV3, halTransform) {
   apiV3.addResponseInterceptor((data, operation, what) => {
     apiV3.addElementTransformer(what, halTransform);
     if (data) {
-      data._plain = angular.copy(data);
+      data._plain = data;
 
       if (data._type === 'Collection') {
         let resp = [];
