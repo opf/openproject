@@ -97,7 +97,7 @@ export class WorkPackageDisplayAttributeController {
       this.displayType = 'SelfLink';
       this.displayLink = this.PathHelper.workPackagePath(this.workPackage.id);
     }
-    else if (!this.schema[this.attribute]) {
+    else if (!this.workPackage.schema[this.attribute]) {
       this.displayType = 'Text';
     }
     else {
@@ -170,7 +170,6 @@ function wpDisplayAttrDirective() {
     link: wpTdLink,
 
     scope: {
-      schema: '=',
       workPackage: '=',
       attribute: '=',
       label: '=',
