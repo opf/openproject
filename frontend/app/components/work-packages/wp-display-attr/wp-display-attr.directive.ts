@@ -105,11 +105,7 @@ export class WorkPackageDisplayAttributeController {
       // Show a link to the work package for the ID
       this.displayType = 'SelfLink';
       this.displayLink = this.PathHelper.workPackagePath(this.workPackage.id);
-    }
-    else if (!this.schema[this.attribute]) {
-      this.displayType = 'Text';
-    }
-    else {
+    } else {
       this.displayType = this.schema[this.attribute].type;
     }
   }
@@ -117,6 +113,7 @@ export class WorkPackageDisplayAttributeController {
   protected updateAttribute(wp) {
     this.workPackage = wp;
     this.schema.$load().then(() => {
+      var text;
       const wpAttr:any = wp[this.attribute];
 
       if (this.workPackage.isNew && this.attribute === 'id') {
@@ -124,11 +121,15 @@ export class WorkPackageDisplayAttributeController {
         return;
       }
 
-      this.setDisplayType();
+      if (!this.schema[this.attribute]) {
+        this.displayType = 'Text';
+        text = this.placeholder;
+      } else {
+        this.setDisplayType();
+        var formatted = this.WorkPackagesHelper.formatValue(this.getValue(), this.displayType);
+        text = formatted || this.placeholder;
+      }
 
-      var text = this.WorkPackagesHelper.formatValue(this.getValue(), this.displayType);
-
-      text = this.WorkPackagesHelper.formatValue(text, this.displayType);
       if (this.displayText !== text) {
         this.$scope.$evalAsync(() => {
           this.displayText = text || this.placeholder;
