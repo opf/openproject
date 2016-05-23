@@ -34,7 +34,7 @@ angular
 function WorkPackagesTableHelper(WorkPackagesHelper) {
   var WorkPackagesTableHelper = {
     /* builds rows from work packages, see IssuesHelper */
-    buildRows: function(workPackages, groupBy) {
+    buildRows: function(workPackages, groupBy, splitViewWorkPackageId) {
       var rows = [], ancestors = [];
       var currentGroup, allGroups = [];
 
@@ -50,6 +50,7 @@ function WorkPackagesTableHelper(WorkPackagesHelper) {
 
         var row = {
           level: ancestors.length,
+          checked: splitViewWorkPackageId && workPackage.id === parseInt(splitViewWorkPackageId),
           parent: _.last(ancestors),
           ancestors: ancestors.slice(0),
           object: workPackage
