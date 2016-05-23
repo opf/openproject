@@ -235,6 +235,12 @@
 .inplace-edit--read-value--value,
   @include grid-block
 
+  &.-placeholder
+    font-style: italic
+
+    .progress-bar-legend
+      font-style: initial
+
 // When user is not allowed to edit the field
 #work-package-description
   span:not(.inplace-editing--container)

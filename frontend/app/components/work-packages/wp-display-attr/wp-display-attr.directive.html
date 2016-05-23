@@ -9,6 +9,7 @@
         data-click-on-keypress="[13, 32]"
         focus="$ctrl.shouldFocus()"
         ng-attr-tabindex="{{$ctrl.isEditable() ? '0' : '-1'}}"
+        ng-class="{ '-placeholder' : $ctrl.isEmpty }"
         aria-labelledby="{{$ctrl.labelId}}">
     <progress-bar ng-switch-when="Percent"
                   progress="$ctrl.displayText"
@@ -22,8 +23,7 @@
     <span
         title="{{ $ctrl.displayText }}"
         class="cell-span--value"
-        ng-switch-default
-        ng-class="{ 'work-package--placeholder' : $ctrl.displayText == '-' }">
+        ng-switch-default >
       <span ng-if="$ctrl.isDisplayAsHtml" ng-bind-html="$ctrl.displayText"></span>
       <span ng-if="!$ctrl.isDisplayAsHtml" ng-bind="$ctrl.displayText"></span>
     </span>
