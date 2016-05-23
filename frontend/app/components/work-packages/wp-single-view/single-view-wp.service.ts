@@ -38,6 +38,10 @@ export class SingleViewWorkPackage {
   constructor(protected workPackage:any) {
   }
 
+  public isSingleField(field) {
+    return angular.isString(field);
+  };
+
   public canHideField(field) {
     var attrVisibility = this.getVisibility(field);
     var notRequired = !this.isRequired(field);
@@ -53,30 +57,10 @@ export class SingleViewWorkPackage {
   }
 
   public getVisibility(field) {
-    if (field == "date") {
-      return this.getDateVisibility();
-    }
-
     var schema = this.workPackage.schema;
     var prop = schema && schema[field];
 
     return prop && prop.visibility;
-  }
-
-  public getDateVisibility() {
-    var startDate = this.getVisibility('startDate');
-    var dueDate = this.getVisibility('dueDate');
-    var values = [startDate, dueDate];
-
-    if (_.contains(values, 'visible')) {
-      return 'visible';
-    }
-    else if (_.contains(values, 'default')) {
-      return 'default';
-    }
-    else if (_.contains(values, 'hidden')) {
-      return 'hidden';
-    }
   }
 
   public isRequired(field) {
@@ -90,12 +74,6 @@ export class SingleViewWorkPackage {
   }
 
   public isEmpty(field) {
-    if (field === 'date') {
-      return (
-        this.getValue('startDate') === null &&
-        this.getValue('dueDate') === null
-      );
-    }
     var value = this.format(field);
     if (!value ||
         (value.format && !value.html) ||
@@ -113,18 +91,6 @@ export class SingleViewWorkPackage {
 
   public format(field) {
     var schema = this.workPackage.schema;
-
-    if (field === 'date') {
-      if (this.isMilestone()) {
-        return this.workPackage['dueDate'];
-      }
-      return {
-        startDate: this.workPackage.startDate,
-        dueDate: this.workPackage.dueDate,
-        noStartDate: I18n.t('js.label_no_start_date'),
-        noEndDate: I18n.t('js.label_no_due_date')
-      };
-    }
 
     var value = this.workPackage[field];
     if (_.isUndefined(value)) {
@@ -164,13 +130,6 @@ export class SingleViewWorkPackage {
       return false;
     }
     var schema = this.workPackage.schema;
-    if (field === 'date') {
-      return schema['startDate'].writable && schema['dueDate'].writable;
-    }
-
-    if (schema[field].type === 'Date') {
-      return true;
-    }
     var isWritable = schema[field].writable;
 
     if (isWritable && schema[field].$links && this.getLinkedAllowedValues(field)) {
@@ -215,7 +174,7 @@ export class SingleViewWorkPackage {
   public isMilestone() {
     var formAvailable = !_.isUndefined(this.workPackage.form);
     if (formAvailable) {
-      var allowedValues = this.workPackage.schema.type.$embedded.allowedValues;
+      var allowedValues = this.workPackage.schema.type.allowedValues;
       var currentType = this.workPackage.$links.type.$link.href;
 
       return _.some(allowedValues, (allowedValue:any) => {
@@ -239,7 +198,7 @@ export class SingleViewWorkPackage {
   }
 
   public isSpecified(field) {
-    return field === 'date' || !_.isUndefined(this.workPackage.schema[field]);
+    return !_.isUndefined(this.workPackage.schema[field]);
   }
 
   public hasNiceStar(field) {

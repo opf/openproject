@@ -35,7 +35,9 @@ angular.module('openproject.workPackages.services')
         'type',
         'status',
         'percentageDone',
-        ['startDate', 'dueDate'],
+        { label: 'date',
+          fields: ['startDate', 'dueDate'] },
+        'date',
         'priority',
         'version',
         'category']

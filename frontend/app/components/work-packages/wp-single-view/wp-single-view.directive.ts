@@ -54,19 +54,15 @@ export class WorkPackageSingleViewController {
 
     this.groupedFields = angular.copy(WORK_PACKAGE_ATTRIBUTES);
     this.text = {
-      noStartDate: I18n.t('js.label_no_start_date'),
-      noDueDate: I18n.t('js.label_no_due_date')
+      fields: {
+        date: { startDate: I18n.t('js.label_no_start_date'),
+                dueDate: I18n.t('js.label_no_due_date') }
+      }
     };
 
     scopedObservable($scope, wpCacheService.loadWorkPackage($stateParams.workPackageId)).subscribe(wp => {
       this.workPackage = wp;
       this.singleViewWp = new SingleViewWorkPackage(wp);
-
-      this.workPackage.type.$load().then(() => {
-        if (this.workPackage.type.isMilestone) {
-          this.text.noStartDate = '-';
-        }
-      });
 
       this.workPackage.schema.$load().then(schema => {
         this.setFocus();

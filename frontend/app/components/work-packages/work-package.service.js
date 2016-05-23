@@ -60,7 +60,7 @@ function WorkPackageService($http,
         if (WorkPackageFieldService.isSpecified(workPackage, field)) {
           if (field === 'date') {
             if (WorkPackageFieldService.isMilestone(workPackage)) {
-              data['startDate'] = data['dueDate'] = value ? value : null;
+              data['date'] = value ? value : null;
               return;
             }
             data['startDate'] = value['startDate'];

@@ -115,7 +115,8 @@ module API
                                                                           'startDate',
                                                                           allow_nil: true)
                  },
-                 render_nil: true
+                 render_nil: true,
+                 if: -> (*) { !represented.milestone? }
         property :due_date,
                  exec_context: :decorator,
                  getter: -> (*) {
@@ -126,7 +127,22 @@ module API
                                                                         'dueDate',
                                                                         allow_nil: true)
                  },
-                 render_nil: true
+                 render_nil: true,
+                 if: -> (*) { !represented.milestone? }
+        property :date,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   datetime_formatter.format_date(represented.due_date, allow_nil: true)
+                 },
+                 setter: -> (value, *) {
+                   new_date = datetime_formatter.parse_date(value,
+                                                            'date',
+                                                            allow_nil: true)
+
+                   represented.due_date = represented.start_date = new_date
+                 },
+                 render_nil: true,
+                 if: -> (*) { represented.milestone? }
         property :version_id,
                  getter: -> (*) { nil },
                  setter: -> (value, *) { self.fixed_version_id = value },

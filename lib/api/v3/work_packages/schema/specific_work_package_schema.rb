@@ -42,6 +42,7 @@ module API
                    :project,
                    :type,
                    :id,
+                   :milestone?,
                    to: :@work_package
 
           def assignable_values(property, current_user)
@@ -73,6 +74,7 @@ module API
                 :estimated_time,
                 :start_date,
                 :due_date,
+                :date,
                 :priority].include? property
               return false unless @work_package.leaf?
             end

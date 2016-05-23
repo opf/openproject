@@ -68,4 +68,20 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
       expect(subject.writable?(:due_date)).to be true
     end
   end
+
+  describe '#milestone?' do
+    it 'is the value the type has' do
+      allow(type)
+        .to receive(:is_milestone?)
+        .and_return(true)
+
+      is_expected.to be_milestone
+
+      allow(type)
+        .to receive(:is_milestone?)
+        .and_return(false)
+
+      is_expected.not_to be_milestone
+    end
+  end
 end

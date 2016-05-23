@@ -282,6 +282,48 @@ describe UpdateWorkPackageService, type: :model do
           instance.call(attributes: { type: target_type })
         end
       end
+
+      context 'with a type that is no milestone' do
+        before do
+          allow(target_type)
+            .to receive(:is_milestone?)
+            .and_return(false)
+        end
+
+        it 'sets the start date to the due date' do
+          work_package.due_date = Date.today
+
+          instance.call(attributes: { type: target_type })
+
+          expect(work_package.start_date).to be_nil
+        end
+      end
+
+      context 'with a type that is a milestone' do
+        before do
+          allow(target_type)
+            .to receive(:is_milestone?)
+            .and_return(true)
+        end
+
+        it 'sets the start date to the due date' do
+          date = Date.today
+          work_package.due_date = date
+
+          instance.call(attributes: { type: target_type })
+
+          expect(work_package.start_date).to eql date
+        end
+
+        it 'set the due date to the start date if the due date is nil' do
+          date = Date.today
+          work_package.start_date = date
+
+          instance.call(attributes: { type: target_type })
+
+          expect(work_package.due_date).to eql date
+        end
+      end
     end
   end
 end
