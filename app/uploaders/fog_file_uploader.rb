@@ -26,6 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'carrierwave/storage/fog'
+
 class FogFileUploader < CarrierWave::Uploader::Base
   include FileUploader
 
