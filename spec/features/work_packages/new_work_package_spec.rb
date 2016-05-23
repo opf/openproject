@@ -20,8 +20,8 @@ describe 'new work package', js: true do
   let(:subject) { 'My subject' }
   let(:description) { 'A description of the newly-created work package.' }
 
-  let(:subject_field) { WorkPackageField.new(page, :subject) }
-  let(:description_field) { WorkPackageField.new(page, :description) }
+  let(:subject_field) { wp_page.edit_field :subject }
+  let(:description_field) { wp_page.edit_field :description }
 
   let(:notification) { PageObjects::Notifications.new(page) }
 
@@ -161,13 +161,25 @@ describe 'new work package', js: true do
   context 'split screen' do
     let(:safeguard_selector) { '.work-packages--details-content.-create-mode' }
     let(:wp_page) { Pages::SplitWorkPackage.new(WorkPackage.new) }
+    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
     before do
-      table = Pages::WorkPackagesTable.new(project)
-      table.visit!
+      wp_table.visit!
     end
 
     it_behaves_like 'work package creation workflow'
+
+    it 'reloads the table and selects the new work package' do
+      expect(page).to have_no_selector('.wp--row')
+
+      create_work_package('Task')
+      expect(page).to have_selector(safeguard_selector, wait: 10)
+
+      find('#work-package-subject input').set('new work package')
+      save_work_package!
+
+      expect(page).to have_selector('.wp--row input[type=checkbox]:checked')
+    end
   end
 
   context 'full screen' do
