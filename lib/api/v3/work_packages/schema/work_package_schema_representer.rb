@@ -120,7 +120,8 @@ module API
                  max_length: 255
 
           schema :description,
-                 type: 'Formattable'
+                 type: 'Formattable',
+                 required: false
 
           schema :start_date,
                  type: 'Date',

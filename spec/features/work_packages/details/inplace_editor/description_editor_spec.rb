@@ -40,7 +40,8 @@ describe 'description inplace editor', js: true, selenium: true do
       field.expect_state_text 'Click to enter description...'
 
       field.activate!
-      field.expect_save_button(enabled: false)
+      # An empty description is also allowed
+      field.expect_save_button(enabled: true)
       field.set_value 'A new hope ...'
       field.expect_save_button(enabled: true)
       field.submit_by_click

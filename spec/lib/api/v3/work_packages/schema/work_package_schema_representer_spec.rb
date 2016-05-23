@@ -175,7 +175,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:path) { 'description' }
         let(:type) { 'Formattable' }
         let(:name) { I18n.t('attributes.description') }
-        let(:required) { true }
+        let(:required) { false }
         let(:writable) { true }
       end
     end
