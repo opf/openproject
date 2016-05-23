@@ -36,7 +36,7 @@ module Pages
     def initialize(project = nil)
       @project = project
     end
-    
+
     def visit_query(query)
       visit "#{path}?query_id=#{query.id}"
     end

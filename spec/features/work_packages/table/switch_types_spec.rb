@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'Switching types in work package table', js: true do
-
   let(:user) { FactoryGirl.create :admin }
   let(:cf_req_text) {
     FactoryGirl.create(
@@ -23,7 +22,13 @@ describe 'Switching types in work package table', js: true do
   let(:type_task) { FactoryGirl.create(:type_task, custom_fields: [cf_text]) }
   let(:type_bug) { FactoryGirl.create(:type_bug, custom_fields: [cf_req_text]) }
 
-  let(:project) { FactoryGirl.create(:project, types: [type_task, type_bug], work_package_custom_fields: [cf_text, cf_req_text]) }
+  let(:project) {
+    FactoryGirl.create(
+      :project,
+      types: [type_task, type_bug],
+      work_package_custom_fields: [cf_text, cf_req_text]
+    )
+  }
   let(:work_package) {
     FactoryGirl.create(:work_package,
                        subject: 'Foobar',

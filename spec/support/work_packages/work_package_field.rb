@@ -15,7 +15,6 @@ class WorkPackageField
     @selector = selector || ".inplace-edit.#{property_name}"
 
     ensure_page_loaded
-
   end
 
   def expect_state_text(text)
