@@ -416,7 +416,7 @@ GEM
     rails_autolink (1.1.6)
       rails (> 3.1)
     rails_serve_static_assets (0.0.5)
-    rails_stdout_logging (0.0.4)
+    rails_stdout_logging (0.0.5)
     railties (4.2.6)
       actionpack (= 4.2.6)
       activesupport (= 4.2.6)
