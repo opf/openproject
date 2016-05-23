@@ -94,10 +94,9 @@ Feature: Fields editable on work package edit
       | subject | type  |
       | pe1     | Phase |
 
-    And the work package "pe1" has the custom field "cf1" set to "4"
+    And the work package "pe1" has the custom field "cf1" set to "12345"
 
     When I go to the edit page of the work package called "pe1"
     And I click the edit work package button
 
-    Then I should see the following fields:
-      | cf1 | 4 |
+    Then I should see "12345" within ".attributes-key-value--value-container.customField1"

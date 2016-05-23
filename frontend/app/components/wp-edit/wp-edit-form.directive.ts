@@ -93,7 +93,7 @@ export class WorkPackageEditFormController {
 
         // Setup the field if it is not yet active
         if (state && field.isEditable && !field.active) {
-          field.initializeField();
+          field.initializeField(this.workPackage);
         }
 
         // Disable the field if is active
