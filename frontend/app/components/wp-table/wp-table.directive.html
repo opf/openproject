@@ -152,7 +152,6 @@
               class="wp-table--cell"
               ng-class="{ '-short': column.name == 'id' }">
             <wp-display-attr attribute="getTableColumnName(row.object, column.name)"
-                   schema="row.object.schema"
                    work-package="row.object"
                    ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']">
             </wp-display-attr>
@@ -181,7 +180,7 @@
             </td>
             <td ng-repeat="column in columns">
               <wp-display-attr attribute="column.name"
-                     schema="resource.sumsSchema"
+                     custom-schema="resource.sumsSchema"
                      work-package="currentGroupObject.sums">
               </wp-display-attr>
             </td>
@@ -213,7 +212,7 @@
           <td ng-repeat="column in columns">
             <wp-display-attr class="generic-table--footer-outer"
                    attribute="column.name"
-                   schema="resource.sumsSchema"
+                   custom-schema="resource.sumsSchema"
                    work-package="resource.totalSums">
             </wp-display-attr>
           </td>

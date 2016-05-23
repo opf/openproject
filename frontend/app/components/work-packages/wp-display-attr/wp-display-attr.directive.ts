@@ -42,6 +42,7 @@ export class WorkPackageDisplayAttributeController {
   public placeholder:string;
   public placeholderOptional:string;
   public workPackage:any;
+  public customSchema:HalResource;
 
   constructor(protected $scope:ng.IScope,
               protected I18n:op.I18n,
@@ -83,6 +84,14 @@ export class WorkPackageDisplayAttributeController {
     return !(value === false || value)
   }
 
+  /**
+   * The display attribute is either used for a work package, or a custom resource and schema
+   * (sumsSchema)
+   */
+  public get schema(): HalResource {
+    return this.customSchema || this.workPackage.schema;
+  }
+
   public get isDisplayAsHtml(): boolean {
     return this.workPackage[this.attribute] && this.workPackage[this.attribute].hasOwnProperty('html');
   }
@@ -97,18 +106,17 @@ export class WorkPackageDisplayAttributeController {
       this.displayType = 'SelfLink';
       this.displayLink = this.PathHelper.workPackagePath(this.workPackage.id);
     }
-    else if (!this.workPackage.schema[this.attribute]) {
+    else if (!this.schema[this.attribute]) {
       this.displayType = 'Text';
     }
     else {
-      this.displayType = this.workPackage.schema[this.attribute].type;
+      this.displayType = this.schema[this.attribute].type;
     }
   }
 
   protected updateAttribute(wp) {
     this.workPackage = wp;
-
-    wp.schema.$load().then(() => {
+    this.schema.$load().then(() => {
       const wpAttr:any = wp[this.attribute];
 
       if (this.workPackage.isNew && this.attribute === 'id') {
@@ -157,9 +165,12 @@ function wpDisplayAttrDirective() {
 
     // Listen for changes to the work package on the form ctrl
     var formCtrl = controllers[1];
-    formCtrl.onWorkPackageUpdated('wp-display-attr-' + scope.$ctrl.attribute, (wp) => {
-      scope.$evalAsync(() => scope.$ctrl.updateAttribute(wp));
-    });
+
+    if (formCtrl && !scope.$ctrl.customSchema) {
+      formCtrl.onWorkPackageUpdated('wp-display-attr-' + scope.$ctrl.attribute, (wp) => {
+        scope.$ctrl.updateAttribute(wp);
+      });
+    }
   }
 
   return {
@@ -171,6 +182,7 @@ function wpDisplayAttrDirective() {
 
     scope: {
       workPackage: '=',
+      customSchema: '=?',
       attribute: '=',
       label: '=',
       placeholderOptional: '=placeholder'
