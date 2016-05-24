@@ -38,6 +38,7 @@ require 'spec_helper'
 describe WorkPackages::CreateContract do
   let(:work_package) do
     FactoryGirl.build(:work_package,
+                      author: member,
                       project: project)
   end
   let(:member) {
