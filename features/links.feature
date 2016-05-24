@@ -85,8 +85,8 @@ Feature: Cost Reporting Linkage
     And I am already logged in as "manager"
     And I am on the page for the issue "manager work_package"
 
-    Then I should see "10.00 hours"
-    When I follow "10.00 hours"
+    Then I should see "10 hours"
+    When I follow "10 hours"
 
     Then I should be on the Cost Reports page for the project called "Standard Project"
     # 10 EUR x 10 (hours)
