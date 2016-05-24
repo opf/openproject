@@ -64,7 +64,7 @@ module OpenProject::Documents
 
     patches [:CustomFieldsHelper, :Project]
 
-    assets %w(documents.css)
+    assets %w(documents/documents.css)
 
     initializer "documents.register_hooks" do
       require 'open_project/documents/hooks'
