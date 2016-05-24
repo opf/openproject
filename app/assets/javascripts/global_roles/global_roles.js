@@ -17,8 +17,6 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //++
 
-//= require global_roles/principal_roles
-
 (function ($, undefined) {
   var global_roles = {
     init: function(){

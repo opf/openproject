@@ -88,19 +88,7 @@ class PrincipalRolesController < ApplicationController
       format.js do
         render(:update) do |page|
           if principal_roles.all?(&:valid?)
-            principal_roles.each do |role|
-              page.insert_html :top, 'table_principal_roles_body',
-                               partial: 'principal_roles/show_table_row',
-                               locals: { principal_role: role }
-
-              call_hook :principal_roles_controller_create_respond_js_role,
-                        page: page, principal_role: role
-            end
-
-            page.replace 'available_principal_roles',
-                         partial: 'users/available_global_roles',
-                         locals: { global_roles: global_roles,
-                                   user: user }
+            page.replace 'principal_global_roles_content', partial: 'users/global_roles'
           else
             page.insert_html :top, 'tab-content-global_roles', partial: 'errors'
           end
@@ -132,11 +120,7 @@ class PrincipalRolesController < ApplicationController
     respond_to do |format|
       format.js do
         render(:update) do |page|
-          page.remove "principal_role-#{principal_role.id}"
-          page.replace 'available_principal_roles',
-                       partial: 'users/available_global_roles',
-                       locals: { user: user, global_roles: global_roles }
-
+          page.replace 'principal_global_roles_content', partial: 'users/global_roles'
           call_hook :principal_roles_controller_update_respond_js_role,
                     page: page, principal_role: principal_role
         end
