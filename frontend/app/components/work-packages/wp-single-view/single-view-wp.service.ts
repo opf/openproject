@@ -44,7 +44,7 @@ export class SingleViewWorkPackage {
 
   public canHideField(field) {
     var attrVisibility = this.getVisibility(field);
-    var notRequired = !this.isRequired(field);
+    var notRequired = !this.isRequired(field) || this.hasDefault(field);
     var empty = this.isEmpty(field);
     var visible = attrVisibility == 'visible';
     var hidden = attrVisibility == 'hidden';
@@ -71,6 +71,16 @@ export class SingleViewWorkPackage {
     }
 
     return schema[field].required;
+  }
+
+  public hasDefault(field) {
+    var schema = this.workPackage.schema;
+
+    if (_.isUndefined(schema[field])) {
+      return false;
+    }
+
+    return schema[field].hasDefault;
   }
 
   public isEmpty(field) {
