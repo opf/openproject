@@ -22,7 +22,7 @@ describe OpenProject::GithubIntegration do
   describe 'with sane set-up' do
     let(:user) { FactoryGirl.create(:user) }
     let(:role) { FactoryGirl.create(:role,
-                                    permissions: [:add_work_package_notes]) }
+                                    permissions: [:view_work_packages, :add_work_package_notes]) }
     let(:statuses) { (1..5).map{ |i| FactoryGirl.create(:status)}}
     let(:priority) { FactoryGirl.create :priority, is_default: true }
     let(:status) { statuses[0] }
@@ -126,10 +126,10 @@ describe OpenProject::GithubIntegration do
       journal_count = wps.map { |wp| wp.journals.count }
       OpenProject::GithubIntegration::HookHandler.new.process('github', environment, params, user)
 
-      expect(wp1.journals.count).to equal(journal_count[0] + 1)
-      expect(wp2.journals.count).to equal(journal_count[1] + 1)
-      expect(wp3.journals.count).to equal(journal_count[2] + 0)
-      expect(wp4.journals.count).to equal(journal_count[3] + 0)
+      expect(wp1.journals.count).to eq(journal_count[0] + 1)
+      expect(wp2.journals.count).to eq(journal_count[1] + 1)
+      expect(wp3.journals.count).to eq(journal_count[2] + 0)
+      expect(wp4.journals.count).to eq(journal_count[3] + 0)
 
       expect(wp1.journals.last.notes).to include('PR Closed')
     end

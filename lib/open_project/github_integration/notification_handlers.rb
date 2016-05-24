@@ -72,11 +72,11 @@ module OpenProject::GithubIntegration
       wp_ids = extract_work_package_ids(text)
       wps = find_visible_work_packages(wp_ids, user)
 
-      # FIXME check user is allowed to update work packages
-      # TODO mergeable
-
+      attributes = { journal_notes: notes_for_payload(payload) }
       wps.each do |wp|
-        wp.update_by!(user, :notes => notes_for_payload(payload))
+        ::UpdateWorkPackageService
+          .new(user: user, work_package: wp)
+          .call(attributes: attributes)
       end
     end
 
