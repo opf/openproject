@@ -53,14 +53,25 @@ describe DocumentsController do
   end
 
   describe "index" do
+    let(:long_description) {
+      <<-LOREM.strip_heredoc
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.\
+        Ut egestas, mi vehicula varius varius, ipsum massa fermentum orci,\
+        eget tristique ante sem vel mi. Nulla facilisi.\
+        Donec enim libero, luctus ac sagittis sit amet, vehicula sagittis magna.\
+        Duis ultrices molestie ante, eget scelerisque sem iaculis vitae.\
+        Etiam fermentum mauris vitae metus pharetra condimentum fermentum est pretium.\
+        Proin sollicitudin elementum quam quis pharetra.\
+        Aenean facilisis nunc quis elit volutpat mollis.\
+        Aenean eleifend varius euismod. Ut dolor est, congue eget dapibus eget, elementum eu odio.\
+        Integer et lectus neque, nec scelerisque nisi. EndOfLineHere
+
+        Praesent a nunc lorem, ac porttitor eros.
+      LOREM
+    }
 
     before do
-      document.update_attributes(description:<<LOREM)
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut egestas, mi vehicula varius varius, ipsum massa fermentum orci, eget tristique ante sem vel mi. Nulla facilisi. Donec enim libero, luctus ac sagittis sit amet, vehicula sagittis magna. Duis ultrices molestie ante, eget scelerisque sem iaculis vitae. Etiam fermentum mauris vitae metus pharetra condimentum fermentum est pretium. Proin sollicitudin elementum quam quis pharetra.  Aenean facilisis nunc quis elit volutpat mollis. Aenean eleifend varius euismod. Ut dolor est, congue eget dapibus eget, elementum eu odio. Integer et lectus neque, nec scelerisque nisi. EndOfLineHere
-
-Vestibulum non velit mi. Aliquam scelerisque libero ut nulla fringilla a sollicitudin magna rhoncus.  Praesent a nunc lorem, ac porttitor eros. Sed ac diam nec neque interdum adipiscing quis quis justo. Donec arcu nunc, fringilla eu dictum at, venenatis ac sem. Vestibulum quis elit urna, ac mattis sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-LOREM
-
+      document.update_attributes(description: long_description)
       get :index, project_id: project.identifier
     end
 

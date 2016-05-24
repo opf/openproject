@@ -35,14 +35,14 @@ See doc/COPYRIGHT.rdoc for more details.
             subtitle: "#{@document.category.name} - #{format_date @document.created_on}" do %>
   <% if authorize_for(:documents, :edit) %>
     <li class="toolbar-item">
-      <%= link_to({:controller => '/documents', :action => 'edit', :id => @document}, class: 'button', accesskey: accesskey(:edit)) do %>
+      <%= link_to({controller: '/documents', action: 'edit', id: @document}, class: 'button', accesskey: accesskey(:edit)) do %>
         <i class="button--icon icon-edit"></i> <%= l(:button_edit) %>
       <% end %>
     </li>
   <% end %>
   <% if authorize_for(:documents, :destroy) %>
     <li class="toolbar-item">
-      <%= link_to({:controller => '/documents', :action => 'destroy', :id => @document}, class: 'button', data: { :confirm => l(:text_are_you_sure) }, :method => :delete) do %>
+      <%= link_to({controller: '/documents', action: 'destroy', id: @document}, class: 'button', data: { confirm: l(:text_are_you_sure) }, method: :delete) do %>
         <i class="button--icon icon-delete"></i> <%= l(:button_delete) %>
       <% end %>
     </li>
@@ -50,18 +50,18 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <div class="wiki">
-<%= textilizable @document.description, :attachments => @document.attachments %>
+<%= format_text @document.description, attachments: @document.attachments %>
 </div>
 
 <h3><%= l(:label_attachment_plural) %></h3>
 <%= link_to_attachments @document %>
 
 <% if authorize_for('documents', 'add_attachment') %>
-<p><%= link_to l(:label_attachment_new), {}, :onclick => "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;",
-                                             :id => 'attach_files_link' %></p>
-  <%= form_tag(add_attachment_document_path(@document), method: :post, multipart: true, :id => "add_attachment_form", :style => "display:none;") do %>
+<p><%= link_to l(:label_attachment_new), {}, onclick: "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;",
+                                             id: 'attach_files_link' %></p>
+  <%= form_tag(add_attachment_document_path(@document), method: :post, multipart: true, id: "add_attachment_form", style: "display:none;") do %>
   <div class="box">
-  <p><%= render :partial => 'attachments/form' %></p>
+  <p><%= render partial: 'attachments/form' %></p>
   </div>
   <%= styled_button_tag l(:button_add), class: "-highlight -with-icon icon-checkmark" %>
 
