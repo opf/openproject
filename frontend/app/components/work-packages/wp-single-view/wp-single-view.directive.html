@@ -57,7 +57,7 @@
         <span class="required" ng-if="$ctrl.singleViewWp.hasNiceStar(field)"> *</span>
       </div>
       <div
-          ng-hide="$ctrl.hideEmptyFields && $ctrl.singleViewWp.canHideField(field)"
+          ng-hide="$ctrl.shouldHideField(field)"
           ng-if="$ctrl.singleViewWp.isSingleField(field) && $ctrl.singleViewWp.isSpecified(field)"
           wp-edit-field="field"
           wp-edit-field-label="$ctrl.singleViewWp.getLabel(field)"
