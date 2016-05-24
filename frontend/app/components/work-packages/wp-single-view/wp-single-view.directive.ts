@@ -43,16 +43,16 @@ export class WorkPackageSingleViewController {
               protected $window,
               protected $state,
               protected $stateParams,
-              protected WORK_PACKAGE_ATTRIBUTES,
               protected loadingIndicator,
               protected I18n,
               protected wpCacheService,
               protected NotificationsService,
+              protected WorkPackagesOverviewService,
               protected inplaceEditAll,
               protected wpAttachments,
               protected SingleViewWorkPackage) {
 
-    this.groupedFields = angular.copy(WORK_PACKAGE_ATTRIBUTES);
+    this.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
     this.text = {
       fields: {
         date: { startDate: I18n.t('js.label_no_start_date'),
