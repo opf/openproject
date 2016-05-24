@@ -39,7 +39,7 @@ Feature: Show existing meetings
         And I go to the page for the project "dingens"
         And I click on "Meetings"
        Then I should see "Meetings" within "#content"
-        And I should see "No data to display" within "#content"
+        And I should see "There is currently nothing to display." within "#content"
 
   Scenario: Navigate to the meeting index page with 2 meetings
       Given there is 1 meeting in project "dingens" created by "alice" with:
@@ -56,7 +56,7 @@ Feature: Show existing meetings
         And I go to the page for the project "dingens"
         And I click on "Meetings"
        Then I should see "Meetings" within "#content"
-        But I should not see "No data to display" within "#content"
+        But I should not see "There is currently nothing to display." within "#content"
         And I should see 4 meetings
 
   Scenario: Lots of Meetings are split into pages

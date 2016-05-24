@@ -51,7 +51,7 @@ Feature: Show meetings
        When I go to the show page for the meeting called "Bobs Meeting"
 
        Then I should see "Agenda" within ".meeting_agenda"
-        And I should see "No data to display" within ".meeting_agenda"
+        And I should see "There is currently nothing to display." within ".meeting_agenda"
 
   Scenario: Navigate to a meeting page with a closed agenda
       Given the role "user" may have the following rights:
@@ -62,7 +62,7 @@ Feature: Show meetings
        When I go to the show page for the meeting called "Bobs Meeting"
 
        Then I should see "Minutes" within ".meeting_minutes"
-        And I should see "No data to display" within ".meeting_minutes"
+        And I should see "There is currently nothing to display." within ".meeting_minutes"
 
   @javascript
   Scenario: Navigate to a meeting page with an open agenda and the permission to edit the agenda
@@ -73,7 +73,7 @@ Feature: Show meetings
        When I go to the show page for the meeting called "Bobs Meeting"
 
        Then I should see "Agenda" within ".meeting_agenda"
-        And I should not see "No data to display" within "#meeting_agenda_text"
+        And I should not see "There is currently nothing to display." within "#meeting_agenda_text"
         And there should be a text edit toolbar for the "#meeting_agenda_text" field
 
   @javascript
