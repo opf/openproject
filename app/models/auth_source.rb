@@ -69,10 +69,10 @@ class AuthSource < ActiveRecord::Base
   def self.authenticate(login, password)
     AuthSource.where(['onthefly_register=?', true]).each do |source|
       begin
-        logger.debug "Authenticating '#{login}' against '#{source.name}'" if logger && logger.debug?
+        Rails.logger.debug { "Authenticating '#{login}' against '#{source.name}'" }
         attrs = source.authenticate(login, password)
       rescue => e
-        logger.error "Error during authentication: #{e.message}"
+        Rails.logger.error "Error during authentication: #{e.message}"
         attrs = nil
       end
       return attrs if attrs
