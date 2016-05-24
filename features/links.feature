@@ -34,7 +34,7 @@ Feature: Cost Reporting Linkage
     Then I should see "User"
     # And I should see "<< me >>"
     # And I should see "me"
-    And I should see "No data to display"
+    And I should see "There is currently nothing to display."
     And I should not see "0.00"
 
   @javascript
