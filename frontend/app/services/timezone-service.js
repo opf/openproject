@@ -68,7 +68,8 @@ module.exports = function(ConfigurationService, I18n) {
     },
 
     formattedDuration: function(durationString) {
-      return Number(moment.duration(durationString).asHours().toFixed(2));
+      var hours = Number(moment.duration(durationString).asHours().toFixed(2));
+      return I18n.t('js.units.hour', { count: hours });
     },
 
     formattedISODate: function(date) {
