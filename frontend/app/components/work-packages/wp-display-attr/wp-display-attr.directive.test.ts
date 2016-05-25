@@ -54,7 +54,9 @@ describe('wpDisplayAttr directive', () => {
     `;
 
     I18n = _I18n_;
-    sinon.stub(I18n, 't').returns('');
+    var stub = sinon.stub(I18n, 't');
+    stub.withArgs('js.general_text_no').returns('No');
+    stub.withArgs(sinon.match.any).returns('');
 
     element = angular.element(html);
     rootScope = $rootScope;
@@ -76,6 +78,7 @@ describe('wpDisplayAttr directive', () => {
     beforeEach(angular.mock.inject(($q) => {
       scope.workPackage = {
         subject: 'Subject1',
+        mybool: false,
         type: {id: 1, name: 'Bug'},
         sheep: 10,
         customField1: 'asdf1234',
@@ -100,6 +103,12 @@ describe('wpDisplayAttr directive', () => {
           "minLength": 1,
           "maxLength": 255
         },
+        "mybool": {
+          "type": "Boolean",
+          "name": "My Bool",
+          "required": false,
+          "writable": true
+        },
         "sheep": {
           "type": "Integer",
           "name": "Sheep",
@@ -111,7 +120,7 @@ describe('wpDisplayAttr directive', () => {
           "name": "foobar",
           "required": false,
           "writable": true
-        }
+        },
         "emptyField": {
           "type": "String",
           "name": "empty field",
@@ -213,6 +222,20 @@ describe('wpDisplayAttr directive', () => {
         var tag = getInnermostSpan(element);
 
         expect(tag.attr('title')).to.equal('');
+      });
+    });
+
+    describe('rendering a boolean field', () => {
+      beforeEach(() => {
+        scope.attribute = 'mybool';
+        compile();
+      });
+
+      it('should render the field as No', () => {
+        expect(element.find('.inplace-edit--read-value--value.-placeholder').length).to.eql(0);
+
+        var content = getInnermostSpan(element);
+        expect(content.text().trim()).to.equal('No');
       });
     });
 

@@ -77,7 +77,8 @@ export class WorkPackageDisplayAttributeController {
   }
 
   public get isEmpty(): boolean {
-    return !this.getValue();
+    var value = this.getValue();
+    return !(value === false || value)
   }
 
   public get isDisplayAsHtml(): boolean {
@@ -111,16 +112,15 @@ export class WorkPackageDisplayAttributeController {
 
       this.setDisplayType();
 
-      var text = this.getValue() || this.placeholder;
-
-      this.displayText = this.WorkPackagesHelper.formatValue(text, this.displayType);
+      var text = this.WorkPackagesHelper.formatValue(this.getValue(), this.displayType);
+      this.displayText = text || this.placeholder;
     });
   }
 
   protected getValue() {
     const wpAttr:any = this.workPackage[this.attribute];
 
-    if (!wpAttr) {
+    if (wpAttr == null) {
       return null;
     }
 
@@ -129,7 +129,6 @@ export class WorkPackageDisplayAttributeController {
     if (wpAttr.hasOwnProperty('html')) {
       value = wpAttr.html;
     }
-
     return value;
   }
 }
