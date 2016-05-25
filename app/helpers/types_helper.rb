@@ -77,7 +77,7 @@ module ::TypesHelper
     WorkPackageCustomField.all.each do |field|
       attributes["custom_field_#{field.id}"] = {
         required: field.is_required,
-        has_default: field.default_value,
+        has_default: field.default_value.present?,
         display_name: field.name
       }
     end
