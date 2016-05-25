@@ -478,6 +478,7 @@ function WorkPackageFieldService($q, $http, $filter, I18n,  WorkPackagesHelper, 
   var WorkPackageFieldService = {
     getSchema: getSchema,
     getFieldSchema: getFieldSchema,
+    getVisibility: getVisibility,
     isEditable: isEditable,
     isRequired: isRequired,
     isSpecified: isSpecified,

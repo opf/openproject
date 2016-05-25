@@ -61,6 +61,11 @@ function WorkPackageNewController($scope,
                                                      vm.isFieldHideable);
   };
 
+  vm.shouldHideField = function(field) {
+    return WorkPackagesDisplayHelper.shouldHideFieldOnCreate(
+      vm.workPackage, field, vm.hideEmptyFields);
+  };
+
   //Show all attributes in Edit-Mode
   $scope.$watch(function(){
     return inplaceEditAll.state;

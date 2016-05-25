@@ -62,7 +62,7 @@ module ::TypesHelper
   def work_package_form_attributes(merge_date: false)
     rattrs = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter.representable_attrs
     definitions = rattrs[:definitions]
-    skip = ['_type', 'links', 'parent_id', 'parent']
+    skip = ['_type', 'links', 'parent_id', 'parent', 'description']
     attributes = definitions.keys
       .reject { |key| skip.include? key }
       .map { |key| [key, definitions[key]] }.to_h
@@ -77,7 +77,7 @@ module ::TypesHelper
     WorkPackageCustomField.all.each do |field|
       attributes["custom_field_#{field.id}"] = {
         required: field.is_required,
-        has_default: field.default_value,
+        has_default: field.default_value.present?,
         display_name: field.name
       }
     end

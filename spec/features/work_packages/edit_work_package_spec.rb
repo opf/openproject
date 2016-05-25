@@ -107,6 +107,7 @@ describe 'edit work package', js: true do
       FactoryGirl.create(
         :work_package_custom_field,
         field_format: 'string',
+        default_value: nil,
         is_required:  true,
         is_for_all:   true
       )
