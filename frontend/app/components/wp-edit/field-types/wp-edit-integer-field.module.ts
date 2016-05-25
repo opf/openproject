@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Field} from "../wp-edit-field/wp-edit-field.module";
+import {EditField} from "../wp-edit-field/wp-edit-field.module";
 
-export class IntegerField extends Field {
+export class IntegerEditField extends EditField {
   public template:string = '/components/wp-edit/field-types/wp-edit-integer-field.directive.html'
 }

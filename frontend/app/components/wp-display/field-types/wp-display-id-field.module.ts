@@ -26,15 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
-import {Field} from '../../wp-field/wp-field.module'
-import {FieldFactory} from '../../wp-field/wp-field.module'
+import {DisplayField} from "../wp-display-field/wp-display-field.module";
 
-export class EditField extends Field{
-}
+export class IdDisplayField extends DisplayField {
+  public template:string = '/components/wp-display/field-types/wp-display-id-field.directive.html'
 
-export class EditFieldFactory extends FieldFactory{
+  public get value() {
+    if (this.resource.isNew) {
+      return null;
+    }
+    else {
+      return this.resource[this.name];
+    }
+  }
 
-  protected static fields = {};
-  protected static classes = {};
+  public get valueLink() {
+    let PathHelper = <op.PathHelper>this.$injector.get('PathHelper');
+
+    return PathHelper.workPackagePath(this.value);
+  }
 }

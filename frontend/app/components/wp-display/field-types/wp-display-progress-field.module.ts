@@ -26,15 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
-import {Field} from '../../wp-field/wp-field.module'
-import {FieldFactory} from '../../wp-field/wp-field.module'
+import {DisplayField} from "../wp-display-field/wp-display-field.module";
 
-export class EditField extends Field{
-}
+export class ProgressDisplayField extends DisplayField {
+  public template:string = '/components/wp-display/field-types/wp-display-progress-field.directive.html'
 
-export class EditFieldFactory extends FieldFactory{
-
-  protected static fields = {};
-  protected static classes = {};
+  public get value() {
+    if(this.schema) {
+      return this.resource[this.name] || 0;
+    }
+    else {
+      return null;
+    }
+  }
 }
