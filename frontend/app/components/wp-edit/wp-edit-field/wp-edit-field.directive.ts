@@ -43,6 +43,7 @@ export class WorkPackageEditFieldController {
   public fieldLabel: string;
   public field: Field;
   public errorenous: boolean;
+  public workPackage: WorkPackageResource;
 
   protected _active: boolean = false;
   protected _forceFocus: boolean = false;
@@ -61,10 +62,6 @@ export class WorkPackageEditFieldController {
               protected wpCacheService: WorkPackageCacheService,
               protected I18n) {
 
-  }
-
-  public get workPackage() {
-    return this.formCtrl.workPackage;
   }
 
   public get active() {
@@ -104,10 +101,10 @@ export class WorkPackageEditFieldController {
     });
   }
 
-  public initializeField(wp) {
+  public initializeField() {
     // Activate field when creating a work package
     // and the schema requires this field
-    if (wp.isNew && this.workPackage.requiredValueFor(this.fieldName)) {
+    if (this.workPackage.isNew && this.workPackage.requiredValueFor(this.fieldName)) {
       this.activate();
 
       var activeField = this.formCtrl.firstActiveField;
@@ -118,7 +115,7 @@ export class WorkPackageEditFieldController {
 
     // Mark the td field if it is inline-editable
     // We're resolving the non-form schema here since its loaded anyway for the table
-    wp.schema.$load().then(schema => {
+    this.workPackage.schema.$load().then(schema => {
       var fieldSchema = schema[this.fieldName];
 
       this.editable = fieldSchema && fieldSchema.writable;
@@ -230,11 +227,13 @@ function wpEditFieldLink(scope,
 
   formCtrl.registerField(scope.vm);
   formCtrl.onWorkPackageUpdated('wp-edit-field-' + scope.vm.fieldName, (wp) => {
-    scope.vm.initializeField(wp);
+    scope.vm.workPackage = wp;
+    scope.vm.initializeField();
   });
 
-  if (scope.vm.workPackage) {
-    scope.vm.initializeField(scope.vm.workPackage);
+  if (formCtrl.workPackage) {
+    scope.vm.workPackage = formCtrl.workPackage;
+    scope.vm.initializeField();
   }
 
   element.addClass(scope.vm.fieldName);
