@@ -31,7 +31,7 @@ angular
   .directive('workPackageComment', workPackageComment);
 
 function workPackageComment($timeout, $location, EditableFieldsState, FocusHelper,
-  inplaceEditMultiStorage, ConfigurationService, AutoCompleteHelper, inplaceEditAll) {
+  inplaceEditMultiStorage, ConfigurationService, inplaceEditAll) {
 
   function commentFieldDirectiveController($scope, $element) {
     var field = {
@@ -163,12 +163,6 @@ function workPackageComment($timeout, $location, EditableFieldsState, FocusHelpe
 
     controllerAs: 'fieldController',
     bindToController: true,
-    controller: commentFieldDirectiveController,
-
-    link: function(scope, element) {
-      $timeout(function() {
-        AutoCompleteHelper.enableTextareaAutoCompletion(element.find('textarea'));
-      });
-    }
+    controller: commentFieldDirectiveController
   };
 }

@@ -71,5 +71,16 @@ describe 'description inplace editor', js: true, selenium: true do
     end
   end
 
+  context 'autocomplete' do
+    let!(:wp2) { FactoryGirl.create(:work_package, project: project, subject: 'AutoFoo') }
+    let(:description_text) { '' }
+
+    it 'autocompletes the other work package' do
+      field.activate!
+      field.input_element.send_keys("##{wp2.id}")
+      expect(page).to have_selector('.atwho-view-ul li', text: wp2.to_s)
+    end
+  end
+
   it_behaves_like 'a cancellable field'
 end
