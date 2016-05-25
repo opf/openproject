@@ -27,12 +27,13 @@
 // ++
 
 import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
+import {wpDirectivesModule} from "../../../angular-modules";
 
 export class EditActionsBarController {
-  public text: Object;
+  public text:any;
 
-  constructor(public wpEditModeState:WorkPackageEditModeStateService, I18n: op.I18n) {
-
+  constructor(public wpEditModeState:WorkPackageEditModeStateService,
+              I18n:op.I18n) {
     this.text = {
       save: I18n.t('js.button_save'),
       cancel: I18n.t('js.button_cancel')
@@ -48,10 +49,8 @@ function editActionsBar() {
 
     bindToController: true,
     controller: EditActionsBarController,
-    controllerAs: 'vm'
+    controllerAs: '$ctrl'
   };
 }
 
-angular
-  .module('openproject.inplace-edit')
-  .directive('editActionsBar', editActionsBar);
+wpDirectivesModule.directive('editActionsBar', editActionsBar);
