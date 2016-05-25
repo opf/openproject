@@ -27,6 +27,7 @@
 #++
 
 require 'support/pages/abstract_work_package'
+require 'support/pages/split_work_package_create'
 
 module Pages
   class SplitWorkPackage < Pages::AbstractWorkPackage
