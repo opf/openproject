@@ -45,7 +45,7 @@ function editActionsBar() {
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/components/inplace-edit/edit-actions-bar/edit-actions-bar.directive.html',
+    templateUrl: '/components/common/edit-actions-bar/edit-actions-bar.directive.html',
 
     bindToController: true,
     controller: EditActionsBarController,
