@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {opApiModule, opServicesModule} from "../../../angular-modules";
+
 describe('apiV3 service', () => {
   var apiV3:restangular.IService;
   var $httpBackend:ng.IHttpBackendService;
 
-  beforeEach(angular.mock.module('openproject.api'));
-  beforeEach(angular.mock.module('openproject.services'));
-
+  beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
   beforeEach(angular.mock.inject((_apiV3_, _$httpBackend_) => {
     apiV3 = _apiV3_;
     $httpBackend = _$httpBackend_;
@@ -65,13 +65,6 @@ describe('apiV3 service', () => {
     it('should be transformed', () => {
       expect(promise).to.eventually.be.fulfilled.then(resource => {
         expect(resource.$isHal).to.be.true;
-      });
-      $httpBackend.flush();
-    });
-
-    it('should not have a restangularized $source', () => {
-      expect(promise).to.be.eventually.fulfilled.then(resource => {
-        expect(resource.$source.restangularized).to.not.be.ok;
       });
       $httpBackend.flush();
     });
