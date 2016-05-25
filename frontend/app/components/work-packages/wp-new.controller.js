@@ -78,6 +78,7 @@ function WorkPackageNewController($scope,
 
   vm.notifyCreation = function() {
     inplaceEditMultiStorage.save().then(function() {
+      $rootScope.$emit('workPackagesRefreshInBackground');
       NotificationsService.addSuccess({
         message: I18n.t('js.notice_successful_create'),
         link: {
