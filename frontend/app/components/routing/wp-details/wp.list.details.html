@@ -42,7 +42,11 @@
 
     <div class="bottom-toolbar" ng-if="workPackage">
       <wp-details-toolbar work-package='workPackage'></wp-details-toolbar>
-      <edit-actions-bar></edit-actions-bar>
+      <edit-actions-bar
+          ng-show="wpEditModeState.active"
+          on-save="wpEditModeState.save()"
+          on-cancel="wpEditModeState.cancel()"
+      ></edit-actions-bar>
     </div>
 </div>
 </div>

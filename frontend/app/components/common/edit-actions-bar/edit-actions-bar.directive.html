@@ -1,10 +1,9 @@
-<div class="work-packages--edit-actions"
-     ng-show="$ctrl.wpEditModeState.active">
+<div class="work-packages--edit-actions">
   <button
       id="work-packages--edit-actions-save"
       class="button -alt-highlight"
       accesskey="3"
-      ng-click="$ctrl.wpEditModeState.save()">
+      ng-click="$ctrl.onSave()">
     <i class="button--icon icon-checkmark"></i>
     <span class="button--text" ng-bind="::$ctrl.text.save"></span>
   </button>
@@ -12,7 +11,7 @@
       id="work-packages--edit-actions-cancel"
       class="button"
       accesskey="7"
-      ng-click="$ctrl.wpEditModeState.cancel()">
+      ng-click="$ctrl.onCancel()">
     <i class="button--icon icon-close"></i>
     <span class="button--text" ng-bind="::$ctrl.text.cancel"></span>
   </button>
