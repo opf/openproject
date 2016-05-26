@@ -7,9 +7,9 @@ es:
   enumeration_doc_categories: Categorías de documentos
   enumeration:
     document_category:
-      documentation: Documentation
-      specification: Specification
-      other: Other
+      documentation: Documentación
+      specification: Especificación
+      other: Otros
   label_document_added: Documento agregado
   label_document_new: Nuevo documento
   label_document_plural: Documentos
