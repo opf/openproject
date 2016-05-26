@@ -169,7 +169,7 @@ describe 'Omniauth authentication', type: :feature do
 
     it_behaves_like 'omniauth user registration'
 
-    it 'should redirect to back url' do
+    it 'should redirect to homesceen' do
       visit account_lost_password_path
       find_link('Omniauth Developer').click
 
@@ -183,7 +183,7 @@ describe 'Omniauth authentication', type: :feature do
       fill_in('user_lastname', with: user.lastname)
       click_link_or_button 'Submit'
 
-      expect(current_url).to eql account_lost_password_url
+      expect(current_url).to eql home_url(first_time_user: true)
     end
 
     context 'with password login disabled',
