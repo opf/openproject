@@ -108,27 +108,21 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
     shared_examples_for 'sort column' do
       it do
         expect(page).to have_selector(column_header_selector)
-        expect(find(column_header_selector + ' span.generic-table--sort-header')[:title]).to eq(sort_text)
       end
     end
 
     shared_examples_for 'unsorted column' do
-      let(:sort_text) { I18n.t(:label_open_menu) + " \"#{link_caption}\"" }
-
       it_behaves_like 'sort column'
     end
 
     shared_examples_for 'ascending sorted column' do
-      let(:sort_text) { "#{I18n.t(:label_ascending)} #{I18n.t(:label_sorted_by, value: "\"#{link_caption}\"")}" }
-
       it_behaves_like 'sort column'
     end
 
     shared_examples_for 'descending sorted column' do
-      let(:sort_text) { "#{I18n.t(:label_descending)} #{I18n.t(:label_sorted_by, value: "\"#{link_caption}\"")}" }
-
       it_behaves_like 'sort column'
     end
+
 
     shared_examples_for 'sortable column' do
       before do expect(page).to have_selector(column_header_selector) end
