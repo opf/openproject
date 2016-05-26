@@ -48,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 </div>
 
-<%= toolbar title: @board.name, subtitle: @board.description do %>
+<%= toolbar title: @board.name, subtitle: format_text(@board.description) do %>
   <% if authorize_for(:messages, :new) %>
     <li class="toolbar-item">
       <%= link_to({ controller: '/messages', action: 'new', board_id: @board},

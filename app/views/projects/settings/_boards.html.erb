@@ -78,7 +78,7 @@ See doc/COPYRIGHT.rdoc for more details.
               next if board.new_record? %>
               <tr>
                 <td><%=h board.name %></td>
-                <td><%=h board.description %></td>
+                <td><%= format_text(board.description) %></td>
                 <td class="small-icons">
                   <% if authorize_for 'boards', 'edit' %>
                     <%= reorder_links 'board', controller: '/boards',
