@@ -26,6 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
+
+<% if params[:first_time_user] %>
+  <script type='text/javascript'>
+    jQuery(document).ready(function() {
+       modalHelperInstance.createModal('/onboarding/index', '-full onboarding--modal');
+   })
+  </script>
+<% end %>
+
 <% breadcrumb_paths(nil) %>
 <div class="widget-boxes--screen-header">
   <h2>

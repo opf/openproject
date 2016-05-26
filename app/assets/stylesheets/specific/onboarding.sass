@@ -1,0 +1,90 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public LicenseÏ
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+#modalDiv.onboarding--modal
+  max-height: 37.5rem !important
+  #modalIframe
+    max-height: 37.5rem
+
+.onboarding--top-menu
+  display: flex
+  align-items: center
+
+  &#top-menu
+    // To work against the default padding of the modal window
+    left: -1.5rem
+    width: calc(100% + 1.5rem)
+
+  .avatar
+    margin-left: 1.5em
+  h2
+    color: $header-item-font-color
+    padding: 0 0.5em
+
+.onboarding--main
+  margin-top: 1em
+  padding-right: 1.5rem
+
+  .onboarding--video-block
+    display: flex
+    justify-content: space-between
+    flex-direction: column
+
+    .onboarding--video-text
+      line-height: 1.25
+
+    .onboarding--video
+      margin: 2em 0
+      align-self: center
+
+.onboarding--footer
+  display: flex
+  align-items: center
+  margin-top: 1em
+  position: absolute
+  bottom: 1em
+  right: 0
+
+  .button
+    margin-left: 1em
+    margin-bottom: 0rem
+
+    // #removeHack
+    visibility: hidden
+
+// Workaround for a correct header and indentation of content
+// Since there is a hidden element in the DOM which cannot be accessed via CSS, the in_modal class is the first accessible.
+.in_modal .controller-onboarding
+  #content
+    padding-left: 1.5rem
+
+// #removeHack
+.-position-absolute
+  position: absolute
+  bottom: 0
+  right: 0

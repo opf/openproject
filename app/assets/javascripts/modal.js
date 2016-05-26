@@ -192,6 +192,10 @@ var ModalHelper = (function() {
 
         this.destroyIframe();
 
+        // Remove custom classes
+        modalDiv.removeClass();
+        modalDiv.addClass('ui-dialog-content ui-widget-content')
+
         jQuery(this).trigger("closed");
       }
     }
@@ -208,7 +212,7 @@ var ModalHelper = (function() {
    * @param url url to load html from.
    * @param callback called when done. called with modal div.
    */
-  ModalHelper.prototype.createModal = function(url, callback) {
+  ModalHelper.prototype.createModal = function(url, cssClasses) {
     if (top != self) {
       window.open(url.replace(/(&)?layout=false/g, ""));
       return;
@@ -244,14 +248,23 @@ var ModalHelper = (function() {
 
     if (this._firstLoad) {
       //add closer
-      modalDiv.parent().prepend('<div id="ui-dialog-closer" class="icon icon-close" />')
+      modalDiv
+        .parent().prepend('<div id="ui-dialog-closer" class="icon icon-close" />')
         .click(jQuery.proxy(this.close, this));
       jQuery('.ui-dialog-titlebar').hide();
       jQuery('.ui-dialog-buttonpane').hide();
 
+      // HACK!!!
+      // To allow the next button to close the modal it has to outside its DOM. Once the button has a real functionality this has to be removed!
+      // Other places to be removed in the scope of this hack are marked with #removeHack
+      modalDiv
+        .parent().append('<button class="button -highlight -large -position-absolute" title=' + I18n.t('js.label_next') + '>' + I18n.t('js.label_next') + '</button>')
+        .click(jQuery.proxy(this.close, this));
+
       this._firstLoad = false;
     }
 
+    modalDiv.addClass(cssClasses);
     this.loading();
 
     this.modalIframe.attr("src", url);
