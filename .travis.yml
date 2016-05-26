@@ -106,7 +106,7 @@ notifications:
     on_failure: always
     on_pull_requests: false
     rooms:
-      secure: ZcqpJDziPYcrpQUn7YrAc4Py72yWWG4xZIorBg3TBe3L23mDNM17jA9FL5Dcw7gkwuvHQ/O+kmlgdi+tXPf32t8HKaKVonlQqlMhL8WKcfUg2c0J5M4MhsifT88a7cVK3JTs4hU8h9tisZT7Z9mvdF9sG0CVfuOFjLY6PogwaVE=
+      - $SLACK_INTEGRATION
 
 addons:
   firefox: "45.0esr"
