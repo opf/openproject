@@ -18,7 +18,6 @@
         wp-edit-field-wrapper-classes="'-no-label'"
         class="single-attribute wiki">
       <wp-display-attr
-          schema="$ctrl.workPackage.schema"
           work-package="$ctrl.workPackage"
           attribute="'description'"
           placeholder="$ctrl.I18n.t('js.work_packages.placeholders.description')">
@@ -64,7 +63,6 @@
           wp-edit-field-wrapper-classes="'-small'"
           class="attributes-key-value--value-container">
         <wp-display-attr
-            schema="$ctrl.workPackage.schema"
             work-package="$ctrl.workPackage"
             attribute="field"
             label="$ctrl.singleViewWp.getLabel(field)">
@@ -100,7 +98,6 @@
             wp-edit-field-wrapper-classes="'-small -shrink'">
 
           <wp-display-attr
-              schema="$ctrl.workPackage.schema"
               work-package="$ctrl.workPackage"
               attribute="field.fields[0]"
               placeholder="::$ctrl.text.fields[field.label][field.fields[0]]"
@@ -116,7 +113,6 @@
             wp-edit-field-wrapper-classes="'-small -shrink'">
 
           <wp-display-attr
-              schema="$ctrl.workPackage.schema"
               work-package="$ctrl.workPackage"
               attribute="field.fields[1]"
               placeholder="::$ctrl.text.fields[field.label][field.fields[1]]"

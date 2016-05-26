@@ -30,6 +30,8 @@ import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service"
 import {WorkPackageEditModeStateService} from "./wp-edit-mode-state.service";
 import {WorkPackageEditFieldController} from "./wp-edit-field/wp-edit-field.directive";
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
+import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
+import {scopedObservable} from "../../helpers/angular-rx-utils";
 
 export class WorkPackageEditFormController {
   public workPackage;
@@ -37,6 +39,8 @@ export class WorkPackageEditFormController {
   public errorHandler: Function;
   public successHandler: Function;
   public fields = {};
+  public observers:{[name: string]: Function} = {};
+
 
   public lastErrorFields: string[] = [];
   public firstActiveField: string;
@@ -55,6 +59,21 @@ export class WorkPackageEditFormController {
     if (this.hasEditMode) {
       wpEditModeState.register(this);
     }
+
+    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(this.workPackage.id))
+      .subscribe((wp: WorkPackageResource) => {
+        this.workPackage = wp;
+        angular.forEach(this.observers, (callback, name) => {
+          callback(wp);
+        })
+      });
+  }
+
+  /**
+   * Add an observer to the wpCacheService observed work package
+   */
+  public onWorkPackageUpdated(name: string, callback:Function) {
+    this.observers[name] = callback;
   }
 
   public isFieldRequired(fieldName) {
@@ -74,7 +93,7 @@ export class WorkPackageEditFormController {
 
         // Setup the field if it is not yet active
         if (state && field.isEditable && !field.active) {
-          field.initializeField();
+          field.initializeField(this.workPackage);
         }
 
         // Disable the field if is active

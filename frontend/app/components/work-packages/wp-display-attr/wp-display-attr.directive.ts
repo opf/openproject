@@ -29,6 +29,9 @@
 import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 import {wpDirectivesModule} from "../../../angular-modules";
 import {WorkPackageEditFieldController} from "../../wp-edit/wp-edit-field/wp-edit-field.directive";
+import {WorkPackageCacheService} from "../work-package-cache.service";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 
 export class WorkPackageDisplayAttributeController {
   public wpEditField:WorkPackageEditFieldController;
@@ -39,10 +42,11 @@ export class WorkPackageDisplayAttributeController {
   public placeholder:string;
   public placeholderOptional:string;
   public workPackage:any;
-  public schema:HalResource;
+  public customSchema:HalResource;
 
   constructor(protected $scope:ng.IScope,
               protected I18n:op.I18n,
+              protected wpCacheService:WorkPackageCacheService,
               protected PathHelper:any,
               protected WorkPackagesHelper:any) {
 
@@ -50,11 +54,10 @@ export class WorkPackageDisplayAttributeController {
                          I18n.t('js.work_packages.placeholders.default');
     this.displayText = this.placeholder;
 
-    $scope.$watch('$ctrl.workPackage.' + this.attribute, (newValue) => {
-      if (angular.isDefined(newValue)) {
-        this.updateAttribute();
-      }
-    });
+    // Update the attribute initially
+    if (this.workPackage) {
+      this.updateAttribute(this.workPackage);
+    }
   }
 
   public activateIfEditable(event) {
@@ -81,6 +84,14 @@ export class WorkPackageDisplayAttributeController {
     return !(value === false || value)
   }
 
+  /**
+   * The display attribute is either used for a work package, or a custom resource and schema
+   * (sumsSchema)
+   */
+  public get schema(): HalResource {
+    return this.customSchema || this.workPackage.schema;
+  }
+
   public get isDisplayAsHtml(): boolean {
     return this.workPackage[this.attribute] && this.workPackage[this.attribute].hasOwnProperty('html');
   }
@@ -94,26 +105,36 @@ export class WorkPackageDisplayAttributeController {
       // Show a link to the work package for the ID
       this.displayType = 'SelfLink';
       this.displayLink = this.PathHelper.workPackagePath(this.workPackage.id);
-    }
-    else if (!this.schema[this.attribute]) {
-      this.displayType = 'Text';
-    }
-    else {
+    } else {
       this.displayType = this.schema[this.attribute].type;
     }
   }
 
-  protected updateAttribute() {
+  protected updateAttribute(wp) {
+    this.workPackage = wp;
     this.schema.$load().then(() => {
+      var text;
+      const wpAttr:any = wp[this.attribute];
+
       if (this.workPackage.isNew && this.attribute === 'id') {
         this.displayText = '';
         return;
       }
 
-      this.setDisplayType();
+      if (!this.schema[this.attribute]) {
+        this.displayType = 'Text';
+        text = this.placeholder;
+      } else {
+        this.setDisplayType();
+        var formatted = this.WorkPackagesHelper.formatValue(this.getValue(), this.displayType);
+        text = formatted || this.placeholder;
+      }
 
-      var text = this.WorkPackagesHelper.formatValue(this.getValue(), this.displayType);
-      this.displayText = text || this.placeholder;
+      if (this.displayText !== text) {
+        this.$scope.$evalAsync(() => {
+          this.displayText = text || this.placeholder;
+        });
+      }
     });
   }
 
@@ -142,18 +163,27 @@ function wpDisplayAttrDirective() {
     controllers) {
 
     scope.$ctrl.wpEditField = controllers[0];
+
+    // Listen for changes to the work package on the form ctrl
+    var formCtrl = controllers[1];
+
+    if (formCtrl && !scope.$ctrl.customSchema) {
+      formCtrl.onWorkPackageUpdated('wp-display-attr-' + scope.$ctrl.attribute, (wp) => {
+        scope.$ctrl.updateAttribute(wp);
+      });
+    }
   }
 
   return {
     restrict: 'E',
     replace: true,
     templateUrl: '/components/work-packages/wp-display-attr/wp-display-attr.directive.html',
-    require: ['^?wpEditField'],
+    require: ['^?wpEditField', '^?wpEditForm'],
     link: wpTdLink,
 
     scope: {
-      schema: '=',
       workPackage: '=',
+      customSchema: '=?',
       attribute: '=',
       label: '=',
       placeholderOptional: '=placeholder'

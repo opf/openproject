@@ -37,6 +37,10 @@ module Pages
       @project = project
     end
 
+    def visit_query(query)
+      visit "#{path}?query_id=#{query.id}"
+    end
+
     def expect_work_package_listed(work_package)
       within(table_container) do
         expect(page).to have_content(work_package.subject)

@@ -29,6 +29,9 @@
 import {WorkPackageEditFormController} from "./../wp-edit-form.directive";
 import {WorkPackageEditFieldService} from "./wp-edit-field.service";
 import {Field} from "./wp-edit-field.module";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 
 
 export class WorkPackageEditFieldController {
@@ -40,6 +43,7 @@ export class WorkPackageEditFieldController {
   public fieldLabel: string;
   public field: Field;
   public errorenous: boolean;
+  public workPackage: WorkPackageResource;
 
   protected _active: boolean = false;
   protected _forceFocus: boolean = false;
@@ -55,12 +59,9 @@ export class WorkPackageEditFieldController {
               protected $q,
               protected FocusHelper,
               protected NotificationsService,
+              protected wpCacheService: WorkPackageCacheService,
               protected I18n) {
 
-  }
-
-  public get workPackage() {
-    return this.formCtrl.workPackage;
   }
 
   public get active() {
@@ -119,11 +120,14 @@ export class WorkPackageEditFieldController {
 
       this.editable = fieldSchema && fieldSchema.writable;
       this.fieldType = fieldSchema && this.wpEditField.fieldType(fieldSchema.type);
-      this.fieldLabel = this.fieldLabel || fieldSchema.name;
 
-      // Activate the field automatically when in editAllMode
-      if (this.inEditMode && this.isEditable) {
-        this.activate();
+      if (fieldSchema) {
+        this.fieldLabel = this.fieldLabel || fieldSchema.name;
+
+        // Activate the field automatically when in editAllMode
+        if (this.inEditMode && this.isEditable) {
+          this.activate();
+        }
       }
     });
   }
@@ -218,10 +222,19 @@ function wpEditFieldLink(scope,
                          attrs,
                          controllers: [WorkPackageEditFormController, WorkPackageEditFieldController]) {
 
-  controllers[1].formCtrl = controllers[0];
-  controllers[1].formCtrl.registerField(scope.vm);
+  var formCtrl = controllers[0];
+  controllers[1].formCtrl = formCtrl;
 
-  scope.vm.initializeField();
+  formCtrl.registerField(scope.vm);
+  formCtrl.onWorkPackageUpdated('wp-edit-field-' + scope.vm.fieldName, (wp) => {
+    scope.vm.workPackage = wp;
+    scope.vm.initializeField();
+  });
+
+  if (formCtrl.workPackage) {
+    scope.vm.workPackage = formCtrl.workPackage;
+    scope.vm.initializeField();
+  }
 
   element.addClass(scope.vm.fieldName);
   element.keyup(event => {
