@@ -243,13 +243,6 @@ function hasDropdownMenu($rootScope, $injector, $window, FocusHelper) {
       // or move to the compile function of the directive
       // or move to a service and make sure it's called only once
 
-      var repositioningEventString = 'resize.dropdown.openproject, mousewheel.dropdown.openproject';
-      win
-        .off(repositioningEventString)
-        .on(repositioningEventString, function () {
-          $rootScope.$broadcast('openproject.dropdown.reposition');
-        });
-
       var keyUpEventString = 'keyup.dropdown.openproject';
       win
         .off(keyUpEventString).on(keyUpEventString, function (event) {
