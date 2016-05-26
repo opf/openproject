@@ -37,7 +37,7 @@ class HomescreenController < ApplicationController
     @news = News.latest(count: 3)
     @announcement = Announcement.active_and_current
 
-    @homescreen = OpenProject::Homescreen
+    @homescreen = OpenProject::Static::Homescreen
   end
 
   def robots

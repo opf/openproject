@@ -27,9 +27,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'open_project/homescreen'
+require 'open_project/static/homescreen'
 
-OpenProject::Homescreen.manage :blocks do |blocks|
+OpenProject::Static::Homescreen.manage :blocks do |blocks|
   blocks.push(
     { partial: 'welcome',
       if: Proc.new { Setting.welcome_on_homescreen? && !Setting.welcome_text.empty? } },
@@ -46,7 +46,7 @@ OpenProject::Homescreen.manage :blocks do |blocks|
   )
 end
 
-OpenProject::Homescreen.manage :links do |links|
+OpenProject::Static::Homescreen.manage :links do |links|
   links.push(
     {
       label: :user_guides,
