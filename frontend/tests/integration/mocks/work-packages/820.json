@@ -128,6 +128,23 @@
     }
   ],
   "_embedded": {
+    "type": {
+      "_type": "Type",
+      "_links": {
+        "self": {
+          "href": "/api/v3/types/5",
+          "title": "Phase"
+        }
+      },
+      "id": 5,
+      "name": "Phase",
+      "color": "#66CC99",
+      "position": 4,
+      "isDefault": true,
+      "isMilestone": false,
+      "createdAt": "2015-02-13T10:08:52+00:00",
+      "updatedAt": "2015-02-13T10:08:52+00:00"
+    },
     "status": {
       "name": "rejected",
       "isClosed": true
