@@ -34,6 +34,12 @@ See doc/COPYRIGHT.rdoc for more details.
   </h2>
 </div>
 
+
+<a zf-open="onboarding--start-modal" class="button">Open modal</a>
+<div zf-modal="" id="onboarding--start-modal">
+<%= render partial: '/onboarding/starting_video_modal' %>
+</div>
+
 <%= render partial: 'announcements/show' %>
 
 <% if @homescreen[:blocks].any? %>

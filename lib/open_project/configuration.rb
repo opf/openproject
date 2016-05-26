@@ -85,6 +85,8 @@ module OpenProject
       'blacklisted_routes' => [],
 
       'apiv2_enable_basic_auth' => true,
+
+      'onboarding_video_url' => 'https://player.vimeo.com/video/163426858'
     }
 
     @config = nil
