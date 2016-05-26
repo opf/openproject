@@ -41,50 +41,56 @@ module OpenProject
         end
 
         def links
-          @links ||= begin
-            {
-              user_guides: {
-                href: 'https://www.openproject.org/help/user-guides',
-                label: I18n.t('homescreen.links.user_guides')
-              },
-              faq: {
-                href: 'https://www.openproject.org/help/faq',
-                label: I18n.t('homescreen.links.faq')
-              },
-              boards: {
-                href: 'https://community.openproject.com/projects/openproject/boards',
-                label: I18n.t('homescreen.links.boards')
-              },
-              professional_support: {
-                href: 'https://www.openproject.org/professional-services/',
-                label: I18n.t(:label_professional_support)
-              },
-              blog: {
-                href: 'https://www.openproject.org/blog',
-                label: I18n.t('homescreen.links.blog')
-              },
-              release_notes: {
-                href: 'https://www.openproject.org/open-source/release-notes/',
-                label: I18n.t(:label_release_notes)
-              },
-              report_bug: {
-                href: 'https://www.openproject.org/open-source/report-bug/',
-                label: I18n.t(:label_report_bug)
-              },
-              roadmap: {
-                href: 'https://community.openproject.org/projects/openproject/roadmap',
-                label: I18n.t(:label_development_roadmap)
-              },
-              crowdin: {
-                href: 'https://crowdin.com/projects/opf',
-                label: I18n.t(:label_add_edit_translations)
-              },
-              api_docs: {
-                href: 'https://www.openproject.org/api',
-                label: I18n.t(:label_api_documentation)
-              },
-            }
-          end
+          {
+            user_guides: {
+              href: 'https://www.openproject.org/help/user-guides',
+              label: 'homescreen.links.user_guides'
+            },
+            faq: {
+              href: 'https://www.openproject.org/help/faq',
+              label: 'homescreen.links.faq'
+            },
+            glossary: {
+              href: 'https://www.openproject.org/help/user-guides/glossary/',
+              label: 'homescreen.links.glossary'
+            },
+            shortcuts: {
+              href: 'https://www.openproject.org/help/user-guides/keyboard-shortcuts-access-keys/',
+              label: 'homescreen.links.shortcuts'
+            },
+            boards: {
+              href: 'https://community.openproject.com/projects/openproject/boards',
+              label: 'homescreen.links.boards'
+            },
+            professional_support: {
+              href: 'https://www.openproject.org/professional-services/',
+              label: :label_professional_support
+            },
+            blog: {
+              href: 'https://www.openproject.org/blog',
+              label: 'homescreen.links.blog'
+            },
+            release_notes: {
+              href: 'https://www.openproject.org/open-source/release-notes/',
+              label: :label_release_notes
+            },
+            report_bug: {
+              href: 'https://www.openproject.org/open-source/report-bug/',
+              label: :label_report_bug
+            },
+            roadmap: {
+              href: 'https://community.openproject.org/projects/openproject/roadmap',
+              label: :label_development_roadmap
+            },
+            crowdin: {
+              href: 'https://crowdin.com/projects/opf',
+              label: :label_add_edit_translations
+            },
+            api_docs: {
+              href: 'https://www.openproject.org/api',
+              label: :label_api_documentation
+            },
+          }
         end
       end
     end

@@ -28,6 +28,7 @@
 #++
 
 require 'open_project/static/homescreen'
+require 'open_project/static/links'
 
 OpenProject::Static::Homescreen.manage :blocks do |blocks|
   blocks.push(
@@ -47,31 +48,33 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
 end
 
 OpenProject::Static::Homescreen.manage :links do |links|
+  static_links = OpenProject::Static::Links.links
+
   links.push(
     {
       label: :user_guides,
       icon: 'icon-context icon-rename',
-      url: 'https://www.openproject.org/help/user-guides/'
+      url: static_links[:user_guides][:href]
     },
     {
       label: :faq,
       icon: 'icon-context icon-faq',
-      url: 'https://www.openproject.org/help/faq/'
+      url: static_links[:faq][:href]
     },
     {
       label: :glossary,
       icon: 'icon-context icon-glossar',
-      url: 'https://www.openproject.org/help/user-guides/glossary/'
+      url: static_links[:glossary][:href]
     },
     {
       label: :shortcuts,
       icon: 'icon-context icon-shortcuts',
-      url: 'https://www.openproject.org/help/user-guides/keyboard-shortcuts-access-keys/'
+      url: static_links[:shortcuts][:href]
     },
     {
-      label: :forums,
+      label: :boards,
       icon: 'icon-context icon-forums',
-      url: 'https://community.openproject.org/projects/openproject/boards'
+      url: static_links[:boards][:href]
     }
   )
 end

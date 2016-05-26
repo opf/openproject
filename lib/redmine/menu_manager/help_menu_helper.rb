@@ -90,8 +90,9 @@ module Redmine::MenuManager::HelpMenuHelper
 
   def static_link_item(key)
     link = OpenProject::Static::Links.links[key]
+    label = I18n.t(link[:label])
     content_tag(:li) do
-      link_to link[:label], link[:href], title: link[:label]
+      link_to label, link[:href], title: label
     end
   end
 end

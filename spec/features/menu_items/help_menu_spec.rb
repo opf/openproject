@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,36 +26,37 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module HomescreenHelper
-  ##
-  # Homescreen name
-  def organization_name
-    Setting.app_title || Setting.software_name
+require 'spec_helper'
+
+feature 'Help menu items' do
+  let(:user) { FactoryGirl.create :admin }
+  let(:help_item) { find('.icon-help1') }
+
+  before do
+    login_as user
   end
 
-  ##
-  # Homescreen organization icon
-  def organization_icon
-    content_tag :span, '', class: 'icon-context icon-enterprise'
+  describe 'When force_help_link is not set', js: true do
+    it 'renders a dropdown' do
+      visit home_path
+
+      help_item.click
+      expect(page).to have_selector('.drop-down--help li',
+                                    text: I18n.t('homescreen.links.user_guides'))
+    end
   end
 
-  ##
-  # Returns the user avatar or a default image
-  def homescreen_user_avatar
-    avatar = avatar(User.current)
+  describe 'When force_help_link is set' do
+    let(:custom_url) { 'https://mycustomurl.example.org' }
+    before do
+      allow(OpenProject::Configuration).to receive(:force_help_link)
+        .and_return custom_url
+    end
+    it 'renders a link' do
+      visit home_path
 
-    avatar.presence || content_tag(:span, '', class: 'icon-context icon-user')
-  end
-
-  ##
-  # Render a static link defined in OpenProject::Static::Links
-  def static_link_to(key)
-    link = OpenProject::Static::Links.links[key]
-    label = I18n.t(link[:label])
-
-    link_to label,
-            link[:href],
-            title: label,
-            target: '_blank'
+      expect(help_item[:href]).to eq(custom_url)
+      expect(page).to have_no_selector('.drop-down--help', visible: false)
+    end
   end
 end
