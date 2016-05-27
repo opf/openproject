@@ -26,11 +26,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
-<foundation-modal modal-id="onboarding--start-modal">
-  <%= content_tag(:li) do
-        link_to l(:label_video), '', title: l(:label_video), class: 'foundation-modal--activate-link', :'ng-click' => "scope.modal.activate()"
-      end %>
+<foundation-modal>
+  <div class="foundation-modal--template">
+    <%= render partial: '/onboarding/starting_video_modal' %>
+  </div>
+  <li>
+    <%= link_to l(:label_video),
+                '',
+                title: l(:label_video),
+                class: 'foundation-modal--activate-link' %>
+  </li>
 </foundation-modal>
-
-<%= render partial: "onboarding/starting_video_modal" %>

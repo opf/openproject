@@ -28,34 +28,37 @@
 
 function foundationModal($timeout, ModalFactory) {
   var foundationModalController = function(scope, element) {
-      scope.modal = new ModalFactory({
-        // Add CSS classes to the modal
-        // Can be a single string or an array of classes
-        class: 'tiny dialog',
-        id: scope.modalId,
-        // Set if the modal has a background overlay
-        overlay: true,
-        // Set if the modal can be closed by clicking on the overlay
-        overlayClose: false,
-        // Allows you to pass in properties to the scope of the modal
-        contentScope: {
-          close: function() {
-            modal.deactivate();
-            $timeout(function() {
-              modal.destroy();
-            }, 1000);
-          }
+    var modal = new ModalFactory({
+      // Add CSS classes to the modal
+      // Can be a single string or an array of classes
+      class: 'tiny dialog',
+      template: element.find('.foundation-modal--template').html(),
+      // Set if the modal has a background overlay
+      overlay: true,
+      // Set if the modal can be closed by clicking on the overlay
+      overlayClose: false,
+      // Allows you to pass in properties to the scope of the modal
+      contentScope: {
+        close: function() {
+          modal.deactivate();
+          $timeout(function() {
+            modal.destroy();
+          }, 1000);
         }
-      });
-      if(scope.modalStartOnShow) {
-        scope.modal.activate();
       }
+    });
+
+    if(scope.modalStartOnShow) {
+      modal.activate();
+    } else {
+      element.find('.foundation-modal--activate-link').click(function() {
+        modal.activate();
+      });
+    }
   };
 
   return {
     restrict: 'E',
-    transclude: true,
-    replace: true,
     scope: {
       modalId: '@',
       modalStartOnShow: '='

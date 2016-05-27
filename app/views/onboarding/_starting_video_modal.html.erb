@@ -27,7 +27,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<a zf-close="" class="icon-context icon-close"></a>
 <div id="top-menu" class="onboarding--top-menu">
   <%= homescreen_user_avatar %>
   <h2><%= I18n.t('onboarding.welcome', name: current_user.name) %></h2>
@@ -47,5 +46,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="onboarding--footer">
   <em><label><%= I18n.t('onboarding.text_show_again') %></label></em>
-  <button zf-close class="button -highlight -large" title=<%= l(:label_next)%>> <%= l(:label_next)%> </button>
+  <button class="button -highlight -large"
+          ng-click="close()"
+          title=<%= l(:label_next)%>> <%= l(:label_next)%>
+  </button>
 </div>
