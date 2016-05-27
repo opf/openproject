@@ -2,6 +2,7 @@
     class="wp-inline-create-button"
     ng-hide="$ctrl.hidden || $ctrl.isDisabled()">
   <a class="wp-inline-create--add-link"
+          role="link"
           ng-click="$ctrl.addWorkPackageRow()"
           ng-disabled="$ctrl.isDisabled()"
           aria-label="{{ ::$ctrl.text.create }}"
