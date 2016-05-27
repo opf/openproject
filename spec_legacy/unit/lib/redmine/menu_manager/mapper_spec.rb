@@ -170,9 +170,9 @@ describe Redmine::MenuManager::Mapper do
   specify 'deleting all items' do
     # Exposed by deleting :last items
     Redmine::MenuManager.map :test_menu do |menu|
-      menu.push :not_last, OpenProject::Info.help_url
+      menu.push :not_last, OpenProject::Static::Links.help_link
       menu.push :administration, { controller: 'projects', action: 'show' }, last: true
-      menu.push :help, OpenProject::Info.help_url, last: true
+      menu.push :help, OpenProject::Static::Links.help_link, last: true
     end
 
     expect {

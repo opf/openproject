@@ -47,4 +47,16 @@ module HomescreenHelper
 
     avatar.presence || content_tag(:span, '', class: 'icon-context icon-user')
   end
+
+  ##
+  # Render a static link defined in OpenProject::Static::Links
+  def static_link_to(key)
+    link = OpenProject::Static::Links.links[key]
+    label = I18n.t(link[:label])
+
+    link_to label,
+            link[:href],
+            title: label,
+            target: '_blank'
+  end
 end

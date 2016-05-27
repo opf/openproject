@@ -56,7 +56,7 @@ Redmine::MenuManager.map :top_menu do |menu|
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_time_entries, nil, global: true)
             }
-  menu.push :help, OpenProject::Info.help_url,
+  menu.push :help, OpenProject::Static::Links.help_link,
             last: true,
             caption: '',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),

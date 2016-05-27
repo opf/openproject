@@ -5,18 +5,10 @@
 
 <ul class="widget-box--arrow-links">
   <li>
-    <a href="https://www.openproject.org/help/user-guides"
-       target="_blank"
-       title="<%= l('homescreen.links.user_guides') %>">
-      <%= l('homescreen.links.user_guides') %>
-    </a>
+    <%= static_link_to :user_guides %>
   </li>
   <li>
-    <a href="https://www.openproject.org/help/faq"
-       target="_blank"
-       title="<%= l('homescreen.links.faq') %>">
-      <%= l('homescreen.links.faq') %>
-    </a>
+    <%= static_link_to :faq %>
   </li>
   <li>
     <a title="<%= l('homescreen.links.shortcuts') %>"
@@ -25,59 +17,26 @@
     </a>
   </li>
   <li>
-    <a href="https://community.openproject.com/projects/openproject/boards"
-       target="_blank"
-       title="<%= l('homescreen.links.boards') %>">
-      <%= l('homescreen.links.boards') %>
-    </a>
+    <%= static_link_to :boards %></li>
+  <li>
+    <%= static_link_to :professional_support %>
   </li>
   <li>
-    <a href="https://www.openproject.org/professional-services/"
-       target="_blank"
-       title="<%= l(:label_professional_support) %>">
-      <%= l(:label_professional_support) %>
-    </a>
+    <%= static_link_to :blog %>
   </li>
   <li>
-    <a href="https://www.openproject.org/blog/"
-       target="_blank"
-       title="<%= l('homescreen.links.blog') %>">
-      <%= l('homescreen.links.blog') %>
-    </a>
+    <%= static_link_to :release_notes %>
   </li>
   <li>
-    <a href="https://www.openproject.org/open-source/release-notes/"
-       target="_blank"
-       title="<%= l(:label_release_notes) %>">
-      <%= l(:label_release_notes) %>
-    </a>
+    <%= static_link_to :report_bug %>
   </li>
   <li>
-    <a href="https://community.openproject.org/projects/openproject/work_packages"
-       target="_blank"
-       title="<%= l(:label_report_bug) %>">
-      <%= l(:label_report_bug) %>
-    </a>
+    <%= static_link_to :roadmap %>
   </li>
   <li>
-    <a href="https://community.openproject.org/projects/openproject/roadmap"
-       target="_blank"
-       title="<%= l(:label_development_roadmap) %>">
-      <%= l(:label_development_roadmap) %>
-    </a>
+    <%= static_link_to :crowdin %>
   </li>
   <li>
-    <a href="https://crowdin.com/projects/opf"
-       target="_blank"
-       title="<%= l(:label_add_edit_translations) %>">
-      <%= l(:label_add_edit_translations) %>
-    </a>
-  </li>
-  <li>
-    <a href="https://www.openproject.org/api/"
-       target="_blank"
-       title="<%= l(:label_api_documentation) %>">
-      <%= l(:label_api_documentation) %>
-    </a>
+    <%= static_link_to :api_docs %>
   </li>
 </ul>

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,21 +26,37 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class HomescreenController < ApplicationController
+require 'spec_helper'
 
-  skip_before_filter :check_if_login_required, only: [:robots]
+feature 'Help menu items' do
+  let(:user) { FactoryGirl.create :admin }
+  let(:help_item) { find('.icon-help1') }
 
-  def index
-    @newest_projects = Project.visible.newest.take(3)
-    @newest_users = User.newest.take(3)
-    @news = News.latest(count: 3)
-    @announcement = Announcement.active_and_current
-
-    @homescreen = OpenProject::Static::Homescreen
+  before do
+    login_as user
   end
 
-  def robots
-    @projects = Project.active.public_projects
+  describe 'When force_help_link is not set', js: true do
+    it 'renders a dropdown' do
+      visit home_path
+
+      help_item.click
+      expect(page).to have_selector('.drop-down--help li',
+                                    text: I18n.t('homescreen.links.user_guides'))
+    end
   end
-  caches_action :robots
+
+  describe 'When force_help_link is set' do
+    let(:custom_url) { 'https://mycustomurl.example.org' }
+    before do
+      allow(OpenProject::Configuration).to receive(:force_help_link)
+        .and_return custom_url
+    end
+    it 'renders a link' do
+      visit home_path
+
+      expect(help_item[:href]).to eq(custom_url)
+      expect(page).to have_no_selector('.drop-down--help', visible: false)
+    end
+  end
 end
