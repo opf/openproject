@@ -79,6 +79,7 @@ storage config above like this:
 * `database_cipher_key`     (default: nil)
 * `scm_git_command` (default: 'git')
 * `scm_subversion_command` (default: 'svn')
+* `force_help_link` (default: nil)
 * `session_store`: `active_record_store`, `cache_store`, or `cookie_store` (default: cache_store)
 * [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
 * [`disable_password_login`](#disable-password-login) (default: false)
@@ -166,6 +167,11 @@ Note that you have to configure the respective storage (i.e. fog) beforehand as 
 In the case of fog you only have to configure everything under `fog`, however. Don't change `attachments_storage`
 to `fog` just yet. Instead leave it as `file`. This is because the current attachments storage is used as the source
 for the migration.
+
+### Overriding the help link
+
+You can override the default help menu of OpenProject by specifying a `force_help_link` option to
+the configuration. This value is used for the href of the help link, and the default dropdown is removed.
 
 ### hidden menu items
 
