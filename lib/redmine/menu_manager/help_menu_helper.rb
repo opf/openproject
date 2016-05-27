@@ -46,6 +46,7 @@ module Redmine::MenuManager::HelpMenuHelper
     result = ''.html_safe
     render_drop_down_menu_node(link_to_help_pop_up, class: 'drop-down hidden-for-mobile') do
       content_tag :ul, style: 'display:none', class: 'drop-down--help' do
+        render_onboarding result
         render_help_and_support result
         render_additional_resources result
       end
@@ -54,8 +55,7 @@ module Redmine::MenuManager::HelpMenuHelper
 
   private
 
-  def render_help_and_support(result)
-    result = ''.html_safe
+  def render_onboarding(result)
     result << content_tag(:li) do
                 content_tag(:span, l('top_menu.getting_started'),
                             class: 'drop-down--help-headline',
@@ -63,13 +63,15 @@ module Redmine::MenuManager::HelpMenuHelper
               end
     result << ApplicationController.new.render_to_string(partial: 'onboarding/menu_item')
     result << content_tag(:hr, '', class: 'form--separator')
+  end
 
+  def render_help_and_support(result)
     result << content_tag(:li) do
       content_tag :span, l('top_menu.help_and_support'),
                   class: 'drop-down--help-headline',
                   title: l('top_menu.help_and_support')
     end
-    result <<  static_link_item(:user_guides)
+    result << static_link_item(:user_guides)
     result << static_link_item(:faq)
     result << content_tag(:li) do
       link_to l('homescreen.links.shortcuts'),
@@ -79,6 +81,7 @@ module Redmine::MenuManager::HelpMenuHelper
     end
     result << static_link_item(:boards)
     result << static_link_item(:professional_support)
+    result << content_tag(:hr, '', class: 'form--separator')
 
   end
 
