@@ -30,11 +30,7 @@ function foundationModal($timeout, ModalFactory) {
   var foundationModalController = function(scope, element) {
     var modal = new ModalFactory({
       template: element.find('.foundation-modal--template').html(),
-      id: scope.modalId,
-      // Set if the modal has a background overlay
-      overlay: true,
-      // Set if the modal can be closed by clicking on the overlay
-      overlayClose: false,
+      class: scope.modalClass,
       // Allows you to pass in properties to the scope of the modal
       contentScope: {
         close: function() {
@@ -55,7 +51,7 @@ function foundationModal($timeout, ModalFactory) {
   return {
     restrict: 'E',
     scope: {
-      modalId: '@',
+      modalClass: '@',
       modalStartOnShow: '='
     },
     link: foundationModalController
