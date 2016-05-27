@@ -1,0 +1,10 @@
+<div
+    ng-if="$ctrl.newWorkPackage"
+    wp-edit-form="$ctrl.newWorkPackage"
+>
+  <wp-single-view work-package="$ctrl.newWorkPackage"></wp-single-view>
+  <edit-actions-bar
+      on-save="$ctrl.saveWorkPackage()"
+      on-cancel="$ctrl.goToWorkPackagesList()"
+  ></edit-actions-bar>
+</div>

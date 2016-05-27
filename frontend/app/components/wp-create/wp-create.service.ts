@@ -49,6 +49,13 @@ export class WorkPackageCreateService {
 
     return Rx.Observable.fromPromise(this._newWorkPackage);
   }
+  
+  public saveWorkPackage() {
+    return this._newWorkPackage.then(wp => {
+      wp.save();
+      this._newWorkPackage = null;
+    });
+  }
 
   private getForm(projectIdentifier):ng.IPromise<HalResource> {
     if (!this.form) {
