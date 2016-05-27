@@ -55,6 +55,15 @@ module Redmine::MenuManager::HelpMenuHelper
   private
 
   def render_help_and_support(result)
+    result = ''.html_safe
+    result << content_tag(:li) do
+                content_tag(:span, l('top_menu.getting_started'),
+                            class: 'drop-down--help-headline',
+                            title: l('top_menu.getting_started'))
+              end
+    result << ApplicationController.new.render_to_string(partial: 'onboarding/menu_item')
+    result << content_tag(:hr, '', class: 'form--separator')
+
     result << content_tag(:li) do
       content_tag :span, l('top_menu.help_and_support'),
                   class: 'drop-down--help-headline',

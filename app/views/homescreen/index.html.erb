@@ -34,11 +34,12 @@ See doc/COPYRIGHT.rdoc for more details.
   </h2>
 </div>
 
-
 <a zf-open="onboarding--start-modal" class="button">Open modal</a>
 <div zf-modal="" id="onboarding--start-modal">
-<%= render partial: '/onboarding/starting_video_modal' %>
+  <%= render partial: '/onboarding/starting_video_modal' %>
 </div>
+
+<foundation-modal modal-id="onboarding--start-modal" modal-start-on-show="<%= params[:first_time_user] %>"></foundation-modal>
 
 <%= render partial: 'announcements/show' %>
 
