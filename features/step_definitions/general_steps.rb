@@ -315,7 +315,8 @@ end
 
 Then /^I should be logged in as "([^\"]*)"?$/ do |username|
   user = User.find_by_login(username) || User.anonymous
-  page.should have_xpath("//div[contains(., 'Logged in as #{username}')] | //a[contains(.,'#{user.name}')]")
+  page.should have_xpath("//div[contains(., 'Logged in as #{username}')] |
+                                            //a[@title='#{user.name}']")
 
   User.current = user
 end

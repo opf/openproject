@@ -87,7 +87,7 @@ describe 'create users', type: :feature, selenium: true do
 
           # landed on the 'my page'
           expect(page).to have_text 'Welcome, your account has been activated. You are logged in now.'
-          expect(page).to have_text 'bobfirst boblast'
+          expect(page).to have_link 'bobfirst boblast'
         end
       end
     end
@@ -127,6 +127,7 @@ describe 'create users', type: :feature, selenium: true do
 
           expect(page).to have_text 'OpenProject'
           expect(current_path).to eq '/'
+          expect(page).to have_link 'bobfirst boblast'
         end
       end
     end

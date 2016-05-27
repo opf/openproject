@@ -44,7 +44,8 @@ module Redmine::MenuManager::HelpMenuHelper
                                   aria: { haspopup: 'true' }
 
     result = ''.html_safe
-    render_drop_down_menu_node(link_to_help_pop_up, class: 'drop-down -hide-icon hidden-for-mobile') do
+    render_drop_down_menu_node(link_to_help_pop_up,
+                               class: 'drop-down hidden-for-mobile -hide-icon') do
       content_tag :ul, style: 'display:none', class: 'drop-down--help' do
         render_onboarding result
         render_help_and_support result

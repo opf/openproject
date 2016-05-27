@@ -66,7 +66,7 @@ Feature: User Status
     And I click "Unlock"
     Then I should not see "bobby"
     And I try to log in with user "bobby"
-    Then I should see "Bob Bobbit"
+    Then I should see "Bob Bobbit" as being logged in
 
   Scenario: A locked and blocked user gets unlocked and unblocked
     Given the user "bobby" is locked
@@ -74,13 +74,13 @@ Feature: User Status
     When I edit the user "bobby"
     And I click "Unlock and reset failed logins"
     When I try to log in with user "bobby"
-    Then I should see "Bob Bobbit"
+    Then I should see "Bob Bobbit" as being logged in
 
   Scenario: An active user gets locked
     When I edit the user "bobby"
     And I click "Lock permanently"
     When I try to log in with user "bobby"
-    Then I should not see "Bob Bobbit"
+    Then I should not see "Bob Bobbit" as being logged in
 
   Scenario: A registered user gets activated
     Given the user "bobby" is registered and not activated
@@ -90,4 +90,4 @@ Feature: User Status
     And I edit the user "bobby"
     And I click "Activate"
     When I try to log in with user "bobby"
-    Then I should see "Bob Bobbit"
+    Then I should see "Bob Bobbit" as being logged in

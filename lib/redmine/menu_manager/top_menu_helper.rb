@@ -130,13 +130,18 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_user_drop_down(items)
-    if homescreen_user_avatar == avatar(User.current)
-      avatar = avatar(User.current)
-    else
-      avatar = ''
-    end
+    avatar =
+      if homescreen_user_avatar == avatar(User.current)
+        homescreen_user_avatar
+      else
+        ''
+      end
 
-    render_drop_down_menu_node link_to(avatar, '', title: User.current.to_s, aria: { haspopup: 'true' }, class: (avatar == '' ? 'icon-user icon-context': '') ),
+    render_drop_down_menu_node link_to(avatar,
+                                       '',
+                                       title: User.current.to_s,
+                                       aria: { haspopup: 'true' },
+                                       class: (avatar == '' ? 'icon-user icon-context' : '')),
                                items,
                                class: 'drop-down -hide-icon last-child'
   end

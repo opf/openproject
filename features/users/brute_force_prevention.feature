@@ -33,24 +33,24 @@ Feature: Prevent brute force attacks
 
   Scenario: A user failing to login on the first time can login on second attempt
     When I try to log in with user "bob" and a wrong password
-    Then I should not see "Bob Bobbit"
+    Then I should not see "Bob Bobbit" as being logged in
     When I try to log in with user "bob"
-    Then I should see "Bob Bobbit"
+    Then I should see "Bob Bobbit" as being logged in
 
   Scenario: A user can't login after two failed attempts, but can after waiting 5 minutes
     When I try to log in with user "bob" and a wrong password
-    Then I should not see "Bob Bobbit"
+    Then I should not see "Bob Bobbit" as being logged in
     When I try to log in with user "bob" and a wrong password
-    Then I should not see "Bob Bobbit"
+    Then I should not see "Bob Bobbit" as being logged in
     When I try to log in with user "bob"
-    Then I should not see "Bob Bobbit"
+    Then I should not see "Bob Bobbit" as being logged in
     When the time is 6 minutes later
     And I try to log in with user "bob"
-    Then I should see "Bob Bobbit"
+    Then I should see "Bob Bobbit" as being logged in
 
   Scenario: Brute force prevention is disabled
     Given users are blocked for 5 minutes after 0 failed login attempts
     When I try to log in with user "bob" and a wrong password
-    Then I should not see "Bob Bobbit"
+    Then I should not see "Bob Bobbit" as being logged in
     When I try to log in with user "bob"
-    Then I should see "Bob Bobbit"
+    Then I should see "Bob Bobbit" as being logged in
