@@ -29,10 +29,8 @@
 function foundationModal($timeout, ModalFactory) {
   var foundationModalController = function(scope, element) {
     var modal = new ModalFactory({
-      // Add CSS classes to the modal
-      // Can be a single string or an array of classes
-      class: 'tiny dialog',
       template: element.find('.foundation-modal--template').html(),
+      id: scope.modalId,
       // Set if the modal has a background overlay
       overlay: true,
       // Set if the modal can be closed by clicking on the overlay
@@ -41,9 +39,6 @@ function foundationModal($timeout, ModalFactory) {
       contentScope: {
         close: function() {
           modal.deactivate();
-          $timeout(function() {
-            modal.destroy();
-          }, 1000);
         }
       }
     });

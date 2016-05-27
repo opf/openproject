@@ -28,8 +28,8 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <div id="top-menu" class="onboarding--top-menu">
-  <%= homescreen_user_avatar %>
   <h2><%= I18n.t('onboarding.welcome', name: current_user.name) %></h2>
+  <a class="icon-context icon-close" ng-click="close()"></a>
 </div>
 
 <div class="onboarding--main">
