@@ -70,7 +70,9 @@ class TypesController < ApplicationController
 
   def edit
     @projects = Project.all
-    @type  = ::Type.find(params[:id])
+    @type = ::Type.includes(:projects,
+                            :custom_fields)
+                  .find(params[:id])
   end
 
   def update
