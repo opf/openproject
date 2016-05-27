@@ -61,8 +61,14 @@ module Redmine::MenuManager::HelpMenuHelper
                             class: 'drop-down--help-headline',
                             title: l('top_menu.getting_started'))
               end
-    result << ApplicationController.new.render_to_string(partial: 'onboarding/menu_item')
+    result << render_onboarding_menu_item
     result << content_tag(:hr, '', class: 'form--separator')
+  end
+
+  def render_onboarding_menu_item
+    controller = ApplicationController.new
+    controller.request = request
+    controller.render_to_string(partial: 'onboarding/menu_item')
   end
 
   def render_help_and_support(result)

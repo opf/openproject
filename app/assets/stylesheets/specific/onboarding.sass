@@ -26,16 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-#onboarding--start-modal .modal
+.onboarding--start-modal .modal,
+// To be removed once we have updated foundation to version 1.2
+.modal
   padding: 0
   overflow-y: auto
-
-  .icon-close
-    position: absolute
-    top: 1rem
-    right: 0.5rem
-    z-index: 1000
-    color: $header-item-font-color
 
 .onboarding--top-menu
   display: flex
@@ -48,6 +43,14 @@
     color: $header-item-font-color
     padding: 0 0.5em
     font-size: 1.25rem
+
+  .icon-close
+    position: absolute
+    top: 1rem
+    right: 0.5rem
+    z-index: 1000
+    color: $header-item-font-color
+
 
 .onboarding--main
   margin-top: 1em
