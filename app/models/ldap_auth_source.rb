@@ -44,7 +44,7 @@ class LdapAuthSource < AuthSource
     attrs = get_user_dn(login)
 
     if attrs && attrs[:dn] && authenticate_dn(attrs[:dn], password)
-      logger.debug "Authentication successful for '#{login}'" if logger && logger.debug?
+      Rails.logger.debug { "Authentication successful for '#{login}'" }
       return attrs.except(:dn)
     end
   rescue  Net::LDAP::LdapError => error
@@ -115,6 +115,9 @@ class LdapAuthSource < AuthSource
     object_filter = Net::LDAP::Filter.eq('objectClass', '*')
     attrs = {}
 
+    Rails.logger.debug {
+      "LDAP initializing search (BASE=#{base_dn}), (FILTER=#{(object_filter & login_filter).to_s})"
+    }
     ldap_con.search(base: base_dn,
                     filter: object_filter & login_filter,
                     attributes: search_attributes) do |entry|
@@ -124,7 +127,7 @@ class LdapAuthSource < AuthSource
         attrs = { dn: entry.dn }
       end
 
-      logger.debug "DN found for #{login}: #{attrs[:dn]}" if logger && logger.debug?
+      Rails.logger.debug { "DN found for #{login}: #{attrs[:dn]}" }
     end
 
     attrs

@@ -53,7 +53,23 @@ describe 'Projects', type: :feature do
 
       expect(page).to have_content 'Successful creation.'
       expect(page).to have_content 'Foo bar'
-      expect(current_path).to eq '/projects/foo/settings'
+      expect(current_path).to eq '/projects/foo/work_packages'
+    end
+
+    context 'work_packages module disabled',
+            with_settings: { default_projects_modules: %q(wiki) } do
+      it 'creates a project and redirects to settings' do
+        click_on 'New project'
+
+        fill_in 'project[name]', with: 'Foo bar'
+        click_on 'Advanced settings'
+        fill_in 'project[identifier]', with: 'foo'
+        click_on 'Create'
+
+        expect(page).to have_content 'Successful creation.'
+        expect(page).to have_content 'Foo bar'
+        expect(current_path).to eq '/projects/foo'
+      end
     end
 
     it 'can create a subproject' do
@@ -64,7 +80,7 @@ describe 'Projects', type: :feature do
       click_on 'Create'
 
       expect(page).to have_content 'Successful creation.'
-      expect(current_path).to eq '/projects/foo-child/settings'
+      expect(current_path).to eq '/projects/foo-child/work_packages'
     end
 
     it 'does not create a project with an already existing identifier' do

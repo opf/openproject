@@ -28,11 +28,7 @@
 #++
 
 class WorkPackage::PdfExport::WorkPackageListToPdf
-  include Redmine::I18n
-  include ActionView::Helpers::TextHelper
-  include ActionView::Helpers::NumberHelper
-  include CustomFieldsHelper
-  include WorkPackage::PdfExport::ToPdfHelper
+  include WorkPackage::PdfExport::Common
 
   attr_accessor :work_packages,
                 :pdf,
@@ -49,218 +45,130 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
     self.options = options
 
     self.pdf = get_pdf(current_language)
+
+    pdf.options[:page_size] = 'EXECUTIVE'
+    pdf.options[:page_layout] = :landscape
   end
 
-  def to_pdf
-    pdf.alias_nb_pages
-    pdf.SetAutoPageBreak(false)
-    pdf.footer_date = format_date(Date.today)
+  def render!
+    write_title!
+    write_work_packages!
 
-    pdf.AddPage('L')
+    write_footers!
 
-    write_title
-
-    write_headers
-
-    write_rows
-
-    write_tbc
-
-    pdf.Output
+    pdf
   end
 
-  private
-
-  def write_title
-    title = query.new_record? ? l(:label_work_package_plural) : query.name
-    title = "#{project} - #{title}" if project
-    pdf.SetTitle(title)
-
-    pdf.SetFontStyle('B', 11)
-    pdf.RDMCell(190, 10, title)
-    pdf.Ln
+  def write_title!
+    pdf.title = title
+    pdf.font style: :bold, size: 11
+    pdf.text title
+    pdf.move_down 20
   end
 
-  def write_headers
-    # headers
-    pdf.SetFontStyle('B', 8)
-    pdf.SetFillColor(230, 230, 230)
+  def title
+    title = query.new_record? ? I18n.t(:label_work_package_plural) : query.name
 
-    base_x = pdf.get_x
-    base_y = pdf.get_y
-
-    column_contents = query.columns.map(&:caption)
-
-    max_height = calculate_max_height(column_contents, col_width)
-
-    pdf.RDMCell Page.table_width, max_height, '', 1, 1, 'L', 1
-    pdf.set_y(base_y)
-
-    write_cells(column_contents, col_width, Page.row_height)
-    draw_borders(base_x, base_y, base_y + max_height, col_width)
-
-    pdf.SetY(base_y + max_height)
+    if project
+      "#{project} - #{title}"
+    else
+      title
+    end
   end
 
-  def write_rows
-    # rows
-    pdf.SetFontStyle('', 8)
-    pdf.SetFillColor(255, 255, 255)
-    previous_group = false
-    work_packages.each do |work_package|
-      if query.grouped? && (group = query.group_by_column.value(work_package)) != previous_group
-        pdf.SetFontStyle('B', 9)
-        pdf.RDMCell(277, Page.row_height,
-                    (group.blank? ? 'None' : group.to_s) + " (#{results.work_package_count_for(group)})",
-                    1, 1, 'L')
-        pdf.SetFontStyle('', 8)
-        previous_group = group
+  def write_footers!
+    pdf.number_pages format_date(Date.today),
+                     at: [pdf.bounds.left, 0],
+                     style: :italic
+
+    pdf.number_pages "<page>/<total>",
+                     at: [pdf.bounds.right - 25, 0],
+                     style: :italic
+  end
+
+  def write_work_packages!
+    pdf.font style: :normal, size: 8
+
+    pdf.table(data, column_widths: column_widths) do
+      cells.padding = [2, 5, 2, 5]
+    end
+  end
+
+  def column_widths
+    widths = query.columns.map do |col|
+      if col.name == :subject || text_column?(col)
+        4.0
+      else
+        1.0
+      end
+    end
+    ratio = pdf.bounds.width / widths.sum
+
+    widths.map { |w| w * ratio }
+  end
+
+  def text_column?(column)
+    column.is_a?(QueryCustomFieldColumn) &&
+      ['string', 'text'].include?(column.custom_field.field_format)
+  end
+
+  def data
+    [data_headers] + data_rows
+  end
+
+  def data_headers
+    query.columns.map(&:caption).map do |caption|
+      pdf.make_cell caption, font_style: :bold, background_color: 'CCCCCC'
+    end
+  end
+
+  def data_rows
+    previous_group = nil
+
+    work_packages.flat_map do |work_package|
+      values = query.columns.map do |column|
+        column_value work_package, column
       end
 
-      # fetch all the row values
-      col_values = query.columns.map { |column|
-        s = if column.is_a?(QueryCustomFieldColumn)
-              cv = work_package.custom_values.detect { |v| v.custom_field_id == column.custom_field.id }
-              show_value(cv)
-            else
-              value = work_package.send(column.name)
-              if value.is_a?(Date)
-                format_date(value)
-              elsif value.is_a?(Time)
-                format_time(value)
-              else
-                value
-              end
-            end
-        s.to_s
-      }
+      result = [values]
 
-      max_height = calculate_max_height(col_values, col_width)
-      description_height = if options[:show_descriptions]
-                             calculate_max_height([work_package.description.to_s],
-                                                  [Page.table_width / 2])
-                           else
-                             0
-                           end
-
-      # make new page if it doesn't fit on the current one
-      space_left = Page.height - pdf.get_y - Page.bottom_margin
-      if max_height + description_height > space_left
-        pdf.AddPage('L')
-      end
-
-      base_x = pdf.GetX
-      base_y = pdf.GetY
-
-      # write the cells on page
-      write_cells(col_values, col_width, Page.row_height)
-      draw_borders(base_x, base_y, base_y + max_height, col_width)
-
-      # description
       if options[:show_descriptions]
-        pdf.SetXY(base_x, base_y + max_height)
-        write_cells([work_package.description.to_s],
-                    [Page.table_width / 2],
-                    Page.row_height)
-        draw_borders(base_x,
-                     base_y + max_height,
-                     base_y + max_height + description_height,
-                     [Page.table_width])
-        pdf.SetY(base_y + max_height + description_height)
-      else
-        pdf.SetY(base_y + max_height)
+        result << [make_description(work_package.description.presence || ' ')]
       end
-    end
-  end
 
-  def write_tbc
-    if work_packages.size == Setting.work_packages_export_limit.to_i
-      pdf.SetFontStyle('B', 10)
-      pdf.RDMCell(0, Page.row_height, '...')
-    end
-  end
+      if query.grouped? && (group = query.group_by_column.value(work_package)) != previous_group
+        label = (group.blank? ? 'None' : group.to_s) +
+          " (#{results.work_package_count_for(group)})"
+        previous_group = group
 
-  def col_width
-    @col_width ||= begin
-      if query.columns.empty?
-        []
-      else
-        col_width = query.columns.map { |c|
-          if c.name == :subject ||
-             (c.is_a?(QueryCustomFieldColumn) &&
-              ['string', 'text'].include?(c.custom_field.field_format))
-            4.0
-          else
-            1.0
-          end
-        }
-        ratio = Page.table_width / col_width.reduce(:+)
-
-        col_width.map { |w| w * ratio }
+        result.insert 0, [
+          pdf.make_cell(label, font_style: :bold,
+                               colspan: query.columns.size,
+                               background_color: 'DDDDDD')
+        ]
       end
+
+      result
     end
   end
 
-  # Renders MultiCells and returns the maximum height used
-  def write_cells(col_values, col_widths, row_height)
-    base_y = pdf.get_y
-    max_height = row_height
-    col_values.each_with_index do |_column, i|
-      col_x = pdf.get_x
-      pdf.RDMMultiCell(col_widths[i], row_height, col_values[i], 'T', 'L', 1)
-      max_height = (pdf.get_y - base_y) if (pdf.get_y - base_y) > max_height
-      pdf.SetXY(col_x + col_widths[i], base_y)
-    end
-    max_height
+  def make_description(description)
+    pdf.make_cell description, colspan: query.columns.size
   end
 
-  # Draw lines to close the row (MultiCell border drawing in not uniform)
-  def draw_borders(top_x, top_y, lower_y, col_widths)
-    col_x = top_x
-    pdf.Line(col_x, top_y, col_x, lower_y)    # id right border
-    col_widths.each do |width|
-      col_x += width
-      pdf.Line(col_x, top_y, col_x, lower_y)  # columns right border
+  def column_value(work_package, column)
+    if column.is_a?(QueryCustomFieldColumn)
+      custom_field_value work_package, column
+    else
+      field_value work_package, column.name
     end
-    pdf.Line(top_x, top_y, top_x, lower_y)    # left border
-    pdf.Line(top_x, lower_y, col_x, lower_y)  # bottom border
   end
 
-  def calculate_max_height(column_contents, col_widths)
-    # render it off-page to find the max height used
-    base_x = pdf.GetX
-    base_y = pdf.GetY
-    pdf.SetY(2 * Page.height)
-    max_height = write_cells(column_contents, col_widths, Page.row_height)
-    pdf.SetXY(base_x, base_y)
+  def custom_field_value(work_package, column)
+    value = work_package
+      .custom_values
+      .detect { |v| v.custom_field_id == column.custom_field.id }
 
-    max_height
-  end
-
-  class Page
-    # Landscape A4 = 210 x 297 mm
-    def self.height
-      210
-    end
-
-    def self.width
-      297
-    end
-
-    def self.right_margin
-      10
-    end
-
-    def self.bottom_margin
-      20
-    end
-
-    def self.row_height
-      5
-    end
-
-    def self.table_width
-      width - right_margin - 10  # fixed left margin
-    end
+    show_value value
   end
 end

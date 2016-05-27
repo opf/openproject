@@ -211,11 +211,13 @@ describe WorkPackagesController, type: :controller do
 
         requires_export_permission do
           before do
+            pdf_data = 'pdfdata'
             mock_pdf = double('pdf export')
+            mock_pdf.stub(:render).and_return(pdf_data)
 
             expect(WorkPackage::Exporter).to receive(:pdf).and_return(mock_pdf)
 
-            expect(controller).to receive(:send_data).with(mock_pdf,
+            expect(controller).to receive(:send_data).with(pdf_data,
                                                            type: 'application/pdf',
                                                            filename: 'export.pdf') do |*_args|
               # We need to render something because otherwise
@@ -322,11 +324,13 @@ describe WorkPackagesController, type: :controller do
 
     requires_permission_in_project do
       it 'respond with a pdf' do
+        pdf_data = 'foobar'
         pdf = double('pdf')
+        pdf.stub(:render).and_return(pdf_data)
 
         expected_name = "#{stub_work_package.project.identifier}-#{stub_work_package.id}.pdf"
         expect(WorkPackage::Exporter).to receive(:work_package_to_pdf).and_return(pdf)
-        expect(controller).to receive(:send_data).with(pdf,
+        expect(controller).to receive(:send_data).with(pdf_data,
                                                        type: 'application/pdf',
                                                        filename: expected_name) do |*_args|
           # We need to render something because otherwise

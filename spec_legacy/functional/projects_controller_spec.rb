@@ -150,7 +150,7 @@ describe ProjectsController, type: :controller do
                work_package_custom_field_ids: ['9'],
                enabled_module_names: ['work_package_tracking', 'news', 'repository']
              }
-        assert_redirected_to '/projects/blog/settings'
+        assert_redirected_to '/projects/blog/work_packages'
 
         project = Project.find_by(name: 'blog')
         assert_kind_of Project, project
@@ -172,7 +172,7 @@ describe ProjectsController, type: :controller do
                                  custom_field_values: { '3' => 'Beta' },
                                  parent_id: 1
                                 }
-        assert_redirected_to '/projects/blog/settings'
+        assert_redirected_to '/projects/blog/work_packages'
 
         project = Project.find_by(name: 'blog')
         assert_kind_of Project, project
@@ -196,7 +196,7 @@ describe ProjectsController, type: :controller do
                                  enabled_module_names: ['work_package_tracking', 'news', 'repository']
                                 }
 
-        assert_redirected_to '/projects/blog/settings'
+        assert_redirected_to '/projects/blog/work_packages'
 
         project = Project.find_by(name: 'blog')
         assert_kind_of Project, project
@@ -242,7 +242,7 @@ describe ProjectsController, type: :controller do
                                  custom_field_values: { '3' => 'Beta' },
                                  parent_id: 1
                                 }
-        assert_redirected_to '/projects/blog/settings'
+        assert_redirected_to '/projects/blog/work_packages'
         project = Project.find_by(name: 'blog')
       end
 

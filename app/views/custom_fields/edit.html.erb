@@ -29,9 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title l(:label_administration), "#{l(:label_edit)} #{CustomField.model_name.human} #{h @custom_field.name}" %>
 
-<%= breadcrumb_toolbar link_to(l(:label_custom_field_plural), custom_fields_path),
-                       link_to(l(@custom_field.type_name), custom_fields_path(tab: @custom_field.type)),
-                       @custom_field.name
+<% local_assigns[:additional_breadcrumb] =  link_to(l(@custom_field.type_name), custom_fields_path(tab: @custom_field.type)),
+                       @custom_field.name %>
+<%= breadcrumb_toolbar @custom_field.name
 %>
 
 <%= labelled_tabular_form_for @custom_field, as: :custom_field,

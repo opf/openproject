@@ -28,5 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title l(:label_administration), "#{l(:label_edit)} #{Group.model_name.human} #{h @group.name}" %>
-<%= breadcrumb_toolbar link_to(l(:label_group_plural), groups_path), @group.name %>
+
+<% local_assigns[:additional_breadcrumb] = @group.name %>
+<%= breadcrumb_toolbar @group.name %>
 <%= render_tabs group_settings_tabs %>

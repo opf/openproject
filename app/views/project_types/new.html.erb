@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 
 <% html_title l(:label_administration), "#{l(:label_new)} #{l("timelines.admin_menu.project_type")}" %>
+<% local_assigns[:additional_breadcrumb] = l(:label_new) + ' ' + l("timelines.admin_menu.project_type") %>
 <%= toolbar title: l('timelines.new_project_type') %>
 <%= labelled_tabular_form_for(@project_type,
              url: project_types_path,
