@@ -68,7 +68,7 @@ describe 'Projects', type: :feature do
 
         expect(page).to have_content 'Successful creation.'
         expect(page).to have_content 'Foo bar'
-        expect(current_path).to eq '/projects/foo/settings'
+        expect(current_path).to eq '/projects/foo'
       end
     end
 
