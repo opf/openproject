@@ -64,7 +64,7 @@ export class WikiTextareaField extends Field {
   }
 
   public isEmpty(): boolean {
-    return !(this.value.raw && this.value.raw !== '');
+    return !(this.value && this.value.raw);
   }
 
   public submitUnlessInPreview(form) {
