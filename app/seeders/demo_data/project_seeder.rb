@@ -61,7 +61,6 @@ module DemoData
     def project_data_seeders(project)
       seeders = [
         DemoData::CustomFieldSeeder,
-        DemoData::WikiSeeder,
         DemoData::WorkPackageSeeder,
         DemoData::QuerySeeder
       ]
@@ -133,10 +132,11 @@ module DemoData
 
       def project_data
         {
-          name:         project_name,
-          identifier:   project_identifier,
-          description:  project_description,
-          types:        project_types
+          name:                 project_name,
+          identifier:           project_identifier,
+          description:          project_description,
+          enabled_module_names: project_modules,
+          types:                project_types
         }
       end
 
@@ -154,6 +154,10 @@ module DemoData
 
       def project_types
         Type.all
+      end
+
+      def project_modules
+        Setting.default_projects_modules - %w(news wiki meetings calendar)
       end
 
       def find_demo_project
