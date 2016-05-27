@@ -29,23 +29,22 @@
 import {wpButtonsModule} from '../../../angular-modules';
 import WorkPackageCreateButtonController from '../wp-create-button/wp-create-button.controller';
 import {WorkPackageCreateService} from "../../wp-create/wp-create.service";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
 
 class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonController {
-  public query: op.Query;
+  public query:op.Query;
   public rows:any[];
   public hidden:boolean = false;
 
   private _wp;
 
-  constructor(
-    protected $state,
-    protected $scope,
-    protected $rootScope,
-    protected $element,
-    protected FocusHelper,
-    protected I18n,
-    protected wpCreate:WorkPackageCreateService
-  ) {
+  constructor(protected $state,
+              protected $scope,
+              protected $rootScope,
+              protected $element,
+              protected FocusHelper,
+              protected I18n,
+              protected wpCreate:WorkPackageCreateService) {
     super($state, I18n);
 
     $rootScope.$on('workPackageSaved', (event, savedWp) => {
@@ -69,12 +68,12 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
   }
 
   public addWorkPackageRow() {
-    this.wpCreate.getNewWorkPackage().then(wp => {
+    scopedObservable(this.$scope, this.wpCreate.createNewWorkPackage()).subscribe(wp => {
       this._wp = wp;
       this._wp.inlineCreated = true;
 
       this.query.applyDefaultsFromFilters(this._wp);
-      this.rows.push({ level: 0, ancestors: [], object: this._wp, parent: void 0 });
+      this.rows.push({level: 0, ancestors: [], object: this._wp, parent: void 0});
       this.hide();
     });
   }

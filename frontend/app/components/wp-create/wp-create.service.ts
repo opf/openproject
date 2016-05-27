@@ -33,15 +33,21 @@ import {HalResource} from "../api/api-v3/hal-resources/hal-resource.service";
 
 export class WorkPackageCreateService {
   protected form:HalResource;
-
+  
+  private _newWorkPackage:ng.IPromise<WorkPackageResource>;
+  
   constructor(protected WorkPackageResource:typeof WorkPackageResource,
               protected apiWorkPackages:ApiWorkPackagesService) {
   }
 
-  public getNewWorkPackage(projectIdentifier):ng.IPromise<WorkPackageResource> {
-    return this.getForm(projectIdentifier).then(form => {
-      return this.WorkPackageResource.fromCreateForm(form);
-    });
+  public createNewWorkPackage(projectIdentifier) {
+    if (!this._newWorkPackage) {
+      this._newWorkPackage = this.getForm(projectIdentifier).then(form => {
+        return this.WorkPackageResource.fromCreateForm(form);
+      });
+    }
+
+    return Rx.Observable.fromPromise(this._newWorkPackage);
   }
 
   private getForm(projectIdentifier):ng.IPromise<HalResource> {
