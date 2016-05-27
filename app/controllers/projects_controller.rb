@@ -94,7 +94,7 @@ class ProjectsController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_create)
-          work_packages_or_settings_redirect
+          redirect_work_packages_or_overview
         end
       end
     else
@@ -252,10 +252,10 @@ class ProjectsController < ApplicationController
     render_404
   end
 
-  def work_packages_or_settings_redirect
+  def redirect_work_packages_or_overview
     return if redirect_to_project_menu_item(@project, :work_packages)
 
-    redirect_to controller: '/projects', action: 'settings', id: @project
+    redirect_to controller: '/projects', action: 'show', id: @project
   end
 
   def jump_to_project_menu_item

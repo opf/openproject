@@ -158,13 +158,13 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
 
   def column_value(work_package, column)
     if column.is_a?(QueryCustomFieldColumn)
-      custom_field_value column
+      custom_field_value work_package, column
     else
       field_value work_package, column.name
     end
   end
 
-  def custom_field_value(column)
+  def custom_field_value(work_package, column)
     value = work_package
       .custom_values
       .detect { |v| v.custom_field_id == column.custom_field.id }

@@ -235,7 +235,7 @@ function WorkPackageShowController($scope,
     var tabLabel = I18n.t('js.work_packages.tabs.' + tab),
       params = {
         tab: tabLabel,
-        type: workPackage.props.type,
+        type: workPackage.embedded.type.props.name,
         subject: workPackage.props.subject
       };
 
