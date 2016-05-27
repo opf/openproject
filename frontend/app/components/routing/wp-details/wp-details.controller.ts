@@ -53,7 +53,7 @@ function WorkPackageDetailsController($scope,
   // TODO This is an ugly hack since most of this controller relies on the old HALAPIResource.
   // We should move all that to the new WorkPackageResource.
   scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.workPackageId))
-    .subscribe((wp: WorkPackageResource) => {
+    .subscribe((wp:WorkPackageResource) => {
       $scope.workPackageResource = wp;
       wp.schema.$load();
     });
@@ -171,6 +171,9 @@ function WorkPackageDetailsController($scope,
     return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
   };
 
+  $scope.onWorkPackageSave = function () {
+    $rootScope.$emit('workPackagesRefreshInBackground');
+  };
 
   function getFocusAnchorLabel(tab, workPackage) {
     var tabLabel = I18n.t('js.work_packages.tabs.' + tab),
@@ -182,6 +185,5 @@ function WorkPackageDetailsController($scope,
 
     return I18n.t('js.label_work_package_details_you_are_here', params);
   }
-
 
 }
