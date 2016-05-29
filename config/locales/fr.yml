@@ -8,8 +8,8 @@ fr:
   enumeration:
     document_category:
       documentation: Documentation
-      specification: Specification
-      other: Other
+      specification: Spécification
+      other: Autre
   label_document_added: Document ajouté
   label_document_new: Nouveau document
   label_document_plural: Documents
