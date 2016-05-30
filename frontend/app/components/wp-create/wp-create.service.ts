@@ -31,13 +31,15 @@ import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-reso
 import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
 import {HalResource} from "../api/api-v3/hal-resources/hal-resource.service";
 import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
+import IQService = angular.IQService;
 
 export class WorkPackageCreateService {
   protected form:HalResource;
   
   private _newWorkPackage:ng.IPromise<WorkPackageResource>;
   
-  constructor(protected WorkPackageResource:typeof WorkPackageResource,
+  constructor(protected $q:IQService,
+              protected WorkPackageResource:typeof WorkPackageResource,
               protected wpEditModeState:WorkPackageEditModeStateService,
               protected apiWorkPackages:ApiWorkPackagesService) {
   }
@@ -54,14 +56,22 @@ export class WorkPackageCreateService {
   }
   
   public saveWorkPackage() {
+    const deferred = this.$q.defer();
+    
     this._newWorkPackage.then(() => {
       if (this.wpEditModeState.active) {
-        this.wpEditModeState.save().then(() => {
+        this.wpEditModeState.save().then(wp => {
           this._newWorkPackage = null;
+          
+          deferred.resolve(wp);
         });
       }
-
+      else {
+        deferred.reject();
+      }
     });
+    
+    return deferred.promise;
   }
 
   private getForm(projectIdentifier):ng.IPromise<HalResource> {

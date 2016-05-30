@@ -34,9 +34,11 @@ import {scopedObservable} from "../../helpers/angular-rx-utils";
 
 export class WorkPackageCreateController {
   public newWorkPackage:WorkPackageResource;
+  public successState:string;
 
   constructor(protected $state,
               protected $scope,
+              protected $rootScope,
               protected wpCreate:WorkPackageCreateService,
               protected wpCacheService:WorkPackageCacheService) {
     scopedObservable($scope, wpCreate.createNewWorkPackage($state.params.projectPath))
@@ -51,7 +53,9 @@ export class WorkPackageCreateController {
   }
 
   public saveWorkPackage() {
-    this.wpCreate.saveWorkPackage();
+    this.wpCreate.saveWorkPackage().then(wp => {
+      this.$state.go(this.successState, {workPackageId: wp.id});
+    });
   }
 }
 
@@ -68,7 +72,9 @@ function wpCreateDirective() {
     restrict: 'E',
     templateUrl: '/components/wp-create/wp-create.directive.html',
 
-    scope: {},
+    scope: {
+      successState: '@'
+    },
 
     bindToController: true,
     controller: WorkPackageCreateController,

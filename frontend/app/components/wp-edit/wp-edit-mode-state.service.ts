@@ -65,10 +65,12 @@ export class WorkPackageEditModeStateService {
   
   public save() {
     if (this.active) {
-      return this.form.updateWorkPackage().then(() => {
+      return this.form.updateWorkPackage().then(wp => {
         // Doesn't use cancel() since that resets all values
         this.form.closeAllFields();
         this._active = false;
+        
+        return wp;
       });
     }
   }
