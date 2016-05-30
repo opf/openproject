@@ -125,22 +125,23 @@
   display: block
   position: relative
 
-  //todo: Move to something more specific
-  .jstHandle, .jstSpacer
-    display: none
-  .jstElements
-    button
+.inplace-edit
+  .textarea-wrapper
+    .jstHandle, .jstSpacer
       display: none
-    .jstb_strong,
-    .jstb_em,
-    .jstb_ins,
-    .jstb_del,
-    .jstb_ul,
-    .jstb_ol,
-    .jstb_preview,
-    .jstb_help
-      display: inline-flex
-      justify-content: center
+    .jstElements
+      button
+        display: none
+      .jstb_strong,
+      .jstb_em,
+      .jstb_ins,
+      .jstb_del,
+      .jstb_ul,
+      .jstb_ol,
+      .jstb_preview,
+      .jstb_help
+        display: inline-flex
+        justify-content: center
 
 .inplace-edit--select
   .select2-display-none
