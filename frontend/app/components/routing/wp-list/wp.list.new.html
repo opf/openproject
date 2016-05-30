@@ -2,12 +2,13 @@
     class="work-packages--details"
     ng-if="$ctrl.newWorkPackage"
 >
-  <div class="work-packages--details-content">
+  <div class="work-packages--details-content -create-mode">
     <span class="hidden-for-sighted" tabindex="-1" focus ng-bind="focusAnchorLabel"></span>
     <div
         has-edit-mode="true"
         wp-edit-form="$ctrl.newWorkPackage"
     >
+      <h2>{{ ::$ctrl.header }}</h2>
       <wp-subject work-package="$ctrl.newWorkPackage"></wp-subject>
       <wp-single-view work-package="$ctrl.newWorkPackage"></wp-single-view>
     </div>

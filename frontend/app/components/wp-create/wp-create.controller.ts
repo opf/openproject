@@ -31,14 +31,25 @@ import {WorkPackageCreateService} from "./wp-create.service";
 import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 import {scopedObservable} from "../../helpers/angular-rx-utils";
+import IRootScopeService = angular.IRootScopeService;
 
 export class WorkPackageCreateController {
   public newWorkPackage:WorkPackageResource;
   public successState:string;
 
+  public get header():string {
+    // if (this.parentWorkPackage) {
+    //   return this.I18n.t('js.work_packages.create.header_with_parent',
+    //     {type: this.parentWorkPackage.type.name, id: this.parentWorkPackage.id });
+    // }
+    return this.I18n.t('js.work_packages.create.header');
+
+  }
+
   constructor(protected $state,
               protected $scope,
-              protected $rootScope,
+              protected $rootScope:IRootScopeService,
+              protected I18n:op.I18n,
               protected wpCreate:WorkPackageCreateService,
               protected wpCacheService:WorkPackageCacheService) {
     const body = angular.element('body').addClass('full-create');
