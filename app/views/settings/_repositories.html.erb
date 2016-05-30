@@ -108,7 +108,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <div class="form--field -wide-label">
           <%= styled_label_tag :settings_commit_fix_status_id, l(:label_applied_status) %>
           <div class="form--field-container">
-            <%= setting_select :commit_fix_status_id, [["", 0]] + Status.all.collect{|status| [status.name, status.id.to_s]}, label: false %>
+            <%= setting_select :commit_fix_status_id, [["--- #{l(:actionview_instancetag_blank_option)} ---", '0', { disabled: true }]] + Status.all.collect{|status| [status.name, status.id.to_s]}, label: false %>
           </div>
         </div>
         <div class="form--field -wide-label">

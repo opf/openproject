@@ -47,22 +47,35 @@ module BasicData
     end
 
     def data
-      settings = Setting.available_settings.each_with_object({}) do |(k, v), hash|
-        hash[k] = v['default'] || ''
-      end
+      @settings ||= begin
+        settings = Setting.available_settings.each_with_object({}) do |(k, v), hash|
+          hash[k] = v['default'] || ''
+        end
 
-      # deviate from the defaults specified in settings.yml here
-      # to set a default role. The role cannot be specified in the settings.yml as
-      # that would mean to know the ID upfront.
-      if settings_in_db.include?('new_project_user_role_id')
-        default_role_id = Role.find_by(name: I18n.t(:default_role_project_admin)).try(:id)
-        settings['new_project_user_role_id'] = default_role_id if default_role_id
-      end
+        # deviate from the defaults specified in settings.yml here
+        # to set a default role. The role cannot be specified in the settings.yml as
+        # that would mean to know the ID upfront.
+        update_unless_present(settings, 'new_project_user_role_id') do
+          Role.find_by(name: I18n.t(:default_role_project_admin)).try(:id)
+        end
 
-      settings
+        # Set the closed status for repository commit references
+        update_unless_present(settings, 'commit_fix_status_id') do
+          Status.find_by(name: I18n.t(:default_status_closed)).try(:id)
+        end
+
+        settings
+      end
     end
 
     private
+
+    def update_unless_present(settings, key)
+      if !settings_in_db.include?(key)
+        value = yield
+        settings[key] = value unless value.nil?
+      end
+    end
 
     def settings_in_db
       @settings_in_db ||= Setting.all.pluck(:name)
