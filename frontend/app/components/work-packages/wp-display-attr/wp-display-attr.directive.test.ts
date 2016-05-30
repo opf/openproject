@@ -35,6 +35,7 @@ describe('wpDisplayAttr directive', () => {
   var I18n;
 
   beforeEach(angular.mock.module(
+    'openproject',
     'openproject.workPackages.directives',
     'openproject.templates',
     'openproject.api',
@@ -79,7 +80,7 @@ describe('wpDisplayAttr directive', () => {
     I18n.t.restore();
   });
 
-  var getInnermostSpan = start => start.find('.cell-span--value');
+  var getInnermostSpan = start => start.find('span:not(:has(span)):not(.hidden-for-sighted)');
 
   describe('element', () => {
     beforeEach(angular.mock.inject(($q) => {
@@ -91,49 +92,50 @@ describe('wpDisplayAttr directive', () => {
         customField1: 'asdf1234',
         emptyField: null,
         schema: {
-        "$load": () => $q.when(true),
-        "_type": "Schema",
-        "type": {
-          "type": "Type",
-          "name": "Type",
-          "required": true,
-          "writable": true,
-          "_links": {},
-          "_embedded": {}
-        },
-        "subject": {
-          "type": "String",
-          "name": "Subject",
-          "required": true,
-          "writable": true,
-          "minLength": 1,
-          "maxLength": 255
-        },
-        "mybool": {
-          "type": "Boolean",
-          "name": "My Bool",
-          "required": false,
-          "writable": true
-        },
-        "sheep": {
-          "type": "Integer",
-          "name": "Sheep",
-          "required": true,
-          "writable": true
-        },
-        "customField1": {
-          "type": "String",
-          "name": "foobar",
-          "required": false,
-          "writable": true
-        },
-        "emptyField": {
-          "type": "String",
-          "name": "empty field",
-          "required": false,
-          "writable": true
+          "$load": () => $q.when(true),
+          "_type": "Schema",
+          "type": {
+            "type": "Type",
+            "name": "Type",
+            "required": true,
+            "writable": true,
+            "_links": {},
+            "_embedded": {}
+          },
+          "subject": {
+            "type": "String",
+            "name": "Subject",
+            "required": true,
+            "writable": true,
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "mybool": {
+            "type": "Boolean",
+            "name": "My Bool",
+            "required": false,
+            "writable": true
+          },
+          "sheep": {
+            "type": "Integer",
+            "name": "Sheep",
+            "required": true,
+            "writable": true
+          },
+          "customField1": {
+            "type": "String",
+            "name": "foobar",
+            "required": false,
+            "writable": true
+          },
+          "emptyField": {
+            "type": "String",
+            "name": "empty field",
+            "required": false,
+            "writable": true
+          }
         }
-      };
+      }
     }));
 
     describe('rendering an object field', () => {

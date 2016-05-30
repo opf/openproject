@@ -229,4 +229,12 @@ declare namespace op {
     showSums?:boolean;
     sortBy?:any[];
   }
+
+  interface PathHelper {
+    workPackagePath(id):string;
+  }
+
+  interface WorkPackagesHelper {
+    formatValue(value, type):string;
+  }
 }

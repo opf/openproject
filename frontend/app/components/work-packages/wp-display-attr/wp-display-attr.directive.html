@@ -11,21 +11,7 @@
         ng-attr-tabindex="{{$ctrl.isEditable() ? '0' : '-1'}}"
         ng-class="{ '-placeholder' : $ctrl.isEmpty }"
         aria-labelledby="{{$ctrl.labelId}}">
-    <progress-bar ng-switch-when="Percent"
-                  progress="$ctrl.displayText"
-                  width="80px">
-    </progress-bar>
 
-    <span ng-switch-when="SelfLink" title="{{ $ctrl.displayText }}">
-      <a ng-href="{{ $ctrl.displayLink }}">{{ $ctrl.displayText }}</a>
-    </span>
-
-    <span
-        title="{{ $ctrl.displayText }}"
-        class="cell-span--value"
-        ng-switch-default >
-      <span ng-if="$ctrl.isDisplayAsHtml" ng-bind-html="$ctrl.displayText"></span>
-      <span ng-if="!$ctrl.isDisplayAsHtml" ng-bind="$ctrl.displayText"></span>
-    </span>
-</span>
+    <ng-include src="$ctrl.field.template"></ng-include>
+  </span>
 </span>

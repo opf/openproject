@@ -28,7 +28,7 @@
 
 import {WorkPackageEditFormController} from "./../wp-edit-form.directive";
 import {WorkPackageEditFieldService} from "./wp-edit-field.service";
-import {Field} from "./wp-edit-field.module";
+import {EditField} from "./wp-edit-field.module";
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
@@ -41,7 +41,7 @@ export class WorkPackageEditFieldController {
   public fieldType: string;
   public fieldIndex: number;
   public fieldLabel: string;
-  public field: Field;
+  public field: EditField;
   public errorenous: boolean;
   public workPackage: WorkPackageResource;
 
@@ -210,7 +210,7 @@ export class WorkPackageEditFieldController {
 
   protected buildEditField(): ng.IPromise<any> {
     return this.formCtrl.loadSchema().then(schema => {
-      this.field = this.wpEditField.getField(this.workPackage, this.fieldName, schema[this.fieldName]);
+      this.field = <EditField>this.wpEditField.getField(this.workPackage, this.fieldName, schema[this.fieldName]);
       this.workPackage.storePristine(this.fieldName);
     });
   }

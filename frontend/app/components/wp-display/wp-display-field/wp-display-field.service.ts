@@ -26,15 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
-import {Field} from '../../wp-field/wp-field.module'
-import {FieldFactory} from '../../wp-field/wp-field.module'
+import {DisplayFieldFactory} from './wp-display-field.module';
+import {DisplayField} from "./wp-display-field.module";
+import {WorkPackageFieldService} from "../../wp-field/wp-field.service"
 
-export class EditField extends Field{
+export class WorkPackageDisplayFieldService extends WorkPackageFieldService {
+  public static get fieldFactory() {
+    return DisplayFieldFactory;
+  }
 }
 
-export class EditFieldFactory extends FieldFactory{
-
-  protected static fields = {};
-  protected static classes = {};
-}
+angular
+  .module('openproject')
+  .service('wpDisplayField', WorkPackageDisplayFieldService);

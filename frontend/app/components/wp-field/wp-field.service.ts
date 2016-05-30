@@ -26,52 +26,42 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageEditFieldController} from "../wp-edit-field/wp-edit-field.directive";
-import {EditField} from "../wp-edit-field/wp-edit-field.module";
+import {FieldFactory} from './wp-field.module';
+import {Field} from "./wp-field.module";
 
-
-export class WorkPackageFieldControlsController {
-  public fieldCtrl: WorkPackageEditFieldController;
-  public cancelTitle: string;
-  public saveTitle: string;
-
-  constructor() {
+export class WorkPackageFieldService {
+  public static get fieldFactory() {
+    return FieldFactory;
   }
 
-  public get field():EditField {
-    return this.fieldCtrl.field;
+  public set defaultType(value) {
+    (this.constructor as typeof WorkPackageFieldService).fieldFactory.defaultType = value;
+  }
+
+  constructor(protected $injector) {
+  }
+
+  public getField(resource, fieldName:string, schema) {
+    return (this.constructor as typeof WorkPackageFieldService).fieldFactory.create(resource, fieldName, schema);
+  }
+
+  public fieldType(name) {
+    return (this.constructor as typeof WorkPackageFieldService).fieldFactory.getType(name);
+  }
+
+  public addFieldType(fieldClass:typeof Field, displayType:string, fields:string[]) {
+    fieldClass.type = displayType;
+    fieldClass.$injector = this.$injector;
+    (this.constructor as typeof WorkPackageFieldService).fieldFactory.register(fieldClass, fields);
+    return this;
+  }
+
+  public extendFieldType(displayType:string, fields:string[]) {
+    var fieldClass = (this.constructor as typeof WorkPackageFieldService).fieldFactory.getClassFor(displayType);
+    return this.addFieldType(fieldClass, displayType, fields);
   }
 }
 
-function wpEditFieldLink(
-  scope,
-  element,
-  attrs,
-  controllers: [WorkPackageEditFieldController]) {
-
-  scope.vm.fieldCtrl = controllers[0];
-}
-
-
-function wpEditFieldControls() {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-edit/field-controls/wp-edit-field-controls.directive.html',
-    require: ['^wpEditField'],
-
-    scope: {
-      cancelTitle: '@',
-      saveTitle: '@'
-    },
-
-    link: wpEditFieldLink,
-    controller: WorkPackageFieldControlsController,
-    controllerAs: 'vm',
-    bindToController: true
-  };
-}
-
-//TODO: Use 'openproject.wpEdit' module
 angular
   .module('openproject')
-  .directive('wpEditFieldControls', wpEditFieldControls);
+  .service('wpField', WorkPackageFieldService);

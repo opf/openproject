@@ -25,8 +25,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Field} from "../wp-edit-field/wp-edit-field.module";
+import {EditField} from "../wp-edit-field/wp-edit-field.module";
 
-export class FloatField extends Field {
+export class FloatEditField extends EditField {
   public template:string = '/components/wp-edit/field-types/wp-edit-float-field.directive.html'
 }

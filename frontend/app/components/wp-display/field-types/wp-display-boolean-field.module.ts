@@ -26,15 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
-import {Field} from '../../wp-field/wp-field.module'
-import {FieldFactory} from '../../wp-field/wp-field.module'
+import {DisplayField} from "../wp-display-field/wp-display-field.module";
+import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service"
 
-export class EditField extends Field{
-}
+export class BooleanDisplayField extends DisplayField {
+  public WorkPackagesHelper:op.WorkPackagesHelper;
 
-export class EditFieldFactory extends FieldFactory{
+  constructor(public resource:HalResource,
+              public name:string,
+              public schema) {
+    super(resource, name, schema);
 
-  protected static fields = {};
-  protected static classes = {};
+    this.WorkPackagesHelper = <op.WorkPackagesHelper>this.$injector.get('WorkPackagesHelper');
+  }
+
+  public get valueString() {
+    return this.WorkPackagesHelper.formatValue(this.value, 'Boolean');
+  }
+
+  public get placeholder() {
+    return this.WorkPackagesHelper.formatValue(false, 'Boolean');
+  }
+
+  public isEmpty():boolean {
+    // We treat an empty value the same as if the user had set
+    // the value to false;
+    return false;
+  }
 }

@@ -26,35 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {FieldFactory} from './wp-edit-field.module';
-import {Field} from "./wp-edit-field.module";
+import {EditFieldFactory} from './wp-edit-field.module';
+import {EditField} from "./wp-edit-field.module";
+import {WorkPackageFieldService} from "../../wp-field/wp-field.service"
 
-export class WorkPackageEditFieldService {
-  public set defaultType(value) {
-    FieldFactory.defaultType = value;
-  }
-
-  constructor(protected $injector) {
-  }
-
-  public getField(resource, fieldName:string, schema) {
-    return FieldFactory.create(resource, fieldName, schema);
-  }
-
-  public fieldType(name) {
-    return FieldFactory.getType(name);
-  }
-
-  public addFieldType(fieldClass:typeof Field, displayType:string, fields:string[]) {
-    fieldClass.type = displayType;
-    fieldClass.$injector = this.$injector;
-    FieldFactory.register(fieldClass, fields);
-    return this;
-  }
-
-  public extendFieldType(displayType:string, fields:string[]) {
-    var fieldClass = FieldFactory.getClassFor(displayType);
-    return this.addFieldType(fieldClass, displayType, fields);
+export class WorkPackageEditFieldService extends WorkPackageFieldService  {
+  public static get fieldFactory() {
+    return EditFieldFactory;
   }
 }
 

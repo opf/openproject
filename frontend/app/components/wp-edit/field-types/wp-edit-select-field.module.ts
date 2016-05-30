@@ -26,9 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Field} from "../wp-edit-field/wp-edit-field.module";
+import {EditField} from "../wp-edit-field/wp-edit-field.module";
 
-export class SelectField extends Field {
+export class SelectEditField extends EditField {
   public options:any[];
   public placeholder:string = '-';
   public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html'
