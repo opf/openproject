@@ -1,3 +1,22 @@
-<div class="work-packages--details">
-  <wp-create success-state="work-packages.list.details"></wp-create>
+<div
+    class="work-packages--details"
+    ng-if="$ctrl.newWorkPackage"
+>
+  <div class="work-packages--details-content">
+    <span class="hidden-for-sighted" tabindex="-1" focus ng-bind="focusAnchorLabel"></span>
+    <div
+        has-edit-mode="true"
+        wp-edit-form="$ctrl.newWorkPackage"
+    >
+      <wp-subject work-package="$ctrl.newWorkPackage"></wp-subject>
+      <wp-single-view work-package="$ctrl.newWorkPackage"></wp-single-view>
+    </div>
+  </div>
+
+  <div class="bottom-toolbar">
+    <edit-actions-bar
+        on-save="$ctrl.saveWorkPackage('work-package.list.details')"
+        on-cancel="$ctrl.goToWorkPackagesList()"
+    ></edit-actions-bar>
+  </div>
 </div>

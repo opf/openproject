@@ -1,3 +1,13 @@
-<div class="work-package--new-state">
-  <wp-create success-state="work-packages.show"></wp-create>
+<div
+    class="work-package--new-state"
+    ng-if="$ctrl.newWorkPackage"
+    has-edit-mode="true"
+    wp-edit-form="$ctrl.newWorkPackage"
+>
+  <wp-subject work-package="$ctrl.newWorkPackage"></wp-subject>
+  <wp-single-view work-package="$ctrl.newWorkPackage"></wp-single-view>
+  <edit-actions-bar
+      on-save="$ctrl.saveWorkPackage('work-packages.show')"
+      on-cancel="$ctrl.goToWorkPackagesList()"
+  ></edit-actions-bar>
 </div>

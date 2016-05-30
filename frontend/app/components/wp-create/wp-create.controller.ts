@@ -41,6 +41,12 @@ export class WorkPackageCreateController {
               protected $rootScope,
               protected wpCreate:WorkPackageCreateService,
               protected wpCacheService:WorkPackageCacheService) {
+    const body = angular.element('body').addClass('full-create');
+
+    $scope.$on('$stateChangeStart', () => {
+      body.removeClass('full-create');
+    });
+
     scopedObservable($scope, wpCreate.createNewWorkPackage($state.params.projectPath))
       .subscribe(wp => {
         this.newWorkPackage = wp;
@@ -52,36 +58,11 @@ export class WorkPackageCreateController {
     this.$state.go('work-packages.list', this.$state.params);
   }
 
-  public saveWorkPackage() {
+  public saveWorkPackage(successState:string) {
     this.wpCreate.saveWorkPackage().then(wp => {
-      this.$state.go(this.successState, {workPackageId: wp.id});
+      this.$state.go(successState, {workPackageId: wp.id});
     });
   }
 }
 
-function wpCreateDirectiveLink(scope) {
-  const body = angular.element('body').addClass('full-create');
-
-  scope.$on('$stateChangeStart', () => {
-    body.removeClass('full-create');
-  });
-}
-
-function wpCreateDirective() {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-create/wp-create.directive.html',
-
-    scope: {
-      successState: '@'
-    },
-
-    bindToController: true,
-    controller: WorkPackageCreateController,
-    controllerAs: '$ctrl',
-
-    link: wpCreateDirectiveLink
-  };
-}
-
-wpDirectivesModule.directive('wpCreate', wpCreateDirective);
+wpDirectivesModule.controller('WorkPackageCreateController', WorkPackageCreateController);

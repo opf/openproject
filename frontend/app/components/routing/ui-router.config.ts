@@ -91,6 +91,8 @@ openprojectModule
       .state('work-packages.new', {
         url: '/{projects}/{projectPath}/work_packages/new?type&parent_id',
         templateUrl: '/components/routing/main/work-packages.new.html',
+        controller: 'WorkPackageCreateController',
+        controllerAs: '$ctrl',
         reloadOnSearch: false
       })
 
@@ -180,6 +182,8 @@ openprojectModule
       })
       .state('work-packages.list.new', {
         url: '/create_new?type&parent_id',
+        controller: 'WorkPackageCreateController',
+        controllerAs: '$ctrl',
         templateUrl: '/components/routing/wp-list/wp.list.new.html',
         reloadOnSearch: false
       })
