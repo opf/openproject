@@ -31,7 +31,8 @@ import {WorkPackageEditFormController} from "./wp-edit-form.directive";
 
 export class WorkPackageEditModeStateService {
   public form: WorkPackageEditFormController;
-  public _active: boolean = false;
+  
+  private _active: boolean = false;
 
   constructor(protected $rootScope, protected $window, protected I18n) {
 
@@ -77,7 +78,7 @@ export class WorkPackageEditModeStateService {
 
     // Activate form when it registers after the
     // edit mode has been requested.
-    if (this._active) {
+    if (this.active) {
       form.toggleEditMode(true);
     }
   }

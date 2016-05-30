@@ -30,6 +30,7 @@ import {wpServicesModule} from "../../angular-modules";
 import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
 import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
 import {HalResource} from "../api/api-v3/hal-resources/hal-resource.service";
+import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
 
 export class WorkPackageCreateService {
   protected form:HalResource;
@@ -37,12 +38,14 @@ export class WorkPackageCreateService {
   private _newWorkPackage:ng.IPromise<WorkPackageResource>;
   
   constructor(protected WorkPackageResource:typeof WorkPackageResource,
+              protected wpEditModeState:WorkPackageEditModeStateService,
               protected apiWorkPackages:ApiWorkPackagesService) {
   }
 
   public createNewWorkPackage(projectIdentifier) {
     if (!this._newWorkPackage) {
       this._newWorkPackage = this.getForm(projectIdentifier).then(form => {
+        this.wpEditModeState.start();
         return this.WorkPackageResource.fromCreateForm(form);
       });
     }
@@ -51,9 +54,13 @@ export class WorkPackageCreateService {
   }
   
   public saveWorkPackage() {
-    return this._newWorkPackage.then(wp => {
-      wp.save();
-      this._newWorkPackage = null;
+    this._newWorkPackage.then(() => {
+      if (this.wpEditModeState.active) {
+        this.wpEditModeState.save().then(() => {
+          this._newWorkPackage = null;
+        });
+      }
+
     });
   }
 
