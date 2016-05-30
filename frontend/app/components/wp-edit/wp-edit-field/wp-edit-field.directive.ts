@@ -257,7 +257,9 @@ function wpEditField() {
       fieldLabel: '=?wpEditFieldLabel',
       fieldIndex: '=',
       columns: '=',
-      wrapperClasses: '=wpEditFieldWrapperClasses'
+      wrapperClasses: '=wpEditFieldWrapperClasses',
+      displayPlaceholder: '=?',
+      displayClasses: '=?',
     },
 
     require: ['^wpEditForm', 'wpEditField'],
