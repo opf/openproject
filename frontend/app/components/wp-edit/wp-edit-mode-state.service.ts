@@ -65,7 +65,7 @@ export class WorkPackageEditModeStateService {
   
   public save() {
     if (this.active) {
-      this.form.updateWorkPackage().then(() => {
+      return this.form.updateWorkPackage().then(() => {
         // Doesn't use cancel() since that resets all values
         this.form.closeAllFields();
         this._active = false;
