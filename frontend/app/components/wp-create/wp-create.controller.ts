@@ -34,16 +34,16 @@ import {scopedObservable} from "../../helpers/angular-rx-utils";
 import IRootScopeService = angular.IRootScopeService;
 
 export class WorkPackageCreateController {
-  public newWorkPackage:WorkPackageResource;
+  public newWorkPackage:WorkPackageResource|any;
+  public parentWorkPackage:WorkPackageResource|any;
   public successState:string;
 
   public get header():string {
-    // if (this.parentWorkPackage) {
-    //   return this.I18n.t('js.work_packages.create.header_with_parent',
-    //     {type: this.parentWorkPackage.type.name, id: this.parentWorkPackage.id });
-    // }
+    if (this.parentWorkPackage) {
+      return this.I18n.t('js.work_packages.create.header_with_parent',
+        {type: this.parentWorkPackage.type.name, id: this.parentWorkPackage.id });
+    }
     return this.I18n.t('js.work_packages.create.header');
-
   }
 
   constructor(protected $state,
@@ -64,6 +64,14 @@ export class WorkPackageCreateController {
       .subscribe(wp => {
         this.newWorkPackage = wp;
         wpCacheService.updateWorkPackage(wp);
+
+        if ($state.params.parent_id) {
+          scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.parent_id))
+            .subscribe(parent => {
+              this.parentWorkPackage = parent;
+              this.newWorkPackage.parent = parent;
+            });
+        }
       });
   }
 
