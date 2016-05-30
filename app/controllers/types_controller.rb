@@ -49,14 +49,14 @@ class TypesController < ApplicationController
   end
 
   def create
-    expand_date_visibility! params
+    service = CreateTypeService.new
+    result = service.call(attributes: permitted_params.type)
+    @type = service.type
 
-    @type = ::Type.new(permitted_params.type)
-    @type.custom_field_ids = extract_custom_field_ids permitted_params.type
-
-    if @type.save
+    if result.success?
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = ::Type.find_by(id: params[:copy_workflow_from]))
+        @type = service.type
         @type.workflows.copy(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)
@@ -81,10 +81,10 @@ class TypesController < ApplicationController
     # forbid renaming if it is a standard type
     params[:type].delete :name if @type.is_standard?
 
-    @type.custom_field_ids = extract_custom_field_ids permitted_params.type
-    expand_date_visibility! params
+    service = UpdateTypeService.new(type: @type)
+    result = service.call(attributes: permitted_params.type)
 
-    if @type.update_attributes(permitted_params.type)
+    if result.success?
       redirect_to edit_type_path(id: @type.id), notice: t(:notice_successful_update)
     else
       @projects = Project.all
@@ -120,41 +120,5 @@ class TypesController < ApplicationController
       end
     end
     redirect_to action: 'index'
-  end
-
-  private
-
-  ##
-  # There isn't actually a 'date' field for work packages.
-  # There are two fields: 'start_date' and 'due_date'
-  #
-  # This is why we write to both of them the same value as
-  # given through the imaginary 'date' field.
-  def expand_date_visibility!(params)
-    visibility = params[:type] && params[:type][:attribute_visibility]
-    if visibility && visibility.include?('date')
-      value = visibility.delete 'date'
-
-      visibility[:start_date] = value
-      visibility[:due_date] = value
-      visibility
-    end
-  end
-
-  ##
-  # Syncs visibility settings for custom fields with enabled custom fields
-  # for this type. If a custom field is hidden it is removed from the
-  # custom_field_ids list.
-  def extract_custom_field_ids(type_params)
-    visibility = type_params[:attribute_visibility]
-    enabled = ['default', 'visible']
-
-    if visibility
-      visibility
-        .select { |key, value| key =~ /custom_field_/ && enabled.include?(value) }
-        .map { |key, _| key.gsub(/^custom_field_/, '').to_i }
-    else
-      []
-    end
   end
 end
