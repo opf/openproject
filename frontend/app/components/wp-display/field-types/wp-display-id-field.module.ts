@@ -40,6 +40,10 @@ export class IdDisplayField extends DisplayField {
     }
   }
 
+  public isEmpty(): boolean {
+    return false;
+  }
+
   public get valueLink() {
     let PathHelper = <op.PathHelper>this.$injector.get('PathHelper');
 
