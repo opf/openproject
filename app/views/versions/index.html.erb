@@ -39,18 +39,14 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= render(partial: "wiki/content", locals: {content: version.wiki_page.content}) if version.wiki_page %>
       <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
       <form>
-        <fieldset class="form--fieldset -collapsible" onClick="toggleFieldset(this);">
-          <legend class="form--fieldset-legend"><%= l(:label_related_work_packages) %></legend>
-          <div class="form--field">
-            <table class="list">
+        <fieldset class="form--fieldset -collapsible">
+          <legend class="form--fieldset-legend" onClick="toggleFieldset(this);"><%= l(:label_related_work_packages) %></legend>
+          <div>
+            <ul>
               <%- issues.each do |issue| -%>
-                <tr class="hascontextmenu">
-                  <td class="checkbox"><input type="checkbox" name="ids[]" id="id-<%=issue.id%>" value="<%=issue.id%>" checked="checked"></td>
-                  <label class="hidden-for-sighted" for= "id-<%=issue.id%>" ><%= issue %></label>
-                  <td><%= link_to_work_package(issue, project: (@project != issue.project)) %></td>
-                </tr>
+                <li><%= link_to_work_package(issue, project: (@project != issue.project)) %></li>
               <%- end -%>
-            </table>
+            </ul>
           </div>
         </fieldset>
       </form>
