@@ -43,7 +43,12 @@ export class WorkPackageDisplayAttributeController {
   public customSchema:HalResource;
   public field: DisplayField;
 
-  constructor(protected wpDisplayField: WorkPackageDisplayFieldService,
+  private __d__hiddenForSighted: JQuery;
+  private __d__cell: JQuery;
+  private __d__displayElement: JQuery;
+
+  constructor(protected $element: JQuery,
+              protected wpDisplayField: WorkPackageDisplayFieldService,
               protected wpCacheService:WorkPackageCacheService,
               protected $scope:ng.IScope) {
 
@@ -101,6 +106,43 @@ export class WorkPackageDisplayAttributeController {
     this.workPackage = wp;
     this.schema.$load().then(() => {
       this.field = <DisplayField>this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]);
+
+      /////////////////////////////////////////
+      /////////////////////////////////////////
+
+
+      /*
+      if (this.displayText !== text) {
+
+        setTimeout(() => {
+          this.displayText = text || this.placeholder;
+
+          this.__d__displayElement = this.__d__displayElement || this.$element.find(".__d__display-element");
+          this.__d__displayElement.attr("title", this.displayText);
+          if (!this.isDisplayAsHtml) {
+            this.__d__displayElement.text(this.displayText);
+          }
+
+          this.__d__hiddenForSighted = this.__d__hiddenForSighted || this.$element.find(".__d__hidden-for-sighted");
+          this.__d__hiddenForSighted.attr("id", this.labelId);
+          this.__d__hiddenForSighted.text(this.label + " " + this.displayText);
+
+          this.__d__cell = this.__d__cell || this.$element.find(".__d__cell");
+          this.__d__cell.attr("tabindex", this.isEditable() ? "0" : "-1");
+          this.__d__cell.attr("aria-labelledby", this.labelId);
+          this.__d__cell.toggleClass("-placeholder", this.isEmpty);
+
+
+
+        }, 0);
+      }
+      */
+
+
+
+
+      /////////////////////////////////////////
+      /////////////////////////////////////////
     });
   }
 }
