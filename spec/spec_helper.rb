@@ -62,6 +62,10 @@ RSpec.configure do |config|
   # config.mock_with :rr
   config.mock_with :rspec
 
+  unless ENV['TEST_ENV_NUMBER'] || ENV['CI']
+    config.formatter = Fuubar
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
