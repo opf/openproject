@@ -29,12 +29,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                                             :view_cost_rates,
                                             :view_work_packages])
   }
-  let(:own_time_entries_role) {
-    FactoryGirl.create(:role, permissions: [:view_time_entries,
-                                            :view_cost_entries,
-                                            :view_cost_rates,
-                                            :view_work_packages])
-  }
   let(:user) {
     FactoryGirl.create(:user,
                        member_in_project: project,
@@ -188,6 +182,198 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           it { is_expected.to be_json_eql('PT0S'.to_json).at_path('spentTime') }
         end
       end
+
+      describe 'laborCosts' do
+        before do
+          allow(user).to receive(:allowed_to?).and_return false
+        end
+
+        before do
+          allow(work_package).to receive(:labor_costs).and_return(6000.0)
+        end
+
+        context 'with the :view_hourly_rates and :view_time_entries permission' do
+          before do
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_time_entries, work_package.project)
+              .and_return true
+
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_hourly_rates, work_package.project)
+              .and_return true
+          end
+
+          it 'is expected to have a laborCosts attribute' do
+            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('laborCosts')
+          end
+        end
+
+        context 'with the :view_own_hourly_rates and :view_own_time_entries permission' do
+          before do
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_own_time_entries, cost_object.project)
+              .and_return true
+
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_own_hourly_rates, cost_object.project)
+              .and_return true
+          end
+
+          it 'is expected to have a laborCosts attribute' do
+            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('laborCosts')
+          end
+        end
+
+        context 'without the user having permission' do
+          it 'has no attribute' do
+            is_expected.not_to have_json_path('laborCosts')
+          end
+        end
+      end
+
+      describe 'materialCosts' do
+        before do
+          allow(user).to receive(:allowed_to?).and_return false
+        end
+
+        before do
+          allow(work_package).to receive(:material_costs).and_return(6000.0)
+        end
+
+        context 'with the :view_own_cost_entries and :view_cost_rates permission' do
+          before do
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_own_cost_entries, work_package.project)
+              .and_return true
+
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_cost_rates, work_package.project)
+              .and_return true
+          end
+
+          it 'is expected to have a materialCosts attribute' do
+            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('materialCosts')
+          end
+        end
+
+        context 'with the :view_cost_entries and :view_cost_rates permission' do
+          before do
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_cost_entries, cost_object.project)
+              .and_return true
+
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_cost_rates, work_package.project)
+              .and_return true
+          end
+
+          it 'is expected to have a materialCosts attribute' do
+            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('materialCosts')
+          end
+        end
+
+        context 'without the user having permission' do
+          it 'has no attribute' do
+            is_expected.not_to have_json_path('materialCosts')
+          end
+        end
+      end
+
+      describe 'overallCosts' do
+        before do
+          allow(user).to receive(:allowed_to?).and_return false
+        end
+
+        before do
+          allow(work_package).to receive(:overall_costs).and_return(6000.0)
+        end
+
+        context 'with the :view_hourly_rates and :view_time_entries permission' do
+          before do
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_time_entries, work_package.project)
+              .and_return true
+
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_hourly_rates, work_package.project)
+              .and_return true
+          end
+
+          it 'is expected to have a overallCosts attribute' do
+            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
+          end
+        end
+
+        context 'with the :view_own_hourly_rates and :view_own_time_entries permission' do
+          before do
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_own_time_entries, cost_object.project)
+              .and_return true
+
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_own_hourly_rates, cost_object.project)
+              .and_return true
+          end
+
+          it 'is expected to have a overallCosts attribute' do
+            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
+          end
+        end
+
+        context 'with the :view_own_cost_entries and :view_cost_rates permission' do
+          before do
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_own_cost_entries, work_package.project)
+              .and_return true
+
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_cost_rates, work_package.project)
+              .and_return true
+          end
+
+          it 'is expected to have a overallCosts attribute' do
+            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
+          end
+        end
+
+        context 'with the :view_cost_entries and :view_cost_rates permission' do
+          before do
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_cost_entries, cost_object.project)
+              .and_return true
+
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_cost_rates, work_package.project)
+              .and_return true
+          end
+
+          it 'is expected to have a overallCosts attribute' do
+            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
+          end
+        end
+
+        context 'without the user having permission' do
+          it 'has no attribute' do
+            is_expected.not_to have_json_path('overallCosts')
+          end
+        end
+      end
     end
   end
 
@@ -229,8 +415,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to have_json_path('spentTime') }
 
       it { is_expected.not_to have_json_path('spentHours') }
-
-      it { is_expected.not_to have_json_path('overallCosts') }
 
       describe 'embedded' do
         it { is_expected.not_to have_json_path('_embedded/costObject') }

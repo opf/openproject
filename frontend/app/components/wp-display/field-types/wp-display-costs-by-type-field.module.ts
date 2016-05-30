@@ -26,21 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
+import {DisplayField} from 'app/components/wp-display/wp-display-field/wp-display-field.module';
 
-.directive('summarizedCostEntries', function() {
-  return {
-    restrict: 'E',
-    require: '^wpField',
-    templateUrl: '/templates/plugin-costs/work_packages/summarized_cost_entries.html',
-    link: function(scope, element, attributes, fieldController) {
-      scope.workPackage = scope.field.resource;
-      scope.costTypes = scope
-        .workPackage
-        .embedded
-        .costsByType
-        .embedded
-        .elements;
-    }
+export class CostsByTypeDisplayField extends DisplayField {
+  public get valueString() {
+    return  _.map(this.value.elements, val => {
+      return val.spentUnits + ' ' + val.$source._links.costType.title;
+    }).join(', ');
   };
-});
+}

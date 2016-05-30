@@ -113,69 +113,115 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         .and_return can_view_own_time_entries
     end
 
-    context 'costs enabled' do
-      before do
-        allow(schema.project).to receive(:costs_enabled?).and_return true
-      end
+    context 'can view_time_entries' do
+      let(:can_view_time_entries) { true }
 
-      context 'with no time entry permissions' do
-        it_behaves_like 'spentTime visible'
-      end
-
-      context 'with :view_time_entries permission' do
-        let(:can_view_time_entries) { true }
-        it_behaves_like 'spentTime visible'
-      end
-
-      context 'with :view_own_time_entries permission' do
-        let(:can_view_own_time_entries) { true }
-        it_behaves_like 'spentTime visible'
-      end
+      it_behaves_like 'spentTime visible'
     end
 
-    context 'costs disabled' do
-      before do
-        allow(schema.project).to receive(:costs_enabled?).and_return false
-      end
+    context 'can view_own_time_entries' do
+      let(:can_view_own_time_entries) { true }
 
-      context 'with no time entry permissions' do
-        it_behaves_like 'spentTime not visible'
-      end
+      it_behaves_like 'spentTime visible'
+    end
 
-      context 'with :view_time_entries permission' do
-        let(:can_view_time_entries) { true }
-        it_behaves_like 'spentTime not visible'
-      end
-
-      context 'with :view_own_time_entries permission' do
-        let(:can_view_own_time_entries) { true }
-        it_behaves_like 'spentTime not visible'
-      end
+    context 'laking permissions' do
+      it_behaves_like 'spentTime not visible'
     end
   end
 
   describe 'overallCosts' do
-    it_behaves_like 'has basic schema properties' do
-      let(:path) { 'overallCosts' }
-      let(:type) { 'String' }
-      let(:name) { I18n.t('activerecord.attributes.work_package.overall_costs') }
-      let(:required) { false }
-      let(:writable) { false }
+    context 'has the permissions' do
+      before do
+        expect(representer)
+          .to receive(:overall_costs_visible?)
+          .and_return(true)
+      end
+
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'overallCosts' }
+        let(:type) { 'String' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.overall_costs') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
     end
 
-    context 'costs disabled' do
+    context 'lacks the permissions' do
       before do
-        allow(schema.project).to receive(:costs_enabled?).and_return(false)
+        expect(representer)
+          .to receive(:overall_costs_visible?)
+          .and_return(false)
       end
 
-      it 'has no schema for overallCosts' do
-        is_expected.not_to have_json_path('overallCosts')
+      it { is_expected.not_to have_json_path('overallCosts') }
+    end
+  end
+
+  describe 'laborCosts' do
+    context 'has the permissions' do
+      before do
+        expect(representer)
+          .to receive(:labor_costs_visible?)
+          .and_return(true)
       end
+
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'laborCosts' }
+        let(:type) { 'String' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.labor_costs') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+    end
+
+    context 'lacks the permissions' do
+      before do
+        expect(representer)
+          .to receive(:labor_costs_visible?)
+          .and_return(false)
+      end
+
+      it { is_expected.not_to have_json_path('laborCosts') }
+    end
+  end
+
+  describe 'materialCosts' do
+    context 'has the permissions' do
+      before do
+        expect(representer)
+          .to receive(:material_costs_visible?)
+          .and_return(true)
+      end
+
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'materialCosts' }
+        let(:type) { 'String' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.material_costs') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+    end
+
+    context 'lacks the permissions' do
+      before do
+        expect(representer)
+          .to receive(:material_costs_visible?)
+          .and_return(false)
+      end
+
+      it { is_expected.not_to have_json_path('materialCosts') }
     end
   end
 
   describe 'costsByType' do
-    shared_examples_for 'costsByType visible' do
+    context 'has the permissions' do
+      before do
+        expect(representer)
+          .to receive(:costs_by_type_visible?)
+          .and_return(true)
+      end
+
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'costsByType' }
         let(:type) { 'Collection' }
@@ -185,46 +231,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    shared_examples_for 'costsByType not visible' do
-      it { is_expected.not_to have_json_path('costsByType') }
-    end
-
-    let(:can_view_cost_entries) { false }
-    let(:can_view_own_cost_entries) { false }
-
-    before do
-      allow(current_user).to receive(:allowed_to?).and_return(false)
-      allow(current_user).to receive(:allowed_to?).with(:view_cost_entries, work_package.project)
-        .and_return can_view_cost_entries
-      allow(current_user).to receive(:allowed_to?).with(:view_own_cost_entries, work_package.project)
-        .and_return can_view_own_cost_entries
-    end
-
-    context 'costs disabled, but all permissions' do
-      let(:can_view_cost_entries) { true }
-      let(:can_view_own_cost_entries) { true }
-
+    context 'lacks the permissions' do
       before do
-        allow(schema.project).to receive(:costs_enabled?).and_return(false)
+        expect(representer)
+          .to receive(:costs_by_type_visible?)
+          .and_return(false)
       end
 
-      it_behaves_like 'costsByType not visible'
-    end
-
-    context 'costs enabled' do
-      context 'no permissions' do
-        it_behaves_like 'costsByType visible'
-      end
-
-      context 'can only view own cost entries' do
-        let(:can_view_own_cost_entries) { true }
-        it_behaves_like 'costsByType visible'
-      end
-
-      context 'can view all cost entries' do
-        let(:can_view_cost_entries) { true }
-        it_behaves_like 'costsByType visible'
-      end
+      it { is_expected.not_to have_json_path('costsByType') }
     end
   end
 

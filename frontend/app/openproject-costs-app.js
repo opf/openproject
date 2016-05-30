@@ -33,6 +33,8 @@ localeFiles.keys().forEach(function(localeFile) {
   I18n.addTranslations(locale, localeFiles(localeFile)[locale]);
 });
 
+var CostsByTypeDisplayField = require('./components/wp-display/field-types/wp-display-costs-by-type-field.module').CostsByTypeDisplayField;
+
 // Register Budget as select inline edit
 angular
   .module('openproject')
@@ -40,6 +42,13 @@ angular
     wpEditField.extendFieldType('select', ['Budget']);
   }]);
 
+// Register the costs attributes for display
+angular
+  .module('openproject')
+  .run(['wpDisplayField', function(wpDisplayField) {
+    wpDisplayField.extendFieldType('resource', ['Budget']);
+    wpDisplayField.addFieldType(CostsByTypeDisplayField, 'costs', ['costsByType']);
+  }]);
 
 // main app
 var openprojectCostsApp = angular.module('openproject');
@@ -58,8 +67,10 @@ openprojectCostsApp.run(['HookService',
     var position = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes().length - 1;
     var costsAttributes = {
       costObject: null,
+      laborCosts: null,
+      materialCosts: null,
       overallCosts: null,
-      costsByType: null,
+      costsByType: null
     };
 
     WorkPackagesOverviewService.addGroup('costs', position);
@@ -77,23 +88,6 @@ openprojectCostsApp.run(['HookService',
         return 'drop-down';
     }
     return null;
-  });
-
-  HookService.register('workPackageOverviewAttributes', function(params) {
-    var directive;
-    switch (params.type) {
-      case "Collection":
-        if (params.field !== 'costsByType') {
-          break;
-        }
-        directive = "summarized-cost-entries";
-        break;
-      case "Budget":
-        directive = "cost-object";
-        break;
-    }
-
-    return directive;
   });
 
   HookService.register('workPackageDetailsMoreMenu', function(params) {
@@ -117,11 +111,3 @@ openprojectCostsApp.run(['HookService',
     };
   });
 }]);
-
-var requireTemplate = require.context('./templates', true, /\.html$/);
-requireTemplate.keys().forEach(requireTemplate);
-
-require('./services/cost-type-service');
-require('./work_packages/directives/cost-object-directive');
-require('./work_packages/directives/summarized-cost-entries-directive');
-require('./work_packages/directives/cost-entry-directive');
