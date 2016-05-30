@@ -28,25 +28,12 @@
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 
-export class IdDisplayField extends DisplayField {
-  public template:string = '/components/wp-display/field-types/wp-display-id-field.directive.html'
+export class DateTimeDisplayField extends DisplayField {
+  public template:string = '/components/wp-display/field-types/wp-display-default-field.directive.html';
 
-  public get value() {
-    if (this.resource.isNew) {
-      return null;
-    }
-    else {
-      return this.resource[this.name];
-    }
-  }
+  public get valueString() {
+    const WorkPackagesHelper:any = this.$injector.get('WorkPackagesHelper');
 
-  public isEmpty(): boolean {
-    return false;
-  }
-
-  public get valueLink() {
-    let PathHelper = <op.PathHelper>this.$injector.get('PathHelper');
-
-    return PathHelper.workPackagePath(this.value);
+    return WorkPackagesHelper.formatValue(this.value, 'DateTime');
   }
 }
