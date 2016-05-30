@@ -7,9 +7,9 @@ ru:
   enumeration_doc_categories: Категории документов
   enumeration:
     document_category:
-      documentation: Documentation
-      specification: Specification
-      other: Other
+      documentation: Документация
+      specification: Спецификация
+      other: Прочее
   label_document_added: Документ добавлен
   label_document_new: Новый документ
   label_document_plural: Документы
