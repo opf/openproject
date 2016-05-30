@@ -50,6 +50,8 @@ export class WorkPackageCreateController {
               protected $scope,
               protected $rootScope:IRootScopeService,
               protected I18n:op.I18n,
+              protected NotificationsService,
+              protected loadingIndicator,
               protected wpCreate:WorkPackageCreateService,
               protected wpCacheService:WorkPackageCacheService) {
     const body = angular.element('body').addClass('full-create');
@@ -71,7 +73,24 @@ export class WorkPackageCreateController {
 
   public saveWorkPackage(successState:string) {
     this.wpCreate.saveWorkPackage().then(wp => {
-      this.$state.go(successState, {workPackageId: wp.id});
+      this.loadingIndicator.mainPage = this.$state.go(successState, {workPackageId: wp.id})
+        .then(() => {
+          this.$rootScope.$emit('workPackagesRefreshInBackground');
+          this.notifySuccess();
+        });
+    });
+  }
+
+  private notifySuccess() {
+    this.NotificationsService.addSuccess({
+      message: this.I18n.t('js.notice_successful_create'),
+      link: {
+        target: () => {
+          this.loadingIndicator.mainPage =
+            this.$state.go('work-packages.show.activity', this.$state.params);
+        },
+        text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
+      }
     });
   }
 }
