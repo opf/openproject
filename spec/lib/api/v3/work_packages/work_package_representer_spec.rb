@@ -216,7 +216,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'with the :view_own_hourly_rates and :view_own_time_entries permission' do
+        context 'with the :view_own_hourly_rate and :view_own_time_entries permission' do
           before do
             allow(user)
               .to receive(:allowed_to?)
@@ -225,7 +225,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
             allow(user)
               .to receive(:allowed_to?)
-              .with(:view_own_hourly_rates, cost_object.project)
+              .with(:view_own_hourly_rate, cost_object.project)
               .and_return true
           end
 
@@ -320,7 +320,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'with the :view_own_hourly_rates and :view_own_time_entries permission' do
+        context 'with the :view_own_hourly_rate and :view_own_time_entries permission' do
           before do
             allow(user)
               .to receive(:allowed_to?)
@@ -329,7 +329,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
             allow(user)
               .to receive(:allowed_to?)
-              .with(:view_own_hourly_rates, cost_object.project)
+              .with(:view_own_hourly_rate, cost_object.project)
               .and_return true
           end
 

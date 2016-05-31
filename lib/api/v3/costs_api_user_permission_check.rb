@@ -33,7 +33,7 @@ module API::V3::CostsAPIUserPermissionCheck
 
   def user_has_hourly_rate_permissions?
     current_user_allowed_to(:view_hourly_rates, context: represented.project) ||
-      current_user_allowed_to(:view_own_hourly_rates, context: represented.project)
+      current_user_allowed_to(:view_own_hourly_rate, context: represented.project)
   end
 
   def user_has_cost_rates_permission?

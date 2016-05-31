@@ -42,7 +42,7 @@ describe API::V3::CostsAPIUserPermissionCheck do
   let(:view_time_entries) { false }
   let(:view_own_time_entries) { false }
   let(:view_hourly_rates) { false }
-  let(:view_own_hourly_rates) { false }
+  let(:view_own_hourly_rate) { false }
   let(:view_cost_rates) { false }
   let(:view_own_cost_entries) { false }
   let(:view_cost_entries) { false }
@@ -52,7 +52,7 @@ describe API::V3::CostsAPIUserPermissionCheck do
     [:view_time_entries,
      :view_own_time_entries,
      :view_hourly_rates,
-     :view_own_hourly_rates,
+     :view_own_hourly_rate,
      :view_cost_rates,
      :view_own_cost_entries,
      :view_cost_entries,
@@ -91,16 +91,16 @@ describe API::V3::CostsAPIUserPermissionCheck do
         it_behaves_like 'is visible'
       end
 
-      context 'has view_time_entries and view_own_hourly_rates' do
+      context 'has view_time_entries and view_own_hourly_rate' do
         let(:view_time_entries) { true }
-        let(:view_own_hourly_rates) { true }
+        let(:view_own_hourly_rate) { true }
 
         it_behaves_like 'is visible'
       end
 
-      context 'has view_own_time_entries and view_own_hourly_rates' do
+      context 'has view_own_time_entries and view_own_hourly_rate' do
         let(:view_own_time_entries) { true }
-        let(:view_own_hourly_rates) { true }
+        let(:view_own_hourly_rate) { true }
 
         it_behaves_like 'is visible'
       end
