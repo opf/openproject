@@ -3,13 +3,15 @@ OpenProject::Application.configure do
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
   config.assets.precompile += %w(
     default.css
-    accessibility.css accessibility.js
+    accessibility.css
+    accessibility.js
     admin_users.js
     autocompleter.js
     calendar/lang/*.js
     contextual_fieldset.js
     copy_issue_actions.js
-    date-de-de.js date-en-us.js
+    date-de-DE.js
+    date-en-US.js
     jstoolbar/lang/*.js
     members_form.js
     members_select_boxes.js
@@ -23,6 +25,5 @@ OpenProject::Application.configure do
     types_checkboxes.js
     work_packages.js
     type_form.js
-    date-en-US.js
   )
 end
