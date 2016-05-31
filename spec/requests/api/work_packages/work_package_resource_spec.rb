@@ -42,7 +42,7 @@ describe 'API v3 Work package resource', type: :request do
     FactoryGirl.create(:project, identifier: 'test_project', is_public: false)
   end
   let(:role) do
-    FactoryGirl.create(:role, permissions: [:view_work_packages, :edit_work_packages])
+    FactoryGirl.create(:role, permissions: [:view_work_packages, :edit_work_packages, :view_cost_objects])
   end
   let(:current_user) do
     FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
