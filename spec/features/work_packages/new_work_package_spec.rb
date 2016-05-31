@@ -42,13 +42,12 @@ describe 'new work package', js: true do
   def create_work_package(type)
     loading_indicator_saveguard
 
-    button = find('.add-work-package:not([disabled])', text: 'Work package')
-    button.click
+    wp_page.click_add_wp_button
 
     loading_indicator_saveguard
-    find('#work-package-subject input').set(subject)
+    wp_page.subject_field.set(subject)
 
-    page.find('#inplace-edit--write-value--type option', text: type).select_option
+    wp_page.select_type(type)
     sleep 1
   end
 
@@ -64,21 +63,20 @@ describe 'new work package', js: true do
     end
 
     it 'creates a subsequent work package' do
-      find('#work-package-subject input').set(subject)
+      wp_page.subject_field.set(subject)
       save_work_package!
 
       subject_field.expect_state_text(subject)
 
       create_work_package('Bug')
       expect(page).to have_selector(safeguard_selector, wait: 10)
-      expect(page).to have_selector('#inplace-edit--write-value--type option[selected]',
-                                    text: 'Bug')
+      expect(page).to have_selector(wp_page.type_field_selector + ' option[selected]', text: 'Bug')
     end
 
     context 'with missing values' do
       it 'shows an error when subject is missing' do
-        find('#work-package-description textarea').set(description)
-        find('#work-package-subject input').set('')
+        wp_page.description_field.set(description)
+        wp_page.subject_field.set('')
         save_work_package!(false)
         notification.expect_error("Subject can't be blank.")
       end
@@ -86,7 +84,7 @@ describe 'new work package', js: true do
 
     context 'with subject set' do
       it 'creates a basic work package' do
-        find('#work-package-description textarea').set(description)
+        wp_page.description_field.set(description)
 
         save_work_package!
         expect(page).to have_selector('#tabs')
@@ -96,8 +94,8 @@ describe 'new work package', js: true do
       end
 
       it 'can switch types and keep attributes' do
-        find('#work-package-subject input').set(subject)
-        select 'Bug', from: 'inplace-edit--write-value--type'
+        wp_page.subject_field.set(subject)
+        wp_page.select_type('Bug')
 
         save_work_package!
 
@@ -106,9 +104,6 @@ describe 'new work package', js: true do
       end
 
       context 'custom fields' do
-        let(:custom_fields) {
-          [custom_field1, custom_field2]
-        }
         let(:custom_field1) {
           FactoryGirl.create(
             :work_package_custom_field,
@@ -125,6 +120,9 @@ describe 'new work package', js: true do
             is_required: false,
             is_for_all: true)
         }
+        let(:custom_fields) {
+          [custom_field1, custom_field2]
+        }
         let(:type_task) { FactoryGirl.create(:type_task, custom_fields: custom_fields) }
         let(:project) {
           FactoryGirl.create(:project,
@@ -138,12 +136,12 @@ describe 'new work package', js: true do
           end
 
           ids = custom_fields.map(&:id)
-          cf1 = find("input#inplace-edit--write-value--customField#{ids.first}")
+          cf1 = find(".customField#{ids.first} input")
           expect(cf1).not_to be_nil
-          expect(page).to have_select("inplace-edit--write-value--customField#{ids.last}",
+          expect(page).to have_select("customField#{ids.last}",
                                       options: %w(- foo bar xyz))
 
-          select 'foo', from: "inplace-edit--write-value--customField#{ids.last}"
+          select 'foo', from: "customField#{ids.last}"
           save_work_package!(false)
           # Its a known bug that custom fields validation errors do not contain their names
           notification.expect_error("can't be blank.")
@@ -175,7 +173,7 @@ describe 'new work package', js: true do
       create_work_package('Task')
       expect(page).to have_selector(safeguard_selector, wait: 10)
 
-      find('#work-package-subject input').set('new work package')
+      wp_page.subject_field.set('new work package')
       save_work_package!
 
       expect(page).to have_selector('.wp--row input[type=checkbox]:checked')

@@ -54,12 +54,6 @@ export class WorkPackageCreateController {
               protected loadingIndicator,
               protected wpCreate:WorkPackageCreateService,
               protected wpCacheService:WorkPackageCacheService) {
-    const body = angular.element('body').addClass('full-create');
-
-    $scope.$on('$stateChangeStart', () => {
-      body.removeClass('full-create');
-    });
-
     scopedObservable($scope, wpCreate.createNewWorkPackage($state.params.projectPath))
       .subscribe(wp => {
         this.newWorkPackage = wp;

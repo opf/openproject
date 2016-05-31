@@ -30,10 +30,13 @@ require 'support/pages/page'
 
 module Pages
   class AbstractWorkPackage < Page
-    attr_reader :work_package
+    attr_reader :work_package, :type_field_selector, :subject_field_selector
 
     def initialize(work_package)
       @work_package = work_package
+
+      @type_field_selector = '.wp-edit-field.type'
+      @subject_field_selector = '.wp-edit-field.subject'
     end
 
     def visit_tab!(tab)
@@ -179,6 +182,23 @@ module Pages
 
     def add_comment_container
       find('.work-packages--activity--add-comment')
+    end
+
+    def click_add_wp_button
+      find('.add-work-package:not([disabled])', text: 'Work package').click
+    end
+
+    def select_type(type)
+      find(@type_field_selector + ' option', text: type).select_option
+    end
+
+    def subject_field
+      expect(page).to have_selector(@subject_field_selector + ' input', wait: 10)
+      find(@subject_field_selector + ' input')
+    end
+
+    def description_field
+      find('.wp-edit-field.description textarea')
     end
 
     private

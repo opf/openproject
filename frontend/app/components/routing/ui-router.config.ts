@@ -93,7 +93,9 @@ openprojectModule
         templateUrl: '/components/routing/main/work-packages.new.html',
         controller: 'WorkPackageCreateController',
         controllerAs: '$ctrl',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        onEnter: () => angular.element('body').addClass('full-create'),
+        onExit: () => angular.element('body').removeClass('full-create'),
       })
 
       .state('work-packages.copy', {
