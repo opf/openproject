@@ -43,6 +43,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
                            form_embedded: embedded,
                            current_user: current_user)
   }
+  let(:project) { work_package.project }
+
   subject { representer.to_json }
 
   shared_examples_for 'has a collection of allowed values' do
@@ -87,54 +89,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
 
-  describe 'spentTime' do
-    shared_examples_for 'spentTime visible' do
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'spentTime' }
-        let(:type) { 'Duration' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.spent_time') }
-        let(:required) { false }
-        let(:writable) { false }
-      end
-    end
-
-    shared_examples_for 'spentTime not visible' do
-      it { is_expected.not_to have_json_path('spentTime') }
-    end
-
-    let(:can_view_time_entries) { false }
-    let(:can_view_own_time_entries) { false }
-
-    before do
-      allow(current_user).to receive(:allowed_to?).and_return(false)
-      allow(current_user).to receive(:allowed_to?).with(:view_time_entries, work_package.project)
-        .and_return can_view_time_entries
-      allow(current_user).to receive(:allowed_to?).with(:view_own_time_entries, work_package.project)
-        .and_return can_view_own_time_entries
-    end
-
-    context 'can view_time_entries' do
-      let(:can_view_time_entries) { true }
-
-      it_behaves_like 'spentTime visible'
-    end
-
-    context 'can view_own_time_entries' do
-      let(:can_view_own_time_entries) { true }
-
-      it_behaves_like 'spentTime visible'
-    end
-
-    context 'laking permissions' do
-      it_behaves_like 'spentTime not visible'
-    end
-  end
-
   describe 'overallCosts' do
     context 'has the permissions' do
       before do
-        expect(representer)
-          .to receive(:overall_costs_visible?)
+        allow(project)
+          .to receive(:costs_enabled?)
           .and_return(true)
       end
 
@@ -149,8 +108,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     context 'lacks the permissions' do
       before do
-        expect(representer)
-          .to receive(:overall_costs_visible?)
+        allow(project)
+          .to receive(:costs_enabled?)
           .and_return(false)
       end
 
@@ -161,8 +120,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   describe 'laborCosts' do
     context 'has the permissions' do
       before do
-        expect(representer)
-          .to receive(:labor_costs_visible?)
+        allow(project)
+          .to receive(:costs_enabled?)
           .and_return(true)
       end
 
@@ -177,8 +136,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     context 'lacks the permissions' do
       before do
-        expect(representer)
-          .to receive(:labor_costs_visible?)
+        allow(project)
+          .to receive(:costs_enabled?)
           .and_return(false)
       end
 
@@ -189,8 +148,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   describe 'materialCosts' do
     context 'has the permissions' do
       before do
-        expect(representer)
-          .to receive(:material_costs_visible?)
+        allow(project)
+          .to receive(:costs_enabled?)
           .and_return(true)
       end
 
@@ -205,8 +164,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     context 'lacks the permissions' do
       before do
-        expect(representer)
-          .to receive(:material_costs_visible?)
+        allow(project)
+          .to receive(:costs_enabled?)
           .and_return(false)
       end
 
@@ -217,8 +176,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   describe 'costsByType' do
     context 'has the permissions' do
       before do
-        expect(representer)
-          .to receive(:costs_by_type_visible?)
+        allow(project)
+          .to receive(:costs_enabled?)
           .and_return(true)
       end
 
@@ -233,8 +192,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     context 'lacks the permissions' do
       before do
-        expect(representer)
-          .to receive(:costs_by_type_visible?)
+        allow(project)
+          .to receive(:costs_enabled?)
           .and_return(false)
       end
 
