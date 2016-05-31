@@ -268,9 +268,7 @@ module OpenProject::Costs
     end
 
     assets %w(costs/costs.css
-              costs/costs.js
-              work_packages/cost_object.html
-              work_packages/summarized_cost_entries.html)
+              costs/costs.js)
 
     initializer 'costs.register_hooks' do
       require 'open_project/costs/hooks'
