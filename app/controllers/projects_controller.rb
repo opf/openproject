@@ -200,13 +200,15 @@ class ProjectsController < ApplicationController
   end
 
   def custom_fields
-    @project.work_package_custom_field_ids = permitted_params.project[:work_package_custom_field_ids]
-    if @project.save
-      flash[:notice] = l(:notice_successful_update)
-    else
-      flash[:error] = l(:notice_project_cannot_update_custom_fields)
+    Project.transaction do
+      @project.work_package_custom_field_ids = permitted_params.project[:work_package_custom_field_ids]
+      if @project.save
+        flash[:notice] = l(:notice_successful_update)
+      else
+        flash[:error] = l(:notice_project_cannot_update_custom_fields)
+        raise ActiveRecord::Rollback
+      end
     end
-
     redirect_to action: 'settings', id: @project, tab: 'custom_fields'
   end
 
