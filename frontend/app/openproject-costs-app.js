@@ -27,11 +27,10 @@
 //++
 
 // load all js locales
+var LoadLocales = require('app/plugins/load-locales.module').LoadLocales;
 var localeFiles = require.context('../../config/locales', false, /js-[\w|-]{2,5}\.yml$/);
-localeFiles.keys().forEach(function(localeFile) {
-  var locale = localeFile.match(/js-([\w|-]{2,5})\.yml/)[1];
-  I18n.addTranslations(locale, localeFiles(localeFile)[locale]);
-});
+
+LoadLocales.files(localeFiles);
 
 var CostsByTypeDisplayField = require('./components/wp-display/field-types/wp-display-costs-by-type-field.module').CostsByTypeDisplayField;
 
