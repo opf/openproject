@@ -124,6 +124,7 @@ function getWebpackMainConfig() {
 
       alias: _.merge({
         'locales': './../../config/locales',
+        'core-components': path.resolve(__dirname, 'app', 'components'),
 
         'angular-ui-date': 'angular-ui-date/src/date',
         'angular-truncate': 'angular-truncate/src/truncate',
@@ -136,6 +137,10 @@ function getWebpackMainConfig() {
 
     resolveLoader: {
       root: path.join(__dirname, '/node_modules')
+    },
+
+    ts: {
+      configFileName: path.resolve(__dirname, 'tsconfig.json')
     },
 
     plugins: [
