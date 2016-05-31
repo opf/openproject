@@ -87,6 +87,12 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to have_json_path('overallCosts') }
 
       describe 'budget' do
+        before do
+          allow(representer)
+            .to receive(:cost_object_visible?)
+            .and_return(true)
+        end
+
         it_behaves_like 'has a titled link' do
           let(:link) { 'costObject' }
           let(:href) { "/api/v3/budgets/#{cost_object.id}" }
