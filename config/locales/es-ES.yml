@@ -4,13 +4,13 @@ es:
   label_backlogs_export_card_config_select: Seleccionar exportar configuración de la tarjeta
   label_backlogs_export_card_export: Exportar
   label_export_card_configuration_new: Nueva exportación de la configuración de la tarjeta
-  label_export_card_configuration: Exportar la configuración de tarjetas
+  label_export_card_configuration: Exportar configuración de tarjetas
   label_export_card_configuration_plural: Exportar configuraciones de tarjetas
   label_export_card_activate: Activar
   label_export_card_deactivate: Desactivar
   notice_export_card_configuration_activated: Configuración activada correctamente
   notice_export_card_configuration_deactivated: Configuración desactivada correctamente
-  error_can_not_activate_export_card_configuration: Esta configuración no puede eliminarse
+  error_can_not_activate_export_card_configuration: Esta configuración no puede activarse
   error_can_not_deactivate_export_card_configuration: Esta configuración no puede desactivarse
   validation_error_required_keys_not_present: 'Clave(s) obligatorias no presentes:'
   validation_error_yaml_is_badly_formed: tiene un formato YAML no válido.
