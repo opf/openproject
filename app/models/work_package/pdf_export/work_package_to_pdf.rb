@@ -215,7 +215,7 @@ class WorkPackage::PdfExport::WorkPackageToPdf
       end
 
       if journal.notes?
-        newline unless journal.details.empty?
+        newline! unless journal.details.empty?
 
         pdf.font style: :normal, size: 8
         pdf.text journal.notes.to_s
