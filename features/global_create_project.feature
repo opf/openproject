@@ -69,4 +69,4 @@ Feature: Global Create Project
     And I fill in "project_name" with "ProjectName"
     And I press "Create"
     Then I should see "Successful creation."
-    And I should be on the settings page of the project called "ProjectName"
+    And I should be on the overview page of the project called "ProjectName"
