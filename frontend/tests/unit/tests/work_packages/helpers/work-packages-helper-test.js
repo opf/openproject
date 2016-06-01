@@ -85,6 +85,16 @@ describe('Work packages helper', function() {
       });
     });
 
+    describe('with an object having a value', function() {
+      it('returns the value', function() {
+        var object = {
+          myObject: { value: 'the value' }
+        };
+
+        expect(getRowObjectContent(object, 'myObject')).to.equal('the value');
+      });
+    });
+
     describe('with a custom field', function() {
       it('should return type string custom field', function() {
         var object = {
