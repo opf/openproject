@@ -65,7 +65,7 @@ const panels = {
     return {
       url: '/relations',
       reloadOnSearch: false,
-      templateUrl: '/templates/work_packages/tabs/relations.html'
+      template: '<relations-panel ng-if="workPackage" work-package="workPackage"></relations-panel>'
     };
   }
 };
