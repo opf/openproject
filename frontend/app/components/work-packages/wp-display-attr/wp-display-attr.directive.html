@@ -6,12 +6,12 @@
         ng-switch="::$ctrl.displayType"
         ng-click="$ctrl.activateIfEditable($event)"
         data-click-on-keypress="[13, 32]"
-        focus="$ctrl.shouldFocus()"
-        ng-attr-tabindex="{{$ctrl.isEditable() ? '0' : '-1'}}"
-        ng-class="{ '-placeholder' : $ctrl.isEmpty }"
-        aria-labelledby="{{$ctrl.labelId}}">
+        focus="$ctrl.shouldFocus()">
 
-    <ng-include src="::$ctrl.field.template"></ng-include>
+    <span class="__d__renderer">
+      <ng-include ng-if="::!$ctrl.field.isManualRenderer"
+                  src="::$ctrl.field.template"></ng-include>
+    </span>
 
   </span>
 </span>

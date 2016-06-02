@@ -30,27 +30,27 @@ import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 import {wpDirectivesModule} from "../../../angular-modules";
 import {WorkPackageEditFieldController} from "../../wp-edit/wp-edit-field/wp-edit-field.directive";
 import {WorkPackageCacheService} from "../work-package-cache.service";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {DisplayField} from "../../wp-display/wp-display-field/wp-display-field.module";
 import {WorkPackageDisplayFieldService} from "../../wp-display/wp-display-field/wp-display-field.service";
 
 export class WorkPackageDisplayAttributeController {
-  public wpEditField:WorkPackageEditFieldController;
-  public attribute:string;
-  public placeholderOptional:string;
-  public workPackage:any;
-  public customSchema:HalResource;
+
+  public wpEditField: WorkPackageEditFieldController;
+  public attribute: string;
+  public placeholderOptional: string;
+  public workPackage: any;
+  public customSchema: HalResource;
   public field: DisplayField;
+  public label: string;
 
   private __d__hiddenForSighted: JQuery;
   private __d__cell: JQuery;
-  private __d__displayElement: JQuery;
+  private __d__renderer: JQuery;
 
   constructor(protected $element: JQuery,
               protected wpDisplayField: WorkPackageDisplayFieldService,
-              protected wpCacheService:WorkPackageCacheService,
-              protected $scope:ng.IScope) {
+              protected wpCacheService: WorkPackageCacheService,
+              protected $scope: ng.IScope) {
 
     // Update the attribute initially
     if (this.workPackage) {
@@ -77,7 +77,7 @@ export class WorkPackageDisplayAttributeController {
     return this.wpEditField && this.wpEditField.shouldFocus();
   }
 
-  public get labelId():string {
+  public get labelId(): string {
     return 'wp-' + this.workPackage.id + '-display-attr-' + this.attribute + '-aria-label';
   }
 
@@ -107,53 +107,32 @@ export class WorkPackageDisplayAttributeController {
     this.schema.$load().then(() => {
       this.field = <DisplayField>this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]);
 
-      /////////////////////////////////////////
-      /////////////////////////////////////////
+      setTimeout(() => {
+        if (this.field.isManualRenderer) {
+          this.__d__renderer = this.__d__renderer || this.$element.find(".__d__renderer");
+          this.field.render(this.__d__renderer, this);
+        }
 
+        this.__d__hiddenForSighted = this.__d__hiddenForSighted || this.$element.find(".__d__hidden-for-sighted");
+        this.__d__hiddenForSighted.attr("id", this.labelId);
+        this.__d__hiddenForSighted.text(this.label + " " + this.displayText);
 
-      /*
-      if (this.displayText !== text) {
+        this.__d__cell = this.__d__cell || this.$element.find(".__d__cell");
+        this.__d__cell.attr("tabindex", this.isEditable() ? "0" : "-1");
+        this.__d__cell.attr("aria-labelledby", this.labelId);
+        this.__d__cell.toggleClass("-placeholder", this.isEmpty);
 
-        setTimeout(() => {
-          this.displayText = text || this.placeholder;
-
-          this.__d__displayElement = this.__d__displayElement || this.$element.find(".__d__display-element");
-          this.__d__displayElement.attr("title", this.displayText);
-          if (!this.isDisplayAsHtml) {
-            this.__d__displayElement.text(this.displayText);
-          }
-
-          this.__d__hiddenForSighted = this.__d__hiddenForSighted || this.$element.find(".__d__hidden-for-sighted");
-          this.__d__hiddenForSighted.attr("id", this.labelId);
-          this.__d__hiddenForSighted.text(this.label + " " + this.displayText);
-
-          this.__d__cell = this.__d__cell || this.$element.find(".__d__cell");
-          this.__d__cell.attr("tabindex", this.isEditable() ? "0" : "-1");
-          this.__d__cell.attr("aria-labelledby", this.labelId);
-          this.__d__cell.toggleClass("-placeholder", this.isEmpty);
-
-
-
-        }, 0);
-      }
-      */
-
-
-
-
-      /////////////////////////////////////////
-      /////////////////////////////////////////
+      }, 0);
     });
   }
 }
 
 function wpDisplayAttrDirective() {
 
-  function wpTdLink(
-    scope,
-    element,
-    attr,
-    controllers) {
+  function wpTdLink(scope,
+                    element,
+                    attr,
+                    controllers) {
 
     scope.$ctrl.wpEditField = controllers[0];
 
