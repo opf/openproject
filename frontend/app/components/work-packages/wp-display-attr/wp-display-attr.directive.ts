@@ -107,7 +107,7 @@ export class WorkPackageDisplayAttributeController {
     this.schema.$load().then(() => {
       this.field = <DisplayField>this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]);
 
-      setTimeout(() => {
+      // setTimeout(() => {
         if (this.field.isManualRenderer) {
           this.__d__renderer = this.__d__renderer || this.$element.find(".__d__renderer");
           this.field.render(this.__d__renderer, this);
@@ -122,7 +122,7 @@ export class WorkPackageDisplayAttributeController {
         this.__d__cell.attr("aria-labelledby", this.labelId);
         this.__d__cell.toggleClass("-placeholder", this.isEmpty);
 
-      }, 0);
+      // }, 0);
     });
   }
 }
