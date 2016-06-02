@@ -60,7 +60,7 @@ module Redmine::MenuManager::HelpMenuHelper
                 content_tag(:span, l('top_menu.getting_started'),
                             class: 'drop-down--help-headline',
                             title: l('top_menu.getting_started'))
-              end
+    end
     result << render_onboarding_menu_item
     result << content_tag(:hr, '', class: 'form--separator')
   end
