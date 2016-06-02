@@ -27,8 +27,6 @@
 //++
 
 angular.module('openproject.workPackages.tabs')
-  .directive('addWorkPackageRelation', require(
-    './add-work-package-relation-directive'))
   .directive('panelExpander', require('./panel-expander-directive'))
   .directive('relatedWorkPackageTableRow', [
     'I18n',
