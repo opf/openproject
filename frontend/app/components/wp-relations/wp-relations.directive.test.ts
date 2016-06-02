@@ -26,39 +26,41 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
 
-describe('Work Package Relations Directive', function() {
+import {wpTabsModule, opApiModule} from "../../angular-modules";
+
+describe('Work Package Relations Directive', function () {
   var I18n, PathHelper, WorkPackagesHelper, Ajax, compile, element, scope, ChildrenRelationsHandler, stateParams = {};
 
-  beforeEach(angular.mock.module('openproject.workPackages.tabs',
-                                 'openproject.api',
-                                 'openproject.helpers',
-                                 'openproject.models',
-                                 'openproject.layout',
-                                 'openproject.services',
-                                 'openproject.viewModels',
-                                 'ngSanitize'));
+  beforeEach(angular.mock.module(
+    wpTabsModule.name,
+    opApiModule.name,
+    'openproject.helpers',
+    'openproject.models',
+    'openproject.layout',
+    'openproject.services',
+    'openproject.viewModels',
+    'ngSanitize'));
 
-  beforeEach(angular.mock.module('openproject.templates', function($provide) {
-    var configurationService = {};
-
-    configurationService.isTimezoneSet = sinon.stub().returns(false);
-    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
+  beforeEach(angular.mock.module('openproject.templates', function ($provide) {
+    var configurationService = {
+      isTimezoneSet: sinon.stub().returns(false),
+      accessibilityModeEnabled: sinon.stub().returns(false)
+    };
 
     $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(inject(function($rootScope,
-                             $compile,
-                             _I18n_,
-                             _PathHelper_,
-                             _WorkPackagesHelper_,
-                             _ChildrenRelationsHandler_) {
+  beforeEach(angular.mock.inject(function ($rootScope,
+                              $compile,
+                              _I18n_,
+                              _PathHelper_,
+                              _WorkPackagesHelper_,
+                              _ChildrenRelationsHandler_) {
     scope = $rootScope.$new();
 
-    compile = function(html) {
+    compile = function (html) {
       element = $compile(html)(scope);
       scope.$digest();
     };
@@ -81,12 +83,12 @@ describe('Work Package Relations Directive', function() {
     stub.withArgs('js.relation_labels.parent').returns('Parent');
   }));
 
-  afterEach(function() {
+  afterEach(function () {
     I18n.t.restore();
   });
 
-  var html = "<work-package-relations relation-type='parent' handler='relations' " +
-             "button-title='Add Relation' button-icon='%MyIcon%'></work-package-relations>";
+  var html = "<wp-relations relation-type='parent' handler='relations' " +
+    "button-title='Add Relation' button-icon='%MyIcon%'></wp-relations>";
 
   var workPackage1;
   var workPackage2;
@@ -100,8 +102,8 @@ describe('Work Package Relations Directive', function() {
   var relationsHandlerMulti;
   var relationsHandlerWithNotAssignedRelatedWorkPackage;
 
-  var createRelationsHandlerStub = function($timeout, count) {
-    var relationsHandler = {};
+  var createRelationsHandlerStub = function ($timeout, count) {
+    var relationsHandler:any = {};
 
     relationsHandler.relationsId = sinon.stub();
     relationsHandler.isEmpty = sinon.stub();
@@ -118,8 +120,8 @@ describe('Work Package Relations Directive', function() {
 
     relationsHandler.type = "relation";
 
-    relationsHandler.getRelatedWorkPackage = function() {
-      return $timeout(function() {
+    relationsHandler.getRelatedWorkPackage = function () {
+      return $timeout(function () {
         return workPackage1;
       }, 10);
     };
@@ -127,7 +129,7 @@ describe('Work Package Relations Directive', function() {
     return relationsHandler;
   };
 
-  beforeEach(inject(function($q, $timeout) {
+  beforeEach(inject(function ($q, $timeout) {
     workPackage1 = {
       props: {
         id: "1",
@@ -147,9 +149,9 @@ describe('Work Package Relations Directive', function() {
         }
       },
       links: {
-        self: { href: "/work_packages/1" },
+        self: {href: "/work_packages/1"},
         addChild: {href: "/add_children_href"},
-        addRelation: { href: "/work_packages/1/relations" }
+        addRelation: {href: "/work_packages/1/relations"}
       }
     };
     workPackage2 = {
@@ -171,7 +173,7 @@ describe('Work Package Relations Directive', function() {
         }
       },
       links: {
-        self: { href: "/work_packages/1" }
+        self: {href: "/work_packages/1"}
       }
     };
     workPackage3 = {
@@ -193,7 +195,7 @@ describe('Work Package Relations Directive', function() {
         }
       },
       links: {
-        self: { href: "/work_packages/1" }
+        self: {href: "/work_packages/1"}
       }
     };
     workPackage4 = {
@@ -210,13 +212,13 @@ describe('Work Package Relations Directive', function() {
         }
       },
       links: {
-        self: { href: "/work_packages/1" }
+        self: {href: "/work_packages/1"}
       }
     };
     relation1 = {
       links: {
-        self: { href: "/relations/1" },
-        remove: { href: "/relations/1" },
+        self: {href: "/relations/1"},
+        remove: {href: "/relations/1"},
         relatedTo: {
           href: "/work_packages/1"
         },
@@ -227,7 +229,7 @@ describe('Work Package Relations Directive', function() {
     };
     relation2 = {
       links: {
-        self: { href: "/relations/2" },
+        self: {href: "/relations/2"},
         relatedTo: {
           href: "/work_packages/3"
         },
@@ -238,7 +240,7 @@ describe('Work Package Relations Directive', function() {
     };
     relation3 = {
       links: {
-        self: { href: "/relations/3" },
+        self: {href: "/relations/3"},
         relatedTo: {
           href: "/work_packages/4"
         },
@@ -261,16 +263,16 @@ describe('Work Package Relations Directive', function() {
     relationsHandlerWithNotAssignedRelatedWorkPackage.relations = [relation3];
   }));
 
-  var shouldBehaveLikeRelationsDirective = function() {
-    it('should have a title', function() {
+  var shouldBehaveLikeRelationsDirective = function () {
+    it('should have a title', function () {
       var title = angular.element(element.find('h3'));
 
       expect(title.text()).to.include('Parent');
     });
   };
 
-  var shouldBehaveLikeHasTableHeader = function() {
-    it('should have a table head', function() {
+  var shouldBehaveLikeHasTableHeader = function () {
+    it('should have a table head', function () {
       var column0 = angular.element(element.find('.workpackages table thead td:nth-child(1)'));
       var column1 = angular.element(element.find('.workpackages table thead td:nth-child(2)'));
       var column2 = angular.element(element.find('.workpackages table thead td:nth-child(3)'));
@@ -281,8 +283,8 @@ describe('Work Package Relations Directive', function() {
     });
   };
 
-  var shouldBehaveLikeHasTableContent = function(count, removable) {
-    it('should have table content', function() {
+  var shouldBehaveLikeHasTableContent = function (count, removable) {
+    it('should have table content', function () {
       for (var x = 1; x <= count; x++) {
         var column0 = angular.element(element.find('.workpackages table tbody tr:nth-of-type(' + x + ') td:nth-child(1)'));
         var column1 = angular.element(element.find('.workpackages table tbody tr:nth-of-type(' + x + ') td:nth-child(2)'));
@@ -295,7 +297,7 @@ describe('Work Package Relations Directive', function() {
         expect(angular.element(column0).find('a').hasClass('work_package')).to.be.true;
         expect(angular.element(column0).find('a').hasClass('closed')).to.be.false;
 
-        if(removable) {
+        if (removable) {
           var column4 = angular.element(element.find('.workpackages table tbody tr:nth-of-type(' + x + ') td:nth-child(4)'));
           var removeIcon = angular.element(column4.find('span.icon-remove'));
           expect(removeIcon.length).not.to.eq(0);
@@ -305,44 +307,44 @@ describe('Work Package Relations Directive', function() {
     });
   };
 
-  var shouldBehaveLikeCollapsedRelationsDirective = function() {
+  var shouldBehaveLikeCollapsedRelationsDirective = function () {
 
     shouldBehaveLikeRelationsDirective();
 
-    it('should be initially collapsed', function() {
+    it('should be initially collapsed', function () {
       var content = angular.element(element.find('div.content'));
       expect(content.hasClass('ng-hide')).to.eq(true);
     });
   };
 
-  var shouldBehaveLikeExpandedRelationsDirective = function() {
+  var shouldBehaveLikeExpandedRelationsDirective = function () {
 
     shouldBehaveLikeRelationsDirective();
 
-    it('should be initially expanded', function() {
+    it('should be initially expanded', function () {
       var content = angular.element(element.find('div.content'));
       expect(content.hasClass('ng-hide')).to.eq(false);
     });
   };
 
-  var shouldBehaveLikeSingleRelationDirective = function() {
-    it('should NOT have an elements count', function() {
+  var shouldBehaveLikeSingleRelationDirective = function () {
+    it('should NOT have an elements count', function () {
       var title = angular.element(element.find('h3'));
 
       expect(title.text()).to.not.include('(' + scope.relations.getCount() + ')');
     });
   };
 
-  var shouldBehaveLikeMultiRelationDirective = function() {
-    it('should have an elements count', function() {
+  var shouldBehaveLikeMultiRelationDirective = function () {
+    it('should have an elements count', function () {
       var title = angular.element(element.find('h3'));
 
       expect(title.text()).to.include('(' + scope.relations.getCount() + ')');
     });
   };
 
-  var shouldBehaveLikeHasAddRelationDialog = function() {
-    it('should have add relation button and id input', function() {
+  var shouldBehaveLikeHasAddRelationDialog = function () {
+    it('should have add relation button and id input', function () {
       var addRelationDiv = angular.element(element.find('.content .add-relation'));
       expect(addRelationDiv.length).not.to.eq(0);
 
@@ -352,38 +354,38 @@ describe('Work Package Relations Directive', function() {
     });
   };
 
-  var shouldBehaveLikeReadOnlyRelationDialog = function() {
-    it('should have add relation button and id input', function() {
+  var shouldBehaveLikeReadOnlyRelationDialog = function () {
+    it('should have add relation button and id input', function () {
       var addRelationDiv = angular.element(element.find('.workpackages .add-relation'));
 
       expect(addRelationDiv.length).to.eq(0);
     });
   };
 
-  describe('children relation', function() {
-    context('add child link present', function() {
-      beforeEach(function() {
+  describe('children relation', function () {
+    context('add child link present', function () {
+      beforeEach(function () {
         scope.relations = new ChildrenRelationsHandler(workPackage1, []);
         compile(html);
       });
-      it('"add child" button should be present', function() {
+      it('"add child" button should be present', function () {
         expect(angular.element(element.find('.add-work-package-child-button')).length).to.eql(1);
       });
     });
 
-    context('add child link missing', function() {
-      beforeEach(function() {
+    context('add child link missing', function () {
+      beforeEach(function () {
         scope.relations = new ChildrenRelationsHandler(workPackage2, []);
         compile(html);
       });
-      it('"add child" button should be missing', function() {
+      it('"add child" button should be missing', function () {
         expect(angular.element(element.find('.add-work-package-child-button')).length).to.eql(0);
       });
     });
   });
 
-  describe('no element markup', function() {
-    beforeEach(function() {
+  describe('no element markup', function () {
+    beforeEach(function () {
       scope.relations = relationsHandlerMulti;
 
       scope.relations.canAddRelation.returns(true);
@@ -399,9 +401,9 @@ describe('Work Package Relations Directive', function() {
     shouldBehaveLikeHasAddRelationDialog();
   });
 
-  describe('single element markup', function() {
-    describe('header', function() {
-      beforeEach(inject(function($timeout) {
+  describe('single element markup', function () {
+    describe('header', function () {
+      beforeEach(inject(function ($timeout) {
         scope.relations = relationsHandlerSingle;
         scope.relations.isSingletonRelation = true;
 
@@ -413,8 +415,8 @@ describe('Work Package Relations Directive', function() {
       shouldBehaveLikeSingleRelationDirective();
     });
 
-    describe('readonly', function() {
-      beforeEach(inject(function($timeout) {
+    describe('readonly', function () {
+      beforeEach(inject(function ($timeout) {
         scope.relations = relationsHandlerSingle;
         scope.relations.canDeleteRelation.returns(true);
 
@@ -434,8 +436,8 @@ describe('Work Package Relations Directive', function() {
       shouldBehaveLikeReadOnlyRelationDialog();
     });
 
-    describe('can add and remove relations', function() {
-      beforeEach(inject(function($timeout) {
+    describe('can add and remove relations', function () {
+      beforeEach(inject(function ($timeout) {
         scope.relations = relationsHandlerSingle;
         scope.relations.relations = [relation2];
         scope.relations.canAddRelation.returns(true);
@@ -457,13 +459,13 @@ describe('Work Package Relations Directive', function() {
       shouldBehaveLikeHasAddRelationDialog();
     });
 
-    describe('table row of closed work package', function() {
-      beforeEach(inject(function($timeout) {
+    describe('table row of closed work package', function () {
+      beforeEach(inject(function ($timeout) {
         scope.relations = relationsHandlerSingle;
         scope.relations.relations = [relation2];
 
-        scope.relations.getRelatedWorkPackage = function() {
-          return $timeout(function() {
+        scope.relations.getRelatedWorkPackage = function () {
+          return $timeout(function () {
             return workPackage3;
           }, 10);
         };
@@ -473,21 +475,21 @@ describe('Work Package Relations Directive', function() {
         $timeout.flush();
       }));
 
-      it('should have css class closed', function() {
+      it('should have css class closed', function () {
         var closedWorkPackageRow = angular.element(element.find('.workpackages table tbody tr:nth-of-type(1) td:nth-child(1) a'));
 
         expect(closedWorkPackageRow.hasClass('closed')).to.be.true;
       });
     });
 
-    describe('table row of work package that is not assigned', function() {
+    describe('table row of work package that is not assigned', function () {
       var row;
 
-      beforeEach(inject(function($timeout) {
+      beforeEach(inject(function ($timeout) {
         scope.relations = relationsHandlerWithNotAssignedRelatedWorkPackage;
 
-        scope.relations.getRelatedWorkPackage = function() {
-          return $timeout(function() {
+        scope.relations.getRelatedWorkPackage = function () {
+          return $timeout(function () {
             return workPackage4;
           }, 10);
         };
@@ -499,34 +501,13 @@ describe('Work Package Relations Directive', function() {
         row = angular.element(element.find('.workpackages table tbody tr:nth-of-type(1)'));
       }));
 
-      it('should NOT have link', function() {
+      it('should NOT have link', function () {
         expect(row.find('td:nth-of-type(2) a').length).to.eql(0);
       });
 
-      it('should have empty element tag', function() {
+      it('should have empty element tag', function () {
         expect(row.find('empty-element').text()).to.include('-');
       });
     });
   });
-
-  // describe('multi element markup', function() {
-  //   beforeEach(inject(function($timeout) {
-  //     scope.workPackage = workPackage1;
-  //     scope.relations = [relation1, relation2];
-
-  //     compile(multiElementHtml);
-
-  //     $timeout.flush();
-  //   }));
-
-  //   shouldBehaveLikeRelationsDirective();
-
-  //   shouldBehaveLikeMultiRelationDirective();
-
-  //   shouldBehaveLikeExpandedRelationsDirective();
-
-  //   shouldBehaveLikeHasTableHeader();
-
-  //   shouldBehaveLikeHasTableContent(2);
-  // });
 });

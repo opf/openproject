@@ -26,10 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n, WorkPackagesHelper, $timeout) {
+import {wpTabsModule} from "../../angular-modules";
+
+function wpRelationsDirective(I18n, WorkPackagesHelper, $timeout) {
   return {
     restrict: 'E',
     replace: true,
+    templateUrl: '/components/wp-relations/wp-relations.directive.html',
+
     scope: {
       relationType: '@',
       handler: '=',
@@ -37,11 +41,11 @@ module.exports = function(I18n, WorkPackagesHelper, $timeout) {
       btnIcon: '@buttonIcon',
       isSingletonRelation: '@singletonRelation'
     },
-    templateUrl: '/templates/work_packages/tabs/_work_package_relations.html',
-    link: function(scope, element, attrs) {
+
+    link: function(scope) {
       scope.I18n = I18n;
       scope.focusElementIndex = -2;
-      scope.title = I18n.t('js.relation_labels.' + scope.relationType)
+      scope.title = I18n.t('js.relation_labels.' + scope.relationType);
 
       scope.$watch('handler', function() {
         if (scope.handler) {
@@ -85,4 +89,6 @@ module.exports = function(I18n, WorkPackagesHelper, $timeout) {
       };
     }
   };
-};
+}
+
+wpTabsModule.directive('wpRelations', wpRelationsDirective);

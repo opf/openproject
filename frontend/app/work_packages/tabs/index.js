@@ -37,10 +37,4 @@ angular.module('openproject.workPackages.tabs')
     'PathHelper',
     'WorkPackagesHelper', require(
       './related-work-package-table-row-directive')
-  ])
-  .directive('workPackageRelations', [
-    'I18n',
-    'WorkPackagesHelper',
-    '$timeout',
-    require('./work-package-relations-directive')
   ]);

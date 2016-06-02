@@ -115,7 +115,7 @@ export const wpDirectivesModule = angular.module('openproject.workPackages.direc
   'openproject.workPackages.services',
   'openproject.workPackages.models'
 ]);
-angular.module('openproject.workPackages.tabs', []);
+export const wpTabsModule = angular.module('openproject.workPackages.tabs', []);
 angular.module('openproject.workPackages.activities', []);
 
 // messages
