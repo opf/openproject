@@ -60,7 +60,18 @@
       </div>
     </div>
     <div class="add-relation" ng-if="handler.canAddRelation()" ng-switch="handler.type" focus="isFocused(-1)">
-      <add-work-package-child ng-switch-when="child"></add-work-package-child>
+      <!-- Add WP child -->
+      <button
+          ng-switch-when="child"
+          class="button add-work-package-child-button"
+          title="{{ btnTitle }}"
+          ng-bind-html="btnIcon + ' ' + btnTitle"
+          ng-click="handler.addRelation()"
+          focus="focusElementIndex === -1"
+      ></button>
+
+
+      <!-- Add WP relation -->
       <add-work-package-relation ng-switch-default></add-work-package-relation>
     </div>
   </div>
