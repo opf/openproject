@@ -33,8 +33,6 @@ angular
   .directive('wpVirtualScroll', wpVirtualScroll);
 
 function getBlockNodes(nodes) {
-  // TODO(perf): just check if all items in `nodes` are siblings and if they are return the original
-  //             collection, otherwise update the original collection.
   var node = nodes[0];
   var endNode = nodes[nodes.length - 1];
   var blockNodes = [node];
