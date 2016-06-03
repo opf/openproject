@@ -149,14 +149,11 @@
               lang="{{column.custom_field && column.custom_field.name_locale || locale}}"
               wp-edit-field="getTableColumnName(row.object, column.name)"
               wp-edit-field-wrapper-classes="'-small -shrink'"
+              display-classes="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']"
               columns="columns"
               field-index="$index"
               class="wp-table--cell"
               ng-class="{ '-short': column.name == 'id' }">
-            <wp-display-attr attribute="getTableColumnName(row.object, column.name)"
-                   work-package="row.object"
-                   ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']">
-            </wp-display-attr>
           </td>
         </tr>
 

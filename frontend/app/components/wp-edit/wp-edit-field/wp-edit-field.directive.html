@@ -1,4 +1,5 @@
 <div class="wp-edit-field inplace-edit"
+     ng-if="vm.workPackage"
      ng-class="[
       vm.errorenous && '-error' || '',
       vm.isEditable && '-editable' || '',
@@ -7,7 +8,7 @@
       vm.wrapperClasses === undefined ? '-small' : vm.wrapperClasses
      ]">
 
-  <form ng-if="vm.workPackage && vm.active"
+  <form ng-show="vm.active"
         ng-click="vm.haltUserFormClick($event)"
         ng-dblclick="vm.haltUserFormClick($event)"
         name="vm.fieldForm"
@@ -22,7 +23,13 @@
 
   </form>
 
-  <ng-transclude class="-hidden-overflow inplace-edit--read-value"
-                 ng-hide="vm.active">
-  </ng-transclude>
+  <wp-display-attr attribute="vm.fieldName"
+                   schema="vm.workPackage.schema"
+                   work-package="vm.workPackage"
+                   placeholder="vm.displayPlaceholder"
+                   label="vm.fieldLabel"
+                   class="-hidden-overflow inplace-edit--read-value"
+                   ng-hide="vm.active"
+                   ng-class="vm.displayClasses">
+  </wp-display-attr>
 </div>
