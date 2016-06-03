@@ -120,8 +120,8 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     prefix, suffix = options.values_at(:prefix, :suffix)
 
     # TODO (Rails 4): switch to SafeBuffer#prepend
-    ret = content_tag(:span, prefix.html_safe, class: 'form--field-affix').concat(ret) if prefix
-    ret.concat content_tag(:span, suffix.html_safe, class: 'form--field-affix') if suffix
+    ret = content_tag(:span, prefix.html_safe, class: 'form--field-affix', aria: { hidden: true }).concat(ret) if prefix
+    ret.concat content_tag(:span, suffix.html_safe, class: 'form--field-affix', aria: { hidden: true }) if suffix
 
     field_container_wrap_field(ret, options)
   end

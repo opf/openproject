@@ -117,7 +117,7 @@ describe TabularFormBuilder do
 
         it 'should output elements' do
           expect(output).to be_html_eql(%{
-            <span class="form--field-affix"><span style="color:red">Prefix</span></span>
+            <span class="form--field-affix" aria-hidden="true"><span style="color:red">Prefix</span></span>
             <span class="form--text-field-container">
               <input class="form--text-field"
                 id="user_name" name="user[name]" title="Name" type="text"
@@ -137,7 +137,7 @@ describe TabularFormBuilder do
                 id="user_name" name="user[name]" title="Name" type="text"
                 value="JJ Abrams" />
             </span>
-            <span class="form--field-affix"><span style="color:blue">Suffix</span></span>
+            <span class="form--field-affix" aria-hidden="true"><span style="color:blue">Suffix</span></span>
           }).within_path('span.form--field-container')
         end
       end
@@ -152,13 +152,13 @@ describe TabularFormBuilder do
 
         it 'should output elements' do
           expect(output).to be_html_eql(%{
-            <span class="form--field-affix"><span style="color:yellow">PREFIX</span></span>
+            <span class="form--field-affix" aria-hidden="true"><span style="color:yellow">PREFIX</span></span>
             <span class="form--text-field-container">
               <input class="form--text-field"
                 id="user_name" name="user[name]" title="Name" type="text"
                 value="JJ Abrams" />
             </span>
-            <span class="form--field-affix"><span style="color:green">SUFFIX</span></span>
+            <span class="form--field-affix" aria-hidden="true"><span style="color:green">SUFFIX</span></span>
           }).within_path('span.form--field-container')
         end
       end
