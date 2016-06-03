@@ -1,17 +1,16 @@
 <span class="inplace-edit--read-value--container">
-  <span class="hidden-for-sighted"
-        ng-attr-id="{{$ctrl.labelId}}">
-    {{ ::$ctrl.label }} {{ $ctrl.displayText }}
-  </span>
-  <span class="wp-table--cell-span inplace-edit--read-value--value"
-        ng-switch="$ctrl.displayType"
+
+  <span class="hidden-for-sighted __d__hidden-for-sighted"></span>
+
+  <span class="wp-table--cell-span inplace-edit--read-value--value __d__cell"
         ng-click="$ctrl.activateIfEditable($event)"
         data-click-on-keypress="[13, 32]"
-        focus="$ctrl.shouldFocus()"
-        ng-attr-tabindex="{{$ctrl.isEditable() ? '0' : '-1'}}"
-        ng-class="{ '-placeholder' : $ctrl.isEmpty }"
-        aria-labelledby="{{$ctrl.labelId}}">
+        focus="$ctrl.shouldFocus()">
 
-    <ng-include src="$ctrl.field.template"></ng-include>
+    <span class="__d__renderer">
+      <ng-include ng-if="::!$ctrl.field.isManualRenderer"
+                  src="::$ctrl.field.template"></ng-include>
+    </span>
+
   </span>
 </span>

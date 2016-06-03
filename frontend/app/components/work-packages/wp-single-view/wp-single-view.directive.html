@@ -16,12 +16,8 @@
     <div
         wp-edit-field="'description'"
         wp-edit-field-wrapper-classes="'-no-label'"
+        display-placeholder="$ctrl.I18n.t('js.work_packages.placeholders.description')"
         class="single-attribute wiki">
-      <wp-display-attr
-          work-package="$ctrl.workPackage"
-          attribute="'description'"
-          placeholder="$ctrl.I18n.t('js.work_packages.placeholders.description')">
-      </wp-display-attr>
     </div>
   </div>
 
@@ -62,11 +58,6 @@
           wp-edit-field-label="$ctrl.singleViewWp.getLabel(field)"
           wp-edit-field-wrapper-classes="'-small'"
           class="attributes-key-value--value-container">
-        <wp-display-attr
-            work-package="$ctrl.workPackage"
-            attribute="field"
-            label="$ctrl.singleViewWp.getLabel(field)">
-        </wp-display-attr>
       </div>
 
       <div
@@ -95,29 +86,16 @@
         <div
             wp-edit-field="field.fields[0]"
             wp-edit-field-label="$ctrl.singleViewWp.getLabel(field.fields[0])"
-            wp-edit-field-wrapper-classes="'-small -shrink'">
-
-          <wp-display-attr
-              work-package="$ctrl.workPackage"
-              attribute="field.fields[0]"
-              placeholder="::$ctrl.text.fields[field.label][field.fields[0]]"
-              label="$ctrl.singleViewWp.getLabel(field.fields[0])">
-          </wp-display-attr>
-        </div>
+            wp-edit-field-wrapper-classes="'-small -shrink'"
+            display-placeholder="::$ctrl.text.fields[field.label][field.fields[0]]">
 
         <span class="attributes-key-value--value-separator"></span>
 
         <div
             wp-edit-field="field.fields[1]"
             wp-edit-field-label="$ctrl.singleViewWp.getLabel(field.fields[1])"
-            wp-edit-field-wrapper-classes="'-small -shrink'">
-
-          <wp-display-attr
-              work-package="$ctrl.workPackage"
-              attribute="field.fields[1]"
-              placeholder="::$ctrl.text.fields[field.label][field.fields[1]]"
-              label="$ctrl.singleViewWp.getLabel(field.fields[1])">
-          </wp-display-attr>
+            wp-edit-field-wrapper-classes="'-small -shrink'"
+            display-placeholder="::$ctrl.text.fields[field.label][field.fields[1]]">
         </div>
       </div>
     </div>

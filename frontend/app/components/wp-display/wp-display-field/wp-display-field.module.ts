@@ -26,18 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
-import {Field} from '../../wp-field/wp-field.module'
-import {FieldFactory} from '../../wp-field/wp-field.module'
+import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
+import {Field, FieldFactory} from "../../wp-field/wp-field.module";
+import {WorkPackageDisplayAttributeController} from "../../work-packages/wp-display-attr/wp-display-attr.directive";
 
-export class DisplayField extends Field{
-  public static type:string;
-  public static $injector:ng.auto.IInjectorService;
-  public template:string = '/components/wp-display/field-types/wp-display-default-field.directive.html'
-  public I18n:op.I18n;
+export class DisplayField extends Field {
+
+  public isManualRenderer: boolean = false;
+  public static type: string;
+  public static $injector: ng.auto.IInjectorService;
+  public template: string = null;
+  public I18n: op.I18n;
 
   public get value() {
-    if(this.schema) {
+    if (this.schema) {
       return this.resource[this.name];
     }
     else {
@@ -45,32 +47,37 @@ export class DisplayField extends Field{
     }
   }
 
-  public get type():string {
+  public get type(): string {
     return (this.constructor as typeof DisplayField).type;
   }
 
-  public get required():boolean {
+  public get required(): boolean {
     return this.schema.required;
   }
 
-  public isEmpty():boolean {
+  public isEmpty(): boolean {
     return !this.value;
   }
 
-  public get placeholder():string {
+  public get placeholder(): string {
     return this.I18n.t('js.work_packages.placeholders.default');
   }
 
-  public get valueString():string {
+  public get valueString(): string {
     return this.value;
   }
 
-  protected get $injector():ng.auto.IInjectorService {
+  protected get $injector(): ng.auto.IInjectorService {
     return (this.constructor as typeof DisplayField).$injector;
   }
 
-  constructor(public resource:HalResource,
-              public name:string,
+  public render(element: JQuery, fieldDisplay: WorkPackageDisplayAttributeController): void {
+    element.attr("title", fieldDisplay.displayText);
+    element.text(fieldDisplay.displayText);
+  }
+
+  constructor(public resource: HalResource,
+              public name: string,
               public schema) {
     super(resource, name, schema);
 
@@ -83,9 +90,9 @@ export class DisplayFieldFactory extends FieldFactory {
   protected static fields = {};
   protected static classes = {};
 
-  public static create(workPackage:HalResource,
-                       fieldName:string,
-                       schema:op.FieldSchema):DisplayField {
+  public static create(workPackage: HalResource,
+                       fieldName: string,
+                       schema: op.FieldSchema): DisplayField {
     let type = DisplayFieldFactory.getSpecificType(fieldName) ||
       schema && DisplayFieldFactory.getType(schema.type) ||
       DisplayFieldFactory.defaultType;
@@ -94,7 +101,7 @@ export class DisplayFieldFactory extends FieldFactory {
     return <DisplayField>(new fieldClass(workPackage, fieldName, schema));
   }
 
-  protected static getSpecificType(type:string):string {
+  protected static getSpecificType(type: string): string {
     let fields = DisplayFieldFactory.fields;
 
     return fields[type];

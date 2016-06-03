@@ -94,7 +94,7 @@
         <!-- Work package rows -->
 
         <tr wp-row
-            id="work-package-{{ row.object.id }}"
+            id="work-package-{{ ::row.object.id }}"
             class="wp--row"
             has-dropdown-menu
             trigger-on-event="contextmenu"
@@ -123,14 +123,14 @@
             <accessible-checkbox name="ids[]"
                                  checkbox-id="work_package{{row.object.id}}"
                                  checkbox-value="row.object.id"
-                                 checkbox-title="{{checkboxTitle}}"
+                                 checkbox-title="{{::checkboxTitle}}"
                                  model="row.checked">
             </accessible-checkbox>
             <span>
               <a class="wp-table--details-link"
                  ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})">
                 <i class="icon icon-view-split"></i>
-                <span ng-bind="I18n.t('js.button_open_details')"/>
+                <span ng-bind="::I18n.t('js.button_open_details')"/>
               </a>
             </span>
           </td>
@@ -146,17 +146,14 @@
           </td>
 
           <td ng-repeat="column in columns"
-              lang="{{column.custom_field && column.custom_field.name_locale || locale}}"
-              wp-edit-field="getTableColumnName(row.object, column.name)"
+              lang="::{{column.custom_field && column.custom_field.name_locale || locale}}"
+              wp-edit-field="::getTableColumnName(row.object, column.name)"
               wp-edit-field-wrapper-classes="'-small -shrink'"
-              columns="columns"
-              field-index="$index"
+              display-classes="::[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']"
+              columns="::columns"
+              field-index="::$index"
               class="wp-table--cell"
-              ng-class="{ '-short': column.name == 'id' }">
-            <wp-display-attr attribute="getTableColumnName(row.object, column.name)"
-                   work-package="row.object"
-                   ng-class="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']">
-            </wp-display-attr>
+              ng-class="::{ '-short': column.name == 'id' }">
           </td>
         </tr>
 
