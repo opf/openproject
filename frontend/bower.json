@@ -25,7 +25,7 @@
     "angular-busy": "~4.1.1",
     "hyperagent": "manwithtwowatches/hyperagent#v0.4.2",
     "lodash": "~2.4.1",
-    "foundation-apps": "1.1.0",
+    "foundation-apps": "1.2.0",
     "bourbon": "~4.2.1",
     "angular-ui-select": "~0.13.2",
     "mousetrap": "~1.4.6",
