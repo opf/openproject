@@ -29,19 +29,54 @@
 import {HalResource} from './hal-resource.service';
 import {opApiModule} from "../../../../angular-modules";
 import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
+import {ApiWorkPackagesService} from "../../api-work-packages/api-work-packages.service";
+import IQService = angular.IQService;
 
-var $q;
-var apiWorkPackages;
-var wpCacheService;
-var NotificationsService;
+interface WorkPackageResourceEmbedded {
+  activities:HalResource;
+  assignee:HalResource;
+  attachments:HalResource;
+  author:HalResource;
+  availableWatchers:HalResource;
+  category:HalResource;
+  children:HalResource[];
+  parent:HalResource;
+  priority:HalResource;
+  project:HalResource;
+  responsible:HalResource;
+  schema:HalResource;
+  status:HalResource;
+  timeEntries:HalResource[];
+  type:HalResource;
+  version:HalResource;
+  watchers:HalResource[];
+}
+
+interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
+  addAttachment(attachment:HalResource):ng.IPromise<any>;
+  addChild(child:HalResource):ng.IPromise<any>;
+  addComment(comment:HalResource):ng.IPromise<any>;
+  addRelation(relation:HalResource):ng.IPromise<any>;
+  addWatcher(watcher:HalResource):ng.IPromise<any>;
+  changeParent(newParent:WorkPackageResource):ng.IPromise<any>;
+  copy():ng.IPromise<WorkPackageResource>;
+  delete():ng.IPromise<any>;
+  logTime():ng.IPromise<any>;
+  move():ng.IPromise<any>;
+  removeWatcher():ng.IPromise<any>;
+  self():ng.IPromise<any>;
+  update():ng.IPromise<any>;
+  updateImmediately(payload:any):ng.IPromise<any>;
+  watch():ng.IPromise<any>;
+}
+
+var $q:IQService;
+var apiWorkPackages:ApiWorkPackagesService;
+var wpCacheService:WorkPackageCacheService;
+var NotificationsService:any;
 
 export class WorkPackageResource extends HalResource {
-  private form;
-  public schema;
-  public id;
-  public $pristine: { [attribute: string]: any } = {};
-
-  public static fromCreateForm(form: op.WorkPackageForm) {
+  public static fromCreateForm(form) {
     var wp = new WorkPackageResource(form.payload.$plain(), true);
 
     // Copy resources from form response
@@ -51,12 +86,54 @@ export class WorkPackageResource extends HalResource {
 
     // Set update link to form
     wp.$links.update = form.$links.self;
+
     return wp;
   }
 
+  public $embedded:WorkPackageResourceEmbedded;
+  public $links:WorkPackageResourceLinks;
+  public id:number|string;
+  public schema;
+  public $pristine:{ [attribute:string]:any } = {};
+
+  private form;
+
   public get isNew():boolean {
-    var id = Number(this.id);
-    return isNaN(id);
+    return isNaN(Number(this.id));
+  }
+
+  /**
+   * Returns true if any field is in edition in this resource.
+   */
+  public get dirty():boolean {
+    return this.modifiedFields.length > 0;
+  }
+
+  public get modifiedFields():string[] {
+    var modified = [];
+
+    angular.forEach(this.$pristine, (value, key) => {
+      var args = [this[key], value];
+
+      if (this[key] instanceof HalResource) {
+        args = args.map(arg => arg.$source);
+      }
+
+      if (!_.isEqual(...args)) {
+        modified.push(key);
+      }
+    });
+
+    return modified;
+  }
+
+  public get isLeaf():boolean {
+    var children = this.$links.children;
+    return !(children && children.length > 0);
+  }
+
+  public get isEditable():boolean {
+    return !!this.$links.update || this.isNew;
   }
 
   public requiredValueFor(fieldName):boolean {
@@ -64,20 +141,23 @@ export class WorkPackageResource extends HalResource {
 
     // The field schema may be undefined if a custom field
     // is used as a column, but not available for this type.
-    if (fieldSchema === undefined) {
+    if (angular.isUndefined(fieldSchema)) {
       return false;
     }
+
     return !this[fieldName] && fieldSchema.writable && fieldSchema.required;
   }
 
   public allowedValuesFor(field):ng.IPromise<HalResource[]> {
     var deferred = $q.defer();
+
     this.getForm().then(form => {
       const allowedValues = form.$embedded.schema[field].allowedValues;
 
       if (Array.isArray(allowedValues)) {
         deferred.resolve(allowedValues);
-      } else {
+      }
+      else {
         return allowedValues.$load().then(loadedValues => {
           deferred.resolve(loadedValues.elements);
         });
@@ -89,7 +169,7 @@ export class WorkPackageResource extends HalResource {
 
   public setAllowedValueFor(field, href) {
     this.allowedValuesFor(field).then(allowedValues => {
-      this[field] = _.find(allowedValues, (entry:any) => (entry.href === href));
+      this[field] = _.find(allowedValues, entry => entry.href === href);
     });
   }
 
@@ -99,6 +179,7 @@ export class WorkPackageResource extends HalResource {
         NotificationsService.addError(error.data.message);
       });
     }
+
     return this.form;
   }
 
@@ -110,7 +191,6 @@ export class WorkPackageResource extends HalResource {
     // and thus lacks the links the implementation depends upon.
     var oldForm = this.form;
     this.form = this.$links.update(payload);
-
     var deferred = $q.defer();
 
     this.form
@@ -149,81 +229,44 @@ export class WorkPackageResource extends HalResource {
 
     this.updateForm(this.$source)
       .then(form => {
-
-        // Merge attributes from form with resource
         var payload = this.mergeWithForm(form);
 
         this.saveResource(payload)
           .then(workPackage => {
             angular.extend(this, workPackage);
 
-            // Clear shadow copy
             this.$pristine = {};
 
             deferred.resolve(this);
-          }).catch((error) => {
+          })
+          .catch(error => {
             deferred.reject(error);
-          }).finally(() => {
-            // Update cache
+          })
+          .finally(() => {
             wpCacheService.updateWorkPackage(this);
-        });
+          });
       })
       .catch(deferred.reject);
 
     return deferred.promise;
   }
 
-  public storePristine(attribute) {
-    if (this.$pristine[attribute] !== undefined) {
+  public storePristine(attribute:string) {
+    if (angular.isDefined(this.$pristine[attribute])) {
       return;
     }
 
     this.$pristine[attribute] = angular.copy(this[attribute]);
   }
 
-  public restoreFromPristine(attribute) {
+  public restoreFromPristine(attribute:string) {
     if (this.$pristine[attribute]) {
       this[attribute] = this.$pristine[attribute];
     }
   }
 
-  /**
-   * Returns true if any field is in edition in this resource.
-   */
-  public get dirty():boolean {
-    return this.modifiedFields.length > 0;
-  }
-
-  public get modifiedFields():string[] {
-    var modified = [];
-    angular.forEach(this.$pristine, (value, key) => {
-      var equal;
-
-      if (this[key] instanceof HalResource) {
-        equal = _.isEqual(this[key].$source, value.$source);
-      } else {
-        equal = _.isEqual(this[key], value);
-      }
-
-      if (!equal) {
-        modified.push(key);
-      }
-    });
-
-    return modified;
-  }
-
-  public get isLeaf():boolean {
-    var children = this.$links.children;
-    return !(children && children.length > 0);
-  }
-
   public isParentOf(otherWorkPackage) {
     return otherWorkPackage.parent.$links.self.$link.href === this.$links.self.$link.href;
-  }
-
-  public get isEditable():boolean {
-    return !!this.$links.update || this.isNew;
   }
 
   protected saveResource(payload):ng.IPromise<any> {
@@ -241,16 +284,16 @@ export class WorkPackageResource extends HalResource {
     // Merge embedded properties from form payload
     // Do not use properties on this, since they may be incomplete
     // e.g., when switching to a type that requires a custom field.
-    angular.forEach(plainPayload, (_value, key) => {
-      if (typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
+    Object.keys(plainPayload).forEach(key => {
+      if (typeof(schema[key]) === 'object' && schema[key].writable === true) {
         plainPayload[key] = this[key];
       }
     });
 
     // Merged linked properties from form payload
-    angular.forEach(plainPayload._links, (_value, key) => {
-      if (typeof(schema[key]) === 'object' && schema[key]['writable'] === true) {
-        var value = this[key] === undefined ? null : this[key].href;
+    Object.keys(plainPayload._links).forEach(key => {
+      if (typeof(schema[key]) === 'object' && schema[key].writable === true) {
+        var value = angular.isUndefined(this[key]) ? null : this[key].href;
         plainPayload._links[key] = {href: value};
       }
     });
@@ -259,10 +302,7 @@ export class WorkPackageResource extends HalResource {
   }
 }
 
-function wpResource(_$q_:ng.IQService,
-                    _apiWorkPackages_,
-                    _wpCacheService_:WorkPackageCacheService,
-                    _NotificationsService_:any) {
+function wpResource(_$q_, _apiWorkPackages_, _wpCacheService_, _NotificationsService_) {
   $q = _$q_;
   apiWorkPackages = _apiWorkPackages_;
   wpCacheService = _wpCacheService_;
