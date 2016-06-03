@@ -21,7 +21,7 @@ pl:
         sprint:
           cannot_end_before_it_starts: Sprint nie może się skończyć przed swoim rozpoczęciem.
   backlogs:
-    add_new_story: Nowa Historia
+    add_new_story: Nowe Story
     any: którekolwiek
     backlog_settings: Ustawienia Backlogs
     burndown_graph: Wykres Burndown
@@ -47,7 +47,7 @@ pl:
     remaining_hours: Pozostałe godziny
     remaining_hours_ideal: Czas pozostały (idealny)
     show_burndown_chart: Burndown Chart
-    story: Historia
+    story: Story
     story_points: Historia Punktów
     story_points_ideal: Story Pointy (idealne)
     task: Zadanie
@@ -62,13 +62,13 @@ pl:
   backlogs_product_backlog: Backlog produktu
   backlogs_product_backlog_is_empty: Backlog produktu jest pusty
   backlogs_product_backlog_unsized: W górze backlogu produktu pozostają niesortowane historie
-  backlogs_sizing_inconsistent: Rozmiary historii różnią się ze swoimi estymacjami
+  backlogs_sizing_inconsistent: Rozmiary Story odbiegają różnią się ze swoimi estymatami
   backlogs_sprint_notes_missing: Zamknięte sprinty bez notatek retrospektywy/przeglądu
   backlogs_sprint_unestimated: Zamknięte bądź aktywne sprinty z nieestymowanymi historiami
   backlogs_sprint_unsized: Projekt ma historie w aktywnym lub niedawno zamkniętym sprintach, które nie były oszacowane
   backlogs_sprints: Sprinty
-  backlogs_story: Historia
-  backlogs_story_type: Typy historii
+  backlogs_story: Story
+  backlogs_story_type: Typy Story
   backlogs_task: Zadanie
   backlogs_task_type: Typ zadania
   backlogs_velocity_missing: Nie można obliczyć prędkości dla tego projektu
