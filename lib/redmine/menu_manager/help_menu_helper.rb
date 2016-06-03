@@ -57,9 +57,9 @@ module Redmine::MenuManager::HelpMenuHelper
 
   def render_onboarding(result)
     result << content_tag(:li) do
-                content_tag(:span, l('top_menu.getting_started'),
-                            class: 'drop-down--help-headline',
-                            title: l('top_menu.getting_started'))
+      content_tag(:span, l('top_menu.getting_started'),
+                  class: 'drop-down--help-headline',
+                  title: l('top_menu.getting_started'))
     end
     result << render_onboarding_menu_item
     result << content_tag(:hr, '', class: 'form--separator')
@@ -88,7 +88,6 @@ module Redmine::MenuManager::HelpMenuHelper
     result << static_link_item(:boards)
     result << static_link_item(:professional_support)
     result << content_tag(:hr, '', class: 'form--separator')
-
   end
 
   def render_additional_resources(result)
