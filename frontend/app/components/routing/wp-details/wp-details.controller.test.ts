@@ -26,7 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('WorkPackageDetailsController', function () {
+import {
+  opApiModule, opServicesModule, openprojectModule,
+  wpControllersModule
+} from "../../../angular-modules";
+
+describe('WorkPackageDetailsController', () => {
   var scope;
   var promise;
   var buildController, ctrl;
@@ -95,52 +100,50 @@ describe('WorkPackageDetailsController', function () {
       links: {
         self: {href: "it's a me, it's... you know..."},
         availableWatchers: {
-          fetch: function () {
+          fetch: () => {
             return {then: angular.noop};
           }
         },
         schema: {
-          fetch: function () {
+          fetch: () => {
             return {then: angular.noop};
           }
         }
       },
       link: {
         addWatcher: {
-          fetch: function () {
+          fetch: () => {
             return {then: angular.noop};
           }
         }
       }
     };
 
-  beforeEach(angular.mock.module('openproject.api', 'openproject.layout', 'openproject.services',
-    'openproject.workPackages.controllers', 'openproject.services'));
+  beforeEach(angular.mock.module(openprojectModule.name, opApiModule.name, 'openproject.layout',
+    wpControllersModule.name, opServicesModule.name));
 
   beforeEach(angular.mock.module('openproject.templates', function ($provide) {
     $provide.constant('ConfigurationService', {
       isTimezoneSet: sinon.stub().returns(false)
     });
-  }));
 
-  beforeEach(angular.mock.module('openproject.templates', function ($provide) {
-    var state = {
-      go: function () {
-        return false;
-      }
-    };
-    $provide.value('$state', state);
+    $provide.value('$state', {go: () => false});
     $provide.constant('$stateParams', stateParams);
   }));
 
-  beforeEach(inject(function ($rootScope, $controller, $timeout, $httpBackend, WorkPackageService, $q) {
+  beforeEach(angular.mock.inject(($rootScope,
+                                  $controller,
+                                  $timeout,
+                                  $q,
+                                  $httpBackend,
+                                  WorkPackageService) => {
     $httpBackend.when('GET', '/api/v3/work_packages/99').respond(workPackage);
 
-    WorkPackageService.getWorkPackage = function () {
+    WorkPackageService.getWorkPackage = () => {
       return $q.when(workPackage)
     };
 
-    buildController = function (done) {
+    buildController = () => {
       var testState = {
         params: {workPackageId: 99},
         current: {url: '/activity'}
@@ -152,7 +155,7 @@ describe('WorkPackageDetailsController', function () {
         $state: testState,
         I18n: I18n,
         ConfigurationService: {
-          commentsSortedInDescendingOrder: function () {
+          commentsSortedInDescendingOrder: () => {
             return false;
           }
         },
@@ -163,66 +166,65 @@ describe('WorkPackageDetailsController', function () {
 
       promise = scope.initializedWorkPackage;
     };
-
   }));
 
-  describe('initialisation', function () {
-    it('should initialise', function () {
+  describe('initialisation', () => {
+    it('should initialise', () => {
       return buildController();
     });
   });
 
-  describe('#scope.canViewWorkPackageWatchers', function () {
-    describe('when the work package does not contain the embedded watchers property', function () {
-      beforeEach(function () {
+  describe('#scope.canViewWorkPackageWatchers', () => {
+    describe('when the work package does not contain the embedded watchers property', () => {
+      beforeEach(() => {
         workPackage.embedded.watchers = undefined;
         buildController();
       });
 
-      it('returns false', function () {
-        expect(promise).to.eventually.be.fulfilled.then(function () {
+      it('returns false', () => {
+        expect(promise).to.eventually.be.fulfilled.then(() => {
           expect(scope.canViewWorkPackageWatchers()).to.be.false;
         });
       });
     });
 
-    describe('when the work package contains the embedded watchers property', function () {
-      beforeEach(function () {
+    describe('when the work package contains the embedded watchers property', () => {
+      beforeEach(() => {
         workPackage.embedded.watchers = [];
         return buildController();
       });
 
-      it('returns true', function () {
-        expect(promise).to.eventually.be.fulfilled.then(function () {
+      it('returns true', () => {
+        expect(promise).to.eventually.be.fulfilled.then(() => {
           expect(scope.canViewWorkPackageWatchers()).to.be.true;
         });
       });
     });
   });
 
-  describe('work package properties', function () {
-    describe('relations', function () {
-      beforeEach(function () {
+  describe('work package properties', () => {
+    describe('relations', () => {
+      beforeEach(() => {
         return buildController();
       });
 
-      it('Relation::Relates', function () {
-        expect(promise).to.eventually.be.fulfilled.then(function () {
+      it('Relation::Relates', () => {
+        expect(promise).to.eventually.be.fulfilled.then(() => {
           expect(scope.relatedTo).to.be.ok;
         });
       });
 
-      it('is the embedded type', function () {
-        expect(promise).to.eventually.be.fulfilled.then(function () {
+      it('is the embedded type', () => {
+        expect(promise).to.eventually.be.fulfilled.then(() => {
           expect(scope.type.props.name).to.eql('Milestone');
         });
       });
     });
   });
 
-  describe('showStaticPagePath', function () {
-    it('points to old show page', function () {
-      expect(promise).to.eventually.be.fulfilled.then(function () {
+  describe('showStaticPagePath', () => {
+    it('points to old show page', () => {
+      expect(promise).to.eventually.be.fulfilled.then(() => {
         expect(scope.showStaticPagePath).to.eql('/work_packages/99');
       });
     });
