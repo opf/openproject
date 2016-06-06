@@ -88,4 +88,4 @@ export class WorkPackageEditModeStateService {
 }
 
 
-openprojectModule.service('wpEditModeState', WorkPackageEditModeStateService)
+openprojectModule.service('wpEditModeState', WorkPackageEditModeStateService);

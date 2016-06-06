@@ -63,7 +63,11 @@
     <div class="work-packages--left-panel">
       <div class="work-packages--panel-inner">
         <wp-single-view></wp-single-view>
-        <edit-actions-bar></edit-actions-bar>
+        <edit-actions-bar
+            ng-show="wpEditModeState.active"
+            on-save="wpEditModeState.save()"
+            on-cancel="wpEditModeState.cancel()"
+        ></edit-actions-bar>
       </div>
     </div>
     <div class="work-packages--right-panel">

@@ -28,17 +28,19 @@
 
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
+
 angular
   .module('openproject.workPackages.controllers')
   .controller('WorkPackageDetailsController', WorkPackageDetailsController);
 
 function WorkPackageDetailsController($scope,
                                       $state,
-                                      I18n,
-                                      RELATION_TYPES,
-                                      RELATION_IDENTIFIERS,
                                       $q,
                                       $rootScope,
+                                      RELATION_TYPES,
+                                      RELATION_IDENTIFIERS,
+                                      I18n,
                                       WorkPackagesHelper,
                                       PathHelper,
                                       UsersHelper,
@@ -47,8 +49,10 @@ function WorkPackageDetailsController($scope,
                                       ChildrenRelationsHandler,
                                       ParentRelationsHandler,
                                       NotificationsService,
+                                      wpEditModeState:WorkPackageEditModeStateService,
                                       wpCacheService) {
 
+  $scope.wpEditModeState = wpEditModeState;
 
   // TODO This is an ugly hack since most of this controller relies on the old HALAPIResource.
   // We should move all that to the new WorkPackageResource.
