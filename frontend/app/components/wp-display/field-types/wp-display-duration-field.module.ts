@@ -30,11 +30,25 @@ import {DisplayField} from "../wp-display-field/wp-display-field.module";
 
 export class DurationDisplayField extends DisplayField {
 
+  private WorkPackagesHelper:any;
+  private TimezoneService:any;
+
   isManualRenderer = true;
 
-  public get valueString() {
-    const WorkPackagesHelper:any = this.$injector.get('WorkPackagesHelper');
+  constructor(public resource:HalResource,
+              public name:string,
+              public schema) {
+    super(resource, name, schema);
 
-    return WorkPackagesHelper.formatValue(this.value, 'Duration');
+    this.WorkPackagesHelper = this.$injector.get('WorkPackagesHelper');
+    this.TimezoneService = this.$injector.get('TimezoneService');
+  }
+
+  public get valueString() {
+    return this.WorkPackagesHelper.formatValue(this.value, 'Duration');
+  }
+
+  public isEmpty():boolean {
+    return this.TimezoneService.toHours(this.value) === 0;
   }
 }
