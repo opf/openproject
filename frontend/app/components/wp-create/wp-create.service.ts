@@ -31,24 +31,29 @@ import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-reso
 import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
 import {HalResource} from "../api/api-v3/hal-resources/hal-resource.service";
 import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
-import IQService = angular.IQService;
+import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 
 export class WorkPackageCreateService {
   protected form:HalResource;
   
   private _newWorkPackage:ng.IPromise<WorkPackageResource>;
   
-  constructor(protected $q:IQService,
+  constructor(protected $q:ng.IQService,
               protected WorkPackageResource:typeof WorkPackageResource,
               protected wpEditModeState:WorkPackageEditModeStateService,
+              protected wpCacheService:WorkPackageCacheService,
               protected apiWorkPackages:ApiWorkPackagesService) {
   }
 
   public createNewWorkPackage(projectIdentifier) {
     if (!this._newWorkPackage) {
       this._newWorkPackage = this.getForm(projectIdentifier).then(form => {
+        var wp = this.WorkPackageResource.fromCreateForm(form);
+
+        this.wpCacheService.updateWorkPackage(wp);
         this.wpEditModeState.start();
-        return this.WorkPackageResource.fromCreateForm(form);
+
+        return wp;
       });
     }
 

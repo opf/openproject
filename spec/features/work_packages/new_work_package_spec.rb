@@ -138,10 +138,10 @@ describe 'new work package', js: true do
           ids = custom_fields.map(&:id)
           cf1 = find(".customField#{ids.first} input")
           expect(cf1).not_to be_nil
-          expect(page).to have_select("customField#{ids.last}",
-                                      options: %w(- foo bar xyz))
 
-          select 'foo', from: "customField#{ids.last}"
+          expect(page).to have_selector(".customField#{ids.last} select")
+
+          find(".customField#{ids.last} option", text: 'foo').select_option
           save_work_package!(false)
           # Its a known bug that custom fields validation errors do not contain their names
           notification.expect_error("can't be blank.")

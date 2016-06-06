@@ -31,7 +31,7 @@ import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 
 export class WorkPackageSingleViewController {
-  public workPackage:WorkPackageResource | any;
+  public workPackage:any|WorkPackageResource;
   public singleViewWp;
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
@@ -55,6 +55,8 @@ export class WorkPackageSingleViewController {
               protected wpAttachments,
               protected SingleViewWorkPackage) {
 
+    var wpId = this.workPackage ? this.workPackage.id : $stateParams.workPackageId;
+    
     this.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
     this.text = {
       fields: {
@@ -65,14 +67,7 @@ export class WorkPackageSingleViewController {
       }
     };
 
-    if ($stateParams.workPackageId) {
-      scopedObservable($scope, wpCacheService.loadWorkPackage($stateParams.workPackageId)).subscribe(wp => {
-        this.init(wp);
-      });
-    }
-    else if (this.workPackage) {
-      this.init(this.workPackage);
-    }
+    scopedObservable($scope, wpCacheService.loadWorkPackage(wpId)).subscribe(wp => this.init(wp));
 
     $scope.$on('workPackageUpdatedInEditor', () => {
       NotificationsService.addSuccess({
