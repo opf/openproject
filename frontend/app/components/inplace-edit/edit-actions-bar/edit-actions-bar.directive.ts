@@ -32,7 +32,6 @@ export class EditActionsBarController {
   public text: Object;
 
   constructor(public wpEditModeState:WorkPackageEditModeStateService, I18n: op.I18n) {
-
     this.text = {
       save: I18n.t('js.button_save'),
       cancel: I18n.t('js.button_cancel')
