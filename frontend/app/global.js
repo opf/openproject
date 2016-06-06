@@ -76,6 +76,30 @@ require('restangular');
 
 require('rxjs');
 
+
+// ****
+// Foundation for apps js part
+// We should not load the pre-built js for foundation-apps meaning we cannot state
+//
+//  require('foundation-apps/dist/js/foundation-apps.js');
+//
+// We therefore have to require all of foundation's parts on our own.
+
+// js for the various parts of foundation-apps
+var requireComponents = require.context('foundation-apps/js/angular/components', true, /\.js$/);
+requireComponents.keys().forEach(requireComponents);
+var requireServices = require.context('foundation-apps/js/angular/services', true, /\.js$/);
+requireServices.keys().forEach(requireServices);
+
+// js for the foundation initialization
+require('foundation-apps/js/angular/foundation.js');
+
+// all of foundation's templates
+require('foundation-apps/dist/js/foundation-apps-templates.js');
+
+// foundation's css
+require('foundation-apps/dist/css/foundation-apps.css');
+
 // 'includes' is not a function in older versions of lodash, so we need to substitute
 // due to the update related to https://github.com/mgonto/restangular/issues/1314
 _.includes = _.includes || _.include || _.contains;
