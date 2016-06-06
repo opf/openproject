@@ -58,11 +58,12 @@ module ActiveModel
     # dependent on specific errors (which we use in the APIv3).
     # We therefore add a second information store containing pairs of [symbol, translated_message].
     def add_with_storing_error_symbols(attribute, message = :invalid, options = {})
+      error_symbol = options.fetch(:error_symbol) { message }
       add_without_storing_error_symbols(attribute, message, options)
 
       if store_new_symbols?
-        if message.is_a?(Symbol)
-          symbol = message
+        if error_symbol.is_a?(Symbol)
+          symbol = error_symbol
           partial_message = normalize_message(attribute, message, options)
           full_message = full_message(attribute, partial_message)
         else
@@ -70,7 +71,7 @@ module ActiveModel
           full_message = message
         end
 
-        writable_symbols_and_messages_for(attribute) << [symbol, full_message]
+        writable_symbols_and_messages_for(attribute) << [symbol, full_message, partial_message]
       end
     end
 
@@ -142,8 +143,8 @@ class Reform::Contract::Errors
     @store_new_symbols = true
 
     errors.keys.each do |attribute|
-      errors.symbols_and_messages_for(attribute).each do |symbol, message|
-        writable_symbols_and_messages_for(attribute) << [symbol, message]
+      errors.symbols_and_messages_for(attribute).each do |symbol, full_message, partial_message|
+        writable_symbols_and_messages_for(attribute) << [symbol, full_message, partial_message]
       end
     end
   end
