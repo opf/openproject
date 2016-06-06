@@ -126,7 +126,7 @@ function PathHelper() {
       return PathHelper.projectWorkPackagesPath(projectIdentifier) + '/details/' + workPackageId + '/copy';
     },
     workPackagesBulkDeletePath: function() {
-      return PathHelper.staticBase + PathHelper.workPackagesPath() + '/bulk';
+      return PathHelper.workPackagesPath() + '/bulk';
     },
     workPackagesBulkEditPath: function(workPackageIds) {
       var query = _.reduce(workPackageIds, function(idsString, id) {
