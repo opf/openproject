@@ -27,12 +27,6 @@
 //++
 
 angular.module('openproject.viewModels')
-  .factory('CommonRelationsHandler', [
-    '$timeout',
-    'WorkPackageService',
-    'ApiNotificationsService',
-    require('./common-relations-handler')
-  ])
   .factory('ChildrenRelationsHandler', [
     'CommonRelationsHandler',
     'WorkPackageService',

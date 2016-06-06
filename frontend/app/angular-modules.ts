@@ -50,7 +50,9 @@ angular
     'openproject.workPackages.config',
     'openproject.services'
   ]);
-angular.module('openproject.viewModels', ['openproject.services']);
+export const opViewModelsModule = angular.module('openproject.viewModels', [
+  'openproject.services'
+]);
 
 // timelines
 angular.module('openproject.timelines', [
