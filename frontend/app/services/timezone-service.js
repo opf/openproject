@@ -67,9 +67,12 @@ module.exports = function(ConfigurationService, I18n) {
         d.format(TimezoneService.getTimeFormat());
     },
 
+    toHours: function(durationString) {
+      return Number(moment.duration(durationString).asHours().toFixed(2));
+    },
+
     formattedDuration: function(durationString) {
-      var hours = Number(moment.duration(durationString).asHours().toFixed(2));
-      return I18n.t('js.units.hour', { count: hours });
+      return I18n.t('js.units.hour', { count: TimezoneService.toHours(durationString) });
     },
 
     formattedISODate: function(date) {

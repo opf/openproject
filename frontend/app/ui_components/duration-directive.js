@@ -39,7 +39,7 @@ module.exports = function($filter, TimezoneService) {
       });
 
       ngModelController.$formatters.push(function(value) {
-        return TimezoneService.formattedDuration(value);
+        return TimezoneService.toHours(value);
       });
     }
   };
