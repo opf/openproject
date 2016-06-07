@@ -27,13 +27,6 @@
 //++
 
 angular.module('openproject.viewModels')
-  .factory('ChildrenRelationsHandler', [
-    'CommonRelationsHandler',
-    'WorkPackageService',
-    'ApiNotificationsService',
-    '$state',
-    require('./children-relations-handler')
-  ])
   .factory('ParentRelationsHandler', [
     'CommonRelationsHandler',
     'WorkPackageService',

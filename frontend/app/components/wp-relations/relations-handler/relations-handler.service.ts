@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {opViewModelsModule} from "../../../angular-modules";
 
 var $timeout:ng.ITimeoutService;
@@ -37,7 +37,7 @@ export class RelationsHandler {
   public type:string = 'relation';
   public isSingletonRelation:boolean = false;
 
-  constructor(public workPackage:WorkPackageResource, public relations, public relationsId) {
+  constructor(public workPackage:WorkPackageResourceInterface, public relations, public relationsId) {
   }
 
   public isEmpty() {
