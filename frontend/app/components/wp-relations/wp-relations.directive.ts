@@ -53,12 +53,6 @@ function wpRelationsDirective(I18n, WorkPackagesHelper, $timeout) {
 
           scope.expand = scope.expand || !scope.handler.isEmpty();
           scope.relationsCount = scope.handler.getCount();
-
-          if (scope.handler.applyCustomExtensions) {
-            $timeout(function() {
-              scope.handler.applyCustomExtensions();
-            });
-          }
         }
       });
 

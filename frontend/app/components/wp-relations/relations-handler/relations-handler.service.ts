@@ -82,14 +82,6 @@ export class RelationsHandler {
     });
   }
 
-  public applyCustomExtensions() {
-    if (this.canAddRelation) {
-      var workPackage = this.workPackage;
-      var relationsId = this.relationsId;
-      var handler = this;
-    }
-  }
-
   public getRelatedWorkPackage(workPackage, relation) {
     var self = workPackage.links.self.href;
 

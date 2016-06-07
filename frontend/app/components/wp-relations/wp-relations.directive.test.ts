@@ -112,7 +112,6 @@ describe('Work Package Relations Directive', function () {
     relationsHandler.canAddRelation = sinon.stub();
     relationsHandler.canDeleteRelation = sinon.stub();
     relationsHandler.addRelation = sinon.stub();
-    relationsHandler.applyCustomExtensions = sinon.stub();
 
     relationsHandler.workPackage = workPackage1;
     relationsHandler.relationsId.returns('related');
