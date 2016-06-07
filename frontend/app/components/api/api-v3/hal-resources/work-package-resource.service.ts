@@ -33,23 +33,23 @@ import {ApiWorkPackagesService} from "../../api-work-packages/api-work-packages.
 import IQService = angular.IQService;
 
 interface WorkPackageResourceEmbedded {
-  activities:HalResource;
-  assignee:HalResource;
-  attachments:HalResource;
-  author:HalResource;
-  availableWatchers:HalResource;
-  category:HalResource;
-  children:HalResource[];
-  parent:HalResource;
-  priority:HalResource;
-  project:HalResource;
-  responsible:HalResource;
-  schema:HalResource;
-  status:HalResource;
-  timeEntries:HalResource[];
-  type:HalResource;
-  version:HalResource;
-  watchers:HalResource[];
+  activities:HalResource|any;
+  assignee:HalResource|any;
+  attachments:HalResource|any;
+  author:HalResource|any;
+  availableWatchers:HalResource|any;
+  category:HalResource|any;
+  children:HalResource[]|any;
+  parent:HalResource|any;
+  priority:HalResource|any;
+  project:HalResource|any;
+  responsible:HalResource|any;
+  schema:HalResource|any;
+  status:HalResource|any;
+  timeEntries:HalResource[]|any;
+  type:HalResource|any;
+  version:HalResource|any;
+  watchers:HalResource[]|any;
 }
 
 interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
@@ -300,6 +300,9 @@ export class WorkPackageResource extends HalResource {
 
     return plainPayload;
   }
+}
+
+export interface WorkPackageResourceInterface extends WorkPackageResourceLinks, WorkPackageResourceEmbedded, WorkPackageResource {
 }
 
 function wpResource(_$q_, _apiWorkPackages_, _wpCacheService_, _NotificationsService_) {
