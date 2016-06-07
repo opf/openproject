@@ -147,7 +147,7 @@ export class HalResource {
           const link = this.$links[linkName].$link || this.$links[linkName];
 
           if (Array.isArray(link)) {
-            return link.map(item => HalResource.fromLink(item));
+            return link.map(item => HalResource.fromLink(item.$link));
           }
 
           if (link.href) {
