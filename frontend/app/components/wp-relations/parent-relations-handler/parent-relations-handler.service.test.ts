@@ -26,58 +26,38 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+import {openprojectModule} from "../../../angular-modules";
+const expect = chai.expect;
 
-describe('ParentRelationsHandler', function() {
-  var ParentRelationsHandler,
-      relationsHandler,
-      workPackage;
+describe('ParentRelationsHandler', () => {
+  var ParentRelationsHandler;
+  var relationsHandler;
+  var workPackage;
 
-  beforeEach(angular.mock.module('openproject'));
+  beforeEach(angular.mock.module(openprojectModule.name));
 
-  beforeEach(inject(function($injector) {
-    ParentRelationsHandler = $injector.get('ParentRelationsHandler');
+  beforeEach(angular.mock.inject(_ParentRelationsHandler_ => {
+    ParentRelationsHandler = _ParentRelationsHandler_;
   }));
 
-  beforeEach(function() {
-    workPackage = {
-      links: {
-        delete: { href: 'deleteMeLink' },
-        update: { href: 'updateMeLink' },
-        log_time: { href: 'log_timeMeLink' },
-      },
-      props: {
-        id: 20
-      }
-    };
+  beforeEach(() => {
+    workPackage = {id: 20};
   });
 
-  describe('initializing', function() {
-    it('does not contain itself in relations', function() {
-      var relations = [{
-        props: {
-          id: 20
-        }
-      }];
+  describe('initializing', () => {
+    it('does not contain itself in relations', () => {
+      var relations = [{id:20}];
       relationsHandler = new ParentRelationsHandler(workPackage, relations, 'parent');
 
       expect(relationsHandler.relations.length).to.eq(0);
     });
 
-    it('does contains only parents not itself', function() {
-      var relations = [{
-        props: {
-          id: 20
-        }
-      }, {
-        props: {
-          id: 21
-        }
-      }];
+    it('does contains only parents not itself', () => {
+      var relations = [{id: 20}, {id: 21}];
       relationsHandler = new ParentRelationsHandler(workPackage, relations, 'parent');
 
       expect(relationsHandler.relations.length).to.eq(1);
-      expect(relationsHandler.relations[0].props.id).to.eq(21);
+      expect(relationsHandler.relations[0].id).to.eq(21);
     });
   });
 });

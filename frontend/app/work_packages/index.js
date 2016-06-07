@@ -35,4 +35,3 @@ require('./helpers');
 require('./models');
 require('./services');
 require('./tabs');
-require('./view_models');
