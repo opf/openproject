@@ -32,19 +32,12 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
 
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
-      var content;
-
-      if(CustomFieldHelper.isCustomFieldKey(option)){
-        var custom_field_id = CustomFieldHelper.getCustomFieldId(option);
-        content = WorkPackagesHelper.getRawCustomValue(object, custom_field_id);
-      } else {
-        content = object[option];
-      }
+      var content = object[option];
 
       switch(typeof(content)) {
         case 'object':
           if (content === null) { return ''; }
-          return content.name || content.subject || content.title || '';
+          return content.name || content.subject || content.title || content.value || '';
         case 'number':
           return content;
         default:
@@ -61,20 +54,6 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
         }
       } else {
         workPackage[attributeName] = data;
-      }
-    },
-
-    getRawCustomValue: function(object, customFieldId) {
-      if (!object.custom_values) { return null; }
-
-      var values = object.custom_values.filter(function(customValue){
-        return customValue && customValue.custom_field_id === customFieldId;
-      });
-
-      if (values && values.length) {
-        return values[0].value;
-      } else {
-        return '';
       }
     },
 

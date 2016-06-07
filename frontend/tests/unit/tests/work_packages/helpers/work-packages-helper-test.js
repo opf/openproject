@@ -85,34 +85,15 @@ describe('Work packages helper', function() {
       });
     });
 
-    describe('with a custom field', function() {
-      it('should return type string custom field', function() {
+    describe('with an object having a value', function() {
+      it('returns the value', function() {
         var object = {
-          custom_values: [ { custom_field_id: 1, value: 'custom field string'} ]
+          myObject: { value: 'the value' }
         };
 
-        expect(getRowObjectContent(object, 'cf_1')).to.equal('custom field string');
+        expect(getRowObjectContent(object, 'myObject')).to.equal('the value');
       });
-
-      it('should return type object custom field', function() {
-        var object = {
-          custom_values: [ { custom_field_id: 1, value: { name: 'name1' }} ]
-        };
-
-        expect(getRowObjectContent(object, 'cf_1')).to.equal('name1');
-      });
-
-      it('should handle missing data', function() {
-        var object = {
-          custom_values: [ { custom_field_id: 1, value: 'whatever'} ]
-        };
-
-        expect(getRowObjectContent(object, 'cf_2')).to.equal('');
-        expect(getRowObjectContent({}, 'cf_1')).to.equal('');
-      });
-
     });
-
   });
 
   describe('formatValue', function() {
