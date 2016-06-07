@@ -95,7 +95,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <td class="buttons">
                 <%= link_to('',
                     archive_project_path(project, status: params[:status]),
-                    data: { confirm: l(:text_are_you_sure) },
+                    data: { confirm: t('project.archive.are_you_sure', name: project.name) },
                     method: :put,
                     title: l(:button_archive),
                     class: 'icon icon-locked') if project.active? %>
