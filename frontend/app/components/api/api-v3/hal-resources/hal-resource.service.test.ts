@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {opApiModule, opServicesModule} from "../../../../angular-modules";
 const expect = chai.expect;
 
 describe('HalResource service', () => {
@@ -33,7 +34,7 @@ describe('HalResource service', () => {
   var $httpBackend:ng.IHttpBackendService;
   var NotificationsService;
 
-  beforeEach(angular.mock.module('openproject.api', 'openproject.services'));
+  beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
   beforeEach(angular.mock.inject((_HalResource_, _$httpBackend_, _NotificationsService_, apiV3) => {
     NotificationsService = _NotificationsService_;
     HalResource = _HalResource_;
@@ -48,6 +49,10 @@ describe('HalResource service', () => {
 
   it('should be instantiable using a default object', () => {
     expect(new HalResource().href).to.equal(null);
+  });
+
+  it('should return null for the href if it has no self link', () => {
+    expect(new HalResource({}).href).to.equal(null);
   });
 
   it('should set its source to _plain if _plain is a property of the source', () => {

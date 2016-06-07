@@ -73,7 +73,7 @@ export class ApiWorkPackagesService {
     return this.wpApiPath(projectIdentifier).one('available_projects').get();
   }
 
-  public wpApiPath(projectIdentifier?:any) {
+  public wpApiPath(projectIdentifier?:any):restangular.IElement {
     var parent;
 
     if (!!projectIdentifier) {
