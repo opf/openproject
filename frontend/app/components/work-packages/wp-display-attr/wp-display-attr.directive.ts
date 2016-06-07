@@ -41,7 +41,7 @@ export class WorkPackageDisplayAttributeController {
   public workPackage: any;
   public customSchema: HalResource;
   public field: DisplayField;
-  public label: string;
+  public labelOptional: string;
 
   private __d__hiddenForSighted: JQuery;
   private __d__cell: JQuery;
@@ -67,6 +67,12 @@ export class WorkPackageDisplayAttributeController {
 
   public get placeholder() {
     return this.placeholderOptional || (this.field && this.field.placeholder);
+  };
+
+  public get label() {
+    return this.labelOptional ||
+      (this.schema[this.attribute] && this.schema[this.attribute].name) ||
+      this.attribute;
   };
 
   public isEditable() {
@@ -154,7 +160,7 @@ function wpDisplayAttrDirective() {
       workPackage: '=',
       customSchema: '=?',
       attribute: '=',
-      label: '=',
+      labelOptional: '=label',
       placeholderOptional: '=placeholder'
     },
 
