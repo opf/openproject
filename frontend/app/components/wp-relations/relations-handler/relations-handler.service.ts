@@ -107,6 +107,8 @@ function relationsHandlerService(_$timeout_,
   $timeout = _$timeout_;
   WorkPackageService = _WorkPackageService_;
   ApiNotificationsService = _ApiNotificationsService_;
+
+  return RelationsHandler;
 }
 
 relationsHandlerService.$inject = ['$timeout', 'WorkPackageService', 'ApiNotificationsService'];
