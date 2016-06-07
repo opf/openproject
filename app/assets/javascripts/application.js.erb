@@ -87,14 +87,6 @@ jQuery(document).ready(function ($) {
       }
     }
   });
-
-  $(document).on('click', '#show_more_wp_properties', function(el){
-    $(this).find('.icon').toggleClass('icon-arrow-down2 icon-arrow-up2');
-    Effect.toggle("work_package_descr_fields", "appear", {duration:0.3});
-    enable_textarea_auto_completion(jQuery("#work_package_description"));
-
-    return false;
-  });
 });
 
 function checkAll(selector, checked) {
@@ -117,50 +109,6 @@ function setCheckboxesBySelector(checked, selector) {
   });
 }
 
-// TODO de-implement once table component has been used
-function setGroupRowStatus(el) {
-  var collapseExpandButton = jQuery(el);
-  var row = jQuery(el).closest("tr");
-  var isOpen = row.hasClass("open");
-  var toggleAllLink = row.find(".toggle-all");
-  var toggleAllLinkText = isOpen ? I18n.t('js.label_collapse_all') : I18n.t('js.label_expand_all');
-
-  collapseExpandButton.toggleClass("icon-minus2");
-  collapseExpandButton.toggleClass("icon-plus");
-  toggleAllLink.text(toggleAllLinkText);
-}
-
-// TODO de-implement once table component has been used
-function toggleRowGroup(el) {
-  var row = jQuery(el).closest("tr");
-
-  row.toggleClass("open closed");
-
-  setGroupRowStatus(el);
-
-  row.nextUntil("tr.group").each(function(index) {
-    jQuery(this).toggle();
-  });
-}
-
-// TODO de-implement once table component has been used
-function toggleAllRowGroups(el) {
-  var row = jQuery(el).closest("tr");
-  var collapseExpandButton = jQuery(row).find(".expander");
-  var isOpen = row.hasClass("open");
-
-  toggleRowGroup(collapseExpandButton);
-
-  row.siblings("tr.group").each(function(index) {
-    var currentGroupOpen = jQuery(this).hasClass("open");
-    var collapseExpandButton = jQuery(this).find(".expander");
-
-    if (isOpen == currentGroupOpen) {
-      toggleRowGroup(collapseExpandButton);
-    }
-  });
-}
-
 function hideFieldset(el) {
   var fieldset = Element.up(el, 'fieldset');
   fieldset.toggleClassName('collapsed');
@@ -176,15 +124,6 @@ function addFileField() {
   clone.writeAttribute('id', '');
   clone.innerHTML = clone.innerHTML.replace(/\[1\]/g, '['+ fileFieldCount + ']');
   $('attachments_fields').appendChild(clone);
-}
-
-function setPredecessorFieldsVisibility() {
-    relationType = $('relation_relation_type');
-    if (relationType && (relationType.value == "precedes" || relationType.value == "follows")) {
-        Element.show('predecessor_fields');
-    } else {
-        Element.hide('predecessor_fields');
-    }
 }
 
 function promptToRemote(text, param, url) {
