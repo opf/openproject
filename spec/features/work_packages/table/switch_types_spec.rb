@@ -70,6 +70,11 @@ describe 'Switching types in work package table', js: true do
     wp_table.expect_notification(
       message: 'Successful update. Click here to open this work package in fullscreen view.'
     )
+    # safegurards
+    wp_table.dismiss_notification!
+    wp_table.expect_no_notification(
+      message: 'Successful update. Click here to open this work package in fullscreen view.'
+    )
 
     # Switch type
     type_field.activate!
@@ -77,6 +82,12 @@ describe 'Switching types in work package table', js: true do
     type_field.save!
 
     wp_table.expect_notification(
+      type:    :error,
+      message: "#{cf_req_text.name} can't be blank."
+    )
+    # safegurards
+    wp_table.dismiss_notification!
+    wp_table.expect_no_notification(
       type:    :error,
       message: "#{cf_req_text.name} can't be blank."
     )
@@ -92,6 +103,11 @@ describe 'Switching types in work package table', js: true do
     wp_table.expect_notification(
       message: 'Successful update. Click here to open this work package in fullscreen view.'
     )
+    # safegurards
+    wp_table.dismiss_notification!
+    wp_table.expect_no_notification(
+      message: 'Successful update. Click here to open this work package in fullscreen view.'
+    )
 
     expect(text_field).not_to be_editable
 
@@ -100,6 +116,11 @@ describe 'Switching types in work package table', js: true do
     type_field.save!
 
     wp_table.expect_notification(
+      message: 'Successful update. Click here to open this work package in fullscreen view.'
+    )
+    # safegurards
+    wp_table.dismiss_notification!
+    wp_table.expect_no_notification(
       message: 'Successful update. Click here to open this work package in fullscreen view.'
     )
 
