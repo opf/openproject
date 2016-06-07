@@ -27,41 +27,33 @@
 // ++
 
 import {wpDirectivesModule} from "../../../angular-modules";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 
 export class RelationsPanelController {
-  public workPackage:WorkPackageResource;
+  public workPackage:WorkPackageResourceInterface;
 
-  constructor($q,
-              $scope,
+  constructor($scope,
               RELATION_TYPES,
               RELATION_IDENTIFIERS,
-              WorkPackagesHelper,
-              CommonRelationsHandler,
+              RelationsHandler,
               ChildRelationsHandler,
               ParentRelationsHandler) {
 
-    $q.all(WorkPackagesHelper.getParent(this.workPackage)).then(function (parents) {
-      $scope.wpParent = new ParentRelationsHandler(this.workPackage, parents, 'parent');
-    });
-
-    $q.all(WorkPackagesHelper.getChildren(this.workPackage)).then(function (children) {
-      $scope.wpChildren = new ChildRelationsHandler(this.workPackage, children);
-    });
-
-    var relationTypeIterator = (key) => {
-      $q.all(WorkPackagesHelper.getRelationsOfType(this.workPackage, RELATION_TYPES[key]))
-        .then(relations => {
-          $scope[key] = new CommonRelationsHandler(
-            this.workPackage, relations, RELATION_IDENTIFIERS[key]);
-        });
-    };
-
-    for (var key in RELATION_TYPES) {
-      if (RELATION_TYPES.hasOwnProperty(key)) {
-        relationTypeIterator(key);
-      }
+    if (this.workPackage.parent) {
+      this.workPackage.parent.$load().then(parent => {
+        $scope.wpParent = new ParentRelationsHandler(this.workPackage, parent, 'parent');
+      });
     }
+
+    if (this.workPackage.children) {
+      $scope.wpChildren = new ChildRelationsHandler(this.workPackage, this.workPackage.children);
+    }
+
+    angular.forEach(RELATION_TYPES, (type, identifier) => {
+      var relations = this.workPackage.relations.filter(relation => relation._type === type);
+      var relationId = RELATION_IDENTIFIERS[identifier];
+      $scope[identifier] = new RelationsHandler(this.workPackage, relations, relationId);
+    });
   }
 }
 

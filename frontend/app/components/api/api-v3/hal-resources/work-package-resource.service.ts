@@ -39,17 +39,18 @@ interface WorkPackageResourceEmbedded {
   author:HalResource|any;
   availableWatchers:HalResource|any;
   category:HalResource|any;
-  children:HalResource[]|any;
+  children:HalResource[]|any[];
   parent:HalResource|any;
   priority:HalResource|any;
   project:HalResource|any;
+  relations:HalResource[]|any[]
   responsible:HalResource|any;
   schema:HalResource|any;
   status:HalResource|any;
-  timeEntries:HalResource[]|any;
+  timeEntries:HalResource[]|any[];
   type:HalResource|any;
   version:HalResource|any;
-  watchers:HalResource[]|any;
+  watchers:HalResource[]|any[];
 }
 
 interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
