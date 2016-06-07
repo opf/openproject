@@ -26,20 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($filter) {
-  return {
-    restrict:'A',
-    require: 'ngModel',
-    link: function(scope, element, attrs, ngModelController) {
-      ngModelController.$parsers.push(function(data) {
-        if (data != '') {
-          return $filter('external2internalFloat')(data);
-        }
-      });
+function external2internalFloat($locale) {
+	return function(input) {
+    var decimalSep = $locale.NUMBER_FORMATS.DECIMAL_SEP;
+    var groupSep = $locale.NUMBER_FORMATS.GROUP_SEP;
 
-      ngModelController.$formatters.push(function(data) {
-        return $filter('internal2externalFloat')(data);
-      });
-    }
-  };
+    var ret = (input) ? input.toString()
+                             .trim()
+                             .replace(groupSep, '')
+                             .replace(decimalSep, '.')
+                      :
+                        null;
+
+    return parseFloat(ret);
+	};
 };
+
+angular
+  .module('openproject')
+  .filter('external2internalFloat', external2internalFloat);

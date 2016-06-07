@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($locale) {
+function internal2externalFloat($locale) {
 	return function(input) {
     if (input === null) {
       return '';
@@ -36,3 +36,7 @@ module.exports = function($locale) {
     }
 	};
 };
+
+angular
+  .module('openproject')
+  .filter('internal2externalFloat', internal2externalFloat);

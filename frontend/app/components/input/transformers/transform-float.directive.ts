@@ -26,16 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($filter) {
+function transformFloat($filter) {
   return {
     restrict:'A',
-    require: '^ngModel',
+    require: 'ngModel',
     link: function(scope, element, attrs, ngModelController) {
       ngModelController.$parsers.push(function(data) {
-        if (data === '') {
-          return null;
+        if (data != '') {
+          return $filter('external2internalFloat')(data);
         }
+      });
+
+      ngModelController.$formatters.push(function(data) {
+        return $filter('internal2externalFloat')(data);
       });
     }
   };
 };
+
+angular
+  .module('openproject')
+  .directive('transformFloatValue', transformFloat);
