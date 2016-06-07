@@ -62,7 +62,7 @@ pl:
   backlogs_product_backlog: Backlog produktu
   backlogs_product_backlog_is_empty: Backlog produktu jest pusty
   backlogs_product_backlog_unsized: W górze backlogu produktu pozostają niesortowane historie
-  backlogs_sizing_inconsistent: Rozmiary Story odbiegają różnią się ze swoimi estymatami
+  backlogs_sizing_inconsistent: Rozmiary Story różnią się ze swoimi estymatami
   backlogs_sprint_notes_missing: Zamknięte sprinty bez notatek retrospektywy/przeglądu
   backlogs_sprint_unestimated: Zamknięte bądź aktywne sprinty z nieestymowanymi historiami
   backlogs_sprint_unsized: Projekt ma historie w aktywnym lub niedawno zamkniętym sprintach, które nie były oszacowane
