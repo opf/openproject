@@ -27,10 +27,4 @@
 //++
 
 angular.module('openproject.workPackages.tabs')
-  .directive('panelExpander', require('./panel-expander-directive'))
-  .directive('relatedWorkPackageTableRow', [
-    'I18n',
-    'PathHelper',
-    'WorkPackagesHelper', require(
-      './related-work-package-table-row-directive')
-  ]);
+    .directive('panelExpander', require('./panel-expander-directive'));

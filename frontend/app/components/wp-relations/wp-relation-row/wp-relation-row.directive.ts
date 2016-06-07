@@ -26,20 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-module.exports = function(I18n, PathHelper, WorkPackagesHelper) {
+import {wpTabsModule} from "../../../angular-modules";
+
+function wpRelationRowDirective(PathHelper, WorkPackagesHelper) {
   return {
     restrict: 'A',
-    link: function(scope) {
-      scope.I18n = I18n;
+
+    link: (scope) => {
       scope.workPackagePath = PathHelper.workPackagePath;
       scope.userPath = PathHelper.userPath;
 
-      scope.handler.getRelatedWorkPackage(scope.workPackage, scope.relation).then(function(relatedWorkPackage){
-        scope.relatedWorkPackage = relatedWorkPackage;
-        scope.fullIdentifier = WorkPackagesHelper.getFullIdentifier(relatedWorkPackage);
-        scope.state = WorkPackagesHelper.getState(relatedWorkPackage);
-      });
+      scope.handler.getRelatedWorkPackage(scope.workPackage, scope.relation)
+        .then(relatedWorkPackage => {
+          scope.relatedWorkPackage = relatedWorkPackage;
+          scope.fullIdentifier = WorkPackagesHelper.getFullIdentifier(relatedWorkPackage);
+          scope.state = WorkPackagesHelper.getState(relatedWorkPackage);
+        });
     }
   };
-};
+}
+
+wpTabsModule.directive('wpRelationRow', wpRelationRowDirective);

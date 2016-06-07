@@ -25,7 +25,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr related-work-package-table-row
+            <tr wp-relation-row
                 ng-repeat="relation in handler.relations">
               <td focus="isFocused($index)">
                 <a title="{{ fullIdentifier }}" class="work_package" ng-class="state" href="{{ workPackagePath(relatedWorkPackage.props.id) }}">
