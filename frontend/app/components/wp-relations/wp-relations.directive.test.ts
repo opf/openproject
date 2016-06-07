@@ -28,9 +28,10 @@
 
 
 import {wpTabsModule, opApiModule} from "../../angular-modules";
+const expect = chai.expect;
 
 describe('Work Package Relations Directive', function () {
-  var I18n, PathHelper, WorkPackagesHelper, Ajax, compile, element, scope, ChildrenRelationsHandler, stateParams = {};
+  var I18n, PathHelper, WorkPackagesHelper, Ajax, compile, element, scope, ChildRelationsHandler, stateParams = {};
 
   beforeEach(angular.mock.module(
     wpTabsModule.name,
@@ -57,7 +58,7 @@ describe('Work Package Relations Directive', function () {
                               _I18n_,
                               _PathHelper_,
                               _WorkPackagesHelper_,
-                              _ChildrenRelationsHandler_) {
+                              _ChildRelationsHandler_) {
     scope = $rootScope.$new();
 
     compile = function (html) {
@@ -66,7 +67,7 @@ describe('Work Package Relations Directive', function () {
     };
 
     I18n = _I18n_;
-    ChildrenRelationsHandler = _ChildrenRelationsHandler_;
+    ChildRelationsHandler = _ChildRelationsHandler_;
     PathHelper = _PathHelper_;
     WorkPackagesHelper = _WorkPackagesHelper_;
 
@@ -129,7 +130,7 @@ describe('Work Package Relations Directive', function () {
     return relationsHandler;
   };
 
-  beforeEach(inject(function ($q, $timeout) {
+  beforeEach(angular.mock.inject(function ($q, $timeout) {
     workPackage1 = {
       props: {
         id: "1",
@@ -152,7 +153,9 @@ describe('Work Package Relations Directive', function () {
         self: {href: "/work_packages/1"},
         addChild: {href: "/add_children_href"},
         addRelation: {href: "/work_packages/1/relations"}
-      }
+      },
+      addChild: {href: "/add_children_href"},
+      addRelation: {href: "/work_packages/1/relations"}
     };
     workPackage2 = {
       props: {
@@ -365,17 +368,17 @@ describe('Work Package Relations Directive', function () {
   describe('children relation', function () {
     context('add child link present', function () {
       beforeEach(function () {
-        scope.relations = new ChildrenRelationsHandler(workPackage1, []);
+        scope.relations = new ChildRelationsHandler(workPackage1, []);
         compile(html);
       });
       it('"add child" button should be present', function () {
-        expect(angular.element(element.find('.add-work-package-child-button')).length).to.eql(1);
+        expect(element.find('.add-work-package-child-button').length).to.eq(1);
       });
     });
 
     context('add child link missing', function () {
       beforeEach(function () {
-        scope.relations = new ChildrenRelationsHandler(workPackage2, []);
+        scope.relations = new ChildRelationsHandler(workPackage2, []);
         compile(html);
       });
       it('"add child" button should be missing', function () {

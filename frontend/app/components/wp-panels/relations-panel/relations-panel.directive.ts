@@ -38,7 +38,7 @@ export class RelationsPanelController {
               RELATION_IDENTIFIERS,
               WorkPackagesHelper,
               CommonRelationsHandler,
-              ChildrenRelationsHandler,
+              ChildRelationsHandler,
               ParentRelationsHandler) {
 
     $q.all(WorkPackagesHelper.getParent(this.workPackage)).then(function (parents) {
@@ -46,7 +46,7 @@ export class RelationsPanelController {
     });
 
     $q.all(WorkPackagesHelper.getChildren(this.workPackage)).then(function (children) {
-      $scope.wpChildren = new ChildrenRelationsHandler(this.workPackage, children);
+      $scope.wpChildren = new ChildRelationsHandler(this.workPackage, children);
     });
 
     var relationTypeIterator = (key) => {
