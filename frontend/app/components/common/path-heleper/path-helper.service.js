@@ -217,6 +217,11 @@ function PathHelper() {
       return PathHelper.apiWorkPackagesPath() + '/column_sums';
     },
 
+    // API V2
+    apiV2ProjectsPath: function() {
+      return PathHelper.apiV2 + '/projects';
+    },
+
     // API V3
     apiConfigurationPath: function() {
       return PathHelper.apiV3 + '/configuration';
