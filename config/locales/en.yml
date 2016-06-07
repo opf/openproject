@@ -345,6 +345,7 @@ en:
         priority: "Priority"
         progress: "Progress (%)"
         responsible: "Responsible"
+        spent_hours: "Spent time"
         spent_time: "Spent time"
         subproject: "Subproject"
         time_entries: "Log time"
