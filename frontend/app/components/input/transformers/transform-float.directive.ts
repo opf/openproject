@@ -26,18 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($locale) {
-	return function(input) {
-    var decimalSep = $locale.NUMBER_FORMATS.DECIMAL_SEP;
-    var groupSep = $locale.NUMBER_FORMATS.GROUP_SEP;
+function transformFloat($filter) {
+  return {
+    restrict:'A',
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModelController) {
+      ngModelController.$parsers.push(function(data) {
+        if (data != '') {
+          return $filter('external2internalFloat')(data);
+        }
+      });
 
-    var ret = (input) ? input.toString()
-                             .trim()
-                             .replace(groupSep, '')
-                             .replace(decimalSep, '.')
-                      :
-                        null;
-
-    return parseFloat(ret, 10);
-	};
+      ngModelController.$formatters.push(function(data) {
+        return $filter('internal2externalFloat')(data);
+      });
+    }
+  };
 };
+
+angular
+  .module('openproject')
+  .directive('transformFloatValue', transformFloat);

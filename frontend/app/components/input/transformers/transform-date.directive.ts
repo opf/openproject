@@ -26,13 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($locale) {
-	return function(input) {
-    if (input === null) {
-      return '';
+function transformDate() {
+  return {
+    restrict:'A',
+    require: '^ngModel',
+    link: function(scope, element, attrs, ngModelController) {
+      ngModelController.$parsers.push(function(data) {
+        if (data === '') {
+          return null;
+        } else {
+          return data;
+        }
+      });
     }
-    else {
-      return input.toLocaleString($locale.id, { useGrouping: false, maximumFractionDigits: 20 });
-    }
-	};
+  };
 };
+
+angular
+  .module('openproject')
+  .directive('transformDateValue', transformDate);

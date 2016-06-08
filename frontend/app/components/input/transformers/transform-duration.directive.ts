@@ -26,20 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($filter) {
+function transformDuration(TimezoneService) {
   return {
     restrict:'A',
     require: 'ngModel',
     link: function(scope, element, attrs, ngModelController) {
-      ngModelController.$parsers.push(function(data) {
-        if (data != '') {
-          return $filter('external2internalFloat')(data);
+      ngModelController.$parsers.push(function(value) {
+        if (!isNaN(value)) {
+          var minutes = Number(moment.duration(value, 'hours').asMinutes().toFixed(2));
+          return moment.duration(minutes, 'minutes');
         }
       });
 
-      ngModelController.$formatters.push(function(data) {
-        return $filter('internal2externalFloat')(data);
+      ngModelController.$formatters.push(function(value) {
+        return TimezoneService.toHours(value);
       });
     }
   };
 };
+
+angular
+  .module('openproject')
+  .directive('transformDurationValue', transformDuration);
