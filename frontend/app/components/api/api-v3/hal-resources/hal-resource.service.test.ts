@@ -32,13 +32,13 @@ const expect = chai.expect;
 describe('HalResource service', () => {
   var HalResource;
   var $httpBackend:ng.IHttpBackendService;
-  var NotificationsService;
+  var resource;
+  var source;
 
   beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
-  beforeEach(angular.mock.inject((_HalResource_, _$httpBackend_, _NotificationsService_, apiV3) => {
-    NotificationsService = _NotificationsService_;
-    HalResource = _HalResource_;
+  beforeEach(angular.mock.inject((_$httpBackend_, _HalResource_, apiV3) => {
     $httpBackend = _$httpBackend_;
+    HalResource = _HalResource_;
 
     apiV3.setDefaultHttpFields({cache: false});
   }));
@@ -56,22 +56,14 @@ describe('HalResource service', () => {
   });
 
   it('should set its source to _plain if _plain is a property of the source', () => {
-    let source = {
-      _plain: {
-        _links: {},
-        prop: true
-      }
-    };
-    let resource = new HalResource(source);
+    source = {_plain: {prop: true}};
+    resource = new HalResource(source);
 
     expect(resource.prop).to.exist;
   });
 
   describe('when creating the resource using fromLink', () => {
-    var resource;
-    var link = {
-      href: 'foo'
-    };
+    var link = {href: 'foo'};
 
     beforeEach(() => {
       resource = HalResource.fromLink(link);
@@ -83,12 +75,10 @@ describe('HalResource service', () => {
 
     it('should have the same self href as the link', () => {
       expect(resource.href).to.eq(link.href);
-      expect(resource.$links.self.$link.href).to.eq(link.href);
     });
   });
 
   describe('when after generating the lazy object', () => {
-    var resource;
     var linkFn = sinon.spy();
     var embeddedFn = sinon.spy();
 
@@ -101,7 +91,7 @@ describe('HalResource service', () => {
           }
         },
         _embedded: {
-          get res() {
+          get resource() {
             embeddedFn();
             return {};
           }
@@ -118,34 +108,39 @@ describe('HalResource service', () => {
     });
 
     it('should use the source link only once when called', () => {
-      resource.$links.link;
-      resource.$links.link;
+      resource.link;
+      resource.link;
       expect(linkFn.calledOnce).to.be.true;
     });
 
     it('should use the source embedded only once when called', () => {
-      resource.$embedded.res;
-      resource.$embedded.res;
+      resource.resource;
+      resource.resource;
       expect(embeddedFn.calledOnce).to.be.true;
     });
   });
 
-  describe('when the source has properties', () => {
-    var resource;
+  describe('when the source has properties, the resource', () => {
     beforeEach(() => {
-      resource = new HalResource({
+      source = {
         _links: {},
         _embedded: {},
         property: 'foo',
         obj: {
           foo: 'bar'
         }
-      });
+      };
+      resource = new HalResource(source);
     });
 
     it('should have the same properties', () => {
       expect(resource.property).to.exist;
       expect(resource.obj).to.exist;
+    });
+
+    it('should have properties with equal values', () => {
+      expect(resource.property).to.eq(source.property);
+      expect(resource.obj).to.eql(source.obj);
     });
 
     it('should not have the _links property', () => {
@@ -171,12 +166,57 @@ describe('HalResource service', () => {
     });
   });
 
-  describe('when transforming an object with _links', () => {
+  describe('when creating a resource from a source with a self link', () => {
+    beforeEach(() => {
+      source = {
+        _links: {
+          self: {
+            href: '/api/hello',
+            title: 'some title'
+          }
+        }
+      };
+      resource = new HalResource(source);
+    });
+
+    it('should have a name attribute that is equal to the title of the self link', () => {
+      expect(resource.name).to.eq('some title');
+    });
+
+    it('should have a writable name attribute', () => {
+      resource.name = 'some name';
+      expect(resource.name).to.eq('some name');
+    });
+
+    it('should have a href property that is the same as the self href', () => {
+      expect(resource.href).to.eq(resource.$links.self.$link.href);
+    });
+
+    it('should have a href property that is equal to the source href', () => {
+      expect(resource.href).to.eq(source._links.self.href);
+    });
+
+    it('should not have a self property', () => {
+      expect(resource.self).not.to.exist;
+    });
+  });
+
+  describe('when using $plain', () => {
     var plain;
-    var resource;
+    source = {hello: 'world'};
 
     beforeEach(() => {
-      plain = {
+      plain = new HalResource(source).$plain();
+    });
+
+    it('should return an object that is equal to the source', () => {
+      expect(plain).to.eql(source);
+    });
+  });
+
+  describe('when transforming an object with _links', () => {
+    beforeEach(() => {
+      source = {
         _type: 'Hello',
         _links: {
           post: {
@@ -205,53 +245,11 @@ describe('HalResource service', () => {
         }
       };
 
-      resource = new HalResource(plain);
-    });
-
-    it('should be transformed', () => {
-      expect(resource.$isHal).to.be.true;
-    });
-
-    it('should have a href property that is the same as the self href', () => {
-      expect(resource.href).to.eq(resource.$links.self.$link.href);
+      resource = new HalResource(source);
     });
 
     it('should return an empty $embedded object', () => {
       expect(resource.$embedded).to.eql({});
-    });
-
-    describe('when the self link has a title attribute', () => {
-      beforeEach(() => {
-        resource = new HalResource({
-          _links: {
-            self: {
-              href: '/api/hello',
-              title: 'some title'
-            }
-          }
-        });
-      });
-
-      it('should have a name attribute that is equal to the title of the self link', () => {
-        expect(resource.name).to.eq('some title');
-      });
-
-      it('should have a writable name attribute', () => {
-        resource.name = 'some name';
-        expect(resource.name).to.eq('some name');
-      });
-    });
-
-    //TODO: Fix
-    describe.skip('when returning back the plain object', () => {
-      var element;
-      beforeEach(() => {
-        element = resource.$plain();
-      });
-
-      it('should be the same as the source element', () => {
-        expect(element).to.eql(plain);
-      });
     });
 
     describe('when after the $links property is generated', () => {
@@ -275,7 +273,7 @@ describe('HalResource service', () => {
 
       it('should have a links property with the same keys as the original _links', () => {
         const transformedLinks = Object.keys(resource.$links);
-        const plainLinks = Object.keys(plain._links);
+        const plainLinks = Object.keys(source._links);
 
         expect(transformedLinks).to.have.members(plainLinks);
       });
@@ -283,11 +281,8 @@ describe('HalResource service', () => {
   });
 
   describe('when transforming an object with _embedded', () => {
-    var plain;
-    var resource;
-
     beforeEach(() => {
-      plain = {
+      source = {
         _type: 'Hello',
         _embedded: {
           resource: {
@@ -312,7 +307,7 @@ describe('HalResource service', () => {
         }
       };
 
-      resource = new HalResource(plain);
+      resource = new HalResource(source);
     });
 
     it('should return an empty $links object', () => {
@@ -368,62 +363,79 @@ describe('HalResource service', () => {
     });
   });
 
-  describe('when transforming an object with a links property that is an array', () => {
-    var resource;
-    var plain = {
-      _links: {
-        values: [
-          {href: '/api/value/1', title: 'some title'},
-          {href: '/api/value/2', title: 'some other title'}
-        ]
-      }
-    };
-
+  describe('when creating a resource from a source with a linked array property', () => {
     beforeEach(() => {
-      resource = new HalResource(plain);
-    });
-
-    it('should be an array of links in $links', () => {
-      expect(Array.isArray(resource.$links.values)).to.be.true;
-    });
-
-    it('should should be the same amount of items as the original', () => {
-      expect(resource.$links.values.length).to.eq(2);
-    });
-
-    it('should have made each link callable', () => {
-      expect(resource.$links.values[0]).to.not.throw(Error);
+      source = {
+        _links: {
+          values: [
+            {
+              href: '/api/value/1',
+              title: 'val1'
+            },
+            {
+              href: '/api/value/2',
+              title: 'val2'
+            }
+          ]
+        }
+      };
+      resource = new HalResource(source);
     });
 
     it('should be an array that is a property of the resource', () => {
-      expect(Array.isArray(resource.values)).to.be.true;
+      expect(resource).to.have.property('values').that.is.an('array');
     });
 
-    describe('when the array of resources is a property of the resource, each value', () => {
-      it('should be a HalResource', () => {
-        expect(resource.values[0].$isHal).to.be.true;
+    it('should should be the same amount of items as the original', () => {
+      expect(resource.values).to.have.lengthOf(2);
+    });
+
+    describe.skip('when adding resources to the array', () => {
+      beforeEach(() => {
+        resource.values.push(resource);
       });
 
-      it('should have the same href as the self link of the linked resource', () => {
-        expect(resource.values[0].href).to.eq(plain._links.values[0].href);
+      it('should update the source', () => {
+        expect(source._links.values).to.have.lengthOf(3);
       });
 
-      it('should have an equal name as the title of the linked resource', () => {
-        expect(resource.values[0].name).to.eq(plain._links.values[0].title);
+      it('should update the $source property', () => {
+        expect(resource.$source._links.values).to.have.lengthOf(3);
+      });
+
+      it('should ignore values that are no resources', () => {
+        resource.values.push('something');
+        expect(resource.values).to.have.lengthOf(3);
+      });
+    });
+
+    describe('when each value is transformed', () => {
+      beforeEach(() => {
+        resource = resource.values[0];
+        source = source._links.values[0];
+      });
+
+      it('should have made each link a resource', () => {
+        expect(resource.$isHal).to.be.true;
+      });
+
+      it('should be resources generated from the links', () => {
+        expect(resource.href).to.eq(source.href);
+      });
+
+      it('should have a name attribute equal to the title of its link', () => {
+        expect(resource.name).to.eq(source.title);
       });
 
       it('should not be loaded', () => {
-        expect(resource.values[0].$loaded).to.be.false;
+        expect(resource.$loaded).to.be.false;
       });
     });
   });
 
   describe('when transforming an object with an _embedded list with the list element having _links', () => {
-    var plain;
-    var resource;
-
     beforeEach(() => {
-      plain = {
+      source = {
         _type: 'Hello',
         _embedded: {
           elements: [
@@ -439,7 +451,7 @@ describe('HalResource service', () => {
         }
       };
 
-      resource = new HalResource(plain);
+      resource = new HalResource(source);
     });
 
     it('should not be restangularized', () => {
@@ -465,10 +477,8 @@ describe('HalResource service', () => {
   });
 
   describe('when transforming an object with _links and _embedded', () => {
-    var resource;
-
     beforeEach(() => {
-      const plain = {
+      source = {
         _links: {
           property: {
             href: '/api/property',
@@ -504,7 +514,7 @@ describe('HalResource service', () => {
         }
       };
 
-      resource = new HalResource(plain);
+      resource = new HalResource(source);
     });
 
     it('should be loaded', () => {
