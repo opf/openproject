@@ -49,26 +49,14 @@ export class HalResource {
     return {_links: {self: {href: null}}};
   }
 
-  public $isHal:boolean = true;
   public $self:ng.IPromise<HalResource>;
 
   private _name:string;
   private _$links:any;
-  private _$embedded:any;
-
-  public get name():string {
-    return this._name || this.$links.self.$link.title || '';
-  }
-
-  public set name(name:string) {
-    this._name = name;
-  }
-
-  public get href():string|void {
-    if (this.$links.self) {
-      return this.$links.self.$link.href;
-    }
-    return null;
+  private _$embedded:any;';
+  
+  public get $isHal():boolean {
+    return true;
   }
 
   public get $links() {
@@ -90,6 +78,21 @@ export class HalResource {
 
       return halTransform(element);
     });
+  }
+
+  public get name():string {
+    return this._name || this.$links.self.$link.title || '';
+  }
+
+  public set name(name:string) {
+    this._name = name;
+  }
+
+  public get href():string|void {
+    if (this.$links.self) {
+      return this.$links.self.$link.href;
+    }
+    return null;
   }
 
   constructor(public $source:any = HalResource.getEmptyResource(), public $loaded:boolean = true) {
@@ -199,7 +202,7 @@ export class HalResource {
   }
 }
 
-function halResource(_$q_, _lazy_, _halTransform_, _HalLink_) {
+function halResourceService(_$q_, _lazy_, _halTransform_, _HalLink_) {
   $q = _$q_;
   lazy = _lazy_;
   halTransform = _halTransform_;
@@ -208,4 +211,6 @@ function halResource(_$q_, _lazy_, _halTransform_, _HalLink_) {
   return HalResource;
 }
 
-opApiModule.factory('HalResource', ['$q', 'lazy', 'halTransform', 'HalLink', halResource]);
+halResourceService.$inject = ['$q', 'lazy', 'halTransform', 'HalLink'];
+
+opApiModule.factory('HalResource', halResourceService);
