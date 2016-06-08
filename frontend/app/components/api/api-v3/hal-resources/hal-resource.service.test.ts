@@ -291,8 +291,7 @@ describe('HalResource service', () => {
         _type: 'Hello',
         _embedded: {
           resource: {
-            _links: {
-            },
+            _links: {},
             _embedded: {
               first: {
                 _embedded: {
@@ -371,20 +370,17 @@ describe('HalResource service', () => {
 
   describe('when transforming an object with a links property that is an array', () => {
     var resource;
+    var plain = {
+      _links: {
+        values: [
+          {href: '/api/value/1', title: 'some title'},
+          {href: '/api/value/2', title: 'some other title'}
+        ]
+      }
+    };
 
     beforeEach(() => {
-      resource = new HalResource({
-        _links: {
-          values: [
-            {
-              href: '/api/value/1'
-            },
-            {
-              href: '/api/value/2'
-            }
-          ]
-        }
-      });
+      resource = new HalResource(plain);
     });
 
     it('should be an array of links in $links', () => {
@@ -402,6 +398,24 @@ describe('HalResource service', () => {
     it('should be an array that is a property of the resource', () => {
       expect(Array.isArray(resource.values)).to.be.true;
     });
+
+    describe('when the array of resources is a property of the resource, each value', () => {
+      it('should be a HalResource', () => {
+        expect(resource.values[0].$isHal).to.be.true;
+      });
+
+      it('should have the same href as the self link of the linked resource', () => {
+        expect(resource.values[0].href).to.eq(plain._links.values[0].href);
+      });
+
+      it('should have an equal name as the title of the linked resource', () => {
+        expect(resource.values[0].name).to.eq(plain._links.values[0].title);
+      });
+
+      it('should not be loaded', () => {
+        expect(resource.values[0].$loaded).to.be.false;
+      });
+    });
   });
 
   describe('when transforming an object with an _embedded list with the list element having _links', () => {
@@ -413,10 +427,12 @@ describe('HalResource service', () => {
         _type: 'Hello',
         _embedded: {
           elements: [
-            { _type: 'ListElement',
+            {
+              _type: 'ListElement',
               _links: {}
             },
-            { _type: 'ListElement',
+            {
+              _type: 'ListElement',
               _links: {}
             }
           ]
@@ -499,7 +515,8 @@ describe('HalResource service', () => {
       try {
         resource.$links.action = 'foo';
       }
-      catch (Error) {}
+      catch (Error) {
+      }
 
       expect(resource.$links.action).to.not.eq('foo');
     });
@@ -508,7 +525,8 @@ describe('HalResource service', () => {
       try {
         resource.$embedded.embedded = 'foo';
       }
-      catch (Error) {}
+      catch (Error) {
+      }
 
       expect(resource.$embedded.embedded).to.not.eq('foo');
     });
@@ -546,7 +564,7 @@ describe('HalResource service', () => {
 
         resource.embedded = embeddedResource;
       });
-      
+
       it('should update the source', () => {
         expect(resource.$source._links.embedded.href).to.eq('newHref');
       });
