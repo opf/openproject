@@ -66,7 +66,7 @@ module.exports = function(FocusHelper, ConfigurationService) {
   return {
     link: function(scope, element, attrs) {
       // Set initial focus only when not on accessibility mode
-      if (!ConfigurationService.accessibilityModeEnabled()) {
+      if (!ConfigurationService.accessibilityModeEnabled() || scope.$eval(attrs.focusForce)) {
         updateFocus(scope, element, attrs);
       }
 

@@ -10,7 +10,7 @@
       <label for="selected_columns" class="hidden-for-sighted">{{ ::vm.text.selectedColumns }}</label>
 
       <ui-select multiple sortable="true" ng-model="vm.selectedColumns" theme="select2"
-                 id="selected_columns" focus-on="columnsModalOpened"
+                 id="selected_columns" focus
                  aria-labelledby="column_multiselect_description" title="{{ ::vm.text.columnsLabel }}">
 
         <ui-select-match>{{ $item.title }}</ui-select-match>
@@ -42,9 +42,10 @@
             <input id="column-{{column.title}}"
                    type="checkbox"
                    title="{{ column.title }}"
-                   ng-attr-autofocus="{{ $first || undefined }}"
                    ng-model="vm.selectedColumnMap[column.name]"
-                   ng-change="vm.setSelectedColumn(column)"/>
+                   ng-change="vm.setSelectedColumn(column)"
+                   focus="$first"
+                   focus-force="true" />
           </div>
           {{column.title}}
         </label>
