@@ -27,7 +27,7 @@
 //++
 
 import {opApiModule} from "../../../../angular-modules";
-import {HalLink} from "../hal-link/hal-link.service";
+import {HalLink, HalLinkInterface} from "../hal-link/hal-link.service";
 
 var $q:ng.IQService;
 var lazy;
@@ -53,10 +53,14 @@ export class HalResource {
 
   private _name:string;
   private _$links:any;
-  private _$embedded:any;';
-  
+  private _$embedded:any;
+
   public get $isHal():boolean {
     return true;
+  }
+
+  public get $link():HalLinkInterface {
+    return this.$links.self.$link;
   }
 
   public get $links() {
@@ -81,22 +85,27 @@ export class HalResource {
   }
 
   public get name():string {
-    return this._name || this.$links.self.$link.title || '';
+    return this._name || this.$link.title || '';
   }
 
   public set name(name:string) {
     this._name = name;
   }
 
-  public get href():string|void {
-    if (this.$links.self) {
-      return this.$links.self.$link.href;
-    }
-    return null;
+  public get href():string {
+    return this.$link.href;
   }
 
   constructor(public $source:any = HalResource.getEmptyResource(), public $loaded:boolean = true) {
     this.$source = $source._plain || $source;
+
+    if (!this.$source._links) {
+      this.$source._links = {};
+    }
+    
+    if (!this.$source._links.self) {
+      this.$source._links.self = new HalLink();
+    }
 
     this.proxyProperties();
     this.setLinksAsProperties();
@@ -190,11 +199,11 @@ export class HalResource {
   }
 
   private setter(val, linkName) {
-    if (val && val.$isHal && val.$links && val.$links.self) {
-      const link = val.$links.self.$link;
+    if (val && val.$link) {
+      const link = val.$link;
 
-      if (link && link.href && link.method === 'get') {
-        this.$source._links[linkName] = val.$links.self.$link;
+      if (link.href && link.method === 'get') {
+        this.$source._links[linkName] = link;
       }
 
       return val;
