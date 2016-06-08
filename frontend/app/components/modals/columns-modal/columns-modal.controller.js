@@ -104,10 +104,12 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
   };
 
   vm.setSelectedColumn = function(column) {
-    if (vm.selectedColumnMap[column.name])
+    if (vm.selectedColumnMap[column.name]) {
       vm.selectedColumns.push(column);
-    else
-      _.remove(vm.selectedColumns, function(c) { c.name === column.name });
+    }
+    else {
+      _.remove(vm.selectedColumns, function(c) { return c.name === column.name; });
+    }
   };
 
   //hack to prevent dragging of close icons
