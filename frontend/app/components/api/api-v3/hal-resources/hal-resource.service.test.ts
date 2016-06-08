@@ -51,10 +51,6 @@ describe('HalResource service', () => {
     expect(new HalResource().href).to.equal(null);
   });
 
-  it('should return null for the href if it has no self link', () => {
-    expect(new HalResource({}).href).to.equal(null);
-  });
-
   it('should set its source to _plain if _plain is a property of the source', () => {
     source = {_plain: {prop: true}};
     resource = new HalResource(source);
@@ -214,6 +210,20 @@ describe('HalResource service', () => {
     });
   });
 
+  describe('when creating a resource with a source that has no links', () => {
+    beforeEach(() => {
+      resource = new HalResource({});
+    });
+
+    it('should return null for the href if it has no self link', () => {
+      expect(resource.href).to.equal(null);
+    });
+
+    it('should have a $link object with null href', () => {
+      expect(resource.$link.href).to.equal(null);
+    });
+  });
+
   describe('when transforming an object with _links', () => {
     beforeEach(() => {
       source = {
@@ -308,10 +318,6 @@ describe('HalResource service', () => {
       };
 
       resource = new HalResource(source);
-    });
-
-    it('should return an empty $links object', () => {
-      expect(resource.$links).to.eql({});
     });
 
     it('should not be restangularized', () => {
@@ -561,14 +567,9 @@ describe('HalResource service', () => {
       var embeddedResource;
       beforeEach(() => {
         embeddedResource = {
-          $isHal: true,
-          $links: {
-            self: {
-              $link: {
-                method: 'get',
-                href: 'newHref'
-              }
-            }
+          $link: {
+            method: 'get',
+            href: 'newHref'
           }
         };
 
