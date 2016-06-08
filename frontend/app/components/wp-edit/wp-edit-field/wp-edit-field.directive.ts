@@ -49,7 +49,7 @@ export class WorkPackageEditFieldController {
   protected _forceFocus: boolean = false;
 
   // Since we load the schema asynchronously
-  // all fields are initially viewed as editable until it is loaded
+  // all fields are initially viewed as uneditable until it is loaded
   protected _editable: boolean = false;
 
   constructor(protected wpEditField: WorkPackageEditFieldService,
@@ -142,7 +142,6 @@ export class WorkPackageEditFieldController {
 
   public set editable(enabled: boolean) {
     this._editable = enabled;
-    this.$element.toggleClass('-editable', !!enabled);
   }
 
   public shouldFocus() {
