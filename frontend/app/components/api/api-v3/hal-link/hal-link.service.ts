@@ -29,7 +29,14 @@
 var $q:ng.IQService;
 var apiV3:restangular.IService;
 
-export class HalLink {
+export interface HalLinkInterface {
+  href:string;
+  method:string;
+  title?:string;
+  templated?:boolean;
+}
+
+export class HalLink implements HalLinkInterface {
   public static fromObject(link):HalLink {
     return new HalLink(link.href, link.title, link.method, link.templated);
   }
