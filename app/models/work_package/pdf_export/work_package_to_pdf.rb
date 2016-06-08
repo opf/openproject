@@ -35,7 +35,6 @@ class WorkPackage::PdfExport::WorkPackageToPdf
 
   def initialize(work_package)
     self.work_package = work_package
-
     self.pdf = get_pdf(current_language)
   end
 
@@ -52,12 +51,22 @@ class WorkPackage::PdfExport::WorkPackageToPdf
   def make_attribute_row(first_attribute, second_attribute)
     [
       make_attribute_cells(
-        first_attribute, label_options: { borders: [:left], font_style: :bold },
-                         value_options: { borders: [] }
+        first_attribute,
+        label_options: {
+          borders: [:left], font_style: :bold, padding: cell_padding
+        },
+        value_options: {
+          borders: [], padding: cell_padding
+        }
       ),
       make_attribute_cells(
-        second_attribute, label_options: { borders: [:left], font_style: :bold },
-                          value_options: { borders: [:right] }
+        second_attribute,
+        label_options: {
+          borders: [:left], font_style: :bold, padding: cell_padding
+        },
+        value_options: {
+          borders: [:right], padding: cell_padding
+        }
       )
     ]
       .flatten
@@ -89,22 +98,18 @@ class WorkPackage::PdfExport::WorkPackageToPdf
 
   def make_custom_fields
     work_package.custom_field_values.map do |custom_value|
-      label = pdf.make_cell custom_value.custom_field.name + ':',
-                            borders: [:left], font_style: :bold
+      cf = custom_value.custom_field
+      name = cf.name || Array(cf.name_translations.first).last || '?'
+
+      label = pdf.make_cell "#{name}:",
+                            borders: [:left], font_style: :bold,
+                            padding: cell_padding
       value = pdf.make_cell show_value(custom_value),
                             colspan: 3,
-                            borders: [:right]
+                            borders: [:right],
+                            padding: cell_padding
       [label, value]
     end
-  end
-
-  def make_description
-    label = pdf.make_cell(WorkPackage.human_attribute_name(:description) + ':',
-                          borders: [:left, :bottom], font_style: :bold)
-    value = pdf.make_cell work_package.description.to_s,
-                          colspan: 3,
-                          borders: [:bottom, :right]
-    [[label, value]]
   end
 
   def show_changesets?
@@ -124,6 +129,10 @@ class WorkPackage::PdfExport::WorkPackageToPdf
     [0.2, 0.3, 0.2, 0.3].map do |factor|
       max_width * factor
     end
+  end
+
+  def description_colspan
+    3
   end
 
   def write_footers!
@@ -152,13 +161,43 @@ class WorkPackage::PdfExport::WorkPackageToPdf
     data.last.each { |cell| cell.borders << :bottom } # horizontal line after main attrs
 
     make_custom_fields.each { |row| data << row }
-    make_description.each { |row| data << row }
+
+    options = {
+      cell_options: { borders: [:right] }
+    }
+    segments = make_description(work_package.description.to_s, options)
+    segments.each_with_index do |seg, index|
+      data << make_description_row(seg,
+                                   first: index == 0,
+                                   last: index == segments.size - 1)
+    end
 
     pdf.font style: :normal, size: 9
+    pdf.table(data, column_widths: column_widths)
+  end
 
-    pdf.table(data, column_widths: column_widths) do
-      cells.padding = [2, 5, 2, 5]
+  def make_description_row(seg, first: false, last: false)
+    if first
+      label = make_description_label
+    else
+      label = make_empty_label
     end
+
+    if last
+      label.borders = [:left, :bottom]
+      seg.borders = [:bottom, :right]
+    end
+
+    [label, seg]
+  end
+
+  def make_description_label
+    text = WorkPackage.human_attribute_name(:description) + ':'
+    pdf.make_cell(text, borders: [:left], font_style: :bold, padding: cell_padding)
+  end
+
+  def make_empty_label
+    pdf.make_cell '', borders: [:left]
   end
 
   def write_changesets!
