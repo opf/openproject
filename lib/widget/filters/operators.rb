@@ -39,7 +39,7 @@ class Widget::Filters::Operators < Widget::Filters::Base
         end.join.html_safe
       end
       label1 = content_tag :label,
-                           h(filter_class.label) + ' ' + l(:label_operator),
+                           h(filter_class.label) + ' ' + l(:label_operator) + ' ' + I18n.t('js.filter.description.text_open_filter'),
                            for: "operators[#{filter_class.underscore_name}]",
                            class: 'hidden-for-sighted'
       label = content_tag :label do
