@@ -309,7 +309,9 @@ class Timeline < ActiveRecord::Base
 
   def selected_columns
     if options['columns'].present?
-      options['columns']
+      available = available_columns + custom_field_column_ids
+
+      options['columns'] & available
     else
       []
     end
@@ -423,5 +425,9 @@ class Timeline < ActiveRecord::Base
     yield
   ensure
     ActiveSupport.escape_html_entities_in_json = oldvalue
+  end
+
+  def custom_field_column_ids
+    custom_field_columns.map { |cf| cf[:id] }
   end
 end
