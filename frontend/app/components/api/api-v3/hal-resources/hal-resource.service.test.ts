@@ -396,7 +396,7 @@ describe('HalResource service', () => {
       expect(resource.values).to.have.lengthOf(2);
     });
 
-    describe.skip('when adding resources to the array', () => {
+    describe('when adding resources to the array', () => {
       beforeEach(() => {
         resource.values.push(resource);
       });
@@ -408,10 +408,33 @@ describe('HalResource service', () => {
       it('should update the $source property', () => {
         expect(resource.$source._links.values).to.have.lengthOf(3);
       });
+    });
 
-      it('should ignore values that are no resources', () => {
+    describe('when adding arbitrary values to the array', () => {
+      beforeEach(() => {
         resource.values.push('something');
-        expect(resource.values).to.have.lengthOf(3);
+      });
+
+      it('should not update the values', () => {
+        expect(resource.values).to.have.lengthOf(2);
+      });
+
+      it('should not update the values of the source', () => {
+        expect(source._links.values).to.have.lengthOf(2);
+      });
+    });
+
+    describe('when removing resources from the array', () => {
+      beforeEach(() => {
+        resource.values.pop();
+      });
+
+      it('should update the source', () => {
+        expect(source._links.values).to.have.lengthOf(1);
+      });
+
+      it('should update the $source property', () => {
+        expect(resource.$source._links.values).to.have.lengthOf(1);
       });
     });
 
