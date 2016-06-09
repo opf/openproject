@@ -73,7 +73,11 @@ const panels = {
 openprojectModule
   .config(($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) => {
 
-    $urlRouterProvider.when('/work_packages/', '/work_packages');
+    $urlRouterProvider.when('/work_packages/', '/work_packages')
+                      .when('/work_packages/{workPackageId:[0-9]+}?query_id&query_props', ($match, $state) => {
+                        $state.go('work-packages.show.activity', $match, { location: 'replace' });
+                        return true;
+                      });
     $urlMatcherFactoryProvider.strictMode(false);
 
     $stateProvider
@@ -130,12 +134,6 @@ openprojectModule
         // CSS.
         onEnter: ($state, $timeout) => {
           angular.element('body').addClass('action-show');
-
-          $timeout(() => {
-            if ($state.is('work-packages.show')) {
-              $state.go('work-packages.show.activity');
-            }
-          });
         },
 
         onExit: () => {
