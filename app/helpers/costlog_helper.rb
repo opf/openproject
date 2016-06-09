@@ -35,17 +35,12 @@ module CostlogHelper
       cost_types << selected_type
       cost_types.sort
     end
-    collection = []
-    collection << ["--- #{t(:actionview_instancetag_blank_option)} ---", ''] unless cost_types.detect(&:is_default?)
-    cost_types.each do |t| collection << [t.name, t.id] end
-    collection
+    cost_types.map { |t| [t.name, t.id] }
   end
 
   def user_collection_for_select_options(_options = {})
     users = @project.possible_assignees
-    collection = []
-    users.each do |u| collection << [u.name, u.id] end
-    collection
+    users.map { |t| [t.name, t.id] }
   end
 
   def extended_progress_bar(pcts, options = {})
