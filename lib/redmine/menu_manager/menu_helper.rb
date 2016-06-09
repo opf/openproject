@@ -85,7 +85,7 @@ module Redmine::MenuManager::MenuHelper
                   url,
                   param: :project_id,
                   caption: query_menu_item.title,
-                  Parent: :work_packages,
+                  parent: :work_packages,
                   html:    {
                     class: 'icon2 icon-pin query-menu-item',
                     'data-ui-route' => '',

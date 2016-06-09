@@ -43,9 +43,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   ##
   # Render the project menu items into the top menu
   def render_impaired_project_links
-    project_items.map do |item|
-      render_menu_node(item)
-    end.join(' ')
+    project_items.map { |item| render_menu_node(item) }.join(' ')
   end
 
   def render_projects_dropdown
@@ -64,7 +62,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   end
 
   def project_items
-    [ project_index_item, project_new_item ]
+    [project_index_item, project_new_item]
   end
 
   def project_index_item
@@ -90,11 +88,12 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   end
 
   def project_new_item
-    if User.current.impaired?
-      icon_class = 'icon5'
-    else
-      icon_class = 'icon4'
-    end
+    icon_class =
+      if User.current.impaired?
+        'icon5'
+      else
+        'icon4'
+      end
 
     Redmine::MenuManager::MenuItem.new(
       :new_project,

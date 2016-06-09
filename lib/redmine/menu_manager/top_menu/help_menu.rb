@@ -77,11 +77,11 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   end
 
   def render_help_and_support(result)
-    result << content_tag(:li) do
+    result << content_tag(:li) {
       content_tag :span, l('top_menu.help_and_support'),
                   class: 'drop-down--help-headline',
                   title: l('top_menu.help_and_support')
-    end
+    }
     result << static_link_item(:user_guides)
     result << static_link_item(:faq)
     result << content_tag(:li) {

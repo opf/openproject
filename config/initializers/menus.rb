@@ -36,6 +36,9 @@ Redmine::MenuManager.map :top_menu do |menu|
             html: { class: 'icon5 icon-star' },
             if: Proc.new { User.current.logged? }
 
+  # projects menu will be added by
+  # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
+
   menu.push :work_packages,
             { controller: '/work_packages', project_id: nil, action: 'index' },
             context: :modules,

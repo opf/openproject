@@ -66,7 +66,7 @@ module Redmine::MenuManager::TopMenuHelper
                    class: 'login',
                    title: l(:label_login)
 
-    render_menu_dropdown(link, dropdown_options: { class: 'drop-down last-child' }) do
+    render_menu_dropdown(link, menu_item_class: 'drop-down last-child') do
       render_login_partial
     end
   end
@@ -140,7 +140,7 @@ module Redmine::MenuManager::TopMenuHelper
   # Split the :top_menu into separate :main and :modules items
   def split_top_menu_into_main_or_more_menus
     @top_menu_split ||= begin
-      items = Hash.new{|h, k| h[k] = []}
+      items = Hash.new { |h, k| h[k] = [] }
       menu_items_for(:top_menu) do |item|
         if item.name == :help
           items[:help] = item

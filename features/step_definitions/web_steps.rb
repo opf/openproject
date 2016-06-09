@@ -362,6 +362,10 @@ Then /^there should be the disabled "(.+)" element$/ do |element|
   page.find(element)[:disabled].should == 'true'
 end
 
+Then /^the element "(.+)" should be invalid$/ do |element|
+  expect(page).to have_selector("#{element}:invalid")
+end
+
 # This needs an active js driver to work properly
 Given /^I (accept|dismiss) the alert dialog$/ do |method|
   if Capybara.current_driver.to_s.include?('selenium')
