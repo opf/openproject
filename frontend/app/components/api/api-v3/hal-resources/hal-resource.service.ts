@@ -28,6 +28,7 @@
 
 import {opApiModule} from "../../../../angular-modules";
 import {HalLink, HalLinkInterface} from "../hal-link/hal-link.service";
+import ObservableArray = require('observable-array');
 
 var $q:ng.IQService;
 var lazy;
@@ -102,7 +103,7 @@ export class HalResource {
     if (!this.$source._links) {
       this.$source._links = {};
     }
-    
+
     if (!this.$source._links.self) {
       this.$source._links.self = new HalLink();
     }
@@ -159,7 +160,18 @@ export class HalResource {
           const link = this.$links[linkName].$link || this.$links[linkName];
 
           if (Array.isArray(link)) {
-            return link.map(item => HalResource.fromLink(item.$link));
+            var items = link.map(item => HalResource.fromLink(item.$link));
+            var property:Array = new ObservableArray(...items).on('change', () => {
+              property.forEach(item => {
+                if (!item.$link) {
+                  property.splice(property.indexOf(item), 1);
+                }
+              });
+
+              this.$source._links[linkName] = property.map(item => item.$link);
+            });
+
+            return property;
           }
 
           if (link.href) {
