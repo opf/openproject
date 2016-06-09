@@ -56,7 +56,8 @@ module.exports = function(I18n) {
     templateUrl: '/templates/work_packages/watchers/watcher.html',
     link: workPackageWatcherController,
     scope: {
-      watcher: '='
+      watcher: '=',
+      allowedToRemove: '='
     }
   };
 };

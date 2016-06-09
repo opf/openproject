@@ -36,6 +36,8 @@ function WatchersPanelController($scope, wpWatchers) {
   var fetchWatchers = function(loading) {
     vm.error = false;
     vm.loading = angular.isUndefined(loading);
+    vm.allowedToAdd = !!vm.workPackage.links.addWatcher;
+    vm.allowedToRemove = !!vm.workPackage.links.removeWatcher;
 
     wpWatchers.forWorkPackage(vm.workPackage).then(function(users) {
       vm.watching = users.watching;
