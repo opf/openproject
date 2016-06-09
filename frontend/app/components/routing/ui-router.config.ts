@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
-import {openprojectModule} from "../../angular-modules";
+import {WorkPackageEditModeStateService} from '../wp-edit/wp-edit-mode-state.service';
+import {openprojectModule} from '../../angular-modules';
 
 const panels = {
   get overview() {
@@ -43,7 +43,7 @@ const panels = {
       url: '/watchers',
       reloadOnSearch: false,
       template: '<watchers-panel ng-if="workPackage" work-package="workPackage"></watchers-panel>'
-    }
+    };
   },
 
   get activity() {
@@ -51,7 +51,7 @@ const panels = {
       url: '/activity',
       reloadOnSearch: false,
       template: '<activity-panel ng-if="workPackage" work-package="workPackage"></activity-panel>'
-    }
+    };
   },
 
   get activityDetails() {
@@ -108,7 +108,7 @@ openprojectModule
         reloadOnSearch: false,
         templateUrl: '/components/routing/main/work-packages.new.html',
         onEnter: () => {
-          document.title = 'Copy Work Package - OpenProject'
+          document.title = 'Copy Work Package - OpenProject';
         }
       })
 
@@ -135,20 +135,8 @@ openprojectModule
             return WorkPackageService.getWorkPackage($stateParams.workPackageId);
           }
         },
-        // HACK
-        // This is to avoid problems with the css depending on which page the
-        // browser starts from (deep-link). As we have CSS rules that change the
-        // layout drastically when on the show action (e.g. position: relative)
-        // and this should not be applied to the other states, we need to remove
-        // the trigger used in the CSS. The correct fix would be to alter the
-        // CSS.
-        onEnter: ($state, $timeout) => {
-          angular.element('body').addClass('action-show');
-        },
-
-        onExit: () => {
-          angular.element('body').removeClass('action-show');
-        }
+        onEnter: () => angular.element('body').addClass('action-show'),
+        onExit: () => angular.element('body').removeClass('action-show')
       })
       .state('work-packages.show.edit', {
         url: '/edit',
@@ -174,19 +162,8 @@ openprojectModule
           projects: {value: null, squash: true}
         },
         reloadOnSearch: false,
-        // HACK
-        // This is to avoid problems with the css depending on which page the
-        // browser starts from (deep-link). As we have CSS rules that change the
-        // layout drastically when on the index action (e.g. position: absolute,
-        // heigt of footer, ...), and this should not be applied to the other
-        // states, we need to remove the trigger used in the CSS The correct fix
-        // would be to alter the CSS.
-        onEnter: () => {
-          angular.element('body').addClass('action-index');
-        },
-        onExit: () => {
-          angular.element('body').removeClass('action-index');
-        }
+        onEnter: () => angular.element('body').addClass('action-index'),
+        onExit: () => angular.element('body').removeClass('action-index')
       })
       .state('work-packages.list.new', {
         url: '/create_new?type&parent_id',
@@ -207,6 +184,8 @@ openprojectModule
         templateUrl: '/components/routing/wp-details/wp.list.details.html',
         controller: 'WorkPackageDetailsController',
         reloadOnSearch: false,
+        onEnter: () => angular.element('body').addClass('action-details'),
+        onExit: () => angular.element('body').removeClass('action-details')
       })
       .state('work-packages.list.details.overview', panels.overview)
       .state('work-packages.list.details.activity', panels.activity)
