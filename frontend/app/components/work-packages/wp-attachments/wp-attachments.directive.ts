@@ -28,131 +28,140 @@
 
 import {wpDirectivesModule} from "../../../angular-modules";
 
-function wpAttachmentsDirective(wpAttachments,
-                                NotificationsService,
-                                I18n,
-                                ConfigurationService,
-                                ConversionService) {
-  var editMode = function (attrs) {
-    return !angular.isUndefined(attrs.edit);
+export class WorkPackageAttachmentsController{
+  private editMode: boolean;
+  private currentlyFocussing;
+
+  public workPackage: any;
+
+  public test: string = "Hello World";
+
+  public attachments: Array = [];
+  public files: Array = [];
+  public fetchingConfiguration: boolean = false;
+  public loading: boolean = false;
+
+  public hasRightToUpload: boolean = true; // !!(workPackage.links.addAttachment || workPackage.isNew);
+  public I18n: any;
+  public rejectedFiles: Array = [];
+  public size: any;
+
+  public settings: Object = {
+    maximumFileSize: Number
   };
 
-  function WorkPackageAttachmentsController(scope, element, attrs) {
-    scope.files = [];
-    scope.element = element;
+  constructor(protected $scope,
+              protected $element,
+              protected $attrs,
+              protected wpAttachments,
+              protected NotificationsService,
+              protected I18n,
+              protected ConfigurationService,
+              protected ConversionService){
 
-    var workPackage = scope.workPackage(),
-      upload = function (event, workPackage) {
-        if (angular.isUndefined(scope.files)) {
-          return;
-        }
-        if (scope.files.length > 0) {
-          wpAttachments.upload(workPackage, scope.files).then(function () {
-            scope.files = [];
-            loadAttachments();
-          });
-        }
-      },
-      loadAttachments = function () {
-        if (!editMode(attrs)) {
-          return;
-        }
-        scope.loading = true;
-        wpAttachments.load(workPackage, true).then(function (attachments) {
-          scope.attachments = attachments;
-        }).finally(function () {
-          scope.loading = false;
-        });
-      };
+    this.workPackage = $scope.vm.workPackage();
+    this.editMode = $attrs.hasOwnProperty("edit");
+    this.I18n = I18n;
+    this.wpAttachments = wpAttachments;
 
-    scope.I18n = I18n;
-    scope.rejectedFiles = [];
-    scope.size = ConversionService.fileSize;
+    this.attachments = this.wpAttachments.getCurrentAttachments();
 
-    scope.hasRightToUpload = !!(workPackage.$links.addAttachment || workPackage.isNew);
-
-    var currentlyRemoving = [];
-    scope.remove = function (file) {
-      currentlyRemoving.push(file);
-      wpAttachments.remove(file).then(function (file) {
-        _.remove(scope.attachments, file);
-        _.remove(scope.files, file);
-      }).finally(function () {
-        _.remove(currentlyRemoving, file);
-      });
-    };
-
-    scope.deleting = function (attachment) {
-      return _.findIndex(currentlyRemoving, attachment) > -1;
-    };
-
-    var currentlyFocusing = null;
-
-    scope.focus = function (attachment) {
-      currentlyFocusing = attachment;
-    };
-
-    scope.focussing = function (attachment) {
-      return currentlyFocusing === attachment;
-    };
-
-    scope.$on('uploadPendingAttachments', upload);
-
-    scope.filterFiles = function (files) {
-      // Directories cannot be uploaded and as such, should not become files in
-      // the sense of this directive.  The files within the direcotories will
-      // be taken though.
-      _.remove(files, (file:any) => {
-        return file.type === 'directory';
-      });
-    };
-
-    scope.uploadFilteredFiles = function (files) {
-      scope.filterFiles(files);
-
-      scope.$emit('uploadPendingAttachments', workPackage);
-    };
-
-    scope.$watch('rejectedFiles', function (rejectedFiles) {
-      if (rejectedFiles.length === 0) {
-        return;
-      }
-      var errors = _.map(rejectedFiles, (file:any) => {
-          return file.name + ' (' + scope.size(file.size) + ')';
-        }),
-        message = I18n.t('js.label_rejected_files_reason',
-          {maximumFilesize: scope.size(scope.maximumFileSize)}
-        );
-      NotificationsService.addError(message, errors);
+    // TODO: why does `this.attachments = this.wpAttachments.getCurrentAttachments();` not bind properly
+    // to my Service??
+    // meanwhile i present an ultra ultra ugly hack that at least works..
+    this.$scope.$watch(() => { return this.wpAttachments.getCurrentAttachments()},(currentAttachments)=>{
+      this.attachments = currentAttachments;
     });
 
-    scope.fetchingConfiguration = true;
-    ConfigurationService.api().then(function (settings) {
-      scope.maximumFileSize = settings.maximumAttachmentFileSize;
-      // somehow, I18n cannot interpolate function results, so we need to cache this once
-      scope.maxFileSize = scope.size(settings.maximumAttachmentFileSize);
-      scope.fetchingConfiguration = false;
+    this.fetchingConfiguration = true;
+    ConfigurationService.api().then(settings => {
+      this.settings.maximumFileSize = settings.maximumAttachmentFileSize;
+      this.fetchingConfiguration = false;
     });
+    
+    this.loadAttachments();
 
-    loadAttachments();
   }
 
+  public upload = () => {
+    if (angular.isUndefined(this.files)) { return; }
+
+    if (this.workPackage.isNew) {
+      _.each(this.files, (file) => {
+        this.attachments.push(file);
+      });
+      return;
+    }
+
+    if (this.files.length > 0) {
+      this.wpAttachments.upload(this.workPackage, this.files).then(() => {
+        this.files = [];
+        this.attachments = [];
+        this.loadAttachments();
+      });
+    }
+  };
+
+  public loadAttachments = () => {
+    if (this.editMode) {
+      this.loading = true;
+      this.wpAttachments.load(this.workPackage, true).finally(() => {
+        this.loading = false;
+      });
+    }
+  };
+
+  public remove = (file) => {
+    if(this.workPackage.isNew){
+      _.remove(this.wpAttachments.attachments, file);
+    }else{
+      this.wpAttachments.remove(file).finally(function () {
+        //done
+      });
+    }
+  };
+
+  public focus = (attachment: any) => {
+    this.currentlyFocussing = attachment;
+  };
+
+  public focussing = (attachment: any) => {
+    return this.currentlyFocussing === attachment;
+  };
+
+  public filterFiles = (files) => {
+    // Directories cannot be uploaded and as such, should not become files in
+    // the sense of this directive.  The files within the directories will
+    // be taken though.
+    _.remove(files, (file:any) => {
+      return file.type === 'directory';
+    });
+  };
+
+  public uploadFilteredFiles = (files) =>{
+    this.filterFiles(files);
+    this.upload()
+  }
+
+
+}
+
+function wpAttachmentsDirective() {
   return {
-    restrict: 'E',
+    bindToController: true,
+    controller: WorkPackageAttachmentsController,
+    controllerAs: "vm",
     replace: true,
+    restrict: "E",
     scope: {
-      workPackage: '&'
+      workPackage: "&",
     },
     templateUrl: (element, attrs) => {
-      if (editMode(attrs)) {
-        return '/components/work-packages/wp-attachments/wp-attachments-edit.directive.html';
-      }
-
-      return '/components/work-packages/wp-attachments/wp-attachments.directive.html';
-    },
-
-    link: WorkPackageAttachmentsController
+        return attrs.hasOwnProperty("edit")
+          ? "/components/work-packages/wp-attachments/wp-attachments-edit.directive.html"
+          : "/components/work-packages/wp-attachments/wp-attachments.directive.html";
+    }
   };
 }
 
-wpDirectivesModule.directive('wpAttachments', wpAttachmentsDirective);
+wpDirectivesModule.directive("wpAttachments", wpAttachmentsDirective);

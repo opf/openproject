@@ -2,38 +2,38 @@
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
       <h3 class="attributes-group--header-text">
-        {{ ::I18n.t('js.label_attachments') }}
+        {{ ::vm.I18n.t('js.label_attachments') }}
       </h3>
     </div>
   </div>
   <div class="work-package--attachments--files"
-       data-ng-show="attachments.length > 0">
+       data-ng-show="vm.attachments.length > 0">
     <div class="work-package--details--long-field">
       <span class="inplace-edit--read"
-            data-ng-repeat="attachment in attachments">
+            data-ng-repeat="attachment in vm.wpAttachments.getCurrentAttachments() track by attachment.id">
         <span class="inplace-editing--trigger-container">
           <span class="inplace-editing--trigger-link"
-                ng-class="{'-focus': focussing(attachment)}">
+                ng-class="{'-focus': vm.focussing(attachment)}">
             <span class="inplace-editing--container">
               <span class="inplace-edit--read-value">
                 <i class="icon-attachment"></i>
                 <a class="work-package--attachments--filename"
-                   data-ng-href="{{attachment._links.downloadLocation.href}}"
+                   data-ng-href="{{attachment._links.downloadLocation.href || '#'}}"
                    download
-                   data-ng-focus="focus(attachment)"
-                   data-ng-blur="focus(null)">
-                  {{::attachment.fileName}}
+                   data-ng-focus="vm.focus(attachment)"
+                   data-ng-blur="vm.focus(null)">
+                  {{::attachment.fileName || attachment.name}}
                 </a>
               </span>
               <a href=''
                  class="inplace-edit--icon-wrapper"
-                 data-ng-focus="focus(attachment)"
-                 data-ng-blur="focus(null)"
-                 data-ng-click="remove(attachment)"
-                 data-confirm-popup="{{I18n.t('js.text_attachment_destroy_confirmation')}}">
+                 data-ng-focus="vm.focus(attachment)"
+                 data-ng-blur="vm.focus(null)"
+                 data-ng-click="vm.remove(attachment)"
+                 data-confirm-popup="{{vm.I18n.t('js.text_attachment_destroy_confirmation')}}">
 
                 <icon-wrapper icon-name="delete"
-                              data-icon-title="{{::I18n.t('js.label_remove_file',
+                              data-icon-title="{{::vm.I18n.t('js.label_remove_file',
                                                           { fileName: attachment.fileName })}}">
                 </icon-wrapper>
               </a>
@@ -43,22 +43,22 @@
       </span>
     </div>
   </div>
-  <div data-ng-show="hasRightToUpload"
+  <div data-ng-show="vm.hasRightToUpload"
        data-ngf-drop
-       data-ng-model="files"
-       data-ng-model-rejected="rejectedFiles"
+       data-ng-model="vm.files"
+       data-ng-model-rejected="vm.rejectedFiles"
        data-ngf-select
        class="work-package--attachments--drop-box"
        data-ngf-multiple="true"
-       data-ngf-change="uploadFilteredFiles($files)"
-       data-ngf-max-size="{{::maximumFileSize}}"
+       data-ngf-change="vm.uploadFilteredFiles($files)"
+       data-ngf-max-size="{{::vm.maximumFileSize}}"
        data-click-on-keypress="[13, 32]">
     <div class="work-package--attachments--label">
       <i class="icon-attachment"></i>
       <p>
-        {{ ::I18n.t('js.label_drop_files') }}
+        {{ ::vm.I18n.t('js.label_drop_files') }}
         <br>
-        {{ ::I18n.t('js.label_drop_files_hint') }}
+        {{ ::vm.I18n.t('js.label_drop_files_hint') }}
       </p>
     </div>
   </div>

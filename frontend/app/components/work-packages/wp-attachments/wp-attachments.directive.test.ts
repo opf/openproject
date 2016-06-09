@@ -83,7 +83,7 @@ describe('WorkPackageAttachmentsDirective', function() {
   }));
 
   describe('filterFiles', function() {
-    beforeEach(function() {
+    beforeEach(function(wpAttachments) {
       compile();
       isolatedScope = element.isolateScope();
     });
@@ -104,7 +104,7 @@ describe('WorkPackageAttachmentsDirective', function() {
           then: function(call) { return call(); }
         };
 
-    beforeEach(function() {
+    beforeEach(function(wpAttachments) {
       compile();
       isolatedScope = element.isolateScope();
     });
@@ -119,5 +119,5 @@ describe('WorkPackageAttachmentsDirective', function() {
 
       expect(uploadStub.calledWith(workPackage, [{type: 'file'}])).to.be.true;
     });
-  });
+  });*/
 });

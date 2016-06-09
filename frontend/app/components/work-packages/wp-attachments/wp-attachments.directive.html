@@ -7,10 +7,10 @@
     </div>
   </div>
   <div class="work-package--attachments--files"
-    data-ng-show="files.length > 0">
+    data-ng-show="attachments.length > 0">
     <div class="work-package--details--long-field">
       <span class="inplace-edit--read"
-            data-ng-repeat="attachment in files">
+            data-ng-repeat="attachment in attachments track by $index">
         <span class="inplace-editing--trigger-container">
           <span class="inplace-editing--trigger-link"
                 ng-class="{'-focus': focussing(attachment)}">

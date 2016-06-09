@@ -26,84 +26,124 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpServicesModule} from '../../../angular-modules.ts';
+import {wpServicesModule} from "../../../angular-modules.ts";
+import ArrayLiteralExpression = ts.ArrayLiteralExpression;
 
-function wpAttachmentsService($q, $timeout, $http, Upload, I18n, NotificationsService) {
-  var upload = (workPackage, files) => {
-      var uploadPath = workPackage.$links.addAttachment.$link.href;
-      var uploads = _.map(files, (file:any) => {
+export class WpAttachmentsService {
+  public attachments: Array = [];
+
+  constructor(
+    protected $q,
+    protected $timeout,
+    protected $http,
+    protected Upload,
+    protected I18n,
+    protected NotificationsService
+  ) {}
+
+  public upload = (workPackage, files) => {
+    if (angular.isDefined(workPackage.$links.attachments)){
+      let uploadPath = workPackage.$links.addAttachment.$link.href;
+      let uploads = _.map(files, (file:any) => {
         var options = {
-          url: uploadPath,
           fields: {
             metadata: {
-              fileName: file.name,
               description: file.description
+              fileName: file.name,
             }
           },
-          file: file
+          file: file,
+          url: uploadPath
         };
-        return Upload.upload(options);
+        return this.Upload.upload(options);
       });
 
       // notify the user
-      var message = I18n.t('js.label_upload_notification', {
+      let message = this.I18n.t('js.label_upload_notification', {
         id: workPackage.id,
         subject: workPackage.subject
       });
 
-      var notification = NotificationsService.addWorkPackageUpload(message, uploads);
-      var allUploadsDone = $q.defer();
-      $q.all(uploads).then(function () {
-        $timeout(function () { // let the notification linger for a bit
-          NotificationsService.remove(notification);
+      let notification = this.NotificationsService.addWorkPackageUpload(message, uploads);
+      let allUploadsDone = this.$q.defer();
+      this.$q.all(uploads).then(() => {
+        this.$timeout(() => { // let the notification linger for a bit
+          this.NotificationsService.remove(notification);
           allUploadsDone.resolve();
         }, 700);
       }, function (err) {
         allUploadsDone.reject(err);
       });
       return allUploadsDone.promise;
-    },
+    }
+  }
 
-    load = function (workPackage, reload:boolean = false) {
-      var path = workPackage.$links.attachments.$link.href,
-        attachments = $q.defer();
-      $http.get(path, {cache: !reload}).success(function (response) {
-        attachments.resolve(response._embedded.elements);
-      }).error(function (err) {
-        attachments.reject(err);
+  public load = (workPackage, reload:boolean = false) => {
+    const loadedAttachments = this.$q.defer();
+
+    if (workPackage.$links.attachments) {
+      let path: String = workPackage.$links.attachments.$link.href;
+      this.$http.get(path, {cache: !reload}).success(response => {
+        this.attachments = response._embedded.elements;
+        loadedAttachments.resolve(response._embedded.elements);
+      }).error(err => {
+        loadedAttachments.reject(err);
       });
-      return attachments.promise;
-    },
+    }
+    else {
+      loadedAttachments.reject(null);
+    }
 
-    remove = function (fileOrAttachment) {
-      var removal = $q.defer();
-      if (angular.isObject(fileOrAttachment._links)) {
-        var path = fileOrAttachment._links.self.href;
-        $http.delete(path).success(function () {
-          removal.resolve(fileOrAttachment);
-        }).error(function (err) {
-          removal.reject(err);
-        });
-      } else {
-        removal.resolve(fileOrAttachment);
-      }
-      return removal.promise;
-    },
-
-    hasAttachments = function (workPackage) {
-      var existance = $q.defer();
-      load(workPackage).then(function (attachments:any) {
-        existance.resolve(attachments.length > 0);
-      });
-      return existance.promise;
-    };
-
-  return {
-    upload: upload,
-    remove: remove,
-    load: load,
-    hasAttachments: hasAttachments
+    return loadedAttachments.promise;
   };
+
+  public remove = (fileOrAttachment) => {
+    let removal = this.$q.defer();
+    if (angular.isObject(fileOrAttachment._links)) {
+      let path: String = fileOrAttachment._links.self.href;
+      this.$http.delete(path).success(() => {
+        _.remove(this.attachments, fileOrAttachment);
+        removal.resolve(fileOrAttachment);
+      }).error(function (err) {
+        removal.reject(err);
+      });
+    } else {
+      removal.resolve(fileOrAttachment);
+    }
+    return removal.promise;
+  }
+
+  public hasAttachments = (workPackage) => {
+    let existance = this.$q.defer();
+
+    this.load(workPackage).then((attachments:any) => {
+      existance.resolve(attachments.length > 0);
+    });
+    return existance.promise;
+  };
+
+  public getCurrentAttachments = () => {
+    return this.attachments;
+  };
+
+  public resetAttachmentsList = () => {
+    this.attachments.length = 0;
+  };
+
+  public addPendingAttachments = (files) => {
+    if (angular.isArray(files)) {
+      _.each(files, (file) => {
+        this.attachments.push(file);
+      });
+    }else {
+      this.attachments.push(files);
+    }
+  }
+
+  public uploadPendingAttachments = (wp) => {
+    if (angular.isDefined(wp) && this.attachments.length > 0)
+      return this.upload(wp, this.attachments);
+  }
 }
 
-wpServicesModule.factory('wpAttachments', wpAttachmentsService);
+wpServicesModule.service('wpAttachments', WpAttachmentsService);
