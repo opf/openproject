@@ -37,12 +37,15 @@ module RbMasterBacklogsHelper
   include Redmine::I18n
 
   def render_backlog_menu(backlog)
+    closeJS = "jQuery(this).closest('ul').siblings('.menu-trigger').removeClass('open');"
+    openJS = "jQuery(this).toggleClass('open');"
+
     content_tag(:div, class: 'menu') do
       [
-        content_tag(:div, '', class: "icon-context icon-small", onClick: "if(this.classList.contains('open')) this.classList.remove('open'); else this.classList.add('open');"),
+        content_tag(:div, '', class: "menu-trigger icon-context icon-small", onClick: openJS),
         content_tag(:ul, class: 'items') do
           backlog_menu_items_for(backlog).map { |item|
-            content_tag(:li, item, class: 'item')
+            content_tag(:li, item, class: 'item', onClick: closeJS)
           }.join.html_safe
         end
       ].join.html_safe
