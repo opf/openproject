@@ -40,15 +40,20 @@ module Redmine::MenuManager::TopMenu::HelpMenu
 
   def render_help_dropdown
     link_to_help_pop_up = link_to '', '',
+                                  title: l(:label_help),
                                   class: 'icon-help1',
                                   aria: { haspopup: 'true' }
 
-    result = ''.html_safe
-    render_drop_down_menu_node(link_to_help_pop_up, class: 'drop-down hidden-for-mobile') do
-      content_tag :ul, style: 'display:none', class: 'drop-down--help' do
-        render_help_and_support result
-        render_additional_resources result
-      end
+    render_menu_dropdown(
+      link_to_help_pop_up,
+      menu_item_class: 'hidden-for-mobile',
+      drop_down_class: 'drop-down--help'
+    ) do
+      result = ''.html_safe
+      render_help_and_support result
+      render_additional_resources result
+
+      result
     end
   end
 

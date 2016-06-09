@@ -66,10 +66,8 @@ module Redmine::MenuManager::TopMenuHelper
                    class: 'login',
                    title: l(:label_login)
 
-    render_drop_down_menu_node(link, class: 'drop-down last-child') do
-      content_tag :ul do
-        render_login_partial
-      end
+    render_menu_dropdown(link, dropdown_options: { class: 'drop-down last-child' }) do
+      render_login_partial
     end
   end
 
@@ -83,9 +81,12 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_user_drop_down(items)
-    render_drop_down_menu_node link_to_user(User.current, title: User.current.to_s, aria: { haspopup: 'true' }),
-                               items,
-                               class: 'drop-down last-child'
+    render_menu_dropdown_with_items(
+      label: User.current.name,
+      label_options: { id: 'user-menu' },
+      items: items,
+      options: { menu_item_class: 'last-child' }
+    )
   end
 
   def render_login_partial
@@ -100,9 +101,11 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_module_top_menu_node(items = more_top_menu_items)
-    render_drop_down_menu_node link_to(l(:label_modules), '#', title: l(:label_modules), class: 'icon5 icon-modules', aria: { haspopup: 'true' }),
-                               items,
-                               id: 'more-menu'
+    render_menu_dropdown_with_items(
+      label: l(:label_modules),
+      label_options: { id: 'more-menu', class: 'icon5 icon-modules' },
+      items: items
+    )
   end
 
   def render_main_top_menu_nodes(items = main_top_menu_items)
