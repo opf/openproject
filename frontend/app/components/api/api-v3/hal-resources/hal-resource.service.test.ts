@@ -370,6 +370,20 @@ describe('HalResource service', () => {
   });
 
   describe('when creating a resource from a source with a linked array property', () => {
+    var expectLengthsToBe = (length, update = 'update') => {
+      it(`should ${update} the values of the resource`, () => {
+        expect(resource.values).to.have.lengthOf(length);
+      });
+
+      it(`should ${update} the source`, () => {
+        expect(source._links.values).to.have.lengthOf(length);
+      });
+
+      it(`should ${update} the $source property`, () => {
+        expect(resource.$source._links.values).to.have.lengthOf(length);
+      });
+    };
+
     beforeEach(() => {
       source = {
         _links: {
@@ -392,50 +406,27 @@ describe('HalResource service', () => {
       expect(resource).to.have.property('values').that.is.an('array');
     });
 
-    it('should should be the same amount of items as the original', () => {
-      expect(resource.values).to.have.lengthOf(2);
-    });
+    expectLengthsToBe(2);
 
     describe('when adding resources to the array', () => {
       beforeEach(() => {
         resource.values.push(resource);
       });
-
-      it('should update the source', () => {
-        expect(source._links.values).to.have.lengthOf(3);
-      });
-
-      it('should update the $source property', () => {
-        expect(resource.$source._links.values).to.have.lengthOf(3);
-      });
+      expectLengthsToBe(3);
     });
 
     describe('when adding arbitrary values to the array', () => {
       beforeEach(() => {
         resource.values.push('something');
       });
-
-      it('should not update the values', () => {
-        expect(resource.values).to.have.lengthOf(2);
-      });
-
-      it('should not update the values of the source', () => {
-        expect(source._links.values).to.have.lengthOf(2);
-      });
+      expectLengthsToBe(2, 'not update');
     });
 
     describe('when removing resources from the array', () => {
       beforeEach(() => {
         resource.values.pop();
       });
-
-      it('should update the source', () => {
-        expect(source._links.values).to.have.lengthOf(1);
-      });
-
-      it('should update the $source property', () => {
-        expect(resource.$source._links.values).to.have.lengthOf(1);
-      });
+      expectLengthsToBe(1);
     });
 
     describe('when each value is transformed', () => {
