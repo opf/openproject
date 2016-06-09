@@ -105,10 +105,16 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           end
         end
 
-        context 'percentage done disabled' do
-          before do allow(Setting).to receive(:work_package_done_ratio).and_return('disabled') end
+        %w(disabled status).each do |setting|
+          context "work package done ratio setting on #{setting}" do
+            before do
+              allow(Setting).to receive(:work_package_done_ratio).and_return(setting)
+            end
 
-          it { is_expected.to_not have_json_path('percentageDone') }
+            it 'has no percentageDone attribute' do
+              is_expected.to_not have_json_path('percentageDone')
+            end
+          end
         end
       end
 
