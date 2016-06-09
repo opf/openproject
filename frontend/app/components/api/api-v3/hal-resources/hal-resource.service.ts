@@ -157,7 +157,7 @@ export class HalResource {
     _.without(Object.keys(this.$links), 'self').forEach(linkName => {
       lazy(this, linkName,
         () => {
-          const link = this.$links[linkName].$link || this.$links[linkName];
+          const link:any = this.$links[linkName].$link || this.$links[linkName];
 
           if (Array.isArray(link)) {
             var items = link.map(item => HalResource.fromLink(item.$link));
