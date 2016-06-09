@@ -67,7 +67,7 @@ describe 'Work packages having story points', type: :feature, js: true do
 
       wp_page.visit!
 
-      expect(page).to have_selector('#work-package-storyPoints', text: story_points)
+      wp_page.expect_attributes :storyPoints => story_points
 
       wp_page.ensure_page_loaded
     end
