@@ -60,31 +60,30 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   private
 
   def render_help_and_support(result)
-    result << content_tag(:li) do
+    result << content_tag(:li) {
       content_tag :span, l('top_menu.help_and_support'),
                   class: 'drop-down--help-headline',
                   title: l('top_menu.help_and_support')
-    end
-    result <<  static_link_item(:user_guides)
+    }
+    result << static_link_item(:user_guides)
     result << static_link_item(:faq)
-    result << content_tag(:li) do
+    result << content_tag(:li) {
       link_to l('homescreen.links.shortcuts'),
               '',
               title: l('homescreen.links.shortcuts'),
               onClick: 'modalHelperInstance.createModal(\'/help/keyboard_shortcuts\');'
-    end
+    }
     result << static_link_item(:boards)
     result << static_link_item(:professional_support)
-
   end
 
   def render_additional_resources(result)
-    result << content_tag(:li) do
+    result << content_tag(:li) {
       content_tag :span,
                   l('top_menu.additional_resources'),
                   class: 'drop-down--help-headline',
                   title: l('top_menu.additional_resources')
-    end
+    }
     result << static_link_item(:blog)
     result << static_link_item(:release_notes)
     result << static_link_item(:report_bug)

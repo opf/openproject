@@ -43,9 +43,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   ##
   # Render the project menu items into the top menu
   def render_impaired_project_links
-    project_items.map do |item|
-      render_menu_node(item)
-    end.join(' ')
+    project_items.map { |item| render_menu_node(item) }.join(' ')
   end
 
   def render_projects_dropdown
