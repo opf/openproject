@@ -25,9 +25,11 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
+import {WorkPackageAttachmentsController} from './wp-attachments.directive'
 
 describe('WorkPackageAttachmentsDirective', function() {
   var compile;
+  var controller: WorkPackageAttachmentsController;
   var element;
   var rootScope;
   var scope;
@@ -38,18 +40,21 @@ describe('WorkPackageAttachmentsDirective', function() {
   beforeEach(angular.mock.module('openproject.templates'));
 
   var loadPromise,
-      wpAttachments = {
-        load: function() {
-          return loadPromise;
-        },
-        upload: angular.noop
+    wpAttachments = {
+      load: function() {
+        return loadPromise;
       },
-      apiPromise,
-      configurationService = {
-        api: function() {
-          return apiPromise;
-        }
-      };
+      getCurrentAttachments: function(){
+        return [];
+      },
+      upload: angular.noop
+    },
+    apiPromise,
+    configurationService = {
+      api: function() {
+        return apiPromise;
+      }
+    };
 
   beforeEach(angular.mock.module('openproject.workPackages.services', function($provide) {
     $provide.constant('wpAttachments', wpAttachments);
@@ -86,12 +91,13 @@ describe('WorkPackageAttachmentsDirective', function() {
     beforeEach(function() {
       compile();
       isolatedScope = element.isolateScope();
+      controller = element.controller('wpAttachments');
     });
 
     it('filters out attachments of type directory', function() {
       var files = [{type: 'directory'}, {type: 'file'}];
 
-      isolatedScope.filterFiles(files, {}, {}, false);
+      controller.filterFiles(files);
 
       expect(files).to.eql([{type: 'file'}]);
     });
@@ -100,22 +106,23 @@ describe('WorkPackageAttachmentsDirective', function() {
 
   describe('uploadFilteredFiles', function() {
     var files = [{type: 'directory'}, {type: 'file'}],
-        dumbPromise = {
-          then: function(call) { return call(); }
-        };
+      dumbPromise = {
+        then: function(call) { return call(); }
+      };
 
     beforeEach(function() {
       compile();
       isolatedScope = element.isolateScope();
+      controller = element.controller('wpAttachments');
     });
 
     it('triggers uploading of non directory files', function() {
       //need to have files to be able to trigger uploads
-      isolatedScope.files = files;
+      controller.files = files;
 
       var uploadStub = wpAttachments.upload = sinon.stub().returns(dumbPromise);
 
-      isolatedScope.uploadFilteredFiles(files, {}, {}, true);
+      controller.uploadFilteredFiles(files);
 
       expect(uploadStub.calledWith(workPackage, [{type: 'file'}])).to.be.true;
     });
