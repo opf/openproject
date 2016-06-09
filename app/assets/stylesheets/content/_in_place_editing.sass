@@ -309,10 +309,14 @@ a.inplace-editing--trigger-link,
     .inplace-edit--icon-wrapper
       visibility: visible
 
-
   // Otherwise the description will show up in one line on IE10
   .inplace-edit--read-value
     display: block
+
+// Do not hover trigger-link when element is read-only
+.-read-only
+  .inplace-editing--trigger-link:hover .inplace-editing--container
+    border-color: transparent
 
 .inplace-editing--container,
   @include grid-block
