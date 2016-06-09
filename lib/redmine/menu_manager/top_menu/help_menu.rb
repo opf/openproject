@@ -40,28 +40,32 @@ module Redmine::MenuManager::TopMenu::HelpMenu
 
   def render_help_dropdown
     link_to_help_pop_up = link_to '', '',
+                                  title: l(:label_help),
                                   class: 'icon-help1',
                                   aria: { haspopup: 'true' }
 
-    result = ''.html_safe
-    render_drop_down_menu_node(link_to_help_pop_up,
-                               class: 'drop-down hidden-for-mobile -hide-icon') do
-      content_tag :ul, style: 'display:none', class: 'drop-down--help' do
-        render_onboarding result
-        render_help_and_support result
-        render_additional_resources result
-      end
+    render_menu_dropdown(
+      link_to_help_pop_up,
+      menu_item_class: 'hidden-for-mobile -hide-icon',
+      drop_down_class: 'drop-down--help'
+    ) do
+      result = ''.html_safe
+      render_onboarding result
+      render_help_and_support result
+      render_additional_resources result
+
+      result
     end
   end
 
   private
 
   def render_onboarding(result)
-    result << content_tag(:li) do
+    result << content_tag(:li) {
       content_tag(:span, l('top_menu.getting_started'),
                   class: 'drop-down--help-headline',
                   title: l('top_menu.getting_started'))
-    end
+    }
     result << render_onboarding_menu_item
     result << content_tag(:hr, '', class: 'form--separator')
   end
@@ -80,24 +84,24 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     end
     result << static_link_item(:user_guides)
     result << static_link_item(:faq)
-    result << content_tag(:li) do
+    result << content_tag(:li) {
       link_to l('homescreen.links.shortcuts'),
               '',
               title: l('homescreen.links.shortcuts'),
               onClick: 'modalHelperInstance.createModal(\'/help/keyboard_shortcuts\');'
-    end
+    }
     result << static_link_item(:boards)
     result << static_link_item(:professional_support)
     result << content_tag(:hr, '', class: 'form--separator')
   end
 
   def render_additional_resources(result)
-    result << content_tag(:li) do
+    result << content_tag(:li) {
       content_tag :span,
                   l('top_menu.additional_resources'),
                   class: 'drop-down--help-headline',
                   title: l('top_menu.additional_resources')
-    end
+    }
     result << static_link_item(:blog)
     result << static_link_item(:release_notes)
     result << static_link_item(:report_bug)

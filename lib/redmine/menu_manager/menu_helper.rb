@@ -109,33 +109,42 @@ module Redmine::MenuManager::MenuHelper
     links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, class: 'menu_root')
   end
 
-  def render_drop_down_menu_node(label, items_or_options_with_block = nil, html_options = {}, &_block)
-    items, options = if block_given?
-                       [[], items_or_options_with_block || {}]
-                     else
-                       [items_or_options_with_block, html_options]
-                     end
+  ##
+  # Render a dropdown menu item with the given MenuItem children.
+  # Caller may add additional items through the optional block.
+  # Remaining options are passed through to +render_menu_dropdown+.
+  def render_menu_dropdown_with_items(label:, label_options:, items:, options: {})
+    selected = any_item_selected?(items)
+    label_node = render_drop_down_label_node(label, selected, label_options)
 
-    if items.empty?
-      return '' if !block_given?
-      selected = options.delete(:has_selected_child)
-    else
-      selected = any_item_selected?(items)
+    render_menu_dropdown(label_node, options) do
+      items.each do |item|
+        concat render_menu_node(item)
+      end
+
+      concat(yield) if block_given?
     end
+  end
 
-    options.reverse_merge!(class: "drop-down #{selected ? 'selected' : ''}")
-
-    content_tag :li, options do
-      label + if block_given?
-                yield
-              else
-                content_tag :ul, style: 'display:none' do
-                  items.map { |item|
-                    render_menu_node(item)
-                  }.join(' ').html_safe
-                end
-              end
+  ##
+  # Render a dropdown menu item with arbitrary content.
+  # As these are not menu-items, the whole dropdown may never be marked selected.
+  # Available options:
+  # menu_item_class: Additional classes for the menu item li wrapper
+  # drop_down_class: Additional classes for the hidden drop down
+  def render_menu_dropdown(label_node, options = {}, &block)
+    content_tag :li, class: "#{options[:menu_item_class]} drop-down" do
+      concat(label_node)
+      concat(content_tag(:ul, style: 'display:none', class: options[:drop_down_class], &block))
     end
+  end
+
+  def render_drop_down_label_node(label, selected, options = {})
+    options[:title] ||= label
+    options[:aria] = { haspopup: 'true' }
+    options[:class] = "#{options[:class]} #{selected ? 'selected' : ''}"
+
+    link_to(you_are_here_info(selected) + label, '', options)
   end
 
   def any_item_selected?(items)

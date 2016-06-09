@@ -49,31 +49,25 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   end
 
   def render_projects_dropdown
-    items = project_items
-
-    dropdown_content = link_to(
-      l(:label_project_plural),
-      '#',
-      title: l(:label_project_plural),
-      class: "icon5 icon-projects",
-      id: 'more-menu',
-      aria: { haspopup: 'true' }
-    )
-
-    render_drop_down_menu_node(dropdown_content,
-                               has_selected_child: any_item_selected?(items)) do
-      content_tag :ul, style: 'display:none', class: 'drop-down--projects' do
-        result = ''.html_safe
-        items.each { |item| result << render_menu_node(item) }
-        result << content_tag(:li, id: 'project-search-container') do
-          hidden_field_tag('', '', class: 'select2-select')
-        end
-        result
+    render_menu_dropdown_with_items(
+      label: l(:label_project_plural),
+      label_options: { id: 'projects-menu', class: 'icon5 icon-projects' },
+      items: project_items,
+      options: {
+        drop_down_class: 'drop-down--projects'
+      }
+    ) do
+      content_tag(:li, id: 'project-search-container') do
+        hidden_field_tag('', '', class: 'select2-select')
       end
     end
   end
 
   def project_items
+    [ project_index_item, project_new_item ]
+  end
+
+  def project_index_item
     if User.current.impaired?
       icon_class = 'icon5'
       projects_label = l(:label_project_plural)
@@ -84,9 +78,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
       projects_class = 'icon-show-all-projects'
     end
 
-    items = []
-
-    items << Redmine::MenuManager::MenuItem.new(
+    Redmine::MenuManager::MenuItem.new(
       :list_projects,
       { controller: '/projects', action: 'index' },
       caption: projects_label,
@@ -95,7 +87,16 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
         accesskey: OpenProject::AccessKeys.key_for(:project_search)
       }
     )
-    items << Redmine::MenuManager::MenuItem.new(
+  end
+
+  def project_new_item
+    if User.current.impaired?
+      icon_class = 'icon5'
+    else
+      icon_class = 'icon4'
+    end
+
+    Redmine::MenuManager::MenuItem.new(
       :new_project,
       { controller: '/projects', action: 'new' },
       caption: l(:label_project_new),
@@ -105,7 +106,5 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
       },
       if: Proc.new { User.current.allowed_to?(:add_project, nil, global: true) }
     )
-
-    items
   end
 end
