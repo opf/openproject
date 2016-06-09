@@ -1,5 +1,5 @@
 import {WpAttachmentsService} from "./../wp-attachments/wp-attachments.service";
-
+import {WorkPackageResource} from "./../../api/api-v3/hal-resources/work-package-resource.service"
 import {InsertMode, ViewMode} from "./wp-attachments-formattable.enums"
 import {DropModel, EditorModel, MarkupModel, FieldModel, SingleAttachmentModel} from "./wp-attachments-formattable.models"
 import IAugmentedJQuery = angular.IAugmentedJQuery;
@@ -7,33 +7,36 @@ import IAugmentedJQuery = angular.IAugmentedJQuery;
 export class WpAttachmentsFormattableController {
     private viewMode: ViewMode = ViewMode.SHOW;
 
-    constructor(protected $scope: any,
+    constructor(protected $scope: ng.IScope,
                 protected $element: ng.IAugmentedJQuery,
-                protected $rootScope: any,
-                protected $location: any,
+                protected $rootScope: ng.IRootScopeService,
+                protected $location: ng.ILocationService,
                 protected wpAttachments: WpAttachmentsService,
-                protected $timeout: any) {
+                protected $timeout: ng.ITimeoutService) {
 
       $element.get(0).addEventListener("drop", this.handleDrop);
       $element.bind("dragenter", this.prevDefault)
         .bind("dragleave", this.prevDefault)
         .bind("dragover", this.prevDefault);
+
     }
 
-    public handleDrop: Function = (evt: DragEvent) => {
+    public handleDrop = (evt: DragEvent) => {
         evt.preventDefault();
         evt.stopPropagation();
 
         let textarea: IAugmentedJQuery = this.$element.find("textarea");
         this.viewMode  = (textarea.length > 0) ? ViewMode.EDIT : ViewMode.SHOW;
 
-        let workPackage: any = this.$scope.workPackage;
-        let dropData: any = new DropModel(evt.dataTransfer, workPackage, this.$location);
-        let description: any;
+        let workPackage: WorkPackageResource = this.$scope.workPackage;
+        let dropData: DropModel = new DropModel(this.$location, evt.dataTransfer, workPackage);
+
+        var description: any;
 
         if (this.viewMode === ViewMode.EDIT) {
             description = new EditorModel(textarea, new MarkupModel());
-        }else {
+        }
+        else {
             description = new FieldModel(workPackage, new MarkupModel());
         }
 
@@ -58,7 +61,8 @@ export class WpAttachmentsFormattableController {
                                     description.insertAttachmentLink(
                                       currentFile.url,
                                       (currentFile.isAnImage) ? InsertMode.INLINE : InsertMode.ATTACHMENT);
-                                }else if (dropData.filesCount > 1) {
+                                }
+                                else if (dropData.filesCount > 1) {
                                     for (let i: number = updatedAttachments.length - 1;
                                       i >= updatedAttachments.length - dropData.filesCount;
                                       i--) {
@@ -95,7 +99,7 @@ export class WpAttachmentsFormattableController {
         }
     };
 
-    public prevDefault: EventListenerOrEventListenerObject = (evt: DragEvent) => {
+    protected prevDefault: EventListenerOrEventListenerObject(evt: DragEvent) {
         evt.preventDefault();
         evt.stopPropagation();
     }

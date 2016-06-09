@@ -28,24 +28,25 @@
 
 import {wpServicesModule} from "../../../angular-modules.ts";
 import ArrayLiteralExpression = ts.ArrayLiteralExpression;
+import {WorkPackageResource} from "./../../api/api-v3/hal-resources/work-package-resource.service"
 
 export class WpAttachmentsService {
-  public attachments: Array = [];
+  public attachments: Array<any> = [];
 
   constructor(
-    protected $q,
-    protected $timeout,
-    protected $http,
+    protected $q: ng.IQService,
+    protected $timeout: ng.ITimeoutService,
+    protected $http: ng.IHttpProvider,
     protected Upload,
     protected I18n,
     protected NotificationsService
   ) {}
 
-  public upload = (workPackage, files) => {
+  public upload(workPackage: WorkPackageResource, files: FileList): ng.IPromise {
     if (angular.isDefined(workPackage.$links.attachments)){
-      let uploadPath = workPackage.$links.addAttachment.$link.href;
-      let uploads = _.map(files, (file:any) => {
-        var options = {
+      const uploadPath: string = workPackage.$links.addAttachment.$link.href;
+      const uploads = _.map(files, (file: File) => {
+        var options: Object = {
           fields: {
             metadata: {
               description: file.description
@@ -59,13 +60,13 @@ export class WpAttachmentsService {
       });
 
       // notify the user
-      let message = this.I18n.t('js.label_upload_notification', {
+      const message = this.I18n.t('js.label_upload_notification', {
         id: workPackage.id,
         subject: workPackage.subject
       });
 
-      let notification = this.NotificationsService.addWorkPackageUpload(message, uploads);
-      let allUploadsDone = this.$q.defer();
+      const notification = this.NotificationsService.addWorkPackageUpload(message, uploads);
+      const allUploadsDone = this.$q.defer();
       this.$q.all(uploads).then(() => {
         this.$timeout(() => { // let the notification linger for a bit
           this.NotificationsService.remove(notification);
@@ -78,11 +79,11 @@ export class WpAttachmentsService {
     }
   }
 
-  public load = (workPackage, reload:boolean = false) => {
+  public load(workPackage: WorkPackageResource, reload:boolean = false): ng.IPromise {
     const loadedAttachments = this.$q.defer();
 
-    if (workPackage.$links.attachments) {
-      let path: String = workPackage.$links.attachments.$link.href;
+    if (angular.isDefined(workPackage.$links.attachments)) {
+      let path: string = workPackage.$links.attachments.$link.href;
       this.$http.get(path, {cache: !reload}).success(response => {
         this.attachments = response._embedded.elements;
         loadedAttachments.resolve(response._embedded.elements);
@@ -97,24 +98,22 @@ export class WpAttachmentsService {
     return loadedAttachments.promise;
   };
 
-  public remove = (fileOrAttachment) => {
-    let removal = this.$q.defer();
+  public remove(fileOrAttachment: any): void {
     if (angular.isObject(fileOrAttachment._links)) {
-      let path: String = fileOrAttachment._links.self.href;
+      const path: string = fileOrAttachment._links.self.href;
       this.$http.delete(path).success(() => {
         _.remove(this.attachments, fileOrAttachment);
-        removal.resolve(fileOrAttachment);
-      }).error(function (err) {
-        removal.reject(err);
-      });
-    } else {
-      removal.resolve(fileOrAttachment);
+      })
+    }else{
+      // pending attachment
+      _.remove(this.attachments, fileOrAttachment);
     }
-    return removal.promise;
-  }
+  };
 
-  public hasAttachments = (workPackage) => {
-    let existance = this.$q.defer();
+  public hasAttachments(workPackage: WorkPackageResource): ng.IPromise {
+    console.log("type of workPackage", workPackage.constructor.name);
+
+    const existance = this.$q.defer();
 
     this.load(workPackage).then((attachments:any) => {
       existance.resolve(attachments.length > 0);
@@ -122,27 +121,29 @@ export class WpAttachmentsService {
     return existance.promise;
   };
 
-  public getCurrentAttachments = () => {
+  public getCurrentAttachments(): Array<any> {
     return this.attachments;
   };
 
-  public resetAttachmentsList = () => {
+  public resetAttachmentsList(): void {
     this.attachments.length = 0;
   };
 
-  public addPendingAttachments = (files) => {
+  public addPendingAttachments(files: any): void {
     if (angular.isArray(files)) {
       _.each(files, (file) => {
         this.attachments.push(file);
       });
-    }else {
+    }
+    else {
       this.attachments.push(files);
     }
   }
 
-  public uploadPendingAttachments = (wp) => {
-    if (angular.isDefined(wp) && this.attachments.length > 0)
+  public uploadPendingAttachments(wp: WorkPackageResource): ng.IPromise {
+    if (angular.isDefined(wp) && this.attachments.length > 0){
       return this.upload(wp, this.attachments);
+    }
   }
 }
 

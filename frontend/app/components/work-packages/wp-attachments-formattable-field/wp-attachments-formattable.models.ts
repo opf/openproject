@@ -15,33 +15,32 @@ export class EditorModel implements IApplyAttachmentMarkup{
         this.setCaretPosition();
     }
 
-    public insertWebLink = (url,insertMode) => {
+    public insertWebLink(url,insertMode) {
         if(angular.isUndefined(insertMode)) insertMode = InsertMode.LINK;
         this.contentToInsert = this.markupModel.createMarkup(url,insertMode);
     };
 
-    public insertAttachmentLink = (url,insertMode,addLineBreak?) =>{
+    public insertAttachmentLink(url,insertMode,addLineBreak?) {
         if(angular.isUndefined(insertMode)) insertMode = InsertMode.ATTACHMENT;
         this.contentToInsert = (addLineBreak) ?
         this.contentToInsert + this.markupModel.createMarkup(url, insertMode, addLineBreak) :
             this.markupModel.createMarkup(url, insertMode, addLineBreak);
     };
 
-    private setCaretPosition = () =>{
+    private setCaretPosition() {
         this.currentCaretPosition = this.textarea[0].selectionStart;
     };
 
-    public save = () => {
-        $(this.textarea).val(this.textarea[0].value.substring(0, this.currentCaretPosition) +
+    public save() {
+        angular.element(this.textarea).val(this.textarea[0].value.substring(0, this.currentCaretPosition) +
             this.contentToInsert +
             this.textarea[0].value.substring(this.currentCaretPosition, this.textarea[0].value.length)).change();
     }
 }
 
 export class MarkupModel{
-    constructor(){}
 
-    public createMarkup = (insertUrl,insertMode,addLineBreak) => {
+    public createMarkup(insertUrl,insertMode,addLineBreak) {
         if (angular.isUndefined((insertUrl))) return "";
         if(angular.isUndefined((addLineBreak))) addLineBreak = false;
         let markup:string = "";
@@ -70,13 +69,9 @@ export class MarkupModel{
 export class DropModel{
     protected dt:any;
     protected config:any = {
-        enabledFor: ["description"],
         imageFileTypes : ["jpg","jpeg","gif","png"],
         maximumAttachmentFileSize : 0, // initialized during init process from ConfigurationService
-        rejectedFileTypes : ["exe"]
     };
-    protected workPackage:any;
-    protected $location:any;
 
     public files;
     public filesCount: number;
@@ -85,10 +80,7 @@ export class DropModel{
     public isWebLink: boolean;
     public webLinkUrl: string;
 
-    constructor(protected dt,protected workPackage,protected $location){
-        this.workPackage = workPackage;
-        this.$location = $location;
-
+    constructor(protected $location, protected dt, protected workPackage){
         this.files = dt.files;
         this.filesCount = this.files.length;
         this.isUpload = this._isUpload(dt);
@@ -103,7 +95,7 @@ export class DropModel{
      * _config.imageFileTypes[]
      * @returns {boolean}
      */
-    public isWebImage = () => {
+    public isWebImage() {
         if(angular.isDefined(this.webLinkUrl)){
             return (this.config.imageFileTypes.indexOf(this.webLinkUrl.split(".").pop().toLowerCase()) > -1);
         }
@@ -115,7 +107,7 @@ export class DropModel{
      * Will try to handle URLs and file contents.
      * @returns {boolean}
      */
-    public isAttachmentOfCurrentWp = () => {
+    public isAttachmentOfCurrentWp() {
         if(this.isWebLink){
 
             // weblink does not point to our server, so it can't be an attachment
@@ -147,7 +139,7 @@ export class DropModel{
      *
      * @returns {string}
      */
-    protected removeHostInformationFromUrl = () =>{
+    protected removeHostInformationFromUrl() {
         return this.webLinkUrl.replace(window.location.origin, "");
     };
 
@@ -162,7 +154,7 @@ export class DropModel{
      * @returns {boolean}
      */
 
-    protected filesAreValidForUploading = () => {
+    protected filesAreValidForUploading() {
         // needs: clarifying if rejected filetypes are a wanted feature
         // no filetypes are getting rejected yet
         var allFilesAreValid = true;
@@ -181,7 +173,7 @@ export class DropModel{
      * @returns {boolean}
      * @private
      */
-    protected _isUpload = (dt) => {
+    protected _isUpload(dt) {
         if (dt.types && this.filesCount > 0) {
             for (var i=0; i < dt.types.length; i++) {
                 if (dt.types[i] == "Files") {
@@ -226,19 +218,19 @@ export class FieldModel implements IApplyAttachmentMarkup {
     }
 
 
-    private addInitialLineBreak = () => {
+    private addInitialLineBreak() {
         return (this.contentToInsert.length > 0) ? "\r\n" : "";
     };
 
-    public insertAttachmentLink = (url,insertMode, addLineBreak?) =>{
+    public insertAttachmentLink(url,insertMode, addLineBreak?) {
         this.contentToInsert += this.addInitialLineBreak() + this.markupModel.createMarkup(url,insertMode,false);
     };
 
-    public insertWebLink = (url,insertMode) =>{
+    public insertWebLink(url,insertMode) {
         this.contentToInsert += this.addInitialLineBreak() + this.markupModel.createMarkup(url,insertMode,false);
     };
 
-    public save = () => {
+    public save() {
         this.workPackage.description.raw = this.contentToInsert;
         this.workPackage.save();
     };

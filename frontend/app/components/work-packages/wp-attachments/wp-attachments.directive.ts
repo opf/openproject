@@ -27,44 +27,40 @@
 //++
 
 import {wpDirectivesModule} from "../../../angular-modules";
+import {WpAttachmentsService} from "./wp-attachments.service"
 
 export class WorkPackageAttachmentsController{
-  private editMode: boolean;
-  private currentlyFocussing;
-
   public workPackage: any;
 
-  public test: string = "Hello World";
-
   public attachments: Array = [];
-  public files: Array = [];
   public fetchingConfiguration: boolean = false;
-  public loading: boolean = false;
-
+  public files: Array = [];
   public hasRightToUpload: boolean = true; // !!(workPackage.links.addAttachment || workPackage.isNew);
   public I18n: any;
+  public loading: boolean = false;
   public rejectedFiles: Array = [];
-  public size: any;
 
   public settings: Object = {
     maximumFileSize: Number
   };
 
-  constructor(protected $scope,
-              protected $element,
-              protected $attrs,
-              protected wpAttachments,
-              protected NotificationsService,
-              protected I18n,
-              protected ConfigurationService,
-              protected ConversionService){
+  public size: any;
 
-    this.workPackage = $scope.vm.workPackage();
-    this.editMode = $attrs.hasOwnProperty("edit");
-    this.I18n = I18n;
-    this.wpAttachments = wpAttachments;
+  private currentlyFocussing;
+  private editMode: boolean;
+
+  constructor(protected $scope: ng.IScope,
+              protected $element: ng.IAugmentedJQuery,
+              protected $attrs: ng.IAttributes,
+              protected wpAttachments: WpAttachmentsService,
+              protected NotificationsService: ng.IServiceProvider,
+              protected I18n: any,
+              protected ConfigurationService: ng.IServiceProviderFactory,
+              protected ConversionService: ng.IServiceProvider){
 
     this.attachments = this.wpAttachments.getCurrentAttachments();
+    this.editMode = $attrs.hasOwnProperty("edit");
+    this.workPackage = $scope.vm.workPackage();
 
     // TODO: why does `this.attachments = this.wpAttachments.getCurrentAttachments();` not bind properly
     // to my Service??
@@ -79,11 +75,11 @@ export class WorkPackageAttachmentsController{
       this.fetchingConfiguration = false;
     });
     
-    this.loadAttachments();
+    if(angular.isDefined(this.workPackage)){ this.loadAttachments(); }
 
   }
 
-  public upload = () => {
+  public upload(): void {
     if (angular.isUndefined(this.files)) { return; }
 
     if (this.workPackage.isNew) {
@@ -102,34 +98,32 @@ export class WorkPackageAttachmentsController{
     }
   };
 
-  public loadAttachments = () => {
+  public loadAttachments(): void {
     if (this.editMode) {
       this.loading = true;
-      this.wpAttachments.load(this.workPackage, true).finally(() => {
+      this.wpAttachments.load(this.workPackage,true).finally(() => {
         this.loading = false;
       });
     }
   };
 
-  public remove = (file) => {
+  public remove(file): void {
     if(this.workPackage.isNew){
       _.remove(this.wpAttachments.attachments, file);
     }else{
-      this.wpAttachments.remove(file).finally(function () {
-        //done
-      });
+      this.wpAttachments.remove(file);
     }
   };
 
-  public focus = (attachment: any) => {
+  public focus(attachment: any): void {
     this.currentlyFocussing = attachment;
   };
 
-  public focussing = (attachment: any) => {
+  public focussing(attachment: any): boolean {
     return this.currentlyFocussing === attachment;
   };
 
-  public filterFiles = (files) => {
+  public filterFiles(files): void {
     // Directories cannot be uploaded and as such, should not become files in
     // the sense of this directive.  The files within the directories will
     // be taken though.
@@ -138,7 +132,7 @@ export class WorkPackageAttachmentsController{
     });
   };
 
-  public uploadFilteredFiles = (files) =>{
+  public uploadFilteredFiles(files): void {
     this.filterFiles(files);
     this.upload()
   }
@@ -146,7 +140,7 @@ export class WorkPackageAttachmentsController{
 
 }
 
-function wpAttachmentsDirective() {
+function wpAttachmentsDirective(): ng.IDirective {
   return {
     bindToController: true,
     controller: WorkPackageAttachmentsController,
