@@ -38,6 +38,8 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
                 :options
 
   def initialize(work_packages, project, query, results, options = {})
+    @cell_padding = options.delete(:cell_padding)
+
     self.work_packages = work_packages
     self.project = project
     self.query = query
@@ -88,10 +90,7 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
 
   def write_work_packages!
     pdf.font style: :normal, size: 8
-
-    pdf.table(data, column_widths: column_widths) do
-      cells.padding = [2, 5, 2, 5]
-    end
+    pdf.table(data, column_widths: column_widths)
   end
 
   def column_widths
@@ -105,6 +104,10 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
     ratio = pdf.bounds.width / widths.sum
 
     widths.map { |w| w * ratio }
+  end
+
+  def description_colspan
+    query.columns.size
   end
 
   def text_column?(column)
@@ -127,13 +130,15 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
 
     work_packages.flat_map do |work_package|
       values = query.columns.map do |column|
-        column_value work_package, column
+        make_column_value work_package, column
       end
 
       result = [values]
 
       if options[:show_descriptions]
-        result << [make_description(work_package.description.presence || ' ')]
+        make_description(work_package.description.to_s).each do |segment|
+          result << [segment]
+        end
       end
 
       if query.grouped? && (group = query.group_by_column.value(work_package)) != previous_group
@@ -152,23 +157,25 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
     end
   end
 
-  def make_description(description)
-    pdf.make_cell description, colspan: query.columns.size
-  end
-
-  def column_value(work_package, column)
+  def make_column_value(work_package, column)
     if column.is_a?(QueryCustomFieldColumn)
-      custom_field_value work_package, column
+      make_custom_field_value work_package, column
     else
-      field_value work_package, column.name
+      make_field_value work_package, column.name
     end
   end
 
-  def custom_field_value(work_package, column)
+  def make_field_value(work_package, column_name)
+    pdf.make_cell field_value(work_package, column_name),
+                  padding: cell_padding
+  end
+
+  def make_custom_field_value(work_package, column)
     value = work_package
       .custom_values
       .detect { |v| v.custom_field_id == column.custom_field.id }
 
-    show_value value
+    pdf.make_cell show_value(value),
+                  padding: cell_padding
   end
 end
