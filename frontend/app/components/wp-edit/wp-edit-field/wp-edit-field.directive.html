@@ -13,7 +13,9 @@
         ng-click="vm.haltUserFormClick($event)"
         ng-dblclick="vm.haltUserFormClick($event)"
         name="vm.fieldForm"
-        ng-submit="vm.submit()">
+        ng-submit="vm.submit()"
+        role="form"
+        tabindex="-1">
 
     <label for="{{::vm.htmlId}}"
            class="hidden-for-sighted">
