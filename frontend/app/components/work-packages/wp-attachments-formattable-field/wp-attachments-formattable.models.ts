@@ -1,26 +1,22 @@
-/**
- * Created by manu on 19.05.16.
- */
-
 import {IApplyAttachmentMarkup} from './wp-attachments-formattable.interfaces'
 import {InsertMode} from './wp-attachments-formattable.enums'
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 
 export class EditorModel implements IApplyAttachmentMarkup{
     private currentCaretPosition: number;
     public contentToInsert:string = "";
-    private markupModel;
-    private textarea;
+    private markupModel: MarkupModel;
 
-    constructor(protected textarea,protected markupModel){
+    constructor(protected textarea: ng.IAugmentedJQuery, protected markupModel: MarkupModel){
         this.setCaretPosition();
     }
 
-    public insertWebLink(url,insertMode) {
+    public insertWebLink(url: string, insertMode: InsertMode) {
         if(angular.isUndefined(insertMode)) insertMode = InsertMode.LINK;
-        this.contentToInsert = this.markupModel.createMarkup(url,insertMode);
+        this.contentToInsert = this.markupModel.createMarkup(url, insertMode);
     };
 
-    public insertAttachmentLink(url,insertMode,addLineBreak?) {
+    public insertAttachmentLink(url: string, insertMode: InsertMode, addLineBreak?: boolean) {
         if(angular.isUndefined(insertMode)) insertMode = InsertMode.ATTACHMENT;
         this.contentToInsert = (addLineBreak) ?
         this.contentToInsert + this.markupModel.createMarkup(url, insertMode, addLineBreak) :
@@ -40,7 +36,7 @@ export class EditorModel implements IApplyAttachmentMarkup{
 
 export class MarkupModel{
 
-    public createMarkup(insertUrl,insertMode,addLineBreak) {
+    public createMarkup(insertUrl: string, insertMode: InsertMode, addLineBreak?: boolean) {
         if (angular.isUndefined((insertUrl))) return "";
         if(angular.isUndefined((addLineBreak))) addLineBreak = false;
         let markup:string = "";
@@ -73,14 +69,14 @@ export class DropModel{
         maximumAttachmentFileSize : 0, // initialized during init process from ConfigurationService
     };
 
-    public files;
+    public files: FileList;
     public filesCount: number;
     public isUpload: boolean;
     public isDelayedUpload: boolean;
     public isWebLink: boolean;
     public webLinkUrl: string;
 
-    constructor(protected $location, protected dt, protected workPackage){
+    constructor(protected $location: ng.ILocationService, protected dt: DataTransfer, protected workPackage: WorkPackageResource){
         this.files = dt.files;
         this.filesCount = this.files.length;
         this.isUpload = this._isUpload(dt);
@@ -173,9 +169,9 @@ export class DropModel{
      * @returns {boolean}
      * @private
      */
-    protected _isUpload(dt) {
+    protected _isUpload(dt: DataTransfer) {
         if (dt.types && this.filesCount > 0) {
-            for (var i=0; i < dt.types.length; i++) {
+            for (let i=0; i < dt.types.length; i++) {
                 if (dt.types[i] == "Files") {
                     return true;
                 }
@@ -207,11 +203,11 @@ export class SingleAttachmentModel {
 
 export class FieldModel implements IApplyAttachmentMarkup {
 
-    private markupModel: any;
-    private workPackage: any;
+    private markupModel: MarkupModel;
+    private workPackage: WorkPackageResource;
     public contentToInsert: string;
 
-    constructor(workPackage: any, markupModel: any){
+    constructor(workPackage: WorkPackageResource, markupModel: MarkupModel){
         this.markupModel = markupModel;
         this.workPackage = workPackage;
         this.contentToInsert = workPackage.description.raw || "";
@@ -222,11 +218,11 @@ export class FieldModel implements IApplyAttachmentMarkup {
         return (this.contentToInsert.length > 0) ? "\r\n" : "";
     };
 
-    public insertAttachmentLink(url,insertMode, addLineBreak?) {
+    public insertAttachmentLink(url: string, insertMode: InsertMode, addLineBreak?: boolean) {
         this.contentToInsert += this.addInitialLineBreak() + this.markupModel.createMarkup(url,insertMode,false);
     };
 
-    public insertWebLink(url,insertMode) {
+    public insertWebLink(url: string, insertMode: InsertMode) {
         this.contentToInsert += this.addInitialLineBreak() + this.markupModel.createMarkup(url,insertMode,false);
     };
 
