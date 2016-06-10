@@ -76,7 +76,7 @@ module API
         property :done_ratio,
                  as: :percentageDone,
                  render_nil: true,
-                 if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
+                 if: -> (*) { Setting.work_package_done_ratio == 'field' }
 
         property :estimated_hours,
                  as: :estimatedTime,
