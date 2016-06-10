@@ -748,7 +748,6 @@ en:
   description_selected_columns: "Selected Columns"
   description_sub_work_package: "Sub work package of current"
   description_toc_toggle: "Show/Hide table of contents"
-  description_user_mail_notification: "Mail notification settings"
   description_wiki_subpages_reassign: "Choose new parent page"
 
   # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
@@ -1255,7 +1254,6 @@ en:
   label_used_by: "Used by"
   label_user_activity: "%{value}'s activity"
   label_user_anonymous: "Anonymous"
-  label_user_mail_self_notified: "I want to be notified of changes that I make myself"
   label_user_mail_option_all: "For any event on all my projects"
   label_user_mail_option_none: "No events"
   label_user_mail_option_only_assigned: "Only for things I am assigned to"
@@ -1850,7 +1848,6 @@ en:
   text_type_no_workflow: "No workflow defined for this type"
   text_unallowed_characters: "Unallowed characters"
   text_user_invited: The user has been invited and is pending registration.
-  text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. work packages you're the author or assignee)."
   text_user_wrote: "%{value} wrote:"
   text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
   text_wiki_destroy_confirmation: "Are you sure you want to delete this wiki and all its content?"
@@ -2112,6 +2109,10 @@ en:
     password_change_unsupported: Change of password is not supported.
     authorization_rejected: "You are not allowed to sign in."
     invite: Invite user via email
+    settings:
+      mail_notifications: "Send email notifications"
+      mail_self_notified: "I want to be notified of changes that I make myself"
+      mail_project_explanaition: "For unselected projects, you will only receive notifications about things you watch or you're involved in (e.g. work packages you're the author or assignee of)."
 
   version_status_closed: "closed"
   version_status_locked: "locked"
