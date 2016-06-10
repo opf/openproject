@@ -2090,6 +2090,7 @@ en:
     authentication_settings_disabled_due_to_external_authentication: >
       This user authenticates via an external authentication provider, so there is no password
       in OpenProject to be changed.
+    authorization_rejected: "You are not allowed to sign in."
     assign_random_password: "Assign random password (sent to user via email)"
     blocked: "locked temporarily"
     blocked_num_failed_logins:
@@ -2097,22 +2098,21 @@ en:
       other: "locked temporarily (%{count} failed login attempts)"
     deleted: "Deleted user"
     error_status_change_failed: "Changing the user status failed due to the following errors: %{errors}"
+    invite: Invite user via email
+    invited: invited
     lock: "Lock permanently"
     locked: "locked permanently"
+    no_login: "This user authenticates through login by password. Since it is disabled, they cannot log in."
+    password_change_unsupported: Change of password is not supported.
     registered: "registered"
-    invited: invited
     reset_failed_logins: "Reset failed logins"
+    settings:
+      mail_notifications: "Send email notifications"
+      mail_project_explanaition: "For unselected projects, you will only receive notifications about things you watch or you're involved in (e.g. work packages you're the author or assignee of)."
+      mail_self_notified: "I want to be notified of changes that I make myself"
     status_user_and_brute_force: "%{user} and %{brute_force}"
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
-    no_login: "This user authenticates through login by password. Since it is disabled, they cannot log in."
-    password_change_unsupported: Change of password is not supported.
-    authorization_rejected: "You are not allowed to sign in."
-    invite: Invite user via email
-    settings:
-      mail_notifications: "Send email notifications"
-      mail_self_notified: "I want to be notified of changes that I make myself"
-      mail_project_explanaition: "For unselected projects, you will only receive notifications about things you watch or you're involved in (e.g. work packages you're the author or assignee of)."
 
   version_status_closed: "closed"
   version_status_locked: "locked"
