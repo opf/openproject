@@ -1,45 +1,45 @@
 import {IApplyAttachmentMarkup} from './wp-attachments-formattable.interfaces'
 import {InsertMode} from './wp-attachments-formattable.enums'
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import IAugmentedJQuery = angular.IAugmentedJQuery;
 
 export class EditorModel implements IApplyAttachmentMarkup{
     private currentCaretPosition: number;
     public contentToInsert:string = "";
-    private markupModel: MarkupModel;
 
-    constructor(protected textarea: ng.IAugmentedJQuery, protected markupModel: MarkupModel){
+    constructor(protected textarea: IAugmentedJQuery, protected markupModel: MarkupModel){
         this.setCaretPosition();
     }
 
-    public insertWebLink(url: string, insertMode: InsertMode) {
+    public insertWebLink(url: string, insertMode: InsertMode): void {
         if(angular.isUndefined(insertMode)) insertMode = InsertMode.LINK;
         this.contentToInsert = this.markupModel.createMarkup(url, insertMode);
     };
 
-    public insertAttachmentLink(url: string, insertMode: InsertMode, addLineBreak?: boolean) {
+    public insertAttachmentLink(url: string, insertMode: InsertMode, addLineBreak?: boolean): void {
         if(angular.isUndefined(insertMode)) insertMode = InsertMode.ATTACHMENT;
         this.contentToInsert = (addLineBreak) ?
         this.contentToInsert + this.markupModel.createMarkup(url, insertMode, addLineBreak) :
             this.markupModel.createMarkup(url, insertMode, addLineBreak);
     };
 
-    private setCaretPosition() {
-        this.currentCaretPosition = this.textarea[0].selectionStart;
+    private setCaretPosition(): void {
+        this.currentCaretPosition = (this.textarea[0] as HTMLTextAreaElement).selectionStart;
     };
 
-    public save() {
-        angular.element(this.textarea).val(this.textarea[0].value.substring(0, this.currentCaretPosition) +
+    public save(): void {
+        this.textarea.val(this.textarea.val().substring(0, this.currentCaretPosition) +
             this.contentToInsert +
-            this.textarea[0].value.substring(this.currentCaretPosition, this.textarea[0].value.length)).change();
+            this.textarea.val().substring(this.currentCaretPosition, this.textarea.val().length)).change();
     }
 }
 
 export class MarkupModel{
 
-    public createMarkup(insertUrl: string, insertMode: InsertMode, addLineBreak?: boolean) {
+    public createMarkup(insertUrl: string, insertMode: InsertMode, addLineBreak?: boolean = false): string {
         if (angular.isUndefined((insertUrl))) return "";
-        if(angular.isUndefined((addLineBreak))) addLineBreak = false;
-        let markup:string = "";
+
+        var markup:string = "";
 
         switch (insertMode) {
             case InsertMode.ATTACHMENT:
@@ -63,18 +63,17 @@ export class MarkupModel{
 }
 
 export class DropModel{
-    protected dt:any;
-    protected config:any = {
-        imageFileTypes : ["jpg","jpeg","gif","png"],
-        maximumAttachmentFileSize : 0, // initialized during init process from ConfigurationService
-    };
-
     public files: FileList;
     public filesCount: number;
     public isUpload: boolean;
     public isDelayedUpload: boolean;
     public isWebLink: boolean;
     public webLinkUrl: string;
+
+    protected config: any = {
+      imageFileTypes : ["jpg","jpeg","gif","png"],
+      maximumAttachmentFileSize : 0, // initialized during init process from ConfigurationService
+    };
 
     constructor(protected $location: ng.ILocationService, protected dt: DataTransfer, protected workPackage: WorkPackageResource){
         this.files = dt.files;
@@ -91,7 +90,7 @@ export class DropModel{
      * _config.imageFileTypes[]
      * @returns {boolean}
      */
-    public isWebImage() {
+    public isWebImage(): boolean {
         if(angular.isDefined(this.webLinkUrl)){
             return (this.config.imageFileTypes.indexOf(this.webLinkUrl.split(".").pop().toLowerCase()) > -1);
         }
@@ -103,13 +102,13 @@ export class DropModel{
      * Will try to handle URLs and file contents.
      * @returns {boolean}
      */
-    public isAttachmentOfCurrentWp() {
+    public isAttachmentOfCurrentWp():boolean {
         if(this.isWebLink){
 
             // weblink does not point to our server, so it can't be an attachment
             if(!(this.webLinkUrl.indexOf(this.$location.host()) > -1) ) return false;
 
-            let isAttachment:boolean = false;
+            var isAttachment:boolean = false;
 
             this.workPackage.$embedded.attachments.$embedded.elements.forEach((attachment)=>{
                 if(this.webLinkUrl.indexOf(attachment.href) > -1) {
@@ -135,7 +134,7 @@ export class DropModel{
      *
      * @returns {string}
      */
-    protected removeHostInformationFromUrl() {
+    protected removeHostInformationFromUrl(): string {
         return this.webLinkUrl.replace(window.location.origin, "");
     };
 
@@ -150,7 +149,7 @@ export class DropModel{
      * @returns {boolean}
      */
 
-    protected filesAreValidForUploading() {
+    protected filesAreValidForUploading(): boolean {
         // needs: clarifying if rejected filetypes are a wanted feature
         // no filetypes are getting rejected yet
         var allFilesAreValid = true;
@@ -169,7 +168,7 @@ export class DropModel{
      * @returns {boolean}
      * @private
      */
-    protected _isUpload(dt: DataTransfer) {
+    protected _isUpload(dt: DataTransfer): boolean {
         if (dt.types && this.filesCount > 0) {
             for (let i=0; i < dt.types.length; i++) {
                 if (dt.types[i] == "Files") {
@@ -202,31 +201,26 @@ export class SingleAttachmentModel {
 }
 
 export class FieldModel implements IApplyAttachmentMarkup {
-
-    private markupModel: MarkupModel;
-    private workPackage: WorkPackageResource;
     public contentToInsert: string;
 
-    constructor(workPackage: WorkPackageResource, markupModel: MarkupModel){
-        this.markupModel = markupModel;
-        this.workPackage = workPackage;
+    constructor(protected workPackage: WorkPackageResource, protected markupModel: MarkupModel){
         this.contentToInsert = workPackage.description.raw || "";
     }
 
 
-    private addInitialLineBreak() {
+    private addInitialLineBreak(): string {
         return (this.contentToInsert.length > 0) ? "\r\n" : "";
     };
 
-    public insertAttachmentLink(url: string, insertMode: InsertMode, addLineBreak?: boolean) {
+    public insertAttachmentLink(url: string, insertMode: InsertMode, addLineBreak?: boolean): void {
         this.contentToInsert += this.addInitialLineBreak() + this.markupModel.createMarkup(url,insertMode,false);
     };
 
-    public insertWebLink(url: string, insertMode: InsertMode) {
+    public insertWebLink(url: string, insertMode: InsertMode): void {
         this.contentToInsert += this.addInitialLineBreak() + this.markupModel.createMarkup(url,insertMode,false);
     };
 
-    public save() {
+    public save(): void {
         this.workPackage.description.raw = this.contentToInsert;
         this.workPackage.save();
     };

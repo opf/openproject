@@ -49,7 +49,7 @@ export class WpAttachmentsService {
         var options: Object = {
           fields: {
             metadata: {
-              description: file.description
+              description: file.description,
               fileName: file.name,
             }
           },

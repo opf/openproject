@@ -20,7 +20,7 @@ export class WpAttachmentsFormattableController {
 
     }
 
-    public handleDrop = (evt: DragEvent) => {
+    public handleDrop(evt: DragEvent): void {
         evt.preventDefault();
         evt.stopPropagation();
 
@@ -29,6 +29,8 @@ export class WpAttachmentsFormattableController {
 
         const workPackage: WorkPackageResource = this.$scope.workPackage;
         const dropData: DropModel = new DropModel(this.$location, evt.dataTransfer, workPackage);
+
+      console.log(workPackage);
 
         var description: any;
 
@@ -55,7 +57,7 @@ export class WpAttachmentsFormattableController {
                                 });
 
                                 if (dropData.filesCount === 1) {
-                                    let currentFile: SingleAttachmentModel =
+                                    const currentFile: SingleAttachmentModel =
                                       new SingleAttachmentModel(updatedAttachments[updatedAttachments.length - 1]);
                                     description.insertAttachmentLink(
                                       currentFile.url,
@@ -89,16 +91,16 @@ export class WpAttachmentsFormattableController {
             }
         }
         else {
-            let insertUrl: string = dropData.isAttachmentOfCurrentWp() ? dropData.removeHostInformationFromUrl() : dropData.webLinkUrl;
-            let insertAlternative: InsertMode = dropData.isWebImage() ? InsertMode.INLINE : InsertMode.LINK;
-            let insertMode: InsertMode = dropData.isAttachmentOfCurrentWp() ? InsertMode.ATTACHMENT : insertAlternative;
+            const insertUrl: string = dropData.isAttachmentOfCurrentWp() ? dropData.removeHostInformationFromUrl() : dropData.webLinkUrl;
+            const insertAlternative: InsertMode = dropData.isWebImage() ? InsertMode.INLINE : InsertMode.LINK;
+            const insertMode: InsertMode = dropData.isAttachmentOfCurrentWp() ? InsertMode.ATTACHMENT : insertAlternative;
 
             description.insertWebLink(insertUrl, insertMode);
             description.save();
         }
     };
 
-    protected prevDefault(evt: DragEvent) {
+    protected prevDefault(evt: DragEvent): void {
         evt.preventDefault();
         evt.stopPropagation();
     }

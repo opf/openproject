@@ -110,7 +110,8 @@ export class WorkPackageAttachmentsController{
   public remove(file): void {
     if(this.workPackage.isNew){
       _.remove(this.wpAttachments.attachments, file);
-    }else{
+    }
+    else{
       this.wpAttachments.remove(file);
     }
   };
@@ -150,12 +151,12 @@ function wpAttachmentsDirective(): ng.IDirective {
     scope: {
       workPackage: "&",
     },
-    templateUrl: (element, attrs) => {
+    templateUrl: (element: ng.IAugmentedJQuery, attrs: ng.IAttributes) => {
         return attrs.hasOwnProperty("edit")
           ? "/components/work-packages/wp-attachments/wp-attachments-edit.directive.html"
           : "/components/work-packages/wp-attachments/wp-attachments.directive.html";
     }
-  };
+  }
 }
 
 wpDirectivesModule.directive("wpAttachments", wpAttachmentsDirective);

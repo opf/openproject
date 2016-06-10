@@ -119,5 +119,5 @@ describe('WorkPackageAttachmentsDirective', function() {
 
       expect(uploadStub.calledWith(workPackage, [{type: 'file'}])).to.be.true;
     });
-  });*/
+  });
 });
