@@ -35,7 +35,6 @@ var ApiNotificationsService:any;
 
 export class RelationsHandler {
   public type:string = 'relation';
-  public isSingletonRelation:boolean = false;
 
   constructor(public workPackage:WorkPackageResourceInterface, public relations, public relationsId) {
   }
@@ -45,51 +44,48 @@ export class RelationsHandler {
   }
 
   public getCount() {
-    return this.relations ? this.relations.length : 0;
+    return this.relations && this.relations.length || 0;
   }
 
   public canAddRelation() {
-    return !!this.workPackage.$links.addRelation;
+    return !!this.workPackage.addRelation;
   }
 
   public canDeleteRelation(relation) {
-    return !!relation.$links.remove;
+    return !!relation.remove;
   }
 
   public addRelation(scope) {
-    WorkPackageService.addWorkPackageRelation(this.workPackage,
-      scope.relationToAddId,
-      this.relationsId)
-      .then(function () {
-        scope.relationToAddId = '';
-        scope.updateFocus(-1);
-        scope.$emit('workPackageRefreshRequired');
-      }, function (error) {
-        ApiNotificationsService.addError(error);
-      });
+    // WorkPackageService.addWorkPackageRelation(this.workPackage,
+    //   scope.relationToAddId,
+    //   this.relationsId)
+    //   .then(function () {
+    //     scope.relationToAddId = '';
+    //     scope.updateFocus(-1);
+    //     scope.$emit('workPackageRefreshRequired');
+    //   }, function (error) {
+    //     ApiNotificationsService.addError(error);
+    //   });
   }
 
   public removeRelation(scope) {
-    var index = this.relations.indexOf(scope.relation);
-    var handler = this;
-
-    WorkPackageService.removeWorkPackageRelation(scope.relation).then(() => {
-      handler.relations.splice(index, 1);
-      scope.updateFocus(index);
-      scope.$emit('workPackageRefreshRequired');
-    }, function (error) {
-      ApiNotificationsService.addError(scope, error);
-    });
+    // var index = this.relations.indexOf(scope.relation);
+    // var handler = this;
+    //
+    // WorkPackageService.removeWorkPackageRelation(scope.relation).then(() => {
+    //   handler.relations.splice(index, 1);
+    //   scope.updateFocus(index);
+    //   scope.$emit('workPackageRefreshRequired');
+    // }, function (error) {
+    //   ApiNotificationsService.addError(scope, error);
+    // });
   }
 
-  public getRelatedWorkPackage(workPackage, relation) {
-    var self = workPackage.links.self.href;
-
-    if (relation.links.relatedTo.href === self) {
-      return relation.links.relatedFrom.fetch();
-    } else {
-      return relation.links.relatedTo.fetch();
+  public getRelatedWorkPackage(relation) {
+    if (relation.relatedTo.href === this.workPackage.href) {
+      return relation.relatedFrom.$load();
     }
+    return relation.relatedTo.$load();
   }
 }
 

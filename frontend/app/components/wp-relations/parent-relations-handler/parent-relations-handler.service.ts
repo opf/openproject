@@ -34,12 +34,10 @@ var ApiNotificationsService:any;
 var PathHelper:any;
 
 export class ParentRelationsHandler extends RelationsHandler {
-  public type = 'parent';
-  public isSingletonRelation = true;
+  public type:string =  'parent';
 
-
-  constructor(workPackage, parents, relationsId) {
-    super(workPackage, parents.filter(parent => parent.id !== workPackage.id), relationsId);
+  constructor(workPackage, parent, relationsId) {
+    super(workPackage, parent && [parent], relationsId);
   }
 
   public removeRelation(scope) {

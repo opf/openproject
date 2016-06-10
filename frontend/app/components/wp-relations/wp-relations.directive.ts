@@ -27,8 +27,69 @@
 //++
 
 import {wpTabsModule} from "../../angular-modules";
+import {RelationsHandler} from "./relations-handler/relations-handler.service";
 
-function wpRelationsDirective(I18n, WorkPackagesHelper, $timeout) {
+const iconArrowSuffixes = ['up1', 'down1'];
+
+export class WorkPackageRelationsController {
+
+
+  public relationType:string;
+  public handler:RelationsHandler;
+  public btnTitle:string;
+  public btnIcon:string;
+  public focusElementIndex:number = -2;
+  public text:any;
+  public expand:boolean = false;
+
+  public get stateClass():string {
+    return 'icon-arrow-' + iconArrowSuffixes[+!!this.expand];
+  }
+
+  constructor(protected $scope, protected I18n) {
+    this.text = {
+      title: I18n.t('js.relation_labels.' + this.relationType),
+      table: {
+        subject: I18n.t('js.work_packages.properties.subject'),
+        status: I18n.t('js.work_packages.properties.status'),
+        assignee: I18n.t('js.work_packages.properties.assignee')
+      },
+      relations: {
+        empty: I18n.t('js.relations.empty'),
+        remove: I18n.t('js.relations.remove')
+      }
+    };
+
+    $scope.$watch('$ctrl.handler', () => {
+      if (this.handler) {
+        this.expand = this.expand || !this.handler.isEmpty();
+      }
+    });
+  }
+
+  public toggleExpand() {
+    this.expand = !this.expand;
+  }
+
+  public isFocused(index:number) {
+    return index === this.focusElementIndex;
+  }
+
+  public updateFocus(index:number) {
+    var length = this.handler.relations.length;
+
+    if (length == 0) {
+      this.focusElementIndex = -1;
+    }
+    else {
+      this.focusElementIndex = (index < length) ? index : length - 1;
+    }
+
+    this.$scope.$evalAsync(() => this.$scope.$broadcast('updateFocus'));
+  }
+}
+
+function wpRelationsDirective() {
   return {
     restrict: 'E',
     replace: true,
@@ -38,50 +99,12 @@ function wpRelationsDirective(I18n, WorkPackagesHelper, $timeout) {
       relationType: '@',
       handler: '=',
       btnTitle: '@buttonTitle',
-      btnIcon: '@buttonIcon',
-      isSingletonRelation: '@singletonRelation'
+      btnIcon: '@buttonIcon'
     },
 
-    link: function(scope) {
-      scope.I18n = I18n;
-      scope.focusElementIndex = -2;
-      scope.title = I18n.t('js.relation_labels.' + scope.relationType);
-
-      scope.$watch('handler', function() {
-        if (scope.handler) {
-          scope.workPackage = scope.handler.workPackage;
-
-          scope.expand = scope.expand || !scope.handler.isEmpty();
-          scope.relationsCount = scope.handler.getCount();
-        }
-      });
-
-      scope.$watch('expand', function(newVal, oldVal) {
-        scope.stateClass = WorkPackagesHelper.collapseStateIcon(newVal);
-      });
-
-      scope.toggleExpand = function() {
-        scope.expand = !scope.expand;
-      };
-
-      scope.isFocused = function(index) {
-        return index == scope.focusElementIndex;
-      };
-
-      scope.updateFocus = function(index) {
-        var length = scope.handler.relations.length;
-
-        if (length == 0) {
-          scope.focusElementIndex = -1;
-        } else {
-          scope.focusElementIndex = (index < length) ? index : length - 1;
-        }
-
-        $timeout(function() {
-          scope.$broadcast('updateFocus');
-        });
-      };
-    }
+    controller: WorkPackageRelationsController,
+    controllerAs: '$ctrl',
+    bindToController: true,
   };
 }
 

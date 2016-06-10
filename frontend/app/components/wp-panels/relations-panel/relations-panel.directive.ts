@@ -38,6 +38,8 @@ export class RelationsPanelController {
               RelationsHandler,
               ChildRelationsHandler,
               ParentRelationsHandler) {
+    $scope.wpParent = new ParentRelationsHandler(this.workPackage);
+    $scope.wpChildren = new ChildRelationsHandler(this.workPackage);
 
     if (this.workPackage.parent) {
       this.workPackage.parent.$load().then(parent => {
@@ -49,11 +51,13 @@ export class RelationsPanelController {
       $scope.wpChildren = new ChildRelationsHandler(this.workPackage, this.workPackage.children);
     }
 
-    angular.forEach(RELATION_TYPES, (type, identifier) => {
-      var relations = this.workPackage.relations.filter(relation => relation._type === type);
-      var relationId = RELATION_IDENTIFIERS[identifier];
-      $scope[identifier] = new RelationsHandler(this.workPackage, relations, relationId);
-    });
+    if (Array.isArray(this.workPackage.relations)) {
+      angular.forEach(RELATION_TYPES, (type, identifier) => {
+        var relations = this.workPackage.relations.filter(relation => relation._type === type);
+        var relationId = RELATION_IDENTIFIERS[identifier];
+        $scope[identifier] = new RelationsHandler(this.workPackage, relations, relationId);
+      });
+    }
   }
 }
 

@@ -27,15 +27,22 @@
 //++
 
 import {wpTabsModule} from "../../../angular-modules";
+import {WorkPackageRelationsController} from "../wp-relations.directive";
 
 declare const URI;
 
-function addWpRelationDirective($http, PathHelper) {
+function addWpRelationDirective($http, PathHelper, I18n) {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-relations/add-wp-relation/add-wp-relation.directive.html',
-
-    link: function (scope) {
+    require: '^wpRelations',
+    
+    link: function (scope, element, attrs, relationsCtrl:WorkPackageRelationsController) {
+      scope.text = {
+        uiSelectTitle: I18n.t('js.field_value_enter_prompt', {
+          field: I18n.t('js.relation_labels.' + relationsCtrl.handler.relationsId)
+        })
+      };
       scope.relationToAddId = null;
       scope.autocompleteWorkPackages = function (term) {
         if (!term) return;
@@ -44,8 +51,8 @@ function addWpRelationDirective($http, PathHelper) {
           q: term,
           scope: 'relatable',
           escape: false,
-          id: scope.handler.workPackage.props.id,
-          'project_id': scope.handler.workPackage.embedded.project.props.id
+          id: relationsCtrl.handler.workPackage.id,
+          project_id: relationsCtrl.handler.workPackage.project.id
         };
 
         return $http({

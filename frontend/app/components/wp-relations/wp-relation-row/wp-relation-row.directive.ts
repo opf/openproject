@@ -27,22 +27,41 @@
 //++
 
 import {wpTabsModule} from "../../../angular-modules";
+import {WorkPackageRelationsController} from "../wp-relations.directive";
 
-function wpRelationRowDirective(PathHelper, WorkPackagesHelper) {
+function wpRelationRowDirective(PathHelper) {
+  var getFullIdentifier = (workPackage) => {
+    var type = ' ';
+    
+    if (workPackage.type) {
+       type +=  workPackage.type.name + ': ';
+    }
+    
+    return `#${workPackage.id}${type}${workPackage.subject}`;
+  };
+  
+  function wpRelationsDirectiveLink(scope,
+                                    element,
+                                    attrs,
+                                    relationsCtrl:WorkPackageRelationsController) {
+    scope.workPackagePath = PathHelper.workPackagePath;
+    scope.userPath = PathHelper.userPath;
+
+
+
+    relationsCtrl.handler.getRelatedWorkPackage(scope.relation)
+      .then(relatedWorkPackage => {
+        scope.relatedWorkPackage = relatedWorkPackage;
+        scope.fullIdentifier = getFullIdentifier(relatedWorkPackage);
+        scope.state = relatedWorkPackage.status.isClosed ? 'closed' : '';
+      });
+  }
+
   return {
     restrict: 'A',
+    require: '^wpRelations',
 
-    link: (scope) => {
-      scope.workPackagePath = PathHelper.workPackagePath;
-      scope.userPath = PathHelper.userPath;
-
-      scope.handler.getRelatedWorkPackage(scope.workPackage, scope.relation)
-        .then(relatedWorkPackage => {
-          scope.relatedWorkPackage = relatedWorkPackage;
-          scope.fullIdentifier = WorkPackagesHelper.getFullIdentifier(relatedWorkPackage);
-          scope.state = WorkPackagesHelper.getState(relatedWorkPackage);
-        });
-    }
+    link: wpRelationsDirectiveLink
   };
 }
 

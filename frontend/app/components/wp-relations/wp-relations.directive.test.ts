@@ -407,8 +407,6 @@ describe('Work Package Relations Directive', function () {
     describe('header', function () {
       beforeEach(inject(function ($timeout) {
         scope.relations = relationsHandlerSingle;
-        scope.relations.isSingletonRelation = true;
-
         compile(html);
 
         $timeout.flush();

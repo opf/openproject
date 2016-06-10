@@ -2,10 +2,10 @@
   <div class="choice">
     <div class="choice--select">
       <ui-select
-        id="relation_to_id-{{ handler.relationsId }}"
-        name="relation[to_id][{{ handler.relationsId }}]"
+        id="relation_to_id-{{ $ctrl.handler.relationsId }}"
+        name="relation[to_id][{{ $ctrl.handler.relationsId }}]"
         ng-model="$parent.relationToAddId"
-        title="{{ I18n.t('js.field_value_enter_prompt', { field: I18n.t('js.relation_labels.' + handler.relationsId) }) }}"
+        title="{{ text.uiSelectTitle }}"
         required
         theme="select2"
         tabindex="0">
@@ -20,9 +20,9 @@
     </div>
     <div class="choice--button">
       <button class="button"
-              title="{{ btnTitle }}"
-              ng-bind-html="btnIcon + ' ' + btnTitle"
-              ng-click="handler.addRelation(this)"
+              title="{{ $ctrl.btnTitle }}"
+              ng-bind-html="$ctrl.btnIcon + ' ' + $ctrl.btnTitle"
+              ng-click="$ctrl.handler.addRelation(this)"
               ng-disabled="add_relation_form.$invalid">
       </button>
     </div>

@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/* jshint camelcase: false */
-
 module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
 
   var WorkPackagesHelper = {
@@ -143,72 +141,6 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
 
     parseDateTime: function(value) {
       return new Date(Date.parse(value.replace(/(A|P)M$/, '')));
-    },
-
-    getParent: function(workPackage) {
-      var wpParent = workPackage.links.parent;
-
-      return (wpParent) ? [wpParent.fetch()] : [];
-    },
-
-    getChildren: function(workPackage) {
-      var children = workPackage.links.children;
-      var result = [];
-
-      if (children) {
-        for (var x = 0; x < children.length; x++) {
-          var child = children[x];
-
-          result.push(child);
-        }
-      }
-
-      return result;
-    },
-
-    getRelationsOfType: function(workPackage, type) {
-      var relations = workPackage.embedded.relations;
-      var result = [];
-
-      if (relations) {
-        for (var x = 0; x < relations.length; x++) {
-          var relation = relations[x];
-
-          if (relation.props._type == type) {
-            result.push(relation);
-          }
-        }
-      }
-
-      return result;
-    },
-
-    //Note: The following methods are display helpers and so don't really
-    //belong here but are shared between directives so it's probably the best
-    //place for them just now.
-    getState: function(workPackage) {
-      return (workPackage.embedded.status.props.isClosed) ? 'closed' : '';
-    },
-
-    getFullIdentifier: function(workPackage) {
-      var id = '#' + workPackage.props.id;
-      if (workPackage.props.type) {
-        id += ' ' + workPackage.props.type + ':';
-      }
-      id += ' ' + workPackage.props.subject;
-
-      return id;
-    },
-
-    collapseStateIcon: function(collapsed) {
-      var iconClass = 'icon-arrow-';
-      if (collapsed) {
-        iconClass += 'up1';
-      } else {
-        iconClass += 'down1';
-      }
-
-      return iconClass;
     }
   };
 

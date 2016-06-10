@@ -1,73 +1,88 @@
-<div ng-class="['relation', relationType]">
+<div ng-class="['relation', $ctrl.relationType]">
   <h3>
-    <accessible-by-keyboard execute="toggleExpand()"
-                            link-class="{{ relationType }}-toggle-link">
-      <i class="icon-pull-content" ng-class="stateClass"></i> {{ title }}
-      <span ng-if="!handler.isSingletonRelation">({{ handler.getCount() }})</span>
+    <accessible-by-keyboard execute="$ctrl.toggleExpand()"
+                            link-class="{{ $ctrl.relationType }}-toggle-link">
+      <i class="icon-pull-content" ng-class="$ctrl.stateClass"></i> {{ $ctrl.text.title }}
+      <span ng-if="$ctrl.relationType !== 'parent'">
+        ({{ $ctrl.handler.getCount() }})
+      </span>
     </accessible-by-keyboard>
   </h3>
-  <div class="content" ng-show="expand">
+  <div class="content" ng-show="$ctrl.expand">
     <div class="workpackages">
       <div ng-if="handler.relations">
         <table class="attributes-table">
           <colgroup>
-            <col style="width: 50%" />
-            <col style="width: 15%" />
-            <col />
-            <col style="width: 1rem" />
+            <col style="width: 50%"/>
+            <col style="width: 15%"/>
+            <col/>
+            <col style="width: 1rem"/>
           </colgroup>
           <thead>
-            <tr>
-              <td title="{{ I18n.t('js.work_packages.properties.subject')}}">{{ I18n.t('js.work_packages.properties.subject') }}</td>
-              <td title="{{ I18n.t('js.work_packages.properties.status')}}">{{ I18n.t('js.work_packages.properties.status') }}</td>
-              <td title="{{ I18n.t('js.work_packages.properties.assignee')}}">{{ I18n.t('js.work_packages.properties.assignee') }}</td>
-              <td></td>
-            </tr>
+          <tr>
+            <td title="{{ $ctrl.text.table.subject }}">{{ $ctrl.text.table.subject }}</td>
+            <td title="{{ $ctrl.text.table.status }}">{{ $ctrl.text.table.status }}</td>
+            <td title="{{ $ctrl.text.table.assignee }}">{{ $ctrl.text.table.assignee }}</td>
+            <td></td>
+          </tr>
           </thead>
           <tbody>
-            <tr wp-relation-row
-                ng-repeat="relation in handler.relations">
-              <td focus="isFocused($index)">
-                <a title="{{ fullIdentifier }}" class="work_package" ng-class="state" href="{{ workPackagePath(relatedWorkPackage.props.id) }}">
-                  {{ fullIdentifier }}
-                </a>
-              </td>
-              <td title="{{ relatedWorkPackage.embedded.status.props.name }}">{{ relatedWorkPackage.embedded.status.props.name }}</td>
-              <td>
-                <a ng-if="relatedWorkPackage.embedded.assignee && relatedWorkPackage.embedded.assignee.props.subtype != 'Group'" title="{{ relatedWorkPackage.embedded.assignee.props.name }}" href="{{ userPath(relatedWorkPackage.embedded.assignee.props.id) }}">
-                  {{ relatedWorkPackage.embedded.assignee.props.name }}
-                </a>
-                <span ng-if="relatedWorkPackage.embedded.assignee && relatedWorkPackage.embedded.assignee.props.subtype == 'Group'">
-                  {{ relatedWorkPackage.embedded.assignee.props.name }}
+          <tr wp-relation-row
+              ng-repeat="relation in $ctrl.handler.relations">
+            <td focus="$ctrl.isFocused($index)">
+              <a title="{{ fullIdentifier }}" class="work_package" ng-class="state"
+                 href="{{ workPackagePath(relatedWorkPackage.id) }}">
+                {{ fullIdentifier }}
+              </a>
+            </td>
+            <td title="{{ relatedWorkPackage.status.name }}">
+              {{ relatedWorkPackage.status.name }}
+            </td>
+            <td>
+              <a
+                  ng-if="relatedWorkPackage.assignee
+                 && relatedWorkPackage.assignee.subtype != 'Group'"
+                  title="{{ relatedWorkPackage.assignee.name }}"
+                  href="{{ userPath(relatedWorkPackage.assignee.id) }}">
+                {{ relatedWorkPackage.assignee.name }}
+              </a>
+                <span ng-if="relatedWorkPackage.assignee
+                 && relatedWorkPackage.assignee.subtype == 'Group'">
+                  {{ relatedWorkPackage.assignee.name }}
                 </span>
-                <empty-element ng-if="!relatedWorkPackage.embedded.assignee"></empty-element>
-              </td>
-              <td class="icon">
-                <accessible-by-keyboard ng-if="handler.canDeleteRelation(relation)"
-                                        execute="handler.removeRelation(this)">
-                  <icon-wrapper icon-name="remove"
-                                icon-title="{{ I18n.t('js.relations.remove') }}">
-                  </icon-wrapper>
-                </accessible-by-keyboard>
-              </td>
-            </tr>
+              <empty-element ng-if="!relatedWorkPackage.assignee"></empty-element>
+            </td>
+            <td class="icon">
+              <accessible-by-keyboard ng-if="$ctrl.handler.canDeleteRelation(relation)"
+                                      execute="$ctrl.handler.removeRelation(this)">
+                <icon-wrapper icon-name="remove"
+                              icon-title="{{ $ctrl.text.relations.remove }}">
+                </icon-wrapper>
+              </accessible-by-keyboard>
+            </td>
+          </tr>
 
           </tbody>
         </table>
       </div>
-      <div ng-if="handler.isEmpty()">
-        {{ I18n.t('js.relations.empty') }}
+      <div ng-if="$ctrl.handler.isEmpty()">
+        {{ $ctrl.text.relations.empty }}
       </div>
     </div>
-    <div class="add-relation" ng-if="handler.canAddRelation()" ng-switch="handler.type" focus="isFocused(-1)">
+    <div
+        class="add-relation"
+        ng-if="$ctrl.handler.canAddRelation()"
+        ng-switch="$ctrl.handler.type"
+        focus="$ctrl.isFocused(-1)"
+    >
       <!-- Add WP child -->
       <button
           ng-switch-when="child"
           class="button add-work-package-child-button"
-          title="{{ btnTitle }}"
-          ng-bind-html="btnIcon + ' ' + btnTitle"
-          ng-click="handler.addRelation()"
-          focus="focusElementIndex === -1"
+          title="{{ $ctrl.btnTitle }}"
+          ng-bind-html="$ctrl.btnIcon + ' ' + $ctrl.btnTitle"
+          ng-click="$ctrl.handler.addRelation()"
+          focus="$ctrl.focusElementIndex === -1"
       ></button>
 
 
