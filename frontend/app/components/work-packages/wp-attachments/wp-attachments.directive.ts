@@ -62,13 +62,6 @@ export class WorkPackageAttachmentsController{
     this.editMode = $attrs.hasOwnProperty("edit");
     this.workPackage = $scope.vm.workPackage();
 
-    // TODO: why does `this.attachments = this.wpAttachments.getCurrentAttachments();` not bind properly
-    // to my Service??
-    // meanwhile i present an ultra ultra ugly hack that at least works..
-    this.$scope.$watch(() => { return this.wpAttachments.getCurrentAttachments()},(currentAttachments)=>{
-      this.attachments = currentAttachments;
-    });
-
     this.fetchingConfiguration = true;
     ConfigurationService.api().then(settings => {
       this.settings.maximumFileSize = settings.maximumAttachmentFileSize;
@@ -92,7 +85,6 @@ export class WorkPackageAttachmentsController{
     if (this.files.length > 0) {
       this.wpAttachments.upload(this.workPackage, this.files).then(() => {
         this.files = [];
-        this.attachments = [];
         this.loadAttachments();
       });
     }

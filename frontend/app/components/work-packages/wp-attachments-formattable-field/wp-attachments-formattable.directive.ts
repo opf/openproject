@@ -20,7 +20,7 @@ export class WpAttachmentsFormattableController {
 
     }
 
-    public handleDrop(evt: DragEvent): void {
+    public handleDrop = (evt: DragEvent): void => {
         evt.preventDefault();
         evt.stopPropagation();
 
@@ -29,9 +29,7 @@ export class WpAttachmentsFormattableController {
 
         const workPackage: WorkPackageResource = this.$scope.workPackage;
         const dropData: DropModel = new DropModel(this.$location, evt.dataTransfer, workPackage);
-
-      console.log(workPackage);
-
+      
         var description: any;
 
         if (this.viewMode === ViewMode.EDIT) {

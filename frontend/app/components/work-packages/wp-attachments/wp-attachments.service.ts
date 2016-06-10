@@ -85,8 +85,9 @@ export class WpAttachmentsService {
     if (angular.isDefined(workPackage.$links.attachments)) {
       let path: string = workPackage.$links.attachments.$link.href;
       this.$http.get(path, {cache: !reload}).success(response => {
-        this.attachments = response._embedded.elements;
-        loadedAttachments.resolve(response._embedded.elements);
+        _.remove(this.attachments);
+        _.extend(this.attachments,response._embedded.elements);
+        loadedAttachments.resolve(this.attachments);
       }).error(err => {
         loadedAttachments.reject(err);
       });
