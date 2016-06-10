@@ -44,8 +44,9 @@ namespace :packager do
 
   #
   # Allow scripts to run with environment loaded once,
-  # avoids to load the environment multiple times
-  task postinstall: [:environment, 'setup:scm'] do
+  # avoids to load the environment multiple times.
+  # Removes older assets
+  task postinstall: [:environment, 'assets:clean', 'setup:scm'] do
 
     # We need to precompile assets when either
     # 1. packager requested it (e.g., due to a server prefix being set)
@@ -59,8 +60,8 @@ namespace :packager do
     # Persist configuration
     Setting.sys_api_enabled = 1
     Setting.sys_api_key = ENV['SYS_API_KEY']
-    Setting.protocol = ENV['SERVER_PROTOCOL']
-    Setting.host_name = ENV['SERVER_HOSTNAME']
+    Setting.protocol = ENV.fetch('SERVER_PROTOCOL', Setting.protocol)
+    Setting.host_name = ENV.fetch('SERVER_HOSTNAME', Setting.host_name)
 
     # Run customization step, if it is defined.
     # Use to define custom postinstall steps required after each configure,
