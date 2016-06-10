@@ -53,8 +53,15 @@ function wpWatchers($http, $q) {
   };
 
   var available = function(workPackage) {
-    var path = workPackage.links.availableWatchers.url();
-    return getWatchers(path)();
+    var link = workPackage.links.availableWatchers;
+
+    // If the user has the permission to view watchers, but not
+    // add them, this link will not be available.
+    if (link === undefined) {
+      return $q.when([]);
+    }
+
+    return getWatchers(link.url())();
   };
 
   var all = function(workPackage) {
