@@ -26,15 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from "../../../angular-modules";
-import {WpAttachmentsService} from "./wp-attachments.service"
+import {wpDirectivesModule} from '../../../angular-modules';
+import {WpAttachmentsService} from './wp-attachments.service'
 
 export class WorkPackageAttachmentsController{
   public workPackage: any;
 
   public attachments: Array = [];
   public fetchingConfiguration: boolean = false;
-  public files: Array = [];
+  public files: Array<File> = [];
   public hasRightToUpload: boolean = false;
   public I18n: any;
   public loading: boolean = false;
@@ -59,7 +59,7 @@ export class WorkPackageAttachmentsController{
               protected ConversionService: ng.IServiceProvider){
 
     this.attachments = this.wpAttachments.getCurrentAttachments();
-    this.editMode = $attrs.hasOwnProperty("edit");
+    this.editMode = $attrs.hasOwnProperty('edit');
     this.workPackage = $scope.vm.workPackage();
 
     this.hasRightToUpload = !!(angular.isDefined(this.workPackage.addAttachment) || this.workPackage.isNew);
@@ -70,15 +70,15 @@ export class WorkPackageAttachmentsController{
       this.fetchingConfiguration = false;
     });
     
-    if(angular.isDefined(this.workPackage)){ this.loadAttachments(); }
+    if(angular.isDefined(this.workPackage)) {
+      this.loadAttachments();
+    }
 
   }
 
   public upload(): void {
-    if (angular.isUndefined(this.files)) { return; }
-
     if (this.workPackage.isNew) {
-      _.each(this.files, (file) => {
+      this.files.forEach((file) => {
         this.attachments.push(file);
       });
       return;
@@ -139,18 +139,21 @@ function wpAttachmentsDirective(): ng.IDirective {
   return {
     bindToController: true,
     controller: WorkPackageAttachmentsController,
-    controllerAs: "vm",
+    controllerAs: 'vm',
     replace: true,
-    restrict: "E",
+    restrict: 'E',
     scope: {
-      workPackage: "&",
+      workPackage: '&',
     },
-    templateUrl: (element: ng.IAugmentedJQuery, attrs: ng.IAttributes) => {
-        return attrs.hasOwnProperty("edit")
-          ? "/components/work-packages/wp-attachments/wp-attachments-edit.directive.html"
-          : "/components/work-packages/wp-attachments/wp-attachments.directive.html";
+    templateUrl: (element: ng.IAugmentedJQuery, attrs: ng.IAttributes): string => {
+        if(attrs.hasOwnProperty('edit')) {
+          return '/components/work-packages/wp-attachments/wp-attachments-edit.directive.html';
+        }
+        else {
+          return '/components/work-packages/wp-attachments/wp-attachments.directive.html';
+        }
     }
   }
 }
 
-wpDirectivesModule.directive("wpAttachments", wpAttachmentsDirective);
+wpDirectivesModule.directive('wpAttachments', wpAttachmentsDirective);

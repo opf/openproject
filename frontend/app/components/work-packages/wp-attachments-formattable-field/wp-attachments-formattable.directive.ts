@@ -1,7 +1,7 @@
-import {WpAttachmentsService} from "./../wp-attachments/wp-attachments.service";
-import {WorkPackageResource} from "./../../api/api-v3/hal-resources/work-package-resource.service"
-import {InsertMode, ViewMode} from "./wp-attachments-formattable.enums"
-import {DropModel, EditorModel, MarkupModel, FieldModel, SingleAttachmentModel} from "./wp-attachments-formattable.models"
+import {WpAttachmentsService} from './../wp-attachments/wp-attachments.service';
+import {WorkPackageResource} from './../../api/api-v3/hal-resources/work-package-resource.service'
+import {InsertMode, ViewMode} from './wp-attachments-formattable.enums'
+import {DropModel, EditorModel, MarkupModel, FieldModel, SingleAttachmentModel} from './wp-attachments-formattable.models'
 
 export class WpAttachmentsFormattableController {
     private viewMode: ViewMode = ViewMode.SHOW;
@@ -13,10 +13,10 @@ export class WpAttachmentsFormattableController {
                 protected wpAttachments: WpAttachmentsService,
                 protected $timeout: ng.ITimeoutService) {
 
-      $element.get(0).addEventListener("drop", this.handleDrop);
-      $element.bind("dragenter", this.prevDefault)
-        .bind("dragleave", this.prevDefault)
-        .bind("dragover", this.prevDefault);
+      $element.get(0).addEventListener('drop', this.handleDrop);
+      $element.bind('dragenter', this.prevDefault)
+        .bind('dragleave', this.prevDefault)
+        .bind('dragover', this.prevDefault);
 
     }
 
@@ -24,7 +24,7 @@ export class WpAttachmentsFormattableController {
         evt.preventDefault();
         evt.stopPropagation();
 
-        const textarea: ng.IAugmentedJQuery = this.$element.find("textarea");
+        const textarea: ng.IAugmentedJQuery = this.$element.find('textarea');
         this.viewMode  = (textarea.length > 0) ? ViewMode.EDIT : ViewMode.SHOW;
 
         const workPackage: WorkPackageResource = this.$scope.workPackage;
@@ -79,9 +79,9 @@ export class WpAttachmentsFormattableController {
                     });
                 }
                 else {
-                  _.each(dropData.files, (file: File) => {
-                    description.insertAttachmentLink(file.name.replace(/ /g , "_"), InsertMode.ATTACHMENT, true);
-                    file["isPending"] = true;
+                  dropData.files.forEach((file: File) => {
+                    description.insertAttachmentLink(file.name.replace(/ /g , '_'), InsertMode.ATTACHMENT, true);
+                    file['isPending'] = true;
                     this.wpAttachments.addPendingAttachments(file);
                   });
                   description.save();
@@ -108,7 +108,10 @@ function wpAttachmentsFormattable() {
     return {
       bindToController: true,
       controller: WpAttachmentsFormattableController,
-      link: function(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, controllers: Array<ng.IControllerService>){
+      link: function(scope: ng.IScope, 
+                     element: ng.IAugmentedJQuery, 
+                     attrs: ng.IAttributes, 
+                     controllers: Array<ng.IControllerService>){
         // right now the attachments directive will only work in combination with either
         // the wpSingleView or the wpEditForm directive
         // else the drop handler will fail because of a missing reference to the current wp
@@ -117,12 +120,11 @@ function wpAttachmentsFormattable() {
 
         scope.workPackage = (controllers[0] === null) ? controllers[1].workPackage : controllers[0].workPackage;
       },
-      require: ["?^wpSingleView", "?^wpEditForm"],
-      restrict: "A"
+      require: ['?^wpSingleView', '?^wpEditForm'],
+      restrict: 'A'
     };
 }
 
-// todo: Use 'openproject.wpEdit' module
 angular
-    .module("openproject")
-    .directive("wpAttachmentsFormattable", wpAttachmentsFormattable);
+    .module('openproject')
+    .directive('wpAttachmentsFormattable', wpAttachmentsFormattable);

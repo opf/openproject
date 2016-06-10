@@ -108,10 +108,10 @@ export class DropModel{
 
             var isAttachment:boolean = false;
 
-            this.workPackage.$embedded.attachments.$embedded.elements.forEach((attachment)=>{
+            this.workPackage.attachments.elements.forEach((attachment)=>{
                 if(this.webLinkUrl.indexOf(attachment.href) > -1) {
                     isAttachment = true;
-                    return; // end foreach
+                    return;
                 }
             });
             return isAttachment;
