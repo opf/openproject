@@ -23,7 +23,6 @@
     </label>
 
     <ng-include src="vm.field.template"></ng-include>
-
   </form>
 
   <wp-display-attr ng-switch-when="false"
@@ -32,7 +31,9 @@
                    work-package="::vm.workPackage"
                    placeholder="::vm.displayPlaceholder"
                    label="vm.fieldLabel"
-                   class="-hidden-overflow inplace-edit--read-value"
-                   ng-class="vm.displayClasses">
+                   class="-hidden-overflow inplace-edit--read-value __d__inplace-edit--read-value"
+                   ng-class="vm.displayClasses"
+                   ng-click="vm.activateIfEditable($event)"
+                   focus="vm.shouldFocus()">
   </wp-display-attr>
 </div>
