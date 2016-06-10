@@ -10,7 +10,7 @@
        data-ng-show="vm.attachments.length > 0">
     <div class="work-package--details--long-field">
       <span class="inplace-edit--read"
-            data-ng-repeat="attachment in vm.wpAttachments.getCurrentAttachments() track by attachment.id">
+            data-ng-repeat="attachment in vm.attachments track by attachment.id">
         <span class="inplace-editing--trigger-container">
           <span class="inplace-editing--trigger-link"
                 ng-class="{'-focus': vm.focussing(attachment)}">

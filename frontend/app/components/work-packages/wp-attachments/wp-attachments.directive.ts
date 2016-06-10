@@ -35,7 +35,7 @@ export class WorkPackageAttachmentsController{
   public attachments: Array = [];
   public fetchingConfiguration: boolean = false;
   public files: Array = [];
-  public hasRightToUpload: boolean = true; // !!(workPackage.links.addAttachment || workPackage.isNew);
+  public hasRightToUpload: boolean = false;
   public I18n: any;
   public loading: boolean = false;
   public rejectedFiles: Array = [];
@@ -61,6 +61,8 @@ export class WorkPackageAttachmentsController{
     this.attachments = this.wpAttachments.getCurrentAttachments();
     this.editMode = $attrs.hasOwnProperty("edit");
     this.workPackage = $scope.vm.workPackage();
+
+    this.hasRightToUpload = !!(angular.isDefined(this.workPackage.addAttachment) || this.workPackage.isNew);
 
     this.fetchingConfiguration = true;
     ConfigurationService.api().then(settings => {
