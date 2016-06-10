@@ -37,11 +37,13 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
   let(:status) { FactoryGirl.create(:default_status) }
   let(:priority) { FactoryGirl.create(:default_priority) }
   let(:user) { FactoryGirl.build(:admin) }
+  let(:project) { FactoryGirl.create(:project_with_types) }
   let(:parameters) { {} }
 
   before do
     status
     priority
+    project
     login_as(user)
     post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
   end
@@ -81,14 +83,10 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
   end
 
   describe 'with all minimum parameters' do
-    let(:project) { FactoryGirl.create(:project_with_types) }
-    let(:type) { project.types.first }
+    let(:type) { project.types.default.first }
     let(:parameters) {
       {
         _links: {
-          type: {
-            href: "/api/v3/types/#{type.id}"
-          },
           project: {
             href: "/api/v3/projects/#{project.id}"
           }
@@ -99,6 +97,15 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
 
     it 'has 0 validation errors' do
       expect(subject.body).to have_json_size(0).at_path('_embedded/validationErrors')
+    end
+
+    it 'has the first default type active in the project set' do
+      type_link = {
+        href: "/api/v3/types/#{type.id}",
+        title: type.name
+      }
+
+      expect(subject.body).to be_json_eql(type_link.to_json).at_path('_embedded/payload/_links/type')
     end
   end
 end
