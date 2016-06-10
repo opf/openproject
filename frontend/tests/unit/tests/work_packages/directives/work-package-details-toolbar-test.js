@@ -71,9 +71,8 @@ describe('workPackageDetailsToolbar', function() {
     scope = $rootScope.$new();
 
     compile = function() {
-      angular.element(document).find('body').html('');
-      angular.element(document).find('body').append(element);
       element = $compile(element)(scope);
+      angular.element(document.body).append(element);
       scope.$digest();
       element.find('button:eq(1)').click();
     };

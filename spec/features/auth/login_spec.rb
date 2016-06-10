@@ -56,7 +56,8 @@ describe 'Login', type: :feature do
                         )
     end
 
-    it 'redirects to my_page after forced password change (with validation error) and first login' do
+    it 'redirects to homescreen after forced password change
+       (with validation error) and first login' do
       # first login
       visit signin_path
       within('#login-form') do
@@ -84,7 +85,7 @@ describe 'Login', type: :feature do
       end
 
       # on the my page
-      expect(current_path).to eql my_page_path
+      expect(current_path).to eql '/'
     end
   end
 end

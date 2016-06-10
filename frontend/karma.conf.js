@@ -48,6 +48,7 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     files: [
+      '../app/assets/javascripts/bundles/openproject-global.css',
       '../app/assets/javascripts/bundles/openproject-global.js',
 
       '../app/assets/javascripts/lib/jquery.trap.js',

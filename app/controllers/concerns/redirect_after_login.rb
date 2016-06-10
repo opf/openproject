@@ -33,39 +33,13 @@ module Concerns::RedirectAfterLogin
   def redirect_after_login(user)
     if user.first_login
       user.update_attribute(:first_login, false)
-
-      welcome_redirect
+      redirect_to home_url(first_time_user: true)
     else
       default_redirect
     end
   end
 
   #    * * *
-
-  def welcome_redirect
-    project = welcome_project
-
-    if project && redirect_to_welcome_project?(current_user, project)
-      redirect_to welcome_redirect_url(project)
-    else
-      default_redirect
-    end
-  end
-
-  def welcome_redirect_url(project)
-    url_for controller: :work_packages, project_id: project.identifier
-  end
-
-  ##
-  # Only the first user as the creator of the OpenProject installation is
-  # supposed to be redirected like this.
-  def redirect_to_welcome_project?(user, _project)
-    User.not_builtin.count == 1 && user.admin?
-  end
-
-  def welcome_project
-    DemoData::ProjectSeeder::Data.find_demo_project
-  end
 
   def default_redirect
     redirect_back_or_default controller: '/my', action: 'page'

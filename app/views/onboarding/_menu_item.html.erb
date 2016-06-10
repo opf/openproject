@@ -26,44 +26,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% breadcrumb_paths(nil) %>
-<div class="widget-boxes--screen-header">
-  <h2>
-    <span><%= organization_icon %></span>
-    <%= organization_name %>
-  </h2>
-</div>
-
-<foundation-modal modal-class="onboarding--start-modal" modal-start-on-show="<%= params[:first_time_user] %>">
+<foundation-modal  modal-class="onboarding--start-modal" >
   <div class="foundation-modal--template">
     <%= render partial: '/onboarding/starting_video_modal' %>
   </div>
+  <li>
+    <%= link_to l(:label_video),
+                '',
+                title: l(:label_video),
+                class: 'foundation-modal--activate-link' %>
+  </li>
 </foundation-modal>
-
-<%= render partial: 'announcements/show' %>
-
-<% if @homescreen[:blocks].any? %>
-  <section class="widget-boxes -flex">
-  <% @homescreen[:blocks].each do |block| %>
-    <% if block[:if].nil? || instance_eval(&block[:if]) %>
-      <div class="widget-box">
-      <%= render partial: "homescreen/blocks/#{block[:partial]}", locals: (block[:locals] || {}) %>
-      </div>
-    <% end %>
-  <% end %>
-  </section>
-<% end %>
-
-<% if @homescreen[:links].any? %>
-  <section class="homescreen--links">
-  <% @homescreen[:links].each do |link| %>
-    <% title = I18n.t(link[:label], scope: 'homescreen.links') %>
-    <a class="homescreen--links--item" href="<%= link[:url] %>" target="_blank" title="<%= title %>">
-      <span class="<%= link[:icon] %>"></span>
-      <%= title %>
-    </a>
-  <% end %>
-  </section>
-<% end %>
-
-<%= call_hook :homescreen_after_links %>

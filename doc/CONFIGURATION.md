@@ -301,3 +301,6 @@ default:
 
 * `rails_asset_host`: A custom host to use to serve static assets such as javascript, CSS, images, etc. (default: `nil`)
 
+## Onboarding Variables:
+
+* 'onboarding_video_url': An URL for the video displayed on the onboarding modal. This is only shown when the user logs in for the first time.
