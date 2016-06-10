@@ -75,7 +75,7 @@ describe('queryMenuItemFactory', function() {
     // The document does not seem to be cleaned up after each test instead each
     // test leaves additional DOM. Thus the tests are not independent.
     // Therefore we clean it by hand.
-    $document.find('body').html('');
+    menuContainer.remove();
   }));
 
   describe('#generateMenuItem for a query', function() {
