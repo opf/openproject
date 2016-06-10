@@ -34,12 +34,13 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= styled_select_tag 'user[mail_notification]',
             options_for_select(user_mail_notification_options(@user),
             @user.mail_notification),
-            onchange: 'if (this.value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}' %>
+            :'ng-model' => 'mail_notifications',
+            :'ng-init' => "mail_notifications = '#{@user.mail_notification}'" %>
     </div>
   </div>
 </div>
 
-<%= content_tag 'div', id: 'notified-projects', style: (@user.mail_notification == 'selected' ? '' : 'display:none;') do %>
+<%= content_tag 'div', id: 'notified-projects', :'ng-show' => "mail_notifications === 'selected'" do %>
   <div class="form--field -no-label">
     <div class="form--field-container -vertical">
       <% @user.projects.each do |project| %>
