@@ -29,7 +29,7 @@
 require 'concerns/omniauth_login'
 require 'open_project/static/links'
 
-module Redmine::MenuManager::HelpMenuHelper
+module Redmine::MenuManager::TopMenu::HelpMenu
   def render_help_top_menu_node(item = help_menu_item)
     if OpenProject::Static::Links.help_link_overridden?
       render_menu_node(item)
@@ -40,46 +40,50 @@ module Redmine::MenuManager::HelpMenuHelper
 
   def render_help_dropdown
     link_to_help_pop_up = link_to '', '',
+                                  title: l(:label_help),
                                   class: 'icon-help1',
                                   aria: { haspopup: 'true' }
 
-    result = ''.html_safe
-    render_drop_down_menu_node(link_to_help_pop_up, class: 'drop-down hidden-for-mobile') do
-      content_tag :ul, style: 'display:none', class: 'drop-down--help' do
-        render_help_and_support result
-        render_additional_resources result
-      end
+    render_menu_dropdown(
+      link_to_help_pop_up,
+      menu_item_class: 'hidden-for-mobile',
+      drop_down_class: 'drop-down--help'
+    ) do
+      result = ''.html_safe
+      render_help_and_support result
+      render_additional_resources result
+
+      result
     end
   end
 
   private
 
   def render_help_and_support(result)
-    result << content_tag(:li) do
+    result << content_tag(:li) {
       content_tag :span, l('top_menu.help_and_support'),
                   class: 'drop-down--help-headline',
                   title: l('top_menu.help_and_support')
-    end
-    result <<  static_link_item(:user_guides)
+    }
+    result << static_link_item(:user_guides)
     result << static_link_item(:faq)
-    result << content_tag(:li) do
+    result << content_tag(:li) {
       link_to l('homescreen.links.shortcuts'),
               '',
               title: l('homescreen.links.shortcuts'),
               onClick: 'modalHelperInstance.createModal(\'/help/keyboard_shortcuts\');'
-    end
+    }
     result << static_link_item(:boards)
     result << static_link_item(:professional_support)
-
   end
 
   def render_additional_resources(result)
-    result << content_tag(:li) do
+    result << content_tag(:li) {
       content_tag :span,
                   l('top_menu.additional_resources'),
                   class: 'drop-down--help-headline',
                   title: l('top_menu.additional_resources')
-    end
+    }
     result << static_link_item(:blog)
     result << static_link_item(:release_notes)
     result << static_link_item(:report_bug)

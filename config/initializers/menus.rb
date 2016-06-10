@@ -32,12 +32,13 @@ require 'redmine/menu_manager'
 Redmine::MenuManager.map :top_menu do |menu|
   menu.push :my_page,
             { controller: '/my', action: 'page' },
+            context: :main,
             html: { class: 'icon5 icon-star' },
             if: Proc.new { User.current.logged? }
-  # projects menu will be added by
-  # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
+
   menu.push :work_packages,
             { controller: '/work_packages', project_id: nil, action: 'index' },
+            context: :modules,
             caption: I18n.t('label_work_package_plural'),
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
@@ -45,12 +46,14 @@ Redmine::MenuManager.map :top_menu do |menu|
             }
   menu.push :news,
             { controller: '/news', project_id: nil, action: 'index' },
+            context: :modules,
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_news, nil, global: true)
             }
   menu.push :time_sheet,
             { controller: '/time_entries', project_id: nil, action: 'index' },
+            context: :modules,
             caption: I18n.t('label_time_sheet_menu'),
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
