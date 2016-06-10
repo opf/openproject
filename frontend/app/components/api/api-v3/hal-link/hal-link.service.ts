@@ -26,10 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {opApiModule} from "../../../../angular-modules";
+
 var $q:ng.IQService;
 var apiV3:restangular.IService;
 
-export class HalLink {
+export interface HalLinkInterface {
+  href:string;
+  method:string;
+  title?:string;
+  templated?:boolean;
+}
+
+export class HalLink implements HalLinkInterface {
   public static fromObject(link):HalLink {
     return new HalLink(link.href, link.title, link.method, link.templated);
   }
@@ -70,13 +79,13 @@ export class HalLink {
   }
 }
 
-function halLink(_$q_:ng.IQService, _apiV3_:restangular.IService) {
+function halLinkService(_$q_:ng.IQService, _apiV3_:restangular.IService) {
   $q = _$q_;
   apiV3 = _apiV3_;
 
   return HalLink;
 }
 
-angular
-  .module('openproject.api')
-  .factory('HalLink', ['$q', 'apiV3', halLink]);
+halLinkService.$inject = ['$q', 'apiV3'];
+
+opApiModule.factory('HalLink', halLinkService);
