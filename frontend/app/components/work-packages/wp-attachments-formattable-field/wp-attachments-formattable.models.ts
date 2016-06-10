@@ -11,13 +11,11 @@ export class EditorModel implements IApplyAttachmentMarkup{
         this.setCaretPosition();
     }
 
-    public insertWebLink(url: string, insertMode: InsertMode): void {
-        if(angular.isUndefined(insertMode)) insertMode = InsertMode.LINK;
+    public insertWebLink(url: string, insertMode: InsertMode = InsertMode.LINK): void {
         this.contentToInsert = this.markupModel.createMarkup(url, insertMode);
     };
 
-    public insertAttachmentLink(url: string, insertMode: InsertMode, addLineBreak?: boolean): void {
-        if(angular.isUndefined(insertMode)) insertMode = InsertMode.ATTACHMENT;
+    public insertAttachmentLink(url: string, insertMode: InsertMode = InsertMode.ATTACHMENT, addLineBreak?: boolean): void {
         this.contentToInsert = (addLineBreak) ?
         this.contentToInsert + this.markupModel.createMarkup(url, insertMode, addLineBreak) :
             this.markupModel.createMarkup(url, insertMode, addLineBreak);
