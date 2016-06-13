@@ -43,6 +43,14 @@ Then /^there should not be a main menu$/ do
   page.should_not have_css('#main-menu')
 end
 
+Then /^I should (not )?see "(.*?)" as being logged in$/ do |negative, name|
+  if negative
+    page.should_not have_link(name)
+  else
+    page.should have_link(name)
+  end
+end
+
 # opens a menu item in the main menu
 When /^I open the "([^"]+)" (?:sub)?menu$/ do |menu_name|
   nodes = all(:css, ".menu_root a[title=\"#{menu_name}\"]")

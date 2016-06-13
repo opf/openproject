@@ -130,9 +130,20 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_user_drop_down(items)
-    render_drop_down_menu_node link_to_user(User.current, title: User.current.to_s, aria: { haspopup: 'true' }),
+    avatar =
+      if homescreen_user_avatar == avatar(User.current)
+        homescreen_user_avatar
+      else
+        ''
+      end
+
+    render_drop_down_menu_node link_to(avatar,
+                                       '',
+                                       title: User.current.to_s,
+                                       aria: { haspopup: 'true' },
+                                       class: (avatar == '' ? 'icon-user icon-context' : '')),
                                items,
-                               class: 'drop-down last-child'
+                               class: 'drop-down -hide-icon last-child'
   end
 
   def render_login_partial

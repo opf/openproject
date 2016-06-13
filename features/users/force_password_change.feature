@@ -67,7 +67,7 @@ Feature: Forced Password Change
     When I try to log in with user "bob"
     And I fill out the change password form
     Then there should be a flash notice message
-    And I should see "Bob Bobbit"
+    And I should see "Bob Bobbit" as being logged in
     # Try again to check password change is not enforced on second login
     And I try to log in with user "bob"
-    Then I should see "Bob Bobbit"
+    Then I should see "Bob Bobbit" as being logged in

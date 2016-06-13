@@ -81,7 +81,7 @@ describe 'Omniauth authentication', type: :feature do
       fill_in('email', with: user.mail)
       click_link_or_button 'Sign In'
 
-      expect(page).to have_content('omni bob')
+      expect(page).to have_link('omni bob')
       expect(page).to have_link('Sign out')
     end
 

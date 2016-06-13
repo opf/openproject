@@ -36,7 +36,7 @@ Feature: User Authentication
   Scenario: A user is able to login successfully with provided credentials
     Given I am on the login page
     And I am admin
-    Then I should see "Admin" within "#top-menu-items"
+    Then I should see "Admin" as being logged in
 
   @javascript
   Scenario: Lost password notification mail will not be sent in case incorrect mail is given

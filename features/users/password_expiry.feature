@@ -35,23 +35,23 @@ Feature: Pasword expiry
     When I set passwords to expire after 30 days
     # login should succeed
     And I try to log in with user "bob"
-    Then I should see "Bob Bobbit"
+    Then I should see "Bob Bobbit" as being logged in
     When the time is 31 days later
     # 31 days later, the login should fail
     And I try to log in with user "bob"
-    Then I should not see "Bob Bobbit"
+    Then I should not see "Bob Bobbit" as being logged in
     And there should be a flash error message
     # After changing the password, the user should be logged in
     When I fill out the change password form
     Then there should be a flash notice message
-    And I should see "Bob Bobbit"
+    And I should see "Bob Bobbit" as being logged in
 
   Scenario: An admin deactivating password expiry allows a user to login
     When I set passwords to expire after 0 days
     # login should succeed
     And I try to log in with user "bob"
-    Then I should see "Bob Bobbit"
+    Then I should see "Bob Bobbit" as being logged in
     When the time is 31 days later
     # 31 days later, the login should fail
     And I try to log in with user "bob"
-    Then I should see "Bob Bobbit"
+    Then I should see "Bob Bobbit" as being logged in
