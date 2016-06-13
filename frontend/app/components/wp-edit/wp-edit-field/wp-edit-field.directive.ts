@@ -43,6 +43,7 @@ export class WorkPackageEditFieldController {
   public fieldLabel: string;
   public field: EditField;
   public errorenous: boolean;
+  public errors: Array<string>;
   public workPackage: WorkPackageResource;
 
   protected _active: boolean = false;
@@ -171,7 +172,16 @@ export class WorkPackageEditFieldController {
     return !(this.inEditMode ||
              (this.isRequired() && this.isEmpty()) ||
              (this.isErrorenous() && !this.isChanged()));
+  }
 
+  public get errorMessageOnLabel(): string {
+    if (_.isEmpty(this.errors)) {
+      return '';
+    }
+    else {
+      return this.I18n.t('js.inplace.errors.messages_on_field',
+                         { messages: this.errors.join(" ") });
+    }
   }
 
   public set editable(enabled: boolean) {
@@ -230,8 +240,9 @@ export class WorkPackageEditFieldController {
     return false;
   }
 
-  public setErrorState(error = true) {
-    this.errorenous = error;
+  public setErrors(errors) {
+    this.errorenous = !_.isEmpty(errors);
+    this.errors = errors;
   }
 
   public reset() {

@@ -20,6 +20,8 @@
     <label for="{{::vm.htmlId}}"
            class="hidden-for-sighted">
       {{::vm.fieldLabel}}
+
+      {{vm.errorMessageOnLabel}}
     </label>
 
     <ng-include src="vm.field.template"></ng-include>

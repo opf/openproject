@@ -50,16 +50,6 @@ function notificationBox($timeout, I18n, ConfigurationService) {
       }
     };
 
-    if (ConfigurationService.accessibilityModeEnabled()) {
-      $timeout(function() {
-        if (scope.content.type === 'error') {
-          element.focus();
-        } else {
-          element.find('.notification-box--close').focus();
-        }
-      });
-    }
-
     scope.$on('upload.error', function() {
       if (scope.content.type === 'upload') {
         scope.content.type = 'error';

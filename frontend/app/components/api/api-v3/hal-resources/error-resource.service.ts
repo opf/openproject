@@ -72,6 +72,26 @@ export class ErrorResource extends HalResource {
 
     return columns.map(field => field.details.attribute);
   }
+
+  public getMessagesPerAttribute(): object {
+    var perAttribute = {}
+
+    if (this.details) {
+      perAttribute[this.details.attribute] = [this.message];
+    }
+    else {
+      _.forEach(this.errors, error => {
+        if (perAttribute[error.details.attribute]) {
+          perAttribute[error.details.attribute].push(error.message);
+        }
+        else {
+          perAttribute[error.details.attribute] = [error.message];
+        }
+      });
+    }
+
+    return perAttribute;
+  }
 }
 
 function errorResource(_NotificationsService_) {
