@@ -105,7 +105,9 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
         title: type.name
       }
 
-      expect(subject.body).to be_json_eql(type_link.to_json).at_path('_embedded/payload/_links/type')
+      expect(subject.body)
+        .to be_json_eql(type_link.to_json)
+        .at_path('_embedded/payload/_links/type')
     end
   end
 end
