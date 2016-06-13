@@ -705,6 +705,13 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       expect(joined_cache_key).to_not eql(original_cache_key)
     end
 
+    it 'changes when the locale changes' do
+      allow(I18n).to receive(:locale).and_return(:de)
+      work_package.type = FactoryGirl.build_stubbed(:type)
+
+      expect(joined_cache_key).to_not eql(original_cache_key)
+    end
+
     it 'changes when the custom_fields changes' do
       allow(work_package.project)
         .to receive(:all_work_package_custom_fields)

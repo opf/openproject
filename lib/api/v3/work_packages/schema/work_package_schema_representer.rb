@@ -98,6 +98,7 @@ module API
             custom_fields_key = ActiveSupport::Cache.expand_cache_key custom_fields
 
             ["api/v3/work_packages/schema/#{represented.project.id}-#{represented.type.id}",
+             I18n.locale,
              represented.type.updated_at,
              Digest::SHA2.hexdigest(custom_fields_key)]
           end
