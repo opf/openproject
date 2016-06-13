@@ -62,9 +62,15 @@ function sortHeader(){
         scope.fullTitle = scope.headerTitle;
 
         if(scope.currentSortDirection) {
-          var sortDirectionText = (scope.currentSortDirection == 'asc') ? I18n.t('js.label_ascending') : I18n.t('js.label_descending');
-          var summaryContent = I18n.t('js.label_work_package_plural') + " " + sortDirectionText + " " + I18n.t('js.label_sorted_by') + " " + scope.headerTitle + '. ' + I18n.t('js.text_hint_wp_table');
-          jQuery('#wp-table-summary').text(summaryContent);
+          var ascending = scope.currentSortDirection === 'asc';
+          var summaryContent = [
+            ascending ? I18n.t('js.label_ascending') : I18n.t('js.label_descending'),
+            I18n.t('js.label_sorted_by'),
+            scope.headerTitle + '.',
+            I18n.t('js.work_packages.table.text_sort_hint')
+          ];
+
+          jQuery('#wp-table-sort-summary').text(summaryContent.join(" "));
         }
       }
 

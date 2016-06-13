@@ -260,7 +260,12 @@ function WorkPackagesTableController($scope, $rootScope, I18n) {
     sumFor: I18n.t('js.label_sum_for'),
     allWorkPackages: I18n.t('js.label_all_work_packages'),
     noResults: I18n.t('js.work_packages.no_results.title'),
-    noResultsDescription: I18n.t('js.work_packages.no_results.description')
+    noResultsDescription: I18n.t('js.work_packages.no_results.description'),
+    tableSummary: I18n.t('js.work_packages.table.summary'),
+    tableSummaryHints: [
+      I18n.t('js.work_packages.table.text_inline_edit'),
+      I18n.t('js.work_packages.table.text_sort_hint')
+    ].join(' ')
   };
 
   $scope.$watch('workPackagesTableData.allRowsChecked', function(checked) {
