@@ -140,6 +140,29 @@ export class WorkPackageEditFieldController {
     return this.formCtrl.inEditMode;
   }
 
+  public isRequired(): boolean {
+    return this.workPackage.schema[this.fieldName].required;
+  }
+
+  public isEmpty(): boolean {
+    return !this.workPackage[this.fieldName];
+  }
+
+  public isChanged(): boolean {
+    return this.workPackage.$pristine[this.fieldName] !== this.workPackage[this.fieldName];
+  }
+
+  public isErrorenous(): boolean {
+    return this.errorenous;
+  }
+
+  public isSubmittable(): boolean {
+    return !(this.inEditMode ||
+             (this.isRequired() && this.isEmpty()) ||
+             (this.isErrorenous() && !this.isChanged()));
+
+  }
+
   public set editable(enabled: boolean) {
     this._editable = enabled;
   }
@@ -166,7 +189,7 @@ export class WorkPackageEditFieldController {
   }
 
   public handleUserBlur(): boolean {
-    if (this.inEditMode) {
+    if (!this.isSubmittable()) {
       return;
     }
 
@@ -198,7 +221,6 @@ export class WorkPackageEditFieldController {
 
   public setErrorState(error = true) {
     this.errorenous = error;
-    this.$element.toggleClass('-error', error);
   }
 
   public reset() {
