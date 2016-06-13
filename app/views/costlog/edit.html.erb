@@ -46,17 +46,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       </div>
       <div class="form--field">
         <%= f.text_field :spent_on, size: 10, required: true %>
+        <label for="cost_entry_spent_on" class="hidden-for-sighted"><%= l(:label_date) %> <%=l(:text_hint_date_format) %></label>
         <%= calendar_for('cost_entry_spent_on') %>
       </div>
       <% if User.current.allowed_to? :log_costs, @project %>
         <div class="form--field">
-          <%= f.select :user_id, user_collection_for_select_options, required: true %>
+        <%# Without knowing why `prompt` is in this case responsible for no blank line in the selection options %>
+          <%= f.select :user_id, user_collection_for_select_options,  required: true, prompt: true, prompt: true %>
         </div>
       <% else %>
         <%= f.hidden_field :user_id, value: User.current.id %>
       <% end %>
       <div class="form--field">
-        <%= f.select :cost_type_id, cost_types_collection_for_select_options, required: true %></p>
+        <%# see above %>
+        <%= f.select :cost_type_id, cost_types_collection_for_select_options, required: true, prompt: true %></p>
       </div>
       <div class="form--field">
         <% if @cost_entry.cost_type.nil? %>
