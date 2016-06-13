@@ -52,6 +52,8 @@ export class WorkPackageEditFieldController {
   // all fields are initially viewed as uneditable until it is loaded
   protected _editable: boolean = false;
 
+  private __d__inplaceEditReadValue: JQuery;
+
   constructor(protected wpEditField: WorkPackageEditFieldService,
               protected $scope,
               protected $element,
@@ -121,6 +123,8 @@ export class WorkPackageEditFieldController {
       this.editable = fieldSchema && fieldSchema.writable;
       this.fieldType = fieldSchema && this.wpEditField.fieldType(fieldSchema.type);
 
+      this.updateDisplayAttributes();
+
       if (fieldSchema) {
         this.fieldLabel = this.fieldLabel || fieldSchema.name;
 
@@ -130,6 +134,13 @@ export class WorkPackageEditFieldController {
         }
       }
     });
+  }
+
+  public activateIfEditable(event) {
+    if (this.isEditable) {
+      this.handleUserActivate();
+    }
+    event.stopImmediatePropagation();
   }
 
   public get isEditable(): boolean {
@@ -236,6 +247,10 @@ export class WorkPackageEditFieldController {
     });
   }
 
+  protected updateDisplayAttributes() {
+    this.__d__inplaceEditReadValue = this.__d__inplaceEditReadValue || this.$element.find(".__d__inplace-edit--read-value");
+    this.__d__inplaceEditReadValue.attr("tabindex", this.isEditable ? "0" : "-1");
+  }
 }
 
 function wpEditFieldLink(scope,

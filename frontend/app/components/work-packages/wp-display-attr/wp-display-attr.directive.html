@@ -4,14 +4,12 @@
         aria-hidden="true">
   </span>
 
-  <span class="wp-table--cell-span inplace-edit--read-value--value __d__cell"
-        ng-click="$ctrl.activateIfEditable($event)"
-        data-click-on-keypress="[13, 32]"
-        focus="$ctrl.shouldFocus()">
+  <span class="wp-table--cell-span inplace-edit--read-value--value __d__cell" >
 
     <span class="__d__renderer">
       <ng-include ng-if="::!$ctrl.field.isManualRenderer"
-                  src="::$ctrl.field.template"></ng-include>
+                  src="::$ctrl.field.template">
+      </ng-include>
     </span>
 
   </span>

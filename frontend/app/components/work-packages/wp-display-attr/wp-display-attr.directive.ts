@@ -58,13 +58,6 @@ export class WorkPackageDisplayAttributeController {
     }
   }
 
-  public activateIfEditable(event) {
-    if (this.wpEditField.isEditable) {
-      this.wpEditField.handleUserActivate();
-    }
-    event.stopImmediatePropagation();
-  }
-
   public get placeholder() {
     return this.placeholderOptional || (this.field && this.field.placeholder);
   };
@@ -74,14 +67,6 @@ export class WorkPackageDisplayAttributeController {
       (this.schema[this.attribute] && this.schema[this.attribute].name) ||
       this.attribute;
   };
-
-  public isEditable() {
-    return this.wpEditField && this.wpEditField.isEditable;
-  };
-
-  public shouldFocus() {
-    return this.wpEditField && this.wpEditField.shouldFocus();
-  }
 
   public get labelId(): string {
     return 'wp-' + this.workPackage.id + '-display-attr-' + this.attribute + '-aria-label';
@@ -123,7 +108,6 @@ export class WorkPackageDisplayAttributeController {
         this.__d__hiddenForSighted.text(this.label + " " + this.displayText);
 
         this.__d__cell = this.__d__cell || this.$element.find(".__d__cell");
-        this.__d__cell.attr("tabindex", this.isEditable() ? "0" : "-1");
         this.__d__cell.attr("aria-labelledby", this.labelId);
         this.__d__cell.toggleClass("-placeholder", this.isEmpty);
     });
@@ -137,10 +121,8 @@ function wpDisplayAttrDirective() {
                     attr,
                     controllers) {
 
-    scope.$ctrl.wpEditField = controllers[0];
-
     // Listen for changes to the work package on the form ctrl
-    var formCtrl = controllers[1];
+    var formCtrl = controllers[0];
 
     if (formCtrl && !scope.$ctrl.customSchema) {
       formCtrl.onWorkPackageUpdated('wp-display-attr-' + scope.$ctrl.attribute, (wp) => {
@@ -153,7 +135,7 @@ function wpDisplayAttrDirective() {
     restrict: 'E',
     replace: true,
     templateUrl: '/components/work-packages/wp-display-attr/wp-display-attr.directive.html',
-    require: ['^?wpEditField', '^?wpEditForm'],
+    require: ['^?wpEditForm'],
     link: wpTdLink,
 
     scope: {
