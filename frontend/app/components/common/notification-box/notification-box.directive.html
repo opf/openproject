@@ -1,5 +1,5 @@
 <div class="notification-box{{' -' + content.type}}" tabindex="0" aria-atomic="true">
-  <div class="notification-box--content">
+  <div class="notification-box--content" role="alert">
     <p>
       <span>{{::content.message}}</span>
       <a ng-click="content.link.target()"
@@ -30,7 +30,7 @@
         <!-- "create another" button -->
       </div>
       <div data-ng-switch-when="error">
-        <ul class="notification-box--errors" role="alert">
+        <ul class="notification-box--errors">
           <li data-ng-repeat="error in content.errors track by $index">{{error}}</li>
         </ul>
         <!-- "continue editing" button -->
