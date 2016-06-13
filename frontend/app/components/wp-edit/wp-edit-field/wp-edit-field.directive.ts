@@ -171,7 +171,7 @@ export class WorkPackageEditFieldController {
     }
 
     this.deactivate();
-
+    this.submit();
   }
 
   public handleUserCancel() {

@@ -75,12 +75,20 @@ describe 'Inline editing work packages', js: true do
       subject_field = wp_table.edit_field(work_package, :subject)
       status_field  = wp_table.edit_field(work_package, :status)
 
-      expect(UpdateWorkPackageService).to receive(:new).and_call_original
       subject_field.activate!
       subject_field.set_value('Other subject!')
 
+      # save is triggered by activating the status_field which
+      # causes a blur on the subject_field
+
       status_field.activate!
+
+      wp_table.expect_notification(message: 'Successful update')
+
       status_field.set_value(status2.name)
+
+      status_field.save!
+
       subject_field.expect_inactive!
       status_field.expect_inactive!
 
