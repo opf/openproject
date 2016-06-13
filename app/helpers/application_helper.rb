@@ -614,10 +614,6 @@ module ApplicationHelper
       })
     end
 
-    if User.current.impaired? and accessibility_js_enabled?
-      tags += javascript_include_tag('accessibility.js')
-    end
-
     tags.html_safe
   end
 
@@ -671,14 +667,6 @@ module ApplicationHelper
 
   def accessibility_css_enabled?
     !@accessibility_css_disabled
-  end
-
-  def disable_accessibility_js!
-    @accessibility_js_disabled = true
-  end
-
-  def accessibility_js_enabled?
-    !@accessibility_js_disabled
   end
 
   #

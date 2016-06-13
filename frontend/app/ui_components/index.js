@@ -49,7 +49,6 @@ angular.module('openproject.uiComponents')
   .directive('expandableSearch', ['ENTER_KEY', require('./expandable-search')])
   .directive('focus', [
     'FocusHelper',
-    'ConfigurationService',
     require('./focus-directive')
   ])
   .constant('FOCUSABLE_SELECTOR', 'a, button, :input, [tabindex], select')
