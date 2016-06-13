@@ -41,8 +41,7 @@ export class WorkPackageEditFormController {
   public fields = {};
   public observers:{[name: string]: Function} = {};
 
-
-  public lastErrorFields: string[] = [];
+  private errorsPerAttribute: Object = {};
   public firstActiveField: string;
 
   constructor(protected $scope: ng.IScope,
@@ -84,7 +83,7 @@ export class WorkPackageEditFormController {
 
   public registerField(field) {
     this.fields[field.fieldName] = field;
-    field.setErrorState(this.lastErrorFields.indexOf(field.fieldName) !== -1);
+    field.setErrors(this.errorsPerAttribute[field.fieldName] || []);
   }
 
   public toggleEditMode(state: boolean) {
@@ -103,7 +102,7 @@ export class WorkPackageEditFormController {
       });
     });
   }
-  
+
   public closeAllFields() {
     angular.forEach(this.fields, (field:WorkPackageEditFieldController) => {
       field.deactivate();
@@ -138,11 +137,11 @@ export class WorkPackageEditFormController {
 
     // Reset old error notifcations
     this.$rootScope.$emit('notifications.clearAll');
-    this.lastErrorFields = [];
+    this.errorsPerAttribute = {};
 
     this.workPackage.save()
       .then(() => {
-        angular.forEach(this.fields, field => field.setErrorState(false));
+        angular.forEach(this.fields, field => field.setErrors([]));
         deferred.resolve();
 
         this.showSaveNotification();
@@ -177,11 +176,15 @@ export class WorkPackageEditFormController {
   private handleSubmissionErrors(error: any, deferred: any) {
 
     // Process single API errors
-    this.handleErroneousAttributes(error.getInvolvedAttributes());
+    this.handleErroneousAttributes(error);
     return deferred.reject();
   }
 
-  private handleErroneousAttributes(attributes: string[]) {
+  private handleErroneousAttributes(error: any) {
+    let attributes = error.getInvolvedAttributes();
+    // Save erroneous fields for when new fields appear
+    this.errorsPerAttribute = error.getMessagesPerAttribute();
+
     if (attributes.length === 0) return;
 
     // Allow additional error handling
@@ -191,12 +194,9 @@ export class WorkPackageEditFormController {
       attributes: attributes
     });
 
-    // Save erroneous fields for when new fields appear
-    this.lastErrorFields = attributes;
-
     this.$scope.$evalAsync(() => {
       angular.forEach(this.fields, field => {
-        field.setErrorState(attributes.indexOf(field.fieldName) !== -1);
+        field.setErrors(this.errorsPerAttribute[(field.fieldName || [])]);
       });
 
       // Activate + Focus on first field
