@@ -20,6 +20,8 @@
 class LaborBudgetItem < ActiveRecord::Base
   belongs_to :cost_object
   belongs_to :user
+  belongs_to :principal, foreign_key: 'user_id'
+
   include ::OpenProject::Costs::DeletedUserFallback
 
   validates_length_of :comments, maximum: 255, allow_nil: true
