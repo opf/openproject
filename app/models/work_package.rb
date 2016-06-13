@@ -763,6 +763,10 @@ class WorkPackage < ActiveRecord::Base
     if new_record? # set default values for new records only
       self.status ||= Status.default
       self.priority ||= IssuePriority.active.default
+      if project
+        self.type ||= project.types.default.order(:position).first ||
+                        project.types.order(:position).first
+      end
     end
   end
 

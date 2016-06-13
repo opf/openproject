@@ -38,7 +38,11 @@ module API
           helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           post do
-            create_work_package_form(WorkPackage.new(author: current_user),
+            work_package = merge_hash_into_work_package!(request_body, WorkPackage.new)
+            work_package = WorkPackage.new(author: current_user,
+                                           project: work_package.project)
+
+            create_work_package_form(work_package,
                                      contract_class: ::WorkPackages::CreateContract,
                                      form_class: CreateFormRepresenter,
                                      action: :create)
