@@ -27,6 +27,7 @@
 //++
 
 import {HalResource} from '../api-v3/hal-resources/hal-resource.service';
+import {opApiModule} from "../../../angular-modules";
 
 export class ApiWorkPackagesService {
   protected wpBaseApi;
@@ -113,6 +114,4 @@ export class ApiWorkPackagesService {
   }
 }
 
-angular
-  .module('openproject.api')
-  .service('apiWorkPackages', ApiWorkPackagesService);
+opApiModule.service('apiWorkPackages', ApiWorkPackagesService);

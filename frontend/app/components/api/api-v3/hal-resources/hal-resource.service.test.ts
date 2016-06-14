@@ -37,9 +37,7 @@ describe('HalResource service', () => {
 
   beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
   beforeEach(angular.mock.inject((_$httpBackend_, _HalResource_, apiV3) => {
-    $httpBackend = _$httpBackend_;
-    HalResource = _HalResource_;
-
+    [$httpBackend, HalResource] = arguments;
     apiV3.setDefaultHttpFields({cache: false});
   }));
 

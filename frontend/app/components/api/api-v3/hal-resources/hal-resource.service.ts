@@ -223,12 +223,8 @@ export class HalResource {
   }
 }
 
-function halResourceService(_$q_, _lazy_, _halTransform_, _HalLink_) {
-  $q = _$q_;
-  lazy = _lazy_;
-  halTransform = _halTransform_;
-  HalLink = _HalLink_;
-
+function halResourceService() {
+  [$q, lazy, halTransform, HalLink] = arguments;
   return HalResource;
 }
 

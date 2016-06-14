@@ -26,17 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {opApiModule, opServicesModule} from "../../../angular-modules";
+
+const expect = chai.expect;
+
 describe('apiV3 service', () => {
   var apiV3:restangular.IService;
   var $httpBackend:ng.IHttpBackendService;
 
-  beforeEach(angular.mock.module('openproject.api'));
-  beforeEach(angular.mock.module('openproject.services'));
-
-  beforeEach(angular.mock.inject((_apiV3_, _$httpBackend_) => {
-    apiV3 = _apiV3_;
-    $httpBackend = _$httpBackend_;
-
+  beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
+  beforeEach(angular.mock.inject(function (_$httpBackend_, _apiV3_) {
+    [$httpBackend, apiV3] = arguments;
     apiV3.setBaseUrl('/base');
     apiV3.setDefaultHttpFields({cache: false});
   }));

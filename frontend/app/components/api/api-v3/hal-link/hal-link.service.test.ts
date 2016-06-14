@@ -26,16 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {opApiModule, opServicesModule} from "../../../../angular-modules";
+import {HalLink} from "./hal-link.service";
+
+const expect = chai.expect;
+
 describe('HalLink service', () => {
   var $httpBackend:ng.IHttpBackendService;
   var HalLink;
   var apiV3;
+  var link:HalLink;
 
-  beforeEach(angular.mock.module('openproject.api', 'openproject.services'));
-  beforeEach(angular.mock.inject((_apiV3_, _HalLink_, _$httpBackend_) => {
-    apiV3 = _apiV3_;
-    HalLink = _HalLink_;
-    $httpBackend = _$httpBackend_;
+  beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
+  beforeEach(angular.mock.inject(function (_$httpBackend_, _apiV3_, _HalLink_) {
+    [$httpBackend, apiV3, HalLink] = arguments;
 
     apiV3.setDefaultHttpFields({cache: false});
   }));
@@ -45,8 +49,6 @@ describe('HalLink service', () => {
   });
 
   describe('when creating a HalLink from an empty object', () => {
-    var link;
-
     beforeEach(() => {
       link = HalLink.fromObject({});
     });
@@ -60,8 +62,21 @@ describe('HalLink service', () => {
     });
   });
 
+  describe('when the method of the link is "delete"', () => {
+    beforeEach(() => {
+      link = HalLink.fromObject({
+        href: 'home',
+        method: 'delete'
+      });
+    });
+
+    it('should throw no error', () => {
+      const fetch = () => link.$fetch();
+      expect(fetch).not.to.throw(Error);
+    });
+  });
+
   describe('when using the link', () => {
-    var link;
     var promise;
     var response;
     var apiRequest = () => {

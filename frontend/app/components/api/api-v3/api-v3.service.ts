@@ -27,6 +27,7 @@
 // ++
 
 import {ApiPathsService} from "../api-paths/api-paths.service";
+import {opApiModule} from "../../../angular-modules";
 
 function apiV3Service(apiPaths:ApiPathsService,
                       Restangular:restangular.IService) {
@@ -36,6 +37,4 @@ function apiV3Service(apiPaths:ApiPathsService,
   });
 }
 
-angular
-  .module('openproject.api')
-  .factory('apiV3', apiV3Service);
+opApiModule.factory('apiV3', apiV3Service);

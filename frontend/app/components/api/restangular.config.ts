@@ -26,10 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {opApiModule} from "../../angular-modules";
+
 function restangularConfiguration(RestangularProvider: restangular.IProvider) {
   RestangularProvider.setDefaultHttpFields({cache: true});
+  RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json;charset=UTF-8'});
 }
 
-angular
-  .module('openproject.api')
-  .config(restangularConfiguration);
+opApiModule.config(restangularConfiguration);

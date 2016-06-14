@@ -305,19 +305,11 @@ export class WorkPackageResource extends HalResource {
 export interface WorkPackageResourceInterface extends WorkPackageResourceLinks, WorkPackageResourceEmbedded, WorkPackageResource {
 }
 
-function wpResource(_$q_, _apiWorkPackages_, _wpCacheService_, _NotificationsService_) {
-  $q = _$q_;
-  apiWorkPackages = _apiWorkPackages_;
-  wpCacheService = _wpCacheService_;
-  NotificationsService = _NotificationsService_;
-
+function wpResource() {
+  [$q, apiWorkPackages, wpCacheService, NotificationsService] = arguments;
   return WorkPackageResource;
 }
 
-opApiModule.factory('WorkPackageResource', [
-  '$q',
-  'apiWorkPackages',
-  'wpCacheService',
-  'NotificationsService',
-  wpResource
-]);
+wpResource.$inject = ['$q', 'apiWorkPackages', 'wpCacheService', 'NotificationsService'];
+
+opApiModule.factory('WorkPackageResource', wpResource);
