@@ -107,7 +107,8 @@ export class WorkPackageRelationGroup {
     return this.workPackage.addRelation({
       to_id: wpId,
       relation_type: this.id
-    });
+    })
+      .then(relation => this.relations.push(relation));
   }
 
   public removeWpRelation(relation) {
