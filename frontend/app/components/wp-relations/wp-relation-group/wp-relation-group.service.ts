@@ -106,7 +106,7 @@ export class WorkPackageRelationGroup {
   public addWpRelation(wpId:number) {
     return this.workPackage.addRelation({
       to_id: wpId,
-      relation_type: this.type
+      relation_type: this.id
     });
   }
 
