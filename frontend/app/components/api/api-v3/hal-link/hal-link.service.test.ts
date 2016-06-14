@@ -27,6 +27,7 @@
 //++
 
 import {opApiModule, opServicesModule} from "../../../../angular-modules";
+import {HalLink} from "./hal-link.service";
 
 const expect = chai.expect;
 
@@ -34,6 +35,7 @@ describe('HalLink service', () => {
   var $httpBackend:ng.IHttpBackendService;
   var HalLink;
   var apiV3;
+  var link:HalLink;
 
   beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
   beforeEach(angular.mock.inject(function (_$httpBackend_, _apiV3_, _HalLink_) {
@@ -47,8 +49,6 @@ describe('HalLink service', () => {
   });
 
   describe('when creating a HalLink from an empty object', () => {
-    var link;
-
     beforeEach(() => {
       link = HalLink.fromObject({});
     });
@@ -62,8 +62,21 @@ describe('HalLink service', () => {
     });
   });
 
+  describe('when the method of the link is "delete"', () => {
+    beforeEach(() => {
+      link = HalLink.fromObject({
+        href: 'home',
+        method: 'delete'
+      });
+    });
+
+    it('should throw no error', () => {
+      const fetch = () => link.$fetch();
+      expect(fetch).not.to.throw(Error);
+    });
+  });
+
   describe('when using the link', () => {
-    var link;
     var promise;
     var response;
     var apiRequest = () => {

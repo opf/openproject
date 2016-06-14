@@ -47,6 +47,13 @@ export class HalLink implements HalLinkInterface {
     return HalLink.fromObject(link).$toFunc();
   }
 
+  /**
+   *  Return the restangular element.
+   */
+  public get $route():restangular.IElement {
+    return apiV3.oneUrl('route', this.href);
+  }
+
   constructor(public href:string = null,
               public title:string = '',
               public method:string = 'get',
@@ -62,18 +69,13 @@ export class HalLink implements HalLinkInterface {
       params.unshift('');
     }
 
-    return this.$toRoute()[this.method](...params);
-  }
-
-  /** Returns the restangular route object */
-  public $toRoute() {
-    return apiV3.oneUrl('route', this.href);
+    return this.$route[this.method === 'delete' && 'remove' || this.method](...params);
   }
 
   public $toFunc() {
     const func:any = (...params) => this.$fetch(...params);
     func.$link = this;
-    func.$route = this.$toRoute();
+    func.$route = this.$route;
 
     return func;
   }

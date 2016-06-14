@@ -30,6 +30,7 @@ import {opApiModule} from "../../angular-modules";
 
 function restangularConfiguration(RestangularProvider: restangular.IProvider) {
   RestangularProvider.setDefaultHttpFields({cache: true});
+  RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json;charset=UTF-8'});
 }
 
 opApiModule.config(restangularConfiguration);
