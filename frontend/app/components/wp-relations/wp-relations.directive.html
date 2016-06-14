@@ -53,8 +53,8 @@
               <empty-element ng-if="!relatedWorkPackage.assignee"></empty-element>
             </td>
             <td class="icon">
-              <accessible-by-keyboard ng-if="$ctrl.relationGroup.canDeleteRelation(relation)"
-                                      execute="$ctrl.relationGroup.removeRelation(this)">
+              <accessible-by-keyboard ng-if="$ctrl.canRemoveRelation(relation)"
+                                      execute="$ctrl.removeRelation(relation)">
                 <icon-wrapper icon-name="remove"
                               icon-title="{{ $ctrl.text.relations.remove }}">
                 </icon-wrapper>

@@ -65,7 +65,7 @@ export class WorkPackageRelationsController {
       this.toggleExpand();
     }
   }
-  
+
   public addRelation() {
     this.relationGroup.addWpRelation(this.wpToAddId)
       .then(() => {
@@ -73,15 +73,26 @@ export class WorkPackageRelationsController {
         this.updateFocus(-1);
         this.$scope.$emit('workPackageRefreshRequired');
       })
-      .catch(error => {
-        error.data.showErrorNotification();
-      });
+      .catch(error => error.data.showErrorNotification());
+  }
+
+  public canRemoveRelation(relation?):boolean {
+    return this.relationGroup.canRemoveRelation(relation);
+  }
+
+  public removeRelation(relation) {
+    this.relationGroup.removeWpRelation(relation)
+      .then(index => {
+        this.updateFocus(index);
+        this.$scope.$emit('workPackageRefreshRequired');
+      })
+      .catch(error => error.data.showErrorNotification());
   }
 
   public toggleExpand() {
     this.expand = !this.expand;
   }
-  
+
   public isFocused(index:number) {
     return index === this.focusElementIndex;
   }

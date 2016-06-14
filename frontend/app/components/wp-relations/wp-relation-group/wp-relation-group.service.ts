@@ -67,6 +67,10 @@ export class WorkPackageRelationGroup {
     }
   }
 
+  public canRemoveRelation(relation):boolean {
+    return !!relation.remove;
+  }
+
   public getRelatedWorkPackage(relation) {
     if (relation.relatedTo.href === this.workPackage.href) {
       return relation.relatedFrom.$load();
@@ -103,6 +107,15 @@ export class WorkPackageRelationGroup {
     return this.workPackage.addRelation({
       to_id: wpId,
       relation_type: this.type
+    });
+  }
+
+  public removeWpRelation(relation) {
+    const index = this.relations.indexOf(relation);
+
+    return relation.remove().then(() => {
+      this.relations.splice(index, 1);
+      return index;
     });
   }
 }
