@@ -43,7 +43,7 @@ export class WpAttachmentsService {
   ) {}
 
   public upload(workPackage: WorkPackageResource, files: FileList): ng.IPromise {
-    const uploadPath: string = workPackage.addAttachment.$link.href;
+    const uploadPath: string = workPackage.attachments.href;
     const uploads = _.map(files, (file: File) => {
       var options: Object = {
         fields: {
