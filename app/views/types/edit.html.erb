@@ -31,7 +31,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 
 <% local_assigns[:additional_breadcrumb] = @type.name %>
-<%= breadcrumb_toolbar @type.name %>
+
+<div class="grid-content">
+  <%= breadcrumb_toolbar @type.name %>
+</div>
 
 <%= form_for @type, builder: TabularFormBuilder, lang: current_language do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
