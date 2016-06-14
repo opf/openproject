@@ -267,7 +267,9 @@ describe ProjectsController, type: :controller do
         it { expect(response).to redirect_to(settings_project_path(project, 'custom_fields')) }
 
         it 'sets flash[:error]' do
-          expect(flash[:error]).to eql(I18n.t(:notice_project_cannot_update_custom_fields))
+          expect(flash[:error]).to include(
+            "You cannot update the project's available custom fields. The project is invalid:"
+          )
         end
       end
     end
