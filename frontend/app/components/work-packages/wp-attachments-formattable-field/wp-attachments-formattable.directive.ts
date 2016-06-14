@@ -71,8 +71,9 @@ export class WpAttachmentsFormattableController {
                                           true);
                                   }
                                 }
-
                                 description.save();
+                            },(err)=>{
+                              console.log("error while reloading attachments",err)
                             });
                     }, function(err) {
                         console.log(err);

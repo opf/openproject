@@ -34,25 +34,25 @@ describe('wpAttachments', () => {
 
   var workPackage = {
     id: 1,
-    $links: {
-      attachments: {
-        $link: {
-          href: '/api/v3/work_packages/1/attachments'
-        }
+    $isHal: true,
+    attachments: {
+        href: '/api/v3/work_packages/1/attachments',
       },
-      addAttachment: {
-        $link: {
-          href: '/api/v3/work_packages/1/attachments'
-        }
+    addAttachment:{
+      $link:{
+        href:'/api/v3/work_packages/1/attachments'
       }
     }
+
   };
 
   // mock me an attachment
   var attachment = {
+    id: 1,
+    _type: "Attachment",
     _links: {
       self: {
-        href: '/attachments/1234'
+        href: "/api/v3/attachments/1"
       }
     }
   };
@@ -112,7 +112,7 @@ describe('wpAttachments', () => {
 
   describe('deleting an attachment', () => {
     beforeEach(() => {
-      $httpBackend.expectDELETE('/attachments/1234').respond({});
+      $httpBackend.expectDELETE('/api/v3/attachments/1').respond({});
     });
 
     it('should remove an attachment', () => {

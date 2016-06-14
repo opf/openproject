@@ -29,7 +29,7 @@
 import {wpServicesModule} from '../../../angular-modules.ts';
 import ArrayLiteralExpression = ts.ArrayLiteralExpression;
 import {WorkPackageResource} from './../../api/api-v3/hal-resources/work-package-resource.service'
-
+import {HalResource} from './../../api/api-v3/hal-resources/hal-resource.service'
 export class WpAttachmentsService {
   public attachments: Array = [];
 
@@ -43,7 +43,7 @@ export class WpAttachmentsService {
   ) {}
 
   public upload(workPackage: WorkPackageResource, files: FileList): ng.IPromise {
-    const uploadPath: string = workPackage.$links.addAttachment.$link.href;
+    const uploadPath: string = workPackage.addAttachment.$link.href;
     const uploads = _.map(files, (file: File) => {
       var options: Object = {
         fields: {
@@ -77,7 +77,7 @@ export class WpAttachmentsService {
     return allUploadsDone.promise;
   }
 
-  public load(workPackage: WorkPackageResource, reload:boolean = false): ng.IPromise {
+  public load(workPackage: WorkPackageResource, reload:boolean = false): ng.IPromise<Array> {
     const loadedAttachments = this.$q.defer();
 
     const path: string = workPackage.attachments.href;
@@ -89,14 +89,12 @@ export class WpAttachmentsService {
       loadedAttachments.reject(err);
     });
 
-    loadedAttachments.reject(null);
-
     return loadedAttachments.promise;
   };
 
   public remove(fileOrAttachment: any): void {
-    if (fileOrAttachment instanceof HalResource) {
-      const path: string = fileOrAttachment.href;
+    if (fileOrAttachment._type === "Attachment") {
+      const path: string = fileOrAttachment._links.self.href;
       this.$http.delete(path).success(() => {
         _.remove(this.attachments, fileOrAttachment);
       })
@@ -134,7 +132,8 @@ export class WpAttachmentsService {
     }
   }
 
-  public uploadPendingAttachments(wp: WorkPackageResource): ng.IPromise<any> {
+  // not in use until furinvaders create is merged
+  public uploadPendingAttachments = (wp: WorkPackageResource): ng.IPromise<any> => {
     if (angular.isDefined(wp) && this.attachments.length > 0){
       return this.upload(wp, this.attachments);
     }

@@ -61,6 +61,7 @@ export class WorkPackageAttachmentsController{
     this.attachments = this.wpAttachments.getCurrentAttachments();
     this.editMode = $attrs.hasOwnProperty('edit');
     this.workPackage = $scope.vm.workPackage();
+    console.log(this.workPackage);
 
     this.hasRightToUpload = !!(angular.isDefined(this.workPackage.addAttachment) || this.workPackage.isNew);
 

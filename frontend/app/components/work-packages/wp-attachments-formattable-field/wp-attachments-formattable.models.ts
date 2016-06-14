@@ -81,25 +81,13 @@ export class DropModel{
         this.isWebLink = ! this.isUpload;
         this.webLinkUrl = dt.getData("URL");
     }
-
-    /**
-     * @desc checks whether a given URL points to an image file.
-     * Will make decision based on the fileExtensions Array at
-     * _config.imageFileTypes[]
-     * @returns {boolean}
-     */
+  
     public isWebImage(): boolean {
         if(angular.isDefined(this.webLinkUrl)){
             return (this.config.imageFileTypes.indexOf(this.webLinkUrl.split(".").pop().toLowerCase()) > -1);
         }
     };
-
-    /**
-     * @desc checks whether a drop content can be identified as attachment
-     * belonging to the current wp.
-     * Will try to handle URLs and file contents.
-     * @returns {boolean}
-     */
+  
     public isAttachmentOfCurrentWp():boolean {
         if(this.isWebLink){
 
@@ -118,54 +106,23 @@ export class DropModel{
         }
     };
 
-    /**
-     * @desc returns a relative path from a full URL
-     *
-     *  usecase:
-     *  user dropped a weblink to the textarea which can be resolved as a wp attachment
-     *  http://127.0.0.1:5000/attachments/22/sample.jpg
-     *
-     *  dropModel.removeHostInformationFromUrl(ourUrl)
-     *  returns: /attachments/22/sample.jpg</p>
-     *
-     *  <p>which can be included as clean textile attachment markup</p>
-     *
-     * @returns {string}
-     */
-    protected removeHostInformationFromUrl(): string {
+    public filesAreValidForUploading(): boolean {
+      // needs: clarifying if rejected filetypes are a wanted feature
+      // no filetypes are getting rejected yet
+      var allFilesAreValid = true;
+      /*this.files.forEach((file)=>{
+       if(file.size > this.config.maximumAttachmentFileSize) {
+       allFilesAreValid = false;
+       return;
+       }
+       });*/
+      return allFilesAreValid;
+    };
+  
+    public removeHostInformationFromUrl(): string {
         return this.webLinkUrl.replace(window.location.origin, "");
     };
 
-    /**
-     * @desc checks if there are any files on the current upload
-     * queue that are invalid for uploading
-     *
-     * Reasons for Rejection:
-     *  => filesize exceeds the global filesizelimit returned
-     *  from ConfigurationService
-     *  => fileextension not allowed for uploading (e.g. *.exe)
-     * @returns {boolean}
-     */
-
-    protected filesAreValidForUploading(): boolean {
-        // needs: clarifying if rejected filetypes are a wanted feature
-        // no filetypes are getting rejected yet
-        var allFilesAreValid = true;
-        /*this.files.forEach((file)=>{
-         if(file.size > this.config.maximumAttachmentFileSize) {
-         allFilesAreValid = false;
-         return;
-         }
-         });*/
-        return allFilesAreValid;
-    };
-
-    /**
-     * @desc checks if the given files object in
-     * the dataTransfer property _dt contains files to upload
-     * @returns {boolean}
-     * @private
-     */
     protected _isUpload(dt: DataTransfer): boolean {
         if (dt.types && this.filesCount > 0) {
             for (let i=0; i < dt.types.length; i++) {
