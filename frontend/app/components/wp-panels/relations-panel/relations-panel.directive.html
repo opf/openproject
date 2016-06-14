@@ -1,57 +1,22 @@
 <div class="detail-panel-description" ng-if="$ctrl.workPackage">
   <div class="detail-panel-description-content">
-    <wp-relations relation-type="parent"
-                  handler="wpParent"
-                  button-title="{{ I18n.t('js.relation_buttons.change_parent') }}"
-                  button-icon="<i class='icon-hierarchy icon-edit'></i>">
-    </wp-relations>
+    <wp-relations
+        ng-repeat="relationGroup in $ctrl.relationGroups"
+        relation-group="relationGroup"
+        button-title="$ctrl.relationTitles[relationGroup.name]"
+        button-icon="<i class='icon-hierarchy icon-add'></i>"
+    ></wp-relations>
 
-    <wp-relations relation-type="children"
-                  handler="wpChildren"
-                  button-title="{{ I18n.t('js.relation_buttons.add_child') }}"
-                  button-icon="<i class='icon-hierarchy icon-add'></i>">
-    </wp-relations>
+    <!--<wp-relations relation-type="parent"-->
+    <!--handler="wpParent"-->
+    <!--button-title="{{ I18n.t('js.relation_buttons.change_parent') }}"-->
+    <!--button-icon="<i class='icon-hierarchy icon-edit'></i>">-->
+    <!--</wp-relations>-->
 
-    <wp-relations relation-type="relates"
-                  handler="relatedTo"
-                  button-title="{{ I18n.t('js.relation_buttons.add_related_to') }}"
-                  button-icon="<i class='icon-hierarchy icon-add'></i>">
-    </wp-relations>
-
-    <wp-relations relation-type="duplicates"
-                  handler="duplicates"
-                  button-title="{{ I18n.t('js.relation_buttons.add_duplicates') }}"
-                  button-icon="<i class='icon-hierarchy icon-add'></i>">
-    </wp-relations>
-
-    <wp-relations relation-type="duplicated"
-                  handler="duplicated"
-                  button-title="{{ I18n.t('js.relation_buttons.add_duplicated_by') }}"
-                  button-icon="<i class='icon-hierarchy icon-add'></i>">
-    </wp-relations>
-
-    <wp-relations relation-type="blocks"
-                  handler="blocks"
-                  button-title="{{ I18n.t('js.relation_buttons.add_blocks') }}"
-                  button-icon="<i class='icon-hierarchy icon-add'></i>">
-    </wp-relations>
-
-    <wp-relations relation-type="blocked"
-                  handler="blocked"
-                  button-title="{{ I18n.t('js.relation_buttons.add_blocked_by') }}"
-                  button-icon="<i class='icon-hierarchy icon-add'></i>">
-    </wp-relations>
-
-    <wp-relations relation-type="precedes"
-                  handler="precedes"
-                  button-title="{{ I18n.t('js.relation_buttons.add_precedes') }}"
-                  button-icon="<i class='icon-hierarchy icon-add'></i>">
-    </wp-relations>
-
-    <wp-relations relation-type="follows"
-                  handler="follows"
-                  button-title="{{ I18n.t('js.relation_buttons.add_follows') }}"
-                  button-icon="<i class='icon-hierarchy icon-add'></i>">
-    </wp-relations>
+    <!--<wp-relations relation-type="children"-->
+    <!--handler="wpChildren"-->
+    <!--button-title="{{ I18n.t('js.relation_buttons.add_child') }}"-->
+    <!--button-icon="<i class='icon-hierarchy icon-add'></i>">-->
+    <!--</wp-relations>-->
   </div>
 </div>

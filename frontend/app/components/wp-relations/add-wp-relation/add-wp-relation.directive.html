@@ -2,16 +2,16 @@
   <div class="choice">
     <div class="choice--select">
       <ui-select
-        id="relation_to_id-{{ $ctrl.handler.relationsId }}"
-        name="relation[to_id][{{ $ctrl.handler.relationsId }}]"
-        ng-model="$parent.relationToAddId"
+        id="relation_to_id-{{ $ctrl.relationGroup.id }}"
+        name="relation[to_id][{{ $ctrl.relationGroup.id }}]"
+        ng-model="$ctrl.wpToAddId"
         title="{{ text.uiSelectTitle }}"
         required
         theme="select2"
         tabindex="0">
         <ui-select-match tabindex="-1">{{$select.selected.to_s}}</ui-select-match>
         <ui-select-choices
-          refresh-delay="100"
+          refresh-delay="250"
           refresh="autocompleteWorkPackages($select.search)"
           repeat="item.id as item in options">
             <div ng-bind="item.to_s"></div>
@@ -22,7 +22,7 @@
       <button class="button"
               title="{{ $ctrl.btnTitle }}"
               ng-bind-html="$ctrl.btnIcon + ' ' + $ctrl.btnTitle"
-              ng-click="$ctrl.handler.addRelation(this)"
+              ng-click="$ctrl.addRelation()"
               ng-disabled="add_relation_form.$invalid">
       </button>
     </div>

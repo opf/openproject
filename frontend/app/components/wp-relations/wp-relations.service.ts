@@ -27,24 +27,35 @@
 //++
 
 import {wpTabsModule} from "../../angular-modules";
+import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-package-resource.service";
 
-wpTabsModule
-  .constant('RELATION_TYPES', {
-    relatedTo: 'Relation::Relates',
-    duplicates: 'Relation::Duplicates',
-    duplicated: 'Relation::Duplicated',
-    blocks: 'Relation::Blocks',
-    blocked: 'Relation::Blocked',
-    precedes: 'Relation::Precedes',
-    follows: 'Relation::Follows'
-  })
-  .constant('RELATION_IDENTIFIERS', {
-    parent: 'parent',
-    relatedTo: 'relates',
-    duplicates: 'duplicates',
-    duplicated: 'duplicated',
-    blocks: 'blocks',
-    blocked: 'blocked',
-    precedes: 'precedes',
-    follows: 'follows'
-  });
+export interface WorkPackageRelationsConfigInterface {
+  name:string;
+  type:string;
+  id?:string;
+}
+
+export class WorkPackageRelationsService {
+  private relationsConfig:WorkPackageRelationsConfigInterface[] = [
+    // {name: 'parent', type: 'parent'},
+    // {name: 'children', type: 'children'},
+    {name: 'relatedTo', type: 'Relation::Relates', id: 'relates'},
+    {name: 'duplicates', type: 'Relation::Duplicates'},
+    {name: 'duplicated', type: 'Relation::Duplicated'},
+    {name: 'blocks', type: 'Relation::Blocks'},
+    {name: 'blocked', type: 'Relation::Blocks'},
+    {name: 'precedes', type: 'Relation::Precedes'},
+    {name: 'follows', type: 'Relation::Follows'}
+  ];
+
+  constructor(protected WorkPackageRelationGroup) {
+    console.log('CONFIG', this.relationsConfig);
+  }
+
+  public getWpRelationGroups(workPackage:WorkPackageResourceInterface) {
+    return this.relationsConfig.map(
+      config => new this.WorkPackageRelationGroup(workPackage, config));
+  }
+}
+
+wpTabsModule.service('wpRelations', WorkPackageRelationsService);

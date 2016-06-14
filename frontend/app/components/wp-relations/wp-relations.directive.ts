@@ -27,28 +27,27 @@
 //++
 
 import {wpTabsModule} from "../../angular-modules";
-import {RelationsHandler} from "./relations-handler/relations-handler.service";
+import {WorkPackageRelationGroup} from "./wp-relation-group/wp-relation-group";
 
-const iconArrowSuffixes = ['up1', 'down1'];
+const iconArrowClasses = ['icon-arrow-up1', 'icon-arrow-down1'];
 
 export class WorkPackageRelationsController {
-
-
-  public relationType:string;
-  public handler:RelationsHandler;
   public btnTitle:string;
   public btnIcon:string;
+
+  public relationGroup:WorkPackageRelationGroup;
   public focusElementIndex:number = -2;
-  public text:any;
+  public wpToAddId:number = null;
   public expand:boolean = false;
+  public text:any;
 
   public get stateClass():string {
-    return 'icon-arrow-' + iconArrowSuffixes[+!!this.expand];
+    return iconArrowClasses[+!!this.expand];
   }
 
-  constructor(protected $scope, protected I18n) {
+  constructor(protected $scope, protected I18n, protected NotificationsService) {
     this.text = {
-      title: I18n.t('js.relation_labels.' + this.relationType),
+      title: I18n.t('js.relation_labels.' + this.relationGroup.id),
       table: {
         subject: I18n.t('js.work_packages.properties.subject'),
         status: I18n.t('js.work_packages.properties.status'),
@@ -60,23 +59,35 @@ export class WorkPackageRelationsController {
       }
     };
 
-    $scope.$watch('$ctrl.handler', () => {
-      if (this.handler) {
-        this.expand = this.expand || !this.handler.isEmpty();
-      }
-    });
+    // console.log('REL GRP', this.relationGroup);
+
+    if (!this.relationGroup.isEmpty) {
+      this.toggleExpand();
+    }
+  }
+  
+  public addRelation() {
+    this.relationGroup.addWpRelation(this.wpToAddId)
+      .then(() => {
+        this.wpToAddId = null;
+        this.updateFocus(-1);
+        this.$scope.$emit('workPackageRefreshRequired');
+      })
+      .catch(error => {
+        error.data.showErrorNotification();
+      });
   }
 
   public toggleExpand() {
     this.expand = !this.expand;
   }
-
+  
   public isFocused(index:number) {
     return index === this.focusElementIndex;
   }
 
   public updateFocus(index:number) {
-    var length = this.handler.relations.length;
+    var length = this.relationGroup.relations.length;
 
     if (length == 0) {
       this.focusElementIndex = -1;
@@ -96,9 +107,8 @@ function wpRelationsDirective() {
     templateUrl: '/components/wp-relations/wp-relations.directive.html',
 
     scope: {
-      relationType: '@',
-      handler: '=',
-      btnTitle: '@buttonTitle',
+      relationGroup: '=',
+      btnTitle: '=buttonTitle',
       btnIcon: '@buttonIcon'
     },
 

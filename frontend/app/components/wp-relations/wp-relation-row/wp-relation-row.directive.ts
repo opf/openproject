@@ -40,16 +40,11 @@ function wpRelationRowDirective(PathHelper) {
     return `#${workPackage.id}${type}${workPackage.subject}`;
   };
   
-  function wpRelationsDirectiveLink(scope,
-                                    element,
-                                    attrs,
-                                    relationsCtrl:WorkPackageRelationsController) {
+  function wpRelationsDirectiveLink(scope) {
     scope.workPackagePath = PathHelper.workPackagePath;
     scope.userPath = PathHelper.userPath;
 
-
-
-    relationsCtrl.handler.getRelatedWorkPackage(scope.relation)
+    scope.$ctrl.relationGroup.getRelatedWorkPackage(scope.relation)
       .then(relatedWorkPackage => {
         scope.relatedWorkPackage = relatedWorkPackage;
         scope.fullIdentifier = getFullIdentifier(relatedWorkPackage);
@@ -59,8 +54,6 @@ function wpRelationRowDirective(PathHelper) {
 
   return {
     restrict: 'A',
-    require: '^wpRelations',
-
     link: wpRelationsDirectiveLink
   };
 }

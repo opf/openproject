@@ -80,13 +80,6 @@ export class RelationsHandler {
     //   ApiNotificationsService.addError(scope, error);
     // });
   }
-
-  public getRelatedWorkPackage(relation) {
-    if (relation.relatedTo.href === this.workPackage.href) {
-      return relation.relatedFrom.$load();
-    }
-    return relation.relatedTo.$load();
-  }
 }
 
 function relationsHandlerService(_$timeout_,

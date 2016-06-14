@@ -28,36 +28,56 @@
 
 import {wpDirectivesModule} from "../../../angular-modules";
 import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
 
 export class RelationsPanelController {
   public workPackage:WorkPackageResourceInterface;
+  public relationTitles;
+  public relationGroups;
 
   constructor($scope,
-              RELATION_TYPES,
-              RELATION_IDENTIFIERS,
-              RelationsHandler,
-              ChildRelationsHandler,
-              ParentRelationsHandler) {
-    $scope.wpParent = new ParentRelationsHandler(this.workPackage);
-    $scope.wpChildren = new ChildRelationsHandler(this.workPackage);
+              I18n: op.I18n,
+              wpRelations:WorkPackageRelationsService) {
 
-    if (this.workPackage.parent) {
-      this.workPackage.parent.$load().then(parent => {
-        $scope.wpParent = new ParentRelationsHandler(this.workPackage, parent, 'parent');
-      });
-    }
+    console.log('WP', this.workPackage);
 
-    if (this.workPackage.children) {
-      $scope.wpChildren = new ChildRelationsHandler(this.workPackage, this.workPackage.children);
-    }
+    this.relationTitles = {
+      parent: I18n.t('js.relation_buttons.change_parent'),
+      children: I18n.t('js.relation_buttons.add_child'),
+      relatedTo: I18n.t('js.relation_buttons.add_related_to'),
+      duplicates: I18n.t('js.relation_buttons.add_duplicates'),
+      duplicated: I18n.t('js.relation_buttons.add_duplicated_by'),
+      blocks: I18n.t('js.relation_buttons.add_blocks'),
+      blocked: I18n.t('js.relation_buttons.add_blocked_by'),
+      precedes: I18n.t('js.relation_buttons.add_precedes'),
+      follows: I18n.t('js.relation_buttons.add_follows')
+    };
 
-    if (Array.isArray(this.workPackage.relations)) {
-      angular.forEach(RELATION_TYPES, (type, identifier) => {
-        var relations = this.workPackage.relations.filter(relation => relation._type === type);
-        var relationId = RELATION_IDENTIFIERS[identifier];
-        $scope[identifier] = new RelationsHandler(this.workPackage, relations, relationId);
-      });
-    }
+    this.relationGroups = wpRelations.getWpRelationGroups(this.workPackage);
+    
+    // $scope.wpParent = new ParentRelationsHandler(this.workPackage);
+    // $scope.wpChildren = new ChildRelationsHandler(this.workPackage);
+    //
+    // console.log('WP', this.workPackage);
+    //
+    // if (this.workPackage.parent) {
+    //   this.workPackage.parent.$load().then(parent => {
+    //     $scope.wpParent = new ParentRelationsHandler(this.workPackage, parent, 'parent');
+    //   });
+    // }
+    //
+    // if (this.workPackage.children) {
+    //   $scope.wpChildren = new ChildRelationsHandler(this.workPackage, this.workPackage.children);
+    // }
+    //
+    // if (Array.isArray(this.workPackage.relations)) {
+    //   angular.forEach(RELATION_TYPES, (type, identifier) => {
+    //     var relations = this.workPackage.relations.filter(relation => relation._type === type);
+    //     var relationId = RELATION_IDENTIFIERS[identifier];
+    //     $scope[identifier] = new RelationsHandler(this.workPackage, relations, relationId);
+    //   });
+    // }
   }
 }
 

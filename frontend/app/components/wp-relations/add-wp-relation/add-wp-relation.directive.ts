@@ -29,40 +29,22 @@
 import {wpTabsModule} from "../../../angular-modules";
 import {WorkPackageRelationsController} from "../wp-relations.directive";
 
-declare const URI;
-
-function addWpRelationDirective($http, PathHelper, I18n) {
+function addWpRelationDirective(I18n) {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-relations/add-wp-relation/add-wp-relation.directive.html',
-    require: '^wpRelations',
-    
-    link: function (scope, element, attrs, relationsCtrl:WorkPackageRelationsController) {
+
+    link: function (scope) {
       scope.text = {
-        uiSelectTitle: I18n.t('js.field_value_enter_prompt', {
-          field: I18n.t('js.relation_labels.' + relationsCtrl.handler.relationsId)
-        })
+        uiSelectTitle: I18n.t('js.field_value_enter_prompt', {field: scope.$ctrl.text.title})
       };
-      scope.relationToAddId = null;
-      scope.autocompleteWorkPackages = function (term) {
+      scope.autocompleteWorkPackages = (term) => {
         if (!term) return;
 
-        var params = {
-          q: term,
-          scope: 'relatable',
-          escape: false,
-          id: relationsCtrl.handler.workPackage.id,
-          project_id: relationsCtrl.handler.workPackage.project.id
-        };
-
-        return $http({
-            method: 'GET',
-            url: URI(PathHelper.workPackageJsonAutoCompletePath()).search(params).toString()
-          }
-        ).then(function (response) {
-          scope.options = response.data;
+        scope.$ctrl.relationGroup.findRelatableWorkPackages(term).then(workPackages => {
+          scope.options = workPackages;
         });
-      }
+      };
     }
   };
 }

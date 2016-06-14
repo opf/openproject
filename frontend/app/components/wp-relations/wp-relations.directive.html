@@ -1,16 +1,16 @@
-<div ng-class="['relation', $ctrl.relationType]">
+<div ng-class="['relation', $ctrl.relationGroup.id]">
   <h3>
     <accessible-by-keyboard execute="$ctrl.toggleExpand()"
-                            link-class="{{ $ctrl.relationType }}-toggle-link">
+                            link-class="{{ $ctrl.relationGroup.id }}-toggle-link">
       <i class="icon-pull-content" ng-class="$ctrl.stateClass"></i> {{ $ctrl.text.title }}
-      <span ng-if="$ctrl.relationType !== 'parent'">
-        ({{ $ctrl.handler.getCount() }})
+      <span ng-if="$ctrl.relationGroup.id !== 'parent'">
+        ({{ $ctrl.relationGroup.relations.length }})
       </span>
     </accessible-by-keyboard>
   </h3>
-  <div class="content" ng-show="$ctrl.expand">
+  <div class="content" ng-if="$ctrl.expand">
     <div class="workpackages">
-      <div ng-if="handler.relations">
+      <div ng-if="!$ctrl.relationGroup.isEmpty">
         <table class="attributes-table">
           <colgroup>
             <col style="width: 50%"/>
@@ -28,7 +28,7 @@
           </thead>
           <tbody>
           <tr wp-relation-row
-              ng-repeat="relation in $ctrl.handler.relations">
+              ng-repeat="relation in $ctrl.relationGroup.relations">
             <td focus="$ctrl.isFocused($index)">
               <a title="{{ fullIdentifier }}" class="work_package" ng-class="state"
                  href="{{ workPackagePath(relatedWorkPackage.id) }}">
@@ -53,8 +53,8 @@
               <empty-element ng-if="!relatedWorkPackage.assignee"></empty-element>
             </td>
             <td class="icon">
-              <accessible-by-keyboard ng-if="$ctrl.handler.canDeleteRelation(relation)"
-                                      execute="$ctrl.handler.removeRelation(this)">
+              <accessible-by-keyboard ng-if="$ctrl.relationGroup.canDeleteRelation(relation)"
+                                      execute="$ctrl.relationGroup.removeRelation(this)">
                 <icon-wrapper icon-name="remove"
                               icon-title="{{ $ctrl.text.relations.remove }}">
                 </icon-wrapper>
@@ -65,24 +65,24 @@
           </tbody>
         </table>
       </div>
-      <div ng-if="$ctrl.handler.isEmpty()">
+      <div ng-if="$ctrl.relationGroup.isEmpty">
         {{ $ctrl.text.relations.empty }}
       </div>
     </div>
     <div
         class="add-relation"
-        ng-if="$ctrl.handler.canAddRelation()"
-        ng-switch="$ctrl.handler.type"
-        focus="$ctrl.isFocused(-1)"
-    >
+        ng-if="$ctrl.relationGroup.canAddRelation"
+        ng-switch="$ctrl.relationGroup.type"
+        focus="$ctrl.isFocused(-1)">
+
       <!-- Add WP child -->
       <button
           ng-switch-when="child"
           class="button add-work-package-child-button"
           title="{{ $ctrl.btnTitle }}"
           ng-bind-html="$ctrl.btnIcon + ' ' + $ctrl.btnTitle"
-          ng-click="$ctrl.handler.addRelation()"
-          focus="$ctrl.focusElementIndex === -1"
+          ng-click="$ctrl.addRelation()"
+          focus="$ctrl.isFocused(-1)"
       ></button>
 
 
