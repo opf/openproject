@@ -73,8 +73,8 @@ export class ErrorResource extends HalResource {
     return columns.map(field => field.details.attribute);
   }
 
-  public getMessagesPerAttribute(): object {
-    var perAttribute = {}
+  public getMessagesPerAttribute():any {
+    var perAttribute = {};
 
     if (this.details) {
       perAttribute[this.details.attribute] = [this.message];
@@ -94,9 +94,11 @@ export class ErrorResource extends HalResource {
   }
 }
 
-function errorResource(_NotificationsService_) {
-  NotificationsService = _NotificationsService_;
+function errorResourceService() {
+  [NotificationsService] = arguments;
   return ErrorResource;
 }
 
-opApiModule.factory('ErrorResource', ['NotificationsService', errorResource]);
+errorResourceService.$inject = ['NotificationsService'];
+
+opApiModule.factory('ErrorResource', errorResourceService);

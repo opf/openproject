@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {opApiModule} from "../../../angular-modules";
+
 function apiV3Config(apiV3, halTransform) {
   apiV3.addResponseInterceptor((data, operation, what) => {
     apiV3.addElementTransformer(what, halTransform);
@@ -33,7 +35,7 @@ function apiV3Config(apiV3, halTransform) {
       data._plain = angular.copy(data);
 
       if (data._type === 'Collection') {
-        let resp = [];
+        const resp = [];
         angular.extend(resp, data);
         return resp;
       }
@@ -46,6 +48,4 @@ function apiV3Config(apiV3, halTransform) {
   });
 }
 
-angular
-  .module('openproject.api')
-  .run(apiV3Config);
+opApiModule.run(apiV3Config);

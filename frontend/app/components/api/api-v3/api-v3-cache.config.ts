@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {opApiModule} from "../../../angular-modules";
+
 function apiV3CacheConfig($provide) {
   // Add caching wrapper around $http using angular-cache
   $provide.decorator('$http', ($delegate:ng.IHttpService, CacheService:op.CacheService) => {
@@ -66,6 +68,4 @@ function apiV3CacheConfig($provide) {
   });
 }
 
-angular
-  .module('openproject.api')
-  .config(apiV3CacheConfig);
+opApiModule.config(apiV3CacheConfig);

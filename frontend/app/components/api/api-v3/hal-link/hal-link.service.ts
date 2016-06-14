@@ -79,10 +79,8 @@ export class HalLink implements HalLinkInterface {
   }
 }
 
-function halLinkService(_$q_:ng.IQService, _apiV3_:restangular.IService) {
-  $q = _$q_;
-  apiV3 = _apiV3_;
-
+function halLinkService() {
+  [$q, apiV3] = arguments;
   return HalLink;
 }
 

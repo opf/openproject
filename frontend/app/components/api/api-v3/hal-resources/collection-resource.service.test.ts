@@ -26,27 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {opApiModule, opServicesModule} from "../../../../angular-modules";
+
+const expect = chai.expect;
+
 describe('CollectionResource', () => {
   var CollectionResource;
 
-  beforeEach(angular.mock.module('openproject.api'));
-  beforeEach(angular.mock.module('openproject.services'));
-
+  beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
   beforeEach(angular.mock.inject((_CollectionResource_) => {
     CollectionResource = _CollectionResource_;
   }));
 
   describe('getElements', () => {
     it('returns the embedded elements', () => {
-      var plain = {
-                    $embedded: {
-                      elements: [1,2,3]
-                    }
-                  }
+      var source = {
+        $embedded: {
+          elements: [1, 2, 3]
+        }
+      };
 
-      var resource = new CollectionResource(plain);
+      var resource = new CollectionResource(source);
 
-      expect(resource.getElements()).to.eql(plain.$embedded.elements);
+      expect(resource.getElements()).to.eql(source.$embedded.elements);
     });
   });
 });

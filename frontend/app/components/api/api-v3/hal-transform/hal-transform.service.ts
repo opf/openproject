@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {opApiModule} from "../../../../angular-modules";
+
 function halTransform(halTransformTypes) {
   return (element:op.ApiResult) => {
     const resourceClass = halTransformTypes[element._type] || halTransformTypes.default;
@@ -43,6 +45,4 @@ function halTransform(halTransformTypes) {
   };
 }
 
-angular
-  .module('openproject.api')
-  .factory('halTransform', halTransform);
+opApiModule.factory('halTransform', halTransform);
