@@ -23,6 +23,13 @@ GIT
       rack (>= 1.0, < 3)
 
 GIT
+  remote: git://github.com/opf/rails-angular-xss.git
+  revision: 11c068e623bbce09e35f41cf022d2204906e6a1f
+  specs:
+    rails-angular-xss (0.1.0)
+      rails (>= 4.2.0, < 5.0)
+
+GIT
   remote: git://github.com/why-el/svg-graph.git
   revision: e79abffa66639ab203d099250c5d2656a4ebf917
   branch: silence-class-access-warning
@@ -640,6 +647,7 @@ DEPENDENCIES
   rack-test (~> 0.6.2)
   rack_session_access
   rails (~> 4.2.5)
+  rails-angular-xss!
   rails-observers
   rails_12factor
   rails_autolink (~> 1.1.6)
