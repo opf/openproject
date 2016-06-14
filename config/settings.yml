@@ -113,6 +113,13 @@ available_languages:
   - en
   - de
   - fr
+  - es
+  - pt
+  - 'pt-BR'
+  - it
+  - zh
+  - ko
+  - ru
 default_language:
   default: en
 host_name:
