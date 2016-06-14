@@ -27,7 +27,7 @@
 //++
 
 import {wpTabsModule} from "../../angular-modules";
-import {WorkPackageRelationGroup} from "./wp-relation-group/wp-relation-group";
+import {WorkPackageRelationGroup} from "./wp-relation-group/wp-relation-group.service";
 
 const iconArrowClasses = ['icon-arrow-up1', 'icon-arrow-down1'];
 
