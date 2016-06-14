@@ -356,7 +356,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
           {
             format: 'textile',
             raw: value,
-            html: "<p><strong>Foobar</strong></p>"
+            html: '<p><strong>Foobar</strong></p>'
           }
         end
         let(:expected_setter) { value }

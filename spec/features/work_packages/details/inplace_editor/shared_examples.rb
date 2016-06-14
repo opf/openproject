@@ -87,7 +87,7 @@ shared_examples 'a cancellable field' do
 
   context 'by click' do
     before do
-      field.activate_edition
+      field.activate!
       field.cancel_by_click
     end
 
@@ -96,10 +96,37 @@ shared_examples 'a cancellable field' do
 
   context 'by escape' do
     before do
-      field.activate_edition
+      field.activate!
       field.cancel_by_escape
     end
 
     it_behaves_like 'cancelling properly'
+  end
+end
+
+shared_examples 'a previewable field' do
+  it 'can preview the field' do
+    field.activate!
+
+    field.input_element.set '*Highlight*'
+    preview = field.element.find('.jstb_preview')
+
+    # Enable preview
+    preview.click
+    expect(field.element).to have_selector('strong', text: 'Highlight')
+
+    # Disable preview
+    preview.click
+    expect(field.element).to have_no_selector('strong')
+  end
+end
+
+shared_examples 'an autocomplete field' do
+  let!(:wp2) { FactoryGirl.create(:work_package, project: project, subject: 'AutoFoo') }
+
+  it 'autocompletes the other work package' do
+    field.activate!
+    field.input_element.send_keys("##{wp2.id}")
+    expect(page).to have_selector('.atwho-view-ul li', text: wp2.to_s.strip)
   end
 end
