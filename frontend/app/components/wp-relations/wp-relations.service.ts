@@ -37,7 +37,7 @@ export interface WorkPackageRelationsConfigInterface {
 
 export class WorkPackageRelationsService {
   private relationsConfig:WorkPackageRelationsConfigInterface[] = [
-    // {name: 'parent', type: 'parent'},
+    {name: 'parent', type: 'parent'},
     // {name: 'children', type: 'children'},
     {name: 'relatedTo', type: 'Relation::Relates', id: 'relates'},
     {name: 'duplicates', type: 'Relation::Duplicates'},
@@ -48,13 +48,19 @@ export class WorkPackageRelationsService {
     {name: 'follows', type: 'Relation::Follows'}
   ];
 
-  constructor(protected WorkPackageRelationGroup) {
+  constructor(protected WorkPackageRelationGroup,
+              protected WorkPackageParentRelationGroup) {
     console.log('CONFIG', this.relationsConfig);
   }
 
   public getWpRelationGroups(workPackage:WorkPackageResourceInterface) {
-    return this.relationsConfig.map(
-      config => new this.WorkPackageRelationGroup(workPackage, config));
+    return this.relationsConfig.map(config => {
+      if (config.type === 'parent') {
+        return new this.WorkPackageParentRelationGroup(workPackage, config)
+      }
+
+      return new this.WorkPackageRelationGroup(workPackage, config)
+    });
   }
 }
 

@@ -61,10 +61,7 @@ export class WorkPackageRelationGroup {
 
   constructor(protected workPackage:WorkPackageResourceInterface,
               protected config:WorkPackageRelationsConfigInterface) {
-    if (Array.isArray(workPackage.relations)) {
-      this.relations.push(
-        ...workPackage.relations.filter(relation => relation._type === this.type));
-    }
+    this.init();
   }
 
   public canRemoveRelation(relation):boolean {
@@ -118,6 +115,13 @@ export class WorkPackageRelationGroup {
       this.relations.splice(index, 1);
       return index;
     });
+  }
+
+  protected init() {
+    if (Array.isArray(this.workPackage.relations)) {
+      this.relations.push(
+        ...this.workPackage.relations.filter(relation => relation._type === this.type));
+    }
   }
 }
 

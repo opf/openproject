@@ -33,7 +33,7 @@ const iconArrowClasses = ['icon-arrow-up1', 'icon-arrow-down1'];
 
 export class WorkPackageRelationsController {
   public btnTitle:string;
-  public btnIcon:string;
+  public btnIcon:string = '<i class="icon-hierarchy icon-add"></i>';
 
   public relationGroup:WorkPackageRelationGroup;
   public focusElementIndex:number = -2;
@@ -43,6 +43,10 @@ export class WorkPackageRelationsController {
 
   public get stateClass():string {
     return iconArrowClasses[+!!this.expand];
+  }
+
+  public get groupExpanded() {
+    return this.expand ^ !this.relationGroup.isEmpty;
   }
 
   constructor(protected $scope, protected I18n, protected NotificationsService) {
@@ -59,10 +63,8 @@ export class WorkPackageRelationsController {
       }
     };
 
-    // console.log('REL GRP', this.relationGroup);
-
-    if (!this.relationGroup.isEmpty) {
-      this.toggleExpand();
+    if (this.relationGroup.id === 'parent') {
+      this.btnIcon = '<i class="icon-hierarchy icon-edit"></i>';
     }
   }
 
@@ -120,7 +122,6 @@ function wpRelationsDirective() {
     scope: {
       relationGroup: '=',
       btnTitle: '=buttonTitle',
-      btnIcon: '@buttonIcon'
     },
 
     controller: WorkPackageRelationsController,
