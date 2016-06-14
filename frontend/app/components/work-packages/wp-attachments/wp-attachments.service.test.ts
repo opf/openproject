@@ -38,12 +38,13 @@ describe('wpAttachments', () => {
     attachments: {
         href: '/api/v3/work_packages/1/attachments',
       },
-    addAttachment:{
-      $link:{
-        href:'/api/v3/work_packages/1/attachments'
+    $links: {
+      addAttachment:{
+        $link:{
+          href:'/api/v3/work_packages/1/attachments'
+        }
       }
     }
-
   };
 
   // mock me an attachment
