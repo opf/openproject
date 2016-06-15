@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {opApiModule} from "../../../../angular-modules";
+
 function halTransformConfig(halTransformTypes, HalResource, WorkPackageResource, CollectionResource, ErrorResource) {
   angular.extend(halTransformTypes, {
     'default': HalResource,
@@ -35,6 +37,4 @@ function halTransformConfig(halTransformTypes, HalResource, WorkPackageResource,
   });
 }
 
-angular
-  .module('openproject.api')
-  .run(halTransformConfig);
+opApiModule.run(halTransformConfig);
