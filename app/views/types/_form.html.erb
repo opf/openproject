@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'type' %>
 
 <div class="grid-block">
-  <div class="grid-content medium-6">
+  <div class="grid-content">
     <section class="form--section">
       <!--[form:type]-->
       <div class="form--field -wide-label"><%= f.text_field :name, required: true, disabled: @type.is_standard? %></div>
@@ -51,96 +51,96 @@ See doc/COPYRIGHT.rdoc for more details.
     </section>
   </div>
 </div>
-
-<div class="grid-block">
-  <div class="grid-content medium-6">
-    <fieldset class="form--fieldset -collapsible" id="type_attribute_visibility">
-      <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
-        <%= I18n.t('label_form_configuration')%>
-      </legend>
-      <div>
-        <p><%= I18n.t('text_form_configuration') %></p>
-        <table class="attributes-table">
-          <thead>
-            <tr>
-              <td><%= I18n.t('label_attribute') %></td>
-              <td><%= I18n.t('label_active') %></td>
-              <td><%= I18n.t('label_always_visible') %></td>
-            </tr>
-          </thead>
-          <tbody>
-            <%
-              attributes = ::TypesHelper
-                .work_package_form_attributes(merge_date: true)
-                .reject { |name, attr|
-                  # display all custom fields     don't display required fields without a default
-                  not name =~ /custom_field_/ and (attr[:required] and not attr[:has_default])
-                }
-              keys = attributes.keys.sort_by do |name|
-                translated_attribute_name(name, attributes[name])
-              end
-            %>
-            <% keys.each do |name| %>
-            <%   attr = attributes[name] %>
-              <tr>
-                <td>
-                  <%= label "type_attribute_visibility_#{name}",
-                            translated_attribute_name(name, attr),
-                            value: "type_attribute_visibility[#{name}]",
-                            class: 'form--label' %>
-                </td>
-                <td>
-                  <input name="<%= "type[attribute_visibility][#{name}]" %>" type="hidden" value="hidden" />
-                  <% active_checked = [nil, 'default', 'visible'].include?(attr_visibility(name)) %>
-                  <%= check_box_tag "type[attribute_visibility][#{name}]",
-                                    'default',
-                                    active_checked,
-                                    id: "type_attribute_visibility_default_#{name}",
-                                    title: I18n.t('tooltip.attribute_visibility.default') %>
-                </td>
-                <td>
-                  <%= check_box_tag "type[attribute_visibility][#{name}]",
-                                    'visible',
-                                    attr_visibility(name) == 'visible',
-                                    id: "type_attribute_visibility_visible_#{name}",
-                                    title: I18n.t('tooltip.attribute_visibility.visible'),
-                                    disabled: !active_checked %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </fieldset>
-  </div>
-</div>
-
-<div class="grid-block">
-  <div class="grid-content medium-6">
-    <% if @projects.any? %>
-      <fieldset class="form--fieldset -collapsible" id="type_project_ids">
+<section class="form--section">
+  <div class="grid-block wrap">
+    <div class="grid-content small-12 large-6">
+      <fieldset class="form--fieldset -collapsible" id="type_attribute_visibility">
         <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
-          <%= l(:label_project_plural) %>
+          <%= I18n.t('label_form_configuration')%>
         </legend>
         <div>
-          <div class="form--fieldset-control">
-            <span class="form--fieldset-control-container">
-              (<%= check_all_links 'type_project_ids' %>)
-            </span>
-          </div>
-          <%= project_nested_ul(@projects) do |p|
-            content_tag('label',
-              check_box_tag('type[project_ids][]', p.id, controller.type.projects.include?(p), id: nil) +
-                ' ' + h(p), class: 'form--label-with-check-box')
-          end %>
-          <%= hidden_field_tag('type[project_ids][]', '', id: nil) %>
+          <p><%= I18n.t('text_form_configuration') %></p>
+          <table class="attributes-table">
+            <thead>
+              <tr>
+                <td><%= I18n.t('label_attribute') %></td>
+                <td><%= I18n.t('label_active') %></td>
+                <td><%= I18n.t('label_always_visible') %></td>
+              </tr>
+            </thead>
+            <tbody>
+              <%
+                attributes = ::TypesHelper
+                  .work_package_form_attributes(merge_date: true)
+                  .reject { |name, attr|
+                    # display all custom fields     don't display required fields without a default
+                    not name =~ /custom_field_/ and (attr[:required] and not attr[:has_default])
+                  }
+                keys = attributes.keys.sort_by do |name|
+                  translated_attribute_name(name, attributes[name])
+                end
+              %>
+              <% keys.each do |name| %>
+              <%   attr = attributes[name] %>
+                <tr>
+                  <td>
+                    <%= label "type_attribute_visibility_#{name}",
+                              translated_attribute_name(name, attr),
+                              value: "type_attribute_visibility[#{name}]",
+                              class: 'form--label' %>
+                  </td>
+                  <td>
+                    <input name="<%= "type[attribute_visibility][#{name}]" %>" type="hidden" value="hidden" />
+                    <% active_checked = [nil, 'default', 'visible'].include?(attr_visibility(name)) %>
+                    <%= check_box_tag "type[attribute_visibility][#{name}]",
+                                      'default',
+                                      active_checked,
+                                      id: "type_attribute_visibility_default_#{name}",
+                                      title: I18n.t('tooltip.attribute_visibility.default') %>
+                  </td>
+                  <td>
+                    <%= check_box_tag "type[attribute_visibility][#{name}]",
+                                      'visible',
+                                      attr_visibility(name) == 'visible',
+                                      id: "type_attribute_visibility_visible_#{name}",
+                                      title: I18n.t('tooltip.attribute_visibility.visible'),
+                                      disabled: !active_checked %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
         </div>
       </fieldset>
-    <% end %>
+    </div>
+    <div class="grid-content small-12 large-6">
+      <% if @projects.any? %>
+        <fieldset class="form--fieldset -collapsible" id="type_project_ids">
+          <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
+            <%= l(:label_project_plural) %>
+          </legend>
+          <div>
+            <div class="form--fieldset-control">
+              <span class="form--fieldset-control-container">
+                (<%= check_all_links 'type_project_ids' %>)
+              </span>
+            </div>
+            <%= project_nested_ul(@projects) do |p|
+              content_tag('label',
+                check_box_tag('type[project_ids][]', p.id, controller.type.projects.include?(p), id: nil) +
+                  ' ' + h(p), class: 'form--label-with-check-box')
+            end %>
+            <%= hidden_field_tag('type[project_ids][]', '', id: nil) %>
+          </div>
+        </fieldset>
+      <% end %>
+    </div>
   </div>
-</div>
+</section>
 
 <div class="grid-block">
+  <div class="generic-table--action-buttons">
   <%= styled_button_tag l(controller.type.new_record? ? :button_create : :button_save),
       class: '-highlight -with-icon icon-checkmark' %>
+  </div>
 </div>
