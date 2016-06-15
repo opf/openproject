@@ -64,7 +64,15 @@ module BurndownChartsHelper
   end
 
   def dataseries(burndown)
-    burndown.series.map { |s| "#{s.first}: {label: '#{l('backlogs.' + s.first.to_s)}', data: [#{s.last.enum_for(:each_with_index).map { |s, i| "[#{i + 1}, #{s}] " }.join(', ')}]} " }.join(', ').html_safe
+    dataset = {}
+    burndown.series.each do |s|
+      dataset[s.first] = {
+        label: l('backlogs.' + s.first.to_s),
+        data: s.last.enum_for(:each_with_index).map { |val, i| [i + 1, val] }
+      }
+    end
+
+    dataset
   end
 
   def burndown_series_checkboxes(burndown)
