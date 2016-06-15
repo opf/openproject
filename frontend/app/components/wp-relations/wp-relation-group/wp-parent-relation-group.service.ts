@@ -29,6 +29,9 @@
 import {WorkPackageRelationGroup} from "./wp-relation-group.service";
 import {wpTabsModule} from "../../../angular-modules";
 
+var HalResource;
+var PathHelper:any;
+
 export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
   public get canAddRelation():boolean {
     return !!this.workPackage.changeParent;
@@ -43,8 +46,23 @@ export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
   }
 
   public addWpRelation(wpId:number) {
-    return this.workPackage.changeParent({
-      id: wpId
+    this.workPackage.parent = HalResource.fromLink({
+      href: PathHelper.apiV3WorkPackagePath(wpId)
+    });
+
+    return this.workPackage.save().then(() => {
+      this.workPackage.parent.$load().then(parent => {
+        this.relations.push(parent);
+      });
+    });
+  }
+
+  public removeWpRelation() {
+    this.workPackage.parentId = null;
+
+    return this.workPackage.save().then(() => {
+      this.relations.pop();
+      return 0;
     });
   }
 
@@ -57,7 +75,10 @@ export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
 }
 
 function wpParentRelationGroupService() {
+  [HalResource, PathHelper] = arguments;
   return WorkPackageParentRelationGroup;
 }
+
+wpParentRelationGroupService.$inject = ['HalResource', 'PathHelper'];
 
 wpTabsModule.factory('WorkPackageParentRelationGroup', wpParentRelationGroupService);

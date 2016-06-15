@@ -50,7 +50,6 @@ export class WorkPackageRelationsService {
 
   constructor(protected WorkPackageRelationGroup,
               protected WorkPackageParentRelationGroup) {
-    console.log('CONFIG', this.relationsConfig);
   }
 
   public getWpRelationGroups(workPackage:WorkPackageResourceInterface) {

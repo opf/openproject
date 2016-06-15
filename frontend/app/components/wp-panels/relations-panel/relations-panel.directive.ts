@@ -40,8 +40,6 @@ export class RelationsPanelController {
               I18n: op.I18n,
               wpRelations:WorkPackageRelationsService) {
 
-    console.log('WP', this.workPackage);
-
     this.relationTitles = {
       parent: I18n.t('js.relation_buttons.change_parent'),
       children: I18n.t('js.relation_buttons.add_child'),
@@ -56,28 +54,13 @@ export class RelationsPanelController {
 
     this.relationGroups = wpRelations.getWpRelationGroups(this.workPackage);
     
-    // $scope.wpParent = new ParentRelationsHandler(this.workPackage);
     // $scope.wpChildren = new ChildRelationsHandler(this.workPackage);
     //
-    // console.log('WP', this.workPackage);
-    //
-    // if (this.workPackage.parent) {
-    //   this.workPackage.parent.$load().then(parent => {
-    //     $scope.wpParent = new ParentRelationsHandler(this.workPackage, parent, 'parent');
-    //   });
-    // }
     //
     // if (this.workPackage.children) {
     //   $scope.wpChildren = new ChildRelationsHandler(this.workPackage, this.workPackage.children);
     // }
     //
-    // if (Array.isArray(this.workPackage.relations)) {
-    //   angular.forEach(RELATION_TYPES, (type, identifier) => {
-    //     var relations = this.workPackage.relations.filter(relation => relation._type === type);
-    //     var relationId = RELATION_IDENTIFIERS[identifier];
-    //     $scope[identifier] = new RelationsHandler(this.workPackage, relations, relationId);
-    //   });
-    // }
   }
 }
 

@@ -96,6 +96,7 @@ export class WorkPackageResource extends HalResource {
   public id:number|string;
   public schema;
   public $pristine:{ [attribute:string]:any } = {};
+  public parentId:number;
 
   private form;
 
