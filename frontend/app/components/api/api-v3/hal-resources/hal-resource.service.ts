@@ -50,11 +50,11 @@ export class HalResource {
     return {_links: {self: {href: null}}};
   }
 
+  public $links:any = {};
+  public $embedded:any = {};
   public $self:ng.IPromise<HalResource>;
 
   private _name:string;
-  private _$links:any;
-  private _$embedded:any;
 
   public get $isHal():boolean {
     return true;
@@ -62,27 +62,6 @@ export class HalResource {
 
   public get $link():HalLinkInterface {
     return this.$links.self.$link;
-  }
-
-  public get $links() {
-    return this.setupProperty('links',
-      link => Array.isArray(link) ? link.map(HalLink.asFunc) : HalLink.asFunc(link));
-  }
-
-  public get $embedded() {
-    return this.setupProperty('embedded', element => {
-      angular.forEach(element, (child:any, name:string) => {
-        if (child) {
-          lazy(element, name, () => halTransform(child));
-        }
-      });
-
-      if (Array.isArray(element)) {
-        return element.map(halTransform);
-      }
-
-      return halTransform(element);
-    });
   }
 
   public get name():string {
@@ -108,6 +87,8 @@ export class HalResource {
       this.$source._links.self = new HalLink();
     }
 
+    this.setupLinks();
+    this.setupEmbedded();
     this.proxyProperties();
     this.setLinksAsProperties();
     this.setEmbeddedAsProperties();
@@ -195,19 +176,36 @@ export class HalResource {
   }
 
   private setupProperty(name:string, callback:(element:any) => any) {
-    const instanceName = '_$' + name;
+    const instanceName = '$' + name;
     const sourceName = '_' + name;
     const sourceObj = this.$source[sourceName];
 
-    if (!this[instanceName] && angular.isObject(sourceObj)) {
-      this[instanceName] = {};
-
+    if (angular.isObject(sourceObj)) {
       Object.keys(sourceObj).forEach(propName => {
         lazy(this[instanceName], propName, () => callback(sourceObj[propName]));
       });
     }
+  }
 
-    return this[instanceName] || {};
+  private setupLinks() {
+    this.setupProperty('links',
+      link => Array.isArray(link) ? link.map(HalLink.asFunc) : HalLink.asFunc(link));
+  }
+
+  private setupEmbedded() {
+    this.setupProperty('embedded', element => {
+      angular.forEach(element, (child:any, name:string) => {
+        if (child) {
+          lazy(element, name, () => halTransform(child));
+        }
+      });
+
+      if (Array.isArray(element)) {
+        return element.map(halTransform);
+      }
+
+      return halTransform(element);
+    });
   }
 
   private setter(val, linkName) {
