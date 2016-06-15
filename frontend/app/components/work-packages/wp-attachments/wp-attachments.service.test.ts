@@ -39,7 +39,7 @@ describe('wpAttachments', () => {
         href: '/api/v3/work_packages/1/attachments',
       },
     $links: {
-      addAttachment:{
+      attachments:{
         $link:{
           href:'/api/v3/work_packages/1/attachments'
         }
