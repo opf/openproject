@@ -198,6 +198,11 @@ export class WorkPackageResource extends HalResource {
         // Override the current schema with
         // the changes from API
         this.schema = form.$embedded.schema;
+
+        // Take over new values from the form
+        // this resource doesn't know yet.
+        this.assignNewValues(form.$embedded.payload);
+
         deferred.resolve(form);
       })
       .catch(error => {
@@ -299,6 +304,14 @@ export class WorkPackageResource extends HalResource {
     });
 
     return plainPayload;
+  }
+
+  private assignNewValues(formPayload) {
+    Object.keys(formPayload.$source).forEach(key => {
+      if (angular.isUndefined(this[key])) {
+        this[key] = formPayload[key];
+      }
+    });
   }
 }
 

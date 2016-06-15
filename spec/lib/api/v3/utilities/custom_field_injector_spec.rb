@@ -351,12 +351,12 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     context 'text custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'text' }
-        let(:value) { 'Foobar' }
+        let(:value) { '*Foobar*' }
         let(:json_value) do
           {
-            format: 'plain',
+            format: 'textile',
             raw: value,
-            html: "<p>#{value}</p>"
+            html: '<p><strong>Foobar</strong></p>'
           }
         end
         let(:expected_setter) { value }

@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
+require 'features/work_packages/details/inplace_editor/shared_examples'
 
 describe 'custom field inplace editor', js: true, selenium: true do
   let(:user) { FactoryGirl.create :admin }
@@ -18,8 +19,8 @@ describe 'custom field inplace editor', js: true, selenium: true do
   }
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
 
-  let(:property_name) { :customField1 }
-  let(:field) { wp_page.edit_field(property_name) }
+  let(:property_name) { :custom_field_1 }
+  let(:field) { wp_page.edit_field(:customField1) }
 
   before do
     login_as(user)
@@ -28,15 +29,23 @@ describe 'custom field inplace editor', js: true, selenium: true do
     wp_page.ensure_page_loaded
 
     wp_page.view_all_attributes
-
-    field.activate_edition
-    expect(page).to have_selector("#{field.field_selector} input")
   end
 
   def expect_update(value, update_args)
     field.input_element.set value
     field.submit_by_enter
     wp_page.expect_notification(update_args)
+  end
+
+  describe 'long text' do
+    let(:custom_field) {
+      FactoryGirl.create(:text_issue_custom_field, name: 'LongText')
+    }
+    let(:field) { WorkPackageTextAreaField.new wp_page, :customField1 }
+
+    it_behaves_like 'a previewable field'
+    it_behaves_like 'a cancellable field'
+    it_behaves_like 'an autocomplete field'
   end
 
   describe 'integer type' do
@@ -51,6 +60,7 @@ describe 'custom field inplace editor', js: true, selenium: true do
       }
 
       it 'renders errors for invalid entries' do
+        field.activate_edition
         # exceeding max length
         expect_update '123456',
                       type: :error,
@@ -72,6 +82,7 @@ describe 'custom field inplace editor', js: true, selenium: true do
       let(:args) { {} }
       it 'renders errors for invalid entries' do
         # Valid input
+        field.activate_edition
         expect_update '9999999999',
                       message: I18n.t('js.notice_successful_update')
         wp_page.expect_attributes fieldName => '9999999999'
@@ -89,6 +100,7 @@ describe 'custom field inplace editor', js: true, selenium: true do
 
       it 'renders errors for invalid entries' do
         # Invalid input (non-digit)
+        field.activate_edition
         field.set_value ''
         field.expect_invalid
 

@@ -33,6 +33,11 @@ describe 'activity comments', js: true, selenium: true do
       wp_page.ensure_page_loaded
     end
 
+    describe 'preview' do
+      let(:field) { comment_field }
+      it_behaves_like 'a previewable field'
+    end
+
     context 'in edit state' do
       before do
         comment_field.activate!
@@ -101,22 +106,16 @@ describe 'activity comments', js: true, selenium: true do
         end
       end
 
-      describe 'preview' do
-        it 'previews the comment' do
-          comment_field.input_element.set '*Highlight*'
-          preview = comment_field.element.find('.jstb_preview')
+      it 'saves while in preview mode' do
+        comment_field.input_element.set '*Highlight*'
+        preview = comment_field.element.find('.jstb_preview')
 
-          # Enable preview
-          preview.click
-          expect(comment_field.element).to have_selector('strong', text: 'Highlight')
+        # Enable preview
+        preview.click
+        expect(comment_field.element).to have_selector('strong', text: 'Highlight')
 
-          # Disable preview
-          preview.click
-          expect(comment_field.element).to have_no_selector('strong')
-
-          comment_field.submit_by_click
-          expect(page).to have_selector('.user-comment .message', text: 'Highlight')
-        end
+        comment_field.submit_by_click
+        expect(page).to have_selector('.user-comment .message', text: 'Highlight')
       end
 
       describe 'autocomplete' do
