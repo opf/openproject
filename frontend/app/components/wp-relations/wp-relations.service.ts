@@ -43,7 +43,7 @@ export class WorkPackageRelationsService {
     {name: 'duplicates', type: 'Relation::Duplicates'},
     {name: 'duplicated', type: 'Relation::Duplicated'},
     {name: 'blocks', type: 'Relation::Blocks'},
-    {name: 'blocked', type: 'Relation::Blocks'},
+    {name: 'blocked', type: 'Relation::Blocked'},
     {name: 'precedes', type: 'Relation::Precedes'},
     {name: 'follows', type: 'Relation::Follows'}
   ];
