@@ -72,8 +72,7 @@ export class WorkPackageRelationsController {
     this.relationGroup.addWpRelation(this.wpToAddId)
       .then(() => {
         this.wpToAddId = null;
-        this.updateFocus(-1);
-        this.$scope.$emit('workPackageRefreshRequired');
+        this.handleSuccess(-1);
       })
       .catch(error => error.data.showErrorNotification());
   }
@@ -85,8 +84,7 @@ export class WorkPackageRelationsController {
   public removeRelation(relation) {
     this.relationGroup.removeWpRelation(relation)
       .then(index => {
-        this.updateFocus(index);
-        this.$scope.$emit('workPackageRefreshRequired');
+        this.handleSuccess(index);
       })
       .catch(error => error.data.showErrorNotification());
   }
@@ -110,6 +108,12 @@ export class WorkPackageRelationsController {
     }
 
     this.$scope.$evalAsync(() => this.$scope.$broadcast('updateFocus'));
+  }
+
+  private handleSuccess(index) {
+    this.updateFocus(index);
+    this.$scope.$emit('workPackageRefreshRequired');
+    this.$scope.$emit('workPackagesRefreshInBackground');
   }
 }
 
