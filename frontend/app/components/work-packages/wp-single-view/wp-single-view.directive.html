@@ -15,6 +15,7 @@
 
     <div
         wp-edit-field="'description'"
+        wp-attachments-formattable
         wp-edit-field-wrapper-classes="'-no-label'"
         display-placeholder="$ctrl.I18n.t('js.work_packages.placeholders.description')"
         class="single-attribute wiki">
@@ -101,10 +102,11 @@
       </div>
     </div>
   </div>
+  </div>
 
   <wp-attachments
       edit
       work-package="$ctrl.workPackage"
-      data-ng-show="!$ctrl.hideEmptyFields || $ctrl.filesExist">
+      data-ng-show="!$ctrl.hideEmptyFields || $ctrl.filesExist()">
   </wp-attachments>
 </div>

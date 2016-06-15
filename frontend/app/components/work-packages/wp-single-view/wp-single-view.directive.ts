@@ -28,14 +28,17 @@
 
 import {opWorkPackagesModule} from "../../../angular-modules";
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 
 export class WorkPackageSingleViewController {
-  public workPackage;
+  public workPackage:WorkPackageResource | any;
   public singleViewWp;
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
-  public filesExist:boolean = false;
+  public filesExist : () => boolean;
+  public attachments: any;
   public text:any;
+  public scope:any;
 
   protected firstTimeFocused:boolean = false;
 
@@ -55,40 +58,21 @@ export class WorkPackageSingleViewController {
     this.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
     this.text = {
       fields: {
-        date: { startDate: I18n.t('js.label_no_start_date'),
-                dueDate: I18n.t('js.label_no_due_date') }
+        date: {
+          startDate: I18n.t('js.label_no_start_date'),
+          dueDate: I18n.t('js.label_no_due_date')
+        }
       }
     };
 
-    scopedObservable($scope, wpCacheService.loadWorkPackage($stateParams.workPackageId)).subscribe(wp => {
-      this.workPackage = wp;
-      this.singleViewWp = new SingleViewWorkPackage(wp);
-
-      this.workPackage.schema.$load().then(schema => {
-        this.setFocus();
-
-        var otherGroup:any = _.find(this.groupedFields, {groupName: 'other'});
-        otherGroup.attributes = [];
-
-        angular.forEach(schema, (prop, propName) => {
-          if (propName.match(/^customField/)) {
-            otherGroup.attributes.push(propName);
-          }
-        });
-
-        otherGroup.attributes.sort((leftField, rightField) => {
-          var getLabel = field => this.singleViewWp.getLabel(field);
-          var left = getLabel(leftField).toLowerCase();
-          var right = getLabel(rightField).toLowerCase();
-
-          return left.localeCompare(right);
-        });
+    if ($stateParams.workPackageId) {
+      scopedObservable($scope, wpCacheService.loadWorkPackage($stateParams.workPackageId)).subscribe(wp => {
+        this.init(wp);
       });
-
-      wpAttachments.hasAttachments(this.workPackage).then(bool => {
-        this.filesExist = bool;
-      });
-    });
+    }
+    else if (this.workPackage) {
+      this.init(this.workPackage);
+    }
 
     $scope.$on('workPackageUpdatedInEditor', () => {
       NotificationsService.addSuccess({
@@ -102,6 +86,10 @@ export class WorkPackageSingleViewController {
       });
     });
   }
+
+  public filesExist = function(){
+    return this.wpAttachments.getCurrentAttachments().length > 0
+  };
 
   public shouldHideGroup(group) {
     return this.singleViewWp.shouldHideGroup(this.hideEmptyFields, this.groupedFields, group);
@@ -118,6 +106,32 @@ export class WorkPackageSingleViewController {
       angular.element('.work-packages--details--subject .focus-input').focus();
     }
   }
+
+  private init(wp) {
+    this.workPackage = wp;
+    this.singleViewWp = new this.SingleViewWorkPackage(wp);
+
+    this.workPackage.schema.$load().then(schema => {
+      this.setFocus();
+
+      var otherGroup:any = _.find(this.groupedFields, {groupName: 'other'});
+      otherGroup.attributes = [];
+
+      angular.forEach(schema, (prop, propName) => {
+        if (propName.match(/^customField/)) {
+          otherGroup.attributes.push(propName);
+        }
+      });
+
+      otherGroup.attributes.sort((leftField, rightField) => {
+        var getLabel = field => this.singleViewWp.getLabel(field);
+        var left = getLabel(leftField).toLowerCase();
+        var right = getLabel(rightField).toLowerCase();
+
+        return left.localeCompare(right);
+      });
+    });
+  }
 }
 
 function wpSingleViewDirective() {
@@ -125,7 +139,9 @@ function wpSingleViewDirective() {
     restrict: 'E',
     templateUrl: '/components/work-packages/wp-single-view/wp-single-view.directive.html',
 
-    scope: {},
+    scope: {
+      workPackage: '=?'
+    },
 
     bindToController: true,
     controller: WorkPackageSingleViewController,
