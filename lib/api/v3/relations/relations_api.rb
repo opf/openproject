@@ -33,6 +33,17 @@ module API
     module Relations
       class RelationsAPI < ::API::OpenProjectAPI
         resources :relations do
+          get do
+            relations = @work_package.relations.select { |relation|
+              relation.other_work_package(@work_package).visible?
+            }
+
+            RelationCollectionRepresenter.new(relations,
+                                              api_v3_paths.work_package_relations(@work_package.id),
+                                              work_package: @work_package,
+                                              current_user: current_user)
+          end
+
           params do
             optional :to_id, desc: 'Id of related work package'
             optional :relation_type, desc: 'Type of relationship'

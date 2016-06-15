@@ -646,17 +646,24 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
-      context 'when the user has the permission to manage relations' do
-        it 'should have a link to add relation' do
-          expect(subject).to have_json_path('_links/addRelation/href')
+      describe 'relations' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'relations' }
+          let(:href) { "/api/v3/work_packages/#{work_package.id}/relations" }
         end
-      end
 
-      context 'when the user does not have the permission to manage relations' do
-        let(:permissions) { all_permissions - [:manage_work_package_relations] }
+        context 'when the user has the permission to manage relations' do
+          it 'should have a link to add relation' do
+            expect(subject).to have_json_path('_links/addRelation/href')
+          end
+        end
 
-        it 'should not have a link to add relation' do
-          expect(subject).not_to have_json_path('_links/addRelation/href')
+        context 'when the user does not have the permission to manage relations' do
+          let(:permissions) { all_permissions - [:manage_work_package_relations] }
+
+          it 'should not have a link to add relation' do
+            expect(subject).not_to have_json_path('_links/addRelation/href')
+          end
         end
       end
 
@@ -834,6 +841,77 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         it 'does not embed anything' do
           is_expected.not_to have_json_path('_embedded')
+        end
+      end
+
+      describe 'relations' do
+        let(:visible_work_package) {
+          wp = FactoryGirl.build_stubbed(:work_package)
+
+          allow(wp)
+            .to receive(:visible?)
+            .and_return true
+
+          wp
+        }
+        let(:visible_relation) {
+          relation = FactoryGirl.build_stubbed(:relation,
+                                               from: work_package)
+
+          allow(relation)
+            .to receive(:other_work_package)
+            .with(work_package)
+            .and_return(visible_work_package)
+
+          relation
+        }
+        let(:invisible_work_package) {
+          wp = FactoryGirl.build_stubbed(:work_package)
+
+          allow(wp)
+            .to receive(:visible?)
+            .and_return false
+
+          wp
+        }
+        let(:invisible_relation) {
+          relation = FactoryGirl.build_stubbed(:relation,
+                                               from: work_package)
+
+          allow(relation)
+            .to receive(:other_work_package)
+            .with(work_package)
+            .and_return(invisible_work_package)
+
+          relation
+        }
+
+        before do
+          allow(work_package)
+            .to receive(:relations)
+            .and_return([visible_relation, invisible_relation])
+        end
+
+        it 'embeds a collection' do
+          is_expected
+            .to be_json_eql('Collection'.to_json)
+            .at_path('_embedded/relations/_type')
+        end
+
+        it 'embeds with an href containing the work_package' do
+          is_expected
+            .to be_json_eql(api_v3_paths.work_package_relations(work_package.id).to_json)
+            .at_path('_embedded/relations/_links/self/href')
+        end
+
+        it 'embeds only the visible relations' do
+          is_expected
+            .to be_json_eql(1.to_json)
+            .at_path('_embedded/relations/total')
+
+          is_expected
+            .to be_json_eql(api_v3_paths.relation(visible_relation.id).to_json)
+            .at_path('_embedded/relations/_embedded/elements/0/_links/self/href')
         end
       end
     end
