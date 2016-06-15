@@ -205,7 +205,8 @@ class ProjectsController < ApplicationController
       if @project.save
         flash[:notice] = l(:notice_successful_update)
       else
-        flash[:error] = l(:notice_project_cannot_update_custom_fields)
+        flash[:error] = l(:notice_project_cannot_update_custom_fields,
+                          errors: @project.errors.full_messages.join(', '))
         raise ActiveRecord::Rollback
       end
     end

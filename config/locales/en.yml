@@ -1432,7 +1432,7 @@ en:
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "You have been logged out."
   notice_wont_delete_auth_source: The authentication mode cannot be deleted as long as there are still users using it.
-  notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields."
+  notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
 
   # Default format for numbers
   number:
