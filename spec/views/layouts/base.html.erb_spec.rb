@@ -83,7 +83,7 @@ describe 'layouts/base', type: :view do
       end
 
       it 'shows the login drop down menu' do
-        expect(rendered).to have_selector "div[id='nav-login-content']"
+        expect(rendered).to have_selector('div#nav-login-content', visible: false)
       end
     end
 
@@ -96,7 +96,7 @@ describe 'layouts/base', type: :view do
 
       it 'shows just a sign-in link, no menu' do
         expect(rendered).to have_selector "a[href='/login']"
-        expect(rendered).not_to have_selector "div[id='nav-login-content']"
+        expect(rendered).not_to have_selector 'div#nav-login-content'
       end
     end
   end

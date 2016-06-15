@@ -29,7 +29,9 @@
 require 'concerns/omniauth_login'
 
 module Redmine::MenuManager::TopMenuHelper
-  include HelpMenuHelper
+  include Redmine::MenuManager::TopMenu::HelpMenu
+  include Redmine::MenuManager::TopMenu::ProjectsMenu
+
   def render_top_menu_left
     content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav hidden-for-mobile' do
       [render_main_top_menu_nodes,
@@ -46,55 +48,6 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   private
-
-  def render_projects_top_menu_node
-    return '' if User.current.anonymous? and Setting.login_required?
-
-    return '' if User.current.anonymous? and User.current.number_of_known_projects.zero?
-
-    link_to_all_projects = link_to l(:label_project_plural),
-                            { controller: '/projects', action: 'index' },
-                            title: l(:label_project_plural),
-                            accesskey: OpenProject::AccessKeys.key_for(:project_search),
-                            class: 'icon5 icon-projects',
-                            aria: { haspopup: 'true' }
-
-    result = ''.html_safe
-    if User.current.impaired?
-      result << content_tag(:li, link_to_all_projects)
-
-      if User.current.allowed_to?(:add_project, nil, global: true)
-        result << content_tag(:li) do
-                    link_to l(:label_project_new), new_project_path,
-                      class: 'icon4 icon-add',
-                      # For the moment we actually don't have a key for new project.
-                      # Need to decide on one.
-                      accesskey: OpenProject::AccessKeys.key_for(:new_project)
-                  end
-      end
-      result
-    else
-      render_drop_down_menu_node link_to_all_projects do
-        content_tag :ul, style: 'display:none', class: 'drop-down--projects' do
-          if User.current.allowed_to?(:add_project, nil, global: true)
-            result << content_tag(:li) do
-                        link_to l(:label_project_new), new_project_path, class: 'icon4 icon-add'
-                      end
-          end
-          result << content_tag(:li) do
-            link_to l(:label_project_view_all),
-                    { controller: '/projects', action: 'index' },
-                    class: 'icon4 icon-show-all-projects'
-          end
-
-          result << content_tag(:li, id: 'project-search-container') do
-            hidden_field_tag('', '', class: 'select2-select')
-          end
-          result
-        end
-      end
-    end
-  end
 
   def render_user_top_menu_node(items = menu_items_for(:account_menu))
     if User.current.logged?
@@ -113,10 +66,8 @@ module Redmine::MenuManager::TopMenuHelper
                    class: 'login',
                    title: l(:label_login)
 
-    render_drop_down_menu_node(link, class: 'drop-down last-child') do
-      content_tag :ul do
-        render_login_partial
-      end
+    render_menu_dropdown(link, menu_item_class: 'drop-down last-child') do
+      render_login_partial
     end
   end
 
@@ -130,20 +81,17 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_user_drop_down(items)
-    avatar =
-      if homescreen_user_avatar == avatar(User.current)
-        homescreen_user_avatar
-      else
-        ''
-      end
-
-    render_drop_down_menu_node link_to(avatar,
-                                       '',
-                                       title: User.current.to_s,
-                                       aria: { haspopup: 'true' },
-                                       class: (avatar == '' ? 'icon-user icon-context' : '')),
-                               items,
-                               class: 'drop-down -hide-icon last-child'
+    avatar = avatar(User.current)
+    render_menu_dropdown_with_items(
+      label: avatar.presence || '',
+      label_options: {
+        id: 'user-menu',
+        title: User.current.name,
+        class: (avatar ? '' :  'icon-user icon-context')
+      },
+      items: items,
+      options: { menu_item_class: 'last-child' }
+    )
   end
 
   def render_login_partial
@@ -158,9 +106,11 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_module_top_menu_node(items = more_top_menu_items)
-    render_drop_down_menu_node link_to(l(:label_modules), '#', title: l(:label_modules), class: 'icon5 icon-modules', aria: { haspopup: 'true' }),
-                               items,
-                               id: 'more-menu'
+    render_menu_dropdown_with_items(
+      label: l(:label_modules),
+      label_options: { id: 'more-menu', class: 'icon5 icon-modules' },
+      items: items
+    )
   end
 
   def render_main_top_menu_nodes(items = main_top_menu_items)
@@ -174,38 +124,32 @@ module Redmine::MenuManager::TopMenuHelper
     split_top_menu_into_main_or_more_menus[:main]
   end
 
-  # Menu items for the more top menu
+  # Menu items for the modules top menu
   def more_top_menu_items
-    split_top_menu_into_main_or_more_menus[:more]
+    split_top_menu_into_main_or_more_menus[:modules]
+  end
+
+  def project_menu_items
+    split_top_menu_into_main_or_more_menus[:projects]
   end
 
   def help_menu_item
     split_top_menu_into_main_or_more_menus[:help]
   end
 
-  # Split the :top_menu into separate :main and :more items
+  # Split the :top_menu into separate :main and :modules items
   def split_top_menu_into_main_or_more_menus
-    unless @top_menu_split
-      items_for_main_level = []
-      items_for_more_level = []
-      help_menu = nil
+    @top_menu_split ||= begin
+      items = Hash.new { |h, k| h[k] = [] }
       menu_items_for(:top_menu) do |item|
-        if item.name == :my_page
-          items_for_main_level << item
-        elsif item.name == :help
-          help_menu = item
-        elsif item.name == :projects
-          # Remove, present in layout
+        if item.name == :help
+          items[:help] = item
         else
-          items_for_more_level << item
+          context = item.context || :modules
+          items[context] << item
         end
       end
-      @top_menu_split = {
-        main: items_for_main_level,
-        more: items_for_more_level,
-        help: help_menu
-      }
+      items
     end
-    @top_menu_split
   end
 end

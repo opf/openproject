@@ -34,6 +34,7 @@ And I open the "Sign in" menu
 And I follow "t:label_register" within "#top-menu-items" [i18n]
 Then I should be on the registration page
 
+@javascript
 Scenario: A user can register successfully after filling in the registration form
 Given I am on the registration page
 And I fill in "user_login" with "heidi"
@@ -45,6 +46,7 @@ And I fill in "user_mail" with "heidi@test.com"
 And I click on "Submit"
 Then I should see "Your account was created and is now pending administrator approval."
 
+@javascript
 Scenario: A user is unable to register if one of the constraints left blank
 Given I am on the registration page
 And I fill in "user_login" with "heidi"
@@ -53,8 +55,9 @@ And I fill in "user_password_confirmation" with "test123456T?"
 And I fill in "user_firstname" with "Heidi"
 And I fill in "user_lastname" with "Swiss"
 And I click on "Submit"
-Then I should see "Email can't be blank"
+Then the element "#user_mail" should be invalid
 
+@javascript
 Scenario: A user is unable to register if the password does not match the confirmation
 Given I am on the registration page
 And I fill in "user_login" with "heidi"

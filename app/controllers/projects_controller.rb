@@ -74,12 +74,20 @@ class ProjectsController < ApplicationController
     end
   end
 
+  current_menu_item :index do
+    :list_projects
+  end
+
   def new
     @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
     @project = Project.new
     @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
     @project.attributes = permitted_params.project if params[:project].present?
+  end
+
+  current_menu_item :new do
+    :new_project
   end
 
   def create
