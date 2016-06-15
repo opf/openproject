@@ -74,6 +74,21 @@ describe Api::V2::UsersController, type: :controller do
       end
     end
 
+    describe 'with a group' do
+      let(:ids) { Group.all.map(&:id).join(',') }
+      let!(:group) { FactoryGirl.create(:group) }
+
+      context 'as an admin' do
+        include_context 'As an admin'
+
+        before do get 'index', ids: ids, format: :json end
+
+        it_behaves_like 'valid user API call' do
+          let(:user_count) { 1 }
+        end
+      end
+    end
+
     describe 'with 3 users' do
       let(:ids) { User.all.map(&:id).join(',') }
 
