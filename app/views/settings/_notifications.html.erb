@@ -68,7 +68,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
       <% end %>
     </fieldset>
-    <fieldset id="mail_configuration" class="form--fieldset">
+    <%= content_tag :fieldset, id: "mail_configuration", class: "form--fieldset" do %>
       <legend class="form--fieldset-legend"><%=l(:text_setup_mail_configuration)%></legend>
       <div class="form--field"><%= setting_select(:email_delivery_method, [:smtp, :sendmail], id: "email_delivery_method_switch") %></div>
       <div id="email_delivery_method_smtp" class="email_delivery_method_settings">
@@ -83,7 +83,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <div id="email_delivery_method_sendmail" class="email_delivery_method_settings">
         <div class="form--field"><%= setting_text_field :sendmail_location %></div>
       </div>
-    </fieldset>
+    <% end unless OpenProject::Configuration['email_delivery_configuration'] == 'legacy' %>
 
     <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
     <div style="float:none;display:inline-block;font-weight:bold;">

@@ -221,6 +221,8 @@ module OpenProject
       end
 
       def migrate_mailer_configuration!
+        # do not migrate if forced to legacy configuration (using settings or ENV)
+        return true if @config['email_delivery_configuration'] == 'legacy'
         # do not migrate if no legacy configuration
         return true if @config['email_delivery_method'].blank?
         # do not migrate if the setting already exists and is not blank

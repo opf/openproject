@@ -229,6 +229,12 @@ describe OpenProject::Configuration do
       expect(OpenProject::Configuration.migrate_mailer_configuration!).to eq(true)
     end
 
+    it 'does nothing if email_delivery_configuration forced to legacy' do
+      OpenProject::Configuration['email_delivery_configuration'] = 'legacy'
+      expect(Setting).to_not receive(:email_delivery_method=)
+      expect(OpenProject::Configuration.migrate_mailer_configuration!).to eq(true)
+    end
+
     it 'does nothing if setting already set' do
       OpenProject::Configuration['email_delivery_method'] = :sendmail
       Setting.email_delivery_method = :sendmail
@@ -276,6 +282,7 @@ describe OpenProject::Configuration do
       Setting.email_delivery_method = :smtp
       Setting.smtp_password = 'p4ssw0rd'
       Setting.smtp_address = 'smtp.example.com'
+      Setting.smtp_domain = 'example.com'
       Setting.smtp_port = 587
       Setting.smtp_user_name = 'username'
       Setting.smtp_enable_starttls_auto = 1
