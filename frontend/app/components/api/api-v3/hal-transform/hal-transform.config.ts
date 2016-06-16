@@ -28,8 +28,12 @@
 
 import {opApiModule} from "../../../../angular-modules";
 
-function halTransformConfig(halTransformTypes, HalResource, WorkPackageResource, CollectionResource, ErrorResource) {
-  angular.extend(halTransformTypes, {
+function halTransformConfig(halResourceTypes,
+                            HalResource,
+                            WorkPackageResource,
+                            CollectionResource,
+                            ErrorResource) {
+  angular.extend(halResourceTypes, {
     'default': HalResource,
     WorkPackage: WorkPackageResource,
     Collection: CollectionResource,

@@ -28,17 +28,12 @@
 
 import {opApiModule} from "../../../../angular-modules";
 
-function halTransform(halTransformTypes) {
+function halTransform(halResourceTypes) {
   return (element:op.ApiResult) => {
-    const resourceClass = halTransformTypes[element._type] || halTransformTypes.default;
+    const resourceClass = halResourceTypes[element._type] || halResourceTypes.default;
 
     if (!(element._embedded || element._links)) {
       return element;
-    }
-
-    // Add explicit null self link as per HAL recommendation.
-    if (element._links && element._links.self === undefined) {
-      element._links.self = { href: null };
     }
 
     return new resourceClass(element);

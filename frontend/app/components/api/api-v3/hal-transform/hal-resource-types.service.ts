@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.api')
-  .value('halTransformTypes', {
+import {opApiModule} from "../../../../angular-modules";
+
+opApiModule.value('halResourceTypes', {
     'default': null
   });
