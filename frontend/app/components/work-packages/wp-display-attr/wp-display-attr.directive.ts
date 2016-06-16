@@ -43,7 +43,6 @@ export class WorkPackageDisplayAttributeController {
   public field: DisplayField;
   public labelOptional: string;
 
-  private __d__hiddenForSighted: JQuery;
   private __d__cell: JQuery;
   private __d__renderer: JQuery;
 
@@ -103,12 +102,9 @@ export class WorkPackageDisplayAttributeController {
           this.field.render(this.__d__renderer, this);
         }
 
-        this.__d__hiddenForSighted = this.__d__hiddenForSighted || this.$element.find(".__d__hidden-for-sighted");
-        this.__d__hiddenForSighted.attr("id", this.labelId);
-        this.__d__hiddenForSighted.text(this.label + " " + this.displayText);
+        this.$element.attr("aria-label", this.label + " " + this.displayText);
 
         this.__d__cell = this.__d__cell || this.$element.find(".__d__cell");
-        this.__d__cell.attr("aria-labelledby", this.labelId);
         this.__d__cell.toggleClass("-placeholder", this.isEmpty);
     });
   }

@@ -80,7 +80,7 @@ class WorkPackageField
   end
 
   def trigger_link_selector
-    '.inplace-edit--read-value--container'
+    '.inplace-edit--read-value'
   end
 
   def field_selector

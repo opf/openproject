@@ -260,7 +260,15 @@ export class WorkPackageEditFieldController {
 
   protected updateDisplayAttributes() {
     this.__d__inplaceEditReadValue = this.__d__inplaceEditReadValue || this.$element.find(".__d__inplace-edit--read-value");
-    this.__d__inplaceEditReadValue.attr("tabindex", this.isEditable ? "0" : "-1");
+
+    if (this.isEditable) {
+      this.__d__inplaceEditReadValue.attr("role", "button");
+      this.__d__inplaceEditReadValue.attr("tabindex", "0");
+    }
+    else {
+      this.__d__inplaceEditReadValue.removeAttr("role");
+      this.__d__inplaceEditReadValue.removeAttr("tabindex");
+    }
   }
 }
 
