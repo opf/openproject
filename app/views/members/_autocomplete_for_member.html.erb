@@ -27,9 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <fieldset class="form--fieldset principals">
-  <legend class="form--fieldset-legend">
-    <%="#{l(:label_user_plural)}/#{l(:label_group_plural)}" %>
-  </legend>
+  <legend class="form--fieldset-legend"><%="#{l(:label_user_plural)}/#{l(:label_group_plural)}" %></legend>
   <% if principals.empty? %>
      <div class="form--field"><%= styled_label_tag(l('notice_no_principals_found'), l('notice_no_principals_found'), class: "form--label-with-check-box") %></div>
   <% else %>
