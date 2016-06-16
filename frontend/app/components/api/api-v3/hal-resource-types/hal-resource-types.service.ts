@@ -28,16 +28,27 @@
 
 import {opApiModule} from "../../../../angular-modules";
 
-function halTransform(halResourceTypes) {
-  return (element:op.ApiResult) => {
-    const resourceClass = halResourceTypes[element._type] || halResourceTypes.default;
+export class HalResourceTypesService {
+  constructor(protected $injector,
+              protected halResourceTypesStorage) {
+    this.add('__default__', 'HalResource');
+  }
 
-    if (!(element._embedded || element._links)) {
-      return element;
-    }
+  public add(typeName:string, className:string, attrConfig:any = {}) {
+    const attrCls = {};
 
-    return new resourceClass(element);
-  };
+    Object.keys(attrConfig).forEach(attrName => {
+      const className = attrConfig[attrName];
+      attrCls[attrName] = this.$injector.get(className);
+    });
+
+    this.halResourceTypesStorage[typeName] = {
+      cls: this.$injector.get(className),
+      attrCls: attrCls
+    };
+
+    return this;
+  }
 }
 
-opApiModule.factory('halTransform', halTransform);
+opApiModule.service('halResourceTypes', HalResourceTypesService);

@@ -27,7 +27,16 @@
 // ++
 
 import {opApiModule} from "../../../../angular-modules";
+import {HalResourceTypesService} from "./hal-resource-types.service";
 
-opApiModule.value('halResourceTypes', {
-    'default': null
-  });
+function halResourceTypesStorage(halResourceTypes:HalResourceTypesService) {
+  halResourceTypes
+    .add('WorkPackage', 'WorkPackageResource', {
+      parent: 'WorkPackageResource',
+      children: 'WorkPackageResource'
+    })
+    .add('Error', 'ErrorResource')
+    .add('Collection', 'CollectionResource')
+}
+
+opApiModule.run(halResourceTypesStorage);

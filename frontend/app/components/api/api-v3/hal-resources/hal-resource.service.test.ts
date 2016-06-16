@@ -27,17 +27,26 @@
 //++
 
 import {opApiModule, opServicesModule} from "../../../../angular-modules";
+import {HalResource} from "./hal-resource.service";
+
 const expect = chai.expect;
 
 describe('HalResource service', () => {
-  var HalResource;
   var $httpBackend:ng.IHttpBackendService;
+  var halResourceTypesStorage:any;
   var resource;
   var source;
 
-  beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
-  beforeEach(angular.mock.inject((_$httpBackend_, _HalResource_, apiV3) => {
-    [$httpBackend, HalResource] = arguments;
+  class OtherResource extends HalResource {}
+
+  beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name, $provide => {
+    $provide.value('OtherResource', OtherResource);
+  }));
+  beforeEach(angular.mock.inject((_$httpBackend_,
+                                  _HalResource_,
+                                  _halResourceTypesStorage_,
+                                  apiV3) => {
+    [$httpBackend, HalResource, halResourceTypesStorage] = arguments;
     apiV3.setDefaultHttpFields({cache: false});
   }));
 
@@ -56,19 +65,50 @@ describe('HalResource service', () => {
     expect(resource.prop).to.exist;
   });
 
-  describe('when creating the resource using fromLink', () => {
-    var link = {href: 'foo'};
+  describe('when creating a resource using the create factory method', () => {
+    describe('when there is no type configuration', () => {
+      beforeEach(() => {
+        source = {_embedded: {}};
+        resource = HalResource.create(source);
+      });
 
-    beforeEach(() => {
-      resource = HalResource.fromLink(link);
+      it('should be an instance of HalResource', () => {
+        expect(resource).to.be.an.instanceOf(HalResource)
+      });
     });
 
-    it('should not be loaded', () => {
-      expect(resource.$loaded).to.be.false;
-    });
+    describe('when the type is configured', () => {
+      beforeEach(() => {
+        source = {
+          _type: 'Other',
+          _links: {
+            someResource: {
+              href: 'foo'
+            }
+          }
+        };
 
-    it('should have the same self href as the link', () => {
-      expect(resource.href).to.eq(link.href);
+        halResourceTypesStorage.Other = {
+          cls: OtherResource,
+          attrCls: {
+            someResource: OtherResource
+          }
+        };
+
+        resource = HalResource.create(source);
+      });
+
+      it('should be an instance of that type', () => {
+        expect(resource).to.be.an.instanceOf(OtherResource);
+      });
+
+      it('should have an attribute that is of the configured instance', () => {
+        expect(resource.someResource).to.be.an.instanceOf(OtherResource);
+      });
+
+      it('should not be loaded', () => {
+        expect(resource.someResource.$loaded).to.be.false;
+      });
     });
   });
 

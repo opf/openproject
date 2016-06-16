@@ -30,20 +30,16 @@ import {opApiModule} from "../../../../angular-modules";
 import {HalLink, HalLinkInterface} from "../hal-link/hal-link.service";
 import ObservableArray = require('observable-array');
 
-var $q:ng.IQService;
-var lazy;
-var halTransform;
-var HalLink:typeof HalLink;
-
 export class HalResource {
-  public static fromLink(link) {
-    var resource = HalResource.getEmptyResource();
+  public static _type:string;
 
-    resource._links.self = link;
-    resource = halTransform(resource);
-    resource.$loaded = false;
+  public static create(element) {
+    if (!(element._embedded || element._links)) {
+      return element;
+    }
 
-    return resource;
+    const resourceClass = halResourceTypesStorage.getResourceClassOfType(element._type);
+    return new resourceClass(element);
   }
 
   protected static getEmptyResource():any {
@@ -76,7 +72,8 @@ export class HalResource {
     return this.$link.href;
   }
 
-  constructor(public $source:any = HalResource.getEmptyResource(), public $loaded:boolean = true) {
+  constructor(public $source:any = HalResource.getEmptyResource(),
+              public $loaded:boolean = true) {
     this.$source = $source._plain || $source;
 
     if (!this.$source._links) {
@@ -116,6 +113,16 @@ export class HalResource {
     return angular.copy(this.$source);
   }
 
+  protected createLinkedResource(linkName, link) {
+    var resource = HalResource.getEmptyResource();
+    resource._links.self = link;
+
+    const resourceClass = halResourceTypesStorage
+      .getResourceClassOfAttribute(this.constructor._type, linkName);
+
+    return new resourceClass(resource, false);
+  }
+
   private proxyProperties() {
     var source = this.$source.restangularized ? this.$source.plain() : this.$source;
 
@@ -141,7 +148,7 @@ export class HalResource {
           const link:any = this.$links[linkName].$link || this.$links[linkName];
 
           if (Array.isArray(link)) {
-            var items = link.map(item => HalResource.fromLink(item.$link));
+            var items = link.map(item => this.createLinkedResource(linkName, item.$link));
             var property:Array = new ObservableArray(...items).on('change', () => {
               property.forEach(item => {
                 if (!item.$link) {
@@ -160,7 +167,7 @@ export class HalResource {
               return HalLink.asFunc(link);
             }
 
-            return HalResource.fromLink(link);
+            return this.createLinkedResource(linkName, link);
           }
         },
 
@@ -196,15 +203,15 @@ export class HalResource {
     this.setupProperty('embedded', element => {
       angular.forEach(element, (child:any, name:string) => {
         if (child) {
-          lazy(element, name, () => halTransform(child));
+          lazy(element, name, () => HalResource.create(child));
         }
       });
 
       if (Array.isArray(element)) {
-        return element.map(halTransform);
+        return element.map(HalResource.create);
       }
 
-      return halTransform(element);
+      return HalResource.create(element);
     });
   }
 
@@ -221,11 +228,22 @@ export class HalResource {
   }
 }
 
+var $q:ng.IQService;
+var lazy;
+var HalLink:typeof HalLink;
+var halResourceTypesStorage:any;
+
+
 function halResourceService() {
-  [$q, lazy, halTransform, HalLink] = arguments;
+  [$q, lazy, HalLink, halResourceTypesStorage] = arguments;
   return HalResource;
 }
 
-halResourceService.$inject = ['$q', 'lazy', 'halTransform', 'HalLink'];
+halResourceService.$inject = [
+  '$q',
+  'lazy',
+  'HalLink',
+  'halResourceTypesStorage'
+];
 
 opApiModule.factory('HalResource', halResourceService);

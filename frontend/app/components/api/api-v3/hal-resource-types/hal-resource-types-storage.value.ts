@@ -26,19 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+
 import {opApiModule} from "../../../../angular-modules";
 
-function halTransformConfig(halResourceTypes,
-                            HalResource,
-                            WorkPackageResource,
-                            CollectionResource,
-                            ErrorResource) {
-  angular.extend(halResourceTypes, {
-    'default': HalResource,
-    WorkPackage: WorkPackageResource,
-    Collection: CollectionResource,
-    Error: ErrorResource
-  });
-}
+opApiModule.value('halResourceTypesStorage', {
+  getResourceClassOfType(type?:string){
+    type = this[type] ? type : '__default__';
+    const typeConfig = this[type];
 
-opApiModule.run(halTransformConfig);
+    const resourceClass = typeConfig.cls;
+    resourceClass._type = type;
+
+    return resourceClass;
+  },
+  
+  getResourceClassOfAttribute(type:string, attribute:string) {
+    const typeConfig = this[type];
+    const resourceClass = typeConfig.attrCls[attribute];
+
+    if (typeConfig && resourceClass) {
+      return resourceClass;
+    }
+    return this.getResourceClassOfType();
+  }
+});
