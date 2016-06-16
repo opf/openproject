@@ -29,7 +29,19 @@
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 
 export class IdDisplayField extends DisplayField {
-  public template:string = '/components/wp-display/field-types/wp-display-id-field.directive.html'
+  public template: string = '/components/wp-display/field-types/wp-display-id-field.directive.html'
+  public text: Object;
+
+
+  constructor(public resource:HalResource,
+              public name:string,
+              public schema) {
+    super(resource, name, schema);
+
+    this.text = {
+      linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
+    }
+  }
 
   public get value() {
     if (this.resource.isNew) {
@@ -42,11 +54,5 @@ export class IdDisplayField extends DisplayField {
 
   public isEmpty(): boolean {
     return false;
-  }
-
-  public get valueLink() {
-    let PathHelper = <op.PathHelper>this.$injector.get('PathHelper');
-
-    return PathHelper.workPackagePath(this.value);
   }
 }
