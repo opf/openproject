@@ -29,6 +29,9 @@ en:
         participants_attended: "Attendees"
         participants_invited: "Invitees"
         start_time: "Time"
+    errors:
+      messages:
+        invalid_time_format: "is not a valid time. Required format: HH:MM"
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutes"

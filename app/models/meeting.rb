@@ -61,7 +61,13 @@ class Meeting < ActiveRecord::Base
 
   accepts_nested_attributes_for :participants, allow_destroy: true
 
-  validates_presence_of :title, :start_time, :duration
+  validates_presence_of :title, :duration
+
+  # We only save start_time as an aggregated value of start_date and hour,
+  # but still need start_date and _hour for validation purposes
+  attr_reader :start_date, :start_time_hour
+  validate :validate_date_and_time
+  before_save :update_start_time!
 
   before_save :add_new_participants_as_watcher
 
@@ -71,13 +77,30 @@ class Meeting < ActiveRecord::Base
     Meeting.where(['author_id = ?', user.id]).update_all ['author_id = ?', DeletedUser.first.id]
   end
 
-  def start_date
-    # the text_field + calendar_for form helpers expect a Date
-    start_time.to_date if start_time.present?
+  ##
+  # Assign a date string without validation
+  # The actual aggregated start_time is derived after valdiation
+  def start_date=(value)
+    attribute_will_change! :start_date
+    @start_date = value
   end
 
-  def start_time_hour
-    start_time.present? ? start_time.strftime('%H:%M') : '00:00'
+  ##
+  # Assign a HH:MM hour string without validation
+  # The actual aggregated start_time is derived after valdiation
+  def start_time_hour=(value)
+    attribute_will_change! :start_time_hour
+    @start_time_hour = value
+  end
+
+  ##
+  # Return the computed start_time when changed
+  def start_time
+    if parse_start_time?
+      parsed_start_time
+    else
+      super
+    end
   end
 
   def start_month
@@ -174,11 +197,75 @@ class Meeting < ActiveRecord::Base
 
   def set_initial_values
     # set defaults
-    self.start_time ||= Date.tomorrow + 10.hours
+    write_attribute(:start_time, Date.tomorrow + 10.hours) if start_time.nil?
     self.duration   ||= 1
+
+    @start_date = start_time.to_date.iso8601
+    @start_time_hour = start_time.strftime('%H:%M')
   end
 
   private
+
+  ##
+  # Validate date and time setters.
+  # If start_time has been changed, check that value.
+  # Otherwise start_{date, time_hour} was used, then validate those
+  def validate_date_and_time
+    if parse_start_time?
+      errors.add :start_date, :not_an_iso_date if parsed_start_date.nil?
+      errors.add :start_time_hour, :invalid_time_format if parsed_start_time_hour.nil?
+    else
+      errors.add :start_time, :invalid if start_time.nil?
+    end
+  end
+
+  ##
+  # Actually sets the aggregated start_time attribute.
+  def update_start_time!
+    write_attribute(:start_time, start_time)
+  end
+
+  ##
+  # Determines whether new raw values werde provided.
+  def parse_start_time?
+    !(changed & %w(start_date start_time_hour)).empty?
+  end
+
+  ##
+  # Returns the parse result of both start_date and start_time_hour
+  def parsed_start_time
+    date = parsed_start_date
+    time = parsed_start_time_hour
+
+    if date.nil? || time.nil?
+      raise ArgumentError, 'Provided composite start_time is invalid.'
+    end
+
+    DateTime.new(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.min
+    )
+  end
+
+  ##
+  # Enforce ISO 8601 date parsing for the given input string
+  # This avoids weird parsing of dates due to malformed input.
+  def parsed_start_date
+    Date.iso8601(@start_date)
+  rescue ArgumentError
+    nil
+  end
+
+  ##
+  # Enforce HH::MM time parsing for the given input string
+  def parsed_start_time_hour
+    Time.strptime(@start_time_hour, '%H:%M')
+  rescue ArgumentError
+    nil
+  end
 
   def add_new_participants_as_watcher
     participants.select(&:new_record?).each do |p|

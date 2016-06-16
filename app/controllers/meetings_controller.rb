@@ -74,7 +74,7 @@ class MeetingsController < ApplicationController
 
       redirect_to action: 'show', id: @meeting
     else
-      render action: 'new', project_id: @project
+      render template: 'meetings/new', project_id: @project
     end
   end
 
@@ -145,15 +145,6 @@ class MeetingsController < ApplicationController
     # instance variable.
     @converted_params = meeting_params
 
-    start_date = @converted_params.delete(:start_date)
-    start_time_hour = @converted_params.delete(:"start_time_hour")
-    begin
-      timestring = "#{start_date} #{start_time_hour}"
-      time = Time.zone.parse(timestring)
-      @converted_params[:start_time] = time
-    rescue ArgumentError
-      @converted_params[:start_time] = nil
-    end
     @converted_params[:duration] = @converted_params[:duration].to_hours
     # Force defaults on participants
     @converted_params[:participants_attributes] ||= {}
