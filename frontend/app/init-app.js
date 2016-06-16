@@ -110,6 +110,11 @@ opApp
                KeyboardShortcutService) {
         $http.defaults.headers.common.Accept = 'application/json';
 
+        // Set the escaping target of opening double curly braces
+        // This is what returned by rails-angular-xss when it discoveres double open curly braces
+        // See https://github.com/opf/rails-angular-xss for more information.
+        $rootScope.DOUBLE_LEFT_CURLY_BRACE = '{{';
+
         $rootScope.showNavigation =
             $window.sessionStorage.getItem('openproject:navigation-toggle') !==
             'collapsed';

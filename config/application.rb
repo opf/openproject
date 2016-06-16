@@ -89,6 +89,7 @@ module OpenProject
                            }
 
     config.middleware.use Rack::Attack
+    config.middleware.use 'ResetCurrentUser'
 
     ##
     # Support XML requests as params for APIv2

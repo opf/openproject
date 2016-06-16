@@ -23,6 +23,13 @@ GIT
       rack (>= 1.0, < 3)
 
 GIT
+  remote: git://github.com/opf/rails-angular-xss.git
+  revision: e149647a0d303114ee40f03141f9b5cc097bdf43
+  specs:
+    rails-angular-xss (0.1.0)
+      rails (>= 4.2.0, < 5.0)
+
+GIT
   remote: git://github.com/why-el/svg-graph.git
   revision: e79abffa66639ab203d099250c5d2656a4ebf917
   branch: silence-class-access-warning
@@ -323,7 +330,7 @@ GEM
       mime-types (>= 1.16, < 3)
     method_source (0.8.2)
     mime-types (2.99.2)
-    mini_portile2 (2.0.0)
+    mini_portile2 (2.1.0)
     minisyntax (0.2.5)
     minitest (5.8.4)
     mixlib-shellout (2.1.0)
@@ -334,8 +341,9 @@ GEM
     net-ldap (0.14.0)
     netrc (0.11.0)
     newrelic_rpm (3.15.0.314)
-    nokogiri (1.6.7.2)
-      mini_portile2 (~> 2.0.0.rc2)
+    nokogiri (1.6.8)
+      mini_portile2 (~> 2.1.0)
+      pkg-config (~> 1.1.7)
     oj (2.14.6)
     parallel (1.6.2)
     parallel_tests (2.4.1)
@@ -347,6 +355,7 @@ GEM
       rake (>= 0.8.1)
     pdf-core (0.6.1)
     pg (0.18.4)
+    pkg-config (1.1.7)
     poltergeist (1.9.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -622,7 +631,7 @@ DEPENDENCIES
   mysql2 (~> 0.4)
   net-ldap (~> 0.14.0)
   newrelic_rpm
-  nokogiri (~> 1.6.7)
+  nokogiri (~> 1.6.8)
   oj (~> 2.14.6)
   omniauth!
   openproject-translations!
@@ -646,6 +655,7 @@ DEPENDENCIES
   rack-test (~> 0.6.2)
   rack_session_access
   rails (~> 4.2.5)
+  rails-angular-xss!
   rails-observers
   rails_12factor
   rails_autolink (~> 1.1.6)

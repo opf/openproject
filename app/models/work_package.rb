@@ -611,19 +611,24 @@ class WorkPackage < ActiveRecord::Base
   def inherit_done_ratio_from_leaves
     return if WorkPackage.done_ratio_disabled?
 
-    # done ratio = weighted average ratio of leaves
-    unless WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
-      leaves_count = leaves.count
-      if leaves_count > 0
-        average = leaves.average(:estimated_hours).to_f
-        if average == 0
-          average = 1
-        end
-        done = leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{self.class.connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
-        progress = done / (average * leaves_count)
+    return if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
 
-        self.done_ratio = progress.round
+    # done ratio = weighted average ratio of leaves
+    leaves_count = leaves.count
+    if leaves_count > 0
+      average = leaves.average(:estimated_hours).to_f
+      if average == 0
+        average = 1
       end
+
+      # Do not take into account estimated_hours when it is either nil or set to 0.0
+      sum_sql = <<-SQL
+      COALESCE((CASE WHEN estimated_hours = 0.0 THEN NULL ELSE estimated_hours END), #{average})
+      * (CASE WHEN is_closed = #{self.class.connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)
+      SQL
+      done = leaves.joins(:status).sum(sum_sql)
+      progress = done / (average * leaves_count)
+      self.done_ratio = progress.round
     end
   end
 

@@ -689,6 +689,28 @@ describe WorkPackage, type: :model do
       end
     end
 
+    context 'with parent set' do
+      let(:parent) { FactoryGirl.create(:work_package) }
+      let(:work_package) { FactoryGirl.create(:work_package, parent: parent) }
+
+      it 'sets parent done_ratio from child' do
+        work_package.done_ratio = 50
+        work_package.save!
+
+        parent.reload
+        expect(parent.done_ratio).to eq(50)
+      end
+
+      it 'sets parent done_ratio from child when estimated_hours is 0' do
+        work_package.estimated_hours = 0.0
+        work_package.done_ratio = 100
+        work_package.save!
+
+        parent.reload
+        expect(parent.done_ratio).to eq(100)
+      end
+    end
+
     describe '#update_done_ratio_from_status' do
       context 'work package field' do
         before do

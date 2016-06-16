@@ -29,6 +29,7 @@
 
 class UserSearchService
   attr_accessor :params
+  attr_reader :users_only, :project
 
   SEARCH_SCOPES = [
     'project_id',
@@ -38,13 +39,22 @@ class UserSearchService
     'name'
   ]
 
-  def initialize(params)
+  def initialize(params, users_only: false)
     self.params = params
+
+    @users_only = users_only
+    @project = Project.find(params[:project_id]) if params[:project_id]
+  end
+
+  def scope
+    if users_only
+      project.nil? ? User : project.users
+    else
+      project.nil? ? Principal : project.principals
+    end
   end
 
   def search
-    scope = params[:project_id] ? Project.find(params[:project_id]).users : User
-
     params[:ids].present? ? ids_search(scope) : query_search(scope)
   end
 
@@ -66,7 +76,7 @@ class UserSearchService
       scope = scope.not_builtin
     else
       @status = params[:status] ? params[:status].to_i : User::STATUSES[:active]
-      scope = scope.not_blocked if @status == User::STATUSES[:active]
+      scope = scope.not_blocked if users_only && @status == User::STATUSES[:active]
       c << ['status = ?', @status]
     end
 

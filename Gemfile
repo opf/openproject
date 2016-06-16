@@ -95,6 +95,9 @@ gem 'rack-protection', git: 'https://github.com/finnlabs/rack-protection.git', r
 # https://github.com/kickstarter/rack-attack
 gem 'rack-attack'
 
+# Patch Rails HTML whitelisting for Angular curly braces
+gem 'rails-angular-xss', github: 'opf/rails-angular-xss'
+
 gem "syck", '~> 1.0.5', require: false
 gem 'gon', '~> 4.0'
 
@@ -132,7 +135,7 @@ gem 'cocaine'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'nokogiri', '~> 1.6.7'
+gem 'nokogiri', '~> 1.6.8'
 
 # carrierwave 0.11.3 should allow to use fog-aws without the rest of the
 # fog dependency chain. We only need aws here, so we can avoid it
