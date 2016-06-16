@@ -144,7 +144,7 @@ module Redmine::MenuManager::MenuHelper
     options[:aria] = { haspopup: 'true' }
     options[:class] = "#{options[:class]} #{selected ? 'selected' : ''}"
 
-    link_to(you_are_here_info(selected) + label, '', options)
+    link_to(you_are_here_info(selected).html_safe + label, '', options)
   end
 
   def any_item_selected?(items)
