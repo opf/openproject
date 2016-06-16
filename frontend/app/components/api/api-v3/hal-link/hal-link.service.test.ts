@@ -71,8 +71,7 @@ describe('HalLink service', () => {
     });
 
     it('should throw no error', () => {
-      const fetch = () => link.$fetch();
-      expect(fetch).not.to.throw(Error);
+      expect(() => link.$fetch()).not.to.throw(Error);
     });
   });
 
@@ -82,7 +81,6 @@ describe('HalLink service', () => {
     var apiRequest = () => {
       promise = link.$fetch();
       $httpBackend.expectGET('/api/link').respond(200, response);
-      $httpBackend.flush();
     };
 
     beforeEach(() => {
@@ -99,13 +97,16 @@ describe('HalLink service', () => {
 
       promise.should.be.fulfilled.then(value => {
         expect(value.hello).to.eq(response.hello);
-      })
+      });
+
+      $httpBackend.flush();
     });
 
     it('should not return a restangularized result', () => {
       apiRequest();
 
       promise.should.be.fulfilled.then(value => {
+        console.log('VAAAAAAAAAAAAAAAAL', value);
         expect(value.restangularized).to.not.be.ok;
       });
     });
@@ -118,16 +119,20 @@ describe('HalLink service', () => {
       apiRequest();
 
       promise.should.be.fulfilled.then(value => {
-        expect(value.$halTransformed).to.be.true;
+        expect(value.$isHal).to.be.true;
       });
+
+      $httpBackend.flush();
     });
 
     it('should return a plain result if it is not a resource', () => {
       apiRequest();
 
       promise.should.be.fulfilled.then(value => {
-        expect(value.$halTransformed).to.not.be.ok;
+        expect(value.$isHal).to.not.be.ok;
       });
+
+      $httpBackend.flush();
     });
 
     it('should perform a GET request by default', () => {
