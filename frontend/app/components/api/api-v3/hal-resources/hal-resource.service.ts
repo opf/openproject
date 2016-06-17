@@ -26,9 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opApiModule} from "../../../../angular-modules";
-import {HalLink, HalLinkInterface} from "../hal-link/hal-link.service";
+import {opApiModule} from '../../../../angular-modules';
+import {HalLink, HalLinkInterface} from '../hal-link/hal-link.service';
 import ObservableArray = require('observable-array');
+
+var $q:ng.IQService;
+var lazy;
+var halResourceTypesStorage:any;
 
 export class HalResource {
   public static _type:string;
@@ -90,6 +94,8 @@ export class HalResource {
     this.setLinksAsProperties();
     this.setEmbeddedAsProperties();
   }
+
+  //protected setSource
 
   public $load() {
     if (this.$loaded) {
@@ -172,7 +178,7 @@ export class HalResource {
         },
 
         val => this.setter(val, linkName)
-      )
+      );
     });
   }
 
@@ -227,12 +233,6 @@ export class HalResource {
     }
   }
 }
-
-var $q:ng.IQService;
-var lazy;
-var HalLink:typeof HalLink;
-var halResourceTypesStorage:any;
-
 
 function halResourceService() {
   [$q, lazy, HalLink, halResourceTypesStorage] = arguments;

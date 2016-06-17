@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opApiModule, opServicesModule} from "../../../../angular-modules";
-import {HalResource} from "./hal-resource.service";
+import {opApiModule, opServicesModule} from '../../../../angular-modules';
+import {HalResource} from './hal-resource.service';
 
 const expect = chai.expect;
 
@@ -37,7 +37,8 @@ describe('HalResource service', () => {
   var resource;
   var source;
 
-  class OtherResource extends HalResource {}
+  class OtherResource extends HalResource {
+  }
 
   beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name, $provide => {
     $provide.value('OtherResource', OtherResource);
@@ -73,7 +74,7 @@ describe('HalResource service', () => {
       });
 
       it('should be an instance of HalResource', () => {
-        expect(resource).to.be.an.instanceOf(HalResource)
+        expect(resource).to.be.an.instanceOf(HalResource);
       });
     });
 
@@ -363,7 +364,7 @@ describe('HalResource service', () => {
     });
 
     it('should be transformed', () => {
-      expect(resource.$isHal).to.be.true
+      expect(resource.$isHal).to.be.true;
     });
 
     it('should have a new "embedded" property', () => {
@@ -517,7 +518,7 @@ describe('HalResource service', () => {
     });
 
     it('should be transformed', () => {
-      expect(resource.$isHal).to.be.true
+      expect(resource.$isHal).to.be.true;
     });
 
     it('should have a new "embedded" property', () => {
@@ -583,8 +584,7 @@ describe('HalResource service', () => {
       try {
         resource.$links.action = 'foo';
       }
-      catch (Error) {
-      }
+      catch (ignore) { /**/ }
 
       expect(resource.$links.action).to.not.eq('foo');
     });
@@ -593,8 +593,7 @@ describe('HalResource service', () => {
       try {
         resource.$embedded.embedded = 'foo';
       }
-      catch (Error) {
-      }
+      catch (ignore) { /**/ }
 
       expect(resource.$embedded.embedded).to.not.eq('foo');
     });
@@ -658,7 +657,7 @@ describe('HalResource service', () => {
 
         it('should update the source when set', () => {
           resource.property = resource;
-          expect(resource.$source._links.property.href).to.eql('/api/self')
+          expect(resource.$source._links.property.href).to.eql('/api/self');
         });
 
         describe('when loading it', () => {
