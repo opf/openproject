@@ -704,7 +704,9 @@ class WorkPackage < ActiveRecord::Base
     # done ratio = weighted average ratio of leaves
     leaves_count = leaves.count
     if leaves_count > 0
-      average = leaves.average(:estimated_hours).to_f
+      average = leaves.average(
+        'CASE WHEN estimated_hours IS NULL THEN 0.0 ELSE estimated_hours END'
+      ).to_f
       if average == 0
         average = 1
       end
