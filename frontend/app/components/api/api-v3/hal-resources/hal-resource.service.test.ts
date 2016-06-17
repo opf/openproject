@@ -584,7 +584,8 @@ describe('HalResource service', () => {
       try {
         resource.$links.action = 'foo';
       }
-      catch (ignore) { /**/ }
+      catch (ignore) { /**/
+      }
 
       expect(resource.$links.action).to.not.eq('foo');
     });
@@ -593,7 +594,8 @@ describe('HalResource service', () => {
       try {
         resource.$embedded.embedded = 'foo';
       }
-      catch (ignore) { /**/ }
+      catch (ignore) { /**/
+      }
 
       expect(resource.$embedded.embedded).to.not.eq('foo');
     });
@@ -666,7 +668,9 @@ describe('HalResource service', () => {
             resource.$load();
 
             $httpBackend.expectGET('/api/property').respond(200, {
-              name: 'name'
+              _links: {},
+              name: 'name',
+              foo: 'bar'
             });
             $httpBackend.flush();
           });
@@ -679,8 +683,20 @@ describe('HalResource service', () => {
             expect(resource.name).to.eq('name');
           });
 
+          it('should have properties that have a getter', () => {
+            expect(Object.getOwnPropertyDescriptor(resource, 'foo').get).to.exist;
+          });
+
+          it('should have properties that have a setter', () => {
+            expect(Object.getOwnPropertyDescriptor(resource, 'foo').set).to.exist;
+          });
+
           it('should return itself in a promise if already loaded', () => {
-            expect(resource.$load()).to.eventually.eql(resource);
+            resource.$loaded = 1;
+
+            expect(resource.$load()).to.eventually.be.fulfilled.then(result => {
+              expect(result).to.equal(result);
+            });
           });
         });
       });

@@ -90,9 +90,9 @@ export class HalResource {
       return this.$self;
     }
 
-    this.$self = this.$links.self().then(resource => {
+    this.$self = this.$links.self().then(source => {
       this.$loaded = true;
-      angular.extend(this, resource);
+      this.$initialize(source.$source);
       return this;
     });
 
