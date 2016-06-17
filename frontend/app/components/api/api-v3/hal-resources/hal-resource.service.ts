@@ -46,7 +46,7 @@ export class HalResource {
     return new resourceClass(element);
   }
 
-  protected static getEmptyResource():any {
+  public static getEmptyResource():any {
     return {_links: {self: {href: null}}};
   }
 
@@ -78,24 +78,8 @@ export class HalResource {
 
   constructor(public $source:any = HalResource.getEmptyResource(),
               public $loaded:boolean = true) {
-    this.$source = $source._plain || $source;
-
-    if (!this.$source._links) {
-      this.$source._links = {};
-    }
-
-    if (!this.$source._links.self) {
-      this.$source._links.self = new HalLink();
-    }
-
-    this.setupLinks();
-    this.setupEmbedded();
-    this.proxyProperties();
-    this.setLinksAsProperties();
-    this.setEmbeddedAsProperties();
+    this.$initialize($source);
   }
-
-  //protected setSource
 
   public $load() {
     if (this.$loaded) {
@@ -119,27 +103,53 @@ export class HalResource {
     return angular.copy(this.$source);
   }
 
-  protected createLinkedResource(linkName, link) {
+  protected $initialize($source) {
+    this.$source = $source;
+    initializeResource(this);
+  }
+}
+
+function initializeResource(halResource:HalResource) {
+  setSource();
+  setupLinks();
+  setupEmbedded();
+  proxyProperties();
+  setLinksAsProperties();
+  setEmbeddedAsProperties();
+
+  function setSource() {
+    halResource.$source = halResource.$source._plain || halResource.$source;
+
+    if (!halResource.$source._links) {
+      halResource.$source._links = {};
+    }
+
+    if (!halResource.$source._links.self) {
+      halResource.$source._links.self = new HalLink();
+    }
+  }
+
+  function createLinkedResource(linkName, link) {
     var resource = HalResource.getEmptyResource();
     resource._links.self = link;
 
     const resourceClass = halResourceTypesStorage
-      .getResourceClassOfAttribute(this.constructor._type, linkName);
+      .getResourceClassOfAttribute(halResource.constructor._type, linkName);
 
     return new resourceClass(resource, false);
   }
 
-  private proxyProperties() {
-    var source = this.$source.restangularized ? this.$source.plain() : this.$source;
+  function proxyProperties() {
+    var source = halResource.$source.restangularized ? halResource.$source.plain() : halResource.$source;
 
     _.without(Object.keys(source), '_links', '_embedded').forEach(property => {
-      Object.defineProperty(this, property, {
+      Object.defineProperty(halResource, property, {
         get() {
-          return this.$source[property];
+          return halResource.$source[property];
         },
 
         set(value) {
-          this.$source[property] = value;
+          halResource.$source[property] = value;
         },
 
         enumerable: true
@@ -147,14 +157,14 @@ export class HalResource {
     });
   }
 
-  private setLinksAsProperties() {
-    _.without(Object.keys(this.$links), 'self').forEach(linkName => {
-      lazy(this, linkName,
+  function setLinksAsProperties() {
+    _.without(Object.keys(halResource.$links), 'self').forEach(linkName => {
+      lazy(halResource, linkName,
         () => {
-          const link:any = this.$links[linkName].$link || this.$links[linkName];
+          const link:any = halResource.$links[linkName].$link || halResource.$links[linkName];
 
           if (Array.isArray(link)) {
-            var items = link.map(item => this.createLinkedResource(linkName, item.$link));
+            var items = link.map(item => createLinkedResource(linkName, item.$link));
             var property:Array = new ObservableArray(...items).on('change', () => {
               property.forEach(item => {
                 if (!item.$link) {
@@ -162,7 +172,7 @@ export class HalResource {
                 }
               });
 
-              this.$source._links[linkName] = property.map(item => item.$link);
+              halResource.$source._links[linkName] = property.map(item => item.$link);
             });
 
             return property;
@@ -173,40 +183,40 @@ export class HalResource {
               return HalLink.asFunc(link);
             }
 
-            return this.createLinkedResource(linkName, link);
+            return createLinkedResource(linkName, link);
           }
         },
 
-        val => this.setter(val, linkName)
+        val => setter(val, linkName)
       );
     });
   }
 
-  private setEmbeddedAsProperties() {
-    Object.keys(this.$embedded).forEach(name => {
-      lazy(this, name, () => this.$embedded[name], val => this.setter(val, name));
+  function setEmbeddedAsProperties() {
+    Object.keys(halResource.$embedded).forEach(name => {
+      lazy(halResource, name, () => halResource.$embedded[name], val => setter(val, name));
     });
   }
 
-  private setupProperty(name:string, callback:(element:any) => any) {
+  function setupProperty(name:string, callback:(element:any) => any) {
     const instanceName = '$' + name;
     const sourceName = '_' + name;
-    const sourceObj = this.$source[sourceName];
+    const sourceObj = halResource.$source[sourceName];
 
     if (angular.isObject(sourceObj)) {
       Object.keys(sourceObj).forEach(propName => {
-        lazy(this[instanceName], propName, () => callback(sourceObj[propName]));
+        lazy(halResource[instanceName], propName, () => callback(sourceObj[propName]));
       });
     }
   }
 
-  private setupLinks() {
-    this.setupProperty('links',
+  function setupLinks() {
+    setupProperty('links',
       link => Array.isArray(link) ? link.map(HalLink.asFunc) : HalLink.asFunc(link));
   }
 
-  private setupEmbedded() {
-    this.setupProperty('embedded', element => {
+  function setupEmbedded() {
+    setupProperty('embedded', element => {
       angular.forEach(element, (child:any, name:string) => {
         if (child) {
           lazy(element, name, () => HalResource.create(child));
@@ -221,12 +231,12 @@ export class HalResource {
     });
   }
 
-  private setter(val, linkName) {
+  function setter(val, linkName) {
     if (val && val.$link) {
       const link = val.$link;
 
       if (link.href && link.method === 'get') {
-        this.$source._links[linkName] = link;
+        halResource.$source._links[linkName] = link;
       }
 
       return val;
