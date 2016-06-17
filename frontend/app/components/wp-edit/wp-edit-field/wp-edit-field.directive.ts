@@ -272,36 +272,38 @@ export class WorkPackageEditFieldController {
   }
 }
 
-function wpEditFieldLink(scope,
-                         element,
-                         attrs,
-                         controllers: [WorkPackageEditFormController, WorkPackageEditFieldController]) {
+function wpEditField(wpCacheService: WorkPackageCacheService) {
 
-  var formCtrl = controllers[0];
-  controllers[1].formCtrl = formCtrl;
+  function wpEditFieldLink(scope,
+                           element,
+                           attrs,
+                           controllers: [WorkPackageEditFormController, WorkPackageEditFieldController]) {
 
-  formCtrl.registerField(scope.vm);
-  formCtrl.onWorkPackageUpdated('wp-edit-field-' + scope.vm.fieldName, (wp) => {
-    scope.vm.workPackage = wp;
-    scope.vm.initializeField();
-  });
+    var formCtrl = controllers[0];
+    controllers[1].formCtrl = formCtrl;
 
-  if (formCtrl.workPackage) {
-    scope.vm.workPackage = formCtrl.workPackage;
-    scope.vm.initializeField();
+    formCtrl.registerField(scope.vm);
+    scopedObservable(scope, wpCacheService.loadWorkPackage(formCtrl.workPackage.id))
+      .subscribe((wp: WorkPackageResource) => {
+        scope.vm.workPackage = wp;
+        scope.vm.initializeField();
+      });
+
+    if (formCtrl.workPackage) {
+      scope.vm.workPackage = formCtrl.workPackage;
+      scope.vm.initializeField();
+    }
+
+    element.addClass(scope.vm.fieldName);
+    element.keyup(event => {
+      if (event.keyCode === 27) {
+        scope.$evalAsync(() => {
+          scope.vm.handleUserCancel(true);
+        });
+      }
+    });
   }
 
-  element.addClass(scope.vm.fieldName);
-  element.keyup(event => {
-    if (event.keyCode === 27) {
-      scope.$evalAsync(() => {
-        scope.vm.handleUserCancel(true);
-      });
-    }
-  });
-}
-
-function wpEditField() {
   return {
     restrict: 'A',
     templateUrl: '/components/wp-edit/wp-edit-field/wp-edit-field.directive.html',
