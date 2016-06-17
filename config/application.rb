@@ -67,6 +67,7 @@ if defined?(Bundler)
 end
 
 require File.dirname(__FILE__) + '/../lib/open_project/configuration'
+require File.dirname(__FILE__) + '/../app/middleware/reset_current_user'
 
 module OpenProject
   class Application < Rails::Application
@@ -89,7 +90,7 @@ module OpenProject
                            }
 
     config.middleware.use Rack::Attack
-    config.middleware.use 'ResetCurrentUser'
+    config.middleware.use ::ResetCurrentUser
 
     ##
     # Support XML requests as params for APIv2
