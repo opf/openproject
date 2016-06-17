@@ -87,7 +87,7 @@ module Redmine::MenuManager::TopMenuHelper
       label_options: {
         id: 'user-menu',
         title: User.current.name,
-        class: (avatar ? '' :  'icon-user icon-context')
+        class: (avatar.present? ? '' : 'icon-user icon-context')
       },
       items: items,
       options: { menu_item_class: 'last-child' }
