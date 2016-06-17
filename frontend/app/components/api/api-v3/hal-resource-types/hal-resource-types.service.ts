@@ -26,7 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opApiModule} from "../../../../angular-modules";
+import {opApiModule} from '../../../../angular-modules';
+
+interface HalResourceTypesConfigInterface {
+  className?:string;
+  attr?:any;
+}
 
 export class HalResourceTypesService {
   constructor(protected $injector,
@@ -34,11 +39,13 @@ export class HalResourceTypesService {
     this.add('__default__', 'HalResource');
   }
 
-  public add(typeName:string, className:string, attrConfig:any = {}) {
+  public add(typeName:string,
+             config:HalResourceTypesConfigInterface = {}) {
+    var {className = 'HalResource', attr = {}} = config;
     const attrCls = {};
 
-    Object.keys(attrConfig).forEach(attrName => {
-      const className = attrConfig[attrName];
+    Object.keys(attr).forEach(attrName => {
+      const className = attr[attrName];
       attrCls[attrName] = this.$injector.get(className);
     });
 

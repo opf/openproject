@@ -26,17 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opApiModule} from "../../../../angular-modules";
-import {HalResourceTypesService} from "./hal-resource-types.service";
+import {opApiModule} from '../../../../angular-modules';
+import {HalResourceTypesService} from './hal-resource-types.service';
 
 function halResourceTypesStorage(halResourceTypes:HalResourceTypesService) {
   halResourceTypes
-    .add('WorkPackage', 'WorkPackageResource', {
-      parent: 'WorkPackageResource',
-      children: 'WorkPackageResource'
+    .add('WorkPackage', {
+      className: 'WorkPackageResource',
+
+      attr: {
+        parent: 'WorkPackageResource',
+        children: 'WorkPackageResource'
+      }
     })
-    .add('Error', 'ErrorResource')
-    .add('Collection', 'CollectionResource')
+    .add('Error', {
+      className: 'ErrorResource'
+    })
+    .add('Collection', {
+      className: 'CollectionResource'
+    });
 }
 
 opApiModule.run(halResourceTypesStorage);

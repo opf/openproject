@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opApiModule} from "../../../../angular-modules";
-import {HalResourceTypesService} from "./hal-resource-types.service";
+import {opApiModule} from '../../../../angular-modules';
+import {HalResourceTypesService} from './hal-resource-types.service';
 
 const expect = chai.expect;
 
@@ -35,8 +35,10 @@ describe('halResourceTypes service', () => {
   var halResourceTypes:HalResourceTypesService;
   var halResourceTypesStorage:any;
 
-  class HalResource {}
-  class OtherResource {}
+  class HalResource {
+  }
+  class OtherResource {
+  }
 
   beforeEach(angular.mock.module(opApiModule.name, $provide => {
     $provide.value('HalResource', HalResource);
@@ -54,25 +56,50 @@ describe('halResourceTypes service', () => {
 
   describe('when adding configuration using add()', () => {
     var chained;
-
-    beforeEach(() => {
-      chained = halResourceTypes.add('Other', 'OtherResource', {
-        someResource: 'OtherResource'
+    var commonTests = () => {
+      it('should return itself', () => {
+        expect(chained).to.equal(halResourceTypes);
       });
+
+      it('should add the attribute type config', () => {
+        const resource = halResourceTypesStorage
+          .getResourceClassOfAttribute('Other', 'someResource');
+
+        expect(resource).to.equal(OtherResource);
+      });
+    };
+
+    describe('when no class name is provided and attributes are configured', () => {
+      beforeEach(() => {
+        chained = halResourceTypes.add('Other', {
+          attr: {
+            someResource: 'OtherResource'
+          }
+        });
+      });
+
+      it('should add the respective class object', () => {
+        expect(halResourceTypesStorage.getResourceClassOfType('Other')).to.equal(HalResource);
+      });
+
+      commonTests();
     });
 
-    it('should return itself', () => {
-      expect(chained).to.equal(halResourceTypes);
-    });
+    describe('when a class name is provided and attribute types are configured', () => {
+      beforeEach(() => {
+        chained = halResourceTypes.add('Other', {
+          className: 'OtherResource',
+          attr: {
+            someResource: 'OtherResource'
+          }
+        });
+      });
 
-    it('should add the respective class object', () => {
-      expect(halResourceTypesStorage.getResourceClassOfType('Other')).to.equal(OtherResource);
-    });
+      it('should have the default type', () => {
+        expect(halResourceTypesStorage.getResourceClassOfType('Other')).to.equal(OtherResource);
+      });
 
-    it('should add the attribute type config', () => {
-      const resource = halResourceTypesStorage
-        .getResourceClassOfAttribute('Other', 'someResource');
-      expect(resource).to.equal(OtherResource);
+      commonTests();
     });
   });
 });
