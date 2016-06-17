@@ -122,7 +122,7 @@
 
 .inplace-edit--form,
 .user-comment--form
-  @include grid-block
+  flex: 1 1 auto
   display: block
   position: relative
 
@@ -203,9 +203,8 @@
   @include grid-block
   overflow: visible
 
-.inplace-edit--read-value,
+.inplace-edit--read-value
   @include grid-block
-
 
   &.-default
     font-style: italic
@@ -399,6 +398,9 @@ a.inplace-editing--trigger-link,
 
   .inplace-editing--trigger-link
     font-size: 1rem
+
+.work-package--watchers-lookup .inplace-edit--read-value
+  padding: 0.375rem
 
 .work-packages--split-view
   .work-packages--details--title,
