@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opApiModule} from "../../../angular-modules";
+import {opApiModule} from '../../../angular-modules';
 
 function apiV3Config(apiV3, HalResource) {
   apiV3.addResponseInterceptor((data, operation, what) => {

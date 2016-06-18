@@ -30,8 +30,12 @@
 import {opApiModule} from '../../../../angular-modules';
 
 opApiModule.value('halResourceTypesStorage', {
-  getResourceClassOfType(type?:string){
-    type = this[type] ? type : '__default__';
+  getType(type:string): string {
+    return type = this[type] ? type : '__default__';
+  },
+
+  getResourceClassOfType(type?:string) {
+    type = this.getType(type);
     const typeConfig = this[type];
 
     const resourceClass = typeConfig.cls;
@@ -41,7 +45,7 @@ opApiModule.value('halResourceTypesStorage', {
   },
 
   getResourceClassOfAttribute(type:string, attribute:string) {
-    const typeConfig = this[type];
+    const typeConfig = this[this.getType(type)];
     const resourceClass = typeConfig.attrCls[attribute];
 
     if (typeConfig && resourceClass) {

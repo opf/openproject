@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opApiModule, opServicesModule} from "../../../../angular-modules";
-import {HalLink} from "./hal-link.service";
+import {opApiModule, opServicesModule} from '../../../../angular-modules';
+import {HalLink} from './hal-link.service';
 
 const expect = chai.expect;
 
@@ -91,7 +91,7 @@ describe('HalLink service', () => {
         hello: 'world'
       };
     });
-    
+
     it('should return a promise that returns the given value', () => {
       apiRequest();
 
@@ -106,7 +106,6 @@ describe('HalLink service', () => {
       apiRequest();
 
       promise.should.be.fulfilled.then(value => {
-        console.log('VAAAAAAAAAAAAAAAAL', value);
         expect(value.restangularized).to.not.be.ok;
       });
     });
