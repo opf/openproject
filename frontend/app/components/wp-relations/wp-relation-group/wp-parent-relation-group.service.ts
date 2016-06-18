@@ -46,13 +46,11 @@ export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
   }
 
   public addWpRelation(wpId:number) {
-    this.workPackage.parent = HalResource.fromLink({
-      href: PathHelper.apiV3WorkPackagePath(wpId)
-    });
+    this.workPackage.parentId = wpId;
 
     return this.workPackage.save().then(() => {
       this.workPackage.parent.$load().then(parent => {
-        this.relations.push(parent);
+        this.relations[0] = parent;
       });
     });
   }
