@@ -28,29 +28,48 @@
 
 
 import {opApiModule} from '../../../../angular-modules';
+import {HalResource} from '../hal-resources/hal-resource.service';
 
-opApiModule.value('halResourceTypesStorage', {
-  getType(type:string): string {
-    return type = this[type] ? type : '__default__';
-  },
+export class HalResourceTypesStorageService {
+  private config:any = {};
 
-  getResourceClassOfType(type?:string) {
-    type = this.getType(type);
-    const typeConfig = this[type];
+  public get defaultClass() {
+    return this.config.__default__;
+  }
 
-    const resourceClass = typeConfig.cls;
-    resourceClass._type = type;
+  public set defaultClass(cls:typeof HalResource) {
+    this.addTypeConfig('__default__', cls);
+  }
 
-    return resourceClass;
-  },
+  public addTypeConfig(typeName:string, cls:typeof HalResource, attrCls = {}) {
+    cls._type = typeName;
+    this.config[typeName] = {
+      cls: cls,
+      attrCls: attrCls
+    };
+  }
 
-  getResourceClassOfAttribute(type:string, attribute:string) {
-    const typeConfig = this[this.getType(type)];
+  public getResourceClassOfType(type:string) {
+    return this.getTypeConfig(type).cls;
+  }
+
+  public getResourceClassOfAttribute(type:string, attribute:string) {
+    const typeConfig = this.getTypeConfig(type);
     const resourceClass = typeConfig.attrCls[attribute];
 
-    if (typeConfig && resourceClass) {
+    if (resourceClass) {
       return resourceClass;
     }
-    return this.getResourceClassOfType();
+    return this.getResourceClassOfType('__default__');
   }
-});
+
+  protected getType(type:string):string {
+    return this.config[type] ? type : '__default__';
+  }
+
+  protected getTypeConfig(type:string) {
+    return this.config[this.getType(type)];
+  }
+}
+
+opApiModule.service('halResourceTypesStorage', HalResourceTypesStorageService);

@@ -28,12 +28,13 @@
 
 import {opApiModule} from '../../../../angular-modules';
 import {HalResourceTypesService} from './hal-resource-types.service';
+import {HalResourceTypesStorageService} from '../hal-resource-types-storage/hal-resource-types-storage.service';
 
 const expect = chai.expect;
 
 describe('halResourceTypes service', () => {
   var halResourceTypes:HalResourceTypesService;
-  var halResourceTypesStorage:any;
+  var halResourceTypesStorage:HalResourceTypesStorageService;
 
   class HalResource {
   }
@@ -54,7 +55,7 @@ describe('halResourceTypes service', () => {
   });
 
 
-  describe('when adding configuration using add()', () => {
+  describe('when adding configuration', () => {
     var chained;
     var commonTests = () => {
       it('should return itself', () => {
@@ -71,7 +72,7 @@ describe('halResourceTypes service', () => {
 
     describe('when no class name is provided and attributes are configured', () => {
       beforeEach(() => {
-        chained = halResourceTypes.add('Other', {
+        chained = halResourceTypes.addType('Other', {
           attr: {
             someResource: 'OtherResource'
           }
@@ -87,7 +88,7 @@ describe('halResourceTypes service', () => {
 
     describe('when a class name is provided and attribute types are configured', () => {
       beforeEach(() => {
-        chained = halResourceTypes.add('Other', {
+        chained = halResourceTypes.addType('Other', {
           className: 'OtherResource',
           attr: {
             someResource: 'OtherResource'

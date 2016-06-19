@@ -31,7 +31,7 @@ import {HalResourceTypesService} from './hal-resource-types.service';
 
 function halResourceTypesStorage(halResourceTypes:HalResourceTypesService) {
   halResourceTypes
-    .add('WorkPackage', {
+    .addType('WorkPackage', {
       className: 'WorkPackageResource',
 
       attr: {
@@ -39,10 +39,10 @@ function halResourceTypesStorage(halResourceTypes:HalResourceTypesService) {
         children: 'WorkPackageResource'
       }
     })
-    .add('Error', {
+    .addType('Error', {
       className: 'ErrorResource'
     })
-    .add('Collection', {
+    .addType('Collection', {
       className: 'CollectionResource'
     });
 }

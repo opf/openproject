@@ -27,20 +27,16 @@
 // ++
 
 import {opApiModule} from '../../../../angular-modules';
-
-interface HalResourceTypesConfigInterface {
-  className?:string;
-  attr?:any;
-}
+import {HalResourceTypesStorageService} from '../hal-resource-types-storage/hal-resource-types-storage.service';
 
 export class HalResourceTypesService {
   constructor(protected $injector,
-              protected halResourceTypesStorage) {
-    this.add('__default__', 'HalResource');
+              protected halResourceTypesStorage:HalResourceTypesStorageService,
+              HalResource) {
+    halResourceTypesStorage.defaultClass = HalResource;
   }
 
-  public add(typeName:string,
-             config:HalResourceTypesConfigInterface = {}) {
+  public addType(typeName:string, config = {}) {
     var {className = 'HalResource', attr = {}} = config;
     const attrCls = {};
 
@@ -49,10 +45,7 @@ export class HalResourceTypesService {
       attrCls[attrName] = this.$injector.get(className);
     });
 
-    this.halResourceTypesStorage[typeName] = {
-      cls: this.$injector.get(className),
-      attrCls: attrCls
-    };
+    this.halResourceTypesStorage.addTypeConfig(typeName, this.$injector.get(className), attrCls);
 
     return this;
   }

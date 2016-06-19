@@ -28,11 +28,12 @@
 
 import {opApiModule} from '../../../../angular-modules';
 import {HalLink, HalLinkInterface} from '../hal-link/hal-link.service';
+import {HalResourceTypesStorageService} from '../hal-resource-types-storage/hal-resource-types-storage.service';
 import ObservableArray = require('observable-array');
 
 var $q:ng.IQService;
 var lazy;
-var halResourceTypesStorage:any;
+var halResourceTypesStorage:HalResourceTypesStorageService;
 
 export class HalResource {
   public static _type:string;

@@ -28,12 +28,13 @@
 
 import {opApiModule, opServicesModule} from '../../../../angular-modules';
 import {HalResource} from './hal-resource.service';
+import {HalResourceTypesStorageService} from '../hal-resource-types-storage/hal-resource-types-storage.service';
 
 const expect = chai.expect;
 
 describe('HalResource service', () => {
   var $httpBackend:ng.IHttpBackendService;
-  var halResourceTypesStorage:any;
+  var halResourceTypesStorage:HalResourceTypesStorageService;
   var resource;
   var source;
 
@@ -89,12 +90,9 @@ describe('HalResource service', () => {
           }
         };
 
-        halResourceTypesStorage.Other = {
-          cls: OtherResource,
-          attrCls: {
-            someResource: OtherResource
-          }
-        };
+        halResourceTypesStorage.addTypeConfig('Other', OtherResource, {
+          someResource: OtherResource
+        });
 
         resource = HalResource.create(source);
       });
