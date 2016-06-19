@@ -238,8 +238,7 @@ export class WorkPackageResource extends HalResource {
 
         this.saveResource(payload)
           .then(workPackage => {
-            angular.extend(this, workPackage);
-
+            this.$initialize(workPackage);
             this.$pristine = {};
 
             deferred.resolve(this);

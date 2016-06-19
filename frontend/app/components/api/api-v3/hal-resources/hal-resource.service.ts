@@ -93,7 +93,7 @@ export class HalResource {
 
     this.$self = this.$links.self().then(source => {
       this.$loaded = true;
-      this.$initialize(source.$source);
+      this.$initialize(source);
       return this;
     });
 
@@ -104,8 +104,8 @@ export class HalResource {
     return angular.copy(this.$source);
   }
 
-  protected $initialize($source) {
-    this.$source = $source;
+  protected $initialize(source) {
+    this.$source = source.$source || source;
     initializeResource(this);
   }
 }
@@ -153,7 +153,8 @@ function initializeResource(halResource:HalResource) {
           halResource.$source[property] = value;
         },
 
-        enumerable: true
+        enumerable: true,
+        configurable: true
       });
     });
   }
