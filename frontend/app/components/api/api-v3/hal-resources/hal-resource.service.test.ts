@@ -583,8 +583,8 @@ describe('HalResource service', () => {
     it('should not be possible to override a link', () => {
       try {
         resource.$links.action = 'foo';
-      }
-      catch (ignore) { /**/
+      } catch (ignore) {
+        /**/
       }
 
       expect(resource.$links.action).to.not.eq('foo');
@@ -593,8 +593,8 @@ describe('HalResource service', () => {
     it('should not be possible to override an embedded resource', () => {
       try {
         resource.$embedded.embedded = 'foo';
-      }
-      catch (ignore) { /**/
+      } catch (ignore) {
+        /**/
       }
 
       expect(resource.$embedded.embedded).to.not.eq('foo');

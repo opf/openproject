@@ -76,62 +76,33 @@ describe('HalLink service', () => {
   });
 
   describe('when using the link', () => {
-    var promise;
     var response;
-    var apiRequest = () => {
-      promise = link.$fetch();
-      $httpBackend.expectGET('/api/link').respond(200, response);
-    };
+    var result;
 
     beforeEach(() => {
       link = HalLink.fromObject({
         href: '/api/link'
       });
       response = {
-        hello: 'world'
-      };
-    });
-
-    it('should return a promise that returns the given value', () => {
-      apiRequest();
-
-      promise.should.be.fulfilled.then(value => {
-        expect(value.hello).to.eq(response.hello);
-      });
-
-      $httpBackend.flush();
-    });
-
-    it('should not return a restangularized result', () => {
-      apiRequest();
-
-      promise.should.be.fulfilled.then(value => {
-        expect(value.restangularized).to.not.be.ok;
-      });
-    });
-
-    it('should return a transformed result if it is a resource', () => {
-      response = {
         _links: {},
         hello: 'world'
       };
-      apiRequest();
 
-      promise.should.be.fulfilled.then(value => {
-        expect(value.$isHal).to.be.true;
-      });
-
+      link.$fetch().then(val => result = val);
+      $httpBackend.expectGET('/api/link').respond(200, response);
       $httpBackend.flush();
     });
 
-    it('should return a plain result if it is not a resource', () => {
-      apiRequest();
+    it('should return a promise that returns the given value', () => {
+      expect(result.hello).to.eq(response.hello);
+    });
 
-      promise.should.be.fulfilled.then(value => {
-        expect(value.$isHal).to.not.be.ok;
-      });
+    it('should not return a restangularized result', () => {
+      expect(result.restangularized).to.not.be.ok;
+    });
 
-      $httpBackend.flush();
+    it('should return a HalResource', () => {
+      expect(result.$isHal).to.be.true;
     });
 
     it('should perform a GET request by default', () => {
