@@ -35,72 +35,105 @@ const expect = chai.expect;
 describe('halResourceTypes service', () => {
   var halResourceTypes:HalResourceTypesService;
   var halResourceTypesStorage:HalResourceTypesStorageService;
+  var config:any;
+  var compareCls:typeof HalResource;
 
   class HalResource {
   }
   class OtherResource {
   }
+  class FooResource {
+  }
 
   beforeEach(angular.mock.module(opApiModule.name, $provide => {
     $provide.value('HalResource', HalResource);
     $provide.value('OtherResource', OtherResource);
+    $provide.value('FooResource', FooResource);
   }));
 
   beforeEach(angular.mock.inject((_halResourceTypes_, _halResourceTypesStorage_) => {
     [halResourceTypes, halResourceTypesStorage] = arguments;
   }));
 
+  const expectResourceClassAdded = () => {
+    it('should add the respective class object to the storage', () => {
+      const cls = halResourceTypesStorage.getResourceClassOfType('Other');
+      expect(cls).to.equal(compareCls);
+    });
+  };
+
+  const expectAttributeClassAdded = () => {
+    it('should add the attribute type config to the storage', () => {
+      const cls = halResourceTypesStorage.getResourceClassOfAttribute('Other', 'attr');
+      expect(cls).to.equal(compareCls);
+    });
+  };
+
   it('should exist', () => {
     expect(halResourceTypes).to.exist;
   });
 
+  it('should have added HalResource as the default type', () => {
+    expect(halResourceTypesStorage.defaultClass).to.equal(HalResource);
+  });
 
-  describe('when adding configuration', () => {
-    var chained;
-    var commonTests = () => {
-      it('should return itself', () => {
-        expect(chained).to.equal(halResourceTypes);
-      });
-
-      it('should add the attribute type config', () => {
-        const resource = halResourceTypesStorage
-          .getResourceClassOfAttribute('Other', 'someResource');
-
-        expect(resource).to.equal(OtherResource);
-      });
-    };
-
-    describe('when no class name is provided and attributes are configured', () => {
-      beforeEach(() => {
-        chained = halResourceTypes.addType('Other', {
-          attr: {
-            someResource: 'OtherResource'
-          }
-        });
-      });
-
-      it('should add the respective class object', () => {
-        expect(halResourceTypesStorage.getResourceClassOfType('Other')).to.equal(HalResource);
-      });
-
-      commonTests();
-    });
-
-    describe('when a class name is provided and attribute types are configured', () => {
-      beforeEach(() => {
-        chained = halResourceTypes.addType('Other', {
+  describe('when configuring the type with class and attributes', () => {
+    beforeEach(() => {
+      compareCls = OtherResource;
+      config = {
+        Other: {
           className: 'OtherResource',
-          attr: {
-            someResource: 'OtherResource'
+          attrTypes: {
+            attr: 'Other'
           }
-        });
-      });
-
-      it('should have the default type', () => {
-        expect(halResourceTypesStorage.getResourceClassOfType('Other')).to.equal(OtherResource);
-      });
-
-      commonTests();
+        }
+      };
+      halResourceTypes.setResourceTypeConfig(config);
     });
+
+    expectResourceClassAdded();
+    expectAttributeClassAdded();
+  });
+
+  describe('when configuring the type with the class name as value', () => {
+    beforeEach(() => {
+      compareCls = OtherResource;
+      config = {
+        Other: 'OtherResource'
+      };
+      halResourceTypes.setResourceTypeConfig(config);
+    });
+
+    expectResourceClassAdded();
+  });
+
+  describe('when configuring the type with only the attribute types', () => {
+    beforeEach(() => {
+      compareCls = halResourceTypesStorage.defaultClass;
+      config = {
+        Other: {
+          attr: 'Other'
+        }
+      };
+      halResourceTypes.setResourceTypeConfig(config);
+    });
+
+    expectResourceClassAdded();
+    expectAttributeClassAdded();
+  });
+
+  describe('when an attribute has a type, that defined later in the config', () => {
+    beforeEach(() => {
+      compareCls = FooResource;
+      config = {
+        Other: {
+          attr: 'Foo'
+        },
+        Foo: 'FooResource',
+      };
+      halResourceTypes.setResourceTypeConfig(config);
+    });
+
+    expectAttributeClassAdded();
   });
 });

@@ -34,19 +34,27 @@ export class HalResourceTypesStorageService {
   private config:any = {};
 
   public get defaultClass() {
-    return this.config.__default__;
+    return this.config.__default__.cls;
   }
 
   public set defaultClass(cls:typeof HalResource) {
-    this.addTypeConfig('__default__', cls);
+    this.setResourceType('__default__', cls);
   }
 
-  public addTypeConfig(typeName:string, cls:typeof HalResource, attrCls = {}) {
+  public setResourceType(typeName:string, cls:typeof HalResource) {
     cls._type = typeName;
     this.config[typeName] = {
       cls: cls,
-      attrCls: attrCls
+      attrCls: {}
     };
+  }
+
+  public setResourceTypeAttributes(typeName:string, attrTypes) {
+    Object.keys(attrTypes).forEach(attrName => {
+      attrTypes[attrName] = this.getResourceClassOfType(attrTypes[attrName]);
+    });
+
+    this.config[typeName].attrCls = attrTypes;
   }
 
   public getResourceClassOfType(type:string) {

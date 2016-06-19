@@ -90,8 +90,9 @@ describe('HalResource service', () => {
           }
         };
 
-        halResourceTypesStorage.addTypeConfig('Other', OtherResource, {
-          someResource: OtherResource
+        halResourceTypesStorage.setResourceType('Other', OtherResource);
+        halResourceTypesStorage.setResourceTypeAttributes('Other', {
+          someResource: 'Other'
         });
 
         resource = HalResource.create(source);

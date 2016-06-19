@@ -36,18 +36,36 @@ export class HalResourceTypesService {
     halResourceTypesStorage.defaultClass = HalResource;
   }
 
-  public addType(typeName:string, config = {}) {
-    var {className = 'HalResource', attr = {}} = config;
-    const attrCls = {};
+  public setResourceTypeConfig(config) {
+    const types = Object.keys(config).map(typeName => {
+      const value = config[typeName];
+      const result = {
+        typeName: typeName,
+        className: value.className || this.halResourceTypesStorage.defaultClass.name,
+        attrTypes: value.attrTypes || {}
+      };
 
-    Object.keys(attr).forEach(attrName => {
-      const className = attr[attrName];
-      attrCls[attrName] = this.$injector.get(className);
+      if (angular.isString(value)) {
+        result.className = value;
+      }
+
+      if (!value.className && angular.isObject(value)) {
+        result.attrTypes = value;
+      }
+
+      return result;
     });
 
-    this.halResourceTypesStorage.addTypeConfig(typeName, this.$injector.get(className), attrCls);
+    types.forEach(typeConfig => {
+      this.halResourceTypesStorage
+        .setResourceType(typeConfig.typeName, this.$injector.get(typeConfig.className));
+    });
 
-    return this;
+    types
+      .map(typeConfig => [typeConfig.typeName, typeConfig.attrTypes])
+      .forEach(typeAttrConfig => {
+        this.halResourceTypesStorage.setResourceTypeAttributes(...typeAttrConfig);
+      });
   }
 }
 
