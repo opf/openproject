@@ -26,9 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpTabsModule} from "../../../angular-modules";
-import {WorkPackageRelationsConfigInterface} from "../wp-relations.service";
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {wpTabsModule} from '../../../angular-modules';
+import {WorkPackageRelationsConfigInterface} from '../wp-relations.service';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
 declare var URI:any;
 
@@ -93,14 +93,14 @@ export class WorkPackageRelationGroup {
         url: URI(PathHelper.workPackageJsonAutoCompletePath()).search(params).toString()
       })
         .then((response:any) => deferred.resolve(response.data))
-        .catch(deferred.reject)
+        .catch(deferred.reject);
     })
       .catch(deferred.reject);
 
     return deferred.promise;
   }
 
-  public addWpRelation(wpId:number) {
+  public addWpRelation(wpId:number):ng.IPromise {
     return this.workPackage.addRelation({
       to_id: wpId,
       relation_type: this.id

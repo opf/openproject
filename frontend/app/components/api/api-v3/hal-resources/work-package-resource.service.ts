@@ -75,6 +75,7 @@ var $q:IQService;
 var apiWorkPackages:ApiWorkPackagesService;
 var wpCacheService:WorkPackageCacheService;
 var NotificationsService:any;
+var $stateParams:any;
 
 export class WorkPackageResource extends HalResource {
   public static fromCreateForm(form) {
@@ -87,6 +88,8 @@ export class WorkPackageResource extends HalResource {
 
     // Set update link to form
     wp.$links.update = form.$links.self;
+
+    wp.parentId = wp.parentId || $stateParams.parent_id;
 
     return wp;
   }
@@ -320,10 +323,16 @@ export interface WorkPackageResourceInterface extends WorkPackageResourceLinks, 
 }
 
 function wpResource() {
-  [$q, apiWorkPackages, wpCacheService, NotificationsService] = arguments;
+  [$q, $stateParams, apiWorkPackages, wpCacheService, NotificationsService] = arguments;
   return WorkPackageResource;
 }
 
-wpResource.$inject = ['$q', 'apiWorkPackages', 'wpCacheService', 'NotificationsService'];
+wpResource.$inject = [
+  '$q',
+  '$stateParams',
+  'apiWorkPackages',
+  'wpCacheService',
+  'NotificationsService'
+];
 
 opApiModule.factory('WorkPackageResource', wpResource);

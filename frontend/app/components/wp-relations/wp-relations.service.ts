@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpTabsModule} from "../../angular-modules";
-import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-package-resource.service";
+import {wpTabsModule} from '../../angular-modules';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 
 export interface WorkPackageRelationsConfigInterface {
   name:string;
@@ -38,7 +38,7 @@ export interface WorkPackageRelationsConfigInterface {
 export class WorkPackageRelationsService {
   private relationsConfig:WorkPackageRelationsConfigInterface[] = [
     {name: 'parent', type: 'parent'},
-    // {name: 'children', type: 'children'},
+    {name: 'children', type: 'children'},
     {name: 'relatedTo', type: 'Relation::Relates', id: 'relates'},
     {name: 'duplicates', type: 'Relation::Duplicates'},
     {name: 'duplicated', type: 'Relation::Duplicated'},
@@ -49,16 +49,21 @@ export class WorkPackageRelationsService {
   ];
 
   constructor(protected WorkPackageRelationGroup,
-              protected WorkPackageParentRelationGroup) {
+              protected WorkPackageParentRelationGroup,
+              protected WorkPackageChildRelationsGroup) {
   }
 
   public getWpRelationGroups(workPackage:WorkPackageResourceInterface) {
     return this.relationsConfig.map(config => {
       if (config.type === 'parent') {
-        return new this.WorkPackageParentRelationGroup(workPackage, config)
+        return new this.WorkPackageParentRelationGroup(workPackage, config);
       }
 
-      return new this.WorkPackageRelationGroup(workPackage, config)
+      if (config.type === 'children') {
+        return new this.WorkPackageChildRelationsGroup(workPackage, config);
+      }
+
+      return new this.WorkPackageRelationGroup(workPackage, config);
     });
   }
 }
