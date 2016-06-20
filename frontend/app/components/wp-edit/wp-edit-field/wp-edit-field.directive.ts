@@ -62,6 +62,7 @@ export class WorkPackageEditFieldController {
               protected $q,
               protected FocusHelper,
               protected NotificationsService,
+              protected ConfigurationService,
               protected wpCacheService: WorkPackageCacheService,
               protected I18n) {
 
@@ -249,6 +250,12 @@ export class WorkPackageEditFieldController {
     this.workPackage.restoreFromPristine(this.fieldName);
     this.fieldForm.$setPristine();
     this.deactivate();
+  }
+
+  public onlyInAccessibilityMode(callback) {
+    if (this.ConfigurationService.accessibilityModeEnabled()) {
+      callback.apply(this);
+    }
   }
 
   protected buildEditField(): ng.IPromise<any> {
