@@ -26,11 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opApiModule} from "../../../angular-modules";
+import {opApiModule} from '../../../angular-modules';
 
-function apiV3Config(apiV3, halTransform) {
+function apiV3Config(apiV3, HalResource) {
   apiV3.addResponseInterceptor((data, operation, what) => {
-    apiV3.addElementTransformer(what, halTransform);
+    apiV3.addElementTransformer(what, HalResource.create);
     if (data) {
       data._plain = angular.copy(data);
 
@@ -44,7 +44,7 @@ function apiV3Config(apiV3, halTransform) {
   });
 
   apiV3.setErrorInterceptor(response => {
-    response.data = halTransform(response.data);
+    response.data = HalResource.create(response.data);
   });
 }
 

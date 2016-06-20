@@ -154,6 +154,8 @@ declare namespace api {
 interface Function {
   $link?:any;
   $route?:restangular.IService;
+  name:string;
+  _type:string;
 }
 
 declare namespace op {
@@ -194,10 +196,6 @@ declare namespace op {
   /**
    * OpenProject API results with Restangular
    */
-  interface ApiResult extends api.v3.Result, restangular.IElement {
-    restangularized:boolean;
-  }
-
   interface FieldSchema {
     type:string;
     writable:boolean;
@@ -206,11 +204,6 @@ declare namespace op {
 
   interface WorkPackageLinks {
     schema:FieldSchema;
-  }
-
-  interface WorkPackageForm {
-    payload: op.HalResource;
-    schema: op.HalResource;
   }
 
   interface WorkPackage extends api.v3.WorkPackage, WorkPackageLinks {

@@ -26,18 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opApiModule, opServicesModule} from "../../../../angular-modules";
+import {opApiModule, opServicesModule} from '../../../../angular-modules';
+import {HalResource} from './hal-resource.service';
+import {HalResourceTypesStorageService} from '../hal-resource-types-storage/hal-resource-types-storage.service';
+
 const expect = chai.expect;
 
 describe('HalResource service', () => {
-  var HalResource;
   var $httpBackend:ng.IHttpBackendService;
+  var halResourceTypesStorage:HalResourceTypesStorageService;
   var resource;
   var source;
 
-  beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
-  beforeEach(angular.mock.inject((_$httpBackend_, _HalResource_, apiV3) => {
-    [$httpBackend, HalResource] = arguments;
+  class OtherResource extends HalResource {
+  }
+
+  beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name, $provide => {
+    $provide.value('OtherResource', OtherResource);
+  }));
+  beforeEach(angular.mock.inject((_$httpBackend_,
+                                  _HalResource_,
+                                  _halResourceTypesStorage_,
+                                  apiV3) => {
+    [$httpBackend, HalResource, halResourceTypesStorage] = arguments;
     apiV3.setDefaultHttpFields({cache: false});
   }));
 
@@ -56,19 +67,48 @@ describe('HalResource service', () => {
     expect(resource.prop).to.exist;
   });
 
-  describe('when creating the resource using fromLink', () => {
-    var link = {href: 'foo'};
+  describe('when creating a resource using the create factory method', () => {
+    describe('when there is no type configuration', () => {
+      beforeEach(() => {
+        source = {_embedded: {}};
+        resource = HalResource.create(source);
+      });
 
-    beforeEach(() => {
-      resource = HalResource.fromLink(link);
+      it('should be an instance of HalResource', () => {
+        expect(resource).to.be.an.instanceOf(HalResource);
+      });
     });
 
-    it('should not be loaded', () => {
-      expect(resource.$loaded).to.be.false;
-    });
+    describe('when the type is configured', () => {
+      beforeEach(() => {
+        source = {
+          _type: 'Other',
+          _links: {
+            someResource: {
+              href: 'foo'
+            }
+          }
+        };
 
-    it('should have the same self href as the link', () => {
-      expect(resource.href).to.eq(link.href);
+        halResourceTypesStorage.setResourceType('Other', OtherResource);
+        halResourceTypesStorage.setResourceTypeAttributes('Other', {
+          someResource: 'Other'
+        });
+
+        resource = HalResource.create(source);
+      });
+
+      it('should be an instance of that type', () => {
+        expect(resource).to.be.an.instanceOf(OtherResource);
+      });
+
+      it('should have an attribute that is of the configured instance', () => {
+        expect(resource.someResource).to.be.an.instanceOf(OtherResource);
+      });
+
+      it('should not be loaded', () => {
+        expect(resource.someResource.$loaded).to.be.false;
+      });
     });
   });
 
@@ -323,7 +363,7 @@ describe('HalResource service', () => {
     });
 
     it('should be transformed', () => {
-      expect(resource.$isHal).to.be.true
+      expect(resource.$isHal).to.be.true;
     });
 
     it('should have a new "embedded" property', () => {
@@ -477,7 +517,7 @@ describe('HalResource service', () => {
     });
 
     it('should be transformed', () => {
-      expect(resource.$isHal).to.be.true
+      expect(resource.$isHal).to.be.true;
     });
 
     it('should have a new "embedded" property', () => {
@@ -542,8 +582,8 @@ describe('HalResource service', () => {
     it('should not be possible to override a link', () => {
       try {
         resource.$links.action = 'foo';
-      }
-      catch (Error) {
+      } catch (ignore) {
+        /**/
       }
 
       expect(resource.$links.action).to.not.eq('foo');
@@ -552,8 +592,8 @@ describe('HalResource service', () => {
     it('should not be possible to override an embedded resource', () => {
       try {
         resource.$embedded.embedded = 'foo';
-      }
-      catch (Error) {
+      } catch (ignore) {
+        /**/
       }
 
       expect(resource.$embedded.embedded).to.not.eq('foo');
@@ -618,7 +658,7 @@ describe('HalResource service', () => {
 
         it('should update the source when set', () => {
           resource.property = resource;
-          expect(resource.$source._links.property.href).to.eql('/api/self')
+          expect(resource.$source._links.property.href).to.eql('/api/self');
         });
 
         describe('when loading it', () => {
@@ -627,7 +667,9 @@ describe('HalResource service', () => {
             resource.$load();
 
             $httpBackend.expectGET('/api/property').respond(200, {
-              name: 'name'
+              _links: {},
+              name: 'name',
+              foo: 'bar'
             });
             $httpBackend.flush();
           });
@@ -640,8 +682,20 @@ describe('HalResource service', () => {
             expect(resource.name).to.eq('name');
           });
 
+          it('should have properties that have a getter', () => {
+            expect(Object.getOwnPropertyDescriptor(resource, 'foo').get).to.exist;
+          });
+
+          it('should have properties that have a setter', () => {
+            expect(Object.getOwnPropertyDescriptor(resource, 'foo').set).to.exist;
+          });
+
           it('should return itself in a promise if already loaded', () => {
-            expect(resource.$load()).to.eventually.eql(resource);
+            resource.$loaded = 1;
+
+            expect(resource.$load()).to.eventually.be.fulfilled.then(result => {
+              expect(result).to.equal(result);
+            });
           });
         });
       });

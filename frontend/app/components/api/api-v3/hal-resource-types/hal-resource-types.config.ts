@@ -26,23 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opApiModule} from "../../../../angular-modules";
+import {opApiModule} from '../../../../angular-modules';
+import {HalResourceTypesService} from './hal-resource-types.service';
 
-function halTransform(halTransformTypes) {
-  return (element:op.ApiResult) => {
-    const resourceClass = halTransformTypes[element._type] || halTransformTypes.default;
-
-    if (!(element._embedded || element._links)) {
-      return element;
-    }
-
-    // Add explicit null self link as per HAL recommendation.
-    if (element._links && element._links.self === undefined) {
-      element._links.self = { href: null };
-    }
-
-    return new resourceClass(element);
-  };
+function halResourceTypesStorage(halResourceTypes:HalResourceTypesService) {
+  halResourceTypes.setResourceTypeConfig({
+    WorkPackage: {
+      className: 'WorkPackageResource',
+      attrTypes: {
+        parent: 'WorkPackage',
+        children: 'WorkPackage'
+      }
+    },
+    Error: 'ErrorResource',
+    Collection: 'CollectionResource'
+  });
 }
 
-opApiModule.factory('halTransform', halTransform);
+opApiModule.run(halResourceTypesStorage);

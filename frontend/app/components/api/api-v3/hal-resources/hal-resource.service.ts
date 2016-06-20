@@ -26,35 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opApiModule} from "../../../../angular-modules";
-import {HalLink, HalLinkInterface} from "../hal-link/hal-link.service";
+import {opApiModule} from '../../../../angular-modules';
+import {HalLink, HalLinkInterface} from '../hal-link/hal-link.service';
+import {HalResourceTypesStorageService} from '../hal-resource-types-storage/hal-resource-types-storage.service';
 import ObservableArray = require('observable-array');
 
 var $q:ng.IQService;
 var lazy;
-var halTransform;
-var HalLink:typeof HalLink;
+var halResourceTypesStorage:HalResourceTypesStorageService;
 
 export class HalResource {
-  public static fromLink(link) {
-    var resource = HalResource.getEmptyResource();
+  public static _type:string;
 
-    resource._links.self = link;
-    resource = halTransform(resource);
-    resource.$loaded = false;
+  public static create(element) {
+    if (!(element._embedded || element._links)) {
+      return element;
+    }
 
-    return resource;
+    const resourceClass = halResourceTypesStorage.getResourceClassOfType(element._type);
+    return new resourceClass(element);
   }
 
-  protected static getEmptyResource():any {
+  public static getEmptyResource():any {
     return {_links: {self: {href: null}}};
   }
 
+  public $links:any = {};
+  public $embedded:any = {};
   public $self:ng.IPromise<HalResource>;
 
   private _name:string;
-  private _$links:any;
-  private _$embedded:any;
 
   public get $isHal():boolean {
     return true;
@@ -62,27 +63,6 @@ export class HalResource {
 
   public get $link():HalLinkInterface {
     return this.$links.self.$link;
-  }
-
-  public get $links() {
-    return this.setupProperty('links',
-      link => Array.isArray(link) ? link.map(HalLink.asFunc) : HalLink.asFunc(link));
-  }
-
-  public get $embedded() {
-    return this.setupProperty('embedded', element => {
-      angular.forEach(element, (child:any, name:string) => {
-        if (child) {
-          lazy(element, name, () => halTransform(child));
-        }
-      });
-
-      if (Array.isArray(element)) {
-        return element.map(halTransform);
-      }
-
-      return halTransform(element);
-    });
   }
 
   public get name():string {
@@ -97,20 +77,9 @@ export class HalResource {
     return this.$link.href;
   }
 
-  constructor(public $source:any = HalResource.getEmptyResource(), public $loaded:boolean = true) {
-    this.$source = $source._plain || $source;
-
-    if (!this.$source._links) {
-      this.$source._links = {};
-    }
-
-    if (!this.$source._links.self) {
-      this.$source._links.self = new HalLink();
-    }
-
-    this.proxyProperties();
-    this.setLinksAsProperties();
-    this.setEmbeddedAsProperties();
+  constructor(public $source:any = HalResource.getEmptyResource(),
+              public $loaded:boolean = true) {
+    this.$initialize($source);
   }
 
   public $load() {
@@ -122,9 +91,9 @@ export class HalResource {
       return this.$self;
     }
 
-    this.$self = this.$links.self().then(resource => {
+    this.$self = this.$links.self().then(source => {
       this.$loaded = true;
-      angular.extend(this, resource);
+      this.$initialize(source);
       return this;
     });
 
@@ -135,32 +104,69 @@ export class HalResource {
     return angular.copy(this.$source);
   }
 
-  private proxyProperties() {
-    var source = this.$source.restangularized ? this.$source.plain() : this.$source;
+  protected $initialize(source) {
+    this.$source = source.$source || source;
+    initializeResource(this);
+  }
+}
+
+function initializeResource(halResource:HalResource) {
+  setSource();
+  setupLinks();
+  setupEmbedded();
+  proxyProperties();
+  setLinksAsProperties();
+  setEmbeddedAsProperties();
+
+  function setSource() {
+    halResource.$source = halResource.$source._plain || halResource.$source;
+
+    if (!halResource.$source._links) {
+      halResource.$source._links = {};
+    }
+
+    if (!halResource.$source._links.self) {
+      halResource.$source._links.self = new HalLink();
+    }
+  }
+
+  function createLinkedResource(linkName, link) {
+    var resource = HalResource.getEmptyResource();
+    resource._links.self = link;
+
+    const resourceClass = halResourceTypesStorage
+      .getResourceClassOfAttribute(halResource.constructor._type, linkName);
+
+    return new resourceClass(resource, false);
+  }
+
+  function proxyProperties() {
+    var source = halResource.$source.restangularized ? halResource.$source.plain() : halResource.$source;
 
     _.without(Object.keys(source), '_links', '_embedded').forEach(property => {
-      Object.defineProperty(this, property, {
+      Object.defineProperty(halResource, property, {
         get() {
-          return this.$source[property];
+          return halResource.$source[property];
         },
 
         set(value) {
-          this.$source[property] = value;
+          halResource.$source[property] = value;
         },
 
-        enumerable: true
+        enumerable: true,
+        configurable: true
       });
     });
   }
 
-  private setLinksAsProperties() {
-    _.without(Object.keys(this.$links), 'self').forEach(linkName => {
-      lazy(this, linkName,
+  function setLinksAsProperties() {
+    _.without(Object.keys(halResource.$links), 'self').forEach(linkName => {
+      lazy(halResource, linkName,
         () => {
-          const link:any = this.$links[linkName].$link || this.$links[linkName];
+          const link:any = halResource.$links[linkName].$link || halResource.$links[linkName];
 
           if (Array.isArray(link)) {
-            var items = link.map(item => HalResource.fromLink(item.$link));
+            var items = link.map(item => createLinkedResource(linkName, item.$link));
             var property:Array = new ObservableArray(...items).on('change', () => {
               property.forEach(item => {
                 if (!item.$link) {
@@ -168,7 +174,7 @@ export class HalResource {
                 }
               });
 
-              this.$source._links[linkName] = property.map(item => item.$link);
+              halResource.$source._links[linkName] = property.map(item => item.$link);
             });
 
             return property;
@@ -179,43 +185,60 @@ export class HalResource {
               return HalLink.asFunc(link);
             }
 
-            return HalResource.fromLink(link);
+            return createLinkedResource(linkName, link);
           }
         },
 
-        val => this.setter(val, linkName)
-      )
+        val => setter(val, linkName)
+      );
     });
   }
 
-  private setEmbeddedAsProperties() {
-    Object.keys(this.$embedded).forEach(name => {
-      lazy(this, name, () => this.$embedded[name], val => this.setter(val, name));
+  function setEmbeddedAsProperties() {
+    Object.keys(halResource.$embedded).forEach(name => {
+      lazy(halResource, name, () => halResource.$embedded[name], val => setter(val, name));
     });
   }
 
-  private setupProperty(name:string, callback:(element:any) => any) {
-    const instanceName = '_$' + name;
+  function setupProperty(name:string, callback:(element:any) => any) {
+    const instanceName = '$' + name;
     const sourceName = '_' + name;
-    const sourceObj = this.$source[sourceName];
+    const sourceObj = halResource.$source[sourceName];
 
-    if (!this[instanceName] && angular.isObject(sourceObj)) {
-      this[instanceName] = {};
-
+    if (angular.isObject(sourceObj)) {
       Object.keys(sourceObj).forEach(propName => {
-        lazy(this[instanceName], propName, () => callback(sourceObj[propName]));
+        lazy(halResource[instanceName], propName, () => callback(sourceObj[propName]));
       });
     }
-
-    return this[instanceName] || {};
   }
 
-  private setter(val, linkName) {
+  function setupLinks() {
+    setupProperty('links',
+      link => Array.isArray(link) ? link.map(HalLink.asFunc) : HalLink.asFunc(link));
+  }
+
+  function setupEmbedded() {
+    setupProperty('embedded', element => {
+      angular.forEach(element, (child:any, name:string) => {
+        if (child) {
+          lazy(element, name, () => HalResource.create(child));
+        }
+      });
+
+      if (Array.isArray(element)) {
+        return element.map(HalResource.create);
+      }
+
+      return HalResource.create(element);
+    });
+  }
+
+  function setter(val, linkName) {
     if (val && val.$link) {
       const link = val.$link;
 
       if (link.href && link.method === 'get') {
-        this.$source._links[linkName] = link;
+        halResource.$source._links[linkName] = link;
       }
 
       return val;
@@ -224,10 +247,15 @@ export class HalResource {
 }
 
 function halResourceService() {
-  [$q, lazy, halTransform, HalLink] = arguments;
+  [$q, lazy, HalLink, halResourceTypesStorage] = arguments;
   return HalResource;
 }
 
-halResourceService.$inject = ['$q', 'lazy', 'halTransform', 'HalLink'];
+halResourceService.$inject = [
+  '$q',
+  'lazy',
+  'HalLink',
+  'halResourceTypesStorage'
+];
 
 opApiModule.factory('HalResource', halResourceService);

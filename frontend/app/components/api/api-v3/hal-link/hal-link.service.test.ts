@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opApiModule, opServicesModule} from "../../../../angular-modules";
-import {HalLink} from "./hal-link.service";
+import {opApiModule, opServicesModule} from '../../../../angular-modules';
+import {HalLink} from './hal-link.service';
 
 const expect = chai.expect;
 
@@ -71,63 +71,38 @@ describe('HalLink service', () => {
     });
 
     it('should throw no error', () => {
-      const fetch = () => link.$fetch();
-      expect(fetch).not.to.throw(Error);
+      expect(() => link.$fetch()).not.to.throw(Error);
     });
   });
 
   describe('when using the link', () => {
-    var promise;
     var response;
-    var apiRequest = () => {
-      promise = link.$fetch();
-      $httpBackend.expectGET('/api/link').respond(200, response);
-      $httpBackend.flush();
-    };
+    var result;
 
     beforeEach(() => {
       link = HalLink.fromObject({
         href: '/api/link'
       });
       response = {
-        hello: 'world'
-      };
-    });
-    
-    it('should return a promise that returns the given value', () => {
-      apiRequest();
-
-      promise.should.be.fulfilled.then(value => {
-        expect(value.hello).to.eq(response.hello);
-      })
-    });
-
-    it('should not return a restangularized result', () => {
-      apiRequest();
-
-      promise.should.be.fulfilled.then(value => {
-        expect(value.restangularized).to.not.be.ok;
-      });
-    });
-
-    it('should return a transformed result if it is a resource', () => {
-      response = {
         _links: {},
         hello: 'world'
       };
-      apiRequest();
 
-      promise.should.be.fulfilled.then(value => {
-        expect(value.$halTransformed).to.be.true;
-      });
+      link.$fetch().then(val => result = val);
+      $httpBackend.expectGET('/api/link').respond(200, response);
+      $httpBackend.flush();
     });
 
-    it('should return a plain result if it is not a resource', () => {
-      apiRequest();
+    it('should return a promise that returns the given value', () => {
+      expect(result.hello).to.eq(response.hello);
+    });
 
-      promise.should.be.fulfilled.then(value => {
-        expect(value.$halTransformed).to.not.be.ok;
-      });
+    it('should not return a restangularized result', () => {
+      expect(result.restangularized).to.not.be.ok;
+    });
+
+    it('should return a HalResource', () => {
+      expect(result.$isHal).to.be.true;
     });
 
     it('should perform a GET request by default', () => {
