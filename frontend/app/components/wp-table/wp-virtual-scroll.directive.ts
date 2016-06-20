@@ -28,9 +28,14 @@
 
 import IScope = angular.IScope;
 import IRootElementService = angular.IRootElementService;
+import IAnimateProvider = angular.IAnimateProvider;
+import ITranscludeFunction = angular.ITranscludeFunction;
+
 angular
   .module('openproject.workPackages.directives')
-  .directive('wpVirtualScroll', wpVirtualScroll);
+  .directive('wpVirtualScrollRow', wpVirtualScrollRow);
+
+let counter = 0;
 
 function getBlockNodes(nodes) {
   var node = nodes[0];
@@ -39,69 +44,116 @@ function getBlockNodes(nodes) {
 
   do {
     node = node.nextSibling;
-    if (!node) break;
+    if (!node) {
+      break;
+    }
     blockNodes.push(node);
   } while (node !== endNode);
 
   return $(blockNodes);
 }
 
-function wpVirtualScroll($window, $animate) {
+function createDummyRow(content: any) {
+  const tr = document.createElement('tr');
+  const td = document.createElement('td');
+  td.innerHTML = content;
+  tr.appendChild(td);
+  return tr;
+}
+
+function wpVirtualScrollRow($animate: any) {
   return {
 
     multiElement: true,
     transclude: 'element',
-    // priority: 600,
+    priority: 600,
     terminal: true,
     restrict: 'A',
-    // $$tlb: true,
+    $$tlb: true,
 
-    link: ($scope, $element: IRootElementService, $attr, ctrl, $transclude) => {
+    link: ($scope: IScope,
+           $element: IRootElementService,
+           $attr: any,
+           ctrl: any,
+           $transclude: ITranscludeFunction) => {
 
-      const parent = $element.parent();
-
-      let block: any;
-      let childScope: IScope;
-      let previousElements: any;
-
-      let tr = document.createElement("tr");
-      let td = document.createElement("td");
-      td.innerHTML = "&nbsp;";
-      tr.appendChild(td);
-
-      const value = true;
-
-      if (value) {
-        if (!childScope) {
-          $transclude(function (clone, newScope) {
-            childScope = newScope;
-            block = {
-              clone: clone
-            };
-              $animate.enter(clone, parent, $element);
-          });
-        }
-      } else {
-        if (previousElements) {
-          previousElements.remove();
-          previousElements = null;
-        }
-        if (childScope) {
-          childScope.$destroy();
-          childScope = null;
-        }
-        if (block) {
-          previousElements = getBlockNodes(block.clone);
-          $animate.leave(previousElements).then(function () {
-            previousElements = null;
-          });
-          block = null;
-        }
-
-        // adding dummy row
-        parent.append(tr);
-      }
-
+      new RowDisplay($animate, $scope, $element, $attr, $transclude);
     }
   };
+}
+
+class RowDisplay {
+
+  private visible = false;
+  private block: any;
+  private childScope: IScope;
+  private previousElements: any;
+
+  constructor(private $animate: any,
+              private $scope: angular.IScope,
+              private $element: angular.IRootElementService,
+              private $attr: any,
+              private $transclude: angular.ITranscludeFunction) {
+
+    // setInterval(() => {
+    //   if (this.visible) {
+    //     this.hide();
+    //   } else {
+    //     this.show();
+    //   }
+    // }, 5 * 1000);
+
+    // if (this.isVisible()) {
+    this.show(counter++);
+  }
+
+  private isVisible() {
+    return true;
+  }
+
+  private show(index: number) {
+    this.visible = true;
+
+    if (!this.childScope) {
+      if (index % 2 === 0) {
+        this.$transclude((clone: any, newScope: any) => {
+          this.childScope = newScope;
+          clone[clone.length++] = document.createComment(' wp-virtual-scroll: ' + index + ' ');
+          this.block = {
+            clone: clone
+          };
+          this.$animate.enter(clone, this.$element.parent(), this.$element);
+        });
+      } else {
+        let row = createDummyRow(index);
+        this.$animate.enter(row, this.$element.parent(), this.$element);
+      }
+    }
+
+    setTimeout(() => this.$scope.$apply(), 0);
+  }
+
+  private hide() {
+    this.visible = false;
+
+    if (this.previousElements) {
+      this.previousElements.remove();
+      this.previousElements = null;
+    }
+    if (this.childScope) {
+      this.childScope.$destroy();
+      this.childScope = null;
+    }
+    if (this.block) {
+      this.previousElements = getBlockNodes(this.block.clone);
+      this.$animate.leave(this.previousElements).then(() => {
+        this.previousElements = null;
+      });
+      this.block = null;
+    }
+
+    setTimeout(() => this.$scope.$apply(), 0);
+  }
+
+
 }
