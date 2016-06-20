@@ -36,7 +36,8 @@ See doc/COPYRIGHT.md for more details.
       <span aria-hidden="true"><%= Meeting.human_attribute_name(:start_date) %>
         <span class="form--label-required" aria-hidden="true">*</span>
       </span>
-      <span class="hidden-for-sighted"><%= l(:label_start_date)%></span>
+      <span class="hidden-for-sighted"><%= l(:label_start_date)%>
+        <%=l(:text_hint_date_format) %></span>
     </label>
 
     <div class="form--field-container">
