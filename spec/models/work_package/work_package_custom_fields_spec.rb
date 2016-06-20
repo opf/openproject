@@ -283,5 +283,28 @@ describe WorkPackage, type: :model do
         it { is_expected.to eq(value) }
       end
     end
+
+    describe 'validation error interpolation' do
+      let :custom_field do
+        FactoryGirl.create :work_package_custom_field,
+                           name: 'PIN',
+                           field_format: 'text',
+                           max_length: 4,
+                           is_required: true
+      end
+
+      include_context 'project with required custom field'
+
+      it 'works for the max length validation' do
+        work_package.custom_field_values.first.value = '12345'
+
+        # don't want to see I18n::MissingInterpolationArgument specifically
+        expect { work_package.valid? }.not_to raise_error
+        expect(work_package.valid?).to be_falsey
+
+        expect(work_package.errors.full_messages.first)
+          .to eq ('PIN is too long (maximum is 4 characters).')
+      end
+    end
   end
 end

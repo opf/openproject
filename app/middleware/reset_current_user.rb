@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,48 +26,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rexml/document'
-require 'open3'
+##
+# Resets `User.current` between requests. This is to make sure that
+# no data leaks occur. One case specifically where this did occur before
+# is when a user is trying to authorize through OmniAuth.
+# During the login an account may be created on the fly.
+# If this failed due to some reason, e.g. an already taken email address,
+# `User.current` still had the value of the last processed request.
+# Through this users were able to see random other user's full names
+# in the header.
+class ResetCurrentUser
+  attr_reader :app
 
-module OpenProject
-  module VERSION #:nodoc:
-    MAJOR = 5
-    MINOR = 0
-    PATCH = 19
-    TINY  = PATCH # Redmine compat
+  def initialize(app)
+    @app = app
+  end
 
-    # Used by semver to define the special version (if any).
-    # A special version "satify but have a lower precedence than the associated
-    # normal version". So 2.0.0RC1 would be part of the 2.0.0 series but
-    # be considered to be an older version.
-    #
-    #   1.4.0 < 2.0.0RC1 < 2.0.0RC2 < 2.0.0 < 2.1.0
-    #
-    # This method may be overridden by third party code to provide vendor or
-    # distribution specific versions. They may or may not follow semver.org:
-    #
-    #   2.0.0debian-2
-    def self.special
-      ''
-    end
+  def call(env)
+    reset_current_user!
+    app.call env
+  end
 
-    def self.revision
-      revision, = Open3.capture3('git', 'rev-parse', 'HEAD')
-      if revision.present?
-        revision.strip[0..8]
-      end
-    rescue
-      nil
-    end
-
-    REVISION = self.revision
-    ARRAY = [MAJOR, MINOR, PATCH, REVISION].compact
-    STRING = ARRAY.join('.')
-
-    def self.to_a; ARRAY end
-    def self.to_s; STRING end
-    def self.to_semver
-      [MAJOR, MINOR, PATCH].join('.') + special
-    end
+  def reset_current_user!
+    User.current = nil
   end
 end

@@ -70,6 +70,11 @@ class Principal < ActiveRecord::Base
     where("id NOT IN (select m.user_id FROM members as m where m.project_id = #{project.id})")
   }
 
+  # Active non-anonymous principals scope
+  scope :not_builtin, -> {
+    where("#{Principal.table_name}.status <> #{STATUSES[:builtin]}")
+  }
+
   scope :like, -> (q) {
     firstnamelastname = "((firstname || ' ') || lastname)"
     lastnamefirstname = "((lastname || ' ') || firstname)"

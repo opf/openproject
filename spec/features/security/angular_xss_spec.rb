@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,48 +26,46 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rexml/document'
-require 'open3'
+require 'spec_helper'
 
-module OpenProject
-  module VERSION #:nodoc:
-    MAJOR = 5
-    MINOR = 0
-    PATCH = 19
-    TINY  = PATCH # Redmine compat
+describe 'Angular expression escaping', type: :feature do
+  let(:login_field) { find('#username') }
 
-    # Used by semver to define the special version (if any).
-    # A special version "satify but have a lower precedence than the associated
-    # normal version". So 2.0.0RC1 would be part of the 2.0.0 series but
-    # be considered to be an older version.
-    #
-    #   1.4.0 < 2.0.0RC1 < 2.0.0RC2 < 2.0.0 < 2.1.0
-    #
-    # This method may be overridden by third party code to provide vendor or
-    # distribution specific versions. They may or may not follow semver.org:
-    #
-    #   2.0.0debian-2
-    def self.special
-      ''
+  before do
+    visit signin_path
+    within('#login-form') do
+      fill_in('username', with: login_string)
+      click_link_or_button I18n.t(:button_login)
     end
 
-    def self.revision
-      revision, = Open3.capture3('git', 'rev-parse', 'HEAD')
-      if revision.present?
-        revision.strip[0..8]
+    expect(current_path).to eq signin_path
+  end
+
+  describe 'Simple expression' do
+    let(:login_string) { '{{ 3 + 5 }}' }
+
+    it 'does not evaluate the expression' do
+      expect(login_field.value).to eq('{{ DOUBLE_LEFT_CURLY_BRACE }} 3 + 5 }}')
+    end
+  end
+
+  context 'With JavaScript evaluation', js: true do
+    describe 'Simple expression' do
+      let(:login_string) { '{{ 3 + 5 }}' }
+
+      it 'does not evaluate the expression' do
+        expect(login_field.value).to eq(login_string)
       end
-    rescue
-      nil
     end
 
-    REVISION = self.revision
-    ARRAY = [MAJOR, MINOR, PATCH, REVISION].compact
-    STRING = ARRAY.join('.')
+    describe 'Angular 1.3 Sandbox evading' do
+      let(:login_string) { "{{'a'.constructor.prototype.charAt=[].join;$eval('x=alert(1)'); }" }
 
-    def self.to_a; ARRAY end
-    def self.to_s; STRING end
-    def self.to_semver
-      [MAJOR, MINOR, PATCH].join('.') + special
+      it 'does not evaluate the expression' do
+        expect(login_field.value).to eq(login_string)
+        expect { page.driver.browser.switch_to.alert }
+          .to raise_error(::Selenium::WebDriver::Error::NoAlertPresentError)
+      end
     end
   end
 end

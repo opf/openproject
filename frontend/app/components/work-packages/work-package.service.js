@@ -366,9 +366,9 @@ function WorkPackageService($http, PathHelper, UrlParamsHelper, WorkPackagesHelp
       return promise;
     },
 
-    toggleWatch: function(workPackage) {
-      var toggleWatchLink = (workPackage.links.watch === undefined) ?
-                             workPackage.links.unwatch : workPackage.links.watch;
+    toggleWatch: function (workPackage) {
+      var toggleWatchLink = (workPackage.links.hasOwnProperty('unwatch')) ?
+          workPackage.links.unwatch : workPackage.links.watch;
       var fetchOptions = { method: toggleWatchLink.props.method };
 
       if(toggleWatchLink.props.payload !== undefined) {
