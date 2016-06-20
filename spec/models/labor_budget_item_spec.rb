@@ -93,6 +93,19 @@ describe LaborBudgetItem, type: :model do
       it { expect(item.user).to eq(user) }
     end
 
+    describe 'WHEN a group is provided' do
+      let(:group) { FactoryGirl.create :group }
+
+      before do
+        item.save!
+        item.reload
+        item.update_attribute(:user_id, group.id)
+        item.reload
+      end
+
+      it { expect(item.principal).to eq(group) }
+    end
+
     describe 'WHEN a non existing user is provided (i.e. the user has been deleted)' do
       before do
         item.save!

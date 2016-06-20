@@ -18,8 +18,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 ++#%>
 
-<fieldset class="form--fieldset -collapsible collapsed" onclick="toggleFieldset(this);">
-  <legend class="form--fieldset-legend"><%= t(:caption_materials) %></legend>
+<fieldset class="form--fieldset -collapsible collapsed">
+  <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><%= t(:caption_materials) %></legend>
   <div class="grid-block" style="display:none">
     <div class="grid-content medium-6">
       <h4><%= VariableCostObject.human_attribute_name(:material_budget) %></h4>
@@ -197,8 +197,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   </div>
   </fieldset>
 
-<fieldset class="form--fieldset -collapsible collapsed" onclick="toggleFieldset(this);">
-  <legend class="form--fieldset-legend"><%= t(:caption_labor) %></legend>
+<fieldset class="form--fieldset -collapsible collapsed">
+  <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><%= t(:caption_labor) %></legend>
   <div class="grid-block" style="display:none">
     <div class="grid-content medium-6">
       <h4><%= VariableCostObject.human_attribute_name(:labor_budget)%></h4>
@@ -256,7 +256,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                 <% @cost_object.labor_budget_items.each do |labor_budget_item| %>
                 <tr>
                   <td class="hours"><%= labor_budget_item.hours %>h</td>
-                  <td><%=h labor_budget_item.user.name %></td>
+                  <td><%=h labor_budget_item.principal.name %></td>
                   <td class="comments"><%=h labor_budget_item.comments %></td>
                   <% if labor_budget_item.costs_visible_by?(User.current) %>
                     <td class="currency">
