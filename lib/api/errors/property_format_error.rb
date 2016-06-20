@@ -32,12 +32,20 @@ module API
     class PropertyFormatError < ErrorBase
       identifier 'urn:openproject-org:api:v3:errors:PropertyFormatError'
 
+      attr_accessor :property
+
       def initialize(property, expected_format, actual_value)
+        self.property = property
+
         message = I18n.t('api_v3.errors.invalid_format',
                          property: property,
                          expected_format: expected_format,
                          actual: actual_value)
         super 422, message
+      end
+
+      def details
+        { attribute: property }
       end
     end
   end
