@@ -1,5 +1,8 @@
 <span ng-if="!$ctrl.field.isEmpty()" title="{{ $ctrl.displayText }}">
-  <a ng-href="{{ $ctrl.field.valueLink }}">
+
+  <a role="link"
+     title='{{ $ctrl.field.text.linkTitle }}'
+     ui-sref="work-packages.show({workPackageId: $ctrl.field.value})">
     {{ $ctrl.displayText }}
   </a>
 </span>
