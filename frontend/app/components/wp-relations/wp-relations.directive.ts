@@ -41,12 +41,17 @@ export class WorkPackageRelationsController {
   public expand:boolean = false;
   public text:any;
 
+  private _initialExpand:boolean;
+
   public get stateClass():string {
     return iconArrowClasses[+!!this.expand];
   }
 
   public get groupExpanded() {
-    return this.expand ^ !this.relationGroup.isEmpty;
+    if (angular.isUndefined(this._initialExpand)) {
+      this._initialExpand = this.expand = !this.relationGroup.isEmpty;
+    }
+    return this.expand;
   }
 
   constructor(protected $scope, protected I18n, protected NotificationsService) {
