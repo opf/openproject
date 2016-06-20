@@ -33,6 +33,7 @@ var _ = require('lodash');
 var pathConfig = require('./rails-plugins.conf');
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var failPlugin = require('webpack-fail-plugin');
 
 var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function (entries, path, name) {
   entries[name.replace(/^openproject\-/, '')] = name;
@@ -143,6 +144,10 @@ function getWebpackMainConfig() {
     },
 
     plugins: [
+      // The fail plugin returns a status code of 1 if
+      // errors are detected (this includes TS warnings)
+      // It is not executed when `--watch` is passed.
+      failPlugin,
       new ExtractTextPlugin('openproject-[name].css'),
       new webpack.ProvidePlugin({
         '_': 'lodash',
