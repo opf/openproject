@@ -27,10 +27,11 @@
 //++
 
 import {HalResource} from './hal-resource.service';
-import {opApiModule} from "../../../../angular-modules";
-import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
-import {ApiWorkPackagesService} from "../../api-work-packages/api-work-packages.service";
+import {opApiModule} from '../../../../angular-modules';
+import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
+import {ApiWorkPackagesService} from '../../api-work-packages/api-work-packages.service';
 import IQService = angular.IQService;
+import {CollectionResourceInterface} from './collection-resource.service';
 
 interface WorkPackageResourceEmbedded {
   activities:HalResource|any;
@@ -43,7 +44,7 @@ interface WorkPackageResourceEmbedded {
   parent:HalResource|any;
   priority:HalResource|any;
   project:HalResource|any;
-  relations:HalResource[]|any[]
+  relations:CollectionResourceInterface;
   responsible:HalResource|any;
   schema:HalResource|any;
   status:HalResource|any;

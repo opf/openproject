@@ -118,9 +118,10 @@ export class WorkPackageRelationGroup {
   }
 
   protected init() {
-    if (Array.isArray(this.workPackage.relations)) {
+    const elements = this.workPackage.relations.elements;
+    if (Array.isArray(elements)) {
       this.relations.push(
-        ...this.workPackage.relations.filter(relation => relation._type === this.type));
+        ...elements.filter(relation => relation._type === this.type));
     }
   }
 }

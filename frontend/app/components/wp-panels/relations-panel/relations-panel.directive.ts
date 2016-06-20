@@ -36,8 +36,7 @@ export class RelationsPanelController {
   public relationTitles;
   public relationGroups;
 
-  constructor($scope,
-              I18n: op.I18n,
+  constructor(I18n: op.I18n,
               wpRelations:WorkPackageRelationsService) {
 
     this.relationTitles = {
@@ -52,15 +51,9 @@ export class RelationsPanelController {
       follows: I18n.t('js.relation_buttons.add_follows')
     };
 
-    this.relationGroups = wpRelations.getWpRelationGroups(this.workPackage);
-    
-    // $scope.wpChildren = new ChildRelationsHandler(this.workPackage);
-    //
-    //
-    // if (this.workPackage.children) {
-    //   $scope.wpChildren = new ChildRelationsHandler(this.workPackage, this.workPackage.children);
-    // }
-    //
+    this.workPackage.relations.$load().then(() => {
+      this.relationGroups = wpRelations.getWpRelationGroups(this.workPackage);
+    });
   }
 }
 

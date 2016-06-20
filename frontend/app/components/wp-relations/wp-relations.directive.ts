@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpTabsModule} from "../../angular-modules";
-import {WorkPackageRelationGroup} from "./wp-relation-group/wp-relation-group.service";
+import {wpTabsModule} from '../../angular-modules';
+import {WorkPackageRelationGroup} from './wp-relation-group/wp-relation-group.service';
 
 const iconArrowClasses = ['icon-arrow-up1', 'icon-arrow-down1'];
 
@@ -48,7 +48,7 @@ export class WorkPackageRelationsController {
   }
 
   public get groupExpanded() {
-    if (angular.isUndefined(this._initialExpand)) {
+    if (angular.isUndefined(this._initialExpand) && !this.relationGroup.isEmpty) {
       this._initialExpand = this.expand = !this.relationGroup.isEmpty;
     }
     return this.expand;
