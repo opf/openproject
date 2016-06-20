@@ -31,12 +31,9 @@ module.exports = function() {
 
   return {
     restrict: 'A',
-    scope: {
-      clickOnKeypress: '='
-    },
-    link: function(scope, element) {
+    link: function(scope, element, attr) {
       var doIfWatchedKey = function(keyEvent, callback) {
-        if (scope.clickOnKeypress.indexOf(keyEvent.which) !== -1){
+        if (attr.clickOnKeypress.indexOf(keyEvent.which) !== -1){
           keyEvent.stopPropagation();
           keyEvent.preventDefault();
 
